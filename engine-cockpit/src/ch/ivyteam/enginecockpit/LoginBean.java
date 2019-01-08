@@ -30,9 +30,8 @@ public class LoginBean {
 	}
 	
 	public void logout() {
-		throw new RuntimeException("test");
-//		ISession.get().logoutSessionUser();
-//		redirect("Login.xhtml");
+		ISession.get().logoutSessionUser();
+		redirect("Login.xhtml");
 	}
 	
 	private void redirect(String url) {
