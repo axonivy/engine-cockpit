@@ -53,152 +53,78 @@
 	            </div>
 	            <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid">
 	                <p:panel header="Axon.ivy">
-	                	<div class="ui-grid-responsive">
-		                    <div class="ui-grid-row">
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Product</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">Axon.ivy Engine</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Version</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">7.3.0.60688</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Build</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">2018-12-11 11:59:15</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Copyright</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">© 2001-2017 AXON IVY AG</label>
-		                        </div>
-		                    </div>
-	                    </div>
+	            		<p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
+                        	<p:outputLabel value="Product"/>
+                        	<p:outputLabel value="#{advisorBean.applicationName}"/>
+                        	<p:outputLabel value="Version"/>
+                        	<p:outputLabel value="#{advisorBean.version}"/>
+                        	<p:outputLabel value="Build"/>
+                        	<p:outputLabel value="#{advisorBean.buildDate}"/>
+                        	<p:outputLabel value="Copyright"/>
+                        	<h:panelGroup>
+	                        	<p:outputLabel value="#{advisorBean.copyright}"/>
+	                        	<a href='https://www.axonivy.com'>AXON Ivy AG</a>
+                        	</h:panelGroup>
+	                	</p:panelGrid>
 	                </p:panel>
 	            </div>
 	            <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid">
 	                <p:panel header="Licence">
 	                	<p:commandButton id="tasksButtonLicence" title="Configure Licence" type="button" icon="ui-icon-settings" styleClass="secondary-btn"/>
-	                	<div class="ui-grid-responsive">
-		                    <div class="ui-grid-row">
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Licence Type</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">Standard Edition</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Users Limit</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">10</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Total Users in Use</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">3</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Process Elements Limit</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">0</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Concurrent Sessions Limit</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">10</label>
-		                        </div>
-		                    </div>
-	                    </div>
-	                </p:panel>
-	            </div>
+	            		<p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
+	                		<p:outputLabel value="Owner"/>
+	                		<p:outputLabel value="#{licenceBean.organisation}"/>
+	                		<p:outputLabel value="Licence Type"/>
+	                		<p:outputLabel value="#{licenceBean.licenceType}"/>
+	                		<p:outputLabel value="Expries"/>
+                        	<p:outputLabel value="#{licenceBean.expiryDate}"/>
+                        	<p:outputLabel value="Users Limit"/>
+                        	<p:outputLabel value="10"/>
+                        	<p:outputLabel value="Total Users in Use"/>
+                        	<p:outputLabel value="3"/>
+                        	<p:outputLabel value="Process Elements Limit"/>
+                        	<p:outputLabel value="0"/>
+                        	<p:outputLabel value="Concurrent Sessions Limit"/>
+                        	<p:outputLabel value="10"/>
+	                	</p:panelGrid>
+                	</p:panel>
+               	</div>
+
 	            <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid email">
 	                <p:panel header="Email">
 		                <p:commandButton id="tasksButtonEmail" title="Send Test Mail" type="button" icon="ui-icon-send" styleClass="secondary-btn"/>
-	                	<div class="ui-grid-responsive">
-		                    <div class="ui-grid-row">
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Server</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">localhost</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">User</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">guest</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Daily Time</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">12:30</label>
-		                        </div>
-		                    </div>
-	                    </div>
+	                	<p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
+                        	<p:outputLabel value="Server"/>
+                        	<p:outputLabel value="localhost"/>
+                        	<p:outputLabel value="User"/>
+                        	<p:outputLabel value="guest"/>
+                        	<p:outputLabel value="Daily Time"/>
+                        	<p:outputLabel value="12:30"/>
+	                    </p:panelGrid>
 	                </p:panel>
 	            </div>
 				<div class="ui-g-12 ui-md-6 ui-lg-7 dashboard-card ui-panelgrid">
 	                <p:panel header="System Database">
-	                	<div class="ui-grid-responsive">
-		                    <div class="ui-grid-row">
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">System DB URL</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">HSQL Db Memory</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">DB Product</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">Hypersonic SQL Db</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">DB Version</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">5.7.24-0ubuntu0.18.10.1</label>
-		                        </div>
-		                    </div>
-	                    </div>
+	                	<p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
+                        	<p:outputLabel value="System DB URL"/>
+                        	<p:outputLabel value="HSQL Db Memory"/>
+                        	<p:outputLabel value="DB Product"/>
+                        	<p:outputLabel value="Hypersonic SQL Db"/>
+                        	<p:outputLabel value="DB Version"/>
+                        	<p:outputLabel value="5.7.24-0ubuntu0.18.10.1"/>
+	                    </p:panelGrid>
 	                </p:panel>
 	            </div>
 	            <div class="ui-g-12 ui-md-6 ui-lg-5 dashboard-card ui-panelgrid">
 	                <p:panel header="Java">
-	                	<div class="ui-grid-responsive">
-		                    <div class="ui-grid-row">
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Product</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">OpenJDK 64-Bit Server VM</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Version</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">1.8.0_191</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-5">
-									<label id="test" class="ui-outputlabel ui-widget">Vendor</label>
-		                        </div>
-		                        <div class="ui-panelgrid-cell ui-grid-col-7">
-									<label id="test" class="ui-outputlabel ui-widget">Oracle Corporation</label>
-		                        </div>
-		                    </div>
-	                    </div>
+	                	<p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
+                        	<p:outputLabel value="Product"/>
+                        	<p:outputLabel value="#{javaBean.name}"/>
+                        	<p:outputLabel value="Version"/>
+                        	<p:outputLabel value="#{javaBean.version}"/>
+                        	<p:outputLabel value="Vendor"/>
+                        	<p:outputLabel value="#{javaBean.vendor}"/>
+           		    	</p:panelGrid>
 	                </p:panel>
 	            </div>
             </div>
