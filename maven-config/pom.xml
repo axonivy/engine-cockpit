@@ -34,4 +34,16 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
+	<pluginRepositories>
+		<!-- Used to install ivy maven plugins -->
+		<pluginRepository>
+			<id>zugpronexus.build-plugins</id>
+			<name>Internal Plugin Build Integration Repository</name>
+			<url>${nexus.root.url}/content/groups/build-plugins/</url>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
