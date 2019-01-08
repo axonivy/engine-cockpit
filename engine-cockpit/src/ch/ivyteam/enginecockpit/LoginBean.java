@@ -43,6 +43,10 @@ public class LoginBean {
 		}
 	}
 	
+	public String getSessionUserName() {
+		return ISession.get().getSessionUserName();
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
