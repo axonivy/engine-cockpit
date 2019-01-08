@@ -1,0 +1,49 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/serenity">
+
+    <div class="layout-sidebar #{guestPreferences.darkMenu ? 'layout-sidebar-dark' : ''}">
+        <div class="sidebar-logo">
+            <a href="#">
+                <p:graphicImage name="resources/images/axon_ivy_logo.png" />
+            </a>
+        	<p:graphicImage styleClass="sidebar-logo-collapsed" name="resources/images/axon_ivy_logo_round.png" />
+            <a href="#" class="sidebar-anchor" title="Toggle Menu"></a>
+        </div>
+
+        <div class="nano">
+            <div class="nano-content sidebar-scroll-content">
+                <div class="layout-menu-container">
+                    <h:form id="menuform">
+                        <pm:menu>
+                            <p:menuitem id="sr_dashboard" value="Dashboard" icon="dashboard" url="#"/>
+                            <!-- <p:menuitem id="sr_applications" value="Applications" icon="apps" url="#{ivy.html.startref('Applications/Applications.ivp')}"/>
+                            <p:submenu id="sr_security" label="Security" icon="security">
+                            	<p:menuitem id="sr_security_system" value="Security System" icon="lock" url="#{ivy.html.startref('Security/SecuritySystem.ivp')}"/>
+	                            <p:menuitem id="sr_users" value="Users" icon="person" url="#{ivy.html.startref('Security/Users.ivp')}"/>
+	                            <p:menuitem id="sr_roles" value="Roles" icon="group" url="#{ivy.html.startref('Security/Roles.ivp')}"/>
+	                        </p:submenu>
+                            <p:submenu id="sr_configuration" label="Configuration" icon="settings_applications">
+                                <p:menuitem id="sr_variables" value="Variables" icon="donut_large" url="#{ivy.html.startref('Configuration/Variables.ivp')}"/>
+                                <p:menuitem id="sr_business_calendar" value="Busniess Calendar" icon="event" url="#{ivy.html.startref('Configuration/BusinessCalendar.ivp')}"/>
+                            </p:submenu>
+                            <p:submenu id="sr_services" label="Services" icon="chat_bubble_outline">
+	                            <p:menuitem id="sr_database" value="Databases" icon="dns" url="#{ivy.html.startref('Services/Databases.ivp')}" />
+	                            <p:menuitem id="sr_web_service" value="Web Services" icon="language" url="#{ivy.html.startref('Services/WebServices.ivp')}" />
+	                            <p:menuitem id="sr_rest_client" value="Rest Clients" icon="swap_horiz" url="#{ivy.html.startref('Services/RestClients.ivp')}" />
+	                            <p:menuitem id="sr_mail" value="Email" icon="email" url="#{ivy.html.startref('Services/Email.ivp')}" />
+                            </p:submenu>
+                            <p:menuitem id="sr_advanced_conf" value="Advanced Conf" icon="settings" url="#{ivy.html.startref('AdvancedConf/AdvancedConf.ivp')}"/>
+                            <p:menuitem id="sr_logs" value="Logs" icon="format_align_left" url="#{ivy.html.startref('Logs/Logs.ivp')}"/> -->
+                        </pm:menu>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>
