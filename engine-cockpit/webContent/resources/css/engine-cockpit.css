@@ -33,7 +33,7 @@
 }
 
 /*Dashboard*/
-.dashboard-card button {
+.dashboard-card .card-button {
 	margin-top: -25px;
 	margin-right: 10px;
 	float: right;
