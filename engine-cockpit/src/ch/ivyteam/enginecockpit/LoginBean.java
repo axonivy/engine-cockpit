@@ -17,13 +17,13 @@ public class LoginBean {
 	
 	public void checkLogin() {
 		if (ISession.get().isSessionUserUnknown()) {
-			redirect("Login.xhtml");
+			redirect("login.xhtml");
 		}
 	}
 
 	public void login() {
 		if (ISession.get().loginSessionUser(userName, password)) {
-			redirect("Dashboard.xhtml");
+			redirect("dashboard.xhtml");
 			return;
 		} 
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed", "Login failed"));
@@ -31,7 +31,7 @@ public class LoginBean {
 	
 	public void logout() {
 		ISession.get().logoutSessionUser();
-		redirect("Login.xhtml");
+		redirect("login.xhtml");
 	}
 	
 	private void redirect(String url) {

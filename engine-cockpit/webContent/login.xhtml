@@ -25,6 +25,7 @@
             </div>
             <div class="login-panel-content">
                 <h:form id="loginForm">
+                    <p:focus for="userName"/>
                 	<div class="ui-g">
 	                    <div class="ui-g-12">
 	                        <h1>Sign-in to Engine Cockpit</h1>
@@ -34,7 +35,7 @@
 	                    </div>
 	                    <div class="ui-g-12">
 	                        <h:panelGroup styleClass="md-inputfield">
-	                            <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true"/>
+	                            <p:inputText id="userName"  autocomplete="off" value="#{loginBean.userName}" required="true"/>
 	                            <p:outputLabel for="userName" indicateRequired="false">Username</p:outputLabel>
 	                            <p:message for="userName" id="userNameMessage" />
 	                        </h:panelGroup>
