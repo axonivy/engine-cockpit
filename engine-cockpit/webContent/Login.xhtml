@@ -24,30 +24,33 @@
                 <p:graphicImage name="resources/images/axon_ivy_logo_round.png" />
             </div>
             <div class="login-panel-content">
-                <div class="ui-g">
-                    <div class="ui-g-12">
-                        <h1>Sign-in to Engine Cockpit</h1>
-                    </div>
-                    <div class="ui-g-12">
-                        <h:panelGroup styleClass="md-inputfield">
-                            <p:inputText autocomplete="off" />
-                            <label>Username</label>
-                        </h:panelGroup>
-                    </div>
-                    <div class="ui-g-12">
-                        <h:panelGroup styleClass="md-inputfield">
-                            <p:password autocomplete="off" />
-                            <label>Password</label>
-                        </h:panelGroup>
-                    </div>
-                    <div class="ui-g-12">
-                        <p:selectBooleanCheckbox disabled="true" id="rememberme" />
-                        <p:outputLabel for="rememberme" value="Remember Me?" />
-                    </div>
-                    <div class="ui-g-12">
-                        <p:button href="Dashboard.xhtml" value="Sign In" icon="ui-icon-person" />
-                    </div>
-                </div>
+                <h:form id="loginForm">
+                	<div class="ui-g">
+	                    <div class="ui-g-12">
+	                        <h1>Sign-in to Engine Cockpit</h1>
+	                    </div>
+	                    <div class="ui-g-12">
+	                    <p:messages globalOnly="true"/>
+	                    </div>
+	                    <div class="ui-g-12">
+	                        <h:panelGroup styleClass="md-inputfield">
+	                            <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true"/>
+	                            <p:outputLabel for="userName" indicateRequired="false">Username</p:outputLabel>
+	                            <p:message for="userName" id="userNameMessage" />
+	                        </h:panelGroup>
+	                    </div>
+	                    <div class="ui-g-12">
+	                        <h:panelGroup styleClass="md-inputfield">
+	                            <p:password id="password" autocomplete="off" value="#{loginBean.password}" required="true"/>
+	                            <p:outputLabel for="password" indicateRequired="false">Password</p:outputLabel>
+	                            <p:message for="password" id="passwordMessage" />
+	                        </h:panelGroup>
+	                    </div>
+	                    <div class="ui-g-12">
+	                        <p:commandButton update="@form" actionListener="#{loginBean.login}" value="Sign In" icon="ui-icon-person" />
+	                    </div>
+                	</div>
+                </h:form>
             </div>
         </div>
         

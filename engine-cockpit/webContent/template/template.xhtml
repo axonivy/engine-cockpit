@@ -4,6 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" lang="en">
+	<f:view beforePhase="#{loginBean.checkLogin()}" />
 
 <h:head>
 	<f:attribute name="primefaces.THEME" value="serenity-#{guestPreferences.layout}"/>
@@ -57,6 +58,8 @@
 			<h:outputText value="" />
 		</f:facet>
 	</p:ajaxStatus>
+	
+	<ui:include src="exception.xhtml" />
 
 	<h:outputStylesheet name="css/nanoscroller.css" library="serenity-layout" />
 	<h:outputStylesheet name="css/ripple.css" library="serenity-layout" />
