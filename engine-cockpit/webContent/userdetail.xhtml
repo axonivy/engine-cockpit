@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:pm="http://primefaces.org/mobile">
+<h:body>
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="title">User Detail</ui:define>
+		
+		<ui:define name="breadcrumb">
+	        <li>Security</li>
+	        <li>/</li>
+	        <li><a href="users.xhtml">Users</a></li>
+	        <li>/</li>
+	        <li><a href="userdetail.xhtml">#{userBean.selectedUser.name}</a></li>
+	    </ui:define>
+		
+		<ui:define name="content">
+			<div class="ui-fluid user-detail">
+                <div class="ui-g">
+	                <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		                <p:panel header="Information">
+		                	<p:commandButton id="saveUserInformation" type="button" icon="ui-icon-save" styleClass="primary-btn card-button">
+		                		<p:confirm header="Save" message="Do you want to save your changes?" icon="ui-icon-save" />
+		                	</p:commandButton>
+		                	<p:commandButton id="deleteUser" action="#{userDetailBean.deleteUser}" onsuccess="window.location=#{ivy.html.startref('Security/Users.ivp')}" type="button" icon="ui-icon-delete" styleClass="red-btn card-button" >
+		                		<p:confirm header="Delete" message="Do you really want to delete the user #{userDetailBean.user.name}?" icon="ui-icon-delete" />
+		                	</p:commandButton>
+		                	<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+		                        <h:panelGroup styleClass="md-inputfield">
+		                            <p:inputText value="#{userBean.selectedUser.name}"/>
+		                            <label>Name</label>
+		                        </h:panelGroup>
+		                        <h:panelGroup styleClass="md-inputfield">
+		                            <p:inputText value="#{userBean.selectedUser.fullName}"/>
+		                            <label>Full Name</label>
+		                        </h:panelGroup>
+		                        <h:panelGroup styleClass="md-inputfield">
+		                            <p:inputText value="#{userBean.selectedUser.email}"/>
+		                            <label>E-Mail Address</label>
+		                        </h:panelGroup>
+		                        <h:panelGroup styleClass="md-inputfield">
+		                            <p:password id="password1" feedback="true" inline="true" match="password2" value="#{userBean.selectedUser.password}"/>
+		                            <label>Password</label>
+		                        </h:panelGroup>
+		                        <h:panelGroup styleClass="md-inputfield">
+		                            <p:password id="password2" feedback="true" inline="true" value="#{userBean.selectedUser.password}"/>
+		                            <label>Confirm Password</label>
+		                        </h:panelGroup>
+	                    	</p:panelGrid>
+		                </p:panel>
+		            </div>
+		            
+		            <!-- <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		                <p:panel header="Email Notification Settings">
+		                	<p:commandButton id="saveEmailNotificationSettings" type="button" icon="ui-icon-save" styleClass="primary-btn card-button" >
+		                		<p:confirm header="Save" message="Do you want to save your changes?" icon="ui-icon-save" />
+		                	</p:commandButton>
+		                	<h:form>
+                    			<p:growl id="msgs" showDetail="true" />
+	                    		<p:panelGrid id="emailNotificationSettings" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+		                    		<p:outputLabel value="Language:" for="languageDropDown" />
+									<p:selectOneMenu id="languageDropDown" value="#{userDetailBean.language}">
+						                <f:selectItems value="#{userDetailBean.availableLanguages}" />
+						            </p:selectOneMenu>
+			                        <p:outputLabel value="Settings from:" for="radioSettings" />
+			                        <p:selectOneRadio id="radioSettings" value="#{userDetailBean.selectedSettings}" onchange="updateRadioDisable(this)" layout="responsive" columns="2">
+				                        <f:selectItem itemLabel="Application" itemValue="Application" />
+				                        <f:selectItem itemLabel="Specific" itemValue="Specific" />
+				                        <p:ajax event="click" update="@form"/>
+				                    </p:selectOneRadio>
+				                    <p:outputLabel value="Notification send:" for="checkboxNotification" />
+				                    
+			                        <p:selectManyCheckbox id="checkboxNotification" value="#{userDetailBean.selectedNotifications}" layout="responsive" columns="2">
+				                        <f:selectItem itemLabel="Never" itemValue="Never" itemDisabled="#{userDetailBean.neverDisabled}"/>
+				                        <f:selectItem itemLabel="New Task" itemValue="Task" itemDisabled="#{userDetailBean.taskDisabled}"/>
+						                <p:ajax  update="@form"/>
+				                    </p:selectManyCheckbox>
+				                    <p:outputLabel value="Daily summary on:" for="radioDailyNotification" />
+				                    <p:selectManyCheckbox id="radioDailyNotification" value="#{userDetailBean.selectedDailyDays}" disabled="#{userDetailBean.dailyDisabled}" widgetVar="radioDailyNotification" layout="responsive" styleClass="floatTableColumn" columns="7">
+				                        <f:selectItem itemLabel="Mon" itemValue="Mon" />
+				                        <f:selectItem itemLabel="Tue" itemValue="Tue" />
+				                        <f:selectItem itemLabel="Wed" itemValue="Wed" />
+				                        <f:selectItem itemLabel="Thu" itemValue="Thu" />
+				                        <f:selectItem itemLabel="Fri" itemValue="Fri" />
+				                        <f:selectItem itemLabel="Sat" itemValue="Sat" />
+				                        <f:selectItem itemLabel="Sun" itemValue="Sun" />
+				                    </p:selectManyCheckbox>
+		                    	</p:panelGrid>
+	                    	</h:form>
+		                </p:panel>
+		            </div>
+		            
+		            <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		                <p:panel header="Roles">
+		                	<p:treeTable value="#{rolesBean.rolesBySelectedApp}" var="role">
+						        <p:column headerText="Name" sortBy="#{roles.name}" filterBy="#{role.name}">
+						            <h:outputText value="#{role.name}">
+						            	<i class="material-icons table-icon">group</i>
+						            	<p:commandButton type="button" icon="ui-icon-add" title="Add" styleClass="table-control-btn primary-btn" disabled="#{role.name == 'Everybody' ? true : false}"/>
+						            	<p:commandButton type="button" icon="ui-icon-remove" title="Remove" styleClass="table-control-btn secondary-btn" disabled="#{role.name == 'Everybody' ? false : true}"/>
+						            </h:outputText>
+						        </p:column>
+						    </p:treeTable>
+		                </p:panel>
+		            </div>
+		            
+		            <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		                <p:panel header="Permissions">
+		                	
+		                </p:panel>
+		            </div> -->
+		            
+		            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+				        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+				    </p:confirmDialog>
+                </div>
+            </div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

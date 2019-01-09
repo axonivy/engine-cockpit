@@ -40,17 +40,17 @@
 						                        	<label style="float: left;" class="ui-outputlabel ui-widget table-search-icon">
 						                        		<i class="material-icons">search</i>
 						                        	</label>
-						                        	<p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search" value="#{rolesBean.filter}">
-						                        		<p:ajax event="keyup" delay="300" update=":form" listener="#{rolesBean.filterUpdate}"/>
+						                        	<p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search" value="#{roleBean.filter}">
+						                        		<p:ajax event="keyup" delay="300" update=":form" listener="#{roleBean.filterUpdate}"/>
 						                        	</p:inputText>
 					                        	</div>
 				                        	</div>
 				                        </div>
 				                        <div class="ui-g-12 ui-lg-12" style="padding-top:0;">
 				                        	<h:form id="treeForm_#{app.id}">
-						                        <p:tree id="tree_#{app.id}" widgetVar="tree_#{app.id}" value="#{rolesBean.getRolesForApp(app.id)}" var="role" selectionMode="single" 
-						                        		selection="#{rolesBean.selectedRole}">
-						                        	<p:ajax event="select" listener="#{rolesBean.onSelect}" update=":form:msgs" />
+						                        <p:tree id="tree_#{app.id}" widgetVar="tree_#{app.id}" value="#{roleBean.getRolesForAppId(app.id)}" var="role" selectionMode="single" 
+						                        		selection="#{roleBean.selectedRole}">
+						                        	<p:ajax event="select" listener="#{roleBean.onSelect}" update=":form:msgs" />
 											        <p:treeNode icon="ui-icon-group">
 											            <h:outputText value="#{role.name}" />
 											        </p:treeNode>

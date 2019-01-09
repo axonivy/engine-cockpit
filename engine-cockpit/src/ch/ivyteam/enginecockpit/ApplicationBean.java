@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.Application;
+import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 
 @ManagedBean(name = "applicationBean")
@@ -57,4 +58,12 @@ public class ApplicationBean {
 	public Application getSelectedApplication() {
     	return applications.get(selectedApplicationIndex);
     }
+	
+	public IApplication getSelectedIApplication() {
+		return manager.getApplication(getSelectedApplication().getId());
+	}
+	
+	public IApplication getIApplication(long id) {
+		return manager.getApplication(id);
+	}
 }

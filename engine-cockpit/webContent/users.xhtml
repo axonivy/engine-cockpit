@@ -35,16 +35,16 @@
 						            </div>
 			                        <div class="ui-g">
 				                        <div class="ui-g-12 ui-lg-12">
-					                        <h:form id="tableForm_#{app.id}">
-						                        <p:dataTable var="user" value="#{usersBean.getUsersForApp(app.id)}" widgetVar="usersTable_#{app.id}" selectionMode="single" 
-						                        		selection="#{usersBean.selectedUser}" rowKey="#{user.name}" filteredValue="#{usersBean.filteredUsers}" lazy="false">
+					                        <h:form id="tableForm">
+						                        <p:dataTable var="user" value="#{userBean.getUsersForAppId(app.id)}" widgetVar="usersTable" selectionMode="single" 
+						                        		selection="#{userBean.selectedUser}" rowKey="#{user.name}" filteredValue="#{userBean.filteredUsers}" lazy="false">
 						                            <f:facet name="header">
 											            <p:outputPanel>
 											            	<p:outputLabel styleClass="table-search-icon"><i class="material-icons">search</i></p:outputLabel>
 											                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search"/>
 											            </p:outputPanel>
 											        </f:facet>
-						                            <p:ajax event="rowSelect" onsuccess="window.location='#{ivy.html.startref('Security/UserDetail.ivp')}'" listener="#{usersBean.onRowSelect}" update=":form:msgs" />
+						                            <p:ajax event="rowSelect" onsuccess="window.location='userdetail.xhtml'"/>
 						                            <p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}">
 						                                <h:outputText value="#{user.name}">
 						                                	<i class="material-icons table-icon">person</i>
