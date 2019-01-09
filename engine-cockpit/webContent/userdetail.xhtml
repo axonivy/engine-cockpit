@@ -7,6 +7,10 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:pm="http://primefaces.org/mobile">
 <h:body>
+	<f:metadata>
+		<f:viewParam name="userName" value="#{userDetailBean.userName}"></f:viewParam>
+	</f:metadata>
+
 	<ui:composition template="/template/template.xhtml">
 		<ui:define name="title">User Detail</ui:define>
 		
@@ -15,44 +19,47 @@
 	        <li>/</li>
 	        <li><a href="users.xhtml">Users</a></li>
 	        <li>/</li>
-	        <li><a href="userdetail.xhtml">#{userBean.selectedUser.name}</a></li>
+	        <li><a href="userdetail.xhtml?userName=#{userDetailBean.userName}">#{userDetailBean.userName}</a></li>
 	    </ui:define>
 		
 		<ui:define name="content">
 			<div class="ui-fluid user-detail">
+				
                 <div class="ui-g">
 	                <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		                	
 		                <p:panel header="Information">
+		                <h:form>
 		                	<p:commandButton id="saveUserInformation" type="button" icon="ui-icon-save" styleClass="primary-btn card-button">
-		                		<p:confirm header="Save" message="Do you want to save your changes?" icon="ui-icon-save" />
 		                	</p:commandButton>
-		                	<p:commandButton id="deleteUser" action="#{userDetailBean.deleteUser}" onsuccess="window.location=#{ivy.html.startref('Security/Users.ivp')}" type="button" icon="ui-icon-delete" styleClass="red-btn card-button" >
-		                		<p:confirm header="Delete" message="Do you really want to delete the user #{userDetailBean.user.name}?" icon="ui-icon-delete" />
+		                	<p:commandButton id="deleteUser" ajax="false" action="#{userDetailBean.deleteSelectedUser}" icon="ui-icon-delete" styleClass="red-btn card-button" >
 		                	</p:commandButton>
+		                	</h:form>
 		                	<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
 		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:inputText value="#{userBean.selectedUser.name}"/>
+		                            <p:inputText value="#{userDetailBean.user.name}"/>
 		                            <label>Name</label>
 		                        </h:panelGroup>
 		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:inputText value="#{userBean.selectedUser.fullName}"/>
+		                            <p:inputText value="#{userDetailBean.user.fullName}"/>
 		                            <label>Full Name</label>
 		                        </h:panelGroup>
 		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:inputText value="#{userBean.selectedUser.email}"/>
+		                            <p:inputText value="#{userDetailBean.user.email}"/>
 		                            <label>E-Mail Address</label>
 		                        </h:panelGroup>
 		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:password id="password1" feedback="true" inline="true" match="password2" value="#{userBean.selectedUser.password}"/>
+		                            <p:password id="password1" feedback="true" inline="true" match="password2" value="#{userDetailBean.user.password}"/>
 		                            <label>Password</label>
 		                        </h:panelGroup>
 		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:password id="password2" feedback="true" inline="true" value="#{userBean.selectedUser.password}"/>
+		                            <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}"/>
 		                            <label>Confirm Password</label>
 		                        </h:panelGroup>
 	                    	</p:panelGrid>
 		                </p:panel>
 		            </div>
+		            
 		            
 		            <!-- <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
 		                <p:panel header="Email Notification Settings">

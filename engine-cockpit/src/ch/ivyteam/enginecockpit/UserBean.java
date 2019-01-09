@@ -7,16 +7,18 @@ import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
 
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.SessionInfo;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UserBean {
 	private List<User> filteredUsers;
 	private User selectedUser;
@@ -57,14 +59,6 @@ public class UserBean {
 			}
 		}
 	}
-	
-	public User getSelectedUser() {
-        return selectedUser;
-    }
- 
-    public void setSelectedUser(User selectedUser) {
-        this.selectedUser = selectedUser;
-    }
     
     public List<User> getFilteredUsers() {
         return filteredUsers;
@@ -74,8 +68,4 @@ public class UserBean {
         this.filteredUsers = filteredUsers;
     }
     
-    public void onRowSelect(SelectEvent event) {
-        FacesMessage msg = new FacesMessage("User Selected", ((User) event.getObject()).getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
 }
