@@ -46,14 +46,14 @@
 				                            <p:ajax event="rowSelect" listener="#{advancedConfigBean.onRowSelect}" update=":form:msgs" />
 				                            <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
 				                                <h:outputText value="#{config.key}" >
-				                                	<i class="material-icons table-icon">#{config.metaData.password ? 'vpn_key' : 'settings'}</i>
+				                                	<i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
 				                                </h:outputText>
 				                            </p:column>
 				                            <p:column headerText="Value" filterBy="#{config.value}">
-				                                <h:outputText value="#{config.metaData.password ? '******' : config.value}" />
+				                                <h:outputText value="#{config.password ? '******' : config.value}" />
 				                            </p:column>
-				                            <p:column headerText="Location" sortBy="#{config.metaData.source}" filterBy="#{config.metaData.source}">
-				                                <h:outputText value="#{config.metaData.source}" />
+				                            <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}">
+				                                <h:outputText value="#{config.shortSource}" title="#{config.source}"/>
 				                            </p:column>
 			                        	</p:dataTable>
 			                        </h:form>
