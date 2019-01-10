@@ -31,7 +31,6 @@ public class ApplicationBean {
 		applications = manager.getApplications().stream()
 				.map(app -> new Application(app))
 				.collect(Collectors.toList());
-		applications.add(new Application("Dummy", 0));
 	}
 	
 	public List<Application> getApplications() {

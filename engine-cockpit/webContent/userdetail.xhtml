@@ -29,34 +29,38 @@
 	                <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
 		                	
 		                <p:panel header="Information">
-		                <h:form>
-		                	<p:commandButton id="saveUserInformation" type="button" icon="ui-icon-save" styleClass="primary-btn card-button">
-		                	</p:commandButton>
-		                	<p:commandButton id="deleteUser" ajax="false" action="#{userDetailBean.deleteSelectedUser}" icon="ui-icon-delete" styleClass="red-btn card-button" >
-		                	</p:commandButton>
-		                	</h:form>
-		                	<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
-		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:inputText value="#{userDetailBean.user.name}"/>
-		                            <label>Name</label>
-		                        </h:panelGroup>
-		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:inputText value="#{userDetailBean.user.fullName}"/>
-		                            <label>Full Name</label>
-		                        </h:panelGroup>
-		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:inputText value="#{userDetailBean.user.email}"/>
-		                            <label>E-Mail Address</label>
-		                        </h:panelGroup>
-		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:password id="password1" feedback="true" inline="true" match="password2" value="#{userDetailBean.user.password}"/>
-		                            <label>Password</label>
-		                        </h:panelGroup>
-		                        <h:panelGroup styleClass="md-inputfield">
-		                            <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}"/>
-		                            <label>Confirm Password</label>
-		                        </h:panelGroup>
-	                    	</p:panelGrid>
+		                	<h:form id="userInformationForm">
+			                	<p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" icon="ui-icon-save" styleClass="primary-btn card-button" />
+			                	<p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" icon="ui-icon-delete" styleClass="red-btn card-button"/>
+			                	<p:confirmDialog message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User" severity="alert" widgetVar="deleteUserConfirmDialog">
+									<p:commandButton value="Yes" ajax="false" immediate="true" action="#{userDetailBean.deleteSelectedUser}" icon="ui-icon-check" style="width: inherit;"/>
+									<p:commandButton value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button" icon="ui-icon-close" style="width: inherit;"/>
+								</p:confirmDialog>
+		                	
+			                	<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+			                        <h:panelGroup styleClass="md-inputfield">
+			                            <p:inputText disabled="true" value="#{userDetailBean.user.name}"/>
+			                            <label>Name</label>
+			                        </h:panelGroup>
+			                        <h:panelGroup styleClass="md-inputfield">
+			                            <p:inputText value="#{userDetailBean.user.fullName}"/>
+			                            <label>Full Name</label>
+			                        </h:panelGroup>
+			                        <h:panelGroup styleClass="md-inputfield">
+			                            <p:inputText value="#{userDetailBean.user.email}"/>
+			                            <label>E-Mail Address</label>
+			                        </h:panelGroup>
+			                        <h:panelGroup styleClass="md-inputfield">
+			                            <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2" value="#{userDetailBean.user.password}"/>
+			                            <label>Password</label>
+			                        </h:panelGroup>
+			                        <h:panelGroup styleClass="md-inputfield">
+			                            <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}"/>
+			                            <label>Confirm Password</label>
+			                        </h:panelGroup>
+			                        <p:messages id="messages" autoUpdate="true"/>
+		                    	</p:panelGrid>
+	                    	</h:form>
 		                </p:panel>
 		            </div>
 		            
@@ -121,10 +125,6 @@
 		                </p:panel>
 		            </div> -->
 		            
-		            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-				        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-				        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
-				    </p:confirmDialog>
                 </div>
             </div>
 		</ui:define>

@@ -11,6 +11,10 @@ public class User {
 	private boolean loggedIn;
 	private long id;
 	
+	public User() {
+		
+	}
+	
 	public User(IUser user) {
 		this.name = user.getName();
 		this.fullName = user.getFullName();
