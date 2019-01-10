@@ -1,19 +1,28 @@
 package ch.ivyteam.enginecockpit;
 
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.stream.Collectors;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.model.EmailSettings;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.IUserEMailNotificationSettings;
+import ch.ivyteam.util.date.Weekday;
 
 @ManagedBean
 @ViewScoped
 public class UserDetailBean {
 	private String userName;
 	private User user;
+	private EmailSettings emailSettings;
 	
 	private ApplicationBean applicationBean;
 	
@@ -29,11 +38,17 @@ public class UserDetailBean {
 	
 	public void setUserName(String userName) {
 		this.userName = userName;
-		this.user = new User(getSecurityContext().findUser(userName));
+		IUser iUser = getSecurityContext().findUser(userName);
+		this.user = new User(iUser);
+		this.emailSettings = new EmailSettings(iUser, applicationBean.getDefaultEmailLanguageForSelectedApp());
 	}
 	
 	public User getUser() {
 		return user;
+	}
+	
+	public EmailSettings getEmailSettings() {
+		return emailSettings;
 	}
 	
 	public void creatNewUser() {
@@ -48,13 +63,64 @@ public class UserDetailBean {
 		if (user.getPassword() != "") {
 			iUser.setPassword(user.getPassword());
 		}
+		FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", new FacesMessage("User information changes saved"));
 	}
 	
 	public String deleteSelectedUser() {
     	getSecurityContext().deleteUser(userName);
     	return "users.xhtml";
     }
+	
+	public String getSelectedSettings() {
+		if (emailSettings.isUseApplicationDefault())
+			return "Application";
+		else
+			return "Specific";
+	}
 
+	public void setSelectedSettings(String selectedSettings) {
+		this.emailSettings.setUseApplicationDefault(selectedSettings.equals("Application"));
+	}
+	
+	public String[] getSelectedNotifications() {
+		String[] selectedNotifications = new String[2];
+		if (emailSettings.isNotificationDisabled())
+			selectedNotifications[0] = "Never";
+		if (emailSettings.isSendOnNewWorkTasks())
+			selectedNotifications[1] = "Task";
+		return selectedNotifications;
+	}
+	
+	public boolean isNotificationCheckboxDisabled() {
+		return emailSettings.isUseApplicationDefault();
+	}
+	
+	public boolean isTaskCheckboxDisabled() {
+		return emailSettings.isUseApplicationDefault() || emailSettings.isNotificationDisabled();
+	}
+
+	public boolean isDailyCheckboxGroupDisabled() {
+		return emailSettings.isUseApplicationDefault() || emailSettings.isNotificationDisabled();
+	}
+	
+	public void saveUserEmail() {
+		IUser iUser = getSecurityContext().findUser(userName);
+		iUser.setEMailLanguage(emailSettings.getLanguageLocale());
+		IUserEMailNotificationSettings eMailNotificationSettings = iUser.getEMailNotificationSettings();
+		eMailNotificationSettings.setUseApplicationDefault(emailSettings.isUseApplicationDefault());
+		eMailNotificationSettings.setNotificationDisabled(emailSettings.isNotificationDisabled());
+		eMailNotificationSettings.setSendOnNewWorkTasks(emailSettings.isSendOnNewWorkTasks());
+		String[] sendDailyTasks = emailSettings.getSendDailyTasks();
+		if (sendDailyTasks != null && sendDailyTasks.length > 0) {
+			eMailNotificationSettings.setSendDailyTaskSummary(EnumSet.copyOf(Arrays.stream(sendDailyTasks)
+					.map(day -> Weekday.valueOf(day)).collect(Collectors.toList())));
+		} else {
+			eMailNotificationSettings.setSendDailyTaskSummary(EnumSet.noneOf(Weekday.class));
+		}
+		iUser.setEMailNotificationSettings(eMailNotificationSettings);
+        FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", new FacesMessage("User email changes saved"));
+	}
+	
 	private ISecurityContext getSecurityContext() {
 		return applicationBean.getSelectedIApplication().getSecurityContext();
 	}

@@ -1,10 +1,12 @@
 package ch.ivyteam.enginecockpit;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 import org.primefaces.event.TabChangeEvent;
 
@@ -64,5 +66,15 @@ public class ApplicationBean {
 	
 	public IApplication getIApplication(long id) {
 		return manager.getApplication(id);
+	}
+	
+	public Locale getDefaultEmailLanguageForSelectedApp() {
+		return getSelectedIApplication().getDefaultEMailLanguage();
+	}
+	
+	public List<SelectItem> getSupportedLanguages() {
+		return manager.getLanguages().stream()
+				.map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
+				.collect(Collectors.toList());
 	}
 }

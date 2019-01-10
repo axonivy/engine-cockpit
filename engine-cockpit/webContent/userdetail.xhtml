@@ -30,6 +30,7 @@
 		                	
 		                <p:panel header="Information">
 		                	<h:form id="userInformationForm">
+		                		<p:growl for="informationSaveSuccess" autoUpdate="true"/>
 			                	<p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" icon="ui-icon-save" styleClass="primary-btn card-button" />
 			                	<p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" icon="ui-icon-delete" styleClass="red-btn card-button"/>
 			                	<p:confirmDialog message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User" severity="alert" widgetVar="deleteUserConfirmDialog">
@@ -58,24 +59,22 @@
 			                            <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}"/>
 			                            <label>Confirm Password</label>
 			                        </h:panelGroup>
-			                        <p:messages id="messages" autoUpdate="true"/>
+			                        <p:messages for="password1" id="informationMessages" autoUpdate="true"/>
 		                    	</p:panelGrid>
 	                    	</h:form>
 		                </p:panel>
 		            </div>
 		            
-		            
-		            <!-- <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		            <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
 		                <p:panel header="Email Notification Settings">
-		                	<p:commandButton id="saveEmailNotificationSettings" type="button" icon="ui-icon-save" styleClass="primary-btn card-button" >
-		                		<p:confirm header="Save" message="Do you want to save your changes?" icon="ui-icon-save" />
-		                	</p:commandButton>
-		                	<h:form>
-                    			<p:growl id="msgs" showDetail="true" />
+		                	<h:form id="userEmailForm">
+		                		<p:growl for="emailSaveSuccess" autoUpdate="true"/>
+			                	<p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}" icon="ui-icon-save" styleClass="primary-btn card-button" />
 	                    		<p:panelGrid id="emailNotificationSettings" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
 		                    		<p:outputLabel value="Language:" for="languageDropDown" />
-									<p:selectOneMenu id="languageDropDown" value="#{userDetailBean.language}">
-						                <f:selectItems value="#{userDetailBean.availableLanguages}" />
+									<p:selectOneMenu id="languageDropDown" value="#{userDetailBean.emailSettings.language}">
+						                <f:selectItems value="#{applicationBean.supportedLanguages}"/>
+						                <p:ajax update="@form"/>
 						            </p:selectOneMenu>
 			                        <p:outputLabel value="Settings from:" for="radioSettings" />
 			                        <p:selectOneRadio id="radioSettings" value="#{userDetailBean.selectedSettings}" onchange="updateRadioDisable(this)" layout="responsive" columns="2">
@@ -84,28 +83,34 @@
 				                        <p:ajax event="click" update="@form"/>
 				                    </p:selectOneRadio>
 				                    <p:outputLabel value="Notification send:" for="checkboxNotification" />
-				                    
-			                        <p:selectManyCheckbox id="checkboxNotification" value="#{userDetailBean.selectedNotifications}" layout="responsive" columns="2">
-				                        <f:selectItem itemLabel="Never" itemValue="Never" itemDisabled="#{userDetailBean.neverDisabled}"/>
-				                        <f:selectItem itemLabel="New Task" itemValue="Task" itemDisabled="#{userDetailBean.taskDisabled}"/>
-						                <p:ajax  update="@form"/>
-				                    </p:selectManyCheckbox>
+				                    <p:panelGrid id="checkboxNotification" columns="2" layout="grid" styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive">
+				                    	<p:selectBooleanCheckbox value="#{userDetailBean.emailSettings.notificationDisabled}" disabled="#{userDetailBean.notificationCheckboxDisabled}" style="float: left;">
+				                    		<p:outputLabel value="Never"/>
+				                    		<p:ajax update="@form"/>
+				                    	</p:selectBooleanCheckbox>
+				                    	<p:selectBooleanCheckbox value="#{userDetailBean.emailSettings.sendOnNewWorkTasks}" disabled="#{userDetailBean.taskCheckboxDisabled}" style="float: left;">
+				                    		<p:outputLabel value="New Task"/>
+				                    		<p:ajax update="@form"/>
+				                    	</p:selectBooleanCheckbox>
+				                    </p:panelGrid>
 				                    <p:outputLabel value="Daily summary on:" for="radioDailyNotification" />
-				                    <p:selectManyCheckbox id="radioDailyNotification" value="#{userDetailBean.selectedDailyDays}" disabled="#{userDetailBean.dailyDisabled}" widgetVar="radioDailyNotification" layout="responsive" styleClass="floatTableColumn" columns="7">
-				                        <f:selectItem itemLabel="Mon" itemValue="Mon" />
-				                        <f:selectItem itemLabel="Tue" itemValue="Tue" />
-				                        <f:selectItem itemLabel="Wed" itemValue="Wed" />
-				                        <f:selectItem itemLabel="Thu" itemValue="Thu" />
-				                        <f:selectItem itemLabel="Fri" itemValue="Fri" />
-				                        <f:selectItem itemLabel="Sat" itemValue="Sat" />
-				                        <f:selectItem itemLabel="Sun" itemValue="Sun" />
+				                    <p:selectManyCheckbox id="radioDailyNotification" value="#{userDetailBean.emailSettings.sendDailyTasks}" disabled="#{userDetailBean.dailyCheckboxGroupDisabled}" widgetVar="radioDailyNotification" layout="responsive" styleClass="floatTableColumn" columns="7">
+				                        <f:selectItem itemLabel="Mon" itemValue="MONDAY" />
+				                        <f:selectItem itemLabel="Tue" itemValue="TUESDAY" />
+				                        <f:selectItem itemLabel="Wed" itemValue="WEDNESDAY" />
+				                        <f:selectItem itemLabel="Thu" itemValue="THURSDAY" />
+				                        <f:selectItem itemLabel="Fri" itemValue="FRIDAY" />
+				                        <f:selectItem itemLabel="Sat" itemValue="SATURDAY" />
+				                        <f:selectItem itemLabel="Sun" itemValue="SUNDAY" />
+				                        <p:ajax update="@form"/>
 				                    </p:selectManyCheckbox>
+				                    <p:messages for="emailMessages" id="emailMessages" autoUpdate="true" />
 		                    	</p:panelGrid>
 	                    	</h:form>
 		                </p:panel>
 		            </div>
 		            
-		            <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		            <!-- <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
 		                <p:panel header="Roles">
 		                	<p:treeTable value="#{rolesBean.rolesBySelectedApp}" var="role">
 						        <p:column headerText="Name" sortBy="#{roles.name}" filterBy="#{role.name}">
