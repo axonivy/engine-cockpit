@@ -30,6 +30,6 @@ public class AdvisorBean {
 	
 	public String getCopyright()
 	{
-		return "© 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
+		return "&copy; 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
 	}
 }
