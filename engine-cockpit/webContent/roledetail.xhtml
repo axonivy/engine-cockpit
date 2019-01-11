@@ -44,6 +44,7 @@
 		                    	</p:panelGrid>
 	                    	</h:form>
 		                </p:panel>
+	                
 		                <p:dialog style="min-width: 300px;" header="Add new child role for #{roleDetailBean.roleName}" widgetVar="newChildRoleModal" modal="true" responsive="true" closeOnEscape="true">
                         	<h:form id="newChildRoleForm">
 	                        	<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
@@ -57,6 +58,14 @@
 			                	<p:commandButton id="cancelNewRole" onclick="PF('newChildRoleModal').hide();" value="Cancel" type="button" icon="ui-icon-clear" styleClass="secondary-btn modal-input-button"/>
                         	</h:form>
                         </p:dialog>
+		            </div>
+		            
+		            <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		                <p:panel header="Users">
+		                	<h:form id="roleUsersForm">
+
+	                    	</h:form>
+		                </p:panel>
 		            </div>
                 </div>
             </div>
