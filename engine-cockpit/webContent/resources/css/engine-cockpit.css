@@ -86,8 +86,15 @@
 }
 
 /*UserDetail*/
-.user-detail .dashboard-card .ui-panel {
+.user-detail .dashboard-card .min-height-500 {
 	min-height: 500px;
+}
+.user-detail .dashboard-card .max-height-700 {
+	max-height: 700px;
+}
+.user-detail .dashboard-card .max-height-700 .ui-panel-content{
+	overflow-y: scroll;
+	max-height: 664px;
 }
 
 /*Engine-Cockpit global*/

@@ -28,7 +28,7 @@
                 <div class="ui-g">
 	                <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
 		                	
-		                <p:panel header="Information">
+		                <p:panel header="Information" styleClass="min-height-500">
 		                	<h:form id="userInformationForm">
 		                		<p:growl for="informationSaveSuccess" autoUpdate="true"/>
 			                	<p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
@@ -66,7 +66,7 @@
 		            </div>
 		            
 		            <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
-		                <p:panel header="Email Notification Settings">
+		                <p:panel header="Email Notification Settings" styleClass="min-height-500">
 		                	<h:form id="userEmailForm">
 		                		<p:growl for="emailSaveSuccess" autoUpdate="true"/>
 			                	<p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}" title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
@@ -111,7 +111,7 @@
 		            </div>
 		            
 		            <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
-		                <p:panel header="Roles">
+		                <p:panel header="Roles" styleClass="max-height-700">
 		                	<h:form id="rolesOfUserForm">
 		                		<p:growl for="roleMessage" autoUpdate="true"/>
 		                		<div class="ui-g">
@@ -141,7 +141,7 @@
 		            </div>
 		            
 		            <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
-		                <p:panel header="Permissions">
+		                <p:panel header="Permissions" styleClass="max-height-700">
 		                	<h:form id="permissionsOfUserForm">
 		                		<p:growl for="permissionMessage" autoUpdate="true"/>
 		                		<div class="ui-g">
