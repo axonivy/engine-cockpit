@@ -33,6 +33,8 @@ public class ApplicationBean {
 		applications = manager.getApplications().stream()
 				.map(app -> new Application(app))
 				.collect(Collectors.toList());
+		//TODO: remove
+		applications.add(new Application("test", 0));
 	}
 	
 	public List<Application> getApplications() {
@@ -61,6 +63,10 @@ public class ApplicationBean {
     }
 	
 	public IApplication getSelectedIApplication() {
+		//TODO: remove
+		if (getSelectedApplication().getId() == 0) {
+			return null;
+		}
 		return manager.getApplication(getSelectedApplication().getId());
 	}
 	

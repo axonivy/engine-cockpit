@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -17,6 +17,7 @@ import ch.ivyteam.ivy.security.IRole;
 @ViewScoped
 public class RoleBean {
 	private TreeNode treeRootNode;
+	private TreeNode filteredTreeRootNode;
 	private String filter = "";
 	
 	private ApplicationBean applicationBean;
@@ -24,20 +25,33 @@ public class RoleBean {
 	public RoleBean() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}", ApplicationBean.class);
+		reloadRoles();
 	}
 	
-	public TreeNode getRolesForAppId(long appId) {
-		IApplication app = applicationBean.getIApplication(appId);
+	public void reloadRoles() {
+		filter = "";
 		treeRootNode = new DefaultTreeNode(new Role("Roles"), null);
+		IApplication app = applicationBean.getSelectedIApplication();
+		//TODO: remove
+		if (app == null) {
+			TreeNode node = new DefaultTreeNode(new Role("role1"), treeRootNode);
+			node.setExpanded(true);
+			new DefaultTreeNode(new Role("role2"), node);
+			return;
+		}
 		if (filter.isEmpty()) {
 			IRole role = app.getSecurityContext().getTopLevelRole();
 			TreeNode node = new DefaultTreeNode(new Role(role.getName()), treeRootNode);
 			node.setExpanded(true);
 			buildRolesTree(role, node);
-			return treeRootNode;
-		} else {
-			return filterIRoles(app);
 		}
+	}
+	
+	public TreeNode getRoles() {
+		if (filter.isEmpty()) {
+			return treeRootNode;
+		}
+		return filteredTreeRootNode;
 	}
 	
 	private void buildRolesTree(IRole parentRole, TreeNode rootNode) {
@@ -47,13 +61,14 @@ public class RoleBean {
 		}
 	}
 	
-	private TreeNode filterIRoles(IApplication app) {
-		for (IRole role : app.getSecurityContext().getRoles().stream()
-				.filter(r -> r.getName().toLowerCase().startsWith(filter.toLowerCase()))
-				.collect(Collectors.toList())) {
-			new DefaultTreeNode(new Role(role.getName()), treeRootNode);
+	private void filterTreeRootNode(List<TreeNode> nodes) {
+		for (TreeNode node : nodes) {
+			Role role = (Role) node.getData();
+			if (role.getName().toLowerCase().contains(filter)) {
+				new DefaultTreeNode(role, filteredTreeRootNode);
+			}
+			filterTreeRootNode(node.getChildren());
 		}
-		return treeRootNode;
 	}
 	
     public String getFilter() {
@@ -61,11 +76,9 @@ public class RoleBean {
     }
     
     public void setFilter(String filter) {
-    	this.filter = filter;
-    }
-    
-    public void filterUpdate() {
-    	
+    	this.filter = filter.toLowerCase();
+    	filteredTreeRootNode = new DefaultTreeNode(new Role("Filtered roles"), null);
+    	filterTreeRootNode(treeRootNode.getChildren());
     }
     
 }

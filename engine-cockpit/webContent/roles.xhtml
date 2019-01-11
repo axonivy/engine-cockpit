@@ -24,6 +24,7 @@
 	                        <p:growl id="msgs" />
 	                    	<p:tabView styleClass="card card-w-title tab-view-card" value="#{applicationBean.applications}" activeIndex="#{applicationBean.selectedApplicationIndex}" var="app">
 						        <p:ajax event="tabChange" listener="#{applicationBean.updateSelectedApplication}"/>
+						        <p:ajax event="tabChange" listener="#{roleBean.reloadRoles}" update="@form"/>
 						        <p:tab title="#{app.name}">
 							        <div class="ui-g">
 				                    	<div class="ui-g-12 ui-md-12">
@@ -38,14 +39,14 @@
 						                        		<i class="material-icons">search</i>
 						                        	</label>
 						                        	<p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search" value="#{roleBean.filter}">
-						                        		<p:ajax event="keyup" delay="300" update=":form" listener="#{roleBean.filterUpdate}"/>
+						                        		<p:ajax event="keyup" delay="300" update=":form"/>
 						                        	</p:inputText>
 					                        	</div>
 				                        	</div>
 				                        </div>
 				                        <div class="ui-g-12 ui-lg-12" style="padding-top:0;">
 				                        	<h:form id="treeForm">
-						                        <p:tree id="tree" widgetVar="tree" value="#{roleBean.getRolesForAppId(app.id)}" var="role">
+						                        <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles}" var="role">
 											        <p:treeNode icon="ui-icon-group">
 											            <a href="roledetail.xhtml?roleName=#{role.name}">
 											            	<h:outputText value="#{role.name}" />

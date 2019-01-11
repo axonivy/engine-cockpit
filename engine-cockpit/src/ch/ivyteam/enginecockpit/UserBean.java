@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,25 +18,38 @@ import ch.ivyteam.ivy.security.SessionInfo;
 @ViewScoped
 public class UserBean {
 	private List<User> filteredUsers;
+	private List<User> users;
 	
 	private ApplicationBean applicationBean;
 	
 	public UserBean() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}", ApplicationBean.class);
+		reloadUsers();
 	}
 	
-	public List<User> getUsersForAppId(long id) {
-		IApplication app = applicationBean.getIApplication(id);
-		return getUsersOfApp(app);
+	public void reloadUsers() {
+		filteredUsers = null;
+		IApplication app = applicationBean.getSelectedIApplication();
+		users = getUsersOfApp(app);
 	}
 	
 	public List<User> getUsers() {
-		IApplication app = applicationBean.getSelectedIApplication();
-		return getUsersOfApp(app);
+		return users;
 	}
 
 	private List<User> getUsersOfApp(IApplication app) {
+		//TODO: remove
+		if (app == null) {
+			List<User> users = new ArrayList<User>();
+			User user1 = new User();
+			user1.setName("testUser1");
+			User user2 = new User();
+			user2.setName("testUser2");
+			users.add(user1);
+			users.add(user2);
+			return users;
+		}
 		List<User> users = app.getSecurityContext().getUsers().stream()
 				.map(user -> new User(user))
 				.collect(Collectors.toList());
