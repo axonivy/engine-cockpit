@@ -25,7 +25,7 @@
 		<ui:define name="content">
 			<div class="ui-fluid role-detail">
                 <div class="ui-g">
-	                <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+	                <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
 		                <p:panel header="Information">
 		                	<h:form id="roleInformationForm">
 		                		<p:growl for="informationSaveSuccess" autoUpdate="true"/>
@@ -60,11 +60,33 @@
                         </p:dialog>
 		            </div>
 		            
-		            <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+		            <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
 		                <p:panel header="Users">
-		                	<h:form id="roleUsersForm">
-
-	                    	</h:form>
+		                	<h:form id="usersOfRoleForm">
+		                		<p:growl for="usersMessage" autoUpdate="true"/>
+		                		<div class="ui-g">
+			                		<div class="ui-g-6">
+					                	<p:dataTable value="#{userBean.users}" var="user">
+									        <p:column headerText="All Users" sortBy="#{user.name}">
+									            <h:outputText value="#{user.name}">
+									            	<i class="material-icons table-icon">person</i>
+									            	<p:commandButton update="@form" actionListener="#{roleDetailBean.addUser(user.name)}" icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
+									            </h:outputText>
+									        </p:column>
+									    </p:dataTable>
+								    </div>
+								    <div class="ui-g-6">
+									    <p:dataTable value="#{roleDetailBean.usersOfRole}" var="user">
+									    	<p:column headerText="Users Of Role" sortBy="#{user.name}">
+									    		<h:outputText value="#{user.name}">
+									    			<i class="material-icons table-icon">person</i>
+									    			<p:commandButton update="@form" actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
+									    		</h:outputText>
+									    	</p:column>
+									    </p:dataTable>
+								    </div>
+							    </div>
+						    </h:form>
 		                </p:panel>
 		            </div>
                 </div>

@@ -1,10 +1,14 @@
 package ch.ivyteam.enginecockpit;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.model.Role;
+import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
@@ -56,6 +60,18 @@ private ApplicationBean applicationBean;
     public String deleteRole() {
     	getSecurityContext().findRole(role.getName()).delete();
     	return "roles.xhtml";
+    }
+    
+    public List<User> getUsersOfRole() {
+    	return getSecurityContext().findRole(roleName).getAllUsers().stream().map(u -> new User(u)).collect(Collectors.toList());
+    }
+    
+    public void removeUser(String userName) {
+    	getSecurityContext().findUser(userName).removeRole(getSecurityContext().findRole(roleName));
+    }
+    
+    public void addUser(String userName) {
+    	getSecurityContext().findUser(userName).addRole(getSecurityContext().findRole(roleName));
     }
 	
 	private ISecurityContext getSecurityContext() {
