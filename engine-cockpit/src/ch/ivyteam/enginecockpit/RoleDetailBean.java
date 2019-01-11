@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
@@ -55,21 +54,13 @@ private ApplicationBean applicationBean;
 		this.role = role;
 	}
 	
-	public void createNewChildRole() {
-    	getSecurityContext().findRole(role.getName()).createChildRole(newChildRoleName, "", "", false);
-    }
-	
 	public void saveRoleInfos() {
 		IRole iRole = getSecurityContext().findRole(role.getName());
 		iRole.setDisplayDescriptionTemplate(role.getDescription());
+		iRole.setDisplayNameTemplate(role.getDisplayName());
 		iRole.setExternalSecurityName(role.getExternalName());
 		FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", new FacesMessage("Role information changes saved"));
 	}
-    
-    public String deleteRole() {
-    	getSecurityContext().findRole(role.getName()).delete();
-    	return "roles.xhtml";
-    }
     
     public List<User> getUsersOfRole() {
     	return getSecurityContext().findRole(roleName).getAllUsers().stream().map(u -> new User(u)).collect(Collectors.toList());

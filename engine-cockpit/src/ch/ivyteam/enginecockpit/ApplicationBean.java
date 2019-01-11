@@ -74,6 +74,14 @@ public class ApplicationBean {
 		return manager.getApplication(id);
 	}
 	
+	public int getSessionCount() {
+		return manager.getApplications().get(0).getSecurityContext().getClusterSessionsSnapshot().getSessionInfos().size();
+	}
+	
+	public long getApplicationCount() {
+		return manager.countApplications();
+	}
+	
 	public Locale getDefaultEmailLanguageForSelectedApp() {
 		return getSelectedIApplication().getDefaultEMailLanguage();
 	}
