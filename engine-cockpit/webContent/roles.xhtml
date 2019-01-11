@@ -21,17 +21,14 @@
                 <div class="ui-g">
                     <div class="ui-g-12">
                     	<h:form id="form">
-	                        <p:growl id="msgs" showDetail="true" />
+	                        <p:growl id="msgs" />
 	                    	<p:tabView styleClass="card card-w-title tab-view-card" value="#{applicationBean.applications}" activeIndex="#{applicationBean.selectedApplicationIndex}" var="app">
 						        <p:ajax event="tabChange" listener="#{applicationBean.updateSelectedApplication}"/>
 						        <p:tab title="#{app.name}">
 							        <div class="ui-g">
-				                    	<div class="ui-g-12 ui-md-10">
+				                    	<div class="ui-g-12 ui-md-8">
 						            		<h1><i class="material-icons card-title-icon">group</i>Roles</h1>
 						            	</div>
-						            	<div class="ui-g-12 ui-md-2" style="margin: auto;">
-							            	<p:commandButton disabled="true" id="newRoleBtn_#{app.id}" value="New" icon="ui-icon-add" type="button"/>
-							            </div>
 						            </div>
 			                        <div class="ui-g">
 				                        <div class="ui-g-12 ui-lg-12" style="padding-bottom: 0;">
@@ -47,12 +44,12 @@
 				                        	</div>
 				                        </div>
 				                        <div class="ui-g-12 ui-lg-12" style="padding-top:0;">
-				                        	<h:form id="treeForm_#{app.id}">
-						                        <p:tree id="tree_#{app.id}" widgetVar="tree_#{app.id}" value="#{roleBean.getRolesForAppId(app.id)}" var="role" selectionMode="single" 
-						                        		selection="#{roleBean.selectedRole}">
-						                        	<p:ajax event="select" listener="#{roleBean.onSelect}" update=":form:msgs" />
+				                        	<h:form id="treeForm">
+						                        <p:tree id="tree" widgetVar="tree" value="#{roleBean.getRolesForAppId(app.id)}" var="role">
 											        <p:treeNode icon="ui-icon-group">
-											            <h:outputText value="#{role.name}" />
+											            <a href="roledetail.xhtml?roleName=#{role.name}">
+											            	<h:outputText value="#{role.name}" />
+											            </a>
 											        </p:treeNode>
 											    </p:tree>
 								    		</h:form>

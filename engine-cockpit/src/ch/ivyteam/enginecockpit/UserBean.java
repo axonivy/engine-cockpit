@@ -4,24 +4,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.event.SelectEvent;
 
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.SessionInfo;
 
 @ManagedBean
 @ViewScoped
 public class UserBean {
 	private List<User> filteredUsers;
-	private User selectedUser;
 	
 	private ApplicationBean applicationBean;
 	

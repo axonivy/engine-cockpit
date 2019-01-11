@@ -1,10 +1,20 @@
 package ch.ivyteam.enginecockpit.model;
 
+import ch.ivyteam.ivy.security.IRole;
+
 public class Role {
 	private String name;
+	
+	public Role(IRole role) {
+		this(role.getName());
+	}
 
 	public Role(String name) {
 		this.name = name;
+	}
+	
+	public Role() {
+		
 	}
 
 	public String getName() {

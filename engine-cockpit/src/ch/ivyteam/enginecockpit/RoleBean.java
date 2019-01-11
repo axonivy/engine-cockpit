@@ -2,12 +2,10 @@ package ch.ivyteam.enginecockpit;
 
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -16,10 +14,9 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.IRole;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class RoleBean {
 	private TreeNode treeRootNode;
-	private DefaultTreeNode selectedRole;
 	private String filter = "";
 	
 	private ApplicationBean applicationBean;
@@ -59,19 +56,6 @@ public class RoleBean {
 		return treeRootNode;
 	}
 	
-	public DefaultTreeNode getSelectedRole() {
-        return selectedRole;
-    }
- 
-    public void setSelectedRole(DefaultTreeNode selectedRole) {
-        this.selectedRole = selectedRole;
-    }
-    
-    public void onSelect(NodeSelectEvent event) {
-        FacesMessage msg = new FacesMessage("Role Selected", ((Role) event.getTreeNode().getData()).getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-    
     public String getFilter() {
     	return filter;
     }
@@ -83,4 +67,5 @@ public class RoleBean {
     public void filterUpdate() {
     	
     }
+    
 }

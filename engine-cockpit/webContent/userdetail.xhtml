@@ -31,8 +31,8 @@
 		                <p:panel header="Information">
 		                	<h:form id="userInformationForm">
 		                		<p:growl for="informationSaveSuccess" autoUpdate="true"/>
-			                	<p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" icon="ui-icon-save" styleClass="primary-btn card-button" />
-			                	<p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" icon="ui-icon-delete" styleClass="red-btn card-button"/>
+			                	<p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
+			                	<p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user" icon="ui-icon-delete" styleClass="red-btn card-button"/>
 			                	<p:confirmDialog message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User" severity="alert" widgetVar="deleteUserConfirmDialog">
 									<p:commandButton value="Yes" ajax="false" immediate="true" action="#{userDetailBean.deleteSelectedUser}" icon="ui-icon-check" style="width: inherit;"/>
 									<p:commandButton value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button" icon="ui-icon-close" style="width: inherit;"/>
@@ -69,7 +69,7 @@
 		                <p:panel header="Email Notification Settings">
 		                	<h:form id="userEmailForm">
 		                		<p:growl for="emailSaveSuccess" autoUpdate="true"/>
-			                	<p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}" icon="ui-icon-save" styleClass="primary-btn card-button" />
+			                	<p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}" title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
 	                    		<p:panelGrid id="emailNotificationSettings" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
 		                    		<p:outputLabel value="Language:" for="languageDropDown" />
 									<p:selectOneMenu id="languageDropDown" value="#{userDetailBean.emailSettings.language}">
