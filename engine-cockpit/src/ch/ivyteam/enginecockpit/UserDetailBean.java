@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit;
 
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -10,8 +11,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.model.EmailSettings;
+import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.IUserEMailNotificationSettings;
@@ -57,7 +60,7 @@ public class UserDetailBean {
 	
 	public void saveUserInfos() {
 		Ivy.log().info("save user");
-		IUser iUser = getSecurityContext().findUser(userName);
+		IUser iUser = getIUser();
 		iUser.setEMailAddress(user.getEmail());
 		iUser.setFullName(user.getFullName());
 		if (user.getPassword() != "") {
@@ -104,7 +107,7 @@ public class UserDetailBean {
 	}
 	
 	public void saveUserEmail() {
-		IUser iUser = getSecurityContext().findUser(userName);
+		IUser iUser = getIUser();
 		iUser.setEMailLanguage(emailSettings.getLanguageLocale());
 		IUserEMailNotificationSettings eMailNotificationSettings = iUser.getEMailNotificationSettings();
 		eMailNotificationSettings.setUseApplicationDefault(emailSettings.isUseApplicationDefault());
@@ -119,6 +122,27 @@ public class UserDetailBean {
 		}
 		iUser.setEMailNotificationSettings(eMailNotificationSettings);
         FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", new FacesMessage("User email changes saved"));
+	}
+	
+	public List<Role> getRolesOfUser() {
+		List<IRole> roles = getIUser().getRoles();
+		return roles.stream().map(r -> new Role(r)).collect(Collectors.toList());
+	}
+	
+	public void removeRole(String roleName) {
+		getIUser().removeRole(getSecurityContext().findRole(roleName));
+	}
+	
+	public void addRole(String roleName) {
+		try {
+			getIUser().addRole(getSecurityContext().findRole(roleName));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("roleMessage", new FacesMessage("User already member of this role"));
+		}
+	}
+
+	private IUser getIUser() {
+		return getSecurityContext().findUser(userName);
 	}
 	
 	private ISecurityContext getSecurityContext() {
