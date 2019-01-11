@@ -4,13 +4,21 @@ import ch.ivyteam.ivy.security.IRole;
 
 public class Role {
 	private String name;
+	private String description;
+	private String externalName;
 	
 	public Role(IRole role) {
-		this(role.getName());
+		this(role.getName(), role.getDisplayDescription(), role.getExternalSecurityName());
 	}
 
 	public Role(String name) {
+		this(name, "", "");
+	}
+	
+	public Role(String name, String description, String externalName) {
 		this.name = name;
+		this.description = description;
+		this.externalName = externalName;
 	}
 	
 	public Role() {
@@ -24,11 +32,29 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getExternalName() {
+		return externalName;
+	}
+
+	public void setExternalName(String externalName) {
+		this.externalName = externalName;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((externalName == null) ? 0 : externalName.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -42,6 +68,16 @@ public class Role {
 		if (getClass() != obj.getClass())
 			return false;
 		Role other = (Role) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (externalName == null) {
+			if (other.externalName != null)
+				return false;
+		} else if (!externalName.equals(other.externalName))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;

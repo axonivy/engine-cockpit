@@ -41,6 +41,14 @@
 			                            <p:inputText disabled="true" value="#{roleDetailBean.role.name}"/>
 			                            <label>Name</label>
 			                        </h:panelGroup>
+			                        <h:panelGroup styleClass="md-inputfield">
+			                            <p:inputText value="#{roleDetailBean.role.description}"/>
+			                            <label>Description</label>
+			                        </h:panelGroup>
+			                        <h:panelGroup styleClass="md-inputfield">
+			                            <p:inputText value="#{roleDetailBean.role.externalName}"/>
+			                            <label>External Security Name</label>
+			                        </h:panelGroup>
 		                    	</p:panelGrid>
 	                    	</h:form>
 		                </p:panel>
