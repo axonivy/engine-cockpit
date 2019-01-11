@@ -74,6 +74,10 @@ public class ApplicationBean {
 		return manager.getApplication(id);
 	}
 	
+	public List<IApplication> getIApplicaitons() {
+		return manager.getApplications();
+	}
+	
 	public int getSessionCount() {
 		return manager.getApplications().get(0).getSecurityContext().getClusterSessionsSnapshot().getSessionInfos().size();
 	}

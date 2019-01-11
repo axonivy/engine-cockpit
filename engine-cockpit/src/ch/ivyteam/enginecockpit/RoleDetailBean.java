@@ -20,7 +20,7 @@ public class RoleDetailBean {
 	private String newChildRoleName;
 	private Role role;
 	
-private ApplicationBean applicationBean;
+	private ApplicationBean applicationBean;
 	
 	public RoleDetailBean() {
 		FacesContext context = FacesContext.getCurrentInstance();
