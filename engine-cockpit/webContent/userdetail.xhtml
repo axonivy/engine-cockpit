@@ -9,6 +9,7 @@
 <h:body>
 	<f:metadata>
 		<f:viewParam name="userName" value="#{userDetailBean.userName}"></f:viewParam>
+		<f:viewParam name="userName" value="#{permissionBean.member}"></f:viewParam>
 	</f:metadata>
 
 	<ui:composition template="/template/template.xhtml">
@@ -149,7 +150,7 @@
 					                	<p:treeTable value="#{permissionBean.permissions}" var="permission">
 									        <p:column headerText="All Permissions">
 									            <h:outputText value="#{permission.name}">
-									            	<i class="material-icons table-icon">vpn_key</i>
+									            	<i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
 									            	<p:commandButton icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn"/>
 									            </h:outputText>
 									        </p:column>
@@ -159,7 +160,7 @@
 									    <p:dataTable value="#{permissionBean.permissionsList}" var="permission">
 									    	<p:column headerText="Permission" sortBy="#{permission.name}">
 									    		<h:outputText value="#{permission.name}">
-									    			<!-- <p:commandButton update="@form" actionListener="#{userDetailBean.removeRole(role.name)}" icon="ui-icon-remove" title="Add" styleClass="card-button table-control-btn secondary-btn"/> -->
+									    			<p:commandButton icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn"/>
 									    		</h:outputText>
 									    	</p:column>
 									    </p:dataTable>
