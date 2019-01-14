@@ -20,6 +20,8 @@ public class RoleDetailBean {
 	private String newChildRoleName;
 	private Role role;
 	
+	private List<User> filteredUsers;
+	
 	private ApplicationBean applicationBean;
 	
 	public RoleDetailBean() {
@@ -72,6 +74,14 @@ public class RoleDetailBean {
     
     public void addUser(String userName) {
     	getSecurityContext().findUser(userName).addRole(getSecurityContext().findRole(roleName));
+    }
+    
+    public List<User> getFilteredUsers() {
+        return filteredUsers;
+    }
+    
+    public void setFilteredUsers(List<User> filteredUsers) {
+        this.filteredUsers = filteredUsers;
     }
 	
 	private ISecurityContext getSecurityContext() {

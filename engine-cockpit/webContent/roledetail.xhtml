@@ -67,13 +67,19 @@
 		            </div>
 		            
 		            <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
-		                <p:panel header="Users">
+		                <p:panel header="Users" styleClass="max-height-700">
 		                	<h:form id="usersOfRoleForm">
 		                		<p:growl for="usersMessage" autoUpdate="true"/>
 		                		<div class="ui-g">
 			                		<div class="ui-g-6">
-					                	<p:dataTable value="#{userBean.users}" var="user">
-									        <p:column headerText="All Users" sortBy="#{user.name}">
+					                	<p:dataTable value="#{userBean.users}" widgetVar="allUsersTable" var="user" filteredValue="#{userBean.filteredUsers}" lazy="false">
+					                		<f:facet name="header">
+									            <p:outputPanel>
+									            	<p:outputLabel styleClass="table-search-icon"><i class="material-icons">search</i></p:outputLabel>
+									                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('allUsersTable').filter()" placeholder="Search"/>
+									            </p:outputPanel>
+									        </f:facet>
+									        <p:column headerText="All Users" sortBy="#{user.name}" filterBy="#{user.name}">
 									            <h:outputText value="#{user.name}">
 									            	<i class="material-icons table-icon">person</i>
 									            	<p:commandButton update="@form" actionListener="#{roleDetailBean.addUser(user.name)}" icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
@@ -82,8 +88,14 @@
 									    </p:dataTable>
 								    </div>
 								    <div class="ui-g-6">
-									    <p:dataTable value="#{roleDetailBean.usersOfRole}" var="user">
-									    	<p:column headerText="Users Of Role" sortBy="#{user.name}">
+									    <p:dataTable value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user" filteredValue="#{roleDetailBean.filteredUsers}" lazy="false">
+									    	<f:facet name="header">
+									            <p:outputPanel>
+									            	<p:outputLabel styleClass="table-search-icon"><i class="material-icons">search</i></p:outputLabel>
+									                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search"/>
+									            </p:outputPanel>
+									        </f:facet>
+									    	<p:column headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
 									    		<h:outputText value="#{user.name}">
 									    			<i class="material-icons table-icon">person</i>
 									    			<p:commandButton update="@form" actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
