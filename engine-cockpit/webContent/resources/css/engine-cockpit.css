@@ -84,11 +84,11 @@
   width: calc(100% - 24px);
 }
 
-.roles .ui-tree {
+.ui-fluid .ui-tree {
   width: auto;
 }
 
-.roles .ui-tree .ui-treenode-leaf-icon {
+.ui-fluid .ui-tree .ui-treenode-leaf-icon {
   width: 20px;
 }
 

@@ -21,9 +21,8 @@ import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 @SessionScoped
 public class ApplicationBean
 {
-
-  private int selectedApplicationIndex;
   private List<Application> applications;
+  private int selectedApplicationIndex;
 
   @Inject
   IApplicationConfigurationManager manager;
