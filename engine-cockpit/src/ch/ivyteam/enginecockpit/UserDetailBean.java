@@ -27,6 +27,8 @@ public class UserDetailBean {
 	private User user;
 	private EmailSettings emailSettings;
 	
+	private List<Role> filteredRoles;
+	
 	private ApplicationBean applicationBean;
 	
 	public UserDetailBean() {
@@ -125,8 +127,7 @@ public class UserDetailBean {
 	}
 	
 	public List<Role> getRolesOfUser() {
-		List<IRole> roles = getIUser().getRoles();
-		return roles.stream().map(r -> new Role(r)).collect(Collectors.toList());
+		return getIUser().getRoles().stream().map(r -> new Role(r)).collect(Collectors.toList());
 	}
 	
 	public void removeRole(String roleName) {
@@ -140,6 +141,14 @@ public class UserDetailBean {
 			FacesContext.getCurrentInstance().addMessage("roleMessage", new FacesMessage("User already member of this role"));
 		}
 	}
+	
+	public List<Role> getFilteredRoles() {
+        return filteredRoles;
+    }
+    
+    public void setFilteredRoles(List<Role> filteredRoles) {
+        this.filteredRoles = filteredRoles;
+    }
 
 	private IUser getIUser() {
 		return getSecurityContext().findUser(userName);

@@ -116,7 +116,17 @@
 		                	<h:form id="rolesOfUserForm">
 		                		<p:growl for="roleMessage" autoUpdate="true"/>
 		                		<div class="ui-g">
-			                		<div class="ui-g-6">
+		                			<div class="ui-g-6" style="padding-bottom: 0;">
+			                        	<div class="ui-datatable-header ui-widget-header ui-corner-top" style="border-bottom: 0 none;">
+				                        	<div class="ui-outputpanel ui-widget">
+					                        	<label style="float: left;" class="ui-outputlabel ui-widget table-search-icon">
+					                        		<i class="material-icons">search</i>
+					                        	</label>
+					                        	<p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search" value="#{roleBean.filter}">
+					                        		<p:ajax event="keyup" delay="300" update="@form"/>
+					                        	</p:inputText>
+				                        	</div>
+			                        	</div>
 					                	<p:treeTable value="#{roleBean.roles}" var="role">
 									        <p:column headerText="All Roles" sortBy="#{role.name}">
 									            <h:outputText value="#{role.name}">
@@ -127,8 +137,14 @@
 									    </p:treeTable>
 								    </div>
 								    <div class="ui-g-6">
-									    <p:dataTable value="#{userDetailBean.rolesOfUser}" var="role">
-									    	<p:column headerText="Roles of User" sortBy="#{role.name}">
+									    <p:dataTable value="#{userDetailBean.rolesOfUser}" widgetVar="rolesOfUserTable" var="role" filteredValue="#{userDetailBean.filteredRoles}" lazy="false">
+									    	<f:facet name="header">
+									            <p:outputPanel>
+									            	<p:outputLabel styleClass="table-search-icon"><i class="material-icons">search</i></p:outputLabel>
+									                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('rolesOfUserTable').filter()" placeholder="Search"/>
+									            </p:outputPanel>
+									        </f:facet>
+									    	<p:column headerText="Roles of User" sortBy="#{role.name}" filterBy="#{role.name}">
 									    		<h:outputText value="#{role.name}">
 									    			<i class="material-icons table-icon">group</i>
 									    			<p:commandButton update="@form" actionListener="#{userDetailBean.removeRole(role.name)}" icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" disabled="#{role.name == 'Everybody' ? true : false}"/>
