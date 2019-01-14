@@ -32,8 +32,11 @@
 		                            <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">
 		                                <h:outputText value="#{system.securitySystemProvider}" />
 		                            </p:column>
+		                            <p:column headerText="Application" sortBy="#{system.appName}">
+		                                <h:outputText value="#{system.appName}" />
+		                            </p:column>
 		                            <p:column headerText="Synchronize" style="text-align: center;">
-	                            		<p:commandButton update="@form" actionListener="#{securityBean.triggerSynchronization(system.id)}" icon="fa fa-refresh #{securityBean.syncRunning(system.id) ? 'fa-spin' : ''}"/>
+	                            		<p:commandButton update="@form" actionListener="#{securityBean.triggerSynchronization(system.appName)}" icon="fa fa-refresh #{securityBean.syncRunning(system.id) ? 'fa-spin' : ''}"/>
 		                            </p:column>
 		                        </p:dataTable>
 	                        </h:form>

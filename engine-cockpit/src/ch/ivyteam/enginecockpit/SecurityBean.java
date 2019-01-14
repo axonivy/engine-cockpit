@@ -15,6 +15,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.synch.SynchronizationListener;
 import ch.ivyteam.ivy.security.synch.UpdateEvent;
+import ch.ivyteam.log.Logger;
 
 @ManagedBean
 @ViewScoped
@@ -27,7 +28,7 @@ public class SecurityBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}", ApplicationBean.class);
 		systems = applicationBean.getIApplicaitons().stream()
-				.map(app -> new SecuritySystem(app.getSecurityContext()))
+				.map(app ->  new SecuritySystem(app.getSecurityContext(), app.getName()))
 				.collect(Collectors.toList());
 	}
 	
@@ -35,32 +36,29 @@ public class SecurityBean {
 		return systems;
 	}
 	
-	public void triggerSynchronization(long securityContextId) {
+	public void triggerSynchronization(String appName) {
 		Ivy.log().info("trigger");
+		//TODO: send log to jsf...
 		SynchronizationListener listener = new SynchronizationListener() {
-			
 			@Override
 			public void handleUpdate(UpdateEvent updateEvent) {
-				Ivy.log().info("update");
+				Logger.getLogger(SecurityBean.class).warn("update");
+//				Ivy.log().info("update");
 			}
 			
 			@Override
 			public void handleLog(Level level, String message, Throwable exception) {
-				Ivy.log().info("log");
+				Logger.getLogger(SecurityBean.class).warn("log");
+//				Ivy.log().info("log");
 			}
 			
 			@Override
 			public void handleFinished(UpdateEvent finalEvent) {
-				Ivy.log().info("finished");
+				Logger.getLogger(SecurityBean.class).warn("finished");
+//				Ivy.log().info("finished");
 			}
 		};
-		Optional<ISecurityContext> context = applicationBean.getIApplicaitons().stream()
-				.map(app -> app.getSecurityContext())
-				.filter(c -> c.getId() == securityContextId)
-				.findAny();
-		if (context.isPresent()) {
-			context.get().triggerSynchronization(listener);
-		}
+		applicationBean.manager.findApplication(appName).getSecurityContext().triggerSynchronization(listener);
 	}
 	
 	public boolean syncRunning(long securityContextId) {

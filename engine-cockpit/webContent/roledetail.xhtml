@@ -36,12 +36,12 @@
 			                            <label>Name</label>
 			                        </h:panelGroup>
 			                        <h:panelGroup styleClass="md-inputfield">
-			                            <p:inputText value="#{roleDetailBean.role.description}"/>
-			                            <label>Description</label>
-			                        </h:panelGroup>
-			                        <h:panelGroup styleClass="md-inputfield">
 			                            <p:inputText value="#{roleDetailBean.role.displayName}"/>
 			                            <label>Display Name</label>
+			                        </h:panelGroup>
+			                        <h:panelGroup styleClass="md-inputfield">
+			                            <p:inputText value="#{roleDetailBean.role.description}"/>
+			                            <label>Description</label>
 			                        </h:panelGroup>
 			                        <h:panelGroup styleClass="md-inputfield">
 			                            <p:inputText value="#{roleDetailBean.role.externalName}"/>
@@ -55,6 +55,7 @@
 		            <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
 		                <p:panel header="Users" styleClass="max-height-700">
 		                	<h:form id="usersOfRoleForm">
+		                		<!-- TODO: bug on serach and add/remove, form not correctly updated -->
 		                		<p:growl for="usersMessage" autoUpdate="true"/>
 		                		<div class="ui-g">
 			                		<div class="ui-g-6">
@@ -65,10 +66,10 @@
 									                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('allUsersTable').filter()" placeholder="Search"/>
 									            </p:outputPanel>
 									        </f:facet>
-									        <p:column headerText="All Users" sortBy="#{user.name}" filterBy="#{user.name}">
+									        <p:column headerText="All Users" sortBy="#{user.name}" rendered="#{roleDetailBean.userMemberOfRole(user.name)}" filterBy="#{user.name}">
 									            <h:outputText value="#{user.name}">
 									            	<i class="material-icons table-icon">person</i>
-									            	<p:commandButton update="@form" actionListener="#{roleDetailBean.addUser(user.name)}" icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
+									            	<p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser(user.name)}" icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
 									            </h:outputText>
 									        </p:column>
 									    </p:dataTable>
@@ -84,7 +85,7 @@
 									    	<p:column headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
 									    		<h:outputText value="#{user.name}">
 									    			<i class="material-icons table-icon">person</i>
-									    			<p:commandButton update="@form" actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
+									    			<p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
 									    		</h:outputText>
 									    	</p:column>
 									    </p:dataTable>

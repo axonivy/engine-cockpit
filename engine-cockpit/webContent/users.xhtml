@@ -46,9 +46,11 @@
 											            </p:outputPanel>
 											        </f:facet>
 						                            <p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}">
-						                                <a href="userdetail.xhtml?userName=#{user.name}" style="color: #212121;"><h:outputText value="#{user.name}">
-						                                	<i class="material-icons table-icon">person</i>
-						                                </h:outputText></a>
+						                                <a href="userdetail.xhtml?userName=#{user.name}">
+						                                	<h:outputText value="#{user.name}">
+						                                		<i class="material-icons table-icon">person</i>
+						                                	</h:outputText>
+						                                </a>
 						                            </p:column>
 						                            <p:column headerText="Full Name" sortBy="#{user.fullName}" filterBy="#{user.fullName}">
 						                                <h:outputText value="#{user.fullName}" />

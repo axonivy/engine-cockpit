@@ -20,6 +20,7 @@ public class RoleDetailBean {
 	private String newChildRoleName;
 	private Role role;
 	
+	private List<User> usersOfRole;
 	private List<User> filteredUsers;
 	
 	private ApplicationBean applicationBean;
@@ -38,6 +39,7 @@ public class RoleDetailBean {
 		this.roleName = roleName;
 		IRole iRole = getSecurityContext().findRole(roleName);
 		this.role = new Role(iRole);
+		loadUsersOfRole();
 	}
 	
 	public String getNewChildRoleName() {
@@ -65,15 +67,21 @@ public class RoleDetailBean {
 	}
     
     public List<User> getUsersOfRole() {
-    	return getSecurityContext().findRole(roleName).getAllUsers().stream().map(u -> new User(u)).collect(Collectors.toList());
+    	return usersOfRole;
+    }
+
+    public boolean userMemberOfRole(String userName) {
+    	return !usersOfRole.stream().filter(u -> u.getName().equals(userName)).findAny().isPresent();
     }
     
     public void removeUser(String userName) {
     	getSecurityContext().findUser(userName).removeRole(getSecurityContext().findRole(roleName));
+    	loadUsersOfRole();
     }
     
     public void addUser(String userName) {
     	getSecurityContext().findUser(userName).addRole(getSecurityContext().findRole(roleName));
+    	loadUsersOfRole();
     }
     
     public List<User> getFilteredUsers() {
@@ -82,6 +90,10 @@ public class RoleDetailBean {
     
     public void setFilteredUsers(List<User> filteredUsers) {
         this.filteredUsers = filteredUsers;
+    }
+
+    private void loadUsersOfRole() {
+    	usersOfRole = getSecurityContext().findRole(roleName).getAllUsers().stream().map(u -> new User(u)).collect(Collectors.toList());
     }
 	
 	private ISecurityContext getSecurityContext() {

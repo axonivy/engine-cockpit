@@ -153,4 +153,7 @@
 	margin-right: 5px;
     float: right;
 }
+.ui-datatable a,
+.ui-tree a {
+	color: inherit;
 }
