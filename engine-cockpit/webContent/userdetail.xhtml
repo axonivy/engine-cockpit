@@ -141,23 +141,6 @@
 		                </p:panel>
 		            </div>
 		            
-		            <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
-		                <p:panel header="Permissions" styleClass="min-height-500 max-height-700">
-		                	<h:form id="permissionsOfUserForm">
-		                		<p:growl for="permissionMessage" autoUpdate="true"/>
-			                	<p:treeTable value="#{permissionBean.permissions}" var="permission">
-							        <p:column headerText="All Permissions">
-							            <h:outputText value="#{permission.name}">
-							            	<i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
-							            	<p:commandButton icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn"/>
-							            	<p:commandButton icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn"/>
-							            </h:outputText>
-							        </p:column>
-							    </p:treeTable>
-						    </h:form>
-		                </p:panel>
-		            </div>
-		            
                 </div>
             </div>
 		</ui:define>
