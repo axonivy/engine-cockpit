@@ -5,55 +5,66 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class GuestPreferences {
+public class GuestPreferences
+{
 
-    private String layout = "lime";
+  private String layout = "lime";
 
-    private String theme = "lime";
+  private String theme = "lime";
 
-    private boolean darkMenu = true;
-    
-    private boolean orientationRTL = false;
-    
-    private boolean horizontal = false;
+  private boolean darkMenu = true;
 
-	public String getTheme() {
-    	return theme;
-    }
+  private boolean orientationRTL = false;
 
-    public void setTheme(String theme) {
-    	this.theme = theme;
-    }
+  private boolean horizontal = false;
 
-    public String getLayout() {
-        return layout;
-    }
+  public String getTheme()
+  {
+    return theme;
+  }
 
-    public void setLayout(String layout) {
-        this.layout = layout;
-    }
+  public void setTheme(String theme)
+  {
+    this.theme = theme;
+  }
 
-    public boolean isDarkMenu() {
-        return darkMenu;
-    }
+  public String getLayout()
+  {
+    return layout;
+  }
 
-    public void setDarkMenu(boolean darkMenu) {
-        this.darkMenu = darkMenu;
-    }
-    
-    public boolean isOrientationRTL() {
-    	return orientationRTL;
-    }
-    
-    public void setOrientationRTL(boolean orientationRTL) {
-    	this.orientationRTL = orientationRTL;
-    }
-    
-    public boolean isHorizontal() {
-    	return horizontal;
-    }
-    
-    public void setHorizontal(boolean horizontal) {
-    	this.horizontal = horizontal;
-    }
+  public void setLayout(String layout)
+  {
+    this.layout = layout;
+  }
+
+  public boolean isDarkMenu()
+  {
+    return darkMenu;
+  }
+
+  public void setDarkMenu(boolean darkMenu)
+  {
+    this.darkMenu = darkMenu;
+  }
+
+  public boolean isOrientationRTL()
+  {
+    return orientationRTL;
+  }
+
+  public void setOrientationRTL(boolean orientationRTL)
+  {
+    this.orientationRTL = orientationRTL;
+  }
+
+  public boolean isHorizontal()
+  {
+    return horizontal;
+  }
+
+  public void setHorizontal(boolean horizontal)
+  {
+    this.horizontal = horizontal;
+  }
 }

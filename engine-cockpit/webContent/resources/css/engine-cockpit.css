@@ -1,166 +1,192 @@
 /*Login*/
 .login-body .login-panel {
-	height: auto;
+  height: auto;
 }
 
 /*Navigation*/
-@media (max-width: 1024px) {
-	.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu.topbar-menu-active > li {
-		float: none !important;
-	}
-	.sidebar-logo .sidebar-logo-collapsed {
-		display: none;
-	}
+@media ( max-width : 1024px) {
+  .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu.topbar-menu-active>li {
+    float: none !important;
+  }
+  .sidebar-logo .sidebar-logo-collapsed {
+    display: none;
+  }
 }
+
 .layout-wrapper .layout-sidebar .sidebar-logo .sidebar-logo-collapsed {
-	position: absolute;
-	height: 40px;
-	padding: 4px;
+  position: absolute;
+  height: 40px;
+  padding: 4px;
 }
+
 .layout-wrapper .layout-sidebar.layout-sidebar-active .sidebar-logo .sidebar-logo-collapsed,
 .layout-wrapper-static .layout-sidebar .sidebar-logo .sidebar-logo-collapsed {
-	display: none;
+  display: none;
 }
-.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li.profile-item {
-	float: right;
+
+.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item {
+  float: right;
 }
-.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li.profile-item > ul {
-	right: 5px;
-	left: auto;
+
+.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item>ul {
+  right: 5px;
+  left: auto;
 }
-.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li.profile-item > ul::before {
-	left: 232px;
+
+.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item>ul::before {
+  left: 232px;
 }
 
 /*Dashboard*/
 .dashboard-card .card-button {
-	margin-top: -25px;
-	margin-right: 10px;
-	float: right;
+  margin-top: -25px;
+  margin-right: 10px;
+  float: right;
 }
+
 .dashboard .ui-grid-col-5 label {
-	font-style: italic;
+  font-style: italic;
 }
+
 .dashboard-card .ui-panel {
-	min-height: 240px;
-	border: 0 none;
-	-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
-	-moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
+  min-height: 240px;
+  border: 0 none;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
 }
+
 .dashboard-card .ui-panelgrid-content {
-	padding: 0;
+  padding: 0;
 }
 
 /*Application*/
 .applications .ui-inputswitch.ui-inputswitch-checked {
-    background-color: #9CCC65;
-    border-color: #9CCC65; 
+  background-color: #9CCC65;
+  border-color: #9CCC65;
 }
+
 .applications .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-handle {
-	background-color: #7CB342;
-	color: #ffffff;
+  background-color: #7CB342;
+  color: #ffffff;
 }
+
 .applications .ui-treetable td:not(:first-child) {
-	text-align: center;
+  text-align: center;
 }
 
 /*Users / Roles*/
 .ui-datatable .table-search-icon {
-	float: left;
+  float: left;
 }
+
 .ui-datatable .table-search-input-withicon {
-	width: calc(100% - 24px);
+  width: calc(100% - 24px);
 }
+
 .roles .ui-tree {
-	width: auto;
+  width: auto;
 }
+
 .roles .ui-tree .ui-treenode-leaf-icon {
-	width: 20px;
+  width: 20px;
 }
 
 /*AdvancedConf*/
 .card .default-values-switch {
-	position: relative;
-	top: 24px;
+  position: relative;
+  top: 24px;
 }
 
 /*UserDetail*/
 .user-detail .dashboard-card .min-height-500 {
-	min-height: 500px;
+  min-height: 500px;
 }
+
 .user-detail .dashboard-card .max-height-700 {
-	max-height: 700px;
+  max-height: 700px;
 }
-.user-detail .dashboard-card .max-height-700 .ui-panel-content{
-	overflow-y: scroll;
-	max-height: 664px;
+
+.user-detail .dashboard-card .max-height-700 .ui-panel-content {
+  overflow-y: scroll;
+  max-height: 664px;
 }
 
 /*Engine-Cockpit global*/
 .layout-main {
-	height: 100%;
+  height: 100%;
 }
+
 .ui-fluid .tab-view-card {
-	border: 0px;
+  border: 0px;
 }
+
 .ui-fluid .tableControlButtons button {
-	max-width: 200px;
-	margin-bottom: 10px;
-	margin-right: 10px;
+  max-width: 200px;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
+
 .ui-fluid .ui-column-filter {
-	display: none;
+  display: none;
 }
+
 .ui-fluid .ui-inputswitch.ui-inputswitch-checked {
-    background-color: #9CCC65;
-    border-color: #9CCC65; 
+  background-color: #9CCC65;
+  border-color: #9CCC65;
 }
+
 .ui-fluid .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-handle {
-	background-color: #7CB342;
-	color: #ffffff;
+  background-color: #7CB342;
+  color: #ffffff;
 }
+
 .card-title-icon {
-	position: relative;
-	top: 3px;
-	margin-right: 10px;
+  position: relative;
+  top: 3px;
+  margin-right: 10px;
 }
+
 .ui-datatable .table-icon, 
 .ui-treetable .table-icon {
-	position: relative;
-	top: 3px;
-	font-size: 17px;
-	margin-right: 5px;
+  position: relative;
+  top: 3px;
+  font-size: 17px;
+  margin-right: 5px;
 }
 
-.table-icon-right{
-	float: right;
-	font-size: 24px;
-	margin-right: 10px;
-	margin-top: 3px;
+.table-icon-right {
+  float: right;
+  font-size: 24px;
+  margin-right: 10px;
+  margin-top: 3px;
 }
 
-.ui-datatable .table-control-btn,
+.ui-datatable .table-control-btn, 
 .ui-treetable .table-control-btn {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .floatTableColumn .ui-grid-row {
-	display: block;
+  display: block;
 }
-.floatTableColumn .ui-grid-row > div{
-	float: left;
+
+.floatTableColumn .ui-grid-row>div {
+  float: left;
 }
+
 .ui-dialog-content .modal-input-form .ui-panelgrid-cell {
-	padding-left: 0;
-	padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
+
 .ui-dialog-content .modal-input-button {
-	width: 100px;
-	margin-right: 5px;
-    float: right;
+  width: 100px;
+  margin-right: 5px;
+  float: right;
 }
-.ui-datatable a,
+
+.ui-datatable a, 
 .ui-tree a {
-	color: inherit;
+  color: inherit;
 }

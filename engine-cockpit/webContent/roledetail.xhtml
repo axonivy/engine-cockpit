@@ -1,102 +1,114 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:ic="http://ivyteam.ch/jsf/component"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:pm="http://primefaces.org/mobile">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile">
 <h:body>
-	<f:metadata>
-		<f:viewParam name="roleName" value="#{roleDetailBean.roleName}"></f:viewParam>
-	</f:metadata>
+  <f:metadata>
+    <f:viewParam name="roleName" value="#{roleDetailBean.roleName}"></f:viewParam>
+  </f:metadata>
 
-	<ui:composition template="/template/template.xhtml">
-		<ui:define name="title">Role Detail</ui:define>
-		
-		<ui:define name="breadcrumb">
-	        <li>Security</li>
-	        <li>/</li>
-	        <li><a href="roles.xhtml">Role</a></li>
-	        <li>/</li>
-	        <li><a href="roledetail.xhtml?roleName=#{roleDetailBean.roleName}">#{roleDetailBean.roleName}</a></li>
-	    </ui:define>
-		
-		<ui:define name="content">
-			<div class="ui-fluid role-detail">
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Role Detail</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li>Security</li>
+      <li>/</li>
+      <li><a href="roles.xhtml">Role</a></li>
+      <li>/</li>
+      <li><a href="roledetail.xhtml?roleName=#{roleDetailBean.roleName}">#{roleDetailBean.roleName}</a></li>
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="ui-fluid role-detail">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
+            <p:panel header="Information">
+              <h:form id="roleInformationForm">
+                <p:growl for="informationSaveSuccess" autoUpdate="true" />
+                <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}"
+                  title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
+                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                  <h:panelGroup styleClass="md-inputfield">
+                    <p:inputText disabled="true" value="#{roleDetailBean.role.name}" />
+                    <label>Name</label>
+                  </h:panelGroup>
+                  <h:panelGroup styleClass="md-inputfield">
+                    <p:inputText value="#{roleDetailBean.role.displayName}" />
+                    <label>Display Name</label>
+                  </h:panelGroup>
+                  <h:panelGroup styleClass="md-inputfield">
+                    <p:inputText value="#{roleDetailBean.role.description}" />
+                    <label>Description</label>
+                  </h:panelGroup>
+                  <h:panelGroup styleClass="md-inputfield">
+                    <p:inputText value="#{roleDetailBean.role.externalName}" />
+                    <label>External Security Name</label>
+                  </h:panelGroup>
+                </p:panelGrid>
+              </h:form>
+            </p:panel>
+          </div>
+
+          <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
+            <p:panel header="Users" styleClass="max-height-700">
+              <h:form id="usersOfRoleForm">
+                <!-- TODO: bug on serach and add/remove, form not correctly updated -->
+                <p:growl for="usersMessage" autoUpdate="true" />
                 <div class="ui-g">
-	                <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
-		                <p:panel header="Information">
-		                	<h:form id="roleInformationForm">
-		                		<p:growl for="informationSaveSuccess" autoUpdate="true"/>
-			                	<p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
-			                	<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
-			                        <h:panelGroup styleClass="md-inputfield">
-			                            <p:inputText disabled="true" value="#{roleDetailBean.role.name}"/>
-			                            <label>Name</label>
-			                        </h:panelGroup>
-			                        <h:panelGroup styleClass="md-inputfield">
-			                            <p:inputText value="#{roleDetailBean.role.displayName}"/>
-			                            <label>Display Name</label>
-			                        </h:panelGroup>
-			                        <h:panelGroup styleClass="md-inputfield">
-			                            <p:inputText value="#{roleDetailBean.role.description}"/>
-			                            <label>Description</label>
-			                        </h:panelGroup>
-			                        <h:panelGroup styleClass="md-inputfield">
-			                            <p:inputText value="#{roleDetailBean.role.externalName}"/>
-			                            <label>External Security Name</label>
-			                        </h:panelGroup>
-		                    	</p:panelGrid>
-	                    	</h:form>
-		                </p:panel>
-		            </div>
-		            
-		            <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
-		                <p:panel header="Users" styleClass="max-height-700">
-		                	<h:form id="usersOfRoleForm">
-		                		<!-- TODO: bug on serach and add/remove, form not correctly updated -->
-		                		<p:growl for="usersMessage" autoUpdate="true"/>
-		                		<div class="ui-g">
-			                		<div class="ui-g-6">
-					                	<p:dataTable value="#{userBean.users}" widgetVar="allUsersTable" var="user" filteredValue="#{userBean.filteredUsers}" lazy="false">
-					                		<f:facet name="header">
-									            <p:outputPanel>
-									            	<p:outputLabel styleClass="table-search-icon"><i class="material-icons">search</i></p:outputLabel>
-									                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('allUsersTable').filter()" placeholder="Search"/>
-									            </p:outputPanel>
-									        </f:facet>
-									        <p:column headerText="All Users" sortBy="#{user.name}" rendered="#{roleDetailBean.isUserMemberOfRole(user.name)}" filterBy="#{user.name}">
-									            <h:outputText value="#{user.name}">
-									            	<i class="material-icons table-icon">person</i>
-									            	<p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser(user.name)}" icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
-									            </h:outputText>
-									        </p:column>
-									    </p:dataTable>
-								    </div>
-								    <div class="ui-g-6">
-									    <p:dataTable value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user" filteredValue="#{roleDetailBean.filteredUsers}" lazy="false">
-									    	<f:facet name="header">
-									            <p:outputPanel>
-									            	<p:outputLabel styleClass="table-search-icon"><i class="material-icons">search</i></p:outputLabel>
-									                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search"/>
-									            </p:outputPanel>
-									        </f:facet>
-									    	<p:column headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
-									    		<h:outputText value="#{user.name}">
-									    			<i class="material-icons table-icon">person</i>
-									    			<p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>
-									    		</h:outputText>
-									    	</p:column>
-									    </p:dataTable>
-								    </div>
-							    </div>
-						    </h:form>
-		                </p:panel>
-		            </div>
+                  <div class="ui-g-6">
+                    <p:dataTable value="#{userBean.users}" widgetVar="allUsersTable" var="user"
+                      filteredValue="#{userBean.filteredUsers}" lazy="false">
+                      <f:facet name="header">
+                        <p:outputPanel>
+                          <p:outputLabel styleClass="table-search-icon">
+                            <i class="material-icons">search</i>
+                          </p:outputLabel>
+                          <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                            onkeyup="PF('allUsersTable').filter()" placeholder="Search" />
+                        </p:outputPanel>
+                      </f:facet>
+                      <p:column headerText="All Users" sortBy="#{user.name}"
+                        rendered="#{roleDetailBean.isUserMemberOfRole(user.name)}" filterBy="#{user.name}">
+                        <h:outputText value="#{user.name}">
+                          <i class="material-icons table-icon">person</i>
+                          <p:commandButton update="usersOfRoleForm"
+                            actionListener="#{roleDetailBean.addUser(user.name)}" icon="ui-icon-add" title="Add"
+                            styleClass="card-button table-control-btn primary-btn"
+                            disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}" />
+                        </h:outputText>
+                      </p:column>
+                    </p:dataTable>
+                  </div>
+                  <div class="ui-g-6">
+                    <p:dataTable value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
+                      filteredValue="#{roleDetailBean.filteredUsers}" lazy="false">
+                      <f:facet name="header">
+                        <p:outputPanel>
+                          <p:outputLabel styleClass="table-search-icon">
+                            <i class="material-icons">search</i>
+                          </p:outputLabel>
+                          <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                            onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
+                        </p:outputPanel>
+                      </f:facet>
+                      <p:column headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
+                        <h:outputText value="#{user.name}">
+                          <i class="material-icons table-icon">person</i>
+                          <p:commandButton update="usersOfRoleForm"
+                            actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove"
+                            title="Remove" styleClass="card-button table-control-btn secondary-btn"
+                            disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}" />
+                        </h:outputText>
+                      </p:column>
+                    </p:dataTable>
+                  </div>
                 </div>
-            </div>
-		</ui:define>
-	</ui:composition>
+              </h:form>
+            </p:panel>
+          </div>
+        </div>
+      </div>
+    </ui:define>
+  </ui:composition>
 </h:body>
 </html>

@@ -1,68 +1,67 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:ic="http://ivyteam.ch/jsf/component"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:pm="http://primefaces.org/mobile">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile">
 <h:body>
-	<ui:composition template="/template/template.xhtml">
-		<ui:define name="title">Roles</ui:define>
-		
-		<ui:define name="breadcrumb">
-	        <li>Security</li>
-	        <li>/</li>
-	        <li><a href="roles.xhtml">Roles</a></li>
-	    </ui:define>
-		
-		<ui:define name="content">
-			<div class="ui-fluid roles">
-                <div class="ui-g">
-                    <div class="ui-g-12">
-                    	<h:form id="form">
-	                        <p:growl id="msgs" />
-	                    	<p:tabView styleClass="card card-w-title tab-view-card" value="#{applicationBean.applications}" activeIndex="#{applicationBean.selectedApplicationIndex}" var="app">
-						        <p:ajax event="tabChange" listener="#{applicationBean.updateSelectedApplication}"/>
-						        <p:ajax event="tabChange" listener="#{roleBean.reloadRoles}" update="@form"/>
-						        <p:tab title="#{app.name}">
-							        <div class="ui-g">
-				                    	<div class="ui-g-12 ui-md-12">
-						            		<h1><i class="material-icons card-title-icon">group</i>Roles</h1>
-						            	</div>
-						            </div>
-			                        <div class="ui-g">
-				                        <div class="ui-g-12 ui-lg-12" style="padding-bottom: 0;">
-				                        	<div class="ui-datatable-header ui-widget-header ui-corner-top">
-					                        	<div class="ui-outputpanel ui-widget">
-						                        	<label style="float: left;" class="ui-outputlabel ui-widget table-search-icon">
-						                        		<i class="material-icons">search</i>
-						                        	</label>
-						                        	<p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search" value="#{roleBean.filter}">
-						                        		<p:ajax event="keyup" delay="300" update=":form"/>
-						                        	</p:inputText>
-					                        	</div>
-				                        	</div>
-				                        </div>
-				                        <div class="ui-g-12 ui-lg-12" style="padding-top:0;">
-				                        	<h:form id="treeForm">
-						                        <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles}" var="role">
-											        <p:treeNode icon="ui-icon-group">
-											            <a href="roledetail.xhtml?roleName=#{role.name}">
-											            	<h:outputText value="#{role.name}" />
-											            </a>
-											        </p:treeNode>
-											    </p:tree>
-								    		</h:form>
-				                        </div>
-			                        </div>
-						        </p:tab>
-						    </p:tabView>
-                        </h:form>
-                	</div>
-                </div>
-            </div>
-		</ui:define>
-	</ui:composition>
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Roles</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li>Security</li>
+      <li>/</li>
+      <li><a href="roles.xhtml">Roles</a></li>
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="ui-fluid roles">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <h:form id="form">
+              <p:growl id="msgs" />
+              <p:tabView styleClass="card card-w-title tab-view-card" value="#{applicationBean.applications}"
+                activeIndex="#{applicationBean.selectedApplicationIndex}" var="app">
+                <p:ajax event="tabChange" listener="#{applicationBean.updateSelectedApplication}" />
+                <p:ajax event="tabChange" listener="#{roleBean.reloadRoles}" update="@form" />
+                <p:tab title="#{app.name}">
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-md-12">
+                      <h1>
+                        <i class="material-icons card-title-icon">group</i>Roles
+                      </h1>
+                    </div>
+                  </div>
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-12" style="padding-bottom: 0;">
+                      <div class="ui-datatable-header ui-widget-header ui-corner-top">
+                        <div class="ui-outputpanel ui-widget">
+                          <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i
+                            class="material-icons">search</i>
+                          </label>
+                          <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
+                            value="#{roleBean.filter}">
+                            <p:ajax event="keyup" delay="300" update=":form" />
+                          </p:inputText>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
+                      <h:form id="treeForm">
+                        <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles}" var="role">
+                          <p:treeNode icon="ui-icon-group">
+                            <a href="roledetail.xhtml?roleName=#{role.name}"> <h:outputText value="#{role.name}" />
+                            </a>
+                          </p:treeNode>
+                        </p:tree>
+                      </h:form>
+                    </div>
+                  </div>
+                </p:tab>
+              </p:tabView>
+            </h:form>
+          </div>
+        </div>
+      </div>
+    </ui:define>
+  </ui:composition>
 </h:body>
 </html>
