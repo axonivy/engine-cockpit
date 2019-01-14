@@ -133,6 +133,13 @@
 	margin-right: 5px;
 }
 
+.table-icon-right{
+	float: right;
+	font-size: 24px;
+	margin-right: 10px;
+	margin-top: 3px;
+}
+
 .ui-datatable .table-control-btn,
 .ui-treetable .table-control-btn {
 	margin-top: 0;

@@ -66,7 +66,7 @@
 									                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('allUsersTable').filter()" placeholder="Search"/>
 									            </p:outputPanel>
 									        </f:facet>
-									        <p:column headerText="All Users" sortBy="#{user.name}" rendered="#{roleDetailBean.userMemberOfRole(user.name)}" filterBy="#{user.name}">
+									        <p:column headerText="All Users" sortBy="#{user.name}" rendered="#{roleDetailBean.isUserMemberOfRole(user.name)}" filterBy="#{user.name}">
 									            <h:outputText value="#{user.name}">
 									            	<i class="material-icons table-icon">person</i>
 									            	<p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser(user.name)}" icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}"/>

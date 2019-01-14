@@ -70,7 +70,7 @@ public class RoleDetailBean {
     	return usersOfRole;
     }
 
-    public boolean userMemberOfRole(String userName) {
+    public boolean isUserMemberOfRole(String userName) {
     	return !usersOfRole.stream().filter(u -> u.getName().equals(userName)).findAny().isPresent();
     }
     

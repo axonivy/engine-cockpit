@@ -125,8 +125,16 @@ public class UserDetailBean {
         FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", new FacesMessage("User email changes saved"));
 	}
 	
-	public List<Role> getRolesOfUser() {
-		return getIUser().getRoles().stream().map(r -> new Role(r)).collect(Collectors.toList());
+	public boolean isUserMemberOfAllRole(String roleName) {
+		return getIUser().getAllRoles().stream()
+				.filter(r -> r.getName().equals(roleName))
+				.findAny().isPresent();
+	}
+	
+	public boolean isUserMemberOfRole(String roleName) {
+		return getIUser().getRoles().stream()
+				.filter(r -> r.getName().equals(roleName))
+				.findAny().isPresent();
 	}
 	
 	public void removeRole(String roleName) {
