@@ -11,14 +11,11 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.model.Permission;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IPermission;
 import ch.ivyteam.ivy.security.IPermissionAccess;
 import ch.ivyteam.ivy.security.IPermissionGroup;
 import ch.ivyteam.ivy.security.IPermissionGroupAccess;
-import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityDescriptor;
-import ch.ivyteam.ivy.security.ISecurityDescriptorType;
 import ch.ivyteam.ivy.security.ISecurityMember;
 import ch.ivyteam.ivy.security.IUser;
 

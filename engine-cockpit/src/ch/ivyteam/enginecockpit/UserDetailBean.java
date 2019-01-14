@@ -14,7 +14,6 @@ import ch.ivyteam.enginecockpit.model.EmailSettings;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.IUserEMailNotificationSettings;

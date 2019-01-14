@@ -50,20 +50,6 @@
 		                    	</p:panelGrid>
 	                    	</h:form>
 		                </p:panel>
-	                
-		                <p:dialog style="min-width: 300px;" header="Add new child role for #{roleDetailBean.roleName}" widgetVar="newChildRoleModal" modal="true" responsive="true" closeOnEscape="true">
-                        	<h:form id="newChildRoleForm">
-	                        	<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-			                        <h:panelGroup styleClass="md-inputfield">
-			                            <p:inputText id="newChildRoleNameInput" requiredMessage="Value is required" value="#{roleDetailBean.newChildRoleName}" required="true"/>
-			                            <label>Name</label>
-			                            <p:message for="newChildRoleNameInput" id="newRoleNameMessage" />
-			                        </h:panelGroup>
-		                    	</p:panelGrid>
-		                    	<p:commandButton id="saveNewRole" validateClient="true" actionListener="#{roleDetailBean.createNewChildRole}" ajax="false" update="@form" value="Save" icon="ui-icon-save" styleClass="primary-btn modal-input-button" />
-			                	<p:commandButton id="cancelNewRole" onclick="PF('newChildRoleModal').hide();" value="Cancel" type="button" icon="ui-icon-clear" styleClass="secondary-btn modal-input-button"/>
-                        	</h:form>
-                        </p:dialog>
 		            </div>
 		            
 		            <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
