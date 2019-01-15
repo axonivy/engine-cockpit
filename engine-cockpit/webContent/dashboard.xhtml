@@ -1,39 +1,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="/template/template.xhtml">
     <ui:define name="title">Engine Cockpit</ui:define>
     <ui:define name="content">
       <div class="ui-g dashboard">
-        <ui:include src="components/dashboard/overviewbox.xhtml">
-          <ui:param name="box" value="4"/>
-          <ui:param name="icon" value="person_pin_circle"/>
-          <ui:param name="title" value="Sessions"/>
-          <ui:param name="count" value="#{applicationBean.sessionCount}"/>
-        </ui:include>
-        
-        <ui:include src="components/dashboard/overviewbox.xhtml">
-          <ui:param name="box" value="2"/>
-          <ui:param name="icon" value="people"/>
-          <ui:param name="title" value="Users"/>
-          <ui:param name="count" value="5"/>
-        </ui:include>
-        
-        <ui:include src="components/dashboard/overviewbox.xhtml">
-          <ui:param name="box" value="3"/>
-          <ui:param name="icon" value="storage"/>
-          <ui:param name="title" value="Working Tasks"/>
-          <ui:param name="count" value="128"/>
-        </ui:include>
-        
-        <ui:include src="components/dashboard/overviewbox.xhtml">
-          <ui:param name="box" value="1"/>
-          <ui:param name="icon" value="apps"/>
-          <ui:param name="title" value="Applications"/>
-          <ui:param name="count" value="#{applicationBean.applicationCount}"/>
-        </ui:include>
+        <cc:OverviewBox box="4" count="#{applicationBean.sessionCount}" icon="person_pin_circle" title="Sessions"/>
+        <cc:OverviewBox box="2" count="5" icon="people" title="Users"/>
+        <cc:OverviewBox box="3" count="128" icon="storage" title="Working Tasks"/>
+        <cc:OverviewBox box="1" count="#{applicationBean.applicationCount}" icon="apps" title="Applications"/>
         
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid">
           <p:panel header="Axon.ivy">
