@@ -7,152 +7,61 @@
     <ui:define name="title">Engine Cockpit</ui:define>
     <ui:define name="content">
       <div class="ui-g dashboard">
-        <div class="ui-g-12 ui-md-3">
-          <div class="overview-box overview-box-4">
-            <div class="overview-box-header"></div>
-            <div class="overview-box-content">
-              <div class="overview-box-icon">
-                <i class="material-icons">person_pin_circle</i>
-              </div>
-              <div class="overview-box-title">Sessions</div>
-              <div class="overview-box-count">#{applicationBean.sessionCount}</div>
-            </div>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-3">
-          <div class="overview-box overview-box-2">
-            <div class="overview-box-header"></div>
-            <div class="overview-box-content">
-              <div class="overview-box-icon">
-                <i class="material-icons">people</i>
-              </div>
-              <div class="overview-box-title">Users</div>
-              <div class="overview-box-count">5</div>
-            </div>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-3">
-          <div class="overview-box overview-box-3">
-            <div class="overview-box-header"></div>
-            <div class="overview-box-content">
-              <div class="overview-box-icon">
-                <i class="fa fa-tasks" style="font-size: 24px;"></i>
-              </div>
-              <div class="overview-box-title">Working Tasks</div>
-              <div class="overview-box-count">128</div>
-            </div>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-3">
-          <div class="overview-box overview-box-1">
-            <div class="overview-box-header"></div>
-            <div class="overview-box-content">
-              <div class="overview-box-icon">
-                <i class="material-icons">apps</i>
-              </div>
-              <div class="overview-box-title">Applications</div>
-              <div class="overview-box-count">#{applicationBean.applicationCount}</div>
-            </div>
-          </div>
-        </div>
+        <ui:include src="components/dashboard/overviewbox.xhtml">
+          <ui:param name="box" value="4"/>
+          <ui:param name="icon" value="person_pin_circle"/>
+          <ui:param name="title" value="Sessions"/>
+          <ui:param name="count" value="#{applicationBean.sessionCount}"/>
+        </ui:include>
+        
+        <ui:include src="components/dashboard/overviewbox.xhtml">
+          <ui:param name="box" value="2"/>
+          <ui:param name="icon" value="people"/>
+          <ui:param name="title" value="Users"/>
+          <ui:param name="count" value="5"/>
+        </ui:include>
+        
+        <ui:include src="components/dashboard/overviewbox.xhtml">
+          <ui:param name="box" value="3"/>
+          <ui:param name="icon" value="storage"/>
+          <ui:param name="title" value="Working Tasks"/>
+          <ui:param name="count" value="128"/>
+        </ui:include>
+        
+        <ui:include src="components/dashboard/overviewbox.xhtml">
+          <ui:param name="box" value="1"/>
+          <ui:param name="icon" value="apps"/>
+          <ui:param name="title" value="Applications"/>
+          <ui:param name="count" value="#{applicationBean.applicationCount}"/>
+        </ui:include>
+        
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid">
           <p:panel header="Axon.ivy">
-            <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid"
-              styleClass="ui-panelgrid-blank">
-              <p:outputLabel value="Product" />
-              <p:outputLabel value="#{advisorBean.applicationName}" />
-              <p:outputLabel value="Version" />
-              <p:outputLabel value="#{advisorBean.version}" />
-              <p:outputLabel value="Build" />
-              <p:outputLabel value="#{advisorBean.buildDate}" />
-              <p:outputLabel value="Copyright" />
-              <h:panelGroup>
-                <p:outputLabel escape="false" value="#{advisorBean.copyright}" />
-                <a href='https://www.axonivy.com'>AXON Ivy AG</a>
-              </h:panelGroup>
-            </p:panelGrid>
+            <ui:include src="components/dashboard/axonivy.xhtml"/>
           </p:panel>
         </div>
 
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid">
           <p:panel header="Licence">
-            <p:commandButton id="tasksButtonLicenceDetail" onclick="PF('licenceDetailDialog').show();"
-              title="Licence Details" type="button" icon="ui-icon-info" styleClass="secondary-btn card-button" />
-            <p:commandButton id="tasksButtonLicence" title="Configure Licence" type="button" icon="ui-icon-settings"
-              styleClass="secondary-btn card-button" />
-            <p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
-              layout="grid" styleClass="ui-panelgrid-blank">
-              <p:outputLabel value="Owner" />
-              <p:outputLabel value="#{licenceBean.organisation}" />
-              <p:outputLabel value="Licence Type" />
-              <p:outputLabel value="#{licenceBean.licenceType}" />
-              <p:outputLabel value="Expries" />
-              <p:outputLabel value="#{licenceBean.expiryDate}" />
-            </p:panelGrid>
-            <p:panelGrid rendered="#{licenceBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
-              styleClass="ui-panelgrid-blank">
-              <p:outputLabel value="No licence installed. Please upload a valid licence." />
-              <p:button href="#" disabled="true" value="Upload Licence" icon="ui-icon-cloud-upload" />
-            </p:panelGrid>
+            <ui:include src="components/dashboard/licence.xhtml"/>
           </p:panel>
         </div>
-        <p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true"
-          closeOnEscape="true">
-          <h:form id="licenceInfoForm">
-            <p:panelGrid id="detailsList">
-              <ui:repeat var="property" value="#{licenceBean.licenceProperties.entrySet().toArray()}">
-                <p:row>
-                  <p:column>
-                    <h:outputText value="#{property.key}" />
-                  </p:column>
-                  <p:column>
-                    <h:outputText value="#{property.value eq '0' or '' ? 'Unlimited' : property.value}" />
-                  </p:column>
-                </p:row>
-              </ui:repeat>
-            </p:panelGrid>
-          </h:form>
-        </p:dialog>
 
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid email">
           <p:panel header="Email">
-            <p:commandButton id="tasksButtonEmail" title="Send Test Mail" type="button" icon="ui-icon-send"
-              styleClass="secondary-btn card-button" />
-            <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid"
-              styleClass="ui-panelgrid-blank">
-              <p:outputLabel value="Server" />
-              <p:outputLabel value="localhost" />
-              <p:outputLabel value="User" />
-              <p:outputLabel value="guest" />
-              <p:outputLabel value="Daily Time" />
-              <p:outputLabel value="12:30" />
-            </p:panelGrid>
+            <ui:include src="components/dashboard/email.xhtml"/>
           </p:panel>
         </div>
+        
         <div class="ui-g-12 ui-md-6 ui-lg-7 dashboard-card ui-panelgrid">
           <p:panel header="System Database">
-            <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid"
-              styleClass="ui-panelgrid-blank">
-              <p:outputLabel value="System DB URL" />
-              <p:outputLabel value="HSQL Db Memory" />
-              <p:outputLabel value="DB Product" />
-              <p:outputLabel value="Hypersonic SQL Db" />
-              <p:outputLabel value="DB Version" />
-              <p:outputLabel value="5.7.24-0ubuntu0.18.10.1" />
-            </p:panelGrid>
+            <ui:include src="components/dashboard/systemdatabase.xhtml"/>
           </p:panel>
         </div>
+        
         <div class="ui-g-12 ui-md-6 ui-lg-5 dashboard-card ui-panelgrid">
           <p:panel header="Java">
-            <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid"
-              styleClass="ui-panelgrid-blank">
-              <p:outputLabel value="Product" />
-              <p:outputLabel value="#{javaBean.name}" />
-              <p:outputLabel value="Version" />
-              <p:outputLabel value="#{javaBean.version}" />
-              <p:outputLabel value="Vendor" />
-              <p:outputLabel value="#{javaBean.vendor}" />
-            </p:panelGrid>
+            <ui:include src="components/dashboard/java.xhtml"/>
           </p:panel>
         </div>
       </div>

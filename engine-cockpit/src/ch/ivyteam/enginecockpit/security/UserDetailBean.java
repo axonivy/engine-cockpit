@@ -14,7 +14,6 @@ import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.model.EmailSettings;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.IUserEMailNotificationSettings;
@@ -72,7 +71,6 @@ public class UserDetailBean
 
   public void saveUserInfos()
   {
-    Ivy.log().info("save user");
     IUser iUser = getIUser();
     iUser.setEMailAddress(user.getEmail());
     iUser.setFullName(user.getFullName());

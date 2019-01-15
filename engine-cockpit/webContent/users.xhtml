@@ -31,37 +31,7 @@
             </div>
             <div class="ui-g">
               <div class="ui-g-12 ui-lg-12">
-                <h:form id="tableForm">
-                  <p:dataTable var="user" value="#{userBean.users}" widgetVar="usersTable_#{app.id}"
-                    filteredValue="#{userBean.filteredUsers}" lazy="false">
-                    <f:facet name="header">
-                      <p:outputPanel>
-                        <p:outputLabel styleClass="table-search-icon">
-                          <i class="material-icons">search</i>
-                        </p:outputLabel>
-                        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                          onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" />
-                      </p:outputPanel>
-                    </f:facet>
-                    <p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}">
-                      <a href="userdetail.xhtml?userName=#{user.name}"> <h:outputText value="#{user.name}">
-                          <i class="material-icons table-icon">person</i>
-                        </h:outputText>
-                      </a>
-                    </p:column>
-                    <p:column headerText="Full Name" sortBy="#{user.fullName}" filterBy="#{user.fullName}">
-                      <h:outputText value="#{user.fullName}" />
-                    </p:column>
-                    <p:column headerText="Email" sortBy="#{user.email}" filterBy="#{user.email}">
-                      <h:outputText value="#{user.email}" />
-                    </p:column>
-                    <p:column headerText="Logged in">
-                      <h:outputText>
-                        <i class="material-icons">#{user.loggedIn ? 'done' : 'clear'}</i>
-                      </h:outputText>
-                    </p:column>
-                  </p:dataTable>
-                </h:form>
+                <ui:include src="components/security/users-table.xhtml"/>
               </div>
             </div>
           </cc:ApplicationTabs>
