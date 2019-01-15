@@ -34,7 +34,7 @@
               </p:column>
               <p:column headerText="Synchronize" style="text-align: center;">
                 <p:commandButton update="@form" actionListener="#{securityBean.triggerSynchronization(system.appName)}"
-                  icon="fa fa-refresh #{securityBean.syncRunning(system.id) ? 'fa-spin' : ''}" />
+                  icon="fa fa-refresh #{securityBean.syncRunning(system.id) ? 'fa-spin' : ''} spin-icon" />
               </p:column>
             </p:dataTable>
           </h:form>

@@ -25,7 +25,7 @@ public class ApplicationBean
   private int selectedApplicationIndex;
 
   @Inject
-  IApplicationConfigurationManager manager;
+  private IApplicationConfigurationManager manager;
 
   public ApplicationBean()
   {
@@ -63,6 +63,10 @@ public class ApplicationBean
         setSelectedApplicationIndex(applications.indexOf(app));
       }
     }
+  }
+  
+  public IApplicationConfigurationManager getManager() {
+    return manager;
   }
 
   public Application getSelectedApplication()
@@ -111,5 +115,15 @@ public class ApplicationBean
     return manager.getLanguages().stream()
             .map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
             .collect(Collectors.toList());
+  }
+  
+  public boolean isIvySecuritySystem() 
+  {
+    //TODO: remove
+    if (getSelectedIApplication() == null) 
+    {
+      return true;
+    }
+    return getSelectedIApplication().getSecurityContext().getExternalSecuritySystemProvider().getProviderName().equals("ivy Security System");
   }
 }

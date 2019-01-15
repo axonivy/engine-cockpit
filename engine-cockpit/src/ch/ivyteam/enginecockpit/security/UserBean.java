@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.SessionInfo;

@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
@@ -36,7 +37,7 @@ public class SecurityBean
 
   public void triggerSynchronization(String appName)
   {
-    applicationBean.manager.findApplication(appName).getSecurityContext().triggerSynchronization();
+    applicationBean.getManager().findApplication(appName).getSecurityContext().triggerSynchronization();
   }
 
   public boolean syncRunning(long securityContextId)

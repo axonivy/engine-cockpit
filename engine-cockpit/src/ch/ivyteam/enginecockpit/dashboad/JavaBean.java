@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.dashboad;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;

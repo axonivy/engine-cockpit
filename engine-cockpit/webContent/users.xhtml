@@ -25,7 +25,7 @@
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
-                <p:commandButton id="newUserBtn" value="New" icon="ui-icon-add" type="button"
+                <p:commandButton id="newUserBtn" disabled="#{applicationBean.ivySecuritySystem ? 'false' : 'true'}" value="New" icon="ui-icon-add" type="button"
                   onclick="PF('newUserModal').show();" />
               </div>
             </div>
@@ -67,42 +67,7 @@
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>
-      <p:dialog style="min-width: 300px;" header="Add new user" widgetVar="newUserModal" modal="true" responsive="true"
-        closeOnEscape="true">
-        <h:form id="newUserForm">
-          <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-            <h:panelGroup styleClass="md-inputfield">
-              <p:inputText id="newUserNameInput" requiredMessage="Value is required" value="#{userDetailBean.user.name}"
-                required="true" />
-              <label>Name</label>
-              <p:message for="newUserNameInput" id="newUserNameMessage" />
-            </h:panelGroup>
-            <h:panelGroup styleClass="md-inputfield">
-              <p:inputText value="#{userDetailBean.user.fullName}" />
-              <label>Full Name</label>
-            </h:panelGroup>
-            <h:panelGroup styleClass="md-inputfield">
-              <p:inputText value="#{userDetailBean.user.email}" />
-              <label>E-Mail Address</label>
-            </h:panelGroup>
-            <h:panelGroup styleClass="md-inputfield">
-              <p:password id="password1" widgetVar="password1" validatorMessage="Password didn't match"
-                match="password2" value="#{userDetailBean.user.password}" feedback="true" inline="true" />
-              <label>Password</label>
-            </h:panelGroup>
-            <h:panelGroup styleClass="md-inputfield">
-              <p:password id="password2" widgetVar="password2" value="#{userDetailBean.user.password}" feedback="true"
-                inline="true" />
-              <label>Confirm Password</label>
-            </h:panelGroup>
-          </p:panelGrid>
-          <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update=":form"
-            actionListener="#{userDetailBean.creatNewUser}" value="Save" icon="ui-icon-save"
-            styleClass="primary-btn modal-input-button" />
-          <p:commandButton id="cancelNewUser" onclick="PF('newUserModal').hide();" value="Cancel" type="button"
-            icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-        </h:form>
-      </p:dialog>
+      <ui:include src="dialogs/newuser.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>

@@ -166,6 +166,9 @@
 .ui-treetable .table-control-btn {
   margin-top: 0;
 }
+.card .spin-icon {
+  font-size: 19px;
+}
 
 .floatTableColumn .ui-grid-row {
   display: block;
