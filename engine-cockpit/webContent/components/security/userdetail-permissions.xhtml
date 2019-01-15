@@ -6,6 +6,15 @@
 
 <h:form id="permissionsOfUserForm">
   <p:growl for="permissionMessage" autoUpdate="true" />
+  <div class="ui-datatable-header ui-widget-header ui-corner-top" style="border-bottom: 0 none;">
+    <div class="ui-outputpanel ui-widget">
+      <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i class="material-icons">search</i>
+      </label>
+      <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search" value="#{permissionBean.filter}">
+        <p:ajax event="keyup" delay="300" update="@form" />
+      </p:inputText>
+    </div>
+  </div>
   <p:treeTable value="#{permissionBean.permissions}" var="permission">
     <p:column headerText="All Permissions">
       <h:outputText value="#{permission.name}">

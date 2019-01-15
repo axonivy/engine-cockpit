@@ -24,7 +24,9 @@ import ch.ivyteam.ivy.security.IUser;
 @ViewScoped
 public class PermissionBean
 {
-  private DefaultTreeNode rootTreeNode;
+  private TreeNode rootTreeNode;
+  private TreeNode filteredRootTreeNode;
+  private String filter = "";
   private String member;
 
   private ApplicationBean applicationBean;
@@ -44,24 +46,35 @@ public class PermissionBean
   public void setMember(String member)
   {
     this.member = member;
+    reloadPermissions();
   }
 
   public TreeNode getPermissions()
   {
+    if (filter.isEmpty())
+    {
+      return rootTreeNode;
+    }
+    return filteredRootTreeNode;
+  }
+
+  public void reloadPermissions()
+  {
+    filter = "";
     rootTreeNode = new DefaultTreeNode("Permissions", null);
     IUser user = applicationBean.getSelectedIApplication().getSecurityContext().findUser(member);
     ISecurityDescriptor securityDescriptor = applicationBean.getSelectedIApplication()
             .getSecurityDescriptor();
     IPermissionGroup rootPermissionGroup = securityDescriptor.getSecurityDescriptorType()
             .getRootPermissionGroup();
-    TreeNode rootNode = new DefaultTreeNode(
+    TreeNode node = new DefaultTreeNode(
             new Permission(rootPermissionGroup.getName(), rootPermissionGroup.getId(), true), rootTreeNode);
+    node.setExpanded(true);
 
-    loadChildrenPermissions(rootNode, securityDescriptor, rootPermissionGroup, user);
-
-    return rootTreeNode;
+    loadChildrenPermissions(node, securityDescriptor, rootPermissionGroup, user);
   }
 
+  @SuppressWarnings("unused")
   private void loadChildrenPermissions(TreeNode node, ISecurityDescriptor securityDescriptor,
           IPermissionGroup permissionGroup, ISecurityMember securityMember)
   {
@@ -91,6 +104,32 @@ public class PermissionBean
         loadChildrenPermissions(childNode, securityDescriptor, childGroup, securityMember);
       }
     }
+  }
+  
+  @SuppressWarnings("unused")
+  private void filterRootTreeNode(List<TreeNode> nodes)
+  {
+    for (TreeNode node : nodes)
+    {
+      Permission permission = (Permission) node.getData();
+      if (permission.getName().toLowerCase().contains(filter.toLowerCase()))
+      {
+        new DefaultTreeNode(permission, filteredRootTreeNode);
+      }
+      filterRootTreeNode(node.getChildren());
+    }
+  }
+  
+  public String getFilter()
+  {
+    return filter;
+  }
+
+  public void setFilter(String filter)
+  {
+    this.filter = filter;
+    filteredRootTreeNode = new DefaultTreeNode("Filtered roles", null);
+    filterRootTreeNode(rootTreeNode.getChildren());
   }
 
   public List<IPermission> getPermissionsList()
