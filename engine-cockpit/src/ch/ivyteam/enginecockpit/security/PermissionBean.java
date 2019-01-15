@@ -67,8 +67,7 @@ public class PermissionBean
             .getSecurityDescriptor();
     IPermissionGroup rootPermissionGroup = securityDescriptor.getSecurityDescriptorType()
             .getRootPermissionGroup();
-    TreeNode node = new DefaultTreeNode(
-            new Permission(rootPermissionGroup.getName(), rootPermissionGroup.getId(), true), rootTreeNode);
+    TreeNode node = new DefaultTreeNode(new Permission(rootPermissionGroup), rootTreeNode);
     node.setExpanded(true);
 
     loadChildrenPermissions(node, securityDescriptor, rootPermissionGroup, user);
@@ -86,9 +85,7 @@ public class PermissionBean
 
       if (access.getPermission() != null)
       {
-        new DefaultTreeNode(
-                new Permission(access.getPermission().getName(), access.getPermission().getId(), false),
-                node);
+        new DefaultTreeNode(new Permission(access), node);
       }
     }
 
@@ -99,13 +96,12 @@ public class PermissionBean
 
       if (childGroupAccess.getPermissionGroup() != null)
       {
-        TreeNode childNode = new DefaultTreeNode(
-                new Permission(childGroup.getName(), childGroup.getId(), true), node);
+        TreeNode childNode = new DefaultTreeNode(new Permission(childGroup), node);
         loadChildrenPermissions(childNode, securityDescriptor, childGroup, securityMember);
       }
     }
   }
-  
+
   @SuppressWarnings("unused")
   private void filterRootTreeNode(List<TreeNode> nodes)
   {
@@ -119,7 +115,7 @@ public class PermissionBean
       filterRootTreeNode(node.getChildren());
     }
   }
-  
+
   public String getFilter()
   {
     return filter;

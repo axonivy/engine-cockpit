@@ -10,7 +10,8 @@
     <div class="ui-outputpanel ui-widget">
       <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i class="material-icons">search</i>
       </label>
-      <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search" value="#{permissionBean.filter}">
+      <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
+        value="#{permissionBean.filter}">
         <p:ajax event="keyup" delay="300" update="@form" />
       </p:inputText>
     </div>
@@ -19,9 +20,25 @@
     <p:column headerText="All Permissions">
       <h:outputText value="#{permission.name}">
         <i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
-        <p:commandButton icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" />
-        <p:commandButton icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" />
       </h:outputText>
+    </p:column>
+    <p:column style="width: 15px;">
+      <h:outputText rendered="#{permission.grant}">
+        <i class="fa fa-check table-icon"></i>
+      </h:outputText>
+      <h:outputText rendered="#{permission.deny}">
+        <i class="fa fa-minus table-icon"></i>
+      </h:outputText>
+    </p:column>
+    <p:column headerText="Grant" style="width: 55px;">
+      <p:inputSwitch id="grantPermission" value="#{permission.grant}" styleClass="card-button table-control-btn">
+        <p:ajax update="@form"/>
+      </p:inputSwitch>
+    </p:column>
+    <p:column headerText="Deny" style="width: 55px;">
+      <p:inputSwitch id="denyPermission" value="#{permission.deny}" styleClass="card-button table-control-btn">
+        <p:ajax update="@form"/>
+      </p:inputSwitch>
     </p:column>
   </p:treeTable>
 </h:form>
