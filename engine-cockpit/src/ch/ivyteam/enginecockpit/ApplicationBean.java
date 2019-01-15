@@ -16,83 +16,127 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.workflow.TaskState;
 
-@ManagedBean(name = "applicationBean")
+@ManagedBean
 @SessionScoped
-public class ApplicationBean {
+public class ApplicationBean
+{
+  private List<Application> applications;
+  private int selectedApplicationIndex;
 
-	private int selectedApplicationIndex;
-	private List<Application> applications;
-	
-	@Inject
-	IApplicationConfigurationManager manager;
-	
-	public ApplicationBean() {
-		DiCore.getGlobalInjector().injectMembers(this);
-		
-		applications = manager.getApplications().stream()
-				.map(app -> new Application(app))
-				.collect(Collectors.toList());
-		//TODO: remove
-		applications.add(new Application("test", 0));
-	}
-	
-	public List<Application> getApplications() {
-		return applications;
-	}
-	
-	public int getSelectedApplicationIndex() {
-		return selectedApplicationIndex;
-	}
-	
-	public void setSelectedApplicationIndex(int index) {
-		selectedApplicationIndex = index;
-	}
-	
-	public void updateSelectedApplication(TabChangeEvent event) {
-    	setSelectedApplicationIndex(0);
-    	for (Application app : applications) {
-    		if (app.getName().equals(event.getTab().getTitle())) {
-    			setSelectedApplicationIndex(applications.indexOf(app));
-    		}
-    	}
+  @Inject
+  private IApplicationConfigurationManager manager;
+
+  public ApplicationBean()
+  {
+    DiCore.getGlobalInjector().injectMembers(this);
+
+    applications = manager.getApplications().stream()
+            .map(app -> new Application(app))
+            .collect(Collectors.toList());
+    // TODO: remove
+    applications.add(new Application("test", 0));
+  }
+
+  public List<Application> getApplications()
+  {
+    return applications;
+  }
+
+  public int getSelectedApplicationIndex()
+  {
+    return selectedApplicationIndex;
+  }
+
+  public void setSelectedApplicationIndex(int index)
+  {
+    selectedApplicationIndex = index;
+  }
+
+  public void updateSelectedApplication(TabChangeEvent event)
+  {
+    setSelectedApplicationIndex(0);
+    for (Application app : applications)
+    {
+      if (app.getName().equals(event.getTab().getTitle()))
+      {
+        setSelectedApplicationIndex(applications.indexOf(app));
+      }
     }
-	
-	public Application getSelectedApplication() {
-    	return applications.get(selectedApplicationIndex);
+  }
+  
+  public IApplicationConfigurationManager getManager() {
+    return manager;
+  }
+
+  public Application getSelectedApplication()
+  {
+    return applications.get(selectedApplicationIndex);
+  }
+
+  public IApplication getSelectedIApplication()
+  {
+    // TODO: remove
+    if (getSelectedApplication().getId() == 0)
+    {
+      return null;
     }
-	
-	public IApplication getSelectedIApplication() {
-		//TODO: remove
-		if (getSelectedApplication().getId() == 0) {
-			return null;
-		}
-		return manager.getApplication(getSelectedApplication().getId());
-	}
-	
-	public IApplication getIApplication(long id) {
-		return manager.getApplication(id);
-	}
-	
-	public List<IApplication> getIApplicaitons() {
-		return manager.getApplications();
-	}
-	
-	public int getSessionCount() {
-		return manager.getApplications().get(0).getSecurityContext().getClusterSessionsSnapshot().getSessionInfos().size();
-	}
-	
-	public long getApplicationCount() {
-		return manager.countApplications();
-	}
-	
-	public Locale getDefaultEmailLanguageForSelectedApp() {
-		return getSelectedIApplication().getDefaultEMailLanguage();
-	}
-	
-	public List<SelectItem> getSupportedLanguages() {
-		return manager.getLanguages().stream()
-				.map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
-				.collect(Collectors.toList());
-	}
+    return manager.getApplication(getSelectedApplication().getId());
+  }
+
+  public IApplication getIApplication(long id)
+  {
+    return manager.getApplication(id);
+  }
+
+  public List<IApplication> getIApplicaitons()
+  {
+    return manager.getApplications();
+  }
+
+  public int getSessionCount()
+  {
+    return manager.getApplications().get(0).getSecurityContext().getClusterSessionsSnapshot()
+            .getSessionInfos().size();
+  }
+
+  public long getApplicationCount()
+  {
+    return manager.countApplications();
+  }
+  
+  public int getUsersCount()
+  {
+    return getIApplicaitons().stream().mapToInt(app -> app.getSecurityContext().getUsers().size()).sum();
+  }
+  
+  public long getTasksCount()
+  {
+    return Ivy.wf().getGlobalContext().getTaskQueryExecutor().createTaskQuery().where().state()
+            .isEqual(TaskState.SUSPENDED).executor().count();
+  }
+
+  public Locale getDefaultEmailLanguageForSelectedApp()
+  {
+    return getSelectedIApplication().getDefaultEMailLanguage();
+  }
+
+  public List<SelectItem> getSupportedLanguages()
+  {
+    return manager.getLanguages().stream()
+            .map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
+            .collect(Collectors.toList());
+  }
+  
+  public boolean isIvySecuritySystem() 
+  {
+    //TODO: remove
+    if (getSelectedIApplication() == null) 
+    {
+      return true;
+    }
+    return getSelectedIApplication().getSecurityContext().getExternalSecuritySystemProvider().getProviderName().equals("ivy Security System");
+  }
 }

@@ -1,74 +1,69 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:ic="http://ivyteam.ch/jsf/component"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:pm="http://primefaces.org/mobile">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-	<ui:composition template="/template/template.xhtml">
-		<ui:define name="title">Advanced Config</ui:define>
-		
-		<ui:define name="breadcrumb">
-	        <li><a href="advancedconfig.xhtml">Advanced Config</a></li>
-	    </ui:define>
-		
-		<ui:define name="content">
-			<div class="ui-fluid advancedConfig">
-                <div class="ui-g">
-                    <div class="ui-g-12">
-	                    <div class="card card-w-title">
-	                    	<div class="ui-g">
-		                    	<div class="ui-g-12 ui-lg-10">
-			                        <h1>
-			                        	<i class="material-icons card-title-icon">settings</i>Advanced Config
-			                        	<span style="float: right;">
-				                        	<p:inputSwitch disabled="true" id="hideDefaultValuesSwitch" value="true"/>
-											<p:tooltip for="hideDefaultValuesSwitch" value="Hide Default Values"/>
-										</span>
-			                        </h1>
-			                        
-		                    	</div>
-							</div>
-	                        <div class="ui-g">
-		                        <div class="ui-g-12 ui-lg-10">
-			                        <h:form id="form">
-			                        <p:growl id="msgs" showDetail="true" />
-				                        <p:dataTable var="config" value="#{advancedConfigBean.configs}" widgetVar="advancedConfigTable" selectionMode="single" 
-				                        		selection="#{advancedConfigBean.selectedConfig}" rowKey="#{config.key}" filteredValue="#{advancedConfigBean.filteredConfigs}">
-				                            <f:facet name="header">
-									            <p:outputPanel>
-									            	<p:outputLabel styleClass="table-search-icon"><i class="material-icons">search</i></p:outputLabel>
-									                <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('advancedConfigTable').filter()" placeholder="Search"/>
-									            </p:outputPanel>
-									        </f:facet>
-				                            <p:ajax event="rowSelect" listener="#{advancedConfigBean.onRowSelect}" update=":form:msgs" />
-				                            <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
-				                                <h:outputText value="#{config.key}" >
-				                                	<i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
-				                                </h:outputText>
-				                            </p:column>
-				                            <p:column headerText="Value" filterBy="#{config.value}">
-				                                <h:outputText value="#{config.password ? '******' : config.value}" />
-				                            </p:column>
-				                            <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}">
-				                                <h:outputText value="#{config.shortSource}" title="#{config.source}"/>
-				                            </p:column>
-			                        	</p:dataTable>
-			                        </h:form>
-		                        </div>
-		                        <div class="ui-g-12 ui-lg-2 tableControlButtons">
-									<p:commandButton disabled="true" id="newConfBtn" value="New" icon="ui-icon-add" type="button"/>
-									<p:commandButton disabled="true" id="editConfBtn" value="Edit" icon="ui-icon-edit" type="button"/>
-									<p:commandButton disabled="true" id="deleteConfBtn" value="Delete" icon="ui-icon-delete" type="button"/>
-								</div>
-	                        </div>
-                    	</div>
-                	</div>
-                </div>
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Advanced Config</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li><a href="advancedconfig.xhtml">Advanced Config</a></li>
+    </ui:define>
+
+    <ui:define name="content">
+      <cc:SingleCard>
+        <div class="card card-w-title">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-10">
+              <h1>
+                <i class="material-icons card-title-icon">settings</i>
+                <span>Advanced Config</span>
+                <span style="float: right;">
+                  <p:inputSwitch disabled="true" id="hideDefaultValuesSwitch" value="true" />
+                  <p:tooltip for="hideDefaultValuesSwitch" value="Hide Default Values" />
+                </span>
+              </h1>
             </div>
-		</ui:define>
-	</ui:composition>
+            <div class="ui-g-12 ui-md-2" style="margin: auto;">
+              <p:commandButton disabled="true" id="newConfigBtn" value="New" icon="ui-icon-add" type="button"/>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-lg-12">
+              <h:form id="form">
+                <p:growl id="msgs" showDetail="true" />
+                <p:dataTable var="config" value="#{advancedConfigBean.configs}" widgetVar="advancedConfigTable"
+                  selectionMode="single" selection="#{advancedConfigBean.selectedConfig}" rowKey="#{config.key}"
+                  filteredValue="#{advancedConfigBean.filteredConfigs}">
+                  <f:facet name="header">
+                    <p:outputPanel>
+                      <p:outputLabel styleClass="table-search-icon">
+                        <i class="material-icons">search</i>
+                      </p:outputLabel>
+                      <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                        onkeyup="PF('advancedConfigTable').filter()" placeholder="Search" />
+                    </p:outputPanel>
+                  </f:facet>
+                  <p:ajax event="rowSelect" listener="#{advancedConfigBean.onRowSelect}" update="@form" />
+                  <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
+                    <h:outputText value="#{config.key}" title="#{config.key}">
+                      <i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
+                    </h:outputText>
+                  </p:column>
+                  <p:column headerText="Value" filterBy="#{config.value}">
+                    <h:outputText value="#{config.password ? '******' : config.value}" />
+                  </p:column>
+                  <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 100px;">
+                    <h:outputText value="#{config.shortSource}" title="#{config.source}" />
+                  </p:column>
+                </p:dataTable>
+              </h:form>
+            </div>
+          </div>
+        </div>
+      </cc:SingleCard>
+    </ui:define>
+  </ui:composition>
 </h:body>
 </html>

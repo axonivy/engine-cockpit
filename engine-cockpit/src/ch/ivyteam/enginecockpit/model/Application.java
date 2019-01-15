@@ -2,33 +2,40 @@ package ch.ivyteam.enginecockpit.model;
 
 import ch.ivyteam.ivy.application.IApplication;
 
-public class Application {
-	private String name;
-	private long id;
-	
-	public Application(IApplication app) {
-		this(app.getName(), app.getId());
-	}
-	
-	public Application(String name, long id) {
-		this.name = name;
-		this.id = id;
-	}
+public class Application
+{
+  private String name;
+  private long id;
 
-	public String getName() {
-		return name;
-	}
+  public Application(IApplication app)
+  {
+    this(app.getName(), app.getId());
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public Application(String name, long id)
+  {
+    this.name = name;
+    this.id = id;
+  }
 
-	public long getId() {
-		return id;
-	}
+  public String getName()
+  {
+    return name;
+  }
 
-	public void setId(long id) {
-		this.id = id;
-	}
-	
+  public void setName(String name)
+  {
+    this.name = name;
+  }
+
+  public long getId()
+  {
+    return id;
+  }
+
+  public void setId(long id)
+  {
+    this.id = id;
+  }
+
 }

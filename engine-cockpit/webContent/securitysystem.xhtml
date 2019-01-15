@@ -1,50 +1,53 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:ic="http://ivyteam.ch/jsf/component"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:pm="http://primefaces.org/mobile">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-	<ui:composition template="/template/template.xhtml">
-		<ui:define name="title">Security System</ui:define>
-		
-		<ui:define name="breadcrumb">
-	        <li>Security</li>
-	        <li>/</li>
-	        <li><a href="securitysystem.xhtml">Security System</a></li>
-	    </ui:define>
-		
-		<ui:define name="content">
-			<div class="ui-fluid security-system">
-                <div class="ui-g">
-                    <div class="ui-g-12">
-	                    <div class="card card-w-title">
-	                    	<h:form>
-		                        <h1><i class="material-icons card-title-icon">security</i>Security System</h1>
-		                        <p:dataTable var="system" value="#{securityBean.securitySystems}">
-		                            <p:column headerText="Name" sortBy="#{system.securitySystemName}">
-		                                <h:outputText value="#{system.securitySystemName}">
-		                                	<i class="material-icons table-icon">security</i>
-		                                </h:outputText>
-		                            </p:column>
-		                            <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">
-		                                <h:outputText value="#{system.securitySystemProvider}" />
-		                            </p:column>
-		                            <p:column headerText="Application" sortBy="#{system.appName}">
-		                                <h:outputText value="#{system.appName}" />
-		                            </p:column>
-		                            <p:column headerText="Synchronize" style="text-align: center;">
-	                            		<p:commandButton update="@form" actionListener="#{securityBean.triggerSynchronization(system.appName)}" icon="fa fa-refresh #{securityBean.syncRunning(system.id) ? 'fa-spin' : ''}"/>
-		                            </p:column>
-		                        </p:dataTable>
-	                        </h:form>
-                    	</div>
-                	</div>
-                </div>
-            </div>
-		</ui:define>
-	</ui:composition>
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Security System</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li>Security</li>
+      <li>/</li>
+      <li><a href="securitysystem.xhtml">Security System</a></li>
+    </ui:define>
+
+    <ui:define name="content">
+      <cc:SingleCard>
+        <div class="card card-w-title">
+          <h:form id="form">
+            <p:growl for="log" id="msgs" autoUpdate="true" />
+            <h1>
+              <i class="material-icons card-title-icon">security</i>Security System
+            </h1>
+            <p:dataTable var="system" value="#{securityBean.securitySystems}">
+              <p:column headerText="Name" sortBy="#{system.securitySystemName}">
+                <h:outputText value="#{system.securitySystemName}">
+                  <i class="material-icons table-icon">security</i>
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">
+                <h:outputText value="#{system.securitySystemProvider}" />
+              </p:column>
+              <p:column headerText="Application" sortBy="#{system.appName}">
+                <h:outputText value="#{system.appName}" />
+              </p:column>
+              <p:column headerText="Synchronize" style="text-align: center; width: 80px;">
+                <p:commandButton actionListener="#{securityBean.triggerSynchronization(system.appName)}"
+                  icon="fa fa-refresh #{securityBean.isSyncRunning(system.appName) ? 'fa-spin' : ''} spin-icon"
+                  onclick="PF('logPoller').start()" update="@this"/>
+              </p:column>
+            </p:dataTable>
+            <p:panel header="Synchronization Log" styleClass="log-viewer" visible="#{not empty securityBean.logs}">
+              <p:inputTextarea readonly="true" id="logViewer" value="#{securityBean.logs}" rows="1"/>
+              <p:poll autoStart="#{securityBean.anySyncRunningOrNewLog}" widgetVar="logPoller" interval="1"
+                update="form"/>
+            </p:panel>
+          </h:form>
+        </div>
+      </cc:SingleCard>
+    </ui:define>
+  </ui:composition>
 </h:body>
 </html>
