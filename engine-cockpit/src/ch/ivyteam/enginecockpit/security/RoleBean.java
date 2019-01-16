@@ -49,7 +49,7 @@ public class RoleBean
     if (filter.isEmpty())
     {
       IRole role = app.getSecurityContext().getTopLevelRole();
-      TreeNode node = new DefaultTreeNode(new Role(role.getName()), treeRootNode);
+      TreeNode node = new DefaultTreeNode(new Role(role), treeRootNode);
       node.setExpanded(true);
       buildRolesTree(role, node);
     }
@@ -64,12 +64,17 @@ public class RoleBean
     return filteredTreeRootNode;
   }
 
+  @SuppressWarnings("unused")
   private void buildRolesTree(IRole parentRole, TreeNode rootNode)
   {
     for (IRole role : parentRole.getChildRoles())
     {
-      TreeNode node = new DefaultTreeNode(new Role(role.getName()), rootNode);
+      TreeNode node = new DefaultTreeNode(new Role(role), rootNode);
       buildRolesTree(role, node);
+    }
+    for (IRole role : parentRole.getRoleMembers())
+    {
+      new DefaultTreeNode(new Role(role, true), rootNode);
     }
   }
 
