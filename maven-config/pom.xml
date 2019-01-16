@@ -9,7 +9,25 @@
 
 	<properties>
 		<nexus.root.url>http://zugpronexus:8081/nexus</nexus.root.url>
+		<engine.page.url>http://zugprobldmas/job/Trunk_All/lastSuccessfulBuild/</engine.page.url>
+		<engine.dir>../.ivy-engine</engine.dir>
 	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.axonivy.ivy.ci</groupId>
+				<artifactId>project-build-plugin</artifactId>
+				<version>7.3.0-SNAPSHOT</version>
+				<extensions>true</extensions>
+				<configuration>
+					<ivyVersion>[7.3.0,]</ivyVersion>
+					<engineListPageUrl>${engine.page.url}</engineListPageUrl>
+                    <engineDirectory>${engine.dir}</engineDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<distributionManagement>
 		<repository>
