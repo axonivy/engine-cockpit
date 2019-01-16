@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -49,6 +50,16 @@ public class PermissionBean
   {
     this.member = member;
     reloadPermissions();
+  }
+  
+  public String getUserMember()
+  {
+    return StringUtils.remove(member,"#");
+  }
+  
+  public void setUserMember(String member)
+  {
+    setMember("#" + member);
   }
 
   public TreeNode getPermissions()
@@ -271,6 +282,6 @@ public class PermissionBean
   
   private ISecurityMember getSecurityMember()
   {
-    return applicationBean.getSelectedIApplication().getSecurityContext().findUser(member);
+    return applicationBean.getSelectedIApplication().getSecurityContext().findSecurityMember(member);
   }
 }
