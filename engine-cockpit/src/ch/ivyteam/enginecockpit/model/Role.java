@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.security.IRole;
 
 public class Role
@@ -87,6 +89,11 @@ public class Role
   public void setMember(boolean member)
   {
     this.member = member;
+  }
+  
+  public boolean isAdSynced()
+  {
+    return !StringUtils.isEmpty(externalName);
   }
 
   @Override
