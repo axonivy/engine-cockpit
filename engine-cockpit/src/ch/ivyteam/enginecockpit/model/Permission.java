@@ -10,30 +10,32 @@ public class Permission
   private boolean group;
   private boolean grant;
   private boolean deny;
+  private boolean explicit;
+  private String permissionHolder;
 
-  public Permission(String name, long id, boolean group)
-  {
-    this(name, id, group, true, false);
-  }
-  
-  public Permission(String name, long id, boolean group, boolean grant, boolean deny) 
+  public Permission(String name, long id, boolean group, boolean grant, boolean deny, boolean explicit,
+          String permissionHolder)
   {
     this.name = name;
     this.id = id;
     this.group = group;
     this.grant = grant;
     this.deny = deny;
+    this.explicit = explicit;
+    this.permissionHolder = permissionHolder;
   }
-  
-  public Permission(IPermissionAccess access) 
+
+  public Permission(IPermissionAccess access)
   {
-    this(access.getPermission().getName(), access.getPermission().getId(), false, access.isGranted(), access.isDenied());
+    this(access.getPermission().getName(), access.getPermission().getId(), false,
+            access.isGranted(), access.isDenied(), access.isExplicit(),
+            access.getPermissionHolder() == null ? null : access.getPermissionHolder().getName());
   }
-  
-  public Permission(IPermissionGroup group) 
+
+  public Permission(IPermissionGroup group)
   {
-    //TODO: get group grant and deny
-    this(group.getName(), group.getId(), true, false, false);
+    // TODO: get group grant, deny, explicit
+    this(group.getName(), group.getId(), true, false, false, false, null);
   }
 
   public String getName()
@@ -76,6 +78,16 @@ public class Permission
     this.grant = grant;
   }
 
+  public boolean isExplicitAndGrant()
+  {
+    return explicit && grant;
+  }
+
+  @SuppressWarnings("unused")
+  public void setExplicitAndGrant(boolean value)
+  {
+  }
+
   public boolean isDeny()
   {
     return deny;
@@ -85,7 +97,35 @@ public class Permission
   {
     this.deny = deny;
   }
-  
-  
+
+  public boolean isExplicitAndDeny()
+  {
+    return explicit && deny;
+  }
+
+  @SuppressWarnings("unused")
+  public void setExplicitAndDeny(boolean value)
+  {
+  }
+
+  public boolean isExplicit()
+  {
+    return explicit;
+  }
+
+  public void setExplicit(boolean explicit)
+  {
+    this.explicit = explicit;
+  }
+
+  public String getPermissionHolder()
+  {
+    return permissionHolder;
+  }
+
+  public void setPermissionHolder(String permissionHolder)
+  {
+    this.permissionHolder = permissionHolder;
+  }
 
 }

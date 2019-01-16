@@ -22,22 +22,25 @@
         <i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
       </h:outputText>
     </p:column>
-    <p:column style="width: 15px;">
+    <p:column style="width: 40px; text-align: center;">
       <h:outputText rendered="#{permission.grant}">
-        <i class="fa fa-check table-icon"></i>
+        <i class="fa fa-check table-icon no-margin"></i>
       </h:outputText>
       <h:outputText rendered="#{permission.deny}">
-        <i class="fa fa-minus table-icon"></i>
+        <i class="fa fa-minus-circle table-icon"></i>
+      </h:outputText>
+       <h:outputText rendered="#{not empty permission.permissionHolder and !permission.explicit}">
+        <i class="fa fa-group table-icon" title="#{permission.permissionHolder}"></i>
       </h:outputText>
     </p:column>
     <p:column headerText="Grant" style="width: 55px;">
-      <p:inputSwitch id="grantPermission" value="#{permission.grant}" styleClass="card-button table-control-btn">
-        <p:ajax update="@form"/>
+      <p:inputSwitch id="grantPermission" value="#{permission.explicitAndGrant}" styleClass="card-button table-control-btn">
+        <p:ajax update="@form" listener="#{permissionBean.toggleGrant(permission.id, permission.explicitAndGrant)}"/>
       </p:inputSwitch>
     </p:column>
     <p:column headerText="Deny" style="width: 55px;">
-      <p:inputSwitch id="denyPermission" value="#{permission.deny}" styleClass="card-button table-control-btn">
-        <p:ajax update="@form"/>
+      <p:inputSwitch id="denyPermission" value="#{permission.explicitAndDeny}" styleClass="card-button table-control-btn">
+        <p:ajax update="@form" listener="#{permissionBean.toggleDeny(permission.id, permission.explicitAndDeny)}"/>
       </p:inputSwitch>
     </p:column>
   </p:treeTable>

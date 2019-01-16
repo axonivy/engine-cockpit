@@ -162,6 +162,10 @@
   margin-top: 3px;
 }
 
+.table-icon.no-margin {
+  margin: 0;
+}
+
 .ui-datatable .table-control-btn, 
 .ui-treetable .table-control-btn {
   margin-top: 0;
