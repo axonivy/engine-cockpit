@@ -31,7 +31,7 @@ public class WebTestDashboard
   {
     login(driver);
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
-    assertThat(driver.getTitle()).startsWith("Engine Cockpit").doesNotContain("Login");
+    await().untilAsserted(() -> assertThat(driver.getTitle()).startsWith("Engine Cockpit").doesNotContain("Login"));
   }
 
   private void login(FirefoxDriver driver)
