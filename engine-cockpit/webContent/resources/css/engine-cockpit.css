@@ -161,6 +161,9 @@
   margin-right: 10px;
   margin-top: 3px;
 }
+.table-icon-right.member-inherit-icon {
+  color: lightgrey;
+}
 
 .ui-datatable .table-control-btn, 
 .ui-treetable .table-control-btn {

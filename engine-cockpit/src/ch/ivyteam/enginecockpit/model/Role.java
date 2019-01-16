@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.security.IRole;
 
 public class Role
@@ -8,23 +10,30 @@ public class Role
   private String description;
   private String displayName;
   private String externalName;
+  private boolean member;
 
   public Role(IRole role)
   {
-    this(role.getName(), role.getDisplayDescription(), role.getDisplayName(), role.getExternalSecurityName());
+    this(role, false);
+  }
+  
+  public Role(IRole role, boolean member)
+  {
+    this(role.getName(), role.getDisplayDescription(), role.getDisplayName(), role.getExternalSecurityName(), member);
   }
 
   public Role(String name)
   {
-    this(name, "", "", "");
+    this(name, "", "", "", false);
   }
 
-  public Role(String name, String description, String displayName, String externalName)
+  public Role(String name, String description, String displayName, String externalName, boolean member)
   {
     this.name = name;
     this.description = description;
     this.displayName = displayName;
     this.externalName = externalName;
+    this.member = member;
   }
 
   public Role()
@@ -70,6 +79,21 @@ public class Role
   public void setExternalName(String externalName)
   {
     this.externalName = externalName;
+  }
+  
+  public boolean isMember()
+  {
+    return member;
+  }
+  
+  public void setMember(boolean member)
+  {
+    this.member = member;
+  }
+  
+  public boolean isAdSynced()
+  {
+    return !StringUtils.isEmpty(externalName);
   }
 
   @Override

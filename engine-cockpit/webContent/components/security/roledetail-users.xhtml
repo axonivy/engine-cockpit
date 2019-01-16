@@ -26,7 +26,7 @@
             <i class="material-icons table-icon">person</i>
             <p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser(user.name)}"
               icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn"
-              disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}" />
+              disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
           </h:outputText>
         </p:column>
       </p:dataTable>
@@ -48,7 +48,7 @@
             <i class="material-icons table-icon">person</i>
             <p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.removeUser(user.name)}"
               icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn"
-              disabled="#{roleDetailBean.roleName == 'Everybody' ? true : false}" />
+              disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
           </h:outputText>
         </p:column>
       </p:dataTable>
