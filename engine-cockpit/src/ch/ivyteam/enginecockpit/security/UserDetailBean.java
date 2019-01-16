@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.security;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -10,10 +10,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.model.EmailSettings;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.IUserEMailNotificationSettings;
@@ -62,15 +62,15 @@ public class UserDetailBean
     return emailSettings;
   }
 
-  public void creatNewUser()
+  public String creatNewUser()
   {
     getSecurityContext().createUser(user.getName(), user.getFullName(), user.getPassword(), null,
             user.getEmail(), null);
+    return "users.xhtml";
   }
 
   public void saveUserInfos()
   {
-    Ivy.log().info("save user");
     IUser iUser = getIUser();
     iUser.setEMailAddress(user.getEmail());
     iUser.setFullName(user.getFullName());

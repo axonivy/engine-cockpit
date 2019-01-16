@@ -99,15 +99,15 @@
 }
 
 /*UserDetail*/
-.user-detail .dashboard-card .min-height-500 {
+.dashboard-card .min-height-500 {
   min-height: 500px;
 }
 
-.user-detail .dashboard-card .max-height-700 {
+.dashboard-card .max-height-700 {
   max-height: 700px;
 }
 
-.user-detail .dashboard-card .max-height-700 .ui-panel-content {
+.dashboard-card .max-height-700 .ui-panel-content {
   overflow-y: scroll;
   max-height: 664px;
 }
@@ -166,6 +166,9 @@
 .ui-treetable .table-control-btn {
   margin-top: 0;
 }
+.card .spin-icon {
+  font-size: 19px;
+}
 
 .floatTableColumn .ui-grid-row {
   display: block;
@@ -189,4 +192,13 @@
 .ui-datatable a, 
 .ui-tree a {
   color: inherit;
+}
+
+.log-viewer {
+  margin-top: 20px;
+}
+.log-viewer .ui-inputfield {
+  background-image: none;
+  max-height: 500px;
+  overflow-y: auto;
 }

@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.IRole;
@@ -23,6 +24,8 @@ public class RoleDetailBean
 
   private List<User> usersOfRole;
   private List<User> filteredUsers;
+  private List<Role> membersOfRole;
+  private List<Role> filteredMembers;
 
   private ApplicationBean applicationBean;
 
@@ -45,6 +48,7 @@ public class RoleDetailBean
     IRole iRole = getSecurityContext().findRole(roleName);
     this.role = new Role(iRole);
     loadUsersOfRole();
+    loadMembersOfRole();
   }
 
   public String getNewChildRoleName()
@@ -89,13 +93,13 @@ public class RoleDetailBean
 
   public void removeUser(String userName)
   {
-    getSecurityContext().findUser(userName).removeRole(getSecurityContext().findRole(roleName));
+    getSecurityContext().findUser(userName).removeRole(getIRole());
     loadUsersOfRole();
   }
 
   public void addUser(String userName)
   {
-    getSecurityContext().findUser(userName).addRole(getSecurityContext().findRole(roleName));
+    getSecurityContext().findUser(userName).addRole(getIRole());
     loadUsersOfRole();
   }
 
@@ -111,8 +115,55 @@ public class RoleDetailBean
 
   private void loadUsersOfRole()
   {
-    usersOfRole = getSecurityContext().findRole(roleName).getAllUsers().stream().map(u -> new User(u))
+    usersOfRole = getIRole().getAllUsers().stream().map(u -> new User(u))
             .collect(Collectors.toList());
+  }
+
+  private IRole getIRole()
+  {
+    return getIRole(roleName);
+  }
+  
+  private IRole getIRole(String name)
+  {
+    return getSecurityContext().findRole(name);
+  }
+  
+  private void loadMembersOfRole()
+  {
+    membersOfRole = getIRole().getRoleMembers().stream().map(r -> new Role(r)).collect(Collectors.toList());
+  }
+
+  public List<Role> getMembersOfRole()
+  {
+    return membersOfRole;
+  }
+  
+  public boolean isRoleMemberOfRole(String name)
+  {
+    return membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent() || name.equals(roleName);
+  }
+  
+  public List<Role> getFilteredMembers()
+  {
+    return filteredMembers;
+  }
+
+  public void setFilteredMembers(List<Role> filteredMembers)
+  {
+    this.filteredMembers = filteredMembers;
+  }
+  
+  public void addMember(String member)
+  {
+    getIRole().addRoleMember(getIRole(member));
+    loadMembersOfRole();
+  }
+  
+  public void removeMember(String member)
+  {
+    getIRole().removeRoleMember(getIRole(member));
+    loadMembersOfRole();
   }
 
   private ISecurityContext getSecurityContext()

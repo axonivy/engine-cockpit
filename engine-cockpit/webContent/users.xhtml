@@ -25,84 +25,19 @@
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
-                <p:commandButton id="newUserBtn" value="New" icon="ui-icon-add" type="button"
+                <p:commandButton id="newUserBtn" disabled="#{applicationBean.ivySecuritySystem ? 'false' : 'true'}" value="New" icon="ui-icon-add" type="button"
                   onclick="PF('newUserModal').show();" />
               </div>
             </div>
             <div class="ui-g">
               <div class="ui-g-12 ui-lg-12">
-                <h:form id="tableForm">
-                  <p:dataTable var="user" value="#{userBean.users}" widgetVar="usersTable_#{app.id}"
-                    filteredValue="#{userBean.filteredUsers}" lazy="false">
-                    <f:facet name="header">
-                      <p:outputPanel>
-                        <p:outputLabel styleClass="table-search-icon">
-                          <i class="material-icons">search</i>
-                        </p:outputLabel>
-                        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                          onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" />
-                      </p:outputPanel>
-                    </f:facet>
-                    <p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}">
-                      <a href="userdetail.xhtml?userName=#{user.name}"> <h:outputText value="#{user.name}">
-                          <i class="material-icons table-icon">person</i>
-                        </h:outputText>
-                      </a>
-                    </p:column>
-                    <p:column headerText="Full Name" sortBy="#{user.fullName}" filterBy="#{user.fullName}">
-                      <h:outputText value="#{user.fullName}" />
-                    </p:column>
-                    <p:column headerText="Email" sortBy="#{user.email}" filterBy="#{user.email}">
-                      <h:outputText value="#{user.email}" />
-                    </p:column>
-                    <p:column headerText="Logged in">
-                      <h:outputText>
-                        <i class="material-icons">#{user.loggedIn ? 'done' : 'clear'}</i>
-                      </h:outputText>
-                    </p:column>
-                  </p:dataTable>
-                </h:form>
+                <ui:include src="components/security/users-table.xhtml"/>
               </div>
             </div>
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>
-      <p:dialog style="min-width: 300px;" header="Add new user" widgetVar="newUserModal" modal="true" responsive="true"
-        closeOnEscape="true">
-        <h:form id="newUserForm">
-          <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-            <h:panelGroup styleClass="md-inputfield">
-              <p:inputText id="newUserNameInput" requiredMessage="Value is required" value="#{userDetailBean.user.name}"
-                required="true" />
-              <label>Name</label>
-              <p:message for="newUserNameInput" id="newUserNameMessage" />
-            </h:panelGroup>
-            <h:panelGroup styleClass="md-inputfield">
-              <p:inputText value="#{userDetailBean.user.fullName}" />
-              <label>Full Name</label>
-            </h:panelGroup>
-            <h:panelGroup styleClass="md-inputfield">
-              <p:inputText value="#{userDetailBean.user.email}" />
-              <label>E-Mail Address</label>
-            </h:panelGroup>
-            <h:panelGroup styleClass="md-inputfield">
-              <p:password id="password1" widgetVar="password1" validatorMessage="Password didn't match"
-                match="password2" value="#{userDetailBean.user.password}" feedback="true" inline="true" />
-              <label>Password</label>
-            </h:panelGroup>
-            <h:panelGroup styleClass="md-inputfield">
-              <p:password id="password2" widgetVar="password2" value="#{userDetailBean.user.password}" feedback="true"
-                inline="true" />
-              <label>Confirm Password</label>
-            </h:panelGroup>
-          </p:panelGrid>
-          <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update=":form"
-            actionListener="#{userDetailBean.creatNewUser}" value="Save" icon="ui-icon-save"
-            styleClass="primary-btn modal-input-button" />
-          <p:commandButton id="cancelNewUser" onclick="PF('newUserModal').hide();" value="Cancel" type="button"
-            icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-        </h:form>
-      </p:dialog>
+      <ui:include src="dialogs/newuser.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>

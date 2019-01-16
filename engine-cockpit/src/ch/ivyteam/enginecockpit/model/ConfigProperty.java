@@ -47,6 +47,10 @@ public class ConfigProperty
 
   public String getShortSource()
   {
+    int prefixString = source.lastIndexOf(',');
+    if(prefixString > 0) {
+      return source.substring(source.lastIndexOf(File.separator) + 1, prefixString);
+    }
     return source.substring(source.lastIndexOf(File.separator) + 1);
   }
 

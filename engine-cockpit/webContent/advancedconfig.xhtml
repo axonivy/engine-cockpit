@@ -15,7 +15,7 @@
       <cc:SingleCard>
         <div class="card card-w-title">
           <div class="ui-g">
-            <div class="ui-g-12 ui-lg-10">
+            <div class="ui-g-12 ui-md-10">
               <h1>
                 <i class="material-icons card-title-icon">settings</i>
                 <span>Advanced Config</span>
@@ -25,9 +25,12 @@
                 </span>
               </h1>
             </div>
+            <div class="ui-g-12 ui-md-2" style="margin: auto;">
+              <p:commandButton disabled="true" id="newConfigBtn" value="New" icon="ui-icon-add" type="button"/>
+            </div>
           </div>
           <div class="ui-g">
-            <div class="ui-g-12 ui-lg-10">
+            <div class="ui-g-12 ui-lg-12">
               <h:form id="form">
                 <p:growl id="msgs" showDetail="true" />
                 <p:dataTable var="config" value="#{advancedConfigBean.configs}" widgetVar="advancedConfigTable"
@@ -44,23 +47,18 @@
                   </f:facet>
                   <p:ajax event="rowSelect" listener="#{advancedConfigBean.onRowSelect}" update="@form" />
                   <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
-                    <h:outputText value="#{config.key}">
+                    <h:outputText value="#{config.key}" title="#{config.key}">
                       <i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
                     </h:outputText>
                   </p:column>
                   <p:column headerText="Value" filterBy="#{config.value}">
                     <h:outputText value="#{config.password ? '******' : config.value}" />
                   </p:column>
-                  <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}">
+                  <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 100px;">
                     <h:outputText value="#{config.shortSource}" title="#{config.source}" />
                   </p:column>
                 </p:dataTable>
               </h:form>
-            </div>
-            <div class="ui-g-12 ui-lg-2 tableControlButtons">
-              <p:commandButton disabled="true" id="newConfBtn" value="New" icon="ui-icon-add" type="button" />
-              <p:commandButton disabled="true" id="editConfBtn" value="Edit" icon="ui-icon-edit" type="button" />
-              <p:commandButton disabled="true" id="deleteConfBtn" value="Delete" icon="ui-icon-delete" type="button" />
             </div>
           </div>
         </div>

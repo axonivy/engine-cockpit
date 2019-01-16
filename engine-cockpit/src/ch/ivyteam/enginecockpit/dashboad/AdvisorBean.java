@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.dashboad;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

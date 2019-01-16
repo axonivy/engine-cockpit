@@ -16,6 +16,8 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.workflow.TaskState;
 
 @ManagedBean
 @SessionScoped
@@ -25,7 +27,7 @@ public class ApplicationBean
   private int selectedApplicationIndex;
 
   @Inject
-  IApplicationConfigurationManager manager;
+  private IApplicationConfigurationManager manager;
 
   public ApplicationBean()
   {
@@ -64,6 +66,10 @@ public class ApplicationBean
       }
     }
   }
+  
+  public IApplicationConfigurationManager getManager() {
+    return manager;
+  }
 
   public Application getSelectedApplication()
   {
@@ -100,6 +106,17 @@ public class ApplicationBean
   {
     return manager.countApplications();
   }
+  
+  public int getUsersCount()
+  {
+    return getIApplicaitons().stream().mapToInt(app -> app.getSecurityContext().getUsers().size()).sum();
+  }
+  
+  public long getTasksCount()
+  {
+    return Ivy.wf().getGlobalContext().getTaskQueryExecutor().createTaskQuery().where().state()
+            .isEqual(TaskState.SUSPENDED).executor().count();
+  }
 
   public Locale getDefaultEmailLanguageForSelectedApp()
   {
@@ -111,5 +128,15 @@ public class ApplicationBean
     return manager.getLanguages().stream()
             .map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
             .collect(Collectors.toList());
+  }
+  
+  public boolean isIvySecuritySystem() 
+  {
+    //TODO: remove
+    if (getSelectedIApplication() == null) 
+    {
+      return true;
+    }
+    return getSelectedIApplication().getSecurityContext().getExternalSecuritySystemProvider().getProviderName().equals("ivy Security System");
   }
 }

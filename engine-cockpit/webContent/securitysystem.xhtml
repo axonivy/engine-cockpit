@@ -16,7 +16,8 @@
     <ui:define name="content">
       <cc:SingleCard>
         <div class="card card-w-title">
-          <h:form>
+          <h:form id="form">
+            <p:growl for="log" id="msgs" autoUpdate="true" />
             <h1>
               <i class="material-icons card-title-icon">security</i>Security System
             </h1>
@@ -32,11 +33,17 @@
               <p:column headerText="Application" sortBy="#{system.appName}">
                 <h:outputText value="#{system.appName}" />
               </p:column>
-              <p:column headerText="Synchronize" style="text-align: center;">
-                <p:commandButton update="@form" actionListener="#{securityBean.triggerSynchronization(system.appName)}"
-                  icon="fa fa-refresh #{securityBean.syncRunning(system.id) ? 'fa-spin' : ''}" />
+              <p:column headerText="Synchronize" style="text-align: center; width: 80px;">
+                <p:commandButton actionListener="#{securityBean.triggerSynchronization(system.appName)}"
+                  icon="fa fa-refresh #{securityBean.isSyncRunning(system.appName) ? 'fa-spin' : ''} spin-icon"
+                  onclick="PF('logPoller').start()" update="@this"/>
               </p:column>
             </p:dataTable>
+            <p:panel header="Synchronization Log" styleClass="log-viewer" visible="#{not empty securityBean.logs}">
+              <p:inputTextarea readonly="true" id="logViewer" value="#{securityBean.logs}" rows="1"/>
+              <p:poll autoStart="#{securityBean.anySyncRunningOrNewLog}" widgetVar="logPoller" interval="1"
+                update="form"/>
+            </p:panel>
           </h:form>
         </div>
       </cc:SingleCard>
