@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +30,7 @@ public class WebTestDashboard
   void testLogin(FirefoxDriver driver)
   {
     login(driver);
-    assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
     assertThat(driver.getTitle()).startsWith("Engine Cockpit").doesNotContain("Login");
   }
 
