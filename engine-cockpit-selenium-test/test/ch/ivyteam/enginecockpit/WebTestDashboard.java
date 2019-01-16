@@ -47,7 +47,7 @@ public class WebTestDashboard
     System.out.println("Source: " + source);
     try
     {
-      String dir = "target/target/surefire-reports/ch.ivyteam.enginecockpit.WebTestDashboard/";
+      String dir = "target/surefire-reports/ch.ivyteam.enginecockpit.WebTestDashboard/";
       FileUtils.moveFile(source, new File(dir, source.getName()));
     }
     catch (IOException ex)
