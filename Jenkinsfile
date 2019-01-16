@@ -16,7 +16,8 @@ pipeline {
     stage('build') {
       steps {
         script {
-          maven cmd: "clean deploy -e -Dengine.page.url=${params.engineSource}"
+          def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
+          maven cmd: "clean "${phase} -Dengine.page.url=${params.engineSource}"
         }
       }
       post {
