@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.model;
 
 import ch.ivyteam.ivy.security.IPermissionAccess;
 import ch.ivyteam.ivy.security.IPermissionGroup;
+import ch.ivyteam.ivy.security.IPermissionGroupAccess;
 
 public class Permission
 {
@@ -32,10 +33,11 @@ public class Permission
             access.getPermissionHolder() == null ? null : access.getPermissionHolder().getName());
   }
 
-  public Permission(IPermissionGroup group)
+  public Permission(IPermissionGroup group, IPermissionGroupAccess groupAccess)
   {
-    // TODO: get group grant, deny, explicit
-    this(group.getName(), group.getId(), true, false, false, false, null);
+    this(group.getName(), group.getId(), true,
+            groupAccess.isGrantedAllPermissions(),
+            groupAccess.isDeniedAllPermissions(), true, null);
   }
 
   public String getName()

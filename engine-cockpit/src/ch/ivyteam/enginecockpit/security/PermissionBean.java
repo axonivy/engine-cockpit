@@ -65,16 +65,17 @@ public class PermissionBean
     filter = "";
     rootTreeNode = new DefaultTreeNode("Permissions", null);
     permissionMap = new HashMap<>();
-    ISecurityMember user = getSecurityMember();
+    ISecurityMember iMember = getSecurityMember();
     ISecurityDescriptor securityDescriptor = getSecurityDescriptor();
     IPermissionGroup rootPermissionGroup = securityDescriptor.getSecurityDescriptorType()
             .getRootPermissionGroup();
-    Permission permission = new Permission(rootPermissionGroup);
+    Permission permission = new Permission(rootPermissionGroup, 
+            securityDescriptor.getPermissionGroupAccess(rootPermissionGroup, iMember));
     TreeNode node = new DefaultTreeNode(permission, rootTreeNode);
     permissionMap.put(permission.getId(), permission);
     node.setExpanded(true);
 
-    loadChildrenPermissions(node, securityDescriptor, rootPermissionGroup, user);
+    loadChildrenPermissions(node, securityDescriptor, rootPermissionGroup, iMember);
   }
 
   @SuppressWarnings("unused")
@@ -102,7 +103,7 @@ public class PermissionBean
 
       if (childGroupAccess.getPermissionGroup() != null)
       {
-        Permission permission = new Permission(childGroup);
+        Permission permission = new Permission(childGroup, childGroupAccess);
         TreeNode childNode = new DefaultTreeNode(permission, node);
         permissionMap.put(permission.getId(), permission);
         loadChildrenPermissions(childNode, securityDescriptor, childGroup, securityMember);
@@ -136,7 +137,33 @@ public class PermissionBean
     filterRootTreeNode(rootTreeNode.getChildren());
   }
 
-  public void toggleGrant(long id, boolean grant)
+  public void toggleGrant(long id, boolean grant, boolean group)
+  {
+    if(group) {
+      toggleGrantGroup(id, grant);
+    }
+    else 
+    {
+      toggleGrantPermission(id, grant);
+    }
+  }
+  
+  public void toggleGrantGroup(long id, boolean grant)
+  {
+    IPermissionGroup permissionGroup = findPermissionGroup(id, getSecurityDescriptor()
+            .getSecurityDescriptorType().getRootPermissionGroup());
+    if(!grant) 
+    {
+      getSecurityDescriptor().grantPermissions(permissionGroup, getSecurityMember());
+    }
+    else
+    {
+      getSecurityDescriptor().ungrantPermissions(permissionGroup, getSecurityMember());
+    }
+    reSetPermissionGroup(permissionGroup);
+  }
+
+  private void toggleGrantPermission(long id, boolean grant)
   {
     Optional<IPermission> permission = findPermission(id);
     if(permission.isPresent()) 
@@ -152,8 +179,35 @@ public class PermissionBean
       reSetSinglePermission(permission.get());
     }
   }
+  
+  public void toggleDeny(long id, boolean deny, boolean group)
+  {
+    if(group)
+    {
+      toggleDenyGroup(id, deny);
+    }
+    else
+    {
+      toggleDenyPermission(id, deny);
+    }
+  }
+  
+  public void toggleDenyGroup(long id, boolean deny)
+  {
+    IPermissionGroup permissionGroup = findPermissionGroup(id, getSecurityDescriptor()
+            .getSecurityDescriptorType().getRootPermissionGroup());
+    if(!deny) 
+    {
+      getSecurityDescriptor().denyPermissions(permissionGroup, getSecurityMember());
+    }
+    else
+    {
+      getSecurityDescriptor().undenyPermissions(permissionGroup, getSecurityMember());
+    }
+    reSetPermissionGroup(permissionGroup);
+  }
 
-  public void toggleDeny(long id, boolean deny)
+  private void toggleDenyPermission(long id, boolean deny)
   {
     Optional<IPermission> permission = findPermission(id);
     if(permission.isPresent())
@@ -168,6 +222,15 @@ public class PermissionBean
       }
       reSetSinglePermission(permission.get());
     }
+  }
+  
+  private void reSetPermissionGroup(IPermissionGroup permissionGroup)
+  {
+    ISecurityDescriptor securityDescriptor = getSecurityDescriptor();
+    IPermissionGroupAccess permissionGroupAccess = securityDescriptor.getPermissionGroupAccess(permissionGroup, getSecurityMember());
+    permissionMap.get(permissionGroup.getId()).setDeny(permissionGroupAccess.isDeniedAllPermissions());
+    permissionMap.get(permissionGroup.getId()).setGrant(permissionGroupAccess.isGrantedAllPermissions());
+    permissionGroup.getAllPermissions().stream().forEach(p -> reSetSinglePermission(p));
   }
   
   private void reSetSinglePermission(IPermission iPermission)
@@ -187,6 +250,23 @@ public class PermissionBean
   private Optional<IPermission> findPermission(long id)
   {
     return getSecurityDescriptor().getPermissions().stream().filter(p -> p.getId() == id).findAny();
+  }
+  
+  private IPermissionGroup findPermissionGroup(long id, IPermissionGroup permissionGroup)
+  {
+    if(permissionGroup.getId() == id)
+    {
+      return permissionGroup;
+    }
+    for(IPermissionGroup childGroup : permissionGroup.getChildGroups())
+    {
+      IPermissionGroup group = findPermissionGroup(id, childGroup);
+      if (group != null)
+      {
+        return group;
+      }
+    }
+    return null;
   }
   
   private ISecurityMember getSecurityMember()

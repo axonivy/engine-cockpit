@@ -6,6 +6,9 @@
 
 <h:form id="permissionsOfUserForm">
   <p:growl for="permissionMessage" autoUpdate="true" />
+  <p:commandButton id="reloadPermissionBtn" actionListener="#{permissionBean.reloadPermissions}" title="Reload Permissions"
+    icon="ui-icon-refresh" styleClass="card-button header-button" update="@form"/>
+  <div>
   <div class="ui-datatable-header ui-widget-header ui-corner-top" style="border-bottom: 0 none;">
     <div class="ui-outputpanel ui-widget">
       <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i class="material-icons">search</i>
@@ -35,14 +38,15 @@
     </p:column>
     <p:column headerText="Grant" style="width: 55px;">
       <p:inputSwitch id="grantPermission" value="#{permission.explicitAndGrant}" styleClass="card-button table-control-btn">
-        <p:ajax update="@form" listener="#{permissionBean.toggleGrant(permission.id, permission.explicitAndGrant)}"/>
+        <p:ajax update="@form" listener="#{permissionBean.toggleGrant(permission.id, permission.explicitAndGrant, permission.group)}"/>
       </p:inputSwitch>
     </p:column>
     <p:column headerText="Deny" style="width: 55px;">
       <p:inputSwitch id="denyPermission" value="#{permission.explicitAndDeny}" styleClass="card-button table-control-btn">
-        <p:ajax update="@form" listener="#{permissionBean.toggleDeny(permission.id, permission.explicitAndDeny)}"/>
+        <p:ajax update="@form" listener="#{permissionBean.toggleDeny(permission.id, permission.explicitAndDeny, permission.group)}"/>
       </p:inputSwitch>
     </p:column>
   </p:treeTable>
+  </div>
 </h:form>
 </html>

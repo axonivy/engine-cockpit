@@ -43,6 +43,15 @@
   margin-right: 10px;
   float: right;
 }
+.dashboard-card .card-button.header-button {
+  position: absolute;
+  right: 30px;
+  margin: 0;
+  margin-top: -40px;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
 
 .dashboard .ui-grid-col-5 label {
   font-style: italic;
