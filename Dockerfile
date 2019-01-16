@@ -1,3 +1,6 @@
-FROM maven:3.6.0-jdk-8
+FROM selenium/standalone-firefox:3.141.59
 
-RUN addgroup --gid 1000 build && adduser --uid 1000 --gid 1000 --disabled-password --gecos "" build
+RUN \
+    sudo apt-get -y update && \
+    sudo apt-get install -y maven && \
+    sudo apt-get install -y openjdk-8-jdk-headless
