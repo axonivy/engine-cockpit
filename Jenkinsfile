@@ -17,13 +17,13 @@ pipeline {
       steps {
         script {
           def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
-          maven cmd: "clean ${phase} -Dengine.page.url=${params.engineSource}"
+          maven cmd: "clean ${phase} -Dengine.page.url=${params.engineSource}  -Dsel.jup.output.folder=target/surefire-reports -Dsel.jup.screenshot.at.the.end.of.tests=true -Dsel.jup.screenshot.format=png"
         }
       }
       post {
         always {
           archiveArtifacts '**/target/*.iar'
-          junit '**/target/surefire-reports/**/*.xml'
+          junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
         }
       }
     }
