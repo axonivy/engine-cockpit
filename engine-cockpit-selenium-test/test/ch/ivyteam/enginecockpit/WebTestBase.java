@@ -33,12 +33,14 @@ public class WebTestBase
   
   private String className;
   private String methodName;
+  private int screenshotCounter;
   
   @BeforeEach
   void init(TestInfo testInfo)
   {
     this.className = testInfo.getTestClass().map(c -> c.getName()).orElse("unknownClass");
     this.methodName = testInfo.getTestMethod().map(m -> m.getName()).orElse("unknownMethod");
+    screenshotCounter = 0;
   }
   
   public void saveScreenshot(RemoteWebDriver driver, String name) 
@@ -48,7 +50,8 @@ public class WebTestBase
     try
     {
       String dir = "target/surefire-reports/" + className + "/" + methodName + "/";
-      FileUtils.moveFile(source, new File(dir, name + "_" + source.getName()));
+      FileUtils.moveFile(source, new File(dir, String.valueOf(screenshotCounter) + "_" + name + "_" + source.getName()));
+      screenshotCounter ++;
     }
     catch (IOException ex)
     {
