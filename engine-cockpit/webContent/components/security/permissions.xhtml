@@ -6,9 +6,8 @@
 
 <h:form id="permissionsForm">
   <p:growl for="permissionMessage" autoUpdate="true" />
-  <p:commandButton id="reloadPermissionBtn" actionListener="#{permissionBean.reloadPermissions}" title="Reload Permissions"
-    icon="ui-icon-refresh" styleClass="card-button header-button" update="@form"/>
-  <div>
+  <p:commandButton id="reloadPermissionBtn" actionListener="#{permissionBean.reloadPermissions}"
+    title="Reload Permissions" icon="ui-icon-refresh" styleClass="card-button header-button" update="@form" />
   <div class="ui-datatable-header ui-widget-header ui-corner-top" style="border-bottom: 0 none;">
     <div class="ui-outputpanel ui-widget">
       <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i class="material-icons">search</i>
@@ -25,6 +24,7 @@
         <i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
       </h:outputText>
     </p:column>
+
     <p:column style="width: 40px; text-align: center;">
       <h:outputText rendered="#{permission.grant}">
         <i class="fa fa-check table-icon no-margin"></i>
@@ -32,21 +32,32 @@
       <h:outputText rendered="#{permission.deny}">
         <i class="fa fa-minus-circle table-icon"></i>
       </h:outputText>
-       <h:outputText rendered="#{not empty permission.permissionHolder and !permission.explicit}">
+      <h:outputText rendered="#{not empty permission.permissionHolder and !permission.explicit}">
         <i class="fa fa-group table-icon" title="#{permission.permissionHolder}"></i>
       </h:outputText>
     </p:column>
-    <p:column headerText="Grant" style="width: 55px;">
-      <p:inputSwitch id="grantPermission" value="#{permission.explicitAndGrant}" styleClass="card-button table-control-btn">
-        <p:ajax update="@form" listener="#{permissionBean.toggleGrant(permission.id, permission.explicitAndGrant, permission.group)}"/>
-      </p:inputSwitch>
+
+    <p:column headerText="Grant" style="width: 70px;">
+      <p:commandButton type="button" icon="ui-icon-add" title="Grant"
+        styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.grantDisabled}">
+        <p:ajax update="@form" listener="#{permissionBean.grant(permission.id, permission.group)}" />
+      </p:commandButton>
+      <p:commandButton type="button" icon="ui-icon-remove" title="Ungrant"
+        styleClass="card-button table-control-btn secondary-btn" disabled="#{permission.unGrantDisabled}">
+        <p:ajax update="@form" listener="#{permissionBean.ungrant(permission.id, permission.group)}" />
+      </p:commandButton>
     </p:column>
-    <p:column headerText="Deny" style="width: 55px;">
-      <p:inputSwitch id="denyPermission" value="#{permission.explicitAndDeny}" styleClass="card-button table-control-btn">
-        <p:ajax update="@form" listener="#{permissionBean.toggleDeny(permission.id, permission.explicitAndDeny, permission.group)}"/>
-      </p:inputSwitch>
+
+    <p:column headerText="Deny" style="width: 70px;">
+      <p:commandButton type="button" icon="ui-icon-add" title="Deny"
+        styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.denyDisabled}">
+        <p:ajax update="@form" listener="#{permissionBean.deny(permission.id, permission.group)}" />
+      </p:commandButton>
+      <p:commandButton type="button" icon="ui-icon-remove" title="Undeny"
+        styleClass="card-button table-control-btn secondary-btn" disabled="#{permission.unDenyDisabled}">
+        <p:ajax update="@form" listener="#{permissionBean.undeny(permission.id, permission.group)}" />
+      </p:commandButton>
     </p:column>
   </p:treeTable>
-  </div>
 </h:form>
 </html>

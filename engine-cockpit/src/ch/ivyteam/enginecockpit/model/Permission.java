@@ -1,8 +1,6 @@
 package ch.ivyteam.enginecockpit.model;
 
 import ch.ivyteam.ivy.security.IPermissionAccess;
-import ch.ivyteam.ivy.security.IPermissionGroup;
-import ch.ivyteam.ivy.security.IPermissionGroupAccess;
 
 public class Permission
 {
@@ -14,30 +12,24 @@ public class Permission
   private boolean explicit;
   private String permissionHolder;
 
-  public Permission(String name, long id, boolean group, boolean grant, boolean deny, boolean explicit,
-          String permissionHolder)
+  protected Permission(String name, long id, boolean group, boolean grant, boolean deny)
   {
     this.name = name;
     this.id = id;
     this.group = group;
     this.grant = grant;
     this.deny = deny;
-    this.explicit = explicit;
-    this.permissionHolder = permissionHolder;
   }
 
   public Permission(IPermissionAccess access)
   {
-    this(access.getPermission().getName(), access.getPermission().getId(), false,
-            access.isGranted(), access.isDenied(), access.isExplicit(),
-            access.getPermissionHolder() == null ? null : access.getPermissionHolder().getName());
-  }
-
-  public Permission(IPermissionGroup group, IPermissionGroupAccess groupAccess)
-  {
-    this(group.getName(), group.getId(), true,
-            groupAccess.isGrantedAllPermissions(),
-            groupAccess.isDeniedAllPermissions(), true, null);
+    this(access.getPermission().getName(), 
+            access.getPermission().getId(), 
+            false,
+            access.isGranted(), 
+            access.isDenied());
+    this.explicit = access.isExplicit();
+    this.permissionHolder = access.getPermissionHolder() == null ? null : access.getPermissionHolder().getName();
   }
 
   public String getName()
@@ -45,29 +37,14 @@ public class Permission
     return name;
   }
 
-  public void setName(String name)
-  {
-    this.name = name;
-  }
-
   public long getId()
   {
     return id;
   }
 
-  public void setId(long id)
-  {
-    this.id = id;
-  }
-
   public boolean isGroup()
   {
     return group;
-  }
-
-  public void setGroup(boolean group)
-  {
-    this.group = group;
   }
 
   public boolean isGrant()
@@ -80,14 +57,14 @@ public class Permission
     this.grant = grant;
   }
 
-  public boolean isExplicitAndGrant()
+  public boolean isGrantDisabled()
   {
     return explicit && grant;
   }
-
-  @SuppressWarnings("unused")
-  public void setExplicitAndGrant(boolean value)
+  
+  public boolean isUnGrantDisabled()
   {
+    return !isGrantDisabled();
   }
 
   public boolean isDeny()
@@ -100,34 +77,29 @@ public class Permission
     this.deny = deny;
   }
 
-  public boolean isExplicitAndDeny()
+  public boolean isDenyDisabled()
   {
     return explicit && deny;
   }
-
-  @SuppressWarnings("unused")
-  public void setExplicitAndDeny(boolean value)
+  
+  public boolean isUnDenyDisabled()
   {
-  }
-
-  public boolean isExplicit()
-  {
-    return explicit;
+    return !isDenyDisabled();
   }
 
   public void setExplicit(boolean explicit)
   {
     this.explicit = explicit;
   }
+  
+  public boolean isExplicit()
+  {
+    return explicit;
+  }
 
   public String getPermissionHolder()
   {
     return permissionHolder;
-  }
-
-  public void setPermissionHolder(String permissionHolder)
-  {
-    this.permissionHolder = permissionHolder;
   }
 
 }
