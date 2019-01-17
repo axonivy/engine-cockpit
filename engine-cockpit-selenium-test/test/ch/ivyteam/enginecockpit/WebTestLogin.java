@@ -49,6 +49,7 @@ public class WebTestLogin extends WebTestBase
   @Test
   void testLogout(FirefoxDriver driver)
   {
+    login(driver);
     logout(driver);
     saveScreenshot(driver);
     assertLoginPageVisible(driver);
