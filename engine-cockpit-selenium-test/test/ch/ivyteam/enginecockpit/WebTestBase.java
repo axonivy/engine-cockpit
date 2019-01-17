@@ -41,14 +41,14 @@ public class WebTestBase
     this.methodName = testInfo.getTestMethod().map(m -> m.getName()).orElse("unknownMethod");
   }
   
-  public void saveScreenshot(RemoteWebDriver driver)
+  public void saveScreenshot(RemoteWebDriver driver, String name) 
   {
     File source = driver.getScreenshotAs(OutputType.FILE);
     System.out.println("Source: " + source);
     try
     {
       String dir = "target/surefire-reports/" + className + "/" + methodName + "/";
-      FileUtils.moveFile(source, new File(dir, source.getName()));
+      FileUtils.moveFile(source, new File(dir, name + "_" + source.getName()));
     }
     catch (IOException ex)
     {
@@ -56,10 +56,15 @@ public class WebTestBase
     }
   }
   
+  public void saveScreenshot(RemoteWebDriver driver)
+  {
+    saveScreenshot(driver, "");
+  }
+  
   public void login(FirefoxDriver driver)
   {
     driver.get(viewUrl("login.xhtml"));
-    saveScreenshot(driver);
+    saveScreenshot(driver, "login");
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:password").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();

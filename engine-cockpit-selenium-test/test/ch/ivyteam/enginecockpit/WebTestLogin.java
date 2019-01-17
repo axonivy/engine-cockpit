@@ -18,7 +18,7 @@ public class WebTestLogin extends WebTestBase
   void testLogin(FirefoxDriver driver)
   {
     login(driver);
-    saveScreenshot(driver);
+    saveScreenshot(driver, "after_login");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).startsWith("Engine Cockpit").doesNotContain("Login"));
     await().untilAsserted(() -> assertThat(driver.findElementById("sessionUserName").getText()).isEqualTo(getAdminUser())); 
@@ -29,18 +29,18 @@ public class WebTestLogin extends WebTestBase
   {
     driver.get(viewUrl("login.xhtml"));
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver);
+    saveScreenshot(driver, "empty_login");
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:userNameMessage").getText()).isEqualTo("Value is required."));
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEqualTo("Value is required."));
     
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver);
+    saveScreenshot(driver, "empty_password");
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEqualTo("Value is required."));
     
     driver.findElementById("loginForm:password").sendKeys("test");
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver);
+    saveScreenshot(driver, "wrong_password");
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEmpty());
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:loginMessage").isDisplayed()).isTrue());
   }
@@ -50,7 +50,7 @@ public class WebTestLogin extends WebTestBase
   {
     login(driver);
     logout(driver);
-    saveScreenshot(driver);
+    saveScreenshot(driver, "after_logout");
     assertLoginPageVisible(driver);
     driver.get(viewUrl("dashboard.xhtml"));
     assertLoginPageVisible(driver);
@@ -66,7 +66,7 @@ public class WebTestLogin extends WebTestBase
   {
     driver.get(viewUrl("dashboard.xhtml"));
     driver.findElementById("sessionUser").click();
-    saveScreenshot(driver);
+    saveScreenshot(driver, "logout");
     driver.findElementById("sessionLogoutBtn").click();
   }
 }
