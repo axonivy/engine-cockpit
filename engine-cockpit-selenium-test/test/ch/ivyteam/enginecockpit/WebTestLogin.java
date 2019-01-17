@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -16,42 +15,42 @@ public class WebTestLogin extends WebTestBase
 {
 
   @Test
-  void testLogin(FirefoxDriver driver, TestInfo testInfo)
+  void testLogin(FirefoxDriver driver)
   {
-    login(driver, testInfo);
-    saveScreenshot(driver, testInfo);
+    login(driver);
+    saveScreenshot(driver);
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).startsWith("Engine Cockpit").doesNotContain("Login"));
     await().untilAsserted(() -> assertThat(driver.findElementById("sessionUserName").getText()).isEqualTo(getAdminUser())); 
   }
   
   @Test
-  void testLoginInvalid(FirefoxDriver driver, TestInfo testInfo)
+  void testLoginInvalid(FirefoxDriver driver)
   {
     driver.get(viewUrl("login.xhtml"));
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver, testInfo);
+    saveScreenshot(driver);
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:userNameMessage").getText()).isEqualTo("Value is required."));
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEqualTo("Value is required."));
     
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver, testInfo);
+    saveScreenshot(driver);
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEqualTo("Value is required."));
     
     driver.findElementById("loginForm:password").sendKeys("test");
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver, testInfo);
+    saveScreenshot(driver);
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEmpty());
     await().untilAsserted(() -> assertThat(driver.findElementById("loginForm:loginMessage").isDisplayed()).isTrue());
   }
   
   @Test
-  void testLogout(FirefoxDriver driver, TestInfo testInfo)
+  void testLogout(FirefoxDriver driver)
   {
-    login(driver, testInfo);
-    logout(driver, testInfo);
-    saveScreenshot(driver, testInfo);
+    login(driver);
+    logout(driver);
+    saveScreenshot(driver);
     assertLoginPageVisible(driver);
     driver.get(viewUrl("dashboard.xhtml"));
     assertLoginPageVisible(driver);
@@ -63,11 +62,11 @@ public class WebTestLogin extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.getTitle()).contains("Login"));
   }
   
-  private void logout(FirefoxDriver driver, TestInfo testInfo)
+  private void logout(FirefoxDriver driver)
   {
     driver.get(viewUrl("dashboard.xhtml"));
     driver.findElementById("sessionUser").click();
-    saveScreenshot(driver, testInfo);
+    saveScreenshot(driver);
     driver.findElementById("sessionLogoutBtn").click();
   }
 }

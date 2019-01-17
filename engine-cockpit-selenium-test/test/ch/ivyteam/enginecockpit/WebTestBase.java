@@ -31,21 +31,23 @@ public class WebTestBase
     firefoxOptions.setBinary(binary);
   }
   
-  private TestInfo testInfo;
+  private String className;
+  private String methodName;
   
   @BeforeEach
   void init(TestInfo testInfo)
   {
-    this.testInfo = testInfo;
+    this.className = testInfo.getTestClass().map(c -> c.getName()).orElse("unknownClass");
+    this.methodName = testInfo.getTestMethod().map(m -> m.getName()).orElse("unknownMethod");
   }
   
-  public static void saveScreenshot(RemoteWebDriver driver, TestInfo testInfo)
+  public void saveScreenshot(RemoteWebDriver driver)
   {
     File source = driver.getScreenshotAs(OutputType.FILE);
     System.out.println("Source: " + source);
     try
     {
-      String dir = "target/surefire-reports/" + testInfo.getTestClass().get().getName() + "/" + testInfo.getTestMethod().get().getName() + "/";
+      String dir = "target/surefire-reports/" + className + "/" + methodName + "/";
       FileUtils.moveFile(source, new File(dir, source.getName()));
     }
     catch (IOException ex)
@@ -54,10 +56,10 @@ public class WebTestBase
     }
   }
   
-  public void login(FirefoxDriver driver, TestInfo testInfo)
+  public void login(FirefoxDriver driver)
   {
     driver.get(viewUrl("login.xhtml"));
-    saveScreenshot(driver, testInfo);
+    saveScreenshot(driver);
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:password").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
