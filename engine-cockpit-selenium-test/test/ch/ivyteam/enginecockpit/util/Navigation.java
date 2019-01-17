@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static org.awaitility.Awaitility.await;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.WebElement;
@@ -17,26 +19,31 @@ public class Navigation
   public static void toDashboard(FirefoxDriver driver)
   {
     toMenu(driver, DASHBOARD_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
   }
   
   public static void toSecuritySystem(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_SYSTEM_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("securitysystem.xhtml"));
   }
   
   public static void toUsers(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_USER_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("users.xhtml"));
   }
   
   public static void toRoles(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_ROLES_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("roles.xhtml"));
   }
   
   public static void toAdvancedConfig(FirefoxDriver driver)
   {
     toMenu(driver, ADVANCED_CONFIG_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("advancedconfig.xhtml"));
   }
   
   private static void toMenu(FirefoxDriver driver, ByXPath menuItemPath)

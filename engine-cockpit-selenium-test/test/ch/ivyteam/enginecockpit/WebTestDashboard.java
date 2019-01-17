@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +18,6 @@ public class WebTestDashboard extends WebTestBase
   {
     login(driver);
     saveScreenshot(driver);
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
     checkOverviewBoxes(driver);
 
     checkInfoPanels(driver);

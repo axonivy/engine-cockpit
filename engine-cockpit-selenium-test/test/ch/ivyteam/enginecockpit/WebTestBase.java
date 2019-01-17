@@ -71,6 +71,7 @@ public class WebTestBase
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:password").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
+    await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
   }
   
   public static String getAdminUser()
