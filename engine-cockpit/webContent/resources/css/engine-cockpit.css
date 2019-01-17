@@ -170,6 +170,9 @@
   margin-right: 10px;
   margin-top: 3px;
 }
+.table-icon-right.member-inherit-icon {
+  color: lightgrey;
+}
 
 .table-icon.no-margin {
   margin: 0;

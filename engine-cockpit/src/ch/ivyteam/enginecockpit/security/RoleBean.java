@@ -20,6 +20,7 @@ public class RoleBean
 {
   private TreeNode treeRootNode;
   private TreeNode filteredTreeRootNode;
+  private TreeNode treeRootNodeWithMembers;
   private String filter = "";
 
   private ApplicationBean applicationBean;
@@ -32,29 +33,20 @@ public class RoleBean
     reloadRoles();
   }
 
-  @SuppressWarnings("unused")
   public void reloadRoles()
   {
     filter = "";
-    treeRootNode = new DefaultTreeNode(new Role("Roles"), null);
-    IApplication app = applicationBean.getSelectedIApplication();
-    // TODO: remove
-    if (app == null)
-    {
-      TreeNode node = new DefaultTreeNode(new Role("role1"), treeRootNode);
-      node.setExpanded(true);
-      new DefaultTreeNode(new Role("role2"), node);
-      return;
-    }
-    if (filter.isEmpty())
-    {
-      IRole role = app.getSecurityContext().getTopLevelRole();
-      TreeNode node = new DefaultTreeNode(new Role(role.getName()), treeRootNode);
-      node.setExpanded(true);
-      buildRolesTree(role, node);
-    }
+    treeRootNode = new DefaultTreeNode("Roles", null);
+    loadRoleTree(treeRootNode, false);
+    reloadRolesWithMembers();
   }
-
+  
+  public void reloadRolesWithMembers()
+  {
+    treeRootNodeWithMembers = new DefaultTreeNode("RolesWithMembers", null);
+    loadRoleTree(treeRootNodeWithMembers, true);
+  }
+  
   public TreeNode getRoles()
   {
     if (filter.isEmpty())
@@ -63,13 +55,47 @@ public class RoleBean
     }
     return filteredTreeRootNode;
   }
+  
+  public TreeNode getRolesWithMembers()
+  {
+    if (filter.isEmpty())
+    {
+      return treeRootNodeWithMembers;
+    }
+    return filteredTreeRootNode;
+  }
 
-  private void buildRolesTree(IRole parentRole, TreeNode rootNode)
+  @SuppressWarnings("unused")
+  private void loadRoleTree(TreeNode rootNode, boolean renderMembers)
+  {
+    IApplication app = applicationBean.getSelectedIApplication();
+    // TODO: remove
+    if (app == null)
+    {
+      TreeNode node = new DefaultTreeNode(new Role("role1"), rootNode);
+      node.setExpanded(true);
+      new DefaultTreeNode(new Role("role2"), node);
+      return;
+    }
+    IRole role = app.getSecurityContext().getTopLevelRole();
+    TreeNode node = new DefaultTreeNode(new Role(role), rootNode);
+    node.setExpanded(true);
+    buildRolesTree(role, node, renderMembers);
+  }
+  
+  @SuppressWarnings("unused")
+  private void buildRolesTree(IRole parentRole, TreeNode rootNode, boolean renderMembers)
   {
     for (IRole role : parentRole.getChildRoles())
     {
-      TreeNode node = new DefaultTreeNode(new Role(role.getName()), rootNode);
-      buildRolesTree(role, node);
+      TreeNode node = new DefaultTreeNode(new Role(role), rootNode);
+      buildRolesTree(role, node, renderMembers);
+    }
+    if (renderMembers) {
+      for (IRole role : parentRole.getRoleMembers())
+      {
+        new DefaultTreeNode(new Role(role, true), rootNode);
+      }
     }
   }
 
