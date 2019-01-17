@@ -47,7 +47,7 @@
                   </f:facet>
                   <p:ajax event="rowSelect" listener="#{advancedConfigBean.onRowSelect}" update="@form" />
                   <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
-                    <h:outputText value="#{config.key}" title="#{config.key}">
+                    <h:outputText value="#{config.key}" title="#{config.key}" styleClass="config-name">
                       <i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
                     </h:outputText>
                   </p:column>
