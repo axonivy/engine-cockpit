@@ -96,13 +96,20 @@
 							<goal>start-test-engine</goal>
 						</goals>
 					</execution>
+
 					<execution>
-						<id>stop.test.engine</id>
-						<phase>post-integration-test</phase>
+						<id>deploy-test-application</id>
+						<phase>pre-integration-test</phase>
 						<goals>
-							<goal>stop-test-engine</goal>
+							<goal>deploy-to-engine</goal>
 						</goals>
+						<configuration>
+							<deployFile>../engine-cockpit-test-data/target/engine-cockpit-test-data-7.3.0-SNAPSHOT.iar</deployFile>
+							<deployToEngineApplication>test</deployToEngineApplication>
+							<skipDeploy>${maven.test.skip}</skipDeploy>
+						</configuration>
 					</execution>
+					
 				</executions>
 			</plugin>
 			<plugin>
