@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile">
+
+<h:form id="permissionsForm">
+  <p:growl for="permissionMessage" autoUpdate="true" />
+  <p:commandButton id="reloadPermissionBtn" actionListener="#{permissionBean.reloadPermissions}"
+    title="Reload Permissions" icon="ui-icon-refresh" styleClass="card-button header-button" update="@form" />
+  <div class="ui-datatable-header ui-widget-header ui-corner-top" style="border-bottom: 0 none;">
+    <div class="ui-outputpanel ui-widget">
+      <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i class="material-icons">search</i>
+      </label>
+      <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
+        value="#{permissionBean.filter}">
+        <p:ajax event="keyup" delay="300" update="@form" />
+      </p:inputText>
+    </div>
+  </div>
+  <p:treeTable value="#{permissionBean.permissions}" var="permission">
+    <p:column headerText="All Permissions">
+      <h:outputText value="#{permission.name}">
+        <i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
+      </h:outputText>
+    </p:column>
+
+    <p:column style="width: 40px; text-align: center;">
+      <h:outputText rendered="#{permission.grant}">
+        <i class="fa fa-check table-icon no-margin" title="Permission granted"/>
+      </h:outputText>
+      <h:outputText rendered="#{!permission.grant and permission.someGrant}">
+        <i class="fa fa-check table-icon no-margin light" title="Some Permission granted"/>
+      </h:outputText>
+      <h:outputText rendered="#{permission.deny}">
+        <i class="fa fa-minus-circle table-icon"  title="Permission denied"/>
+      </h:outputText>
+      <h:outputText rendered="#{!permission.deny and permission.someDeny}">
+        <i class="fa fa-minus-circle table-icon light" title="Some Permission denied"/>
+      </h:outputText>
+      <h:outputText rendered="#{!permission.group and not empty permission.permissionHolder and !permission.explicit}">
+        <i class="fa fa-group table-icon" title="#{permission.permissionHolder}"></i>
+      </h:outputText>
+    </p:column>
+
+    <p:column headerText="Grant" style="width: 70px;">
+      <p:commandButton type="button" icon="ui-icon-add" title="Grant"
+        styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.grantDisabled}">
+        <p:ajax update="@form" listener="#{permission.grant}" />
+      </p:commandButton>
+      <p:commandButton type="button" icon="ui-icon-remove" title="Ungrant"
+        styleClass="card-button table-control-btn secondary-btn" disabled="#{permission.unGrantDisabled}">
+        <p:ajax update="@form" listener="#{permission.ungrant}" />
+      </p:commandButton>
+    </p:column>
+
+    <p:column headerText="Deny" style="width: 70px;">
+      <p:commandButton type="button" icon="ui-icon-add" title="Deny"
+        styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.denyDisabled}">
+        <p:ajax update="@form" listener="#{permission.deny}" />
+      </p:commandButton>
+      <p:commandButton type="button" icon="ui-icon-remove" title="Undeny"
+        styleClass="card-button table-control-btn secondary-btn" disabled="#{permission.unDenyDisabled}">
+        <p:ajax update="@form" listener="#{permission.undeny}" />
+      </p:commandButton>
+    </p:column>
+  </p:treeTable>
+</h:form>
+</html>
