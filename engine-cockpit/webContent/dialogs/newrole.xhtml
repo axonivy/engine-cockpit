@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog style="min-width: 300px;" header="Add new child role for #{roleDetailBean.roleName}"
+  widgetVar="newChildRoleModal" modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="newChildRoleForm">
+    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="newChildRoleNameInput" requiredMessage="Value is required"
+          value="#{roleDetailBean.newChildRoleName}" required="true" />
+        <label>Name</label>
+        <p:message for="newChildRoleNameInput" id="newRoleNameMessage" />
+      </h:panelGroup>
+    </p:panelGrid>
+    <p:commandButton id="saveNewRole" validateClient="true" actionListener="#{roleDetailBean.createNewChildRole}"
+      ajax="false" update="@form" value="Save" icon="ui-icon-save" styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelNewRole" onclick="PF('newChildRoleModal').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </h:form>
+</p:dialog>
+</html>
