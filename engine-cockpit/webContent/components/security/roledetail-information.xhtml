@@ -10,7 +10,7 @@
     icon="ui-icon-save" styleClass="primary-btn card-button" />
   <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
     title="Add new child role" icon="ui-icon-add" styleClass="amber-btn card-button" />
-  <p:commandButton id="deleteRole" type="button" onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role"
+  <p:commandButton id="deleteRole" rendered="#{roleDetailBean.role.dynamic}" type="button" onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role"
     icon="ui-icon-delete" styleClass="red-btn card-button" />
   <p:confirmDialog message="Are you sure about deleteing the role '#{roleDetailBean.roleName}'?" header="Delete Role"
     severity="alert" widgetVar="deleteRoleConfirmDialog">

@@ -11,6 +11,7 @@ public class Role
   private String displayName;
   private String externalName;
   private boolean member;
+  private boolean dynamic;
 
   public Role(IRole role)
   {
@@ -19,21 +20,22 @@ public class Role
   
   public Role(IRole role, boolean member)
   {
-    this(role.getName(), role.getDisplayDescription(), role.getDisplayName(), role.getExternalSecurityName(), member);
+    this(role.getName(), role.getDisplayDescription(), role.getDisplayName(), role.getExternalSecurityName(), member, role.isDynamic());
   }
 
   public Role(String name)
   {
-    this(name, "", "", "", false);
+    this(name, "", "", "", false, false);
   }
 
-  public Role(String name, String description, String displayName, String externalName, boolean member)
+  public Role(String name, String description, String displayName, String externalName, boolean member, boolean dynamic)
   {
     this.name = name;
     this.description = description;
     this.displayName = displayName;
     this.externalName = externalName;
     this.member = member;
+    this.dynamic = dynamic;
   }
 
   public Role()
@@ -94,6 +96,16 @@ public class Role
   public boolean isAdSynced()
   {
     return !StringUtils.isEmpty(externalName);
+  }
+  
+  public boolean isDynamic()
+  {
+    return dynamic;
+  }
+
+  public void setDynamic(boolean dynamic)
+  {
+    this.dynamic = dynamic;
   }
 
   @Override
