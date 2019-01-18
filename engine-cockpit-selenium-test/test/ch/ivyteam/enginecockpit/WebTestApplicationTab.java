@@ -14,7 +14,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 public class WebTestApplicationTab extends WebTestBase
 {
   @Test
-  void testApplicationsFound(FirefoxDriver driver)
+  void testApplicationCount(FirefoxDriver driver)
   {
     login(driver);
     navigateToUsers(driver);
@@ -22,7 +22,7 @@ public class WebTestApplicationTab extends WebTestBase
   }
 
   @Test
-  void testApplications(FirefoxDriver driver)
+  void testApplicationNames(FirefoxDriver driver)
   {
     login(driver);
     navigateToUsers(driver);
@@ -49,7 +49,6 @@ public class WebTestApplicationTab extends WebTestBase
       newIndex = ApplicationTab.getSelectedApplicationIndex(driver);
       assertThat(newIndex).isNotEqualTo(appNotFoundIndex).isNotSameAs(index).isSameAs(wantedIndex);
     }
-    navigateToRoles(driver);
   }
 
   @Test

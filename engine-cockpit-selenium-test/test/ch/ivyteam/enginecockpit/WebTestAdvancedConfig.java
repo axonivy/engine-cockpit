@@ -14,7 +14,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 public class WebTestAdvancedConfig extends WebTestBase
 {
   @Test
-  void testSecuritySystem(FirefoxDriver driver)
+  void testAdvancedConfig(FirefoxDriver driver)
   {
     login(driver);
     Navigation.toAdvancedConfig(driver);
@@ -27,6 +27,7 @@ public class WebTestAdvancedConfig extends WebTestBase
       WebElement lastConfig = driver.findElementByXPath("(//*[@class='config-name'])[last()]");
       WebElement input = driver.findElementByXPath("//input[contains(@class, 'table-search-input-withicon')]");
       input.sendKeys(lastConfig.getText());
+      saveScreenshot(driver, "search_config");
       await().untilAsserted(() -> assertThat(driver.findElementsByClassName("config-name")).hasSize(1));
     }
   }
