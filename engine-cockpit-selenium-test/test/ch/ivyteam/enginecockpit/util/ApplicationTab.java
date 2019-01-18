@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static org.awaitility.Awaitility.await;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,17 +47,26 @@ public class ApplicationTab
 
   public static void switchToApplication(FirefoxDriver driver, int index)
   {
-    driver.findElements(APPLICATION_TAB).get(index).click();
+    if (getSelectedApplicationIndex(driver) != index)
+    {
+      driver.findElements(APPLICATION_TAB).get(index).click();
+    }
+    await().until(() -> getSelectedApplicationIndex(driver) == index);
   }
 
   public static void switchToApplication(FirefoxDriver driver, String appName)
   {
+    if (getSelectedApplication(driver).equals(appName))
+    {
+      return;
+    }
     Optional<WebElement> app = driver.findElements(APPLICATION_TAB).stream()
             .filter(e -> e.getText().equals(appName))
             .findAny();
     if (app.isPresent())
     {
       app.get().click();
+      await().until(() -> getSelectedApplication(driver).equals(appName));
     }
   }
 }
