@@ -163,12 +163,15 @@
   font-size: 17px;
   margin-right: 5px;
 }
+.table-icon.light {
+  color: lightgrey;
+}
 
 .table-icon-right {
   float: right;
-  font-size: 24px;
+  font-size: 17px;
   margin-right: 10px;
-  margin-top: 3px;
+  margin-top: 6px;
 }
 .table-icon-right.member-inherit-icon {
   color: lightgrey;

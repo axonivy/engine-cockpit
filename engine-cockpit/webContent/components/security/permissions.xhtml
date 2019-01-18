@@ -27,12 +27,18 @@
 
     <p:column style="width: 40px; text-align: center;">
       <h:outputText rendered="#{permission.grant}">
-        <i class="fa fa-check table-icon no-margin"></i>
+        <i class="fa fa-check table-icon no-margin" title="Permission granted"/>
+      </h:outputText>
+      <h:outputText rendered="#{!permission.grant and permission.someGrant}">
+        <i class="fa fa-check table-icon no-margin light" title="Some Permission granted"/>
       </h:outputText>
       <h:outputText rendered="#{permission.deny}">
-        <i class="fa fa-minus-circle table-icon"></i>
+        <i class="fa fa-minus-circle table-icon"  title="Permission denied"/>
       </h:outputText>
-      <h:outputText rendered="#{not empty permission.permissionHolder and !permission.explicit}">
+      <h:outputText rendered="#{!permission.deny and permission.someDeny}">
+        <i class="fa fa-minus-circle table-icon light" title="Some Permission denied"/>
+      </h:outputText>
+      <h:outputText rendered="#{!permission.group and not empty permission.permissionHolder and !permission.explicit}">
         <i class="fa fa-group table-icon" title="#{permission.permissionHolder}"></i>
       </h:outputText>
     </p:column>
@@ -40,22 +46,22 @@
     <p:column headerText="Grant" style="width: 70px;">
       <p:commandButton type="button" icon="ui-icon-add" title="Grant"
         styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.grantDisabled}">
-        <p:ajax update="@form" listener="#{permissionBean.grant(permission.id, permission.group)}" />
+        <p:ajax update="@form" listener="#{permission.grant}" />
       </p:commandButton>
       <p:commandButton type="button" icon="ui-icon-remove" title="Ungrant"
         styleClass="card-button table-control-btn secondary-btn" disabled="#{permission.unGrantDisabled}">
-        <p:ajax update="@form" listener="#{permissionBean.ungrant(permission.id, permission.group)}" />
+        <p:ajax update="@form" listener="#{permission.ungrant}" />
       </p:commandButton>
     </p:column>
 
     <p:column headerText="Deny" style="width: 70px;">
       <p:commandButton type="button" icon="ui-icon-add" title="Deny"
         styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.denyDisabled}">
-        <p:ajax update="@form" listener="#{permissionBean.deny(permission.id, permission.group)}" />
+        <p:ajax update="@form" listener="#{permission.deny}" />
       </p:commandButton>
       <p:commandButton type="button" icon="ui-icon-remove" title="Undeny"
         styleClass="card-button table-control-btn secondary-btn" disabled="#{permission.unDenyDisabled}">
-        <p:ajax update="@form" listener="#{permissionBean.undeny(permission.id, permission.group)}" />
+        <p:ajax update="@form" listener="#{permission.undeny}" />
       </p:commandButton>
     </p:column>
   </p:treeTable>

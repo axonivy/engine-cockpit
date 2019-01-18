@@ -14,6 +14,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.model.AbstractPermission;
 import ch.ivyteam.enginecockpit.model.Permission;
 import ch.ivyteam.enginecockpit.model.PermissionGroup;
 import ch.ivyteam.ivy.security.IPermission;
@@ -29,7 +30,7 @@ public class PermissionBean
 {
   private TreeNode rootTreeNode;
   private TreeNode filteredRootTreeNode;
-  private Map<Long, Permission> permissionMap;
+  private Map<Long, AbstractPermission> permissionMap;
   private String filter = "";
   private String member;
 
@@ -52,12 +53,12 @@ public class PermissionBean
     this.member = member;
     reloadPermissions();
   }
-  
+
   public String getUserMember()
   {
-    return StringUtils.remove(member,"#");
+    return StringUtils.remove(member, "#");
   }
-  
+
   public void setUserMember(String member)
   {
     setMember("#" + member);
@@ -81,8 +82,8 @@ public class PermissionBean
     ISecurityDescriptor securityDescriptor = getSecurityDescriptor();
     IPermissionGroup rootPermissionGroup = securityDescriptor.getSecurityDescriptorType()
             .getRootPermissionGroup();
-    Permission permission = new PermissionGroup(rootPermissionGroup, 
-            securityDescriptor.getPermissionGroupAccess(rootPermissionGroup, iMember));
+    AbstractPermission permission = new PermissionGroup(
+            securityDescriptor.getPermissionGroupAccess(rootPermissionGroup, iMember), this);
     TreeNode node = new DefaultTreeNode(permission, rootTreeNode);
     permissionMap.put(permission.getId(), permission);
     node.setExpanded(true);
@@ -102,7 +103,7 @@ public class PermissionBean
 
       if (access.getPermission() != null)
       {
-        Permission permission = new Permission(access);
+        AbstractPermission permission = new Permission(access, this);
         new DefaultTreeNode(permission, node);
         permissionMap.put(permission.getId(), permission);
       }
@@ -115,7 +116,7 @@ public class PermissionBean
 
       if (childGroupAccess.getPermissionGroup() != null)
       {
-        Permission permission = new PermissionGroup(childGroup, childGroupAccess);
+        AbstractPermission permission = new PermissionGroup(childGroupAccess, this);
         TreeNode childNode = new DefaultTreeNode(permission, node);
         permissionMap.put(permission.getId(), permission);
         loadChildrenPermissions(childNode, securityDescriptor, childGroup, securityMember);
@@ -128,7 +129,7 @@ public class PermissionBean
   {
     for (TreeNode node : nodes)
     {
-      Permission permission = (Permission) node.getData();
+      AbstractPermission permission = (AbstractPermission) node.getData();
       if (permission.getName().toLowerCase().contains(filter.toLowerCase()))
       {
         new DefaultTreeNode(permission, filteredRootTreeNode);
@@ -148,165 +149,45 @@ public class PermissionBean
     filteredRootTreeNode = new DefaultTreeNode("Filtered roles", null);
     filterRootTreeNode(rootTreeNode.getChildren());
   }
-  
-  public void grant(long id, boolean group)
+ 
+  public void reSetRootPermissionGroup()
   {
-    toggleGrant(id, true, group);
-  }
-  
-  public void ungrant(long id, boolean group)
-  {
-    toggleGrant(id, false, group);
-  }
-  
-  public void deny(long id, boolean group)
-  {
-    toggleDeny(id, true, group);
-  }
-  
-  public void undeny(long id, boolean group)
-  {
-    toggleDeny(id, false, group);
+    reSetPermissionGroup(getSecurityDescriptor().getSecurityDescriptorType()
+            .getRootPermissionGroup());
   }
 
-  private void toggleGrant(long id, boolean grant, boolean group)
-  {
-    if(group) {
-      toggleGrantGroup(id, grant);
-    }
-    else 
-    {
-      toggleGrantPermission(id, grant);
-    }
-  }
-  
-  private void toggleGrantGroup(long id, boolean grant)
-  {
-    IPermissionGroup permissionGroup = findPermissionGroup(id, getSecurityDescriptor()
-            .getSecurityDescriptorType().getRootPermissionGroup());
-    if(grant) 
-    {
-      getSecurityDescriptor().grantPermissions(permissionGroup, getSecurityMember());
-    }
-    else
-    {
-      getSecurityDescriptor().ungrantPermissions(permissionGroup, getSecurityMember());
-    }
-    reSetPermissionGroup(permissionGroup);
-  }
-
-  private void toggleGrantPermission(long id, boolean grant)
-  {
-    Optional<IPermission> permission = findPermission(id);
-    if(permission.isPresent()) 
-    {
-      if(grant) 
-      {
-        getSecurityDescriptor().grantPermission(permission.get(), getSecurityMember());
-      }
-      else
-      {
-        getSecurityDescriptor().ungrantPermission(permission.get(), getSecurityMember());
-      }
-      reSetSinglePermission(permission.get());
-    }
-  }
-  
-  private void toggleDeny(long id, boolean deny, boolean group)
-  {
-    if(group)
-    {
-      toggleDenyGroup(id, deny);
-    }
-    else
-    {
-      toggleDenyPermission(id, deny);
-    }
-  }
-  
-  private void toggleDenyGroup(long id, boolean deny)
-  {
-    IPermissionGroup permissionGroup = findPermissionGroup(id, getSecurityDescriptor()
-            .getSecurityDescriptorType().getRootPermissionGroup());
-    if(deny) 
-    {
-      getSecurityDescriptor().denyPermissions(permissionGroup, getSecurityMember());
-    }
-    else
-    {
-      getSecurityDescriptor().undenyPermissions(permissionGroup, getSecurityMember());
-    }
-    reSetPermissionGroup(permissionGroup);
-  }
-
-  private void toggleDenyPermission(long id, boolean deny)
-  {
-    Optional<IPermission> permission = findPermission(id);
-    if(permission.isPresent())
-    {
-      if(deny) 
-      {
-        getSecurityDescriptor().denyPermission(permission.get(), getSecurityMember());
-      }
-      else
-      {
-        getSecurityDescriptor().undenyPermission(permission.get(), getSecurityMember());
-      }
-      reSetSinglePermission(permission.get());
-    }
-  }
-  
   private void reSetPermissionGroup(IPermissionGroup iPermissionGroup)
   {
     ISecurityDescriptor securityDescriptor = getSecurityDescriptor();
-    IPermissionGroupAccess permissionGroupAccess = securityDescriptor.getPermissionGroupAccess(iPermissionGroup, getSecurityMember());
+    IPermissionGroupAccess permissionGroupAccess = securityDescriptor
+            .getPermissionGroupAccess(iPermissionGroup, getSecurityMember());
     PermissionGroup permissionGroup = (PermissionGroup) permissionMap.get(iPermissionGroup.getId());
     permissionGroup.setDeny(permissionGroupAccess.isDeniedAllPermissions());
     permissionGroup.setGrant(permissionGroupAccess.isGrantedAllPermissions());
-    permissionGroup.setAnyDeny(permissionGroupAccess.isDeniedAnyPermission());
-    permissionGroup.setAnyGrant(permissionGroupAccess.isGrantedAnyPermission());
-    iPermissionGroup.getPermissions().stream().forEach(p -> reSetSinglePermission(p));
+    permissionGroup.setSomeDeny(permissionGroupAccess.isDeniedAnyPermission());
+    permissionGroup.setSomeGrant(permissionGroupAccess.isGrantedAnyPermission());
+    iPermissionGroup.getPermissions().stream().forEach(p -> reSetPermission(p));
     iPermissionGroup.getChildGroups().stream().forEach(g -> reSetPermissionGroup(g));
   }
-  
-  private void reSetSinglePermission(IPermission iPermission)
+
+  private void reSetPermission(IPermission iPermission)
   {
     ISecurityDescriptor securityDescriptor = getSecurityDescriptor();
-    IPermissionAccess permissionAccess = securityDescriptor.getPermissionAccess(iPermission, getSecurityMember());
-    Permission permission = permissionMap.get(iPermission.getId());
+    IPermissionAccess permissionAccess = securityDescriptor.getPermissionAccess(iPermission,
+            getSecurityMember());
+    Permission permission = (Permission) permissionMap.get(iPermission.getId());
     permission.setGrant(permissionAccess.isGranted());
     permission.setDeny(permissionAccess.isDenied());
     permission.setExplicit(permissionAccess.isExplicit());
+    permission.setPermissionHolder(Optional.ofNullable(permissionAccess.getPermissionHolder()).map(r -> r.getName()).orElse(null));
   }
-  
-  private ISecurityDescriptor getSecurityDescriptor()
+
+  public ISecurityDescriptor getSecurityDescriptor()
   {
     return applicationBean.getSelectedIApplication().getSecurityDescriptor();
   }
-  
-  private Optional<IPermission> findPermission(long id)
-  {
-    return getSecurityDescriptor().getPermissions().stream().filter(p -> p.getId() == id).findAny();
-  }
-  
-  private IPermissionGroup findPermissionGroup(long id, IPermissionGroup permissionGroup)
-  {
-    if(permissionGroup.getId() == id)
-    {
-      return permissionGroup;
-    }
-    for(IPermissionGroup childGroup : permissionGroup.getChildGroups())
-    {
-      IPermissionGroup group = findPermissionGroup(id, childGroup);
-      if (group != null)
-      {
-        return group;
-      }
-    }
-    return null;
-  }
-  
-  private ISecurityMember getSecurityMember()
+
+  public ISecurityMember getSecurityMember()
   {
     return applicationBean.getSelectedIApplication().getSecurityContext().findSecurityMember(member);
   }
