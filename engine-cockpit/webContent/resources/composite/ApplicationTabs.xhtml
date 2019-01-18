@@ -12,7 +12,7 @@
     activeIndex="#{applicationBean.selectedApplicationIndex}" var="app">
     <p:ajax event="tabChange" listener="#{applicationBean.updateSelectedApplication}" />
     <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@form" />
-    <p:tab title="#{app.name}">
+    <p:tab title="#{app.name}" titleStyleClass="application-tab">
       <cc:insertChildren />
     </p:tab>
   </p:tabView>
