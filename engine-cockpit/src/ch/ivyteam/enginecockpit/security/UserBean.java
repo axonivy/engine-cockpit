@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,18 +44,6 @@ public class UserBean
 
   private List<User> getUsersOfApp(IApplication app)
   {
-    // TODO: remove
-    if (app == null)
-    {
-      List<User> dummyUsers = new ArrayList<User>();
-      User user1 = new User();
-      user1.setName("testUser1");
-      User user2 = new User();
-      user2.setName("testUser2");
-      dummyUsers.add(user1);
-      dummyUsers.add(user2);
-      return dummyUsers;
-    }
     List<User> appUsers = app.getSecurityContext().getUsers().stream()
             .map(user -> new User(user))
             .collect(Collectors.toList());

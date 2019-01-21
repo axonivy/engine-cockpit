@@ -43,6 +43,15 @@
   margin-right: 10px;
   float: right;
 }
+.dashboard-card .card-button.header-button {
+  position: absolute;
+  right: 30px;
+  margin: 0;
+  margin-top: -40px;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
 
 .dashboard .ui-grid-col-5 label {
   font-style: italic;
@@ -154,15 +163,22 @@
   font-size: 17px;
   margin-right: 5px;
 }
+.table-icon.light {
+  color: lightgrey;
+}
 
 .table-icon-right {
   float: right;
-  font-size: 24px;
+  font-size: 17px;
   margin-right: 10px;
-  margin-top: 3px;
+  margin-top: 6px;
 }
 .table-icon-right.member-inherit-icon {
   color: lightgrey;
+}
+
+.table-icon.no-margin {
+  margin: 0;
 }
 
 .ui-datatable .table-control-btn, 

@@ -71,6 +71,11 @@ public class RoleDetailBean
     this.role = role;
   }
 
+  public void createNewChildRole()
+  {
+    getIRole().createChildRole(newChildRoleName, "", "", true);
+  }
+
   public void saveRoleInfos()
   {
     IRole iRole = getSecurityContext().findRole(role.getName());
@@ -79,6 +84,12 @@ public class RoleDetailBean
     iRole.setExternalSecurityName(role.getExternalName());
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
             new FacesMessage("Role information changes saved"));
+  }
+
+  public String deleteRole()
+  {
+    getIRole().delete();
+    return "roles.xhtml";
   }
 
   public List<User> getUsersOfRole()
@@ -123,12 +134,12 @@ public class RoleDetailBean
   {
     return getIRole(roleName);
   }
-  
+
   private IRole getIRole(String name)
   {
     return getSecurityContext().findRole(name);
   }
-  
+
   private void loadMembersOfRole()
   {
     membersOfRole = getIRole().getRoleMembers().stream().map(r -> new Role(r)).collect(Collectors.toList());
@@ -138,12 +149,13 @@ public class RoleDetailBean
   {
     return membersOfRole;
   }
-  
+
   public boolean isRoleMemberOfRole(String name)
   {
-    return membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent() || name.equals(roleName);
+    return membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent()
+            || name.equals(roleName);
   }
-  
+
   public List<Role> getFilteredMembers()
   {
     return filteredMembers;
@@ -153,13 +165,13 @@ public class RoleDetailBean
   {
     this.filteredMembers = filteredMembers;
   }
-  
+
   public void addMember(String member)
   {
     getIRole().addRoleMember(getIRole(member));
     loadMembersOfRole();
   }
-  
+
   public void removeMember(String member)
   {
     getIRole().removeRoleMember(getIRole(member));

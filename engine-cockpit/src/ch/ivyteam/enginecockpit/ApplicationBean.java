@@ -33,11 +33,9 @@ public class ApplicationBean
   {
     DiCore.getGlobalInjector().injectMembers(this);
 
-    applications = manager.getApplications().stream()
+    applications = manager.getApplicationsSortedByName(false).stream()
             .map(app -> new Application(app))
             .collect(Collectors.toList());
-    // TODO: remove
-    applications.add(new Application("test", 0));
   }
 
   public List<Application> getApplications()
@@ -78,11 +76,6 @@ public class ApplicationBean
 
   public IApplication getSelectedIApplication()
   {
-    // TODO: remove
-    if (getSelectedApplication().getId() == 0)
-    {
-      return null;
-    }
     return manager.getApplication(getSelectedApplication().getId());
   }
 
@@ -93,7 +86,7 @@ public class ApplicationBean
 
   public List<IApplication> getIApplicaitons()
   {
-    return manager.getApplications();
+    return manager.getApplicationsSortedByName(false);
   }
 
   public int getSessionCount()
@@ -132,11 +125,6 @@ public class ApplicationBean
   
   public boolean isIvySecuritySystem() 
   {
-    //TODO: remove
-    if (getSelectedIApplication() == null) 
-    {
-      return true;
-    }
     return getSelectedIApplication().getSecurityContext().getExternalSecuritySystemProvider().getProviderName().equals("ivy Security System");
   }
 }

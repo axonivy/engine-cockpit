@@ -9,7 +9,7 @@
 
 	<properties>
 		<nexus.root.url>http://zugpronexus:8081/nexus</nexus.root.url>
-		<engine.page.url>http://zugprobldmas/job/Trunk_All/lastSuccessfulBuild/</engine.page.url>
+		<engine.page.url>http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/</engine.page.url>
 		<engine.dir>../.ivy-engine</engine.dir>
 	</properties>
 
@@ -24,6 +24,7 @@
 					<ivyVersion>[7.3.0,]</ivyVersion>
 					<engineListPageUrl>${engine.page.url}</engineListPageUrl>
                     <engineDirectory>${engine.dir}</engineDirectory>
+					<skipScriptValidation>false</skipScriptValidation>
 				</configuration>
 			</plugin>
 		</plugins>
