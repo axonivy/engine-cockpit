@@ -85,6 +85,28 @@
 			</plugin>
 
 			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>copy-ivy-yaml</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${engine.dir}/configuration</outputDirectory>
+							<resources>
+								<resource>
+									<directory>engine-configuration</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>com.axonivy.ivy.ci</groupId>
 				<artifactId>project-build-plugin</artifactId>
 				<extensions>true</extensions>
@@ -96,13 +118,33 @@
 							<goal>start-test-engine</goal>
 						</goals>
 					</execution>
+
 					<execution>
-						<id>stop.test.engine</id>
-						<phase>post-integration-test</phase>
+						<id>deploy-test-application</id>
+						<phase>pre-integration-test</phase>
 						<goals>
-							<goal>stop-test-engine</goal>
+							<goal>deploy-to-engine</goal>
 						</goals>
+						<configuration>
+							<deployFile>../engine-cockpit-test-data/target/engine-cockpit-test-data-7.3.0-SNAPSHOT.iar</deployFile>
+							<deployToEngineApplication>test</deployToEngineApplication>
+							<skipDeploy>${maven.test.skip}</skipDeploy>
+						</configuration>
 					</execution>
+					
+					<execution>
+						<id>deploy-test-ad-applicaton</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>deploy-to-engine</goal>
+						</goals>
+						<configuration>
+							<deployFile>../engine-cockpit-test-data/target/engine-cockpit-test-data-7.3.0-SNAPSHOT.iar</deployFile>
+							<deployToEngineApplication>test-ad</deployToEngineApplication>
+							<skipDeploy>${maven.test.skip}</skipDeploy>
+						</configuration>
+					</execution>
+
 				</executions>
 			</plugin>
 			<plugin>

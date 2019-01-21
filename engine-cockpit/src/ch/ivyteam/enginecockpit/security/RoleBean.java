@@ -69,14 +69,6 @@ public class RoleBean
   private void loadRoleTree(TreeNode rootNode, boolean renderMembers)
   {
     IApplication app = applicationBean.getSelectedIApplication();
-    // TODO: remove
-    if (app == null)
-    {
-      TreeNode node = new DefaultTreeNode(new Role("role1"), rootNode);
-      node.setExpanded(true);
-      new DefaultTreeNode(new Role("role2"), node);
-      return;
-    }
     IRole role = app.getSecurityContext().getTopLevelRole();
     TreeNode node = new DefaultTreeNode(new Role(role), rootNode);
     node.setExpanded(true);

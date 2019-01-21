@@ -1,0 +1,11 @@
+Applications.test-ad.SecuritySystem: "test-ad"
+
+SecuritySystems:
+  test-ad:
+    Provider: "Microsoft Active Directory"
+    Connection:
+      Url: ldap://zugtstdirads
+      UserName: admin@zugtstdomain.wan
+      Password: nimda
+    Binding:
+      DefaultContext: "OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"
