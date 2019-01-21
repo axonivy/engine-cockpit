@@ -5,14 +5,14 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <h:form id="userInformationForm">
-  <p:growl for="informationSaveSuccess" autoUpdate="true" />
+  <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" />
   <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
     icon="ui-icon-delete" styleClass="red-btn card-button" />
-  <p:confirmDialog message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User"
+  <p:confirmDialog id="deleteUserConfirmDialog" message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User"
     severity="alert" widgetVar="deleteUserConfirmDialog">
-    <p:commandButton value="Yes" ajax="false" immediate="true" action="#{userDetailBean.deleteSelectedUser}"
+    <p:commandButton id="deleteUserConfirmYesBtn" value="Yes" ajax="false" immediate="true" action="#{userDetailBean.deleteSelectedUser}"
       icon="ui-icon-check" style="width: inherit;" />
     <p:commandButton value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
@@ -20,15 +20,15 @@
 
   <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
     <h:panelGroup styleClass="md-inputfield">
-      <p:inputText disabled="true" value="#{userDetailBean.user.name}" />
+      <p:inputText id="name" disabled="true" value="#{userDetailBean.user.name}" />
       <label>Name</label>
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
-      <p:inputText value="#{userDetailBean.user.fullName}" />
+      <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
       <label>Full Name</label>
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
-      <p:inputText value="#{userDetailBean.user.email}" />
+      <p:inputText id="email" value="#{userDetailBean.user.email}" />
       <label>E-Mail Address</label>
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">

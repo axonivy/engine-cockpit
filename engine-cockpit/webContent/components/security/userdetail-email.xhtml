@@ -5,7 +5,7 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <h:form id="userEmailForm">
-  <p:growl for="emailSaveSuccess" autoUpdate="true" />
+  <p:growl id="emailSaveSuccess" for="emailSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
     title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
   <p:panelGrid id="emailNotificationSettings" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
