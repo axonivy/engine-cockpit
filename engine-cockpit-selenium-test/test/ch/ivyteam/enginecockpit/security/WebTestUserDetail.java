@@ -3,6 +3,9 @@ package ch.ivyteam.enginecockpit.security;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectManyCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneRadio;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
@@ -108,20 +112,45 @@ public class WebTestUserDetail extends WebTestBase
     SelectOneRadio radioSettings = primeUi.selectOneRadio(new By.ById("userEmailForm:radioSettings"));
     SelectBooleanCheckbox neverCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:neverCheckbox"));
     SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:taskCheckbox"));
+    SelectManyCheckbox dailyCheckbox = primeUi.selectManyCheckbox(By.id("userEmailForm:radioDailyNotification"));
     await().untilAsserted(() -> assertThat(radioSettings.getSelected()).isEqualTo("Application"));
     await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isFalse());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isFalse());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
+    await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
     
     radioSettings.selectItemByValue("Specific");
+    saveScreenshot(driver, "specific");
+    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
+    await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse());
+    
+    List<String> days = new ArrayList<String>(Arrays.asList("Mon", "Fri", "Sun"));
+    dailyCheckbox.setCheckboxes(days);
+    saveScreenshot(driver, "days");
+    await().untilAsserted(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun"));
+    
     taskCheckbox.setChecked();
     neverCheckbox.setChecked();
     saveScreenshot(driver, "new_settings");
     await().untilAsserted(() -> assertThat(radioSettings.getSelected()).isEqualTo("Specific"));
     await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isTrue());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isTrue());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
+    await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
     driver.findElementById("userEmailForm:saveEmailNotificationSettings").click();
     await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").isDisplayed()).isTrue());
-    //Todo: assert disabled, assert selectmanycheckboxes(days)
+    saveScreenshot(driver, "save");
+
+    driver.navigate().refresh();
+    saveScreenshot(driver, "refresh");
+    await().untilAsserted(() -> assertThat(radioSettings.getSelected()).isEqualTo("Specific"));
+    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isTrue());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isTrue());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
+    await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
+    await().untilAsserted(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun"));
   }
   
   private void clearUserInfoInputs(FirefoxDriver driver)
