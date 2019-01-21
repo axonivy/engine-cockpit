@@ -126,7 +126,7 @@ public class RoleDetailBean
 
   private void loadUsersOfRole()
   {
-    usersOfRole = getIRole().getAllUsers().stream().map(u -> new User(u))
+    usersOfRole = getIRole().getUsers().stream().map(u -> new User(u))
             .collect(Collectors.toList());
   }
 
