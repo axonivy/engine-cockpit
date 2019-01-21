@@ -24,12 +24,12 @@
     <p:outputLabel value="Notification send:" for="checkboxNotification" />
     <p:panelGrid id="checkboxNotification" columns="2" layout="grid"
       styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive">
-      <p:selectBooleanCheckbox value="#{userDetailBean.emailSettings.notificationDisabled}"
+      <p:selectBooleanCheckbox id="neverCheckbox" value="#{userDetailBean.emailSettings.notificationDisabled}"
         disabled="#{userDetailBean.notificationCheckboxDisabled}" style="float: left;">
         <p:outputLabel value="Never" />
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
-      <p:selectBooleanCheckbox value="#{userDetailBean.emailSettings.sendOnNewWorkTasks}"
+      <p:selectBooleanCheckbox id="taskCheckbox" value="#{userDetailBean.emailSettings.sendOnNewWorkTasks}"
         disabled="#{userDetailBean.taskCheckboxDisabled}" style="float: left;">
         <p:outputLabel value="New Task" />
         <p:ajax update="@form" />

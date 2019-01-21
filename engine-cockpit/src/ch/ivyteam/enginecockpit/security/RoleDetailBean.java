@@ -71,9 +71,10 @@ public class RoleDetailBean
     this.role = role;
   }
 
-  public void createNewChildRole()
+  public String createNewChildRole()
   {
     getIRole().createChildRole(newChildRoleName, "", "", true);
+    return "roledetail.xhtml?roleName=" + newChildRoleName + "&faces-redirect=true";
   }
 
   public void saveRoleInfos()

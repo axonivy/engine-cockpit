@@ -10,6 +10,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneRadio;
+
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -21,7 +25,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testUsersDetailOpen(FirefoxDriver driver)
   {
-    openUserDetail(driver, DETAIL_USER_NAME);
+    openUserFooDetail(driver);
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("userdetail.xhtml?userName=" + DETAIL_USER_NAME));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("User Detail"));
   }
@@ -29,14 +33,14 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testUserDetailInformation(FirefoxDriver driver)
   {
-    openUserDetail(driver, DETAIL_USER_NAME);
+    openUserFooDetail(driver);
     assertThat(driver.findElementById("userInformationForm:name").getAttribute("value")).isEqualTo(DETAIL_USER_NAME);
   }
   
   @Test
   void testSaveUserInformation(FirefoxDriver driver)
   {
-    openUserDetail(driver, DETAIL_USER_NAME);
+    openUserFooDetail(driver);
     clearUserInfoInputs(driver);
     driver.findElementById("userInformationForm:fullName").sendKeys("Foo User");
     driver.findElementById("userInformationForm:email").sendKeys("foo@ivyteam.ch");
@@ -58,7 +62,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testSaveUserInformationNoPasswordMatch(FirefoxDriver driver)
   {
-    openUserDetail(driver, DETAIL_USER_NAME);
+    openUserFooDetail(driver);
     driver.findElementById("userInformationForm:password1").sendKeys("foopassword");
     driver.findElementById("userInformationForm:saveUserInformation").click();
     saveScreenshot(driver, "no_password_match");
@@ -78,9 +82,9 @@ public class WebTestUserDetail extends WebTestBase
   }
   
   @Test
-  void testEmailNotificationLanguageSwitch(FirefoxDriver driver)
+  void testEmailLanguageSwitch(FirefoxDriver driver)
   {
-    openUserDetail(driver, DETAIL_USER_NAME);
+    openUserFooDetail(driver);
     driver.findElementById("userEmailForm:languageDropDown_label").click();
     await().until(() -> driver.findElementById("userEmailForm:languageDropDown_items").isDisplayed());
     String chooseLanguage = driver.findElementById("userEmailForm:languageDropDown_0").getText();
@@ -95,7 +99,31 @@ public class WebTestUserDetail extends WebTestBase
     saveScreenshot(driver, "refresh");
     await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
   }
-
+  
+  @Test
+  void testEmailSettings(FirefoxDriver driver)
+  {
+    openUserFooDetail(driver);
+    PrimeUi primeUi = new PrimeUi(driver);
+    SelectOneRadio radioSettings = primeUi.selectOneRadio(new By.ById("userEmailForm:radioSettings"));
+    SelectBooleanCheckbox neverCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:neverCheckbox"));
+    SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:taskCheckbox"));
+    await().untilAsserted(() -> assertThat(radioSettings.getSelected()).isEqualTo("Application"));
+    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isFalse());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isFalse());
+    
+    radioSettings.selectItemByValue("Specific");
+    taskCheckbox.setChecked();
+    neverCheckbox.setChecked();
+    saveScreenshot(driver, "new_settings");
+    await().untilAsserted(() -> assertThat(radioSettings.getSelected()).isEqualTo("Specific"));
+    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isTrue());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isTrue());
+    driver.findElementById("userEmailForm:saveEmailNotificationSettings").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").isDisplayed()).isTrue());
+    //Todo: assert disabled, assert selectmanycheckboxes(days)
+  }
+  
   private void clearUserInfoInputs(FirefoxDriver driver)
   {
     driver.findElementById("userInformationForm:fullName").clear();
@@ -113,6 +141,11 @@ public class WebTestUserDetail extends WebTestBase
     user.click();
     saveScreenshot(driver, "userdetail");
     await().until(() -> driver.getCurrentUrl().endsWith("userdetail.xhtml?userName=" + userName)); 
+  }
+  
+  private void openUserFooDetail(FirefoxDriver driver)
+  {
+    openUserDetail(driver, DETAIL_USER_NAME);
   }
 
   private WebElement getUser(FirefoxDriver driver, String user)
