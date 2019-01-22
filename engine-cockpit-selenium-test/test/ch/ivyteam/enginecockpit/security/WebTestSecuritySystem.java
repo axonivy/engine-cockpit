@@ -16,7 +16,7 @@ public class WebTestSecuritySystem extends WebTestBase
     login(driver);
     Navigation.toSecuritySystem(driver);
     saveScreenshot(driver);
-    assertThat(driver.findElementByTagName("h1").getText()).contains("Security System");
+    assertThat(driver.findElementByTagName("h1").getText()).contains("Security Systems");
     assertThat(driver.findElementsByXPath("//tbody/tr")).isNotEmpty();
     
     //TODO: test sync (ad needed)

@@ -9,28 +9,14 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
-import io.github.bonigarcia.seljup.Options;
-import io.github.bonigarcia.seljup.SeleniumExtension;
 
-@ExtendWith(SeleniumExtension.class)
-public class WebTestBase
+public class WebTestBase extends WebBase
 {
-
-  @Options
-  FirefoxOptions firefoxOptions = new FirefoxOptions();
-  {
-    FirefoxBinary binary = new FirefoxBinary();
-    binary.addCommandLineOptions("--headless");
-    firefoxOptions.setBinary(binary);
-  }
   
   private String className;
   private String methodName;
@@ -74,7 +60,7 @@ public class WebTestBase
     driver.findElementById("loginForm:login").click();
     await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
     saveScreenshot(driver, "dashboard");
-    await().until(() -> driver.findElementById("menuform").isDisplayed());
+    await().ignoreExceptions().until(() -> driver.findElementById("menuform").isDisplayed());
   }
   
   public static String getAdminUser()
