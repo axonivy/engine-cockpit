@@ -10,7 +10,7 @@
     <ui:define name="breadcrumb">
       <li>Security</li>
       <li>/</li>
-      <li><a href="securitysystem.xhtml">Security System</a></li>
+      <li><a href="securitysystem.xhtml">Security Systems</a></li>
     </ui:define>
 
     <ui:define name="content">
@@ -19,7 +19,7 @@
           <h:form id="form">
             <p:growl for="log" id="msgs" autoUpdate="true" />
             <h1>
-              <i class="material-icons card-title-icon">security</i>Security System
+              <i class="material-icons card-title-icon">security</i>Security Systems
             </h1>
             <p:dataTable var="system" value="#{securityBean.securitySystems}">
               <p:column headerText="Name" sortBy="#{system.securitySystemName}">

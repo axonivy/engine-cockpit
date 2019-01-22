@@ -1,6 +1,9 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
+
+import java.util.Optional;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.ByXPath;
@@ -34,10 +37,32 @@ public class Navigation
     await().until(() -> driver.getCurrentUrl().endsWith("users.xhtml"));
   }
   
+  public static void toUserDetail(FirefoxDriver driver, String userName)
+  {
+    Navigation.toUsers(driver);
+    Optional<WebElement> user = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='user-name']")))
+            .stream()
+            .filter(e -> e.getText().equals(userName)).findAny();
+    assertThat(user).isPresent();
+    user.get().click();
+    await().until(() -> driver.getCurrentUrl().endsWith("userdetail.xhtml?userName=" + userName)); 
+  }
+  
   public static void toRoles(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_ROLES_MENU);
     await().until(() -> driver.getCurrentUrl().endsWith("roles.xhtml"));
+  }
+  
+  public static void toRoleDetail(FirefoxDriver driver, String roleName)
+  {
+    Navigation.toRoles(driver);
+    Optional<WebElement> role = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='role-name']")))
+            .stream()
+            .filter(e -> e.getText().equals(roleName)).findAny();
+    assertThat(role).isPresent();
+    role.get().click();
+    await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
   }
   
   public static void toAdvancedConfig(FirefoxDriver driver)

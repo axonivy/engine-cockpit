@@ -174,6 +174,21 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>selenium.web.docu</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>**/WebDocu*.java</include>
+							</includes>
+							<argLine>
+								-Dtest.engine.url=${test.engine.url}
+								-Dtest.engine.app=${test.application}</argLine>
+						</configuration>
+					</execution>
+					<execution>
 						<id>selenium.web.tests</id>
 						<phase>integration-test</phase>
 						<goals>
@@ -186,6 +201,31 @@
 							<argLine>
 								-Dtest.engine.url=${test.engine.url}
 								-Dtest.engine.app=${test.application}</argLine>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>ch.ivyteam.ivy</groupId>
+				<artifactId>image-dpi-plugin</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<id>change.dpi</id>
+						<goals>
+							<goal>change-png-dpi</goal>
+						</goals>
+						<phase>integration-test</phase>
+						<configuration>
+							<fileSet>
+								<directory>${project.build.directory}</directory>
+								<includes>
+									<include>
+										**/docu/screenshots/*.png
+									</include>
+								</includes>
+							</fileSet>
+							<dpiValue>150</dpiValue>
 						</configuration>
 					</execution>
 				</executions>
