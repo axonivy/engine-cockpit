@@ -73,6 +73,7 @@ public class WebTestBase
     driver.findElementById("loginForm:password").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
     await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
+    saveScreenshot(driver, "dashboard");
     await().until(() -> driver.findElementById("menuform").isDisplayed());
   }
   
