@@ -153,6 +153,52 @@ public class WebTestUserDetail extends WebTestBase
     await().untilAsserted(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun"));
   }
   
+  @Test
+  void testRolesAddRemove(FirefoxDriver driver)
+  {
+    openUserFooDetail(driver);
+    WebElement boss = driver.findElement(By.xpath("//*[contains(@id, 'rolesOfUserForm:rolesTree_node_0')]/td/span[@class='role-name'][text()='boss']"));
+    String bossId = boss.findElement(By.xpath("../..")).getAttribute("id");
+    driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).click();
+    saveScreenshot(driver, "expand_role");
+    String managerId = bossId + "_0";
+    await().untilAsserted(() -> assertThat(driver.findElement(By.id(managerId)).isDisplayed()).isTrue());
+    String managerAddButtonId = driver.findElementById(managerId).findElement(By.xpath("./td/button[1]")).getAttribute("id");
+    String managerRemoveButtonId = driver.findElementById(managerId).findElement(By.xpath("./td/button[2]")).getAttribute("id");
+    String bossAddButtonId = driver.findElementById(bossId).findElement(By.xpath("./td/button[1]")).getAttribute("id");
+    String bossRemoveButtonId = driver.findElementById(bossId).findElement(By.xpath("./td/button[2]")).getAttribute("id");
+    driver.findElementById(managerAddButtonId).click();
+    saveScreenshot(driver, "add_child_role");
+    await().untilAsserted(() -> assertThat(driver.findElementById(managerAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
+    await().untilAsserted(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
+    await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
+            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check"));
+    await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
+            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("member-inherit-icon"));
+    
+    driver.findElementById(bossAddButtonId).click();
+    saveScreenshot(driver, "add_parent_role");
+    await().untilAsserted(() -> assertThat(driver.findElementById(bossAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
+    await().untilAsserted(() -> assertThat(driver.findElementById(bossRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
+    await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
+            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check"));
+    await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
+            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
+    
+    driver.navigate().refresh();
+    driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).click();
+    saveScreenshot(driver, "refresh");
+    await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
+            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check"));
+    await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
+            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
+
+    driver.findElementById(managerRemoveButtonId).click();
+    saveScreenshot(driver, "remove_child_role");
+    await().untilAsserted(() -> assertThat(driver.findElementById(managerAddButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
+    await().untilAsserted(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).contains("ui-state-disabled"));
+  }
+  
   private void clearUserInfoInputs(FirefoxDriver driver)
   {
     driver.findElementById("userInformationForm:fullName").clear();
