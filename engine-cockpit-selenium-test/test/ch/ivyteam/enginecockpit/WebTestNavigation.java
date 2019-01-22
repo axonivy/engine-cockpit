@@ -32,6 +32,7 @@ public class WebTestNavigation extends WebTestBase
     saveScreenshot(driver, "dashboard");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Engine Cockpit"));
+    //TODO: after first login there is no navigation hightlighting
     //await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_dashboard").getAttribute("class")).contains("active-menuitem"));
   }
   
