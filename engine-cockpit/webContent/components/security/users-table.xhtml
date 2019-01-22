@@ -6,7 +6,7 @@
 
 <h:form id="tableForm">
   <p:dataTable var="user" value="#{userBean.users}" widgetVar="usersTable_#{app.id}"
-    filteredValue="#{userBean.filteredUsers}" lazy="false">
+    filteredValue="#{userBean.filteredUsers}" lazy="false" styleClass="userTable">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
@@ -16,17 +16,17 @@
           onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" />
       </p:outputPanel>
     </f:facet>
-    <p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}">
-      <a href="userdetail.xhtml?userName=#{user.name}"> <h:outputText value="#{user.name}">
+    <p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}" styleClass="user-name-column">
+      <a href="userdetail.xhtml?userName=#{user.name}"> <h:outputText value="#{user.name}" styleClass="user-name">
           <i class="material-icons table-icon">person</i>
         </h:outputText>
       </a>
     </p:column>
     <p:column headerText="Full Name" sortBy="#{user.fullName}" filterBy="#{user.fullName}">
-      <h:outputText value="#{user.fullName}" />
+      <h:outputText value="#{user.fullName}" styleClass="user-fullname"/>
     </p:column>
     <p:column headerText="Email" sortBy="#{user.email}" filterBy="#{user.email}">
-      <h:outputText value="#{user.email}" />
+      <h:outputText value="#{user.email}" styleClass="user-email"/>
     </p:column>
     <p:column headerText="Logged in">
       <h:outputText>

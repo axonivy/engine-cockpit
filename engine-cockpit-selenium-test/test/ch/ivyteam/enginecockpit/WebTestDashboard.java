@@ -1,72 +1,65 @@
 package ch.ivyteam.enginecockpit;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
-import io.github.bonigarcia.seljup.Options;
-import io.github.bonigarcia.seljup.SeleniumExtension;
-
-@ExtendWith(SeleniumExtension.class)
-public class WebTestDashboard
+public class WebTestDashboard extends WebTestBase
 {
-
-  @Options
-  FirefoxOptions firefoxOptions = new FirefoxOptions();
-  {
-    FirefoxBinary binary = new FirefoxBinary();
-    binary.addCommandLineOptions("--headless");
-    firefoxOptions.setBinary(binary);
-  }
-
   @Test
-  void testLogin(FirefoxDriver driver)
+  void testDashboardContent(FirefoxDriver driver)
   {
     login(driver);
     saveScreenshot(driver);
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).startsWith("Engine Cockpit").doesNotContain("Login"));
+    checkOverviewBoxes(driver);
+
+    checkInfoPanels(driver);
+    
+    checkLicenceInfo(driver);
+  }
+
+  private void checkOverviewBoxes(FirefoxDriver driver)
+  {
+    List<WebElement> overviewBoxes = driver.findElementsByClassName("overview-box-content");
+    assertThat(overviewBoxes).hasSize(4);
+    List<String> boxesExpect = new ArrayList<>(
+            Arrays.asList("Sessions", "Users", "Working Tasks", "Applications"));
+    overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-title")).getText())
+            .forEach(t -> assertThat(t).isNotEmpty().isIn(boxesExpect));
+    overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-count")).getText())
+            .forEach(c -> assertThat(c).isNotEmpty());
+  }
+
+  private void checkInfoPanels(FirefoxDriver driver)
+  {
+    List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
+    assertThat(infoPanels).hasSize(5);
+    List<String> panelsExpect = new ArrayList<>(
+            Arrays.asList("Axon.ivy", "Licence", "Email", "System Database", "Java"));
+    infoPanels.stream().map(p -> p.findElement(new By.ByClassName("ui-panel-title")).getText())
+            .forEach(t -> assertThat(t).isNotEmpty().isIn(panelsExpect));
+    for (WebElement ele : infoPanels)
+    {
+      assertThat(ele.findElement(new By.ByClassName("ui-panel-title")).getText()).isNotEmpty().isIn(panelsExpect);
+      for (WebElement col : ele.findElements(new By.ByClassName("ui-grid-col-7")))
+      {
+        assertThat(col.getText()).isNotEmpty();
+      }
+    }
   }
   
-  private static void saveScreenshot(RemoteWebDriver driver)
+  private void checkLicenceInfo(FirefoxDriver driver)
   {
-    File source = driver.getScreenshotAs(OutputType.FILE);
-    System.out.println("Source: " + source);
-    try
-    {
-      String dir = "target/surefire-reports/ch.ivyteam.enginecockpit.WebTestDashboard/";
-      FileUtils.moveFile(source, new File(dir, source.getName()));
-    }
-    catch (IOException ex)
-    {
-      throw new RuntimeException(ex);
-    }
-  }
-
-  private void login(FirefoxDriver driver)
-  {
-    driver.get(viewUrl("login.xhtml"));
-    saveScreenshot(driver);
-    driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
-    driver.findElementById("loginForm:password").sendKeys(getAdminUser());
-    driver.findElementById("loginForm:login").click();
-  }
-
-  private static String getAdminUser()
-  {
-    return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
+    driver.findElementById("tasksButtonLicenceDetail").click();
+    assertThat(driver.findElementById("licenceDetailDialog_title").isDisplayed()).isTrue();
+    WebElement licenceList = driver.findElementById("licenceInfoForm:detailsList");
+    assertThat(licenceList.isDisplayed()).isTrue();
   }
 }

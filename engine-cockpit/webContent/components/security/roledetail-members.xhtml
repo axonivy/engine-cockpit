@@ -9,29 +9,6 @@
   <p:growl for="membersMessage" autoUpdate="true" />
   <div class="ui-g">
     <div class="ui-g-6">
-      <div class="ui-datatable-header ui-widget-header ui-corner-top">
-        <div class="ui-outputpanel ui-widget">
-          <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i
-            class="material-icons">search</i>
-          </label>
-          <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
-            value="#{roleBean.filter}">
-            <p:ajax event="keyup" delay="300" update="membersOfRoleForm" />
-          </p:inputText>
-        </div>
-      </div>
-      <!-- TODO: dont render itself and members -->
-      <p:treeTable value="#{roleBean.roles}" var="role">
-        <p:column headerText="All Roles" sortBy="#{role.name}" rendered="#{!roleDetailBean.isRoleMemberOfRole(role.name)}">
-          <h:outputText value="#{role.name}">
-            <i class="material-icons table-icon">group</i>
-            <p:commandButton update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember(role.name)}" icon="ui-icon-add"
-              title="Add" styleClass="card-button table-control-btn primary-btn"/>
-          </h:outputText>
-        </p:column>
-      </p:treeTable>
-    </div>
-    <div class="ui-g-6">
       <p:dataTable value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
         filteredValue="#{roleDetailBean.filteredMembers}" lazy="false">
         <f:facet name="header">
@@ -51,6 +28,28 @@
           </h:outputText>
         </p:column>
       </p:dataTable>
+    </div>
+    <div class="ui-g-6">
+      <div class="ui-datatable-header ui-widget-header ui-corner-top">
+        <div class="ui-outputpanel ui-widget">
+          <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i
+            class="material-icons">search</i>
+          </label>
+          <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
+            value="#{roleBean.filter}">
+            <p:ajax event="keyup" delay="300" update="membersOfRoleForm" />
+          </p:inputText>
+        </div>
+      </div>
+      <p:treeTable value="#{roleBean.roles}" var="role">
+        <p:column headerText="All Roles" sortBy="#{role.name}" rendered="#{!roleDetailBean.isRoleMemberOfRole(role.name)}">
+          <h:outputText value="#{role.name}">
+            <i class="material-icons table-icon">group</i>
+            <p:commandButton update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember(role.name)}" icon="ui-icon-add"
+              title="Add" styleClass="card-button table-control-btn primary-btn"/>
+          </h:outputText>
+        </p:column>
+      </p:treeTable>
     </div>
   </div>
 </h:form>

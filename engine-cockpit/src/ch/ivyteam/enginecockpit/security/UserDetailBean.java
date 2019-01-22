@@ -85,7 +85,7 @@ public class UserDetailBean
   public String deleteSelectedUser()
   {
     getSecurityContext().deleteUser(userName);
-    return "users.xhtml";
+    return "users.xhtml?faces-redirect=true";
   }
 
   public String getSelectedSettings()

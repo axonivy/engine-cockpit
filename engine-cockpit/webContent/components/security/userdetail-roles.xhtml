@@ -15,14 +15,14 @@
       </p:inputText>
     </div>
   </div>
-  <p:treeTable value="#{roleBean.roles}" var="role">
+  <p:treeTable id="rolesTree" value="#{roleBean.roles}" var="role">
     <p:column headerText="All Roles" sortBy="#{role.name}">
-      <h:outputText value="#{role.name}">
+      <h:outputText value="#{role.name}" styleClass="role-name">
         <i class="material-icons table-icon">group#{role.member ? '_add' : ''}</i>
-        <p:commandButton update="@form" actionListener="#{userDetailBean.addRole(role.name)}" icon="ui-icon-add"
+        <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}" icon="ui-icon-add"
           title="Add" styleClass="card-button table-control-btn primary-btn"
           disabled="#{role.name == 'Everybody' or userDetailBean.isUserMemberOfRole(role.name) or (!applicationBean.ivySecuritySystem and role.adSynced)}" />
-        <p:commandButton update="@form" actionListener="#{userDetailBean.removeRole(role.name)}" icon="ui-icon-remove"
+        <p:commandButton id="removeRoleFromUserBtn" update="@form" actionListener="#{userDetailBean.removeRole(role.name)}" icon="ui-icon-remove"
           title="Remove" styleClass="card-button table-control-btn secondary-btn"
           disabled="#{role.name == 'Everybody' or !userDetailBean.isUserMemberOfRole(role.name) or (!applicationBean.ivySecuritySystem and role.adSynced)}" />
         <h:outputText rendered="#{userDetailBean.isUserMemberOfAllRole(role.name) and !userDetailBean.isUserMemberOfRole(role.name)}">

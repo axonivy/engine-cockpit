@@ -3,7 +3,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 300px;" header="Add new user" widgetVar="newUserModal" modal="true" responsive="true"
+<p:dialog style="min-width: 300px;" header="Add new user" id="newUserModal" widgetVar="newUserModal" modal="true" responsive="true"
   closeOnEscape="true">
   <h:form id="newUserForm">
     <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
@@ -14,11 +14,11 @@
         <p:message for="newUserNameInput" id="newUserNameMessage" />
       </h:panelGroup>
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText value="#{userDetailBean.user.fullName}" />
+        <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
         <label>Full Name</label>
       </h:panelGroup>
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText value="#{userDetailBean.user.email}" />
+        <p:inputText id="email" value="#{userDetailBean.user.email}" />
         <label>E-Mail Address</label>
       </h:panelGroup>
       <h:panelGroup styleClass="md-inputfield">

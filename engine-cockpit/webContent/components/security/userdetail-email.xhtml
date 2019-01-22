@@ -5,7 +5,7 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <h:form id="userEmailForm">
-  <p:growl for="emailSaveSuccess" autoUpdate="true" />
+  <p:growl id="emailSaveSuccess" for="emailSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
     title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
   <p:panelGrid id="emailNotificationSettings" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
@@ -15,7 +15,7 @@
       <p:ajax update="@form" />
     </p:selectOneMenu>
     <p:outputLabel value="Settings from:" for="radioSettings" />
-    <p:selectOneRadio id="radioSettings" value="#{userDetailBean.selectedSettings}" onchange="updateRadioDisable(this)"
+    <p:selectOneRadio id="radioSettings" value="#{userDetailBean.selectedSettings}"
       layout="responsive" columns="2">
       <f:selectItem itemLabel="Application" itemValue="Application" />
       <f:selectItem itemLabel="Specific" itemValue="Specific" />
@@ -24,12 +24,12 @@
     <p:outputLabel value="Notification send:" for="checkboxNotification" />
     <p:panelGrid id="checkboxNotification" columns="2" layout="grid"
       styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive">
-      <p:selectBooleanCheckbox value="#{userDetailBean.emailSettings.notificationDisabled}"
+      <p:selectBooleanCheckbox id="neverCheckbox" value="#{userDetailBean.emailSettings.notificationDisabled}"
         disabled="#{userDetailBean.notificationCheckboxDisabled}" style="float: left;">
         <p:outputLabel value="Never" />
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
-      <p:selectBooleanCheckbox value="#{userDetailBean.emailSettings.sendOnNewWorkTasks}"
+      <p:selectBooleanCheckbox id="taskCheckbox" value="#{userDetailBean.emailSettings.sendOnNewWorkTasks}"
         disabled="#{userDetailBean.taskCheckboxDisabled}" style="float: left;">
         <p:outputLabel value="New Task" />
         <p:ajax update="@form" />
