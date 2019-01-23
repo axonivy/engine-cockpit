@@ -3,7 +3,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 300px;" header="Add new child role for #{roleDetailBean.roleName}"
+<p:dialog id="newChildRoleDialog" style="min-width: 300px;" header="Add new child role for #{roleDetailBean.roleName}"
   widgetVar="newChildRoleModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newChildRoleForm">
     <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">

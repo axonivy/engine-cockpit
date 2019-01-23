@@ -48,6 +48,39 @@ public class WebTestRoleDetail extends WebTestBase
     driver.findElementById("roleInformationForm:saveRoleInformation").click();
   }
   
+  @Test
+  void testNewChildRole(FirefoxDriver driver)
+  {
+    login(driver);
+    Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
+    saveScreenshot(driver, "roledetail");
+    
+    driver.findElementById("roleInformationForm:createNewChildRole").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("newChildRoleDialog").isDisplayed()).isTrue());
+    saveScreenshot(driver, "newroledialog");
+    
+    driver.findElementById("newChildRoleForm:saveNewRole").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("newChildRoleForm:newRoleNameMessage").isDisplayed()).isTrue());
+    await().untilAsserted(() -> assertThat(driver.findElementById("newChildRoleForm:newRoleNameMessage").getText()).contains("Value is required"));
+    saveScreenshot(driver, "newrole_namerequried");
+    
+    String newRoleName = "test";
+    driver.findElementById("newChildRoleForm:newChildRoleNameInput").sendKeys(newRoleName);
+    driver.findElementById("newChildRoleForm:saveNewRole").click();
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + newRoleName));
+    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:name").getAttribute("value")).isEqualTo(newRoleName));
+    saveScreenshot(driver, "newroledetail");
+    
+    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:deleteRole").isDisplayed()).isTrue());
+    driver.findElementById("roleInformationForm:deleteRole").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:deleteRoleConfirmDialog").isDisplayed()).isTrue());
+    saveScreenshot(driver, "delete_role");
+    
+    driver.findElementById("roleInformationForm:deleteRoleConfirmDialogYesBtn").click();
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("roles.xhtml"));
+    saveScreenshot(driver, "roles");
+  }
+  
   private void clearRoleInfoInputs(FirefoxDriver driver)
   {
     driver.findElementById("roleInformationForm:displayName").clear();
