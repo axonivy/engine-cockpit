@@ -117,7 +117,7 @@
 }
 
 .dashboard-card .max-height-700 .ui-panel-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 664px;
 }
 

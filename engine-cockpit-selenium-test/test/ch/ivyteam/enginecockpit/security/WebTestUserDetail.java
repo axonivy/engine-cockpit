@@ -199,6 +199,36 @@ public class WebTestUserDetail extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).contains("ui-state-disabled"));
   }
   
+  @Test
+  void testPermission(FirefoxDriver driver)
+  {
+    login(driver);
+    Navigation.toUserDetail(driver, DETAIL_USER_NAME);
+    saveScreenshot(driver, "userdetail");
+    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+            .getAttribute("title")).isEqualTo("Some Permission granted"));
+    
+    driver.findElementById("permissionsForm:permissionTable:0:grantPermissionBtn").click();
+    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+            .getAttribute("title")).isEqualTo("Permission granted"));
+    saveScreenshot(driver, "grant");
+    
+    driver.findElementById("permissionsForm:permissionTable:0:unGrantPermissionBtn").click();
+    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+            .getAttribute("title")).isEqualTo("Some Permission granted"));
+    saveScreenshot(driver, "ungrant");
+    
+    driver.findElementById("permissionsForm:permissionTable:0:denyPermissionBtn").click();
+    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+            .getAttribute("title")).isEqualTo("Permission denied"));
+    saveScreenshot(driver, "deny");
+    
+    driver.findElementById("permissionsForm:permissionTable:0:unDenyPermissionBtn").click();
+    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+            .getAttribute("title")).isEqualTo("Some Permission granted"));
+    saveScreenshot(driver, "undeny");
+  }
+  
   private void clearUserInfoInputs(FirefoxDriver driver)
   {
     driver.findElementById("userInformationForm:fullName").clear();
