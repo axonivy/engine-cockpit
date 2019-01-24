@@ -9,7 +9,7 @@
   <p:growl for="usersMessage" autoUpdate="true" />
   <div class="ui-g">
     <div class="ui-g-6">
-      <p:dataTable value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
+      <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
         filteredValue="#{roleDetailBean.filteredUsers}" lazy="false">
         <f:facet name="header">
           <p:outputPanel>
@@ -20,10 +20,10 @@
               onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
           </p:outputPanel>
         </f:facet>
-        <p:column headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
-          <h:outputText value="#{user.name}">
+        <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
+          <h:outputText styleClass="user-name" value="#{user.name}">
             <i class="material-icons table-icon">person</i>
-            <p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.removeUser(user.name)}"
+            <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.removeUser(user.name)}"
               icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn"
               disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
           </h:outputText>
@@ -31,7 +31,7 @@
       </p:dataTable>
     </div>
     <div class="ui-g-6">
-      <p:dataTable value="#{userBean.users}" widgetVar="allUsersTable" var="user"
+      <p:dataTable id="allUserTable" value="#{userBean.users}" widgetVar="allUsersTable" var="user"
         filteredValue="#{userBean.filteredUsers}" lazy="false">
         <f:facet name="header">
           <p:outputPanel>
@@ -42,11 +42,11 @@
               onkeyup="PF('allUsersTable').filter()" placeholder="Search" />
           </p:outputPanel>
         </f:facet>
-        <p:column headerText="All Users" sortBy="#{user.name}"
+        <p:column styleClass="user-row" headerText="All Users" sortBy="#{user.name}"
           rendered="#{roleDetailBean.isUserMemberOfRole(user.name)}" filterBy="#{user.name}">
-          <h:outputText value="#{user.name}">
+          <h:outputText styleClass="user-name" value="#{user.name}">
             <i class="material-icons table-icon">person</i>
-            <p:commandButton update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser(user.name)}"
+            <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser(user.name)}"
               icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn"
               disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
           </h:outputText>

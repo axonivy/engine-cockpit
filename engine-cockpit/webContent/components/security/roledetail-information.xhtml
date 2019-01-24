@@ -5,35 +5,35 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <h:form id="roleInformationForm">
-  <p:growl for="informationSaveSuccess" autoUpdate="true" />
+  <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" />
   <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
     title="Add new child role" icon="ui-icon-add" styleClass="amber-btn card-button" />
   <p:commandButton id="deleteRole" rendered="#{roleDetailBean.role.dynamic}" type="button" onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role"
     icon="ui-icon-delete" styleClass="red-btn card-button" />
-  <p:confirmDialog message="Are you sure about deleteing the role '#{roleDetailBean.roleName}'?" header="Delete Role"
+  <p:confirmDialog id="deleteRoleConfirmDialog" message="Are you sure about deleteing the role '#{roleDetailBean.roleName}'?" header="Delete Role"
     severity="alert" widgetVar="deleteRoleConfirmDialog">
-    <p:commandButton value="Yes" ajax="false" immediate="true" action="#{roleDetailBean.deleteRole}"
+    <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Yes" ajax="false" immediate="true" action="#{roleDetailBean.deleteRole}"
       icon="ui-icon-check" style="width: inherit;" />
     <p:commandButton value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>
   <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
     <h:panelGroup styleClass="md-inputfield">
-      <p:inputText disabled="true" value="#{roleDetailBean.role.name}" />
+      <p:inputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
       <label>Name</label>
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
-      <p:inputText value="#{roleDetailBean.role.displayName}" />
+      <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
       <label>Display Name</label>
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
-      <p:inputText value="#{roleDetailBean.role.description}" />
+      <p:inputText id="description" value="#{roleDetailBean.role.description}" />
       <label>Description</label>
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
-      <p:inputText value="#{roleDetailBean.role.externalName}" />
+      <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
       <label>External Security Name</label>
     </h:panelGroup>
   </p:panelGrid>

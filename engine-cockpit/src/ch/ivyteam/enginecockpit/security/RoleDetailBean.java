@@ -90,7 +90,7 @@ public class RoleDetailBean
   public String deleteRole()
   {
     getIRole().delete();
-    return "roles.xhtml";
+    return "roles.xhtml?faces-redirect=true";
   }
 
   public List<User> getUsersOfRole()
