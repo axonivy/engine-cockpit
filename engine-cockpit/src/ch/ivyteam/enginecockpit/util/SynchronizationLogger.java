@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Level;
@@ -38,7 +40,8 @@ public class SynchronizationLogger implements SynchronizationListener
         messageBuilder.append("\n\t").append(elt.toString());
       }
     }
-
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    synchronizationLogMessages.add("\n" + sdf.format(Calendar.getInstance().getTime()));
     synchronizationLogMessages.add(messageBuilder.toString());
     newLogAwailable = true;
   }

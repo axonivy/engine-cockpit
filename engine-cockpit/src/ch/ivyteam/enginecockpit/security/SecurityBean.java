@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
@@ -40,6 +41,26 @@ public class SecurityBean
   {
     applicationBean.getManager().findApplication(appName).getSecurityContext()
             .triggerSynchronization(synchronizationLogger);
+  }
+  
+  public void triggerSyncForSelectedApp()
+  {
+    triggerSynchronization(applicationBean.getSelectedApplication().getName());
+  }
+  
+  public boolean isIvySecurityForSelectedApp()
+  {
+    Optional<SecuritySystem> findAny = systems.stream().filter(s -> s.getAppName().equals(applicationBean.getSelectedApplication().getName())).findAny();
+    if (!findAny.isPresent())
+    {
+      return true;
+    }
+    return findAny.get().getSecuritySystemProvider().equals("ivy Security System");
+  }
+  
+  public boolean isSyncRunningForSelectedApp()
+  {
+    return isSyncRunning(applicationBean.getSelectedApplication().getName());
   }
 
   public boolean isSyncRunning(String appName)

@@ -5,6 +5,7 @@ import static org.awaitility.Awaitility.await;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -87,6 +88,7 @@ public class WebTestRoleDetail extends WebTestBase
   }
   
   @Test
+  @Disabled
   void testAddRemoveUser(FirefoxDriver driver)
   {
     login(driver);

@@ -34,7 +34,7 @@
                 <h:outputText value="#{system.appName}" />
               </p:column>
               <p:column headerText="Synchronize" style="text-align: center; width: 80px;">
-                <p:commandButton actionListener="#{securityBean.triggerSynchronization(system.appName)}"
+                <p:commandButton disabled="#{system.securitySystemProvider eq 'ivy Security System'}" actionListener="#{securityBean.triggerSynchronization(system.appName)}"
                   icon="fa fa-refresh #{securityBean.isSyncRunning(system.appName) ? 'fa-spin' : ''} spin-icon"
                   onclick="PF('logPoller').start()" update="@this"/>
               </p:column>

@@ -19,10 +19,16 @@
         <cc:SingleCard>
           <cc:ApplicationTabs tabChange="#{roleBean.reloadRoles}">
             <div class="ui-g">
-              <div class="ui-g-12 ui-md-12">
+              <div class="ui-g-12 ui-md-9">
                 <h1>
                   <i class="material-icons card-title-icon">group</i>Roles
                 </h1>
+              </div>
+              <div class="ui-g-12 ui-md-1" style="margin: auto; text-align: right;">
+                <ui:include src="components/security/adsynclog.xhtml" />
+              </div>
+              <div class="ui-g-12 ui-md-2" style="margin: auto;">
+                <ui:include src="components/security/adsyncbtn.xhtml" />
               </div>
             </div>
             <div class="ui-g roles-panel-tree">
