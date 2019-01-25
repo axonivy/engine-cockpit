@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -209,23 +210,27 @@ public class WebTestUserDetail extends WebTestBase
             .getAttribute("title")).isEqualTo("Some Permission granted"));
     
     driver.findElementById("permissionsForm:permissionTable:0:grantPermissionBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-            .getAttribute("title")).isEqualTo("Permission granted"));
+    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
+            .untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+                    .getAttribute("title")).isEqualTo("Permission granted"));
     saveScreenshot(driver, "grant");
-    
+
     driver.findElementById("permissionsForm:permissionTable:0:unGrantPermissionBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-            .getAttribute("title")).isEqualTo("Some Permission granted"));
+    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
+            .untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+                    .getAttribute("title")).isEqualTo("Some Permission granted"));
     saveScreenshot(driver, "ungrant");
-    
+
     driver.findElementById("permissionsForm:permissionTable:0:denyPermissionBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-            .getAttribute("title")).isEqualTo("Permission denied"));
+    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
+            .untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+                    .getAttribute("title")).isEqualTo("Permission denied"));
     saveScreenshot(driver, "deny");
-    
+
     driver.findElementById("permissionsForm:permissionTable:0:unDenyPermissionBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-            .getAttribute("title")).isEqualTo("Some Permission granted"));
+    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
+            .untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
+                    .getAttribute("title")).isEqualTo("Some Permission granted"));
     saveScreenshot(driver, "undeny");
   }
   
