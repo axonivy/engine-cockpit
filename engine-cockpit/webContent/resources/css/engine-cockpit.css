@@ -120,6 +120,12 @@ body {
 .ui-tree a {
   color: inherit;
 }
+.ui-tree .addition-row-info,
+.ui-datatable .addition-row-info,
+.ui-treetable .addition-row-info {
+  font-style: italic; 
+  color: darkgrey;
+}
 
 /*Table Paging*/
 .ui-fluid .ui-datatable-header {

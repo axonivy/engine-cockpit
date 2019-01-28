@@ -173,26 +173,26 @@ public class WebTestUserDetail extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.findElementById(managerAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
     await().untilAsserted(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
     await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
-            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check"));
+            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
     await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
-            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("member-inherit-icon"));
+            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("member-inherit-icon"));
     
     driver.findElementById(bossAddButtonId).click();
     saveScreenshot(driver, "add_parent_role");
     await().untilAsserted(() -> assertThat(driver.findElementById(bossAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
     await().untilAsserted(() -> assertThat(driver.findElementById(bossRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
     await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
-            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check"));
+            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
     await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
-            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
+            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
     
     driver.navigate().refresh();
     driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).click();
     saveScreenshot(driver, "refresh");
     await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
-            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check"));
+            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
     await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
-            .findElement(By.xpath(".//i[2]")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
+            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
 
     driver.findElementById(managerRemoveButtonId).click();
     saveScreenshot(driver, "remove_child_role");
