@@ -7,10 +7,55 @@
   <ui:composition template="/template/template.xhtml">
     <ui:define name="title">Monitor</ui:define>
 
+    <ui:define name="head">
+      <script type="text/javascript">
+				function skinChart() {
+					this.cfg.shadow = false;
+					this.cfg.title = '';
+					this.cfg.seriesColors = [ '#607D8B', '#FFC107',
+							'#FF5722' ];
+					this.cfg.grid = {
+						background : '#ffffff',
+						borderColor : '#ffffff',
+						gridLineColor : '#F5F5F5',
+						shadow : false
+					};
+					this.cfg.axesDefaults = {
+						borderWidth : 0.1,
+						borderColor : 'bdbdbd',
+						labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+						rendererOptions : {
+							textColor : '#666F77'
+						}
+					};
+					this.cfg.seriesDefaults = {
+						shadow : false,
+						lineWidth : 1,
+						markerOptions : {
+							shadow : false,
+							size : 7,
+							style : 'circle'
+						}
+					}
+				}
+			</script>
+      <style type="text/css">
+        .jqplot-xaxis-label, .jqplot-yaxis-label, .jqplot-y2axis-label, .jqplot-x2axis-label {
+          color: #757575;
+        }
+        
+        table.jqplot-table-legend {
+          background-color: #ffffff;
+          color: #757575;
+          border-color: #bdbdbd;
+        }
+      </style>
+    </ui:define>
+
     <ui:define name="breadcrumb">
       <li><a href="monitor.xhtml">Monitor</a></li>
     </ui:define>
-    
+
     <ui:define name="content">
       <div class="ui-g dashboard">
         <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
@@ -18,19 +63,19 @@
             <cc:MonitorGraph monitor="#{monitorBean.cpuMonitor}" />
           </p:panel>
         </div>
-        
+
         <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
           <p:panel header="Memory Monitor">
             <cc:MonitorGraph monitor="#{monitorBean.memoryMonitor}" />
           </p:panel>
         </div>
-        
+
         <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
           <p:panel header="Network Monitor">
             <cc:MonitorGraph monitor="#{monitorBean.networkMonitor}" />
           </p:panel>
         </div>
-        
+
         <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
           <p:panel header="IO Monitor">
             <cc:MonitorGraph monitor="#{monitorBean.ioMonitor}" />
