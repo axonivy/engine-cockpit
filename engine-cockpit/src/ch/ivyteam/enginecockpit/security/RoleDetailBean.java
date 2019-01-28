@@ -119,6 +119,10 @@ public class RoleDetailBean
 
   public void addUser()
   {
+    if (roleUserName.isEmpty())
+    {
+      return;
+    }
     getSecurityContext().findUser(roleUserName).addRole(getIRole());
     roleUserName = "";
     loadUsersOfRole();
@@ -196,6 +200,10 @@ public class RoleDetailBean
 
   public void addMember()
   {
+    if (roleMemberName.isEmpty())
+    {
+      return;
+    }
     getIRole().addRoleMember(getIRole(roleMemberName));
     roleMemberName = "";
     loadMembersOfRole();

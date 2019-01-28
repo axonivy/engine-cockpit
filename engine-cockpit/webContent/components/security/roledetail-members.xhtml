@@ -10,7 +10,7 @@
   <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
     icon="ui-icon-add" title="Add" styleClass="primary-btn" />
   <p:growl for="membersMessage" autoUpdate="true" />
-  <p:dataTable value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
+  <p:dataTable id="roleMemberTable" value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
     filteredValue="#{roleDetailBean.filteredMembers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
     paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
@@ -23,10 +23,10 @@
           onkeyup="PF('membersOfRoleTable').filter()" placeholder="Search" />
       </p:outputPanel>
     </f:facet>
-    <p:column headerText="Members Of Role" sortBy="#{member.name}" filterBy="#{member.name}">
-      <h:outputText value="#{member.name}">
+    <p:column styleClass="member-row" headerText="Members Of Role" sortBy="#{member.name}" filterBy="#{member.name}">
+      <h:outputText styleClass="member-name" value="#{member.name}">
         <i class="material-icons table-icon">people</i>
-        <p:commandButton update="membersOfRoleForm" actionListener="#{roleDetailBean.removeMember(member.name)}"
+        <p:commandButton id="removeMemberFromRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.removeMember(member.name)}"
           icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" />
       </h:outputText>
     </p:column>
