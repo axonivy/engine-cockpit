@@ -7,7 +7,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -123,12 +122,9 @@ public class RoleBean
     filterTreeRootNode(treeRootNode.getChildren());
   }
   
-  public List<Role> searchMember(String query)
+  public List<Role> getRolesFlat()
   {
-    //TODO: don't show member how have this role
-    List<Role> search = roles.stream().filter(m -> StringUtils.startsWithIgnoreCase(m.getName(), query)).limit(10).collect(Collectors.toList());
-    return search;
+    return roles;
   }
   
-
 }

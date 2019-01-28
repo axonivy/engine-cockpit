@@ -7,7 +7,7 @@
 <h:form id="usersOfRoleForm">
   <p:growl for="usersMessage" autoUpdate="true" />
   <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
-    completeMethod="#{userBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" />
+    completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search user to add" />
   <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
     icon="ui-icon-add" title="Add" styleClass="primary-btn" />
   <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"

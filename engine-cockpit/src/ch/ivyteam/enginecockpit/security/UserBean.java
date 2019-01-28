@@ -8,8 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.application.IApplication;
@@ -76,10 +74,4 @@ public class UserBean
     this.filteredUsers = filteredUsers;
   }
   
-  public List<User> searchUser(String query)
-  {
-    List<User> search = users.stream().filter(u -> StringUtils.startsWithIgnoreCase(u.getName(), query)).limit(10).collect(Collectors.toList());
-    return search;
-  }
-
 }

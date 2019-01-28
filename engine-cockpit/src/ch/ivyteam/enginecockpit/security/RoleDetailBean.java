@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
@@ -30,12 +32,16 @@ public class RoleDetailBean
   private List<Role> filteredMembers;
 
   private ApplicationBean applicationBean;
+  private UserBean userBean;
+  private RoleBean roleBean;
 
   public RoleDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}",
             ApplicationBean.class);
+    userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+    roleBean = context.getApplication().evaluateExpressionGet(context, "#{roleBean}", RoleBean.class);
     role = new Role();
   }
 
@@ -127,6 +133,14 @@ public class RoleDetailBean
   {
     this.roleUserName = roleUserName;
   }
+  
+  public List<User> searchUser(String query)
+  {
+    List<User> search = userBean.getUsers().stream()
+            .filter(u -> StringUtils.startsWithIgnoreCase(u.getName(), query) && isUserMemberOfRole(u.getName()))
+            .limit(10).collect(Collectors.toList());
+    return search;
+  }
 
   public List<User> getFilteredUsers()
   {
@@ -201,6 +215,14 @@ public class RoleDetailBean
   public void setRoleMemberName(String roleMemberName)
   {
     this.roleMemberName = roleMemberName;
+  }
+  
+  public List<Role> searchMember(String query)
+  {
+    List<Role> search = roleBean.getRolesFlat().stream()
+            .filter(m -> StringUtils.startsWithIgnoreCase(m.getName(), query) && !isRoleMemberOfRole(m.getName()))
+            .limit(10).collect(Collectors.toList());
+    return search;
   }
 
   private ISecurityContext getSecurityContext()

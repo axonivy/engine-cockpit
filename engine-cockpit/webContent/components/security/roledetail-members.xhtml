@@ -6,7 +6,7 @@
 
 <h:form id="membersOfRoleForm">
   <p:autoComplete id="addMemberDropDown" value="#{roleDetailBean.roleMemberName}" dropdown="true" forceSelection="true"
-    completeMethod="#{roleBean.searchMember}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" />
+    completeMethod="#{roleDetailBean.searchMember}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search member to add" />
   <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
     icon="ui-icon-add" title="Add" styleClass="primary-btn" />
   <p:growl for="membersMessage" autoUpdate="true" />
