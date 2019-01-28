@@ -21,6 +21,7 @@ public class RoleDetailBean
   private String roleName;
   private String newChildRoleName;
   private String roleUserName;
+  private String roleMemberName;
   private Role role;
 
   private List<User> usersOfRole;
@@ -179,9 +180,10 @@ public class RoleDetailBean
     this.filteredMembers = filteredMembers;
   }
 
-  public void addMember(String member)
+  public void addMember()
   {
-    getIRole().addRoleMember(getIRole(member));
+    getIRole().addRoleMember(getIRole(roleMemberName));
+    roleMemberName = "";
     loadMembersOfRole();
   }
 
@@ -189,6 +191,16 @@ public class RoleDetailBean
   {
     getIRole().removeRoleMember(getIRole(member));
     loadMembersOfRole();
+  }
+  
+  public String getRoleMemberName()
+  {
+    return roleMemberName;
+  }
+
+  public void setRoleMemberName(String roleMemberName)
+  {
+    this.roleMemberName = roleMemberName;
   }
 
   private ISecurityContext getSecurityContext()

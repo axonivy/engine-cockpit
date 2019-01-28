@@ -6,36 +6,32 @@
 
 <h:form id="usersOfRoleForm">
   <p:growl for="usersMessage" autoUpdate="true" />
-  <div class="ui-g">
-    <div class="ui-g-12">
-      <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
-        completeMethod="#{userBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" />
-      <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
-        icon="ui-icon-add" title="Add" styleClass="primary-btn" />
-      <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
-        filteredValue="#{roleDetailBean.filteredUsers}" lazy="false" paginator="true" rows="10"
-        paginatorPosition="bottom" paginatorAlwaysVisible="false"
-        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-        <f:facet name="header">
-          <p:outputPanel>
-            <p:outputLabel styleClass="table-search-icon">
-              <i class="material-icons">search</i>
-            </p:outputLabel>
-            <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-              onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
-          </p:outputPanel>
-        </f:facet>
-        <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
-          <h:outputText styleClass="user-name" value="#{user.name}">
-            <i class="material-icons table-icon">person</i>
-            <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
-              actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove"
-              styleClass="card-button table-control-btn secondary-btn"
-              disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
-          </h:outputText>
-        </p:column>
-      </p:dataTable>
-    </div>
-  </div>
+  <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
+    completeMethod="#{userBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" />
+  <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
+    icon="ui-icon-add" title="Add" styleClass="primary-btn" />
+  <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
+    filteredValue="#{roleDetailBean.filteredUsers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
+    paginatorAlwaysVisible="false"
+    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+    <f:facet name="header">
+      <p:outputPanel>
+        <p:outputLabel styleClass="table-search-icon">
+          <i class="material-icons">search</i>
+        </p:outputLabel>
+        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+          onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
+      </p:outputPanel>
+    </f:facet>
+    <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
+      <h:outputText styleClass="user-name" value="#{user.name}">
+        <i class="material-icons table-icon">person</i>
+        <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
+          actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove"
+          styleClass="card-button table-control-btn secondary-btn"
+          disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
+      </h:outputText>
+    </p:column>
+  </p:dataTable>
 </h:form>
 </html>

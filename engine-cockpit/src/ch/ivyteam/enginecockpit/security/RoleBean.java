@@ -1,11 +1,13 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -23,6 +25,8 @@ public class RoleBean
   private TreeNode treeRootNodeWithMembers;
   private String filter = "";
 
+  private List<Role> roles;
+  
   private ApplicationBean applicationBean;
 
   public RoleBean()
@@ -37,6 +41,8 @@ public class RoleBean
   {
     filter = "";
     treeRootNode = new DefaultTreeNode("Roles", null);
+    roles = applicationBean.getSelectedIApplication().getSecurityContext().getRoles().stream()
+            .map(r -> new Role(r)).collect(Collectors.toList());
     loadRoleTree(treeRootNode, false);
     reloadRolesWithMembers();
   }
@@ -116,5 +122,13 @@ public class RoleBean
     filteredTreeRootNode = new DefaultTreeNode(new Role("Filtered roles"), null);
     filterTreeRootNode(treeRootNode.getChildren());
   }
+  
+  public List<Role> searchMember(String query)
+  {
+    //TODO: don't show member how have this role
+    List<Role> search = roles.stream().filter(m -> StringUtils.startsWithIgnoreCase(m.getName(), query)).limit(10).collect(Collectors.toList());
+    return search;
+  }
+  
 
 }
