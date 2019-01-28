@@ -198,6 +198,8 @@ public class WebTestUserDetail extends WebTestBase
     saveScreenshot(driver, "remove_child_role");
     await().untilAsserted(() -> assertThat(driver.findElementById(managerAddButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
     await().untilAsserted(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).contains("ui-state-disabled"));
+    
+    driver.findElementById(bossRemoveButtonId).click();
   }
   
   @Test
