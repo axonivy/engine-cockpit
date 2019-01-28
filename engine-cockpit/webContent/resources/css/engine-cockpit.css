@@ -16,27 +16,22 @@ body {
     display: none;
   }
 }
-
 .layout-wrapper .layout-sidebar .sidebar-logo .sidebar-logo-collapsed {
   position: absolute;
   height: 40px;
   padding: 4px;
 }
-
 .layout-wrapper .layout-sidebar.layout-sidebar-active .sidebar-logo .sidebar-logo-collapsed,
 .layout-wrapper-static .layout-sidebar .sidebar-logo .sidebar-logo-collapsed {
   display: none;
 }
-
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item {
   float: right;
 }
-
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item>ul {
   right: 5px;
   left: auto;
 }
-
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item>ul::before {
   left: 232px;
 }
@@ -47,24 +42,13 @@ body {
   margin-right: 10px;
   float: right;
 }
-.dashboard-card .card-button.header-button {
-  position: absolute;
-  right: 30px;
-  margin: 0;
-  margin-top: -40px;
-  box-shadow: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-}
 .dashboard-card .card-autocomplete-search {
   width: calc(100% - 40px);
   margin-right: 8px;
 }
-
-.dashboard .ui-grid-col-5 label {
+.dashboard-card .ui-grid-col-5 label {
   font-style: italic;
 }
-
 .dashboard-card .ui-panel {
   min-height: 240px;
   border: 0 none;
@@ -72,50 +56,9 @@ body {
   -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
 }
-
 .dashboard-card .ui-panelgrid-content {
   padding: 0;
 }
-
-/*Application*/
-.applications .ui-inputswitch.ui-inputswitch-checked {
-  background-color: #9CCC65;
-  border-color: #9CCC65;
-}
-
-.applications .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-handle {
-  background-color: #7CB342;
-  color: #ffffff;
-}
-
-.applications .ui-treetable td:not(:first-child) {
-  text-align: center;
-}
-
-/*Users / Roles*/
-.ui-datatable .table-search-icon {
-  float: left;
-}
-
-.ui-datatable .table-search-input-withicon {
-  width: calc(100% - 24px);
-}
-
-.ui-fluid .ui-tree {
-  width: auto;
-}
-
-.ui-fluid .ui-tree .ui-treenode-leaf-icon {
-  width: 20px;
-}
-
-/*AdvancedConf*/
-.card .default-values-switch {
-  position: relative;
-  top: 24px;
-}
-
-/*UserDetail*/
 .dashboard-card .min-height-450{
   min-height: 450px;
 }
@@ -125,47 +68,24 @@ body {
 .dashboard-card .max-height-700 {
   max-height: 700px;
 }
-
 .dashboard-card .max-height-700 .ui-panel-content {
   overflow-y: auto;
   max-height: 664px;
 }
 
-/*Engine-Cockpit global*/
-.layout-main {
-  height: 100%;
+/*Tables / Trees*/
+.ui-datatable .table-search-icon {
+  float: left;
 }
-
-.ui-fluid .tab-view-card {
-  border: 0px;
+.ui-datatable .table-search-input-withicon {
+  width: calc(100% - 24px);
 }
-
-.ui-fluid .tableControlButtons button {
-  max-width: 200px;
-  margin-bottom: 10px;
-  margin-right: 10px;
+.ui-fluid .ui-tree {
+  width: auto;
 }
-
-.ui-fluid .ui-column-filter {
-  display: none;
+.ui-fluid .ui-tree .ui-treenode-leaf-icon {
+  width: 20px;
 }
-
-.ui-fluid .ui-inputswitch.ui-inputswitch-checked {
-  background-color: #9CCC65;
-  border-color: #9CCC65;
-}
-
-.ui-fluid .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-handle {
-  background-color: #7CB342;
-  color: #ffffff;
-}
-
-.card-title-icon {
-  position: relative;
-  top: 3px;
-  margin-right: 10px;
-}
-
 .ui-datatable .table-icon, 
 .ui-treetable .table-icon {
   position: relative;
@@ -173,10 +93,12 @@ body {
   font-size: 17px;
   margin-right: 5px;
 }
+.ui-fluid .ui-column-filter {
+  display: none;
+}
 .table-icon.light {
   color: lightgrey;
 }
-
 .table-icon-right {
   float: right;
   font-size: 17px;
@@ -190,47 +112,16 @@ body {
 .table-icon.no-margin {
   margin: 0;
 }
-
 .ui-datatable .table-control-btn, 
 .ui-treetable .table-control-btn {
   margin-top: 0;
 }
-.card .spin-icon {
-  font-size: 19px;
-}
-
-.floatTableColumn .ui-grid-row {
-  display: block;
-}
-
-.floatTableColumn .ui-grid-row>div {
-  float: left;
-}
-
-.ui-dialog-content .modal-input-form .ui-panelgrid-cell {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.ui-dialog-content .modal-input-button {
-  width: 100px;
-  margin-right: 5px;
-  float: right;
-}
-
 .ui-datatable a, 
 .ui-tree a {
   color: inherit;
 }
 
-.log-viewer {
-  margin-top: 20px;
-}
-.log-viewer .ui-inputfield {
-  background-image: none;
-  max-height: 500px;
-  overflow-y: auto;
-}
+/*Table Paging*/
 .ui-fluid .ui-datatable-header {
   background-color: #9e9e9e;
   color: #ffffff;
@@ -264,4 +155,55 @@ body {
   padding-left: 8px;
   padding-right: 8px;
   width: auto;
+}
+
+/*Card view*/
+.layout-main {
+  height: 100%;
+}
+.ui-fluid .tab-view-card {
+  border: 0px;
+}
+.ui-fluid .ui-inputswitch.ui-inputswitch-checked {
+  background-color: #9CCC65;
+  border-color: #9CCC65;
+}
+.ui-fluid .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-handle {
+  background-color: #7CB342;
+  color: #ffffff;
+}
+.card-title-icon {
+  position: relative;
+  top: 3px;
+  margin-right: 10px;
+}
+.card .spin-icon {
+  font-size: 19px;
+}
+.float-select-many-checkbox .ui-grid-row {
+  display: block;
+}
+.float-select-many-checkbox .ui-grid-row>div {
+  float: left;
+}
+
+/*Panels*/
+.log-viewer {
+  margin-top: 20px;
+}
+.log-viewer .ui-inputfield {
+  background-image: none;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/*Dialogs / Overlays*/
+.ui-dialog-content .modal-input-form .ui-panelgrid-cell {
+  padding-left: 0;
+  padding-right: 0;
+}
+.ui-dialog-content .modal-input-button {
+  width: 100px;
+  margin-right: 5px;
+  float: right;
 }
