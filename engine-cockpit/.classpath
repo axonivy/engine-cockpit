@@ -32,6 +32,5 @@
 	<classpathentry kind="lib" path="lib/jna-5.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/jna-platform-5.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/oshi-core-3.13.0.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
