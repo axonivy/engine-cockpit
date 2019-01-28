@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Monitor</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li><a href="monitor.xhtml">Monitor</a></li>
+    </ui:define>
+    
+    <ui:define name="content">
+      <div class="ui-g dashboard">
+        <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
+          <p:panel header="CPU Load Monitor">
+            <cc:MonitorGraph monitor="#{monitorBean.cpuMonitor}" />
+          </p:panel>
+        </div>
+        
+        <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
+          <p:panel header="Memory Monitor">
+            <cc:MonitorGraph monitor="#{monitorBean.memoryMonitor}" />
+          </p:panel>
+        </div>
+        
+        <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
+          <p:panel header="Network Monitor">
+            <cc:MonitorGraph monitor="#{monitorBean.networkMonitor}" />
+          </p:panel>
+        </div>
+        
+        <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
+          <p:panel header="IO Monitor">
+            <cc:MonitorGraph monitor="#{monitorBean.ioMonitor}" />
+          </p:panel>
+        </div>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
