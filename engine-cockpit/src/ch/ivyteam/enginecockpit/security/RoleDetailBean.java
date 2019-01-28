@@ -20,6 +20,7 @@ public class RoleDetailBean
 {
   private String roleName;
   private String newChildRoleName;
+  private String roleUserName;
   private Role role;
 
   private List<User> usersOfRole;
@@ -109,10 +110,21 @@ public class RoleDetailBean
     loadUsersOfRole();
   }
 
-  public void addUser(String userName)
+  public void addUser()
   {
-    getSecurityContext().findUser(userName).addRole(getIRole());
+    getSecurityContext().findUser(roleUserName).addRole(getIRole());
+    roleUserName = "";
     loadUsersOfRole();
+  }
+  
+  public String getRoleUserName()
+  {
+    return roleUserName;
+  }
+
+  public void setRoleUserName(String roleUserName)
+  {
+    this.roleUserName = roleUserName;
   }
 
   public List<User> getFilteredUsers()
