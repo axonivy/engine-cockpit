@@ -14,9 +14,9 @@ public class EmailSettings
 
   public static final Locale ENGLISH = Locale.ENGLISH;
 
-  public EmailSettings(IUser user, Locale defaultAppLanguage)
+  public EmailSettings(IUser user)
   {
-    this.language = user.getEMailLanguage() != null ? user.getEMailLanguage() : defaultAppLanguage;
+    this.language = user.getEMailLanguage() != null ? user.getEMailLanguage() : new Locale("app");
     notificationDisabled = user.getEMailNotificationSettings().isNotificationDisabled();
     sendOnNewWorkTasks = user.getEMailNotificationSettings().isSendOnNewWorkTasks();
     useApplicationDefault = user.getEMailNotificationSettings().isUseApplicationDefault();

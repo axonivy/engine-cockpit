@@ -6,7 +6,8 @@
 
 <h:form id="membersOfRoleForm">
   <p:autoComplete id="addMemberDropDown" value="#{roleDetailBean.roleMemberName}" dropdown="true" forceSelection="true"
-    completeMethod="#{roleDetailBean.searchMember}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search member to add" />
+    completeMethod="#{roleDetailBean.searchMember}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
+    placeholder="Search member to add" />
   <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
     icon="ui-icon-add" title="Add" styleClass="primary-btn" />
   <p:growl for="membersMessage" autoUpdate="true" />
@@ -24,11 +25,17 @@
       </p:outputPanel>
     </f:facet>
     <p:column styleClass="member-row" headerText="Members Of Role" sortBy="#{member.name}" filterBy="#{member.name}">
-      <h:outputText styleClass="member-name" value="#{member.name}">
-        <i class="material-icons table-icon">people</i>
-        <p:commandButton id="removeMemberFromRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.removeMember(member.name)}"
-          icon="ui-icon-remove" title="Remove" styleClass="card-button table-control-btn secondary-btn" />
-      </h:outputText>
+      <a href="roledetail.xhtml?roleName=#{member.name}">
+        <h:outputText styleClass="member-name" value="#{member.name}">
+          <i class="material-icons table-icon">people</i>
+        </h:outputText>
+        <h:outputText value=" (#{member.displayName})" styleClass="addition-row-info" />
+      </a>
+    </p:column>
+    <p:column style="width: 30px;">
+      <p:commandButton id="removeMemberFromRoleBtn" update="membersOfRoleForm"
+        actionListener="#{roleDetailBean.removeMember(member.name)}" icon="ui-icon-remove" title="Remove"
+        styleClass="card-button table-control-btn secondary-btn" style="margin: 0;" />
     </p:column>
   </p:dataTable>
 </h:form>

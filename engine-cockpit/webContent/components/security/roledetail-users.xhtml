@@ -7,9 +7,11 @@
 <h:form id="usersOfRoleForm">
   <p:growl for="usersMessage" autoUpdate="true" />
   <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
-    completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search user to add" />
+    completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search user to add" 
+    disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
   <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
-    icon="ui-icon-add" title="Add" styleClass="primary-btn" />
+    icon="ui-icon-add" title="Add" styleClass="primary-btn" 
+    disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
   <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
     filteredValue="#{roleDetailBean.filteredUsers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
     paginatorAlwaysVisible="false"
@@ -24,13 +26,18 @@
       </p:outputPanel>
     </f:facet>
     <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
-      <h:outputText styleClass="user-name" value="#{user.name}">
-        <i class="material-icons table-icon">person</i>
-        <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
-          actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove"
-          styleClass="card-button table-control-btn secondary-btn"
-          disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
-      </h:outputText>
+      <a href="userdetail.xhtml?userName=#{user.name}">
+        <h:outputText styleClass="user-name" value="#{user.name}">
+          <i class="material-icons table-icon">person</i>
+        </h:outputText>
+        <h:outputText value=" (#{user.fullName})" styleClass="addition-row-info" />
+      </a>
+    </p:column>
+    <p:column style="width: 30px;">
+      <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
+        actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove"
+        styleClass="card-button table-control-btn secondary-btn" style="margin: 0;" 
+        disabled="#{roleDetailBean.roleName == 'Everybody' or (!applicationBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
     </p:column>
   </p:dataTable>
 </h:form>

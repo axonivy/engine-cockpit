@@ -30,7 +30,7 @@
     <p:column headerText="Email" sortBy="#{user.email}" filterBy="#{user.email}">
       <h:outputText value="#{user.email}" styleClass="user-email" />
     </p:column>
-    <p:column headerText="Logged in">
+    <p:column headerText="Logged in" sortBy="#{user.loggedIn}">
       <h:outputText>
         <i class="material-icons">#{user.loggedIn ? 'done' : 'clear'}</i>
       </h:outputText>

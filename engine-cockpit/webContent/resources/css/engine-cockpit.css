@@ -117,7 +117,8 @@ body {
   margin-top: 0;
 }
 .ui-datatable a, 
-.ui-tree a {
+.ui-tree a,
+.ui-treetable a {
   color: inherit;
 }
 .ui-tree .addition-row-info,
@@ -191,6 +192,7 @@ body {
 }
 .float-select-many-checkbox .ui-grid-row>div {
   float: left;
+  width: 75px;
 }
 
 /*Panels*/

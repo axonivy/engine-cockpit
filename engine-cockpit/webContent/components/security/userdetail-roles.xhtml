@@ -17,10 +17,12 @@
   </div>
   <p:treeTable id="rolesTree" value="#{roleBean.roles}" var="role">
     <p:column headerText="All Roles" sortBy="#{role.name}">
-      <h:outputText value="#{role.name}" styleClass="role-name">
-        <i class="material-icons table-icon">group</i>
-      </h:outputText>
-      <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+      <a href="roledetail.xhtml?roleName=#{role.name}">
+        <h:outputText value="#{role.name}" styleClass="role-name">
+          <i class="material-icons table-icon">group</i>
+        </h:outputText>
+        <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+      </a>
     </p:column>
     <p:column style="width: 100px;">
       <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
