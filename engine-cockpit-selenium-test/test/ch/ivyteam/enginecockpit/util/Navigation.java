@@ -59,7 +59,7 @@ public class Navigation
     Navigation.toRoles(driver);
     Optional<WebElement> role = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='role-name']")))
             .stream()
-            .filter(e -> e.getText().equals(roleName)).findAny();
+            .filter(e -> e.getText().startsWith(roleName)).findAny();
     assertThat(role).isPresent();
     role.get().click();
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
