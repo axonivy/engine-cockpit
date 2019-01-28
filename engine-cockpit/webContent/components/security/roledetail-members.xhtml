@@ -11,7 +11,9 @@
     icon="ui-icon-add" title="Add" styleClass="primary-btn" />
   <p:growl for="membersMessage" autoUpdate="true" />
   <p:dataTable value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
-    filteredValue="#{roleDetailBean.filteredMembers}" lazy="false">
+    filteredValue="#{roleDetailBean.filteredMembers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
+    paginatorAlwaysVisible="false"
+    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
