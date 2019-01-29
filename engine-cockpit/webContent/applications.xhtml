@@ -49,20 +49,20 @@
                       </h:outputText>
                     </a>
                   </p:column>
-                  <p:column>
+                  <p:column style="text-align: center; width: 150px;">
                     <h:outputText value="#{activity.operationState}" rendered="#{!activity.pmv}"/>
                     <h:outputText value="#{activity.operationState} / #{activity.releaseState}" rendered="#{activity.pmv}"/>
                   </p:column>
                   <p:column style="text-align: center; width: 150px;">
-                    <p:commandButton icon="ui-icon-play-arrow" disabled="#{activity.active}" type="button"
+                    <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}" type="button"
                       style="margin-right: 10px;" styleClass="primary-btn">
                       <p:ajax update="card:form" listener="#{activity.activate}" />
                     </p:commandButton>
-                    <p:commandButton icon="ui-icon-stop" disabled="#{activity.inActive}" type="button"
+                    <p:commandButton title="Deactivate" icon="ui-icon-stop" disabled="#{activity.inActive}" type="button"
                       style="margin-right: 10px;" styleClass="secondary-btn">
                       <p:ajax update="card:form" listener="#{activity.deactivate}" />
                     </p:commandButton>
-                    <p:commandButton icon="ui-icon-lock" disabled="#{activity.locked}" type="button"
+                    <p:commandButton title="Lock" icon="ui-icon-lock" disabled="#{activity.locked}" type="button"
                       styleClass="amber-btn">
                       <p:ajax update="card:form" listener="#{activity.lock}" />
                     </p:commandButton>
