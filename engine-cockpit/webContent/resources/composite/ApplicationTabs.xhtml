@@ -8,9 +8,9 @@
     method-signature="void handleEvent()" required="true" />
 </cc:interface>
 <cc:implementation>
-  <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card" value="#{applicationBean.applications}"
-    activeIndex="#{applicationBean.selectedApplicationIndex}" var="app">
-    <p:ajax event="tabChange" listener="#{applicationBean.updateSelectedApplication}" />
+  <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card" value="#{managerBean.applications}"
+    activeIndex="#{managerBean.selectedApplicationIndex}" var="app">
+    <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
     <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@form" />
     <p:tab title="#{app.name}" titleStyleClass="application-tab">
       <cc:insertChildren />

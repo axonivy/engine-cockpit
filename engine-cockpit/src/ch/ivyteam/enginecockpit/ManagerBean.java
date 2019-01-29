@@ -22,7 +22,7 @@ import ch.ivyteam.ivy.workflow.TaskState;
 
 @ManagedBean
 @SessionScoped
-public class ApplicationBean
+public class ManagerBean
 {
   private List<Application> applications;
   private int selectedApplicationIndex;
@@ -30,7 +30,7 @@ public class ApplicationBean
   @Inject
   private IApplicationConfigurationManager manager;
 
-  public ApplicationBean()
+  public ManagerBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
 

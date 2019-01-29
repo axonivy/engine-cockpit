@@ -37,11 +37,11 @@
     <p:column style="width: 70px;">
       <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
         icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" style="margin: 0;"
-        disabled="#{role.name == 'Everybody' or userDetailBean.isUserMemberOfRole(role.name) or (!applicationBean.ivySecuritySystem and role.adSynced)}" />
+        disabled="#{role.name == 'Everybody' or userDetailBean.isUserMemberOfRole(role.name) or (!managerBean.ivySecuritySystem and role.adSynced)}" />
       <p:commandButton id="removeRoleFromUserBtn" update="@form"
         actionListener="#{userDetailBean.removeRole(role.name)}" icon="ui-icon-remove" title="Remove"
         styleClass="card-button table-control-btn secondary-btn"
-        disabled="#{role.name == 'Everybody' or !userDetailBean.isUserMemberOfRole(role.name) or (!applicationBean.ivySecuritySystem and role.adSynced)}" />
+        disabled="#{role.name == 'Everybody' or !userDetailBean.isUserMemberOfRole(role.name) or (!managerBean.ivySecuritySystem and role.adSynced)}" />
     </p:column>
   </p:treeTable>
 </h:form>

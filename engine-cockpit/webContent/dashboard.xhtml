@@ -8,10 +8,10 @@
     <ui:define name="title">Engine Cockpit</ui:define>
     <ui:define name="content">
       <div class="ui-g dashboard">
-        <cc:OverviewBox box="4" count="#{applicationBean.sessionCount}" icon="person_pin_circle" title="Sessions"/>
-        <cc:OverviewBox box="2" count="#{applicationBean.usersCount}" icon="person" title="Users"/>
-        <cc:OverviewBox box="3" count="#{applicationBean.tasksCount}" icon="storage" title="Working Tasks"/>
-        <cc:OverviewBox box="1" count="#{applicationBean.applicationCount}" icon="apps" title="Applications"/>
+        <cc:OverviewBox box="4" count="#{managerBean.sessionCount}" icon="person_pin_circle" title="Sessions"/>
+        <cc:OverviewBox box="2" count="#{managerBean.usersCount}" icon="person" title="Users"/>
+        <cc:OverviewBox box="3" count="#{managerBean.tasksCount}" icon="storage" title="Working Tasks"/>
+        <cc:OverviewBox box="1" count="#{managerBean.applicationCount}" icon="apps" title="Applications"/>
         
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid">
           <p:panel header="Axon.ivy">

@@ -11,7 +11,7 @@
   <p:panelGrid id="emailNotificationSettings" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
     <p:outputLabel value="Language:" for="languageDropDown" />
     <p:selectOneMenu id="languageDropDown" value="#{userDetailBean.emailSettings.language}">
-      <f:selectItems value="#{applicationBean.supportedLanguages}" />
+      <f:selectItems value="#{managerBean.supportedLanguages}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
     <p:outputLabel value="Settings from:" for="radioSettings" />

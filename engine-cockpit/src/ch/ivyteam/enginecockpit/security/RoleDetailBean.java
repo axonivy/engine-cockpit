@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.IRole;
@@ -31,15 +31,15 @@ public class RoleDetailBean
   private List<Role> membersOfRole;
   private List<Role> filteredMembers;
 
-  private ApplicationBean applicationBean;
+  private ManagerBean managerBean;
   private UserBean userBean;
   private RoleBean roleBean;
 
   public RoleDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}",
-            ApplicationBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
     userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
     roleBean = context.getApplication().evaluateExpressionGet(context, "#{roleBean}", RoleBean.class);
     role = new Role();
@@ -235,6 +235,6 @@ public class RoleDetailBean
 
   private ISecurityContext getSecurityContext()
   {
-    return applicationBean.getSelectedIApplication().getSecurityContext();
+    return managerBean.getSelectedIApplication().getSecurityContext();
   }
 }

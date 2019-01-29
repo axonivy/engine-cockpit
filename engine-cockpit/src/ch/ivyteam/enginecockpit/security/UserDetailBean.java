@@ -11,7 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.EmailSettings;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
@@ -30,13 +30,13 @@ public class UserDetailBean
 
   private List<Role> filteredRoles;
 
-  private ApplicationBean applicationBean;
+  private ManagerBean managerBean;
 
   public UserDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}",
-            ApplicationBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
     user = new User();
   }
 
@@ -200,6 +200,6 @@ public class UserDetailBean
 
   private ISecurityContext getSecurityContext()
   {
-    return applicationBean.getSelectedIApplication().getSecurityContext();
+    return managerBean.getSelectedIApplication().getSecurityContext();
   }
 }
