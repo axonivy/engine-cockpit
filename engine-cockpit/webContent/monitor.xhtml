@@ -9,36 +9,35 @@
 
     <ui:define name="head">
       <script type="text/javascript">
-				function skinChart() {
-					this.cfg.shadow = false;
-					this.cfg.title = '';
-					this.cfg.seriesColors = [ '#607D8B', '#FFC107',
-							'#FF5722' ];
-					this.cfg.grid = {
-						background : '#ffffff',
-						borderColor : '#ffffff',
-						gridLineColor : '#F5F5F5',
-						shadow : false
-					};
-					this.cfg.axesDefaults = {
-						borderWidth : 0.1,
-						borderColor : 'bdbdbd',
-						labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-						rendererOptions : {
-							textColor : '#666F77'
-						}
-					};
-					this.cfg.seriesDefaults = {
-						shadow : false,
-						lineWidth : 1,
-						markerOptions : {
-							shadow : false,
-							size : 7,
-							style : 'circle'
-						}
-					}
-				}
-			</script>
+        function skinChart() {
+          this.cfg.shadow = false;
+          this.cfg.title = '';
+          this.cfg.seriesColors = [ '#607D8B', '#FFC107', '#FF5722' ];
+          this.cfg.grid = {
+            background : '#ffffff',
+            borderColor : '#ffffff',
+            gridLineColor : '#F5F5F5',
+            shadow : false
+          };
+          this.cfg.axesDefaults = {
+            borderWidth : 0.1,
+            borderColor : 'bdbdbd',
+            labelRenderer : $.jqplot.CanvasAxisLabelRenderer,
+            rendererOptions : {
+              textColor : '#666F77'
+            }
+          };
+          this.cfg.seriesDefaults = {
+            shadow : false,
+            lineWidth : 1,
+            markerOptions : {
+              shadow : false,
+              size : 7,
+              style : 'circle'
+            }
+          }
+        }
+      </script>
       <style type="text/css">
         .jqplot-xaxis-label, .jqplot-yaxis-label, .jqplot-y2axis-label, .jqplot-x2axis-label {
           color: #757575;
