@@ -12,12 +12,20 @@ public class Application extends AbstractActivity
 
   public Application(IApplication app)
   {
-    super(app.getName(), app.getId());
+    super(app.getName(), app.getId(), app);
+    setOperationState(app.getActivityOperationState());
   }
-
-  public Application(String name, long id)
+  
+  @Override
+  public boolean isApplication()
   {
-    super(name, id);
+    return true;
+  }
+  
+  @Override
+  public String getDetailView()
+  {
+    return "application-detail.xhtml?appName=" + getName();
   }
 
   @Override

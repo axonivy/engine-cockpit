@@ -12,7 +12,7 @@
     </ui:define>
 
     <ui:define name="content">
-      <cc:SingleCard>
+      <cc:SingleCard id="card">
         <div class="card card-w-title">
           <h:form id="form">
             <div class="ui-g">
@@ -41,21 +41,35 @@
                 </div>
               </div>
               <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
-                <h:form id="treeForm">
-                  <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
-                    <p:column headerText="Applications" sortBy="#{activity.name}">
-                      <h:outputText value="#{activity.name}" styleClass="activity-name">
+                <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
+                  <p:column headerText="Applications" sortBy="#{activity.name}">
+                    <a href="#{activity.detailView}"> <h:outputText value="#{activity.name}"
+                        styleClass="activity-name">
                         <i class="fa fa-#{activity.icon} table-icon" />
                       </h:outputText>
-                    </p:column>
-                    <p:column headerText="State">
-                      <h:outputText value="" styleClass="activity-state" />
-                    </p:column>
-                    <p:column headerText="Release">
-                      <h:outputText value="" styleClass="activity-release" />
-                    </p:column>
-                  </p:treeTable>
-                </h:form>
+                    </a>
+                  </p:column>
+                  <p:column>
+                    <h:outputText value="#{activity.operationState}" />
+                  </p:column>
+                  <p:column style="text-align: center; width: 150px;" rendered="#{activity.name ne 'designer'}">
+                    <p:commandButton icon="ui-icon-play-arrow" disabled="#{activity.active}" type="button"
+                      style="margin-right: 10px;" styleClass="primary-btn">
+                      <p:ajax update="card:form" listener="#{activity.activate}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-stop" disabled="#{activity.inActive}" type="button"
+                      style="margin-right: 10px;" styleClass="secondary-btn">
+                      <p:ajax update="card:form" listener="#{activity.deactivate}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-lock" disabled="#{activity.locked}" type="button"
+                      styleClass="amber-btn">
+                      <p:ajax update="card:form" listener="#{activity.lock}" />
+                    </p:commandButton>
+                  </p:column>
+                  <p:column headerText="Release" rendered="false">
+                    <h:outputText value="" styleClass="activity-release" />
+                  </p:column>
+                </p:treeTable>
               </div>
             </div>
           </h:form>

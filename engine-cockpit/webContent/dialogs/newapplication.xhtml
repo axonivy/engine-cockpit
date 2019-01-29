@@ -15,7 +15,7 @@
       </h:panelGroup>
     </p:panelGrid>
     <p:commandButton id="saveNewApplication" validateClient="true" ajax="false" update="@form"
-      action="#{applicationBean.createNewApplication}" value="Save" icon="ui-icon-save"
+      actionListener="#{applicationBean.createNewApplication}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button" />
     <p:commandButton id="cancelNewApplication" onclick="PF('newApplicationModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />

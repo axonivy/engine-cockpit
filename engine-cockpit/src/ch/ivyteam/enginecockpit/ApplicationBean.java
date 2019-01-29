@@ -60,7 +60,6 @@ public class ApplicationBean
     for (IApplication app : managerBean.getIApplicaitons())
     {
       TreeNode node = new DefaultTreeNode(new Application(app), rootNode);
-      node.setExpanded(true);
       loadPmTree(app, node);
     }
   }
@@ -124,9 +123,9 @@ public class ApplicationBean
     return newApp.getName();
   }
   
-  public String createNewApplication()
+  public void createNewApplication()
   {
     managerBean.getManager().createApplication(newApp.getName());
-    return "applicationdetail.xhtml?faces-redirect=true&appName=" + newApp.getName();
+    reloadActivities();
   }
 }

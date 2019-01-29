@@ -1,19 +1,52 @@
 package ch.ivyteam.enginecockpit.model;
 
+import ch.ivyteam.ivy.application.ActivityOperationState;
+import ch.ivyteam.ivy.application.ActivityState;
+import ch.ivyteam.ivy.application.IActivity;
+
 public abstract class AbstractActivity
 {
   private String name;
   private long id;
+  private IActivity activity;
+  private ActivityState state;
+  private ActivityOperationState operationState;
   
   public AbstractActivity()
   {
-    
+    this("", 0, null);
   }
   
-  public AbstractActivity(String name, long id)
+  public AbstractActivity(String name, long id, IActivity activity)
   {
     this.name = name;
     this.id = id;
+    this.activity = activity;
+    updateStats();
+  }
+  
+  private void updateStats()
+  {
+    if (activity == null)
+    {
+      state = ActivityState.INACTIVE;
+      operationState = ActivityOperationState.INACTIVE;
+    }
+    else
+    {
+      state = activity.getActivityState();
+      operationState = activity.getActivityOperationState();
+    }
+  }
+  
+  public boolean isApplication()
+  {
+    return false;
+  }
+  
+  public String getDetailView()
+  {
+    return "#";
   }
   
   abstract String getIcon();
@@ -36,5 +69,58 @@ public abstract class AbstractActivity
   public void setId(long id)
   {
     this.id = id;
+  }
+  
+  public ActivityState getState()
+  {
+    return state;
+  }
+  
+  public void setState(ActivityState state)
+  {
+    this.state = state;
+  }
+  
+  public ActivityOperationState getOperationState()
+  {
+    return operationState;
+  }
+  
+  public void setOperationState(ActivityOperationState operationState)
+  {
+    this.operationState = operationState;
+  }
+  
+  public boolean isActive()
+  {
+    return state == ActivityState.ACTIVE;
+  }
+  
+  public boolean isInActive()
+  {
+    return state == ActivityState.INACTIVE;
+  }
+  
+  public boolean isLocked()
+  {
+    return state == ActivityState.LOCKED || state == ActivityState.INACTIVE;
+  }
+  
+  public void activate()
+  {
+    activity.activate();
+    updateStats();
+  }
+  
+  public void deactivate()
+  {
+    activity.deactivate();
+    updateStats();
+  }
+  
+  public void lock()
+  {
+    activity.lock();
+    updateStats();
   }
 }

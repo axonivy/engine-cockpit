@@ -7,14 +7,10 @@ public class ProcessModelVersion extends AbstractActivity
 
   public ProcessModelVersion(IProcessModelVersion pmv)
   {
-    super(pmv.getVersionName(), pmv.getId());
+    super(pmv.getVersionName(), pmv.getId(), pmv);
+    setOperationState(pmv.getActivityOperationState());
   }
 
-  public ProcessModelVersion(String name, long id)
-  {
-    super(name, id);
-  }
-  
   @Override
   public String getIcon()
   {
