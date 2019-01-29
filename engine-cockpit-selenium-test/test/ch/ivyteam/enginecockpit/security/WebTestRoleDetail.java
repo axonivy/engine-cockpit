@@ -183,11 +183,11 @@ public class WebTestRoleDetail extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
   
     driver.findElementById("roleInformationForm:externalSecurityName").clear();
+    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEmpty());
     driver.findElementById("roleInformationForm:saveRoleInformation").click();
     saveScreenshot(driver, "remove_external");
     driver.navigate().refresh();
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME));
-    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEmpty());
     saveScreenshot(driver, "refresh_before_cleanup");
     await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).doesNotContain("ui-state-disabled"));
     driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
