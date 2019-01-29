@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -118,9 +119,13 @@ public class ApplicationBean
 
   public List<SelectItem> getSupportedLanguages()
   {
-    return manager.getLanguages().stream()
+    Locale appLanguage = getSelectedIApplication().getDefaultEMailLanguage();
+    List<SelectItem> languages = new ArrayList<>();
+    languages.add(new SelectItem("app", "Application default (" + appLanguage.getDisplayLanguage() + ")"));
+    languages.addAll(manager.getLanguages().stream()
             .map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()));
+    return languages;
   }
   
   public boolean isIvySecuritySystem() 

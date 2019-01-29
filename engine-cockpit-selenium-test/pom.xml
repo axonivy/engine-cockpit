@@ -101,6 +101,8 @@
 									<directory>engine-configuration</directory>
 								</resource>
 							</resources>
+							<encoding>UTF-8</encoding>
+							<overwrite>true</overwrite>
 						</configuration>
 					</execution>
 				</executions>

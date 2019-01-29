@@ -32,6 +32,7 @@ public abstract class Monitor
     model = new LineChartModel();
     model.setDatatipFormat("%2$d");
     model.setSeriesColors("607D8B,FFC107,FF5722");
+    model.setExtender("skinChart");
     startMilliSec = Calendar.getInstance().getTimeInMillis();
     actualSec = 0;
     pausedMilliSec = 0;

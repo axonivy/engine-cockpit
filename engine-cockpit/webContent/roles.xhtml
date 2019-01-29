@@ -49,7 +49,9 @@
                 <h:form id="treeForm">
                   <p:tree id="tree" widgetVar="tree" value="#{roleBean.rolesWithMembers}" var="role">
                     <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}">
-                      <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name"> <h:outputText value="#{role.name}" />
+                      <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name"> 
+                        <h:outputText value="#{role.name}" />
+                        <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
                       </a>
                     </p:treeNode>
                   </p:tree>

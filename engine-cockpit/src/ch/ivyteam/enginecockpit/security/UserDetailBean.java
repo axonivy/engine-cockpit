@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.security;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -49,7 +50,7 @@ public class UserDetailBean
     this.userName = userName;
     IUser iUser = getSecurityContext().findUser(userName);
     this.user = new User(iUser);
-    this.emailSettings = new EmailSettings(iUser, applicationBean.getDefaultEmailLanguageForSelectedApp());
+    this.emailSettings = new EmailSettings(iUser);
   }
 
   public User getUser()
@@ -129,7 +130,12 @@ public class UserDetailBean
   public void saveUserEmail()
   {
     IUser iUser = getIUser();
-    iUser.setEMailLanguage(emailSettings.getLanguageLocale());
+    Locale language = emailSettings.getLanguageLocale();
+    if (language.getLanguage().equals("app"))
+    {
+      language = null;
+    }
+    iUser.setEMailLanguage(language);
     IUserEMailNotificationSettings eMailNotificationSettings = iUser.getEMailNotificationSettings();
     eMailNotificationSettings.setUseApplicationDefault(emailSettings.isUseApplicationDefault());
     eMailNotificationSettings.setNotificationDisabled(emailSettings.isNotificationDisabled());
