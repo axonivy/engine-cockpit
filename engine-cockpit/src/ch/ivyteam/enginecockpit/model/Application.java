@@ -14,6 +14,7 @@ public class Application extends AbstractActivity
   {
     super(app.getName(), app.getId(), app);
     setOperationState(app.getActivityOperationState());
+    disable = app.getName().equals("designer");
   }
   
   @Override

@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.model;
 import ch.ivyteam.ivy.application.ActivityOperationState;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IActivity;
+import ch.ivyteam.ivy.application.ReleaseState;
 
 public abstract class AbstractActivity
 {
@@ -11,6 +12,7 @@ public abstract class AbstractActivity
   private IActivity activity;
   private ActivityState state;
   private ActivityOperationState operationState;
+  protected boolean disable;
   
   public AbstractActivity()
   {
@@ -40,6 +42,11 @@ public abstract class AbstractActivity
   }
   
   public boolean isApplication()
+  {
+    return false;
+  }
+  
+  public boolean isPmv()
   {
     return false;
   }
@@ -91,19 +98,24 @@ public abstract class AbstractActivity
     this.operationState = operationState;
   }
   
+  public ReleaseState getReleaseState()
+  {
+    return null;
+  }
+  
   public boolean isActive()
   {
-    return state == ActivityState.ACTIVE;
+    return state == ActivityState.ACTIVE || disable;
   }
   
   public boolean isInActive()
   {
-    return state == ActivityState.INACTIVE;
+    return state == ActivityState.INACTIVE || disable;
   }
   
   public boolean isLocked()
   {
-    return state == ActivityState.LOCKED || state == ActivityState.INACTIVE;
+    return state == ActivityState.LOCKED || state == ActivityState.INACTIVE || disable;
   }
   
   public void activate()

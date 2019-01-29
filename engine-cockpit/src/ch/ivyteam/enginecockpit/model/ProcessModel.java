@@ -9,6 +9,7 @@ public class ProcessModel extends AbstractActivity
   {
     super(pm.getName(), pm.getId(), pm);
     setOperationState(pm.getActivityOperationState());
+    disable = pm.getApplication().getName().equals("designer");
   }
 
   @Override
