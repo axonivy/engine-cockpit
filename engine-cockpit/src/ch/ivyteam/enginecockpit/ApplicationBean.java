@@ -1,0 +1,132 @@
+package ch.ivyteam.enginecockpit;
+
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.apache.commons.lang3.StringUtils;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
+
+import ch.ivyteam.enginecockpit.model.AbstractActivity;
+import ch.ivyteam.enginecockpit.model.Application;
+import ch.ivyteam.enginecockpit.model.ProcessModel;
+import ch.ivyteam.enginecockpit.model.ProcessModelVersion;
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IProcessModel;
+import ch.ivyteam.ivy.application.IProcessModelVersion;
+
+@ManagedBean
+@ViewScoped
+public class ApplicationBean
+{
+  private TreeNode rootTreeNode;
+  private TreeNode filteredRootTreeNode;
+  private String filter = "";
+  
+  private Application newApp;
+  
+  private ManagerBean managerBean;
+  
+  public ApplicationBean()
+  {
+    FacesContext context = FacesContext.getCurrentInstance();
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
+    reloadActivities();
+    newApp = new Application();
+  }
+  
+  public TreeNode getActivities()
+  {
+    if (filter.isEmpty())
+    {
+      return rootTreeNode;
+    }
+    return filteredRootTreeNode;
+  }
+  
+  public void reloadActivities()
+  {
+    filter = "";
+    rootTreeNode = new DefaultTreeNode("Activities", null);
+    loadApplicationTree(rootTreeNode);
+  }
+  
+  private void loadApplicationTree(TreeNode rootNode)
+  {
+    for (IApplication app : managerBean.getIApplicaitons())
+    {
+      TreeNode node = new DefaultTreeNode(new Application(app), rootNode);
+      node.setExpanded(true);
+      loadPmTree(app, node);
+    }
+  }
+  
+  private void loadPmTree(IApplication app, TreeNode appNode)
+  {
+    for (IProcessModel pm : app.getProcessModels())
+    {
+      TreeNode node = new DefaultTreeNode(new ProcessModel(pm), appNode);
+      loadPmvTree(pm, node);
+    }
+  }
+  
+  @SuppressWarnings("unused")
+  private void loadPmvTree(IProcessModel pm, TreeNode pmNode)
+  {
+    for (IProcessModelVersion pmv : pm.getProcessModelVersions())
+    {
+      new DefaultTreeNode(new ProcessModelVersion(pmv), pmNode);
+    }
+  }
+  
+  @SuppressWarnings("unused")
+  private void filterRootTreeNode(List<TreeNode> nodes)
+  {
+    for (TreeNode node : nodes)
+    {
+      AbstractActivity activity = (AbstractActivity) node.getData();
+      if (StringUtils.startsWithIgnoreCase(activity.getName(), filter))
+      {
+        new DefaultTreeNode(activity, filteredRootTreeNode);
+      }
+      filterRootTreeNode(node.getChildren());
+    }
+  }
+  
+  public String getFilter()
+  {
+    return filter;
+  }
+
+  public void setFilter(String filter)
+  {
+    this.filter = filter;
+    filteredRootTreeNode = new DefaultTreeNode("Filtered activities", null);
+    filterRootTreeNode(rootTreeNode.getChildren());
+  }
+  
+  public List<Application> getApplications()
+  {
+    return managerBean.getApplications();
+  }
+  
+  public void setNewApplicationName(String name)
+  {
+    newApp.setName(name);
+  }
+  
+  public String getNewApplicationName()
+  {
+    return newApp.getName();
+  }
+  
+  public String createNewApplication()
+  {
+    managerBean.getManager().createApplication(newApp.getName());
+    return "applicationdetail.xhtml?faces-redirect=true&appName=" + newApp.getName();
+  }
+}
