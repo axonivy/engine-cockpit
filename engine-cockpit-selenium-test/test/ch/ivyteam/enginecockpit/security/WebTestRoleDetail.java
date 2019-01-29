@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.security;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -17,7 +16,6 @@ public class WebTestRoleDetail extends WebTestBase
   private static final String DETAIL_ROLE_NAME = "boss";
   
   @Test
-  @Disabled
   void testRoleDetailOpen(FirefoxDriver driver)
   {
     toRoleDetail(driver);
@@ -26,7 +24,6 @@ public class WebTestRoleDetail extends WebTestBase
   }
   
   @Test
-  @Disabled
   void testSaveRoleInformation(FirefoxDriver driver)
   {
     toRoleDetail(driver);
@@ -52,7 +49,6 @@ public class WebTestRoleDetail extends WebTestBase
   }
   
   @Test
-  @Disabled
   void testNewChildRole(FirefoxDriver driver)
   {
     toRoleDetail(driver);
@@ -84,7 +80,6 @@ public class WebTestRoleDetail extends WebTestBase
   }
   
   @Test
-  @Disabled
   void testAddAndRemoveUser(FirefoxDriver driver)
   {
     toRoleDetail(driver);
@@ -113,7 +108,6 @@ public class WebTestRoleDetail extends WebTestBase
   }
   
   @Test
-  @Disabled
   void testAddAndRemoveMember(FirefoxDriver driver)
   {
     toRoleDetail(driver);
