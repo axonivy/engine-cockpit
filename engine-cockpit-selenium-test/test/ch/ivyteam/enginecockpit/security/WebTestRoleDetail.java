@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
+import ch.ivyteam.enginecockpit.util.ApplicationTab;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 public class WebTestRoleDetail extends WebTestBase
@@ -131,6 +132,54 @@ public class WebTestRoleDetail extends WebTestBase
     driver.findElementById("membersOfRoleForm:roleMemberTable:0:removeMemberFromRoleBtn").click();
     await().untilAsserted(() -> assertThat(driver.findElementsByXPath(roleMembers)).isEmpty());
     saveScreenshot(driver, "remove_member");
+  }
+  
+  @Test
+  void testExternalSecurityName(FirefoxDriver driver)
+  {
+    login(driver);
+    Navigation.toRoles(driver);
+    saveScreenshot(driver, "roles");
+    
+    if (ApplicationTab.getApplicationCount(driver) > 1)
+    {
+      ApplicationTab.switchToApplication(driver, "test-ad");
+    }
+    saveScreenshot(driver, "switch_to_ad_app");
+    
+    Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
+    saveScreenshot(driver, "roledetail");
+    
+    driver.findElementById("roleInformationForm:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
+    driver.findElementById("roleInformationForm:saveRoleInformation").click();
+    saveScreenshot(driver, "save_user_changes");
+    
+    Navigation.toRoles(driver);
+    String syncBtnId = driver.findElementByXPath("//*[contains(@id, 'applicationTabView:0:panelSyncBtn')]").getAttribute("id");
+    driver.findElementById(syncBtnId).click();
+    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).contains("fa-spin"));
+    saveScreenshot(driver, "trigger_roles_sync");
+    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
+    saveScreenshot(driver, "finish_roles_sync");
+    
+    Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
+    saveScreenshot(driver, "roledetail");
+    
+    String roleUsers = "//*[@id='usersOfRoleForm:roleUserTable']//*[@class='user-row']";
+    await().untilAsserted(() -> assertThat(driver.findElementsByXPath(roleUsers)).hasSize(3));
+    await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserDropDown_input").getAttribute("class")).contains("ui-state-disabled"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserToRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
+  
+    driver.findElementById("roleInformationForm:externalSecurityName").clear();
+    driver.findElementById("roleInformationForm:saveRoleInformation").click();
+    driver.navigate().refresh();
+    await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).doesNotContain("ui-state-disabled"));
+    saveScreenshot(driver, "refresh_before_cleanup");
+    driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
+    driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
+    driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
+    saveScreenshot(driver, "cleanup");
   }
 
   private void toRoleDetail(FirefoxDriver driver)

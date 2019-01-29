@@ -3,7 +3,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:commandButton widgetVar="syncAdButton" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+<p:commandButton id="panelSyncBtn" widgetVar="syncAdButton" rendered="#{!securityBean.ivySecurityForSelectedApp}"
   icon="fa fa-refresh #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} spin-icon" type="button"
   value="Synchronize" onclick="PF('logPoller').start()">
   <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
