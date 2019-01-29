@@ -25,6 +25,8 @@ public class WebDocuScreenshot extends WebBase
   {
     login(driver);
     takeScreenshot(driver, "Dashboard", new Dimension(1062, 800));
+    Navigation.toApplications(driver);
+    takeScreenshot(driver, "Applications", new Dimension(1062, 700));
     Navigation.toSecuritySystem(driver);
     takeScreenshot(driver, "SecuritySystem", new Dimension(1062, 500));
     Navigation.toUsers(driver);
@@ -37,6 +39,8 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "Roledetail", new Dimension(1062, 1300));
     Navigation.toAdvancedConfig(driver);
     takeScreenshot(driver, "AdvancedConfig", new Dimension(1062, 500));
+    Navigation.toMonitor(driver);
+    takeScreenshot(driver, "Monitor", new Dimension(1062, 1000));
   }
   
   public void takeScreenshot(RemoteWebDriver driver, String fileName, Dimension size)
