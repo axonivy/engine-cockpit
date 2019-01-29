@@ -57,7 +57,6 @@ public class WebTestApplicationTab extends WebTestBase
     login(driver);
     navigateToUsers(driver);
     String selectedApplication = ApplicationTab.getSelectedApplication(driver);
-    System.out.println(selectedApplication);
     assertThat(selectedApplication).isNotBlank();
     List<String> applications = ApplicationTab.getApplications(driver);
     Optional<String> otherApp = applications.stream().filter(app -> !app.equals(selectedApplication)).findAny();

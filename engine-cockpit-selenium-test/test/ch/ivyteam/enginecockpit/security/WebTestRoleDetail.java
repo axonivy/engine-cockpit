@@ -141,10 +141,11 @@ public class WebTestRoleDetail extends WebTestBase
     Navigation.toRoles(driver);
     saveScreenshot(driver, "roles");
     
-    if (ApplicationTab.getApplicationCount(driver) > 1)
+    if (ApplicationTab.getApplicationCount(driver) == 1)
     {
-      ApplicationTab.switchToApplication(driver, "test-ad");
+      return; //Don't run in designer
     }
+    ApplicationTab.switchToApplication(driver, "test-ad");
     saveScreenshot(driver, "switch_to_ad_app");
     
     Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
@@ -155,7 +156,8 @@ public class WebTestRoleDetail extends WebTestBase
     saveScreenshot(driver, "save_user_changes");
     
     Navigation.toRoles(driver);
-    String syncBtnId = driver.findElementByXPath("//*[contains(@id, 'applicationTabView:0:panelSyncBtn')]").getAttribute("id");
+    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").isDisplayed()).isTrue());
+    String syncBtnId = driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").getAttribute("id");
     driver.findElementById(syncBtnId).click();
     await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).contains("fa-spin"));
     saveScreenshot(driver, "trigger_roles_sync");
