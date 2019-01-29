@@ -182,6 +182,7 @@
 							<goal>test</goal>
 						</goals>
 						<configuration>
+							<skip>true</skip>
 							<includes>
 								<include>**/WebDocu*.java</include>
 							</includes>
@@ -198,7 +199,7 @@
 						</goals>
 						<configuration>
 							<includes>
-								<include>**/WebTest*.java</include>
+								<include>**/WebTestRoleDetail.java</include>
 							</includes>
 							<argLine>
 								-Dtest.engine.url=${test.engine.url}
