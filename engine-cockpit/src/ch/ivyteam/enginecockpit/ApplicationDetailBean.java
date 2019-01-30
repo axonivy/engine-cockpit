@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -51,6 +52,29 @@ public class ApplicationDetailBean
   {
     managerBean.getManager().deleteApplication(appName);
     return "applications.xhtml?faces-redirect=true";
+  }
+  
+  public int getSessionCount()
+  {
+    return getIApplication().getSecurityContext().getSessions().size();
+  }
+  
+  public int getUsersCount()
+  {
+    return getIApplication().getSecurityContext().getUsers().size();
+  }
+  
+  public long getCasesCount()
+  {
+    return getIApplication().getProcessModels().stream()
+            .flatMap(pm -> pm.getProcessModelVersions().stream())
+            .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
+  }
+  
+  public int getPmCount()
+  {
+    return getIApplication().getProcessModels().stream()
+            .mapToInt(pm -> pm.getProcessModelVersions().size()).sum();
   }
   
   private IApplication getIApplication()

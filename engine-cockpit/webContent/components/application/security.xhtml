@@ -5,7 +5,7 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <h:form>
-  <p:commandButton id="synchronizeSecurity" title="Synchronize" type="button" icon="fa fa-refresh"
+  <p:commandButton id="synchronizeSecurity" rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}" title="Synchronize" type="button" icon="fa fa-refresh"
     styleClass="primary-btn card-button">
     <p:ajax update="@form" />
   </p:commandButton>
