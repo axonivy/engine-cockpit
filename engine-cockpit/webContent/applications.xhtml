@@ -50,8 +50,8 @@
                     </a>
                   </p:column>
                   <p:column style="text-align: center; width: 150px;">
-                    <h:outputText value="#{activity.operationState}" rendered="#{!activity.pmv}"/>
-                    <h:outputText value="#{activity.operationState} / #{activity.releaseState}" rendered="#{activity.pmv}"/>
+                    <h:outputText value="#{activity.operationState}" styleClass="activity-state-#{activity.operationStateLowerCase}"/>
+                    <h:outputText value=" / #{activity.releaseState}" rendered="#{activity.pmv}"/>
                   </p:column>
                   <p:column style="text-align: center; width: 150px;">
                     <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}" type="button"

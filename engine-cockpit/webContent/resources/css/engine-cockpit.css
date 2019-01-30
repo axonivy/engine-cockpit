@@ -216,3 +216,17 @@ body {
   margin-right: 5px;
   float: right;
 }
+
+/*General*/
+.activity-state-active {
+  color: #C0CA33;
+  font-weight: bold;
+}
+.activity-state-inactive {
+  color: #607D8B;
+  font-weight: bold;
+}
+.activity-state-locked {
+  color: #FFC107;
+  font-weight: bold;
+}

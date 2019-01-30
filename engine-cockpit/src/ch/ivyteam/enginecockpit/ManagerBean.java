@@ -33,12 +33,17 @@ public class ManagerBean
   public ManagerBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
+    reloadApplications();
+  }
 
+  public void reloadApplications()
+  {
     applications = manager.getApplicationsSortedByName(false).stream()
             .map(app -> new Application(app))
             .collect(Collectors.toList());
+    selectedApplicationIndex = 0;
   }
-
+  
   public List<Application> getApplications()
   {
     return applications;

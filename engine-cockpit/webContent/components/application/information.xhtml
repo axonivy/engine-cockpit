@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile">
+
+<h:form>
+  <p:commandButton id="deleteApplication" rendered="#{applicationDetailBean.appName ne 'designer'}" title="Delete app"
+    type="button" icon="ui-icon-delete" styleClass="red-btn card-button" onclick="PF('deleteAppConfirmDialog').show()" />
+  <p:confirmDialog id="deleteAppConfirmDialog"
+    message="Are you sure about deleteing the application '#{applicationDetailBean.appName}'?"
+    header="Delete Application" severity="alert" widgetVar="deleteAppConfirmDialog">
+    <p:commandButton id="deleteAppConfirmYesBtn" value="Yes" ajax="false" immediate="true"
+      action="#{applicationDetailBean.deleteApplication}" icon="ui-icon-check" style="width: inherit;" />
+    <p:commandButton value="Cancel" onclick="PF('deleteAppConfirmDialog').hide();" type="button" icon="ui-icon-close"
+      style="width: inherit;" />
+  </p:confirmDialog>
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
+    <p:outputLabel value="Name" />
+    <p:outputLabel value="#{applicationDetailBean.application.name}" />
+    <p:outputLabel value="Description" />
+    <p:outputLabel value="#{applicationDetailBean.application.desc}" />
+    <p:outputLabel value="File Directory" />
+    <p:outputLabel value="#{applicationDetailBean.application.fileDir}" />
+    <p:outputLabel value="Owner" />
+    <p:outputLabel value="#{applicationDetailBean.application.owner}" />
+    <p:outputLabel value="Active Environment" />
+    <p:outputLabel value="#{applicationDetailBean.application.activeEnv}" />
+  </p:panelGrid>
+</h:form>
+</html>

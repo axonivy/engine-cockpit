@@ -83,6 +83,11 @@ public abstract class AbstractActivity
     return state;
   }
   
+  public String getStateLowerCase()
+  {
+    return state.toString().toLowerCase();
+  }
+  
   public void setState(ActivityState state)
   {
     this.state = state;
@@ -91,6 +96,11 @@ public abstract class AbstractActivity
   public ActivityOperationState getOperationState()
   {
     return operationState;
+  }
+  
+  public String getOperationStateLowerCase()
+  {
+    return operationState.toString().toLowerCase();
   }
   
   public void setOperationState(ActivityOperationState operationState)

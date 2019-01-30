@@ -4,10 +4,38 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewParam name="appName" value="#{applicationDetailBean.appName}" />
+  </f:metadata>
+  
   <ui:composition template="/template/template.xhtml">
-    <ui:define name="title">Application</ui:define>
+    <ui:define name="title">Application #{applicationDetailBean.appName}</ui:define>
+    
+    <ui:define name="breadcrumb">
+      <li><a href="applications.xhtml">Applications</a></li>
+      <li>/</li>
+      <li><a href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
+    </ui:define>
+    
     <ui:define name="content">
-      <div class="ui-g dashboard">
+      <div class="ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
+            <p:panel header="Application information">
+              <ui:include src="components/application/information.xhtml" />
+            </p:panel>
+          </div>
+          <div class="ui-g-12 ui-md-3 ui-lg-5 dashboard-card ui-panelgrid">
+            <p:panel header="Security System">
+              <ui:include src="components/application/security.xhtml" />
+            </p:panel>
+          </div>
+          <div class="ui-g-12 ui-md-3 ui-lg-3 dashboard-card ui-panelgrid">
+            <p:panel header="Activity">
+              <ui:include src="components/application/state.xhtml" />
+            </p:panel>
+          </div>
+        </div>
       </div>
     </ui:define>
   </ui:composition>

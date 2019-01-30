@@ -132,6 +132,7 @@ public class ApplicationBean
   {
     managerBean.getManager().createApplication(newApp.getName());
     reloadActivities();
+    managerBean.reloadApplications();
   }
   
   public EmailSettings getEmailSettings()
