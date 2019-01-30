@@ -117,15 +117,20 @@ public class ManagerBean
     return getSelectedIApplication().getDefaultEMailLanguage();
   }
 
-  public List<SelectItem> getSupportedLanguages()
+  public List<SelectItem> getSupportedLanguagesWithDefault()
   {
     Locale appLanguage = getSelectedIApplication().getDefaultEMailLanguage();
     List<SelectItem> languages = new ArrayList<>();
     languages.add(new SelectItem("app", "Application default (" + appLanguage.getDisplayLanguage() + ")"));
-    languages.addAll(manager.getLanguages().stream()
-            .map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
-            .collect(Collectors.toList()));
+    languages.addAll(getSupportedLanguages());
     return languages;
+  }
+  
+  public List<SelectItem> getSupportedLanguages()
+  {
+    return manager.getLanguages().stream()
+            .map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
+            .collect(Collectors.toList());
   }
   
   public boolean isIvySecuritySystem() 

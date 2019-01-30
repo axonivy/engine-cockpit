@@ -90,19 +90,19 @@ public class WebTestUserDetail extends WebTestBase
   void testEmailLanguageSwitch(FirefoxDriver driver)
   {
     openUserFooDetail(driver);
-    driver.findElementById("userEmailForm:languageDropDown_label").click();
-    await().until(() -> driver.findElementById("userEmailForm:languageDropDown_items").isDisplayed());
-    String chooseLanguage = driver.findElementById("userEmailForm:languageDropDown_1").getText();
+    driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").click();
+    await().until(() -> driver.findElementById("userEmailForm:emailSettings:languageDropDown_items").isDisplayed());
+    String chooseLanguage = driver.findElementById("userEmailForm:emailSettings:languageDropDown_1").getText();
     saveScreenshot(driver, "languages");
-    driver.findElementById("userEmailForm:languageDropDown_1").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
+    driver.findElementById("userEmailForm:emailSettings:languageDropDown_1").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
     saveScreenshot(driver, "choose_language");
     driver.findElementById("userEmailForm:saveEmailNotificationSettings").click();
     await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").isDisplayed()).isTrue());
     await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").getText()).isEqualTo("User email changes saved"));
     driver.navigate().refresh();
     saveScreenshot(driver, "refresh");
-    await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
+    await().untilAsserted(() -> assertThat(driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
   }
   
   @Test
@@ -110,14 +110,13 @@ public class WebTestUserDetail extends WebTestBase
   {
     openUserFooDetail(driver);
     PrimeUi primeUi = new PrimeUi(driver);
-    SelectOneRadio radioSettings = primeUi.selectOneRadio(new By.ById("userEmailForm:radioSettings"));
-    SelectBooleanCheckbox neverCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:neverCheckbox"));
-    SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:taskCheckbox"));
-    SelectManyCheckbox dailyCheckbox = primeUi.selectManyCheckbox(By.id("userEmailForm:radioDailyNotification"));
+    SelectOneRadio radioSettings = primeUi.selectOneRadio(new By.ById("userEmailForm:emailSettings:radioSettings"));
+    SelectBooleanCheckbox neverCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:emailSettings:neverCheckbox"));
+    SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:emailSettings:taskCheckbox"));
+    SelectManyCheckbox dailyCheckbox = primeUi.selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
     await().untilAsserted(() -> assertThat(radioSettings.getSelected()).isEqualTo("Application"));
     await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isFalse());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isFalse());
-    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
     await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
     await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
     

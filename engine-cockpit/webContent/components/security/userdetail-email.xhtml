@@ -2,53 +2,21 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile">
+  xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <h:form id="userEmailForm">
   <p:growl id="emailSaveSuccess" for="emailSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
     title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
-  <p:panelGrid id="emailNotificationSettings" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
-    <p:outputLabel value="Language:" for="languageDropDown" />
-    <p:selectOneMenu id="languageDropDown" value="#{userDetailBean.emailSettings.language}">
-      <f:selectItems value="#{managerBean.supportedLanguages}" />
-      <p:ajax update="@form" />
-    </p:selectOneMenu>
+  <cc:EmailSettings emailSettings="#{userDetailBean.emailSettings}"
+    supportedLanguages="#{managerBean.supportedLanguagesWithDefault}" id="emailSettings">
     <p:outputLabel value="Settings from:" for="radioSettings" />
-    <p:selectOneRadio id="radioSettings" value="#{userDetailBean.selectedSettings}"
-      layout="responsive" columns="2">
+    <p:selectOneRadio id="radioSettings" value="#{userDetailBean.emailSettings.selectedSettings}" layout="responsive"
+      columns="2">
       <f:selectItem itemLabel="Application" itemValue="Application" />
       <f:selectItem itemLabel="Specific" itemValue="Specific" />
       <p:ajax event="click" update="@form" />
     </p:selectOneRadio>
-    <p:outputLabel value="Notification send:" for="checkboxNotification" />
-    <p:panelGrid id="checkboxNotification" columns="2" layout="grid"
-      styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive">
-      <p:selectBooleanCheckbox id="neverCheckbox" value="#{userDetailBean.emailSettings.notificationDisabled}"
-        disabled="#{userDetailBean.notificationCheckboxDisabled}" style="float: left;">
-        <p:outputLabel value="Never" />
-        <p:ajax update="@form" />
-      </p:selectBooleanCheckbox>
-      <p:selectBooleanCheckbox id="taskCheckbox" value="#{userDetailBean.emailSettings.sendOnNewWorkTasks}"
-        disabled="#{userDetailBean.taskCheckboxDisabled}" style="float: left;">
-        <p:outputLabel value="New Task" />
-        <p:ajax update="@form" />
-      </p:selectBooleanCheckbox>
-    </p:panelGrid>
-    <p:outputLabel value="Daily summary on:" for="radioDailyNotification" />
-    <p:selectManyCheckbox id="radioDailyNotification" value="#{userDetailBean.emailSettings.sendDailyTasks}"
-      disabled="#{userDetailBean.dailyCheckboxGroupDisabled}" widgetVar="radioDailyNotification" layout="responsive"
-      styleClass="float-select-many-checkbox" columns="7">
-      <f:selectItem itemLabel="Mon" itemValue="MONDAY" />
-      <f:selectItem itemLabel="Tue" itemValue="TUESDAY" />
-      <f:selectItem itemLabel="Wed" itemValue="WEDNESDAY" />
-      <f:selectItem itemLabel="Thu" itemValue="THURSDAY" />
-      <f:selectItem itemLabel="Fri" itemValue="FRIDAY" />
-      <f:selectItem itemLabel="Sat" itemValue="SATURDAY" />
-      <f:selectItem itemLabel="Sun" itemValue="SUNDAY" />
-      <p:ajax update="@form" />
-    </p:selectManyCheckbox>
-    <p:messages for="emailMessages" id="emailMessages" autoUpdate="true" />
-  </p:panelGrid>
+  </cc:EmailSettings>
 </h:form>
 </html>

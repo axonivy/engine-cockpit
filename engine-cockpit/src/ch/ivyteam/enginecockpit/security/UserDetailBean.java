@@ -1,10 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
-import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,8 +14,6 @@ import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
-import ch.ivyteam.ivy.security.IUserEMailNotificationSettings;
-import ch.ivyteam.util.date.Weekday;
 
 @ManagedBean
 @ViewScoped
@@ -89,44 +84,6 @@ public class UserDetailBean
     return "users.xhtml?faces-redirect=true";
   }
 
-  public String getSelectedSettings()
-  {
-    if (emailSettings.isUseApplicationDefault())
-      return "Application";
-    else
-      return "Specific";
-  }
-
-  public void setSelectedSettings(String selectedSettings)
-  {
-    this.emailSettings.setUseApplicationDefault(selectedSettings.equals("Application"));
-  }
-
-  public String[] getSelectedNotifications()
-  {
-    String[] selectedNotifications = new String[2];
-    if (emailSettings.isNotificationDisabled())
-      selectedNotifications[0] = "Never";
-    if (emailSettings.isSendOnNewWorkTasks())
-      selectedNotifications[1] = "Task";
-    return selectedNotifications;
-  }
-
-  public boolean isNotificationCheckboxDisabled()
-  {
-    return emailSettings.isUseApplicationDefault();
-  }
-
-  public boolean isTaskCheckboxDisabled()
-  {
-    return emailSettings.isUseApplicationDefault() || emailSettings.isNotificationDisabled();
-  }
-
-  public boolean isDailyCheckboxGroupDisabled()
-  {
-    return emailSettings.isUseApplicationDefault() || emailSettings.isNotificationDisabled();
-  }
-
   public void saveUserEmail()
   {
     IUser iUser = getIUser();
@@ -136,21 +93,8 @@ public class UserDetailBean
       language = null;
     }
     iUser.setEMailLanguage(language);
-    IUserEMailNotificationSettings eMailNotificationSettings = iUser.getEMailNotificationSettings();
-    eMailNotificationSettings.setUseApplicationDefault(emailSettings.isUseApplicationDefault());
-    eMailNotificationSettings.setNotificationDisabled(emailSettings.isNotificationDisabled());
-    eMailNotificationSettings.setSendOnNewWorkTasks(emailSettings.isSendOnNewWorkTasks());
-    String[] sendDailyTasks = emailSettings.getSendDailyTasks();
-    if (sendDailyTasks != null && sendDailyTasks.length > 0)
-    {
-      eMailNotificationSettings.setSendDailyTaskSummary(EnumSet.copyOf(
-              Arrays.stream(sendDailyTasks).map(day -> Weekday.valueOf(day)).collect(Collectors.toList())));
-    }
-    else
-    {
-      eMailNotificationSettings.setSendDailyTaskSummary(EnumSet.noneOf(Weekday.class));
-    }
-    iUser.setEMailNotificationSettings(eMailNotificationSettings);
+    iUser.setEMailNotificationSettings(
+            emailSettings.saveUserEmailSettings(iUser.getEMailNotificationSettings()));
     FacesContext.getCurrentInstance().addMessage("emailSaveSuccess",
             new FacesMessage("User email changes saved"));
   }

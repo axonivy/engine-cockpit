@@ -18,6 +18,8 @@ public class Navigation
   private static final ByXPath SECURITY_SYSTEM_MENU = new By.ByXPath("//li[@id='menuform:sr_security_system']/child::a");
   private static final ByXPath SECURITY_USER_MENU = new By.ByXPath("//li[@id='menuform:sr_users']/child::a");
   private static final ByXPath SECURITY_ROLES_MENU = new By.ByXPath("//li[@id='menuform:sr_roles']/child::a");
+  private static final ByXPath SERVICES_MENU = new By.ByXPath("//li[@id='menuform:sr_services']/child::a");
+  private static final ByXPath SERVICES_EMAIL_MENU = new By.ByXPath("//li[@id='menuform:sr_email']/child::a");
   private static final ByXPath ADVANCED_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_advanced_config']/child::a");
   private static final ByXPath MONITOR_MENU = new By.ByXPath("//li[@id='menuform:sr_monitor']/child::a");
 
@@ -71,6 +73,12 @@ public class Navigation
     assertThat(role).isPresent();
     role.get().click();
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
+  }
+  
+  public static void toEmail(FirefoxDriver driver)
+  {
+    toSubMenu(driver, SERVICES_MENU, SERVICES_EMAIL_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("email.xhtml"));
   }
   
   public static void toAdvancedConfig(FirefoxDriver driver)

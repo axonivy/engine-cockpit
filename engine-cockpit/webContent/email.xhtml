@@ -15,7 +15,7 @@
 
     <ui:define name="content">
       <h:form id="form">
-        <p:growl id="msgs" />
+        <p:growl id="emailSaveSuccess" for="emailSaveSuccess" autoUpdate="true" />
         <cc:SingleCard>
           <cc:ApplicationTabs tabChange="#{userBean.reloadUsers}">
             <div class="ui-g">
@@ -26,7 +26,11 @@
               </div>
             </div>
             <div class="ui-g">
-              <div class="ui-g-12 ui-lg-12">
+              <div class="ui-g-12 ui-md-12 ui-lg-6">
+                <cc:EmailSettings emailSettings="#{applicationBean.emailSettings}"
+                  supportedLanguages="#{managerBean.supportedLanguages}" id="emailSetting" />
+                <p:commandButton actionListener="#{applicationBean.saveEmailSettings}" value="Save" icon="ui-icon-save"
+                  style="width: auto; float: right;" id="saveEmailSettings"/>
               </div>
             </div>
           </cc:ApplicationTabs>

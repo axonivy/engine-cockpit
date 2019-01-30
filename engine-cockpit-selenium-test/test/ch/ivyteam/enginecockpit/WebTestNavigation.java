@@ -23,6 +23,8 @@ public class WebTestNavigation extends WebTestBase
     assertViewIsUsers(driver);
     Navigation.toRoles(driver);
     assertViewIsRoles(driver);
+    Navigation.toEmail(driver);
+    assertViewIsEmail(driver);
     Navigation.toAdvancedConfig(driver);
     assertViewIsAdvancedConfig(driver);
     Navigation.toMonitor(driver);
@@ -70,6 +72,14 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("roles.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Roles"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_roles").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsEmail(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "roles");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("email.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Email"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_email").getAttribute("class")).contains("active-menuitem"));
   }
   
   private void assertViewIsAdvancedConfig(FirefoxDriver driver)

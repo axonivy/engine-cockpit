@@ -1,8 +1,15 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.security.IEMailNotificationSettings;
 import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.IUserEMailNotificationSettings;
+import ch.ivyteam.util.date.Weekday;
 
 public class EmailSettings
 {
@@ -14,6 +21,16 @@ public class EmailSettings
 
   public static final Locale ENGLISH = Locale.ENGLISH;
 
+  public EmailSettings(IApplication app)
+  {
+    this.language = app.getDefaultEMailLanguage();
+    notificationDisabled = app.getDefaultEMailNotifcationSettings().isNotificationDisabled();
+    sendOnNewWorkTasks = app.getDefaultEMailNotifcationSettings().isSendOnNewWorkTasks();
+    useApplicationDefault = false;
+    sendDailyTasks = app.getDefaultEMailNotifcationSettings().getSendDailyTaskSummary().stream()
+            .map(w -> w.toString()).toArray(String[]::new);
+  }
+  
   public EmailSettings(IUser user)
   {
     this.language = user.getEMailLanguage() != null ? user.getEMailLanguage() : new Locale("app");
@@ -77,6 +94,57 @@ public class EmailSettings
   public void setSendDailyTasks(String[] sendDailyTasks)
   {
     this.sendDailyTasks = sendDailyTasks;
+  }
+  
+  public boolean isNotificationCheckboxDisabled()
+  {
+    return isUseApplicationDefault();
+  }
+
+  public boolean isTaskCheckboxDisabled()
+  {
+    return isUseApplicationDefault() || isNotificationDisabled();
+  }
+
+  public boolean isDailyCheckboxGroupDisabled()
+  {
+    return isUseApplicationDefault() || isNotificationDisabled();
+  }
+  
+  public String getSelectedSettings()
+  {
+    if (isUseApplicationDefault())
+      return "Application";
+    else
+      return "Specific";
+  }
+
+  public void setSelectedSettings(String selectedSettings)
+  {
+    setUseApplicationDefault(selectedSettings.equals("Application"));
+  }
+
+  public IEMailNotificationSettings saveEmailSettings(IEMailNotificationSettings settings)
+  {
+    settings.setNotificationDisabled(isNotificationDisabled());
+    settings.setSendOnNewWorkTasks(isSendOnNewWorkTasks());
+    if (sendDailyTasks != null && sendDailyTasks.length > 0)
+    {
+      settings.setSendDailyTaskSummary(EnumSet.copyOf(
+              Arrays.stream(sendDailyTasks).map(day -> Weekday.valueOf(day)).collect(Collectors.toList())));
+    }
+    else
+    {
+      settings.setSendDailyTaskSummary(EnumSet.noneOf(Weekday.class));
+    }
+    return settings;
+  }
+
+  public IUserEMailNotificationSettings saveUserEmailSettings(IUserEMailNotificationSettings settings)
+  {
+    settings.setUseApplicationDefault(isUseApplicationDefault());
+    saveEmailSettings(settings);
+    return settings;
   }
 
 }
