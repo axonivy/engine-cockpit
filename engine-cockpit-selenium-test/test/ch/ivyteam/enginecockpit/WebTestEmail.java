@@ -23,6 +23,7 @@ public class WebTestEmail extends WebTestBase
   @Test
   void testEmailLanguageSwitch(FirefoxDriver driver)
   {
+    //TODO: test with language name not with position
     toEmail(driver);
     
     String langDropDownId = driver.findElementByXPath("//div[contains(@id, 'applicationTabView:0:emailSetting:languageDropDown')]").getAttribute("id");
