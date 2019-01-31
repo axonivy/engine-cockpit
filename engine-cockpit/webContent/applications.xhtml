@@ -48,18 +48,30 @@
                         <i class="fa fa-#{activity.icon} table-icon" />
                       </h:outputText>
                     </a>
+                    <p:commandButton rendered="#{activity.pmv}" title="#{activity.releaseState}" id="tasksButton"
+                      type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
+                    <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom">
+                      <p:submenu label="#{activity.releaseState}">
+                        <p:menuitem value="Release" icon="ui-icon-unarchive">
+                          <p:ajax update="card:form" listener="#{activity.release}" />
+                        </p:menuitem>
+                        <p:menuitem value="Delete" icon="ui-icon-delete">
+                          <p:ajax update="card:form" listener="#{activity.delete}" />
+                        </p:menuitem>
+                      </p:submenu>
+                    </p:menu>
+                  </p:column>
+                  <p:column style="text-align: center; width: 120px;">
+                    <h:outputText value="#{activity.operationState}"
+                      styleClass="activity-state-#{activity.operationStateLowerCase}" />
                   </p:column>
                   <p:column style="text-align: center; width: 150px;">
-                    <h:outputText value="#{activity.operationState}" styleClass="activity-state-#{activity.operationStateLowerCase}"/>
-                    <h:outputText value=" / #{activity.releaseState}" rendered="#{activity.pmv}"/>
-                  </p:column>
-                  <p:column style="text-align: center; width: 150px;">
-                    <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}" type="button"
-                      style="margin-right: 10px;" styleClass="primary-btn">
+                    <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}"
+                      type="button" style="margin-right: 10px;" styleClass="primary-btn">
                       <p:ajax update="card:form" listener="#{activity.activate}" />
                     </p:commandButton>
-                    <p:commandButton title="Deactivate" icon="ui-icon-stop" disabled="#{activity.inActive}" type="button"
-                      style="margin-right: 10px;" styleClass="secondary-btn">
+                    <p:commandButton title="Deactivate" icon="ui-icon-stop" disabled="#{activity.inActive}"
+                      type="button" style="margin-right: 10px;" styleClass="secondary-btn">
                       <p:ajax update="card:form" listener="#{activity.deactivate}" />
                     </p:commandButton>
                     <p:commandButton title="Lock" icon="ui-icon-lock" disabled="#{activity.locked}" type="button"

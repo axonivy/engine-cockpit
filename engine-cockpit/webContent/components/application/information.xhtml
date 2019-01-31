@@ -5,6 +5,9 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <h:form>
+  <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
+  <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}" title="Save changes"
+    icon="ui-icon-save" styleClass="primary-btn card-button" />
   <p:commandButton id="deleteApplication" rendered="#{applicationDetailBean.appName ne 'designer'}" title="Delete app"
     type="button" icon="ui-icon-delete" styleClass="red-btn card-button" onclick="PF('deleteAppConfirmDialog').show()" />
   <p:confirmDialog id="deleteAppConfirmDialog"
@@ -25,7 +28,10 @@
     <p:outputLabel value="Owner" />
     <p:outputLabel value="#{applicationDetailBean.application.owner}" />
     <p:outputLabel value="Active Environment" />
-    <p:outputLabel value="#{applicationDetailBean.application.activeEnv}" />
+    <p:selectOneMenu id="activeEnvironmentSelect" value="#{applicationDetailBean.application.activeEnv}">
+      <f:selectItems value="#{applicationDetailBean.environments}" />
+      <p:ajax update="@form" />
+    </p:selectOneMenu>
   </p:panelGrid>
 </h:form>
 </html>

@@ -23,7 +23,7 @@ public class Application extends AbstractActivity
     desc = app.getDescription();
     fileDir = app.getFileDirectory();
     owner = app.getOwnerName();
-    activeEnv = app.getActiveEnvironment();
+    activeEnv = app.getActualEnvironment().getName();
   }
   
   @Override

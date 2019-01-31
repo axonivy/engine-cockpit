@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -22,6 +23,7 @@ public class ApplicationDetailBean
   private Application app;
   private SecuritySystem security;
   private List<Property> properties;
+  private List<String> environments;
   
   private ManagerBean managerBean;
   
@@ -40,6 +42,8 @@ public class ApplicationDetailBean
     List<IProperty> configurationProperties = getIApplication().getConfigurationProperties();
     properties = configurationProperties.stream().filter(p -> !p.getValue().isEmpty())
             .map(p -> new Property(p)).collect(Collectors.toList());
+    environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
+            .stream().map(e -> e.getName()).collect(Collectors.toList());
   }
   
   public String getAppName()
@@ -65,6 +69,7 @@ public class ApplicationDetailBean
   public String deleteApplication()
   {
     managerBean.getManager().deleteApplication(appName);
+    managerBean.reloadApplications();
     return "applications.xhtml?faces-redirect=true";
   }
   
@@ -89,6 +94,18 @@ public class ApplicationDetailBean
   {
     return getIApplication().getProcessModels().stream()
             .mapToInt(pm -> pm.getProcessModelVersions().size()).sum();
+  }
+  
+  public List<String> getEnvironments()
+  {
+    return environments;
+  }
+  
+  public void saveApplicationInfos()
+  {
+    managerBean.getIApplication(app.getId()).setActiveEnvironment(app.getActiveEnv());
+    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
+            new FacesMessage("Active Environment change saved"));
   }
   
   private IApplication getIApplication()

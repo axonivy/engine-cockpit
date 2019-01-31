@@ -32,5 +32,15 @@ public class ProcessModelVersion extends AbstractActivity
   {
     return releaseState;
   }
+  
+  public void release()
+  {
+    ((IProcessModelVersion) activity).release();
+  }
+  
+  public void delete()
+  {
+    ((IProcessModelVersion) activity).delete();
+  }
 
 }

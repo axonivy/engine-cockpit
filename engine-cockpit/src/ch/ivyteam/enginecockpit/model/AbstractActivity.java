@@ -9,7 +9,7 @@ public abstract class AbstractActivity
 {
   private String name;
   private long id;
-  private IActivity activity;
+  protected IActivity activity;
   private ActivityState state;
   private ActivityOperationState operationState;
   protected boolean disable;
