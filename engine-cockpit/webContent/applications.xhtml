@@ -15,6 +15,7 @@
       <cc:SingleCard id="card">
         <div class="card card-w-title">
           <h:form id="form">
+            <p:growl for="applicationMessage"/>
             <div class="ui-g">
               <div class="ui-g-12 ui-md-10">
                 <h1>
@@ -55,19 +56,10 @@
                         <p:menuitem value="Release" icon="ui-icon-unarchive" disabled="#{activity.releaseDisabled}"
                           actionListener="#{activity.release}" update="card:form" ajax="false" />
                         <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
-                          actionListener="#{activity.delete}" update="card:form" ajax="false" />
-                            <!-- onclick="PF('deletePmvConfirmDialog').show();" />-->
+                          actionListener="#{applicationBean.deletePmvConfirm(activity.applicationId, activity.name)}"
+                          update="card:form:deletePmvConfirmDialog" oncomplete="PF('deletePmvConfirmDialog').show();" />
                       </p:submenu>
                     </p:menu>
-                    <!-- <p:confirmDialog id="deletePmvConfirmDialog"
-                      message="Are you sure about deleteing the Process Model Version '#{activity.name}'?"
-                      header="Delete Pmv" severity="alert" widgetVar="deletePmvConfirmDialog">
-                      <p:commandButton id="deletePmvConfirmYesBtn" value="Yes" ajax="false" immediate="true"
-                        actionListener="#{activity.delete}" update="card:form" icon="ui-icon-check"
-                        style="width: inherit;" />
-                      <p:commandButton value="Cancel" onclick="PF('deletePmvConfirmDialog').hide();" type="button"
-                        icon="ui-icon-close" style="width: inherit;" />
-                    </p:confirmDialog> -->
                   </p:column>
                   <p:column style="text-align: center; width: 120px;">
                     <h:outputText value="#{activity.operationState}"
@@ -90,6 +82,14 @@
                 </p:treeTable>
               </div>
             </div>
+            <p:confirmDialog id="deletePmvConfirmDialog"
+              message="Are you sure about deleteing the Process Model Version '#{applicationBean.deletePmvName}'?"
+              header="Delete Pmv" severity="alert" widgetVar="deletePmvConfirmDialog">
+              <p:commandButton id="deletePmvConfirmYesBtn" value="Yes" ajax="false" immediate="true"
+                actionListener="#{applicationBean.deletePmv}" update="card:form" icon="ui-icon-check" style="width: inherit;" />
+              <p:commandButton value="Cancel" onclick="PF('deletePmvConfirmDialog').hide();" type="button"
+                icon="ui-icon-close" style="width: inherit;" />
+            </p:confirmDialog>
           </h:form>
           <ui:include src="dialogs/newapplication.xhtml" />
         </div>

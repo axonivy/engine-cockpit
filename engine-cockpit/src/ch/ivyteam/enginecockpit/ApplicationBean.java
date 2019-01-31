@@ -30,6 +30,9 @@ public class ApplicationBean
   private TreeNode filteredRootTreeNode;
   private String filter = "";
   
+  private String deletePmvName;
+  private long deletePmvNameAppId;
+  
   private Application newApp;
   private EmailSettings emailSettings;
   
@@ -149,6 +152,7 @@ public class ApplicationBean
   public void createNewApplication()
   {
     IApplication app = managerBean.getManager().createApplication(newApp.getName());
+    //TODO: remove
     IProcessModel pm = app.createProcessModel("test", "testProcessModel");
     IProcessModelVersion pmv = pm.createProcessModelVersion("test", "test PMV", "Developer", "localhost", 1);
     pmv.release();
@@ -171,6 +175,27 @@ public class ApplicationBean
             emailSettings.saveEmailSettings(app.getDefaultEMailNotifcationSettings()));
     FacesContext.getCurrentInstance().addMessage("emailSaveSuccess",
             new FacesMessage("User email changes saved"));
+  }
+  
+  public void deletePmvConfirm(long appId, String pmvName)
+  {
+    this.deletePmvNameAppId = appId;
+    this.deletePmvName = pmvName;
+  }
+  
+  public void deletePmv()
+  {
+    managerBean.getManager().findApplication(deletePmvNameAppId).findProcessModelVersion(deletePmvName).delete();
+    FacesContext.getCurrentInstance().addMessage("applicationMessage",
+            new FacesMessage("Pmv '" + deletePmvName + "' deleted successfully"));
+    this.deletePmvName = "";
+    this.deletePmvNameAppId = -1;
+    reloadActivities();
+  }
+  
+  public String getDeletePmvName()
+  {
+    return deletePmvName;
   }
   
 }

@@ -4,6 +4,7 @@ import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.ActivityOperationState;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IActivity;
+import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
 
 public abstract class AbstractActivity
@@ -170,6 +171,15 @@ public abstract class AbstractActivity
   public void delete()
   {
     reloadBeanData();
+  }
+  
+  public long getApplicationId()
+  {
+    if (activity instanceof IProcessModelVersion)
+    {
+      return ((IProcessModelVersion) activity).getProcessModel().getApplication().getId();
+    }
+    return 0;
   }
   
   private void reloadBeanData()
