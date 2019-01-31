@@ -5,10 +5,20 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <h:form>
-  <p:commandButton id="synchronizeSecurity" rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}" title="Synchronize" type="button" icon="fa fa-refresh"
-    styleClass="primary-btn card-button">
-    <p:ajax update="@form" />
+  <p:commandButton id="synchronizeSecurity"
+    rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
+    title="Synchronize" type="button" icon="fa #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} fa-refresh"
+    styleClass="primary-btn card-button spin-icon" onclick="PF('logPoller').start()">
+    <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
   </p:commandButton>
+  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="1" update="@form" />
+  <p:commandButton id="showAdSyncLogBtn" icon="fa fa-info" styleClass="secondary-btn card-button"
+    rendered="#{securityBean.anySyncRunningOrNewLog}" type="button" />
+  <p:overlayPanel rendered="#{securityBean.anySyncRunningOrNewLog}" id="adSyncLog" for="showAdSyncLogBtn"
+    hideEffect="fade">
+    <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto;" readonly="true" id="logViewer"
+      value="#{securityBean.logs}" rows="1" />
+  </p:overlayPanel>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
     <p:outputLabel value="Name" />
     <p:outputLabel value="#{applicationDetailBean.securitySystem.securitySystemName}" />

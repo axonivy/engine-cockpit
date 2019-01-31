@@ -49,6 +49,9 @@ body {
 .dashboard-card .ui-grid-col-5 label {
   font-style: italic;
 }
+.dashboard-card .ui-grid-col-7 label {
+  word-wrap: break-word;
+}
 .dashboard-card .ui-panel {
   min-height: 240px;
   border: 0 none;
@@ -185,6 +188,7 @@ body {
   top: 3px;
   margin-right: 10px;
 }
+.spin-icon .fa.fa-refresh,
 .card .spin-icon {
   font-size: 19px;
 }

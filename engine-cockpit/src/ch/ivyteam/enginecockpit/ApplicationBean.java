@@ -139,19 +139,15 @@ public class ApplicationBean
     return managerBean.getApplications();
   }
   
-  public void setNewApplicationName(String name)
+  public Application getNewApplication()
   {
-    newApp.setName(name);
-  }
-  
-  public String getNewApplicationName()
-  {
-    return newApp.getName();
+    return newApp;
   }
   
   public void createNewApplication()
   {
     IApplication app = managerBean.getManager().createApplication(newApp.getName());
+    app.setDescription(newApp.getDesc());
     //TODO: remove
     IProcessModel pm = app.createProcessModel("test", "testProcessModel");
     IProcessModelVersion pmv = pm.createProcessModelVersion("test", "test PMV", "Developer", "localhost", 1);

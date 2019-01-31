@@ -71,6 +71,23 @@ public class ManagerBean
     }
   }
   
+  public void setSelectedApplicationName(String appName) 
+  {
+    for (int i = 0; i < applications.size(); i++)
+    {
+      if (applications.get(i).getName().equals(appName))
+      {
+        setSelectedApplicationIndex(i);
+        return;
+      }
+    }
+  }
+  
+  public String getSelectedApplicationName()
+  {
+    return getSelectedApplication().getName();
+  }
+  
   public IApplicationConfigurationManager getManager() {
     return manager;
   }
