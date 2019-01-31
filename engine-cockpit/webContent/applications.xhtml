@@ -52,14 +52,22 @@
                       type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
                     <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom">
                       <p:submenu label="#{activity.releaseState}">
-                        <p:menuitem value="Release" icon="ui-icon-unarchive">
-                          <p:ajax update="card:form" listener="#{activity.release}" />
-                        </p:menuitem>
-                        <p:menuitem value="Delete" icon="ui-icon-delete">
-                          <p:ajax update="card:form" listener="#{activity.delete}" />
-                        </p:menuitem>
+                        <p:menuitem value="Release" icon="ui-icon-unarchive" disabled="#{activity.releaseDisabled}"
+                          actionListener="#{activity.release}" update="card:form" ajax="false" />
+                        <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
+                          actionListener="#{activity.delete}" update="card:form" ajax="false" />
+                            <!-- onclick="PF('deletePmvConfirmDialog').show();" />-->
                       </p:submenu>
                     </p:menu>
+                    <!-- <p:confirmDialog id="deletePmvConfirmDialog"
+                      message="Are you sure about deleteing the Process Model Version '#{activity.name}'?"
+                      header="Delete Pmv" severity="alert" widgetVar="deletePmvConfirmDialog">
+                      <p:commandButton id="deletePmvConfirmYesBtn" value="Yes" ajax="false" immediate="true"
+                        actionListener="#{activity.delete}" update="card:form" icon="ui-icon-check"
+                        style="width: inherit;" />
+                      <p:commandButton value="Cancel" onclick="PF('deletePmvConfirmDialog').hide();" type="button"
+                        icon="ui-icon-close" style="width: inherit;" />
+                    </p:confirmDialog> -->
                   </p:column>
                   <p:column style="text-align: center; width: 120px;">
                     <h:outputText value="#{activity.operationState}"

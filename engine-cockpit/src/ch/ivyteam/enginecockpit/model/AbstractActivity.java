@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.model;
 
+import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.ActivityOperationState;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IActivity;
@@ -13,6 +14,7 @@ public abstract class AbstractActivity
   private ActivityState state;
   private ActivityOperationState operationState;
   protected boolean disable;
+  private ApplicationBean bean;
   
   public AbstractActivity()
   {
@@ -21,24 +23,28 @@ public abstract class AbstractActivity
   
   public AbstractActivity(String name, long id, IActivity activity)
   {
+    this(name, id, activity, null);
+  }
+  
+  public AbstractActivity(String name, long id, IActivity activity, ApplicationBean bean)
+  {
     this.name = name;
     this.id = id;
     this.activity = activity;
+    this.bean = bean;
     updateStats();
   }
   
-  private void updateStats()
+  public void updateStats()
   {
     if (activity == null)
     {
       state = ActivityState.INACTIVE;
       operationState = ActivityOperationState.INACTIVE;
+      return;
     }
-    else
-    {
-      state = activity.getActivityState();
-      operationState = activity.getActivityOperationState();
-    }
+    state = activity.getActivityState();
+    operationState = activity.getActivityOperationState();
   }
   
   public boolean isApplication()
@@ -128,21 +134,57 @@ public abstract class AbstractActivity
     return state == ActivityState.LOCKED || state == ActivityState.INACTIVE || disable;
   }
   
+  public boolean isReleaseDisabled()
+  {
+    return true;
+  }
+  
+  public boolean isDeleteDisabled()
+  {
+    return true;
+  }
+  
   public void activate()
   {
     activity.activate();
-    updateStats();
+    reloadBeanStats();
   }
   
   public void deactivate()
   {
     activity.deactivate();
-    updateStats();
+    reloadBeanStats();
   }
   
   public void lock()
   {
     activity.lock();
-    updateStats();
+    reloadBeanStats();
+  }
+  
+  public void release()
+  {
+    reloadBeanStats();
+  }
+  
+  public void delete()
+  {
+    reloadBeanData();
+  }
+  
+  private void reloadBeanData()
+  {
+    if (bean != null)
+    {
+      bean.reloadActivities();
+    }
+  }
+  
+  private void reloadBeanStats()
+  {
+    if (bean != null)
+    {
+      bean.reloadActivityStates();
+    }
   }
 }

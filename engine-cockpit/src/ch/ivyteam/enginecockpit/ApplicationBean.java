@@ -20,6 +20,7 @@ import ch.ivyteam.enginecockpit.model.ProcessModelVersion;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.ReleaseState;
 
 @ManagedBean
 @ViewScoped
@@ -64,7 +65,7 @@ public class ApplicationBean
   {
     for (IApplication app : managerBean.getIApplicaitons())
     {
-      TreeNode node = new DefaultTreeNode(new Application(app), rootNode);
+      TreeNode node = new DefaultTreeNode(new Application(app, this), rootNode);
       loadPmTree(app, node);
     }
   }
@@ -73,7 +74,7 @@ public class ApplicationBean
   {
     for (IProcessModel pm : app.getProcessModels())
     {
-      TreeNode node = new DefaultTreeNode(new ProcessModel(pm), appNode);
+      TreeNode node = new DefaultTreeNode(new ProcessModel(pm, this), appNode);
       loadPmvTree(pm, node);
     }
   }
@@ -83,7 +84,10 @@ public class ApplicationBean
   {
     for (IProcessModelVersion pmv : pm.getProcessModelVersions())
     {
-      new DefaultTreeNode(new ProcessModelVersion(pmv), pmNode);
+      if (pmv.getReleaseState() != ReleaseState.DELETED)
+      {
+        new DefaultTreeNode(new ProcessModelVersion(pmv, this), pmNode);
+      }
     }
   }
   
@@ -98,6 +102,20 @@ public class ApplicationBean
         new DefaultTreeNode(activity, filteredRootTreeNode);
       }
       filterRootTreeNode(node.getChildren());
+    }
+  }
+  
+  public void reloadActivityStates()
+  {
+    reloadNodeState(rootTreeNode.getChildren());
+  }
+  
+  private void reloadNodeState(List<TreeNode> nodes)
+  {
+    for (TreeNode node : nodes)
+    {
+      ((AbstractActivity) node.getData()).updateStats();
+      reloadNodeState(node.getChildren());
     }
   }
   
@@ -130,7 +148,11 @@ public class ApplicationBean
   
   public void createNewApplication()
   {
-    managerBean.getManager().createApplication(newApp.getName());
+    IApplication app = managerBean.getManager().createApplication(newApp.getName());
+    IProcessModel pm = app.createProcessModel("test", "testProcessModel");
+    IProcessModelVersion pmv = pm.createProcessModelVersion("test", "test PMV", "Developer", "localhost", 1);
+    pmv.release();
+    pm.createProcessModelVersion("test", "test PMV", "Developer", "localhost", 2);
     reloadActivities();
     managerBean.reloadApplications();
   }

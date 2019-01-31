@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.model;
 
+import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.IApplication;
 
 public class Application extends AbstractActivity
@@ -17,7 +18,12 @@ public class Application extends AbstractActivity
 
   public Application(IApplication app)
   {
-    super(app.getName(), app.getId(), app);
+    this(app, null);
+  }
+  
+  public Application(IApplication app, ApplicationBean bean)
+  {
+    super(app.getName(), app.getId(), app, bean);
     setOperationState(app.getActivityOperationState());
     disable = app.getName().equals("designer");
     desc = app.getDescription();

@@ -1,18 +1,36 @@
 package ch.ivyteam.enginecockpit.model;
 
+import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
 
 public class ProcessModelVersion extends AbstractActivity
 {
   private ReleaseState releaseState;
+  private IProcessModelVersion pmv;
 
   public ProcessModelVersion(IProcessModelVersion pmv)
   {
-    super(pmv.getVersionName(), pmv.getId(), pmv);
+    this(pmv, null);
+  }
+  
+  public ProcessModelVersion(IProcessModelVersion pmv, ApplicationBean bean)
+  {
+    super(pmv.getVersionName(), pmv.getId(), pmv, bean);
     setOperationState(pmv.getActivityOperationState());
     releaseState = pmv.getReleaseState();
     disable = pmv.getProcessModel().getApplication().getName().equals("designer");
+    this.pmv = pmv;
+  }
+  
+  @Override
+  public void updateStats()
+  {
+    super.updateStats();
+    if (pmv != null)
+    {
+      releaseState = pmv.getReleaseState();
+    }
   }
 
   @Override
@@ -33,14 +51,35 @@ public class ProcessModelVersion extends AbstractActivity
     return releaseState;
   }
   
-  public void release()
+  public void setReleaseState(ReleaseState state)
   {
-    ((IProcessModelVersion) activity).release();
+    this.releaseState = state;
   }
   
+  @Override
+  public void release()
+  {
+    pmv.release();
+    super.release();
+  }
+  
+  @Override
   public void delete()
   {
-    ((IProcessModelVersion) activity).delete();
+    pmv.delete();
+    super.delete();
   }
-
+  
+  @Override
+  public boolean isReleaseDisabled()
+  {
+    return releaseState == ReleaseState.RELEASED || releaseState == ReleaseState.DELETED;
+  }
+  
+  @Override
+  public boolean isDeleteDisabled()
+  {
+    return pmv.isRequired() || (releaseState != ReleaseState.PREPARED && releaseState != ReleaseState.ARCHIVED);
+  }
+  
 }
