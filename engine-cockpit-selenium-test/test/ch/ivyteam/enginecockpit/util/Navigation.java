@@ -35,6 +35,17 @@ public class Navigation
     await().until(() -> driver.getCurrentUrl().endsWith("applications.xhtml"));
   }
   
+  public static void toApplicationDetail(FirefoxDriver driver, String appName)
+  {
+    Navigation.toApplications(driver);
+    Optional<WebElement> app = driver.findElements(new By.ByXPath(("//*[@class='activity-name']")))
+            .stream()
+            .filter(e -> e.getText().equals(appName)).findAny();
+    assertThat(app).isPresent();
+    app.get().click();
+    await().until(() -> driver.getCurrentUrl().endsWith("application-detail.xhtml?appName=" + appName)); 
+  }
+  
   public static void toSecuritySystem(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_SYSTEM_MENU);
