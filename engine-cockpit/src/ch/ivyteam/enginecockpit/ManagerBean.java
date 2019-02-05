@@ -17,8 +17,6 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
-import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.workflow.TaskState;
 
 @ManagedBean
 @SessionScoped
@@ -128,10 +126,9 @@ public class ManagerBean
     return getIApplicaitons().stream().mapToInt(app -> app.getSecurityContext().getUsers().size()).sum();
   }
   
-  public long getTasksCount()
+  public long getRunningCasesCount()
   {
-    return Ivy.wf().getGlobalContext().getTaskQueryExecutor().createTaskQuery().where().state()
-            .isEqual(TaskState.SUSPENDED).executor().count();
+    return getApplications().stream().mapToLong(a -> a.getRunningCasesCount()).sum();
   }
 
   public Locale getDefaultEmailLanguageForSelectedApp()

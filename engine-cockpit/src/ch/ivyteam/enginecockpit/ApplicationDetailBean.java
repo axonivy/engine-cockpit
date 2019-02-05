@@ -12,7 +12,6 @@ import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.Property;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.system.IProperty;
 
 @ManagedBean
@@ -85,9 +84,7 @@ public class ApplicationDetailBean
   
   public long getCasesCount()
   {
-    return getIApplication().getProcessModels().stream()
-            .flatMap(pm -> pm.getProcessModelVersions().stream())
-            .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
+    return app.getRunningCasesCount();
   }
   
   public int getPmCount()

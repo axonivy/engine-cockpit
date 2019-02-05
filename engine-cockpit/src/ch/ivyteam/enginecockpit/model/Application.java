@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.model;
 
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public class Application extends AbstractActivity
 {
@@ -10,6 +11,7 @@ public class Application extends AbstractActivity
   private String fileDir;
   private String owner;
   private String activeEnv;
+  private long runningCasesCount;
   
   public Application()
   {
@@ -30,6 +32,9 @@ public class Application extends AbstractActivity
     fileDir = app.getFileDirectory();
     owner = app.getOwnerName();
     activeEnv = app.getActualEnvironment().getName();
+    runningCasesCount = app.getProcessModels().stream()
+            .flatMap(pm -> pm.getProcessModelVersions().stream())
+            .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
   }
   
   @Override
@@ -88,6 +93,11 @@ public class Application extends AbstractActivity
   public void setActiveEnv(String activeEnv)
   {
     this.activeEnv = activeEnv;
+  }
+  
+  public long getRunningCasesCount()
+  {
+    return runningCasesCount;
   }
 
 }
