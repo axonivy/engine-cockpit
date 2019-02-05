@@ -30,11 +30,10 @@ public class ApplicationBean
   private TreeNode filteredRootTreeNode;
   private String filter = "";
   private boolean operating;
-  private boolean onlyReleasedPmvs;
   
   private String deleteName;
   private long deleteNameAppId;
-  private int deleteType;
+  private String deleteType;
   
   private Application newApp;
   private EmailSettings emailSettings;
@@ -49,7 +48,6 @@ public class ApplicationBean
     reloadActivities();
     newApp = new Application();
     operating = false;
-    onlyReleasedPmvs = false;
     reloadEmailSettings();
   }
   
@@ -93,8 +91,7 @@ public class ApplicationBean
   {
     for (IProcessModelVersion pmv : pm.getProcessModelVersions())
     {
-      if (pmv.getReleaseState() != ReleaseState.DELETED && 
-              (!onlyReleasedPmvs || onlyReleasedPmvs && pmv.getReleaseState() == ReleaseState.RELEASED))
+      if (pmv.getReleaseState() != ReleaseState.DELETED)
       {
         new DefaultTreeNode(new ProcessModelVersion(pmv, this), pmNode);
       }
@@ -140,17 +137,6 @@ public class ApplicationBean
     return operating;
   }
   
-  public boolean isOnlyReleasedPmvs()
-  {
-    return onlyReleasedPmvs;
-  }
-
-  public void setOnlyReleasedPmvs(boolean value)
-  {
-    this.onlyReleasedPmvs = value;
-    reloadActivities();
-  }
-
   public String getFilter()
   {
     return filter;
@@ -207,7 +193,7 @@ public class ApplicationBean
             new FacesMessage("User email changes saved"));
   }
   
-  public void deleteConfirm(long appId, String name, int type)
+  public void deleteConfirm(long appId, String name, String type)
   {
     this.deleteNameAppId = appId;
     this.deleteName = name;
@@ -216,11 +202,11 @@ public class ApplicationBean
   
   public void delete()
   {
-    if (deleteType == AbstractActivity.APP)
+    if (deleteType.equals(AbstractActivity.APP))
     {
       deleteApp();
     }
-    else if (deleteType == AbstractActivity.PM)
+    else if (deleteType.equals(AbstractActivity.PM))
     {
       deletePm(managerBean.getManager().findApplication(deleteNameAppId));
     }
@@ -255,7 +241,7 @@ public class ApplicationBean
     return deleteName;
   }
   
-  public int getDeleteType()
+  public String getDeleteType()
   {
     return deleteType;
   }

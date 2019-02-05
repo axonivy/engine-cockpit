@@ -102,7 +102,7 @@ public class ProcessModelVersion extends AbstractActivity
   }
   
   @Override
-  public int getActivityType()
+  public String getActivityType()
   {
     return AbstractActivity.PMV;
   }

@@ -108,7 +108,7 @@ public class Application extends AbstractActivity
   }
   
   @Override
-  public int getActivityType()
+  public String getActivityType()
   {
     return AbstractActivity.APP;
   }

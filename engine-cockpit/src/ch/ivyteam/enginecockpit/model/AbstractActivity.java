@@ -16,9 +16,9 @@ public abstract class AbstractActivity
   protected boolean disable;
   private ApplicationBean bean;
   
-  public static final int APP = 1;
-  public static final int PM = 2;
-  public static final int PMV = 3;
+  public static final String APP = "APP";
+  public static final String PM = "PM";
+  public static final String PMV = "PMV";
   
   public AbstractActivity()
   {
@@ -165,18 +165,21 @@ public abstract class AbstractActivity
   public void activate()
   {
     activity.activate();
+    updateStats();
     reloadBeanStats();
   }
   
   public void deactivate()
   {
     activity.deactivate();
+    updateStats();
     reloadBeanStats();
   }
   
   public void lock()
   {
     activity.lock();
+    updateStats();
     reloadBeanStats();
   }
   
@@ -192,7 +195,7 @@ public abstract class AbstractActivity
   
   public abstract long getApplicationId();
   
-  public abstract int getActivityType();
+  public abstract String getActivityType();
   
   private void reloadBeanData()
   {

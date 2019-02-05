@@ -127,4 +127,9 @@ public class RoleBean
     return roles;
   }
   
+  public String getRoleCount()
+  {
+    return String.valueOf(roles.size());
+  }
+  
 }

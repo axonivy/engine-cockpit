@@ -74,4 +74,9 @@ public class UserBean
     this.filteredUsers = filteredUsers;
   }
   
+  public String getUserCount()
+  {
+    return String.valueOf(users.size());
+  }
+  
 }

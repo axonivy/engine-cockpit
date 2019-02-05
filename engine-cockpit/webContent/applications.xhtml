@@ -20,12 +20,6 @@
               <div class="ui-g-12 ui-md-10">
                 <h1>
                   <i class="material-icons card-title-icon">apps</i>Applications
-                  <span style="float: right; margin-top: 5px;">
-                    <p:inputSwitch id="onlyReleasedPmvSwitch" value="#{applicationBean.onlyReleasedPmvs}">
-                      <p:ajax update="card:form"/>
-                    </p:inputSwitch>
-                    <p:tooltip for="onlyReleasedPmvSwitch" value="Show only released Pmv's" position="left"/>
-                  </span>
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
@@ -49,10 +43,10 @@
               </div>
               <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
                 <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
-                  <p:column headerText="Applications" sortBy="#{activity.name}">
+                  <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
                     <a href="#{activity.detailView}">
-                      <h:outputText value="#{activity.name}" styleClass="activity-name">
-                        <i class="fa fa-#{activity.icon} table-icon" />
+                      <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
+                        <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
                       </h:outputText>
                       <h:outputText rendered="#{activity.pmv}" value="(#{activity.releaseState})"
                         styleClass="release-state-#{activity.releaseStateLowerCase}" style="margin-left: 10px;" />
@@ -93,8 +87,8 @@
             <p:poll listener="#{applicationBean.reloadActivityStates}" update="card:form"
               autoStart="#{applicationBean.operating}" interval="1" />
             <p:confirmDialog id="deleteConfirmDialog"
-              message="Are you sure about deleteing '#{applicationBean.deleteName}'?"
-              header="Delete" severity="alert" widgetVar="deleteConfirmDialog">
+              message="Are you sure about deleting #{applicationBean.deleteType} '#{applicationBean.deleteName}'?"
+              header="Delete #{applicationBean.deleteType}" severity="alert" widgetVar="deleteConfirmDialog">
               <p:commandButton id="deleteConfirmYesBtn" value="Yes" ajax="false" immediate="true"
                 actionListener="#{applicationBean.delete}" update="card:form" icon="ui-icon-check" style="width: inherit;" />
               <p:commandButton value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"

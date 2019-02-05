@@ -37,7 +37,7 @@
         <i class="fa fa-minus-circle table-icon light" title="Some Permission denied"/>
       </h:outputText>
       <h:outputText rendered="#{!permission.group and not empty permission.permissionHolder and !permission.explicit}">
-        <i class="fa fa-group table-icon" title="#{permission.permissionHolder}"></i>
+        <i class="material-icons table-icon" title="#{permission.permissionHolder}">people</i>
       </h:outputText>
     </p:column>
 
