@@ -20,6 +20,12 @@
               <div class="ui-g-12 ui-md-10">
                 <h1>
                   <i class="material-icons card-title-icon">apps</i>Applications
+                  <span style="float: right;">
+                    <p:inputSwitch id="onlyReleasedPmvSwitch" value="#{applicationBean.onlyReleasedPmvs}">
+                      <p:ajax update="card:form"/>
+                    </p:inputSwitch>
+                    <p:tooltip for="onlyReleasedPmvSwitch" value="Show only released Pmv's" position="left"/>
+                  </span>
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
@@ -73,13 +79,12 @@
                     <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom">
                       <p:menuitem value="Lock" icon="ui-icon-lock" disabled="#{activity.locked}"
                         actionListener="#{activity.lock}" update="card:form" ajax="false" />
-                      <p:submenu>
-                        <p:menuitem value="Release" rendered="#{activity.pmv}" icon="ui-icon-unarchive" disabled="#{activity.releaseDisabled}"
-                          actionListener="#{activity.release}" update="card:form" ajax="false" />
-                        <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
-                          actionListener="#{applicationBean.deleteConfirm(activity.applicationId, activity.name, activity.activityType)}"
-                          update="card:form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
-                      </p:submenu>
+                      <p:menuitem value="Release" rendered="#{activity.pmv}" icon="ui-icon-unarchive"
+                        disabled="#{activity.releaseDisabled}" actionListener="#{activity.release}" update="card:form"
+                        ajax="false" />
+                      <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
+                        actionListener="#{applicationBean.deleteConfirm(activity.applicationId, activity.name, activity.activityType)}"
+                        update="card:form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
                     </p:menu>
                   </p:column>
                 </p:treeTable>

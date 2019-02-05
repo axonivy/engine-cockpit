@@ -30,6 +30,7 @@ public class ApplicationBean
   private TreeNode filteredRootTreeNode;
   private String filter = "";
   private boolean operating;
+  private boolean onlyReleasedPmvs;
   
   private String deleteName;
   private long deleteNameAppId;
@@ -48,6 +49,7 @@ public class ApplicationBean
     reloadActivities();
     newApp = new Application();
     operating = false;
+    onlyReleasedPmvs = false;
     reloadEmailSettings();
   }
   
@@ -91,7 +93,8 @@ public class ApplicationBean
   {
     for (IProcessModelVersion pmv : pm.getProcessModelVersions())
     {
-      if (pmv.getReleaseState() != ReleaseState.DELETED)
+      if (pmv.getReleaseState() != ReleaseState.DELETED && 
+              (!onlyReleasedPmvs || onlyReleasedPmvs && pmv.getReleaseState() == ReleaseState.RELEASED))
       {
         new DefaultTreeNode(new ProcessModelVersion(pmv, this), pmNode);
       }
@@ -137,6 +140,17 @@ public class ApplicationBean
     return operating;
   }
   
+  public boolean isOnlyReleasedPmvs()
+  {
+    return onlyReleasedPmvs;
+  }
+
+  public void setOnlyReleasedPmvs(boolean value)
+  {
+    this.onlyReleasedPmvs = value;
+    reloadActivities();
+  }
+
   public String getFilter()
   {
     return filter;
