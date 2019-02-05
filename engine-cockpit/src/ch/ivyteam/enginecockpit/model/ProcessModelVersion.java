@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.model;
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public class ProcessModelVersion extends AbstractActivity
 {
@@ -31,6 +32,12 @@ public class ProcessModelVersion extends AbstractActivity
     {
       releaseState = pmv.getReleaseState();
     }
+  }
+  
+  @Override
+  public long getRunningCasesCount()
+  {
+    return Ivy.wf().getRunningCasesCount(pmv);
   }
 
   @Override

@@ -50,6 +50,12 @@ public class Application extends AbstractActivity
   }
 
   @Override
+  public long getRunningCasesCount()
+  {
+    return runningCasesCount;
+  }
+  
+  @Override
   public String getIcon()
   {
     return "cube";
@@ -95,9 +101,4 @@ public class Application extends AbstractActivity
     this.activeEnv = activeEnv;
   }
   
-  public long getRunningCasesCount()
-  {
-    return runningCasesCount;
-  }
-
 }

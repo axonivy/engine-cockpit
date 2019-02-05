@@ -44,8 +44,8 @@
               <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
                 <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
                   <p:column headerText="Applications" sortBy="#{activity.name}">
-                    <a href="#{activity.detailView}"> <h:outputText value="#{activity.name}"
-                        styleClass="activity-name">
+                    <a href="#{activity.detailView}">
+                      <h:outputText value="#{activity.name}" styleClass="activity-name">
                         <i class="fa fa-#{activity.icon} table-icon" />
                       </h:outputText>
                     </a>
@@ -60,6 +60,9 @@
                           update="card:form:deletePmvConfirmDialog" oncomplete="PF('deletePmvConfirmDialog').show();" />
                       </p:submenu>
                     </p:menu>
+                  </p:column>
+                  <p:column headerText="Running Cases" style="text-align: center; width: 100px;">
+                    <h:outputText value="#{activity.runningCasesCount}"/>
                   </p:column>
                   <p:column style="text-align: center; width: 120px;">
                     <h:outputText value="#{activity.operationState}"

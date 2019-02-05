@@ -63,13 +63,15 @@ public abstract class AbstractActivity
     return "#";
   }
   
+  abstract long getRunningCasesCount();
+  
   abstract String getIcon();
   
   public String getName()
   {
     return name;
   }
-
+  
   public void setName(String name)
   {
     this.name = name;
