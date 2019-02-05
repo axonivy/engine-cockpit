@@ -24,6 +24,14 @@
     <p:outputLabel value="#{applicationDetailBean.securitySystem.securitySystemName}" />
     <p:outputLabel value="Provider" />
     <p:outputLabel value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
+    <p:outputLabel value="Users" />
+    <p:outputLabel value="#{applicationDetailBean.securitySystem.usersCount}">
+      <a href="users.xhtml" style="margin-left: 10px;"><i class="fa fa-external-link" /></a>
+    </p:outputLabel>
+    <p:outputLabel value="Roles" />
+    <p:outputLabel value="#{applicationDetailBean.securitySystem.rolesCount}">
+      <a href="roles.xhtml" style="margin-left: 10px;"><i class="fa fa-external-link" /></a>
+    </p:outputLabel>
   </p:panelGrid>
 </h:form>
 </html>

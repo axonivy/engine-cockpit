@@ -24,20 +24,29 @@ public class EmailSettings
   public EmailSettings(IApplication app)
   {
     this.language = app.getDefaultEMailLanguage();
-    notificationDisabled = app.getDefaultEMailNotifcationSettings().isNotificationDisabled();
-    sendOnNewWorkTasks = app.getDefaultEMailNotifcationSettings().isSendOnNewWorkTasks();
     useApplicationDefault = false;
-    sendDailyTasks = app.getDefaultEMailNotifcationSettings().getSendDailyTaskSummary().stream()
-            .map(w -> w.toString()).toArray(String[]::new);
+    initEmailSettings(app.getDefaultEMailNotifcationSettings());
   }
   
-  public EmailSettings(IUser user)
+  public EmailSettings(IUser user, IEMailNotificationSettings defaultAppSettings)
   {
     this.language = user.getEMailLanguage() != null ? user.getEMailLanguage() : new Locale("app");
-    notificationDisabled = user.getEMailNotificationSettings().isNotificationDisabled();
-    sendOnNewWorkTasks = user.getEMailNotificationSettings().isSendOnNewWorkTasks();
     useApplicationDefault = user.getEMailNotificationSettings().isUseApplicationDefault();
-    sendDailyTasks = user.getEMailNotificationSettings().getSendDailyTaskSummary().stream()
+    if (useApplicationDefault)
+    {
+      initEmailSettings(defaultAppSettings);
+    }
+    else
+    {
+      initEmailSettings(user.getEMailNotificationSettings());
+    }
+  }
+  
+  private void initEmailSettings(IEMailNotificationSettings emailSettings)
+  {
+    notificationDisabled = emailSettings.isNotificationDisabled();
+    sendOnNewWorkTasks = emailSettings.isSendOnNewWorkTasks();
+    sendDailyTasks = emailSettings.getSendDailyTaskSummary().stream()
             .map(w -> w.toString()).toArray(String[]::new);
   }
 

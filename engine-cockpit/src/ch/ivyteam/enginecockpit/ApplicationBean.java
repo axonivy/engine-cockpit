@@ -29,6 +29,7 @@ public class ApplicationBean
   private TreeNode rootTreeNode;
   private TreeNode filteredRootTreeNode;
   private String filter = "";
+  private boolean operating;
   
   private String deletePmvName;
   private long deletePmvNameAppId;
@@ -45,7 +46,8 @@ public class ApplicationBean
             ManagerBean.class);
     reloadActivities();
     newApp = new Application();
-    emailSettings = new EmailSettings(managerBean.getSelectedIApplication());
+    operating = false;
+    reloadEmailSettings();
   }
   
   public TreeNode getActivities()
@@ -110,6 +112,7 @@ public class ApplicationBean
   
   public void reloadActivityStates()
   {
+    operating = false;
     reloadNodeState(rootTreeNode.getChildren());
   }
   
@@ -117,9 +120,19 @@ public class ApplicationBean
   {
     for (TreeNode node : nodes)
     {
-      ((AbstractActivity) node.getData()).updateStats();
+      AbstractActivity activity = (AbstractActivity) node.getData();
+      activity.updateStats();
+      if (operating == false)
+      {
+        operating = activity.isOperating();
+      }
       reloadNodeState(node.getChildren());
     }
+  }
+  
+  public boolean isOperating()
+  {
+    return operating;
   }
   
   public String getFilter()
@@ -155,6 +168,11 @@ public class ApplicationBean
     pm.createProcessModelVersion("test", "test PMV", "Developer", "localhost", 2);
     reloadActivities();
     managerBean.reloadApplications();
+  }
+  
+  public void reloadEmailSettings()
+  {
+    emailSettings = new EmailSettings(managerBean.getSelectedIApplication());
   }
   
   public EmailSettings getEmailSettings()

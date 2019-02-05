@@ -45,7 +45,7 @@ public class UserDetailBean
     this.userName = userName;
     IUser iUser = getSecurityContext().findUser(userName);
     this.user = new User(iUser);
-    this.emailSettings = new EmailSettings(iUser);
+    this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
   }
 
   public User getUser()

@@ -24,7 +24,7 @@
       </p:selectBooleanCheckbox>
       <p:selectBooleanCheckbox id="taskCheckbox" value="#{cc.attrs.emailSettings.sendOnNewWorkTasks}"
         disabled="#{cc.attrs.emailSettings.taskCheckboxDisabled}" style="float: left;">
-        <p:outputLabel value="New Task" styleClass="#{cc.attrs.emailSettings.notificationCheckboxDisabled ? 'ui-state-disabled' : ''}" />
+        <p:outputLabel value="New Task" styleClass="#{cc.attrs.emailSettings.taskCheckboxDisabled ? 'ui-state-disabled' : ''}" />
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
     </p:panelGrid>

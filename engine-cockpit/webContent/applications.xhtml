@@ -82,6 +82,8 @@
                 </p:treeTable>
               </div>
             </div>
+            <p:poll listener="#{applicationBean.reloadActivityStates}" update="card:form"
+              autoStart="#{applicationBean.operating}" interval="1" />
             <p:confirmDialog id="deletePmvConfirmDialog"
               message="Are you sure about deleteing the Process Model Version '#{applicationBean.deletePmvName}'?"
               header="Delete Pmv" severity="alert" widgetVar="deletePmvConfirmDialog">

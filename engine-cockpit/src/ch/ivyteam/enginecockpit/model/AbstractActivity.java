@@ -115,6 +115,13 @@ public abstract class AbstractActivity
     this.operationState = operationState;
   }
   
+  public boolean isOperating()
+  {
+    return operationState == ActivityOperationState.ACTIVATING || 
+            operationState == ActivityOperationState.DEACTIVATING || 
+            operationState == ActivityOperationState.LOCKING;
+  }
+  
   public ReleaseState getReleaseState()
   {
     return null;
