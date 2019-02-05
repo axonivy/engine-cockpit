@@ -102,6 +102,7 @@ public class WebTestEmail extends WebTestBase
     dailyCheckbox.clear();
     taskCheckbox.removeChecked();
     neverCheckbox.setChecked();
+    driver.findElementById(saveEmailSettingsBtnId).click();
     saveScreenshot(driver, "undo_changes");
     await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isTrue());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isFalse());
