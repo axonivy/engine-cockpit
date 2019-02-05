@@ -131,6 +131,17 @@ body {
   font-style: italic; 
   color: darkgrey;
 }
+@media ( max-width : 1024px ) {
+  .second-row {
+    display: none;
+  }
+}
+@media ( max-width : 40.063em ) {
+  .second-row,
+  .thrid-row {
+    display: none;
+  }
+}
 
 /*Table Paging*/
 .ui-fluid .ui-datatable-header {
@@ -233,4 +244,18 @@ body {
 .activity-state-locked {
   color: #FFC107;
   font-weight: bold;
+}
+.release-state-released {
+  color: #C0CA33;
+}
+.release-state-deprecated {
+  color: #607D8B;
+  font-style: italic;
+}
+.release-state-created, 
+.release-state-prepared {
+  font-style: italic;
+}
+.release-state-archived {
+  text-decoration: line-through;
 }

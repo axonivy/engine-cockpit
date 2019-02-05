@@ -4,7 +4,6 @@ import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.ActivityOperationState;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IActivity;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
 
 public abstract class AbstractActivity
@@ -16,6 +15,10 @@ public abstract class AbstractActivity
   private ActivityOperationState operationState;
   protected boolean disable;
   private ApplicationBean bean;
+  
+  public static final int APP = 1;
+  public static final int PM = 2;
+  public static final int PMV = 3;
   
   public AbstractActivity()
   {
@@ -129,6 +132,11 @@ public abstract class AbstractActivity
     return null;
   }
   
+  public String getReleaseStateLowerCase()
+  {
+    return "";
+  }
+  
   public boolean isActive()
   {
     return state == ActivityState.ACTIVE || disable;
@@ -151,7 +159,7 @@ public abstract class AbstractActivity
   
   public boolean isDeleteDisabled()
   {
-    return true;
+    return disable;
   }
   
   public void activate()
@@ -182,14 +190,9 @@ public abstract class AbstractActivity
     reloadBeanData();
   }
   
-  public long getApplicationId()
-  {
-    if (activity instanceof IProcessModelVersion)
-    {
-      return ((IProcessModelVersion) activity).getProcessModel().getApplication().getId();
-    }
-    return 0;
-  }
+  public abstract long getApplicationId();
+  
+  public abstract int getActivityType();
   
   private void reloadBeanData()
   {

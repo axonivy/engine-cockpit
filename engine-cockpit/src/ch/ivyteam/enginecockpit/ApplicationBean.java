@@ -31,8 +31,9 @@ public class ApplicationBean
   private String filter = "";
   private boolean operating;
   
-  private String deletePmvName;
-  private long deletePmvNameAppId;
+  private String deleteName;
+  private long deleteNameAppId;
+  private int deleteType;
   
   private Application newApp;
   private EmailSettings emailSettings;
@@ -71,6 +72,7 @@ public class ApplicationBean
     for (IApplication app : managerBean.getIApplicaitons())
     {
       TreeNode node = new DefaultTreeNode(new Application(app, this), rootNode);
+      node.setExpanded(true);
       loadPmTree(app, node);
     }
   }
@@ -191,25 +193,57 @@ public class ApplicationBean
             new FacesMessage("User email changes saved"));
   }
   
-  public void deletePmvConfirm(long appId, String pmvName)
+  public void deleteConfirm(long appId, String name, int type)
   {
-    this.deletePmvNameAppId = appId;
-    this.deletePmvName = pmvName;
+    this.deleteNameAppId = appId;
+    this.deleteName = name;
+    this.deleteType = type;
   }
   
-  public void deletePmv()
+  public void delete()
   {
-    managerBean.getManager().findApplication(deletePmvNameAppId).findProcessModelVersion(deletePmvName).delete();
+    if (deleteType == AbstractActivity.APP)
+    {
+      deleteApp();
+    }
+    else if (deleteType == AbstractActivity.PM)
+    {
+      deletePm(managerBean.getManager().findApplication(deleteNameAppId));
+    }
+    else
+    {
+      deletePmv(managerBean.getManager().findApplication(deleteNameAppId));
+    }
     FacesContext.getCurrentInstance().addMessage("applicationMessage",
-            new FacesMessage("Pmv '" + deletePmvName + "' deleted successfully"));
-    this.deletePmvName = "";
-    this.deletePmvNameAppId = -1;
+            new FacesMessage("'" + deleteName + "' deleted successfully"));
+    this.deleteName = "";
+    this.deleteNameAppId = -1;
     reloadActivities();
   }
   
-  public String getDeletePmvName()
+  public void deleteApp()
   {
-    return deletePmvName;
+    managerBean.getManager().deleteApplication(deleteName);
+  }
+  
+  public void deletePm(IApplication app)
+  {
+    app.deleteProcessModel(deleteName);
+  }
+  
+  public void deletePmv(IApplication app)
+  {
+    app.findProcessModelVersion(deleteName).delete();
+  }
+  
+  public String getDeleteName()
+  {
+    return deleteName;
+  }
+  
+  public int getDeleteType()
+  {
+    return deleteType;
   }
   
 }

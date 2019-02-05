@@ -58,6 +58,12 @@ public class ProcessModelVersion extends AbstractActivity
     return releaseState;
   }
   
+  @Override
+  public String getReleaseStateLowerCase()
+  {
+    return releaseState.toString().toLowerCase();
+  }
+  
   public void setReleaseState(ReleaseState state)
   {
     this.releaseState = state;
@@ -87,6 +93,18 @@ public class ProcessModelVersion extends AbstractActivity
   public boolean isDeleteDisabled()
   {
     return pmv.isRequired() || (releaseState != ReleaseState.PREPARED && releaseState != ReleaseState.ARCHIVED);
+  }
+  
+  @Override
+  public long getApplicationId()
+  {
+    return pmv.getProcessModel().getApplication().getId();
+  }
+  
+  @Override
+  public int getActivityType()
+  {
+    return AbstractActivity.PMV;
   }
   
 }

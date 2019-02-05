@@ -33,5 +33,18 @@ public class ProcessModel extends AbstractActivity
   {
     return "cogs";
   }
+  
+  @Override
+  public long getApplicationId()
+  {
+    Ivy.log().info(((IProcessModel) activity).getApplication().getId());
+    return ((IProcessModel) activity).getApplication().getId();
+  }
+  
+  @Override
+  public int getActivityType()
+  {
+    return AbstractActivity.PM;
+  }
 
 }

@@ -101,4 +101,16 @@ public class Application extends AbstractActivity
     this.activeEnv = activeEnv;
   }
   
+  @Override
+  public long getApplicationId()
+  {
+    return getId();
+  }
+  
+  @Override
+  public int getActivityType()
+  {
+    return AbstractActivity.APP;
+  }
+  
 }
