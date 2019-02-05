@@ -115,14 +115,19 @@ public class WebTestUserDetail extends WebTestBase
     SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(new By.ById("userEmailForm:emailSettings:taskCheckbox"));
     SelectManyCheckbox dailyCheckbox = primeUi.selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
     await().untilAsserted(() -> assertThat(radioSettings.getSelected()).isEqualTo("Application"));
-    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isFalse());
+    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isTrue());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isFalse());
     await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
     await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
     
     radioSettings.selectItemByValue("Specific");
     saveScreenshot(driver, "specific");
-    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
+    await().untilAsserted(() -> assertThat(neverCheckbox.isDisabled()).isFalse());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
+    await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
+    
+    neverCheckbox.removeChecked();
+    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isFalse());
     await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
     await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse());
     

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -37,7 +38,8 @@ public class WebTestSecuritySystem extends WebTestBase
     {
       findFirst.get().findElement(By.xpath("../..//button")).click();
       saveScreenshot(driver, "trigger_sync");
-      await().untilAsserted(() -> assertThat(driver.findElementByClassName("log-viewer").isDisplayed()).isTrue());
+      await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
+              .untilAsserted(() -> assertThat(driver.findElementByClassName("log-viewer").isDisplayed()).isTrue());
       saveScreenshot(driver, "sync_log");
     }
   }

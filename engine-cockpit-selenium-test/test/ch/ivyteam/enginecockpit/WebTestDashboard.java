@@ -30,7 +30,7 @@ public class WebTestDashboard extends WebTestBase
     List<WebElement> overviewBoxes = driver.findElementsByClassName("overview-box-content");
     assertThat(overviewBoxes).hasSize(4);
     List<String> boxesExpect = new ArrayList<>(
-            Arrays.asList("Sessions", "Users", "Working Tasks", "Applications"));
+            Arrays.asList("Sessions", "Users", "Running Cases", "Applications"));
     overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-title")).getText())
             .forEach(t -> assertThat(t).isNotEmpty().isIn(boxesExpect));
     overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-count")).getText())
