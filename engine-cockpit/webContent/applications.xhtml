@@ -15,7 +15,7 @@
       <cc:SingleCard id="card">
         <div class="card card-w-title">
           <h:form id="form">
-            <p:growl for="applicationMessage"/>
+            <p:growl for="applicationMessage" id="applicationMessage"/>
             <div class="ui-g">
               <div class="ui-g-12 ui-md-10">
                 <h1>
@@ -23,7 +23,7 @@
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
-                <p:commandButton widgetVar="createApplication" icon="ui-icon-add" type="button" value="Add"
+                <p:commandButton id="createApplicationBtn" widgetVar="createApplication" icon="ui-icon-add" type="button" value="Add"
                   onclick="PF('newApplicationModal').show();" />
               </div>
             </div>
@@ -34,7 +34,7 @@
                     <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i
                       class="material-icons">search</i>
                     </label>
-                    <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
+                    <p:inputText styleClass="table-search-input-withicon" placeholder="Search"
                       value="#{applicationBean.filter}">
                       <p:ajax event="keyup" delay="300" update="@form" />
                     </p:inputText>
@@ -70,7 +70,7 @@
                     </p:commandButton>
                     <p:commandButton title="#{activity.releaseState}" id="tasksButton"
                       type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
-                    <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom">
+                    <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
                       <p:menuitem value="Lock" icon="ui-icon-lock" disabled="#{activity.locked}"
                         actionListener="#{activity.lock}" update="card:form" ajax="false" />
                       <p:menuitem value="Release" rendered="#{activity.pmv}" icon="ui-icon-unarchive"

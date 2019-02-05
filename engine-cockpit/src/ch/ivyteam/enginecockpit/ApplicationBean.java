@@ -163,11 +163,6 @@ public class ApplicationBean
   {
     IApplication app = managerBean.getManager().createApplication(newApp.getName());
     app.setDescription(newApp.getDesc());
-    //TODO: remove
-    IProcessModel pm = app.createProcessModel("test", "testProcessModel");
-    IProcessModelVersion pmv = pm.createProcessModelVersion("test", "test PMV", "Developer", "localhost", 1);
-    pmv.release();
-    pm.createProcessModelVersion("test", "test PMV", "Developer", "localhost", 2);
     reloadActivities();
     managerBean.reloadApplications();
   }

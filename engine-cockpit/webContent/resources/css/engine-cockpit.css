@@ -81,6 +81,7 @@ body {
 .ui-datatable .table-search-icon {
   float: left;
 }
+.ui-datatable-header .table-search-input-withicon,
 .ui-datatable .table-search-input-withicon {
   width: calc(100% - 24px);
 }
