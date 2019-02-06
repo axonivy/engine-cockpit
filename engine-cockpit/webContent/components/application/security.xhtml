@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
-<h:form>
+<h:form id="appDetailSecurityForm">
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
     title="Synchronize" type="button" icon="fa #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} fa-refresh"

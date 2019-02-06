@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
-<h:form>
+<h:form id="appDetailStateForm">
   <p:commandButton id="activateApplication" title="Activate" type="button" icon="ui-icon-play-arrow"
     rendered="#{!applicationDetailBean.application.active}" styleClass="primary-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
@@ -19,7 +19,7 @@
   </p:commandButton>
   <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" style="text-align: center; padding-top: 25px;">
     <p:outputLabel value="State:" />
-    <p:outputLabel value="#{applicationDetailBean.application.operationState}"
+    <p:outputLabel id="operationStateLabel" value="#{applicationDetailBean.application.operationState}"
       styleClass="activity-state-#{applicationDetailBean.application.operationStateLowerCase}" />
     <p:outputLabel value="Configured state:" />
     <p:outputLabel value="#{applicationDetailBean.application.state}"
