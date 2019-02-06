@@ -49,6 +49,9 @@ body {
 .dashboard-card .ui-grid-col-5 label {
   font-style: italic;
 }
+.dashboard-card .ui-grid-col-7 label {
+  word-wrap: break-word;
+}
 .dashboard-card .ui-panel {
   min-height: 240px;
   border: 0 none;
@@ -56,10 +59,14 @@ body {
   -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
 }
+.ui-tabs-panels .ui-panelgrid-content,
 .dashboard-card .ui-panelgrid-content {
   padding: 0;
 }
-.dashboard-card .min-height-450{
+.dashboard-card .min-height-250 {
+  min-height: 250px;
+}
+.dashboard-card .min-height-450 {
   min-height: 450px;
 }
 .dashboard-card .min-height-500 {
@@ -77,6 +84,7 @@ body {
 .ui-datatable .table-search-icon {
   float: left;
 }
+.ui-datatable-header .table-search-input-withicon,
 .ui-datatable .table-search-input-withicon {
   width: calc(100% - 24px);
 }
@@ -105,7 +113,7 @@ body {
   margin-right: 10px;
   margin-top: 6px;
 }
-.table-icon-right.member-inherit-icon {
+.member-inherit-icon {
   color: lightgrey;
 }
 
@@ -126,6 +134,17 @@ body {
 .ui-treetable .addition-row-info {
   font-style: italic; 
   color: darkgrey;
+}
+@media ( max-width : 1024px ) {
+  .second-row {
+    display: none;
+  }
+}
+@media ( max-width : 40.063em ) {
+  .second-row,
+  .thrid-row {
+    display: none;
+  }
 }
 
 /*Table Paging*/
@@ -184,6 +203,7 @@ body {
   top: 3px;
   margin-right: 10px;
 }
+.spin-icon .fa.fa-refresh,
 .card .spin-icon {
   font-size: 19px;
 }
@@ -214,4 +234,32 @@ body {
   width: 100px;
   margin-right: 5px;
   float: right;
+}
+
+/*General*/
+.activity-state-active {
+  color: #C0CA33;
+  font-weight: bold;
+}
+.activity-state-inactive {
+  color: #607D8B;
+  font-weight: bold;
+}
+.activity-state-locked {
+  color: #FFC107;
+  font-weight: bold;
+}
+.release-state-released {
+  color: #C0CA33;
+}
+.release-state-deprecated {
+  color: #607D8B;
+  font-style: italic;
+}
+.release-state-created, 
+.release-state-prepared {
+  font-style: italic;
+}
+.release-state-archived {
+  text-decoration: line-through;
 }

@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.SessionInfo;
@@ -20,20 +20,20 @@ public class UserBean
   private List<User> filteredUsers;
   private List<User> users;
 
-  private ApplicationBean applicationBean;
+  private ManagerBean managerBean;
 
   public UserBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}",
-            ApplicationBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
     reloadUsers();
   }
 
   public void reloadUsers()
   {
     filteredUsers = null;
-    IApplication app = applicationBean.getSelectedIApplication();
+    IApplication app = managerBean.getSelectedIApplication();
     users = getUsersOfApp(app);
   }
 
@@ -72,6 +72,11 @@ public class UserBean
   public void setFilteredUsers(List<User> filteredUsers)
   {
     this.filteredUsers = filteredUsers;
+  }
+  
+  public String getUserCount()
+  {
+    return String.valueOf(users.size());
   }
   
 }

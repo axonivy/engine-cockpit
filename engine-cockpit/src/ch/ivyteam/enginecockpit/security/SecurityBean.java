@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.SynchronizationLogger;
 
@@ -20,14 +20,14 @@ public class SecurityBean
   
   private SynchronizationLogger synchronizationLogger = new SynchronizationLogger();
 
-  private ApplicationBean applicationBean;
+  private ManagerBean managerBean;
 
   public SecurityBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}",
-            ApplicationBean.class);
-    systems = applicationBean.getIApplicaitons().stream()
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
+    systems = managerBean.getIApplicaitons().stream()
             .map(app -> new SecuritySystem(app.getSecurityContext(), app.getName()))
             .collect(Collectors.toList());
   }
@@ -39,18 +39,18 @@ public class SecurityBean
 
   public void triggerSynchronization(String appName)
   {
-    applicationBean.getManager().findApplication(appName).getSecurityContext()
+    managerBean.getManager().findApplication(appName).getSecurityContext()
             .triggerSynchronization(synchronizationLogger);
   }
   
   public void triggerSyncForSelectedApp()
   {
-    triggerSynchronization(applicationBean.getSelectedApplication().getName());
+    triggerSynchronization(managerBean.getSelectedApplication().getName());
   }
   
   public boolean isIvySecurityForSelectedApp()
   {
-    Optional<SecuritySystem> findAny = systems.stream().filter(s -> s.getAppName().equals(applicationBean.getSelectedApplication().getName())).findAny();
+    Optional<SecuritySystem> findAny = systems.stream().filter(s -> s.getAppName().equals(managerBean.getSelectedApplication().getName())).findAny();
     if (!findAny.isPresent())
     {
       return true;
@@ -60,17 +60,17 @@ public class SecurityBean
   
   public boolean isSyncRunningForSelectedApp()
   {
-    return isSyncRunning(applicationBean.getSelectedApplication().getName());
+    return isSyncRunning(managerBean.getSelectedApplication().getName());
   }
 
   public boolean isSyncRunning(String appName)
   {
-    return applicationBean.getManager().findApplication(appName).getSecurityContext().isSynchronizationRunning();
+    return managerBean.getManager().findApplication(appName).getSecurityContext().isSynchronizationRunning();
   }
   
   public boolean isAnySyncRunningOrNewLog()
   {
-    return applicationBean.getIApplicaitons().stream()
+    return managerBean.getIApplicaitons().stream()
             .filter(app -> app.getSecurityContext().isSynchronizationRunning() == true)
             .findAny().isPresent() || synchronizationLogger.isNewLogAwailabe();
   }

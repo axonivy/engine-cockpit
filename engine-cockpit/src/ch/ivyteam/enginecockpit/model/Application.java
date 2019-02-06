@@ -1,41 +1,116 @@
 package ch.ivyteam.enginecockpit.model;
 
+import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.environment.Ivy;
 
-public class Application
+public class Application extends AbstractActivity
 {
-  private String name;
-  private long id;
+  
+  private String desc;
+  private String fileDir;
+  private String owner;
+  private String activeEnv;
+  private long runningCasesCount;
+  
+  public Application()
+  {
+    super();
+  }
 
   public Application(IApplication app)
   {
-    this(app.getName(), app.getId());
+    this(app, null);
   }
-
-  public Application(String name, long id)
+  
+  public Application(IApplication app, ApplicationBean bean)
   {
-    this.name = name;
-    this.id = id;
+    super(app.getName(), app.getId(), app, bean);
+    setOperationState(app.getActivityOperationState());
+    disable = app.getName().equals("designer");
+    desc = app.getDescription();
+    fileDir = app.getFileDirectory();
+    owner = app.getOwnerName();
+    activeEnv = app.getActualEnvironment().getName();
+    runningCasesCount = app.getProcessModels().stream()
+            .flatMap(pm -> pm.getProcessModelVersions().stream())
+            .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
   }
-
-  public String getName()
+  
+  @Override
+  public boolean isApplication()
   {
-    return name;
+    return true;
   }
-
-  public void setName(String name)
+  
+  @Override
+  public String getDetailView()
   {
-    this.name = name;
+    return "application-detail.xhtml?appName=" + getName();
   }
 
-  public long getId()
+  @Override
+  public long getRunningCasesCount()
   {
-    return id;
+    return runningCasesCount;
   }
-
-  public void setId(long id)
+  
+  @Override
+  public String getIcon()
   {
-    this.id = id;
+    return "cube";
   }
 
+  public String getDesc()
+  {
+    return desc;
+  }
+
+  public void setDesc(String desc)
+  {
+    this.desc = desc;
+  }
+
+  public String getFileDir()
+  {
+    return fileDir;
+  }
+
+  public void setFileDir(String fileDir)
+  {
+    this.fileDir = fileDir;
+  }
+
+  public String getOwner()
+  {
+    return owner;
+  }
+
+  public void setOwner(String owner)
+  {
+    this.owner = owner;
+  }
+
+  public String getActiveEnv()
+  {
+    return activeEnv;
+  }
+
+  public void setActiveEnv(String activeEnv)
+  {
+    this.activeEnv = activeEnv;
+  }
+  
+  @Override
+  public long getApplicationId()
+  {
+    return getId();
+  }
+  
+  @Override
+  public String getActivityType()
+  {
+    return AbstractActivity.APP;
+  }
+  
 }

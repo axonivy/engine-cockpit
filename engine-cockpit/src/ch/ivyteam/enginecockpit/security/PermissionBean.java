@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.AbstractPermission;
 import ch.ivyteam.enginecockpit.model.Permission;
 import ch.ivyteam.enginecockpit.model.PermissionGroup;
@@ -35,13 +35,13 @@ public class PermissionBean
   private String filter = "";
   private String member;
 
-  private ApplicationBean applicationBean;
+  private ManagerBean managerBean;
 
   public PermissionBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}",
-            ApplicationBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
   }
 
   public String getMember()
@@ -186,11 +186,11 @@ public class PermissionBean
 
   public ISecurityDescriptor getSecurityDescriptor()
   {
-    return applicationBean.getSelectedIApplication().getSecurityDescriptor();
+    return managerBean.getSelectedIApplication().getSecurityDescriptor();
   }
 
   public ISecurityMember getSecurityMember()
   {
-    return applicationBean.getSelectedIApplication().getSecurityContext().findSecurityMember(member);
+    return managerBean.getSelectedIApplication().getSecurityContext().findSecurityMember(member);
   }
 }

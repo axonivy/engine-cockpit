@@ -11,6 +11,8 @@ public class SecuritySystem
   private String securitySystemName;
   private long id;
   private String appName;
+  private int usersCount;
+  private int rolesCount;
 
   public SecuritySystem(ISecurityContext securityContext, String appName)
   {
@@ -19,6 +21,8 @@ public class SecuritySystem
     securitySystemProvider = securityContext.getExternalSecuritySystemProvider().getProviderName();
     id = securityContext.getId();
     this.appName = appName;
+    this.usersCount = securityContext.getUsers().size();
+    this.rolesCount = securityContext.getRoles().size();
   }
 
   public String getSecuritySystemProvider()
@@ -60,5 +64,14 @@ public class SecuritySystem
   {
     this.appName = appName;
   }
+  
+  public int getUsersCount()
+  {
+    return usersCount;
+  }
 
+  public int getRolesCount()
+  {
+    return rolesCount;
+  }
 }

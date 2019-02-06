@@ -15,14 +15,20 @@ public class WebTestNavigation extends WebTestBase
   {
     login(driver);
     assertViewIsDashboard(driver);
+    Navigation.toApplications(driver);
+    assertViewIsApplications(driver);
     Navigation.toSecuritySystem(driver);
     assertViewIsSecuritySystem(driver);
     Navigation.toUsers(driver);
     assertViewIsUsers(driver);
     Navigation.toRoles(driver);
     assertViewIsRoles(driver);
+    Navigation.toEmail(driver);
+    assertViewIsEmail(driver);
     Navigation.toAdvancedConfig(driver);
     assertViewIsAdvancedConfig(driver);
+    Navigation.toMonitor(driver);
+    assertViewIsMonitor(driver);
     Navigation.toDashboard(driver);
     assertViewIsDashboard(driver);
   }
@@ -34,6 +40,14 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Engine Cockpit"));
     //TODO: after first login there is no navigation hightlighting
     //await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_dashboard").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsApplications(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "applications");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("applications.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Applications"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_applications").getAttribute("class")).contains("active-menuitem"));
   }
   
   private void assertViewIsSecuritySystem(FirefoxDriver driver)
@@ -60,11 +74,27 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_roles").getAttribute("class")).contains("active-menuitem"));
   }
   
+  private void assertViewIsEmail(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "roles");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("email.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Email"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_email").getAttribute("class")).contains("active-menuitem"));
+  }
+  
   private void assertViewIsAdvancedConfig(FirefoxDriver driver)
   {
     saveScreenshot(driver, "advanced_config");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("advancedconfig.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Advanced Config"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_advanced_config").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsMonitor(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "monitor");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("monitor.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Monitor"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_monitor").getAttribute("class")).contains("active-menuitem"));
   }
 }

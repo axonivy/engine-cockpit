@@ -21,7 +21,7 @@
             <div class="ui-g">
               <div class="ui-g-12 ui-md-9">
                 <h1>
-                  <i class="material-icons card-title-icon">group</i>Roles
+                  <i class="material-icons card-title-icon">group</i>Roles <h:outputText style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})"/>
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-1" style="margin: auto; text-align: right;">
@@ -49,7 +49,7 @@
                 <h:form id="treeForm">
                   <p:tree id="tree" widgetVar="tree" value="#{roleBean.rolesWithMembers}" var="role">
                     <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}">
-                      <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name"> 
+                      <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
                         <h:outputText value="#{role.name}" />
                         <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
                       </a>

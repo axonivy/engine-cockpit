@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Applications</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li><a href="applications.xhtml">Applications</a></li>
+    </ui:define>
+
+    <ui:define name="content">
+      <cc:SingleCard id="card">
+        <div class="card card-w-title">
+          <h:form id="form">
+            <p:growl for="applicationMessage" id="applicationMessage"/>
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-10">
+                <h1>
+                  <i class="material-icons card-title-icon">apps</i>Applications
+                </h1>
+              </div>
+              <div class="ui-g-12 ui-md-2" style="margin: auto;">
+                <p:commandButton id="createApplicationBtn" widgetVar="createApplication" icon="ui-icon-add" type="button" value="Add"
+                  onclick="PF('newApplicationModal').show();" />
+              </div>
+            </div>
+            <div class="ui-g applications-panel-tree">
+              <div class="ui-g-12 ui-lg-12" style="padding-bottom: 0;">
+                <div class="ui-datatable-header ui-widget-header ui-corner-top">
+                  <div class="ui-outputpanel ui-widget">
+                    <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i
+                      class="material-icons">search</i>
+                    </label>
+                    <p:inputText styleClass="table-search-input-withicon" placeholder="Search"
+                      value="#{applicationBean.filter}">
+                      <p:ajax event="keyup" delay="300" update="@form" />
+                    </p:inputText>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
+                <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
+                  <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
+                    <a href="#{activity.detailView}">
+                      <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
+                        <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                      </h:outputText>
+                      <h:outputText rendered="#{activity.pmv}" value="(#{activity.releaseState})"
+                        styleClass="release-state-#{activity.releaseStateLowerCase}" style="margin-left: 10px;" />
+                    </a>
+                  </p:column>
+                  <p:column headerText="Running Cases" styleClass="second-row" style="text-align: center; width: 100px;">
+                    <h:outputText value="#{activity.runningCasesCount}"/>
+                  </p:column>
+                  <p:column headerText="State" styleClass="thrid-row" style="text-align: center; width: 120px;">
+                    <h:outputText value="#{activity.operationState}"
+                      styleClass="activity-state-#{activity.operationStateLowerCase}" />
+                  </p:column>
+                  <p:column style="text-align: center; width: 130px;">
+                    <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}"
+                      type="button" style="margin-right: 10px;" styleClass="primary-btn">
+                      <p:ajax update="card:form" listener="#{activity.activate}" />
+                    </p:commandButton>
+                    <p:commandButton title="Deactivate" icon="ui-icon-stop" disabled="#{activity.inActive}"
+                      type="button" style="margin-right: 10px;" styleClass="red-btn">
+                      <p:ajax update="card:form" listener="#{activity.deactivate}" />
+                    </p:commandButton>
+                    <p:commandButton title="#{activity.releaseState}" id="tasksButton"
+                      type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
+                    <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
+                      <p:menuitem value="Lock" icon="ui-icon-lock" disabled="#{activity.locked}"
+                        actionListener="#{activity.lock}" update="card:form" />
+                      <p:menuitem value="Release" rendered="#{activity.pmv}" icon="ui-icon-unarchive"
+                        disabled="#{activity.releaseDisabled}" actionListener="#{activity.release}" update="card:form" />
+                      <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
+                        actionListener="#{applicationBean.deleteConfirm(activity.applicationId, activity.name, activity.activityType)}"
+                        update="card:form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
+                    </p:menu>
+                  </p:column>
+                </p:treeTable>
+              </div>
+            </div>
+            <p:poll listener="#{applicationBean.reloadActivityStates}" update="card:form"
+              autoStart="#{applicationBean.operating}" interval="1" />
+            <p:confirmDialog id="deleteConfirmDialog"
+              message="Are you sure about deleting #{applicationBean.deleteType} '#{applicationBean.deleteName}'?"
+              header="Delete #{applicationBean.deleteType}" severity="alert" widgetVar="deleteConfirmDialog">
+              <p:commandButton id="deleteConfirmYesBtn" value="Yes" immediate="true"
+                actionListener="#{applicationBean.delete}" update="card:form" icon="ui-icon-check" style="width: inherit;" />
+              <p:commandButton value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
+                icon="ui-icon-close" style="width: inherit;" />
+            </p:confirmDialog>
+          </h:form>
+          <ui:include src="dialogs/newapplication.xhtml" />
+        </div>
+      </cc:SingleCard>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

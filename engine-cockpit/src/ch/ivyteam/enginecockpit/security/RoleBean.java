@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.IRole;
@@ -26,13 +26,13 @@ public class RoleBean
 
   private List<Role> roles;
   
-  private ApplicationBean applicationBean;
+  private ManagerBean managerBean;
 
   public RoleBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    applicationBean = context.getApplication().evaluateExpressionGet(context, "#{applicationBean}",
-            ApplicationBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
     reloadRoles();
   }
 
@@ -40,7 +40,7 @@ public class RoleBean
   {
     filter = "";
     treeRootNode = new DefaultTreeNode("Roles", null);
-    roles = applicationBean.getSelectedIApplication().getSecurityContext().getRoles().stream()
+    roles = managerBean.getSelectedIApplication().getSecurityContext().getRoles().stream()
             .map(r -> new Role(r)).collect(Collectors.toList());
     loadRoleTree(treeRootNode, false);
     reloadRolesWithMembers();
@@ -73,7 +73,7 @@ public class RoleBean
   @SuppressWarnings("unused")
   private void loadRoleTree(TreeNode rootNode, boolean renderMembers)
   {
-    IApplication app = applicationBean.getSelectedIApplication();
+    IApplication app = managerBean.getSelectedIApplication();
     IRole role = app.getSecurityContext().getTopLevelRole();
     TreeNode node = new DefaultTreeNode(new Role(role), rootNode);
     node.setExpanded(true);
@@ -125,6 +125,11 @@ public class RoleBean
   public List<Role> getRolesFlat()
   {
     return roles;
+  }
+  
+  public String getRoleCount()
+  {
+    return String.valueOf(roles.size());
   }
   
 }
