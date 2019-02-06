@@ -63,7 +63,10 @@ body {
 .dashboard-card .ui-panelgrid-content {
   padding: 0;
 }
-.dashboard-card .min-height-450{
+.dashboard-card .min-height-250 {
+  min-height: 250px;
+}
+.dashboard-card .min-height-450 {
   min-height: 450px;
 }
 .dashboard-card .min-height-500 {

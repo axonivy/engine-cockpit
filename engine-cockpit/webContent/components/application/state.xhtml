@@ -17,7 +17,7 @@
     rendered="#{!applicationDetailBean.application.locked}" styleClass="amber-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
   </p:commandButton>
-  <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" style="text-align: center; padding-top: 25px;">
+  <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
     <p:outputLabel value="State:" />
     <p:outputLabel id="operationStateLabel" value="#{applicationDetailBean.application.operationState}"
       styleClass="activity-state-#{applicationDetailBean.application.operationStateLowerCase}" />

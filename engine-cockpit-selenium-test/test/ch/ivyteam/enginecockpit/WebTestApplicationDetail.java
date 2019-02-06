@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -55,7 +56,8 @@ public class WebTestApplicationDetail extends WebTestBase
     
     driver.findElementById("appDetailSecurityForm:synchronizeSecurity").click();
     saveScreenshot(driver, "sync");
-    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@id='appDetailSecurityForm:synchronizeSecurity']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
+    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class).untilAsserted(() -> assertThat(
+            driver.findElementByXPath("//*[@id='appDetailSecurityForm:synchronizeSecurity']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
     
     saveScreenshot(driver, "sync_finished");
     await().untilAsserted(() -> assertThat(driver.findElementById("appDetailSecurityForm:showAdSyncLogBtn").isDisplayed()).isTrue());
