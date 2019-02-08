@@ -147,8 +147,11 @@ public class ManagerBean
   
   public List<SelectItem> getSupportedLanguages()
   {
+    //Fix for PortalKit (creates a second german language)
     return manager.getLanguages().stream()
-            .map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
+            .map(l -> l.getLocale())
+            .collect(Collectors.toMap(Locale::getLanguage, l -> l, (l1, l2) -> l1)).values().stream()
+            .map(l -> new SelectItem(l.getLanguage(), l.getDisplayLanguage()))
             .collect(Collectors.toList());
   }
   

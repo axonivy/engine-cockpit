@@ -43,6 +43,8 @@
               </div>
               <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
                 <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
+                  <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
+                  <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
                   <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
                     <a href="#{activity.detailView}">
                       <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">

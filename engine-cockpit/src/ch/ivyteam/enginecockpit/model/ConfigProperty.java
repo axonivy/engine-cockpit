@@ -49,9 +49,9 @@ public class ConfigProperty
   {
     int prefixString = source.lastIndexOf(',');
     if(prefixString > 0) {
-      return source.substring(source.lastIndexOf(File.separator) + 1, prefixString);
+      return source.substring(source.lastIndexOf("/") + 1, prefixString);
     }
-    return source.substring(source.lastIndexOf(File.separator) + 1);
+    return source.substring(source.lastIndexOf("/") + 1);
   }
 
   public void setSource(String source)
