@@ -118,7 +118,7 @@ public class ManagerBean
 
   public long getApplicationCount()
   {
-    return manager.countApplications();
+    return getApplications().size();
   }
   
   public int getUsersCount()
