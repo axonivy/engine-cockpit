@@ -16,7 +16,7 @@
     rendered="#{securityBean.anySyncRunningOrNewLog}" type="button" />
   <p:overlayPanel rendered="#{securityBean.anySyncRunningOrNewLog}" id="adSyncLog" for="showAdSyncLogBtn"
     hideEffect="fade">
-    <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto;" readonly="true" id="logViewer"
+    <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto; background-image: none;" readonly="true" id="logViewer"
       value="#{securityBean.logs}" rows="1" />
   </p:overlayPanel>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">

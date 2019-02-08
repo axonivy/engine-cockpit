@@ -25,5 +25,7 @@
     <p:outputLabel value="#{applicationDetailBean.application.state}"
       styleClass="activity-state-#{applicationDetailBean.application.stateLowerCase}" />
   </p:panelGrid>
+  <p:poll listener="#{applicationDetailBean.application.updateStats}" update="@form"
+    autoStart="#{applicationDetailBean.application.operating}" interval="1" />
 </h:form>
 </html>

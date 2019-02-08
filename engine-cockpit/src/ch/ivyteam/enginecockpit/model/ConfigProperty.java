@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.model;
 
-import java.io.File;
-
 import ch.ivyteam.ivy.configuration.restricted.Property;
 
 @SuppressWarnings("restriction")

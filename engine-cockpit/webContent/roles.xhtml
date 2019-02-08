@@ -54,6 +54,7 @@
                       <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
                         <h:outputText value="#{role.name}" />
                         <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+                        <h:outputText value=" [Linked to '#{role.externalName}']" rendered="#{not empty role.externalName}" styleClass="addition-row-info"/>
                       </a>
                     </p:treeNode>
                   </p:tree>
