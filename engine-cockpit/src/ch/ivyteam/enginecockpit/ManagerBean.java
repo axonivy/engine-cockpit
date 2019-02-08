@@ -123,7 +123,7 @@ public class ManagerBean
   
   public int getUsersCount()
   {
-    return getIApplicaitons().stream().mapToInt(app -> app.getSecurityContext().getUsers().size()).sum();
+    return getIApplicaitons().stream().mapToInt(app -> app.getSecurityContext().getUsers().size() - 1).sum();
   }
   
   public long getRunningCasesCount()

@@ -45,6 +45,7 @@ public class UserBean
   private List<User> getUsersOfApp(IApplication app)
   {
     List<User> appUsers = app.getSecurityContext().getUsers().stream()
+            .filter(user -> !user.getName().equals("SYSTEM"))
             .map(user -> new User(user))
             .collect(Collectors.toList());
     checkIfUserIsLoggedIn(app, appUsers);

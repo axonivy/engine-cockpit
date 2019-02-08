@@ -21,7 +21,7 @@ public class SecuritySystem
     securitySystemProvider = securityContext.getExternalSecuritySystemProvider().getProviderName();
     id = securityContext.getId();
     this.appName = appName;
-    this.usersCount = securityContext.getUsers().size();
+    this.usersCount = securityContext.getUsers().size() - 1;
     this.rolesCount = securityContext.getRoles().size();
   }
 

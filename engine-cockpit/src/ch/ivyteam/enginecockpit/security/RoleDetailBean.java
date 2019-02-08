@@ -158,7 +158,9 @@ public class RoleDetailBean
 
   private void loadUsersOfRole()
   {
-    usersOfRole = getIRole().getUsers().stream().map(u -> new User(u))
+    usersOfRole = getIRole().getUsers().stream()
+            .filter(u -> !u.getName().equals("SYSTEM"))
+            .map(u -> new User(u))
             .collect(Collectors.toList());
   }
 

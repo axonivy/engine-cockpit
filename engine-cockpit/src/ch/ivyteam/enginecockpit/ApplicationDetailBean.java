@@ -79,7 +79,7 @@ public class ApplicationDetailBean
   
   public int getUsersCount()
   {
-    return getIApplication().getSecurityContext().getUsers().size();
+    return security.getUsersCount();
   }
   
   public long getCasesCount()
