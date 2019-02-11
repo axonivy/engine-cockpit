@@ -46,16 +46,16 @@ public class UserBean
   private List<User> getUsersOfApp(IApplication app)
   {
     List<User> appUsers = app.getSecurityContext().getUsers().stream()
-            .filter(UserBean::isSystemUser)
+            .filter(UserBean::isNotSystemUser)
             .map(user -> new User(user))
             .collect(Collectors.toList());
     checkIfUserIsLoggedIn(app, appUsers);
     return appUsers;
   }
 
-  public static boolean isSystemUser(IUser user)
+  public static boolean isNotSystemUser(IUser user)
   {
-    return user.getName().equals("SYSTEM");
+    return !user.getName().equals("SYSTEM");
   }
 
   private void checkIfUserIsLoggedIn(IApplication app, List<User> appUsers)
