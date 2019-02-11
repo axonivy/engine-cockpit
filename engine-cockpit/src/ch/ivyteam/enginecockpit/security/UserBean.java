@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.SessionInfo;
 
 @ManagedBean
@@ -45,10 +46,16 @@ public class UserBean
   private List<User> getUsersOfApp(IApplication app)
   {
     List<User> appUsers = app.getSecurityContext().getUsers().stream()
+            .filter(UserBean::isSystemUser)
             .map(user -> new User(user))
             .collect(Collectors.toList());
     checkIfUserIsLoggedIn(app, appUsers);
     return appUsers;
+  }
+
+  public static boolean isSystemUser(IUser user)
+  {
+    return user.getName().equals("SYSTEM");
   }
 
   private void checkIfUserIsLoggedIn(IApplication app, List<User> appUsers)

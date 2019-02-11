@@ -18,7 +18,6 @@ public class SynchronizationLogger implements SynchronizationListener
 
   public List<String> getSynchronizationLogMessages()
   {
-    newLogAwailable = false;
     return synchronizationLogMessages;
   }
   

@@ -118,12 +118,12 @@ public class ManagerBean
 
   public long getApplicationCount()
   {
-    return manager.countApplications();
+    return getApplications().size();
   }
   
   public int getUsersCount()
   {
-    return getIApplicaitons().stream().mapToInt(app -> app.getSecurityContext().getUsers().size()).sum();
+    return getIApplicaitons().stream().mapToInt(app -> app.getSecurityContext().getUsers().size() - 1).sum();
   }
   
   public long getRunningCasesCount()
@@ -147,8 +147,11 @@ public class ManagerBean
   
   public List<SelectItem> getSupportedLanguages()
   {
+    //Fix for PortalKit (creates a second german language)
     return manager.getLanguages().stream()
-            .map(l -> new SelectItem(l.getLocale().getLanguage(), l.getLocale().getDisplayLanguage()))
+            .map(l -> l.getLocale())
+            .collect(Collectors.toMap(Locale::getLanguage, l -> l, (l1, l2) -> l1)).values().stream()
+            .map(l -> new SelectItem(l.getLanguage(), l.getDisplayLanguage()))
             .collect(Collectors.toList());
   }
   

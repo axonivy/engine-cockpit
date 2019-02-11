@@ -16,6 +16,8 @@
     </div>
   </div>
   <p:treeTable id="rolesTree" value="#{roleBean.roles}" var="role">
+    <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
+    <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
     <p:column headerText="All Roles" sortBy="#{role.name}">
       <a href="roledetail.xhtml?roleName=#{role.name}">
         <h:outputText value="#{role.name}" styleClass="role-name">

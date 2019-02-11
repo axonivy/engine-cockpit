@@ -214,6 +214,7 @@ public class ApplicationBean
     this.deleteName = "";
     this.deleteNameAppId = -1;
     reloadActivities();
+    managerBean.reloadApplications();
   }
   
   public void deleteApp()
