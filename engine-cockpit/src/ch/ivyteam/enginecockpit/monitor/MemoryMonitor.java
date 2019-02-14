@@ -1,5 +1,8 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartSeries;
@@ -11,6 +14,11 @@ public class MemoryMonitor extends Monitor
   private LineChartSeries memoryLoad;
   private LineChartSeries jvmMemory;
   private LineChartSeries totalJvmMemory;
+  
+  private Map<Object, Number> memData;
+  private Map<Object, Number> jvmData;
+  private Map<Object, Number> totData;
+  
   private GlobalMemory memory;
   private double maxMem;
   private double totalJvmMem;
@@ -36,17 +44,25 @@ public class MemoryMonitor extends Monitor
     Axis xAxis = model.getAxis(AxisType.X);
     xAxis.setTickCount(11);
     xAxis.setLabel("Time [s]");
+    
+    memData = new LinkedHashMap<>();
+    jvmData = new LinkedHashMap<>();
+    totData = new LinkedHashMap<>();
+    
     memoryLoad = new LineChartSeries();
     memoryLoad.setFill(true);
     memoryLoad.setSmoothLine(true);
     memoryLoad.setLabel("Memory usage");
+    memoryLoad.setData(memData);
     jvmMemory = new LineChartSeries();
     jvmMemory.setFill(true);
     jvmMemory.setSmoothLine(true);
     jvmMemory.setLabel("Jvm memory usage");
+    jvmMemory.setData(jvmData);
     totalJvmMemory = new LineChartSeries();
     totalJvmMemory.setShowMarker(false);
     totalJvmMemory.setLabel("Jvm max memory");
+    totalJvmMemory.setData(totData);
     model.addSeries(memoryLoad);
     model.addSeries(jvmMemory);
     model.addSeries(totalJvmMemory);
@@ -76,10 +92,15 @@ public class MemoryMonitor extends Monitor
     actualSec = time;
     setXAxis(actualSec);
     actualMem = (maxMem - memory.getAvailable()) / 1000000000.0;
-    memoryLoad.set(actualSec, actualMem);
     actualJvmMem = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000000.0;
-    jvmMemory.set(actualSec, actualJvmMem);
-    totalJvmMemory.set(actualSec, totalJvmMem);
+    
+    memData.put(actualSec, actualMem);
+    jvmData.put(actualSec, actualJvmMem);
+    totData.put(actualSec, totalJvmMem);
+    
+    cleanUpOldData(memData);
+    cleanUpOldData(jvmData);
+    cleanUpOldData(totData);
   }
   
 }

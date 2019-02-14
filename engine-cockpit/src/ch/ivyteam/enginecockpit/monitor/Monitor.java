@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import java.util.Calendar;
+import java.util.Map;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -18,6 +19,7 @@ public abstract class Monitor
   protected long actualSec;
   protected long pausedMilliSec;
   protected LineChartModel model;
+  protected static final int MAX_TIME_VIEW = 600;
 
   public Monitor()
   {
@@ -55,17 +57,13 @@ public abstract class Monitor
   
   protected void setXAxis(long max)
   {
-    long min = max - 60;
+    long min = max - MAX_TIME_VIEW;
     Axis xAxis = model.getAxis(AxisType.X);
     xAxis.setMax(max);
     xAxis.setMin(min);
     if (min < 0)
     {
       xAxis.setMin(0);
-    }
-    if (max < 60)
-    {
-      xAxis.setMax(60);
     }
   }
   
@@ -97,5 +95,13 @@ public abstract class Monitor
   public void resetMonitor()
   {
     initMonitor();
+  }
+  
+  protected void cleanUpOldData(Map<Object, Number> data)
+  {
+    if (data.size() > MAX_TIME_VIEW)
+    {
+      data.remove(data.keySet().iterator().next());
+    }
   }
 }

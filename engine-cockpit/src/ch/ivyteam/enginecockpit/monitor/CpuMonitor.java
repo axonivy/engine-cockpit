@@ -1,5 +1,8 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartSeries;
@@ -7,6 +10,7 @@ import org.primefaces.model.chart.LineChartSeries;
 public class CpuMonitor extends Monitor
 {
   private LineChartSeries cpuLoad;
+  private Map<Object, Number> cpuData;
   private double actualCpuLoad;
   private int cores;
   private int threads;
@@ -27,9 +31,12 @@ public class CpuMonitor extends Monitor
     Axis xAxis = model.getAxis(AxisType.X);
     xAxis.setTickCount(11);
     xAxis.setLabel("Time [s]");
+    cpuData = new LinkedHashMap<>();
+    
     cpuLoad = new LineChartSeries();
     cpuLoad.setFill(true);
     cpuLoad.setSmoothLine(true);
+    cpuLoad.setData(cpuData);
     model.addSeries(cpuLoad);
     
     cores = hardware.getProcessor().getPhysicalProcessorCount();
@@ -58,7 +65,8 @@ public class CpuMonitor extends Monitor
     actualSec = time;
     setXAxis(actualSec);
     actualCpuLoad = hardware.getProcessor().getSystemCpuLoad() * 100;
-    cpuLoad.set(actualSec, actualCpuLoad);
+    cpuData.put(actualSec, actualCpuLoad);
+    cleanUpOldData(cpuData);
   }
-
+  
 }

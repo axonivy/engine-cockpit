@@ -7,18 +7,6 @@
 </cc:interface>
 <cc:implementation>
   <h:form>
-    <p:commandButton id="resetMonitor" title="Reset monitor" type="button" icon="ui-icon-refresh"
-      styleClass="secondary-btn card-button">
-      <p:ajax update="@form" listener="#{cc.attrs.monitor.resetMonitor}" />
-    </p:commandButton>
-    <p:commandButton id="pauseMonitor" title="Pause monitor" type="button" icon="ui-icon-pause"
-      styleClass="#{cc.attrs.monitor.running ? 'secondary-btn' : 'amber-btn'} card-button">
-      <p:ajax update="@form" listener="#{cc.attrs.monitor.pauseMonitor}" />
-    </p:commandButton>
-    <p:commandButton id="startMonitor" title="Start monitor" type="button" icon="ui-icon-play-arrow"
-      styleClass="#{cc.attrs.monitor.running ? 'amber-btn' : 'secondary-btn'} card-button">
-      <p:ajax update="@form" listener="#{cc.attrs.monitor.startMonitor}" />
-    </p:commandButton>
     <h:outputText value="#{cc.attrs.monitor.info}"/>
     <p:chart type="line" model="#{cc.attrs.monitor.model}" responsive="true" style="height:300px;" />
     <p:poll update="@form" interval="1" autoStart="#{cc.attrs.monitor.running}" />

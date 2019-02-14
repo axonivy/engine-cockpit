@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -10,6 +12,9 @@ public class NetworkMonitor extends Monitor
 {
   private LineChartSeries networkSend;
   private LineChartSeries networkResv;
+  
+  private Map<Object, Number> sendData;
+  private Map<Object, Number> resvData;
   
   private long totalSend;
   private long totalResv;
@@ -31,12 +36,20 @@ public class NetworkMonitor extends Monitor
     Axis xAxis = model.getAxis(AxisType.X);
     xAxis.setTickCount(11);
     xAxis.setLabel("Time [s]");
+    
+    sendData = new LinkedHashMap<>();
+    resvData = new LinkedHashMap<>();
+    
     networkSend = new LineChartSeries();
     networkSend.setSmoothLine(true);
     networkSend.setLabel("Send");
+    networkSend.setData(sendData);
+    networkSend.setShowMarker(false);
     networkResv = new LineChartSeries();
     networkResv.setSmoothLine(true);
     networkResv.setLabel("Resv");
+    networkResv.setData(resvData);
+    networkResv.setShowMarker(false);
     model.setLegendPosition("ne");
     model.addSeries(networkSend);
     model.addSeries(networkResv);
@@ -67,10 +80,12 @@ public class NetworkMonitor extends Monitor
     setXAxis(actualSec);
     actualSend = Arrays.asList(hardware.getNetworkIFs()).stream().mapToLong(n -> n.getBytesSent()).sum() - totalSend;
     actualResv = Arrays.asList(hardware.getNetworkIFs()).stream().mapToLong(n -> n.getBytesRecv()).sum() - totalResv;
-    networkSend.set(actualSec, actualSend / 1000);
-    networkResv.set(actualSec, actualResv / 1000);
+    sendData.put(actualSec, actualSend / 1000);
+    resvData.put(actualSec, actualResv / 1000);
     totalSend += actualSend;
     totalResv += actualResv;
+    cleanUpOldData(sendData);
+    cleanUpOldData(resvData);
   }
 
 }
