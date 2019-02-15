@@ -3,6 +3,10 @@ pipeline {
     dockerfile true
   }
   
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '60', artifactNumToKeepStr: '5'))
+  }
+  
   triggers {
     pollSCM '@hourly'
     cron '@midnight'
