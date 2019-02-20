@@ -17,9 +17,11 @@
     <p:outputLabel value="Notification send:" for="checkboxNotification" />
     <p:panelGrid id="checkboxNotification" columns="2" layout="grid"
       styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive">
-      <p:selectBooleanCheckbox id="neverCheckbox" value="#{cc.attrs.emailSettings.notificationDisabled}"
-        disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}" style="float: left;">
-        <p:outputLabel value="Never" styleClass="#{cc.attrs.emailSettings.notificationCheckboxDisabled ? 'ui-state-disabled' : ''}" />
+      <p:selectBooleanCheckbox rendered="#{cc.attrs.emailSettings.notificationCheckboxRender}" id="neverCheckbox"
+        value="#{cc.attrs.emailSettings.notificationDisabled}" disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}"
+        style="float: left;">
+        <p:outputLabel value="Never"
+          styleClass="#{cc.attrs.emailSettings.notificationCheckboxDisabled ? 'ui-state-disabled' : ''}" />
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
       <p:selectBooleanCheckbox id="taskCheckbox" value="#{cc.attrs.emailSettings.sendOnNewWorkTasks}"

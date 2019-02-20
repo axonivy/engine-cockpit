@@ -15,6 +15,7 @@ public class EmailSettings
 {
   private Locale language;
   private boolean notificationDisabled;
+  private boolean notificationCheckboxRender = true;
   private boolean sendOnNewWorkTasks;
   private boolean useApplicationDefault;
   private String[] sendDailyTasks;
@@ -65,6 +66,16 @@ public class EmailSettings
     return this.language;
   }
 
+  public boolean isNotificationCheckboxRender()
+  {
+    return notificationCheckboxRender;
+  }
+  
+  public void setNotificationCheckboxRender(boolean render)
+  {
+    this.notificationCheckboxRender = render;
+  }
+  
   public boolean isNotificationDisabled()
   {
     return notificationDisabled;
