@@ -58,24 +58,15 @@ public class WebTestEmail extends WebTestBase
     
     PrimeUi primeUi = new PrimeUi(driver);
     
-    String neverCheckboxId = driver.findElementByXPath("//div[contains(@id, 'applicationTabView:0:emailSetting:neverCheckbox')]").getAttribute("id");
     String taskCheckboxId = driver.findElementByXPath("//div[contains(@id, 'applicationTabView:0:emailSetting:taskCheckbox')]").getAttribute("id");
     String dailyCheckboxesId = driver.findElementByXPath("//div[contains(@id, 'applicationTabView:0:emailSetting:radioDailyNotification')]").getAttribute("id");
     String saveEmailSettingsBtnId = driver.findElementByXPath("//button[contains(@id, 'applicationTabView:0:saveEmailSettings')]").getAttribute("id");
-    SelectBooleanCheckbox neverCheckbox = primeUi.selectBooleanCheckbox(new By.ById(neverCheckboxId));
     SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(new By.ById(taskCheckboxId));
     SelectManyCheckbox dailyCheckbox = primeUi.selectManyCheckbox(By.id(dailyCheckboxesId));
-    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isTrue());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isFalse());
-    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
-    await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
-    await().untilAsserted(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty());
-    
-    neverCheckbox.removeChecked();
-    saveScreenshot(driver, "never_unchecked");
-    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isFalse());
     await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
     await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse());
+    await().untilAsserted(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty());
     
     List<String> days = new ArrayList<String>(Arrays.asList("Tue", "Wed", "Thu", "Sat"));
     dailyCheckbox.setCheckboxes(days);
@@ -84,7 +75,6 @@ public class WebTestEmail extends WebTestBase
     
     taskCheckbox.setChecked();
     saveScreenshot(driver, "task_checked");
-    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isFalse());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isTrue());
     await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse());
     driver.findElementById(saveEmailSettingsBtnId).click();
@@ -93,7 +83,6 @@ public class WebTestEmail extends WebTestBase
 
     driver.navigate().refresh();
     saveScreenshot(driver, "refresh");
-    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isFalse());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isTrue());
     await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
     await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse());
@@ -101,13 +90,11 @@ public class WebTestEmail extends WebTestBase
     
     dailyCheckbox.clear();
     taskCheckbox.removeChecked();
-    neverCheckbox.setChecked();
     driver.findElementById(saveEmailSettingsBtnId).click();
     saveScreenshot(driver, "undo_changes");
-    await().untilAsserted(() -> assertThat(neverCheckbox.isChecked()).isTrue());
     await().untilAsserted(() -> assertThat(taskCheckbox.isChecked()).isFalse());
-    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
-    await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
+    await().untilAsserted(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
+    await().untilAsserted(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse());
     await().untilAsserted(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty());
   }
 
