@@ -170,6 +170,7 @@ public class ApplicationBean
   public void reloadEmailSettings()
   {
     emailSettings = new EmailSettings(managerBean.getSelectedIApplication());
+    emailSettings.setNotificationCheckboxRender(false);
   }
   
   public EmailSettings getEmailSettings()
