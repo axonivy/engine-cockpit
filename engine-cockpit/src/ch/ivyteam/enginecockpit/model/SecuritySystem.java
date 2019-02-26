@@ -13,7 +13,7 @@ public class SecuritySystem
   private String appName;
   private int usersCount;
   private int rolesCount;
-
+  
   public SecuritySystem(ISecurityContext securityContext, String appName)
   {
     securitySystemName = IConfiguration.get().get("Applications." + appName + ".SecuritySystem")
@@ -73,5 +73,10 @@ public class SecuritySystem
   public int getRolesCount()
   {
     return rolesCount;
+  }
+  
+  public String getConfiguration(String key)
+  {
+    return IConfiguration.get().get("SecuritySystems." + securitySystemName + "." + key).orElse("");
   }
 }
