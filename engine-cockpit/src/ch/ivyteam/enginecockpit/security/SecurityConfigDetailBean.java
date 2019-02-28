@@ -29,7 +29,7 @@ public class SecurityConfigDetailBean
 	private String password;
 	private boolean useLdapConnectionPool;
 	private String derefAlias;
-	private String protocol;
+	private boolean ssl;
 	private String referral;
 	private String defaultContext;
 	private String importUsersOfGroup;
@@ -49,12 +49,13 @@ public class SecurityConfigDetailBean
 		protocols = Arrays.asList("", "ssl");
 		referrals = Arrays.asList("follow", "ignore", "throw");
 		
+		provider = system.getConfiguration("Provider");
 		url = system.getConfiguration("Connection.Url");
 		userName = system.getConfiguration("Connection.UserName");
 		password = system.getConfiguration("Connection.Password");
 		useLdapConnectionPool = Boolean.valueOf(system.getConfiguration("Connection.UseLdapConnectionPool"));
 		derefAlias = system.getConfiguration("Connection.Environment.java.naming.ldap.derefAliases");
-		protocol = system.getConfiguration("Connection.Environment.java.naming.security.protocol");
+		ssl = system.getConfiguration("Connection.Environment.java.naming.security.protocol").equalsIgnoreCase("ssl");
 		referral = system.getConfiguration("Connection.Environment.java.naming.referral");
 		defaultContext = system.getConfiguration("Binding.DefaultContext");
 		importUsersOfGroup = system.getConfiguration("Binding.ImportUsersOfGroup");
@@ -62,11 +63,13 @@ public class SecurityConfigDetailBean
 		updateTime = system.getConfiguration("UpdateTime");
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -130,14 +133,14 @@ public class SecurityConfigDetailBean
 		this.derefAlias = derefAlias;
 	}
 	
-	public String getProtocol()
+	public boolean getSsl()
 	{
-		return protocol;
+		return ssl;
 	}
 	
-	public void setProtocol(String protocol)
+	public void setSsl(boolean ssl)
 	{
-		this.protocol = protocol;
+		this.ssl = ssl;
 	}
 	
 	public String getReferral()

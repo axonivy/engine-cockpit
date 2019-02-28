@@ -13,7 +13,6 @@ import org.primefaces.event.CellEditEvent;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.LdapProperty;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
