@@ -47,12 +47,16 @@
   </p:panelGrid>
 
   <p:dataTable value="#{securityLdapDetailBean.properties}"
-    var="property" editable="true" editMode="cell" id="ldapPropertiesTable">
-    <f:facet name="header">LDAP Properties Mapping</f:facet>
+    var="property" editable="true" editMode="cell"
+    id="ldapPropertiesTable">
+    <f:facet name="header">
+        LDAP Properties Mapping
+    </f:facet>
 
-    <p:ajax event="cellEdit" listener="#{securityLdapDetailBean.onCellEdit}" update=":securityLdapForm:ldapPropertiesTable" /> 
+    <p:ajax event="cellEdit"
+      listener="#{securityLdapDetailBean.onCellEdit}" />
 
-    <p:column headerText="Name">
+    <p:column headerText="Name" style="height:10px">
       <p:cellEditor>
         <f:facet name="output">
           <h:outputText value="#{property.name}" />
@@ -74,6 +78,9 @@
       </p:cellEditor>
     </p:column>
   </p:dataTable>
+
+  <p:commandButton id="addRowBtn" value="Add attribute"
+    icon="ui-icon-plus" update=":securityLdapForm:ldapPropertiesTable" style="width: 25%; float: right"/>
 
 </h:form>
 </html>
