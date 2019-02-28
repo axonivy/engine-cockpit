@@ -1,11 +1,19 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.CellEditEvent;
+
 import ch.ivyteam.enginecockpit.ManagerBean;
+import ch.ivyteam.enginecockpit.model.LdapProperty;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -22,6 +30,7 @@ public class SecurityLdapDetailBean
 	private boolean useUserMemberOfForUserRoleMembership;
 	private String userGroupMemberOfAttribute;
 	private String userGroupMembersAttribute;
+	private List<LdapProperty> properties;
 
 	public SecurityLdapDetailBean() 
 	{
@@ -39,6 +48,14 @@ public class SecurityLdapDetailBean
 		useUserMemberOfForUserRoleMembership = Boolean.valueOf(system.getConfiguration("Membership.UseUserMemberOfForUserRoleMembership"));
 		userGroupMemberOfAttribute = system.getConfiguration("Membership.UserGroupMemberOfAttribute");
 		userGroupMembersAttribute = system.getConfiguration("Membership.UserGroupMembersAttribute");
+		
+		properties = new ArrayList<>();
+		Map<String, String> yamlProperties = system.getConfigurationMap("UserAttribute.Properties");
+		for (String key : yamlProperties.keySet())
+		{
+			properties.add(new LdapProperty(key, yamlProperties.get(key)));
+		}
+		properties.add(new LdapProperty());
 	}
 
 	public String getUserName()
@@ -120,4 +137,22 @@ public class SecurityLdapDetailBean
 	{
 		this.userGroupMembersAttribute = userGroupMembersAttribute;
 	}
+	
+	public List<LdapProperty> getProperties()
+	{
+		return properties;
+	}	
+	
+	public void setProperties(List<LdapProperty> properties)
+	{
+		this.properties = properties;
+	}
+	
+    public void onCellEdit(CellEditEvent event)
+    {
+    	if (properties.stream().noneMatch(property -> !property.isComplete()))
+    	{
+    		properties.add(new LdapProperty());
+    	}
+    }
 }

@@ -32,7 +32,7 @@
       <label>Use LDAP Connection Pool</label>
       <p:selectBooleanCheckbox id="ldapConnectionPool" value="#{securityConfigDetailBean.useLdapConnectionPool}" />
       
-      <label>derefAliases</label>
+      <label>Dereference Aliases</label>
       <p:selectOneMenu id="derefAliasesDropDown" value="#{securityConfigDetailBean.derefAlias}">
         <f:selectItems value="#{securityConfigDetailBean.derefAliases}" />
         <p:ajax update="@form" />

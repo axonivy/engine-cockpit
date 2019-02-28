@@ -45,9 +45,9 @@ public class SecurityConfigDetailBean
 				managerBean.getSelectedIApplication().getName());
 		
 		providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
-		derefAliases = Arrays.asList("", "always", "never", "finding", "searching");
+		derefAliases = Arrays.asList("always", "never", "finding", "searching");
 		protocols = Arrays.asList("", "ssl");
-		referrals = Arrays.asList("", "follow", "ignore", "throw");
+		referrals = Arrays.asList("follow", "ignore", "throw");
 		
 		url = system.getConfiguration("Connection.Url");
 		userName = system.getConfiguration("Connection.UserName");

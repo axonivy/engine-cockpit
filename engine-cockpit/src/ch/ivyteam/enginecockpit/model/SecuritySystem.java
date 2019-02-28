@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.Map;
+
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
@@ -78,5 +80,10 @@ public class SecuritySystem
   public String getConfiguration(String key)
   {
     return IConfiguration.get().get("SecuritySystems." + securitySystemName + "." + key).orElse("");
+  }
+  
+  public Map<String, String> getConfigurationMap(String key)
+  {
+    return IConfiguration.get().getMap("SecuritySystems." + securitySystemName + "." + key);
   }
 }
