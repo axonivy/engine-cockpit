@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -171,5 +172,8 @@ public class SecurityLdapDetailBean
 		properties.stream()
 		  .filter(prop -> StringUtils.isNotBlank(prop.getName()))
 		  .forEach(prop -> system.setConfiguration("UserAttribute.Properties." + prop.getName(), prop.getLdapAttribute()));
+		
+	    FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
+	            new FacesMessage("Security System LDAP Attributes saved"));
 	}
 }

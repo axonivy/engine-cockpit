@@ -46,12 +46,6 @@
                   src="components/security/securitysystem-ldap.xhtml" />
               </p:panel>
             </div>
-            
-            <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
-            <p:commandButton value="Save" icon="ui-icon-save" id="saveSecuritySystemConfigBtn">
-                <f:actionListener binding="#{securityConfigDetailBean.saveConfiguration()}" />
-                <f:actionListener binding="#{securityLdapDetailBean.saveConfiguration()}" />
-            </p:commandButton>
 
           </div>
         </div>

@@ -9,6 +9,10 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <h:form id="securityLdapForm">
+  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
+  <p:commandButton title="Save" icon="ui-icon-save"
+    styleClass="primary-btn card-button spin-icon" action="#{securityLdapDetailBean.saveConfiguration}">
+  </p:commandButton>
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
     layout="grid" styleClass="ui-panelgrid-blank">
