@@ -7,6 +7,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.Property;
@@ -37,14 +38,14 @@ public class ApplicationDetailBean
   {
     this.appName = appName;
     app = managerBean.getApplications().stream().filter(a -> a.getName().equals(appName)).findFirst().get();
-    security = new SecuritySystem(getIApplication().getSecurityContext(), appName);
+    security = initSecuritySystem(appName);
     List<IProperty> configurationProperties = getIApplication().getConfigurationProperties();
     properties = configurationProperties.stream().filter(p -> !p.getValue().isEmpty())
             .map(p -> new Property(p)).collect(Collectors.toList());
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
   }
-  
+
   public String getAppName()
   {
     return appName;
@@ -108,5 +109,16 @@ public class ApplicationDetailBean
   private IApplication getIApplication()
   {
     return managerBean.getIApplication(app.getId());
+  }
+  
+  private SecuritySystem initSecuritySystem(String appName)
+  {
+  	return new SecuritySystem(getIApplication().getSecurityContext(), appName);
+  }
+  
+  public void setSecuritySystem(ValueChangeEvent event)
+  {
+	app.setSecuritySystem(event.getNewValue().toString());
+	security = initSecuritySystem(getAppName());
   }
 }

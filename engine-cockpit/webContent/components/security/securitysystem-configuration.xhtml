@@ -13,7 +13,7 @@
     layout="grid" styleClass="ui-panelgrid-blank">
 
     <p:outputLabel value="Provider" />
-    <p:selectOneMenu id="activeEnvironmentSelect"
+    <p:selectOneMenu id="providerSelect"
       value="#{securityConfigDetailBean.provider}" valueChangeListener="#{securityDefaultValueBean.switchProvider}">
       <f:selectItems value="#{securityConfigDetailBean.providers}" />
       <p:ajax update="@(form), userFilter" />

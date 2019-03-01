@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
@@ -11,9 +12,11 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.SynchronizationLogger;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("restriction")
 public class SecurityBean
 {
   private List<SecuritySystem> systems;
@@ -35,6 +38,13 @@ public class SecurityBean
   public List<SecuritySystem> getSecuritySystems()
   {
     return systems;
+  }
+  
+  public Set<String> getAvailableSecuritySystems()
+  {
+	Set<String> names = IConfiguration.get().getNames("SecuritySystems");
+	names.add("ivy Security System");
+	return names;
   }
 
   public void triggerSynchronization(String appName)
