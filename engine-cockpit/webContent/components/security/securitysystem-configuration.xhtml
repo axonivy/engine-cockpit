@@ -72,7 +72,9 @@
       <f:selectItems value="#{securityConfigDetailBean.referrals}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
-
+    
+    <label>Used by</label>
+    <p:outputLabel value="#{securityConfigDetailBean.usedByApps}"></p:outputLabel>
   </p:panelGrid>
 </h:form>
 </html>

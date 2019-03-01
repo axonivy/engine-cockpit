@@ -2,11 +2,14 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+import org.apache.commons.codec.binary.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
@@ -18,6 +21,7 @@ public class SecurityConfigDetailBean
 	private String name;
 	private ManagerBean managerBean;
 	private SecuritySystem system;
+	private List<String> usedByApps;
 
 	private List<String> providers;
 	private List<String> derefAliases;
@@ -44,6 +48,11 @@ public class SecurityConfigDetailBean
 
 		system = new SecuritySystem(managerBean.getSelectedIApplication().getSecurityContext(),
 				managerBean.getSelectedIApplication().getName());
+		
+		usedByApps = managerBean.getApplications().stream()
+				.filter(app -> StringUtils.equals(app.getSecuritySystemName(), system.getSecuritySystemName()))
+				.map(app -> app.getName())
+				.collect(Collectors.toList());
 		
 		providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
 		derefAliases = Arrays.asList("", "never", "finding", "searching");
@@ -72,6 +81,11 @@ public class SecurityConfigDetailBean
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	public List<String> getUsedByApps()
+	{
+		return usedByApps;
 	}
 
 	public String getProvider()

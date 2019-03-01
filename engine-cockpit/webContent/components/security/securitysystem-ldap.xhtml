@@ -46,6 +46,7 @@
       value="#{securityLdapDetailBean.userGroupMembersAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userGroupMembersAttribute}"/>
   </p:panelGrid>
 
+  <p:separator style="height:20px; border: none;"/>
   <p:dataTable value="#{securityLdapDetailBean.properties}"
     var="property" editable="true" editMode="cell"
     id="ldapPropertiesTable">

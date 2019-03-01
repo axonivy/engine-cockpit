@@ -2,8 +2,10 @@ package ch.ivyteam.enginecockpit.model;
 
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
+@SuppressWarnings("restriction")
 public class Application extends AbstractActivity
 {
   
@@ -111,6 +113,11 @@ public class Application extends AbstractActivity
   public String getActivityType()
   {
     return AbstractActivity.APP;
+  }
+  
+  public String getSecuritySystemName()
+  {
+	return IConfiguration.get().get("Applications." + getName() + ".SecuritySystem").orElse("");
   }
   
 }
