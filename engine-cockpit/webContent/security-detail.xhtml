@@ -32,7 +32,7 @@
             <div
               class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
               <p:panel header="#{securityConfigDetailBean.name}"
-                styleClass="min-height-700">
+                styleClass="min-height-600">
                 <ui:include
                   src="components/security/securitysystem-configuration.xhtml" />
               </p:panel>
@@ -41,11 +41,17 @@
             <div
               class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
               <p:panel header="LDAP Attributes"
-                styleClass="min-height-700">
+                styleClass="min-height-600">
                 <ui:include
                   src="components/security/securitysystem-ldap.xhtml" />
               </p:panel>
             </div>
+            
+            <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
+            <p:commandButton value="Save" icon="ui-icon-save" id="saveSecuritySystemConfigBtn">
+                <f:actionListener binding="#{securityConfigDetailBean.saveConfiguration()}" />
+                <f:actionListener binding="#{securityLdapDetailBean.saveConfiguration()}" />
+            </p:commandButton>
 
           </div>
         </div>

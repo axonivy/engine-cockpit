@@ -39,22 +39,6 @@
     <p:selectBooleanCheckbox id="useSsl"
       value="#{securityConfigDetailBean.ssl}" />
       
-    <label>Dereference Aliases</label>
-    <p:selectOneMenu id="derefAliasesDropDown"
-      value="#{securityConfigDetailBean.derefAlias}"
-      placeholder="#{securityDefaultValueBean.derefaliases}">
-      <f:selectItems value="#{securityConfigDetailBean.derefAliases}" />
-      <p:ajax update="@form" />
-    </p:selectOneMenu>
-
-    <label>Referral</label>
-    <p:selectOneMenu id="ReferralDropDown"
-      value="#{securityConfigDetailBean.referral}"
-      placeholder="#{securityDefaultValueBean.referral}">
-      <f:selectItems value="#{securityConfigDetailBean.referrals}" />
-      <p:ajax update="@form" />
-    </p:selectOneMenu>
-
     <label>Default Context</label>
     <p:inputText id="defaultContext"
       value="#{securityConfigDetailBean.defaultContext}" />
@@ -72,6 +56,22 @@
     <p:inputText id="syncTime"
       value="#{securityConfigDetailBean.updateTime}"
       placeholder="#{securityDefaultValueBean.updatetime}" />
+      
+    <label>Dereference Aliases</label>
+    <p:selectOneMenu id="derefAliasesDropDown"
+      value="#{securityConfigDetailBean.derefAlias}"
+      placeholder="always">
+      <f:selectItems value="#{securityConfigDetailBean.derefAliases}" />
+      <p:ajax update="@form" />
+    </p:selectOneMenu>
+
+    <label>Referral</label>
+    <p:selectOneMenu id="ReferralDropDown"
+      value="#{securityConfigDetailBean.referral}"
+      placeholder="follow">
+      <f:selectItems value="#{securityConfigDetailBean.referrals}" />
+      <p:ajax update="@form" />
+    </p:selectOneMenu>
 
   </p:panelGrid>
 </h:form>

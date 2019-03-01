@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.CellEditEvent;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
@@ -154,4 +155,21 @@ public class SecurityLdapDetailBean
     		properties.add(new LdapProperty());
     	}
     }
+    
+	public void saveConfiguration()
+	{
+		system.setConfiguration("UserAttribute.Name", this.userName);
+		system.setConfiguration("UserAttribute.FullName", this.fullName);
+		system.setConfiguration("UserAttribute.EMail", this.email);
+		system.setConfiguration("UserAttribute.Language", this.language);
+		system.setConfiguration("Membership.UserMemberOfAttribute", this.userMemberOfAttribute);
+		system.setConfiguration("Membership.UseUserMemberOfForUserRoleMembership", String.valueOf(this.useUserMemberOfForUserRoleMembership));
+		system.setConfiguration("Membership.UserGroupMemberOfAttribute", this.userGroupMemberOfAttribute);
+		system.setConfiguration("Membership.UserGroupMembersAttribute", this.userGroupMembersAttribute);
+		
+		system.cleanLdapPropertiesMapping();
+		properties.stream()
+		  .filter(prop -> StringUtils.isNotBlank(prop.getName()))
+		  .forEach(prop -> system.setConfiguration("UserAttribute.Properties." + prop.getName(), prop.getLdapAttribute()));
+	}
 }

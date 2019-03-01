@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.model;
 
 public class LdapProperty {
 	
-	String name;
-	String ldapAttribute;
+	private String name;
+	private String ldapAttribute;
 	
 	public LdapProperty()
 	{

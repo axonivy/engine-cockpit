@@ -7,6 +7,7 @@ import javax.faces.event.ValueChangeEvent;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.enginecockpit.model.SecuritySystemDefaultValues;
 
 @ManagedBean
 @ViewScoped
@@ -14,15 +15,11 @@ public class SecurityDefaultValueBean
 {
 	private SpecificDefaults specificDefaults;
 	
-	private String url = "ldap://localhost:389";
-	private String derefAliases = "always";
-	private String referral = "follow";
-	private String email = "email";
-	private String userMemberOfAttribute = "memberOf";
-	private boolean useUserMemberOfForUserRoleMembership = true;
-	private String userGroupMemberOfAttribute = "memberOf";
-	private String userGroupMembersAttribute = "member";
-	private String updateTime = "00:00";
+	private String url = SecuritySystemDefaultValues.URL;
+	private String derefAliases = SecuritySystemDefaultValues.DEREF_ALIAS;
+	private String referral = SecuritySystemDefaultValues.REFERRAL;
+	private String email = SecuritySystemDefaultValues.EMAIL;
+	private String updateTime = SecuritySystemDefaultValues.UPDATE_TIME;
 	
 	private ManagerBean managerBean;
 	
@@ -53,26 +50,6 @@ public class SecurityDefaultValueBean
 	public String getEmail()
 	{
 		return email;
-	}
-
-	public String getUsermemberofattribute()
-	{
-		return userMemberOfAttribute;
-	}
-
-	public boolean getUseusermemberofforuserrolemembership()
-	{
-		return useUserMemberOfForUserRoleMembership;
-	}
-
-	public String getUsergroupmemberofattribute()
-	{
-		return userGroupMemberOfAttribute;
-	}
-
-	public String getUsergroupmembersattribute()
-	{
-		return userGroupMembersAttribute;
 	}
 
 	public String getUpdatetime()
@@ -149,24 +126,24 @@ public class SecurityDefaultValueBean
 		
 		private void initNovellValues()
 		{
-			this.userFilter = "objectClass=inetOrgPerson";
-			this.name = "uid";
-			this.fullName = "fullName";
-			this.userMemberOfAttribute = "groupMembership";
-			this.useUserMemberOfForUserRoleMembership = false;
-			this.userGroupMemberOfAttribute = "groupMembership";
-			this.userGroupMembersAttribute = "uniqueMember";
+			this.userFilter = SecuritySystemDefaultValues.USER_FILTER_ND;
+			this.name = SecuritySystemDefaultValues.NAME_ND;
+			this.fullName = SecuritySystemDefaultValues.FULL_NAME_ND;
+			this.userMemberOfAttribute = SecuritySystemDefaultValues.USER_MEMBER_OF_ATTRIBUTE_ND;
+			this.useUserMemberOfForUserRoleMembership = SecuritySystemDefaultValues.USE_USER_MEMBER_OF_FOR_ROLE_MEMBERSHIP_ND;
+			this.userGroupMemberOfAttribute = SecuritySystemDefaultValues.USER_GROUP_MEMBER_OF_ATTRIBUTE_ND;
+			this.userGroupMembersAttribute = SecuritySystemDefaultValues.USER_GROUP_MEMBERS_ATTRIBUTE_ND;
 		}
 		
 		private void initActiveDirectoryValues()
 		{
-			this.userFilter = "(&(objectClass=user)(!(objectClass=computer)))";
-			this.name = "sAMAccountName";
-			this.fullName = "displayName";
-			this.userMemberOfAttribute = "memberOf";
-			this.useUserMemberOfForUserRoleMembership = true;
-			this.userGroupMemberOfAttribute = "memberOf";
-			this.userGroupMembersAttribute = "member";
+			this.userFilter = SecuritySystemDefaultValues.USER_FILTER_AD;
+			this.name = SecuritySystemDefaultValues.NAME_AD;
+			this.fullName = SecuritySystemDefaultValues.FULL_NAME_AD;
+			this.userMemberOfAttribute = SecuritySystemDefaultValues.USER_MEMBER_OF_ATTRIBUTE_AD;
+			this.useUserMemberOfForUserRoleMembership = SecuritySystemDefaultValues.USE_USER_MEMBER_OF_FOR_ROLE_MEMBERSHIP_AD;
+			this.userGroupMemberOfAttribute = SecuritySystemDefaultValues.USER_GROUP_MEMBER_OF_ATTRIBUTE_AD;
+			this.userGroupMembersAttribute = SecuritySystemDefaultValues.USER_GROUP_MEMBERS_ATTRIBUTE_AD;
 		}
 
 	}

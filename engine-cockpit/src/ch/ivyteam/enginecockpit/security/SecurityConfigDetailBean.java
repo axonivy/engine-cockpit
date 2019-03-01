@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.security;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -45,9 +46,9 @@ public class SecurityConfigDetailBean
 				managerBean.getSelectedIApplication().getName());
 		
 		providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
-		derefAliases = Arrays.asList("always", "never", "finding", "searching");
+		derefAliases = Arrays.asList("", "never", "finding", "searching");
 		protocols = Arrays.asList("", "ssl");
-		referrals = Arrays.asList("follow", "ignore", "throw");
+		referrals = Arrays.asList("", "ignore", "throw");
 		
 		provider = system.getConfiguration("Provider");
 		url = system.getConfiguration("Connection.Url");
@@ -211,5 +212,29 @@ public class SecurityConfigDetailBean
 	public List<String> getProtocols()
 	{
 		return protocols;
+	}
+	
+	public void saveConfiguration()
+	{
+		system.setConfiguration("Provider", this.provider);
+		system.setConfiguration("Connection.Url", this.url);
+		system.setConfiguration("Connection.UserName", this.userName);
+		system.setConfiguration("Connection.Password", "${encrypt:" + this.password + "}");
+		system.setConfiguration("Connection.UseLdapConnectionPool", String.valueOf(this.useLdapConnectionPool));
+		system.setConfiguration("Connection.Environment.java.naming.ldap.derefAliases", this.derefAlias);
+		system.setConfiguration("Connection.Environment.java.naming.security.protocol", this.ssl ? "ssl" : "");
+		system.setConfiguration("Connection.Environment.java.naming.referral", this.referral);
+		system.setConfiguration("Binding.DefaultContext", this.defaultContext);
+		system.setConfiguration("Binding.ImportUsersOfGroup", this.importUsersOfGroup);
+		system.setConfiguration("Binding.UserFilter", this.userFilter);
+		system.setConfiguration("UpdateTime", this.updateTime);
+		saveAuthenticationKind();
+	    FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
+	            new FacesMessage("Security System configuration saved"));
+	}
+	
+	private void saveAuthenticationKind()
+	{
+		system.setAuthenticationKind();
 	}
 }

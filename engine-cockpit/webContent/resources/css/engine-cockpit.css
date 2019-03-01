@@ -72,8 +72,8 @@ body {
 .dashboard-card .min-height-500 {
   min-height: 500px;
 }
-.dashboard-card .min-height-700 {
-  min-height: 700px;
+.dashboard-card .min-height-600 {
+  min-height: 600px;
 }
 .dashboard-card .max-height-700 {
   max-height: 700px;

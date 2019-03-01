@@ -28,20 +28,20 @@
     <p:inputText id="ldapLanguage"
       value="#{securityLdapDetailBean.language}" />
 
-    <label>User Member Of Attribute</label>
+    <label>Groups of a User</label>
     <p:inputText id="ldapUserMemberOfAttribute"
       value="#{securityLdapDetailBean.userMemberOfAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userMemberOfAttribute}"/>
 
-    <label>Use User Member Of For User Role Membership</label>
+    <label>Use [Groups of a User] for User Role Membership</label>
     <p:selectBooleanCheckbox
       id="ldapUseUserMemberOfForUserRoleMembership"
       value="#{securityLdapDetailBean.useUserMemberOfForUserRoleMembership}" />
 
-    <label>User Group Member Of Attribute</label>
+    <label>Groups of a Group</label>
     <p:inputText id="ldapUserGroupMemberOfAttribute"
       value="#{securityLdapDetailBean.userGroupMemberOfAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userGroupMemberOfAttribute}"/>
 
-    <label>User Group Members Attribute</label>
+    <label>Members of a Group</label>
     <p:inputText id="ldapUserGroupMembersAttribute"
       value="#{securityLdapDetailBean.userGroupMembersAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userGroupMembersAttribute}"/>
   </p:panelGrid>
