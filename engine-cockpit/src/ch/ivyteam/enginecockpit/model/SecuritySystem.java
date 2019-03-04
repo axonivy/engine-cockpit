@@ -49,6 +49,7 @@ public class SecuritySystem
   public void setSecuritySystemName(String securitySystemName)
   {
     this.securitySystemName = securitySystemName;
+    this.keyPrefix = "SecuritySystems." + securitySystemName + ".";
   }
 
   public long getId()
@@ -85,7 +86,7 @@ public class SecuritySystem
   {
 	return IConfiguration.get().get(keyPrefix + key).orElse("");
   }
-  
+
   public void setConfiguration(String key, String value)
   {
 	if (StringUtils.isBlank(value) || StringUtils.equals(value, "${encrypt:}"))
@@ -103,7 +104,7 @@ public class SecuritySystem
   
   private void removeUnusedKey(String key)
   {
-	if (IConfiguration.get().getProperties().stream().anyMatch(prop -> prop.getKey().equals("SecuritySystems." + securitySystemName + "." + key)))
+	if (IConfiguration.get().getProperties().stream().anyMatch(prop -> prop.getKey().equals(keyPrefix + key)))
 	{
 	  IConfiguration.get().remove(keyPrefix + key);
 	}
@@ -123,6 +124,10 @@ public class SecuritySystem
 	if (!IConfiguration.get().get(keyPrefix + "Connection.UserName").isPresent())
 	{
 	  IConfiguration.get().set(keyPrefix + "Connection.AuthenticationKind", "none");
+	}
+	else
+	{
+	  removeUnusedKey(keyPrefix + "Connection.AuthenticationKind");
 	}
   }
 }

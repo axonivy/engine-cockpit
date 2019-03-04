@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.CellEditEvent;
@@ -40,7 +41,15 @@ public class SecurityLdapDetailBean
 
 		system = new SecuritySystem(managerBean.getSelectedIApplication().getSecurityContext(),
 				managerBean.getSelectedIApplication().getName());
-		
+		properties = new ArrayList<>();
+		properties.add(new LdapProperty());
+	}
+	
+	
+	public void init(ComponentSystemEvent event)
+	{
+		system.setSecuritySystemName(event.getComponent().getAttributes().get("securityName").toString());
+
 		userName = system.getConfiguration("UserAttribute.Name");
 		fullName = system.getConfiguration("UserAttribute.FullName");
 		email = system.getConfiguration("UserAttribute.EMail");
@@ -50,13 +59,11 @@ public class SecurityLdapDetailBean
 		userGroupMemberOfAttribute = system.getConfiguration("Membership.UserGroupMemberOfAttribute");
 		userGroupMembersAttribute = system.getConfiguration("Membership.UserGroupMembersAttribute");
 		
-		properties = new ArrayList<>();
 		Map<String, String> yamlProperties = system.getConfigurationMap("UserAttribute.Properties");
 		for (String key : yamlProperties.keySet())
 		{
 			properties.add(new LdapProperty(key, yamlProperties.get(key)));
 		}
-		properties.add(new LdapProperty());
 	}
 
 	public String getUserName()

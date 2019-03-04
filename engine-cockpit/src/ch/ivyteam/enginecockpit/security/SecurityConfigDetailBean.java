@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.codec.binary.StringUtils;
 
@@ -49,16 +50,17 @@ public class SecurityConfigDetailBean
 		system = new SecuritySystem(managerBean.getSelectedIApplication().getSecurityContext(),
 				managerBean.getSelectedIApplication().getName());
 		
-		usedByApps = managerBean.getApplications().stream()
-				.filter(app -> StringUtils.equals(app.getSecuritySystemName(), system.getSecuritySystemName()))
-				.map(app -> app.getName())
-				.collect(Collectors.toList());
-		
 		providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
 		derefAliases = Arrays.asList("", "never", "finding", "searching");
 		protocols = Arrays.asList("", "ssl");
 		referrals = Arrays.asList("", "ignore", "throw");
-		
+	}
+
+	public void init(ComponentSystemEvent event)
+	{
+		String securityName = event.getComponent().getAttributes().get("securityName").toString();
+		system.setSecuritySystemName(securityName);
+
 		provider = system.getConfiguration("Provider");
 		url = system.getConfiguration("Connection.Url");
 		userName = system.getConfiguration("Connection.UserName");
@@ -71,6 +73,15 @@ public class SecurityConfigDetailBean
 		importUsersOfGroup = system.getConfiguration("Binding.ImportUsersOfGroup");
 		userFilter = system.getConfiguration("Binding.UserFilter");
 		updateTime = system.getConfiguration("UpdateTime");
+		initUsedBy(securityName);
+	}
+	
+	private void initUsedBy(String securityName)
+	{
+		usedByApps = managerBean.getApplications().stream()
+				.filter(app -> StringUtils.equals(app.getSecuritySystemName(), securityName))
+				.map(app -> app.getName())
+				.collect(Collectors.toList());
 	}
 
 	public String getName()

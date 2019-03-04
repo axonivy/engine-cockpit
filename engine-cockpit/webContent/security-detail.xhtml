@@ -11,7 +11,8 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="securitySystem" value="#{securityConfigDetailBean.name}"/>
-    <f:viewParam name="appName" value="#{applicationDetailBean.appName}" />
+    <f:event type="preRenderView" listener="#{securityConfigDetailBean.init}"/>
+    <f:attribute name="securityName" value="#{securityConfigDetailBean.name}"/>
   </f:metadata>
 
   <ui:composition template="/template/template.xhtml">
