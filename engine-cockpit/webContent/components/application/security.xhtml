@@ -22,7 +22,9 @@
   <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
     <p:outputLabel value="Name" />
     <p:selectOneMenu id="securitySystemSelect"
-      value="#{applicationDetailBean.securitySystem.securitySystemName}" valueChangeListener="#{applicationDetailBean.setSecuritySystem}">
+      value="#{applicationDetailBean.securitySystem.securitySystemName}"
+      onchange="return confirm('This action will synchronize all users and roles, do you want to proceed?')"
+      valueChangeListener="#{applicationDetailBean.setSecuritySystem}">
       <f:selectItems value="#{securityBean.availableSecuritySystems}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
