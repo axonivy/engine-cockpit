@@ -5,7 +5,7 @@ public class SecuritySystemDefaultValues {
     public static final String URL = "ldap://localhost:389";
 	public static final String DEREF_ALIAS = "always";
 	public static final String REFERRAL = "follow";
-	public static final String EMAIL = "email";
+	public static final String EMAIL = "mail";
 	public static final String UPDATE_TIME = "00:00";
 	
 	public static final String USER_FILTER_ND = "objectClass=inetOrgPerson";

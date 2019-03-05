@@ -21,33 +21,11 @@
             <h1>
               <i class="material-icons card-title-icon">security</i>Security Systems
             </h1>
-            <p:dataTable var="system" value="#{securityBean.availableSecuritySystems}">
-              <p:column headerText="Name">
-                <h:outputText>
-                  <i class="material-icons table-icon">security</i>
-                  <h:outputLink value="security-detail.xhtml?securitySystem=#{system}">#{system}</h:outputLink>
-                </h:outputText>
-              </p:column>
-
-            </p:dataTable>
-
-          </h:form>
-        </div>
-      </cc:SingleCard>
-      
-      
-      <cc:SingleCard>
-        <div class="card card-w-title">
-          <h:form id="form">
-            <p:growl for="log" id="msgs" autoUpdate="true" />
-            <h1>
-              <i class="material-icons card-title-icon">security</i>Security Systems
-            </h1>
             <p:dataTable var="system" value="#{securityBean.securitySystems}">
               <p:column headerText="Name" sortBy="#{system.securitySystemName}">
                 <h:outputText>
                   <i class="material-icons table-icon">security</i>
-                  <a href="security-detail.xhtml?securitySystem=#{system.securitySystemName}">#{system.securitySystemName}</a>
+                  <a href="security-detail.xhtml?appName=#{system.appName}">#{system.securitySystemName}</a>
                 </h:outputText>
               </p:column>
               <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">
