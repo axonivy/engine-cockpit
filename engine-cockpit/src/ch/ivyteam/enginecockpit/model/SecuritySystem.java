@@ -18,7 +18,7 @@ public class SecuritySystem
   private int usersCount;
   private int rolesCount;
   private String keyPrefix;
-  
+
   public SecuritySystem(ISecurityContext securityContext, String appName)
   {
     securitySystemName = IConfiguration.get().get("Applications." + appName + ".SecuritySystem")
@@ -70,7 +70,7 @@ public class SecuritySystem
   {
     this.appName = appName;
   }
-  
+
   public int getUsersCount()
   {
     return usersCount;
@@ -80,35 +80,32 @@ public class SecuritySystem
   {
     return rolesCount;
   }
-  
+
   public String getConfiguration(String key)
   {
-	return IConfiguration.get().get(keyPrefix + key).orElse("");
+    return IConfiguration.get().get(keyPrefix + key).orElse("");
   }
-  
+
   public void setConfiguration(String key, String value)
   {
-	if (StringUtils.isBlank(value) || StringUtils.equals(value, "${encrypt:}"))
-	{
-	  removeUnusedKey(key);
-	  return;
-	}
-	IConfiguration.get().set(keyPrefix + key, value);
+    if (StringUtils.isBlank(value))
+    {
+      removeUnusedKey(key);
+      return;
+    }
+    IConfiguration.get().set(keyPrefix + key, value);
   }
-  
+
   public Map<String, String> getConfigurationMap(String key)
   {
     return IConfiguration.get().getMap(keyPrefix + key);
   }
-  
+
   private void removeUnusedKey(String key)
   {
-	if (IConfiguration.get().getProperties().stream().anyMatch(prop -> prop.getKey().equals("SecuritySystems." + securitySystemName + "." + key)))
-	{
-	  IConfiguration.get().remove(keyPrefix + key);
-	}
+    IConfiguration.get().remove(keyPrefix + key);
   }
-  
+
   public void cleanLdapPropertiesMapping()
   {
     Map<String, String> ldapProperties = getConfigurationMap("UserAttribute.Properties");
@@ -117,12 +114,12 @@ public class SecuritySystem
       removeUnusedKey(key);
     }
   }
-  
+
   public void setAuthenticationKind()
   {
-	if (!IConfiguration.get().get(keyPrefix + "Connection.UserName").isPresent())
-	{
-	  IConfiguration.get().set(keyPrefix + "Connection.AuthenticationKind", "none");
-	}
+    if (!IConfiguration.get().get(keyPrefix + "Connection.UserName").isPresent())
+    {
+      IConfiguration.get().set(keyPrefix + "Connection.AuthenticationKind", "none");
+    }
   }
 }
