@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+
+<h:body>
+  <f:metadata>
+    <f:viewParam name="appName" value="#{managerBean.selectedApplicationName}"/>
+  </f:metadata>
+
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">User Detail</ui:define>
+    <ui:define name="breadcrumb">
+      <li>Security</li>
+      <li>/</li>
+      <li><a href="securitysystem.xhtml">Security Systems</a></li>
+      <li>/</li>
+      <li><a
+        href="security-detail.xhtml?securitySystem=#{securityConfigDetailBean.name}">#{securityConfigDetailBean.name}</a></li>
+    </ui:define>
+    <ui:define name="content">
+      <form>
+        <div>
+          <div class="ui-g">
+
+            <div
+              class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
+              <p:panel header="Security System"
+                styleClass="min-height-600">
+                <ui:include
+                  src="components/security/securitysystem-configuration.xhtml" />
+              </p:panel>
+            </div>
+            
+            <div
+              class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
+              <p:panel header="LDAP Attributes"
+                styleClass="min-height-600">
+                <ui:include
+                  src="components/security/securitysystem-ldap.xhtml" />
+              </p:panel>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

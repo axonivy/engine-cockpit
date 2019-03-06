@@ -1,5 +1,9 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
@@ -13,6 +17,7 @@ public class SecuritySystem
   private String appName;
   private int usersCount;
   private int rolesCount;
+  private String keyPrefix;
 
   public SecuritySystem(ISecurityContext securityContext, String appName)
   {
@@ -23,6 +28,7 @@ public class SecuritySystem
     this.appName = appName;
     this.usersCount = securityContext.getUsers().size() - 1;
     this.rolesCount = securityContext.getRoles().size();
+    this.keyPrefix = "SecuritySystems." + securitySystemName + ".";
   }
 
   public String getSecuritySystemProvider()
@@ -64,7 +70,7 @@ public class SecuritySystem
   {
     this.appName = appName;
   }
-  
+
   public int getUsersCount()
   {
     return usersCount;
@@ -73,5 +79,47 @@ public class SecuritySystem
   public int getRolesCount()
   {
     return rolesCount;
+  }
+
+  public String getConfiguration(String key)
+  {
+    return IConfiguration.get().get(keyPrefix + key).orElse("");
+  }
+
+  public void setConfiguration(String key, String value)
+  {
+    if (StringUtils.isBlank(value))
+    {
+      removeUnusedKey(key);
+      return;
+    }
+    IConfiguration.get().set(keyPrefix + key, value);
+  }
+
+  public Map<String, String> getConfigurationMap(String key)
+  {
+    return IConfiguration.get().getMap(keyPrefix + key);
+  }
+
+  private void removeUnusedKey(String key)
+  {
+    IConfiguration.get().remove(keyPrefix + key);
+  }
+
+  public void cleanLdapPropertiesMapping()
+  {
+    Map<String, String> ldapProperties = getConfigurationMap("UserAttribute.Properties");
+    for (String key : ldapProperties.keySet())
+    {
+      removeUnusedKey(key);
+    }
+  }
+
+  public void setAuthenticationKind()
+  {
+    if (!IConfiguration.get().get(keyPrefix + "Connection.UserName").isPresent())
+    {
+      IConfiguration.get().set(keyPrefix + "Connection.AuthenticationKind", "none");
+    }
   }
 }

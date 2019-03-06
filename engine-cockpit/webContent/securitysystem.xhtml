@@ -23,8 +23,9 @@
             </h1>
             <p:dataTable var="system" value="#{securityBean.securitySystems}">
               <p:column headerText="Name" sortBy="#{system.securitySystemName}">
-                <h:outputText value="#{system.securitySystemName}">
+                <h:outputText>
                   <i class="material-icons table-icon">security</i>
+                  <a href="security-detail.xhtml?appName=#{system.appName}">#{system.securitySystemName}</a>
                 </h:outputText>
               </p:column>
               <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">

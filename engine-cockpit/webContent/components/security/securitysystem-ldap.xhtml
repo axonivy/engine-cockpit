@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile">
+
+<h:form id="securityLdapForm">
+  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
+  <p:commandButton title="Save" icon="ui-icon-save"
+    styleClass="primary-btn card-button spin-icon" action="#{securityLdapDetailBean.saveConfiguration}">
+  </p:commandButton>
+
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
+    layout="grid" styleClass="ui-panelgrid-blank">
+
+    <label>Name</label>
+    <p:inputText id="ldapName"
+      value="#{securityLdapDetailBean.userName}" placeholder="#{securityDefaultValueBean.specificDefaults.name}"/>
+
+    <label>Full Name</label>
+    <p:inputText id="ldapFullName"
+      value="#{securityLdapDetailBean.fullName}" placeholder="#{securityDefaultValueBean.specificDefaults.fullName}"/>
+
+    <label>Email</label>
+    <p:inputText id="ldapEmail" value="#{securityLdapDetailBean.email}" placeholder="#{securityDefaultValueBean.email}"/>
+
+    <label>Language</label>
+    <p:inputText id="ldapLanguage"
+      value="#{securityLdapDetailBean.language}" />
+
+    <label>Groups of a User</label>
+    <p:inputText id="ldapUserMemberOfAttribute"
+      value="#{securityLdapDetailBean.userMemberOfAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userMemberOfAttribute}"/>
+
+    <label>Use [Groups of a User] for User Role Membership</label>
+    <p:selectBooleanCheckbox
+      id="ldapUseUserMemberOfForUserRoleMembership"
+      value="#{securityLdapDetailBean.useUserMemberOfForUserRoleMembership}" />
+
+    <label>Groups of a Group</label>
+    <p:inputText id="ldapUserGroupMemberOfAttribute"
+      value="#{securityLdapDetailBean.userGroupMemberOfAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userGroupMemberOfAttribute}"/>
+
+    <label>Members of a Group</label>
+    <p:inputText id="ldapUserGroupMembersAttribute"
+      value="#{securityLdapDetailBean.userGroupMembersAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userGroupMembersAttribute}"/>
+  </p:panelGrid>
+
+  <p:separator style="height:20px; border: none;"/>
+  <p:dataTable value="#{securityLdapDetailBean.properties}"
+    var="property" editable="true" editMode="cell"
+    id="ldapPropertiesTable">
+    <f:facet name="header">
+        LDAP Properties Mapping
+    </f:facet>
+
+    <p:ajax event="cellEdit"
+      listener="#{securityLdapDetailBean.onCellEdit}" />
+
+    <p:column headerText="Name" style="height:10px">
+      <p:cellEditor>
+        <f:facet name="output">
+          <h:outputText value="#{property.name}" />
+        </f:facet>
+        <f:facet name="input">
+          <p:inputText id="propertyKey" value="#{property.name}" />
+        </f:facet>
+      </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="LDAP Attribute">
+      <p:cellEditor>
+        <f:facet name="output">
+          <h:outputText value="#{property.ldapAttribute}" />
+        </f:facet>
+        <f:facet name="input">
+          <p:inputText id="propertyValue" value="#{property.ldapAttribute}" />
+        </f:facet>
+      </p:cellEditor>
+    </p:column>
+  </p:dataTable>
+
+  <p:commandButton id="addRowBtn" value="Add attribute"
+    icon="ui-icon-plus" update=":securityLdapForm:ldapPropertiesTable" style="width: 25%; float: right"/>
+
+</h:form>
+</html>

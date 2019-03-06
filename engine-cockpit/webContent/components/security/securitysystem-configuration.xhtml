@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile">
+
+<h:form>
+  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
+  <p:commandButton title="Save" icon="ui-icon-save"
+    styleClass="primary-btn card-button spin-icon" action="#{securityConfigDetailBean.saveConfiguration}">
+  </p:commandButton>
+
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
+    layout="grid" styleClass="ui-panelgrid-blank">
+
+    <p:outputLabel value="Provider" />
+    <p:selectOneMenu id="providerSelect"
+      value="#{securityConfigDetailBean.provider}" valueChangeListener="#{securityDefaultValueBean.switchProvider}">
+      <f:selectItems value="#{securityConfigDetailBean.providers}" />
+      <p:ajax update="@(form), userFilter" />
+    </p:selectOneMenu>
+
+    <label>URL</label>
+    <p:inputText id="url" value="#{securityConfigDetailBean.url}"
+      placeholder="#{securityDefaultValueBean.url}" />
+
+    <label>User Name</label>
+    <p:inputText id="userName"
+      value="#{securityConfigDetailBean.userName}" />
+
+    <label>Password</label>
+    <p:inputText type="password" id="password"
+      value="#{securityConfigDetailBean.password}" />
+
+    <label>Use LDAP Connection Pool</label>
+    <p:selectBooleanCheckbox id="ldapConnectionPool"
+      value="#{securityConfigDetailBean.useLdapConnectionPool}" />
+
+    <label>Use SSL</label>
+    <p:selectBooleanCheckbox id="useSsl"
+      value="#{securityConfigDetailBean.ssl}" />
+      
+    <label>Default Context</label>
+    <p:inputText id="defaultContext"
+      value="#{securityConfigDetailBean.defaultContext}" />
+
+    <label>Import Users Of Group</label>
+    <p:inputText id="importUsersOfGroup"
+      value="#{securityConfigDetailBean.importUsersOfGroup}" />
+
+    <label>User Filter</label>
+    <p:inputText id="userFilter"
+      value="#{securityConfigDetailBean.userFilter}"
+      placeholder="#{securityDefaultValueBean.specificDefaults.userFilter}" />
+
+    <label>Synchronization Time</label>
+    <p:inputText id="syncTime"
+      value="#{securityConfigDetailBean.updateTime}"
+      placeholder="#{securityDefaultValueBean.updatetime}" />
+      
+    <label>Dereference Aliases</label>
+    <p:selectOneMenu id="derefAliasesDropDown"
+      value="#{securityConfigDetailBean.derefAlias}"
+      placeholder="always">
+      <f:selectItems value="#{securityConfigDetailBean.derefAliases}" />
+      <p:ajax update="@form" />
+    </p:selectOneMenu>
+
+    <label>Referral</label>
+    <p:selectOneMenu id="ReferralDropDown"
+      value="#{securityConfigDetailBean.referral}"
+      placeholder="follow">
+      <f:selectItems value="#{securityConfigDetailBean.referrals}" />
+      <p:ajax update="@form" />
+    </p:selectOneMenu>
+    
+    <label>Used by</label>
+    <p:outputLabel value="#{securityConfigDetailBean.usedByApps}"></p:outputLabel>
+  </p:panelGrid>
+</h:form>
+</html>
