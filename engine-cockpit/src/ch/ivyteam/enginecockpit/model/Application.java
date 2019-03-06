@@ -114,15 +114,15 @@ public class Application extends AbstractActivity
   {
     return AbstractActivity.APP;
   }
-  
+
   public String getSecuritySystemName()
   {
-	return IConfiguration.get().get("Applications." + getName() + ".SecuritySystem").orElse("");
+    return IConfiguration.get().get("Applications." + getName() + ".SecuritySystem").orElse("");
   }
-  
+
   public void setSecuritySystem(String securitySystemName)
   {
-	IConfiguration.get().set("Applications." + getName() + ".SecuritySystem", securitySystemName);
+    IConfiguration.get().set("Applications." + getName() + ".SecuritySystem", securitySystemName);
   }
-  
+
 }

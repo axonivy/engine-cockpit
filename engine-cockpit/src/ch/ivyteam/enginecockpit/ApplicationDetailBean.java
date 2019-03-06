@@ -105,20 +105,20 @@ public class ApplicationDetailBean
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
             new FacesMessage("Active Environment change saved"));
   }
-  
+
   private IApplication getIApplication()
   {
     return managerBean.getIApplication(app.getId());
   }
-  
-  private SecuritySystem initSecuritySystem(String appName)
+
+  private SecuritySystem initSecuritySystem(String applicationName)
   {
-  	return new SecuritySystem(getIApplication().getSecurityContext(), appName);
+    return new SecuritySystem(getIApplication().getSecurityContext(), applicationName);
   }
-  
+
   public void setSecuritySystem(ValueChangeEvent event)
   {
-	app.setSecuritySystem(event.getNewValue().toString());
-	security = initSecuritySystem(getAppName());
+    app.setSecuritySystem(event.getNewValue().toString());
+    security = initSecuritySystem(getAppName());
   }
 }
