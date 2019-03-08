@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">lock_open</i>
+  <h:outputLabel value="Permissions" />
+</f:facet>
 <h:form id="permissionsForm">
   <p:growl for="permissionMessage" autoUpdate="true" />
   <div class="ui-datatable-header ui-widget-header ui-corner-top" style="border-bottom: 0 none;">

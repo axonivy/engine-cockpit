@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">email</i>
+  <h:outputLabel value="Email Notification Settings" />
+</f:facet>
 <h:form id="userEmailForm">
   <p:growl id="emailSaveSuccess" for="emailSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
