@@ -8,6 +8,10 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">settings</i>
+  <h:outputLabel value="LDAP Attributes" />
+</f:facet>
 <h:form id="securityLdapForm">
   <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
   <p:commandButton title="Save" icon="ui-icon-save"

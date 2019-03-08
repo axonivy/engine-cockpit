@@ -165,8 +165,7 @@ public class SecurityLdapDetailBean
     system.setConfiguration("UserAttribute.EMail", this.email);
     system.setConfiguration("UserAttribute.Language", this.language);
     system.setConfiguration("Membership.UserMemberOfAttribute", this.userMemberOfAttribute);
-    system.setConfiguration("Membership.UseUserMemberOfForUserRoleMembership",
-            String.valueOf(this.useUserMemberOfForUserRoleMembership));
+    system.setConfiguration("Membership.UseUserMemberOfForUserRoleMembership", this.useUserMemberOfForUserRoleMembership);
     system.setConfiguration("Membership.UserGroupMemberOfAttribute", this.userGroupMemberOfAttribute);
     system.setConfiguration("Membership.UserGroupMembersAttribute", this.userGroupMembersAttribute);
 

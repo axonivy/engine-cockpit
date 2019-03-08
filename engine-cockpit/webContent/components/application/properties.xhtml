@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">settings</i>
+  <h:outputLabel value="Properties" />
+</f:facet>
 <h:form>
   <p:dataTable value="#{applicationDetailBean.properties}" var="property">
     <p:column headerText="Name" sortBy="#{property.name}" filterBy="#{property.name}">

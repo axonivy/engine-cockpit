@@ -86,16 +86,16 @@ public class SecuritySystem
     return IConfiguration.get().get(keyPrefix + key).orElse("");
   }
 
-  public void setConfiguration(String key, String value)
+  public void setConfiguration(String key, Object value)
   {
-    if (StringUtils.isBlank(value))
+    if (StringUtils.isBlank(value.toString()))
     {
       removeUnusedKey(key);
       return;
     }
     IConfiguration.get().set(keyPrefix + key, value);
   }
-
+  
   public Map<String, String> getConfigurationMap(String key)
   {
     return IConfiguration.get().getMap(keyPrefix + key);
@@ -117,9 +117,15 @@ public class SecuritySystem
 
   public void setAuthenticationKind()
   {
+    String authKind;
     if (!IConfiguration.get().get(keyPrefix + "Connection.UserName").isPresent())
     {
-      IConfiguration.get().set(keyPrefix + "Connection.AuthenticationKind", "none");
+      authKind = "none";
     }
+    else
+    {
+      authKind = "simple";
+    }
+    IConfiguration.get().set(keyPrefix + "Connection.AuthenticationKind", authKind);
   }
 }

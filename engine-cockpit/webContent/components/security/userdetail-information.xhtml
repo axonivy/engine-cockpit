@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">info</i>
+  <h:outputLabel value="User information" />
+</f:facet>
 <h:form id="userInformationForm">
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"

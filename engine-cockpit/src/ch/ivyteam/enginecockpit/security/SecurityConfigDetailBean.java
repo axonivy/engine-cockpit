@@ -9,10 +9,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.util.crypto.CryptoUtil;
 
 @ManagedBean
 @ViewScoped
@@ -236,8 +237,8 @@ public class SecurityConfigDetailBean
     system.setConfiguration("Provider", this.provider);
     system.setConfiguration("Connection.Url", this.url);
     system.setConfiguration("Connection.UserName", this.userName);
-    system.setConfiguration("Connection.Password", "${encrypt:" + this.password + "}");
-    system.setConfiguration("Connection.UseLdapConnectionPool", String.valueOf(this.useLdapConnectionPool));
+    system.setConfiguration("Connection.Password", encryptPassword());
+    system.setConfiguration("Connection.UseLdapConnectionPool", this.useLdapConnectionPool);
     system.setConfiguration("Connection.Environment.java.naming.ldap.derefAliases", this.derefAlias);
     system.setConfiguration("Connection.Environment.java.naming.security.protocol", this.ssl ? "ssl" : "");
     system.setConfiguration("Connection.Environment.java.naming.referral", this.referral);
@@ -248,6 +249,21 @@ public class SecurityConfigDetailBean
     saveAuthenticationKind();
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System configuration saved"));
+  }
+  
+  private String encryptPassword()
+  {
+    if (StringUtils.isBlank(this.password))
+    {
+      return "";
+    }
+    try
+    {
+      return "${decrypt:" + CryptoUtil.encrypt(this.password) + "}";
+    }
+    catch (Exception ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
   private void saveAuthenticationKind()

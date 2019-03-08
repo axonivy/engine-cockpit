@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">security</i>
+  <h:outputLabel value="Security System" />
+</f:facet>
 <h:form id="appDetailSecurityForm">
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"

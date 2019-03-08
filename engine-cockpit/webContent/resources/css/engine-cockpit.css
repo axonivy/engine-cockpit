@@ -47,7 +47,7 @@ body {
   margin-right: 8px;
 }
 .dashboard-card .ui-grid-col-5 label {
-  font-style: italic;
+  color: grey;
 }
 .dashboard-card .ui-grid-col-7 label {
   word-wrap: break-word;
@@ -81,6 +81,13 @@ body {
 .dashboard-card .max-height-700 .ui-panel-content {
   overflow-y: auto;
   max-height: 664px;
+}
+.dashboard-card .ui-panel-title {
+	display: inline-flex;
+}
+.dashboard-card .panel-title-icon {
+	font-size: 18px;
+	margin-right: 5px;
 }
 
 /*Tables / Trees*/

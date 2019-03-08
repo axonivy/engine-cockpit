@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">info</i>
+  <h:outputLabel value="Java" />
+</f:facet>
 <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
   <p:outputLabel value="Product" />
   <p:outputLabel value="#{javaBean.name}" />

@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">people</i>
+  <h:outputLabel value="Role members" />
+</f:facet>
 <h:form id="membersOfRoleForm">
   <p:autoComplete id="addMemberDropDown" value="#{roleDetailBean.roleMemberName}" dropdown="true" forceSelection="true"
     completeMethod="#{roleDetailBean.searchMember}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"

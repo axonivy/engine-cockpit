@@ -4,6 +4,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile">
 
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">play_circle_outline</i>
+  <h:outputLabel value="Activity" />
+</f:facet>
 <h:form id="appDetailStateForm">
   <p:commandButton id="activateApplication" title="Activate" type="button" icon="ui-icon-play-arrow"
     rendered="#{!applicationDetailBean.application.active}" styleClass="primary-btn card-button">
