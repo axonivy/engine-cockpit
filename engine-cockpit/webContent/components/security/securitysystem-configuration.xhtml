@@ -83,7 +83,10 @@
     </p:selectOneMenu>
     
     <label>Used by</label>
-    <p:outputLabel value="#{securityConfigDetailBean.usedByApps}"></p:outputLabel>
+    <ui:repeat var="app" value="#{securityConfigDetailBean.usedByApps}" varStatus="status">
+      <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
+      <h:outputLabel value="#{status.last ? '' : ' / '}"/>
+    </ui:repeat>
   </p:panelGrid>
 </h:form>
 </html>
