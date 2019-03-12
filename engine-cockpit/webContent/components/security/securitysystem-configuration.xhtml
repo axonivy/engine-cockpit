@@ -24,7 +24,7 @@
     <p:selectOneMenu id="providerSelect"
       value="#{securityConfigDetailBean.provider}" valueChangeListener="#{securityDefaultValueBean.switchProvider}">
       <f:selectItems value="#{securityConfigDetailBean.providers}" />
-      <p:ajax update="@form" />
+      <p:ajax update="@(form)" />
     </p:selectOneMenu>
 
     <label>URL</label>
