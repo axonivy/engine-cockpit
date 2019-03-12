@@ -11,16 +11,17 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.LdapProperty;
-import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
 
 @ManagedBean
 @ViewScoped
 public class SecurityLdapDetailBean
 {
-  private ManagerBean managerBean;
-  private SecuritySystem system;
+  private SecurityDefaultValueBean defaultBean;
+  
+  private String name;
 
   private String userName;
   private String fullName;
@@ -35,24 +36,34 @@ public class SecurityLdapDetailBean
   public SecurityLdapDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    
+    defaultBean = context.getApplication().evaluateExpressionGet(context, "#{securityDefaultValueBean}", SecurityDefaultValueBean.class);
+  }
 
-    system = new SecuritySystem(managerBean.getSelectedIApplication().getSecurityContext(),
-            managerBean.getSelectedIApplication().getName());
-
-    userName = system.getConfiguration("UserAttribute.Name");
-    fullName = system.getConfiguration("UserAttribute.FullName");
-    email = system.getConfiguration("UserAttribute.EMail");
-    language = system.getConfiguration("UserAttribute.Language");
-    userMemberOfAttribute = system.getConfiguration("Membership.UserMemberOfAttribute");
-    useUserMemberOfForUserRoleMembership = Boolean
-            .valueOf(system.getConfiguration("Membership.UseUserMemberOfForUserRoleMembership"));
-    userGroupMemberOfAttribute = system.getConfiguration("Membership.UserGroupMemberOfAttribute");
-    userGroupMembersAttribute = system.getConfiguration("Membership.UserGroupMembersAttribute");
-
+  public String getSecuritySystemName()
+  {
+    return name;
+  }
+  
+  public void setSecuritySystemName(String secSystemName)
+  {
+    this.name = secSystemName;
+    loadSecuritySystem();
+  }
+  
+  private void loadSecuritySystem()
+  {
+    userName = getConfiguration(ConfigKey.USER_ATTRIBUTE_NAME);
+    fullName = getConfiguration(ConfigKey.USER_ATTRIBUTE_FULL_NAME);
+    email = getConfiguration(ConfigKey.USER_ATTRIBUTE_E_MAIL);
+    language = getConfiguration(ConfigKey.USER_ATTRIBUTE_LANGUAGE);
+    userMemberOfAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE);
+    useUserMemberOfForUserRoleMembership = getInitValueUseUserMemberOfForUserRoleMembership();
+    userGroupMemberOfAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE);
+    userGroupMembersAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE);
+    
     properties = new ArrayList<>();
-    Map<String, String> yamlProperties = system.getConfigurationMap("UserAttribute.Properties");
+    Map<String, String> yamlProperties = SecuritySystemConfig.getConfigurationMap(ConfigKey.USER_ATTRIBUTE_PROPERTIES);
     for (String key : yamlProperties.keySet())
     {
       properties.add(new LdapProperty(key, yamlProperties.get(key)));
@@ -119,6 +130,25 @@ public class SecurityLdapDetailBean
   {
     this.useUserMemberOfForUserRoleMembership = useUserMemberOfForUserRoleMembership;
   }
+  
+  private boolean getInitValueUseUserMemberOfForUserRoleMembership()
+  {
+    String membership = getConfiguration(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP);
+    if (StringUtils.isBlank(membership))
+    {
+      return defaultBean.getSpecificDefaults().getUseUserMemberOfForUserRoleMembership();
+    }
+    return Boolean.parseBoolean(membership);
+  }
+  
+  private Object getSaveValueUseUserMemberOfForUserRoleMembership()
+  {
+    if (this.useUserMemberOfForUserRoleMembership == defaultBean.getSpecificDefaults().getUseUserMemberOfForUserRoleMembership())
+    {
+      return "";
+    }
+    return this.useUserMemberOfForUserRoleMembership;
+  }
 
   public String getUserGroupMemberOfAttribute()
   {
@@ -160,22 +190,32 @@ public class SecurityLdapDetailBean
 
   public void saveConfiguration()
   {
-    system.setConfiguration("UserAttribute.Name", this.userName);
-    system.setConfiguration("UserAttribute.FullName", this.fullName);
-    system.setConfiguration("UserAttribute.EMail", this.email);
-    system.setConfiguration("UserAttribute.Language", this.language);
-    system.setConfiguration("Membership.UserMemberOfAttribute", this.userMemberOfAttribute);
-    system.setConfiguration("Membership.UseUserMemberOfForUserRoleMembership", this.useUserMemberOfForUserRoleMembership);
-    system.setConfiguration("Membership.UserGroupMemberOfAttribute", this.userGroupMemberOfAttribute);
-    system.setConfiguration("Membership.UserGroupMembersAttribute", this.userGroupMembersAttribute);
+    setConfiguration(ConfigKey.USER_ATTRIBUTE_NAME, this.userName);
+    setConfiguration(ConfigKey.USER_ATTRIBUTE_FULL_NAME, this.fullName);
+    setConfiguration(ConfigKey.USER_ATTRIBUTE_E_MAIL, this.email);
+    setConfiguration(ConfigKey.USER_ATTRIBUTE_LANGUAGE, this.language);
+    setConfiguration(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE, this.userMemberOfAttribute);
+    setConfiguration(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP, getSaveValueUseUserMemberOfForUserRoleMembership());
+    setConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE, this.userGroupMemberOfAttribute);
+    setConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE, this.userGroupMembersAttribute);
 
-    system.cleanLdapPropertiesMapping();
+    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
     properties.stream()
             .filter(prop -> StringUtils.isNotBlank(prop.getName()))
-            .forEach(prop -> system.setConfiguration("UserAttribute.Properties." + prop.getName(),
+            .forEach(prop -> setConfiguration("UserAttribute.Properties." + prop.getName(),
                     prop.getLdapAttribute()));
 
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System LDAP Attributes saved"));
+  }
+  
+  private String getConfiguration(String key)
+  {
+    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key);
+  }
+  
+  public void setConfiguration(String key, Object value)
+  {
+    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key, value);
   }
 }

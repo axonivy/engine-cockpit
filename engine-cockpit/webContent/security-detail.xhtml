@@ -10,7 +10,9 @@
 
 <h:body>
   <f:metadata>
-    <f:viewParam name="appName" value="#{managerBean.selectedApplicationName}"/>
+    <f:viewParam name="securitySystemName" value="#{securityDefaultValueBean.securitySystemName}"/>
+    <f:viewParam name="securitySystemName" value="#{securityConfigDetailBean.securitySystemName}"/>
+    <f:viewParam name="securitySystemName" value="#{securityLdapDetailBean.securitySystemName}"/>
   </f:metadata>
 
   <ui:composition template="/template/template.xhtml">
