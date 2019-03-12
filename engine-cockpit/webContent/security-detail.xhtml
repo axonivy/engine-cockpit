@@ -23,7 +23,7 @@
       <li><a href="securitysystem.xhtml">Security Systems</a></li>
       <li>/</li>
       <li><a
-        href="security-detail.xhtml?securitySystem=#{securityConfigDetailBean.name}">#{securityConfigDetailBean.name}</a></li>
+        href="security-detail.xhtml?securitySystemName=#{securityConfigDetailBean.name}">#{securityConfigDetailBean.name}</a></li>
     </ui:define>
     <ui:define name="content">
       <form>
@@ -31,14 +31,26 @@
           <div class="ui-g">
 
             <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
-              <p:panel styleClass="min-height-600">
+              <p:panel styleClass="min-height-450">
                 <ui:include src="components/security/securitysystem-configuration.xhtml" />
               </p:panel>
             </div>
             
             <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
-              <p:panel header="LDAP Attributes" styleClass="min-height-600">
+              <p:panel styleClass="min-height-450">
                 <ui:include  src="components/security/securitysystem-ldap.xhtml" />
+              </p:panel>
+            </div>
+            
+            <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
+              <p:panel>
+                <ui:include src="components/security/securitysystem-binding.xhtml" />
+              </p:panel>
+            </div>
+            
+            <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
+              <p:panel>
+                <ui:include  src="components/security/securitysystem-ldap-attributes.xhtml" />
               </p:panel>
             </div>
 

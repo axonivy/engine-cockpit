@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -31,7 +31,8 @@ public class SecurityLdapDetailBean
   private boolean useUserMemberOfForUserRoleMembership;
   private String userGroupMemberOfAttribute;
   private String userGroupMembersAttribute;
-  private List<LdapProperty> properties;
+  private Map<String, LdapProperty> properties;
+  private LdapProperty newProperty;
 
   public SecurityLdapDetailBean()
   {
@@ -47,8 +48,11 @@ public class SecurityLdapDetailBean
   
   public void setSecuritySystemName(String secSystemName)
   {
-    this.name = secSystemName;
-    loadSecuritySystem();
+    if (StringUtils.isBlank(name))
+    {
+      this.name = secSystemName;
+      loadSecuritySystem();
+    }
   }
   
   private void loadSecuritySystem()
@@ -62,13 +66,15 @@ public class SecurityLdapDetailBean
     userGroupMemberOfAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE);
     userGroupMembersAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE);
     
-    properties = new ArrayList<>();
-    Map<String, String> yamlProperties = SecuritySystemConfig.getConfigurationMap(ConfigKey.USER_ATTRIBUTE_PROPERTIES);
+    properties = new HashMap<>();
+    Map<String, String> yamlProperties = SecuritySystemConfig.getConfigurationMap(
+            SecuritySystemConfig.getConfigPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
     for (String key : yamlProperties.keySet())
     {
-      properties.add(new LdapProperty(key, yamlProperties.get(key)));
+      properties.put(key, new LdapProperty(key, yamlProperties.get(key)));
     }
-    properties.add(new LdapProperty());
+    
+    newProperty = new LdapProperty();
   }
 
   public String getUserName()
@@ -170,24 +176,38 @@ public class SecurityLdapDetailBean
     this.userGroupMembersAttribute = userGroupMembersAttribute;
   }
 
-  public List<LdapProperty> getProperties()
+  public Collection<LdapProperty> getProperties()
   {
-    return properties;
+    return properties.values();
   }
 
-  public void setProperties(List<LdapProperty> properties)
+  public LdapProperty getNewProperty()
   {
-    this.properties = properties;
+    return newProperty;
   }
-
-  public void onCellEdit()
+  
+  public void saveNewProperty()
   {
-    if (properties.stream().noneMatch(property -> !property.isComplete()))
-    {
-      properties.add(new LdapProperty());
-    }
+    properties.put(newProperty.getName(), newProperty);
+    newProperty = new LdapProperty();
+    saveLdapAttributes();
   }
-
+  
+  public void removeLdapAttribute(String attributeName)
+  {
+    properties.remove(attributeName);
+    saveLdapAttributes();
+  }
+  
+  private void saveLdapAttributes()
+  {
+    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
+    properties.values().stream()
+            .filter(prop -> StringUtils.isNotBlank(prop.getName()))
+            .forEach(prop -> setConfiguration(ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + prop.getName(),
+                    prop.getLdapAttribute()));
+  }
+  
   public void saveConfiguration()
   {
     setConfiguration(ConfigKey.USER_ATTRIBUTE_NAME, this.userName);
@@ -199,12 +219,6 @@ public class SecurityLdapDetailBean
     setConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE, this.userGroupMemberOfAttribute);
     setConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE, this.userGroupMembersAttribute);
 
-    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
-    properties.stream()
-            .filter(prop -> StringUtils.isNotBlank(prop.getName()))
-            .forEach(prop -> setConfiguration("UserAttribute.Properties." + prop.getName(),
-                    prop.getLdapAttribute()));
-
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System LDAP Attributes saved"));
   }
@@ -214,7 +228,7 @@ public class SecurityLdapDetailBean
     return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key);
   }
   
-  public void setConfiguration(String key, Object value)
+  private void setConfiguration(String key, Object value)
   {
     SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key, value);
   }

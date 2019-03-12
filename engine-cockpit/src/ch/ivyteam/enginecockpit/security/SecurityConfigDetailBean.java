@@ -272,13 +272,19 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, this.referral);
-    setConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT, this.defaultContext);
-    setConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP, this.importUsersOfGroup);
-    setConfiguration(ConfigKey.BINDING_USER_FILTER, this.userFilter);
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System configuration saved"));
+  }
+  
+  public void saveBinding()
+  {
+    setConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT, this.defaultContext);
+    setConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP, this.importUsersOfGroup);
+    setConfiguration(ConfigKey.BINDING_USER_FILTER, this.userFilter);
+    FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
+            new FacesMessage("Security System binding saved"));
   }
   
   private String getConfiguration(String key)
