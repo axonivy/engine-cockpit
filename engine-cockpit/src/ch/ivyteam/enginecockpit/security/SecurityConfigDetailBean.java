@@ -283,7 +283,7 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT, this.defaultContext);
     setConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP, this.importUsersOfGroup);
     setConfiguration(ConfigKey.BINDING_USER_FILTER, this.userFilter);
-    FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
+    FacesContext.getCurrentInstance().addMessage("securitySystemBindingSaveSuccess",
             new FacesMessage("Security System binding saved"));
   }
   

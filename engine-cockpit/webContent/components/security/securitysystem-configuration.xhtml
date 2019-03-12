@@ -12,9 +12,9 @@
   <i class="material-icons table-icon panel-title-icon">info</i>
   <h:outputLabel value="Security System" />
 </f:facet>
-<h:form>
+<h:form id="securitySystemConfigForm">
   <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
-  <p:commandButton title="Save" icon="ui-icon-save"
+  <p:commandButton title="Save" icon="ui-icon-save" id="saveSecuritySystemConfigBtn"
     styleClass="primary-btn card-button" actionListener="#{securityConfigDetailBean.saveConfiguration}" />
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"

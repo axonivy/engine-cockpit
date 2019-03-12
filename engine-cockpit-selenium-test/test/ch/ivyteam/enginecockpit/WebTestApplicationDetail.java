@@ -104,9 +104,5 @@ public class WebTestApplicationDetail extends WebTestBase
   {
     List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
     assertThat(infoPanels).hasSize(4);
-    List<String> panelsExpect = new ArrayList<>(
-            Arrays.asList("Application information", "Security System", "Activity", "Properties"));
-    infoPanels.stream().map(p -> p.findElement(new By.ByClassName("ui-panel-title")).getText())
-            .forEach(t -> assertThat(t).isNotEmpty().isIn(panelsExpect));
   }
 }

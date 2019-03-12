@@ -25,7 +25,9 @@
               <p:column headerText="Name" sortBy="#{system.securitySystemName}">
                 <h:outputText>
                   <i class="material-icons table-icon">security</i>
-                  <a href="security-detail.xhtml?securitySystemName=#{system.securitySystemName}">#{system.securitySystemName != "ivy Security System" ? system.securitySystemName : ''}</a>
+                  <a href="security-detail.xhtml?securitySystemName=#{system.securitySystemName}">
+                    <h:outputText value="#{system.securitySystemName}" styleClass="security-name" rendered="#{system.securitySystemName != 'ivy Security System'}"/>
+                  </a>
                 </h:outputText>
               </p:column>
               <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">

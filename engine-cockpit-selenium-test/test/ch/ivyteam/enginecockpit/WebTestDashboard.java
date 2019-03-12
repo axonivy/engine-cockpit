@@ -41,18 +41,6 @@ public class WebTestDashboard extends WebTestBase
   {
     List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
     assertThat(infoPanels).hasSize(5);
-    List<String> panelsExpect = new ArrayList<>(
-            Arrays.asList("Axon.ivy", "Licence", "Email", "System Database", "Java"));
-    infoPanels.stream().map(p -> p.findElement(new By.ByClassName("ui-panel-title")).getText())
-            .forEach(t -> assertThat(t).isNotEmpty().isIn(panelsExpect));
-    for (WebElement ele : infoPanels)
-    {
-      assertThat(ele.findElement(new By.ByClassName("ui-panel-title")).getText()).isNotEmpty().isIn(panelsExpect);
-      for (WebElement col : ele.findElements(new By.ByClassName("ui-grid-col-7")))
-      {
-        assertThat(col.getText()).isNotEmpty();
-      }
-    }
   }
   
   private void checkLicenceInfo(FirefoxDriver driver)

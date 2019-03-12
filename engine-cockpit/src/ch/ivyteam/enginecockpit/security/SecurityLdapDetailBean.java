@@ -219,7 +219,7 @@ public class SecurityLdapDetailBean
     setConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE, this.userGroupMemberOfAttribute);
     setConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE, this.userGroupMembersAttribute);
 
-    FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
+    FacesContext.getCurrentInstance().addMessage("securitySystemLdapSaveSuccess",
             new FacesMessage("Security System LDAP Attributes saved"));
   }
   

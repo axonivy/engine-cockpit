@@ -20,10 +20,10 @@
   <p:dataTable value="#{securityLdapDetailBean.properties}" style="padding-top: 10px;"
     var="property" id="ldapPropertiesTable">
     <p:column headerText="Name">
-      <p:outputLabel value="#{property.name}"/>
+      <p:outputLabel value="#{property.name}" styleClass="ldap-attribute"/>
     </p:column>
     <p:column headerText="LDAP Attribute">
-      <p:outputLabel value="#{property.ldapAttribute}"/>
+      <p:outputLabel value="#{property.ldapAttribute}" styleClass="ldap-value"/>
     </p:column>
     <p:column style="width: 30px;">
       <p:outputLabel>
@@ -48,6 +48,7 @@
         <p:inputText id="newAttributeInput" requiredMessage="Value is required" 
           value="#{securityLdapDetailBean.newProperty.ldapAttribute}" required="true" />
         <label>Attribute</label>
+        <p:message for="newAttributeInput" id="nnewAttributeMessage" />
       </h:panelGroup>
     </p:panelGrid>
     <p:commandButton id="saveNewLdapAttribute" validateClient="true" ajax="false" update="@form:ldapPropertiesTable"
