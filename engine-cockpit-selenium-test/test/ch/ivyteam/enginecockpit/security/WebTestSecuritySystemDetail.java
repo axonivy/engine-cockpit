@@ -77,9 +77,9 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securitySystemConfigForm:syncTime").clear();
     driver.findElementById("securitySystemConfigForm:syncTime").sendKeys("16:47");
     driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
+    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
             .isFalse());
-    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
+    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
             .isTrue());
     saveScreenshot(driver, "valid");
     
@@ -94,7 +94,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securitySystemConfigForm:syncTime").clear();
     driver.findElementById("securitySystemConfigForm:syncTime").sendKeys(time);
     driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
+    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
             .isTrue());
     saveScreenshot(driver, "invalid");
   }

@@ -58,7 +58,6 @@ public class Navigation
     Optional<WebElement> secSystem = driver.findElements(new By.ByXPath(("//span[@class='security-name']")))
             .stream()
             .filter(e -> e.getText().equals(secSystemName)).findAny();
-    System.out.println(secSystem);
     assertThat(secSystem).isPresent();
     secSystem.get().click();
     await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
