@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
@@ -57,6 +58,46 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
     await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
             .isTrue());
+  }
+  
+  @Test
+  void testInvalidAndValidSyncTimes(FirefoxDriver driver)
+  {
+    toSecurityDetail(driver);
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTime").getAttribute("value"))
+            .isEqualTo(""));
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTime").getAttribute("placeholder"))
+            .isEqualTo("00:00"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
+            .isFalse());
+    
+    saveInvalidSyncTimeAndAssert(driver, "32:23");
+    saveInvalidSyncTimeAndAssert(driver, "12:235");
+    saveInvalidSyncTimeAndAssert(driver, "12:2");
+    
+    driver.findElementById("securitySystemConfigForm:syncTime").clear();
+    driver.findElementById("securitySystemConfigForm:syncTime").sendKeys("16:47");
+    driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
+            .isFalse());
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
+            .isTrue());
+    saveScreenshot(driver, "valid");
+    
+    driver.findElementById("securitySystemConfigForm:syncTime").clear();
+    driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
+            .isTrue());
+  }
+
+  private void saveInvalidSyncTimeAndAssert(FirefoxDriver driver, String time)
+  {
+    driver.findElementById("securitySystemConfigForm:syncTime").clear();
+    driver.findElementById("securitySystemConfigForm:syncTime").sendKeys(time);
+    driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
+            .isTrue());
+    saveScreenshot(driver, "invalid");
   }
   
   @Test
@@ -139,7 +180,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
             .isTrue());
     await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newAttributeNameMessage").getText())
             .isBlank());
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:nnewAttributeMessage").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newAttributeMessage").getText())
             .isBlank());
     saveScreenshot(driver, "modal");
     
@@ -180,7 +221,8 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   
   private void toSecurityDetail(FirefoxDriver driver)
   {
-    login(driver);
+    driver.get(viewUrl("dashboard.xhtml"));
+    //login(driver);
     Navigation.toSecuritySystemDetail(driver, "test-ad");
     saveScreenshot(driver);
   }

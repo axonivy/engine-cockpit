@@ -285,6 +285,10 @@ public class SecurityConfigDetailBean
   
   private boolean validateUpdateTime()
   {
+    if (StringUtils.isEmpty(updateTime))
+    {
+      return true;
+    }
     final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
     if (!pattern.matcher(this.updateTime).matches()) {
       FacesContext.getCurrentInstance().addMessage("syncTime", 
