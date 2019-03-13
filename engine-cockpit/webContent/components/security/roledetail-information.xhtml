@@ -6,7 +6,7 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
-  <h:outputLabel value="Role information" />
+  <h:outputText value="Role information" />
 </f:facet>
 <h:form id="roleInformationForm">
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
@@ -26,19 +26,19 @@
   <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
     <h:panelGroup styleClass="md-inputfield">
       <p:inputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
-      <label>Name</label>
+      <p:outputLabel for="name" value="Name"/>
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
       <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
-      <label>Display Name</label>
+      <p:outputLabel for="displayName" value="Display Name" />
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
       <p:inputText id="description" value="#{roleDetailBean.role.description}" />
-      <label>Description</label>
+      <p:outputLabel for="description" value="Description" />
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
       <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
-      <label>External Security Name</label>
+      <p:outputLabel for="externalSecurityName" value="External Security Name" />
     </h:panelGroup>
   </p:panelGrid>
 </h:form>

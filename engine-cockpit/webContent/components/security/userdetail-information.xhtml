@@ -6,7 +6,7 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
-  <h:outputLabel value="User information" />
+  <h:outputText value="User information" />
 </f:facet>
 <h:form id="userInformationForm">
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
@@ -25,24 +25,24 @@
   <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
     <h:panelGroup styleClass="md-inputfield">
       <p:inputText id="name" disabled="true" value="#{userDetailBean.user.name}" />
-      <label>Name</label>
+      <p:outputLabel for="name" value="Name" />
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
       <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
-      <label>Full Name</label>
+      <p:outputLabel for="fullName" value="Full Name" />
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
       <p:inputText id="email" value="#{userDetailBean.user.email}" />
-      <label>E-Mail Address</label>
+      <p:outputLabel for="email" value="E-Mail Address" />
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
       <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2"
         value="#{userDetailBean.user.password}" />
-      <label>Password</label>
+      <p:outputLabel for="password1" value="Password" />
     </h:panelGroup>
     <h:panelGroup styleClass="md-inputfield">
       <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}" />
-      <label>Confirm Password</label>
+      <p:outputLabel for="password2" value="Confirm Password" />
     </h:panelGroup>
     <h:panelGroup rendered="#{!managerBean.ivySecuritySystem}">
       <div class="static-info-message">

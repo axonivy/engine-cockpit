@@ -59,24 +59,40 @@
       <div class="ui-g dashboard">
         <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
           <p:panel header="CPU Load Monitor">
+            <f:facet name="header">
+              <i class="material-icons table-icon panel-title-icon">computer</i>
+              <h:outputText value="CPU Load Monitor" />
+            </f:facet>
             <cc:MonitorGraph monitor="#{monitorBean.cpuMonitor}" />
           </p:panel>
         </div>
 
         <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
           <p:panel header="Memory Monitor">
+            <f:facet name="header">
+              <i class="material-icons table-icon panel-title-icon">memory</i>
+              <h:outputText value="Memory Monitor" />
+            </f:facet>
             <cc:MonitorGraph monitor="#{monitorBean.memoryMonitor}" />
           </p:panel>
         </div>
 
         <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
           <p:panel header="Network Monitor">
+            <f:facet name="header">
+              <i class="material-icons table-icon panel-title-icon">network_check</i>
+              <h:outputText value="Network Monitor" />
+            </f:facet>
             <cc:MonitorGraph monitor="#{monitorBean.networkMonitor}" />
           </p:panel>
         </div>
 
         <div class="ui-g-12 ui-md-6 dashboard-card ui-panelgrid">
           <p:panel header="IO Monitor">
+            <f:facet name="header">
+              <i class="material-icons table-icon panel-title-icon">storage</i>
+              <h:outputText value="IO Monitor" />
+            </f:facet>
             <cc:MonitorGraph monitor="#{monitorBean.ioMonitor}" />
           </p:panel>
         </div>

@@ -19,14 +19,10 @@
               <h1>
                 <i class="material-icons card-title-icon">settings</i>
                 <span>Advanced Config</span>
-                <span style="float: right;">
-                  <p:inputSwitch disabled="true" id="hideDefaultValuesSwitch" value="true" />
-                  <p:tooltip for="hideDefaultValuesSwitch" value="Hide Default Values" />
-                </span>
               </h1>
             </div>
             <div class="ui-g-12 ui-md-2" style="margin: auto;">
-              <p:commandButton disabled="true" id="newConfigBtn" value="New" icon="ui-icon-add" type="button"/>
+              <p:commandButton rendered="false" id="newConfigBtn" value="New" icon="ui-icon-add" type="button"/>
             </div>
           </div>
           <div class="ui-g">
@@ -34,7 +30,6 @@
               <h:form id="form">
                 <p:growl id="msgs" showDetail="true" />
                 <p:dataTable var="config" value="#{advancedConfigBean.configs}" widgetVar="advancedConfigTable"
-                  selectionMode="single" selection="#{advancedConfigBean.selectedConfig}" rowKey="#{config.key}"
                   filteredValue="#{advancedConfigBean.filteredConfigs}">
                   <f:facet name="header">
                     <p:outputPanel>

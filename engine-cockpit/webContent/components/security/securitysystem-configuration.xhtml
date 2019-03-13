@@ -10,7 +10,7 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
-  <h:outputLabel value="Security System" />
+  <h:outputText value="Security System" />
 </f:facet>
 <h:form id="securitySystemConfigForm">
   <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true"/>
@@ -75,7 +75,7 @@
     <label>Used by</label>
     <ui:repeat var="app" value="#{securityConfigDetailBean.usedByApps}" varStatus="status">
       <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
-      <h:outputLabel value="#{status.last ? '' : ' / '}"/>
+      <h:outputText value="#{status.last ? '' : ' / '}"/>
     </ui:repeat>
   </p:panelGrid>
 </h:form>

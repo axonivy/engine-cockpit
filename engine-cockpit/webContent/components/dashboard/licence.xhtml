@@ -5,12 +5,12 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">vpn_key</i>
-  <h:outputLabel value="Licence" />
+  <h:outputText value="Licence" />
 </f:facet>
 <p:commandButton id="tasksButtonLicenceDetail" onclick="PF('licenceDetailDialog').show();" title="Licence Details" type="button"
   icon="ui-icon-info" styleClass="secondary-btn card-button" />
 <p:commandButton id="tasksButtonLicence" title="Configure Licence" type="button" icon="ui-icon-settings"
-  styleClass="secondary-btn card-button" />
+  styleClass="secondary-btn card-button" rendered="false" />
 <p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid"
   styleClass="ui-panelgrid-blank">
   <p:outputLabel value="Owner" />
