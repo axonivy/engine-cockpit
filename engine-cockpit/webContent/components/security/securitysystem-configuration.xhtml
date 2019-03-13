@@ -13,7 +13,7 @@
   <h:outputLabel value="Security System" />
 </f:facet>
 <h:form id="securitySystemConfigForm">
-  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
+  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true"/>
   <p:commandButton title="Save" icon="ui-icon-save" id="saveSecuritySystemConfigBtn"
     styleClass="primary-btn card-button" actionListener="#{securityConfigDetailBean.saveConfiguration}" />
 
@@ -48,9 +48,13 @@
       value="#{securityConfigDetailBean.ssl}" />
 
     <label>Synchronization Time</label>
-    <p:inputText id="syncTime"
-      value="#{securityConfigDetailBean.updateTime}"
-      placeholder="#{securityDefaultValueBean.updatetime}" />
+    <h:panelGroup>
+      <p:inputText id="syncTime"
+        value="#{securityConfigDetailBean.updateTime}"
+        placeholder="#{securityDefaultValueBean.updatetime}">
+      </p:inputText>
+      <p:messages for="syncTime" id="syncTimeMessage" autoUpdate="true" showDetail="true"/>
+    </h:panelGroup>
       
     <label>Dereference Aliases</label>
     <p:selectOneMenu id="derefAliasesDropDown"

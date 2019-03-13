@@ -48,7 +48,7 @@
         <p:inputText id="newAttributeInput" requiredMessage="Value is required" 
           value="#{securityLdapDetailBean.newProperty.ldapAttribute}" required="true" />
         <label>Attribute</label>
-        <p:message for="newAttributeInput" id="nnewAttributeMessage" />
+        <p:message for="newAttributeInput" id="newAttributeMessage" />
       </h:panelGroup>
     </p:panelGrid>
     <p:commandButton id="saveNewLdapAttribute" validateClient="true" ajax="false" update="@form:ldapPropertiesTable"

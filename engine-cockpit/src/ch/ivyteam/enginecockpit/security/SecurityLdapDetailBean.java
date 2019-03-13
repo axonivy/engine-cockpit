@@ -188,24 +188,17 @@ public class SecurityLdapDetailBean
   
   public void saveNewProperty()
   {
+    setConfiguration(ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + newProperty.getName(), 
+            newProperty.getLdapAttribute());
     properties.put(newProperty.getName(), newProperty);
     newProperty = new LdapProperty();
-    saveLdapAttributes();
   }
   
   public void removeLdapAttribute(String attributeName)
   {
+    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name) + 
+            ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + attributeName);
     properties.remove(attributeName);
-    saveLdapAttributes();
-  }
-  
-  private void saveLdapAttributes()
-  {
-    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
-    properties.values().stream()
-            .filter(prop -> StringUtils.isNotBlank(prop.getName()))
-            .forEach(prop -> setConfiguration(ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + prop.getName(),
-                    prop.getLdapAttribute()));
   }
   
   public void saveConfiguration()

@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -264,6 +265,10 @@ public class SecurityConfigDetailBean
 
   public void saveConfiguration()
   {
+    if (!validateUpdateTime())
+    {
+      return;
+    }
     setConfiguration(ConfigKey.PROVIDER, this.provider);
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
@@ -278,6 +283,17 @@ public class SecurityConfigDetailBean
             new FacesMessage("Security System configuration saved"));
   }
   
+  private boolean validateUpdateTime()
+  {
+    final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
+    if (!pattern.matcher(this.updateTime).matches()) {
+      FacesContext.getCurrentInstance().addMessage("syncTime", 
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Please use 'hh:mm' format for syncronization Time"));
+      return false;
+    }
+    return true;
+  }
+
   public void saveBinding()
   {
     setConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT, this.defaultContext);

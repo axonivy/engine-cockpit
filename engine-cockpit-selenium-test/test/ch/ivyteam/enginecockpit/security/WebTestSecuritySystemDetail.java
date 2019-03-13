@@ -146,7 +146,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securityLdapAttributesForm:saveNewLdapAttribute").click();
     await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newAttributeNameMessage").getText())
             .contains("Value is required"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:nnewAttributeMessage").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newAttributeMessage").getText())
             .contains("Value is required"));
     saveScreenshot(driver, "invalid");
   }
