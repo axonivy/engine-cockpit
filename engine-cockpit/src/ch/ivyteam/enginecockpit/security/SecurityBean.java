@@ -82,7 +82,7 @@ public class SecurityBean
   {
     return managerBean.getIApplicaitons().stream()
             .filter(app -> app.getSecurityContext().isSynchronizationRunning() == true)
-            .findAny().isPresent() || synchronizationLogger.isNewLogAwailabe();
+            .findAny().isPresent();
   }
   
   public String getLogs()
