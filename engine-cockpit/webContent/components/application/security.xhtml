@@ -28,7 +28,7 @@
     <p:selectOneMenu id="securitySystemSelect"
       value="#{applicationDetailBean.securitySystem.securitySystemName}"
       onchange="return confirm('This action will synchronize all users and roles, do you want to proceed?')"
-      valueChangeListener="#{applicationDetailBean.setSecuritySystem}">
+      valueChangeListener="#{applicationDetailBean.setSecuritySystem}" style="width: 100%;">
       <f:selectItems value="#{securityBean.availableSecuritySystems}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
