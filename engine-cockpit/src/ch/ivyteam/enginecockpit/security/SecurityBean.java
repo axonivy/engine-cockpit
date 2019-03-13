@@ -78,11 +78,16 @@ public class SecurityBean
     return managerBean.getManager().findApplication(appName).getSecurityContext().isSynchronizationRunning();
   }
   
-  public boolean isAnySyncRunningOrNewLog()
+  public boolean isAnySyncRunning()
   {
     return managerBean.getIApplicaitons().stream()
             .filter(app -> app.getSecurityContext().isSynchronizationRunning() == true)
             .findAny().isPresent();
+  }
+  
+  public boolean isNewLogAwailable()
+  {
+    return synchronizationLogger.isNewLogAwailable();
   }
   
   public String getLogs()

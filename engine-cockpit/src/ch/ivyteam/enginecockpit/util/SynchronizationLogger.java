@@ -21,7 +21,7 @@ public class SynchronizationLogger implements SynchronizationListener
     return synchronizationLogMessages;
   }
   
-  public boolean isNewLogAwailabe()
+  public boolean isNewLogAwailable()
   {
     return newLogAwailable;
   }

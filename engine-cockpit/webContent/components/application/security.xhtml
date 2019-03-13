@@ -17,8 +17,8 @@
   </p:commandButton>
   <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="1" update="@form" />
   <p:commandButton id="showAdSyncLogBtn" icon="fa fa-info" styleClass="secondary-btn card-button"
-    rendered="#{securityBean.anySyncRunningOrNewLog}" type="button" />
-  <p:overlayPanel rendered="#{securityBean.anySyncRunningOrNewLog}" id="adSyncLog" for="showAdSyncLogBtn"
+    rendered="#{securityBean.isNewLogAwailable()}" type="button" />
+  <p:overlayPanel rendered="#{securityBean.isNewLogAwailable()}" id="adSyncLog" for="showAdSyncLogBtn"
     hideEffect="fade">
     <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto; background-image: none;" readonly="true" id="logViewer"
       value="#{securityBean.logs}" rows="1" />

@@ -44,7 +44,7 @@
             </p:dataTable>
             <p:panel header="Synchronization Log" styleClass="log-viewer" visible="#{not empty securityBean.logs}">
               <p:inputTextarea readonly="true" id="logViewer" value="#{securityBean.logs}" rows="1"/>
-              <p:poll autoStart="#{securityBean.anySyncRunningOrNewLog}" widgetVar="logPoller" interval="1"
+              <p:poll autoStart="#{securityBean.anySyncRunning}" widgetVar="logPoller" interval="1"
                 update="form"/>
             </p:panel>
           </h:form>
