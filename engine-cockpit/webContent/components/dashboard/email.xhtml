@@ -6,10 +6,10 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">email</i>
-  <h:outputLabel value="Email" />
+  <h:outputLabel value="Email (Preview)" />
 </f:facet>
 <p:commandButton id="tasksButtonEmail" title="Send Test Mail" type="button" icon="ui-icon-send"
-  styleClass="secondary-btn card-button" />
+  styleClass="secondary-btn card-button" rendered="false" />
 <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
   <p:outputLabel value="Server" />
   <p:outputLabel value="localhost" />
