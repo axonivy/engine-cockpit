@@ -31,6 +31,8 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "Applicationdetail", new Dimension(1062, 800));
     Navigation.toSecuritySystem(driver);
     takeScreenshot(driver, "SecuritySystem", new Dimension(1062, 500));
+    Navigation.toSecuritySystemDetail(driver, "test-ad");
+    takeScreenshot(driver, "SecuritySystemDetail", new Dimension(1062, 900));
     Navigation.toUsers(driver);
     takeScreenshot(driver, "Users", new Dimension(1062, 600));
     Navigation.toUserDetail(driver, "foo");

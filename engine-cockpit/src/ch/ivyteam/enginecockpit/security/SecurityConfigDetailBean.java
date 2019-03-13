@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -12,7 +13,8 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.util.crypto.CryptoUtil;
 
 @ManagedBean
@@ -21,7 +23,6 @@ public class SecurityConfigDetailBean
 {
   private String name;
   private ManagerBean managerBean;
-  private SecuritySystem system;
   private List<String> usedByApps;
 
   private List<String> providers;
@@ -47,12 +48,23 @@ public class SecurityConfigDetailBean
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
+  }
+  
+  public String getSecuritySystemName()
+  {
+    return name;
+  }
+  
+  public void setSecuritySystemName(String secSystemName)
+  {
+    this.name = secSystemName;
+    loadSecuritySystem();
+  }
 
-    system = new SecuritySystem(managerBean.getSelectedIApplication().getSecurityContext(),
-            managerBean.getSelectedIApplication().getName());
-
+  private void loadSecuritySystem()
+  {
     usedByApps = managerBean.getApplications().stream()
-            .filter(app -> StringUtils.equals(app.getSecuritySystemName(), system.getSecuritySystemName()))
+            .filter(app -> StringUtils.equals(app.getSecuritySystemName(), name))
             .map(app -> app.getName())
             .collect(Collectors.toList());
 
@@ -61,22 +73,22 @@ public class SecurityConfigDetailBean
     protocols = Arrays.asList("", "ssl");
     referrals = Arrays.asList("", "ignore", "throw");
 
-    name = system.getSecuritySystemName();
-    provider = system.getConfiguration("Provider");
-    url = system.getConfiguration("Connection.Url");
-    userName = system.getConfiguration("Connection.UserName");
-    password = system.getConfiguration("Connection.Password");
-    useLdapConnectionPool = Boolean.valueOf(system.getConfiguration("Connection.UseLdapConnectionPool"));
-    derefAlias = system.getConfiguration("Connection.Environment.java.naming.ldap.derefAliases");
-    ssl = system.getConfiguration("Connection.Environment.java.naming.security.protocol")
+    provider = getConfiguration(ConfigKey.PROVIDER);
+    url = getConfiguration(ConfigKey.CONNECTION_URL);
+    userName = getConfiguration(ConfigKey.CONNECTION_USER_NAME);
+    password = getConfiguration(ConfigKey.CONNECTION_PASSWORD);
+    
+    useLdapConnectionPool = getInitValueUseLdapConnectionPool();
+    derefAlias = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
+    ssl = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL)
             .equalsIgnoreCase("ssl");
-    referral = system.getConfiguration("Connection.Environment.java.naming.referral");
-    defaultContext = system.getConfiguration("Binding.DefaultContext");
-    importUsersOfGroup = system.getConfiguration("Binding.ImportUsersOfGroup");
-    userFilter = system.getConfiguration("Binding.UserFilter");
-    updateTime = system.getConfiguration("UpdateTime");
+    referral = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL);
+    defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
+    importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
+    userFilter = getConfiguration(ConfigKey.BINDING_USER_FILTER);
+    updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
   }
-
+  
   public String getName()
   {
     return name;
@@ -140,6 +152,25 @@ public class SecurityConfigDetailBean
   public void setUseLdapConnectionPool(boolean useLdapConnectionPool)
   {
     this.useLdapConnectionPool = useLdapConnectionPool;
+  }
+  
+  private boolean getInitValueUseLdapConnectionPool()
+  {
+    String connectionPool = getConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL);
+    if (StringUtils.isBlank(connectionPool))
+    {
+      return SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL;
+    }
+    return Boolean.parseBoolean(connectionPool);
+  }
+  
+  private Object getSaveValueUseLdapConnectionPool()
+  {
+    if (this.useLdapConnectionPool == SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL)
+    {
+      return "";
+    }
+    return this.useLdapConnectionPool;
   }
 
   public String getDerefAlias()
@@ -234,21 +265,56 @@ public class SecurityConfigDetailBean
 
   public void saveConfiguration()
   {
-    system.setConfiguration("Provider", this.provider);
-    system.setConfiguration("Connection.Url", this.url);
-    system.setConfiguration("Connection.UserName", this.userName);
-    system.setConfiguration("Connection.Password", encryptPassword());
-    system.setConfiguration("Connection.UseLdapConnectionPool", this.useLdapConnectionPool);
-    system.setConfiguration("Connection.Environment.java.naming.ldap.derefAliases", this.derefAlias);
-    system.setConfiguration("Connection.Environment.java.naming.security.protocol", this.ssl ? "ssl" : "");
-    system.setConfiguration("Connection.Environment.java.naming.referral", this.referral);
-    system.setConfiguration("Binding.DefaultContext", this.defaultContext);
-    system.setConfiguration("Binding.ImportUsersOfGroup", this.importUsersOfGroup);
-    system.setConfiguration("Binding.UserFilter", this.userFilter);
-    system.setConfiguration("UpdateTime", this.updateTime);
-    saveAuthenticationKind();
+    if (!validateUpdateTime())
+    {
+      return;
+    }
+    setConfiguration(ConfigKey.PROVIDER, this.provider);
+    setConfiguration(ConfigKey.CONNECTION_URL, this.url);
+    setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
+    setConfiguration(ConfigKey.CONNECTION_PASSWORD, encryptPassword());
+    setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, getSaveValueUseLdapConnectionPool());
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, this.derefAlias);
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, this.referral);
+    setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
+    SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System configuration saved"));
+  }
+  
+  private boolean validateUpdateTime()
+  {
+    if (StringUtils.isEmpty(updateTime))
+    {
+      return true;
+    }
+    final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
+    if (!pattern.matcher(this.updateTime).matches()) {
+      FacesContext.getCurrentInstance().addMessage("syncTime", 
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Please use 'hh:mm' format for syncronization Time"));
+      return false;
+    }
+    return true;
+  }
+
+  public void saveBinding()
+  {
+    setConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT, this.defaultContext);
+    setConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP, this.importUsersOfGroup);
+    setConfiguration(ConfigKey.BINDING_USER_FILTER, this.userFilter);
+    FacesContext.getCurrentInstance().addMessage("securitySystemBindingSaveSuccess",
+            new FacesMessage("Security System binding saved"));
+  }
+  
+  private String getConfiguration(String key)
+  {
+    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key);
+  }
+  
+  public void setConfiguration(String key, Object value)
+  {
+    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key, value);
   }
   
   private String encryptPassword()
@@ -266,8 +332,4 @@ public class SecurityConfigDetailBean
     }
   }
 
-  private void saveAuthenticationKind()
-  {
-    system.setAuthenticationKind();
-  }
 }

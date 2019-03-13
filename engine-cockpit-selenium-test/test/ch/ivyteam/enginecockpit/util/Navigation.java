@@ -52,6 +52,18 @@ public class Navigation
     await().until(() -> driver.getCurrentUrl().endsWith("securitysystem.xhtml"));
   }
   
+  public static void toSecuritySystemDetail(FirefoxDriver driver, String secSystemName)
+  {
+    Navigation.toSecuritySystem(driver);
+    Optional<WebElement> secSystem = driver.findElements(new By.ByXPath(("//span[@class='security-name']")))
+            .stream()
+            .filter(e -> e.getText().equals(secSystemName)).findAny();
+    System.out.println(secSystem);
+    assertThat(secSystem).isPresent();
+    secSystem.get().click();
+    await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
+  }
+  
   public static void toUsers(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_USER_MENU);

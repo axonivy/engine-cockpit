@@ -13,10 +13,9 @@
   <h:outputLabel value="LDAP Attributes" />
 </f:facet>
 <h:form id="securityLdapForm">
-  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true" />
-  <p:commandButton title="Save" icon="ui-icon-save"
-    styleClass="primary-btn card-button spin-icon" action="#{securityLdapDetailBean.saveConfiguration}">
-  </p:commandButton>
+  <p:growl id="securitySystemLdapSaveSuccess" for="securitySystemLdapSaveSuccess" autoUpdate="true" />
+  <p:commandButton title="Save" icon="ui-icon-save" id="saveSecurtiySystemLdapBtn"
+    styleClass="primary-btn card-button" actionListener="#{securityLdapDetailBean.saveConfiguration}" />
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
     layout="grid" styleClass="ui-panelgrid-blank">
@@ -53,43 +52,6 @@
     <p:inputText id="ldapUserGroupMembersAttribute"
       value="#{securityLdapDetailBean.userGroupMembersAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userGroupMembersAttribute}"/>
   </p:panelGrid>
-
-  <p:separator style="height:20px; border: none;"/>
-  <p:dataTable value="#{securityLdapDetailBean.properties}"
-    var="property" editable="true" editMode="cell"
-    id="ldapPropertiesTable">
-    <f:facet name="header">
-        LDAP Properties Mapping
-    </f:facet>
-
-    <p:ajax event="cellEdit"
-      listener="#{securityLdapDetailBean.onCellEdit}" />
-
-    <p:column headerText="Name" style="height:10px">
-      <p:cellEditor>
-        <f:facet name="output">
-          <h:outputText value="#{property.name}" />
-        </f:facet>
-        <f:facet name="input">
-          <p:inputText id="propertyKey" value="#{property.name}" />
-        </f:facet>
-      </p:cellEditor>
-    </p:column>
-
-    <p:column headerText="LDAP Attribute">
-      <p:cellEditor>
-        <f:facet name="output">
-          <h:outputText value="#{property.ldapAttribute}" />
-        </f:facet>
-        <f:facet name="input">
-          <p:inputText id="propertyValue" value="#{property.ldapAttribute}" />
-        </f:facet>
-      </p:cellEditor>
-    </p:column>
-  </p:dataTable>
-
-  <p:commandButton id="addRowBtn" value="Add attribute"
-    icon="ui-icon-plus" update=":securityLdapForm:ldapPropertiesTable" style="width: 25%; float: right"/>
 
 </h:form>
 </html>

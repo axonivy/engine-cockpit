@@ -2,14 +2,12 @@ package ch.ivyteam.enginecockpit.security;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.apache.commons.codec.binary.StringUtils;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.SecuritySystem;
-import ch.ivyteam.enginecockpit.model.SecuritySystemDefaultValues;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
 
 @ManagedBean
 @ViewScoped
@@ -17,23 +15,33 @@ public class SecurityDefaultValueBean
 {
   private SpecificDefaults specificDefaults;
 
-  private String url = SecuritySystemDefaultValues.URL;
-  private String derefAliases = SecuritySystemDefaultValues.DEREF_ALIAS;
-  private String referral = SecuritySystemDefaultValues.REFERRAL;
-  private String email = SecuritySystemDefaultValues.EMAIL;
-  private String updateTime = SecuritySystemDefaultValues.UPDATE_TIME;
-
-  private ManagerBean managerBean;
+  private String url = SecuritySystemConfig.DefaultValue.URL;
+  private String derefAliases = SecuritySystemConfig.DefaultValue.DEREF_ALIAS;
+  private String referral = SecuritySystemConfig.DefaultValue.REFERRAL;
+  private String email = SecuritySystemConfig.DefaultValue.EMAIL;
+  private String updateTime = SecuritySystemConfig.DefaultValue.UPDATE_TIME;
+  
+  private String name;
 
   public SecurityDefaultValueBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
-
-    specificDefaults = new SpecificDefaults(
-            new SecuritySystem(managerBean.getSelectedIApplication().getSecurityContext(),
-                    managerBean.getSelectedIApplication().getName()).getConfiguration("Provider"));
+  }
+  
+  public String getSecuritySystemName()
+  {
+    return name;
+  }
+  
+  public void setSecuritySystemName(String secSystemName)
+  {
+    this.name = secSystemName;
+    loadSecuritySystem();
+  }
+  
+  private void loadSecuritySystem()
+  {
+    specificDefaults = new SpecificDefaults(SecuritySystemConfig.getConfiguration(
+            SecuritySystemConfig.getConfigPrefix(name) + ConfigKey.PROVIDER));
   }
 
   public String getUrl()
@@ -130,24 +138,24 @@ public class SecurityDefaultValueBean
 
     private void initNovellValues()
     {
-      this.userFilter = SecuritySystemDefaultValues.USER_FILTER_ND;
-      this.name = SecuritySystemDefaultValues.NAME_ND;
-      this.fullName = SecuritySystemDefaultValues.FULL_NAME_ND;
-      this.userMemberOfAttribute = SecuritySystemDefaultValues.USER_MEMBER_OF_ATTRIBUTE_ND;
-      this.useUserMemberOfForUserRoleMembership = SecuritySystemDefaultValues.USE_USER_MEMBER_OF_FOR_ROLE_MEMBERSHIP_ND;
-      this.userGroupMemberOfAttribute = SecuritySystemDefaultValues.USER_GROUP_MEMBER_OF_ATTRIBUTE_ND;
-      this.userGroupMembersAttribute = SecuritySystemDefaultValues.USER_GROUP_MEMBERS_ATTRIBUTE_ND;
+      this.userFilter = SecuritySystemConfig.DefaultValue.USER_FILTER_ND;
+      this.name = SecuritySystemConfig.DefaultValue.NAME_ND;
+      this.fullName = SecuritySystemConfig.DefaultValue.FULL_NAME_ND;
+      this.userMemberOfAttribute = SecuritySystemConfig.DefaultValue.USER_MEMBER_OF_ATTRIBUTE_ND;
+      this.useUserMemberOfForUserRoleMembership = SecuritySystemConfig.DefaultValue.USE_USER_MEMBER_OF_FOR_ROLE_MEMBERSHIP_ND;
+      this.userGroupMemberOfAttribute = SecuritySystemConfig.DefaultValue.USER_GROUP_MEMBER_OF_ATTRIBUTE_ND;
+      this.userGroupMembersAttribute = SecuritySystemConfig.DefaultValue.USER_GROUP_MEMBERS_ATTRIBUTE_ND;
     }
 
     private void initActiveDirectoryValues()
     {
-      this.userFilter = SecuritySystemDefaultValues.USER_FILTER_AD;
-      this.name = SecuritySystemDefaultValues.NAME_AD;
-      this.fullName = SecuritySystemDefaultValues.FULL_NAME_AD;
-      this.userMemberOfAttribute = SecuritySystemDefaultValues.USER_MEMBER_OF_ATTRIBUTE_AD;
-      this.useUserMemberOfForUserRoleMembership = SecuritySystemDefaultValues.USE_USER_MEMBER_OF_FOR_ROLE_MEMBERSHIP_AD;
-      this.userGroupMemberOfAttribute = SecuritySystemDefaultValues.USER_GROUP_MEMBER_OF_ATTRIBUTE_AD;
-      this.userGroupMembersAttribute = SecuritySystemDefaultValues.USER_GROUP_MEMBERS_ATTRIBUTE_AD;
+      this.userFilter = SecuritySystemConfig.DefaultValue.USER_FILTER_AD;
+      this.name = SecuritySystemConfig.DefaultValue.NAME_AD;
+      this.fullName = SecuritySystemConfig.DefaultValue.FULL_NAME_AD;
+      this.userMemberOfAttribute = SecuritySystemConfig.DefaultValue.USER_MEMBER_OF_ATTRIBUTE_AD;
+      this.useUserMemberOfForUserRoleMembership = SecuritySystemConfig.DefaultValue.USE_USER_MEMBER_OF_FOR_ROLE_MEMBERSHIP_AD;
+      this.userGroupMemberOfAttribute = SecuritySystemConfig.DefaultValue.USER_GROUP_MEMBER_OF_ATTRIBUTE_AD;
+      this.userGroupMembersAttribute = SecuritySystemConfig.DefaultValue.USER_GROUP_MEMBERS_ATTRIBUTE_AD;
     }
 
   }
