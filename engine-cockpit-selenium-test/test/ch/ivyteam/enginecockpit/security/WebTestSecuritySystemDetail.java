@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
@@ -221,8 +220,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   
   private void toSecurityDetail(FirefoxDriver driver)
   {
-    driver.get(viewUrl("dashboard.xhtml"));
-    //login(driver);
+    login(driver);
     Navigation.toSecuritySystemDetail(driver, "test-ad");
     saveScreenshot(driver);
   }
