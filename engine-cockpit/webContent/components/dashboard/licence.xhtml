@@ -23,7 +23,7 @@
 <p:panelGrid rendered="#{licenceBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
   styleClass="ui-panelgrid-blank">
   <p:outputLabel value="No licence installed. Please upload a valid licence." />
-  <p:button href="#" disabled="true" value="Upload Licence" icon="ui-icon-cloud-upload" />
+  <p:button href="#" rendered="false" value="Upload Licence" icon="ui-icon-cloud-upload" />
 </p:panelGrid>
 <p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true" closeOnEscape="true">
   <h:form id="licenceInfoForm">
