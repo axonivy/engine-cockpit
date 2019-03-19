@@ -1,5 +1,5 @@
 [Ivy]
-01682CA38FC4E775 3.23 #module
+01682CA38FC4E775 3.26 #module
 >Proto >Proto Collection #zClass
 Mn0 Main Big #zClass
 Mn0 B #cInfo
@@ -37,7 +37,7 @@ Mn0 f0 @C|.responsibility Everybody #txt
 Mn0 f0 81 49 30 30 -25 17 #rect
 Mn0 f0 @|StartRequestIcon #fIcon
 Mn0 f3 type ch.ivyteam.enginecockpit.Data #txt
-Mn0 f3 template "index.jsp" #txt
+Mn0 f3 template "dashboard.xhtml" #txt
 Mn0 f3 337 49 30 30 0 15 #rect
 Mn0 f3 @|EndRequestIcon #fIcon
 Mn0 f1 expr out #txt
