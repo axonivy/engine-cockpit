@@ -40,7 +40,7 @@ public class WebTestDashboard extends WebTestBase
   private void checkInfoPanels(FirefoxDriver driver)
   {
     List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
-    assertThat(infoPanels).hasSize(5);
+    assertThat(infoPanels).hasSize(3);
   }
   
   private void checkLicenceInfo(FirefoxDriver driver)
