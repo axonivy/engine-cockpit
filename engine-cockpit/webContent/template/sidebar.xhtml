@@ -14,7 +14,7 @@
       <div class="nano-content sidebar-scroll-content">
         <div class="layout-menu-container">
           <h:form id="menuform">
-            <pm:menu>
+            <pm:menu widgetVar="sidebar_menu">
               <p:menuitem id="sr_dashboard" value="Dashboard" icon="dashboard" url="dashboard.xhtml" />
               <p:menuitem id="sr_applications" value="Applications" icon="apps" url="applications.xhtml"/>
               <p:submenu id="sr_security" label="Security" icon="security">
@@ -41,5 +41,7 @@
       </div>
     </div>
   </div>
+  
+  <h:outputScript name="resources/js/navigation-highlight-fix.js" />
 
 </ui:composition>
