@@ -66,16 +66,6 @@ public class SecuritySystem
     return appNames;
   }
 
-//  public String getAppName()
-//  {
-//    return appNames.stream().findFirst().orElse("");
-//  }
-
-//  public void setAppName(String appName)
-//  {
-//    this.appName = appName;
-//  }
-
   public int getUsersCount()
   {
     return usersCount;
