@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -13,6 +15,7 @@ import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.Property;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.system.IProperty;
 
 @ManagedBean
@@ -113,7 +116,12 @@ public class ApplicationDetailBean
 
   private SecuritySystem initSecuritySystem(String applicationName)
   {
-    return new SecuritySystem(getIApplication().getSecurityContext(), applicationName);
+    return new SecuritySystem(getSecuritySystemName(applicationName), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
+  }
+  
+  private String getSecuritySystemName(String appName)
+  {
+    return IConfiguration.get().get("Applications." + appName + ".SecuritySystem").orElse("");
   }
 
   public void setSecuritySystem(ValueChangeEvent event)

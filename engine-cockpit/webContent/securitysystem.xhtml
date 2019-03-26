@@ -33,12 +33,15 @@
               <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">
                 <h:outputText value="#{system.securitySystemProvider}" class="provider-name"/>
               </p:column>
-              <p:column headerText="Application" sortBy="#{system.appName}">
-                <h:outputText value="#{system.appName}" />
+              <p:column headerText="Application">
+                <ui:repeat var="app" value="#{system.appNames}" varStatus="status">
+                  <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
+                  <h:outputText value="#{status.last ? '' : ' / '}"/>
+                </ui:repeat>
               </p:column>
               <p:column headerText="Synchronize" style="text-align: center; width: 80px;">
-                <p:commandButton disabled="#{system.securitySystemProvider eq 'ivy Security System'}" actionListener="#{securityBean.triggerSynchronization(system.appName)}"
-                  icon="fa fa-refresh #{securityBean.isSyncRunning(system.appName) ? 'fa-spin' : ''} spin-icon"
+                <p:commandButton disabled="#{system.securitySystemProvider eq 'ivy Security System' or empty system.appNames}" actionListener="#{securityBean.triggerSynchronization(system.appNames)}"
+                  icon="fa fa-refresh #{securityBean.isSyncRunning(system.appNames) ? 'fa-spin' : ''} spin-icon"
                   onclick="PF('logPoller').start()" update="@this"/>
               </p:column>
             </p:dataTable>

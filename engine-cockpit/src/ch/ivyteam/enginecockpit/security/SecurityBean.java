@@ -9,10 +9,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.SynchronizationLogger;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.security.ISecurityContext;
 
 @ManagedBean
 @ViewScoped
@@ -30,9 +34,41 @@ public class SecurityBean
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    systems = managerBean.getIApplicaitons().stream()
-            .map(app -> new SecuritySystem(app.getSecurityContext(), app.getName()))
+    loadSecuritySystems();
+//    IConfiguration.get().getNames("SecuritySystems").forEach(sec -> Ivy.log().info(sec));
+//    systems = managerBean.getIApplicaitons().stream()
+//            .map(app -> new SecuritySystem(app.getSecurityContext(), app.getName()))
+//            .collect(Collectors.toList());
+  }
+  
+  private void loadSecuritySystems() 
+  {
+    systems = IConfiguration.get().getNames("SecuritySystems").stream()
+            .map(securitySystem -> new SecuritySystem(securitySystem, 
+                    getSecurityContextForSecuritySystem(securitySystem), getAppsForSecuritySystem(securitySystem)))
             .collect(Collectors.toList());
+  }
+  
+  private Optional<ISecurityContext> getSecurityContextForSecuritySystem(String securitySystem)
+  {
+    return managerBean.getIApplicaitons().stream()
+            .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app.getName()), securitySystem))
+            .findFirst()
+            .map(app -> app.getSecurityContext());
+  }
+  
+  private List<String> getAppsForSecuritySystem(String securitySystem)
+  {
+    return managerBean.getIApplicaitons().stream()
+            .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app.getName()), securitySystem))
+            .map(app -> app.getName())
+            .collect(Collectors.toList());
+  }
+  
+  private String getSecuritySystemNameFromAppConfig(String appName)
+  {
+    String orElse = IConfiguration.get().get("Applications." + appName + ".SecuritySystem").orElse("");
+    return orElse;
   }
 
   public List<SecuritySystem> getSecuritySystems()
@@ -42,9 +78,15 @@ public class SecurityBean
   
   public Set<String> getAvailableSecuritySystems()
   {
-	Set<String> names = IConfiguration.get().getNames("SecuritySystems");
-	names.add("ivy Security System");
-	return names;
+    Set<String> names = IConfiguration.get().getNames("SecuritySystems");
+    names.add("ivy Security System");
+    return names;
+  }
+  
+  public void triggerSynchronization(List<String> appNames)
+  {
+    Ivy.log().info("multi trigger");
+    appNames.forEach(appName -> triggerSynchronization(appName));
   }
 
   public void triggerSynchronization(String appName)
@@ -60,7 +102,7 @@ public class SecurityBean
   
   public boolean isIvySecurityForSelectedApp()
   {
-    Optional<SecuritySystem> findAny = systems.stream().filter(s -> s.getAppName().equals(managerBean.getSelectedApplication().getName())).findAny();
+    Optional<SecuritySystem> findAny = systems.stream().filter(s -> s.getAppNames().contains(managerBean.getSelectedApplication().getName())).findAny();
     if (!findAny.isPresent())
     {
       return true;
@@ -72,9 +114,19 @@ public class SecurityBean
   {
     return isSyncRunning(managerBean.getSelectedApplication().getName());
   }
+  
+  public boolean isSyncRunning(List<String> appNames)
+  {
+    Ivy.log().info("multi sync running");
+    return appNames.stream().anyMatch(appName -> isSyncRunning(appName) == true);
+  }
 
   public boolean isSyncRunning(String appName)
   {
+    if (StringUtils.isBlank(appName))
+    {
+      return false;
+    }
     return managerBean.getManager().findApplication(appName).getSecurityContext().isSynchronizationRunning();
   }
   
