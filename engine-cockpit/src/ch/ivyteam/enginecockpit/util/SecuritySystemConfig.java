@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,9 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 @SuppressWarnings("restriction")
 public class SecuritySystemConfig
 {
+
+  public static final String SECURITY_SYSTEMS = "SecuritySystems";
+  public static final String IVY_SECURITY_SYSTEM = "ivy Security System";
 
   public interface ConfigKey
   {
@@ -65,12 +69,22 @@ public class SecuritySystemConfig
   
   public static String getConfigPrefix(String name)
   {
-    return "SecuritySystems." + name + "."; 
+    return SECURITY_SYSTEMS + "." + name + "."; 
+  }
+  
+  public static String getAppConfigPrefix(String appName)
+  {
+    return "Applications." + appName + ".SecuritySystem";
   }
   
   public static String getConfiguration(String key)
   {
     return IConfiguration.get().get(key).orElse("");
+  }
+  
+  public static Collection<String> getConfigurationNames(String key)
+  {
+    return IConfiguration.get().getNames(key);
   }
   
   public static Map<String, String> getConfigurationMap(String key)

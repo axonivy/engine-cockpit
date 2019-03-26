@@ -11,11 +11,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.Property;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.system.IProperty;
 
 @ManagedBean
@@ -119,9 +121,14 @@ public class ApplicationDetailBean
     return new SecuritySystem(getSecuritySystemName(applicationName), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
   }
   
-  private String getSecuritySystemName(String appName)
+  private String getSecuritySystemName(String name)
   {
-    return IConfiguration.get().get("Applications." + appName + ".SecuritySystem").orElse("");
+    String securityName = SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getAppConfigPrefix(name));
+    if (StringUtils.isBlank(securityName))
+    {
+      securityName = SecuritySystemConfig.IVY_SECURITY_SYSTEM;
+    }
+    return securityName;
   }
 
   public void setSecuritySystem(ValueChangeEvent event)

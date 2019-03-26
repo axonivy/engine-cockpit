@@ -3,7 +3,9 @@ package ch.ivyteam.enginecockpit.model;
 import java.util.List;
 import java.util.Optional;
 
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 @SuppressWarnings("restriction")
@@ -13,28 +15,15 @@ public class SecuritySystem
   private String securitySystemProvider;
   private String securitySystemName;
   private long id;
-//  private String appName;
   private List<String> appNames;
   private int usersCount;
   private int rolesCount;
-
-//  public SecuritySystem(ISecurityContext securityContext, String appName)
-//  {
-//    securitySystemName = IConfiguration.get().get("Applications." + appName + ".SecuritySystem")
-//            .orElse(securityContext.getExternalSecuritySystemName());
-//    securitySystemProvider = securityContext.getExternalSecuritySystemProvider().getProviderName();
-//    id = securityContext.getId();
-//    this.appName = appName;
-//    this.usersCount = securityContext.getUsers().size() - 1;
-//    this.rolesCount = securityContext.getRoles().size();
-//  }
   
   public SecuritySystem(String securitySystemName, Optional<ISecurityContext> securityContext, List<String> appNames)
   {
-    
     this.securitySystemName = securitySystemName;
     securitySystemProvider = IConfiguration.get().get("SecuritySystems." + securitySystemName + ".Provider")
-            .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemProvider().getProviderName()).orElse(""));
+            .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemProvider().getProviderName()).orElse(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
     id = securityContext.map(c -> c.getId()).orElse(0L);
     this.appNames = appNames;
     this.usersCount = securityContext.map(c -> c.getUsers().size() -1).orElse(0);
@@ -53,6 +42,7 @@ public class SecuritySystem
 
   public String getSecuritySystemName()
   {
+    Ivy.log().info(securitySystemName);
     return securitySystemName;
   }
 

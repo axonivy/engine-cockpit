@@ -23,11 +23,15 @@
             </h1>
             <p:dataTable var="system" value="#{securityBean.securitySystems}">
               <p:column headerText="Name" sortBy="#{system.securitySystemName}">
-                <h:outputText>
-                  <i class="material-icons table-icon">security</i>
+                <h:outputText rendered="#{system.securitySystemProvider != 'ivy Security System'}">
                   <a href="security-detail.xhtml?securitySystemName=#{system.securitySystemName}">
-                    <h:outputText value="#{system.securitySystemName}" styleClass="security-name" rendered="#{system.securitySystemName != 'ivy Security System'}"/>
+                    <i class="material-icons table-icon">security</i>
+                    <h:outputText value="#{system.securitySystemName}" styleClass="security-name"/>
                   </a>
+                </h:outputText>
+                <h:outputText rendered="#{system.securitySystemProvider == 'ivy Security System'}">
+                  <i class="material-icons table-icon">security</i>
+                  <h:outputText value="#{system.securitySystemName}" styleClass="security-name"/>
                 </h:outputText>
               </p:column>
               <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">
@@ -35,21 +39,11 @@
               </p:column>
               <p:column headerText="Application">
                 <ui:repeat var="app" value="#{system.appNames}" varStatus="status">
-                  <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
+                  <a href="application-detail.xhtml?appName=#{app}" style="color: #AFB42B;">#{app}</a>
                   <h:outputText value="#{status.last ? '' : ' / '}"/>
                 </ui:repeat>
               </p:column>
-              <p:column headerText="Synchronize" style="text-align: center; width: 80px;">
-                <p:commandButton disabled="#{system.securitySystemProvider eq 'ivy Security System' or empty system.appNames}" actionListener="#{securityBean.triggerSynchronization(system.appNames)}"
-                  icon="fa fa-refresh #{securityBean.isSyncRunning(system.appNames) ? 'fa-spin' : ''} spin-icon"
-                  onclick="PF('logPoller').start()" update="@this"/>
-              </p:column>
             </p:dataTable>
-            <p:panel header="Synchronization Log" styleClass="log-viewer" visible="#{not empty securityBean.logs}">
-              <p:inputTextarea readonly="true" id="logViewer" value="#{securityBean.logs}" rows="1"/>
-              <p:poll autoStart="#{securityBean.anySyncRunning}" widgetVar="logPoller" interval="1"
-                update="form"/>
-            </p:panel>
           </h:form>
         </div>
       </cc:SingleCard>

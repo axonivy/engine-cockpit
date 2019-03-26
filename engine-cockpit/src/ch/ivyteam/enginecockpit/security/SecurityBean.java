@@ -1,8 +1,8 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
@@ -13,14 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SynchronizationLogger;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
 public class SecurityBean
 {
   private List<SecuritySystem> systems;
@@ -35,18 +33,35 @@ public class SecurityBean
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     loadSecuritySystems();
-//    IConfiguration.get().getNames("SecuritySystems").forEach(sec -> Ivy.log().info(sec));
-//    systems = managerBean.getIApplicaitons().stream()
-//            .map(app -> new SecuritySystem(app.getSecurityContext(), app.getName()))
-//            .collect(Collectors.toList());
   }
   
   private void loadSecuritySystems() 
   {
-    systems = IConfiguration.get().getNames("SecuritySystems").stream()
+    systems = SecuritySystemConfig.getConfigurationNames(SecuritySystemConfig.SECURITY_SYSTEMS).stream()
             .map(securitySystem -> new SecuritySystem(securitySystem, 
                     getSecurityContextForSecuritySystem(securitySystem), getAppsForSecuritySystem(securitySystem)))
             .collect(Collectors.toList());
+    addIvySecuritySystem();
+    
+  }
+  
+  private void addIvySecuritySystem()
+  {
+    List<String> appsForSecuritySystem = getAppsForIvySecuritySystem();
+    if (!appsForSecuritySystem.isEmpty())
+    {
+      systems.add(new SecuritySystem(SecuritySystemConfig.IVY_SECURITY_SYSTEM, getSecurityContextForIvySecuritySystem(), appsForSecuritySystem));
+    }
+  }
+  
+  private Optional<ISecurityContext> getSecurityContextForIvySecuritySystem()
+  {
+    Optional<ISecurityContext> securityContextForSecuritySystem = getSecurityContextForSecuritySystem("");
+    if (securityContextForSecuritySystem.isPresent())
+    {
+      return securityContextForSecuritySystem;
+    }
+    return getSecurityContextForSecuritySystem(SecuritySystemConfig.IVY_SECURITY_SYSTEM);
   }
   
   private Optional<ISecurityContext> getSecurityContextForSecuritySystem(String securitySystem)
@@ -55,6 +70,13 @@ public class SecurityBean
             .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app.getName()), securitySystem))
             .findFirst()
             .map(app -> app.getSecurityContext());
+  }
+  
+  private List<String> getAppsForIvySecuritySystem()
+  {
+    List<String> appsForSecuritySystem = getAppsForSecuritySystem("");
+    appsForSecuritySystem.addAll(getAppsForSecuritySystem(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
+    return appsForSecuritySystem;
   }
   
   private List<String> getAppsForSecuritySystem(String securitySystem)
@@ -67,8 +89,7 @@ public class SecurityBean
   
   private String getSecuritySystemNameFromAppConfig(String appName)
   {
-    String orElse = IConfiguration.get().get("Applications." + appName + ".SecuritySystem").orElse("");
-    return orElse;
+    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getAppConfigPrefix(appName));
   }
 
   public List<SecuritySystem> getSecuritySystems()
@@ -76,16 +97,15 @@ public class SecurityBean
     return systems;
   }
   
-  public Set<String> getAvailableSecuritySystems()
+  public Collection<String> getAvailableSecuritySystems()
   {
-    Set<String> names = IConfiguration.get().getNames("SecuritySystems");
-    names.add("ivy Security System");
+    Collection<String> names = SecuritySystemConfig.getConfigurationNames(SecuritySystemConfig.SECURITY_SYSTEMS);
+    names.add(SecuritySystemConfig.IVY_SECURITY_SYSTEM);
     return names;
   }
   
   public void triggerSynchronization(List<String> appNames)
   {
-    Ivy.log().info("multi trigger");
     appNames.forEach(appName -> triggerSynchronization(appName));
   }
 
@@ -107,7 +127,7 @@ public class SecurityBean
     {
       return true;
     }
-    return findAny.get().getSecuritySystemProvider().equals("ivy Security System");
+    return findAny.get().getSecuritySystemProvider().equals(SecuritySystemConfig.IVY_SECURITY_SYSTEM);
   }
   
   public boolean isSyncRunningForSelectedApp()
@@ -117,7 +137,6 @@ public class SecurityBean
   
   public boolean isSyncRunning(List<String> appNames)
   {
-    Ivy.log().info("multi sync running");
     return appNames.stream().anyMatch(appName -> isSyncRunning(appName) == true);
   }
 
