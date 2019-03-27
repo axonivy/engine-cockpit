@@ -42,26 +42,19 @@ public class SecurityBean
                     getSecurityContextForSecuritySystem(securitySystem), getAppsForSecuritySystem(securitySystem)))
             .collect(Collectors.toList());
     addIvySecuritySystem();
-    
   }
   
   private void addIvySecuritySystem()
   {
-    List<String> appsForSecuritySystem = getAppsForIvySecuritySystem();
-    if (!appsForSecuritySystem.isEmpty())
+    List<String> appsWithExternalSecuritySystem = systems.stream().flatMap(sys -> sys.getAppNames().stream()).collect(Collectors.toList());
+    List<String> appsWithIvySecuritySystem = managerBean.getApplications().stream()
+            .filter(app -> !appsWithExternalSecuritySystem.contains(app.getName()))
+            .map(app -> app.getName())
+            .collect(Collectors.toList());
+    if (!appsWithIvySecuritySystem.isEmpty())
     {
-      systems.add(new SecuritySystem(SecuritySystemConfig.IVY_SECURITY_SYSTEM, getSecurityContextForIvySecuritySystem(), appsForSecuritySystem));
+      systems.add(new SecuritySystem(SecuritySystemConfig.IVY_SECURITY_SYSTEM, Optional.empty(), appsWithIvySecuritySystem));
     }
-  }
-  
-  private Optional<ISecurityContext> getSecurityContextForIvySecuritySystem()
-  {
-    Optional<ISecurityContext> securityContextForSecuritySystem = getSecurityContextForSecuritySystem("");
-    if (securityContextForSecuritySystem.isPresent())
-    {
-      return securityContextForSecuritySystem;
-    }
-    return getSecurityContextForSecuritySystem(SecuritySystemConfig.IVY_SECURITY_SYSTEM);
   }
   
   private Optional<ISecurityContext> getSecurityContextForSecuritySystem(String securitySystem)
@@ -70,13 +63,6 @@ public class SecurityBean
             .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app.getName()), securitySystem))
             .findFirst()
             .map(app -> app.getSecurityContext());
-  }
-  
-  private List<String> getAppsForIvySecuritySystem()
-  {
-    List<String> appsForSecuritySystem = getAppsForSecuritySystem("");
-    appsForSecuritySystem.addAll(getAppsForSecuritySystem(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
-    return appsForSecuritySystem;
   }
   
   private List<String> getAppsForSecuritySystem(String securitySystem)
