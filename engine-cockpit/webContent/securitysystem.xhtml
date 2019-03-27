@@ -31,7 +31,7 @@
                 </h:outputText>
                 <h:outputText rendered="#{system.securitySystemProvider == 'ivy Security System'}">
                   <i class="material-icons table-icon">security</i>
-                  <h:outputText value="#{system.securitySystemName}" styleClass="security-name"/>
+                  <h:outputText value="#{system.securitySystemName}" styleClass="security-name" style="color: grey;"/>
                 </h:outputText>
               </p:column>
               <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">

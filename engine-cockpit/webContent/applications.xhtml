@@ -46,13 +46,20 @@
                   <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
                   <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
                   <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
-                    <a href="#{activity.detailView}">
-                      <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
+                    <h:outputText rendered="#{activity.detailView != '#'}">
+                      <a href="#{activity.detailView}">
+                        <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
+                          <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                        </h:outputText>
+                      </a>
+                    </h:outputText>
+                    <h:outputText rendered="#{activity.detailView == '#'}">
+                      <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}" style="color: grey;">
                         <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
                       </h:outputText>
-                      <h:outputText rendered="#{activity.pmv}" value="(#{activity.releaseState})"
+                    </h:outputText>
+                    <h:outputText rendered="#{activity.pmv}" value="(#{activity.releaseState})"
                         styleClass="release-state-#{activity.releaseStateLowerCase}" style="margin-left: 10px;" />
-                    </a>
                   </p:column>
                   <p:column headerText="Running Cases" styleClass="second-row" style="text-align: center; width: 100px;">
                     <h:outputText value="#{activity.runningCasesCount}"/>

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 @SuppressWarnings("restriction")
@@ -42,7 +41,6 @@ public class SecuritySystem
 
   public String getSecuritySystemName()
   {
-    Ivy.log().info(securitySystemName);
     return securitySystemName;
   }
 
