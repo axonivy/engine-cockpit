@@ -23,12 +23,10 @@
             </h1>
             <p:dataTable var="system" value="#{securityBean.securitySystems}">
               <p:column headerText="Name" sortBy="#{system.securitySystemName}">
-                <h:outputText rendered="#{system.securitySystemProvider != 'ivy Security System'}">
-                  <a href="security-detail.xhtml?securitySystemName=#{system.securitySystemName}">
-                    <i class="material-icons table-icon">security</i>
-                    <h:outputText value="#{system.securitySystemName}" styleClass="security-name"/>
-                  </a>
-                </h:outputText>
+                <h:outputLink value="security-detail.xhtml?securitySystemName=#{system.securitySystemName}" rendered="#{system.securitySystemProvider != 'ivy Security System'}">
+                  <i class="material-icons table-icon">security</i>
+                  <h:outputText value="#{system.securitySystemName}" styleClass="security-name"/>
+                </h:outputLink>
                 <h:outputText rendered="#{system.securitySystemProvider == 'ivy Security System'}">
                   <i class="material-icons table-icon">security</i>
                   <h:outputText value="#{system.securitySystemName}" styleClass="security-name" style="color: grey;"/>

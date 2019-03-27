@@ -46,13 +46,11 @@
                   <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
                   <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
                   <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
-                    <h:outputText rendered="#{activity.detailView != '#'}">
-                      <a href="#{activity.detailView}">
-                        <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
-                          <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
-                        </h:outputText>
-                      </a>
-                    </h:outputText>
+                    <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
+                      <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
+                        <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                      </h:outputText>
+                    </h:outputLink>
                     <h:outputText rendered="#{activity.detailView == '#'}">
                       <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}" style="color: grey;">
                         <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
