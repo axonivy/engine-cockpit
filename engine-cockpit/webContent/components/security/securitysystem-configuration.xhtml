@@ -21,33 +21,29 @@
     layout="grid" styleClass="ui-panelgrid-blank">
 
     <p:outputLabel value="Provider" />
-    <p:selectOneMenu id="providerSelect"
-      value="#{securityConfigDetailBean.provider}" valueChangeListener="#{securityDefaultValueBean.switchProvider}">
-      <f:selectItems value="#{securityConfigDetailBean.providers}" />
-      <p:ajax update="@(form)" />
-    </p:selectOneMenu>
+    <p:inputText id="provider" value="#{securityConfigDetailBean.provider}" disabled="true"/>
 
-    <label>URL</label>
+    <p:outputLabel value="URL" />
     <p:inputText id="url" value="#{securityConfigDetailBean.url}"
       placeholder="#{securityDefaultValueBean.url}" />
 
-    <label>User Name</label>
+    <p:outputLabel value="User Name" />
     <p:inputText id="userName"
       value="#{securityConfigDetailBean.userName}" />
 
-    <label>Password</label>
+    <p:outputLabel value="Password" />
     <p:inputText type="password" id="password"
       value="#{securityConfigDetailBean.password}" />
 
-    <label>Use LDAP Connection Pool</label>
+    <p:outputLabel value="Use LDAP Connection Pool" />
     <p:selectBooleanCheckbox id="ldapConnectionPool"
       value="#{securityConfigDetailBean.useLdapConnectionPool}" />
 
-    <label>Use SSL</label>
+    <p:outputLabel value="Use SSL" />
     <p:selectBooleanCheckbox id="useSsl"
       value="#{securityConfigDetailBean.ssl}" />
 
-    <label>Synchronization Time</label>
+    <p:outputLabel value="Synchronization Time" />
     <h:panelGroup>
       <p:inputText id="syncTime"
         value="#{securityConfigDetailBean.updateTime}"
@@ -55,8 +51,8 @@
       </p:inputText>
       <p:messages for="syncTime" id="syncTimeMessage" autoUpdate="true" showDetail="true"/>
     </h:panelGroup>
-      
-    <label>Dereference Aliases</label>
+
+    <p:outputLabel value="Dereference Aliases" />
     <p:selectOneMenu id="derefAliasesDropDown"
       value="#{securityConfigDetailBean.derefAlias}"
       placeholder="always">
@@ -64,15 +60,15 @@
       <p:ajax update="@form" />
     </p:selectOneMenu>
 
-    <label>Referral</label>
+    <p:outputLabel value="Referral" />
     <p:selectOneMenu id="ReferralDropDown"
       value="#{securityConfigDetailBean.referral}"
       placeholder="follow">
       <f:selectItems value="#{securityConfigDetailBean.referrals}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
-    
-    <label>Used by</label>
+
+    <p:outputLabel value="Used by" />
     <ui:repeat var="app" value="#{securityConfigDetailBean.usedByApps}" varStatus="status">
       <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
       <h:outputText value="#{status.last ? '' : ' / '}"/>

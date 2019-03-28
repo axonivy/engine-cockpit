@@ -25,7 +25,6 @@ public class SecurityConfigDetailBean
   private ManagerBean managerBean;
   private List<String> usedByApps;
 
-  private List<String> providers;
   private List<String> derefAliases;
   private List<String> protocols;
   private List<String> referrals;
@@ -68,7 +67,6 @@ public class SecurityConfigDetailBean
             .map(app -> app.getName())
             .collect(Collectors.toList());
 
-    providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
     derefAliases = Arrays.asList("", "never", "finding", "searching");
     protocols = Arrays.asList("", "ssl");
     referrals = Arrays.asList("", "ignore", "throw");
@@ -243,11 +241,6 @@ public class SecurityConfigDetailBean
     this.updateTime = updateTime;
   }
 
-  public List<String> getProviders()
-  {
-    return providers;
-  }
-
   public List<String> getDerefAliases()
   {
     return derefAliases;
@@ -269,7 +262,6 @@ public class SecurityConfigDetailBean
     {
       return;
     }
-    setConfiguration(ConfigKey.PROVIDER, this.provider);
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, encryptPassword());

@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,10 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 public class SecurityBean
 {
   private List<SecuritySystem> systems;
+  
+  private String newSecuritySystemName;
+  private String newSecuritySystemProvider;
+  private List<String> providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
   
   private SynchronizationLogger synchronizationLogger = new SynchronizationLogger();
 
@@ -155,6 +160,38 @@ public class SecurityBean
       sb.setLength(sb.length() - 2);
     }
     return sb.toString();
+  }
+  
+  public String getNewSecuritySystemName()
+  {
+    return newSecuritySystemName;
+  }
+  
+  public void setNewSecuritySystemName(String name)
+  {
+    this.newSecuritySystemName = name;
+  }
+  
+  public String getNewSecuritySystemProvider()
+  {
+    return newSecuritySystemProvider;
+  }
+  
+  public void setNewSecuritySystemProvider(String provider)
+  {
+    this.newSecuritySystemProvider = provider;
+  }
+  
+  public List<String> getProviders()
+  {
+    return providers;
+  }
+  
+  public void createNewSecuritySystem()
+  {
+    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(newSecuritySystemName) + 
+            SecuritySystemConfig.ConfigKey.PROVIDER, newSecuritySystemProvider);
+    loadSecuritySystems();
   }
 
 }
