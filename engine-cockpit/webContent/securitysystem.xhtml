@@ -14,7 +14,7 @@
     </ui:define>
 
     <ui:define name="content">
-      <cc:SingleCard>
+      <cc:SingleCard id="card">
         <div class="card card-w-title">
           <h:form id="form">
             <p:growl for="log" id="msgs" autoUpdate="true" />
@@ -25,7 +25,7 @@
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
-                <p:commandButton id="createApplicationBtn" widgetVar="createApplication" icon="ui-icon-add" type="button" value="Add"
+                <p:commandButton id="createSecuritySystemBtn" widgetVar="createApplication" icon="ui-icon-add" type="button" value="Add"
                   onclick="PF('newSecuritySystemModal').show();" />
               </div>
             </div>

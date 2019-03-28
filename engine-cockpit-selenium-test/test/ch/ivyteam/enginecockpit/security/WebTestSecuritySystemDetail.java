@@ -29,7 +29,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   void testConnectionInfos(FirefoxDriver driver)
   {
     toSecurityDetail(driver);
-    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:providerSelect_label").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:provider").getAttribute("value"))
             .isEqualTo("Microsoft Active Directory"));
     await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
             .isEqualTo("ldap://zugtstdirads"));
