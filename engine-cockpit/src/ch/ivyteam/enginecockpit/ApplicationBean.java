@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -14,7 +13,6 @@ import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.model.AbstractActivity;
 import ch.ivyteam.enginecockpit.model.Application;
-import ch.ivyteam.enginecockpit.model.EmailSettings;
 import ch.ivyteam.enginecockpit.model.ProcessModel;
 import ch.ivyteam.enginecockpit.model.ProcessModelVersion;
 import ch.ivyteam.ivy.application.IApplication;
@@ -36,7 +34,6 @@ public class ApplicationBean
   private String deleteType;
   
   private Application newApp;
-  private EmailSettings emailSettings;
   
   private ManagerBean managerBean;
   
@@ -48,7 +45,6 @@ public class ApplicationBean
     reloadActivities();
     newApp = new Application();
     operating = false;
-    reloadEmailSettings();
   }
   
   public TreeNode getActivities()
@@ -165,28 +161,6 @@ public class ApplicationBean
     app.setDescription(newApp.getDesc());
     reloadActivities();
     managerBean.reloadApplications();
-  }
-  
-  public void reloadEmailSettings()
-  {
-    emailSettings = new EmailSettings(managerBean.getSelectedIApplication());
-    emailSettings.setNotificationCheckboxRender(false);
-  }
-  
-  public EmailSettings getEmailSettings()
-  {
-    return emailSettings;
-  }
-  
-  public void saveEmailSettings()
-  {
-    IApplication app = managerBean.getSelectedIApplication();
-    Locale language = emailSettings.getLanguageLocale();
-    app.setDefaultEMailLanguage(language);
-    app.setDefaultEMailNotifcationSettings(
-            emailSettings.saveEmailSettings(app.getDefaultEMailNotifcationSettings()));
-    FacesContext.getCurrentInstance().addMessage("emailSaveSuccess",
-            new FacesMessage("User email changes saved"));
   }
   
   public void deleteConfirm(long appId, String name, String type)
