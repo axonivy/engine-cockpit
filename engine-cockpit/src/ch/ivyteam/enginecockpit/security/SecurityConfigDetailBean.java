@@ -284,7 +284,7 @@ public class SecurityConfigDetailBean
     final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
     if (!pattern.matcher(this.updateTime).matches()) {
       FacesContext.getCurrentInstance().addMessage("syncTime", 
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Please use 'hh:mm' format for syncronization Time"));
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Please check that synchronization Time is max '23:59'"));
       return false;
     }
     return true;

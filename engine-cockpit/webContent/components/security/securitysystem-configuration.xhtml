@@ -45,10 +45,7 @@
 
     <p:outputLabel value="Synchronization Time" />
     <h:panelGroup>
-      <p:inputText id="syncTime"
-        value="#{securityConfigDetailBean.updateTime}"
-        placeholder="#{securityDefaultValueBean.updatetime}">
-      </p:inputText>
+      <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99" placeholder="#{securityDefaultValueBean.updatetime}" />
       <p:messages for="syncTime" id="syncTimeMessage" autoUpdate="true" showDetail="true"/>
     </h:panelGroup>
 
