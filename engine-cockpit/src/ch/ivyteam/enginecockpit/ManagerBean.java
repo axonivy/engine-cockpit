@@ -49,6 +49,10 @@ public class ManagerBean
   
   public List<Application> getApplications()
   {
+    if (applications.isEmpty())
+    {
+      reloadApplications();
+    }
     return applications;
   }
 

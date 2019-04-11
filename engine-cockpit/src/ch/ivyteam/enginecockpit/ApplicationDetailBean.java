@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,6 @@ import javax.faces.event.ValueChangeEvent;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.model.Application;
-import ch.ivyteam.enginecockpit.model.EmailSettings;
 import ch.ivyteam.enginecockpit.model.Property;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
@@ -31,8 +29,6 @@ public class ApplicationDetailBean
   private SecuritySystem security;
   private List<Property> properties;
   private List<String> environments;
-  
-  private EmailSettings emailSettings;
   
   private ManagerBean managerBean;
   
@@ -54,7 +50,6 @@ public class ApplicationDetailBean
             .map(p -> new Property(p)).collect(Collectors.toList());
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
-    reloadEmailSettings();
   }
 
   public String getAppName()
@@ -143,25 +138,4 @@ public class ApplicationDetailBean
     security = initSecuritySystem(getAppName());
   }
   
-  public void reloadEmailSettings()
-  {
-    emailSettings = new EmailSettings(managerBean.getSelectedIApplication());
-    emailSettings.setNotificationCheckboxRender(false);
-  }
-  
-  public EmailSettings getEmailSettings()
-  {
-    return emailSettings;
-  }
-  
-  public void saveEmailSettings()
-  {
-    IApplication iApp = managerBean.getSelectedIApplication();
-    Locale language = emailSettings.getLanguageLocale();
-    iApp.setDefaultEMailLanguage(language);
-    iApp.setDefaultEMailNotifcationSettings(
-            emailSettings.saveEmailSettings(iApp.getDefaultEMailNotifcationSettings()));
-    FacesContext.getCurrentInstance().addMessage("emailSaveSuccess",
-            new FacesMessage("User email changes saved"));
-  }
 }
