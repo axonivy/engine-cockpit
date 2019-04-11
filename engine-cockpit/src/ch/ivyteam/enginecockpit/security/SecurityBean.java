@@ -113,12 +113,7 @@ public class SecurityBean
   
   public boolean isIvySecurityForSelectedApp()
   {
-    Optional<SecuritySystem> findAny = systems.stream().filter(s -> s.getAppNames().contains(managerBean.getSelectedApplication().getName())).findAny();
-    if (!findAny.isPresent())
-    {
-      return true;
-    }
-    return findAny.get().getSecuritySystemProvider().equals(SecuritySystemConfig.IVY_SECURITY_SYSTEM);
+    return managerBean.isIvySecuritySystem();
   }
   
   public boolean isSyncRunningForSelectedApp()

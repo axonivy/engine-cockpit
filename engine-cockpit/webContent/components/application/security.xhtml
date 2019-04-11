@@ -15,7 +15,7 @@
     styleClass="primary-btn card-button spin-icon" onclick="PF('logPoller').start()">
     <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
   </p:commandButton>
-  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="1" update="@form" />
+  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
   <p:commandButton id="showAdSyncLogBtn" icon="fa fa-info" styleClass="secondary-btn card-button"
     rendered="#{securityBean.isNewLogAwailable()}" type="button" />
   <p:overlayPanel rendered="#{securityBean.isNewLogAwailable()}" id="adSyncLog" for="showAdSyncLogBtn"

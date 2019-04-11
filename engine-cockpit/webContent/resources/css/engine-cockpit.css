@@ -216,10 +216,6 @@ body {
   top: 3px;
   margin-right: 10px;
 }
-.spin-icon .fa.fa-refresh,
-.card .spin-icon {
-  font-size: 19px;
-}
 .float-select-many-checkbox .ui-grid-row {
   display: block;
 }

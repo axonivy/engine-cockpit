@@ -41,7 +41,20 @@ public class ApplicationDetailBean
   
   public void setAppName(String appName)
   {
-    this.appName = appName;
+    if (this.appName == null || this.appName != appName)
+    {
+      this.appName = appName;
+      reloadDetailApplication();
+    }
+  }
+
+  public String getAppName()
+  {
+    return appName;
+  }
+  
+  private void reloadDetailApplication()
+  {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream().filter(a -> a.getName().equals(appName)).findFirst().get();
     security = initSecuritySystem(appName);
@@ -50,11 +63,6 @@ public class ApplicationDetailBean
             .map(p -> new Property(p)).collect(Collectors.toList());
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
-  }
-
-  public String getAppName()
-  {
-    return appName;
   }
   
   public Application getApplication()
