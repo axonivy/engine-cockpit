@@ -41,12 +41,12 @@ public class ApplicationDetailBean
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    reloadEmailSettings();
   }
   
   public void setAppName(String appName)
   {
     this.appName = appName;
+    managerBean.reloadApplications();
     app = managerBean.getApplications().stream().filter(a -> a.getName().equals(appName)).findFirst().get();
     security = initSecuritySystem(appName);
     List<IProperty> configurationProperties = getIApplication().getConfigurationProperties();
@@ -54,6 +54,7 @@ public class ApplicationDetailBean
             .map(p -> new Property(p)).collect(Collectors.toList());
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
+    reloadEmailSettings();
   }
 
   public String getAppName()

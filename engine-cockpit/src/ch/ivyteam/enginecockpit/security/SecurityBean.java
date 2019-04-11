@@ -59,7 +59,7 @@ public class SecurityBean
   
   private Optional<ISecurityContext> getSecurityContextForSecuritySystem(String securitySystem)
   {
-    return managerBean.getIApplicaitons().stream()
+    return managerBean.getIApplications().stream()
             .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app.getName()), securitySystem))
             .findFirst()
             .map(app -> app.getSecurityContext());
@@ -67,7 +67,7 @@ public class SecurityBean
   
   private List<String> getAppsForSecuritySystem(String securitySystem)
   {
-    return managerBean.getIApplicaitons().stream()
+    return managerBean.getIApplications().stream()
             .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app.getName()), securitySystem))
             .map(app -> app.getName())
             .collect(Collectors.toList());
@@ -137,7 +137,7 @@ public class SecurityBean
   
   public boolean isAnySyncRunning()
   {
-    return managerBean.getIApplicaitons().stream()
+    return managerBean.getIApplications().stream()
             .filter(app -> app.getSecurityContext().isSynchronizationRunning() == true)
             .findAny().isPresent();
   }
