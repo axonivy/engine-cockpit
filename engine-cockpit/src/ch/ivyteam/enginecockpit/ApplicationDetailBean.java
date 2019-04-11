@@ -129,7 +129,7 @@ public class ApplicationDetailBean
   private String getSecuritySystemName(String name)
   {
     String securityName = SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getAppConfigPrefix(name));
-    if (StringUtils.isBlank(securityName) || SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getConfigPrefix(securityName)).isEmpty())
+    if (StringUtils.isBlank(securityName) || !SecuritySystemConfig.getConfigurationNames(SecuritySystemConfig.SECURITY_SYSTEMS).contains(securityName))
     {
       securityName = SecuritySystemConfig.IVY_SECURITY_SYSTEM;
     }
