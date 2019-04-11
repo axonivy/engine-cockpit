@@ -65,7 +65,7 @@ public class ApplicationBean
   
   private void loadApplicationTree(TreeNode rootNode)
   {
-    for (IApplication app : managerBean.getIApplicaitons())
+    for (IApplication app : managerBean.getIApplications())
     {
       TreeNode node = new DefaultTreeNode(new Application(app, this), rootNode);
       node.setExpanded(true);
