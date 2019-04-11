@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 @SessionScoped
 public class ManagerBean
 {
-  private List<Application> applications;
+  private List<Application> applications = Collections.emptyList();
   private int selectedApplicationIndex;
 
   @Inject
@@ -36,14 +37,22 @@ public class ManagerBean
 
   public void reloadApplications()
   {
-    applications = manager.getApplicationsSortedByName(false).stream()
+    int appCount = applications.size();
+    applications = getIApplications().stream()
             .map(app -> new Application(app))
             .collect(Collectors.toList());
-    selectedApplicationIndex = 0;
+    if (selectedApplicationIndex != 0 && appCount != applications.size())
+    {
+      selectedApplicationIndex = 0;
+    }
   }
   
   public List<Application> getApplications()
   {
+    if (applications.isEmpty())
+    {
+      reloadApplications();
+    }
     return applications;
   }
 
@@ -83,6 +92,10 @@ public class ManagerBean
   
   public String getSelectedApplicationName()
   {
+    if (applications.isEmpty())
+    {
+      return "";
+    }
     return getSelectedApplication().getName();
   }
   
@@ -105,7 +118,7 @@ public class ManagerBean
     return manager.getApplication(id);
   }
 
-  public List<IApplication> getIApplicaitons()
+  public List<IApplication> getIApplications()
   {
     return manager.getApplicationsSortedByName(false);
   }
@@ -118,12 +131,12 @@ public class ManagerBean
 
   public long getApplicationCount()
   {
-    return getApplications().size();
+    return getIApplications().size();
   }
   
   public int getUsersCount()
   {
-    return getIApplicaitons().stream().mapToInt(app -> app.getSecurityContext().getUsers().size() - 1).sum();
+    return getIApplications().stream().mapToInt(app -> app.getSecurityContext().getUsers().size() - 1).sum();
   }
   
   public long getRunningCasesCount()
