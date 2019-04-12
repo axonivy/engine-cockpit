@@ -311,6 +311,12 @@ public class SecurityConfigDetailBean
     SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key, value);
   }
   
+  public String deleteConfiguration()
+  {
+    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name));
+    return "securitysystem.xhtml?faces-redirect=true";
+  }
+  
   private String encryptPassword()
   {
     if (StringUtils.isBlank(this.password))

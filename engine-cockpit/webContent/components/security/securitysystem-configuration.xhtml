@@ -16,6 +16,15 @@
   <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true"/>
   <p:commandButton title="Save" icon="ui-icon-save" id="saveSecuritySystemConfigBtn"
     styleClass="primary-btn card-button" actionListener="#{securityConfigDetailBean.saveConfiguration}" />
+  <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()" title="Delete this security system"
+    icon="ui-icon-delete" styleClass="red-btn card-button" rendered="#{empty securityConfigDetailBean.usedByApps}" />
+  <p:confirmDialog id="deleteSecuritySystemConfirmDialog" message="Are you sure about deleteing the security system '#{securityConfigDetailBean.name}'?" header="Delete Security System"
+    severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
+    <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="Yes" ajax="false" immediate="true" action="#{securityConfigDetailBean.deleteConfiguration}"
+      icon="ui-icon-check" style="width: inherit;" />
+    <p:commandButton value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button" icon="ui-icon-close"
+      style="width: inherit;" />
+  </p:confirmDialog>
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
     layout="grid" styleClass="ui-panelgrid-blank">
