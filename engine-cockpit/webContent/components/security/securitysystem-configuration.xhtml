@@ -21,7 +21,7 @@
     layout="grid" styleClass="ui-panelgrid-blank">
 
     <p:outputLabel value="Provider" />
-    <p:inputText id="provider" value="#{securityConfigDetailBean.provider}" disabled="true"/>
+    <p:outputLabel id="provider" value="#{securityConfigDetailBean.provider}" />
 
     <p:outputLabel value="URL" />
     <p:inputText id="url" value="#{securityConfigDetailBean.url}"
@@ -65,7 +65,7 @@
       <p:ajax update="@form" />
     </p:selectOneMenu>
 
-    <p:outputLabel value="Used by" />
+    <p:outputLabel value="Used by applications" />
     <ui:repeat var="app" value="#{securityConfigDetailBean.usedByApps}" varStatus="status">
       <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
       <h:outputText value="#{status.last ? '' : ' / '}"/>

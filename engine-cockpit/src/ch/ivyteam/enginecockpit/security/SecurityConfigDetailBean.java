@@ -67,9 +67,9 @@ public class SecurityConfigDetailBean
             .map(app -> app.getName())
             .collect(Collectors.toList());
 
-    derefAliases = Arrays.asList("", "never", "finding", "searching");
+    derefAliases = Arrays.asList("always", "never", "finding", "searching");
     protocols = Arrays.asList("", "ssl");
-    referrals = Arrays.asList("", "ignore", "throw");
+    referrals = Arrays.asList("follow", "ignore", "throw");
 
     provider = getConfiguration(ConfigKey.PROVIDER);
     url = getConfiguration(ConfigKey.CONNECTION_URL);
@@ -266,9 +266,11 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, encryptPassword());
     setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, getSaveValueUseLdapConnectionPool());
-    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, this.derefAlias);
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
+            StringUtils.equals(this.derefAlias, SecuritySystemConfig.DefaultValue.DEREF_ALIAS) ? "" : this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
-    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, this.referral);
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, 
+            StringUtils.equals(this.referral, SecuritySystemConfig.DefaultValue.REFERRAL) ? "" : this.referral);
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
