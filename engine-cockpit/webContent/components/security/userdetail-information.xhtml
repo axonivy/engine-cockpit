@@ -22,35 +22,30 @@
       style="width: inherit;" />
   </p:confirmDialog>
 
-  <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
-    <h:panelGroup styleClass="md-inputfield">
-      <p:inputText id="name" disabled="true" value="#{userDetailBean.user.name}" />
-      <p:outputLabel for="name" value="Name" />
-    </h:panelGroup>
-    <h:panelGroup styleClass="md-inputfield">
-      <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
-      <p:outputLabel for="fullName" value="Full Name" />
-    </h:panelGroup>
-    <h:panelGroup styleClass="md-inputfield">
-      <p:inputText id="email" value="#{userDetailBean.user.email}" />
-      <p:outputLabel for="email" value="E-Mail Address" />
-    </h:panelGroup>
-    <h:panelGroup styleClass="md-inputfield">
-      <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2"
-        value="#{userDetailBean.user.password}" />
-      <p:outputLabel for="password1" value="Password" />
-    </h:panelGroup>
-    <h:panelGroup styleClass="md-inputfield">
-      <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}" />
-      <p:outputLabel for="password2" value="Confirm Password" />
-    </h:panelGroup>
-    <h:panelGroup rendered="#{!managerBean.ivySecuritySystem}">
-      <div class="static-info-message">
-        <i class="fa fa-info"/>
-        <h:outputText value="This user is managed by an external security system"/>
-      </div>
-    </h:panelGroup>
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
+    layout="grid" styleClass="ui-panelgrid-blank">
+    
+    <p:outputLabel for="name" value="Name" />
+    <p:outputLabel id="name" value="#{userDetailBean.user.name}" />
+    
+    <p:outputLabel for="fullName" value="Full Name" />
+    <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
+    
+    <p:outputLabel for="email" value="E-Mail Address" />
+    <p:inputText id="email" value="#{userDetailBean.user.email}" />
+    
+    <p:outputLabel for="password1" value="Password" />
+    <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2"
+      value="#{userDetailBean.user.password}" />
+      
+    <p:outputLabel for="password2" value="Confirm Password" />
+    <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}" />
+      
     <p:messages for="password1" id="informationMessages" autoUpdate="true" />
   </p:panelGrid>
+  <h:panelGroup layout="block" styleClass="static-info-message" rendered="#{managerBean.ivySecuritySystem}">
+    <i class="fa fa-info"/>
+    <h:outputText value="This user is managed by an external security system"/>
+  </h:panelGroup>
 </h:form>
 </html>

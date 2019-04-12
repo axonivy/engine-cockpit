@@ -16,7 +16,7 @@
     supportedLanguages="#{managerBean.supportedLanguagesWithDefault}" id="emailSettings">
     <p:outputLabel value="Settings from:" for="radioSettings" />
     <p:selectOneRadio id="radioSettings" value="#{userDetailBean.emailSettings.selectedSettings}" layout="responsive"
-      columns="2">
+      columns="2" styleClass="email-radio-style">
       <f:selectItem itemLabel="Application" itemValue="Application" />
       <f:selectItem itemLabel="Specific" itemValue="Specific" />
       <p:ajax event="click" update="@form" />
