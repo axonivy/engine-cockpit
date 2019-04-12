@@ -29,7 +29,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   void testConnectionInfos(FirefoxDriver driver)
   {
     toSecurityDetail(driver);
-    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:provider").getAttribute("value"))
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:provider").getText())
             .isEqualTo("Microsoft Active Directory"));
     await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
             .isEqualTo("ldap://zugtstdirads"));
@@ -71,8 +71,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
             .isFalse());
     
     saveInvalidSyncTimeAndAssert(driver, "32:23");
-    saveInvalidSyncTimeAndAssert(driver, "12:235");
-    saveInvalidSyncTimeAndAssert(driver, "12:2");
+    saveInvalidSyncTimeAndAssert(driver, "12:95");
     
     driver.findElementById("securitySystemConfigForm:syncTime").clear();
     driver.findElementById("securitySystemConfigForm:syncTime").sendKeys("16:47");
