@@ -272,15 +272,21 @@ body {
 .release-state-archived {
   text-decoration: line-through;
 }
-.static-info-message {
+.static-message {
   -moz-border-radius: 9px;
   -webkit-border-radius: 9px;
   border-radius: 9px;
   padding: 2px 8px;
-  color: #ffffff;
-  background-color: darkgrey;
   font-style: italic;
 }
-.static-info-message i {
+.static-message i {
   margin-right: 5px;
+}
+.static-info-message {
+  color: #ffffff;
+  background-color: darkgrey;
+}
+.static-warn-message {
+  color: black;
+  background-color: #ffc107;
 }

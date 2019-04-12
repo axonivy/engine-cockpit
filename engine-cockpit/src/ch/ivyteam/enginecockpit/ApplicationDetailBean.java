@@ -9,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +26,7 @@ public class ApplicationDetailBean
   private String appName;
   private Application app;
   private SecuritySystem security;
+  private String changeSecuritySystem;
   private List<Property> properties;
   private List<String> environments;
   
@@ -127,7 +127,9 @@ public class ApplicationDetailBean
 
   private SecuritySystem initSecuritySystem(String applicationName)
   {
-    return new SecuritySystem(getSecuritySystemName(applicationName), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
+    SecuritySystem securitySystem = new SecuritySystem(getSecuritySystemName(applicationName), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
+    changeSecuritySystem = securitySystem.getSecuritySystemName();
+    return securitySystem;
   }
   
   private String getSecuritySystemName(String name)
@@ -140,10 +142,20 @@ public class ApplicationDetailBean
     return securityName;
   }
 
-  public void setSecuritySystem(ValueChangeEvent event)
+  public void setSecuritySystem()
   {
-    app.setSecuritySystem(event.getNewValue().toString());
+    app.setSecuritySystem(changeSecuritySystem);
     security = initSecuritySystem(getAppName());
+  }
+  
+  public String getChangeSecuritySystem()
+  {
+    return changeSecuritySystem;
+  }
+  
+  public void setChangeSecuritySystem(String changeSecuritySystem)
+  {
+    this.changeSecuritySystem = changeSecuritySystem;
   }
   
 }
