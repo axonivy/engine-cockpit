@@ -29,8 +29,11 @@ public class SynchronizationLogger implements SynchronizationListener
   @Override
   public void handleLog(Level level, String message, Throwable exception)
   {
+    if (level.equals(Level.DEBUG))
+    {
+      return;
+    }
     StringBuilder messageBuilder = new StringBuilder(message);
-
     if (exception != null)
     {
       messageBuilder.append("\n").append(exception.getMessage());
