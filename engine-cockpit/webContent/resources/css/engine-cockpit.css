@@ -46,6 +46,7 @@ body {
   width: calc(100% - 40px);
   margin-right: 8px;
 }
+.ui-tabs-panel .ui-grid-col-5 label,
 .dashboard-card .ui-grid-col-5 label {
   color: grey;
 }
@@ -289,4 +290,15 @@ body {
 .static-warn-message {
   color: black;
   background-color: #ffc107;
+}
+
+
+/*Email Style Changes*/
+.email-checkbox-style .ui-grid-row,
+.email-radio-style .ui-grid-row {
+  display: block;
+}
+.email-checkbox-style .ui-grid-col-6,
+.email-radio-style .ui-grid-col-6 {
+  min-width: 150px;
 }

@@ -23,23 +23,19 @@
     <p:commandButton value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>
-  <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
-    <h:panelGroup styleClass="md-inputfield">
-      <p:inputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
-      <p:outputLabel for="name" value="Name"/>
-    </h:panelGroup>
-    <h:panelGroup styleClass="md-inputfield">
-      <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
-      <p:outputLabel for="displayName" value="Display Name" />
-    </h:panelGroup>
-    <h:panelGroup styleClass="md-inputfield">
-      <p:inputText id="description" value="#{roleDetailBean.role.description}" />
-      <p:outputLabel for="description" value="Description" />
-    </h:panelGroup>
-    <h:panelGroup styleClass="md-inputfield">
-      <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
-      <p:outputLabel for="externalSecurityName" value="External Security Name" />
-    </h:panelGroup>
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
+    layout="grid" styleClass="ui-panelgrid-blank">
+    <p:outputLabel for="name" value="Name"/>
+    <p:outputLabel id="name" disabled="true" value="#{roleDetailBean.role.name}" />
+    
+    <p:outputLabel for="displayName" value="Display Name" />
+    <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
+    
+    <p:outputLabel for="description" value="Description" />
+    <p:inputText id="description" value="#{roleDetailBean.role.description}" />
+    
+    <p:outputLabel for="externalSecurityName" value="External Security Name" />
+    <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
   </p:panelGrid>
 </h:form>
 <ui:include src="../../dialogs/newrole.xhtml" />
