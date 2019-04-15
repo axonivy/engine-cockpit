@@ -9,6 +9,8 @@
   <h:outputText value="Security System" />
 </f:facet>
 <h:form id="appDetailSecurityForm">
+  <p:commandButton id="changeSecuritySystem" icon="ui-icon-settings" styleClass="amber-btn card-button"
+    onclick="PF('changeSecuritySystemModel').show()" type="button" />
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
     title="Synchronize" type="button" icon="fa #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} fa-refresh"
@@ -25,13 +27,7 @@
   </p:overlayPanel>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
     <p:outputLabel value="Name" />
-    <p:selectOneMenu id="securitySystemSelect"
-      value="#{applicationDetailBean.securitySystem.securitySystemName}"
-      onchange="return confirm('This action will synchronize all users and roles, do you want to proceed?')"
-      valueChangeListener="#{applicationDetailBean.setSecuritySystem}" style="width: 100%;">
-      <f:selectItems value="#{securityBean.availableSecuritySystems}" />
-      <p:ajax update="@form" />
-    </p:selectOneMenu>
+    <p:outputLabel value="#{applicationDetailBean.securitySystem.securitySystemName}" />
     <p:outputLabel value="Provider" />
     <p:outputLabel value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
     <p:outputLabel value="Users" />
@@ -44,4 +40,5 @@
     </p:outputLabel>
   </p:panelGrid>
 </h:form>
+<ui:include src="../../dialogs/changesecuritysystem.xhtml" />
 </html>

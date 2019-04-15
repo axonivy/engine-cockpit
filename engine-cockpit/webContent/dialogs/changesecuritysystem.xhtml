@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog style="min-width: 300px;" header="Change security system" id="changeSecuritySystemModel"
+  widgetVar="changeSecuritySystemModel" modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="changeSecuritySystemForm">
+    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+      <h:panelGroup layout="block" styleClass="static-message static-warn-message">
+        <i class="fa fa-exclamation-triangle"/>
+        <h:outputText value="A security system change will automatically trigger a synchronization!"/>
+      </h:panelGroup>
+      <p:selectOneMenu id="securitySystemSelect"
+        value="#{applicationDetailBean.changeSecuritySystem}" style="width: 100%;">
+        <f:selectItems value="#{securityBean.availableSecuritySystems}" />
+      </p:selectOneMenu>
+    </p:panelGrid>
+    <p:commandButton id="saveChangeSecuritySystem" validateClient="true" ajax="false" 
+      actionListener="#{applicationDetailBean.setSecuritySystem}" value="Save" icon="ui-icon-save"
+      styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('changeSecuritySystemModel').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </h:form>
+</p:dialog>
+</html>

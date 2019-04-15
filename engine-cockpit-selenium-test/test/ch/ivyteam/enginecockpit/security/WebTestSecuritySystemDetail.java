@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -57,6 +58,22 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
     await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
             .isTrue());
+  }
+  
+  @Test
+  void testDirNotDeletableIfUsedByApp(FirefoxDriver driver)
+  {
+    toSecurityDetail(driver);
+    Throwable result = null;
+    try
+    {
+      driver.findElementById("securitySystemConfigForm:deleteSecuritySystem");
+    }
+    catch (Exception e)
+    {
+      result = e;
+    }
+    assertThat(result).isInstanceOf(NoSuchElementException.class);
   }
   
   @Test
