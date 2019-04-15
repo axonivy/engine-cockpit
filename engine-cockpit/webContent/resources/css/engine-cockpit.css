@@ -46,11 +46,10 @@ body {
   width: calc(100% - 40px);
   margin-right: 8px;
 }
-.ui-tabs-panel .ui-grid-col-5 label,
-.dashboard-card .ui-grid-col-5 label {
+.grey-label-panel > .ui-grid > .ui-grid-row > div:nth-child(odd) > label {
   color: grey;
 }
-.dashboard-card .ui-grid-col-7 label {
+.dashboard-card .ui-grid-row>div:nth-child(even) {
   word-wrap: break-word;
 }
 .dashboard-card .ui-panel {
