@@ -78,7 +78,10 @@
     </p:selectOneMenu>
 
     <p:outputLabel value="Used by applications" >
-      <i class="material-icons label-help-icon" title="Every application, which using this security system.">help</i>
+      <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
+        <i class="material-icons">help</i>
+        <p:tooltip for="@parent" value="Every application, which using this security system." position="top"/>
+      </h:panelGroup>
     </p:outputLabel>
     <ui:repeat var="app" value="#{securityConfigDetailBean.usedByApps}" varStatus="status">
       <a href="application-detail.xhtml?appName=#{app}">#{app}</a>

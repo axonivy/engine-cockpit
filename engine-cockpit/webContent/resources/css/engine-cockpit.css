@@ -290,8 +290,10 @@ body {
   color: black;
   background-color: #ffc107;
 }
-label .label-help-icon {
+.label-help-icon {
   float: right; 
+}
+.label-help-icon i {
   font-size: 13px;
 }
 
