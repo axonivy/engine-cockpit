@@ -25,6 +25,11 @@
       <li><a
         href="security-detail.xhtml?securitySystemName=#{securityConfigDetailBean.name}">#{securityConfigDetailBean.name}</a></li>
     </ui:define>
+    <ui:define name="breadcrumb-help">
+      <a href="#" onclick="window.open('https://developer.axonivy.com/doc/latest/EngineGuideHtml/configuration.html#configuration-file-ref-ivy-securitysystem-yaml'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
     <ui:define name="content">
       <form>
         <div>

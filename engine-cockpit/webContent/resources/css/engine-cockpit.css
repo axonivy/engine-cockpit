@@ -290,7 +290,10 @@ body {
   color: black;
   background-color: #ffc107;
 }
-
+label .label-help-icon {
+  float: right; 
+  font-size: 13px;
+}
 
 /*Email Style Changes*/
 .email-checkbox-style .ui-grid-row,

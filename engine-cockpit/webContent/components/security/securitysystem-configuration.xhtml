@@ -25,15 +25,11 @@
     <p:commandButton value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>
-  <p:commandButton title="Help" icon="ui-icon-help" type="button"
-    styleClass="blue-grey-btn card-button" />
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     
-    <p:outputLabel value="Name">
-      <i class="material-icons" style="float: right; font-size: 13px;">help</i>
-    </p:outputLabel>
+    <p:outputLabel value="Name" />
     <p:outputLabel id="name" value="#{securityConfigDetailBean.name}"/>
 
     <p:outputLabel value="Provider" />
@@ -81,7 +77,9 @@
       <p:ajax update="@form" />
     </p:selectOneMenu>
 
-    <p:outputLabel value="Used by applications" />
+    <p:outputLabel value="Used by applications" >
+      <i class="material-icons label-help-icon" title="Every application, which using this security system.">help</i>
+    </p:outputLabel>
     <ui:repeat var="app" value="#{securityConfigDetailBean.usedByApps}" varStatus="status">
       <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
       <h:outputText value="#{status.last ? '' : ' / '}"/>
