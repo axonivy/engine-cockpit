@@ -74,7 +74,7 @@ public class ConfigProperty
   {
     int prefixString = source.lastIndexOf(',');
     if(prefixString > 0) {
-      return new File(new URI(source.substring(source.indexOf(":"), source.lastIndexOf(','))));
+      return new File(new URI(source.substring(0, prefixString)));
     }
     return new File(new URI(source));
   }
