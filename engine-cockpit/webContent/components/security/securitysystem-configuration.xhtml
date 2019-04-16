@@ -35,33 +35,33 @@
     <label>Provider</label>
     <h:outputText id="provider" value="#{securityConfigDetailBean.provider}" />
 
-    <label>URL</label>
+    <p:outputLabel for="url" value="URL" />
     <p:inputText id="url" value="#{securityConfigDetailBean.url}"
       placeholder="#{securityDefaultValueBean.url}" />
 
-    <label>User Name</label>
+    <p:outputLabel for="userName" value="User Name" />
     <p:inputText id="userName"
       value="#{securityConfigDetailBean.userName}" />
 
-    <label>Password</label>
+    <p:outputLabel for="password" value="Password" />
     <p:inputText type="password" id="password"
       value="#{securityConfigDetailBean.password}" />
 
-    <label>Use LDAP Connection Pool</label>
+    <p:outputLabel for="ldapConnectionPool" value="Use LDAP Connection Pool" />
     <p:selectBooleanCheckbox id="ldapConnectionPool"
       value="#{securityConfigDetailBean.useLdapConnectionPool}" />
 
-    <label>Use SSL</label>
+    <p:outputLabel for="useSsl" value="Use SSL" />
     <p:selectBooleanCheckbox id="useSsl"
       value="#{securityConfigDetailBean.ssl}" />
 
-    <label>Synchronization Time</label>
+    <p:outputLabel for="syncTime" value="Synchronization Time" />
     <h:panelGroup>
       <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99" placeholder="#{securityDefaultValueBean.updatetime}" />
       <p:messages for="syncTime" id="syncTimeMessage" autoUpdate="true" showDetail="true"/>
     </h:panelGroup>
 
-    <label>Dereference Aliases</label>
+    <p:outputLabel for="derefAliasesDropDown" value="Dereference Aliases" />
     <p:selectOneMenu id="derefAliasesDropDown"
       value="#{securityConfigDetailBean.derefAlias}"
       placeholder="always">
@@ -69,7 +69,7 @@
       <p:ajax update="@form" />
     </p:selectOneMenu>
 
-    <label>Referral</label>
+    <p:outputLabel for="ReferralDropDown" value="Referral" />
     <p:selectOneMenu id="ReferralDropDown"
       value="#{securityConfigDetailBean.referral}"
       placeholder="follow">

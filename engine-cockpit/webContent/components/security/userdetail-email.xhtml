@@ -14,7 +14,7 @@
     title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
   <cc:EmailSettings emailSettings="#{userDetailBean.emailSettings}"
     supportedLanguages="#{managerBean.supportedLanguagesWithDefault}" id="emailSettings">
-    <label>Settings from</label>
+    <p:outputLabel value="Settings from" for="radioSettings" />
     <p:selectOneRadio id="radioSettings" value="#{userDetailBean.emailSettings.selectedSettings}" layout="responsive"
       columns="2" styleClass="email-radio-style">
       <f:selectItem itemLabel="Application" itemValue="Application" />

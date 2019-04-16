@@ -28,13 +28,13 @@
     <label>Name</label>
     <h:outputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
     
-    <label>Display Name</label>
+    <p:outputLabel for="displayName" value="Display Name" />
     <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
     
-    <label>Description</label>
+    <p:outputLabel for="description" value="Description" />
     <p:inputText id="description" value="#{roleDetailBean.role.description}" />
     
-    <label>External Security Name</label>
+    <p:outputLabel for="externalSecurityName" value="External Security Name" />
     <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
   </p:panelGrid>
 </h:form>
