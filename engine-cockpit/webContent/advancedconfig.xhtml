@@ -51,6 +51,11 @@
                   </p:column>
                   <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 100px;">
                     <h:outputText value="#{config.shortSource}" title="#{config.source}" />
+                    <p:commandButton ajax="false" icon="ui-icon-find-in-page" style="margin-left: 15px;" styleClass="secondary-btn">
+                      <p:fileDownload value="#{config.downloadFile()}">
+                        <!-- <i class="material-icons" style="float: right; font-size: 20px;">find_in_page</i>-->
+                      </p:fileDownload>
+                    </p:commandButton>
                   </p:column>
                 </p:dataTable>
               </h:form>
