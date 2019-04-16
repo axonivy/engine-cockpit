@@ -39,7 +39,7 @@ public class WebTestUserDetail extends WebTestBase
   void testUserDetailInformation(FirefoxDriver driver)
   {
     openUserFooDetail(driver);
-    assertThat(driver.findElementById("userInformationForm:name").getAttribute("value")).isEqualTo(DETAIL_USER_NAME);
+    assertThat(driver.findElementById("userInformationForm:name").getText()).isEqualTo(DETAIL_USER_NAME);
   }
   
   @Test
@@ -57,7 +57,7 @@ public class WebTestUserDetail extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.findElementById("userInformationForm:informationSaveSuccess_container").isDisplayed()).isTrue());
     driver.navigate().refresh();
     saveScreenshot(driver, "refresh");
-    await().untilAsserted(() -> assertThat(driver.findElementById("userInformationForm:name").getAttribute("value")).isEqualTo(DETAIL_USER_NAME));
+    await().untilAsserted(() -> assertThat(driver.findElementById("userInformationForm:name").getText()).isEqualTo(DETAIL_USER_NAME));
     await().untilAsserted(() -> assertThat(driver.findElementById("userInformationForm:fullName").getAttribute("value")).isEqualTo("Foo User"));
     await().untilAsserted(() -> assertThat(driver.findElementById("userInformationForm:email").getAttribute("value")).isEqualTo("foo@ivyteam.ch"));
     await().untilAsserted(() -> assertThat(driver.findElementById("userInformationForm:password1").getAttribute("value")).isEqualTo(""));
