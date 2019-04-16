@@ -17,18 +17,18 @@
   <p:commandButton title="Save" icon="ui-icon-save" id="saveSecuritySystemBindingBtn"
     styleClass="primary-btn card-button" actionListener="#{securityConfigDetailBean.saveBinding}" />
 
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7"
-    layout="grid" styleClass="ui-panelgrid-blank">
-      
-    <label>Default Context</label>
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
+    layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+
+    <p:outputLabel for="defaultContext" value="Default Context"/>
     <p:inputText id="defaultContext"
       value="#{securityConfigDetailBean.defaultContext}" />
 
-    <label>Import Users Of Group</label>
+    <p:outputLabel for="importUsersOfGroup" value="Import Users Of Group"/>
     <p:inputText id="importUsersOfGroup"
       value="#{securityConfigDetailBean.importUsersOfGroup}" />
 
-    <label>User Filter</label>
+    <p:outputLabel for="userFilter" value="User Filter"/>
     <p:inputText id="userFilter"
       value="#{securityConfigDetailBean.userFilter}"
       placeholder="#{securityDefaultValueBean.specificDefaults.userFilter}" />

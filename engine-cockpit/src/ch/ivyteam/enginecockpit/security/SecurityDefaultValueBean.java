@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.security;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 
 import org.apache.commons.codec.binary.StringUtils;
 
@@ -72,11 +71,6 @@ public class SecurityDefaultValueBean
   public SpecificDefaults getSpecificDefaults()
   {
     return specificDefaults;
-  }
-
-  public void switchProvider(ValueChangeEvent event)
-  {
-    specificDefaults = new SpecificDefaults(event.getNewValue().toString());
   }
 
   public static class SpecificDefaults

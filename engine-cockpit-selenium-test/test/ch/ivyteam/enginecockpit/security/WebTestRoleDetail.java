@@ -39,7 +39,7 @@ public class WebTestRoleDetail extends WebTestBase
     driver.navigate().refresh();
     saveScreenshot(driver, "refresh");
     
-    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:name").getAttribute("value")).isEqualTo(DETAIL_ROLE_NAME));
+    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:name").getText()).isEqualTo(DETAIL_ROLE_NAME));
     await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:displayName").getAttribute("value")).isEqualTo("display"));
     await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:description").getAttribute("value")).isEqualTo("desc"));
     await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEqualTo("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
@@ -66,7 +66,7 @@ public class WebTestRoleDetail extends WebTestBase
     driver.findElementById("newChildRoleForm:newChildRoleNameInput").sendKeys(newRoleName);
     driver.findElementById("newChildRoleForm:saveNewRole").click();
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + newRoleName));
-    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:name").getAttribute("value")).isEqualTo(newRoleName));
+    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:name").getText()).isEqualTo(newRoleName));
     saveScreenshot(driver, "newroledetail");
     
     await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:deleteRole").isDisplayed()).isTrue());

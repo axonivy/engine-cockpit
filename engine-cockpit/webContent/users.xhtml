@@ -29,7 +29,7 @@
               </div>
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
                 <ui:include src="components/security/adsyncbtn.xhtml" />
-                <p:commandButton id="newUserBtn" rendered="#{!managerBean.ivySecuritySystem ? 'false' : 'true'}"
+                <p:commandButton id="newUserBtn" rendered="#{securityBean.ivySecurityForSelectedApp}"
                   value="New" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" />
               </div>
             </div>

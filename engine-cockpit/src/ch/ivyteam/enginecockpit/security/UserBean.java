@@ -20,6 +20,7 @@ public class UserBean
 {
   private List<User> filteredUsers;
   private List<User> users;
+  private String filter;
 
   private ManagerBean managerBean;
 
@@ -34,6 +35,7 @@ public class UserBean
   public void reloadUsers()
   {
     filteredUsers = null;
+    filter = "";
     IApplication app = managerBean.getSelectedIApplication();
     users = getUsersOfApp(app);
   }
@@ -79,6 +81,16 @@ public class UserBean
   public void setFilteredUsers(List<User> filteredUsers)
   {
     this.filteredUsers = filteredUsers;
+  }
+  
+  public String getFilter()
+  {
+    return filter;
+  }
+  
+  public void setFilter(String filter)
+  {
+    this.filter = filter;
   }
   
   public String getUserCount()

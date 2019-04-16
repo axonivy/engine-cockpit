@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -29,7 +30,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   void testConnectionInfos(FirefoxDriver driver)
   {
     toSecurityDetail(driver);
-    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:providerSelect_label").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:provider").getText())
             .isEqualTo("Microsoft Active Directory"));
     await().untilAsserted(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
             .isEqualTo("ldap://zugtstdirads"));
@@ -60,6 +61,22 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   }
   
   @Test
+  void testDirNotDeletableIfUsedByApp(FirefoxDriver driver)
+  {
+    toSecurityDetail(driver);
+    Throwable result = null;
+    try
+    {
+      driver.findElementById("securitySystemConfigForm:deleteSecuritySystem");
+    }
+    catch (Exception e)
+    {
+      result = e;
+    }
+    assertThat(result).isInstanceOf(NoSuchElementException.class);
+  }
+  
+  @Test
   void testInvalidAndValidSyncTimes(FirefoxDriver driver)
   {
     toSecurityDetail(driver);
@@ -71,8 +88,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
             .isFalse());
     
     saveInvalidSyncTimeAndAssert(driver, "32:23");
-    saveInvalidSyncTimeAndAssert(driver, "12:235");
-    saveInvalidSyncTimeAndAssert(driver, "12:2");
+    saveInvalidSyncTimeAndAssert(driver, "12:95");
     
     driver.findElementById("securitySystemConfigForm:syncTime").clear();
     driver.findElementById("securitySystemConfigForm:syncTime").sendKeys("16:47");

@@ -15,7 +15,7 @@
           <i class="material-icons">search</i>
         </p:outputLabel>
         <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-          onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" />
+          onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" value="#{userBean.filter}"/>
       </p:outputPanel>
     </f:facet>
     <p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}" styleClass="user-name-column">

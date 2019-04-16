@@ -8,12 +8,12 @@
   <i class="material-icons table-icon panel-title-icon">info</i>
   <h:outputText value="Java" />
 </f:facet>
-<p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
-  <p:outputLabel value="Product" />
-  <p:outputLabel value="#{javaBean.name}" />
-  <p:outputLabel value="Version" />
-  <p:outputLabel value="#{javaBean.version}" />
-  <p:outputLabel value="Vendor" />
-  <p:outputLabel value="#{javaBean.vendor}" />
+<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+  <label>Product</label>
+  <h:outputText value="#{javaBean.name}" />
+  <label>Version</label>
+  <h:outputText value="#{javaBean.version}" />
+  <label>Vendor</label>
+  <h:outputText value="#{javaBean.vendor}" />
 </p:panelGrid>
 </html>

@@ -9,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +26,7 @@ public class ApplicationDetailBean
   private String appName;
   private Application app;
   private SecuritySystem security;
+  private String changeSecuritySystem;
   private List<Property> properties;
   private List<String> environments;
   
@@ -41,7 +41,20 @@ public class ApplicationDetailBean
   
   public void setAppName(String appName)
   {
-    this.appName = appName;
+    if (this.appName == null || this.appName != appName)
+    {
+      this.appName = appName;
+      reloadDetailApplication();
+    }
+  }
+
+  public String getAppName()
+  {
+    return appName;
+  }
+  
+  private void reloadDetailApplication()
+  {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream().filter(a -> a.getName().equals(appName)).findFirst().get();
     security = initSecuritySystem(appName);
@@ -50,11 +63,6 @@ public class ApplicationDetailBean
             .map(p -> new Property(p)).collect(Collectors.toList());
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
-  }
-
-  public String getAppName()
-  {
-    return appName;
   }
   
   public Application getApplication()
@@ -119,23 +127,35 @@ public class ApplicationDetailBean
 
   private SecuritySystem initSecuritySystem(String applicationName)
   {
-    return new SecuritySystem(getSecuritySystemName(applicationName), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
+    SecuritySystem securitySystem = new SecuritySystem(getSecuritySystemName(applicationName), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
+    changeSecuritySystem = securitySystem.getSecuritySystemName();
+    return securitySystem;
   }
   
   private String getSecuritySystemName(String name)
   {
     String securityName = SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getAppConfigPrefix(name));
-    if (StringUtils.isBlank(securityName) || SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getConfigPrefix(securityName)).isEmpty())
+    if (StringUtils.isBlank(securityName) || !SecuritySystemConfig.getConfigurationNames(SecuritySystemConfig.SECURITY_SYSTEMS).contains(securityName))
     {
       securityName = SecuritySystemConfig.IVY_SECURITY_SYSTEM;
     }
     return securityName;
   }
 
-  public void setSecuritySystem(ValueChangeEvent event)
+  public void setSecuritySystem()
   {
-    app.setSecuritySystem(event.getNewValue().toString());
+    app.setSecuritySystem(changeSecuritySystem);
     security = initSecuritySystem(getAppName());
+  }
+  
+  public String getChangeSecuritySystem()
+  {
+    return changeSecuritySystem;
+  }
+  
+  public void setChangeSecuritySystem(String changeSecuritySystem)
+  {
+    this.changeSecuritySystem = changeSecuritySystem;
   }
   
 }

@@ -9,13 +9,15 @@
   <h:outputText value="Security System" />
 </f:facet>
 <h:form id="appDetailSecurityForm">
+  <p:commandButton id="changeSecuritySystem" icon="ui-icon-settings" styleClass="amber-btn card-button"
+    onclick="PF('changeSecuritySystemModel').show()" type="button" />
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
     title="Synchronize" type="button" icon="fa #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} fa-refresh"
     styleClass="primary-btn card-button spin-icon" onclick="PF('logPoller').start()">
     <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
   </p:commandButton>
-  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="1" update="@form" />
+  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
   <p:commandButton id="showAdSyncLogBtn" icon="fa fa-info" styleClass="secondary-btn card-button"
     rendered="#{securityBean.isNewLogAwailable()}" type="button" />
   <p:overlayPanel rendered="#{securityBean.isNewLogAwailable()}" id="adSyncLog" for="showAdSyncLogBtn"
@@ -23,25 +25,20 @@
     <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto; background-image: none;" readonly="true" id="logViewer"
       value="#{securityBean.logs}" rows="1" />
   </p:overlayPanel>
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
-    <p:outputLabel value="Name" />
-    <p:selectOneMenu id="securitySystemSelect"
-      value="#{applicationDetailBean.securitySystem.securitySystemName}"
-      onchange="return confirm('This action will synchronize all users and roles, do you want to proceed?')"
-      valueChangeListener="#{applicationDetailBean.setSecuritySystem}" style="width: 100%;">
-      <f:selectItems value="#{securityBean.availableSecuritySystems}" />
-      <p:ajax update="@form" />
-    </p:selectOneMenu>
-    <p:outputLabel value="Provider" />
-    <p:outputLabel value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
-    <p:outputLabel value="Users" />
-    <p:outputLabel value="#{applicationDetailBean.securitySystem.usersCount}">
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+    <label>Name</label>
+    <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}" />
+    <label>Provider</label>
+    <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
+    <label>Users</label>
+    <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}" style="float: left;">
       <a href="users.xhtml" style="margin-left: 10px;"><i class="fa fa-external-link" /></a>
-    </p:outputLabel>
-    <p:outputLabel value="Roles" />
-    <p:outputLabel value="#{applicationDetailBean.securitySystem.rolesCount}">
+    </h:outputText>
+    <label>Roles</label>
+    <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}" style="float: left;">
       <a href="roles.xhtml" style="margin-left: 10px;"><i class="fa fa-external-link" /></a>
-    </p:outputLabel>
+    </h:outputText>
   </p:panelGrid>
 </h:form>
+<ui:include src="../../dialogs/changesecuritysystem.xhtml" />
 </html>

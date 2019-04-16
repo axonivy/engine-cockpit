@@ -1,11 +1,10 @@
 package ch.ivyteam.enginecockpit.model;
 
 import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@SuppressWarnings("restriction")
 public class Application extends AbstractActivity
 {
   
@@ -117,12 +116,12 @@ public class Application extends AbstractActivity
 
   public String getSecuritySystemName()
   {
-    return IConfiguration.get().get("Applications." + getName() + ".SecuritySystem").orElse("");
+    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getAppConfigPrefix(getName()));
   }
 
   public void setSecuritySystem(String securitySystemName)
   {
-    IConfiguration.get().set("Applications." + getName() + ".SecuritySystem", securitySystemName);
+    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getAppConfigPrefix(getName()), securitySystemName);
   }
 
 }

@@ -38,7 +38,7 @@ public class Navigation
   public static void toApplicationDetail(FirefoxDriver driver, String appName)
   {
     Navigation.toApplications(driver);
-    Optional<WebElement> app = driver.findElements(new By.ByXPath(("//*[@class='activity-name']")))
+    Optional<WebElement> app = driver.findElements(new By.ByXPath("//*[@class='activity-name']"))
             .stream()
             .filter(e -> e.getText().equals(appName)).findAny();
     assertThat(app).isPresent();
@@ -55,7 +55,7 @@ public class Navigation
   public static void toSecuritySystemDetail(FirefoxDriver driver, String secSystemName)
   {
     Navigation.toSecuritySystem(driver);
-    Optional<WebElement> secSystem = driver.findElements(new By.ByXPath(("//span[@class='security-name']")))
+    Optional<WebElement> secSystem = driver.findElements(new By.ByXPath("//span[@class='security-name']"))
             .stream()
             .filter(e -> e.getText().equals(secSystemName)).findAny();
     assertThat(secSystem).isPresent();

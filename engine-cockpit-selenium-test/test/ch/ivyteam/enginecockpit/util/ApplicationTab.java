@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.ByXPath;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -51,7 +52,8 @@ public class ApplicationTab
     {
       driver.findElements(APPLICATION_TAB).get(index).click();
     }
-    await().until(() -> getSelectedApplicationIndex(driver) == index);
+    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
+            .until(() -> getSelectedApplicationIndex(driver) == index);
   }
 
   public static void switchToApplication(FirefoxDriver driver, String appName)
@@ -66,7 +68,8 @@ public class ApplicationTab
     if (app.isPresent())
     {
       app.get().click();
-      await().until(() -> getSelectedApplication(driver).equals(appName));
+      await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
+              .until(() -> getSelectedApplication(driver).equals(appName));
     }
   }
 }

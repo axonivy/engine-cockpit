@@ -7,16 +7,19 @@
   <cc:attribute name="supportedLanguages" shortDescription="All supported languages" required="true"/>
 </cc:interface>
 <cc:implementation>
-  <p:panelGrid id="emailNotificationSettings" columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
-    <p:outputLabel value="Language:" for="languageDropDown" />
-    <p:selectOneMenu id="languageDropDown" value="#{cc.attrs.emailSettings.language}">
+  <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
+    layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+    <p:outputLabel value="Language" for="languageDropDown" />
+    <p:selectOneMenu id="languageDropDown" value="#{cc.attrs.emailSettings.language}" style="width: 100%;">
       <f:selectItems value="#{cc.attrs.supportedLanguages}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
+    
     <cc:insertChildren />
-    <p:outputLabel value="Notification send:" for="checkboxNotification" />
+    
+    <p:outputLabel value="Notification send" for="checkboxNotification" />
     <p:panelGrid id="checkboxNotification" columns="2" layout="grid"
-      styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive">
+      styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive email-checkbox-style">
       <p:selectBooleanCheckbox rendered="#{cc.attrs.emailSettings.notificationCheckboxRender}" id="neverCheckbox"
         value="#{cc.attrs.emailSettings.notificationDisabled}" disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}"
         style="float: left;">
@@ -30,7 +33,8 @@
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
     </p:panelGrid>
-    <p:outputLabel value="Daily summary on:" for="radioDailyNotification" />
+    
+    <p:outputLabel value="Daily summary on" for="radioDailyNotification" />
     <p:selectManyCheckbox id="radioDailyNotification" value="#{cc.attrs.emailSettings.sendDailyTasks}"
       disabled="#{cc.attrs.emailSettings.dailyCheckboxGroupDisabled}" widgetVar="radioDailyNotification" layout="responsive"
       styleClass="float-select-many-checkbox" columns="7">

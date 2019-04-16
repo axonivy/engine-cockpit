@@ -25,7 +25,6 @@ public class SecurityConfigDetailBean
   private ManagerBean managerBean;
   private List<String> usedByApps;
 
-  private List<String> providers;
   private List<String> derefAliases;
   private List<String> protocols;
   private List<String> referrals;
@@ -68,10 +67,9 @@ public class SecurityConfigDetailBean
             .map(app -> app.getName())
             .collect(Collectors.toList());
 
-    providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
-    derefAliases = Arrays.asList("", "never", "finding", "searching");
+    derefAliases = Arrays.asList("always", "never", "finding", "searching");
     protocols = Arrays.asList("", "ssl");
-    referrals = Arrays.asList("", "ignore", "throw");
+    referrals = Arrays.asList("follow", "ignore", "throw");
 
     provider = getConfiguration(ConfigKey.PROVIDER);
     url = getConfiguration(ConfigKey.CONNECTION_URL);
@@ -243,11 +241,6 @@ public class SecurityConfigDetailBean
     this.updateTime = updateTime;
   }
 
-  public List<String> getProviders()
-  {
-    return providers;
-  }
-
   public List<String> getDerefAliases()
   {
     return derefAliases;
@@ -269,14 +262,15 @@ public class SecurityConfigDetailBean
     {
       return;
     }
-    setConfiguration(ConfigKey.PROVIDER, this.provider);
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, encryptPassword());
     setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, getSaveValueUseLdapConnectionPool());
-    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, this.derefAlias);
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
+            StringUtils.equals(this.derefAlias, SecuritySystemConfig.DefaultValue.DEREF_ALIAS) ? "" : this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
-    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, this.referral);
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, 
+            StringUtils.equals(this.referral, SecuritySystemConfig.DefaultValue.REFERRAL) ? "" : this.referral);
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
@@ -292,7 +286,7 @@ public class SecurityConfigDetailBean
     final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
     if (!pattern.matcher(this.updateTime).matches()) {
       FacesContext.getCurrentInstance().addMessage("syncTime", 
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Please use 'hh:mm' format for syncronization Time"));
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Please check that synchronization Time is max '23:59'"));
       return false;
     }
     return true;
@@ -315,6 +309,12 @@ public class SecurityConfigDetailBean
   public void setConfiguration(String key, Object value)
   {
     SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key, value);
+  }
+  
+  public String deleteConfiguration()
+  {
+    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name));
+    return "securitysystem.xhtml?faces-redirect=true";
   }
   
   private String encryptPassword()
