@@ -19,16 +19,16 @@
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
-      
-    <p:outputLabel value="Default Context"/>
+
+    <label>Default Context</label>
     <p:inputText id="defaultContext"
       value="#{securityConfigDetailBean.defaultContext}" />
 
-    <p:outputLabel value="Import Users Of Group"/>
+    <label>Import Users Of Group</label>
     <p:inputText id="importUsersOfGroup"
       value="#{securityConfigDetailBean.importUsersOfGroup}" />
 
-    <p:outputLabel value="User Filter"/>
+    <label>User Filter</label>
     <p:inputText id="userFilter"
       value="#{securityConfigDetailBean.userFilter}"
       placeholder="#{securityDefaultValueBean.specificDefaults.userFilter}" />

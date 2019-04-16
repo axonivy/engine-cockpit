@@ -25,16 +25,16 @@
   </p:confirmDialog>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
-    <p:outputLabel for="name" value="Name"/>
-    <p:outputLabel id="name" disabled="true" value="#{roleDetailBean.role.name}" />
+    <label>Name</label>
+    <h:outputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
     
-    <p:outputLabel for="displayName" value="Display Name" />
+    <label>Display Name</label>
     <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
     
-    <p:outputLabel for="description" value="Description" />
+    <label>Description</label>
     <p:inputText id="description" value="#{roleDetailBean.role.description}" />
     
-    <p:outputLabel for="externalSecurityName" value="External Security Name" />
+    <label>External Security Name</label>
     <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
   </p:panelGrid>
 </h:form>

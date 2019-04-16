@@ -20,35 +20,35 @@
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
 
-    <p:outputLabel value="Name"/>
+    <label>Name</label>
     <p:inputText id="ldapName"
       value="#{securityLdapDetailBean.userName}" placeholder="#{securityDefaultValueBean.specificDefaults.name}"/>
 
-    <p:outputLabel value="Full Name"/>
+    <label>Full Name</label>
     <p:inputText id="ldapFullName"
       value="#{securityLdapDetailBean.fullName}" placeholder="#{securityDefaultValueBean.specificDefaults.fullName}"/>
 
-    <p:outputLabel value="Email"/>
+    <label>Email</label>
     <p:inputText id="ldapEmail" value="#{securityLdapDetailBean.email}" placeholder="#{securityDefaultValueBean.email}"/>
 
-    <p:outputLabel value="Language"/>
+    <label>Language</label>
     <p:inputText id="ldapLanguage"
       value="#{securityLdapDetailBean.language}" />
 
-    <p:outputLabel value="Groups of a User"/>
+    <label>Groups of a User</label>
     <p:inputText id="ldapUserMemberOfAttribute"
       value="#{securityLdapDetailBean.userMemberOfAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userMemberOfAttribute}"/>
 
-    <p:outputLabel value="Use [Groups of a User] for User Role Membership"/>
+    <label>Use [Groups of a User] for User Role Membership</label>
     <p:selectBooleanCheckbox
       id="ldapUseUserMemberOfForUserRoleMembership"
       value="#{securityLdapDetailBean.useUserMemberOfForUserRoleMembership}" />
 
-    <p:outputLabel value="Groups of a Group"/>
+    <label>Groups of a Group</label>
     <p:inputText id="ldapUserGroupMemberOfAttribute"
       value="#{securityLdapDetailBean.userGroupMemberOfAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userGroupMemberOfAttribute}"/>
 
-    <p:outputLabel value="Members of a Group"/>
+    <label>Members of a Group</label>
     <p:inputText id="ldapUserGroupMembersAttribute"
       value="#{securityLdapDetailBean.userGroupMembersAttribute}" placeholder="#{securityDefaultValueBean.specificDefaults.userGroupMembersAttribute}"/>
   </p:panelGrid>

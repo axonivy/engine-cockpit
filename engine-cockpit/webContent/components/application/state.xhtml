@@ -21,12 +21,12 @@
     rendered="#{!applicationDetailBean.application.locked}" styleClass="amber-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
   </p:commandButton>
-  <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-    <p:outputLabel value="State:" />
-    <p:outputLabel id="operationStateLabel" value="#{applicationDetailBean.application.operationState}"
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+    <label>State</label>
+    <h:outputText id="operationStateLabel" value="#{applicationDetailBean.application.operationState}"
       styleClass="activity-state-#{applicationDetailBean.application.operationStateLowerCase}" />
-    <p:outputLabel value="Configured state:" />
-    <p:outputLabel value="#{applicationDetailBean.application.state}"
+    <label>Configured state</label>
+    <h:outputText value="#{applicationDetailBean.application.state}"
       styleClass="activity-state-#{applicationDetailBean.application.stateLowerCase}" />
   </p:panelGrid>
   <p:poll listener="#{applicationDetailBean.application.updateStats}" update="@form"

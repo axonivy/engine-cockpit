@@ -13,16 +13,16 @@
   styleClass="secondary-btn card-button" rendered="false" />
 <p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
-  <p:outputLabel value="Owner" />
-  <p:outputLabel value="#{licenceBean.organisation}" />
-  <p:outputLabel value="Licence Type" />
-  <p:outputLabel value="#{licenceBean.licenceType}" />
-  <p:outputLabel value="Expries" />
-  <p:outputLabel value="#{licenceBean.expiryDate}" />
+  <label>Owner</label>
+  <h:outputText value="#{licenceBean.organisation}" />
+  <label>Licence Type</label>
+  <h:outputText value="#{licenceBean.licenceType}" />
+  <label>Expries</label>
+  <h:outputText value="#{licenceBean.expiryDate}" />
 </p:panelGrid>
 <p:panelGrid rendered="#{licenceBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
   styleClass="ui-panelgrid-blank">
-  <p:outputLabel value="No licence installed. Please upload a valid licence." />
+  <h:outputText value="No licence installed. Please upload a valid licence." />
   <p:button href="#" rendered="false" value="Upload Licence" icon="ui-icon-cloud-upload" />
 </p:panelGrid>
 <p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true" closeOnEscape="true">

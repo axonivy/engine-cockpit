@@ -23,15 +23,15 @@
       style="width: inherit;" />
   </p:confirmDialog>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
-    <p:outputLabel value="Name" />
-    <p:outputLabel value="#{applicationDetailBean.application.name}" />
-    <p:outputLabel value="Description" />
-    <p:outputLabel value="#{applicationDetailBean.application.desc}" />
-    <p:outputLabel value="File Directory" />
-    <p:outputLabel value="#{applicationDetailBean.application.fileDir}" />
-    <p:outputLabel value="Owner" />
-    <p:outputLabel value="#{applicationDetailBean.application.owner}" />
-    <p:outputLabel value="Active Environment" />
+    <label>Name</label>
+    <h:outputText value="#{applicationDetailBean.application.name}" />
+    <label>Description</label>
+    <h:outputText value="#{applicationDetailBean.application.desc}" />
+    <label>File Directory</label>
+    <h:outputText value="#{applicationDetailBean.application.fileDir}" />
+    <label>Owner</label>
+    <h:outputText value="#{applicationDetailBean.application.owner}" />
+    <label>Active Environment</label>
     <p:selectOneMenu id="activeEnvironmentSelect" value="#{applicationDetailBean.application.activeEnv}">
       <f:selectItems value="#{applicationDetailBean.environments}" />
       <p:ajax update="@form" />

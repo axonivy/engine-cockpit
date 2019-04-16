@@ -29,39 +29,39 @@
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     
-    <p:outputLabel value="Name" />
-    <p:outputLabel id="name" value="#{securityConfigDetailBean.name}"/>
+    <label>Name</label>
+    <h:outputText id="name" value="#{securityConfigDetailBean.name}"/>
 
-    <p:outputLabel value="Provider" />
-    <p:outputLabel id="provider" value="#{securityConfigDetailBean.provider}" />
+    <label>Provider</label>
+    <h:outputText id="provider" value="#{securityConfigDetailBean.provider}" />
 
-    <p:outputLabel value="URL" />
+    <label>URL</label>
     <p:inputText id="url" value="#{securityConfigDetailBean.url}"
       placeholder="#{securityDefaultValueBean.url}" />
 
-    <p:outputLabel value="User Name" />
+    <label>User Name</label>
     <p:inputText id="userName"
       value="#{securityConfigDetailBean.userName}" />
 
-    <p:outputLabel value="Password" />
+    <label>Password</label>
     <p:inputText type="password" id="password"
       value="#{securityConfigDetailBean.password}" />
 
-    <p:outputLabel value="Use LDAP Connection Pool" />
+    <label>Use LDAP Connection Pool</label>
     <p:selectBooleanCheckbox id="ldapConnectionPool"
       value="#{securityConfigDetailBean.useLdapConnectionPool}" />
 
-    <p:outputLabel value="Use SSL" />
+    <label>Use SSL</label>
     <p:selectBooleanCheckbox id="useSsl"
       value="#{securityConfigDetailBean.ssl}" />
 
-    <p:outputLabel value="Synchronization Time" />
+    <label>Synchronization Time</label>
     <h:panelGroup>
       <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99" placeholder="#{securityDefaultValueBean.updatetime}" />
       <p:messages for="syncTime" id="syncTimeMessage" autoUpdate="true" showDetail="true"/>
     </h:panelGroup>
 
-    <p:outputLabel value="Dereference Aliases" />
+    <label>Dereference Aliases</label>
     <p:selectOneMenu id="derefAliasesDropDown"
       value="#{securityConfigDetailBean.derefAlias}"
       placeholder="always">
@@ -69,7 +69,7 @@
       <p:ajax update="@form" />
     </p:selectOneMenu>
 
-    <p:outputLabel value="Referral" />
+    <label>Referral</label>
     <p:selectOneMenu id="ReferralDropDown"
       value="#{securityConfigDetailBean.referral}"
       placeholder="follow">
@@ -77,12 +77,13 @@
       <p:ajax update="@form" />
     </p:selectOneMenu>
 
-    <p:outputLabel value="Used by applications" >
+    <h:panelGroup>
+      <label>Used by applications</label>
       <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
         <i class="material-icons">help</i>
         <p:tooltip for="@parent" value="Every application, which using this security system." position="top"/>
       </h:panelGroup>
-    </p:outputLabel>
+    </h:panelGroup>
     <ui:repeat var="app" value="#{securityConfigDetailBean.usedByApps}" varStatus="status">
       <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
       <h:outputText value="#{status.last ? '' : ' / '}"/>
