@@ -12,7 +12,7 @@
     </ui:define>
 
     <ui:define name="content">
-      <cc:SingleCard>
+      <cc:SingleCard id="card">
         <div class="card card-w-title">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-10">
@@ -22,13 +22,13 @@
               </h1>
             </div>
             <div class="ui-g-12 ui-md-2" style="margin: auto;">
-              <p:commandButton rendered="false" id="newConfigBtn" value="New" icon="ui-icon-add" type="button"/>
+              <p:commandButton id="newConfigBtn" value="New" icon="ui-icon-add" type="button" />
             </div>
           </div>
           <div class="ui-g">
             <div class="ui-g-12 ui-lg-12">
               <h:form id="form">
-                <p:growl id="msgs" showDetail="true" />
+                <p:growl id="msgs" />
                 <p:dataTable var="config" value="#{advancedConfigBean.configs}" widgetVar="advancedConfigTable"
                   filteredValue="#{advancedConfigBean.filteredConfigs}">
                   <f:facet name="header">
@@ -40,7 +40,6 @@
                         onkeyup="PF('advancedConfigTable').filter()" placeholder="Search" />
                     </p:outputPanel>
                   </f:facet>
-                  <p:ajax event="rowSelect" listener="#{advancedConfigBean.onRowSelect}" update="@form" />
                   <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
                     <h:outputText value="#{config.key}" title="#{config.key}" styleClass="config-name">
                       <i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
@@ -52,8 +51,28 @@
                   <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 100px;">
                     <h:outputText value="#{config.shortSource}" title="#{config.source}" />
                   </p:column>
+                  <p:column style="width: 70px;">
+                    <p:commandButton id="deleteConfigBtn" icon="ui-icon-delete" title="Delete" 
+                      actionListener="#{advancedConfigBean.setActiveConfig(config)}"
+                      update="card:form:deleteConfigConfirmDialog" oncomplete="PF('deleteConfigConfirmDialog').show()"
+                      styleClass="card-button table-control-btn red-btn" style="margin: 0;" 
+                      disabled="#{config.shortSource eq 'app.yaml'}"/>
+                  	<p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
+                      styleClass="card-button table-control-btn amber-btn" 
+                      actionListener="#{advancedConfigBean.setActiveConfig(config)}"
+                      update="card:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
+                  </p:column>
                 </p:dataTable>
+                <p:confirmDialog id="deleteConfigConfirmDialog" message="Are you sure about deleteing the configuration '#{advancedConfigBean.activeConfig.key}=#{advancedConfigBean.activeConfig.value}'?" 
+                  header="Delete Config"
+                  severity="alert" widgetVar="deleteConfigConfirmDialog">
+                  <p:commandButton id="deleteConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{advancedConfigBean.deleteConfig}"
+                    icon="ui-icon-check" style="width: inherit;" />
+                  <p:commandButton value="Cancel" onclick="PF('deleteConfigConfirmDialog').hide();" type="button" icon="ui-icon-close"
+                    style="width: inherit;" />
+                </p:confirmDialog>
               </h:form>
+               <ui:include src="dialogs/editconfiguration.xhtml" />
             </div>
           </div>
         </div>

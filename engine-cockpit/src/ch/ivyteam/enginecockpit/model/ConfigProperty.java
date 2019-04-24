@@ -9,6 +9,11 @@ public class ConfigProperty
   private String value;
   private String source;
   private boolean password;
+  
+  public ConfigProperty()
+  {
+    
+  }
 
   public ConfigProperty(Property property)
   {
