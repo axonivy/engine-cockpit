@@ -85,7 +85,7 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "advanced_config");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("advancedconfig.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Advanced Config"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Advanced Configuration"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_advanced_config").getAttribute("class")).contains("active-menuitem"));
   }
   
