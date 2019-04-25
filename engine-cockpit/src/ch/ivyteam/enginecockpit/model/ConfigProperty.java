@@ -1,5 +1,18 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 import ch.ivyteam.ivy.configuration.restricted.Property;
 
 @SuppressWarnings("restriction")
@@ -61,6 +74,15 @@ public class ConfigProperty
   {
     this.source = source;
   }
+  
+  private File getFile() throws URISyntaxException
+  {
+    int prefixString = source.lastIndexOf(',');
+    if(prefixString > 0) {
+      return new File(new URI(source.substring(0, prefixString)));
+    }
+    return new File(new URI(source));
+  }
 
   public boolean isPassword()
   {
@@ -70,5 +92,20 @@ public class ConfigProperty
   public void setPassword(boolean password)
   {
     this.password = password;
+  }
+  
+  public StreamedContent downloadFile()
+  {
+    try
+    {
+      InputStream newInputStream = Files.newInputStream(getFile().toPath());
+      return new DefaultStreamedContent(newInputStream, "text/plain", getFile().getName());
+    }
+    catch (IOException | URISyntaxException e)
+    {
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));
+      return null;
+    }
   }
 }

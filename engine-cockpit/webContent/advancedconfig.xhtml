@@ -50,6 +50,9 @@
                   </p:column>
                   <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 100px;">
                     <h:outputText value="#{config.shortSource}" title="#{config.source}" />
+                    <p:commandButton ajax="false" icon="ui-icon-find-in-page" style="margin-left: 10px;" styleClass="secondary-btn">
+                      <p:fileDownload value="#{config.downloadFile()}"/>
+                    </p:commandButton>
                   </p:column>
                   <p:column style="width: 70px;">
                     <p:commandButton id="deleteConfigBtn" icon="ui-icon-delete" title="Delete" 
