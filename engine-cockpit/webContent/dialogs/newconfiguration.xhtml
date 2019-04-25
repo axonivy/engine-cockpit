@@ -8,16 +8,17 @@
   <h:form id="newConfigurationForm">
     <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newConfigurationKey"
+        <p:inputText id="newConfigurationKey" required="true" requiredMessage="Value is required"
           value="#{advancedConfigBean.activeConfig.key}" />
         <label>Key</label>
+        <p:message for="newConfigurationKey" id="newConfigurationKeyMessage" />
       </h:panelGroup>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="newConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
         <label>Value</label>
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="savenewConfiguration" ajax="false"
+    <p:commandButton id="savenewConfiguration" ajax="false" validateClient="true"
       actionListener="#{advancedConfigBean.createConfig}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button" />
     <p:commandButton id="cancelnewConfiguration" onclick="PF('newConfigurationModal').hide();" value="Cancel" type="button"
