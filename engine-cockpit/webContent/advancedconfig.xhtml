@@ -5,10 +5,10 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="/template/template.xhtml">
-    <ui:define name="title">Advanced Config</ui:define>
+    <ui:define name="title">Advanced Configuration</ui:define>
 
     <ui:define name="breadcrumb">
-      <li><a href="advancedconfig.xhtml">Advanced Config</a></li>
+      <li><a href="advancedconfig.xhtml">Advanced Configuration</a></li>
     </ui:define>
 
     <ui:define name="content">
@@ -18,11 +18,12 @@
             <div class="ui-g-12 ui-md-10">
               <h1>
                 <i class="material-icons card-title-icon">settings</i>
-                <span>Advanced Config</span>
+                <span>Advanced Configuration</span>
               </h1>
             </div>
             <div class="ui-g-12 ui-md-2" style="margin: auto;">
-              <p:commandButton id="newConfigBtn" value="New" icon="ui-icon-add" type="button" />
+              <p:commandButton id="newConfigBtn" value="New" icon="ui-icon-add" actionListener="#{advancedConfigBean.setActiveConfig(null)}"
+                update="card:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
             </div>
           </div>
           <div class="ui-g">
@@ -37,7 +38,7 @@
                         <i class="material-icons">search</i>
                       </p:outputLabel>
                       <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                        onkeyup="PF('advancedConfigTable').filter()" placeholder="Search" />
+                        onkeyup="PF('advancedConfigTable').filter()" placeholder="Search" value="#{advancedConfigBean.filter}" />
                     </p:outputPanel>
                   </f:facet>
                   <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
@@ -50,16 +51,18 @@
                   </p:column>
                   <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 100px;">
                     <h:outputText value="#{config.shortSource}" title="#{config.source}" />
-                    <p:commandButton ajax="false" icon="ui-icon-find-in-page" style="margin-left: 10px;" styleClass="secondary-btn">
-                      <p:fileDownload value="#{config.downloadFile()}"/>
-                    </p:commandButton>
                   </p:column>
                   <p:column style="width: 70px;">
-                    <p:commandButton id="deleteConfigBtn" icon="ui-icon-delete" title="Delete" 
-                      actionListener="#{advancedConfigBean.setActiveConfig(config)}"
-                      update="card:form:deleteConfigConfirmDialog" oncomplete="PF('deleteConfigConfirmDialog').show()"
-                      styleClass="card-button table-control-btn red-btn" style="margin: 0;" 
-                      disabled="#{config.shortSource eq 'app.yaml'}"/>
+                    <p:commandButton title="More" id="tasksButton"
+                      type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
+                    <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
+                      <p:menuitem value="View File" icon="ui-icon-find-in-page" ajax="false">
+                        <p:fileDownload value="#{config.downloadFile()}"/>
+                      </p:menuitem>
+                      <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{config.shortSource eq 'app.yaml'}"
+                        actionListener="#{advancedConfigBean.setActiveConfig(config)}"
+                        update="card:form:deleteConfigConfirmDialog" oncomplete="PF('deleteConfigConfirmDialog').show();" />
+                    </p:menu>
                   	<p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
                       styleClass="card-button table-control-btn amber-btn" 
                       actionListener="#{advancedConfigBean.setActiveConfig(config)}"
@@ -76,6 +79,7 @@
                 </p:confirmDialog>
               </h:form>
                <ui:include src="dialogs/editconfiguration.xhtml" />
+               <ui:include src="dialogs/newconfiguration.xhtml" />
             </div>
           </div>
         </div>

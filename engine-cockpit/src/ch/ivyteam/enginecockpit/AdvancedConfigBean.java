@@ -8,22 +8,28 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.enginecockpit.util.Configuration;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
 public class AdvancedConfigBean
 {
   private List<ConfigProperty> configs;
   private List<ConfigProperty> filteredConfigs;
+  private String filter;
   private ConfigProperty activeConfig;
 
   public AdvancedConfigBean()
   {
-    configs = IConfiguration.get().getProperties().stream()
+    reloadConfigs();
+  }
+
+  private void reloadConfigs()
+  {
+    configs = Configuration.getProperties().stream()
             .map(property -> new ConfigProperty(property))
             .collect(Collectors.toList());
   }
@@ -43,10 +49,26 @@ public class AdvancedConfigBean
     this.filteredConfigs = filteredConfigs;
   }
   
+  public String getFilter()
+  {
+    return filter;
+  }
+  
+  public void setFilter(String filter)
+  {
+    this.filter = filter;
+  }
+  
   public void setActiveConfig(ConfigProperty config)
   {
-    Ivy.log().info(config.getKey());
-    this.activeConfig = config;
+    if (config == null)
+    {
+      this.activeConfig = new ConfigProperty();
+    }
+    else
+    {
+      this.activeConfig = config;
+    }
   }
   
   public ConfigProperty getActiveConfig()
@@ -56,15 +78,30 @@ public class AdvancedConfigBean
   
   public void deleteConfig()
   {
-    //TODO: delete config
-    FacesContext.getCurrentInstance().addMessage("msgs",
-            new FacesMessage("'" + activeConfig.getKey() + "' deleted successfully"));
+    Configuration.remove(activeConfig.getKey());
+    if (StringUtils.isNotBlank(filter))
+    {
+      filteredConfigs.remove(activeConfig);
+    }
+    reloadAndUiMessage("deleted");
   }
-  
+
   public void saveConfig()
   {
-    //TODO: save config
+    Configuration.set(activeConfig.getKey(), activeConfig.getValue());
+    reloadAndUiMessage("changed");
+  }
+  
+  public void createConfig()
+  {
+    Configuration.set(activeConfig.getKey(), activeConfig.getValue());
+    reloadAndUiMessage("created");
+  }
+  
+  private void reloadAndUiMessage(String message)
+  {
+    reloadConfigs();
     FacesContext.getCurrentInstance().addMessage("msgs",
-            new FacesMessage("'" + activeConfig.getKey() + "' changed successfully"));
+            new FacesMessage("'" + activeConfig.getKey() + "' " + message));
   }
 }

@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SynchronizationLogger;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -42,7 +43,7 @@ public class SecurityBean
   
   private void loadSecuritySystems() 
   {
-    systems = SecuritySystemConfig.getConfigurationNames(SecuritySystemConfig.SECURITY_SYSTEMS).stream()
+    systems = Configuration.getNames(SecuritySystemConfig.SECURITY_SYSTEMS).stream()
             .map(securitySystem -> new SecuritySystem(securitySystem, 
                     getSecurityContextForSecuritySystem(securitySystem), getAppsForSecuritySystem(securitySystem)))
             .collect(Collectors.toList());
@@ -80,7 +81,7 @@ public class SecurityBean
   
   private String getSecuritySystemNameFromAppConfig(String appName)
   {
-    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getAppConfigPrefix(appName));
+    return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getAppPrefix(appName));
   }
 
   public List<SecuritySystem> getSecuritySystems()
@@ -90,7 +91,7 @@ public class SecurityBean
   
   public Collection<String> getAvailableSecuritySystems()
   {
-    Collection<String> names = SecuritySystemConfig.getConfigurationNames(SecuritySystemConfig.SECURITY_SYSTEMS);
+    Collection<String> names = Configuration.getNames(SecuritySystemConfig.SECURITY_SYSTEMS);
     names.add(SecuritySystemConfig.IVY_SECURITY_SYSTEM);
     return names;
   }
@@ -184,7 +185,7 @@ public class SecurityBean
   
   public void createNewSecuritySystem()
   {
-    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(newSecuritySystemName) + 
+    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(newSecuritySystemName) + 
             SecuritySystemConfig.ConfigKey.PROVIDER, newSecuritySystemProvider);
     loadSecuritySystems();
   }

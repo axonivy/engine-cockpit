@@ -7,9 +7,17 @@
   widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="editConfigurationForm">
     <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+      <h:panelGroup layout="block" styleClass="static-message static-warn-message" 
+        rendered="#{advancedConfigBean.activeConfig.shortSource eq 'app.yaml'}">
+        <i class="fa fa-exclamation-triangle"/>
+        <h:outputText value="Values from app.yaml files are overritten in the ivy.yaml file"/>
+      </h:panelGroup>
       <h:outputText id="editConfigurationKey"
         value="#{advancedConfigBean.activeConfig.key}" />
-      <p:inputText id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
+        <label>Value</label>
+      </h:panelGroup>
     </p:panelGrid>
     <p:commandButton id="saveEditConfiguration" ajax="false"
       actionListener="#{advancedConfigBean.saveConfig}" value="Save" icon="ui-icon-save"

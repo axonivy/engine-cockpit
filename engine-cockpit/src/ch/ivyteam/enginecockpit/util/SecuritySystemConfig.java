@@ -1,13 +1,7 @@
 package ch.ivyteam.enginecockpit.util;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-
-@SuppressWarnings("restriction")
 public class SecuritySystemConfig
 {
 
@@ -67,53 +61,38 @@ public class SecuritySystemConfig
     String USER_GROUP_MEMBERS_ATTRIBUTE_AD = "member";
   }
   
-  public static String getConfigPrefix(String name)
+  public static String getPrefix(String name)
   {
     return SECURITY_SYSTEMS + "." + name + "."; 
   }
   
-  public static String getAppConfigPrefix(String appName)
+  public static String getAppPrefix(String appName)
   {
     return "Applications." + appName + ".SecuritySystem";
   }
   
-  public static String getConfiguration(String key)
+  public static String getOrBlank(String key)
   {
-    return IConfiguration.get().get(key).orElse("");
+    return Configuration.get(key).orElse("");
   }
   
-  public static Collection<String> getConfigurationNames(String key)
-  {
-    return IConfiguration.get().getNames(key);
-  }
-  
-  public static Map<String, String> getConfigurationMap(String key)
-  {
-    return IConfiguration.get().getMap(key);
-  }
-  
-  public static void setConfiguration(String key, Object value)
+  public static void setOrRemove(String key, Object value)
   {
     if (StringUtils.isBlank(value.toString()))
     {
-      IConfiguration.get().remove(key);
+      Configuration.remove(key);
       return;
     }
-    IConfiguration.get().set(key, value);
-  }
-  
-  public static void removeConfig(String key)
-  {
-    IConfiguration.get().remove(key);
+    Configuration.set(key, value);
   }
   
   public static void setAuthenticationKind(String name)
   {
-    if (!IConfiguration.get().get(getConfigPrefix(name) + ConfigKey.CONNECTION_USER_NAME).isPresent())
+    if (!Configuration.get(getPrefix(name) + ConfigKey.CONNECTION_USER_NAME).isPresent())
     {
-      IConfiguration.get().set(getConfigPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND, "none");
+      Configuration.set(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND, "none");
       return;
     }
-    IConfiguration.get().remove(getConfigPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND);
+    Configuration.remove(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND);
   }
 }

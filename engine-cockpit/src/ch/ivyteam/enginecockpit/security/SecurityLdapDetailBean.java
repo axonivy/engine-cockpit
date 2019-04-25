@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.model.LdapProperty;
+import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
 
@@ -67,8 +68,8 @@ public class SecurityLdapDetailBean
     userGroupMembersAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE);
     
     properties = new HashMap<>();
-    Map<String, String> yamlProperties = SecuritySystemConfig.getConfigurationMap(
-            SecuritySystemConfig.getConfigPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
+    Map<String, String> yamlProperties = Configuration.getMap(
+            SecuritySystemConfig.getPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
     for (String key : yamlProperties.keySet())
     {
       properties.put(key, new LdapProperty(key, yamlProperties.get(key)));
@@ -196,7 +197,7 @@ public class SecurityLdapDetailBean
   
   public void removeLdapAttribute(String attributeName)
   {
-    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name) + 
+    Configuration.remove(SecuritySystemConfig.getPrefix(name) + 
             ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + attributeName);
     properties.remove(attributeName);
   }
@@ -218,11 +219,11 @@ public class SecurityLdapDetailBean
   
   private String getConfiguration(String key)
   {
-    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key);
+    return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getPrefix(name) + key);
   }
   
   private void setConfiguration(String key, Object value)
   {
-    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key, value);
+    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(name) + key, value);
   }
 }

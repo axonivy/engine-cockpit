@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
+import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.util.crypto.CryptoUtil;
@@ -303,17 +304,17 @@ public class SecurityConfigDetailBean
   
   private String getConfiguration(String key)
   {
-    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key);
+    return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getPrefix(name) + key);
   }
   
   public void setConfiguration(String key, Object value)
   {
-    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key, value);
+    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(name) + key, value);
   }
   
   public String deleteConfiguration()
   {
-    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name));
+    Configuration.remove(SecuritySystemConfig.getPrefix(name));
     return "securitysystem.xhtml?faces-redirect=true";
   }
   
