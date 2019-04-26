@@ -213,7 +213,7 @@
 				<version>3.1.1</version>
 				<executions>
 					<execution>
-						<phase>integration-test</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
