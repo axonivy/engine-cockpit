@@ -20,11 +20,13 @@ public class AdvancedConfigBean
   private List<ConfigProperty> configs;
   private List<ConfigProperty> filteredConfigs;
   private String filter;
+  private boolean showDefaults;
   private ConfigProperty activeConfig;
 
   public AdvancedConfigBean()
   {
     reloadConfigs();
+    showDefaults = false;
   }
 
   private void reloadConfigs()
@@ -36,7 +38,14 @@ public class AdvancedConfigBean
 
   public List<ConfigProperty> getConfigs()
   {
-    return configs;
+    if (showDefaults)
+    {
+      return configs;
+    }
+    else
+    {
+      return configs.stream().filter(c -> !c.isDefault()).collect(Collectors.toList());
+    }
   }
 
   public List<ConfigProperty> getFilteredConfigs()
@@ -57,6 +66,16 @@ public class AdvancedConfigBean
   public void setFilter(String filter)
   {
     this.filter = filter;
+  }
+  
+  public boolean isShowDefaults() 
+  {
+    return showDefaults;
+  }
+  
+  public void setShowDefaults(boolean showDefaults)
+  {
+    this.showDefaults = showDefaults;
   }
   
   public void setActiveConfig(ConfigProperty config)

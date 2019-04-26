@@ -307,3 +307,7 @@ body {
 .email-radio-style .ui-grid-col-6 {
   min-width: 150px;
 }
+
+.ui-datatable .default-value {
+  color: grey;
+}

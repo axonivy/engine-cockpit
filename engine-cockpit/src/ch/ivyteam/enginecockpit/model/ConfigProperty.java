@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -20,6 +21,7 @@ public class ConfigProperty
 {
   private String key;
   private String value;
+  private boolean isDefault;
   private String source;
   private boolean password;
   
@@ -32,6 +34,7 @@ public class ConfigProperty
   {
     this.key = property.getKey();
     this.value = property.getValue();
+    this.isDefault = StringUtils.isBlank(property.getMetaData().getSource());
     this.source = property.getMetaData().getSource();
     this.password = property.getMetaData().isPassword();
   }
@@ -55,6 +58,16 @@ public class ConfigProperty
   {
     this.value = value;
   }
+  
+  public boolean isDefault()
+  {
+    return isDefault;
+  }
+  
+  public void setDefault(boolean isDefault)
+  {
+    this.isDefault = isDefault;
+  }
 
   public String getSource()
   {
@@ -63,11 +76,17 @@ public class ConfigProperty
 
   public String getShortSource()
   {
-    int prefixString = source.lastIndexOf(',');
-    if(prefixString > 0) {
-      return source.substring(source.lastIndexOf("/") + 1, prefixString);
+    return StringUtils.substring(source, StringUtils.lastIndexOf(source, '/') + 1, getIndexOfSourceSuffix());
+  }
+
+  private int getIndexOfSourceSuffix()
+  {
+    int prefixString = StringUtils.lastIndexOf(source, ',');
+    if(prefixString == -1) 
+    {
+      prefixString = StringUtils.length(source);
     }
-    return source.substring(source.lastIndexOf("/") + 1);
+    return prefixString;
   }
 
   public void setSource(String source)
@@ -77,13 +96,9 @@ public class ConfigProperty
   
   private File getFile() throws URISyntaxException
   {
-    int prefixString = source.lastIndexOf(',');
-    if(prefixString > 0) {
-      return new File(new URI(source.substring(0, prefixString)));
-    }
-    return new File(new URI(source));
+    return new File(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix())));
   }
-
+  
   public boolean isPassword()
   {
     return password;
