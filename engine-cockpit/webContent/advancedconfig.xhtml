@@ -37,7 +37,7 @@
               <h:form id="form">
                 <p:growl id="msgs" />
                 <p:dataTable var="config" value="#{advancedConfigBean.configs}" widgetVar="advancedConfigTable"
-                  filteredValue="#{advancedConfigBean.filteredConfigs}">
+                  filteredValue="#{advancedConfigBean.filteredConfigs}" id="advancedConfigTable">
                   <f:facet name="header">
                     <p:outputPanel>
                       <p:outputLabel styleClass="table-search-icon">
@@ -62,11 +62,11 @@
                     <p:commandButton title="More" id="tasksButton"
                       type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
                     <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-                      <p:menuitem value="View File" icon="ui-icon-find-in-page" ajax="false">
+                      <p:menuitem value="View File" icon="ui-icon-find-in-page" ajax="false" id="showFileBtn">
                         <p:fileDownload value="#{config.downloadFile()}"/>
                       </p:menuitem>
                       <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{config.shortSource eq 'app.yaml'}"
-                        actionListener="#{advancedConfigBean.setActiveConfig(config)}"
+                        actionListener="#{advancedConfigBean.setActiveConfig(config)}" id="deleteConfigBtn"
                         update="card:form:deleteConfigConfirmDialog" oncomplete="PF('deleteConfigConfirmDialog').show();" />
                     </p:menu>
                   	<p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 

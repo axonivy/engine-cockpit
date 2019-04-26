@@ -18,9 +18,9 @@
         <label>Value</label>
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="savenewConfiguration" ajax="false" validateClient="true"
+    <p:commandButton id="savenewConfiguration" validateClient="true" onsuccess="PF('newConfigurationModal').hide();"
       actionListener="#{advancedConfigBean.createConfig}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" />
+      styleClass="primary-btn modal-input-button" update="card:form"/>
     <p:commandButton id="cancelnewConfiguration" onclick="PF('newConfigurationModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
   </h:form>
