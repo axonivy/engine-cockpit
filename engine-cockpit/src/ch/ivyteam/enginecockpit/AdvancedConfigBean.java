@@ -78,16 +78,14 @@ public class AdvancedConfigBean
     this.showDefaults = showDefaults;
   }
   
-  public void setActiveConfig(ConfigProperty config)
+  public void switchDefaults()
   {
-    if (config == null)
-    {
-      this.activeConfig = new ConfigProperty();
-    }
-    else
-    {
-      this.activeConfig = config;
-    }
+    showDefaults = !showDefaults;
+  }
+  
+  public void setActiveConfig(String configKey)
+  {
+    this.activeConfig = configs.stream().filter(c -> StringUtils.equals(c.getKey(), configKey)).findFirst().orElse(new ConfigProperty());
   }
   
   public ConfigProperty getActiveConfig()

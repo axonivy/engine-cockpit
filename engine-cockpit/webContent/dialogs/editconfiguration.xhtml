@@ -14,6 +14,8 @@
       </h:panelGroup>
       <h:outputText id="editConfigurationKey"
         value="#{advancedConfigBean.activeConfig.key}" />
+      <h:outputText id="editConfigurationDefaultValue" rendered="#{not empty advancedConfigBean.activeConfig.defaultValue}"
+        value="Default: #{advancedConfigBean.activeConfig.defaultValue}" style="color: grey;"/>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
         <label>Value</label>
