@@ -28,7 +28,7 @@
               </h1>
             </div>
             <div class="ui-g-12 ui-md-1" style="margin: auto;">
-              <h:form>
+              <h:form id="showDefaultBtnForm">
                 <p:commandButton icon="ui-icon-visibility#{advancedConfigBean.showDefaults ? '' : '-off'}" 
                   actionListener="#{advancedConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right;"
                   update="card:form,@this" styleClass="#{advancedConfigBean.showDefaults ? 'amber' : 'primary'}-btn">
@@ -37,7 +37,7 @@
               </h:form>
             </div>
             <div class="ui-g-12 ui-md-1" style="margin: auto;">
-              <h:form>
+              <h:form id="showDefaultSwitchForm">
                 <p:inputSwitch id="showDefaultsSwitch" value="#{advancedConfigBean.showDefaults}" style="float: right;">
                   <p:ajax update="card:form"/>
                 </p:inputSwitch> 

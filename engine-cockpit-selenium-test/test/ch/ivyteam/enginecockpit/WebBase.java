@@ -3,7 +3,10 @@ package ch.ivyteam.enginecockpit;
 import static org.awaitility.Awaitility.await;
 
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
@@ -26,6 +29,18 @@ public class WebBase
   public static String getAdminUser()
   {
     return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
+  }
+  
+  public static boolean elementNotAvailable(WebDriver driver, By by)
+  {
+    try
+    {
+      driver.findElement(by);
+      return false;
+    }
+    catch (NoSuchElementException ex) {
+      return true;
+    }
   }
   
   public static void webAssertThat(WebTest test)

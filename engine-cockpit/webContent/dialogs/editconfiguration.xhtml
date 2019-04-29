@@ -3,7 +3,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 300px;" header="Edit configuration" id="editConfigurationModal"
+<p:dialog style="min-width: 400px;" header="Edit configuration" id="editConfigurationModal"
   widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="editConfigurationForm">
     <h:panelGroup layout="block" styleClass="static-message static-warn-message" 
@@ -27,7 +27,7 @@
           <p:inputMask id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" mask="99:99"/>
         </c:when>
         <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'NUMBER'}">
-          <p:inputNumber id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" decimalPlaces="0" minValue="0"/>
+          <p:inputNumber id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" decimalPlaces="0" minValue="-1"/>
         </c:when>
         <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'TRUE_FALSE' 
           or advancedConfigBean.activeConfig.userInterfaceFormat eq 'YES_NO'

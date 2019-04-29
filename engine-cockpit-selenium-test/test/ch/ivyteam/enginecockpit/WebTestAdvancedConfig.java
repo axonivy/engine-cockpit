@@ -1,13 +1,15 @@
 package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
-import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -18,16 +20,29 @@ public class WebTestAdvancedConfig extends WebTestBase
   {
     toAdvancedConfig(driver);
     assertThat(driver.findElementByTagName("h1").getText()).contains("Advanced Config");
-    List<WebElement> configs = driver.findElementsByClassName("config-name");
-    if (!configs.isEmpty())
-    {
-      assertThat(driver.findElementsByClassName("config-name")).isNotEmpty();
-      WebElement lastConfig = driver.findElementByXPath("(//*[@class='config-name'])[last()]");
-      WebElement input = driver.findElementByXPath("//input[contains(@class, 'table-search-input-withicon')]");
-      input.sendKeys(lastConfig.getText());
-      saveScreenshot(driver, "search_config");
-      await().untilAsserted(() -> assertThat(driver.findElementsByClassName("config-name")).hasSize(1));
-    }
+  }
+  
+  @Test
+  void testSearchConfig(FirefoxDriver driver)
+  {
+    toAdvancedConfig(driver);
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("config-name")).isNotEmpty());
+    String lastConfig = driver.findElementByXPath("(//*[@class='config-name'])[last()]").getText();
+    driver.findElementByXPath("//input[contains(@class, 'table-search-input-withicon')]").sendKeys(lastConfig);
+    saveScreenshot(driver, "search_config");
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("config-name")).hasSize(1));
+  }
+  
+  @Test
+  void testHideDefaults(FirefoxDriver driver)
+  {
+    toAdvancedConfig(driver);
+    String config = "(//*[@class='config-name'])[text()='Connector.AJP.Address']";
+    webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
+    driver.findElementById("card:showDefaultBtnForm:showDefaultsBtn").click();
+    webAssertThat(() -> assertThat(elementNotAvailable(driver, By.xpath(config))).isTrue());
+    driver.findElementById("card:showDefaultBtnForm:showDefaultsBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
   }
   
   @Test
@@ -51,19 +66,17 @@ public class WebTestAdvancedConfig extends WebTestBase
     saveScreenshot(driver, "new_config_model");
     webAssertThat(() -> assertThat(driver.findElementById("card:newConfigurationModal").isDisplayed()).isTrue());
     
-    driver.findElementById("card:newConfigurationForm:newConfigurationKey").sendKeys("testKey");
-    driver.findElementById("card:newConfigurationForm:newConfigurationValue").sendKeys("testValue");
+    String key = "testKey";
+    String value = "testValue";
+    driver.findElementById("card:newConfigurationForm:newConfigurationKey").sendKeys(key);
+    driver.findElementById("card:newConfigurationForm:newConfigurationValue").sendKeys(value);
     driver.findElementById("card:newConfigurationForm:savenewConfiguration").click();
     saveScreenshot(driver, "save_new_config");
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains("testValue"));
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains(value));
     
-    String eleNumber = driver.findElementByXPath("//*[@class='config-name'][text()='testKey']/../..").getAttribute("data-ri");
-    String id = "card:form:advancedConfigTable:" + eleNumber;
-    driver.findElementById(id + ":editConfigBtn").click();
+    driver.findElementById(getConfigEditBtnForKey(driver, key)).click();
     saveScreenshot(driver, "edit_config");
-    webAssertThat(() -> assertThat(driver.findElementById("card:editConfigurationModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("card:editConfigurationForm:editConfigurationKey").getText()).isEqualTo("testKey"));
-    webAssertThat(() -> assertThat(driver.findElementById("card:editConfigurationForm:editConfigurationValue").getAttribute("value")).isEqualTo("testValue"));
+    assertThatConfigEditModalIsVisible(driver, key, value);
     
     driver.findElementById("card:editConfigurationForm:editConfigurationValue").clear();
     driver.findElementById("card:editConfigurationForm:editConfigurationValue").sendKeys("newValue");
@@ -71,16 +84,104 @@ public class WebTestAdvancedConfig extends WebTestBase
     saveScreenshot(driver, "save_edit_config");
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains("newValue"));
   
-    driver.findElementById(id + ":tasksButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById(id + ":activityMenu").isDisplayed()).isTrue());
-    driver.findElementById(id + ":deleteConfigBtn").click();
+    driver.findElementById(getConfigTaskBtnForKey(driver, key)).click();
+    webAssertThat(() -> assertThat(driver.findElementById(getConfigActivityMenuForKey(driver, key)).isDisplayed()).isTrue());
+    driver.findElementById(getConfigDeleteBtnForKey(driver, key)).click();
     saveScreenshot(driver, "delete_config");
     webAssertThat(() -> assertThat(driver.findElementById("card:form:deleteConfigConfirmDialog").isDisplayed()).isTrue());
     
     driver.findElementById("card:form:deleteConfigConfirmYesBtn").click();
     saveScreenshot(driver, "delete_config_yes");
     webAssertThat(() -> assertThat(driver.findElementsByClassName("config-name")
-            .stream().map(e -> e.getText()).anyMatch(t -> t.equals("testKey"))).isFalse());
+            .stream().map(e -> e.getText()).anyMatch(t -> t.equals(key))).isFalse());
+  }
+  
+  @Test
+  void testEditConfig_booleanFormat(FirefoxDriver driver)
+  {
+    toAdvancedConfig(driver);
+    String config = "Connector.AJP.AllowTrace";
+    driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
+    assertThatConfigEditModalIsVisible(driver, config, "false");
+  }
+  
+  @Test
+  void testEditConfig_numberFormat(FirefoxDriver driver)
+  {
+    toAdvancedConfig(driver);
+    String config = "Connector.AJP.BackLog";
+    driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
+    assertThatConfigEditModalIsVisible(driver, config, "100");
+  }
+  
+  @Test
+  void testEditConfig_daytimeFormat(FirefoxDriver driver)
+  {
+    toAdvancedConfig(driver);
+    String config = "EMail.DailyTaskSummary.TriggerTime";
+    driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
+    assertThatConfigEditModalIsVisible(driver, config, "__:__");
+  }
+  
+  @Test
+  void testEditConfig_enumerationFormat(FirefoxDriver driver)
+  {
+    toAdvancedConfig(driver);
+    String config = "EMail.Server.EncryptionMethod";
+    driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
+    assertThatConfigEditModalIsVisible(driver, config, "NONE");
+  }
+  
+  private void assertThatConfigEditModalIsVisible(FirefoxDriver driver, String key, String value)
+  {
+    webAssertThat(() -> assertThat(driver.findElementById("card:editConfigurationModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("card:editConfigurationForm:editConfigurationKey").getText()).isEqualTo(key));
+    String attribute = driver.findElementById("card:editConfigurationForm:editConfigurationValue").getAttribute("class");
+    PrimeUi primeUi = new PrimeUi(driver);
+    if (StringUtils.contains(attribute, "ui-chkbox"))
+    {
+      SelectBooleanCheckbox checkbox = primeUi.selectBooleanCheckbox(By.id("card:editConfigurationForm:editConfigurationValue"));
+      webAssertThat(() -> assertThat(checkbox.isChecked()).isEqualTo(Boolean.valueOf(value)));
+    }
+    else if (StringUtils.contains(attribute, "ui-inputnumber"))
+    {
+      webAssertThat(() -> assertThat(driver.findElementById("card:editConfigurationForm:editConfigurationValue_input").getAttribute("value")).isEqualTo(value));
+    }
+    else if (StringUtils.contains(attribute, "ui-selectonemenu"))
+    {
+      SelectOneMenu menu = primeUi.selectOne(By.id("card:editConfigurationForm:editConfigurationValue"));
+      webAssertThat(() -> assertThat(menu.getSelectedItem()).isEqualTo(value));
+    }
+    else
+    {
+      webAssertThat(() -> assertThat(driver.findElementById("card:editConfigurationForm:editConfigurationValue").getAttribute("value")).isEqualTo(value));
+    }
+  }
+  
+  private String getConfigActivityMenuForKey(FirefoxDriver driver, String key)
+  {
+    return getConfigIdForKey(driver, key) + ":activityMenu";
+  }
+  
+  private String getConfigDeleteBtnForKey(FirefoxDriver driver, String key)
+  {
+    return getConfigIdForKey(driver, key) + ":deleteConfigBtn";
+  }
+  
+  private String getConfigTaskBtnForKey(FirefoxDriver driver, String key)
+  {
+    return getConfigIdForKey(driver, key) + ":tasksButton";
+  }
+  
+  private String getConfigEditBtnForKey(FirefoxDriver driver, String key)
+  {
+    return getConfigIdForKey(driver, key) + ":editConfigBtn";
+  }
+  
+  private String getConfigIdForKey(FirefoxDriver driver, String key)
+  {
+    String eleNumber = driver.findElementByXPath("//*[@class='config-name'][text()='" + key + "']/../..").getAttribute("data-ri");
+    return "card:form:advancedConfigTable:" + eleNumber;
   }
   
   private void toAdvancedConfig(FirefoxDriver driver)
