@@ -21,7 +21,7 @@
       <cc:SingleCard id="card">
         <div class="card card-w-title">
           <div class="ui-g">
-            <div class="ui-g-12 ui-md-8">
+            <div class="ui-g-12 ui-md-9">
               <h1>
                 <i class="material-icons card-title-icon">settings</i>
                 <span>Advanced Configuration</span>
@@ -34,14 +34,6 @@
                   update="card:form,@this" styleClass="#{advancedConfigBean.showDefaults ? 'amber' : 'primary'}-btn">
                   <p:tooltip for="showDefaultsBtn" value="Show defaults" position="left" />
                 </p:commandButton>
-              </h:form>
-            </div>
-            <div class="ui-g-12 ui-md-1" style="margin: auto;">
-              <h:form id="showDefaultSwitchForm">
-                <p:inputSwitch id="showDefaultsSwitch" value="#{advancedConfigBean.showDefaults}" style="float: right;">
-                  <p:ajax update="card:form"/>
-                </p:inputSwitch> 
-                <p:tooltip for="showDefaultsSwitch" value="Show defaults" position="left"/>
               </h:form>
             </div>
             <div class="ui-g-12 ui-md-2" style="margin: auto;">
@@ -82,9 +74,9 @@
                       <p:menuitem value="View File" icon="ui-icon-find-in-page" ajax="false" id="showFileBtn">
                         <p:fileDownload value="#{config.downloadFile()}"/>
                       </p:menuitem>
-                      <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{config.shortSource eq 'app.yaml'}"
-                        actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" id="deleteConfigBtn"
-                        update="card:form:deleteConfigConfirmDialog" oncomplete="PF('deleteConfigConfirmDialog').show();" />
+                      <p:menuitem value="Reset" icon="ui-icon-close" disabled="#{config.shortSource eq 'app.yaml'}"
+                        actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" id="resetConfigBtn"
+                        update="card:form:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show();" />
                     </p:menu>
                   	<p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
                       styleClass="card-button table-control-btn amber-btn"
@@ -92,10 +84,10 @@
                       update="card:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
                   </p:column>
                 </p:dataTable>
-                <p:confirmDialog id="deleteConfigConfirmDialog" message="Are you sure about deleteing the configuration '#{advancedConfigBean.activeConfig.key}=#{advancedConfigBean.activeConfig.value}'?" 
-                  header="Delete Config"
-                  severity="alert" widgetVar="deleteConfigConfirmDialog">
-                  <p:commandButton id="deleteConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{advancedConfigBean.deleteConfig}"
+                <p:confirmDialog id="resetConfigConfirmDialog" message="Are you sure about reseting the configuration '#{advancedConfigBean.activeConfig.key}=#{advancedConfigBean.activeConfig.value}'?" 
+                  header="Reset Config"
+                  severity="alert" widgetVar="resetConfigConfirmDialog">
+                  <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{advancedConfigBean.resetConfig}"
                     icon="ui-icon-check" style="width: inherit;" />
                   <p:commandButton value="Cancel" onclick="PF('deleteConfigConfirmDialog').hide();" type="button" icon="ui-icon-close"
                     style="width: inherit;" />

@@ -59,7 +59,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   }
   
   @Test
-  void testNewEditAndDeleteConfig(FirefoxDriver driver)
+  void testNewEditAndResetConfig(FirefoxDriver driver)
   {
     toAdvancedConfig(driver);
     driver.findElementById("card:newConfigBtn").click();
@@ -86,12 +86,12 @@ public class WebTestAdvancedConfig extends WebTestBase
   
     driver.findElementById(getConfigTaskBtnForKey(driver, key)).click();
     webAssertThat(() -> assertThat(driver.findElementById(getConfigActivityMenuForKey(driver, key)).isDisplayed()).isTrue());
-    driver.findElementById(getConfigDeleteBtnForKey(driver, key)).click();
-    saveScreenshot(driver, "delete_config");
-    webAssertThat(() -> assertThat(driver.findElementById("card:form:deleteConfigConfirmDialog").isDisplayed()).isTrue());
+    driver.findElementById(getConfigResetBtnForKey(driver, key)).click();
+    saveScreenshot(driver, "reset_config");
+    webAssertThat(() -> assertThat(driver.findElementById("card:form:resetConfigConfirmDialog").isDisplayed()).isTrue());
     
-    driver.findElementById("card:form:deleteConfigConfirmYesBtn").click();
-    saveScreenshot(driver, "delete_config_yes");
+    driver.findElementById("card:form:resetConfigConfirmYesBtn").click();
+    saveScreenshot(driver, "reset_config_yes");
     webAssertThat(() -> assertThat(driver.findElementsByClassName("config-name")
             .stream().map(e -> e.getText()).anyMatch(t -> t.equals(key))).isFalse());
   }
@@ -102,6 +102,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     toAdvancedConfig(driver);
     String config = "Connector.AJP.AllowTrace";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
+    saveScreenshot(driver, "boolean_input");
     assertThatConfigEditModalIsVisible(driver, config, "false");
   }
   
@@ -111,6 +112,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     toAdvancedConfig(driver);
     String config = "Connector.AJP.BackLog";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
+    saveScreenshot(driver, "number_input");
     assertThatConfigEditModalIsVisible(driver, config, "100");
   }
   
@@ -120,6 +122,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     toAdvancedConfig(driver);
     String config = "EMail.DailyTaskSummary.TriggerTime";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
+    saveScreenshot(driver, "daytime_input");
     assertThatConfigEditModalIsVisible(driver, config, "__:__");
   }
   
@@ -129,6 +132,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     toAdvancedConfig(driver);
     String config = "EMail.Server.EncryptionMethod";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
+    saveScreenshot(driver, "enum_input");
     assertThatConfigEditModalIsVisible(driver, config, "NONE");
   }
   
@@ -163,9 +167,9 @@ public class WebTestAdvancedConfig extends WebTestBase
     return getConfigIdForKey(driver, key) + ":activityMenu";
   }
   
-  private String getConfigDeleteBtnForKey(FirefoxDriver driver, String key)
+  private String getConfigResetBtnForKey(FirefoxDriver driver, String key)
   {
-    return getConfigIdForKey(driver, key) + ":deleteConfigBtn";
+    return getConfigIdForKey(driver, key) + ":resetConfigBtn";
   }
   
   private String getConfigTaskBtnForKey(FirefoxDriver driver, String key)

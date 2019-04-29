@@ -27,7 +27,7 @@
           <p:inputMask id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" mask="99:99"/>
         </c:when>
         <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'NUMBER'}">
-          <p:inputNumber id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" decimalPlaces="0" minValue="-1"/>
+          <p:inputNumber id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" thousandSeparator="'" decimalPlaces="0" minValue="-1"/>
         </c:when>
         <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'TRUE_FALSE' 
           or advancedConfigBean.activeConfig.userInterfaceFormat eq 'YES_NO'

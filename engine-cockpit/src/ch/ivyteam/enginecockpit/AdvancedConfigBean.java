@@ -94,21 +94,21 @@ public class AdvancedConfigBean
     return activeConfig;
   }
   
-  public void deleteConfig()
+  public void resetConfig()
   {
     Configuration.remove(activeConfig.getKey());
     if (StringUtils.isNotBlank(filter))
     {
       filteredConfigs.remove(activeConfig);
     }
-    reloadAndUiMessage("deleted");
+    reloadAndUiMessage("reseted");
   }
 
   public void saveConfig()
   {
     if (activeConfig.getValue().equals(activeConfig.getDefaultValue()))
     {
-      deleteConfig();
+      resetConfig();
       return;
     }
     if (UserInterfaceFormat.PASSWORD.name().equals(activeConfig.getUserInterfaceFormat()))
