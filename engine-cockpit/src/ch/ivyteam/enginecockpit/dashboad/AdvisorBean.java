@@ -37,7 +37,15 @@ public class AdvisorBean
 
   public String getEngineGuideBaseUrl()
   {
-    String version = Advisor.getAdvisor().getVersion().getVersionString(Version.DETAIL_PATCH, Version.FORM_SHORT);
+    String version;
+    if (Advisor.getAdvisor().isReleaseCandidate())
+    {
+      version = "dev";
+    }
+    else
+    {
+      version = Advisor.getAdvisor().getVersion().getVersionString(Version.DETAIL_PATCH, Version.FORM_SHORT);
+    }
     return "https://developer.axonivy.com/doc/" + version + "/engine-guide";
   }
 }
