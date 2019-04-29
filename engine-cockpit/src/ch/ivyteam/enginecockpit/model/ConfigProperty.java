@@ -27,10 +27,11 @@ public class ConfigProperty
   private String source;
   private boolean password;
   private UserInterfaceFormat userInterfaceFormat;
+  private String[] enumerationValues;
   
   public ConfigProperty()
   {
-    
+    userInterfaceFormat = UserInterfaceFormat.STRING;
   }
 
   public ConfigProperty(Property property)
@@ -42,6 +43,7 @@ public class ConfigProperty
     this.source = property.getMetaData().getSource();
     this.password = property.getMetaData().isPassword();
     this.userInterfaceFormat = property.getMetaData().getUserInterfaceFormat();
+    this.enumerationValues = property.getMetaData().getEnumerationValues();
   }
 
   public String getKey()
@@ -112,6 +114,11 @@ public class ConfigProperty
   public String getUserInterfaceFormat()
   {
     return userInterfaceFormat.name();
+  }
+  
+  public String[] getEnumerationValues()
+  {
+    return enumerationValues;
   }
   
   public StreamedContent downloadFile()

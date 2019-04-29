@@ -6,21 +6,21 @@
 <p:dialog style="min-width: 300px;" header="New configuration" id="newConfigurationModal"
   widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newConfigurationForm">
-    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+      <label>Key</label>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="newConfigurationKey" required="true" requiredMessage="Value is required"
           value="#{advancedConfigBean.activeConfig.key}" />
-        <label>Key</label>
         <p:message for="newConfigurationKey" id="newConfigurationKeyMessage" />
       </h:panelGroup>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
-        <label>Value</label>
-      </h:panelGroup>
+      
+      <label>Value</label>
+      <p:inputText id="newConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
     </p:panelGrid>
     <p:commandButton id="savenewConfiguration" validateClient="true" onsuccess="PF('newConfigurationModal').hide();"
       actionListener="#{advancedConfigBean.createConfig}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" update="card:form"/>
+      styleClass="primary-btn modal-input-button" update="card:form @form"/>
     <p:commandButton id="cancelnewConfiguration" onclick="PF('newConfigurationModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
   </h:form>

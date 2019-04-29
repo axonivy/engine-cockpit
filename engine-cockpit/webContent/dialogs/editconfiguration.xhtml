@@ -6,20 +6,46 @@
 <p:dialog style="min-width: 300px;" header="Edit configuration" id="editConfigurationModal"
   widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="editConfigurationForm">
-    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-      <h:panelGroup layout="block" styleClass="static-message static-warn-message" 
-        rendered="#{advancedConfigBean.activeConfig.shortSource eq 'app.yaml'}">
-        <i class="fa fa-exclamation-triangle"/>
-        <h:outputText value="Values from app.yaml files are overritten in the ivy.yaml file"/>
-      </h:panelGroup>
+    <h:panelGroup layout="block" styleClass="static-message static-warn-message" 
+      rendered="#{advancedConfigBean.activeConfig.shortSource eq 'app.yaml'}">
+      <i class="fa fa-exclamation-triangle"/>
+      <h:outputText value="Values from app.yaml files are overritten in the ivy.yaml file"/>
+    </h:panelGroup>
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+      <label>Key</label>
       <h:outputText id="editConfigurationKey"
         value="#{advancedConfigBean.activeConfig.key}" />
+        
+      <h:outputLabel for="editConfigurationDefaultValue" rendered="#{not empty advancedConfigBean.activeConfig.defaultValue}" value="Default"/>
       <h:outputText id="editConfigurationDefaultValue" rendered="#{not empty advancedConfigBean.activeConfig.defaultValue}"
-        value="Default: #{advancedConfigBean.activeConfig.defaultValue}" style="color: grey;"/>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
-        <label>Value</label>
-      </h:panelGroup>
+        value="#{advancedConfigBean.activeConfig.defaultValue}" style="color: grey;"/>
+      
+      <label>Value</label>
+      <c:choose>
+        <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'DAYTIME'}">
+          <p:inputMask id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" mask="99:99"/>
+        </c:when>
+        <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'NUMBER'}">
+          <p:inputNumber id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" decimalPlaces="0" minValue="0"/>
+        </c:when>
+        <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'TRUE_FALSE' 
+          or advancedConfigBean.activeConfig.userInterfaceFormat eq 'YES_NO'
+          or advancedConfigBean.activeConfig.userInterfaceFormat eq 'ON_OFF'}">
+          <p:selectBooleanCheckbox id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}"/>
+        </c:when>
+        <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'PASSWORD'}">
+          <p:password id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}"/>
+        </c:when>
+        <c:when test="#{advancedConfigBean.activeConfig.userInterfaceFormat eq 'ENUMERATION'}">
+          <p:selectOneMenu id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}">
+            <f:selectItems value="#{advancedConfigBean.activeConfig.enumerationValues}" />
+          </p:selectOneMenu>
+        </c:when>
+        <c:otherwise>
+          <p:inputText id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}"/>
+        </c:otherwise>
+      </c:choose>
     </p:panelGrid>
     <p:commandButton id="saveEditConfiguration" ajax="false"
       actionListener="#{advancedConfigBean.saveConfig}" value="Save" icon="ui-icon-save"

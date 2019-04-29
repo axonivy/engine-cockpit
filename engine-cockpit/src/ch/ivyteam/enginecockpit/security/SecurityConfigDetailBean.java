@@ -16,7 +16,6 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
-import ch.ivyteam.util.crypto.CryptoUtil;
 
 @ManagedBean
 @ViewScoped
@@ -265,7 +264,7 @@ public class SecurityConfigDetailBean
     }
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
-    setConfiguration(ConfigKey.CONNECTION_PASSWORD, encryptPassword());
+    setConfiguration(ConfigKey.CONNECTION_PASSWORD, Configuration.encrpyt(password));
     setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, getSaveValueUseLdapConnectionPool());
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
             StringUtils.equals(this.derefAlias, SecuritySystemConfig.DefaultValue.DEREF_ALIAS) ? "" : this.derefAlias);
@@ -316,21 +315,6 @@ public class SecurityConfigDetailBean
   {
     Configuration.remove(SecuritySystemConfig.getPrefix(name));
     return "securitysystem.xhtml?faces-redirect=true";
-  }
-  
-  private String encryptPassword()
-  {
-    if (StringUtils.isBlank(this.password))
-    {
-      return "";
-    }
-    try
-    {
-      return "${decrypt:" + CryptoUtil.encrypt(this.password) + "}";
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
   }
 
 }

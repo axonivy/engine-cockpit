@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.util.Configuration;
+import ch.ivyteam.ivy.system.UserInterfaceFormat;
 
 @ManagedBean
 @ViewScoped
@@ -26,7 +27,7 @@ public class AdvancedConfigBean
   public AdvancedConfigBean()
   {
     reloadConfigs();
-    showDefaults = false;
+    showDefaults = true;
   }
 
   private void reloadConfigs()
@@ -105,7 +106,29 @@ public class AdvancedConfigBean
 
   public void saveConfig()
   {
-    Configuration.set(activeConfig.getKey(), activeConfig.getValue());
+    if (activeConfig.getValue().equals(activeConfig.getDefaultValue()))
+    {
+      deleteConfig();
+      return;
+    }
+    if (UserInterfaceFormat.PASSWORD.name().equals(activeConfig.getUserInterfaceFormat()))
+    {
+      Configuration.set(activeConfig.getKey(), Configuration.encrpyt(activeConfig.getValue()));
+    }
+    else if (UserInterfaceFormat.NUMBER.name().equals(activeConfig.getUserInterfaceFormat()))
+    {
+      Configuration.set(activeConfig.getKey(), Long.valueOf(activeConfig.getValue()));
+    }
+    else if (UserInterfaceFormat.TRUE_FALSE.name().equals(activeConfig.getUserInterfaceFormat()) ||
+            UserInterfaceFormat.YES_NO.name().equals(activeConfig.getUserInterfaceFormat()) ||
+            UserInterfaceFormat.ON_OFF.name().equals(activeConfig.getUserInterfaceFormat()))
+    {
+      Configuration.set(activeConfig.getKey(), Boolean.valueOf(activeConfig.getValue()));
+    }
+    else
+    {
+      Configuration.set(activeConfig.getKey(), activeConfig.getValue());
+    }
     reloadAndUiMessage("changed");
   }
   
