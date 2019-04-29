@@ -7,6 +7,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import ch.ivyteam.ivy.Advisor;
+import ch.ivyteam.util.Version;
 
 @ManagedBean
 @ApplicationScoped
@@ -32,5 +33,11 @@ public class AdvisorBean
   public String getCopyright()
   {
     return "&copy; 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
+  }
+
+  public String getEngineGuideBaseUrl()
+  {
+    String version = Advisor.getAdvisor().getVersion().getVersionString(Version.DETAIL_PATCH, Version.FORM_SHORT);
+    return "https://developer.axonivy.com/doc/" + version + "/engine-guide";
   }
 }
