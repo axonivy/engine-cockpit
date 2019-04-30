@@ -111,10 +111,6 @@ public class AdvancedConfigBean
       resetConfig();
       return;
     }
-    if (UserInterfaceFormat.PASSWORD.name().equals(activeConfig.getUserInterfaceFormat()))
-    {
-      Configuration.set(activeConfig.getKey(), Configuration.encrpyt(activeConfig.getValue()));
-    }
     else if (UserInterfaceFormat.NUMBER.name().equals(activeConfig.getUserInterfaceFormat()))
     {
       Configuration.set(activeConfig.getKey(), Long.valueOf(activeConfig.getValue()));

@@ -47,7 +47,7 @@
         </c:otherwise>
       </c:choose>
     </p:panelGrid>
-    <p:commandButton id="saveEditConfiguration" ajax="false"
+    <p:commandButton id="saveEditConfiguration" update="card:form" onsuccess="PF('editConfigurationModal').hide()"
       actionListener="#{advancedConfigBean.saveConfig}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button" />
     <p:commandButton id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel" type="button"

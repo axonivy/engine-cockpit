@@ -77,7 +77,7 @@
                       </p:menuitem>
                       <p:menuitem value="Reset" icon="ui-icon-close" disabled="#{config.shortSource eq 'app.yaml'}"
                         actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" id="resetConfigBtn"
-                        update="card:form:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show();" />
+                        update="card:form:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
                     </p:menu>
                   	<p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
                       styleClass="card-button table-control-btn amber-btn"
@@ -85,8 +85,8 @@
                       update="card:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
                   </p:column>
                 </p:dataTable>
-                <p:confirmDialog id="resetConfigConfirmDialog" message="Are you sure about reseting the configuration '#{advancedConfigBean.activeConfig.key}=#{advancedConfigBean.activeConfig.value}'?" 
-                  header="Reset Config"
+                <p:confirmDialog id="resetConfigConfirmDialog" header="Reset Config"
+                  message="Are you sure about reseting the configuration '#{advancedConfigBean.activeConfig.key}=#{advancedConfigBean.activeConfig.password ? '******' : advancedConfigBean.activeConfig.value}'?" 
                   severity="alert" widgetVar="resetConfigConfirmDialog">
                   <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{advancedConfigBean.resetConfig}"
                     icon="ui-icon-check" style="width: inherit;" />

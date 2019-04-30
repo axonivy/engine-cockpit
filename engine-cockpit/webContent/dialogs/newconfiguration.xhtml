@@ -18,10 +18,10 @@
       <label>Value</label>
       <p:inputText id="newConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
     </p:panelGrid>
-    <p:commandButton id="savenewConfiguration" validateClient="true" onsuccess="PF('newConfigurationModal').hide();"
+    <p:commandButton id="savenewConfiguration" validateClient="true" onsuccess="PF('newConfigurationModal').hide()"
       actionListener="#{advancedConfigBean.createConfig}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button" update="card:form @form"/>
-    <p:commandButton id="cancelnewConfiguration" onclick="PF('newConfigurationModal').hide();" value="Cancel" type="button"
+    <p:commandButton id="cancelnewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
   </h:form>
 </p:dialog>

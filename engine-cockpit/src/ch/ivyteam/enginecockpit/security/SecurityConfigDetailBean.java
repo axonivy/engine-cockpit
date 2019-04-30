@@ -264,7 +264,7 @@ public class SecurityConfigDetailBean
     }
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
-    setConfiguration(ConfigKey.CONNECTION_PASSWORD, Configuration.encrpyt(password));
+    setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
     setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, getSaveValueUseLdapConnectionPool());
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
             StringUtils.equals(this.derefAlias, SecuritySystemConfig.DefaultValue.DEREF_ALIAS) ? "" : this.derefAlias);

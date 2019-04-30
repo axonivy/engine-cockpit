@@ -42,7 +42,10 @@ public class ConfigProperty
     this.value = property.getValue();
     this.defaultValue = property.getDefaultValue();
     this.isDefault = property.isDefaultValue();
-    this.source = property.getMetaData().getSource();
+    if (!isDefault)
+    {
+      this.source = property.getMetaData().getSource();
+    }
     this.password = property.getMetaData().isPassword();
     this.userInterfaceFormat = property.getMetaData().getUserInterfaceFormat();
     this.enumerationValues = property.getMetaData().getEnumerationValues();
