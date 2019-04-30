@@ -46,6 +46,7 @@ public class ConfigProperty
     this.password = property.getMetaData().isPassword();
     this.userInterfaceFormat = property.getMetaData().getUserInterfaceFormat();
     this.enumerationValues = property.getMetaData().getEnumerationValues();
+    correctValuesIfDaytimeFormat();
   }
 
   public String getKey()
@@ -164,5 +165,20 @@ public class ConfigProperty
       prefixString = StringUtils.length(source);
     }
     return prefixString;
+  }
+  
+  private void correctValuesIfDaytimeFormat()
+  {
+    if (userInterfaceFormat.equals(UserInterfaceFormat.DAYTIME))
+    {
+      if (defaultValue.equals("0"))
+      {
+        this.defaultValue = "00:00";
+      }
+      if (value.equals("0"))
+      {
+        this.value = "00:00";
+      }
+    }
   }
 }
