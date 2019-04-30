@@ -208,26 +208,20 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>ch.ivyteam.ivy</groupId>
-				<artifactId>image-dpi-plugin</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.1</version>
 				<executions>
 					<execution>
-						<id>change.dpi</id>
-						<goals>
-							<goal>change-png-dpi</goal>
-						</goals>
 						<phase>integration-test</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
 						<configuration>
-							<fileSet>
-								<directory>${project.build.directory}</directory>
-								<includes>
-									<include>
-										**/docu/screenshots/*.png
-									</include>
-								</includes>
-							</fileSet>
-							<dpiValue>150</dpiValue>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>zip.xml</descriptor>
+							</descriptors>
 						</configuration>
 					</execution>
 				</executions>

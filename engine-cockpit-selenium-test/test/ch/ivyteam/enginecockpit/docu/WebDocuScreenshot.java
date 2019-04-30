@@ -24,29 +24,29 @@ public class WebDocuScreenshot extends WebBase
   void docuScreeshot(FirefoxDriver driver)
   {
     login(driver);
-    takeScreenshot(driver, "Dashboard", new Dimension(1062, 800));
+    takeScreenshot(driver, "engine-cockpit-dashboard", new Dimension(1062, 800));
     Navigation.toApplications(driver);
-    takeScreenshot(driver, "Applications", new Dimension(1062, 600));
+    takeScreenshot(driver, "engine-cockpit-applications", new Dimension(1062, 600));
     Navigation.toApplicationDetail(driver, EngineCockpitUrl.isDesignerApp() ? "designer" : "test");
-    takeScreenshot(driver, "Applicationdetail", new Dimension(1062, 900));
+    takeScreenshot(driver, "engine-cockpit-application-detail", new Dimension(1062, 900));
     Navigation.toSecuritySystem(driver);
-    takeScreenshot(driver, "SecuritySystem", new Dimension(1062, 500));
+    takeScreenshot(driver, "engine-cockpit-security-system", new Dimension(1062, 500));
     Navigation.toSecuritySystemDetail(driver, "test-ad");
-    takeScreenshot(driver, "SecuritySystemDetail", new Dimension(1062, 900));
+    takeScreenshot(driver, "engine-cockpit-security-system-detail", new Dimension(1062, 900));
     Navigation.toUsers(driver);
-    takeScreenshot(driver, "Users", new Dimension(1062, 600));
+    takeScreenshot(driver, "engine-cockpit-users", new Dimension(1062, 600));
     Navigation.toUserDetail(driver, "foo");
-    takeScreenshot(driver, "Userdetail", new Dimension(1062, 1000));
+    takeScreenshot(driver, "engine-cockpit-user-detail", new Dimension(1062, 1000));
     Navigation.toRoles(driver);
-    takeScreenshot(driver, "Roles", new Dimension(1062, 600));
+    takeScreenshot(driver, "engine-cockpit-roles", new Dimension(1062, 600));
     Navigation.toRoleDetail(driver, "boss");
-    takeScreenshot(driver, "Roledetail", new Dimension(1062, 900));
+    takeScreenshot(driver, "engine-cockpit-role-detail", new Dimension(1062, 900));
     Navigation.toEmail(driver);
-    takeScreenshot(driver, "Email", new Dimension(1062, 800));
+    takeScreenshot(driver, "engine-cockpit-email", new Dimension(1062, 800));
     Navigation.toAdvancedConfig(driver);
-    takeScreenshot(driver, "AdvancedConfig", new Dimension(1062, 700));
+    takeScreenshot(driver, "engine-cockpit-advanced-config", new Dimension(1062, 700));
     Navigation.toMonitor(driver);
-    takeScreenshot(driver, "Monitor", new Dimension(1062, 1000));
+    takeScreenshot(driver, "engine-cockpit-monitor", new Dimension(1062, 1000));
   }
   
   public void takeScreenshot(RemoteWebDriver driver, String fileName, Dimension size)

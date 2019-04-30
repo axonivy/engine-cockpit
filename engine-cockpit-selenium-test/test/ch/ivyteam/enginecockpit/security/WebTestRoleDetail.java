@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
@@ -157,33 +156,31 @@ public class WebTestRoleDetail extends WebTestBase
     saveScreenshot(driver, "save_user_changes");
     
     Navigation.toRoles(driver);
-    await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").isDisplayed()).isTrue());
     String syncBtnId = driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").getAttribute("id");
     driver.findElementById(syncBtnId).click();
-    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
-            .untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).contains("fa-spin"));
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).contains("fa-spin"));
     saveScreenshot(driver, "trigger_roles_sync");
-    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
-            .untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
     saveScreenshot(driver, "finish_roles_sync");
     
     Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
     saveScreenshot(driver, "roledetail");
     
     String roleUsers = "//*[@id='usersOfRoleForm:roleUserTable']//*[@class='user-row']";
-    await().untilAsserted(() -> assertThat(driver.findElementsByXPath(roleUsers)).hasSize(3));
-    await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserDropDown_input").getAttribute("class")).contains("ui-state-disabled"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserToRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
+    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).hasSize(3));
+    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserDropDown_input").getAttribute("class")).contains("ui-state-disabled"));
+    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserToRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
+    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
   
     driver.findElementById("roleInformationForm:externalSecurityName").clear();
-    await().untilAsserted(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEmpty());
     driver.findElementById("roleInformationForm:saveRoleInformation").click();
     saveScreenshot(driver, "remove_external");
     driver.navigate().refresh();
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME));
     saveScreenshot(driver, "refresh_before_cleanup");
-    await().untilAsserted(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).doesNotContain("ui-state-disabled"));
+    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).doesNotContain("ui-state-disabled"));
     driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
     driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
     driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
