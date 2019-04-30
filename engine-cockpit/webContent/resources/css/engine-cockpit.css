@@ -297,6 +297,11 @@ body {
 .label-help-icon i {
   font-size: 13px;
 }
+.code-block {
+  overflow: auto;
+  max-height: 500px;
+  display: block;
+}
 
 /*Email Style Changes*/
 .email-checkbox-style .ui-grid-row,

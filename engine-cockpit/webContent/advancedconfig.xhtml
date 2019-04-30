@@ -71,8 +71,10 @@
                     <p:commandButton title="More" id="tasksButton" disabled="#{config.default}"
                       type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
                     <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-                      <p:menuitem value="View File" icon="ui-icon-find-in-page" ajax="false" id="showFileBtn">
-                        <p:fileDownload value="#{config.downloadFile()}"/>
+                      <p:menuitem value="View File" icon="ui-icon-find-in-page" oncomplete="PF('showConfigurationFileModal').show()"
+                        actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" update="card:showConfigurationFileModal" 
+                        id="showFileBtn">
+                        <!-- <p:fileDownload value="#{config.downloadFile()}"/> -->
                       </p:menuitem>
                       <p:menuitem value="Reset" icon="ui-icon-close" disabled="#{config.shortSource eq 'app.yaml'}"
                         actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" id="resetConfigBtn"
@@ -95,6 +97,7 @@
               </h:form>
                <ui:include src="dialogs/editconfiguration.xhtml" />
                <ui:include src="dialogs/newconfiguration.xhtml" />
+               <ui:include src="dialogs/showconfigurationfile.xhtml" />
             </div>
           </div>
         </div>

@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -119,6 +121,19 @@ public class ConfigProperty
   public String[] getEnumerationValues()
   {
     return enumerationValues;
+  }
+  
+  public String getFileContent()
+  {
+    try
+    {
+      return FileUtils.readFileToString(getFile(), StandardCharsets.UTF_8);
+    }
+    catch (IOException | URISyntaxException e)
+    {
+      e.printStackTrace();
+    }
+    return "";
   }
   
   public StreamedContent downloadFile()
