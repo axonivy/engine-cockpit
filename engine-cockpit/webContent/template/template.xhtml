@@ -18,6 +18,7 @@
   <h:outputScript name="js/nanoscroller.js" library="serenity-layout" />
   <h:outputScript name="js/layout.js" library="serenity-layout" />
   <h:outputScript name="js/ripple.js" library="serenity-layout" />
+  <h:outputScript name="resources/js/highlight.pack.js" />
   <ui:insert name="head" />
 </h:head>
 
@@ -60,6 +61,7 @@
 
   <ui:include src="exception.xhtml" />
 
+  <h:outputStylesheet name="resources/css/highlight-default.css" />
   <h:outputStylesheet name="css/nanoscroller.css" library="serenity-layout" />
   <h:outputStylesheet name="css/ripple.css" library="serenity-layout" />
   <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="serenity-layout" />

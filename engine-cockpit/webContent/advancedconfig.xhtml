@@ -74,7 +74,6 @@
                       <p:menuitem value="View File" icon="ui-icon-find-in-page" oncomplete="PF('showConfigurationFileModal').show()"
                         actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" update="card:showConfigurationFileModal" 
                         id="showFileBtn">
-                        <!-- <p:fileDownload value="#{config.downloadFile()}"/> -->
                       </p:menuitem>
                       <p:menuitem value="Reset" icon="ui-icon-close" disabled="#{config.shortSource eq 'app.yaml'}"
                         actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" id="resetConfigBtn"

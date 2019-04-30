@@ -4,14 +4,15 @@
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:dialog style="min-width: 400px; max-width: 600px;" header="#{advancedConfigBean.activeConfig.shortSource}" id="showConfigurationFileModal"
-  widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true">
+  widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true" 
+  onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
   <h:form id="showConfigurationFileForm">
     <p:panelGrid columns="1" layout="grid"
       styleClass="ui-panelgrid-blank form-group modal-input-form">
       <h:outputText value="#{advancedConfigBean.activeConfig.source}" />
       
       <h:panelGroup styleClass="code-block">
-        <pre><code>
+        <pre><code class="yaml">
           <h:outputText value="#{advancedConfigBean.activeConfig.fileContent}" escape="false"/>
         </code></pre>
       </h:panelGroup>

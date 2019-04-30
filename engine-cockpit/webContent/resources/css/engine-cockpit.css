@@ -297,10 +297,8 @@ body {
 .label-help-icon i {
   font-size: 13px;
 }
-.code-block {
-  overflow: auto;
+.code-block .yaml {
   max-height: 500px;
-  display: block;
 }
 
 /*Email Style Changes*/
