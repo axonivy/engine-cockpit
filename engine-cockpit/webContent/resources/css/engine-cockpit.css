@@ -314,3 +314,13 @@ body {
 .ui-datatable .default-value {
   color: grey;
 }
+.config-edit-defaultvalue,
+.config-edit-desription {
+  color: grey;
+}
+.config-edit-description pre {
+  max-width: 650px;
+  overflow-x: auto;
+  color: grey;
+  margin: 0;
+}

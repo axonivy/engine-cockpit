@@ -57,7 +57,7 @@
                     </p:outputPanel>
                   </f:facet>
                   <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}" styleClass="#{config.default ? 'default-value' : ''}">
-                    <h:outputText value="#{config.key}" title="#{config.key}" styleClass="config-name">
+                    <h:outputText value="#{config.key}" title="#{config.description}" styleClass="config-name">
                       <i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
                     </h:outputText>
                   </p:column>

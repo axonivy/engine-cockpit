@@ -16,8 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.Property;
-import ch.ivyteam.ivy.configuration.restricted.UserInterfaceFormat;
 
 @SuppressWarnings("restriction")
 public class ConfigProperty
@@ -28,27 +28,31 @@ public class ConfigProperty
   private boolean isDefault;
   private String source;
   private boolean password;
-  private UserInterfaceFormat userInterfaceFormat;
+  private ConfigValueFormat configValueFormat;
   private String[] enumerationValues;
+  private boolean restartRequired;
+  private String description;
   
   public ConfigProperty()
   {
-    userInterfaceFormat = UserInterfaceFormat.STRING;
+    configValueFormat = ConfigValueFormat.STRING;
   }
 
   public ConfigProperty(Property property)
   {
     this.key = property.getKey();
     this.value = property.getValue();
-    this.defaultValue = property.getDefaultValue();
-    this.isDefault = property.isDefaultValue();
+    this.defaultValue = property.getMetaData().getDefaultValue();
+    this.isDefault = property.isDefault();
     if (!isDefault)
     {
-      this.source = property.getMetaData().getSource();
+      this.source = property.getSource();
     }
     this.password = property.getMetaData().isPassword();
-    this.userInterfaceFormat = property.getMetaData().getUserInterfaceFormat();
+    this.configValueFormat = property.getMetaData().getConfigValueFormat();
     this.enumerationValues = property.getMetaData().getEnumerationValues();
+    this.restartRequired = property.getMetaData().isRestartRequired();
+    this.description = property.getMetaData().getDescription();
     correctValuesIfDaytimeFormat();
   }
 
@@ -117,14 +121,34 @@ public class ConfigProperty
     this.password = password;
   }
   
-  public String getUserInterfaceFormat()
+  public String getConfigValueFormat()
   {
-    return userInterfaceFormat.name();
+    return configValueFormat.name();
   }
   
   public String[] getEnumerationValues()
   {
     return enumerationValues;
+  }
+  
+  public boolean isRestartRequired()
+  {
+    return restartRequired;
+  }
+  
+  public String getDescription()
+  {
+    return description;
+  }
+  
+  public String getHtmlDescription()
+  {
+    return "<pre>"+description+"</pre>";
+  }
+  
+  public boolean hasDescription()
+  {
+    return StringUtils.isNotBlank(description);
   }
   
   public String getFileContent()
@@ -172,7 +196,7 @@ public class ConfigProperty
   
   private void correctValuesIfDaytimeFormat()
   {
-    if (userInterfaceFormat.equals(UserInterfaceFormat.DAYTIME))
+    if (configValueFormat.equals(ConfigValueFormat.DAYTIME))
     {
       if (defaultValue.equals("0"))
       {

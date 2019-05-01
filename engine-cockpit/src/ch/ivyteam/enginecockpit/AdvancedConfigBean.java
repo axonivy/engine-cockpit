@@ -12,8 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.util.Configuration;
-import ch.ivyteam.ivy.system.UserInterfaceFormat;
+import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class AdvancedConfigBean
@@ -111,13 +112,11 @@ public class AdvancedConfigBean
       resetConfig();
       return;
     }
-    else if (UserInterfaceFormat.NUMBER.name().equals(activeConfig.getUserInterfaceFormat()))
+    else if (ConfigValueFormat.NUMBER.name().equals(activeConfig.getConfigValueFormat()))
     {
       Configuration.set(activeConfig.getKey(), Long.valueOf(activeConfig.getValue()));
     }
-    else if (UserInterfaceFormat.TRUE_FALSE.name().equals(activeConfig.getUserInterfaceFormat()) ||
-            UserInterfaceFormat.YES_NO.name().equals(activeConfig.getUserInterfaceFormat()) ||
-            UserInterfaceFormat.ON_OFF.name().equals(activeConfig.getUserInterfaceFormat()))
+    else if (ConfigValueFormat.BOOLEAN.name().equals(activeConfig.getConfigValueFormat()))
     {
       Configuration.set(activeConfig.getKey(), Boolean.valueOf(activeConfig.getValue()));
     }
