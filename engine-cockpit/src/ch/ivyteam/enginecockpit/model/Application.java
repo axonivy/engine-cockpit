@@ -116,12 +116,12 @@ public class Application extends AbstractActivity
 
   public String getSecuritySystemName()
   {
-    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getAppConfigPrefix(getName()));
+    return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getAppPrefix(getName()));
   }
 
   public void setSecuritySystem(String securitySystemName)
   {
-    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getAppConfigPrefix(getName()), securitySystemName);
+    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getAppPrefix(getName()), securitySystemName);
   }
 
 }

@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.Property;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
+import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.system.IProperty;
@@ -134,8 +135,8 @@ public class ApplicationDetailBean
   
   private String getSecuritySystemName(String name)
   {
-    String securityName = SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getAppConfigPrefix(name));
-    if (StringUtils.isBlank(securityName) || !SecuritySystemConfig.getConfigurationNames(SecuritySystemConfig.SECURITY_SYSTEMS).contains(securityName))
+    String securityName = SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getAppPrefix(name));
+    if (StringUtils.isBlank(securityName) || !Configuration.getNames(SecuritySystemConfig.SECURITY_SYSTEMS).contains(securityName))
     {
       securityName = SecuritySystemConfig.IVY_SECURITY_SYSTEM;
     }

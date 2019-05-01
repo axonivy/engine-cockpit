@@ -13,9 +13,9 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
+import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
-import ch.ivyteam.util.crypto.CryptoUtil;
 
 @ManagedBean
 @ViewScoped
@@ -264,7 +264,7 @@ public class SecurityConfigDetailBean
     }
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
-    setConfiguration(ConfigKey.CONNECTION_PASSWORD, encryptPassword());
+    setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
     setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, getSaveValueUseLdapConnectionPool());
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
             StringUtils.equals(this.derefAlias, SecuritySystemConfig.DefaultValue.DEREF_ALIAS) ? "" : this.derefAlias);
@@ -303,33 +303,18 @@ public class SecurityConfigDetailBean
   
   private String getConfiguration(String key)
   {
-    return SecuritySystemConfig.getConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key);
+    return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getPrefix(name) + key);
   }
   
   public void setConfiguration(String key, Object value)
   {
-    SecuritySystemConfig.setConfiguration(SecuritySystemConfig.getConfigPrefix(name) + key, value);
+    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(name) + key, value);
   }
   
   public String deleteConfiguration()
   {
-    SecuritySystemConfig.removeConfig(SecuritySystemConfig.getConfigPrefix(name));
+    Configuration.remove(SecuritySystemConfig.getPrefix(name));
     return "securitysystem.xhtml?faces-redirect=true";
-  }
-  
-  private String encryptPassword()
-  {
-    if (StringUtils.isBlank(this.password))
-    {
-      return "";
-    }
-    try
-    {
-      return "${decrypt:" + CryptoUtil.encrypt(this.password) + "}";
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
   }
 
 }

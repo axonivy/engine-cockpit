@@ -37,6 +37,7 @@ body {
 }
 
 /*Dashboard*/
+.card .card-button,
 .dashboard-card .card-button {
   margin-top: -25px;
   margin-right: 10px;
@@ -296,6 +297,9 @@ body {
 .label-help-icon i {
   font-size: 13px;
 }
+.code-block .yaml {
+  max-height: 500px;
+}
 
 /*Email Style Changes*/
 .email-checkbox-style .ui-grid-row,
@@ -305,4 +309,18 @@ body {
 .email-checkbox-style .ui-grid-col-6,
 .email-radio-style .ui-grid-col-6 {
   min-width: 150px;
+}
+
+.ui-datatable .default-value {
+  color: grey;
+}
+.config-edit-defaultvalue,
+.config-edit-desription {
+  color: grey;
+}
+.config-edit-description pre {
+  max-width: 650px;
+  overflow-x: auto;
+  color: grey;
+  margin: 0;
 }

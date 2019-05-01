@@ -39,8 +39,8 @@ public class SecurityDefaultValueBean
   
   private void loadSecuritySystem()
   {
-    specificDefaults = new SpecificDefaults(SecuritySystemConfig.getConfiguration(
-            SecuritySystemConfig.getConfigPrefix(name) + ConfigKey.PROVIDER));
+    specificDefaults = new SpecificDefaults(SecuritySystemConfig.getOrBlank(
+            SecuritySystemConfig.getPrefix(name) + ConfigKey.PROVIDER));
   }
 
   public String getUrl()
