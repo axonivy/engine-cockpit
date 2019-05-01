@@ -27,7 +27,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   {
     toAdvancedConfig(driver);
     webAssertThat(() -> assertThat(driver.findElementsByClassName("config-name")).isNotEmpty());
-    String lastConfig = driver.findElementByXPath("(//*[@class='config-name'])[last()]").getText();
+    String lastConfig = driver.findElementByXPath("//span[@class='config-name'][last()]").getText();
     driver.findElementByXPath("//input[contains(@class, 'table-search-input-withicon')]").sendKeys(lastConfig);
     saveScreenshot(driver, "search_config");
     webAssertThat(() -> assertThat(driver.findElementsByClassName("config-name")).hasSize(1));
@@ -37,11 +37,13 @@ public class WebTestAdvancedConfig extends WebTestBase
   void testHideDefaults(FirefoxDriver driver)
   {
     toAdvancedConfig(driver);
-    String config = "(//*[@class='config-name'])[text()='Data.AppDirectory']";
+    String config = "//span[@class='config-name'][text()='Data.AppDirectory']";
     webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
     driver.findElementById("card:showDefaultBtnForm:showDefaultsBtn").click();
+    saveScreenshot(driver, "hide");
     webAssertThat(() -> assertThat(elementNotAvailable(driver, By.xpath(config))).isTrue());
     driver.findElementById("card:showDefaultBtnForm:showDefaultsBtn").click();
+    saveScreenshot(driver, "show");
     webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
   }
   
@@ -72,7 +74,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     driver.findElementById("card:newConfigurationForm:newConfigurationValue").sendKeys(value);
     driver.findElementById("card:newConfigurationForm:savenewConfiguration").click();
     saveScreenshot(driver, "save_new_config");
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains(value));
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//span[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains(value));
     
     driver.findElementById(getConfigEditBtnForKey(driver, key)).click();
     saveScreenshot(driver, "edit_config");
@@ -82,7 +84,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     driver.findElementById("card:editConfigurationForm:editConfigurationValue").sendKeys("newValue");
     driver.findElementById("card:editConfigurationForm:saveEditConfiguration").click();
     saveScreenshot(driver, "save_edit_config");
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains("newValue"));
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//span[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains("newValue"));
   
     driver.findElementById(getConfigTaskBtnForKey(driver, key)).click();
     webAssertThat(() -> assertThat(driver.findElementById(getConfigActivityMenuForKey(driver, key)).isDisplayed()).isTrue());
@@ -184,7 +186,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   
   private String getConfigIdForKey(FirefoxDriver driver, String key)
   {
-    String eleNumber = driver.findElementByXPath("//*[@class='config-name'][text()='" + key + "']/../..").getAttribute("data-ri");
+    String eleNumber = driver.findElementByXPath("//span[@class='config-name'][text()='" + key + "']/../..").getAttribute("data-ri");
     return "card:form:advancedConfigTable:" + eleNumber;
   }
   
