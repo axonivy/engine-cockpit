@@ -37,7 +37,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   void testHideDefaults(FirefoxDriver driver)
   {
     toAdvancedConfig(driver);
-    String config = "(//*[@class='config-name'])[text()='Connector.AJP.Address']";
+    String config = "(//*[@class='config-name'])[text()='Data.AppDirectory']";
     webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
     driver.findElementById("card:showDefaultBtnForm:showDefaultsBtn").click();
     webAssertThat(() -> assertThat(elementNotAvailable(driver, By.xpath(config))).isTrue());
@@ -100,7 +100,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   void testEditConfig_booleanFormat(FirefoxDriver driver)
   {
     toAdvancedConfig(driver);
-    String config = "Connector.AJP.AllowTrace";
+    String config = "EMail.Server.SSL.UseKey";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
     saveScreenshot(driver, "boolean_input");
     assertThatConfigEditModalIsVisible(driver, config, "false");
@@ -110,10 +110,10 @@ public class WebTestAdvancedConfig extends WebTestBase
   void testEditConfig_numberFormat(FirefoxDriver driver)
   {
     toAdvancedConfig(driver);
-    String config = "Connector.AJP.BackLog";
+    String config = "Elasticsearch.ExternalServer.BootTimeout";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
     saveScreenshot(driver, "number_input");
-    assertThatConfigEditModalIsVisible(driver, config, "100");
+    assertThatConfigEditModalIsVisible(driver, config, "60");
   }
   
   @Test
@@ -123,7 +123,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     String config = "EMail.DailyTaskSummary.TriggerTime";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
     saveScreenshot(driver, "daytime_input");
-    assertThatConfigEditModalIsVisible(driver, config, "__:__");
+    assertThatConfigEditModalIsVisible(driver, config, "00:00");
   }
   
   @Test
