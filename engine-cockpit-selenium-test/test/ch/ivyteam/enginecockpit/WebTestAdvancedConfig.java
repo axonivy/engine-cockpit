@@ -74,6 +74,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     driver.findElementById("card:newConfigurationForm:newConfigurationValue").sendKeys(value);
     driver.findElementById("card:newConfigurationForm:savenewConfiguration").click();
     saveScreenshot(driver, "save_new_config");
+    webAssertThat(() -> assertThat(driver.findElementById("card:form:msgs_container").getText()).isEqualTo("'testKey' created"));
     webAssertThat(() -> assertThat(driver.findElementByXPath("//span[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains(value));
     
     driver.findElementById(getConfigEditBtnForKey(driver, key)).click();
@@ -84,6 +85,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     driver.findElementById("card:editConfigurationForm:editConfigurationValue").sendKeys("newValue");
     driver.findElementById("card:editConfigurationForm:saveEditConfiguration").click();
     saveScreenshot(driver, "save_edit_config");
+    webAssertThat(() -> assertThat(driver.findElementById("card:form:msgs_container").getText()).isEqualTo("'testKey' changed"));
     webAssertThat(() -> assertThat(driver.findElementByXPath("//span[@class='config-name'][text()='testKey']/../../td[2]").getText()).contains("newValue"));
   
     driver.findElementById(getConfigTaskBtnForKey(driver, key)).click();
@@ -94,6 +96,7 @@ public class WebTestAdvancedConfig extends WebTestBase
     
     driver.findElementById("card:form:resetConfigConfirmYesBtn").click();
     saveScreenshot(driver, "reset_config_yes");
+    webAssertThat(() -> assertThat(driver.findElementById("card:form:msgs_container").getText()).isEqualTo("'testKey' reseted"));
     webAssertThat(() -> assertThat(driver.findElementsByClassName("config-name")
             .stream().map(e -> e.getText()).anyMatch(t -> t.equals(key))).isFalse());
   }
@@ -132,10 +135,10 @@ public class WebTestAdvancedConfig extends WebTestBase
   void testEditConfig_enumerationFormat(FirefoxDriver driver)
   {
     toAdvancedConfig(driver);
-    String config = "EMail.Server.EncryptionMethod";
+    String config = "SystemTask.Failure.Behaviour";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
     saveScreenshot(driver, "enum_input");
-    assertThatConfigEditModalIsVisible(driver, config, "NONE");
+    assertThatConfigEditModalIsVisible(driver, config, "FAIL_TASK_DO_RETRY");
   }
   
   private void assertThatConfigEditModalIsVisible(FirefoxDriver driver, String key, String value)
