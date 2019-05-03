@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -29,7 +30,7 @@ public class ConfigProperty
   private String source;
   private boolean password;
   private ConfigValueFormat configValueFormat;
-  private String[] enumerationValues;
+  private List<String> enumerationValues;
   private boolean restartRequired;
   private String description;
   
@@ -49,7 +50,7 @@ public class ConfigProperty
       this.source = property.getSource();
     }
     this.password = property.getMetaData().isPassword();
-    this.configValueFormat = property.getMetaData().getConfigValueFormat();
+    this.configValueFormat = property.getMetaData().getFormat();
     this.enumerationValues = property.getMetaData().getEnumerationValues();
     this.restartRequired = property.getMetaData().isRestartRequired();
     this.description = property.getMetaData().getDescription();
@@ -126,7 +127,7 @@ public class ConfigProperty
     return configValueFormat.name();
   }
   
-  public String[] getEnumerationValues()
+  public List<String> getEnumerationValues()
   {
     return enumerationValues;
   }
