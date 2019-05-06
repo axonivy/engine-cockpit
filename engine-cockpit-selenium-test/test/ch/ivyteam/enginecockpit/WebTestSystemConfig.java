@@ -13,19 +13,19 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebTestAdvancedConfig extends WebTestBase
+public class WebTestSystemConfig extends WebTestBase
 {
   @Test
-  void testAdvancedConfig(FirefoxDriver driver)
+  void testSystemConfig(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
-    assertThat(driver.findElementByTagName("h1").getText()).contains("Advanced Config");
+    toSystemConfig(driver);
+    assertThat(driver.findElementByTagName("h1").getText()).contains("System Config");
   }
   
   @Test
   void testSearchConfig(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
+    toSystemConfig(driver);
     webAssertThat(() -> assertThat(driver.findElementsByClassName("config-name")).isNotEmpty());
     String lastConfig = driver.findElementByXPath("//span[@class='config-name'][last()]").getText();
     driver.findElementByXPath("//input[contains(@class, 'table-search-input-withicon')]").sendKeys(lastConfig);
@@ -36,7 +36,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   @Test
   void testHideDefaults(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
+    toSystemConfig(driver);
     String config = "//span[@class='config-name'][text()='Data.AppDirectory']";
     webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
     driver.findElementById("card:showDefaultBtnForm:showDefaultsBtn").click();
@@ -50,7 +50,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   @Test
   void testNewConfigInvalid(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
+    toSystemConfig(driver);
     driver.findElementById("card:newConfigBtn").click();
     saveScreenshot(driver, "new_config_model");
     webAssertThat(() -> assertThat(driver.findElementById("card:newConfigurationModal").isDisplayed()).isTrue());
@@ -63,7 +63,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   @Test
   void testNewEditAndResetConfig(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
+    toSystemConfig(driver);
     driver.findElementById("card:newConfigBtn").click();
     saveScreenshot(driver, "new_config_model");
     webAssertThat(() -> assertThat(driver.findElementById("card:newConfigurationModal").isDisplayed()).isTrue());
@@ -104,7 +104,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   @Test
   void testEditConfig_booleanFormat(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
+    toSystemConfig(driver);
     String config = "EMail.Server.SSL.UseKey";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
     saveScreenshot(driver, "boolean_input");
@@ -114,7 +114,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   @Test
   void testEditConfig_numberFormat(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
+    toSystemConfig(driver);
     String config = "Elasticsearch.ExternalServer.BootTimeout";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
     saveScreenshot(driver, "number_input");
@@ -124,7 +124,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   @Test
   void testEditConfig_daytimeFormat(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
+    toSystemConfig(driver);
     String config = "EMail.DailyTaskSummary.TriggerTime";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
     saveScreenshot(driver, "daytime_input");
@@ -134,7 +134,7 @@ public class WebTestAdvancedConfig extends WebTestBase
   @Test
   void testEditConfig_enumerationFormat(FirefoxDriver driver)
   {
-    toAdvancedConfig(driver);
+    toSystemConfig(driver);
     String config = "SystemTask.Failure.Behaviour";
     driver.findElementById(getConfigEditBtnForKey(driver, config)).click();
     saveScreenshot(driver, "enum_input");
@@ -193,10 +193,10 @@ public class WebTestAdvancedConfig extends WebTestBase
     return "card:form:advancedConfigTable:" + eleNumber;
   }
   
-  private void toAdvancedConfig(FirefoxDriver driver)
+  private void toSystemConfig(FirefoxDriver driver)
   {
     login(driver);
-    Navigation.toAdvancedConfig(driver);
+    Navigation.toSystemConfig(driver);
     saveScreenshot(driver);
   }
 }

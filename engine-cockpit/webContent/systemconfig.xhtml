@@ -5,10 +5,10 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="/template/template.xhtml">
-    <ui:define name="title">Advanced Configuration</ui:define>
+    <ui:define name="title">System Configuration</ui:define>
 
     <ui:define name="breadcrumb">
-      <li><a href="advancedconfig.xhtml">Advanced Configuration</a></li>
+      <li><a href="systemconfig.xhtml">System Configuration</a></li>
     </ui:define>
     
     <ui:define name="breadcrumb-help">
@@ -24,20 +24,20 @@
             <div class="ui-g-12 ui-md-9">
               <h1>
                 <i class="material-icons card-title-icon">settings</i>
-                <span>Advanced Configuration</span>
+                <span>System Configuration</span>
               </h1>
             </div>
             <div class="ui-g-12 ui-md-1" style="margin: auto;">
               <h:form id="showDefaultBtnForm">
-                <p:commandButton icon="ui-icon-visibility#{advancedConfigBean.showDefaults ? '' : '-off'}" 
-                  actionListener="#{advancedConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right;"
-                  update="card:form,@this" styleClass="#{advancedConfigBean.showDefaults ? 'amber' : 'primary'}-btn">
+                <p:commandButton icon="ui-icon-visibility#{systemConfigBean.showDefaults ? '' : '-off'}" 
+                  actionListener="#{systemConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right;"
+                  update="card:form,@this" styleClass="#{systemConfigBean.showDefaults ? 'amber' : 'primary'}-btn">
                   <p:tooltip for="showDefaultsBtn" value="Show defaults" position="left" />
                 </p:commandButton>
               </h:form>
             </div>
             <div class="ui-g-12 ui-md-2" style="margin: auto;">
-              <p:commandButton id="newConfigBtn" value="New" icon="ui-icon-add" actionListener="#{advancedConfigBean.setActiveConfig(null)}"
+              <p:commandButton id="newConfigBtn" value="New" icon="ui-icon-add" actionListener="#{systemConfigBean.setActiveConfig(null)}"
                 update="card:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
             </div>
           </div>
@@ -45,15 +45,15 @@
             <div class="ui-g-12 ui-lg-12">
               <h:form id="form">
                 <p:growl id="msgs" />
-                <p:dataTable var="config" value="#{advancedConfigBean.configs}" widgetVar="advancedConfigTable"
-                  filteredValue="#{advancedConfigBean.filteredConfigs}" id="advancedConfigTable">
+                <p:dataTable var="config" value="#{systemConfigBean.configs}" widgetVar="advancedConfigTable"
+                  filteredValue="#{systemConfigBean.filteredConfigs}" id="advancedConfigTable">
                   <f:facet name="header">
                     <p:outputPanel>
                       <p:outputLabel styleClass="table-search-icon">
                         <i class="material-icons">search</i>
                       </p:outputLabel>
                       <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                        onkeyup="PF('advancedConfigTable').filter()" placeholder="Search" value="#{advancedConfigBean.filter}" />
+                        onkeyup="PF('advancedConfigTable').filter()" placeholder="Search" value="#{systemConfigBean.filter}" />
                     </p:outputPanel>
                   </f:facet>
                   <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}" styleClass="#{config.default ? 'default-value' : ''}">
@@ -72,23 +72,23 @@
                       type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
                     <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
                       <p:menuitem value="View File" icon="ui-icon-find-in-page" oncomplete="PF('showConfigurationFileModal').show()"
-                        actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" update="card:showConfigurationFileModal" 
+                        actionListener="#{systemConfigBean.setActiveConfig(config.key)}" update="card:showConfigurationFileModal" 
                         id="showFileBtn">
                       </p:menuitem>
                       <p:menuitem value="Reset" icon="ui-icon-close" disabled="#{config.shortSource eq 'app.yaml'}"
-                        actionListener="#{advancedConfigBean.setActiveConfig(config.key)}" id="resetConfigBtn"
+                        actionListener="#{systemConfigBean.setActiveConfig(config.key)}" id="resetConfigBtn"
                         update="card:form:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
                     </p:menu>
                   	<p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
                       styleClass="card-button table-control-btn amber-btn"
-                      actionListener="#{advancedConfigBean.setActiveConfig(config.key)}"
+                      actionListener="#{systemConfigBean.setActiveConfig(config.key)}"
                       update="card:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
                   </p:column>
                 </p:dataTable>
                 <p:confirmDialog id="resetConfigConfirmDialog" header="Reset Config"
-                  message="Are you sure about reseting the configuration '#{advancedConfigBean.activeConfig.key}=#{advancedConfigBean.activeConfig.password ? '******' : advancedConfigBean.activeConfig.value}'?" 
+                  message="Are you sure about reseting the configuration '#{systemConfigBean.activeConfig.key}=#{systemConfigBean.activeConfig.password ? '******' : advancedConfigBean.activeConfig.value}'?" 
                   severity="alert" widgetVar="resetConfigConfirmDialog">
-                  <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{advancedConfigBean.resetConfig}"
+                  <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{systemConfigBean.resetConfig}"
                     icon="ui-icon-check" style="width: inherit;" />
                   <p:commandButton value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button" icon="ui-icon-close"
                     style="width: inherit;" />

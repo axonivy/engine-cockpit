@@ -7,12 +7,12 @@
   widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="editConfigurationForm">
     <h:panelGroup layout="block" styleClass="static-message static-info-message" 
-      rendered="#{advancedConfigBean.activeConfig.shortSource eq 'app.yaml'}">
+      rendered="#{systemConfigBean.activeConfig.shortSource eq 'app.yaml'}">
       <i class="fa fa-info"/>
       <h:outputText value="Values from app.yaml files are overritten in the ivy.yaml file"/>
     </h:panelGroup>
     <h:panelGroup layout="block" styleClass="static-message static-info-message" 
-      rendered="#{advancedConfigBean.activeConfig.restartRequired}">
+      rendered="#{systemConfigBean.activeConfig.restartRequired}">
       <i class="fa fa-info"/>
       <h:outputText value="If you change this property, you have to restart you engine"/>
     </h:panelGroup>
@@ -21,42 +21,42 @@
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
       <label>Key</label>
       <h:outputText id="editConfigurationKey"
-        value="#{advancedConfigBean.activeConfig.key}" />
+        value="#{systemConfigBean.activeConfig.key}" />
         
       <h:outputLabel for="editConfigurationDefaultValue" rendered="#{not empty advancedConfigBean.activeConfig.defaultValue}" value="Default"/>
       <h:outputText id="editConfigurationDefaultValue" rendered="#{not empty advancedConfigBean.activeConfig.defaultValue}"
-        value="#{advancedConfigBean.activeConfig.defaultValue}" styleClass="config-edit-defaultvalue"/>
+        value="#{systemConfigBean.activeConfig.defaultValue}" styleClass="config-edit-defaultvalue"/>
         
-      <h:outputLabel for="editConfigurationDescription" rendered="#{advancedConfigBean.activeConfig.hasDescription()}" value="Description" />
-      <h:outputText id="editConfigurationDescription" rendered="#{advancedConfigBean.activeConfig.hasDescription()}"
-        value="#{advancedConfigBean.activeConfig.htmlDescription}" styleClass="config-edit-description" escape="false"/>
+      <h:outputLabel for="editConfigurationDescription" rendered="#{systemConfigBean.activeConfig.hasDescription()}" value="Description" />
+      <h:outputText id="editConfigurationDescription" rendered="#{systemConfigBean.activeConfig.hasDescription()}"
+        value="#{systemConfigBean.activeConfig.htmlDescription}" styleClass="config-edit-description" escape="false"/>
       
       <label>Value</label>
       <c:choose>
-        <c:when test="#{advancedConfigBean.activeConfig.configValueFormat eq 'DAYTIME'}">
-          <p:inputMask id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" mask="99:99"/>
+        <c:when test="#{systemConfigBean.activeConfig.configValueFormat eq 'DAYTIME'}">
+          <p:inputMask id="editConfigurationValue" value="#{systemConfigBean.activeConfig.value}" mask="99:99"/>
         </c:when>
-        <c:when test="#{advancedConfigBean.activeConfig.configValueFormat eq 'NUMBER'}">
-          <p:inputNumber id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" thousandSeparator="'" decimalPlaces="0" minValue="-1"/>
+        <c:when test="#{systemConfigBean.activeConfig.configValueFormat eq 'NUMBER'}">
+          <p:inputNumber id="editConfigurationValue" value="#{systemConfigBean.activeConfig.value}" thousandSeparator="'" decimalPlaces="0" minValue="-1"/>
         </c:when>
-        <c:when test="#{advancedConfigBean.activeConfig.configValueFormat eq 'BOOLEAN'}">
-          <p:selectBooleanCheckbox id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}"/>
+        <c:when test="#{systemConfigBean.activeConfig.configValueFormat eq 'BOOLEAN'}">
+          <p:selectBooleanCheckbox id="editConfigurationValue" value="#{systemConfigBean.activeConfig.value}"/>
         </c:when>
-        <c:when test="#{advancedConfigBean.activeConfig.configValueFormat eq 'PASSWORD'}">
-          <p:password id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}"/>
+        <c:when test="#{systemConfigBean.activeConfig.configValueFormat eq 'PASSWORD'}">
+          <p:password id="editConfigurationValue" value="#{systemConfigBean.activeConfig.value}"/>
         </c:when>
-        <c:when test="#{advancedConfigBean.activeConfig.configValueFormat eq 'ENUMERATION'}">
-          <p:selectOneMenu id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}">
-            <f:selectItems value="#{advancedConfigBean.activeConfig.enumerationValues}" />
+        <c:when test="#{systemConfigBean.activeConfig.configValueFormat eq 'ENUMERATION'}">
+          <p:selectOneMenu id="editConfigurationValue" value="#{systemConfigBean.activeConfig.value}">
+            <f:selectItems value="#{systemConfigBean.activeConfig.enumerationValues}" />
           </p:selectOneMenu>
         </c:when>
         <c:otherwise>
-          <p:inputText id="editConfigurationValue" value="#{advancedConfigBean.activeConfig.value}"/>
+          <p:inputText id="editConfigurationValue" value="#{systemConfigBean.activeConfig.value}"/>
         </c:otherwise>
       </c:choose>
     </p:panelGrid>
     <p:commandButton id="saveEditConfiguration" update="card:form" onsuccess="PF('editConfigurationModal').hide()"
-      actionListener="#{advancedConfigBean.saveConfig}" value="Save" icon="ui-icon-save"
+      actionListener="#{systemConfigBean.saveConfig}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button" />
     <p:commandButton id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />

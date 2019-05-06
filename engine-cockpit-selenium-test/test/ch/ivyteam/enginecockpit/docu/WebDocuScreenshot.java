@@ -43,8 +43,8 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "engine-cockpit-role-detail", new Dimension(1062, 900));
     Navigation.toEmail(driver);
     takeScreenshot(driver, "engine-cockpit-email", new Dimension(1062, 800));
-    Navigation.toAdvancedConfig(driver);
-    takeScreenshot(driver, "engine-cockpit-advanced-config", new Dimension(1062, 700));
+    Navigation.toSystemConfig(driver);
+    takeScreenshot(driver, "engine-cockpit-system-config", new Dimension(1062, 700));
     Navigation.toMonitor(driver);
     takeScreenshot(driver, "engine-cockpit-monitor", new Dimension(1062, 1000));
   }

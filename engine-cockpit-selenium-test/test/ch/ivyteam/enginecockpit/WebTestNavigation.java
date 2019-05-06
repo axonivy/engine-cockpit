@@ -25,8 +25,8 @@ public class WebTestNavigation extends WebTestBase
     assertViewIsRoles(driver);
     Navigation.toEmail(driver);
     assertViewIsEmail(driver);
-    Navigation.toAdvancedConfig(driver);
-    assertViewIsAdvancedConfig(driver);
+    Navigation.toSystemConfig(driver);
+    assertViewIsSystemConfig(driver);
     Navigation.toMonitor(driver);
     assertViewIsMonitor(driver);
     Navigation.toDashboard(driver);
@@ -81,12 +81,12 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_email").getAttribute("class")).contains("active-menuitem"));
   }
   
-  private void assertViewIsAdvancedConfig(FirefoxDriver driver)
+  private void assertViewIsSystemConfig(FirefoxDriver driver)
   {
-    saveScreenshot(driver, "advanced_config");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("advancedconfig.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Advanced Configuration"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_advanced_config").getAttribute("class")).contains("active-menuitem"));
+    saveScreenshot(driver, "system_config");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("systemconfig.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("System Configuration"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_system_config").getAttribute("class")).contains("active-menuitem"));
   }
   
   private void assertViewIsMonitor(FirefoxDriver driver)

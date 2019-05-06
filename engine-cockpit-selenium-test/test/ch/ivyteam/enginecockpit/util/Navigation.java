@@ -20,7 +20,7 @@ public class Navigation
   private static final ByXPath SECURITY_ROLES_MENU = new By.ByXPath("//li[@id='menuform:sr_roles']/child::a");
   private static final ByXPath SERVICES_MENU = new By.ByXPath("//li[@id='menuform:sr_services']/child::a");
   private static final ByXPath SERVICES_EMAIL_MENU = new By.ByXPath("//li[@id='menuform:sr_email']/child::a");
-  private static final ByXPath ADVANCED_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_advanced_config']/child::a");
+  private static final ByXPath SYSTEM_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_system_config']/child::a");
   private static final ByXPath MONITOR_MENU = new By.ByXPath("//li[@id='menuform:sr_monitor']/child::a");
 
   public static void toDashboard(FirefoxDriver driver)
@@ -103,10 +103,10 @@ public class Navigation
     await().until(() -> driver.getCurrentUrl().endsWith("email.xhtml"));
   }
   
-  public static void toAdvancedConfig(FirefoxDriver driver)
+  public static void toSystemConfig(FirefoxDriver driver)
   {
-    toMenu(driver, ADVANCED_CONFIG_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("advancedconfig.xhtml"));
+    toMenu(driver, SYSTEM_CONFIG_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("systemconfig.xhtml"));
   }
   
   public static void toMonitor(FirefoxDriver driver)
