@@ -17,7 +17,7 @@ import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class AdvancedConfigBean
+public class SystemConfigBean
 {
   private List<ConfigProperty> configs;
   private List<ConfigProperty> filteredConfigs;
@@ -25,7 +25,7 @@ public class AdvancedConfigBean
   private boolean showDefaults;
   private ConfigProperty activeConfig;
 
-  public AdvancedConfigBean()
+  public SystemConfigBean()
   {
     reloadConfigs();
     showDefaults = true;
@@ -34,6 +34,8 @@ public class AdvancedConfigBean
   private void reloadConfigs()
   {
     configs = Configuration.getProperties().stream()
+            .filter(property -> !StringUtils.startsWith(property.getKey(), "Applications."))
+            .filter(property -> !StringUtils.startsWith(property.getKey(), "SecuritySystems."))
             .map(property -> new ConfigProperty(property))
             .collect(Collectors.toList());
   }

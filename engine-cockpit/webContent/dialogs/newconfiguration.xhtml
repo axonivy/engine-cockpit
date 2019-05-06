@@ -11,15 +11,15 @@
       <label>Key</label>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="newConfigurationKey" required="true" requiredMessage="Value is required"
-          value="#{advancedConfigBean.activeConfig.key}" />
+          value="#{systemConfigBean.activeConfig.key}" />
         <p:message for="newConfigurationKey" id="newConfigurationKeyMessage" />
       </h:panelGroup>
       
       <label>Value</label>
-      <p:inputText id="newConfigurationValue" value="#{advancedConfigBean.activeConfig.value}" />
+      <p:inputText id="newConfigurationValue" value="#{systemConfigBean.activeConfig.value}" />
     </p:panelGrid>
     <p:commandButton id="savenewConfiguration" validateClient="true" onsuccess="PF('newConfigurationModal').hide()"
-      actionListener="#{advancedConfigBean.createConfig}" value="Save" icon="ui-icon-save"
+      actionListener="#{systemConfigBean.createConfig}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button" update="card:form @form"/>
     <p:commandButton id="cancelnewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />

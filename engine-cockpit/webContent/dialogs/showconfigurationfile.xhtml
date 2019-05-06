@@ -3,24 +3,24 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog styleClass="config-showfile" header="#{advancedConfigBean.activeConfig.shortSource}" id="showConfigurationFileModal"
+<p:dialog styleClass="config-showfile" header="#{systemConfigBean.activeConfig.shortSource}" id="showConfigurationFileModal"
   widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true" 
   onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
   <h:form id="showConfigurationFileForm">
     <p:panelGrid columns="1" layout="grid"
       styleClass="ui-panelgrid-blank form-group modal-input-form">
-      <h:outputText value="#{advancedConfigBean.activeConfig.source}" />
+      <h:outputText value="#{systemConfigBean.activeConfig.source}" />
       
       <h:panelGroup styleClass="code-block">
         <pre><code class="yaml">
-          <h:outputText value="#{advancedConfigBean.activeConfig.fileContent}" escape="false"/>
+          <h:outputText value="#{systemConfigBean.activeConfig.fileContent}" escape="false"/>
         </code></pre>
       </h:panelGroup>
       
     </p:panelGrid>
     <p:commandButton id="downloadConfigurationFile" ajax="false" value="Download" icon="ui-icon-cloud-download"
       styleClass="primary-btn modal-input-button" style="width: 125px;">
-      <p:fileDownload value="#{advancedConfigBean.activeConfig.downloadFile()}"/>
+      <p:fileDownload value="#{systemConfigBean.activeConfig.downloadFile()}"/>
     </p:commandButton>
     <p:commandButton id="closeShowConfigurationFile" onclick="PF('showConfigurationFileModal').hide();" value="Close" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
