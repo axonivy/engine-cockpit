@@ -274,9 +274,9 @@ body {
   text-decoration: line-through;
 }
 .static-message {
-  -moz-border-radius: 9px;
-  -webkit-border-radius: 9px;
-  border-radius: 9px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
   padding: 2px 8px;
   font-style: italic;
 }
@@ -314,13 +314,11 @@ body {
 .ui-datatable .default-value {
   color: grey;
 }
-.config-edit-defaultvalue,
-.config-edit-desription {
-  color: grey;
-}
 .config-edit-description pre {
-  max-width: 650px;
+  max-width: 100%;
   overflow-x: auto;
-  color: grey;
   margin: 0;
+}
+.config-edit {
+  width: 75% !important;
 }

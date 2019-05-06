@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.Property;
 
@@ -144,7 +145,7 @@ public class ConfigProperty
   
   public String getHtmlDescription()
   {
-    return "<pre>"+description+"</pre>";
+    return "<pre>" + UrlUtil.replaceLinks(description) + "</pre>";
   }
   
   public boolean hasDescription()

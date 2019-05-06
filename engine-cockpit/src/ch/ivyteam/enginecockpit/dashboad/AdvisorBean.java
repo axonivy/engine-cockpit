@@ -6,8 +6,8 @@ import java.util.Calendar;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.Advisor;
-import ch.ivyteam.util.Version;
 
 @ManagedBean
 @ApplicationScoped
@@ -37,15 +37,6 @@ public class AdvisorBean
 
   public String getEngineGuideBaseUrl()
   {
-    String version;
-    if (Advisor.getAdvisor().isReleaseCandidate())
-    {
-      version = "dev";
-    }
-    else
-    {
-      version = Advisor.getAdvisor().getVersion().getVersionString(Version.DETAIL_PATCH, Version.FORM_SHORT);
-    }
-    return "https://developer.axonivy.com/doc/" + version + "/engine-guide";
+    return UrlUtil.getEngineGuideBaseUrl();
   }
 }
