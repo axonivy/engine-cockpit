@@ -319,6 +319,7 @@ body {
   overflow-x: auto;
   margin: 0;
 }
+.config-showfile,
 .config-edit {
   width: 75% !important;
 }

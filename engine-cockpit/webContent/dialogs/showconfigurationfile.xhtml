@@ -3,7 +3,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 400px; max-width: 600px;" header="#{advancedConfigBean.activeConfig.shortSource}" id="showConfigurationFileModal"
+<p:dialog styleClass="config-showfile" header="#{advancedConfigBean.activeConfig.shortSource}" id="showConfigurationFileModal"
   widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true" 
   onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
   <h:form id="showConfigurationFileForm">
