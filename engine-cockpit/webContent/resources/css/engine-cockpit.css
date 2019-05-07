@@ -277,11 +277,11 @@ body {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  padding: 2px 8px;
-  font-style: italic;
+  padding: 5px 8px;
 }
 .static-message i {
-  margin-right: 5px;
+  margin-left: 5px;
+  margin-right: 10px;
 }
 .static-info-message {
   color: #ffffff;
@@ -300,6 +300,9 @@ body {
 .code-block .yaml {
   max-height: 500px;
 }
+.ui-growl-message {
+  word-wrap: break-word;
+}
 
 /*Email Style Changes*/
 .email-checkbox-style .ui-grid-row,
@@ -311,6 +314,7 @@ body {
   min-width: 150px;
 }
 
+/*System Configurations*/
 .ui-datatable .default-value {
   color: grey;
 }
@@ -323,3 +327,4 @@ body {
 .config-edit {
   width: 75% !important;
 }
+

@@ -8,12 +8,12 @@
   <h:form id="editConfigurationForm">
     <h:panelGroup layout="block" styleClass="static-message static-info-message" 
       rendered="#{systemConfigBean.activeConfig.shortSource eq 'app.yaml'}">
-      <i class="fa fa-info"/>
+      <i class="fa fa-info-circle"/>
       <h:outputText value="Values from app.yaml files are overritten in the ivy.yaml file"/>
     </h:panelGroup>
     <h:panelGroup layout="block" styleClass="static-message static-info-message" 
       rendered="#{systemConfigBean.activeConfig.restartRequired}">
-      <i class="fa fa-info"/>
+      <i class="fa fa-info-circle"/>
       <h:outputText value="If you change this property, you have to restart you engine"/>
     </h:panelGroup>
     
