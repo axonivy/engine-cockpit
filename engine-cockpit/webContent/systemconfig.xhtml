@@ -32,7 +32,7 @@
                 <p:commandButton icon="ui-icon-visibility#{systemConfigBean.showDefaults ? '' : '-off'}" 
                   actionListener="#{systemConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right;"
                   update="card:form,@this" styleClass="#{systemConfigBean.showDefaults ? 'amber' : 'primary'}-btn">
-                  <p:tooltip for="showDefaultsBtn" value="Show defaults" position="left" />
+                  <p:tooltip for="showDefaultsBtn" value="Show / hide default configurations" position="left" />
                 </p:commandButton>
               </h:form>
             </div>

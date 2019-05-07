@@ -4,16 +4,16 @@
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
-  widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
+  widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
   <h:form id="editConfigurationForm">
     <h:panelGroup layout="block" styleClass="static-message static-info-message" 
       rendered="#{systemConfigBean.activeConfig.shortSource eq 'app.yaml'}">
-      <i class="fa fa-info"/>
+      <i class="fa fa-info-circle"/>
       <h:outputText value="Values from app.yaml files are overritten in the ivy.yaml file"/>
     </h:panelGroup>
     <h:panelGroup layout="block" styleClass="static-message static-info-message" 
       rendered="#{systemConfigBean.activeConfig.restartRequired}">
-      <i class="fa fa-info"/>
+      <i class="fa fa-info-circle"/>
       <h:outputText value="If you change this property, you have to restart you engine"/>
     </h:panelGroup>
     
@@ -29,7 +29,7 @@
         
       <h:outputLabel for="editConfigurationDescription" rendered="#{systemConfigBean.activeConfig.hasDescription()}" value="Description" />
       <h:outputText id="editConfigurationDescription" rendered="#{systemConfigBean.activeConfig.hasDescription()}"
-        value="#{systemConfigBean.activeConfig.htmlDescription}" styleClass="config-edit-description" escape="false"/>
+        value="#{systemConfigBean.activeConfig.htmlDescription}" styleClass="config-edit-description" escape="false" />
       
       <label>Value</label>
       <c:choose>

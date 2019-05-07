@@ -4,7 +4,7 @@
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:dialog styleClass="config-showfile" header="#{systemConfigBean.activeConfig.shortSource}" id="showConfigurationFileModal"
-  widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true" 
+  widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true" width="60%"
   onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
   <h:form id="showConfigurationFileForm">
     <p:panelGrid columns="1" layout="grid"
