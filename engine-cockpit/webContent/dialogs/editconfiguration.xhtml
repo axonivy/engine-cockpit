@@ -4,7 +4,7 @@
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
-  widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
+  widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
   <h:form id="editConfigurationForm">
     <h:panelGroup layout="block" styleClass="static-message static-info-message" 
       rendered="#{systemConfigBean.activeConfig.shortSource eq 'app.yaml'}">
@@ -29,7 +29,7 @@
         
       <h:outputLabel for="editConfigurationDescription" rendered="#{systemConfigBean.activeConfig.hasDescription()}" value="Description" />
       <h:outputText id="editConfigurationDescription" rendered="#{systemConfigBean.activeConfig.hasDescription()}"
-        value="#{systemConfigBean.activeConfig.htmlDescription}" styleClass="config-edit-description" escape="false"/>
+        value="#{systemConfigBean.activeConfig.htmlDescription}" styleClass="config-edit-description" escape="false" />
       
       <label>Value</label>
       <c:choose>

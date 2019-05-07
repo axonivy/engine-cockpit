@@ -325,6 +325,6 @@ body {
 }
 .config-showfile,
 .config-edit {
-  width: 75% !important;
+  z-index: 999999 !important;
 }
 
