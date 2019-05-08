@@ -3,19 +3,22 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="box" shortDescription="Style of the overview box" />
-  <cc:attribute name="icon" shortDescription="Style of the overview box" />
-  <cc:attribute name="title" shortDescription="Style of the overview box" />
-  <cc:attribute name="count" shortDescription="Style of the overview box" />
+  <cc:attribute name="box" />
+  <cc:attribute name="icon" />
+  <cc:attribute name="title" />
+  <cc:attribute name="count" />
+  <cc:attribute name="link" />
 </cc:interface>
 <cc:implementation>
   <div class="ui-g-12 ui-md-3">
-    <div class="overview-box overview-box-#{cc.attrs.box}">
+    <div class="overview-box overview-box-#{cc.attrs.box}" onclick="window.location.href='#{cc.attrs.link}'" 
+      style="cursor: #{empty cc.attrs.link ? 'normal' : 'pointer'};">
       <div class="overview-box-header"></div>
       <div class="overview-box-content">
         <div class="overview-box-icon">
           <i class="material-icons">#{cc.attrs.icon}</i>
         </div>
+        
         <div class="overview-box-title">#{cc.attrs.title}</div>
         <div class="overview-box-count">#{cc.attrs.count}</div>
       </div>
