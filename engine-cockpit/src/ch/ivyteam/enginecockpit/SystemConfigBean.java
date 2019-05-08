@@ -42,18 +42,27 @@ public class SystemConfigBean
 
   public List<ConfigProperty> getConfigs()
   {
+    return filterDefault(configs);
+  }
+
+  private List<ConfigProperty> filterDefault(List<ConfigProperty> properties)
+  {
     if (showDefaults)
     {
-      return configs;
+      return properties;
     }
     else
     {
-      return configs.stream().filter(c -> !c.isDefault()).collect(Collectors.toList());
+      return properties.stream().filter(c -> !c.isDefault()).collect(Collectors.toList());
     }
   }
 
   public List<ConfigProperty> getFilteredConfigs()
   {
+    if (StringUtils.isNotBlank(filter))
+    {
+      return filterDefault(filteredConfigs);
+    }
     return filteredConfigs;
   }
 
