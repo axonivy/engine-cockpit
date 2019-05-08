@@ -325,6 +325,6 @@ body {
 }
 .config-showfile,
 .config-edit {
-  z-index: 999999 !important;
+  margin-left: 120px;
 }
 
