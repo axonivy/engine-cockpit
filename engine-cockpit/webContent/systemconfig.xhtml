@@ -21,16 +21,20 @@
       <cc:SingleCard id="card">
         <div class="card card-w-title">
           <div class="ui-g">
-            <div class="ui-g-12 ui-md-9">
+            <div class="ui-g-12 ui-md-8">
               <h1>
                 <i class="material-icons card-title-icon">settings</i>
                 <span>System Configuration</span>
               </h1>
             </div>
-            <div class="ui-g-12 ui-md-1" style="margin: auto;">
+            <div class="ui-g-12 ui-md-2" style="margin: auto;">
               <h:form id="showDefaultBtnForm">
+                <p:commandButton id="showConfigLogBtn" icon="ui-icon-find-in-page" ajax="false" style="float: right;">
+                  <p:fileDownload value="#{systemConfigBean.downloadFile()}" />
+                  <p:tooltip for="showConfigLogBtn" value="Show config log" position="left" />
+                </p:commandButton>
                 <p:commandButton icon="ui-icon-visibility#{systemConfigBean.showDefaults ? '' : '-off'}" 
-                  actionListener="#{systemConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right;"
+                  actionListener="#{systemConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right; margin-right: 10px;"
                   update="card:form,@this" styleClass="#{systemConfigBean.showDefaults ? 'amber' : 'primary'}-btn"
                   oncomplete="PF('advancedConfigTable').filter()">
                   <p:tooltip for="showDefaultsBtn" value="Show / hide default configurations" position="left" />

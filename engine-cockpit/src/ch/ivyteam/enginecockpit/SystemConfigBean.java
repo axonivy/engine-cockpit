@@ -1,5 +1,9 @@
 package ch.ivyteam.enginecockpit;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,11 +12,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.util.Configuration;
+import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -149,5 +158,32 @@ public class SystemConfigBean
     reloadConfigs();
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeConfig.getKey() + "' " + message));
+  }
+  
+  public StreamedContent downloadFile()
+  {
+    File logFile = UrlUtil.getLogFile("config.log");
+    Ivy.log().info(logFile.exists());
+    if (logFile.exists())
+    {
+      try
+      {
+        Ivy.log().info(FileUtils.readFileToString(logFile));
+        InputStream newInputStream = Files.newInputStream(logFile.toPath());
+        return new DefaultStreamedContent(newInputStream, "text/plain", logFile.getName());
+      }
+      catch (IOException e)
+      {
+        Ivy.log().info(e.getMessage());
+        FacesContext.getCurrentInstance().addMessage("msgs",
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + logFile.getName()));
+      }
+    }
+    else 
+    {
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Log file " + logFile.getName() + " does not exists."));
+    }
+    return null;
   }
 }
