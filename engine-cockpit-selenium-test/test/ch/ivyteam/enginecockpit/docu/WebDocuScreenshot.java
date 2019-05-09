@@ -47,6 +47,8 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "engine-cockpit-system-config", new Dimension(1062, 700));
     Navigation.toMonitor(driver);
     takeScreenshot(driver, "engine-cockpit-monitor", new Dimension(1062, 1000));
+    Navigation.toLogs(driver);
+    takeScreenshot(driver, "engine-cockpit-logs", new Dimension(1062, 1000));
   }
   
   public void takeScreenshot(RemoteWebDriver driver, String fileName, Dimension size)
