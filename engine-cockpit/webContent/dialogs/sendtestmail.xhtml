@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog style="min-width: 400px;" header="Send Test Mail" id="sendTestMailModal" appendTo="@(body)"
+  widgetVar="sendTestMailModal" modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="sendTestMailForm">
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <p:outputLabel for="sendToInput" value="To" />
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="sendToInput" value="#{emailBean.sendTo}" required="true" requiredMessage="Value is required" />
+        <p:message for="sendToInput" id="sendToInputMessage" />
+      </h:panelGroup>
+      
+      <p:outputLabel for="subjectInput" value="Subject" />
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="subjectInput" value="#{emailBean.subject}" required="true" requiredMessage="Value is required" />
+        <p:message for="subjectInput" id="subjectInputMessage" />
+      </h:panelGroup>
+      
+      <p:outputLabel for="messageText" value="Message" />
+      <p:inputTextarea id="messageText" value="#{emailBean.message}" autoResize="false" rows="5" />
+    </p:panelGrid>
+    <p:commandButton id="sendTestMailBtn" validateClient="true" onsuccess="PF('sendTestMailModal').hide()"
+      actionListener="#{emailBean.sendTestMail}" value="Send" icon="ui-icon-send"
+      styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelSendTestMailBtn" onclick="PF('sendTestMailModal').hide()" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </h:form>
+</p:dialog>
+</html>

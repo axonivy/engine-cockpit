@@ -4,6 +4,10 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewParam name="filter" value="#{systemConfigBean.filter}" />
+  </f:metadata>
+
   <ui:composition template="/template/template.xhtml">
     <ui:define name="title">System Configuration</ui:define>
 
@@ -99,9 +103,9 @@
                     style="width: inherit;" />
                 </p:confirmDialog>
               </h:form>
-               <ui:include src="dialogs/editconfiguration.xhtml" />
-               <ui:include src="dialogs/newconfiguration.xhtml" />
-               <ui:include src="dialogs/showconfigurationfile.xhtml" />
+              <ui:include src="dialogs/editconfiguration.xhtml" />
+              <ui:include src="dialogs/newconfiguration.xhtml" />
+              <ui:include src="dialogs/showconfigurationfile.xhtml" />
             </div>
           </div>
         </div>

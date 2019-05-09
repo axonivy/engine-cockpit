@@ -6,16 +6,26 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">email</i>
-  <h:outputText value="Email (Preview)" />
+  <h:outputText value="Email" />
 </f:facet>
-<p:commandButton id="tasksButtonEmail" title="Send Test Mail" type="button" icon="ui-icon-send"
-  styleClass="secondary-btn card-button" rendered="false" />
-<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
-  <p:outputLabel value="Server" />
-  <p:outputLabel value="localhost" />
-  <p:outputLabel value="User" />
-  <p:outputLabel value="guest" />
-  <p:outputLabel value="Daily Time" />
-  <p:outputLabel value="12:30" />
-</p:panelGrid>
+<h:form>
+  <p:growl id="msgs" autoUpdate="true" showDetail="true"/>
+  <p:commandButton id="tasksButtonEmail" title="Send Test Mail" icon="ui-icon-send" type="button"
+    styleClass="secondary-btn card-button" onclick="PF('sendTestMailModal').show()" />
+  <p:commandButton id="configureEmail" title="Configure Email Server" icon="ui-icon-settings" type="button"
+    styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=EMail'" />
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+    <label>Server</label>
+    <h:outputText value="#{emailBean.host}" />
+    <label>Port</label>
+    <h:outputText value="#{emailBean.port}" />
+    <label>MailAddress</label>
+    <h:outputText value="#{emailBean.email}" />
+    <label>User</label>
+    <h:outputText value="#{emailBean.user}" />
+    <label>Daily Time</label>
+    <h:outputText value="#{emailBean.triggerTime}" />
+  </p:panelGrid>
+</h:form>
+<ui:include src="../../dialogs/sendtestmail.xhtml" />
 </html>
