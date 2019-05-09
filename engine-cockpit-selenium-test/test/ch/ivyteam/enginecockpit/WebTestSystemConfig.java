@@ -39,10 +39,14 @@ public class WebTestSystemConfig extends WebTestBase
     toSystemConfig(driver);
     String config = "//span[@class='config-name'][text()='Data.AppDirectory']";
     webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
-    driver.findElementById("card:showDefaultBtnForm:showDefaultsBtn").click();
+    driver.findElementById("card:configMoreForm:configMoreButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("card:configMoreForm:configMoreMenu").isDisplayed()).isTrue());
+    driver.findElementById("card:configMoreForm:showDefaultsBtn").click();
     saveScreenshot(driver, "hide");
     webAssertThat(() -> assertThat(elementNotAvailable(driver, By.xpath(config))).isTrue());
-    driver.findElementById("card:showDefaultBtnForm:showDefaultsBtn").click();
+    driver.findElementById("card:configMoreForm:configMoreButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("card:configMoreForm:configMoreMenu").isDisplayed()).isTrue());
+    driver.findElementById("card:configMoreForm:showDefaultsBtn").click();
     saveScreenshot(driver, "show");
     webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
   }
