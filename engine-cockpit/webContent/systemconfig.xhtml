@@ -110,6 +110,22 @@
           </div>
         </div>
       </cc:SingleCard>
+      
+      <script>
+        $(document).ready(function() {
+          try {
+            var url = new URL(window.location.href)
+            if (url.searchParams.get("filter") != null) {
+              console.log("filter" + url.searchParams.get("filter"));
+              PF('advancedConfigTable').filter();
+            }
+          }
+          catch(err) {
+            console.log("Failed to init startup filter: " + err);
+          }
+        });
+      </script>
+        
     </ui:define>
   </ui:composition>
 </h:body>
