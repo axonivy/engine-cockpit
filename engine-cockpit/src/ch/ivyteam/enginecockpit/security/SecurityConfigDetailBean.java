@@ -41,6 +41,7 @@ public class SecurityConfigDetailBean
   private String importUsersOfGroup;
   private String userFilter;
   private String updateTime;
+  private boolean importOnDemand;
 
   public SecurityConfigDetailBean()
   {
@@ -76,7 +77,8 @@ public class SecurityConfigDetailBean
     userName = getConfiguration(ConfigKey.CONNECTION_USER_NAME);
     password = getConfiguration(ConfigKey.CONNECTION_PASSWORD);
     
-    useLdapConnectionPool = getInitValueUseLdapConnectionPool();
+    useLdapConnectionPool = getInitBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, 
+            SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL);
     derefAlias = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
     ssl = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL)
             .equalsIgnoreCase("ssl");
@@ -85,6 +87,8 @@ public class SecurityConfigDetailBean
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
     userFilter = getConfiguration(ConfigKey.BINDING_USER_FILTER);
     updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
+    importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
+            SecuritySystemConfig.DefaultValue.IMPORT_ONDEMAND);
   }
   
   public String getName()
@@ -152,25 +156,25 @@ public class SecurityConfigDetailBean
     this.useLdapConnectionPool = useLdapConnectionPool;
   }
   
-  private boolean getInitValueUseLdapConnectionPool()
+  private boolean getInitBooleanValue(String key, boolean defaultValue)
   {
-    String connectionPool = getConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL);
+    String connectionPool = getConfiguration(key);
     if (StringUtils.isBlank(connectionPool))
     {
-      return SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL;
+      return defaultValue;
     }
     return Boolean.parseBoolean(connectionPool);
   }
   
-  private Object getSaveValueUseLdapConnectionPool()
+  private Object getSaveBooleanValue(boolean value, boolean defaultValue)
   {
-    if (this.useLdapConnectionPool == SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL)
+    if (value == defaultValue)
     {
       return "";
     }
-    return this.useLdapConnectionPool;
+    return value;
   }
-
+  
   public String getDerefAlias()
   {
     return derefAlias;
@@ -240,6 +244,17 @@ public class SecurityConfigDetailBean
   {
     this.updateTime = updateTime;
   }
+  
+  public boolean isImportOnDemand()
+  {
+    return importOnDemand;
+  }
+
+  public void setImportOnDemand(boolean importOnDemand)
+  {
+    this.importOnDemand = importOnDemand;
+  }
+
 
   public List<String> getDerefAliases()
   {
@@ -265,13 +280,16 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
-    setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, getSaveValueUseLdapConnectionPool());
+    setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, 
+            getSaveBooleanValue(this.useLdapConnectionPool, SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
             StringUtils.equals(this.derefAlias, SecuritySystemConfig.DefaultValue.DEREF_ALIAS) ? "" : this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, 
             StringUtils.equals(this.referral, SecuritySystemConfig.DefaultValue.REFERRAL) ? "" : this.referral);
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
+    setConfiguration(ConfigKey.IMPORT_ONDEMAND, 
+            getSaveBooleanValue(this.importOnDemand, SecuritySystemConfig.DefaultValue.IMPORT_ONDEMAND));
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System configuration saved"));

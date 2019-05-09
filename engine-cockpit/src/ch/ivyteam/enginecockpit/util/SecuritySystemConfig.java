@@ -23,6 +23,7 @@ public class SecuritySystemConfig
     String BINDING_IMPORT_USERS_OF_GROUP = "Binding.ImportUsersOfGroup";
     String BINDING_USER_FILTER = "Binding.UserFilter";
     String UPDATE_TIME = "UpdateTime";
+    String IMPORT_ONDEMAND = "Import.OnDemand";
     
     String USER_ATTRIBUTE_NAME = "UserAttribute.Name";
     String USER_ATTRIBUTE_FULL_NAME = "UserAttribute.FullName";
@@ -43,6 +44,7 @@ public class SecuritySystemConfig
     String REFERRAL = "follow";
     String EMAIL = "mail";
     String UPDATE_TIME = "00:00";
+    boolean IMPORT_ONDEMAND = false;
 
     String USER_FILTER_ND = "objectClass=inetOrgPerson";
     String NAME_ND = "uid";
