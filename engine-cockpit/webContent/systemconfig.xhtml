@@ -33,15 +33,15 @@
             </div>
             <div class="ui-g-12 ui-md-2" style="margin: auto;">
               <h:form id="showDefaultBtnForm">
-                <p:commandButton id="showConfigLogBtn" icon="ui-icon-find-in-page" ajax="false" style="float: right;">
-                  <p:fileDownload value="#{systemConfigBean.downloadFile()}" />
-                  <p:tooltip for="showConfigLogBtn" value="Show config log" position="left" />
-                </p:commandButton>
                 <p:commandButton icon="ui-icon-visibility#{systemConfigBean.showDefaults ? '' : '-off'}" 
-                  actionListener="#{systemConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right; margin-right: 10px;"
+                  actionListener="#{systemConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right;"
                   update="card:form,@this" styleClass="#{systemConfigBean.showDefaults ? 'amber' : 'primary'}-btn"
                   oncomplete="PF('advancedConfigTable').filter()">
                   <p:tooltip for="showDefaultsBtn" value="Show / hide default configurations" position="left" />
+                </p:commandButton>
+                <p:commandButton id="showConfigLogBtn" icon="ui-icon-format-align-left" type="button" style="float: right; margin-right: 10px;"
+                  onclick="window.location.href='logs.xhtml'" styleClass="secondary-btn">
+                  <p:tooltip for="showConfigLogBtn" value="Show config log" position="left" />
                 </p:commandButton>
               </h:form>
             </div>
