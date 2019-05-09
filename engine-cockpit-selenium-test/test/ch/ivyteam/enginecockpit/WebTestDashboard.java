@@ -16,8 +16,7 @@ public class WebTestDashboard extends WebTestBase
   @Test
   void testDashboardContent(FirefoxDriver driver)
   {
-    login(driver);
-    saveScreenshot(driver);
+    toDashboard(driver);
     checkOverviewBoxes(driver);
 
     checkInfoPanels(driver);
@@ -49,5 +48,44 @@ public class WebTestDashboard extends WebTestBase
     assertThat(driver.findElementById("licenceDetailDialog_title").isDisplayed()).isTrue();
     WebElement licenceList = driver.findElementById("licenceInfoForm:detailsList");
     assertThat(licenceList.isDisplayed()).isTrue();
+  }
+  
+  @Test
+  public void testSendTestMailInvalidInputs(FirefoxDriver driver)
+  {
+    toDashboardAndOpenSendMailModal(driver);
+    
+    driver.findElementById("sendTestMailForm:sendToInput").clear();
+    driver.findElementById("sendTestMailForm:subjectInput").clear();
+    driver.findElementById("sendTestMailForm:sendTestMailBtn").click();
+    saveScreenshot(driver, "invalid_inputs");
+    webAssertThat(() -> assertThat(driver.findElementById("sendTestMailForm:sendToInputMessage").getText()).isEqualTo("Value is required"));
+    webAssertThat(() -> assertThat(driver.findElementById("sendTestMailForm:subjectInputMessage").getText()).isEqualTo("Value is required"));
+  }
+  
+  @Test
+  public void testSendTestMailError(FirefoxDriver driver)
+  {
+    toDashboardAndOpenSendMailModal(driver);
+    
+    driver.findElementById("sendTestMailForm:sendToInput").sendKeys("test@example.com");
+    driver.findElementById("sendTestMailForm:sendTestMailBtn").click();
+    saveScreenshot(driver, "error_send");
+    webAssertThat(() -> assertThat(driver.findElementById("mailConfigForm:msgs_container").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("mailConfigForm:msgs_container").getText()).contains("Error while sending test mail"));
+  }
+
+  private void toDashboardAndOpenSendMailModal(FirefoxDriver driver)
+  {
+    toDashboard(driver);
+    driver.findElementById("mailConfigForm:openTestMailBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("sendTestMailModal").isDisplayed()).isTrue());
+    saveScreenshot(driver, "send_mail_modal");
+  }
+  
+  private void toDashboard(FirefoxDriver driver)
+  {
+    login(driver);
+    saveScreenshot(driver);
   }
 }

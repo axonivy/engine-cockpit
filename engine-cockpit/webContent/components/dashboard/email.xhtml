@@ -8,11 +8,11 @@
   <i class="material-icons table-icon panel-title-icon">email</i>
   <h:outputText value="Email" />
 </f:facet>
-<h:form>
-  <p:growl id="msgs" autoUpdate="true" showDetail="true"/>
-  <p:commandButton id="tasksButtonEmail" title="Send Test Mail" icon="ui-icon-send" type="button"
+<h:form id="mailConfigForm">
+  <p:growl id="msgs" autoUpdate="true" showDetail="true" />
+  <p:commandButton id="openTestMailBtn" title="Send Test Mail" icon="ui-icon-send" type="button"
     styleClass="secondary-btn card-button" onclick="PF('sendTestMailModal').show()" />
-  <p:commandButton id="configureEmail" title="Configure Email Server" icon="ui-icon-settings" type="button"
+  <p:commandButton id="configureEmailBtn" title="Configure Email Server" icon="ui-icon-settings" type="button"
     styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=EMail'" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Server</label>
