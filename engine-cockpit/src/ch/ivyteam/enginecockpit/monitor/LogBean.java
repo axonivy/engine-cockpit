@@ -20,10 +20,21 @@ public class LogBean
   private LogView consoleLog;
   private LogView configLog;
   private Date date;
+  private String showLog;
   
   public LogBean()
   {
     initLogFiles();
+  }
+  
+  public void setShowLog(String showLog)
+  {
+    this.showLog = showLog;
+  }
+  
+  public String getShowLog()
+  {
+    return showLog;
   }
 
   private void initLogFiles()

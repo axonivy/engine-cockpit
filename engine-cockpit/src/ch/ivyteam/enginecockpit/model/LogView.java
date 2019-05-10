@@ -28,6 +28,11 @@ public class LogView
     file = UrlUtil.getLogFile(logName);
     content = readContent();
   }
+  
+  public String getFileName()
+  {
+    return fileName;
+  }
 
   private String readContent()
   {

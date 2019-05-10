@@ -4,6 +4,10 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewParam name="log" value="#{logBean.showLog}" />
+  </f:metadata>
+
   <ui:composition template="/template/template.xhtml">
     <ui:define name="title">Logs</ui:define>
     
@@ -22,70 +26,15 @@
     <ui:define name="content">
       <div class="ui-g dashboard">
         <div class="ui-g-12 ui-md-12 dashboard-card ui-panelgrid">
-          <p:panel id="consoleLogPanel" header="console.log">
-            <f:facet name="header">
-              <i class="material-icons table-icon panel-title-icon">format_align_left</i>
-              <h:outputText value="console.log" />
-            </f:facet>
-            <cc:LogView log="#{logBean.consoleLog}" id="consoleLogView"/>
-          </p:panel>
+          <cc:LogView log="#{logBean.consoleLog}" id="consoleLogView"/>
         </div>
         <div class="ui-g-12 ui-md-12 dashboard-card ui-panelgrid">
-          <p:panel id="configLogPanel" header="config.log">
-            <f:facet name="header">
-              <i class="material-icons table-icon panel-title-icon">format_align_left</i>
-              <h:outputText value="config.log" />
-            </f:facet>
-            <cc:LogView log="#{logBean.configLog}" id="configLogView"/>
-          </p:panel>
+          <cc:LogView log="#{logBean.configLog}" id="configLogView"/>
         </div>
         <div class="ui-g-12 ui-md-12 dashboard-card ui-panelgrid">
-          <p:panel id="ivyLogPanel" header="ivy.log">
-            <f:facet name="header">
-              <i class="material-icons table-icon panel-title-icon">format_align_left</i>
-              <h:outputText value="ivy.log" />
-            </f:facet>
-            <cc:LogView log="#{logBean.ivyLog}" id="ivyLogView"/>
-          </p:panel>
+          <cc:LogView log="#{logBean.ivyLog}" id="ivyLogView"/>
         </div>
       </div>
-      <script>
-      var follow = {
-    		  'ivy': true, 
-    		  'console': true, 
-    		  'config': true
-    	};
-      
-      $('document').ready(function() {
-    	  updateScroll('ivy');
-    	  PF('ivyLogPoller').start();
-    	  console.log("start");
-      });
-      
-      function toggleFollowLog(logId) {
-    	  if (follow[logId]) {
-    		  console.log("stop");
-    		  PF(logId + 'LogPoller').stop();
-    		  $('#' + logId + 'LogView\\:startLogFollowBtn').show();
-    		  $('#' + logId + 'LogView\\:stopLogFollowBtn').hide();
-    	  } else {
-    	    console.log("start");
-    		  PF(logId + 'LogPoller').start();
-    		  $('#' + logId + 'LogView\\:startLogFollowBtn').hide();
-    		  $('#' + logId + 'LogView\\:stopLogFollowBtn').show();
-    	  }
-    	  follow[logId] = !follow[logId];
-      }
-      
-      function updateScroll(logId){
-    	  console.log(logId);
-    	  console.log("update");
-        if(document.getElementById(logId + "LogView:fileContentForm:logContent").getAttribute("class").includes("follow")){
-          var element = document.getElementById(logId + "logPanel_content");
-          element.scrollTop = element.scrollHeight;
-        }
-      }
-      </script>
     </ui:define>
   </ui:composition>
 </h:body>

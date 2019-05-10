@@ -41,7 +41,7 @@
                     actionListener="#{systemConfigBean.switchDefaults}" update="card:form,@form" 
                     id="showDefaultsBtn" oncomplete="PF('advancedConfigTable').filter()">
                   </p:menuitem>
-                  <p:menuitem value="Show config log" icon="ui-icon-format-align-left" onclick="window.location.href='logs.xhtml'"
+                  <p:menuitem value="Show config log" icon="ui-icon-format-align-left" onclick="window.location.href='logs.xhtml?log=config.log'"
                     id="showConfigLogBtn" />
                 </p:menu>
               </h:form>
