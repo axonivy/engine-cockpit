@@ -5,13 +5,11 @@
   <cc:attribute name="log" shortDescription="Log File" />
 </cc:interface>
 <cc:implementation>
-  <h:form id="fileDownloadForm">
+  <h:form id="fileForm">
     <p:commandButton id="showLog" ajax="false" title="Download Log File" icon="ui-icon-cloud-download"
-      styleClass="amber-btn card-button" rendered="#{cc.attrs.log.downloadEnabled}">
+      styleClass="amber-btn card-button" rendered="#{cc.attrs.log.downloadEnabled}" style="margin-top: -37px;">
       <p:fileDownload value="#{cc.attrs.log.file}" />
     </p:commandButton>
-  </h:form>
-  <h:form id="fileContentForm">
     <pre style="max-height: 500px; overflow-x: auto;"><h:outputText value="#{cc.attrs.log.content}"/></pre>
   </h:form>
   <script>
