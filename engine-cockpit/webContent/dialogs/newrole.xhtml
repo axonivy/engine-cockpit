@@ -6,11 +6,12 @@
 <p:dialog id="newChildRoleDialog" style="min-width: 300px;" header="Add new child role for #{roleDetailBean.roleName}"
   widgetVar="newChildRoleModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newChildRoleForm">
-    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <label>Name</label>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="newChildRoleNameInput" requiredMessage="Value is required"
           value="#{roleDetailBean.newChildRoleName}" required="true" />
-        <label>Name</label>
         <p:message for="newChildRoleNameInput" id="newRoleNameMessage" />
       </h:panelGroup>
     </p:panelGrid>

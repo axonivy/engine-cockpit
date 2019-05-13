@@ -29,6 +29,8 @@ public class WebTestNavigation extends WebTestBase
     assertViewIsSystemConfig(driver);
     Navigation.toMonitor(driver);
     assertViewIsMonitor(driver);
+    Navigation.toLogs(driver);
+    assertViewIsLogs(driver);
     Navigation.toDashboard(driver);
     assertViewIsDashboard(driver);
   }
@@ -95,5 +97,13 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("monitor.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Monitor"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_monitor").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsLogs(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "logs");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).contains("logs.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Logs"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_logs").getAttribute("class")).contains("active-menuitem"));
   }
 }

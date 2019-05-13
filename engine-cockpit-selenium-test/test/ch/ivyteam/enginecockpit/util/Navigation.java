@@ -22,6 +22,7 @@ public class Navigation
   private static final ByXPath SERVICES_EMAIL_MENU = new By.ByXPath("//li[@id='menuform:sr_email']/child::a");
   private static final ByXPath SYSTEM_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_system_config']/child::a");
   private static final ByXPath MONITOR_MENU = new By.ByXPath("//li[@id='menuform:sr_monitor']/child::a");
+  private static final ByXPath LOGS_MENU = new By.ByXPath("//li[@id='menuform:sr_logs']/child::a");
 
   public static void toDashboard(FirefoxDriver driver)
   {
@@ -113,6 +114,12 @@ public class Navigation
   {
     toMenu(driver, MONITOR_MENU);
     await().until(() -> driver.getCurrentUrl().endsWith("monitor.xhtml"));
+  }
+  
+  public static void toLogs(FirefoxDriver driver)
+  {
+    toMenu(driver, LOGS_MENU);
+    await().until(() -> driver.getCurrentUrl().contains("logs.xhtml"));
   }
   
   private static void toMenu(FirefoxDriver driver, ByXPath menuItemPath)

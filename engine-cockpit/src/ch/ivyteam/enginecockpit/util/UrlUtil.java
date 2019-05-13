@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,5 +45,10 @@ public class UrlUtil
         text = matcher.replaceAll("\n<a href='" + link + "' target='_blank'>" + link + "</a>");
     }
     return text;
+  }
+  
+  public static File getLogFile(String logFile)
+  {
+    return new File(Advisor.getAdvisor().getInstallationDirectory() + File.separator + "logs" + File.separator + logFile);
   }
 }

@@ -20,7 +20,7 @@ $(document).ready(function(){
 	var menuItemPage = $(this).attr('href');
 	var menuItemId = $(this).parent().attr('id');
 	if (menuItemPage != "#") {
-	  if (menuItemPage == page) {
+	  if (menuItemPage.startsWith(page)) {
 	    activateMenuItem(menuItemId);
       }
     }
@@ -28,7 +28,7 @@ $(document).ready(function(){
       $(this).parent().find('ul>li>a').each(function() {
         var subMenuItemPage = $(this).attr('href');
         var subMenuItemId = $(this).parent().attr('id');
-        if (subMenuItemPage == page) {
+        if (subMenuItemPage.startsWith(page)) {
           activateMenuItem(menuItemId);
           activateMenuItem(subMenuItemId);
         }

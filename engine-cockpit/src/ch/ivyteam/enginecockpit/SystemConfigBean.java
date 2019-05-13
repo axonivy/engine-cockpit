@@ -150,4 +150,5 @@ public class SystemConfigBean
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeConfig.getKey() + "' " + message));
   }
+  
 }

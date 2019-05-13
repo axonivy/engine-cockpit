@@ -3,34 +3,31 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 300px;" header="Add new user" id="newUserModal" widgetVar="newUserModal" modal="true" responsive="true"
+<p:dialog style="min-width: 500px;" header="Add new user" id="newUserModal" widgetVar="newUserModal" modal="true" responsive="true"
   closeOnEscape="true">
   <h:form id="newUserForm">
-    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <label>Name</label>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="newUserNameInput" requiredMessage="Value is required" value="#{userDetailBean.user.name}"
           required="true" />
-        <label>Name</label>
         <p:message for="newUserNameInput" id="newUserNameMessage" />
       </h:panelGroup>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
-        <label>Full Name</label>
-      </h:panelGroup>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="email" value="#{userDetailBean.user.email}" />
-        <label>E-Mail Address</label>
-      </h:panelGroup>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:password id="password1" widgetVar="password1" validatorMessage="Password didn't match" match="password2"
-          value="#{userDetailBean.user.password}" feedback="true" inline="true" />
-        <label>Password</label>
-      </h:panelGroup>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:password id="password2" widgetVar="password2" value="#{userDetailBean.user.password}" feedback="true"
-          inline="true" />
-        <label>Confirm Password</label>
-      </h:panelGroup>
+      
+      <label>Full Name</label>
+      <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
+      
+      <label>E-Mail Address</label>
+      <p:inputText id="email" value="#{userDetailBean.user.email}" />
+      
+      <label>Password</label>
+      <p:password id="password1" widgetVar="password1" validatorMessage="Password didn't match" match="password2"
+        value="#{userDetailBean.user.password}" feedback="true" inline="true" />
+      
+      <label>Confirm Password</label>
+      <p:password id="password2" widgetVar="password2" value="#{userDetailBean.user.password}" feedback="true"
+        inline="true" />
     </p:panelGrid>
     <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update=":form"
       action="#{userDetailBean.creatNewUser}" value="Save" icon="ui-icon-save"

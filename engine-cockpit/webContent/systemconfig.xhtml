@@ -4,6 +4,10 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewParam name="filter" value="#{systemConfigBean.filter}" />
+  </f:metadata>
+
   <ui:composition template="/template/template.xhtml">
     <ui:define name="title">System Configuration</ui:define>
 
@@ -11,7 +15,7 @@
       <li><a href="systemconfig.xhtml">System Configuration</a></li>
     </ui:define>
     
-    <ui:define name="breadcrumb-help">
+    <ui:define name="breadcrumb-right">
       <a href="#" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/configuration/index.html'); return false;">
         <i class="material-icons">help</i>
       </a>
@@ -21,20 +25,25 @@
       <cc:SingleCard id="card">
         <div class="card card-w-title">
           <div class="ui-g">
-            <div class="ui-g-12 ui-md-9">
+            <div class="ui-g-12 ui-md-8">
               <h1>
                 <i class="material-icons card-title-icon">settings</i>
                 <span>System Configuration</span>
               </h1>
             </div>
-            <div class="ui-g-12 ui-md-1" style="margin: auto;">
-              <h:form id="showDefaultBtnForm">
-                <p:commandButton icon="ui-icon-visibility#{systemConfigBean.showDefaults ? '' : '-off'}" 
-                  actionListener="#{systemConfigBean.switchDefaults}" id="showDefaultsBtn" style="float: right;"
-                  update="card:form,@this" styleClass="#{systemConfigBean.showDefaults ? 'amber' : 'primary'}-btn"
-                  oncomplete="PF('advancedConfigTable').filter()">
-                  <p:tooltip for="showDefaultsBtn" value="Show / hide default configurations" position="left" />
-                </p:commandButton>
+            <div class="ui-g-12 ui-md-2" style="margin: auto;">
+              <h:form id="configMoreForm">
+                <p:commandButton title="More" id="configMoreButton"
+                  type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
+                <p:menu overlay="true" trigger="configMoreButton" my="right top" at="right bottom" id="configMoreMenu">
+                  <p:menuitem value="#{systemConfigBean.showDefaults ? 'Hide' : 'Show'} default values" 
+                    icon="ui-icon-visibility#{systemConfigBean.showDefaults ? '-off' : ''}"
+                    actionListener="#{systemConfigBean.switchDefaults}" update="card:form,@form" 
+                    id="showDefaultsBtn" oncomplete="PF('advancedConfigTable').filter()">
+                  </p:menuitem>
+                  <p:menuitem value="Show config log" icon="ui-icon-format-align-left" onclick="window.location.href='logs.xhtml?log=config.log'"
+                    id="showConfigLogBtn" />
+                </p:menu>
               </h:form>
             </div>
             <div class="ui-g-12 ui-md-2" style="margin: auto;">
@@ -95,13 +104,29 @@
                     style="width: inherit;" />
                 </p:confirmDialog>
               </h:form>
-               <ui:include src="dialogs/editconfiguration.xhtml" />
-               <ui:include src="dialogs/newconfiguration.xhtml" />
-               <ui:include src="dialogs/showconfigurationfile.xhtml" />
+              <ui:include src="dialogs/editconfiguration.xhtml" />
+              <ui:include src="dialogs/newconfiguration.xhtml" />
+              <ui:include src="dialogs/showconfigurationfile.xhtml" />
             </div>
           </div>
         </div>
       </cc:SingleCard>
+      
+      <script>
+        $(document).ready(function() {
+          try {
+            var url = new URL(window.location.href)
+            if (url.searchParams.get("filter") != null) {
+              console.log("filter" + url.searchParams.get("filter"));
+              PF('advancedConfigTable').filter();
+            }
+          }
+          catch(err) {
+            console.log("Failed to init startup filter: " + err);
+          }
+        });
+      </script>
+        
     </ui:define>
   </ui:composition>
 </h:body>
