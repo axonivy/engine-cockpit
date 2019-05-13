@@ -22,6 +22,7 @@ public class Navigation
   private static final ByXPath SERVICES_EMAIL_MENU = new By.ByXPath("//li[@id='menuform:sr_email']/child::a");
   private static final ByXPath SERVICES_DATABASES_MENU = new By.ByXPath("//li[@id='menuform:sr_database']/child::a");
   private static final ByXPath SERVICES_RESTCLIENTS_MENU = new By.ByXPath("//li[@id='menuform:sr_rest_client']/child::a");
+  private static final ByXPath SERVICES_WEBSERVICES_MENU = new By.ByXPath("//li[@id='menuform:sr_web_service']/child::a");
   private static final ByXPath SYSTEM_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_system_config']/child::a");
   private static final ByXPath MONITOR_MENU = new By.ByXPath("//li[@id='menuform:sr_monitor']/child::a");
   private static final ByXPath LOGS_MENU = new By.ByXPath("//li[@id='menuform:sr_logs']/child::a");
@@ -138,6 +139,23 @@ public class Navigation
     assertThat(restClient).isPresent();
     restClient.get().click();
     await().until(() -> driver.getCurrentUrl().endsWith("restclientdetail.xhtml?restClientName=" + restClientName)); 
+  }
+  
+  public static void toWebservices(FirefoxDriver driver)
+  {
+    toSubMenu(driver, SERVICES_MENU, SERVICES_WEBSERVICES_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("webservices.xhtml"));
+  }
+  
+  public static void toWebserviceDetail(FirefoxDriver driver, String webserviceName)
+  {
+    Navigation.toWebservices(driver);
+    Optional<WebElement> webservice = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='webservice-name']")))
+            .stream()
+            .filter(e -> e.getText().startsWith(webserviceName)).findAny();
+    assertThat(webservice).isPresent();
+    webservice.get().click();
+    await().until(() -> driver.getCurrentUrl().endsWith("webservicedetail.xhtml?webserviceName=" + webserviceName)); 
   }
   
   public static void toSystemConfig(FirefoxDriver driver)

@@ -29,6 +29,8 @@ public class WebTestNavigation extends WebTestBase
     assertViewIsExternalDatabases(driver);
     Navigation.toRestClients(driver);
     assertViewIsRestClients(driver);
+    Navigation.toWebservices(driver);
+    assertViewIsWebservices(driver);
     Navigation.toSystemConfig(driver);
     assertViewIsSystemConfig(driver);
     Navigation.toMonitor(driver);
@@ -101,6 +103,14 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("restclients.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Rest Clients"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_rest_client").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsWebservices(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "webservices");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("webservices.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Web Services"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_web_service").getAttribute("class")).contains("active-menuitem"));
   }
 
   private void assertViewIsSystemConfig(FirefoxDriver driver)

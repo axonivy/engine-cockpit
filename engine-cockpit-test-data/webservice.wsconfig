@@ -1,2 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<webServiceConfigurationNode/>
+<webServiceConfigurationNode>
+    <webServiceConfig>
+        <name>test-web</name>
+        <id>16AB1778C1FA54E5</id>
+        <description>this is a web service</description>
+        <wsdlUrl>localhost</wsdlUrl>
+        <property>
+            <name>username</name>
+            <value>admin</value>
+            <password>false</password>
+        </property>
+        <property>
+            <name>password</name>
+            <value>\u0075\u0070\u00A9\u00EF\u009C\u0075\u0055\u0041\u0008\u0098\u005E\u0085\u00B2\u000D\u00E2\u00E3\u0097\u0089\u007D\u0054\u002D\u0058\u006C\u002D\u00B0\u0087\u00ED\u004E\u00ED\u00B0\u005A\u002D</value>
+            <password>true</password>
+        </property>
+        <feature>
+            <class>ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature</class>
+        </feature>
+        <environmentConfigurations>
+            <environment>test</environment>
+        </environmentConfigurations>
+    </webServiceConfig>
+    <webServiceConfig>
+        <name>second</name>
+        <id>16AB177C8A7C9747</id>
+        <wsdlUrl>someurl.com</wsdlUrl>
+    </webServiceConfig>
+</webServiceConfigurationNode>

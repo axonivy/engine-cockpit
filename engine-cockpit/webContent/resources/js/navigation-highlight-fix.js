@@ -42,7 +42,9 @@ $(document).ready(function(){
       'userdetail.xhtml': 'users.xhtml',
       'roledetail.xhtml': 'roles.xhtml',
       'application-detail.xhtml': 'applications.xhtml',
-      'externaldatabasedetail.xhtml': 'externaldatabases.xhtml'
+      'externaldatabasedetail.xhtml': 'externaldatabases.xhtml',
+      'restclientdetail.xhtml': 'restclients.xhtml',
+      'webservicedetail.xhtml': 'webservices.xhtml'
     };
     return map[value] == null ? value : map[value];
   }
