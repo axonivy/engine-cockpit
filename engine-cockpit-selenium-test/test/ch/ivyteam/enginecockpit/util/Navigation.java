@@ -119,7 +119,7 @@ public class Navigation
   public static void toLogs(FirefoxDriver driver)
   {
     toMenu(driver, LOGS_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("logs.xhtml"));
+    await().until(() -> driver.getCurrentUrl().contains("logs.xhtml"));
   }
   
   private static void toMenu(FirefoxDriver driver, ByXPath menuItemPath)

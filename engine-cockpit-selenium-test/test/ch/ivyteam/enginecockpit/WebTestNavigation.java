@@ -102,7 +102,7 @@ public class WebTestNavigation extends WebTestBase
   private void assertViewIsLogs(FirefoxDriver driver)
   {
     saveScreenshot(driver, "logs");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("logs.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).contains("logs.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Logs"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_logs").getAttribute("class")).contains("active-menuitem"));
   }
