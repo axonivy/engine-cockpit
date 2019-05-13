@@ -21,6 +21,7 @@ public class Navigation
   private static final ByXPath SERVICES_MENU = new By.ByXPath("//li[@id='menuform:sr_services']/child::a");
   private static final ByXPath SERVICES_EMAIL_MENU = new By.ByXPath("//li[@id='menuform:sr_email']/child::a");
   private static final ByXPath SERVICES_DATABASES_MENU = new By.ByXPath("//li[@id='menuform:sr_database']/child::a");
+  private static final ByXPath SERVICES_RESTCLIENTS_MENU = new By.ByXPath("//li[@id='menuform:sr_rest_client']/child::a");
   private static final ByXPath SYSTEM_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_system_config']/child::a");
   private static final ByXPath MONITOR_MENU = new By.ByXPath("//li[@id='menuform:sr_monitor']/child::a");
   private static final ByXPath LOGS_MENU = new By.ByXPath("//li[@id='menuform:sr_logs']/child::a");
@@ -120,6 +121,23 @@ public class Navigation
     assertThat(database).isPresent();
     database.get().click();
     await().until(() -> driver.getCurrentUrl().endsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName)); 
+  }
+  
+  public static void toRestClients(FirefoxDriver driver)
+  {
+    toSubMenu(driver, SERVICES_MENU, SERVICES_RESTCLIENTS_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("restclients.xhtml"));
+  }
+  
+  public static void toRestClientDetail(FirefoxDriver driver, String restClientName)
+  {
+    Navigation.toRestClients(driver);
+    Optional<WebElement> restClient = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='restclient-name']")))
+            .stream()
+            .filter(e -> e.getText().startsWith(restClientName)).findAny();
+    assertThat(restClient).isPresent();
+    restClient.get().click();
+    await().until(() -> driver.getCurrentUrl().endsWith("restclientdetail.xhtml?restClientName=" + restClientName)); 
   }
   
   public static void toSystemConfig(FirefoxDriver driver)

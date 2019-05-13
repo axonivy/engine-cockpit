@@ -27,6 +27,8 @@ public class WebTestNavigation extends WebTestBase
     assertViewIsEmail(driver);
     Navigation.toExternalDatabases(driver);
     assertViewIsExternalDatabases(driver);
+    Navigation.toRestClients(driver);
+    assertViewIsRestClients(driver);
     Navigation.toSystemConfig(driver);
     assertViewIsSystemConfig(driver);
     Navigation.toMonitor(driver);
@@ -91,6 +93,14 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("externaldatabases.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("External Databases"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_database").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsRestClients(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "restclients");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("restclients.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Rest Clients"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_rest_client").getAttribute("class")).contains("active-menuitem"));
   }
 
   private void assertViewIsSystemConfig(FirefoxDriver driver)
