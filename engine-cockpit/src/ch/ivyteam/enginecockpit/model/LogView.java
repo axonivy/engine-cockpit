@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.input.ReversedLinesFileReader;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -50,7 +51,9 @@ public class LogView
     }
     catch (IOException ex)
     {
-      ex.printStackTrace();
+      return "Could not read Logfile '" + fileName + "'\n"
+              + ex.getMessage() + "\n"
+              + ExceptionUtils.getStackTrace(ex);
     }
     if (lines.isEmpty())
     {
