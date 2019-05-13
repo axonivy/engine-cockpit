@@ -20,6 +20,7 @@ public class Navigation
   private static final ByXPath SECURITY_ROLES_MENU = new By.ByXPath("//li[@id='menuform:sr_roles']/child::a");
   private static final ByXPath SERVICES_MENU = new By.ByXPath("//li[@id='menuform:sr_services']/child::a");
   private static final ByXPath SERVICES_EMAIL_MENU = new By.ByXPath("//li[@id='menuform:sr_email']/child::a");
+  private static final ByXPath SERVICES_DATABASES_MENU = new By.ByXPath("//li[@id='menuform:sr_database']/child::a");
   private static final ByXPath SYSTEM_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_system_config']/child::a");
   private static final ByXPath MONITOR_MENU = new By.ByXPath("//li[@id='menuform:sr_monitor']/child::a");
   private static final ByXPath LOGS_MENU = new By.ByXPath("//li[@id='menuform:sr_logs']/child::a");
@@ -102,6 +103,23 @@ public class Navigation
   {
     toSubMenu(driver, SERVICES_MENU, SERVICES_EMAIL_MENU);
     await().until(() -> driver.getCurrentUrl().endsWith("email.xhtml"));
+  }
+  
+  public static void toExternalDatabases(FirefoxDriver driver)
+  {
+    toSubMenu(driver, SERVICES_MENU, SERVICES_DATABASES_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("externaldatabases.xhtml"));
+  }
+  
+  public static void toExternalDatabaseDetail(FirefoxDriver driver, String databaseName)
+  {
+    Navigation.toExternalDatabases(driver);
+    Optional<WebElement> database = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='database-name']")))
+            .stream()
+            .filter(e -> e.getText().startsWith(databaseName)).findAny();
+    assertThat(database).isPresent();
+    database.get().click();
+    await().until(() -> driver.getCurrentUrl().endsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName)); 
   }
   
   public static void toSystemConfig(FirefoxDriver driver)
