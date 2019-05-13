@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.lang3.StringUtils;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -48,6 +49,7 @@ public class WebTestSystemConfig extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("card:configMoreForm:configMoreMenu").isDisplayed()).isTrue());
     driver.findElementById("card:configMoreForm:showDefaultsBtn").click();
     saveScreenshot(driver, "show");
+    Awaitility.await().until(() -> !elementNotAvailable(driver, By.xpath(config)));
     webAssertThat(() -> assertThat(driver.findElementByXPath(config).isDisplayed()).isTrue());
   }
   
