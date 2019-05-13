@@ -7,7 +7,6 @@ import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.EmailUtil;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -103,8 +102,6 @@ public class EmailBean
     }
     catch (Exception ex)
     {
-      Ivy.log().info("error");
-      Ivy.log().info("problem: "+ ex.getMessage());
       facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while sending test mail", ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage("msgs", facesMessage);
