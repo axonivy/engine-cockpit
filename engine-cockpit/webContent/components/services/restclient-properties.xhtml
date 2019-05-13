@@ -6,16 +6,16 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">settings</i>
-  <h:outputText value="External Database properties" />
+  <h:outputText value="Rest Client properties" />
 </f:facet>
-<h:form id="databasePropertiesForm">
-  <p:dataTable value="#{externalDatabaseDetailBean.externalDatabase.properties}" style="padding-top: 10px;"
-    var="property" id="databasePropertiesTable">
+<h:form id="restClientPropertiesForm">
+  <p:dataTable value="#{restClientDetailBean.restClient.properties}" style="padding-top: 10px;"
+    var="property" id="restClientPropertiesTable">
     <p:column headerText="Name">
-      <p:outputLabel value="#{property.key}" styleClass="database-property-key"/>
+      <p:outputLabel value="#{property.name}" styleClass="restclient-property-name"/>
     </p:column>
     <p:column headerText="Value">
-      <p:outputLabel value="#{property.value}" styleClass="database-property-value"/>
+      <p:outputLabel value="#{property.value}" styleClass="restclient-property-value"/>
     </p:column>
   </p:dataTable>
 </h:form>
