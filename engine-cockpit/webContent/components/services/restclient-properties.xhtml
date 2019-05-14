@@ -6,16 +6,23 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">settings</i>
-  <h:outputText value="Rest Client properties" />
+  <h:outputText value="Features and properties" />
 </f:facet>
-<h:form id="restClientPropertiesForm">
-  <p:dataTable value="#{restClientDetailBean.restClient.properties}" style="padding-top: 10px;"
+<h:form id="restClientAdditionalConfigForm">
+  <p:dataTable value="#{restClientDetailBean.restClient.features}" style="padding-top: 10px;"
+    var="feature" id="restClientFeaturesTable">
+    <p:column headerText="Features">
+      <p:outputLabel value="#{feature}" styleClass="restclient-feature"/>
+    </p:column>
+  </p:dataTable>
+  
+  <p:dataTable value="#{restClientDetailBean.restClient.properties}" style="padding-top: 20px;"
     var="property" id="restClientPropertiesTable">
-    <p:column headerText="Name">
+    <p:column headerText="Property">
       <p:outputLabel value="#{property.name}" styleClass="restclient-property-name"/>
     </p:column>
     <p:column headerText="Value">
-      <p:outputLabel value="#{property.value}" styleClass="restclient-property-value"/>
+      <p:outputLabel value="#{property.name eq 'password' ? '*****' : property.value}" styleClass="restclient-property-value"/>
     </p:column>
   </p:dataTable>
 </h:form>

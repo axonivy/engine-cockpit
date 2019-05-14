@@ -11,17 +11,20 @@
       <li>/</li>
       <li><a href="externaldatabases.xhtml">External Databases</a></li>
     </ui:define>
-
+    
     <ui:define name="content">
       <h:form id="form">
         <p:growl id="msgs" />
         <cc:SingleCard>
           <cc:ApplicationTabs tabChange="#{externalDatabaseBean.reloadExternalDatabases}">
             <div class="ui-g">
-              <div class="ui-g-12 ui-md-12">
+              <div class="ui-g-12 ui-md-10">
                 <h1>
                   <i class="material-icons card-title-icon">dns</i>External Databases
                 </h1>
+              </div>
+              <div class="ui-g-12 ui-md-2" style="margin: auto;">
+                <cc:EnvironmentSelect />
               </div>
             </div>
             <div class="ui-g">

@@ -30,7 +30,7 @@ public class WebserviceBean
 
   public void reloadWebservices()
   {
-    webservices = managerBean.getSelectedIApplication().getWebServices().stream()
+    webservices = managerBean.getSelectedIEnvironment().getWebServices().stream()
             .map(web -> new Webservice(web))
             .collect(Collectors.toList());
   }

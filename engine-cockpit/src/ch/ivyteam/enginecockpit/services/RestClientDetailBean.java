@@ -6,6 +6,7 @@ import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
+import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
 import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
 
 @SuppressWarnings("restriction")
@@ -35,7 +36,12 @@ public class RestClientDetailBean
   public void setRestClientName(String restClientName)
   {
     this.restClientName = restClientName;
-    restClient = new RestClient(restClientDao.findByName(restClientName));
+    IRestClient iRestClient = restClientDao.findByName(restClientName, managerBean.getSelectedIEnvironment());
+    if (iRestClient == null)
+    {
+      iRestClient = restClientDao.findByName(restClientName);
+    }
+    restClient = new RestClient(iRestClient);
   }
   
   public RestClient getRestClient()

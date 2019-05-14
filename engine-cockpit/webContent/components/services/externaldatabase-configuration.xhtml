@@ -25,7 +25,7 @@
     <h:outputText id="userName" value="#{externalDatabaseDetailBean.externalDatabase.userName}" />
     
     <label>Password</label>
-    <h:outputText id="password" value="#{externalDatabaseDetailBean.externalDatabase.password}" />
+    <h:outputText id="password" value="#{empty externalDatabaseDetailBean.externalDatabase.password ? '' : '*****'}" />
     
     <label>Max Connections</label>
     <h:outputText id="maxConnections" value="#{externalDatabaseDetailBean.externalDatabase.maxConnections}" />

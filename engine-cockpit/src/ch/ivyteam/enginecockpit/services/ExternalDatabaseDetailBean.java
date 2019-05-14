@@ -31,7 +31,7 @@ public class ExternalDatabaseDetailBean
   public void setDatabaseName(String databaseName)
   {
     this.databaseName = databaseName;
-    externalDatabase = new ExternalDatabase(managerBean.getSelectedIApplication().findExternalDatabaseConfiguration(databaseName));
+    externalDatabase = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
   }
   
   public ExternalDatabase getExternalDatabase()

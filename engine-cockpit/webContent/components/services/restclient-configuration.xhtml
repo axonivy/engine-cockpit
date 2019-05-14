@@ -10,20 +10,28 @@
 </f:facet>
 <h:form id="restClientConfigurationForm">
   <p:growl id="configurationSaveSuccess" for="configurationSaveSuccess" autoUpdate="true" />
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+    <label>UUID</label>
+    <h:outputText id="uuid" value="#{restClientDetailBean.restClient.uniqueId}"></h:outputText>
+    
     <label>Name</label>
     <h:outputText id="name" value="#{restClientDetailBean.restClientName}" />
     
+    <label>Description</label>
+    <h:outputText id="decription" value="#{restClientDetailBean.restClient.description}" />
+    
     <label>Url</label>
     <h:outputText id="url" value="#{restClientDetailBean.restClient.url}" />
+    
+    <label>Authentication Type</label>
+    <h:outputText id="type" value="#{restClientDetailBean.restClient.authType}" />
+    
+    <label>Username</label>
+    <h:outputText id="username" value="#{restClientDetailBean.restClient.username}" />
+    
+    <label>Password</label>
+    <h:outputText id="password" value="#{restClientDetailBean.restClient.password}" />
   </p:panelGrid>
-  
-  <p:dataTable value="#{restClientDetailBean.restClient.features}" style="padding-top: 10px;"
-    var="feature" id="restClientFeaturesTable">
-    <p:column headerText="Features">
-      <p:outputLabel value="#{feature}" styleClass="restclient-feature"/>
-    </p:column>
-  </p:dataTable>
 </h:form>
 </html>

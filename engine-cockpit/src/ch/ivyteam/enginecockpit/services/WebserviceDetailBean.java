@@ -31,7 +31,7 @@ public class WebserviceDetailBean
   public void setWebserviceId(String webserviceId)
   {
     this.webserviceId = webserviceId;
-    webservice = new Webservice(managerBean.getSelectedIApplication().findWebService(webserviceId));
+    webservice = new Webservice(managerBean.getSelectedIEnvironment().findWebService(webserviceId));
   }
   
   public Webservice getWebservice()

@@ -30,8 +30,8 @@ public class ExternalDatabaseBean
 
   public void reloadExternalDatabases()
   {
-    externalDatabases = managerBean.getSelectedIApplication().getExternalDatabaseConfigurations().stream()
-            .map(config -> new ExternalDatabase(config))
+    externalDatabases = managerBean.getSelectedIEnvironment().getExternalDatabaseConfigurations().stream()
+            .map(db -> new ExternalDatabase(db))
             .collect(Collectors.toList());
   }
   

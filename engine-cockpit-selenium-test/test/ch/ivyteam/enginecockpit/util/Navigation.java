@@ -77,7 +77,7 @@ public class Navigation
   public static void toRoleDetail(FirefoxDriver driver, String roleName)
   {
     Navigation.toRoles(driver);
-    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='role-name'][text()='" + roleName + "']").click();
+    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[@class='role-name'][text()='" + roleName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
   }
   

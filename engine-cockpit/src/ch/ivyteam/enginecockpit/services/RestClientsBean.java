@@ -33,7 +33,9 @@ public class RestClientsBean
   public void reloadRestClients()
   {
     RestClientDao restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
-    restClients = restClientDao.getAllDefaults().stream().map(rest -> new RestClient(rest)).collect(Collectors.toList());
+    restClients = restClientDao.getAll(managerBean.getSelectedIEnvironment()).stream()
+            .map(rest -> new RestClient(rest))
+            .collect(Collectors.toList());
   }
   
   public List<RestClient> getRestClients()

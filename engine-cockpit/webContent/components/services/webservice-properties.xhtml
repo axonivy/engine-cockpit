@@ -15,7 +15,7 @@
       <p:outputLabel value="#{property.name}" styleClass="webservice-property-name"/>
     </p:column>
     <p:column headerText="Value">
-      <p:outputLabel value="#{property.value}" styleClass="webservice-property-value"/>
+      <p:outputLabel value="#{property.name eq 'password' ? '*****' : property.value}" styleClass="webservice-property-value"/>
     </p:column>
   </p:dataTable>
 </h:form>
