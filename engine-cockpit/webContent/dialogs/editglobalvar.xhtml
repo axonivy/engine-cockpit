@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog styleClass="config-edit" header="Edit global variable" id="editGlobalVarModal"
+  widgetVar="editGlobalVarModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+  <h:form id="editGlobalVarForm">
+    
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+      <label>Name</label>
+      <h:outputText id="editGlobalVarName" value="#{globalVarBean.activeVar.name}" />
+      
+      <label>Description</label>
+      <h:outputText id="editGlobalVarDesc" value="#{globalVarBean.activeVar.desc}" />
+      
+      <label>Value</label>
+      <h:outputText id="editGlobalVarValue" value="#{globalVarBean.activeVar.value}" />
+    </p:panelGrid>
+    
+    <p:commandButton id="saveGlobalVarConfiguration" update="form" onsuccess="PF('editGlobalVarModal').hide()"
+      actionListener="#{globalVarBean.saveGlobalVar}" value="Save" icon="ui-icon-save"
+      styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelEditGlobalVar" onclick="PF('editGlobalVarModal').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </h:form>
+</p:dialog>
+</html>

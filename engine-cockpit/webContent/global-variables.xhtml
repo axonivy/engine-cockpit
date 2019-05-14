@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Global variables</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li><a href="global-variables.xhtml">Global variables</a></li>
+    </ui:define>
+    
+    <ui:define name="content">
+      <h:form id="form">
+        <cc:SingleCard id="card">
+          <cc:ApplicationTabs tabChange="#{globalVarBean.reloadGlobalVars}">
+
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-10">
+                <h1>
+                  <i class="material-icons card-title-icon">donut_large</i>Global variables
+                </h1>
+              </div>
+
+              <div class="ui-g-12 ui-md-2" style="margin: auto;">
+                <p:commandButton id="newGlobalVarBtn"
+                  value="New" icon="ui-icon-add" type="button" onclick="PF('newGlobalVarModal').show();" />
+              </div>
+            </div>  
+
+            <!-- TODO: Filtering -->
+            <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarConfigTable"
+              filteredValue="#{globalVarBean.globalVariables}" id="globalVarConfigTable">
+              
+              <f:facet name="header">
+                <p:outputPanel>
+                  <p:outputLabel styleClass="table-search-icon">
+                    <i class="material-icons">search</i>
+                  </p:outputLabel>
+                  <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                    onkeyup="PF('globalVarConfigTable').filter()" placeholder="Search" value="#{globalVarBean.filter}" />
+                </p:outputPanel>
+              </f:facet>
+
+              <p:column headerText="Name">
+                <h:outputText value="#{globalVar.name}">
+                	
+                </h:outputText>
+              </p:column>
+              
+              <p:column headerText="Name">
+                <h:outputText value="#{globalVar.description}">
+                	
+                </h:outputText>
+              </p:column>
+              
+              <p:column headerText="Name">
+                <h:outputText value="#{globalVar.value}">
+                	
+                </h:outputText>
+              </p:column>
+      
+              <p:column style="width: 70px;">
+                <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit" title="Edit" 
+                  styleClass="card-button table-control-btn amber-btn"
+                  update="form:editGlobalVarModal" oncomplete="PF('editGlobalVarModal').show()"/>
+                  <!-- actionListener="#{globalVarBean}"-->
+              </p:column>
+            </p:dataTable>
+        
+          </cc:ApplicationTabs>
+        </cc:SingleCard>
+        <ui:include src="dialogs/newglobalvar.xhtml" />
+        <ui:include src="dialogs/editglobalvar.xhtml" />
+      </h:form>
+    </ui:define>
+    
+  </ui:composition>
+</h:body>
+</html>
