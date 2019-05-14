@@ -10,18 +10,27 @@
     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
       <label>Name</label>
-      <p:inputText id="newGlobalVarName" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.name}"/>
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="newGlobalVarName" required="true" requiredMessage="Name is required" value="#{globalVarBean.activeVar.name}"/>
+        <p:message for="newGlobalVarName" id="newGlobalVarNameMessage" />
+      </h:panelGroup>
       
       <label>Description</label>
-      <p:inputText id="newGlobalVarDesc" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.description}"/>
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="newGlobalVarDesc" required="true" requiredMessage="Description is required" value="#{globalVarBean.activeVar.description}"/>
+        <p:message for="newGlobalVarDesc" id="newGlobalVarDescMessage" />
+      </h:panelGroup>
       
       <label>Value</label>
-      <p:inputText id="newGlobalVarDefault" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.value}"/>
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="newGlobalVarValue" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.value}"/>
+        <p:message for="newGlobalVarValue" id="newGlobalVarValueMessage" />
+      </h:panelGroup>
     </p:panelGrid>
     
     <p:commandButton id="saveNewGlobalVar" validateClient="true" onsuccess="PF('newGlobalVarModal').hide()"
       actionListener="#{globalVarBean.saveGlobalVar}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" update="form" process="@form"/>
+      styleClass="primary-btn modal-input-button" update="form @form" process="@form"/>
     <p:commandButton id="cancelNewGlobalVar" onclick="PF('newGlobalVarModal').hide()" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button"/>
   </h:form>

@@ -16,11 +16,15 @@
       <h:outputText id="editGlobalVarDesc" value="#{globalVarBean.activeVar.description}" />
       
       <label>Value</label>
-      <p:inputMask id="editGlobalVarValue" value="#{globalVarBean.activeVar.value}" />
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="editGlobalVarValue" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.value}" />
+        <p:message for="editGlobalVarValue" id="editGlobalVarValueMessage" />
+      </h:panelGroup>
     </p:panelGrid>
-    
-    <p:commandButton id="saveGlobalVarConfiguration" update="@all" onsuccess="PF('editGlobalVarModal').hide()"
-      actionListener="#{globalVarBean.updateGlobalVar(globalVarBean.activeVar.name)}" value="Save" icon="ui-icon-save" process="editGlobalVarForm"
+
+    <p:commandButton id="saveGlobalVarConfiguration" validateClient="true" update="form @form" process="@form"
+      onsuccess="PF('editGlobalVarModal').hide()"
+      actionListener="#{globalVarBean.updateGlobalVar(globalVarBean.activeVar.name)}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button"/>
     <p:commandButton id="cancelEditGlobalVar" onclick="PF('editGlobalVarModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />

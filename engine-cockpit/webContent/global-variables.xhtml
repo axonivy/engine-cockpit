@@ -58,7 +58,7 @@
                   title="Edit"
                   styleClass="card-button table-control-btn amber-btn"
                   actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
-                  update="form:editGlobalVarModal"
+                  update="editGlobalVarModal"
                   oncomplete="PF('editGlobalVarModal').show()"
                   process="@this"/>
               </p:column>
@@ -66,9 +66,9 @@
         
           </cc:ApplicationTabs>
         </cc:SingleCard>
-        <ui:include src="dialogs/newglobalvar.xhtml" />
-        <ui:include src="dialogs/editglobalvar.xhtml" />
       </h:form>
+    <ui:include src="dialogs/newglobalvar.xhtml" />
+    <ui:include src="dialogs/editglobalvar.xhtml" />
     </ui:define>
     
   </ui:composition>
