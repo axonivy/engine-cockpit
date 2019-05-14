@@ -20,8 +20,8 @@
     </p:panelGrid>
     
     <p:commandButton id="saveNewGlobalVar" validateClient="true" onsuccess="PF('newGlobalVarModal').hide()"
-      actionListener="#{globalVarBean.saveNewGlobalVar}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" update="" process="@form"/>
+      actionListener="#{globalVarBean.saveGlobalVar}" value="Save" icon="ui-icon-save"
+      styleClass="primary-btn modal-input-button" update="form" process="@form"/>
     <p:commandButton id="cancelNewGlobalVar" onclick="PF('newGlobalVarModal').hide()" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button"/>
   </h:form>

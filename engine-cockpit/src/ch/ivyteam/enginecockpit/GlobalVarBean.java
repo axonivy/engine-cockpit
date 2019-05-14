@@ -22,8 +22,7 @@ public class GlobalVarBean
   public GlobalVarBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
 
     reloadGlobalVars();
   }
@@ -44,20 +43,23 @@ public class GlobalVarBean
     return globalVariables;
   }
 
-  public void saveNewGlobalVar()
+  public void saveGlobalVar()
   {
     if (app.findGlobalVariable(activeVar.name) == null)
     {
       app.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
     }
-    
-    activeVar = new SimpleVariable();
+    reloadGlobalVars();
   }
 
-  public void updateGlobalVar()
+  public void updateGlobalVar(String name)
   {
-    app.deleteGlobalVariable(activeVar.name);
-    saveNewGlobalVar();
+    IGlobalVariable var = app.findGlobalVariable(name);
+    if (var != null)
+    {
+      var.setValue(activeVar.value);
+    }
+    reloadGlobalVars();
   }
 
   public SimpleVariable getActiveVar()
@@ -77,7 +79,6 @@ public class GlobalVarBean
     {
       activeVar = new SimpleVariable(selectedVar.getName(), selectedVar.getDescription(), selectedVar.getValue());
     }
-    
   }
 
   public static final class SimpleVariable
@@ -90,14 +91,14 @@ public class GlobalVarBean
     {
       
     }
-    
+
     public SimpleVariable(String name, String desc, String value)
     {
       this.name = name;
       this.description = desc;
       this.value = value;
     }
-    
+
     public void setName(String name)
     {
       this.name = name;
