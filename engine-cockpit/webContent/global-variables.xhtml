@@ -13,6 +13,7 @@
     
     <ui:define name="content">
       <h:form id="form">
+        <p:growl id="msgs" />
         <cc:SingleCard id="card">
           <cc:ApplicationTabs tabChange="#{globalVarBean.reloadGlobalVars}">
 
@@ -57,6 +58,7 @@
                   title="Delete" styleClass="card-button table-control-btn red-btn"
                   actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
                   oncomplete="PF('deleteGlobalVarDialog').show()"
+                  update="deleteGlobalVarDialog"
                   style="margin-right: 0; float: right;"/>
 
                 <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"

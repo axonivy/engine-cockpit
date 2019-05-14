@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -48,6 +49,7 @@ public class GlobalVarBean
     if (app.findGlobalVariable(activeVar.name) == null)
     {
       app.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
+      reloadAndUiMessage("saved");
     }
     reloadGlobalVars();
   }
@@ -58,6 +60,7 @@ public class GlobalVarBean
     if (var != null)
     {
       var.setValue(activeVar.value);
+      reloadAndUiMessage("changed");
     }
     reloadGlobalVars();
   }
@@ -84,7 +87,14 @@ public class GlobalVarBean
   public void deleteGlobalVar(String name)
   {
     app.deleteGlobalVariable(name);
+    reloadAndUiMessage("deleted");
     reloadGlobalVars();
+  }
+
+  private void reloadAndUiMessage(String message)
+  {
+    FacesContext.getCurrentInstance().addMessage("msgs",
+            new FacesMessage("'" + activeVar.getName() + "' " + message));
   }
 
   public static final class SimpleVariable
