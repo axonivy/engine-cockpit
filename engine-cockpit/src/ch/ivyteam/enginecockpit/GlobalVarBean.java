@@ -16,7 +16,6 @@ public class GlobalVarBean
 {
   private ManagerBean managerBean;
   private List<SimpleVariable> globalVariables;
-  private String filter;
   private SimpleVariable activeVar;
   private IApplication app;
 
@@ -43,16 +42,6 @@ public class GlobalVarBean
   public List<SimpleVariable> getGlobalVariables()
   {
     return globalVariables;
-  }
-
-  public String getFilter()
-  {
-    return filter;
-  }
-
-  public void setFilter(String filter)
-  {
-    this.filter = filter;
   }
 
   public void saveNewGlobalVar()

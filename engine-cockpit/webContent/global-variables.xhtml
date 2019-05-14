@@ -29,9 +29,7 @@
               </div>
             </div>  
 
-            <!-- TODO: Filtering -->
-            <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable"
-              filteredValue="#{globalVarBean.globalVariables}" id="globalVarTable">
+            <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable" id="globalVarTable">
               
               <f:facet name="header">
                 <p:outputPanel>
@@ -39,23 +37,23 @@
                     <i class="material-icons">search</i>
                   </p:outputLabel>
                   <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                    onkeyup="PF('globalVarTable').filter()" placeholder="Search" value="#{globalVarBean.filter}" />
+                    onkeyup="PF('globalVarTable').filter()" placeholder="Search"/>
                 </p:outputPanel>
               </f:facet>
 
-              <p:column headerText="Name">
+              <p:column headerText="Name" sortBy="#{globalVar.name}" filterBy="#{globalVar.name}" >
                 <h:outputText value="#{globalVar.name}">
                 	
                 </h:outputText>
               </p:column>
               
-              <p:column headerText="Description">
+              <p:column headerText="Description" sortBy="#{globalVar.description}" filterBy="#{globalVar.description}">
                 <h:outputText value="#{globalVar.description}">
                 	
                 </h:outputText>
               </p:column>
               
-              <p:column headerText="Value">
+              <p:column headerText="Value" filterBy="#{globalVar.value}">
                 <h:outputText value="#{globalVar.value}">
                 	
                 </h:outputText>
