@@ -6,23 +6,23 @@
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
-  <h:outputText value="Rest Client configurations" />
+  <h:outputText value="Web Service configurations" />
 </f:facet>
-<h:form id="restClientConfigurationForm">
-  <p:growl id="configurationSaveSuccess" for="configurationSaveSuccess" autoUpdate="true" />
+<h:form id="webserviceConfigurationForm">
+  <p:growl id="webserviceSaveSuccess" for="webserviceSaveSuccess" autoUpdate="true" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
-    <h:outputText id="name" value="#{restClientDetailBean.restClientName}" />
+    <h:outputText id="name" value="#{webserviceDetailBean.webservice.name}" />
     
-    <label>Url</label>
-    <h:outputText id="url" value="#{restClientDetailBean.restClient.url}" />
+    <label>Wsdl Url</label>
+    <h:outputText id="url" value="#{webserviceDetailBean.webservice.wsdlUrl}" />
   </p:panelGrid>
   
-  <p:dataTable value="#{restClientDetailBean.restClient.features}" style="padding-top: 10px;"
-    var="feature" id="restClientFeaturesTable">
+  <p:dataTable value="#{webserviceDetailBean.webservice.features}" style="padding-top: 10px;"
+    var="feature" id="webserviceFeaturesTable">
     <p:column headerText="Features">
-      <p:outputLabel value="#{feature}" styleClass="restclient-feature"/>
+      <p:outputLabel value="#{feature}" styleClass="webservice-feature"/>
     </p:column>
   </p:dataTable>
 </h:form>

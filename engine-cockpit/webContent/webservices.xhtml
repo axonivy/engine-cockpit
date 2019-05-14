@@ -42,7 +42,7 @@
                       </p:outputPanel>
                     </f:facet>
                     <p:column headerText="Name" sortBy="#{webservice.name}" filterBy="#{webservice.name}" styleClass="webservice-name-column">
-                      <a href="webservicedetail.xhtml?webserviceName=#{webservice.name}"> <h:outputText value="#{webservice.name}"
+                      <a href="webservicedetail.xhtml?webserviceId=#{webservice.genId}"> <h:outputText value="#{webservice.name}"
                           styleClass="webservice-name">
                           <i class="material-icons table-icon">language</i>
                         </h:outputText>

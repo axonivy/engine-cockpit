@@ -10,6 +10,7 @@ import ch.ivyteam.util.Property;
 public class Webservice
 {
   private String name;
+  private String genId;
   private String description;
   private String wsdlUrl;
   private List<String> features;
@@ -22,6 +23,7 @@ public class Webservice
     wsdlUrl = webservice.getWsdlUrl();
     properties = webservice.getProperties().stream().map(p -> new Property(p.getName(), p.getValue())).collect(Collectors.toList());
     features = webservice.getFeatures().stream().map(f -> f.getClazz()).collect(Collectors.toList());
+    genId = webservice.getGenerationIdentifier();
   }
 
   public String getName()
@@ -29,6 +31,11 @@ public class Webservice
     return name;
   }
 
+  public String getGenId()
+  {
+    return genId;
+  }
+  
   public String getDescription()
   {
     return description;

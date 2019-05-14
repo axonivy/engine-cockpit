@@ -14,7 +14,7 @@ import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
 public class RestClientDetailBean
 {
   private RestClient restClient;
-  private String databaseName;
+  private String restClientName;
   
   private ManagerBean managerBean;
   private RestClientDao restClientDao;
@@ -29,12 +29,12 @@ public class RestClientDetailBean
   
   public String getRestClientName()
   {
-    return databaseName;
+    return restClientName;
   }
   
   public void setRestClientName(String restClientName)
   {
-    this.databaseName = restClientName;
+    this.restClientName = restClientName;
     restClient = new RestClient(restClientDao.findByName(restClientName));
   }
   

@@ -1,31 +1,27 @@
 package ch.ivyteam.enginecockpit.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
-import java.util.Optional;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Navigation
 {
-  private static final ByXPath DASHBOARD_MENU = new By.ByXPath("//li[@id='menuform:sr_dashboard']/child::a");
-  private static final ByXPath APPLICATIONS_MENU = new By.ByXPath("//li[@id='menuform:sr_applications']/child::a");
-  private static final ByXPath SECURITY_MENU = new By.ByXPath("//li[@id='menuform:sr_security']/child::a");
-  private static final ByXPath SECURITY_SYSTEM_MENU = new By.ByXPath("//li[@id='menuform:sr_security_system']/child::a");
-  private static final ByXPath SECURITY_USER_MENU = new By.ByXPath("//li[@id='menuform:sr_users']/child::a");
-  private static final ByXPath SECURITY_ROLES_MENU = new By.ByXPath("//li[@id='menuform:sr_roles']/child::a");
-  private static final ByXPath SERVICES_MENU = new By.ByXPath("//li[@id='menuform:sr_services']/child::a");
-  private static final ByXPath SERVICES_EMAIL_MENU = new By.ByXPath("//li[@id='menuform:sr_email']/child::a");
-  private static final ByXPath SERVICES_DATABASES_MENU = new By.ByXPath("//li[@id='menuform:sr_database']/child::a");
-  private static final ByXPath SERVICES_RESTCLIENTS_MENU = new By.ByXPath("//li[@id='menuform:sr_rest_client']/child::a");
-  private static final ByXPath SERVICES_WEBSERVICES_MENU = new By.ByXPath("//li[@id='menuform:sr_web_service']/child::a");
-  private static final ByXPath SYSTEM_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_system_config']/child::a");
-  private static final ByXPath MONITOR_MENU = new By.ByXPath("//li[@id='menuform:sr_monitor']/child::a");
-  private static final ByXPath LOGS_MENU = new By.ByXPath("//li[@id='menuform:sr_logs']/child::a");
+  private static final By DASHBOARD_MENU = By.xpath("//li[@id='menuform:sr_dashboard']/child::a");
+  private static final By APPLICATIONS_MENU = By.xpath("//li[@id='menuform:sr_applications']/child::a");
+  private static final By SECURITY_MENU = By.xpath("//li[@id='menuform:sr_security']/child::a");
+  private static final By SECURITY_SYSTEM_MENU = By.xpath("//li[@id='menuform:sr_security_system']/child::a");
+  private static final By SECURITY_USER_MENU = By.xpath("//li[@id='menuform:sr_users']/child::a");
+  private static final By SECURITY_ROLES_MENU = By.xpath("//li[@id='menuform:sr_roles']/child::a");
+  private static final By SERVICES_MENU = By.xpath("//li[@id='menuform:sr_services']/child::a");
+  private static final By SERVICES_EMAIL_MENU = By.xpath("//li[@id='menuform:sr_email']/child::a");
+  private static final By SERVICES_DATABASES_MENU = By.xpath("//li[@id='menuform:sr_database']/child::a");
+  private static final By SERVICES_RESTCLIENTS_MENU = By.xpath("//li[@id='menuform:sr_rest_client']/child::a");
+  private static final By SERVICES_WEBSERVICES_MENU = By.xpath("//li[@id='menuform:sr_web_service']/child::a");
+  private static final By SYSTEM_CONFIG_MENU = By.xpath("//li[@id='menuform:sr_system_config']/child::a");
+  private static final By MONITOR_MENU = By.xpath("//li[@id='menuform:sr_monitor']/child::a");
+  private static final By LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
 
   public static void toDashboard(FirefoxDriver driver)
   {
@@ -42,11 +38,7 @@ public class Navigation
   public static void toApplicationDetail(FirefoxDriver driver, String appName)
   {
     Navigation.toApplications(driver);
-    Optional<WebElement> app = driver.findElements(new By.ByXPath("//*[@class='activity-name']"))
-            .stream()
-            .filter(e -> e.getText().equals(appName)).findAny();
-    assertThat(app).isPresent();
-    app.get().click();
+    driver.findElementByXPath("//span[@class='activity-name'][text()='" + appName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("application-detail.xhtml?appName=" + appName)); 
   }
   
@@ -59,11 +51,7 @@ public class Navigation
   public static void toSecuritySystemDetail(FirefoxDriver driver, String secSystemName)
   {
     Navigation.toSecuritySystem(driver);
-    Optional<WebElement> secSystem = driver.findElements(new By.ByXPath("//span[@class='security-name']"))
-            .stream()
-            .filter(e -> e.getText().equals(secSystemName)).findAny();
-    assertThat(secSystem).isPresent();
-    secSystem.get().click();
+    driver.findElementByXPath("//span[@class='security-name'][text()='" + secSystemName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
   }
   
@@ -76,11 +64,7 @@ public class Navigation
   public static void toUserDetail(FirefoxDriver driver, String userName)
   {
     Navigation.toUsers(driver);
-    Optional<WebElement> user = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='user-name']")))
-            .stream()
-            .filter(e -> e.getText().equals(userName)).findAny();
-    assertThat(user).isPresent();
-    user.get().click();
+    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='user-name'][text()='" + userName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("userdetail.xhtml?userName=" + userName)); 
   }
   
@@ -93,11 +77,7 @@ public class Navigation
   public static void toRoleDetail(FirefoxDriver driver, String roleName)
   {
     Navigation.toRoles(driver);
-    Optional<WebElement> role = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='role-name']")))
-            .stream()
-            .filter(e -> e.getText().startsWith(roleName)).findAny();
-    assertThat(role).isPresent();
-    role.get().click();
+    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='role-name'][text()='" + roleName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
   }
   
@@ -116,11 +96,7 @@ public class Navigation
   public static void toExternalDatabaseDetail(FirefoxDriver driver, String databaseName)
   {
     Navigation.toExternalDatabases(driver);
-    Optional<WebElement> database = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='database-name']")))
-            .stream()
-            .filter(e -> e.getText().startsWith(databaseName)).findAny();
-    assertThat(database).isPresent();
-    database.get().click();
+    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='database-name'][text()='" + databaseName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName)); 
   }
   
@@ -133,11 +109,7 @@ public class Navigation
   public static void toRestClientDetail(FirefoxDriver driver, String restClientName)
   {
     Navigation.toRestClients(driver);
-    Optional<WebElement> restClient = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='restclient-name']")))
-            .stream()
-            .filter(e -> e.getText().startsWith(restClientName)).findAny();
-    assertThat(restClient).isPresent();
-    restClient.get().click();
+    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='restclient-name'][text()='" + restClientName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("restclientdetail.xhtml?restClientName=" + restClientName)); 
   }
   
@@ -150,12 +122,8 @@ public class Navigation
   public static void toWebserviceDetail(FirefoxDriver driver, String webserviceName)
   {
     Navigation.toWebservices(driver);
-    Optional<WebElement> webservice = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='webservice-name']")))
-            .stream()
-            .filter(e -> e.getText().startsWith(webserviceName)).findAny();
-    assertThat(webservice).isPresent();
-    webservice.get().click();
-    await().until(() -> driver.getCurrentUrl().endsWith("webservicedetail.xhtml?webserviceName=" + webserviceName)); 
+    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='webservice-name'][text()='" + webserviceName + "']").click();
+    await().until(() -> driver.getCurrentUrl().contains("webservicedetail.xhtml?webserviceId=")); 
   }
   
   public static void toSystemConfig(FirefoxDriver driver)
@@ -176,12 +144,12 @@ public class Navigation
     await().until(() -> driver.getCurrentUrl().contains("logs.xhtml"));
   }
   
-  private static void toMenu(FirefoxDriver driver, ByXPath menuItemPath)
+  private static void toMenu(FirefoxDriver driver, By menuItemPath)
   {
     driver.findElement(menuItemPath).click();
   }
   
-  private static void toSubMenu(FirefoxDriver driver, ByXPath menuItemPath, ByXPath subMenuItemPath)
+  private static void toSubMenu(FirefoxDriver driver, By menuItemPath, By subMenuItemPath)
   {
     WebElement menuItem = driver.findElement(menuItemPath);
     WebElement subMenuItem = driver.findElement(subMenuItemPath);
