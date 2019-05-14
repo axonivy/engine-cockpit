@@ -1,11 +1,13 @@
 package ch.ivyteam.enginecockpit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
 
 @ManagedBean
@@ -13,9 +15,10 @@ import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
 public class GlobalVarBean
 {
   private ManagerBean managerBean;
-  private List<IGlobalVariable> globalVariables;
+  private List<SimpleVariable> globalVariables;
   private String filter;
   private SimpleVariable activeVar;
+  private IApplication app;
 
   public GlobalVarBean()
   {
@@ -23,17 +26,21 @@ public class GlobalVarBean
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
 
-    activeVar = new SimpleVariable();
     reloadGlobalVars();
   }
 
   public void reloadGlobalVars()
   {
+    globalVariables = new ArrayList<>();
     activeVar = new SimpleVariable();
-    globalVariables = managerBean.getSelectedIApplication().getGlobalVariables();
+    app = managerBean.getSelectedIApplication();
+
+    app.getGlobalVariables()
+      .stream()
+      .forEach(var -> globalVariables.add(new SimpleVariable(var.getName(), var.getDescription(), var.getValue())));
   }
 
-  public List<IGlobalVariable> getGlobalVariables()
+  public List<SimpleVariable> getGlobalVariables()
   {
     return globalVariables;
   }
@@ -50,14 +57,18 @@ public class GlobalVarBean
 
   public void saveNewGlobalVar()
   {
-    managerBean.getSelectedIApplication().createGlobalVariable(activeVar.getName(), activeVar.getDesc(),
-            activeVar.getValue());
+    if (app.findGlobalVariable(activeVar.name) == null)
+    {
+      app.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
+    }
+    
     activeVar = new SimpleVariable();
   }
 
-  public void saveGlobalVar()
+  public void updateGlobalVar()
   {
-
+    app.deleteGlobalVariable(activeVar.name);
+    saveNewGlobalVar();
   }
 
   public SimpleVariable getActiveVar()
@@ -65,12 +76,39 @@ public class GlobalVarBean
     return activeVar;
   }
 
+  public void setActiveVar(String name)
+  {
+    IGlobalVariable selectedVar = managerBean.getSelectedIApplication().findGlobalVariable(name);
+    
+    if (selectedVar == null)
+    {
+      activeVar = new SimpleVariable();
+    }
+    else
+    {
+      activeVar = new SimpleVariable(selectedVar.getName(), selectedVar.getDescription(), selectedVar.getValue());
+    }
+    
+  }
+
   public static final class SimpleVariable
   {
     private String name;
-    private String desc;
+    private String description;
     private String value;
 
+    public SimpleVariable()
+    {
+      
+    }
+    
+    public SimpleVariable(String name, String desc, String value)
+    {
+      this.name = name;
+      this.description = desc;
+      this.value = value;
+    }
+    
     public void setName(String name)
     {
       this.name = name;
@@ -81,14 +119,14 @@ public class GlobalVarBean
       return name;
     }
 
-    public void setDesc(String desc)
+    public void setDescription(String desc)
     {
-      this.desc = desc;
+      this.description = desc;
     }
 
-    public String getDesc()
+    public String getDescription()
     {
-      return desc;
+      return description;
     }
 
     public void setValue(String value)

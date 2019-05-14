@@ -13,14 +13,14 @@
       <h:outputText id="editGlobalVarName" value="#{globalVarBean.activeVar.name}" />
       
       <label>Description</label>
-      <h:outputText id="editGlobalVarDesc" value="#{globalVarBean.activeVar.desc}" />
+      <h:outputText id="editGlobalVarDesc" value="#{globalVarBean.activeVar.description}" />
       
       <label>Value</label>
-      <h:outputText id="editGlobalVarValue" value="#{globalVarBean.activeVar.value}" />
+      <p:inputMask id="editGlobalVarValue" value="#{globalVarBean.activeVar.value}" />
     </p:panelGrid>
     
     <p:commandButton id="saveGlobalVarConfiguration" update="form" onsuccess="PF('editGlobalVarModal').hide()"
-      actionListener="#{globalVarBean.saveGlobalVar}" value="Save" icon="ui-icon-save"
+      actionListener="#{globalVarBean.updateGlobalVar}" value="Save" icon="ui-icon-save" process="@form"
       styleClass="primary-btn modal-input-button" />
     <p:commandButton id="cancelEditGlobalVar" onclick="PF('editGlobalVarModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />

@@ -10,24 +10,20 @@
     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
       <label>Name</label>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newGlobalVarName" required="true" requiredMessage="Value is required"
-          value="#{globalVarBean.activeVar.name}" />
-        <p:message for="newGlobalVarName" id="newGlobalVarMessage" />
-      </h:panelGroup>
+      <p:inputText id="newGlobalVarName" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.name}"/>
       
       <label>Description</label>
-      <p:inputText id="newGlobalVarDesc" value="#{globalVarBean.activeVar.desc}" />
+      <p:inputText id="newGlobalVarDesc" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.description}"/>
       
       <label>Default value</label>
-      <p:inputText id="newGlobalVarDefault" value="#{globalVarBean.activeVar.value}" />
+      <p:inputText id="newGlobalVarDefault" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.value}"/>
     </p:panelGrid>
     
     <p:commandButton id="saveNewGlobalVar" validateClient="true" onsuccess="PF('newGlobalVarModal').hide()"
       actionListener="#{globalVarBean.saveNewGlobalVar}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" update="@form"/>
+      styleClass="primary-btn modal-input-button" update="" process="@form"/>
     <p:commandButton id="cancelNewGlobalVar" onclick="PF('newGlobalVarModal').hide()" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button"/>
   </h:form>
   
 </p:dialog>
