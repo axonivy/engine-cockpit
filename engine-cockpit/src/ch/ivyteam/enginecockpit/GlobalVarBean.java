@@ -81,6 +81,12 @@ public class GlobalVarBean
     }
   }
 
+  public void deleteGlobalVar(String name)
+  {
+    app.deleteGlobalVariable(name);
+    reloadGlobalVars();
+  }
+
   public static final class SimpleVariable
   {
     private String name;

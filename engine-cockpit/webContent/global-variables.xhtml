@@ -30,7 +30,6 @@
             </div>  
 
             <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable" id="globalVarTable">
-              
               <f:facet name="header">
                 <p:outputPanel>
                   <p:outputLabel styleClass="table-search-icon">
@@ -54,6 +53,12 @@
               </p:column>
       
               <p:column style="width: 70px;">
+                <p:commandButton id="deleteGlobalVar" icon="ui-icon-delete"
+                  title="Delete" styleClass="card-button table-control-btn red-btn"
+                  actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
+                  oncomplete="PF('deleteGlobalVarDialog').show()"
+                  style="margin-right: 0; float: right;"/>
+
                 <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
                   title="Edit"
                   styleClass="card-button table-control-btn amber-btn"
@@ -61,6 +66,16 @@
                   update="editGlobalVarModal"
                   oncomplete="PF('editGlobalVarModal').show()"
                   process="@this"/>
+                  
+                <p:confirmDialog id="deleteGlobalVarDialog" header="Delete global variable"
+                  message="Are you sure about deleting '#{globalVarBean.activeVar.name}'?" 
+                  severity="alert" widgetVar="deleteGlobalVarDialog">
+                  <p:commandButton id="deleteGlobalVarYesBtn" value="Yes" ajax="false" immediate="true"
+                    actionListener="#{globalVarBean.deleteGlobalVar(globalVarBean.activeVar.name)}"
+                    icon="ui-icon-check" style="width: inherit;" />
+                  <p:commandButton value="Cancel" onclick="PF('deleteGlobalVarDialog').hide();" type="button" icon="ui-icon-close"
+                    style="width: inherit;" />
+                </p:confirmDialog>
               </p:column>
             </p:dataTable>
         
