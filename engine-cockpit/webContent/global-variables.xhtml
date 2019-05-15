@@ -32,14 +32,15 @@
               </div>
             </div>  
 
-            <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable" id="globalVarTable">
+            <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable_#{app.id}" id="globalVarTable_#{app.id}"
+              filteredValue="#{globalVarBean.filteredVariables}">
               <f:facet name="header">
                 <p:outputPanel>
                   <p:outputLabel styleClass="table-search-icon">
                     <i class="material-icons">search</i>
                   </p:outputLabel>
                   <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                    onkeyup="PF('globalVarTable').filter()" placeholder="Search"/>
+                    onkeyup="PF('globalVarTable_#{app.id}').filter()" placeholder="Search"/>
                 </p:outputPanel>
               </f:facet>
 
@@ -61,7 +62,8 @@
                   actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
                   oncomplete="PF('deleteGlobalVarDialog').show()"
                   update="deleteGlobalVarDialog"
-                  style="margin-right: 0; float: right;"/>
+                  style="margin-right: 0; float: right;"
+                  disabled="#{globalVar.yamlConfig}"/>
 
                 <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
                   title="Edit"
@@ -69,7 +71,8 @@
                   actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
                   update="editGlobalVarModal"
                   oncomplete="PF('editGlobalVarModal').show()"
-                  process="@this"/>
+                  process="@this"
+                  disabled="#{globalVar.yamlConfig}"/>
                   
                 <p:confirmDialog id="deleteGlobalVarDialog" header="Delete global variable"
                   message="Are you sure about deleting '#{globalVarBean.activeVar.name}'?" 
