@@ -15,5 +15,5 @@ RestClients:
 
     # Properties are merged with higher priority with those from the project.
     Properties:
-      password: "${encrypt:yourPassword}"
+      password: "${encrypt:*****}"
       ${properties}

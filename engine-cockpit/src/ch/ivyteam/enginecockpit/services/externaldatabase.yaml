@@ -10,7 +10,7 @@ Databases:
     Url: "${url}"
     Driver: ${driver}
     UserName: ${username}
-    Password: "${encrypt:yourPassword}"
+    Password: "${encrypt:*****}"
     MaxConnections: ${maxConnections}
 
     # Properties are merged with higher priority with those from the project.

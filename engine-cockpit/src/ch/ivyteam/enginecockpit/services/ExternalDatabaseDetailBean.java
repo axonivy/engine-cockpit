@@ -51,6 +51,12 @@ public class ExternalDatabaseDetailBean extends EditServices
   }
   
   @Override
+  public String getGuideText()
+  {
+    return "To edit your External Database overwrite your app.yaml file";
+  }
+  
+  @Override
   public String getYaml()
   {
     Map<String, String> valuesMap = new HashMap<>();

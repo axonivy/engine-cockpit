@@ -1,13 +1,12 @@
 package ch.ivyteam.enginecockpit.services;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.util.Property;
@@ -33,12 +32,11 @@ public abstract class EditServices
 
   public static String readTemplateString(String fileName)
   {
-    try
+    try (InputStream is = EditServices.class.getResourceAsStream(fileName))
     {
-      return FileUtils.readFileToString(
-              new File(EditServices.class.getResource(fileName).toURI()), StandardCharsets.UTF_8);
+      return IOUtils.toString(is, StandardCharsets.UTF_8);
     }
-    catch (IOException | URISyntaxException e)
+    catch (IOException e)
     {
       return "";
     }

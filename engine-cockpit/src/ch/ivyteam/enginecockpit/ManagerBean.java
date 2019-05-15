@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -38,13 +39,20 @@ public class ManagerBean
   {
     DiCore.getGlobalInjector().injectMembers(this);
     reloadApplications();
-    reloadEnvironments();
   }
   
   private void reloadEnvironments()
   {
-    selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
-    environments = getSelectedIApplication().getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList());
+    if (applications.size() != 0)
+    {
+      selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+      environments = getSelectedIApplication().getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList());
+    }
+    else
+    {
+      selectedEnvironment = IEnvironment.DEFAULT_ENVIRONMENT_NAME;
+      environments = Arrays.asList(selectedEnvironment);
+    }
   }
 
   public void reloadApplications()
@@ -57,6 +65,7 @@ public class ManagerBean
     {
       selectedApplicationIndex = 0;
     }
+    reloadEnvironments();
   }
   
   public List<Application> getApplications()
