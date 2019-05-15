@@ -4,7 +4,7 @@
         <name>test-web</name>
         <id>16AB1778C1FA54E5</id>
         <description>this is a web service</description>
-        <wsdlUrl>http://127.0.0.1:8081/ivy/ws/designer/ConnectivityDemos/16150E1D07E8CA18?WSDL</wsdlUrl>
+        <wsdlUrl>http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx?WSDL</wsdlUrl>
         <wsCallLibrary>CXF</wsCallLibrary>
         <property>
             <name>username</name>
@@ -20,47 +20,86 @@
             <class>ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature</class>
         </feature>
         <service>
-            <serviceClass>com.axonivy.connectivity.soap.service.client.PersonServiceService</serviceClass>
+            <serviceClass>com.smartbear.client.SampleWebService</serviceClass>
             <port>
-                <name>PersonServicePort</name>
-                <portType>PersonService</portType>
-                <locationUri>http://127.0.0.1:8081/ivy/ws/designer/ConnectivityDemos/16150E1D07E8CA18</locationUri>
-                <fallbackLocationUri>localhost/person</fallbackLocationUri>
+                <name>SampleWebServiceSoap</name>
+                <portType>SampleWebServiceSoap</portType>
+                <locationUri>http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx</locationUri>
+                <fallbackLocationUri>localhost</fallbackLocationUri>
                 <fallbackLocationUri>localhost/test</fallbackLocationUri>
             </port>
+            <port>
+                <name>SampleWebServiceSoap12</name>
+                <portType>SampleWebServiceSoap</portType>
+                <locationUri>http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx</locationUri>
+                <fallbackLocationUri>test.com</fallbackLocationUri>
+            </port>
             <portType>
-                <name>PersonService</name>
+                <name>SampleWebServiceSoap</name>
                 <operation>
-                    <name>addPerson</name>
+                    <name>SetSampleObject</name>
                     <returnParameter>
                         <name>parameters</name>
-                        <type>com.axonivy.connectivity.soap.service.client.AddPersonResponse</type>
+                        <type>com.smartbear.client.SetSampleObjectResponse</type>
                     </returnParameter>
                     <inputParameter>
                         <name>parameters</name>
-                        <type>com.axonivy.connectivity.soap.service.client.AddPerson</type>
+                        <type>com.smartbear.client.SetSampleObject</type>
                     </inputParameter>
                 </operation>
                 <operation>
-                    <name>getPersons</name>
+                    <name>HelloWorld</name>
                     <returnParameter>
                         <name>parameters</name>
-                        <type>com.axonivy.connectivity.soap.service.client.GetPersonsResponse</type>
+                        <type>com.smartbear.client.HelloWorldResponse</type>
                     </returnParameter>
                     <inputParameter>
                         <name>parameters</name>
-                        <type>com.axonivy.connectivity.soap.service.client.GetPersons</type>
+                        <type>com.smartbear.client.HelloWorld</type>
                     </inputParameter>
                 </operation>
                 <operation>
-                    <name>deletePerson</name>
+                    <name>GetCurrentTime</name>
                     <returnParameter>
                         <name>parameters</name>
-                        <type>com.axonivy.connectivity.soap.service.client.DeletePersonResponse</type>
+                        <type>com.smartbear.client.GetCurrentTimeResponse</type>
                     </returnParameter>
                     <inputParameter>
                         <name>parameters</name>
-                        <type>com.axonivy.connectivity.soap.service.client.DeletePerson</type>
+                        <type>com.smartbear.client.GetCurrentTime</type>
+                    </inputParameter>
+                </operation>
+                <operation>
+                    <name>GetArray</name>
+                    <returnParameter>
+                        <name>parameters</name>
+                        <type>com.smartbear.client.GetArrayResponse</type>
+                    </returnParameter>
+                    <inputParameter>
+                        <name>parameters</name>
+                        <type>com.smartbear.client.GetArray</type>
+                    </inputParameter>
+                </operation>
+                <operation>
+                    <name>GetSampleObject</name>
+                    <returnParameter>
+                        <name>parameters</name>
+                        <type>com.smartbear.client.GetSampleObjectResponse</type>
+                    </returnParameter>
+                    <inputParameter>
+                        <name>parameters</name>
+                        <type>com.smartbear.client.GetSampleObject</type>
+                    </inputParameter>
+                </operation>
+                <operation>
+                    <name>GetXmlData</name>
+                    <returnParameter>
+                        <name>parameters</name>
+                        <type>com.smartbear.client.GetXmlDataResponse</type>
+                    </returnParameter>
+                    <inputParameter>
+                        <name>parameters</name>
+                        <type>com.smartbear.client.GetXmlData</type>
                     </inputParameter>
                 </operation>
             </portType>

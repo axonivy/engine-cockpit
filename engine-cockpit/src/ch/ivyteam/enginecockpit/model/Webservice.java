@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.ivy.application.restricted.IWebService;
 import ch.ivyteam.util.Property;
@@ -17,6 +19,7 @@ public class Webservice
   private String wsdlUrl;
   private List<String> features;
   private List<Property> properties;
+  private TreeNode portTypes = new DefaultTreeNode("PortTypes", null);
   
   public Webservice(IWebService webservice)
   {
@@ -26,6 +29,13 @@ public class Webservice
     properties = webservice.getProperties().stream().map(p -> new Property(p.getName(), p.getValue())).collect(Collectors.toList());
     features = webservice.getFeatures().stream().map(f -> f.getClazz()).collect(Collectors.toList());
     genId = webservice.getGenerationIdentifier();
+    
+    webservice.getPortTypes()
+            .forEach(p -> {
+              TreeNode portType = new DefaultTreeNode(p.getPortType(), portTypes);
+              portType.setExpanded(true);
+              webservice.getWebServiceEndpoints(p.getPortType()).forEach(e -> new DefaultTreeNode("- " + e.getEndpointAddress(), portType));
+            });
   }
 
   public String getName()
@@ -75,6 +85,11 @@ public class Webservice
   public List<Property> getProperties()
   {
     return properties;
+  }
+  
+  public TreeNode getPortTypes()
+  {
+    return portTypes;
   }
   
 }
