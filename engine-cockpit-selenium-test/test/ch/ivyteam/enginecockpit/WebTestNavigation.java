@@ -19,6 +19,8 @@ public class WebTestNavigation extends WebTestBase
     assertViewIsApplications(driver);
     Navigation.toSecuritySystem(driver);
     assertViewIsSecuritySystem(driver);
+    Navigation.toVariables(driver);
+    assertViewIsVariables(driver);
     Navigation.toUsers(driver);
     assertViewIsUsers(driver);
     Navigation.toRoles(driver);
@@ -57,6 +59,14 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("securitysystem.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Security System"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_security_system").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsVariables(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "variables");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("global-variables.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Global variables"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_variables").getAttribute("class")).contains("active-menuitem"));
   }
   
   private void assertViewIsUsers(FirefoxDriver driver)
