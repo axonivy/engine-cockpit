@@ -1,10 +1,10 @@
 package ch.ivyteam.enginecockpit.model;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import ch.ivyteam.ivy.application.IExternalDatabaseConfiguration;
+import ch.ivyteam.util.Property;
 
 public class ExternalDatabase
 {
@@ -14,7 +14,7 @@ public class ExternalDatabase
   private String userName;
   private String password;
   private int maxConnections;
-  private List<Entry<Object, Object>> properties;
+  private List<Property> properties;
   
   public ExternalDatabase(IExternalDatabaseConfiguration externalDatabase)
   {
@@ -24,7 +24,9 @@ public class ExternalDatabase
     userName = externalDatabase.getDatabaseConnectionConfiguration().getUserName();
     password = externalDatabase.getDatabaseConnectionConfiguration().getPassword();
     maxConnections = externalDatabase.getMaxConnections();
-    properties = new ArrayList<>(externalDatabase.getDatabaseConnectionConfiguration().getProperties().entrySet());
+    properties = externalDatabase.getDatabaseConnectionConfiguration().getProperties().entrySet().stream()
+            .map(e -> new Property(e.getKey().toString(), e.getValue().toString()))
+            .collect(Collectors.toList());
   }
 
   public String getName()
@@ -57,10 +59,9 @@ public class ExternalDatabase
     return maxConnections;
   }
 
-  public List<Entry<Object, Object>> getProperties()
+  public List<Property> getProperties()
   {
     return properties;
   }
-  
   
 }

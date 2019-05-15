@@ -1,0 +1,19 @@
+# == RestClients ==
+#
+# Rest Clients are defined in ivy projects with a name.
+# Any configuration from those clients can be overriden independently of the environment by addressing the client with its name.
+#
+RestClients:
+
+  # This is an example configuration for the rest client with the name myRestClient.
+  ${name}:
+    Url: "${url}"
+
+    # If defined, all features from the project will be completely replaced.
+    Features:
+      - ${features}
+
+    # Properties are merged with higher priority with those from the project.
+    Properties:
+      password: "${encrypt:yourPassword}"
+      ${properties}

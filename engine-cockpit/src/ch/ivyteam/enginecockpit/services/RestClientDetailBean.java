@@ -1,8 +1,15 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.lang.text.StrSubstitutor;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
@@ -50,9 +57,30 @@ public class RestClientDetailBean extends EditServices
   }
 
   @Override
+  public String getTitle()
+  {
+    return "Edit Rest Client '" + restClientName + "'";
+  }
+  
+  @Override
+  public String getGuideText()
+  {
+    return "To edit your Rest Client overwrite your app.yaml file";
+  }
+  
+  @Override
   public String getYaml()
   {
-    return "";
+    Map<String, String> valuesMap = new HashMap<>();
+    valuesMap.put("name", restClient.getName());
+    valuesMap.put("url", restClient.getUrl());
+    valuesMap.put("features", parseFeaturesToYaml(restClient.getFeatures()));
+    valuesMap.put("properties", parsePropertiesToYaml(restClient.getProperties().stream()
+            .filter(p -> !StringUtils.equals(p.getName(), "password"))
+            .collect(Collectors.toList())));
+    String templateString = readTemplateString("restclient.yaml");
+    StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
+    return strSubstitutor.replace(templateString);
   }
-    
+
 }

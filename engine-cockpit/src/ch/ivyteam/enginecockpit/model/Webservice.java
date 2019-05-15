@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +22,7 @@ public class Webservice
   private List<String> features;
   private List<Property> properties;
   private TreeNode portTypes = new DefaultTreeNode("PortTypes", null);
+  private Map<String, List<String>> portTypeMap = new HashMap<>();
   
   public Webservice(IWebService webservice)
   {
@@ -36,6 +39,10 @@ public class Webservice
               portType.setExpanded(true);
               webservice.getWebServiceEndpoints(p.getPortType()).forEach(e -> new DefaultTreeNode("- " + e.getEndpointAddress(), portType));
             });
+    
+    webservice.getPortTypes()
+            .forEach(p -> portTypeMap.put(p.getPortType(), webservice.getWebServiceEndpoints(p.getPortType()).stream()
+                    .map(e -> e.getEndpointAddress()).collect(Collectors.toList())));
   }
 
   public String getName()
@@ -90,6 +97,11 @@ public class Webservice
   public TreeNode getPortTypes()
   {
     return portTypes;
+  }
+  
+  public Map<String, List<String>> getPortTypeMap()
+  {
+    return portTypeMap;
   }
   
 }

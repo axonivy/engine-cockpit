@@ -1,0 +1,18 @@
+# == Databases ==
+# 
+# Databases are defined in ivy projects with a name.
+# Connection details from those databases can be overridden independently of the environment by addressing the database with its name.
+#
+Databases:
+
+  # This is an example configuration for the database with the name myDb.
+  ${name}:
+    Url: "${url}"
+    Driver: ${driver}
+    UserName: ${username}
+    Password: "${encrypt:yourPassword}"
+    MaxConnections: ${maxConnections}
+
+    # Properties are merged with higher priority with those from the project.
+    Properties:
+      ${properties}

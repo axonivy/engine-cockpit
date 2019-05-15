@@ -300,6 +300,9 @@ body {
 .code-block .yaml {
   max-height: 500px;
 }
+.code-block pre {
+  margin: 0;
+}
 .ui-growl-message {
   word-wrap: break-word;
 }

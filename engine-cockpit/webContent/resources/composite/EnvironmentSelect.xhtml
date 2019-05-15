@@ -4,10 +4,13 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:implementation>
   <h:form>
-    <p:selectOneMenu id="environmentSelect" value="#{managerBean.selectedEnvironment}">
-      <f:selectItems value="#{managerBean.environments}" />
-      <p:ajax oncomplete="window.location.reload()"/>
-    </p:selectOneMenu>
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8" styleClass="ui-panelgrid-blank grey-label-panel">
+      <label style="float: right;">Environment</label>
+      <p:selectOneMenu id="environmentSelect" value="#{managerBean.selectedEnvironment}">
+        <f:selectItems value="#{managerBean.environments}" />
+        <p:ajax oncomplete="window.location.reload()"/>
+      </p:selectOneMenu>
+    </p:panelGrid>
   </h:form>
 </cc:implementation>
 </html>
