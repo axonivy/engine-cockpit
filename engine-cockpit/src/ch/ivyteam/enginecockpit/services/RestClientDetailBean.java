@@ -12,7 +12,7 @@ import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class RestClientDetailBean
+public class RestClientDetailBean extends EditServices
 {
   private RestClient restClient;
   private String restClientName;
@@ -47,6 +47,12 @@ public class RestClientDetailBean
   public RestClient getRestClient()
   {
     return restClient;
+  }
+
+  @Override
+  public String getYaml()
+  {
+    return "";
   }
     
 }

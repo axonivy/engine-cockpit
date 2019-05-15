@@ -15,5 +15,6 @@
       <h:outputText value="#{portType}" styleClass="webservice-portType"/>
     </p:treeNode>
   </p:tree>
+  <h:outputText value="No Enpoint defined for this webservice" rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" />
 </h:form>
 </html>

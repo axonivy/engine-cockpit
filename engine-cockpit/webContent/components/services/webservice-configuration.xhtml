@@ -2,7 +2,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile">
+  xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
@@ -10,6 +10,9 @@
 </f:facet>
 <h:form id="webserviceConfigurationForm">
   <p:growl id="webserviceSaveSuccess" for="webserviceSaveSuccess" autoUpdate="true" />
+  <p:commandButton id="editWebserviceBtn" type="button" title="Edit Webservice"
+    icon="ui-icon-edit" styleClass="amber-btn card-button" onclick="PF('editServicesModal').show();"/>
+    
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
@@ -31,4 +34,5 @@
     <h:outputText id="password" value="#{webserviceDetailBean.webservice.password}" />
   </p:panelGrid>
 </h:form>
+<cc:EditServiceDialog service="#{webserviceDetailBean}" />
 </html>

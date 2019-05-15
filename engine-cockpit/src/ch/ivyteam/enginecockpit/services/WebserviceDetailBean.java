@@ -9,7 +9,7 @@ import ch.ivyteam.enginecockpit.model.Webservice;
 
 @ManagedBean
 @ViewScoped
-public class WebserviceDetailBean
+public class WebserviceDetailBean extends EditServices
 {
   private Webservice webservice;
   private String webserviceId;
@@ -37,6 +37,12 @@ public class WebserviceDetailBean
   public Webservice getWebservice()
   {
     return webservice;
+  }
+
+  @Override
+  public String getYaml()
+  {
+    return "";
   }
     
 }

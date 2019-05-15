@@ -9,7 +9,7 @@ import ch.ivyteam.enginecockpit.model.ExternalDatabase;
 
 @ManagedBean
 @ViewScoped
-public class ExternalDatabaseDetailBean
+public class ExternalDatabaseDetailBean extends EditServices
 {
   private ExternalDatabase externalDatabase;
   private String databaseName;
@@ -37,6 +37,12 @@ public class ExternalDatabaseDetailBean
   public ExternalDatabase getExternalDatabase()
   {
     return externalDatabase;
+  }
+
+  @Override
+  public String getYaml()
+  {
+    return "";
   }
     
 }
