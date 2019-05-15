@@ -69,12 +69,12 @@ public class LogView
   {
     if (!file.exists())
     {
-      return "Logfile '" + fileName + "' don't exists.";
+      return "Logfile '" + file.getName() + "' don't exists.";
     }
     List<String> lines = readFileLines();
     if (lines.isEmpty())
     {
-      return "Logfile '" + fileName + "' is empty.";
+      return "Logfile '" + file.getName() + "' is empty.";
     }
     downloadEnabled = true;
     return lines.stream().collect(Collectors.joining("\n"));
@@ -133,7 +133,7 @@ public class LogView
   public StreamedContent getFile() throws IOException 
   {
     InputStream newInputStream = Files.newInputStream(file.toPath());
-    return new DefaultStreamedContent(newInputStream, "text/plain", fileName);
+    return new DefaultStreamedContent(newInputStream, "text/plain", file.getName());
   }
   
 }
