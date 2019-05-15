@@ -5,10 +5,13 @@
   <cc:attribute name="log" shortDescription="Log File" />
 </cc:interface>
 <cc:implementation>
-<p:panel id="logPanel" header="console.log" toggleable="true" toggleSpeed="200" collapsed="#{logBean.showLog ne cc.attrs.log.fileName}" style="min-height: unset;">
+<p:panel id="logPanel" toggleable="true" toggleSpeed="200" collapsed="#{logBean.showLog ne cc.attrs.log.fileName}" style="min-height: unset;">
   <f:facet name="header">
     <i class="material-icons table-icon panel-title-icon">format_align_left</i>
-    <h:outputText value="#{cc.attrs.log.fileName}" />
+    <h:outputText value="#{cc.attrs.log.fileName}" style="width: 100px;" />
+    <h:outputText value="#{cc.attrs.log.date}" />
+    <h:outputText value="#{cc.attrs.log.size}kB" style="margin-left: 15px;"/>
+    <h:outputText value="(download file for full log)" rendered="#{!cc.attrs.log.endReached}" style="margin-left: 15px;" />
   </f:facet>
   <h:form id="fileForm">
     <p:commandButton id="showLog" ajax="false" title="Download Log File" icon="ui-icon-cloud-download"

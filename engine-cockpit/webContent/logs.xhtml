@@ -18,7 +18,7 @@
     <ui:define name="breadcrumb-right">
     <h:form>
       <p:calendar id="button" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd" maxdate="#{logBean.today}" >
-        <p:ajax event="dateSelect" update="consoleLogView:fileForm, configLogView:fileForm, ivyLogView:fileForm"/>
+        <p:ajax event="dateSelect" update="consoleLogView:logPanel, configLogView:logPanel, ivyLogView:logPanel"/>
       </p:calendar>
     </h:form>
     </ui:define>
