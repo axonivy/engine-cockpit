@@ -43,7 +43,7 @@ public class ManagerBean
   
   private void reloadEnvironments()
   {
-    if (applications.size() != 0)
+    if (!applications.isEmpty())
     {
       selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
       environments = getSelectedIApplication().getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList());

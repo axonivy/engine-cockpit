@@ -53,6 +53,10 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "engine-cockpit-rest-clients", new Dimension(1062, 500));
     Navigation.toRestClientDetail(driver, "test-rest");
     takeScreenshot(driver, "engine-cockpit-rest-client-detail", new Dimension(1062, 800));
+    Navigation.toWebservices(driver);
+    takeScreenshot(driver, "engine-cockpit-webservice", new Dimension(1062, 500));
+    Navigation.toWebserviceDetail(driver, "test-web");
+    takeScreenshot(driver, "engine-cockpit-webservice-detail", new Dimension(1062, 900));
     Navigation.toSystemConfig(driver);
     takeScreenshot(driver, "engine-cockpit-system-config", new Dimension(1062, 700));
     Navigation.toMonitor(driver);
