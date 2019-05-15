@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.util;
 import static org.awaitility.Awaitility.await;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -38,9 +39,7 @@ public class Navigation
   public static void toApplicationDetail(FirefoxDriver driver, String appName)
   {
     Navigation.toApplications(driver);
-    driver.findElementsByXPath("//span[@class='activity-name'][text()='" + appName + "']").stream()
-            .filter(e -> e.isDisplayed())
-            .forEach(e -> e.click());
+    driver.findElementByXPath("//span[@class='activity-name'][text()='" + appName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("application-detail.xhtml?appName=" + appName)); 
   }
   
@@ -53,9 +52,7 @@ public class Navigation
   public static void toSecuritySystemDetail(FirefoxDriver driver, String secSystemName)
   {
     Navigation.toSecuritySystem(driver);
-    driver.findElementsByXPath("//span[@class='security-name'][text()='" + secSystemName + "']").stream()
-            .filter(e -> e.isDisplayed())
-            .forEach(e -> e.click());
+    driver.findElementByXPath("//span[@class='security-name'][text()='" + secSystemName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
   }
   
@@ -69,7 +66,7 @@ public class Navigation
   {
     Navigation.toUsers(driver);
     driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='user-name'][text()='" + userName + "']").stream()
-            .filter(e -> e.isDisplayed())
+            .filter(e -> checkIfCorrectElement(e))
             .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("userdetail.xhtml?userName=" + userName)); 
   }
@@ -84,7 +81,7 @@ public class Navigation
   {
     Navigation.toRoles(driver);
     driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[@class='role-name'][text()='" + roleName + "']").stream()
-            .filter(e -> e.isDisplayed())
+            .filter(e -> checkIfCorrectElement(e))
             .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
   }
@@ -105,7 +102,7 @@ public class Navigation
   {
     Navigation.toExternalDatabases(driver);
     driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='database-name'][text()='" + databaseName + "']").stream()
-            .filter(e -> e.isDisplayed())
+            .filter(e -> checkIfCorrectElement(e))
             .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName)); 
   }
@@ -120,7 +117,7 @@ public class Navigation
   {
     Navigation.toRestClients(driver);
     driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='restclient-name'][text()='" + restClientName + "']").stream()
-            .filter(e -> e.isDisplayed())
+            .filter(e -> checkIfCorrectElement(e))
             .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("restclientdetail.xhtml?restClientName=" + restClientName)); 
   }
@@ -135,7 +132,7 @@ public class Navigation
   {
     Navigation.toWebservices(driver);
     driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='webservice-name'][text()='" + webserviceName + "']").stream()
-            .filter(e -> e.isDisplayed())
+            .filter(e -> checkIfCorrectElement(e))
             .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().contains("webservicedetail.xhtml?webserviceId=")); 
   }
@@ -171,6 +168,18 @@ public class Navigation
       menuItem.click();
     }
     subMenuItem.click();
+  }
+  
+  private static boolean checkIfCorrectElement(WebElement element)
+  {
+    try
+    {
+      return element.isDisplayed();
+    }
+    catch (StaleElementReferenceException e)
+    {
+      return false;
+    }
   }
   
 }
