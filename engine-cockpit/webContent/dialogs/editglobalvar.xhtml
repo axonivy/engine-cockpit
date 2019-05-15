@@ -3,12 +3,12 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog styleClass="config-edit" header="Edit global variable" id="editGlobalVarModal"
-  widgetVar="editGlobalVarModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+<p:dialog style="min-width: 400px;" header="Edit global variable" id="editGlobalVarModal"
+  widgetVar="editGlobalVarModal" modal="true" responsive="true" closeOnEscape="true">
+
   <h:form id="editGlobalVarForm">
-    
     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
-      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
       <h:outputText id="editGlobalVarName" value="#{globalVarBean.activeVar.name}" />
       
