@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.TabChangeEvent;
 
 import com.google.inject.Inject;
@@ -18,6 +20,7 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.application.restricted.IEnvironment;
 
 @ManagedBean
 @SessionScoped
@@ -25,6 +28,9 @@ public class ManagerBean
 {
   private List<Application> applications = Collections.emptyList();
   private int selectedApplicationIndex;
+  
+  private List<String> environments;
+  private String selectedEnvironment;
 
   @Inject
   private IApplicationConfigurationManager manager;
@@ -33,6 +39,20 @@ public class ManagerBean
   {
     DiCore.getGlobalInjector().injectMembers(this);
     reloadApplications();
+  }
+  
+  private void reloadEnvironments()
+  {
+    if (!applications.isEmpty())
+    {
+      selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+      environments = getSelectedIApplication().getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList());
+    }
+    else
+    {
+      selectedEnvironment = IEnvironment.DEFAULT_ENVIRONMENT_NAME;
+      environments = Arrays.asList(selectedEnvironment);
+    }
   }
 
   public void reloadApplications()
@@ -45,6 +65,7 @@ public class ManagerBean
     {
       selectedApplicationIndex = 0;
     }
+    reloadEnvironments();
   }
   
   public List<Application> getApplications()
@@ -171,5 +192,25 @@ public class ManagerBean
   public boolean isIvySecuritySystem() 
   {
     return getSelectedIApplication().getSecurityContext().getExternalSecuritySystemProvider().getProviderName().equals("ivy Security System");
+  }
+  
+  public List<String> getEnvironments()
+  {
+    return environments;
+  }
+  
+  public void setSelectedEnvironment(String environment)
+  {
+    selectedEnvironment = environment;
+  }
+  
+  public String getSelectedEnvironment()
+  {
+    return StringUtils.defaultIfBlank(selectedEnvironment, IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+  }
+  
+  public IEnvironment getSelectedIEnvironment()
+  {
+    return getSelectedIApplication().findEnvironment(getSelectedEnvironment());
   }
 }

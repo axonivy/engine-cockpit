@@ -1,0 +1,22 @@
+# == WebServiceClients ==
+#
+# Web Service Clients are defined in ivy projects with a name.
+# Any configuration from those clients can be overriden independently of the environment by addressing the client with its name.
+#
+WebServiceClients:
+
+  # This is an example configuration for the soap web service client with the name myWebService.
+  ${name}:
+  
+    # If definied, endpoint urls will be completely replaced per port type with those from the project.
+    Endpoints:
+      ${endpoints}
+    
+    # If defined, all features from the project will be completely replaced.
+    Features:
+      - ${features}
+
+    # Properties are merged with higher priority with those from the project.
+    Properties:
+      password: "${encrypt:*****}"
+      ${properties}

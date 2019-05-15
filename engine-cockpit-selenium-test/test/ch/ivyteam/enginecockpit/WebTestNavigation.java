@@ -27,6 +27,12 @@ public class WebTestNavigation extends WebTestBase
     assertViewIsRoles(driver);
     Navigation.toEmail(driver);
     assertViewIsEmail(driver);
+    Navigation.toExternalDatabases(driver);
+    assertViewIsExternalDatabases(driver);
+    Navigation.toRestClients(driver);
+    assertViewIsRestClients(driver);
+    Navigation.toWebservices(driver);
+    assertViewIsWebservices(driver);
     Navigation.toSystemConfig(driver);
     assertViewIsSystemConfig(driver);
     Navigation.toMonitor(driver);
@@ -87,12 +93,36 @@ public class WebTestNavigation extends WebTestBase
   
   private void assertViewIsEmail(FirefoxDriver driver)
   {
-    saveScreenshot(driver, "roles");
+    saveScreenshot(driver, "email");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("email.xhtml"));
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Email"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_email").getAttribute("class")).contains("active-menuitem"));
   }
   
+  private void assertViewIsExternalDatabases(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "externaldatabases");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("externaldatabases.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("External Databases"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_database").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsRestClients(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "restclients");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("restclients.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Rest Clients"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_rest_client").getAttribute("class")).contains("active-menuitem"));
+  }
+  
+  private void assertViewIsWebservices(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "webservices");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("webservices.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Web Services"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_web_service").getAttribute("class")).contains("active-menuitem"));
+  }
+
   private void assertViewIsSystemConfig(FirefoxDriver driver)
   {
     saveScreenshot(driver, "system_config");

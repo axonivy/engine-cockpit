@@ -68,7 +68,6 @@ public class ApplicationBean
     for (IApplication app : managerBean.getIApplications())
     {
       TreeNode node = new DefaultTreeNode(new Application(app, this), rootNode);
-      node.setExpanded(true);
       loadPmTree(app, node);
     }
   }

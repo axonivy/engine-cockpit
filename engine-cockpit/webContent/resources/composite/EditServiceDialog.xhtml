@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+  <cc:attribute name="service" required="true" />
+</cc:interface>
+<cc:implementation>
+  <p:dialog styleClass="config-showfile" header="#{cc.attrs.service.title}" id="editServicesModal" widgetVar="editServicesModal" modal="true"
+    responsive="true" closeOnEscape="true" width="60%" onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
+    <h:form id="editServicesForm">
+      <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+        <h:outputText value="#{cc.attrs.service.guideText}" />
+
+        <h:panelGroup styleClass="code-block">
+          <pre><code class="yaml"><h:outputText value="#{cc.attrs.service.yaml}" escape="false" /></code></pre>
+        </h:panelGroup>
+
+      </p:panelGrid>
+      <a href="#{cc.attrs.service.helpUrl}" target="_blank">
+        <i class="material-icons">help</i>
+      </a>
+      <p:commandButton id="closeEditServices" onclick="PF('editServicesModal').hide();" value="Close" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    </h:form>
+  </p:dialog>
+</cc:implementation>
+</html>
