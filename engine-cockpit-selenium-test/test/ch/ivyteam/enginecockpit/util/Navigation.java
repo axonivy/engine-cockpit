@@ -38,7 +38,9 @@ public class Navigation
   public static void toApplicationDetail(FirefoxDriver driver, String appName)
   {
     Navigation.toApplications(driver);
-    driver.findElementByXPath("//span[@class='activity-name'][text()='" + appName + "']").click();
+    driver.findElementsByXPath("//span[@class='activity-name'][text()='" + appName + "']").stream()
+            .filter(e -> e.isDisplayed())
+            .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("application-detail.xhtml?appName=" + appName)); 
   }
   
@@ -51,7 +53,9 @@ public class Navigation
   public static void toSecuritySystemDetail(FirefoxDriver driver, String secSystemName)
   {
     Navigation.toSecuritySystem(driver);
-    driver.findElementByXPath("//span[@class='security-name'][text()='" + secSystemName + "']").click();
+    driver.findElementsByXPath("//span[@class='security-name'][text()='" + secSystemName + "']").stream()
+            .filter(e -> e.isDisplayed())
+            .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
   }
   
@@ -64,7 +68,9 @@ public class Navigation
   public static void toUserDetail(FirefoxDriver driver, String userName)
   {
     Navigation.toUsers(driver);
-    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='user-name'][text()='" + userName + "']").click();
+    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='user-name'][text()='" + userName + "']").stream()
+            .filter(e -> e.isDisplayed())
+            .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("userdetail.xhtml?userName=" + userName)); 
   }
   
@@ -77,7 +83,9 @@ public class Navigation
   public static void toRoleDetail(FirefoxDriver driver, String roleName)
   {
     Navigation.toRoles(driver);
-    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[@class='role-name'][text()='" + roleName + "']").click();
+    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[@class='role-name'][text()='" + roleName + "']").stream()
+            .filter(e -> e.isDisplayed())
+            .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
   }
   
@@ -96,7 +104,9 @@ public class Navigation
   public static void toExternalDatabaseDetail(FirefoxDriver driver, String databaseName)
   {
     Navigation.toExternalDatabases(driver);
-    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='database-name'][text()='" + databaseName + "']").click();
+    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='database-name'][text()='" + databaseName + "']").stream()
+            .filter(e -> e.isDisplayed())
+            .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName)); 
   }
   
@@ -109,7 +119,9 @@ public class Navigation
   public static void toRestClientDetail(FirefoxDriver driver, String restClientName)
   {
     Navigation.toRestClients(driver);
-    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='restclient-name'][text()='" + restClientName + "']").click();
+    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='restclient-name'][text()='" + restClientName + "']").stream()
+            .filter(e -> e.isDisplayed())
+            .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("restclientdetail.xhtml?restClientName=" + restClientName)); 
   }
   
@@ -122,7 +134,9 @@ public class Navigation
   public static void toWebserviceDetail(FirefoxDriver driver, String webserviceName)
   {
     Navigation.toWebservices(driver);
-    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='webservice-name'][text()='" + webserviceName + "']").click();
+    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='webservice-name'][text()='" + webserviceName + "']").stream()
+            .filter(e -> e.isDisplayed())
+            .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().contains("webservicedetail.xhtml?webserviceId=")); 
   }
   

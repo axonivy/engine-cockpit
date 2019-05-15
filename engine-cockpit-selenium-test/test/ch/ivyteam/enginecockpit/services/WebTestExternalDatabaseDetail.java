@@ -19,7 +19,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     webAssertThat(() -> 
             assertThat(driver.getCurrentUrl()).endsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME));
     webAssertThat(() -> assertThat(driver.getTitle()).isEqualTo("External Database Detail"));
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(2));
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(3));
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:name").getText()).isEqualTo(DATABASE_NAME));
   }
   
