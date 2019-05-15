@@ -107,12 +107,18 @@
         <environmentConfigurations>
             <environment>test</environment>
             <service>
-                <serviceClass>com.axonivy.connectivity.soap.service.client.PersonServiceService</serviceClass>
+                <serviceClass>com.smartbear.client.SampleWebService</serviceClass>
                 <port>
-                    <name>PersonServicePort</name>
-                    <portType>PersonService</portType>
-                    <locationUri>http://127.0.0.1:8081/ivy/ws/designer/ConnectivityDemos/16150E1D07E8CA18</locationUri>
-                    <fallbackLocationUri>localhost/person</fallbackLocationUri>
+                    <name>SampleWebServiceSoap</name>
+                    <portType>SampleWebServiceSoap</portType>
+                    <locationUri>http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx</locationUri>
+                    <fallbackLocationUri>test/env</fallbackLocationUri>
+                </port>
+                <port>
+                    <name>SampleWebServiceSoap12</name>
+                    <portType>SampleWebServiceSoap</portType>
+                    <locationUri>http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx</locationUri>
+                    <fallbackLocationUri>test.com</fallbackLocationUri>
                 </port>
             </service>
         </environmentConfigurations>
