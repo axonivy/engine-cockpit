@@ -1,0 +1,98 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Global variables</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li>Configuration</li>
+      <li>/</li>
+      <li><a href="global-variables.xhtml">Global variables</a></li>
+    </ui:define>
+    
+    <ui:define name="content">
+      <h:form id="form">
+        <p:growl id="msgs" />
+        <cc:SingleCard id="card">
+          <cc:ApplicationTabs tabChange="#{globalVarBean.reloadGlobalVars}" id="apps">
+
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-10">
+                <h1>
+                  <i class="material-icons card-title-icon">donut_large</i>Global variables
+                </h1>
+              </div>
+
+              <div class="ui-g-12 ui-md-2" style="margin: auto;">
+                <p:commandButton id="newGlobalVarBtn"
+                  value="New" icon="ui-icon-add" type="button" onclick="PF('newGlobalVarModal').show();" process="@this"/>
+              </div>
+            </div>  
+
+            <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable_#{app.id}" id="globalVarTable_#{app.id}"
+              filteredValue="#{globalVarBean.filteredVariables}">
+              <f:facet name="header">
+                <p:outputPanel>
+                  <p:outputLabel styleClass="table-search-icon">
+                    <i class="material-icons">search</i>
+                  </p:outputLabel>
+                  <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                    onkeyup="PF('globalVarTable_#{app.id}').filter()" placeholder="Search"/>
+                </p:outputPanel>
+              </f:facet>
+
+              <p:column headerText="Name" sortBy="#{globalVar.name}" filterBy="#{globalVar.name}" >
+                <h:outputText value="#{globalVar.name}"/>
+              </p:column>
+              
+              <p:column headerText="Description" filterBy="#{globalVar.description}">
+                <h:outputText value="#{globalVar.description}"/>
+              </p:column>
+              
+              <p:column headerText="Value" filterBy="#{globalVar.value}">
+                <h:outputText value="#{globalVar.value}"/>
+              </p:column>
+      
+              <p:column style="width: 70px;">
+                <p:commandButton id="deleteGlobalVar" icon="ui-icon-delete"
+                  title="Delete" styleClass="card-button table-control-btn red-btn"
+                  actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
+                  oncomplete="PF('deleteGlobalVarDialog').show()"
+                  update="deleteGlobalVarDialog"
+                  style="margin-right: 0; float: right;"
+                  disabled="#{globalVar.yamlConfig}"/>
+
+                <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
+                  title="Edit"
+                  styleClass="card-button table-control-btn amber-btn"
+                  actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
+                  update="editGlobalVarModal"
+                  oncomplete="PF('editGlobalVarModal').show()"
+                  process="@this"
+                  disabled="#{globalVar.yamlConfig}"/>
+                  
+                <p:confirmDialog id="deleteGlobalVarDialog" header="Delete global variable"
+                  message="Are you sure about deleting '#{globalVarBean.activeVar.name}'?" 
+                  severity="alert" widgetVar="deleteGlobalVarDialog">
+                  <p:commandButton id="deleteGlobalVarYesBtn" value="Yes" ajax="false" immediate="true"
+                    actionListener="#{globalVarBean.deleteGlobalVar}"
+                    icon="ui-icon-check" style="width: inherit;" />
+                  <p:commandButton value="Cancel" onclick="PF('deleteGlobalVarDialog').hide();" type="button" icon="ui-icon-close"
+                    style="width: inherit;" />
+                </p:confirmDialog>
+              </p:column>
+            </p:dataTable>
+        
+          </cc:ApplicationTabs>
+        </cc:SingleCard>
+      </h:form>
+    <ui:include src="dialogs/newglobalvar.xhtml" />
+    <ui:include src="dialogs/editglobalvar.xhtml" />
+    </ui:define>
+    
+  </ui:composition>
+</h:body>
+</html>

@@ -23,6 +23,8 @@ public class Navigation
   private static final By SYSTEM_CONFIG_MENU = By.xpath("//li[@id='menuform:sr_system_config']/child::a");
   private static final By MONITOR_MENU = By.xpath("//li[@id='menuform:sr_monitor']/child::a");
   private static final By LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
+  private static final ByXPath CONFIGURATION_MENU = new By.ByXPath("//li[@id='menuform:sr_configuration']/child::a");
+  private static final ByXPath VARIABLES_MENU = new By.ByXPath("//li[@id='menuform:sr_variables']/child::a");
 
   public static void toDashboard(FirefoxDriver driver)
   {
@@ -54,6 +56,12 @@ public class Navigation
     Navigation.toSecuritySystem(driver);
     driver.findElementByXPath("//span[@class='security-name'][text()='" + secSystemName + "']").click();
     await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
+  }
+  
+  public static void toVariables(FirefoxDriver driver)
+  {
+    toSubMenu(driver, CONFIGURATION_MENU, VARIABLES_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("global-variables.xhtml"));
   }
   
   public static void toUsers(FirefoxDriver driver)

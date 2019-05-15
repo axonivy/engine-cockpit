@@ -5,12 +5,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.input.ReversedLinesFileReader;
-import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -21,13 +26,38 @@ public class LogView
   private File file;
   private String fileName;
   private String content;
-  private boolean downloadEnabled = true;
+  private boolean downloadEnabled = false;
+  private long size;
+  private boolean endReached = true;
+  private String date;
   
-  public LogView(String logName)
+  public LogView(String logName, Date date)
   {
     fileName = logName;
-    file = UrlUtil.getLogFile(logName);
+    this.date = new SimpleDateFormat("yyyy-MM-dd").format(date);
+    if (DateUtils.isSameDay(date, Calendar.getInstance().getTime()))
+    {
+      file = UrlUtil.getLogFile(logName);
+    }
+    else
+    {
+      file = UrlUtil.getLogFile(logName + "." + this.date);
+    }
     content = readContent();
+    readFileMetadata();
+  }
+  
+  private void readFileMetadata()
+  {
+    try
+    {
+      BasicFileAttributes fileMeta = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+      size = fileMeta.size() / 1000;
+    }
+    catch (IOException e)
+    {
+      size = 0;
+    }
   }
   
   public String getFileName()
@@ -36,6 +66,21 @@ public class LogView
   }
 
   private String readContent()
+  {
+    if (!file.exists())
+    {
+      return "Logfile '" + file.getName() + "' don't exists.";
+    }
+    List<String> lines = readFileLines();
+    if (lines.isEmpty())
+    {
+      return "Logfile '" + file.getName() + "' is empty.";
+    }
+    downloadEnabled = true;
+    return lines.stream().collect(Collectors.joining("\n"));
+  }
+
+  private List<String> readFileLines()
   {
     List<String> lines = new ArrayList<>();
     try (ReversedLinesFileReader reader = new ReversedLinesFileReader(file, StandardCharsets.UTF_8))
@@ -48,19 +93,16 @@ public class LogView
         count ++;
         line = reader.readLine();
       }
+      if (count == 1000)
+      {
+        endReached = false; 
+      }
     }
     catch (IOException ex)
     {
-      return "Could not read Logfile '" + fileName + "'\n"
-              + ex.getMessage() + "\n"
-              + ExceptionUtils.getStackTrace(ex);
+      return Collections.emptyList();
     }
-    if (lines.isEmpty())
-    {
-      downloadEnabled = false;
-      return "Logfile '" + fileName + "' don't exists or is empty.";
-    }
-    return lines.stream().collect(Collectors.joining("\n"));
+    return lines;
   }
   
   public String getContent()
@@ -73,10 +115,25 @@ public class LogView
     return downloadEnabled;
   }
   
+  public long getSize()
+  {
+    return size;
+  }
+  
+  public boolean isEndReached()
+  {
+    return endReached;
+  }
+  
+  public String getDate()
+  {
+    return date;
+  }
+  
   public StreamedContent getFile() throws IOException 
   {
     InputStream newInputStream = Files.newInputStream(file.toPath());
-    return new DefaultStreamedContent(newInputStream, "text/plain", fileName);
+    return new DefaultStreamedContent(newInputStream, "text/plain", file.getName());
   }
   
 }

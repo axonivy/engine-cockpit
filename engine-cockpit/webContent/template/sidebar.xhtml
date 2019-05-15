@@ -22,10 +22,12 @@
                 <p:menuitem id="sr_users" value="Users" icon="person" url="users.xhtml" />
                 <p:menuitem id="sr_roles" value="Roles" icon="group" url="roles.xhtml" />
               </p:submenu>
-              <!-- <p:submenu id="sr_configuration" label="Configuration" icon="settings_applications">
-                                <p:menuitem id="sr_variables" value="Variables" icon="donut_large" url="#{ivy.html.startref('Configuration/Variables.ivp')}"/>
-                                <p:menuitem id="sr_business_calendar" value="Busniess Calendar" icon="event" url="#{ivy.html.startref('Configuration/BusinessCalendar.ivp')}"/>
-                            </p:submenu>-->
+              
+              <p:submenu id="sr_configuration" label="Configuration" icon="settings_applications">
+                <p:menuitem id="sr_variables" value="Variables" icon="donut_large" url="global-variables.xhtml"/>
+                <!--<p:menuitem id="sr_business_calendar" value="Busniess Calendar" icon="event" url="#{ivy.html.startref('Configuration/BusinessCalendar.ivp')}"/>-->
+              </p:submenu>
+                            
               <p:submenu id="sr_services" label="Services" icon="chat_bubble_outline">
                 <p:menuitem id="sr_email" value="Email" icon="email" url="email.xhtml" />
                 <p:menuitem id="sr_database" value="Databases" icon="dns" url="externaldatabases.xhtml" />

@@ -1,13 +1,10 @@
 package ch.ivyteam.enginecockpit.monitor;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
-import org.apache.commons.lang3.time.DateUtils;
 
 import ch.ivyteam.enginecockpit.model.LogView;
 
@@ -24,6 +21,7 @@ public class LogBean
   
   public LogBean()
   {
+    date = Calendar.getInstance().getTime();
     initLogFiles();
   }
   
@@ -39,15 +37,9 @@ public class LogBean
 
   private void initLogFiles()
   {
-    String formatDate = "";
-    if (date != null && !DateUtils.isSameDay(date, getToday()))
-    {
-      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-      formatDate = "." + format.format(date);
-    }
-    ivyLog = new LogView("ivy.log" + formatDate);
-    consoleLog = new LogView("console.log" + formatDate);
-    configLog = new LogView("config.log" + formatDate);
+    ivyLog = new LogView("ivy.log", date);
+    consoleLog = new LogView("console.log", date);
+    configLog = new LogView("config.log", date);
   }
   
   public LogView getIvyLog()
