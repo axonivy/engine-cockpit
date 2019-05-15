@@ -3,6 +3,8 @@ package ch.ivyteam.enginecockpit.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.application.restricted.IWebService;
 import ch.ivyteam.util.Property;
 
@@ -44,6 +46,25 @@ public class Webservice
   public String getWsdlUrl()
   {
     return wsdlUrl;
+  }
+  
+  public String getAuthType()
+  {
+    return features.stream().filter(f -> StringUtils.contains(f, "AuthenticationFeature"))
+            .map(f -> StringUtils.substringBetween(f, "cxf.feature.", "AuthenticationFeature"))
+            .findFirst().orElseGet(() -> properties.stream()
+                    .filter(p -> StringUtils.equals(p.getName(), "authType"))
+                    .map(Property::getValue).findFirst().orElse(""));
+  }
+  
+  public String getUsername()
+  {
+    return properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).map(Property::getValue).findFirst().orElse("");
+  }
+  
+  public String getPassword()
+  {
+    return properties.stream().anyMatch(p -> StringUtils.equals(p.getName(), "password")) ? "*****" : "";
   }
 
   public List<String> getFeatures()

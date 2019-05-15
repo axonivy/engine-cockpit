@@ -10,7 +10,7 @@
 </f:facet>
 <h:form id="webserviceConfigurationForm">
   <p:growl id="webserviceSaveSuccess" for="webserviceSaveSuccess" autoUpdate="true" />
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText id="name" value="#{webserviceDetailBean.webservice.name}" />
@@ -20,13 +20,15 @@
     
     <label>Wsdl Url</label>
     <h:outputText id="url" value="#{webserviceDetailBean.webservice.wsdlUrl}" />
+    
+    <label>Authentication Type</label>
+    <h:outputText id="type" value="#{webserviceDetailBean.webservice.authType}" />
+    
+    <label>Username</label>
+    <h:outputText id="username" value="#{webserviceDetailBean.webservice.username}" />
+    
+    <label>Password</label>
+    <h:outputText id="password" value="#{webserviceDetailBean.webservice.password}" />
   </p:panelGrid>
-  
-  <p:dataTable value="#{webserviceDetailBean.webservice.features}" style="padding-top: 10px;"
-    var="feature" id="webserviceFeaturesTable">
-    <p:column headerText="Features">
-      <p:outputLabel value="#{feature}" styleClass="webservice-feature"/>
-    </p:column>
-  </p:dataTable>
 </h:form>
 </html>

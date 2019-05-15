@@ -8,8 +8,15 @@
   <i class="material-icons table-icon panel-title-icon">settings</i>
   <h:outputText value="Web Service properties" />
 </f:facet>
-<h:form id="webservciePropertiesForm">
-  <p:dataTable value="#{webserviceDetailBean.webservice.properties}" style="padding-top: 10px;"
+<h:form id="webservcieAdditionalConfigForm">
+  <p:dataTable value="#{webserviceDetailBean.webservice.features}" style="padding-top: 10px;"
+    var="feature" id="webserviceFeaturesTable">
+    <p:column headerText="Features">
+      <p:outputLabel value="#{feature}" styleClass="webservice-feature"/>
+    </p:column>
+  </p:dataTable>
+  
+  <p:dataTable value="#{webserviceDetailBean.webservice.properties}" style="padding-top: 20px;"
     var="property" id="webservicePropertiesTable">
     <p:column headerText="Name">
       <p:outputLabel value="#{property.name}" styleClass="webservice-property-name"/>

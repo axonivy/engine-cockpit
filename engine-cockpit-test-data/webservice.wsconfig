@@ -81,6 +81,22 @@
     <webServiceConfig>
         <name>second</name>
         <id>16AB177C8A7C9747</id>
+        <description>axis 2 webservice</description>
         <wsdlUrl>someurl.com</wsdlUrl>
+        <property>
+            <name>authType</name>
+            <value>HTTP_BASIC</value>
+            <password>false</password>
+        </property>
+        <property>
+            <name>username</name>
+            <value>asdf</value>
+            <password>false</password>
+        </property>
+        <property>
+            <name>password</name>
+            <value>\u0083\u0060\u0020\u00CE\u00DB\u0037\u009E\u00CB\u00E1\u00F5\u00D7\u00F9\u00F5\u00A2\u0006\u0010\u0098\u004E\u008F\u006B\u002E\u00AE\u00F4\u00D5\u0027\u004E\u0091\u007E\u00EF\u00F3\u0051\u0004</value>
+            <password>true</password>
+        </property>
     </webServiceConfig>
 </webServiceConfigurationNode>
