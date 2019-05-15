@@ -15,6 +15,8 @@ public class Navigation
   private static final By SECURITY_SYSTEM_MENU = By.xpath("//li[@id='menuform:sr_security_system']/child::a");
   private static final By SECURITY_USER_MENU = By.xpath("//li[@id='menuform:sr_users']/child::a");
   private static final By SECURITY_ROLES_MENU = By.xpath("//li[@id='menuform:sr_roles']/child::a");
+  private static final By CONFIGURATION_MENU = By.xpath("//li[@id='menuform:sr_configuration']/child::a");
+  private static final By VARIABLES_MENU = By.xpath("//li[@id='menuform:sr_variables']/child::a");
   private static final By SERVICES_MENU = By.xpath("//li[@id='menuform:sr_services']/child::a");
   private static final By SERVICES_EMAIL_MENU = By.xpath("//li[@id='menuform:sr_email']/child::a");
   private static final By SERVICES_DATABASES_MENU = By.xpath("//li[@id='menuform:sr_database']/child::a");
@@ -23,8 +25,6 @@ public class Navigation
   private static final By SYSTEM_CONFIG_MENU = By.xpath("//li[@id='menuform:sr_system_config']/child::a");
   private static final By MONITOR_MENU = By.xpath("//li[@id='menuform:sr_monitor']/child::a");
   private static final By LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
-  private static final ByXPath CONFIGURATION_MENU = new By.ByXPath("//li[@id='menuform:sr_configuration']/child::a");
-  private static final ByXPath VARIABLES_MENU = new By.ByXPath("//li[@id='menuform:sr_variables']/child::a");
 
   public static void toDashboard(FirefoxDriver driver)
   {
