@@ -48,11 +48,13 @@ public class GlobalVarBean
 
   public void saveGlobalVar()
   {
-    if (app.findGlobalVariable(activeVar.getName()) == null)
+    if (app.findGlobalVariable(activeVar.getName()) != null)
     {
-      app.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
-      reloadAndUiMessage("saved");
+      reloadAndUiMessage("already exists");
+      return;
     }
+    app.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
+    reloadAndUiMessage("saved");
     reloadGlobalVars();
   }
 
@@ -79,11 +81,9 @@ public class GlobalVarBean
     if (selectedVar == null)
     {
       activeVar = new SimpleVariable();
+      return;
     }
-    else
-    {
-      activeVar = new SimpleVariable(selectedVar.getName(), selectedVar.getDescription(), selectedVar.getValue(), app.getName());
-    }
+    activeVar = new SimpleVariable(selectedVar.getName(), selectedVar.getDescription(), selectedVar.getValue(), app.getName());
   }
 
   public void deleteGlobalVar(String name)
