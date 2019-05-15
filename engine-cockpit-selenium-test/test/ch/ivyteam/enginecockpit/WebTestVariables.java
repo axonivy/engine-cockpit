@@ -18,9 +18,9 @@ public class WebTestVariables extends WebTestBase
 
     saveScreenshot(driver, "new_globalVar_modal");
     
-    String name = "name";
-    String desc = "desc";
-    String value = "value";
+    String name = "aName";
+    String desc = "aDesc";
+    String value = "aValue";
     
     webAssertThat(() -> assertThat(driver.findElementById("newGlobalVarModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("newGlobalVarForm:newGlobalVarName").getAttribute("value")).isBlank());
@@ -42,7 +42,7 @@ public class WebTestVariables extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("editGlobalVarForm:editGlobalVarDesc").getText()).isEqualTo(desc));
     webAssertThat(() -> assertThat(driver.findElementById("editGlobalVarForm:editGlobalVarValue").getAttribute("value")).isEqualTo(value));
     
-    String newValue = "newValue";
+    String newValue = "aNewValue";
 
     driver.findElementById("editGlobalVarForm:editGlobalVarValue").clear();
     driver.findElementById("editGlobalVarForm:editGlobalVarValue").sendKeys(newValue);

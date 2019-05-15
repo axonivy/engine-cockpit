@@ -1,4 +1,8 @@
-Applications.test-ad.SecuritySystem: "test-ad"
+Applications:
+  test-ad:
+    SecuritySystem: "test-ad"
+    GlobalVariables:
+      myGlobalVariable: "value"
 
 SecuritySystems:
   test-ad:
