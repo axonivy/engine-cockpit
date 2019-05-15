@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
 import ch.ivyteam.enginecockpit.util.Configuration;
+import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
 
 public class SimpleVariable
 {
@@ -13,12 +14,12 @@ public class SimpleVariable
   {
     
   }
-
-  public SimpleVariable(String name, String desc, String value, String appName)
+  
+  public SimpleVariable(IGlobalVariable variable, String appName)
   {
-    this.name = name;
-    this.description = desc;
-    this.value = value;
+    this.name = variable.getName();
+    this.description = variable.getDescription();
+    this.value = variable.getValue();
     this.yamlConfig = Configuration.get("Applications." + appName + ".GlobalVariables." + name).isPresent();
   }
 

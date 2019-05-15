@@ -48,7 +48,7 @@
                 <h:outputText value="#{globalVar.name}"/>
               </p:column>
               
-              <p:column headerText="Description" sortBy="#{globalVar.description}" filterBy="#{globalVar.description}">
+              <p:column headerText="Description" filterBy="#{globalVar.description}">
                 <h:outputText value="#{globalVar.description}"/>
               </p:column>
               
@@ -78,7 +78,7 @@
                   message="Are you sure about deleting '#{globalVarBean.activeVar.name}'?" 
                   severity="alert" widgetVar="deleteGlobalVarDialog">
                   <p:commandButton id="deleteGlobalVarYesBtn" value="Yes" ajax="false" immediate="true"
-                    actionListener="#{globalVarBean.deleteGlobalVar(globalVarBean.activeVar.name)}"
+                    actionListener="#{globalVarBean.deleteGlobalVar}"
                     icon="ui-icon-check" style="width: inherit;" />
                   <p:commandButton value="Cancel" onclick="PF('deleteGlobalVarDialog').hide();" type="button" icon="ui-icon-close"
                     style="width: inherit;" />

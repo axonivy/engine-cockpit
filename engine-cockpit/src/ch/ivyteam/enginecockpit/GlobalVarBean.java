@@ -36,7 +36,7 @@ public class GlobalVarBean
     app = managerBean.getSelectedIApplication();
     
     globalVariables = app.getGlobalVariables().stream()
-      .map(var -> new SimpleVariable(var.getName(), var.getDescription(), var.getValue(), app.getName()))
+      .map(var -> new SimpleVariable(var, app.getName()))
       .collect(Collectors.toList());
     filteredVariables = null;
   }
@@ -58,9 +58,9 @@ public class GlobalVarBean
     reloadGlobalVars();
   }
 
-  public void updateGlobalVar(String name)
+  public void updateGlobalVar()
   {
-    IGlobalVariable var = app.findGlobalVariable(name);
+    IGlobalVariable var = app.findGlobalVariable(activeVar.getName());
     if (var != null)
     {
       var.setValue(activeVar.getValue());
@@ -83,12 +83,12 @@ public class GlobalVarBean
       activeVar = new SimpleVariable();
       return;
     }
-    activeVar = new SimpleVariable(selectedVar.getName(), selectedVar.getDescription(), selectedVar.getValue(), app.getName());
+    activeVar = new SimpleVariable(selectedVar, app.getName());
   }
 
-  public void deleteGlobalVar(String name)
+  public void deleteGlobalVar()
   {
-    app.deleteGlobalVariable(name);
+    app.deleteGlobalVariable(activeVar.getName());
     reloadAndUiMessage("deleted");
     reloadGlobalVars();
   }
