@@ -18,6 +18,8 @@ public class Navigation
   private static final ByXPath SECURITY_SYSTEM_MENU = new By.ByXPath("//li[@id='menuform:sr_security_system']/child::a");
   private static final ByXPath SECURITY_USER_MENU = new By.ByXPath("//li[@id='menuform:sr_users']/child::a");
   private static final ByXPath SECURITY_ROLES_MENU = new By.ByXPath("//li[@id='menuform:sr_roles']/child::a");
+  private static final ByXPath CONFIGURATION_MENU = new By.ByXPath("//li[@id='menuform:sr_configuration']/child::a");
+  private static final ByXPath VARIABLES_MENU = new By.ByXPath("//li[@id='menuform:sr_variables']/child::a");
   private static final ByXPath SERVICES_MENU = new By.ByXPath("//li[@id='menuform:sr_services']/child::a");
   private static final ByXPath SERVICES_EMAIL_MENU = new By.ByXPath("//li[@id='menuform:sr_email']/child::a");
   private static final ByXPath SYSTEM_CONFIG_MENU = new By.ByXPath("//li[@id='menuform:sr_system_config']/child::a");
@@ -62,6 +64,12 @@ public class Navigation
     assertThat(secSystem).isPresent();
     secSystem.get().click();
     await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
+  }
+  
+  public static void toVariables(FirefoxDriver driver)
+  {
+    toSubMenu(driver, CONFIGURATION_MENU, VARIABLES_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("global-variables.xhtml"));
   }
   
   public static void toUsers(FirefoxDriver driver)
