@@ -172,6 +172,7 @@ public class Navigation
   {
     if(!driver.findElement(subMenuItemPath).isDisplayed()) {
       driver.findElement(menuItemPath).click();
+      await().until(() -> driver.findElement(subMenuItemPath).isDisplayed());
     }
     driver.findElement(subMenuItemPath).click();
   }
