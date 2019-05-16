@@ -74,8 +74,6 @@ public class WebTestVariables extends WebTestBase
     driver.findElementById("newGlobalVarForm:saveNewGlobalVar").click();
 
     webAssertThat(() -> assertThat(driver.findElementById("newGlobalVarForm:newGlobalVarNameMessage").getText()).isEqualTo("Name is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("newGlobalVarForm:newGlobalVarDescMessage").getText()).isEqualTo("Description is required"));
-    
     driver.findElementById("newGlobalVarForm:cancelNewGlobalVar").click();
     webAssertThat(() -> assertThat(driver.findElementById("newGlobalVarModal").isDisplayed()).isFalse());
   }
