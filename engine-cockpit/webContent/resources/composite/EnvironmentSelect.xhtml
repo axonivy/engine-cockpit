@@ -8,7 +8,7 @@
 <cc:implementation>
   <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8" styleClass="ui-panelgrid-blank grey-label-panel">
     <label style="float: right;">Environment</label>
-    <p:selectOneMenu id="environmentSelect" value="#{managerBean.selectedEnvironment}">
+    <p:selectOneMenu id="environmentSelect" value="#{managerBean.selectedEnvironment}" styleClass="environment-switch">
       <f:selectItems value="#{managerBean.environments}" />
       <p:ajax event="change" listener="#{cc.attrs.environmentChange}" update="@form" />
     </p:selectOneMenu>
