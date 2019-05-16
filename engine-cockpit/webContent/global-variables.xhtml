@@ -20,10 +20,14 @@
           <cc:ApplicationTabs tabChange="#{globalVarBean.reloadGlobalVars}" id="apps">
 
             <div class="ui-g">
-              <div class="ui-g-12 ui-md-10">
+              <div class="ui-g-12 ui-md-7">
                 <h1>
                   <i class="material-icons card-title-icon">donut_large</i>Global variables
                 </h1>
+              </div>
+
+              <div class="ui-g-12 ui-md-3" style="margin: auto;">
+                <cc:EnvironmentSelect environmentChange="#{globalVarBean.reloadGlobalVars}"/>
               </div>
 
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
@@ -63,6 +67,7 @@
                   oncomplete="PF('deleteGlobalVarDialog').show()"
                   update="deleteGlobalVarDialog"
                   style="margin-right: 0; float: right;"
+                  process="@this"
                   disabled="#{globalVar.yamlConfig}"/>
 
                 <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
@@ -77,9 +82,12 @@
                 <p:confirmDialog id="deleteGlobalVarDialog" header="Delete global variable"
                   message="Are you sure about deleting '#{globalVarBean.activeVar.name}'?" 
                   severity="alert" widgetVar="deleteGlobalVarDialog">
-                  <p:commandButton id="deleteGlobalVarYesBtn" value="Yes" ajax="false" immediate="true"
+                  <p:commandButton id="deleteGlobalVarYesBtn" value="Yes" immediate="true"
+                    onclick="PF('deleteGlobalVarDialog').hide();"
                     actionListener="#{globalVarBean.deleteGlobalVar}"
-                    icon="ui-icon-check" style="width: inherit;" />
+                    icon="ui-icon-check" style="width: inherit;"
+                    update="form"
+                    process="@this"/>
                   <p:commandButton value="Cancel" onclick="PF('deleteGlobalVarDialog').hide();" type="button" icon="ui-icon-close"
                     style="width: inherit;" />
                 </p:confirmDialog>
