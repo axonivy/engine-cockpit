@@ -34,6 +34,26 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(DATABASE_NAME));
   }
   
+  @Test
+  void testExternalDatabaseTestConnection(FirefoxDriver driver)
+  {
+    navigateToDatabaseDetail(driver);
+    
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isFalse());
+    driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
+    saveScreenshot(driver, "connection_fail");
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").getText()).contains("Error"));
+  
+    Navigation.toExternalDatabaseDetail(driver, "realdb");
+    
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isFalse());
+    driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
+    saveScreenshot(driver, "connection_ok");
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").getText()).contains("Successful connected to database"));
+  }
+  
   private void navigateToDatabaseDetail(FirefoxDriver driver)
   {
     login(driver);

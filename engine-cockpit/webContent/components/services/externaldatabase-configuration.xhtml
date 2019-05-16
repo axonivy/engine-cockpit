@@ -9,9 +9,11 @@
   <h:outputText value="External Database configurations" />
 </f:facet>
 <h:form id="databaseConfigurationForm">
-  <p:growl id="configurationSaveSuccess" for="configurationSaveSuccess" autoUpdate="true" />
+  <p:growl id="databaseConfigMsg" for="databaseConfigMsg" autoUpdate="true" showDetail="true" />
   <p:commandButton id="editDatabaseBtn" type="button" title="Edit External Database"
     icon="ui-icon-edit" styleClass="amber-btn card-button" onclick="PF('editServicesModal').show();"/>
+  <p:commandButton id="testDatabaseBtn" title="Test External Database Connection"
+    icon="ui-icon-call-made" styleClass="secondary-btn card-button" actionListener="#{externalDatabaseDetailBean.testDbConnection}"/>
     
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
