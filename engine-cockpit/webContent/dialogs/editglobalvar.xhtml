@@ -16,10 +16,7 @@
       <h:outputText id="editGlobalVarDesc" value="#{globalVarBean.activeVar.description}" />
       
       <label>Value</label>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="editGlobalVarValue" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.value}" />
-        <p:message for="editGlobalVarValue" id="editGlobalVarValueMessage" />
-      </h:panelGroup>
+      <p:inputText id="editGlobalVarValue" value="#{globalVarBean.activeVar.value}" />
     </p:panelGrid>
 
     <p:commandButton id="saveGlobalVarConfiguration" validateClient="true" update="form @form" process="@form"
