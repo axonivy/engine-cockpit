@@ -1,17 +1,23 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 
+import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase;
+import ch.ivyteam.ivy.db.IExternalDatabase;
+import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class ExternalDatabaseDetailBean extends EditServices
@@ -69,6 +75,29 @@ public class ExternalDatabaseDetailBean extends EditServices
     String templateString = readTemplateString("externaldatabase.yaml");
     StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
+  }
+  
+  public void testDbConnection()
+  {
+    FacesMessage message;
+    ExternalDatabaseManager dbManager = DiCore.getGlobalInjector().getInstance(ExternalDatabaseManager.class);
+    IExternalDatabase iExternalDatabase = dbManager.getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
+    try
+    {
+      if (iExternalDatabase.getConnection().isValid(10))
+      {
+        message = new FacesMessage("Successful connected to database");
+      }
+      else
+      {
+        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed", "Could not connect to database");
+      }
+    }
+    catch (SQLException ex)
+    {
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
+    }
+    FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", message);
   }
 
 }
