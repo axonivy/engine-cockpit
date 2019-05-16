@@ -8,7 +8,7 @@
   <i class="material-icons table-icon panel-title-icon">link</i>
   <h:outputText value="Endpoints" />
 </f:facet>
-<h:form id="webservcieEndPointForm">
+<h:form id="webservcieEndPointForm" style="overflow-y: auto;">
   <p:tree value="#{webserviceDetailBean.webservice.portTypes}" style="padding-top: 10px; border: none;"
     var="portType" id="webserviceEndpointTable">
     <p:treeNode>
