@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.model.SimpleVariable;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
 
 @ManagedBean
@@ -18,9 +19,10 @@ public class GlobalVarBean
 {
   private ManagerBean managerBean;
   private List<SimpleVariable> globalVariables;
+  private List<SimpleVariable> filteredVariables;
   private SimpleVariable activeVar;
   private IApplication app;
-  private List<SimpleVariable> filteredVariables;
+  private IEnvironment env;
 
   public GlobalVarBean()
   {
@@ -34,8 +36,11 @@ public class GlobalVarBean
   {
     activeVar = new SimpleVariable();
     app = managerBean.getSelectedIApplication();
-    globalVariables = managerBean.getSelectedIEnvironment().getGlobalVariables()
+    env = managerBean.getSelectedIEnvironment();
+    
+    globalVariables = env.getGlobalVariables()
             .stream().map(var -> new SimpleVariable(var, app.getName())).collect(Collectors.toList());
+    
     filteredVariables = null;
   }
 
@@ -46,19 +51,20 @@ public class GlobalVarBean
 
   public void saveGlobalVar()
   {
-    if (app.findGlobalVariable(activeVar.getName()) != null)
+    if (env.findGlobalVariable(activeVar.getName()) != null)
     {
       reloadAndUiMessage("already exists");
       return;
     }
-    app.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
+    
+    env.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
     reloadAndUiMessage("saved");
     reloadGlobalVars();
   }
 
   public void updateGlobalVar()
   {
-    IGlobalVariable var = app.findGlobalVariable(activeVar.getName());
+    IGlobalVariable var = env.findGlobalVariable(activeVar.getName());
     if (var != null)
     {
       var.setValue(activeVar.getValue());
@@ -74,7 +80,7 @@ public class GlobalVarBean
 
   public void setActiveVar(String name)
   {
-    IGlobalVariable selectedVar = managerBean.getSelectedIApplication().findGlobalVariable(name);
+    IGlobalVariable selectedVar = env.findGlobalVariable(name);
     
     if (selectedVar == null)
     {
@@ -86,7 +92,7 @@ public class GlobalVarBean
 
   public void deleteGlobalVar()
   {
-    app.deleteGlobalVariable(activeVar.getName());
+    env.deleteGlobalVariable(activeVar.getName());
     reloadAndUiMessage("deleted");
     reloadGlobalVars();
   }
