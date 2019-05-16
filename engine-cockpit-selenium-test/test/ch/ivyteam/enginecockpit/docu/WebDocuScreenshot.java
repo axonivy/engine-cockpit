@@ -33,8 +33,6 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "engine-cockpit-security-system", new Dimension(1062, 500));
     Navigation.toSecuritySystemDetail(driver, "test-ad");
     takeScreenshot(driver, "engine-cockpit-security-system-detail", new Dimension(1062, 900));
-    Navigation.toVariables(driver);
-    takeScreenshot(driver, "engine-cockpit-configuration-variables", new Dimension(1062, 900));
     Navigation.toUsers(driver);
     takeScreenshot(driver, "engine-cockpit-users", new Dimension(1062, 600));
     Navigation.toUserDetail(driver, "foo");
@@ -43,20 +41,22 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "engine-cockpit-roles", new Dimension(1062, 600));
     Navigation.toRoleDetail(driver, "boss");
     takeScreenshot(driver, "engine-cockpit-role-detail", new Dimension(1062, 900));
+    Navigation.toVariables(driver);
+    takeScreenshot(driver, "engine-cockpit-configuration-variables", new Dimension(1062, 900));
     Navigation.toEmail(driver);
     takeScreenshot(driver, "engine-cockpit-email", new Dimension(1062, 800));
     Navigation.toExternalDatabases(driver);
     takeScreenshot(driver, "engine-cockpit-external-databases", new Dimension(1062, 500));
     Navigation.toExternalDatabaseDetail(driver, "test-db");
     takeScreenshot(driver, "engine-cockpit-external-database-detail", new Dimension(1062, 800));
-    Navigation.toRestClients(driver);
-    takeScreenshot(driver, "engine-cockpit-rest-clients", new Dimension(1062, 500));
-    Navigation.toRestClientDetail(driver, "test-rest");
-    takeScreenshot(driver, "engine-cockpit-rest-client-detail", new Dimension(1062, 800));
     Navigation.toWebservices(driver);
     takeScreenshot(driver, "engine-cockpit-webservice", new Dimension(1062, 500));
     Navigation.toWebserviceDetail(driver, "test-web");
     takeScreenshot(driver, "engine-cockpit-webservice-detail", new Dimension(1062, 900));
+    Navigation.toRestClients(driver);
+    takeScreenshot(driver, "engine-cockpit-rest-clients", new Dimension(1062, 500));
+    Navigation.toRestClientDetail(driver, "test-rest");
+    takeScreenshot(driver, "engine-cockpit-rest-client-detail", new Dimension(1062, 800));
     Navigation.toSystemConfig(driver);
     takeScreenshot(driver, "engine-cockpit-system-config", new Dimension(1062, 700));
     Navigation.toMonitor(driver);
@@ -67,9 +67,11 @@ public class WebDocuScreenshot extends WebBase
   
   public void takeScreenshot(RemoteWebDriver driver, String fileName, Dimension size)
   {
+    Dimension oldSize = driver.manage().window().getSize();
     resizeBrowser(driver, size);
     scrollToPosition(driver, 0, 0);
     saveScreenshot(driver, fileName);
+    resizeBrowser(driver, oldSize);
   }
   
   public void saveScreenshot(RemoteWebDriver driver, String name) 
