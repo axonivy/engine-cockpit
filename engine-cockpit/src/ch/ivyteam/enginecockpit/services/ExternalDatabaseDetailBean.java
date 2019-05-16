@@ -86,7 +86,7 @@ public class ExternalDatabaseDetailBean extends EditServices
     {
       if (iExternalDatabase.getConnection().isValid(10))
       {
-        message = new FacesMessage("Successful connected to database");
+        message = new FacesMessage("Successful connected to database", "");
       }
       else
       {
