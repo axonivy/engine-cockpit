@@ -16,10 +16,7 @@
       </h:panelGroup>
       
       <label>Description</label>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newGlobalVarDesc" required="true" requiredMessage="Description is required" value="#{globalVarBean.activeVar.description}"/>
-        <p:message for="newGlobalVarDesc" id="newGlobalVarDescMessage" />
-      </h:panelGroup>
+      <p:inputText id="newGlobalVarDesc" value="#{globalVarBean.activeVar.description}"/>
       
       <label>Value</label>
       <h:panelGroup styleClass="md-inputfield">

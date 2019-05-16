@@ -10,11 +10,13 @@ import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.model.SimpleVariable;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.restricted.IDefaultGlobalVariable;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("restriction")
 public class GlobalVarBean
 {
   private ManagerBean managerBean;
@@ -57,14 +59,31 @@ public class GlobalVarBean
       return;
     }
     
-    env.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
+    IDefaultGlobalVariable defaultVar = app.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
+    if (!env.isDefault())
+    {
+        defaultVar.createEnvironmentConfiguration(env.getName(), activeVar.getDescription(), activeVar.getValue());
+    }
+    
     reloadAndUiMessage("saved");
     reloadGlobalVars();
   }
 
   public void updateGlobalVar()
   {
-    IGlobalVariable var = env.findGlobalVariable(activeVar.getName());
+    IDefaultGlobalVariable defaultVar = app.findDefaultGlobalVariable(activeVar.getName());
+    IGlobalVariable var = defaultVar.findEnvironmentConfiguration(env.getName());
+    
+    if (env.isDefault())
+    {
+      var = env.findGlobalVariable(activeVar.getName());
+    }
+    
+    if (var == null)
+    {
+      defaultVar.createEnvironmentConfiguration(env.getName(), activeVar.getDescription(), activeVar.getValue());
+    }
+    
     if (var != null)
     {
       var.setValue(activeVar.getValue());
