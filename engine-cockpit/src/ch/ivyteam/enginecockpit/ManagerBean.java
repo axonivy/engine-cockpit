@@ -44,10 +44,13 @@ public class ManagerBean
   
   public void reloadEnvironments()
   {
-    selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
-    for (IApplication iApplication : getIApplications())
+    if (!applications.isEmpty())
     {
-      environments.put(iApplication.getId(), iApplication.getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList()));
+      selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+      for (IApplication iApplication : getIApplications())
+      {
+        environments.put(iApplication.getId(), iApplication.getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList()));
+      }
     }
   }
 
