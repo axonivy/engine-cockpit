@@ -170,12 +170,10 @@ public class Navigation
   
   private static void toSubMenu(FirefoxDriver driver, By menuItemPath, By subMenuItemPath)
   {
-    WebElement menuItem = driver.findElement(menuItemPath);
-    WebElement subMenuItem = driver.findElement(subMenuItemPath);
-    if(!subMenuItem.isDisplayed()) {
-      menuItem.click();
+    if(!driver.findElement(subMenuItemPath).isDisplayed()) {
+      driver.findElement(menuItemPath).click();
     }
-    subMenuItem.click();
+    driver.findElement(subMenuItemPath).click();
   }
   
   private static boolean checkIfCorrectElement(WebElement element)
