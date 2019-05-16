@@ -34,10 +34,8 @@ public class GlobalVarBean
   {
     activeVar = new SimpleVariable();
     app = managerBean.getSelectedIApplication();
-    
-    globalVariables = app.getGlobalVariables().stream()
-      .map(var -> new SimpleVariable(var, app.getName()))
-      .collect(Collectors.toList());
+    globalVariables = managerBean.getSelectedIEnvironment().getGlobalVariables()
+            .stream().map(var -> new SimpleVariable(var, app.getName())).collect(Collectors.toList());
     filteredVariables = null;
   }
 
