@@ -1,10 +1,11 @@
 package ch.ivyteam.enginecockpit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
@@ -29,7 +30,7 @@ public class ManagerBean
   private List<Application> applications = Collections.emptyList();
   private int selectedApplicationIndex;
   
-  private List<String> environments;
+  private Map<Long, List<String>> environments = new HashMap<>();
   private String selectedEnvironment;
 
   @Inject
@@ -41,17 +42,12 @@ public class ManagerBean
     reloadApplications();
   }
   
-  private void reloadEnvironments()
+  public void reloadEnvironments()
   {
-    if (!applications.isEmpty())
+    selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+    for (IApplication iApplication : getIApplications())
     {
-      selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
-      environments = getSelectedIApplication().getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList());
-    }
-    else
-    {
-      selectedEnvironment = IEnvironment.DEFAULT_ENVIRONMENT_NAME;
-      environments = Arrays.asList(selectedEnvironment);
+      environments.put(iApplication.getId(), iApplication.getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList()));
     }
   }
 
@@ -196,7 +192,7 @@ public class ManagerBean
   
   public List<String> getEnvironments()
   {
-    return environments;
+    return environments.get(getSelectedApplication().getId());
   }
   
   public void setSelectedEnvironment(String environment)
@@ -206,7 +202,11 @@ public class ManagerBean
   
   public String getSelectedEnvironment()
   {
-    return StringUtils.defaultIfBlank(selectedEnvironment, IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+    if (environments.get(getSelectedApplication().getId()).contains(selectedEnvironment))
+    {
+      return selectedEnvironment;
+    }
+    return IEnvironment.DEFAULT_ENVIRONMENT_NAME;
   }
   
   public IEnvironment getSelectedIEnvironment()
