@@ -46,7 +46,10 @@ public class ManagerBean
   {
     if (!applications.isEmpty())
     {
-      selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+      if (StringUtils.isBlank(selectedEnvironment))
+      {
+        selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+      }
       for (IApplication iApplication : getIApplications())
       {
         environments.put(iApplication.getId(), iApplication.getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList()));
@@ -69,10 +72,7 @@ public class ManagerBean
   
   public List<Application> getApplications()
   {
-    if (applications.isEmpty())
-    {
-      reloadApplications();
-    }
+    reloadApplications();
     return applications;
   }
 
