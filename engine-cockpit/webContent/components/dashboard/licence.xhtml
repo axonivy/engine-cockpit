@@ -24,7 +24,7 @@
   styleClass="ui-panelgrid-blank">
   <h:outputText value="No licence installed. Your engine runs in demo mode." />
   <p:commandButton type="button" value="Upload Licence" icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
-  <cc:FileUpload apiUrl="upload/file" title="Licence Upload" acceptFiles=".lic" />
+  <cc:FileUpload apiUrl="upload/licence" title="Licence Upload" acceptFiles=".lic" />
 </p:panelGrid>
 <p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true" closeOnEscape="true">
   <h:form id="licenceInfoForm">

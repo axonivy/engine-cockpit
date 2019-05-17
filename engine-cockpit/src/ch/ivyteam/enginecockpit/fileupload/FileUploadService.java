@@ -16,6 +16,7 @@ import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import ch.ivyteam.enginecockpit.util.LicenceUtil;
 import ch.ivyteam.ivy.environment.Ivy;
 
 @Path("upload")
@@ -42,10 +43,38 @@ public class FileUploadService
     {
       ex.printStackTrace();
     }
-    Ivy.log().info(httpFile);
+    Ivy.log().info(httpFile.getSubmittedFileName());
     return Response
             .status(200)
             .entity("ok")
+            .build();
+  }
+  
+  @POST
+  @Path("/licence")
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response uploadLicence(@FormDataParam("title") String title,
+          @FormDataParam("description") String description,
+          @FormDataParam("file") InputStream stream,
+          @FormDataParam("file") FormDataContentDisposition fileDetail)
+  {
+    HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), 
+            fileDetail.getSize(), fileDetail.getParameters(), stream);
+    FileUploadRequest fileUploadRequest = new FileUploadRequest(title, description, httpFile);
+    
+    try
+    {
+      LicenceUtil.verifyAndInstall(httpFile);
+    }
+    catch (Exception ex)
+    {
+      return Response.status(200).entity(ex.getMessage()).build();
+    }
+    
+    return Response
+            .status(200)
+            .entity("Successfully uploaded licence")
             .build();
   }
 }
