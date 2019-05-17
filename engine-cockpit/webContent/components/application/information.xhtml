@@ -2,7 +2,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile">
+  xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
@@ -13,7 +13,7 @@
   <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" />
   <p:commandButton id="showDeployment" title="Deployment"
-    type="button" icon="ui-icon-assignment-returned" styleClass="amber-btn card-button" onclick="PF('deploymentModal').show()" />
+    type="button" icon="ui-icon-assignment-returned" styleClass="amber-btn card-button" onclick="PF('fileUploadModal').show()" />
   <p:commandButton id="deleteApplication" rendered="#{applicationDetailBean.appName ne 'designer'}" title="Delete app"
     type="button" icon="ui-icon-delete" styleClass="red-btn card-button" onclick="PF('deleteAppConfirmDialog').show()" />
   <p:confirmDialog id="deleteAppConfirmDialog"
@@ -40,5 +40,5 @@
     </p:selectOneMenu>
   </p:panelGrid>
 </h:form>
-<ui:include src="../../dialogs/deployment.xhtml" />
+<cc:FileUpload title="Deployment" apiUrl="upload/file" acceptFiles=".iar, .zip" />
 </html>
