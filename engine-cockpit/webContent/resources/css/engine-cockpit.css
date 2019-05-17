@@ -332,7 +332,7 @@ body {
 }
 
 /* Deploment */
-.deploy-file {
+.file-upload .deploy-file {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -340,3 +340,17 @@ body {
   position: absolute;
   z-index: -1;
 }
+.file-upload .file-upload-file {
+  margin-left: 20px;
+}
+.file-upload .file-upload-error {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: red;
+  font-weight: bold;
+}
+
+
+
+
+

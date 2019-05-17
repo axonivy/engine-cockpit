@@ -10,63 +10,71 @@
   <p:dialog style="min-width: 400px;" header="#{cc.attrs.title}" id="fileUploadModal"
   widgetVar="fileUploadModal" modal="true" responsive="true" closeOnEscape="true">
     <form enctype="multipart/form-data" >
-      <div style="height: 75px;">
+      <div style="min-height: 75px;" class="file-upload">
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
-        <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-cloud-upload" value="Choose file" 
+        <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose file" 
           onclick="$('#fileInput').trigger('click')" style="width: 150px;"/>
-        <span id="selectedFileOutput" style="margin-left: 20px;" />
-        <script>
-          var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
-        
-          function endsWithAny(string) {
-            return accepts.some(function (accept) {
-              return string.endsWith(accept);
-            });
-          }
-        
-          $("#fileInput").on("change", function(e) {
-            var fileName = e.target.files[0].name;
-            if (endsWithAny(fileName)) {
-              $('#selectedFileOutput').text(e.target.files[0].name);
-            } else {
-              $('#selectedFileOutput').text("Choose a file which ends: #{cc.attrs.acceptFiles}");
-              $('#fileInput').val("");
-            }
-          });
-          
-          function upload() {
-            console.log("upload");
-            var file_data = $('#fileInput').prop('files')[0];
-            if (file_data == null)
-            {
-              //TODO: user feedback
-              return;
-            }
-            var form_data = new FormData();
-            form_data.append('file', file_data);
-            $.ajax({
-              url: '/ivy/api/designer/#{cc.attrs.apiUrl}',
-              dataType: 'text',
-              cache: false,
-              contentType: false,
-              processData: false,
-              data: form_data,
-              type: 'post',
-              beforeSend: function(request) {
-                request.setRequestHeader("X-Requested-By", "Engine-Cockpit");
-              },
-              success: function(response){
-                  alert(response);
-              }
-            });
-          }
-        </script>
+        <span id="selectedFileOutput" class="file-upload-file" />
+        <div id="uploadError" class="file-upload-error" />
       </div>
-      <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-save"
+      <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-cloud-upload"
         styleClass="primary-btn modal-input-button" onclick="upload()" />
       <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
         icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
     </form>
+    <script>
+      var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
+    
+      function endsWithAny(string) {
+        return accepts.some(function (accept) {
+          return string.endsWith(accept);
+        });
+      }
+    
+      $("#fileInput").on("change", function(e) {
+        //TODO: check if already file in input...
+        var fileName = e.target.files[0].name;
+        if (endsWithAny(fileName)) {
+          $('#selectedFileOutput').text(e.target.files[0].name);
+        } else {
+          $('#selectedFileOutput').text("Choose a file which ends: #{cc.attrs.acceptFiles}");
+          $('#fileInput').val("");
+        }
+      });
+      
+      function upload() {
+        console.log("upload");
+        var file_data = $('#fileInput').prop('files')[0];
+        if (file_data == null)
+        {
+          $('#uploadError').text("Choose a valid file before upload.");
+          return;
+        }
+        var form_data = new FormData();
+        form_data.append('file', file_data);
+        $.ajax({
+          url: '/ivy/api/designer/#{cc.attrs.apiUrl}',
+          dataType: 'text',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: form_data,
+          type: 'post',
+          beforeSend: function(request) {
+            request.setRequestHeader("X-Requested-By", "Engine-Cockpit");
+          },
+          success: function(response){
+            var json = JSON.parse(response);
+            console.log(json);
+            if (json.status == 'ok') {
+              window.location.reload();
+            } else {
+              $('#uploadError').text(json.message);
+            }
+          }
+        });
+      }
+    </script>
   </p:dialog>
 </cc:implementation>
 </html>

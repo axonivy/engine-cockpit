@@ -22,7 +22,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 @Path("upload")
 public class FileUploadService
 {
-  
+
   @POST
   @Path("/file")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -32,12 +32,13 @@ public class FileUploadService
           @FormDataParam("file") InputStream stream,
           @FormDataParam("file") FormDataContentDisposition fileDetail)
   {
-    HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), 
+    HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(),
             fileDetail.getSize(), fileDetail.getParameters(), stream);
     FileUploadRequest fileUploadRequest = new FileUploadRequest(title, description, httpFile);
     try
     {
-      Ivy.log().info(IOUtils.readLines(stream, StandardCharsets.UTF_8).stream().collect(Collectors.joining("\n")));
+      Ivy.log().info(
+              IOUtils.readLines(stream, StandardCharsets.UTF_8).stream().collect(Collectors.joining("\n")));
     }
     catch (IOException ex)
     {
@@ -49,7 +50,7 @@ public class FileUploadService
             .entity("ok")
             .build();
   }
-  
+
   @POST
   @Path("/licence")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -59,22 +60,17 @@ public class FileUploadService
           @FormDataParam("file") InputStream stream,
           @FormDataParam("file") FormDataContentDisposition fileDetail)
   {
-    HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), 
+    HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(),
             fileDetail.getSize(), fileDetail.getParameters(), stream);
     FileUploadRequest fileUploadRequest = new FileUploadRequest(title, description, httpFile);
-    
     try
     {
       LicenceUtil.verifyAndInstall(httpFile);
     }
     catch (Exception ex)
     {
-      return Response.status(200).entity(ex.getMessage()).build();
+      return Response.status(200).entity(new FileUploadResponse("error", ex.getMessage())).build();
     }
-    
-    return Response
-            .status(200)
-            .entity("Successfully uploaded licence")
-            .build();
+    return Response.status(200).entity(new FileUploadResponse("ok", "Successfully uploaded licence")).build();
   }
 }

@@ -9,8 +9,8 @@
 </f:facet>
 <p:commandButton id="tasksButtonLicenceDetail" onclick="PF('licenceDetailDialog').show();" title="Licence Details" type="button"
   icon="ui-icon-info" styleClass="secondary-btn card-button" />
-<p:commandButton id="tasksButtonLicence" title="Configure Licence" type="button" icon="ui-icon-settings"
-  styleClass="secondary-btn card-button" rendered="false" />
+<p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
+  styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('fileUploadModal').show()" />
 <p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>
@@ -24,22 +24,7 @@
   styleClass="ui-panelgrid-blank">
   <h:outputText value="No licence installed. Your engine runs in demo mode." />
   <p:commandButton type="button" value="Upload Licence" icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
-  <cc:FileUpload apiUrl="upload/licence" title="Licence Upload" acceptFiles=".lic" />
 </p:panelGrid>
-<p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true" closeOnEscape="true">
-  <h:form id="licenceInfoForm">
-    <p:panelGrid id="detailsList">
-      <ui:repeat var="property" value="#{licenceBean.licenceProperties.entrySet().toArray()}">
-        <p:row>
-          <p:column>
-            <h:outputText value="#{property.key}" />
-          </p:column>
-          <p:column>
-            <h:outputText value="#{property.value eq '0' or '' ? 'Unlimited' : property.value}" />
-          </p:column>
-        </p:row>
-      </ui:repeat>
-    </p:panelGrid>
-  </h:form>
-</p:dialog>
+<cc:FileUpload apiUrl="upload/licence" title="Licence Upload" acceptFiles=".lic" />
+<ui:include src="../../dialogs/licenceinfo.xhtml" />
 </html>
