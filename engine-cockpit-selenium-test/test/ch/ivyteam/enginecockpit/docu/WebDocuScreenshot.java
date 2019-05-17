@@ -46,7 +46,7 @@ public class WebDocuScreenshot extends WebBase
     Navigation.toBusinessCalendar(driver);
     takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar", new Dimension(1062, 500));
     Navigation.toBusinessCalendarDetail(driver, "Default");
-    takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar-detail", new Dimension(1062, 500));
+    takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar-detail", new Dimension(1062, 900));
     Navigation.toEmail(driver);
     takeScreenshot(driver, "engine-cockpit-email", new Dimension(1062, 800));
     Navigation.toExternalDatabases(driver);

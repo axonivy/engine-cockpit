@@ -41,7 +41,7 @@ public class BusinessCalendarBean
   private void loadCalendarTree(TreeNode rootNode)
   {
     Tree rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings().getAllBusinessCalendarConfigurations();
-    TreeNode node = new DefaultTreeNode(new BusinessCalendar(findCalendar(rootTree.getInfo())).getName(), rootNode);
+    TreeNode node = new DefaultTreeNode(findCalendar(rootTree.getInfo()).getName(), rootNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);
   }
@@ -55,7 +55,7 @@ public class BusinessCalendarBean
   {
     for (Tree child : rootTree.getChildren())
     {
-      TreeNode node = new DefaultTreeNode(new BusinessCalendar(findCalendar(child.getInfo())).getName(), rootNode);
+      TreeNode node = new DefaultTreeNode(findCalendar(child.getInfo()).getName(), rootNode);
       buildCalendarTree(child, node);
     }
   }
@@ -73,6 +73,7 @@ public class BusinessCalendarBean
   public void setCalendarSelection(String calendarSelection)
   {
     this.calendarSelection = calendarSelection;
+    setActiveCalendar();
   }
   
   public String getCalendarSelection()

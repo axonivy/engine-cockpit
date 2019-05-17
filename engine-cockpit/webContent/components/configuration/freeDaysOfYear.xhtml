@@ -1,0 +1,28 @@
+ <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile">
+
+    <p:panel styleClass="min-height-350" id="freeDaysOfYearPanel">
+      <f:facet name="header">
+        <i class="material-icons table-icon panel-title-icon">home</i>
+        Free days of year
+      </f:facet>
+      
+      <p:dataTable var="freeDaysOfYear" value="#{businessCalendarBean.activeCalendar.freeDaysOfYear}">
+        <p:column headerText="Description">
+            <h:outputText value="#{freeDaysOfYear.description}" />
+        </p:column>
+     
+        <p:column headerText="Day">
+            <h:outputText value="#{freeDaysOfYear.value}" />
+        </p:column>
+
+        <p:column headerText="Calendar">
+            <h:outputText value="#{freeDaysOfYear.calendarName}" />
+        </p:column>
+      </p:dataTable>
+    </p:panel>
+
+</html>
