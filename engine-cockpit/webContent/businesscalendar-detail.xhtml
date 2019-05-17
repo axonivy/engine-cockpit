@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="calendarName" value="#{businessCalendarBean.calendarSelection}"/>
+  </f:metadata>
+
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Business Calendar</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li>Configuration</li>
+      <li>/</li>
+      <li><a href="businesscalendar.xhtml">Business Calendar</a></li>
+      <li>/</li>
+      <li><a href="businesscalendar-detail.xhtml?calendarName=#{businessCalendarBean.activeCalendar.name}">#{businessCalendarBean.activeCalendar.name}</a></li>
+    </ui:define>
+    <ui:define name="content">
+
+    <div class="ui-g">
+      <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <ui:include src="components/configuration/weekConfiguration.xhtml"/>
+      </div>
+      
+      <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <ui:include src="components/configuration/freeDaysOfYear.xhtml"/>
+      </div>
+      
+      <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <ui:include src="components/configuration/freeEasterRelativeDays.xhtml"/>
+      </div>
+      
+      <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <ui:include src="components/configuration/freeDays.xhtml"/>
+      </div>
+    </div>
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

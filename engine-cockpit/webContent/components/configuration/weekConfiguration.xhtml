@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile">
+  
+  <p:panel styleClass="min-height-350" id="weekConfigurationPanel">
+    <f:facet name="header">
+      <i class="material-icons table-icon panel-title-icon">settings</i>
+      Week configuration
+    </f:facet>
+    
+    <p:panelGrid columns="2" style="width: 100%" columnClasses="ui-grid-col-6, ui-grid-col-6">
+      <h:outputText value="Start day of week"/>
+      <h:outputText value="#{businessCalendarBean.activeCalendar.firstDayOfWeek}"/>
+    </p:panelGrid>
+    <br/>
+    
+    <p:dataTable var="freeDaysOfWeek" value="#{businessCalendarBean.activeCalendar.freeDaysOfWeek}">
+      <p:column headerText="Free days of week">
+          <h:outputText value="#{freeDaysOfWeek.description}" />
+      </p:column>
+   
+      <p:column headerText="Day">
+          <h:outputText value="#{freeDaysOfWeek.value}" />
+      </p:column>
+      
+      <p:column headerText="Calendar">
+          <h:outputText value="#{freeDaysOfWeek.calendarName}" />
+      </p:column>
+    </p:dataTable>
+    <br/>
+  
+    <p:dataTable var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">
+      <p:column headerText="Working time">
+          <h:outputText value="#{workingTime.description}" />
+      </p:column>
+   
+      <p:column headerText="Time">
+          <h:outputText value="#{workingTime.value}" />
+      </p:column>
+      
+      <p:column headerText="Calendar">
+          <h:outputText value="#{workingTime.calendarName}" />
+      </p:column>
+    </p:dataTable>
+  </p:panel>
+  
+</html>

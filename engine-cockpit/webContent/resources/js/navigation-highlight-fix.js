@@ -44,7 +44,8 @@ $(document).ready(function(){
       'application-detail.xhtml': 'applications.xhtml',
       'externaldatabasedetail.xhtml': 'externaldatabases.xhtml',
       'restclientdetail.xhtml': 'restclients.xhtml',
-      'webservicedetail.xhtml': 'webservices.xhtml'
+      'webservicedetail.xhtml': 'webservices.xhtml',
+      'businesscalendar-detail.xhtml': 'businesscalendar.xhtml'
     };
     return map[value] == null ? value : map[value];
   }
