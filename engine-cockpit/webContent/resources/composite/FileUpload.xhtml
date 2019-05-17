@@ -25,25 +25,25 @@
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
     
+      $("#fileInput").on("change", function(e){checkFileInput(e)});
+      
+      function checkFileInput(event) {
+        var fileName = event.target.files[0].name;
+        if (endsWithAny(fileName)) {
+          $('#selectedFileOutput').text(fileName);
+        } else {
+          $('#selectedFileOutput').text("Choose a file which ends: #{cc.attrs.acceptFiles}");
+          $('#fileInput').val("");
+        }
+      }
+      
       function endsWithAny(string) {
         return accepts.some(function (accept) {
           return string.endsWith(accept);
         });
       }
-    
-      $("#fileInput").on("change", function(e) {
-        //TODO: check if already file in input...
-        var fileName = e.target.files[0].name;
-        if (endsWithAny(fileName)) {
-          $('#selectedFileOutput').text(e.target.files[0].name);
-        } else {
-          $('#selectedFileOutput').text("Choose a file which ends: #{cc.attrs.acceptFiles}");
-          $('#fileInput').val("");
-        }
-      });
       
       function upload() {
-        console.log("upload");
         var file_data = $('#fileInput').prop('files')[0];
         if (file_data == null)
         {

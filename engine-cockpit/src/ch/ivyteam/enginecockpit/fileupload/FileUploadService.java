@@ -1,9 +1,9 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
+import java.nio.file.Files;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -27,42 +27,37 @@ public class FileUploadService
   @Path("/file")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response post(@FormDataParam("title") String title,
-          @FormDataParam("description") String description,
+  public Response post(@FormDataParam("deployoptions") String deployoptions,
           @FormDataParam("file") InputStream stream,
           @FormDataParam("file") FormDataContentDisposition fileDetail)
   {
     HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(),
             fileDetail.getSize(), fileDetail.getParameters(), stream);
-    FileUploadRequest fileUploadRequest = new FileUploadRequest(title, description, httpFile);
+    //TODO: send deployoptions
+    Ivy.log().info(deployoptions);
+    //FileUploadRequest fileUploadRequest = new FileUploadRequest(title, description, httpFile);
     try
     {
-      Ivy.log().info(
-              IOUtils.readLines(stream, StandardCharsets.UTF_8).stream().collect(Collectors.joining("\n")));
+      File file = new File(Files.createTempDirectory("temp").toFile(), httpFile.getSubmittedFileName());
+      Ivy.log().info(file);
+      FileUtils.copyInputStreamToFile(httpFile.getStream(), file);
     }
     catch (IOException ex)
     {
-      ex.printStackTrace();
+      return Response.status(200).entity(new FileUploadResponse("error", ex.getMessage())).build();
     }
-    Ivy.log().info(httpFile.getSubmittedFileName());
-    return Response
-            .status(200)
-            .entity("ok")
-            .build();
+    return Response.status(200).entity(new FileUploadResponse("ok", "Successfully deployed " + httpFile.getSubmittedFileName())).build();
   }
 
   @POST
   @Path("/licence")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response uploadLicence(@FormDataParam("title") String title,
-          @FormDataParam("description") String description,
-          @FormDataParam("file") InputStream stream,
+  public Response uploadLicence(@FormDataParam("file") InputStream stream,
           @FormDataParam("file") FormDataContentDisposition fileDetail)
   {
     HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(),
             fileDetail.getSize(), fileDetail.getParameters(), stream);
-    FileUploadRequest fileUploadRequest = new FileUploadRequest(title, description, httpFile);
     try
     {
       LicenceUtil.verifyAndInstall(httpFile);
