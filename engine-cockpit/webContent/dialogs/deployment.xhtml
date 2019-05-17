@@ -5,22 +5,44 @@
 
 <p:dialog style="min-width: 400px;" header="Deployment" id="deploymentModal"
   widgetVar="deploymentModal" modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="form" enctype="multipart/form-data" >
+  <form enctype="multipart/form-data" >
     <div style="height: 75px;">
-      <h:inputFile id="fileInput" styleClass="deploy-file" required="true" requiredMessage="select File" />
+      <input type="file" id="fileInput" class="deploy-file" required="required" />
       <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-cloud-upload" value="Choose project" 
-        onclick="$('#form\\:fileInput').trigger('click')" style="width: 150px;"/>
-      <h:outputText id="selectedFileOutput" style="margin-left: 20px;" />
+        onclick="$('#fileInput').trigger('click')" style="width: 150px;"/>
+      <span id="selectedFileOutput" style="margin-left: 20px;" />
       <script>
-        $("#form\\:fileInput").on("change", function(e) {
-          $('#form\\:selectedFileOutput').text(e.target.files[0].name);
+        $("#fileInput").on("change", function(e) {
+          $('#selectedFileOutput').text(e.target.files[0].name);
         });
+        
+        function upload() {
+          console.log("upload");
+          var file_data = $('#fileInput').prop('files')[0];
+          var form_data = new FormData();
+          form_data.append('file', file_data);
+          $.ajax({
+            url: '/ivy/api/designer/upload/file',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+            beforeSend: function(request) {
+              request.setRequestHeader("X-Requested-By", "Engine-Cockpit");
+            },
+            success: function(php_script_response){
+                alert(php_script_response);
+            }
+          });
+        }
       </script>
     </div>
-    <p:commandButton id="deployBtn" validateClient="true" type="submit" value="Deploy" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" ajax="false" />
+    <p:commandButton id="deployBtn" validateClient="true" type="button" value="Deploy" icon="ui-icon-save"
+      styleClass="primary-btn modal-input-button" onclick="upload()" />
     <p:commandButton id="cancelDeploymentBtn" onclick="PF('deploymentModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-  </h:form>
+  </form>
 </p:dialog>
 </html>
