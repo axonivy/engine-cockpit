@@ -41,16 +41,28 @@
               </div>
               
               <div class="ui-g-9 ui-md-9" style="margin: auto;">
+                Start day of week -
                 <h:outputText value="#{businessCalendarBean.activeCalendar.firstDayOfWeek}"/> 
                 
               <p:dataList value="#{businessCalendarBean.activeCalendar.workingTimes}" var="workingTimes" type="ordered">
-                <f:facet name="header">
-                  Working times
-                </f:facet>
-                  #{workingTimes}
+                #{workingTimes.description} - #{workingTimes.value}
               </p:dataList>
     
+              <p:dataList value="#{businessCalendarBean.activeCalendar.freeDaysOfWeek}" var="freeDaysOfWeek" type="ordered">
+                #{freeDaysOfWeek.description} - #{freeDaysOfWeek.value}
+              </p:dataList>
+              
+              <p:dataList value="#{businessCalendarBean.activeCalendar.freeDaysOfYear}" var="freeDaysOfYear" type="ordered">
+                #{freeDaysOfYear.description} - #{freeDaysOfYear.value}
+              </p:dataList>
     
+              <p:dataList value="#{businessCalendarBean.activeCalendar.freeEasterRelativeDays}" var="freeEasterRelativeDays" type="ordered">
+                #{freeEasterRelativeDays.description} - #{freeEasterRelativeDays.value}
+              </p:dataList>
+              
+              <p:dataList value="#{businessCalendarBean.activeCalendar.freeDates}" var="freeDates" type="ordered">
+                #{freeDates.description} - #{freeDates.value}
+              </p:dataList>
               </div>
             </div>
 
