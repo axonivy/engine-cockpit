@@ -18,35 +18,103 @@
       <li>/</li>
       <li><a href="businesscalendar-detail.xhtml?calendarName=#{businessCalendarBean.activeCalendar.name}">#{businessCalendarBean.activeCalendar.name}</a></li>
     </ui:define>
-
     <ui:define name="content">
+          
+      <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <p:panel styleClass="min-height-350 max-height-700">
+          <f:facet name="header">
+            <i class="material-icons table-icon panel-title-icon">settings</i>
+            Week configuration
+          </f:facet>
+          
+          <p:panelGrid columns="2" style="width: 100%" columnClasses="ui-grid-col-6, ui-grid-col-6">
+            <h:outputText value="Start day of week"/>
+            <h:outputText value="#{businessCalendarBean.activeCalendar.firstDayOfWeek}"/>
+          </p:panelGrid>
+          <br/>
+          
+          <p:dataTable var="freeDaysOfWeek" value="#{businessCalendarBean.activeCalendar.freeDaysOfWeek}">
+            <p:column headerText="Free days of week">
+                <h:outputText value="#{freeDaysOfWeek.description}" />
+            </p:column>
+         
+            <p:column headerText="Day">
+                <h:outputText value="#{freeDaysOfWeek.value}" />
+            </p:column>
+          </p:dataTable>
+          <br/>
 
-
-      <div class="ui-g-9 ui-md-9" style="margin: auto;">
-        Start day of week -
-        <h:outputText value="#{businessCalendarBean.activeCalendar.firstDayOfWeek}"/> 
-        
-      <p:dataList value="#{businessCalendarBean.activeCalendar.workingTimes}" var="workingTimes" type="definition">
-        #{workingTimes.description} - #{workingTimes.value}
-      </p:dataList>
-  
-      <p:dataList value="#{businessCalendarBean.activeCalendar.freeDaysOfWeek}" var="freeDaysOfWeek" type="definition">
-        #{freeDaysOfWeek.description} - #{freeDaysOfWeek.value}
-      </p:dataList>
-      
-      <p:dataList value="#{businessCalendarBean.activeCalendar.freeDaysOfYear}" var="freeDaysOfYear" type="definition">
-        #{freeDaysOfYear.description} - #{freeDaysOfYear.value}
-      </p:dataList>
-  
-      <p:dataList value="#{businessCalendarBean.activeCalendar.freeEasterRelativeDays}" var="freeEasterRelativeDays" type="definition">
-        #{freeEasterRelativeDays.description} - #{freeEasterRelativeDays.value}
-      </p:dataList>
-      
-      <p:dataList value="#{businessCalendarBean.activeCalendar.freeDates}" var="freeDates" type="definition">
-        #{freeDates.description} - #{freeDates.value}
-      </p:dataList>
+          <p:dataTable var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">
+            <p:column headerText="Working time">
+                <h:outputText value="#{workingTime.description}" />
+            </p:column>
+         
+            <p:column headerText="Time">
+                <h:outputText value="#{workingTime.value}" />
+            </p:column>
+          </p:dataTable>
+        </p:panel>
       </div>
-
+      
+      <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <p:panel styleClass="min-height-350 max-height-700">
+          <f:facet name="header">
+            <i class="material-icons table-icon panel-title-icon">home</i>
+            Free days of year
+          </f:facet>
+          
+          <p:dataTable var="freeDaysOfYear" value="#{businessCalendarBean.activeCalendar.freeDaysOfYear}">
+            <p:column headerText="Description">
+                <h:outputText value="#{freeDaysOfYear.description}" />
+            </p:column>
+         
+            <p:column headerText="Day">
+                <h:outputText value="#{freeDaysOfYear.value}" />
+            </p:column>
+          </p:dataTable>
+        </p:panel>
+      </div>
+      
+      <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <p:panel styleClass="min-height-350 max-height-700">
+          <f:facet name="header">
+            <i class="material-icons table-icon panel-title-icon">home</i>
+            Free Easter relative days
+          </f:facet>
+          
+          <p:dataTable var="freeEasterRelativeDays" value="#{businessCalendarBean.activeCalendar.freeEasterRelativeDays}">
+            <p:column headerText="Description">
+                <h:outputText value="#{freeEasterRelativeDays.description}" />
+            </p:column>
+         
+            <p:column headerText="Days after Easter">
+                <h:outputText value="#{freeEasterRelativeDays.value}" />
+            </p:column>
+          </p:dataTable>
+          <br/>
+          
+        </p:panel>
+      </div>
+      
+      <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <p:panel styleClass="min-height-350 max-height-700">
+          <f:facet name="header">
+            <i class="material-icons table-icon panel-title-icon">home</i>
+            Free non-recurring dates
+          </f:facet>
+          
+          <p:dataTable var="freeDates" value="#{businessCalendarBean.activeCalendar.freeDates}">
+            <p:column headerText="Description">
+                <h:outputText value="#{freeDates.description}" />
+            </p:column>
+         
+            <p:column headerText="Date">
+                <h:outputText value="#{freeDates.value}" />
+            </p:column>
+          </p:dataTable>
+          
+        </p:panel>
+      </div>
 
     </ui:define>
   </ui:composition>

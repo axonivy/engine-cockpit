@@ -99,10 +99,10 @@ public class BusinessCalendar
       this.value = String.valueOf(freeDay.getDaysSinceEaster());
     }
 
-    public Row(FreeDate freeDay)
+    public Row(FreeDate freeDate)
     {
-      this.description = freeDay.getDescription();
-      this.value = freeDay.getDate().toString();
+      this.description = freeDate.getDescription();
+      this.value = freeDate.getDate().toString();
     }
 
     public String getDescription()
