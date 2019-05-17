@@ -21,6 +21,8 @@ public class WebTestNavigation extends WebTestBase
     assertViewIsSecuritySystem(driver);
     Navigation.toVariables(driver);
     assertViewIsVariables(driver);
+    Navigation.toBusinessCalendar(driver);
+    assertViewIsBusinessCalendar(driver);
     Navigation.toUsers(driver);
     assertViewIsUsers(driver);
     Navigation.toRoles(driver);
@@ -74,7 +76,15 @@ public class WebTestNavigation extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Global variables"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_variables").getAttribute("class")).contains("active-menuitem"));
   }
-  
+
+  private void assertViewIsBusinessCalendar(FirefoxDriver driver)
+  {
+    saveScreenshot(driver, "businessCalendar");
+    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("businesscalendar.xhtml"));
+    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Business Calendar"));
+    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_business_calendar").getAttribute("class")).contains("active-menuitem"));
+  }
+
   private void assertViewIsUsers(FirefoxDriver driver)
   {
     saveScreenshot(driver, "users");

@@ -39,14 +39,14 @@
                   </div>
                 </div>
               </div>
-              
-              <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
+
+              <div class="ui-g-12 ui-lg-12" style="padding-top: 0;" id="calendarTree">
                 <h:form id="treeForm">
                 <p:tree id="tree" widgetVar="tree" value="#{businessCalendarBean.rootNode}" var="node">
                   <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
                   <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
                   <p:treeNode icon="ui-icon-calendar">
-                    <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node}">
+                    <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node}" id="calendarNode">
                       <h:outputText value ="#{node}"/>
                     </h:outputLink>
                   </p:treeNode>
