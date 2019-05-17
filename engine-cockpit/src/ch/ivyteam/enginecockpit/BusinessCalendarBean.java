@@ -10,7 +10,6 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.model.BusinessCalendar;
-import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.scripting.objects.Tree;
 
@@ -20,9 +19,11 @@ public class BusinessCalendarBean
 {
   private ManagerBean managerBean;
   private TreeNode treeRootNode;
-  private TreeNode filteredTreeRootNode;
-  private String filter;
   private BusinessCalendar activeCalendar;
+  private String calendarSelection;
+
+  private String filter = "";
+  private TreeNode filteredTreeRootNode;
 
   public BusinessCalendarBean()
   {
@@ -33,10 +34,8 @@ public class BusinessCalendarBean
   
   public void reloadBusinessCalendar()
   {
-    treeRootNode = new DefaultTreeNode("Roles", null);
+    treeRootNode = new DefaultTreeNode("Calendars", null);
     loadCalendarTree(treeRootNode);
-    
-    setActiveCalendar("cal2");
   }
 
   private void loadCalendarTree(TreeNode rootNode)
@@ -61,32 +60,59 @@ public class BusinessCalendarBean
     }
   }
 
-  @SuppressWarnings("unused")
-  private void filterTreeRootNode(List<TreeNode> nodes)
-  {
-    for (TreeNode node : nodes)
-    {
-      Role role = (Role) node.getData();
-      if (role.getName().toLowerCase().contains(filter))
-      {
-        new DefaultTreeNode(role, filteredTreeRootNode);
-      }
-      filterTreeRootNode(node.getChildren());
-    }
-  }
-  
   public BusinessCalendar getActiveCalendar()
   {
     return activeCalendar;
   }
   
-  public void setActiveCalendar(String selectedCalendar)
+  public void setActiveCalendar()
   {
-    this.activeCalendar = new BusinessCalendar(managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(selectedCalendar));
+    this.activeCalendar = new BusinessCalendar(managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(calendarSelection));
+  }
+  
+  public void setCalendarSelection(String calendarSelection)
+  {
+    this.calendarSelection = calendarSelection;
+  }
+  
+  public String getCalendarSelection()
+  {
+    return calendarSelection;
   }
   
   public TreeNode getRootNode()
   {
-    return treeRootNode;
+    if (filter.isEmpty())
+    {
+      return treeRootNode;
+    }
+    return filteredTreeRootNode;
   }
+  
+  public String getFilter()
+  {
+    return filter;
+  }
+  
+  public void setFilter(String filter)
+  {
+    this.filter = filter.toLowerCase();
+    filteredTreeRootNode = new DefaultTreeNode("Filtered calendars", null);
+    filterTreeRootNode(treeRootNode.getChildren());
+  }
+  
+  @SuppressWarnings("unused")
+  private void filterTreeRootNode(List<TreeNode> nodes)
+  {
+    for (TreeNode node : nodes)
+    {
+      String calendar = (String) node.getData();
+      if (calendar.toLowerCase().contains(filter))
+      {
+        new DefaultTreeNode(node, filteredTreeRootNode);
+      }
+      filterTreeRootNode(node.getChildren());
+    }
+  }
+  
 }

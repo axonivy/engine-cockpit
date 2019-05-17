@@ -5,68 +5,58 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="/template/template.xhtml">
-    <ui:define name="title">Business calendar</ui:define>
+    <ui:define name="title">Business Calendar</ui:define>
 
     <ui:define name="breadcrumb">
-      <li><a href="businesscalendar.xhtml">Business calendar</a></li>
+      <li><a href="businesscalendar.xhtml">Business Calendar</a></li>
     </ui:define>
     
     <ui:define name="content">
       <h:form id="form">
         <p:growl id="msgs" />
-        <cc:SingleCard id="card">
-          <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadBusinessCalendar}">
-
+        <cc:SingleCard>
+        
+          <div class="card card-w-title">
             <div class="ui-g">
               <div class="ui-g-12 ui-md-12">
                 <h1>
-                  <i class="material-icons card-title-icon">event</i>Business calendar
+                  <i class="material-icons card-title-icon">event</i>Business Calendar
                 </h1>
               </div>
             </div>  
-
+            
             <div class="ui-g">
-              <div class="ui-g-3 ui-md-3" style="margin: auto;">
+              <div class="ui-g-12 ui-lg-12" style="padding-bottom: 0;">
+                <div class="ui-datatable-header ui-widget-header ui-corner-top">
+                  <div class="ui-outputpanel ui-widget">
+                    <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i
+                      class="material-icons">search</i>
+                    </label>
+                    <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
+                      value="#{businessCalendarBean.filter}">
+                      <p:ajax event="keyup" delay="300" update=":form" />
+                    </p:inputText>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
+                <h:form id="treeForm">
                 <p:tree id="tree" widgetVar="tree" value="#{businessCalendarBean.rootNode}" var="node">
                   <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
                   <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
                   <p:treeNode icon="ui-icon-calendar">
-                    <h:outputText value="#{node}">
-                      <p:commandLink process="@this" update="@form form" 
-                        action="#{businessCalendarBean.getFilter()}"
-                      />
-                    </h:outputText>
+                    <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node}">
+                      <h:outputText value ="#{node}"/>
+                    </h:outputLink>
                   </p:treeNode>
                 </p:tree>
+                </h:form>
               </div>
               
-              <div class="ui-g-9 ui-md-9" style="margin: auto;">
-                Start day of week -
-                <h:outputText value="#{businessCalendarBean.activeCalendar.firstDayOfWeek}"/> 
-                
-              <p:dataList value="#{businessCalendarBean.activeCalendar.workingTimes}" var="workingTimes" type="ordered">
-                #{workingTimes.description} - #{workingTimes.value}
-              </p:dataList>
-    
-              <p:dataList value="#{businessCalendarBean.activeCalendar.freeDaysOfWeek}" var="freeDaysOfWeek" type="ordered">
-                #{freeDaysOfWeek.description} - #{freeDaysOfWeek.value}
-              </p:dataList>
-              
-              <p:dataList value="#{businessCalendarBean.activeCalendar.freeDaysOfYear}" var="freeDaysOfYear" type="ordered">
-                #{freeDaysOfYear.description} - #{freeDaysOfYear.value}
-              </p:dataList>
-    
-              <p:dataList value="#{businessCalendarBean.activeCalendar.freeEasterRelativeDays}" var="freeEasterRelativeDays" type="ordered">
-                #{freeEasterRelativeDays.description} - #{freeEasterRelativeDays.value}
-              </p:dataList>
-              
-              <p:dataList value="#{businessCalendarBean.activeCalendar.freeDates}" var="freeDates" type="ordered">
-                #{freeDates.description} - #{freeDates.value}
-              </p:dataList>
-              </div>
             </div>
-
-          </cc:ApplicationTabs>
+          </div>
+          
         </cc:SingleCard>
       </h:form>
     </ui:define>

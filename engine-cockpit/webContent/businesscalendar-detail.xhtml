@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="calendarName" value="#{businessCalendarBean.calendarSelection}"></f:viewParam>
+    <f:viewAction action="#{businessCalendarBean.setActiveCalendar()}" />
+  </f:metadata>
+
+  <ui:composition template="/template/template.xhtml">
+    <ui:define name="title">Business Calendar</ui:define>
+
+    <ui:define name="breadcrumb">
+      <li>Configuration</li>
+      <li>/</li>
+      <li><a href="businesscalendar.xhtml">Business Calendar</a></li>
+      <li>/</li>
+      <li><a href="businesscalendar-detail.xhtml?calendarName=#{businessCalendarBean.activeCalendar.name}">#{businessCalendarBean.activeCalendar.name}</a></li>
+    </ui:define>
+
+    <ui:define name="content">
+
+
+      <div class="ui-g-9 ui-md-9" style="margin: auto;">
+        Start day of week -
+        <h:outputText value="#{businessCalendarBean.activeCalendar.firstDayOfWeek}"/> 
+        
+      <p:dataList value="#{businessCalendarBean.activeCalendar.workingTimes}" var="workingTimes" type="definition">
+        #{workingTimes.description} - #{workingTimes.value}
+      </p:dataList>
+  
+      <p:dataList value="#{businessCalendarBean.activeCalendar.freeDaysOfWeek}" var="freeDaysOfWeek" type="definition">
+        #{freeDaysOfWeek.description} - #{freeDaysOfWeek.value}
+      </p:dataList>
+      
+      <p:dataList value="#{businessCalendarBean.activeCalendar.freeDaysOfYear}" var="freeDaysOfYear" type="definition">
+        #{freeDaysOfYear.description} - #{freeDaysOfYear.value}
+      </p:dataList>
+  
+      <p:dataList value="#{businessCalendarBean.activeCalendar.freeEasterRelativeDays}" var="freeEasterRelativeDays" type="definition">
+        #{freeEasterRelativeDays.description} - #{freeEasterRelativeDays.value}
+      </p:dataList>
+      
+      <p:dataList value="#{businessCalendarBean.activeCalendar.freeDates}" var="freeDates" type="definition">
+        #{freeDates.description} - #{freeDates.value}
+      </p:dataList>
+      </div>
+
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
