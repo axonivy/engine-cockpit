@@ -23,7 +23,6 @@ public class BusinessCalendar
   
   public BusinessCalendar(IBusinessCalendarConfiguration calendarConfig)
   {
-    calendarConfig.getParent();
     this.name = calendarConfig.getName();
     this.firstDayOfWeek = calendarConfig.getFirstDayOfWeek();
 
