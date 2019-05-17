@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.FileUtils;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -27,13 +28,14 @@ public class FileUploadService
   @Path("/file")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response post(@FormDataParam("deployoptions") String deployoptions,
+  public Response post(@FormDataParam("deployoptions") FormDataBodyPart deployoptions,
           @FormDataParam("file") InputStream stream,
           @FormDataParam("file") FormDataContentDisposition fileDetail)
   {
     HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(),
             fileDetail.getSize(), fileDetail.getParameters(), stream);
     //TODO: send deployoptions
+    deployoptions.setMediaType(MediaType.APPLICATION_JSON_TYPE);
     Ivy.log().info(deployoptions);
     //FileUploadRequest fileUploadRequest = new FileUploadRequest(title, description, httpFile);
     try

@@ -16,6 +16,7 @@
           onclick="$('#fileInput').trigger('click')" style="width: 150px;"/>
         <span id="selectedFileOutput" class="file-upload-file" />
         <div id="uploadError" class="file-upload-error" />
+        <cc:insertChildren />
       </div>
       <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-cloud-upload"
         styleClass="primary-btn modal-input-button" onclick="upload()" />
@@ -52,6 +53,10 @@
         }
         var form_data = new FormData();
         form_data.append('file', file_data);
+        try {
+          form_data.append('deployoptions', getDeployOptions());
+        }
+        catch (e) {}
         $.ajax({
           url: '/ivy/api/designer/#{cc.attrs.apiUrl}',
           dataType: 'text',

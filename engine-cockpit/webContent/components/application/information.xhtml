@@ -40,5 +40,50 @@
     </p:selectOneMenu>
   </p:panelGrid>
 </h:form>
-<cc:FileUpload title="Deployment" apiUrl="upload/file" acceptFiles=".iar, .zip" />
+<cc:FileUpload title="Deployment" apiUrl="upload/file" acceptFiles=".iar, .zip">
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" 
+      styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px;">
+      <label>Deploy Test Users</label>
+      <p:selectBooleanCheckbox value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers"/>
+      
+      <label>Overwrite Project</label>
+      <p:selectBooleanCheckbox value="#{deployOptionsBean.overwriteProject}" widgetVar="overwriteProject"/>
+      
+      <label>Cleanup Project</label>
+      <p:selectOneMenu value="#{deployOptionsBean.cleanup}" widgetVar="cleanupProject">
+        <f:selectItems value="#{deployOptionsBean.cleanupValues}" />
+      </p:selectOneMenu>
+      
+      <label>Version</label>
+      <p:selectOneMenu value="#{deployOptionsBean.version}" widgetVar="version">
+        <f:selectItems value="#{deployOptionsBean.versions}" />
+      </p:selectOneMenu>
+      
+      <label>State</label>
+      <p:selectOneMenu value="#{deployOptionsBean.state}" widgetVar="state">
+        <f:selectItems value="#{deployOptionsBean.states}" />
+      </p:selectOneMenu>
+      
+      <label>File Format</label>
+      <p:selectOneMenu value="#{deployOptionsBean.fileFormat}" widgetVar="fileFormat">
+        <f:selectItems value="#{deployOptionsBean.fileFormats}" />
+      </p:selectOneMenu>
+    </p:panelGrid>
+    <script>
+      function getDeployOptions(){
+        return deployOptions = {
+          'deployTestUsers': PF('deployTestUsers').input.is(':checked'),
+          'configuration': {
+            'overwrite': PF('overwriteProject').input.is(':checked'),
+            'cleanup': PF('cleanupProject').input.val()
+          },
+          'target': {
+            'version': PF('version').input.val(),
+            'state': PF('state').input.val(),
+            'fileFormat': PF('fileFormat').input.val()
+          }
+        };
+      }
+    </script>
+</cc:FileUpload>
 </html>
