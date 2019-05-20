@@ -23,6 +23,7 @@ public class WebDocuScreenshot extends WebBase
   @Test
   void docuScreeshot(FirefoxDriver driver)
   {
+    populateBusinessCalendar(driver);
     login(driver);
     takeScreenshot(driver, "engine-cockpit-dashboard", new Dimension(1062, 800));
     Navigation.toApplications(driver);
@@ -45,8 +46,8 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "engine-cockpit-configuration-variables", new Dimension(1062, 500));
     Navigation.toBusinessCalendar(driver);
     takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar", new Dimension(1062, 500));
-    Navigation.toBusinessCalendarDetail(driver, "Default");
-    takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar-detail", new Dimension(1062, 900));
+    Navigation.toBusinessCalendarDetail(driver, "Luzern");
+    takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar-detail", new Dimension(1062, 750));
     Navigation.toEmail(driver);
     takeScreenshot(driver, "engine-cockpit-email", new Dimension(1062, 800));
     Navigation.toExternalDatabases(driver);
@@ -120,6 +121,11 @@ public class WebDocuScreenshot extends WebBase
   public static String getAdminUser()
   {
     return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
+  }
+  
+  private void populateBusinessCalendar(FirefoxDriver driver)
+  {
+    driver.get(EngineCockpitUrl.base() + "/pro/" + EngineCockpitUrl.applicationName() + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
   }
   
 }
