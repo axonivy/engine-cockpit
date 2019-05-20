@@ -14,7 +14,9 @@
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
         <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose file" 
           onclick="$('#fileInput').trigger('click')" style="width: 150px;"/>
-        <span id="selectedFileOutput" class="file-upload-file" />
+        <span id="drop_zone">
+          <span id="selectedFileOutput" class="file-upload-file" />
+        </span>
         <div id="uploadError" class="file-upload-error" />
         <cc:insertChildren />
       </div>
@@ -25,22 +27,31 @@
     </form>
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
+      var file;
+      
+      function handleFile(file) {
+        if (checkFileInput(file)) {
+          this.file = file;
+          $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
+        } else {
+          $('#selectedFileOutput').text("Choose or drop a file which ends with: #{cc.attrs.acceptFiles}");
+          this.file = null;
+        }
+      }
     
       $("#fileInput").on("change", function(e) {
-        checkFileInput(e.target.files[0])
+        handleFile(e.target.files[0]);
       });
       
       $(document).ready(function(e){
-        checkFileInput(document.getElementById('fileInput').files[0]);
+        handleFile(document.getElementById('fileInput').files[0]);
       });
       
       function checkFileInput(file) {
         if (file != null &amp;&amp; endsWithAnyAccepts(file.name)) {
-          $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
-        } else {
-          $('#selectedFileOutput').text("Choose a file which ends with: #{cc.attrs.acceptFiles}");
-          $('#fileInput').val("");
-        }
+          return true;
+        } 
+        return false;
       }
       
       function endsWithAnyAccepts(fileName) {
@@ -49,41 +60,56 @@
         });
       }
       
+      $('#drop_zone').on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      })
+      .on('dragover dragenter', function() {
+        $('#drop_zone').addClass('is-dragover');
+      })
+      .on('dragleave dragend drop', function() {
+        $('#drop_zone').removeClass('is-dragover');
+      })
+      .on('drop', function(e) {
+        console.log(e);
+        if(e.originalEvent.dataTransfer &amp;&amp; e.originalEvent.dataTransfer.files.length) {
+          console.log(e.originalEvent.dataTransfer.files);
+          handleFile(e.originalEvent.dataTransfer.files[0]);
+        }
+      });
+      
       function upload() {
-        var file_data = $('#fileInput').prop('files')[0];
-        if (file_data == null)
+        if (!file)
         {
           $('#uploadError').text("Choose a valid file before upload.");
           return;
         }
         var form_data = new FormData();
-        form_data.append('file', file_data);
+        form_data.append('file', file);
         if ('#{cc.attrs.apiUrl}'.endsWith('deployment')) {
           form_data.append('deployoptions', JSON.stringify(getDeployOptions()));
         }
+        
         $.ajax({
           url: '/ivy/api/designer/#{cc.attrs.apiUrl}',
-          dataType: 'text',
+          mimeType: 'multipart/form-data',
           cache: false,
           contentType: false,
           processData: false,
           data: form_data,
-          type: 'post',
-          beforeSend: function(request) {
-            request.setRequestHeader("X-Requested-By", "Engine-Cockpit");
-          },
-          success: function(response){
-            var json = JSON.parse(response);
-            console.log(json);
-            if (json.status == 'ok') {
-              window.location.reload();
-            } else {
-              $('#uploadError').text(json.message);
-            }
-          },
-          error: function (request, status, error) {
-            $('#uploadError').text(request.responseText);
+          method: 'POST',
+          headers: {"X-Requested-By": "engine-cockpit"},
+          async: true,
+          crossDomain: false,
+        }).done(function(response){
+          var json = JSON.parse(response);
+          if (json.status == 'ok') {
+            window.location.reload();
+          } else {
+            $('#uploadError').text(json.message);
           }
+        }).fail(function (request, status, error) {
+          $('#uploadError').text(request.responseText);
         });
       }
     </script>

@@ -340,8 +340,14 @@ body {
   position: absolute;
   z-index: -1;
 }
-.file-upload .file-upload-file {
+.file-upload #drop_zone {
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  padding: 5px;
   margin-left: 20px;
+}
+.file-upload #drop_zone.is-dragover {
+  border-color: #607D8B;
 }
 .file-upload .file-upload-error {
   padding-top: 20px;
@@ -349,8 +355,3 @@ body {
   color: red;
   font-weight: bold;
 }
-
-
-
-
-
