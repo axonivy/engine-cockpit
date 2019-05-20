@@ -26,21 +26,26 @@
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
     
-      $("#fileInput").on("change", function(e){checkFileInput(e)});
+      $("#fileInput").on("change", function(e) {
+        checkFileInput(e.target.files[0])
+      });
       
-      function checkFileInput(event) {
-        var fileName = event.target.files[0].name;
-        if (endsWithAny(fileName)) {
-          $('#selectedFileOutput').text(fileName);
+      $(document).ready(function(e){
+        checkFileInput(document.getElementById('fileInput').files[0]);
+      });
+      
+      function checkFileInput(file) {
+        if (file != null &amp;&amp; endsWithAnyAccepts(file.name)) {
+          $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
         } else {
-          $('#selectedFileOutput').text("Choose a file which ends: #{cc.attrs.acceptFiles}");
+          $('#selectedFileOutput').text("Choose a file which ends with: #{cc.attrs.acceptFiles}");
           $('#fileInput').val("");
         }
       }
       
-      function endsWithAny(string) {
+      function endsWithAnyAccepts(fileName) {
         return accepts.some(function (accept) {
-          return string.endsWith(accept);
+          return fileName.endsWith(accept);
         });
       }
       
@@ -53,10 +58,9 @@
         }
         var form_data = new FormData();
         form_data.append('file', file_data);
-        try {
-          form_data.append('deployoptions', getDeployOptions());
+        if ('#{cc.attrs.apiUrl}'.endsWith('deployment')) {
+          form_data.append('deployoptions', JSON.stringify(getDeployOptions()));
         }
-        catch (e) {}
         $.ajax({
           url: '/ivy/api/designer/#{cc.attrs.apiUrl}',
           dataType: 'text',
@@ -76,6 +80,9 @@
             } else {
               $('#uploadError').text(json.message);
             }
+          },
+          error: function (request, status, error) {
+            $('#uploadError').text(request.responseText);
           }
         });
       }

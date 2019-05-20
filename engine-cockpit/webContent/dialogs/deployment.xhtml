@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+
+<cc:FileUpload title="Deployment" apiUrl="upload/deployment" acceptFiles=".iar, .zip" id="deploymentModal">
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" 
+      styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px;">
+      <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
+      <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
+        <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
+      </p:selectOneMenu>
+      
+      <p:outputLabel value="Overwrite Project" for="overwriteProject" />
+      <p:selectBooleanCheckbox value="#{deployOptionsBean.overwriteProject}" widgetVar="overwriteProject"  id="overwriteProject" />
+      
+      <p:outputLabel value="Cleanup Project" for="cleanupProject" />
+      <p:selectOneMenu value="#{deployOptionsBean.cleanup}" widgetVar="cleanupProject" id="cleanupProject">
+        <f:selectItems value="#{deployOptionsBean.cleanupValues}" />
+      </p:selectOneMenu>
+      
+      <p:outputLabel value="Version" for="version" />
+      <p:selectOneMenu value="#{deployOptionsBean.version}" widgetVar="version" id="version" onchange="versionSelectChange()">
+        <f:selectItems value="#{deployOptionsBean.versions}" />
+      </p:selectOneMenu>
+      
+      <p:outputLabel value="Version Range" for="versionRange" />
+      <p:inputText placeholder="e.g. 2.5 or (2.0,3.0]" widgetVar="versionRange" id="versionRange" />
+      
+      <p:outputLabel value="State" for="state" />
+      <p:selectOneMenu value="#{deployOptionsBean.state}" widgetVar="state" id="state">
+        <f:selectItems value="#{deployOptionsBean.states}" />
+      </p:selectOneMenu>
+      
+      <p:outputLabel value="File Format" for="fileFormat" />
+      <p:selectOneMenu value="#{deployOptionsBean.fileFormat}" widgetVar="fileFormat" id="fileFormat">
+        <f:selectItems value="#{deployOptionsBean.fileFormats}" />
+      </p:selectOneMenu>
+    </p:panelGrid>
+    <script>
+      $(document).ready(function(){
+        versionSelectChange();
+      });
+    
+      function versionSelectChange() {
+        if (PF('version').input.val() == 'RANGE') {
+          $('#deploymentModal\\:versionRange').parent().parent().fadeIn();
+        }
+        else {
+          $('#deploymentModal\\:versionRange').parent().parent().fadeOut();
+        }
+      }
+    
+      function getDeployOptions(){
+        return deployOptions = {
+          'deployTestUsers': PF('deployTestUsers').input.val(),
+          'configuration': {
+            'overwrite': PF('overwriteProject').input.is(':checked'),
+            'cleanup': PF('cleanupProject').input.val()
+          },
+          'target': {
+            'version': PF('version').input.val(),
+            'versionRange': PF('versionRange').jq.val(),
+            'state': PF('state').input.val(),
+            'fileFormat': PF('fileFormat').input.val()
+          }
+        };
+      }
+    </script>
+</cc:FileUpload>
+</html>

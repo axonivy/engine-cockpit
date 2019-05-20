@@ -10,20 +10,26 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class DeployOptionsBean
 {
-  private boolean deployTestUsers = false;
+  private String deployTestUsers = "FALSE";
+  private List<String> deployTestUsersValues = Arrays.asList(deployTestUsers, "TRUE", "AUTO");
   private boolean overwriteProject = false;
   private String cleanup = "DISABLED";
   private List<String> cleanupValues = Arrays.asList(cleanup, "REMOVE_UNUSED", "REMOVE_ALL");
   private String version = "AUTO";
-  private List<String> versions = Arrays.asList(version, "RELEASED"); //TODO: versions???
+  private List<String> versions = Arrays.asList(version, "RELEASED", "RANGE"); //TODO: versions???
   private String state = "ACTIVE_AND_RELEASED";
   private List<String> states = Arrays.asList(state, "ACTIVE", "INACTIVE");
   private String fileFormat = "AUTO";
   private List<String> fileFormats = Arrays.asList(fileFormat, "PACKED", "EXPANDED");
   
-  public boolean isDeployTestUsers()
+  public String getDeployTestUsers()
   {
     return deployTestUsers;
+  }
+  
+  public List<String> getDeployTestUsersValues()
+  {
+    return deployTestUsersValues;
   }
   
   public boolean isOverwriteProject()
