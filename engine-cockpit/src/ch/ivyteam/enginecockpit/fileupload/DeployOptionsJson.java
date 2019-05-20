@@ -11,9 +11,7 @@ import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetFileFormat;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetState;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetVersion;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TestUser;
-import ch.ivyteam.ivy.deployment.internal.auto.VersionRangeParser;
 
-@SuppressWarnings("restriction")
 public class DeployOptionsJson
 {
   private final Map<String, Object> options;
