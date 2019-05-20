@@ -125,7 +125,7 @@ public class WebDocuScreenshot extends WebBase
   
   private void populateBusinessCalendar(FirefoxDriver driver)
   {
-    driver.get(EngineCockpitUrl.base() + "/pro/" + EngineCockpitUrl.applicationName() + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
+    driver.get(EngineCockpitUrl.base() + "/pro/test/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
   }
   
 }
