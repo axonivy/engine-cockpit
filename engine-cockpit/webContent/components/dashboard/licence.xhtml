@@ -23,8 +23,9 @@
 <p:panelGrid rendered="#{licenceBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
   styleClass="ui-panelgrid-blank">
   <h:outputText value="No licence installed. Your engine runs in demo mode." />
-  <p:commandButton type="button" value="Upload Licence" icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
+  <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" 
+    icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
 </p:panelGrid>
-<cc:FileUpload apiUrl="upload/licence" title="Licence Upload" acceptFiles=".lic" />
+<cc:FileUpload id="licenceUpload" apiUrl="upload/licence" title="Licence Upload" acceptFiles=".lic" />
 <ui:include src="../../dialogs/licenceinfo.xhtml" />
 </html>
