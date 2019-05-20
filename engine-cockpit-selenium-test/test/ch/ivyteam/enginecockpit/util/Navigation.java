@@ -17,6 +17,7 @@ public class Navigation
   private static final By SECURITY_ROLES_MENU = By.xpath("//li[@id='menuform:sr_roles']/child::a");
   private static final By CONFIGURATION_MENU = By.xpath("//li[@id='menuform:sr_configuration']/child::a");
   private static final By VARIABLES_MENU = By.xpath("//li[@id='menuform:sr_variables']/child::a");
+  private static final By BUSINESS_CALENDAR_MENU = By.xpath("//li[@id='menuform:sr_business_calendar']/child::a");
   private static final By SERVICES_MENU = By.xpath("//li[@id='menuform:sr_services']/child::a");
   private static final By SERVICES_EMAIL_MENU = By.xpath("//li[@id='menuform:sr_email']/child::a");
   private static final By SERVICES_DATABASES_MENU = By.xpath("//li[@id='menuform:sr_database']/child::a");
@@ -62,6 +63,19 @@ public class Navigation
   {
     toSubMenu(driver, CONFIGURATION_MENU, VARIABLES_MENU);
     await().until(() -> driver.getCurrentUrl().endsWith("global-variables.xhtml"));
+  }
+  
+  public static void toBusinessCalendar(FirefoxDriver driver)
+  {
+    toSubMenu(driver, CONFIGURATION_MENU, BUSINESS_CALENDAR_MENU);
+    await().until(() -> driver.getCurrentUrl().endsWith("businesscalendar.xhtml"));
+  }
+  
+  public static void toBusinessCalendarDetail(FirefoxDriver driver, String calendarName)
+  {
+    Navigation.toBusinessCalendar(driver);
+    driver.findElementByXPath("//*[@id=\"calendarTree\"]//a[contains(@id, 'calendarNode')][text()='" + calendarName + "']").click();
+    await().until(() -> driver.getCurrentUrl().endsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName));
   }
   
   public static void toUsers(FirefoxDriver driver)
