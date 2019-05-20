@@ -71,9 +71,7 @@
         $('#drop_zone').removeClass('is-dragover');
       })
       .on('drop', function(e) {
-        console.log(e);
         if(e.originalEvent.dataTransfer &amp;&amp; e.originalEvent.dataTransfer.files.length) {
-          console.log(e.originalEvent.dataTransfer.files);
           handleFile(e.originalEvent.dataTransfer.files[0]);
         }
       });

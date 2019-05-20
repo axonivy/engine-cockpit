@@ -350,8 +350,12 @@ body {
   border-color: #607D8B;
 }
 .file-upload .file-upload-error {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   color: red;
   font-weight: bold;
+}
+.file-upload .ui-panelgrid .ui-panelgrid-cell {
+  padding-left: 0;
+  padding-right: 0;
 }

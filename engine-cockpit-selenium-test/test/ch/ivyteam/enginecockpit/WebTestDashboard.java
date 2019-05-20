@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -101,6 +102,7 @@ public class WebTestDashboard extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
   }
   
+  @Disabled
   @Test
   public void testLicenceUploadInvalidLicence(FirefoxDriver driver) throws IOException
   {

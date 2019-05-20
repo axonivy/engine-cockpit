@@ -11,7 +11,7 @@
 <h:form id="appDetailInfoForm">
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}" title="Save changes"
-    icon="ui-icon-save" styleClass="primary-btn card-button" />
+    icon="ui-icon-save" styleClass="primary-btn card-button" update="appDetailInfoForm" />
   <p:commandButton id="showDeployment" title="Deployment"
     type="button" icon="ui-icon-assignment-returned" styleClass="amber-btn card-button" onclick="PF('fileUploadModal').show()" />
   <p:commandButton id="deleteApplication" rendered="#{applicationDetailBean.appName ne 'designer'}" title="Delete app"
@@ -36,7 +36,6 @@
     <p:outputLabel for="activeEnvironmentSelect" value="Active Environment" />
     <p:selectOneMenu id="activeEnvironmentSelect" value="#{applicationDetailBean.application.activeEnv}">
       <f:selectItems value="#{applicationDetailBean.environments}" />
-      <p:ajax update="@form" />
     </p:selectOneMenu>
   </p:panelGrid>
 </h:form>
