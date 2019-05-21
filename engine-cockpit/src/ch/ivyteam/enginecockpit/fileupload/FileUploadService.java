@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -21,9 +22,10 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import com.google.gson.Gson;
 
 import ch.ivyteam.enginecockpit.util.LicenceUtil;
+import ch.ivyteam.ivy.deployment.DeploymentOptions;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@Path("upload")
+@Path("{applicationName}/upload")
 public class FileUploadService
 {
 
@@ -37,10 +39,8 @@ public class FileUploadService
   {
     HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(),
             fileDetail.getSize(), fileDetail.getParameters(), stream);
-    options.setMediaType(MediaType.APPLICATION_JSON_TYPE);
-    @SuppressWarnings("unchecked")
-    DeployOptionsJson json = new DeployOptionsJson(new Gson().fromJson(options.getEntityAs(String.class), Map.class));
-    Ivy.log().info(json.getDeploymentOptions());
+    
+    Ivy.log().info(getDeplomentOptions(options));
     
     try
     {
@@ -53,6 +53,27 @@ public class FileUploadService
       return Response.status(200).entity(new FileUploadResponse("error", ex.getMessage())).build();
     }
     return Response.status(200).entity(new FileUploadResponse("ok", "Successfully deployed " + httpFile.getSubmittedFileName())).build();
+  }
+
+  private DeploymentOptions getDeplomentOptions(FormDataBodyPart options)
+  {
+    if (options == null)
+    {
+      return new DeployOptionsJson().getDeploymentOptions();
+    }
+    
+    options.setMediaType(MediaType.APPLICATION_JSON_TYPE);
+    String para = options.getEntityAs(String.class);
+    Map<String, Object> json;
+    try
+    {
+      json = new Gson().fromJson(para, Map.class);
+    }
+    catch (Exception e)
+    {
+      json = Collections.emptyMap();
+    }
+    return new DeployOptionsJson(json).getDeploymentOptions();
   }
 
   @POST
