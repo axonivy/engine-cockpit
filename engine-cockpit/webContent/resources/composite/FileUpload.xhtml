@@ -8,8 +8,8 @@
 </cc:interface>
 <cc:implementation>
   <p:dialog style="min-width: 400px;" header="#{cc.attrs.title}" id="fileUploadModal"
-  widgetVar="fileUploadModal" modal="true" responsive="true" closeOnEscape="true">
-    <form enctype="multipart/form-data" >
+    widgetVar="fileUploadModal" modal="true" responsive="true" closeOnEscape="true">
+    <form enctype="multipart/form-data" id="fileUploadForm" >
       <div style="min-height: 75px;" class="file-upload">
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
         <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose file" 
@@ -21,10 +21,18 @@
         <cc:insertChildren />
       </div>
       <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-cloud-upload"
-        styleClass="primary-btn modal-input-button" onclick="upload()" />
+        styleClass="primary-btn modal-input-button" onclick="upload();" />
       <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
         icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
     </form>
+    <div id="fileUploadResponse" style="display:none;">
+      <i id="uploadFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
+      <pre style="max-height: 500px; overflow-x: auto;" id="uploadLog"></pre>
+      <p:commandButton id="closeDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
+        icon="ui-icon-clear" styleClass="primary-btn modal-input-button" />
+      <p:commandButton id="backBtn" type="button" value="Back" icon="ui-icon-keyboard-backspace"
+        styleClass="secondary-btn modal-input-button" onclick="back();" />
+    </div>
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
       var file;
@@ -99,16 +107,24 @@
           headers: {"X-Requested-By": "engine-cockpit"},
           async: true,
           crossDomain: false,
+          beforeSend: function() {
+            $('#fileUploadResponse').show();
+            $('#fileUploadForm').hide();
+            $('#uploadFileSpinner').show();
+          }
         }).done(function(response){
           var json = JSON.parse(response);
-          if (json.status == 'ok') {
-            window.location.reload();
-          } else {
-            $('#uploadError').text(json.message);
-          }
-        }).fail(function (request, status, error) {
-          $('#uploadError').text(request.responseText);
+          $('#uploadLog').text(json.message);
+        }).fail(function(request, status, error) {
+          $('#uploadLog').text(request.responseText);
+        }).always(function() {
+          $('#uploadFileSpinner').hide();
         });
+      }
+      
+      function back() {
+        $('#fileUploadResponse').hide();
+        $('#fileUploadForm').show();
       }
     </script>
   </p:dialog>
