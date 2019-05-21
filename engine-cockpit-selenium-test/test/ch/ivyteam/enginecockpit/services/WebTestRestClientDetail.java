@@ -18,7 +18,6 @@ public class WebTestRestClientDetail extends WebTestBase
     navigateToRestClientDetail(driver);
     webAssertThat(() -> 
             assertThat(driver.getCurrentUrl()).endsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME));
-    webAssertThat(() -> assertThat(driver.getTitle()).isEqualTo("Rest Client Detail"));
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(2));
     webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:name").getText()).isEqualTo(RESTCLIENT_NAME));
   }

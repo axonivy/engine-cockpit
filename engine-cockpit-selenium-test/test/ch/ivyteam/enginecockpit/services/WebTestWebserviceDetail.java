@@ -17,7 +17,6 @@ public class WebTestWebserviceDetail extends WebTestBase
   {
     navigateToWebserviceDetail(driver);
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains("webservicedetail.xhtml?webserviceId="));
-    webAssertThat(() -> assertThat(driver.getTitle()).isEqualTo("Web Service Detail"));
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(3));
     webAssertThat(() -> assertThat(driver.findElementById("webserviceConfigurationForm:name").getText()).isEqualTo(WEBSERVICE_NAME));
   }

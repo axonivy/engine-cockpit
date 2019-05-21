@@ -19,7 +19,6 @@ public class WebTestRoleDetail extends WebTestBase
   {
     toRoleDetail(driver);
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Role Detail"));
   }
   
   @Test

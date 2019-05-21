@@ -32,7 +32,6 @@ public class WebTestUserDetail extends WebTestBase
   {
     openUserFooDetail(driver);
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("userdetail.xhtml?userName=" + DETAIL_USER_NAME));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("User Detail"));
   }
 
   @Test
