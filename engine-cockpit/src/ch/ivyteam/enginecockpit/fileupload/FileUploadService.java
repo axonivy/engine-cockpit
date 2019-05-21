@@ -50,9 +50,9 @@ public class FileUploadService
     }
     catch (IOException ex)
     {
-      return Response.status(200).entity(new FileUploadResponse("error", ex.getMessage())).build();
+      return Response.status(500).entity(ex.getMessage()).build();
     }
-    return Response.status(200).entity(new FileUploadResponse("ok", "Successfully deployed " + httpFile.getSubmittedFileName())).build();
+    return Response.status(200).entity("Success").build();
   }
 
   @SuppressWarnings("unchecked")
@@ -92,8 +92,8 @@ public class FileUploadService
     }
     catch (Exception ex)
     {
-      return Response.status(200).entity(new FileUploadResponse("error", ex.getMessage())).build();
+      return Response.status(500).entity(ex.getMessage()).build();
     }
-    return Response.status(200).entity(new FileUploadResponse("ok", "Successfully uploaded licence")).build();
+    return Response.status(200).entity("Successfully uploaded licence").build();
   }
 }

@@ -27,7 +27,8 @@
     </form>
     <div id="fileUploadResponse" style="display:none;">
       <i id="uploadFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
-      <pre style="max-height: 500px; overflow-x: auto;" id="uploadLog"></pre>
+      <div style="font-weight: bold;" id="uploadStatus"></div>
+      <pre style="max-height: 500px; max-width: 600px; overflow: auto;" id="uploadLog"></pre>
       <p:commandButton id="closeDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
         icon="ui-icon-clear" styleClass="primary-btn modal-input-button" />
       <p:commandButton id="backBtn" type="button" value="Back" icon="ui-icon-keyboard-backspace"
@@ -113,10 +114,11 @@
             $('#uploadFileSpinner').show();
           }
         }).done(function(response){
-          var json = JSON.parse(response);
-          $('#uploadLog').text(json.message);
+          $('#uploadLog').text(response);
+          $('#uploadStatus').text("Success").css("color", "green");
         }).fail(function(request, status, error) {
           $('#uploadLog').text(request.responseText);
+          $('#uploadStatus').text("Error").css("color", "red");
         }).always(function() {
           $('#uploadFileSpinner').hide();
         });
@@ -125,6 +127,8 @@
       function back() {
         $('#fileUploadResponse').hide();
         $('#fileUploadForm').show();
+        $('#uploadLog').text("");
+        $('#uploadStatus').text("");
       }
     </script>
   </p:dialog>
