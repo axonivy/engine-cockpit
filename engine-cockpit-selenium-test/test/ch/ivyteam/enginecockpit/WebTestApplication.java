@@ -42,10 +42,7 @@ public class WebTestApplication extends WebTestBase
   {
     toApplications(driver);
     
-    driver.findElementById("card:form:createApplicationBtn").click();
-    saveScreenshot(driver, "new_app_dialog");
-    await().untilAsserted(
-            () -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
+    openNewApplicationModal(driver);
 
     driver.findElementById("card:newApplicationForm:saveNewApplication").click();
     saveScreenshot(driver, "new_app_value_required");
@@ -83,6 +80,14 @@ public class WebTestApplication extends WebTestBase
     startAppInsideDetailView(driver);
     stopAppInsideDetailView(driver);
     deleteAppInsideDetailView(driver);
+  }
+  
+  @Test
+  void testOpenDeployAppModal(FirefoxDriver driver)
+  {
+    toApplications(driver);
+    
+    openDeployApplicationModal(driver);
   }
   
   private void deleteAppInsideDetailView(FirefoxDriver driver)
@@ -155,10 +160,7 @@ public class WebTestApplication extends WebTestBase
 
   private void addNewApplication(FirefoxDriver driver)
   {
-    driver.findElementById("card:form:createApplicationBtn").click();
-    saveScreenshot(driver, "new_app_dialog");
-    await().untilAsserted(
-            () -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
+    openNewApplicationModal(driver);
     
     driver.findElementById("card:newApplicationForm:newApplicationNameInput").sendKeys(NEW_TEST_APP);
     driver.findElementById("card:newApplicationForm:newApplicationDescInput").sendKeys("test description");
@@ -168,6 +170,26 @@ public class WebTestApplication extends WebTestBase
     saveScreenshot(driver, "new_app_saved");
 
     await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']").isDisplayed()).isTrue());
+  }
+
+  private void openNewApplicationModal(FirefoxDriver driver)
+  {
+    driver.findElementById("card:form:addButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("card:form:addMenu").isDisplayed()).isTrue());
+    driver.findElementById("card:form:createApplicationBtn").click();
+    saveScreenshot(driver, "new_app_dialog");
+    await().untilAsserted(
+            () -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
+  }
+  
+  private void openDeployApplicationModal(FirefoxDriver driver)
+  {
+    driver.findElementById("card:form:addButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("card:form:addMenu").isDisplayed()).isTrue());
+    driver.findElementById("card:form:card:form:deployApplicationBtn").click();
+    saveScreenshot(driver, "deploy_app_dialog");
+    await().untilAsserted(
+            () -> assertThat(driver.findElementById("card:deploymentModal:fileUploadModal").isDisplayed()).isTrue());
   }
   
 

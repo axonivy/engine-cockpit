@@ -23,8 +23,14 @@
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2" style="margin: auto;">
-                <p:commandButton id="createApplicationBtn" widgetVar="createApplication" icon="ui-icon-add" type="button" value="Add"
-                  onclick="PF('newApplicationModal').show();" />
+                <p:commandButton title="Add" id="addButton" value="Add"
+                  type="button" icon="ui-icon-add" />
+                <p:menu overlay="true" trigger="addButton" my="right top" at="right bottom" id="addMenu">
+                  <p:menuitem id="deployApplicationBtn" icon="ui-icon-archive" value="Deploy"
+                    onclick="PF('fileUploadModal').show();" />
+                  <p:menuitem id="createApplicationBtn" icon="ui-icon-add-circle" value="Create"
+                    onclick="PF('newApplicationModal').show();" />
+                </p:menu>
               </div>
             </div>
             <div class="ui-g applications-panel-tree">
@@ -102,6 +108,7 @@
             </p:confirmDialog>
           </h:form>
           <ui:include src="dialogs/newapplication.xhtml" />
+          <ui:include src="dialogs/deployment.xhtml" />
         </div>
       </cc:SingleCard>
     </ui:define>
