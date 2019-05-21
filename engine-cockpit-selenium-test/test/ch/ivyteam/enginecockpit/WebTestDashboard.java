@@ -109,9 +109,9 @@ public class WebTestDashboard extends WebTestBase
     Path createTempFile = Files.createTempFile("licence", ".lic");
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
     driver.findElementById("licenceUpload:uploadBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isNotEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
     saveScreenshot(driver, "invalid_lic");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Licence file has wrong format."));
+    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isEqualTo("Licence file has wrong format."));
   }
 
   private void toDashboardAndOpenLicenceUpload(FirefoxDriver driver)

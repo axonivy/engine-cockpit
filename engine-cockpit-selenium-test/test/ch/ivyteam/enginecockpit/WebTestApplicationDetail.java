@@ -100,8 +100,8 @@ public class WebTestApplicationDetail extends WebTestBase
     Path createTempFile = Files.createTempFile("app", ".iar");
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
     driver.findElementById("deploymentModal:uploadBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
     saveScreenshot(driver, "deploy_ok");
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal").isDisplayed()).isFalse());
   }
   
   @Test
