@@ -49,7 +49,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "dashboard");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Engine Cockpit"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_dashboard").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -57,7 +56,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "applications");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("applications.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Applications"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_applications").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -65,7 +63,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "security_system");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("securitysystem.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Security System"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_security_system").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -73,7 +70,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "variables");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("global-variables.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Global variables"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_variables").getAttribute("class")).contains("active-menuitem"));
   }
 
@@ -81,7 +77,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "businessCalendar");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("businesscalendar.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Business Calendar"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_business_calendar").getAttribute("class")).contains("active-menuitem"));
   }
 
@@ -89,7 +84,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "users");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("users.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Users"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_users").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -97,7 +91,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "roles");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("roles.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Roles"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_roles").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -105,7 +98,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "email");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("email.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Email"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_email").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -113,7 +105,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "externaldatabases");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("externaldatabases.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("External Databases"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_database").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -121,7 +112,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "restclients");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("restclients.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Rest Clients"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_rest_client").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -129,7 +119,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "webservices");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("webservices.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Web Services"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_web_service").getAttribute("class")).contains("active-menuitem"));
   }
 
@@ -137,7 +126,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "system_config");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("systemconfig.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("System Configuration"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_system_config").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -145,7 +133,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "monitor");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("monitor.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Monitor"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_monitor").getAttribute("class")).contains("active-menuitem"));
   }
   
@@ -153,7 +140,6 @@ public class WebTestNavigation extends WebTestBase
   {
     saveScreenshot(driver, "logs");
     await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).contains("logs.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.getTitle()).isEqualTo("Logs"));
     await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_logs").getAttribute("class")).contains("active-menuitem"));
   }
 }

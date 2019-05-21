@@ -16,7 +16,7 @@
   </f:metadata>
 
   <ui:composition template="/template/template.xhtml">
-    <ui:define name="title">Security System Detail</ui:define>
+
     <ui:define name="breadcrumb">
       <li>Security</li>
       <li>/</li>
@@ -25,11 +25,13 @@
       <li><a
         href="security-detail.xhtml?securitySystemName=#{securityConfigDetailBean.name}">#{securityConfigDetailBean.name}</a></li>
     </ui:define>
+    
     <ui:define name="breadcrumb-right">
       <a href="#" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/configuration/files/ivy-securitysystem-yaml.html'); return false;">
         <i class="material-icons">help</i>
       </a>
     </ui:define>
+    
     <ui:define name="content">
       <form>
         <div>
