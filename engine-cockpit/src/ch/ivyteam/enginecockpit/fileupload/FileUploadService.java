@@ -55,6 +55,7 @@ public class FileUploadService
     return Response.status(200).entity(new FileUploadResponse("ok", "Successfully deployed " + httpFile.getSubmittedFileName())).build();
   }
 
+  @SuppressWarnings("unchecked")
   private DeploymentOptions getDeplomentOptions(FormDataBodyPart options)
   {
     if (options == null)

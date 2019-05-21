@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -93,7 +92,6 @@ public class WebTestApplicationDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
   }
   
-  @Disabled
   @Test
   void testDeploymentInvalidApp(FirefoxDriver driver) throws IOException
   {

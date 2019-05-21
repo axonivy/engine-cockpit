@@ -34,6 +34,11 @@ public class AdvisorBean
   {
     return "&copy; 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
   }
+  
+  public String getApp()
+  {
+    return Advisor.getAdvisor().isDesigner() ? "designer" : "system";
+  }
 
   public String getEngineGuideBaseUrl()
   {

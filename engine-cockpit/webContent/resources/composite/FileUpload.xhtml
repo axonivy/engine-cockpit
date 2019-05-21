@@ -89,7 +89,7 @@
         }
         
         $.ajax({
-          url: '/ivy/api/designer/#{cc.attrs.apiUrl}',
+          url: '/ivy/api/#{advisorBean.app}/#{cc.attrs.apiUrl}',
           mimeType: 'multipart/form-data',
           cache: false,
           contentType: false,
