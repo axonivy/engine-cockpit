@@ -186,7 +186,7 @@ public class WebTestApplication extends WebTestBase
   {
     driver.findElementById("card:form:addButton").click();
     webAssertThat(() -> assertThat(driver.findElementById("card:form:addMenu").isDisplayed()).isTrue());
-    driver.findElementById("card:form:card:form:deployApplicationBtn").click();
+    driver.findElementById("card:form:deployApplicationBtn").click();
     saveScreenshot(driver, "deploy_app_dialog");
     await().untilAsserted(
             () -> assertThat(driver.findElementById("card:deploymentModal:fileUploadModal").isDisplayed()).isTrue());
