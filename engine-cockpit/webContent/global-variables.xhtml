@@ -9,7 +9,7 @@
     <ui:define name="breadcrumb">
       <li>Configuration</li>
       <li>/</li>
-      <li><a href="global-variables.xhtml">Global variables</a></li>
+      <li><a href="global-variables.xhtml">Global Variables</a></li>
     </ui:define>
     
     <ui:define name="content">
@@ -21,7 +21,7 @@
             <div class="ui-g">
               <div class="ui-g-12 ui-md-7">
                 <h1>
-                  <i class="material-icons card-title-icon">donut_large</i>Global variables
+                  <i class="material-icons card-title-icon">donut_large</i>Global Variables
                 </h1>
               </div>
 
@@ -55,19 +55,24 @@
                 <h:outputText value="#{globalVar.description}"/>
               </p:column>
               
-              <p:column headerText="Value" filterBy="#{globalVar.value}">
+              <p:column headerText="Default value" filterBy="#{globalVar.defaultValue}">
+                <h:outputText value="#{globalVar.defaultValue}"/>
+              </p:column>
+              
+              <p:column headerText="Value" filterBy="#{globalVar.value}" rendered="#{!globalVarBean.isDefaultEnv()}">
                 <h:outputText value="#{globalVar.value}"/>
               </p:column>
       
               <p:column style="width: 70px;">
-                <p:commandButton id="deleteGlobalVar" icon="ui-icon-delete"
-                  title="Delete" styleClass="card-button table-control-btn red-btn"
+                <p:commandButton id="resetGlobalVar" icon="ui-icon-close"
+                  title="Reset" styleClass="card-button table-control-btn red-btn"
                   actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
-                  oncomplete="PF('deleteGlobalVarDialog').show()"
-                  update="deleteGlobalVarDialog"
+                  oncomplete="PF('resetGlobalVarDialog').show()"
+                  update="resetGlobalVarDialog"
                   style="margin-right: 0; float: right;"
                   process="@this"
-                  disabled="#{globalVar.yamlConfig}"/>
+                  disabled="#{globalVar.yamlConfig or globalVarBean.isDefaultEnv()}"
+                  />
 
                 <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
                   title="Edit"
@@ -78,16 +83,16 @@
                   process="@this"
                   disabled="#{globalVar.yamlConfig}"/>
                   
-                <p:confirmDialog id="deleteGlobalVarDialog" header="Delete global variable"
-                  message="Are you sure about deleting '#{globalVarBean.activeVar.name}'?" 
-                  severity="alert" widgetVar="deleteGlobalVarDialog">
-                  <p:commandButton id="deleteGlobalVarYesBtn" value="Yes" immediate="true"
-                    onclick="PF('deleteGlobalVarDialog').hide();"
-                    actionListener="#{globalVarBean.deleteGlobalVar}"
+                <p:confirmDialog id="resetGlobalVarDialog" header="Reset global variable"
+                  message="Are you sure about resetting '#{globalVarBean.activeVar.name}'?" 
+                  severity="alert" widgetVar="resetGlobalVarDialog">
+                  <p:commandButton id="resetGlobalVarYesBtn" value="Yes" immediate="true"
+                    onclick="PF('resetGlobalVarDialog').hide();"
+                    actionListener="#{globalVarBean.resetGlobalVar}"
                     icon="ui-icon-check" style="width: inherit;"
                     update="form"
                     process="@this"/>
-                  <p:commandButton value="Cancel" onclick="PF('deleteGlobalVarDialog').hide();" type="button" icon="ui-icon-close"
+                  <p:commandButton value="Cancel" onclick="PF('resetGlobalVarDialog').hide();" type="button" icon="ui-icon-close"
                     style="width: inherit;" />
                 </p:confirmDialog>
               </p:column>

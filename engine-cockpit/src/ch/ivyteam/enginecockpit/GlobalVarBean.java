@@ -41,7 +41,7 @@ public class GlobalVarBean
     env = managerBean.getSelectedIEnvironment();
     
     globalVariables = env.getGlobalVariables()
-            .stream().map(var -> new SimpleVariable(var, app.getName())).collect(Collectors.toList());
+            .stream().map(var -> new SimpleVariable(var, app)).collect(Collectors.toList());
     
     filteredVariables = null;
   }
@@ -106,13 +106,20 @@ public class GlobalVarBean
       activeVar = new SimpleVariable();
       return;
     }
-    activeVar = new SimpleVariable(selectedVar, app.getName());
+    activeVar = new SimpleVariable(selectedVar, app);
   }
 
-  public void deleteGlobalVar()
+  public void resetGlobalVar()
   {
-    env.deleteGlobalVariable(activeVar.getName());
-    reloadAndUiMessage("deleted");
+    IDefaultGlobalVariable defaultVar = app.findDefaultGlobalVariable(activeVar.getName());
+    IGlobalVariable var = defaultVar.findEnvironmentConfiguration(env.getName());
+    reloadAndUiMessage("reset to default");
+
+    if (var == null)
+    {
+      return;
+    }
+    var.setValue(defaultVar.getValue());
     reloadGlobalVars();
   }
   
@@ -130,5 +137,10 @@ public class GlobalVarBean
   {
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeVar.getName() + "' " + message));
+  }
+  
+  public boolean isDefaultEnv()
+  {
+    return env.isDefault();
   }
 }

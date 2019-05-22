@@ -11,7 +11,7 @@ public class WebTestVariables extends WebTestBase
 {
   
   @Test
-  void testNewEditDeleteVariable(FirefoxDriver driver)
+  void testNewEditVariable(FirefoxDriver driver)
   {
     toVariables(driver);
     driver.findElementById("form:card:apps:applicationTabView:0:newGlobalVarBtn").click();
@@ -51,12 +51,6 @@ public class WebTestVariables extends WebTestBase
     
     webAssertThat(() -> assertThat(driver.findElementById("form:card:apps:applicationTabView:0:globalVarTable__data")
             .getText()).contains(name, desc, newValue));
-    
-    driver.findElementById("form:card:apps:applicationTabView:0:globalVarTable_:0:deleteGlobalVar").click();
-    driver.findElementById("form:card:apps:applicationTabView:0:globalVarTable_:0:deleteGlobalVarYesBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("form:card:apps:applicationTabView:0:globalVarTable__data")
-            .getText()).contains("No records found."));
-    saveScreenshot(driver, "delete_globalVar_modal");
   }
   
   @Test
