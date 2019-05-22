@@ -13,15 +13,19 @@
     <ui:define name="content">
       <h:form id="form">
         <p:growl id="msgs" />
-        <cc:SingleCard>
+        <cc:SingleCard id="card">
+          <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadBusinessCalendar}" id="apps">
         
-          <div class="card card-w-title">
             <div class="ui-g">
-              <div class="ui-g-12 ui-md-12">
+              <div class="ui-g-12 ui-md-9">
                 <h1>
                   <i class="material-icons card-title-icon">event</i>Business Calendar
                 </h1>
               </div>
+            
+	            <div class="ui-g-12 ui-md-3" style="margin: auto;">
+	              <cc:EnvironmentSelect environmentChange="#{businessCalendarBean.reloadBusinessCalendar}"/>
+	            </div>
             </div>  
             
             <div class="ui-g">
@@ -47,6 +51,7 @@
                   <p:treeNode icon="ui-icon-calendar">
                     <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node}" id="calendarNode">
                       <h:outputText value ="#{node}"/>
+				      <h:outputText value=" (Active)" rendered="#{node eq businessCalendarBean.getEnvironmentCalendar()}" styleClass="addition-row-info"/>
                     </h:outputLink>
                   </p:treeNode>
                 </p:tree>
@@ -54,8 +59,8 @@
               </div>
               
             </div>
-          </div>
-          
+
+          </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>
     </ui:define>

@@ -21,6 +21,7 @@ public class BusinessCalendarBean
   private TreeNode treeRootNode;
   private BusinessCalendar activeCalendar;
   private String calendarSelection;
+  private String environmentCalendar;
 
   private String filter = "";
   private TreeNode filteredTreeRootNode;
@@ -35,6 +36,7 @@ public class BusinessCalendarBean
   public void reloadBusinessCalendar()
   {
     treeRootNode = new DefaultTreeNode("Calendars", null);
+    environmentCalendar = managerBean.getSelectedIApplication().getActualEnvironment().getBusinessCalendar().getName();
     loadCalendarTree(treeRootNode);
   }
 
@@ -56,6 +58,7 @@ public class BusinessCalendarBean
     for (Tree child : rootTree.getChildren())
     {
       TreeNode node = new DefaultTreeNode(findCalendar(child.getInfo()).getName(), rootNode);
+      node.setExpanded(true);
       buildCalendarTree(child, node);
     }
   }
@@ -81,6 +84,11 @@ public class BusinessCalendarBean
     return calendarSelection;
   }
   
+  public String getEnvironmentCalendar()
+  {
+    return environmentCalendar;
+  }
+
   public TreeNode getRootNode()
   {
     if (filter.isEmpty())
