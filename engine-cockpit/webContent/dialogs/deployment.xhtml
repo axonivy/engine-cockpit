@@ -5,7 +5,7 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <cc:FileUpload title="Deployment" apiUrl="System/deploy" acceptFiles=".iar, .zip" targetApplication="#{targetApplication}" id="deploymentModal">
-    <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" 
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" 
       styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px;">
       <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
       <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
@@ -45,10 +45,10 @@
     
       function versionSelectChange() {
         if (PF('version').input.val() == 'RANGE') {
-          $('#deploymentModal\\:versionRange').parent().parent().fadeIn();
+          $('#card\\:deploymentModal\\:versionRange').parent().parent().fadeIn();
         }
         else {
-          $('#deploymentModal\\:versionRange').parent().parent().fadeOut();
+          $('#card\\:deploymentModal\\:versionRange').parent().parent().fadeOut();
         }
       }
     

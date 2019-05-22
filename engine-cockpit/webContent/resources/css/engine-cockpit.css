@@ -344,18 +344,16 @@ body {
   border: 2px dashed #ccc;
   border-radius: 10px;
   padding: 5px;
-  margin-left: 20px;
 }
 .file-upload #drop_zone.is-dragover {
   border-color: #607D8B;
 }
 .file-upload .file-upload-error {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 8px 14px;
   color: red;
   font-weight: bold;
 }
-.file-upload .ui-panelgrid .ui-panelgrid-cell {
+.file-upload .ui-panelgrid .ui-panelgrid-content {
   padding-left: 0;
   padding-right: 0;
 }
