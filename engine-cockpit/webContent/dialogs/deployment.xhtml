@@ -4,14 +4,14 @@
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-<cc:FileUpload title="Deployment" apiUrl="upload/deployment" acceptFiles=".iar, .zip" id="deploymentModal">
+<cc:FileUpload title="Deployment" apiUrl="System/deploy" acceptFiles=".iar, .zip" targetApplication="#{targetApplication}" id="deploymentModal">
     <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid" 
       styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px;">
       <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
       <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
         <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
       </p:selectOneMenu>
-      
+
       <p:outputLabel value="Overwrite Project" for="overwriteProject" />
       <p:selectBooleanCheckbox value="#{deployOptionsBean.overwriteProject}" widgetVar="overwriteProject"  id="overwriteProject" />
       

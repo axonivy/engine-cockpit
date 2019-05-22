@@ -3,14 +3,14 @@ package ch.ivyteam.enginecockpit.dashboad;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.Advisor;
 
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 @SuppressWarnings("restriction")
 public class AdvisorBean
 {
@@ -37,7 +37,7 @@ public class AdvisorBean
   
   public String getApp()
   {
-    return Advisor.getAdvisor().isDesigner() ? "designer" : "system";
+    return Advisor.getAdvisor().isDesigner() ? "designer" : "System";
   }
 
   public String getEngineGuideBaseUrl()

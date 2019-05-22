@@ -5,6 +5,7 @@
   <cc:attribute name="title" default="File Upload" />
   <cc:attribute name="apiUrl" />
   <cc:attribute name="acceptFiles" />
+  <cc:attribute name="targetApplication" />
 </cc:interface>
 <cc:implementation>
   <p:dialog style="min-width: 400px;" header="#{cc.attrs.title}" id="fileUploadModal"
@@ -91,27 +92,24 @@
           $('#uploadError').text("Choose a valid file before upload.");
           return;
         }
-        var form_data = new FormData();
-        form_data.append('file', file);
-        if ('#{cc.attrs.apiUrl}'.endsWith('deployment')) {
-          form_data.append('deployoptions', JSON.stringify(getDeployOptions()));
-        }
         
         $.ajax({
-          url: '/ivy/api/#{advisorBean.app}/#{cc.attrs.apiUrl}',
+          url: '/ivy/api/#{cc.attrs.apiUrl}',
           mimeType: 'multipart/form-data',
           cache: false,
           contentType: false,
           processData: false,
-          data: form_data,
+          data: buildFormData(),
           method: 'POST',
           headers: {"X-Requested-By": "engine-cockpit"},
           async: true,
           crossDomain: false,
-          beforeSend: function() {
+          beforeSend: function(xhr) {
             $('#fileUploadResponse').show();
             $('#fileUploadForm').hide();
             $('#uploadFileSpinner').show();
+            //only testing
+            //xhr.setRequestHeader ("Authorization", "Basic " + btoa("admin:admin"));
           }
         }).done(function(response){
           $('#uploadLog').text(response);
@@ -122,6 +120,18 @@
         }).always(function() {
           $('#uploadFileSpinner').hide();
         });
+      }
+      
+      function buildFormData() {
+        var form_data = new FormData();
+        if ('#{cc.attrs.apiUrl}'.endsWith('deploy')) {
+          form_data.append('fileToDeploy', file);
+          form_data.append('deploymentOptions', JSON.stringify(getDeployOptions()));
+          form_data.append('targetApplication', '#{cc.attrs.targetApplication}');
+        } else {
+          form_data.append('licence', file);
+        }
+        return form_data;
       }
       
       function back() {

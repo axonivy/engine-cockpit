@@ -39,5 +39,7 @@
     </p:selectOneMenu>
   </p:panelGrid>
 </h:form>
-<ui:include src="../../dialogs/deployment.xhtml" />
+<ui:include src="../../dialogs/deployment.xhtml">
+  <ui:param name="targetApplication" value="#{applicationDetailBean.application.name}" />
+</ui:include>
 </html>

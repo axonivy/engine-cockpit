@@ -26,6 +26,6 @@
   <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" 
     icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
 </p:panelGrid>
-<cc:FileUpload id="licenceUpload" apiUrl="upload/licence" title="Licence Upload" acceptFiles=".lic" />
+<cc:FileUpload id="licenceUpload" apiUrl="#{advisorBean.app}/licence" title="Licence Upload" acceptFiles=".lic" />
 <ui:include src="../../dialogs/licenceinfo.xhtml" />
 </html>
