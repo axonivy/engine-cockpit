@@ -15,7 +15,7 @@ public class WebTestBusinessCalendar extends WebTestBase
   {
     toBusinessCalendar(driver);
     webAssertThat(() -> assertThat(
-            driver.findElementByXPath("//*[@id=\"calendarTree\"]//a[contains(@id, 'calendarNode')]").getText()).isEqualTo("Default"));
+            driver.findElementByXPath("//*[@id=\"calendarTree\"]//a[contains(@id, 'calendarNode')]").getText()).isEqualTo("Default (Active)"));
   }
   
   @Test
