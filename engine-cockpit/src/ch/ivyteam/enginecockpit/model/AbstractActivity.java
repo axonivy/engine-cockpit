@@ -13,6 +13,7 @@ public abstract class AbstractActivity
   protected IActivity activity;
   private ActivityState state;
   private ActivityOperationState operationState;
+  private String errorMessage;
   protected boolean disable;
   private ApplicationBean bean;
   
@@ -45,10 +46,12 @@ public abstract class AbstractActivity
     {
       state = ActivityState.INACTIVE;
       operationState = ActivityOperationState.INACTIVE;
+      errorMessage = null;
       return;
     }
     state = activity.getActivityState();
     operationState = activity.getActivityOperationState();
+    errorMessage = activity.getErrorMessage();
   }
   
   public boolean isApplication()
@@ -151,7 +154,12 @@ public abstract class AbstractActivity
   {
     return state == ActivityState.LOCKED || state == ActivityState.INACTIVE || disable;
   }
-  
+
+  public String getErrorMessage()
+  {
+    return errorMessage;
+  }
+
   public boolean isReleaseDisabled()
   {
     return true;
