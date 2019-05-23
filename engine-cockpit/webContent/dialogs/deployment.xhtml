@@ -53,6 +53,11 @@
       }
     
       function getDeployOptions(){
+        if (PF('version').input.val() == 'RANGE') {
+          var version = PF('versionRange').jq.val();
+        } else {
+          var version = PF('version').input.val();
+        }
         return deployOptions = {
           'deployTestUsers': PF('deployTestUsers').input.val(),
           'configuration': {
@@ -60,8 +65,7 @@
             'cleanup': PF('cleanupProject').input.val()
           },
           'target': {
-            'version': PF('version').input.val(),
-            'versionRange': PF('versionRange').jq.val(),
+            'version': version,
             'state': PF('state').input.val(),
             'fileFormat': PF('fileFormat').input.val()
           }

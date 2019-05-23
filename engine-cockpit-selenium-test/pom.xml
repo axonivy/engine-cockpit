@@ -45,10 +45,7 @@
 							<excludeDefaultDirectories>true</excludeDefaultDirectories>
 							<filesets>
 								<fileset>
-									<directory>${engine.dir}/system/applications/System/engine-cockpit/</directory>
-								</fileset>
-								<fileset>
-									<directory>${engine.dir}/system/applications/System/PortalConnector/</directory>
+									<directory>${engine.dir}/system/application/engine-cockpit/</directory>
 								</fileset>
 							</filesets>
 						</configuration>
@@ -79,7 +76,7 @@
 							<destFileName>engine-cockpit.iar.zip</destFileName>
 						</artifactItem>
 					</artifactItems>
-					<outputDirectory>${engine.dir}/system/applications/System/engine-cockpit/</outputDirectory>
+					<outputDirectory>${engine.dir}/system/application/engine-cockpit/</outputDirectory>
 					<overWriteSnapshots>true</overWriteSnapshots>
 				</configuration>
 			</plugin>
