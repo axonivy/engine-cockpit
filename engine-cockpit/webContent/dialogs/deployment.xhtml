@@ -4,7 +4,7 @@
   xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-<cc:FileUpload title="Deployment" apiUrl="system/deploy" acceptFiles=".iar, .zip" targetApplication="#{targetApplication}" id="deploymentModal">
+<cc:FileUpload title="Deployment" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
     <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" 
       styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px; display: none;">
       <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />

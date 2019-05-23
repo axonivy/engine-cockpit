@@ -110,7 +110,9 @@
           <ui:include src="dialogs/newapplication.xhtml" />
         </div>
       </cc:SingleCard>
-      <ui:include src="dialogs/deployment.xhtml" />
+      <ui:include src="dialogs/deployment.xhtml" >
+        <ui:param name="url" value="system/apps" />
+      </ui:include>
     </ui:define>
   </ui:composition>
 </h:body>

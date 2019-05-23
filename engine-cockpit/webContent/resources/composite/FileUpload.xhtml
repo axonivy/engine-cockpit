@@ -5,7 +5,6 @@
   <cc:attribute name="title" default="File Upload" />
   <cc:attribute name="apiUrl" />
   <cc:attribute name="acceptFiles" />
-  <cc:attribute name="targetApplication" />
 </cc:interface>
 <cc:implementation>
   <p:dialog style="margin-left: 120px;" header="#{cc.attrs.title}" id="fileUploadModal" width="60%"
@@ -97,7 +96,7 @@
         }
         
         $.ajax({
-          url: '/ivy/api/#{cc.attrs.apiUrl}',
+          url: '/#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}',
           mimeType: 'multipart/form-data',
           cache: false,
           contentType: false,
@@ -111,8 +110,6 @@
             $('#fileUploadResponse').show();
             $('#fileUploadForm').hide();
             $('#uploadFileSpinner').show();
-            //only testing
-            //xhr.setRequestHeader ("Authorization", "Basic " + btoa("admin:admin"));
           }
         }).done(function(response){
           $('#uploadLog').text(response);
@@ -130,7 +127,6 @@
         if ('#{cc.attrs.apiUrl}'.endsWith('deploy')) {
           form_data.append('fileToDeploy', file);
           form_data.append('deploymentOptions', JSON.stringify(getDeployOptions()));
-          form_data.append('targetApplication', '#{cc.attrs.targetApplication}');
         } else {
           form_data.append('licence', file);
         }

@@ -39,6 +39,11 @@ public class AdvisorBean
   {
     return Advisor.getAdvisor().isDesigner() ? "designer" : "system";
   }
+  
+  public String getApiBaseUrl()
+  {
+    return UrlUtil.getApiBaseUrl();
+  }
 
   public String getEngineGuideBaseUrl()
   {
