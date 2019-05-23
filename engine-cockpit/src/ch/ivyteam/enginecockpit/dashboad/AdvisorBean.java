@@ -37,7 +37,7 @@ public class AdvisorBean
   
   public String getApp()
   {
-    return Advisor.getAdvisor().isDesigner() ? "designer" : "System";
+    return Advisor.getAdvisor().isDesigner() ? "designer" : "system";
   }
 
   public String getEngineGuideBaseUrl()
