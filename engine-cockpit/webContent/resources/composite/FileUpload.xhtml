@@ -9,14 +9,14 @@
 </cc:interface>
 <cc:implementation>
   <p:dialog style="margin-left: 120px;" header="#{cc.attrs.title}" id="fileUploadModal" width="60%"
-    widgetVar="fileUploadModal" modal="true" responsive="true" closeOnEscape="true">
+    widgetVar="fileUploadModal" modal="true" responsive="true" closeOnEscape="true" styleClass="ui-fluid">
     <form enctype="multipart/form-data" id="fileUploadForm">
       <div style="min-height: 75px;" class="file-upload">
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
         <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" 
           styleClass="ui-panelgrid-blank">
           <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose file" 
-            onclick="$('#fileInput').trigger('click')" />
+            onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
           <div id="drop_zone">
             <span id="selectedFileOutput" class="file-upload-file" />
           </div>

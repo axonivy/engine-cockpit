@@ -82,14 +82,6 @@ public class WebTestApplication extends WebTestBase
     deleteAppInsideDetailView(driver);
   }
   
-  @Test
-  void testOpenDeployAppModal(FirefoxDriver driver)
-  {
-    toApplications(driver);
-    
-    openDeployApplicationModal(driver);
-  }
-  
   private void deleteAppInsideDetailView(FirefoxDriver driver)
   {
     driver.findElementById("appDetailInfoForm:deleteApplication").click();
@@ -182,17 +174,6 @@ public class WebTestApplication extends WebTestBase
             () -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
   }
   
-  private void openDeployApplicationModal(FirefoxDriver driver)
-  {
-    driver.findElementById("card:form:addButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("card:form:addMenu").isDisplayed()).isTrue());
-    driver.findElementById("card:form:deployApplicationBtn").click();
-    saveScreenshot(driver, "deploy_app_dialog");
-    await().untilAsserted(
-            () -> assertThat(driver.findElementById("card:deploymentModal:fileUploadModal").isDisplayed()).isTrue());
-  }
-  
-
   private void toApplications(FirefoxDriver driver)
   {
     login(driver);
