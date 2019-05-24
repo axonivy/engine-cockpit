@@ -60,7 +60,7 @@ public class WebTestDeployment extends WebTestBase
     }
     else
     {
-      webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("500"));
+      webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("Deployment failed: No ivy projects found in deployment artifact.."));
     }
     saveScreenshot(driver, "deploy_ok");
   }
@@ -73,7 +73,7 @@ public class WebTestDeployment extends WebTestBase
     showDeploymentOptions(driver);
 
     String deployOptions = driver.executeScript("return getDeployOptions()").toString();
-    String expectedDefaultDeployOptions = "{configuration={cleanup=DISABLED, overwrite=false}, deployTestUsers=FALSE, target={fileFormat=AUTO, state=ACTIVE_AND_RELEASED, version=AUTO}}";
+    String expectedDefaultDeployOptions = "{configuration={cleanup=DISABLED, overwrite=false}, deployTestUsers=AUTO, target={fileFormat=AUTO, state=ACTIVE_AND_RELEASED, version=AUTO}}";
     assertThat(deployOptions).isEqualTo(expectedDefaultDeployOptions);
     
     SelectBooleanCheckbox checkbox = new PrimeUi(driver).selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
@@ -81,7 +81,7 @@ public class WebTestDeployment extends WebTestBase
     webAssertThat(() -> assertThat(checkbox.isChecked()).isTrue());
     saveScreenshot(driver, "change_options");
     deployOptions = driver.executeScript("return getDeployOptions()").toString();
-    expectedDefaultDeployOptions = "{configuration={cleanup=DISABLED, overwrite=true}, deployTestUsers=FALSE, target={fileFormat=AUTO, state=ACTIVE_AND_RELEASED, version=AUTO}}";
+    expectedDefaultDeployOptions = "{configuration={cleanup=DISABLED, overwrite=true}, deployTestUsers=AUTO, target={fileFormat=AUTO, state=ACTIVE_AND_RELEASED, version=AUTO}}";
     assertThat(deployOptions).isEqualTo(expectedDefaultDeployOptions);
   }
   
