@@ -10,8 +10,8 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class DeployOptionsBean
 {
-  private String deployTestUsers = "FALSE";
-  private List<String> deployTestUsersValues = Arrays.asList(deployTestUsers, "TRUE", "AUTO");
+  private String deployTestUsers = "AUTO";
+  private List<String> deployTestUsersValues = Arrays.asList(deployTestUsers, "TRUE", "FALSE");
   private boolean overwriteProject = false;
   private String cleanup = "DISABLED";
   private List<String> cleanupValues = Arrays.asList(cleanup, "REMOVE_UNUSED", "REMOVE_ALL");
