@@ -41,36 +41,13 @@
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
       var file;
       
-      function handleFile(file) {
-        if (checkFileInput(file)) {
-          this.file = file;
-          $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
-        } else {
-          $('#selectedFileOutput').text("Choose or drop a file which ends with: #{cc.attrs.acceptFiles}");
-          this.file = null;
-        }
-      }
-    
-      $("#fileInput").on("change", function(e) {
-        handleFile(e.target.files[0]);
-      });
-      
-      $(document).ready(function(e){
+      $(document).ready(function(e) {
         handleFile(document.getElementById('fileInput').files[0]);
       });
       
-      function checkFileInput(file) {
-        if (file != null &amp;&amp; endsWithAnyAccepts(file.name)) {
-          return true;
-        } 
-        return false;
-      }
-      
-      function endsWithAnyAccepts(fileName) {
-        return accepts.some(function (accept) {
-          return fileName.endsWith(accept);
-        });
-      }
+      $("#fileInput").on("change", function(e) {
+        handleFile(e.target.files[0]);
+      });
       
       $('#drop_zone').on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
         e.preventDefault();
@@ -87,6 +64,29 @@
           handleFile(e.originalEvent.dataTransfer.files[0]);
         }
       });
+      
+      function handleFile(file) {
+        if (checkFileInput(file)) {
+          this.file = file;
+          $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
+        } else {
+          $('#selectedFileOutput').text("Choose or drop a file which ends with: #{cc.attrs.acceptFiles}");
+          this.file = null;
+        }
+      }
+      
+      function checkFileInput(file) {
+        if (file != null &amp;&amp; endsWithAnyAccepts(file.name)) {
+          return true;
+        } 
+        return false;
+      }
+      
+      function endsWithAnyAccepts(fileName) {
+        return accepts.some(function (accept) {
+          return fileName.endsWith(accept);
+        });
+      }
       
       function upload() {
         if (!file)

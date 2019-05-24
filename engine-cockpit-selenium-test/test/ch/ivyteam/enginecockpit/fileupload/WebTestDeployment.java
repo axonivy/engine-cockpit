@@ -60,7 +60,7 @@ public class WebTestDeployment extends WebTestBase
     }
     else
     {
-      webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).doesNotContain("404"));
+      webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("500"));
     }
     saveScreenshot(driver, "deploy_ok");
   }

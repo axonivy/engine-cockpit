@@ -74,7 +74,7 @@ public class WebTestDashboard extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("mailConfigForm:msgs_container").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("mailConfigForm:msgs_container").getText()).contains("Error while sending test mail"));
   }
-  
+
   private void toDashboardAndOpenSendMailModal(FirefoxDriver driver)
   {
     toDashboard(driver);

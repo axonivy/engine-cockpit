@@ -62,7 +62,7 @@ public class WebTestApplicationDetail extends WebTestBase
     saveScreenshot(driver, "sync_finished");
     await().untilAsserted(() -> assertThat(driver.findElementById("appDetailSecurityForm:showAdSyncLogBtn").isDisplayed()).isTrue());
   }
-  
+
   private String toggleEnvAndSave(FirefoxDriver driver)
   {
     String setEnv = driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText();
