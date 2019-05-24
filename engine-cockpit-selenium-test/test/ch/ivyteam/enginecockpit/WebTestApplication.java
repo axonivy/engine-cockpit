@@ -166,8 +166,6 @@ public class WebTestApplication extends WebTestBase
 
   private void openNewApplicationModal(FirefoxDriver driver)
   {
-    driver.findElementById("card:form:addButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("card:form:addMenu").isDisplayed()).isTrue());
     driver.findElementById("card:form:createApplicationBtn").click();
     saveScreenshot(driver, "new_app_dialog");
     await().untilAsserted(

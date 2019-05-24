@@ -108,14 +108,6 @@ public class WebTestDeployment extends WebTestBase
     saveScreenshot(driver, "hide_range");
   }
   
-  @Test
-  void testOpenDeployAppModal(FirefoxDriver driver)
-  {
-    toApplications(driver);
-    
-    openDeployApplicationModal(driver);
-  }
-  
   private void showDeploymentOptions(FirefoxDriver driver)
   {
     if (!driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed())
@@ -123,16 +115,6 @@ public class WebTestDeployment extends WebTestBase
       driver.findElementById("deploymentModal:showDeployOptionsBtn").click();
       await().until(() -> driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed());
     }
-  }
-  
-  private void openDeployApplicationModal(FirefoxDriver driver)
-  {
-    driver.findElementById("card:form:addButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("card:form:addMenu").isDisplayed()).isTrue());
-    driver.findElementById("card:form:deployApplicationBtn").click();
-    saveScreenshot(driver, "deploy_app_dialog");
-    await().untilAsserted(
-            () -> assertThat(driver.findElementById("deploymentModal:fileUploadModal").isDisplayed()).isTrue());
   }
   
   private void toAppDetailAndOpenDeployment(FirefoxDriver driver)
@@ -143,13 +125,6 @@ public class WebTestDeployment extends WebTestBase
     saveScreenshot(driver, "deploy");
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
-  }
-  
-  private void toApplications(FirefoxDriver driver)
-  {
-    login(driver);
-    Navigation.toApplications(driver);
-    saveScreenshot(driver, "applications");
   }
   
   private void toApplicationDetail(FirefoxDriver driver)
