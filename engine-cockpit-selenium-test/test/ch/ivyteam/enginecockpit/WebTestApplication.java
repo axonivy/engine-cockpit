@@ -42,10 +42,7 @@ public class WebTestApplication extends WebTestBase
   {
     toApplications(driver);
     
-    driver.findElementById("card:form:createApplicationBtn").click();
-    saveScreenshot(driver, "new_app_dialog");
-    await().untilAsserted(
-            () -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
+    openNewApplicationModal(driver);
 
     driver.findElementById("card:newApplicationForm:saveNewApplication").click();
     saveScreenshot(driver, "new_app_value_required");
@@ -155,10 +152,7 @@ public class WebTestApplication extends WebTestBase
 
   private void addNewApplication(FirefoxDriver driver)
   {
-    driver.findElementById("card:form:createApplicationBtn").click();
-    saveScreenshot(driver, "new_app_dialog");
-    await().untilAsserted(
-            () -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
+    openNewApplicationModal(driver);
     
     driver.findElementById("card:newApplicationForm:newApplicationNameInput").sendKeys(NEW_TEST_APP);
     driver.findElementById("card:newApplicationForm:newApplicationDescInput").sendKeys("test description");
@@ -169,8 +163,15 @@ public class WebTestApplication extends WebTestBase
 
     await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']").isDisplayed()).isTrue());
   }
-  
 
+  private void openNewApplicationModal(FirefoxDriver driver)
+  {
+    driver.findElementById("card:form:createApplicationBtn").click();
+    saveScreenshot(driver, "new_app_dialog");
+    await().untilAsserted(
+            () -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
+  }
+  
   private void toApplications(FirefoxDriver driver)
   {
     login(driver);

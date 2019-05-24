@@ -9,9 +9,9 @@ import java.nio.file.Files;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.primefaces.model.UploadedFile;
 
 import ch.ivyteam.di.restricted.DiCore;
+import ch.ivyteam.enginecockpit.fileupload.HttpFile;
 import ch.ivyteam.ivy.config.IFileAccess;
 import ch.ivyteam.licence.InvalidLicenceException;
 import ch.ivyteam.licence.LicenceConstants;
@@ -43,13 +43,13 @@ public class LicenceUtil
     Files.deleteIfExists(license.toPath());
   }
 
-  public static File verifyAndInstall(UploadedFile uploadedFile) throws Exception
+  public static File verifyAndInstall(HttpFile uploadedFile) throws Exception
   {
     File tempLicence = uploadFile(uploadedFile);
     try
     {
       verify(tempLicence);
-      return install(tempLicence, uploadedFile.getFileName());
+      return install(tempLicence, uploadedFile.getSubmittedFileName());
     }
     finally
     {
@@ -74,11 +74,11 @@ public class LicenceUtil
     SignedLicence.verifyLicence(newLicence);
   }
 
-  private static File uploadFile(UploadedFile uploadedFile) throws IOException, FileNotFoundException
+  private static File uploadFile(HttpFile uploadedFile) throws IOException, FileNotFoundException
   {
-    File tempLicence = File.createTempFile("temp", uploadedFile.getFileName());
+    File tempLicence = File.createTempFile("temp", uploadedFile.getSubmittedFileName());
     try (FileOutputStream fos = new FileOutputStream(tempLicence);
-            InputStream is = uploadedFile.getInputstream())
+            InputStream is = uploadedFile.getStream())
     {
       IOUtils.copy(is, fos);
     }

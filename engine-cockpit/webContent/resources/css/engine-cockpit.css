@@ -331,3 +331,29 @@ body {
   margin-left: 120px;
 }
 
+/* Deploment */
+.file-upload .deploy-file {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.file-upload #drop_zone {
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  padding: 5px;
+}
+.file-upload #drop_zone.is-dragover {
+  border-color: #607D8B;
+}
+.file-upload .file-upload-error {
+  padding: 8px 14px;
+  color: red;
+  font-weight: bold;
+}
+.file-upload .ui-panelgrid .ui-panelgrid-content {
+  padding-left: 0;
+  padding-right: 0;
+}

@@ -3,14 +3,14 @@ package ch.ivyteam.enginecockpit.dashboad;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.Advisor;
 
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 @SuppressWarnings("restriction")
 public class AdvisorBean
 {
@@ -33,6 +33,16 @@ public class AdvisorBean
   public String getCopyright()
   {
     return "&copy; 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
+  }
+  
+  public String getApp()
+  {
+    return Advisor.getAdvisor().isDesigner() ? "designer" : "system";
+  }
+  
+  public String getApiBaseUrl()
+  {
+    return UrlUtil.getApiBaseUrl();
   }
 
   public String getEngineGuideBaseUrl()

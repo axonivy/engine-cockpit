@@ -18,7 +18,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 
 public class WebTestApplicationDetail extends WebTestBase
 {
-  private String app = EngineCockpitUrl.isDesignerApp() ? "designer" : "test-ad";
+  private static final String APP = EngineCockpitUrl.isDesignerApp() ? "designer" : "test-ad";
 
   @Test
   void testApplicationDetailDashboardContent(FirefoxDriver driver)
@@ -48,7 +48,7 @@ public class WebTestApplicationDetail extends WebTestBase
   @Test
   void testAdSync(FirefoxDriver driver)
   {
-    if (app.equals("designer"))
+    if (APP.equals("designer"))
     {
       return;
     }
@@ -84,7 +84,7 @@ public class WebTestApplicationDetail extends WebTestBase
   private void toApplicationDetail(FirefoxDriver driver)
   {
     login(driver);
-    Navigation.toApplicationDetail(driver, app);
+    Navigation.toApplicationDetail(driver, APP);
     saveScreenshot(driver, "app_detail");
   }
   
