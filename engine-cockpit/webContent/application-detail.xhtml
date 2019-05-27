@@ -19,33 +19,31 @@
     </ui:define>
     
     <ui:define name="content">
-      <div class="ui-fluid dashboard">
-        <div class="ui-g">
-          <cc:OverviewBox box="4" count="#{applicationDetailBean.sessionCount}" icon="person_pin_circle" title="Sessions" link="users.xhtml"/>
-          <cc:OverviewBox box="2" count="#{applicationDetailBean.usersCount}" icon="person" title="Users" link="users.xhtml"/>
-          <cc:OverviewBox box="3" count="#{applicationDetailBean.casesCount}" icon="storage" title="Running Cases"/>
-          <cc:OverviewBox box="1" count="#{applicationDetailBean.pmCount}" icon="settings_applications" title="Process Models"/>
-        
-          <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-350">
-              <ui:include src="components/application/information.xhtml" />
-            </p:panel>
-          </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-350">
-              <ui:include src="components/application/security.xhtml" />
-            </p:panel>
-          </div>
-          <div class="ui-g-12 ui-md-3 ui-lg-3 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-250">
-              <ui:include src="components/application/state.xhtml" />
-            </p:panel>
-          </div>
-          <div class="ui-g-12 ui-md-9 ui-lg-9 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-250 max-height-700">
-              <ui:include src="components/application/properties.xhtml" />
-            </p:panel>
-          </div>
+      <div class="ui-g ui-fluid dashboard">
+        <cc:OverviewBox box="4" count="#{applicationDetailBean.sessionCount}" icon="person_pin_circle" title="Sessions" link="users.xhtml"/>
+        <cc:OverviewBox box="2" count="#{applicationDetailBean.usersCount}" icon="person" title="Users" link="users.xhtml"/>
+        <cc:OverviewBox box="3" count="#{applicationDetailBean.casesCount}" icon="storage" title="Running Cases"/>
+        <cc:OverviewBox box="1" count="#{applicationDetailBean.pmCount}" icon="settings_applications" title="Process Models"/>
+      
+        <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
+          <p:panel styleClass="min-height-350">
+            <ui:include src="components/application/information.xhtml" />
+          </p:panel>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
+          <p:panel styleClass="min-height-350">
+            <ui:include src="components/application/security.xhtml" />
+          </p:panel>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3 dashboard-card ui-panelgrid">
+          <p:panel styleClass="min-height-250">
+            <ui:include src="components/application/state.xhtml" />
+          </p:panel>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-9 dashboard-card ui-panelgrid">
+          <p:panel styleClass="min-height-250 max-height-700">
+            <ui:include src="components/application/properties.xhtml" />
+          </p:panel>
         </div>
       </div>
     </ui:define>
