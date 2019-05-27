@@ -44,7 +44,7 @@ public class EngineCockpitUrl
     return uriBuilder.toString();
   }
 
-  private static String base()
+  public static String base()
   {
     return StringUtils.removeEnd(System.getProperty("test.engine.url", "http://localhost:8081/ivy"), "/");
   }
