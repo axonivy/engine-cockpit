@@ -34,6 +34,11 @@ public class UrlUtil
     return "https://developer.axonivy.com/doc/" + version + "/engine-guide";
   }
   
+  public static String getApiBaseUrl()
+  {
+    return Configuration.getOrDefault("WebServer.IvyContextName") + "/api";
+  }
+  
   public static String replaceLinks(String text)
   {
     text = RegExUtils.replaceAll(text, ENGINE_GUIDE_URL_PATTERN, getEngineGuideBaseUrl());

@@ -1,0 +1,145 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+  <cc:attribute name="title" default="File Upload" />
+  <cc:attribute name="apiUrl" />
+  <cc:attribute name="acceptFiles" />
+</cc:interface>
+<cc:implementation>
+  <p:dialog style="margin-left: 120px;" header="#{cc.attrs.title}" id="fileUploadModal" width="60%"
+    widgetVar="fileUploadModal" modal="true" responsive="true" closeOnEscape="true" styleClass="ui-fluid">
+    <form enctype="multipart/form-data" id="fileUploadForm">
+      <div style="min-height: 75px;" class="file-upload">
+        <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
+        <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" 
+          styleClass="ui-panelgrid-blank">
+          <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose file" 
+            onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
+          <div id="drop_zone">
+            <span id="selectedFileOutput" class="file-upload-file" />
+          </div>
+        </p:panelGrid>
+        <div id="uploadError" class="file-upload-error" />
+        <cc:insertChildren />
+      </div>
+      <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-cloud-upload"
+        styleClass="primary-btn modal-input-button" onclick="upload();" />
+      <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    </form>
+    <div id="fileUploadResponse" style="display:none;">
+      <i id="uploadFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
+      <div style="font-weight: bold;" id="uploadStatus"></div>
+      <pre style="max-height: 500px; overflow: auto;" id="uploadLog"></pre>
+      <p:commandButton id="closeDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
+        icon="ui-icon-clear" styleClass="primary-btn modal-input-button" />
+      <p:commandButton id="backBtn" type="button" value="Back" icon="ui-icon-keyboard-backspace"
+        styleClass="secondary-btn modal-input-button" onclick="back();" />
+    </div>
+    <script>
+      var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
+      var file;
+      
+      $(document).ready(function(e) {
+        handleFile(document.getElementById('fileInput').files[0]);
+      });
+      
+      $("#fileInput").on("change", function(e) {
+        handleFile(e.target.files[0]);
+      });
+      
+      $('#drop_zone').on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      })
+      .on('dragover dragenter', function() {
+        $('#drop_zone').addClass('is-dragover');
+      })
+      .on('dragleave dragend drop', function() {
+        $('#drop_zone').removeClass('is-dragover');
+      })
+      .on('drop', function(e) {
+        if(e.originalEvent.dataTransfer &amp;&amp; e.originalEvent.dataTransfer.files.length) {
+          handleFile(e.originalEvent.dataTransfer.files[0]);
+        }
+      });
+      
+      function handleFile(file) {
+        if (checkFileInput(file)) {
+          this.file = file;
+          $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
+        } else {
+          $('#selectedFileOutput').text("Choose or drop a file which ends with: #{cc.attrs.acceptFiles}");
+          this.file = null;
+        }
+      }
+      
+      function checkFileInput(file) {
+        if (file != null &amp;&amp; endsWithAnyAccepts(file.name)) {
+          return true;
+        } 
+        return false;
+      }
+      
+      function endsWithAnyAccepts(fileName) {
+        return accepts.some(function (accept) {
+          return fileName.endsWith(accept);
+        });
+      }
+      
+      function upload() {
+        if (!file)
+        {
+          $('#uploadError').text("Choose a valid file before upload.");
+          return;
+        }
+        
+        $.ajax({
+          url: '/#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}',
+          mimeType: 'multipart/form-data',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: buildFormData(),
+          method: 'POST',
+          headers: {"X-Requested-By": "engine-cockpit"},
+          async: true,
+          crossDomain: false,
+          beforeSend: function(xhr) {
+            $('#fileUploadResponse').show();
+            $('#fileUploadForm').hide();
+            $('#uploadFileSpinner').show();
+          }
+        }).done(function(response){
+          $('#uploadLog').text(response);
+          $('#uploadStatus').text("Success").css("color", "green");
+        }).fail(function(request, status, error) {
+          $('#uploadLog').text(request.responseText);
+          $('#uploadStatus').text("Error").css("color", "red");
+        }).always(function() {
+          $('#uploadFileSpinner').hide();
+        });
+      }
+      
+      function buildFormData() {
+        var form_data = new FormData();
+        if (!'#{cc.attrs.apiUrl}'.endsWith('licence')) {
+          form_data.append('fileToDeploy', file);
+          form_data.append('deploymentOptions', JSON.stringify(getDeployOptions()));
+        } else {
+          form_data.append('licence', file);
+        }
+        return form_data;
+      }
+      
+      function back() {
+        $('#fileUploadResponse').hide();
+        $('#fileUploadForm').show();
+        $('#uploadLog').text("");
+        $('#uploadStatus').text("");
+      }
+    </script>
+  </p:dialog>
+</cc:implementation>
+</html>
