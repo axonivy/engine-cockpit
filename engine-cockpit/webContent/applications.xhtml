@@ -66,7 +66,12 @@
                     <h:outputText value="#{activity.operationState}"
                       styleClass="activity-state-#{activity.operationStateLowerCase}" />
                   </p:column>
-                  <p:column style="text-align: center; width: 130px;">
+                  <p:column style="text-align: right; width: 152px;">
+                    <p:commandButton title="Deployment" icon="ui-icon-cloud-upload" rendered="#{activity.application}" 
+                      type="button" style="margin-right: 10px;" id="deployBtn">
+                      <p:ajax update="deployDialog" listener="#{applicationBean.setActiveActivity(activity)}" 
+                        oncomplete="PF('fileUploadModal').show()"/>
+                    </p:commandButton>
                     <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}"
                       type="button" style="margin-right: 10px;" styleClass="primary-btn">
                       <p:ajax update="card:form" listener="#{activity.activate}" />
@@ -83,7 +88,7 @@
                       <p:menuitem value="Release" rendered="#{activity.pmv}" icon="ui-icon-unarchive"
                         disabled="#{activity.releaseDisabled}" actionListener="#{activity.release}" update="card:form" />
                       <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
-                        actionListener="#{applicationBean.deleteConfirm(activity.applicationId, activity.name, activity.activityType)}"
+                        actionListener="#{applicationBean.setActiveActivity(activity)}"
                         update="card:form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
                     </p:menu>
                   </p:column>
@@ -93,8 +98,8 @@
             <p:poll listener="#{applicationBean.reloadActivityStates}" update="card:form"
               autoStart="#{applicationBean.operating}" interval="1" />
             <p:confirmDialog id="deleteConfirmDialog"
-              message="Are you sure about deleting #{applicationBean.deleteType} '#{applicationBean.deleteName}'?"
-              header="Delete #{applicationBean.deleteType}" severity="alert" widgetVar="deleteConfirmDialog">
+              message="Are you sure about deleting #{applicationBean.activeActivity.activityType} '#{applicationBean.activeActivity.name}'?"
+              header="Delete #{applicationBean.activeActivity.activityType}" severity="alert" widgetVar="deleteConfirmDialog">
               <p:commandButton id="deleteConfirmYesBtn" value="Yes" immediate="true"
                 actionListener="#{applicationBean.delete}" update="card:form" icon="ui-icon-check" style="width: inherit;" />
               <p:commandButton value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
@@ -104,6 +109,12 @@
           <ui:include src="dialogs/newapplication.xhtml" />
         </div>
       </cc:SingleCard>
+      <h:form id="deployDialog">
+        <ui:include src="dialogs/deployment.xhtml">
+          <ui:param name="appName" value="#{applicationBean.activeActivity.name}" />
+          <ui:param name="url" value="system/apps/#{applicationBean.activeActivity.name}" />
+        </ui:include>
+      </h:form>
     </ui:define>
   </ui:composition>
 </h:body>

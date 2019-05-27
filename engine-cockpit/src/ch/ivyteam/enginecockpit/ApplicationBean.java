@@ -19,6 +19,7 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -29,9 +30,7 @@ public class ApplicationBean
   private String filter = "";
   private boolean operating;
   
-  private String deleteName;
-  private long deleteNameAppId;
-  private String deleteType;
+  private AbstractActivity selectedActivity;
   
   private Application newApp;
   
@@ -44,6 +43,7 @@ public class ApplicationBean
             ManagerBean.class);
     reloadActivities();
     newApp = new Application();
+    selectedActivity = new Application();
     operating = false;
   }
   
@@ -162,58 +162,51 @@ public class ApplicationBean
     managerBean.reloadApplications();
   }
   
-  public void deleteConfirm(long appId, String name, String type)
+  public void setActiveActivity(AbstractActivity activity)
   {
-    this.deleteNameAppId = appId;
-    this.deleteName = name;
-    this.deleteType = type;
+    this.selectedActivity = activity;
+    Ivy.log().info(selectedActivity.getName());
+  }
+  
+  public AbstractActivity getActiveActivity()
+  {
+    return selectedActivity;
   }
   
   public void delete()
   {
-    if (deleteType.equals(AbstractActivity.APP))
+    if (AbstractActivity.APP.equals(selectedActivity.getActivityType()))
     {
       deleteApp();
     }
-    else if (deleteType.equals(AbstractActivity.PM))
+    else if (AbstractActivity.PM.equals(selectedActivity.getActivityType()))
     {
-      deletePm(managerBean.getManager().findApplication(deleteNameAppId));
+      deletePm(managerBean.getManager().findApplication(selectedActivity.getApplicationId()));
     }
     else
     {
-      deletePmv(managerBean.getManager().findApplication(deleteNameAppId));
+      deletePmv(managerBean.getManager().findApplication(selectedActivity.getApplicationId()));
     }
     FacesContext.getCurrentInstance().addMessage("applicationMessage",
-            new FacesMessage("'" + deleteName + "' deleted successfully"));
-    this.deleteName = "";
-    this.deleteNameAppId = -1;
+            new FacesMessage("'" + selectedActivity.getName() + "' deleted successfully"));
+    selectedActivity = new Application();
     reloadActivities();
     managerBean.reloadApplications();
   }
   
   public void deleteApp()
   {
-    managerBean.getManager().deleteApplication(deleteName);
+    managerBean.getManager().deleteApplication(selectedActivity.getName());
   }
   
   public void deletePm(IApplication app)
   {
-    app.deleteProcessModel(deleteName);
+    app.deleteProcessModel(selectedActivity.getName());
   }
   
   public void deletePmv(IApplication app)
   {
-    app.findProcessModelVersion(deleteName).delete();
-  }
-  
-  public String getDeleteName()
-  {
-    return deleteName;
-  }
-  
-  public String getDeleteType()
-  {
-    return deleteType;
+    app.findProcessModelVersion(selectedActivity.getName()).delete();
   }
   
 }
