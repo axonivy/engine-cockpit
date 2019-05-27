@@ -120,7 +120,7 @@ public class WebTestApplication extends WebTestBase
 
   private void stopNewApplication(FirefoxDriver driver, String newAppId)
   {
-    driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[2]")).click();
+    driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[3]")).click();
     saveScreenshot(driver, "new_app_stop");
     await().untilAsserted(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("INACTIVE"));
   }
@@ -128,14 +128,14 @@ public class WebTestApplication extends WebTestBase
   private void startNewApplication(FirefoxDriver driver, String newAppId)
   {
     await().untilAsserted(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("INACTIVE"));
-    driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[1]")).click();
+    driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[2]")).click();
     saveScreenshot(driver, "new_app_run");
     await().untilAsserted(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("ACTIVE"));
   }
 
   private void deleteNewApplication(FirefoxDriver driver, String newAppId)
   {
-    String tasksButtonId = driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[3]")).getAttribute("id");
+    String tasksButtonId = driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[4]")).getAttribute("id");
     String activityMenuId = tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu";
     driver.findElementById(newAppId).findElement(By.id(tasksButtonId)).click();
     saveScreenshot(driver, "new_app_menu");
