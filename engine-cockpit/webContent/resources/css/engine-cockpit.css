@@ -18,8 +18,7 @@ body {
 }
 .layout-wrapper .layout-sidebar .sidebar-logo .sidebar-logo-collapsed {
   position: absolute;
-  height: 40px;
-  padding: 4px;
+  height: 48px;
 }
 .layout-wrapper .layout-sidebar.layout-sidebar-active .sidebar-logo .sidebar-logo-collapsed,
 .layout-wrapper-static .layout-sidebar .sidebar-logo .sidebar-logo-collapsed {
@@ -353,7 +352,9 @@ body {
   color: red;
   font-weight: bold;
 }
-.file-upload .ui-panelgrid .ui-panelgrid-content {
+.file-upload .ui-panelgrid .ui-panelgrid-cell:nth-child(odd) {
   padding-left: 0;
+}
+.file-upload .ui-panelgrid .ui-panelgrid-cell:nth-child(even) {
   padding-right: 0;
 }
