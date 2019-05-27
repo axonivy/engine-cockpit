@@ -63,7 +63,8 @@
                   </p:column>
                   <p:column headerText="State" styleClass="thrid-row" style="text-align: center; width: 120px;">
                     <h:outputText value="#{activity.operationState}"
-                      styleClass="activity-state-#{activity.operationStateLowerCase}" />
+                      styleClass="activity-state-#{activity.operationStateLowerCase}"
+                      title="#{activity.errorMessage}" />
                   </p:column>
                   <p:column style="text-align: center; width: 130px;">
                     <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}"
