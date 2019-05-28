@@ -119,6 +119,7 @@
           $('#uploadStatus').text("Error").css("color", "red");
         }).always(function() {
           $('#uploadFileSpinner').hide();
+          PF('fileUploadModal').initPosition();
         });
       }
       
@@ -138,6 +139,7 @@
         $('#fileUploadForm').show();
         $('#uploadLog').text("");
         $('#uploadStatus').text("");
+        PF('fileUploadModal').initPosition();
       }
     </script>
   </p:dialog>
