@@ -358,3 +358,6 @@ body {
 .file-upload .ui-panelgrid .ui-panelgrid-cell:nth-child(even) {
   padding-right: 0;
 }
+.file-upload .ui-panelgrid .ui-panelgrid-content {
+  padding: 0;
+}

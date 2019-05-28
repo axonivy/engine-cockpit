@@ -19,7 +19,6 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -165,7 +164,6 @@ public class ApplicationBean
   public void setActiveActivity(AbstractActivity activity)
   {
     this.selectedActivity = activity;
-    Ivy.log().info(selectedActivity.getName());
   }
   
   public AbstractActivity getActiveActivity()
