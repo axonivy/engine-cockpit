@@ -42,8 +42,10 @@
       type="button" icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
   </p:panelGrid>
 </h:form>
-<ui:include src="../../dialogs/deployment.xhtml">
-  <ui:param name="appName" value="#{applicationDetailBean.application.name}" />
-  <ui:param name="url" value="system/apps/#{applicationDetailBean.application.name}" />
-</ui:include>
+<h:form id="deployForm">
+  <ui:include src="../../dialogs/deployment.xhtml">
+    <ui:param name="appName" value="#{applicationDetailBean.application.name}" />
+    <ui:param name="url" value="system/apps/#{applicationDetailBean.application.name}" />
+  </ui:include>
+</h:form>
 </html>
