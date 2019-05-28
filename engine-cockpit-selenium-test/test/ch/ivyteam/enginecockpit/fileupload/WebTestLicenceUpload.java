@@ -37,7 +37,7 @@ public class WebTestLicenceUpload extends WebTestBase
   }
   
   @Test
-  public void testLicenceUploadInvalidLicence(FirefoxDriver driver) throws IOException
+  public void testLicenceUploadInvalidLicenceAndBack(FirefoxDriver driver) throws IOException
   {
     toDashboardAndOpenLicenceUpload(driver);
     
@@ -45,8 +45,14 @@ public class WebTestLicenceUpload extends WebTestBase
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
     driver.findElementById("licenceUpload:uploadBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isFalse());
     saveScreenshot(driver, "invalid_lic");
     webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isEqualTo("Licence file has wrong format."));
+    
+    driver.findElementById("licenceUpload:backBtn").click();
+    saveScreenshot(driver, "back");
+    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").isDisplayed()).isFalse());
   }
 
   private void toDashboardAndOpenLicenceUpload(FirefoxDriver driver)

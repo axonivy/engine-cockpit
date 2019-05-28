@@ -46,7 +46,7 @@ public class WebTestDeployment extends WebTestBase
   }
   
   @Test
-  void testDeploymentInvalidApp(FirefoxDriver driver) throws IOException
+  void testDeploymentInvalidAppAndBack(FirefoxDriver driver) throws IOException
   {
     toAppDetailAndOpenDeployment(driver);
     
@@ -54,6 +54,7 @@ public class WebTestDeployment extends WebTestBase
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
     driver.findElementById("deploymentModal:uploadBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isFalse());
     if (EngineCockpitUrl.isDesignerApp())
     {
       webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("404"));
@@ -63,6 +64,11 @@ public class WebTestDeployment extends WebTestBase
       webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("Deployment failed: No ivy projects found in deployment artifact.."));
     }
     saveScreenshot(driver, "deploy_ok");
+    
+    driver.findElementById("deploymentModal:backBtn").click();
+    saveScreenshot(driver, "back");
+    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").isDisplayed()).isFalse());
   }
   
   @Test
@@ -90,6 +96,25 @@ public class WebTestDeployment extends WebTestBase
   {
     toAppDetailAndOpenDeployment(driver);
     
+    openDeployOptionsAndAssertVersionRange(driver);
+  }
+  
+  @Test
+  void testDeploymentDialogOpenApps(FirefoxDriver driver)
+  {
+    toAppsAndOpenDeployDialog(driver);
+  }
+  
+  @Test
+  void testDeploymentDeployOptionsVersionRange_AppsView(FirefoxDriver driver)
+  {
+    toAppsAndOpenDeployDialog(driver);
+    
+    openDeployOptionsAndAssertVersionRange(driver);
+  }
+  
+  private void openDeployOptionsAndAssertVersionRange(FirefoxDriver driver)
+  {
     showDeploymentOptions(driver);
     
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRange").isDisplayed()).isFalse());
@@ -108,19 +133,6 @@ public class WebTestDeployment extends WebTestBase
     saveScreenshot(driver, "hide_range");
   }
   
-  @Test
-  void testDeploymentDialogOpenApps(FirefoxDriver driver)
-  {
-    toApplications(driver);
-    
-    String appName = driver.findElementsByClassName("activity-name").get(0).getText();
-    driver.findElementById("card:form:tree:0:deployBtn").click();
-    saveScreenshot(driver, "deploy_dialog");
-    webAssertThat(() -> assertThat(driver.findElementById("deployDialog:deploymentModal:fileUploadModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("deployDialog:deploymentModal:fileUploadModal_title").getText())
-            .contains(appName));
-  }
-  
   private void showDeploymentOptions(FirefoxDriver driver)
   {
     if (!driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed())
@@ -128,6 +140,18 @@ public class WebTestDeployment extends WebTestBase
       driver.findElementById("deploymentModal:showDeployOptionsBtn").click();
       await().until(() -> driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed());
     }
+  }
+  
+  private void toAppsAndOpenDeployDialog(FirefoxDriver driver)
+  {
+    toApplications(driver);
+    
+    String appName = driver.findElementsByClassName("activity-name").get(0).getText();
+    driver.findElementById("card:form:tree:0:deployBtn").click();
+    saveScreenshot(driver, "deploy_dialog");
+    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal_title").getText())
+            .contains(appName));
   }
   
   private void toAppDetailAndOpenDeployment(FirefoxDriver driver)
