@@ -11,7 +11,7 @@
 <h:form id="webserviceConfigurationForm">
   <p:growl id="webserviceSaveSuccess" for="webserviceSaveSuccess" autoUpdate="true" />
   <p:commandButton id="editWebserviceBtn" type="button" title="Edit Webservice"
-    icon="ui-icon-edit" styleClass="amber-btn card-button" onclick="PF('editServicesModal').show();"/>
+    icon="ui-icon-edit" styleClass="amber-btn card-button" onclick="PF('helpServicesModal').show();"/>
     
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -34,5 +34,5 @@
     <h:outputText id="password" value="#{webserviceDetailBean.webservice.password}" />
   </p:panelGrid>
 </h:form>
-<cc:EditServiceDialog service="#{webserviceDetailBean}" id="editWebserviceDialog" />
+<cc:HelpServiceDialog service="#{webserviceDetailBean}" id="helpWebserviceDialog" />
 </html>

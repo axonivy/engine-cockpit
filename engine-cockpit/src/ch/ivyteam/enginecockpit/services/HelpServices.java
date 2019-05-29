@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.util.Property;
 
-public abstract class EditServices
+public abstract class HelpServices
 {
   public String getTitle()
   {
@@ -32,7 +32,7 @@ public abstract class EditServices
 
   public static String readTemplateString(String fileName)
   {
-    try (InputStream is = EditServices.class.getResourceAsStream(fileName))
+    try (InputStream is = HelpServices.class.getResourceAsStream(fileName))
     {
       return IOUtils.toString(is, StandardCharsets.UTF_8);
     }

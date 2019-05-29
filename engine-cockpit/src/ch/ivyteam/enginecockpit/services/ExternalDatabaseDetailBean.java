@@ -20,7 +20,7 @@ import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class ExternalDatabaseDetailBean extends EditServices
+public class ExternalDatabaseDetailBean extends HelpServices
 {
   private ExternalDatabase externalDatabase;
   private String databaseName;

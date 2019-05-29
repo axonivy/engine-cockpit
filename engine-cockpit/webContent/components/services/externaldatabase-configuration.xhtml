@@ -10,8 +10,8 @@
 </f:facet>
 <h:form id="databaseConfigurationForm">
   <p:growl id="databaseConfigMsg" for="databaseConfigMsg" autoUpdate="true" showDetail="true" />
-  <p:commandButton id="editDatabaseBtn" type="button" title="Edit External Database"
-    icon="ui-icon-edit" styleClass="amber-btn card-button" onclick="PF('editServicesModal').show();"/>
+  <p:commandButton id="helpDatabaseBtn" type="button" title="Help"
+    icon="ui-icon-help" styleClass="amber-btn card-button" onclick="PF('helpServicesModal').show();"/>
   <p:commandButton id="testDatabaseBtn" title="Test External Database Connection"
     icon="ui-icon-call-made" styleClass="secondary-btn card-button" actionListener="#{externalDatabaseDetailBean.testDbConnection}"/>
     
@@ -36,5 +36,5 @@
     <h:outputText id="maxConnections" value="#{externalDatabaseDetailBean.externalDatabase.maxConnections}" />
   </p:panelGrid>
 </h:form>
-<cc:EditServiceDialog service="#{externalDatabaseDetailBean}" id="editExternalDatabaseDialog" />
+<cc:HelpServiceDialog service="#{externalDatabaseDetailBean}" id="helpExternalDatabaseDialog" />
 </html>

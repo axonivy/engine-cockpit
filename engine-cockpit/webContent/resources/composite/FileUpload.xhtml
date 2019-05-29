@@ -32,7 +32,7 @@
       <i id="uploadFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
       <div style="font-weight: bold;" id="uploadStatus"></div>
       <pre style="max-height: 500px; overflow: auto;" id="uploadLog"></pre>
-      <p:commandButton id="closeDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
+      <p:commandButton id="closeDeploymentBtn" onclick="window.location.reload()" value="Close" type="button"
         icon="ui-icon-clear" styleClass="primary-btn modal-input-button" />
       <p:commandButton id="backBtn" type="button" value="Back" icon="ui-icon-keyboard-backspace"
         styleClass="secondary-btn modal-input-button" onclick="back();" />

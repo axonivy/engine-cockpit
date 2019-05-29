@@ -23,13 +23,13 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   }
   
   @Test
-  void testOpenExternalDatabaseEdit(FirefoxDriver driver)
+  void testOpenExternalDatabaseHelp(FirefoxDriver driver)
   {
     navigateToDatabaseDetail(driver);
     
-    driver.findElementById("databaseConfigurationForm:editDatabaseBtn").click();
-    saveScreenshot(driver, "edit_modal");
-    webAssertThat(() -> assertThat(driver.findElementById("editExternalDatabaseDialog:editServicesModal").isDisplayed()).isTrue());
+    driver.findElementById("databaseConfigurationForm:helpDatabaseBtn").click();
+    saveScreenshot(driver, "help_modal");
+    webAssertThat(() -> assertThat(driver.findElementById("helpExternalDatabaseDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(DATABASE_NAME));
   }
   

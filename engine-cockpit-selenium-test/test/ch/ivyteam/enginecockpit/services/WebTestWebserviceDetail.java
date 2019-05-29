@@ -22,13 +22,13 @@ public class WebTestWebserviceDetail extends WebTestBase
   }
   
   @Test
-  void testOpenWebserviceEdit(FirefoxDriver driver)
+  void testOpenWebserviceHelp(FirefoxDriver driver)
   {
     navigateToWebserviceDetail(driver);
     
-    driver.findElementById("webserviceConfigurationForm:editWebserviceBtn").click();
-    saveScreenshot(driver, "edit_modal");
-    webAssertThat(() -> assertThat(driver.findElementById("editWebserviceDialog:editServicesModal").isDisplayed()).isTrue());
+    driver.findElementById("webserviceConfigurationForm:helpWebserviceBtn").click();
+    saveScreenshot(driver, "help_modal");
+    webAssertThat(() -> assertThat(driver.findElementById("helpWebserviceDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(WEBSERVICE_NAME));
   }
   

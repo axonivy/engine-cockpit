@@ -19,7 +19,7 @@ import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class RestClientDetailBean extends EditServices
+public class RestClientDetailBean extends HelpServices
 {
   private RestClient restClient;
   private String restClientName;

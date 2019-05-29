@@ -17,7 +17,7 @@ import ch.ivyteam.enginecockpit.model.Webservice;
 
 @ManagedBean
 @ViewScoped
-public class WebserviceDetailBean extends EditServices
+public class WebserviceDetailBean extends HelpServices
 {
   private Webservice webservice;
   private String webserviceId;
