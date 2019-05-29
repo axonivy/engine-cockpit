@@ -16,6 +16,9 @@
       </h:panelGroup>
       <label>Description</label>
       <p:inputText id="newApplicationDescInput" value="#{applicationBean.newApplication.desc}" />
+      
+      <label>Activate</label>
+      <p:selectBooleanCheckbox id="newApplicationActivate" value="#{applicationBean.activateNewApp}" />
     </p:panelGrid>
     <p:commandButton id="saveNewApplication" validateClient="true" ajax="false" 
       actionListener="#{applicationBean.createNewApplication}" value="Save" icon="ui-icon-save"

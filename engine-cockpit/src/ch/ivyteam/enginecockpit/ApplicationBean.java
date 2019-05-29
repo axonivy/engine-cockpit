@@ -32,6 +32,7 @@ public class ApplicationBean
   private AbstractActivity selectedActivity;
   
   private Application newApp;
+  private boolean activateNewApp;
   
   private ManagerBean managerBean;
   
@@ -42,6 +43,7 @@ public class ApplicationBean
             ManagerBean.class);
     reloadActivities();
     newApp = new Application();
+    activateNewApp = true;
     selectedActivity = new Application();
     operating = false;
   }
@@ -153,10 +155,24 @@ public class ApplicationBean
     return newApp;
   }
   
+  public boolean getActivateNewApp()
+  {
+    return activateNewApp;
+  }
+  
+  public void setActivateNewApp(boolean activateNewApp)
+  {
+    this.activateNewApp = activateNewApp;
+  }
+  
   public void createNewApplication()
   {
     IApplication app = managerBean.getManager().createApplication(newApp.getName());
     app.setDescription(newApp.getDesc());
+    if (activateNewApp)
+    {
+      app.activate();
+    }
     reloadActivities();
     managerBean.reloadApplications();
   }
