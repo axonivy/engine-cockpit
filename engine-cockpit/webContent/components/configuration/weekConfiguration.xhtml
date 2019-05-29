@@ -10,8 +10,8 @@
       Week configuration
     </f:facet>
     
-    <p:panelGrid columns="2" style="width: 100%" columnClasses="ui-grid-col-6, ui-grid-col-6">
-      <h:outputText value="Start day of week"/>
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+      <label>Start day of week</label>
       <h:outputText value="#{businessCalendarBean.activeCalendar.firstDayOfWeek}"/>
     </p:panelGrid>
     <br/>

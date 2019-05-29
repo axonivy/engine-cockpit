@@ -17,15 +17,11 @@
           <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadBusinessCalendar}" id="apps">
         
             <div class="ui-g">
-              <div class="ui-g-12 ui-md-9">
+              <div class="ui-g-12 ui-md-12">
                 <h1>
                   <i class="material-icons card-title-icon">event</i>Business Calendar
                 </h1>
               </div>
-            
-	            <div class="ui-g-12 ui-md-3" style="margin: auto;">
-	              <cc:EnvironmentSelect environmentChange="#{businessCalendarBean.reloadBusinessCalendar}"/>
-	            </div>
             </div>  
             
             <div class="ui-g">
@@ -49,9 +45,9 @@
                   <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
                   <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
                   <p:treeNode icon="ui-icon-calendar">
-                    <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node}" id="calendarNode">
-                      <h:outputText value ="#{node}"/>
-				      <h:outputText value=" (Active)" rendered="#{node eq businessCalendarBean.getEnvironmentCalendar()}" styleClass="addition-row-info"/>
+                    <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node.name}" id="calendarNode">
+                      <h:outputText value="#{node.name}"/>
+                      <h:outputText value=" (#{node.environments})" rendered="#{not empty node.environments}" styleClass="addition-row-info"/>
                     </h:outputLink>
                   </p:treeNode>
                 </p:tree>

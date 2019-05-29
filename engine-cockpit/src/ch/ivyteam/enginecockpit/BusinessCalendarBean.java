@@ -6,11 +6,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.model.BusinessCalendar;
-import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.scripting.objects.Tree;
 
 @ManagedBean
@@ -43,26 +43,30 @@ public class BusinessCalendarBean
   private void loadCalendarTree(TreeNode rootNode)
   {
     Tree rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings().getAllBusinessCalendarConfigurations();
-    TreeNode node = new DefaultTreeNode(findCalendar(rootTree.getInfo()).getName(), rootNode);
+    TreeNode node = new DefaultTreeNode(findCalendar(rootTree.getInfo()), rootNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);
-  }
-  
-  private IBusinessCalendarConfiguration findCalendar(String name)
-  {
-    return managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(name);
   }
   
   private void buildCalendarTree(Tree rootTree, TreeNode rootNode)
   {
     for (Tree child : rootTree.getChildren())
     {
-      TreeNode node = new DefaultTreeNode(findCalendar(child.getInfo()).getName(), rootNode);
+      TreeNode node = new DefaultTreeNode(findCalendar(child.getInfo()), rootNode);
       node.setExpanded(true);
       buildCalendarTree(child, node);
     }
   }
 
+  private BusinessCalendar findCalendar(String name)
+  {
+    BusinessCalendar businessCalendar = new BusinessCalendar(managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(name));
+    managerBean.getSelectedIApplication().getEnvironments().stream()
+            .filter(e -> StringUtils.equals(e.getBusinessCalendar().getName(), businessCalendar.getName()))
+            .forEach(e -> businessCalendar.addEnvironment(e.getName()));
+    return businessCalendar;
+  }
+  
   public BusinessCalendar getActiveCalendar()
   {
     return activeCalendar;
