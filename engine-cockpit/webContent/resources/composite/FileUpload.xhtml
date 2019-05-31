@@ -127,7 +127,7 @@
         var form_data = new FormData();
         if (!'#{cc.attrs.apiUrl}'.endsWith('licence')) {
           form_data.append('fileToDeploy', file);
-          form_data.append('deploymentOptions', JSON.stringify(getDeployOptions()));
+          addDeployOptions(form_data);
         } else {
           form_data.append('licence', file);
         }

@@ -13,6 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
@@ -77,18 +78,25 @@ public class WebTestDeployment extends WebTestBase
     toAppDetailAndOpenDeployment(driver);
     
     showDeploymentOptions(driver);
+    PrimeUi primeUi = new PrimeUi(driver);
+    SelectOneMenu testUser = primeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
+    SelectBooleanCheckbox overwrite = primeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
+    SelectOneMenu cleanup = primeUi.selectOne(By.id("deploymentModal:cleanupProject"));
+    SelectOneMenu version = primeUi.selectOne(By.id("deploymentModal:version"));
+    SelectOneMenu state = primeUi.selectOne(By.id("deploymentModal:state"));
+    SelectOneMenu fileFormat = primeUi.selectOne(By.id("deploymentModal:fileFormat"));
 
-    String deployOptions = driver.executeScript("return getDeployOptions()").toString();
-    String expectedDefaultDeployOptions = "{configuration={cleanup=DISABLED, overwrite=false}, deployTestUsers=AUTO, target={fileFormat=AUTO, state=ACTIVE_AND_RELEASED, version=AUTO}}";
-    assertThat(deployOptions).isEqualTo(expectedDefaultDeployOptions);
+    webAssertThat(() -> assertThat(testUser.getSelectedItem()).isEqualTo("AUTO"));
+    webAssertThat(() -> assertThat(overwrite.isChecked()).isFalse());
+    webAssertThat(() -> assertThat(cleanup.getSelectedItem()).isEqualTo("DISABLED"));
+    webAssertThat(() -> assertThat(version.getSelectedItem()).isEqualTo("AUTO"));
+    webAssertThat(() -> assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED"));
+    webAssertThat(() -> assertThat(fileFormat.getSelectedItem()).isEqualTo("AUTO"));
     
     SelectBooleanCheckbox checkbox = new PrimeUi(driver).selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
     checkbox.setChecked();
-    webAssertThat(() -> assertThat(checkbox.isChecked()).isTrue());
+    webAssertThat(() -> assertThat(overwrite.isChecked()).isTrue());
     saveScreenshot(driver, "change_options");
-    deployOptions = driver.executeScript("return getDeployOptions()").toString();
-    expectedDefaultDeployOptions = "{configuration={cleanup=DISABLED, overwrite=true}, deployTestUsers=AUTO, target={fileFormat=AUTO, state=ACTIVE_AND_RELEASED, version=AUTO}}";
-    assertThat(deployOptions).isEqualTo(expectedDefaultDeployOptions);
   }
   
   @Test
@@ -140,6 +148,7 @@ public class WebTestDeployment extends WebTestBase
       driver.findElementById("deploymentModal:showDeployOptionsBtn").click();
       await().until(() -> driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed());
     }
+    saveScreenshot(driver, "show_options");
   }
   
   private void toAppsAndOpenDeployDialog(FirefoxDriver driver)
