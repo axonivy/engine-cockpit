@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog style="min-width: 400px;" header="Download all log files"
+  id="logsDownloadModal" widgetVar="logsDownloadModal" modal="true"
+  responsive="true" closeOnEscape="true">
+  <h:form>
+    <div style="margin-bottom: 20px;">
+      <i id="uploadFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" style="display: none;" aria-hidden="true" />
+    </div>
+    <p:commandButton id="allLogs" ajax="false" value="Download" 
+      onclick="$('#uploadFileSpinner').show(); window.onblur = function(){$('#uploadFileSpinner').hide();};"
+      title="Download All Log Files" icon="ui-icon-cloud-download"
+      styleClass="primary-btn modal-input-button" style="width: 150px;">
+      <p:fileDownload value="#{logBean.allLogs}" />
+    </p:commandButton>
+    <p:commandButton id="cancelEditGlobalVar"
+      onclick="PF('logsDownloadModal').hide();" value="Cancel"
+      type="button" icon="ui-icon-clear"
+      styleClass="secondary-btn modal-input-button" />
+  </h:form>
+</p:dialog>
+</html>
