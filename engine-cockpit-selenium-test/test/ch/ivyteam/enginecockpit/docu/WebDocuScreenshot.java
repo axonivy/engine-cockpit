@@ -20,54 +20,56 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 public class WebDocuScreenshot extends WebBase
 {
 
+  private static final int SCREENSHOT_WIDTH = 1500;
+
   @Test
   void docuScreeshot(FirefoxDriver driver)
   {
     populateBusinessCalendar(driver);
     login(driver);
-    takeScreenshot(driver, "engine-cockpit-dashboard", new Dimension(1062, 800));
+    takeScreenshot(driver, "engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toApplications(driver);
-    takeScreenshot(driver, "engine-cockpit-applications", new Dimension(1062, 600));
+    takeScreenshot(driver, "engine-cockpit-applications", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toApplicationDetail(driver, EngineCockpitUrl.isDesignerApp() ? "designer" : "test");
-    takeScreenshot(driver, "engine-cockpit-application-detail", new Dimension(1062, 900));
+    takeScreenshot(driver, "engine-cockpit-application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toSecuritySystem(driver);
-    takeScreenshot(driver, "engine-cockpit-security-system", new Dimension(1062, 500));
+    takeScreenshot(driver, "engine-cockpit-security-system", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toSecuritySystemDetail(driver, "test-ad");
-    takeScreenshot(driver, "engine-cockpit-security-system-detail", new Dimension(1062, 900));
+    takeScreenshot(driver, "engine-cockpit-security-system-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toUsers(driver);
-    takeScreenshot(driver, "engine-cockpit-users", new Dimension(1062, 600));
+    takeScreenshot(driver, "engine-cockpit-users", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toUserDetail(driver, "foo");
-    takeScreenshot(driver, "engine-cockpit-user-detail", new Dimension(1062, 1000));
+    takeScreenshot(driver, "engine-cockpit-user-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toRoles(driver);
-    takeScreenshot(driver, "engine-cockpit-roles", new Dimension(1062, 600));
+    takeScreenshot(driver, "engine-cockpit-roles", new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toRoleDetail(driver, "boss");
-    takeScreenshot(driver, "engine-cockpit-role-detail", new Dimension(1062, 900));
+    takeScreenshot(driver, "engine-cockpit-role-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toVariables(driver);
-    takeScreenshot(driver, "engine-cockpit-configuration-variables", new Dimension(1062, 500));
+    takeScreenshot(driver, "engine-cockpit-configuration-variables", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendar(driver);
-    takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar", new Dimension(1062, 500));
+    takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendarDetail(driver, "Luzern");
-    takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar-detail", new Dimension(1062, 750));
+    takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar-detail", new Dimension(SCREENSHOT_WIDTH, 750));
     Navigation.toEmail(driver);
-    takeScreenshot(driver, "engine-cockpit-email", new Dimension(1062, 800));
+    takeScreenshot(driver, "engine-cockpit-email", new Dimension(SCREENSHOT_WIDTH, 650));
     Navigation.toExternalDatabases(driver);
-    takeScreenshot(driver, "engine-cockpit-external-databases", new Dimension(1062, 500));
+    takeScreenshot(driver, "engine-cockpit-external-databases", new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toExternalDatabaseDetail(driver, "test-db");
-    takeScreenshot(driver, "engine-cockpit-external-database-detail", new Dimension(1062, 600));
+    takeScreenshot(driver, "engine-cockpit-external-database-detail", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toWebservices(driver);
-    takeScreenshot(driver, "engine-cockpit-webservice", new Dimension(1062, 500));
+    takeScreenshot(driver, "engine-cockpit-webservice", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toWebserviceDetail(driver, "test-web");
-    takeScreenshot(driver, "engine-cockpit-webservice-detail", new Dimension(1062, 800));
+    takeScreenshot(driver, "engine-cockpit-webservice-detail", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toRestClients(driver);
-    takeScreenshot(driver, "engine-cockpit-rest-clients", new Dimension(1062, 500));
+    takeScreenshot(driver, "engine-cockpit-rest-clients", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toRestClientDetail(driver, "test-rest");
-    takeScreenshot(driver, "engine-cockpit-rest-client-detail", new Dimension(1062, 600));
+    takeScreenshot(driver, "engine-cockpit-rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toSystemConfig(driver);
-    takeScreenshot(driver, "engine-cockpit-system-config", new Dimension(1062, 700));
+    takeScreenshot(driver, "engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toMonitor(driver);
-    takeScreenshot(driver, "engine-cockpit-monitor", new Dimension(1062, 1000));
+    takeScreenshot(driver, "engine-cockpit-monitor", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toLogs(driver);
-    takeScreenshot(driver, "engine-cockpit-logs", new Dimension(1062, 1000));
+    takeScreenshot(driver, "engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
   }
   
   public void takeScreenshot(RemoteWebDriver driver, String fileName, Dimension size)
@@ -75,10 +77,23 @@ public class WebDocuScreenshot extends WebBase
     Dimension oldSize = driver.manage().window().getSize();
     resizeBrowser(driver, size);
     scrollToPosition(driver, 0, 0);
+    waitForNavigationHighlight(120);
     saveScreenshot(driver, fileName);
     resizeBrowser(driver, oldSize);
   }
   
+  private void waitForNavigationHighlight(int millisec)
+  {
+    try
+    {
+      Thread.sleep(millisec);
+    }
+    catch (InterruptedException ex)
+    {
+      ex.printStackTrace();
+    }
+  }
+
   public void saveScreenshot(RemoteWebDriver driver, String name) 
   {
     File source = driver.getScreenshotAs(OutputType.FILE);
