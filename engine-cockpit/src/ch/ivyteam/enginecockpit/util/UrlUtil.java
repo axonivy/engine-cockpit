@@ -34,6 +34,11 @@ public class UrlUtil
     return "https://developer.axonivy.com/doc/" + version + "/engine-guide";
   }
   
+  public static String getCockpitEngineGuideUrl()
+  {
+    return getEngineGuideBaseUrl() + "/tool-reference/engine-cockpit.html";
+  }
+  
   public static String getApiBaseUrl()
   {
     return Configuration.getOrDefault("WebServer.IvyContextName") + "/api";

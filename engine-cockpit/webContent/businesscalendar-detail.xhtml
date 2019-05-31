@@ -16,26 +16,31 @@
       <li>/</li>
       <li><a href="businesscalendar-detail.xhtml?calendarName=#{businessCalendarBean.activeCalendar.name}">#{businessCalendarBean.activeCalendar.name}</a></li>
     </ui:define>
+    
+    <ui:define name="breadcrumb-right">
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}#business-calendar'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
+    
     <ui:define name="content">
-
-    <div class="ui-g">
-      <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
-        <ui:include src="components/configuration/weekConfiguration.xhtml"/>
+      <div class="ui-g">
+        <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+          <ui:include src="components/configuration/weekConfiguration.xhtml"/>
+        </div>
+        
+        <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+          <ui:include src="components/configuration/freeDaysOfYear.xhtml"/>
+        </div>
+        
+        <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+          <ui:include src="components/configuration/freeEasterRelativeDays.xhtml"/>
+        </div>
+        
+        <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+          <ui:include src="components/configuration/freeDays.xhtml"/>
+        </div>
       </div>
-      
-      <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
-        <ui:include src="components/configuration/freeDaysOfYear.xhtml"/>
-      </div>
-      
-      <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
-        <ui:include src="components/configuration/freeEasterRelativeDays.xhtml"/>
-      </div>
-      
-      <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
-        <ui:include src="components/configuration/freeDays.xhtml"/>
-      </div>
-    </div>
-
     </ui:define>
   </ui:composition>
 </h:body>
