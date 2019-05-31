@@ -15,7 +15,7 @@ public abstract class HelpServices
 {
   public String getTitle()
   {
-    return "Edit Service";
+    return "Service";
   }
 
   public String getGuideText()

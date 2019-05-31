@@ -59,13 +59,13 @@ public class RestClientDetailBean extends HelpServices
   @Override
   public String getTitle()
   {
-    return "Edit Rest Client '" + restClientName + "'";
+    return "Rest Client '" + restClientName + "'";
   }
   
   @Override
   public String getGuideText()
   {
-    return "To edit your Rest Client overwrite your app.yaml file";
+    return "To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
   
   @Override

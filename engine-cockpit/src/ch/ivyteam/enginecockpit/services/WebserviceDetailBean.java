@@ -50,13 +50,13 @@ public class WebserviceDetailBean extends HelpServices
   @Override
   public String getTitle()
   {
-    return "Edit Web Service '" + webservice.getName() + "'";
+    return "Web Service '" + webservice.getName() + "'";
   }
   
   @Override
   public String getGuideText()
   {
-    return "To edit your Web Service overwrite your app.yaml file";
+    return "To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
   
   @Override

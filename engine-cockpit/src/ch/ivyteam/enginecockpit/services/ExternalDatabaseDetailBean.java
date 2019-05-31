@@ -53,13 +53,13 @@ public class ExternalDatabaseDetailBean extends HelpServices
   @Override
   public String getTitle()
   {
-    return "Edit External Database '" + databaseName + "'";
+    return "External Database '" + databaseName + "'";
   }
   
   @Override
   public String getGuideText()
   {
-    return "To edit your External Database overwrite your app.yaml file";
+    return "To edit your External Database overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
   
   @Override
