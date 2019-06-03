@@ -65,11 +65,11 @@
           var version = PF('version').input.val();
         }
         form_data.append('deployTestUsers', PF('deployTestUsers').input.val());
-        form_data.append('deployConfigOverwrite', PF('overwriteProject').input.is(':checked'));
-        form_data.append('deployConfigCleanup', PF('cleanupProject').input.val());
-        form_data.append('deployTargetVersion', version);
-        form_data.append('deployTargetState', PF('state').input.val());
-        form_data.append('deployTargetFileFormat', PF('fileFormat').input.val());
+        form_data.append('overwriteConfig', PF('overwriteProject').input.is(':checked'));
+        form_data.append('cleanupConfig', PF('cleanupProject').input.val());
+        form_data.append('targetVersion', version);
+        form_data.append('targetState', PF('state').input.val());
+        form_data.append('targetFileFormat', PF('fileFormat').input.val());
       }
     </script>
 </cc:FileUpload>
