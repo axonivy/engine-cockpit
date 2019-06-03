@@ -66,6 +66,9 @@ body {
 .dashboard-card .min-height-250 {
   min-height: 250px;
 }
+.dashboard-card .min-height-300 {
+  min-height: 300px;
+}
 .dashboard-card .min-height-350 {
   min-height: 350px;
 }
