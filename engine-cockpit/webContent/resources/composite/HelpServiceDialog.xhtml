@@ -5,9 +5,9 @@
   <cc:attribute name="service" required="true" />
 </cc:interface>
 <cc:implementation>
-  <p:dialog styleClass="config-showfile" header="#{cc.attrs.service.title}" id="editServicesModal" widgetVar="editServicesModal" modal="true"
+  <p:dialog styleClass="config-showfile" header="#{cc.attrs.service.title}" id="helpServicesModal" widgetVar="helpServicesModal" modal="true"
     responsive="true" closeOnEscape="true" width="60%" onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
-    <h:form id="editServicesForm">
+    <h:form id="helpServicesForm">
       <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
         <h:outputText value="#{cc.attrs.service.guideText}" />
 
@@ -19,7 +19,7 @@
       <a href="#{cc.attrs.service.helpUrl}" target="_blank">
         <i class="material-icons">help</i>
       </a>
-      <p:commandButton id="closeEditServices" onclick="PF('editServicesModal').hide();" value="Close" type="button"
+      <p:commandButton id="closeHelpServices" onclick="PF('helpServicesModal').hide();" value="Close" type="button"
         icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
     </h:form>
   </p:dialog>

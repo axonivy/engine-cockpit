@@ -12,6 +12,12 @@
       <li><a href="global-variables.xhtml">Global Variables</a></li>
     </ui:define>
     
+    <ui:define name="breadcrumb-right">
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}#global-variables'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
+    
     <ui:define name="content">
       <h:form id="form">
         <p:growl id="msgs" />

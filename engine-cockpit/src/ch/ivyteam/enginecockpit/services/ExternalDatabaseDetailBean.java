@@ -20,7 +20,7 @@ import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class ExternalDatabaseDetailBean extends EditServices
+public class ExternalDatabaseDetailBean extends HelpServices
 {
   private ExternalDatabase externalDatabase;
   private String databaseName;
@@ -53,13 +53,13 @@ public class ExternalDatabaseDetailBean extends EditServices
   @Override
   public String getTitle()
   {
-    return "Edit External Database '" + databaseName + "'";
+    return "External Database '" + databaseName + "'";
   }
   
   @Override
   public String getGuideText()
   {
-    return "To edit your External Database overwrite your app.yaml file";
+    return "To edit your External Database overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
   
   @Override

@@ -17,7 +17,7 @@ import ch.ivyteam.enginecockpit.model.Webservice;
 
 @ManagedBean
 @ViewScoped
-public class WebserviceDetailBean extends EditServices
+public class WebserviceDetailBean extends HelpServices
 {
   private Webservice webservice;
   private String webserviceId;
@@ -50,13 +50,13 @@ public class WebserviceDetailBean extends EditServices
   @Override
   public String getTitle()
   {
-    return "Edit Web Service '" + webservice.getName() + "'";
+    return "Web Service '" + webservice.getName() + "'";
   }
   
   @Override
   public String getGuideText()
   {
-    return "To edit your Web Service overwrite your app.yaml file";
+    return "To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
   
   @Override

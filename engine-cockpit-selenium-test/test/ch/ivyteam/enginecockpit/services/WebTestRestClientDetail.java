@@ -23,13 +23,13 @@ public class WebTestRestClientDetail extends WebTestBase
   }
   
   @Test
-  void testOpenRestClientEdit(FirefoxDriver driver)
+  void testOpenRestClientHelp(FirefoxDriver driver)
   {
     navigateToRestClientDetail(driver);
     
-    driver.findElementById("restClientConfigurationForm:editRestClientBtn").click();
-    saveScreenshot(driver, "edit_modal");
-    webAssertThat(() -> assertThat(driver.findElementById("editRestClientDialog:editServicesModal").isDisplayed()).isTrue());
+    driver.findElementById("restClientConfigurationForm:helpRestClientBtn").click();
+    saveScreenshot(driver, "help_modal");
+    webAssertThat(() -> assertThat(driver.findElementById("helpRestClientDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(RESTCLIENT_NAME));
   }
   

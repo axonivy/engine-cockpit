@@ -15,7 +15,7 @@ public class WebTestBusinessCalendar extends WebTestBase
   {
     toBusinessCalendar(driver);
     webAssertThat(() -> assertThat(
-            driver.findElementByXPath("//*[@id=\"calendarTree\"]//a[contains(@id, 'calendarNode')]").getText()).isEqualTo("Default (Active)"));
+            driver.findElementByXPath("//*[@id=\"calendarTree\"]//a[contains(@id, 'calendarNode')]").getText()).isEqualTo("Default (Default)"));
   }
   
   @Test
@@ -23,7 +23,7 @@ public class WebTestBusinessCalendar extends WebTestBase
   {
     toBusinessCalendarDetail(driver, "Default");
     webAssertThat(() -> assertThat(
-            driver.findElementById("weekConfigurationPanel").getText()).contains("Week configuration", "Start day of week MONDAY",
+            driver.findElementById("weekConfigurationPanel").getText()).contains("Week configuration", "Start day of week\nMONDAY",
             "Free days of week Day", "Weekend SATURDAY", "Working time Time", "morning 08:00:00 - 12:00:00"));
     
     webAssertThat(() -> assertThat(

@@ -19,7 +19,7 @@ import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class RestClientDetailBean extends EditServices
+public class RestClientDetailBean extends HelpServices
 {
   private RestClient restClient;
   private String restClientName;
@@ -59,13 +59,13 @@ public class RestClientDetailBean extends EditServices
   @Override
   public String getTitle()
   {
-    return "Edit Rest Client '" + restClientName + "'";
+    return "Rest Client '" + restClientName + "'";
   }
   
   @Override
   public String getGuideText()
   {
-    return "To edit your Rest Client overwrite your app.yaml file";
+    return "To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
   
   @Override

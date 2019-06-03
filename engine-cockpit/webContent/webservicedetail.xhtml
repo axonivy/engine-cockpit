@@ -18,6 +18,12 @@
       <li><a href="webservicedetail.xhtml?webserviceId=#{webserviceDetailBean.webserviceId}">#{webserviceDetailBean.webservice.name}</a></li>
     </ui:define>
     
+    <ui:define name="breadcrumb-right">
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}#web-service-detail'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
+    
     <ui:define name="content">
       <div class="ui-fluid restclient-detail">
         <div class="ui-g">

@@ -86,6 +86,8 @@ if (settings.findBusinessCalendarConfiguration("Luzern") == null)
 	
 	settings.saveBusinessCalendarConfiguration(luzern);
 	settings.saveBusinessCalendarConfiguration(zug);
+	
+	app.findEnvironment("test").setBusinessCalendar(app.getActualEnvironment().getBusinessCalendar().get("Luzern"));
 }' #txt
 Br0 f3 type engine.cockpit.test.data.Data #txt
 Br0 f3 168 42 112 44 0 -7 #rect

@@ -49,4 +49,9 @@ public class AdvisorBean
   {
     return UrlUtil.getEngineGuideBaseUrl();
   }
+  
+  public String getCockpitEngineGuideUrl()
+  {
+    return UrlUtil.getCockpitEngineGuideUrl();
+  }
 }

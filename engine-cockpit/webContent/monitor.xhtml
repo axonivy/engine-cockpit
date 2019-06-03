@@ -53,6 +53,12 @@
     <ui:define name="breadcrumb">
       <li><a href="monitor.xhtml">Monitor</a></li>
     </ui:define>
+    
+    <ui:define name="breadcrumb-right">
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}#monitor'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
 
     <ui:define name="content">
       <div class="ui-g dashboard">

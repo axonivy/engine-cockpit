@@ -58,24 +58,18 @@
         }
       }
     
-      function getDeployOptions(){
+      function addDeployOptions(form_data){
         if (PF('version').input.val() == 'RANGE') {
           var version = PF('versionRange').jq.val();
         } else {
           var version = PF('version').input.val();
         }
-        return deployOptions = {
-          'deployTestUsers': PF('deployTestUsers').input.val(),
-          'configuration': {
-            'overwrite': PF('overwriteProject').input.is(':checked'),
-            'cleanup': PF('cleanupProject').input.val()
-          },
-          'target': {
-            'version': version,
-            'state': PF('state').input.val(),
-            'fileFormat': PF('fileFormat').input.val()
-          }
-        };
+        form_data.append('deployTestUsers', PF('deployTestUsers').input.val());
+        form_data.append('overwriteConfig', PF('overwriteProject').input.is(':checked'));
+        form_data.append('cleanupConfig', PF('cleanupProject').input.val());
+        form_data.append('targetVersion', version);
+        form_data.append('targetState', PF('state').input.val());
+        form_data.append('targetFileFormat', PF('fileFormat').input.val());
       }
     </script>
 </cc:FileUpload>

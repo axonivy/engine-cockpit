@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ch.ivyteam.ivy.application.calendar.FreeDate;
 import ch.ivyteam.ivy.application.calendar.FreeDayOfWeek;
@@ -14,6 +15,7 @@ import ch.ivyteam.util.date.Weekday;
 public class BusinessCalendar
 {
   private String name;
+  private List<String> environments = new ArrayList<>();
   private Weekday firstDayOfWeek;
   private List<Row> workingTimes;
   private List<Row> freeDaysOfWeek;
@@ -49,6 +51,16 @@ public class BusinessCalendar
     calendarConfig.getFreeDaysOfYear().stream().map(day -> new Row(day, calendarName)).forEach(row -> this.freeDaysOfYear.add(row));
     calendarConfig.getFreeEasterRelativeDays().stream().map(day -> new Row(day, calendarName)).forEach(row -> this.freeEasterRelativeDays.add(row));
     calendarConfig.getFreeDates().stream().map(day -> new Row(day, calendarName)).forEach(row -> this.freeDates.add(row));
+  }
+  
+  public void addEnvironment(String environment)
+  {
+    environments.add(environment);
+  }
+  
+  public String getEnvironments()
+  {
+    return environments.stream().collect(Collectors.joining(", "));
   }
   
   public String getName()

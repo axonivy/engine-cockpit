@@ -69,7 +69,7 @@ public class LogView
   {
     if (!file.exists())
     {
-      return "Logfile '" + file.getName() + "' don't exists.";
+      return "Logfile '" + file.getName() + "' doesn't exist.";
     }
     List<String> lines = readFileLines();
     if (lines.isEmpty())

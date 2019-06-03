@@ -15,11 +15,17 @@
     </ui:define>
     
     <ui:define name="breadcrumb-right">
-    <h:form>
-      <p:calendar id="button" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd" maxdate="#{logBean.today}" >
-        <p:ajax event="dateSelect" update="consoleLogView:logPanel, configLogView:logPanel, ivyLogView:logPanel"/>
-      </p:calendar>
-    </h:form>
+      <a style="float: right;" href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}#logs'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+      <a style="float: right; margin-right: 15px;" href="#" onclick="PF('logsDownloadModal').show();">
+        <i class="material-icons">cloud_download</i>
+      </a>
+      <h:form style="float: right; margin-top: -4px;">
+        <p:calendar id="button" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd" maxdate="#{logBean.today}" >
+          <p:ajax event="dateSelect" update="consoleLogView:logPanel, configLogView:logPanel, ivyLogView:logPanel"/>
+        </p:calendar>
+      </h:form>
     </ui:define>
 
     <ui:define name="content">
@@ -34,6 +40,7 @@
           <cc:LogView log="#{logBean.ivyLog}" id="ivyLogView"/>
         </div>
       </div>
+      <ui:include src="dialogs/logsdownload.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>

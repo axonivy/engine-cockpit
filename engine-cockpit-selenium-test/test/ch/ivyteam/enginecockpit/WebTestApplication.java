@@ -10,6 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -156,6 +158,7 @@ public class WebTestApplication extends WebTestBase
     
     driver.findElementById("card:newApplicationForm:newApplicationNameInput").sendKeys(NEW_TEST_APP);
     driver.findElementById("card:newApplicationForm:newApplicationDescInput").sendKeys("test description");
+    new PrimeUi(driver).selectBooleanCheckbox(By.id("card:newApplicationForm:newApplicationActivate")).removeChecked();
     saveScreenshot(driver, "new_app_input");
     
     driver.findElementById("card:newApplicationForm:saveNewApplication").click();

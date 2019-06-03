@@ -17,6 +17,12 @@
       <li><a href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
     </ui:define>
     
+    <ui:define name="breadcrumb-right">
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}#application-detail'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
+    
     <ui:define name="content">
       <div class="ui-g ui-fluid dashboard">
         <cc:OverviewBox box="4" count="#{applicationDetailBean.sessionCount}" icon="person_pin_circle" title="Sessions" link="users.xhtml"/>

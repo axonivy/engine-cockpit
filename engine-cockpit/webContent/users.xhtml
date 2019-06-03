@@ -11,6 +11,12 @@
       <li>/</li>
       <li><a href="users.xhtml">Users</a></li>
     </ui:define>
+    
+    <ui:define name="breadcrumb-right">
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}#users'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
 
     <ui:define name="content">
       <h:form id="form">
