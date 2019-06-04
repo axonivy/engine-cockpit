@@ -22,7 +22,7 @@ public class SecurityMemberPropertyBean
   private List<SecurityMemberProperty> properties;
   private List<SecurityMemberProperty> filteredProperties;
   
-  private SecurityMemberProperty newProperty;
+  private SecurityMemberProperty property;
   private Member member;
   
   private String filter;
@@ -34,7 +34,7 @@ public class SecurityMemberPropertyBean
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    newProperty = new SecurityMemberProperty();
+    property = new SecurityMemberProperty();
   }
   
   public String getUserMemberName()
@@ -93,16 +93,32 @@ public class SecurityMemberPropertyBean
     this.filter = filter;
   }
   
-  public SecurityMemberProperty getNewProperty()
+  public SecurityMemberProperty getProperty()
   {
-    return newProperty;
+    return property;
   }
   
-  public void saveNewProperty()
+  public void setProperty(SecurityMemberProperty property)
   {
-    member.saveProperty(newProperty);
+    this.property = property;
+    if (property == null) 
+    {
+      this.property = new SecurityMemberProperty();
+    }
+  }
+  
+  public void saveProperty()
+  {
+    if (member.isPropertyBacked(property.getKey()))
+    {
+      FacesContext.getCurrentInstance().addMessage("propertiesMessage",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Can not change property '"
+                      + property.getKey() + "', because it's save on your Security System"));
+      return;
+    }
+    member.saveProperty(property);
     FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-            new FacesMessage("Successful add new property"));
+            new FacesMessage("Successfully updated property", ""));
     reloadProperties();
   }
   
@@ -110,7 +126,7 @@ public class SecurityMemberPropertyBean
   {
     member.removeProperty(propertyName);
     FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-            new FacesMessage("Successful remove property"));
+            new FacesMessage("Successfully removed property", ""));
     reloadProperties();
   }
   

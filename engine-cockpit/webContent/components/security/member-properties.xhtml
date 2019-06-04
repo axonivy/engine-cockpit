@@ -9,11 +9,12 @@
   <h:outputText value="Properties" />
 </f:facet>
 <h:form id="propertiesForm">
-  <p:growl for="propertiesMessage" />
-  <p:commandButton id="newPropertyBtn" type="button" onclick="PF('newPropertyModal').show();" 
+  <p:growl for="propertiesMessage" showDetail="true" />
+  <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
+    actionListener="#{securityMemberPropertyBean.setProperty(null)}" update="@form:propertyModal"
     title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
   
-  <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+  <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
     var="property" value="#{securityMemberPropertyBean.properties}" widgetVar="propertiesTable" id="propertiesTable"
     filteredValue="#{securityMemberPropertyBean.filteredPropteries}" lazy="false" styleClass="propertiesTable" style="padding-top: 10px;">
@@ -36,11 +37,16 @@
       <h:outputText value="#{property.value}" />
     </p:column>
     
-    <p:column style="width: 30px;">
+    <p:column style="width: 70px;">
       <p:outputLabel>
         <p:commandButton id="deletePropertyBtn" type="button" disabled="#{property.backed}"
-          icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
+          icon="ui-icon-delete" title="#{property.backed ? 'From Security System' : 'Delete'}" 
+          styleClass="card-button table-control-btn red-btn" style="margin: 0;">
           <p:ajax listener="#{securityMemberPropertyBean.removeProperty(property.key)}" update="@form"/>
+        </p:commandButton>
+        <p:commandButton id="editPropertyBtn" disabled="#{property.backed}" actionListener="#{securityMemberPropertyBean.setProperty(property)}"
+          icon="ui-icon-pencil" title="#{property.backed ? 'From Security System' : 'Delete'}" update="@form:propertyModal"
+          styleClass="card-button table-control-btn amber-btn" oncomplete="PF('propertyModal').show();" process="@this">
         </p:commandButton>
       </p:outputLabel>
     </p:column>
