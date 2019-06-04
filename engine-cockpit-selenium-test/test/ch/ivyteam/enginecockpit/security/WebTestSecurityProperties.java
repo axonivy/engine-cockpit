@@ -65,7 +65,7 @@ public class WebTestSecurityProperties extends WebTestBase
     saveScreenshot(driver, "sync_finish");
     Navigation.toUserDetail(driver, "user1");
     saveScreenshot(driver, "user-detail");
-    assertTableHasDirectoryProperty(driver, "Adresse", "Baarerstrasse 12");
+    assertTableHasDirectoryProperty(driver, "Address", "Baarerstrasse 12");
   }
   
   private void editProperty(FirefoxDriver driver, String key, String value)
