@@ -13,7 +13,8 @@
           value="#{securityMemberPropertyBean.property.key}" required="true" />
         <p:message for="propertyNameInput" id="propertyNameMessage" />
       </h:panelGroup>
-      <h:outputText rendered="#{not empty securityMemberPropertyBean.property.key}" value="#{securityMemberPropertyBean.property.key}"/>
+      <h:outputText id="propertyName" rendered="#{not empty securityMemberPropertyBean.property.key}" 
+        value="#{securityMemberPropertyBean.property.key}"/>
       
       <label>Value</label>
       <h:panelGroup styleClass="md-inputfield">
