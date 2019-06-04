@@ -15,6 +15,7 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestSecuritySystemDetail extends WebTestBase
 {
@@ -211,9 +212,8 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   void testLdapAttributes(FirefoxDriver driver)
   {
     toSecurityDetail(driver);
-    WebElement table = driver.findElementById("securityLdapAttributesForm:ldapPropertiesTable");
-    List<WebElement> attrs = table.findElements(new By.ByClassName("ldap-attribute"));
-    assertThat(attrs).isEmpty();
+    Table table = new Table(driver, By.id("securityLdapAttributesForm:ldapPropertiesTable"));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2));
     
     driver.findElementById("securityLdapAttributesForm:newLdapAttributeBtn").click();
     await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newLdapAttributeModal").isDisplayed())
@@ -224,14 +224,11 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securityLdapAttributesForm:saveNewLdapAttribute").click();
     saveScreenshot(driver, "save");
     
-    await().untilAsserted(() -> assertThat(driver.findElementsByClassName("ldap-attribute")).isNotEmpty());
-    await().untilAsserted(() -> assertThat(driver.findElementByClassName("ldap-attribute").getText())
-            .isEqualTo("test"));
-    await().untilAsserted(() -> assertThat(driver.findElementByClassName("ldap-value").getText())
-            .isEqualTo("value"));
-    driver.findElementById("securityLdapAttributesForm:ldapPropertiesTable:0:deleteLdapAttributeBtn").click();
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(3).contains("test"));
+    webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("value"));
+    table.clickButtonForEntry("test", "deleteLdapAttributeBtn");
     saveScreenshot(driver, "delete");
-    await().untilAsserted(() -> assertThat(driver.findElementsByClassName("ldap-attribute")).isEmpty());
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test"));
   }
   
   private void toSecurityDetail(FirefoxDriver driver)

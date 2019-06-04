@@ -27,8 +27,8 @@
           onkeyup="PF('propertiesTable').filter()" placeholder="Search" value="#{securityMemberPropertyBean.filter}"/>
       </p:outputPanel>
     </f:facet>
-    <p:column headerText="Name" filterBy="#{property.key}" sortBy="#{property.value}" styleClass="property-name">
-      <h:outputText value="#{property.key}">
+    <p:column headerText="Name" filterBy="#{property.key}" sortBy="#{property.value}">
+      <h:outputText value="#{property.key}" styleClass="property-name">
         <i class="material-icons table-icon">settings</i>
       </h:outputText>
     </p:column>
@@ -45,7 +45,7 @@
           <p:ajax listener="#{securityMemberPropertyBean.removeProperty(property.key)}" update="@form"/>
         </p:commandButton>
         <p:commandButton id="editPropertyBtn" disabled="#{property.backed}" actionListener="#{securityMemberPropertyBean.setProperty(property)}"
-          icon="ui-icon-pencil" title="#{property.backed ? 'From Security System' : 'Delete'}" update="@form:propertyModal"
+          icon="ui-icon-pencil" title="#{property.backed ? 'From Security System' : 'Edit'}" update="@form:propertyModal"
           styleClass="card-button table-control-btn amber-btn" oncomplete="PF('propertyModal').show();" process="@this">
         </p:commandButton>
       </p:outputLabel>

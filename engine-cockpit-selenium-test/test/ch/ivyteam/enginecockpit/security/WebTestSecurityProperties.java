@@ -3,14 +3,18 @@ package ch.ivyteam.enginecockpit.security;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.ApplicationTab;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestSecurityProperties extends WebTestBase
 {
+  private static final By TABLE_ID = By.id("propertiesForm:propertiesTable");
+  
   @Test
   public void testUserPropertyInvalid(FirefoxDriver driver)
   {
@@ -70,7 +74,7 @@ public class WebTestSecurityProperties extends WebTestBase
   
   private void editProperty(FirefoxDriver driver, String key, String value)
   {
-    driver.findElementById(getEditButtonId(driver, key)).click();
+    new Table(driver, TABLE_ID).clickButtonForEntry(key, "editPropertyBtn");
     webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyName").getText()).isEqualTo(key));
     saveScreenshot(driver, "edit_property");
@@ -84,38 +88,26 @@ public class WebTestSecurityProperties extends WebTestBase
     saveScreenshot(driver, "save_property");
   }
 
-  private String getEditButtonId(FirefoxDriver driver, String key)
-  {
-    return "propertiesForm:propertiesTable:" + getTableNumberFor(driver, key) + ":editPropertyBtn";
-  }
-  
   private void deleteProperty(FirefoxDriver driver, String key)
   {
-    driver.findElementById(getDeleteButtonId(driver, key)).click();
+    Table table = new Table(driver, TABLE_ID);
+    table.clickButtonForEntry(key, "deletePropertyBtn");
     saveScreenshot(driver, "delete_property");
     webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
             .contains("Successfully removed"));
-    webAssertThat(() -> assertThat(driver.findElementsByXPath("//td[@class='property-name']")).hasSize(0));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(0));
   }
   
-  private String getDeleteButtonId(FirefoxDriver driver, String key)
-  {
-    return "propertiesForm:propertiesTable:" + getTableNumberFor(driver, key) + ":deletePropertyBtn";
-  }
-
-  private String getTableNumberFor(FirefoxDriver driver, String key)
-  {
-    return driver.findElementByXPath("//td[@class='property-name'][text()='" + key + "']/..").getAttribute("data-ri");
-  }
 
   private void addProperty(FirefoxDriver driver, String key, String value)
   {
-    webAssertThat(() -> assertThat(driver.findElementsByXPath("//td[@class='property-name']")).hasSize(0));
+    Table table = new Table(driver, TABLE_ID);
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(0));
     driver.findElementById("propertiesForm:propertyNameInput").sendKeys(key);
     driver.findElementById("propertiesForm:propertyValueInput").sendKeys(value);
     driver.findElementById("propertiesForm:saveProperty").click();
     
-    webAssertThat(() -> assertThat(driver.findElementsByXPath("//td[@class='property-name']")).hasSize(1));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1));
     assertTableHasKeyValue(driver, key, value);
     webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
             .contains("Successfully"));
@@ -125,16 +117,15 @@ public class WebTestSecurityProperties extends WebTestBase
   private void assertTableHasDirectoryProperty(FirefoxDriver driver, String key, String value)
   {
     assertTableHasKeyValue(driver, key, value);
-    webAssertThat(() -> assertThat(driver.findElementById(getEditButtonId(driver, key)).isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById(getDeleteButtonId(driver, key)).isDisplayed()).isTrue());
+    Table table = new Table(driver, TABLE_ID);
+    webAssertThat(() -> assertThat(table.buttonForEntryDisabled(key, "editPropertyBtn")).isTrue());
+    webAssertThat(() -> assertThat(table.buttonForEntryDisabled(key, "deletePropertyBtn")).isTrue());
   }
   
   private void assertTableHasKeyValue(FirefoxDriver driver, String key, String value)
   {
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//td[@class='property-name'][text()='" + key + "']")
-            .getText()).contains(key));
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//td[@class='property-name'][text()='" + key + "']/../td[2]")
-            .getText()).contains(value));
+    Table table = new Table(driver, TABLE_ID);
+    webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(value));
   }
 
   private void saveInvalidAddProperty(FirefoxDriver driver)

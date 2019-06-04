@@ -20,18 +20,16 @@
   <p:dataTable value="#{securityLdapDetailBean.properties}" style="padding-top: 10px;"
     var="property" id="ldapPropertiesTable">
     <p:column headerText="Name">
-      <p:outputLabel value="#{property.name}" styleClass="ldap-attribute"/>
+      <h:outputText value="#{property.name}" styleClass="ldap-attribute"/>
     </p:column>
-    <p:column headerText="LDAP Attribute">
-      <p:outputLabel value="#{property.ldapAttribute}" styleClass="ldap-value"/>
+    <p:column headerText="LDAP Attribute" styleClass="ldap-value">
+      <h:outputText value="#{property.ldapAttribute}"/>
     </p:column>
     <p:column style="width: 30px;">
-      <p:outputLabel>
-        <p:commandButton id="deleteLdapAttributeBtn" type="button"
-          icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
-          <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form"/>
-        </p:commandButton>
-      </p:outputLabel>
+      <p:commandButton id="deleteLdapAttributeBtn" type="button"
+        icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
+        <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form"/>
+      </p:commandButton>
     </p:column>
   </p:dataTable>
   
