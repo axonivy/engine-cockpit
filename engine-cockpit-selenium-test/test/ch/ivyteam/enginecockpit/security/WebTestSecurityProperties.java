@@ -54,8 +54,17 @@ public class WebTestSecurityProperties extends WebTestBase
   {
     login(driver);
     Navigation.toUsers(driver);
+    saveScreenshot(driver, "users");
     ApplicationTab.switchToApplication(driver, "test-ad");
+    saveScreenshot(driver, "test-ad");
+    String syncBtnId = "form:card:apps:applicationTabView:" + ApplicationTab.getSelectedApplicationIndex(driver) + ":panelSyncBtn";
+    driver.findElementById(syncBtnId).click();
+    saveScreenshot(driver, "sync");
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//button[@id='" + syncBtnId + "']/span[1]")
+            .getAttribute("class")).doesNotContain("fa-spin"));
+    saveScreenshot(driver, "sync_finish");
     Navigation.toUserDetail(driver, "user1");
+    saveScreenshot(driver, "user-detail");
     assertTableHasDirectoryProperty(driver, "Adresse", "Baarerstrasse 12");
   }
   
