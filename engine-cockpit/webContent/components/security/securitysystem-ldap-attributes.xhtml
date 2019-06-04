@@ -35,28 +35,6 @@
     </p:column>
   </p:dataTable>
   
-  <p:dialog style="min-width: 300px;" header="Add new LDAP Attribute" id="newLdapAttributeModal" widgetVar="newLdapAttributeModal"
-    modal="true" responsive="true" closeOnEscape="true">
-    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newAttributeNameInput" requiredMessage="Value is required"
-          value="#{securityLdapDetailBean.newProperty.name}" required="true" />
-        <label>Name</label>
-        <p:message for="newAttributeNameInput" id="newAttributeNameMessage" />
-      </h:panelGroup>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newAttributeInput" requiredMessage="Value is required" 
-          value="#{securityLdapDetailBean.newProperty.ldapAttribute}" required="true" />
-        <label>Attribute</label>
-        <p:message for="newAttributeInput" id="newAttributeMessage" />
-      </h:panelGroup>
-    </p:panelGrid>
-    <p:commandButton id="saveNewLdapAttribute" validateClient="true" ajax="false" update="@form:ldapPropertiesTable"
-      actionListener="#{securityLdapDetailBean.saveNewProperty}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelNewUser" onclick="PF('newLdapAttributeModal').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-  </p:dialog>
-
+  <ui:include src="../../dialogs/new-security-ldap-attribute.xhtml" />
 </h:form>
 </html>

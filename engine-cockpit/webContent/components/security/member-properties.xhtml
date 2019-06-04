@@ -9,11 +9,14 @@
   <h:outputText value="Properties" />
 </f:facet>
 <h:form id="propertiesForm">
-  <p:growl for="propertiesMessage" autoUpdate="true" />
+  <p:growl for="propertiesMessage" />
+  <p:commandButton id="newPropertyBtn" type="button" onclick="PF('newPropertyModal').show();" 
+    title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
+  
   <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-    var="property" value="#{securityMemberPropertyBean.properties}" widgetVar="propertiesTable" 
-    filteredValue="#{securityMemberPropertyBean.filteredPropteries}" lazy="false" styleClass="propertiesTable">
+    var="property" value="#{securityMemberPropertyBean.properties}" widgetVar="propertiesTable" id="propertiesTable"
+    filteredValue="#{securityMemberPropertyBean.filteredPropteries}" lazy="false" styleClass="propertiesTable" style="padding-top: 10px;">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
@@ -32,6 +35,17 @@
     <p:column headerText="Value">
       <h:outputText value="#{property.value}" />
     </p:column>
+    
+    <p:column style="width: 30px;">
+      <p:outputLabel>
+        <p:commandButton id="deletePropertyBtn" type="button" disabled="#{property.backed}"
+          icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
+          <p:ajax listener="#{securityMemberPropertyBean.removeProperty(property.key)}" update="@form"/>
+        </p:commandButton>
+      </p:outputLabel>
+    </p:column>
   </p:dataTable>
+  
+  <ui:include src="../../dialogs/new-security-member-property.xhtml" />
 </h:form>
 </html>

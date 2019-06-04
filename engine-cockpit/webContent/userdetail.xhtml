@@ -6,7 +6,7 @@
   <f:metadata>
     <f:viewParam name="userName" value="#{userDetailBean.userName}" />
     <f:viewParam name="userName" value="#{permissionBean.userMember}" />
-    <f:viewParam name="userName" value="#{securityMemberPropertyBean.memberName}" />
+    <f:viewParam name="userName" value="#{securityMemberPropertyBean.userMemberName}" />
   </f:metadata>
 
   <ui:composition template="/template/template.xhtml">
@@ -47,7 +47,7 @@
           </div>
 
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-350 max-height-700">
+            <p:panel styleClass="min-height-350">
               <ui:include src="components/security/member-properties.xhtml"/>
             </p:panel>
           </div>

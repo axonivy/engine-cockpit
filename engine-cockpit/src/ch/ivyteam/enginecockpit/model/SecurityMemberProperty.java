@@ -5,6 +5,11 @@ public class SecurityMemberProperty
   private String key;
   private String value;
   private boolean backed;
+  
+  public SecurityMemberProperty()
+  {
+    this("", "", false);
+  }
 
   public SecurityMemberProperty(String key, String property, boolean isBacked)
   {
