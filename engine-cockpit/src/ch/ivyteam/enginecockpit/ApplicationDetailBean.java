@@ -27,7 +27,6 @@ public class ApplicationDetailBean
   private Application app;
   private SecuritySystem security;
   private String changeSecuritySystem;
-//  private List<Property> properties;
   private List<String> environments;
   
   private ConfigView configView;
@@ -60,9 +59,6 @@ public class ApplicationDetailBean
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream().filter(a -> a.getName().equals(appName)).findFirst().get();
     security = initSecuritySystem(appName);
-//    List<IProperty> configurationProperties = getIApplication().getConfigurationProperties();
-//    properties = configurationProperties.stream().filter(p -> !p.getValue().isEmpty())
-//            .map(p -> new Property(p)).collect(Collectors.toList());
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
     
@@ -78,11 +74,6 @@ public class ApplicationDetailBean
   {
     return security;
   }
-  
-//  public List<Property> getProperties()
-//  {
-//    return properties;
-//  }
   
   public String deleteApplication()
   {

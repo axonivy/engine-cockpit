@@ -8,17 +8,5 @@
   <i class="material-icons table-icon panel-title-icon">settings</i>
   <h:outputText value="Application Configuration" />
 </f:facet>
-<cc:Configuration bean="#{applicationDetailBean.configView}" id="config" />
-<!-- <h:form>
-  <p:dataTable value="#{applicationDetailBean.properties}" var="property">
-    <p:column headerText="Name" sortBy="#{property.name}" filterBy="#{property.name}">
-      <h:outputText value="#{property.name}">
-        <i class="material-icons table-icon">settings</i>
-      </h:outputText>
-    </p:column>
-    <p:column headerText="Value">
-      <h:outputText value="#{property.value}" />
-    </p:column>
-  </p:dataTable>
-</h:form> -->
+  <cc:Configuration bean="#{applicationDetailBean.configView}" id="config" />
 </html>
