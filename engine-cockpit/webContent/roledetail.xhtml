@@ -6,7 +6,7 @@
   <f:metadata>
     <f:viewParam name="roleName" value="#{roleDetailBean.roleName}" />
     <f:viewParam name="roleName" value="#{permissionBean.member}" />
-    <f:viewParam name="roleName" value="#{securityMemberPropertyBean.roleMemberName}" />
+    <f:viewParam name="roleName" value="#{roleDetailBean.memberProperty.memberName}" />
   </f:metadata>
 
   <ui:composition template="/template/template.xhtml">
@@ -36,7 +36,9 @@
 
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
             <p:panel styleClass="min-height-250">
-              <ui:include src="components/security/member-properties.xhtml"/>
+              <ui:include src="components/security/member-properties.xhtml">
+                <ui:param name="memberProperty" value="#{roleDetailBean.memberProperty}" />
+              </ui:include>
             </p:panel>
           </div>
           

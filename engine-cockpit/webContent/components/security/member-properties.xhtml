@@ -11,20 +11,20 @@
 <h:form id="propertiesForm">
   <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
   <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-    actionListener="#{securityMemberPropertyBean.setProperty(null)}" update="@form:propertyModal"
+    actionListener="#{memberProperty.setProperty(null)}" update="@form:propertyModal"
     title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
   
   <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-    var="property" value="#{securityMemberPropertyBean.properties}" widgetVar="propertiesTable" id="propertiesTable"
-    filteredValue="#{securityMemberPropertyBean.filteredPropteries}" lazy="false" styleClass="propertiesTable" style="padding-top: 10px;">
+    var="property" value="#{memberProperty.properties}" widgetVar="propertiesTable" id="propertiesTable"
+    filteredValue="#{memberProperty.filteredPropteries}" lazy="false" styleClass="propertiesTable" style="padding-top: 10px;">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
           <i class="material-icons">search</i>
         </p:outputLabel>
         <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-          onkeyup="PF('propertiesTable').filter()" placeholder="Search" value="#{securityMemberPropertyBean.filter}"/>
+          onkeyup="PF('propertiesTable').filter()" placeholder="Search" value="#{memberProperty.filter}"/>
       </p:outputPanel>
     </f:facet>
     <p:column headerText="Name" filterBy="#{property.key}" sortBy="#{property.value}">
@@ -42,15 +42,41 @@
         <p:commandButton id="deletePropertyBtn" type="button" disabled="#{property.backed}"
           icon="ui-icon-delete" title="#{property.backed ? 'From Security System' : 'Delete'}" 
           styleClass="card-button table-control-btn red-btn" style="margin: 0;">
-          <p:ajax listener="#{securityMemberPropertyBean.removeProperty(property.key)}" update="@form"/>
+          <p:ajax listener="#{memberProperty.removeProperty(property.key)}" update="@form"/>
         </p:commandButton>
-        <p:commandButton id="editPropertyBtn" disabled="#{property.backed}" actionListener="#{securityMemberPropertyBean.setProperty(property)}"
+        <p:commandButton id="editPropertyBtn" disabled="#{property.backed}" actionListener="#{memberProperty.setProperty(property)}"
           icon="ui-icon-pencil" title="#{property.backed ? 'From Security System' : 'Edit'}" update="@form:propertyModal"
           styleClass="card-button table-control-btn amber-btn" oncomplete="PF('propertyModal').show();" process="@this" />
       </p:outputLabel>
     </p:column>
   </p:dataTable>
   
-  <ui:include src="../../dialogs/security-member-property.xhtml" />
+  <p:dialog style="min-width: 300px;" header="Property" id="propertyModal" widgetVar="propertyModal"
+    modal="true" responsive="true" closeOnEscape="true">
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <label>Name</label>
+      <h:panelGroup styleClass="md-inputfield" rendered="#{empty memberProperty.property.key}">
+        <p:inputText id="propertyNameInput" requiredMessage="Value is required"
+          value="#{memberProperty.property.key}" required="true" />
+        <p:message for="propertyNameInput" id="propertyNameMessage" />
+      </h:panelGroup>
+      <h:outputText id="propertyName" rendered="#{not empty memberProperty.property.key}" 
+        value="#{memberProperty.property.key}"/>
+      
+      <label>Value</label>
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="propertyValueInput" requiredMessage="Value is required" 
+          value="#{memberProperty.property.value}" required="true" />
+        <p:message for="propertyValueInput" id="propertyValueMessage" />
+      </h:panelGroup>
+    </p:panelGrid>
+    <p:commandButton id="saveProperty" validateClient="true" ajax="false" update="@form"
+      actionListener="#{memberProperty.saveProperty}" value="Save" icon="ui-icon-save"
+      styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </p:dialog>
+  
 </h:form>
 </html>
