@@ -49,13 +49,12 @@
                   </div>
                   <div class="ui-g-12 ui-md-2" style="margin: auto;">
                     <p:commandButton id="newConfigBtn" value="New" icon="ui-icon-add" actionListener="#{systemConfigBean.configView.setActiveConfig(null)}"
-                      update="newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
+                      update="config:form:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
                   </div>
                 </div>
                 <div class="ui-g">
                   <div class="ui-g-12 ui-lg-12">
                     <cc:Configuration bean="#{systemConfigBean.configView}" id="config"/>
-                    <ui:include src="dialogs/newconfiguration.xhtml" />
                   </div>
                 </div>
               </div>

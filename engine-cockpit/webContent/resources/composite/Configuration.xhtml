@@ -140,7 +140,29 @@
       </h:panelGroup>
     </p:dialog>
     
+    <p:dialog style="min-width: 400px;" header="New configuration" id="newConfigurationModal"
+      widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
+      <h:panelGroup id="newConfigurationForm">
+        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+          styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+          <label>Key</label>
+          <h:panelGroup styleClass="md-inputfield">
+            <p:inputText id="newConfigurationKey" required="true" requiredMessage="Value is required"
+              value="#{cc.attrs.bean.activeConfig.key}" />
+            <p:message for="newConfigurationKey" id="newConfigurationKeyMessage" />
+          </h:panelGroup>
+          
+          <label>Value</label>
+          <p:inputText id="newConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
+        </p:panelGrid>
+        <p:commandButton id="savenewConfiguration" validateClient="true" process="newConfigurationForm" update="@form:configTable"
+          actionListener="#{cc.attrs.bean.createConfig}" value="Save" icon="ui-icon-save"
+          styleClass="primary-btn modal-input-button" onsuccess="PF('newConfigurationModal').hide()"/>
+        <p:commandButton id="cancelnewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel" type="button"
+          icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+      </h:panelGroup>
+    </p:dialog>
+    
   </h:form>
-  
 </cc:implementation>
 </html>
