@@ -18,7 +18,9 @@
     actionListener="#{securityLdapDetailBean.setProperty(null)}" update="@form:ldapAttributeModal"
     title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
     
-  <p:dataTable value="#{securityLdapDetailBean.properties}" style="padding-top: 10px;"
+  <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+    value="#{securityLdapDetailBean.properties}" style="padding-top: 10px;"
     var="property" id="ldapPropertiesTable">
     <p:column headerText="Name">
       <h:outputText value="#{property.name}" styleClass="ldap-attribute"/>
