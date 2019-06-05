@@ -192,18 +192,18 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   {
     toSecurityDetail(driver);
     driver.findElementById("securityLdapAttributesForm:newLdapAttributeBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newLdapAttributeModal").isDisplayed())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:ldapAttributeModal").isDisplayed())
             .isTrue());
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newAttributeNameMessage").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:attributeNameMessage").getText())
             .isBlank());
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newAttributeMessage").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:attributeMessage").getText())
             .isBlank());
     saveScreenshot(driver, "modal");
     
-    driver.findElementById("securityLdapAttributesForm:saveNewLdapAttribute").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newAttributeNameMessage").getText())
+    driver.findElementById("securityLdapAttributesForm:saveLdapAttribute").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:attributeNameMessage").getText())
             .contains("Value is required"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newAttributeMessage").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:attributeMessage").getText())
             .contains("Value is required"));
     saveScreenshot(driver, "invalid");
   }
@@ -216,16 +216,25 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2));
     
     driver.findElementById("securityLdapAttributesForm:newLdapAttributeBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:newLdapAttributeModal").isDisplayed())
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:ldapAttributeModal").isDisplayed())
             .isTrue());
-    driver.findElementById("securityLdapAttributesForm:newAttributeNameInput").sendKeys("test");
-    driver.findElementById("securityLdapAttributesForm:newAttributeInput").sendKeys("value");
+    driver.findElementById("securityLdapAttributesForm:attributeNameInput").sendKeys("test");
+    driver.findElementById("securityLdapAttributesForm:attributeInput").sendKeys("value");
     saveScreenshot(driver, "new_attr");
-    driver.findElementById("securityLdapAttributesForm:saveNewLdapAttribute").click();
+    driver.findElementById("securityLdapAttributesForm:saveLdapAttribute").click();
     saveScreenshot(driver, "save");
-    
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(3).contains("test"));
     webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("value"));
+    
+    table.clickButtonForEntry("test", "editPropertyBtn");
+    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:ldapAttributeModal").isDisplayed())
+            .isTrue());
+    driver.findElementById("securityLdapAttributesForm:attributeInput").clear();
+    driver.findElementById("securityLdapAttributesForm:attributeInput").sendKeys("newValue");
+    driver.findElementById("securityLdapAttributesForm:saveLdapAttribute").click();
+    saveScreenshot(driver, "edit");
+    webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("newValue"));
+    
     table.clickButtonForEntry("test", "deleteLdapAttributeBtn");
     saveScreenshot(driver, "delete");
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test"));

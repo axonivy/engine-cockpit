@@ -46,8 +46,7 @@
         </p:commandButton>
         <p:commandButton id="editPropertyBtn" disabled="#{property.backed}" actionListener="#{securityMemberPropertyBean.setProperty(property)}"
           icon="ui-icon-pencil" title="#{property.backed ? 'From Security System' : 'Edit'}" update="@form:propertyModal"
-          styleClass="card-button table-control-btn amber-btn" oncomplete="PF('propertyModal').show();" process="@this">
-        </p:commandButton>
+          styleClass="card-button table-control-btn amber-btn" oncomplete="PF('propertyModal').show();" process="@this" />
       </p:outputLabel>
     </p:column>
   </p:dataTable>

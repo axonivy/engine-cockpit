@@ -14,7 +14,8 @@
 </f:facet>
 <h:form id="securityLdapAttributesForm">
   <p:growl id="securitySystemLdapAttributesSuccess" for="securitySystemLdapAttributesSuccess" autoUpdate="true" />
-  <p:commandButton id="newLdapAttributeBtn" type="button" onclick="PF('newLdapAttributeModal').show();" 
+  <p:commandButton id="newLdapAttributeBtn" oncomplete="PF('ldapAttributeModal').show();" process="@this"
+    actionListener="#{securityLdapDetailBean.setProperty(null)}" update="@form:ldapAttributeModal"
     title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
     
   <p:dataTable value="#{securityLdapDetailBean.properties}" style="padding-top: 10px;"
@@ -25,14 +26,17 @@
     <p:column headerText="LDAP Attribute" styleClass="ldap-value">
       <h:outputText value="#{property.ldapAttribute}"/>
     </p:column>
-    <p:column style="width: 30px;">
+    <p:column style="width: 70px;">
       <p:commandButton id="deleteLdapAttributeBtn" type="button"
         icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
         <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form"/>
       </p:commandButton>
+      <p:commandButton id="editPropertyBtn" actionListener="#{securityLdapDetailBean.setProperty(property)}"
+        icon="ui-icon-pencil" title="Edit" update="@form:ldapAttributeModal"
+        styleClass="card-button table-control-btn amber-btn" oncomplete="PF('ldapAttributeModal').show();" process="@this" />
     </p:column>
   </p:dataTable>
   
-  <ui:include src="../../dialogs/new-security-ldap-attribute.xhtml" />
+  <ui:include src="../../dialogs/security-ldap-attribute.xhtml" />
 </h:form>
 </html>
