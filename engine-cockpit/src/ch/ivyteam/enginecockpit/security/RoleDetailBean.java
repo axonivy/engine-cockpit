@@ -30,6 +30,8 @@ public class RoleDetailBean
   private List<User> filteredUsers;
   private List<Role> membersOfRole;
   private List<Role> filteredMembers;
+  
+  private MemberProperty roleProperties;
 
   private ManagerBean managerBean;
   private UserBean userBean;
@@ -43,6 +45,7 @@ public class RoleDetailBean
     userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
     roleBean = context.getApplication().evaluateExpressionGet(context, "#{roleBean}", RoleBean.class);
     role = new Role();
+    roleProperties = new MemberProperty().new RoleProperty();
   }
 
   public String getRoleName()
@@ -238,5 +241,10 @@ public class RoleDetailBean
   private ISecurityContext getSecurityContext()
   {
     return managerBean.getSelectedIApplication().getSecurityContext();
+  }
+  
+  public MemberProperty getMemberProperty()
+  {
+    return roleProperties;
   }
 }

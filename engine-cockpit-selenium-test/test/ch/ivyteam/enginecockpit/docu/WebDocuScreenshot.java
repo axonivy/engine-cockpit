@@ -39,11 +39,11 @@ public class WebDocuScreenshot extends WebBase
     Navigation.toUsers(driver);
     takeScreenshot(driver, "engine-cockpit-users", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toUserDetail(driver, "foo");
-    takeScreenshot(driver, "engine-cockpit-user-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
+    takeScreenshot(driver, "engine-cockpit-user-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
     Navigation.toRoles(driver);
     takeScreenshot(driver, "engine-cockpit-roles", new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toRoleDetail(driver, "boss");
-    takeScreenshot(driver, "engine-cockpit-role-detail", new Dimension(SCREENSHOT_WIDTH, 900));
+    takeScreenshot(driver, "engine-cockpit-role-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toVariables(driver);
     takeScreenshot(driver, "engine-cockpit-configuration-variables", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendar(driver);

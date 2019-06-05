@@ -4,8 +4,9 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile">
 <h:body>
   <f:metadata>
-    <f:viewParam name="roleName" value="#{roleDetailBean.roleName}"></f:viewParam>
-    <f:viewParam name="roleName" value="#{permissionBean.member}"></f:viewParam>
+    <f:viewParam name="roleName" value="#{roleDetailBean.roleName}" />
+    <f:viewParam name="roleName" value="#{permissionBean.member}" />
+    <f:viewParam name="roleName" value="#{roleDetailBean.memberProperty.memberName}" />
   </f:metadata>
 
   <ui:composition template="/template/template.xhtml">
@@ -28,25 +29,33 @@
       <div class="ui-fluid role-detail">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-350">
+            <p:panel styleClass="min-height-250">
               <ui:include src="components/security/roledetail-information.xhtml"/>
             </p:panel>
           </div>
 
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-350 max-height-700">
+            <p:panel styleClass="min-height-250">
+              <ui:include src="components/security/member-properties.xhtml">
+                <ui:param name="memberProperty" value="#{roleDetailBean.memberProperty}" />
+              </ui:include>
+            </p:panel>
+          </div>
+          
+          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
+            <p:panel styleClass="min-height-300 max-height-700">
               <ui:include src="components/security/roledetail-users.xhtml"/>
             </p:panel>
           </div>
           
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-350 max-height-700">
+            <p:panel styleClass="min-height-300 max-height-700">
               <ui:include src="components/security/roledetail-members.xhtml"/>
             </p:panel>
           </div>
           
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
-            <p:panel styleClass="min-height-350 max-height-700">
+          <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-panelgrid">
+            <p:panel styleClass="min-height-300 max-height-700">
               <ui:include src="components/security/permissions.xhtml"/>
             </p:panel>
           </div>
