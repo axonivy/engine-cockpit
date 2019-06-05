@@ -64,7 +64,7 @@
       <h:panelGroup id="showConfigurationFileForm">
         <p:panelGrid columns="1" layout="grid"
           styleClass="ui-panelgrid-blank form-group modal-input-form">
-          <h:outputText value="#{systemConfigBean.activeConfig.source}" />
+          <h:outputText value="#{cc.attrs.bean.activeConfig.source}" />
           
           <h:panelGroup styleClass="code-block">
             <pre><code class="yaml"><h:outputText value="#{cc.attrs.bean.activeConfig.fileContent}" escape="false"/></code></pre>
