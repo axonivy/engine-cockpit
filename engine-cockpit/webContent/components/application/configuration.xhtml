@@ -8,5 +8,21 @@
   <i class="material-icons table-icon panel-title-icon">settings</i>
   <h:outputText value="Application Configuration" />
 </f:facet>
+  <h:form id="configMoreForm">
+    <p:commandButton title="More" id="configMoreButton"
+      type="button" icon="ui-icon-menu" styleClass="secondary-btn card-button" />
+    <p:menu overlay="true" trigger="configMoreButton" my="right top" at="right bottom" id="configMoreMenu">
+      <p:menuitem value="#{systemConfigBean.configView.showDefaults ? 'Hide' : 'Show'} default values" 
+        icon="ui-icon-visibility#{systemConfigBean.configView.showDefaults ? '-off' : ''}"
+        actionListener="#{systemConfigBean.configView.switchDefaults}" update="@form, config" 
+        id="showDefaultsBtn" oncomplete="PF('configTable').filter()">
+      </p:menuitem>
+      <p:menuitem value="Show config log" icon="ui-icon-format-align-left" onclick="window.location.href='logs.xhtml?log=config.log'"
+        id="showConfigLogBtn" />
+    </p:menu>
+    <p:commandButton id="newConfigBtn" styleClass="amber-btn card-button" icon="ui-icon-add" title="New" actionListener="#{applicationDetailBean.configView.setActiveConfig(null)}"
+      update="config:form:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
+  </h:form>
+  <div style="margin-top: 10px;" />
   <cc:Configuration bean="#{applicationDetailBean.configView}" id="config" />
 </html>
