@@ -147,8 +147,8 @@ public class MemberProperty
       if (user.isPropertyBacked(super.property.getKey()))
       {
         FacesContext.getCurrentInstance().addMessage("propertiesMessage",
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Can not change property '"
-                        + super.property.getKey() + "', because it's save on your Security System"));
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "The property '"
+                        + super.property.getKey() + "' has already been imported from your Security System"));
         return;
       }
       user.setProperty(super.property.getKey(), super.property.getValue());
