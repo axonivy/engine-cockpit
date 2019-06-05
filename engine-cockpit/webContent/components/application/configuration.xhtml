@@ -2,13 +2,14 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile">
+  xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">settings</i>
-  <h:outputText value="Properties" />
+  <h:outputText value="Application Configuration" />
 </f:facet>
-<h:form>
+<cc:Configuration bean="#{applicationDetailBean.configView}" id="config" />
+<!-- <h:form>
   <p:dataTable value="#{applicationDetailBean.properties}" var="property">
     <p:column headerText="Name" sortBy="#{property.name}" filterBy="#{property.name}">
       <h:outputText value="#{property.name}">
@@ -19,5 +20,5 @@
       <h:outputText value="#{property.value}" />
     </p:column>
   </p:dataTable>
-</h:form>
+</h:form> -->
 </html>

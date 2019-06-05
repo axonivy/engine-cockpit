@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,34 +11,38 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
-@ManagedBean
-@ViewScoped
-public class SystemConfigBean
+public class ConfigView
 {
   private List<ConfigProperty> configs;
   private List<ConfigProperty> filteredConfigs;
   private String filter;
   private boolean showDefaults;
   private ConfigProperty activeConfig;
-  
-  private ConfigView configView;
+  private IConfiguration configuration;
 
-  public SystemConfigBean()
+  public ConfigView()
   {
+    this(IConfiguration.get());
+  }
+
+  public ConfigView(IConfiguration configuration)
+  {
+    this.configuration = configuration;
     reloadConfigs();
     showDefaults = true;
   }
 
   private void reloadConfigs()
   {
-    configs = Configuration.getProperties().stream()
+    configs = configuration.getProperties().stream()
             .filter(property -> !StringUtils.startsWith(property.getKey(), "Applications."))
             .filter(property -> !StringUtils.startsWith(property.getKey(), "SecuritySystems."))
             .map(property -> new ConfigProperty(property))
             .collect(Collectors.toList());
-    configView = new ConfigView();
   }
 
   public List<ConfigProperty> getConfigs()
@@ -121,6 +123,7 @@ public class SystemConfigBean
 
   public void saveConfig()
   {
+    Ivy.log().info(activeConfig.getKey() + ", " + activeConfig.getValue());
     if (activeConfig.getValue().equals(activeConfig.getDefaultValue()))
     {
       resetConfig();
@@ -153,10 +156,4 @@ public class SystemConfigBean
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeConfig.getKey() + "' " + message));
   }
-  
-  public ConfigView getConfigView()
-  {
-    return configView;
-  }
-  
 }

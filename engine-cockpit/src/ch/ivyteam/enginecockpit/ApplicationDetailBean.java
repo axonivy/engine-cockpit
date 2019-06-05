@@ -13,12 +13,11 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.model.Application;
-import ch.ivyteam.enginecockpit.model.Property;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.system.IProperty;
+import ch.ivyteam.ivy.application.IApplicationInternal;
 
 @ManagedBean
 @ViewScoped
@@ -28,8 +27,10 @@ public class ApplicationDetailBean
   private Application app;
   private SecuritySystem security;
   private String changeSecuritySystem;
-  private List<Property> properties;
+//  private List<Property> properties;
   private List<String> environments;
+  
+  private ConfigView configView;
   
   private ManagerBean managerBean;
   
@@ -59,11 +60,13 @@ public class ApplicationDetailBean
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream().filter(a -> a.getName().equals(appName)).findFirst().get();
     security = initSecuritySystem(appName);
-    List<IProperty> configurationProperties = getIApplication().getConfigurationProperties();
-    properties = configurationProperties.stream().filter(p -> !p.getValue().isEmpty())
-            .map(p -> new Property(p)).collect(Collectors.toList());
+//    List<IProperty> configurationProperties = getIApplication().getConfigurationProperties();
+//    properties = configurationProperties.stream().filter(p -> !p.getValue().isEmpty())
+//            .map(p -> new Property(p)).collect(Collectors.toList());
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
+    
+    configView = new ConfigView(((IApplicationInternal) getIApplication()).getConfiguration());
   }
   
   public Application getApplication()
@@ -76,10 +79,10 @@ public class ApplicationDetailBean
     return security;
   }
   
-  public List<Property> getProperties()
-  {
-    return properties;
-  }
+//  public List<Property> getProperties()
+//  {
+//    return properties;
+//  }
   
   public String deleteApplication()
   {
@@ -157,6 +160,11 @@ public class ApplicationDetailBean
   public void setChangeSecuritySystem(String changeSecuritySystem)
   {
     this.changeSecuritySystem = changeSecuritySystem;
+  }
+  
+  public ConfigView getConfigView()
+  {
+    return configView;
   }
   
 }
