@@ -13,7 +13,7 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
+    string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/feature%252FXIVY-3205-application-properties-defaults/lastSuccessfulBuild/', description: 'Engine page url')
   }
 
   stages {
