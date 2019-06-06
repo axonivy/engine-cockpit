@@ -9,7 +9,6 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
-import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -113,7 +112,7 @@ public class ConfigView
   
   public void resetConfig()
   {
-    Configuration.remove(activeConfig.getKey());
+    configuration.remove(activeConfig.getKey());
     if (StringUtils.isNotBlank(filter))
     {
       filteredConfigs.remove(activeConfig);
@@ -131,22 +130,22 @@ public class ConfigView
     }
     else if (ConfigValueFormat.NUMBER.name().equals(activeConfig.getConfigValueFormat()))
     {
-      Configuration.set(activeConfig.getKey(), Long.valueOf(activeConfig.getValue()));
+      configuration.set(activeConfig.getKey(), Long.valueOf(activeConfig.getValue()));
     }
     else if (ConfigValueFormat.BOOLEAN.name().equals(activeConfig.getConfigValueFormat()))
     {
-      Configuration.set(activeConfig.getKey(), Boolean.valueOf(activeConfig.getValue()));
+      configuration.set(activeConfig.getKey(), Boolean.valueOf(activeConfig.getValue()));
     }
     else
     {
-      Configuration.set(activeConfig.getKey(), activeConfig.getValue());
+      configuration.set(activeConfig.getKey(), activeConfig.getValue());
     }
     reloadAndUiMessage("changed");
   }
   
   public void createConfig()
   {
-    Configuration.set(activeConfig.getKey(), activeConfig.getValue());
+    configuration.set(activeConfig.getKey(), activeConfig.getValue());
     reloadAndUiMessage("created");
   }
   
