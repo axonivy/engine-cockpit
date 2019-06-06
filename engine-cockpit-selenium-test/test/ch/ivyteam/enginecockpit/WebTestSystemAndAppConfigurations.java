@@ -150,6 +150,35 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     assertThatConfigEditModalIsVisible(driver, config, "FAIL_TASK_DO_RETRY");
   }
   
+  @Test
+  void testEmailUrlFilter(FirefoxDriver driver)
+  {
+    String filter = "EMail";
+    login(driver);
+    saveScreenshot(driver, "dashboard");
+    driver.findElementById("mailConfigForm:configureEmailBtn").click();
+    assertUrlFiltering(driver, filter);
+  }
+  
+  @Test
+  void testSystemDbUrlFilter(FirefoxDriver driver)
+  {
+    String filter = "SystemDb";
+    login(driver);
+    saveScreenshot(driver, "dashboard");
+    driver.findElementById("configureSystemDbBtn").click();
+    assertUrlFiltering(driver, filter);
+  }
+  
+  private void assertUrlFiltering(FirefoxDriver driver, String filter)
+  {
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("systemconfig.xhtml?filter=" + filter));
+    table = new Table(driver, TABLE_ID);
+    table.getSearchFilter();
+    webAssertThat(() -> assertThat(table.getSearchFilter()).isEqualTo(filter));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).allMatch(e -> e.startsWith(filter)));
+  }
+  
   private void assertSearchConfigEntry(FirefoxDriver driver)
   {
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());

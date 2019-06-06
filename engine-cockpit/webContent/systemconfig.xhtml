@@ -65,7 +65,7 @@
                   var url = new URL(window.location.href)
                   if (url.searchParams.get("filter") != null) {
                     console.log("filter" + url.searchParams.get("filter"));
-                    PF('advancedConfigTable').filter();
+                    PF('configTable').filter();
                   }
                 }
                 catch(err) {

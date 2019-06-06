@@ -61,5 +61,9 @@ public class Table
     driver.findElementById(id + ":globalFilter").sendKeys(search);
   }
   
+  public String getSearchFilter()
+  {
+    return driver.findElementById(id + ":globalFilter").getAttribute("value");
+  }
   
 }
