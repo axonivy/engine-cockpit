@@ -10,12 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
-import ch.ivyteam.enginecockpit.util.Configuration;
-import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 
@@ -122,19 +118,9 @@ public class ApplicationDetailBean
 
   private SecuritySystem initSecuritySystem(String applicationName)
   {
-    SecuritySystem securitySystem = new SecuritySystem(getSecuritySystemName(applicationName), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
+    SecuritySystem securitySystem = new SecuritySystem(app.getSecuritySystemName(), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
     changeSecuritySystem = securitySystem.getSecuritySystemName();
     return securitySystem;
-  }
-  
-  private String getSecuritySystemName(String name)
-  {
-    String securityName = SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getAppPrefix(name));
-    if (StringUtils.isBlank(securityName) || !Configuration.getNames(SecuritySystemConfig.SECURITY_SYSTEMS).contains(securityName))
-    {
-      securityName = SecuritySystemConfig.IVY_SECURITY_SYSTEM;
-    }
-    return securityName;
   }
 
   public void setSecuritySystem()

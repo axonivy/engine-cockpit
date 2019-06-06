@@ -26,6 +26,7 @@ public class GlobalVarBean
   private IApplication app;
   private IEnvironment env;
 
+  //FIXME: Write to app.yaml
   public GlobalVarBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();

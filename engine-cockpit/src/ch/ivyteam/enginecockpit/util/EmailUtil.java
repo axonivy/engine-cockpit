@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.email.EmailConstants.EmailEncryption;
 import ch.ivyteam.ivy.email.EmailSetupConfiguration;
 import ch.ivyteam.ivy.email.SimpleMailSender;
@@ -31,7 +32,7 @@ public class EmailUtil
     Map<HeaderFields, MacroExpression> rawHeader = new HashMap<>();
     rawHeader.put(HeaderFields.SUBJECT, new MacroExpression(subject));
     rawHeader.put(HeaderFields.TO, new MacroExpression(to));
-    rawHeader.put(HeaderFields.FROM, new MacroExpression(Configuration.getOrDefault(MAIL_ADDRESS)));
+    rawHeader.put(HeaderFields.FROM, new MacroExpression(IConfiguration.get().getOrDefault(MAIL_ADDRESS)));
     EMailConfig emailConfig = new EMailConfig(new Headers(rawHeader), new MacroExpression(message), new Attachments(), false);
 
     new SimpleMailSender(Collections.emptyMap(), emailConfig, Ivy.log(), getConfigEmailSetup()).sendMessage();
@@ -40,11 +41,11 @@ public class EmailUtil
   private static EmailSetupConfiguration getConfigEmailSetup()
   {
     EmailSetupConfiguration emailSetupConfiguration = new EmailSetupConfiguration();
-    emailSetupConfiguration.setSmtpPort(Configuration.getOrDefault(PORT, int.class));
-    emailSetupConfiguration.setSmtpServer(Configuration.getOrDefault(HOST));
-    emailSetupConfiguration.setSmtpUser(Configuration.getOrDefault(USER));
-    emailSetupConfiguration.setSmtpPassword(Configuration.getOrDefault(PASSWORD));
-    emailSetupConfiguration.setSmtpEncryptionMethod(Configuration.getOrDefault(ENCRYPTION_METHOD, EmailEncryption.class));
+    emailSetupConfiguration.setSmtpPort(IConfiguration.get().getOrDefault(PORT, int.class));
+    emailSetupConfiguration.setSmtpServer(IConfiguration.get().getOrDefault(HOST));
+    emailSetupConfiguration.setSmtpUser(IConfiguration.get().getOrDefault(USER));
+    emailSetupConfiguration.setSmtpPassword(IConfiguration.get().getOrDefault(PASSWORD));
+    emailSetupConfiguration.setSmtpEncryptionMethod(IConfiguration.get().getOrDefault(ENCRYPTION_METHOD, EmailEncryption.class));
     return emailSetupConfiguration;
   }
 

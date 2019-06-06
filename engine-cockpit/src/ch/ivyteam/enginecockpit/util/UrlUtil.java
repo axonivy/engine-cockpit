@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.Advisor;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.util.Version;
 
 @SuppressWarnings("restriction")
@@ -41,7 +42,7 @@ public class UrlUtil
   
   public static String getApiBaseUrl()
   {
-    return Configuration.getOrDefault("WebServer.IvyContextName") + "/api";
+    return IConfiguration.get().getOrDefault("WebServer.IvyContextName") + "/api";
   }
   
   public static String replaceLinks(String text)

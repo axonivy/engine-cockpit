@@ -13,10 +13,11 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SecurityConfigDetailBean
@@ -331,7 +332,7 @@ public class SecurityConfigDetailBean
   
   public String deleteConfiguration()
   {
-    Configuration.remove(SecuritySystemConfig.getPrefix(name));
+    IConfiguration.get().remove(SecuritySystemConfig.getPrefix(name));
     return "securitysystem.xhtml?faces-redirect=true";
   }
 

@@ -12,10 +12,11 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.model.LdapProperty;
-import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SecurityLdapDetailBean
@@ -68,7 +69,7 @@ public class SecurityLdapDetailBean
     userGroupMembersAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE);
     
     properties = new HashMap<>();
-    Map<String, String> yamlProperties = Configuration.getMap(
+    Map<String, String> yamlProperties = IConfiguration.get().getMap(
             SecuritySystemConfig.getPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
     for (String key : yamlProperties.keySet())
     {
@@ -206,7 +207,7 @@ public class SecurityLdapDetailBean
   
   public void removeLdapAttribute(String attributeName)
   {
-    Configuration.remove(SecuritySystemConfig.getPrefix(name) + 
+    IConfiguration.get().remove(SecuritySystemConfig.getPrefix(name) + 
             ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + attributeName);
     properties.remove(attributeName);
   }

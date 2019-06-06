@@ -5,9 +5,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
-import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.EmailUtil;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class EmailBean
@@ -28,11 +29,11 @@ public class EmailBean
   
   private void initEmailConfigs()
   {
-    host = Configuration.getOrDefault(EmailUtil.HOST);
-    port = Configuration.getOrDefault(EmailUtil.PORT, int.class);
-    email = Configuration.getOrDefault(EmailUtil.MAIL_ADDRESS);
-    user = Configuration.getOrDefault(EmailUtil.USER);
-    triggerTime = Configuration.getOrDefault(EmailUtil.DAILYTASKSUMMARY_TRIGGERTIME);
+    host = IConfiguration.get().getOrDefault(EmailUtil.HOST);
+    port = IConfiguration.get().getOrDefault(EmailUtil.PORT, int.class);
+    email = IConfiguration.get().getOrDefault(EmailUtil.MAIL_ADDRESS);
+    user = IConfiguration.get().getOrDefault(EmailUtil.USER);
+    triggerTime = IConfiguration.get().getOrDefault(EmailUtil.DAILYTASKSUMMARY_TRIGGERTIME);
     subject = "Test Mail";
     message = "This is a test mail.";
   }
