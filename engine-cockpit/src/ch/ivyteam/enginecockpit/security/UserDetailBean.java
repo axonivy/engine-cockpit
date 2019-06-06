@@ -22,6 +22,7 @@ public class UserDetailBean
   private String userName;
   private User user;
   private EmailSettings emailSettings;
+  private MemberProperty userProperties;
 
   private List<Role> filteredRoles;
 
@@ -33,6 +34,7 @@ public class UserDetailBean
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     user = new User();
+    userProperties = new MemberProperty().new UserProperty();
   }
 
   public String getUserName()
@@ -145,5 +147,10 @@ public class UserDetailBean
   private ISecurityContext getSecurityContext()
   {
     return managerBean.getSelectedIApplication().getSecurityContext();
+  }
+  
+  public MemberProperty getMemberProperty()
+  {
+    return userProperties;
   }
 }

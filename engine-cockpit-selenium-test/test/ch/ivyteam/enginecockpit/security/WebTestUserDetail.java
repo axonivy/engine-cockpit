@@ -6,7 +6,6 @@ import static org.awaitility.Awaitility.await;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -246,12 +245,8 @@ public class WebTestUserDetail extends WebTestBase
   private void openUserDetail(FirefoxDriver driver, String userName)
   {
     login(driver);
-    Navigation.toUsers(driver);
-    saveScreenshot(driver, "users");
-    WebElement user = getUser(driver, userName);
-    user.click();
+    Navigation.toUserDetail(driver, userName);
     saveScreenshot(driver, "userdetail");
-    await().until(() -> driver.getCurrentUrl().endsWith("userdetail.xhtml?userName=" + userName)); 
   }
   
   private void openUserFooDetail(FirefoxDriver driver)
@@ -259,12 +254,4 @@ public class WebTestUserDetail extends WebTestBase
     openUserDetail(driver, DETAIL_USER_NAME);
   }
 
-  private WebElement getUser(FirefoxDriver driver, String user)
-  {
-    Optional<WebElement> foundUser = driver.findElements(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]//*[@class='user-name']")))
-            .stream()
-            .filter(e -> e.getText().equals(user)).findAny();
-    assertThat(foundUser).isPresent();
-    return foundUser.get();
-  }
 }

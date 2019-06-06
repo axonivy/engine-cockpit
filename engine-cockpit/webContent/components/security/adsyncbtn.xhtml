@@ -8,5 +8,5 @@
   value="Synchronize" onclick="PF('logPoller').start()">
   <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
 </p:commandButton>
-<p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
+<p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@form" />
 </html>

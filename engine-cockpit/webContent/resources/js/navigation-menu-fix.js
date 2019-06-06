@@ -12,6 +12,15 @@ PF('sidebar_menu').restoreMenuState = function(){
   }
 }
 
+if (!String.prototype.startsWith) {
+  Object.defineProperty(String.prototype, 'startsWith', {
+    value: function(search, pos) {
+      pos = !pos || pos < 0 ? 0 : +pos;
+      return this.substring(pos, pos + search.length) === search;
+    }
+  });
+}
+
 $(document).ready(function(){
   PF('sidebar_menu').anchorButton.on('click', function(e) {
     var menu = $.cookie('cockpit_menu_default');

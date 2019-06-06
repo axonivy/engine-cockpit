@@ -13,3 +13,7 @@ SecuritySystems:
       Password: nimda
     Binding:
       DefaultContext: "OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"
+    UserAttribute:
+      Properties:
+        Place: st
+        Address: streetAddress

@@ -33,7 +33,7 @@ public class SecurityLdapDetailBean
   private String userGroupMemberOfAttribute;
   private String userGroupMembersAttribute;
   private Map<String, LdapProperty> properties;
-  private LdapProperty newProperty;
+  private LdapProperty ldapProperty;
 
   public SecurityLdapDetailBean()
   {
@@ -75,7 +75,7 @@ public class SecurityLdapDetailBean
       properties.put(key, new LdapProperty(key, yamlProperties.get(key)));
     }
     
-    newProperty = new LdapProperty();
+    ldapProperty = new LdapProperty();
   }
 
   public String getUserName()
@@ -182,17 +182,26 @@ public class SecurityLdapDetailBean
     return properties.values();
   }
 
-  public LdapProperty getNewProperty()
+  public LdapProperty getProperty()
   {
-    return newProperty;
+    return ldapProperty;
   }
   
-  public void saveNewProperty()
+  public void setProperty(LdapProperty ldapProperty)
   {
-    setConfiguration(ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + newProperty.getName(), 
-            newProperty.getLdapAttribute());
-    properties.put(newProperty.getName(), newProperty);
-    newProperty = new LdapProperty();
+    this.ldapProperty = ldapProperty;
+    if (ldapProperty == null)
+    {
+      this.ldapProperty = new LdapProperty();
+    }
+  }
+  
+  public void saveProperty()
+  {
+    setConfiguration(ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + ldapProperty.getName(), 
+            ldapProperty.getLdapAttribute());
+    properties.put(ldapProperty.getName(), ldapProperty);
+    ldapProperty = new LdapProperty();
   }
   
   public void removeLdapAttribute(String attributeName)
