@@ -31,23 +31,34 @@ public class Table
 
   public void clickButtonForEntry(String entry, String btn)
   {
-     driver.findElementById(getBtnIdForEntry(entry, btn)).click();
+     driver.findElementById(getElementIdForEntry(entry, btn)).click();
+  }
+  
+  public boolean buttonMenuForEntryVisible(String entry, String menu)
+  {
+    return driver.findElementById(getElementIdForEntry(entry, menu)).isDisplayed();
   }
 
-  private String getBtnIdForEntry(String entry, String btn)
+  private String getElementIdForEntry(String entry, String btn)
   {
     return id + ":" + getRowNumber(entry) + ":" + btn;
   }
   
   public boolean buttonForEntryDisabled(String entry, String btn)
   {
-    return driver.findElementById(getBtnIdForEntry(entry, btn)).isDisplayed();
+    return !driver.findElementById(getElementIdForEntry(entry, btn)).isEnabled();
   }
 
   private String getRowNumber(String entry)
   {
     return driver.findElementByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span[text()='" + entry + "']/../..")
             .getAttribute("data-ri");
+  }
+  
+  public void search(String search)
+  {
+    driver.findElementById(id + ":globalFilter").clear();
+    driver.findElementById(id + ":globalFilter").sendKeys(search);
   }
   
   

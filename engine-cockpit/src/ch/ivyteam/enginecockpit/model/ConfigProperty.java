@@ -159,7 +159,7 @@ public class ConfigProperty
     {
       return FileUtils.readFileToString(getFile(), StandardCharsets.UTF_8);
     }
-    catch (IOException | URISyntaxException e)
+    catch (Exception e)
     {
       e.printStackTrace();
     }
