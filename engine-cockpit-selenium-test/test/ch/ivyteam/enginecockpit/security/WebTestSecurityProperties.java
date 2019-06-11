@@ -75,13 +75,13 @@ public class WebTestSecurityProperties extends WebTestBase
   private void editProperty(FirefoxDriver driver, String key, String value)
   {
     new Table(driver, TABLE_ID).clickButtonForEntry(key, "editPropertyBtn");
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyName").getText()).isEqualTo(key));
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyName").getText()).isEqualTo(key));
     saveScreenshot(driver, "edit_property");
     
-    driver.findElementById("propertiesForm:propertyValueInput").clear();
-    driver.findElementById("propertiesForm:propertyValueInput").sendKeys(value);
-    driver.findElementById("propertiesForm:saveProperty").click();
+    driver.findElementById("propertyModalForm:propertyValueInput").clear();
+    driver.findElementById("propertyModalForm:propertyValueInput").sendKeys(value);
+    driver.findElementById("propertyModalForm:saveProperty").click();
     assertTableHasKeyValue(driver, key, value);
     webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
             .contains("Successfully"));
@@ -103,9 +103,9 @@ public class WebTestSecurityProperties extends WebTestBase
   {
     Table table = new Table(driver, TABLE_ID);
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(0));
-    driver.findElementById("propertiesForm:propertyNameInput").sendKeys(key);
-    driver.findElementById("propertiesForm:propertyValueInput").sendKeys(value);
-    driver.findElementById("propertiesForm:saveProperty").click();
+    driver.findElementById("propertyModalForm:propertyNameInput").sendKeys(key);
+    driver.findElementById("propertyModalForm:propertyValueInput").sendKeys(value);
+    driver.findElementById("propertyModalForm:saveProperty").click();
     
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1));
     assertTableHasKeyValue(driver, key, value);
@@ -130,19 +130,19 @@ public class WebTestSecurityProperties extends WebTestBase
 
   private void saveInvalidAddProperty(FirefoxDriver driver)
   {
-    driver.findElementById("propertiesForm:saveProperty").click();
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyNameMessage").getText()).contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyValueMessage").getText()).contains("Value is required"));
+    driver.findElementById("propertyModalForm:saveProperty").click();
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyNameMessage").getText()).contains("Value is required"));
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueMessage").getText()).contains("Value is required"));
   }
   
   private void openAddPropertyModal(FirefoxDriver driver)
   {
     driver.findElementById("propertiesForm:newPropertyBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyNameInput").getAttribute("value")).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyNameMessage").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyValueInput").getAttribute("value")).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertyValueMessage").getText()).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyNameInput").getAttribute("value")).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyNameMessage").getText()).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueInput").getAttribute("value")).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueMessage").getText()).isEmpty());
     saveScreenshot(driver, "add_prop");
   }
   
