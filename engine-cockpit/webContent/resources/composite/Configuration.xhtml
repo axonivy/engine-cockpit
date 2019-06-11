@@ -35,32 +35,36 @@
           type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
         <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
           <p:menuitem value="View File" icon="ui-icon-find-in-page" oncomplete="PF('showConfigurationFileModal').show()"
-            actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update="@form:showConfigurationFileModal" 
+            actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update="config:showConfigurationFileModal" 
             id="showFileBtn" process="@this">
           </p:menuitem>
           <p:menuitem value="Reset" icon="ui-icon-close" process="@this"
             actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" id="resetConfigBtn"
-            update="@form:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
+            update="config:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
         </p:menu>
         <p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
           styleClass="card-button table-control-btn amber-btn" process="@this"
           actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}"
-          update="@form:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
+          update="config:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
       </p:column>
     </p:dataTable>
+  </h:form>
     
-    <p:confirmDialog id="resetConfigConfirmDialog" header="Reset Config"
-      message="Are you sure about reseting the configuration '#{cc.attrs.bean.activeConfig.key}=#{cc.attrs.bean.activeConfig.password ? '******' : cc.attrs.bean.activeConfig.value}'?" 
-      severity="alert" widgetVar="resetConfigConfirmDialog">
+  <p:confirmDialog id="resetConfigConfirmDialog" header="Reset Config"
+    message="Are you sure about reseting the configuration '#{cc.attrs.bean.activeConfig.key}=#{cc.attrs.bean.activeConfig.password ? '******' : cc.attrs.bean.activeConfig.value}'?" 
+    severity="alert" widgetVar="resetConfigConfirmDialog">
+    <h:form>
       <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{cc.attrs.bean.resetConfig}"
         icon="ui-icon-check" style="width: inherit;" />
       <p:commandButton value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button" icon="ui-icon-close"
         style="width: inherit;" />
-    </p:confirmDialog>
+    </h:form>
+  </p:confirmDialog>
     
-    <p:dialog styleClass="config-showfile" header="#{cc.attrs.bean.activeConfig.shortSource}" id="showConfigurationFileModal"
-      widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true" width="60%"
-      onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
+  <p:dialog styleClass="config-showfile" header="#{cc.attrs.bean.activeConfig.shortSource}" id="showConfigurationFileModal"
+    widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true" width="60%"
+    onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
+    <h:form>
       <h:panelGroup id="showConfigurationFileForm">
         <p:panelGrid columns="1" layout="grid"
           styleClass="ui-panelgrid-blank form-group modal-input-form">
@@ -78,10 +82,12 @@
         <p:commandButton id="closeShowConfigurationFile" onclick="PF('showConfigurationFileModal').hide();" value="Close" type="button"
           icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
       </h:panelGroup>
+      </h:form>
     </p:dialog>
   
-    <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
-      widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+  <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
+    widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+    <h:form>
       <h:panelGroup id="editConfigurationForm">
         <h:panelGroup layout="block" styleClass="static-message static-info-message" 
           rendered="#{cc.attrs.bean.activeConfig.shortSource eq 'app.yaml'}">
@@ -132,16 +138,18 @@
             </c:otherwise>
           </c:choose>
         </p:panelGrid>
-        <p:commandButton id="saveEditConfiguration" update="@form:configTable" onsuccess="PF('editConfigurationModal').hide()"
+        <p:commandButton id="saveEditConfiguration" update="config:form:configTable" onsuccess="PF('editConfigurationModal').hide()"
           actionListener="#{cc.attrs.bean.saveConfig}" value="Save" icon="ui-icon-save" process="editConfigurationForm"
           styleClass="primary-btn modal-input-button" />
         <p:commandButton id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel" type="button"
           icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
       </h:panelGroup>
-    </p:dialog>
+    </h:form>
+  </p:dialog>
     
-    <p:dialog style="min-width: 400px;" header="New configuration" id="newConfigurationModal"
-      widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
+  <p:dialog style="min-width: 400px;" header="New configuration" id="newConfigurationModal"
+    widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
+    <h:form>
       <h:panelGroup id="newConfigurationForm">
         <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
           styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
@@ -165,8 +173,8 @@
         <p:commandButton id="cancelNewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel" type="button"
           icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
       </h:panelGroup>
-    </p:dialog>
+    </h:form>
+  </p:dialog>
     
-  </h:form>
 </cc:implementation>
 </html>

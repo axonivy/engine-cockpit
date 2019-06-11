@@ -21,7 +21,7 @@
         id="showConfigLogBtn" />
     </p:menu>
     <p:commandButton id="newConfigBtn" styleClass="amber-btn card-button" icon="ui-icon-add" title="New" actionListener="#{applicationDetailBean.configView.setActiveConfig(null)}"
-      update="config:form:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
+      update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
   </h:form>
   <div style="margin-top: 10px;" />
   <cc:Configuration bean="#{applicationDetailBean.configView}" id="config" />

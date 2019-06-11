@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 public class ConfigView
@@ -122,7 +121,6 @@ public class ConfigView
 
   public void saveConfig()
   {
-    Ivy.log().info(activeConfig.getKey() + ", " + activeConfig.getValue());
     if (activeConfig.getValue().equals(activeConfig.getDefaultValue()))
     {
       resetConfig();
