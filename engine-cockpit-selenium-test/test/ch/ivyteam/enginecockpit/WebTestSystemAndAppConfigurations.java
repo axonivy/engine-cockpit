@@ -213,21 +213,21 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     table.clickButtonForEntry(key, "tasksButton");
     webAssertThat(() -> assertThat(table.buttonMenuForEntryVisible(key, "activityMenu")).isTrue());
     table.clickButtonForEntry(key, "showFileBtn");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:showConfigurationFileModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("config:showConfigurationFileModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(key.split("\\.")));
   }
 
   private void assertNewConfigInvalid(FirefoxDriver driver)
   {
     saveScreenshot(driver, "new_config_model");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:newConfigurationModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:newConfigurationKey").getAttribute("value")).isBlank());
-    driver.findElementById("config:form:saveNewConfiguration").click();
+    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKey").getAttribute("value")).isBlank());
+    driver.findElementById("config:newConfigurationForm:saveNewConfiguration").click();
     saveScreenshot(driver, "invalid_new_config");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:newConfigurationKeyMessage").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:newConfigurationKeyMessage").getText()).isEqualTo("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:newConfigurationValueMessage").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:newConfigurationValueMessage").getText()).isEqualTo("Value is required"));
+    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKeyMessage").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKeyMessage").getText()).isEqualTo("Value is required"));
+    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationValueMessage").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationValueMessage").getText()).isEqualTo("Value is required"));
   }
 
   private void assertResetConfig(FirefoxDriver driver, String key)
@@ -236,9 +236,9 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     webAssertThat(() -> assertThat(table.buttonMenuForEntryVisible(key, "activityMenu")).isTrue());
     table.clickButtonForEntry(key, "resetConfigBtn");
     saveScreenshot(driver, "reset_config");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:resetConfigConfirmDialog").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("config:resetConfigConfirmDialog").isDisplayed()).isTrue());
     
-    driver.findElementById("config:form:resetConfigConfirmYesBtn").click();
+    driver.findElementById("config:resetConfigConfirmForm:resetConfigConfirmYesBtn").click();
     saveScreenshot(driver, "reset_config_yes");
     webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "reseted"));
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).doesNotContain(key));
@@ -247,11 +247,11 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   private void assertNewConfig(FirefoxDriver driver, String key, String value)
   {
     saveScreenshot(driver, "new_config_model");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:newConfigurationModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationModal").isDisplayed()).isTrue());
     
-    driver.findElementById("config:form:newConfigurationKey").sendKeys(key);
-    driver.findElementById("config:form:newConfigurationValue").sendKeys(value);
-    driver.findElementById("config:form:saveNewConfiguration").click();
+    driver.findElementById("config:newConfigurationForm:newConfigurationKey").sendKeys(key);
+    driver.findElementById("config:newConfigurationForm:newConfigurationValue").sendKeys(value);
+    driver.findElementById("config:newConfigurationForm:saveNewConfiguration").click();
     saveScreenshot(driver, "save_new_config");
     webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "created"));
     webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(value));
@@ -263,9 +263,9 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     saveScreenshot(driver, "edit_config");
     assertThatConfigEditModalIsVisible(driver, key, value);
     
-    driver.findElementById("config:form:editConfigurationValue").clear();
-    driver.findElementById("config:form:editConfigurationValue").sendKeys(newValue);
-    driver.findElementById("config:form:saveEditConfiguration").click();
+    driver.findElementById("config:editConfigurationForm:editConfigurationValue").clear();
+    driver.findElementById("config:editConfigurationForm:editConfigurationValue").sendKeys(newValue);
+    driver.findElementById("config:editConfigurationForm:saveEditConfiguration").click();
     saveScreenshot(driver, "save_edit_config");
     webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "changed"));
     webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(newValue));
@@ -273,27 +273,27 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   
   private void assertThatConfigEditModalIsVisible(FirefoxDriver driver, String key, String value)
   {
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:editConfigurationModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:editConfigurationKey").getText()).isEqualTo(key));
-    String classAttr = driver.findElementById("config:form:editConfigurationValue").getAttribute("class");
+    webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationForm:editConfigurationKey").getText()).isEqualTo(key));
+    String classAttr = driver.findElementById("config:editConfigurationForm:editConfigurationValue").getAttribute("class");
     PrimeUi primeUi = new PrimeUi(driver);
     if (StringUtils.contains(classAttr, "ui-chkbox"))
     {
-      SelectBooleanCheckbox checkbox = primeUi.selectBooleanCheckbox(By.id("config:form:editConfigurationValue"));
+      SelectBooleanCheckbox checkbox = primeUi.selectBooleanCheckbox(By.id("config:editConfigurationForm:editConfigurationValue"));
       webAssertThat(() -> assertThat(checkbox.isChecked()).isEqualTo(Boolean.valueOf(value)));
     }
     else if (StringUtils.contains(classAttr, "ui-inputnumber"))
     {
-      webAssertThat(() -> assertThat(driver.findElementById("config:form:editConfigurationValue_input").getAttribute("value")).isEqualTo(value));
+      webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationForm:editConfigurationValue_input").getAttribute("value")).isEqualTo(value));
     }
     else if (StringUtils.contains(classAttr, "ui-selectonemenu"))
     {
-      SelectOneMenu menu = primeUi.selectOne(By.id("config:form:editConfigurationValue"));
+      SelectOneMenu menu = primeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"));
       webAssertThat(() -> assertThat(menu.getSelectedItem()).isEqualTo(value));
     }
     else
     {
-      webAssertThat(() -> assertThat(driver.findElementById("config:form:editConfigurationValue").getAttribute("value")).isEqualTo(value));
+      webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationForm:editConfigurationValue").getAttribute("value")).isEqualTo(value));
     }
   }
   
