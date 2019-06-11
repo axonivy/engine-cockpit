@@ -3,9 +3,10 @@ package ch.ivyteam.enginecockpit.dashboad;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 
-import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SystemDbUtil;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SystemDbBean
@@ -20,8 +21,8 @@ public class SystemDbBean
   
   private void initSystemDbConfigs()
   {
-    url = Configuration.getOrDefault(SystemDbUtil.URL);
-    driver = Configuration.getOrDefault(SystemDbUtil.DRIVER);
+    url = IConfiguration.get().getOrDefault(SystemDbUtil.URL);
+    driver = IConfiguration.get().getOrDefault(SystemDbUtil.DRIVER);
   }
 
   public String getUrl()

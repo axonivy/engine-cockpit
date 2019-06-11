@@ -3,8 +3,11 @@ package ch.ivyteam.enginecockpit.model;
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 
+@SuppressWarnings("restriction")
 public class Application extends AbstractActivity
 {
   
@@ -13,6 +16,7 @@ public class Application extends AbstractActivity
   private String owner;
   private String activeEnv;
   private long runningCasesCount;
+  private IConfiguration configuration;
   
   public Application()
   {
@@ -36,6 +40,7 @@ public class Application extends AbstractActivity
     runningCasesCount = app.getProcessModels().stream()
             .flatMap(pm -> pm.getProcessModelVersions().stream())
             .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
+    configuration = ((IApplicationInternal) app).getConfiguration();
   }
   
   @Override
@@ -116,12 +121,12 @@ public class Application extends AbstractActivity
 
   public String getSecuritySystemName()
   {
-    return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getAppPrefix(getName()));
+    return configuration.getOrDefault(SecuritySystemConfig.SECURITY_STSTEM);
   }
 
   public void setSecuritySystem(String securitySystemName)
   {
-    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getAppPrefix(getName()), securitySystemName);
+    configuration.set(SecuritySystemConfig.SECURITY_STSTEM, securitySystemName);
   }
 
 }

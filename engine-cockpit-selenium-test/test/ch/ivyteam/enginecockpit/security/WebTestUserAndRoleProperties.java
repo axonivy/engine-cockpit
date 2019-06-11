@@ -11,7 +11,7 @@ import ch.ivyteam.enginecockpit.util.ApplicationTab;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestSecurityProperties extends WebTestBase
+public class WebTestUserAndRoleProperties extends WebTestBase
 {
   private static final By TABLE_ID = By.id("propertiesForm:propertiesTable");
   

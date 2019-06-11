@@ -1,0 +1,175 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<cc:interface>
+  <cc:attribute name="bean" />
+</cc:interface>
+<cc:implementation>
+  <h:form id="form">
+    <p:growl id="msgs" autoUpdate="true"/>
+    <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable"
+      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable">
+      <f:facet name="header">
+        <p:outputPanel>
+          <p:outputLabel styleClass="table-search-icon">
+            <i class="material-icons">search</i>
+          </p:outputLabel>
+          <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+            onkeyup="PF('configTable').filter()" placeholder="Search" value="#{cc.attrs.bean.filter}" />
+        </p:outputPanel>
+      </f:facet>
+      <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}" styleClass="#{config.default ? 'default-value' : ''}">
+        <h:outputText value="#{config.key}" title="#{config.description}" styleClass="config-name">
+          <i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
+        </h:outputText>
+      </p:column>
+      <p:column headerText="Value" filterBy="#{config.value}" styleClass="#{config.default ? 'default-value' : ''}">
+        <h:outputText value="#{config.password ? '******' : config.value}" />
+      </p:column>
+      <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 150px;">
+        <h:outputText value="#{config.shortSource}" title="#{config.source}" />
+      </p:column>
+      <p:column style="width: 70px;">
+        <p:commandButton title="More" id="tasksButton" disabled="#{config.default}"
+          type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
+        <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
+          <p:menuitem value="View File" icon="ui-icon-find-in-page" oncomplete="PF('showConfigurationFileModal').show()"
+            actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update="config:showConfigurationFileModal" 
+            id="showFileBtn" process="@this" disabled="#{config.fileExist()}">
+          </p:menuitem>
+          <p:menuitem value="Reset" icon="ui-icon-close" process="@this"
+            actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" id="resetConfigBtn"
+            update="config:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
+        </p:menu>
+        <p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
+          styleClass="card-button table-control-btn amber-btn" process="@this"
+          actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}"
+          update="config:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
+      </p:column>
+    </p:dataTable>
+  </h:form>
+    
+  <p:confirmDialog id="resetConfigConfirmDialog" header="Reset Config"
+    message="Are you sure about reseting the configuration '#{cc.attrs.bean.activeConfig.key}=#{cc.attrs.bean.activeConfig.password ? '******' : cc.attrs.bean.activeConfig.value}'?" 
+    severity="alert" widgetVar="resetConfigConfirmDialog">
+    <h:form id="resetConfigConfirmForm">
+      <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{cc.attrs.bean.resetConfig}"
+        icon="ui-icon-check" style="width: inherit;" />
+      <p:commandButton value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button" icon="ui-icon-close"
+        style="width: inherit;" />
+    </h:form>
+  </p:confirmDialog>
+    
+  <p:dialog styleClass="config-showfile" header="#{cc.attrs.bean.activeConfig.shortSource}" id="showConfigurationFileModal"
+    widgetVar="showConfigurationFileModal" modal="true" responsive="true" closeOnEscape="true" width="60%"
+    onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
+    <h:form id="showConfigurationFileForm">
+      <p:panelGrid columns="1" layout="grid"
+        styleClass="ui-panelgrid-blank form-group modal-input-form">
+        <h:outputText value="#{cc.attrs.bean.activeConfig.source}" />
+        
+        <h:panelGroup styleClass="code-block">
+          <pre><code class="yaml"><h:outputText value="#{cc.attrs.bean.activeConfig.fileContent}" escape="false"/></code></pre>
+        </h:panelGroup>
+        
+      </p:panelGrid>
+      <p:commandButton id="downloadConfigurationFile" ajax="false" value="Download" icon="ui-icon-cloud-download"
+        styleClass="primary-btn modal-input-button" style="width: 125px;">
+        <p:fileDownload value="#{cc.attrs.bean.activeConfig.downloadFile()}"/>
+      </p:commandButton>
+      <p:commandButton id="closeShowConfigurationFile" onclick="PF('showConfigurationFileModal').hide();" value="Close" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    </h:form>
+  </p:dialog>
+  
+  <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
+    widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+    <h:form id="editConfigurationForm">
+      <h:panelGroup layout="block" styleClass="static-message static-info-message" 
+        rendered="#{cc.attrs.bean.activeConfig.shortSource eq 'app.yaml'}">
+        <i class="fa fa-info-circle"/>
+        <h:outputText value="Values from app.yaml files are overritten in the ivy.yaml file"/>
+      </h:panelGroup>
+      <h:panelGroup layout="block" styleClass="static-message static-info-message" 
+        rendered="#{cc.attrs.bean.activeConfig.restartRequired}">
+        <i class="fa fa-info-circle"/>
+        <h:outputText value="If you change this property, you have to restart you engine"/>
+      </h:panelGroup>
+      
+      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+        <label>Key</label>
+        <h:outputText id="editConfigurationKey"
+          value="#{cc.attrs.bean.activeConfig.key}" />
+          
+        <h:outputLabel for="editConfigurationDefaultValue" rendered="#{not empty cc.attrs.bean.activeConfig.defaultValue}" value="Default"/>
+        <h:outputText id="editConfigurationDefaultValue" rendered="#{not empty cc.attrs.bean.activeConfig.defaultValue}"
+          value="#{cc.attrs.bean.activeConfig.defaultValue}" styleClass="config-edit-defaultvalue"/>
+          
+        <h:outputLabel for="editConfigurationDescription" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}" value="Description" />
+        <h:outputText id="editConfigurationDescription" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}"
+          value="#{cc.attrs.bean.activeConfig.htmlDescription}" styleClass="config-edit-description" escape="false" />
+        
+        <label>Value</label>
+        <c:choose>
+          <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'DAYTIME'}">
+            <p:inputMask id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" mask="99:99"/>
+          </c:when>
+          <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'NUMBER'}">
+            <p:inputNumber id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" thousandSeparator="'" decimalPlaces="0" minValue="-1"/>
+          </c:when>
+          <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'BOOLEAN'}">
+            <p:selectBooleanCheckbox id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"/>
+          </c:when>
+          <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'PASSWORD'}">
+            <p:password id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"/>
+          </c:when>
+          <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'ENUMERATION'}">
+            <p:selectOneMenu id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}">
+              <f:selectItems value="#{cc.attrs.bean.activeConfig.enumerationValues}" />
+            </p:selectOneMenu>
+          </c:when>
+          <c:otherwise>
+            <p:inputText id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"/>
+          </c:otherwise>
+        </c:choose>
+      </p:panelGrid>
+      <p:commandButton id="saveEditConfiguration" update="config:form:configTable" onsuccess="PF('editConfigurationModal').hide()"
+        actionListener="#{cc.attrs.bean.saveConfig}" value="Save" icon="ui-icon-save" process="editConfigurationForm"
+        styleClass="primary-btn modal-input-button" />
+      <p:commandButton id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    </h:form>
+  </p:dialog>
+    
+  <p:dialog style="min-width: 400px;" header="New configuration" id="newConfigurationModal"
+    widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
+    <h:form id="newConfigurationForm">
+      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+        <label>Key</label>
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="newConfigurationKey" required="true" requiredMessage="Value is required"
+            value="#{cc.attrs.bean.activeConfig.key}" />
+          <p:message for="newConfigurationKey" id="newConfigurationKeyMessage" />
+        </h:panelGroup>
+        
+        <label>Value</label>
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="newConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" 
+            required="true" requiredMessage="Value is required"/>
+          <p:message for="newConfigurationValue" id="newConfigurationValueMessage" />
+        </h:panelGroup>
+      </p:panelGrid>
+      <p:commandButton id="saveNewConfiguration" validateClient="true" process="newConfigurationForm" 
+        update="config:form:configTable, @form"
+        actionListener="#{cc.attrs.bean.createConfig}" value="Save" icon="ui-icon-save"
+        styleClass="primary-btn modal-input-button" onsuccess="PF('newConfigurationModal').hide()"/>
+      <p:commandButton id="cancelNewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    </h:form>
+  </p:dialog>
+    
+</cc:implementation>
+</html>

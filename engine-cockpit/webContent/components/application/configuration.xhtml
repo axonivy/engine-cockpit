@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">settings</i>
+  <h:outputText value="Application Configuration" />
+</f:facet>
+  <h:form id="configMoreForm">
+    <p:commandButton title="More" id="configMoreButton"
+      type="button" icon="ui-icon-menu" styleClass="secondary-btn card-button" />
+    <p:menu overlay="true" trigger="configMoreButton" my="right top" at="right bottom" id="configMoreMenu">
+      <p:menuitem value="#{applicationDetailBean.configView.showDefaults ? 'Hide' : 'Show'} default values" 
+        icon="ui-icon-visibility#{applicationDetailBean.configView.showDefaults ? '-off' : ''}"
+        actionListener="#{applicationDetailBean.configView.switchDefaults}" update="@form, config" 
+        id="showDefaultsBtn" oncomplete="PF('configTable').filter()">
+      </p:menuitem>
+      <p:menuitem value="Show config log" icon="ui-icon-format-align-left" onclick="window.location.href='logs.xhtml?log=config.log'"
+        id="showConfigLogBtn" />
+    </p:menu>
+    <p:commandButton id="newConfigBtn" styleClass="amber-btn card-button" icon="ui-icon-add" title="New" actionListener="#{applicationDetailBean.configView.setActiveConfig(null)}"
+      update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
+  </h:form>
+  <div style="margin-top: 10px;" />
+  <cc:Configuration bean="#{applicationDetailBean.configView}" id="config" />
+</html>

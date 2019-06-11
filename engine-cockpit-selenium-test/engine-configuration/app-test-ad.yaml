@@ -1,0 +1,3 @@
+SecuritySystem: test-ad
+GlobalVariables:
+      myGlobalVariable: "value"

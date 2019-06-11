@@ -1,8 +1,4 @@
-Applications:
-  test-ad:
-    SecuritySystem: "test-ad"
-    GlobalVariables:
-      myGlobalVariable: "value"
+Connector.HTTP.AllowTrace: true
 
 SecuritySystems:
   test-ad:

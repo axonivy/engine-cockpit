@@ -5,7 +5,7 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="filter" value="#{systemConfigBean.filter}" />
+    <f:viewParam name="filter" value="#{systemConfigBean.configView.filter}" />
   </f:metadata>
 
   <ui:composition template="/template/template.xhtml">
@@ -21,111 +21,61 @@
     </ui:define>
 
     <ui:define name="content">
-      <cc:SingleCard id="card">
-        <div class="card card-w-title">
-          <div class="ui-g">
-            <div class="ui-g-12 ui-md-8">
-              <h1>
-                <i class="material-icons card-title-icon">settings</i>
-                <span>System Configuration</span>
-              </h1>
-            </div>
-            <div class="ui-g-12 ui-md-2" style="margin: auto;">
-              <h:form id="configMoreForm">
-                <p:commandButton title="More" id="configMoreButton"
-                  type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
-                <p:menu overlay="true" trigger="configMoreButton" my="right top" at="right bottom" id="configMoreMenu">
-                  <p:menuitem value="#{systemConfigBean.showDefaults ? 'Hide' : 'Show'} default values" 
-                    icon="ui-icon-visibility#{systemConfigBean.showDefaults ? '-off' : ''}"
-                    actionListener="#{systemConfigBean.switchDefaults}" update="card:form,@form" 
-                    id="showDefaultsBtn" oncomplete="PF('advancedConfigTable').filter()">
-                  </p:menuitem>
-                  <p:menuitem value="Show config log" icon="ui-icon-format-align-left" onclick="window.location.href='logs.xhtml?log=config.log'"
-                    id="showConfigLogBtn" />
-                </p:menu>
-              </h:form>
-            </div>
-            <div class="ui-g-12 ui-md-2" style="margin: auto;">
-              <p:commandButton id="newConfigBtn" value="New" icon="ui-icon-add" actionListener="#{systemConfigBean.setActiveConfig(null)}"
-                update="card:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
-            </div>
-          </div>
-          <div class="ui-g">
-            <div class="ui-g-12 ui-lg-12">
-              <h:form id="form">
-                <p:growl id="msgs" />
-                <p:dataTable var="config" value="#{systemConfigBean.configs}" widgetVar="advancedConfigTable"
-                  filteredValue="#{systemConfigBean.filteredConfigs}" id="advancedConfigTable">
-                  <f:facet name="header">
-                    <p:outputPanel>
-                      <p:outputLabel styleClass="table-search-icon">
-                        <i class="material-icons">search</i>
-                      </p:outputLabel>
-                      <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                        onkeyup="PF('advancedConfigTable').filter()" placeholder="Search" value="#{systemConfigBean.filter}" />
-                    </p:outputPanel>
-                  </f:facet>
-                  <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}" styleClass="#{config.default ? 'default-value' : ''}">
-                    <h:outputText value="#{config.key}" title="#{config.description}" styleClass="config-name">
-                      <i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
-                    </h:outputText>
-                  </p:column>
-                  <p:column headerText="Value" filterBy="#{config.value}" styleClass="#{config.default ? 'default-value' : ''}">
-                    <h:outputText value="#{config.password ? '******' : config.value}" />
-                  </p:column>
-                  <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 80px;">
-                    <h:outputText value="#{config.shortSource}" title="#{config.source}" />
-                  </p:column>
-                  <p:column style="width: 70px;">
-                    <p:commandButton title="More" id="tasksButton" disabled="#{config.default}"
-                      type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
-                    <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-                      <p:menuitem value="View File" icon="ui-icon-find-in-page" oncomplete="PF('showConfigurationFileModal').show()"
-                        actionListener="#{systemConfigBean.setActiveConfig(config.key)}" update="card:showConfigurationFileModal" 
-                        id="showFileBtn">
-                      </p:menuitem>
-                      <p:menuitem value="Reset" icon="ui-icon-close" disabled="#{config.shortSource eq 'app.yaml'}"
-                        actionListener="#{systemConfigBean.setActiveConfig(config.key)}" id="resetConfigBtn"
-                        update="card:form:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
-                    </p:menu>
-                  	<p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
-                      styleClass="card-button table-control-btn amber-btn"
-                      actionListener="#{systemConfigBean.setActiveConfig(config.key)}"
-                      update="card:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
-                  </p:column>
-                </p:dataTable>
-                <p:confirmDialog id="resetConfigConfirmDialog" header="Reset Config"
-                  message="Are you sure about reseting the configuration '#{systemConfigBean.activeConfig.key}=#{systemConfigBean.activeConfig.password ? '******' : advancedConfigBean.activeConfig.value}'?" 
-                  severity="alert" widgetVar="resetConfigConfirmDialog">
-                  <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{systemConfigBean.resetConfig}"
-                    icon="ui-icon-check" style="width: inherit;" />
-                  <p:commandButton value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button" icon="ui-icon-close"
-                    style="width: inherit;" />
-                </p:confirmDialog>
-              </h:form>
-              <ui:include src="dialogs/editconfiguration.xhtml" />
-              <ui:include src="dialogs/newconfiguration.xhtml" />
-              <ui:include src="dialogs/showconfigurationfile.xhtml" />
-            </div>
+      <div class="ui-fluid">
+        <div class="ui-g">
+            <div class="ui-g-12">
+              <div class="card card-w-title">
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-md-8">
+                    <h1>
+                      <i class="material-icons card-title-icon">settings</i>
+                      <span>System Configuration</span>
+                    </h1>
+                  </div>
+                  <div class="ui-g-12 ui-md-2" style="margin: auto;">
+                    <h:form id="configMoreForm">
+                      <p:commandButton title="More" id="configMoreButton"
+                        type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
+                      <p:menu overlay="true" trigger="configMoreButton" my="right top" at="right bottom" id="configMoreMenu">
+                        <p:menuitem value="#{systemConfigBean.configView.showDefaults ? 'Hide' : 'Show'} default values" 
+                          icon="ui-icon-visibility#{systemConfigBean.configView.showDefaults ? '-off' : ''}"
+                          actionListener="#{systemConfigBean.configView.switchDefaults}" update="@form, config" 
+                          id="showDefaultsBtn" oncomplete="PF('configTable').filter()">
+                        </p:menuitem>
+                        <p:menuitem value="Show config log" icon="ui-icon-format-align-left" onclick="window.location.href='logs.xhtml?log=config.log'"
+                          id="showConfigLogBtn" />
+                      </p:menu>
+                    </h:form>
+                  </div>
+                  <div class="ui-g-12 ui-md-2" style="margin: auto;">
+                    <p:commandButton id="newConfigBtn" value="New" icon="ui-icon-add" actionListener="#{systemConfigBean.configView.setActiveConfig(null)}"
+                      update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-lg-12">
+                    <cc:Configuration bean="#{systemConfigBean.configView}" id="config"/>
+                  </div>
+                </div>
+              </div>
+            
+            <script>
+              $(document).ready(function() {
+                try {
+                  var url = new URL(window.location.href)
+                  if (url.searchParams.get("filter") != null) {
+                    console.log("filter" + url.searchParams.get("filter"));
+                    PF('configTable').filter();
+                  }
+                }
+                catch(err) {
+                  console.log("Failed to init startup filter: " + err);
+                }
+              });
+            </script>
           </div>
         </div>
-      </cc:SingleCard>
-      
-      <script>
-        $(document).ready(function() {
-          try {
-            var url = new URL(window.location.href)
-            if (url.searchParams.get("filter") != null) {
-              console.log("filter" + url.searchParams.get("filter"));
-              PF('advancedConfigTable').filter();
-            }
-          }
-          catch(err) {
-            console.log("Failed to init startup filter: " + err);
-          }
-        });
-      </script>
-        
+      </div>
     </ui:define>
   </ui:composition>
 </h:body>

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -14,9 +15,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
-import ch.ivyteam.enginecockpit.util.Configuration;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SynchronizationLogger;
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 @ManagedBean
@@ -43,9 +45,9 @@ public class SecurityBean
   
   private void loadSecuritySystems() 
   {
-    systems = Configuration.getNames(SecuritySystemConfig.SECURITY_SYSTEMS).stream()
+    systems = SecuritySystemConfig.getSecuritySystems().stream()
             .map(securitySystem -> new SecuritySystem(securitySystem, 
-                    getSecurityContextForSecuritySystem(securitySystem), getAppsForSecuritySystem(securitySystem)))
+                    getSecurityContextForSecuritySystem(securitySystem), getAppNamesForSecuritySystem(securitySystem)))
             .collect(Collectors.toList());
     addIvySecuritySystem();
   }
@@ -65,23 +67,28 @@ public class SecurityBean
   
   private Optional<ISecurityContext> getSecurityContextForSecuritySystem(String securitySystem)
   {
-    return managerBean.getIApplications().stream()
-            .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app.getName()), securitySystem))
+    return getApplicationsForSecuritySystems(securitySystem)
             .findFirst()
             .map(app -> app.getSecurityContext());
   }
   
-  private List<String> getAppsForSecuritySystem(String securitySystem)
+  private List<String> getAppNamesForSecuritySystem(String securitySystem)
   {
-    return managerBean.getIApplications().stream()
-            .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app.getName()), securitySystem))
+    return getApplicationsForSecuritySystems(securitySystem)
             .map(app -> app.getName())
             .collect(Collectors.toList());
   }
-  
-  private String getSecuritySystemNameFromAppConfig(String appName)
+
+  private Stream<IApplication> getApplicationsForSecuritySystems(String securitySystem)
   {
-    return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getAppPrefix(appName));
+    return managerBean.getIApplications().stream()
+            .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app), securitySystem));
+  }
+  
+  @SuppressWarnings("restriction")
+  private String getSecuritySystemNameFromAppConfig(IApplication app)
+  {
+    return ((IApplicationInternal) app).getConfiguration().getOrDefault(SecuritySystemConfig.SECURITY_STSTEM);
   }
 
   public List<SecuritySystem> getSecuritySystems()
@@ -91,7 +98,7 @@ public class SecurityBean
   
   public Collection<String> getAvailableSecuritySystems()
   {
-    Collection<String> names = Configuration.getNames(SecuritySystemConfig.SECURITY_SYSTEMS);
+    Collection<String> names = SecuritySystemConfig.getSecuritySystems();
     names.add(SecuritySystemConfig.IVY_SECURITY_SYSTEM);
     return names;
   }

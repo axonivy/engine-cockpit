@@ -1,11 +1,17 @@
 package ch.ivyteam.enginecockpit.util;
 
+import java.util.Collection;
+
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+
+@SuppressWarnings("restriction")
 public class SecuritySystemConfig
 {
 
   public static final String SECURITY_SYSTEMS = "SecuritySystems";
+  public static final String SECURITY_STSTEM = "SecuritySystem";
   public static final String IVY_SECURITY_SYSTEM = "ivy Security System";
 
   public interface ConfigKey
@@ -68,33 +74,33 @@ public class SecuritySystemConfig
     return SECURITY_SYSTEMS + "." + name + "."; 
   }
   
-  public static String getAppPrefix(String appName)
-  {
-    return "Applications." + appName + ".SecuritySystem";
-  }
-  
   public static String getOrBlank(String key)
   {
-    return Configuration.get(key).orElse("");
+    return IConfiguration.get().get(key).orElse("");
   }
   
   public static void setOrRemove(String key, Object value)
   {
     if (StringUtils.isBlank(value.toString()))
     {
-      Configuration.remove(key);
+      IConfiguration.get().remove(key);
       return;
     }
-    Configuration.set(key, value);
+    IConfiguration.get().set(key, value);
   }
   
   public static void setAuthenticationKind(String name)
   {
-    if (!Configuration.get(getPrefix(name) + ConfigKey.CONNECTION_USER_NAME).isPresent())
+    if (!IConfiguration.get().get(getPrefix(name) + ConfigKey.CONNECTION_USER_NAME).isPresent())
     {
-      Configuration.set(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND, "none");
+      IConfiguration.get().set(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND, "none");
       return;
     }
-    Configuration.remove(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND);
+    IConfiguration.get().remove(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND);
+  }
+
+  public static Collection<String> getSecuritySystems()
+  {
+    return IConfiguration.get().getNames(SecuritySystemConfig.SECURITY_SYSTEMS);
   }
 }

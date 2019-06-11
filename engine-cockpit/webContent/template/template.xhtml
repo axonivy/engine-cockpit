@@ -31,14 +31,14 @@
       <ui:include src="./topbar.xhtml" />
 
       <div class="layout-breadcrumb">
-        <ul style="width: 100%;">
+        <ul>
           <li><a href="dashboard.xhtml"><i class="material-icons">home</i></a></li>
           <li>/</li>
           <ui:insert name="breadcrumb" />
-          <li role="menuitem" style="float: right; margin-right: 50px;">
-            <ui:insert name="breadcrumb-right" />
-          </li>
         </ul>
+        <div class="layout-breadcrumb-options">
+          <ui:insert name="breadcrumb-right" />
+        </div>
       </div>
 
       <div class="layout-content">
