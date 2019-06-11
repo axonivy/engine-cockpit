@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecurityMemberProperty;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.IUser;
 
@@ -71,7 +70,6 @@ public class MemberProperty
   
   public void setProperty(SecurityMemberProperty property)
   {
-    Ivy.log().info("set");
     this.property = property;
     if (property == null)
     {
@@ -146,7 +144,6 @@ public class MemberProperty
 
     public void saveProperty()
     {
-      Ivy.log().info("save");
       if (user.isPropertyBacked(super.property.getKey()))
       {
         FacesContext.getCurrentInstance().addMessage("propertiesMessage",
