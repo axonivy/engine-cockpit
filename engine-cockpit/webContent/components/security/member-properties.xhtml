@@ -11,7 +11,7 @@
 <h:form id="propertiesForm">
   <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
   <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-    actionListener="#{memberProperty.setProperty(null)}" update="@form:propertyModal"
+    actionListener="#{memberProperty.setProperty(null)}" update=":propertyModal"
     title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
   
   <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
@@ -33,7 +33,7 @@
       </h:outputText>
     </p:column>
 
-    <p:column headerText="Value">
+    <p:column headerText="Value" filterBy="#{property.value}">
       <h:outputText value="#{property.value}" />
     </p:column>
     
@@ -45,14 +45,16 @@
           <p:ajax listener="#{memberProperty.removeProperty(property.key)}" update="@form"/>
         </p:commandButton>
         <p:commandButton id="editPropertyBtn" disabled="#{property.backed}" actionListener="#{memberProperty.setProperty(property)}"
-          icon="ui-icon-pencil" title="#{property.backed ? 'From Security System' : 'Edit'}" update="@form:propertyModal"
+          icon="ui-icon-pencil" title="#{property.backed ? 'From Security System' : 'Edit'}" update=":propertyModal"
           styleClass="card-button table-control-btn amber-btn" oncomplete="PF('propertyModal').show();" process="@this" />
       </p:outputLabel>
     </p:column>
   </p:dataTable>
-  
-  <p:dialog style="min-width: 300px;" header="Property" id="propertyModal" widgetVar="propertyModal"
-    modal="true" responsive="true" closeOnEscape="true">
+</h:form>
+
+<p:dialog style="min-width: 300px;" header="Property" id="propertyModal" widgetVar="propertyModal"
+  modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="propertyModalForm">
     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
@@ -71,12 +73,11 @@
         <p:message for="propertyValueInput" id="propertyValueMessage" />
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="saveProperty" validateClient="true" ajax="false" update="@form"
+    <p:commandButton id="saveProperty" validateClient="true" ajax="false" update=":propertiesForm" type="submit"
       actionListener="#{memberProperty.saveProperty}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button" />
     <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-  </p:dialog>
-  
-</h:form>
+  </h:form>
+</p:dialog>
 </html>
