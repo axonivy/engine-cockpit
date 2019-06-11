@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
+import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -49,6 +50,21 @@ public class WebTestBase extends WebBase
   public void saveScreenshot(RemoteWebDriver driver)
   {
     saveScreenshot(driver, "");
+  }
+  
+  public void scrollYBy(RemoteWebDriver driver, int value)
+  {
+    driver.executeScript("window.scrollBy(0, " + value + ")");
+  }
+  
+  public void scrollYToBottom(RemoteWebDriver driver)
+  {
+    driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+  }
+  
+  public void scrollYToElement(RemoteWebDriver driver, By element)
+  {
+    scrollYBy(driver, driver.findElement(element).getLocation().getY());
   }
   
   public void login(FirefoxDriver driver)

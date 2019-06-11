@@ -309,6 +309,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   {
     login(driver);
     Navigation.toApplicationDetail(driver, "test-ad");
+    scrollYToBottom(driver);
     saveScreenshot(driver, "app_detail");
     table = new Table(driver, TABLE_ID);
   }

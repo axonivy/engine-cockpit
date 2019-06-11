@@ -162,7 +162,8 @@
           <p:message for="newConfigurationValue" id="newConfigurationValueMessage" />
         </h:panelGroup>
       </p:panelGrid>
-      <p:commandButton id="saveNewConfiguration" validateClient="true" process="newConfigurationForm" update="config:form:configTable"
+      <p:commandButton id="saveNewConfiguration" validateClient="true" process="newConfigurationForm" 
+        update="config:form:configTable, @form"
         actionListener="#{cc.attrs.bean.createConfig}" value="Save" icon="ui-icon-save"
         styleClass="primary-btn modal-input-button" onsuccess="PF('newConfigurationModal').hide()"/>
       <p:commandButton id="cancelNewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel" type="button"
