@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
@@ -153,17 +152,21 @@ public class ConfigProperty
     return StringUtils.isNotBlank(description);
   }
   
+  public boolean fileExist()
+  {
+    return getFile() == null;
+  }
+  
   public String getFileContent()
   {
     try
     {
       return FileUtils.readFileToString(getFile(), StandardCharsets.UTF_8);
     }
-    catch (Exception e)
+    catch (IOException e)
     {
-      e.printStackTrace();
+      return "Could not read file (" + e.getMessage() + ")";
     }
-    return "";
   }
   
   public StreamedContent downloadFile()
@@ -173,7 +176,7 @@ public class ConfigProperty
       InputStream newInputStream = Files.newInputStream(getFile().toPath());
       return new DefaultStreamedContent(newInputStream, "text/plain", getFile().getName());
     }
-    catch (IOException | URISyntaxException e)
+    catch (IOException e)
     {
       FacesContext.getCurrentInstance().addMessage("msgs",
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));
@@ -181,9 +184,16 @@ public class ConfigProperty
     }
   }
   
-  private File getFile() throws URISyntaxException
+  private File getFile()
   {
-    return new File(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix())));
+    try
+    {
+      return new File(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix())));
+    }
+    catch (Exception ex)
+    {
+      return null;
+    }
   }
   
   private int getIndexOfSourceSuffix()
