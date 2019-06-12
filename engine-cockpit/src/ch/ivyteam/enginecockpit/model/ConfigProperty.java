@@ -33,6 +33,7 @@ public class ConfigProperty
   private List<String> enumerationValues;
   private boolean restartRequired;
   private String description;
+  private File file;
   
   public ConfigProperty()
   {
@@ -55,6 +56,7 @@ public class ConfigProperty
     this.restartRequired = property.getMetaData().isRestartRequired();
     this.description = property.getMetaData().getDescription();
     correctValuesIfDaytimeFormat();
+    getFile();
   }
 
   public String getKey()
@@ -154,14 +156,18 @@ public class ConfigProperty
   
   public boolean fileExist()
   {
-    return getFile() == null;
+    return file != null;
   }
   
   public String getFileContent()
   {
+    if (!fileExist())
+    {
+      return "";
+    }
     try
     {
-      return FileUtils.readFileToString(getFile(), StandardCharsets.UTF_8);
+      return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
     }
     catch (IOException e)
     {
@@ -173,8 +179,8 @@ public class ConfigProperty
   {
     try
     {
-      InputStream newInputStream = Files.newInputStream(getFile().toPath());
-      return new DefaultStreamedContent(newInputStream, "text/plain", getFile().getName());
+      InputStream newInputStream = Files.newInputStream(file.toPath());
+      return new DefaultStreamedContent(newInputStream, "text/plain", file.getName());
     }
     catch (IOException e)
     {
@@ -184,15 +190,15 @@ public class ConfigProperty
     }
   }
   
-  private File getFile()
+  private void getFile()
   {
     try
     {
-      return new File(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix())));
+      file = new File(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix())));
     }
     catch (Exception ex)
     {
-      return null;
+      file = null;
     }
   }
   

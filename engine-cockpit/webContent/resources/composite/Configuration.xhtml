@@ -36,7 +36,7 @@
         <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
           <p:menuitem value="View File" icon="ui-icon-find-in-page" oncomplete="PF('showConfigurationFileModal').show()"
             actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update="config:showConfigurationFileModal" 
-            id="showFileBtn" process="@this" disabled="#{config.fileExist()}">
+            id="showFileBtn" process="@this" disabled="#{!config.fileExist()}">
           </p:menuitem>
           <p:menuitem value="Reset" icon="ui-icon-close" process="@this"
             actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" id="resetConfigBtn"
