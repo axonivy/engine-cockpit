@@ -14,11 +14,11 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestApplication extends WebTestBase
 {
   private static final String NEW_TEST_APP = "newTestApp";
-
 
   @Test
   void testApplications(FirefoxDriver driver)
@@ -81,21 +81,10 @@ public class WebTestApplication extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.findElementById("appDetailStateForm:operationStateLabel").getText()).isEqualTo("INACTIVE"));
     startAppInsideDetailView(driver);
     stopAppInsideDetailView(driver);
-    deleteAppInsideDetailView(driver);
+    Navigation.toApplications(driver);
+    deleteNewApplication(driver, driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']/../../..").getAttribute("id"));
   }
-  
-  private void deleteAppInsideDetailView(FirefoxDriver driver)
-  {
-    driver.findElementById("appDetailInfoForm:deleteApplication").click();
-    saveScreenshot(driver, "delete_modal");
-    await().untilAsserted(() -> assertThat(driver.findElementById("appDetailInfoForm:deleteAppConfirmDialog").isDisplayed()).isTrue());
-    
-    
-    driver.findElementById("appDetailInfoForm:deleteAppConfirmYesBtn").click();
-    saveScreenshot(driver, "all_apps");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("applications.xhtml"));
-  }
-  
+
   private void stopAppInsideDetailView(FirefoxDriver driver)
   {
     driver.findElementById("appDetailStateForm:deActivateApplication").click();
@@ -180,5 +169,6 @@ public class WebTestApplication extends WebTestBase
     login(driver);
     Navigation.toApplications(driver);
     saveScreenshot(driver, "applications");
+    table = new Table(driver, TABLE_ID);
   }
 }

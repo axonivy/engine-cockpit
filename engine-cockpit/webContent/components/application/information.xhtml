@@ -12,16 +12,6 @@
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
   <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" update="appDetailInfoForm" />
-  <p:commandButton id="deleteApplication" rendered="#{applicationDetailBean.appName ne 'designer'}" title="Delete app"
-    type="button" icon="ui-icon-delete" styleClass="red-btn card-button" onclick="PF('deleteAppConfirmDialog').show()" />
-  <p:confirmDialog id="deleteAppConfirmDialog"
-    message="Are you sure about deleteing the application '#{applicationDetailBean.appName}'?"
-    header="Delete Application" severity="alert" widgetVar="deleteAppConfirmDialog">
-    <p:commandButton id="deleteAppConfirmYesBtn" value="Yes" ajax="false" immediate="true"
-      action="#{applicationDetailBean.deleteApplication}" icon="ui-icon-check" style="width: inherit;" />
-    <p:commandButton value="Cancel" onclick="PF('deleteAppConfirmDialog').hide();" type="button" icon="ui-icon-close"
-      style="width: inherit;" />
-  </p:confirmDialog>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText value="#{applicationDetailBean.application.name}" />
