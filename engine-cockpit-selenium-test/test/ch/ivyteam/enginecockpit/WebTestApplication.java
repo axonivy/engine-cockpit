@@ -14,7 +14,6 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestApplication extends WebTestBase
 {
@@ -169,6 +168,5 @@ public class WebTestApplication extends WebTestBase
     login(driver);
     Navigation.toApplications(driver);
     saveScreenshot(driver, "applications");
-    table = new Table(driver, TABLE_ID);
   }
 }
