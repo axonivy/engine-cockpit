@@ -9,12 +9,30 @@
 </cc:interface>
 <cc:implementation>
   <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card" value="#{managerBean.applications}"
-    activeIndex="#{managerBean.selectedApplicationIndex}" var="app">
+    activeIndex="#{managerBean.selectedApplicationIndex}" var="app" rendered="#{not empty managerBean.applications}">
     <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
     <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@form" />
     <p:tab title="#{app.name}" titleStyleClass="application-tab">
       <cc:insertChildren />
     </p:tab>
   </p:tabView>
+  <h:panelGroup rendered="#{empty managerBean.applications}">
+    <div class="ui-fluid">
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <div class="card card-w-title">
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-8">
+                <h:outputText value="You don't have any applications configured."/>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p:button icon="ui-icon-add" value="Create Application" outcome="applications" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </h:panelGroup>
 </cc:implementation>
 </html>

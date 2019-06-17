@@ -37,12 +37,13 @@ public class GlobalVarBean
   public void reloadGlobalVars()
   {
     activeVar = new SimpleVariable();
-    app = managerBean.getSelectedIApplication();
-    env = managerBean.getSelectedIEnvironment();
-    
-    globalVariables = env.getGlobalVariables()
-            .stream().map(var -> new SimpleVariable(var, app)).collect(Collectors.toList());
-    
+    if (managerBean.getApplications().size() != 0)
+    {
+      app = managerBean.getSelectedIApplication();
+      env = managerBean.getSelectedIEnvironment();
+      globalVariables = env.getGlobalVariables()
+              .stream().map(var -> new SimpleVariable(var, app)).collect(Collectors.toList());
+    }
     filteredVariables = null;
   }
 
