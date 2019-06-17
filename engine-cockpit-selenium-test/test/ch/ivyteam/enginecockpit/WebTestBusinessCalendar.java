@@ -24,7 +24,7 @@ public class WebTestBusinessCalendar extends WebTestBase
     toBusinessCalendarDetail(driver, "Default");
     webAssertThat(() -> assertThat(
             driver.findElementById("weekConfigurationPanel").getText()).contains("Week configuration", "Start day of week\nMONDAY",
-            "Free days of week Day", "Weekend SATURDAY", "Working time Time", "morning 08:00:00 - 12:00:00"));
+            "Free days of week Day", "weekend1 SATURDAY", "Working time Time", "morning 08:00:00 - 12:00:00"));
     
     webAssertThat(() -> assertThat(
             driver.findElementById("freeDaysOfYearPanel").getText()).contains("Free days of year", "Description Day"));

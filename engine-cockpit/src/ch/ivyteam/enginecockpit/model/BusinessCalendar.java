@@ -114,7 +114,7 @@ public class BusinessCalendar
     public Row(WorkingTime time, String calendarName)
     {
       this.description = time.getDescription();
-      this.value = time.toString();
+      this.value = time.getValue();
       this.calendarName = calendarName;
     }
 
