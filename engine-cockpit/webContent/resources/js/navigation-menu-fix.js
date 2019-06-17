@@ -21,6 +21,15 @@ if (!String.prototype.startsWith) {
   });
 }
 
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function(search, this_len) {
+	if (this_len === undefined || this_len > this.length) {
+	  this_len = this.length;
+	}
+	return this.substring(this_len - search.length, this_len) === search;
+  };
+}
+
 $(document).ready(function(){
   PF('sidebar_menu').anchorButton.on('click', function(e) {
     var menu = $.cookie('cockpit_menu_default');

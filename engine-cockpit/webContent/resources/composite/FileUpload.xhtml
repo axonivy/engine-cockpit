@@ -126,10 +126,10 @@
       function buildFormData() {
         var form_data = new FormData();
         if (!'#{cc.attrs.apiUrl}'.endsWith('licence')) {
-          form_data.append('fileToDeploy', file);
+          form_data.append('fileToDeploy', file, file.name);
           addDeployOptions(form_data);
         } else {
-          form_data.append('licence', file);
+          form_data.append('licence', file, file.name);
         }
         return form_data;
       }
