@@ -192,18 +192,18 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   {
     toSecurityDetail(driver);
     driver.findElementById("securityLdapAttributesForm:newLdapAttributeBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:ldapAttributeModal").isDisplayed())
+    await().untilAsserted(() -> assertThat(driver.findElementById("ldapAttributeModal").isDisplayed())
             .isTrue());
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:attributeNameMessage").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeNameMessage").getText())
             .isBlank());
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:attributeMessage").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeMessage").getText())
             .isBlank());
     saveScreenshot(driver, "modal");
     
-    driver.findElementById("securityLdapAttributesForm:saveLdapAttribute").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:attributeNameMessage").getText())
+    driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
+    await().untilAsserted(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeNameMessage").getText())
             .contains("Value is required"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:attributeMessage").getText())
+    await().untilAsserted(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeMessage").getText())
             .contains("Value is required"));
     saveScreenshot(driver, "invalid");
   }
@@ -216,22 +216,22 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2));
     
     driver.findElementById("securityLdapAttributesForm:newLdapAttributeBtn").click();
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:ldapAttributeModal").isDisplayed())
+    await().untilAsserted(() -> assertThat(driver.findElementById("ldapAttributeModal").isDisplayed())
             .isTrue());
-    driver.findElementById("securityLdapAttributesForm:attributeNameInput").sendKeys("test");
-    driver.findElementById("securityLdapAttributesForm:attributeInput").sendKeys("value");
+    driver.findElementById("ldapAttributeForm:attributeNameInput").sendKeys("test");
+    driver.findElementById("ldapAttributeForm:attributeInput").sendKeys("value");
     saveScreenshot(driver, "new_attr");
-    driver.findElementById("securityLdapAttributesForm:saveLdapAttribute").click();
+    driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
     saveScreenshot(driver, "save");
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(3).contains("test"));
     webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("value"));
     
     table.clickButtonForEntry("test", "editPropertyBtn");
-    await().untilAsserted(() -> assertThat(driver.findElementById("securityLdapAttributesForm:ldapAttributeModal").isDisplayed())
+    await().untilAsserted(() -> assertThat(driver.findElementById("ldapAttributeModal").isDisplayed())
             .isTrue());
-    driver.findElementById("securityLdapAttributesForm:attributeInput").clear();
-    driver.findElementById("securityLdapAttributesForm:attributeInput").sendKeys("newValue");
-    driver.findElementById("securityLdapAttributesForm:saveLdapAttribute").click();
+    driver.findElementById("ldapAttributeForm:attributeInput").clear();
+    driver.findElementById("ldapAttributeForm:attributeInput").sendKeys("newValue");
+    driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
     saveScreenshot(driver, "edit");
     webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("newValue"));
     

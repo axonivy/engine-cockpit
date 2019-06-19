@@ -15,7 +15,7 @@
 <h:form id="securityLdapAttributesForm">
   <p:growl id="securitySystemLdapAttributesSuccess" for="securitySystemLdapAttributesSuccess" autoUpdate="true" />
   <p:commandButton id="newLdapAttributeBtn" oncomplete="PF('ldapAttributeModal').show();" process="@this"
-    actionListener="#{securityLdapDetailBean.setProperty(null)}" update="@form:ldapAttributeModal"
+    actionListener="#{securityLdapDetailBean.setProperty(null)}" update=":ldapAttributeForm"
     title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
     
   <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
@@ -34,11 +34,38 @@
         <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form"/>
       </p:commandButton>
       <p:commandButton id="editPropertyBtn" actionListener="#{securityLdapDetailBean.setProperty(property)}"
-        icon="ui-icon-pencil" title="Edit" update="@form:ldapAttributeModal"
+        icon="ui-icon-pencil" title="Edit" update=":ldapAttributeForm"
         styleClass="card-button table-control-btn amber-btn" oncomplete="PF('ldapAttributeModal').show();" process="@this" />
     </p:column>
   </p:dataTable>
-  
-  <ui:include src="../../dialogs/security-ldap-attribute.xhtml" />
 </h:form>
+
+<p:dialog style="min-width: 300px;" header="LDAP Attribute" id="ldapAttributeModal" widgetVar="ldapAttributeModal"
+  modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="ldapAttributeForm">
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <label>Name</label>
+      <h:panelGroup styleClass="md-inputfield" rendered="#{empty securityLdapDetailBean.property.name}">
+        <p:inputText id="attributeNameInput" requiredMessage="Value is required"
+          value="#{securityLdapDetailBean.property.name}" required="true" />
+        <p:message for="attributeNameInput" id="attributeNameMessage" />
+      </h:panelGroup>
+      <h:outputText id="propertyName" rendered="#{not empty securityLdapDetailBean.property.name}" 
+        value="#{securityLdapDetailBean.property.name}"/>
+      
+      <label>Attribute</label>
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="attributeInput" requiredMessage="Value is required" 
+          value="#{securityLdapDetailBean.property.ldapAttribute}" required="true" />
+        <p:message for="attributeInput" id="attributeMessage" />
+      </h:panelGroup>
+    </p:panelGrid>
+    <p:commandButton id="saveLdapAttribute" validateClient="true" ajax="false" update=":securityLdapAttributesForm"
+      actionListener="#{securityLdapDetailBean.saveProperty}" value="Save" icon="ui-icon-save"
+      styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelLdapAttribute" onclick="PF('ldapAttributeModal').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </h:form>
+</p:dialog>
 </html>
