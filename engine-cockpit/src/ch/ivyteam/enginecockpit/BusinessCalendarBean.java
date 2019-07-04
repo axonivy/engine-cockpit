@@ -11,6 +11,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.model.BusinessCalendar;
+import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.scripting.objects.Tree;
 
 @ManagedBean
@@ -60,7 +61,7 @@ public class BusinessCalendarBean
 
   private BusinessCalendar findCalendar(String name)
   {
-    BusinessCalendar businessCalendar = new BusinessCalendar(managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(name));
+    BusinessCalendar businessCalendar = new BusinessCalendar(getBusinessCalendarConfiguration(name));
     managerBean.getSelectedIApplication().getEnvironments().stream()
             .filter(e -> StringUtils.equals(e.getBusinessCalendar().getName(), businessCalendar.getName()))
             .forEach(e -> businessCalendar.addEnvironment(e.getName()));
@@ -74,7 +75,7 @@ public class BusinessCalendarBean
   
   public void setActiveCalendar()
   {
-    this.activeCalendar = new BusinessCalendar(managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(calendarSelection));
+    this.activeCalendar = new BusinessCalendar(getBusinessCalendarConfiguration(calendarSelection));
   }
   
   public void setCalendarSelection(String calendarSelection)
@@ -128,4 +129,15 @@ public class BusinessCalendarBean
     }
   }
   
+  private IBusinessCalendarConfiguration getBusinessCalendarConfiguration(String calendarName)
+  {
+    IBusinessCalendarConfiguration calConfiguration = managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(calendarName);
+    
+    if (calConfiguration == null)
+    {
+      calConfiguration = managerBean.getSelectedIApplication().getBusinessCalendarSettings().getRootBusinessCalendarConfiguration();
+    }
+    
+    return calConfiguration;
+  }
 }
