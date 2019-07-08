@@ -51,7 +51,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   void testHideDefaults_app(FirefoxDriver driver)
   {
     toApplicationDetail(driver);
-    assertDefaultToggle(driver, "ActiveEnvironment");
+    assertDefaultToggle(driver, "Data.FilesDirectory");
   }
   
   @Test
