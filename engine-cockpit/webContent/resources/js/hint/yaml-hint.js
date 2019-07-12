@@ -1,5 +1,9 @@
 var yamlHintDirectory = ["test", "tasldkfj"];
 
+CodeMirror.commands.autocomplete = function(cm) {
+    CodeMirror.showHint(cm, CodeMirror.hint.yamlHint);
+};
+
 // Register our custom Codemirror hint plugin.
 CodeMirror.registerHelper('hint', 'yamlHint', function(editor) {
     var cur = editor.getCursor();

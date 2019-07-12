@@ -1,48 +1,36 @@
 package ch.ivyteam.enginecockpit;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.model.ConfigFile;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class EditorBean
 {
-  private File ivyYaml;
+  private List<ConfigFile> configFiles = new ArrayList<>();
   
   public EditorBean()
   {
-    ivyYaml = UrlUtil.getConfigFile("ivy.yaml");
+    configFiles.addAll(Arrays.asList(UrlUtil.getConfigDir().listFiles()).stream()
+            .map(file -> file.getName())
+            .filter(fileName -> StringUtils.endsWith(fileName, ".yaml"))
+            .map(fileName -> new ConfigFile(fileName))
+            .collect(Collectors.toList()));
   }
   
-  public String getContent()
+  public List<ConfigFile> getConfigFiles()
   {
-    try
-    {
-      return FileUtils.readLines(ivyYaml, StandardCharsets.UTF_8).stream().collect(Collectors.joining("\n"));
-    }
-    catch (IOException e)
-    {
-      return "";
-    }
+    return configFiles;
   }
   
-  public String getKeys()
-  {
-    return IConfiguration.get().getMetadata().keySet().stream()
-            .flatMap(key -> Arrays.asList(key.split("\\.")).stream())
-            .distinct()
-            .collect(Collectors.joining(","));
-  }
 }

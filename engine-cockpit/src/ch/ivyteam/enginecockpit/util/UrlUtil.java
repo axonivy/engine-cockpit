@@ -65,7 +65,12 @@ public class UrlUtil
   
   public static File getConfigFile(String configFile)
   {
-    return new File(Advisor.getAdvisor().getInstallationDirectory() + File.separator + "configuration" + File.separator + configFile);
+    return new File(getConfigDir() + File.separator + configFile);
+  }
+  
+  public static File getConfigDir()
+  {
+    return new File(Advisor.getAdvisor().getInstallationDirectory() + File.separator + "configuration");
   }
   
   public static File getLogDir()

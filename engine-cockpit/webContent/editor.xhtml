@@ -16,29 +16,37 @@
     
     <ui:define name="content">
       <cc:SingleCard id="card">
-        <div class="card card-w-title">
-
-          <textarea id="yamlhints" style="display: none"><h:outputText value="#{editorBean.keys}"/></textarea>
-          <textarea id="editor" style="display: none"><h:outputText value="#{editorBean.content}"/></textarea>
-          
-          <script>
-            yamlHintDirectory = $('#yamlhints').text().split(',');
-            CodeMirror.commands.autocomplete = function(cm) {
-              CodeMirror.showHint(cm, CodeMirror.hint.yamlHint);
-            };
-            var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-              lineNumbers: true,
-              mode: "text/x-yaml",
-              tabSize: 2,
-              extraKeys: {"Ctrl-Space": "autocomplete",
-                Tab: function(cm) {
-                  var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-                  cm.replaceSelection(spaces);
-                }
-              }
-            });
-          </script>
-        </div>
+        <p:tabView id="editorTabView" styleClass="card tab-view-card" value="#{editorBean.configFiles}" var="config"
+          onTabShow="editor_#{config.varName}.refresh()" style="margin-bottom: 0;">
+          <p:tab title="#{config.fileName}" titleStyleClass="application-tab">
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <textarea id="yamlhints_#{config.varName}" style="display: none"><h:outputText value="#{config.keys}"/></textarea>
+                <textarea id="editor_#{config.varName}" style="display: none"><h:outputText value="#{config.content}"/></textarea>
+                
+                <script>
+                  console.log("#{config.varName}");
+                  yamlHintDirectory = $('#yamlhints_#{config.varName}').text().split(',');
+                  
+                  var editor_#{config.varName} = CodeMirror.fromTextArea(document.getElementById("editor_#{config.varName}"), {
+                    lineNumbers: true,
+                    mode: "text/x-yaml",
+                    tabSize: 2,
+                    extraKeys: {"Ctrl-Space": "autocomplete",
+                      Tab: function(cm) {
+                        var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                        cm.replaceSelection(spaces);
+                      }
+                    }
+                  });
+                </script>
+              </div>
+            </div>
+          </p:tab>
+        </p:tabView>
+        <script>
+          $('.ui-tabs-panels .cm-s-default').height(window.innerHeight - 230)
+        </script>
       </cc:SingleCard>
     </ui:define>
   </ui:composition>
