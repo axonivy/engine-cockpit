@@ -16,33 +16,38 @@
     
     <ui:define name="content">
       <cc:SingleCard id="card">
+        <p:growl id="editorMessage" for="editorMessage" autoUpdate="true" showDetail="true"/>
         <p:tabView id="editorTabView" styleClass="card tab-view-card" value="#{editorBean.configFiles}" var="config"
           onTabShow="editor_#{config.varName}.refresh()" style="margin-bottom: 0;">
           <p:tab title="#{config.fileName}" titleStyleClass="application-tab">
             <div class="ui-g">
               <div class="ui-g-12">
-                <textarea id="yamlhints_#{config.varName}" style="display: none"><h:outputText value="#{config.keys}"/></textarea>
-                <textarea id="editor_#{config.varName}" style="display: none"><h:outputText value="#{config.content}"/></textarea>
-                
-                <script>
-                  console.log("#{config.varName}");
-                  yamlHintDirectory = $('#yamlhints_#{config.varName}').text().split(',');
-                  
-                  var editor_#{config.varName} = CodeMirror.fromTextArea(document.getElementById("editor_#{config.varName}"), {
-                    lineNumbers: true,
-                    mode: "text/x-yaml",
-                    tabSize: 2,
-                    extraKeys: {"Ctrl-Space": "autocomplete",
-                      Tab: function(cm) {
-                        var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-                        cm.replaceSelection(spaces);
-                      }
-                    }
-                  });
-                </script>
                 <h:form>
-                  <p:commandButton id="saveEdit" type="button" style="width: 150px; float: right; margin-left: 10px;"
-                    value="Save" icon="ui-icon-save" styleClass="primary-btn" />
+                  <textarea id="yamlhints_#{config.varName}" style="display: none"><h:outputText value="#{config.keys}"/></textarea>
+                  <div id="editor_#{config.varName}"><p:inputTextarea id="content" value="#{config.content}" style="display: none"/></div>
+                  
+                  <script>
+                    yamlHintDirectory = $('#yamlhints_#{config.varName}').text().split(',');
+                    var contentId_#{config.varName} = $("#editor_#{config.varName} textarea").attr('id');
+                    console.log(contentId_#{config.varName});
+                    
+                    var editor_#{config.varName} = CodeMirror.fromTextArea(document.getElementById(contentId_#{config.varName}), {
+                      lineNumbers: true,
+                      mode: "text/x-yaml",
+                      tabSize: 2,
+                      extraKeys: {"Ctrl-Space": "autocomplete",
+                        Tab: function(cm) {
+                          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                          cm.replaceSelection(spaces);
+                        }
+                      }
+                    });
+                    editor_#{config.varName}.on("change", function (cm) {
+                      document.getElementById(contentId_#{config.varName}).value = cm.getValue();
+                    });
+                  </script>
+                  <p:commandButton id="saveEdit" style="width: 150px; float: right; margin-left: 10px;" process="content"
+                    value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{config.save()}"/>
                   <p:commandButton id="cancelEdit" onclick="editor_${config.varName}.undo()" value="Cancel" type="button"
                     icon="ui-icon-clear" styleClass="secondary-btn" style="width: 150px; float: right;"/>
                 </h:form>
