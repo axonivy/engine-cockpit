@@ -40,12 +40,18 @@
                     }
                   });
                 </script>
+                <h:form>
+                  <p:commandButton id="saveEdit" type="button" style="width: 150px; float: right; margin-left: 10px;"
+                    value="Save" icon="ui-icon-save" styleClass="primary-btn" />
+                  <p:commandButton id="cancelEdit" onclick="editor_${config.varName}.undo()" value="Cancel" type="button"
+                    icon="ui-icon-clear" styleClass="secondary-btn" style="width: 150px; float: right;"/>
+                </h:form>
               </div>
             </div>
           </p:tab>
         </p:tabView>
         <script>
-          $('.ui-tabs-panels .cm-s-default').height(window.innerHeight - 230)
+          $('.ui-tabs-panels .cm-s-default').height(window.innerHeight - 260)
         </script>
       </cc:SingleCard>
     </ui:define>
