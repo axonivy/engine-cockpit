@@ -18,31 +18,26 @@
       <cc:SingleCard id="card">
         <div class="card card-w-title">
 
-          <div id="editor"><pre><h:outputText value="#{editorBean.content}"/></pre></div>
+          <textarea id="yamlhints" style="display: none"><h:outputText value="#{editorBean.keys}"/></textarea>
+          <textarea id="editor" style="display: none"><h:outputText value="#{editorBean.content}"/></textarea>
+          
           <script>
-            hljs.configure(['yaml']);
-            hljs.initHighlighting();
-            
-            var quill = new Quill('#editor', {
-              modules: {
-                syntax: true,
-                toolbar: false
-              },
+            yamlHintDirectory = $('#yamlhints').text().split(',');
+            CodeMirror.commands.autocomplete = function(cm) {
+              CodeMirror.showHint(cm, CodeMirror.hint.yamlHint);
+            };
+            var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+              lineNumbers: true,
+              mode: "text/x-yaml",
+              tabSize: 2,
+              extraKeys: {"Ctrl-Space": "autocomplete",
+                Tab: function(cm) {
+                  var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                  cm.replaceSelection(spaces);
+                }
+              }
             });
-            jsyaml.load($('#editor pre').text());
           </script>
-
-          <style>
-            #editor .ql-editor {
-              padding: 0;
-            }
-            #editor pre {
-              display: block;
-              overflow-x: auto;
-              padding: 0.5em;
-              background: #F0F0F0;
-            }
-          </style>          
         </div>
       </cc:SingleCard>
     </ui:define>
