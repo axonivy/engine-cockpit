@@ -63,6 +63,11 @@ public class UrlUtil
     return new File(getLogDir() + File.separator + logFile);
   }
   
+  public static File getConfigFile(String configFile)
+  {
+    return new File(Advisor.getAdvisor().getInstallationDirectory() + File.separator + "configuration" + File.separator + configFile);
+  }
+  
   public static File getLogDir()
   {
     return new File(Advisor.getAdvisor().getInstallationDirectory() + File.separator + "logs");
