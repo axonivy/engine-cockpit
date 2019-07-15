@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+	<cc:attribute name="title" default="Renew Licence" />
+</cc:interface>
+<cc:implementation>
+	<p:dialog style="margin-left: 120px;" header="#{cc.attrs.title}"
+		id="renewLicence" width="35%" widgetVar="renewLicence" modal="true"
+		responsive="true" closeOnEscape="true" styleClass="ui-fluid">
+		<form> 
+			<p:outputLabel value="Where do you want to send the Licence to?" />
+			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
+				<p:inputText value="" type="email" placeholder="E-Mail"
+					required="true" requiredMessage="Put Email" style="width: 120%"/>
+				<p:commandButton value="Send" style="width: 50%; margin-left: 40%"
+					onclick="sendRenewLicence()"/>
+			 </p:panelGrid>
+		</form>
+		<script>
+		function sendRenewLicence(){
+			var content = `#{licenceBean.licenceFileContent}`;
+
+			var file = new File([content], "test.lic");
+
+			var form = new FormData();
+			form.append("oldLicense", file);
+						
+			var settings = {
+			  "async": true,
+			  "crossDomain": true,
+			  "url": "http://localhost:8083/ivy/api/designer/renewLicense",
+			  "method": "PUT",
+			  "headers": {
+			    "X-Requested-By": "ivy",
+			    "cache-control": "no-cache",
+			  },
+			  "processData": false,
+			  "contentType": false,
+			  "mimeType": "multipart/form-data",
+			  "data": form
+			}
+			
+			$.ajax(settings).done(function (response) {
+			  console.log(response);
+			});
+		}
+		</script>
+	</p:dialog>
+</cc:implementation>
+</html>

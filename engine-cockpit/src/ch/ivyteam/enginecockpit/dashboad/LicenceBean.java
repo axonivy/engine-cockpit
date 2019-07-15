@@ -22,6 +22,11 @@ public class LicenceBean
     return SignedLicence.getLicenceParameters();
   }
 
+  public String getLicenceFileContent()
+  {
+    return SignedLicence.getLicenceContent();
+  }
+
   public String getOrganisation()
   {
     return getValueFromProperty("licencee.organisation");
