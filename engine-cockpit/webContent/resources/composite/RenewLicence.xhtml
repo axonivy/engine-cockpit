@@ -15,17 +15,17 @@
 		<form> 
 			<p:outputLabel value="Where do you want to send the Licence to?" />
 			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
-				<p:inputText value="" type="email" placeholder="E-Mail"
+				<p:inputText id="emailInput" value="#{emailBean.email}" type="email" placeholder="E-Mail"
 					required="true" requiredMessage="Put Email" style="width: 120%"/>
-				<p:commandButton value="Send" style="width: 50%; margin-left: 40%"
+				<p:commandButton id="renewBtn" value="Send" style="width: 50%; margin-left: 40%"
 					onclick="sendRenewLicence(); PF('renewLicence').hide()"/>
 			 </p:panelGrid>
-			 <p:growl widgetVar="responseGrowl" showDetail="true" sticky="true"/>
+			 <p:growl id="responseMessage" widgetVar="responseMessage" showDetail="true" sticky="true"/>
 		</form>
 		<script>
 		function sendRenewLicence(){
 			var content = `#{licenceBean.licenceContent}`;
-
+			var mail = document.getElementById('renewLicence:emailInput').value;
 			var file = new File([content], "test.lic");
 
 			var form = new FormData();
@@ -36,7 +36,8 @@
 			  "crossDomain": true,
 			  "url": "http://"+window.location.hostname+":"+window.location.port+"/ivy/api/designer/renewLicense",
 			  "method": "PUT",
-			  "headers": {"X-Requested-By": "ivy" },
+			  "headers": {"X-Requested-By": "ivy",
+			  				"mailTo": mail},
 			  "processData": false,
 			  "contentType": false,
 			  "mimeType": "multipart/form-data",
@@ -60,7 +61,7 @@
 			}
 			
 			function createGrowl(detail, severity){
-				PF('responseGrowl').renderMessage({
+				PF('responseMessage').renderMessage({
 					"summary":"Message",
                     "detail": detail,
                     "severity":severity});
