@@ -18,12 +18,13 @@
 				<p:inputText value="" type="email" placeholder="E-Mail"
 					required="true" requiredMessage="Put Email" style="width: 120%"/>
 				<p:commandButton value="Send" style="width: 50%; margin-left: 40%"
-					onclick="sendRenewLicence()"/>
+					onclick="sendRenewLicence(); PF('renewLicence').hide()"/>
 			 </p:panelGrid>
+			 <p:growl widgetVar="responseGrowl" showDetail="true" sticky="true"/>
 		</form>
 		<script>
 		function sendRenewLicence(){
-			var content = `#{licenceBean.licenceFileContent}`;
+			var content = `#{licenceBean.licenceContent}`;
 
 			var file = new File([content], "test.lic");
 
@@ -33,16 +34,36 @@
 			var settings = {
 			  "async": true,
 			  "crossDomain": true,
-			  "url": "http://localhost:8083/ivy/api/designer/renewLicense",
+			  "url": "http://"+window.location.hostname+":"+window.location.port+"/ivy/api/designer/renewLicense",
 			  "method": "PUT",
-			  "headers": {
-			    "X-Requested-By": "ivy",
-			    "cache-control": "no-cache",
-			  },
+			  "headers": {"X-Requested-By": "ivy" },
 			  "processData": false,
 			  "contentType": false,
 			  "mimeType": "multipart/form-data",
-			  "data": form
+			  "data": form,
+			  success: function(data, textStatus, xhr){
+				  console.log("this is success: "+xhr.status);
+				  if (xhr.status == 200){
+				  	createGrowl("Your request has been sent.", "info");
+                  }
+			  },
+			  fail: function(xhr,textStatus, errorThrown){
+			  	console.log("this is fail: "+xhr.status);
+			  	createGrowl("There was some problem with your request. Status code is: "+xhr.status, "warn");
+			  },
+			  complete: function(xhr, textStatus){
+				  console.log("this is complete: "+xhr.status);
+				  if(xhr.status == 406){
+				  	createGrowl("Your request already exists","error");
+				  }
+			  }
+			}
+			
+			function createGrowl(detail, severity){
+				PF('responseGrowl').renderMessage({
+					"summary":"Message",
+                    "detail": detail,
+                    "severity":severity});
 			}
 			
 			$.ajax(settings).done(function (response) {

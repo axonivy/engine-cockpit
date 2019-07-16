@@ -22,7 +22,7 @@ public class LicenceBean
     return SignedLicence.getLicenceParameters();
   }
 
-  public String getLicenceFileContent()
+  public String getLicenceContent()
   {
     return SignedLicence.getLicenceContent();
   }
