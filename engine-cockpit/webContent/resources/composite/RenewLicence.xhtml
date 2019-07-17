@@ -37,70 +37,62 @@
         showDetail="true" sticky="true" />
     </form>
     <script>
-					function sendRenewLicence() {
-						var content = `#{licenceBean.licenceContent}`;
-						var mail = document
-								.getElementById('renewLicence:emailInput').value;
-						var file = new File([ content ], "licenceForRenew.lic");
+	function sendRenewLicence() {
+		var content = `#{licenceBean.licenceContent}`;
+		var mail = document.getElementById('renewLicence:emailInput').value;
+		var file = new File([ content ], "licenceForRenew.lic");
 
-						var form = new FormData();
-						form.append("oldLicense", file);
+		var form = new FormData();
+		form.append("oldLicense", file);
 
-						var url;
-						if (window.location.hostname.includes("localhost")) {
-							url = "http://" + window.location.hostname + ":"
-									+ window.location.port
-									+ "/ivy/api/designer/renewLicense";
-						} else {
-							url = "http://license-order.axonivy.io/ivy/api/LicenseOrder/renewLicense"
-						}
+		var url;
+		if (window.location.hostname.includes("localhost")) {
+			url = "http://" + window.location.hostname + ":"+ window.location.port+ "/ivy/api/designer/renewLicense";
+		} else {
+			url = "http://license-order.axonivy.io/ivy/api/LicenseOrder/renewLicense"
+		}
 
-						var settings = {
-							"async" : true,
-							"crossDomain" : true,
-							"url" : url,
-							"method" : "PUT",
-							"headers" : {
-								"X-Requested-By" : "ivy",
-								"mailTo" : mail
-							},
-							"processData" : false,
-							"contentType" : false,
-							"mimeType" : "multipart/form-data",
-							"data" : form,
-							success : function(data, textStatus, xhr) {
-								if (xhr.status == 200) {
-									createGrowl("Your request has been sent.",
-											"info");
-								}
-							},
-							fail : function(xhr, textStatus, errorThrown) {
-								createGrowl(
-										"There was some problem with your request. Status code is: "
-												+ xhr.status + ", "
-												+ xhr.errorThrown, "warn");
-							},
-							complete : function(xhr, textStatus) {
-								if (xhr.status == 406) {
-									createGrowl("Your request already exists",
-											"error");
-								}
-							}
-						}
+		var settings = {
+			"async" : true,
+			"crossDomain" : true,
+			"url" : url,
+			"method" : "PUT",
+			"headers" : {
+				"X-Requested-By" : "ivy",
+				"mailTo" : mail
+			},
+			"processData" : false,
+			"contentType" : false,
+			"mimeType" : "multipart/form-data",
+			"data" : form,
+			success : function(data, textStatus, xhr) {
+				if (xhr.status == 200) {
+					createGrowl("Your request has been sent.", "info");
+				}
+			},
+			fail : function(xhr, textStatus, errorThrown) {
+				createGrowl("There was some problem with your request. Status code is: " + xhr.status + ", "+ xhr.errorThrown, "warn");
+			},
+			complete : function(xhr, textStatus) {
+				if (xhr.status == 406) {
+				createGrowl("Your request already exists", "error");
+				}
+			}
+		}
 
-						function createGrowl(detail, severity) {
-							PF('responseMessage').renderMessage({
-								"summary" : "Message",
-								"detail" : detail,
-								"severity" : severity
-							});
-						}
+		function createGrowl(detail, severity) {
+			PF('responseMessage').renderMessage({
+				"summary" : "Message",
+				"detail" : detail,
+				"severity" : severity
+			});
+		}
 
-						$.ajax(settings).done(function(response) {
-							console.log(response);
-						});
-					}
-				</script>
+		$.ajax(settings).done(function(response) {
+			console.log(response);
+		});
+	}
+		</script>
   </p:dialog>
 </cc:implementation>
 </html>

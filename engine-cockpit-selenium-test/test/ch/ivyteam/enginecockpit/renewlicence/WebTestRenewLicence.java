@@ -21,15 +21,17 @@ public class WebTestRenewLicence extends WebTestBase
   public void testRenewRequest(FirefoxDriver driver) throws InterruptedException {
     toDashboard(driver);
     saveScreenshot(driver, "in_dashboard");
-    webAssertThat(() -> assertThat(sendRenew(driver)).contains("Your request has been sent"));
+    sendRenew(driver);
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message").getText()).contains("Your request has been sent"));
     saveScreenshot(driver, "renew_positive");
     removeGrowl(driver);
     waitForElasticsearch();
-    webAssertThat(() -> assertThat(sendRenew(driver)).contains("Your request already exists"));
+    sendRenew(driver);
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message").getText()).contains("Your request already exists"));
   }
 
 
-  private String sendRenew(FirefoxDriver driver)
+  private void sendRenew(FirefoxDriver driver)
   {
     driver.findElementByCssSelector(".ui-icon-refresh").click();
     if (driver.findElementById("renewLicence:emailInput").getAttribute("value").isEmpty())
@@ -38,7 +40,6 @@ public class WebTestRenewLicence extends WebTestBase
     }
     saveScreenshot(driver, "filled_renew");
     driver.findElementById("renewLicence:renewBtn").click();
-    return driver.findElementByCssSelector(".ui-growl-message").getText();
   }
 
   private void removeGrowl(FirefoxDriver driver)
