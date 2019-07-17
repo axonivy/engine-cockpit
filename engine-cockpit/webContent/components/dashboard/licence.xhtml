@@ -12,7 +12,7 @@
 <p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
   styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('fileUploadModal').show()" />
 <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button" icon="ui-icon-refresh"
-  styleClass="secondary-btn card-button" onclick="PF('renewLicence').show()" />
+  styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('renewLicence').show()" />
 <p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>

@@ -1,89 +1,106 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-	xmlns:ic="http://ivyteam.ch/jsf/component"
-	xmlns:p="http://primefaces.org/ui">
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-	<cc:attribute name="title" default="Renew Licence" />
+  <cc:attribute name="title" default="Renew Licence" />
 </cc:interface>
 <cc:implementation>
-	<p:dialog style="margin-left: 120px;" header="#{cc.attrs.title}"
-		id="renewLicence" width="35%" widgetVar="renewLicence" modal="true"
-		responsive="true" closeOnEscape="true" styleClass="ui-fluid">
-		<form> 
-			<p:outputLabel value="Where do you want to send the Licence to?" />
-			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
-				<p:inputText id="emailInput" value="#{emailBean.email}" type="email" placeholder="E-Mail"
-					required="true" requiredMessage="Put Email" style="width: 120%"/>
-				<p:commandButton id="renewBtn" value="Send" style="width: 50%; margin-left: 40%"
-					onclick="sendRenewLicence(); PF('renewLicence').hide()"/>
-			 </p:panelGrid>
-			 <p:growl id="responseMessage" widgetVar="responseMessage" showDetail="true" sticky="true"/>
-		</form>
-		<script>
-		function sendRenewLicence(){
-			var content = `#{licenceBean.licenceContent}`;
-			var mail = document.getElementById('renewLicence:emailInput').value;
-			var file = new File([content], "test.lic");
+  <p:dialog style="margin-left: 120px;" header="#{cc.attrs.title}"
+    id="renewLicence" width="35%" widgetVar="renewLicence" modal="true"
+    responsive="true" closeOnEscape="true" styleClass="ui-fluid">
+    <form>
+      <div>
+        <p:panelGrid columns="2" layout="grid"
+          styleClass="ui-panelgrid-blank" style="width: 93%">
+          <p:outputLabel
+            value="Where do you want to send the Licence to?" />
+          <p:inputText id="emailInput" value="#{emailBean.email}"
+            type="email" placeholder="E-Mail" required="true"
+            requiredMessage="Put Email"
+            style="width: 123%; padding-left: 0px" />
+        </p:panelGrid>
+      </div>
+      <p:commandButton id="renewBtn" value="Send"
+        styleClass="primary-btn modal-input-button" style=" float:right"
+        onclick="sendRenewLicence(); PF('renewLicence').hide()" />
+      <p:commandButton id="cancelRenewBtn"
+        onclick="PF('renewLicence').hide();" value="Cancel"
+        type="button" icon="ui-icon-clear"
+        styleClass="secondary-btn modal-input-button"
+        style="float: right" />
 
-			var form = new FormData();
-			form.append("oldLicense", file);
-      
-      var url;
-        if (window.location.hostname.includes("localhost")) 
-        {
-          url = "http://" + window.location.hostname + ":"
-              + window.location.port
-              + "/ivy/api/designer/renewLicense";
-        }
-        else 
-        {
-          url = "http://license-order.axonivy.io/ivy/api/LicenseOrder/renewLicense"
-        }
-						
-			var settings = {
-			  "async": true,
-			  "crossDomain": true,
-			  "url": url,
-			  "method": "PUT",
-			  "headers": {"X-Requested-By": "ivy",
-			  				"mailTo": mail},
-			  "processData": false,
-			  "contentType": false,
-			  "mimeType": "multipart/form-data",
-			  "data": form,
-			  success: function(data, textStatus, xhr){
-				  console.log("this is success: "+xhr.status);
-				  if (xhr.status == 200){
-				  	createGrowl("Your request has been sent.", "info");
-                  }
-			  },
-			  fail: function(xhr,textStatus, errorThrown){
-			  	console.log("this is fail: "+xhr.status);
-			  	createGrowl("There was some problem with your request. Status code is: "+xhr.status, "warn");
-			  },
-			  complete: function(xhr, textStatus){
-				  console.log("this is complete: "+xhr.status);
-				  if(xhr.status == 406){
-				  	createGrowl("Your request already exists","error");
-				  }
-			  }
-			}
-			
-			function createGrowl(detail, severity){
-				PF('responseMessage').renderMessage({
-					"summary":"Message",
-                    "detail": detail,
-                    "severity":severity});
-			}
-			
-			$.ajax(settings).done(function (response) {
-			  console.log(response);
-			});
-		}
-		</script>
-	</p:dialog>
+      <p:growl id="responseMessage" widgetVar="responseMessage"
+        showDetail="true" sticky="true" />
+    </form>
+    <script>
+					function sendRenewLicence() {
+						var content = `#{licenceBean.licenceContent}`;
+						var mail = document
+								.getElementById('renewLicence:emailInput').value;
+						var file = new File([ content ], "licenceForRenew.lic");
+
+						var form = new FormData();
+						form.append("oldLicense", file);
+
+						var url;
+						if (window.location.hostname.includes("localhost")) {
+							url = "http://" + window.location.hostname + ":"
+									+ window.location.port
+									+ "/ivy/api/designer/renewLicense";
+						} else {
+							url = "http://license-order.axonivy.io/ivy/api/LicenseOrder/renewLicense"
+						}
+
+						var settings = {
+							"async" : true,
+							"crossDomain" : true,
+							"url" : url,
+							"method" : "PUT",
+							"headers" : {
+								"X-Requested-By" : "ivy",
+								"mailTo" : mail
+							},
+							"processData" : false,
+							"contentType" : false,
+							"mimeType" : "multipart/form-data",
+							"data" : form,
+							success : function(data, textStatus, xhr) {
+								if (xhr.status == 200) {
+									createGrowl("Your request has been sent.",
+											"info");
+								}
+							},
+							fail : function(xhr, textStatus, errorThrown) {
+								createGrowl(
+										"There was some problem with your request. Status code is: "
+												+ xhr.status + ", "
+												+ xhr.errorThrown, "warn");
+							},
+							complete : function(xhr, textStatus) {
+								if (xhr.status == 406) {
+									createGrowl("Your request already exists",
+											"error");
+								}
+							}
+						}
+
+						function createGrowl(detail, severity) {
+							PF('responseMessage').renderMessage({
+								"summary" : "Message",
+								"detail" : detail,
+								"severity" : severity
+							});
+						}
+
+						$.ajax(settings).done(function(response) {
+							console.log(response);
+						});
+					}
+				</script>
+  </p:dialog>
 </cc:implementation>
 </html>
