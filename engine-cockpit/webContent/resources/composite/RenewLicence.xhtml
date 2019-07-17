@@ -30,11 +30,23 @@
 
 			var form = new FormData();
 			form.append("oldLicense", file);
+      
+      var url;
+        if (window.location.hostname.includes("localhost")) 
+        {
+          url = "http://" + window.location.hostname + ":"
+              + window.location.port
+              + "/ivy/api/designer/renewLicense";
+        }
+        else 
+        {
+          url = "http://license-order.axonivy.io/ivy/api/LicenseOrder/renewLicense"
+        }
 						
 			var settings = {
 			  "async": true,
 			  "crossDomain": true,
-			  "url": "http://license-order.axonivy.io/ivy/api/LicenseOrder/renewLicense",
+			  "url": url,
 			  "method": "PUT",
 			  "headers": {"X-Requested-By": "ivy",
 			  				"mailTo": mail},
