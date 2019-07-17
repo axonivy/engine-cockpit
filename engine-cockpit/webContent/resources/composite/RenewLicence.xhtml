@@ -38,8 +38,17 @@
     </form>
     <script>
 	function sendRenewLicence() {
+		if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
+                   var evt = document.createEvent('UIEvents');
+                   evt.initUIEvent('resize', true, false, window, 0);
+                   window.dispatchEvent(evt);
+        } else {
+                 window.dispatchEvent(new Event('resize'));
+        }
 		var content = "#{licenceBean.licenceContent}";
-		var mail = document.getElementById('renewLicence:emailInput').value;
+		var mail = function() {
+			mail = $('#renewLicence\\:emailInput').val();
+		}
 		var file = new File([ content ], "licenceForRenew.lic");
 
 		var form = new FormData();
