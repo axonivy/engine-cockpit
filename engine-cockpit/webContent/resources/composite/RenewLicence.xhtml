@@ -38,7 +38,7 @@
     </form>
     <script>
 	function sendRenewLicence() {
-		var content = `#{licenceBean.licenceContent}`;
+		var content = "#{licenceBean.licenceContent}";
 		var mail = document.getElementById('renewLicence:emailInput').value;
 		var file = new File([ content ], "licenceForRenew.lic");
 
