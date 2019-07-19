@@ -1,13 +1,9 @@
 package ch.ivyteam.enginecockpit.dashboad;
 
-import java.util.Arrays;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-
-import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.util.LicenceUtil;
 import ch.ivyteam.licence.SignedLicence;
@@ -24,11 +20,6 @@ public class LicenceBean
   public Properties getLicenceProperties()
   {
     return SignedLicence.getLicenceParameters();
-  }
-
-  public String getLicenceContent()
-  {
-    return Arrays.stream(StringUtils.split(SignedLicence.getLicenceContent(), System.lineSeparator())).collect(Collectors.joining("\\n\\"));
   }
 
   public String getOrganisation()

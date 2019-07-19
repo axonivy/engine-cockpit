@@ -12,96 +12,29 @@
   <p:dialog style="margin-left: 120px;" header="#{cc.attrs.title}"
     id="renewLicence" width="35%" widgetVar="renewLicence" modal="true"
     responsive="true" closeOnEscape="true" styleClass="ui-fluid">
-    <form>
+    <h:form id="form">
       <div>
         <p:panelGrid columns="2" layout="grid"
           styleClass="ui-panelgrid-blank" style="width: 93%">
           <p:outputLabel
             value="Where do you want to send the Licence to?" />
-          <p:inputText id="emailInput" value="#{emailBean.email}"
+          <p:inputText id="emailInput" value=""
             type="email" placeholder="E-Mail" required="true"
-            requiredMessage="Put Email"
+            requiredMessage="Put Email" binding="#{inputMail}"
             style="width: 123%; padding-left: 0px" />
         </p:panelGrid>
       </div>
       <p:commandButton id="renewBtn" value="Send"
-        styleClass="primary-btn modal-input-button" style=" float:right"
-        onclick="sendRenewLicence(); PF('renewLicence').hide()" />
+        styleClass="primary-btn modal-input-button" type="submit"
+        style="float:right" actionListener="#{renewLicence.send(inputMail.value)}"
+        oncomplete="PF('renewLicence').hide()" update="responseMessage"/>
       <p:commandButton id="cancelRenewBtn"
         onclick="PF('renewLicence').hide();" value="Cancel"
         type="button" icon="ui-icon-clear"
         styleClass="secondary-btn modal-input-button"
         style="float: right" />
-
-      <p:growl id="responseMessage" widgetVar="responseMessage"
-        showDetail="true" sticky="true" />
-    </form>
-    <script>
-	function sendRenewLicence() {
-		if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
-                   var evt = document.createEvent('UIEvents');
-                   evt.initUIEvent('resize', true, false, window, 0);
-                   window.dispatchEvent(evt);
-        } else {
-                 window.dispatchEvent(new Event('resize'));
-        }
-		var content = "#{licenceBean.licenceContent}";
-		var mail = function() {
-			mail = $('#renewLicence\\:emailInput').val();
-		}
-		var file = new File([ content ], "licenceForRenew.lic");
-
-		var form = new FormData();
-		form.append("oldLicense", file);
-
-		var url;
-		if (window.location.hostname.includes("localhost")) {
-			url = "http://" + window.location.hostname + ":"+ window.location.port+ "/ivy/api/designer/renewLicense";
-		} else {
-			url = "http://license-order.axonivy.io/ivy/api/LicenseOrder/renewLicense"
-		}
-
-		var settings = {
-			"async" : true,
-			"crossDomain" : true,
-			"url" : url,
-			"method" : "PUT",
-			"headers" : {
-				"X-Requested-By" : "ivy",
-				"mailTo" : mail
-			},
-			"processData" : false,
-			"contentType" : false,
-			"mimeType" : "multipart/form-data",
-			"data" : form,
-			success : function(data, textStatus, xhr) {
-				if (xhr.status == 200) {
-					createGrowl("Your request has been sent.", "info");
-				}
-			},
-			fail : function(xhr, textStatus, errorThrown) {
-				createGrowl("There was some problem with your request. Status code is: " + xhr.status + ", "+ xhr.errorThrown, "warn");
-			},
-			complete : function(xhr, textStatus) {
-				if (xhr.status == 406) {
-				createGrowl("Your request already exists", "error");
-				}
-			}
-		}
-
-		function createGrowl(detail, severity) {
-			PF('responseMessage').renderMessage({
-				"summary" : "Message",
-				"detail" : detail,
-				"severity" : severity
-			});
-		}
-
-		$.ajax(settings).done(function(response) {
-			console.log(response);
-		});
-	}
-		</script>
+      <p:growl id="responseMessage" sticky="true" showDetail="true"/>
+    </h:form>
   </p:dialog>
 </cc:implementation>
 </html>

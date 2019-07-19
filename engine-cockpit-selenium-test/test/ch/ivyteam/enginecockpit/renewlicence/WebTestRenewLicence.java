@@ -34,18 +34,18 @@ public class WebTestRenewLicence extends WebTestBase
   private void sendRenew(FirefoxDriver driver)
   {
     driver.findElementByCssSelector(".ui-icon-refresh").click();
-    if (driver.findElementById("renewLicence:emailInput").getAttribute("value").isEmpty())
+    if (driver.findElementById("renewLicence:form:emailInput").getAttribute("value").isEmpty())
     {
-    driver.findElementById("renewLicence:emailInput").sendKeys("test@mail.com");
+    driver.findElementById("renewLicence:form:emailInput").sendKeys("test@mail.com");
     }
     saveScreenshot(driver, "filled_renew");
-    driver.findElementById("renewLicence:renewBtn").click();
+    driver.findElementById("renewLicence:form:renewBtn").click();
   }
 
   private void removeGrowl(FirefoxDriver driver)
   {
     Actions action = new Actions(driver);
-    WebElement we = driver.findElementById("renewLicence:responseMessage_container");
+    WebElement we = driver.findElementById("renewLicence:form:responseMessage_container");
     action.moveToElement(we).moveToElement(driver.findElementByClassName("ui-growl-icon-close")).click().build().perform();
   }
     
