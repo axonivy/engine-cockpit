@@ -2,8 +2,6 @@ package ch.ivyteam.enginecockpit.renewlicence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -20,7 +18,7 @@ public class WebTestRenewLicence extends WebTestBase
   }
 
   @Test
-  public void testRenewRequest(FirefoxDriver driver) throws InterruptedException, IOException
+  public void testRenewRequest(FirefoxDriver driver) throws InterruptedException
   {
     toDashboardAndOpenLicenceUpload(driver);
     uploadLicenceToRenew(driver);
