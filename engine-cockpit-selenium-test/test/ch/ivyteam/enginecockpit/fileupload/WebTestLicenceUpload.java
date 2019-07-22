@@ -59,7 +59,7 @@ public class WebTestLicenceUpload extends WebTestBase
   {
     toDashboard(driver);
     
-    driver.findElementById("tasksButtonLicence").click();
+    driver.findElementById("uploadLicenceBtn").click();
     saveScreenshot(driver, "fileupload");
     webAssertThat(() -> assertThat(driver.findElementById("licenceUpload:fileUploadModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));

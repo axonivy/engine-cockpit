@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.renewlicence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -11,32 +13,46 @@ import ch.ivyteam.enginecockpit.WebTestBase;
 
 public class WebTestRenewLicence extends WebTestBase
 {
-  
+
   private void waitForElasticsearch() throws InterruptedException
   {
     Thread.sleep(1000);
   }
-  
+
   @Test
-  public void testRenewRequest(FirefoxDriver driver) throws InterruptedException {
-    toDashboard(driver);
-    saveScreenshot(driver, "in_dashboard");
+  public void testRenewRequest(FirefoxDriver driver) throws InterruptedException, IOException
+  {
+    toDashboardAndOpenLicenceUpload(driver);
+    uploadLicenceToRenew(driver);
     sendRenew(driver);
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message").getText()).contains("Your request has been sent"));
+    waitForElasticsearch();
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message")
+            .getText()).contains("Your request has been sent"));
     saveScreenshot(driver, "renew_positive");
     removeGrowl(driver);
     waitForElasticsearch();
     sendRenew(driver);
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message").getText()).contains("Your request already exists"));
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message")
+            .getText()).contains("Your request already exists"));
   }
 
+  private void uploadLicenceToRenew(FirefoxDriver driver) throws InterruptedException
+  {
+    driver.findElementById("fileInput").sendKeys(this.getClass().getResource("test.lic").getPath());
+    saveScreenshot(driver, "selected_licence");
+    driver.findElementById("licenceUpload:uploadBtn").click();
+    driver.findElementById("licenceUpload:closeDeploymentBtn").click();
+    waitForElasticsearch();
+    saveScreenshot(driver, "uploaded_licence");
+    driver.navigate().refresh();
+  }
 
   private void sendRenew(FirefoxDriver driver)
   {
     driver.findElementByCssSelector(".ui-icon-refresh").click();
     if (driver.findElementById("renewLicence:form:emailInput").getAttribute("value").isEmpty())
     {
-    driver.findElementById("renewLicence:form:emailInput").sendKeys("test@mail.com");
+      driver.findElementById("renewLicence:form:emailInput").sendKeys("WebTest@RenewLicence.axonivy.test");
     }
     saveScreenshot(driver, "filled_renew");
     driver.findElementById("renewLicence:form:renewBtn").click();
@@ -46,9 +62,27 @@ public class WebTestRenewLicence extends WebTestBase
   {
     Actions action = new Actions(driver);
     WebElement we = driver.findElementById("renewLicence:form:responseMessage_container");
-    action.moveToElement(we).moveToElement(driver.findElementByClassName("ui-growl-icon-close")).click().build().perform();
+    action.moveToElement(we).moveToElement(driver.findElementByClassName("ui-growl-icon-close")).click()
+            .build().perform();
   }
-    
+
+  private void toDashboardAndOpenLicenceUpload(FirefoxDriver driver)
+  {
+    toDashboard(driver);
+    if (driver.findElementsById("uploadLicenceBtn").size() != 0)
+    {
+      driver.findElementById("uploadLicenceBtn").click();
+    }
+    else
+    {
+      driver.findElementById("tasksButtonLicence").click();
+    }
+    saveScreenshot(driver, "fileupload");
+    webAssertThat(() -> assertThat(driver.findElementById("licenceUpload:fileUploadModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));
+    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
+  }
+
   private void toDashboard(FirefoxDriver driver)
   {
     login(driver);

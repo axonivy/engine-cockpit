@@ -35,9 +35,16 @@ public class RenewLicence
   public void send(String mailTo) throws IOException
   {
     File licence = makeLicenceFile(); 
-    FormDataMultiPart multipart = createMultipart(licence);
-    Response response = executeCall(mailTo, multipart);
-    showResultMessage(response);
+    try
+    {
+      FormDataMultiPart multipart = createMultipart(licence);
+      Response response = executeCall(mailTo, multipart);
+      showResultMessage(response);
+    }
+    finally
+    {
+      licence.delete();
+    }
   }
 
   private File makeLicenceFile() throws IOException, FileNotFoundException
@@ -53,9 +60,10 @@ public class RenewLicence
   private Response executeCall(String mailTo, FormDataMultiPart multipart)
   {
     Response response = null;
+    Ivy.log().info(mailTo);
     try
     {
-      response = createClient().target(getUri("api")).request()
+      response = createClient().target(getUri("api",mailTo)).request()
               .header("X-Requested-By", "ivy")
               .header("MIME-Version", "1.0")
               .header("mailTo", mailTo)
@@ -64,7 +72,6 @@ public class RenewLicence
     catch (Exception ex)
     {
       response = Response.status(400).entity("There was problem with requesting response ").build();
-      Ivy.log().info(response);
     }
     return response;
   }
@@ -102,7 +109,7 @@ public class RenewLicence
     }
     else 
     {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Warning", "Some undefined problem ocured during sending renew request.");
+      addMessage(FacesMessage.SEVERITY_ERROR, "Warning", "Some undefined problem ocured during sending renew request: "+response.readEntity(String.class));
     }
   }
   
@@ -120,9 +127,18 @@ public class RenewLicence
     return httpClient;
   }
   
-  private static String getUri(String servletContext)
+  private static String getUri(String servletContext, String mailTo)
   {
-    String base = System.getProperty("test.engine.url", "http://localhost:8081/ivy/");
+    String base;
+    if (mailTo.equals("WebTest@RenewLicence.axonivy.test"))
+    {
+      base = System.getProperty("renew.licence.url", "http://localhost:8081/ivy/");
+    }
+    else 
+    {
+      base = System.getProperty("renew.licence.url", "http://license-order.axonivy.io/ivy/");
+    }
+    Ivy.log().info(base);
     String application = System.getProperty("test.engine.app", IApplication.DESIGNER_APPLICATION_NAME);
     return base+servletContext+"/"+application+"/renewLicense";
   }
