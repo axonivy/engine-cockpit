@@ -1,7 +1,8 @@
 pipeline {
   agent {
-    dockerfile true
-    args '--hostname=ivy'
+     dockerfile{ 
+        args '--hostname=ivy'
+   }
   }
   
   options {
