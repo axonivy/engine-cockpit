@@ -25,7 +25,7 @@
     </p:panelGrid>
     <p:commandButton id="sendTestMailBtn" validateClient="true" onsuccess="PF('sendTestMailModal').hide()"
       actionListener="#{emailBean.sendTestMail}" value="Send" icon="ui-icon-send"
-      styleClass="primary-btn modal-input-button" />
+      styleClass="primary-btn modal-input-button" update="renewLicence:form:responseMessage"/>
     <p:commandButton id="cancelSendTestMailBtn" onclick="PF('sendTestMailModal').hide()" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
   </h:form>
