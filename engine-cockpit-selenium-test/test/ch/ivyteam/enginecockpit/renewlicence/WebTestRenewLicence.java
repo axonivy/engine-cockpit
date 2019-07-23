@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.renewlicence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.File;
+
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -36,9 +38,14 @@ public class WebTestRenewLicence extends WebTestBase
 
   private void uploadLicenceToRenew(FirefoxDriver driver) throws InterruptedException
   {
-    driver.findElementById("fileInput").sendKeys(this.getClass().getResource("test.lic").getPath());
+    File file = new File(System.getProperty("user.dir")+"/resource/ch/ivyteam/enginecockpit/renewlicence/test.lic");
+    String path = file.getAbsolutePath();
+    System.out.println(path);
+    driver.findElementById("fileInput").sendKeys(path);
     saveScreenshot(driver, "selected_licence");
     driver.findElementById("licenceUpload:uploadBtn").click();
+    waitForElasticsearch();
+    waitForElasticsearch();
     driver.findElementById("licenceUpload:closeDeploymentBtn").click();
     waitForElasticsearch();
     saveScreenshot(driver, "uploaded_licence");
