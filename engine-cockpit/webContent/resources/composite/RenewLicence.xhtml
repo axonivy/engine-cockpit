@@ -27,13 +27,12 @@
       <p:commandButton id="renewBtn" value="Send"
         styleClass="primary-btn modal-input-button" type="submit"
         style="float:right" actionListener="#{renewLicence.send(inputMail.value)}"
-        oncomplete="PF('renewLicence').hide()" update="responseMessage"/>
+        oncomplete="PF('renewLicence').hide()"/>
       <p:commandButton id="cancelRenewBtn"
         onclick="PF('renewLicence').hide();" value="Cancel"
         type="button" icon="ui-icon-clear"
         styleClass="secondary-btn modal-input-button"
         style="float: right" />
-      <p:growl id="responseMessage" sticky="true" showDetail="true"/>
     </h:form>
   </p:dialog>
 </cc:implementation>

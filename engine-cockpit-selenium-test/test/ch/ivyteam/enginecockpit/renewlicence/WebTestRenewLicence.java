@@ -66,7 +66,7 @@ public class WebTestRenewLicence extends WebTestBase
   private void removeGrowl(FirefoxDriver driver)
   {
     Actions action = new Actions(driver);
-    WebElement we = driver.findElementById("renewLicence:form:responseMessage_container");
+    WebElement we = driver.findElementById("mailConfigForm:msgs_container");
     action.moveToElement(we).moveToElement(driver.findElementByClassName("ui-growl-icon-close")).click()
             .build().perform();
   }
