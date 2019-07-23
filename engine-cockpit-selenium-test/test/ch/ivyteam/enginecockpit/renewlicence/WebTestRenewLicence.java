@@ -40,10 +40,10 @@ public class WebTestRenewLicence extends WebTestBase
   {
     File file = new File(System.getProperty("user.dir")+"/resource/ch/ivyteam/enginecockpit/renewlicence/test.lic");
     String path = file.getAbsolutePath();
-    System.out.println(path);
     driver.findElementById("fileInput").sendKeys(path);
     saveScreenshot(driver, "selected_licence");
     driver.findElementById("licenceUpload:uploadBtn").click();
+    saveScreenshot(driver, "clicked_uploadBtn");
     waitForElasticsearch();
     waitForElasticsearch();
     driver.findElementById("licenceUpload:closeDeploymentBtn").click();
