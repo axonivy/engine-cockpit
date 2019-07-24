@@ -18,7 +18,7 @@ public class WebTestLicenceUpload extends WebTestBase
   {
     toDashboardAndOpenLicenceUpload(driver);
     
-    driver.findElementById("licenceUpload:uploadBtn").click();
+    findUploadButton(driver);
     saveScreenshot(driver, "no_lic");
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
   }
@@ -30,7 +30,7 @@ public class WebTestLicenceUpload extends WebTestBase
     
     Path createTempFile = Files.createTempFile("licence", ".txt");
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
-    driver.findElementById("licenceUpload:uploadBtn").click();
+    findUploadButton(driver);
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isNotEmpty());
     saveScreenshot(driver, "wrong_file_format");
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
@@ -43,7 +43,7 @@ public class WebTestLicenceUpload extends WebTestBase
     
     Path createTempFile = Files.createTempFile("licence", ".lic");
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
-    driver.findElementById("licenceUpload:uploadBtn").click();
+    findUploadButton(driver);
     webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
     webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isFalse());
     saveScreenshot(driver, "invalid_lic");
@@ -59,7 +59,7 @@ public class WebTestLicenceUpload extends WebTestBase
   {
     toDashboard(driver);
     
-    driver.findElementById("uploadLicenceBtn").click();
+    findUploadButton(driver);
     saveScreenshot(driver, "fileupload");
     webAssertThat(() -> assertThat(driver.findElementById("licenceUpload:fileUploadModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));
@@ -70,5 +70,17 @@ public class WebTestLicenceUpload extends WebTestBase
   {
     login(driver);
     saveScreenshot(driver);
+  }
+  
+  private void findUploadButton(FirefoxDriver driver)
+  {
+    if (driver.findElementsById("uploadLicenceBtn").size() != 0)
+    {
+      driver.findElementById("uploadLicenceBtn").click();
+    }
+    else
+    {
+      driver.findElementById("tasksButtonLicence").click();
+    }
   }
 }
