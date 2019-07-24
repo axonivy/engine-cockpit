@@ -24,21 +24,32 @@ public class WebTestRenewLicence extends WebTestBase
   {
     toDashboardAndOpenLicenceUpload(driver);
     uploadLicenceToRenew(driver);
-    sendRenew(driver);
+    sendRenew(driver, "webTest@renewLicence.com");
     waitForElasticsearch();
+    saveScreenshot(driver, "sent_renew1");
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message")
-            .getText()).contains("Your request has been sent"));
+            .getText()).contains("You shouldn't see this"));
     saveScreenshot(driver, "renew_positive");
     removeGrowl(driver);
+  }
+  
+  @Test
+  public void testRenewRequestNoMail(FirefoxDriver driver) throws InterruptedException
+  {
+    toDashboardAndOpenLicenceUpload(driver);
+    uploadLicenceToRenew(driver);
+    sendRenew(driver, "");
     waitForElasticsearch();
-    sendRenew(driver);
+    saveScreenshot(driver, "sent_renew1");
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message")
-            .getText()).contains("Your request already exists"));
+            .getText()).contains("Please put your mail"));
+    saveScreenshot(driver, "renew_noMail");
+    removeGrowl(driver);
   }
 
   private void uploadLicenceToRenew(FirefoxDriver driver) throws InterruptedException
   {
-    File file = new File(System.getProperty("user.dir")+"/resource/ch/ivyteam/enginecockpit/renewlicence/test.lic");
+    File file = new File(System.getProperty("user.dir")+"/resource/ch/ivyteam/enginecockpit/renewlicence/test2.lic");
     String path = file.getAbsolutePath();
     driver.findElementById("fileInput").sendKeys(path);
     saveScreenshot(driver, "selected_licence");
@@ -53,13 +64,10 @@ public class WebTestRenewLicence extends WebTestBase
     driver.navigate().refresh();
   }
 
-  private void sendRenew(FirefoxDriver driver)
+  private void sendRenew(FirefoxDriver driver, String mailTo)
   {
     driver.findElementByCssSelector(".ui-icon-refresh").click();
-    if (driver.findElementById("renewLicence:form:emailInput").getAttribute("value").isEmpty())
-    {
-      driver.findElementById("renewLicence:form:emailInput").sendKeys("WebTest@RenewLicence.axonivy.test");
-    }
+    driver.findElementById("renewLicence:form:emailInput").sendKeys(mailTo);
     saveScreenshot(driver, "filled_renew");
     driver.findElementById("renewLicence:form:renewBtn").click();
   }

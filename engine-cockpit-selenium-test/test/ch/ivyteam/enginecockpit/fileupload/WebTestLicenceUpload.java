@@ -18,7 +18,7 @@ public class WebTestLicenceUpload extends WebTestBase
   {
     toDashboardAndOpenLicenceUpload(driver);
     
-    findUploadButton(driver);
+    driver.findElementById("licenceUpload:uploadBtn").click();
     saveScreenshot(driver, "no_lic");
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
   }
@@ -30,7 +30,7 @@ public class WebTestLicenceUpload extends WebTestBase
     
     Path createTempFile = Files.createTempFile("licence", ".txt");
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
-    findUploadButton(driver);
+    driver.findElementById("licenceUpload:uploadBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isNotEmpty());
     saveScreenshot(driver, "wrong_file_format");
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
@@ -43,7 +43,7 @@ public class WebTestLicenceUpload extends WebTestBase
     
     Path createTempFile = Files.createTempFile("licence", ".lic");
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
-    findUploadButton(driver);
+    driver.findElementById("licenceUpload:uploadBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
     webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isFalse());
     saveScreenshot(driver, "invalid_lic");

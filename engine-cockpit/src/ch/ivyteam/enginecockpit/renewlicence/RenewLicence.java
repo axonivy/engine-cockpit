@@ -25,7 +25,6 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
@@ -60,10 +59,9 @@ public class RenewLicence
   private Response executeCall(String mailTo, FormDataMultiPart multipart)
   {
     Response response = null;
-    Ivy.log().info(mailTo);
     try
     {
-      response = createClient().target(getUri("api",mailTo)).request()
+      response = createClient().target(getUri("api")).request()
               .header("X-Requested-By", "ivy")
               .header("MIME-Version", "1.0")
               .header("mailTo", mailTo)
@@ -105,7 +103,11 @@ public class RenewLicence
     }
     else if (response.getStatus() == 400) 
     {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Error", response.readEntity(String.class));
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", response.getEntity().toString());
+    }
+    else if (response.getStatus() == 301) 
+    {
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "You shouldn't see this");
     }
     else 
     {
@@ -116,7 +118,7 @@ public class RenewLicence
   private static void addMessage(Severity severity, String summary, String detail)
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    context.addMessage("responseGrowl", new FacesMessage(severity, summary, detail));
+    context.addMessage(null, new FacesMessage(severity, summary, detail));
   }
   
   private static Client createClient()
@@ -127,18 +129,9 @@ public class RenewLicence
     return httpClient;
   }
   
-  private static String getUri(String servletContext, String mailTo)
+  private static String getUri(String servletContext)
   {
-    String base;
-    if (mailTo.equals("WebTest@RenewLicence.axonivy.test"))
-    {
-      base = System.getProperty("renew.licence.url", "http://localhost:8081/ivy/");
-    }
-    else 
-    {
-      base = System.getProperty("renew.licence.url", "http://license-order.axonivy.io/ivy/");
-    }
-    Ivy.log().info(base);
+    String base = "http://license-order.axonivy.io/ivy/";
     String application = System.getProperty("test.engine.app", IApplication.DESIGNER_APPLICATION_NAME);
     return base+servletContext+"/"+application+"/renewLicense";
   }
