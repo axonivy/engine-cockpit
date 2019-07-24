@@ -49,7 +49,7 @@ public class WebTestRenewLicence extends WebTestBase
 
   private void uploadLicenceToRenew(FirefoxDriver driver) throws InterruptedException
   {
-    File file = new File(System.getProperty("user.dir")+"/resource/ch/ivyteam/enginecockpit/renewlicence/test2.lic");
+    File file = new File(System.getProperty("user.dir")+"/resource/ch/ivyteam/enginecockpit/renewlicence/test.lic");
     String path = file.getAbsolutePath();
     driver.findElementById("fileInput").sendKeys(path);
     saveScreenshot(driver, "selected_licence");
