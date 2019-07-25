@@ -136,7 +136,7 @@ public class RenewLicence
     String base = "http://license-order.axonivy.io/ivy/";
     if (mailTo.equals("webTest@renewLicence.com"))
     {
-      base = System.getProperty("test.engine.url", "http://localhost:8081/ivy/");
+      base = System.getProperty("test.engine.url", "http://localhost:8080/ivy/");
     }
     Ivy.log().info(base);
     String application = System.getProperty("test.engine.app", IApplication.DESIGNER_APPLICATION_NAME);
