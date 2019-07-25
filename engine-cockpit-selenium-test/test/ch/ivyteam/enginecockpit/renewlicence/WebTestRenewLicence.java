@@ -24,7 +24,7 @@ public class WebTestRenewLicence extends WebTestBase
   {
     toDashboardAndOpenLicenceUpload(driver);
     uploadLicenceToRenew(driver);
-    sendRenew(driver, "webTest@renewLicence.com");
+    sendRenew(driver, "webTest@renewLicence.axonivy.test");
     waitForElasticsearch();
     saveScreenshot(driver, "sent_renew1");
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message")

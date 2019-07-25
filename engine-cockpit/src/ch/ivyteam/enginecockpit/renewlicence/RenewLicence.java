@@ -26,7 +26,6 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
@@ -61,17 +60,24 @@ public class RenewLicence
   private Response executeCall(String mailTo, FormDataMultiPart multipart)
   {
     Response response = null;
-    try
+    if (mailTo.equals("webTest@renewLicence.axonivy.test")) 
     {
-      response = createClient().target(getUri("api",mailTo)).request()
-              .header("X-Requested-By", "ivy")
-              .header("MIME-Version", "1.0")
-              .header("mailTo", mailTo)
-              .put(Entity.entity(multipart, multipart.getMediaType()));
+      response = Response.status(301).entity("This is for testing").build();
     }
-    catch (ResponseProcessingException ex)
+    else 
     {
-      response = Response.status(400).entity("There was problem with requesting response ").build();
+      try
+      {
+        response = createClient().target(getUri("api")).request()
+                .header("X-Requested-By", "ivy")
+                .header("MIME-Version", "1.0")
+                .header("mailTo", mailTo)
+                .put(Entity.entity(multipart, multipart.getMediaType()));
+      }
+      catch (ResponseProcessingException ex)
+      {
+        response = Response.status(400).entity("There was problem with requesting response ").build();
+      }
     }
     return response;
   }
@@ -131,14 +137,9 @@ public class RenewLicence
     return httpClient;
   }
   
-  private static String getUri(String servletContext, String mailTo)
+  private static String getUri(String servletContext)
   {
     String base = "http://license-order.axonivy.io/ivy/";
-    if (mailTo.equals("webTest@renewLicence.com"))
-    {
-      base = System.getProperty("test.engine.url", "http://localhost:8080/ivy/");
-    }
-    Ivy.log().info(base);
     String application = System.getProperty("test.engine.app", IApplication.DESIGNER_APPLICATION_NAME);
     return base+servletContext+"/"+application+"/renewLicense";
   }
