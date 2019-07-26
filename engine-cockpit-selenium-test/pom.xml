@@ -115,6 +115,7 @@
 						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>start-test-engine</goal>
+							<additionalVmOptions>-Dlicence.base.uri=http://localhost:8080/ivy/api/designer/test</additionalVmOptions>
 						</goals>
 					</execution>
 

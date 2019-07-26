@@ -21,7 +21,6 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
-import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
@@ -30,46 +29,35 @@ public class RenewLicence
 {
   public void send(String mailTo) throws IOException
   {
-      FormDataMultiPart multipart = createMultipart(SignedLicence.getLicenceContent());
-      showResultMessage(executeCall(mailTo, multipart));
+      showResultMessage(executeCall(mailTo, createMultipart(SignedLicence.getLicenceContent())));
   }
 
   private Response executeCall(String mailTo, FormDataMultiPart multipart)
   {
-    Response response = null;
-    if (mailTo.equals("webTest@renewLicence.axonivy.test")) 
+    try
     {
-      response = Response.status(301).entity("This is for testing").build();
+      return createClient().target(getUri()).request()
+              .header("X-Requested-By", "ivy")
+              .header("MIME-Version", "1.0")
+              .header("mailTo", mailTo)
+              .put(Entity.entity(multipart, multipart.getMediaType()));
     }
-    else 
+    catch (ResponseProcessingException ex)
     {
-      try
-      {
-        response = createClient().target(getUri("api")).request()
-                .header("X-Requested-By", "ivy")
-                .header("MIME-Version", "1.0")
-                .header("mailTo", mailTo)
-                .put(Entity.entity(multipart, multipart.getMediaType()));
-      }
-      catch (ResponseProcessingException ex)
-      {
-        response = Response.status(400).entity("There was problem with requesting response ").build();
-      }
+      return Response.status(400).entity("There was problem with requesting response ").build();
     }
-    return response;
   }
 
   private FormDataMultiPart createMultipart(String licContent) throws IOException
   {
-    FormDataMultiPart multipart;
     try (FormDataMultiPart formDataMultiPart = new FormDataMultiPart())
     {
       FormDataBodyPart filePart = new FormDataBodyPart("oldLicense", licContent);
-      multipart = (FormDataMultiPart) formDataMultiPart.field("oldLicense", licContent,
+      FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("oldLicense", licContent,
               MediaType.MULTIPART_FORM_DATA_TYPE).bodyPart(filePart);
       multipart.setMediaType(Boundary.addBoundary(MediaType.MULTIPART_FORM_DATA_TYPE));
+      return multipart;
     }
-    return multipart;
   }
   
   private void showResultMessage(Response response)
@@ -88,7 +76,7 @@ public class RenewLicence
     }
     else if (response.getStatus() == 400) 
     {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Error", response.getEntity().toString());
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Response: "+response.readEntity(String.class));
     }
     else if (response.getStatus() == 301) 
     {
@@ -114,10 +102,9 @@ public class RenewLicence
     return httpClient;
   }
   
-  private static String getUri(String servletContext)
+  private static String getUri()
   {
-    String base = "http://license-order.axonivy.io/ivy/";
-    String application = System.getProperty("test.engine.app", IApplication.DESIGNER_APPLICATION_NAME);
-    return base+servletContext+"/"+application+"/renewLicense";
+    String base = System.getProperty("licence.base.uri", "https://license-order.axonivy.io/ivy/api/LicenseOrder");
+    return base+"/renewLicense";
   }
 }
