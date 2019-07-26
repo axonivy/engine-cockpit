@@ -1,10 +1,6 @@
 package ch.ivyteam.enginecockpit.renewlicence;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -19,9 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.Boundary;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
@@ -34,27 +30,8 @@ public class RenewLicence
 {
   public void send(String mailTo) throws IOException
   {
-    File licence = makeLicenceFile(); 
-    try
-    {
-      FormDataMultiPart multipart = createMultipart(licence);
-      Response response = executeCall(mailTo, multipart);
-      showResultMessage(response);
-    }
-    finally
-    {
-      licence.delete();
-    }
-  }
-
-  private File makeLicenceFile() throws IOException, FileNotFoundException
-  {
-    File licence = Files.createTempFile("renew", ".lic").toFile();
-    FileOutputStream fos = new FileOutputStream(licence);
-    fos.write(SignedLicence.getLicenceContent().getBytes());
-    fos.flush();
-    fos.close();
-    return licence;
+      FormDataMultiPart multipart = createMultipart(SignedLicence.getLicenceContent());
+      showResultMessage(executeCall(mailTo, multipart));
   }
 
   private Response executeCall(String mailTo, FormDataMultiPart multipart)
@@ -82,13 +59,13 @@ public class RenewLicence
     return response;
   }
 
-  private FormDataMultiPart createMultipart(File licence) throws IOException
+  private FormDataMultiPart createMultipart(String licContent) throws IOException
   {
     FormDataMultiPart multipart;
     try (FormDataMultiPart formDataMultiPart = new FormDataMultiPart())
     {
-      FileDataBodyPart filePart = new FileDataBodyPart("oldLicense", licence);
-      multipart = (FormDataMultiPart) formDataMultiPart.field("oldLicense", licence,
+      FormDataBodyPart filePart = new FormDataBodyPart("oldLicense", licContent);
+      multipart = (FormDataMultiPart) formDataMultiPart.field("oldLicense", licContent,
               MediaType.MULTIPART_FORM_DATA_TYPE).bodyPart(filePart);
       multipart.setMediaType(Boundary.addBoundary(MediaType.MULTIPART_FORM_DATA_TYPE));
     }
