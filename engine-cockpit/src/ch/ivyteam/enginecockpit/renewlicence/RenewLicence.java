@@ -68,11 +68,11 @@ public class RenewLicence
     }
     else if (response.getStatus() == 406) 
     {
-      addMessage(FacesMessage.SEVERITY_WARN, "Error", "Your request already exists");
+      addMessage(FacesMessage.SEVERITY_WARN, "Warning", "Your request already exists");
     }
     else if (response.getStatus() == 500) 
     {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Warning", "There was some problem with the server. Please try again in a few minutes.");
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "There was some problem with the server. Please try again in a few minutes.");
     }
     else if (response.getStatus() == 400) 
     {
@@ -84,7 +84,7 @@ public class RenewLicence
     }
     else 
     {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Warning", "Some undefined problem ocured during sending renew request: "+response.readEntity(String.class));
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Some undefined problem ocured during sending renew request: "+response.readEntity(String.class));
     }
   }
   
