@@ -21,6 +21,7 @@ import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase;
+import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.db.IExternalDatabase;
@@ -98,6 +99,12 @@ public class ExternalDatabaseDetailBean extends HelpServices
     String templateString = readTemplateString("externaldatabase.yaml");
     StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
+  }
+  
+  @Override
+  public String getHelpUrl()
+  {
+    return UrlUtil.getCockpitEngineGuideUrl() + "#external-database-detail";
   }
   
   public void testDbConnection()

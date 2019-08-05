@@ -21,8 +21,6 @@
     <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>
-  <p:commandButton id="helpDatabaseBtn" type="button" title="Help"
-    icon="ui-icon-help" styleClass="amber-btn card-button" onclick="PF('helpServicesModal').show();"/>
   <p:commandButton id="testDatabaseBtn" title="Test External Database Connection"
     icon="ui-icon-call-made" styleClass="secondary-btn card-button" actionListener="#{externalDatabaseDetailBean.testDbConnection}"/>
     
@@ -48,5 +46,4 @@
     <p:inputNumber id="maxConnections" value="#{externalDatabaseDetailBean.externalDatabase.maxConnections}" decimalPlaces="0"/>
   </p:panelGrid>
 </h:form>
-<cc:HelpServiceDialog service="#{externalDatabaseDetailBean}" id="helpExternalDatabaseDialog" />
 </html>
