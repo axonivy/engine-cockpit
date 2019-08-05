@@ -37,7 +37,7 @@ public class WebTestMonitor extends WebTestBase
   private void checkLogsPanels(FirefoxDriver driver)
   {
     List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
-    assertThat(infoPanels).hasSize(3);
+    assertThat(infoPanels).hasSize(4);
   }
   
   private void toMonitor(FirefoxDriver driver)
