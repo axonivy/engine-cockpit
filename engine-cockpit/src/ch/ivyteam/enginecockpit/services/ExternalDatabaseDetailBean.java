@@ -131,6 +131,8 @@ public class ExternalDatabaseDetailBean extends HelpServices
     setIfChanged(dbConfigKey + ".UserName", externalDatabase.getUserName(), originConfig.getUserName());
     setIfPwChanged(dbConfigKey + ".Password", externalDatabase);
     setIfChanged(dbConfigKey + ".MaxConnections", externalDatabase.getMaxConnections(), originConfig.getMaxConnections());
+    FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
+            new FacesMessage("Database configuration saved", ""));
   }
   
   private void setIfChanged(String key, Object value, Object oldValue)
