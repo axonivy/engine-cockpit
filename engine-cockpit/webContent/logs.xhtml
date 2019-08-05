@@ -39,6 +39,9 @@
         <div class="ui-g-12 ui-md-12 dashboard-card ui-panelgrid">
           <cc:LogView log="#{logBean.ivyLog}" id="ivyLogView"/>
         </div>
+        <div class="ui-g-12 ui-md-12 dashboard-card ui-panelgrid">
+          <cc:LogView log="#{logBean.deprecationLog}" id="deprecationLogView"/>
+        </div>
       </div>
       <ui:include src="dialogs/logsdownload.xhtml" />
     </ui:define>
