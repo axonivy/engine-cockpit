@@ -13,6 +13,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
+import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
 import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
 
@@ -82,5 +83,12 @@ public class RestClientDetailBean extends HelpServices
     StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
+  
+  @Override
+  public String getHelpUrl()
+  {
+    return UrlUtil.getCockpitEngineGuideUrl() + "#rest-client-detail";
+  }
+
 
 }

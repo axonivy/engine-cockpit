@@ -10,8 +10,6 @@
 </f:facet>
 <h:form id="restClientConfigurationForm">
   <p:growl id="configurationSaveSuccess" for="configurationSaveSuccess" autoUpdate="true" />
-  <p:commandButton id="helpRestClientBtn" type="button" title="Help"
-    icon="ui-icon-help" styleClass="amber-btn card-button" onclick="PF('helpServicesModal').show();"/>
     
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -37,5 +35,4 @@
     <h:outputText id="password" value="#{restClientDetailBean.restClient.password}" />
   </p:panelGrid>
 </h:form>
-<cc:HelpServiceDialog service="#{restClientDetailBean}" id="helpRestClientDialog" />
 </html>
