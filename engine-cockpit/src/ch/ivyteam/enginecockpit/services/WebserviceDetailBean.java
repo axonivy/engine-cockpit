@@ -14,6 +14,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Webservice;
+import ch.ivyteam.enginecockpit.util.UrlUtil;
 
 @ManagedBean
 @ViewScoped
@@ -72,6 +73,12 @@ public class WebserviceDetailBean extends HelpServices
     String templateString = readTemplateString("webservice.yaml");
     StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
+  }
+  
+  @Override
+  public String getHelpUrl()
+  {
+    return UrlUtil.getCockpitEngineGuideUrl() + "#web-service-detail";
   }
   
   private String parseEndpointsToYaml(Map<String, List<String>> portTypes)
