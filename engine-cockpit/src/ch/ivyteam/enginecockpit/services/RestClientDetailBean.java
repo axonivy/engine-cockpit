@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -14,6 +15,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
 import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
 
@@ -27,6 +29,7 @@ public class RestClientDetailBean extends HelpServices
   
   private ManagerBean managerBean;
   private RestClientDao restClientDao;
+  private String restConfigKey;
   
   public RestClientDetailBean()
   {
@@ -34,6 +37,7 @@ public class RestClientDetailBean extends HelpServices
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
+    configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
   }
   
   public String getRestClientName()
@@ -44,12 +48,18 @@ public class RestClientDetailBean extends HelpServices
   public void setRestClientName(String restClientName)
   {
     this.restClientName = restClientName;
+    this.restClient = createRestClient();
+    restConfigKey = "RestClients." + restClientName;
+  }
+
+  private RestClient createRestClient()
+  {
     IRestClient iRestClient = restClientDao.findByName(restClientName, managerBean.getSelectedIEnvironment());
     if (iRestClient == null)
     {
       iRestClient = restClientDao.findByName(restClientName);
     }
-    restClient = new RestClient(iRestClient);
+    return new RestClient(iRestClient);
   }
   
   public RestClient getRestClient()
@@ -89,6 +99,22 @@ public class RestClientDetailBean extends HelpServices
   {
     return UrlUtil.getCockpitEngineGuideUrl() + "#rest-client-detail";
   }
-
+  
+  public void saveConfig()
+  {
+    RestClient originConfig = createRestClient();
+    setIfChanged(restConfigKey + ".Url", restClient.getUrl(), originConfig.getUrl());
+    setIfChanged(restConfigKey + ".Properties.username", restClient.getUsername(), originConfig.getUsername());
+    setIfPwChanged(restConfigKey + ".Properties.password", restClient);
+    FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+            new FacesMessage("Rest configuration saved", ""));
+  }
+  
+  public void resetConfig()
+  {
+    ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration().remove(restConfigKey);
+    FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+            new FacesMessage("Rest configuration reseted", ""));
+  }
 
 }

@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.ivy.application.IExternalDatabaseConfiguration;
 import ch.ivyteam.util.Property;
 
-public class ExternalDatabase
+public class ExternalDatabase implements IService
 {
   private String name;
   private String url;
@@ -68,6 +68,7 @@ public class ExternalDatabase
     this.userName = userName;
   }
   
+  @Override
   public String getPassword()
   {
     return password;
@@ -82,7 +83,8 @@ public class ExternalDatabase
     }
   }
   
-  public boolean getPasswordChanged()
+  @Override
+  public boolean passwordChanged()
   {
     return passwordChanged;
   }

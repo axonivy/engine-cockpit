@@ -15,15 +15,12 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Objects;
-
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.db.IExternalDatabase;
 import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
 
@@ -37,7 +34,6 @@ public class ExternalDatabaseDetailBean extends HelpServices
   
   private ManagerBean managerBean;
   private String dbConfigKey;
-  private IConfiguration configuration;
   
   public ExternalDatabaseDetailBean()
   {
@@ -140,22 +136,6 @@ public class ExternalDatabaseDetailBean extends HelpServices
     setIfChanged(dbConfigKey + ".MaxConnections", externalDatabase.getMaxConnections(), originConfig.getMaxConnections());
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
             new FacesMessage("Database configuration saved", ""));
-  }
-  
-  private void setIfChanged(String key, Object value, Object oldValue)
-  {
-    if (!Objects.equal(value, oldValue))
-    {
-      configuration.set(key, value);
-    }
-  }
-  
-  private void setIfPwChanged(String key, ExternalDatabase database)
-  {
-    if (database.getPasswordChanged())
-    {
-      configuration.set(key, database.getPassword());
-    }
   }
   
   public void resetDbConfig()
