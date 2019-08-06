@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class Webservice implements IService
   private String password;
   private boolean passwordChanged;
   private TreeNode portTypes = new DefaultTreeNode("PortTypes", null);
-  private Map<String, List<String>> portTypeMap = new HashMap<>();
+  private Map<String, PortType> portTypeMap = new HashMap<>();
   
   public Webservice(IWebService webservice)
   {
@@ -41,14 +42,16 @@ public class Webservice implements IService
     
     webservice.getPortTypes()
             .forEach(p -> {
-              TreeNode portType = new DefaultTreeNode(p.getPortType(), portTypes);
+              TreeNode portType = new DefaultTreeNode(new EndPoint("port", p.getPortType()), portTypes);
               portType.setExpanded(true);
-              webservice.getWebServiceEndpoints(p.getPortType()).forEach(e -> new DefaultTreeNode("- " + e.getEndpointAddress(), portType));
+              webservice.getWebServiceEndpoints(p.getPortType()).forEach(e -> new DefaultTreeNode(
+                      new EndPoint("link", e.getEndpointAddress()), portType));
             });
     
     webservice.getPortTypes()
-            .forEach(p -> portTypeMap.put(p.getPortType(), webservice.getWebServiceEndpoints(p.getPortType()).stream()
-                    .map(e -> e.getEndpointAddress()).collect(Collectors.toList())));
+            .forEach(p -> portTypeMap.put(p.getPortType(), new PortType(p.getPortType(), 
+                    webservice.getWebServiceEndpoints(p.getPortType()).stream()
+                            .map(e -> e.getEndpointAddress()).collect(Collectors.toList()))));
   }
 
   public String getName()
@@ -126,9 +129,81 @@ public class Webservice implements IService
     return portTypes;
   }
   
-  public Map<String, List<String>> getPortTypeMap()
+  public Map<String, PortType> getPortTypeMap()
   {
     return portTypeMap;
+  }
+  
+  public static class EndPoint
+  {
+    private String type;
+    private String name;
+
+    public EndPoint(String type, String name)
+    {
+      this.type = type;
+      this.name = name;
+    }
+    
+    public String getType()
+    {
+      return type;
+    }
+    
+    public String getName()
+    {
+      return name;
+    }
+  }
+  
+  public static class PortType
+  {
+    private String name;
+    private List<String> links;
+    
+    public PortType(String name, List<String> links)
+    {
+      this.name = name;
+      this.links = links;
+    }
+    
+    public String getName()
+    {
+      return name;
+    }
+    
+    public List<String> getLinks()
+    {
+      return links;
+    }
+    
+    public String getDefault()
+    {
+      return links.get(0);
+    }
+    
+    public void setDefault(String defaultLink)
+    {
+      links.set(0, defaultLink);
+    }
+    
+    public String getFallbacks()
+    {
+      return links.stream().skip(1).collect(Collectors.joining("\n"));
+    }
+    
+    public void setFallbacks(String input)
+    {
+      List<String> fallbacks = Arrays.stream(StringUtils.split(input, "\n"))
+              .filter(link -> StringUtils.isNotBlank(link))
+              .map(link -> StringUtils.trim(link))
+              .collect(Collectors.toList());
+      if (!fallbacks.isEmpty())
+      {
+        fallbacks.add(0, links.get(0));
+        links = fallbacks;
+      }
+    }
   }
   
 }

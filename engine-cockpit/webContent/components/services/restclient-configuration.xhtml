@@ -11,13 +11,13 @@
 <h:form id="restClientConfigurationForm">
   <p:growl id="restConfigMsg" for="restConfigMsg" autoUpdate="true" />
   <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
-    icon="ui-icon-save" styleClass="primary-btn card-button" />
+    icon="ui-icon-save" styleClass="primary-btn card-button" update="@form, restClientAdditionalConfigForm" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()" title="Reset configuration"
     icon="ui-icon-close" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure about reset this Rest Client?" header="Reset Rest Client"
     severity="alert" widgetVar="resetRestConfirmDialog">
-    <p:commandButton id="resetRestConfirmYesBtn" value="Yes" immediate="true" actionListener="#{restClientDetailBean.resetConfig}"
-      icon="ui-icon-check" style="width: inherit;" update="@form" />
+    <p:commandButton id="resetRestConfirmYesBtn" value="Yes" actionListener="#{restClientDetailBean.resetConfig}"
+      icon="ui-icon-check" style="width: inherit;" update="@form, restClientAdditionalConfigForm" />
     <p:commandButton value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>

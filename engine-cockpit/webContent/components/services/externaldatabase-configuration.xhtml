@@ -11,12 +11,12 @@
 <h:form id="databaseConfigurationForm">
   <p:growl id="databaseConfigMsg" for="databaseConfigMsg" autoUpdate="true" showDetail="true" />
   <p:commandButton id="saveDatabaseConfig" actionListener="#{externalDatabaseDetailBean.saveDbConfig}" title="Save changes"
-    icon="ui-icon-save" styleClass="primary-btn card-button" />
+    icon="ui-icon-save" styleClass="primary-btn card-button" update="@form" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()" title="Reset configuration"
     icon="ui-icon-close" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this External Database?" header="Reset Database"
     severity="alert" widgetVar="resetDbConfirmDialog">
-    <p:commandButton id="resetDbConfirmYesBtn" value="Yes" immediate="true" actionListener="#{externalDatabaseDetailBean.resetDbConfig}"
+    <p:commandButton id="resetDbConfirmYesBtn" value="Yes" actionListener="#{externalDatabaseDetailBean.resetDbConfig}"
       icon="ui-icon-check" style="width: inherit;" update="@form" />
     <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />

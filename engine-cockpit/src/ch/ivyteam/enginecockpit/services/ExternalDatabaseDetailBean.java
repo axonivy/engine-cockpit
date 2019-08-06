@@ -51,6 +51,11 @@ public class ExternalDatabaseDetailBean extends HelpServices
   public void setDatabaseName(String databaseName)
   {
     this.databaseName = databaseName;
+    reloadExternalDb();
+  }
+
+  private void reloadExternalDb()
+  {
     externalDatabase = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
     dbConfigKey = "Databases." + databaseName;
   }
@@ -136,13 +141,15 @@ public class ExternalDatabaseDetailBean extends HelpServices
     setIfChanged(dbConfigKey + ".MaxConnections", externalDatabase.getMaxConnections(), originConfig.getMaxConnections());
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
             new FacesMessage("Database configuration saved", ""));
+    reloadExternalDb();
   }
   
   public void resetDbConfig()
   {
-    ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration().remove(dbConfigKey);
+    configuration.remove(dbConfigKey);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
             new FacesMessage("Database configuration reseted", ""));
+    reloadExternalDb();
   }
 
 }

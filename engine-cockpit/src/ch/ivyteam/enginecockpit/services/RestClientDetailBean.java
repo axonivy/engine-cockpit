@@ -48,6 +48,11 @@ public class RestClientDetailBean extends HelpServices
   public void setRestClientName(String restClientName)
   {
     this.restClientName = restClientName;
+    reloadRestClient();
+  }
+
+  private void reloadRestClient()
+  {
     this.restClient = createRestClient();
     restConfigKey = "RestClients." + restClientName;
   }
@@ -108,13 +113,15 @@ public class RestClientDetailBean extends HelpServices
     setIfPwChanged(restConfigKey + ".Properties.password", restClient);
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
             new FacesMessage("Rest configuration saved", ""));
+    reloadRestClient();
   }
   
   public void resetConfig()
   {
-    ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration().remove(restConfigKey);
+    configuration.remove(restConfigKey);
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
             new FacesMessage("Rest configuration reseted", ""));
+    reloadRestClient();
   }
 
 }

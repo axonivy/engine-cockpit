@@ -5,16 +5,54 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">link</i>
+  <i class="material-icons table-icon panel-title-icon">language</i>
   <h:outputText value="Endpoints" />
 </f:facet>
+<!-- check responsive -->
 <h:form id="webservcieEndPointForm" style="overflow-y: auto;">
-  <p:tree value="#{webserviceDetailBean.webservice.portTypes}" style="padding-top: 10px; border: none;"
-    var="portType" id="webserviceEndpointTable">
-    <p:treeNode>
-      <h:outputText value="#{portType}" styleClass="webservice-portType"/>
-    </p:treeNode>
-  </p:tree>
+  <p:treeTable value="#{webserviceDetailBean.webservice.portTypes}" style="padding-top: 10px; border: none;"
+    var="endpoint" id="webserviceEndpointTable">
+    <p:column headerText="Endpoints">
+      <i class="material-icons table-icon">#{endpoint.type eq 'port' ? 'language' : 'link'}</i>
+      <h:outputText value="#{endpoint.name}" styleClass="webservice-portType"/>
+    </p:column>
+    <p:column style="width: 70px;">
+      <p:commandButton id="resetEndpointConfig" oncomplete="PF('resetEndpointConfirmDialog').show()" 
+        title="Reset Endpoint" style="margin-right: 0px;" process="@this" update="@form:resetEndpointConfirmDialog"
+        icon="ui-icon-close" styleClass="red-btn table-control-btn card-button" rendered="#{endpoint.type eq 'port'}"
+        actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" />
+      <p:commandButton id="editEndpointBtn" icon="ui-icon-edit" title="Edit"
+        styleClass="card-button table-control-btn amber-btn" process="@this"
+        actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}"
+        update="@form:editEndpointModal" oncomplete="PF('editEndpointModal').show()"
+        rendered="#{endpoint.type eq 'port'}" />
+    </p:column>
+  </p:treeTable>
   <h:outputText value="No Enpoint defined for this webservice" rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" />
+  
+  <p:confirmDialog id="resetEndpointConfirmDialog" message="Are you sure about reset the Endpoint '#{webserviceDetailBean.activePortType.name}'?" 
+    header="Reset Endpoint" severity="alert" widgetVar="resetEndpointConfirmDialog">
+    <p:commandButton id="resetEndpointConfirmYesBtn" value="Yes" immediate="true" actionListener="#{webserviceDetailBean.resetPortType}"
+      icon="ui-icon-check" style="width: inherit;" update="@form" />
+    <p:commandButton value="Cancel" onclick="PF('resetEndpointConfirmDialog').hide();" type="button" icon="ui-icon-close"
+      style="width: inherit;" />
+  </p:confirmDialog>
+  
+  <p:dialog styleClass="config-edit" header="Edit endpoint '#{webserviceDetailBean.activePortType.name}'" id="editEndpointModal"
+    widgetVar="editEndpointModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+        <p:outputLabel value="Default" for="defaultInput" />
+        <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.default}" />
+        
+        <p:outputLabel value="Fallbacks" for="fallBackInput" />
+        <p:inputTextarea id="fallBackInput" value="#{webserviceDetailBean.activePortType.fallbacks}"/>
+      </p:panelGrid>
+      <p:commandButton id="saveEndpoint" update="@form" onsuccess="PF('editEndpointModal').hide()"
+        actionListener="#{webserviceDetailBean.savePortType}" value="Save" icon="ui-icon-save" process="@form:editEndpointModal"
+        styleClass="primary-btn modal-input-button" />
+      <p:commandButton id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="Cancel" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </p:dialog>
 </h:form>
 </html>

@@ -11,13 +11,13 @@
 <h:form id="webserviceConfigurationForm">
   <p:growl id="wsConfigMsg" for="wsConfigMsg" autoUpdate="true" />
   <p:commandButton id="saveWsConfig" actionListener="#{webserviceDetailBean.saveConfig}" title="Save changes"
-    icon="ui-icon-save" styleClass="primary-btn card-button" />
+    icon="ui-icon-save" styleClass="primary-btn card-button" update="@form, webservcieAdditionalConfigForm" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetWsConfirmDialog').show()" title="Reset configuration"
     icon="ui-icon-close" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetWsConfirmDialog" message="Are you sure about reset this Web Service?" header="Reset Web Service"
     severity="alert" widgetVar="resetWsConfirmDialog">
-    <p:commandButton id="resetWsConfirmYesBtn" value="Yes" immediate="true" actionListener="#{webserviceDetailBean.resetConfig}"
-      icon="ui-icon-check" style="width: inherit;" update="@form" />
+    <p:commandButton id="resetWsConfirmYesBtn" value="Yes" actionListener="#{webserviceDetailBean.resetConfig}"
+      icon="ui-icon-check" style="width: inherit;" update="@form, webservcieAdditionalConfigForm" />
     <p:commandButton value="Cancel" onclick="PF('resetWsConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>

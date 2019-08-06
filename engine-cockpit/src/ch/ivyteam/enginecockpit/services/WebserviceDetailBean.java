@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -15,6 +14,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Webservice;
+import ch.ivyteam.enginecockpit.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 
@@ -27,6 +27,7 @@ public class WebserviceDetailBean extends HelpServices
   private String wsConfigKey;
   
   private ManagerBean managerBean;
+  private PortType activePortType;
   
   public WebserviceDetailBean()
   {
@@ -44,6 +45,11 @@ public class WebserviceDetailBean extends HelpServices
   public void setWebserviceId(String webserviceId)
   {
     this.webserviceId = webserviceId;
+    reloadWebservice();
+  }
+  
+  private void reloadWebservice()
+  {
     webservice = createWebService();
     wsConfigKey = "WebServiceClients." + webservice.getName();
   }
@@ -91,9 +97,9 @@ public class WebserviceDetailBean extends HelpServices
     return UrlUtil.getCockpitEngineGuideUrl() + "#web-service-detail";
   }
   
-  private String parseEndpointsToYaml(Map<String, List<String>> portTypes)
+  private String parseEndpointsToYaml(Map<String, PortType> portTypes)
   {
-    return portTypes.entrySet().stream().map(e -> e.getKey() + ": \n        - " + e.getValue().stream()
+    return portTypes.entrySet().stream().map(e -> e.getKey() + ": \n        - " + e.getValue().getLinks().stream()
             .map(v -> "\"" + v + "\"")
             .collect(Collectors.joining("\n        - "))).collect(Collectors.joining("\n      "));
   }
@@ -105,14 +111,44 @@ public class WebserviceDetailBean extends HelpServices
     setIfPwChanged(wsConfigKey + ".Properties.password", webservice);
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
             new FacesMessage("Web Service configuration saved", ""));
+    reloadWebservice();
   }
   
   @SuppressWarnings("restriction")
   public void resetConfig()
   {
-    ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration().remove(wsConfigKey);
+    configuration.remove(wsConfigKey);
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
             new FacesMessage("Web Service configuration reseted", ""));
+    reloadWebservice();
+  }
+  
+  public void setActivePortType(String name)
+  {
+    activePortType = webservice.getPortTypeMap().get(name);
+  }
+  
+  public PortType getActivePortType()
+  {
+    return activePortType;
+  }
+  
+  @SuppressWarnings("restriction")
+  public void resetPortType()
+  {
+    configuration.remove(wsConfigKey + ".Endpoints." + activePortType.getName());
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+            new FacesMessage("EndPoint reseted", ""));
+    reloadWebservice();
+  }
+  
+  @SuppressWarnings("restriction")
+  public void savePortType()
+  {
+    configuration.set(wsConfigKey + ".Endpoints." + activePortType.getName(), activePortType.getLinks());
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+            new FacesMessage("EndPoint saved", ""));
+    reloadWebservice();
   }
     
 }
