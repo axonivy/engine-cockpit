@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -159,12 +160,17 @@ public class Webservice implements IService
   public static class PortType
   {
     private String name;
-    private List<String> links;
+    private String defaultLink;
+    private String fallbacks = "";
     
     public PortType(String name, List<String> links)
     {
       this.name = name;
-      this.links = links;
+      if (!links.isEmpty())
+      {
+        this.defaultLink = links.get(0);
+        this.fallbacks = links.stream().skip(1).collect(Collectors.joining("\n"));
+      }
     }
     
     public String getName()
@@ -174,39 +180,32 @@ public class Webservice implements IService
     
     public List<String> getLinks()
     {
+      List<String> links = new ArrayList<>();
+      links.add(defaultLink);
+      Arrays.stream(StringUtils.split(fallbacks, "\n"))
+              .map(link -> StringUtils.trim(link))
+              .forEach(link -> links.add(link));
       return links;
     }
     
     public String getDefault()
     {
-      return links.get(0);
+      return defaultLink;
     }
     
     public void setDefault(String defaultLink)
     {
-      links.set(0, defaultLink);
+      this.defaultLink = defaultLink;
     }
     
     public String getFallbacks()
     {
-      return links.stream().skip(1).collect(Collectors.joining("\n"));
+      return fallbacks;
     }
     
     public void setFallbacks(String input)
     {
-      List<String> fallbacks = Arrays.stream(StringUtils.split(input, "\n"))
-              .filter(link -> StringUtils.isNotBlank(link))
-              .map(link -> StringUtils.trim(link))
-              .collect(Collectors.toList());
-      if (!fallbacks.isEmpty())
-      {
-        fallbacks.add(0, links.get(0));
-        links = fallbacks;
-      }
-      else
-      {
-        links = links.subList(0, 1);
-      }
+      this.fallbacks = input;
     }
   }
   
