@@ -33,6 +33,53 @@ public class WebTestRestClientDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(RESTCLIENT_NAME));
   }
   
+  @Test
+  void testSaveAndResetChanges(FirefoxDriver driver)
+  {
+    navigateToRestClientDetail(driver);
+    
+    setConfiguration(driver, "url", "testUser");
+    driver.navigate().refresh();
+    checkConfiguration(driver, "url", "testUser");
+    resetConfiguration(driver);
+    driver.navigate().refresh();
+    checkConfiguration(driver, "http://localhost/", "admin");
+  }
+
+  private void setConfiguration(FirefoxDriver driver, String url, String username)
+  {
+    driver.findElementById("restClientConfigurationForm:url").clear();
+    driver.findElementById("restClientConfigurationForm:url").sendKeys(url);
+    
+    driver.findElementById("restClientConfigurationForm:username").clear();
+    driver.findElementById("restClientConfigurationForm:username").sendKeys(username);
+    
+    saveScreenshot(driver, "set");
+    
+    driver.findElementById("restClientConfigurationForm:saveRestConfig").click();
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container")
+            .getText()).contains("Rest configuration saved"));
+    saveScreenshot(driver, "save");
+  }
+  
+  private void checkConfiguration(FirefoxDriver driver, String url, String username)
+  {
+    saveScreenshot(driver, "check");
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:url").getAttribute("value"))
+            .isEqualTo(url));
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:username").getAttribute("value"))
+            .isEqualTo(username));
+  }
+  
+  private void resetConfiguration(FirefoxDriver driver)
+  {
+    driver.findElementById("restClientConfigurationForm:resetConfig").click();
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:resetRestConfirmDialog").isDisplayed()).isTrue());
+    driver.findElementById("restClientConfigurationForm:resetRestConfirmYesBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container")
+            .getText()).contains("Rest configuration reseted"));
+  }
+  
   private void navigateToRestClientDetail(FirefoxDriver driver)
   {
     login(driver);

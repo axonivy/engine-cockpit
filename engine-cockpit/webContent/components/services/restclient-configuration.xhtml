@@ -40,10 +40,10 @@
     <h:outputText id="type" value="#{restClientDetailBean.restClient.authType}" />
     
     <p:outputLabel for="username" value="Username" />
-    <p:inputText id="username" value="#{restClientDetailBean.restClient.username}" />
+    <p:inputText id="username" value="#{restClientDetailBean.restClient.username}" disabled="#{empty restClientDetailBean.restClient.authType}" />
     
     <p:outputLabel for="password" value="Password" />
-    <p:password id="password" value="#{restClientDetailBean.restClient.password}" />
+    <p:password id="password" value="#{restClientDetailBean.restClient.password}" disabled="#{empty restClientDetailBean.restClient.authType}" />
   </p:panelGrid>
 </h:form>
 </html>
