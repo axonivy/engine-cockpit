@@ -109,7 +109,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:resetDbConfirmDialog").isDisplayed()).isTrue());
     driver.findElementById("databaseConfigurationForm:resetDbConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container")
-            .getText()).contains("Database configuration reseted"));
+            .getText()).contains("Database configuration reset"));
   }
   
   private void navigateToDatabaseDetail(FirefoxDriver driver)
