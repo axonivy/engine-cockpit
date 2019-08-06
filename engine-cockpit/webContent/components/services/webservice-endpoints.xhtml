@@ -43,12 +43,15 @@
       <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
         styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
         <p:outputLabel value="Default" for="defaultInput" />
-        <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.default}" />
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.default}" required="true" requiredMessage="Value is required" />
+          <p:message for="defaultInput" id="defaultInputMessage" />
+        </h:panelGroup>
         
         <p:outputLabel value="Fallbacks" for="fallBackInput" />
         <p:inputTextarea id="fallBackInput" value="#{webserviceDetailBean.activePortType.fallbacks}"/>
       </p:panelGrid>
-      <p:commandButton id="saveEndpoint" update="@form" onsuccess="PF('editEndpointModal').hide()"
+      <p:commandButton id="saveEndpoint" update="@form" onsuccess="PF('editEndpointModal').hide()" validateClient="true"
         actionListener="#{webserviceDetailBean.savePortType}" value="Save" icon="ui-icon-save" process="@form:editEndpointModal"
         styleClass="primary-btn modal-input-button" />
       <p:commandButton id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="Cancel" type="button"

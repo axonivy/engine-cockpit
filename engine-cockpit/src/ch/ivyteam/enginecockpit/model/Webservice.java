@@ -160,7 +160,7 @@ public class Webservice implements IService
   public static class PortType
   {
     private String name;
-    private String defaultLink;
+    private String defaultLink = "";
     private String fallbacks = "";
     
     public PortType(String name, List<String> links)

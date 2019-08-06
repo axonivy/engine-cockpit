@@ -80,6 +80,19 @@ public class WebTestWebserviceDetail extends WebTestBase
   }
   
   @Test
+  void testEditEndpointsInvalid(FirefoxDriver driver)
+  {
+    navigateToWebserviceDetail(driver);
+    Table endPointTable = new Table(driver, By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk");
+    endPointTable.clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
+    driver.findElementById("webservcieEndPointForm:defaultInput").clear();
+    driver.findElementById("webservcieEndPointForm:saveEndpoint").click();
+    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:defaultInputMessage").getText())
+            .contains("Value is required"));
+    saveScreenshot(driver, "invalid");
+  }
+  
+  @Test
   void testSetAndResetEndpoints(FirefoxDriver driver)
   {
     navigateToWebserviceDetail(driver);
