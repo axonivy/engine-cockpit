@@ -19,7 +19,7 @@
     </ui:define>
     
     <ui:define name="breadcrumb-right">
-      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}#external-database-detail'); return false;">
+      <a href="#" onclick="PF('helpServicesModal').show();">
         <i class="material-icons">help</i>
       </a>
     </ui:define>
@@ -39,6 +39,7 @@
           </div>
         </div>
       </div>
+      <cc:HelpServiceDialog service="#{externalDatabaseDetailBean}" id="helpExternalDatabaseDialog" />
     </ui:define>
   </ui:composition>
 </h:body>

@@ -27,7 +27,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   {
     navigateToDatabaseDetail(driver);
     
-    driver.findElementById("databaseConfigurationForm:helpDatabaseBtn").click();
+    driver.findElementByXPath("//div[@id='breadcrumbOptions']/a").click();
     saveScreenshot(driver, "help_modal");
     webAssertThat(() -> assertThat(driver.findElementById("helpExternalDatabaseDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(DATABASE_NAME));
@@ -51,6 +51,65 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     saveScreenshot(driver, "connection_ok");
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").getText()).contains("Successful connected to database"));
+  }
+  
+  @Test
+  void testSaveAndResetChanges(FirefoxDriver driver)
+  {
+    navigateToDatabaseDetail(driver);
+    
+    setConfiguration(driver, "url", "org.postgresql.Driver", "testUser", "13");
+    driver.navigate().refresh();
+    checkConfiguration(driver, "url", "org.postgresql.Driver", "testUser", "13");
+    resetConfiguration(driver);
+    driver.navigate().refresh();
+    checkConfiguration(driver, "jdbc:mysql://localhost:3306/test-db", "com.mysql.jdbc.Driver", "user", "5");
+  }
+
+  private void setConfiguration(FirefoxDriver driver, String url, String driverName, String username, String connections)
+  {
+    driver.findElementById("databaseConfigurationForm:url").clear();
+    driver.findElementById("databaseConfigurationForm:url").sendKeys(url);
+    
+    driver.findElementById("databaseConfigurationForm:driver_input").clear();
+    driver.findElementByXPath("//*[@id='databaseConfigurationForm:driver']/button").click();
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:driver_panel").isDisplayed()).isTrue());
+    driver.findElementByXPath("//*[@id='databaseConfigurationForm:driver_panel']//li[text()='" + driverName + "']").click();
+    
+    driver.findElementById("databaseConfigurationForm:userName").clear();
+    driver.findElementById("databaseConfigurationForm:userName").sendKeys(username);
+
+    driver.findElementById("databaseConfigurationForm:maxConnections_input").clear();
+    driver.findElementById("databaseConfigurationForm:maxConnections_input").sendKeys(connections);
+    
+    saveScreenshot(driver, "set");
+    
+    driver.findElementById("databaseConfigurationForm:saveDatabaseConfig").click();
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container")
+            .getText()).contains("Database configuration saved"));
+    saveScreenshot(driver, "save");
+  }
+  
+  private void checkConfiguration(FirefoxDriver driver, String url, String driverName, String username, String connections)
+  {
+    saveScreenshot(driver, "check");
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:url").getAttribute("value"))
+            .isEqualTo(url));
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:driver_input").getAttribute("value"))
+            .isEqualTo(driverName));
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:userName").getAttribute("value"))
+            .isEqualTo(username));
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:maxConnections_input").getAttribute("value"))
+            .isEqualTo(connections));
+  }
+  
+  private void resetConfiguration(FirefoxDriver driver)
+  {
+    driver.findElementById("databaseConfigurationForm:resetConfig").click();
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:resetDbConfirmDialog").isDisplayed()).isTrue());
+    driver.findElementById("databaseConfigurationForm:resetDbConfirmYesBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container")
+            .getText()).contains("Database configuration reset"));
   }
   
   private void navigateToDatabaseDetail(FirefoxDriver driver)
