@@ -203,6 +203,10 @@ public class Webservice implements IService
         fallbacks.add(0, links.get(0));
         links = fallbacks;
       }
+      else
+      {
+        links = links.subList(0, 1);
+      }
     }
   }
   

@@ -14,7 +14,7 @@
     var="endpoint" id="webserviceEndpointTable">
     <p:column headerText="Endpoints">
       <i class="material-icons table-icon">#{endpoint.type eq 'port' ? 'language' : 'link'}</i>
-      <h:outputText value="#{endpoint.name}" styleClass="webservice-portType"/>
+      <h:outputText value="#{endpoint.name}" styleClass="endpoint-entry"/>
     </p:column>
     <p:column style="width: 70px;">
       <p:commandButton id="resetEndpointConfig" oncomplete="PF('resetEndpointConfirmDialog').show()" 
