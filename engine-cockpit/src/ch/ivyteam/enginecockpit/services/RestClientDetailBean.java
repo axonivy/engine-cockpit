@@ -120,7 +120,7 @@ public class RestClientDetailBean extends HelpServices
   {
     configuration.remove(restConfigKey);
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
-            new FacesMessage("Rest configuration reseted", ""));
+            new FacesMessage("Rest configuration reset", ""));
     reloadRestClient();
   }
 

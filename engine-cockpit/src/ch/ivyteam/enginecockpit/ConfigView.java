@@ -116,7 +116,7 @@ public class ConfigView
     {
       filteredConfigs.remove(activeConfig);
     }
-    reloadAndUiMessage("reseted");
+    reloadAndUiMessage("reset");
   }
 
   public void saveConfig()

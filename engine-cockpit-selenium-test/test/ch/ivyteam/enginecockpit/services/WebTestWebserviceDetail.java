@@ -76,7 +76,7 @@ public class WebTestWebserviceDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("webserviceConfigurationForm:resetWsConfirmDialog").isDisplayed()).isTrue());
     driver.findElementById("webserviceConfigurationForm:resetWsConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("webserviceConfigurationForm:wsConfigMsg_container")
-            .getText()).contains("Web Service configuration reseted"));
+            .getText()).contains("Web Service configuration reset"));
   }
   
   @Test
@@ -138,7 +138,7 @@ public class WebTestWebserviceDetail extends WebTestBase
     
     driver.findElementById("webservcieEndPointForm:resetEndpointConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("webserviceConfigurationForm:wsConfigMsg_container").getText())
-            .contains("EndPoint reseted"));
+            .contains("EndPoint reset"));
     saveScreenshot(driver, "reset");
   }
   

@@ -119,7 +119,7 @@ public class WebserviceDetailBean extends HelpServices
   {
     configuration.remove(wsConfigKey);
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
-            new FacesMessage("Web Service configuration reseted", ""));
+            new FacesMessage("Web Service configuration reset", ""));
     reloadWebservice();
   }
   
@@ -138,7 +138,7 @@ public class WebserviceDetailBean extends HelpServices
   {
     configuration.remove(wsConfigKey + ".Endpoints." + activePortType.getName());
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
-            new FacesMessage("EndPoint reseted", ""));
+            new FacesMessage("EndPoint reset", ""));
     reloadWebservice();
   }
   

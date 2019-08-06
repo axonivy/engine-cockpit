@@ -148,7 +148,7 @@ public class ExternalDatabaseDetailBean extends HelpServices
   {
     configuration.remove(dbConfigKey);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
-            new FacesMessage("Database configuration reseted", ""));
+            new FacesMessage("Database configuration reset", ""));
     reloadExternalDb();
   }
 

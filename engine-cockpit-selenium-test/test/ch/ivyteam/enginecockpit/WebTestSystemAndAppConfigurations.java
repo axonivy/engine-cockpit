@@ -240,7 +240,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     
     driver.findElementById("config:resetConfigConfirmForm:resetConfigConfirmYesBtn").click();
     saveScreenshot(driver, "reset_config_yes");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "reseted"));
+    webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "reset"));
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).doesNotContain(key));
   }
 

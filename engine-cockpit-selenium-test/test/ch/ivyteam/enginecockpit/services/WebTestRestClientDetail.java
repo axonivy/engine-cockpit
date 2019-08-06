@@ -77,7 +77,7 @@ public class WebTestRestClientDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:resetRestConfirmDialog").isDisplayed()).isTrue());
     driver.findElementById("restClientConfigurationForm:resetRestConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container")
-            .getText()).contains("Rest configuration reseted"));
+            .getText()).contains("Rest configuration reset"));
   }
   
   private void navigateToRestClientDetail(FirefoxDriver driver)
