@@ -27,7 +27,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   {
     navigateToDatabaseDetail(driver);
     
-    driver.findElementById("databaseConfigurationForm:helpDatabaseBtn").click();
+    driver.findElementByXPath("//div[@id='breadcrumbOptions']/a").click();
     saveScreenshot(driver, "help_modal");
     webAssertThat(() -> assertThat(driver.findElementById("helpExternalDatabaseDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(DATABASE_NAME));

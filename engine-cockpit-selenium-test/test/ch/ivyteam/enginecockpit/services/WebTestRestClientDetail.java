@@ -27,7 +27,7 @@ public class WebTestRestClientDetail extends WebTestBase
   {
     navigateToRestClientDetail(driver);
     
-    driver.findElementById("restClientConfigurationForm:helpRestClientBtn").click();
+    driver.findElementByXPath("//div[@id='breadcrumbOptions']/a").click();
     saveScreenshot(driver, "help_modal");
     webAssertThat(() -> assertThat(driver.findElementById("helpRestClientDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(RESTCLIENT_NAME));

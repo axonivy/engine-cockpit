@@ -26,7 +26,7 @@ public class WebTestWebserviceDetail extends WebTestBase
   {
     navigateToWebserviceDetail(driver);
     
-    driver.findElementById("webserviceConfigurationForm:helpWebserviceBtn").click();
+    driver.findElementByXPath("//div[@id='breadcrumbOptions']/a").click();
     saveScreenshot(driver, "help_modal");
     webAssertThat(() -> assertThat(driver.findElementById("helpWebserviceDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(WEBSERVICE_NAME));
