@@ -21,7 +21,7 @@
 
     <p:commandButton id="saveGlobalVarConfiguration" validateClient="true" update="form @form" process="@form"
       onsuccess="PF('editGlobalVarModal').hide()"
-      actionListener="#{globalVarBean.updateGlobalVar}" value="Save" icon="ui-icon-save"
+      actionListener="#{globalVarBean.saveGlobalVar}" value="Save" icon="ui-icon-save"
       styleClass="primary-btn modal-input-button"/>
     <p:commandButton id="cancelEditGlobalVar" onclick="PF('editGlobalVarModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
