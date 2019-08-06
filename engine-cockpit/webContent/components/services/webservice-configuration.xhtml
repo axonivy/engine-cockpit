@@ -9,7 +9,18 @@
   <h:outputText value="Web Service configurations" />
 </f:facet>
 <h:form id="webserviceConfigurationForm">
-  <p:growl id="webserviceSaveSuccess" for="webserviceSaveSuccess" autoUpdate="true" />
+  <p:growl id="wsConfigMsg" for="wsConfigMsg" autoUpdate="true" />
+  <p:commandButton id="saveWsConfig" actionListener="#{webserviceDetailBean.saveConfig}" title="Save changes"
+    icon="ui-icon-save" styleClass="primary-btn card-button" />
+  <p:commandButton id="resetConfig" type="button" onclick="PF('resetWsConfirmDialog').show()" title="Reset configuration"
+    icon="ui-icon-close" styleClass="red-btn card-button" />
+  <p:confirmDialog id="resetWsConfirmDialog" message="Are you sure about reset this Web Service?" header="Reset Web Service"
+    severity="alert" widgetVar="resetWsConfirmDialog">
+    <p:commandButton id="resetWsConfirmYesBtn" value="Yes" immediate="true" actionListener="#{webserviceDetailBean.resetConfig}"
+      icon="ui-icon-check" style="width: inherit;" update="@form" />
+    <p:commandButton value="Cancel" onclick="PF('resetWsConfirmDialog').hide();" type="button" icon="ui-icon-close"
+      style="width: inherit;" />
+  </p:confirmDialog>
     
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -25,11 +36,11 @@
     <label>Authentication Type</label>
     <h:outputText id="type" value="#{webserviceDetailBean.webservice.authType}" />
     
-    <label>Username</label>
-    <h:outputText id="username" value="#{webserviceDetailBean.webservice.username}" />
+    <p:outputLabel for="username" value="Username" />
+    <p:inputText id="username" value="#{webserviceDetailBean.webservice.username}" disabled="#{empty webserviceDetailBean.webservice.authType}" />
     
-    <label>Password</label>
-    <h:outputText id="password" value="#{webserviceDetailBean.webservice.password}" />
+    <p:outputLabel for="password" value="Password" />
+    <p:password id="password" value="#{webserviceDetailBean.webservice.password}" disabled="#{empty webserviceDetailBean.webservice.authType}" />
   </p:panelGrid>
 </h:form>
 </html>

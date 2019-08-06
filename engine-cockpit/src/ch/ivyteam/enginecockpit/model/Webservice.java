@@ -13,7 +13,7 @@ import ch.ivyteam.ivy.application.restricted.IWebService;
 import ch.ivyteam.util.Property;
 
 @SuppressWarnings("restriction")
-public class Webservice
+public class Webservice implements IService
 {
   private String name;
   private String genId;
@@ -21,6 +21,9 @@ public class Webservice
   private String wsdlUrl;
   private List<String> features;
   private List<Property> properties;
+  private String username;
+  private String password;
+  private boolean passwordChanged;
   private TreeNode portTypes = new DefaultTreeNode("PortTypes", null);
   private Map<String, List<String>> portTypeMap = new HashMap<>();
   
@@ -30,6 +33,9 @@ public class Webservice
     description = webservice.getDescription();
     wsdlUrl = webservice.getWsdlUrl();
     properties = webservice.getProperties().stream().map(p -> new Property(p.getName(), p.getValue())).collect(Collectors.toList());
+    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password")).map(p -> p.getValue()).findFirst().orElse("");
+    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).map(p -> p.getValue()).findFirst().orElse("");
+    passwordChanged = false;
     features = webservice.getFeatures().stream().map(f -> f.getClazz()).collect(Collectors.toList());
     genId = webservice.getGenerationIdentifier();
     
@@ -76,12 +82,33 @@ public class Webservice
   
   public String getUsername()
   {
-    return properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).map(Property::getValue).findFirst().orElse("");
+    return username;
   }
   
+  public void setUsername(String username)
+  {
+    this.username = username;
+  }
+  
+  @Override
   public String getPassword()
   {
-    return properties.stream().anyMatch(p -> StringUtils.equals(p.getName(), "password")) ? "*****" : "";
+    return password;
+  }
+  
+  public void setPassword(String password)
+  {
+    if (StringUtils.isNotBlank(password))
+    {
+      this.password = password;
+      passwordChanged = true;
+    }
+  }
+  
+  @Override
+  public boolean passwordChanged()
+  {
+    return passwordChanged;
   }
 
   public List<String> getFeatures()

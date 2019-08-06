@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -15,6 +16,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Webservice;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.IApplicationInternal;
 
 @ManagedBean
 @ViewScoped
@@ -22,6 +24,7 @@ public class WebserviceDetailBean extends HelpServices
 {
   private Webservice webservice;
   private String webserviceId;
+  private String wsConfigKey;
   
   private ManagerBean managerBean;
   
@@ -30,6 +33,7 @@ public class WebserviceDetailBean extends HelpServices
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
+    configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
   }
   
   public String getWebserviceId()
@@ -40,7 +44,13 @@ public class WebserviceDetailBean extends HelpServices
   public void setWebserviceId(String webserviceId)
   {
     this.webserviceId = webserviceId;
-    webservice = new Webservice(managerBean.getSelectedIEnvironment().findWebService(webserviceId));
+    webservice = createWebService();
+    wsConfigKey = "WebServiceClients." + webservice.getName();
+  }
+
+  private Webservice createWebService()
+  {
+    return new Webservice(managerBean.getSelectedIEnvironment().findWebService(webserviceId));
   }
   
   public Webservice getWebservice()
@@ -86,6 +96,23 @@ public class WebserviceDetailBean extends HelpServices
     return portTypes.entrySet().stream().map(e -> e.getKey() + ": \n        - " + e.getValue().stream()
             .map(v -> "\"" + v + "\"")
             .collect(Collectors.joining("\n        - "))).collect(Collectors.joining("\n      "));
+  }
+  
+  public void saveConfig()
+  {
+    Webservice originConfig = createWebService();
+    setIfChanged(wsConfigKey + ".Properties.username", webservice.getUsername(), originConfig.getUsername());
+    setIfPwChanged(wsConfigKey + ".Properties.password", webservice);
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+            new FacesMessage("Web Service configuration saved", ""));
+  }
+  
+  @SuppressWarnings("restriction")
+  public void resetConfig()
+  {
+    ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration().remove(wsConfigKey);
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+            new FacesMessage("Web Service configuration reseted", ""));
   }
     
 }
