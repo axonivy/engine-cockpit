@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,9 +13,13 @@ import javax.faces.context.FacesContext;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.ClientRequestContext;
+import javax.ws.rs.client.ClientRequestFilter;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.xml.bind.DatatypeConverter;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Webservice;
@@ -107,27 +113,25 @@ public class WebserviceDetailBean extends HelpServices
 
   private void testEndPoint(PortType endpoint)
   {
-    Client newClient = ClientBuilder.newClient();
+    Client client = ClientBuilder.newClient();
+    if (StringUtils.equals(webservice.getAuthType(), "HttpBasic"))
+    {
+      client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
+    }
     boolean invalidUrlFound = false;
-    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, endpoint.getName(), 
-            "No valid entry found (connection test is without authentication)");
     for (String url : endpoint.getLinks())
     {
       try
       {
-        int status = newClient.target(url).request().head().getStatus();
-        if (status >= 200 && status < 400)
-        {
-          facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, endpoint.getName(), ">> " + status + " " + url);
-          break;
-        }
+        int status = client.target(url).request().head().getStatus();
+        FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+                new FacesMessage(FacesMessage.SEVERITY_INFO, endpoint.getName(), ">> Status: " + status + " Url: " + url));
       }
       catch (ProcessingException ex)
       {
         invalidUrlFound = true;
       }
     }
-    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", facesMessage);
     if (invalidUrlFound)
     {
       FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
@@ -156,7 +160,7 @@ public class WebserviceDetailBean extends HelpServices
   @SuppressWarnings("restriction")
   public void resetConfig()
   {
-    configuration.remove(wsConfigKey);
+    configuration.remove(wsConfigKey + ".Properties");
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
             new FacesMessage("Web Service configuration reset", ""));
     reloadWebservice();
@@ -189,5 +193,34 @@ public class WebserviceDetailBean extends HelpServices
             new FacesMessage("EndPoint saved", ""));
     reloadWebservice();
   }
+  
+  private class Authenticator implements ClientRequestFilter {
+
+    private final String user;
+    private final String password;
+
+    public Authenticator(String user, String password) {
+        this.user = user;
+        this.password = password;
+    }
+
+    @Override
+    public void filter(ClientRequestContext requestContext) throws IOException {
+        MultivaluedMap<String, Object> headers = requestContext.getHeaders();
+        final String basicAuthentication = getBasicAuthentication();
+        headers.add("Authorization", basicAuthentication);
+
+    }
+
+    private String getBasicAuthentication() {
+        String token = this.user + ":" + this.password;
+        try {
+            return "BASIC " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+            throw new IllegalStateException("Cannot encode with UTF-8", ex);
+        }
+    }
+}
+
     
 }
