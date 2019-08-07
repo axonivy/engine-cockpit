@@ -47,7 +47,11 @@ public class WebTestRestClientDetail extends WebTestBase
     driver.navigate().refresh();
     testAndAssertConnection(driver, "Status 404");
     
-    setConfiguration(driver, "https://developer.axonivy.com/download", "");
+    setConfiguration(driver, "http://zugtstweb:81/", "");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status 401");
+    
+    setConfiguration(driver, "http://zugtstweb:81/", "admin", "nimda");
     driver.navigate().refresh();
     testAndAssertConnection(driver, "Status 200");
 
@@ -74,6 +78,13 @@ public class WebTestRestClientDetail extends WebTestBase
     resetConfiguration(driver);
     driver.navigate().refresh();
     checkConfiguration(driver, "http://localhost/", "admin");
+  }
+  
+  private void setConfiguration(FirefoxDriver driver, String url, String username, String password)
+  {
+    driver.findElementById("restClientConfigurationForm:password").sendKeys(password);
+    
+    setConfiguration(driver, url, username);
   }
 
   private void setConfiguration(FirefoxDriver driver, String url, String username)

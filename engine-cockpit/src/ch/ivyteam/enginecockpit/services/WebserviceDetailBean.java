@@ -100,11 +100,6 @@ public class WebserviceDetailBean extends HelpServices
     return UrlUtil.getCockpitEngineGuideUrl() + "#web-service-detail";
   }
   
-  public void testWsConnection()
-  {
-    webservice.getPortTypeMap().values().forEach(this::testEndPoint);
-  }
-  
   public void testWsEndpointConnection(String name)
   {
     testEndPoint(webservice.getPortTypeMap().get(name));
@@ -114,7 +109,8 @@ public class WebserviceDetailBean extends HelpServices
   {
     Client newClient = ClientBuilder.newClient();
     boolean invalidUrlFound = false;
-    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, endpoint.getName(), "No valid entry found");
+    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, endpoint.getName(), 
+            "No valid entry found (connection test is without authentication)");
     for (String url : endpoint.getLinks())
     {
       try

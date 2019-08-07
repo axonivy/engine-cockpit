@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -77,6 +78,29 @@ public class WebTestWebserviceDetail extends WebTestBase
     driver.findElementById("webserviceConfigurationForm:resetWsConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("webserviceConfigurationForm:wsConfigMsg_container")
             .getText()).contains("Web Service configuration reset"));
+  }
+  
+  @Test
+  void testWsEndpointTestConnection(FirefoxDriver driver)
+  {
+    navigateToWebserviceDetail(driver);
+    
+    testAndAssertConnection(driver, "No valid entry found (connection test is without authentication)");
+
+    setEndPoint(driver, "http://zugtstweb:80/");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "200");
+
+    resetConfiguration(driver);
+  }
+
+  private void testAndAssertConnection(FirefoxDriver driver, String msg)
+  {
+    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").isDisplayed()).isFalse());
+    new Table(driver, By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk").clickButtonForEntry("SampleWebServiceSoap", "testWsEndpointBtn");
+    saveScreenshot(driver, "connection_" + StringUtils.replace(msg, " ", "_"));
+    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").getText()).contains(msg));
   }
   
   @Test
