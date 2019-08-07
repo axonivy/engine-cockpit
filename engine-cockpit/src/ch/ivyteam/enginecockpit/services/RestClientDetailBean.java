@@ -9,7 +9,6 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.ws.rs.ProcessingException;
 
 import org.apache.commons.codec.binary.StringUtils;
@@ -37,9 +36,6 @@ public class RestClientDetailBean extends HelpServices
   private RestClientDao restClientDao;
   private String restConfigKey;
   
-  @Inject
-  public WebserviceExecutionManager wsManager;
-  
   public RestClientDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
@@ -47,8 +43,6 @@ public class RestClientDetailBean extends HelpServices
             ManagerBean.class);
     restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
     configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
-    
-    DiCore.getGlobalInjector().injectMembers(this);
   }
   
   public String getRestClientName()
@@ -120,7 +114,8 @@ public class RestClientDetailBean extends HelpServices
   {
     try
     {
-      ExternalRestWebServiceCall restCall = wsManager.getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
+      ExternalRestWebServiceCall restCall = DiCore.getGlobalInjector().getInstance(WebserviceExecutionManager.class)
+              .getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
               .getRestWebService(restClient.getUniqueId()).createCall();
       int status = restCall.getWebTarget().request().head().getStatus();
       Severity severity;
