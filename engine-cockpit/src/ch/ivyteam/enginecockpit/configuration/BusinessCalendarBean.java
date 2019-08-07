@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.configuration;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.BusinessCalendar;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.scripting.objects.Tree;

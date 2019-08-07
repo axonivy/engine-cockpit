@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,6 +11,7 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 
+import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 

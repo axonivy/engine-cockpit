@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.configuration;
 
 import java.util.List;
 import java.util.stream.Collectors;

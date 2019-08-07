@@ -77,8 +77,7 @@
                   update="resetGlobalVarDialog"
                   style="margin-right: 0; float: right;"
                   process="@this"
-                  disabled="#{globalVar.yamlConfig or globalVarBean.isDefaultEnv()}"
-                  />
+                  disabled="#{!globalVar.yamlConfig and globalVarBean.isDefaultEnv()}" />
 
                 <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
                   title="Edit"
@@ -86,8 +85,7 @@
                   actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
                   update="editGlobalVarModal"
                   oncomplete="PF('editGlobalVarModal').show()"
-                  process="@this"
-                  disabled="#{globalVar.yamlConfig}"/>
+                  process="@this" />
                   
                 <p:confirmDialog id="resetGlobalVarDialog" header="Reset global variable"
                   message="Are you sure about resetting '#{globalVarBean.activeVar.name}'?" 
