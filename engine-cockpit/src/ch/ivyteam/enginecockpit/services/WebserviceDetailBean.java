@@ -8,6 +8,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -95,6 +98,46 @@ public class WebserviceDetailBean extends HelpServices
   public String getHelpUrl()
   {
     return UrlUtil.getCockpitEngineGuideUrl() + "#web-service-detail";
+  }
+  
+  public void testWsConnection()
+  {
+    webservice.getPortTypeMap().values().forEach(this::testEndPoint);
+  }
+  
+  public void testWsEndpointConnection(String name)
+  {
+    testEndPoint(webservice.getPortTypeMap().get(name));
+  }
+
+  private void testEndPoint(PortType endpoint)
+  {
+    Client newClient = ClientBuilder.newClient();
+    boolean invalidUrlFound = false;
+    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, endpoint.getName(), "No valid entry found");
+    for (String url : endpoint.getLinks())
+    {
+      try
+      {
+        int status = newClient.target(url).request().head().getStatus();
+        if (status >= 200 && status < 400)
+        {
+          facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, endpoint.getName(), ">> " + status + " " + url);
+          break;
+        }
+      }
+      catch (ProcessingException ex)
+      {
+        invalidUrlFound = true;
+      }
+    }
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", facesMessage);
+    if (invalidUrlFound)
+    {
+      FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+              new FacesMessage(FacesMessage.SEVERITY_WARN, endpoint.getName(), 
+                      "The some URLs seems to be not correct or they contain scripting context (can not be evaluated)"));
+    }
   }
   
   private String parseEndpointsToYaml(Map<String, PortType> portTypes)

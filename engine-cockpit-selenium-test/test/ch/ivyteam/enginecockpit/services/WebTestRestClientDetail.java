@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -31,6 +32,35 @@ public class WebTestRestClientDetail extends WebTestBase
     saveScreenshot(driver, "help_modal");
     webAssertThat(() -> assertThat(driver.findElementById("helpRestClientDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(RESTCLIENT_NAME));
+  }
+  
+  @Test
+  void testRestTestConnection(FirefoxDriver driver)
+  {
+    navigateToRestClientDetail(driver);
+    
+    setConfiguration(driver, "localhost", "");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Invalid Url");
+
+    setConfiguration(driver, "http://localhost/testnotfound", "");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status 404");
+    
+    setConfiguration(driver, "https://developer.axonivy.com/download", "");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status 200");
+
+    resetConfiguration(driver);
+  }
+
+  private void testAndAssertConnection(FirefoxDriver driver, String msg)
+  {
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").isDisplayed()).isFalse());
+    driver.findElementById("restClientConfigurationForm:testRestBtn").click();
+    saveScreenshot(driver, "connection_" + StringUtils.replace(msg, " ", "_"));
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").getText()).contains(msg));
   }
   
   @Test

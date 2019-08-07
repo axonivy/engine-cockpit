@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.ws.rs.ProcessingException;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -117,20 +118,28 @@ public class RestClientDetailBean extends HelpServices
   
   public void testRestConnection()
   {
-    ExternalRestWebServiceCall restCall = wsManager.getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
-            .getRestWebService(restClient.getUniqueId()).createCall();
-    int status = restCall.getWebTarget().request().head().getStatus();
-    Severity severity;
-    if (status >= 200 && status < 400)
+    try
     {
-      severity = FacesMessage.SEVERITY_INFO;
+      ExternalRestWebServiceCall restCall = wsManager.getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
+              .getRestWebService(restClient.getUniqueId()).createCall();
+      int status = restCall.getWebTarget().request().head().getStatus();
+      Severity severity;
+      if (status >= 200 && status < 400)
+      {
+        severity = FacesMessage.SEVERITY_INFO;
+      }
+      else 
+      {
+        severity = FacesMessage.SEVERITY_ERROR;
+      }
+      FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+              new FacesMessage(severity, "Status " + status, ">> " + restCall.getMethod() + " " + restCall.getUrl()));
     }
-    else 
+    catch (ProcessingException ex)
     {
-      severity = FacesMessage.SEVERITY_ERROR;
+      FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid Url (may contains script context): " + ex.getMessage()));
     }
-    FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
-            new FacesMessage(severity, "Status " + status, ">> " + restCall.getMethod() + " " + restCall.getUrl()));
   }
   
   public void saveConfig()
