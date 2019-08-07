@@ -19,6 +19,7 @@ import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase;
+import ch.ivyteam.enginecockpit.model.ExternalDatabase.ExecStatement;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.db.IExternalDatabase;
@@ -30,6 +31,7 @@ import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
 public class ExternalDatabaseDetailBean extends HelpServices
 {
   private ExternalDatabase externalDatabase;
+  private List<ExecStatement> history;
   private String databaseName;
   
   private ManagerBean managerBean;
@@ -58,11 +60,21 @@ public class ExternalDatabaseDetailBean extends HelpServices
   {
     externalDatabase = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
     dbConfigKey = "Databases." + databaseName;
+    ExternalDatabaseManager dbManager = DiCore.getGlobalInjector().getInstance(ExternalDatabaseManager.class);
+    IExternalDatabase externalDb = dbManager.getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
+    history = (externalDb.getExecutionHistory().stream()
+            .map(statement -> new ExecStatement(statement))
+            .collect(Collectors.toList()));
   }
   
   public ExternalDatabase getExternalDatabase()
   {
     return externalDatabase;
+  }
+  
+  public List<ExecStatement> getExecutionHistory()
+  {
+    return history;
   }
   
   public List<String> completeDriver(String value)

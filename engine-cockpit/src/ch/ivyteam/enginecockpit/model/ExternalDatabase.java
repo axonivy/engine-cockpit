@@ -1,11 +1,13 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.application.IExternalDatabaseConfiguration;
+import ch.ivyteam.ivy.db.IStatementExecution;
 import ch.ivyteam.util.Property;
 
 public class ExternalDatabase implements IService
@@ -102,6 +104,51 @@ public class ExternalDatabase implements IService
   public List<Property> getProperties()
   {
     return properties;
+  }
+  
+  public static class ExecStatement
+  {
+    
+    private Date time;
+    private String execTime;
+    private String resultTime;
+    private String sql;
+    private String element;
+
+    public ExecStatement(IStatementExecution statement)
+    {
+      time = statement.getExecutionTimestamp();
+      execTime = (double) statement.getExecutionTimeInMicroSeconds() / 1000 + "ms";
+      resultTime = (double) statement.getReadingResultTimeInMicroSeconds() / 1000 + "ms";
+      sql = statement.getSql();
+      element = statement.getDatabaseElement().getProcessElementId();
+    }
+
+    public Date getTime()
+    {
+      return time;
+    }
+
+    public String getExecTime()
+    {
+      return execTime;
+    }
+
+    public String getResultTime()
+    {
+      return resultTime;
+    }
+
+    public String getSql()
+    {
+      return sql;
+    }
+
+    public String getElement()
+    {
+      return element;
+    }
+    
   }
   
 }
