@@ -43,7 +43,7 @@ public class WebTestRestClientDetail extends WebTestBase
     driver.navigate().refresh();
     testAndAssertConnection(driver, "Invalid Url");
 
-    setConfiguration(driver, "http://localhost/testnotfound", "");
+    setConfiguration(driver, "http://zugtstweb:80/testnotfound", "");
     driver.navigate().refresh();
     testAndAssertConnection(driver, "Status 404");
     

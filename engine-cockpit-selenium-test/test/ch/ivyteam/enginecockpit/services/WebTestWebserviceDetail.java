@@ -50,6 +50,12 @@ public class WebTestWebserviceDetail extends WebTestBase
     driver.navigate().refresh();
     checkConfiguration(driver, "admin");
   }
+  
+  private void setConfiguration(FirefoxDriver driver, String username, String password)
+  {
+    driver.findElementById("webserviceConfigurationForm:password").sendKeys(password);
+    setConfiguration(driver, username);
+  }
 
   private void setConfiguration(FirefoxDriver driver, String username)
   {
@@ -84,13 +90,19 @@ public class WebTestWebserviceDetail extends WebTestBase
   void testWsEndpointTestConnection(FirefoxDriver driver)
   {
     navigateToWebserviceDetail(driver);
-    
-    testAndAssertConnection(driver, "No valid entry found (connection test is without authentication)");
-
-    setEndPoint(driver, "http://zugtstweb:80/");
+    setEndPoint(driver, "http://zugtstweb:80/notfound");
     driver.navigate().refresh();
-    testAndAssertConnection(driver, "200");
+    testAndAssertConnection(driver, "Status: 404");
 
+    setEndPoint(driver, "http://zugtstweb:81");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status: 401");
+    
+    setConfiguration(driver, "admin", "nimda");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status: 200");
+    
+    resetEndPoint(driver);
     resetConfiguration(driver);
   }
 
