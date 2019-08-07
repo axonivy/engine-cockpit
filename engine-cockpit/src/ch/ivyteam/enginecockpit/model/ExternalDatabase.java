@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.application.IExternalDatabaseConfiguration;
+import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.db.IStatementExecution;
 import ch.ivyteam.util.Property;
 
@@ -108,7 +109,6 @@ public class ExternalDatabase implements IService
   
   public static class ExecStatement
   {
-    
     private Date time;
     private String execTime;
     private String resultTime;
@@ -148,7 +148,28 @@ public class ExternalDatabase implements IService
     {
       return element;
     }
-    
+  }
+  
+  public static class Connection
+  {
+    private Date lastUsed;
+    private boolean inUse;
+
+    public Connection(IExternalDatabaseRuntimeConnection conn)
+    {
+      lastUsed = conn.getLastUsed();
+      inUse = conn.isInUse();
+    }
+
+    public Date getLastUsed()
+    {
+      return lastUsed;
+    }
+
+    public boolean isInUse()
+    {
+      return inUse;
+    }
   }
   
 }

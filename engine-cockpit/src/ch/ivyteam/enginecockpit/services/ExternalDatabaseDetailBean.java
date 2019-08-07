@@ -19,6 +19,7 @@ import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase;
+import ch.ivyteam.enginecockpit.model.ExternalDatabase.Connection;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase.ExecStatement;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
@@ -32,6 +33,7 @@ public class ExternalDatabaseDetailBean extends HelpServices
 {
   private ExternalDatabase externalDatabase;
   private List<ExecStatement> history;
+  private List<Connection> connections;
   private String databaseName;
   
   private ManagerBean managerBean;
@@ -62,14 +64,22 @@ public class ExternalDatabaseDetailBean extends HelpServices
     dbConfigKey = "Databases." + databaseName;
     ExternalDatabaseManager dbManager = DiCore.getGlobalInjector().getInstance(ExternalDatabaseManager.class);
     IExternalDatabase externalDb = dbManager.getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
-    history = (externalDb.getExecutionHistory().stream()
+    history = externalDb.getExecutionHistory().stream()
             .map(statement -> new ExecStatement(statement))
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList());
+    connections = externalDb.getConnections().stream()
+            .map(conn -> new Connection(conn))
+            .collect(Collectors.toList());
   }
   
   public ExternalDatabase getExternalDatabase()
   {
     return externalDatabase;
+  }
+  
+  public List<Connection> getConnections()
+  {
+    return connections;
   }
   
   public List<ExecStatement> getExecutionHistory()

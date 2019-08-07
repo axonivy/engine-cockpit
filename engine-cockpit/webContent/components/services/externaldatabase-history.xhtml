@@ -5,26 +5,27 @@
   xmlns:pm="http://primefaces.org/mobile">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">settings</i>
+  <i class="material-icons table-icon panel-title-icon">history</i>
   <h:outputText value="Execution History" />
 </f:facet>
-<h:form id="databaseExecHistoryForm">
-  <p:dataTable value="#{externalDatabaseDetailBean.executionHistory}" style="padding-top: 10px;"
-    var="exec" id="databaseExecHistoryTable">
-    <p:column headerText="Time" style="width: 80px">
-      <p:outputLabel value="#{exec.time}"/>
+<h:form id="databaseExecHistoryForm" style="overflow-y: auto;">
+  <p:dataTable value="#{externalDatabaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 600px;"
+    var="exec" id="databaseExecHistoryTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+    <p:column headerText="Time" style="width: 80px" sortBy="#{exec.time}">
+      <h:outputText value="#{exec.time}" styleClass="histroy"/>
     </p:column>
-    <p:column headerText="Exec Time" style="width: 80px">
-      <p:outputLabel value="#{exec.execTime}"/>
+    <p:column headerText="Exec Time" style="width: 100px" sortBy="#{exec.execTime}">
+      <h:outputText value="#{exec.execTime}"/>
     </p:column>
-    <p:column headerText="Result Time" style="width: 80px">
-      <p:outputLabel value="#{exec.resultTime}"/>
+    <p:column headerText="Result Time" style="width: 110px" sortBy="#{exec.resultTime}">
+      <h:outputText value="#{exec.resultTime}"/>
     </p:column>
-    <p:column headerText="SQL">
-      <p:outputLabel value="#{exec.sql}"/>
+    <p:column headerText="SQL" sortBy="#{exec.sql}">
+      <h:outputText value="#{exec.sql}"/>
     </p:column>
-    <p:column headerText="Process Element" style="width: 160px">
-      <p:outputLabel value="#{exec.element}"/>
+    <p:column headerText="Process Element" style="width: 160px" sortBy="#{exec.element}">
+      <h:outputText value="#{exec.element}"/>
     </p:column>
   </p:dataTable>
 </h:form>
