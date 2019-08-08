@@ -21,7 +21,6 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
@@ -102,8 +101,6 @@ public class RenewLicence
   private static String getUri()
   {
     String base = System.getProperty("licence.base.uri", "https://license-order.axonivy.io/ivy/api/LicenseOrder");
-    System.out.println("licence.base.uri = "+base);
-    Ivy.log().info("licence.base.uri = "+base);
     return base+"/renewLicense";
   }
 }
