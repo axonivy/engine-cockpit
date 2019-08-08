@@ -28,7 +28,7 @@ public class WebTestRenewLicence extends WebTestBase
     waitForElasticsearch();
     saveScreenshot(driver, "sent_renew1");
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message")
-            .getText()).contains("You shouldn't see this"));
+            .getText()).contains("This is for testing"));
     saveScreenshot(driver, "renew_positive");
     removeGrowl(driver);
   }

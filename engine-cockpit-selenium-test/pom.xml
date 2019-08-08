@@ -117,7 +117,7 @@
 							<goal>start-test-engine</goal>
 						</goals>
 						<configuration>
-							<additionalVmOptions>-Dlicence.base.uri=http://127.0.0.1:8080/ivy/api/designer/test</additionalVmOptions>
+							<additionalVmOptions>-Dlicence.base.uri=http://127.0.0.1:8081/ivy/api/designer/test</additionalVmOptions>
 						</configuration>
 					</execution>
 

@@ -21,6 +21,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
@@ -78,10 +79,6 @@ public class RenewLicence
     {
       addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Response: "+response.readEntity(String.class));
     }
-    else if (response.getStatus() == 301) 
-    {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "You shouldn't see this");
-    }
     else 
     {
       addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Some undefined problem ocured during sending renew request: "+response.readEntity(String.class));
@@ -105,6 +102,8 @@ public class RenewLicence
   private static String getUri()
   {
     String base = System.getProperty("licence.base.uri", "https://license-order.axonivy.io/ivy/api/LicenseOrder");
+    System.out.println("licence.base.uri = "+base);
+    Ivy.log().info("licence.base.uri = "+base);
     return base+"/renewLicense";
   }
 }
