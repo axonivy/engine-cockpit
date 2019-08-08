@@ -128,6 +128,8 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     webAssertThat(() -> assertThat(historyTable.getFirstColumnEntries()).isEmpty());
     
     driver.get(EngineCockpitUrl.base() + "/pro/designer/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("index.jsp"));
+    
     driver.get(viewUrl("dashboard.xhtml"));
     Navigation.toExternalDatabaseDetail(driver, "realdb");
     webAssertThat(() -> assertThat(connTable.getFirstColumnEntries()).isNotEmpty());
