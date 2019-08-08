@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -49,6 +50,12 @@ public class WebTestWebserviceDetail extends WebTestBase
     driver.navigate().refresh();
     checkConfiguration(driver, "admin");
   }
+  
+  private void setConfiguration(FirefoxDriver driver, String username, String password)
+  {
+    driver.findElementById("webserviceConfigurationForm:password").sendKeys(password);
+    setConfiguration(driver, username);
+  }
 
   private void setConfiguration(FirefoxDriver driver, String username)
   {
@@ -77,6 +84,35 @@ public class WebTestWebserviceDetail extends WebTestBase
     driver.findElementById("webserviceConfigurationForm:resetWsConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("webserviceConfigurationForm:wsConfigMsg_container")
             .getText()).contains("Web Service configuration reset"));
+  }
+  
+  @Test
+  void testWsEndpointTestConnection(FirefoxDriver driver)
+  {
+    navigateToWebserviceDetail(driver);
+    setEndPoint(driver, "http://zugtstweb:80/notfound");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status: 404");
+
+    setEndPoint(driver, "http://zugtstweb:81");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status: 401");
+    
+    setConfiguration(driver, "admin", "nimda");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status: 405");
+    
+    resetEndPoint(driver);
+    resetConfiguration(driver);
+  }
+
+  private void testAndAssertConnection(FirefoxDriver driver, String msg)
+  {
+    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").isDisplayed()).isFalse());
+    new Table(driver, By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk").clickButtonForEntry("SampleWebServiceSoap", "testWsEndpointBtn");
+    saveScreenshot(driver, "connection_" + StringUtils.replace(msg, " ", "_"));
+    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").getText()).contains(msg));
   }
   
   @Test

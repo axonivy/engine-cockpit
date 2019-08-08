@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -34,6 +35,39 @@ public class WebTestRestClientDetail extends WebTestBase
   }
   
   @Test
+  void testRestTestConnection(FirefoxDriver driver)
+  {
+    navigateToRestClientDetail(driver);
+    
+    setConfiguration(driver, "localhost", "");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Invalid Url");
+
+    setConfiguration(driver, "http://zugtstweb:80/testnotfound", "");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status 404");
+    
+    setConfiguration(driver, "http://zugtstweb:81/", "");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status 401");
+    
+    setConfiguration(driver, "http://zugtstweb:81/", "admin", "nimda");
+    driver.navigate().refresh();
+    testAndAssertConnection(driver, "Status 200");
+
+    resetConfiguration(driver);
+  }
+
+  private void testAndAssertConnection(FirefoxDriver driver, String msg)
+  {
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").isDisplayed()).isFalse());
+    driver.findElementById("restClientConfigurationForm:testRestBtn").click();
+    saveScreenshot(driver, "connection_" + StringUtils.replace(msg, " ", "_"));
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").getText()).contains(msg));
+  }
+  
+  @Test
   void testSaveAndResetChanges(FirefoxDriver driver)
   {
     navigateToRestClientDetail(driver);
@@ -44,6 +78,13 @@ public class WebTestRestClientDetail extends WebTestBase
     resetConfiguration(driver);
     driver.navigate().refresh();
     checkConfiguration(driver, "http://localhost/", "admin");
+  }
+  
+  private void setConfiguration(FirefoxDriver driver, String url, String username, String password)
+  {
+    driver.findElementById("restClientConfigurationForm:password").sendKeys(password);
+    
+    setConfiguration(driver, url, username);
   }
 
   private void setConfiguration(FirefoxDriver driver, String url, String username)

@@ -5,19 +5,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.ws.rs.ProcessingException;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
 
+import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
 import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
+import ch.ivyteam.ivy.rest.client.internal.ExternalRestWebServiceCall;
+import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -103,6 +108,33 @@ public class RestClientDetailBean extends HelpServices
   public String getHelpUrl()
   {
     return UrlUtil.getCockpitEngineGuideUrl() + "#rest-client-detail";
+  }
+  
+  public void testRestConnection()
+  {
+    try
+    {
+      ExternalRestWebServiceCall restCall = DiCore.getGlobalInjector().getInstance(WebserviceExecutionManager.class)
+              .getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
+              .getRestWebService(restClient.getUniqueId()).createCall();
+      int status = restCall.getWebTarget().request().head().getStatus();
+      Severity severity;
+      if (status >= 200 && status < 400)
+      {
+        severity = FacesMessage.SEVERITY_INFO;
+      }
+      else 
+      {
+        severity = FacesMessage.SEVERITY_ERROR;
+      }
+      FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+              new FacesMessage(severity, "Status " + status, ">> " + restCall.getMethod() + " " + restCall.getUrl()));
+    }
+    catch (ProcessingException ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid Url (may contains script context): " + ex.getMessage()));
+    }
   }
   
   public void saveConfig()

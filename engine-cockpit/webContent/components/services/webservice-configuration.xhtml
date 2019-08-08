@@ -9,7 +9,7 @@
   <h:outputText value="Web Service configurations" />
 </f:facet>
 <h:form id="webserviceConfigurationForm">
-  <p:growl id="wsConfigMsg" for="wsConfigMsg" autoUpdate="true" />
+  <p:growl id="wsConfigMsg" for="wsConfigMsg" autoUpdate="true" showDetail="true" />
   <p:commandButton id="saveWsConfig" actionListener="#{webserviceDetailBean.saveConfig}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" update="@form, webservcieAdditionalConfigForm" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetWsConfirmDialog').show()" title="Reset configuration"

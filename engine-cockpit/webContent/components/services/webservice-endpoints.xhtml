@@ -10,13 +10,14 @@
 </f:facet>
 <!-- check responsive -->
 <h:form id="webservcieEndPointForm" style="overflow-y: auto;">
+  <p:growl id="wsEndPointMsg" for="wsConfigMsg" autoUpdate="true" showDetail="true" />
   <p:treeTable value="#{webserviceDetailBean.webservice.portTypes}" style="padding-top: 10px; border: none;"
     var="endpoint" id="webserviceEndpointTable">
     <p:column headerText="Endpoints">
       <i class="material-icons table-icon">#{endpoint.type eq 'port' ? 'language' : 'link'}</i>
       <h:outputText value="#{endpoint.name}" styleClass="endpoint-entry"/>
     </p:column>
-    <p:column style="width: 70px;">
+    <p:column style="width: 110px;">
       <p:commandButton id="resetEndpointConfig" oncomplete="PF('resetEndpointConfirmDialog').show()" 
         title="Reset Endpoint" style="margin-right: 0px;" process="@this" update="@form:resetEndpointConfirmDialog"
         icon="ui-icon-close" styleClass="red-btn table-control-btn card-button" rendered="#{endpoint.type eq 'port'}"
@@ -25,6 +26,11 @@
         styleClass="card-button table-control-btn amber-btn" process="@this"
         actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}"
         update="@form:editEndpointModal" oncomplete="PF('editEndpointModal').show()"
+        rendered="#{endpoint.type eq 'port'}" />
+      <p:commandButton id="testWsEndpointBtn" title="Test Web Service Endpoint Connection" 
+        update="webservcieEndPointForm:wsEndPointMsg" process="@this"
+        icon="ui-icon-call-made" styleClass="secondary-btn table-control-btn card-button" 
+        actionListener="#{webserviceDetailBean.testWsEndpointConnection(endpoint.name)}"
         rendered="#{endpoint.type eq 'port'}" />
     </p:column>
   </p:treeTable>
