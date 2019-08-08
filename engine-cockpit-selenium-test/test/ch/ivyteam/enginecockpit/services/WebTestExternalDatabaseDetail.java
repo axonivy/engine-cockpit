@@ -1,12 +1,16 @@
 package ch.ivyteam.enginecockpit.services;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
+import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestExternalDatabaseDetail extends WebTestBase
 {
@@ -18,7 +22,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     navigateToDatabaseDetail(driver);
     webAssertThat(() -> 
             assertThat(driver.getCurrentUrl()).endsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME));
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(2));
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:name").getText()).isEqualTo(DATABASE_NAME));
   }
   
@@ -110,6 +114,29 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     driver.findElementById("databaseConfigurationForm:resetDbConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container")
             .getText()).contains("Database configuration reset"));
+  }
+  
+  @Test
+  void testConnectionAndHistory(FirefoxDriver driver)
+  {
+    login(driver);
+    Navigation.toExternalDatabaseDetail(driver, "realdb");
+    saveScreenshot(driver, "empty");
+    Table connTable = new Table(driver, By.id("databaseConnectionForm:databaseConnectionsTable"));
+    Table historyTable = new Table(driver, By.id("databaseExecHistoryForm:databaseExecHistoryTable"));
+    webAssertThat(() -> assertThat(connTable.getFirstColumnEntries()).isEmpty());
+    webAssertThat(() -> assertThat(historyTable.getFirstColumnEntries()).isEmpty());
+    
+    String app = EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
+    String endpage = EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end";
+    driver.get(EngineCockpitUrl.base() + "/pro/" + app + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(endpage));
+    
+    driver.get(viewUrl("dashboard.xhtml"));
+    Navigation.toExternalDatabaseDetail(driver, "realdb");
+    webAssertThat(() -> assertThat(connTable.getFirstColumnEntries()).isNotEmpty());
+    webAssertThat(() -> assertThat(historyTable.getFirstColumnEntries()).isNotEmpty());
+    saveScreenshot(driver, "not_empty");
   }
   
   private void navigateToDatabaseDetail(FirefoxDriver driver)
