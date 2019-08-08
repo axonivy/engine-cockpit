@@ -9,7 +9,7 @@
   <h:outputText value="Execution History (last 200)" />
 </f:facet>
 <h:form id="databaseExecHistoryForm" style="overflow-y: auto;">
-  <p:dataTable value="#{externalDatabaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 600px;"
+  <p:dataTable value="#{externalDatabaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 700px;"
     var="exec" id="databaseExecHistoryTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
     <p:column headerText="Time" style="width: 80px" sortBy="#{exec.time}">
@@ -22,7 +22,9 @@
       <h:outputText value="#{exec.resultTime}"/>
     </p:column>
     <p:column headerText="SQL" sortBy="#{exec.sql}">
-      <h:outputText value="#{exec.sql}"/>
+      <div style="max-height: 70px; overflow: auto">
+        <h:outputText value="#{exec.sql}"/>
+      </div>
     </p:column>
     <p:column headerText="Process Element" style="width: 160px" sortBy="#{exec.element}">
       <h:outputText value="#{exec.element}"/>
