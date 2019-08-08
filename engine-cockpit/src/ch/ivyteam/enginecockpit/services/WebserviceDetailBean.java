@@ -115,7 +115,7 @@ public class WebserviceDetailBean extends HelpServices
   private void testEndPoint(PortType endpoint)
   {
     Client client = ClientBuilder.newClient();
-    if (StringUtils.equals(webservice.getAuthType(), "HttpBasic"))
+    if (authSupportedForTesting())
     {
       client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
     }
@@ -126,7 +126,7 @@ public class WebserviceDetailBean extends HelpServices
       {
         int status = client.target(url).request().post(Entity.json("")).getStatus();
         FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
-                new FacesMessage(FacesMessage.SEVERITY_INFO, endpoint.getName(), ">> Status: " + status + " Url: " + url));
+                getMessage(endpoint, url, status));
       }
       catch (ProcessingException ex)
       {
@@ -139,6 +139,24 @@ public class WebserviceDetailBean extends HelpServices
               new FacesMessage(FacesMessage.SEVERITY_WARN, endpoint.getName(), 
                       "The some URLs seems to be not correct or they contain scripting context (can not be evaluated)"));
     }
+  }
+
+  private boolean authSupportedForTesting()
+  {
+    return StringUtils.equals(webservice.getAuthType(), "HttpBasic") || StringUtils.equals(webservice.getAuthType(), "HTTP_BASIC");
+  }
+
+  private FacesMessage getMessage(PortType endpoint, String url, int status)
+  {
+    if (status == 404)
+    {
+      return new FacesMessage(FacesMessage.SEVERITY_ERROR, endpoint.getName(), ">> Status: " + status + " - Not Found, Url: " + url);
+    }
+    else if (status == 401)
+    {
+      return new FacesMessage(FacesMessage.SEVERITY_WARN, endpoint.getName(), ">> Status: " + status + " - Unauthorized (only HttpBasic supported), Url: " + url);
+    }
+    return new FacesMessage(FacesMessage.SEVERITY_INFO, endpoint.getName(), ">> Status: " + status + ", Url: " + url);
   }
   
   private String parseEndpointsToYaml(Map<String, PortType> portTypes)
