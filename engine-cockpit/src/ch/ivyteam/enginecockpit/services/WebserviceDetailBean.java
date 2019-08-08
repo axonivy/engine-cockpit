@@ -15,6 +15,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.DatatypeConverter;
 
@@ -123,7 +124,7 @@ public class WebserviceDetailBean extends HelpServices
     {
       try
       {
-        int status = client.target(url).request().head().getStatus();
+        int status = client.target(url).request().post(Entity.json("")).getStatus();
         FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
                 new FacesMessage(FacesMessage.SEVERITY_INFO, endpoint.getName(), ">> Status: " + status + " Url: " + url));
       }

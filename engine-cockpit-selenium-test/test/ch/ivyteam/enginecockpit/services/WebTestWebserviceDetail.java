@@ -100,7 +100,7 @@ public class WebTestWebserviceDetail extends WebTestBase
     
     setConfiguration(driver, "admin", "nimda");
     driver.navigate().refresh();
-    testAndAssertConnection(driver, "Status: 200");
+    testAndAssertConnection(driver, "Status: 405");
     
     resetEndPoint(driver);
     resetConfiguration(driver);
