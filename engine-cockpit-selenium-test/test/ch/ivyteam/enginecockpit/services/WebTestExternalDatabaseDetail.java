@@ -127,8 +127,10 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     webAssertThat(() -> assertThat(connTable.getFirstColumnEntries()).isEmpty());
     webAssertThat(() -> assertThat(historyTable.getFirstColumnEntries()).isEmpty());
     
-    driver.get(EngineCockpitUrl.base() + "/pro/designer/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("index.jsp"));
+    String app = EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
+    String endpage = EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end";
+    driver.get(EngineCockpitUrl.base() + "/pro/" + app + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(endpage));
     
     driver.get(viewUrl("dashboard.xhtml"));
     Navigation.toExternalDatabaseDetail(driver, "realdb");
