@@ -7,8 +7,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import io.github.bonigarcia.seljup.Options;
@@ -41,6 +44,12 @@ public class WebBase
     catch (NoSuchElementException ex) {
       return true;
     }
+  }
+  
+  public static WebElement waitUntilElementClickable(WebDriver driver, By by)
+  {
+    WebDriverWait wait = new WebDriverWait(driver, 10);
+    return wait.until(ExpectedConditions.elementToBeClickable(by));
   }
   
   public static void webAssertThat(WebTest test)

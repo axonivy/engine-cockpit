@@ -55,10 +55,10 @@ public class Navigation
   public static void toSecuritySystemDetail(FirefoxDriver driver, String secSystemName)
   {
     Navigation.toSecuritySystem(driver);
-    driver.findElementByXPath("//span[@class='security-name'][text()='" + secSystemName + "']").click();
+    waitBeforeClick(driver, By.xpath("//span[@class='security-name'][text()='" + secSystemName + "']"));
     await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
   }
-  
+
   public static void toVariables(FirefoxDriver driver)
   {
     toSubMenu(driver, CONFIGURATION_MENU, VARIABLES_MENU);
@@ -180,15 +180,18 @@ public class Navigation
   private static void toMenu(FirefoxDriver driver, By menuItemPath)
   {
     driver.findElement(menuItemPath).click();
+    await().until(() -> driver.findElement(menuItemPath).findElement(By.xpath("./..")).
+            getAttribute("class").contains("active-menuitem"));
   }
   
   private static void toSubMenu(FirefoxDriver driver, By menuItemPath, By subMenuItemPath)
   {
     if(!driver.findElement(subMenuItemPath).isDisplayed()) {
-      driver.findElement(menuItemPath).click();
-      await().until(() -> driver.findElement(subMenuItemPath).isDisplayed());
+      waitBeforeClick(driver, menuItemPath);
     }
-    driver.findElement(subMenuItemPath).click();
+    waitBeforeClick(driver, subMenuItemPath);
+    await().until(() -> driver.findElement(subMenuItemPath).findElement(By.xpath("./..")).
+            getAttribute("class").contains("active-menuitem"));
   }
   
   private static boolean checkIfCorrectElement(WebElement element)
@@ -201,6 +204,12 @@ public class Navigation
     {
       return false;
     }
+  }
+  
+  private static void waitBeforeClick(FirefoxDriver driver, By element)
+  {
+    await().until(() -> driver.findElement(element).isDisplayed());
+    driver.findElement(element).click();
   }
   
 }

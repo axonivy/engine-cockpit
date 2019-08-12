@@ -2,16 +2,27 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
   <h:outputText value="External Database configurations" />
 </f:facet>
 <h:form id="databaseConfigurationForm">
-  <p:growl id="databaseConfigMsg" for="databaseConfigMsg" autoUpdate="true" showDetail="true" />
-  <p:commandButton id="helpDatabaseBtn" type="button" title="Help"
-    icon="ui-icon-help" styleClass="amber-btn card-button" onclick="PF('helpServicesModal').show();"/>
+  <p:growl id="databaseConfigMsg" for="databaseConfigMsg" showDetail="true">
+    <p:autoUpdate/>
+  </p:growl>
+  <p:commandButton id="saveDatabaseConfig" actionListener="#{externalDatabaseDetailBean.saveDbConfig}" title="Save changes"
+    icon="ui-icon-save" styleClass="primary-btn card-button" update="@form" />
+  <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()" title="Reset configuration"
+    icon="ui-icon-close" styleClass="red-btn card-button" />
+  <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this External Database?" header="Reset Database"
+    severity="alert" widgetVar="resetDbConfirmDialog">
+    <p:commandButton id="resetDbConfirmYesBtn" value="Yes" actionListener="#{externalDatabaseDetailBean.resetDbConfig}"
+      icon="ui-icon-check" style="width: inherit;" update="@form" />
+    <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button" icon="ui-icon-close"
+      style="width: inherit;" />
+  </p:confirmDialog>
   <p:commandButton id="testDatabaseBtn" title="Test External Database Connection"
     icon="ui-icon-call-made" styleClass="secondary-btn card-button" actionListener="#{externalDatabaseDetailBean.testDbConnection}"/>
     
@@ -20,21 +31,21 @@
     <label>Name</label>
     <h:outputText id="name" value="#{externalDatabaseDetailBean.databaseName}" />
     
-    <label>Url</label>
-    <h:outputText id="url" value="#{externalDatabaseDetailBean.externalDatabase.url}" />
+    <p:outputLabel for="url" value="Url" />
+    <p:inputText id="url" value="#{externalDatabaseDetailBean.externalDatabase.url}" />
     
-    <label>Driver</label>
-    <h:outputText id="driver" value="#{externalDatabaseDetailBean.externalDatabase.driver}" />
+    <p:outputLabel for="driver" value="Driver" />
+    <p:autoComplete id="driver" dropdown="true" value="#{externalDatabaseDetailBean.externalDatabase.driver}" 
+      completeMethod="#{externalDatabaseDetailBean.completeDriver}" />
     
-    <label>Username</label>
-    <h:outputText id="userName" value="#{externalDatabaseDetailBean.externalDatabase.userName}" />
+    <p:outputLabel for="userName" value="Username" />
+    <p:inputText id="userName" value="#{externalDatabaseDetailBean.externalDatabase.userName}" />
     
-    <label>Password</label>
-    <h:outputText id="password" value="#{empty externalDatabaseDetailBean.externalDatabase.password ? '' : '*****'}" />
+    <p:outputLabel for="password" value="Password" />
+    <p:password id="password" value="#{externalDatabaseDetailBean.externalDatabase.password}" />
     
-    <label>Max Connections</label>
-    <h:outputText id="maxConnections" value="#{externalDatabaseDetailBean.externalDatabase.maxConnections}" />
+    <p:outputLabel for="maxConnections" value="Max Connections" />
+    <p:inputNumber id="maxConnections" value="#{externalDatabaseDetailBean.externalDatabase.maxConnections}" decimalPlaces="0"/>
   </p:panelGrid>
 </h:form>
-<cc:HelpServiceDialog service="#{externalDatabaseDetailBean}" id="helpExternalDatabaseDialog" />
 </html>

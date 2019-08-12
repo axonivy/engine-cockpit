@@ -7,7 +7,7 @@ import org.apache.http.client.utils.URIBuilder;
 
 public class EngineCockpitUrl
 {
-  private static final String DESIGNER_APP = "designer";
+  public static final String DESIGNER_APP = "designer";
   private URIBuilder uriBuilder;
 
   private EngineCockpitUrl(String... parts)

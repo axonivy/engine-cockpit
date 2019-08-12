@@ -4,17 +4,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.ws.rs.ProcessingException;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
 
+import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
+import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
 import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
+import ch.ivyteam.ivy.rest.client.internal.ExternalRestWebServiceCall;
+import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -26,6 +34,7 @@ public class RestClientDetailBean extends HelpServices
   
   private ManagerBean managerBean;
   private RestClientDao restClientDao;
+  private String restConfigKey;
   
   public RestClientDetailBean()
   {
@@ -33,6 +42,7 @@ public class RestClientDetailBean extends HelpServices
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
+    configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
   }
   
   public String getRestClientName()
@@ -43,12 +53,23 @@ public class RestClientDetailBean extends HelpServices
   public void setRestClientName(String restClientName)
   {
     this.restClientName = restClientName;
+    reloadRestClient();
+  }
+
+  private void reloadRestClient()
+  {
+    this.restClient = createRestClient();
+    restConfigKey = "RestClients." + restClientName;
+  }
+
+  private RestClient createRestClient()
+  {
     IRestClient iRestClient = restClientDao.findByName(restClientName, managerBean.getSelectedIEnvironment());
     if (iRestClient == null)
     {
       iRestClient = restClientDao.findByName(restClientName);
     }
-    restClient = new RestClient(iRestClient);
+    return new RestClient(iRestClient);
   }
   
   public RestClient getRestClient()
@@ -81,6 +102,58 @@ public class RestClientDetailBean extends HelpServices
     String templateString = readTemplateString("restclient.yaml");
     StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
+  }
+  
+  @Override
+  public String getHelpUrl()
+  {
+    return UrlUtil.getCockpitEngineGuideUrl() + "#rest-client-detail";
+  }
+  
+  public void testRestConnection()
+  {
+    try
+    {
+      ExternalRestWebServiceCall restCall = DiCore.getGlobalInjector().getInstance(WebserviceExecutionManager.class)
+              .getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
+              .getRestWebService(restClient.getUniqueId()).createCall();
+      int status = restCall.getWebTarget().request().head().getStatus();
+      Severity severity;
+      if (status >= 200 && status < 400)
+      {
+        severity = FacesMessage.SEVERITY_INFO;
+      }
+      else 
+      {
+        severity = FacesMessage.SEVERITY_ERROR;
+      }
+      FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+              new FacesMessage(severity, "Status " + status, ">> " + restCall.getMethod() + " " + restCall.getUrl()));
+    }
+    catch (ProcessingException ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid Url (may contains script context): " + ex.getMessage()));
+    }
+  }
+  
+  public void saveConfig()
+  {
+    RestClient originConfig = createRestClient();
+    setIfChanged(restConfigKey + ".Url", restClient.getUrl(), originConfig.getUrl());
+    setIfChanged(restConfigKey + ".Properties.username", restClient.getUsername(), originConfig.getUsername());
+    setIfPwChanged(restConfigKey + ".Properties.password", restClient);
+    FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+            new FacesMessage("Rest configuration saved", ""));
+    reloadRestClient();
+  }
+  
+  public void resetConfig()
+  {
+    configuration.remove(restConfigKey);
+    FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+            new FacesMessage("Rest configuration reset", ""));
+    reloadRestClient();
   }
 
 }

@@ -5,15 +5,16 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile">
+  xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">settings</i>
   <h:outputText value="Additional LDAP Attributes" />
 </f:facet>
 <h:form id="securityLdapAttributesForm">
-  <p:growl id="securitySystemLdapAttributesSuccess" for="securitySystemLdapAttributesSuccess" autoUpdate="true" />
+  <p:growl id="securitySystemLdapAttributesSuccess" for="securitySystemLdapAttributesSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="newLdapAttributeBtn" oncomplete="PF('ldapAttributeModal').show();" process="@this"
     actionListener="#{securityLdapDetailBean.setProperty(null)}" update=":ldapAttributeForm"
     title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>

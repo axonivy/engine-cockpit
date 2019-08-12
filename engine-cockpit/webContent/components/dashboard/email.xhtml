@@ -1,15 +1,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile">
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" >
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">email</i>
   <h:outputText value="Email" />
 </f:facet>
 <h:form id="mailConfigForm">
-  <p:growl id="msgs" autoUpdate="true" showDetail="true" sticky="true"/>
+  <p:growl id="msgs" showDetail="true">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="openTestMailBtn" title="Send Test Mail" icon="ui-icon-send" type="button"
     styleClass="secondary-btn card-button" onclick="PF('sendTestMailModal').show()" />
   <p:commandButton id="configureEmailBtn" title="Configure Email Server" icon="ui-icon-settings" type="button"

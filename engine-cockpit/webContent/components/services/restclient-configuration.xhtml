@@ -2,16 +2,29 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
   <h:outputText value="Rest Client configurations" />
 </f:facet>
 <h:form id="restClientConfigurationForm">
-  <p:growl id="configurationSaveSuccess" for="configurationSaveSuccess" autoUpdate="true" />
-  <p:commandButton id="helpRestClientBtn" type="button" title="Help"
-    icon="ui-icon-help" styleClass="amber-btn card-button" onclick="PF('helpServicesModal').show();"/>
+  <p:growl id="restConfigMsg" for="restConfigMsg" showDetail="true">
+    <p:autoUpdate/>
+  </p:growl>
+  <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
+    icon="ui-icon-save" styleClass="primary-btn card-button" update="@form, restClientAdditionalConfigForm" />
+  <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()" title="Reset configuration"
+    icon="ui-icon-close" styleClass="red-btn card-button" />
+  <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure about reset this Rest Client?" header="Reset Rest Client"
+    severity="alert" widgetVar="resetRestConfirmDialog">
+    <p:commandButton id="resetRestConfirmYesBtn" value="Yes" actionListener="#{restClientDetailBean.resetConfig}"
+      icon="ui-icon-check" style="width: inherit;" update="@form, restClientAdditionalConfigForm" />
+    <p:commandButton value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button" icon="ui-icon-close"
+      style="width: inherit;" />
+  </p:confirmDialog>
+  <p:commandButton id="testRestBtn" title="Test Rest Connection" update="restClientConfigurationForm:restConfigMsg"
+    icon="ui-icon-call-made" styleClass="secondary-btn card-button" actionListener="#{restClientDetailBean.testRestConnection}"/>
     
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -21,21 +34,20 @@
     <label>Name</label>
     <h:outputText id="name" value="#{restClientDetailBean.restClientName}" />
     
-    <label>Description</label>
+    <p:outputLabel for="decription" value="Description" />
     <h:outputText id="decription" value="#{restClientDetailBean.restClient.description}" />
     
-    <label>Url</label>
-    <h:outputText id="url" value="#{restClientDetailBean.restClient.url}" />
+    <p:outputLabel for="url" value="Url" />
+    <p:inputText id="url" value="#{restClientDetailBean.restClient.url}" />
     
-    <label>Authentication Type</label>
+    <p:outputLabel for="type" value="Authentication Type" />
     <h:outputText id="type" value="#{restClientDetailBean.restClient.authType}" />
     
-    <label>Username</label>
-    <h:outputText id="username" value="#{restClientDetailBean.restClient.username}" />
+    <p:outputLabel for="username" value="Username" />
+    <p:inputText id="username" value="#{restClientDetailBean.restClient.username}" disabled="#{empty restClientDetailBean.restClient.authType}" />
     
-    <label>Password</label>
-    <h:outputText id="password" value="#{restClientDetailBean.restClient.password}" />
+    <p:outputLabel for="password" value="Password" />
+    <p:password id="password" value="#{restClientDetailBean.restClient.password}" disabled="#{empty restClientDetailBean.restClient.authType}" />
   </p:panelGrid>
 </h:form>
-<cc:HelpServiceDialog service="#{restClientDetailBean}" id="helpRestClientDialog" />
 </html>

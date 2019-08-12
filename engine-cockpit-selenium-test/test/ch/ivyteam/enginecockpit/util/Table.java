@@ -10,16 +10,29 @@ public class Table
 {
   private FirefoxDriver driver;
   private String id;
+  private String rowNumberField;
 
   public Table(FirefoxDriver driver, By by)
   {
+    this(driver, by, "data-ri");
+  }
+  
+  public Table(FirefoxDriver driver, By by, String rowNumberField)
+  {
     this.driver = driver;
-    id = driver.findElement(by).getAttribute("id");
+    this.id = driver.findElement(by).getAttribute("id");
+    this.rowNumberField = rowNumberField;
   }
   
   public List<String> getFirstColumnEntries()
   {
     return driver.findElementsByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span").stream()
+            .map(e -> e.getText()).collect(Collectors.toList());
+  }
+  
+  public List<String> getFirstColumnEntriesForSpanClass(String span)
+  {
+    return driver.findElementsByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span[@class='" + span + "']").stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
   
@@ -52,7 +65,7 @@ public class Table
   private String getRowNumber(String entry)
   {
     return driver.findElementByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span[text()='" + entry + "']/../..")
-            .getAttribute("data-ri");
+            .getAttribute(rowNumberField);
   }
   
   public void search(String search)

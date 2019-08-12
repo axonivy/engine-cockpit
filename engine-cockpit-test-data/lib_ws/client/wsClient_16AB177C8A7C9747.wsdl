@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:sap-com:document:sap:rfc:functions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="urn:sap-com:document:sap:rfc:functions" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+<wsdl:documentation>
+    <sidl:sidl xmlns:sidl="http://www.sap.com/2007/03/sidl"/>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="qualified" targetNamespace="urn:sap-com:document:sap:rfc:functions">
+      <xsd:simpleType name="char10">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char2">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char25">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="25"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char4">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="numeric8">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="8"/>
+          <xsd:pattern value="\d*"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="ZHR_WF_READ_PERS_DATA">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="IV_DATUM" type="tns:char10"/>
+            <xsd:element name="IV_PERNR" type="tns:numeric8"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZHR_WF_READ_PERS_DATAResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="EV_BTRTL" type="tns:char4"/>
+            <xsd:element name="EV_BUKRS" type="tns:char4"/>
+            <xsd:element name="EV_MAKRS" type="tns:char2"/>
+            <xsd:element name="EV_NACHN" type="tns:char25"/>
+            <xsd:element name="EV_PERNR" type="tns:numeric8"/>
+            <xsd:element name="EV_VORNA" type="tns:char25"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ZHR_WF_READ_PERS_DATAResponse">
+    <wsdl:part name="parameter" element="tns:ZHR_WF_READ_PERS_DATAResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ZHR_WF_READ_PERS_DATA">
+    <wsdl:part name="parameters" element="tns:ZHR_WF_READ_PERS_DATA">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ZHR_WF_READ_PERS_DATA">
+    <wsdl:operation name="ZHR_WF_READ_PERS_DATA">
+      <wsdl:input message="tns:ZHR_WF_READ_PERS_DATA">
+    </wsdl:input>
+      <wsdl:output message="tns:ZHR_WF_READ_PERS_DATAResponse">
+    </wsdl:output>
+    <wsp:Policy>
+        <wsp:PolicyReference URI="#OP__ZHR_WF_READ_PERS_DATA"/>
+      </wsp:Policy>
+    </wsdl:operation>
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#IF__ZHR_WF_READ_PERS_DATA"/>
+    </wsp:Policy>
+  </wsdl:portType>
+  <wsdl:binding name="ZHR_WF_READ_PERS_DATA" type="tns:ZHR_WF_READ_PERS_DATA">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#BN__ZHR_WF_READ_PERS_DATA"/>
+    </wsp:Policy>
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ZHR_WF_READ_PERS_DATA">
+      <soap:operation soapAction="urn:sap-com:document:sap:rfc:functions:ZHR_WF_READ_PERS_DATA:ZHR_WF_READ_PERS_DATARequest" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ZHR_WF_READ_PERS_DATA_soap12" type="tns:ZHR_WF_READ_PERS_DATA">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#BN__ZHR_WF_READ_PERS_DATA_soap12"/>
+    </wsp:Policy>
+    <wsoap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ZHR_WF_READ_PERS_DATA">
+      <wsoap12:operation soapAction="urn:sap-com:document:sap:rfc:functions:ZHR_WF_READ_PERS_DATA:ZHR_WF_READ_PERS_DATARequest" style="document"/>
+      <wsdl:input>
+        <wsoap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <wsoap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZHR_WF_READ_PERS_DATA">
+    <wsdl:port name="ZHR_WF_READ_PERS_DATA_soap12" binding="tns:ZHR_WF_READ_PERS_DATA_soap12">
+      <wsoap12:address location="http://zugtstweb:7078/mockZHR_WF_READ_PERS_DATA_soap12"/>
+    </wsdl:port>
+    <wsdl:port name="ZHR_WF_READ_PERS_DATA" binding="tns:ZHR_WF_READ_PERS_DATA">
+      <soap:address location="http://D30.migros.ch:8000/sap/bc/srt/rfc/sap/zhr_wf_read_pers_data/161/zhr_wf_read_pers_data/zhr_wf_read_pers_data"/>
+    </wsdl:port>
+  </wsdl:service>
+    <wsp:UsingPolicy wsdl:required="true"/>
+    <wsp:Policy wsu:Id="BN__ZHR_WF_READ_PERS_DATA">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing wsp:Optional="true" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"/>
+        <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+        <saptrnbnd:OptimizedMimeSerialization wsp:Optional="true" xmlns:saptrnbnd="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization"/>
+      </wsp:All>
+      <wsp:All>
+        <wsaw:UsingAddressing wsp:Optional="true" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"/>
+        <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+        <saptrnbnd:OptimizedXMLTransfer uri="http://xml.sap.com/2006/11/esi/esp/binxml" wsp:Optional="true" xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/"/>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+    <wsp:Policy wsu:Id="BN__ZHR_WF_READ_PERS_DATA_soap12">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing wsp:Optional="true" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"/>
+        <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+        <saptrnbnd:OptimizedMimeSerialization wsp:Optional="true" xmlns:saptrnbnd="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization"/>
+      </wsp:All>
+      <wsp:All>
+        <wsaw:UsingAddressing wsp:Optional="true" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"/>
+        <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+        <saptrnbnd:OptimizedXMLTransfer uri="http://xml.sap.com/2006/11/esi/esp/binxml" wsp:Optional="true" xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/"/>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+    <wsp:Policy wsu:Id="IF__ZHR_WF_READ_PERS_DATA">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sapsession:Session xmlns:sapsession="http://www.sap.com/webas/630/soap/features/session/">
+          <sapsession:enableSession>false</sapsession:enableSession>
+        </sapsession:Session>
+        <sapcentraladmin:CentralAdministration wsp:Optional="true" xmlns:sapcentraladmin="http://www.sap.com/webas/700/soap/features/CentralAdministration/">
+          <sapcentraladmin:BusinessApplicationID>00215EAA8B451EE3A98F6DE98EF35438</sapcentraladmin:BusinessApplicationID>
+        </sapcentraladmin:CentralAdministration>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+    <wsp:Policy wsu:Id="OP__ZHR_WF_READ_PERS_DATA">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+        <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+        <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+        <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+</wsdl:definitions>

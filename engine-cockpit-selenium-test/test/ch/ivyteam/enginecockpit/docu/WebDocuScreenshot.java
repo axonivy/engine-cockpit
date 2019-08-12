@@ -67,6 +67,7 @@ public class WebDocuScreenshot extends WebBase
     Navigation.toSystemConfig(driver);
     takeScreenshot(driver, "engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toMonitor(driver);
+    waitForNavigationHighlight(2000);
     takeScreenshot(driver, "engine-cockpit-monitor", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toLogs(driver);
     takeScreenshot(driver, "engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
@@ -77,7 +78,7 @@ public class WebDocuScreenshot extends WebBase
     Dimension oldSize = driver.manage().window().getSize();
     resizeBrowser(driver, size);
     scrollToPosition(driver, 0, 0);
-    waitForNavigationHighlight(120);
+    waitForNavigationHighlight(250);
     saveScreenshot(driver, fileName);
     resizeBrowser(driver, oldSize);
   }
@@ -140,7 +141,8 @@ public class WebDocuScreenshot extends WebBase
   
   private void populateBusinessCalendar(FirefoxDriver driver)
   {
-    driver.get(EngineCockpitUrl.base() + "/pro/test/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
+    String app = EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
+    driver.get(EngineCockpitUrl.base() + "/pro/" + app + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
   }
   
 }

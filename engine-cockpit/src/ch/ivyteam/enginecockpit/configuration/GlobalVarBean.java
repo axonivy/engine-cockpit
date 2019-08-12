@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.configuration;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,11 +8,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SimpleVariable;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.restricted.IDefaultGlobalVariable;
+import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @ManagedBean
 @ViewScoped
@@ -25,11 +27,13 @@ public class GlobalVarBean
   private SimpleVariable activeVar;
   private IApplication app;
   private IEnvironment env;
+  private IConfiguration configuration;
 
   public GlobalVarBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
 
     reloadGlobalVars();
   }
@@ -54,42 +58,8 @@ public class GlobalVarBean
 
   public void saveGlobalVar()
   {
-    if (env.findGlobalVariable(activeVar.getName()) != null)
-    {
-      reloadAndUiMessage("already exists");
-      return;
-    }
-    
-    IDefaultGlobalVariable defaultVar = app.createGlobalVariable(activeVar.getName(), activeVar.getDescription(), activeVar.getValue());
-    if (!env.isDefault())
-    {
-        defaultVar.createEnvironmentConfiguration(env.getName(), activeVar.getDescription(), activeVar.getValue());
-    }
-    
+    configuration.set(SimpleVariable.GLOBAL_VARIABLES + activeVar.getName(), activeVar.getValue());
     reloadAndUiMessage("saved");
-    reloadGlobalVars();
-  }
-
-  public void updateGlobalVar()
-  {
-    IDefaultGlobalVariable defaultVar = app.findDefaultGlobalVariable(activeVar.getName());
-    IGlobalVariable var = defaultVar.findEnvironmentConfiguration(env.getName());
-    
-    if (env.isDefault())
-    {
-      var = env.findGlobalVariable(activeVar.getName());
-    }
-    
-    if (var == null)
-    {
-      defaultVar.createEnvironmentConfiguration(env.getName(), activeVar.getDescription(), activeVar.getValue());
-    }
-    
-    if (var != null)
-    {
-      var.setValue(activeVar.getValue());
-      reloadAndUiMessage("changed");
-    }
     reloadGlobalVars();
   }
 
@@ -112,15 +82,8 @@ public class GlobalVarBean
 
   public void resetGlobalVar()
   {
-    IDefaultGlobalVariable defaultVar = app.findDefaultGlobalVariable(activeVar.getName());
-    IGlobalVariable var = defaultVar.findEnvironmentConfiguration(env.getName());
+    configuration.remove(SimpleVariable.GLOBAL_VARIABLES + activeVar.getName());
     reloadAndUiMessage("reset to default");
-
-    if (var == null)
-    {
-      return;
-    }
-    var.setValue(defaultVar.getValue());
     reloadGlobalVars();
   }
   
