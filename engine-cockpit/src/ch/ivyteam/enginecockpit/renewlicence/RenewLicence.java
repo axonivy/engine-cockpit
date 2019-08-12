@@ -100,7 +100,6 @@ public class RenewLicence
   
   private static String getUri()
   {
-    String base = System.getProperty("licence.base.uri", "https://license-order.axonivy.io/ivy/api/LicenseOrder");
-    return base+"/renewLicense";
+    return System.getProperty("licence.base.uri", "https://license-order.axonivy.io/ivy/api/LicenseOrder")+"/renewLicense";
   }
 }
