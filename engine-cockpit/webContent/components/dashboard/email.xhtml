@@ -8,7 +8,9 @@
   <h:outputText value="Email" />
 </f:facet>
 <h:form id="mailConfigForm">
-  <p:growl id="msgs" autoUpdate="true" showDetail="true" />
+  <p:growl id="msgs" showDetail="true">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="openTestMailBtn" title="Send Test Mail" icon="ui-icon-send" type="button"
     styleClass="secondary-btn card-button" onclick="PF('sendTestMailModal').show()" />
   <p:commandButton id="configureEmailBtn" title="Configure Email Server" icon="ui-icon-settings" type="button"

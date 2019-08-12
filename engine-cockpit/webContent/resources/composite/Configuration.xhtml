@@ -7,7 +7,9 @@
 </cc:interface>
 <cc:implementation>
   <h:form id="form">
-    <p:growl id="msgs" autoUpdate="true"/>
+    <p:growl id="msgs">
+      <p:autoUpdate/>
+    </p:growl>
     <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable"
       filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable">
       <f:facet name="header">

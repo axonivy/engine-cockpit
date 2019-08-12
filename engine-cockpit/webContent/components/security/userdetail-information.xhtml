@@ -8,7 +8,9 @@
   <h:outputText value="User information" />
 </f:facet>
 <h:form id="userInformationForm">
-  <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
+  <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
   <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"

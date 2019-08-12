@@ -12,7 +12,9 @@
   <h:outputText value="Security System" />
 </f:facet>
 <h:form id="securitySystemConfigForm">
-  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true"/>
+  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton title="Save" icon="ui-icon-save" id="saveSecuritySystemConfigBtn"
     styleClass="primary-btn card-button" actionListener="#{securityConfigDetailBean.saveConfiguration}" />
   <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()" title="Delete this security system"

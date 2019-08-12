@@ -8,7 +8,9 @@
   <h:outputText value="Role information" />
 </f:facet>
 <h:form id="roleInformationForm">
-  <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
+  <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" />
   <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"

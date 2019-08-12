@@ -9,7 +9,9 @@
   <h:outputText value="Email Notification Settings" />
 </f:facet>
 <h:form id="userEmailForm">
-  <p:growl id="emailSaveSuccess" for="emailSaveSuccess" autoUpdate="true" />
+  <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
     title="Save changes" icon="ui-icon-save" styleClass="primary-btn card-button" />
   <cc:EmailSettings emailSettings="#{userDetailBean.emailSettings}"

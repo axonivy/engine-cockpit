@@ -12,7 +12,9 @@
   <h:outputText value="Binding" />
 </f:facet>
 <h:form id="securitySystemBindingForm">
-  <p:growl id="securitySystemBindingSaveSuccess" for="securitySystemBindingSaveSuccess" autoUpdate="true" />
+  <p:growl id="securitySystemBindingSaveSuccess" for="securitySystemBindingSaveSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton title="Save" icon="ui-icon-save" id="saveSecuritySystemBindingBtn"
     styleClass="primary-btn card-button" actionListener="#{securityConfigDetailBean.saveBinding}" />
 

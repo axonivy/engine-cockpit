@@ -8,7 +8,9 @@
   <h:outputText value="Users" />
 </f:facet>
 <h:form id="usersOfRoleForm">
-  <p:growl for="usersMessage" autoUpdate="true" />
+  <p:growl for="usersMessage">
+    <p:autoUpdate/>
+  </p:growl>
   <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
     completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search user to add" 
     disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />

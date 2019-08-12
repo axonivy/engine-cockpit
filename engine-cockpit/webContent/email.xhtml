@@ -20,7 +20,9 @@
 
     <ui:define name="content">
       <h:form id="form">
-        <p:growl id="emailSaveSuccess" for="emailSaveSuccess" autoUpdate="true" />
+        <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
+          <p:autoUpdate/>
+        </p:growl>
         <cc:SingleCard>
           <cc:ApplicationTabs tabChange="#{applicationEmailBean.reloadEmailSettings}">
             <div class="ui-g">

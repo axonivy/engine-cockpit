@@ -8,7 +8,9 @@
   <h:outputText value="Application information" />
 </f:facet>
 <h:form id="appDetailInfoForm">
-  <p:growl id="informationSaveSuccess" for="informationSaveSuccess" autoUpdate="true" />
+  <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" update="appDetailInfoForm" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">

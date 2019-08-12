@@ -8,7 +8,9 @@
   <h:outputText value="Permissions" />
 </f:facet>
 <h:form id="permissionsForm">
-  <p:growl for="permissionMessage" autoUpdate="true" />
+  <p:growl for="permissionMessage">
+    <p:autoUpdate/>
+  </p:growl>
   <div class="ui-datatable-header ui-widget-header ui-corner-top" style="border-bottom: 0 none;">
     <div class="ui-outputpanel ui-widget">
       <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i class="material-icons">search</i>
