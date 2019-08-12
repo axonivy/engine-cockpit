@@ -78,7 +78,7 @@ public class WebDocuScreenshot extends WebBase
     Dimension oldSize = driver.manage().window().getSize();
     resizeBrowser(driver, size);
     scrollToPosition(driver, 0, 0);
-    waitForNavigationHighlight(120);
+    waitForNavigationHighlight(250);
     saveScreenshot(driver, fileName);
     resizeBrowser(driver, oldSize);
   }
