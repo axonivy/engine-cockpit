@@ -178,13 +178,16 @@ public class WebTestUserDetail extends WebTestBase
     driver.findElementById(bossAddButtonId).click();
     saveScreenshot(driver, "add_parent_role");
     await().untilAsserted(() -> assertThat(driver.findElementById(bossAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
+    saveScreenshot(driver, "1");
     await().untilAsserted(() -> assertThat(driver.findElementById(bossRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
+    saveScreenshot(driver, "2");
     await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
+    saveScreenshot(driver, "3");
     await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
-    
-    driver.navigate().refresh();
+    saveScreenshot(driver, "4");
+    Navigation.toUserDetail(driver, DETAIL_USER_NAME);
     saveScreenshot(driver, "refresh");
     waitUntilElementClickable(driver, By.xpath("//*[@id='" + bossId + "']/td/span[2]")).click();
     await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
