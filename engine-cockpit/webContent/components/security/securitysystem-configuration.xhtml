@@ -5,15 +5,16 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile">
+  xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
   <h:outputText value="Security System" />
 </f:facet>
 <h:form id="securitySystemConfigForm">
-  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess" autoUpdate="true"/>
+  <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton title="Save" icon="ui-icon-save" id="saveSecuritySystemConfigBtn"
     styleClass="primary-btn card-button" actionListener="#{securityConfigDetailBean.saveConfiguration}" />
   <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()" title="Delete this security system"
@@ -25,7 +26,7 @@
     <p:commandButton value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>
-
+  
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     
@@ -58,7 +59,9 @@
     <p:outputLabel for="syncTime" value="Synchronization Time" />
     <h:panelGroup>
       <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99" placeholder="#{securityDefaultValueBean.updatetime}" />
-      <p:messages for="syncTime" id="syncTimeMessage" autoUpdate="true" showDetail="true"/>
+      <p:messages for="syncTime" id="syncTimeMessage" showDetail="true">
+        <p:autoUpdate/>
+      </p:messages>
     </h:panelGroup>
 
     <p:outputLabel for="derefAliasesDropDown" value="Dereference Aliases" />

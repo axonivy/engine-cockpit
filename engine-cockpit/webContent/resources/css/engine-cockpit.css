@@ -228,12 +228,10 @@ body {
   top: 3px;
   margin-right: 10px;
 }
-.float-select-many-checkbox .ui-grid-row {
-  display: block;
-}
-.float-select-many-checkbox .ui-grid-row>div {
+.float-select-many-checkbox .ui-g>div {
   float: left;
   width: 75px;
+  padding-bottom: 8px;
 }
 
 /*Panels*/
@@ -319,13 +317,10 @@ body {
 }
 
 /*Email Style Changes*/
-.email-checkbox-style .ui-grid-row,
-.email-radio-style .ui-grid-row {
-  display: block;
-}
-.email-checkbox-style .ui-grid-col-6,
-.email-radio-style .ui-grid-col-6 {
+.email-checkbox-style .ui-panelgrid-cell.ui-md-6,
+.email-radio-style .ui-md-6 {
   min-width: 150px;
+  padding: 0 0 8px 0;
 }
 
 /*System Configurations*/

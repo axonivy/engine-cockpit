@@ -5,15 +5,16 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile">
+  xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">link</i>
   <h:outputText value="Binding" />
 </f:facet>
 <h:form id="securitySystemBindingForm">
-  <p:growl id="securitySystemBindingSaveSuccess" for="securitySystemBindingSaveSuccess" autoUpdate="true" />
+  <p:growl id="securitySystemBindingSaveSuccess" for="securitySystemBindingSaveSuccess">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton title="Save" icon="ui-icon-save" id="saveSecuritySystemBindingBtn"
     styleClass="primary-btn card-button" actionListener="#{securityConfigDetailBean.saveBinding}" />
 

@@ -2,14 +2,16 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">info</i>
   <h:outputText value="Web Service configurations" />
 </f:facet>
 <h:form id="webserviceConfigurationForm">
-  <p:growl id="wsConfigMsg" for="wsConfigMsg" autoUpdate="true" showDetail="true" />
+  <p:growl id="wsConfigMsg" for="wsConfigMsg" showDetail="true">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="saveWsConfig" actionListener="#{webserviceDetailBean.saveConfig}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" update="@form, webservcieAdditionalConfigForm" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetWsConfirmDialog').show()" title="Reset configuration"

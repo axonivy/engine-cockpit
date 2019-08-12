@@ -64,9 +64,9 @@ public class WebTestLogin extends WebTestBase
   
   private void logout(FirefoxDriver driver)
   {
-    driver.get(viewUrl("dashboard.xhtml"));
-    driver.findElementById("sessionUser").click();
+    driver.findElementByXPath("//*[@id='sessionUser']/a").click();
     saveScreenshot(driver, "logout");
+    webAssertThat(() -> assertThat(driver.findElementById("sessionLogoutBtn").isDisplayed()).isTrue());
     driver.findElementById("sessionLogoutBtn").click();
   }
 }
