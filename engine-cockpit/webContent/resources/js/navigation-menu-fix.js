@@ -37,7 +37,7 @@ $(document).ready(function() {
     
       PF('sidebar_menu').anchorButton.on('click', function(e) {
         var menu = $.cookie('cockpit_menu_default');
-        if (!menu) {
+        if (menu == null) {
           $.cookie('cockpit_menu_default', 'cockpit_menu_default', {path: '/'});
         }
       });
@@ -95,7 +95,7 @@ $(document).ready(function() {
       
       function checkDefaultMenuState() {
         var menu = $.cookie('cockpit_menu_default');
-        if (!menu) {
+        if (menu == null) {
           $.cookie('serenity_menu_static', 'serenity_menu_static', {path: '/'});
           PF('sidebar_menu').restoreMenuState();
         }
