@@ -26,7 +26,7 @@
     <p:commandButton value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>
-
+  
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     
@@ -59,7 +59,9 @@
     <p:outputLabel for="syncTime" value="Synchronization Time" />
     <h:panelGroup>
       <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99" placeholder="#{securityDefaultValueBean.updatetime}" />
-      <p:messages for="syncTime" id="syncTimeMessage" autoUpdate="true" showDetail="true"/>
+      <p:messages for="syncTime" id="syncTimeMessage" showDetail="true">
+        <p:autoUpdate/>
+      </p:messages>
     </h:panelGroup>
 
     <p:outputLabel for="derefAliasesDropDown" value="Dereference Aliases" />
