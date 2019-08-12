@@ -185,8 +185,7 @@ public class WebTestUserDetail extends WebTestBase
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
     
     driver.navigate().refresh();
-    await().until(() -> driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).isDisplayed());
-    driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).click();
+    waitUntilElementClickable(driver, By.xpath("//*[@id='" + bossId + "']/td/span[2]")).click();
     saveScreenshot(driver, "refresh");
     await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
