@@ -67,6 +67,7 @@ public class WebDocuScreenshot extends WebBase
     Navigation.toSystemConfig(driver);
     takeScreenshot(driver, "engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toMonitor(driver);
+    waitForNavigationHighlight(2000);
     takeScreenshot(driver, "engine-cockpit-monitor", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toLogs(driver);
     takeScreenshot(driver, "engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
