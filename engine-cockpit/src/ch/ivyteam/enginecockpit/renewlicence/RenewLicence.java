@@ -87,7 +87,7 @@ public class RenewLicence
   private static void addMessage(Severity severity, String summary, String detail)
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    context.addMessage(null, new FacesMessage(severity, summary, detail));
+    context.addMessage("msgs", new FacesMessage(severity, summary, detail));
   }
   
   private static Client createClient()
