@@ -180,6 +180,8 @@ public class Navigation
   private static void toMenu(FirefoxDriver driver, By menuItemPath)
   {
     driver.findElement(menuItemPath).click();
+    await().until(() -> driver.findElement(menuItemPath).findElement(By.xpath("./..")).
+            getAttribute("class").contains("active-menuitem"));
   }
   
   private static void toSubMenu(FirefoxDriver driver, By menuItemPath, By subMenuItemPath)
@@ -188,6 +190,8 @@ public class Navigation
       waitBeforeClick(driver, menuItemPath);
     }
     waitBeforeClick(driver, subMenuItemPath);
+    await().until(() -> driver.findElement(subMenuItemPath).findElement(By.xpath("./..")).
+            getAttribute("class").contains("active-menuitem"));
   }
   
   private static boolean checkIfCorrectElement(WebElement element)
