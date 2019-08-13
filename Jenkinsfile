@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    dockerfile true
+    dockerfile {args '--shm-size 1g'}
   }
   
   options {
