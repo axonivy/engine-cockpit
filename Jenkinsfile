@@ -27,6 +27,7 @@ pipeline {
       post {
         always {
           archiveArtifacts '**/target/*.iar'
+          archiveArtifacts '**/target/*.zip'
           junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
         }
       }
@@ -34,20 +35,26 @@ pipeline {
     stage('verify') {
       steps {
         script {
-          mvn cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true"
+          maven cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true"
+        }
+      }
+      post {
+        always {
+          archiveArtifacts '**/target/*.html'
         }
       }
     }
     stage('deploy') {
       when {
-        branch 'master'
-        expression {
-          currentBuild.result == 'SUCCESS' || deploy
+        allOf {
+          expression {branch 'master'}
+          expression {currentBuild.result == 'SUCCESS' || currentBuild.result == null}
+          expression {params.deployArtifacts}
         }
       }
       steps {
         script {
-          mvn cmd: "deploy-file"
+          maven cmd: "deploy -Dmaven.test.skip=true"
         }
       }
     }
