@@ -46,7 +46,7 @@
                     <version>0.0.1-SNAPSHOT</version>
                     <executions>
                         <execution>
-                            <id>validate-images-empty</id>
+                            <id>validate-images</id>
                             <phase>test</phase>
                             <goals><goal>compare-images</goal></goals>
                             <configuration>

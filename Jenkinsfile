@@ -27,7 +27,6 @@ pipeline {
       post {
         always {
           archiveArtifacts '**/target/*.iar'
-          archiveArtifacts '**/target/*.zip'
           junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
         }
       }
@@ -40,6 +39,7 @@ pipeline {
       }
       post {
         always {
+          archiveArtifacts '**/target/docu/**/*'
           archiveArtifacts '**/target/*.html'
         }
       }
