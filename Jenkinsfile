@@ -14,14 +14,14 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
+    boolean(name: 'deploy', defautlValue: false, description: 'Deploy new version of cockpit and screenshots')
   }
 
   stages {
     stage('build') {
       steps {
         script {
-          def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
-          maven cmd: "clean ${phase} -Dengine.page.url=${params.engineSource}  -Dsel.jup.output.folder=target/surefire-reports -Dsel.jup.screenshot.at.the.end.of.tests=true -Dsel.jup.screenshot.format=png"
+          maven cmd: "clean verify -Dengine.page.url=${params.engineSource}  -Dsel.jup.output.folder=target/surefire-reports -Dsel.jup.screenshot.at.the.end.of.tests=true -Dsel.jup.screenshot.format=png"
         }
       }
       post {
@@ -31,9 +31,19 @@ pipeline {
         }
       }
     }
+    stage('verify') {
+      script {
+        mvn cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true"
+      }
+    }
     stage('deploy') {
+      when {
+        branch == 'master' && (currentBuild.result == 'SUCCESS' || deploy)
+      }
       steps {
-        
+        script {
+          mvn cmd: "deploy-file"
+        }
       }
     }
   }

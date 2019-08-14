@@ -15,7 +15,6 @@
 		<module>engine-cockpit</module>
 		<module>engine-cockpit-test-data</module>
 		<module>engine-cockpit-selenium-test</module>
-		<module>image-validation</module>
 	</modules>
 	
 </project>
