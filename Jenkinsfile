@@ -1,6 +1,8 @@
 pipeline {
   agent {
-    dockerfile {args '--shm-size 1g'}
+     dockerfile{ 
+        args '--shm-size 1g --hostname=ivy'
+   }
   }
   
   options {

@@ -116,6 +116,9 @@
 						<goals>
 							<goal>start-test-engine</goal>
 						</goals>
+						<configuration>
+							<additionalVmOptions>-Dlicence.base.uri=http://localhost:8080/ivy/api/test/test</additionalVmOptions>
+						</configuration>
 					</execution>
 
 					<execution>

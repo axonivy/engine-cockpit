@@ -11,6 +11,8 @@
   icon="ui-icon-info" styleClass="secondary-btn card-button" />
 <p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
   styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('fileUploadModal').show()" />
+<p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button" icon="ui-icon-refresh"
+  styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('renewLicence').show()" />
 <p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>
@@ -26,6 +28,7 @@
   <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" 
     icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
 </p:panelGrid>
+<cc:RenewLicence id="renewLicence" title="Renew Licence"/>
 <cc:FileUpload id="licenceUpload" apiUrl="#{advisorBean.app}/licence" title="Licence Upload" acceptFiles=".lic" />
 <ui:include src="../../dialogs/licenceinfo.xhtml" />
 </html>
