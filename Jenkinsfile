@@ -32,8 +32,10 @@ pipeline {
       }
     }
     stage('verify') {
-      script {
-        mvn cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true"
+      steps {
+        script {
+          mvn cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true"
+        }
       }
     }
     stage('deploy') {
