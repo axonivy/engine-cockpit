@@ -14,7 +14,7 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
-    boolean(name: 'deploy', defautlValue: false, description: 'Deploy new version of cockpit and screenshots')
+    booleanParam(name: 'deployArtifacts', defautlValue: false, description: 'Deploy new version of cockpit and screenshots')
   }
 
   stages {
@@ -38,7 +38,10 @@ pipeline {
     }
     stage('deploy') {
       when {
-        branch == 'master' && (currentBuild.result == 'SUCCESS' || deploy)
+        branch 'master'
+        expression {
+          currentBuild.result == 'SUCCESS' || deploy
+        }
       }
       steps {
         script {
