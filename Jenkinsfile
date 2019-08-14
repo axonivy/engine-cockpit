@@ -41,6 +41,8 @@ pipeline {
         always {
           archiveArtifacts '**/target/docu/**/*'
           archiveArtifacts '**/target/*.html'
+          recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image')], unstableNewAll: 1,
+          qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
         }
       }
     }

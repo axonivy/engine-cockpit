@@ -59,7 +59,7 @@
                                 <refImages>
                                     ${project.build.directory}
                                 </refImages>
-                                <requiredSimilarity>99.99</requiredSimilarity>
+                                <requiredSimilarity>99</requiredSimilarity>
                             </configuration>
                         </execution>
                         <execution>
