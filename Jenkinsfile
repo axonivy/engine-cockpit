@@ -50,8 +50,7 @@ pipeline {
       when {
         allOf {
           expression {branch 'master'}
-          expression {currentBuild.result == 'SUCCESS' || currentBuild.result == null}
-          expression {params.deployArtifacts}
+          expression {currentBuild.result == 'SUCCESS' || currentBuild.result == null || params.deployArtifacts}
         }
       }
       steps {
