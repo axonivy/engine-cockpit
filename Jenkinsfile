@@ -14,7 +14,7 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
-    booleanParam(name: 'deployArtifacts', defautlValue: false, description: 'Deploy new version of cockpit and screenshots')
+    booleanParam(name: 'deployArtifacts', defaultValue: false, description: 'Deploy new version of cockpit and screenshots')
   }
 
   stages {
