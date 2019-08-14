@@ -13,7 +13,7 @@
 	<version>7.4.0-SNAPSHOT</version>
 
 	<properties>
-		<test.target.dir>${project.build.directory}/../../engine-cockpit-selenium-test/target/</test.application>
+		<test.target.dir>${project.build.directory}/../../engine-cockpit-selenium-test/target/</test.target.dir>
 	</properties>
 
 	<dependencies>
