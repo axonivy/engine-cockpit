@@ -1,14 +1,14 @@
 package ch.ivyteam.enginecockpit.model;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.IDefaultGlobalVariable;
 import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
 
 @SuppressWarnings("restriction")
 public class SimpleVariable
 {
+  public static final String GLOBAL_VARIABLES = "GlobalVariables.";
   private String name;
   private String description;
   private String defaultValue;
@@ -27,7 +27,7 @@ public class SimpleVariable
     this.name = variable.getName();
     this.description = variable.getDescription();
     this.value = variable.getValue();
-    this.yamlConfig = StringUtils.startsWith(description, "This is a yaml-config variable");
+    this.yamlConfig = ((IApplicationInternal) app).getConfiguration().get(GLOBAL_VARIABLES + name).isPresent();
   }
 
   public void setName(String name)

@@ -184,9 +184,10 @@ public class WebTestUserDetail extends WebTestBase
     await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
     
-    driver.navigate().refresh();
-    driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).click();
+    Navigation.toUserDetail(driver, DETAIL_USER_NAME);
     saveScreenshot(driver, "refresh");
+    waitUntilElementClickable(driver, By.xpath("//*[@id='" + bossId + "']/td/span[2]")).click();
+    saveScreenshot(driver, "expand_boss");
     await().untilAsserted(() -> assertThat(driver.findElementById(managerId)
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
     await().untilAsserted(() -> assertThat(driver.findElementById(bossId)
@@ -203,9 +204,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testPermission(FirefoxDriver driver)
   {
-    login(driver);
-    Navigation.toUserDetail(driver, DETAIL_USER_NAME);
-    saveScreenshot(driver, "userdetail");
+    openUserFooDetail(driver);
     await().untilAsserted(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
             .getAttribute("title")).isEqualTo("Some Permission granted"));
     

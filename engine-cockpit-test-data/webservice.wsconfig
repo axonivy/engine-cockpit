@@ -124,10 +124,11 @@
         </environmentConfigurations>
     </webServiceConfig>
     <webServiceConfig>
-        <name>second</name>
+        <name>axis2</name>
         <id>16AB177C8A7C9747</id>
         <description>axis 2 webservice</description>
-        <wsdlUrl>someurl.com</wsdlUrl>
+        <wsdlUrl>http://zugtstweb:7078/mockZHR_WF_READ_PERS_DATA_soap12?WSDL</wsdlUrl>
+        <wsCallLibrary>AXIS_2_0</wsCallLibrary>
         <property>
             <name>authType</name>
             <value>HTTP_BASIC</value>
@@ -143,5 +144,36 @@
             <value>\u0083\u0060\u0020\u00CE\u00DB\u0037\u009E\u00CB\u00E1\u00F5\u00D7\u00F9\u00F5\u00A2\u0006\u0010\u0098\u004E\u008F\u006B\u002E\u00AE\u00F4\u00D5\u0027\u004E\u0091\u007E\u00EF\u00F3\u0051\u0004</value>
             <password>true</password>
         </property>
+        <service>
+            <serviceClass>functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATA</serviceClass>
+            <port>
+                <name>ZHR_WF_READ_PERS_DATA_soap12</name>
+                <locationUri>http://zugtstweb:7078/mockZHR_WF_READ_PERS_DATA_soap12</locationUri>
+            </port>
+            <port>
+                <name>ZHR_WF_READ_PERS_DATA</name>
+                <locationUri>http://D30.migros.ch:8000/sap/bc/srt/rfc/sap/zhr_wf_read_pers_data/161/zhr_wf_read_pers_data/zhr_wf_read_pers_data</locationUri>
+            </port>
+        </service>
+        <wsdlGeneratedInfo>
+            <axisLocatorClassname></axisLocatorClassname>
+            <axisNamespacesNew>urn\:sap-com\:document\:sap\:rfc\:functions=functions.rfc.sap.document.sap_com</axisNamespacesNew>
+            <axisOperationsToPort>ZHR_WF_READ_PERS_DATA_soap12="ZHR_WF_READ_PERS_DATA"
+ZHR_WF_READ_PERS_DATA="ZHR_WF_READ_PERS_DATA"</axisOperationsToPort>
+            <axisParameterProperties>ZHR_WF_READ_PERS_DATA_soap12ZHR_WF_READ_PERS_DATA="arg0__@@__functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATA__@@__"
+ZHR_WF_READ_PERS_DATAZHR_WF_READ_PERS_DATA="arg0__@@__functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATA__@@__"</axisParameterProperties>
+            <axisPortList>ZHR_WF_READ_PERS_DATA_soap12</axisPortList>
+            <axisPortList>ZHR_WF_READ_PERS_DATA</axisPortList>
+            <axisStubClassnameList>functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATAZHR_WF_READ_PERS_DATA_soap12Stub</axisStubClassnameList>
+            <axisStubClassnameList>functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATAZHR_WF_READ_PERS_DATAStub</axisStubClassnameList>
+            <axisReturnTypes>ZHR_WF_READ_PERS_DATA_soap12ZHR_WF_READ_PERS_DATA=functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATAResponse
+ZHR_WF_READ_PERS_DATAZHR_WF_READ_PERS_DATA=functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATAResponse</axisReturnTypes>
+            <axisServiceClassname>functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATA</axisServiceClassname>
+            <axisUsedJavaclasses>"functions/rfc/sap/document/sap_com/Char10.java","functions/rfc/sap/document/sap_com/Char4.java","functions/rfc/sap/document/sap_com/Char25.java","functions/rfc/sap/document/sap_com/ZHR_WF_READ_PERS_DATAZHR_WF_READ_PERS_DATA_soap12.java","functions/rfc/sap/document/sap_com/ZHR_WF_READ_PERS_DATAZHR_WF_READ_PERS_DATAStub.java","functions/rfc/sap/document/sap_com/ZHR_WF_READ_PERS_DATAResponse.java","functions/rfc/sap/document/sap_com/ZHR_WF_READ_PERS_DATA.java","functions/rfc/sap/document/sap_com/Numeric8.java","functions/rfc/sap/document/sap_com/ZHR_WF_READ_PERS_DATAZHR_WF_READ_PERS_DATA.java","functions/rfc/sap/document/sap_com/ExtensionMapper.java","functions/rfc/sap/document/sap_com/Char2.java","functions/rfc/sap/document/sap_com/ZHR_WF_READ_PERS_DATAZHR_WF_READ_PERS_DATA_soap12Stub.java"</axisUsedJavaclasses>
+            <codeGenerationTimestamp>1565249232442</codeGenerationTimestamp>
+            <wsdlWebserviceName>ZHR_WF_READ_PERS_DATA</wsdlWebserviceName>
+            <wsClassGenerationImplementationUsed>AXIS_2_0</wsClassGenerationImplementationUsed>
+            <jarPacked>true</jarPacked>
+        </wsdlGeneratedInfo>
     </webServiceConfig>
 </webServiceConfigurationNode>

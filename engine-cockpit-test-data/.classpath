@@ -34,5 +34,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib_ws/client/wsClient_16AB177C8A7C9747.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

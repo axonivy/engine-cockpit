@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.configuration;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -116,7 +116,7 @@ public class ConfigView
     {
       filteredConfigs.remove(activeConfig);
     }
-    reloadAndUiMessage("reseted");
+    reloadAndUiMessage("reset");
   }
 
   public void saveConfig()

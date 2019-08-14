@@ -30,6 +30,7 @@ public class LogBean
   private LogView ivyLog;
   private LogView consoleLog;
   private LogView configLog;
+  private LogView deprecationLog;
   private Date date;
   private String showLog;
   
@@ -54,6 +55,7 @@ public class LogBean
     ivyLog = new LogView("ivy.log", date);
     consoleLog = new LogView("console.log", date);
     configLog = new LogView("config.log", date);
+    deprecationLog = new LogView("deprecation.log", date);
   }
   
   public LogView getIvyLog()
@@ -69,6 +71,11 @@ public class LogBean
   public LogView getConfigLog()
   {
     return configLog;
+  }
+  
+  public LogView getDeprecationLog()
+  {
+    return deprecationLog;
   }
   
   public void setDate(Date date)

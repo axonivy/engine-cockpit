@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -26,6 +27,8 @@ public class WebDocuScreenshot extends WebBase
   void docuScreeshot(FirefoxDriver driver)
   {
     populateBusinessCalendar(driver);
+    driver.manage().addCookie(new Cookie("cockpit_menu_default", "cockpit_menu_default", "/"));
+    driver.manage().deleteCookieNamed("serenity_menu_static");
     login(driver);
     takeScreenshot(driver, "engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toApplications(driver);
@@ -77,7 +80,7 @@ public class WebDocuScreenshot extends WebBase
     Dimension oldSize = driver.manage().window().getSize();
     resizeBrowser(driver, size);
     scrollToPosition(driver, 0, 0);
-    waitForNavigationHighlight(120);
+    waitForNavigationHighlight(250);
     saveScreenshot(driver, fileName);
     resizeBrowser(driver, oldSize);
   }
@@ -140,7 +143,8 @@ public class WebDocuScreenshot extends WebBase
   
   private void populateBusinessCalendar(FirefoxDriver driver)
   {
-    driver.get(EngineCockpitUrl.base() + "/pro/test/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
+    String app = EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
+    driver.get(EngineCockpitUrl.base() + "/pro/" + app + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
   }
   
 }

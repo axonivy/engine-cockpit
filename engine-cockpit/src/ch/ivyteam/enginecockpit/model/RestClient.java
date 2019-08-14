@@ -10,14 +10,17 @@ import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
 import ch.ivyteam.util.Property;
 
 @SuppressWarnings("restriction")
-public class RestClient
+public class RestClient implements IService
 {
   private String name;
   private String url;
   private String description;
   private List<Property> properties;
+  private String password;
+  private String username;
   private List<String> features;
   private UUID uniqueId;
+  private boolean passwordChanged;
 
   public RestClient(IRestClient client)
   {
@@ -26,7 +29,10 @@ public class RestClient
     description = client.getDescription();
     uniqueId = client.getUniqueId();
     properties = client.getProperties().stream().map(p -> new Property(p.getName(), p.getValue())).collect(Collectors.toList());
+    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password")).findAny().map(p -> p.getValue()).orElse("");
+    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).findAny().map(p -> p.getValue()).orElse("");
     features = client.getFeatures().stream().map(f -> f.getClazz()).collect(Collectors.toList());
+    passwordChanged = false;
   }
   
   public UUID getUniqueId()
@@ -57,14 +63,20 @@ public class RestClient
   
   public String getUsername()
   {
-    return properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).map(Property::getValue).findFirst().orElse("");
+    return username;
   }
   
+  @Override
   public String getPassword()
   {
-    return properties.stream().anyMatch(p -> StringUtils.equals(p.getName(), "password")) ? "*****" : "";
+    return password;
   }
 
+  @Override
+  public boolean passwordChanged()
+  {
+    return passwordChanged;
+  }
 
   public List<Property> getProperties()
   {
@@ -74,6 +86,25 @@ public class RestClient
   public List<String> getFeatures()
   {
     return features;
+  }
+
+  public void setUrl(String url)
+  {
+    this.url = url;
+  }
+
+  public void setPassword(String password)
+  {
+    if (StringUtils.isNotBlank(password))
+    {
+      this.password = password;
+      passwordChanged = true;
+    }
+  }
+  
+  public void setUsername(String username)
+  {
+    this.username = username;
   }
   
 }

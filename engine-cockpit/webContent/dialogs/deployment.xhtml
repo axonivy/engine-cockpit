@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <cc:FileUpload title="Deploy to App '#{appName}'" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
@@ -25,7 +25,7 @@
         <f:selectItems value="#{deployOptionsBean.versions}" />
       </p:selectOneMenu>
       
-      <p:outputLabel value="Version Range" for="versionRange" />
+      <p:outputLabel value="Version Range" for="versionRange" id="versionRangeLabel" />
       <p:inputText placeholder="e.g. 2.5 or (2.0,3.0]" widgetVar="versionRange" id="versionRange" />
       
       <p:outputLabel value="State" for="state" />

@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,6 +11,7 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 
+import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -240,7 +241,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     
     driver.findElementById("config:resetConfigConfirmForm:resetConfigConfirmYesBtn").click();
     saveScreenshot(driver, "reset_config_yes");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "reseted"));
+    webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "reset"));
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).doesNotContain(key));
   }
 

@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:dialog style="min-width: 400px;" header="New global variable" id="newGlobalVarModal"
   widgetVar="newGlobalVarModal" modal="true" responsive="true" closeOnEscape="true">
@@ -15,10 +15,7 @@
         <p:message for="newGlobalVarName" id="newGlobalVarNameMessage" />
       </h:panelGroup>
       
-      <label>Description</label>
-      <p:inputText id="newGlobalVarDesc" value="#{globalVarBean.activeVar.description}"/>
-      
-      <label>Default Value</label>
+      <label>Value</label>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="newGlobalVarValue" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.value}"/>
         <p:message for="newGlobalVarValue" id="newGlobalVarValueMessage" />

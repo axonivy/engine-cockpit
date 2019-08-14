@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>ch.ivyteam.ivy</groupId>
+		<artifactId>engine-cockpit-config</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../maven-config</relativePath>
+	</parent>
+
+	<artifactId>engine-cockpit-image-validation</artifactId>
+	<version>7.4.0-SNAPSHOT</version>
+
+	<properties>
+		<test.target.dir>${project.build.directory}/../../engine-cockpit-selenium-test/target/</test.target.dir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>ch.ivyteam.ivy</groupId>
+			<artifactId>engine-cockpit-selenium-test</artifactId>
+			<version>7.4.0-SNAPSHOT</version>
+			<type>zip</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>unpack-all-screenshots</id>
+						<phase>generate-sources</phase>
+						<goals><goal>unpack-dependencies</goal></goals>
+						<configuration>
+							<includeArtifactIds>engine-cockpit-selenium-test</includeArtifactIds>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>ch.ivyteam.ivy</groupId>
+				<artifactId>screenshot-html-plugin</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<id>validate-images</id>
+						<phase>test</phase>
+						<goals><goal>compare-images</goal></goals>
+						<configuration>
+							<newImagesFs>
+								<directory>${test.target.dir}docu/screenshots</directory>
+								<includes>
+									<include>**/*.png</include>
+								</includes>
+							</newImagesFs>
+							<refImages>${project.build.directory}</refImages>
+							<requiredSimilarity>99</requiredSimilarity>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-html</id>
+						<phase>generate-resources</phase>
+						<goals><goal>generate-html</goal></goals>
+						<configuration>
+							<images>
+								<directory>${test.target.dir}docu</directory>
+								<includes>
+									<include>**/*.png</include>
+								</includes>
+							</images>
+							<outputFile>${test.target.dir}newscreenshots.html</outputFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

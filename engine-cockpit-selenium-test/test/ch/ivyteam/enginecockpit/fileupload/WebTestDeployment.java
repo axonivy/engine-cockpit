@@ -125,19 +125,19 @@ public class WebTestDeployment extends WebTestBase
   {
     showDeploymentOptions(driver);
     
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRange").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isFalse());
     driver.findElementById("deploymentModal:version").click();
     saveScreenshot(driver, "versions");
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:version_items").isDisplayed()).isTrue());
     
     driver.findElementByXPath("//ul[@id='deploymentModal:version_items']/li[text()='RANGE']").click();
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRange").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isTrue());
     saveScreenshot(driver, "show_range");
     
     driver.findElementById("deploymentModal:version").click();
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:version_items").isDisplayed()).isTrue());
     driver.findElementByXPath("//ul[@id='deploymentModal:version_items']/li[text()='RELEASED']").click();
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRange").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isFalse());
     saveScreenshot(driver, "hide_range");
   }
   

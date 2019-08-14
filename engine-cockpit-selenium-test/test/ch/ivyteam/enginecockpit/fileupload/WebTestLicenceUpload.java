@@ -59,7 +59,7 @@ public class WebTestLicenceUpload extends WebTestBase
   {
     toDashboard(driver);
     
-    driver.findElementById("uploadLicenceBtn").click();
+    findUploadButton(driver);
     saveScreenshot(driver, "fileupload");
     webAssertThat(() -> assertThat(driver.findElementById("licenceUpload:fileUploadModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));
@@ -70,5 +70,17 @@ public class WebTestLicenceUpload extends WebTestBase
   {
     login(driver);
     saveScreenshot(driver);
+  }
+  
+  private void findUploadButton(FirefoxDriver driver)
+  {
+    if (driver.findElementsById("uploadLicenceBtn").size() != 0)
+    {
+      driver.findElementById("uploadLicenceBtn").click();
+    }
+    else
+    {
+      driver.findElementById("tasksButtonLicence").click();
+    }
   }
 }
