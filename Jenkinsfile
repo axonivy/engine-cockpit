@@ -44,18 +44,30 @@ pipeline {
           recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image')], unstableNewAll: 1,
           qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
         }
+        success {
+          dir ('engine-cockpit-selenium-test/target/surefire-reports') {
+            deleteDir()
+          }
+        }
       }
     }
     stage('deploy') {
       when {
         allOf {
-          expression {branch 'master'}
-          expression {currentBuild.result == 'SUCCESS' || currentBuild.result == null || params.deployArtifacts}
+          branch 'master'
+          expression {return currentBuild.result == 'SUCCESS' || params.deployArtifacts}
         }
       }
       steps {
         script {
           maven cmd: "deploy -Dmaven.test.skip=true"
+        }
+      }
+    }
+    stage('cleanup') {
+      steps {
+        dir ('.ivy-engine') {
+          deleteDir()
         }
       }
     }
