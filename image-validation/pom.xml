@@ -51,7 +51,7 @@
                             <goals><goal>compare-images</goal></goals>
                             <configuration>
                                 <newImagesFs>
-                                    <directory>../engine-cockpit-selenium-test/target/docu/screenshots</directory>
+                                    <directory>${project.build.directory}/../../engine-cockpit-selenium-test/target/docu/screenshots</directory>
                                     <includes>
                                         <include>**/*.png</include>
                                     </includes>
@@ -60,6 +60,20 @@
                                     ${project.build.directory}
                                 </refImages>
                                 <requiredSimilarity>99.99</requiredSimilarity>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>generate-html</id>
+                            <phase>generate-resources</phase>
+                            <goals><goal>generate-html</goal></goals>
+                            <configuration>
+                                <images>
+                                    <directory>${project.build.directory}/../../engine-cockpit-selenium-test/target/docu</directory>
+                                    <includes>
+                                        <include>**/*.png</include>
+                                    </includes>
+                                </images>
+                                <outputFile>${project.build.directory}/../../engine-cockpit-selenium-test/target/newscreenshots.html</outputFile>
                             </configuration>
                         </execution>
                     </executions>
