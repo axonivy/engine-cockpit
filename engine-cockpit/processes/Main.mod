@@ -1,10 +1,9 @@
 [Ivy]
-01682CA38FC4E775 3.26 #module
+01682CA38FC4E775 3.28 #module
 >Proto >Proto Collection #zClass
 Mn0 Main Big #zClass
 Mn0 B #cInfo
 Mn0 #process
-Mn0 @TextInP .resExport .resExport #zField
 Mn0 @TextInP .type .type #zField
 Mn0 @TextInP .processKind .processKind #zField
 Mn0 @AnnotationInP-0n ai ai #zField
@@ -17,11 +16,7 @@ Mn0 @EndRequest f3 '' #zField
 Mn0 @PushWFArc f1 '' #zField
 >Proto Mn0 Mn0 Main #zField
 Mn0 f0 outLink start.ivp #txt
-Mn0 f0 type ch.ivyteam.enginecockpit.Data #txt
 Mn0 f0 inParamDecl '<> param;' #txt
-Mn0 f0 actionDecl 'ch.ivyteam.enginecockpit.Data out;
-' #txt
-Mn0 f0 guid 1682CA3901E675F6 #txt
 Mn0 f0 requestEnabled true #txt
 Mn0 f0 triggerEnabled false #txt
 Mn0 f0 callSignature start() #txt
@@ -36,7 +31,6 @@ Mn0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 Mn0 f0 @C|.responsibility Everybody #txt
 Mn0 f0 81 49 30 30 -25 17 #rect
 Mn0 f0 @|StartRequestIcon #fIcon
-Mn0 f3 type ch.ivyteam.enginecockpit.Data #txt
 Mn0 f3 template "dashboard.xhtml" #txt
 Mn0 f3 337 49 30 30 0 15 #rect
 Mn0 f3 @|EndRequestIcon #fIcon
