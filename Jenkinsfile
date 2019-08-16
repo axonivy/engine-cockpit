@@ -35,9 +35,7 @@ pipeline {
     }
     stage('verify') {
       when {
-        not {
-          params.deployArtifacts
-        }
+        expression {return !params.deployArtifacts}
       }
       steps {
         script {
