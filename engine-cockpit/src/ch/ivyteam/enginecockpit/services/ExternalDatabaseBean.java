@@ -7,6 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase;
 
@@ -31,6 +33,7 @@ public class ExternalDatabaseBean
   public void reloadExternalDatabases()
   {
     externalDatabases = managerBean.getSelectedIEnvironment().getExternalDatabaseConfigurations().stream()
+            .filter(db -> !StringUtils.equals(db.getUserFriendlyName(), "IvyDatabase"))
             .map(db -> new ExternalDatabase(db))
             .collect(Collectors.toList());
   }
