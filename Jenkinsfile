@@ -34,6 +34,11 @@ pipeline {
       }
     }
     stage('verify') {
+      when {
+        not {
+          params.deployArtifacts
+        }
+      }
       steps {
         script {
           maven cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true"
