@@ -60,7 +60,7 @@ pipeline {
       when {
         allOf {
           branch 'master'
-          expression {return currentBuild.result == 'SUCCESS' || params.deployArtifacts}
+          expression {return currentBuild.currentResult == 'SUCCESS' || params.deployArtifacts}
         }
       }
       steps {
