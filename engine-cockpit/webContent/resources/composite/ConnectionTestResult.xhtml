@@ -8,8 +8,8 @@
 </cc:interface>
 <cc:implementation>
   <p:dialog width="50%" header="Connection Test - Url: #{cc.attrs.url}" id="connectionTestModel" styleClass="ui-fluid"
-    widgetVar="connectionTestModel" modal="true" responsive="true" closeOnEscape="true">
-    <h:form>
+    widgetVar="connectionTestModel" modal="true" responsive="true" closeOnEscape="true" style="margin-left: 120px;">
+    <h:form id="connTestForm">
       <p:ajaxStatus>
         <f:facet name="start">
           <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
@@ -19,11 +19,11 @@
         </f:facet>
       </p:ajaxStatus>
       
-      <p:panelGrid columns="1" layout="grid"
+      <p:panelGrid columns="1" layout="grid" id="resultLog"
         styleClass="ui-panelgrid-blank form-group modal-input-form ui-fluid">
         <h:outputText value="#{cc.attrs.result.testResult}" style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
         
-        <pre style="max-height: 500px; overflow: auto;">#{cc.attrs.result.message}</pre>
+        <pre style="max-height: 400px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
       </p:panelGrid>
       <p:commandButton id="testConnectionBtn" title="Test External Database Connection" update="@form" value="Test"
         icon="ui-icon-call-made" styleClass="primary-btn modal-input-button" actionListener="#{cc.attrs.testMethod}" immediate="true"

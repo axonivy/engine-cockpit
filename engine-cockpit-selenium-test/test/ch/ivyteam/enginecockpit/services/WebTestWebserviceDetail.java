@@ -92,15 +92,15 @@ public class WebTestWebserviceDetail extends WebTestBase
     navigateToWebserviceDetail(driver);
     setEndPoint(driver, "http://zugtstweb:80/notfound");
     driver.navigate().refresh();
-    testAndAssertConnection(driver, "Status: 404");
+    testAndAssertConnection(driver, "Status 404");
 
     setEndPoint(driver, "http://zugtstweb:81");
     driver.navigate().refresh();
-    testAndAssertConnection(driver, "Status: 401");
+    testAndAssertConnection(driver, "Status 401");
     
     setConfiguration(driver, "admin", "nimda");
     driver.navigate().refresh();
-    testAndAssertConnection(driver, "Status: 405");
+    testAndAssertConnection(driver, "Status 405");
     
     resetEndPoint(driver);
     resetConfiguration(driver);
@@ -108,11 +108,15 @@ public class WebTestWebserviceDetail extends WebTestBase
 
   private void testAndAssertConnection(FirefoxDriver driver, String msg)
   {
-    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").isDisplayed()).isFalse());
-    new Table(driver, By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk").clickButtonForEntry("SampleWebServiceSoap", "testWsEndpointBtn");
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
+    Table table = new Table(driver, By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk");
+    table.clickButtonForEntry(table.getFirstColumnEntriesForSpanClass("endpoint-entry").get(1), "testWsEndpointBtn");
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
+    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
     saveScreenshot(driver, "connection_" + StringUtils.replace(msg, " ", "_"));
-    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("webservcieEndPointForm:wsEndPointMsg_container").getText()).contains(msg));
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains(msg));
+    driver.findElementById("connResult:connTestForm:closeConTesterDialog").click();
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
   }
   
   @Test

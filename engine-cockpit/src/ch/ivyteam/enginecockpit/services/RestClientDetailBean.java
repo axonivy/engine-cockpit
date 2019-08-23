@@ -136,7 +136,8 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
     catch (ProcessingException ex)
     {
-      testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+      testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
+              + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
   

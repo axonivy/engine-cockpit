@@ -60,11 +60,14 @@ public class WebTestRestClientDetail extends WebTestBase
 
   private void testAndAssertConnection(FirefoxDriver driver, String msg)
   {
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
     driver.findElementById("restClientConfigurationForm:testRestBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
+    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
     saveScreenshot(driver, "connection_" + StringUtils.replace(msg, " ", "_"));
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container").getText()).contains(msg));
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains(msg));
+    driver.findElementById("connResult:connTestForm:closeConTesterDialog").click();
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
   }
   
   @Test

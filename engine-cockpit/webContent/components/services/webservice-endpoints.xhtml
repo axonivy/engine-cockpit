@@ -8,8 +8,10 @@
   <i class="material-icons table-icon panel-title-icon">language</i>
   <h:outputText value="Endpoints" />
 </f:facet>
-<!-- check responsive -->
 <h:form id="webservcieEndPointForm" style="overflow-y: auto;">
+  <p:growl id="wsEndPointMsg" for="wsConfigMsg" showDetail="true">
+    <p:autoUpdate/>
+  </p:growl>
   <p:treeTable value="#{webserviceDetailBean.webservice.portTypes}" style="padding-top: 10px; border: none;"
     var="endpoint" id="webserviceEndpointTable">
     <p:column headerText="Endpoints">

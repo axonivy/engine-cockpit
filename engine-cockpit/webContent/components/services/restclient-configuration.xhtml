@@ -9,6 +9,9 @@
   <h:outputText value="Rest Client configurations" />
 </f:facet>
 <h:form id="restClientConfigurationForm">
+  <p:growl id="restConfigMsg" for="restConfigMsg" showDetail="true">
+    <p:autoUpdate/>
+  </p:growl>
   <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
     icon="ui-icon-save" styleClass="primary-btn card-button" update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()" title="Reset configuration"

@@ -41,19 +41,21 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   {
     navigateToDatabaseDetail(driver);
     
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
     driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
+    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
     saveScreenshot(driver, "connection_fail");
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").getText()).contains("Error"));
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Error"));
   
     Navigation.toExternalDatabaseDetail(driver, "realdb");
     
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
     driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
+    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
     saveScreenshot(driver, "connection_ok");
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").getText()).contains("Successful connected to database"));
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Successful connected to database"));
   }
   
   @Test
