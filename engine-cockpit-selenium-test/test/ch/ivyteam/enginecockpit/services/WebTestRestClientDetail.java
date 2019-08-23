@@ -66,7 +66,7 @@ public class WebTestRestClientDetail extends WebTestBase
     driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
     saveScreenshot(driver, "connection_" + StringUtils.replace(msg, " ", "_"));
     webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains(msg));
-    driver.findElementById("connResult:connTestForm:closeConTesterDialog").click();
+    driver.findElementByXPath("//*[@id='connResult:connectionTestModel']/div/a").click();
     webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
   }
   
