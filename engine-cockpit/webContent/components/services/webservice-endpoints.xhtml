@@ -1,13 +1,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">language</i>
   <h:outputText value="Endpoints" />
 </f:facet>
-<!-- check responsive -->
 <h:form id="webservcieEndPointForm" style="overflow-y: auto;">
   <p:growl id="wsEndPointMsg" for="wsConfigMsg" showDetail="true">
     <p:autoUpdate/>
@@ -18,7 +18,7 @@
       <i class="material-icons table-icon">#{endpoint.type eq 'port' ? 'language' : 'link'}</i>
       <h:outputText value="#{endpoint.name}" styleClass="endpoint-entry"/>
     </p:column>
-    <p:column style="width: 110px;">
+    <p:column style="width: 70px;">
       <p:commandButton id="resetEndpointConfig" oncomplete="PF('resetEndpointConfirmDialog').show()" 
         title="Reset Endpoint" style="margin-right: 0px;" process="@this" update="@form:resetEndpointConfirmDialog"
         icon="ui-icon-close" styleClass="red-btn table-control-btn card-button" rendered="#{endpoint.type eq 'port'}"
@@ -28,11 +28,10 @@
         actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}"
         update="@form:editEndpointModal" oncomplete="PF('editEndpointModal').show()"
         rendered="#{endpoint.type eq 'port'}" />
-      <p:commandButton id="testWsEndpointBtn" title="Test Web Service Endpoint Connection" 
-        update="webservcieEndPointForm:wsEndPointMsg" process="@this"
-        icon="ui-icon-call-made" styleClass="secondary-btn table-control-btn card-button" 
-        actionListener="#{webserviceDetailBean.testWsEndpointConnection(endpoint.name)}"
-        rendered="#{endpoint.type eq 'port'}" />
+      <p:commandButton id="testWsEndpointBtn" title="Test Web Service Endpoint Connection" update="connResult:connectionTestModel"
+        icon="ui-icon-call-made" styleClass="secondary-btn table-control-btn card-button" process="@this"
+        actionListener="#{webserviceDetailBean.setActiveEndpoint(endpoint.name)}" style="margin-right: 0px;"
+        rendered="#{endpoint.type eq 'link'}" oncomplete="PF('connectionTestModel').show()" />
     </p:column>
   </p:treeTable>
   <h:outputText value="No Enpoint defined for this webservice" rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" />
@@ -47,22 +46,24 @@
   
   <p:dialog styleClass="config-edit" header="Edit endpoint '#{webserviceDetailBean.activePortType.name}'" id="editEndpointModal"
     widgetVar="editEndpointModal" modal="true" responsive="true" closeOnEscape="true" width="40%">
-      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
-        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
-        <p:outputLabel value="Default" for="defaultInput" />
-        <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.default}" required="true" requiredMessage="Value is required" />
-          <p:message for="defaultInput" id="defaultInputMessage" />
-        </h:panelGroup>
-        
-        <p:outputLabel value="Fallbacks" for="fallBackInput" />
-        <p:inputTextarea id="fallBackInput" value="#{webserviceDetailBean.activePortType.fallbacks}"/>
-      </p:panelGrid>
-      <p:commandButton id="saveEndpoint" update="@form" onsuccess="PF('editEndpointModal').hide()" validateClient="true"
-        actionListener="#{webserviceDetailBean.savePortType}" value="Save" icon="ui-icon-save" process="@form:editEndpointModal"
-        styleClass="primary-btn modal-input-button" />
-      <p:commandButton id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="Cancel" type="button"
-        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
+      <p:outputLabel value="Default" for="defaultInput" />
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.default}" required="true" requiredMessage="Value is required" />
+        <p:message for="defaultInput" id="defaultInputMessage" />
+      </h:panelGroup>
+      
+      <p:outputLabel value="Fallbacks" for="fallBackInput" />
+      <p:inputTextarea id="fallBackInput" value="#{webserviceDetailBean.activePortType.fallbacks}"/>
+    </p:panelGrid>
+    <p:commandButton id="saveEndpoint" update="@form" onsuccess="PF('editEndpointModal').hide()" validateClient="true"
+      actionListener="#{webserviceDetailBean.savePortType}" value="Save" icon="ui-icon-save" process="@form:editEndpointModal"
+      styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
   </p:dialog>
 </h:form>
+<cc:ConnectionTestResult result="#{webserviceDetailBean.result}" url="#{webserviceDetailBean.activeEndpoint}"
+  testMethod="#{webserviceDetailBean.testWsEndpointUrl()}" id="connResult" />
 </html>

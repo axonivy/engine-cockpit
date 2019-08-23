@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -13,10 +12,13 @@ import javax.ws.rs.ProcessingException;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
+import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
@@ -27,7 +29,7 @@ import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class RestClientDetailBean extends HelpServices
+public class RestClientDetailBean extends HelpServices implements IConnectionTestResult
 {
   private RestClient restClient;
   private String restClientName;
@@ -35,6 +37,7 @@ public class RestClientDetailBean extends HelpServices
   private ManagerBean managerBean;
   private RestClientDao restClientDao;
   private String restConfigKey;
+  private ConnectionTestResult testResult;
   
   public RestClientDetailBean()
   {
@@ -118,22 +121,23 @@ public class RestClientDetailBean extends HelpServices
               .getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
               .getRestWebService(restClient.getUniqueId()).createCall();
       int status = restCall.getWebTarget().request().head().getStatus();
-      Severity severity;
       if (status >= 200 && status < 400)
       {
-        severity = FacesMessage.SEVERITY_INFO;
+        testResult = new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successful send test request to REST service");
+      }
+      else if (status == 401)
+      {
+        testResult = new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
       }
       else 
       {
-        severity = FacesMessage.SEVERITY_ERROR;
+        testResult = new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
       }
-      FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
-              new FacesMessage(severity, "Status " + status, ">> " + restCall.getMethod() + " " + restCall.getUrl()));
     }
     catch (ProcessingException ex)
     {
-      FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid Url (may contains script context): " + ex.getMessage()));
+      testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
+              + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
   
@@ -154,6 +158,12 @@ public class RestClientDetailBean extends HelpServices
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
             new FacesMessage("Rest configuration reset", ""));
     reloadRestClient();
+  }
+
+  @Override
+  public ConnectionTestResult getResult()
+  {
+    return testResult;
   }
 
 }

@@ -21,16 +21,19 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Webservice;
 import ch.ivyteam.enginecockpit.model.Webservice.PortType;
+import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 
 @ManagedBean
 @ViewScoped
-public class WebserviceDetailBean extends HelpServices
+public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult
 {
   private Webservice webservice;
   private String webserviceId;
@@ -38,6 +41,8 @@ public class WebserviceDetailBean extends HelpServices
   
   private ManagerBean managerBean;
   private PortType activePortType;
+  private String activeEndpointUrl;
+  private ConnectionTestResult testResult;
   
   public WebserviceDetailBean()
   {
@@ -107,37 +112,43 @@ public class WebserviceDetailBean extends HelpServices
     return UrlUtil.getCockpitEngineGuideUrl() + "#web-service-detail";
   }
   
-  public void testWsEndpointConnection(String name)
+  public void setActiveEndpoint(String endpointUrl)
   {
-    testEndPoint(webservice.getPortTypeMap().get(name));
+    this.activeEndpointUrl = endpointUrl;
   }
 
-  private void testEndPoint(PortType endpoint)
+  public String getActiveEndpoint()
+  {
+    return activeEndpointUrl;
+  }
+  
+  public void testWsEndpointUrl()
   {
     Client client = ClientBuilder.newClient();
     if (authSupportedForTesting())
     {
       client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
     }
-    boolean invalidUrlFound = false;
-    for (String url : endpoint.getLinks())
+    try
     {
-      try
+      int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
+      if (status == 401)
       {
-        int status = client.target(url).request().post(Entity.json("")).getStatus();
-        FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
-                getMessage(endpoint, url, status));
+        testResult = new ConnectionTestResult("POST", status, TestResult.WARNING, "Authentication (only HttpBasic supported) was not successful");
       }
-      catch (ProcessingException ex)
+      else if (status == 404)
       {
-        invalidUrlFound = true;
+        testResult = new ConnectionTestResult("POST", status, TestResult.WARNING, "Service not found");
+      }
+      else
+      {
+        testResult = new ConnectionTestResult("POST", status, TestResult.SUCCESS, "Successful reached web service");
       }
     }
-    if (invalidUrlFound)
+    catch (ProcessingException ex)
     {
-      FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
-              new FacesMessage(FacesMessage.SEVERITY_WARN, endpoint.getName(), 
-                      "The some URLs seems to be not correct or they contain scripting context (can not be evaluated)"));
+      testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
+              + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
 
@@ -146,19 +157,6 @@ public class WebserviceDetailBean extends HelpServices
     return StringUtils.equals(webservice.getAuthType(), "HttpBasic") || StringUtils.equals(webservice.getAuthType(), "HTTP_BASIC");
   }
 
-  private FacesMessage getMessage(PortType endpoint, String url, int status)
-  {
-    if (status == 404)
-    {
-      return new FacesMessage(FacesMessage.SEVERITY_ERROR, endpoint.getName(), ">> Status: " + status + " - Not Found, Url: " + url);
-    }
-    else if (status == 401)
-    {
-      return new FacesMessage(FacesMessage.SEVERITY_WARN, endpoint.getName(), ">> Status: " + status + " - Unauthorized (only HttpBasic supported), Url: " + url);
-    }
-    return new FacesMessage(FacesMessage.SEVERITY_INFO, endpoint.getName(), ">> Status: " + status + ", Url: " + url);
-  }
-  
   private String parseEndpointsToYaml(Map<String, PortType> portTypes)
   {
     return portTypes.entrySet().stream().map(e -> e.getKey() + ": \n        - " + e.getValue().getLinks().stream()
@@ -213,33 +211,45 @@ public class WebserviceDetailBean extends HelpServices
     reloadWebservice();
   }
   
-  private class Authenticator implements ClientRequestFilter {
+  @Override
+  public ConnectionTestResult getResult()
+  {
+    return testResult;
+  }
+  
+  private class Authenticator implements ClientRequestFilter
+  {
 
     private final String user;
     private final String password;
 
-    public Authenticator(String user, String password) {
-        this.user = user;
-        this.password = password;
+    public Authenticator(String user, String password)
+    {
+      this.user = user;
+      this.password = password;
     }
 
     @Override
-    public void filter(ClientRequestContext requestContext) throws IOException {
-        MultivaluedMap<String, Object> headers = requestContext.getHeaders();
-        final String basicAuthentication = getBasicAuthentication();
-        headers.add("Authorization", basicAuthentication);
+    public void filter(ClientRequestContext requestContext) throws IOException
+    {
+      MultivaluedMap<String, Object> headers = requestContext.getHeaders();
+      final String basicAuthentication = getBasicAuthentication();
+      headers.add("Authorization", basicAuthentication);
 
     }
 
-    private String getBasicAuthentication() {
-        String token = this.user + ":" + this.password;
-        try {
-            return "BASIC " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException ex) {
-            throw new IllegalStateException("Cannot encode with UTF-8", ex);
-        }
+    private String getBasicAuthentication()
+    {
+      String token = this.user + ":" + this.password;
+      try
+      {
+        return "BASIC " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
+      }
+      catch (UnsupportedEncodingException ex)
+      {
+        throw new IllegalStateException("Cannot encode with UTF-8", ex);
+      }
     }
-}
+  }
 
-    
 }
