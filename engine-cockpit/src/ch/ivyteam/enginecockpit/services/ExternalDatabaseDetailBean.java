@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.di.restricted.DiCore;
@@ -21,6 +22,8 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase.Connection;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase.ExecStatement;
+import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.db.IExternalDatabase;
@@ -29,7 +32,7 @@ import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class ExternalDatabaseDetailBean extends HelpServices
+public class ExternalDatabaseDetailBean extends HelpServices implements IConnectionTestResult
 {
   private ExternalDatabase externalDatabase;
   private List<ExecStatement> history;
@@ -38,6 +41,7 @@ public class ExternalDatabaseDetailBean extends HelpServices
   
   private ManagerBean managerBean;
   private String dbConfigKey;
+  private ConnectionTestResult testResult;
   
   public ExternalDatabaseDetailBean()
   {
@@ -132,25 +136,23 @@ public class ExternalDatabaseDetailBean extends HelpServices
   
   public void testDbConnection()
   {
-    FacesMessage message;
     ExternalDatabaseManager dbManager = DiCore.getGlobalInjector().getInstance(ExternalDatabaseManager.class);
     IExternalDatabase iExternalDatabase = dbManager.getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
     try
     {
       if (iExternalDatabase.getConnection().isValid(10))
       {
-        message = new FacesMessage("Successful connected to database", "");
+        testResult = new ConnectionTestResult("", 0, TestResult.SUCCESS, "Successful connected to database");
       }
       else
       {
-        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Failed", "Could not connect to database");
+        testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "Could not connect to database");
       }
     }
-    catch (SQLException ex)
+    catch (NullPointerException | SQLException ex)
     {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
+      testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
-    FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", message);
   }
   
   public void saveDbConfig()
@@ -172,6 +174,12 @@ public class ExternalDatabaseDetailBean extends HelpServices
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
             new FacesMessage("Database configuration reset", ""));
     reloadExternalDb();
+  }
+
+  @Override
+  public ConnectionTestResult getResult()
+  {
+    return testResult;
   }
 
 }
