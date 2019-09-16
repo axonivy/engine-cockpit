@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>engine-cockpit-selenium-test</artifactId>
-	<version>7.4.0-SNAPSHOT</version>
+	<version>7.4.1-SNAPSHOT</version>
 
 	<properties>
 		<test.application>System</test.application>
@@ -128,7 +128,7 @@
 							<goal>deploy-to-engine</goal>
 						</goals>
 						<configuration>
-							<deployFile>../engine-cockpit-test-data/target/engine-cockpit-test-data-7.4.0-SNAPSHOT.iar</deployFile>
+							<deployFile>../engine-cockpit-test-data/target/engine-cockpit-test-data-7.4.1-SNAPSHOT.iar</deployFile>
 							<deployToEngineApplication>test</deployToEngineApplication>
 							<skipDeploy>${maven.test.skip}</skipDeploy>
 						</configuration>
@@ -141,7 +141,7 @@
 							<goal>deploy-to-engine</goal>
 						</goals>
 						<configuration>
-							<deployFile>../engine-cockpit-test-data/target/engine-cockpit-test-data-7.4.0-SNAPSHOT.iar</deployFile>
+							<deployFile>../engine-cockpit-test-data/target/engine-cockpit-test-data-7.4.1-SNAPSHOT.iar</deployFile>
 							<deployToEngineApplication>test-ad</deployToEngineApplication>
 							<skipDeploy>${maven.test.skip}</skipDeploy>
 						</configuration>
