@@ -5,14 +5,14 @@
 
 <p:dialog id="javaDetailDialog" header="Java Detail" widgetVar="javaDetailDialog" modal="true" closeOnEscape="true" width="60%">
   <h:form id="javaInfoForm" style="max-height: 400px; overflow-y: auto;">
-    <p:dataTable var="arg" value="#{javaBean.jvmArguments}">
+    <p:dataTable id="javaJVMInfoTable" var="arg" value="#{javaBean.jvmArguments}">
       <p:column headerText="JVM Argument">
-        <h:outputText value="#{arg}" />
+        <h:outputText value="#{arg}" styleClass="jvm-key"/>
       </p:column>
     </p:dataTable>
-    <p:dataTable var="property" value="#{javaBean.properties}" style="margin-top: 10px;">
+    <p:dataTable id="javaPropertiesInfoTable" var="property" value="#{javaBean.properties}" style="margin-top: 10px;">
       <p:column headerText="Name">
-        <h:outputText value="#{property.key}" />
+        <h:outputText value="#{property.key}" styleClass="javaprop-key"/>
       </p:column>
       <p:column headerText="Value">
         <h:outputText value="#{property.value}" />

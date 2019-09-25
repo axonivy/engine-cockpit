@@ -5,9 +5,9 @@
 
 <p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true" closeOnEscape="true" width="400px">
   <h:form id="licenceInfoForm">
-    <p:dataTable var="property" value="#{licenceBean.licenceProperties.entrySet().toArray()}">
+    <p:dataTable id="licenceInfoTable" var="property" value="#{licenceBean.licenceProperties.entrySet().toArray()}">
       <p:column headerText="Name">
-        <h:outputText value="#{property.key}" />
+        <h:outputText value="#{property.key}" styleClass="licence-key"/>
       </p:column>
       <p:column headerText="Value">
         <h:outputText value="#{property.value eq '0' or '' ? 'Unlimited' : property.value}" />
