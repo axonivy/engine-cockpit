@@ -5,12 +5,13 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.SearchEngineIndex;
+import ch.ivyteam.enginecockpit.util.ElasticSearchUtil;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.ElasticSearchServerManager;
+import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.server.ServerConfig;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -19,6 +20,9 @@ public class SearchEngineBean
 {
   @Inject
   private ElasticSearchServerManager searchEngine;
+  
+  @Inject
+  private ServerConfig serverConfig;
   
   private List<SearchEngineIndex> indices;
   private List<SearchEngineIndex> filteredIndices;
@@ -62,12 +66,12 @@ public class SearchEngineBean
   
   public String getUrl()
   {
-    return "unknown";
+    return serverConfig.getServerUrl();
   }
   
   public String getVersion()
   {
-    return "unknown";
+    return ElasticSearchUtil.getVersion(getUrl());
   }
   
   public boolean getState()
