@@ -20,6 +20,7 @@ public class WebTestDashboard extends WebTestBase
   {
     toDashboard(driver);
     checkOverviewBoxes(driver);
+    checkInfoPanels(driver);
   }
 
   private void checkOverviewBoxes(FirefoxDriver driver)
