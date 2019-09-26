@@ -11,6 +11,13 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class JavaBean
 {
+  List<String> jvmArgs;
+  
+  public JavaBean()
+  {
+    jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
+  }
+  
   public String getVersion()
   {
     return System.getProperty("java.version");
@@ -33,6 +40,6 @@ public class JavaBean
   
   public List<String> getJvmArguments()
   {
-    return ManagementFactory.getRuntimeMXBean().getInputArguments();
+    return jvmArgs;
   }
 }
