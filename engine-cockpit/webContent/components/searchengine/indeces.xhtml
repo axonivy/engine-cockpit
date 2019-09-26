@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+  
+<f:facet name="header">
+  <i class="material-icons table-icon panel-title-icon">insert_drive_file</i>
+  <h:outputText value="Indeces" />
+</f:facet>
+<h:form id="searchEngineIndexForm">
+  <p:growl id="searchEngineIndexMessages" for="searchEngineIndexMessages">
+    <p:autoUpdate/>
+  </p:growl>
+  <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+    var="index" value="#{searchEngineBean.indices}" filteredValue="#{searchEngineBean.filteredIndicies}"
+    lazy="false" id="indiciesTable" widgetVar="indiciesTable">
+    <f:facet name="header">
+      <p:outputPanel>
+        <p:outputLabel styleClass="table-search-icon">
+          <i class="material-icons">search</i>
+        </p:outputLabel>
+        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+          onkeyup="PF('indiciesTable').filter()" placeholder="Search" value="#{searchEngineBean.filter}"/>
+      </p:outputPanel>
+    </f:facet>
+    <p:column headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}" styleClass="index-name-column">
+      <h:outputText value="#{index.name}" styleClass="index-name">
+        <i class="material-icons table-icon">insert_drive_file</i>
+      </h:outputText>
+    </p:column>
+    <p:column headerText="Index Count" sortBy="#{index.countIndexed}" style="text-align: center; width: 100px;">
+      <h:outputText value="#{index.countIndexed}" />
+    </p:column>
+    <p:column headerText="Store Count" sortBy="#{index.countStored}" style="text-align: center; width: 100px;">
+      <h:outputText value="#{index.countStored}" />
+    </p:column>
+    <p:column headerText="Status" style="text-align: center; width: 60px;">
+      <h:outputText value="#{index.status}" />
+    </p:column>
+    <p:column style="text-align: center; width: 72px;">
+      <p:commandButton title="Reindex" icon="ui-icon-refresh" style="margin-right: 10px;" id="reindexBtn"
+        type="button"/>
+      <p:commandButton title="Mapping" icon="ui-icon-find-in-page" id="mappingBtn"
+        type="button" styleClass="secondary-btn" />
+      <!-- actions -->
+    </p:column>
+  </p:dataTable>
+</h:form>
+</html>
