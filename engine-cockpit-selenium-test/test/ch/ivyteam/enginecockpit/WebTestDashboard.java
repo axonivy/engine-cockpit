@@ -11,6 +11,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import ch.ivyteam.enginecockpit.util.Table;
+
 public class WebTestDashboard extends WebTestBase
 {
   @Test
@@ -18,10 +20,7 @@ public class WebTestDashboard extends WebTestBase
   {
     toDashboard(driver);
     checkOverviewBoxes(driver);
-
     checkInfoPanels(driver);
-    
-    checkLicenceInfo(driver);
   }
 
   private void checkOverviewBoxes(FirefoxDriver driver)
@@ -42,12 +41,28 @@ public class WebTestDashboard extends WebTestBase
     assertThat(infoPanels).hasSize(5);
   }
   
-  private void checkLicenceInfo(FirefoxDriver driver)
+  @Test
+  void checkLicenceInfo(FirefoxDriver driver)
   {
+    toDashboard(driver);
     driver.findElementById("tasksButtonLicenceDetail").click();
-    assertThat(driver.findElementById("licenceDetailDialog_title").isDisplayed()).isTrue();
-    WebElement licenceList = driver.findElementById("licenceInfoForm:detailsList");
-    assertThat(licenceList.isDisplayed()).isTrue();
+    saveScreenshot(driver, "licenceInfo");
+    webAssertThat(() -> assertThat(driver.findElementById("licenceDetailDialog").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(new Table(driver, By.id("licenceInfoForm:licenceInfoTable")).getFirstColumnEntries())
+            .isNotEmpty());
+  }
+  
+  @Test
+  void checkJavaInfo(FirefoxDriver driver)
+  {
+    toDashboard(driver);
+    driver.findElementById("tasksButtonJavaDetail").click();
+    saveScreenshot(driver, "javaInfo");
+    webAssertThat(() -> assertThat(driver.findElementById("javaDetailDialog").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(new Table(driver, By.id("javaInfoForm:javaJVMInfoTable")).getFirstColumnEntries())
+            .isNotEmpty());
+    webAssertThat(() -> assertThat(new Table(driver, By.id("javaInfoForm:javaPropertiesInfoTable")).getFirstColumnEntries())
+            .isNotEmpty());
   }
   
   @Test

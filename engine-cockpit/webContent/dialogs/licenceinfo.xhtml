@@ -3,20 +3,16 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true" closeOnEscape="true">
+<p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true" closeOnEscape="true" width="400px">
   <h:form id="licenceInfoForm">
-    <p:panelGrid id="detailsList">
-      <ui:repeat var="property" value="#{licenceBean.licenceProperties.entrySet().toArray()}">
-        <p:row>
-          <p:column>
-            <h:outputText value="#{property.key}" />
-          </p:column>
-          <p:column>
-            <h:outputText value="#{property.value eq '0' or '' ? 'Unlimited' : property.value}" />
-          </p:column>
-        </p:row>
-      </ui:repeat>
-    </p:panelGrid>
+    <p:dataTable id="licenceInfoTable" var="property" value="#{licenceBean.licenceProperties.entrySet().toArray()}">
+      <p:column headerText="Name">
+        <h:outputText value="#{property.key}" styleClass="licence-key"/>
+      </p:column>
+      <p:column headerText="Value">
+        <h:outputText value="#{property.value eq '0' or '' ? 'Unlimited' : property.value}" />
+      </p:column>
+    </p:dataTable>
   </h:form>
 </p:dialog>
 </html>
