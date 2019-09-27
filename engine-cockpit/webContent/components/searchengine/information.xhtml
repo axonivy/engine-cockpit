@@ -22,7 +22,13 @@
     <label>Url</label>
     <h:outputText value="#{searchEngineBean.elasticSearch.serverUrl}" />
     <label>Version</label>
-    <h:outputText value="#{searchEngineBean.elasticSearch.version}" />
+    <h:panelGroup>
+      <h:outputText value="#{searchEngineBean.elasticSearch.version}" />
+      <h:outputText rendered="#{searchEngineBean.elasticSearch.version != '7.3.0 '}">
+        <i class="material-icons search-machine-health-yellow" style="position: relative; top: 3px;"
+          title="This elastic search version is not supported">warning</i>
+      </h:outputText>
+    </h:panelGroup>
     <label>State</label>
     <h:outputText>
       <i class="material-icons search-machine-state search-machine-state-#{searchEngineBean.state}">#{searchEngineBean.state ? 'check' : 'close'}</i>
