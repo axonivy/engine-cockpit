@@ -8,10 +8,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import ch.ivyteam.di.restricted.DiCore;
+import ch.ivyteam.enginecockpit.model.ElasticSearch;
 import ch.ivyteam.enginecockpit.model.SearchEngineIndex;
-import ch.ivyteam.enginecockpit.util.ElasticSearchUtil;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.ElasticSearchServerManager;
-import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.IndexName;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.server.ServerConfig;
 
 @SuppressWarnings("restriction")
@@ -25,30 +24,27 @@ public class SearchEngineBean
   @Inject
   private ServerConfig serverConfig;
   
+  private ElasticSearch elasticSearch;
+  
   private List<SearchEngineIndex> indices;
   private List<SearchEngineIndex> filteredIndices;
   private String filter;
-
-  private String name;
-  private String version;
-  private String health;
-
   
+  private SearchEngineIndex activeIndex;
+
   public SearchEngineBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
+    elasticSearch = new ElasticSearch(serverConfig.getServerUrl());
     
     indices = searchEngine.getBusinessDataIndices().stream()
             .map(index -> new SearchEngineIndex(index,
                     searchEngine.countIndexed(index),
                     searchEngine.countStored(index),
-                    getUrl()))
+                    serverConfig.getServerUrl()))
             .collect(Collectors.toList());
-    ElasticSearchUtil.evaluateAliasForIndices(getUrl(), indices);
-    ElasticSearchUtil.evaluateAdditionalIndicesInformation(getUrl(), indices);
-    name = ElasticSearchUtil.getClusterName(getUrl());
-    version = ElasticSearchUtil.getVersion(getUrl());
-    health = ElasticSearchUtil.getHealth(getUrl());
+    elasticSearch.evaluateAliasForIndices(indices);
+    elasticSearch.evaluateAdditionalIndicesInformation(indices);
   }
   
   public List<SearchEngineIndex> getFilteredIndicies()
@@ -71,24 +67,9 @@ public class SearchEngineBean
     this.filter = filter;
   }
   
-  public String getName()
+  public ElasticSearch getElasticSearch()
   {
-    return name;
-  }
-  
-  public String getUrl()
-  {
-    return serverConfig.getServerUrl();
-  }
-  
-  public String getVersion()
-  {
-    return version;
-  }
-  
-  public String getHealth()
-  {
-    return health;
+    return elasticSearch;
   }
   
   public boolean getState()
@@ -101,8 +82,18 @@ public class SearchEngineBean
     return indices;
   }
   
-  public void reindex(IndexName index)
+  public void setActiveIndex(SearchEngineIndex index)
   {
-    searchEngine.reindex(index);
+    this.activeIndex = index;
+  }
+  
+  public SearchEngineIndex getActiveIndex()
+  {
+    return activeIndex;
+  }
+  
+  public void reindex()
+  {
+    searchEngine.reindex(activeIndex.getIndexName());
   }
 }

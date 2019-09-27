@@ -35,15 +35,17 @@
     <p:column headerText="Store Count" sortBy="#{index.countStored}" style="text-align: center; width: 100px;">
       <h:outputText value="#{index.countStored}" />
     </p:column>
-    <p:column headerText="Status" style="text-align: center; width: 60px;">
-      <h:outputText value="#{index.status}" />
+    <p:column headerText="Status" style="text-align: center; width: 60px; font-weight: bold;">
+      <i class="material-icons table-icon search-machine-state search-machine-health-#{index.status}" 
+        title="#{index.status}">#{index.status == 'red' ? 'close' : 'check'}</i>
     </p:column>
     <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 60px;">
       <h:outputText value="#{index.size}" />
     </p:column>
     <p:column style="text-align: center; width: 72px;">
       <p:commandButton title="Reindex" icon="ui-icon-refresh" style="margin-right: 10px;" id="reindexBtn"
-        actionListener="#{searchEngineBean.reindex(index.indexName)}" update="@form"/>
+        actionListener="#{searchEngineBean.setActiveIndex(index)}" update="reindexSearchEngineModel"
+        oncomplete="PF('reindexSearchEngineModel').show();"/>
       <!-- TODO: add Query tool... add this as standard request
       <p:commandButton title="Mapping" icon="ui-icon-find-in-page" id="mappingBtn"
         type="button" styleClass="secondary-btn" onclick="window.open('#{index.mappingUrl}'); return false;" />
@@ -51,4 +53,21 @@
     </p:column>
   </p:dataTable>
 </h:form>
+
+<p:dialog style="min-width: 300px;" header="Reindex #{searchEngineBean.activeIndex.name}" id="reindexSearchEngineModel"
+  widgetVar="reindexSearchEngineModel" modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="reindexSearchEngineForm">
+    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+      <h:panelGroup layout="block" styleClass="static-message static-info-message">
+        <i class="fa fa-info-circle"/>
+        <h:outputText value="This step triggers the reindexation of the search engine and can take a while!"/>
+      </h:panelGroup>
+    </p:panelGrid>
+    <p:commandButton id="reindexSearchEngineBtn" ajax="false" 
+      actionListener="#{searchEngineBean.reindex}" value="Reindex" icon="ui-icon-refresh"
+      styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </h:form>
+</p:dialog>
 </html>

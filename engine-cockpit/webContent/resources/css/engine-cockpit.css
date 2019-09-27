@@ -256,6 +256,22 @@ body {
 }
 
 /*General*/
+.table-icon.search-machine-state,
+.ui-panelgrid-blank .search-machine-state {
+  font-weight: bold; 
+  font-size: 24px;
+}
+.search-machine-state-true,
+.search-machine-health-green {
+  color: #AFB42B;
+}
+.search-machine-health-yellow {
+  color: #FFC107;
+}
+.search-machine-state-false,
+.search-machine-health-red {
+  color: #F44336;
+}
 .activity-state-active {
   color: #C0CA33;
   font-weight: bold;

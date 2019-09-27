@@ -15,32 +15,20 @@
     styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=ElasticSearch'" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
-    <h:outputText value="#{searchEngineBean.name}" />
+    <h:outputText value="#{searchEngineBean.elasticSearch.clusterName}" />
     <label>Url</label>
-    <h:outputText value="#{searchEngineBean.url}" />
+    <h:outputText value="#{searchEngineBean.elasticSearch.serverUrl}" />
     <label>Version</label>
-    <h:outputText value="#{searchEngineBean.version}" />
+    <h:outputText value="#{searchEngineBean.elasticSearch.version}" />
     <label>State</label>
-    <h:outputText><i class="material-icons">#{searchEngineBean.state ? 'check' : 'close'}</i></h:outputText>
+    <h:outputText>
+      <i class="material-icons search-machine-state search-machine-state-#{searchEngineBean.state}">#{searchEngineBean.state ? 'check' : 'close'}</i>
+    </h:outputText>
     <label>Health</label>
-    <h:outputText value="#{searchEngineBean.health}" />
+    <h:outputText>
+       <i class="material-icons search-machine-state search-machine-health-#{searchEngineBean.elasticSearch.health}" 
+         title="#{searchEngineBean.elasticSearch.health}">#{searchEngineBean.elasticSearch.health == 'red' ? 'close' : 'check'}</i>
+    </h:outputText>
   </p:panelGrid>
 </h:form>
-
-<p:dialog style="min-width: 300px;" header="Reindex all business data" id="reindexSearchEngineModel"
-  widgetVar="reindexSearchEngineModel" modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="reindexSearchEngineForm">
-    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-      <h:panelGroup layout="block" styleClass="static-message static-info-message">
-        <i class="fa fa-info-circle"/>
-        <h:outputText value="This step triggers the reindexation of the search engine and can take a while!"/>
-      </h:panelGroup>
-    </p:panelGrid>
-    <p:commandButton id="reindexSearchEngineBtn" ajax="false" 
-      actionListener="#{searchEngineBean.reindexAll}" value="Reindex" icon="ui-icon-refresh"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-  </h:form>
-</p:dialog>
 </html>

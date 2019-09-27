@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.model;
 
-import ch.ivyteam.enginecockpit.util.ElasticSearchUtil;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.IndexName;
 
 @SuppressWarnings("restriction")
@@ -79,7 +78,7 @@ public class SearchEngineIndex
   
   public String getMappingUrl()
   {
-    return indexUrl + ElasticSearchUtil.MAPPING_URL;
+    return indexUrl + ElasticSearch.MAPPING_URL;
   }
   
   

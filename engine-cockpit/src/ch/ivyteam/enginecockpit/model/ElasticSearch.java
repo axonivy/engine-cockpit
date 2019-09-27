@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.util;
+package ch.ivyteam.enginecockpit.model;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,37 +13,73 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import ch.ivyteam.enginecockpit.model.SearchEngineIndex;
+import ch.ivyteam.enginecockpit.util.Authenticator;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 
-public class ElasticSearchUtil
+@SuppressWarnings("restriction")
+public class ElasticSearch
 {
   public static final String MAPPING_URL = "/_mapping";
   public static final String INDICIES_URL = "/_cat/indices?format=json";
   public static final String ALIASES_URL = "/_cat/aliases?format=json";
   public static final String HEALTH_URL = "/_cluster/health";
+  private final String username;
+  private final String password;
+  private final String serverUrl;
+  private String clusterName = "unknown";
+  private String health = "unknown";
+  private String version = "unknown";
   
-  public static String getClusterName(String serverUrl)
+  public ElasticSearch(String serverUrl)
   {
-    return executeRequest(serverUrl)
-            .map(response -> response.getAsJsonObject().get("cluster_name").getAsString())
-            .orElse("unknown");
+    this.username = IConfiguration.get().getOrDefault("Elasticsearch.ExternalServer.UserName");
+    this.password = IConfiguration.get().getOrDefault("Elasticsearch.ExternalServer.Password");
+    this.serverUrl = serverUrl;
+    initElasticSearchInfos();
   }
   
-  public static String getVersion(String serverUrl)
+  private void initElasticSearchInfos()
   {
-    return executeRequest(serverUrl)
-            .map(response -> response.getAsJsonObject().get("version").getAsJsonObject().get("number").getAsString())
-            .orElse("unknown");
+    try
+    {
+      executeRequest(serverUrl)
+              .ifPresent(response -> {
+                clusterName = response.getAsJsonObject().get("cluster_name").getAsString();
+                version = response.getAsJsonObject().get("version").getAsJsonObject().get("number").getAsString();
+              });
+      executeRequest(serverUrl + HEALTH_URL)
+              .ifPresent(response -> {
+                health = response.getAsJsonObject().get("status").getAsString();
+              });
+    }
+    catch (Exception ex)
+    {
+      Ivy.log().info(ex.getMessage());
+    }
   }
   
-  public static String getHealth(String serverUrl)
+  public String getServerUrl()
   {
-    return executeRequest(serverUrl + HEALTH_URL)
-            .map(response -> response.getAsJsonObject().get("status").getAsString())
-            .orElse("unknown");
+    return serverUrl;
+  }
+
+  public String getClusterName()
+  {
+    return clusterName;
   }
   
-  public static void evaluateAdditionalIndicesInformation(String serverUrl, List<SearchEngineIndex> indices)
+  public String getVersion()
+  {
+    return version;
+  }
+  
+  public String getHealth()
+  {
+    return health;
+  }
+  
+  public void evaluateAdditionalIndicesInformation(List<SearchEngineIndex> indices)
   {
     executeRequest(serverUrl + INDICIES_URL)
             .ifPresent(response -> response.getAsJsonArray().forEach(element -> {
@@ -59,7 +95,7 @@ public class ElasticSearchUtil
             }));
   }
   
-  public static void evaluateAliasForIndices(String serverUrl, List<SearchEngineIndex> indices)
+  public void evaluateAliasForIndices(List<SearchEngineIndex> indices)
   {
     executeRequest(serverUrl + ALIASES_URL)
             .ifPresent(response -> response.getAsJsonArray().forEach(element -> {
@@ -73,19 +109,20 @@ public class ElasticSearchUtil
     
   }
 
-  private static Optional<SearchEngineIndex> getIndexFromList(List<SearchEngineIndex> indices, String jsonElementIndex)
+  private Optional<SearchEngineIndex> getIndexFromList(List<SearchEngineIndex> indices, String jsonElementIndex)
   {
     return indices.stream().filter(index -> StringUtils.equals(index.getIndex(), jsonElementIndex)).findFirst();
   }
   
-  private static Optional<SearchEngineIndex> getAliasFromList(List<SearchEngineIndex> indices, String jsonElementIndex)
+  private Optional<SearchEngineIndex> getAliasFromList(List<SearchEngineIndex> indices, String jsonElementIndex)
   {
     return indices.stream().filter(index -> StringUtils.equals(index.getName(), jsonElementIndex)).findFirst();
   }
   
-  private static Optional<JsonElement> executeRequest(String url)
+  private Optional<JsonElement> executeRequest(String url)
   {
     Client client = ClientBuilder.newClient();
+    client.register(new Authenticator(username, password));
     try (Response response = client.target(url).request().get())
     {
       if (response.getStatus() == 200)
