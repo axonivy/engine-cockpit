@@ -386,6 +386,10 @@ body {
 .search-machine-health-red {
   color: #F44336;
 }
+.table-icon.search-machine-health-unknown,
+.ui-panelgrid-blank .search-machine-health-unknown {
+  font-weight: normal;
+}
 .querytool .querytool-url {
   font-style: italic;
   float: left;

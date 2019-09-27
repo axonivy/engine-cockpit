@@ -36,8 +36,8 @@
       <h:outputText value="#{index.countStored}" />
     </p:column>
     <p:column headerText="Status" style="text-align: center; width: 60px; font-weight: bold;">
-      <i class="material-icons table-icon search-machine-state search-machine-health-#{index.status}" 
-        title="#{index.status}">#{index.status == 'red' ? 'close' : 'check'}</i>
+      <i class="material-icons table-icon search-machine-state search-machine-health-#{index.status.state}" 
+        title="#{index.status.state}">#{index.status.icon}</i>
     </p:column>
     <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 60px;">
       <h:outputText value="#{index.size}" />
