@@ -29,8 +29,8 @@
     </h:outputText>
     <label>Health</label>
     <h:outputText>
-       <i class="material-icons search-machine-state search-machine-health-#{searchEngineBean.elasticSearch.health}" 
-         title="#{searchEngineBean.elasticSearch.health}">#{searchEngineBean.elasticSearch.health == 'red' ? 'close' : 'check'}</i>
+       <i class="material-icons search-machine-state search-machine-health-#{searchEngineBean.elasticSearch.health.state}" 
+         title="#{searchEngineBean.elasticSearch.health.state}">#{searchEngineBean.elasticSearch.health.icon}</i>
     </h:outputText>
   </p:panelGrid>
 </h:form>
