@@ -9,10 +9,7 @@
     <div style="width: 100%;">
       <h:outputText styleClass="querytool-url"
         value="GET: #{searchEngineBean.activeIndex != null ? searchEngineBean.activeIndex.indexUrl : searchEngineBean.elasticSearch.serverUrl}/"/>
-      <span class="querytool-query">
-        <p:autoComplete id="driver" dropdown="true" value="#{searchEngineBean.query}" 
-          completeMethod="#{searchEngineBean.queryProposals}" />
-      </span>
+      <span class="querytool-query"><p:inputText value="#{searchEngineBean.query}" /></span>
     </div>
     <pre style="overflow: auto; max-height: 500px;"><h:outputText value="#{searchEngineBean.queryResult}" /></pre>
     <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"

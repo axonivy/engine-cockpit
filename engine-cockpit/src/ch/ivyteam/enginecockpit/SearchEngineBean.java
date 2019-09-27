@@ -1,14 +1,11 @@
 package ch.ivyteam.enginecockpit;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -95,8 +92,6 @@ public class SearchEngineBean
   public void setActiveIndex(SearchEngineIndex index)
   {
     this.activeIndex = index;
-    this.query = "";
-    this.queryResult = "";
   }
   
   public SearchEngineIndex getActiveIndex()
@@ -117,26 +112,6 @@ public class SearchEngineBean
   public String getQueryResult()
   {
     return queryResult;
-  }
-  
-  public List<String> queryProposals(String value)
-  {
-    return getQueryApis().stream()
-            .map(api -> StringUtils.removeStart(api, "/"))
-            .filter(api -> StringUtils.startsWith(api, value))
-            .distinct()
-            .collect(Collectors.toList());
-  }
-  
-  private List<String> getQueryApis()
-  {
-    if (activeIndex == null)
-    {
-      return Arrays.asList(ElasticSearch.ElasticSearchApi.ALIASES_URL,
-            ElasticSearch.ElasticSearchApi.HEALTH_URL,
-            ElasticSearch.ElasticSearchApi.INDICIES_URL);
-    }
-    return Arrays.asList(ElasticSearch.ElasticSearchIndexApi.MAPPING_URL);
   }
   
   public void runQuery()

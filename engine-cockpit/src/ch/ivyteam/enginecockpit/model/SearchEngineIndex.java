@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.model;
 
-import ch.ivyteam.enginecockpit.model.ElasticSearch.SearchEngineHealth;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.IndexName;
 
 @SuppressWarnings("restriction")
@@ -11,7 +10,7 @@ public class SearchEngineIndex
   private String alias;
   private long countIndexed;
   private long countStored;
-  private SearchEngineHealth status;
+  private String status; //TODO: enum?
   private String size;
   private String indexUrl;
   
@@ -22,7 +21,7 @@ public class SearchEngineIndex
     this.index = index.getName();
     this.countIndexed = countIndexed;
     this.countStored = countStored;
-    this.status = SearchEngineHealth.UNKNOWN;
+    this.status = "unknown";
     this.size = "unknown";
     this.indexUrl = serverUrl + "/" + alias;
   }
@@ -57,14 +56,14 @@ public class SearchEngineIndex
     return countStored;
   }
 
-  public SearchEngineHealth getStatus()
+  public String getStatus()
   {
     return status;
   }
   
-  public void setStatus(SearchEngineHealth searchEngineHealth)
+  public void setStatus(String health)
   {
-    this.status = searchEngineHealth;
+    this.status = health;
   }
   
   public String getSize()
