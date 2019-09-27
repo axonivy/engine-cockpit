@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog header="Run Search Engine Query" id="searchEngineQueryToolModal" width="50%"
+  widgetVar="searchEngineQueryToolModal" modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="searchEngineQueryToolForm" styleClass="querytool ui-fluid">
+    <div style="width: 100%;">
+      <h:outputText styleClass="querytool-url"
+        value="GET: #{searchEngineBean.activeIndex != null ? searchEngineBean.activeIndex.indexUrl : searchEngineBean.elasticSearch.serverUrl}/"/>
+      <span class="querytool-query"><p:inputText value="#{searchEngineBean.query}" /></span>
+    </div>
+    <pre style="overflow: auto; max-height: 500px;"><h:outputText value="#{searchEngineBean.queryResult}" /></pre>
+    <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"
+      actionListener="#{searchEngineBean.runQuery}" value="Run" icon="ui-icon-save"
+      styleClass="primary-btn modal-input-button" />
+    <p:commandButton id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+  </h:form>
+</p:dialog>
+</html>

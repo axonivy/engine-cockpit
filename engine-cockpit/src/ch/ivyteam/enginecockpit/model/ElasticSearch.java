@@ -43,12 +43,12 @@ public class ElasticSearch
   {
     try
     {
-      executeRequest(serverUrl)
+      executeRequestJsonResponse(serverUrl)
               .ifPresent(response -> {
                 clusterName = response.getAsJsonObject().get("cluster_name").getAsString();
                 version = response.getAsJsonObject().get("version").getAsJsonObject().get("number").getAsString();
               });
-      executeRequest(serverUrl + HEALTH_URL)
+      executeRequestJsonResponse(serverUrl + HEALTH_URL)
               .ifPresent(response -> {
                 health = response.getAsJsonObject().get("status").getAsString();
               });
@@ -81,7 +81,7 @@ public class ElasticSearch
   
   public void evaluateAdditionalIndicesInformation(List<SearchEngineIndex> indices)
   {
-    executeRequest(serverUrl + INDICIES_URL)
+    executeRequestJsonResponse(serverUrl + INDICIES_URL)
             .ifPresent(response -> response.getAsJsonArray().forEach(element -> {
               if (element.isJsonObject())
               {
@@ -97,7 +97,7 @@ public class ElasticSearch
   
   public void evaluateAliasForIndices(List<SearchEngineIndex> indices)
   {
-    executeRequest(serverUrl + ALIASES_URL)
+    executeRequestJsonResponse(serverUrl + ALIASES_URL)
             .ifPresent(response -> response.getAsJsonArray().forEach(element -> {
               if (element.isJsonObject())
               {
@@ -119,7 +119,13 @@ public class ElasticSearch
     return indices.stream().filter(index -> StringUtils.equals(index.getName(), jsonElementIndex)).findFirst();
   }
   
-  private Optional<JsonElement> executeRequest(String url)
+  private Optional<JsonElement> executeRequestJsonResponse(String url)
+  {
+    return executeRequest(url).map(response -> Optional.ofNullable(new Gson().fromJson(response, JsonElement.class)))
+            .orElse(Optional.empty());
+  }
+  
+  public Optional<String> executeRequest(String url)
   {
     Client client = ClientBuilder.newClient();
     client.register(new Authenticator(username, password));
@@ -127,8 +133,7 @@ public class ElasticSearch
     {
       if (response.getStatus() == 200)
       {
-        String json = response.readEntity(String.class);
-        return Optional.ofNullable(new Gson().fromJson(json, JsonElement.class));
+        return Optional.ofNullable(response.readEntity(String.class));
       }
       return Optional.empty();
     }

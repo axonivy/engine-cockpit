@@ -76,9 +76,9 @@ public class SearchEngineIndex
     this.size = size;
   }
   
-  public String getMappingUrl()
+  public String getIndexUrl()
   {
-    return indexUrl + ElasticSearch.MAPPING_URL;
+    return indexUrl;
   }
   
   

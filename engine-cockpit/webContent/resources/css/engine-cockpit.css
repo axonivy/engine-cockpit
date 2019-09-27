@@ -256,22 +256,6 @@ body {
 }
 
 /*General*/
-.table-icon.search-machine-state,
-.ui-panelgrid-blank .search-machine-state {
-  font-weight: bold; 
-  font-size: 24px;
-}
-.search-machine-state-true,
-.search-machine-health-green {
-  color: #AFB42B;
-}
-.search-machine-health-yellow {
-  color: #FFC107;
-}
-.search-machine-state-false,
-.search-machine-health-red {
-  color: #F44336;
-}
 .activity-state-active {
   color: #C0CA33;
   font-weight: bold;
@@ -383,4 +367,29 @@ body {
 }
 .file-upload .ui-panelgrid .ui-panelgrid-content {
   padding: 0;
+}
+
+/* Search Engine */
+.table-icon.search-machine-state,
+.ui-panelgrid-blank .search-machine-state {
+  font-weight: bold; 
+  font-size: 24px;
+}
+.search-machine-state-true,
+.search-machine-health-green {
+  color: #AFB42B;
+}
+.search-machine-health-yellow {
+  color: #FFC107;
+}
+.search-machine-state-false,
+.search-machine-health-red {
+  color: #F44336;
+}
+.querytool .querytool-url {
+  font-style: italic;
+  float: left;
+}
+.querytool .querytool-query {
+  display: block; overflow: hidden;
 }

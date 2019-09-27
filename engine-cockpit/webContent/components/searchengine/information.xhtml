@@ -11,6 +11,9 @@
   <p:growl id="searchEngineMessages" for="searchEngineMessages">
     <p:autoUpdate/>
   </p:growl>
+  <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="ui-icon-bug-report" update="searchEngineQueryToolModal"
+    actionListener="#{searchEngineBean.setActiveIndex(null)}"
+    styleClass="amber-btn card-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
   <p:commandButton id="configSearchEngine" title="Configure Search Engine" icon="ui-icon-settings" type="button"
     styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=ElasticSearch'" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -31,4 +34,5 @@
     </h:outputText>
   </p:panelGrid>
 </h:form>
+
 </html>

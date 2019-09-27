@@ -46,10 +46,9 @@
       <p:commandButton title="Reindex" icon="ui-icon-refresh" style="margin-right: 10px;" id="reindexBtn"
         actionListener="#{searchEngineBean.setActiveIndex(index)}" update="reindexSearchEngineModel"
         oncomplete="PF('reindexSearchEngineModel').show();"/>
-      <!-- TODO: add Query tool... add this as standard request
-      <p:commandButton title="Mapping" icon="ui-icon-find-in-page" id="mappingBtn"
-        type="button" styleClass="secondary-btn" onclick="window.open('#{index.mappingUrl}'); return false;" />
-        -->
+      <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="ui-icon-bug-report"
+        actionListener="#{searchEngineBean.setActiveIndex(index)}" update="searchEngineQueryToolModal"
+        styleClass="amber-btn" oncomplete="PF('searchEngineQueryToolModal').show()" />
     </p:column>
   </p:dataTable>
 </h:form>

@@ -7,6 +7,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.ElasticSearch;
 import ch.ivyteam.enginecockpit.model.SearchEngineIndex;
@@ -31,6 +35,9 @@ public class SearchEngineBean
   private String filter;
   
   private SearchEngineIndex activeIndex;
+  
+  private String query;
+  private String queryResult;
 
   public SearchEngineBean()
   {
@@ -92,6 +99,47 @@ public class SearchEngineBean
     return activeIndex;
   }
   
+  public String getQuery()
+  {
+    return query;
+  }
+  
+  public void setQuery(String query)
+  {
+    this.query = query;
+  }
+  
+  public String getQueryResult()
+  {
+    return queryResult;
+  }
+  
+  public void runQuery()
+  {
+    try
+    {
+      elasticSearch.executeRequest(elasticSearch.getServerUrl() + "/" + query)
+              .ifPresent(result -> queryResult = tryToBeutifyQueryResult(result));
+
+    }
+    catch (Exception ex)
+    {
+      queryResult = ex.getMessage();
+    }
+  }
+  
+  private String tryToBeutifyQueryResult(String result)
+  {
+    try
+    {
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      return gson.toJson(new JsonParser().parse(result));
+    }
+    catch (Exception e) {
+      return result;
+    }
+  }
+
   public void reindex()
   {
     searchEngine.reindex(activeIndex.getIndexName());
