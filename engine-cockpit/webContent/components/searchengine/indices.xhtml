@@ -5,7 +5,7 @@
   
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">insert_drive_file</i>
-  <h:outputText value="Indeces" />
+  <h:outputText value="Indices" />
 </f:facet>
 <h:form id="searchEngineIndexForm">
   <p:growl id="searchEngineIndexMessages" for="searchEngineIndexMessages">
@@ -38,12 +38,16 @@
     <p:column headerText="Status" style="text-align: center; width: 60px;">
       <h:outputText value="#{index.status}" />
     </p:column>
+    <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 60px;">
+      <h:outputText value="#{index.size}" />
+    </p:column>
     <p:column style="text-align: center; width: 72px;">
       <p:commandButton title="Reindex" icon="ui-icon-refresh" style="margin-right: 10px;" id="reindexBtn"
-        type="button"/>
+        actionListener="#{searchEngineBean.reindex(index.indexName)}" update="@form"/>
+      <!-- TODO: add Query tool... add this as standard request
       <p:commandButton title="Mapping" icon="ui-icon-find-in-page" id="mappingBtn"
-        type="button" styleClass="secondary-btn" />
-      <!-- actions -->
+        type="button" styleClass="secondary-btn" onclick="window.open('#{index.mappingUrl}'); return false;" />
+        -->
     </p:column>
   </p:dataTable>
 </h:form>

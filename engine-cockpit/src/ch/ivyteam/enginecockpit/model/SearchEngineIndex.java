@@ -1,33 +1,50 @@
 package ch.ivyteam.enginecockpit.model;
 
+import ch.ivyteam.enginecockpit.util.ElasticSearchUtil;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.IndexName;
 
 @SuppressWarnings("restriction")
 public class SearchEngineIndex
 {
-  private IndexName index;
-  private String name;
+  private IndexName indexName;
+  private String index;
+  private String alias;
   private long countIndexed;
   private long countStored;
   private String status; //TODO: enum?
+  private String size;
+  private String indexUrl;
   
-  public SearchEngineIndex(IndexName index, long countIndexed, long countStored, String status)
+  public SearchEngineIndex(IndexName index, long countIndexed, long countStored, String serverUrl)
   {
-    this.index = index;
-    this.name = index.getName();
+    this.indexName = index;
+    this.alias = index.getName();
+    this.index = index.getName();
     this.countIndexed = countIndexed;
     this.countStored = countStored;
-    this.status = status;
+    this.status = "unknown";
+    this.size = "unknown";
+    this.indexUrl = serverUrl + "/" + alias;
   }
   
-  public IndexName getIndex()
+  public IndexName getIndexName()
+  {
+    return indexName;
+  }
+  
+  public String getIndex()
   {
     return index;
+  }
+  
+  public void setIndex(String index)
+  {
+    this.index = index;
   }
 
   public String getName()
   {
-    return name;
+    return alias;
   }
 
   public long getCountIndexed()
@@ -43,6 +60,26 @@ public class SearchEngineIndex
   public String getStatus()
   {
     return status;
+  }
+  
+  public void setStatus(String health)
+  {
+    this.status = health;
+  }
+  
+  public String getSize()
+  {
+    return size;
+  }
+  
+  public void setSize(String size)
+  {
+    this.size = size;
+  }
+  
+  public String getMappingUrl()
+  {
+    return indexUrl + ElasticSearchUtil.MAPPING_URL;
   }
   
   

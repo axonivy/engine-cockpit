@@ -11,8 +11,8 @@
   <p:growl id="searchEngineMessages" for="searchEngineMessages">
     <p:autoUpdate/>
   </p:growl>
-  <p:commandButton id="reindexAllBtn" type="button" title="Reindex all" onclick="PF('reindexSearchEngineModel').show();"
-    icon="ui-icon-refresh" styleClass="primary-btn card-button" update="searchEngineInfoForm" />
+  <p:commandButton id="configSearchEngine" title="Configure Search Engine" icon="ui-icon-settings" type="button"
+    styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=ElasticSearch'" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText value="#{searchEngineBean.name}" />
@@ -22,6 +22,8 @@
     <h:outputText value="#{searchEngineBean.version}" />
     <label>State</label>
     <h:outputText><i class="material-icons">#{searchEngineBean.state ? 'check' : 'close'}</i></h:outputText>
+    <label>Health</label>
+    <h:outputText value="#{searchEngineBean.health}" />
   </p:panelGrid>
 </h:form>
 

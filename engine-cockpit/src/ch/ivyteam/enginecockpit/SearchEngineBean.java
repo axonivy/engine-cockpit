@@ -11,6 +11,7 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.SearchEngineIndex;
 import ch.ivyteam.enginecockpit.util.ElasticSearchUtil;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.ElasticSearchServerManager;
+import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.IndexName;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.server.ServerConfig;
 
 @SuppressWarnings("restriction")
@@ -27,16 +28,27 @@ public class SearchEngineBean
   private List<SearchEngineIndex> indices;
   private List<SearchEngineIndex> filteredIndices;
   private String filter;
+
+  private String name;
+  private String version;
+  private String health;
+
   
   public SearchEngineBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
+    
     indices = searchEngine.getBusinessDataIndices().stream()
             .map(index -> new SearchEngineIndex(index,
                     searchEngine.countIndexed(index),
                     searchEngine.countStored(index),
-                    "unknown"))
+                    getUrl()))
             .collect(Collectors.toList());
+    ElasticSearchUtil.evaluateAliasForIndices(getUrl(), indices);
+    ElasticSearchUtil.evaluateAdditionalIndicesInformation(getUrl(), indices);
+    name = ElasticSearchUtil.getClusterName(getUrl());
+    version = ElasticSearchUtil.getVersion(getUrl());
+    health = ElasticSearchUtil.getHealth(getUrl());
   }
   
   public List<SearchEngineIndex> getFilteredIndicies()
@@ -61,7 +73,7 @@ public class SearchEngineBean
   
   public String getName()
   {
-    return searchEngine.getName();
+    return name;
   }
   
   public String getUrl()
@@ -71,7 +83,12 @@ public class SearchEngineBean
   
   public String getVersion()
   {
-    return ElasticSearchUtil.getVersion(getUrl());
+    return version;
+  }
+  
+  public String getHealth()
+  {
+    return health;
   }
   
   public boolean getState()
@@ -84,8 +101,8 @@ public class SearchEngineBean
     return indices;
   }
   
-  public void reindexAll()
+  public void reindex(IndexName index)
   {
-    indices.forEach(index -> searchEngine.reindex(index.getIndex()));
+    searchEngine.reindex(index);
   }
 }
