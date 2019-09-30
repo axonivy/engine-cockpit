@@ -16,7 +16,7 @@
     styleClass="amber-btn card-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
   <p:commandButton id="configSearchEngine" title="Configure Search Engine" icon="ui-icon-settings" type="button"
     styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=ElasticSearch'" />
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText value="#{searchEngineBean.elasticSearch.clusterName}" />
     <label>Url</label>
@@ -24,7 +24,7 @@
     <label>Version</label>
     <h:panelGroup>
       <h:outputText value="#{searchEngineBean.elasticSearch.version}" />
-      <h:outputText rendered="#{searchEngineBean.elasticSearch.version != '7.3.0 '}">
+      <h:outputText rendered="#{searchEngineBean.elasticSearch.version ne '7.3.0'}">
         <i class="material-icons search-machine-health-yellow" style="position: relative; top: 3px;"
           title="This elastic search version is not supported">warning</i>
       </h:outputText>

@@ -28,6 +28,7 @@ public class WebDocuScreenshot extends WebBase
   {
     populateBusinessCalendar(driver);
     runExternalDbQuery(driver);
+    createBusinessData(driver);
     driver.manage().addCookie(new Cookie("cockpit_menu_default", "cockpit_menu_default", "/"));
     driver.manage().deleteCookieNamed("serenity_menu_static");
     login(driver);
@@ -54,6 +55,8 @@ public class WebDocuScreenshot extends WebBase
     takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendarDetail(driver, "Luzern");
     takeScreenshot(driver, "engine-cockpit-configuration-businesscalendar-detail", new Dimension(SCREENSHOT_WIDTH, 750));
+    Navigation.toSearchEngine(driver);
+    takeScreenshot(driver, "engine-cockpit-search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toEmail(driver);
     takeScreenshot(driver, "engine-cockpit-email", new Dimension(SCREENSHOT_WIDTH, 650));
     Navigation.toExternalDatabases(driver);
@@ -75,7 +78,7 @@ public class WebDocuScreenshot extends WebBase
     Navigation.toLogs(driver);
     takeScreenshot(driver, "engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
   }
-  
+
   public void takeScreenshot(RemoteWebDriver driver, String fileName, Dimension size)
   {
     Dimension oldSize = driver.manage().window().getSize();
@@ -151,6 +154,13 @@ public class WebDocuScreenshot extends WebBase
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
   }
+  
+  
+  private void createBusinessData(FirefoxDriver driver)
+  {
+    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
+  }
+
   
   private String getAppName()
   {

@@ -25,14 +25,16 @@
       </p:outputPanel>
     </f:facet>
     <p:column headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}" styleClass="index-name-column">
-      <h:outputText value="#{index.name}" styleClass="index-name">
-        <i class="material-icons table-icon">insert_drive_file</i>
-      </h:outputText>
+      <div style="overflow-x: auto;">
+        <h:outputText value="#{index.name}" styleClass="index-name">
+          <i class="material-icons table-icon">insert_drive_file</i>
+        </h:outputText>
+      </div>
     </p:column>
-    <p:column headerText="Index Count" sortBy="#{index.countIndexed}" style="text-align: center; width: 100px;">
+    <p:column headerText="Index" sortBy="#{index.countIndexed}" style="text-align: center; width: 60px;">
       <h:outputText value="#{index.countIndexed}" />
     </p:column>
-    <p:column headerText="Store Count" sortBy="#{index.countStored}" style="text-align: center; width: 100px;">
+    <p:column headerText="Store" sortBy="#{index.countStored}" style="text-align: center; width: 60px;">
       <h:outputText value="#{index.countStored}" />
     </p:column>
     <p:column headerText="Status" style="text-align: center; width: 60px; font-weight: bold;">
