@@ -32,13 +32,13 @@ public class Table
   
   public List<String> getFirstColumnEntriesForSpanClass(String span)
   {
-    return driver.findElementsByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span[@class='" + span + "']").stream()
+    return driver.findElementsByXPath("//div[@id='" + id + "']//tbody/tr/td[1]//span[@class='" + span + "']").stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
   
   public String getValueForEntry(String entry, int column)
   {
-    return driver.findElementByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span[text()='" + entry + "']/../../td[" + column + "]")
+    return driver.findElementByXPath("//div[@id='" + id + "']//tbody/tr/td[1]//span[text()='" + entry + "']/../../td[" + column + "]")
             .getText();
   }
 

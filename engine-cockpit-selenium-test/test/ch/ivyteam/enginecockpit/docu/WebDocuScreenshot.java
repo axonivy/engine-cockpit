@@ -1,8 +1,5 @@
 package ch.ivyteam.enginecockpit.docu;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
-import static org.awaitility.Awaitility.await;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -14,11 +11,11 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import ch.ivyteam.enginecockpit.WebBase;
+import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebDocuScreenshot extends WebBase
+public class WebDocuScreenshot extends WebTestBase
 {
 
   private static final int SCREENSHOT_WIDTH = 1500;
@@ -101,6 +98,7 @@ public class WebDocuScreenshot extends WebBase
     }
   }
 
+  @Override
   public void saveScreenshot(RemoteWebDriver driver, String name) 
   {
     File source = driver.getScreenshotAs(OutputType.FILE);
@@ -128,43 +126,6 @@ public class WebDocuScreenshot extends WebBase
   protected void resizeBrowser(RemoteWebDriver driver, Dimension size)
   {
     driver.manage().window().setSize(size);
-  }
-  
-  public void login(FirefoxDriver driver)
-  {
-    driver.get(viewUrl("login.xhtml"));
-    driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
-    driver.findElementById("loginForm:password").sendKeys(getAdminUser());
-    driver.findElementById("loginForm:login").click();
-    await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
-    await().ignoreExceptions().until(() -> driver.findElementById("menuform").isDisplayed());
-  }
-  
-  public static String getAdminUser()
-  {
-    return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
-  }
-  
-  private void populateBusinessCalendar(FirefoxDriver driver)
-  {
-    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
-  }
-  
-  private void runExternalDbQuery(FirefoxDriver driver)
-  {
-    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
-  }
-  
-  
-  private void createBusinessData(FirefoxDriver driver)
-  {
-    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
-  }
-
-  
-  private String getAppName()
-  {
-    return EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
   }
   
 }

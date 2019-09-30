@@ -393,6 +393,8 @@ body {
 .querytool .querytool-url {
   font-style: italic;
   float: left;
+  max-width: 50%;
+  word-wrap: break-word;
 }
 .querytool .querytool-query {
   display: block; overflow: hidden;

@@ -83,4 +83,32 @@ public class WebTestBase extends WebBase
   {
     return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
   }
+  
+  public static void populateBusinessCalendar(FirefoxDriver driver)
+  {
+    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
+    await().until(() -> driver.getCurrentUrl().contains(getEndPage()));
+  }
+  
+  public static void runExternalDbQuery(FirefoxDriver driver)
+  {
+    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
+    await().until(() -> driver.getCurrentUrl().contains(getEndPage()));
+  }
+
+  public static void createBusinessData(FirefoxDriver driver)
+  {
+    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
+    await().until(() -> driver.getCurrentUrl().contains(getEndPage()));
+  }
+  
+  private static String getAppName()
+  {
+    return EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
+  }
+  
+  private static String getEndPage()
+  {
+    return EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end";
+  }
 }
