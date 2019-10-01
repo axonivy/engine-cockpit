@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 import java.util.List;
 
@@ -26,15 +25,15 @@ public class WebTestUsers extends WebTestBase
     navigateToUsers(driver);
     assertThat(driver.findElementByTagName("h1").getText()).contains("Users");
     WebElement table = driver.findElementByClassName("userTable");
-    List<WebElement> users = table.findElements(new By.ByClassName("user-name"));
+    List<WebElement> users = table.findElements(By.className("user-name"));
     if (!users.isEmpty())
     {
-      assertThat(table.findElements(new By.ByClassName("user-name"))).isNotEmpty();
-      WebElement lastUser = table.findElement(new By.ByXPath("(.//*[@class='user-name'])[last()]"));
-      WebElement input = table.findElement(new By.ByXPath(".//input[contains(@class, 'table-search-input-withicon')]"));
+      assertThat(table.findElements(By.className("user-name"))).isNotEmpty();
+      WebElement lastUser = table.findElement(By.xpath("(.//*[@class='user-name'])[last()]"));
+      WebElement input = table.findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]"));
       input.sendKeys(lastUser.getText());
       saveScreenshot(driver, "search_user");
-      await().untilAsserted(() -> assertThat(table.findElements(new By.ByClassName("user-name"))).hasSize(1));
+      webAssertThat(() -> assertThat(table.findElements(By.className("user-name"))).hasSize(1));
     }
   }
   
@@ -64,7 +63,7 @@ public class WebTestUsers extends WebTestBase
   {
     showNewUserDialog(driver);
     WebElement table = driver.findElementByClassName("userTable");
-    int users = table.findElements(new By.ByClassName("user-name")).size();
+    int users = table.findElements(By.className("user-name")).size();
     driver.findElementById("newUserForm:newUserNameInput").sendKeys(user);
     driver.findElementById("newUserForm:fullName").sendKeys(fullName);
     driver.findElementById("newUserForm:email").sendKeys(email);
@@ -76,17 +75,17 @@ public class WebTestUsers extends WebTestBase
     table = driver.findElementByClassName("userTable");
     assertThat(driver.findElementById("newUserModal").isDisplayed()).isFalse();
     assertThat(driver.findElementById("form:msgs_container").isDisplayed()).isFalse();
-    assertThat(table.findElements(new By.ByClassName("user-name")).size()).isGreaterThan(users);
-    assertThat(table.findElement(new By.ByXPath("(.//*[@class='user-name'])[last()]")).getText()).isEqualTo(user);
-    assertThat(table.findElement(new By.ByXPath("(.//*[@class='user-fullname'])[last()]")).getText()).isEqualTo(fullName);
-    assertThat(table.findElement(new By.ByXPath("(.//*[@class='user-email'])[last()]")).getText()).isEqualTo(email);
+    assertThat(table.findElements(By.className("user-name")).size()).isGreaterThan(users);
+    assertThat(table.findElement(By.xpath("(.//*[@class='user-name'])[last()]")).getText()).isEqualTo(user);
+    assertThat(table.findElement(By.xpath("(.//*[@class='user-fullname'])[last()]")).getText()).isEqualTo(fullName);
+    assertThat(table.findElement(By.xpath("(.//*[@class='user-email'])[last()]")).getText()).isEqualTo(email);
   }
   
   private void showNewUserDialog(FirefoxDriver driver)
   {
     navigateToUsers(driver);
-    WebElement firstAppPanel = driver.findElement(new By.ByXPath(("//div[contains(@class, 'ui-tabs-panel')]")));
-    WebElement newUserBtn = firstAppPanel.findElement(new By.ByXPath((".//button[contains(@id, 'newUserBtn')]")));
+    WebElement firstAppPanel = driver.findElement(By.xpath(("//div[contains(@class, 'ui-tabs-panel')]")));
+    WebElement newUserBtn = firstAppPanel.findElement(By.xpath((".//button[contains(@id, 'newUserBtn')]")));
     newUserBtn.click();
     saveScreenshot(driver, "new_user");
     assertThat(driver.findElementById("newUserModal").isDisplayed()).isTrue();

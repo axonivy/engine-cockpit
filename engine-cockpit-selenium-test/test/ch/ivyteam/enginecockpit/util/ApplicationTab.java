@@ -1,22 +1,22 @@
 package ch.ivyteam.enginecockpit.util;
 
-import static org.awaitility.Awaitility.await;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.ByXPath;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import ch.ivyteam.enginecockpit.WebBase;
+
 public class ApplicationTab
 {
-  private static final ByXPath APPLICATION_TAB = new By.ByXPath("//li[contains(@class, 'application-tab')]/child::a");
-  private static final ByXPath APPLICATION_TAB_LI = new By.ByXPath("//li[contains(@class, 'application-tab')]");
-  private static final ByXPath SELECTED_APPLICATION_TAB = new By.ByXPath("//li[contains(@class, 'application-tab') and contains(@class, 'ui-state-active')]/child::a");
+  private static final By APPLICATION_TAB = By.xpath("//li[contains(@class, 'application-tab')]/child::a");
+  private static final By APPLICATION_TAB_LI = By.xpath("//li[contains(@class, 'application-tab')]");
+  private static final By SELECTED_APPLICATION_TAB = By.xpath("//li[contains(@class, 'application-tab') and contains(@class, 'ui-state-active')]/child::a");
 
   public static int getApplicationCount(FirefoxDriver driver)
   {
@@ -52,8 +52,7 @@ public class ApplicationTab
     {
       driver.findElements(APPLICATION_TAB).get(index).click();
     }
-    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
-            .until(() -> getSelectedApplicationIndex(driver) == index);
+    WebBase.webAssertThat(() -> assertThat(getSelectedApplicationIndex(driver)).isEqualTo(index));
   }
 
   public static void switchToApplication(FirefoxDriver driver, String appName)
@@ -68,8 +67,7 @@ public class ApplicationTab
     if (app.isPresent())
     {
       app.get().click();
-      await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class)
-              .until(() -> getSelectedApplication(driver).equals(appName));
+      WebBase.webAssertThat(() -> assertThat(getSelectedApplication(driver)).isEqualTo(appName));
     }
   }
 }

@@ -29,9 +29,9 @@ public class WebTestDashboard extends WebTestBase
     assertThat(overviewBoxes).hasSize(4);
     List<String> boxesExpect = new ArrayList<>(
             Arrays.asList("Sessions", "Users", "Running Cases", "Applications"));
-    overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-title")).getText())
+    overviewBoxes.stream().map(b -> b.findElement(By.className("overview-box-title")).getText())
             .forEach(t -> assertThat(t).isNotEmpty().isIn(boxesExpect));
-    overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-count")).getText())
+    overviewBoxes.stream().map(b -> b.findElement(By.className("overview-box-count")).getText())
             .forEach(c -> assertThat(c).isNotEmpty());
   }
 

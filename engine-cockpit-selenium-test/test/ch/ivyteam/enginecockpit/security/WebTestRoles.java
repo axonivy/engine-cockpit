@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,17 +22,15 @@ public class WebTestRoles extends WebTestBase
     Navigation.toRoles(driver);
     assertThat(driver.findElementByTagName("h1").getText()).contains("Roles");
     WebElement panel = getVisibleRolePanel(driver);
-    List<WebElement> roles = panel.findElements(new By.ByClassName("ui-treenode-content"));
+    List<WebElement> roles = panel.findElements(By.className("ui-treenode-content"));
     assertThat(roles).isNotEmpty();
     int roleCount = roles.size();
     assertThat(roleCount).isGreaterThanOrEqualTo(1);
-    panel.findElement(new By.ByXPath(".//input[contains(@class, 'ui-inputfield')]")).sendKeys("Everybody");
+    panel.findElement(By.xpath(".//input[contains(@class, 'ui-inputfield')]")).sendKeys("Everybody");
     sleep(300); //sleep search delay
     saveScreenshot(driver);
-    await().untilAsserted(() -> {
-      assertThat(getVisibleRolePanel(driver).findElements(new By.ByXPath("//*[contains(@class, 'ui-treenode-content')]")).stream()
-              .filter(found -> found.isDisplayed()).collect(Collectors.toList())).hasSize(1);
-    });
+    webAssertThat(() -> assertThat(getVisibleRolePanel(driver).findElements(By.xpath("//*[contains(@class, 'ui-treenode-content')]")).stream()
+              .filter(found -> found.isDisplayed()).collect(Collectors.toList())).hasSize(1));
   }
 
   private WebElement getVisibleRolePanel(FirefoxDriver driver)

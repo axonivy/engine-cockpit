@@ -56,7 +56,7 @@ public class WebTestSecuritySystem extends WebTestBase
     driver.findElementById("securitySystemConfigForm:deleteSecuritySystemConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("securitysystem.xhtml"));
     saveScreenshot(driver, "system_deleted");
-    webAssertThat(() -> assertThat(driver.findElements(new By.ByXPath("//span[@class='security-name']"))
+    webAssertThat(() -> assertThat(driver.findElements(By.xpath("//span[@class='security-name']"))
             .stream().map(e -> e.getText()).collect(Collectors.toList())).doesNotContain("NewFromTest"));
   }
   
