@@ -21,7 +21,7 @@
 				<version>7.4.0</version>
 				<extensions>true</extensions>
 				<configuration>
-					<ivyVersion>[7.3.0,]</ivyVersion>
+					<ivyVersion>[7.4.0,]</ivyVersion>
 					<engineListPageUrl>${engine.page.url}</engineListPageUrl>
                     <engineDirectory>${engine.dir}</engineDirectory>
 					<skipScriptValidation>false</skipScriptValidation>
