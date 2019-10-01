@@ -103,7 +103,7 @@ public class Navigation
   {
     Navigation.toRoles(driver);
     WebBase.waitUntilElementClickable(driver, 
-            By.xpath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='role-name'][text()='" + name + "']")).click();
+            By.xpath("//div[contains(@class, 'ui-tabs-panel')]//a[@class='role-name'][text()='" + name + "']")).click();
     assertCurrentUrlEndsWith(driver, "roledetail.xhtml?roleName=" + name);
   }
   
