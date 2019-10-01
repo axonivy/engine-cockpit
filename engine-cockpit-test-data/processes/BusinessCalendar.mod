@@ -1,10 +1,9 @@
 [Ivy]
-16AD3F265FFA55DD 3.26 #module
+16AD3F265FFA55DD 3.28 #module
 >Proto >Proto Collection #zClass
 Br0 BusinessCalendar Big #zClass
 Br0 B #cInfo
 Br0 #process
-Br0 @TextInP .resExport .resExport #zField
 Br0 @TextInP .type .type #zField
 Br0 @TextInP .processKind .processKind #zField
 Br0 @AnnotationInP-0n ai ai #zField
@@ -19,11 +18,7 @@ Br0 @PushWFArc f4 '' #zField
 Br0 @PushWFArc f2 '' #zField
 >Proto Br0 Br0 BusinessCalendar #zField
 Br0 f0 outLink start.ivp #txt
-Br0 f0 type engine.cockpit.test.data.Data #txt
 Br0 f0 inParamDecl '<> param;' #txt
-Br0 f0 actionDecl 'engine.cockpit.test.data.Data out;
-' #txt
-Br0 f0 guid 16AD3F26626696E8 #txt
 Br0 f0 requestEnabled true #txt
 Br0 f0 triggerEnabled false #txt
 Br0 f0 callSignature start() #txt
@@ -38,11 +33,8 @@ Br0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 Br0 f0 @C|.responsibility Everybody #txt
 Br0 f0 81 49 30 30 -25 17 #rect
 Br0 f0 @|StartRequestIcon #fIcon
-Br0 f1 type engine.cockpit.test.data.Data #txt
 Br0 f1 337 49 30 30 0 15 #rect
 Br0 f1 @|EndIcon #fIcon
-Br0 f3 actionDecl 'engine.cockpit.test.data.Data out;
-' #txt
 Br0 f3 actionTable 'out=in;
 ' #txt
 Br0 f3 actionCode 'import ch.ivyteam.ivy.application.calendar.FreeDate;
@@ -89,7 +81,6 @@ if (settings.findBusinessCalendarConfiguration("Luzern") == null)
 	
 	app.findEnvironment("test").setBusinessCalendar(app.getActualEnvironment().getBusinessCalendar().get("Luzern"));
 }' #txt
-Br0 f3 type engine.cockpit.test.data.Data #txt
 Br0 f3 168 42 112 44 0 -7 #rect
 Br0 f3 @|StepIcon #fIcon
 Br0 f4 expr out #txt

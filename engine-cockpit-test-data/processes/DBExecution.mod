@@ -1,10 +1,9 @@
 [Ivy]
-16C6B9ADB931DEF8 3.26 #module
+16C6B9ADB931DEF8 3.28 #module
 >Proto >Proto Collection #zClass
 Dn0 DBExecution Big #zClass
 Dn0 B #cInfo
 Dn0 #process
-Dn0 @TextInP .resExport .resExport #zField
 Dn0 @TextInP .type .type #zField
 Dn0 @TextInP .processKind .processKind #zField
 Dn0 @AnnotationInP-0n ai ai #zField
@@ -19,10 +18,7 @@ Dn0 @PushWFArc f4 '' #zField
 Dn0 @PushWFArc f2 '' #zField
 >Proto Dn0 Dn0 DBExecution #zField
 Dn0 f0 outLink start.ivp #txt
-Dn0 f0 type engine.cockpit.test.data.Data #txt
 Dn0 f0 inParamDecl '<> param;' #txt
-Dn0 f0 actionDecl 'engine.cockpit.test.data.Data out;
-' #txt
 Dn0 f0 requestEnabled true #txt
 Dn0 f0 triggerEnabled false #txt
 Dn0 f0 callSignature start() #txt

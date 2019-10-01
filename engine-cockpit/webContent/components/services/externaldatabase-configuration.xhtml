@@ -13,7 +13,7 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveDatabaseConfig" actionListener="#{externalDatabaseDetailBean.saveDbConfig}" title="Save changes"
-    icon="ui-icon-save" styleClass="primary-btn card-button" update="@form" />
+    icon="ui-icon-save" styleClass="primary-btn card-button" update="@form, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()" title="Reset configuration"
     icon="ui-icon-close" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this External Database?" header="Reset Database"
@@ -23,8 +23,8 @@
     <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button" icon="ui-icon-close"
       style="width: inherit;" />
   </p:confirmDialog>
-  <p:commandButton id="testDatabaseBtn" title="Test External Database Connection"
-    icon="ui-icon-call-made" styleClass="secondary-btn card-button" actionListener="#{externalDatabaseDetailBean.testDbConnection}"/>
+  <p:commandButton id="testDatabaseBtn" title="Test External Database Connection" onclick="PF('connectionTestModel').show()"
+    type="button" icon="ui-icon-call-made" styleClass="secondary-btn card-button"/>
     
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -48,4 +48,6 @@
     <p:inputNumber id="maxConnections" value="#{externalDatabaseDetailBean.externalDatabase.maxConnections}" decimalPlaces="0"/>
   </p:panelGrid>
 </h:form>
+<cc:ConnectionTestResult result="#{externalDatabaseDetailBean.result}" url="#{externalDatabaseDetailBean.externalDatabase.url}"
+  testMethod="#{externalDatabaseDetailBean.testDbConnection()}" id="connResult" />
 </html>

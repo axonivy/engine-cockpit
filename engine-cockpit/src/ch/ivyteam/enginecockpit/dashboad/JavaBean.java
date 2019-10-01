@@ -1,12 +1,23 @@
 package ch.ivyteam.enginecockpit.dashboad;
 
-import javax.faces.bean.ApplicationScoped;
+import java.lang.management.ManagementFactory;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 public class JavaBean
 {
+  List<String> jvmArgs;
+  
+  public JavaBean()
+  {
+    jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
+  }
+  
   public String getVersion()
   {
     return System.getProperty("java.version");
@@ -20,5 +31,15 @@ public class JavaBean
   public String getName()
   {
     return System.getProperty("java.vm.name");
+  }
+  
+  public List<Object> getProperties()
+  {
+    return Arrays.asList(System.getProperties().entrySet().toArray());
+  }
+  
+  public List<String> getJvmArguments()
+  {
+    return jvmArgs;
   }
 }

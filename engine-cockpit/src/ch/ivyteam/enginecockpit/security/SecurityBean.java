@@ -25,6 +25,8 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 @ViewScoped
 public class SecurityBean
 {
+  private static final String QUOTE = "\'";
+
   private List<SecuritySystem> systems;
   
   private String newSecuritySystemName;
@@ -192,7 +194,7 @@ public class SecurityBean
   
   public void createNewSecuritySystem()
   {
-    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(newSecuritySystemName) + 
+    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(QUOTE + newSecuritySystemName + QUOTE) + 
             SecuritySystemConfig.ConfigKey.PROVIDER, newSecuritySystemProvider);
     loadSecuritySystems();
   }

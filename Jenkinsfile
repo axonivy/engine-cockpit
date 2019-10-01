@@ -34,6 +34,9 @@ pipeline {
       }
     }
     stage('verify') {
+      when {
+        expression {return !params.deployArtifacts}
+      }
       steps {
         script {
           maven cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true"
@@ -57,7 +60,7 @@ pipeline {
       when {
         allOf {
           branch 'master'
-          expression {return currentBuild.result == 'SUCCESS' || params.deployArtifacts}
+          expression {return currentBuild.currentResult == 'SUCCESS' || params.deployArtifacts}
         }
       }
       steps {

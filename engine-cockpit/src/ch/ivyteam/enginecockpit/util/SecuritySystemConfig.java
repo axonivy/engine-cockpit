@@ -101,6 +101,6 @@ public class SecuritySystemConfig
 
   public static Collection<String> getSecuritySystems()
   {
-    return IConfiguration.get().getNames(SecuritySystemConfig.SECURITY_SYSTEMS);
+    return IConfiguration.get().getNames(SecuritySystemConfig.SECURITY_SYSTEMS, "Provider");
   }
 }

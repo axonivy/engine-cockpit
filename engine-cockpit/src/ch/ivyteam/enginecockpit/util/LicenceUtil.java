@@ -10,30 +10,14 @@ import java.nio.file.Files;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
-import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.fileupload.HttpFile;
-import ch.ivyteam.ivy.config.IFileAccess;
 import ch.ivyteam.licence.InvalidLicenceException;
 import ch.ivyteam.licence.LicenceConstants;
 import ch.ivyteam.licence.SignedLicence;
 
-@SuppressWarnings("restriction")
 public class LicenceUtil
 {
   private static final File CONFIG_DIR = new File("configuration");
-  private static final String DEMO_LIC = "demo.lic";
-
-  public static void backupAllOlds() throws IOException
-  {
-    File[] files = CONFIG_DIR.listFiles((dir, name) -> name.endsWith(".lic"));
-    for (File license : files)
-    {
-      if (!license.getName().equalsIgnoreCase(DEMO_LIC) && !license.equals(SignedLicence.getLicenceFile()))
-      {
-        backup(license);
-      }
-    }
-  }
 
   private static void backup(File license) throws IOException
   {
@@ -102,10 +86,5 @@ public class LicenceUtil
       return true;
     }
     return false;
-  }
-
-  public static File getInstalledLic()
-  {
-    return DiCore.getGlobalInjector().getInstance(IFileAccess.class).getLicenceFile();
   }
 }

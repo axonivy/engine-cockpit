@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.services;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -42,19 +41,21 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   {
     navigateToDatabaseDetail(driver);
     
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
     driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
+    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
     saveScreenshot(driver, "connection_fail");
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").getText()).contains("Error"));
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Error"));
   
     Navigation.toExternalDatabaseDetail(driver, "realdb");
     
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
     driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
+    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
     saveScreenshot(driver, "connection_ok");
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container").getText()).contains("Successful connected to database"));
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Successful connected to database"));
   }
   
   @Test
@@ -119,21 +120,16 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   @Test
   void testConnectionAndHistory(FirefoxDriver driver)
   {
-    login(driver);
-    Navigation.toExternalDatabaseDetail(driver, "realdb");
-    saveScreenshot(driver, "empty");
-    Table connTable = new Table(driver, By.id("databaseConnectionForm:databaseConnectionsTable"));
-    Table historyTable = new Table(driver, By.id("databaseExecHistoryForm:databaseExecHistoryTable"));
-    webAssertThat(() -> assertThat(connTable.getFirstColumnEntries()).isEmpty());
-    webAssertThat(() -> assertThat(historyTable.getFirstColumnEntries()).isEmpty());
     
     String app = EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
     String endpage = EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end";
     driver.get(EngineCockpitUrl.base() + "/pro/" + app + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(endpage));
     
-    driver.get(viewUrl("dashboard.xhtml"));
+    login(driver);
     Navigation.toExternalDatabaseDetail(driver, "realdb");
+    Table connTable = new Table(driver, By.id("databaseConnectionForm:databaseConnectionsTable"));
+    Table historyTable = new Table(driver, By.id("databaseExecHistoryForm:databaseExecHistoryTable"));
     webAssertThat(() -> assertThat(connTable.getFirstColumnEntries()).isNotEmpty());
     webAssertThat(() -> assertThat(historyTable.getFirstColumnEntries()).isNotEmpty());
     saveScreenshot(driver, "not_empty");

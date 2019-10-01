@@ -66,7 +66,8 @@ public class WebTestRenewLicence extends WebTestBase
 
   private void sendRenew(FirefoxDriver driver, String mailTo)
   {
-    driver.findElementByCssSelector(".ui-icon-refresh").click();
+    driver.findElementById("tasksButtonLicenceRenew").click();
+    webAssertThat(() -> assertThat(driver.findElementById("renewLicence:renewLicence").isDisplayed()).isTrue());
     driver.findElementById("renewLicence:form:emailInput").sendKeys(mailTo);
     saveScreenshot(driver, "filled_renew");
     driver.findElementById("renewLicence:form:renewBtn").click();
