@@ -20,12 +20,12 @@ public class WebTestRoles extends WebTestBase
   {
     login(driver);
     Navigation.toRoles(driver);
-    assertThat(driver.findElementByTagName("h1").getText()).contains("Roles");
+    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Roles"));
     WebElement panel = getVisibleRolePanel(driver);
     List<WebElement> roles = panel.findElements(By.className("ui-treenode-content"));
-    assertThat(roles).isNotEmpty();
+    webAssertThat(() -> assertThat(roles).isNotEmpty());
     int roleCount = roles.size();
-    assertThat(roleCount).isGreaterThanOrEqualTo(1);
+    webAssertThat(() -> assertThat(roleCount).isGreaterThanOrEqualTo(1));
     panel.findElement(By.xpath(".//input[contains(@class, 'ui-inputfield')]")).sendKeys("Everybody");
     sleep(300); //sleep search delay
     saveScreenshot(driver);

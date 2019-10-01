@@ -23,11 +23,11 @@ public class WebTestApplication extends WebTestBase
   {
     toApplications(driver);
 
-    assertThat(driver.findElementByTagName("h1").getText()).contains("Applications");
+    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Applications"));
     List<WebElement> apps = driver.findElements(By.className("activity-name"));
     if (!apps.isEmpty())
     {
-      assertThat(driver.findElements(By.className("activity-name"))).isNotEmpty();
+      webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name"))).isNotEmpty());
       WebElement input = driver
               .findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]"));
       input.sendKeys(EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.applicationName() : "test-ad");

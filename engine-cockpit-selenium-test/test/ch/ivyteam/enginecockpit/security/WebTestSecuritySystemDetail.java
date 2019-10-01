@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -23,7 +22,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   {
     toSecurityDetail(driver);
     List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
-    assertThat(infoPanels).hasSize(4);
+    webAssertThat(() -> assertThat(infoPanels).hasSize(4));
   }
 
   @Test
@@ -64,16 +63,8 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   void testDirNotDeletableIfUsedByApp(FirefoxDriver driver)
   {
     toSecurityDetail(driver);
-    Throwable result = null;
-    try
-    {
-      driver.findElementById("securitySystemConfigForm:deleteSecuritySystem");
-    }
-    catch (Exception e)
-    {
-      result = e;
-    }
-    assertThat(result).isInstanceOf(NoSuchElementException.class);
+    webAssertThat(() -> assertThat(elementNotAvailable(driver, By.id("securitySystemConfigForm:deleteSecuritySystem")))
+            .isTrue());
   }
   
   @Test

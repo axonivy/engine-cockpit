@@ -17,8 +17,8 @@ public class WebTestSecuritySystem extends WebTestBase
   void testSecuritySystem(FirefoxDriver driver)
   {
     toSecuritySystem(driver);
-    assertThat(driver.findElementByTagName("h1").getText()).contains("Security Systems");
-    assertThat(driver.findElementsByXPath("//tbody/tr")).isNotEmpty();
+    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Security Systems"));
+    webAssertThat(() -> assertThat(driver.findElementsByXPath("//tbody/tr")).isNotEmpty());
   }
   
   @Test

@@ -18,8 +18,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   void testExternalDatabaseDetailOpen(FirefoxDriver driver)
   {
     navigateToDatabaseDetail(driver);
-    webAssertThat(() -> 
-            assertThat(driver.getCurrentUrl()).endsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME));
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME));
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:name").getText()).isEqualTo(DATABASE_NAME));
   }

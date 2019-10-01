@@ -35,7 +35,8 @@ public class WebTestUserDetail extends WebTestBase
   void testUserDetailInformation(FirefoxDriver driver)
   {
     openUserFooDetail(driver);
-    assertThat(driver.findElementById("userInformationForm:name").getText()).isEqualTo(DETAIL_USER_NAME);
+    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:name").getText())
+            .isEqualTo(DETAIL_USER_NAME));
   }
   
   @Test
