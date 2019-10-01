@@ -59,12 +59,12 @@ public class SystemDbBean
   private String getDatabaseSpecificAnchor() 
   {
     DatabaseConnectionConfiguration config = new DatabaseConnectionConfiguration(getUrl(), getDriver());
-    JdbcDriver driver = JdbcDriver.getJdbcDriverForConnectionConfiguration(config);
-    if (driver == null)
+    JdbcDriver jdbcDriver = JdbcDriver.getJdbcDriverForConnectionConfiguration(config);
+    if (jdbcDriver == null)
     {
       return "";
     }
-    DatabaseProduct product = driver.getDatabaseProduct();
+    DatabaseProduct product = jdbcDriver.getDatabaseProduct();
     if (!ANCHORS.containsKey(product))
     {
       return "";
