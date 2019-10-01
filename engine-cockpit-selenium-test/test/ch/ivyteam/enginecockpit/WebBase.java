@@ -48,8 +48,7 @@ public class WebBase
   
   public static WebElement waitUntilElementClickable(WebDriver driver, By by)
   {
-    WebDriverWait wait = new WebDriverWait(driver, 10);
-    return wait.until(ExpectedConditions.elementToBeClickable(by));
+    return new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(by));
   }
   
   public static void webAssertThat(WebTest test)

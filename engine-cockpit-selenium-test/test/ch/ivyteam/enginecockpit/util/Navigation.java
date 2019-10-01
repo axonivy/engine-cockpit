@@ -1,11 +1,11 @@
 package ch.ivyteam.enginecockpit.util;
 
-import static org.awaitility.Awaitility.await;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import ch.ivyteam.enginecockpit.WebBase;
 
 public class Navigation
 {
@@ -31,192 +31,179 @@ public class Navigation
   public static void toDashboard(FirefoxDriver driver)
   {
     toMenu(driver, DASHBOARD_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
+    assertCurrentUrlEndsWith(driver, "dashboard.xhtml");
   }
   
   public static void toApplications(FirefoxDriver driver)
   {
     toMenu(driver, APPLICATIONS_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("applications.xhtml"));
+    assertCurrentUrlEndsWith(driver, "applications.xhtml");
   }
   
   public static void toApplicationDetail(FirefoxDriver driver, String appName)
   {
     Navigation.toApplications(driver);
     driver.findElementByXPath("//span[@class='activity-name'][text()='" + appName + "']").click();
-    await().until(() -> driver.getCurrentUrl().endsWith("application-detail.xhtml?appName=" + appName)); 
+    assertCurrentUrlEndsWith(driver, "application-detail.xhtml?appName=" + appName);
   }
   
   public static void toSecuritySystem(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_SYSTEM_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("securitysystem.xhtml"));
+    assertCurrentUrlEndsWith(driver, "securitysystem.xhtml");
   }
   
   public static void toSecuritySystemDetail(FirefoxDriver driver, String secSystemName)
   {
     Navigation.toSecuritySystem(driver);
-    waitBeforeClick(driver, By.xpath("//span[@class='security-name'][text()='" + secSystemName + "']"));
-    await().until(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
+    WebBase.waitUntilElementClickable(driver, By.xpath("//span[@class='security-name'][text()='" + secSystemName + "']")).click();
+    assertCurrentUrlEndsWith(driver, "security-detail.xhtml?securitySystemName=" + secSystemName);
   }
 
   public static void toVariables(FirefoxDriver driver)
   {
     toSubMenu(driver, CONFIGURATION_MENU, VARIABLES_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("global-variables.xhtml"));
+    assertCurrentUrlEndsWith(driver, "global-variables.xhtml");
   }
   
   public static void toBusinessCalendar(FirefoxDriver driver)
   {
     toSubMenu(driver, CONFIGURATION_MENU, BUSINESS_CALENDAR_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("businesscalendar.xhtml"));
+    assertCurrentUrlEndsWith(driver, "businesscalendar.xhtml");
   }
   
   public static void toBusinessCalendarDetail(FirefoxDriver driver, String calendarName)
   {
     Navigation.toBusinessCalendar(driver);
     driver.findElementByXPath("//*[@id=\"calendarTree\"]//a[contains(@id, 'calendarNode')][text()='" + calendarName + "']").click();
-    await().until(() -> driver.getCurrentUrl().endsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName));
+    assertCurrentUrlEndsWith(driver, "businesscalendar-detail.xhtml?calendarName=" + calendarName);
   }
   
   public static void toUsers(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_USER_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("users.xhtml"));
+    assertCurrentUrlEndsWith(driver, "users.xhtml");
   }
   
-  public static void toUserDetail(FirefoxDriver driver, String userName)
+  public static void toUserDetail(FirefoxDriver driver, String name)
   {
     Navigation.toUsers(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='user-name'][text()='" + userName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    await().until(() -> driver.getCurrentUrl().endsWith("userdetail.xhtml?userName=" + userName)); 
+    WebBase.waitUntilElementClickable(driver, 
+            By.xpath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='user-name'][text()='" + name + "']")).click();
+    assertCurrentUrlEndsWith(driver, "userdetail.xhtml?userName=" + name);
   }
   
   public static void toRoles(FirefoxDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_ROLES_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("roles.xhtml"));
+    assertCurrentUrlEndsWith(driver, "roles.xhtml");
   }
   
-  public static void toRoleDetail(FirefoxDriver driver, String roleName)
+  public static void toRoleDetail(FirefoxDriver driver, String name)
   {
     Navigation.toRoles(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[@class='role-name'][text()='" + roleName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
+    WebBase.waitUntilElementClickable(driver, 
+            By.xpath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='role-name'][text()='" + name + "']")).click();
+    assertCurrentUrlEndsWith(driver, "roledetail.xhtml?roleName=" + name);
   }
   
   public static void toSearchEngine(FirefoxDriver driver)
   {
     toSubMenu(driver, SERVICES_MENU, SERVICES_SEARCH_ENGINE);
-    await().until(() -> driver.getCurrentUrl().endsWith("searchengine.xhtml"));
+    assertCurrentUrlEndsWith(driver, "searchengine.xhtml");
   }
   
   public static void toEmail(FirefoxDriver driver)
   {
     toSubMenu(driver, SERVICES_MENU, SERVICES_EMAIL_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("email.xhtml"));
+    assertCurrentUrlEndsWith(driver, "email.xhtml");
   }
   
   public static void toExternalDatabases(FirefoxDriver driver)
   {
     toSubMenu(driver, SERVICES_MENU, SERVICES_DATABASES_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("externaldatabases.xhtml"));
+    assertCurrentUrlEndsWith(driver, "externaldatabases.xhtml");
   }
   
-  public static void toExternalDatabaseDetail(FirefoxDriver driver, String databaseName)
+  public static void toExternalDatabaseDetail(FirefoxDriver driver, String name)
   {
     Navigation.toExternalDatabases(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='database-name'][text()='" + databaseName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    await().until(() -> driver.getCurrentUrl().endsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName)); 
+    WebBase.waitUntilElementClickable(driver, 
+            By.xpath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='database-name'][text()='" + name + "']")).click();
+    assertCurrentUrlEndsWith(driver, "externaldatabasedetail.xhtml?databaseName=" + name);
   }
   
   public static void toRestClients(FirefoxDriver driver)
   {
     toSubMenu(driver, SERVICES_MENU, SERVICES_RESTCLIENTS_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("restclients.xhtml"));
+    assertCurrentUrlEndsWith(driver, "restclients.xhtml");
   }
   
-  public static void toRestClientDetail(FirefoxDriver driver, String restClientName)
+  public static void toRestClientDetail(FirefoxDriver driver, String name)
   {
     Navigation.toRestClients(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='restclient-name'][text()='" + restClientName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    await().until(() -> driver.getCurrentUrl().endsWith("restclientdetail.xhtml?restClientName=" + restClientName)); 
+    WebBase.waitUntilElementClickable(driver, 
+            By.xpath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='restclient-name'][text()='" + name + "']")).click();
+    assertCurrentUrlEndsWith(driver, "restclientdetail.xhtml?restClientName=" + name);
   }
   
   public static void toWebservices(FirefoxDriver driver)
   {
     toSubMenu(driver, SERVICES_MENU, SERVICES_WEBSERVICES_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("webservices.xhtml"));
+    assertCurrentUrlEndsWith(driver, "webservices.xhtml");
   }
   
-  public static void toWebserviceDetail(FirefoxDriver driver, String webserviceName)
+  public static void toWebserviceDetail(FirefoxDriver driver, String name)
   {
     Navigation.toWebservices(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='webservice-name'][text()='" + webserviceName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    await().until(() -> driver.getCurrentUrl().contains("webservicedetail.xhtml?webserviceId=")); 
+    WebBase.waitUntilElementClickable(driver, 
+            By.xpath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='webservice-name'][text()='" + name + "']")).click();
+    assertCurrentUrlContains(driver, "webservicedetail.xhtml?webserviceId=");
   }
   
   public static void toSystemConfig(FirefoxDriver driver)
   {
     toMenu(driver, SYSTEM_CONFIG_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("systemconfig.xhtml"));
+    assertCurrentUrlEndsWith(driver, "systemconfig.xhtml");
   }
   
   public static void toMonitor(FirefoxDriver driver)
   {
     toMenu(driver, MONITOR_MENU);
-    await().until(() -> driver.getCurrentUrl().endsWith("monitor.xhtml"));
+    assertCurrentUrlEndsWith(driver, "monitor.xhtml");
   }
   
   public static void toLogs(FirefoxDriver driver)
   {
     toMenu(driver, LOGS_MENU);
-    await().until(() -> driver.getCurrentUrl().contains("logs.xhtml"));
+    assertCurrentUrlContains(driver, "logs.xhtml");
   }
   
   private static void toMenu(FirefoxDriver driver, By menuItemPath)
   {
     driver.findElement(menuItemPath).click();
-    await().until(() -> driver.findElement(menuItemPath).findElement(By.xpath("./..")).
-            getAttribute("class").contains("active-menuitem"));
+    WebBase.webAssertThat(() -> assertThat(driver.findElement(menuItemPath).findElement(By.xpath("./..")).
+            getAttribute("class")).contains("active-menuitem"));
   }
   
   private static void toSubMenu(FirefoxDriver driver, By menuItemPath, By subMenuItemPath)
   {
     if(!driver.findElement(subMenuItemPath).isDisplayed()) {
-      waitBeforeClick(driver, menuItemPath);
+      WebBase.waitUntilElementClickable(driver, menuItemPath).click();
     }
-    waitBeforeClick(driver, subMenuItemPath);
-    await().until(() -> driver.findElement(subMenuItemPath).findElement(By.xpath("./..")).
-            getAttribute("class").contains("active-menuitem"));
+    WebBase.waitUntilElementClickable(driver, subMenuItemPath).click();
+    WebBase.webAssertThat(() -> assertThat(driver.findElement(subMenuItemPath).findElement(By.xpath("./..")).
+            getAttribute("class")).contains("active-menuitem"));
   }
   
-  private static boolean checkIfCorrectElement(WebElement element)
+  private static void assertCurrentUrlEndsWith(FirefoxDriver driver, String page)
   {
-    try
-    {
-      return element.isDisplayed();
-    }
-    catch (StaleElementReferenceException e)
-    {
-      return false;
-    }
+    WebBase.webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith(page));
   }
   
-  private static void waitBeforeClick(FirefoxDriver driver, By element)
+  private static void assertCurrentUrlContains(FirefoxDriver driver, String page)
   {
-    await().until(() -> driver.findElement(element).isDisplayed());
-    driver.findElement(element).click();
+    WebBase.webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(page));
   }
   
 }
