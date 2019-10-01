@@ -70,7 +70,6 @@ public class RoleBean
     return filteredTreeRootNode;
   }
 
-  @SuppressWarnings("unused")
   private void loadRoleTree(TreeNode rootNode, boolean renderMembers)
   {
     IApplication app = managerBean.getSelectedIApplication();
