@@ -2,11 +2,8 @@ package ch.ivyteam.enginecockpit.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
@@ -21,8 +18,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   void testSecuritySystemDetail(FirefoxDriver driver)
   {
     toSecurityDetail(driver);
-    List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
-    webAssertThat(() -> assertThat(infoPanels).hasSize(4));
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
   }
 
   @Test

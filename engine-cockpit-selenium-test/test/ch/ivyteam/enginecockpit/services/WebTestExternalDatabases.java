@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestExternalDatabases extends WebTestBase
 {
@@ -16,13 +16,12 @@ public class WebTestExternalDatabases extends WebTestBase
   void testDatabasesInTable(FirefoxDriver driver)
   {
     navigateToDatabases(driver);
-    WebElement table = driver.findElementByClassName("externalDatabasesTable");
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("database-name")).isNotEmpty());
+    Table table = new Table(driver, By.className("externalDatabasesTable"), true);
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
 
-    String lastDb = table.findElement(By.xpath("(.//*[@class='database-name'])[last()]")).getText();
-    table.findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]")).sendKeys(lastDb);
+    table.search(table.getFirstColumnEntries().get(0));
     saveScreenshot(driver, "search_externaldatabase");
-    webAssertThat(() -> assertThat(table.findElements(By.className("database-name"))).hasSize(1));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1));
   }
   
   private void navigateToDatabases(FirefoxDriver driver)

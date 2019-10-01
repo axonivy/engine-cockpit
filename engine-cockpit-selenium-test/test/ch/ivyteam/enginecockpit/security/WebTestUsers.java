@@ -2,15 +2,13 @@ package ch.ivyteam.enginecockpit.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestUsers extends WebTestBase
 {
@@ -24,17 +22,12 @@ public class WebTestUsers extends WebTestBase
   {
     navigateToUsers(driver);
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Users"));
-    WebElement table = driver.findElementByClassName("userTable");
-    List<WebElement> users = table.findElements(By.className("user-name"));
-    if (!users.isEmpty())
-    {
-      webAssertThat(() -> assertThat(table.findElements(By.className("user-name"))).isNotEmpty());
-      WebElement lastUser = table.findElement(By.xpath("(.//*[@class='user-name'])[last()]"));
-      WebElement input = table.findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]"));
-      input.sendKeys(lastUser.getText());
-      saveScreenshot(driver, "search_user");
-      webAssertThat(() -> assertThat(table.findElements(By.className("user-name"))).hasSize(1));
-    }
+    Table table = new Table(driver, By.className("userTable"), true);
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
+    String firstUser = table.getFirstColumnEntries().get(0);
+    table.search(firstUser);
+    saveScreenshot(driver, "search_user");
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1));
   }
   
   @Test
@@ -61,9 +54,9 @@ public class WebTestUsers extends WebTestBase
   @Test
   void testNewUserDialogValidInput(FirefoxDriver driver)
   {
-    //Todo use table framework
     showNewUserDialog(driver);
-    int users = driver.findElementByClassName("userTable").findElements(By.className("user-name")).size();
+    Table table = new Table(driver, By.className("userTable"), true);
+    int users = table.getFirstColumnEntries().size();
     driver.findElementById("newUserForm:newUserNameInput").sendKeys(user);
     driver.findElementById("newUserForm:fullName").sendKeys(fullName);
     driver.findElementById("newUserForm:email").sendKeys(email);
@@ -72,24 +65,18 @@ public class WebTestUsers extends WebTestBase
     saveScreenshot(driver, "new_user_input");
     driver.findElementById("newUserForm:saveNewUser").click();
     saveScreenshot(driver, "new_user_saved");
-    final WebElement table = driver.findElementByClassName("userTable");
     webAssertThat(() -> assertThat(driver.findElementById("newUserModal").isDisplayed()).isFalse());
     webAssertThat(() -> assertThat(driver.findElementById("form:msgs_container").isDisplayed()).isFalse());
-    webAssertThat(() -> assertThat(table.findElements(By.className("user-name")).size()).isGreaterThan(users));
-    webAssertThat(() -> assertThat(table.findElement(By.xpath("(.//*[@class='user-name'])[last()]")).getText())
-            .isEqualTo(user));
-    webAssertThat(() -> assertThat(table.findElement(By.xpath("(.//*[@class='user-fullname'])[last()]")).getText())
-            .isEqualTo(fullName));
-    webAssertThat(() -> assertThat(table.findElement(By.xpath("(.//*[@class='user-email'])[last()]")).getText())
-            .isEqualTo(email));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries().size()).isGreaterThan(users));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries().get(users)).isEqualTo(user));
+    webAssertThat(() -> assertThat(table.getValueForEntry(user, 2)).isEqualTo(fullName));
+    webAssertThat(() -> assertThat(table.getValueForEntry(user, 3)).isEqualTo(email));
   }
   
   private void showNewUserDialog(FirefoxDriver driver)
   {
     navigateToUsers(driver);
-    WebElement firstAppPanel = driver.findElement(By.xpath(("//div[contains(@class, 'ui-tabs-panel')]")));
-    WebElement newUserBtn = firstAppPanel.findElement(By.xpath((".//button[contains(@id, 'newUserBtn')]")));
-    newUserBtn.click();
+    driver.findElement(By.xpath(("//div[contains(@class, 'ui-tabs-panel')]//button[contains(@id, 'newUserBtn')]"))).click();
     saveScreenshot(driver, "new_user");
     webAssertThat(() -> assertThat(driver.findElementById("newUserModal").isDisplayed()).isTrue());
   }

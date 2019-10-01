@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
@@ -155,8 +154,7 @@ public class WebTestUserDetail extends WebTestBase
   void testRolesAddRemove(FirefoxDriver driver)
   {
     openUserFooDetail(driver);
-    WebElement boss = driver.findElement(By.xpath("//*[contains(@id, 'rolesOfUserForm:rolesTree_node_0')]/td/a/span[@class='role-name'][text()='boss']"));
-    String bossId = boss.findElement(By.xpath("../../..")).getAttribute("id");
+    String bossId = driver.findElement(By.xpath("//*[contains(@id, 'rolesOfUserForm:rolesTree_node_0')]/td/a/span[@class='role-name'][text()='boss']/../../..")).getAttribute("id");
     driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).click();
     saveScreenshot(driver, "expand_role");
     String managerId = bossId + "_0";

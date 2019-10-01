@@ -2,17 +2,14 @@ package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestApplication extends WebTestBase
 {
@@ -24,16 +21,11 @@ public class WebTestApplication extends WebTestBase
     toApplications(driver);
 
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Applications"));
-    List<WebElement> apps = driver.findElements(By.className("activity-name"));
-    if (!apps.isEmpty())
-    {
-      webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name"))).isNotEmpty());
-      WebElement input = driver
-              .findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]"));
-      input.sendKeys(EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.applicationName() : "test-ad");
-      saveScreenshot(driver, "search_app");
-      webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name"))).hasSize(1));
-    }
+    Table table = new Table(driver, By.className("ui-treetable"), true);
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
+    driver.findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]")).sendKeys("test-ad");
+    saveScreenshot(driver, "search_app");
+    webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name"))).hasSize(1));
   }
   
   @Test
