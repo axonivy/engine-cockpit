@@ -13,9 +13,8 @@ public class SearchEngineIndex
   private long countStored;
   private SearchEngineHealth status;
   private String size;
-  private String indexUrl;
   
-  public SearchEngineIndex(IndexName index, long countIndexed, long countStored, String serverUrl)
+  public SearchEngineIndex(IndexName index, long countIndexed, long countStored)
   {
     this.indexName = index;
     this.alias = index.getName();
@@ -24,7 +23,6 @@ public class SearchEngineIndex
     this.countStored = countStored;
     this.status = SearchEngineHealth.UNKNOWN;
     this.size = "unknown";
-    this.indexUrl = serverUrl + "/" + alias;
   }
   
   public IndexName getIndexName()
@@ -76,11 +74,5 @@ public class SearchEngineIndex
   {
     this.size = size;
   }
-  
-  public String getIndexUrl()
-  {
-    return indexUrl;
-  }
-  
   
 }

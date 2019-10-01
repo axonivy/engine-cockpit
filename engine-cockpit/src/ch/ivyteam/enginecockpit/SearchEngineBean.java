@@ -50,11 +50,10 @@ public class SearchEngineBean
     indices = searchEngine.getBusinessDataIndices().stream()
             .map(index -> new SearchEngineIndex(index,
                     searchEngine.countIndexed(index),
-                    searchEngine.countStored(index),
-                    serverConfig.getServerUrl()))
+                    searchEngine.countStored(index)))
             .collect(Collectors.toList());
-    elasticSearch.evaluateAliasForIndices(indices);
-    elasticSearch.evaluateAdditionalIndicesInformation(indices);
+    elasticSearch.mapAliasToRealIndex(indices);
+    elasticSearch.getAdditionalIndicesInformation(indices);
   }
   
   public List<SearchEngineIndex> getFilteredIndicies()
@@ -104,6 +103,15 @@ public class SearchEngineBean
     return activeIndex;
   }
   
+  public String getQueryUrl()
+  {
+    if (activeIndex != null)
+    {
+      return elasticSearch.getServerUrl() + "/" + activeIndex.getName();
+    }
+    return elasticSearch.getServerUrl();
+  }
+  
   public String getQuery()
   {
     return query;
@@ -143,7 +151,7 @@ public class SearchEngineBean
   {
     try
     {
-      elasticSearch.executeRequest(elasticSearch.getServerUrl() + "/" + query)
+      elasticSearch.executeRequest(getQueryUrl() + "/" + getQuery())
               .ifPresent(result -> queryResult = tryToBeutifyQueryResult(result));
 
     }

@@ -85,7 +85,7 @@ public class ElasticSearch
     return health;
   }
   
-  public void evaluateAdditionalIndicesInformation(List<SearchEngineIndex> indices)
+  public void getAdditionalIndicesInformation(List<SearchEngineIndex> indices)
   {
     executeRequestJsonResponse(serverUrl + ElasticSearchApi.INDICIES_URL)
             .ifPresent(response -> response.getAsJsonArray().forEach(element -> {
@@ -101,7 +101,7 @@ public class ElasticSearch
             }));
   }
   
-  public void evaluateAliasForIndices(List<SearchEngineIndex> indices)
+  public void mapAliasToRealIndex(List<SearchEngineIndex> indices)
   {
     executeRequestJsonResponse(serverUrl + ElasticSearchApi.ALIASES_URL)
             .ifPresent(response -> response.getAsJsonArray().forEach(element -> {

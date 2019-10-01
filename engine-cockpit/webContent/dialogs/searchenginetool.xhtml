@@ -8,7 +8,7 @@
   <h:form id="searchEngineQueryToolForm" styleClass="querytool ui-fluid">
     <div style="width: 100%; overflow: auto;">
       <h:outputText styleClass="querytool-url"
-        value="GET: #{searchEngineBean.activeIndex != null ? searchEngineBean.activeIndex.indexUrl : searchEngineBean.elasticSearch.serverUrl}/"/>
+        value="GET: #{searchEngineBean.queryUrl}/"/>
       <span class="querytool-query">
         <p:autoComplete id="query" dropdown="true" value="#{searchEngineBean.query}" 
           completeMethod="#{searchEngineBean.queryProposals}" />
