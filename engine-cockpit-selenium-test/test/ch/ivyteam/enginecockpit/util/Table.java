@@ -45,7 +45,7 @@ public class Table
   
   public String getValueForEntry(String entry, int column)
   {
-    return driver.findElementByXPath(findColumnOverEntry(entry) + "[" + column + "]").getText();
+    return driver.findElementByXPath(findColumnOverEntry(entry) + "/td[" + column + "]").getText();
   }
 
   public void clickButtonForEntry(String entry, String btn)
@@ -85,10 +85,10 @@ public class Table
   
   private String findColumnOverEntry(String entry)
   {
-    String parentTdFromSpan = "/../../td";
+    String parentTdFromSpan = "/../..";
     if (withLink)
     {
-      parentTdFromSpan = "/../../../td"; 
+      parentTdFromSpan = "/../../.."; 
     }
     return getFirstColumnSpanElement() + "[text()='" + entry + "']" + parentTdFromSpan;
   }
