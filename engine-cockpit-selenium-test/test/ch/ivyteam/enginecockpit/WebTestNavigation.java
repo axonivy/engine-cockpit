@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -14,132 +13,43 @@ public class WebTestNavigation extends WebTestBase
   void testNavigation(FirefoxDriver driver)
   {
     login(driver);
-    assertViewIsDashboard(driver);
+    assertView(driver, "dashboard.xhtml", "menuform:sr_dashboard");
     Navigation.toApplications(driver);
-    assertViewIsApplications(driver);
+    assertView(driver, "applications.xhtml", "menuform:sr_applications");
     Navigation.toSecuritySystem(driver);
-    assertViewIsSecuritySystem(driver);
-    Navigation.toVariables(driver);
-    assertViewIsVariables(driver);
-    Navigation.toBusinessCalendar(driver);
-    assertViewIsBusinessCalendar(driver);
+    assertView(driver, "securitysystem.xhtml", "menuform:sr_security_system");
     Navigation.toUsers(driver);
-    assertViewIsUsers(driver);
+    assertView(driver, "users.xhtml", "menuform:sr_users");
     Navigation.toRoles(driver);
-    assertViewIsRoles(driver);
+    assertView(driver, "roles.xhtml", "menuform:sr_roles");
+    Navigation.toVariables(driver);
+    assertView(driver, "global-variables.xhtml", "menuform:sr_variables");
+    Navigation.toBusinessCalendar(driver);
+    assertView(driver, "businesscalendar.xhtml", "menuform:sr_business_calendar");
+    Navigation.toSearchEngine(driver);
+    assertView(driver, "searchengine.xhtml", "menuform:sr_searchengine");
     Navigation.toEmail(driver);
-    assertViewIsEmail(driver);
+    assertView(driver, "email.xhtml", "menuform:sr_email");
     Navigation.toExternalDatabases(driver);
-    assertViewIsExternalDatabases(driver);
-    Navigation.toRestClients(driver);
-    assertViewIsRestClients(driver);
+    assertView(driver, "externaldatabases.xhtml", "menuform:sr_database");
     Navigation.toWebservices(driver);
-    assertViewIsWebservices(driver);
+    assertView(driver, "webservices.xhtml", "menuform:sr_web_service");
+    Navigation.toRestClients(driver);
+    assertView(driver, "restclients.xhtml", "menuform:sr_rest_client");
     Navigation.toSystemConfig(driver);
-    assertViewIsSystemConfig(driver);
+    assertView(driver, "systemconfig.xhtml", "menuform:sr_system_config");
     Navigation.toMonitor(driver);
-    assertViewIsMonitor(driver);
+    assertView(driver, "monitor.xhtml", "menuform:sr_monitor");
     Navigation.toLogs(driver);
-    assertViewIsLogs(driver);
+    assertView(driver, "logs.xhtml", "menuform:sr_logs");
     Navigation.toDashboard(driver);
-    assertViewIsDashboard(driver);
-  }
-
-  private void assertViewIsDashboard(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "dashboard");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_dashboard").getAttribute("class")).contains("active-menuitem"));
+    assertView(driver, "dashboard.xhtml", "menuform:sr_dashboard");
   }
   
-  private void assertViewIsApplications(FirefoxDriver driver)
+  private void assertView(FirefoxDriver driver, String page, String id)
   {
-    saveScreenshot(driver, "applications");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("applications.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_applications").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsSecuritySystem(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "security_system");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("securitysystem.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_security_system").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsVariables(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "variables");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("global-variables.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_variables").getAttribute("class")).contains("active-menuitem"));
-  }
-
-  private void assertViewIsBusinessCalendar(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "businessCalendar");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("businesscalendar.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_business_calendar").getAttribute("class")).contains("active-menuitem"));
-  }
-
-  private void assertViewIsUsers(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "users");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("users.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_users").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsRoles(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "roles");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("roles.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_roles").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsEmail(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "email");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("email.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_email").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsExternalDatabases(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "externaldatabases");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("externaldatabases.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_database").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsRestClients(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "restclients");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("restclients.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_rest_client").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsWebservices(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "webservices");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("webservices.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_web_service").getAttribute("class")).contains("active-menuitem"));
-  }
-
-  private void assertViewIsSystemConfig(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "system_config");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("systemconfig.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_system_config").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsMonitor(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "monitor");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).endsWith("monitor.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_monitor").getAttribute("class")).contains("active-menuitem"));
-  }
-  
-  private void assertViewIsLogs(FirefoxDriver driver)
-  {
-    saveScreenshot(driver, "logs");
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).contains("logs.xhtml"));
-    await().untilAsserted(() -> assertThat(driver.findElementById("menuform:sr_logs").getAttribute("class")).contains("active-menuitem"));
+    saveScreenshot(driver, page);
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(page));
+    webAssertThat(() -> assertThat(driver.findElementById(id).getAttribute("class")).contains("active-menuitem"));
   }
 }

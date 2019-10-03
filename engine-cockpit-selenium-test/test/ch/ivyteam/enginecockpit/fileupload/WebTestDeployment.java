@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -146,7 +145,7 @@ public class WebTestDeployment extends WebTestBase
     if (!driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed())
     {
       driver.findElementById("deploymentModal:showDeployOptionsBtn").click();
-      await().until(() -> driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed());
+      webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed()).isTrue());
     }
     saveScreenshot(driver, "show_options");
   }

@@ -2,13 +2,8 @@ package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.util.Table;
@@ -19,26 +14,8 @@ public class WebTestDashboard extends WebTestBase
   void testDashboardContent(FirefoxDriver driver)
   {
     toDashboard(driver);
-    checkOverviewBoxes(driver);
-    checkInfoPanels(driver);
-  }
-
-  private void checkOverviewBoxes(FirefoxDriver driver)
-  {
-    List<WebElement> overviewBoxes = driver.findElementsByClassName("overview-box-content");
-    assertThat(overviewBoxes).hasSize(4);
-    List<String> boxesExpect = new ArrayList<>(
-            Arrays.asList("Sessions", "Users", "Running Cases", "Applications"));
-    overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-title")).getText())
-            .forEach(t -> assertThat(t).isNotEmpty().isIn(boxesExpect));
-    overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-count")).getText())
-            .forEach(c -> assertThat(c).isNotEmpty());
-  }
-
-  private void checkInfoPanels(FirefoxDriver driver)
-  {
-    List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
-    assertThat(infoPanels).hasSize(5);
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("overview-box-content")).hasSize(4));
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(5));
   }
   
   @Test

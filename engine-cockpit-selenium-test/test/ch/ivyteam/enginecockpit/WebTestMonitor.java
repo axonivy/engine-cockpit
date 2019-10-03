@@ -2,10 +2,7 @@ package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -16,28 +13,14 @@ public class WebTestMonitor extends WebTestBase
   void testMontorContent(FirefoxDriver driver)
   {
     toMonitor(driver);
-
-    checkMonitorPanels(driver);
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
   }
   
   @Test
   void testLogsContent(FirefoxDriver driver)
   {
     toLogs(driver);
-    
-    checkLogsPanels(driver);
-  }
-  
-  private void checkMonitorPanels(FirefoxDriver driver)
-  {
-    List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
-    assertThat(infoPanels).hasSize(4);
-  }
-  
-  private void checkLogsPanels(FirefoxDriver driver)
-  {
-    List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
-    assertThat(infoPanels).hasSize(4);
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
   }
   
   private void toMonitor(FirefoxDriver driver)

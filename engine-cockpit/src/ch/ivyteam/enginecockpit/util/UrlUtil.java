@@ -23,6 +23,23 @@ public class UrlUtil
   
   public static String getEngineGuideBaseUrl()
   {
+    return "https://developer.axonivy.com/doc/" + getDocuVersion() + "/engine-guide";
+  }
+
+  
+  
+  public static String getDesignerGuideBaseUrl()
+  {
+    return "https://developer.axonivy.com/doc/" + getDocuVersion() + "/designer-guide";
+  }
+  
+  public static String getCockpitEngineGuideUrl()
+  {
+    return getEngineGuideBaseUrl() + "/tool-reference/engine-cockpit.html";
+  }
+  
+  private static String getDocuVersion()
+  {
     String version;
     if (Advisor.getAdvisor().isReleaseCandidate())
     {
@@ -32,12 +49,7 @@ public class UrlUtil
     {
       version = Advisor.getAdvisor().getVersion().getVersionString(Version.DETAIL_PATCH, Version.FORM_SHORT);
     }
-    return "https://developer.axonivy.com/doc/" + version + "/engine-guide";
-  }
-  
-  public static String getCockpitEngineGuideUrl()
-  {
-    return getEngineGuideBaseUrl() + "/tool-reference/engine-cockpit.html";
+    return version;
   }
   
   public static String getApiBaseUrl()

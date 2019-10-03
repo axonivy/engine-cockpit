@@ -1,16 +1,8 @@
 package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
@@ -25,8 +17,8 @@ public class WebTestApplicationDetail extends WebTestBase
   {
     toApplicationDetail(driver);
     
-    checkOverviewBoxes(driver);
-    checkInfoPanels(driver);
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("overview-box-content")).hasSize(4));
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
   }
 
   @Test
@@ -38,11 +30,11 @@ public class WebTestApplicationDetail extends WebTestBase
     
     driver.navigate().refresh();
     saveScreenshot(driver, "refresh");
-    await().untilAsserted(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(newEnv));
+    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(newEnv));
   
     String oldEnv = toggleEnvAndSave(driver);
     saveScreenshot(driver, "back");
-    await().untilAsserted(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(oldEnv));
+    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(oldEnv));
   }
   
   @Test
@@ -56,11 +48,10 @@ public class WebTestApplicationDetail extends WebTestBase
     
     driver.findElementById("appDetailSecurityForm:synchronizeSecurity").click();
     saveScreenshot(driver, "sync");
-    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class).untilAsserted(() -> assertThat(
-            driver.findElementByXPath("//*[@id='appDetailSecurityForm:synchronizeSecurity']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='appDetailSecurityForm:synchronizeSecurity']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
     
     saveScreenshot(driver, "sync_finished");
-    await().untilAsserted(() -> assertThat(driver.findElementById("appDetailSecurityForm:showAdSyncLogBtn").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("appDetailSecurityForm:showAdSyncLogBtn").isDisplayed()).isTrue());
   }
 
   private String toggleEnvAndSave(FirefoxDriver driver)
@@ -69,15 +60,15 @@ public class WebTestApplicationDetail extends WebTestBase
     String newEnv = setEnv.equals("Default") ? "test" : "Default";
     driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").click();
     saveScreenshot(driver, "env_menu");
-    await().untilAsserted(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_items").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_items").isDisplayed()).isTrue());
     
     driver.findElementByXPath("//*[@id='appDetailInfoForm:activeEnvironmentSelect_items']/li[text()='" + newEnv + "']").click();
     saveScreenshot(driver, "change_env");
-    await().untilAsserted(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(newEnv));
+    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(newEnv));
     
     driver.findElementById("appDetailInfoForm:saveApplicationInformation").click();
     saveScreenshot(driver, "save_changes");
-    await().untilAsserted(() -> assertThat(driver.findElementById("appDetailInfoForm:informationSaveSuccess_container").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:informationSaveSuccess_container").isDisplayed()).isTrue());
     return newEnv;
   }
   
@@ -88,21 +79,4 @@ public class WebTestApplicationDetail extends WebTestBase
     saveScreenshot(driver, "app_detail");
   }
   
-  private void checkOverviewBoxes(FirefoxDriver driver)
-  {
-    List<WebElement> overviewBoxes = driver.findElementsByClassName("overview-box-content");
-    assertThat(overviewBoxes).hasSize(4);
-    List<String> boxesExpect = new ArrayList<>(
-            Arrays.asList("Sessions", "Users", "Running Cases", "Process Models"));
-    overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-title")).getText())
-            .forEach(t -> assertThat(t).isNotEmpty().isIn(boxesExpect));
-    overviewBoxes.stream().map(b -> b.findElement(new By.ByClassName("overview-box-count")).getText())
-            .forEach(c -> assertThat(c).isNotEmpty());
-  }
-  
-  private void checkInfoPanels(FirefoxDriver driver)
-  {
-    List<WebElement> infoPanels = driver.findElementsByClassName("ui-panel");
-    assertThat(infoPanels).hasSize(4);
-  }
 }

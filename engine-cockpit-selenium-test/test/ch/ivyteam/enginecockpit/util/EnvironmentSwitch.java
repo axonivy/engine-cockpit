@@ -1,12 +1,14 @@
 package ch.ivyteam.enginecockpit.util;
 
-import static org.awaitility.Awaitility.await;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import ch.ivyteam.enginecockpit.WebBase;
 
 public class EnvironmentSwitch
 {
@@ -34,7 +36,7 @@ public class EnvironmentSwitch
   private static void clickOnEnvSwitch(FirefoxDriver driver)
   {
     driver.findElement(ENV_SWITCH).click();
-    await().until(() -> driver.findElementById(getEnvId(driver) + "_items").isDisplayed());
+    WebBase.webAssertThat(() -> assertThat(driver.findElementById(getEnvId(driver) + "_items").isDisplayed()).isTrue());
   }
   
   private static String getEnvId(FirefoxDriver driver)
