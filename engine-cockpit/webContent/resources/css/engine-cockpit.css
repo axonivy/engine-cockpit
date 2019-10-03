@@ -171,12 +171,6 @@ body {
     display: none;
   }
 }
-body .ui-datatable thead th .ui-column-resizer {
-  height: 100%;
-}
-body .ui-datatable thead th .ui-column-resizer::before {
-  content: none;
-}
 
 /*Table Paging*/
 .ui-fluid .ui-datatable-header {
