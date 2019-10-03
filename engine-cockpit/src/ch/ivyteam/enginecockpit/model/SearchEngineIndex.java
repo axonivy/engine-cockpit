@@ -13,16 +13,18 @@ public class SearchEngineIndex
   private long countStored;
   private SearchEngineHealth status;
   private String size;
+  private boolean reindexing;
   
-  public SearchEngineIndex(IndexName index, long countIndexed, long countStored)
+  public SearchEngineIndex(IndexName index, long countIndexed, long countStored, String size, String health, boolean reindexing)
   {
     this.indexName = index;
     this.alias = index.getName();
     this.index = index.getName();
     this.countIndexed = countIndexed;
     this.countStored = countStored;
-    this.status = SearchEngineHealth.UNKNOWN;
-    this.size = "unknown";
+    this.status = SearchEngineHealth.getHealth(health);
+    this.size = size;
+    this.reindexing = reindexing;
   }
   
   public IndexName getIndexName()
@@ -73,6 +75,16 @@ public class SearchEngineIndex
   public void setSize(String size)
   {
     this.size = size;
+  }
+  
+  public boolean isReindexing()
+  {
+    return reindexing;
+  }
+  
+  public void setReindexing(boolean running)
+  {
+    this.reindexing = running;
   }
   
 }

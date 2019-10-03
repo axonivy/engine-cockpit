@@ -1,21 +1,14 @@
 package ch.ivyteam.enginecockpit.model;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import ch.ivyteam.enginecockpit.util.Authenticator;
+import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.ElasticSearchInfo;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 public class ElasticSearch
@@ -37,31 +30,16 @@ public class ElasticSearch
   private SearchEngineHealth health = SearchEngineHealth.UNKNOWN;
   private String version = "unknown";
   
-  public ElasticSearch(String serverUrl)
+  public ElasticSearch(String serverUrl, ElasticSearchInfo elasticSearchInfo)
   {
     this.username = IConfiguration.get().getOrDefault("Elasticsearch.ExternalServer.UserName");
     this.password = IConfiguration.get().getOrDefault("Elasticsearch.ExternalServer.Password");
     this.serverUrl = serverUrl;
-    initElasticSearchInfos();
-  }
-  
-  private void initElasticSearchInfos()
-  {
-    try
+    if (elasticSearchInfo != null)
     {
-      executeRequestJsonResponse(serverUrl)
-              .ifPresent(response -> {
-                clusterName = response.getAsJsonObject().get("cluster_name").getAsString();
-                version = response.getAsJsonObject().get("version").getAsJsonObject().get("number").getAsString();
-              });
-      executeRequestJsonResponse(serverUrl + ElasticSearchApi.HEALTH_URL)
-              .ifPresent(response -> {
-                health = SearchEngineHealth.getHealth(response.getAsJsonObject().get("status").getAsString());
-              });
-    }
-    catch (Exception ex)
-    {
-      Ivy.log().info(ex.getMessage());
+      clusterName = elasticSearchInfo.getClusterName();
+      version = elasticSearchInfo.getVersion();
+      health = SearchEngineHealth.getHealth(elasticSearchInfo.getHealth());
     }
   }
   
@@ -83,52 +61,6 @@ public class ElasticSearch
   public SearchEngineHealth getHealth()
   {
     return health;
-  }
-  
-  public void getAdditionalIndicesInformation(List<SearchEngineIndex> indices)
-  {
-    executeRequestJsonResponse(serverUrl + ElasticSearchApi.INDICIES_URL)
-            .ifPresent(response -> response.getAsJsonArray().forEach(element -> {
-              if (element.isJsonObject())
-              {
-                JsonObject jsonIndex = element.getAsJsonObject();
-                getIndexFromList(indices, jsonIndex.get("index").getAsString())
-                        .ifPresent(index -> {
-                          index.setStatus(SearchEngineHealth.getHealth(jsonIndex.get("health").getAsString()));
-                          index.setSize(jsonIndex.get("store.size").getAsString());
-                        });
-              }
-            }));
-  }
-  
-  public void mapAliasToRealIndex(List<SearchEngineIndex> indices)
-  {
-    executeRequestJsonResponse(serverUrl + ElasticSearchApi.ALIASES_URL)
-            .ifPresent(response -> response.getAsJsonArray().forEach(element -> {
-              if (element.isJsonObject())
-              {
-                JsonObject jsonIndex = element.getAsJsonObject();
-                getAliasFromList(indices, jsonIndex.get("alias").getAsString())
-                        .ifPresent(index -> index.setIndex(jsonIndex.get("index").getAsString()));
-              }
-            }));
-    
-  }
-
-  private Optional<SearchEngineIndex> getIndexFromList(List<SearchEngineIndex> indices, String jsonElementIndex)
-  {
-    return indices.stream().filter(index -> StringUtils.equals(index.getIndex(), jsonElementIndex)).findFirst();
-  }
-  
-  private Optional<SearchEngineIndex> getAliasFromList(List<SearchEngineIndex> indices, String jsonElementIndex)
-  {
-    return indices.stream().filter(index -> StringUtils.equals(index.getName(), jsonElementIndex)).findFirst();
-  }
-  
-  private Optional<JsonElement> executeRequestJsonResponse(String url)
-  {
-    return executeRequest(url).map(response -> Optional.ofNullable(new Gson().fromJson(response, JsonElement.class)))
-            .orElse(Optional.empty());
   }
   
   public Optional<String> executeRequest(String url)

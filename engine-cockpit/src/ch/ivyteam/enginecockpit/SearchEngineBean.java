@@ -16,8 +16,9 @@ import com.google.gson.JsonParser;
 
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.ElasticSearch;
+import ch.ivyteam.enginecockpit.model.ElasticSearch.SearchEngineHealth;
 import ch.ivyteam.enginecockpit.model.SearchEngineIndex;
-import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.ElasticSearchServerManager;
+import ch.ivyteam.ivy.business.data.store.restricted.IBusinessDataManager;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.server.ServerConfig;
 
 @SuppressWarnings("restriction")
@@ -26,7 +27,7 @@ import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.server.S
 public class SearchEngineBean
 {
   @Inject
-  private ElasticSearchServerManager searchEngine;
+  private IBusinessDataManager searchEngine;
   
   @Inject
   private ServerConfig serverConfig;
@@ -45,15 +46,18 @@ public class SearchEngineBean
   public SearchEngineBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
-    elasticSearch = new ElasticSearch(serverConfig.getServerUrl());
+    elasticSearch = new ElasticSearch(serverConfig.getServerUrl(),
+            searchEngine.getBusinessDataInfo());
     
     indices = searchEngine.getBusinessDataIndices().stream()
             .map(index -> new SearchEngineIndex(index,
                     searchEngine.countIndexed(index),
-                    searchEngine.countStored(index)))
+                    searchEngine.countStored(index),
+                    searchEngine.sizeIndexed(index),
+                    searchEngine.healthIndexed(index),
+                    searchEngine.isReindexing(index)))
             .collect(Collectors.toList());
-    elasticSearch.mapAliasToRealIndex(indices);
-    elasticSearch.getAdditionalIndicesInformation(indices);
+    isReindexing();
   }
   
   public List<SearchEngineIndex> getFilteredIndicies()
@@ -83,7 +87,7 @@ public class SearchEngineBean
   
   public boolean getState()
   {
-    return searchEngine.getElasticsearchServer().testConnection() == null;
+    return elasticSearch.getHealth() != SearchEngineHealth.UNKNOWN;
   }
   
   public List<SearchEngineIndex> getIndices()
@@ -176,5 +180,15 @@ public class SearchEngineBean
   public void reindex()
   {
     searchEngine.reindex(activeIndex.getIndexName());
+  }
+  
+  public boolean isReindexing()
+  {
+    return searchEngine.isReindexing();
+  }
+  
+  public boolean isReindexing(SearchEngineIndex index)
+  {
+    return searchEngine.isReindexing(index.getIndexName());
   }
 }
