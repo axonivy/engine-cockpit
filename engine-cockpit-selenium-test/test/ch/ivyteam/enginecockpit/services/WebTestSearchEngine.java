@@ -61,7 +61,7 @@ public class WebTestSearchEngine extends WebTestBase
     toSearchEngine(driver);
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineQueryToolModal").isDisplayed()).isFalse());
     driver.findElementById("searchEngineInfoForm:queryToolBtn").click();
-    assertQueryTool(driver, "GET: http://localhost:19200/", 3);
+    assertQueryTool(driver, "GET: http://localhost:19200/", "ivy-elasticsearch", 3);
   }
   
   @Test
@@ -72,7 +72,8 @@ public class WebTestSearchEngine extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineQueryToolModal").isDisplayed()).isFalse());
     new Table(driver, By.id("searchEngineIndexForm:indiciesTable"))
             .clickButtonForEntry(dossierIndex, "queryToolBtn");
-    assertQueryTool(driver, "GET: http://localhost:19200/" + dossierIndex + "/", 1);
+    assertQueryTool(driver, "GET: http://localhost:19200/" + dossierIndex + "/",
+            "mappings", 1);
   }
   
   @Test
@@ -92,7 +93,7 @@ public class WebTestSearchEngine extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("reindexSearchEngineModel").isDisplayed()).isFalse());
   }
   
-  private void assertQueryTool(FirefoxDriver driver, String url, int apiCount)
+  private void assertQueryTool(FirefoxDriver driver, String url, String responseContent, int apiCount)
   {
     saveScreenshot(driver, "query_tool");
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineQueryToolModal").isDisplayed()).isTrue());
@@ -107,7 +108,7 @@ public class WebTestSearchEngine extends WebTestBase
     driver.findElementById("searchEngineQueryToolForm:runSearchEngineQueryBtn").click();
     saveScreenshot(driver, "run_query");
     webAssertThat(() -> assertThat(driver.findElementByXPath("//form[@id='searchEngineQueryToolForm']//pre").getText())
-            .contains("ivy-elasticsearch"));
+            .contains(responseContent));
   }
   
   private void assertQueryToolProposal(FirefoxDriver driver, int apiCount)
