@@ -43,14 +43,15 @@
       <h:outputText value="#{index.size}" />
     </p:column>
     <p:column style="text-align: center; width: 72px;">
-      <p:commandButton title="Reindex" icon="ui-icon-refresh" style="margin-right: 10px;" id="reindexBtn"
-        actionListener="#{searchEngineBean.setActiveIndex(index)}" update="reindexSearchEngineModel"
-        oncomplete="PF('reindexSearchEngineModel').show();"/>
+      <p:commandButton title="Reindex" icon="fa fa-refresh #{searchEngineBean.isReindexing(index) ? 'fa-spin' : ''} spin-icon"
+        style="margin-right: 10px;" id="reindexBtn" oncomplete="PF('reindexSearchEngineModel').show();"
+        actionListener="#{searchEngineBean.setActiveIndex(index)}" update="reindexSearchEngineModel" />
       <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="ui-icon-bug-report"
         actionListener="#{searchEngineBean.setActiveIndex(index)}" update="searchEngineQueryToolModal"
         styleClass="amber-btn" oncomplete="PF('searchEngineQueryToolModal').show()" />
     </p:column>
   </p:dataTable>
+  <p:poll widgetVar="reindexPoller" autoStart="#{searchEngineBean.isReindexing()}" interval="2" update="@form" />
 </h:form>
 
 <p:dialog style="min-width: 300px;" header="Reindex #{searchEngineBean.activeIndex.name}" id="reindexSearchEngineModel"
@@ -62,7 +63,7 @@
         <h:outputText value="This step triggers the reindexation of the search engine and can take a while!"/>
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="reindexSearchEngineBtn" ajax="false" 
+    <p:commandButton id="reindexSearchEngineBtn" update="searchEngineIndexForm" onclick="PF('reindexPoller').start(); PF('reindexSearchEngineModel').hide();"
       actionListener="#{searchEngineBean.reindex}" value="Reindex" icon="ui-icon-refresh"
       styleClass="primary-btn modal-input-button" />
     <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel" type="button"

@@ -73,8 +73,13 @@ public class WebTestBase extends WebBase
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:password").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
+<<<<<<< HEAD
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
     webAssertThat(() -> assertThat(driver.findElementById("menuform").isDisplayed()).isTrue());
+=======
+    await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
+    await().ignoreExceptions().until(() -> driver.findElementById("menuform").isDisplayed());
+>>>>>>> XIVY-3259_searchEngine
   }
   
   public static String getAdminUser()
