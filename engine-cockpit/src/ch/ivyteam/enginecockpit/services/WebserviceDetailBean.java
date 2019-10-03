@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.services;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,11 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +22,7 @@ import ch.ivyteam.enginecockpit.model.Webservice;
 import ch.ivyteam.enginecockpit.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
+import ch.ivyteam.enginecockpit.util.Authenticator;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 
@@ -217,39 +212,4 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return testResult;
   }
   
-  private class Authenticator implements ClientRequestFilter
-  {
-
-    private final String user;
-    private final String password;
-
-    public Authenticator(String user, String password)
-    {
-      this.user = user;
-      this.password = password;
-    }
-
-    @Override
-    public void filter(ClientRequestContext requestContext) throws IOException
-    {
-      MultivaluedMap<String, Object> headers = requestContext.getHeaders();
-      final String basicAuthentication = getBasicAuthentication();
-      headers.add("Authorization", basicAuthentication);
-
-    }
-
-    private String getBasicAuthentication()
-    {
-      String token = this.user + ":" + this.password;
-      try
-      {
-        return "BASIC " + DatatypeConverter.printBase64Binary(token.getBytes("UTF-8"));
-      }
-      catch (UnsupportedEncodingException ex)
-      {
-        throw new IllegalStateException("Cannot encode with UTF-8", ex);
-      }
-    }
-  }
-
 }

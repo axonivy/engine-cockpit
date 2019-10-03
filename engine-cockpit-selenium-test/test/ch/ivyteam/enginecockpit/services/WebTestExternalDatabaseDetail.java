@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
-import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -120,12 +119,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   @Test
   void testConnectionAndHistory(FirefoxDriver driver)
   {
-    
-    String app = EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
-    String endpage = EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end";
-    driver.get(EngineCockpitUrl.base() + "/pro/" + app + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(endpage));
-    
+    runExternalDbQuery(driver);
     login(driver);
     Navigation.toExternalDatabaseDetail(driver, "realdb");
     Table connTable = new Table(driver, By.id("databaseConnectionForm:databaseConnectionsTable"));

@@ -19,6 +19,7 @@ public class Navigation
   private static final By VARIABLES_MENU = By.xpath("//li[@id='menuform:sr_variables']/child::a");
   private static final By BUSINESS_CALENDAR_MENU = By.xpath("//li[@id='menuform:sr_business_calendar']/child::a");
   private static final By SERVICES_MENU = By.xpath("//li[@id='menuform:sr_services']/child::a");
+  private static final By SERVICES_SEARCH_ENGINE = By.xpath("//li[@id='menuform:sr_searchengine']/child::a");
   private static final By SERVICES_EMAIL_MENU = By.xpath("//li[@id='menuform:sr_email']/child::a");
   private static final By SERVICES_DATABASES_MENU = By.xpath("//li[@id='menuform:sr_database']/child::a");
   private static final By SERVICES_RESTCLIENTS_MENU = By.xpath("//li[@id='menuform:sr_rest_client']/child::a");
@@ -106,6 +107,12 @@ public class Navigation
             .filter(e -> checkIfCorrectElement(e))
             .forEach(e -> e.click());
     await().until(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
+  }
+  
+  public static void toSearchEngine(FirefoxDriver driver)
+  {
+    toSubMenu(driver, SERVICES_MENU, SERVICES_SEARCH_ENGINE);
+    await().until(() -> driver.getCurrentUrl().endsWith("searchengine.xhtml"));
   }
   
   public static void toEmail(FirefoxDriver driver)
