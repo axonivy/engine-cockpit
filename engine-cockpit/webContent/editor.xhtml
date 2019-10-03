@@ -16,39 +16,50 @@
     
     <ui:define name="content">
       <cc:SingleCard id="card">
-        <p:growl id="editorMessage" for="editorMessage" autoUpdate="true" showDetail="true"/>
-        <p:tabView id="editorTabView" styleClass="card tab-view-card" value="#{editorBean.configFiles}" var="config"
-          onTabShow="editor_#{config.varName}.refresh()" style="margin-bottom: 0;">
+        <p:growl id="editorMessage" for="editorMessage" showDetail="true">
+          <p:autoUpdate/>
+        </p:growl>
+        <script>
+          var editors = [];
+          function handleTabChange(index)
+          {
+            yamlHintDirectory = $('#card\\:editorTabView\\:' + index + '\\:editorForm\\:yamlhints').text().split(',');
+            editors[index].refresh();
+          }
+        </script>
+        <p:tabView id="editorTabView" styleClass="card tab-view-card" value="#{editorBean.configFiles}" var="config" widgetVar="editorTabView"
+          onTabShow="handleTabChange(index)" style="margin-bottom: 0;">
           <p:tab title="#{config.fileName}" titleStyleClass="application-tab">
             <div class="ui-g">
               <div class="ui-g-12">
-                <h:form>
-                  <textarea id="yamlhints_#{config.varName}" style="display: none"><h:outputText value="#{config.keys}"/></textarea>
+                <h:form id="editorForm">
+                  <p:inputTextarea id="yamlhints" value="#{config.keys}" style="display: none"/>
                   <div id="editor_#{config.varName}"><p:inputTextarea id="content" value="#{config.content}" style="display: none"/></div>
-                  
                   <script>
-                    yamlHintDirectory = $('#yamlhints_#{config.varName}').text().split(',');
                     var contentId_#{config.varName} = $("#editor_#{config.varName} textarea").attr('id');
-                    console.log(contentId_#{config.varName});
                     
                     var editor_#{config.varName} = CodeMirror.fromTextArea(document.getElementById(contentId_#{config.varName}), {
                       lineNumbers: true,
                       mode: "text/x-yaml",
                       tabSize: 2,
                       showInvisibles: true,
-                      extraKeys: {"Ctrl-Space": "autocomplete",
-                        Tab: function(cm) {
+                      extraKeys: {
+                        "Ctrl-Space": "autocomplete", Tab: function(cm) {
                           var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
                           cm.replaceSelection(spaces);
+                        },
+                        "Ctrl-S": function(instance) {
+                          PF('saveEdit_#{config.varName}').jq.click();
                         }
                       }
                     });
                     editor_#{config.varName}.on("change", function (cm) {
                       document.getElementById(contentId_#{config.varName}).value = cm.getValue();
                     });
+                    editors.push(editor_#{config.varName});
                   </script>
                   <p:commandButton id="saveEdit" style="width: 150px; float: right; margin-left: 10px;" process="content"
-                    value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{config.save()}"/>
+                    value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{config.save()}" widgetVar="saveEdit_#{config.varName}"/>
                   <p:commandButton id="cancelEdit" onclick="editor_${config.varName}.undo()" value="Cancel" type="button"
                     icon="ui-icon-clear" styleClass="secondary-btn" style="width: 150px; float: right;"/>
                 </h:form>
@@ -57,7 +68,8 @@
           </p:tab>
         </p:tabView>
         <script>
-          $('.ui-tabs-panels .cm-s-default').height(window.innerHeight - 260)
+          $('.ui-tabs-panels .cm-s-default').height(window.innerHeight - 260);
+          handleTabChange(0);
         </script>
       </cc:SingleCard>
     </ui:define>

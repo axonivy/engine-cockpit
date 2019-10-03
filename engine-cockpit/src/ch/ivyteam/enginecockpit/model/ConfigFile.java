@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.model;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,6 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")
@@ -21,12 +21,14 @@ public class ConfigFile
 private File file;
 private String content;
 private String fileName;
+private IConfiguration config;
   
-  public ConfigFile(String fileName)
+  public ConfigFile(Path path, IConfiguration config)
   {
-    this.fileName = fileName;
-    file = UrlUtil.getConfigFile(fileName);
-    content = getFileContent();
+    this.fileName = path.getFileName().toString();
+    this.config = config;
+    this.file = path.toFile();
+    this.content = getFileContent();
   }
   
   public String getFileName()
@@ -68,7 +70,7 @@ private String fileName;
     {
       FileUtils.write(file, content, StandardCharsets.UTF_8);
       FacesContext.getCurrentInstance().addMessage("editorMessage",
-              new FacesMessage("Success", ""));
+              new FacesMessage("Saved " + fileName + " successful", ""));
     }
     catch (IOException ex)
     {
@@ -79,7 +81,7 @@ private String fileName;
   
   public String getKeys()
   {
-    return IConfiguration.get().getMetadata().keySet().stream()
+    return config.getMetadata().keySet().stream()
             .flatMap(key -> Arrays.asList(key.split("\\.")).stream())
             .distinct()
             .collect(Collectors.joining(","));
