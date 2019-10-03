@@ -7,7 +7,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 
 import ch.ivyteam.enginecockpit.util.Authenticator;
-import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.ElasticSearchInfo;
+import ch.ivyteam.ivy.business.data.store.restricted.ElasticSearchInfo;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")

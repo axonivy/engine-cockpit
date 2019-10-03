@@ -48,16 +48,10 @@ public class SearchEngineBean
     DiCore.getGlobalInjector().injectMembers(this);
     elasticSearch = new ElasticSearch(serverConfig.getServerUrl(),
             searchEngine.getBusinessDataInfo());
-    
-    indices = searchEngine.getBusinessDataIndices().stream()
+    indices = searchEngine.getBusinessDataIndicesInfo().stream()
             .map(index -> new SearchEngineIndex(index,
-                    searchEngine.countIndexed(index),
-                    searchEngine.countStored(index),
-                    searchEngine.sizeIndexed(index),
-                    searchEngine.healthIndexed(index),
-                    searchEngine.isReindexing(index)))
+                    searchEngine.isReindexing(index.getIndexName())))
             .collect(Collectors.toList());
-    isReindexing();
   }
   
   public List<SearchEngineIndex> getFilteredIndicies()
