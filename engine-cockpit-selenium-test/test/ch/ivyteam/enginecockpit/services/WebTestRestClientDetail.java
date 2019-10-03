@@ -17,8 +17,7 @@ public class WebTestRestClientDetail extends WebTestBase
   void testExternalDatabaseDetailOpen(FirefoxDriver driver)
   {
     navigateToRestClientDetail(driver);
-    webAssertThat(() -> 
-            assertThat(driver.getCurrentUrl()).endsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME));
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME));
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(2));
     webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:name").getText()).isEqualTo(RESTCLIENT_NAME));
   }

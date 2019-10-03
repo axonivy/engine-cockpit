@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestWebservices extends WebTestBase
 {
@@ -16,13 +16,13 @@ public class WebTestWebservices extends WebTestBase
   void testWebserviesInTable(FirefoxDriver driver)
   {
     navigateToWebservices(driver);
-    WebElement table = driver.findElementByClassName("webservicesTable");
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("webservice-name")).isNotEmpty());
+    
+    Table table = new Table(driver, By.className("webservicesTable"), true);
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
 
-    String last = table.findElement(By.xpath("(.//*[@class='webservice-name'])[last()]")).getText();
-    table.findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]")).sendKeys(last);
+    table.search(table.getFirstColumnEntries().get(0));
     saveScreenshot(driver, "search_webservices");
-    webAssertThat(() -> assertThat(table.findElements(By.className("webservice-name"))).hasSize(1));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1));
   }
   
   private void navigateToWebservices(FirefoxDriver driver)

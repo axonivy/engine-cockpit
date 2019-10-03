@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -50,7 +49,7 @@ public class WebTestNavigation extends WebTestBase
   private void assertView(FirefoxDriver driver, String page, String id)
   {
     saveScreenshot(driver, page);
-    await().untilAsserted(() -> assertThat(driver.getCurrentUrl()).contains(page));
-    await().untilAsserted(() -> assertThat(driver.findElementById(id).getAttribute("class")).contains("active-menuitem"));
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(page));
+    webAssertThat(() -> assertThat(driver.findElementById(id).getAttribute("class")).contains("active-menuitem"));
   }
 }

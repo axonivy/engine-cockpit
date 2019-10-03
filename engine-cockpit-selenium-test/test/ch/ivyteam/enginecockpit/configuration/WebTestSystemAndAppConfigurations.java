@@ -24,7 +24,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   void testSystemConfig(FirefoxDriver driver)
   {
     toSystemConfig(driver);
-    assertThat(driver.findElementByTagName("h1").getText()).contains("System Config");
+    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("System Config"));
   }
   
   @Test

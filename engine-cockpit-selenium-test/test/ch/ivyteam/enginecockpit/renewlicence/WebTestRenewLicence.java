@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 
@@ -75,9 +74,8 @@ public class WebTestRenewLicence extends WebTestBase
 
   private void removeGrowl(FirefoxDriver driver)
   {
-    Actions action = new Actions(driver);
-    WebElement we = driver.findElementById("mailConfigForm:msgs_container");
-    action.moveToElement(we).moveToElement(driver.findElementByClassName("ui-growl-icon-close")).click()
+    new Actions(driver).moveToElement(driver.findElementById("mailConfigForm:msgs_container"))
+            .moveToElement(driver.findElementByClassName("ui-growl-icon-close")).click()
             .build().perform();
   }
 

@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,8 +49,8 @@ public class WebBase
   
   public static WebElement waitUntilElementClickable(WebDriver driver, By by)
   {
-    WebDriverWait wait = new WebDriverWait(driver, 10);
-    return wait.until(ExpectedConditions.elementToBeClickable(by));
+    webAssertThat(() -> assertThat(driver.findElement(by).isDisplayed()).isTrue());
+    return new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(by));
   }
   
   public static void webAssertThat(WebTest test)

@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
-import static org.awaitility.Awaitility.await;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,8 +73,8 @@ public class WebTestBase extends WebBase
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:password").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
-    await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
-    await().ignoreExceptions().until(() -> driver.findElementById("menuform").isDisplayed());
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
+    webAssertThat(() -> assertThat(driver.findElementById("menuform").isDisplayed()).isTrue());
   }
   
   public static String getAdminUser()
@@ -85,19 +85,19 @@ public class WebTestBase extends WebBase
   public static void populateBusinessCalendar(FirefoxDriver driver)
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
-    await().until(() -> driver.getCurrentUrl().contains(getEndPage()));
+    assertEndPage(driver);
   }
   
   public static void runExternalDbQuery(FirefoxDriver driver)
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
-    await().until(() -> driver.getCurrentUrl().contains(getEndPage()));
+    assertEndPage(driver);
   }
 
   public static void createBusinessData(FirefoxDriver driver)
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
-    await().until(() -> driver.getCurrentUrl().contains(getEndPage()));
+    assertEndPage(driver);
   }
   
   private static String getAppName()
@@ -105,8 +105,9 @@ public class WebTestBase extends WebBase
     return EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
   }
   
-  private static String getEndPage()
+  private static void assertEndPage(FirefoxDriver driver)
   {
-    return EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end";
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(
+            EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end"));
   }
 }

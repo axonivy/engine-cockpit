@@ -11,10 +11,17 @@ public class Table
   private FirefoxDriver driver;
   private String id;
   private String rowNumberField;
+  private boolean withLink = false;
 
   public Table(FirefoxDriver driver, By by)
   {
     this(driver, by, "data-ri");
+  }
+  
+  public Table(FirefoxDriver driver, By by, boolean withLink)
+  {
+    this(driver, by);
+    this.withLink = withLink;
   }
   
   public Table(FirefoxDriver driver, By by, String rowNumberField)
@@ -26,20 +33,19 @@ public class Table
   
   public List<String> getFirstColumnEntries()
   {
-    return driver.findElementsByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span").stream()
+    return driver.findElementsByXPath(getFirstColumnSpanElement()).stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
-  
+
   public List<String> getFirstColumnEntriesForSpanClass(String span)
   {
-    return driver.findElementsByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span[@class='" + span + "']").stream()
+    return driver.findElementsByXPath(getFirstColumnSpanElement() + "[@class='" + span + "']").stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
   
   public String getValueForEntry(String entry, int column)
   {
-    return driver.findElementByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span[text()='" + entry + "']/../../td[" + column + "]")
-            .getText();
+    return driver.findElementByXPath(findColumnOverEntry(entry) + "/td[" + column + "]").getText();
   }
 
   public void clickButtonForEntry(String entry, String btn)
@@ -64,8 +70,27 @@ public class Table
 
   private String getRowNumber(String entry)
   {
-    return driver.findElementByXPath("//div[@id='" + id + "']//tbody/tr/td[1]/span[text()='" + entry + "']/../..")
+    return driver.findElementByXPath(findColumnOverEntry(entry))
             .getAttribute(rowNumberField);
+  }
+
+  private String getFirstColumnSpanElement()
+  {
+    if (withLink)
+    {
+      return "//div[@id='" + id + "']//tbody/tr/td[1]/a/span";
+    }
+    return "//div[@id='" + id + "']//tbody/tr/td[1]/span";
+  }
+  
+  private String findColumnOverEntry(String entry)
+  {
+    String parentTdFromSpan = "/../..";
+    if (withLink)
+    {
+      parentTdFromSpan = "/../../.."; 
+    }
+    return getFirstColumnSpanElement() + "[text()='" + entry + "']" + parentTdFromSpan;
   }
   
   public void search(String search)

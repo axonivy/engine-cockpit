@@ -7,7 +7,7 @@
   <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
     var="user" value="#{userBean.users}" widgetVar="usersTable_#{app.id}" filteredValue="#{userBean.filteredUsers}"
-    lazy="false" styleClass="userTable">
+    lazy="false" styleClass="userTable" id="userTable">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
