@@ -219,16 +219,4 @@ public class Navigation
     driver.findElement(element).click();
   }
   
-  private static boolean checkIfCorrectElement(WebElement element)
-  {
-    try
-    {
-      return element.isDisplayed();
-    }
-    catch (StaleElementReferenceException e)
-    {
-      return false;
-    }
-  }
-  
 }
