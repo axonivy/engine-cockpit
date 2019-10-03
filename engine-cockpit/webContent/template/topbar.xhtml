@@ -48,6 +48,12 @@
                 </h:form>
               </a>
             </li>
+            <li role="menuitem">
+              <a href="#" onclick="$.cookie('devMode', $.cookie('devMode') != 'true', { expires: 30, path: '/' }); window.location.reload();">
+                <i class="material-icons">bug_report</i>
+                <span>Dev Mode #{cookie['devMode'].value eq 'true' ? 'Off' : 'On'}</span>
+              </a>
+            </li>
           </ul>
         </li>
       </ul>
