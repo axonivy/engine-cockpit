@@ -70,12 +70,10 @@ public class WebTestBase extends WebBase
   public void login(FirefoxDriver driver)
   {
     driver.get(viewUrl("login.xhtml"));
-    saveScreenshot(driver, "login");
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:password").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
     await().until(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
-    saveScreenshot(driver, "dashboard");
     await().ignoreExceptions().until(() -> driver.findElementById("menuform").isDisplayed());
   }
   
