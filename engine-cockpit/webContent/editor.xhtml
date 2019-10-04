@@ -68,6 +68,11 @@
                       }
                     }
                   </script>
+                  
+                  <span style="color: grey; line-height: 30px;">
+                    <i class="material-icons card-title-icon" style="font-size: 17px;">info</i>
+                    <span>Tip: Use Ctrl+Space to get a list of known keywords</span>
+                  </span>
                   <p:commandButton id="saveEditor" style="width: 150px; float: right; margin-left: 10px;" process="content" update="card:saveEditorModel"
                     value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{editorBean.setActiveConfigFile(config)}" 
                     oncomplete="saveDirectlyOrOpenDialog_#{config.varName}();" widgetVar="saveEditor_#{config.varName}"/>
