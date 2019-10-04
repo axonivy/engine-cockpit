@@ -22,6 +22,8 @@ public class EditorBean
 {
   private List<ConfigFile> configFiles = new ArrayList<>();
   
+  private ConfigFile activeConfigFile;
+  
   private ManagerBean managerBean;
 
   public EditorBean()
@@ -45,6 +47,16 @@ public class EditorBean
   public List<ConfigFile> getConfigFiles()
   {
     return configFiles;
+  }
+  
+  public ConfigFile getActiveConfigFile()
+  {
+    return activeConfigFile;
+  }
+  
+  public void setActiveConfigFile(ConfigFile activeConfigFile)
+  {
+    this.activeConfigFile = activeConfigFile;
   }
   
 }

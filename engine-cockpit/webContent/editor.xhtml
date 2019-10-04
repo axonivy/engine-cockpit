@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:pm="http://primefaces.org/mobile"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
     <f:viewParam name="log" value="#{logBean.showLog}" />
@@ -51,7 +50,7 @@
                           cm.replaceSelection(spaces);
                         },
                         "Ctrl-S": function(instance) {
-                          PF('saveEdit_#{config.varName}').jq.click();
+                          PF('saveEditor_#{config.varName}').jq.click();
                         }
                       }
                     });
@@ -59,10 +58,20 @@
                       document.getElementById(contentId_#{config.varName}).value = cm.getValue();
                     });
                     editors.push(editor_#{config.varName});
+                    
+                    function saveDirectlyOrOpenDialog_#{config.varName}() {
+                      if (editor_#{config.varName}.state.lint.marked.length > 0) {
+                        PF('saveEditorModel').show();
+                      }
+                      else {
+                        PF('saveChanges').jq.click();
+                      }
+                    }
                   </script>
-                  <p:commandButton id="saveEdit" style="width: 150px; float: right; margin-left: 10px;" process="content"
-                    value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{config.save()}" widgetVar="saveEdit_#{config.varName}"/>
-                  <p:commandButton id="cancelEdit" onclick="editor_${config.varName}.undo()" value="Cancel" type="button"
+                  <p:commandButton id="saveEditor" style="width: 150px; float: right; margin-left: 10px;" process="content" update="card:saveEditorModel"
+                    value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{editorBean.setActiveConfigFile(config)}" 
+                    oncomplete="saveDirectlyOrOpenDialog_#{config.varName}();" widgetVar="saveEditor_#{config.varName}"/>
+                  <p:commandButton id="cancelEditor" onclick="editor_${config.varName}.undo()" value="Cancel" type="button"
                     icon="ui-icon-clear" styleClass="secondary-btn" style="width: 150px; float: right;"/>
                 </h:form>
               </div>
@@ -73,6 +82,23 @@
           $('.ui-tabs-panels .cm-s-default').height(window.innerHeight - 260);
           handleTabChange(0);
         </script>
+        
+        <p:dialog style="min-width: 300px;" header="Save #{editorBean.activeConfigFile.fileName}" id="saveEditorModel"
+          widgetVar="saveEditorModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+          <h:form id="saveEditorForm">
+            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+              <h:panelGroup layout="block" styleClass="static-message static-warn-message">
+                <i class="fa fa-info-circle"/>
+                <h:outputText value="Yaml errors are detected. Do you want to save anyway?"/>
+              </h:panelGroup>
+            </p:panelGrid>
+            <p:commandButton id="reindexSearchEngineBtn" onclick="PF('saveEditorModel').hide();"
+              actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="ui-icon-save"
+              styleClass="primary-btn modal-input-button" widgetVar="saveChanges" />
+            <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
+              icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+          </h:form>
+        </p:dialog>
       </cc:SingleCard>
     </ui:define>
   </ui:composition>
