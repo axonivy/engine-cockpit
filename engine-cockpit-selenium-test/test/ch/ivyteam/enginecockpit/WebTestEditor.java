@@ -14,7 +14,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 public class WebTestEditor extends WebTestBase
 {
   
-  private static final String DEV_MODE_COOKIE = "devMode";
+  private static final String DEV_MODE_COOKIE = "preview";
 
   @Test
   void testDevMode(FirefoxDriver driver)
