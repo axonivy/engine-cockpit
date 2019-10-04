@@ -33,10 +33,6 @@ public class WebTestEditor extends WebTestBase
   @Test
   void testEditor(FirefoxDriver driver)
   {
-    String expectedAppYaml = "SecuritySystem: test-ad\n" + 
-            "GlobalVariables:\n" + 
-            "  myGlobalVariable: \"value\"";
-    
     toEditor(driver);
     webAssertThat(() -> assertThat(ApplicationTab.getApplicationCount(driver)).isGreaterThan(1));
     String ivyYamlHints = driver.findElementById("card:editorTabView:0:editorForm:yamlhints").getAttribute("value");
@@ -51,8 +47,7 @@ public class WebTestEditor extends WebTestBase
     webAssertThat(() -> assertThat(appYamlHints).isNotBlank());
     assertThat(ivyYamlHints).isNotEqualTo(appYamlHints);
     webAssertThat(() -> assertThat(driver.findElementById("card:editorTabView:"
-            + tabIndex + ":editorForm:content").getAttribute("value")).contains(expectedAppYaml));
-    
+            + tabIndex + ":editorForm:content").getAttribute("value")).contains("SecuritySystem: test-ad"));
   }
   
   @Test
@@ -81,6 +76,7 @@ public class WebTestEditor extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("card:saveEditorModel").isDisplayed()).isFalse());
     
     driver.executeScript("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(editorContent) + "\");");
+    driver.executeScript("editor_app_test.performLint();");
     saveScreenshot(driver, "clear_content");
     webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isNotBlank());
     webAssertThat(() -> assertThat(driver.findElementsByClassName("CodeMirror-lint-marker-error")).isEmpty());
