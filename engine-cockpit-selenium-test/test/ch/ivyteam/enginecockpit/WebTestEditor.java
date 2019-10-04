@@ -62,9 +62,10 @@ public class WebTestEditor extends WebTestBase
     ApplicationTab.switchToApplication(driver, "app-test.yaml");
     int tabIndex = ApplicationTab.getSelectedApplicationIndex(driver);
     String editorContentId = "card:editorTabView:" + tabIndex + ":editorForm:content";
+    String editorContent = driver.findElementById(editorContentId).getAttribute("value");
     String newEditorContent = "test: hi\n  bla: fail";
     saveScreenshot(driver, "app-test-yaml");
-    webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isBlank());
+    webAssertThat(() -> assertThat(editorContent).isNotBlank());
     driver.executeScript("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(newEditorContent) + "\");");
     saveScreenshot(driver, "new_content");
     webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isEqualTo(newEditorContent));
@@ -79,9 +80,9 @@ public class WebTestEditor extends WebTestBase
     saveScreenshot(driver, "save_cancel");
     webAssertThat(() -> assertThat(driver.findElementById("card:saveEditorModel").isDisplayed()).isFalse());
     
-    driver.executeScript("editor_app_test.setValue('');");
+    driver.executeScript("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(editorContent) + "\");");
     saveScreenshot(driver, "clear_content");
-    webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isBlank());
+    webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isNotBlank());
     webAssertThat(() -> assertThat(driver.findElementsByClassName("CodeMirror-lint-marker-error")).isEmpty());
     
     webAssertThat(() -> assertThat(driver.findElementById("card:editorMessage_container").getText()).isBlank());
