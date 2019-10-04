@@ -16,7 +16,6 @@
 // declare global: jsyaml
 
 CodeMirror.registerHelper("lint", "yaml", function(text) {
-  console.log("lint")
   var found = [];
   if (!window.jsyaml) {
     if (window.console) {
