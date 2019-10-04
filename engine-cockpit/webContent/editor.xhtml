@@ -92,10 +92,10 @@
                 <h:outputText value="Yaml errors are detected. Do you want to save anyway?"/>
               </h:panelGroup>
             </p:panelGrid>
-            <p:commandButton id="reindexSearchEngineBtn" onclick="PF('saveEditorModel').hide();"
+            <p:commandButton id="saveChangesBtn" onclick="PF('saveEditorModel').hide();"
               actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="ui-icon-save"
               styleClass="primary-btn modal-input-button" widgetVar="saveChanges" />
-            <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
+            <p:commandButton id="cancelChangesBtn" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
               icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
           </h:form>
         </p:dialog>

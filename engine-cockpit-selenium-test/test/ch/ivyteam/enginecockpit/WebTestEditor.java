@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -43,14 +44,51 @@ public class WebTestEditor extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("card:editorTabView:0:editorForm:content")
             .getAttribute("value")).isNotBlank());
     ApplicationTab.switchToApplication(driver, "app-test-ad.yaml");
+    saveScreenshot(driver, "app-test-ad-yaml");
     int tabIndex = ApplicationTab.getSelectedApplicationIndex(driver);
     String appYamlHints = driver.findElementById("card:editorTabView:" + tabIndex + ":editorForm:yamlhints")
             .getAttribute("value");
     webAssertThat(() -> assertThat(appYamlHints).isNotBlank());
     assertThat(ivyYamlHints).isNotEqualTo(appYamlHints);
     webAssertThat(() -> assertThat(driver.findElementById("card:editorTabView:"
-            + tabIndex + ":editorForm:content").getAttribute("value")).isEqualTo(expectedAppYaml));
+            + tabIndex + ":editorForm:content").getAttribute("value")).contains(expectedAppYaml));
     
+  }
+  
+  @Test
+  void testEditorSaveErrorsDialog(FirefoxDriver driver)
+  {
+    toEditor(driver);
+    ApplicationTab.switchToApplication(driver, "app-test.yaml");
+    int tabIndex = ApplicationTab.getSelectedApplicationIndex(driver);
+    String editorContentId = "card:editorTabView:" + tabIndex + ":editorForm:content";
+    String newEditorContent = "test: hi\n  bla: fail";
+    saveScreenshot(driver, "app-test-yaml");
+    webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isBlank());
+    driver.executeScript("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(newEditorContent) + "\");");
+    saveScreenshot(driver, "new_content");
+    webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isEqualTo(newEditorContent));
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("CodeMirror-lint-marker-error")).isNotEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("card:saveEditorModel").isDisplayed()).isFalse());
+    
+    driver.findElementById("card:editorTabView:" + tabIndex + ":editorForm:saveEditor").click();
+    saveScreenshot(driver, "save_dialog");
+    webAssertThat(() -> assertThat(driver.findElementById("card:saveEditorModel").isDisplayed()).isTrue());
+    
+    driver.findElementById("card:saveEditorForm:cancelChangesBtn").click();
+    saveScreenshot(driver, "save_cancel");
+    webAssertThat(() -> assertThat(driver.findElementById("card:saveEditorModel").isDisplayed()).isFalse());
+    
+    driver.executeScript("editor_app_test.setValue('');");
+    saveScreenshot(driver, "clear_content");
+    webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isBlank());
+    webAssertThat(() -> assertThat(driver.findElementsByClassName("CodeMirror-lint-marker-error")).isEmpty());
+    
+    webAssertThat(() -> assertThat(driver.findElementById("card:editorMessage_container").getText()).isBlank());
+    driver.findElementById("card:editorTabView:" + tabIndex + ":editorForm:saveEditor").click();
+    saveScreenshot(driver, "save");
+    webAssertThat(() -> assertThat(driver.findElementById("card:editorMessage_container").getText())
+            .isEqualTo("Saved app-test.yaml successful"));
   }
   
   private void disableDevMode(FirefoxDriver driver)
