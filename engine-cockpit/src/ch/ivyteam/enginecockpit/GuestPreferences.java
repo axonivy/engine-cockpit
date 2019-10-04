@@ -42,10 +42,10 @@ public class GuestPreferences
   {
     return darkMenu;
   }
-
-  public void setDarkMenu(boolean darkMenu)
+  
+  public void toggleMenu()
   {
-    this.darkMenu = darkMenu;
+    this.darkMenu = !darkMenu;
   }
 
   public boolean isOrientationRTL()
