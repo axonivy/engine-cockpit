@@ -27,6 +27,7 @@ public class Navigation
   private static final By SYSTEM_CONFIG_MENU = By.xpath("//li[@id='menuform:sr_system_config']/child::a");
   private static final By MONITOR_MENU = By.xpath("//li[@id='menuform:sr_monitor']/child::a");
   private static final By LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
+  private static final By EDITOR_MENU = By.xpath("//li[@id='menuform:sr_editor']/child::a");
 
   public static void toDashboard(FirefoxDriver driver)
   {
@@ -184,6 +185,12 @@ public class Navigation
     WebBase.webAssertThat(() -> driver.getCurrentUrl().contains("logs.xhtml"));
   }
   
+  public static void toEditor(FirefoxDriver driver)
+  {
+    toMenu(driver, EDITOR_MENU);
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("editor.xhtml"));
+  }
+  
   private static void toMenu(FirefoxDriver driver, By menuItemPath)
   {
     driver.findElement(menuItemPath).click();
@@ -218,5 +225,5 @@ public class Navigation
     WebBase.webAssertThat(() -> driver.findElement(element).isDisplayed());
     driver.findElement(element).click();
   }
-  
+
 }

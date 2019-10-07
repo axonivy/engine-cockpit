@@ -28,25 +28,23 @@
             </li>
             <li role="menuitem">
               <p:commandLink id="sessionLogoutBtn" actionListener="#{loginBean.logout}">
-                <i class="material-icons">&#xE8AC;</i>
+                <i class="material-icons">power_settings_new</i>
                 <span>Logout</span>
               </p:commandLink>
             </li>
             <li role="menuitem">
-              <a href="#">
-                <h:form rendered="#{guestPreferences.darkMenu}">
-                  <i class="material-icons">&#xE893;</i>
-                  <span>Light Menu</span>
-                  <p:ajax event="click" listener="#{guestPreferences.setDarkMenu(false)}"
-                    onsuccess="javascript:window.location.reload()" />
-                </h:form>
-                <h:form rendered="#{guestPreferences.darkMenu eq false}">
-                  <i class="material-icons">&#xE892;</i>
-                  <span>Dark Menu</span>
-                  <p:ajax event="click" listener="#{guestPreferences.setDarkMenu(true)}"
-                    onsuccess="javascript:window.location.reload()" />
-                </h:form>
-              </a>
+              <h:form>
+                <p:commandLink id="toggleThemeBtn" actionListener="#{guestPreferences.toggleMenu()}" oncomplete="window.location.reload();">
+                  <i class="material-icons">#{guestPreferences.isDarkMenu() ? 'label_outline' : 'label'}</i>
+                  <span>#{guestPreferences.isDarkMenu() ? 'Light Menu' : 'Dark Menu'}</span>
+                </p:commandLink>
+              </h:form>
+            </li>
+            <li role="menuitem">
+              <p:commandLink id="devModeBtn" type="button" onclick="$.cookie('preview', $.cookie('preview') != 'true', { expires: 30, path: '/' }); window.location.reload();">
+                <i class="material-icons">bug_report</i>
+                <span>Preview #{cookie['preview'].value eq 'true' ? 'Off' : 'On'}</span>
+              </p:commandLink>
             </li>
           </ul>
         </li>

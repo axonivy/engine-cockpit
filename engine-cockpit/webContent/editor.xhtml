@@ -1,0 +1,124 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="log" value="#{logBean.showLog}" />
+  </f:metadata>
+
+  <ui:composition template="/template/template.xhtml">
+  
+    <ui:define name="head">
+      <h:outputScript name="resources/codemirror/js/codemirror.min.js"/>
+      <h:outputScript name="resources/codemirror/js/mode-yaml.min.js"/>
+      <h:outputScript name="resources/codemirror/js/hint.min.js"/>
+      <h:outputScript name="resources/codemirror/js/hint-yaml.js"/>
+      <h:outputScript name="resources/codemirror/js/js-yaml.min.js"/>
+      <h:outputScript name="resources/codemirror/js/lint.min.js"/>
+      <h:outputScript name="resources/codemirror/js/lint-yaml.js"/>
+      <h:outputStylesheet name="resources/codemirror/css/codemirror.min.css"/>
+      <h:outputStylesheet name="resources/codemirror/css/hint.min.css"/>
+      <h:outputStylesheet name="resources/codemirror/css/lint.min.css"/>
+    </ui:define>
+    
+    <ui:define name="breadcrumb">
+      <li><a href="editor.xhtml">Editor</a></li>
+    </ui:define>
+    
+    <ui:define name="content">
+      <cc:SingleCard id="card">
+        <p:growl id="editorMessage" for="editorMessage" showDetail="true">
+          <p:autoUpdate/>
+        </p:growl>
+        <script>
+          var editors = [];
+          function handleTabChange(index)
+          {
+            yamlHintDirectory = $('#card\\:editorTabView\\:' + index + '\\:editorForm\\:yamlhints').text().split(',');
+            editors[index].refresh();
+          }
+        </script>
+        <p:tabView id="editorTabView" styleClass="card tab-view-card" value="#{editorBean.configFiles}" var="config" widgetVar="editorTabView"
+          onTabShow="handleTabChange(index)" style="margin-bottom: 0;">
+          <p:tab title="#{config.fileName}" titleStyleClass="application-tab">
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <h:form id="editorForm">
+                  <p:inputTextarea id="yamlhints" value="#{config.keys}" style="display: none"/>
+                  <div id="editor_#{config.varName}"><p:inputTextarea id="content" value="#{config.content}" style="display: none"/></div>
+                  <script>
+                    var contentId_#{config.varName} = $("#editor_#{config.varName} textarea").attr('id');
+                    
+                    var editor_#{config.varName} = CodeMirror.fromTextArea(document.getElementById(contentId_#{config.varName}), {
+                      lineNumbers: true,
+                      mode: "text/x-yaml",
+                      tabSize: 2,
+                      showInvisibles: true,
+                      gutters: ["CodeMirror-lint-markers"],
+                      lint: true,
+                      extraKeys: {
+                        "Ctrl-Space": "autocomplete", Tab: function(cm) {
+                          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                          cm.replaceSelection(spaces);
+                        },
+                        "Ctrl-S": function(instance) {
+                          PF('saveEditor_#{config.varName}').jq.click();
+                        }
+                      }
+                    });
+                    editor_#{config.varName}.on("change", function (cm) {
+                      document.getElementById(contentId_#{config.varName}).value = cm.getValue();
+                    });
+                    editors.push(editor_#{config.varName});
+                    
+                    function saveDirectlyOrOpenDialog_#{config.varName}() {
+                      if (editor_#{config.varName}.state.lint.marked.length > 0) {
+                        PF('saveEditorModel').show();
+                      }
+                      else {
+                        PF('saveChanges').jq.click();
+                      }
+                    }
+                  </script>
+                  
+                  <span style="color: grey; line-height: 30px;">
+                    <i class="material-icons card-title-icon" style="font-size: 17px;">info</i>
+                    <span>Tip: Use Ctrl+Space to get a list of known keywords</span>
+                  </span>
+                  <p:commandButton id="saveEditor" style="width: 150px; float: right; margin-left: 10px;" process="content" update="card:saveEditorModel"
+                    value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{editorBean.setActiveConfigFile(config)}" 
+                    oncomplete="saveDirectlyOrOpenDialog_#{config.varName}();" widgetVar="saveEditor_#{config.varName}"/>
+                  <p:commandButton id="cancelEditor" onclick="editor_${config.varName}.undo()" value="Cancel" type="button"
+                    icon="ui-icon-clear" styleClass="secondary-btn" style="width: 150px; float: right;"/>
+                </h:form>
+              </div>
+            </div>
+          </p:tab>
+        </p:tabView>
+        <script>
+          $('.ui-tabs-panels .cm-s-default').height(window.innerHeight - 260);
+          handleTabChange(0);
+        </script>
+        
+        <p:dialog style="min-width: 300px;" header="Save #{editorBean.activeConfigFile.fileName}" id="saveEditorModel"
+          widgetVar="saveEditorModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+          <h:form id="saveEditorForm">
+            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+              <h:panelGroup layout="block" styleClass="static-message static-warn-message">
+                <i class="fa fa-info-circle"/>
+                <h:outputText value="Yaml errors are detected. Do you want to save anyway?"/>
+              </h:panelGroup>
+            </p:panelGrid>
+            <p:commandButton id="saveChangesBtn" onclick="PF('saveEditorModel').hide();"
+              actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="ui-icon-save"
+              styleClass="primary-btn modal-input-button" widgetVar="saveChanges" />
+            <p:commandButton id="cancelChangesBtn" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
+              icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+          </h:form>
+        </p:dialog>
+      </cc:SingleCard>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
