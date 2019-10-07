@@ -15,7 +15,7 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/feature%252FXIVY-3364_updgrade_primefaces_themes/lastSuccessfulBuild/', description: 'Engine page url')
+    string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
     booleanParam(name: 'deployArtifacts', defaultValue: false, description: 'Deploy new version of cockpit and screenshots')
   }
 
