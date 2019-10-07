@@ -47,7 +47,7 @@ public class UrlUtil
     }
     else
     {
-      version = Advisor.getAdvisor().getVersion().getVersionString(Version.DETAIL_PATCH, Version.FORM_SHORT);
+      version = Advisor.getAdvisor().getVersion().getVersionString(Version.DETAIL_PATCH, Version.FORM_SHORT_ALL);
     }
     return version;
   }
