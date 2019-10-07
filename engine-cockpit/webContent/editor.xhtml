@@ -8,6 +8,19 @@
   </f:metadata>
 
   <ui:composition template="/template/template.xhtml">
+  
+    <ui:define name="head">
+      <h:outputScript name="resources/codemirror/js/codemirror.min.js"/>
+      <h:outputScript name="resources/codemirror/js/mode-yaml.min.js"/>
+      <h:outputScript name="resources/codemirror/js/hint.min.js"/>
+      <h:outputScript name="resources/codemirror/js/hint-yaml.js"/>
+      <h:outputScript name="resources/codemirror/js/js-yaml.min.js"/>
+      <h:outputScript name="resources/codemirror/js/lint.min.js"/>
+      <h:outputScript name="resources/codemirror/js/lint-yaml.js"/>
+      <h:outputStylesheet name="resources/codemirror/css/codemirror.min.css"/>
+      <h:outputStylesheet name="resources/codemirror/css/hint.min.css"/>
+      <h:outputStylesheet name="resources/codemirror/css/lint.min.css"/>
+    </ui:define>
     
     <ui:define name="breadcrumb">
       <li><a href="editor.xhtml">Editor</a></li>
