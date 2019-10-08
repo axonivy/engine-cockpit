@@ -89,7 +89,7 @@
                   <p:commandButton id="saveEditor" style="width: 150px; float: right; margin-left: 10px;" process="content" update="card:saveEditorModel"
                     value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{editorBean.setActiveConfigFile(config)}" 
                     oncomplete="saveDirectlyOrOpenDialog_#{config.varName}();" widgetVar="saveEditor_#{config.varName}"/>
-                  <p:commandButton id="cancelEditor" onclick="editor_${config.varName}.undo()" value="Cancel" type="button"
+                  <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
                     icon="ui-icon-clear" styleClass="secondary-btn" style="width: 150px; float: right;"/>
                 </h:form>
               </div>
