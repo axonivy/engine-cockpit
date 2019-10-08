@@ -28,14 +28,14 @@ public class LicenceBean
   @Inject
   private ISecurityManager securityManager;
   
-  private String users;
-  private String sessions;
+  private final String users;
+  private final String sessions;
   
   public LicenceBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
-    initSessions();
-    initUsers();
+    users = calculateSessions();
+    sessions = calculateUsers();
   }
 
   public String getValueFromProperty(String key)
@@ -63,18 +63,7 @@ public class LicenceBean
     String expiryDate = getValueFromProperty(LICENCE_VALID_UNTIL);
     return StringUtils.equals(expiryDate, "") ? "Never" : expiryDate;
   }
-  
-  private void initUsers()
-  {
-    long licensedUsers = securityManager.countLicensedUsers();
-    String usersLimit = getValueFromProperty(USER_LIMIT);
-    if (usersLimit != null && NumberUtils.isParsable(usersLimit) && Long.parseLong(usersLimit) > 0)
-    {
-      users = licensedUsers + " / " + usersLimit;
-    }
-    users = String.valueOf(licensedUsers);
-  }
-  
+
   public String getUsers()
   {
     return users;
@@ -85,17 +74,6 @@ public class LicenceBean
     return sessions;
   }
 
-  private void initSessions()
-  {
-    int licensedSessions = securityManager.getLicensedSessions();
-    String sessionLimit = getValueFromProperty(SESSION_LIMIT);
-    if (sessionLimit != null && NumberUtils.isParsable(sessionLimit) && Long.parseLong(sessionLimit) > 0)
-    {
-      sessions = licensedSessions + " / " + sessionLimit; 
-    }
-    sessions = String.valueOf(licensedSessions);
-  }
-
   public boolean isCluster()
   {
     return LicenceUtil.isCluster();
@@ -104,5 +82,27 @@ public class LicenceBean
   public boolean isDemo()
   {
     return LicenceUtil.isDemo();
+  }
+  
+  private String calculateSessions()
+  {
+    int licensedSessions = securityManager.getLicensedSessions();
+    String sessionLimit = getValueFromProperty(SESSION_LIMIT);
+    if (sessionLimit != null && NumberUtils.isParsable(sessionLimit) && Long.parseLong(sessionLimit) > 0)
+    {
+      return licensedSessions + " / " + sessionLimit; 
+    }
+    return String.valueOf(licensedSessions);
+  }
+  
+  private String calculateUsers()
+  {
+    long licensedUsers = securityManager.countLicensedUsers();
+    String usersLimit = getValueFromProperty(USER_LIMIT);
+    if (usersLimit != null && NumberUtils.isParsable(usersLimit) && Long.parseLong(usersLimit) > 0)
+    {
+      return licensedUsers + " / " + usersLimit;
+    }
+    return String.valueOf(licensedUsers);
   }
 }
