@@ -159,7 +159,7 @@ public class ManagerBean
   
   public long getUsersCount()
   {
-    return getIApplications().stream().mapToLong(app -> app.getSecurityContext().getUsers().size() - 1).sum();
+    return securityManager.countUsers() - applications.size();
   }
   
   public long getRunningCasesCount()

@@ -17,13 +17,13 @@
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>
   <h:outputText value="#{licenceBean.organisation}" />
-  <label>Licence Type</label>
+  <label>Licence type</label>
   <h:outputText value="#{licenceBean.licenceType}" />
   <label>Expries</label>
   <h:outputText value="#{licenceBean.expiryDate}" />
-  <label>Users</label>
+  <label>Named users</label>
   <h:outputText value="#{licenceBean.users}" />
-  <label>Sessions</label>
+  <label>Concurrent sessions</label>
   <h:outputText value="#{licenceBean.sessions}" />
 </p:panelGrid>
 <p:panelGrid rendered="#{licenceBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
