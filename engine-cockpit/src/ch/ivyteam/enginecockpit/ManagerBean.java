@@ -22,6 +22,7 @@ import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
+import ch.ivyteam.ivy.security.ISecurityManager;
 
 @ManagedBean
 @SessionScoped
@@ -35,7 +36,10 @@ public class ManagerBean
 
   @Inject
   private IApplicationConfigurationManager manager;
-
+  
+  @Inject
+  private ISecurityManager securityManager;
+  
   public ManagerBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
@@ -143,20 +147,19 @@ public class ManagerBean
     return manager.getApplicationsSortedByName(false);
   }
 
-  public int getSessionCount()
+  public long getSessionCount()
   {
-    return manager.getApplications().get(0).getSecurityContext().getClusterSessionsSnapshot()
-            .getSessionInfos().size();
+    return securityManager.getSessionCount();
   }
-
+  
   public long getApplicationCount()
   {
     return getIApplications().size();
   }
   
-  public int getUsersCount()
+  public long getUsersCount()
   {
-    return getIApplications().stream().mapToInt(app -> app.getSecurityContext().getUsers().size() - 1).sum();
+    return securityManager.countUsers() - applications.size();
   }
   
   public long getRunningCasesCount()

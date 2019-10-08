@@ -17,8 +17,6 @@ import ch.ivyteam.licence.SignedLicence;
 
 public class LicenceUtil
 {
-  private static final File CONFIG_DIR = new File("configuration");
-
   private static void backup(File license) throws IOException
   {
     File backupFile = new File(license.getAbsolutePath().concat(".bak"));
@@ -43,7 +41,7 @@ public class LicenceUtil
 
   private static File install(File tempLicence, String fileName) throws InvalidLicenceException, IOException
   {
-    File newLicence = new File(CONFIG_DIR, fileName);
+    File newLicence = new File(UrlUtil.getConfigDir(), fileName);
     if (newLicence.exists())
     {
       backup(newLicence);
