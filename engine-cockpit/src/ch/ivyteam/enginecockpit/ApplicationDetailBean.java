@@ -79,9 +79,9 @@ public class ApplicationDetailBean
     return "applications.xhtml?faces-redirect=true";
   }
   
-  public int getSessionCount()
+  public long getSessionCount()
   {
-    return getIApplication().getSecurityContext().getSessions().size();
+    return getIApplication().getSecurityContext().getSessionCount();
   }
   
   public int getUsersCount()
