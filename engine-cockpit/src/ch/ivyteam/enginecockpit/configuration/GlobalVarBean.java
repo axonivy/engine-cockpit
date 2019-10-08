@@ -33,7 +33,6 @@ public class GlobalVarBean
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
-    configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
 
     reloadGlobalVars();
   }
@@ -43,6 +42,7 @@ public class GlobalVarBean
     activeVar = new SimpleVariable();
     if (managerBean.getApplications().size() != 0)
     {
+      configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
       app = managerBean.getSelectedIApplication();
       env = managerBean.getSelectedIEnvironment();
       globalVariables = env.getGlobalVariables()
