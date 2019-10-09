@@ -222,6 +222,11 @@ body {
   width: 75px;
   padding-bottom: 8px;
 }
+.single-card-top-right-btn {
+  margin: auto 0 auto auto;
+  max-width: 150px;
+  float: right;
+}
 
 /*Panels*/
 .log-viewer {
