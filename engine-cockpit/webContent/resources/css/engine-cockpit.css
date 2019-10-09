@@ -12,17 +12,6 @@ body {
   .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu.topbar-menu-active>li {
     float: none !important;
   }
-  .sidebar-logo .sidebar-logo-collapsed {
-    display: none;
-  }
-}
-.layout-wrapper .layout-sidebar .sidebar-logo .sidebar-logo-collapsed {
-  position: absolute;
-  height: 48px;
-}
-.layout-wrapper .layout-sidebar.layout-sidebar-active .sidebar-logo .sidebar-logo-collapsed,
-.layout-wrapper-static .layout-sidebar .sidebar-logo .sidebar-logo-collapsed {
-  display: none;
 }
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item {
   float: right;
