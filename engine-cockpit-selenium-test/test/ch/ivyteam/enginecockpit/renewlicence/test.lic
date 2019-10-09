@@ -1,25 +1,21 @@
 [Begin Licence]
 #Licence for AxonIvy Axon.ivy Engine (Standard Edition)
-#Tue Jul 23 14:41:32 CEST 2019
+#Wed Oct 09 12:59:43 UTC 2019
 host.name=ivy
-server.elements.limit=0
-product.type=Server
-licencee.organisation=Lajdecki
+licence.keyversion=axonivy/8000
+licence.number=XLSSE-16DB-09A9-514A
 licence.type=Standard Edition
-licence.valid.from=2019-07-23
-licence.keyversion=axonivy/7000
-licence.valid.until=2030-07-04
+licence.valid.from=2019-10-09
+licence.valid.until=2030-10-09
+licencee.individual=
+licencee.organisation=Jacek Lajdecki
 product.name=Axon.ivy Engine
-licencee.individual=All
-server.ria=true
-licence.number=XLSSE-16C1-ED9E-75DJ
-server.users.limit=0
+product.type=Server
+public.urls=
+server.elements.limit=0
 server.sessions.limit=0
+server.users.limit=0
 [End Licence]
 [Begin Signature]
-MCwCFE2DkdVKGnvi40oYqOi3sDS6hD8MAhQweK9ddMlTYcGewxl4E9zTK7aVIg==
+MCwCFA4i+/LE2FPhp2dWoOzgdEucO6LbAhRehipC95BEHwxA3F584fpQBZTe2A==
 [End Signature]
-
-
-
-
