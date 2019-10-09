@@ -159,7 +159,7 @@ public class ManagerBean
   
   public long getUsersCount()
   {
-    return securityManager.countUsers() - applications.size();
+    return securityManager.getUsersCount();
   }
   
   public long getRunningCasesCount()
