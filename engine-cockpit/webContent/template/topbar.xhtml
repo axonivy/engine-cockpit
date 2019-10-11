@@ -15,7 +15,7 @@
         <li id="sessionUser" class="profile-item">
           <a href="#">
             <span class="profile-image-wrapper">
-              <i class="material-icons" style="font-size: 40px;">&#xE853;</i>
+              <i class="material-icons" style="font-size: 36px;">&#xE853;</i>
             </span>
             <span id="sessionUserName" class="topbar-item-name profile-name">#{loginBean.sessionUserName}</span>
           </a>
@@ -31,14 +31,6 @@
                 <i class="material-icons">power_settings_new</i>
                 <span>Logout</span>
               </p:commandLink>
-            </li>
-            <li role="menuitem">
-              <h:form>
-                <p:commandLink id="toggleThemeBtn" actionListener="#{guestPreferences.toggleMenu()}" oncomplete="window.location.reload();">
-                  <i class="material-icons">#{guestPreferences.isDarkMenu() ? 'label_outline' : 'label'}</i>
-                  <span>#{guestPreferences.isDarkMenu() ? 'Light Menu' : 'Dark Menu'}</span>
-                </p:commandLink>
-              </h:form>
             </li>
             <li role="menuitem">
               <p:commandLink id="devModeBtn" type="button" onclick="$.cookie('preview', $.cookie('preview') != 'true', { expires: 30, path: '/' }); window.location.reload();">

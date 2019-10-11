@@ -204,14 +204,6 @@ body {
 .ui-fluid .tab-view-card {
   border: 0px;
 }
-.ui-fluid .ui-inputswitch.ui-inputswitch-checked {
-  background-color: #9CCC65;
-  border-color: #9CCC65;
-}
-.ui-fluid .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-handle {
-  background-color: #7CB342;
-  color: #ffffff;
-}
 .card-title-icon {
   position: relative;
   top: 3px;
