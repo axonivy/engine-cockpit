@@ -1,1 +1,24 @@
 /* Add your customizations of theme here */
+th {
+    .ui-treetable &,
+    .ui-datatable & {
+        -moz-box-sizing: unset;
+        -webkit-box-sizing: unset;
+        box-sizing: unset;
+    }
+}
+td {
+    .ui-treetable &,
+    .ui-datatable & {
+        -moz-box-sizing: unset;
+        -webkit-box-sizing: unset;
+        box-sizing: unset;
+    }
+}
+body {
+    .ui-panel {
+        .ui-panel-titlebar {
+            padding: 8px 14px;
+        }
+    }
+}

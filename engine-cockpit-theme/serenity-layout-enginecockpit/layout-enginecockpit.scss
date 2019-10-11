@@ -1,23 +1,48 @@
+/* Axon Ivy Colors */
+$ivyPrimaryColorBlack:#1B1B1B;
+$ivyPrimaryColorWhite:#FFFFFF;
+$ivyPrimaryColorGreen:#C7D426;
+$ivyPrimaryColorLightGreen:#D7E52C;
+$ivyPrimaryColorDarkGrey:#575656;
+$ivyPrimaryColorMediumGrey:#9C9D9D;
+$ivyPrimaryColorLightGrey:#D9DADA;
+$ivyPrimaryColorPaleGrey:#F4F5F5;
+$ivyPrimaryColorBasicGrey:#F9FAFA;
+
+$ivySecondaryColorDarkBlue:#007095;
+$ivySecondaryColorMediumBlue:#49BAD6;
+$ivySecondaryColorLightBlue:#90DDE6;
+
+$ivyTertiaryColorDarkRed:#D23636;
+$ivyTertiaryColorMediumRed:#EE4A52;
+$ivyTertiaryColorLightRed:#FCC3C3;
+$ivyTertiaryColorDarkGreen:#2AA483;
+$ivyTertiaryColorMediumGreen:#48C46B;
+$ivyTertiaryColorLightGreen:#D4EBA2;
+$ivyTertiaryColorDarkYellow:#FFCE29;
+$ivyTertiaryColorMediumYellow:#FEDE4B;
+$ivyTertiaryColorLightYellow:#FFE896;
+
 /* Sidebar */
-$sidebarLogoBgColor:#007095;//rgba(36,50,59,0.5);
-$sidebarBgColor:#007095;
-$darkSidebarBgColor:#007095;
+$sidebarLogoBgColor:$ivySecondaryColorDarkBlue;
+$sidebarBgColor:$ivySecondaryColorDarkBlue;
+$darkSidebarBgColor:$ivySecondaryColorDarkBlue;
 
 /* Primary */
-$primaryColor:#007095;
+$primaryColor:$ivySecondaryColorDarkBlue;
 $primaryDarkColor:#496475;
-$primaryLightColor:#90A4AE;
-$primaryLightestColor:#E8EAF6;
-$primaryTextColor:#ffffff;
+$primaryLightColor:$ivyPrimaryColorMediumGrey;
+$primaryLightestColor:$ivyPrimaryColorPaleGrey;
+$primaryTextColor:$ivyPrimaryColorWhite;
 
 /* Accent */
-$accentColor:#C7D426;
-$accentLightColor:#D7E52C;
-$accentTextColor:#ffffff;
+$accentColor:$ivyPrimaryColorGreen;
+$accentLightColor:$ivyPrimaryColorLightGreen;
+$accentTextColor:$ivyPrimaryColorWhite;
 
 /* Topbar */
-$topbarTextColor:#F4F5F5;
-$topbarIconColor:#F4F5F5;
+$topbarTextColor:$ivyPrimaryColorPaleGrey;
+$topbarIconColor:$ivyPrimaryColorPaleGrey;
 
 /* Submenu */
 $submenuBgColor:rgba(255,255,255,0.2);
@@ -26,42 +51,42 @@ $horizontalSubmenuBgColor:#EEEEEE;
 $horizontalDarkSubmenuBgColor:#616161;
 $horizontalSubmenuitemHoverBgColor:#E0E0E0;
 $horizontalSubmenuitemDarkHoverBgColor:#545454;
-$horizontalSubmenuitemDarkHoverTextColor:#ffffff;
-$horizontalMenuActiveTextColor:#ffffff;
+$horizontalSubmenuitemDarkHoverTextColor:$ivyPrimaryColorWhite;
+$horizontalMenuActiveTextColor:$ivyPrimaryColorWhite;
 $horizontalMenuActiveHoverTextColor:#212121;
-$horizontalDarkMenuActiveTextColor:#ffffff;
-$horizontalDarkMenuActiveHoverTextColor:#ffffff;
+$horizontalDarkMenuActiveTextColor:$ivyPrimaryColorWhite;
+$horizontalDarkMenuActiveHoverTextColor:$ivyPrimaryColorWhite;
 
 /* Default MenuItem */
-$menuitemTextColor:#ffffff;
-$menuitemIconTextColor:#ffffff;
+$menuitemTextColor:$ivyPrimaryColorWhite;
+$menuitemIconTextColor:$ivyPrimaryColorWhite;
 
 /* Hover MenuItem */
 $menuitemHoverBgColor:rgba(0,0,0,0.4);
-$menuitemHoverTextColor:#ffffff;
-$menuitemHoverIconTextColor:#ffffff;
+$menuitemHoverTextColor:$ivyPrimaryColorWhite;
+$menuitemHoverIconTextColor:$ivyPrimaryColorWhite;
 
 /* Active MenuItem */
-$menuitemActiveBgColor:#C7D426;
-$menuitemActiveTextColor:#ffffff;
-$menuitemActiveIconTextColor:#ffffff;
-$subMenuitemActiveTextColor:#D7E52C;
-$subMenuitemActiveIconTextColor:#D7E52C;
+$menuitemActiveBgColor:$ivyPrimaryColorGreen;
+$menuitemActiveTextColor:$ivyPrimaryColorWhite;
+$menuitemActiveIconTextColor:$ivyPrimaryColorWhite;
+$subMenuitemActiveTextColor:$ivyPrimaryColorLightGreen;
+$subMenuitemActiveIconTextColor:$ivyPrimaryColorLightGreen;
 
 /* Dark Default MenuItem */
-$darkMenuitemTextColor:#dee0e3;
-$darkMenuitemIconTextColor:#dee0e3;
+$darkMenuitemTextColor:$ivyPrimaryColorWhite;
+$darkMenuitemIconTextColor:$ivyPrimaryColorWhite;
 
 /* Dark Hover MenuItem */
 $darkMenuitemHoverBgColor:rgba(255,255,255,0.4);
-$darkMenuitemHoverTextColor:#ffffff;
-$darkMenuitemHoverIconTextColor:#ffffff;
+$darkMenuitemHoverTextColor:$ivyPrimaryColorWhite;
+$darkMenuitemHoverIconTextColor:$ivyPrimaryColorWhite;
 
 /* Dark Active MenuItem */
-$darkMenuitemActiveBgColor:#7CB342;
-$darkMenuitemActiveTextColor:#ffffff;
-$darkMenuitemActiveIconTextColor:#ffffff;
-$darksubMenuitemActiveTextColor:#9CCC65;
-$darksubMenuitemActiveIconTextColor:#9CCC65;
+$darkMenuitemActiveBgColor:$ivyPrimaryColorGreen;
+$darkMenuitemActiveTextColor:$ivyPrimaryColorWhite;
+$darkMenuitemActiveIconTextColor:$ivyPrimaryColorWhite;
+$darksubMenuitemActiveTextColor:$ivyPrimaryColorLightGreen;
+$darksubMenuitemActiveIconTextColor:$ivyPrimaryColorLightGreen;
 
 @import '../sass/layout/_layout';

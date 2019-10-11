@@ -1,0 +1,2 @@
+sass ./serenity-layout-enginecockpit/layout-enginecockpit.scss /home/lli/Gitworkspace/ivy-core/workspace/Designer/webapps/ivy/resources/serenity-layout-enginecockpit/layout-enginecockpit.css --sourcemap=none
+sass ./primefaces-serenity-enginecockpit/theme.scss /home/lli/Gitworkspace/ivy-core/workspace/Designer/webapps/ivy/resources/primefaces-serenity-enginecockpit/theme.css --sourcemap=none

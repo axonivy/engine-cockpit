@@ -1,1 +1,49 @@
 /* Add your customizations of layout here */
+.dashboard {
+    .overview-box {
+        &.overview-box-1 {
+            .overview-box-header {
+                background-color: $ivyPrimaryColorMediumGrey;
+            }
+            .overview-box-content {
+                background-color: $ivyPrimaryColorDarkGrey;
+                .overview-box-icon {
+                    background-color: $ivyPrimaryColorDarkGrey;
+                }
+            }
+        }
+        &.overview-box-2 {
+            .overview-box-header {
+                background-color: $ivyTertiaryColorMediumRed;
+            }
+            .overview-box-content {
+                background-color: $ivyTertiaryColorDarkRed;
+                .overview-box-icon {
+                    background-color: $ivyTertiaryColorDarkRed;
+                }
+            }
+        }
+        &.overview-box-3 {
+            .overview-box-header {
+                background-color: $ivyTertiaryColorMediumGreen;
+            }
+            .overview-box-content {
+                background-color: $ivyTertiaryColorDarkGreen;
+                .overview-box-icon {
+                    background-color: $ivyTertiaryColorDarkGreen;
+                }
+            }
+        }
+        &.overview-box-4 {
+            .overview-box-header {
+                background-color: $ivySecondaryColorLightBlue;
+            }
+            .overview-box-content {
+                background-color: $ivySecondaryColorMediumBlue;
+                .overview-box-icon {
+                    background-color: $ivySecondaryColorMediumBlue;
+                }
+            }
+        }
+    }
+}
