@@ -132,12 +132,6 @@ public class WebTestDeployment extends WebTestBase
     driver.findElementByXPath("//ul[@id='deploymentModal:version_items']/li[text()='RANGE']").click();
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isTrue());
     saveScreenshot(driver, "show_range");
-    
-    driver.findElementById("deploymentModal:version").click();
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:version_items").isDisplayed()).isTrue());
-    driver.findElementByXPath("//ul[@id='deploymentModal:version_items']/li[text()='RELEASED']").click();
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isFalse());
-    saveScreenshot(driver, "hide_range");
   }
   
   private void showDeploymentOptions(FirefoxDriver driver)
