@@ -4,7 +4,7 @@
 <f:view beforePhase="#{loginBean.checkLogin()}" />
 
 <h:head>
-  <f:attribute name="primefaces.THEME" value="serenity-enginecockpit" />
+  <f:attribute name="primefaces.THEME" value="serenity-ivy" />
   <f:facet name="first">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -15,9 +15,9 @@
 
   <link rel="shortcut icon" href="#{resource['ivy-webcontent:resources/images/ivy_favicon_48.png']}" />
 
-  <h:outputScript name="js/nanoscroller.js" library="serenity-layout" />
-  <h:outputScript name="js/layout.js" library="serenity-layout" />
-  <h:outputScript name="js/ripple.js" library="serenity-layout" />
+  <h:outputScript name="js/nanoscroller.js" library="serenity-layout-ivy" />
+  <h:outputScript name="js/layout.js" library="serenity-layout-ivy" />
+  <h:outputScript name="js/ripple.js" library="serenity-layout-ivy" />
   <h:outputScript name="resources/js/highlight.pack.js" />
   <h:outputScript name="resources/js/navigation-menu-fix.js" />
   <ui:insert name="head" />
@@ -63,9 +63,9 @@
   <ui:include src="exception.xhtml" />
 
   <h:outputStylesheet name="resources/css/highlight-default.css" />
-  <h:outputStylesheet name="css/nanoscroller.css" library="serenity-layout" />
-  <h:outputStylesheet name="css/ripple.css" library="serenity-layout" />
-  <h:outputStylesheet name="layout-enginecockpit.css" library="serenity-layout-enginecockpit" />
+  <h:outputStylesheet name="css/nanoscroller.css" library="serenity-layout-ivy" />
+  <h:outputStylesheet name="css/ripple.css" library="serenity-layout-ivy" />
+  <h:outputStylesheet name="css/layout-ivy.css" library="serenity-layout-ivy" />
   <h:outputStylesheet name="resources/css/engine-cockpit.css" />
 </h:body>
 
