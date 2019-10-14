@@ -47,7 +47,7 @@ public class WebTestLicenceUpload extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
     webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isFalse());
     saveScreenshot(driver, "invalid_lic");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isEqualTo("Licence file has wrong format."));
+    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isEqualTo("Licence file has a wrong format. It must have at least 6 lines"));
     
     driver.findElementById("licenceUpload:backBtn").click();
     saveScreenshot(driver, "back");
