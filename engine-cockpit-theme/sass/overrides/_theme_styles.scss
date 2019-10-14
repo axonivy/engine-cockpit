@@ -21,4 +21,31 @@ body {
             padding: 8px 14px;
         }
     }
+    .ui-button {
+        background-color: $ivyPrimaryColorGreen;
+        &.ui-state-hover {
+            background-color: $accentDarkColor;
+        }
+        &.secondary-btn {
+            background-color: $ivyPrimaryColorMediumGrey;
+            &.ui-state-hover {
+                background-color: $ivyPrimaryColorDarkGrey;
+            }
+        }
+        &.red-btn {
+            background-color: $ivyTertiaryColorDarkRed;
+        }
+        &.amber-btn {
+            background-color: $ivyTertiaryColorDarkYellow;
+        }
+    }
+    .ui-datatable {
+        .ui-datatable-header {
+            background-color: $ivyPrimaryColorLightGrey;
+            color: $ivyPrimaryColorBlack;
+            .ui-inputfield {
+                color: $ivyPrimaryColorBlack;
+            }
+        }
+    }
 }
