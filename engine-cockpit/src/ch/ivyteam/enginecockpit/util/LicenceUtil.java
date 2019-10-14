@@ -41,7 +41,8 @@ public class LicenceUtil
 
   private static File install(File tempLicence, String fileName) throws InvalidLicenceException, IOException
   {
-    File newLicence = new File(UrlUtil.getConfigDir(), fileName);
+    
+    File newLicence = UrlUtil.getConfigFile(fileName);
     if (newLicence.exists())
     {
       backup(newLicence);

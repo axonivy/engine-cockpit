@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.model;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -23,11 +22,11 @@ private String content;
 private String fileName;
 private IConfiguration config;
   
-  public ConfigFile(Path path, IConfiguration config)
+  public ConfigFile(File file, IConfiguration config)
   {
-    this.fileName = path.getFileName().toString();
+    this.fileName = file.getName();
     this.config = config;
-    this.file = path.toFile();
+    this.file = file;
     this.content = getFileContent();
   }
   

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.Advisor;
+import ch.ivyteam.ivy.config.IFileAccess;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.util.Version;
 
@@ -77,12 +78,7 @@ public class UrlUtil
   
   public static File getConfigFile(String configFile)
   {
-    return new File(getConfigDir() + File.separator + configFile);
-  }
-  
-  public static File getConfigDir()
-  {
-    return new File(Advisor.getAdvisor().getInstallationDirectory() + File.separator + "configuration");
+    return IFileAccess.get().getConfigurationFile(configFile);
   }
   
   public static File getLogDir()
