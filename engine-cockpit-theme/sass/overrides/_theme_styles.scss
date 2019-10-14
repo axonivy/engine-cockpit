@@ -1,21 +1,24 @@
 /* Add your customizations of theme here */
-th {
-    .ui-treetable &,
-    .ui-datatable & {
-        -moz-box-sizing: unset;
-        -webkit-box-sizing: unset;
-        box-sizing: unset;
-    }
-}
+th,
 td {
     .ui-treetable &,
     .ui-datatable & {
         -moz-box-sizing: unset;
         -webkit-box-sizing: unset;
         box-sizing: unset;
+        /*border: 1px solid #d8d8d8 !important;
+        padding: 6px 10px !important;*/
     }
 }
+/*th {
+    .ui-treetable &,
+    .ui-datatable & {
+        font-weight: bold !important;
+        text-align: center !important;
+    }
+}*/
 body {
+    letter-spacing: 0;
     .ui-panel {
         .ui-panel-titlebar {
             padding: 8px 14px;
@@ -39,16 +42,7 @@ body {
             background-color: $ivyTertiaryColorDarkYellow;
         }
     }
-    .ui-datatable {
-        .ui-datatable-header {
-            background-color: $ivyPrimaryColorLightGrey;
-            color: $ivyPrimaryColorDarkGrey;
-            .ui-inputfield {
-                color: $ivyPrimaryColorDarkGrey;
-                background-image: linear-gradient(to bottom, $ivyPrimaryColorPaleGrey, $ivyPrimaryColorPaleGrey), linear-gradient(to bottom, $ivyPrimaryColorMediumGrey, $ivyPrimaryColorMediumGrey);
-            }
-        }
-    }
+    .ui-datatable,
     .ui-tree-search-header {
         .ui-datatable-header {
             background-color: $ivyPrimaryColorLightGrey;

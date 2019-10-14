@@ -379,32 +379,3 @@ body {
 .querytool .querytool-query {
   display: block; overflow: hidden;
 }
-
-/* Serenity 2.0.1 style reverts */
-body {
-  letter-spacing: unset;
-}
-.ui-panel .ui-panel-titlebar,
-.ui-panel .ui-panel-content,
-.ui-panel .ui-panelgrid-cell {
-  padding: 8px 14px !important;
-}
-.ui-tree {
-  padding: 4px 7px !important;
-}
-.ui-tree .ui-treenode-content {
-  padding: 0 !important;
-}
-.ui-datatable th,
-.ui-datatable td,
-.ui-treetable th,
-.ui-treetable td {
-  border: 1px solid #d8d8d8 !important;
-  padding: 6px 10px !important;
-  box-sizing: unset !important;
-}
-.ui-datatable th,
-.ui-treetable th {
-  font-weight: bold !important;
-  text-align: center !important;
-}
