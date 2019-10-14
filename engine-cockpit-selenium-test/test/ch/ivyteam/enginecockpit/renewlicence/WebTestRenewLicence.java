@@ -61,6 +61,7 @@ public class WebTestRenewLicence extends WebTestBase
     waitForElasticsearch();
     saveScreenshot(driver, "uploadedLic_dash");
     driver.navigate().refresh();
+    webAssertThat(() -> assertThat(driver.findElementById("licenceType").getText()).contains("Standard Edition"));
   }
 
   private void sendRenew(FirefoxDriver driver, String mailTo)

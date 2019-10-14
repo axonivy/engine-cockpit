@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
-import java.nio.file.Path;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +31,7 @@ public class EditorBean
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    Path ivyYaml = UrlUtil.getConfigDir().toPath().resolve("ivy.yaml");
+    File ivyYaml = UrlUtil.getConfigFile("ivy.yaml");
     configFiles.add(new ConfigFile(ivyYaml, IConfiguration.get()));
     configFiles.addAll(managerBean.getIApplications().stream()
             .map(this::createAppConfigFile)
@@ -40,7 +40,7 @@ public class EditorBean
   
   private ConfigFile createAppConfigFile(IApplication app)
   {
-    Path appYaml = UrlUtil.getConfigDir().toPath().resolve("app-" + app.getName() + ".yaml");
+    File appYaml = UrlUtil.getConfigFile("app-" + app.getName() + ".yaml");
     return new ConfigFile(appYaml, ((IApplicationInternal) app).getConfiguration());
   }
   

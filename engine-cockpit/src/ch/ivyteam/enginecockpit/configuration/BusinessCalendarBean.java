@@ -121,10 +121,10 @@ public class BusinessCalendarBean
   {
     for (TreeNode node : nodes)
     {
-      String calendar = (String) node.getData();
-      if (calendar.toLowerCase().contains(filter))
+      BusinessCalendar calendar = (BusinessCalendar) node.getData();
+      if (calendar.getName().toLowerCase().contains(filter))
       {
-        new DefaultTreeNode(node, filteredTreeRootNode);
+        new DefaultTreeNode(calendar, filteredTreeRootNode);
       }
       filterTreeRootNode(node.getChildren());
     }
