@@ -32,75 +32,70 @@
                   onclick="PF('newApplicationModal').show();" />
               </div>
             </div>
-            <div class="ui-g applications-panel-tree">
-              <div class="ui-g-12 ui-lg-12" style="padding-bottom: 0;">
-                <div class="ui-datatable-header ui-widget-header ui-corner-top">
-                  <div class="ui-outputpanel ui-widget">
-                    <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i
-                      class="material-icons">search</i>
-                    </label>
-                    <p:inputText styleClass="table-search-input-withicon" placeholder="Search"
-                      value="#{applicationBean.filter}">
-                      <p:ajax event="keyup" delay="300" update="@form" />
-                    </p:inputText>
-                  </div>
-                </div>
-              </div>
-              <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
-                <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
-                  <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-                  <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
-                  <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
-                    <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
-                      <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
-                        <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
-                      </h:outputText>
-                    </h:outputLink>
-                    <h:outputText rendered="#{activity.detailView == '#'}">
-                      <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}" style="color: grey;">
-                        <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
-                      </h:outputText>
-                    </h:outputText>
-                    <h:outputText rendered="#{activity.pmv}" value="(#{activity.releaseState})"
-                        styleClass="release-state-#{activity.releaseStateLowerCase}" style="margin-left: 10px;" />
-                  </p:column>
-                  <p:column headerText="Running Cases" styleClass="second-row" style="text-align: center; width: 100px;">
-                    <h:outputText value="#{activity.runningCasesCount}"/>
-                  </p:column>
-                  <p:column headerText="State" styleClass="thrid-row" style="text-align: center; width: 120px;">
-                    <h:outputText value="#{activity.operationState}"
-                      styleClass="activity-state-#{activity.operationStateLowerCase}"
-                      title="#{activity.errorMessage}" />
-                  </p:column>
-                  <p:column style="text-align: right; width: 152px;">
-                    <p:commandButton title="Deployment" icon="ui-icon-cloud-upload" rendered="#{activity.application}" 
-                      type="button" style="margin-right: 10px;" id="deployBtn">
-                      <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 
-                        oncomplete="PF('fileUploadModal').show()"/>
-                    </p:commandButton>
-                    <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}"
-                      type="button" style="margin-right: 10px;" styleClass="primary-btn">
-                      <p:ajax update="card:form" listener="#{activity.activate}" />
-                    </p:commandButton>
-                    <p:commandButton title="Deactivate" icon="ui-icon-stop" disabled="#{activity.inActive}"
-                      type="button" style="margin-right: 10px;" styleClass="red-btn">
-                      <p:ajax update="card:form" listener="#{activity.deactivate}" />
-                    </p:commandButton>
-                    <p:commandButton title="#{activity.releaseState}" id="tasksButton"
-                      type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
-                    <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-                      <p:menuitem value="Lock" icon="ui-icon-lock" disabled="#{activity.locked}"
-                        actionListener="#{activity.lock}" update="card:form" />
-                      <p:menuitem value="Release" rendered="#{activity.pmv}" icon="ui-icon-unarchive"
-                        disabled="#{activity.releaseDisabled}" actionListener="#{activity.release}" update="card:form" />
-                      <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
-                        actionListener="#{applicationBean.setActiveActivity(activity)}"
-                        update="card:form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
-                    </p:menu>
-                  </p:column>
-                </p:treeTable>
+            <div class="ui-tree-search-header">
+              <div class="ui-datatable-header ui-widget-header ui-corner-top">
+                <p:outputPanel>
+                  <label class="table-search-icon">
+                    <i class="material-icons">search</i>
+                  </label>
+                  <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{applicationBean.filter}">
+                    <p:ajax event="keyup" delay="300" update="@form" />
+                  </p:inputText>
+                </p:outputPanel>
               </div>
             </div>
+            <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
+              <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
+              <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+              <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
+                <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
+                  <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
+                    <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                  </h:outputText>
+                </h:outputLink>
+                <h:outputText rendered="#{activity.detailView == '#'}">
+                  <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}" style="color: grey;">
+                    <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                  </h:outputText>
+                </h:outputText>
+                <h:outputText rendered="#{activity.pmv}" value="(#{activity.releaseState})"
+                    styleClass="release-state-#{activity.releaseStateLowerCase}" style="margin-left: 10px;" />
+              </p:column>
+              <p:column headerText="Running Cases" styleClass="second-row" style="text-align: center; width: 100px;">
+                <h:outputText value="#{activity.runningCasesCount}"/>
+              </p:column>
+              <p:column headerText="State" styleClass="thrid-row" style="text-align: center; width: 120px;">
+                <h:outputText value="#{activity.operationState}"
+                  styleClass="activity-state-#{activity.operationStateLowerCase}"
+                  title="#{activity.errorMessage}" />
+              </p:column>
+              <p:column style="text-align: right; width: 152px;">
+                <p:commandButton title="Deployment" icon="ui-icon-cloud-upload" rendered="#{activity.application}" 
+                  type="button" style="margin-right: 10px;" id="deployBtn">
+                  <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 
+                    oncomplete="PF('fileUploadModal').show()"/>
+                </p:commandButton>
+                <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}"
+                  type="button" style="margin-right: 10px;" styleClass="primary-btn">
+                  <p:ajax update="card:form" listener="#{activity.activate}" />
+                </p:commandButton>
+                <p:commandButton title="Deactivate" icon="ui-icon-stop" disabled="#{activity.inActive}"
+                  type="button" style="margin-right: 10px;" styleClass="red-btn">
+                  <p:ajax update="card:form" listener="#{activity.deactivate}" />
+                </p:commandButton>
+                <p:commandButton title="#{activity.releaseState}" id="tasksButton"
+                  type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
+                <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
+                  <p:menuitem value="Lock" icon="ui-icon-lock" disabled="#{activity.locked}"
+                    actionListener="#{activity.lock}" update="card:form" />
+                  <p:menuitem value="Release" rendered="#{activity.pmv}" icon="ui-icon-unarchive"
+                    disabled="#{activity.releaseDisabled}" actionListener="#{activity.release}" update="card:form" />
+                  <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
+                    actionListener="#{applicationBean.setActiveActivity(activity)}"
+                    update="card:form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
+                </p:menu>
+              </p:column>
+            </p:treeTable>
             <p:poll listener="#{applicationBean.reloadActivityStates}" update="card:form"
               autoStart="#{applicationBean.operating}" interval="1" />
             <p:confirmDialog id="deleteConfirmDialog"

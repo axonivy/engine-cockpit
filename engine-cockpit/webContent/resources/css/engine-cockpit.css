@@ -95,9 +95,11 @@ body {
 }
 
 /*Tables / Trees*/
+.ui-tree-search-header .table-search-icon,
 .ui-datatable .table-search-icon {
   float: left;
 }
+.ui-tree-search-header .table-search-input-withicon,
 .ui-datatable-header .table-search-input-withicon,
 .ui-datatable .table-search-input-withicon {
   width: calc(100% - 24px);
@@ -162,14 +164,6 @@ body {
 }
 
 /*Table Paging*/
-.ui-fluid .ui-datatable-header {
-  background-color: #9e9e9e;
-  color: #ffffff;
-  border: 1px solid #9e9e9e;
-}
-.ui-fluid .ui-datatable-header .ui-inputfield {
-  background-image: linear-gradient(to bottom, #ffffff, #ffffff), linear-gradient(to bottom, lightgrey, lightgrey);
-}
 .ui-fluid .ui-paginator {
   background-color: #5d5d5d;
 }

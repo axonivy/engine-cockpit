@@ -22,14 +22,14 @@ body {
         }
     }
     .ui-button {
-        background-color: $ivyPrimaryColorGreen;
-        &.ui-state-hover {
-            background-color: $accentDarkColor;
-        }
         &.secondary-btn {
             background-color: $ivyPrimaryColorMediumGrey;
             &.ui-state-hover {
                 background-color: $ivyPrimaryColorDarkGrey;
+            }
+            &.ui-state-focus {
+                outline: 0 none;
+                background-color: lighten($ivyPrimaryColorMediumGrey,10%);
             }
         }
         &.red-btn {
@@ -42,9 +42,20 @@ body {
     .ui-datatable {
         .ui-datatable-header {
             background-color: $ivyPrimaryColorLightGrey;
-            color: $ivyPrimaryColorBlack;
+            color: $ivyPrimaryColorDarkGrey;
             .ui-inputfield {
-                color: $ivyPrimaryColorBlack;
+                color: $ivyPrimaryColorDarkGrey;
+                background-image: linear-gradient(to bottom, $ivyPrimaryColorPaleGrey, $ivyPrimaryColorPaleGrey), linear-gradient(to bottom, $ivyPrimaryColorMediumGrey, $ivyPrimaryColorMediumGrey);
+            }
+        }
+    }
+    .ui-tree-search-header {
+        .ui-datatable-header {
+            background-color: $ivyPrimaryColorLightGrey;
+            color: $ivyPrimaryColorDarkGrey;
+            .ui-inputfield {
+                color: $ivyPrimaryColorDarkGrey;
+                background-image: linear-gradient(to bottom, $ivyPrimaryColorPaleGrey, $ivyPrimaryColorPaleGrey), linear-gradient(to bottom, $ivyPrimaryColorMediumGrey, $ivyPrimaryColorMediumGrey);
             }
         }
     }

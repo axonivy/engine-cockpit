@@ -32,40 +32,36 @@
                 <cc:EnvironmentSelect environmentChange="#{externalDatabaseBean.reloadExternalDatabases}"/>
               </div>
             </div>
-            <div class="ui-g">
-              <div class="ui-g-12 ui-lg-12">
-                <h:form id="tableForm">
-                  <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
-                    paginatorAlwaysVisible="false" emptyMessage="No external databases found on deployed apps"
-                    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    var="database" value="#{externalDatabaseBean.externalDatabases}" widgetVar="externalDatabasesTable_#{app.id}"
-                    filteredValue="#{externalDatabaseBean.filteredExternalDatabases}" lazy="false" styleClass="externalDatabasesTable">
-                    <f:facet name="header">
-                      <p:outputPanel>
-                        <p:outputLabel styleClass="table-search-icon">
-                          <i class="material-icons">search</i>
-                        </p:outputLabel>
-                        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                          onkeyup="PF('externalDatabasesTable_#{app.id}').filter()" placeholder="Search" value="#{externalDatabaseBean.filter}" />
-                      </p:outputPanel>
-                    </f:facet>
-                    <p:column headerText="Name" sortBy="#{database.name}" filterBy="#{database.name}" styleClass="database-name-column">
-                      <a href="externaldatabasedetail.xhtml?databaseName=#{database.name}"> <h:outputText value="#{database.name}"
-                          styleClass="database-name">
-                          <i class="material-icons table-icon">dns</i>
-                        </h:outputText>
-                      </a>
-                    </p:column>
-                    <p:column headerText="Url" sortBy="#{database.url}" filterBy="#{database.url}">
-                      <h:outputText value="#{database.url}" styleClass="database-url" />
-                    </p:column>
-                    <p:column headerText="Driver" sortBy="#{database.driver}" filterBy="#{database.driver}">
-                      <h:outputText value="#{database.driver}" styleClass="database-driver" />
-                    </p:column>
-                  </p:dataTable>
-                </h:form>
-              </div>
-            </div>
+            <h:form id="tableForm">
+              <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
+                paginatorAlwaysVisible="false" emptyMessage="No external databases found on deployed apps"
+                paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                var="database" value="#{externalDatabaseBean.externalDatabases}" widgetVar="externalDatabasesTable_#{app.id}"
+                filteredValue="#{externalDatabaseBean.filteredExternalDatabases}" lazy="false" styleClass="externalDatabasesTable">
+                <f:facet name="header">
+                  <p:outputPanel>
+                    <p:outputLabel styleClass="table-search-icon">
+                      <i class="material-icons">search</i>
+                    </p:outputLabel>
+                    <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                      onkeyup="PF('externalDatabasesTable_#{app.id}').filter()" placeholder="Search" value="#{externalDatabaseBean.filter}" />
+                  </p:outputPanel>
+                </f:facet>
+                <p:column headerText="Name" sortBy="#{database.name}" filterBy="#{database.name}" styleClass="database-name-column">
+                  <a href="externaldatabasedetail.xhtml?databaseName=#{database.name}"> <h:outputText value="#{database.name}"
+                      styleClass="database-name">
+                      <i class="material-icons table-icon">dns</i>
+                    </h:outputText>
+                  </a>
+                </p:column>
+                <p:column headerText="Url" sortBy="#{database.url}" filterBy="#{database.url}">
+                  <h:outputText value="#{database.url}" styleClass="database-url" />
+                </p:column>
+                <p:column headerText="Driver" sortBy="#{database.driver}" filterBy="#{database.driver}">
+                  <h:outputText value="#{database.driver}" styleClass="database-driver" />
+                </p:column>
+              </p:dataTable>
+            </h:form>
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>
