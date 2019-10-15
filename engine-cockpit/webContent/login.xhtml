@@ -52,6 +52,14 @@
       </h:form>
     </div>
   </div>
+  
+  <script>
+    $('#loginForm\\:password').on('change', function(e){
+      if($(e.target).val() != '') {
+        $(e.target).addClass('ui-state-filled');
+      }  
+    });
+  </script>
 
   <h:outputStylesheet name="css/layout-ivy.css" library="serenity-layout-ivy" />
   <h:outputStylesheet name="resources/css/engine-cockpit.css" />
