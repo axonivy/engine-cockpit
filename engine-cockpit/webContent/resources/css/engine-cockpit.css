@@ -140,7 +140,7 @@ body {
 .ui-treetable .table-control-btn {
   margin-top: 0;
 }
-.ui-datatable a, 
+.ui-datatable tbody tr td:first-child a, 
 .ui-tree a,
 .ui-treetable a {
   color: inherit;

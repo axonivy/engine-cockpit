@@ -64,7 +64,7 @@
               </p:column>
               <p:column headerText="Application">
                 <ui:repeat var="app" value="#{system.appNames}" varStatus="status">
-                  <a href="application-detail.xhtml?appName=#{app}" style="color: #AFB42B;">#{app}</a>
+                  <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
                   <h:outputText value="#{status.last ? '' : ' / '}"/>
                 </ui:repeat>
               </p:column>
