@@ -71,16 +71,16 @@
               </p:column>
               <p:column style="text-align: right; width: 152px;">
                 <p:commandButton title="Deployment" icon="ui-icon-cloud-upload" rendered="#{activity.application}" 
-                  type="button" style="margin-right: 10px;" id="deployBtn" styleClass="secondary-btn">
+                  type="button" style="margin-right: 10px;" id="deployBtn" styleClass="primary-btn">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 
                     oncomplete="PF('fileUploadModal').show()"/>
                 </p:commandButton>
                 <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}"
-                  type="button" style="margin-right: 10px;" styleClass="secondary-btn">
+                  type="button" style="margin-right: 10px;" styleClass="green-btn">
                   <p:ajax update="card:form" listener="#{activity.activate}" />
                 </p:commandButton>
                 <p:commandButton title="Deactivate" icon="ui-icon-stop" disabled="#{activity.inActive}"
-                  type="button" style="margin-right: 10px;" styleClass="secondary-btn">
+                  type="button" style="margin-right: 10px;" styleClass="red-btn">
                   <p:ajax update="card:form" listener="#{activity.deactivate}" />
                 </p:commandButton>
                 <p:commandButton title="#{activity.releaseState}" id="tasksButton"

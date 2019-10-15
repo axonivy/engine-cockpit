@@ -13,7 +13,7 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveDatabaseConfig" actionListener="#{externalDatabaseDetailBean.saveDbConfig}" title="Save changes"
-    icon="ui-icon-save" styleClass="green-btn card-button" update="@form, connResult:connectionTestModel" />
+    icon="ui-icon-save" styleClass="accent-btn card-button" update="@form, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()" title="Reset configuration"
     icon="ui-icon-close" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this External Database?" header="Reset Database"

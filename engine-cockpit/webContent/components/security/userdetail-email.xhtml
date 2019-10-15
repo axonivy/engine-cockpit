@@ -13,7 +13,7 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
-    title="Save changes" icon="ui-icon-save" styleClass="green-btn card-button" />
+    title="Save changes" icon="ui-icon-save" styleClass="accent-btn card-button" />
   <cc:EmailSettings emailSettings="#{userDetailBean.emailSettings}"
     supportedLanguages="#{managerBean.supportedLanguagesWithDefault}" id="emailSettings">
     <p:outputLabel value="Settings from" for="radioSettings" />

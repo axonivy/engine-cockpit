@@ -12,7 +12,7 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
-    icon="ui-icon-save" styleClass="green-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
+    icon="ui-icon-save" styleClass="accent-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
   <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
     icon="ui-icon-delete" styleClass="red-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
   <p:confirmDialog id="deleteUserConfirmDialog" message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User"

@@ -9,11 +9,11 @@
 </f:facet>
 <h:form id="appDetailStateForm">
   <p:commandButton id="activateApplication" title="Activate" type="button" icon="ui-icon-play-arrow"
-    rendered="#{!applicationDetailBean.application.active}" styleClass="primary-btn card-button">
+    rendered="#{!applicationDetailBean.application.active}" styleClass="green-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
   </p:commandButton>
   <p:commandButton id="deActivateApplication" title="Deactivate" type="button" icon="ui-icon-stop"
-    rendered="#{!applicationDetailBean.application.inActive}" styleClass="secondary-btn card-button">
+    rendered="#{!applicationDetailBean.application.inActive}" styleClass="red-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
   </p:commandButton>
   <p:commandButton id="lockApplication" title="Lock" type="button" icon="ui-icon-lock"
