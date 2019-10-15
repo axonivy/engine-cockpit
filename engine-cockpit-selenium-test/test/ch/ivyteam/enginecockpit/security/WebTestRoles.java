@@ -35,7 +35,7 @@ public class WebTestRoles extends WebTestBase
 
   private WebElement getVisibleRolePanel(FirefoxDriver driver)
   {
-    return driver.findElementsByClassName("roles-panel-tree").stream().filter(e -> e.isDisplayed()).findAny().get();
+    return driver.findElementsByClassName("ui-tabs-panels").stream().filter(e -> e.isDisplayed()).findAny().get();
   }
   
   void sleep(int ms)
