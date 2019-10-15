@@ -13,7 +13,7 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
-    icon="ui-icon-save" styleClass="accent-btn card-button" update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
+    icon="ui-icon-save" styleClass="green-btn card-button" update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()" title="Reset configuration"
     icon="ui-icon-close" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure about reset this Rest Client?" header="Reset Rest Client"

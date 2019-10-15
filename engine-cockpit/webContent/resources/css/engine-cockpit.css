@@ -237,7 +237,7 @@ body {
 
 /*General*/
 .activity-state-active {
-  color: #48C46B;
+  color: #2AA483;
   font-weight: bold;
 }
 .activity-state-inactive {
@@ -249,7 +249,7 @@ body {
   font-weight: bold;
 }
 .release-state-released {
-  color: #48C46B;
+  color: #2AA483;
 }
 .release-state-deprecated {
   color: #9C9D9D;
@@ -357,7 +357,7 @@ body {
 }
 .search-machine-state-true,
 .search-machine-health-green {
-  color: #48C46B;
+  color: #2AA483;
 }
 .search-machine-health-yellow {
   color: #FFCE29;

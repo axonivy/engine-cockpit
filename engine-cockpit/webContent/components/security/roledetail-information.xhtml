@@ -12,7 +12,7 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
-    icon="ui-icon-save" styleClass="accent-btn card-button" />
+    icon="ui-icon-save" styleClass="green-btn card-button" />
   <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
     title="Add new child role" icon="ui-icon-add" styleClass="secondary-btn card-button" />
   <p:commandButton id="deleteRole" rendered="#{roleDetailBean.role.dynamic}" type="button" onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role"
