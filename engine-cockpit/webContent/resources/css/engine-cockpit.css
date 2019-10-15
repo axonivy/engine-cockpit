@@ -165,7 +165,7 @@ body {
 
 /*Table Paging*/
 .ui-fluid .ui-paginator {
-  background-color: #5d5d5d;
+  background-color: #9C9D9D;
 }
 .ui-fluid .ui-widget-header {
   border: none;
@@ -237,22 +237,22 @@ body {
 
 /*General*/
 .activity-state-active {
-  color: #C0CA33;
+  color: #48C46B;
   font-weight: bold;
 }
 .activity-state-inactive {
-  color: #607D8B;
+  color: #9C9D9D;
   font-weight: bold;
 }
 .activity-state-locked {
-  color: #FFC107;
+  color: #FFCE29;
   font-weight: bold;
 }
 .release-state-released {
-  color: #C0CA33;
+  color: #48C46B;
 }
 .release-state-deprecated {
-  color: #607D8B;
+  color: #9C9D9D;
   font-style: italic;
 }
 .release-state-created, 
@@ -274,11 +274,11 @@ body {
 }
 .static-info-message {
   color: #ffffff;
-  background-color: darkgrey;
+  background-color: #9C9D9D;
 }
 .static-warn-message {
   color: black;
-  background-color: #ffc107;
+  background-color: #FFCE29;
 }
 .label-help-icon {
   float: right; 
@@ -357,14 +357,14 @@ body {
 }
 .search-machine-state-true,
 .search-machine-health-green {
-  color: #AFB42B;
+  color: #48C46B;
 }
 .search-machine-health-yellow {
-  color: #FFC107;
+  color: #FFCE29;
 }
 .search-machine-state-false,
 .search-machine-health-red {
-  color: #F44336;
+  color: #D23636;
 }
 .table-icon.search-machine-health-unknown,
 .ui-panelgrid-blank .search-machine-health-unknown {
