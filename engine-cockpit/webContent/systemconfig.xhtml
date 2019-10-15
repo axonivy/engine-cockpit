@@ -41,7 +41,7 @@
                     <h:form id="configMoreForm">
                       <p:commandButton title="More" id="configMoreButton"
                         type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
-                      <p:menu overlay="true" trigger="configMoreButton" my="right top" at="right bottom" id="configMoreMenu">
+                      <p:menu overlay="true" trigger="configMoreButton" my="right top" at="right bottom" id="configMoreMenu" style="min-width:180px;">
                         <p:menuitem value="#{systemConfigBean.configView.showDefaults ? 'Hide' : 'Show'} default values" 
                           icon="ui-icon-visibility#{systemConfigBean.configView.showDefaults ? '-off' : ''}"
                           actionListener="#{systemConfigBean.configView.switchDefaults}" update="@form, config" 
