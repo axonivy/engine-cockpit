@@ -310,7 +310,8 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   {
     login(driver);
     Navigation.toApplicationDetail(driver, "test-ad");
-    scrollYToBottom(driver);
+    scrollYToElement(driver, By.id("configMoreForm:configMoreButton"));
+    scrollYBy(driver, 500);
     saveScreenshot(driver, "app_detail");
     table = new Table(driver, TABLE_ID);
   }
