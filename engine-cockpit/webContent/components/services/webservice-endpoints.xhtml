@@ -24,7 +24,7 @@
         icon="ui-icon-close" styleClass="red-btn table-control-btn card-button" rendered="#{endpoint.type eq 'port'}"
         actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" />
       <p:commandButton id="editEndpointBtn" icon="ui-icon-edit" title="Edit"
-        styleClass="card-button table-control-btn amber-btn" process="@this"
+        styleClass="card-button table-control-btn secondary-btn" process="@this"
         actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}"
         update="@form:editEndpointModal" oncomplete="PF('editEndpointModal').show()"
         rendered="#{endpoint.type eq 'port'}" />

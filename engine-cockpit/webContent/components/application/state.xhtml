@@ -17,7 +17,7 @@
     <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
   </p:commandButton>
   <p:commandButton id="lockApplication" title="Lock" type="button" icon="ui-icon-lock"
-    rendered="#{!applicationDetailBean.application.locked}" styleClass="amber-btn card-button">
+    rendered="#{!applicationDetailBean.application.locked}" styleClass="secondary-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
   </p:commandButton>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">

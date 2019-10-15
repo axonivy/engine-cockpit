@@ -11,7 +11,7 @@
   <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
   <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
     actionListener="#{memberProperty.setProperty(null)}" update=":propertyModal"
-    title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
+    title="Add" icon="ui-icon-add" styleClass="secondary-btn card-button"/>
   
   <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -45,7 +45,7 @@
         </p:commandButton>
         <p:commandButton id="editPropertyBtn" disabled="#{property.backed}" actionListener="#{memberProperty.setProperty(property)}"
           icon="ui-icon-pencil" title="#{property.backed ? 'From Security System' : 'Edit'}" update=":propertyModal"
-          styleClass="card-button table-control-btn amber-btn" oncomplete="PF('propertyModal').show();" process="@this" />
+          styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('propertyModal').show();" process="@this" />
       </p:outputLabel>
     </p:column>
   </p:dataTable>

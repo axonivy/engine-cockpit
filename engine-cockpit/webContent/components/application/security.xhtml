@@ -8,7 +8,7 @@
   <h:outputText value="Security System" />
 </f:facet>
 <h:form id="appDetailSecurityForm">
-  <p:commandButton id="changeSecuritySystem" icon="ui-icon-settings" styleClass="amber-btn card-button"
+  <p:commandButton id="changeSecuritySystem" icon="ui-icon-settings" styleClass="secondary-btn card-button"
     onclick="PF('changeSecuritySystemModel').show()" type="button" />
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"

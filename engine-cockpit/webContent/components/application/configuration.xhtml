@@ -20,7 +20,7 @@
       <p:menuitem value="Show config log" icon="ui-icon-format-align-left" onclick="window.location.href='logs.xhtml?log=config.log'"
         id="showConfigLogBtn" />
     </p:menu>
-    <p:commandButton id="newConfigBtn" styleClass="amber-btn card-button" icon="ui-icon-add" title="New" actionListener="#{applicationDetailBean.configView.setActiveConfig(null)}"
+    <p:commandButton id="newConfigBtn" styleClass="secondary-btn card-button" icon="ui-icon-add" title="New" actionListener="#{applicationDetailBean.configView.setActiveConfig(null)}"
       update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
   </h:form>
   <div style="margin-top: 10px;" />
