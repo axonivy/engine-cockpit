@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import ch.ivyteam.enginecockpit.util.LicenceUtil;
+import ch.ivyteam.ivy.config.NewLicenceFileInstaller;
 
 @Path("licence")
 public class FileUploadService
@@ -23,11 +23,9 @@ public class FileUploadService
   public Response uploadLicence(@FormDataParam("licence") InputStream stream,
           @FormDataParam("licence") FormDataContentDisposition fileDetail)
   {
-    HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(),
-            fileDetail.getSize(), fileDetail.getParameters(), stream);
     try
     {
-      LicenceUtil.verifyAndInstall(httpFile);
+      NewLicenceFileInstaller.install(fileDetail.getFileName(), stream);
     }
     catch (Exception ex)
     {
