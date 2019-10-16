@@ -64,7 +64,7 @@ public class WebTestBase extends WebBase
   
   public void scrollYToElement(RemoteWebDriver driver, By element)
   {
-    scrollYBy(driver, driver.findElement(element).getLocation().getY());
+    scrollYBy(driver, driver.findElement(element).getLocation().getY() - 64);
   }
   
   public void login(FirefoxDriver driver)
