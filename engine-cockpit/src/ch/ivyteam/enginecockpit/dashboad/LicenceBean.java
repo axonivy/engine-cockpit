@@ -11,7 +11,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.google.inject.Inject;
 
 import ch.ivyteam.di.restricted.DiCore;
-import ch.ivyteam.enginecockpit.util.LicenceUtil;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.licence.SignedLicence;
 
@@ -76,12 +75,12 @@ public class LicenceBean
 
   public boolean isCluster()
   {
-    return LicenceUtil.isCluster();
+    return SignedLicence.isEnterprise();
   }
 
   public boolean isDemo()
   {
-    return LicenceUtil.isDemo();
+    return SignedLicence.isDemo();
   }
   
   private String calculateSessions()
