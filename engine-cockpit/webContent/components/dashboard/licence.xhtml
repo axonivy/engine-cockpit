@@ -9,6 +9,8 @@
 </f:facet>
 <p:commandButton id="tasksButtonLicenceDetail" onclick="PF('licenceDetailDialog').show();" title="Licence Details" type="button"
   icon="ui-icon-info" styleClass="secondary-btn card-button" />
+<p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events" type="button"
+  icon="ui-icon-notifications" styleClass="secondary-btn card-button" rendered="#{not empty licenceBean.licenceEvents}" />
 <p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
   styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('fileUploadModal').show()" />
 <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button" icon="ui-icon-refresh"
@@ -35,4 +37,5 @@
 <cc:RenewLicence id="renewLicence" title="Renew Licence"/>
 <cc:FileUpload id="licenceUpload" apiUrl="#{advisorBean.app}/licence" title="Licence Upload" acceptFiles=".lic" />
 <ui:include src="../../dialogs/licenceinfo.xhtml" />
+<ui:include src="../../dialogs/licenceevents.xhtml" />
 </html>

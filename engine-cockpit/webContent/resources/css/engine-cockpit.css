@@ -94,6 +94,23 @@ body {
 	margin-right: 5px;
 }
 
+/*Messages*/
+.dashboard .messages .ui-widget-content {
+  padding: 0;
+  border: none;
+}
+.dashboard .messages i {
+  float: left;
+  position: relative;
+  top: 10px;
+}
+.dashboard .messages i.warning {
+  color: #FFCE29;
+}
+.dashboard .messages i.error {
+  color: #D23636;
+}
+
 /*Tables / Trees*/
 .ui-tree-search-header .table-search-icon,
 .ui-datatable .table-search-icon {
