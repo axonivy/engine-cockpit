@@ -12,6 +12,9 @@ body {
   .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu.topbar-menu-active>li {
     float: none !important;
   }
+  .topbar-notifications {
+    width: 100%;
+  }
 }
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item {
   float: right;
@@ -22,6 +25,9 @@ body {
 }
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item>ul::before {
   left: 232px;
+}
+.topbar-notifications {
+  margin-right: 10px;
 }
 
 /*Dashboard*/
@@ -95,9 +101,15 @@ body {
 }
 
 /*Messages*/
+.dashboard .messages {
+  margin-bottom: 10px;
+}
 .dashboard .messages .ui-widget-content {
   padding: 0;
   border: none;
+}
+.dashboard .messages ul li a > div {
+  max-width: calc(100% - 70px);
 }
 .dashboard .messages i {
   float: left;

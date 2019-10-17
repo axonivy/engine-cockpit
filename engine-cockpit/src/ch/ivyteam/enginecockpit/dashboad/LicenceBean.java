@@ -16,7 +16,6 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.LicenceMessage;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
-import ch.ivyteam.licence.LicenceEvent.Level;
 import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.SignedLicence;
 
@@ -42,8 +41,6 @@ public class LicenceBean
     DiCore.getGlobalInjector().injectMembers(this);
     users = calculateSessions();
     sessions = calculateUsers();
-    LicenceEventManager.getInstance().reportLicenceEvent(Level.ERROR, "", String.valueOf(Math.random() + "Cannot create session because the maximum session that are allowed by your licence has exceeded by a factor of 50%."));
-    LicenceEventManager.getInstance().reportLicenceEvent(Level.WARN, "", String.valueOf(Math.random()));
     reloadLicenceMessages();
   }
 
@@ -96,6 +93,12 @@ public class LicenceBean
   public List<LicenceMessage> getLicenceEvents()
   {
     return unconfirmedLicenceEvents;
+  }
+  
+  public int getLicenceEventCount()
+  {
+    int size = unconfirmedLicenceEvents.size();
+    return size < 100 ? size : 99;
   }
   
   public void confirmLicenceEvent(LicenceMessage event)

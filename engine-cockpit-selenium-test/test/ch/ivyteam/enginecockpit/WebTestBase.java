@@ -100,6 +100,12 @@ public class WebTestBase extends WebBase
     assertEndPage(driver);
   }
   
+  public static void createLicenceEvents(FirefoxDriver driver)
+  {
+    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16DD9CFD7CAC310B/start.ivp");
+    assertEndPage(driver);
+  }
+  
   private static String getAppName()
   {
     return EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";

@@ -5,28 +5,30 @@
 
 <p:dialog id="licenceEventsDialog" header="Licence Events" widgetVar="licenceEventsDialog" modal="true" closeOnEscape="true" width="400px">
   <h:form id="licenceEventForm">
-    <p:dataList value="#{licenceBean.licenceEvents}" var="event" type="unordered" styleClass="messages"
-      style="max-height: 300px; overflow-y: auto;">
-      <a href="#">
-        <h:outputText rendered="#{event.level eq 'ERROR'}">
-          <i class="material-icons error">error</i>
-        </h:outputText>
-        <h:outputText rendered="#{event.level eq 'WARN'}">
-          <i class="material-icons warning">warning</i>
-        </h:outputText>
-        <div style="max-width: calc(100% - 60px);">
-          <h:outputText styleClass="name" value="#{event.timestamp}" />
-          <h:outputText styleClass="message" value="#{event.message}" />
-        </div>
-        <p:commandButton icon="ui-icon-close" title="Confirm" styleClass="message-btn secondary-btn" 
-          actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" style="right: 10px;" />
-      </a>
-    </p:dataList>
-    <p:commandButton id="confirmAllLicenceEvents" update="@form" style="width: 120px;"
-      actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="ui-icon-done-all"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    <div class="dashboard">
+      <p:dataList value="#{licenceBean.licenceEvents}" var="event" type="unordered" styleClass="messages"
+        style="max-height: 300px; overflow-y: auto;" id="licenceEventList">
+        <a href="#">
+          <h:outputText rendered="#{event.level eq 'ERROR'}">
+            <i class="material-icons error">error</i>
+          </h:outputText>
+          <h:outputText rendered="#{event.level eq 'WARN'}">
+            <i class="material-icons warning">warning</i>
+          </h:outputText>
+          <div>
+            <h:outputText styleClass="name" value="#{event.timestamp}" />
+            <h:outputText styleClass="message" value="#{event.message}" />
+          </div>
+          <p:commandButton icon="ui-icon-close" title="Confirm" styleClass="message-btn secondary-btn" id="confirmEventBtn"
+            actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" style="right: 10px;" />
+        </a>
+      </p:dataList>
+      <p:commandButton id="confirmAllLicenceEvents" ajax="false" style="width: 120px;"
+        actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="ui-icon-done-all"
+        styleClass="primary-btn modal-input-button" />
+      <p:commandButton id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    </div>
   </h:form>
 </p:dialog>
 </html>

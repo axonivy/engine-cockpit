@@ -30,6 +30,36 @@ public class WebTestDashboard extends WebTestBase
   }
   
   @Test
+  void checkLicenceEvents(FirefoxDriver driver)
+  {
+    createLicenceEvents(driver);
+    toDashboard(driver);
+    webAssertThat(() -> assertThat(driver.findElementById("tasksButtonLicenceEvents").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='topbar-notifications']/a/span[1]").getText()).isEqualTo("2"));
+    
+    driver.findElementById("tasksButtonLicenceEvents").click();
+    saveScreenshot(driver, "licence_dialog");
+    webAssertThat(() -> assertThat(driver.findElementById("licenceEventsDialog").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementsByXPath("//*[@id='licenceEventForm:licenceEventList']//li")).hasSize(2));
+    driver.findElementById("licenceEventForm:licenceEventList:0:confirmEventBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementsByXPath("//*[@id='licenceEventForm:licenceEventList']//li")).hasSize(1));
+    driver.findElementById("licenceEventForm:closeLicenceEventsDialog").click();
+    webAssertThat(() -> assertThat(driver.findElementById("licenceEventsDialog").isDisplayed()).isFalse());
+   
+    driver.findElementByXPath("//*[@class='topbar-notifications']/a").click();
+    saveScreenshot(driver, "licence_dialog2");
+    webAssertThat(() -> assertThat(driver.findElementById("licenceEventsDialog").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementsByXPath("//*[@id='licenceEventForm:licenceEventList']//li")).hasSize(1));
+    driver.findElementById("licenceEventForm:confirmAllLicenceEvents").click();
+    
+    webAssertThat(() -> assertThat(driver.findElementById("tasksButtonLicenceDetail").isDisplayed()).isTrue());
+    saveScreenshot(driver, "no_events_left");
+    webAssertThat(() -> assertThat(driver.findElementById("licenceEventsDialog").isDisplayed()).isFalse());
+    elementNotAvailable(driver, By.id("tasksButtonLicenceEvents"));
+    elementNotAvailable(driver, By.className("topbar-notifications"));
+  }
+  
+  @Test
   void checkJavaInfo(FirefoxDriver driver)
   {
     toDashboard(driver);

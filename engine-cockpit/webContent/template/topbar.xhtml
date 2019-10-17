@@ -11,7 +11,6 @@
 
     <div class="layout-topbar-menu-wrapper">
       <ul class="topbar-menu animated">
-
         <li id="sessionUser" class="profile-item">
           <a href="#">
             <span class="profile-image-wrapper">
@@ -40,8 +39,18 @@
             </li>
           </ul>
         </li>
+        <h:outputText rendered="#{not empty licenceBean.licenceEvents}">
+          <li class="topbar-notifications">
+            <a href="#" onclick="PF('licenceEventsDialog').show();">
+              <i class="topbar-icon material-icons animated swing">notifications</i>
+              <span class="topbar-badge animated rubberBand">#{licenceBean.licenceEventCount}</span>
+              <span class="topbar-item-name">Messages</span>
+            </a>
+          </li>
+        </h:outputText>
       </ul>
     </div>
   </div>
-
+  
+  <ui:include src="../dialogs/licenceevents.xhtml" />
 </ui:composition>
