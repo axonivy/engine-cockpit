@@ -5,12 +5,11 @@ import java.io.IOException;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.ResponseProcessingException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -21,28 +20,48 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
+import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class RenewLicence
 {
-  public void send(String mailTo) throws IOException
+  
+  private String mailAddress;
+  
+  public String getMailAddress()
   {
-      showResultMessage(executeCall(mailTo, createMultipart(SignedLicence.getLicenceContent())));
+    return mailAddress;
+  }
+  
+  public void setMailAddress(String mailAddress)
+  {
+    this.mailAddress = mailAddress;
+  }
+  
+  public void send()
+  {
+    if (!EmailUtil.validateEmailAddress(mailAddress)) 
+    {
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Your email address is not valid");
+      return;
+    }
+    showResultMessage(executeCall());
   }
 
-  private Response executeCall(String mailTo, FormDataMultiPart multipart)
+  private Response executeCall()
   {
     try
     {
+      FormDataMultiPart multipart = createMultipart(SignedLicence.getLicenceContent());
       return createClient().target(getUri()).request()
               .header("X-Requested-By", "ivy")
               .header("MIME-Version", "1.0")
-              .header("mailTo", mailTo)
+              .header("mailTo", mailAddress)
               .put(Entity.entity(multipart, multipart.getMediaType()));
     }
-    catch (ResponseProcessingException ex)
+    catch (Exception ex)
     {
       return Response.status(400).entity("There was problem with requesting response ").build();
     }

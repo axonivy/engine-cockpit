@@ -5,7 +5,7 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <cc:FileUpload title="Deploy to App '#{appName}'" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
-    <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" 
+    <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" 
       styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px; display: none;">
       <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
       <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
@@ -38,8 +38,8 @@
         <f:selectItems value="#{deployOptionsBean.fileFormats}" />
       </p:selectOneMenu>
     </p:panelGrid>
-    <p:commandButton id="showDeployOptionsBtn" value="Deploy Options" icon="ui-icon-visibility" styleClass="secondary-btn modal-input-button"
-      type="button" onclick="$('#deploymentModal\\:deployOptionsPanel').toggle()" style="float: left; width: 200px;" />
+    <p:commandButton id="showDeployOptionsBtn" value="Options" icon="ui-icon-visibility" styleClass="secondary-btn modal-input-button"
+      type="button" onclick="$('#deploymentModal\\:deployOptionsPanel').toggle()" style="float: left; width: 25%;" />
     <a href="#{advisorBean.engineGuideBaseUrl}/administration/deployment.html#deployment-options" 
       target="_blank" style="float: left; padding-top: 2px; margin-left: 10px;">
       <i class="material-icons">help</i>

@@ -14,15 +14,21 @@
 <p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
   styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('fileUploadModal').show()" />
 <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button" icon="ui-icon-refresh"
-  styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('renewLicence').show()" />
+  styleClass="secondary-btn card-button" rendered="#{licenceBean.showRenewLicFeature()}" onclick="PF('renewLicence').show()" />
 <p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>
   <h:outputText value="#{licenceBean.organisation}" />
   <label>Licence type</label>
   <h:outputText value="#{licenceBean.licenceType}" id="licenceType" />
-  <label>Expries</label>
-  <h:outputText value="#{licenceBean.expiryDate}" />
+  <label>Expires</label>
+  <h:panelGroup>
+    <h:outputText id="expiryDate" value="#{licenceBean.expiryDate}" />
+    <h:outputText rendered="#{licenceBean.showExpiryWarning()}">
+      <i class="material-icons search-machine-health-yellow" style="position: relative; top: 3px; font-size: 21px;"
+        title="Your licence expires at the #{licenceBean.expiryDate}">warning</i>
+    </h:outputText>
+  </h:panelGroup>
   <label>Named users</label>
   <h:outputText value="#{licenceBean.users}" />
   <label>Concurrent sessions</label>

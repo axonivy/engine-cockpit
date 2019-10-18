@@ -13,18 +13,12 @@ import ch.ivyteam.enginecockpit.WebTestBase;
 public class WebTestRenewLicence extends WebTestBase
 {
 
-  private void waitForElasticsearch() throws InterruptedException
-  {
-    Thread.sleep(1000);
-  }
-
   @Test
-  public void testRenewRequest(FirefoxDriver driver) throws InterruptedException
+  public void testRenewRequest(FirefoxDriver driver)
   {
-    toDashboardAndOpenLicenceUpload(driver);
+    toDashboard(driver);
     uploadLicenceToRenew(driver);
     sendRenew(driver, "webTest@renewLicence.axonivy.test");
-    waitForElasticsearch();
     saveScreenshot(driver, "sent_renew1");
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message")
             .getText()).contains("This is for testing"));
@@ -33,34 +27,47 @@ public class WebTestRenewLicence extends WebTestBase
   }
   
   @Test
-  public void testRenewRequestNoMail(FirefoxDriver driver) throws InterruptedException
+  public void testRenewRequestNoOrInvalidMail(FirefoxDriver driver)
   {
-    toDashboardAndOpenLicenceUpload(driver);
+    toDashboard(driver);
     uploadLicenceToRenew(driver);
     sendRenew(driver, "");
-    waitForElasticsearch();
-    saveScreenshot(driver, "sent_renew1");
+    saveScreenshot(driver, "nomail");
+    webAssertThat(() -> assertThat(driver.findElementById("renewLicence:form:emailInputMessage").getText())
+            .isEqualTo("Please put your mail"));
+    driver.findElementById("renewLicence:form:cancelRenewBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("renewLicence:renewLicence").isDisplayed()).isFalse());
+    
+    sendRenew(driver, "invalid");
+    saveScreenshot(driver, "invalid");
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".ui-growl-message")
-            .getText()).contains("Please put your mail"));
-    saveScreenshot(driver, "renew_noMail");
-    removeGrowl(driver);
+            .getText()).contains("Your email address is not valid"));
   }
 
-  private void uploadLicenceToRenew(FirefoxDriver driver) throws InterruptedException
+  private void uploadLicenceToRenew(FirefoxDriver driver)
   {
+    if (driver.findElementsById("uploadLicenceBtn").size() != 0)
+    {
+      driver.findElementById("uploadLicenceBtn").click();
+    }
+    else
+    {
+      driver.findElementById("tasksButtonLicence").click();
+    }
+    saveScreenshot(driver, "fileupload");
+    webAssertThat(() -> assertThat(driver.findElementById("licenceUpload:fileUploadModal").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));
+    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
+    
     File file = new File(System.getProperty("user.dir")+"/test/ch/ivyteam/enginecockpit/renewlicence/test.lic");
     String path = file.getAbsolutePath();
     driver.findElementById("fileInput").sendKeys(path);
     saveScreenshot(driver, "selected_licence");
     driver.findElementById("licenceUpload:uploadBtn").click();
-    waitForElasticsearch();
-    waitForElasticsearch();
-    saveScreenshot(driver, "uploadedLic_log");
     webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("Successful uploaded licence"));
+    saveScreenshot(driver, "uploadedLic_log");
     driver.findElementById("licenceUpload:closeDeploymentBtn").click();
-    waitForElasticsearch();
     saveScreenshot(driver, "uploadedLic_dash");
-    driver.navigate().refresh();
     webAssertThat(() -> assertThat(driver.findElementById("licenceType").getText()).contains("Standard Edition"));
   }
 
@@ -78,23 +85,6 @@ public class WebTestRenewLicence extends WebTestBase
     new Actions(driver).moveToElement(driver.findElementById("mailConfigForm:msgs_container"))
             .moveToElement(driver.findElementByClassName("ui-growl-icon-close")).click()
             .build().perform();
-  }
-
-  private void toDashboardAndOpenLicenceUpload(FirefoxDriver driver)
-  {
-    toDashboard(driver);
-    if (driver.findElementsById("uploadLicenceBtn").size() != 0)
-    {
-      driver.findElementById("uploadLicenceBtn").click();
-    }
-    else
-    {
-      driver.findElementById("tasksButtonLicence").click();
-    }
-    saveScreenshot(driver, "fileupload");
-    webAssertThat(() -> assertThat(driver.findElementById("licenceUpload:fileUploadModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
   }
 
   private void toDashboard(FirefoxDriver driver)

@@ -4,7 +4,7 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:dialog id="licenceDetailDialog" header="Licence Detail" widgetVar="licenceDetailDialog" modal="true" closeOnEscape="true" width="400px">
-  <h:form id="licenceInfoForm">
+  <h:form id="licenceInfoForm" style="max-height: 400px; overflow-y: auto;">
     <p:dataTable id="licenceInfoTable" var="property" value="#{licenceBean.licenceProperties.entrySet().toArray()}">
       <p:column headerText="Name">
         <h:outputText value="#{property.key}" styleClass="licence-key"/>

@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.dashboad;
 
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -69,7 +71,33 @@ public class LicenceBean
     String expiryDate = getValueFromProperty(LICENCE_VALID_UNTIL);
     return StringUtils.equals(expiryDate, "") ? "Never" : expiryDate;
   }
+  
+  public boolean showRenewLicFeature()
+  {
+    try
+    {
+      return !isDemo() && SignedLicence.getValidUntil() != null;
+    }
+    catch (ParseException ex)
+    {
+      return false;
+    }
+  }
 
+  public boolean showExpiryWarning()
+  {
+    Calendar now = Calendar.getInstance();
+    now.add(Calendar.MONTH, 3);
+    try
+    {
+      return SignedLicence.isExpired(now.getTime());
+    }
+    catch (ParseException e)
+    {
+      return false;
+    }
+  }
+  
   public String getUsers()
   {
     return users;

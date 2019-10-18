@@ -11,7 +11,7 @@
       <p:autoUpdate/>
     </p:growl>
     <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable"
-      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable" resizableColumns="true">
+      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable">
       <f:facet name="header">
         <p:outputPanel>
           <p:outputLabel styleClass="table-search-icon">
@@ -32,7 +32,7 @@
       <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}" style="width: 150px;" styleClass="second-row">
         <h:outputText value="#{config.shortSource}" title="#{config.source}" />
       </p:column>
-      <p:column style="width: 70px;">
+      <p:column style="width: 72px;">
         <p:commandButton title="More" id="tasksButton" disabled="#{config.default}"
           type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
         <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
