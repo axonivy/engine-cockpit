@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.ResponseProcessingException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -50,7 +49,7 @@ public class RenewLicence
     }
     try
     {
-      showResultMessage(executeCall(mailAddress, createMultipart(SignedLicence.getLicenceContent())));
+      showResultMessage(executeCall());
     }
     catch (Exception e)
     {
@@ -58,17 +57,18 @@ public class RenewLicence
     }
   }
 
-  private Response executeCall(String mailTo, FormDataMultiPart multipart)
+  private Response executeCall()
   {
     try
     {
+      FormDataMultiPart multipart = createMultipart(SignedLicence.getLicenceContent());
       return createClient().target(getUri()).request()
               .header("X-Requested-By", "ivy")
               .header("MIME-Version", "1.0")
-              .header("mailTo", mailTo)
+              .header("mailTo", mailAddress)
               .put(Entity.entity(multipart, multipart.getMediaType()));
     }
-    catch (ResponseProcessingException ex)
+    catch (Exception ex)
     {
       return Response.status(400).entity("There was problem with requesting response ").build();
     }
