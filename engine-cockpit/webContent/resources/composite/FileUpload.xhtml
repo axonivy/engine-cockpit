@@ -7,12 +7,12 @@
   <cc:attribute name="acceptFiles" />
 </cc:interface>
 <cc:implementation>
-  <p:dialog style="margin-left: 120px;" header="#{cc.attrs.title}" id="fileUploadModal" width="60%"
+  <p:dialog style="margin-left: 120px; min-width: 550px;" header="#{cc.attrs.title}" id="fileUploadModal" width="auto" resizable="false"
     widgetVar="fileUploadModal" modal="true" responsive="true" closeOnEscape="true" styleClass="ui-fluid">
     <form enctype="multipart/form-data" id="fileUploadForm">
-      <div style="min-height: 75px;" class="file-upload">
+      <div class="file-upload">
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
-        <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" 
+        <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" 
           styleClass="ui-panelgrid-blank">
           <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose file" 
             onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
