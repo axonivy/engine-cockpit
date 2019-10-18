@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.dashboad;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
@@ -59,16 +60,11 @@ public class SystemDbBean
   private String getDatabaseSpecificAnchor() 
   {
     DatabaseConnectionConfiguration config = new DatabaseConnectionConfiguration(getUrl(), getDriver());
-    JdbcDriver jdbcDriver = JdbcDriver.getJdbcDriverForConnectionConfiguration(config);
-    if (jdbcDriver == null)
-    {
-      return "";
-    }
-    DatabaseProduct product = jdbcDriver.getDatabaseProduct();
-    if (!ANCHORS.containsKey(product))
-    {
-      return "";
-    }
-    return "#systemdb-"+ANCHORS.get(product);
-  }	
+    return JdbcDriver.forConnectionConfiguration(config)
+            .map(JdbcDriver::getDatabaseProduct)
+            .map(ANCHORS::get)
+            .filter(Objects::nonNull)
+            .map(anchor -> "#systemdb-" + anchor)
+            .orElse("");
+  }
 }
