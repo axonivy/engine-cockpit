@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -21,15 +21,41 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
+import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class RenewLicence
 {
-  public void send(String mailTo) throws IOException
+  
+  private String mailAddress;
+  
+  public String getMailAddress()
   {
-      showResultMessage(executeCall(mailTo, createMultipart(SignedLicence.getLicenceContent())));
+    return mailAddress;
+  }
+  
+  public void setMailAddress(String mailAddress)
+  {
+    this.mailAddress = mailAddress;
+  }
+  
+  public void send()
+  {
+    if (!EmailUtil.validateEmailAddress(mailAddress)) 
+    {
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Your email address is not valid");
+      return;
+    }
+    try
+    {
+      showResultMessage(executeCall(mailAddress, createMultipart(SignedLicence.getLicenceContent())));
+    }
+    catch (Exception e)
+    {
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "There was some problem while creating the request message: " + e.getMessage());
+    }
   }
 
   private Response executeCall(String mailTo, FormDataMultiPart multipart)

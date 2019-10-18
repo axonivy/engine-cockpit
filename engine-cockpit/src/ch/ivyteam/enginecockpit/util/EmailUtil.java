@@ -4,6 +4,7 @@ package ch.ivyteam.enginecockpit.util;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.email.EmailConstants.EmailEncryption;
@@ -19,6 +20,7 @@ import ch.ivyteam.ivy.process.model.element.value.MacroExpression;
 @SuppressWarnings("restriction")
 public class EmailUtil
 {
+  private static final Pattern EMAIL_REGEX = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
   public static final String HOST = "EMail.Server.Host";
   public static final String PORT = "EMail.Server.Port";
   public static final String MAIL_ADDRESS = "EMail.Server.MailAddress";
@@ -47,6 +49,11 @@ public class EmailUtil
     emailSetupConfiguration.setSmtpPassword(IConfiguration.get().getOrDefault(PASSWORD));
     emailSetupConfiguration.setSmtpEncryptionMethod(IConfiguration.get().getOrDefault(ENCRYPTION_METHOD, EmailEncryption.class));
     return emailSetupConfiguration;
+  }
+  
+  public static boolean validateEmailAddress(String email)
+  {
+    return EMAIL_REGEX.matcher(email).matches();
   }
 
 }

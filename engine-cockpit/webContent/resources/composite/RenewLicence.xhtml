@@ -13,25 +13,18 @@
     id="renewLicence" width="35%" widgetVar="renewLicence" modal="true"
     responsive="true" closeOnEscape="true" styleClass="ui-fluid">
     <h:form id="form">
-      <div>
-        <p:panelGrid columns="2" layout="grid"
-          styleClass="ui-panelgrid-blank">
-          <p:outputLabel
-            value="Where do you want to send the Licence to?" />
-          <p:inputText id="emailInput" value=""
-            type="email" placeholder="E-Mail" required="true"
-            requiredMessage="Please put your mail" binding="#{inputMail}"/>
-        </p:panelGrid>
-      </div>
-      <p:commandButton id="renewBtn" value="Send"
-        styleClass="primary-btn modal-input-button" type="submit"
-        style="float:right" actionListener="#{renewLicence.send(inputMail.value)}"
-        oncomplete="PF('renewLicence').hide()"/>
-      <p:commandButton id="cancelRenewBtn"
-        onclick="PF('renewLicence').hide();" value="Cancel"
-        type="button" icon="ui-icon-clear"
-        styleClass="secondary-btn modal-input-button"
-        style="float: right" />
+      <h:outputText value="Here you can order a new license. 
+        Enter a valid email address and your existing license will be sent to the Axon.ivy Company. 
+        Your request will be checked and, if valid, a new license will be sent back to the specified email address."/>
+      <h:panelGroup styleClass="md-inputfield" style="margin-top: 10px;">
+        <p:inputText id="emailInput" value="#{renewLicence.mailAddress}" type="email" placeholder="E-Mail" required="true"
+          requiredMessage="Please put your mail" />
+        <p:message for="emailInput" id="emailInputMessage" />
+      </h:panelGroup>
+      <p:commandButton id="renewBtn" value="Send" icon="ui-icon-send" validateClient="true"
+        styleClass="primary-btn modal-input-button" actionListener="#{renewLicence.send}" />
+      <p:commandButton id="cancelRenewBtn" onclick="PF('renewLicence').hide();" value="Cancel"
+        type="button" icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
     </h:form>
   </p:dialog>
 </cc:implementation>
