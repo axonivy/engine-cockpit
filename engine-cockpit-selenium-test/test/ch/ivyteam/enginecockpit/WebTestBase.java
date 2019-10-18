@@ -64,7 +64,7 @@ public class WebTestBase extends WebBase
   
   public void scrollYToElement(RemoteWebDriver driver, By element)
   {
-    scrollYBy(driver, driver.findElement(element).getLocation().getY());
+    scrollYBy(driver, driver.findElement(element).getLocation().getY() - 64);
   }
   
   public void login(FirefoxDriver driver)
@@ -97,6 +97,12 @@ public class WebTestBase extends WebBase
   public static void createBusinessData(FirefoxDriver driver)
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
+    assertEndPage(driver);
+  }
+  
+  public static void createLicenceEvents(FirefoxDriver driver)
+  {
+    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16DD9CFD7CAC310B/start.ivp");
     assertEndPage(driver);
   }
   

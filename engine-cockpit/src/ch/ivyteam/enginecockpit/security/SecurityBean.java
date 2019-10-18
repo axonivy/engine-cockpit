@@ -28,6 +28,8 @@ public class SecurityBean
   private static final String QUOTE = "\'";
 
   private List<SecuritySystem> systems;
+  private List<SecuritySystem> filteredSystems;
+  private String filter;
   
   private String newSecuritySystemName;
   private String newSecuritySystemProvider;
@@ -197,6 +199,26 @@ public class SecurityBean
     SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(QUOTE + newSecuritySystemName + QUOTE) + 
             SecuritySystemConfig.ConfigKey.PROVIDER, newSecuritySystemProvider);
     loadSecuritySystems();
+  }
+  
+  public List<SecuritySystem> getFilteredSystems()
+  {
+    return filteredSystems;
+  }
+
+  public void setFilteredSystems(List<SecuritySystem> filteredSystems)
+  {
+    this.filteredSystems = filteredSystems;
+  }
+  
+  public String getFilter()
+  {
+    return filter;
+  }
+  
+  public void setFilter(String filter)
+  {
+    this.filter = filter;
   }
 
 }

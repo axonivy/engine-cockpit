@@ -29,20 +29,18 @@
                   <i class="material-icons card-title-icon">person</i>Users <h:outputText style="font-style: italic; color: grey;" value="(#{userBean.userCount})"/>
                 </h1>
               </div>
-              <div class="ui-g-12 ui-md-1" style="margin: auto; text-align: right;">
-                <ui:include src="components/security/adsynclog.xhtml" />
-              </div>
-              <div class="ui-g-12 ui-md-2" style="margin: auto;">
-                <ui:include src="components/security/adsyncbtn.xhtml" />
-                <p:commandButton id="newUserBtn" rendered="#{securityBean.ivySecurityForSelectedApp}"
-                  value="New" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" />
-              </div>
-            </div>
-            <div class="ui-g">
-              <div class="ui-g-12 ui-lg-12">
-                <ui:include src="components/security/users-table.xhtml"/>
+              <div class="ui-g-12 ui-md-3" style="margin: auto;">
+                <div class="single-card-top-right-btn">
+                  <ui:include src="components/security/adsyncbtn.xhtml" />
+                  <p:commandButton id="newUserBtn" rendered="#{securityBean.ivySecurityForSelectedApp}"
+                    value="New" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" />
+                </div>
+                <div style="float: right; margin-right: 5px;">
+                  <ui:include src="components/security/adsynclog.xhtml" />
+                </div>
               </div>
             </div>
+            <ui:include src="components/security/users-table.xhtml"/>
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>

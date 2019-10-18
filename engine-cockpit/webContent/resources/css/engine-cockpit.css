@@ -12,6 +12,9 @@ body {
   .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu.topbar-menu-active>li {
     float: none !important;
   }
+  .topbar-notifications {
+    width: 100%;
+  }
 }
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item {
   float: right;
@@ -22,6 +25,9 @@ body {
 }
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu>li.profile-item>ul::before {
   left: 232px;
+}
+.topbar-notifications {
+  margin-right: 10px;
 }
 
 /*Dashboard*/
@@ -94,10 +100,35 @@ body {
 	margin-right: 5px;
 }
 
+/*Messages*/
+.dashboard .messages {
+  margin-bottom: 10px;
+}
+.dashboard .messages .ui-widget-content {
+  padding: 0;
+  border: none;
+}
+.dashboard .messages ul li a > div {
+  max-width: calc(100% - 70px);
+}
+.dashboard .messages i {
+  float: left;
+  position: relative;
+  top: 10px;
+}
+.dashboard .messages i.warning {
+  color: #FFCE29;
+}
+.dashboard .messages i.error {
+  color: #D23636;
+}
+
 /*Tables / Trees*/
+.ui-tree-search-header .table-search-icon,
 .ui-datatable .table-search-icon {
   float: left;
 }
+.ui-tree-search-header .table-search-input-withicon,
 .ui-datatable-header .table-search-input-withicon,
 .ui-datatable .table-search-input-withicon {
   width: calc(100% - 24px);
@@ -138,7 +169,7 @@ body {
 .ui-treetable .table-control-btn {
   margin-top: 0;
 }
-.ui-datatable a, 
+.ui-datatable tbody tr td:first-child a, 
 .ui-tree a,
 .ui-treetable a {
   color: inherit;
@@ -162,16 +193,8 @@ body {
 }
 
 /*Table Paging*/
-.ui-fluid .ui-datatable-header {
-  background-color: #9e9e9e;
-  color: #ffffff;
-  border: 1px solid #9e9e9e;
-}
-.ui-fluid .ui-datatable-header .ui-inputfield {
-  background-image: linear-gradient(to bottom, #ffffff, #ffffff), linear-gradient(to bottom, lightgrey, lightgrey);
-}
 .ui-fluid .ui-paginator {
-  background-color: #5d5d5d;
+  background-color: #9C9D9D;
 }
 .ui-fluid .ui-widget-header {
   border: none;
@@ -204,14 +227,6 @@ body {
 .ui-fluid .tab-view-card {
   border: 0px;
 }
-.ui-fluid .ui-inputswitch.ui-inputswitch-checked {
-  background-color: #9CCC65;
-  border-color: #9CCC65;
-}
-.ui-fluid .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-handle {
-  background-color: #7CB342;
-  color: #ffffff;
-}
 .card-title-icon {
   position: relative;
   top: 3px;
@@ -221,6 +236,11 @@ body {
   float: left;
   width: 75px;
   padding-bottom: 8px;
+}
+.single-card-top-right-btn {
+  margin: auto 0 auto auto;
+  max-width: 150px;
+  float: right;
 }
 
 /*Panels*/
@@ -246,22 +266,22 @@ body {
 
 /*General*/
 .activity-state-active {
-  color: #C0CA33;
+  color: #2AA483;
   font-weight: bold;
 }
 .activity-state-inactive {
-  color: #607D8B;
+  color: #9C9D9D;
   font-weight: bold;
 }
 .activity-state-locked {
-  color: #FFC107;
+  color: #FFCE29;
   font-weight: bold;
 }
 .release-state-released {
-  color: #C0CA33;
+  color: #2AA483;
 }
 .release-state-deprecated {
-  color: #607D8B;
+  color: #9C9D9D;
   font-style: italic;
 }
 .release-state-created, 
@@ -283,11 +303,11 @@ body {
 }
 .static-info-message {
   color: #ffffff;
-  background-color: darkgrey;
+  background-color: #9C9D9D;
 }
 .static-warn-message {
   color: black;
-  background-color: #ffc107;
+  background-color: #FFCE29;
 }
 .label-help-icon {
   float: right; 
@@ -366,14 +386,14 @@ body {
 }
 .search-machine-state-true,
 .search-machine-health-green {
-  color: #AFB42B;
+  color: #2AA483;
 }
 .search-machine-health-yellow {
-  color: #FFC107;
+  color: #FFCE29;
 }
 .search-machine-state-false,
 .search-machine-health-red {
-  color: #F44336;
+  color: #D23636;
 }
 .table-icon.search-machine-health-unknown,
 .ui-panelgrid-blank .search-machine-health-unknown {
@@ -387,33 +407,4 @@ body {
 }
 .querytool .querytool-query {
   display: block; overflow: hidden;
-}
-
-/* Serenity 2.0.1 style reverts */
-body {
-  letter-spacing: unset;
-}
-.ui-panel .ui-panel-titlebar,
-.ui-panel .ui-panel-content,
-.ui-panel .ui-panelgrid-cell {
-  padding: 8px 14px !important;
-}
-.ui-tree {
-  padding: 4px 7px !important;
-}
-.ui-tree .ui-treenode-content {
-  padding: 0 !important;
-}
-.ui-datatable th,
-.ui-datatable td,
-.ui-treetable th,
-.ui-treetable td {
-  border: 1px solid #d8d8d8 !important;
-  padding: 6px 10px !important;
-  box-sizing: unset !important;
-}
-.ui-datatable th,
-.ui-treetable th {
-  font-weight: bold !important;
-  text-align: center !important;
 }

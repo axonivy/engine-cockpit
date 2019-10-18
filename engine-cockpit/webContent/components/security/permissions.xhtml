@@ -11,14 +11,16 @@
   <p:growl for="permissionMessage">
     <p:autoUpdate/>
   </p:growl>
-  <div class="ui-datatable-header ui-widget-header ui-corner-top" style="border-bottom: 0 none;">
-    <div class="ui-outputpanel ui-widget">
-      <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i class="material-icons">search</i>
-      </label>
-      <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
-        value="#{permissionBean.filter}">
-        <p:ajax event="keyup" delay="300" update="@form" />
-      </p:inputText>
+  <div class="ui-tree-search-header">
+    <div class="ui-datatable-header ui-widget-header ui-corner-top">
+      <p:outputPanel>
+        <label class="table-search-icon">
+          <i class="material-icons">search</i>
+        </label>
+        <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{permissionBean.filter}">
+          <p:ajax event="keyup" delay="300" update="@form" />
+        </p:inputText>
+      </p:outputPanel>
     </div>
   </div>
   <p:treeTable id="permissionTable" value="#{permissionBean.permissions}" var="permission">
@@ -48,7 +50,7 @@
       </h:outputText>
     </p:column>
 
-    <p:column headerText="Grant" style="width: 70px;">
+    <p:column headerText="Grant" style="text-align: center; width: 70px; ">
       <p:commandButton id="grantPermissionBtn" type="button" icon="ui-icon-add" title="Grant"
         styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.grantDisabled}">
         <p:ajax update="@form" listener="#{permission.grant}" />
@@ -59,7 +61,7 @@
       </p:commandButton>
     </p:column>
 
-    <p:column headerText="Deny" style="width: 70px;">
+    <p:column headerText="Deny" style="text-align: center; width: 70px;">
       <p:commandButton id="denyPermissionBtn" type="button" icon="ui-icon-add" title="Deny"
         styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.denyDisabled}">
         <p:ajax update="@form" listener="#{permission.deny}" />

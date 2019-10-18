@@ -31,13 +31,25 @@
                   <i class="material-icons card-title-icon">security</i>Security Systems
                 </h1>
               </div>
-              <div class="ui-g-12 ui-md-2" style="margin: auto;">
-                <p:commandButton id="createSecuritySystemBtn" widgetVar="createApplication" icon="ui-icon-add" type="button" value="Add"
+              <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
+                <p:commandButton id="createSecuritySystemBtn" icon="ui-icon-add" type="button" value="Add"
                   onclick="PF('newSecuritySystemModal').show();" />
               </div>
             </div>
-            <p:dataTable var="system" value="#{securityBean.securitySystems}">
-              <p:column headerText="Name" sortBy="#{system.securitySystemName}">
+            <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+              var="system" value="#{securityBean.securitySystems}" widgetVar="securitySystemTable" filteredValue="#{securityBean.filteredSystems}"
+              lazy="false" styleClass="userTable" id="securitySystemTable">
+              <f:facet name="header">
+                <p:outputPanel>
+                  <p:outputLabel styleClass="table-search-icon">
+                    <i class="material-icons">search</i>
+                  </p:outputLabel>
+                  <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                    onkeyup="PF('securitySystemTable').filter()" placeholder="Search" value="#{securityBean.filter}"/>
+                </p:outputPanel>
+              </f:facet>
+              <p:column headerText="Name" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
                 <h:outputLink value="security-detail.xhtml?securitySystemName=#{system.securitySystemName}" rendered="#{system.securitySystemProvider != 'ivy Security System'}">
                   <i class="material-icons table-icon">security</i>
                   <h:outputText value="#{system.securitySystemName}" styleClass="security-name"/>
@@ -47,12 +59,12 @@
                   <h:outputText value="#{system.securitySystemName}" styleClass="security-name" style="color: grey;"/>
                 </h:outputText>
               </p:column>
-              <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}">
+              <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}" filterBy="#{system.securitySystemProvider}">
                 <h:outputText value="#{system.securitySystemProvider}" class="provider-name"/>
               </p:column>
               <p:column headerText="Application">
                 <ui:repeat var="app" value="#{system.appNames}" varStatus="status">
-                  <a href="application-detail.xhtml?appName=#{app}" style="color: #AFB42B;">#{app}</a>
+                  <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
                   <h:outputText value="#{status.last ? '' : ' / '}"/>
                 </ui:repeat>
               </p:column>

@@ -17,7 +17,7 @@
   </p:growl>
   <p:commandButton id="newLdapAttributeBtn" oncomplete="PF('ldapAttributeModal').show();" process="@this"
     actionListener="#{securityLdapDetailBean.setProperty(null)}" update=":ldapAttributeForm"
-    title="Add" icon="ui-icon-add" styleClass="amber-btn card-button"/>
+    title="Add" icon="ui-icon-add" styleClass="secondary-btn card-button"/>
     
   <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -36,7 +36,7 @@
       </p:commandButton>
       <p:commandButton id="editPropertyBtn" actionListener="#{securityLdapDetailBean.setProperty(property)}"
         icon="ui-icon-pencil" title="Edit" update=":ldapAttributeForm"
-        styleClass="card-button table-control-btn amber-btn" oncomplete="PF('ldapAttributeModal').show();" process="@this" />
+        styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('ldapAttributeModal').show();" process="@this" />
     </p:column>
   </p:dataTable>
 </h:form>

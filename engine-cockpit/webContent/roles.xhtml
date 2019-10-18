@@ -29,43 +29,40 @@
                   <i class="material-icons card-title-icon">group</i>Roles <h:outputText style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})"/>
                 </h1>
               </div>
-              <div class="ui-g-12 ui-md-1" style="margin: auto; text-align: right;">
-                <ui:include src="components/security/adsynclog.xhtml" />
-              </div>
-              <div class="ui-g-12 ui-md-2" style="margin: auto;">
-                <ui:include src="components/security/adsyncbtn.xhtml" />
-              </div>
-            </div>
-            <div class="ui-g roles-panel-tree">
-              <div class="ui-g-12 ui-lg-12" style="padding-bottom: 0;">
-                <div class="ui-datatable-header ui-widget-header ui-corner-top">
-                  <div class="ui-outputpanel ui-widget">
-                    <label style="float: left;" class="ui-outputlabel ui-widget table-search-icon"> <i
-                      class="material-icons">search</i>
-                    </label>
-                    <p:inputText style="width: calc(100% - 24px); color: #ffffff;" placeholder="Search"
-                      value="#{roleBean.filter}">
-                      <p:ajax event="keyup" delay="300" update=":form" />
-                    </p:inputText>
-                  </div>
+              <div class="ui-g-12 ui-md-3" style="margin: auto;">
+                <div class="single-card-top-right-btn">
+                  <ui:include src="components/security/adsyncbtn.xhtml" />
+                </div>
+                <div style="float: right; margin-right: 5px;">
+                  <ui:include src="components/security/adsynclog.xhtml" />
                 </div>
               </div>
-              <div class="ui-g-12 ui-lg-12" style="padding-top: 0;">
-                <h:form id="treeForm">
-                  <p:tree id="tree" widgetVar="tree" value="#{roleBean.rolesWithMembers}" var="role">
-                    <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-                    <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
-                    <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}">
-                      <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
-                        <h:outputText value="#{role.name}" />
-                        <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
-                        <h:outputText value=" [Linked to '#{role.externalName}']" rendered="#{not empty role.externalName}" styleClass="addition-row-info"/>
-                      </a>
-                    </p:treeNode>
-                  </p:tree>
-                </h:form>
+            </div>
+            <div class="ui-tree-search-header">
+              <div class="ui-datatable-header ui-widget-header ui-corner-top">
+                <p:outputPanel>
+                  <label class="table-search-icon">
+                    <i class="material-icons">search</i>
+                  </label>
+                  <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.filter}">
+                    <p:ajax event="keyup" delay="300" update=":form" />
+                  </p:inputText>
+                </p:outputPanel>
               </div>
             </div>
+            <h:form id="treeForm">
+              <p:tree id="tree" widgetVar="tree" value="#{roleBean.rolesWithMembers}" var="role">
+                <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
+                <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+                <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}">
+                  <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
+                    <h:outputText value="#{role.name}" />
+                    <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+                    <h:outputText value=" [Linked to '#{role.externalName}']" rendered="#{not empty role.externalName}" styleClass="addition-row-info"/>
+                  </a>
+                </p:treeNode>
+              </p:tree>
+            </h:form>
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>

@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.dashboad;
 
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -11,7 +13,10 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.google.inject.Inject;
 
 import ch.ivyteam.di.restricted.DiCore;
+import ch.ivyteam.enginecockpit.model.LicenceMessage;
 import ch.ivyteam.ivy.security.ISecurityManager;
+import ch.ivyteam.ivy.security.ISession;
+import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
@@ -29,12 +34,14 @@ public class LicenceBean
   
   private final String users;
   private final String sessions;
+  private List<LicenceMessage> unconfirmedLicenceEvents;
   
   public LicenceBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
     users = calculateSessions();
     sessions = calculateUsers();
+    reloadLicenceMessages();
   }
 
   public String getValueFromProperty(String key)
@@ -83,6 +90,29 @@ public class LicenceBean
     return SignedLicence.isDemo();
   }
   
+  public List<LicenceMessage> getLicenceEvents()
+  {
+    return unconfirmedLicenceEvents;
+  }
+  
+  public int getLicenceEventCount()
+  {
+    int size = unconfirmedLicenceEvents.size();
+    return size < 100 ? size : 99;
+  }
+  
+  public void confirmLicenceEvent(LicenceMessage event)
+  {
+    event.confirm(getSessionUsername());
+    reloadLicenceMessages();
+  }
+  
+  public void confirmAllLicenceEvents()
+  {
+    LicenceEventManager.getInstance().confirmAll(getSessionUsername());
+    reloadLicenceMessages();
+  }
+  
   private String calculateSessions()
   {
     int licensedSessions = securityManager.getLicensedSessions();
@@ -103,5 +133,16 @@ public class LicenceBean
       return licensedUsers + " / " + usersLimit;
     }
     return String.valueOf(licensedUsers);
+  }
+  
+  private void reloadLicenceMessages()
+  {
+    unconfirmedLicenceEvents = LicenceEventManager.getInstance().getUnconfirmedLicenceEvents().stream()
+            .map(event -> new LicenceMessage(event)).collect(Collectors.toList());
+  }
+
+  private String getSessionUsername()
+  {
+    return ISession.get().getSessionUserName();
   }
 }

@@ -9,6 +9,8 @@
 </f:facet>
 <p:commandButton id="tasksButtonLicenceDetail" onclick="PF('licenceDetailDialog').show();" title="Licence Details" type="button"
   icon="ui-icon-info" styleClass="secondary-btn card-button" />
+<p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events" type="button"
+  icon="ui-icon-notifications" styleClass="secondary-btn card-button" rendered="#{not empty licenceBean.licenceEvents}" />
 <p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
   styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('fileUploadModal').show()" />
 <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button" icon="ui-icon-refresh"

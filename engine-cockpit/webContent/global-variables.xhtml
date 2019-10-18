@@ -20,7 +20,7 @@
     
     <ui:define name="content">
       <h:form id="form">
-        <p:growl id="msgs" />
+        <p:growl id="msgs" for="msgs" />
         <cc:SingleCard id="card">
           <cc:ApplicationTabs tabChange="#{globalVarBean.reloadGlobalVars}" id="apps">
 
@@ -30,12 +30,10 @@
                   <i class="material-icons card-title-icon">donut_large</i>Global Variables
                 </h1>
               </div>
-
               <div class="ui-g-12 ui-md-3" style="margin: auto;">
                 <cc:EnvironmentSelect environmentChange="#{globalVarBean.reloadGlobalVars}"/>
               </div>
-
-              <div class="ui-g-12 ui-md-2" style="margin: auto;">
+              <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
                 <p:commandButton id="newGlobalVarBtn"
                   value="New" icon="ui-icon-add" type="button" onclick="PF('newGlobalVarModal').show();" process="@this"/>
               </div>
@@ -81,7 +79,7 @@
 
                 <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
                   title="Edit"
-                  styleClass="card-button table-control-btn amber-btn"
+                  styleClass="card-button table-control-btn secondary-btn"
                   actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
                   update="editGlobalVarModal"
                   oncomplete="PF('editGlobalVarModal').show()"

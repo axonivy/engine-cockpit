@@ -32,37 +32,33 @@
                 <cc:EnvironmentSelect environmentChange="#{restClientsBean.reloadRestClients}" />
               </div>
             </div>
-            <div class="ui-g">
-              <div class="ui-g-12 ui-lg-12">
-                <h:form id="tableForm">
-                  <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
-                    paginatorAlwaysVisible="false" emptyMessage="No rest clients found on deployed apps"
-                    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    var="restclient" value="#{restClientsBean.restClients}" widgetVar="restClientsTable_#{app.id}"
-                    filteredValue="#{restClientsBean.filteredRestClients}" lazy="false" styleClass="restClientsTable">
-                    <f:facet name="header">
-                      <p:outputPanel>
-                        <p:outputLabel styleClass="table-search-icon">
-                          <i class="material-icons">search</i>
-                        </p:outputLabel>
-                        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                          onkeyup="PF('restClientsTable_#{app.id}').filter()" placeholder="Search" value="#{restClientsBean.filter}" />
-                      </p:outputPanel>
-                    </f:facet>
-                    <p:column headerText="Name" sortBy="#{restclient.name}" filterBy="#{restclient.name}" styleClass="restclient-name-column">
-                      <a href="restclientdetail.xhtml?restClientName=#{restclient.name}"> <h:outputText value="#{restclient.name}"
-                          styleClass="restclient-name">
-                          <i class="material-icons table-icon">settings_ethernet</i>
-                        </h:outputText>
-                      </a>
-                    </p:column>
-                    <p:column headerText="Url" sortBy="#{restclient.url}" filterBy="#{restclient.url}">
-                      <h:outputText value="#{restclient.url}" styleClass="restclient-url" />
-                    </p:column>
-                  </p:dataTable>
-                </h:form>
-              </div>
-            </div>
+            <h:form id="tableForm">
+              <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
+                paginatorAlwaysVisible="false" emptyMessage="No rest clients found on deployed apps"
+                paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                var="restclient" value="#{restClientsBean.restClients}" widgetVar="restClientsTable_#{app.id}"
+                filteredValue="#{restClientsBean.filteredRestClients}" lazy="false" styleClass="restClientsTable">
+                <f:facet name="header">
+                  <p:outputPanel>
+                    <p:outputLabel styleClass="table-search-icon">
+                      <i class="material-icons">search</i>
+                    </p:outputLabel>
+                    <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                      onkeyup="PF('restClientsTable_#{app.id}').filter()" placeholder="Search" value="#{restClientsBean.filter}" />
+                  </p:outputPanel>
+                </f:facet>
+                <p:column headerText="Name" sortBy="#{restclient.name}" filterBy="#{restclient.name}" styleClass="restclient-name-column">
+                  <a href="restclientdetail.xhtml?restClientName=#{restclient.name}"> <h:outputText value="#{restclient.name}"
+                      styleClass="restclient-name">
+                      <i class="material-icons table-icon">settings_ethernet</i>
+                    </h:outputText>
+                  </a>
+                </p:column>
+                <p:column headerText="Url" sortBy="#{restclient.url}" filterBy="#{restclient.url}">
+                  <h:outputText value="#{restclient.url}" styleClass="restclient-url" />
+                </p:column>
+              </p:dataTable>
+            </h:form>
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>

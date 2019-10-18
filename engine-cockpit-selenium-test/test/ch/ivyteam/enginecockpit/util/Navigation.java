@@ -76,7 +76,7 @@ public class Navigation
   public static void toBusinessCalendarDetail(FirefoxDriver driver, String calendarName)
   {
     Navigation.toBusinessCalendar(driver);
-    driver.findElementByXPath("//*[@id=\"calendarTree\"]//a[contains(@id, 'calendarNode')][text()='" + calendarName + "']").click();
+    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[contains(@id, 'calendarNode')][text()='" + calendarName + "']").click();
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName));
   }
   

@@ -11,7 +11,7 @@
       <p:autoUpdate/>
     </p:growl>
     <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable"
-      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable">
+      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable" resizableColumns="true">
       <f:facet name="header">
         <p:outputPanel>
           <p:outputLabel styleClass="table-search-icon">
@@ -45,7 +45,7 @@
             update="config:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
         </p:menu>
         <p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
-          styleClass="card-button table-control-btn amber-btn" process="@this"
+          styleClass="card-button table-control-btn secondary-btn" process="@this"
           actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}"
           update="config:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
       </p:column>
