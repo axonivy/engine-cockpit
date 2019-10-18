@@ -47,14 +47,7 @@ public class RenewLicence
       addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Your email address is not valid");
       return;
     }
-    try
-    {
-      showResultMessage(executeCall());
-    }
-    catch (Exception e)
-    {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "There was some problem while creating the request message: " + e.getMessage());
-    }
+    showResultMessage(executeCall());
   }
 
   private Response executeCall()
