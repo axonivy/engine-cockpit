@@ -14,6 +14,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import ch.ivyteam.ivy.config.NewLicenceFileInstaller;
 
+@SuppressWarnings("restriction")
 @Path("licence")
 public class FileUploadService
 {
