@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,10 +89,11 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   {
     return history;
   }
-  
+
   public List<String> completeDriver(String value)
   {
-    return Arrays.stream(JdbcDriver.getInstalledJdbcDrivers())
+    return JdbcDriver.all().stream()
+            .filter(driver -> driver.isInstalled())
             .map(driver -> driver.getDriverName())
             .filter(name -> !StringUtils.startsWith(name, "org.hsqldb"))
             .filter(name -> StringUtils.startsWith(name, value))
