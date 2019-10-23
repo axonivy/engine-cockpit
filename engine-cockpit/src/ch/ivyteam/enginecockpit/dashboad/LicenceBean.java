@@ -149,7 +149,7 @@ public class LicenceBean
     {
       return licensedSessions + " / " + sessionLimit; 
     }
-    return String.valueOf(licensedSessions);
+    return licensedSessions + " / Unlimited";
   }
   
   private String calculateUsers()
@@ -160,7 +160,7 @@ public class LicenceBean
     {
       return licensedUsers + " / " + usersLimit;
     }
-    return String.valueOf(licensedUsers);
+    return licensedUsers + " / Unlimited";
   }
   
   private void reloadLicenceMessages()
