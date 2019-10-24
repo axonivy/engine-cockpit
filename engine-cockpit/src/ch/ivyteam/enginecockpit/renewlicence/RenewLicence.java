@@ -21,6 +21,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
+import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.licence.SignedLicence;
 
 @ManagedBean
@@ -29,6 +30,11 @@ public class RenewLicence
 {
   
   private String mailAddress;
+  
+  public RenewLicence()
+  {
+    mailAddress = ISession.get().getSessionUser().getEMailAddress();
+  }
   
   public String getMailAddress()
   {
