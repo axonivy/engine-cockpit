@@ -24,6 +24,7 @@ public class WebTestRenewLicence extends WebTestBase
             .getText()).contains("This is for testing"));
     saveScreenshot(driver, "renew_positive");
     removeGrowl(driver);
+    webAssertThat(() -> assertThat(driver.findElementById("renewLicence:renewLicence").isDisplayed()).isFalse());
   }
   
   @Test
