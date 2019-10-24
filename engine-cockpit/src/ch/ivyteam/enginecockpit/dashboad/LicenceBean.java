@@ -41,8 +41,8 @@ public class LicenceBean
   public LicenceBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
-    users = calculateSessions();
-    sessions = calculateUsers();
+    users = calculateUsers();
+    sessions = calculateSessions();
     reloadLicenceMessages();
   }
 
