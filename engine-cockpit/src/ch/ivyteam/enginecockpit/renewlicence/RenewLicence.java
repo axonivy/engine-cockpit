@@ -33,7 +33,10 @@ public class RenewLicence
   
   public RenewLicence()
   {
-    mailAddress = ISession.get().getSessionUser().getEMailAddress();
+    if (!ISession.get().isSessionUserUnknown())
+    {
+      mailAddress = ISession.get().getSessionUser().getEMailAddress();
+    }
   }
   
   public String getMailAddress()
