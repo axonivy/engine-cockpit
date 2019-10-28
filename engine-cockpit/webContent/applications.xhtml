@@ -69,7 +69,7 @@
                   styleClass="activity-state-#{activity.operationStateLowerCase}"
                   title="#{activity.errorMessage}" />
               </p:column>
-              <p:column style="text-align: right; width: 152px;">
+              <p:column style="text-align: right; width: 155px;">
                 <p:commandButton title="Deployment" icon="ui-icon-cloud-upload" rendered="#{activity.application}" 
                   type="button" style="margin-right: 10px;" id="deployBtn" styleClass="primary-btn">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 

@@ -384,6 +384,7 @@ body {
   font-weight: bold; 
   font-size: 24px;
 }
+.user-active,
 .search-machine-state-true,
 .search-machine-health-green {
   color: #2AA483;
@@ -391,6 +392,7 @@ body {
 .search-machine-health-yellow {
   color: #FFCE29;
 }
+.user-inactive,
 .search-machine-state-false,
 .search-machine-health-red {
   color: #D23636;
