@@ -65,6 +65,7 @@ public class WebTestLogin extends WebTestBase
   {
     driver.findElementByXPath("//*[@id='sessionUser']/a").click();
     saveScreenshot(driver, "logout");
+    webAssertThat(() -> assertThat( driver.findElementByXPath("//*[@id='sessionUser']/ul").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("sessionLogoutBtn").isDisplayed()).isTrue());
     driver.findElementById("sessionLogoutBtn").click();
   }
