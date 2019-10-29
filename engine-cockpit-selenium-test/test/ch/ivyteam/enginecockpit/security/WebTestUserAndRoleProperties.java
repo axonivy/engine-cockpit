@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.ApplicationTab;
@@ -16,90 +15,90 @@ public class WebTestUserAndRoleProperties extends WebTestBase
   private static final By TABLE_ID = By.id("propertiesForm:propertiesTable");
   
   @Test
-  public void testUserPropertyInvalid(FirefoxDriver driver)
+  public void testUserPropertyInvalid()
   {
-    toUserDetail(driver, "foo");
-    openAddPropertyModal(driver);
-    saveInvalidAddProperty(driver);
+    toUserDetail("foo");
+    openAddPropertyModal();
+    saveInvalidAddProperty();
   }
   
   @Test
-  public void testRolePropertyInvalid(FirefoxDriver driver)
+  public void testRolePropertyInvalid()
   {
-    toRoleDetail(driver, "boss");
-    openAddPropertyModal(driver);
-    saveInvalidAddProperty(driver);
+    toRoleDetail("boss");
+    openAddPropertyModal();
+    saveInvalidAddProperty();
   }
   
   @Test
-  public void testUserPropertyAddEditDelete(FirefoxDriver driver)
+  public void testUserPropertyAddEditDelete()
   {
     String key = "test";
-    toUserDetail(driver, "foo");
-    openAddPropertyModal(driver);
-    addProperty(driver, key, "testValue");
-    editProperty(driver, key, "edit");
-    deleteProperty(driver, key);
+    toUserDetail("foo");
+    openAddPropertyModal();
+    addProperty(key, "testValue");
+    editProperty(key, "edit");
+    deleteProperty(key);
   }
   
   @Test
-  public void testRolePropertyAddEditDelete(FirefoxDriver driver)
+  public void testRolePropertyAddEditDelete()
   {
     String key = "test";
-    toRoleDetail(driver, "boss");
-    openAddPropertyModal(driver);
-    addProperty(driver, key, "testValue");
-    editProperty(driver, key, "edit");
-    deleteProperty(driver, key);
+    toRoleDetail("boss");
+    openAddPropertyModal();
+    addProperty(key, "testValue");
+    editProperty(key, "edit");
+    deleteProperty(key);
   }
   
   @Test
-  public void testUserDirectoryProperties(FirefoxDriver driver)
+  public void testUserDirectoryProperties()
   {
-    login(driver);
+    login();
     Navigation.toUsers(driver);
-    saveScreenshot(driver, "users");
+    saveScreenshot("users");
     ApplicationTab.switchToApplication(driver, "test-ad");
-    saveScreenshot(driver, "test-ad");
+    saveScreenshot("test-ad");
     String syncBtnId = "form:card:apps:applicationTabView:" + ApplicationTab.getSelectedApplicationIndex(driver) + ":panelSyncBtn";
     driver.findElementById(syncBtnId).click();
-    saveScreenshot(driver, "sync");
+    saveScreenshot("sync");
     webAssertThat(() -> assertThat(driver.findElementByXPath("//button[@id='" + syncBtnId + "']/span[1]")
             .getAttribute("class")).doesNotContain("fa-spin"));
-    saveScreenshot(driver, "sync_finish");
+    saveScreenshot("sync_finish");
     Navigation.toUserDetail(driver, "user1");
-    saveScreenshot(driver, "user-detail");
-    assertTableHasDirectoryProperty(driver, "Address", "Baarerstrasse 12");
+    saveScreenshot("user-detail");
+    assertTableHasDirectoryProperty("Address", "Baarerstrasse 12");
   }
   
-  private void editProperty(FirefoxDriver driver, String key, String value)
+  private void editProperty(String key, String value)
   {
     new Table(driver, TABLE_ID).clickButtonForEntry(key, "editPropertyBtn");
     webAssertThat(() -> assertThat(driver.findElementById("propertyModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyName").getText()).isEqualTo(key));
-    saveScreenshot(driver, "edit_property");
+    saveScreenshot("edit_property");
     
     driver.findElementById("propertyModalForm:propertyValueInput").clear();
     driver.findElementById("propertyModalForm:propertyValueInput").sendKeys(value);
     driver.findElementById("propertyModalForm:saveProperty").click();
-    assertTableHasKeyValue(driver, key, value);
+    assertTableHasKeyValue(key, value);
     webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
             .contains("Successfully"));
-    saveScreenshot(driver, "save_property");
+    saveScreenshot("save_property");
   }
 
-  private void deleteProperty(FirefoxDriver driver, String key)
+  private void deleteProperty(String key)
   {
     Table table = new Table(driver, TABLE_ID);
     table.clickButtonForEntry(key, "deletePropertyBtn");
-    saveScreenshot(driver, "delete_property");
+    saveScreenshot("delete_property");
     webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
             .contains("Successfully removed"));
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(0));
   }
   
 
-  private void addProperty(FirefoxDriver driver, String key, String value)
+  private void addProperty(String key, String value)
   {
     Table table = new Table(driver, TABLE_ID);
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(0));
@@ -108,34 +107,34 @@ public class WebTestUserAndRoleProperties extends WebTestBase
     driver.findElementById("propertyModalForm:saveProperty").click();
     
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1));
-    assertTableHasKeyValue(driver, key, value);
+    assertTableHasKeyValue(key, value);
     webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
             .contains("Successfully"));
-    saveScreenshot(driver, "save_property");
+    saveScreenshot("save_property");
   }
 
-  private void assertTableHasDirectoryProperty(FirefoxDriver driver, String key, String value)
+  private void assertTableHasDirectoryProperty(String key, String value)
   {
-    assertTableHasKeyValue(driver, key, value);
+    assertTableHasKeyValue(key, value);
     Table table = new Table(driver, TABLE_ID);
     webAssertThat(() -> assertThat(table.buttonForEntryDisabled(key, "editPropertyBtn")).isTrue());
     webAssertThat(() -> assertThat(table.buttonForEntryDisabled(key, "deletePropertyBtn")).isTrue());
   }
   
-  private void assertTableHasKeyValue(FirefoxDriver driver, String key, String value)
+  private void assertTableHasKeyValue(String key, String value)
   {
     Table table = new Table(driver, TABLE_ID);
     webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(value));
   }
 
-  private void saveInvalidAddProperty(FirefoxDriver driver)
+  private void saveInvalidAddProperty()
   {
     driver.findElementById("propertyModalForm:saveProperty").click();
     webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyNameMessage").getText()).contains("Value is required"));
     webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueMessage").getText()).contains("Value is required"));
   }
   
-  private void openAddPropertyModal(FirefoxDriver driver)
+  private void openAddPropertyModal()
   {
     driver.findElementById("propertiesForm:newPropertyBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("propertyModal").isDisplayed()).isTrue());
@@ -143,20 +142,20 @@ public class WebTestUserAndRoleProperties extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyNameMessage").getText()).isEmpty());
     webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueInput").getAttribute("value")).isEmpty());
     webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueMessage").getText()).isEmpty());
-    saveScreenshot(driver, "add_prop");
+    saveScreenshot("add_prop");
   }
   
-  private void toUserDetail(FirefoxDriver driver, String userName)
+  private void toUserDetail(String userName)
   {
-    login(driver);
+    login();
     Navigation.toUserDetail(driver, userName);
-    saveScreenshot(driver, "userdetail");
+    saveScreenshot("userdetail");
   }
   
-  private void toRoleDetail(FirefoxDriver driver, String roleName)
+  private void toRoleDetail(String roleName)
   {
-    login(driver);
+    login();
     Navigation.toRoleDetail(driver, roleName);
-    saveScreenshot(driver, "userdetail");
+    saveScreenshot("userdetail");
   }
 }

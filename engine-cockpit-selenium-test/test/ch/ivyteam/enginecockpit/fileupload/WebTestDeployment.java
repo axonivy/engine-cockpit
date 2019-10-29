@@ -8,7 +8,6 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
@@ -23,32 +22,32 @@ public class WebTestDeployment extends WebTestBase
   private static final String APP = EngineCockpitUrl.isDesignerApp() ? "designer" : "test-ad";
   
   @Test
-  void testDeploymentNoFile(FirefoxDriver driver)
+  void testDeploymentNoFile()
   {
-    toAppDetailAndOpenDeployment(driver);
+    toAppDetailAndOpenDeployment();
     
     driver.findElementById("deploymentModal:uploadBtn").click();
-    saveScreenshot(driver, "no_file");
+    saveScreenshot("no_file");
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
   }
 
   @Test
-  void testDeplomentInvalidFileEnding(FirefoxDriver driver) throws IOException
+  void testDeplomentInvalidFileEnding() throws IOException
   {
-    toAppDetailAndOpenDeployment(driver);
+    toAppDetailAndOpenDeployment();
     
     Path createTempFile = Files.createTempFile("app", ".txt");
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
     driver.findElementById("deploymentModal:uploadBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isNotEmpty());
-    saveScreenshot(driver, "wrong_app_format");
+    saveScreenshot("wrong_app_format");
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
   }
   
   @Test
-  void testDeploymentInvalidAppAndBack(FirefoxDriver driver) throws IOException
+  void testDeploymentInvalidAppAndBack() throws IOException
   {
-    toAppDetailAndOpenDeployment(driver);
+    toAppDetailAndOpenDeployment();
     
     Path createTempFile = Files.createTempFile("app", ".iar");
     driver.findElementById("fileInput").sendKeys(createTempFile.toString());
@@ -63,20 +62,20 @@ public class WebTestDeployment extends WebTestBase
     {
       webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("Deployment failed: No ivy projects found in deployment artifact.."));
     }
-    saveScreenshot(driver, "deploy_ok");
+    saveScreenshot("deploy_ok");
     
     driver.findElementById("deploymentModal:backBtn").click();
-    saveScreenshot(driver, "back");
+    saveScreenshot("back");
     webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("uploadLog").isDisplayed()).isFalse());
   }
   
   @Test
-  void testDeploymentDeployOptions(FirefoxDriver driver) 
+  void testDeploymentDeployOptions() 
   {
-    toAppDetailAndOpenDeployment(driver);
+    toAppDetailAndOpenDeployment();
     
-    showDeploymentOptions(driver);
+    showDeploymentOptions();
     PrimeUi primeUi = new PrimeUi(driver);
     SelectOneMenu testUser = primeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
     SelectBooleanCheckbox overwrite = primeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
@@ -95,90 +94,90 @@ public class WebTestDeployment extends WebTestBase
     SelectBooleanCheckbox checkbox = new PrimeUi(driver).selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
     checkbox.setChecked();
     webAssertThat(() -> assertThat(overwrite.isChecked()).isTrue());
-    saveScreenshot(driver, "change_options");
+    saveScreenshot("change_options");
   }
   
   @Test
-  void testDeploymentDeployOptionsVersionRange(FirefoxDriver driver)
+  void testDeploymentDeployOptionsVersionRange()
   {
-    toAppDetailAndOpenDeployment(driver);
+    toAppDetailAndOpenDeployment();
     
-    openDeployOptionsAndAssertVersionRange(driver);
+    openDeployOptionsAndAssertVersionRange();
   }
   
   @Test
-  void testDeploymentDialogOpenApps(FirefoxDriver driver)
+  void testDeploymentDialogOpenApps()
   {
-    toAppsAndOpenDeployDialog(driver);
+    toAppsAndOpenDeployDialog();
   }
   
   @Test
-  void testDeploymentDeployOptionsVersionRange_AppsView(FirefoxDriver driver)
+  void testDeploymentDeployOptionsVersionRange_AppsView()
   {
-    toAppsAndOpenDeployDialog(driver);
+    toAppsAndOpenDeployDialog();
     
-    openDeployOptionsAndAssertVersionRange(driver);
+    openDeployOptionsAndAssertVersionRange();
   }
   
-  private void openDeployOptionsAndAssertVersionRange(FirefoxDriver driver)
+  private void openDeployOptionsAndAssertVersionRange()
   {
-    showDeploymentOptions(driver);
+    showDeploymentOptions();
     
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isFalse());
     driver.findElementById("deploymentModal:version").click();
-    saveScreenshot(driver, "versions");
+    saveScreenshot("versions");
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:version_items").isDisplayed()).isTrue());
     
     driver.findElementByXPath("//ul[@id='deploymentModal:version_items']/li[text()='RANGE']").click();
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isTrue());
-    saveScreenshot(driver, "show_range");
+    saveScreenshot("show_range");
   }
   
-  private void showDeploymentOptions(FirefoxDriver driver)
+  private void showDeploymentOptions()
   {
     if (!driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed())
     {
       driver.findElementById("deploymentModal:showDeployOptionsBtn").click();
       webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed()).isTrue());
     }
-    saveScreenshot(driver, "show_options");
+    saveScreenshot("show_options");
   }
   
-  private void toAppsAndOpenDeployDialog(FirefoxDriver driver)
+  private void toAppsAndOpenDeployDialog()
   {
-    toApplications(driver);
+    toApplications();
     
     String appName = driver.findElementsByClassName("activity-name").get(0).getText();
     driver.findElementById("card:form:tree:0:deployBtn").click();
-    saveScreenshot(driver, "deploy_dialog");
+    saveScreenshot("deploy_dialog");
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal_title").getText())
             .contains(appName));
   }
   
-  private void toAppDetailAndOpenDeployment(FirefoxDriver driver)
+  private void toAppDetailAndOpenDeployment()
   {
-    toApplicationDetail(driver);
+    toApplicationDetail();
     
     driver.findElementById("appDetailInfoForm:showDeployment").click();
-    saveScreenshot(driver, "deploy");
+    saveScreenshot("deploy");
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
     webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal_title")
             .getText()).contains(APP));
   }
   
-  private void toApplicationDetail(FirefoxDriver driver)
+  private void toApplicationDetail()
   {
-    login(driver);
+    login();
     Navigation.toApplicationDetail(driver, APP);
-    saveScreenshot(driver, "app_detail");
+    saveScreenshot("app_detail");
   }
   
-  private void toApplications(FirefoxDriver driver)
+  private void toApplications()
   {
-    login(driver);
+    login();
     Navigation.toApplications(driver);
-    saveScreenshot(driver, "apps");
+    saveScreenshot("apps");
   }
 }

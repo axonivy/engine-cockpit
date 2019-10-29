@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.security;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.ApplicationTab;
@@ -14,152 +13,152 @@ public class WebTestRoleDetail extends WebTestBase
   private static final String DETAIL_ROLE_NAME = "boss";
   
   @Test
-  void testRoleDetailOpen(FirefoxDriver driver)
+  void testRoleDetailOpen()
   {
-    toRoleDetail(driver);
+    toRoleDetail();
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME));
   }
   
   @Test
-  void testSaveRoleInformation(FirefoxDriver driver)
+  void testSaveRoleInformation()
   {
-    toRoleDetail(driver);
-    clearRoleInfoInputs(driver);
+    toRoleDetail();
+    clearRoleInfoInputs();
     
     driver.findElementById("roleInformationForm:displayName").sendKeys("display");
     driver.findElementById("roleInformationForm:description").sendKeys("desc");
     driver.findElementById("roleInformationForm:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     driver.findElementById("roleInformationForm:saveRoleInformation").click();
-    saveScreenshot(driver, "save_user_changes");
+    saveScreenshot("save_user_changes");
     
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:informationSaveSuccess_container").isDisplayed()).isTrue());
     driver.navigate().refresh();
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:name").getText()).isEqualTo(DETAIL_ROLE_NAME));
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:displayName").getAttribute("value")).isEqualTo("display"));
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:description").getAttribute("value")).isEqualTo("desc"));
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEqualTo("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   
-    clearRoleInfoInputs(driver);
+    clearRoleInfoInputs();
     driver.findElementById("roleInformationForm:saveRoleInformation").click();
   }
   
   @Test
-  void testNewChildRole(FirefoxDriver driver)
+  void testNewChildRole()
   {
-    toRoleDetail(driver);
+    toRoleDetail();
     
     driver.findElementById("roleInformationForm:createNewChildRole").click();
     webAssertThat(() -> assertThat(driver.findElementById("newChildRoleDialog").isDisplayed()).isTrue());
-    saveScreenshot(driver, "newroledialog");
+    saveScreenshot("newroledialog");
     
     driver.findElementById("newChildRoleForm:saveNewRole").click();
     webAssertThat(() -> assertThat(driver.findElementById("newChildRoleForm:newRoleNameMessage").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("newChildRoleForm:newRoleNameMessage").getText()).contains("Value is required"));
-    saveScreenshot(driver, "newrole_namerequried");
+    saveScreenshot("newrole_namerequried");
     
     String newRoleName = "test";
     driver.findElementById("newChildRoleForm:newChildRoleNameInput").sendKeys(newRoleName);
     driver.findElementById("newChildRoleForm:saveNewRole").click();
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + newRoleName));
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:name").getText()).isEqualTo(newRoleName));
-    saveScreenshot(driver, "newroledetail");
+    saveScreenshot("newroledetail");
     
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:deleteRole").isDisplayed()).isTrue());
     driver.findElementById("roleInformationForm:deleteRole").click();
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:deleteRoleConfirmDialog").isDisplayed()).isTrue());
-    saveScreenshot(driver, "delete_role");
+    saveScreenshot("delete_role");
     
     driver.findElementById("roleInformationForm:deleteRoleConfirmDialogYesBtn").click();
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("roles.xhtml"));
-    saveScreenshot(driver, "roles");
+    saveScreenshot("roles");
   }
   
   @Test
-  void testAddAndRemoveUser(FirefoxDriver driver)
+  void testAddAndRemoveUser()
   {
-    toRoleDetail(driver);
+    toRoleDetail();
     
     String roleUsers = "//*[@id='usersOfRoleForm:roleUserTable']//*[@class='user-row']";
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).isEmpty());
     
     driver.findElementById("usersOfRoleForm:addUserDropDown_input").sendKeys("fo");
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-autocomplete-list-item")).isNotEmpty());
-    saveScreenshot(driver, "search_autocomplete");
+    saveScreenshot("search_autocomplete");
     driver.findElementByClassName("ui-autocomplete-list-item").click();
     webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserDropDown_input").getAttribute("value")).isEqualTo("foo"));
-    saveScreenshot(driver, "search_user");
+    saveScreenshot("search_user");
     
     driver.findElementById("usersOfRoleForm:addUserToRoleBtn").click();
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).isNotEmpty());
-    saveScreenshot(driver, "add_user");
+    saveScreenshot("add_user");
     
     driver.navigate().refresh();
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).isNotEmpty());
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     
     driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).isEmpty());
-    saveScreenshot(driver, "remove_user");
+    saveScreenshot("remove_user");
   }
   
   @Test
-  void testAddAndRemoveMember(FirefoxDriver driver)
+  void testAddAndRemoveMember()
   {
-    toRoleDetail(driver);
+    toRoleDetail();
     
     String roleMembers = "//*[@id='membersOfRoleForm:roleMemberTable']//*[@class='member-row']";
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleMembers)).isEmpty());
     
     driver.findElementById("membersOfRoleForm:addMemberDropDown_input").sendKeys("wor");
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-autocomplete-list-item")).isNotEmpty());
-    saveScreenshot(driver, "search_autocomplete");
+    saveScreenshot("search_autocomplete");
     driver.findElementByClassName("ui-autocomplete-list-item").click();
     webAssertThat(() -> assertThat(driver.findElementById("membersOfRoleForm:addMemberDropDown_input").getAttribute("value")).isEqualTo("worker"));
-    saveScreenshot(driver, "search_member");
+    saveScreenshot("search_member");
     
     driver.findElementById("membersOfRoleForm:addMemberToRoleBtn").click();
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleMembers)).isNotEmpty());
-    saveScreenshot(driver, "add_member");
+    saveScreenshot("add_member");
     
     driver.navigate().refresh();
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleMembers)).isNotEmpty());
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     
     driver.findElementById("membersOfRoleForm:roleMemberTable:0:removeMemberFromRoleBtn").click();
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleMembers)).isEmpty());
-    saveScreenshot(driver, "remove_member");
+    saveScreenshot("remove_member");
   }
   
   @Test
-  void testExternalSecurityName(FirefoxDriver driver)
+  void testExternalSecurityName()
   {
-    login(driver);
+    login();
     Navigation.toRoles(driver);
-    saveScreenshot(driver, "roles");
+    saveScreenshot("roles");
     
     ApplicationTab.switchToApplication(driver, "test-ad");
-    saveScreenshot(driver, "switch_to_ad_app");
+    saveScreenshot("switch_to_ad_app");
     
     Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
-    saveScreenshot(driver, "roledetail");
+    saveScreenshot("roledetail");
     
     driver.findElementById("roleInformationForm:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     driver.findElementById("roleInformationForm:saveRoleInformation").click();
-    saveScreenshot(driver, "save_user_changes");
+    saveScreenshot("save_user_changes");
     
     Navigation.toRoles(driver);
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").isDisplayed()).isTrue());
     String syncBtnId = driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").getAttribute("id");
     driver.findElementById(syncBtnId).click();
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).contains("fa-spin"));
-    saveScreenshot(driver, "trigger_roles_sync");
+    saveScreenshot("trigger_roles_sync");
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
-    saveScreenshot(driver, "finish_roles_sync");
+    saveScreenshot("finish_roles_sync");
     
     Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
-    saveScreenshot(driver, "roledetail");
+    saveScreenshot("roledetail");
     
     String roleUsers = "//*[@id='usersOfRoleForm:roleUserTable']//*[@class='user-row']";
     webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).hasSize(3));
@@ -170,25 +169,25 @@ public class WebTestRoleDetail extends WebTestBase
     driver.findElementById("roleInformationForm:externalSecurityName").clear();
     webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEmpty());
     driver.findElementById("roleInformationForm:saveRoleInformation").click();
-    saveScreenshot(driver, "remove_external");
+    saveScreenshot("remove_external");
     driver.navigate().refresh();
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME));
-    saveScreenshot(driver, "refresh_before_cleanup");
+    saveScreenshot("refresh_before_cleanup");
     webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).doesNotContain("ui-state-disabled"));
     driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
     driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
     driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
-    saveScreenshot(driver, "cleanup");
+    saveScreenshot("cleanup");
   }
 
-  private void toRoleDetail(FirefoxDriver driver)
+  private void toRoleDetail()
   {
-    login(driver);
+    login();
     Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
-    saveScreenshot(driver, "roledetail");
+    saveScreenshot("roledetail");
   }
   
-  private void clearRoleInfoInputs(FirefoxDriver driver)
+  private void clearRoleInfoInputs()
   {
     driver.findElementById("roleInformationForm:displayName").clear();
     driver.findElementById("roleInformationForm:description").clear();

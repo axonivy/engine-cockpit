@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -15,35 +14,35 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   private static final String DATABASE_NAME = "test-db";
   
   @Test
-  void testExternalDatabaseDetailOpen(FirefoxDriver driver)
+  void testExternalDatabaseDetailOpen()
   {
-    navigateToDatabaseDetail(driver);
+    navigateToDatabaseDetail();
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME));
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:name").getText()).isEqualTo(DATABASE_NAME));
   }
   
   @Test
-  void testOpenExternalDatabaseHelp(FirefoxDriver driver)
+  void testOpenExternalDatabaseHelp()
   {
-    navigateToDatabaseDetail(driver);
+    navigateToDatabaseDetail();
     
     driver.findElementByXPath("//div[@id='breadcrumbOptions']/a").click();
-    saveScreenshot(driver, "help_modal");
+    saveScreenshot("help_modal");
     webAssertThat(() -> assertThat(driver.findElementById("helpExternalDatabaseDialog:helpServicesModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(DATABASE_NAME));
   }
   
   @Test
-  void testExternalDatabaseTestConnection(FirefoxDriver driver)
+  void testExternalDatabaseTestConnection()
   {
-    navigateToDatabaseDetail(driver);
+    navigateToDatabaseDetail();
     
     webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
     driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
     driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
-    saveScreenshot(driver, "connection_fail");
+    saveScreenshot("connection_fail");
     webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Error"));
   
     Navigation.toExternalDatabaseDetail(driver, "realdb");
@@ -52,24 +51,24 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
     driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
-    saveScreenshot(driver, "connection_ok");
+    saveScreenshot("connection_ok");
     webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Successful connected to database"));
   }
   
   @Test
-  void testSaveAndResetChanges(FirefoxDriver driver)
+  void testSaveAndResetChanges()
   {
-    navigateToDatabaseDetail(driver);
+    navigateToDatabaseDetail();
     
-    setConfiguration(driver, "url", "org.postgresql.Driver", "testUser", "13");
+    setConfiguration("url", "org.postgresql.Driver", "testUser", "13");
     driver.navigate().refresh();
-    checkConfiguration(driver, "url", "org.postgresql.Driver", "testUser", "13");
-    resetConfiguration(driver);
+    checkConfiguration("url", "org.postgresql.Driver", "testUser", "13");
+    resetConfiguration();
     driver.navigate().refresh();
-    checkConfiguration(driver, "jdbc:mysql://localhost:3306/test-db", "com.mysql.jdbc.Driver", "user", "5");
+    checkConfiguration("jdbc:mysql://localhost:3306/test-db", "com.mysql.jdbc.Driver", "user", "5");
   }
 
-  private void setConfiguration(FirefoxDriver driver, String url, String driverName, String username, String connections)
+  private void setConfiguration(String url, String driverName, String username, String connections)
   {
     driver.findElementById("databaseConfigurationForm:url").clear();
     driver.findElementById("databaseConfigurationForm:url").sendKeys(url);
@@ -85,17 +84,17 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     driver.findElementById("databaseConfigurationForm:maxConnections_input").clear();
     driver.findElementById("databaseConfigurationForm:maxConnections_input").sendKeys(connections);
     
-    saveScreenshot(driver, "set");
+    saveScreenshot("set");
     
     driver.findElementById("databaseConfigurationForm:saveDatabaseConfig").click();
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container")
             .getText()).contains("Database configuration saved"));
-    saveScreenshot(driver, "save");
+    saveScreenshot("save");
   }
   
-  private void checkConfiguration(FirefoxDriver driver, String url, String driverName, String username, String connections)
+  private void checkConfiguration(String url, String driverName, String username, String connections)
   {
-    saveScreenshot(driver, "check");
+    saveScreenshot("check");
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:url").getAttribute("value"))
             .isEqualTo(url));
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:driver_input").getAttribute("value"))
@@ -106,7 +105,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
             .isEqualTo(connections));
   }
   
-  private void resetConfiguration(FirefoxDriver driver)
+  private void resetConfiguration()
   {
     driver.findElementById("databaseConfigurationForm:resetConfig").click();
     webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:resetDbConfirmDialog").isDisplayed()).isTrue());
@@ -116,22 +115,22 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   }
   
   @Test
-  void testConnectionAndHistory(FirefoxDriver driver)
+  void testConnectionAndHistory()
   {
     runExternalDbQuery(driver);
-    login(driver);
+    login();
     Navigation.toExternalDatabaseDetail(driver, "realdb");
     Table connTable = new Table(driver, By.id("databaseConnectionForm:databaseConnectionsTable"));
     Table historyTable = new Table(driver, By.id("databaseExecHistoryForm:databaseExecHistoryTable"));
     webAssertThat(() -> assertThat(connTable.getFirstColumnEntries()).isNotEmpty());
     webAssertThat(() -> assertThat(historyTable.getFirstColumnEntries()).isNotEmpty());
-    saveScreenshot(driver, "not_empty");
+    saveScreenshot("not_empty");
   }
   
-  private void navigateToDatabaseDetail(FirefoxDriver driver)
+  private void navigateToDatabaseDetail()
   {
-    login(driver);
+    login();
     Navigation.toExternalDatabaseDetail(driver, DATABASE_NAME);
-    saveScreenshot(driver, "externaldatabase_testdb");
+    saveScreenshot("externaldatabase_testdb");
   }
 }

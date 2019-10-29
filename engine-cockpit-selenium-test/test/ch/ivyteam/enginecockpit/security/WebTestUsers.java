@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -18,43 +17,43 @@ public class WebTestUsers extends WebTestBase
   private String password = "password";
   
   @Test
-  void testUsersInTable(FirefoxDriver driver)
+  void testUsersInTable()
   {
-    navigateToUsers(driver);
+    navigateToUsers();
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Users"));
     Table table = new Table(driver, By.className("userTable"), true);
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
     String firstUser = table.getFirstColumnEntries().get(0);
     table.search(firstUser);
-    saveScreenshot(driver, "search_user");
+    saveScreenshot("search_user");
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1));
   }
   
   @Test
-  void testNewUserDialogNoUserName(FirefoxDriver driver)
+  void testNewUserDialogNoUserName()
   {
-    showNewUserDialog(driver);
+    showNewUserDialog();
     driver.findElementById("newUserForm:saveNewUser").click();
-    saveScreenshot(driver, "no_user_name");
+    saveScreenshot("no_user_name");
     webAssertThat(() -> assertThat(driver.findElementById("newUserForm:newUserNameMessage").isDisplayed()).isTrue());
   }
 
   @Test
-  void testNewUserDialogNoPasswordMatch(FirefoxDriver driver)
+  void testNewUserDialogNoPasswordMatch()
   {
-    showNewUserDialog(driver);
+    showNewUserDialog();
     driver.findElementById("newUserForm:newUserNameInput").sendKeys("test");
     driver.findElementById("newUserForm:password1").sendKeys("password");
-    saveScreenshot(driver, "password");
+    saveScreenshot("password");
     driver.findElementById("newUserForm:saveNewUser").click();
-    saveScreenshot(driver, "no_password_match");
+    saveScreenshot("no_password_match");
     webAssertThat(() -> assertThat(driver.findElementById("form:msgs_container").isDisplayed()).isTrue());
   }
   
   @Test
-  void testNewUserDialogValidInput(FirefoxDriver driver)
+  void testNewUserDialogValidInput()
   {
-    showNewUserDialog(driver);
+    showNewUserDialog();
     Table table = new Table(driver, By.className("userTable"), true);
     int users = table.getFirstColumnEntries().size();
     driver.findElementById("newUserForm:newUserNameInput").sendKeys(user);
@@ -62,9 +61,9 @@ public class WebTestUsers extends WebTestBase
     driver.findElementById("newUserForm:email").sendKeys(email);
     driver.findElementById("newUserForm:password1").sendKeys(password);
     driver.findElementById("newUserForm:password2").sendKeys(password);
-    saveScreenshot(driver, "new_user_input");
+    saveScreenshot("new_user_input");
     driver.findElementById("newUserForm:saveNewUser").click();
-    saveScreenshot(driver, "new_user_saved");
+    saveScreenshot("new_user_saved");
     webAssertThat(() -> assertThat(driver.findElementById("newUserModal").isDisplayed()).isFalse());
     webAssertThat(() -> assertThat(driver.findElementById("form:msgs_container").isDisplayed()).isFalse());
     webAssertThat(() -> assertThat(table.getFirstColumnEntries().size()).isGreaterThan(users));
@@ -73,18 +72,18 @@ public class WebTestUsers extends WebTestBase
     webAssertThat(() -> assertThat(table.getValueForEntry(user, 3)).isEqualTo(email));
   }
   
-  private void showNewUserDialog(FirefoxDriver driver)
+  private void showNewUserDialog()
   {
-    navigateToUsers(driver);
+    navigateToUsers();
     driver.findElement(By.xpath(("//div[contains(@class, 'ui-tabs-panel')]//button[contains(@id, 'newUserBtn')]"))).click();
-    saveScreenshot(driver, "new_user");
+    saveScreenshot("new_user");
     webAssertThat(() -> assertThat(driver.findElementById("newUserModal").isDisplayed()).isTrue());
   }
   
-  private void navigateToUsers(FirefoxDriver driver)
+  private void navigateToUsers()
   {
-    login(driver);
+    login();
     Navigation.toUsers(driver);
-    saveScreenshot(driver, "users");
+    saveScreenshot("users");
   }
 }

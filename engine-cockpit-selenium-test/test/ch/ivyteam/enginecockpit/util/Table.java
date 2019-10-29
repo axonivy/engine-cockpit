@@ -4,27 +4,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Table
 {
-  private FirefoxDriver driver;
+  private RemoteWebDriver driver;
   private String id;
   private String rowNumberField;
   private boolean withLink = false;
 
-  public Table(FirefoxDriver driver, By by)
+  public Table(RemoteWebDriver driver, By by)
   {
     this(driver, by, "data-ri");
   }
   
-  public Table(FirefoxDriver driver, By by, boolean withLink)
+  public Table(RemoteWebDriver driver, By by, boolean withLink)
   {
     this(driver, by);
     this.withLink = withLink;
   }
   
-  public Table(FirefoxDriver driver, By by, String rowNumberField)
+  public Table(RemoteWebDriver driver, By by, String rowNumberField)
   {
     this.driver = driver;
     this.id = driver.findElement(by).getAttribute("id");

@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
@@ -31,7 +30,7 @@ public class WebTestBase extends WebBase
     screenshotCounter = 0;
   }
   
-  public void saveScreenshot(RemoteWebDriver driver, String name) 
+  public void saveScreenshot(String name) 
   {
     File source = driver.getScreenshotAs(OutputType.FILE);
     System.out.println("Source: " + source);
@@ -47,27 +46,27 @@ public class WebTestBase extends WebBase
     }
   }
   
-  public void saveScreenshot(RemoteWebDriver driver)
+  public void saveScreenshot()
   {
-    saveScreenshot(driver, "");
+    saveScreenshot("");
   }
   
-  public void scrollYBy(RemoteWebDriver driver, int value)
+  public void scrollYBy(int value)
   {
     driver.executeScript("window.scrollBy(0, " + value + ")");
   }
   
-  public void scrollYToBottom(RemoteWebDriver driver)
+  public void scrollYToBottom()
   {
     driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
   }
   
-  public void scrollYToElement(RemoteWebDriver driver, By element)
+  public void scrollYToElement(By element)
   {
-    scrollYBy(driver, driver.findElement(element).getLocation().getY() - 64);
+    scrollYBy(driver.findElement(element).getLocation().getY() - 64);
   }
   
-  public void login(FirefoxDriver driver)
+  public void login()
   {
     driver.get(viewUrl("login.xhtml"));
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
@@ -82,25 +81,25 @@ public class WebTestBase extends WebBase
     return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
   }
   
-  public static void populateBusinessCalendar(FirefoxDriver driver)
+  public static void populateBusinessCalendar(RemoteWebDriver driver)
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
     assertEndPage(driver);
   }
   
-  public static void runExternalDbQuery(FirefoxDriver driver)
+  public static void runExternalDbQuery(RemoteWebDriver driver)
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
     assertEndPage(driver);
   }
 
-  public static void createBusinessData(FirefoxDriver driver)
+  public static void createBusinessData(RemoteWebDriver driver)
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
     assertEndPage(driver);
   }
   
-  public static void createLicenceEvents(FirefoxDriver driver)
+  public static void createLicenceEvents(RemoteWebDriver driver)
   {
     driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16DD9CFD7CAC310B/start.ivp");
     assertEndPage(driver);
@@ -111,7 +110,7 @@ public class WebTestBase extends WebBase
     return EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
   }
   
-  private static void assertEndPage(FirefoxDriver driver)
+  private static void assertEndPage(RemoteWebDriver driver)
   {
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains(
             EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end"));
