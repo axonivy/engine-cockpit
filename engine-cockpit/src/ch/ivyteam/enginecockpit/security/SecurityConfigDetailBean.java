@@ -144,6 +144,10 @@ public class SecurityConfigDetailBean
 
   public void setPassword(String password)
   {
+    if (StringUtils.isAllEmpty(password))
+    {
+      return;
+    }
     this.password = password;
   }
 
