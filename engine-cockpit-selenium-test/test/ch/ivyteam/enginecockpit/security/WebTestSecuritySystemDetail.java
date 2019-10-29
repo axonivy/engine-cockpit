@@ -32,7 +32,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:userName").getAttribute("value"))
             .isEqualTo("admin@zugtstdomain.wan"));
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:password").getAttribute("value"))
-            .isEqualTo("nimda"));
+            .isEqualTo(""));
     
     driver.findElementById("securitySystemConfigForm:url").clear();
     driver.findElementById("securitySystemConfigForm:url").sendKeys("test");

@@ -139,10 +139,6 @@ public class WebTestRoleDetail extends WebTestBase
     Navigation.toRoles(driver);
     saveScreenshot(driver, "roles");
     
-    if (ApplicationTab.getApplicationCount(driver) == 1)
-    {
-      return; //Don't run in designer
-    }
     ApplicationTab.switchToApplication(driver, "test-ad");
     saveScreenshot(driver, "switch_to_ad_app");
     
