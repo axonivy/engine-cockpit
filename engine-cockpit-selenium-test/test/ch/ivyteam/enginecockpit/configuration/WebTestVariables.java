@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.configuration;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -12,12 +11,12 @@ public class WebTestVariables extends WebTestBase
 {
   
   @Test
-  void testNewEditVariable(FirefoxDriver driver)
+  void testNewEditVariable()
   {
-    toVariables(driver);
+    toVariables();
     driver.findElementById("form:card:apps:applicationTabView:0:newGlobalVarBtn").click();
 
-    saveScreenshot(driver, "new_globalVar_modal");
+    saveScreenshot("new_globalVar_modal");
     
     String name = "aName";
     String value = "aValue";
@@ -31,7 +30,7 @@ public class WebTestVariables extends WebTestBase
     
     webAssertThat(() -> assertThat(driver.findElementById("form:card:apps:applicationTabView:0:globalVarTable__data")
             .getText()).contains(name, value));
-    saveScreenshot(driver, "new_globalVar");
+    saveScreenshot("new_globalVar");
     
     driver.findElementById("form:card:apps:applicationTabView:0:globalVarTable_:0:editGlobalVarBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("editGlobalVarModal").isDisplayed()).isTrue());
@@ -44,19 +43,19 @@ public class WebTestVariables extends WebTestBase
     driver.findElementById("editGlobalVarForm:editGlobalVarValue").clear();
     driver.findElementById("editGlobalVarForm:editGlobalVarValue").sendKeys(newValue);
     driver.findElementById("editGlobalVarForm:saveGlobalVarConfiguration").click();
-    saveScreenshot(driver, "edit_globalVar_modal");
+    saveScreenshot("edit_globalVar_modal");
     
     webAssertThat(() -> assertThat(driver.findElementById("form:card:apps:applicationTabView:0:globalVarTable__data")
             .getText()).contains(name, newValue));
   }
   
   @Test
-  void testNewValidation(FirefoxDriver driver)
+  void testNewValidation()
   {
-    toVariables(driver);
+    toVariables();
     driver.findElementById("form:card:apps:applicationTabView:0:newGlobalVarBtn").click();
 
-    saveScreenshot(driver, "new_globalVar_modal");
+    saveScreenshot("new_globalVar_modal");
     
     webAssertThat(() -> assertThat(driver.findElementById("newGlobalVarModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("newGlobalVarForm:newGlobalVarName").getAttribute("value")).isBlank());
@@ -68,11 +67,11 @@ public class WebTestVariables extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("newGlobalVarModal").isDisplayed()).isFalse());
   }
   
-  private void toVariables(FirefoxDriver driver)
+  private void toVariables()
   {
-    login(driver);
+    login();
     Navigation.toVariables(driver);
-    saveScreenshot(driver, "variables");
+    saveScreenshot("variables");
   }
 
 }

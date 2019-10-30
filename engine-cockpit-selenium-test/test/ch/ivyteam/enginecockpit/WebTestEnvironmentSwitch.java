@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -11,47 +10,47 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 public class WebTestEnvironmentSwitch extends WebTestBase
 {
   @Test
-  void testEnvironmentCount(FirefoxDriver driver)
+  void testEnvironmentCount()
   {
-    login(driver);
+    login();
     Navigation.toExternalDatabases(driver);
     webAssertThat(() -> assertThat(EnvironmentSwitch.getAvailableEnvs(driver)).hasSize(2).contains("Default", "test"));
   }
   
   @Test
-  void testEnvironmentSwitch(FirefoxDriver driver)
+  void testEnvironmentSwitch()
   {
-    login(driver);
+    login();
     Navigation.toExternalDatabases(driver);
-    saveScreenshot(driver, "default");
+    saveScreenshot("default");
     EnvironmentSwitch.switchToEnv(driver, "test");
-    saveScreenshot(driver, "test");
+    saveScreenshot("test");
     webAssertThat(() -> assertThat(EnvironmentSwitch.getEnv(driver)).isEqualTo("test"));
   }
   
   @Test
-  void testEnvironmentSwitchAndHoldState(FirefoxDriver driver)
+  void testEnvironmentSwitchAndHoldState()
   {
-    login(driver);
+    login();
     Navigation.toExternalDatabases(driver);
-    saveScreenshot(driver, "db_default");
+    saveScreenshot("db_default");
     webAssertThat(() -> assertThat(EnvironmentSwitch.getEnv(driver)).isEqualTo("Default"));
     EnvironmentSwitch.switchToEnv(driver, "test");
-    saveScreenshot(driver, "db_test");
+    saveScreenshot("db_test");
     webAssertThat(() -> assertThat(EnvironmentSwitch.getEnv(driver)).isEqualTo("test"));
     
     Navigation.toRestClients(driver);
-    saveScreenshot(driver, "rest_test");
+    saveScreenshot("rest_test");
     webAssertThat(() -> assertThat(EnvironmentSwitch.getEnv(driver)).isEqualTo("test"));
     EnvironmentSwitch.switchToEnv(driver, "Default");
-    saveScreenshot(driver, "rest_default");
+    saveScreenshot("rest_default");
     webAssertThat(() -> assertThat(EnvironmentSwitch.getEnv(driver)).isEqualTo("Default"));
     
     Navigation.toWebservices(driver);
-    saveScreenshot(driver, "web_default");
+    saveScreenshot("web_default");
     webAssertThat(() -> assertThat(EnvironmentSwitch.getEnv(driver)).isEqualTo("Default"));
     EnvironmentSwitch.switchToEnv(driver, "test");
-    saveScreenshot(driver, "web_test");
+    saveScreenshot("web_test");
     webAssertThat(() -> assertThat(EnvironmentSwitch.getEnv(driver)).isEqualTo("test"));
   }
 }

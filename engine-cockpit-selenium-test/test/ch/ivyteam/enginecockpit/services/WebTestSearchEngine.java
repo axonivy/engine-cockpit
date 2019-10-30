@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -17,9 +16,9 @@ public class WebTestSearchEngine extends WebTestBase
   private static final String addressIndex = "ivy.businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
 
   @Test
-  public void testElasticSearchInfo(FirefoxDriver driver)
+  public void testElasticSearchInfo()
   {
-    toSearchEngine(driver);
+    toSearchEngine();
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(2));
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineInfoForm:name").getText())
             .startsWith("ivy-elasticsearch"));
@@ -34,10 +33,10 @@ public class WebTestSearchEngine extends WebTestBase
   }
   
   @Test
-  public void testElasticSearchIndices(FirefoxDriver driver)
+  public void testElasticSearchIndices()
   {
     createBusinessData(driver);
-    toSearchEngine(driver);
+    toSearchEngine();
     
     Table table = new Table(driver, By.id("searchEngineIndexForm:indiciesTable"));
     webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSize(2)
@@ -47,74 +46,74 @@ public class WebTestSearchEngine extends WebTestBase
   }
   
   @Test
-  public void testElasticSearchConfigEdit(FirefoxDriver driver)
+  public void testElasticSearchConfigEdit()
   {
-    toSearchEngine(driver);
+    toSearchEngine();
     driver.findElementById("searchEngineInfoForm:configSearchEngine").click();
-    saveScreenshot(driver, "search_engine_config");
+    saveScreenshot("search_engine_config");
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("systemconfig.xhtml?filter=ElasticSearch"));
   }
   
   @Test
-  public void testElasticSearchQueryTool(FirefoxDriver driver)
+  public void testElasticSearchQueryTool()
   {
-    toSearchEngine(driver);
+    toSearchEngine();
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineQueryToolModal").isDisplayed()).isFalse());
     driver.findElementById("searchEngineInfoForm:queryToolBtn").click();
-    assertQueryTool(driver, "GET: http://localhost:19200/", "ivy-elasticsearch", 3);
+    assertQueryTool("GET: http://localhost:19200/", "ivy-elasticsearch", 3);
   }
   
   @Test
-  public void testElasticSearchIndexQueryTool(FirefoxDriver driver)
+  public void testElasticSearchIndexQueryTool()
   {
     createBusinessData(driver);
-    toSearchEngine(driver);
+    toSearchEngine();
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineQueryToolModal").isDisplayed()).isFalse());
     new Table(driver, By.id("searchEngineIndexForm:indiciesTable"))
             .clickButtonForEntry(dossierIndex, "queryToolBtn");
-    assertQueryTool(driver, "GET: http://localhost:19200/" + dossierIndex + "/",
-            "mappings", 1);
+    assertQueryTool("GET: http://localhost:19200/" + dossierIndex + "/", "mappings",
+            1);
   }
   
   @Test
-  public void testElasticSearchReindex(FirefoxDriver driver)
+  public void testElasticSearchReindex()
   {
     createBusinessData(driver);
-    toSearchEngine(driver);
+    toSearchEngine();
     webAssertThat(() -> assertThat(driver.findElementById("reindexSearchEngineModel").isDisplayed()).isFalse());
     new Table(driver, By.id("searchEngineIndexForm:indiciesTable"))
             .clickButtonForEntry(dossierIndex, "reindexBtn");
-    saveScreenshot(driver, "reindex");
+    saveScreenshot("reindex");
     webAssertThat(() -> assertThat(driver.findElementById("reindexSearchEngineModel").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("reindexSearchEngineModel_title").getText())
             .contains(dossierIndex));
     driver.findElementById("reindexSearchEngineForm:reindexSearchEngineBtn").click();
-    saveScreenshot(driver, "reindex_click");
+    saveScreenshot("reindex_click");
     webAssertThat(() -> assertThat(driver.findElementById("reindexSearchEngineModel").isDisplayed()).isFalse());
   }
   
-  private void assertQueryTool(FirefoxDriver driver, String url, String responseContent, int apiCount)
+  private void assertQueryTool(String url, String responseContent, int apiCount)
   {
-    saveScreenshot(driver, "query_tool");
+    saveScreenshot("query_tool");
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineQueryToolModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementByClassName("querytool-url").getText())
             .isEqualTo(url));
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineQueryToolForm:query_input")
             .getAttribute("value")).isEqualTo(""));
-    assertQueryToolProposal(driver, apiCount);
+    assertQueryToolProposal(apiCount);
     webAssertThat(() -> assertThat(driver.findElementByXPath("//form[@id='searchEngineQueryToolForm']//pre").getText())
             .isEmpty());
     
     driver.findElementById("searchEngineQueryToolForm:runSearchEngineQueryBtn").click();
-    saveScreenshot(driver, "run_query");
+    saveScreenshot("run_query");
     webAssertThat(() -> assertThat(driver.findElementByXPath("//form[@id='searchEngineQueryToolForm']//pre").getText())
             .contains(responseContent));
   }
   
-  private void assertQueryToolProposal(FirefoxDriver driver, int apiCount)
+  private void assertQueryToolProposal(int apiCount)
   {
     driver.findElementByXPath("//*[@id='searchEngineQueryToolForm:query']/button").click();
-    saveScreenshot(driver, "query_proposals");
+    saveScreenshot("query_proposals");
     webAssertThat(() -> assertThat(driver.findElementById("searchEngineQueryToolForm:query_panel").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementsByXPath("//*[@id='searchEngineQueryToolForm:query_panel']//li"))
             .hasSize(apiCount));
@@ -129,10 +128,10 @@ public class WebTestSearchEngine extends WebTestBase
     webAssertThat(() -> assertThat(table.getValueForEntry(tableRow, 5)).doesNotContain("unknown"));
   }
   
-  private void toSearchEngine(FirefoxDriver driver)
+  private void toSearchEngine()
   {
-    login(driver);
+    login();
     Navigation.toSearchEngine(driver);
-    saveScreenshot(driver, "searchengine");
+    saveScreenshot("searchengine");
   }
 }

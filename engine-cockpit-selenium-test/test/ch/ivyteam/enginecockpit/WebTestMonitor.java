@@ -3,37 +3,36 @@ package ch.ivyteam.enginecockpit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 public class WebTestMonitor extends WebTestBase
 {
   @Test
-  void testMontorContent(FirefoxDriver driver)
+  void testMontorContent()
   {
-    toMonitor(driver);
+    toMonitor();
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
   }
   
   @Test
-  void testLogsContent(FirefoxDriver driver)
+  void testLogsContent()
   {
-    toLogs(driver);
+    toLogs();
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
   }
   
-  private void toMonitor(FirefoxDriver driver)
+  private void toMonitor()
   {
-    login(driver);
+    login();
     Navigation.toMonitor(driver);
-    saveScreenshot(driver, "monitor");
+    saveScreenshot("monitor");
   }
   
-  private void toLogs(FirefoxDriver driver)
+  private void toLogs()
   {
-    login(driver);
+    login();
     Navigation.toLogs(driver);
-    saveScreenshot(driver, "logs");
+    saveScreenshot("logs");
   }
 }

@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -13,70 +12,70 @@ public class WebTestApplicationDetail extends WebTestBase
   private static final String APP = EngineCockpitUrl.isDesignerApp() ? "designer" : "test-ad";
 
   @Test
-  void testApplicationDetailDashboardContent(FirefoxDriver driver)
+  void testApplicationDetailDashboardContent()
   {
-    toApplicationDetail(driver);
+    toApplicationDetail();
     
     webAssertThat(() -> assertThat(driver.findElementsByClassName("overview-box-content")).hasSize(4));
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
   }
 
   @Test
-  void testChangeEnvironment(FirefoxDriver driver)
+  void testChangeEnvironment()
   {
-    toApplicationDetail(driver);
+    toApplicationDetail();
     
-    String newEnv = toggleEnvAndSave(driver);
+    String newEnv = toggleEnvAndSave();
     
     driver.navigate().refresh();
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(newEnv));
   
-    String oldEnv = toggleEnvAndSave(driver);
-    saveScreenshot(driver, "back");
+    String oldEnv = toggleEnvAndSave();
+    saveScreenshot("back");
     webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(oldEnv));
   }
   
   @Test
-  void testAdSync(FirefoxDriver driver)
+  void testAdSync()
   {
     if (APP.equals("designer"))
     {
       return;
     }
-    toApplicationDetail(driver);
+    toApplicationDetail();
     
     driver.findElementById("appDetailSecurityForm:synchronizeSecurity").click();
-    saveScreenshot(driver, "sync");
+    saveScreenshot("sync");
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='appDetailSecurityForm:synchronizeSecurity']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
     
-    saveScreenshot(driver, "sync_finished");
+    saveScreenshot("sync_finished");
     webAssertThat(() -> assertThat(driver.findElementById("appDetailSecurityForm:showAdSyncLogBtn").isDisplayed()).isTrue());
   }
 
-  private String toggleEnvAndSave(FirefoxDriver driver)
+  private String toggleEnvAndSave()
   {
     String setEnv = driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText();
     String newEnv = setEnv.equals("Default") ? "test" : "Default";
     driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").click();
-    saveScreenshot(driver, "env_menu");
+    saveScreenshot("env_menu");
     webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_items").isDisplayed()).isTrue());
     
     driver.findElementByXPath("//*[@id='appDetailInfoForm:activeEnvironmentSelect_items']/li[text()='" + newEnv + "']").click();
-    saveScreenshot(driver, "change_env");
+    saveScreenshot("change_env");
     webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(newEnv));
     
     driver.findElementById("appDetailInfoForm:saveApplicationInformation").click();
-    saveScreenshot(driver, "save_changes");
+    saveScreenshot("save_changes");
     webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:informationSaveSuccess_container").isDisplayed()).isTrue());
     return newEnv;
   }
   
-  private void toApplicationDetail(FirefoxDriver driver)
+  private void toApplicationDetail()
   {
-    login(driver);
+    login();
     Navigation.toApplicationDetail(driver, APP);
-    saveScreenshot(driver, "app_detail");
+    saveScreenshot("app_detail");
   }
   
 }

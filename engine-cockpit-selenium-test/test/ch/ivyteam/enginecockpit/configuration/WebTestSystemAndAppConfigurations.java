@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
@@ -21,157 +20,157 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   private Table table;
 
   @Test
-  void testSystemConfig(FirefoxDriver driver)
+  void testSystemConfig()
   {
-    toSystemConfig(driver);
+    toSystemConfig();
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("System Config"));
   }
   
   @Test
-  void testSearchConfig(FirefoxDriver driver)
+  void testSearchConfig()
   {
-    toSystemConfig(driver);
-    assertSearchConfigEntry(driver);
+    toSystemConfig();
+    assertSearchConfigEntry();
   }
 
   @Test
-  void testSearchConfig_app(FirefoxDriver driver)
+  void testSearchConfig_app()
   {
-    toApplicationDetail(driver);
-    assertSearchConfigEntry(driver);
+    toApplicationDetail();
+    assertSearchConfigEntry();
   }
   
   @Test
-  void testHideDefaults(FirefoxDriver driver)
+  void testHideDefaults()
   {
-    toSystemConfig(driver);
-    assertDefaultToggle(driver, "Data.AppDirectory");
+    toSystemConfig();
+    assertDefaultToggle("Data.AppDirectory");
   }
   
   @Test
-  void testHideDefaults_app(FirefoxDriver driver)
+  void testHideDefaults_app()
   {
-    toApplicationDetail(driver);
-    assertDefaultToggle(driver, "Data.FilesDirectory");
+    toApplicationDetail();
+    assertDefaultToggle("Data.FilesDirectory");
   }
   
   @Test
-  void testShowConfigFile(FirefoxDriver driver)
+  void testShowConfigFile()
   {
-    toSystemConfig(driver);
+    toSystemConfig();
     String key = "Connector.HTTP.AllowTrace";
-    assertShowConfigFile(driver, key);
+    assertShowConfigFile(key);
   }
   
   @Test
-  void testShowConfigFile_app(FirefoxDriver driver)
+  void testShowConfigFile_app()
   {
-    toApplicationDetail(driver);
+    toApplicationDetail();
     String key = "SecuritySystem";
-    assertShowConfigFile(driver, key);
+    assertShowConfigFile(key);
   }
 
   @Test
-  void testNewConfigInvalid(FirefoxDriver driver)
+  void testNewConfigInvalid()
   {
-    toSystemConfig(driver);
+    toSystemConfig();
     driver.findElementById("newConfigBtn").click();
-    assertNewConfigInvalid(driver);
+    assertNewConfigInvalid();
   }
   
   @Test
-  void testNewConfigInvalid_app(FirefoxDriver driver)
+  void testNewConfigInvalid_app()
   {
-    toApplicationDetail(driver);
+    toApplicationDetail();
     driver.findElementById("configMoreForm:newConfigBtn").click();
-    assertNewConfigInvalid(driver);
+    assertNewConfigInvalid();
   }
   
   @Test
-  void testNewEditAndResetConfig(FirefoxDriver driver)
+  void testNewEditAndResetConfig()
   {
     String key = "testKey";
     String value = "testValue";
-    toSystemConfig(driver);
+    toSystemConfig();
     driver.findElementById("newConfigBtn").click();
-    assertNewConfig(driver, key, value);
-    assertEditConfig(driver, key, value, "newValue");
-    assertResetConfig(driver, key);
+    assertNewConfig(key, value);
+    assertEditConfig(key, value, "newValue");
+    assertResetConfig(key);
   }
   
   @Test
-  void testNewEditAndResetConfig_app(FirefoxDriver driver)
+  void testNewEditAndResetConfig_app()
   {
     String key = "testKey";
     String value = "testValue";
-    toApplicationDetail(driver);
+    toApplicationDetail();
     driver.findElementById("configMoreForm:newConfigBtn").click();
-    assertNewConfig(driver, key, value);
-    assertEditConfig(driver, key, value, "newValue");
-    assertResetConfig(driver, key);
+    assertNewConfig(key, value);
+    assertEditConfig(key, value, "newValue");
+    assertResetConfig(key);
   }
   
   @Test
-  void testEditConfig_booleanFormat(FirefoxDriver driver)
+  void testEditConfig_booleanFormat()
   {
-    toSystemConfig(driver);
+    toSystemConfig();
     String config = "EMail.Server.SSL.UseKey";
     table.clickButtonForEntry(config, "editConfigBtn");
-    saveScreenshot(driver, "boolean_input");
-    assertThatConfigEditModalIsVisible(driver, config, "false");
+    saveScreenshot("boolean_input");
+    assertThatConfigEditModalIsVisible(config, "false");
   }
   
   @Test
-  void testEditConfig_numberFormat(FirefoxDriver driver)
+  void testEditConfig_numberFormat()
   {
-    toSystemConfig(driver);
+    toSystemConfig();
     String config = "Elasticsearch.ExternalServer.BootTimeout";
     table.clickButtonForEntry(config, "editConfigBtn");
-    saveScreenshot(driver, "number_input");
-    assertThatConfigEditModalIsVisible(driver, config, "60");
+    saveScreenshot("number_input");
+    assertThatConfigEditModalIsVisible(config, "60");
   }
   
   @Test
-  void testEditConfig_daytimeFormat(FirefoxDriver driver)
+  void testEditConfig_daytimeFormat()
   {
-    toSystemConfig(driver);
+    toSystemConfig();
     String config = "EMail.DailyTaskSummary.TriggerTime";
     table.clickButtonForEntry(config, "editConfigBtn");
-    saveScreenshot(driver, "daytime_input");
-    assertThatConfigEditModalIsVisible(driver, config, "00:00");
+    saveScreenshot("daytime_input");
+    assertThatConfigEditModalIsVisible(config, "00:00");
   }
   
   @Test
-  void testEditConfig_enumerationFormat(FirefoxDriver driver)
+  void testEditConfig_enumerationFormat()
   {
-    toSystemConfig(driver);
+    toSystemConfig();
     String config = "SystemTask.Failure.Behaviour";
     table.clickButtonForEntry(config, "editConfigBtn");
-    saveScreenshot(driver, "enum_input");
-    assertThatConfigEditModalIsVisible(driver, config, "FAIL_TASK_DO_RETRY");
+    saveScreenshot("enum_input");
+    assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY");
   }
   
   @Test
-  void testEmailUrlFilter(FirefoxDriver driver)
+  void testEmailUrlFilter()
   {
     String filter = "EMail";
-    login(driver);
-    saveScreenshot(driver, "dashboard");
+    login();
+    saveScreenshot("dashboard");
     driver.findElementById("mailConfigForm:configureEmailBtn").click();
-    assertUrlFiltering(driver, filter);
+    assertUrlFiltering(filter);
   }
   
   @Test
-  void testSystemDbUrlFilter(FirefoxDriver driver)
+  void testSystemDbUrlFilter()
   {
     String filter = "SystemDb";
-    login(driver);
-    saveScreenshot(driver, "dashboard");
+    login();
+    saveScreenshot("dashboard");
     driver.findElementById("configureSystemDbBtn").click();
-    assertUrlFiltering(driver, filter);
+    assertUrlFiltering(filter);
   }
   
-  private void assertUrlFiltering(FirefoxDriver driver, String filter)
+  private void assertUrlFiltering(String filter)
   {
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("systemconfig.xhtml?filter=" + filter));
     table = new Table(driver, TABLE_ID);
@@ -180,34 +179,34 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).allMatch(e -> e.startsWith(filter)));
   }
   
-  private void assertSearchConfigEntry(FirefoxDriver driver)
+  private void assertSearchConfigEntry()
   {
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
     String search = table.getFirstColumnEntries().get(0);
     table.search(search);
-    saveScreenshot(driver, "search_config");
+    saveScreenshot("search_config");
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1).containsOnly(search));
   }
 
-  private void assertDefaultToggle(FirefoxDriver driver, String config)
+  private void assertDefaultToggle(String config)
   {
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).contains(config));
-    toggleDefaultValues(driver);
-    saveScreenshot(driver, "hide");
+    toggleDefaultValues();
+    saveScreenshot("hide");
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).doesNotContain(config));
-    toggleDefaultValues(driver);
-    saveScreenshot(driver, "show");
+    toggleDefaultValues();
+    saveScreenshot("show");
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).contains(config));
   }
   
-  private void toggleDefaultValues(FirefoxDriver driver)
+  private void toggleDefaultValues()
   {
     driver.findElementById("configMoreForm:configMoreButton").click();
     webAssertThat(() -> assertThat(driver.findElementById("configMoreForm:configMoreMenu").isDisplayed()).isTrue());
     driver.findElementById("configMoreForm:showDefaultsBtn").click();
   }
   
-  private void assertShowConfigFile(FirefoxDriver driver, String key)
+  private void assertShowConfigFile(String key)
   {
     table.buttonForEntryDisabled(key, "tasksButton");
     webAssertThat(() -> assertThat(table.buttonForEntryDisabled(key, "tasksButton")).isFalse());
@@ -218,61 +217,61 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(key.split("\\.")));
   }
 
-  private void assertNewConfigInvalid(FirefoxDriver driver)
+  private void assertNewConfigInvalid()
   {
-    saveScreenshot(driver, "new_config_model");
+    saveScreenshot("new_config_model");
     webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKey").getAttribute("value")).isBlank());
     driver.findElementById("config:newConfigurationForm:saveNewConfiguration").click();
-    saveScreenshot(driver, "invalid_new_config");
+    saveScreenshot("invalid_new_config");
     webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKeyMessage").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKeyMessage").getText()).isEqualTo("Value is required"));
     webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationValueMessage").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationValueMessage").getText()).isEqualTo("Value is required"));
   }
 
-  private void assertResetConfig(FirefoxDriver driver, String key)
+  private void assertResetConfig(String key)
   {
     table.clickButtonForEntry(key, "tasksButton");
     webAssertThat(() -> assertThat(table.buttonMenuForEntryVisible(key, "activityMenu")).isTrue());
     table.clickButtonForEntry(key, "resetConfigBtn");
-    saveScreenshot(driver, "reset_config");
+    saveScreenshot("reset_config");
     webAssertThat(() -> assertThat(driver.findElementById("config:resetConfigConfirmDialog").isDisplayed()).isTrue());
     
     driver.findElementById("config:resetConfigConfirmForm:resetConfigConfirmYesBtn").click();
-    saveScreenshot(driver, "reset_config_yes");
+    saveScreenshot("reset_config_yes");
     webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "reset"));
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).doesNotContain(key));
   }
 
-  private void assertNewConfig(FirefoxDriver driver, String key, String value)
+  private void assertNewConfig(String key, String value)
   {
-    saveScreenshot(driver, "new_config_model");
+    saveScreenshot("new_config_model");
     webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationModal").isDisplayed()).isTrue());
     
     driver.findElementById("config:newConfigurationForm:newConfigurationKey").sendKeys(key);
     driver.findElementById("config:newConfigurationForm:newConfigurationValue").sendKeys(value);
     driver.findElementById("config:newConfigurationForm:saveNewConfiguration").click();
-    saveScreenshot(driver, "save_new_config");
+    saveScreenshot("save_new_config");
     webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "created"));
     webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(value));
   }
   
-  private void assertEditConfig(FirefoxDriver driver, String key, String value, String newValue)
+  private void assertEditConfig(String key, String value, String newValue)
   {
     table.clickButtonForEntry(key, "editConfigBtn");
-    saveScreenshot(driver, "edit_config");
-    assertThatConfigEditModalIsVisible(driver, key, value);
+    saveScreenshot("edit_config");
+    assertThatConfigEditModalIsVisible(key, value);
     
     driver.findElementById("config:editConfigurationForm:editConfigurationValue").clear();
     driver.findElementById("config:editConfigurationForm:editConfigurationValue").sendKeys(newValue);
     driver.findElementById("config:editConfigurationForm:saveEditConfiguration").click();
-    saveScreenshot(driver, "save_edit_config");
+    saveScreenshot("save_edit_config");
     webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "changed"));
     webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(newValue));
   }
   
-  private void assertThatConfigEditModalIsVisible(FirefoxDriver driver, String key, String value)
+  private void assertThatConfigEditModalIsVisible(String key, String value)
   {
     webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationModal").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationForm:editConfigurationKey").getText()).isEqualTo(key));
@@ -298,20 +297,20 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     }
   }
   
-  private void toSystemConfig(FirefoxDriver driver)
+  private void toSystemConfig()
   {
-    login(driver);
+    login();
     Navigation.toSystemConfig(driver);
-    saveScreenshot(driver);
+    saveScreenshot();
     table = new Table(driver, TABLE_ID);
   }
   
-  private void toApplicationDetail(FirefoxDriver driver)
+  private void toApplicationDetail()
   {
-    login(driver);
+    login();
     Navigation.toApplicationDetail(driver, "test-ad");
-    scrollYToElement(driver, By.id("configMoreForm:configMoreButton"));
-    saveScreenshot(driver, "app_detail");
+    scrollYToElement(By.id("configMoreForm:configMoreButton"));
+    saveScreenshot("app_detail");
     table = new Table(driver, TABLE_ID);
   }
 }

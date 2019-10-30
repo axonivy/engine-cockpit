@@ -4,67 +4,62 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
-import io.github.bonigarcia.seljup.SeleniumExtension;
-
-@ExtendWith(SeleniumExtension.class)
 public class WebTestLogin extends WebTestBase
 {
 
   @Test
-  void testLogin(FirefoxDriver driver)
+  void testLogin()
   {
-    login(driver);
-    saveScreenshot(driver, "after_login");
+    login();
+    saveScreenshot("after_login");
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
     webAssertThat(() -> assertThat(driver.getTitle()).startsWith("Engine Cockpit").doesNotContain("Login"));
     webAssertThat(() -> assertThat(driver.findElementById("sessionUserName").getText()).isEqualTo(getAdminUser())); 
   }
   
   @Test
-  void testLoginInvalid(FirefoxDriver driver)
+  void testLoginInvalid()
   {
     driver.get(viewUrl("login.xhtml"));
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver, "empty_login");
+    saveScreenshot("empty_login");
     webAssertThat(() -> assertThat(driver.findElementById("loginForm:userNameMessage").getText()).isEqualTo("Value is required."));
     webAssertThat(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEqualTo("Value is required."));
     
     driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver, "empty_password");
+    saveScreenshot("empty_password");
     webAssertThat(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEqualTo("Value is required."));
     
     driver.findElementById("loginForm:password").sendKeys("test");
     driver.findElementById("loginForm:login").click();
-    saveScreenshot(driver, "wrong_password");
+    saveScreenshot("wrong_password");
     webAssertThat(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEmpty());
     webAssertThat(() -> assertThat(driver.findElementById("loginForm:loginMessage").isDisplayed()).isTrue());
   }
   
   @Test
-  void testLogout(FirefoxDriver driver)
+  void testLogout()
   {
-    login(driver);
-    logout(driver);
-    saveScreenshot(driver, "after_logout");
-    assertLoginPageVisible(driver);
+    login();
+    logout();
+    saveScreenshot("after_logout");
+    assertLoginPageVisible();
     driver.get(viewUrl("dashboard.xhtml"));
-    assertLoginPageVisible(driver);
+    assertLoginPageVisible();
   }
 
-  private void assertLoginPageVisible(FirefoxDriver driver)
+  private void assertLoginPageVisible()
   {
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("login.xhtml"));
     webAssertThat(() -> assertThat(driver.getTitle()).contains("Login"));
   }
   
-  private void logout(FirefoxDriver driver)
+  private void logout()
   {
     driver.findElementByXPath("//*[@id='sessionUser']/a").click();
-    saveScreenshot(driver, "logout");
+    saveScreenshot("logout");
     webAssertThat(() -> assertThat(driver.findElementById("sessionLogoutBtn").isDisplayed()).isTrue());
     driver.findElementById("sessionLogoutBtn").click();
   }

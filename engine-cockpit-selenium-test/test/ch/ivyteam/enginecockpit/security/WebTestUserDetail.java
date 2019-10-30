@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
@@ -24,35 +23,35 @@ public class WebTestUserDetail extends WebTestBase
   private static final String DETAIL_USER_NAME_DELETE = "bar";
   
   @Test
-  void testUsersDetailOpen(FirefoxDriver driver)
+  void testUsersDetailOpen()
   {
-    openUserFooDetail(driver);
+    openUserFooDetail();
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("userdetail.xhtml?userName=" + DETAIL_USER_NAME));
   }
 
   @Test
-  void testUserDetailInformation(FirefoxDriver driver)
+  void testUserDetailInformation()
   {
-    openUserFooDetail(driver);
+    openUserFooDetail();
     webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:name").getText())
             .isEqualTo(DETAIL_USER_NAME));
   }
   
   @Test
-  void testSaveUserInformation(FirefoxDriver driver)
+  void testSaveUserInformation()
   {
-    openUserFooDetail(driver);
-    clearUserInfoInputs(driver);
+    openUserFooDetail();
+    clearUserInfoInputs();
     driver.findElementById("userInformationForm:fullName").sendKeys("Foo User");
     driver.findElementById("userInformationForm:email").sendKeys("foo@ivyteam.ch");
     driver.findElementById("userInformationForm:password1").sendKeys("foopassword");
     driver.findElementById("userInformationForm:password2").sendKeys("foopassword");
     driver.findElementById("userInformationForm:saveUserInformation").click();
-    saveScreenshot(driver, "save_user_changes");
+    saveScreenshot("save_user_changes");
     
     webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:informationSaveSuccess_container").isDisplayed()).isTrue());
     driver.navigate().refresh();
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:name").getText()).isEqualTo(DETAIL_USER_NAME));
     webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:fullName").getAttribute("value")).isEqualTo("Foo User"));
     webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:email").getAttribute("value")).isEqualTo("foo@ivyteam.ch"));
@@ -61,50 +60,50 @@ public class WebTestUserDetail extends WebTestBase
   }
   
   @Test
-  void testSaveUserInformationNoPasswordMatch(FirefoxDriver driver)
+  void testSaveUserInformationNoPasswordMatch()
   {
-    openUserFooDetail(driver);
+    openUserFooDetail();
     driver.findElementById("userInformationForm:password1").sendKeys("foopassword");
     driver.findElementById("userInformationForm:saveUserInformation").click();
-    saveScreenshot(driver, "no_password_match");
+    saveScreenshot("no_password_match");
     webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:informationMessages").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:informationMessages").getText()).isEqualTo("Password didn't match"));
   }
   
   @Test
-  void testDeleteUser(FirefoxDriver driver)
+  void testDeleteUser()
   {
-    openUserDetail(driver, DETAIL_USER_NAME_DELETE);
+    openUserDetail(DETAIL_USER_NAME_DELETE);
     driver.findElementById("userInformationForm:deleteUser").click();
-    saveScreenshot(driver, "delete_user");
+    saveScreenshot("delete_user");
     webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:deleteUserConfirmDialog").isDisplayed()).isTrue());
     driver.findElementById("userInformationForm:deleteUserConfirmYesBtn").click();
     webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("users.xhtml"));
   }
   
   @Test
-  void testEmailLanguageSwitch(FirefoxDriver driver)
+  void testEmailLanguageSwitch()
   {
-    openUserFooDetail(driver);
+    openUserFooDetail();
     driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").click();
     webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSettings:languageDropDown_items").isDisplayed()).isTrue());
     String chooseLanguage = driver.findElementById("userEmailForm:emailSettings:languageDropDown_1").getText();
-    saveScreenshot(driver, "languages");
+    saveScreenshot("languages");
     driver.findElementById("userEmailForm:emailSettings:languageDropDown_1").click();
     webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
-    saveScreenshot(driver, "choose_language");
+    saveScreenshot("choose_language");
     driver.findElementById("userEmailForm:saveEmailNotificationSettings").click();
     webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").getText()).isEqualTo("User email changes saved"));
     driver.navigate().refresh();
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
   }
   
   @Test
-  void testEmailSettings(FirefoxDriver driver)
+  void testEmailSettings()
   {
-    openUserFooDetail(driver);
+    openUserFooDetail();
     PrimeUi primeUi = new PrimeUi(driver);
     SelectOneRadio radioSettings = primeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
     SelectBooleanCheckbox neverCheckbox = primeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
@@ -118,19 +117,19 @@ public class WebTestUserDetail extends WebTestBase
     webAssertThat(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
     
     radioSettings.selectItemByValue("Specific");
-    saveScreenshot(driver, "specific");
+    saveScreenshot("specific");
     webAssertThat(() -> assertThat(neverCheckbox.isDisabled()).isFalse());
     webAssertThat(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
     webAssertThat(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse());
     
     List<String> days = new ArrayList<String>(Arrays.asList("Mon", "Fri", "Sun"));
     dailyCheckbox.setCheckboxes(days);
-    saveScreenshot(driver, "days");
+    saveScreenshot("days");
     webAssertThat(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun"));
     
     taskCheckbox.setChecked();
     neverCheckbox.setChecked();
-    saveScreenshot(driver, "new_settings");
+    saveScreenshot("new_settings");
     webAssertThat(() -> assertThat(radioSettings.getSelected()).isEqualTo("Specific"));
     webAssertThat(() -> assertThat(neverCheckbox.isChecked()).isTrue());
     webAssertThat(() -> assertThat(taskCheckbox.isChecked()).isTrue());
@@ -138,10 +137,10 @@ public class WebTestUserDetail extends WebTestBase
     webAssertThat(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
     driver.findElementById("userEmailForm:saveEmailNotificationSettings").click();
     webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").isDisplayed()).isTrue());
-    saveScreenshot(driver, "save");
+    saveScreenshot("save");
 
     driver.navigate().refresh();
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     webAssertThat(() -> assertThat(radioSettings.getSelected()).isEqualTo("Specific"));
     webAssertThat(() -> assertThat(neverCheckbox.isChecked()).isTrue());
     webAssertThat(() -> assertThat(taskCheckbox.isChecked()).isTrue());
@@ -151,12 +150,12 @@ public class WebTestUserDetail extends WebTestBase
   }
   
   @Test
-  void testRolesAddRemove(FirefoxDriver driver)
+  void testRolesAddRemove()
   {
-    openUserFooDetail(driver);
+    openUserFooDetail();
     String bossId = driver.findElement(By.xpath("//*[contains(@id, 'rolesOfUserForm:rolesTree_node_0')]/td/a/span[@class='role-name'][text()='boss']/../../..")).getAttribute("id");
     driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).click();
-    saveScreenshot(driver, "expand_role");
+    saveScreenshot("expand_role");
     String managerId = bossId + "_0";
     webAssertThat(() -> assertThat(driver.findElement(By.id(managerId)).isDisplayed()).isTrue());
     String managerAddButtonId = driver.findElementById(managerId).findElement(By.xpath("./td/button[1]")).getAttribute("id");
@@ -164,7 +163,7 @@ public class WebTestUserDetail extends WebTestBase
     String bossAddButtonId = driver.findElementById(bossId).findElement(By.xpath("./td/button[1]")).getAttribute("id");
     String bossRemoveButtonId = driver.findElementById(bossId).findElement(By.xpath("./td/button[2]")).getAttribute("id");
     driver.findElementById(managerAddButtonId).click();
-    saveScreenshot(driver, "add_child_role");
+    saveScreenshot("add_child_role");
     webAssertThat(() -> assertThat(driver.findElementById(managerAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
     webAssertThat(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
     webAssertThat(() -> assertThat(driver.findElementById(managerId)
@@ -173,7 +172,7 @@ public class WebTestUserDetail extends WebTestBase
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("member-inherit-icon"));
     
     driver.findElementById(bossAddButtonId).click();
-    saveScreenshot(driver, "add_parent_role");
+    saveScreenshot("add_parent_role");
     webAssertThat(() -> assertThat(driver.findElementById(bossAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
     webAssertThat(() -> assertThat(driver.findElementById(bossRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
     webAssertThat(() -> assertThat(driver.findElementById(managerId)
@@ -182,16 +181,16 @@ public class WebTestUserDetail extends WebTestBase
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
     
     Navigation.toUserDetail(driver, DETAIL_USER_NAME);
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     waitUntilElementClickable(driver, By.xpath("//*[@id='" + bossId + "']/td/span[2]")).click();
-    saveScreenshot(driver, "expand_boss");
+    saveScreenshot("expand_boss");
     webAssertThat(() -> assertThat(driver.findElementById(managerId)
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
     webAssertThat(() -> assertThat(driver.findElementById(bossId)
             .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
 
     driver.findElementById(managerRemoveButtonId).click();
-    saveScreenshot(driver, "remove_child_role");
+    saveScreenshot("remove_child_role");
     webAssertThat(() -> assertThat(driver.findElementById(managerAddButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
     webAssertThat(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).contains("ui-state-disabled"));
     
@@ -199,34 +198,34 @@ public class WebTestUserDetail extends WebTestBase
   }
   
   @Test
-  void testPermission(FirefoxDriver driver)
+  void testPermission()
   {
-    openUserFooDetail(driver);
+    openUserFooDetail();
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
             .getAttribute("title")).isEqualTo("Some Permission granted"));
     
     driver.findElementById("permissionsForm:permissionTable:0:grantPermissionBtn").click();
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
                     .getAttribute("title")).isEqualTo("Permission granted"));
-    saveScreenshot(driver, "grant");
+    saveScreenshot("grant");
 
     driver.findElementById("permissionsForm:permissionTable:0:unGrantPermissionBtn").click();
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
                     .getAttribute("title")).isEqualTo("Some Permission granted"));
-    saveScreenshot(driver, "ungrant");
+    saveScreenshot("ungrant");
 
     driver.findElementById("permissionsForm:permissionTable:0:denyPermissionBtn").click();
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
                     .getAttribute("title")).isEqualTo("Permission denied"));
-    saveScreenshot(driver, "deny");
+    saveScreenshot("deny");
 
     driver.findElementById("permissionsForm:permissionTable:0:unDenyPermissionBtn").click();
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
                     .getAttribute("title")).isEqualTo("Some Permission granted"));
-    saveScreenshot(driver, "undeny");
+    saveScreenshot("undeny");
   }
   
-  private void clearUserInfoInputs(FirefoxDriver driver)
+  private void clearUserInfoInputs()
   {
     driver.findElementById("userInformationForm:fullName").clear();
     driver.findElementById("userInformationForm:email").clear();
@@ -234,16 +233,16 @@ public class WebTestUserDetail extends WebTestBase
     driver.findElementById("userInformationForm:password2").clear();
   }
   
-  private void openUserDetail(FirefoxDriver driver, String userName)
+  private void openUserDetail(String userName)
   {
-    login(driver);
+    login();
     Navigation.toUserDetail(driver, userName);
-    saveScreenshot(driver, "userdetail");
+    saveScreenshot("userdetail");
   }
   
-  private void openUserFooDetail(FirefoxDriver driver)
+  private void openUserFooDetail()
   {
-    openUserDetail(driver, DETAIL_USER_NAME);
+    openUserDetail(DETAIL_USER_NAME);
   }
 
 }

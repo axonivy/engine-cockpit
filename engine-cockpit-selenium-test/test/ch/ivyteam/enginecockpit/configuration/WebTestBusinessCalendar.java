@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.configuration;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -12,17 +11,17 @@ public class WebTestBusinessCalendar extends WebTestBase
 {
   
   @Test
-  void testBusinessCalendarTree(FirefoxDriver driver)
+  void testBusinessCalendarTree()
   {
-    toBusinessCalendar(driver);
+    toBusinessCalendar();
     webAssertThat(() -> assertThat(
             driver.findElementByXPath("//*[@id='form:card:apps:applicationTabView:0:treeForm:tree']//a[contains(@id, 'calendarNode')]").getText()).isEqualTo("Default (Default)"));
   }
   
   @Test
-  void testBusinessCalendarDetail(FirefoxDriver driver)
+  void testBusinessCalendarDetail()
   {
-    toBusinessCalendarDetail(driver, "Default");
+    toBusinessCalendarDetail("Default");
     webAssertThat(() -> assertThat(
             driver.findElementById("weekConfigurationPanel").getText()).contains("Week configuration", "Start day of week\nMONDAY",
             "Free days of week Day", "weekend1 SATURDAY", "Working time Time", "morning 08:00:00 - 12:00:00"));
@@ -37,17 +36,17 @@ public class WebTestBusinessCalendar extends WebTestBase
             driver.findElementById("freeDatesPanel").getText()).contains("Free non-recurring dates", "Description Date"));
   }
   
-  private void toBusinessCalendar(FirefoxDriver driver)
+  private void toBusinessCalendar()
   {
-    login(driver);
+    login();
     Navigation.toBusinessCalendar(driver);
-    saveScreenshot(driver, "businessCalendar");
+    saveScreenshot("businessCalendar");
   }
 
-  private void toBusinessCalendarDetail(FirefoxDriver driver, String calendarName)
+  private void toBusinessCalendarDetail(String calendarName)
   {
-    login(driver);
+    login();
     Navigation.toBusinessCalendarDetail(driver, calendarName);
-    saveScreenshot(driver, "businessCalendarDetail");
+    saveScreenshot("businessCalendarDetail");
   }
 }

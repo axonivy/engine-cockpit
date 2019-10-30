@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 
@@ -15,16 +14,16 @@ import ch.ivyteam.enginecockpit.util.Table;
 public class WebTestSecuritySystemDetail extends WebTestBase
 {
   @Test
-  void testSecuritySystemDetail(FirefoxDriver driver)
+  void testSecuritySystemDetail()
   {
-    toSecurityDetail(driver);
+    toSecurityDetail();
     webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
   }
 
   @Test
-  void testConnectionInfos(FirefoxDriver driver)
+  void testConnectionInfos()
   {
-    toSecurityDetail(driver);
+    toSecurityDetail();
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:provider").getText())
             .isEqualTo("Microsoft Active Directory"));
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
@@ -38,16 +37,16 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securitySystemConfigForm:url").sendKeys("test");
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
             .isEqualTo("test"));
-    saveScreenshot(driver, "change_url");
+    saveScreenshot("change_url");
     driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
             .isTrue());
-    saveScreenshot(driver, "save");
+    saveScreenshot("save");
     driver.navigate().refresh();
     
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
             .isEqualTo("test"));
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     driver.findElementById("securitySystemConfigForm:url").clear();
     driver.findElementById("securitySystemConfigForm:url").sendKeys("ldap://zugtstdirads");
     driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
@@ -56,17 +55,17 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   }
   
   @Test
-  void testDirNotDeletableIfUsedByApp(FirefoxDriver driver)
+  void testDirNotDeletableIfUsedByApp()
   {
-    toSecurityDetail(driver);
+    toSecurityDetail();
     webAssertThat(() -> assertThat(elementNotAvailable(driver, By.id("securitySystemConfigForm:deleteSecuritySystem")))
             .isTrue());
   }
   
   @Test
-  void testInvalidAndValidSyncTimes(FirefoxDriver driver)
+  void testInvalidAndValidSyncTimes()
   {
-    toSecurityDetail(driver);
+    toSecurityDetail();
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTime").getAttribute("value"))
             .isEqualTo(""));
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTime").getAttribute("placeholder"))
@@ -74,8 +73,8 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
             .isFalse());
     
-    saveInvalidSyncTimeAndAssert(driver, "32:23");
-    saveInvalidSyncTimeAndAssert(driver, "12:95");
+    saveInvalidSyncTimeAndAssert("32:23");
+    saveInvalidSyncTimeAndAssert("12:95");
     
     driver.findElementById("securitySystemConfigForm:syncTime").clear();
     driver.findElementById("securitySystemConfigForm:syncTime").sendKeys("16:47");
@@ -84,7 +83,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
             .isFalse());
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
             .isTrue());
-    saveScreenshot(driver, "valid");
+    saveScreenshot("valid");
     
     driver.findElementById("securitySystemConfigForm:syncTime").clear();
     driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
@@ -92,20 +91,20 @@ public class WebTestSecuritySystemDetail extends WebTestBase
             .isTrue());
   }
 
-  private void saveInvalidSyncTimeAndAssert(FirefoxDriver driver, String time)
+  private void saveInvalidSyncTimeAndAssert(String time)
   {
     driver.findElementById("securitySystemConfigForm:syncTime").clear();
     driver.findElementById("securitySystemConfigForm:syncTime").sendKeys(time);
     driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
             .isTrue());
-    saveScreenshot(driver, "invalid");
+    saveScreenshot("invalid");
   }
   
   @Test
-  void testLdapInfos(FirefoxDriver driver)
+  void testLdapInfos()
   {
-    toSecurityDetail(driver);
+    toSecurityDetail();
     PrimeUi primeUi = new PrimeUi(driver);
     webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapName").getAttribute("value"))
             .isEqualTo(""));
@@ -127,16 +126,16 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securityLdapForm:ldapName").sendKeys("test");
     webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapName").getAttribute("value"))
             .isEqualTo("test"));
-    saveScreenshot(driver, "change_name");
+    saveScreenshot("change_name");
     driver.findElementById("securityLdapForm:saveSecurtiySystemLdapBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:securitySystemLdapSaveSuccess_container").isDisplayed())
             .isTrue());
-    saveScreenshot(driver, "save");
+    saveScreenshot("save");
     driver.navigate().refresh();
     
     webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapName").getAttribute("value"))
             .isEqualTo("test"));
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     driver.findElementById("securityLdapForm:ldapName").clear();
     driver.findElementById("securityLdapForm:saveSecurtiySystemLdapBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:securitySystemLdapSaveSuccess_container").isDisplayed())
@@ -144,9 +143,9 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   }
   
   @Test
-  void testBinding(FirefoxDriver driver)
+  void testBinding()
   {
-    toSecurityDetail(driver);
+    toSecurityDetail();
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:defaultContext").getAttribute("value"))
             .isEqualTo("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:importUsersOfGroup").getAttribute("value"))
@@ -157,16 +156,16 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("securitySystemBindingForm:importUsersOfGroup").sendKeys("test");
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:importUsersOfGroup").getAttribute("value"))
             .isEqualTo("test"));
-    saveScreenshot(driver, "change");
+    saveScreenshot("change");
     driver.findElementById("securitySystemBindingForm:saveSecuritySystemBindingBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:securitySystemBindingSaveSuccess_container").isDisplayed())
             .isTrue());
-    saveScreenshot(driver, "save");
+    saveScreenshot("save");
     driver.navigate().refresh();
     
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:importUsersOfGroup").getAttribute("value"))
             .isEqualTo("test"));
-    saveScreenshot(driver, "refresh");
+    saveScreenshot("refresh");
     driver.findElementById("securitySystemBindingForm:importUsersOfGroup").clear();
     driver.findElementById("securitySystemBindingForm:saveSecuritySystemBindingBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:securitySystemBindingSaveSuccess_container").isDisplayed())
@@ -174,9 +173,9 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   }
   
   @Test
-  void testLdapAttributesNewInvalid(FirefoxDriver driver)
+  void testLdapAttributesNewInvalid()
   {
-    toSecurityDetail(driver);
+    toSecurityDetail();
     driver.findElementById("securityLdapAttributesForm:newLdapAttributeBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeModal").isDisplayed())
             .isTrue());
@@ -184,20 +183,20 @@ public class WebTestSecuritySystemDetail extends WebTestBase
             .isBlank());
     webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeMessage").getText())
             .isBlank());
-    saveScreenshot(driver, "modal");
+    saveScreenshot("modal");
     
     driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
     webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeNameMessage").getText())
             .contains("Value is required"));
     webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeMessage").getText())
             .contains("Value is required"));
-    saveScreenshot(driver, "invalid");
+    saveScreenshot("invalid");
   }
   
   @Test
-  void testLdapAttributes(FirefoxDriver driver)
+  void testLdapAttributes()
   {
-    toSecurityDetail(driver);
+    toSecurityDetail();
     Table table = new Table(driver, By.id("securityLdapAttributesForm:ldapPropertiesTable"));
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2));
     
@@ -206,9 +205,9 @@ public class WebTestSecuritySystemDetail extends WebTestBase
             .isTrue());
     driver.findElementById("ldapAttributeForm:attributeNameInput").sendKeys("test");
     driver.findElementById("ldapAttributeForm:attributeInput").sendKeys("value");
-    saveScreenshot(driver, "new_attr");
+    saveScreenshot("new_attr");
     driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
-    saveScreenshot(driver, "save");
+    saveScreenshot("save");
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(3).contains("test"));
     webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("value"));
     
@@ -218,19 +217,19 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     driver.findElementById("ldapAttributeForm:attributeInput").clear();
     driver.findElementById("ldapAttributeForm:attributeInput").sendKeys("newValue");
     driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
-    saveScreenshot(driver, "edit");
+    saveScreenshot("edit");
     webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("newValue"));
     
     table.clickButtonForEntry("test", "deleteLdapAttributeBtn");
-    saveScreenshot(driver, "delete");
+    saveScreenshot("delete");
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test"));
   }
   
-  private void toSecurityDetail(FirefoxDriver driver)
+  private void toSecurityDetail()
   {
-    login(driver);
+    login();
     Navigation.toSecuritySystemDetail(driver, "test-ad");
-    saveScreenshot(driver);
+    saveScreenshot();
   }
   
 }

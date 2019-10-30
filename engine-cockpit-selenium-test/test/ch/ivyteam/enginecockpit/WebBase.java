@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -10,7 +11,9 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -21,6 +24,7 @@ import io.github.bonigarcia.seljup.SeleniumExtension;
 @ExtendWith(SeleniumExtension.class)
 public class WebBase
 {
+  public RemoteWebDriver driver;
 
   @Options
   FirefoxOptions firefoxOptions = new FirefoxOptions();
@@ -28,6 +32,12 @@ public class WebBase
     FirefoxBinary binary = new FirefoxBinary();
     binary.addCommandLineOptions("--headless");
     firefoxOptions.setBinary(binary);
+  }
+  
+  @BeforeEach
+  void initDriver(FirefoxDriver remoteDriver)
+  {
+    this.driver = remoteDriver;
   }
   
   public static String getAdminUser()

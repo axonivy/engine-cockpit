@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 
@@ -16,143 +15,143 @@ public class WebTestApplication extends WebTestBase
   private static final String NEW_TEST_APP = "newTestApp";
 
   @Test
-  void testApplications(FirefoxDriver driver)
+  void testApplications()
   {
-    toApplications(driver);
+    toApplications();
 
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Applications"));
     Table table = new Table(driver, By.className("ui-treetable"), true);
     webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
     driver.findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]")).sendKeys("test-ad");
-    saveScreenshot(driver, "search_app");
+    saveScreenshot("search_app");
     webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name"))).hasSize(1));
   }
   
   @Test
-  void testInvalidInputNewApplication(FirefoxDriver driver)
+  void testInvalidInputNewApplication()
   {
-    toApplications(driver);
+    toApplications();
     
-    openNewApplicationModal(driver);
+    openNewApplicationModal();
 
     driver.findElementById("card:newApplicationForm:saveNewApplication").click();
-    saveScreenshot(driver, "new_app_value_required");
+    saveScreenshot("new_app_value_required");
     webAssertThat(() -> assertThat(driver.findElementById("card:newApplicationForm:newApplicationNameMessage").isDisplayed())
                     .isTrue());
   }
 
   @Test
-  void testAddStartStopRemoveApplication(FirefoxDriver driver)
+  void testAddStartStopRemoveApplication()
   {
-    toApplications(driver);
+    toApplications();
 
     int appCount = driver.findElements(By.className("activity-name")).size();
-    addNewApplication(driver);
+    addNewApplication();
     webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name")).size()).isGreaterThan(appCount));
     
     String newAppId = driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']/../../..").getAttribute("id");
-    startNewApplication(driver, newAppId);
+    startNewApplication(newAppId);
     
-    stopNewApplication(driver, newAppId);
+    stopNewApplication(newAppId);
   
-    deleteNewApplication(driver, newAppId);
+    deleteNewApplication(newAppId);
     webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name")).size()).isEqualTo(appCount));
   }
   
   @Test
-  void testStartStopDeleteNewAppInsideDetailView(FirefoxDriver driver)
+  void testStartStopDeleteNewAppInsideDetailView()
   {
-    addNewAppAndNavigateToIt(driver);
+    addNewAppAndNavigateToIt();
     
     webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:operationStateLabel").getText()).isEqualTo("INACTIVE"));
-    startAppInsideDetailView(driver);
-    stopAppInsideDetailView(driver);
+    startAppInsideDetailView();
+    stopAppInsideDetailView();
     Navigation.toApplications(driver);
-    deleteNewApplication(driver, driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']/../../..").getAttribute("id"));
+    deleteNewApplication(driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']/../../..").getAttribute("id"));
   }
 
-  private void stopAppInsideDetailView(FirefoxDriver driver)
+  private void stopAppInsideDetailView()
   {
     driver.findElementById("appDetailStateForm:deActivateApplication").click();
-    saveScreenshot(driver, "stop_app");
+    saveScreenshot("stop_app");
     webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:operationStateLabel").getText()).isEqualTo("INACTIVE"));
     webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:activateApplication").isDisplayed()).isTrue());
   }
 
-  private void startAppInsideDetailView(FirefoxDriver driver)
+  private void startAppInsideDetailView()
   {
     driver.findElementById("appDetailStateForm:activateApplication").click();
-    saveScreenshot(driver, "start_app");
+    saveScreenshot("start_app");
     webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:operationStateLabel").getText()).isEqualTo("ACTIVE"));
     webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:deActivateApplication").isDisplayed()).isTrue());
   }
   
-  private void addNewAppAndNavigateToIt(FirefoxDriver driver)
+  private void addNewAppAndNavigateToIt()
   {
-    toApplications(driver);
-    addNewApplication(driver);
+    toApplications();
+    addNewApplication();
     Navigation.toApplicationDetail(driver, NEW_TEST_APP);
-    saveScreenshot(driver, "application_detail");
+    saveScreenshot("application_detail");
   }
 
-  private void stopNewApplication(FirefoxDriver driver, String newAppId)
+  private void stopNewApplication(String newAppId)
   {
     driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[3]")).click();
-    saveScreenshot(driver, "new_app_stop");
+    saveScreenshot("new_app_stop");
     webAssertThat(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("INACTIVE"));
   }
 
-  private void startNewApplication(FirefoxDriver driver, String newAppId)
+  private void startNewApplication(String newAppId)
   {
     webAssertThat(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("INACTIVE"));
     driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[2]")).click();
-    saveScreenshot(driver, "new_app_run");
+    saveScreenshot("new_app_run");
     webAssertThat(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("ACTIVE"));
   }
 
-  private void deleteNewApplication(FirefoxDriver driver, String newAppId)
+  private void deleteNewApplication(String newAppId)
   {
     String tasksButtonId = driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[4]")).getAttribute("id");
     String activityMenuId = tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu";
     driver.findElementById(newAppId).findElement(By.id(tasksButtonId)).click();
-    saveScreenshot(driver, "new_app_menu");
+    saveScreenshot("new_app_menu");
     webAssertThat(() -> assertThat(driver.findElementById(activityMenuId).isDisplayed()).isTrue());
     
     driver.findElementByXPath("//*[@id='" + activityMenuId + "']//*[text()='Delete']/..").click();
-    saveScreenshot(driver, "new_app_deletemodal");
+    saveScreenshot("new_app_deletemodal");
     webAssertThat(() -> assertThat(driver.findElementById("card:form:deleteConfirmDialog").isDisplayed()).isTrue());
     
     driver.findElementById("card:form:deleteConfirmYesBtn").click();
-    saveScreenshot(driver, "new_app_deleteapp");
+    saveScreenshot("new_app_deleteapp");
     webAssertThat(() -> assertThat(driver.findElementById("card:form:applicationMessage_container").isDisplayed()).isTrue());
   }
 
-  private void addNewApplication(FirefoxDriver driver)
+  private void addNewApplication()
   {
-    openNewApplicationModal(driver);
+    openNewApplicationModal();
     
     driver.findElementById("card:newApplicationForm:newApplicationNameInput").sendKeys(NEW_TEST_APP);
     driver.findElementById("card:newApplicationForm:newApplicationDescInput").sendKeys("test description");
     new PrimeUi(driver).selectBooleanCheckbox(By.id("card:newApplicationForm:newApplicationActivate")).removeChecked();
-    saveScreenshot(driver, "new_app_input");
+    saveScreenshot("new_app_input");
     
     driver.findElementById("card:newApplicationForm:saveNewApplication").click();
-    saveScreenshot(driver, "new_app_saved");
+    saveScreenshot("new_app_saved");
 
     webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']").isDisplayed()).isTrue());
   }
 
-  private void openNewApplicationModal(FirefoxDriver driver)
+  private void openNewApplicationModal()
   {
     driver.findElementById("card:form:createApplicationBtn").click();
-    saveScreenshot(driver, "new_app_dialog");
+    saveScreenshot("new_app_dialog");
     webAssertThat(() -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
   }
   
-  private void toApplications(FirefoxDriver driver)
+  private void toApplications()
   {
-    login(driver);
+    login();
     Navigation.toApplications(driver);
-    saveScreenshot(driver, "applications");
+    saveScreenshot("applications");
   }
 }
