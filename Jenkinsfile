@@ -23,7 +23,7 @@ pipeline {
     stage('build') {
       steps {
         script {
-          maven cmd: "clean verify -Dengine.page.url=${params.engineSource} -Dselenium.LOGGER.level=WARNING -Dsel.jup.output.folder=target/surefire-reports -Dsel.jup.screenshot.at.the.end.of.tests=true -Dsel.jup.screenshot.format=png"
+          maven cmd: "clean verify -Dengine.page.url=${params.engineSource} -Dsel.jup.output.folder=target/surefire-reports -Dsel.jup.screenshot.at.the.end.of.tests=true -Dsel.jup.screenshot.format=png"
         }
       }
       post {
