@@ -1,7 +1,8 @@
 package ch.ivyteam.enginecockpit.dashboad;
 
-import java.text.ParseException;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ import ch.ivyteam.enginecockpit.model.LicenceMessage;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.licence.LicenceEventManager;
-import ch.ivyteam.licence.SignedLicence;
+import ch.ivyteam.licence.SystemLicence;
 
 @ManagedBean
 @RequestScoped
@@ -48,12 +49,12 @@ public class LicenceBean
 
   public String getValueFromProperty(String key)
   {
-    return getLicenceProperties().getProperty(key);
+    return SystemLicence.getParam(key);
   }
 
   public Properties getLicenceProperties()
   {
-    return SignedLicence.getLicenceParameters();
+    return SystemLicence.getParams();
   }
 
   public String getOrganisation()
@@ -69,16 +70,16 @@ public class LicenceBean
   public String getExpiryDate()
   {
     String expiryDate = getValueFromProperty(LICENCE_VALID_UNTIL);
-    return StringUtils.equals(expiryDate, "") ? "Never" : expiryDate;
+    return StringUtils.isBlank(expiryDate) ? "Never" : expiryDate;
   }
   
   public boolean showRenewLicFeature()
   {
     try
     {
-      return !isDemo() && SignedLicence.getValidUntil() != null;
+      return !isDemo() && SystemLicence.getValidUntil() != null;
     }
-    catch (ParseException ex)
+    catch (DateTimeParseException ex)
     {
       return false;
     }
@@ -86,13 +87,14 @@ public class LicenceBean
 
   public boolean showExpiryWarning()
   {
-    Calendar now = Calendar.getInstance();
-    now.add(Calendar.MONTH, 3);
+	LocalDate inThreeMonth = LocalDate
+	    .now()
+	    .plus(3, ChronoUnit.MONTHS);
     try
     {
-      return SignedLicence.isExpired(now.getTime());
+      return SystemLicence.isExpiredAt(inThreeMonth);
     }
-    catch (ParseException e)
+    catch (DateTimeParseException e)
     {
       return false;
     }
@@ -110,12 +112,12 @@ public class LicenceBean
 
   public boolean isCluster()
   {
-    return SignedLicence.isEnterprise();
+    return SystemLicence.isEnterprise();
   }
 
   public boolean isDemo()
   {
-    return SignedLicence.isDemo();
+    return SystemLicence.isDemo();
   }
   
   public List<LicenceMessage> getLicenceEvents()
