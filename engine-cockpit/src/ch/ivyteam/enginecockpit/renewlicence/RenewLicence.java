@@ -23,6 +23,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.licence.SignedLicence;
+import ch.ivyteam.licence.SystemLicence;
 
 @ManagedBean
 @RequestScoped
@@ -63,12 +64,14 @@ public class RenewLicence
   {
     try
     {
-      FormDataMultiPart multipart = createMultipart(SignedLicence.getLicenceContent());
+      SignedLicence signedLicence = SystemLicence.signedLicence().orElseThrow();
+      String licenceContent = signedLicence.save().toAsciiOnlyString();
+      FormDataMultiPart multipart = createMultipart(licenceContent);
       return createClient().target(getUri()).request()
-              .header("X-Requested-By", "ivy")
-              .header("MIME-Version", "1.0")
-              .header("mailTo", mailAddress)
-              .put(Entity.entity(multipart, multipart.getMediaType()));
+          .header("X-Requested-By", "ivy")
+          .header("MIME-Version", "1.0")
+          .header("mailTo", mailAddress)
+          .put(Entity.entity(multipart, multipart.getMediaType()));
     }
     catch (Exception ex)
     {
