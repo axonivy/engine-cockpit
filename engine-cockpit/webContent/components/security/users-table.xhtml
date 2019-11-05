@@ -31,7 +31,7 @@
     </p:column>
     <p:column headerText="Logged in" sortBy="#{user.loggedIn}">
       <h:outputText>
-        <i class="material-icons search-machine-state #{user.loggedIn ? 'user-active' : 'user-inactive'}">#{user.loggedIn ? 'done' : 'clear'}</i>
+        <i class="material-icons search-machine-state #{user.loggedIn ? 'state-active' : 'state-inactive'}">#{user.loggedIn ? 'done' : 'clear'}</i>
       </h:outputText>
     </p:column>
   </p:dataTable>

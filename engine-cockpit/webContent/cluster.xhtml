@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><a href="cluster.xhtml">Cluster</a></li>
+    </ui:define>
+    
+    <ui:define name="breadcrumb-right">
+      <a href="#" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/integration/axonivy-cluster.html'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
+
+    <ui:define name="content">
+      <cc:SingleCard id="card">
+        <div class="card card-w-title">
+          <h:form id="form">
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-12">
+                <h1>
+                  <i class="material-icons card-title-icon">view_carousel</i>Cluster
+                </h1>
+              </div>
+            </div>
+            <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+              var="node" value="#{clusterBean.nodes}" widgetVar="clusterTable" filteredValue="#{clusterBean.filteredNodes}"
+              lazy="false" styleClass="userTable" id="clusterTable">
+              <f:facet name="header">
+                <p:outputPanel>
+                  <p:outputLabel styleClass="table-search-icon">
+                    <i class="material-icons">search</i>
+                  </p:outputLabel>
+                  <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                    onkeyup="PF('clusterTable').filter()" placeholder="Search" value="#{clusterBean.filter}"/>
+                </p:outputPanel>
+              </f:facet>
+              <p:column headerText="Name" sortBy="#{node.name}" filterBy="#{node.name}">
+                <p:commandLink>
+                  <p:ajax listener="#{clusterBean.setActiveClusterNode(node)}" process="@this" oncomplete="PF('clusterNodeDialog').show()"
+                    update="clusterNodeDialog" />
+                  <i class="material-icons table-icon">bookmark</i>
+                  <h:outputText value="#{node.name}" styleClass="node-name"/>
+                </p:commandLink>
+              </p:column>
+              <p:column headerText="Host" sortBy="#{node.hostName}" filterBy="#{node.hostName}">
+                <h:outputText value="#{node.hostName}" />
+              </p:column>
+              <p:column headerText="State" sortBy="#{node.state}">
+                <h:outputText value="#{node.state}" styleClass="#{node.stateClass}" />
+              </p:column>
+              <p:column headerText="Communication" sortBy="#{node.communicationState}">
+                <h:outputText value="#{node.communicationState}" styleClass="#{node.communicationStateClass}" />
+              </p:column>
+              <p:column headerText="Is Master" sortBy="#{node.master}">
+                <h:outputText>
+                  <i class="material-icons search-machine-state #{node.master ? 'state-active' : 'state-inactive'}">#{node.master  ? 'done' : 'clear'}</i>
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Is Local" sortBy="#{node.local}">
+                <h:outputText>
+                  <i class="material-icons search-machine-state #{node.local ? 'state-active' : 'state-inactive'}">#{node.local  ? 'done' : 'clear'}</i>
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Start Timestamp" sortBy="#{node.startTimestamp}">
+                <h:outputText value="#{node.startTimestamp}" />
+              </p:column>
+              <p:column headerText="Start Timestamp" sortBy="#{node.stopTimestamp}">
+                <h:outputText value="#{node.stopTimestamp}" />
+              </p:column>
+              <p:column headerText="Start Timestamp" sortBy="#{node.failTimestamp}">
+                <h:outputText value="#{node.failTimestamp}" />
+              </p:column>
+            </p:dataTable>
+          </h:form>
+        </div>
+      </cc:SingleCard>
+      <ui:include src="dialogs/clusternodeinfo.xhtml" />
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
