@@ -41,7 +41,7 @@
                 </p:outputPanel>
               </f:facet>
               <p:column headerText="Name" sortBy="#{node.name}" filterBy="#{node.name}">
-                <p:commandLink>
+                <p:commandLink id="clusterNode">
                   <p:ajax listener="#{clusterBean.setActiveClusterNode(node)}" process="@this" oncomplete="PF('clusterNodeDialog').show()"
                     update="clusterNodeDialog" />
                   <i class="material-icons table-icon">bookmark</i>

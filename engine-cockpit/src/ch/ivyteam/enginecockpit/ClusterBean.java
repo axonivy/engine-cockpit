@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +31,8 @@ public class ClusterBean
   public ClusterBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
-    isClusterServer = !clusterManager.isClusterServer();
+    isClusterServer = clusterManager.isClusterServer();
     clusterNodes = loadClusterNodes();
-    clusterNodes.addAll(clusterNodes);
     activeClusterNode = new ClusterNode(null);
   }
   
@@ -45,11 +43,7 @@ public class ClusterBean
   
   private List<ClusterNode> loadClusterNodes()
   {
-    if (isClusterServer)
-    {
-      return clusterManager.getClusterNodes().stream().map(node -> new ClusterNode(node)).collect(Collectors.toList());
-    }
-    return Collections.emptyList();
+    return clusterManager.getClusterNodes().stream().map(node -> new ClusterNode(node)).collect(Collectors.toList());
   }
   
   public List<ClusterNode> getNodes()
