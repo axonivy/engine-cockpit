@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
@@ -171,6 +173,12 @@ public class Navigation
   {
     toMenu(driver, SYSTEM_CONFIG_MENU);
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemconfig.xhtml"));
+  }
+  
+  public static void toCluster(RemoteWebDriver driver)
+  {
+    driver.get(viewUrl("cluster.xhtml"));
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("cluster.xhtml"));
   }
   
   public static void toMonitor(RemoteWebDriver driver)

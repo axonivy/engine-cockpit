@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog id="clusterNodeDialog" header="Cluster Node Detail" widgetVar="clusterNodeDialog" modal="true" closeOnEscape="true" width="400px">
+  <h:form id="clusterNodeForm" style="max-height: 400px; overflow-y: auto;">
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+      <label>Name</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.name}" />
+      
+      <label>Host</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.hostName}" />
+      
+      <label>IP Address</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.ipAddress}" />
+      
+      <label>IP Port</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.ipPort}" />
+      
+      <label>Local Identifier</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.id}" />
+      
+      <label>Jvm Route</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.jvmRouteName}" />
+      
+      <label>State</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.state}" styleClass="#{clusterBean.activeClusterNode.stateClass}"/>
+      
+      <label>Communication</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.communicationState}" styleClass="#{clusterBean.activeClusterNode.communicationStateClass}"/>
+      
+      <label>Is Master</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.master}" />
+      
+      <label>Master Cluster Node</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.masterClusterNode.name}" />
+      
+      <label>Is Local</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.local}" />
+      
+      <label>Last Start Timestamp</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.startTimestamp}" />
+      
+      <label>Last Stop Timestamp</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.stopTimestamp}" />
+      
+      <label>Last Fail Timestamp</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.failTimestamp}" />
+      
+      <label>Axon.ivy Version</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.ivyVersion}" />
+      
+      <label>Operating System Name</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.operatingSystemName}" />
+      
+      <label>Operating System Version</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.operatingSystemVersion}" />
+      
+      <label>Operating System Architecture</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.operatingSystemArchitecture}" />
+      
+      <label>Java Version</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.javaVersion}" />
+       
+      <label>Java Virtual Machine Name</label>
+      <h:outputText value="#{clusterBean.activeClusterNode.javaVirtualMachineName}" />
+    </p:panelGrid>
+  </h:form>
+</p:dialog>
+</html>
