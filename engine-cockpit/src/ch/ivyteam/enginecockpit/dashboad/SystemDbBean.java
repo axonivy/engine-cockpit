@@ -12,6 +12,8 @@ import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.enginecockpit.util.SystemDbUtil;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.server.restricted.EngineMode;
+import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -66,5 +68,11 @@ public class SystemDbBean
             .filter(Objects::nonNull)
             .map(anchor -> "#systemdb-" + anchor)
             .orElse("");
+  }
+  
+  public boolean isWrongVersion()
+  {
+    return EngineMode.is(EngineMode.MAINTENANCE) && 
+           MaintenanceReason.is(MaintenanceReason.WRONG_SYSTEM_DATABASE_VERSION);
   }
 }
