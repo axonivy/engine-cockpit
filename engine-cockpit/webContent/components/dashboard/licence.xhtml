@@ -12,7 +12,7 @@
 <p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events" type="button"
   icon="ui-icon-notifications" styleClass="secondary-btn card-button" rendered="#{not empty licenceBean.licenceEvents}" />
 <p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
-  styleClass="secondary-btn card-button" rendered="#{!licenceBean.demo}" onclick="PF('fileUploadModal').show()" />
+  styleClass="secondary-btn card-button" rendered="#{licenceBean.installed}" onclick="PF('fileUploadModal').show()" />
 <p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>
@@ -30,9 +30,11 @@
   <label>Concurrent sessions</label>
   <h:outputText value="#{licenceBean.sessions}" />
 </p:panelGrid>
-<p:panelGrid rendered="#{licenceBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
+<p:panelGrid rendered="#{!licenceBean.valid}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
   styleClass="ui-panelgrid-blank">
-  <h:outputText value="No licence installed. Your engine runs in demo mode." />
+  <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}"/>
+  <h:outputText value="Invalid licence installed. Your engine runs in maintenance mode." rendered="#{licenceBean.installed and (!licenceBean.expired)}"/>
+    <h:outputText value="Your licence is expired. Your engine runs in maintenance mode." rendered="#{licenceBean.expired}"/>
   <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" 
     icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
 </p:panelGrid>

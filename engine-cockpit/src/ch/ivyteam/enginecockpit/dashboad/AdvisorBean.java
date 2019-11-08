@@ -8,6 +8,7 @@ import javax.faces.bean.SessionScoped;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.Advisor;
+import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
 @SessionScoped
@@ -37,7 +38,7 @@ public class AdvisorBean
   
   public String getApp()
   {
-    return Advisor.getAdvisor().isDesigner() ? "designer" : "system";
+    return EngineMode.isEmbeddedInDesigner() ? "designer" : "system";
   }
   
   public String getApiBaseUrl()

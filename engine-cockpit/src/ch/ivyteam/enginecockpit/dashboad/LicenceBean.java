@@ -77,7 +77,7 @@ public class LicenceBean
   {
     try
     {
-      return !isDemo() && SystemLicence.getValidUntil() != null;
+      return SystemLicence.isInstalled() && SystemLicence.getValidUntil() != null;
     }
     catch (DateTimeParseException ex)
     {
@@ -99,7 +99,7 @@ public class LicenceBean
       return false;
     }
   }
-  
+
   public String getUsers()
   {
     return users;
@@ -118,6 +118,21 @@ public class LicenceBean
   public boolean isDemo()
   {
     return SystemLicence.isDemo();
+  }
+  
+  public boolean isInstalled()
+  {
+    return SystemLicence.isInstalled();
+  }
+  
+  public boolean isValid()
+  {
+    return SystemLicence.isValid();
+  }
+  
+  public boolean isExpired()
+  {
+    return SystemLicence.isExpired();
   }
   
   public List<LicenceMessage> getLicenceEvents()
