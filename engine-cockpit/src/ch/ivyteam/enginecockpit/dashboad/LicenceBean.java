@@ -19,6 +19,7 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.LicenceMessage;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
+import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.SystemLicence;
 
@@ -133,6 +134,20 @@ public class LicenceBean
   public boolean isExpired()
   {
     return SystemLicence.isExpired();
+  }
+  
+  public String getProblemMessage()
+  {
+    String maintenanceMode = EngineMode.is(EngineMode.MAINTENANCE) ? " Your engine runs in maintenance mode." : "";
+    if (isExpired())
+    {
+      return "Your licence has expired."+maintenanceMode;
+    }
+    if (!isValid())
+    {
+      return "Invalid licence installed."+maintenanceMode;
+    }
+    return "";
   }
   
   public List<LicenceMessage> getLicenceEvents()

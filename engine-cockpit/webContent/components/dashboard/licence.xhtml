@@ -30,14 +30,17 @@
   <label>Concurrent sessions</label>
   <h:outputText value="#{licenceBean.sessions}" />
 </p:panelGrid>
-<p:panelGrid rendered="#{!licenceBean.valid}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
-  styleClass="ui-panelgrid-blank">
+<h:panelGroup rendered="#{!licenceBean.installed}">
   <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}"/>
-  <h:outputText value="Invalid licence installed. Your engine runs in maintenance mode." rendered="#{licenceBean.installed and (!licenceBean.expired)}"/>
-    <h:outputText value="Your licence is expired. Your engine runs in maintenance mode." rendered="#{licenceBean.expired}"/>
+</h:panelGroup>
+<h:panelGroup rendered="#{licenceBean.installed and !licenceBean.valid}" styleClass="static-message static-warn-message">
+  <i class="fa fa-exclamation-triangle"/>
+  <h:outputText value="#{licenceBean.problemMessage}"/>
+</h:panelGroup>
+<h:panelGroup rendered="#{!licenceBean.installed or !licenceBean.valid}">
   <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" 
     icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
-</p:panelGrid>
+</h:panelGroup>
 <cc:RenewLicence id="renewLicence" title="Renew Licence"/>
 <cc:FileUpload id="licenceUpload" apiUrl="#{advisorBean.app}/licence" title="Licence Upload" acceptFiles=".lic" />
 <ui:include src="../../dialogs/licenceinfo.xhtml" />

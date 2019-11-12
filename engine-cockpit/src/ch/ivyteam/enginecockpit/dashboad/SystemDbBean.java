@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.dashboad;
 
+import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -70,9 +71,14 @@ public class SystemDbBean
             .orElse("");
   }
   
-  public boolean isWrongVersion()
+  public boolean isHasProblem()
   {
     return EngineMode.is(EngineMode.MAINTENANCE) && 
-           MaintenanceReason.is(MaintenanceReason.WRONG_SYSTEM_DATABASE_VERSION);
+           MaintenanceReason.isSystemDatabaseReason();
+  }
+  
+  public String getProblemMessage()
+  {
+    return MaintenanceReason.getMessage();
   }
 }

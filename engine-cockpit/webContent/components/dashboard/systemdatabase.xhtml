@@ -18,14 +18,13 @@
   <label>Driver</label>
   <h:outputText value="#{systemDbBean.driver}" />
 </p:panelGrid>
-<p:panelGrid rendered="#{engineModeBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
-  styleClass="ui-panelgrid-blank">
+<h:panelGroup rendered="#{engineModeBean.demo}">
   <h:outputText value="No licence installed. HSQL Memory Db is used." rendered="#{!licenceBean.installed}"/>
   <h:outputText value="No system database configured yet. HSQL Memory Db is used." rendered="#{licenceBean.installed}"/>
-</p:panelGrid>
-<p:panelGrid rendered="#{systemDbBean.wrongVersion}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
-  styleClass="ui-panelgrid-blank">
-  <h:outputText value="System database has a wrong version. Please convert it."/>
-</p:panelGrid>
+</h:panelGroup>
+<h:panelGroup rendered="#{systemDbBean.hasProblem}" styleClass="static-message static-warn-message">
+  <i class="fa fa-exclamation-triangle"/>
+  <h:outputText value="#{systemDbBean.problemMessage}"/>
+</h:panelGroup>
 
 </html>
