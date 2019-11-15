@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+
+  <h:form enctype="multipart/form-data" id="fileUploadForm">
+    <div class="file-upload">
+      <input type="file" id="fileInput" class="deploy-file" required="required" accept=".lic" />
+      <p:panelGrid columns="3" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-6" layout="grid" 
+        styleClass="ui-panelgrid-blank">
+        <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose licence" 
+          onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
+        <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-cloud-upload"
+          styleClass="primary-btn modal-input-button" onclick="upload();"/>
+        <h:outputText id="uploadError" styleClass="file-upload-error" />
+      </p:panelGrid>
+      <div id="drop_zone" class="ui-g-12" style="margin-bottom: 20px; height: 100px; line-height: 100px; text-align: center;">
+        <span id="selectedFileOutput" class="file-upload-file" style="text-align: center; vertical-align: middle;">Choose or drop a licence file.</span>
+      </div>
+    </div>
+    <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
+      icon="ui-icon-navigate-next" styleClass="modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
+    <p:commandButton id="cancelLicenceStep" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
+      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
+  </h:form>
+  
+  <script>
+    var accepts = [".lic"];
+    var file;
+
+    $(document).ready(function(e) {
+      handleFile(document.getElementById('fileInput').files[0]);
+    });
+
+    $("#fileInput").on("change", function(e) {
+      handleFile(e.target.files[0]);
+    });
+
+    $('#drop_zone').on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    })
+    .on('dragover dragenter', function() {
+      $('#drop_zone').addClass('is-dragover');
+    })
+    .on('dragleave dragend drop', function() {
+      $('#drop_zone').removeClass('is-dragover');
+    })
+    .on('drop', function(e) {
+      if(e.originalEvent.dataTransfer &amp;&amp; e.originalEvent.dataTransfer.files.length) {
+        handleFile(e.originalEvent.dataTransfer.files[0]);
+      }
+    });
+
+    function handleFile(file) {
+      if (checkFileInput(file)) {
+        this.file = file;
+        $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
+      } else {
+        $('#selectedFileOutput').text("Choose or drop a file which ends with: " + accepts);
+        this.file = null;
+      }
+    }
+
+    function checkFileInput(file) {
+      if (file != null &amp;&amp; endsWithAnyAccepts(file.name)) {
+        return true;
+      } 
+      return false;
+    }
+
+    function endsWithAnyAccepts(fileName) {
+      return accepts.some(function (accept) {
+        return fileName.endsWith(accept);
+      });
+    }
+
+    function upload() {
+      if (!file)
+      {
+        $('#uploadError').text("Choose a valid file before upload.");
+        return;
+      }
+      
+      $.ajax({
+        url: '/#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}',
+        mimeType: 'multipart/form-data',
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        headers: {"X-Requested-By": "engine-cockpit"},
+        async: true,
+        crossDomain: false,
+        beforeSend: function(xhr) {
+          $('#fileUploadResponse').show();
+          $('#fileUploadForm').hide();
+          $('#uploadFileSpinner').show();
+        }
+      }).done(function(response){
+        $('#uploadLog').text(response);
+        $('#uploadStatus').text("Success").css("color", "green");
+      }).fail(function(request, status, error) {
+        $('#uploadLog').text(request.responseText);
+        $('#uploadStatus').text("Error").css("color", "red");
+      }).always(function() {
+        $('#uploadFileSpinner').hide();
+        PF('fileUploadModal').initPosition();
+      });
+    }
+  </script>
+  
+  <style>
+    .ui-steps .ui-steps-item {
+      width: 33%;
+    }
+  </style>
+</html>

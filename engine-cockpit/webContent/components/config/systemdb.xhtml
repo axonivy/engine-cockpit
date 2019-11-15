@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+
+  <h:form id="systemDbForm">
+    <p:outputPanel id="connectionPanel" styleClass="connection-panel">
+      <p:commandButton value="Check Connection" id="checkConnectionButton"
+        icon="fa fa-check" styleClass="check-connection"
+        update="@(.configChanged)" onstart="PF('loadingDialog').show(); submitConfigForm(); updateConnectionPanel();"
+        oncomplete="PF('loadingDialog').hide();" >
+        <f:actionListener
+          binding="#{helperBean.testConnection(data.settings)}" />
+      </p:commandButton>
+    <p:outputPanel id="connection"
+      styleClass="alert #{data.settings.connectionInfo.stateCssValue} connection-state configChanged">
+      <h4>
+        <i class="#{data.settings.connectionInfo.connectionIcon}" />
+        <h:outputText value="#{data.settings.connectionInfo.stateTitle}"
+          id="connectionState" styleClass="configChanged" />
+      </h4>
+      <p>
+        <h:outputText value="#{data.settings.connectionInfo.stateMessage}"
+          styleClass="configChanged" />
+      </p>
+    </p:outputPanel>
+  </p:outputPanel>
+  
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <p:outputLabel for="databaseType" value="Database" />
+      <p:selectOneMenu id="databaseType" value="#{data.configData.product}">
+        <f:selectItems value="#{data.databaseProducts}" var="database" itemLabel="#{database.name}" itemValue="#{database}" />
+        <p:ajax update="port, databaseName, @(.configChanged)" listener="#{logic.updateProduct}" />
+      </p:selectOneMenu>
+
+      <p:outputLabel for="databaseDriver" value="Driver" />
+      <p:selectOneMenu id="databaseDriver" value="#{data.configData.driver}">
+        <f:selectItems value="#{data.databaseDrivers}" var="driver" itemLabel="#{driver.name}" itemValue="#{driver}" />
+        <p:ajax update="port, @(.configChanged)" listener="#{logic.updateDriver}" />
+      </p:selectOneMenu>
+      
+      <p:outputLabel for="host" value="Host" />
+      <p:inputText id="host" value="#{data.configData.host}" styleClass="important-sysdb-input">
+        <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+      </p:inputText>
+      
+      <p:outputLabel for="port" value="Port" />
+      <h:panelGroup>
+        <p:inputText id="port" styleClass="port-input" value="#{data.configData.port}" disabled="#{data.defaultPort}">
+          <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+        </p:inputText>
+        <p:selectBooleanCheckbox id="defaultPortCheckbox"
+          styleClass="port-checkbox" itemLabel="Default"
+          value="#{data.defaultPort}">
+          <p:ajax listener="#{logic.setDefaultPort}" update="@form:port, @(.configChanged)" />
+        </p:selectBooleanCheckbox>
+      </h:panelGroup>
+      
+      <p:outputLabel for="databaseName" value="#{ivy.cms.co('/com.axonivy.engineconfig.ui/nameLabel/' += data.configData.product)}" />
+      <p:inputText id="databaseName" value="#{data.configData.databaseName}" styleClass="important-sysdb-input">
+        <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+      </p:inputText>
+      
+      <p:outputLabel for="username" value="Username" />
+      <p:inputText id="username" value="#{data.configData.username}" autocomplete="off">
+        <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+      </p:inputText>
+      
+      <p:outputLabel for="password" value="Password" />
+      <p:password id="password" value="#{data.configData.password}" redisplay="true" autocomplete="new-password">
+        <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+      </p:password>
+    </p:panelGrid>
+  
+    <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Finish" update="wizardStepPage" process="@this" immediate="true"
+      icon="ui-icon-navigate-next" styleClass="modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
+    <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
+      icon="ui-icon-navigate-before" styleClass="secondary-btn modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
+  </h:form>
+</html>
