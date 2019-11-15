@@ -4,3 +4,4 @@ Bundle-Name: engine-cockpit
 Bundle-SymbolicName: engine-cockpit
 Bundle-Version: 8.0.0.qualifier
 Require-Bundle: ch.ivyteam.ivy.server.configuration;bundle-version="8.0.0"
+Automatic-Module-Name: engine-cockpit

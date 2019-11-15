@@ -2,23 +2,35 @@ package ch.ivyteam.enginecockpit.configwizard;
 
 import static org.apache.commons.lang3.StringUtils.defaultString;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.db.jdbc.ConnectionConfigurator;
 import ch.ivyteam.db.jdbc.ConnectionProperty;
 import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.ivy.persistence.db.DatabasePersistencyServiceFactory;
 import ch.ivyteam.ivy.server.configuration.Configuration;
+import ch.ivyteam.ivy.server.configuration.system.db.ConnectionState;
+import ch.ivyteam.ivy.server.configuration.system.db.IConnectionListener;
+import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabase;
+import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConnectionTester;
+import ch.ivyteam.util.WaitUtil;
 
 @SuppressWarnings("restriction")
 public class SystemDatabaseHelper
 {
+  private static final int CONNETION_TEST_TIMEOUT = 15;
+  
   public DatabaseProduct product;
   public JdbcDriver driver;
   public String host;
@@ -27,10 +39,15 @@ public class SystemDatabaseHelper
   public String dbName;
   private String password;
   private String userName;
+  private ConnectionInfo connectionInfo;
+  private Configuration systemDbConfig;
+  private Properties additionalProps;
+  private SystemDatabaseConnectionTester tester;
+  private BlockingListener connectionListener;
   
   public SystemDatabaseHelper()
   {
-    Configuration systemDbConfig = Configuration.loadOrCreateConfiguration();
+    systemDbConfig = Configuration.loadOrCreateConfiguration();
     DatabaseConnectionConfiguration config = systemDbConfig.getSystemDatabaseConnectionConfiguration();
     this.driver = JdbcDriver.forConnectionConfiguration(config).orElseThrow();
     this.product = driver.getDatabaseProduct();
@@ -41,15 +58,21 @@ public class SystemDatabaseHelper
     this.dbName = findDatabaseName(properties);
     this.password = config.getPassword();
     this.userName = config.getUserName();
+    this.additionalProps = config.getProperties();
     //TODO: additional properties
+    
+    connectionListener = new BlockingListener();
+    this.tester = getSystemDb().getConnectionTester();
+    this.tester.addConnectionListener(connectionListener);
+    this.connectionInfo = ConnectionInfo.create();
   }
   
-  public Set<DatabaseProduct> getSupportedDatabases()
+  private Set<DatabaseProduct> getSupportedDatabases()
   {
     return DatabasePersistencyServiceFactory.getSupportedDatabases();
   }
   
-  public List<JdbcDriver> getSupportedDrivers()
+  private List<JdbcDriver> getSupportedDrivers()
   {
     return DatabasePersistencyServiceFactory.getSupportedJdbcDrivers().stream()
             .filter(JdbcDriver::isInstalled)
@@ -57,24 +80,39 @@ public class SystemDatabaseHelper
             .collect(Collectors.toList());
   }
   
-  public DatabaseProduct getProduct()
+  public List<String> getSupporedDatabaseNames()
+  {
+    return getSupportedDatabases().stream().map(DatabaseProduct::getName).collect(Collectors.toList());
+  }
+  
+  public List<String> getSupportedDriverNames()
+  {
+    return getSupportedDrivers().stream().map(JdbcDriver::getName).collect(Collectors.toList());
+  }
+  
+  public DatabaseProduct getDbProduct()
   {
     return product;
   }
   
-  public void setProduct(DatabaseProduct product)
+  public String getProduct()
   {
-    this.product = product;
+    return product.getName();
   }
   
-  public JdbcDriver getDriver()
+  public void setProduct(String product)
   {
-    return driver;
+    this.product = getSupportedDatabases().stream().filter(p -> StringUtils.equals(p.getName(), product)).findFirst().orElseThrow();
+  }
+  
+  public String getDriver()
+  {
+    return driver.getName();
   }
 
-  public void setDriver(JdbcDriver driver)
+  public void setDriver(String driver)
   {
-    this.driver = driver;
+    this.driver = getSupportedDrivers().stream().filter(d -> StringUtils.equals(d.getName(), driver)).findFirst().orElseThrow();
   }
 
   public String getHost()
@@ -137,6 +175,11 @@ public class SystemDatabaseHelper
   {
     this.userName = userName;
   }
+  
+  public Properties getAdditionalProperties()
+  {
+    return additionalProps;
+  }
 
   private static String findDatabaseName(Map<ConnectionProperty, String> properties)
   {
@@ -158,9 +201,93 @@ public class SystemDatabaseHelper
     return driver.getConnectionConfigurator().getDefaultValue(ConnectionProperty.PORT);
   }
   
-  public void testSystemDbConnection()
+  public void configChanged()
   {
-//    SystemDatabase.initialize(systemDbConfig);
-//    SystemDatabase.getSystemDatabase().getConnectionTester().;
+    
   }
+  
+  public ConnectionInfo getConnectionInfo()
+  {
+    return connectionInfo;
+  }
+  
+  public ConnectionState testConnection()
+  {
+    updateDbConfig();
+    
+    tester.reset();
+    connectionListener.gotResult = false;
+    tester.configurationChanged();
+    try
+    {
+      WaitUtil.await(() -> connectionListener.gotResult, CONNETION_TEST_TIMEOUT, TimeUnit.SECONDS);
+    }
+    catch (TimeoutException ex)
+    {
+      String msg = "Could not connect to database within " + CONNETION_TEST_TIMEOUT + " Seconds";
+      getConnectionInfo().updateConnectionStates(ConnectionState.CONNECTION_FAILED,
+              new TimeoutException(msg),
+              getDbProduct());
+      return ConnectionState.CONNECTION_FAILED;
+    }
+    return tester.getConnectionState();
+  }
+  
+  public SystemDatabase getSystemDb()
+  {
+    SystemDatabase.initialize(systemDbConfig);
+    return SystemDatabase.getSystemDatabase();
+  }
+  
+  public void updateDbConfig()
+  {
+    DatabaseConnectionConfiguration dbConfig = createConfiguration();
+    systemDbConfig.setSystemDatabaseConnectionConfiguration(dbConfig);
+  }
+  
+  public DatabaseConnectionConfiguration createConfiguration()
+  {
+    ConnectionConfigurator configurator = driver.getConnectionConfigurator();
+    Map<ConnectionProperty, String> dbProps = new HashMap<>();
+    
+    dbProps.put(ConnectionProperty.HOST, getHost());
+    dbProps.put(ConnectionProperty.PORT, getPort());
+    dbProps.put(ConnectionProperty.DB_NAME, getDbName());
+    dbProps.put(ConnectionProperty.ORACLE_SERVICE_ID, getDbName());
+
+    DatabaseConnectionConfiguration tempConfig = configurator.getDatabaseConnectionConfiguration(dbProps);
+    DatabaseConnectionConfiguration currentConfig = systemDbConfig.getSystemDatabaseConnectionConfiguration();
+    currentConfig.setConnectionUrl(tempConfig.getConnectionUrl());
+    currentConfig.setDriverName(tempConfig.getDriverName());
+
+    String configDataPw = defaultString(getPassword());
+    
+    String currentConfigPw = defaultString(currentConfig.getPassword());
+    String fakedPassword = "*".repeat(currentConfigPw.length()); 
+    
+    if (!StringUtils.equals(configDataPw, fakedPassword))
+    {
+      currentConfig.setPassword(configDataPw);
+    }
+    currentConfig.setUserName(getUserName());
+    currentConfig.setProperties(getAdditionalProperties());
+    return currentConfig;
+  }
+  
+  private class BlockingListener implements IConnectionListener
+  {
+    private boolean gotResult = false;
+
+    @Override
+    public void connectionStateChanged(ConnectionState newState)
+    {
+      Throwable connectionError = getSystemDb().getConnectionTester().getConnectionError();
+      getConnectionInfo().updateConnectionStates(newState, connectionError, getDbProduct());
+      if (newState != ConnectionState.CONNECTING)
+      {
+        gotResult = true;
+      }
+    }
+  }
+  
 }

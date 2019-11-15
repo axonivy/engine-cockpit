@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @SuppressWarnings("restriction")
 public class AdministratorHelper
@@ -36,7 +35,6 @@ public class AdministratorHelper
   
   public void setAdmin(User admin)
   {
-    Ivy.log().info(admin);
     this.editAdmin = admin;
   }
   

@@ -5,70 +5,65 @@
 
   <h:form id="systemDbForm">
     <p:outputPanel id="connectionPanel" styleClass="connection-panel">
-      <p:commandButton value="Check Connection" id="checkConnectionButton"
-        icon="fa fa-check" styleClass="check-connection"
-        update="@(.configChanged)" onstart="PF('loadingDialog').show(); submitConfigForm(); updateConnectionPanel();"
-        oncomplete="PF('loadingDialog').hide();" >
-        <f:actionListener
-          binding="#{helperBean.testConnection(data.settings)}" />
-      </p:commandButton>
-    <p:outputPanel id="connection"
-      styleClass="alert #{data.settings.connectionInfo.stateCssValue} connection-state configChanged">
-      <h4>
-        <i class="#{data.settings.connectionInfo.connectionIcon}" />
-        <h:outputText value="#{data.settings.connectionInfo.stateTitle}"
-          id="connectionState" styleClass="configChanged" />
-      </h4>
-      <p>
-        <h:outputText value="#{data.settings.connectionInfo.stateMessage}"
-          styleClass="configChanged" />
-      </p>
+      <div class="ui-message ui-staticmessage #{wizardBean.systemDb.connectionInfo.stateCssValue} ui-widget ui-corner-all">
+        <i class="#{wizardBean.systemDb.connectionInfo.connectionIcon}" />
+        <span class="ui-message-error-summary">#{wizardBean.systemDb.connectionInfo.stateTitle}</span>
+        <span class="ui-message-error-detail">#{wizardBean.systemDb.connectionInfo.stateMessage}</span>
+      </div>
+      
+      <div>
+        <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button secondary-btn"
+          icon="ui-icon-check" update="@(.configChanged)" actionListener="#{wizardBean.systemDb.testConnection()}" />
+        <p:commandButton value="Create Database" id="createDatabaseButton" icon="ui-icon-dns" styleClass="wizard-top-button secondary-btn" 
+          update="@(.configChanged)" actionListener="#{wizardBean.systemDb.testConnection()}" disabled="true" />
+        <p:commandButton value="Migrate Database" id="migrateDatabaseButton" icon="ui-icon-autorenew" styleClass="wizard-top-button secondary-btn"
+          update="@(.configChanged)" actionListener="#{wizardBean.systemDb.testConnection()}" disabled="true" />
+      </div>
     </p:outputPanel>
-  </p:outputPanel>
   
     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <p:outputLabel for="databaseType" value="Database" />
       <p:selectOneMenu id="databaseType" value="#{wizardBean.systemDb.product}">
-        <f:selectItems value="#{wizardBean.systemDb.supportedDatabases}" var="database" itemLabel="#{database.name}" itemValue="#{database}" />
-        <p:ajax update="@form" process="@this" />
+        <f:selectItems value="#{wizardBean.systemDb.supporedDatabaseNames}" var="database" itemLabel="#{database}" itemValue="#{database}" />
+        <p:ajax update="@form" process="@this" listener="#{wizardBean.systemDb.configChanged()}" />
       </p:selectOneMenu>
 
       <p:outputLabel for="databaseDriver" value="Driver" />
-      <p:selectOneMenu id="databaseDriver" value="#{wizardBean.systemDb.driver.name}">
-        <f:selectItems value="#{wizardBean.systemDb.supportedDrivers}" var="driver" itemLabel="#{driver.name}" itemValue="#{driver}" />
-        <p:ajax update="@form" process="@this" />
+      <p:selectOneMenu id="databaseDriver" value="#{wizardBean.systemDb.driver}">
+        <f:selectItems value="#{wizardBean.systemDb.supportedDriverNames}" var="driver" itemLabel="#{driver}" itemValue="#{driver}" />
+        <p:ajax update="@form" process="@this" listener="#{wizardBean.systemDb.configChanged()}" />
       </p:selectOneMenu>
       
       <p:outputLabel for="host" value="Host" />
       <p:inputText id="host" value="#{wizardBean.systemDb.host}">
-        <p:ajax event="keydown" update="@(.configChanged)" />
+        <p:ajax event="keydown" update="@(.configChanged)" listener="#{wizardBean.systemDb.configChanged()}" />
       </p:inputText>
       
       <p:outputLabel for="port" value="Port" />
       <h:panelGroup>
         <p:inputText id="port" value="#{wizardBean.systemDb.port}" disabled="#{wizardBean.systemDb.defaultPort}" style="width: calc(100% - 105px);">
-          <p:ajax event="keydown" update="@(.configChanged)" />
+          <p:ajax event="keydown" update="@(.configChanged)" listener="#{wizardBean.systemDb.configChanged()}" />
         </p:inputText>
         <p:selectBooleanCheckbox id="defaultPortCheckbox" style="margin: 0; float: right;"
           itemLabel="Default" value="#{wizardBean.systemDb.defaultPort}" >
-          <p:ajax process="@this" update="@form" />
+          <p:ajax process="@this" update="@form" listener="#{wizardBean.systemDb.configChanged()}" />
         </p:selectBooleanCheckbox>
       </h:panelGroup>
       
-      <p:outputLabel for="databaseName" value="#{wizardBean.systemDb.product.name ? 'Oracle Service ID' : 'Database Name'}" />
+      <p:outputLabel for="databaseName" value="#{wizardBean.systemDb.product ? 'Oracle Service ID' : 'Database Name'}" />
       <p:inputText id="databaseName" value="#{wizardBean.systemDb.dbName}">
-        <p:ajax event="keydown" update="@(.configChanged)" />
+        <p:ajax event="keydown" update="@(.configChanged)" listener="#{wizardBean.systemDb.configChanged()}" />
       </p:inputText>
       
       <p:outputLabel for="username" value="Username" />
       <p:inputText id="username" value="#{wizardBean.systemDb.userName}" autocomplete="off">
-        <p:ajax event="keydown" update="@(.configChanged)" />
+        <p:ajax event="keydown" update="@(.configChanged)" listener="#{wizardBean.systemDb.configChanged()}" />
       </p:inputText>
       
       <p:outputLabel for="password" value="Password" />
       <p:password id="password" value="#{wizardBean.systemDb.password}" redisplay="true" autocomplete="new-password">
-        <p:ajax event="keydown" update="@(.configChanged)" />
+        <p:ajax event="keydown" update="@(.configChanged)" listener="#{wizardBean.systemDb.configChanged()}" />
       </p:password>
     </p:panelGrid>
   
