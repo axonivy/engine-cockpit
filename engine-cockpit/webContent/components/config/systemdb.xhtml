@@ -29,47 +29,46 @@
     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <p:outputLabel for="databaseType" value="Database" />
-      <p:selectOneMenu id="databaseType" value="#{data.configData.product}">
-        <f:selectItems value="#{data.databaseProducts}" var="database" itemLabel="#{database.name}" itemValue="#{database}" />
-        <p:ajax update="port, databaseName, @(.configChanged)" listener="#{logic.updateProduct}" />
+      <p:selectOneMenu id="databaseType" value="#{wizardBean.systemDb.product}">
+        <f:selectItems value="#{wizardBean.systemDb.supportedDatabases}" var="database" itemLabel="#{database.name}" itemValue="#{database}" />
+        <p:ajax update="@form" process="@this" />
       </p:selectOneMenu>
 
       <p:outputLabel for="databaseDriver" value="Driver" />
-      <p:selectOneMenu id="databaseDriver" value="#{data.configData.driver}">
-        <f:selectItems value="#{data.databaseDrivers}" var="driver" itemLabel="#{driver.name}" itemValue="#{driver}" />
-        <p:ajax update="port, @(.configChanged)" listener="#{logic.updateDriver}" />
+      <p:selectOneMenu id="databaseDriver" value="#{wizardBean.systemDb.driver.name}">
+        <f:selectItems value="#{wizardBean.systemDb.supportedDrivers}" var="driver" itemLabel="#{driver.name}" itemValue="#{driver}" />
+        <p:ajax update="@form" process="@this" />
       </p:selectOneMenu>
       
       <p:outputLabel for="host" value="Host" />
-      <p:inputText id="host" value="#{data.configData.host}" styleClass="important-sysdb-input">
-        <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+      <p:inputText id="host" value="#{wizardBean.systemDb.host}">
+        <p:ajax event="keydown" update="@(.configChanged)" />
       </p:inputText>
       
       <p:outputLabel for="port" value="Port" />
       <h:panelGroup>
-        <p:inputText id="port" styleClass="port-input" value="#{data.configData.port}" disabled="#{data.defaultPort}">
-          <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+        <p:inputText id="port" value="#{wizardBean.systemDb.port}" disabled="#{wizardBean.systemDb.defaultPort}" style="width: calc(100% - 105px);">
+          <p:ajax event="keydown" update="@(.configChanged)" />
         </p:inputText>
-        <p:selectBooleanCheckbox id="defaultPortCheckbox"
-          styleClass="port-checkbox" itemLabel="Default"
-          value="#{data.defaultPort}">
-          <p:ajax listener="#{logic.setDefaultPort}" update="@form:port, @(.configChanged)" />
+        <p:selectBooleanCheckbox id="defaultPortCheckbox" style="margin: 0; float: right;"
+          itemLabel="Default" value="#{wizardBean.systemDb.defaultPort}" >
+          <p:ajax process="@this" update="@form" />
         </p:selectBooleanCheckbox>
       </h:panelGroup>
       
-      <p:outputLabel for="databaseName" value="#{ivy.cms.co('/com.axonivy.engineconfig.ui/nameLabel/' += data.configData.product)}" />
-      <p:inputText id="databaseName" value="#{data.configData.databaseName}" styleClass="important-sysdb-input">
-        <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+      <p:outputLabel for="databaseName" value="#{wizardBean.systemDb.product.name ? 'Oracle Service ID' : 'Database Name'}" />
+      <p:inputText id="databaseName" value="#{wizardBean.systemDb.dbName}">
+        <p:ajax event="keydown" update="@(.configChanged)" />
       </p:inputText>
       
       <p:outputLabel for="username" value="Username" />
-      <p:inputText id="username" value="#{data.configData.username}" autocomplete="off">
-        <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+      <p:inputText id="username" value="#{wizardBean.systemDb.userName}" autocomplete="off">
+        <p:ajax event="keydown" update="@(.configChanged)" />
       </p:inputText>
       
       <p:outputLabel for="password" value="Password" />
-      <p:password id="password" value="#{data.configData.password}" redisplay="true" autocomplete="new-password">
-        <p:ajax event="keydown" update="@(.configChanged)" listener="#{logic.change}" />
+      <p:password id="password" value="#{wizardBean.systemDb.password}" redisplay="true" autocomplete="new-password">
+        <p:ajax event="keydown" update="@(.configChanged)" />
       </p:password>
     </p:panelGrid>
   

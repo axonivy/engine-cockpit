@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
     
   <h:form id="adminForm">
-    <p:dataTable var="admin" value="#{wizardBean.admins}">
+    <p:dataTable var="admin" value="#{wizardBean.admins.admins}">
       <p:column headerText="Name">
         <h:outputText value="#{admin.name}" />
       </p:column>
@@ -12,15 +12,15 @@
         <h:outputText value="#{admin.name}" />
       </p:column>
       <p:column style="width: 70px;">
-        <p:commandButton id="deleteAdmin" actionListener="#{wizardBean.removeAdmin(admin)}" update="@form"
+        <p:commandButton id="deleteAdmin" actionListener="#{wizardBean.admins.removeAdmin(admin)}" update="@form"
           icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
-        <p:commandButton id="editPropertyBtn" actionListener="#{wizardBean.setAdmin(admin)}"
+        <p:commandButton id="editPropertyBtn" actionListener="#{wizardBean.admins.setAdmin(admin)}"
           icon="ui-icon-pencil" title="Edit" update="editAdminDialog"
           styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
       </p:column>
     </p:dataTable>
     
-    <p:commandButton id="editPropertyBtn" actionListener="#{wizardBean.addAdmin()}"
+    <p:commandButton id="editPropertyBtn" actionListener="#{wizardBean.admins.addAdmin()}"
       icon="ui-icon-plus" title="Edit" update="editAdminDialog" value="Add Administrator"
       styleClass="secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
    
@@ -41,7 +41,7 @@
         <p:outputLabel for="name" value="Name" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="name" requiredMessage="Value is required"
-            value="#{wizardBean.admin.name}" required="true" />
+            value="#{wizardBean.admins.admin.name}" required="true" />
           <p:message for="name" id="nameMessage">
             <p:autoUpdate />
           </p:message>
@@ -50,14 +50,14 @@
         <p:outputLabel for="email" value="Email" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="email" requiredMessage="Value is required" 
-            value="#{wizardBean.admin.email}" required="true" />
+            value="#{wizardBean.admins.admin.email}" required="true" />
           <p:message for="email" id="emailMessage" />
         </h:panelGroup>
         
         <p:outputLabel for="password1" value="Password" />
         <h:panelGroup styleClass="md-inputfield">
           <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2"
-            value="#{wizardBean.admin.password}" required="true" requiredMessage="Value is required" />
+            value="#{wizardBean.admins.admin.password}" required="true" requiredMessage="Value is required" />
           <p:message for="password1" id="passwordMessage">
             <p:autoUpdate />
           </p:message>
@@ -65,13 +65,13 @@
           
         <p:outputLabel for="password2" value="Confirm Password" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:password id="password2" feedback="true" inline="true" value="#{wizardBean.admin.password}"
+          <p:password id="password2" feedback="true" inline="true" value="#{wizardBean.admins.admin.password}"
             required="true" requiredMessage="Value is required" />
           <p:message for="password2" id="password2Message" />
         </h:panelGroup>
       </p:panelGrid>
       <p:commandButton id="saveAdmin" validateClient="true" update=":adminForm,@form"
-        actionListener="#{wizardBean.saveAdmin()}" value="Save" icon="ui-icon-save"
+        actionListener="#{wizardBean.admins.saveAdmin()}" value="Save" icon="ui-icon-save"
         styleClass="primary-btn modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
       <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
         icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
