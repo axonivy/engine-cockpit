@@ -12,7 +12,7 @@
           onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
         <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-cloud-upload"
           styleClass="primary-btn modal-input-button" onclick="upload();"/>
-        <h:outputText id="uploadStatus" styleClass="file-upload-error" />
+        <div id="uploadStatus" class="file-upload-error" />
       </p:panelGrid>
       <div id="drop_zone" class="ui-g-12" style="margin-bottom: 20px; height: 100px; line-height: 100px; text-align: center;">
         <span id="selectedFileOutput" class="file-upload-file" style="text-align: center; vertical-align: middle;">Choose or drop a licence file.</span>
