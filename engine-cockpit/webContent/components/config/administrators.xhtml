@@ -4,6 +4,12 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
     
   <h:form id="adminForm">
+  	<div class="ui-g">
+      <p:commandButton id="editPropertyBtn" actionListener="#{wizardBean.admins.addAdmin()}"
+        icon="ui-icon-plus" title="Edit" update="editAdminDialog" value="Add Administrator"
+        styleClass="wizard-top-button secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
+    </div>
+      
     <p:dataTable var="admin" value="#{wizardBean.admins.admins}">
       <p:column headerText="Name">
         <h:outputText value="#{admin.name}" />
@@ -20,12 +26,8 @@
       </p:column>
     </p:dataTable>
     
-    <p:commandButton id="editPropertyBtn" actionListener="#{wizardBean.admins.addAdmin()}"
-      icon="ui-icon-plus" title="Edit" update="editAdminDialog" value="Add Administrator"
-      styleClass="secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
-   
     <br />
-   
+    
     <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
       icon="ui-icon-navigate-next" styleClass="modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
     <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"

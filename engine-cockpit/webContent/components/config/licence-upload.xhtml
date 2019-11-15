@@ -12,7 +12,7 @@
           onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
         <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-cloud-upload"
           styleClass="primary-btn modal-input-button" onclick="upload();"/>
-        <h:outputText id="uploadError" styleClass="file-upload-error" />
+        <h:outputText id="uploadStatus" styleClass="file-upload-error" />
       </p:panelGrid>
       <div id="drop_zone" class="ui-g-12" style="margin-bottom: 20px; height: 100px; line-height: 100px; text-align: center;">
         <span id="selectedFileOutput" class="file-upload-file" style="text-align: center; vertical-align: middle;">Choose or drop a licence file.</span>
@@ -78,35 +78,35 @@
     function upload() {
       if (!file)
       {
-        $('#uploadError').text("Choose a valid file before upload.");
+        $('#uploadStatus').text("Choose a valid file before upload.");
         return;
       }
       
       $.ajax({
-        url: '/#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}',
+        url: '/#{advisorBean.apiBaseUrl}/#{advisorBean.app}/licence',
         mimeType: 'multipart/form-data',
         cache: false,
         contentType: false,
         processData: false,
+        data: buildFormData(),
         method: 'POST',
         headers: {"X-Requested-By": "engine-cockpit"},
         async: true,
         crossDomain: false,
-        beforeSend: function(xhr) {
-          $('#fileUploadResponse').show();
-          $('#fileUploadForm').hide();
-          $('#uploadFileSpinner').show();
-        }
       }).done(function(response){
+        //TODO: handle response
         $('#uploadLog').text(response);
         $('#uploadStatus').text("Success").css("color", "green");
       }).fail(function(request, status, error) {
         $('#uploadLog').text(request.responseText);
         $('#uploadStatus').text("Error").css("color", "red");
-      }).always(function() {
-        $('#uploadFileSpinner').hide();
-        PF('fileUploadModal').initPosition();
       });
+    }
+    
+    function buildFormData() {
+      var form_data = new FormData();
+      form_data.append('licence', file, file.name);
+      return form_data;
     }
   </script>
 </html>
