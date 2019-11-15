@@ -14,7 +14,7 @@ public class SystemDatabaseAdvice
           throws Exception
   {
     ConnectionState newState = settings.testConnection();
-    return getAdvice(newState, settings.getProduct(), settings.getConnectionInfo()
+    return getAdvice(newState, settings.getDbProduct(), settings.getConnectionInfo()
             .getConnectionError());
   }
 
