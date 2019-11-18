@@ -9,6 +9,11 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 @SuppressWarnings("restriction")
 public class AdministratorHelper
 {
+  private static final String ADMINS = "Administrators";
+  private static final String ADMINS_DOT = ADMINS + ".";
+  private static final String PASSWORD = "Password";
+  private static final String DOT_PASSWORD = "." + PASSWORD;
+  private static final String DOT_EMAIL = ".Email";
   private List<User> admins;
   private User editAdmin;
   
@@ -19,11 +24,11 @@ public class AdministratorHelper
   
   private static List<User> initAdmins()
   {
-    return IConfiguration.get().getNames("Administrators", "Password").stream().map(admin -> {
+    return IConfiguration.get().getNames(ADMINS, PASSWORD).stream().map(admin -> {
       User user = new User();
       user.setName(admin);
-      user.setEmail(IConfiguration.get().getOrDefault("Administratos." + admin + ".Email"));
-      user.setPassword(IConfiguration.get().getOrDefault("Administratos." + admin + ".Password"));
+      user.setEmail(IConfiguration.get().getOrDefault(ADMINS_DOT + admin + DOT_EMAIL));
+      user.setPassword(IConfiguration.get().getOrDefault(ADMINS_DOT + admin + DOT_PASSWORD));
       return user;
     }).collect(Collectors.toList());
   }
@@ -41,6 +46,7 @@ public class AdministratorHelper
   public void removeAdmin(User admin)
   {
     admins.remove(admin);
+    IConfiguration.get().remove(ADMINS_DOT + admin.getName());
   }
   
   public void addAdmin()
@@ -59,5 +65,7 @@ public class AdministratorHelper
     {
       admins.add(editAdmin);
     }
+    IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_EMAIL, editAdmin.getEmail());
+    IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_PASSWORD, editAdmin.getPassword());
   }
 }
