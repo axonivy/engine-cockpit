@@ -6,13 +6,17 @@
   <h:form enctype="multipart/form-data" id="fileUploadForm">
     <div class="file-upload">
       <input type="file" id="fileInput" class="deploy-file" required="required" accept=".lic" />
-      <p:panelGrid columns="3" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-6" layout="grid" 
+      <p:panelGrid columns="3" columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3" layout="grid" 
         styleClass="ui-panelgrid-blank">
         <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose licence" 
           onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
-        <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="ui-icon-cloud-upload"
-          styleClass="primary-btn modal-input-button" onclick="upload();"/>
-        <div id="uploadStatus" class="file-upload-error" />
+        <h:panelGroup layout="block">
+          <span id="uploadStatus" class="file-upload-error" style="padding: 0; line-height: 30px;" />
+          <span id="uploadLog" />
+        </h:panelGroup>
+        <h:panelGroup layout="block" style="padding: 8px 0 8px 0; float: right;">
+          <p:commandLink value="Show licence details" onclick="PF('licenceDetailDialog').show();" />
+        </h:panelGroup>
       </p:panelGrid>
       <div id="drop_zone" class="ui-g-12" style="margin-bottom: 20px; height: 100px; line-height: 100px; text-align: center;">
         <span id="selectedFileOutput" class="file-upload-file" style="text-align: center; vertical-align: middle;">Choose or drop a licence file.</span>
@@ -23,6 +27,8 @@
     <p:commandButton id="cancelLicenceStep" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
       icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
   </h:form>
+  
+  <ui:include src="../../dialogs/licenceinfo.xhtml" />
   
   <script>
     var accepts = [".lic"];
@@ -56,6 +62,7 @@
       if (checkFileInput(file)) {
         this.file = file;
         $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
+        upload();
       } else {
         $('#selectedFileOutput').text("Choose or drop a file which ends with: " + accepts);
         this.file = null;
