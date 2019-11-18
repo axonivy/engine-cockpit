@@ -3,80 +3,22 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
     
-  <h:form id="adminForm">
+  <h:form id="newAdminForm">
   	<div class="ui-g">
-      <p:commandButton id="editPropertyBtn" actionListener="#{wizardBean.admins.addAdmin()}"
-        icon="ui-icon-plus" title="Edit" update="editAdminDialog" value="Add Administrator"
+      <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}"
+        icon="ui-icon-plus" title="Edit" update="admins:editAdminDialog" value="Add Administrator"
         styleClass="wizard-top-button secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
     </div>
+  </h:form>
       
-    <p:dataTable var="admin" value="#{wizardBean.admins.admins}">
-      <p:column headerText="Name">
-        <h:outputText value="#{admin.name}" />
-      </p:column>
-      <p:column headerText="Email">
-        <h:outputText value="#{admin.name}" />
-      </p:column>
-      <p:column style="width: 70px;">
-        <p:commandButton id="deleteAdmin" actionListener="#{wizardBean.admins.removeAdmin(admin)}" update="@form"
-          icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
-        <p:commandButton id="editPropertyBtn" actionListener="#{wizardBean.admins.setAdmin(admin)}"
-          icon="ui-icon-pencil" title="Edit" update="editAdminDialog"
-          styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
-      </p:column>
-    </p:dataTable>
+  <cc:Administrators id="admins" />
     
-    <br />
-    
+  <br />
+  
+  <h:form id="wizardForm">
     <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
       icon="ui-icon-navigate-next" styleClass="modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
     <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
       icon="ui-icon-navigate-before" styleClass="secondary-btn modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
   </h:form>
-  
-  <p:dialog widgetVar="editAdminDialog" id="editAdminDialog"
-    header="Add / Edit Administrator" modal="true" closeOnEscape="true"
-    focus="editAdminForm:name">
-    <h:form id="editAdminForm">
-      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
-        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-        <p:outputLabel for="name" value="Name" />
-        <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="name" requiredMessage="Value is required"
-            value="#{wizardBean.admins.admin.name}" required="true" />
-          <p:message for="name" id="nameMessage">
-            <p:autoUpdate />
-          </p:message>
-        </h:panelGroup>
-        
-        <p:outputLabel for="email" value="Email" />
-        <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="email" requiredMessage="Value is required" 
-            value="#{wizardBean.admins.admin.email}" required="true" />
-          <p:message for="email" id="emailMessage" />
-        </h:panelGroup>
-        
-        <p:outputLabel for="password1" value="Password" />
-        <h:panelGroup styleClass="md-inputfield">
-          <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2"
-            value="#{wizardBean.admins.admin.password}" required="true" requiredMessage="Value is required" redisplay="true" />
-          <p:message for="password1" id="passwordMessage">
-            <p:autoUpdate />
-          </p:message>
-        </h:panelGroup>
-          
-        <p:outputLabel for="password2" value="Confirm Password" />
-        <h:panelGroup styleClass="md-inputfield">
-          <p:password id="password2" feedback="true" inline="true" value="#{wizardBean.admins.admin.password}"
-            required="true" requiredMessage="Value is required" redisplay="true" />
-          <p:message for="password2" id="password2Message" />
-        </h:panelGroup>
-      </p:panelGrid>
-      <p:commandButton id="saveAdmin" validateClient="true" update=":adminForm,@form"
-        actionListener="#{wizardBean.admins.saveAdmin()}" value="Save" icon="ui-icon-save"
-        styleClass="primary-btn modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
-      <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
-        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-    </h:form>
-  </p:dialog>
 </html>

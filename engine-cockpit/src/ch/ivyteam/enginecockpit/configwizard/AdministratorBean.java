@@ -3,11 +3,16 @@ package ch.ivyteam.enginecockpit.configwizard;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")
-public class AdministratorHelper
+@ManagedBean
+@ViewScoped
+public class AdministratorBean
 {
   private static final String ADMINS = "Administrators";
   private static final String ADMINS_DOT = ADMINS + ".";
@@ -17,7 +22,7 @@ public class AdministratorHelper
   private List<User> admins;
   private User editAdmin;
   
-  public AdministratorHelper()
+  public AdministratorBean()
   {
     admins = initAdmins();
   }

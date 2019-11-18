@@ -8,19 +8,12 @@ import javax.faces.bean.SessionScoped;
 public class WizardBean
 {
   private STEPS activeStep;
-  private AdministratorHelper admins;
   private SystemDatabaseHelper systemDb;
   
   public WizardBean()
   {
     activeStep = STEPS.LICENCE;
-    admins = new AdministratorHelper();
     systemDb = new SystemDatabaseHelper();
-  }
-  
-  public AdministratorHelper getAdmins()
-  {
-    return admins;
   }
   
   public SystemDatabaseHelper getSystemDb()

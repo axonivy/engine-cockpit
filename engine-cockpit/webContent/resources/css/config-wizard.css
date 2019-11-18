@@ -7,3 +7,13 @@
   margin-right: 5px;
   margin-bottom: 20px;
 }
+body .ui-panelgrid .ui-panelgrid-cell {
+  padding-top: 0;
+}
+#chooseFileBtn {
+  width: 100%;
+}
+#uploadStatus {
+  padding: 0; 
+  line-height: 30px;
+}
