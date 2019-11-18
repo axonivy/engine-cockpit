@@ -164,7 +164,7 @@ public class SearchEngineBean
     try
     {
       Gson gson = new GsonBuilder().setPrettyPrinting().create();
-      return gson.toJson(new JsonParser().parse(result));
+      return gson.toJson(JsonParser.parseString(result));
     }
     catch (Exception e) {
       return result;
