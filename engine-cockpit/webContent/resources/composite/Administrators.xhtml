@@ -4,11 +4,11 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:implementation>
   <h:form id="adminForm">
-    <p:dataTable var="admin" value="#{administratorBean.admins}">
-      <p:column headerText="Name">
-        <h:outputText value="#{admin.name}" />
+    <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable">
+      <p:column headerText="Name" sortBy="#{admin.name}">
+        <h:outputText value="#{admin.name}" styleClass="admin_name" />
       </p:column>
-      <p:column headerText="Email">
+      <p:column headerText="Email" sortBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />
       </p:column>
       <p:column style="width: 70px;">

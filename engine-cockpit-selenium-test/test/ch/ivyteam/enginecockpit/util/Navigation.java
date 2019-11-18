@@ -15,6 +15,7 @@ public class Navigation
   private static final By APPLICATIONS_MENU = By.xpath("//li[@id='menuform:sr_applications']/child::a");
   private static final By SECURITY_MENU = By.xpath("//li[@id='menuform:sr_security']/child::a");
   private static final By SECURITY_SYSTEM_MENU = By.xpath("//li[@id='menuform:sr_security_system']/child::a");
+  private static final By SECURITY_ADMINS = By.xpath("//li[@id='menuform:sr_admins']/child::a");
   private static final By SECURITY_USER_MENU = By.xpath("//li[@id='menuform:sr_users']/child::a");
   private static final By SECURITY_ROLES_MENU = By.xpath("//li[@id='menuform:sr_roles']/child::a");
   private static final By CONFIGURATION_MENU = By.xpath("//li[@id='menuform:sr_configuration']/child::a");
@@ -80,6 +81,12 @@ public class Navigation
     Navigation.toBusinessCalendar(driver);
     driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[contains(@id, 'calendarNode')][text()='" + calendarName + "']").click();
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName));
+  }
+  
+  public static void toAdmins(RemoteWebDriver driver)
+  {
+    toSubMenu(driver, SECURITY_MENU, SECURITY_ADMINS);
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("admins.xhtml"));
   }
   
   public static void toUsers(RemoteWebDriver driver)

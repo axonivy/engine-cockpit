@@ -17,6 +17,8 @@ public class WebTestNavigation extends WebTestBase
     assertView("applications.xhtml", "menuform:sr_applications");
     Navigation.toSecuritySystem(driver);
     assertView("securitysystem.xhtml", "menuform:sr_security_system");
+    Navigation.toAdmins(driver);
+    assertView("admins.xhtml", "menuform:sr_admins");
     Navigation.toUsers(driver);
     assertView("users.xhtml", "menuform:sr_users");
     Navigation.toRoles(driver);
