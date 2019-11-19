@@ -22,16 +22,16 @@
                 </p:steps>
                   
                 <h:panelGroup rendered="#{wizardBean.activeStep eq 0}">
-                  <ui:include src="components/config/licence-upload.xhtml" />
+                  <ui:include src="components/setup/licence-upload.xhtml" />
                 </h:panelGroup>
                 <h:panelGroup rendered="#{wizardBean.activeStep eq 1}">
-                  <ui:include src="components/config/administrators.xhtml" />
+                  <ui:include src="components/setup/administrators.xhtml" />
                 </h:panelGroup>
                 <h:panelGroup rendered="#{wizardBean.activeStep eq 2}">
-                  <ui:include src="components/config/webserver.xhtml" />
+                  <ui:include src="components/setup/webserver.xhtml" />
                 </h:panelGroup>
                 <h:panelGroup rendered="#{wizardBean.activeStep eq 3}">
-                  <ui:include src="components/config/systemdb.xhtml" />
+                  <ui:include src="components/setup/systemdb.xhtml" />
                 </h:panelGroup>
               </h:panelGroup>
             </div>

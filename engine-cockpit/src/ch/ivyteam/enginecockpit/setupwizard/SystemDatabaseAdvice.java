@@ -1,10 +1,10 @@
-package ch.ivyteam.enginecockpit.configwizard;
+package ch.ivyteam.enginecockpit.setupwizard;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.db.jdbc.DatabaseProduct;
-import ch.ivyteam.enginecockpit.configwizard.ConnectionInfo.FailedConnectionState;
+import ch.ivyteam.enginecockpit.setupwizard.ConnectionInfo.FailedConnectionState;
 import ch.ivyteam.ivy.server.configuration.system.db.ConnectionState;
 
 @SuppressWarnings("restriction")

@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.configwizard;
+package ch.ivyteam.enginecockpit.setupwizard;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;

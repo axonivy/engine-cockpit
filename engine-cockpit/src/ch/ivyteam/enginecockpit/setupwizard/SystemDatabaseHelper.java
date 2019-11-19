@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.configwizard;
+package ch.ivyteam.enginecockpit.setupwizard;
 
 import static org.apache.commons.lang3.StringUtils.defaultString;
 

@@ -15,7 +15,9 @@
           <span id="uploadLog" />
         </h:panelGroup>
         <h:panelGroup layout="block" style="padding: 8px 0 8px 0; float: right;">
-          <p:commandLink value="Show licence details" onclick="PF('licenceDetailDialog').show();" />
+          <p:commandLink value="#{licenceBean.organisation} licence" onclick="PF('licenceDetailDialog').show();">
+            <i class="fa fa-search" aria-hidden="true" style="margin-left: 5px;"></i>
+          </p:commandLink>
         </h:panelGroup>
       </p:panelGrid>
       <div id="drop_zone" class="ui-g-12" style="margin-bottom: 20px; height: 100px; line-height: 100px; text-align: center;">

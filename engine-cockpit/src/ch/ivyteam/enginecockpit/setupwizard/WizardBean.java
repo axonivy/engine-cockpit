@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.configwizard;
+package ch.ivyteam.enginecockpit.setupwizard;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;

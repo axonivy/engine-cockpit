@@ -22,4 +22,5 @@ body .ui-growl {
 #uploadStatus {
   padding: 0; 
   line-height: 30px;
+  margin-right: 10px;
 }
