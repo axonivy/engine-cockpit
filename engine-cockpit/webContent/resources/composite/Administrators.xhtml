@@ -2,6 +2,10 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+  <cc:attribute name="updateFields" default="admins:adminForm,@form" />
+</cc:interface>
+  
 <cc:implementation>
   <h:form id="adminForm">
     <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable">
@@ -12,7 +16,7 @@
         <h:outputText value="#{admin.email}" />
       </p:column>
       <p:column style="width: 70px;">
-        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.removeAdmin(admin)}" update="@form"
+        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.removeAdmin(admin)}" update="#{cc.attrs.updateFields}"
           icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
         <p:commandButton id="editPropertyBtn" actionListener="#{administratorBean.setAdmin(admin)}"
           icon="ui-icon-pencil" title="Edit" update="admins:editAdminDialog"
@@ -59,7 +63,7 @@
           <p:message for="password2" id="password2Message" />
         </h:panelGroup>
       </p:panelGrid>
-      <p:commandButton id="saveAdmin" validateClient="true" update="admins:adminForm,@form"
+      <p:commandButton id="saveAdmin" validateClient="true" update="#{cc.attrs.updateFields}"
         actionListener="#{administratorBean.saveAdmin()}" value="Save" icon="ui-icon-save"
         styleClass="primary-btn modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
       <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"

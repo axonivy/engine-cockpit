@@ -52,10 +52,11 @@
       </div>
     </div>
   </h:form>
-  <br />
   
-  <p:commandButton id="wsNextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
-    icon="ui-icon-navigate-next" styleClass="modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
-  <p:commandButton id="wsPrevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
-    icon="ui-icon-navigate-before" styleClass="secondary-btn modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
+  <h:panelGroup id="wsWizardStepButtons">
+    <p:commandButton id="wsNextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
+      icon="ui-icon-navigate-next" styleClass="wizard-step-button" />
+    <p:commandButton id="wsPrevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
+      icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" />
+  </h:panelGroup>
 </html>

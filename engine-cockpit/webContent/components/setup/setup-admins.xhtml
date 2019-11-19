@@ -11,14 +11,13 @@
     </div>
   </h:form>
       
-  <cc:Administrators id="admins" />
+  <cc:Administrators id="admins" updateFields="admins:adminForm,@form,adminWizardStepButtons" />
     
-  <br />
-  
-  <h:form id="wizardForm">
+  <h:panelGroup id="adminWizardStepButtons">
     <p:commandButton id="adminNextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
-      icon="ui-icon-navigate-next" styleClass="modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
+      icon="ui-icon-navigate-next" styleClass="wizard-step-button" disabled="#{empty administratorBean.admins}" />
+    <p:tooltip for="adminNextStep" value="Add at least one administrator." position="top" />
     <p:commandButton id="adminPrevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
-      icon="ui-icon-navigate-before" styleClass="secondary-btn modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
-  </h:form>
+      icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" />
+  </h:panelGroup>
 </html>
