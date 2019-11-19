@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.setupwizard;
+package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
 import java.util.stream.Collectors;

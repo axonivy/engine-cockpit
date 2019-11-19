@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.setupwizard;
+package ch.ivyteam.enginecockpit.services;
 
 import static org.apache.commons.lang3.StringUtils.defaultString;
 
@@ -11,6 +11,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.db.jdbc.ConnectionConfigurator;
@@ -18,6 +21,7 @@ import ch.ivyteam.db.jdbc.ConnectionProperty;
 import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
+import ch.ivyteam.enginecockpit.setupwizard.ConnectionInfo;
 import ch.ivyteam.ivy.persistence.db.DatabasePersistencyServiceFactory;
 import ch.ivyteam.ivy.server.configuration.Configuration;
 import ch.ivyteam.ivy.server.configuration.system.db.ConnectionState;
@@ -27,7 +31,9 @@ import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConnectionTes
 import ch.ivyteam.util.WaitUtil;
 
 @SuppressWarnings("restriction")
-public class SystemDatabaseHelper
+@ManagedBean
+@ViewScoped
+public class SystemDatabaseBean
 {
   private static final int CONNETION_TEST_TIMEOUT = 15;
   
@@ -45,7 +51,7 @@ public class SystemDatabaseHelper
   private SystemDatabaseConnectionTester tester;
   private BlockingListener connectionListener;
   
-  public SystemDatabaseHelper()
+  public SystemDatabaseBean()
   {
     systemDbConfig = Configuration.loadOrCreateConfiguration();
     DatabaseConnectionConfiguration config = systemDbConfig.getSystemDatabaseConnectionConfiguration();
@@ -209,6 +215,11 @@ public class SystemDatabaseHelper
   public ConnectionInfo getConnectionInfo()
   {
     return connectionInfo;
+  }
+  
+  public String getHelpPath()
+  {
+    return "installation/systemdatabase.html";
   }
   
   public ConnectionState testConnection()

@@ -60,8 +60,6 @@
 								</includes>
 							</newImagesFs>
 							<refImages>${project.build.directory}</refImages>
-							<!-- TODO: fix validation (only monitor screenshot under 99.9) -->
-							<requiredSimilarity>98</requiredSimilarity>
 						</configuration>
 					</execution>
 					<execution>

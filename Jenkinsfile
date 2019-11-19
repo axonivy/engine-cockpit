@@ -19,6 +19,10 @@ pipeline {
     booleanParam(name: 'deployArtifacts', defaultValue: false, description: 'Deploy new version of cockpit and screenshots')
   }
 
+  environment {
+    imgSimilarity = getImageSimilarity()
+  }
+
   stages {
     stage('build') {
       steps {
@@ -39,7 +43,7 @@ pipeline {
       }
       steps {
         script {
-          maven cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true"
+          maven cmd: "-f image-validation/pom.xml clean verify -Dmaven.test.failure.ignore=true -Dimg.similarity=${env.imgSimilarity}"
         }
       }
       post {
@@ -77,5 +81,12 @@ pipeline {
       }
     }
   }
+}
 
+def getImageSimilarity() {
+  if (env.BRANCH_NAME == 'master') {
+    return '98'
+  } else {
+    return '95'
+  }
 }

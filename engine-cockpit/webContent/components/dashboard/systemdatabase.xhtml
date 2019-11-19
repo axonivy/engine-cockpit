@@ -8,15 +8,15 @@
   <h:outputText value="System Database" />
 </f:facet>
 <p:commandButton id="helpSystemDbBtn" title="Help" icon="ui-icon-help" type="button"
-  styleClass="secondary-btn card-button" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/#{systemDbBean.helpPath}'); return false;" />
+  styleClass="secondary-btn card-button" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/#{systemDatabaseBean.helpPath}'); return false;" />
 <p:commandButton id="configureSystemDbBtn" title="Configure SystemDb" icon="ui-icon-settings" type="button"
   styleClass="secondary-btn card-button" onclick="window.location.href='systemdb.xhtml'" />
 <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel"
   rendered="#{!licenceBean.demo}">
   <label>URL</label>
-  <h:outputText value="#{systemDbBean.url}" />
+  <h:outputText value="#{systemDatabaseBean.host}" />
   <label>Driver</label>
-  <h:outputText value="#{systemDbBean.driver}" />
+  <h:outputText value="#{systemDatabaseBean.driver}" />
 </p:panelGrid>
 <p:panelGrid rendered="#{licenceBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
   styleClass="ui-panelgrid-blank">
