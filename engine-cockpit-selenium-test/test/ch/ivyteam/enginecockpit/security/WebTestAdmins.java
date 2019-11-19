@@ -40,7 +40,7 @@ public class WebTestAdmins extends WebTestBase
   {
     navigateToAdmins();
     
-    addAdmin("", "", "");
+    addAdmin("", "", "", "");
     webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:nameMessage").getText())
             .contains("Value is required"));
     webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:emailMessage").getText())
