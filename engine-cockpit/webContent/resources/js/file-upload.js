@@ -1,6 +1,7 @@
 var file;
 var directUpload = false;
 var uploadUrl = "";
+var uploadErrorField = "#uploadError";
 
 function initFileUpload() {
 	$(document).ready(function(e) {
@@ -54,7 +55,7 @@ function endsWithAnyAccepts(fileName) {
 function upload() {
   if (!file)
   {
-    $('#uploadStatus').text("Choose a valid file before upload.");
+    $(uploadErrorField).text("Choose a valid file before upload.");
     return;
   }
   
