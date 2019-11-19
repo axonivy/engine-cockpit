@@ -39,9 +39,8 @@
   <p:dialog style="min-width: 300px;" header="Demo licence" id="licNextStepModel"
     widgetVar="licNextStepModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
     <h:form id="licNextStepForm">
-      <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-        <p:staticMessage severity="warn" summary="Demo licence" detail="Do realy you want to continue with a demo licence?" />
-      </p:panelGrid>
+      <p:staticMessage severity="warn" summary="Demo licence" detail="Do realy you want to continue with a demo licence?" />
+      <br />
       <p:commandButton id="licNextStepDemoYes" actionListener="#{wizardBean.nextStep()}" value="Yes" icon="ui-icon-check"
         styleClass="primary-btn modal-input-button" widgetVar="licNextStepDemoYes" update="wizardStepPage" />
       <p:commandButton id="licNextStepDemoNo" onclick="PF('licNextStepModel').hide();" value="Cancel" type="button"

@@ -42,14 +42,14 @@
         
         <p:outputLabel for="email" value="Email" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="email" requiredMessage="Value is required" 
+          <p:inputText id="email" requiredMessage="Value is required" autocomplete="off"
             value="#{administratorBean.admin.email}" required="true" />
           <p:message for="email" id="emailMessage" />
         </h:panelGroup>
         
         <p:outputLabel for="password1" value="Password" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2"
+          <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2" autocomplete="new-password"
             value="#{administratorBean.admin.password}" required="true" requiredMessage="Value is required" redisplay="true" />
           <p:message for="password1" id="passwordMessage">
             <p:autoUpdate />

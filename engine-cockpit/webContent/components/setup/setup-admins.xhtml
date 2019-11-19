@@ -16,7 +16,7 @@
   <h:panelGroup id="adminWizardStepButtons">
     <p:commandButton id="adminNextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
       icon="ui-icon-navigate-next" styleClass="wizard-step-button" disabled="#{empty administratorBean.admins}" />
-    <p:tooltip for="adminNextStep" value="Add at least one administrator." position="top" />
+    <p:tooltip for="adminNextStep" value="Add at least one administrator." position="top" rendered="#{empty administratorBean.admins}" />
     <p:commandButton id="adminPrevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
       icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" />
   </h:panelGroup>
