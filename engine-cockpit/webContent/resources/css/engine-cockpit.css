@@ -411,3 +411,14 @@ body {
 .querytool .querytool-query {
   display: block; overflow: hidden;
 }
+
+/* SystemDb / Wizard */
+.connection-panel .ui-message {
+  margin: 0 0 20px 0;
+}
+.ui-fluid .ui-button.wizard-top-button {
+  float: left;
+  width: 200px;
+  margin-right: 5px;
+  margin-bottom: 20px;
+}

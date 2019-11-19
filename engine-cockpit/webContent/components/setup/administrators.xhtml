@@ -16,9 +16,9 @@
   <br />
   
   <h:form id="wizardForm">
-    <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
+    <p:commandButton id="adminNextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
       icon="ui-icon-navigate-next" styleClass="modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
-    <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
+    <p:commandButton id="adminPrevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
       icon="ui-icon-navigate-before" styleClass="secondary-btn modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
   </h:form>
 </html>
