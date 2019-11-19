@@ -31,6 +31,8 @@ public class WebTestNavigation extends WebTestBase
     assertView("searchengine.xhtml", "menuform:sr_searchengine");
     Navigation.toEmail(driver);
     assertView("email.xhtml", "menuform:sr_email");
+    Navigation.toSystemDb(driver);
+    assertView("systemdb.xhtml", "menuform:sr_systemdb");
     Navigation.toExternalDatabases(driver);
     assertView("externaldatabases.xhtml", "menuform:sr_database");
     Navigation.toWebservices(driver);

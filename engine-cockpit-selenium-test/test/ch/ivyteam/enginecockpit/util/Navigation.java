@@ -24,6 +24,7 @@ public class Navigation
   private static final By SERVICES_MENU = By.xpath("//li[@id='menuform:sr_services']/child::a");
   private static final By SERVICES_SEARCH_ENGINE = By.xpath("//li[@id='menuform:sr_searchengine']/child::a");
   private static final By SERVICES_EMAIL_MENU = By.xpath("//li[@id='menuform:sr_email']/child::a");
+  private static final By SERVICES_SYSTEMDB_MENU = By.xpath("//li[@id='menuform:sr_systemdb']/child::a");
   private static final By SERVICES_DATABASES_MENU = By.xpath("//li[@id='menuform:sr_database']/child::a");
   private static final By SERVICES_RESTCLIENTS_MENU = By.xpath("//li[@id='menuform:sr_rest_client']/child::a");
   private static final By SERVICES_WEBSERVICES_MENU = By.xpath("//li[@id='menuform:sr_web_service']/child::a");
@@ -129,6 +130,12 @@ public class Navigation
   {
     toSubMenu(driver, SERVICES_MENU, SERVICES_EMAIL_MENU);
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("email.xhtml"));
+  }
+
+  public static void toSystemDb(RemoteWebDriver driver)
+  {
+    toSubMenu(driver, SERVICES_MENU, SERVICES_SYSTEMDB_MENU);
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemdb.xhtml"));
   }
   
   public static void toExternalDatabases(RemoteWebDriver driver)

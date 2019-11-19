@@ -55,7 +55,7 @@
             </p:selectBooleanCheckbox>
           </h:panelGroup>
           
-          <p:outputLabel for="databaseName" value="#{wizardBean.systemDb.product ? 'Oracle Service ID' : 'Database Name'}" />
+          <p:outputLabel for="databaseName" id="databaseNameLabel" value="#{wizardBean.systemDb.product eq 'Oracle' ? 'Oracle Service ID' : 'Database Name'}" />
           <p:inputText id="databaseName" value="#{wizardBean.systemDb.dbName}">
             <p:ajax event="keydown" update="@(.configChanged)" listener="#{wizardBean.systemDb.configChanged()}" />
           </p:inputText>
