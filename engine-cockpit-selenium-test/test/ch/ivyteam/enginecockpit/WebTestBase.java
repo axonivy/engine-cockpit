@@ -83,25 +83,32 @@ public class WebTestBase extends WebBase
   
   public static void populateBusinessCalendar(RemoteWebDriver driver)
   {
-    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
-    assertEndPage(driver);
+    runTestProcess(driver, "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
   }
   
   public static void runExternalDbQuery(RemoteWebDriver driver)
   {
-    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
-    assertEndPage(driver);
+    runTestProcess(driver, "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
   }
 
   public static void createBusinessData(RemoteWebDriver driver)
   {
-    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
-    assertEndPage(driver);
+    runTestProcess(driver, "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
   }
   
   public static void createLicenceEvents(RemoteWebDriver driver)
   {
-    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + "/engine-cockpit-test-data/16DD9CFD7CAC310B/start.ivp");
+    runTestProcess(driver, "/engine-cockpit-test-data/16E84204B7FE6C91/addLicenceEvents.ivp");
+  }
+  
+  public static void resetLicence(RemoteWebDriver driver)
+  {
+    runTestProcess(driver, "/engine-cockpit-test-data/16E84204B7FE6C91/resetLicence.ivp");
+  }
+
+  private static void runTestProcess(RemoteWebDriver driver, String processLink)
+  {
+    driver.get(EngineCockpitUrl.base() + "/pro/" + getAppName() + processLink);
     assertEndPage(driver);
   }
   
