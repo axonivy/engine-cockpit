@@ -6,6 +6,9 @@
   <ui:composition template="/template/wizard.xhtml">
   
     <ui:define name="content">
+      <p:growl>
+        <p:autoUpdate/>
+      </p:growl>
       <div class="ui-fluid ">
         <div class="card card-w-title container">
           <div class="ui-g ">
@@ -14,6 +17,7 @@
                 <p:steps activeIndex="#{wizardBean.activeStep}">
                   <p:menuitem value="Licence" />
                   <p:menuitem value="Administrators" />
+                  <p:menuitem value="Web Server" />
                   <p:menuitem value="System Database" />
                 </p:steps>
                   
@@ -24,6 +28,9 @@
                   <ui:include src="components/config/administrators.xhtml" />
                 </h:panelGroup>
                 <h:panelGroup rendered="#{wizardBean.activeStep eq 2}">
+                  <ui:include src="components/config/webserver.xhtml" />
+                </h:panelGroup>
+                <h:panelGroup rendered="#{wizardBean.activeStep eq 3}">
                   <ui:include src="components/config/systemdb.xhtml" />
                 </h:panelGroup>
               </h:panelGroup>
@@ -31,12 +38,6 @@
           </div>
         </div>
       </div>
-      <style>
-        .ui-steps .ui-steps-item {
-          width: 33%;
-        }
-      </style>
-      
     </ui:define>
   </ui:composition>
 </h:body>

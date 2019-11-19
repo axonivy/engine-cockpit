@@ -47,7 +47,8 @@ public class WizardBean
   public static enum STEPS {
     LICENCE (0),
     ADMINS (1),
-    SYSTEMDB (2);
+    WEBSERVER (2),
+    SYSTEMDB (3);
     
     private int value;
     

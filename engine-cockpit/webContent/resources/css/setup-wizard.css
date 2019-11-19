@@ -10,6 +10,12 @@
 body .ui-panelgrid .ui-panelgrid-cell {
   padding-top: 0;
 }
+body .ui-growl {
+  top: 125px;
+}
+.ui-steps .ui-steps-item {
+  width: 25%;
+}
 #chooseFileBtn {
   width: 100%;
 }

@@ -64,6 +64,7 @@ public class WebTestAdmins extends WebTestBase
   {
     table.clickButtonForEntry(user, "deleteAdmin");
     saveScreenshot("delete_admin");
+    assertGrowlMessage(user, "removed");
   }
 
   private void editAdmin(Table table, String user, String email)
@@ -77,11 +78,18 @@ public class WebTestAdmins extends WebTestBase
     
     driver.findElementById("admins:editAdminForm:saveAdmin").click();
     saveScreenshot("edit_admin");
+    assertGrowlMessage(user, "modified");
   }
 
   private void addAdmin(String user, String email, String password)
   {
     addAdmin(user, email, password, password);
+    assertGrowlMessage(user, "added");
+  }
+
+  private void assertGrowlMessage(String user, String msgPart)
+  {
+    webAssertThat(() -> assertThat(driver.findElementByClassName("ui-growl-title").getText()).contains("'" + user + "' " + msgPart + " successfully"));
   }
   
   private void addAdmin(String user, String email, String password, String password2)

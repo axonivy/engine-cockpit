@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+    
+  <h:form>
+    <h:panelGrid columns="3" cellpadding="20" cellspacing="20">
+      <p:fieldset id="httpFieldSet" legend="HTTP Connector">
+        <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
+          <p:outputLabel for="httpEnabledCheckbox" value="Enabled:" />
+          <p:selectBooleanCheckbox id="httpEnabledCheckbox" value="#{webServerConnectorBean.httpEnabled}">
+            <p:ajax process="@this" />
+          </p:selectBooleanCheckbox>
+
+          <p:outputLabel for="httpPortInput" value="Port:" />
+          <p:inputNumber id="httpPortInput" value="#{webServerConnectorBean.httpPort}" minValue="-1" maxValue="1000000" thousandSeparator="">
+            <p:ajax event="keyup" process="@this" />
+          </p:inputNumber>
+        </h:panelGrid>
+      </p:fieldset>
+
+      <p:fieldset id="httpsFieldSet" legend="HTTPS Connector">
+        <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
+          <p:outputLabel for="httpsEnabledCheckbox" value="Enabled:" />
+          <p:selectBooleanCheckbox id="httpsEnabledCheckbox" value="#{webServerConnectorBean.httpsEnabled}">
+            <p:ajax process="@this" />
+          </p:selectBooleanCheckbox>
+
+          <p:outputLabel for="httpsPortInput" value="Port:" />
+          <p:inputNumber id="httpsPortInput" value="#{webServerConnectorBean.httpsPort}" minValue="-1" maxValue="1000000" thousandSeparator="">
+            <p:ajax event="keyup" process="@this" />
+          </p:inputNumber>
+        </h:panelGrid>
+      </p:fieldset>
+
+      <p:fieldset id="ajpFieldSet" legend="AJP Connector">
+        <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
+          <p:outputLabel for="ajpEnabledCheckbox" value="Enabled:" />
+          <p:selectBooleanCheckbox id="ajpEnabledCheckbox" value="#{webServerConnectorBean.ajpEnabled}">
+            <p:ajax process="@this" />
+          </p:selectBooleanCheckbox>
+
+          <p:outputLabel for="ajpPortInput" value="Port:" />
+          <p:inputNumber id="ajpPortInput" value="#{webServerConnectorBean.ajpPort}" minValue="-1" maxValue="1000000" thousandSeparator="">
+            <p:ajax event="keyup" process="@this" />
+          </p:inputNumber>
+        </h:panelGrid>
+      </p:fieldset>
+    </h:panelGrid>
+  </h:form>
+  <br />
+  
+  <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
+    icon="ui-icon-navigate-next" styleClass="modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
+  <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
+    icon="ui-icon-navigate-before" styleClass="secondary-btn modal-input-button" style="width: 100px; margin-right: 5px; float: right;" />
+</html>
