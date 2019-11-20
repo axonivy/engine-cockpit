@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
@@ -19,9 +20,29 @@ public class WebTestSystemDb extends WebTestBase
   {
     navigateToSystemDb();
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("System Database"));
+    assertDefaultValues(driver);
+    
+    //TODO: add connection and assert connection info
+  }
+  
+  @Test
+  void testDefaultPortSwitch()
+  {
+    navigateToSystemDb();
+    assertDefaultPortSwitch(driver);
+  }
+  
+  @Test
+  void testDatabaseDropdownSwitch()
+  {
+    navigateToSystemDb();
+    assertDatabaseTypeSwitch(driver);
+  }
+  
+  public static void assertDefaultValues(RemoteWebDriver driver)
+  {
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
             .contains("Connection state unknown"));
-    
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:databaseType_label").getText())
             .isEqualTo("Hypersonic SQL Db"));
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:databaseDriver_label").getText())
@@ -40,30 +61,24 @@ public class WebTestSystemDb extends WebTestBase
             .isEqualTo(""));
   }
   
-  @Test
-  void testDefaultPortSwitch()
+  public static void assertDefaultPortSwitch(RemoteWebDriver driver)
   {
-    navigateToSystemDb();
     PrimeUi primeUi = new PrimeUi(driver);
     SelectBooleanCheckbox defaultPort = primeUi.selectBooleanCheckbox(By.id("systemDb:systemDbForm:defaultPortCheckbox"));
     webAssertThat(() -> assertThat(defaultPort.isChecked()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:port").isEnabled()).isFalse());
     
     defaultPort.removeChecked();
-    saveScreenshot("remove_default");
     webAssertThat(() -> assertThat(defaultPort.isChecked()).isFalse());
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:port").isEnabled()).isTrue());
     
     defaultPort.setChecked();
-    saveScreenshot("set_default");
     webAssertThat(() -> assertThat(defaultPort.isChecked()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:port").isEnabled()).isFalse());
   }
   
-  @Test
-  void testDatabaseDropdownSwitch()
+  public static void assertDatabaseTypeSwitch(RemoteWebDriver driver)
   {
-    navigateToSystemDb();
     PrimeUi primeUi = new PrimeUi(driver);
     SelectOneMenu dbType = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     SelectOneMenu dbDriver = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));

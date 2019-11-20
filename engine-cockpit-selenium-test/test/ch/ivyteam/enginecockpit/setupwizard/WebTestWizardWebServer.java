@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
@@ -87,5 +88,10 @@ public class WebTestWizardWebServer extends WebTestBase
     saveScreenshot("webserver");
     webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
             .contains("Web Server"));
+  }
+
+  public static void skipWebserverStep(RemoteWebDriver driver)
+  {
+    driver.findElementById("wsNextStep").click();
   }
 }
