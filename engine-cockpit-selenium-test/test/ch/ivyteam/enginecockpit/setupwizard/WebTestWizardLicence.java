@@ -26,8 +26,6 @@ public class WebTestWizardLicence extends WebTestBase
   void testLicenceStep()
   {
     navigateToLicWizardStep();
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
-            .contains("Licence"));
     
     webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm:licDetailLink").getText())
             .contains("Demo licence"));
@@ -95,5 +93,7 @@ public class WebTestWizardLicence extends WebTestBase
   {
     login("setup.xhtml");
     saveScreenshot("lic");
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
+            .contains("Licence"));
   }
 }

@@ -1,10 +1,12 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class WizardBean
 {
   private STEPS activeStep;
@@ -16,6 +18,7 @@ public class WizardBean
   
   public int getActiveStep()
   {
+    Ivy.log().info(activeStep.value);
     return activeStep.value;
   }
   

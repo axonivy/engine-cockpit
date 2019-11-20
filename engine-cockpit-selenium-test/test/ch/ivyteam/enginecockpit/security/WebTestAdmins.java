@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -40,24 +41,8 @@ public class WebTestAdmins extends WebTestBase
   {
     navigateToAdmins();
     
-    addAdmin("", "", "", "");
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:nameMessage").getText())
-            .contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:emailMessage").getText())
-            .contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").getText())
-            .contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:password2Message").getText())
-            .contains("Value is required"));
-    driver.findElementById("admins:editAdminForm:cancelEditAdmin").click();
-    
-    addAdmin("admin", "test@test.com", "password", "pass");
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:nameMessage").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:emailMessage").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:password2Message").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").getText())
-            .contains("Password didn't match"));
+    testAddAdminInvalidValues(driver);
+    testAddAdminInvalidPassword(driver);
   }
   
   private void deleteAdmin(Table table, String user)
@@ -83,8 +68,9 @@ public class WebTestAdmins extends WebTestBase
 
   private void addAdmin(String user, String email, String password)
   {
-    addAdmin(user, email, password, password);
+    addAdmin(driver, user, email, password, password);
     assertGrowlMessage(user, "added");
+    saveScreenshot("save_new_admin");
   }
 
   private void assertGrowlMessage(String user, String msgPart)
@@ -92,7 +78,32 @@ public class WebTestAdmins extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementByClassName("ui-growl-title").getText()).contains("'" + user + "' " + msgPart + " successfully"));
   }
   
-  private void addAdmin(String user, String email, String password, String password2)
+  public static void testAddAdminInvalidPassword(RemoteWebDriver driver)
+  {
+    addAdmin(driver, "admin", "test@test.com", "password", "pass");
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:nameMessage").getText()).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:emailMessage").getText()).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:password2Message").getText()).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").isDisplayed()).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").getText())
+            .contains("Password didn't match"));
+  }
+
+  public static void testAddAdminInvalidValues(RemoteWebDriver driver)
+  {
+    addAdmin(driver, "", "", "", "");
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:nameMessage").getText())
+            .contains("Value is required"));
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:emailMessage").getText())
+            .contains("Value is required"));
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").getText())
+            .contains("Value is required"));
+    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:password2Message").getText())
+            .contains("Value is required"));
+    driver.findElementById("admins:editAdminForm:cancelEditAdmin").click();
+  }
+  
+  public static void addAdmin(RemoteWebDriver driver, String user, String email, String password, String password2)
   {
     driver.findElementById("addAdminForm:newAdminBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminDialog").isDisplayed()).isTrue());
@@ -110,7 +121,6 @@ public class WebTestAdmins extends WebTestBase
     driver.findElementById("admins:editAdminForm:password2").sendKeys(password2);
     
     driver.findElementById("admins:editAdminForm:saveAdmin").click();
-    saveScreenshot("save_new_admin");
   }
 
   private void navigateToAdmins()

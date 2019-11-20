@@ -1,0 +1,87 @@
+[Ivy]
+16E881C7DC458C7D 7.5.0 #module
+>Proto >Proto Collection #zClass
+Cg0 Config Big #zClass
+Cg0 B #cInfo
+Cg0 #process
+Cg0 @TextInP .type .type #zField
+Cg0 @TextInP .processKind .processKind #zField
+Cg0 @TextInP .xml .xml #zField
+Cg0 @TextInP .responsibility .responsibility #zField
+Cg0 @StartRequest f0 '' #zField
+Cg0 @EndTask f1 '' #zField
+Cg0 @StartRequest f3 '' #zField
+Cg0 @EndTask f4 '' #zField
+Cg0 @GridStep f6 '' #zField
+Cg0 @PushWFArc f7 '' #zField
+Cg0 @PushWFArc f2 '' #zField
+Cg0 @GridStep f8 '' #zField
+Cg0 @PushWFArc f9 '' #zField
+Cg0 @PushWFArc f5 '' #zField
+>Proto Cg0 Cg0 Config #zField
+Cg0 f0 outLink cleanupAdmins.ivp #txt
+Cg0 f0 inParamDecl '<> param;' #txt
+Cg0 f0 requestEnabled true #txt
+Cg0 f0 triggerEnabled false #txt
+Cg0 f0 callSignature cleanupAdmins() #txt
+Cg0 f0 caseData businessCase.attach=true #txt
+Cg0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>cleanupAdmins.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Cg0 f0 @C|.responsibility Everybody #txt
+Cg0 f0 81 49 30 30 -51 23 #rect
+Cg0 f0 @|StartRequestIcon #fIcon
+Cg0 f1 337 49 30 30 0 15 #rect
+Cg0 f1 @|EndIcon #fIcon
+Cg0 f3 outLink cleanupConnectors.ivp #txt
+Cg0 f3 inParamDecl '<> param;' #txt
+Cg0 f3 requestEnabled true #txt
+Cg0 f3 triggerEnabled false #txt
+Cg0 f3 callSignature cleanupConnectors() #txt
+Cg0 f3 caseData businessCase.attach=true #txt
+Cg0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>cleanupConnectors.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Cg0 f3 @C|.responsibility Everybody #txt
+Cg0 f3 81 145 30 30 -51 23 #rect
+Cg0 f3 @|StartRequestIcon #fIcon
+Cg0 f4 337 145 30 30 0 15 #rect
+Cg0 f4 @|EndIcon #fIcon
+Cg0 f6 actionTable 'out=in;
+' #txt
+Cg0 f6 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+
+IConfiguration.get().remove("Administrators");' #txt
+Cg0 f6 168 42 112 44 0 -7 #rect
+Cg0 f6 @|StepIcon #fIcon
+Cg0 f7 111 64 168 64 #arcP
+Cg0 f2 280 64 337 64 #arcP
+Cg0 f8 actionTable 'out=in;
+' #txt
+Cg0 f8 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+
+IConfiguration.get().remove("Connector");' #txt
+Cg0 f8 168 138 112 44 0 -7 #rect
+Cg0 f8 @|StepIcon #fIcon
+Cg0 f9 111 160 168 160 #arcP
+Cg0 f5 280 160 337 160 #arcP
+>Proto Cg0 .type engine.cockpit.test.data.Data #txt
+>Proto Cg0 .processKind NORMAL #txt
+>Proto Cg0 0 0 32 24 18 0 #rect
+>Proto Cg0 @|BIcon #fIcon
+Cg0 f0 mainOut f7 tail #connect
+Cg0 f7 head f6 mainIn #connect
+Cg0 f6 mainOut f2 tail #connect
+Cg0 f2 head f1 mainIn #connect
+Cg0 f3 mainOut f9 tail #connect
+Cg0 f9 head f8 mainIn #connect
+Cg0 f8 mainOut f5 tail #connect
+Cg0 f5 head f4 mainIn #connect

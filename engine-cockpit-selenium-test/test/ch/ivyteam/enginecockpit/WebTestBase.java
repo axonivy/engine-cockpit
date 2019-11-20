@@ -114,6 +114,12 @@ public class WebTestBase extends WebBase
   {
     runTestProcess(driver, "/engine-cockpit-test-data/16E84204B7FE6C91/resetLicence.ivp");
   }
+  
+  public static void resetConfig(RemoteWebDriver driver)
+  {
+    runTestProcess(driver, "/engine-cockpit-test-data/16E881C7DC458C7D/cleanupAdmins.ivp");
+    runTestProcess(driver, "/engine-cockpit-test-data/16E881C7DC458C7D/cleanupConnectors.ivp");
+  }
 
   private static void runTestProcess(RemoteWebDriver driver, String processLink)
   {

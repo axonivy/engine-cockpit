@@ -18,6 +18,11 @@ Le0 @EndTask f6 '' #zField
 Le0 @GridStep f7 '' #zField
 Le0 @PushWFArc f8 '' #zField
 Le0 @PushWFArc f9 '' #zField
+Le0 @GridStep f10 '' #zField
+Le0 @StartRequest f11 '' #zField
+Le0 @EndTask f12 '' #zField
+Le0 @PushWFArc f13 '' #zField
+Le0 @PushWFArc f14 '' #zField
 >Proto Le0 Le0 Licence #zField
 Le0 f0 outLink resetLicence.ivp #txt
 Le0 f0 inParamDecl '<> param;' #txt
@@ -82,6 +87,32 @@ Le0 f7 168 138 112 44 0 -7 #rect
 Le0 f7 @|StepIcon #fIcon
 Le0 f8 111 160 168 160 #arcP
 Le0 f9 280 160 337 160 #arcP
+Le0 f10 actionTable 'out=in;
+' #txt
+Le0 f10 actionCode 'import ch.ivyteam.ivy.config.LicenceInstaller;
+LicenceInstaller.install();' #txt
+Le0 f10 168 234 112 44 0 -8 #rect
+Le0 f10 @|StepIcon #fIcon
+Le0 f11 outLink installLicence.ivp #txt
+Le0 f11 inParamDecl '<> param;' #txt
+Le0 f11 requestEnabled true #txt
+Le0 f11 triggerEnabled false #txt
+Le0 f11 callSignature installLicence() #txt
+Le0 f11 caseData businessCase.attach=true #txt
+Le0 f11 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>installLicence.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Le0 f11 @C|.responsibility Everybody #txt
+Le0 f11 81 241 30 30 -47 24 #rect
+Le0 f11 @|StartRequestIcon #fIcon
+Le0 f12 337 241 30 30 0 15 #rect
+Le0 f12 @|EndIcon #fIcon
+Le0 f13 111 256 168 256 #arcP
+Le0 f14 280 256 337 256 #arcP
 >Proto Le0 .type engine.cockpit.test.data.Data #txt
 >Proto Le0 .processKind NORMAL #txt
 >Proto Le0 0 0 32 24 18 0 #rect
@@ -94,3 +125,7 @@ Le0 f5 mainOut f8 tail #connect
 Le0 f8 head f7 mainIn #connect
 Le0 f7 mainOut f9 tail #connect
 Le0 f9 head f6 mainIn #connect
+Le0 f11 mainOut f13 tail #connect
+Le0 f13 head f10 mainIn #connect
+Le0 f10 mainOut f14 tail #connect
+Le0 f14 head f12 mainIn #connect
