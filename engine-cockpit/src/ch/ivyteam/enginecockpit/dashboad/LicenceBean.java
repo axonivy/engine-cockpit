@@ -19,6 +19,7 @@ import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.LicenceMessage;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
+import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.SystemLicence;
 
@@ -77,7 +78,7 @@ public class LicenceBean
   {
     try
     {
-      return !isDemo() && SystemLicence.getValidUntil() != null;
+      return SystemLicence.isInstalled() && SystemLicence.getValidUntil() != null;
     }
     catch (DateTimeParseException ex)
     {
@@ -99,7 +100,7 @@ public class LicenceBean
       return false;
     }
   }
-  
+
   public String getUsers()
   {
     return users;
@@ -118,6 +119,35 @@ public class LicenceBean
   public boolean isDemo()
   {
     return SystemLicence.isDemo();
+  }
+  
+  public boolean isInstalled()
+  {
+    return SystemLicence.isInstalled();
+  }
+  
+  public boolean isValid()
+  {
+    return SystemLicence.isValid();
+  }
+  
+  public boolean isExpired()
+  {
+    return SystemLicence.isExpired();
+  }
+  
+  public String getProblemMessage()
+  {
+    String maintenanceMode = EngineMode.is(EngineMode.MAINTENANCE) ? " Your engine runs in maintenance mode." : "";
+    if (isExpired())
+    {
+      return "Your licence has expired."+maintenanceMode;
+    }
+    if (!isValid())
+    {
+      return "Invalid licence installed."+maintenanceMode;
+    }
+    return "";
   }
   
   public List<LicenceMessage> getLicenceEvents()
