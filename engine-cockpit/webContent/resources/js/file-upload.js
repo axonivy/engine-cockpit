@@ -96,12 +96,6 @@ function buildFormData() {
   return form_data;
 }
 
-function buildFormData() {
-  var form_data = new FormData();
-  form_data.append('licence', file, file.name);
-  return form_data;
-}
-
 function beforeUpload() {
   //can be overwritten
 }
