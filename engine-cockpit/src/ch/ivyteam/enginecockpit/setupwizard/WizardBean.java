@@ -1,10 +1,10 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class WizardBean
 {
   private STEPS activeStep;

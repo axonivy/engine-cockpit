@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 
@@ -95,5 +96,14 @@ public class WebTestWizardLicence extends WebTestBase
     saveScreenshot("lic");
     webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
             .contains("Licence"));
+  }
+  
+  static void skipLicStep(RemoteWebDriver driver)
+  {
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
+            .contains("Licence"));
+    driver.findElementById("fileUploadForm:licNextStepDemo").click();
+    webAssertThat(() -> assertThat(driver.findElementById("licNextStepModel").isDisplayed()).isTrue());
+    driver.findElementById("licNextStepForm:licNextStepDemoYes").click();
   }
 }

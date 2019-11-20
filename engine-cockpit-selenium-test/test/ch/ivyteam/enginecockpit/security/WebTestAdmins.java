@@ -17,42 +17,44 @@ public class WebTestAdmins extends WebTestBase
   void testAddEditDeleteAdmin()
   {
     navigateToAdmins();
-    
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Administrators"));
-    Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).isEmpty());
-    
-    String user = "admin";
-    String email = "admin@ivyTeam.ch";
-    String password = "password";
-    addAdmin(user, email, password);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).containsOnly(user));
-    
-    editAdmin(table, user, "test@admin.com");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).containsOnly(user));
-    webAssertThat(() -> assertThat(table.getValueForEntry(user, 2)).isEqualTo("test@admin.com"));
-    
-    deleteAdmin(table, user);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).isEmpty());
+    testAddEditDeleteAdmin(driver);
   }
   
   @Test
   void testAdminDialogInvalid()
   {
     navigateToAdmins();
-    
     testAddAdminInvalidValues(driver);
     testAddAdminInvalidPassword(driver);
   }
   
-  private void deleteAdmin(Table table, String user)
+  public static void testAddEditDeleteAdmin(RemoteWebDriver driver)
+  {
+    Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).isEmpty());
+    
+    String user = "admin";
+    String email = "admin@ivyTeam.ch";
+    String password = "password";
+    addAdmin(driver, user, email, password, password);
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).containsOnly(user));
+    
+    editAdmin(driver, table, user, "test@admin.com");
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).containsOnly(user));
+    webAssertThat(() -> assertThat(table.getValueForEntry(user, 2)).isEqualTo("test@admin.com"));
+    
+    deleteAdmin(driver, table, user);
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).isEmpty());
+  }
+  
+  private static void deleteAdmin(RemoteWebDriver driver, Table table, String user)
   {
     table.clickButtonForEntry(user, "deleteAdmin");
-    saveScreenshot("delete_admin");
-    assertGrowlMessage(user, "removed");
+    assertGrowlMessage(driver, user, "removed");
   }
 
-  private void editAdmin(Table table, String user, String email)
+  private static void editAdmin(RemoteWebDriver driver, Table table, String user, String email)
   {
     table.clickButtonForEntry(user, "editPropertyBtn");
     webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminDialog").isDisplayed()).isTrue());
@@ -62,18 +64,10 @@ public class WebTestAdmins extends WebTestBase
     driver.findElementById("admins:editAdminForm:email").sendKeys(email);
     
     driver.findElementById("admins:editAdminForm:saveAdmin").click();
-    saveScreenshot("edit_admin");
-    assertGrowlMessage(user, "modified");
+    assertGrowlMessage(driver, user, "modified");
   }
 
-  private void addAdmin(String user, String email, String password)
-  {
-    addAdmin(driver, user, email, password, password);
-    assertGrowlMessage(user, "added");
-    saveScreenshot("save_new_admin");
-  }
-
-  private void assertGrowlMessage(String user, String msgPart)
+  private static void assertGrowlMessage(RemoteWebDriver driver, String user, String msgPart)
   {
     webAssertThat(() -> assertThat(driver.findElementByClassName("ui-growl-title").getText()).contains("'" + user + "' " + msgPart + " successfully"));
   }
