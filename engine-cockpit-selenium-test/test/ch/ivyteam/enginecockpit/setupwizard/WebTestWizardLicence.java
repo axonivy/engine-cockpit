@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -94,7 +93,7 @@ public class WebTestWizardLicence extends WebTestBase
   
   private void navigateToLicWizardStep()
   {
-    driver.get(viewUrl("setup.xhtml"));
+    login("setup.xhtml");
     saveScreenshot("lic");
   }
 }

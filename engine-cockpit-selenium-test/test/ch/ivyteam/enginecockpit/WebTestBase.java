@@ -66,14 +66,23 @@ public class WebTestBase extends WebBase
     scrollYBy(driver.findElement(element).getLocation().getY() - 64);
   }
   
+  public void login(String url)
+  {
+    driver.get(viewUrl(url));
+    if (driver.getCurrentUrl().endsWith("login.xhtml"))
+    {
+      webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Engine Cockpit"));
+      driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
+      driver.findElementById("loginForm:password").sendKeys(getAdminUser());
+      driver.findElementById("loginForm:login").click();
+    }
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith(url));
+    webAssertThat(() -> assertThat(driver.findElementById("menuform").isDisplayed()).isTrue());
+  }
+  
   public void login()
   {
-    driver.get(viewUrl("login.xhtml"));
-    driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
-    driver.findElementById("loginForm:password").sendKeys(getAdminUser());
-    driver.findElementById("loginForm:login").click();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
-    webAssertThat(() -> assertThat(driver.findElementById("menuform").isDisplayed()).isTrue());
+    login("dashboard.xhtml");
   }
   
   public static String getAdminUser()
