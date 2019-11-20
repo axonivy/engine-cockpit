@@ -65,7 +65,7 @@ public class WebTestWizardAdmins extends WebTestBase
             .contains("Administrators"));
   }
   
-  static void skipAdminStep(RemoteWebDriver driver)
+  public static void skipAdminStep(RemoteWebDriver driver)
   {
     webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
             .contains("Administrators"));

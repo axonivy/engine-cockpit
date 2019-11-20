@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
+import ch.ivyteam.enginecockpit.setupwizard.WebTestWizardAdmins;
+import ch.ivyteam.enginecockpit.setupwizard.WebTestWizardLicence;
+import ch.ivyteam.enginecockpit.setupwizard.WebTestWizardWebServer;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -17,15 +21,25 @@ public class WebDocuScreenshot extends WebTestBase
 {
 
   private static final int SCREENSHOT_WIDTH = 1500;
-
-  @Test
-  void docuScreeshot()
+  
+  @BeforeEach
+  void setupDocuData()
   {
     populateBusinessCalendar(driver);
     runExternalDbQuery(driver);
     createBusinessData(driver);
-    driver.manage().addCookie(new Cookie("cockpit_menu_default", "cockpit_menu_default", "/"));
-    driver.manage().deleteCookieNamed("serenity_menu_static");
+    addSystemAdmin(driver);
+  }
+  
+  @AfterEach
+  void cleanUpDocuData()
+  {
+    resetConfig(driver);
+  }
+
+  @Test
+  void docuScreeshot()
+  {
     login();
     takeScreenshot("engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toApplications(driver);
@@ -66,12 +80,25 @@ public class WebDocuScreenshot extends WebTestBase
     takeScreenshot("engine-cockpit-rest-clients", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toRestClientDetail(driver, "test-rest");
     takeScreenshot("engine-cockpit-rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
+    Navigation.toAdmins(driver);
+    takeScreenshot("engine-cockpit-system-admins", new Dimension(SCREENSHOT_WIDTH, 500));
+    Navigation.toSystemDb(driver);
+    takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toSystemConfig(driver);
     takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toMonitor(driver);
     takeScreenshot("engine-cockpit-monitor", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toLogs(driver);
     takeScreenshot("engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
+    
+    login("setup.xhtml");
+    takeScreenshot("engine-cockpit-setup-licence", new Dimension(SCREENSHOT_WIDTH, 550));
+    WebTestWizardLicence.skipLicStep(driver);
+    takeScreenshot("engine-cockpit-setup-admins", new Dimension(SCREENSHOT_WIDTH, 550));
+    WebTestWizardAdmins.skipAdminStep(driver);
+    takeScreenshot("engine-cockpit-setup-webserver", new Dimension(SCREENSHOT_WIDTH, 550));
+    WebTestWizardWebServer.skipWebserverStep(driver);
+    takeScreenshot("engine-cockpit-setup-systemdb", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
   public void takeScreenshot(String fileName, Dimension size)

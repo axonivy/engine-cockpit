@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.db.jdbc.DatabaseProduct;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.server.configuration.system.db.ConnectionState;
 import ch.ivyteam.licence.SystemLicence;
 
@@ -37,7 +36,6 @@ public class ConnectionInfo
 
   public void updateConnectionStates(ConnectionState cs, Throwable error, DatabaseProduct product)
   {
-    Ivy.log().info(cs);
     setConnectionState(cs);
     connectionError = error;
     failedConnectionState = SystemDatabaseAdvice.getAdvice(cs, product, connectionError);

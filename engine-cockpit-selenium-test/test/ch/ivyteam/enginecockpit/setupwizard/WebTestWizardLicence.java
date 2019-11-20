@@ -98,7 +98,7 @@ public class WebTestWizardLicence extends WebTestBase
             .contains("Licence"));
   }
   
-  static void skipLicStep(RemoteWebDriver driver)
+  public static void skipLicStep(RemoteWebDriver driver)
   {
     webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
             .contains("Licence"));

@@ -90,19 +90,24 @@ public class WebTestBase extends WebBase
     return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
   }
   
+  public static void addSystemAdmin(RemoteWebDriver driver)
+  {
+    runTestProcess(driver, "/engine-cockpit-test-data/16E88DD61E825E70/addAdministrator.ivp");
+  }
+  
   public static void populateBusinessCalendar(RemoteWebDriver driver)
   {
-    runTestProcess(driver, "/engine-cockpit-test-data/16AD3F265FFA55DD/start.ivp");
+    runTestProcess(driver, "/engine-cockpit-test-data/16E88DD61E825E70/createBusinessCalendar.ivp");
   }
   
   public static void runExternalDbQuery(RemoteWebDriver driver)
   {
-    runTestProcess(driver, "/engine-cockpit-test-data/16C6B9ADB931DEF8/start.ivp");
+    runTestProcess(driver, "/engine-cockpit-test-data/16E88DD61E825E70/runDbExecution.ivp");
   }
 
   public static void createBusinessData(RemoteWebDriver driver)
   {
-    runTestProcess(driver, "/engine-cockpit-test-data/16D80E7AD6FA8FFB/create.ivp");
+    runTestProcess(driver, "/engine-cockpit-test-data/16E88DD61E825E70/createBusinessData.ivp");
   }
   
   public static void createLicenceEvents(RemoteWebDriver driver)
