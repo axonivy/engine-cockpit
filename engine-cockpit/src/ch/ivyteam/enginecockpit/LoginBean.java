@@ -6,6 +6,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.ISession;
 
@@ -15,12 +18,14 @@ public class LoginBean
 {
   private String userName;
   private String password;
+  private String originalUrl;
 
   public void checkLogin()
   {
     if (ISession.get().isSessionUserUnknown())
     {
-      redirect("login.xhtml");
+      originalUrl = evalOriginalUrl();
+      redirect();
     }
   }
 
@@ -28,7 +33,7 @@ public class LoginBean
   {
     if (ISession.get().loginSessionUser(userName, password))
     {
-      redirect("dashboard.xhtml");
+      redirect(StringUtils.isNotBlank(originalUrl) ? originalUrl : "dashboard.xhtml");
       return;
     }
     FacesContext.getCurrentInstance().addMessage(null,
@@ -38,9 +43,20 @@ public class LoginBean
   public void logout()
   {
     ISession.get().logoutSessionUser();
+    redirect();
+  }
+  
+  public void redirectToLoginPage()
+  {
+    originalUrl = evalOriginalUrl();
+    redirect();
+  }
+  
+  private void redirect()
+  {
     redirect("login.xhtml");
   }
-
+  
   private void redirect(String url)
   {
     try
@@ -52,6 +68,12 @@ public class LoginBean
     {
       throw new RuntimeException("Could not send redirect", e);
     }
+  }
+  
+  private static String evalOriginalUrl()
+  {
+    HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+    return request.getRequestURI();
   }
 
   public String getSessionUserName()
