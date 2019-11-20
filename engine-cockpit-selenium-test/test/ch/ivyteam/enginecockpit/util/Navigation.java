@@ -15,7 +15,6 @@ public class Navigation
   private static final By APPLICATIONS_MENU = By.xpath("//li[@id='menuform:sr_applications']/child::a");
   private static final By SECURITY_MENU = By.xpath("//li[@id='menuform:sr_security']/child::a");
   private static final By SECURITY_SYSTEM_MENU = By.xpath("//li[@id='menuform:sr_security_system']/child::a");
-  private static final By SECURITY_ADMINS = By.xpath("//li[@id='menuform:sr_admins']/child::a");
   private static final By SECURITY_USER_MENU = By.xpath("//li[@id='menuform:sr_users']/child::a");
   private static final By SECURITY_ROLES_MENU = By.xpath("//li[@id='menuform:sr_roles']/child::a");
   private static final By CONFIGURATION_MENU = By.xpath("//li[@id='menuform:sr_configuration']/child::a");
@@ -24,10 +23,12 @@ public class Navigation
   private static final By SERVICES_MENU = By.xpath("//li[@id='menuform:sr_services']/child::a");
   private static final By SERVICES_SEARCH_ENGINE = By.xpath("//li[@id='menuform:sr_searchengine']/child::a");
   private static final By SERVICES_EMAIL_MENU = By.xpath("//li[@id='menuform:sr_email']/child::a");
-  private static final By SERVICES_SYSTEMDB_MENU = By.xpath("//li[@id='menuform:sr_systemdb']/child::a");
   private static final By SERVICES_DATABASES_MENU = By.xpath("//li[@id='menuform:sr_database']/child::a");
   private static final By SERVICES_RESTCLIENTS_MENU = By.xpath("//li[@id='menuform:sr_rest_client']/child::a");
   private static final By SERVICES_WEBSERVICES_MENU = By.xpath("//li[@id='menuform:sr_web_service']/child::a");
+  private static final By SYSTEM_MENU = By.xpath("//li[@id='menuform:sr_system']/child::a");
+  private static final By SYSTEM_ADMINS = By.xpath("//li[@id='menuform:sr_admins']/child::a");
+  private static final By SYSTEM_SYSTEMDB_MENU = By.xpath("//li[@id='menuform:sr_systemdb']/child::a");
   private static final By SYSTEM_CONFIG_MENU = By.xpath("//li[@id='menuform:sr_system_config']/child::a");
   private static final By MONITOR_MENU = By.xpath("//li[@id='menuform:sr_monitor']/child::a");
   private static final By LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
@@ -84,12 +85,6 @@ public class Navigation
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName));
   }
   
-  public static void toAdmins(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SECURITY_MENU, SECURITY_ADMINS);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("admins.xhtml"));
-  }
-  
   public static void toUsers(RemoteWebDriver driver)
   {
     toSubMenu(driver, SECURITY_MENU, SECURITY_USER_MENU);
@@ -130,12 +125,6 @@ public class Navigation
   {
     toSubMenu(driver, SERVICES_MENU, SERVICES_EMAIL_MENU);
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("email.xhtml"));
-  }
-
-  public static void toSystemDb(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SERVICES_MENU, SERVICES_SYSTEMDB_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemdb.xhtml"));
   }
   
   public static void toExternalDatabases(RemoteWebDriver driver)
@@ -183,9 +172,21 @@ public class Navigation
     WebBase.webAssertThat(() -> driver.getCurrentUrl().contains("webservicedetail.xhtml?webserviceId=")); 
   }
   
+  public static void toAdmins(RemoteWebDriver driver)
+  {
+    toSubMenu(driver, SYSTEM_MENU, SYSTEM_ADMINS);
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("admins.xhtml"));
+  }
+
+  public static void toSystemDb(RemoteWebDriver driver)
+  {
+    toSubMenu(driver, SYSTEM_MENU, SYSTEM_SYSTEMDB_MENU);
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemdb.xhtml"));
+  }
+  
   public static void toSystemConfig(RemoteWebDriver driver)
   {
-    toMenu(driver, SYSTEM_CONFIG_MENU);
+    toSubMenu(driver, SYSTEM_MENU, SYSTEM_CONFIG_MENU);
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemconfig.xhtml"));
   }
   

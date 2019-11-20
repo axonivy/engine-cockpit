@@ -17,8 +17,6 @@ public class WebTestNavigation extends WebTestBase
     assertView("applications.xhtml", "menuform:sr_applications");
     Navigation.toSecuritySystem(driver);
     assertView("securitysystem.xhtml", "menuform:sr_security_system");
-    Navigation.toAdmins(driver);
-    assertView("admins.xhtml", "menuform:sr_admins");
     Navigation.toUsers(driver);
     assertView("users.xhtml", "menuform:sr_users");
     Navigation.toRoles(driver);
@@ -31,14 +29,16 @@ public class WebTestNavigation extends WebTestBase
     assertView("searchengine.xhtml", "menuform:sr_searchengine");
     Navigation.toEmail(driver);
     assertView("email.xhtml", "menuform:sr_email");
-    Navigation.toSystemDb(driver);
-    assertView("systemdb.xhtml", "menuform:sr_systemdb");
     Navigation.toExternalDatabases(driver);
     assertView("externaldatabases.xhtml", "menuform:sr_database");
     Navigation.toWebservices(driver);
     assertView("webservices.xhtml", "menuform:sr_web_service");
     Navigation.toRestClients(driver);
     assertView("restclients.xhtml", "menuform:sr_rest_client");
+    Navigation.toSystemDb(driver);
+    assertView("systemdb.xhtml", "menuform:sr_systemdb");
+    Navigation.toAdmins(driver);
+    assertView("admins.xhtml", "menuform:sr_admins");
     Navigation.toSystemConfig(driver);
     assertView("systemconfig.xhtml", "menuform:sr_system_config");
     Navigation.toMonitor(driver);
