@@ -28,6 +28,8 @@ import ch.ivyteam.ivy.server.configuration.system.db.ConnectionState;
 import ch.ivyteam.ivy.server.configuration.system.db.IConnectionListener;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabase;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConnectionTester;
+import ch.ivyteam.ivy.server.restricted.EngineMode;
+import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 import ch.ivyteam.util.WaitUtil;
 
 @SuppressWarnings("restriction")
@@ -207,11 +209,6 @@ public class SystemDatabaseBean
     return driver.getConnectionConfigurator().getDefaultValue(ConnectionProperty.PORT);
   }
   
-  public void configChanged()
-  {
-    
-  }
-  
   public ConnectionInfo getConnectionInfo()
   {
     return connectionInfo;
@@ -220,6 +217,17 @@ public class SystemDatabaseBean
   public String getHelpPath()
   {
     return "installation/systemdatabase.html";
+  }
+  
+  public boolean isHasProblem()
+  {
+    return EngineMode.is(EngineMode.MAINTENANCE) && 
+           MaintenanceReason.isSystemDatabaseReason();
+  }
+  
+  public String getProblemMessage()
+  {
+    return MaintenanceReason.getMessage();
   }
   
   public ConnectionState testConnection()
