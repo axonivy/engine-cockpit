@@ -42,7 +42,13 @@
               </h:form>
               <div class="ui-g">
                 <div class="ui-g-12 ui-md-12">
-                  <cc:Administrators id="admins" />
+                  <h:panelGroup id="adminMessages">
+                    <p:staticMessage rendered="#{administratorBean.dirty}" severity="warn" 
+                      detail="Your engine needs to be restarted if a modification has been made!" />
+                    <p:staticMessage rendered="#{!engineModeBean.demo and empty administratorBean.admins}" severity="error" 
+                      detail="You need to define at least one administrator!" />
+                  </h:panelGroup>
+                  <cc:Administrators id="admins" updateFields="admins:adminForm,@form,adminMessages" />
                 </div>
               </div>
             </div>

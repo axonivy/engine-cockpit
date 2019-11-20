@@ -19,6 +19,7 @@ public class WebTestAdmins extends WebTestBase
     navigateToAdmins();
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Administrators"));
     testAddEditDeleteAdmin(driver);
+    webAssertThat(() -> assertThat(driver.findElementById("adminMessages").getText()).contains("Your engine needs to be restarted"));
   }
   
   @Test

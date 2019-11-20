@@ -23,10 +23,12 @@ public class AdministratorBean
   private static final String DOT_EMAIL = ".Email";
   private List<User> admins;
   private User editAdmin;
+  private boolean dirty;
   
   public AdministratorBean()
   {
     admins = initAdmins();
+    dirty = false;
   }
   
   private static List<User> initAdmins()
@@ -56,6 +58,7 @@ public class AdministratorBean
     IConfiguration.get().remove(ADMINS_DOT + admin.getName());
     FacesContext.getCurrentInstance().addMessage("",
             new FacesMessage("'" + admin.getName() + "' removed successfully"));
+    dirty = true;
   }
   
   public void addAdmin()
@@ -79,5 +82,11 @@ public class AdministratorBean
     IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_EMAIL, editAdmin.getEmail());
     IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_PASSWORD, editAdmin.getPassword());
     FacesContext.getCurrentInstance().addMessage("", message);
+    dirty = true;
+  }
+  
+  public boolean isDirty()
+  {
+    return dirty;
   }
 }
