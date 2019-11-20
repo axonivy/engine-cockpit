@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.security;
+package ch.ivyteam.enginecockpit.system;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -17,9 +17,9 @@
             <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button secondary-btn"
               icon="ui-icon-check" update="@(.configChanged)" actionListener="#{systemDatabaseBean.testConnection()}" />
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="ui-icon-dns" styleClass="wizard-top-button secondary-btn" 
-              update="@(.configChanged)" actionListener="#{systemDatabaseBean.testConnection()}" disabled="true" />
+              update="systemDb:createDatabaseDialog" disabled="#{data.settings.connectionInfo.connectionOK || data.settings.connectionInfo.canConvert()}" />
             <p:commandButton value="Migrate Database" id="migrateDatabaseButton" icon="ui-icon-autorenew" styleClass="wizard-top-button secondary-btn"
-              update="@(.configChanged)" actionListener="#{systemDatabaseBean.testConnection()}" disabled="true" />
+              update="systemDb:convertDatabaseDialog, @(.configChanged)" disabled="#{!systemDatabaseBean.connectionInfo.canConvert()}" />
           </div>
         </p:outputPanel>
       </div>
@@ -70,8 +70,104 @@
             <p:ajax event="keydown" update="@(.configChanged)" />
           </p:password>
         </p:panelGrid>
+        <br />
+        <p:dataTable var="property" value="#{systemDatabaseBean.additionalProperties}" id="additionalPropertiesTable">
+          <p:column headerText="Key">
+            <h:outputText value="#{property.key}" styleClass="property_key" />
+          </p:column>
+          <p:column headerText="Value">
+            <h:outputText value="#{property.value}" />
+          </p:column>
+          <p:column style="width: 40px;">
+            <p:commandButton id="removeAdditionalProperty" actionListener="#{systemDatabaseBean.removeProp(property.key)}" update="@form:additionalPropertiesTable"
+              icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
+          </p:column>
+        </p:dataTable>
+        <p:commandButton id="newAdditionalPropertyBtn" actionListener="#{systemDatabaseBean.addProp()}"
+          icon="ui-icon-plus" title="Add Property" update="systemDb:addAdditionalPropertyDialog" value="Add Property"
+          styleClass="secondary-btn" oncomplete="PF('addAdditionalPropertyDialog').show();" process="@this" 
+          style="float: right; width: 150px; margin-top: 5px;"/>
       </div>
     </div>
   </h:form>
+  
+  <p:dialog id="createDatabaseDialog" widgetVar="createDatabaseDialog"
+    header="Create System Database" modal="true" closeOnEscape="true">
+    <!-- <h:form id="createDatabaseForm">
+      <h:outputText
+        value="Enter the required parameters for your System Database configuration:" />
+      <br />
+      <br />
+      <p:panelGrid>
+        <ui:repeat var="parameter" value="#{data.requiredParameters}"
+          varStatus="status" id="uiRepeat">
+          <p:row>
+            <p:column>
+              <p:outputLabel for="creationParam"
+                value="#{ivy.cms.co('/com.axonivy.engineconfig.ui/creationParameters/' += parameter.name)}" />
+            </p:column>
+            <p:column>
+              <p:inputText
+                value="#{data.configData.creationParameters[parameter.name]}"
+                id="creationParam"
+                disabled="#{parameter.name.equalsIgnoreCase('enginetype')}"
+                required="true" />
+            </p:column>
+          </p:row>
+        </ui:repeat>
+      </p:panelGrid>
+      <br />
+      <p:commandButton value="Create Database"
+        actionListener="#{logic.createDatabase}"
+        update="createDatabaseForm, :#{cc.clientId}:creatingDatabaseForm:doUpdate"
+        oncomplete="if (args &amp;&amp; !args.validationFailed) {PF('createDatabaseDialog').hide(); PF('creatingDatabaseDialog').show();}"
+        id="dialogCreateDbButton" />
+      <p:defaultCommand target="dialogCreateDbButton" />
+    </h:form> -->
+  </p:dialog>
+  
+  <p:dialog id="convertDatabaseDialog" widgetVar="convertDatabaseDialog"
+    header="Do you really want to convert?" dynamic="true" modal="true"
+    closeOnEscape="true">
+    <h:form id="convertDatabaseForm">
+      <p:commandButton id="confirmConvertButton" value="Yes"
+        icon="ui-icon-check" actionListener="#{logic.convertDb}"
+        update="@(.configChanged), :systemDb:systemDbForm:migrateDatabaseButton"
+        styleClass="primary-btn modal-input-button"
+        oncomplete="PF('convertDatabaseDialog').hide(); PF('convertingDatabaseDialog').show();" />
+      <p:commandButton value="Cancel" icon="ui-icon-clear"
+        styleClass="secondary-btn modal-input-button"
+        oncomplete="PF('convertDatabaseDialog').hide();" />
+      <p:defaultCommand target="confirmConvertButton" />
+    </h:form>
+  </p:dialog>
+  
+  <p:dialog widgetVar="addAdditionalPropertyDialog" id="addAdditionalPropertyDialog"
+    header="Add additional property" modal="true" closeOnEscape="true"
+    focus="addAdditionalPropertyForm:key">
+    <h:form id="addAdditionalPropertyForm">
+      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+        <p:outputLabel for="key" value="Key" />
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="key" requiredMessage="Value is required" disabled="#{not empty systemDatabaseBean.propKey}"
+            value="#{systemDatabaseBean.propKey}" required="true" />
+          <p:message for="key" id="keyMessage" />
+        </h:panelGroup>
+        
+        <p:outputLabel for="value" value="Value" />
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="value" requiredMessage="Value is required"
+            value="#{systemDatabaseBean.propValue}" required="true" />
+          <p:message for="value" id="valueMessage" />
+        </h:panelGroup>
+      </p:panelGrid>
+      <p:commandButton id="saveProperty" validateClient="true" update="@form,systemDb:systemDbForm:additionalPropertiesTable"
+        actionListener="#{systemDatabaseBean.saveProp()}" value="Save" icon="ui-icon-save"
+        styleClass="primary-btn modal-input-button" oncomplete="if (!args.validationFailed) PF('addAdditionalPropertyDialog').hide();" />
+      <p:commandButton id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="Cancel" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    </h:form>
+  </p:dialog>
 </cc:implementation>
 </html>

@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.services;
+package ch.ivyteam.enginecockpit.system;
 
 import static org.apache.commons.lang3.StringUtils.defaultString;
 
@@ -50,6 +50,9 @@ public class SystemDatabaseBean
   private ConnectionInfo connectionInfo;
   private Configuration systemDbConfig;
   private Properties additionalProps;
+  private String propKey;
+  private String propValue;
+  
   private SystemDatabaseConnectionTester tester;
   private BlockingListener connectionListener;
   
@@ -67,8 +70,7 @@ public class SystemDatabaseBean
     this.password = config.getPassword();
     this.userName = config.getUserName();
     this.additionalProps = config.getProperties();
-    //TODO: additional properties
-    
+
     connectionListener = new BlockingListener();
     this.tester = getSystemDb().getConnectionTester();
     this.tester.addConnectionListener(connectionListener);
@@ -187,6 +189,42 @@ public class SystemDatabaseBean
   public Properties getAdditionalProperties()
   {
     return additionalProps;
+  }
+  
+  public String getPropKey()
+  {
+    return propKey;
+  }
+
+  public void setPropKey(String propKey)
+  {
+    this.propKey = propKey;
+  }
+
+  public String getPropValue()
+  {
+    return propValue;
+  }
+
+  public void setPropValue(String propValue)
+  {
+    this.propValue = propValue;
+  }
+
+  public void addProp()
+  {
+    propKey = "";
+    propValue = "";
+  }
+  
+  public void removeProp(String key)
+  {
+    additionalProps.remove(key);
+  }
+  
+  public void saveProp()
+  {
+    additionalProps.put(propKey, propValue);
   }
 
   private static String findDatabaseName(Map<ConnectionProperty, String> properties)

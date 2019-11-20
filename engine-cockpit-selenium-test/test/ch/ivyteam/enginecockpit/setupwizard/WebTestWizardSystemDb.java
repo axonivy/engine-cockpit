@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
-import ch.ivyteam.enginecockpit.services.WebTestSystemDb;
+import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 
 public class WebTestWizardSystemDb extends WebTestBase
 {
@@ -32,6 +32,7 @@ public class WebTestWizardSystemDb extends WebTestBase
     WebTestSystemDb.assertDefaultValues(driver);
     WebTestSystemDb.assertDefaultPortSwitch(driver);
     WebTestSystemDb.assertDatabaseTypeSwitch(driver);
+    WebTestSystemDb.assertAdditionalProperties(driver);
   }
 
   private void navigateToSystemDbWizardStep()

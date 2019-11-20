@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.services;
+package ch.ivyteam.enginecockpit.system;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,6 +12,7 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestSystemDb extends WebTestBase
 {
@@ -39,6 +40,54 @@ public class WebTestSystemDb extends WebTestBase
     assertDatabaseTypeSwitch(driver);
   }
   
+  @Test
+  void testAdditionalProperties()
+  {
+    navigateToSystemDb();
+    assertAdditionalProperties(driver);
+  }
+  
+  public static void assertAdditionalProperties(RemoteWebDriver driver)
+  {
+    Table table = new Table(driver, By.id("systemDb:systemDbForm:additionalPropertiesTable"));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("property_key")).isEmpty());
+    
+    driver.findElementById("systemDb:systemDbForm:newAdditionalPropertyBtn").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyDialog").isDisplayed())
+            .isTrue());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:key")
+            .getAttribute("value")).isBlank());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:keyMessage")
+            .getText()).isBlank());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:value")
+            .getAttribute("value")).isBlank());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:valueMessage")
+            .getText()).isBlank());
+    
+    driver.findElementById("systemDb:addAdditionalPropertyForm:saveProperty").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:keyMessage")
+            .getText()).contains("Value is required"));
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:valueMessage")
+            .getText()).contains("Value is required"));
+    
+    driver.findElementById("systemDb:addAdditionalPropertyForm:key").sendKeys("test");
+    driver.findElementById("systemDb:addAdditionalPropertyForm:saveProperty").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:keyMessage")
+            .getText()).isBlank());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:valueMessage")
+            .getText()).contains("Value is required"));
+    
+    driver.findElementById("systemDb:addAdditionalPropertyForm:value").sendKeys("testValue");
+    driver.findElementById("systemDb:addAdditionalPropertyForm:saveProperty").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyDialog").isDisplayed())
+            .isFalse());
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("property_key")).containsOnly("test"));
+    webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("testValue"));
+    
+    table.clickButtonForEntry("test", "removeAdditionalProperty");
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("property_key")).isEmpty());
+  }
+
   public static void assertDefaultValues(RemoteWebDriver driver)
   {
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())

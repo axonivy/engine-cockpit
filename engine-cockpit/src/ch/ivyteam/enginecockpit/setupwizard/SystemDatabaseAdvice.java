@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.db.jdbc.DatabaseProduct;
-import ch.ivyteam.enginecockpit.services.SystemDatabaseBean;
 import ch.ivyteam.enginecockpit.setupwizard.ConnectionInfo.FailedConnectionState;
+import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
 import ch.ivyteam.ivy.server.configuration.system.db.ConnectionState;
 
 @SuppressWarnings("restriction")

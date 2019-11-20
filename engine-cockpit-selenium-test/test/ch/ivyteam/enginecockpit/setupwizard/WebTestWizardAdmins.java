@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
-import ch.ivyteam.enginecockpit.security.WebTestAdmins;
+import ch.ivyteam.enginecockpit.system.WebTestAdmins;
 import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestWizardAdmins extends WebTestBase
