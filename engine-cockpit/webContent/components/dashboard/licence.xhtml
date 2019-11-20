@@ -13,7 +13,7 @@
   icon="ui-icon-notifications" styleClass="secondary-btn card-button" rendered="#{not empty licenceBean.licenceEvents}" />
 <p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
   styleClass="secondary-btn card-button" rendered="#{licenceBean.installed}" onclick="PF('fileUploadModal').show()" />
-<p:panelGrid rendered="#{!licenceBean.demo}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+<p:panelGrid rendered="#{licenceBean.installed}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>
   <h:outputText value="#{licenceBean.organisation}" />
@@ -30,17 +30,13 @@
   <label>Concurrent sessions</label>
   <h:outputText value="#{licenceBean.sessions}" />
 </p:panelGrid>
-<h:panelGroup rendered="#{!licenceBean.installed}">
+<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
   <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}"/>
-</h:panelGroup>
-<h:panelGroup rendered="#{licenceBean.installed and !licenceBean.valid}" styleClass="static-message static-warn-message">
-  <i class="fa fa-exclamation-triangle"/>
-  <h:outputText value="#{licenceBean.problemMessage}"/>
-</h:panelGroup>
-<h:panelGroup rendered="#{!licenceBean.installed or !licenceBean.valid}">
-  <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" 
+  <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn" detail="#{licenceBean.problemMessage}"/>
+  <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" rendered="#{!licenceBean.installed or !licenceBean.valid}"
     icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
-</h:panelGroup>
+</p:panelGrid>
+
 <cc:RenewLicence id="renewLicence" title="Renew Licence"/>
 <cc:FileUpload id="licenceUpload" apiUrl="#{advisorBean.app}/licence" title="Licence Upload" acceptFiles=".lic" />
 <ui:include src="../../dialogs/licenceinfo.xhtml" />

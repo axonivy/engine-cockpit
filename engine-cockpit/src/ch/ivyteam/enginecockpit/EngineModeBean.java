@@ -12,6 +12,6 @@ public class EngineModeBean
 {
   public boolean isDemo()
   {
-    return EngineMode.is(EngineMode.DEMO);
+    return EngineMode.is(EngineMode.DEMO) || EngineMode.is(EngineMode.DESIGNER_EMBEDDED);
   }
 }

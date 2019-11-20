@@ -296,8 +296,6 @@ body {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   padding: 5px 8px;
-  width: 100%;
-  display: inline-block;
 }
 .static-message i {
   margin-left: 5px;
