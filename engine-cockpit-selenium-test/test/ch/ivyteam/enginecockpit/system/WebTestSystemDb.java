@@ -50,7 +50,8 @@ public class WebTestSystemDb extends WebTestBase
   public static void assertAdditionalProperties(RemoteWebDriver driver)
   {
     Table table = new Table(driver, By.id("systemDb:systemDbForm:additionalPropertiesTable"));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("property_key")).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:additionalPropertiesTable").getText())
+            .contains("No records found."));
     
     driver.findElementById("systemDb:systemDbForm:newAdditionalPropertyBtn").click();
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyDialog").isDisplayed())
@@ -85,7 +86,8 @@ public class WebTestSystemDb extends WebTestBase
     webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("testValue"));
     
     table.clickButtonForEntry("test", "removeAdditionalProperty");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("property_key")).isEmpty());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:additionalPropertiesTable").getText())
+            .contains("No records found."));
   }
 
   public static void assertDefaultValues(RemoteWebDriver driver)
