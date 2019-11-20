@@ -24,7 +24,7 @@
         </p:outputPanel>
       </div>
   
-      <div class="ui-g-12 ui-md-12 ui-lg-9">
+      <div class="ui-g-12">
         <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
           styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
           <p:outputLabel for="databaseType" value="Database" />
@@ -69,24 +69,28 @@
           <p:password id="password" value="#{systemDatabaseBean.password}" redisplay="true" autocomplete="new-password">
             <p:ajax event="keydown" update="@(.configChanged)" />
           </p:password>
+          
+          <label>Additional Properties</label>
+          <h:panelGroup>
+            <p:dataTable var="property" value="#{systemDatabaseBean.additionalProperties}" id="additionalPropertiesTable"
+              styleClass="no-header-table">
+              <p:column>
+                <h:outputText value="#{property.key}" styleClass="property_key" />
+              </p:column>
+              <p:column>
+                <h:outputText value="#{property.value}" />
+              </p:column>
+              <p:column style="width: 40px;">
+                <p:commandButton id="removeAdditionalProperty" actionListener="#{systemDatabaseBean.removeProp(property.key)}" update="@form:additionalPropertiesTable"
+                  icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
+              </p:column>
+            </p:dataTable>
+            <p:commandButton id="newAdditionalPropertyBtn" actionListener="#{systemDatabaseBean.addProp()}"
+              icon="ui-icon-plus" title="Add Property" update="systemDb:addAdditionalPropertyDialog" value="Add Property"
+              styleClass="secondary-btn" oncomplete="PF('addAdditionalPropertyDialog').show();" process="@this" 
+              style="float: right; width: 150px; margin-top: 5px;"/>
+          </h:panelGroup>
         </p:panelGrid>
-        <br />
-        <p:dataTable var="property" value="#{systemDatabaseBean.additionalProperties}" id="additionalPropertiesTable">
-          <p:column headerText="Key">
-            <h:outputText value="#{property.key}" styleClass="property_key" />
-          </p:column>
-          <p:column headerText="Value">
-            <h:outputText value="#{property.value}" />
-          </p:column>
-          <p:column style="width: 40px;">
-            <p:commandButton id="removeAdditionalProperty" actionListener="#{systemDatabaseBean.removeProp(property.key)}" update="@form:additionalPropertiesTable"
-              icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
-          </p:column>
-        </p:dataTable>
-        <p:commandButton id="newAdditionalPropertyBtn" actionListener="#{systemDatabaseBean.addProp()}"
-          icon="ui-icon-plus" title="Add Property" update="systemDb:addAdditionalPropertyDialog" value="Add Property"
-          styleClass="secondary-btn" oncomplete="PF('addAdditionalPropertyDialog').show();" process="@this" 
-          style="float: right; width: 150px; margin-top: 5px;"/>
       </div>
     </div>
   </h:form>
@@ -143,7 +147,7 @@
   </p:dialog>
   
   <p:dialog widgetVar="addAdditionalPropertyDialog" id="addAdditionalPropertyDialog"
-    header="Add additional property" modal="true" closeOnEscape="true"
+    header="Additional property" modal="true" closeOnEscape="true"
     focus="addAdditionalPropertyForm:key">
     <h:form id="addAdditionalPropertyForm">
       <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
