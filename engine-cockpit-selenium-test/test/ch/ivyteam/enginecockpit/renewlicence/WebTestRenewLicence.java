@@ -59,7 +59,7 @@ public class WebTestRenewLicence extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
     
-    File file = new File(System.getProperty("user.dir")+"/test/ch/ivyteam/enginecockpit/renewlicence/test.lic");
+    File file = new File(System.getProperty("user.dir")+"/resources/test.lic");
     String path = file.getAbsolutePath();
     driver.findElementById("fileInput").sendKeys(path);
     saveScreenshot("selected_licence");
