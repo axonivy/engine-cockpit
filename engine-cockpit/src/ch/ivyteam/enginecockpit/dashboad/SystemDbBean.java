@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.dashboad;
 
+import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -12,6 +13,8 @@ import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.enginecockpit.util.SystemDbUtil;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.server.restricted.EngineMode;
+import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -66,5 +69,16 @@ public class SystemDbBean
             .filter(Objects::nonNull)
             .map(anchor -> "#systemdb-" + anchor)
             .orElse("");
+  }
+  
+  public boolean isHasProblem()
+  {
+    return EngineMode.is(EngineMode.MAINTENANCE) && 
+           MaintenanceReason.isSystemDatabaseReason();
+  }
+  
+  public String getProblemMessage()
+  {
+    return MaintenanceReason.getMessage();
   }
 }
