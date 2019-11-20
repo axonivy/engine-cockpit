@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.interactions.Actions;
 
@@ -11,6 +12,12 @@ import ch.ivyteam.enginecockpit.WebTestBase;
 
 public class WebTestRenewLicence extends WebTestBase
 {
+  
+  @AfterEach
+  void cleanup()
+  {
+    resetLicence(driver);
+  }
 
   @Test
   public void testRenewRequest()
