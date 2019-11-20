@@ -83,7 +83,7 @@ public class WebDocuScreenshot extends WebTestBase
     Navigation.toAdmins(driver);
     takeScreenshot("engine-cockpit-system-admins", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toSystemDb(driver);
-    takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 800));
+    takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toSystemConfig(driver);
     takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toMonitor(driver);
@@ -98,7 +98,7 @@ public class WebDocuScreenshot extends WebTestBase
     WebTestWizardAdmins.skipAdminStep(driver);
     takeScreenshot("engine-cockpit-setup-webserver", new Dimension(SCREENSHOT_WIDTH, 550));
     WebTestWizardWebServer.skipWebserverStep(driver);
-    takeScreenshot("engine-cockpit-setup-systemdb", new Dimension(SCREENSHOT_WIDTH, 800));
+    takeScreenshot("engine-cockpit-setup-systemdb", new Dimension(SCREENSHOT_WIDTH, 900));
   }
 
   public void takeScreenshot(String fileName, Dimension size)
