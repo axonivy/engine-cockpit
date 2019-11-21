@@ -38,38 +38,55 @@
             <f:selectItems value="#{systemDatabaseBean.supportedDriverNames}" var="driver" itemLabel="#{driver}" itemValue="#{driver}" />
             <p:ajax update="@form" process="@this" />
           </p:selectOneMenu>
-          
-          <p:outputLabel for="host" value="Host" />
-          <p:inputText id="host" value="#{systemDatabaseBean.host}">
-            <p:ajax event="keydown" update="connectionPanel" />
-          </p:inputText>
-          
-          <p:outputLabel for="port" value="Port" />
-          <h:panelGroup>
-            <p:inputText id="port" value="#{systemDatabaseBean.port}" disabled="#{systemDatabaseBean.defaultPort}" style="width: calc(100% - 105px);">
-              <p:ajax event="keydown" update="connectionPanel" />
-            </p:inputText>
-            <p:selectBooleanCheckbox id="defaultPortCheckbox" style="margin: 0; float: right;"
-              itemLabel="Default" value="#{systemDatabaseBean.defaultPort}" >
-              <p:ajax process="@this" update="@form" />
-            </p:selectBooleanCheckbox>
-          </h:panelGroup>
-          
-          <p:outputLabel for="databaseName" id="databaseNameLabel" value="#{systemDatabaseBean.product eq 'Oracle' ? 'Oracle Service ID' : 'Database Name'}" />
-          <p:inputText id="databaseName" value="#{systemDatabaseBean.dbName}">
-            <p:ajax event="keydown" update="connectionPanel" />
-          </p:inputText>
-          
-          <p:outputLabel for="username" value="Username" />
-          <p:inputText id="username" value="#{systemDatabaseBean.userName}" autocomplete="off">
-            <p:ajax event="keydown" update="connectionPanel" />
-          </p:inputText>
-          
-          <p:outputLabel for="password" value="Password" />
-          <p:password id="password" value="#{systemDatabaseBean.password}" redisplay="true" autocomplete="new-password">
-            <p:ajax event="keydown" update="connectionPanel" />
-          </p:password>
-          
+        </p:panelGrid>
+        
+        <p:repeat var="connProp" value="#{systemDatabaseBean.connectionProperties}">
+          <ui:fragment rendered="#{connProp.number}">
+            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
+              styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+              <p:outputLabel for="numberProp" value="#{connProp.label}" />
+              <h:panelGroup>
+                <p:inputNumber id="numberProp" value="#{connProp.value}" required="#{connProp.required}" disabled="#{connProp.defaultValue}"
+                  thousandSeparator="'" decimalPlaces="0" minValue="0" style="width: calc(100% - 105px); display: inline-block;">
+                  <p:ajax event="keyup" update="@form:connectionPanel" />
+                </p:inputNumber>
+                <p:selectBooleanCheckbox id="defaultConnectionProperty" style="margin: 0; float: right;"
+                  itemLabel="Default" value="#{connProp.defaultValue}" >
+                  <p:ajax process="@this" update="@parent:numberProp" />
+                </p:selectBooleanCheckbox>
+              </h:panelGroup>
+            </p:panelGrid>
+          </ui:fragment>
+            
+          <ui:fragment rendered="#{connProp.password}">
+            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
+              styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+              <p:outputLabel for="passwordProperty" value="#{connProp.label}" />
+              <h:panelGroup styleClass="md-inputfield">
+                <p:password id="passwordProperty" value="#{connProp.value}" required="#{connProp.required}" redisplay="true" autocomplete="new-password">
+                  <p:ajax event="keyup" update="@form:connectionPanel,@parent:passwordPropertyMessage" />
+                </p:password>
+                <p:message for="passwordProperty" id="passwordPropertyMessage" />
+              </h:panelGroup>
+            </p:panelGrid>
+          </ui:fragment>
+            
+          <ui:fragment rendered="#{connProp.input}">
+            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
+              styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+              <p:outputLabel for="inputProperty" value="#{connProp.label}" />
+              <h:panelGroup styleClass="md-inputfield">
+                <p:inputText id="inputProperty" value="#{connProp.value}" required="#{connProp.required}" autocomplete="off">
+                  <p:ajax event="keyup" update="@form:connectionPanel,@parent:inputPropertyMessage" />
+                </p:inputText>
+                <p:message for="inputProperty" id="inputPropertyMessage" />
+              </h:panelGroup>
+              </p:panelGrid>
+          </ui:fragment>
+        </p:repeat>
+        
+        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+          styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
           <label>Additional Properties</label>
           <h:panelGroup>
             <p:dataTable var="property" value="#{systemDatabaseBean.additionalProperties}" id="additionalPropertiesTable"

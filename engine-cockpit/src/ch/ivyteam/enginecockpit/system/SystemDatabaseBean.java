@@ -1,8 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
-import static org.apache.commons.lang3.StringUtils.defaultString;
-
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -32,15 +30,9 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 @ViewScoped
 public class SystemDatabaseBean
 {
-  public DatabaseProduct product;
-  public JdbcDriver driver;
-  public String host;
-  public String port;
-  public boolean isDefaultPort;
-  public String dbName;
-  private String password;
-  private String realPassword;
-  private String userName;
+  private DatabaseProduct product;
+  private JdbcDriver driver;
+  private List<SystemDbConnectionProperty> connectionProperties;
   private ConnectionInfo connectionInfo;
   private Configuration systemDbConfig;
   private Properties additionalProps;
@@ -53,13 +45,7 @@ public class SystemDatabaseBean
     DatabaseConnectionConfiguration config = systemDbConfig.getSystemDatabaseConnectionConfiguration();
     this.driver = JdbcDriver.forConnectionConfiguration(config).orElseThrow();
     this.product = driver.getDatabaseProduct();
-    Map<ConnectionProperty, String> properties = driver.getConnectionConfigurator().getDatabaseConnectionProperties(config);
-    this.host = properties.get(ConnectionProperty.HOST);
-    this.port = defaultString(properties.get(ConnectionProperty.PORT));
-    isDefaultPort = getDefaultPort().equals(port);
-    this.dbName = findDatabaseName(properties);
-    setRealPassword(config.getPassword());
-    this.userName = config.getUserName();
+    this.connectionProperties = getConnectionPropertiesList();
     this.additionalProps = config.getProperties();
     this.connectionInfo = new ConnectionInfo();
   }
@@ -100,6 +86,7 @@ public class SystemDatabaseBean
   public void setProduct(String product)
   {
     this.product = getSupportedDatabases().stream().filter(p -> StringUtils.equals(p.getName(), product)).findFirst().orElseThrow();
+    setDriver(getSupportedDriverNames().get(0));
   }
   
   public String getDriver()
@@ -110,85 +97,9 @@ public class SystemDatabaseBean
   public void setDriver(String driver)
   {
     this.driver = getSupportedDrivers().stream().filter(d -> StringUtils.equals(d.getName(), driver)).findFirst().orElseThrow();
+    this.connectionProperties = mergeConnectionProperies(connectionProperties, getConnectionPropertiesList());
   }
 
-  public String getHost()
-  {
-    return host;
-  }
-
-  public void setHost(String host)
-  {
-    this.host = host;
-  }
-
-  public String getPort()
-  {
-    return port;
-  }
-
-  public void setPort(String port)
-  {
-    this.port = port;
-  }
-  
-  public boolean isDefaultPort()
-  {
-    return isDefaultPort;
-  }
-  
-  public void setDefaultPort(boolean defaultPort)
-  {
-    this.isDefaultPort = defaultPort;
-    this.port = defaultPort ? getDefaultPort() : port;
-  }
-
-  public String getDbName()
-  {
-    return dbName;
-  }
-
-  public void setDbName(String dbName)
-  {
-    this.dbName = dbName;
-  }
-
-  public String getPassword()
-  {
-    return password;
-  }
-  
-  public void setPassword(String password)
-  {
-    this.password = password;
-  }
-  
-  //Use for <p:password redisplay="true"> without leak the real password in the DOM
-  private void setRealPassword(String realPassword)
-  {
-    this.password = "*".repeat(realPassword.length()); 
-    this.realPassword = realPassword;
-  }
-  
-  private String getRealPassword()
-  {
-    if (!StringUtils.equals(password, "*".repeat(realPassword.length())))
-    {
-      return password;
-    }
-    return realPassword;
-  }
-
-  public String getUserName()
-  {
-    return userName;
-  }
-
-  public void setUserName(String userName)
-  {
-    this.userName = userName;
-  }
-  
   public Properties getAdditionalProperties()
   {
     return additionalProps;
@@ -230,26 +141,6 @@ public class SystemDatabaseBean
     additionalProps.put(propKey, propValue);
   }
 
-  private static String findDatabaseName(Map<ConnectionProperty, String> properties)
-  {
-    String dbName = properties.get(ConnectionProperty.DB_NAME);
-    if (StringUtils.isNotBlank(dbName))
-    {
-      return dbName;
-    }
-    dbName = properties.get(ConnectionProperty.ORACLE_SERVICE_ID);
-    if (StringUtils.isNotBlank(dbName))
-    {
-      return dbName;
-    }
-    return "";
-  }
-  
-  public String getDefaultPort()
-  {
-    return driver.getConnectionConfigurator().getDefaultValue(ConnectionProperty.PORT);
-  }
-  
   public ConnectionInfo getConnectionInfo()
   {
     return connectionInfo;
@@ -283,26 +174,41 @@ public class SystemDatabaseBean
     systemDbConfig.setSystemDatabaseConnectionConfiguration(dbConfig);
   }
   
+  public List<SystemDbConnectionProperty> getConnectionPropertiesList()
+  {
+    return driver.getConnectionConfigurator().getDatabaseConnectionProperties().stream()
+            .map(p -> new SystemDbConnectionProperty(p, driver.getConnectionConfigurator().getDefaultValue(p)))
+            .collect(Collectors.toList());
+  }
+  
+  private static List<SystemDbConnectionProperty> mergeConnectionProperies(
+          List<SystemDbConnectionProperty> oldProps,
+          List<SystemDbConnectionProperty> newProps)
+  {
+    oldProps.forEach(old -> {
+      newProps.forEach(p -> {
+        if (p.getProperty().equals(old.getProperty()))
+        {
+          p.setValue(old.getValue());
+        }
+      });
+    });
+    return newProps;
+  }
+  
+  public Collection<SystemDbConnectionProperty> getConnectionProperties()
+  {
+    return connectionProperties;
+  }
+  
   public DatabaseConnectionConfiguration createConfiguration()
   {
     ConnectionConfigurator configurator = driver.getConnectionConfigurator();
-    Map<ConnectionProperty, String> dbProps = new HashMap<>();
-    
-    dbProps.put(ConnectionProperty.HOST, getHost());
-    dbProps.put(ConnectionProperty.PORT, getPort());
-    dbProps.put(ConnectionProperty.DB_NAME, getDbName());
-    dbProps.put(ConnectionProperty.ORACLE_SERVICE_ID, getDbName());
-    
-    //configurator.getDatabaseConnectionProperties()
-
-    DatabaseConnectionConfiguration tempConfig = configurator.getDatabaseConnectionConfiguration(dbProps);
-    DatabaseConnectionConfiguration currentConfig = systemDbConfig.getSystemDatabaseConnectionConfiguration();
-    currentConfig.setConnectionUrl(tempConfig.getConnectionUrl());
-    currentConfig.setDriverName(tempConfig.getDriverName());
-    currentConfig.setPassword(getRealPassword());
-    currentConfig.setUserName(getUserName());
-    currentConfig.setProperties(getAdditionalProperties());
-    return currentConfig;
+    Map<ConnectionProperty, String> props = connectionProperties.stream()
+            .collect(Collectors.toMap(p -> p.getProperty(), p -> p.getValue()));
+    DatabaseConnectionConfiguration config = configurator.getDatabaseConnectionConfiguration(props);
+    config.setProperties(getAdditionalProperties());
+    return config;
   }
   
 }
