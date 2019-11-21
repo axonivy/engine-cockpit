@@ -25,6 +25,8 @@ import ch.ivyteam.ivy.persistence.db.DatabasePersistencyServiceFactory;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
 import ch.ivyteam.ivy.server.configuration.Configuration;
+import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConverter;
+import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseCreator;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
@@ -41,6 +43,8 @@ public class SystemDatabaseBean
   private Properties additionalProps;
   private String propKey;
   private String propValue;
+  private SystemDatabaseConverter converter;
+  private SystemDatabaseCreator creator;
   
   public SystemDatabaseBean()
   {
@@ -174,6 +178,63 @@ public class SystemDatabaseBean
   public void saveConfiguration()
   {
     updateDbConfig();
+  }
+  
+  public void createDatabase()
+  {
+    //TODO creation params
+    creator = SystemDatabaseCreator.create(createConfiguration(), null);
+    creator.executeAsync();
+  }
+  
+  public boolean isDbCreatorRunning()
+  {
+    if (creator == null)
+    {
+      return false;
+    }
+    return creator.isRunning();
+  }
+  
+  public String getDbCreatorText()
+  {
+    if (creator == null)
+    {
+      return "";
+    }
+    if (creator.getError() != null)
+    {
+      return creator.getError().getMessage();
+    }
+    return creator.getProgressText();
+  }
+  
+  public void convertDatabase()
+  {
+    converter = SystemDatabaseConverter.create(createConfiguration());
+    converter.executeAsync();
+  }
+  
+  public boolean isDbConversionRunning()
+  {
+    if (converter == null)
+    {
+      return false;
+    }
+    return converter.isRunning();
+  }
+  
+  public String getDbConversionText()
+  {
+    if (converter == null)
+    {
+      return "";
+    }
+    if (converter.getError() != null)
+    {
+      return converter.getError().getMessage();
+    }
+    return converter.getProgressText();
   }
   
   public Collection<SystemDbConnectionProperty> getConnectionProperties()

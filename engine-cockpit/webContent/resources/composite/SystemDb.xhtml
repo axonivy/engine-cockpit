@@ -17,9 +17,9 @@
             <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button secondary-btn"
               icon="ui-icon-check" update="connectionPanel" actionListener="#{systemDatabaseBean.testConnection()}" />
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="ui-icon-dns" styleClass="wizard-top-button secondary-btn" 
-              update="systemDb:createDatabaseDialog" disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
+              type="button" onclick="PF('createDatabaseDialog').show();" disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
             <p:commandButton value="Migrate Database" id="migrateDatabaseButton" icon="ui-icon-autorenew" styleClass="wizard-top-button secondary-btn"
-              update="systemDb:convertDatabaseDialog, connectionPanel" disabled="#{!systemDatabaseBean.connectionInfo.mustConvert}" />
+              type="button" onclick="PF('convertDatabaseDialog').show();" disabled="#{!systemDatabaseBean.connectionInfo.mustConvert}" />
           </div>
         </p:outputPanel>
       </div>
@@ -151,11 +151,20 @@
     header="Do you really want to convert?" dynamic="true" modal="true"
     closeOnEscape="true">
     <h:form id="convertDatabaseForm">
+      <div style="margin-bottom: 20px;">
+        <p:poll autoStart="#{systemDatabaseBean.dbConversionRunning}" id="convertingOutputPoll"
+          widgetVar="convertingOutputPoll"
+          update="@form" interval="1" />
+      
+        <h:outputText rendered="#{systemDatabaseBean.dbConversionRunning}">
+          <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
+        </h:outputText>
+        <h:outputText value="#{systemDatabaseBean.dbConversionText}" />
+      </div>
+      
       <p:commandButton id="confirmConvertButton" value="Yes"
-        icon="ui-icon-check" actionListener="#{logic.convertDb}"
-        update="connectionPanel, :systemDb:systemDbForm:migrateDatabaseButton"
-        styleClass="primary-btn modal-input-button"
-        oncomplete="PF('convertDatabaseDialog').hide(); PF('convertingDatabaseDialog').show();" />
+        icon="ui-icon-check" actionListener="#{systemDatabaseBean.convertDatabase}"
+        update="@form" styleClass="primary-btn modal-input-button" />
       <p:commandButton value="Cancel" icon="ui-icon-clear"
         styleClass="secondary-btn modal-input-button"
         oncomplete="PF('convertDatabaseDialog').hide();" />
