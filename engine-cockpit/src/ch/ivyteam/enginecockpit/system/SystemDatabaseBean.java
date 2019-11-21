@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -7,8 +8,10 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -45,11 +48,11 @@ public class SystemDatabaseBean
     DatabaseConnectionConfiguration config = systemDbConfig.getSystemDatabaseConnectionConfiguration();
     this.driver = JdbcDriver.forConnectionConfiguration(config).orElseThrow();
     this.product = driver.getDatabaseProduct();
-    this.connectionProperties = getConnectionPropertiesList();
+    this.connectionProperties = getConnectionPropertiesList(config);
     this.additionalProps = config.getProperties();
     this.connectionInfo = new ConnectionInfo();
   }
-  
+
   private Set<DatabaseProduct> getSupportedDatabases()
   {
     return DatabasePersistencyServiceFactory.getSupportedDatabases();
@@ -168,13 +171,25 @@ public class SystemDatabaseBean
     connectionInfo = new ConnectionInfo(testConnection);
   }
   
-  public void updateDbConfig()
+  public void saveConfiguration()
   {
-    DatabaseConnectionConfiguration dbConfig = createConfiguration();
-    systemDbConfig.setSystemDatabaseConnectionConfiguration(dbConfig);
+    updateDbConfig();
   }
   
-  public List<SystemDbConnectionProperty> getConnectionPropertiesList()
+  public Collection<SystemDbConnectionProperty> getConnectionProperties()
+  {
+    return connectionProperties;
+  }
+  
+  
+  private List<SystemDbConnectionProperty> getConnectionPropertiesList(DatabaseConnectionConfiguration config)
+  {
+    return driver.getConnectionConfigurator().getDatabaseConnectionProperties(config).entrySet().stream()
+            .map(e -> new SystemDbConnectionProperty(e.getKey(), e.getValue()))
+            .collect(Collectors.toList());
+  }
+  
+  private List<SystemDbConnectionProperty> getConnectionPropertiesList()
   {
     return driver.getConnectionConfigurator().getDatabaseConnectionProperties().stream()
             .map(p -> new SystemDbConnectionProperty(p, driver.getConnectionConfigurator().getDefaultValue(p)))
@@ -196,12 +211,24 @@ public class SystemDatabaseBean
     return newProps;
   }
   
-  public Collection<SystemDbConnectionProperty> getConnectionProperties()
+  private void updateDbConfig()
   {
-    return connectionProperties;
+    DatabaseConnectionConfiguration dbConfig = createConfiguration();
+    systemDbConfig.setSystemDatabaseConnectionConfiguration(dbConfig);
+    try
+    {
+      systemDbConfig.saveConfiguration(true);
+      FacesContext.getCurrentInstance().addMessage("systemDbSave",
+              new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "System Database config saved successfully"));
+    }
+    catch (IOException ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("systemDbSave",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while save system database", ex.getMessage()));
+    }
   }
   
-  public DatabaseConnectionConfiguration createConfiguration()
+  private DatabaseConnectionConfiguration createConfiguration()
   {
     ConnectionConfigurator configurator = driver.getConnectionConfigurator();
     Map<ConnectionProperty, String> props = connectionProperties.stream()

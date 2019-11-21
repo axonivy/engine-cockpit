@@ -19,6 +19,9 @@
     </ui:define>
 
     <ui:define name="content">
+      <p:growl for="systemDbSave" id="systemDbSave" showDetail="true">
+        <p:autoUpdate/>
+      </p:growl>
       <div class="ui-fluid">
         <div class="ui-g">
           <div class="ui-g-12">
@@ -31,11 +34,13 @@
                     </h1>
                   </div>
                   <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
+                    <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="ui-icon-save"
+                      style="width: auto; float: right;" id="saveSystemDbConfig"/>
                   </div>
                 </div>
               </h:form>
               <div class="ui-g">
-                <div class="ui-g-12 ui-md-12 ui-lg-9">
+                <div class="ui-g-12 ui-md-12 ui-lg-12">
                   <cc:SystemDb id="systemDb" />
                 </div>
               </div>
