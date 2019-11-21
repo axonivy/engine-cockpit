@@ -10,7 +10,7 @@ public class User
   private String fullName;
   private String email;
   private String password;
-  private String realPassword;
+  private String realPassword = "";
 
   private boolean loggedIn;
   private long id;
