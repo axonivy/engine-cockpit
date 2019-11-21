@@ -422,8 +422,14 @@ body {
 }
 
 /* SystemDb / Wizard */
-.connection-panel .ui-message {
+.card .ui-staticmessage,
+.connection-panel .ui-staticmessage {
   margin: 0 0 20px 0;
+}
+.connection-panel .ui-message.ui-message-success {
+  background-color: #C7D426;
+  border-color: #C7D426;
+  color: #FFF;
 }
 .ui-fluid .ui-button.wizard-top-button {
   float: left;

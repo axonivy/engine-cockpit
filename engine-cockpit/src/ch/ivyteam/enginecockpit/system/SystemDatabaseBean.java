@@ -39,6 +39,7 @@ public class SystemDatabaseBean
   public boolean isDefaultPort;
   public String dbName;
   private String password;
+  private String realPassword;
   private String userName;
   private ConnectionInfo connectionInfo;
   private Configuration systemDbConfig;
@@ -57,7 +58,7 @@ public class SystemDatabaseBean
     this.port = defaultString(properties.get(ConnectionProperty.PORT));
     isDefaultPort = getDefaultPort().equals(port);
     this.dbName = findDatabaseName(properties);
-    this.password = config.getPassword();
+    setRealPassword(config.getPassword());
     this.userName = config.getUserName();
     this.additionalProps = config.getProperties();
     this.connectionInfo = new ConnectionInfo();
@@ -156,10 +157,26 @@ public class SystemDatabaseBean
   {
     return password;
   }
-
+  
   public void setPassword(String password)
   {
     this.password = password;
+  }
+  
+  //Use for <p:password redisplay="true"> without leak the real password in the DOM
+  private void setRealPassword(String realPassword)
+  {
+    this.password = "*".repeat(realPassword.length()); 
+    this.realPassword = realPassword;
+  }
+  
+  private String getRealPassword()
+  {
+    if (!StringUtils.equals(password, "*".repeat(realPassword.length())))
+    {
+      return password;
+    }
+    return realPassword;
   }
 
   public String getUserName()
@@ -282,16 +299,7 @@ public class SystemDatabaseBean
     DatabaseConnectionConfiguration currentConfig = systemDbConfig.getSystemDatabaseConnectionConfiguration();
     currentConfig.setConnectionUrl(tempConfig.getConnectionUrl());
     currentConfig.setDriverName(tempConfig.getDriverName());
-
-    String configDataPw = defaultString(getPassword());
-    
-    String currentConfigPw = defaultString(currentConfig.getPassword());
-    String fakedPassword = "*".repeat(currentConfigPw.length()); 
-    
-    if (!StringUtils.equals(configDataPw, fakedPassword))
-    {
-      currentConfig.setPassword(configDataPw);
-    }
+    currentConfig.setPassword(getRealPassword());
     currentConfig.setUserName(getUserName());
     currentConfig.setProperties(getAdditionalProperties());
     return currentConfig;

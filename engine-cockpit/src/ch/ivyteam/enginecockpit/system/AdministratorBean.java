@@ -37,7 +37,7 @@ public class AdministratorBean
       User user = new User();
       user.setName(admin);
       user.setEmail(IConfiguration.get().getOrDefault(ADMINS_DOT + admin + DOT_EMAIL));
-      user.setPassword(IConfiguration.get().getOrDefault(ADMINS_DOT + admin + DOT_PASSWORD));
+      user.setRealPassword(IConfiguration.get().getOrDefault(ADMINS_DOT + admin + DOT_PASSWORD));
       return user;
     }).collect(Collectors.toList());
   }
@@ -80,7 +80,7 @@ public class AdministratorBean
       message = new FacesMessage("'" + editAdmin.getName() + "' added successfully");
     }
     IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_EMAIL, editAdmin.getEmail());
-    IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_PASSWORD, editAdmin.getPassword());
+    IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_PASSWORD, editAdmin.getRealPassword());
     FacesContext.getCurrentInstance().addMessage("", message);
     dirty = true;
   }
