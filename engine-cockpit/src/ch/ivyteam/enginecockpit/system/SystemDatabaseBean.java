@@ -38,6 +38,7 @@ public class SystemDatabaseBean
   private DatabaseProduct product;
   private JdbcDriver driver;
   private List<SystemDbConnectionProperty> connectionProperties;
+  private List<SystemDbCreationParameter> creationParameters;
   private ConnectionInfo connectionInfo;
   private Configuration systemDbConfig;
   private Properties additionalProps;
@@ -53,6 +54,7 @@ public class SystemDatabaseBean
     this.driver = JdbcDriver.forConnectionConfiguration(config).orElseThrow();
     this.product = driver.getDatabaseProduct();
     this.connectionProperties = getConnectionPropertiesList(config);
+    this.creationParameters = getCreationParameterList(config);
     this.additionalProps = config.getProperties();
     this.connectionInfo = new ConnectionInfo();
   }
@@ -105,6 +107,7 @@ public class SystemDatabaseBean
   {
     this.driver = getSupportedDrivers().stream().filter(d -> StringUtils.equals(d.getName(), driver)).findFirst().orElseThrow();
     this.connectionProperties = mergeConnectionProperies(connectionProperties, getConnectionPropertiesList());
+    this.creationParameters = getCreationParameterList(createConfiguration());
   }
 
   public Properties getAdditionalProperties()
@@ -242,6 +245,10 @@ public class SystemDatabaseBean
     return connectionProperties;
   }
   
+  public List<SystemDbCreationParameter> getCreationParams()
+  {
+    return creationParameters;
+  }
   
   private List<SystemDbConnectionProperty> getConnectionPropertiesList(DatabaseConnectionConfiguration config)
   {
@@ -254,6 +261,13 @@ public class SystemDatabaseBean
   {
     return driver.getConnectionConfigurator().getDatabaseConnectionProperties().stream()
             .map(p -> new SystemDbConnectionProperty(p, driver.getConnectionConfigurator().getDefaultValue(p)))
+            .collect(Collectors.toList());
+  }
+  
+  private static List<SystemDbCreationParameter> getCreationParameterList(DatabaseConnectionConfiguration config)
+  {
+    return DatabasePersistencyServiceFactory.createDatabaseCreator(config).getDatabaseCreationParameters().stream()
+            .map(para -> new SystemDbCreationParameter(para))
             .collect(Collectors.toList());
   }
   

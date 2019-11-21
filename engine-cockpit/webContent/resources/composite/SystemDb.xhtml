@@ -81,7 +81,7 @@
                 </p:inputText>
                 <p:message for="inputProperty" id="inputPropertyMessage" />
               </h:panelGroup>
-              </p:panelGrid>
+            </p:panelGrid>
           </ui:fragment>
         </p:repeat>
         
@@ -114,37 +114,39 @@
   
   <p:dialog id="createDatabaseDialog" widgetVar="createDatabaseDialog"
     header="Create System Database" modal="true" closeOnEscape="true">
-    <!-- <h:form id="createDatabaseForm">
-      <h:outputText
-        value="Enter the required parameters for your System Database configuration:" />
+    <h:form id="createDatabaseForm">
+      <h:outputText value="Enter the required parameters for your System Database configuration:" />
       <br />
       <br />
-      <p:panelGrid>
-        <ui:repeat var="parameter" value="#{data.requiredParameters}"
-          varStatus="status" id="uiRepeat">
-          <p:row>
-            <p:column>
-              <p:outputLabel for="creationParam"
-                value="#{ivy.cms.co('/com.axonivy.engineconfig.ui/creationParameters/' += parameter.name)}" />
-            </p:column>
-            <p:column>
-              <p:inputText
-                value="#{data.configData.creationParameters[parameter.name]}"
-                id="creationParam"
-                disabled="#{parameter.name.equalsIgnoreCase('enginetype')}"
-                required="true" />
-            </p:column>
-          </p:row>
-        </ui:repeat>
-      </p:panelGrid>
-      <br />
-      <p:commandButton value="Create Database"
-        actionListener="#{logic.createDatabase}"
-        update="createDatabaseForm, :#{cc.clientId}:creatingDatabaseForm:doUpdate"
-        oncomplete="if (args &amp;&amp; !args.validationFailed) {PF('createDatabaseDialog').hide(); PF('creatingDatabaseDialog').show();}"
-        id="dialogCreateDbButton" />
-      <p:defaultCommand target="dialogCreateDbButton" />
-    </h:form> -->
+      <p:repeat var="para" value="#{systemDatabaseBean.creationParams}">
+        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
+          styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+          <p:outputLabel for="creationParam" value="#{para.label}" />
+          <h:panelGroup styleClass="md-inputfield">
+            <p:inputText id="creationParam" value="#{para.value}" required="true"
+              disabled="#{para.label.equalsIgnoreCase('enginetype')}" />
+            <p:message for="creationParam" id="creationParamMessage" />
+          </h:panelGroup>
+        </p:panelGrid>
+      </p:repeat>
+      
+      <div style="margin-bottom: 20px;">
+        <p:poll autoStart="#{systemDatabaseBean.dbCreatorRunning}" id="convertingOutputPoll"
+          widgetVar="convertingOutputPoll"
+          update="@form" interval="1" />
+      
+        <h:outputText rendered="#{systemDatabaseBean.dbCreatorRunning}">
+          <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
+        </h:outputText>
+        <h:outputText value="#{systemDatabaseBean.dbCreatorText}" />
+      </div>
+      
+      <p:commandButton value="Create" actionListener="#{systemDatabaseBean.createDatabase}" icon="ui-icon-dns"
+        styleClass="primary-btn modal-input-button" update="@form" id="dialogCreateDbButton" />
+      <p:commandButton value="Cancel" icon="ui-icon-clear"
+        styleClass="secondary-btn modal-input-button"
+        oncomplete="PF('createDatabaseDialog').hide();" />
+    </h:form>
   </p:dialog>
   
   <p:dialog id="convertDatabaseDialog" widgetVar="convertDatabaseDialog"
@@ -162,13 +164,12 @@
         <h:outputText value="#{systemDatabaseBean.dbConversionText}" />
       </div>
       
-      <p:commandButton id="confirmConvertButton" value="Yes"
-        icon="ui-icon-check" actionListener="#{systemDatabaseBean.convertDatabase}"
+      <p:commandButton id="confirmConvertButton" value="Convert"
+        icon="ui-icon-autorenew" actionListener="#{systemDatabaseBean.convertDatabase}"
         update="@form" styleClass="primary-btn modal-input-button" />
       <p:commandButton value="Cancel" icon="ui-icon-clear"
         styleClass="secondary-btn modal-input-button"
         oncomplete="PF('convertDatabaseDialog').hide();" />
-      <p:defaultCommand target="confirmConvertButton" />
     </h:form>
   </p:dialog>
   
