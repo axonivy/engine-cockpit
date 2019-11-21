@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
@@ -23,22 +21,17 @@ import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.enginecockpit.setupwizard.ConnectionInfo;
 import ch.ivyteam.ivy.persistence.db.DatabasePersistencyServiceFactory;
+import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
+import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
 import ch.ivyteam.ivy.server.configuration.Configuration;
-import ch.ivyteam.ivy.server.configuration.system.db.ConnectionState;
-import ch.ivyteam.ivy.server.configuration.system.db.IConnectionListener;
-import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabase;
-import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConnectionTester;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
-import ch.ivyteam.util.WaitUtil;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SystemDatabaseBean
 {
-  private static final int CONNETION_TEST_TIMEOUT = 15;
-  
   public DatabaseProduct product;
   public JdbcDriver driver;
   public String host;
@@ -52,9 +45,6 @@ public class SystemDatabaseBean
   private Properties additionalProps;
   private String propKey;
   private String propValue;
-  
-  private SystemDatabaseConnectionTester tester;
-  private BlockingListener connectionListener;
   
   public SystemDatabaseBean()
   {
@@ -70,11 +60,7 @@ public class SystemDatabaseBean
     this.password = config.getPassword();
     this.userName = config.getUserName();
     this.additionalProps = config.getProperties();
-
-    connectionListener = new BlockingListener();
-    this.tester = getSystemDb().getConnectionTester();
-    this.tester.addConnectionListener(connectionListener);
-    this.connectionInfo = ConnectionInfo.create();
+    this.connectionInfo = new ConnectionInfo();
   }
   
   private Set<DatabaseProduct> getSupportedDatabases()
@@ -268,32 +254,10 @@ public class SystemDatabaseBean
     return MaintenanceReason.getMessage();
   }
   
-  public ConnectionState testConnection()
+  public void testConnection()
   {
-    updateDbConfig();
-    
-    tester.reset();
-    connectionListener.gotResult = false;
-    tester.configurationChanged();
-    try
-    {
-      WaitUtil.await(() -> connectionListener.gotResult, CONNETION_TEST_TIMEOUT, TimeUnit.SECONDS);
-    }
-    catch (TimeoutException ex)
-    {
-      String msg = "Could not connect to database within " + CONNETION_TEST_TIMEOUT + " Seconds";
-      getConnectionInfo().updateConnectionStates(ConnectionState.CONNECTION_FAILED,
-              new TimeoutException(msg),
-              getDbProduct());
-      return ConnectionState.CONNECTION_FAILED;
-    }
-    return tester.getConnectionState();
-  }
-  
-  public SystemDatabase getSystemDb()
-  {
-    SystemDatabase.initialize(systemDbConfig);
-    return SystemDatabase.getSystemDatabase();
+    ConnectionTestResult testConnection = ConnectionTester.testConnection(createConfiguration());
+    connectionInfo = new ConnectionInfo(testConnection);
   }
   
   public void updateDbConfig()
@@ -311,6 +275,8 @@ public class SystemDatabaseBean
     dbProps.put(ConnectionProperty.PORT, getPort());
     dbProps.put(ConnectionProperty.DB_NAME, getDbName());
     dbProps.put(ConnectionProperty.ORACLE_SERVICE_ID, getDbName());
+    
+    //configurator.getDatabaseConnectionProperties()
 
     DatabaseConnectionConfiguration tempConfig = configurator.getDatabaseConnectionConfiguration(dbProps);
     DatabaseConnectionConfiguration currentConfig = systemDbConfig.getSystemDatabaseConnectionConfiguration();
@@ -329,22 +295,6 @@ public class SystemDatabaseBean
     currentConfig.setUserName(getUserName());
     currentConfig.setProperties(getAdditionalProperties());
     return currentConfig;
-  }
-  
-  private class BlockingListener implements IConnectionListener
-  {
-    private boolean gotResult = false;
-
-    @Override
-    public void connectionStateChanged(ConnectionState newState)
-    {
-      Throwable connectionError = getSystemDb().getConnectionTester().getConnectionError();
-      getConnectionInfo().updateConnectionStates(newState, connectionError, getDbProduct());
-      if (newState != ConnectionState.CONNECTING)
-      {
-        gotResult = true;
-      }
-    }
   }
   
 }
