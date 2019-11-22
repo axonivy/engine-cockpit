@@ -18,19 +18,19 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 public class WebTestBase extends WebBase
 {
   
-  private String className;
-  private String methodName;
-  private int screenshotCounter;
+  private static String className;
+  private static String methodName;
+  private static int screenshotCounter;
   
   @BeforeEach
   void init(TestInfo testInfo)
   {
-    this.className = testInfo.getTestClass().map(c -> c.getName()).orElse("unknownClass");
-    this.methodName = testInfo.getTestMethod().map(m -> m.getName()).orElse("unknownMethod");
+    className = testInfo.getTestClass().map(c -> c.getName()).orElse("unknownClass");
+    methodName = testInfo.getTestMethod().map(m -> m.getName()).orElse("unknownMethod");
     screenshotCounter = 0;
   }
   
-  public void saveScreenshot(String name) 
+  public static void saveScreenshot(RemoteWebDriver driver, String name)
   {
     File source = driver.getScreenshotAs(OutputType.FILE);
     System.out.println("Source: " + source);
@@ -44,6 +44,11 @@ public class WebTestBase extends WebBase
     {
       throw new RuntimeException(ex);
     }
+  }
+  
+  public void saveScreenshot(String name) 
+  {
+    saveScreenshot(driver, name);
   }
   
   public void saveScreenshot()
@@ -124,6 +129,17 @@ public class WebTestBase extends WebBase
   {
     runTestProcess(driver, "/engine-cockpit-test-data/16E881C7DC458C7D/cleanupAdmins.ivp");
     runTestProcess(driver, "/engine-cockpit-test-data/16E881C7DC458C7D/cleanupConnectors.ivp");
+    runTestProcess(driver, "/engine-cockpit-test-data/16E881C7DC458C7D/cleanupSystemDb.ivp");
+  }
+  
+  public static void createOldDb(RemoteWebDriver driver)
+  {
+    runTestProcess(driver, "/engine-cockpit-test-data/16E8EAD7CC77A0A3/createOldDatabase.ivp");
+  }
+  
+  public static void deleteOldDb(RemoteWebDriver driver)
+  {
+    runTestProcess(driver, "/engine-cockpit-test-data/16E8EAD7CC77A0A3/deleteOldDatabase.ivp");
   }
 
   private static void runTestProcess(RemoteWebDriver driver, String processLink)

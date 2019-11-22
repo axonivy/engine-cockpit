@@ -149,11 +149,17 @@ public class SystemDatabaseBean
   public void saveProp()
   {
     additionalProps.put(propKey, propValue);
+    configChanged();
   }
 
   public ConnectionInfo getConnectionInfo()
   {
     return connectionInfo;
+  }
+  
+  public void configChanged()
+  {
+    this.connectionInfo = new ConnectionInfo();
   }
   
   public String getHelpPath()

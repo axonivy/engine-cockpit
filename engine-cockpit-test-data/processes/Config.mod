@@ -18,6 +18,11 @@ Cg0 @PushWFArc f2 '' #zField
 Cg0 @GridStep f8 '' #zField
 Cg0 @PushWFArc f9 '' #zField
 Cg0 @PushWFArc f5 '' #zField
+Cg0 @EndTask f10 '' #zField
+Cg0 @StartRequest f11 '' #zField
+Cg0 @GridStep f12 '' #zField
+Cg0 @PushWFArc f13 '' #zField
+Cg0 @PushWFArc f14 '' #zField
 >Proto Cg0 Cg0 Config #zField
 Cg0 f0 outLink cleanupAdmins.ivp #txt
 Cg0 f0 inParamDecl '<> param;' #txt
@@ -73,6 +78,34 @@ Cg0 f8 168 138 112 44 0 -7 #rect
 Cg0 f8 @|StepIcon #fIcon
 Cg0 f9 111 160 168 160 #arcP
 Cg0 f5 280 160 337 160 #arcP
+Cg0 f10 337 241 30 30 0 15 #rect
+Cg0 f10 @|EndIcon #fIcon
+Cg0 f11 outLink cleanupSystemDb.ivp #txt
+Cg0 f11 inParamDecl '<> param;' #txt
+Cg0 f11 requestEnabled true #txt
+Cg0 f11 triggerEnabled false #txt
+Cg0 f11 callSignature cleanupSystemDb() #txt
+Cg0 f11 caseData businessCase.attach=true #txt
+Cg0 f11 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>cleanupSystemDb.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Cg0 f11 @C|.responsibility Everybody #txt
+Cg0 f11 81 241 30 30 -61 30 #rect
+Cg0 f11 @|StartRequestIcon #fIcon
+Cg0 f12 actionTable 'out=in;
+' #txt
+Cg0 f12 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+
+IConfiguration.get().remove("SystemDb");
+' #txt
+Cg0 f12 168 234 112 44 0 -7 #rect
+Cg0 f12 @|StepIcon #fIcon
+Cg0 f13 280 256 337 256 #arcP
+Cg0 f14 111 256 168 256 #arcP
 >Proto Cg0 .type engine.cockpit.test.data.Data #txt
 >Proto Cg0 .processKind NORMAL #txt
 >Proto Cg0 0 0 32 24 18 0 #rect
@@ -85,3 +118,7 @@ Cg0 f3 mainOut f9 tail #connect
 Cg0 f9 head f8 mainIn #connect
 Cg0 f8 mainOut f5 tail #connect
 Cg0 f5 head f4 mainIn #connect
+Cg0 f11 mainOut f14 tail #connect
+Cg0 f14 head f12 mainIn #connect
+Cg0 f12 mainOut f13 tail #connect
+Cg0 f13 head f10 mainIn #connect

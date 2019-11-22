@@ -55,6 +55,11 @@ public class SystemDbConnectionProperty
     return property.getLabel();
   }
   
+  public String getCssClass()
+  {
+    return "sysdb-dynamic-form-" + getLabel().replace(" ", "").toLowerCase();
+  }
+  
   public boolean isInput()
   {
     return !isNumber() && !isPassword();

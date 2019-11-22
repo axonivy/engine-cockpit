@@ -30,13 +30,13 @@
           <p:outputLabel for="databaseType" value="Database" />
           <p:selectOneMenu id="databaseType" value="#{systemDatabaseBean.product}">
             <f:selectItems value="#{systemDatabaseBean.supporedDatabaseNames}" var="database" itemLabel="#{database}" itemValue="#{database}" />
-            <p:ajax update="@form" process="@this" />
+            <p:ajax update="@form" process="@this" listener="#{systemDatabaseBean.configChanged}" />
           </p:selectOneMenu>
     
           <p:outputLabel for="databaseDriver" value="Driver" />
           <p:selectOneMenu id="databaseDriver" value="#{systemDatabaseBean.driver}">
             <f:selectItems value="#{systemDatabaseBean.supportedDriverNames}" var="driver" itemLabel="#{driver}" itemValue="#{driver}" />
-            <p:ajax update="@form" process="@this" />
+            <p:ajax update="@form" process="@this" listener="#{systemDatabaseBean.configChanged}" />
           </p:selectOneMenu>
         </p:panelGrid>
         
@@ -46,12 +46,13 @@
               styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
               <p:outputLabel for="numberProp" value="#{connProp.label}" />
               <h:panelGroup>
-                <p:inputNumber id="numberProp" value="#{connProp.value}" required="#{connProp.required}" disabled="#{connProp.defaultValue}"
+                <p:inputNumber styleClass="#{connProp.cssClass}" id="numberProp" 
+                  value="#{connProp.value}" required="#{connProp.required}" disabled="#{connProp.defaultValue}"
                   thousandSeparator="'" decimalPlaces="0" minValue="0" style="width: calc(100% - 105px); display: inline-block;">
-                  <p:ajax event="keyup" update="@form:connectionPanel" />
+                  <p:ajax event="keyup" update="@form:connectionPanel" listener="#{systemDatabaseBean.configChanged}" />
                 </p:inputNumber>
                 <p:selectBooleanCheckbox id="defaultConnectionProperty" style="margin: 0; float: right;"
-                  itemLabel="Default" value="#{connProp.defaultValue}" >
+                  itemLabel="Default" value="#{connProp.defaultValue}" styleClass="#{connProp.cssClass}-default-checkbox">
                   <p:ajax process="@this" update="@parent:numberProp" />
                 </p:selectBooleanCheckbox>
               </h:panelGroup>
@@ -63,8 +64,9 @@
               styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
               <p:outputLabel for="passwordProperty" value="#{connProp.label}" />
               <h:panelGroup styleClass="md-inputfield">
-                <p:password id="passwordProperty" value="#{connProp.value}" required="#{connProp.required}" redisplay="true" autocomplete="new-password">
-                  <p:ajax event="keyup" update="@form:connectionPanel,@parent:passwordPropertyMessage" />
+                <p:password styleClass="#{connProp.cssClass}" id="passwordProperty" 
+                  value="#{connProp.value}" required="#{connProp.required}" redisplay="true" autocomplete="new-password">
+                  <p:ajax event="keyup" update="@form:connectionPanel,@parent:passwordPropertyMessage" listener="#{systemDatabaseBean.configChanged}" />
                 </p:password>
                 <p:message for="passwordProperty" id="passwordPropertyMessage" />
               </h:panelGroup>
@@ -76,8 +78,9 @@
               styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
               <p:outputLabel for="inputProperty" value="#{connProp.label}" />
               <h:panelGroup styleClass="md-inputfield">
-                <p:inputText id="inputProperty" value="#{connProp.value}" required="#{connProp.required}" autocomplete="off">
-                  <p:ajax event="keyup" update="@form:connectionPanel,@parent:inputPropertyMessage" />
+                <p:inputText styleClass="#{connProp.cssClass}" id="inputProperty" 
+                  value="#{connProp.value}" required="#{connProp.required}" autocomplete="off">
+                  <p:ajax event="keyup" update="@form:connectionPanel,@parent:inputPropertyMessage" listener="#{systemDatabaseBean.configChanged}" />
                 </p:inputText>
                 <p:message for="inputProperty" id="inputPropertyMessage" />
               </h:panelGroup>
@@ -133,12 +136,12 @@
       <div style="margin-bottom: 20px;">
         <p:poll autoStart="#{systemDatabaseBean.dbCreatorRunning}" id="convertingOutputPoll"
           widgetVar="convertingOutputPoll"
-          update="@form" interval="1" />
+          update="@form" interval="2" />
       
         <h:outputText rendered="#{systemDatabaseBean.dbCreatorRunning}">
           <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
         </h:outputText>
-        <h:outputText value="#{systemDatabaseBean.dbCreatorText}" />
+        <h:outputText id="creationResult" value="#{systemDatabaseBean.dbCreatorText}" />
       </div>
       
       <p:commandButton value="Create" actionListener="#{systemDatabaseBean.createDatabase}" icon="ui-icon-dns"
@@ -156,12 +159,12 @@
       <div style="margin-bottom: 20px;">
         <p:poll autoStart="#{systemDatabaseBean.dbConversionRunning}" id="convertingOutputPoll"
           widgetVar="convertingOutputPoll"
-          update="@form" interval="1" />
+          update="@form" interval="2" />
       
         <h:outputText rendered="#{systemDatabaseBean.dbConversionRunning}">
           <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
         </h:outputText>
-        <h:outputText value="#{systemDatabaseBean.dbConversionText}" />
+        <h:outputText id="conversionResult" value="#{systemDatabaseBean.dbConversionText}" />
       </div>
       
       <p:commandButton id="confirmConvertButton" value="Convert"
