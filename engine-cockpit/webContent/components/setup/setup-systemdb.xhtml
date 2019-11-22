@@ -3,12 +3,12 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-  <cc:SystemDb id="systemDb" />
+  <cc:SystemDb id="systemDb" updateFields="@form:connectionPanel,sysDbWizardStepButtons" />
   
   <h:panelGroup id="sysDbWizardStepButtons">
     <p:commandButton id="sysDbNextStep" type="button" value="Finish" update="wizardStepPage" onclick="PF('sysDbNextStepModel').show();"
-      icon="ui-icon-check" styleClass="wizard-step-button" disabled="#{!systemDatabaseBean.connectionInfo.connectionOK}" />
-    <p:tooltip for="sysDbNextStep" value="No connection" position="top" rendered="#{!systemDatabaseBean.connectionInfo.connectionOK}" />
+      icon="ui-icon-check" styleClass="wizard-step-button" disabled="#{!systemDatabaseBean.connectionInfo.successful}" />
+    <p:tooltip for="sysDbNextStep" value="No connection" position="top" rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
     <p:commandButton id="sysDbPrevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
       icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" />
   </h:panelGroup>

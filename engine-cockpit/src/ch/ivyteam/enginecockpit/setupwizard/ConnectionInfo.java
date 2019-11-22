@@ -11,6 +11,7 @@ public class ConnectionInfo
   private String icon;
   private boolean mustConvert;
   private boolean mustCreate;
+  private boolean successful;
 
   public ConnectionInfo()
   {
@@ -28,6 +29,7 @@ public class ConnectionInfo
     icon = "fa fa-plug fa-fw";
     mustConvert = result.mustConvert();
     mustCreate = result.mustCreate();
+    successful = result.isSuccessful();
   }
   
   public String getLabel()
@@ -58,6 +60,11 @@ public class ConnectionInfo
   public boolean isMustCreate()
   {
     return mustCreate;
+  }
+  
+  public boolean isSuccessful()
+  {
+    return successful;
   }
 
   private static String getMessageLevel(ConnectionTestResult result)

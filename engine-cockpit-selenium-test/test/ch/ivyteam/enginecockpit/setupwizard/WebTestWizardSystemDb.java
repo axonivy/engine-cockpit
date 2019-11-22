@@ -22,14 +22,23 @@ public class WebTestWizardSystemDb extends WebTestBase
   {
     navigateToSystemDbWizardStep();
     
+    WebTestSystemDb.assertDefaultValues(driver);
+    WebTestSystemDb.assertSystemDbCreation(driver);
     //TODO: fix connection and test finish
+  }
+  
+  @Test
+  void testOldDbConversionNeeded()
+  {
+    createOldDb(driver);
+    navigateToSystemDbWizardStep();
+    WebTestSystemDb.assertSystemDbConversionDialog(driver);
   }
   
   @Test
   void testUiLogicSwitchesAndDefaults()
   {
     navigateToSystemDbWizardStep();
-    WebTestSystemDb.assertDefaultValues(driver);
     WebTestSystemDb.assertDefaultPortSwitch(driver);
     WebTestSystemDb.assertDatabaseTypeSwitch(driver);
     WebTestSystemDb.assertAdditionalProperties(driver);

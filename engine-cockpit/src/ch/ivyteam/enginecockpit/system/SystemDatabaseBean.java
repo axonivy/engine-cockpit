@@ -218,32 +218,35 @@ public class SystemDatabaseBean
     return creator.getProgressText();
   }
   
-  public void convertDatabase()
+  public void createConverter()
   {
     converter = SystemDatabaseConverter.create(createConfiguration());
+  }
+  
+  public void convertDatabase()
+  {
     converter.executeAsync();
   }
   
   public boolean isDbConversionRunning()
   {
-    if (converter == null)
-    {
-      return false;
-    }
-    return converter.isRunning();
+    return converter != null && converter.isRunning();
   }
   
-  public String getDbConversionText()
+  public boolean isDbConversionFinished()
   {
-    if (converter == null)
-    {
-      return "";
-    }
-    if (converter.getError() != null)
+    return converter != null && 
+            !converter.isRunning() && 
+            StringUtils.equals(converter.getProgressText(), "Finished");
+  }
+  
+  public String getDbConversionError()
+  {
+    if (converter != null && converter.getError() != null)
     {
       return converter.getError().getMessage();
     }
-    return converter.getProgressText();
+    return "";
   }
   
   public Collection<SystemDbConnectionProperty> getConnectionProperties()

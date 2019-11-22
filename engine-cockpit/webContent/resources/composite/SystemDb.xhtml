@@ -2,6 +2,10 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+  <cc:attribute name="updateFields" default="#{cc.attrs.updateFields}" />
+</cc:interface>
+
 <cc:implementation>
   <h:form id="systemDbForm">
     <div class="ui-g">
@@ -19,7 +23,8 @@
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="ui-icon-dns" styleClass="wizard-top-button secondary-btn" 
               type="button" onclick="PF('createDatabaseDialog').show();" disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
             <p:commandButton value="Migrate Database" id="migrateDatabaseButton" icon="ui-icon-autorenew" styleClass="wizard-top-button secondary-btn"
-              type="button" onclick="PF('convertDatabaseDialog').show();" disabled="#{!systemDatabaseBean.connectionInfo.mustConvert}" />
+              actionListener="#{systemDatabaseBean.createConverter()}" update="systemDb:convertDatabaseDialog" 
+              onsuccess="PF('convertDatabaseDialog').show();" disabled="#{!systemDatabaseBean.connectionInfo.mustConvert}" />
           </div>
         </p:outputPanel>
       </div>
@@ -30,63 +35,65 @@
           <p:outputLabel for="databaseType" value="Database" />
           <p:selectOneMenu id="databaseType" value="#{systemDatabaseBean.product}">
             <f:selectItems value="#{systemDatabaseBean.supporedDatabaseNames}" var="database" itemLabel="#{database}" itemValue="#{database}" />
-            <p:ajax update="@form" process="@this" listener="#{systemDatabaseBean.configChanged}" />
+            <p:ajax update="#{cc.attrs.updateFields},@form:databaseDriver,@form:dynamicForm" process="@this" listener="#{systemDatabaseBean.configChanged}" />
           </p:selectOneMenu>
     
           <p:outputLabel for="databaseDriver" value="Driver" />
           <p:selectOneMenu id="databaseDriver" value="#{systemDatabaseBean.driver}">
             <f:selectItems value="#{systemDatabaseBean.supportedDriverNames}" var="driver" itemLabel="#{driver}" itemValue="#{driver}" />
-            <p:ajax update="@form" process="@this" listener="#{systemDatabaseBean.configChanged}" />
+            <p:ajax update="#{cc.attrs.updateFields},@form:dynamicForm" process="@this" listener="#{systemDatabaseBean.configChanged}" />
           </p:selectOneMenu>
         </p:panelGrid>
         
-        <p:repeat var="connProp" value="#{systemDatabaseBean.connectionProperties}">
-          <ui:fragment rendered="#{connProp.number}">
-            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-              styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-              <p:outputLabel for="numberProp" value="#{connProp.label}" />
-              <h:panelGroup>
-                <p:inputNumber styleClass="#{connProp.cssClass}" id="numberProp" 
-                  value="#{connProp.value}" required="#{connProp.required}" disabled="#{connProp.defaultValue}"
-                  thousandSeparator="'" decimalPlaces="0" minValue="0" style="width: calc(100% - 105px); display: inline-block;">
-                  <p:ajax event="keyup" update="@form:connectionPanel" listener="#{systemDatabaseBean.configChanged}" />
-                </p:inputNumber>
-                <p:selectBooleanCheckbox id="defaultConnectionProperty" style="margin: 0; float: right;"
-                  itemLabel="Default" value="#{connProp.defaultValue}" styleClass="#{connProp.cssClass}-default-checkbox">
-                  <p:ajax process="@this" update="@parent:numberProp" />
-                </p:selectBooleanCheckbox>
-              </h:panelGroup>
-            </p:panelGrid>
-          </ui:fragment>
-            
-          <ui:fragment rendered="#{connProp.password}">
-            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-              styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-              <p:outputLabel for="passwordProperty" value="#{connProp.label}" />
-              <h:panelGroup styleClass="md-inputfield">
-                <p:password styleClass="#{connProp.cssClass}" id="passwordProperty" 
-                  value="#{connProp.value}" required="#{connProp.required}" redisplay="true" autocomplete="new-password">
-                  <p:ajax event="keyup" update="@form:connectionPanel,@parent:passwordPropertyMessage" listener="#{systemDatabaseBean.configChanged}" />
-                </p:password>
-                <p:message for="passwordProperty" id="passwordPropertyMessage" />
-              </h:panelGroup>
-            </p:panelGrid>
-          </ui:fragment>
-            
-          <ui:fragment rendered="#{connProp.input}">
-            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-              styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-              <p:outputLabel for="inputProperty" value="#{connProp.label}" />
-              <h:panelGroup styleClass="md-inputfield">
-                <p:inputText styleClass="#{connProp.cssClass}" id="inputProperty" 
-                  value="#{connProp.value}" required="#{connProp.required}" autocomplete="off">
-                  <p:ajax event="keyup" update="@form:connectionPanel,@parent:inputPropertyMessage" listener="#{systemDatabaseBean.configChanged}" />
-                </p:inputText>
-                <p:message for="inputProperty" id="inputPropertyMessage" />
-              </h:panelGroup>
-            </p:panelGrid>
-          </ui:fragment>
-        </p:repeat>
+        <h:panelGroup id="dynamicForm">
+          <p:repeat var="connProp" value="#{systemDatabaseBean.connectionProperties}">
+            <ui:fragment rendered="#{connProp.number}">
+              <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
+                styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+                <p:outputLabel for="numberProp" value="#{connProp.label}" />
+                <h:panelGroup>
+                  <p:inputNumber styleClass="#{connProp.cssClass}" id="numberProp" 
+                    value="#{connProp.value}" required="#{connProp.required}" disabled="#{connProp.defaultValue}"
+                    thousandSeparator="'" decimalPlaces="0" minValue="0" style="width: calc(100% - 105px); display: inline-block;">
+                    <p:ajax event="keyup" update="#{cc.attrs.updateFields}" listener="#{systemDatabaseBean.configChanged}" />
+                  </p:inputNumber>
+                  <p:selectBooleanCheckbox id="defaultConnectionProperty" style="margin: 0; float: right;"
+                    itemLabel="Default" value="#{connProp.defaultValue}" styleClass="#{connProp.cssClass}-default-checkbox">
+                    <p:ajax process="@this" update="@parent:numberProp" />
+                  </p:selectBooleanCheckbox>
+                </h:panelGroup>
+              </p:panelGrid>
+            </ui:fragment>
+              
+            <ui:fragment rendered="#{connProp.password}">
+              <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
+                styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+                <p:outputLabel for="passwordProperty" value="#{connProp.label}" />
+                <h:panelGroup styleClass="md-inputfield">
+                  <p:password styleClass="#{connProp.cssClass}" id="passwordProperty" 
+                    value="#{connProp.value}" required="#{connProp.required}" redisplay="true" autocomplete="new-password">
+                    <p:ajax event="keyup" update="#{cc.attrs.updateFields},@parent:passwordPropertyMessage" listener="#{systemDatabaseBean.configChanged}" />
+                  </p:password>
+                  <p:message for="passwordProperty" id="passwordPropertyMessage" />
+                </h:panelGroup>
+              </p:panelGrid>
+            </ui:fragment>
+              
+            <ui:fragment rendered="#{connProp.input}">
+              <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
+                styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+                <p:outputLabel for="inputProperty" value="#{connProp.label}" />
+                <h:panelGroup styleClass="md-inputfield">
+                  <p:inputText styleClass="#{connProp.cssClass}" id="inputProperty" 
+                    value="#{connProp.value}" required="#{connProp.required}" autocomplete="off">
+                    <p:ajax event="keyup" update="#{cc.attrs.updateFields},@parent:inputPropertyMessage" listener="#{systemDatabaseBean.configChanged}" />
+                  </p:inputText>
+                  <p:message for="inputProperty" id="inputPropertyMessage" />
+                </h:panelGroup>
+              </p:panelGrid>
+            </ui:fragment>
+          </p:repeat>
+        </h:panelGroup>
         
         <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
           styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
@@ -156,23 +163,34 @@
     header="Do you really want to convert?" dynamic="true" modal="true"
     closeOnEscape="true">
     <h:form id="convertDatabaseForm">
-      <div style="margin-bottom: 20px;">
-        <p:poll autoStart="#{systemDatabaseBean.dbConversionRunning}" id="convertingOutputPoll"
-          widgetVar="convertingOutputPoll"
-          update="@form" interval="2" />
-      
+      <p:poll autoStart="#{systemDatabaseBean.dbConversionRunning}" id="convertingOutputPoll"
+        widgetVar="convertingOutputPoll"
+        update="@form" interval="2" />
+      <p:panelGrid columns="1" layout="grid" 
+        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
         <h:outputText rendered="#{systemDatabaseBean.dbConversionRunning}">
           <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
         </h:outputText>
-        <h:outputText id="conversionResult" value="#{systemDatabaseBean.dbConversionText}" />
-      </div>
+        <h:outputText rendered="#{not empty systemDatabaseBean.dbConversionError}" id="conversionResult" 
+          value="#{systemDatabaseBean.dbConversionError}" />
+        <h:outputText rendered="#{systemDatabaseBean.dbConversionFinished}" 
+          value="The database was migrated successfully. Please check the connection!" />
+      </p:panelGrid>
       
-      <p:commandButton id="confirmConvertButton" value="Convert"
-        icon="ui-icon-autorenew" actionListener="#{systemDatabaseBean.convertDatabase}"
-        update="@form" styleClass="primary-btn modal-input-button" />
-      <p:commandButton value="Cancel" icon="ui-icon-clear"
-        styleClass="secondary-btn modal-input-button"
-        oncomplete="PF('convertDatabaseDialog').hide();" />
+      <h:panelGroup rendered="#{!systemDatabaseBean.dbConversionFinished}">
+        <p:commandButton id="confirmConvertButton" value="Convert" disabled="#{systemDatabaseBean.dbConversionRunning}"
+          icon="ui-icon-autorenew" actionListener="#{systemDatabaseBean.convertDatabase}"
+          update="@form" styleClass="primary-btn modal-input-button" />
+        <p:commandButton value="Cancel" icon="ui-icon-clear" disabled="#{systemDatabaseBean.dbConversionRunning}"
+          styleClass="secondary-btn modal-input-button"
+          oncomplete="PF('convertDatabaseDialog').hide();" />
+      </h:panelGroup>
+      <h:panelGroup rendered="#{systemDatabaseBean.dbConversionFinished}">
+        <p:commandButton id="closeConversionButton" value="Connect"
+          icon="ui-icon-check" actionListener="#{systemDatabaseBean.testConnection}"
+          onclick="PF('convertDatabaseDialog').hide();"
+          update="systemDb:systemDbForm:connectionPanel" styleClass="primary-btn modal-input-button" />
+      </h:panelGroup>
     </h:form>
   </p:dialog>
   

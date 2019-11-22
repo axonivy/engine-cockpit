@@ -26,22 +26,20 @@
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="card card-w-title">
-              <h:form>
-                <div class="ui-g">
-                  <div class="ui-g-12 ui-md-10">
-                    <h1>
-                      <i class="material-icons card-title-icon">dns</i>System Database
-                    </h1>
-                  </div>
-                  <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                    <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="ui-icon-save"
-                      style="width: auto; float: right;" id="saveSystemDbConfig"/>
-                  </div>
+              <div class="ui-g">
+                <div class="ui-g-12 ui-md-10">
+                  <h1>
+                    <i class="material-icons card-title-icon">dns</i>System Database
+                  </h1>
                 </div>
-              </h:form>
+                <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
+                  <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="ui-icon-save"
+                    style="width: auto; float: right;" id="saveSystemDbConfig"/>
+                </div>
+              </div>
               <div class="ui-g">
                 <div class="ui-g-12 ui-md-12 ui-lg-12">
-                  <cc:SystemDb id="systemDb" />
+                  <cc:SystemDb id="systemDb" updateFields="@form:connectionPanel,saveSystemDbConfig" />
                 </div>
               </div>
             </div>

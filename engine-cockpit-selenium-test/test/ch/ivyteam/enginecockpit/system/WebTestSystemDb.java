@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
@@ -18,6 +20,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 public class WebTestSystemDb extends WebTestBase
 {
   private static final String OLD_DB_NAME = "engine_cockpit_old_db_version44";
+  private static final String TEST_DB_NAME = "engine_cockpit_test_temp";
   
   @AfterEach
   void cleanup()
@@ -31,8 +34,7 @@ public class WebTestSystemDb extends WebTestBase
     navigateToSystemDb();
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("System Database"));
     assertDefaultValues(driver);
-    
-    //TODO: add connection and assert connection info
+    assertSystemDbCreation(driver);
   }
   
   @Test
@@ -40,24 +42,10 @@ public class WebTestSystemDb extends WebTestBase
   {
     createOldDb(driver);
     navigateToSystemDb();
-    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", OLD_DB_NAME, "admin", "nimda");
-    
-    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Database too old", "Convert system database."));
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:migrateDatabaseButton")
-            .isEnabled()).isTrue());
-    
-    driver.findElementById("systemDb:systemDbForm:migrateDatabaseButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseDialog").isDisplayed()).isTrue());
-    
-    driver.findElementById("systemDb:convertDatabaseForm:confirmConvertButton").click();
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".fa.fa-circle-o-notch.fa-spin")
-            .isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseForm:conversionResult").getText())
-            .contains("Success")); //Fix this
+    assertSystemDbConversionDialog(driver);
+    assertSystemDbConversion(driver);
   }
-  
+
   @Test
   void testDefaultPortSwitch()
   {
@@ -98,6 +86,56 @@ public class WebTestSystemDb extends WebTestBase
     driver.findElementByCssSelector(".sysdb-dynamic-form-password").clear();
     driver.findElementByCssSelector(".sysdb-dynamic-form-password").sendKeys(password);
     saveScreenshot(driver, "insert_db_connection");
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:checkConnectionButton")
+            .isEnabled()).isTrue());
+  }
+  
+  public static void assertSystemDbCreation(RemoteWebDriver driver)
+  {
+    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin", "nimda");
+    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Missing Database/Schema", "Create system database."));
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:createDatabaseButton")
+            .isEnabled()).isTrue());
+    saveScreenshot(driver, "creation_needed");
+    
+    driver.findElementById("systemDb:systemDbForm:createDatabaseButton").click();
+    saveScreenshot(driver, "creation_dialog");
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseDialog").isDisplayed()).isTrue());
+    
+    //TODO test creation
+  }
+  
+  public static void assertSystemDbConversionDialog(RemoteWebDriver driver)
+  {
+    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", OLD_DB_NAME, "admin", "nimda");
+    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Database too old", "Convert system database."));
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:migrateDatabaseButton")
+            .isEnabled()).isTrue());
+    saveScreenshot(driver, "migration_needed");
+    
+    driver.findElementById("systemDb:systemDbForm:migrateDatabaseButton").click();
+    saveScreenshot(driver, "migration_dialog");
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseDialog").isDisplayed()).isTrue());
+  }
+
+  private static void assertSystemDbConversion(RemoteWebDriver driver)
+  {
+    driver.findElementById("systemDb:convertDatabaseForm:confirmConvertButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseForm:confirmConvertButton")
+            .isEnabled()).isFalse());
+    saveScreenshot(driver, "converting");
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".fa.fa-circle-o-notch.fa-spin")
+            .isDisplayed()).isTrue());
+    new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(
+            By.id("systemDb:convertDatabaseForm:closeConversionButton")));
+    saveScreenshot(driver, "finished");
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseForm:conversionResult").getText())
+            .isEqualTo(""));
+    webAssertThat(() -> assertThat(elementNotAvailable(driver, By.id("systemDb:convertDatabaseForm:confirmConvertButton"))).isFalse());
   }
   
   public static void assertAdditionalProperties(RemoteWebDriver driver)
@@ -156,12 +194,6 @@ public class WebTestSystemDb extends WebTestBase
             .isEqualTo("Hypersonic SQL Db"));
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:databaseDriver_label").getText())
             .isEqualTo("HSQL Db Memory"));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-host").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port input").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port-default-checkbox").getAttribute("class"))
-            .contains("ui-state-active"));
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-databasename").getAttribute("value"))
             .isEqualTo("AxonIvySystemDatabase"));
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-user").getAttribute("value"))
