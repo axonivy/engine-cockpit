@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.setupwizard;
+package ch.ivyteam.enginecockpit.system;
 
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 
@@ -26,7 +26,7 @@ public class ConnectionInfo
     label = result.getConnectionState().getLabel();
     advise = result.getConnectionState().getAdvise();
     messageLevel = getMessageLevel(result);
-    icon = "fa fa-plug fa-fw";
+    icon = getIcon(result);
     mustConvert = result.mustConvert();
     mustCreate = result.mustCreate();
     successful = result.isSuccessful();
@@ -78,6 +78,19 @@ public class ConnectionInfo
       return "ui-message-error";
     }
     return "ui-message-warn";
+  }
+  
+  private static String getIcon(ConnectionTestResult result)
+  {
+    if (result.isSuccessful())
+    {
+      return "fa fa-check-circle fa-fw";
+    }
+    else if (result.isFailed())
+    {
+      return "fa fa-times-circle fa-fw";
+    }
+    return "fa fa-exclamation-triangle fa-fw";
   }
   
 }
