@@ -171,8 +171,7 @@
         <h:outputText rendered="#{systemDatabaseBean.dbConversionRunning}">
           <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
         </h:outputText>
-        <h:outputText rendered="#{not empty systemDatabaseBean.dbConversionError}" id="conversionResult" 
-          value="#{systemDatabaseBean.dbConversionError}" />
+        <h:outputText id="conversionResult" value="#{systemDatabaseBean.dbConversionError}" />
         <h:outputText rendered="#{systemDatabaseBean.dbConversionFinished}" 
           value="The database was migrated successfully. Please check the connection!" />
       </p:panelGrid>

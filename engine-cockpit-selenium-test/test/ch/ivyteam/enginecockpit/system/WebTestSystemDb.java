@@ -86,8 +86,8 @@ public class WebTestSystemDb extends WebTestBase
     driver.findElementByCssSelector(".sysdb-dynamic-form-password").clear();
     driver.findElementByCssSelector(".sysdb-dynamic-form-password").sendKeys(password);
     saveScreenshot(driver, "insert_db_connection");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:checkConnectionButton")
-            .isEnabled()).isTrue());
+    new WebDriverWait(driver, 10).until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(
+            By.id("systemDb:systemDbForm:checkConnectionButton"))));
   }
   
   public static void assertSystemDbCreation(RemoteWebDriver driver)
@@ -135,7 +135,10 @@ public class WebTestSystemDb extends WebTestBase
     saveScreenshot(driver, "finished");
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseForm:conversionResult").getText())
             .isEqualTo(""));
-    webAssertThat(() -> assertThat(elementNotAvailable(driver, By.id("systemDb:convertDatabaseForm:confirmConvertButton"))).isFalse());
+    driver.findElementById("systemDb:convertDatabaseForm:closeConversionButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseDialog").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Connected"));
   }
   
   public static void assertAdditionalProperties(RemoteWebDriver driver)
