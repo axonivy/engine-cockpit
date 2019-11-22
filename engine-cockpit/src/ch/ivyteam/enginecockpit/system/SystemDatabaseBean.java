@@ -236,7 +236,8 @@ public class SystemDatabaseBean
   {
     return converter != null && 
             !converter.isRunning() && 
-            StringUtils.equals(converter.getProgressText(), "Finished");
+            StringUtils.equals(converter.getProgressText(), "Finished") &&
+            getDbConversionError().isBlank();
   }
   
   public String getDbConversionError()
