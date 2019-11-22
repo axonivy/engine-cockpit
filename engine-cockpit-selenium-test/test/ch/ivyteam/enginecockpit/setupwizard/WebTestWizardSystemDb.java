@@ -28,6 +28,13 @@ public class WebTestWizardSystemDb extends WebTestBase
   }
   
   @Test
+  void testConnectionResults()
+  {
+    navigateToSystemDbWizardStep();
+    WebTestSystemDb.assertConnectionResults(driver);
+  }
+  
+  @Test
   void testOldDbConversionNeeded()
   {
     createOldDb(driver);

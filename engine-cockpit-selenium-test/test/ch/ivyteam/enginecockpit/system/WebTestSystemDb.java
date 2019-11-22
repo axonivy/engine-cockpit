@@ -38,6 +38,13 @@ public class WebTestSystemDb extends WebTestBase
   }
   
   @Test
+  void testConnectionResults()
+  {
+    navigateToSystemDb();
+    assertConnectionResults(driver);
+  }
+  
+  @Test
   void testConvertOldDb()
   {
     createOldDb(driver);
@@ -139,6 +146,43 @@ public class WebTestSystemDb extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseDialog").isDisplayed()).isFalse());
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
             .contains("Connected"));
+  }
+  
+
+  public static void assertConnectionResults(RemoteWebDriver driver)
+  {
+    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys2", TEST_DB_NAME, "admin", "nimda");
+    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Incorrect host or port"));
+    saveScreenshot(driver, "wrong_host");
+    
+    driver.navigate().refresh();
+    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin", "nimda");
+    PrimeUi primeUi = new PrimeUi(driver);
+    SelectBooleanCheckbox defaultPort = primeUi.selectBooleanCheckbox(By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
+    defaultPort.removeChecked();
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port input").isEnabled()).isTrue());
+    driver.findElementByCssSelector(".sysdb-dynamic-form-port input").clear();
+    driver.findElementByCssSelector(".sysdb-dynamic-form-port input").sendKeys("1");
+    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Incorrect host or port"));
+    saveScreenshot(driver, "wrong_port");
+    
+    driver.navigate().refresh();
+    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin2", "nimda");
+    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Connection state unknown"));
+    saveScreenshot(driver, "wrong_username");
+    
+    driver.navigate().refresh();
+    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin", "nimda2");
+    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Connection state unknown"));
+    saveScreenshot(driver, "wrong_password");
   }
   
   public static void assertAdditionalProperties(RemoteWebDriver driver)
