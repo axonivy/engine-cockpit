@@ -286,7 +286,7 @@ public class SystemDatabaseBean
   {
     oldProps.forEach(old -> {
       newProps.forEach(p -> {
-        if (p.getProperty().equals(old.getProperty()))
+        if (p.getProperty().equals(old.getProperty()) && !old.getValue().isBlank())
         {
           p.setValue(old.getValue());
         }

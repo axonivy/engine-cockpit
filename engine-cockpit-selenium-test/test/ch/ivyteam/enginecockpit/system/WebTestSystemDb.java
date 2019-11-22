@@ -235,21 +235,27 @@ public class WebTestSystemDb extends WebTestBase
     SelectOneMenu dbDriver = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
     webAssertThat(() -> assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db"));
     webAssertThat(() -> assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory"));
-    webAssertThat(() -> assertThat(elementNotAvailable(driver, By.cssSelector(".sysdb-dynamic-form-databasename"))).isTrue());
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-databasename")
+            .getAttribute("value")).isEqualTo("AxonIvySystemDatabase"));
     
     dbType.selectItemByLabel("Oracle");
     saveScreenshot(driver, "oracle");
     webAssertThat(() -> assertThat(dbType.getSelectedItem()).isEqualTo("Oracle"));
     webAssertThat(() -> assertThat(dbDriver.getSelectedItem()).isEqualTo("Oracle Thin"));
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-oracleservicename")
-            .getText()).isEqualTo(""));
+            .getAttribute("value")).isEqualTo(""));
     
     dbType.selectItemByLabel("MySQL");
     saveScreenshot(driver, "mysql");
     webAssertThat(() -> assertThat(dbType.getSelectedItem()).isEqualTo("MySQL"));
     webAssertThat(() -> assertThat(dbDriver.getSelectedItem()).isEqualTo("mySQL"));
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-host")
-            .getText()).isEqualTo("localhost"));
+            .getAttribute("value")).isEqualTo("localhost"));
+    
+    dbType.selectItemByLabel("Hypersonic SQL Db");
+    saveScreenshot(driver, "hsql");
+    webAssertThat(() -> assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db"));
+    webAssertThat(() -> assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory"));
   }
   
   private void navigateToSystemDb()

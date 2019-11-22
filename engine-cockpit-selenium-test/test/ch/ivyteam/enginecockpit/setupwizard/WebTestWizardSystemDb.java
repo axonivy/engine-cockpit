@@ -39,8 +39,8 @@ public class WebTestWizardSystemDb extends WebTestBase
   void testUiLogicSwitchesAndDefaults()
   {
     navigateToSystemDbWizardStep();
-    WebTestSystemDb.assertDefaultPortSwitch(driver);
     WebTestSystemDb.assertDatabaseTypeSwitch(driver);
+    WebTestSystemDb.assertDefaultPortSwitch(driver);
     WebTestSystemDb.assertAdditionalProperties(driver);
   }
 
