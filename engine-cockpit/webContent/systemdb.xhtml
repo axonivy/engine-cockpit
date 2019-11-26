@@ -33,19 +33,35 @@
                   </h1>
                 </div>
                 <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                  <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="ui-icon-save"
-                    style="width: auto; float: right;" id="saveSystemDbConfig"/>
+                  <h:panelGroup id="sysDbSaveButtons">
+                    <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="ui-icon-save"
+                      style="width: auto; float: right;" id="saveSystemDbConfig" rendered="#{systemDatabaseBean.connectionInfo.successful}" />
+                    <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="Save" icon="ui-icon-save"
+                      style="width: auto; float: right;" id="saveUnknownSystemDbConfig" rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
+                  </h:panelGroup>
                 </div>
               </div>
               <div class="ui-g">
                 <div class="ui-g-12 ui-md-12 ui-lg-12">
-                  <cc:SystemDb id="systemDb" updateFields="systemDb:systemDbForm:connectionPanel,saveSystemDbConfig" />
+                  <cc:SystemDb id="systemDb" updateFields="systemDb:systemDbForm:connectionPanel,sysDbSaveButtons" />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
+      <p:dialog style="min-width: 300px;" header="No Connection" id="saveUnknownConnectionModel"
+        widgetVar="saveUnknownConnectionModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+        <h:form id="saveUnknownConnectionForm">
+          <p:staticMessage severity="warn" summary="No Connection" detail="Do realy you want to save this configuration?" />
+          <br />
+          <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}" value="Yes" icon="ui-icon-check"
+            styleClass="primary-btn modal-input-button" widgetVar="saveUnknownConneciton" oncomplete="PF('saveUnknownConnectionModel').hide();" />
+          <p:commandButton id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();" value="Cancel" type="button"
+            icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+        </h:form>
+      </p:dialog>
     </ui:define>
   </ui:composition>
 </h:body>

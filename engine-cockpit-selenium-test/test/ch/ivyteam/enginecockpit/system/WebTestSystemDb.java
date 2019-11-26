@@ -40,6 +40,26 @@ public class WebTestSystemDb extends WebTestBase
   }
   
   @Test
+  void testSaveConfiguration()
+  {
+    navigateToSystemDb();
+    webAssertThat(() -> assertThat(driver.findElementById("saveUnknownSystemDbConfig").isDisplayed()).isTrue());
+    driver.findElementById("saveUnknownSystemDbConfig").click();
+    saveScreenshot("save_unknown");
+    webAssertThat(() -> assertThat(driver.findElementById("saveUnknownConnectionModel").isDisplayed()).isTrue());
+    driver.findElementById("saveUnknownConnectionForm:saveUnknownConneciton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("saveUnknownConnectionModel").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDbSave_container").getText()).contains("System Database config saved successfully"));
+    
+    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText()).contains("Connected"));
+    webAssertThat(() -> assertThat(driver.findElementById("saveSystemDbConfig").isDisplayed()).isTrue());
+    driver.findElementById("saveSystemDbConfig").click();
+    saveScreenshot("save_normal");
+    webAssertThat(() -> assertThat(driver.findElementById("systemDbSave_container").getText()).contains("System Database config saved successfully"));
+  }
+  
+  @Test
   void testConnectionResults()
   {
     navigateToSystemDb();
