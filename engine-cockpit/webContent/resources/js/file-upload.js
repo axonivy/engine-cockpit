@@ -4,7 +4,7 @@ var uploadUrl = "";
 var uploadErrorField = "#uploadError";
 
 function initFileUpload() {
-	$(document).ready(function(e) {
+  $(document).ready(function(e) {
     handleFile(document.getElementById('fileInput').files[0]);
   });
 	

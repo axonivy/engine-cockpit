@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
     
   <h:form id="addAdminForm">
-  	<div class="ui-g">
+    <div class="ui-g">
       <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}"
         icon="ui-icon-plus" title="Edit" update="admins:editAdminDialog" value="Add Administrator"
         styleClass="wizard-top-button secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />

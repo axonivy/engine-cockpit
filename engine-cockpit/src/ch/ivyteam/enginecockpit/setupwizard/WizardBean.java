@@ -3,6 +3,9 @@ package ch.ivyteam.enginecockpit.setupwizard;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import ch.ivyteam.ivy.Advisor;
+
+@SuppressWarnings("restriction")
 @ManagedBean
 @SessionScoped
 public class WizardBean
@@ -12,6 +15,15 @@ public class WizardBean
   public WizardBean()
   {
     activeStep = STEPS.LICENCE;
+  }
+
+  public String getInfoPageUrl()
+  {
+    if (Advisor.getAdvisor().isDeveloperMode())
+    {
+      return "/ivy/info/index.jsp";
+    }
+    return "../../../../sys/info.xhtml";
   }
   
   public int getActiveStep()

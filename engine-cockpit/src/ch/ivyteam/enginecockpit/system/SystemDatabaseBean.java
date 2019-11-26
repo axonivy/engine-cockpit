@@ -101,7 +101,7 @@ public class SystemDatabaseBean
     return driver.getName();
   }
   
-  public String getHost()
+  public String getUrl()
   {
     return IConfiguration.get().getOrDefault("SystemDb.Url");
   }
@@ -109,7 +109,7 @@ public class SystemDatabaseBean
   public void setDriver(String driver)
   {
     this.driver = getSupportedDrivers().stream().filter(d -> StringUtils.equals(d.getName(), driver)).findFirst().orElseThrow();
-    this.connectionProperties = mergeConnectionProperies(connectionProperties, getConnectionPropertiesList());
+    this.connectionProperties = mergeConnectionProperties(connectionProperties, getConnectionPropertiesList());
   }
 
   public Properties getAdditionalProperties()
@@ -289,7 +289,7 @@ public class SystemDatabaseBean
             .collect(Collectors.toList());
   }
   
-  private static List<SystemDbConnectionProperty> mergeConnectionProperies(
+  private static List<SystemDbConnectionProperty> mergeConnectionProperties(
           List<SystemDbConnectionProperty> oldProps,
           List<SystemDbConnectionProperty> newProps)
   {

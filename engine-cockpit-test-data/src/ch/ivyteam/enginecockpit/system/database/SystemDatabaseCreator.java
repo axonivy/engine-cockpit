@@ -21,39 +21,31 @@ public class SystemDatabaseCreator
   
   public static void createOldDatabase() throws Exception
   {
-    DatabaseConnectionConfiguration dbConnectionConfig = getOldDbConfig();
-    deleteSystemDb(dbConnectionConfig, OLD_DB_NAME);
-    createSystemDb(dbConnectionConfig);
-    fillSystemDb(dbConnectionConfig);
+    deleteSystemDb(OLD_DB_NAME);
+    createSystemDb(OLD_DB_NAME);
+    fillSystemDb(OLD_DB_NAME);
   }
 
   public static void deleteOldDatabase()
   {
-    deleteSystemDb(getOldDbConfig(), OLD_DB_NAME);
+    deleteSystemDb(OLD_DB_NAME);
   }
   
   public static void deleteTempDatabase()
   {
-    deleteSystemDb(getTempDbConfig(), TEST_DB_NAME);
+    deleteSystemDb(TEST_DB_NAME);
   }
   
-  private static DatabaseConnectionConfiguration getTempDbConfig()
+  private static DatabaseConnectionConfiguration getDbConfig(String dbName)
   {
     return new DatabaseConnectionConfiguration(
-            "jdbc:mysql://zugtstdbsmys:3306/" + TEST_DB_NAME,
+            "jdbc:mysql://zugtstdbsmys:3306/" + dbName,
             "com.mysql.jdbc.Driver", "admin", "nimda");
   }
   
-  private static DatabaseConnectionConfiguration getOldDbConfig()
+  private static void deleteSystemDb(String dbName)
   {
-    return new DatabaseConnectionConfiguration(
-            "jdbc:mysql://zugtstdbsmys:3306/" + OLD_DB_NAME,
-            "com.mysql.jdbc.Driver", "admin", "nimda");
-  }
-  
-  private static void deleteSystemDb(DatabaseConnectionConfiguration dbConnectionConfig, String dbName)
-  {
-    try (Connection connection = DatabaseUtil.openConnection(dbConnectionConfig))
+    try (Connection connection = DatabaseUtil.openConnection(getDbConfig(dbName)))
     {
       Statement stmt = connection.createStatement();
       stmt.execute("DROP DATABASE " + dbName);
@@ -63,16 +55,16 @@ public class SystemDatabaseCreator
     }
   }
 
-  private static void createSystemDb(DatabaseConnectionConfiguration dbConnectionConfig)
+  private static void createSystemDb(String dbName)
           throws SQLException
   {
-    DatabaseServer.createInstance(dbConnectionConfig).createDatabase(OLD_DB_NAME);
+    DatabaseServer.createInstance(getDbConfig(dbName)).createDatabase(dbName);
   }
   
-  private static void fillSystemDb(DatabaseConnectionConfiguration dbConnectionConfig)
+  private static void fillSystemDb(String dbName)
           throws FileNotFoundException, IOException, SQLException
   {
-    try (Connection connection = DatabaseUtil.openConnection(dbConnectionConfig))
+    try (Connection connection = DatabaseUtil.openConnection(getDbConfig(dbName)))
     {
       try (Statement stmt = connection.createStatement())
       {

@@ -12,7 +12,7 @@
         <div class="layout-menu-container">
           <h:form id="menuform">
             <pm:menu widgetVar="menu">
-              <p:menuitem id="server" value="Applications" icon="info" url="/ivy/sys/info.xhtml" />
+              <p:menuitem id="server" value="Applications" icon="info" url="#{wizardBean.infoPageUrl}" />
               <p:menuitem id="cockpit" value="Cockpit" icon="settings" url="dashboard.xhtml" />
               <p:menuitem id="config" value="Config" icon="build" url="setup.xhtml" />
             </pm:menu>
