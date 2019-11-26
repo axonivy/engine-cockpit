@@ -29,6 +29,11 @@ public class SystemDbCreationParameter
     return param.getLabel();
   }
   
+  public String getCssClass()
+  {
+    return "creation-param-" + getLabel().replace(" ", "").toLowerCase();
+  }
+  
   public DatabaseCreationParameter getParam()
   {
     return param;

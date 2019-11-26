@@ -141,6 +141,11 @@ public class WebTestBase extends WebBase
   {
     runTestProcess(driver, "/engine-cockpit-test-data/16E8EAD7CC77A0A3/deleteOldDatabase.ivp");
   }
+  
+  public static void deleteTempDb(RemoteWebDriver driver)
+  {
+    runTestProcess(driver, "/engine-cockpit-test-data/16E8EAD7CC77A0A3/deleteTempDatabase.ivp");
+  }
 
   private static void runTestProcess(RemoteWebDriver driver, String processLink)
   {

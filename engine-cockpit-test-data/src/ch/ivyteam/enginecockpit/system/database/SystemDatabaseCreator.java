@@ -17,18 +17,31 @@ public class SystemDatabaseCreator
 {
 
   private static final String OLD_DB_NAME = "engine_cockpit_old_db_version44";
+  private static final String TEST_DB_NAME = "engine_cockpit_test_temp";
   
   public static void createOldDatabase() throws Exception
   {
     DatabaseConnectionConfiguration dbConnectionConfig = getOldDbConfig();
-    deleteSystemDb(dbConnectionConfig);
+    deleteSystemDb(dbConnectionConfig, OLD_DB_NAME);
     createSystemDb(dbConnectionConfig);
     fillSystemDb(dbConnectionConfig);
   }
 
   public static void deleteOldDatabase()
   {
-    deleteSystemDb(getOldDbConfig());
+    deleteSystemDb(getOldDbConfig(), OLD_DB_NAME);
+  }
+  
+  public static void deleteTempDatabase()
+  {
+    deleteSystemDb(getTempDbConfig(), TEST_DB_NAME);
+  }
+  
+  private static DatabaseConnectionConfiguration getTempDbConfig()
+  {
+    return new DatabaseConnectionConfiguration(
+            "jdbc:mysql://zugtstdbsmys:3306/" + TEST_DB_NAME,
+            "com.mysql.jdbc.Driver", "admin", "nimda");
   }
   
   private static DatabaseConnectionConfiguration getOldDbConfig()
@@ -38,12 +51,12 @@ public class SystemDatabaseCreator
             "com.mysql.jdbc.Driver", "admin", "nimda");
   }
   
-  private static void deleteSystemDb(DatabaseConnectionConfiguration dbConnectionConfig)
+  private static void deleteSystemDb(DatabaseConnectionConfiguration dbConnectionConfig, String dbName)
   {
     try (Connection connection = DatabaseUtil.openConnection(dbConnectionConfig))
     {
       Statement stmt = connection.createStatement();
-      stmt.execute("DROP DATABASE " + OLD_DB_NAME);
+      stmt.execute("DROP DATABASE " + dbName);
     }
     catch (SQLException ex)
     {

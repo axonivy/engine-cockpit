@@ -135,7 +135,7 @@
           styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
           <p:outputLabel for="creationParam" value="#{para.label}" />
           <h:panelGroup styleClass="md-inputfield">
-            <p:inputText id="creationParam" value="#{para.value}" required="true"
+            <p:inputText id="creationParam" value="#{para.value}" required="true" styleClass="#{para.cssClass}"
               disabled="#{systemDatabaseBean.dbCreatorRunning or systemDatabaseBean.dbCreatorFinished}" />
             <p:message for="creationParam" id="creationParamMessage" />
           </h:panelGroup>

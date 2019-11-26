@@ -26,6 +26,7 @@ public class WebTestSystemDb extends WebTestBase
   void cleanup()
   {
     resetConfig(driver);
+    deleteTempDb(driver);
   }
   
   @Test
@@ -34,6 +35,7 @@ public class WebTestSystemDb extends WebTestBase
     navigateToSystemDb();
     webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("System Database"));
     assertDefaultValues(driver);
+    assertSystemDbCreationDialog(driver);
     assertSystemDbCreation(driver);
   }
   
@@ -97,7 +99,7 @@ public class WebTestSystemDb extends WebTestBase
             By.id("systemDb:systemDbForm:checkConnectionButton"))));
   }
   
-  public static void assertSystemDbCreation(RemoteWebDriver driver)
+  public static void assertSystemDbCreationDialog(RemoteWebDriver driver)
   {
     insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin", "nimda");
     driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
@@ -110,8 +112,27 @@ public class WebTestSystemDb extends WebTestBase
     driver.findElementById("systemDb:systemDbForm:createDatabaseButton").click();
     saveScreenshot(driver, "creation_dialog");
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseDialog").isDisplayed()).isTrue());
-    
-    //TODO test creation
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".creation-param-databasename").getAttribute("value"))
+            .isEqualTo(TEST_DB_NAME));
+  }
+  
+  public static void assertSystemDbCreation(RemoteWebDriver driver)
+  {
+    driver.findElementById("systemDb:createDatabaseForm:confirmConvertButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseForm:confirmConvertButton")
+            .isEnabled()).isFalse());
+    saveScreenshot(driver, "creating");
+    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".fa.fa-circle-o-notch.fa-spin")
+            .isDisplayed()).isTrue());
+    new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(
+            By.id("systemDb:createDatabaseForm:closeCreationButton")));
+    saveScreenshot(driver, "finished");
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseForm:creationResult").getText())
+            .isEqualTo(""));
+    driver.findElementById("systemDb:createDatabaseForm:closeCreationButton").click();
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseDialog").isDisplayed()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Connected"));
   }
   
   public static void assertSystemDbConversionDialog(RemoteWebDriver driver)

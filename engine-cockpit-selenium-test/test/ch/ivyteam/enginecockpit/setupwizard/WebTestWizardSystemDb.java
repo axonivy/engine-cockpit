@@ -21,10 +21,8 @@ public class WebTestWizardSystemDb extends WebTestBase
   void testWebServerStep()
   {
     navigateToSystemDbWizardStep();
-    
     WebTestSystemDb.assertDefaultValues(driver);
-    WebTestSystemDb.assertSystemDbCreation(driver);
-    //TODO: fix connection and test finish
+    WebTestSystemDb.assertSystemDbCreationDialog(driver);
   }
   
   @Test
