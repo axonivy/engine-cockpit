@@ -187,6 +187,7 @@ public class WebTestSystemDb extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port input").isEnabled()).isTrue());
     driver.findElementByCssSelector(".sysdb-dynamic-form-port input").clear();
     driver.findElementByCssSelector(".sysdb-dynamic-form-port input").sendKeys("1");
+    waitUntilAjaxIsFinished(driver);
     driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
             .contains("Incorrect host or port"));
