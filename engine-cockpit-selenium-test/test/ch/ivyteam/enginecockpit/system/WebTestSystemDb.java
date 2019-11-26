@@ -195,14 +195,14 @@ public class WebTestSystemDb extends WebTestBase
     insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin2", "nimda");
     driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Connection state unknown"));
+            .contains("Incorrect username or password"));
     saveScreenshot(driver, "wrong_username");
     
     driver.navigate().refresh();
     insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin", "nimda2");
     driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Connection state unknown"));
+            .contains("Incorrect username or password"));
     saveScreenshot(driver, "wrong_password");
   }
   
