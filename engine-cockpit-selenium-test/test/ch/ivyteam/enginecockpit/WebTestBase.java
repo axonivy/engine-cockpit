@@ -95,6 +95,11 @@ public class WebTestBase extends WebBase
     return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
   }
   
+  public static void waitUntilAjaxIsFinished(RemoteWebDriver driver)
+  {
+    webAssertThat(() -> assertThat(driver.findElementById("ajaxLoadingStatus_start").isDisplayed()).isFalse());
+  }
+  
   public static void addSystemAdmin(RemoteWebDriver driver)
   {
     runTestProcess(driver, "/engine-cockpit-test-data/16E88DD61E825E70/addAdministrator.ivp");

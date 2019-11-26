@@ -95,6 +95,7 @@ public class WebTestSystemDb extends WebTestBase
     driver.findElementByCssSelector(".sysdb-dynamic-form-password").clear();
     driver.findElementByCssSelector(".sysdb-dynamic-form-password").sendKeys(password);
     saveScreenshot(driver, "insert_db_connection");
+    waitUntilAjaxIsFinished(driver);
     new WebDriverWait(driver, 10).until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(
             By.id("systemDb:systemDbForm:checkConnectionButton"))));
   }
