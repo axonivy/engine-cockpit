@@ -39,100 +39,20 @@
     </div>
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
-      var file;
-      
-      $(document).ready(function(e) {
-        handleFile(document.getElementById('fileInput').files[0]);
-      });
-      
-      $("#fileInput").on("change", function(e) {
-        handleFile(e.target.files[0]);
-      });
-      
-      $('#drop_zone').on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      })
-      .on('dragover dragenter', function() {
-        $('#drop_zone').addClass('is-dragover');
-      })
-      .on('dragleave dragend drop', function() {
-        $('#drop_zone').removeClass('is-dragover');
-      })
-      .on('drop', function(e) {
-        if(e.originalEvent.dataTransfer &amp;&amp; e.originalEvent.dataTransfer.files.length) {
-          handleFile(e.originalEvent.dataTransfer.files[0]);
-        }
-      });
-      
-      function handleFile(file) {
-        if (checkFileInput(file)) {
-          this.file = file;
-          $('#selectedFileOutput').text(file.name + " (" + file.size / 1000 + "kB)");
-        } else {
-          $('#selectedFileOutput').text("Choose or drop a file which ends with: #{cc.attrs.acceptFiles}");
-          this.file = null;
-        }
+      var uploadUrl = "/#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}"
+    
+      function beforeUpload() {
+        $('#fileUploadResponse').show();
+        $('#fileUploadForm').hide();
+        $('#uploadFileSpinner').show();
       }
       
-      function checkFileInput(file) {
-        if (file != null &amp;&amp; endsWithAnyAccepts(file.name)) {
-          return true;
-        } 
-        return false;
+      function uploadedAlways() {
+        $('#uploadFileSpinner').hide();
+        PF('fileUploadModal').initPosition();
       }
-      
-      function endsWithAnyAccepts(fileName) {
-        return accepts.some(function (accept) {
-          return fileName.endsWith(accept);
-        });
-      }
-      
-      function upload() {
-        if (!file)
-        {
-          $('#uploadError').text("Choose a valid file before upload.");
-          return;
-        }
-        
-        $.ajax({
-          url: '/#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}',
-          mimeType: 'multipart/form-data',
-          cache: false,
-          contentType: false,
-          processData: false,
-          data: buildFormData(),
-          method: 'POST',
-          headers: {"X-Requested-By": "engine-cockpit"},
-          async: true,
-          crossDomain: false,
-          beforeSend: function(xhr) {
-            $('#fileUploadResponse').show();
-            $('#fileUploadForm').hide();
-            $('#uploadFileSpinner').show();
-          }
-        }).done(function(response){
-          $('#uploadLog').text(response);
-          $('#uploadStatus').text("Success").css("color", "green");
-        }).fail(function(request, status, error) {
-          $('#uploadLog').text(request.responseText);
-          $('#uploadStatus').text("Error").css("color", "red");
-        }).always(function() {
-          $('#uploadFileSpinner').hide();
-          PF('fileUploadModal').initPosition();
-        });
-      }
-      
-      function buildFormData() {
-        var form_data = new FormData();
-        if (!'#{cc.attrs.apiUrl}'.endsWith('licence')) {
-          form_data.append('fileToDeploy', file, file.name);
-          addDeployOptions(form_data);
-        } else {
-          form_data.append('licence', file, file.name);
-        }
-        return form_data;
-      }
+    
+      initFileUpload();
       
       function back() {
         $('#fileUploadResponse').hide();

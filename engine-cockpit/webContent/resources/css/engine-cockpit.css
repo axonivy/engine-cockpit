@@ -124,6 +124,15 @@ body {
 }
 
 /*Tables / Trees*/
+.ui-datatable.no-header-table thead {
+  display: none;
+}
+.ui-panelgrid.ui-panelgrid-blank .ui-datatable tbody tr.ui-widget-content {
+    border: 1px solid #d8d8d8;
+}
+.ui-panelgrid.ui-panelgrid-blank .ui-datatable tbody tr.ui-datatable-even {
+    background-color: #f4f4f4;
+}
 .ui-tree-search-header .table-search-icon,
 .ui-datatable .table-search-icon {
   float: left;
@@ -296,8 +305,6 @@ body {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   padding: 5px 8px;
-  width: 100%;
-  display: inline-block;
 }
 .static-message i {
   margin-left: 5px;
@@ -412,4 +419,21 @@ body {
 }
 .querytool .querytool-query {
   display: block; overflow: hidden;
+}
+
+/* SystemDb / Wizard */
+.card .ui-staticmessage,
+.connection-panel .ui-staticmessage {
+  margin: 0 0 20px 0;
+}
+.connection-panel .ui-message.ui-message-success {
+  background-color: #C7D426;
+  border-color: #C7D426;
+  color: #FFF;
+}
+.ui-fluid .ui-button.wizard-top-button {
+  float: left;
+  width: 200px;
+  margin-right: 5px;
+  margin-bottom: 20px;
 }

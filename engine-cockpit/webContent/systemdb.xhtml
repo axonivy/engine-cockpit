@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li>Services</li>
+      <li>/</li>
+      <li><a href="systemdb.xhtml">System Database</a></li>
+    </ui:define>
+    
+    <ui:define name="breadcrumb-right">
+      <a href="#" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/#{systemDatabaseBean.helpPath}'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
+
+    <ui:define name="content">
+      <p:growl for="systemDbSave" id="systemDbSave" showDetail="true">
+        <p:autoUpdate/>
+      </p:growl>
+      <div class="ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="card card-w-title">
+              <div class="ui-g">
+                <div class="ui-g-12 ui-md-10">
+                  <h1>
+                    <i class="material-icons card-title-icon">dns</i>System Database
+                  </h1>
+                </div>
+                <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
+                  <h:panelGroup id="sysDbSaveButtons">
+                    <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="ui-icon-save"
+                      style="width: auto; float: right;" id="saveSystemDbConfig" rendered="#{systemDatabaseBean.connectionInfo.successful}" />
+                    <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="Save" icon="ui-icon-save"
+                      style="width: auto; float: right;" id="saveUnknownSystemDbConfig" rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
+                  </h:panelGroup>
+                </div>
+              </div>
+              <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                  <cc:SystemDb id="systemDb" updateFields="systemDb:systemDbForm:connectionPanel,sysDbSaveButtons" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <p:dialog style="min-width: 300px;" header="No Connection" id="saveUnknownConnectionModel"
+        widgetVar="saveUnknownConnectionModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+        <h:form id="saveUnknownConnectionForm">
+          <p:staticMessage severity="warn" summary="No Connection" detail="Do realy you want to save this configuration?" />
+          <br />
+          <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}" value="Yes" icon="ui-icon-check"
+            styleClass="primary-btn modal-input-button" widgetVar="saveUnknownConneciton" oncomplete="PF('saveUnknownConnectionModel').hide();" />
+          <p:commandButton id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();" value="Cancel" type="button"
+            icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+        </h:form>
+      </p:dialog>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

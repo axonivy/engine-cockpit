@@ -26,8 +26,6 @@ public class UrlUtil
   {
     return "https://developer.axonivy.com/doc/" + getDocuVersion() + "/engine-guide";
   }
-
-  
   
   public static String getDesignerGuideBaseUrl()
   {

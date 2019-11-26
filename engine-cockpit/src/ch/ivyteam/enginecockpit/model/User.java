@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.security.IUser;
 
 public class User
@@ -8,6 +10,7 @@ public class User
   private String fullName;
   private String email;
   private String password;
+  private String realPassword = "";
 
   private boolean loggedIn;
   private long id;
@@ -84,6 +87,22 @@ public class User
   public void setPassword(String password)
   {
     this.password = password;
+  }
+  
+  //Use for <p:password redisplay="true"> without leak the real password in the DOM
+  public void setRealPassword(String realPassword)
+  {
+    this.password = "*".repeat(realPassword.length()); 
+    this.realPassword = realPassword;
+  }
+  
+  public String getRealPassword()
+  {
+    if (!StringUtils.equals(password, "*".repeat(realPassword.length())))
+    {
+      return password;
+    }
+    return realPassword;
   }
 
   @Override

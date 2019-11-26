@@ -8,23 +8,20 @@
   <h:outputText value="System Database" />
 </f:facet>
 <p:commandButton id="helpSystemDbBtn" title="Help" icon="ui-icon-help" type="button"
-  styleClass="secondary-btn card-button" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/#{systemDbBean.helpPath}'); return false;" />
+  styleClass="secondary-btn card-button" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/#{systemDatabaseBean.helpPath}'); return false;" />
 <p:commandButton id="configureSystemDbBtn" title="Configure SystemDb" icon="ui-icon-settings" type="button"
-  styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=SystemDb'" />
+  styleClass="secondary-btn card-button" onclick="window.location.href='systemdb.xhtml'" />
 <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel"
   rendered="#{!engineModeBean.demo}">
   <label>URL</label>
-  <h:outputText value="#{systemDbBean.url}" />
+  <h:outputText value="#{systemDatabaseBean.url}" />
   <label>Driver</label>
-  <h:outputText value="#{systemDbBean.driver}" />
+  <h:outputText value="#{systemDatabaseBean.driver}" />
 </p:panelGrid>
-<h:panelGroup rendered="#{engineModeBean.demo}">
+<p:panelGrid rendered="#{engineModeBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
   <h:outputText value="No licence installed. HSQL Memory Db is used." rendered="#{!licenceBean.installed}"/>
   <h:outputText value="No system database configured yet. HSQL Memory Db is used." rendered="#{licenceBean.installed}"/>
-</h:panelGroup>
-<h:panelGroup rendered="#{systemDbBean.hasProblem}" styleClass="static-message static-warn-message">
-  <i class="fa fa-exclamation-triangle"/>
-  <h:outputText value="#{systemDbBean.problemMessage}"/>
-</h:panelGroup>
+</p:panelGrid>
+<p:staticMessage rendered="#{systemDatabaseBean.hasProblem}" severity="warn" detail="#{systemDatabaseBean.problemMessage}" />
 
 </html>

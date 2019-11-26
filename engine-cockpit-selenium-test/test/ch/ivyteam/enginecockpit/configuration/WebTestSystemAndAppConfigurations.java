@@ -161,13 +161,12 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   }
   
   @Test
-  void testSystemDbUrlFilter()
+  void testSystemDbConfigUrl()
   {
-    String filter = "SystemDb";
     login();
     saveScreenshot("dashboard");
     driver.findElementById("configureSystemDbBtn").click();
-    assertUrlFiltering(filter);
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("systemdb.xhtml"));
   }
   
   private void assertUrlFiltering(String filter)

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.interactions.Actions;
 
@@ -11,6 +12,12 @@ import ch.ivyteam.enginecockpit.WebTestBase;
 
 public class WebTestRenewLicence extends WebTestBase
 {
+  
+  @AfterEach
+  void cleanup()
+  {
+    resetLicence(driver);
+  }
 
   @Test
   public void testRenewRequest()
@@ -59,7 +66,7 @@ public class WebTestRenewLicence extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));
     webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
     
-    File file = new File(System.getProperty("user.dir")+"/test/ch/ivyteam/enginecockpit/renewlicence/test.lic");
+    File file = new File(System.getProperty("user.dir")+"/resources/test.lic");
     String path = file.getAbsolutePath();
     driver.findElementById("fileInput").sendKeys(path);
     saveScreenshot("selected_licence");

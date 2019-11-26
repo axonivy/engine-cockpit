@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+  xmlns:pm="http://primefaces.org/serenity">
+
+  <div class="layout-sidebar">
+    <div class="sidebar-logo">
+      <a href="config.xhtml"><p:graphicImage name="resources/images/axon_ivy_logo_white.svg" /></a>
+    </div>
+
+    <div class="nano container">
+      <div class="nano-content sidebar-scroll-content">
+        <div class="layout-menu-container">
+          <h:form id="menuform">
+            <pm:menu widgetVar="menu">
+              <p:menuitem id="server" value="Applications" icon="info" url="#{wizardBean.infoPageUrl}" />
+              <p:menuitem id="cockpit" value="Cockpit" icon="settings" url="dashboard.xhtml" />
+              <p:menuitem id="config" value="Config" icon="build" url="setup.xhtml" />
+            </pm:menu>
+          </h:form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</ui:composition>

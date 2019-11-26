@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+
+  <p:remoteCommand name="updateLic" update="fileUploadForm:licDetailLink, fileUploadForm:licWizardStepButtons" />
+
+  <h:form enctype="multipart/form-data" id="fileUploadForm">
+    <div class="file-upload">
+      <input type="file" id="fileInput" class="deploy-file" required="required" accept=".lic" />
+      <p:panelGrid columns="3" columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3" layout="grid" 
+        styleClass="ui-panelgrid-blank">
+        <p:commandButton id="chooseFileBtn" type="button" icon="ui-icon-add" value="Choose licence" 
+          onclick="$('#fileInput').trigger('click')" />
+        <h:panelGroup layout="block">
+          <span id="uploadStatus" class="file-upload-error" />
+          <span id="uploadLog" />
+        </h:panelGroup>
+        <h:panelGroup layout="block" style="padding: 8px 0 8px 0; float: right;">
+          <p:commandLink id="licDetailLink" value="#{licenceBean.organisation} licence" onclick="PF('licenceDetailDialog').show();">
+            <i class="fa fa-search" aria-hidden="true" style="margin-left: 5px;"></i>
+          </p:commandLink>
+        </h:panelGroup>
+      </p:panelGrid>
+      <div id="drop_zone" class="ui-g-12">
+        <span id="selectedFileOutput" class="file-upload-file">Choose or drop a licence file.</span>
+      </div>
+    </div>
+    <h:panelGroup id="licWizardStepButtons">
+      <p:commandButton id="licNextStep" rendered="#{!licenceBean.demo}" actionListener="#{wizardBean.nextStep()}" value="Next" 
+        update="wizardStepPage" process="@this" immediate="true" icon="ui-icon-navigate-next" styleClass="wizard-step-button" />
+      <p:commandButton id="licNextStepDemo" rendered="#{licenceBean.demo}" value="Next" type="button" onclick="PF('licNextStepModel').show();"
+        icon="ui-icon-navigate-next" styleClass="wizard-step-button" />
+      <p:commandButton id="licCancelStep" onclick="window.location = '/'" value="Cancel" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn wizard-step-button" />
+    </h:panelGroup>
+  </h:form>
+  
+  <p:dialog style="min-width: 300px;" header="Demo licence" id="licNextStepModel"
+    widgetVar="licNextStepModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+    <h:form id="licNextStepForm">
+      <p:staticMessage severity="warn" summary="Demo licence" detail="Do realy you want to continue with a demo licence?" />
+      <br />
+      <p:commandButton id="licNextStepDemoYes" actionListener="#{wizardBean.nextStep()}" value="Yes" icon="ui-icon-check"
+        styleClass="primary-btn modal-input-button" widgetVar="licNextStepDemoYes" update="wizardStepPage" />
+      <p:commandButton id="licNextStepDemoNo" onclick="PF('licNextStepModel').hide();" value="Cancel" type="button"
+        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+    </h:form>
+  </p:dialog>
+  
+  <ui:include src="../../dialogs/licenceinfo.xhtml" />
+  
+  <script>
+    var accepts = [".lic"];
+    var directUpload = true;
+    var uploadUrl = "/#{advisorBean.apiBaseUrl}/#{advisorBean.app}/licence";
+    var uploadErrorField = "#uploadStatus";
+    
+    function uploadDone() {
+      updateLic();
+    }
+    
+    initFileUpload();
+  </script>
+</html>

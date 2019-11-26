@@ -20,6 +20,7 @@
   <h:outputScript name="js/ripple.js" library="serenity-layout" />
   <h:outputScript name="resources/js/highlight.pack.js" />
   <h:outputScript name="resources/js/navigation-menu-fix.js" />
+  <h:outputScript name="resources/js/file-upload.js" />
   <ui:insert name="head" />
 </h:head>
 
@@ -50,15 +51,7 @@
     </div>
   </div>
 
-  <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
-    <f:facet name="start">
-      <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
-    </f:facet>
-
-    <f:facet name="complete">
-      <h:outputText value="" />
-    </f:facet>
-  </p:ajaxStatus>
+  <ui:include src="ajax-loading-progress.xhtml" />
 
   <ui:include src="exception.xhtml" />
 

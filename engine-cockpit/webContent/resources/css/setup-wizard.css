@@ -1,0 +1,28 @@
+body .ui-panelgrid .ui-panelgrid-cell {
+  padding-top: 0;
+}
+body .ui-growl {
+  top: 125px;
+}
+.ui-steps .ui-steps-item {
+  width: 25%;
+}
+.ui-fluid .ui-button.wizard-step-button {
+  width: 100px; 
+  margin-right: 5px; 
+  float: right;
+  margin-top: 20px;
+  pointer-events: all;
+}
+#chooseFileBtn {
+  width: 100%;
+}
+#uploadStatus {
+  padding: 0; 
+  line-height: 30px;
+  margin-right: 10px;
+}
+#drop_zone {
+  line-height: 100px; 
+  text-align: center;
+}

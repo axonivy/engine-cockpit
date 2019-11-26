@@ -23,6 +23,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.SystemLicence;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @RequestScoped
 public class LicenceBean

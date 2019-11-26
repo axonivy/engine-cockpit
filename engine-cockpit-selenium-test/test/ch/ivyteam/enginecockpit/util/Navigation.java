@@ -26,6 +26,9 @@ public class Navigation
   private static final By SERVICES_DATABASES_MENU = By.xpath("//li[@id='menuform:sr_database']/child::a");
   private static final By SERVICES_RESTCLIENTS_MENU = By.xpath("//li[@id='menuform:sr_rest_client']/child::a");
   private static final By SERVICES_WEBSERVICES_MENU = By.xpath("//li[@id='menuform:sr_web_service']/child::a");
+  private static final By SYSTEM_MENU = By.xpath("//li[@id='menuform:sr_system']/child::a");
+  private static final By SYSTEM_ADMINS = By.xpath("//li[@id='menuform:sr_admins']/child::a");
+  private static final By SYSTEM_SYSTEMDB_MENU = By.xpath("//li[@id='menuform:sr_systemdb']/child::a");
   private static final By SYSTEM_CONFIG_MENU = By.xpath("//li[@id='menuform:sr_system_config']/child::a");
   private static final By MONITOR_MENU = By.xpath("//li[@id='menuform:sr_monitor']/child::a");
   private static final By LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
@@ -169,9 +172,21 @@ public class Navigation
     WebBase.webAssertThat(() -> driver.getCurrentUrl().contains("webservicedetail.xhtml?webserviceId=")); 
   }
   
+  public static void toAdmins(RemoteWebDriver driver)
+  {
+    toSubMenu(driver, SYSTEM_MENU, SYSTEM_ADMINS);
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("admins.xhtml"));
+  }
+
+  public static void toSystemDb(RemoteWebDriver driver)
+  {
+    toSubMenu(driver, SYSTEM_MENU, SYSTEM_SYSTEMDB_MENU);
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemdb.xhtml"));
+  }
+  
   public static void toSystemConfig(RemoteWebDriver driver)
   {
-    toMenu(driver, SYSTEM_CONFIG_MENU);
+    toSubMenu(driver, SYSTEM_MENU, SYSTEM_CONFIG_MENU);
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemconfig.xhtml"));
   }
   

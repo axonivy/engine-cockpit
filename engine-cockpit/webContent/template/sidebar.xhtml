@@ -34,7 +34,11 @@
                 <p:menuitem id="sr_rest_client" value="Rest Clients" icon="settings_ethernet" url="restclients.xhtml" />
                 <p:menuitem id="sr_searchengine" value="Search Engine" icon="search" url="searchengine.xhtml" />
               </p:submenu>
-              <p:menuitem id="sr_system_config" value="System Configuration" icon="settings" url="systemconfig.xhtml" />
+              <p:submenu id="sr_system" label="System" icon="build">
+                <p:menuitem id="sr_admins" value="Administrators" icon="supervisor_account" url="admins.xhtml" />
+                <p:menuitem id="sr_systemdb" value="System Database" icon="dns" url="systemdb.xhtml" />
+                <p:menuitem id="sr_system_config" value="System Configuration" icon="settings" url="systemconfig.xhtml" />
+              </p:submenu>
               <p:menuitem id="sr_cluster" value="Cluster" icon="view_carousel" url="cluster.xhtml" 
               	rendered="#{clusterBean.clusterServer}"/>
               <p:menuitem id="sr_monitor" value="Monitor" icon="track_changes" url="monitor.xhtml" />

@@ -1,0 +1,16 @@
+@media (min-width: 1025px) {
+  .layout-topbar-menu-wrapper,
+  .container {
+    max-width: 1170px;
+    margin: 0 auto;
+  }
+  .container .topbar-logo {
+    margin-right: 0;
+  }
+}
+@media (min-width: 1200px) {
+  .layout-wrapper .layout-main .layout-content.container {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
