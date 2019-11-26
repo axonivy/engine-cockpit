@@ -1,17 +1,17 @@
 package ch.ivyteam.enginecockpit.system;
 
-import ch.ivyteam.ivy.persistence.db.DatabaseCreationParameter;
+import ch.ivyteam.db.jdbc.DatabaseCreationParameter;
 
-@SuppressWarnings("restriction")
 public class SystemDbCreationParameter
 {
   
   private String value;
-  private DatabaseCreationParameter parameter;
+  private DatabaseCreationParameter param;
   
-  public SystemDbCreationParameter(DatabaseCreationParameter parameter)
+  public SystemDbCreationParameter(DatabaseCreationParameter param, String defaultValue)
   {
-    this.parameter = parameter;
+    this.param = param;
+    this.value = defaultValue;
   }
 
   public void setValue(String value)
@@ -26,12 +26,12 @@ public class SystemDbCreationParameter
   
   public String getLabel()
   {
-    return parameter.getName();
+    return param.getLabel();
   }
   
-  public DatabaseCreationParameter getParameter()
+  public DatabaseCreationParameter getParam()
   {
-    return parameter;
+    return param;
   }
-
+  
 }

@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -20,12 +21,13 @@ import ch.ivyteam.db.jdbc.ConnectionProperty;
 import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
-import ch.ivyteam.ivy.persistence.db.DatabasePersistencyServiceFactory;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
 import ch.ivyteam.ivy.server.configuration.Configuration;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConverter;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseCreator;
+import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseSetup;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
@@ -53,22 +55,19 @@ public class SystemDatabaseBean
     this.driver = JdbcDriver.forConnectionConfiguration(config).orElseThrow();
     this.product = driver.getDatabaseProduct();
     this.connectionProperties = getConnectionPropertiesList(config);
-    this.creationParameters = getCreationParameterList(config);
+    this.creationParameters = Collections.emptyList();
     this.additionalProps = config.getProperties();
     this.connectionInfo = new ConnectionInfo();
   }
 
   private Set<DatabaseProduct> getSupportedDatabases()
   {
-    return DatabasePersistencyServiceFactory.getSupportedDatabases();
+    return SystemDatabaseSetup.getSupportedDatabases();
   }
   
   private List<JdbcDriver> getSupportedDrivers()
   {
-    return DatabasePersistencyServiceFactory.getSupportedJdbcDrivers().stream()
-            .filter(JdbcDriver::isInstalled)
-            .filter(d -> d.getDatabaseProduct() == product)
-            .collect(Collectors.toList());
+    return SystemDatabaseSetup.getSupportedDrivers(product);
   }
   
   public List<String> getSupporedDatabaseNames()
@@ -101,12 +100,16 @@ public class SystemDatabaseBean
   {
     return driver.getName();
   }
+  
+  public String getHost()
+  {
+    return IConfiguration.get().getOrDefault("SystemDb.Url");
+  }
 
   public void setDriver(String driver)
   {
     this.driver = getSupportedDrivers().stream().filter(d -> StringUtils.equals(d.getName(), driver)).findFirst().orElseThrow();
     this.connectionProperties = mergeConnectionProperies(connectionProperties, getConnectionPropertiesList());
-    this.creationParameters = getCreationParameterList(createConfiguration());
   }
 
   public Properties getAdditionalProperties()
@@ -188,10 +191,18 @@ public class SystemDatabaseBean
     updateDbConfig();
   }
   
+  public void initCreator()
+  {
+    creationParameters = new SystemDatabaseSetup(createConfiguration())
+            .getDatabaseCreationParameters().entrySet().stream().map(e -> new SystemDbCreationParameter(e.getKey(), e.getValue()))
+            .collect(Collectors.toList());
+    creator = null;
+  }
+  
   public void createDatabase()
   {
-    //TODO creation params
-    creator = SystemDatabaseCreator.create(createConfiguration(), null);
+    creator = new SystemDatabaseSetup(createConfiguration())
+            .createCreator(creationParameters.stream().collect(Collectors.toMap(p -> p.getParam(), p -> p.getValue())));
     creator.executeAsync();
   }
   
@@ -204,22 +215,27 @@ public class SystemDatabaseBean
     return creator.isRunning();
   }
   
-  public String getDbCreatorText()
+  public boolean isDbCreatorFinished()
   {
-    if (creator == null)
-    {
-      return "";
-    }
-    if (creator.getError() != null)
+    return creator != null && 
+            !creator.isRunning() && 
+            StringUtils.equals(creator.getProgressText(), "Finished") &&
+            getDbCreatorError().isBlank();
+  }
+  
+  public String getDbCreatorError()
+  {
+    if (creator != null && creator.getError() != null)
     {
       return creator.getError().getMessage();
     }
-    return creator.getProgressText();
+    return "";
   }
   
   public void createConverter()
   {
-    converter = SystemDatabaseConverter.create(createConfiguration());
+    converter = new SystemDatabaseSetup(createConfiguration())
+            .createConverter();
   }
   
   public void convertDatabase()
@@ -270,13 +286,6 @@ public class SystemDatabaseBean
   {
     return driver.getConnectionConfigurator().getDatabaseConnectionProperties().stream()
             .map(p -> new SystemDbConnectionProperty(p, driver.getConnectionConfigurator().getDefaultValue(p)))
-            .collect(Collectors.toList());
-  }
-  
-  private static List<SystemDbCreationParameter> getCreationParameterList(DatabaseConnectionConfiguration config)
-  {
-    return DatabasePersistencyServiceFactory.createDatabaseCreator(config).getDatabaseCreationParameters().stream()
-            .map(para -> new SystemDbCreationParameter(para))
             .collect(Collectors.toList());
   }
   
