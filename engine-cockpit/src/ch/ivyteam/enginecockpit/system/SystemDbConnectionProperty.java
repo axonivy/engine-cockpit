@@ -15,7 +15,7 @@ public class SystemDbConnectionProperty
   public SystemDbConnectionProperty(ConnectionProperty connectionProperty, String defaultValue)
   {
     this.property = connectionProperty;
-    setValue(defaultValue);
+    this.value = defaultValue;
     this.defaultValue = defaultValue;
     this.isDefault = StringUtils.equals(value, defaultValue);
   }
@@ -29,6 +29,11 @@ public class SystemDbConnectionProperty
   public String getValue()
   {
     return value;
+  }
+  
+  public String getPasswordPlaceholder()
+  {
+    return "*".repeat(value.length());
   }
   
   public void setDefaultValue(boolean defaultValue)
@@ -72,7 +77,6 @@ public class SystemDbConnectionProperty
   
   public boolean isPassword()
   {
-    //TODO: if password, hide password from DOM
     return property.isConfidential();
   }
   

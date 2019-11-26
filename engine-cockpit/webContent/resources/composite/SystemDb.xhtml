@@ -72,8 +72,8 @@
                 styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
                 <p:outputLabel for="passwordProperty" value="#{connProp.label}" />
                 <h:panelGroup styleClass="md-inputfield">
-                  <p:password styleClass="#{connProp.cssClass}" id="passwordProperty" 
-                    value="#{connProp.value}" required="#{connProp.required}" redisplay="true" autocomplete="new-password">
+                  <p:password styleClass="#{connProp.cssClass}" id="passwordProperty" placeholder="#{connProp.passwordPlaceholder}"
+                    value="#{connProp.value}" required="#{connProp.required}" autocomplete="new-password">
                     <p:ajax event="keyup" update="#{cc.attrs.updateFields},@parent:passwordPropertyMessage" listener="#{systemDatabaseBean.configChanged}" />
                   </p:password>
                   <p:message for="passwordProperty" id="passwordPropertyMessage" />

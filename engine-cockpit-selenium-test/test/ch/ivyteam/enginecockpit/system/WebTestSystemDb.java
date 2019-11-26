@@ -169,7 +169,6 @@ public class WebTestSystemDb extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
             .contains("Connected"));
   }
-  
 
   public static void assertConnectionResults(RemoteWebDriver driver)
   {

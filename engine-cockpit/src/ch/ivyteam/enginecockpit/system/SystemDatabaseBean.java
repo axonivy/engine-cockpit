@@ -188,7 +188,19 @@ public class SystemDatabaseBean
   
   public void saveConfiguration()
   {
-    updateDbConfig();
+    DatabaseConnectionConfiguration dbConfig = createConfiguration();
+    systemDbConfig.setSystemDatabaseConnectionConfiguration(dbConfig);
+    try
+    {
+      systemDbConfig.saveConfiguration(true);
+      FacesContext.getCurrentInstance().addMessage("systemDbSave",
+              new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "System Database config saved successfully"));
+    }
+    catch (IOException ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("systemDbSave",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while save system database", ex.getMessage()));
+    }
   }
   
   public void initCreator()
@@ -302,23 +314,6 @@ public class SystemDatabaseBean
       });
     });
     return newProps;
-  }
-  
-  private void updateDbConfig()
-  {
-    DatabaseConnectionConfiguration dbConfig = createConfiguration();
-    systemDbConfig.setSystemDatabaseConnectionConfiguration(dbConfig);
-    try
-    {
-      systemDbConfig.saveConfiguration(true);
-      FacesContext.getCurrentInstance().addMessage("systemDbSave",
-              new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "System Database config saved successfully"));
-    }
-    catch (IOException ex)
-    {
-      FacesContext.getCurrentInstance().addMessage("systemDbSave",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while save system database", ex.getMessage()));
-    }
   }
   
   private DatabaseConnectionConfiguration createConfiguration()
