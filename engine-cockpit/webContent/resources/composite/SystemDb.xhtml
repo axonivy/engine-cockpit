@@ -3,7 +3,7 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="updateFields" default="#{cc.attrs.updateFields}" />
+  <cc:attribute name="updateFields" default="systemDb:systemDbForm:connectionPanel" />
 </cc:interface>
 
 <cc:implementation>
@@ -20,7 +20,7 @@
           <div>
             <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button secondary-btn"
               onstart="$('#connectionIcon').attr('class', 'fa fa-refresh fa-spin fa-fw');"
-              icon="ui-icon-check" update="connectionPanel" actionListener="#{systemDatabaseBean.testConnection()}" />
+              icon="ui-icon-check" update="#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.testConnection()}" />
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="ui-icon-dns" styleClass="wizard-top-button secondary-btn" 
               actionListener="#{systemDatabaseBean.initCreator()}" update="systemDb:createDatabaseDialog" 
               oncomplete="PF('createDatabaseDialog').show();" disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
@@ -167,7 +167,7 @@
         <p:commandButton id="closeCreationButton" value="Connect"
           icon="ui-icon-check" actionListener="#{systemDatabaseBean.testConnection}"
           onclick="PF('createDatabaseDialog').hide();"
-          update="systemDb:systemDbForm:connectionPanel" styleClass="primary-btn modal-input-button" />
+          update="#{cc.attrs.updateFields}" styleClass="primary-btn modal-input-button" />
       </h:panelGroup>
     </h:form>
   </p:dialog>
@@ -201,7 +201,7 @@
         <p:commandButton id="closeConversionButton" value="Connect"
           icon="ui-icon-check" actionListener="#{systemDatabaseBean.testConnection}"
           onclick="PF('convertDatabaseDialog').hide();"
-          update="systemDb:systemDbForm:connectionPanel" styleClass="primary-btn modal-input-button" />
+          update="#{cc.attrs.updateFields}" styleClass="primary-btn modal-input-button" />
       </h:panelGroup>
     </h:form>
   </p:dialog>

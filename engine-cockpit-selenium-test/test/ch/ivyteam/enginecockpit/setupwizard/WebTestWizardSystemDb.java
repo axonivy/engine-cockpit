@@ -15,14 +15,22 @@ public class WebTestWizardSystemDb extends WebTestBase
   void cleanup()
   {
     resetConfig(driver);
+    deleteTempDb(driver);
   }
   
   @Test
   void testWebServerStep()
   {
     navigateToSystemDbWizardStep();
+    webAssertThat(() -> assertThat(driver.findElementById("sysDbNextStep").isEnabled()).isFalse());
     WebTestSystemDb.assertDefaultValues(driver);
     WebTestSystemDb.assertSystemDbCreationDialog(driver);
+    WebTestSystemDb.assertSystemDbCreation(driver);
+    webAssertThat(() -> assertThat(driver.findElementById("sysDbNextStep").isEnabled()).isTrue());
+    driver.findElementById("sysDbNextStep").click();
+    webAssertThat(() -> assertThat(driver.findElementById("sysDbNextStepModel").isDisplayed()).isTrue());
+    driver.findElementById("sysDbNextStepForm:licNextStepDemoYes").click();
+    webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains("info"));
   }
   
   @Test

@@ -51,15 +51,7 @@
     </div>
   </div>
 
-  <p:ajaxStatus id="ajaxLoadingStatus" style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
-    <f:facet name="start">
-      <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
-    </f:facet>
-
-    <f:facet name="complete">
-      <h:outputText value="" />
-    </f:facet>
-  </p:ajaxStatus>
+  <ui:include src="ajax-loading-progress.xhtml" />
 
   <ui:include src="exception.xhtml" />
 

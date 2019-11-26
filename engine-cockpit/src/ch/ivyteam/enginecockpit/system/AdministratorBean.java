@@ -57,7 +57,7 @@ public class AdministratorBean
     admins.remove(admin);
     IConfiguration.get().remove(ADMINS_DOT + admin.getName());
     FacesContext.getCurrentInstance().addMessage("",
-            new FacesMessage("'" + admin.getName() + "' removed successfully"));
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + admin.getName() + "' removed successfully", ""));
     dirty = true;
   }
   
@@ -73,11 +73,11 @@ public class AdministratorBean
   
   public void saveAdmin()
   {
-    var message = new FacesMessage("'" + editAdmin.getName() + "' modified successfully");
+    var message = new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' modified successfully", "");
     if (!admins.contains(editAdmin))
     {
       admins.add(editAdmin);
-      message = new FacesMessage("'" + editAdmin.getName() + "' added successfully");
+      message = new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' added successfully", "");
     }
     IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_EMAIL, editAdmin.getEmail());
     IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_PASSWORD, editAdmin.getRealPassword());

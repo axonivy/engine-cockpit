@@ -114,7 +114,7 @@ public class WebServerConnectorBean
       IConfiguration.get().set(key, httpEnabled);
     }
     FacesContext.getCurrentInstance().addMessage("",
-            new FacesMessage("'" + key + "' changed successfully"));
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + key + "' changed successfully", ""));
   }
   
 }

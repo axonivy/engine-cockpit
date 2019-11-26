@@ -39,16 +39,8 @@
       <div class="layout-main-mask"></div>
     </div>
   </div>
-
-  <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
-    <f:facet name="start">
-      <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
-    </f:facet>
-
-    <f:facet name="complete">
-      <h:outputText value="" />
-    </f:facet>
-  </p:ajaxStatus>
+  
+  <ui:include src="ajax-loading-progress.xhtml" />
 
   <h:outputStylesheet name="css/nanoscroller.css" library="serenity-layout" />
   <h:outputStylesheet name="css/ripple.css" library="serenity-layout" />
