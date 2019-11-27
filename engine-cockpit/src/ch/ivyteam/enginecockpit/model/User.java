@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.model;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.administrator.Administrator;
 
 public class User
 {
@@ -27,6 +28,14 @@ public class User
     this.email = user.getEMailAddress();
     this.loggedIn = false;
     this.id = user.getId();
+  }
+
+  public User(Administrator admin)
+  {
+    setName(admin.getUsername());
+    setFullName(admin.getFullName());
+    setEmail(admin.getEmail());
+    setRealPassword(admin.getPassword());
   }
 
   public String getName()
@@ -103,6 +112,15 @@ public class User
       return password;
     }
     return realPassword;
+  }
+  
+  public Administrator getAdmin()
+  {
+    return new Administrator.Builder().username(getName())
+            .fullName(getFullName())
+            .email(getEmail())
+            .password(getRealPassword())
+            .toAdministrator();
   }
 
   @Override

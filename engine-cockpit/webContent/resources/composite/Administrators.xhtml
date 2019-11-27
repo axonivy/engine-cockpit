@@ -40,6 +40,9 @@
           </p:message>
         </h:panelGroup>
         
+        <p:outputLabel for="fullname" value="Full Name"/>
+        <p:inputText id="fullname" value="#{administratorBean.admin.fullName}" />
+        
         <p:outputLabel for="email" value="Email" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="email" requiredMessage="Value is required" autocomplete="off"
