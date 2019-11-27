@@ -13,3 +13,7 @@ SecuritySystems:
       Properties:
         Place: st
         Address: streetAddress
+
+Administrators:
+  admin:
+    Password: admin

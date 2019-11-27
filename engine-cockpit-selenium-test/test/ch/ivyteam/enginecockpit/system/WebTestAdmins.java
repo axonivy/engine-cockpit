@@ -33,20 +33,24 @@ public class WebTestAdmins extends WebTestBase
   public static void testAddEditDeleteAdmin(RemoteWebDriver driver)
   {
     Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).isEmpty());
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name"))
+            .containsOnly("admin"));
     
-    String user = "admin";
-    String email = "admin@ivyTeam.ch";
+    String user = "test";
+    String email = "test@ivyTeam.ch";
     String password = "password";
     addAdmin(driver, user, email, password, password);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).containsOnly(user));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name"))
+            .containsExactly("admin", user));
     
     editAdmin(driver, table, user, "test@admin.com");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).containsOnly(user));
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name"))
+            .containsExactly("admin", user));
     webAssertThat(() -> assertThat(table.getValueForEntry(user, 2)).isEqualTo("test@admin.com"));
     
     deleteAdmin(driver, table, user);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).isEmpty());
+    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name"))
+            .containsOnly("admin"));
   }
   
   private static void deleteAdmin(RemoteWebDriver driver, Table table, String user)

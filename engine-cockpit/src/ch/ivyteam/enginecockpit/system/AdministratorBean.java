@@ -9,37 +9,26 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.model.User;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class AdministratorBean
 {
-  private static final String ADMINS = "Administrators";
-  private static final String ADMINS_DOT = ADMINS + ".";
-  private static final String PASSWORD = "Password";
-  private static final String DOT_PASSWORD = "." + PASSWORD;
-  private static final String DOT_EMAIL = ".Email";
   private List<User> admins;
   private User editAdmin;
   private boolean dirty;
   
   public AdministratorBean()
   {
-    admins = initAdmins();
+    admins = reloadAdmins();
     dirty = false;
   }
   
-  private static List<User> initAdmins()
+  private static List<User> reloadAdmins()
   {
-    return IConfiguration.get().getNames(ADMINS, PASSWORD).stream().map(admin -> {
-      User user = new User();
-      user.setName(admin);
-      user.setEmail(IConfiguration.get().getOrDefault(ADMINS_DOT + admin + DOT_EMAIL));
-      user.setRealPassword(IConfiguration.get().getOrDefault(ADMINS_DOT + admin + DOT_PASSWORD));
-      return user;
-    }).collect(Collectors.toList());
+    return AdministratorService.get().all().stream().map(admin -> new User(admin))
+            .collect(Collectors.toList());
   }
   
   public List<User> getAdmins()
@@ -54,10 +43,10 @@ public class AdministratorBean
   
   public void removeAdmin(User admin)
   {
-    admins.remove(admin);
-    IConfiguration.get().remove(ADMINS_DOT + admin.getName());
+    AdministratorService.get().find(admin.getName()).ifPresent(a -> AdministratorService.get().remove(a));
     FacesContext.getCurrentInstance().addMessage("",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + admin.getName() + "' removed successfully", ""));
+    admins.remove(admin);
     dirty = true;
   }
   
@@ -79,9 +68,8 @@ public class AdministratorBean
       admins.add(editAdmin);
       message = new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' added successfully", "");
     }
-    IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_EMAIL, editAdmin.getEmail());
-    IConfiguration.get().set(ADMINS_DOT + "'" + editAdmin.getName() + "'" + DOT_PASSWORD, editAdmin.getRealPassword());
     FacesContext.getCurrentInstance().addMessage("", message);
+    AdministratorService.get().save(editAdmin.getAdmin());
     dirty = true;
   }
   

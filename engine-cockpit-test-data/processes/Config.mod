@@ -64,7 +64,8 @@ Cg0 f6 actionTable 'out=in;
 ' #txt
 Cg0 f6 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
-IConfiguration.get().remove("Administrators");' #txt
+IConfiguration.get().remove("Administrators");
+IConfiguration.get().set("Administrators.admin.Password", "admin");' #txt
 Cg0 f6 168 42 112 44 0 -7 #rect
 Cg0 f6 @|StepIcon #fIcon
 Cg0 f7 111 64 168 64 #arcP

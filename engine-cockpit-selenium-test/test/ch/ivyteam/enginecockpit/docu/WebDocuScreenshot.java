@@ -86,6 +86,8 @@ public class WebDocuScreenshot extends WebTestBase
     takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toSystemConfig(driver);
     takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
+    Navigation.toCluster(driver);
+    takeScreenshot("engine-cockpit-cluster", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toMonitor(driver);
     takeScreenshot("engine-cockpit-monitor", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toLogs(driver);

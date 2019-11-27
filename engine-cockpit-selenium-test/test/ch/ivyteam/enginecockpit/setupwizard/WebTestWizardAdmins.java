@@ -24,9 +24,11 @@ public class WebTestWizardAdmins extends WebTestBase
   void testAdminStep()
   {
     navigateToAdminsWizardStep();
+    webAssertThat(() -> assertThat(driver.findElementById("adminNextStep").isEnabled()).isTrue());
+    Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
+    table.clickButtonForEntry("admin", "deleteAdmin");
     
     webAssertThat(() -> assertThat(driver.findElementById("adminNextStep").isEnabled()).isFalse());
-    Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
     webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).isEmpty());
     
     WebTestAdmins.addAdmin(driver, "admin", "admin@ivyTeam.ch", "password", "password");
@@ -69,7 +71,6 @@ public class WebTestWizardAdmins extends WebTestBase
   {
     webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
             .contains("Administrators"));
-    WebTestAdmins.addAdmin(driver, "test", "test@test.ch", "password", "password");
     webAssertThat(() -> assertThat(driver.findElementById("adminNextStep").isEnabled()).isTrue());
     driver.findElementById("adminNextStep").click();
   }
