@@ -21,6 +21,7 @@ public class WebDocuScreenshot extends WebTestBase
 {
 
   private static final int SCREENSHOT_WIDTH = 1500;
+  private static final int SCREENSHOT_SETUP_WIDTH = 1200;
   
   @BeforeEach
   void setupDocuData()
@@ -94,13 +95,13 @@ public class WebDocuScreenshot extends WebTestBase
     takeScreenshot("engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
     
     login("setup.xhtml");
-    takeScreenshot("engine-cockpit-setup-licence", new Dimension(SCREENSHOT_WIDTH, 550));
+    takeScreenshot("engine-cockpit-setup-licence", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizardLicence.skipLicStep(driver);
-    takeScreenshot("engine-cockpit-setup-admins", new Dimension(SCREENSHOT_WIDTH, 550));
+    takeScreenshot("engine-cockpit-setup-admins", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizardAdmins.skipAdminStep(driver);
-    takeScreenshot("engine-cockpit-setup-webserver", new Dimension(SCREENSHOT_WIDTH, 550));
+    takeScreenshot("engine-cockpit-setup-webserver", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizardWebServer.skipWebserverStep(driver);
-    takeScreenshot("engine-cockpit-setup-systemdb", new Dimension(SCREENSHOT_WIDTH, 900));
+    takeScreenshot("engine-cockpit-setup-systemdb", new Dimension(SCREENSHOT_SETUP_WIDTH, 900));
   }
 
   public void takeScreenshot(String fileName, Dimension size)
