@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.setupwizard;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -14,14 +14,13 @@ import ch.ivyteam.enginecockpit.util.Table;
 public class WebTestWizardAdmins extends WebTestBase
 {
   
-//  @AfterEach
-//  void cleanup()
-//  {
-//    resetConfig(driver);
-//  }
+  @AfterEach
+  void cleanup()
+  {
+    resetConfig(driver);
+  }
   
   @Test
-  @Disabled
   void testAdminStep()
   {
     navigateToAdminsWizardStep();
@@ -45,7 +44,6 @@ public class WebTestWizardAdmins extends WebTestBase
   }
   
   @Test
-  @Disabled
   void testAddEditDeleteAdmin()
   {
     navigateToAdminsWizardStep();
@@ -53,7 +51,6 @@ public class WebTestWizardAdmins extends WebTestBase
   }
   
   @Test
-  @Disabled
   void testAdminDialogInvalid()
   {
     navigateToAdminsWizardStep();
