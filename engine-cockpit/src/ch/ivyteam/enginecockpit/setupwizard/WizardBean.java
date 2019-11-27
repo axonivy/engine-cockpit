@@ -2,10 +2,8 @@ package ch.ivyteam.enginecockpit.setupwizard;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
-import ch.ivyteam.ivy.Advisor;
-
-@SuppressWarnings("restriction")
 @ManagedBean
 @SessionScoped
 public class WizardBean
@@ -19,11 +17,7 @@ public class WizardBean
 
   public String getInfoPageUrl()
   {
-    if (Advisor.getAdvisor().isDeveloperMode())
-    {
-      return "/ivy/info/index.jsp";
-    }
-    return "../../../../sys/info.xhtml";
+    return FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath();
   }
   
   public int getActiveStep()

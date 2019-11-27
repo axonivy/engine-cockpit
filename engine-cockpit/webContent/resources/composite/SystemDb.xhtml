@@ -7,6 +7,11 @@
 </cc:interface>
 
 <cc:implementation>
+  <script>
+    $(document).ready(function(){
+      $('#systemDb\\:systemDbForm\\:checkConnectionButton').click();
+    });
+  </script>
   <h:form id="systemDbForm">
     <div class="ui-g">
       <div class="ui-g-12">
@@ -156,8 +161,8 @@
       </div>
       
       <h:panelGroup rendered="#{!systemDatabaseBean.dbCreatorFinished}">
-        <p:commandButton id="confirmConvertButton" value="Create" disabled="#{systemDatabaseBean.dbCreatorRunning}"
-          icon="ui-icon-dns" actionListener="#{systemDatabaseBean.createDatabase}"
+        <p:commandButton id="confirmConvertButton" value="Save and create" disabled="#{systemDatabaseBean.dbCreatorRunning}"
+          icon="ui-icon-dns" actionListener="#{systemDatabaseBean.createDatabase}" style="width: 170px;"
           update="@form" styleClass="primary-btn modal-input-button" />
         <p:commandButton value="Cancel" icon="ui-icon-clear" disabled="#{systemDatabaseBean.dbCreatorRunning}"
           styleClass="secondary-btn modal-input-button"
@@ -173,14 +178,14 @@
   </p:dialog>
   
   <p:dialog id="convertDatabaseDialog" widgetVar="convertDatabaseDialog"
-    header="Do you really want to convert?" dynamic="true" modal="true"
-    closeOnEscape="true">
+    header="Do you really want to convert?" dynamic="true" modal="true" closable="false">
     <h:form id="convertDatabaseForm">
       <p:poll autoStart="#{systemDatabaseBean.dbConversionRunning}" id="convertingOutputPoll"
         widgetVar="convertingOutputPoll"
         update="@form" interval="2" />
       <p:panelGrid columns="1" layout="grid" 
         styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+        <p:staticMessage severity="warn" summary="Do not leave this page, while a migration is running!"/>
         <h:outputText rendered="#{systemDatabaseBean.dbConversionRunning}">
           <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true" />
         </h:outputText>
@@ -190,9 +195,10 @@
       </p:panelGrid>
       
       <h:panelGroup rendered="#{!systemDatabaseBean.dbConversionFinished}">
-        <p:commandButton id="confirmConvertButton" value="Convert" disabled="#{systemDatabaseBean.dbConversionRunning}"
-          icon="ui-icon-autorenew" actionListener="#{systemDatabaseBean.convertDatabase}"
-          update="@form" styleClass="primary-btn modal-input-button" />
+        <p:commandButton id="confirmConvertButton" value="Save and convert" disabled="#{systemDatabaseBean.dbConversionRunning}"
+          icon="ui-icon-autorenew" actionListener="#{systemDatabaseBean.convertDatabase}" style="width: 170px;"
+          update="@form" styleClass="primary-btn modal-input-button" 
+          onclick="window.onbeforeunload = function () {return 'A database conversion is running!';}" />
         <p:commandButton value="Cancel" icon="ui-icon-clear" disabled="#{systemDatabaseBean.dbConversionRunning}"
           styleClass="secondary-btn modal-input-button"
           oncomplete="PF('convertDatabaseDialog').hide();" />
@@ -200,7 +206,7 @@
       <h:panelGroup rendered="#{systemDatabaseBean.dbConversionFinished}">
         <p:commandButton id="closeConversionButton" value="Connect"
           icon="ui-icon-check" actionListener="#{systemDatabaseBean.testConnection}"
-          onclick="PF('convertDatabaseDialog').hide();"
+          onclick="PF('convertDatabaseDialog').hide(); window.onbeforeunload = undefined;"
           update="#{cc.attrs.updateFields}" styleClass="primary-btn modal-input-button" />
       </h:panelGroup>
     </h:form>
