@@ -23,7 +23,7 @@
           </div>
           
           <div>
-            <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button secondary-btn"
+            <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button primary-btn"
               onstart="$('#connectionIcon').attr('class', 'fa fa-refresh fa-spin fa-fw');"
               icon="ui-icon-check" update="#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.testConnection()}" />
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="ui-icon-dns" styleClass="wizard-top-button secondary-btn" 
