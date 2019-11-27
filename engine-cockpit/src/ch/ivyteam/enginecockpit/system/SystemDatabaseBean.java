@@ -213,6 +213,7 @@ public class SystemDatabaseBean
   
   public void createDatabase()
   {
+    saveConfiguration();
     creator = new SystemDatabaseSetup(createConfiguration())
             .createCreator(creationParameters.stream().collect(Collectors.toMap(p -> p.getParam(), p -> p.getValue())));
     creator.executeAsync();
@@ -252,6 +253,7 @@ public class SystemDatabaseBean
   
   public void convertDatabase()
   {
+    saveConfiguration();
     converter.executeAsync();
   }
   
