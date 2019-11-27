@@ -22,7 +22,7 @@ public class WebTestWizardSystemDb extends WebTestBase
   void testWebServerStep()
   {
     navigateToSystemDbWizardStep();
-    webAssertThat(() -> assertThat(driver.findElementById("sysDbNextStep").isEnabled()).isFalse());
+    webAssertThat(() -> assertThat(driver.findElementById("sysDbNextStep").isEnabled()).isTrue());
     WebTestSystemDb.assertDefaultValues(driver);
     WebTestSystemDb.assertSystemDbCreationDialog(driver);
     WebTestSystemDb.assertSystemDbCreation(driver);

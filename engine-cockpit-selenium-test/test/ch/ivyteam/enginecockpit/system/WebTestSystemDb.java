@@ -43,6 +43,9 @@ public class WebTestSystemDb extends WebTestBase
   void testSaveConfiguration()
   {
     navigateToSystemDb();
+    driver.findElementByCssSelector(".sysdb-dynamic-form-user").sendKeys(" ");
+    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
+            .contains("Connection state unknown"));
     webAssertThat(() -> assertThat(driver.findElementById("saveUnknownSystemDbConfig").isDisplayed()).isTrue());
     driver.findElementById("saveUnknownSystemDbConfig").click();
     saveScreenshot("save_unknown");
@@ -278,7 +281,7 @@ public class WebTestSystemDb extends WebTestBase
   public static void assertDefaultValues(RemoteWebDriver driver)
   {
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Connection state unknown"));
+            .contains("Connected"));
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:databaseType_label").getText())
             .isEqualTo("Hypersonic SQL Db"));
     webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:databaseDriver_label").getText())
