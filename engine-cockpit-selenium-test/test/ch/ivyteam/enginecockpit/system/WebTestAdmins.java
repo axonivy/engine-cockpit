@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -14,6 +15,7 @@ public class WebTestAdmins extends WebTestBase
 {
   
   @Test
+  @Disabled
   void testAddEditDeleteAdmin()
   {
     navigateToAdmins();
@@ -23,6 +25,7 @@ public class WebTestAdmins extends WebTestBase
   }
   
   @Test
+  @Disabled
   void testAdminDialogInvalid()
   {
     navigateToAdmins();
