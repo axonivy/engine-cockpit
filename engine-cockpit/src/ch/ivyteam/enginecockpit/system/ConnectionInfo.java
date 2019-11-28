@@ -49,6 +49,11 @@ public class ConnectionInfo
     return error != null && !error.getMessage().isBlank();
   }
   
+  public Exception getError()
+  {
+    return error;
+  }
+  
   public String getErrorMessage()
   {
     return hasError() ? "Error: " + error.getMessage() : "";
