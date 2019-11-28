@@ -96,6 +96,11 @@ public class WebTestEditor extends WebTestBase
   private void enableDevMode()
   {
     toggleDevMode();
+    webAssertThat(() -> assertThat(driver.findElementById("menuform:sr_system").isDisplayed()).isTrue());
+    if (!driver.findElementById("menuform:sr_system").getAttribute("class").contains("active-menuitem"))
+    {
+      driver.findElementById("menuform:sr_system").click();
+    }
     webAssertThat(() -> assertThat(driver.findElementById("menuform:sr_editor").isDisplayed()).isTrue());
   }
 
