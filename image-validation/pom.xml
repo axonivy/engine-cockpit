@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>ch.ivyteam.ivy</groupId>
 			<artifactId>engine-cockpit-selenium-test</artifactId>
-			<version>7.4.1-SNAPSHOT</version>
+			<version>${revision}</version>
 			<type>zip</type>
 		</dependency>
 	</dependencies>
