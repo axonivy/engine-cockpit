@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.system;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -21,10 +20,10 @@ import ch.ivyteam.db.jdbc.ConnectionProperty;
 import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
+import ch.ivyteam.db.jdbc.SystemDatabaseConfig;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
-import ch.ivyteam.ivy.server.configuration.Configuration;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConverter;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseCreator;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseSetup;
@@ -41,7 +40,6 @@ public class SystemDatabaseBean
   private List<SystemDbConnectionProperty> connectionProperties;
   private List<SystemDbCreationParameter> creationParameters;
   private ConnectionInfo connectionInfo;
-  private Configuration systemDbConfig;
   private Properties additionalProps;
   private String propKey;
   private String propValue;
@@ -50,8 +48,7 @@ public class SystemDatabaseBean
   
   public SystemDatabaseBean()
   {
-    systemDbConfig = Configuration.loadOrCreateConfiguration();
-    DatabaseConnectionConfiguration config = systemDbConfig.getSystemDatabaseConnectionConfiguration();
+    DatabaseConnectionConfiguration config = SystemDatabaseSetup.getConfiguredSystemDatabaseConfig().getDbConnectionConfig();
     this.driver = JdbcDriver.forConnectionConfiguration(config).orElseThrow();
     this.product = driver.getDatabaseProduct();
     this.connectionProperties = getConnectionPropertiesList(config);
@@ -188,19 +185,15 @@ public class SystemDatabaseBean
   
   public void saveConfiguration()
   {
-    DatabaseConnectionConfiguration dbConfig = createConfiguration();
-    systemDbConfig.setSystemDatabaseConnectionConfiguration(dbConfig);
-    try
-    {
-      systemDbConfig.saveConfiguration(true);
-      FacesContext.getCurrentInstance().addMessage("systemDbSave",
-              new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "System Database config saved successfully"));
-    }
-    catch (IOException ex)
-    {
-      FacesContext.getCurrentInstance().addMessage("systemDbSave",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while save system database", ex.getMessage()));
-    }
+    DatabaseConnectionConfiguration dbConnectionConfig = createConfiguration();
+
+    SystemDatabaseConfig newSystemDbConfig = SystemDatabaseConfig.create()
+            .dbConnectionConfig(dbConnectionConfig)
+            .toSystemDatabaseConfig();  
+    
+    SystemDatabaseSetup.saveSystemDatabaseConfig(newSystemDbConfig);
+    FacesContext.getCurrentInstance().addMessage("systemDbSave",
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "System Database config saved successfully"));
   }
   
   public void initCreator()
