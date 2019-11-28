@@ -41,8 +41,8 @@ public class WebTestNavigation extends WebTestBase
     assertView("admins.xhtml", "menuform:sr_admins");
     Navigation.toSystemConfig(driver);
     assertView("systemconfig.xhtml", "menuform:sr_system_config");
-    Navigation.toMonitor(driver);
-    assertView("monitor.xhtml", "menuform:sr_monitor");
+    Navigation.toResourcesMonitor(driver);
+    assertView("monitor.xhtml", "menuform:sr_resources_monitor");
     Navigation.toLogs(driver);
     assertView("logs.xhtml", "menuform:sr_logs");
     Navigation.toDashboard(driver);

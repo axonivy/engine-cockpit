@@ -30,9 +30,10 @@ public class Navigation
   private static final By SYSTEM_ADMINS = By.xpath("//li[@id='menuform:sr_admins']/child::a");
   private static final By SYSTEM_SYSTEMDB_MENU = By.xpath("//li[@id='menuform:sr_systemdb']/child::a");
   private static final By SYSTEM_CONFIG_MENU = By.xpath("//li[@id='menuform:sr_system_config']/child::a");
+  private static final By SYSTEM_EDITOR_MENU = By.xpath("//li[@id='menuform:sr_editor']/child::a");
   private static final By MONITOR_MENU = By.xpath("//li[@id='menuform:sr_monitor']/child::a");
-  private static final By LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
-  private static final By EDITOR_MENU = By.xpath("//li[@id='menuform:sr_editor']/child::a");
+  private static final By MONITOR_RESOURCES_MENU = By.xpath("//li[@id='menuform:sr_resources_monitor']/child::a");
+  private static final By MONITOR_LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
 
   public static void toDashboard(RemoteWebDriver driver)
   {
@@ -192,26 +193,26 @@ public class Navigation
   
   public static void toCluster(RemoteWebDriver driver)
   {
-    driver.get(viewUrl("cluster.xhtml"));
+    driver.get(viewUrl("cluster.xhtml?cluster"));
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("cluster.xhtml"));
   }
   
-  public static void toMonitor(RemoteWebDriver driver)
+  public static void toEditor(RemoteWebDriver driver)
   {
-    toMenu(driver, MONITOR_MENU);
+    toSubMenu(driver, SYSTEM_MENU, SYSTEM_EDITOR_MENU);
+    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("editor.xhtml"));
+  }
+  
+  public static void toResourcesMonitor(RemoteWebDriver driver)
+  {
+    toSubMenu(driver, MONITOR_MENU, MONITOR_RESOURCES_MENU);
     WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("monitor.xhtml"));
   }
   
   public static void toLogs(RemoteWebDriver driver)
   {
-    toMenu(driver, LOGS_MENU);
+    toSubMenu(driver, MONITOR_MENU, MONITOR_LOGS_MENU);
     WebBase.webAssertThat(() -> driver.getCurrentUrl().contains("logs.xhtml"));
-  }
-  
-  public static void toEditor(RemoteWebDriver driver)
-  {
-    toMenu(driver, EDITOR_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("editor.xhtml"));
   }
   
   private static void toMenu(RemoteWebDriver driver, By menuItemPath)

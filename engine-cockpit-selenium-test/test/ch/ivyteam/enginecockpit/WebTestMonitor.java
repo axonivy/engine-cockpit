@@ -25,7 +25,7 @@ public class WebTestMonitor extends WebTestBase
   private void toMonitor()
   {
     login();
-    Navigation.toMonitor(driver);
+    Navigation.toResourcesMonitor(driver);
     saveScreenshot("monitor");
   }
   

@@ -38,13 +38,15 @@
                 <p:menuitem id="sr_admins" value="Administrators" icon="supervisor_account" url="admins.xhtml" />
                 <p:menuitem id="sr_systemdb" value="System Database" icon="dns" url="systemdb.xhtml" />
                 <p:menuitem id="sr_system_config" value="System Configuration" icon="settings" url="systemconfig.xhtml" />
+                <p:menuitem id="sr_cluster" value="Cluster" icon="view_carousel" url="cluster.xhtml" 
+                	rendered="#{clusterBean.clusterServer or param['cluster'] != null}"/>
+                <p:menuitem id="sr_editor" value="Yaml Editor (Preview)" icon="edit" url="editor.xhtml" 
+                  rendered="#{cookie['preview'].value eq 'true'}"/>
               </p:submenu>
-              <p:menuitem id="sr_cluster" value="Cluster" icon="view_carousel" url="cluster.xhtml" 
-              	rendered="#{clusterBean.clusterServer}"/>
-              <p:menuitem id="sr_monitor" value="Monitor" icon="track_changes" url="monitor.xhtml" />
-              <p:menuitem id="sr_logs" value="Logs" icon="format_align_left" url="logs.xhtml?log=console.log"/>
-              <p:menuitem id="sr_editor" value="Yaml Editor (Preview)" icon="edit" url="editor.xhtml" 
-                rendered="#{cookie['preview'].value eq 'true'}"/>
+              <p:submenu id="sr_monitor" label="Monitor" icon="track_changes">
+                <p:menuitem id="sr_resources_monitor" value="Resources" icon="memory" url="monitor.xhtml" />
+                <p:menuitem id="sr_logs" value="Logs" icon="format_align_left" url="logs.xhtml?log=console.log"/>
+              </p:submenu>
             </pm:menu>
           </h:form>
         </div>
