@@ -30,6 +30,19 @@ public class WebTestAdmins extends WebTestBase
     testAddAdminInvalidPassword(driver);
   }
   
+  @Test
+  void testOwnAdminCannotBeDeleted()
+  {    
+    navigateToAdmins();
+    assertOwnAdminCannotBeDeleted(driver);
+  }
+
+  public static void assertOwnAdminCannotBeDeleted(RemoteWebDriver driver)
+  {
+    Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
+    webAssertThat(() -> assertThat(table.buttonForEntryDisabled("admin", "deleteAdmin")).isTrue());
+  }
+  
   public static void testAddEditDeleteAdmin(RemoteWebDriver driver)
   {
     Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
@@ -61,7 +74,7 @@ public class WebTestAdmins extends WebTestBase
 
   private static void editAdmin(RemoteWebDriver driver, Table table, String user, String email)
   {
-    table.clickButtonForEntry(user, "editPropertyBtn");
+    table.clickButtonForEntry(user, "editAdminBtn");
     webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminDialog").isDisplayed()).isTrue());
     webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:name").isEnabled()).isFalse());
     

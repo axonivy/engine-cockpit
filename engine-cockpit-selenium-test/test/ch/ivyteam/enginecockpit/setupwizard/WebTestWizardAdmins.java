@@ -26,11 +26,6 @@ public class WebTestWizardAdmins extends WebTestBase
     navigateToAdminsWizardStep();
     webAssertThat(() -> assertThat(driver.findElementById("adminNextStep").isEnabled()).isTrue());
     Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
-    table.clickButtonForEntry("admin", "deleteAdmin");
-    
-    webAssertThat(() -> assertThat(driver.findElementById("adminNextStep").isEnabled()).isFalse());
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).isEmpty());
-    
     WebTestAdmins.addAdmin(driver, "admin", "admin@ivyTeam.ch", "password", "password");
     saveScreenshot("add_admin");
     webAssertThat(() -> assertThat(driver.findElementByClassName("ui-growl-title").getText())
@@ -56,6 +51,13 @@ public class WebTestWizardAdmins extends WebTestBase
     navigateToAdminsWizardStep();
     WebTestAdmins.testAddAdminInvalidValues(driver);
     WebTestAdmins.testAddAdminInvalidPassword(driver);
+  }
+  
+  @Test
+  void testOwnAdminCannotBeDeleted()
+  {    
+    navigateToAdminsWizardStep();
+    WebTestAdmins.assertOwnAdminCannotBeDeleted(driver);
   }
   
   private void navigateToAdminsWizardStep()
