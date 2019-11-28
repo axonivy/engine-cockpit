@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.TabChangeEvent;
 
@@ -33,6 +34,8 @@ public class ManagerBean
   
   private Map<Long, List<String>> environments = new HashMap<>();
   private String selectedEnvironment;
+  
+  private boolean hideDashboadWarnings;
 
   @Inject
   private IApplicationConfigurationManager manager;
@@ -44,6 +47,7 @@ public class ManagerBean
   {
     DiCore.getGlobalInjector().injectMembers(this);
     reloadApplications();
+    hideDashboadWarnings = BooleanUtils.toBoolean(System.getProperty("hide.dashboard.warnings"));
   }
   
   public void reloadEnvironments()
@@ -218,5 +222,10 @@ public class ManagerBean
   public IEnvironment getSelectedIEnvironment()
   {
     return getSelectedIApplication().findEnvironment(getSelectedEnvironment());
+  }
+  
+  public boolean hideDashboardWarnings()
+  {
+    return hideDashboadWarnings; 
   }
 }

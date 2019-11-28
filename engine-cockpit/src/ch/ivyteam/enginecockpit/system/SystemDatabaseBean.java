@@ -22,6 +22,7 @@ import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.db.jdbc.SystemDatabaseConfig;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConverter;
@@ -181,6 +182,10 @@ public class SystemDatabaseBean
   {
     ConnectionTestResult testConnection = ConnectionTester.testConnection(createConfiguration());
     connectionInfo = new ConnectionInfo(testConnection);
+    if (connectionInfo.hasError())
+    {
+      Ivy.log().error("System Database connection test has an error:", connectionInfo.getError());
+    }
   }
   
   public void saveConfiguration()

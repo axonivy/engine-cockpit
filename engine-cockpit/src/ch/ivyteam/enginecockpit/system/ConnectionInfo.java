@@ -12,6 +12,7 @@ public class ConnectionInfo
   private boolean mustConvert;
   private boolean mustCreate;
   private boolean successful;
+  private Exception error;
 
   public ConnectionInfo()
   {
@@ -30,6 +31,7 @@ public class ConnectionInfo
     mustConvert = result.mustConvert();
     mustCreate = result.mustCreate();
     successful = result.isSuccessful();
+    error = result.getError();
   }
   
   public String getLabel()
@@ -40,6 +42,21 @@ public class ConnectionInfo
   public String getAdvise()
   {
     return advise;
+  }
+  
+  public boolean hasError()
+  {
+    return error != null && !error.getMessage().isBlank();
+  }
+  
+  public Exception getError()
+  {
+    return error;
+  }
+  
+  public String getErrorMessage()
+  {
+    return hasError() ? "Error: " + error.getMessage() : "";
   }
 
   public String getMessageLevel()

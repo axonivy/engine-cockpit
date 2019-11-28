@@ -14,6 +14,19 @@
     
     <ui:define name="content">
       <div class="ui-g dashboard">
+        <h:panelGroup layout="block" styleClass="ui-g-12 dashboard-warnings" rendered="#{!managerBean.hideDashboardWarnings()}">
+          <p:staticMessage rendered="#{ivyAdvisor.releaseCandidate}" severity="error"
+            summary="Release Candidate!" detail="Don't use this version in production!" />
+          
+          <h:panelGroup layout="block" rendered="#{engineModeBean.hasDashboardWarning()}" styleClass="ui-message ui-staticmessage ui-message-warn">
+            <span class="ui-message-warn-icon"></span>
+            <span class="ui-message-warn-summary">#{engineModeBean.dashboardWarningSummary}</span>
+            <span class="ui-message-warn-detail">#{engineModeBean.dashboardWarningDetail}. Please use the 
+              <a href="setup.xhtml">Setup Wizard</a> to set up your Axon.ivy Engine. 
+            </span>
+          </h:panelGroup>
+        </h:panelGroup>
+      
         <cc:OverviewBox box="1" count="#{managerBean.sessionCount}" icon="person_pin_circle" title="Sessions" link="users.xhtml"/>
         <cc:OverviewBox box="2" count="#{managerBean.usersCount}" icon="person" title="Users" link="users.xhtml"/>
         <cc:OverviewBox box="3" count="#{managerBean.runningCasesCount}" icon="storage" title="Running Cases" link="applications.xhtml"/>

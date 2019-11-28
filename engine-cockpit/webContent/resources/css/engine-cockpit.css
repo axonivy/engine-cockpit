@@ -101,6 +101,12 @@ body {
 }
 
 /*Messages*/
+.dashboard-warnings .ui-staticmessage {
+  margin: 0 0 10px 0;
+}
+.dashboard-warnings .ui-staticmessage:last-child {
+  margin-bottom: 0;
+}
 .dashboard .messages {
   margin-bottom: 10px;
 }
