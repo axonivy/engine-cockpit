@@ -62,7 +62,7 @@
                 <h:panelGroup>
                   <p:inputNumber styleClass="#{connProp.cssClass}" id="numberProp" 
                     value="#{connProp.value}" required="#{connProp.required}" disabled="#{connProp.defaultValue}"
-                    thousandSeparator="'" decimalPlaces="0" minValue="0" style="width: calc(100% - 105px); display: inline-block;">
+                    decimalPlaces="0" minValue="0" style="width: calc(100% - 105px); display: inline-block;">
                     <p:ajax event="keyup" update="#{cc.attrs.updateFields}" listener="#{systemDatabaseBean.configChanged}" />
                   </p:inputNumber>
                   <p:selectBooleanCheckbox id="defaultConnectionProperty" style="margin: 0; float: right;"
