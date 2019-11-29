@@ -54,7 +54,7 @@
       <p:dialog style="min-width: 300px;" header="No Connection" id="saveUnknownConnectionModel"
         widgetVar="saveUnknownConnectionModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
         <h:form id="saveUnknownConnectionForm">
-          <p:staticMessage severity="warn" summary="No Connection" detail="Do realy you want to save this configuration?" />
+          <p:staticMessage severity="warn" summary="No Connection" detail="Do really you want to save this configuration?" />
           <br />
           <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}" value="Yes" icon="ui-icon-check"
             styleClass="primary-btn modal-input-button" widgetVar="saveUnknownConneciton" oncomplete="PF('saveUnknownConnectionModel').hide();" />
