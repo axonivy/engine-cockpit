@@ -110,7 +110,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   @Override
   public String getHelpUrl()
   {
-    return UrlUtil.getCockpitEngineGuideUrl() + "#rest-client-detail";
+    return UrlUtil.getCockpitEngineGuideUrl() + "services.html#rest-client-detail";
   }
   
   public void testRestConnection()

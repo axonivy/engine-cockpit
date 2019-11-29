@@ -131,7 +131,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   @Override
   public String getHelpUrl()
   {
-    return UrlUtil.getCockpitEngineGuideUrl() + "#external-database-detail";
+    return UrlUtil.getCockpitEngineGuideUrl() + "services.html#external-database-detail";
   }
   
   public void testDbConnection()

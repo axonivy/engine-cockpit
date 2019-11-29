@@ -34,7 +34,7 @@ public class UrlUtil
   
   public static String getCockpitEngineGuideUrl()
   {
-    return getEngineGuideBaseUrl() + "/tool-reference/engine-cockpit.html";
+    return getEngineGuideBaseUrl() + "/tool-reference/engine-cockpit/";
   }
   
   private static String getDocuVersion()

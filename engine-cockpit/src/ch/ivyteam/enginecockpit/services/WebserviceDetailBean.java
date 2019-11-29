@@ -104,7 +104,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   @Override
   public String getHelpUrl()
   {
-    return UrlUtil.getCockpitEngineGuideUrl() + "#web-service-detail";
+    return UrlUtil.getCockpitEngineGuideUrl() + "services.html#web-service-detail";
   }
   
   public void setActiveEndpoint(String endpointUrl)
