@@ -15,7 +15,7 @@
       <p:column headerText="Email" sortBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />
       </p:column>
-      <p:column style="width: 70px;">
+      <p:column style="width: 75px;">
         <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.removeAdmin(admin)}" update="#{cc.attrs.updateFields}"
           icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" 
           disabled="#{admin.name eq loginBean.sessionUserName}" />
