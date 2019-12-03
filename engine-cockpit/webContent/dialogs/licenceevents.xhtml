@@ -19,7 +19,7 @@
             <h:outputText styleClass="name" value="#{event.timestamp}" />
             <h:outputText styleClass="message" value="#{event.message}" />
           </h:panelGroup>
-          <p:commandButton icon="ui-icon-close" title="Confirm" styleClass="message-btn secondary-btn" id="confirmEventBtn"
+          <p:commandButton icon="ui-icon-check" title="Confirm" styleClass="message-btn secondary-btn" id="confirmEventBtn"
             actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" style="right: 10px;" />
         </a>
       </p:dataList>
