@@ -14,7 +14,8 @@
             </p:selectBooleanCheckbox>
   
             <p:outputLabel for="httpPortInput" value="Port:" />
-            <p:inputNumber id="httpPortInput" value="#{webServerConnectorBean.httpPort}" minValue="-1" maxValue="1000000" thousandSeparator="">
+            <p:inputNumber id="httpPortInput" value="#{webServerConnectorBean.httpPort}" minValue="-1" 
+              maxValue="1000000" thousandSeparator="" decimalPlaces="0">
               <p:ajax event="keyup" process="@this" />
             </p:inputNumber>
           </p:panelGrid>
@@ -29,7 +30,8 @@
             </p:selectBooleanCheckbox>
   
             <p:outputLabel for="httpsPortInput" value="Port:" />
-            <p:inputNumber id="httpsPortInput" value="#{webServerConnectorBean.httpsPort}" minValue="-1" maxValue="1000000" thousandSeparator="">
+            <p:inputNumber id="httpsPortInput" value="#{webServerConnectorBean.httpsPort}" minValue="-1" 
+              maxValue="1000000" thousandSeparator="" decimalPlaces="0">
               <p:ajax event="keyup" process="@this" />
             </p:inputNumber>
           </p:panelGrid>
@@ -44,7 +46,8 @@
             </p:selectBooleanCheckbox>
   
             <p:outputLabel for="ajpPortInput" value="Port:" />
-            <p:inputNumber id="ajpPortInput" value="#{webServerConnectorBean.ajpPort}" minValue="-1" maxValue="1000000" thousandSeparator="">
+            <p:inputNumber id="ajpPortInput" value="#{webServerConnectorBean.ajpPort}" minValue="-1" 
+              maxValue="1000000" thousandSeparator="" decimalPlaces="0">
               <p:ajax event="keyup" process="@this" />
             </p:inputNumber>
           </p:panelGrid>
