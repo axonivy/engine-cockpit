@@ -15,10 +15,10 @@
           <h:outputText rendered="#{event.level eq 'WARN'}">
             <i class="material-icons warning">warning</i>
           </h:outputText>
-          <div>
+          <h:panelGroup layout="block" id="eventMessage">
             <h:outputText styleClass="name" value="#{event.timestamp}" />
             <h:outputText styleClass="message" value="#{event.message}" />
-          </div>
+          </h:panelGroup>
           <p:commandButton icon="ui-icon-close" title="Confirm" styleClass="message-btn secondary-btn" id="confirmEventBtn"
             actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" style="right: 10px;" />
         </a>
