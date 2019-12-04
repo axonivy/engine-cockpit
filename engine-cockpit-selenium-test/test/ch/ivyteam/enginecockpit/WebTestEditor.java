@@ -84,7 +84,7 @@ public class WebTestEditor extends WebTestBase
     driver.findElementById("card:editorTabView:" + tabIndex + ":editorForm:saveEditor").click();
     saveScreenshot("save");
     webAssertThat(() -> assertThat(driver.findElementById("card:editorMessage_container").getText())
-            .isEqualTo("Saved app-test.yaml successful"));
+            .isEqualTo("Saved app-test.yaml Successfully"));
   }
   
   private void disableDevMode()

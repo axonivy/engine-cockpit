@@ -99,7 +99,7 @@ public class EmailBean
     try
     {
       EmailUtil.sendTestMail(subject, sendTo, message);
-      facesMessage = new FacesMessage("Successful send test mail", "");
+      facesMessage = new FacesMessage("Successfully sent test mail", "");
     }
     catch (Exception ex)
     {

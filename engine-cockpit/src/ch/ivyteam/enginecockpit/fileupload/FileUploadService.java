@@ -32,6 +32,6 @@ public class FileUploadService
     {
       return Response.status(500).entity(ex.getMessage()).build();
     }
-    return Response.status(200).entity("Successful uploaded licence").build();
+    return Response.status(200).entity("Successfully uploaded licence").build();
   }
 }

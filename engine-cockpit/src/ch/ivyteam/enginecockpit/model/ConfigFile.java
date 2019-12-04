@@ -69,7 +69,7 @@ private IConfiguration config;
     {
       FileUtils.write(file, content, StandardCharsets.UTF_8);
       FacesContext.getCurrentInstance().addMessage("editorMessage",
-              new FacesMessage("Saved " + fileName + " successful", ""));
+              new FacesMessage("Saved " + fileName + " Successfully", ""));
     }
     catch (IOException ex)
     {
