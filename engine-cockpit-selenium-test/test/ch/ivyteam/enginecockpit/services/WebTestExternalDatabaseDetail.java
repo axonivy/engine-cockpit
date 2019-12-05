@@ -52,7 +52,7 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
     driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
     saveScreenshot("connection_ok");
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Successful connected to database"));
+    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Successfully connected to database"));
   }
   
   @Test

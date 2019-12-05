@@ -71,7 +71,7 @@ public class WebTestRenewLicence extends WebTestBase
     driver.findElementById("fileInput").sendKeys(path);
     saveScreenshot("selected_licence");
     driver.findElementById("licenceUpload:uploadBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("Successful uploaded licence"));
+    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("Successfully uploaded licence"));
     saveScreenshot("uploadedLic_log");
     driver.findElementById("licenceUpload:closeDeploymentBtn").click();
     saveScreenshot("uploadedLic_dash");

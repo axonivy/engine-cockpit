@@ -137,7 +137,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
       }
       else
       {
-        testResult = new ConnectionTestResult("POST", status, TestResult.SUCCESS, "Successful reached web service");
+        testResult = new ConnectionTestResult("POST", status, TestResult.SUCCESS, "Successfully reached web service");
       }
     }
     catch (ProcessingException ex)

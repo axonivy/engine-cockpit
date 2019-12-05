@@ -142,7 +142,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
     {
       if (iExternalDatabase.getConnection().isValid(10))
       {
-        testResult = new ConnectionTestResult("", 0, TestResult.SUCCESS, "Successful connected to database");
+        testResult = new ConnectionTestResult("", 0, TestResult.SUCCESS, "Successfully connected to database");
       }
       else
       {

@@ -123,7 +123,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
       int status = restCall.getWebTarget().request().head().getStatus();
       if (status >= 200 && status < 400)
       {
-        testResult = new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successful send test request to REST service");
+        testResult = new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
       }
       else if (status == 401)
       {
