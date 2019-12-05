@@ -12,6 +12,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status.Family;
 
 import org.glassfish.jersey.media.multipart.Boundary;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
@@ -19,6 +20,8 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.ISession;
@@ -90,31 +93,33 @@ public class RenewLicence
       return multipart;
     }
   }
-  
+
   private void showResultMessage(Response response)
   {
-    if (response.getStatus() == 200)
+    if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL)
     {
-      addMessage(FacesMessage.SEVERITY_INFO, "Success", "Your request has been sent successsfully");
-    }
-    else if (response.getStatus() == 406) 
-    {
-      addMessage(FacesMessage.SEVERITY_WARN, "Warning", "Your request already exists");
-    }
-    else if (response.getStatus() == 500) 
-    {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "There was some problem with the server. Please try again in a few minutes.");
-    }
-    else if (response.getStatus() == 400) 
-    {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Response: "+response.readEntity(String.class));
+      addMessage(FacesMessage.SEVERITY_INFO, "Success", "Your request has been successfully sent");
     }
     else 
     {
-      addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Some undefined problem ocured during sending renew request: "+response.readEntity(String.class));
+      addMessage(FacesMessage.SEVERITY_ERROR, "Error", parseErrorMessage(response));
+    } 
+  }
+
+  private static String parseErrorMessage(Response response)
+  {
+	String responseEntity = response.readEntity(String.class);
+    try
+    {
+      JsonObject json = JsonParser.parseString(responseEntity).getAsJsonObject();
+      return json.get("errorMessage").getAsString();
+    }
+    catch (Exception ex)
+    {
+      return responseEntity;
     }
   }
-  
+
   private static void addMessage(Severity severity, String summary, String detail)
   {
     FacesContext context = FacesContext.getCurrentInstance();
