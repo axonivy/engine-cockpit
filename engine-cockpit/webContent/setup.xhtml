@@ -9,8 +9,10 @@
       <p:growl showDetail="true">
         <p:autoUpdate/>
       </p:growl>
-      <div class="ui-fluid ">
-        <div class="card card-w-title container">
+      <div class="ui-fluid container">
+        <p:staticMessage rendered="#{engineModeBean.isMaintenance()}" severity="warn" style="margin: 0 0 20px 0;"
+          detail="#{engineModeBean.dashboardWarningDetail}" />
+        <div class="card card-w-title ">
           <div class="ui-g ">
             <div class="ui-g-12 ">
               <h:panelGroup id="wizardStepPage">
