@@ -11,7 +11,7 @@
 		<nexus.root.url>http://zugpronexus:8081/nexus</nexus.root.url>
 		<engine.page.url>http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/</engine.page.url>
 		<engine.dir>../.ivy-engine</engine.dir>
-		<revision>8.0.0-SNAPSHOT</revision>
+		<revision>8.0.1-SNAPSHOT</revision>
 	</properties>
 
 	<build>
