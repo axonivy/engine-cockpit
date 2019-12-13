@@ -4,6 +4,7 @@ package ch.ivyteam.enginecockpit.util;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -37,7 +38,7 @@ public class EmailUtil
     rawHeader.put(HeaderFields.FROM, new MacroExpression(IConfiguration.get().getOrDefault(MAIL_ADDRESS)));
     EMailConfig emailConfig = new EMailConfig(new Headers(rawHeader), new MacroExpression(message), new Attachments(), false);
 
-    new SimpleMailSender(Collections.emptyMap(), emailConfig, Ivy.log(), getConfigEmailSetup()).sendMessage();
+    new SimpleMailSender(List.of(), emailConfig, Ivy.log(), getConfigEmailSetup()).sendMessage();
   }
   
   private static EmailSetupConfiguration getConfigEmailSetup()
