@@ -1,12 +1,24 @@
 package ch.ivyteam.enginecockpit.security;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.empty;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.Test;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+
 import ch.ivyteam.enginecockpit.WebTestBase;
-import ch.ivyteam.enginecockpit.util.ApplicationTab;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 public class WebTestRoleDetail extends WebTestBase
 {
@@ -16,7 +28,7 @@ public class WebTestRoleDetail extends WebTestBase
   void testRoleDetailOpen()
   {
     toRoleDetail();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME));
+    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
   }
   
   @Test
@@ -25,23 +37,21 @@ public class WebTestRoleDetail extends WebTestBase
     toRoleDetail();
     clearRoleInfoInputs();
     
-    driver.findElementById("roleInformationForm:displayName").sendKeys("display");
-    driver.findElementById("roleInformationForm:description").sendKeys("desc");
-    driver.findElementById("roleInformationForm:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
-    driver.findElementById("roleInformationForm:saveRoleInformation").click();
-    saveScreenshot("save_user_changes");
+    $("#roleInformationForm\\:displayName").sendKeys("display");
+    $("#roleInformationForm\\:description").sendKeys("desc");
+    $("#roleInformationForm\\:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
+    $("#roleInformationForm\\:saveRoleInformation").click();
     
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:informationSaveSuccess_container").isDisplayed()).isTrue());
-    driver.navigate().refresh();
-    saveScreenshot("refresh");
+    $("#roleInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
+    Selenide.refresh();
     
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:name").getText()).isEqualTo(DETAIL_ROLE_NAME));
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:displayName").getAttribute("value")).isEqualTo("display"));
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:description").getAttribute("value")).isEqualTo("desc"));
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEqualTo("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $("#roleInformationForm\\:name").shouldBe(exactText(DETAIL_ROLE_NAME));
+    $("#roleInformationForm\\:displayName").shouldBe(exactValue("display"));
+    $("#roleInformationForm\\:description").shouldBe(exactValue("desc"));
+    $("#roleInformationForm\\:externalSecurityName").shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   
     clearRoleInfoInputs();
-    driver.findElementById("roleInformationForm:saveRoleInformation").click();
+    $("#roleInformationForm\\:saveRoleInformation").click();
   }
   
   @Test
@@ -49,58 +59,47 @@ public class WebTestRoleDetail extends WebTestBase
   {
     toRoleDetail();
     
-    driver.findElementById("roleInformationForm:createNewChildRole").click();
-    webAssertThat(() -> assertThat(driver.findElementById("newChildRoleDialog").isDisplayed()).isTrue());
-    saveScreenshot("newroledialog");
+    $("#roleInformationForm\\:createNewChildRole").click();
+    $("#newChildRoleDialog").shouldBe(visible);
     
-    driver.findElementById("newChildRoleForm:saveNewRole").click();
-    webAssertThat(() -> assertThat(driver.findElementById("newChildRoleForm:newRoleNameMessage").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("newChildRoleForm:newRoleNameMessage").getText()).contains("Value is required"));
-    saveScreenshot("newrole_namerequried");
+    $("#newChildRoleForm\\:saveNewRole").click();
+    $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(visible);
+    $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(text("Value is required"));
     
     String newRoleName = "test";
-    driver.findElementById("newChildRoleForm:newChildRoleNameInput").sendKeys(newRoleName);
-    driver.findElementById("newChildRoleForm:saveNewRole").click();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + newRoleName));
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:name").getText()).isEqualTo(newRoleName));
-    saveScreenshot("newroledetail");
+    $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
+    $("#newChildRoleForm\\:saveNewRole").click();
+    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + newRoleName);
+    $("#roleInformationForm\\:name").shouldBe(exactText(newRoleName));
     
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:deleteRole").isDisplayed()).isTrue());
-    driver.findElementById("roleInformationForm:deleteRole").click();
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:deleteRoleConfirmDialog").isDisplayed()).isTrue());
-    saveScreenshot("delete_role");
+    $("#roleInformationForm\\:deleteRole").shouldBe(visible);
+    $("#roleInformationForm\\:deleteRole").click();
+    $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
     
-    driver.findElementById("roleInformationForm:deleteRoleConfirmDialogYesBtn").click();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("roles.xhtml"));
-    saveScreenshot("roles");
+    $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
+    assertCurrentUrlEndsWith("roles.xhtml");
   }
   
   @Test
   void testAddAndRemoveUser()
   {
-    toRoleDetail();
+    toRoleDetail("test");
     
-    String roleUsers = "//*[@id='usersOfRoleForm:roleUserTable']//*[@class='user-row']";
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).isEmpty());
+    String roleUsers = "#usersOfRoleForm\\:roleUserTable td.user-row";
+    $$(roleUsers).shouldBe(empty);
+    $("#usersOfRoleForm\\:addUserDropDown_input").sendKeys("fo");
+    $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
+    $(".ui-autocomplete-list-item").click();
+    $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(exactValue("foo"));
     
-    driver.findElementById("usersOfRoleForm:addUserDropDown_input").sendKeys("fo");
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-autocomplete-list-item")).isNotEmpty());
-    saveScreenshot("search_autocomplete");
-    driver.findElementByClassName("ui-autocomplete-list-item").click();
-    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserDropDown_input").getAttribute("value")).isEqualTo("foo"));
-    saveScreenshot("search_user");
+    $("#usersOfRoleForm\\:addUserToRoleBtn").click();
+    $$(roleUsers).shouldBe(sizeGreaterThan(0));
     
-    driver.findElementById("usersOfRoleForm:addUserToRoleBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).isNotEmpty());
-    saveScreenshot("add_user");
+    Selenide.refresh();
+    $$(roleUsers).shouldBe(sizeGreaterThan(0));
     
-    driver.navigate().refresh();
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).isNotEmpty());
-    saveScreenshot("refresh");
-    
-    driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).isEmpty());
-    saveScreenshot("remove_user");
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
+    $$(roleUsers).shouldBe(empty);
   }
   
   @Test
@@ -108,89 +107,77 @@ public class WebTestRoleDetail extends WebTestBase
   {
     toRoleDetail();
     
-    String roleMembers = "//*[@id='membersOfRoleForm:roleMemberTable']//*[@class='member-row']";
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleMembers)).isEmpty());
+    String roleMembers = "#membersOfRoleForm\\:roleMemberTable td.member-row";
+    $$(roleMembers).shouldBe(empty);
     
-    driver.findElementById("membersOfRoleForm:addMemberDropDown_input").sendKeys("wor");
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-autocomplete-list-item")).isNotEmpty());
-    saveScreenshot("search_autocomplete");
-    driver.findElementByClassName("ui-autocomplete-list-item").click();
-    webAssertThat(() -> assertThat(driver.findElementById("membersOfRoleForm:addMemberDropDown_input").getAttribute("value")).isEqualTo("worker"));
-    saveScreenshot("search_member");
+    $("#membersOfRoleForm\\:addMemberDropDown_input").sendKeys("wor");
+    $("#membersOfRoleForm\\:addMemberDropDown_panel").shouldBe(visible);
+    $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
+    $(".ui-autocomplete-list-item").click();
+    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(exactValue("worker"));
     
-    driver.findElementById("membersOfRoleForm:addMemberToRoleBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleMembers)).isNotEmpty());
-    saveScreenshot("add_member");
+    $("#membersOfRoleForm\\:addMemberToRoleBtn").click();
+    $$(roleMembers).shouldBe(sizeGreaterThan(0));
     
-    driver.navigate().refresh();
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleMembers)).isNotEmpty());
-    saveScreenshot("refresh");
+    Selenide.refresh();
+    $$(roleMembers).shouldBe(sizeGreaterThan(0));
     
-    driver.findElementById("membersOfRoleForm:roleMemberTable:0:removeMemberFromRoleBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleMembers)).isEmpty());
-    saveScreenshot("remove_member");
+    $("#membersOfRoleForm\\:roleMemberTable\\:0\\:removeMemberFromRoleBtn").click();
+    $$(roleMembers).shouldBe(empty);
   }
   
   @Test
   void testExternalSecurityName()
   {
     login();
-    Navigation.toRoles(driver);
-    saveScreenshot("roles");
+    Navigation.toRoles();
+    Tab.switchToTab("test-ad");
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
     
-    ApplicationTab.switchToApplication(driver, "test-ad");
-    saveScreenshot("switch_to_ad_app");
+    $("#roleInformationForm\\:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
+    $("#roleInformationForm\\:saveRoleInformation").click();
     
-    Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
-    saveScreenshot("roledetail");
+    Navigation.toRoles();
+    String syncBtnId = "#form\\:card\\:tabs\\:applicationTabView\\:1\\:panelSyncBtn";
+    $(syncBtnId).shouldBe(visible).click();
+    $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
+    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));
     
-    driver.findElementById("roleInformationForm:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
-    driver.findElementById("roleInformationForm:saveRoleInformation").click();
-    saveScreenshot("save_user_changes");
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
     
-    Navigation.toRoles(driver);
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").isDisplayed()).isTrue());
-    String syncBtnId = driver.findElementByXPath("//*[contains(@id, 'applicationTabView:1:panelSyncBtn')]").getAttribute("id");
-    driver.findElementById(syncBtnId).click();
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).contains("fa-spin"));
-    saveScreenshot("trigger_roles_sync");
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='" + syncBtnId + "']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
-    saveScreenshot("finish_roles_sync");
-    
-    Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
-    saveScreenshot("roledetail");
-    
-    String roleUsers = "//*[@id='usersOfRoleForm:roleUserTable']//*[@class='user-row']";
-    webAssertThat(() -> assertThat(driver.findElementsByXPath(roleUsers)).hasSize(3));
-    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserDropDown_input").getAttribute("class")).contains("ui-state-disabled"));
-    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:addUserToRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
-    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).contains("ui-state-disabled"));
+    $$("#usersOfRoleForm\\:roleUserTable td.user-row").shouldHave(size(3));
+    $("#usersOfRoleForm\\:addUserDropDown_input").shouldHave(cssClass("ui-state-disabled"));
+    $("#usersOfRoleForm\\:addUserToRoleBtn").shouldHave(cssClass("ui-state-disabled"));
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldHave(cssClass("ui-state-disabled"));
   
-    driver.findElementById("roleInformationForm:externalSecurityName").clear();
-    webAssertThat(() -> assertThat(driver.findElementById("roleInformationForm:externalSecurityName").getAttribute("value")).isEmpty());
-    driver.findElementById("roleInformationForm:saveRoleInformation").click();
-    saveScreenshot("remove_external");
-    driver.navigate().refresh();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME));
-    saveScreenshot("refresh_before_cleanup");
-    webAssertThat(() -> assertThat(driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").getAttribute("class")).doesNotContain("ui-state-disabled"));
-    driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
-    driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
-    driver.findElementById("usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn").click();
-    saveScreenshot("cleanup");
+    $("#roleInformationForm\\:externalSecurityName").clear();
+    $("#roleInformationForm\\:externalSecurityName").shouldBe(Condition.empty);
+    $("#roleInformationForm\\:saveRoleInformation").click();
+    Selenide.refresh();
+    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldNotHave(cssClass("ui-state-disabled"));
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
   }
 
   private void toRoleDetail()
   {
+    toRoleDetail("test-ad");
+  }
+  
+  private void toRoleDetail(String app)
+  {
     login();
-    Navigation.toRoleDetail(driver, DETAIL_ROLE_NAME);
-    saveScreenshot("roledetail");
+    Navigation.toRoles();
+    Tab.switchToTab(app);
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
   }
   
   private void clearRoleInfoInputs()
   {
-    driver.findElementById("roleInformationForm:displayName").clear();
-    driver.findElementById("roleInformationForm:description").clear();
-    driver.findElementById("roleInformationForm:externalSecurityName").clear();
+    $("#roleInformationForm\\:displayName").clear();
+    $("#roleInformationForm\\:description").clear();
+    $("#roleInformationForm\\:externalSecurityName").clear();
   }
 }

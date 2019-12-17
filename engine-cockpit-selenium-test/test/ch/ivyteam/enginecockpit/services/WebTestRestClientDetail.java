@@ -1,9 +1,16 @@
 package ch.ivyteam.enginecockpit.services;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
+
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -16,9 +23,8 @@ public class WebTestRestClientDetail extends WebTestBase
   void testExternalDatabaseDetailOpen()
   {
     navigateToRestClientDetail();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME));
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(2));
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:name").getText()).isEqualTo(RESTCLIENT_NAME));
+    assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME);
+    $$(".ui-panel").shouldHave(size(2));
   }
   
   @Test
@@ -26,10 +32,9 @@ public class WebTestRestClientDetail extends WebTestBase
   {
     navigateToRestClientDetail();
     
-    driver.findElementByXPath("//div[@id='breadcrumbOptions']/a").click();
-    saveScreenshot("help_modal");
-    webAssertThat(() -> assertThat(driver.findElementById("helpRestClientDialog:helpServicesModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(RESTCLIENT_NAME));
+    $("#breadcrumbOptions > a").shouldBe(visible).click();
+    $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
+    $(".code-block").shouldBe(text(RESTCLIENT_NAME));
   }
   
   @Test
@@ -38,19 +43,19 @@ public class WebTestRestClientDetail extends WebTestBase
     navigateToRestClientDetail();
     
     setConfiguration("localhost", "");
-    driver.navigate().refresh();
+    Selenide.refresh();
     testAndAssertConnection("Invalid Url");
 
     setConfiguration("http://zugtstweb:80/testnotfound", "");
-    driver.navigate().refresh();
+    Selenide.refresh();
     testAndAssertConnection("Status 404");
     
     setConfiguration("http://zugtstweb:81/", "");
-    driver.navigate().refresh();
+    Selenide.refresh();
     testAndAssertConnection("Status 401");
     
     setConfiguration("http://zugtstweb:81/", "admin", "nimda");
-    driver.navigate().refresh();
+    Selenide.refresh();
     testAndAssertConnection("Status 200");
 
     resetConfiguration();
@@ -58,14 +63,13 @@ public class WebTestRestClientDetail extends WebTestBase
 
   private void testAndAssertConnection(String msg)
   {
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
-    driver.findElementById("restClientConfigurationForm:testRestBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
-    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
-    saveScreenshot("connection_" + StringUtils.replace(msg, " ", "_"));
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains(msg));
-    driver.findElementByXPath("//*[@id='connResult:connectionTestModel']/div/a").click();
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
+    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
+    $("#restClientConfigurationForm\\:testRestBtn").click();
+    $("#connResult\\:connectionTestModel").shouldBe(visible);
+    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
+    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(msg));
+    $("#connResult\\:connectionTestModel > div > a").click();
+    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
   }
   
   @Test
@@ -74,58 +78,49 @@ public class WebTestRestClientDetail extends WebTestBase
     navigateToRestClientDetail();
     
     setConfiguration("url", "testUser");
-    driver.navigate().refresh();
+    Selenide.refresh();
     checkConfiguration("url", "testUser");
     resetConfiguration();
-    driver.navigate().refresh();
+    Selenide.refresh();
     checkConfiguration("http://localhost/", "admin");
   }
   
   private void setConfiguration(String url, String username, String password)
   {
-    driver.findElementById("restClientConfigurationForm:password").sendKeys(password);
-    
+    $("#restClientConfigurationForm\\:password").shouldBe(visible).sendKeys(password);
     setConfiguration(url, username);
   }
 
   private void setConfiguration(String url, String username)
   {
-    driver.findElementById("restClientConfigurationForm:url").clear();
-    driver.findElementById("restClientConfigurationForm:url").sendKeys(url);
+    $("#restClientConfigurationForm\\:url").shouldBe(visible).clear();
+    $("#restClientConfigurationForm\\:url").sendKeys(url);
     
-    driver.findElementById("restClientConfigurationForm:username").clear();
-    driver.findElementById("restClientConfigurationForm:username").sendKeys(username);
+    $("#restClientConfigurationForm\\:username").clear();
+    $("#restClientConfigurationForm\\:username").sendKeys(username);
     
-    saveScreenshot("set");
-    
-    driver.findElementById("restClientConfigurationForm:saveRestConfig").click();
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container")
-            .getText()).contains("Rest configuration saved"));
-    saveScreenshot("save");
+    $("#restClientConfigurationForm\\:saveRestConfig").click();
+    $("#restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration saved"));
   }
   
   private void checkConfiguration(String url, String username)
   {
-    saveScreenshot("check");
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:url").getAttribute("value"))
-            .isEqualTo(url));
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:username").getAttribute("value"))
-            .isEqualTo(username));
+    $("#restClientConfigurationForm\\:url").shouldBe(exactValue(url));
+    $("#restClientConfigurationForm\\:username").shouldBe(exactValue(username));
   }
   
   private void resetConfiguration()
   {
-    driver.findElementById("restClientConfigurationForm:resetConfig").click();
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:resetRestConfirmDialog").isDisplayed()).isTrue());
-    driver.findElementById("restClientConfigurationForm:resetRestConfirmYesBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("restClientConfigurationForm:restConfigMsg_container")
-            .getText()).contains("Rest configuration reset"));
+    $("#restClientConfigurationForm\\:resetConfig").click();
+    $("#restClientConfigurationForm\\:resetRestConfirmDialog").shouldBe(visible);
+    $("#restClientConfigurationForm\\:resetRestConfirmYesBtn").click();
+    $("#restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration reset"));
   }
   
   private void navigateToRestClientDetail()
   {
     login();
-    Navigation.toRestClientDetail(driver, RESTCLIENT_NAME);
-    saveScreenshot("restclient_testrest");
+    Navigation.toRestClientDetail(RESTCLIENT_NAME);
+    $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
   }
 }

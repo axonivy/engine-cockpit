@@ -1,11 +1,21 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -13,223 +23,175 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestSecuritySystemDetail extends WebTestBase
 {
+  private static final String SAVE_LDAP_ATTRIBUTE = "#ldapAttributeForm\\:saveLdapAttribute";
+  private static final String LDAP_ATTRIBUTE_MODAL = "#ldapAttributeModal";
+  private static final String NEW_LDAP_ATTRIBUTE_BTN = "#securityLdapAttributesForm\\:newLdapAttributeBtn";
+  private static final String SECURITY_SYSTEM_BINDING_GROWL = "#securitySystemBindingForm\\:securitySystemBindingSaveSuccess_container";
+  private static final String IMPORT_USERS_OF_GROUP = "#securitySystemBindingForm\\:importUsersOfGroup";
+  private static final String SAVE_SECURITY_SYSTEM_BINDING_BTN = "#securitySystemBindingForm\\:saveSecuritySystemBindingBtn";
+  private static final String LDAP_SAVE_GRWOL = "#securityLdapForm\\:securitySystemLdapSaveSuccess_container";
+  private static final String LDAP_SAVE_BTN = "#securityLdapForm\\:saveSecurtiySystemLdapBtn";
+  private static final String LDAP_NAME = "#securityLdapForm\\:ldapName";
+  private static final String SAVE_SUCCESS_GROWL = "#securitySystemConfigForm\\:securitySystemConfigSaveSuccess_container";
+  private static final String SAVE_SECURITY_SYSTEM_BTN = "#securitySystemConfigForm\\:saveSecuritySystemConfigBtn";
+  private static final String SYNC_TIME_MESSAGE = "#securitySystemConfigForm\\:syncTimeMessage";
+  private static final String URL = "#securitySystemConfigForm\\:url";
+  private static final String SYNC_TIME = "#securitySystemConfigForm\\:syncTime";
+
   @Test
   void testSecuritySystemDetail()
   {
     toSecurityDetail();
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
+    $$(".ui-panel").shouldHave(size(4));
   }
 
   @Test
   void testConnectionInfos()
   {
     toSecurityDetail();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:provider").getText())
-            .isEqualTo("Microsoft Active Directory"));
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
-            .isEqualTo("ldap://zugtstdirads"));
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:userName").getAttribute("value"))
-            .isEqualTo("admin@zugtstdomain.wan"));
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:password").getAttribute("value"))
-            .isEqualTo(""));
+    $("#securitySystemConfigForm\\:provider").shouldBe(exactText("Microsoft Active Directory"));
+    $(URL).shouldBe(exactValue("ldap://zugtstdirads"));
+    $("#securitySystemConfigForm\\:userName").shouldBe(exactValue("admin@zugtstdomain.wan"));
+    $("#securitySystemConfigForm\\:password").shouldBe(exactValue(""));
     
-    driver.findElementById("securitySystemConfigForm:url").clear();
-    driver.findElementById("securitySystemConfigForm:url").sendKeys("test");
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
-            .isEqualTo("test"));
-    saveScreenshot("change_url");
-    driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
-            .isTrue());
-    saveScreenshot("save");
-    driver.navigate().refresh();
+    $(URL).clear();
+    $(URL).sendKeys("test");
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+    $(SAVE_SUCCESS_GROWL).shouldBe(visible);
+    Selenide.refresh();
     
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:url").getAttribute("value"))
-            .isEqualTo("test"));
-    saveScreenshot("refresh");
-    driver.findElementById("securitySystemConfigForm:url").clear();
-    driver.findElementById("securitySystemConfigForm:url").sendKeys("ldap://zugtstdirads");
-    driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
-            .isTrue());
+    $(URL).shouldBe(exactValue("test"));
+    $(URL).clear();
+    $(URL).sendKeys("ldap://zugtstdirads");
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+    $(SAVE_SUCCESS_GROWL).shouldBe(visible);
   }
   
   @Test
   void testDirNotDeletableIfUsedByApp()
   {
     toSecurityDetail();
-    webAssertThat(() -> assertThat(elementNotAvailable(driver, By.id("securitySystemConfigForm:deleteSecuritySystem")))
-            .isTrue());
+    $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldNotBe(exist);
   }
   
   @Test
   void testInvalidAndValidSyncTimes()
   {
     toSecurityDetail();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTime").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTime").getAttribute("placeholder"))
-            .isEqualTo("00:00"));
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
-            .isFalse());
+    $(SYNC_TIME).shouldBe(exactValue(""));
+    $(SYNC_TIME).shouldBe(attribute("placeholder", "00:00"));
+    $(SYNC_TIME_MESSAGE).shouldNotBe(visible);
     
     saveInvalidSyncTimeAndAssert("32:23");
     saveInvalidSyncTimeAndAssert("12:95");
     
-    driver.findElementById("securitySystemConfigForm:syncTime").clear();
-    driver.findElementById("securitySystemConfigForm:syncTime").sendKeys("16:47");
-    driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
-            .isFalse());
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
-            .isTrue());
-    saveScreenshot("valid");
+    $(SYNC_TIME).clear();
+    $(SYNC_TIME).sendKeys("16:47");
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+    $(SYNC_TIME_MESSAGE).shouldNotBe(visible);
+    $(SAVE_SUCCESS_GROWL).shouldBe(visible);
     
-    driver.findElementById("securitySystemConfigForm:syncTime").clear();
-    driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:securitySystemConfigSaveSuccess_container").isDisplayed())
-            .isTrue());
+    $(SYNC_TIME).clear();
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+    $(SAVE_SUCCESS_GROWL).shouldBe(visible);
   }
 
   private void saveInvalidSyncTimeAndAssert(String time)
   {
-    driver.findElementById("securitySystemConfigForm:syncTime").clear();
-    driver.findElementById("securitySystemConfigForm:syncTime").sendKeys(time);
-    driver.findElementById("securitySystemConfigForm:saveSecuritySystemConfigBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:syncTimeMessage").isDisplayed())
-            .isTrue());
-    saveScreenshot("invalid");
+    $(SYNC_TIME).clear();
+    $(SYNC_TIME).sendKeys(time);
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+    $(SYNC_TIME_MESSAGE).shouldBe(visible);
   }
   
   @Test
   void testLdapInfos()
   {
     toSecurityDetail();
-    PrimeUi primeUi = new PrimeUi(driver);
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapName").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapFullName").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapEmail").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapLanguage").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapUserMemberOfAttribute").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(primeUi.selectBooleanCheckbox(By.id("securityLdapForm:ldapUseUserMemberOfForUserRoleMembership")).isChecked())
-            .isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapUserGroupMemberOfAttribute").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapUserGroupMembersAttribute").getAttribute("value"))
-            .isEqualTo(""));
+    $(LDAP_NAME).shouldBe(exactValue(""));
+    $("#securityLdapForm\\:ldapFullName").shouldBe(exactValue(""));
+    $("#securityLdapForm\\:ldapEmail").shouldBe(exactValue(""));
+    $("#securityLdapForm\\:ldapLanguage").shouldBe(exactValue(""));
+    $("#securityLdapForm\\:ldapUserMemberOfAttribute").shouldBe(exactValue(""));
+    assertThat(primeUi.selectBooleanCheckbox(By.id("securityLdapForm:ldapUseUserMemberOfForUserRoleMembership"))
+            .isChecked()).isTrue();
+    $("#securityLdapForm\\:ldapUserGroupMemberOfAttribute").shouldBe(exactValue(""));
+    $("#securityLdapForm\\:ldapUserGroupMembersAttribute").shouldBe(exactValue(""));
     
-    driver.findElementById("securityLdapForm:ldapName").sendKeys("test");
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapName").getAttribute("value"))
-            .isEqualTo("test"));
-    saveScreenshot("change_name");
-    driver.findElementById("securityLdapForm:saveSecurtiySystemLdapBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:securitySystemLdapSaveSuccess_container").isDisplayed())
-            .isTrue());
-    saveScreenshot("save");
-    driver.navigate().refresh();
+    $(LDAP_NAME).sendKeys("test");
+    $(LDAP_SAVE_BTN).click();
+    $(LDAP_SAVE_GRWOL).shouldBe(visible);
+    Selenide.refresh();
     
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:ldapName").getAttribute("value"))
-            .isEqualTo("test"));
-    saveScreenshot("refresh");
-    driver.findElementById("securityLdapForm:ldapName").clear();
-    driver.findElementById("securityLdapForm:saveSecurtiySystemLdapBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securityLdapForm:securitySystemLdapSaveSuccess_container").isDisplayed())
-            .isTrue());
+    $(LDAP_NAME).shouldBe(exactValue("test"));
+    $(LDAP_NAME).clear();
+    $(LDAP_SAVE_BTN).click();
+    $(LDAP_SAVE_GRWOL).shouldBe(visible);
   }
   
   @Test
   void testBinding()
   {
     toSecurityDetail();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:defaultContext").getAttribute("value"))
-            .isEqualTo("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:importUsersOfGroup").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:userFilter").getAttribute("value"))
-            .isEqualTo(""));
+    $("#securitySystemBindingForm\\:defaultContext").shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue(""));
+    $("#securitySystemBindingForm\\:userFilter").shouldBe(exactValue(""));
     
-    driver.findElementById("securitySystemBindingForm:importUsersOfGroup").sendKeys("test");
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:importUsersOfGroup").getAttribute("value"))
-            .isEqualTo("test"));
-    saveScreenshot("change");
-    driver.findElementById("securitySystemBindingForm:saveSecuritySystemBindingBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:securitySystemBindingSaveSuccess_container").isDisplayed())
-            .isTrue());
-    saveScreenshot("save");
-    driver.navigate().refresh();
+    $(IMPORT_USERS_OF_GROUP).sendKeys("test");
+    $(SAVE_SECURITY_SYSTEM_BINDING_BTN).click();
+    $(SECURITY_SYSTEM_BINDING_GROWL).shouldBe(visible);
+    Selenide.refresh();
     
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:importUsersOfGroup").getAttribute("value"))
-            .isEqualTo("test"));
-    saveScreenshot("refresh");
-    driver.findElementById("securitySystemBindingForm:importUsersOfGroup").clear();
-    driver.findElementById("securitySystemBindingForm:saveSecuritySystemBindingBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemBindingForm:securitySystemBindingSaveSuccess_container").isDisplayed())
-            .isTrue());
+    $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("test"));
+    $(IMPORT_USERS_OF_GROUP).clear();
+    $(SAVE_SECURITY_SYSTEM_BINDING_BTN).click();
+    $(SECURITY_SYSTEM_BINDING_GROWL).shouldBe(visible);
   }
   
   @Test
   void testLdapAttributesNewInvalid()
   {
     toSecurityDetail();
-    driver.findElementById("securityLdapAttributesForm:newLdapAttributeBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeModal").isDisplayed())
-            .isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeNameMessage").getText())
-            .isBlank());
-    webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeMessage").getText())
-            .isBlank());
-    saveScreenshot("modal");
+    $(NEW_LDAP_ATTRIBUTE_BTN).shouldBe(visible).click();
+    $(LDAP_ATTRIBUTE_MODAL).shouldBe(visible);
+    $("#ldapAttributeForm\\:attributeNameMessage").shouldBe(empty);
+    $("#ldapAttributeForm\\:attributeMessage").shouldBe(empty);
     
-    driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
-    webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeNameMessage").getText())
-            .contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeForm:attributeMessage").getText())
-            .contains("Value is required"));
-    saveScreenshot("invalid");
+    $(SAVE_LDAP_ATTRIBUTE).click();
+    $("#ldapAttributeForm\\:attributeNameMessage").shouldBe(text("Value is required"));
+    $("#ldapAttributeForm\\:attributeMessage").shouldBe(text("Value is required"));
   }
   
   @Test
   void testLdapAttributes()
   {
     toSecurityDetail();
-    Table table = new Table(driver, By.id("securityLdapAttributesForm:ldapPropertiesTable"));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2));
+    Table table = new Table(By.id("securityLdapAttributesForm:ldapPropertiesTable"));
+    assertThat(table.getFirstColumnEntries()).hasSize(2);
     
-    driver.findElementById("securityLdapAttributesForm:newLdapAttributeBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeModal").isDisplayed())
-            .isTrue());
-    driver.findElementById("ldapAttributeForm:attributeNameInput").sendKeys("test");
-    driver.findElementById("ldapAttributeForm:attributeInput").sendKeys("value");
-    saveScreenshot("new_attr");
-    driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
-    saveScreenshot("save");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(3).contains("test"));
-    webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("value"));
+    $(NEW_LDAP_ATTRIBUTE_BTN).click();
+    $(LDAP_ATTRIBUTE_MODAL).shouldBe(visible);
+    $("#ldapAttributeForm\\:attributeNameInput").sendKeys("test");
+    $("#ldapAttributeForm\\:attributeInput").sendKeys("value");
+    $(SAVE_LDAP_ATTRIBUTE).click();
+    assertThat(table.getFirstColumnEntries()).hasSize(3).contains("test");
+    assertThat(table.getValueForEntry("test", 2)).isEqualTo("value");
     
     table.clickButtonForEntry("test", "editPropertyBtn");
-    webAssertThat(() -> assertThat(driver.findElementById("ldapAttributeModal").isDisplayed())
-            .isTrue());
-    driver.findElementById("ldapAttributeForm:attributeInput").clear();
-    driver.findElementById("ldapAttributeForm:attributeInput").sendKeys("newValue");
-    driver.findElementById("ldapAttributeForm:saveLdapAttribute").click();
-    saveScreenshot("edit");
-    webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("newValue"));
+    $(LDAP_ATTRIBUTE_MODAL).shouldBe(visible);
+    $("#ldapAttributeForm\\:attributeInput").clear();
+    $("#ldapAttributeForm\\:attributeInput").sendKeys("newValue");
+    $(SAVE_LDAP_ATTRIBUTE).click();
+    assertThat(table.getValueForEntry("test", 2)).isEqualTo("newValue");
     
     table.clickButtonForEntry("test", "deleteLdapAttributeBtn");
-    saveScreenshot("delete");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test"));
+    assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test");
   }
   
   private void toSecurityDetail()
   {
     login();
-    Navigation.toSecuritySystemDetail(driver, "test-ad");
-    saveScreenshot();
+    Navigation.toSecuritySystemDetail("test-ad");
   }
   
 }

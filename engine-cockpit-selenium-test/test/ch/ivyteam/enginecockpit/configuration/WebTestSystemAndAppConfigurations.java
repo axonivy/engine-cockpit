@@ -1,12 +1,19 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import static com.codeborne.selenide.CollectionCondition.exactTexts;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 
@@ -23,7 +30,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   void testSystemConfig()
   {
     toSystemConfig();
-    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("System Config"));
+    $("h1").shouldHave(text("System Config"));
   }
   
   @Test
@@ -74,7 +81,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   void testNewConfigInvalid()
   {
     toSystemConfig();
-    driver.findElementById("newConfigBtn").click();
+    $("#newConfigBtn").click();
     assertNewConfigInvalid();
   }
   
@@ -82,7 +89,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   void testNewConfigInvalid_app()
   {
     toApplicationDetail();
-    driver.findElementById("configMoreForm:newConfigBtn").click();
+    $("#configMoreForm\\:newConfigBtn").click();
     assertNewConfigInvalid();
   }
   
@@ -92,7 +99,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     String key = "testKey";
     String value = "testValue";
     toSystemConfig();
-    driver.findElementById("newConfigBtn").click();
+    $("#newConfigBtn").click();
     assertNewConfig(key, value);
     assertEditConfig(key, value, "newValue");
     assertResetConfig(key);
@@ -104,7 +111,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     String key = "testKey";
     String value = "testValue";
     toApplicationDetail();
-    driver.findElementById("configMoreForm:newConfigBtn").click();
+    $("#configMoreForm\\:newConfigBtn").click();
     assertNewConfig(key, value);
     assertEditConfig(key, value, "newValue");
     assertResetConfig(key);
@@ -116,7 +123,6 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     toSystemConfig();
     String config = "EMail.Server.SSL.UseKey";
     table.clickButtonForEntry(config, "editConfigBtn");
-    saveScreenshot("boolean_input");
     assertThatConfigEditModalIsVisible(config, "false");
   }
   
@@ -126,7 +132,6 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     toSystemConfig();
     String config = "Elasticsearch.ExternalServer.BootTimeout";
     table.clickButtonForEntry(config, "editConfigBtn");
-    saveScreenshot("number_input");
     assertThatConfigEditModalIsVisible(config, "60");
   }
   
@@ -136,7 +141,6 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     toSystemConfig();
     String config = "EMail.DailyTaskSummary.TriggerTime";
     table.clickButtonForEntry(config, "editConfigBtn");
-    saveScreenshot("daytime_input");
     assertThatConfigEditModalIsVisible(config, "00:00");
   }
   
@@ -146,7 +150,6 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     toSystemConfig();
     String config = "SystemTask.Failure.Behaviour";
     table.clickButtonForEntry(config, "editConfigBtn");
-    saveScreenshot("enum_input");
     assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY");
   }
   
@@ -155,8 +158,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   {
     String filter = "EMail";
     login();
-    saveScreenshot("dashboard");
-    driver.findElementById("mailConfigForm:configureEmailBtn").click();
+    $("#mailConfigForm\\:configureEmailBtn").click();
     assertUrlFiltering(filter);
   }
   
@@ -164,152 +166,134 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   void testSystemDbConfigUrl()
   {
     login();
-    saveScreenshot("dashboard");
-    driver.findElementById("configureSystemDbBtn").click();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("systemdb.xhtml"));
+    $("#configureSystemDbBtn").click();
+    assertCurrentUrlEndsWith("systemdb.xhtml");
   }
   
   private void assertUrlFiltering(String filter)
   {
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("systemconfig.xhtml?filter=" + filter));
-    table = new Table(driver, TABLE_ID);
+    assertCurrentUrlEndsWith("systemconfig.xhtml?filter=" + filter);
+    table = new Table(TABLE_ID);
     table.getSearchFilter();
-    webAssertThat(() -> assertThat(table.getSearchFilter()).isEqualTo(filter));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).allMatch(e -> e.startsWith(filter)));
+    assertThat(table.getSearchFilter()).isEqualTo(filter);
+    table.firstColumnShouldBe(size(9));
   }
   
   private void assertSearchConfigEntry()
   {
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
+    table.firstColumnShouldBe(sizeGreaterThan(0));
     String search = table.getFirstColumnEntries().get(0);
     table.search(search);
-    saveScreenshot("search_config");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1).containsOnly(search));
+    table.firstColumnShouldBe(size(1));
+    table.firstColumnShouldBe(exactTexts(search));
   }
 
   private void assertDefaultToggle(String config)
   {
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).contains(config));
+    assertThat(table.getFirstColumnEntries()).contains(config);
     toggleDefaultValues();
-    saveScreenshot("hide");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).doesNotContain(config));
+    assertThat(table.getFirstColumnEntries()).doesNotContain(config);
     toggleDefaultValues();
-    saveScreenshot("show");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).contains(config));
+    assertThat(table.getFirstColumnEntries()).contains(config);
   }
   
   private void toggleDefaultValues()
   {
-    driver.findElementById("configMoreForm:configMoreButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("configMoreForm:configMoreMenu").isDisplayed()).isTrue());
-    driver.findElementById("configMoreForm:showDefaultsBtn").click();
+    $("#configMoreForm\\:configMoreButton").click();
+    $("#configMoreForm\\:configMoreMenu").shouldBe(visible);
+    $("#configMoreForm\\:showDefaultsBtn").click();
   }
   
   private void assertShowConfigFile(String key)
   {
-    table.buttonForEntryDisabled(key, "tasksButton");
-    webAssertThat(() -> assertThat(table.buttonForEntryDisabled(key, "tasksButton")).isFalse());
     table.clickButtonForEntry(key, "tasksButton");
-    webAssertThat(() -> assertThat(table.buttonMenuForEntryVisible(key, "activityMenu")).isTrue());
+    table.buttonMenuForEntryShouldBeVisible(key, "activityMenu");
     table.clickButtonForEntry(key, "showFileBtn");
-    webAssertThat(() -> assertThat(driver.findElementById("config:showConfigurationFileModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(key.split("\\.")));
+    $("#config\\:showConfigurationFileModal").shouldBe(visible);
+    $(".code-block").shouldHave(text(key));
   }
 
   private void assertNewConfigInvalid()
   {
-    saveScreenshot("new_config_model");
-    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKey").getAttribute("value")).isBlank());
-    driver.findElementById("config:newConfigurationForm:saveNewConfiguration").click();
-    saveScreenshot("invalid_new_config");
-    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKeyMessage").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationKeyMessage").getText()).isEqualTo("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationValueMessage").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationForm:newConfigurationValueMessage").getText()).isEqualTo("Value is required"));
+    $("#config\\:newConfigurationModal").shouldBe(visible);
+    $("#config\\:newConfigurationForm\\:newConfigurationKey").shouldBe(exactValue(""));
+    $("#config\\:newConfigurationForm\\:saveNewConfiguration").click();
+    $("#config\\:newConfigurationForm\\:newConfigurationKeyMessage").shouldBe(visible, exactText("Value is required"));
+    $("#config\\:newConfigurationForm\\:newConfigurationValueMessage").shouldBe(visible, exactText("Value is required"));
   }
 
   private void assertResetConfig(String key)
   {
     table.clickButtonForEntry(key, "tasksButton");
-    webAssertThat(() -> assertThat(table.buttonMenuForEntryVisible(key, "activityMenu")).isTrue());
+    table.buttonMenuForEntryShouldBeVisible(key, "activityMenu");
     table.clickButtonForEntry(key, "resetConfigBtn");
-    saveScreenshot("reset_config");
-    webAssertThat(() -> assertThat(driver.findElementById("config:resetConfigConfirmDialog").isDisplayed()).isTrue());
+    $("#config\\:resetConfigConfirmDialog").shouldBe(visible);
     
-    driver.findElementById("config:resetConfigConfirmForm:resetConfigConfirmYesBtn").click();
-    saveScreenshot("reset_config_yes");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "reset"));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).doesNotContain(key));
+    $("#config\\:resetConfigConfirmForm\\:resetConfigConfirmYesBtn").click();
+    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("reset"));
+    assertThat(table.getFirstColumnEntries()).doesNotContain(key);
   }
 
   private void assertNewConfig(String key, String value)
   {
-    saveScreenshot("new_config_model");
-    webAssertThat(() -> assertThat(driver.findElementById("config:newConfigurationModal").isDisplayed()).isTrue());
+    $("#config\\:newConfigurationModal").shouldBe(visible);
     
-    driver.findElementById("config:newConfigurationForm:newConfigurationKey").sendKeys(key);
-    driver.findElementById("config:newConfigurationForm:newConfigurationValue").sendKeys(value);
-    driver.findElementById("config:newConfigurationForm:saveNewConfiguration").click();
-    saveScreenshot("save_new_config");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "created"));
-    webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(value));
+    $("#config\\:newConfigurationForm\\:newConfigurationKey").sendKeys(key);
+    $("#config\\:newConfigurationForm\\:newConfigurationValue").sendKeys(value);
+    $("#config\\:newConfigurationForm\\:saveNewConfiguration").click();
+    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("created"));
+    assertThat(table.getValueForEntry(key, 2)).isEqualTo(value);
   }
   
   private void assertEditConfig(String key, String value, String newValue)
   {
     table.clickButtonForEntry(key, "editConfigBtn");
-    saveScreenshot("edit_config");
     assertThatConfigEditModalIsVisible(key, value);
     
-    driver.findElementById("config:editConfigurationForm:editConfigurationValue").clear();
-    driver.findElementById("config:editConfigurationForm:editConfigurationValue").sendKeys(newValue);
-    driver.findElementById("config:editConfigurationForm:saveEditConfiguration").click();
-    saveScreenshot("save_edit_config");
-    webAssertThat(() -> assertThat(driver.findElementById("config:form:msgs_container").getText()).contains(key, "changed"));
-    webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(newValue));
+    $("#config\\:editConfigurationForm\\:editConfigurationValue").clear();
+    $("#config\\:editConfigurationForm\\:editConfigurationValue").sendKeys(newValue);
+    $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
+    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("changed"));
+    assertThat(table.getValueForEntry(key, 2)).isEqualTo(newValue);
   }
   
   private void assertThatConfigEditModalIsVisible(String key, String value)
   {
-    webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationForm:editConfigurationKey").getText()).isEqualTo(key));
-    String classAttr = driver.findElementById("config:editConfigurationForm:editConfigurationValue").getAttribute("class");
-    PrimeUi primeUi = new PrimeUi(driver);
+    $("#config\\:editConfigurationModal").shouldBe(visible);
+    $("#config\\:editConfigurationForm\\:editConfigurationKey").shouldBe(exactText(key));
+    String classAttr = $("#config\\:editConfigurationForm\\:editConfigurationValue").getAttribute("class");
     if (StringUtils.contains(classAttr, "ui-chkbox"))
     {
       SelectBooleanCheckbox checkbox = primeUi.selectBooleanCheckbox(By.id("config:editConfigurationForm:editConfigurationValue"));
-      webAssertThat(() -> assertThat(checkbox.isChecked()).isEqualTo(Boolean.valueOf(value)));
+      assertThat(checkbox.isChecked()).isEqualTo(Boolean.valueOf(value));
     }
     else if (StringUtils.contains(classAttr, "ui-inputnumber"))
     {
-      webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationForm:editConfigurationValue_input").getAttribute("value")).isEqualTo(value));
+      $("#config\\:editConfigurationForm\\:editConfigurationValue_input").shouldBe(exactValue(value));
     }
     else if (StringUtils.contains(classAttr, "ui-selectonemenu"))
     {
       SelectOneMenu menu = primeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"));
-      webAssertThat(() -> assertThat(menu.getSelectedItem()).isEqualTo(value));
+      assertThat(menu.getSelectedItem()).isEqualTo(value);
     }
     else
     {
-      webAssertThat(() -> assertThat(driver.findElementById("config:editConfigurationForm:editConfigurationValue").getAttribute("value")).isEqualTo(value));
+      $("#config\\:editConfigurationForm\\:editConfigurationValue").shouldBe(exactValue(value));
     }
   }
   
   private void toSystemConfig()
   {
     login();
-    Navigation.toSystemConfig(driver);
-    saveScreenshot();
-    table = new Table(driver, TABLE_ID);
+    Navigation.toSystemConfig();
+    table = new Table(TABLE_ID);
   }
   
   private void toApplicationDetail()
   {
     login();
-    Navigation.toApplicationDetail(driver, "test-ad");
-    scrollYToElement(By.id("configMoreForm:configMoreButton"));
-    saveScreenshot("app_detail");
-    table = new Table(driver, TABLE_ID);
+    Navigation.toApplicationDetail("test-ad");
+    scrollToElement(By.id("configMoreForm:configMoreButton"));
+    table = new Table(TABLE_ID);
   }
 }

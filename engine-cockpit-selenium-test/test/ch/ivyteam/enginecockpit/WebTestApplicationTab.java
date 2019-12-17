@@ -2,12 +2,10 @@ package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.util.ApplicationTab;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 public class WebTestApplicationTab extends WebTestBase
 {
@@ -16,7 +14,7 @@ public class WebTestApplicationTab extends WebTestBase
   {
     login();
     navigateToUsers();
-    webAssertThat(() -> assertThat(ApplicationTab.getApplicationCount(driver)).isGreaterThan(0));
+    assertThat(Tab.getCount()).isGreaterThan(0);
   }
 
   @Test
@@ -24,7 +22,7 @@ public class WebTestApplicationTab extends WebTestBase
   {
     login();
     navigateToUsers();
-    webAssertThat(() -> assertThat(ApplicationTab.getApplications(driver)).isNotEmpty());
+    assertThat(Tab.getTabs()).isNotEmpty();
   }
 
   @Test
@@ -32,20 +30,13 @@ public class WebTestApplicationTab extends WebTestBase
   {
     login();
     navigateToUsers();
-    int appNotFoundIndex = -1;
-    int index = ApplicationTab.getSelectedApplicationIndex(driver);
-    webAssertThat(() -> assertThat(index).isNotEqualTo(appNotFoundIndex));
-    if (ApplicationTab.getApplicationCount(driver) > 1)
-    {
-      int wantedIndex = 1;
-      ApplicationTab.switchToApplication(driver, wantedIndex);
-      saveScreenshot("switch_app");
-      webAssertThat(() -> assertThat(ApplicationTab.getSelectedApplicationIndex(driver))
-              .isNotEqualTo(appNotFoundIndex).isNotSameAs(index).isSameAs(wantedIndex));
-      navigateToRoles();
-      webAssertThat(() -> assertThat(ApplicationTab.getSelectedApplicationIndex(driver))
-              .isNotEqualTo(appNotFoundIndex).isNotSameAs(index).isSameAs(wantedIndex));
-    }
+    assertThat(Tab.getSelectedTabIndex()).isNotEqualTo(-1);
+    Tab.switchToTab(0);
+    assertThat(Tab.getSelectedTabIndex()).isSameAs(0);
+    Tab.switchToTab(1);
+    assertThat(Tab.getSelectedTabIndex()).isSameAs(1);
+    Tab.switchToTab(0);
+    assertThat(Tab.getSelectedTabIndex()).isSameAs(0);
   }
 
   @Test
@@ -53,31 +44,22 @@ public class WebTestApplicationTab extends WebTestBase
   {
     login();
     navigateToUsers();
-    String selectedApplication = ApplicationTab.getSelectedApplication(driver);
-    webAssertThat(() -> assertThat(selectedApplication).isNotBlank());
-    Optional<String> otherApp = ApplicationTab.getApplications(driver).stream()
-            .filter(app -> !app.equals(selectedApplication)).findAny();
-    if (otherApp.isPresent())
-    {
-      ApplicationTab.switchToApplication(driver, otherApp.get());
-      saveScreenshot("switch_app");
-      webAssertThat(() -> assertThat(ApplicationTab.getSelectedApplication(driver))
-              .isNotBlank().endsWith(otherApp.get()));
-      navigateToRoles();
-      webAssertThat(() -> assertThat(ApplicationTab.getSelectedApplication(driver))
-              .isNotBlank().endsWith(otherApp.get()));
-    }
+    String selectedApplication = Tab.getSelectedTab();
+    assertThat(selectedApplication).isNotBlank();
+    String otherApp = Tab.getTabs().get(1);
+    Tab.switchToTab(otherApp);
+    assertThat(Tab.getSelectedTab()).isNotBlank().endsWith(otherApp);
+    navigateToRoles();
+    assertThat(Tab.getSelectedTab()).isNotBlank().endsWith(otherApp);
   }
 
   private void navigateToUsers()
   {
-    Navigation.toUsers(driver);
-    saveScreenshot("users");
+    Navigation.toUsers();
   }
 
   private void navigateToRoles()
   {
-    Navigation.toRoles(driver);
-    saveScreenshot("roles");
+    Navigation.toRoles();
   }
 }

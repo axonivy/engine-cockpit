@@ -39,8 +39,8 @@ public class SystemDatabaseCreator
   private static DatabaseConnectionConfiguration getDbConfig(String dbName)
   {
     return new DatabaseConnectionConfiguration(
-            "jdbc:mysql://zugtstdbsmys:3306/" + dbName,
-            "com.mysql.jdbc.Driver", "admin", "nimda");
+            "jdbc:mysql://db:3306/" + dbName,
+            "com.mysql.jdbc.Driver", "root", "1234");
   }
   
   private static void deleteSystemDb(String dbName)

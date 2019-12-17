@@ -28,6 +28,10 @@ Ta0 @DBStep f16 '' #zField
 Ta0 @StartRequest f17 '' #zField
 Ta0 @PushWFArc f18 '' #zField
 Ta0 @PushWFArc f19 '' #zField
+Ta0 @ErrorBoundaryEvent f20 '' #zField
+Ta0 @DBStep f21 '' #zField
+Ta0 @PushWFArc f22 '' #zField
+Ta0 @PushWFArc f23 '' #zField
 >Proto Ta0 Ta0 TestData #zField
 Ta0 f0 outLink addAdministrator.ivp #txt
 Ta0 f0 inParamDecl '<> param;' #txt
@@ -166,9 +170,22 @@ Ta0 f15 @|EndIcon #fIcon
 Ta0 f16 actionTable 'out=in;
 ' #txt
 Ta0 f16 dbSql '<?xml version=""1.0"" standalone=""no""?>
-<!DOCTYPE SELECT SYSTEM  ""sqlStatements.dtd"">
-<SELECT><Table name=''test''/></SELECT>' #txt
+<!DOCTYPE ANY_SQL SYSTEM  ""sqlStatements.dtd"">
+<ANY_SQL><Verbatim quote=''true''>CREATE TABLE Persons (
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+)</Verbatim></ANY_SQL>' #txt
 Ta0 f16 dbUrl realdb #txt
+Ta0 f16 dbWizard 'CREATE TABLE Persons (
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+);' #txt
 Ta0 f16 lotSize 2147483647 #txt
 Ta0 f16 startIdx 0 #txt
 Ta0 f16 168 330 112 44 0 -7 #rect
@@ -192,6 +209,36 @@ Ta0 f17 @|StartRequestIcon #fIcon
 Ta0 f18 expr out #txt
 Ta0 f18 111 352 168 352 #arcP
 Ta0 f19 280 352 337 352 #arcP
+Ta0 f20 actionTable 'out=in;
+' #txt
+Ta0 f20 errorCode ivy:error:database #txt
+Ta0 f20 attachedToRef 16E88DD61E825E70-f16 #txt
+Ta0 f20 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>ivy:error:database</name>
+    </language>
+</elementInfo>
+' #txt
+Ta0 f20 241 369 30 30 0 15 #rect
+Ta0 f20 @|ErrorBoundaryEventIcon #fIcon
+Ta0 f21 actionTable 'out=in;
+' #txt
+Ta0 f21 dbSql '<?xml version=""1.0"" standalone=""no""?>
+<!DOCTYPE ANY_SQL SYSTEM  ""sqlStatements.dtd"">
+<ANY_SQL><Verbatim quote=''true''>SELECT *
+FROM Persons</Verbatim></ANY_SQL>' #txt
+Ta0 f21 dbUrl realdb #txt
+Ta0 f21 dbWizard 'SELECT *
+FROM Persons' #txt
+Ta0 f21 lotSize 2147483647 #txt
+Ta0 f21 startIdx 0 #txt
+Ta0 f21 200 458 112 44 0 -7 #rect
+Ta0 f21 @|DBStepIcon #fIcon
+Ta0 f22 256 399 256 458 #arcP
+Ta0 f23 312 480 352 367 #arcP
+Ta0 f23 1 352 480 #addKink
+Ta0 f23 1 0.08034838254922853 0 0 #arcLabel
 >Proto Ta0 .type engine.cockpit.test.data.Data #txt
 >Proto Ta0 .processKind NORMAL #txt
 >Proto Ta0 0 0 32 24 18 0 #rect
@@ -212,3 +259,7 @@ Ta0 f17 mainOut f18 tail #connect
 Ta0 f18 head f16 mainIn #connect
 Ta0 f16 mainOut f19 tail #connect
 Ta0 f19 head f15 mainIn #connect
+Ta0 f20 mainOut f22 tail #connect
+Ta0 f22 head f21 mainIn #connect
+Ta0 f21 mainOut f23 tail #connect
+Ta0 f23 head f15 mainIn #connect

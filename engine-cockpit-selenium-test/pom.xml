@@ -14,7 +14,7 @@
 	<properties>
 		<test.application>System</test.application>
 		<maven.surefire.version>3.0.0-M3</maven.surefire.version>
-		<junit.engine.version>5.3.2</junit.engine.version>
+		<junit.engine.version>5.5.2</junit.engine.version>
 	</properties>
 
 	<build>
@@ -235,12 +235,11 @@
 			<artifactId>commons-text</artifactId>
 			<version>1.8</version>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>io.github.bonigarcia</groupId>
-			<artifactId>selenium-jupiter</artifactId>
-			<version>3.0.0</version>
-			<scope>test</scope>
+			<groupId>com.codeborne</groupId>
+			<artifactId>selenide</artifactId>
+			<version>5.5.1</version>
 		</dependency>
 
 		<dependency>

@@ -1,23 +1,38 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.codeborne.selenide.Condition;
+
 import ch.ivyteam.enginecockpit.WebTestBase;
-import ch.ivyteam.enginecockpit.util.ApplicationTab;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestUserAndRoleProperties extends WebTestBase
 {
+  private static final String PROPERTY_VALUE_MESSAGE = "#propertyModalForm\\:propertyValueMessage";
+  private static final String PROPERTY_NAME_MESSAGE = "#propertyModalForm\\:propertyNameMessage";
+  private static final String PROPERTY_MODAL = "#propertyModal";
+  private static final String PROPERTY_NAME_INPUT = "#propertyModalForm\\:propertyNameInput";
+  private static final String PROPERTIES_GROWL = "#propertiesForm\\:propertiesMessage_container";
+  private static final String SAVE_PROPERTY = "#propertyModalForm\\:saveProperty";
+  private static final String PROPERTY_VALUE_INPUT = "#propertyModalForm\\:propertyValueInput";
   private static final By TABLE_ID = By.id("propertiesForm:propertiesTable");
   
   @Test
   public void testUserPropertyInvalid()
   {
-    toUserDetail("foo");
+    toUserDetail();
     openAddPropertyModal();
     saveInvalidAddProperty();
   }
@@ -34,7 +49,7 @@ public class WebTestUserAndRoleProperties extends WebTestBase
   public void testUserPropertyAddEditDelete()
   {
     String key = "test";
-    toUserDetail("foo");
+    toUserDetail();
     openAddPropertyModal();
     addProperty(key, "testValue");
     editProperty(key, "edit");
@@ -56,106 +71,92 @@ public class WebTestUserAndRoleProperties extends WebTestBase
   public void testUserDirectoryProperties()
   {
     login();
-    Navigation.toUsers(driver);
-    saveScreenshot("users");
-    ApplicationTab.switchToApplication(driver, "test-ad");
-    saveScreenshot("test-ad");
-    String syncBtnId = "form:card:apps:applicationTabView:" + ApplicationTab.getSelectedApplicationIndex(driver) + ":panelSyncBtn";
-    driver.findElementById(syncBtnId).click();
-    saveScreenshot("sync");
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//button[@id='" + syncBtnId + "']/span[1]")
-            .getAttribute("class")).doesNotContain("fa-spin"));
-    saveScreenshot("sync_finish");
-    Navigation.toUserDetail(driver, "user1");
-    saveScreenshot("user-detail");
+    Navigation.toUsers();
+    Tab.switchToTab("test-ad");
+    String syncBtnId = "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
+    $(syncBtnId).click();
+    $(syncBtnId + " > span:first-child").shouldNotHave(cssClass("fa-spin"));
+    Navigation.toUserDetail("user1");
     assertTableHasDirectoryProperty("Address", "Baarerstrasse 12");
   }
   
   private void editProperty(String key, String value)
   {
-    new Table(driver, TABLE_ID).clickButtonForEntry(key, "editPropertyBtn");
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyName").getText()).isEqualTo(key));
-    saveScreenshot("edit_property");
+    new Table(TABLE_ID).clickButtonForEntry(key, "editPropertyBtn");
+    $(PROPERTY_MODAL).shouldBe(visible);
+    $("#propertyModalForm\\:propertyName").shouldBe(exactText(key));
     
-    driver.findElementById("propertyModalForm:propertyValueInput").clear();
-    driver.findElementById("propertyModalForm:propertyValueInput").sendKeys(value);
-    driver.findElementById("propertyModalForm:saveProperty").click();
+    $(PROPERTY_VALUE_INPUT).clear();
+    $(PROPERTY_VALUE_INPUT).sendKeys(value);
+    $(SAVE_PROPERTY).click();
     assertTableHasKeyValue(key, value);
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
-            .contains("Successfully"));
-    saveScreenshot("save_property");
+    $(PROPERTIES_GROWL).shouldHave(text("Successfully"));
   }
 
   private void deleteProperty(String key)
   {
-    Table table = new Table(driver, TABLE_ID);
+    Table table = new Table(TABLE_ID);
     table.clickButtonForEntry(key, "deletePropertyBtn");
-    saveScreenshot("delete_property");
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
-            .contains("Successfully removed"));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(0));
+    $(PROPERTIES_GROWL).shouldHave(text("Successfully removed"));
+    assertThat(table.getFirstColumnEntries()).hasSize(0);
   }
   
 
   private void addProperty(String key, String value)
   {
-    Table table = new Table(driver, TABLE_ID);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(0));
-    driver.findElementById("propertyModalForm:propertyNameInput").sendKeys(key);
-    driver.findElementById("propertyModalForm:propertyValueInput").sendKeys(value);
-    driver.findElementById("propertyModalForm:saveProperty").click();
+    Table table = new Table(TABLE_ID);
+    assertThat(table.getFirstColumnEntries()).hasSize(0);
+    $(PROPERTY_NAME_INPUT).sendKeys(key);
+    $(PROPERTY_VALUE_INPUT).sendKeys(value);
+    $(SAVE_PROPERTY).click();
     
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).hasSize(1));
+    assertThat(table.getFirstColumnEntries()).hasSize(1);
     assertTableHasKeyValue(key, value);
-    webAssertThat(() -> assertThat(driver.findElementById("propertiesForm:propertiesMessage_container").getText())
-            .contains("Successfully"));
-    saveScreenshot("save_property");
+    $(PROPERTIES_GROWL).shouldHave(text("Successfully"));
   }
 
   private void assertTableHasDirectoryProperty(String key, String value)
   {
     assertTableHasKeyValue(key, value);
-    Table table = new Table(driver, TABLE_ID);
-    webAssertThat(() -> assertThat(table.buttonForEntryDisabled(key, "editPropertyBtn")).isTrue());
-    webAssertThat(() -> assertThat(table.buttonForEntryDisabled(key, "deletePropertyBtn")).isTrue());
+    Table table = new Table(TABLE_ID);
+    table.buttonForEntryShouldBeDisabled(key, "editPropertyBtn");
+    table.buttonForEntryShouldBeDisabled(key, "deletePropertyBtn");
   }
   
   private void assertTableHasKeyValue(String key, String value)
   {
-    Table table = new Table(driver, TABLE_ID);
-    webAssertThat(() -> assertThat(table.getValueForEntry(key, 2)).isEqualTo(value));
+    Table table = new Table(TABLE_ID);
+    assertThat(table.getValueForEntry(key, 2)).isEqualTo(value);
   }
 
   private void saveInvalidAddProperty()
   {
-    driver.findElementById("propertyModalForm:saveProperty").click();
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyNameMessage").getText()).contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueMessage").getText()).contains("Value is required"));
+    $(SAVE_PROPERTY).click();
+    $(PROPERTY_NAME_MESSAGE).shouldHave(text("Value is required"));
+    $(PROPERTY_VALUE_MESSAGE).shouldHave(text("Value is required"));
   }
   
   private void openAddPropertyModal()
   {
-    driver.findElementById("propertiesForm:newPropertyBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyNameInput").getAttribute("value")).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyNameMessage").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueInput").getAttribute("value")).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("propertyModalForm:propertyValueMessage").getText()).isEmpty());
-    saveScreenshot("add_prop");
+    $("#propertiesForm\\:newPropertyBtn").click();
+    $(PROPERTY_MODAL).shouldBe(visible);
+    $(PROPERTY_NAME_INPUT).shouldBe(Condition.exactValue(""));
+    $(PROPERTY_NAME_MESSAGE).shouldBe(empty);
+    $(PROPERTY_VALUE_INPUT).shouldBe(Condition.exactValue(""));
+    $(PROPERTY_VALUE_MESSAGE).shouldBe(empty);
   }
   
-  private void toUserDetail(String userName)
+  private void toUserDetail()
   {
     login();
-    Navigation.toUserDetail(driver, userName);
-    saveScreenshot("userdetail");
+    Navigation.toUsers();
+    Tab.switchToTab("test");
+    Navigation.toUserDetail("foo");
   }
   
   private void toRoleDetail(String roleName)
   {
     login();
-    Navigation.toRoleDetail(driver, roleName);
-    saveScreenshot("userdetail");
+    Navigation.toRoleDetail(roleName);
   }
 }

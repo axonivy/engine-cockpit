@@ -26,16 +26,16 @@ public class WebDocuScreenshot extends WebTestBase
   @BeforeEach
   void setupDocuData()
   {
-    populateBusinessCalendar(driver);
-    runExternalDbQuery(driver);
-    createBusinessData(driver);
-    addSystemAdmin(driver);
+    populateBusinessCalendar();
+    runExternalDbQuery();
+    createBusinessData();
+    addSystemAdmin();
   }
   
   @AfterEach
   void cleanUpDocuData()
   {
-    resetConfig(driver);
+    resetConfig();
   }
 
   @Test
@@ -43,64 +43,64 @@ public class WebDocuScreenshot extends WebTestBase
   {
     login();
     takeScreenshot("engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
-    Navigation.toApplications(driver);
+    Navigation.toApplications();
     takeScreenshot("engine-cockpit-applications", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toApplicationDetail(driver, EngineCockpitUrl.isDesignerApp() ? "designer" : "test");
+    Navigation.toApplicationDetail(EngineCockpitUrl.isDesignerApp() ? "designer" : "test");
     takeScreenshot("engine-cockpit-application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
-    Navigation.toSecuritySystem(driver);
+    Navigation.toSecuritySystem();
     takeScreenshot("engine-cockpit-security-system", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toSecuritySystemDetail(driver, "test-ad");
+    Navigation.toSecuritySystemDetail("test-ad");
     takeScreenshot("engine-cockpit-security-system-detail", new Dimension(SCREENSHOT_WIDTH, 900));
-    Navigation.toUsers(driver);
+    Navigation.toUsers();
     takeScreenshot("engine-cockpit-users", new Dimension(SCREENSHOT_WIDTH, 600));
-    Navigation.toUserDetail(driver, "foo");
+    Navigation.toUserDetail("foo");
     takeScreenshot("engine-cockpit-user-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
-    Navigation.toRoles(driver);
+    Navigation.toRoles();
     takeScreenshot("engine-cockpit-roles", new Dimension(SCREENSHOT_WIDTH, 550));
-    Navigation.toRoleDetail(driver, "boss");
+    Navigation.toRoleDetail("boss");
     takeScreenshot("engine-cockpit-role-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
-    Navigation.toVariables(driver);
+    Navigation.toVariables();
     takeScreenshot("engine-cockpit-configuration-variables", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toBusinessCalendar(driver);
+    Navigation.toBusinessCalendar();
     takeScreenshot("engine-cockpit-configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toBusinessCalendarDetail(driver, "Luzern");
+    Navigation.toBusinessCalendarDetail("Luzern");
     takeScreenshot("engine-cockpit-configuration-businesscalendar-detail", new Dimension(SCREENSHOT_WIDTH, 750));
-    Navigation.toSearchEngine(driver);
+    Navigation.toSearchEngine();
     takeScreenshot("engine-cockpit-search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
-    Navigation.toEmail(driver);
+    Navigation.toEmail();
     takeScreenshot("engine-cockpit-email", new Dimension(SCREENSHOT_WIDTH, 650));
-    Navigation.toExternalDatabases(driver);
+    Navigation.toExternalDatabases();
     takeScreenshot("engine-cockpit-external-databases", new Dimension(SCREENSHOT_WIDTH, 550));
-    Navigation.toExternalDatabaseDetail(driver, "realdb");
+    Navigation.toExternalDatabaseDetail("realdb");
     takeScreenshot("engine-cockpit-external-database-detail", new Dimension(SCREENSHOT_WIDTH, 800));
-    Navigation.toWebservices(driver);
+    Navigation.toWebservices();
     takeScreenshot("engine-cockpit-webservice", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toWebserviceDetail(driver, "test-web");
+    Navigation.toWebserviceDetail("test-web");
     takeScreenshot("engine-cockpit-webservice-detail", new Dimension(SCREENSHOT_WIDTH, 800));
-    Navigation.toRestClients(driver);
+    Navigation.toRestClients();
     takeScreenshot("engine-cockpit-rest-clients", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toRestClientDetail(driver, "test-rest");
+    Navigation.toRestClientDetail("test-rest");
     takeScreenshot("engine-cockpit-rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
-    Navigation.toAdmins(driver);
+    Navigation.toAdmins();
     takeScreenshot("engine-cockpit-system-admins", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toSystemDb(driver);
+    Navigation.toSystemDb();
     takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 900));
-    Navigation.toSystemConfig(driver);
+    Navigation.toSystemConfig();
     takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
-    Navigation.toCluster(driver);
+    Navigation.toCluster();
     takeScreenshot("engine-cockpit-cluster", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toResourcesMonitor(driver);
+    Navigation.toResourcesMonitor();
     takeScreenshot("engine-cockpit-monitor", new Dimension(SCREENSHOT_WIDTH, 1000));
-    Navigation.toLogs(driver);
+    Navigation.toLogs();
     takeScreenshot("engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
     
     login("setup.xhtml");
     takeScreenshot("engine-cockpit-setup-licence", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
-    WebTestWizardLicence.skipLicStep(driver);
+    WebTestWizardLicence.skipLicStep();
     takeScreenshot("engine-cockpit-setup-admins", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
-    WebTestWizardAdmins.skipAdminStep(driver);
+    WebTestWizardAdmins.skipAdminStep();
     takeScreenshot("engine-cockpit-setup-webserver", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
-    WebTestWizardWebServer.skipWebserverStep(driver);
+    WebTestWizardWebServer.skipWebserverStep();
     takeScreenshot("engine-cockpit-setup-systemdb", new Dimension(SCREENSHOT_SETUP_WIDTH, 900));
   }
 
@@ -109,25 +109,11 @@ public class WebDocuScreenshot extends WebTestBase
     Dimension oldSize = driver.manage().window().getSize();
     resizeBrowser(size);
     scrollToPosition(0, 0);
-    waitForNavigationHighlight(250);
-    saveScreenshot(fileName);
+    saveDocuScreenshot(fileName);
     resizeBrowser(oldSize);
   }
   
-  private void waitForNavigationHighlight(int millisec)
-  {
-    try
-    {
-      Thread.sleep(millisec);
-    }
-    catch (InterruptedException ex)
-    {
-      ex.printStackTrace();
-    }
-  }
-
-  @Override
-  public void saveScreenshot(String name) 
+  public void saveDocuScreenshot(String name) 
   {
     File source = driver.getScreenshotAs(OutputType.FILE);
     try

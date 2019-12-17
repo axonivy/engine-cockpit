@@ -1,9 +1,19 @@
 package ch.ivyteam.enginecockpit.services;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.$x;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -17,9 +27,9 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   void testExternalDatabaseDetailOpen()
   {
     navigateToDatabaseDetail();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME));
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:name").getText()).isEqualTo(DATABASE_NAME));
+    assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME);
+    $$(".ui-panel").shouldHave(size(4));
+    $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
   }
   
   @Test
@@ -27,10 +37,9 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   {
     navigateToDatabaseDetail();
     
-    driver.findElementByXPath("//div[@id='breadcrumbOptions']/a").click();
-    saveScreenshot("help_modal");
-    webAssertThat(() -> assertThat(driver.findElementById("helpExternalDatabaseDialog:helpServicesModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementByClassName("code-block").getText()).contains(DATABASE_NAME));
+    $("#breadcrumbOptions > a").shouldBe(visible).click();
+    $("#helpExternalDatabaseDialog\\:helpServicesModal").shouldBe(visible);
+    $(".code-block").shouldBe(text(DATABASE_NAME));
   }
   
   @Test
@@ -38,21 +47,19 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   {
     navigateToDatabaseDetail();
     
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
-    driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
-    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
-    saveScreenshot("connection_fail");
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Error"));
+    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
+    $("#databaseConfigurationForm\\:testDatabaseBtn").click();
+    $("#connResult\\:connectionTestModel").shouldBe(visible);
+    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
+    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text("Error"));
   
-    Navigation.toExternalDatabaseDetail(driver, "realdb");
+    Navigation.toExternalDatabaseDetail("realdb");
     
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isFalse());
-    driver.findElementById("databaseConfigurationForm:testDatabaseBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connectionTestModel").isDisplayed()).isTrue());
-    driver.findElementById("connResult:connTestForm:testConnectionBtn").click();
-    saveScreenshot("connection_ok");
-    webAssertThat(() -> assertThat(driver.findElementById("connResult:connTestForm:resultLog_content").getText()).contains("Successfully connected to database"));
+    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
+    $("#databaseConfigurationForm\\:testDatabaseBtn").click();
+    $("#connResult\\:connectionTestModel").shouldBe(visible);
+    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
+    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text("Successfully connected to database"));
   }
   
   @Test
@@ -61,76 +68,63 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     navigateToDatabaseDetail();
     
     setConfiguration("url", "org.postgresql.Driver", "testUser", "13");
-    driver.navigate().refresh();
+    Selenide.refresh();
     checkConfiguration("url", "org.postgresql.Driver", "testUser", "13");
     resetConfiguration();
-    driver.navigate().refresh();
+    Selenide.refresh();
     checkConfiguration("jdbc:mysql://localhost:3306/test-db", "com.mysql.jdbc.Driver", "user", "5");
   }
 
   private void setConfiguration(String url, String driverName, String username, String connections)
   {
-    driver.findElementById("databaseConfigurationForm:url").clear();
-    driver.findElementById("databaseConfigurationForm:url").sendKeys(url);
+    $("#databaseConfigurationForm\\:url").clear();
+    $("#databaseConfigurationForm\\:url").sendKeys(url);
     
-    driver.findElementById("databaseConfigurationForm:driver_input").clear();
-    driver.findElementByXPath("//*[@id='databaseConfigurationForm:driver']/button").click();
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:driver_panel").isDisplayed()).isTrue());
-    driver.findElementByXPath("//*[@id='databaseConfigurationForm:driver_panel']//li[text()='" + driverName + "']").click();
+    $("#databaseConfigurationForm\\:driver_input").clear();
+    $("#databaseConfigurationForm\\:driver > button").click();
+    $("#databaseConfigurationForm\\:driver_panel").shouldBe(visible);
+    $x("//*[@id='databaseConfigurationForm:driver_panel']//li[text()='" + driverName + "']").click();
     
-    driver.findElementById("databaseConfigurationForm:userName").clear();
-    driver.findElementById("databaseConfigurationForm:userName").sendKeys(username);
+    $("#databaseConfigurationForm\\:userName").clear();
+    $("#databaseConfigurationForm\\:userName").sendKeys(username);
 
-    driver.findElementById("databaseConfigurationForm:maxConnections_input").clear();
-    driver.findElementById("databaseConfigurationForm:maxConnections_input").sendKeys(connections);
+    $("#databaseConfigurationForm\\:maxConnections_input").clear();
+    $("#databaseConfigurationForm\\:maxConnections_input").sendKeys(connections);
     
-    saveScreenshot("set");
     
-    driver.findElementById("databaseConfigurationForm:saveDatabaseConfig").click();
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container")
-            .getText()).contains("Database configuration saved"));
-    saveScreenshot("save");
+    $("#databaseConfigurationForm\\:saveDatabaseConfig").click();
+    $("#databaseConfigurationForm\\:databaseConfigMsg_container").shouldBe(text("Database configuration saved"));
   }
   
   private void checkConfiguration(String url, String driverName, String username, String connections)
   {
-    saveScreenshot("check");
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:url").getAttribute("value"))
-            .isEqualTo(url));
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:driver_input").getAttribute("value"))
-            .isEqualTo(driverName));
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:userName").getAttribute("value"))
-            .isEqualTo(username));
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:maxConnections_input").getAttribute("value"))
-            .isEqualTo(connections));
+    $("#databaseConfigurationForm\\:url").shouldBe(exactValue(url));
+    $("#databaseConfigurationForm\\:driver_input").shouldBe(exactValue(driverName));
+    $("#databaseConfigurationForm\\:userName").shouldBe(exactValue(username));
+    $("#databaseConfigurationForm\\:maxConnections_input").shouldBe(exactValue(connections));
   }
   
   private void resetConfiguration()
   {
-    driver.findElementById("databaseConfigurationForm:resetConfig").click();
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:resetDbConfirmDialog").isDisplayed()).isTrue());
-    driver.findElementById("databaseConfigurationForm:resetDbConfirmYesBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("databaseConfigurationForm:databaseConfigMsg_container")
-            .getText()).contains("Database configuration reset"));
+    $("#databaseConfigurationForm\\:resetConfig").click();
+    $("#databaseConfigurationForm\\:resetDbConfirmDialog").shouldBe(visible);
+    $("#databaseConfigurationForm\\:resetDbConfirmYesBtn").click();
+    $("#databaseConfigurationForm\\:databaseConfigMsg_container").shouldBe(text("Database configuration reset"));
   }
   
   @Test
   void testConnectionAndHistory()
   {
-    runExternalDbQuery(driver);
+    runExternalDbQuery();
     login();
-    Navigation.toExternalDatabaseDetail(driver, "realdb");
-    Table connTable = new Table(driver, By.id("databaseConnectionForm:databaseConnectionsTable"));
-    Table historyTable = new Table(driver, By.id("databaseExecHistoryForm:databaseExecHistoryTable"));
-    webAssertThat(() -> assertThat(connTable.getFirstColumnEntries()).isNotEmpty());
-    webAssertThat(() -> assertThat(historyTable.getFirstColumnEntries()).isNotEmpty());
-    saveScreenshot("not_empty");
+    Navigation.toExternalDatabaseDetail("realdb");
+    new Table(By.id("databaseConnectionForm:databaseConnectionsTable")).firstColumnShouldBe(sizeGreaterThan(0));
+    new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable")).firstColumnShouldBe(sizeGreaterThan(0));
   }
   
   private void navigateToDatabaseDetail()
   {
     login();
-    Navigation.toExternalDatabaseDetail(driver, DATABASE_NAME);
-    saveScreenshot("externaldatabase_testdb");
+    Navigation.toExternalDatabaseDetail(DATABASE_NAME);
   }
 }

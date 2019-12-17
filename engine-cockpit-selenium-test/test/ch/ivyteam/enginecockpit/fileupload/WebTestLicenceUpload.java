@@ -1,6 +1,10 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,9 +21,8 @@ public class WebTestLicenceUpload extends WebTestBase
   {
     toDashboardAndOpenLicenceUpload();
     
-    driver.findElementById("licenceUpload:uploadBtn").click();
-    saveScreenshot("no_lic");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
+    $("#licenceUpload\\:uploadBtn").click();
+    $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
   
   @Test
@@ -28,11 +31,10 @@ public class WebTestLicenceUpload extends WebTestBase
     toDashboardAndOpenLicenceUpload();
     
     Path createTempFile = Files.createTempFile("licence", ".txt");
-    driver.findElementById("fileInput").sendKeys(createTempFile.toString());
-    driver.findElementById("licenceUpload:uploadBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isNotEmpty());
-    saveScreenshot("wrong_file_format");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
+    $("#fileInput").sendKeys(createTempFile.toString());
+    $("#licenceUpload\\:uploadBtn").click();
+    $("#uploadError").shouldNotBe(empty);
+    $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
   
   @Test
@@ -41,45 +43,30 @@ public class WebTestLicenceUpload extends WebTestBase
     toDashboardAndOpenLicenceUpload();
     
     Path createTempFile = Files.createTempFile("licence", ".lic");
-    driver.findElementById("fileInput").sendKeys(createTempFile.toString());
-    driver.findElementById("licenceUpload:uploadBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isFalse());
-    saveScreenshot("invalid_lic");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isEqualTo("Licence file has a wrong format. It must have at least 6 lines"));
+    $("#fileInput").sendKeys(createTempFile.toString());
+    $("#licenceUpload\\:uploadBtn").click();
+    $("#uploadLog").shouldNotBe(empty);
+    $("#fileUploadForm").shouldNotBe(visible);
+    $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
     
-    driver.findElementById("licenceUpload:backBtn").click();
-    saveScreenshot("back");
-    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").isDisplayed()).isFalse());
+    $("#licenceUpload\\:backBtn").click();
+    $("#fileUploadForm").shouldBe(visible);
+    $("#uploadLog").shouldNotBe(visible);
   }
 
   private void toDashboardAndOpenLicenceUpload()
   {
     toDashboard();
     
-    findUploadButton();
-    saveScreenshot("fileupload");
-    webAssertThat(() -> assertThat(driver.findElementById("licenceUpload:fileUploadModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText()).contains(".lic"));
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
+    $("#uploadLicenceBtn").click();
+    $("#licenceUpload\\:fileUploadModal").shouldBe(visible);
+    $("#selectedFileOutput").shouldHave(text(".lic"));
+    $("#uploadError").shouldBe(empty);
   }
   
   private void toDashboard()
   {
     login();
-    saveScreenshot();
   }
   
-  private void findUploadButton()
-  {
-    if (driver.findElementsById("uploadLicenceBtn").size() != 0)
-    {
-      driver.findElementById("uploadLicenceBtn").click();
-    }
-    else
-    {
-      driver.findElementById("tasksButtonLicence").click();
-    }
-  }
 }

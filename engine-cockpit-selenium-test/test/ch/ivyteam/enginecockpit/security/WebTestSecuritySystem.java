@@ -1,11 +1,13 @@
 package ch.ivyteam.enginecockpit.security;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.stream.Collectors;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -16,53 +18,45 @@ public class WebTestSecuritySystem extends WebTestBase
   void testSecuritySystem()
   {
     toSecuritySystem();
-    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Security Systems"));
-    webAssertThat(() -> assertThat(driver.findElementsByXPath("//tbody/tr")).isNotEmpty());
+    $("h1").shouldBe(text("Security Systems"));
+    $$("tbody tr").shouldBe(sizeGreaterThan(0));
   }
   
   @Test
   void testAddNewSecuritySystemInvalid()
   {
     toSecuritySystem();
-    driver.findElementById("card:form:createSecuritySystemBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("card:newSecuritySystemModal").isDisplayed()).isTrue());
-    driver.findElementById("card:newSecuritySystemForm:saveNewSecuritySystem").click();
-    saveScreenshot("invalid");
-    webAssertThat(() -> assertThat(driver.findElementById("card:newSecuritySystemForm:newSecuritySystemNameMessage").getText())
-            .contains("Value is required"));
+    $("#card\\:form\\:createSecuritySystemBtn").click();
+    $("#card\\:newSecuritySystemModal").shouldBe(visible);
+    $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
+    $("#card\\:newSecuritySystemForm\\:newSecuritySystemNameMessage").shouldBe(text("Value is required"));
   }
   
   @Test
   void testAddAndDeleteSecuritySystem()
   {
     toSecuritySystem();
-    driver.findElementById("card:form:createSecuritySystemBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("card:newSecuritySystemModal").isDisplayed()).isTrue());
-    driver.findElementById("card:newSecuritySystemForm:newSecuritySystemNameInput").sendKeys("NewFromTest");
-    driver.findElementById("card:newSecuritySystemForm:saveNewSecuritySystem").click();
-    saveScreenshot("new_sec_system");
-    webAssertThat(() -> assertThat(driver.findElementById("card:newSecuritySystemModal").isDisplayed()).isFalse());
-    webAssertThat(() -> assertThat(driver.findElementsByXPath("//tbody//*[@class='security-name'][text()='NewFromTest']")).hasSize(1));
+    $("#card\\:form\\:createSecuritySystemBtn").click();
+    $("#card\\:newSecuritySystemModal").shouldBe(visible);
+    $("#card\\:newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");
+    $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
+    $("#card\\:newSecuritySystemModal").shouldNotBe(visible);
+    $$(".security-name").shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "ivy Security System"));
   
-    Navigation.toSecuritySystemDetail(driver, "NewFromTest");
-    saveScreenshot("new_sec_detail");
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:deleteSecuritySystem").isDisplayed()).isTrue());
+    Navigation.toSecuritySystemDetail("NewFromTest");
+    $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible);
     
-    driver.findElementById("securitySystemConfigForm:deleteSecuritySystem").click();
-    saveScreenshot("delete_system_model");
-    webAssertThat(() -> assertThat(driver.findElementById("securitySystemConfigForm:deleteSecuritySystemConfirmDialog").isDisplayed()).isTrue());
+    $("#securitySystemConfigForm\\:deleteSecuritySystem").click();
+    $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmDialog").shouldBe(visible);
     
-    driver.findElementById("securitySystemConfigForm:deleteSecuritySystemConfirmYesBtn").click();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("securitysystem.xhtml"));
-    saveScreenshot("system_deleted");
-    webAssertThat(() -> assertThat(driver.findElements(By.xpath("//span[@class='security-name']"))
-            .stream().map(e -> e.getText()).collect(Collectors.toList())).doesNotContain("NewFromTest"));
+    $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmYesBtn").click();
+    assertCurrentUrlEndsWith("securitysystem.xhtml");
+    $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "ivy Security System"));
   }
   
   private void toSecuritySystem()
   {
     login();
-    Navigation.toSecuritySystem(driver);
-    saveScreenshot();
+    Navigation.toSecuritySystem();
   }
 }

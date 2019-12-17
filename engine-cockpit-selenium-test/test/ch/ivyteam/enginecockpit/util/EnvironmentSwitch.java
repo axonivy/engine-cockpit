@@ -1,46 +1,46 @@
 package ch.ivyteam.enginecockpit.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ch.ivyteam.enginecockpit.WebBase;
 
 public class EnvironmentSwitch
 {
-  private static final By ENV_SWITCH = By.xpath("//div[contains(@class, 'environment-switch')]");
+  private static final String ENV_SWITCH = ".environment-switch";
 
-  public static void switchToEnv(RemoteWebDriver driver, String env)
+  public static void switchToEnv(String env)
   {
-    clickOnEnvSwitch(driver);
-    driver.findElementByXPath("//ul[@id='" + getEnvId(driver) + "_items']/li[text()='" + env + "']").click();
+    clickOnEnvSwitch();
+    $(getEnvId() + "_items").findAll("li").find(text(env)).click();
   }
   
-  public static String getEnv(RemoteWebDriver driver)
+  public static String getEnv()
   {
-    String envId = getEnvId(driver);
-    return driver.findElementById(envId + "_label").getText();
+    return $(getEnvId() + "_label").shouldBe(visible).getText();
   }
   
-  public static List<String> getAvailableEnvs(RemoteWebDriver driver)
+  public static List<String> getAvailableEnvs()
   {
-    clickOnEnvSwitch(driver);
-    return driver.findElementsByXPath("//ul[@id='" + getEnvId(driver) + "_items']/li").stream()
+    clickOnEnvSwitch();
+    return $(getEnvId() + "_items").findAll("li").stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
   
-  private static void clickOnEnvSwitch(RemoteWebDriver driver)
+  private static void clickOnEnvSwitch()
   {
-    driver.findElement(ENV_SWITCH).click();
-    WebBase.webAssertThat(() -> assertThat(driver.findElementById(getEnvId(driver) + "_items").isDisplayed()).isTrue());
+    $(getEnvId()).shouldBe(visible, enabled).click();
+    $(getEnvId() + "_items").shouldBe(visible);
   }
   
-  private static String getEnvId(RemoteWebDriver driver)
+  private static String getEnvId()
   {
-    return driver.findElement(ENV_SWITCH).getAttribute("id");
+    return WebBase.escapeSelector($$(ENV_SWITCH).find(visible).getAttribute("id"));
   }
 }

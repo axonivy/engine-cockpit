@@ -1,11 +1,15 @@
 package ch.ivyteam.enginecockpit;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -19,12 +23,11 @@ public class WebTestApplication extends WebTestBase
   {
     toApplications();
 
-    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Applications"));
-    Table table = new Table(driver, By.className("ui-treetable"), true);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
-    driver.findElement(By.xpath(".//input[contains(@class, 'table-search-input-withicon')]")).sendKeys("test-ad");
-    saveScreenshot("search_app");
-    webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name"))).hasSize(1));
+    $("h1").shouldHave(text("Applications"));
+    Table table = new Table(By.className("ui-treetable"), true);
+    table.firstColumnShouldBe(sizeGreaterThan(0));
+    $(".table-search-input-withicon").sendKeys("test-ad");
+    table.firstColumnShouldBe(size(1));
   }
   
   @Test
@@ -34,10 +37,8 @@ public class WebTestApplication extends WebTestBase
     
     openNewApplicationModal();
 
-    driver.findElementById("card:newApplicationForm:saveNewApplication").click();
-    saveScreenshot("new_app_value_required");
-    webAssertThat(() -> assertThat(driver.findElementById("card:newApplicationForm:newApplicationNameMessage").isDisplayed())
-                    .isTrue());
+    $("#card\\:newApplicationForm\\:saveNewApplication").click();
+    $("#card\\:newApplicationForm\\:newApplicationNameMessage").shouldBe(visible);
   }
 
   @Test
@@ -45,113 +46,104 @@ public class WebTestApplication extends WebTestBase
   {
     toApplications();
 
-    int appCount = driver.findElements(By.className("activity-name")).size();
+    int appCount = $$(".activity-name").size();
     addNewApplication();
-    webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name")).size()).isGreaterThan(appCount));
+    $$(".activity-name").shouldBe(size(appCount + 1));
     
-    String newAppId = driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']/../../..").getAttribute("id");
-    startNewApplication(newAppId);
-    
-    stopNewApplication(newAppId);
-  
-    deleteNewApplication(newAppId);
-    webAssertThat(() -> assertThat(driver.findElements(By.className("activity-name")).size()).isEqualTo(appCount));
+    By newApp = getNewAppId();
+    startNewApplication(newApp);
+    stopNewApplication(newApp);
+    deleteNewApplication(newApp);
+    $$(".activity-name").shouldBe(size(appCount));
   }
-  
+
   @Test
   void testStartStopDeleteNewAppInsideDetailView()
   {
     addNewAppAndNavigateToIt();
     
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:operationStateLabel").getText()).isEqualTo("INACTIVE"));
+    $("#appDetailStateForm\\:operationStateLabel").shouldBe(exactText("INACTIVE"));
     startAppInsideDetailView();
     stopAppInsideDetailView();
-    Navigation.toApplications(driver);
-    deleteNewApplication(driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']/../../..").getAttribute("id"));
+    Navigation.toApplications();
+    deleteNewApplication(getNewAppId());
   }
 
   private void stopAppInsideDetailView()
   {
-    driver.findElementById("appDetailStateForm:deActivateApplication").click();
-    saveScreenshot("stop_app");
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:operationStateLabel").getText()).isEqualTo("INACTIVE"));
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:activateApplication").isDisplayed()).isTrue());
+    $("#appDetailStateForm\\:deActivateApplication").click();
+    $("#appDetailStateForm\\:operationStateLabel").shouldBe(exactText("INACTIVE"));
+    $("#appDetailStateForm\\:activateApplication").shouldBe(visible);
   }
 
   private void startAppInsideDetailView()
   {
-    driver.findElementById("appDetailStateForm:activateApplication").click();
-    saveScreenshot("start_app");
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:operationStateLabel").getText()).isEqualTo("ACTIVE"));
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailStateForm:deActivateApplication").isDisplayed()).isTrue());
+    $("#appDetailStateForm\\:activateApplication").click();
+    $("#appDetailStateForm\\:operationStateLabel").shouldBe(exactText("ACTIVE"));
+    $("#appDetailStateForm\\:deActivateApplication").shouldBe(visible);
   }
   
   private void addNewAppAndNavigateToIt()
   {
     toApplications();
     addNewApplication();
-    Navigation.toApplicationDetail(driver, NEW_TEST_APP);
-    saveScreenshot("application_detail");
+    Navigation.toApplicationDetail(NEW_TEST_APP);
   }
 
-  private void stopNewApplication(String newAppId)
+  private void stopNewApplication(By newAppId)
   {
-    driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[3]")).click();
-    saveScreenshot("new_app_stop");
-    webAssertThat(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("INACTIVE"));
+    $(newAppId).find(By.xpath("./td[4]/button[3]")).click();
+    $(newAppId).find(By.xpath("./td[3]")).shouldBe(exactText("INACTIVE"));
   }
 
-  private void startNewApplication(String newAppId)
+  private void startNewApplication(By newAppId)
   {
-    webAssertThat(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("INACTIVE"));
-    driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[2]")).click();
-    saveScreenshot("new_app_run");
-    webAssertThat(() -> assertThat(driver.findElementById(newAppId).findElement(By.xpath("./td[3]")).getText()).isEqualTo("ACTIVE"));
+    $(newAppId).find(By.xpath("./td[3]")).shouldBe(exactText("INACTIVE"));
+    $(newAppId).find(By.xpath("./td[4]/button[2]")).click();
+    $(newAppId).find(By.xpath("./td[3]")).shouldBe(exactText("ACTIVE"));
   }
 
-  private void deleteNewApplication(String newAppId)
+  private void deleteNewApplication(By newAppId)
   {
-    String tasksButtonId = driver.findElementById(newAppId).findElement(By.xpath("./td[4]/button[4]")).getAttribute("id");
-    String activityMenuId = tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu";
-    driver.findElementById(newAppId).findElement(By.id(tasksButtonId)).click();
-    saveScreenshot("new_app_menu");
-    webAssertThat(() -> assertThat(driver.findElementById(activityMenuId).isDisplayed()).isTrue());
+    String tasksButtonId = $(newAppId).find(By.xpath("./td[4]/button[4]")).getAttribute("id");
+    By activityMenu = By.id(tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu");
+    $(By.id(tasksButtonId)).click();
+    $(activityMenu).shouldBe(visible);
     
-    driver.findElementByXPath("//*[@id='" + activityMenuId + "']//*[text()='Delete']/..").click();
-    saveScreenshot("new_app_deletemodal");
-    webAssertThat(() -> assertThat(driver.findElementById("card:form:deleteConfirmDialog").isDisplayed()).isTrue());
+    $(activityMenu).findAll("li").find(text("Delete")).click();
+    $("#card\\:form\\:deleteConfirmDialog").shouldBe(visible);
     
-    driver.findElementById("card:form:deleteConfirmYesBtn").click();
-    saveScreenshot("new_app_deleteapp");
-    webAssertThat(() -> assertThat(driver.findElementById("card:form:applicationMessage_container").isDisplayed()).isTrue());
+    $("#card\\:form\\:deleteConfirmYesBtn").click();
+    $("#card\\:form\\:applicationMessage_container").shouldBe(visible);
   }
 
   private void addNewApplication()
   {
     openNewApplicationModal();
     
-    driver.findElementById("card:newApplicationForm:newApplicationNameInput").sendKeys(NEW_TEST_APP);
-    driver.findElementById("card:newApplicationForm:newApplicationDescInput").sendKeys("test description");
-    new PrimeUi(driver).selectBooleanCheckbox(By.id("card:newApplicationForm:newApplicationActivate")).removeChecked();
-    saveScreenshot("new_app_input");
+    $("#card\\:newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
+    $("#card\\:newApplicationForm\\:newApplicationDescInput").sendKeys("test description");
+    primeUi.selectBooleanCheckbox(By.id("card:newApplicationForm:newApplicationActivate")).removeChecked();
     
-    driver.findElementById("card:newApplicationForm:saveNewApplication").click();
-    saveScreenshot("new_app_saved");
+    $("#card\\:newApplicationForm\\:saveNewApplication").click();
 
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='activity-name'][text()='" + NEW_TEST_APP + "']").isDisplayed()).isTrue());
+    $$(".activity-name").find(text(NEW_TEST_APP)).shouldBe(visible);
   }
 
   private void openNewApplicationModal()
   {
-    driver.findElementById("card:form:createApplicationBtn").click();
-    saveScreenshot("new_app_dialog");
-    webAssertThat(() -> assertThat(driver.findElementById("card:newApplicationModal").isDisplayed()).isTrue());
+    $("#card\\:form\\:createApplicationBtn").click();
+    $("#card\\:newApplicationModal").shouldBe(visible);
+  }
+  
+  private By getNewAppId()
+  {
+    return By.id($$(".activity-name").find(text(NEW_TEST_APP)).parent().parent().parent().getAttribute("id"));
   }
   
   private void toApplications()
   {
     login();
-    Navigation.toApplications(driver);
-    saveScreenshot("applications");
+    Navigation.toApplications();
   }
 }

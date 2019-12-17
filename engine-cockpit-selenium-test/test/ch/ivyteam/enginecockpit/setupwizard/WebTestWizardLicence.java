@@ -1,6 +1,11 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +14,6 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 
@@ -20,7 +23,8 @@ public class WebTestWizardLicence extends WebTestBase
   @AfterEach
   void cleanup()
   {
-    resetLicence(driver);
+    resetLicence();
+    driver.quit();
   }
   
   @Test
@@ -28,33 +32,26 @@ public class WebTestWizardLicence extends WebTestBase
   {
     navigateToLicWizardStep();
     
-    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm:licDetailLink").getText())
-            .contains("Demo licence"));
-    webAssertThat(() -> assertThat(driver.findElementById("licNextStepModel").isDisplayed()).isFalse());
-    webAssertThat(() -> assertThat(elementNotAvailable(driver, By.id("fileUploadForm:licNextStep"))).isTrue());
-    driver.findElementById("fileUploadForm:licNextStepDemo").click();
-    saveScreenshot("demo_model");
-    webAssertThat(() -> assertThat(driver.findElementById("licNextStepModel").isDisplayed()).isTrue());
-    driver.findElementById("licNextStepForm:licNextStepDemoNo").click();
-    webAssertThat(() -> assertThat(driver.findElementById("licNextStepModel").isDisplayed()).isFalse());
+    $("#fileUploadForm\\:licDetailLink").shouldBe(text("Demo licence"));
+    $("#licNextStepModel").shouldNotBe(visible);
+    $("#fileUploadForm\\:licNextStep").shouldNotBe(exist);
+    $("#fileUploadForm\\:licNextStepDemo").click();
+    $("#licNextStepModel").shouldBe(visible);
+    $("#licNextStepForm\\:licNextStepDemoNo").click();
+    $("#licNextStepModel").shouldNotBe(visible);
     
     uploadLicence();
-    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm:licDetailLink").getText())
-            .contains("Jacek Lajdecki"));
-    saveScreenshot("upload_lic");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadStatus").getText()).isEqualTo("Success"));
+    $("#fileUploadForm\\:licDetailLink").shouldBe(text("Jacek Lajdecki"));
+    $("#uploadStatus").shouldBe(exactText("Success"));
     
-    driver.findElementById("fileUploadForm:licDetailLink").click();
-    saveScreenshot("lic_detail");
-    webAssertThat(() -> assertThat(driver.findElementById("licenceDetailDialog").isDisplayed()).isTrue());
-    driver.findElementByCssSelector("#licenceDetailDialog .ui-dialog-titlebar-close").click();
-    webAssertThat(() -> assertThat(driver.findElementById("licenceDetailDialog").isDisplayed()).isFalse());
+    $("#fileUploadForm\\:licDetailLink").click();
+    $("#licenceDetailDialog").shouldBe(visible);
+    $("#licenceDetailDialog .ui-dialog-titlebar-close").click();
+    $("#licenceDetailDialog").shouldNotBe(visible);
     
-    webAssertThat(() -> assertThat(elementNotAvailable(driver, By.id("fileUploadForm:licNextStepDemo"))).isTrue());
-    driver.findElementById("fileUploadForm:licNextStep").click();
-    saveScreenshot("next_step");
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
-            .contains("Administrators"));
+    $("#fileUploadForm\\:licNextStepDemo").shouldNotBe(exist);
+    $("#fileUploadForm\\:licNextStep").click();
+    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Administrators"));
   }
   
   @Test
@@ -63,9 +60,8 @@ public class WebTestWizardLicence extends WebTestBase
     navigateToLicWizardStep();
     
     uploadLicence(Files.createTempFile("licence", ".txt"));
-    webAssertThat(() -> assertThat(driver.findElementById("uploadStatus").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("selectedFileOutput").getText())
-            .isEqualTo("Choose or drop a file which ends with: .lic"));
+    $("#uploadStatus").shouldBe(empty);
+    $("#selectedFileOutput").shouldBe(exactText("Choose or drop a file which ends with: .lic"));
   }
   
   @Test
@@ -74,10 +70,8 @@ public class WebTestWizardLicence extends WebTestBase
     navigateToLicWizardStep();
     
     uploadLicence(Files.createTempFile("licence", ".lic"));
-    webAssertThat(() -> assertThat(driver.findElementById("uploadStatus").getText()).isEqualTo("Error"));
-    saveScreenshot("invalid_lic");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText())
-            .isEqualTo("Licence file has a wrong format. It must have at least 6 lines"));
+    $("#uploadStatus").shouldBe(exactText("Error"));
+    $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
   }
   
   private void uploadLicence()
@@ -87,23 +81,20 @@ public class WebTestWizardLicence extends WebTestBase
   
   private void uploadLicence(Path lic)
   {
-    driver.findElementById("fileInput").sendKeys(lic.toString());
+    $("#fileInput").sendKeys(lic.toString());
   }
   
   private void navigateToLicWizardStep()
   {
     login("setup.xhtml");
-    saveScreenshot("lic");
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
-            .contains("Licence"));
+    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Licence"));
   }
   
-  public static void skipLicStep(RemoteWebDriver driver)
+  public static void skipLicStep()
   {
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
-            .contains("Licence"));
-    driver.findElementById("fileUploadForm:licNextStepDemo").click();
-    webAssertThat(() -> assertThat(driver.findElementById("licNextStepModel").isDisplayed()).isTrue());
-    driver.findElementById("licNextStepForm:licNextStepDemoYes").click();
+    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Licence"));
+    $("#fileUploadForm\\:licNextStepDemo").click();
+    $("#licNextStepModel").shouldBe(visible);
+    $("#licNextStepForm\\:licNextStepDemoYes").click();
   }
 }

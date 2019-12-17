@@ -1,5 +1,11 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
@@ -9,7 +15,6 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 
@@ -26,9 +31,8 @@ public class WebTestDeployment extends WebTestBase
   {
     toAppDetailAndOpenDeployment();
     
-    driver.findElementById("deploymentModal:uploadBtn").click();
-    saveScreenshot("no_file");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
+    $("#deploymentModal\\:uploadBtn").click();
+    $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
 
   @Test
@@ -37,11 +41,10 @@ public class WebTestDeployment extends WebTestBase
     toAppDetailAndOpenDeployment();
     
     Path createTempFile = Files.createTempFile("app", ".txt");
-    driver.findElementById("fileInput").sendKeys(createTempFile.toString());
-    driver.findElementById("deploymentModal:uploadBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isNotEmpty());
-    saveScreenshot("wrong_app_format");
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEqualTo("Choose a valid file before upload."));
+    $("#fileInput").sendKeys(createTempFile.toString());
+    $("#deploymentModal\\:uploadBtn").click();
+    $("#uploadError").shouldNotBe(empty);
+    $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
   
   @Test
@@ -50,24 +53,22 @@ public class WebTestDeployment extends WebTestBase
     toAppDetailAndOpenDeployment();
     
     Path createTempFile = Files.createTempFile("app", ".iar");
-    driver.findElementById("fileInput").sendKeys(createTempFile.toString());
-    driver.findElementById("deploymentModal:uploadBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).isNotEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isFalse());
+    $("#fileInput").sendKeys(createTempFile.toString());
+    $("#deploymentModal\\:uploadBtn").click();
+    $("#uploadLog").shouldNotBe(empty);
+    $("#fileUploadForm").shouldNotBe(visible);
     if (EngineCockpitUrl.isDesignerApp())
     {
-      webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("404"));
+      $("#uploadLog").shouldHave(text("404"));
     }
     else
     {
-      webAssertThat(() -> assertThat(driver.findElementById("uploadLog").getText()).contains("Deployment failed: No ivy projects found in deployment artifact.."));
+      $("#uploadLog").shouldHave(text("Deployment failed: No ivy projects found in deployment artifact.."));
     }
-    saveScreenshot("deploy_ok");
     
-    driver.findElementById("deploymentModal:backBtn").click();
-    saveScreenshot("back");
-    webAssertThat(() -> assertThat(driver.findElementById("fileUploadForm").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("uploadLog").isDisplayed()).isFalse());
+    $("#deploymentModal\\:backBtn").click();
+    $("#fileUploadForm").shouldBe(visible);
+    $("#uploadLog").shouldNotBe(visible);
   }
   
   @Test
@@ -76,7 +77,6 @@ public class WebTestDeployment extends WebTestBase
     toAppDetailAndOpenDeployment();
     
     showDeploymentOptions();
-    PrimeUi primeUi = new PrimeUi(driver);
     SelectOneMenu testUser = primeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
     SelectBooleanCheckbox overwrite = primeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
     SelectOneMenu cleanup = primeUi.selectOne(By.id("deploymentModal:cleanupProject"));
@@ -84,24 +84,22 @@ public class WebTestDeployment extends WebTestBase
     SelectOneMenu state = primeUi.selectOne(By.id("deploymentModal:state"));
     SelectOneMenu fileFormat = primeUi.selectOne(By.id("deploymentModal:fileFormat"));
 
-    webAssertThat(() -> assertThat(testUser.getSelectedItem()).isEqualTo("AUTO"));
-    webAssertThat(() -> assertThat(overwrite.isChecked()).isFalse());
-    webAssertThat(() -> assertThat(cleanup.getSelectedItem()).isEqualTo("DISABLED"));
-    webAssertThat(() -> assertThat(version.getSelectedItem()).isEqualTo("AUTO"));
-    webAssertThat(() -> assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED"));
-    webAssertThat(() -> assertThat(fileFormat.getSelectedItem()).isEqualTo("AUTO"));
+    assertThat(testUser.getSelectedItem()).isEqualTo("AUTO");
+    assertThat(overwrite.isChecked()).isFalse();
+    assertThat(cleanup.getSelectedItem()).isEqualTo("DISABLED");
+    assertThat(version.getSelectedItem()).isEqualTo("AUTO");
+    assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED");
+    assertThat(fileFormat.getSelectedItem()).isEqualTo("AUTO");
     
-    SelectBooleanCheckbox checkbox = new PrimeUi(driver).selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
+    SelectBooleanCheckbox checkbox = primeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
     checkbox.setChecked();
-    webAssertThat(() -> assertThat(overwrite.isChecked()).isTrue());
-    saveScreenshot("change_options");
+    assertThat(overwrite.isChecked()).isTrue();
   }
   
   @Test
   void testDeploymentDeployOptionsVersionRange()
   {
     toAppDetailAndOpenDeployment();
-    
     openDeployOptionsAndAssertVersionRange();
   }
   
@@ -115,7 +113,6 @@ public class WebTestDeployment extends WebTestBase
   void testDeploymentDeployOptionsVersionRange_AppsView()
   {
     toAppsAndOpenDeployDialog();
-    
     openDeployOptionsAndAssertVersionRange();
   }
   
@@ -123,61 +120,52 @@ public class WebTestDeployment extends WebTestBase
   {
     showDeploymentOptions();
     
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isFalse());
-    driver.findElementById("deploymentModal:version").click();
-    saveScreenshot("versions");
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:version_items").isDisplayed()).isTrue());
+    $("#deploymentModal\\:versionRangeLabel").shouldNotBe(visible);
+    $("#deploymentModal\\:version").click();
+    $("#deploymentModal\\:version_items").shouldBe(visible);
     
-    driver.findElementByXPath("//ul[@id='deploymentModal:version_items']/li[text()='RANGE']").click();
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:versionRangeLabel").isDisplayed()).isTrue());
-    saveScreenshot("show_range");
+    $$("#deploymentModal\\:version_items > li").find(text("RANGE")).click();
+    $("#deploymentModal\\:versionRangeLabel").shouldBe(visible);
   }
   
   private void showDeploymentOptions()
   {
-    if (!driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed())
+    if (!$("#deploymentModal\\:deployOptionsPanel").isDisplayed())
     {
-      driver.findElementById("deploymentModal:showDeployOptionsBtn").click();
-      webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:deployOptionsPanel").isDisplayed()).isTrue());
+      $("#deploymentModal\\:showDeployOptionsBtn").click();
+      $("#deploymentModal\\:deployOptionsPanel").shouldBe(visible);
     }
-    saveScreenshot("show_options");
   }
   
   private void toAppsAndOpenDeployDialog()
   {
     toApplications();
     
-    String appName = driver.findElementsByClassName("activity-name").get(0).getText();
-    driver.findElementById("card:form:tree:0:deployBtn").click();
-    saveScreenshot("deploy_dialog");
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal_title").getText())
-            .contains(appName));
+    String appName = $$(".activity-name").first().shouldBe(visible).getText();
+    $("#card\\:form\\:tree\\:0\\:deployBtn").shouldBe(visible).click();
+    $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
+    $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(appName));
   }
   
   private void toAppDetailAndOpenDeployment()
   {
     toApplicationDetail();
     
-    driver.findElementById("appDetailInfoForm:showDeployment").click();
-    saveScreenshot("deploy");
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("uploadError").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("deploymentModal:fileUploadModal_title")
-            .getText()).contains(APP));
+    $("#appDetailInfoForm\\:showDeployment").shouldBe(visible).click();
+    $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
+    $("#uploadError").shouldBe(empty);
+    $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(APP));
   }
   
   private void toApplicationDetail()
   {
     login();
-    Navigation.toApplicationDetail(driver, APP);
-    saveScreenshot("app_detail");
+    Navigation.toApplicationDetail(APP);
   }
   
   private void toApplications()
   {
     login();
-    Navigation.toApplications(driver);
-    saveScreenshot("apps");
+    Navigation.toApplications();
   }
 }

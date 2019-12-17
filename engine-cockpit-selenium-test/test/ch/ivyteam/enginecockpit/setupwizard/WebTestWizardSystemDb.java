@@ -1,6 +1,9 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -14,57 +17,56 @@ public class WebTestWizardSystemDb extends WebTestBase
   @AfterEach
   void cleanup()
   {
-    resetConfig(driver);
-    deleteTempDb(driver);
+    resetConfig();
+    deleteTempDb();
+    driver.quit();
   }
   
   @Test
   void testWebServerStep()
   {
     navigateToSystemDbWizardStep();
-    webAssertThat(() -> assertThat(driver.findElementById("sysDbNextStep").isEnabled()).isTrue());
-    WebTestSystemDb.assertDefaultValues(driver);
-    WebTestSystemDb.assertSystemDbCreationDialog(driver);
-    WebTestSystemDb.assertSystemDbCreation(driver);
-    webAssertThat(() -> assertThat(driver.findElementById("sysDbNextStep").isEnabled()).isTrue());
-    driver.findElementById("sysDbNextStep").click();
-    webAssertThat(() -> assertThat(driver.findElementById("sysDbNextStepModel").isDisplayed()).isTrue());
-    driver.findElementById("sysDbNextStepForm:licNextStepDemoYes").click();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).contains("info"));
+    $("#sysDbNextStep").shouldBe(enabled);
+    WebTestSystemDb.assertDefaultValues();
+    WebTestSystemDb.assertSystemDbCreationDialog();
+    WebTestSystemDb.assertSystemDbCreation();
+    $("#sysDbNextStep").shouldBe(enabled);
+    $("#sysDbNextStep").click();
+    $("#sysDbNextStepModel").shouldBe(visible);
+    $("#sysDbNextStepForm\\:licNextStepDemoYes").click();
+    assertCurrentUrlContains("info");
   }
   
   @Test
   void testConnectionResults()
   {
     navigateToSystemDbWizardStep();
-    WebTestSystemDb.assertConnectionResults(driver);
+    WebTestSystemDb.assertConnectionResults();
   }
   
   @Test
   void testOldDbConversionNeeded()
   {
-    createOldDb(driver);
+    createOldDb();
     navigateToSystemDbWizardStep();
-    WebTestSystemDb.assertSystemDbConversionDialog(driver);
+    WebTestSystemDb.assertSystemDbConversionDialog();
   }
   
   @Test
   void testUiLogicSwitchesAndDefaults()
   {
     navigateToSystemDbWizardStep();
-    WebTestSystemDb.assertDatabaseTypeSwitch(driver);
-    WebTestSystemDb.assertDefaultPortSwitch(driver);
-    WebTestSystemDb.assertAdditionalProperties(driver);
+    WebTestSystemDb.assertDatabaseTypeSwitch();
+    WebTestSystemDb.assertDefaultPortSwitch();
+    WebTestSystemDb.assertAdditionalProperties();
   }
 
   private void navigateToSystemDbWizardStep()
   {
     login("setup.xhtml");
-    WebTestWizardLicence.skipLicStep(driver);
-    WebTestWizardAdmins.skipAdminStep(driver);
-    WebTestWizardWebServer.skipWebserverStep(driver);
-    saveScreenshot("sysdb");
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
-            .contains("System Database"));
+    WebTestWizardLicence.skipLicStep();
+    WebTestWizardAdmins.skipAdminStep();
+    WebTestWizardWebServer.skipWebserverStep();
+    $("#wizardSteps li.ui-state-highlight").shouldBe(text("System Database"));
   }
 }

@@ -1,9 +1,17 @@
 package ch.ivyteam.enginecockpit;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+
+import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -13,62 +21,54 @@ public class WebTestDashboard extends WebTestBase
   void testDashboardContent()
   {
     toDashboard();
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("overview-box-content")).hasSize(4));
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(5));
+    $$(".overview-box-content").shouldHave(size(4));
+    $$(".ui-panel").shouldHave(size(5));
   }
   
   @Test
   void checkLicenceInfo()
   {
     toDashboard();
-    driver.findElementById("tasksButtonLicenceDetail").click();
-    saveScreenshot("licenceInfo");
-    webAssertThat(() -> assertThat(driver.findElementById("licenceDetailDialog").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(new Table(driver, By.id("licenceInfoForm:licenceInfoTable")).getFirstColumnEntries())
-            .isNotEmpty());
+    $("#tasksButtonLicenceDetail").click();
+    $("#licenceDetailDialog").shouldBe(visible);
+    new Table(By.id("licenceInfoForm:licenceInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
   }
   
   @Test
   void checkLicenceEvents()
   {
-    createLicenceEvents(driver);
+    createLicenceEvents();
     toDashboard();
-    webAssertThat(() -> assertThat(driver.findElementById("tasksButtonLicenceEvents").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='topbar-notifications']/a/span[1]").getText()).isEqualTo("2"));
+    $("#tasksButtonLicenceEvents").shouldBe(visible);
+    $$(".topbar-notifications > a > span").first().shouldBe(exactText("2"));
     
-    driver.findElementById("tasksButtonLicenceEvents").click();
-    saveScreenshot("licence_dialog");
-    webAssertThat(() -> assertThat(driver.findElementById("licenceEventsDialog").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementsByXPath("//*[@id='licenceEventForm:licenceEventList']//li")).hasSize(2));
-    driver.findElementById("licenceEventForm:licenceEventList:0:confirmEventBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementsByXPath("//*[@id='licenceEventForm:licenceEventList']//li")).hasSize(1));
-    driver.findElementById("licenceEventForm:closeLicenceEventsDialog").click();
-    webAssertThat(() -> assertThat(driver.findElementById("licenceEventsDialog").isDisplayed()).isFalse());
+    $("#tasksButtonLicenceEvents").click();
+    $("#licenceEventsDialog").shouldBe(visible);
+    $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(2));
+    $("#licenceEventForm\\:licenceEventList\\:0\\:confirmEventBtn").click();
+    $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(1));
+    $("#licenceEventForm\\:closeLicenceEventsDialog").click();
+    $("#licenceEventsDialog").shouldNotBe(visible);
    
-    driver.findElementByXPath("//*[@class='topbar-notifications']/a").click();
-    saveScreenshot("licence_dialog2");
-    webAssertThat(() -> assertThat(driver.findElementById("licenceEventsDialog").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementsByXPath("//*[@id='licenceEventForm:licenceEventList']//li")).hasSize(1));
-    driver.findElementById("licenceEventForm:confirmAllLicenceEvents").click();
+    $(".topbar-notifications > a").click();
+    $("#licenceEventsDialog").shouldBe(visible);
+    $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(1));
+    $("#licenceEventForm\\:confirmAllLicenceEvents").click();
     
-    webAssertThat(() -> assertThat(driver.findElementById("tasksButtonLicenceDetail").isDisplayed()).isTrue());
-    saveScreenshot("no_events_left");
-    webAssertThat(() -> assertThat(driver.findElementById("licenceEventsDialog").isDisplayed()).isFalse());
-    elementNotAvailable(driver, By.id("tasksButtonLicenceEvents"));
-    elementNotAvailable(driver, By.className("topbar-notifications"));
+    $("#tasksButtonLicenceDetail").shouldBe(visible);
+    $("#licenceEventsDialog").shouldNotBe(visible);
+    $("#tasksButtonLicenceEvents").shouldNotBe(exist);
+    $(".topbar-notifications").shouldNotBe(exist);
   }
   
   @Test
   void checkJavaInfo()
   {
     toDashboard();
-    driver.findElementById("tasksButtonJavaDetail").click();
-    saveScreenshot("javaInfo");
-    webAssertThat(() -> assertThat(driver.findElementById("javaDetailDialog").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(new Table(driver, By.id("javaInfoForm:javaJVMInfoTable")).getFirstColumnEntries())
-            .isNotEmpty());
-    webAssertThat(() -> assertThat(new Table(driver, By.id("javaInfoForm:javaPropertiesInfoTable")).getFirstColumnEntries())
-            .isNotEmpty());
+    $("#tasksButtonJavaDetail").click();
+    $("#javaDetailDialog").shouldBe(visible);
+    new Table(By.id("javaInfoForm:javaJVMInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
+    new Table(By.id("javaInfoForm:javaPropertiesInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
   }
   
   @Test
@@ -76,12 +76,11 @@ public class WebTestDashboard extends WebTestBase
   {
     toDashboardAndOpenSendMailModal();
     
-    driver.findElementById("sendTestMailForm:sendToInput").clear();
-    driver.findElementById("sendTestMailForm:subjectInput").clear();
-    driver.findElementById("sendTestMailForm:sendTestMailBtn").click();
-    saveScreenshot("invalid_inputs");
-    webAssertThat(() -> assertThat(driver.findElementById("sendTestMailForm:sendToInputMessage").getText()).isEqualTo("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("sendTestMailForm:subjectInputMessage").getText()).isEqualTo("Value is required"));
+    $("#sendTestMailForm\\:sendToInput").clear();
+    $("#sendTestMailForm\\:subjectInput").clear();
+    $("#sendTestMailForm\\:sendTestMailBtn").click();
+    $("#sendTestMailForm\\:sendToInputMessage").shouldBe(exactText("Value is required"));
+    $("#sendTestMailForm\\:subjectInputMessage").shouldBe(exactText("Value is required"));
   }
   
   @Test
@@ -89,24 +88,21 @@ public class WebTestDashboard extends WebTestBase
   {
     toDashboardAndOpenSendMailModal();
     
-    driver.findElementById("sendTestMailForm:sendToInput").sendKeys("test@example.com");
-    driver.findElementById("sendTestMailForm:sendTestMailBtn").click();
-    saveScreenshot("error_send");
-    webAssertThat(() -> assertThat(driver.findElementById("mailConfigForm:msgs_container").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("mailConfigForm:msgs_container").getText()).contains("Error while sending test mail"));
+    $("#sendTestMailForm\\:sendToInput").sendKeys("test@example.com");
+    $("#sendTestMailForm\\:sendTestMailBtn").click();
+    $("#mailConfigForm\\:msgs_container").shouldBe(visible);
+    $("#mailConfigForm\\:msgs_container").shouldHave(Condition.text("Error while sending test mail"));
   }
 
   private void toDashboardAndOpenSendMailModal()
   {
     toDashboard();
-    driver.findElementById("mailConfigForm:openTestMailBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("sendTestMailModal").isDisplayed()).isTrue());
-    saveScreenshot("send_mail_modal");
+    $("#mailConfigForm\\:openTestMailBtn").click();
+    $("#sendTestMailModal").shouldBe(visible);
   }
   
   private void toDashboard()
   {
     login();
-    saveScreenshot();
   }
 }

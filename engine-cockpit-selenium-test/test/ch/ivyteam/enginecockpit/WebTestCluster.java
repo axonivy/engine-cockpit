@@ -1,6 +1,9 @@
 package ch.ivyteam.enginecockpit;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -15,19 +18,17 @@ public class WebTestCluster extends WebTestBase
   {
     toCluster();
 
-    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Cluster"));
-    Table table = new Table(driver, By.className("ui-datatable"), true);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntries()).isNotEmpty());
+    $("h1").shouldBe(text("Cluster"));
+    new Table(By.className("ui-datatable"), true).firstColumnShouldBe(sizeGreaterThan(0));
     
-    webAssertThat(() -> assertThat(driver.findElementById("clusterNodeDialog").isDisplayed()).isFalse());
-    driver.findElementById("card:form:clusterTable:0:clusterNode").click();
-    webAssertThat(() -> assertThat(driver.findElementById("clusterNodeDialog").isDisplayed()).isTrue());
+    $("#clusterNodeDialog").shouldNotBe(visible);
+    $("#card\\:form\\:clusterTable\\:0\\:clusterNode").click();
+    $("#clusterNodeDialog").shouldBe(visible);
   }
   
   private void toCluster()
   {
     login();
-    Navigation.toCluster(driver);
-    saveScreenshot("cluster");
+    Navigation.toCluster();
   }
 }

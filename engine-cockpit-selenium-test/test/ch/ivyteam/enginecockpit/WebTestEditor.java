@@ -1,15 +1,26 @@
 package ch.ivyteam.enginecockpit;
 
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.value;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 
-import ch.ivyteam.enginecockpit.util.ApplicationTab;
+import com.codeborne.selenide.CollectionCondition;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 public class WebTestEditor extends WebTestBase
 {
@@ -23,92 +34,90 @@ public class WebTestEditor extends WebTestBase
     driver.manage().deleteCookie(new Cookie(DEV_MODE_COOKIE, "false"));
     
     enableDevMode();
-    webAssertThat(() -> assertThat(driver.manage().getCookieNamed(DEV_MODE_COOKIE).getValue()).isEqualTo("true"));
+    assertThat(driver.manage().getCookieNamed(DEV_MODE_COOKIE).getValue()).isEqualTo("true");
     
     disableDevMode();
-    webAssertThat(() -> assertThat(driver.manage().getCookieNamed(DEV_MODE_COOKIE).getValue()).isEqualTo("false"));
+    assertThat(driver.manage().getCookieNamed(DEV_MODE_COOKIE).getValue()).isEqualTo("false");
   }
   
   @Test
   void testEditor()
   {
     toEditor();
-    webAssertThat(() -> assertThat(ApplicationTab.getApplicationCount(driver)).isGreaterThan(1));
-    String ivyYamlHints = driver.findElementById("card:editorTabView:0:editorForm:yamlhints").getAttribute("value");
-    webAssertThat(() -> assertThat(ivyYamlHints).isNotBlank());
-    webAssertThat(() -> assertThat(driver.findElementById("card:editorTabView:0:editorForm:content")
-            .getAttribute("value")).isNotBlank());
-    ApplicationTab.switchToApplication(driver, "app-test-ad.yaml");
-    saveScreenshot("app-test-ad-yaml");
-    int tabIndex = ApplicationTab.getSelectedApplicationIndex(driver);
-    String appYamlHints = driver.findElementById("card:editorTabView:" + tabIndex + ":editorForm:yamlhints")
-            .getAttribute("value");
-    webAssertThat(() -> assertThat(appYamlHints).isNotBlank());
+    assertThat(Tab.getCount()).isGreaterThan(1);
+    String ivyYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
+    $(editorContentSelector()).shouldNotHave(attribute("value", ""));
+    Tab.switchToTab("app-test-ad.yaml");
+    String appYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     assertThat(ivyYamlHints).isNotEqualTo(appYamlHints);
-    webAssertThat(() -> assertThat(driver.findElementById("card:editorTabView:"
-            + tabIndex + ":editorForm:content").getAttribute("value")).contains("SecuritySystem: test-ad"));
+    $(editorContentSelector()).shouldHave(value("SecuritySystem: test-ad"));
   }
   
   @Test
   void testEditorSaveErrorsDialog()
   {
     toEditor();
-    ApplicationTab.switchToApplication(driver, "app-test.yaml");
-    int tabIndex = ApplicationTab.getSelectedApplicationIndex(driver);
-    String editorContentId = "card:editorTabView:" + tabIndex + ":editorForm:content";
-    String editorContent = driver.findElementById(editorContentId).getAttribute("value");
+    Tab.switchToTab("app-test.yaml");
     String newEditorContent = "test: hi\n  bla: fail";
-    saveScreenshot("app-test-yaml");
-    webAssertThat(() -> assertThat(editorContent).isNotBlank());
+    String editorContent = $(editorContentSelector()).shouldNotBe(empty).getAttribute("value");
+    
     driver.executeScript("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(newEditorContent) + "\");");
-    saveScreenshot("new_content");
-    webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isEqualTo(newEditorContent));
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("CodeMirror-lint-marker-error")).isNotEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("card:saveEditorModel").isDisplayed()).isFalse());
+    $(editorContentSelector()).shouldBe(exactValue(newEditorContent));
+    $$(".CodeMirror-lint-marker-error").shouldBe(sizeGreaterThan(0));
+    $("#card\\:saveEditorModel").shouldNotBe(visible);
     
-    driver.findElementById("card:editorTabView:" + tabIndex + ":editorForm:saveEditor").click();
-    saveScreenshot("save_dialog");
-    webAssertThat(() -> assertThat(driver.findElementById("card:saveEditorModel").isDisplayed()).isTrue());
+    $(getActivePanelCss() + "editorForm\\:saveEditor").click();
+    $("#card\\:saveEditorModel").shouldBe(visible);
     
-    driver.findElementById("card:saveEditorForm:cancelChangesBtn").click();
-    saveScreenshot("save_cancel");
-    webAssertThat(() -> assertThat(driver.findElementById("card:saveEditorModel").isDisplayed()).isFalse());
+    $("#card\\:saveEditorForm\\:cancelChangesBtn").click();
+    $("#card\\:saveEditorModel").shouldNotBe(visible);
     
     driver.executeScript("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(editorContent) + "\");");
     driver.executeScript("editor_app_test.performLint();");
-    saveScreenshot("clear_content");
-    webAssertThat(() -> assertThat(driver.findElementById(editorContentId).getAttribute("value")).isNotBlank());
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("CodeMirror-lint-marker-error")).isEmpty());
+    $(editorContentSelector()).shouldNotBe(empty);
+    $$(".CodeMirror-lint-marker-error").shouldBe(CollectionCondition.empty);
     
-    webAssertThat(() -> assertThat(driver.findElementById("card:editorMessage_container").getText()).isBlank());
-    driver.findElementById("card:editorTabView:" + tabIndex + ":editorForm:saveEditor").click();
-    saveScreenshot("save");
-    webAssertThat(() -> assertThat(driver.findElementById("card:editorMessage_container").getText())
-            .isEqualTo("Saved app-test.yaml Successfully"));
+    $("#card\\:editorMessage_container").shouldBe(empty);
+    $(getActivePanelCss() + "editorForm\\:saveEditor").click();
+    $("#card\\:editorMessage_container").shouldBe(exactText("Saved app-test.yaml Successfully"));
   }
   
   private void disableDevMode()
   {
     toggleDevMode();
-    elementNotAvailable(driver, By.id("menuform:sr_editor"));
+    $("#menuform\\:sr_editor").shouldNotBe(exist);
   }
 
   private void enableDevMode()
   {
     toggleDevMode();
-    webAssertThat(() -> assertThat(driver.findElementById("menuform:sr_system").isDisplayed()).isTrue());
-    if (!driver.findElementById("menuform:sr_system").getAttribute("class").contains("active-menuitem"))
+    $("#menuform\\:sr_system").shouldBe(visible);
+    if (!$("#menuform\\:sr_system").getAttribute("class").contains("active-menuitem"))
     {
-      driver.findElementById("menuform:sr_system").click();
+      $("#menuform\\:sr_system").click();
     }
-    webAssertThat(() -> assertThat(driver.findElementById("menuform:sr_editor").isDisplayed()).isTrue());
+    $("#menuform\\:sr_editor").shouldBe(visible);
   }
 
   private void toggleDevMode()
   {
-    driver.findElementByXPath("//*[@id='sessionUser']/a").click();
-    webAssertThat(() -> assertThat(driver.findElementById("devModeBtn").isDisplayed()).isTrue());
-    driver.findElementById("devModeBtn").click();
+    $("#sessionUser > a").click();
+    $("#devModeBtn").shouldBe(visible).click();
+  }
+
+  private String yamlHintsSelector()
+  {
+    return getActivePanelCss() + "editorForm\\:yamlhints";
+  }
+  
+  private String editorContentSelector()
+  {
+    return getActivePanelCss() + "editorForm\\:content";
+  }
+  
+  private String getActivePanelCss()
+  {
+    return "#card\\:editorTabView\\:" + Tab.getSelectedTabIndex() + "\\:";
   }
 
   private void toEditor()
@@ -116,8 +125,7 @@ public class WebTestEditor extends WebTestBase
     login();
     driver.manage().deleteCookie(new Cookie(DEV_MODE_COOKIE, "false"));
     enableDevMode();
-    Navigation.toEditor(driver);
-    saveScreenshot("editor");
+    Navigation.toEditor();
   }
   
 }

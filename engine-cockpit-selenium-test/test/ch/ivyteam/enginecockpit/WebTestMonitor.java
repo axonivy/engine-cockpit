@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,27 +13,25 @@ public class WebTestMonitor extends WebTestBase
   void testMontorContent()
   {
     toMonitor();
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
+    $$(".ui-panel").shouldHave(size(4));
   }
   
   @Test
   void testLogsContent()
   {
     toLogs();
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
+    $$(".ui-panel").shouldHave(size(4));
   }
   
   private void toMonitor()
   {
     login();
-    Navigation.toResourcesMonitor(driver);
-    saveScreenshot("monitor");
+    Navigation.toResourcesMonitor();
   }
   
   private void toLogs()
   {
     login();
-    Navigation.toLogs(driver);
-    saveScreenshot("logs");
+    Navigation.toLogs();
   }
 }

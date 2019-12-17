@@ -1,61 +1,74 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$x;
+import static com.codeborne.selenide.Selenide.$x;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.RemoteWebDriver;
+
+import com.codeborne.selenide.CollectionCondition;
 
 public class Table
 {
-  private RemoteWebDriver driver;
   private String id;
   private String rowNumberField;
   private boolean withLink = false;
+  private String globalFilter;
 
-  public Table(RemoteWebDriver driver, By by)
+  public Table(By by)
   {
-    this(driver, by, "data-ri");
+    this(by, "data-ri");
   }
   
-  public Table(RemoteWebDriver driver, By by, boolean withLink)
+  public Table(By by, boolean withLink)
   {
-    this(driver, by);
+    this(by);
     this.withLink = withLink;
   }
   
-  public Table(RemoteWebDriver driver, By by, String rowNumberField)
+  public Table(By by, String rowNumberField)
   {
-    this.driver = driver;
-    this.id = driver.findElement(by).getAttribute("id");
+    this.id = $(by).getAttribute("id");
+    this.globalFilter = id + ":globalFilter";
     this.rowNumberField = rowNumberField;
   }
   
   public List<String> getFirstColumnEntries()
   {
-    return driver.findElementsByXPath(getFirstColumnSpanElement()).stream()
+    return $$x(getFirstColumnSpanElement()).stream()
             .map(e -> e.getText()).collect(Collectors.toList());
+  }
+  
+  public void firstColumnShouldBe(CollectionCondition cond)
+  {
+    $$x(getFirstColumnSpanElement()).shouldBe(cond);
   }
 
   public List<String> getFirstColumnEntriesForSpanClass(String span)
   {
-    return driver.findElementsByXPath(getFirstColumnSpanElement() + "[@class='" + span + "']").stream()
+    return $$x(getFirstColumnSpanElement() + "[@class='" + span + "']").stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
   
   public String getValueForEntry(String entry, int column)
   {
-    return driver.findElementByXPath(findColumnOverEntry(entry) + "/td[" + column + "]").getText();
+    return $x(findColumnOverEntry(entry) + "/td[" + column + "]").getText();
   }
 
   public void clickButtonForEntry(String entry, String btn)
   {
-     driver.findElementById(getElementIdForEntry(entry, btn)).click();
+    $(By.id(getElementIdForEntry(entry, btn))).shouldBe(visible, enabled).click();
   }
   
-  public boolean buttonMenuForEntryVisible(String entry, String menu)
+  public void buttonMenuForEntryShouldBeVisible(String entry, String menu)
   {
-    return driver.findElementById(getElementIdForEntry(entry, menu)).isDisplayed();
+    $(By.id(getElementIdForEntry(entry, menu))).shouldBe(visible);
   }
 
   private String getElementIdForEntry(String entry, String btn)
@@ -63,14 +76,14 @@ public class Table
     return id + ":" + getRowNumber(entry) + ":" + btn;
   }
   
-  public boolean buttonForEntryDisabled(String entry, String btn)
+  public void buttonForEntryShouldBeDisabled(String entry, String btn)
   {
-    return !driver.findElementById(getElementIdForEntry(entry, btn)).isEnabled();
+    $(By.id(getElementIdForEntry(entry, btn))).shouldHave(cssClass("ui-state-disabled"));
   }
 
   private String getRowNumber(String entry)
   {
-    return driver.findElementByXPath(findColumnOverEntry(entry))
+    return $x(findColumnOverEntry(entry))
             .getAttribute(rowNumberField);
   }
 
@@ -95,13 +108,13 @@ public class Table
   
   public void search(String search)
   {
-    driver.findElementById(id + ":globalFilter").clear();
-    driver.findElementById(id + ":globalFilter").sendKeys(search);
+    $(By.id(globalFilter)).clear();
+    $(By.id(globalFilter)).sendKeys(search);
   }
   
   public String getSearchFilter()
   {
-    return driver.findElementById(id + ":globalFilter").getAttribute("value");
+    return $(By.id(globalFilter)).getAttribute("value");
   }
   
 }

@@ -1,8 +1,20 @@
 package ch.ivyteam.enginecockpit;
 
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -14,68 +26,52 @@ public class WebTestApplicationDetail extends WebTestBase
   @Test
   void testApplicationDetailDashboardContent()
   {
-    toApplicationDetail();
+    toApplicationDetail(APP);
     
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("overview-box-content")).hasSize(4));
-    webAssertThat(() -> assertThat(driver.findElementsByClassName("ui-panel")).hasSize(4));
+    $$(".overview-box-content").shouldHave(size(4));
+    $$(".ui-panel").shouldHave(size(4));
   }
 
   @Test
   void testChangeEnvironment()
   {
-    toApplicationDetail();
+    toApplicationDetail(APP);
     
-    String newEnv = toggleEnvAndSave();
+    $("#appDetailInfoForm\\:activeEnvironmentSelect").shouldBe(visible);
+    SelectOneMenu env = primeUi.selectOne(By.id("appDetailInfoForm:activeEnvironmentSelect"));
+    env.selectItemByLabel("test");
+    $("#appDetailInfoForm\\:saveApplicationInformation").click();
+    $("#appDetailInfoForm\\:informationSaveSuccess_container").shouldBe(visible);
     
-    driver.navigate().refresh();
-    saveScreenshot("refresh");
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(newEnv));
+    Selenide.refresh();
+    $("#appDetailInfoForm\\:activeEnvironmentSelect").shouldBe(visible);
+    assertThat(env.getSelectedItem()).isEqualTo("test");
+    
+    env.selectItemByLabel("Default");
+    $("#appDetailInfoForm\\:saveApplicationInformation").click();
+    $("#appDetailInfoForm\\:informationSaveSuccess_container").shouldBe(visible);
   
-    String oldEnv = toggleEnvAndSave();
-    saveScreenshot("back");
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(oldEnv));
+    assertThat(env.getSelectedItem()).isEqualTo("Default");
   }
   
   @Test
   void testAdSync()
   {
-    if (APP.equals("designer"))
-    {
-      return;
-    }
-    toApplicationDetail();
+    toApplicationDetail("test-ad");
     
-    driver.findElementById("appDetailSecurityForm:synchronizeSecurity").click();
-    saveScreenshot("sync");
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@id='appDetailSecurityForm:synchronizeSecurity']/span[1]").getAttribute("class")).doesNotContain("fa-spin"));
+    waitUntilAjaxIsFinished();
+    $("#appDetailSecurityForm\\:showAdSyncLogBtn").shouldNotBe(exist);
+    $("#appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
+    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("fa-spin"));
+    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("fa-spin")), 10000);
     
-    saveScreenshot("sync_finished");
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailSecurityForm:showAdSyncLogBtn").isDisplayed()).isTrue());
+    $("#appDetailSecurityForm\\:showAdSyncLogBtn").shouldBe(visible);
   }
 
-  private String toggleEnvAndSave()
-  {
-    String setEnv = driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText();
-    String newEnv = setEnv.equals("Default") ? "test" : "Default";
-    driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").click();
-    saveScreenshot("env_menu");
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_items").isDisplayed()).isTrue());
-    
-    driver.findElementByXPath("//*[@id='appDetailInfoForm:activeEnvironmentSelect_items']/li[text()='" + newEnv + "']").click();
-    saveScreenshot("change_env");
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:activeEnvironmentSelect_label").getText()).isEqualTo(newEnv));
-    
-    driver.findElementById("appDetailInfoForm:saveApplicationInformation").click();
-    saveScreenshot("save_changes");
-    webAssertThat(() -> assertThat(driver.findElementById("appDetailInfoForm:informationSaveSuccess_container").isDisplayed()).isTrue());
-    return newEnv;
-  }
-  
-  private void toApplicationDetail()
+  private void toApplicationDetail(String app)
   {
     login();
-    Navigation.toApplicationDetail(driver, APP);
-    saveScreenshot("app_detail");
+    Navigation.toApplicationDetail(app);
   }
   
 }

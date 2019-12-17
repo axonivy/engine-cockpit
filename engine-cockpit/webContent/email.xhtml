@@ -23,8 +23,8 @@
         <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
           <p:autoUpdate/>
         </p:growl>
-        <cc:SingleCard>
-          <cc:ApplicationTabs tabChange="#{applicationEmailBean.reloadEmailSettings}">
+        <cc:SingleCard id="card">
+          <cc:ApplicationTabs tabChange="#{applicationEmailBean.reloadEmailSettings}" id="tabs">
             <div class="ui-g">
               <div class="ui-g-12 ui-md-12">
                 <h1>

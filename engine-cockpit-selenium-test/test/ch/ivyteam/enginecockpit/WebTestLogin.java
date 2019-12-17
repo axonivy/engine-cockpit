@@ -1,9 +1,15 @@
 package ch.ivyteam.enginecockpit;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+
+import com.codeborne.selenide.Selenide;
 
 public class WebTestLogin extends WebTestBase
 {
@@ -12,31 +18,29 @@ public class WebTestLogin extends WebTestBase
   void testLogin()
   {
     login();
-    saveScreenshot("after_login");
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("dashboard.xhtml"));
-    webAssertThat(() -> assertThat(driver.getTitle()).startsWith("Engine Cockpit").doesNotContain("Login"));
-    webAssertThat(() -> assertThat(driver.findElementById("sessionUserName").getText()).isEqualTo(getAdminUser())); 
+    assertCurrentUrlEndsWith("dashboard.xhtml");
+    assertThat(Selenide.title()).startsWith("Engine Cockpit").doesNotContain("Login");
+    $("#sessionUserName").shouldBe(exactText(getAdminUser())); 
   }
   
   @Test
   void testLoginInvalid()
   {
-    driver.get(viewUrl("login.xhtml"));
-    driver.findElementById("loginForm:login").click();
-    saveScreenshot("empty_login");
-    webAssertThat(() -> assertThat(driver.findElementById("loginForm:userNameMessage").getText()).isEqualTo("Value is required."));
-    webAssertThat(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEqualTo("Value is required."));
+    Selenide.open(viewUrl("login.xhtml"));
+    $("#loginForm\\:userName").shouldBe(visible).clear();
+    $("#loginForm\\:password").shouldBe(visible).clear();
+    $("#loginForm\\:login").shouldBe(visible).click();
+    $("#loginForm\\:userNameMessage").shouldBe(exactText("Value is required."));
+    $("#loginForm\\:passwordMessage").shouldBe(exactText("Value is required."));
     
-    driver.findElementById("loginForm:userName").sendKeys(getAdminUser());
-    driver.findElementById("loginForm:login").click();
-    saveScreenshot("empty_password");
-    webAssertThat(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEqualTo("Value is required."));
+    $("#loginForm\\:userName").sendKeys(getAdminUser());
+    $("#loginForm\\:login").click();
+    $("#loginForm\\:passwordMessage").shouldBe(exactText("Value is required."));
     
-    driver.findElementById("loginForm:password").sendKeys("test");
-    driver.findElementById("loginForm:login").click();
-    saveScreenshot("wrong_password");
-    webAssertThat(() -> assertThat(driver.findElementById("loginForm:passwordMessage").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("loginForm:loginMessage").isDisplayed()).isTrue());
+    $("#loginForm\\:password").sendKeys("test");
+    $("#loginForm\\:login").click();
+    $("#loginForm\\:passwordMessage").shouldBe(empty);
+    $("#loginForm\\:loginMessage").shouldBe(visible);
   }
   
   @Test
@@ -44,23 +48,20 @@ public class WebTestLogin extends WebTestBase
   {
     login();
     logout();
-    saveScreenshot("after_logout");
     assertLoginPageVisible();
-    driver.get(viewUrl("dashboard.xhtml"));
+    Selenide.open(viewUrl("dashboard.xhtml"));
     assertLoginPageVisible();
   }
 
   private void assertLoginPageVisible()
   {
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("login.xhtml"));
-    webAssertThat(() -> assertThat(driver.getTitle()).contains("Login"));
+    assertCurrentUrlEndsWith("login.xhtml");
+    assertThat(Selenide.title()).contains("Login");
   }
   
   private void logout()
   {
-    driver.findElementByXPath("//*[@id='sessionUser']/a").click();
-    saveScreenshot("logout");
-    webAssertThat(() -> assertThat(driver.findElementById("sessionLogoutBtn").isDisplayed()).isTrue());
-    driver.findElementById("sessionLogoutBtn").click();
+    $("#sessionUser > a").click();
+    $("#sessionLogoutBtn").shouldBe(visible).click();
   }
 }

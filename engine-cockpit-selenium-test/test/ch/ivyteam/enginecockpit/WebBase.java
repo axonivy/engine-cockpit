@@ -1,43 +1,31 @@
 package ch.ivyteam.enginecockpit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxBinary;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
-import io.github.bonigarcia.seljup.Options;
-import io.github.bonigarcia.seljup.SeleniumExtension;
 
-@ExtendWith(SeleniumExtension.class)
 public class WebBase
 {
-  public RemoteWebDriver driver;
-
-  @Options
-  FirefoxOptions firefoxOptions = new FirefoxOptions();
-  {
-    FirefoxBinary binary = new FirefoxBinary();
-    binary.addCommandLineOptions("--headless");
-    firefoxOptions.setBinary(binary);
-  }
+  public static RemoteWebDriver driver;
+  public static PrimeUi primeUi;
   
   @BeforeEach
-  void initDriver(FirefoxDriver remoteDriver)
+  void initDriver()
   {
-    this.driver = remoteDriver;
+    Configuration.browser = "firefox";
+    Configuration.headless = true;
+    Configuration.reportsFolder = "target/senenide/reports";
+    Selenide.open();
+    WebBase.driver = (RemoteWebDriver) WebDriverRunner.getWebDriver();
+    primeUi = new PrimeUi(driver);
   }
   
   public static String getAdminUser()
@@ -45,32 +33,23 @@ public class WebBase
     return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
   }
   
-  public static boolean elementNotAvailable(WebDriver driver, By by)
+  public static void assertCurrentUrlContains(String contains)
   {
-    try
+    assertThat(driver.getCurrentUrl()).contains(contains);
+  }
+  
+  public static void assertCurrentUrlEndsWith(String endsWith)
+  {
+    String url = driver.getCurrentUrl();
+    if (url.contains(";jsessionid"))
     {
-      driver.findElement(by);
-      return false;
+      url = url.substring(0, url.indexOf(";jsessionid"));
     }
-    catch (NoSuchElementException ex) {
-      return true;
-    }
+    assertThat(url).endsWith(endsWith);
   }
   
-  public static WebElement waitUntilElementClickable(WebDriver driver, By by)
+  public static String escapeSelector(String selector)
   {
-    webAssertThat(() -> assertThat(driver.findElement(by).isDisplayed()).isTrue());
-    return new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(by));
-  }
-  
-  public static void webAssertThat(WebTest test)
-  {
-    await().ignoreExceptionsInstanceOf(StaleElementReferenceException.class).untilAsserted(test::run);
-  }
-  
-  @FunctionalInterface
-  public interface WebTest
-  {
-    void run();
+    return "#" + selector.replace(":", "\\:");
   }
 }

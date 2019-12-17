@@ -1,17 +1,25 @@
 package ch.ivyteam.enginecockpit.system;
 
+import static com.codeborne.selenide.CollectionCondition.exactTexts;
+import static com.codeborne.selenide.Condition.and;
+import static com.codeborne.selenide.Condition.appears;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -19,338 +27,275 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 public class WebTestSystemDb extends WebTestBase
 {
+  private static final String SYS_DB = "db";
+  private static final String SYS_DB_PW = "1234";
+  private static final String SYS_DB_USER = "root";
+  private static final String CONNECTION_BUTTON = "#systemDb\\:systemDbForm\\:checkConnectionButton";
+  private static final String CONNECTION_PANEL = "#systemDb\\:systemDbForm\\:connectionPanel";
   private static final String OLD_DB_NAME = "engine_cockpit_old_db_version44";
   private static final String TEST_DB_NAME = "engine_cockpit_test_temp";
   
   @AfterEach
   void cleanup()
   {
-    resetConfig(driver);
-    deleteTempDb(driver);
+    resetConfig();
+    deleteTempDb();
   }
   
   @Test
   void testSystemDb()
   {
     navigateToSystemDb();
-    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("System Database"));
-    assertDefaultValues(driver);
-    assertSystemDbCreationDialog(driver);
-    assertSystemDbCreation(driver);
+    $("h1").shouldBe(text("System Database"));
+    assertDefaultValues();
+    assertSystemDbCreationDialog();
+    assertSystemDbCreation();
   }
   
   @Test
   void testSaveConfiguration()
   {
     navigateToSystemDb();
-    driver.findElementByCssSelector(".sysdb-dynamic-form-user").sendKeys(" ");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Connection state unknown"));
-    webAssertThat(() -> assertThat(driver.findElementById("saveUnknownSystemDbConfig").isDisplayed()).isTrue());
-    driver.findElementById("saveUnknownSystemDbConfig").click();
-    saveScreenshot("save_unknown");
-    webAssertThat(() -> assertThat(driver.findElementById("saveUnknownConnectionModel").isDisplayed()).isTrue());
-    driver.findElementById("saveUnknownConnectionForm:saveUnknownConneciton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("saveUnknownConnectionModel").isDisplayed()).isFalse());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDbSave_container").getText()).contains("System Database config saved successfully"));
+    $(".sysdb-dynamic-form-user").sendKeys(" ");
+    $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
+    $("#saveUnknownSystemDbConfig").shouldBe(visible);
+    $("#saveUnknownSystemDbConfig").click();
+    $("#saveUnknownConnectionModel").shouldBe(visible);
+    $("#saveUnknownConnectionForm\\:saveUnknownConneciton").click();
+    $("#saveUnknownConnectionModel").shouldNotBe(visible);
+    $("#systemDbSave_container").shouldBe(text("System Database config saved successfully"));
     
-    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText()).contains("Connected"));
-    webAssertThat(() -> assertThat(driver.findElementById("saveSystemDbConfig").isDisplayed()).isTrue());
-    driver.findElementById("saveSystemDbConfig").click();
-    saveScreenshot("save_normal");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDbSave_container").getText()).contains("System Database config saved successfully"));
+    $(CONNECTION_BUTTON).click();
+    $(CONNECTION_PANEL).shouldBe(text("Connected"));
+    $("#saveSystemDbConfig").shouldBe(visible);
+    $("#saveSystemDbConfig").click();
+    $("#systemDbSave_container").shouldBe(text("System Database config saved successfully"));
   }
   
   @Test
   void testConnectionResults()
   {
     navigateToSystemDb();
-    assertConnectionResults(driver);
+    assertConnectionResults();
   }
   
   @Test
   void testConvertOldDb()
   {
-    createOldDb(driver);
+    createOldDb();
     navigateToSystemDb();
-    assertSystemDbConversionDialog(driver);
-    assertSystemDbConversion(driver);
+    assertSystemDbConversionDialog();
+    assertSystemDbConversion();
   }
 
   @Test
   void testDefaultPortSwitch()
   {
     navigateToSystemDb();
-    assertDefaultPortSwitch(driver);
+    assertDefaultPortSwitch();
   }
   
   @Test
   void testDatabaseDropdownSwitch()
   {
     navigateToSystemDb();
-    assertDatabaseTypeSwitch(driver);
+    assertDatabaseTypeSwitch();
   }
   
   @Test
   void testAdditionalProperties()
   {
     navigateToSystemDb();
-    assertAdditionalProperties(driver);
+    assertAdditionalProperties();
   }
   
-  private static void insertDbConnection(RemoteWebDriver driver, String database, String driverName, 
-          String host, String databaseName, String user, String password)
+  private static void insertDbConnection(String database, String driverName, String host, 
+          String databaseName, String user, String password)
   {
-    PrimeUi primeUi = new PrimeUi(driver);
     SelectOneMenu dbType = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     SelectOneMenu dbDriver = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
     dbType.selectItemByLabel(database);
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Connection state unknown"));
+    $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
     dbDriver.selectItemByLabel(driverName);
-    driver.findElementByCssSelector(".sysdb-dynamic-form-host").clear();
-    driver.findElementByCssSelector(".sysdb-dynamic-form-host").sendKeys(host);
-    driver.findElementByCssSelector(".sysdb-dynamic-form-databasename").clear();
-    driver.findElementByCssSelector(".sysdb-dynamic-form-databasename").sendKeys(databaseName);
-    driver.findElementByCssSelector(".sysdb-dynamic-form-user").clear();
-    driver.findElementByCssSelector(".sysdb-dynamic-form-user").sendKeys(user);
-    driver.findElementByCssSelector(".sysdb-dynamic-form-password").clear();
-    driver.findElementByCssSelector(".sysdb-dynamic-form-password").sendKeys(password);
-    saveScreenshot(driver, "insert_db_connection");
-    waitUntilAjaxIsFinished(driver);
-    new WebDriverWait(driver, 10).until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(
-            By.id("systemDb:systemDbForm:checkConnectionButton"))));
+    $(".sysdb-dynamic-form-host").clear();
+    $(".sysdb-dynamic-form-host").sendKeys(host);
+    $(".sysdb-dynamic-form-databasename").clear();
+    $(".sysdb-dynamic-form-databasename").sendKeys(databaseName);
+    $(".sysdb-dynamic-form-user").clear();
+    $(".sysdb-dynamic-form-user").sendKeys(user);
+    $(".sysdb-dynamic-form-password").clear();
+    $(".sysdb-dynamic-form-password").sendKeys(password);
+    waitUntilAjaxIsFinished();
+    $(CONNECTION_BUTTON).shouldBe(enabled, visible);
   }
   
-  public static void assertSystemDbCreationDialog(RemoteWebDriver driver)
+  public static void assertSystemDbCreationDialog()
   {
-    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin", "nimda");
-    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Missing Database/Schema", "Create system database."));
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:createDatabaseButton")
-            .isEnabled()).isTrue());
-    saveScreenshot(driver, "creation_needed");
+    insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
+    $(CONNECTION_BUTTON).click();
+    $(CONNECTION_PANEL)
+            .shouldBe(text("Missing Database/Schema"), text("Create system database."));
+    $("#systemDb\\:systemDbForm\\:createDatabaseButton").shouldBe(enabled);
     
-    driver.findElementById("systemDb:systemDbForm:createDatabaseButton").click();
-    saveScreenshot(driver, "creation_dialog");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseDialog").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".creation-param-databasename").getAttribute("value"))
-            .isEqualTo(TEST_DB_NAME));
+    $("#systemDb\\:systemDbForm\\:createDatabaseButton").click();
+    $("#systemDb\\:createDatabaseDialog").shouldBe(visible);
+    $(".creation-param-databasename").shouldBe(exactValue(TEST_DB_NAME));
   }
   
-  public static void assertSystemDbCreation(RemoteWebDriver driver)
+  public static void assertSystemDbCreation()
   {
-    driver.findElementById("systemDb:createDatabaseForm:confirmConvertButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseForm:confirmConvertButton")
-            .isEnabled()).isFalse());
-    saveScreenshot(driver, "creating");
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".fa.fa-circle-o-notch.fa-spin")
-            .isDisplayed()).isTrue());
-    new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(
-            By.id("systemDb:createDatabaseForm:closeCreationButton")));
-    saveScreenshot(driver, "finished");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseForm:creationResult").getText())
-            .isEqualTo(""));
-    driver.findElementById("systemDb:createDatabaseForm:closeCreationButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:createDatabaseDialog").isDisplayed()).isFalse());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Connected"));
+    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").click();
+    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
+    $(".fa.fa-circle-o-notch.fa-spin").shouldBe(visible);
+    $("#systemDb\\:createDatabaseForm\\:closeCreationButton").waitUntil(
+            and("wait until db created", appears, enabled), 20000);
+    $("#systemDb\\:createDatabaseForm\\:creationResult").shouldBe(empty);
+    $("#systemDb\\:createDatabaseForm\\:closeCreationButton").click();
+    $("#systemDb\\:createDatabaseDialog").shouldNotBe(visible);
+    $(CONNECTION_PANEL).shouldBe(text("Connected"));
   }
   
-  public static void assertSystemDbConversionDialog(RemoteWebDriver driver)
+  public static void assertSystemDbConversionDialog()
   {
-    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", OLD_DB_NAME, "admin", "nimda");
-    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Database too old", "Convert system database."));
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:migrateDatabaseButton")
-            .isEnabled()).isTrue());
-    saveScreenshot(driver, "migration_needed");
+    insertDbConnection("MySQL", "mySQL", SYS_DB, OLD_DB_NAME, SYS_DB_USER, SYS_DB_PW);
+    $(CONNECTION_BUTTON).click();
+    $(CONNECTION_PANEL).shouldBe(
+            text("Database too old"), text("Convert system database."));
+    $("#systemDb\\:systemDbForm\\:migrateDatabaseButton").shouldBe(enabled);
     
-    driver.findElementById("systemDb:systemDbForm:migrateDatabaseButton").click();
-    saveScreenshot(driver, "migration_dialog");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseDialog").isDisplayed()).isTrue());
+    $("#systemDb\\:systemDbForm\\:migrateDatabaseButton").click();
+    $("#systemDb\\:convertDatabaseDialog").shouldBe(visible);
   }
 
-  private static void assertSystemDbConversion(RemoteWebDriver driver)
+  private static void assertSystemDbConversion()
   {
-    driver.findElementById("systemDb:convertDatabaseForm:confirmConvertButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseForm:confirmConvertButton")
-            .isEnabled()).isFalse());
-    saveScreenshot(driver, "converting");
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".fa.fa-circle-o-notch.fa-spin")
-            .isDisplayed()).isTrue());
-    new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(
-            By.id("systemDb:convertDatabaseForm:closeConversionButton")));
-    saveScreenshot(driver, "finished");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseForm:conversionResult").getText())
-            .isEqualTo(""));
-    driver.findElementById("systemDb:convertDatabaseForm:closeConversionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:convertDatabaseDialog").isDisplayed()).isFalse());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Connected"));
+    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").click();
+    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
+    $(".fa.fa-circle-o-notch.fa-spin").shouldBe(visible);
+    $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").waitUntil(
+            and("wait until db converted", appears, enabled), 20000);
+    $("#systemDb\\:convertDatabaseForm\\:conversionResult").shouldBe(empty);
+    $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").click();
+    $("#systemDb\\:convertDatabaseDialog").shouldNotBe(visible);
+    $(CONNECTION_PANEL).shouldBe(text("Connected"));
   }
 
-  public static void assertConnectionResults(RemoteWebDriver driver)
+  public static void assertConnectionResults()
   {
-    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys2", TEST_DB_NAME, "admin", "nimda");
-    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Incorrect host or port"));
-    saveScreenshot(driver, "wrong_host");
+    insertDbConnection("MySQL", "mySQL", "db2", TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
+    $(CONNECTION_BUTTON).click();
+    $(CONNECTION_PANEL).shouldBe(text("Incorrect host or port"));
     
-    driver.navigate().refresh();
-    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin", "nimda");
-    PrimeUi primeUi = new PrimeUi(driver);
-    SelectBooleanCheckbox defaultPort = primeUi.selectBooleanCheckbox(By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
+    Selenide.refresh();
+    insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
+    SelectBooleanCheckbox defaultPort = primeUi.selectBooleanCheckbox(
+            By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
     defaultPort.removeChecked();
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port input").isEnabled()).isTrue());
-    driver.findElementByCssSelector(".sysdb-dynamic-form-port input").clear();
-    driver.findElementByCssSelector(".sysdb-dynamic-form-port input").sendKeys("1");
-    waitUntilAjaxIsFinished(driver);
-    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Incorrect host or port"));
-    saveScreenshot(driver, "wrong_port");
+    $(".sysdb-dynamic-form-port input").shouldBe(enabled);
+    $(".sysdb-dynamic-form-port input").clear();
+    $(".sysdb-dynamic-form-port input").sendKeys("1");
+    waitUntilAjaxIsFinished();
+    $(CONNECTION_BUTTON).click();
+    $(CONNECTION_PANEL).shouldBe(text("Incorrect host or port"));
     
-    driver.navigate().refresh();
-    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin2", "nimda");
-    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Incorrect username or password"));
-    saveScreenshot(driver, "wrong_username");
+    Selenide.refresh();
+    insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, "root2", SYS_DB_PW);
+    $(CONNECTION_BUTTON).click();
+    $(CONNECTION_PANEL).shouldBe(text("Incorrect username or password"));
     
-    driver.navigate().refresh();
-    insertDbConnection(driver, "MySQL", "mySQL", "zugtstdbsmys", TEST_DB_NAME, "admin", "nimda2");
-    driver.findElementById("systemDb:systemDbForm:checkConnectionButton").click();
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Incorrect username or password"));
-    saveScreenshot(driver, "wrong_password");
+    Selenide.refresh();
+    insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, "12345");
+    $(CONNECTION_BUTTON).click();
+    $(CONNECTION_PANEL).shouldBe(text("Incorrect username or password"));
   }
   
-  public static void assertAdditionalProperties(RemoteWebDriver driver)
+  public static void assertAdditionalProperties()
   {
-    Table table = new Table(driver, By.id("systemDb:systemDbForm:additionalPropertiesTable"));
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:additionalPropertiesTable").getText())
-            .contains("No records found."));
+    Table table = new Table(By.id("systemDb:systemDbForm:additionalPropertiesTable"));
+    $("#systemDb\\:systemDbForm\\:additionalPropertiesTable").shouldBe(text("No records found."));
     
-    driver.findElementById("systemDb:systemDbForm:newAdditionalPropertyBtn").click();
-    saveScreenshot(driver, "model");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyDialog").isDisplayed())
-            .isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:key")
-            .getAttribute("value")).isBlank());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:keyMessage")
-            .getText()).isBlank());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:value")
-            .getAttribute("value")).isBlank());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:valueMessage")
-            .getText()).isBlank());
+    $("#systemDb\\:systemDbForm\\:newAdditionalPropertyBtn").click();
+    $("#systemDb\\:addAdditionalPropertyDialog").shouldBe(visible);
+    $("#systemDb\\:addAdditionalPropertyForm\\:key").shouldBe(value(""));
+    $("#systemDb\\:addAdditionalPropertyForm\\:keyMessage").shouldBe(empty);
+    $("#systemDb\\:addAdditionalPropertyForm\\:value").shouldBe(value(""));
+    $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(empty);
     
-    driver.findElementById("systemDb:addAdditionalPropertyForm:saveProperty").click();
-    saveScreenshot(driver, "save_invalid");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:keyMessage")
-            .getText()).contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:valueMessage")
-            .getText()).contains("Value is required"));
+    $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
+    $("#systemDb\\:addAdditionalPropertyForm\\:keyMessage").shouldBe(text("Value is required"));
+    $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(text("Value is required"));
     
-    driver.findElementById("systemDb:addAdditionalPropertyForm:key").sendKeys("test");
-    driver.findElementById("systemDb:addAdditionalPropertyForm:saveProperty").click();
-    saveScreenshot(driver, "save_password_invalid");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:keyMessage")
-            .getText()).isBlank());
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyForm:valueMessage")
-            .getText()).contains("Value is required"));
+    $("#systemDb\\:addAdditionalPropertyForm\\:key").sendKeys("test");
+    $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
+    $("#systemDb\\:addAdditionalPropertyForm\\:keyMessage").shouldBe(empty);
+    $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(text("Value is required"));
     
-    driver.findElementById("systemDb:addAdditionalPropertyForm:value").sendKeys("testValue");
-    driver.findElementById("systemDb:addAdditionalPropertyForm:saveProperty").click();
-    saveScreenshot(driver, "save");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:addAdditionalPropertyDialog").isDisplayed())
-            .isFalse());
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("property_key")).containsOnly("test"));
-    webAssertThat(() -> assertThat(table.getValueForEntry("test", 2)).isEqualTo("testValue"));
+    $("#systemDb\\:addAdditionalPropertyForm\\:value").sendKeys("testValue");
+    $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
+    $("#systemDb\\:addAdditionalPropertyDialog").shouldNotBe(visible);
+    table.firstColumnShouldBe(exactTexts("test"));
+    assertThat(table.getValueForEntry("test", 2)).isEqualTo("testValue");
     
     table.clickButtonForEntry("test", "removeAdditionalProperty");
-    saveScreenshot(driver, "remove");
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:additionalPropertiesTable").getText())
-            .contains("No records found."));
+    $("#systemDb\\:systemDbForm\\:additionalPropertiesTable").shouldBe(text("No records found."));
   }
 
-  public static void assertDefaultValues(RemoteWebDriver driver)
+  public static void assertDefaultValues()
   {
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:connectionPanel").getText())
-            .contains("Connected"));
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:databaseType_label").getText())
-            .isEqualTo("Hypersonic SQL Db"));
-    webAssertThat(() -> assertThat(driver.findElementById("systemDb:systemDbForm:databaseDriver_label").getText())
-            .isEqualTo("HSQL Db Memory"));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-databasename").getAttribute("value"))
-            .isEqualTo("AxonIvySystemDatabase"));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-user").getAttribute("value"))
-            .isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-password").getAttribute("value"))
-            .isEqualTo(""));
+    $(CONNECTION_PANEL).shouldBe(text("Connected"));
+    $("#systemDb\\:systemDbForm\\:databaseType_label").shouldBe(exactText("Hypersonic SQL Db"));
+    $("#systemDb\\:systemDbForm\\:databaseDriver_label").shouldBe(exactText("HSQL Db Memory"));
+    $(".sysdb-dynamic-form-databasename").shouldBe(exactValue("AxonIvySystemDatabase"));
+    $(".sysdb-dynamic-form-user").shouldBe(exactValue(""));
+    $(".sysdb-dynamic-form-password").shouldBe(exactValue(""));
   }
   
-  public static void assertDefaultPortSwitch(RemoteWebDriver driver)
+  public static void assertDefaultPortSwitch()
   {
-    PrimeUi primeUi = new PrimeUi(driver);
     SelectOneMenu dbType = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     dbType.selectItemByLabel("MySQL");
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port input").isDisplayed()).isTrue());
-    saveScreenshot(driver, "mysql");
+    $(".sysdb-dynamic-form-port input").shouldBe(visible);
     
-    SelectBooleanCheckbox defaultPort = primeUi.selectBooleanCheckbox(By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
-    webAssertThat(() -> assertThat(defaultPort.isChecked()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port input").isEnabled()).isFalse());
+    SelectBooleanCheckbox defaultPort = primeUi.selectBooleanCheckbox(
+            By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
+    $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
+    assertThat(defaultPort.isChecked()).isTrue();
     
     defaultPort.removeChecked();
-    saveScreenshot(driver, "disable_default");
-    webAssertThat(() -> assertThat(defaultPort.isChecked()).isFalse());
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port input").isEnabled()).isTrue());
+    assertThat(defaultPort.isChecked()).isFalse();
+    $(".sysdb-dynamic-form-port input").shouldBe(enabled);
     
     defaultPort.setChecked();
-    saveScreenshot(driver, "enable_default");
-    webAssertThat(() -> assertThat(defaultPort.isChecked()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-port input").isEnabled()).isFalse());
+    assertThat(defaultPort.isChecked()).isTrue();
+    $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
   }
   
-  public static void assertDatabaseTypeSwitch(RemoteWebDriver driver)
+  public static void assertDatabaseTypeSwitch()
   {
-    PrimeUi primeUi = new PrimeUi(driver);
     SelectOneMenu dbType = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     SelectOneMenu dbDriver = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
-    webAssertThat(() -> assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db"));
-    webAssertThat(() -> assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory"));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-databasename")
-            .getAttribute("value")).isEqualTo("AxonIvySystemDatabase"));
+    assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db");
+    assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory");
+    $(".sysdb-dynamic-form-databasename").shouldBe(exactValue("AxonIvySystemDatabase"));
     
     dbType.selectItemByLabel("Oracle");
-    saveScreenshot(driver, "oracle");
-    webAssertThat(() -> assertThat(dbType.getSelectedItem()).isEqualTo("Oracle"));
-    webAssertThat(() -> assertThat(dbDriver.getSelectedItem()).isEqualTo("Oracle Thin"));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-oracleservicename")
-            .getAttribute("value")).isEqualTo(""));
+    assertThat(dbType.getSelectedItem()).isEqualTo("Oracle");
+    assertThat(dbDriver.getSelectedItem()).isEqualTo("Oracle Thin");
+    $(".sysdb-dynamic-form-oracleservicename").shouldBe(exactValue(""));
     
     dbType.selectItemByLabel("MySQL");
-    saveScreenshot(driver, "mysql");
-    webAssertThat(() -> assertThat(dbType.getSelectedItem()).isEqualTo("MySQL"));
-    webAssertThat(() -> assertThat(dbDriver.getSelectedItem()).isEqualTo("mySQL"));
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector(".sysdb-dynamic-form-host")
-            .getAttribute("value")).isEqualTo("localhost"));
+    assertThat(dbType.getSelectedItem()).isEqualTo("MySQL");
+    assertThat(dbDriver.getSelectedItem()).isEqualTo("mySQL");
+    $(".sysdb-dynamic-form-host").shouldBe(exactValue("localhost"));
     
     dbType.selectItemByLabel("Hypersonic SQL Db");
-    saveScreenshot(driver, "hsql");
-    webAssertThat(() -> assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db"));
-    webAssertThat(() -> assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory"));
+    assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db");
+    assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory");
   }
   
   private void navigateToSystemDb()
   {
     login();
-    Navigation.toSystemDb(driver);
-    saveScreenshot("systemdb");
+    Navigation.toSystemDb();
   }
 }

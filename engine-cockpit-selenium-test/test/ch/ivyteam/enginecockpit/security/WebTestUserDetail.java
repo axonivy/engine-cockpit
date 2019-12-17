@@ -1,5 +1,12 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -9,16 +16,25 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectManyCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneRadio;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 public class WebTestUserDetail extends WebTestBase
 {
+  private static final String CSS_MEMBER_INHERIT = "member-inherit-icon";
+  private static final String CSS_MEMBER = "fa-check";
+  private static final String CSS_DISABLED = "ui-state-disabled";
+  private static final String ROLE_REMOVE_BUTTON = "button:nth-child(2)";
+  private static final String ROLE_ADD_BUTTON = "button:nth-child(1)";
+  private static final String ROLE_EXPANDER = "span:nth-child(2)";
+  private static final String MEMBER_ICON = "td:nth-child(2) > i";
   private static final String DETAIL_USER_NAME = "foo";
   private static final String DETAIL_USER_NAME_DELETE = "bar";
   
@@ -26,15 +42,14 @@ public class WebTestUserDetail extends WebTestBase
   void testUsersDetailOpen()
   {
     openUserFooDetail();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("userdetail.xhtml?userName=" + DETAIL_USER_NAME));
+    assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + DETAIL_USER_NAME);
   }
 
   @Test
   void testUserDetailInformation()
   {
     openUserFooDetail();
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:name").getText())
-            .isEqualTo(DETAIL_USER_NAME));
+    $("#userInformationForm\\:name").shouldBe(exactText(DETAIL_USER_NAME));
   }
   
   @Test
@@ -42,202 +57,171 @@ public class WebTestUserDetail extends WebTestBase
   {
     openUserFooDetail();
     clearUserInfoInputs();
-    driver.findElementById("userInformationForm:fullName").sendKeys("Foo User");
-    driver.findElementById("userInformationForm:email").sendKeys("foo@ivyteam.ch");
-    driver.findElementById("userInformationForm:password1").sendKeys("foopassword");
-    driver.findElementById("userInformationForm:password2").sendKeys("foopassword");
-    driver.findElementById("userInformationForm:saveUserInformation").click();
-    saveScreenshot("save_user_changes");
+    $("#userInformationForm\\:fullName").sendKeys("Foo User");
+    $("#userInformationForm\\:email").sendKeys("foo@ivyteam.ch");
+    $("#userInformationForm\\:password1").sendKeys("foopassword");
+    $("#userInformationForm\\:password2").sendKeys("foopassword");
+    $("#userInformationForm\\:saveUserInformation").click();
     
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:informationSaveSuccess_container").isDisplayed()).isTrue());
-    driver.navigate().refresh();
-    saveScreenshot("refresh");
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:name").getText()).isEqualTo(DETAIL_USER_NAME));
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:fullName").getAttribute("value")).isEqualTo("Foo User"));
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:email").getAttribute("value")).isEqualTo("foo@ivyteam.ch"));
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:password1").getAttribute("value")).isEqualTo(""));
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:password2").getAttribute("value")).isEqualTo(""));
+    $("#userInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
+    Selenide.refresh();
+    $("#userInformationForm\\:name").shouldBe(exactText(DETAIL_USER_NAME));
+    $("#userInformationForm\\:fullName").shouldBe(exactValue("Foo User"));
+    $("#userInformationForm\\:email").shouldBe(exactValue("foo@ivyteam.ch"));
+    $("#userInformationForm\\:password1").shouldBe(exactValue(""));
+    $("#userInformationForm\\:password2").shouldBe(exactValue(""));
   }
   
   @Test
   void testSaveUserInformationNoPasswordMatch()
   {
     openUserFooDetail();
-    driver.findElementById("userInformationForm:password1").sendKeys("foopassword");
-    driver.findElementById("userInformationForm:saveUserInformation").click();
-    saveScreenshot("no_password_match");
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:informationMessages").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:informationMessages").getText()).isEqualTo("Password didn't match"));
+    $("#userInformationForm\\:password1").sendKeys("foopassword");
+    $("#userInformationForm\\:saveUserInformation").click();
+    $("#userInformationForm\\:informationMessages").shouldBe(visible);
+    $("#userInformationForm\\:informationMessages").shouldBe(exactText("Password didn't match"));
   }
   
   @Test
   void testDeleteUser()
   {
     openUserDetail(DETAIL_USER_NAME_DELETE);
-    driver.findElementById("userInformationForm:deleteUser").click();
-    saveScreenshot("delete_user");
-    webAssertThat(() -> assertThat(driver.findElementById("userInformationForm:deleteUserConfirmDialog").isDisplayed()).isTrue());
-    driver.findElementById("userInformationForm:deleteUserConfirmYesBtn").click();
-    webAssertThat(() -> assertThat(driver.getCurrentUrl()).endsWith("users.xhtml"));
+    $("#userInformationForm\\:deleteUser").click();
+    $("#userInformationForm\\:deleteUserConfirmDialog").shouldBe(visible);
+    $("#userInformationForm\\:deleteUserConfirmYesBtn").click();
+    assertCurrentUrlEndsWith("users.xhtml");
   }
   
   @Test
   void testEmailLanguageSwitch()
   {
     openUserFooDetail();
-    driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").click();
-    webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSettings:languageDropDown_items").isDisplayed()).isTrue());
-    String chooseLanguage = driver.findElementById("userEmailForm:emailSettings:languageDropDown_1").getText();
-    saveScreenshot("languages");
-    driver.findElementById("userEmailForm:emailSettings:languageDropDown_1").click();
-    webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
-    saveScreenshot("choose_language");
-    driver.findElementById("userEmailForm:saveEmailNotificationSettings").click();
-    webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").getText()).isEqualTo("User email changes saved"));
-    driver.navigate().refresh();
-    saveScreenshot("refresh");
-    webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSettings:languageDropDown_label").getText()).isEqualTo(chooseLanguage));
+    $("#userEmailForm\\:emailSettings\\:languageDropDown_label").shouldBe(visible).click();
+    $("#userEmailForm\\:emailSettings\\:languageDropDown_items").shouldBe(visible);
+    String chooseLanguage = $("#userEmailForm\\:emailSettings\\:languageDropDown_1").getText();
+    $("#userEmailForm\\:emailSettings\\:languageDropDown_1").click();
+    $("#userEmailForm\\:emailSettings\\:languageDropDown_label").shouldBe(exactText(chooseLanguage));
+    $("#userEmailForm\\:saveEmailNotificationSettings").click();
+    $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible, exactText("User email changes saved"));
+    Selenide.refresh();
+    $("#userEmailForm\\:emailSettings\\:languageDropDown_label").shouldBe(exactText(chooseLanguage));
   }
   
   @Test
   void testEmailSettings()
   {
     openUserFooDetail();
-    PrimeUi primeUi = new PrimeUi(driver);
     SelectOneRadio radioSettings = primeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
     SelectBooleanCheckbox neverCheckbox = primeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
     SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
     SelectManyCheckbox dailyCheckbox = primeUi.selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
-    webAssertThat(() -> assertThat(radioSettings.getSelected()).isEqualTo("Application"));
-    webAssertThat(() -> assertThat(neverCheckbox.isChecked()).isFalse());
-    webAssertThat(() -> assertThat(neverCheckbox.isDisabled()).isTrue());
-    webAssertThat(() -> assertThat(taskCheckbox.isChecked()).isFalse());
-    webAssertThat(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
-    webAssertThat(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
+    assertThat(radioSettings.getSelected()).isEqualTo("Application");
+    assertThat(neverCheckbox.isChecked()).isFalse();
+    assertThat(neverCheckbox.isDisabled()).isTrue();
+    assertThat(taskCheckbox.isChecked()).isFalse();
+    assertThat(taskCheckbox.isDisabled()).isTrue();
+    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
     
     radioSettings.selectItemByValue("Specific");
-    saveScreenshot("specific");
-    webAssertThat(() -> assertThat(neverCheckbox.isDisabled()).isFalse());
-    webAssertThat(() -> assertThat(taskCheckbox.isDisabled()).isFalse());
-    webAssertThat(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse());
+    assertThat(neverCheckbox.isDisabled()).isFalse();
+    assertThat(taskCheckbox.isDisabled()).isFalse();
+    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     
     List<String> days = new ArrayList<String>(Arrays.asList("Mon", "Fri", "Sun"));
     dailyCheckbox.setCheckboxes(days);
-    saveScreenshot("days");
-    webAssertThat(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun"));
+    assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun");
     
     taskCheckbox.setChecked();
     neverCheckbox.setChecked();
-    saveScreenshot("new_settings");
-    webAssertThat(() -> assertThat(radioSettings.getSelected()).isEqualTo("Specific"));
-    webAssertThat(() -> assertThat(neverCheckbox.isChecked()).isTrue());
-    webAssertThat(() -> assertThat(taskCheckbox.isChecked()).isTrue());
-    webAssertThat(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
-    webAssertThat(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
-    driver.findElementById("userEmailForm:saveEmailNotificationSettings").click();
-    webAssertThat(() -> assertThat(driver.findElementById("userEmailForm:emailSaveSuccess_container").isDisplayed()).isTrue());
-    saveScreenshot("save");
+    assertThat(radioSettings.getSelected()).isEqualTo("Specific");
+    assertThat(neverCheckbox.isChecked()).isTrue();
+    assertThat(taskCheckbox.isChecked()).isTrue();
+    assertThat(taskCheckbox.isDisabled()).isTrue();
+    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
+    $("#userEmailForm\\:saveEmailNotificationSettings").click();
+    $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible);
 
-    driver.navigate().refresh();
-    saveScreenshot("refresh");
-    webAssertThat(() -> assertThat(radioSettings.getSelected()).isEqualTo("Specific"));
-    webAssertThat(() -> assertThat(neverCheckbox.isChecked()).isTrue());
-    webAssertThat(() -> assertThat(taskCheckbox.isChecked()).isTrue());
-    webAssertThat(() -> assertThat(taskCheckbox.isDisabled()).isTrue());
-    webAssertThat(() -> assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue());
-    webAssertThat(() -> assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun"));
+    Selenide.refresh();
+    assertThat(radioSettings.getSelected()).isEqualTo("Specific");
+    assertThat(neverCheckbox.isChecked()).isTrue();
+    assertThat(taskCheckbox.isChecked()).isTrue();
+    assertThat(taskCheckbox.isDisabled()).isTrue();
+    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
+    assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun");
   }
   
   @Test
   void testRolesAddRemove()
   {
     openUserFooDetail();
-    String bossId = driver.findElement(By.xpath("//*[contains(@id, 'rolesOfUserForm:rolesTree_node_0')]/td/a/span[@class='role-name'][text()='boss']/../../..")).getAttribute("id");
-    driver.findElementById(bossId).findElement(By.xpath("./td/span[2]")).click();
-    saveScreenshot("expand_role");
-    String managerId = bossId + "_0";
-    webAssertThat(() -> assertThat(driver.findElement(By.id(managerId)).isDisplayed()).isTrue());
-    String managerAddButtonId = driver.findElementById(managerId).findElement(By.xpath("./td/button[1]")).getAttribute("id");
-    String managerRemoveButtonId = driver.findElementById(managerId).findElement(By.xpath("./td/button[2]")).getAttribute("id");
-    String bossAddButtonId = driver.findElementById(bossId).findElement(By.xpath("./td/button[1]")).getAttribute("id");
-    String bossRemoveButtonId = driver.findElementById(bossId).findElement(By.xpath("./td/button[2]")).getAttribute("id");
-    driver.findElementById(managerAddButtonId).click();
-    saveScreenshot("add_child_role");
-    webAssertThat(() -> assertThat(driver.findElementById(managerAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
-    webAssertThat(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
-    webAssertThat(() -> assertThat(driver.findElementById(managerId)
-            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
-    webAssertThat(() -> assertThat(driver.findElementById(bossId)
-            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("member-inherit-icon"));
+    String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent().getAttribute("id");
+    By bossId = By.id(boss);
+    $(bossId).find(ROLE_EXPANDER).click();
+    By managerId = By.id(boss + "_0");
+    $(managerId).shouldBe(visible);
+    By managerAddButtonId = By.id($(managerId).find(ROLE_ADD_BUTTON).getAttribute("id"));
+    By managerRemoveButtonId = By.id($(managerId).find(ROLE_REMOVE_BUTTON).getAttribute("id"));
+    By bossAddButtonId = By.id($(bossId).find(ROLE_ADD_BUTTON).getAttribute("id"));
+    By bossRemoveButtonId = By.id($(bossId).find(ROLE_REMOVE_BUTTON).getAttribute("id"));
+    $(managerAddButtonId).click();
+    $(managerAddButtonId).shouldHave(cssClass(CSS_DISABLED));
+    $(managerRemoveButtonId).shouldNotHave(cssClass(CSS_DISABLED));
+    $(managerId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER));
+    $(bossId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER_INHERIT));
     
-    driver.findElementById(bossAddButtonId).click();
-    saveScreenshot("add_parent_role");
-    webAssertThat(() -> assertThat(driver.findElementById(bossAddButtonId).getAttribute("class")).contains("ui-state-disabled"));
-    webAssertThat(() -> assertThat(driver.findElementById(bossRemoveButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
-    webAssertThat(() -> assertThat(driver.findElementById(managerId)
-            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
-    webAssertThat(() -> assertThat(driver.findElementById(bossId)
-            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
+    $(bossAddButtonId).click();
+    $(bossAddButtonId).shouldHave(cssClass(CSS_DISABLED));
+    $(bossRemoveButtonId).shouldNotHave(cssClass(CSS_DISABLED));
+    $(managerId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER));
+    $(bossId).find(MEMBER_ICON).shouldNotHave(cssClass(CSS_MEMBER_INHERIT));
     
-    Navigation.toUserDetail(driver, DETAIL_USER_NAME);
-    saveScreenshot("refresh");
-    waitUntilElementClickable(driver, By.xpath("//*[@id='" + bossId + "']/td/span[2]")).click();
-    saveScreenshot("expand_boss");
-    webAssertThat(() -> assertThat(driver.findElementById(managerId)
-            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check"));
-    webAssertThat(() -> assertThat(driver.findElementById(bossId)
-            .findElement(By.xpath("./td[2]/i")).getAttribute("class")).contains("fa-check").doesNotContain("member-inherit-icon"));
+    Navigation.toUserDetail(DETAIL_USER_NAME);
+    $(bossId).find(ROLE_EXPANDER).shouldBe(visible, enabled).click();
+    $(managerId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER));
+    $(bossId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER)).shouldNotHave(cssClass(CSS_MEMBER_INHERIT));
 
-    driver.findElementById(managerRemoveButtonId).click();
-    saveScreenshot("remove_child_role");
-    webAssertThat(() -> assertThat(driver.findElementById(managerAddButtonId).getAttribute("class")).doesNotContain("ui-state-disabled"));
-    webAssertThat(() -> assertThat(driver.findElementById(managerRemoveButtonId).getAttribute("class")).contains("ui-state-disabled"));
+    $(managerRemoveButtonId).click();
+    $(managerAddButtonId).shouldNotHave(cssClass(CSS_DISABLED));
+    $(managerRemoveButtonId).shouldHave(cssClass(CSS_DISABLED));
     
-    driver.findElementById(bossRemoveButtonId).click();
+    $(bossRemoveButtonId).click();
   }
   
   @Test
   void testPermission()
   {
     openUserFooDetail();
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-            .getAttribute("title")).isEqualTo("Some Permission granted"));
+    String permissionStateCss = "#permissionsForm\\:permissionTable_node_0 > .permission-icon > i";
+    String firstPermissionCss = "#permissionsForm\\:permissionTable\\:0\\:";
+    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
     
-    driver.findElementById("permissionsForm:permissionTable:0:grantPermissionBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-                    .getAttribute("title")).isEqualTo("Permission granted"));
-    saveScreenshot("grant");
+    $(firstPermissionCss + "grantPermissionBtn").click();
+    $(permissionStateCss).shouldHave(attribute("title", "Permission granted"));
 
-    driver.findElementById("permissionsForm:permissionTable:0:unGrantPermissionBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-                    .getAttribute("title")).isEqualTo("Some Permission granted"));
-    saveScreenshot("ungrant");
+    $(firstPermissionCss + "unGrantPermissionBtn").click();
+    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
 
-    driver.findElementById("permissionsForm:permissionTable:0:denyPermissionBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-                    .getAttribute("title")).isEqualTo("Permission denied"));
-    saveScreenshot("deny");
+    $(firstPermissionCss + "denyPermissionBtn").click();
+    $(permissionStateCss).shouldHave(attribute("title", "Permission denied"));
 
-    driver.findElementById("permissionsForm:permissionTable:0:unDenyPermissionBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementByXPath("//*[@class='permission-icon'][1]/i")
-                    .getAttribute("title")).isEqualTo("Some Permission granted"));
-    saveScreenshot("undeny");
+    $(firstPermissionCss + "unDenyPermissionBtn").click();
+    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
   }
   
   private void clearUserInfoInputs()
   {
-    driver.findElementById("userInformationForm:fullName").clear();
-    driver.findElementById("userInformationForm:email").clear();
-    driver.findElementById("userInformationForm:password1").clear();
-    driver.findElementById("userInformationForm:password2").clear();
+    $("#userInformationForm\\:fullName").clear();
+    $("#userInformationForm\\:email").clear();
+    $("#userInformationForm\\:password1").clear();
+    $("#userInformationForm\\:password2").clear();
   }
   
   private void openUserDetail(String userName)
   {
     login();
-    Navigation.toUserDetail(driver, userName);
-    saveScreenshot("userdetail");
+    Navigation.toUsers();
+    Tab.switchToTab("test");
+    Navigation.toUserDetail(userName);
   }
   
   private void openUserFooDetail()

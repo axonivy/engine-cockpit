@@ -1,11 +1,15 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.exactTexts;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.RemoteWebDriver;
+
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.system.WebTestAdmins;
@@ -17,64 +21,60 @@ public class WebTestWizardAdmins extends WebTestBase
   @AfterEach
   void cleanup()
   {
-    resetConfig(driver);
+    resetConfig();
+    driver.quit();
   }
   
   @Test
   void testAdminStep()
   {
     navigateToAdminsWizardStep();
-    webAssertThat(() -> assertThat(driver.findElementById("adminNextStep").isEnabled()).isTrue());
-    Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
-    WebTestAdmins.addAdmin(driver, "admin", "admin@ivyTeam.ch", "password", "password");
-    saveScreenshot("add_admin");
-    webAssertThat(() -> assertThat(driver.findElementByClassName("ui-growl-title").getText())
-            .contains("'admin' added successfully"));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name")).containsOnly("admin"));
-    webAssertThat(() -> assertThat(driver.findElementById("adminNextStep").isEnabled()).isTrue());
+    $("#adminNextStep").shouldBe(enabled);
+    Table table = new Table(By.id("admins:adminForm:adminTable"));
+    WebTestAdmins.addAdmin("admin", "admin@ivyTeam.ch", "password", "password");
+    $(".ui-growl-title").shouldBe(text("'admin' added successfully"));
+    Selenide.refresh();
+    table.firstColumnShouldBe(exactTexts("admin"));
+    $("#adminNextStep").shouldBe(enabled);
     
-    driver.findElementById("adminNextStep").click();
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
-            .contains("Web Server"));
+    $("#adminNextStep").click();
+    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Web Server"));
   }
   
   @Test
   void testAddEditDeleteAdmin()
   {
     navigateToAdminsWizardStep();
-    WebTestAdmins.testAddEditDeleteAdmin(driver);
+    WebTestAdmins.testAddEditDelete();
   }
   
   @Test
   void testAdminDialogInvalid()
   {
     navigateToAdminsWizardStep();
-    WebTestAdmins.testAddAdminInvalidValues(driver);
-    WebTestAdmins.testAddAdminInvalidPassword(driver);
+    WebTestAdmins.testAddAdminInvalidValues();
+    WebTestAdmins.testAddAdminInvalidPassword();
   }
   
   @Test
   void testOwnAdminCannotBeDeleted()
   {    
     navigateToAdminsWizardStep();
-    WebTestAdmins.assertOwnAdminCannotBeDeleted(driver);
+    WebTestAdmins.assertOwnAdminCannotBeDeleted();
   }
   
   private void navigateToAdminsWizardStep()
   {
     login("setup.xhtml");
-    WebTestWizardLicence.skipLicStep(driver);
-    saveScreenshot("admins");
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
-            .contains("Administrators"));
+    WebTestWizardLicence.skipLicStep();
+    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Administrators"));
   }
   
-  public static void skipAdminStep(RemoteWebDriver driver)
+  public static void skipAdminStep()
   {
-    webAssertThat(() -> assertThat(driver.findElementByCssSelector("#wizardSteps li.ui-state-highlight").getText())
-            .contains("Administrators"));
-    webAssertThat(() -> assertThat(driver.findElementById("adminNextStep").isEnabled()).isTrue());
-    driver.findElementById("adminNextStep").click();
+    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Administrators"));
+    $("#adminNextStep").shouldBe(enabled);
+    $("#adminNextStep").click();
   }
 
 }

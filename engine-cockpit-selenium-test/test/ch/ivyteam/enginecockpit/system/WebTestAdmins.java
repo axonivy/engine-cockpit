@@ -1,10 +1,15 @@
 package ch.ivyteam.enginecockpit.system;
 
+import static com.codeborne.selenide.CollectionCondition.exactTexts;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -17,128 +22,118 @@ public class WebTestAdmins extends WebTestBase
   void testAddEditDeleteAdmin()
   {
     navigateToAdmins();
-    webAssertThat(() -> assertThat(driver.findElementByTagName("h1").getText()).contains("Administrators"));
-    testAddEditDeleteAdmin(driver);
-    webAssertThat(() -> assertThat(driver.findElementById("adminMessages").getText()).contains("Your engine needs to be restarted"));
+    $("h1").shouldBe(text("Administrators"));
+    testAddEditDelete();
+    $("#adminMessages").shouldBe(text("Your engine needs to be restarted"));
   }
   
   @Test
   void testAdminDialogInvalid()
   {
     navigateToAdmins();
-    testAddAdminInvalidValues(driver);
-    testAddAdminInvalidPassword(driver);
+    testAddAdminInvalidValues();
+    testAddAdminInvalidPassword();
   }
   
   @Test
   void testOwnAdminCannotBeDeleted()
   {    
     navigateToAdmins();
-    assertOwnAdminCannotBeDeleted(driver);
+    assertOwnAdminCannotBeDeleted();
   }
 
-  public static void assertOwnAdminCannotBeDeleted(RemoteWebDriver driver)
+  public static void assertOwnAdminCannotBeDeleted()
   {
-    Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
-    webAssertThat(() -> assertThat(table.buttonForEntryDisabled("admin", "deleteAdmin")).isTrue());
+    Table table = new Table(By.id("admins:adminForm:adminTable"));
+    table.buttonForEntryShouldBeDisabled("admin", "deleteAdmin");
   }
   
-  public static void testAddEditDeleteAdmin(RemoteWebDriver driver)
+  public static void testAddEditDelete()
   {
-    Table table = new Table(driver, By.id("admins:adminForm:adminTable"));
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name"))
-            .containsOnly("admin"));
+    Table table = new Table(By.id("admins:adminForm:adminTable"));
+    table.firstColumnShouldBe(exactTexts("admin"));
     
     String user = "test";
     String email = "test@ivyTeam.ch";
     String password = "password";
-    addAdmin(driver, user, email, password, password);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name"))
-            .containsExactly("admin", user));
+    addAdmin(user, email, password, password);
+    table.firstColumnShouldBe(exactTexts("admin", user));
     
-    editAdmin(driver, table, user, "test@admin.com");
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name"))
-            .containsExactly("admin", user));
-    webAssertThat(() -> assertThat(table.getValueForEntry(user, 2)).isEqualTo("test@admin.com"));
+    editAdmin(table, user, "test@admin.com");
+    table.firstColumnShouldBe(exactTexts("admin", user));
+    assertThat(table.getValueForEntry(user, 2)).isEqualTo("test@admin.com");
     
-    deleteAdmin(driver, table, user);
-    webAssertThat(() -> assertThat(table.getFirstColumnEntriesForSpanClass("admin_name"))
-            .containsOnly("admin"));
+    deleteAdmin(table, user);
+    table.firstColumnShouldBe(exactTexts("admin"));
   }
   
-  private static void deleteAdmin(RemoteWebDriver driver, Table table, String user)
+  private static void deleteAdmin(Table table, String user)
   {
     table.clickButtonForEntry(user, "deleteAdmin");
-    assertGrowlMessage(driver, user, "removed");
+    assertGrowlMessage(user, "removed");
   }
 
-  private static void editAdmin(RemoteWebDriver driver, Table table, String user, String email)
+  private static void editAdmin(Table table, String user, String email)
   {
     table.clickButtonForEntry(user, "editAdminBtn");
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminDialog").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:name").isEnabled()).isFalse());
+    $("#admins\\:editAdminDialog").shouldBe(visible);
+    $("#admins\\:editAdminForm\\:name").shouldNotBe(enabled);
     
-    driver.findElementById("admins:editAdminForm:email").clear();
-    driver.findElementById("admins:editAdminForm:email").sendKeys(email);
+    $("#admins\\:editAdminForm\\:email").clear();
+    $("#admins\\:editAdminForm\\:email").sendKeys(email);
     
-    driver.findElementById("admins:editAdminForm:saveAdmin").click();
-    assertGrowlMessage(driver, user, "modified");
+    $("#admins\\:editAdminForm\\:saveAdmin").click();
+    assertGrowlMessage(user, "modified");
   }
 
-  private static void assertGrowlMessage(RemoteWebDriver driver, String user, String msgPart)
+  private static void assertGrowlMessage(String user, String msgPart)
   {
-    webAssertThat(() -> assertThat(driver.findElementByClassName("ui-growl-title").getText()).contains("'" + user + "' " + msgPart + " successfully"));
+    $(".ui-growl-title").shouldBe(text("'" + user + "' " + msgPart + " successfully"));
   }
   
-  public static void testAddAdminInvalidPassword(RemoteWebDriver driver)
+  public static void testAddAdminInvalidPassword()
   {
-    addAdmin(driver, "admin", "test@test.com", "password", "pass");
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:nameMessage").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:emailMessage").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:password2Message").getText()).isEmpty());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").isDisplayed()).isTrue());
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").getText())
-            .contains("Password didn't match"));
+    addAdmin("admin", "test@test.com", "password", "pass");
+    $("#admins\\:editAdminForm\\:nameMessage").shouldBe(empty);
+    $("#admins\\:editAdminForm\\:emailMessage").shouldBe(empty);
+    $("#admins\\:editAdminForm\\:password2Message").shouldBe(empty);
+    $("#admins\\:editAdminForm\\:passwordMessage").shouldBe(visible);
+    $("#admins\\:editAdminForm\\:passwordMessage").shouldBe(text("Password didn't match"));
   }
 
-  public static void testAddAdminInvalidValues(RemoteWebDriver driver)
+  public static void testAddAdminInvalidValues()
   {
-    addAdmin(driver, "", "", "", "");
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:nameMessage").getText())
-            .contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:emailMessage").getText())
-            .contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:passwordMessage").getText())
-            .contains("Value is required"));
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminForm:password2Message").getText())
-            .contains("Value is required"));
-    driver.findElementById("admins:editAdminForm:cancelEditAdmin").click();
+    addAdmin("", "", "", "");
+    $("#admins\\:editAdminForm\\:nameMessage").shouldBe(text("Value is required"));
+    $("#admins\\:editAdminForm\\:emailMessage").shouldBe(text("Value is required"));
+    $("#admins\\:editAdminForm\\:passwordMessage").shouldBe(text("Value is required"));
+    $("#admins\\:editAdminForm\\:password2Message").shouldBe(text("Value is required"));
+    $("#admins\\:editAdminForm\\:cancelEditAdmin").click();
   }
   
-  public static void addAdmin(RemoteWebDriver driver, String user, String email, String password, String password2)
+  public static void addAdmin(String user, String email, String password, String password2)
   {
-    driver.findElementById("addAdminForm:newAdminBtn").click();
-    webAssertThat(() -> assertThat(driver.findElementById("admins:editAdminDialog").isDisplayed()).isTrue());
+    $("#addAdminForm\\:newAdminBtn").click();
+    $("#admins\\:editAdminDialog").shouldBe(visible);
     
-    driver.findElementById("admins:editAdminForm:name").clear();
-    driver.findElementById("admins:editAdminForm:name").sendKeys(user);
+    $("#admins\\:editAdminForm\\:name").clear();
+    $("#admins\\:editAdminForm\\:name").sendKeys(user);
     
-    driver.findElementById("admins:editAdminForm:email").clear();
-    driver.findElementById("admins:editAdminForm:email").sendKeys(email);
+    $("#admins\\:editAdminForm\\:email").clear();
+    $("#admins\\:editAdminForm\\:email").sendKeys(email);
     
-    driver.findElementById("admins:editAdminForm:password1").clear();
-    driver.findElementById("admins:editAdminForm:password1").sendKeys(password);
+    $("#admins\\:editAdminForm\\:password1").clear();
+    $("#admins\\:editAdminForm\\:password1").sendKeys(password);
     
-    driver.findElementById("admins:editAdminForm:password2").clear();
-    driver.findElementById("admins:editAdminForm:password2").sendKeys(password2);
+    $("#admins\\:editAdminForm\\:password2").clear();
+    $("#admins\\:editAdminForm\\:password2").sendKeys(password2);
     
-    driver.findElementById("admins:editAdminForm:saveAdmin").click();
+    $("#admins\\:editAdminForm\\:saveAdmin").click();
   }
 
   private void navigateToAdmins()
   {
     login();
-    Navigation.toAdmins(driver);
-    saveScreenshot("admins");
+    Navigation.toAdmins();
   }
 }

@@ -1,253 +1,259 @@
 package ch.ivyteam.enginecockpit.util;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebBase;
 
 public class Navigation
 {
-  private static final By DASHBOARD_MENU = By.xpath("//li[@id='menuform:sr_dashboard']/child::a");
-  private static final By APPLICATIONS_MENU = By.xpath("//li[@id='menuform:sr_applications']/child::a");
-  private static final By SECURITY_MENU = By.xpath("//li[@id='menuform:sr_security']/child::a");
-  private static final By SECURITY_SYSTEM_MENU = By.xpath("//li[@id='menuform:sr_security_system']/child::a");
-  private static final By SECURITY_USER_MENU = By.xpath("//li[@id='menuform:sr_users']/child::a");
-  private static final By SECURITY_ROLES_MENU = By.xpath("//li[@id='menuform:sr_roles']/child::a");
-  private static final By CONFIGURATION_MENU = By.xpath("//li[@id='menuform:sr_configuration']/child::a");
-  private static final By VARIABLES_MENU = By.xpath("//li[@id='menuform:sr_variables']/child::a");
-  private static final By BUSINESS_CALENDAR_MENU = By.xpath("//li[@id='menuform:sr_business_calendar']/child::a");
-  private static final By SERVICES_MENU = By.xpath("//li[@id='menuform:sr_services']/child::a");
-  private static final By SERVICES_SEARCH_ENGINE = By.xpath("//li[@id='menuform:sr_searchengine']/child::a");
-  private static final By SERVICES_EMAIL_MENU = By.xpath("//li[@id='menuform:sr_email']/child::a");
-  private static final By SERVICES_DATABASES_MENU = By.xpath("//li[@id='menuform:sr_database']/child::a");
-  private static final By SERVICES_RESTCLIENTS_MENU = By.xpath("//li[@id='menuform:sr_rest_client']/child::a");
-  private static final By SERVICES_WEBSERVICES_MENU = By.xpath("//li[@id='menuform:sr_web_service']/child::a");
-  private static final By SYSTEM_MENU = By.xpath("//li[@id='menuform:sr_system']/child::a");
-  private static final By SYSTEM_ADMINS = By.xpath("//li[@id='menuform:sr_admins']/child::a");
-  private static final By SYSTEM_SYSTEMDB_MENU = By.xpath("//li[@id='menuform:sr_systemdb']/child::a");
-  private static final By SYSTEM_CONFIG_MENU = By.xpath("//li[@id='menuform:sr_system_config']/child::a");
-  private static final By SYSTEM_EDITOR_MENU = By.xpath("//li[@id='menuform:sr_editor']/child::a");
-  private static final By MONITOR_MENU = By.xpath("//li[@id='menuform:sr_monitor']/child::a");
-  private static final By MONITOR_RESOURCES_MENU = By.xpath("//li[@id='menuform:sr_resources_monitor']/child::a");
-  private static final By MONITOR_LOGS_MENU = By.xpath("//li[@id='menuform:sr_logs']/child::a");
+  private static final String DASHBOARD_MENU = "#menuform\\:sr_dashboard";
+  private static final String APPLICATIONS_MENU = "#menuform\\:sr_applications";
+  private static final String SECURITY_MENU = "#menuform\\:sr_security";
+  private static final String SECURITY_SYSTEM_MENU = "#menuform\\:sr_security_system";
+  private static final String SECURITY_USER_MENU = "#menuform\\:sr_users";
+  private static final String SECURITY_ROLES_MENU = "#menuform\\:sr_roles";
+  private static final String CONFIGURATION_MENU = "#menuform\\:sr_configuration";
+  private static final String VARIABLES_MENU = "#menuform\\:sr_variables";
+  private static final String BUSINESS_CALENDAR_MENU = "#menuform\\:sr_business_calendar";
+  private static final String SERVICES_MENU = "#menuform\\:sr_services";
+  private static final String SERVICES_SEARCH_ENGINE = "#menuform\\:sr_searchengine";
+  private static final String SERVICES_EMAIL_MENU = "#menuform\\:sr_email";
+  private static final String SERVICES_DATABASES_MENU = "#menuform\\:sr_database";
+  private static final String SERVICES_RESTCLIENTS_MENU = "#menuform\\:sr_rest_client";
+  private static final String SERVICES_WEBSERVICES_MENU = "#menuform\\:sr_web_service";
+  private static final String SYSTEM_MENU = "#menuform\\:sr_system";
+  private static final String SYSTEM_ADMINS = "#menuform\\:sr_admins";
+  private static final String SYSTEM_SYSTEMDB_MENU = "#menuform\\:sr_systemdb";
+  private static final String SYSTEM_CONFIG_MENU = "#menuform\\:sr_system_config";
+  private static final String SYSTEM_CLUSTER = "#menuform\\:sr_cluster";
+  private static final String SYSTEM_EDITOR_MENU = "#menuform\\:sr_editor";
+  private static final String MONITOR_MENU = "#menuform\\:sr_monitor";
+  private static final String MONITOR_RESOURCES_MENU = "#menuform\\:sr_resources_monitor";
+  private static final String MONITOR_LOGS_MENU = "#menuform\\:sr_logs";
 
-  public static void toDashboard(RemoteWebDriver driver)
+  public static void toDashboard()
   {
-    toMenu(driver, DASHBOARD_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("dashboard.xhtml"));
+    toMenu(DASHBOARD_MENU);
+    WebBase.assertCurrentUrlEndsWith("dashboard.xhtml");
+    menuShouldBeActive(DASHBOARD_MENU);
   }
   
-  public static void toApplications(RemoteWebDriver driver)
+  public static void toApplications()
   {
-    toMenu(driver, APPLICATIONS_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("applications.xhtml"));
+    toMenu(APPLICATIONS_MENU);
+    WebBase.assertCurrentUrlEndsWith("applications.xhtml");
+    menuShouldBeActive(APPLICATIONS_MENU);
   }
   
-  public static void toApplicationDetail(RemoteWebDriver driver, String appName)
+  public static void toApplicationDetail(String appName)
   {
-    Navigation.toApplications(driver);
-    driver.findElementByXPath("//span[@class='activity-name'][text()='" + appName + "']").click();
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("application-detail.xhtml?appName=" + appName)); 
+    Navigation.toApplications();
+    $$(".activity-name").find(text(appName)).shouldBe(visible).click();
+    WebBase.assertCurrentUrlEndsWith("application-detail.xhtml?appName=" + appName);
+    menuShouldBeActive(APPLICATIONS_MENU);
   }
   
-  public static void toSecuritySystem(RemoteWebDriver driver)
+  public static void toSecuritySystem()
   {
-    toSubMenu(driver, SECURITY_MENU, SECURITY_SYSTEM_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("securitysystem.xhtml"));
+    toSubMenu(SECURITY_MENU, SECURITY_SYSTEM_MENU);
+    WebBase.assertCurrentUrlEndsWith("securitysystem.xhtml");
+    menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
   
-  public static void toSecuritySystemDetail(RemoteWebDriver driver, String secSystemName)
+  public static void toSecuritySystemDetail(String secSystemName)
   {
-    Navigation.toSecuritySystem(driver);
-    waitBeforeClick(driver, By.xpath("//span[@class='security-name'][text()='" + secSystemName + "']"));
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("security-detail.xhtml?securitySystemName=" + secSystemName)); 
-  }
-
-  public static void toVariables(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, CONFIGURATION_MENU, VARIABLES_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("global-variables.xhtml"));
-  }
-  
-  public static void toBusinessCalendar(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, CONFIGURATION_MENU, BUSINESS_CALENDAR_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("businesscalendar.xhtml"));
-  }
-  
-  public static void toBusinessCalendarDetail(RemoteWebDriver driver, String calendarName)
-  {
-    Navigation.toBusinessCalendar(driver);
-    driver.findElementByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[contains(@id, 'calendarNode')][text()='" + calendarName + "']").click();
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName));
-  }
-  
-  public static void toUsers(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SECURITY_MENU, SECURITY_USER_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("users.xhtml"));
-  }
-  
-  public static void toUserDetail(RemoteWebDriver driver, String userName)
-  {
-    Navigation.toUsers(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='user-name'][text()='" + userName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("userdetail.xhtml?userName=" + userName)); 
-  }
-  
-  public static void toRoles(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SECURITY_MENU, SECURITY_ROLES_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("roles.xhtml"));
-  }
-  
-  public static void toRoleDetail(RemoteWebDriver driver, String roleName)
-  {
-    Navigation.toRoles(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//a[@class='role-name'][text()='" + roleName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("roledetail.xhtml?roleName=" + roleName)); 
-  }
-  
-  public static void toSearchEngine(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SERVICES_MENU, SERVICES_SEARCH_ENGINE);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("searchengine.xhtml"));
-  }
-  
-  public static void toEmail(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SERVICES_MENU, SERVICES_EMAIL_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("email.xhtml"));
-  }
-  
-  public static void toExternalDatabases(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SERVICES_MENU, SERVICES_DATABASES_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("externaldatabases.xhtml"));
-  }
-  
-  public static void toExternalDatabaseDetail(RemoteWebDriver driver, String databaseName)
-  {
-    Navigation.toExternalDatabases(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='database-name'][text()='" + databaseName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName)); 
-  }
-  
-  public static void toRestClients(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SERVICES_MENU, SERVICES_RESTCLIENTS_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("restclients.xhtml"));
-  }
-  
-  public static void toRestClientDetail(RemoteWebDriver driver, String restClientName)
-  {
-    Navigation.toRestClients(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='restclient-name'][text()='" + restClientName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("restclientdetail.xhtml?restClientName=" + restClientName)); 
-  }
-  
-  public static void toWebservices(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SERVICES_MENU, SERVICES_WEBSERVICES_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("webservices.xhtml"));
-  }
-  
-  public static void toWebserviceDetail(RemoteWebDriver driver, String webserviceName)
-  {
-    Navigation.toWebservices(driver);
-    driver.findElementsByXPath("//div[contains(@class, 'ui-tabs-panel')]//span[@class='webservice-name'][text()='" + webserviceName + "']").stream()
-            .filter(e -> checkIfCorrectElement(e))
-            .forEach(e -> e.click());
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().contains("webservicedetail.xhtml?webserviceId=")); 
-  }
-  
-  public static void toAdmins(RemoteWebDriver driver)
-  {
-    toSubMenu(driver, SYSTEM_MENU, SYSTEM_ADMINS);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("admins.xhtml"));
+    Navigation.toSecuritySystem();
+    $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
+    WebBase.assertCurrentUrlEndsWith("security-detail.xhtml?securitySystemName=" + secSystemName);
+    menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
-  public static void toSystemDb(RemoteWebDriver driver)
+  public static void toVariables()
   {
-    toSubMenu(driver, SYSTEM_MENU, SYSTEM_SYSTEMDB_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemdb.xhtml"));
+    toSubMenu(CONFIGURATION_MENU, VARIABLES_MENU);
+    WebBase.assertCurrentUrlEndsWith("global-variables.xhtml");
+    menuShouldBeActive(VARIABLES_MENU);
   }
   
-  public static void toSystemConfig(RemoteWebDriver driver)
+  public static void toBusinessCalendar()
   {
-    toSubMenu(driver, SYSTEM_MENU, SYSTEM_CONFIG_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("systemconfig.xhtml"));
+    toSubMenu(CONFIGURATION_MENU, BUSINESS_CALENDAR_MENU);
+    WebBase.assertCurrentUrlEndsWith("businesscalendar.xhtml");
+    menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
   
-  public static void toCluster(RemoteWebDriver driver)
+  public static void toBusinessCalendarDetail(String calendarName)
   {
-    driver.get(viewUrl("cluster.xhtml?cluster"));
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("cluster.xhtml"));
+    Navigation.toBusinessCalendar();
+    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content a").find(text(calendarName)).shouldBe(visible).click();
+    WebBase.assertCurrentUrlEndsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName);
+    menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
   
-  public static void toEditor(RemoteWebDriver driver)
+  public static void toUsers()
   {
-    toSubMenu(driver, SYSTEM_MENU, SYSTEM_EDITOR_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("editor.xhtml"));
+    toSubMenu(SECURITY_MENU, SECURITY_USER_MENU);
+    WebBase.assertCurrentUrlEndsWith("users.xhtml");
+    menuShouldBeActive(SECURITY_USER_MENU);
   }
   
-  public static void toResourcesMonitor(RemoteWebDriver driver)
+  public static void toUserDetail(String userName)
   {
-    toSubMenu(driver, MONITOR_MENU, MONITOR_RESOURCES_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().endsWith("monitor.xhtml"));
+    Navigation.toUsers();
+    $$(Tab.ACITVE_PANEL_CSS + " .user-name").find(text(userName)).shouldBe(visible).click();
+    WebBase.assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + userName);
+    menuShouldBeActive(SECURITY_USER_MENU);
   }
   
-  public static void toLogs(RemoteWebDriver driver)
+  public static void toRoles()
   {
-    toSubMenu(driver, MONITOR_MENU, MONITOR_LOGS_MENU);
-    WebBase.webAssertThat(() -> driver.getCurrentUrl().contains("logs.xhtml"));
+    toSubMenu(SECURITY_MENU, SECURITY_ROLES_MENU);
+    WebBase.assertCurrentUrlEndsWith("roles.xhtml");
+    menuShouldBeActive(SECURITY_ROLES_MENU);
   }
   
-  private static void toMenu(RemoteWebDriver driver, By menuItemPath)
+  public static void toRoleDetail(String roleName)
   {
-    driver.findElement(menuItemPath).click();
-    WebBase.webAssertThat(() -> driver.findElement(menuItemPath).findElement(By.xpath("./..")).
-            getAttribute("class").contains("active-menuitem"));
+    Navigation.toRoles();
+    $$(Tab.ACITVE_PANEL_CSS + " .role-name").find(text(roleName)).shouldBe(visible).click();
+    WebBase.assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + roleName);
+    menuShouldBeActive(SECURITY_ROLES_MENU);
   }
   
-  private static void toSubMenu(RemoteWebDriver driver, By menuItemPath, By subMenuItemPath)
+  public static void toSearchEngine()
   {
-    if(!driver.findElement(subMenuItemPath).isDisplayed()) {
-      waitBeforeClick(driver, menuItemPath);
+    toSubMenu(SERVICES_MENU, SERVICES_SEARCH_ENGINE);
+    WebBase.assertCurrentUrlEndsWith("searchengine.xhtml");
+    menuShouldBeActive(SERVICES_SEARCH_ENGINE);
+  }
+  
+  public static void toEmail()
+  {
+    toSubMenu(SERVICES_MENU, SERVICES_EMAIL_MENU);
+    WebBase.assertCurrentUrlEndsWith("email.xhtml");
+    menuShouldBeActive(SERVICES_EMAIL_MENU);
+  }
+  
+  public static void toExternalDatabases()
+  {
+    toSubMenu(SERVICES_MENU, SERVICES_DATABASES_MENU);
+    WebBase.assertCurrentUrlEndsWith("externaldatabases.xhtml");
+    menuShouldBeActive(SERVICES_DATABASES_MENU);
+  }
+  
+  public static void toExternalDatabaseDetail(String databaseName)
+  {
+    Navigation.toExternalDatabases();
+    $$(Tab.ACITVE_PANEL_CSS + " .database-name").find(text(databaseName)).shouldBe(visible).click();
+    WebBase.assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName);
+    menuShouldBeActive(SERVICES_DATABASES_MENU);
+  }
+  
+  public static void toRestClients()
+  {
+    toSubMenu(SERVICES_MENU, SERVICES_RESTCLIENTS_MENU);
+    WebBase.assertCurrentUrlEndsWith("restclients.xhtml");
+    menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
+  }
+  
+  public static void toRestClientDetail(String restClientName)
+  {
+    Navigation.toRestClients();
+    $$(Tab.ACITVE_PANEL_CSS + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
+    WebBase.assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + restClientName);
+    menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
+  }
+  
+  public static void toWebservices()
+  {
+    toSubMenu(SERVICES_MENU, SERVICES_WEBSERVICES_MENU);
+    WebBase.assertCurrentUrlEndsWith("webservices.xhtml");
+    menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
+  }
+  
+  public static void toWebserviceDetail(String webserviceName)
+  {
+    Navigation.toWebservices();
+    $$(Tab.ACITVE_PANEL_CSS + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
+    WebBase.assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
+    menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
+  }
+  
+  public static void toAdmins()
+  {
+    toSubMenu(SYSTEM_MENU, SYSTEM_ADMINS);
+    WebBase.assertCurrentUrlEndsWith("admins.xhtml");
+    menuShouldBeActive(SYSTEM_ADMINS);
+  }
+
+  public static void toSystemDb()
+  {
+    toSubMenu(SYSTEM_MENU, SYSTEM_SYSTEMDB_MENU);
+    WebBase.assertCurrentUrlEndsWith("systemdb.xhtml");
+    menuShouldBeActive(SYSTEM_SYSTEMDB_MENU);
+  }
+  
+  public static void toSystemConfig()
+  {
+    toSubMenu(SYSTEM_MENU, SYSTEM_CONFIG_MENU);
+    WebBase.assertCurrentUrlEndsWith("systemconfig.xhtml");
+    menuShouldBeActive(SYSTEM_CONFIG_MENU);
+  }
+  
+  public static void toCluster()
+  {
+    Selenide.open(viewUrl("cluster.xhtml?cluster"));
+    WebBase.assertCurrentUrlContains("cluster.xhtml");
+    menuShouldBeActive(SYSTEM_CLUSTER);
+  }
+  
+  public static void toEditor()
+  {
+    toSubMenu(SYSTEM_MENU, SYSTEM_EDITOR_MENU);
+    WebBase.assertCurrentUrlEndsWith("editor.xhtml");
+    menuShouldBeActive(SYSTEM_EDITOR_MENU);
+  }
+  
+  public static void toResourcesMonitor()
+  {
+    toSubMenu(MONITOR_MENU, MONITOR_RESOURCES_MENU);
+    WebBase.assertCurrentUrlEndsWith("monitor.xhtml");
+    menuShouldBeActive(MONITOR_RESOURCES_MENU);
+  }
+  
+  public static void toLogs()
+  {
+    toSubMenu(MONITOR_MENU, MONITOR_LOGS_MENU);
+    WebBase.assertCurrentUrlContains("logs.xhtml");
+    menuShouldBeActive(MONITOR_LOGS_MENU);
+  }
+  
+  private static void toMenu(String menuItemPath)
+  {
+    $(menuItemPath).find("a").click();
+    menuShouldBeActive(menuItemPath);
+  }
+  
+  private static void toSubMenu(String menuItemPath, String subMenuItemPath)
+  {
+    $(menuItemPath).shouldBe(visible);
+    if(!$(subMenuItemPath).isDisplayed()) {
+      $(menuItemPath).find("a").click();
     }
-    waitBeforeClick(driver, subMenuItemPath);
-    WebBase.webAssertThat(() -> driver.findElement(subMenuItemPath).findElement(By.xpath("./..")).
-            getAttribute("class").contains("active-menuitem"));
+    $(subMenuItemPath).find("a").shouldBe(visible).click();
+    menuShouldBeActive(subMenuItemPath);
   }
   
-  private static boolean checkIfCorrectElement(WebElement element)
+  private static void menuShouldBeActive(String menu)
   {
-    try
-    {
-      return element.isDisplayed();
-    }
-    catch (StaleElementReferenceException e)
-    {
-      return false;
-    }
+    $(menu).shouldHave(cssClass("active-menuitem"));
   }
   
-  private static void waitBeforeClick(RemoteWebDriver driver, By element)
-  {
-    WebBase.webAssertThat(() -> driver.findElement(element).isDisplayed());
-    driver.findElement(element).click();
-  }
-
 }

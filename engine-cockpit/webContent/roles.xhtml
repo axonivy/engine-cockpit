@@ -21,8 +21,8 @@
     <ui:define name="content">
       <h:form id="form">
         <p:growl id="msgs" />
-        <cc:SingleCard>
-          <cc:ApplicationTabs tabChange="#{roleBean.reloadRoles}">
+        <cc:SingleCard id="card">
+          <cc:ApplicationTabs tabChange="#{roleBean.reloadRoles}" id="tabs">
             <div class="ui-g">
               <div class="ui-g-12 ui-md-9">
                 <h1>
