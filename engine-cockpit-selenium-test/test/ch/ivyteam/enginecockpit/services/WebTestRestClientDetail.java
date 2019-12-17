@@ -64,7 +64,7 @@ public class WebTestRestClientDetail extends WebTestBase
   private void testAndAssertConnection(String msg)
   {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
-    $("#restClientConfigurationForm\\:testRestBtn").click();
+    $("#restClientConfigurationForm\\:testRestBtn").shouldBe(visible).click();
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
     $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(msg));
