@@ -4,7 +4,7 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:commandButton id="showAdSyncLogBtn" icon="fa fa-info" styleClass="secondary-btn"
-  rendered="#{securityBean.isNewLogAwailable()}" type="button" />
+  rendered="#{securityBean.isNewLogAwailable() and !securityBean.ivySecurityForSelectedApp}" type="button" />
 <p:overlayPanel rendered="#{securityBean.isNewLogAwailable()}" id="adSyncLog" for="showAdSyncLogBtn"
   hideEffect="fade">
   <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto; background-image: none;" readonly="true" id="logViewer"

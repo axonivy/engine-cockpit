@@ -30,12 +30,14 @@
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-3" style="margin: auto;">
-                <div class="single-card-top-right-btn">
-                  <ui:include src="components/security/adsyncbtn.xhtml" />
-                </div>
-                <div style="float: right; margin-right: 5px;">
-                  <ui:include src="components/security/adsynclog.xhtml" />
-                </div>
+                <h:panelGroup id="syncPanel">
+                  <div class="single-card-top-right-btn">
+                    <ui:include src="components/security/adsyncbtn.xhtml" />
+                  </div>
+                  <div style="float: right; margin-right: 5px;">
+                    <ui:include src="components/security/adsynclog.xhtml" />
+                  </div>
+                </h:panelGroup>
               </div>
             </div>
             <div class="ui-tree-search-header">
