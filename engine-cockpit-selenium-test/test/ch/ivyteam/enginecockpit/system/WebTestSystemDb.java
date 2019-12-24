@@ -32,8 +32,8 @@ public class WebTestSystemDb extends WebTestBase
   private static final String SYS_DB_USER = "root";
   private static final String CONNECTION_BUTTON = "#systemDb\\:systemDbForm\\:checkConnectionButton";
   private static final String CONNECTION_PANEL = "#systemDb\\:systemDbForm\\:connectionPanel";
-  private static final String OLD_DB_NAME = "engine_cockpit_old_db_version44";
-  private static final String TEST_DB_NAME = "engine_cockpit_test_temp";
+  private static final String OLD_DB_NAME = "old_version_60";
+  private static final String TEST_DB_NAME = "temp";
   
   @AfterEach
   void cleanup()

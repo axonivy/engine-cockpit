@@ -85,9 +85,6 @@ BEGIN
   DELETE FROM IWA_PageElement
   WHERE IWA_PageElement.ProcessModelVersionId = OLD.ProcessModelVersionId;
 
-  DELETE FROM IWA_ProcessModelVersionRole
-  WHERE IWA_ProcessModelVersionRole.ProcessModelVersionId = OLD.ProcessModelVersionId;
-
   DELETE FROM IWA_TaskElement
   WHERE IWA_TaskElement.ProcessModelVersionId = OLD.ProcessModelVersionId;
 
@@ -98,6 +95,15 @@ BEGIN
   WHERE IWA_ContentManagementSystem.ProcessModelVersionId = OLD.ProcessModelVersionId;
 END;
 
+CREATE TRIGGER IWA_LibraryDeleteTrigger
+AFTER DELETE ON IWA_Library
+FOR EACH ROW
+BEGIN
+  UPDATE IWA_LibrarySpecification
+  SET ResolvedLibraryId=NULL
+  WHERE IWA_LibrarySpecification.ResolvedLibraryId=OLD.LibraryId;
+END;
+
 CREATE TRIGGER IWA_RoleDeleteTrigger
 AFTER DELETE ON IWA_Role
 FOR EACH ROW
@@ -105,9 +111,6 @@ BEGIN
   UPDATE IWA_Task
   SET State=9, FailedTimeoutTimestamp=NULL, WorkerUserId=NULL, WorkerUserName=NULL
   WHERE ((IWA_Task.ActivatorRoleId=OLD.RoleId AND IWA_Task.IsExpired=0) OR (IWA_Task.ExpiryActivatorRoleId=OLD.RoleId AND IWA_Task.IsExpired=1)) AND (IWA_Task.State=3 OR IWA_Task.State=4 OR IWA_Task.State=8 OR IWA_Task.State=10);
-
-  DELETE FROM IWA_ProcessModelVersionRole
-  WHERE IWA_ProcessModelVersionRole.RoleId = OLD.RoleId;
 
   DELETE FROM IWA_RoleProperty
   WHERE IWA_RoleProperty.RoleId = OLD.RoleId;
@@ -135,6 +138,10 @@ BEGIN
   UPDATE IWA_WebServiceProcStartElement
   SET ActivatorRoleId=NULL
   WHERE IWA_WebServiceProcStartElement.ActivatorRoleId=OLD.RoleId;
+
+  UPDATE IWA_Case
+  SET OwnerRoleId=NULL
+  WHERE IWA_Case.OwnerRoleId=OLD.RoleId;
 
   UPDATE IWA_Task
   SET ActivatorRoleId=NULL
@@ -166,9 +173,6 @@ BEGIN
   DELETE FROM IWA_UserProperty
   WHERE IWA_UserProperty.UserId = OLD.UserId;
 
-  DELETE FROM IWA_RichDialogUserContext
-  WHERE IWA_RichDialogUserContext.UserId = OLD.UserId;
-
   DELETE FROM IWA_UserAbsence
   WHERE IWA_UserAbsence.UserId = OLD.UserId;
 
@@ -185,6 +189,10 @@ BEGIN
   UPDATE IWA_Case
   SET CreatorUserId=NULL
   WHERE IWA_Case.CreatorUserId=OLD.UserId;
+
+  UPDATE IWA_Case
+  SET OwnerUserId=NULL
+  WHERE IWA_Case.OwnerUserId=OLD.UserId;
 
   UPDATE IWA_Task
   SET WorkerUserId=NULL
@@ -285,14 +293,14 @@ BEGIN
   DELETE FROM IWA_Task
   WHERE IWA_Task.CaseId = OLD.CaseId;
 
+  DELETE FROM IWA_Task
+  WHERE IWA_Task.BusinessCaseId = OLD.CaseId;
+
   DELETE FROM IWA_WorkflowEvent
   WHERE IWA_WorkflowEvent.CaseId = OLD.CaseId;
 
   DELETE FROM IWA_CaseNote
   WHERE IWA_CaseNote.CaseId = OLD.CaseId;
-
-  DELETE FROM IWA_CaseAdditionalProperty
-  WHERE IWA_CaseAdditionalProperty.CaseId = OLD.CaseId;
 END;
 
 CREATE TRIGGER IWA_TaskDeleteTrigger
@@ -310,9 +318,6 @@ BEGIN
 
   DELETE FROM IWA_TaskNote
   WHERE IWA_TaskNote.TaskId = OLD.TaskId;
-
-  DELETE FROM IWA_TaskAdditionalProperty
-  WHERE IWA_TaskAdditionalProperty.TaskId = OLD.TaskId;
 
   DELETE FROM IWA_TaskLocation
   WHERE IWA_TaskLocation.TaskId = OLD.TaskId;
@@ -355,22 +360,6 @@ BEGIN
   WHERE IWA_Note.NoteId = OLD.NoteId;
 END;
 
-CREATE TRIGGER IWA_TaskAdditionalPropertyDeleteTrigger
-AFTER DELETE ON IWA_TaskAdditionalProperty
-FOR EACH ROW
-BEGIN
-  DELETE FROM IWA_AdditionalProperty
-  WHERE IWA_AdditionalProperty.AdditionalPropertyId = OLD.AdditionalPropertyId;
-END;
-
-CREATE TRIGGER IWA_CaseAdditionalPropertyDeleteTrigger
-AFTER DELETE ON IWA_CaseAdditionalProperty
-FOR EACH ROW
-BEGIN
-  DELETE FROM IWA_AdditionalProperty
-  WHERE IWA_AdditionalProperty.AdditionalPropertyId = OLD.AdditionalPropertyId;
-END;
-
 CREATE TRIGGER IWA_SignaledTaskDeleteTrigger
 AFTER DELETE ON IWA_SignaledTask
 FOR EACH ROW
@@ -401,9 +390,6 @@ BEGIN
 
   DELETE FROM IWA_ContentObject
   WHERE IWA_ContentObject.ContentManagementSystemId = OLD.ContentManagementSystemId;
-
-  DELETE FROM IWA_StartPage
-  WHERE IWA_StartPage.ContentManagementSystemId = OLD.ContentManagementSystemId;
 END;
 
 CREATE TRIGGER IWA_ContentObjectDeleteTrigger
@@ -418,9 +404,6 @@ BEGIN
   SET DefaultPageStyleSheetId=NULL
   WHERE IWA_ContentManagementSystem.DefaultPageStyleSheetId=OLD.ContentObjectId;
 
-  DELETE FROM IWA_StartPage
-  WHERE IWA_StartPage.ContentObjectId = OLD.ContentObjectId;
-
   DELETE FROM IWA_ContentObjectValue
   WHERE IWA_ContentObjectValue.ContentObjectId = OLD.ContentObjectId;
 END;
@@ -432,23 +415,11 @@ BEGIN
   DELETE FROM IWA_ContentDataString
   WHERE IWA_ContentDataString.ContentObjectValueId = OLD.ContentObjectValueId;
 
-  DELETE FROM IWA_ContentDataInteger
-  WHERE IWA_ContentDataInteger.ContentObjectValueId = OLD.ContentObjectValueId;
-
-  DELETE FROM IWA_ContentDataFloat
-  WHERE IWA_ContentDataFloat.ContentObjectValueId = OLD.ContentObjectValueId;
-
-  DELETE FROM IWA_ContentDataDateTime
-  WHERE IWA_ContentDataDateTime.ContentObjectValueId = OLD.ContentObjectValueId;
-
   DELETE FROM IWA_ContentDataText
   WHERE IWA_ContentDataText.ContentObjectValueId = OLD.ContentObjectValueId;
 
   DELETE FROM IWA_ContentDataImage
   WHERE IWA_ContentDataImage.ContentObjectValueId = OLD.ContentObjectValueId;
-
-  DELETE FROM IWA_ContentDataDecimal
-  WHERE IWA_ContentDataDecimal.ContentObjectValueId = OLD.ContentObjectValueId;
 END;
 
 CREATE TRIGGER IWA_SecurityDescriptorDeleteTrigger

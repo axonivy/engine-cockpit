@@ -60,9 +60,7 @@ CREATE TABLE IWA_Application
   Name VARCHAR(40) NOT NULL,
   Description VARCHAR(2000) DEFAULT '',
   OwnerName VARCHAR(40) NOT NULL,
-  OwnerPassword VARCHAR(200) NOT NULL,
   SystemUserId BIGINT,
-  DownloadPassword VARCHAR(200),
   ExternalSecuritySystemName VARCHAR(200) NOT NULL DEFAULT 'ivyteam.webapp.workflow.InternalAuthenticationAuthorizationSys',
   SecurityDescriptorId BIGINT DEFAULT NULL,
   `State` INTEGER NOT NULL,
@@ -113,13 +111,10 @@ CREATE TABLE IWA_WebService
   GenerationIdentifier VARCHAR(200) NOT NULL,
   Name VARCHAR(200) NOT NULL,
   Description TEXT NOT NULL,
-  Tag VARCHAR(200),
   WsdlUrl VARCHAR(2000) NOT NULL,
   TransportSession BIT NOT NULL,
   SessionHandlingMode INTEGER NOT NULL,
   WebServiceFramework VARCHAR(200) NOT NULL,
-  GenerationPropertiesVersion INTEGER NOT NULL,
-  GenerationProperties TEXT,
   PRIMARY KEY (WebServiceId),
   FOREIGN KEY (ApplicationId) REFERENCES IWA_Application(ApplicationId) ON DELETE CASCADE,
   UNIQUE (ApplicationId, GenerationIdentifier)
@@ -140,6 +135,26 @@ CREATE TABLE IWA_WebServiceEnvironment
   FOREIGN KEY (ApplicationId) REFERENCES IWA_Application(ApplicationId) ON DELETE CASCADE,
   FOREIGN KEY (WebServiceId) REFERENCES IWA_WebService(WebServiceId) ON DELETE CASCADE,
   FOREIGN KEY (EnvironmentId) REFERENCES IWA_Environment(EnvironmentId) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_WebServiceFeature
+(
+  WebServiceFeatureId BIGINT NOT NULL,
+  WebServiceEnvironmentId BIGINT NOT NULL,
+  Class VARCHAR(200) NOT NULL,
+  PRIMARY KEY (WebServiceFeatureId),
+  FOREIGN KEY (WebServiceEnvironmentId) REFERENCES IWA_WebServiceEnvironment(WebServiceEnvironmentId) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_WebServiceProperty
+(
+  WebServicePropertyId BIGINT NOT NULL,
+  WebServiceEnvironmentId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  `Value` VARCHAR(1024) NOT NULL,
+  IsPassword BIT NOT NULL,
+  PRIMARY KEY (WebServicePropertyId),
+  FOREIGN KEY (WebServiceEnvironmentId) REFERENCES IWA_WebServiceEnvironment(WebServiceEnvironmentId) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_WebServicePortType
@@ -203,7 +218,6 @@ CREATE TABLE IWA_ExternalDatabase
   DriverName VARCHAR(200) NOT NULL,
   UserName VARCHAR(40),
   UserPassword VARCHAR(200),
-  AccessFlags INTEGER NOT NULL,
   ApplicationId BIGINT NOT NULL,
   MaxNumberOfConnections INTEGER NOT NULL DEFAULT 1,
   AutoCommitEnabled BIT NOT NULL DEFAULT 1,
@@ -279,8 +293,8 @@ CREATE TABLE IWA_LibrarySpecification
   `Position` INTEGER NOT NULL,
   PRIMARY KEY (LibrarySpecificationId),
   FOREIGN KEY (LibraryId) REFERENCES IWA_Library(LibraryId) ON DELETE CASCADE,
-  FOREIGN KEY (ResolvedLibraryId) REFERENCES IWA_Library(LibraryId) ON DELETE SET NULL,
-  UNIQUE (LibraryId, Id)
+  UNIQUE (LibraryId, Id),
+  INDEX LibrarySpecification_ResolvedLibraryId (ResolvedLibraryId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_LibraryVersionSpec
@@ -295,6 +309,20 @@ CREATE TABLE IWA_LibraryVersionSpec
   UNIQUE (LibrarySpecificationId, Minimum)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IWA_CaseMap
+(
+  CaseMapId BIGINT NOT NULL,
+  ProcessModelVersionId BIGINT NOT NULL,
+  ApplicationId BIGINT NOT NULL,
+  UUID VARCHAR(36) NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  Model TEXT NOT NULL,
+  PRIMARY KEY (CaseMapId),
+  FOREIGN KEY (ProcessModelVersionId) REFERENCES IWA_ProcessModelVersion(ProcessModelVersionId) ON DELETE CASCADE,
+  FOREIGN KEY (ApplicationId) REFERENCES IWA_Application(ApplicationId) ON DELETE CASCADE,
+  UNIQUE (ProcessModelVersionId, UUID)
+) ENGINE=InnoDB;
+
 CREATE TABLE IWA_PageElement
 (
   PageElementId BIGINT NOT NULL,
@@ -304,13 +332,6 @@ CREATE TABLE IWA_PageElement
   PageArchiveEnabled BIT NOT NULL,
   PRIMARY KEY (PageElementId),
   UNIQUE (ProcessModelVersionId, PID)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ProcessModelVersionRole
-(
-  ProcessModelVersionId BIGINT NOT NULL,
-  RoleId BIGINT NOT NULL,
-  PRIMARY KEY (ProcessModelVersionId, RoleId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_Role
@@ -379,17 +400,6 @@ CREATE TABLE IWA_UserProperty
   UNIQUE (UserId, PropertyName)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_RichDialogUserContext
-(
-  UserId BIGINT NOT NULL,
-  RichDialogUserContextId BIGINT NOT NULL,
-  ComponentName VARCHAR(255) NOT NULL,
-  ContextName VARCHAR(255) NOT NULL,
-  ContextStore TEXT NOT NULL,
-  PRIMARY KEY (RichDialogUserContextId),
-  UNIQUE (UserId, ComponentName, ContextName)
-) ENGINE=InnoDB;
-
 CREATE TABLE IWA_UserAbsence
 (
   UserAbsenceId BIGINT NOT NULL,
@@ -408,6 +418,7 @@ CREATE TABLE IWA_UserSubstitute
   SubstituteUserId BIGINT NOT NULL,
   SubstituteForRoleId BIGINT,
   Description VARCHAR(200) NOT NULL,
+  SubstitutionType INTEGER NOT NULL DEFAULT 0,
   PRIMARY KEY (UserSubstituteId),
   UNIQUE (UserId, SubstituteUserId, SubstituteForRoleId),
   INDEX IWA_UserSubstitute_UserIdIndex (UserId),
@@ -514,6 +525,8 @@ CREATE TABLE IWA_IntermediateEventElement
 CREATE TABLE IWA_Case
 (
   CaseId BIGINT NOT NULL,
+  BusinessCaseId BIGINT,
+  Kind INTEGER NOT NULL DEFAULT 0,
   ApplicationId BIGINT NOT NULL,
   ProcessModelId BIGINT NOT NULL,
   TaskStartId BIGINT NOT NULL,
@@ -532,46 +545,15 @@ CREATE TABLE IWA_Case
   BusinessRuntime BIGINT,
   `State` INTEGER NOT NULL,
   Priority INTEGER NOT NULL,
-  ProcessCategoryCode VARCHAR(20),
-  ProcessCategoryName VARCHAR(200),
-  ProcessCode VARCHAR(20),
-  ProcessName VARCHAR(200),
-  TypeCode VARCHAR(20),
-  TypeName VARCHAR(200),
-  SubTypeCode VARCHAR(20),
-  SubTypeName VARCHAR(200),
-  BusinessStartTimestamp DATETIME,
-  BusinessMilestoneTimestamp DATETIME,
-  BusinessPriority VARCHAR(200),
-  BusinessCreatorUser VARCHAR(200),
-  BusinessMainContactType VARCHAR(200),
-  BusinessMainContactId INTEGER,
-  BusinessMainContactName VARCHAR(200),
-  BusinessMainContactDocDbCode VARCHAR(20),
-  BusinessMainContactFolderId VARCHAR(200),
-  BusinessCorrespondentId INTEGER,
-  BusinessObjectCode VARCHAR(20),
-  BusinessObjectName VARCHAR(200),
-  BusinessObjectDocDbCode VARCHAR(20),
-  BusinessObjectFolderId VARCHAR(200),
-  CustomVarCharField1 VARCHAR(2000),
-  CustomVarCharField2 VARCHAR(2000),
-  CustomVarCharField3 VARCHAR(2000),
-  CustomVarCharField4 VARCHAR(2000),
-  CustomVarCharField5 VARCHAR(2000),
-  CustomDecimalField1 DECIMAL(30, 10),
-  CustomDecimalField2 DECIMAL(30, 10),
-  CustomDecimalField3 DECIMAL(30, 10),
-  CustomDecimalField4 DECIMAL(30, 10),
-  CustomDecimalField5 DECIMAL(30, 10),
-  CustomTimestampField1 DATETIME,
-  CustomTimestampField2 DATETIME,
-  CustomTimestampField3 DATETIME,
-  CustomTimestampField4 DATETIME,
-  CustomTimestampField5 DATETIME,
+  Stage VARCHAR(200) NOT NULL DEFAULT '',
+  OwnerRoleId BIGINT,
+  OwnerUserId BIGINT,
+  OwnerName VARCHAR(200),
+  Category VARCHAR(200) NOT NULL DEFAULT '',
   PRIMARY KEY (CaseId),
   FOREIGN KEY (EnvironmentId) REFERENCES IWA_Environment(EnvironmentId) ON DELETE SET NULL,
   FOREIGN KEY (BusinessCalendarId) REFERENCES IWA_BusinessCalendar(BusinessCalendarId) ON DELETE SET NULL,
+  INDEX IWA_Case_BusinessCaseIdIndex (BusinessCaseId),
   INDEX IWA_Case_CreatorUserIdIndex (CreatorUserId),
   INDEX IWA_Case_ApplicationIdIndex (ApplicationId),
   INDEX IWA_Case_ProcessModelIdIndex (ProcessModelId),
@@ -581,33 +563,17 @@ CREATE TABLE IWA_Case
   INDEX IWA_Case_NameIndex (Name),
   INDEX IWA_Case_WorkingTime (WorkingTime),
   INDEX IWA_Case_BusinessRuntime (BusinessRuntime),
-  INDEX IWA_Case_ProcessCategoryCode (ProcessCategoryCode),
-  INDEX IWA_Case_ProcessCode (ProcessCode),
-  INDEX IWA_Case_TypeCode (TypeCode),
-  INDEX IWA_Case_EndTimestamp (EndTimestamp),
-  INDEX IWA_Case_SubTypeCode (SubTypeCode),
-  INDEX IWA_Case_BusinessObjectCode (BusinessObjectCode),
-  INDEX IWA_Case_CustVarCharFld1Idx (CustomVarCharField1(255)),
-  INDEX IWA_Case_CustVarCharFld2Idx (CustomVarCharField2(255)),
-  INDEX IWA_Case_CustVarCharFld3Idx (CustomVarCharField3(255)),
-  INDEX IWA_Case_CustVarCharFld4Idx (CustomVarCharField4(255)),
-  INDEX IWA_Case_CustVarCharFld5Idx (CustomVarCharField5(255)),
-  INDEX IWA_Case_CustDecimalFld1Idx (CustomDecimalField1),
-  INDEX IWA_Case_CustDecimalFld2Idx (CustomDecimalField2),
-  INDEX IWA_Case_CustDecimalFld3Idx (CustomDecimalField3),
-  INDEX IWA_Case_CustDecimalFld4Idx (CustomDecimalField4),
-  INDEX IWA_Case_CustDecimalFld5Idx (CustomDecimalField5),
-  INDEX IWA_Case_CustTimestmpFld1Idx (CustomTimestampField1),
-  INDEX IWA_Case_CustTimestmpFld2Idx (CustomTimestampField2),
-  INDEX IWA_Case_CustTimestmpFld3Idx (CustomTimestampField3),
-  INDEX IWA_Case_CustTimestmpFld4Idx (CustomTimestampField4),
-  INDEX IWA_Case_CustTimestmpFld5Idx (CustomTimestampField5)
+  INDEX IWA_Case_OwnerRoleIdIndex (OwnerRoleId),
+  INDEX IWA_Case_OwnerUserIdIndex (OwnerUserId),
+  INDEX IWA_Case_Category (Category),
+  INDEX IWA_Case_EndTimestamp (EndTimestamp)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_Task
 (
   TaskId BIGINT NOT NULL,
   CaseId BIGINT NOT NULL,
+  BusinessCaseId BIGINT NOT NULL,
   ApplicationId BIGINT NOT NULL,
   ProcessModelId BIGINT NOT NULL,
   StartTaskSwitchEventId BIGINT NOT NULL,
@@ -645,29 +611,13 @@ CREATE TABLE IWA_Task
   FailedTimeoutTimestamp DATETIME,
   NumberOfFailures INTEGER NOT NULL,
   NumberOfResumes INTEGER,
-  KindCode VARCHAR(20),
-  KindName VARCHAR(200),
-  BusinessMilestoneTimestamp DATETIME,
-  CustomVarCharField1 VARCHAR(2000),
-  CustomVarCharField2 VARCHAR(2000),
-  CustomVarCharField3 VARCHAR(2000),
-  CustomVarCharField4 VARCHAR(2000),
-  CustomVarCharField5 VARCHAR(2000),
-  CustomDecimalField1 DECIMAL(30, 10),
-  CustomDecimalField2 DECIMAL(30, 10),
-  CustomDecimalField3 DECIMAL(30, 10),
-  CustomDecimalField4 DECIMAL(30, 10),
-  CustomDecimalField5 DECIMAL(30, 10),
-  CustomTimestampField1 DATETIME,
-  CustomTimestampField2 DATETIME,
-  CustomTimestampField3 DATETIME,
-  CustomTimestampField4 DATETIME,
-  CustomTimestampField5 DATETIME,
+  Category VARCHAR(200) NOT NULL DEFAULT '',
   IsUpdatedOnStart BIT NOT NULL,
   IsOffline BIT NOT NULL DEFAULT 0,
   PRIMARY KEY (TaskId),
   FOREIGN KEY (BusinessCalendarId) REFERENCES IWA_BusinessCalendar(BusinessCalendarId) ON DELETE SET NULL,
   INDEX IWA_Task_CaseIdIndex (CaseId),
+  INDEX IWA_Task_BusinessCaseIdIndex (BusinessCaseId),
   INDEX IWA_Task_WorkerUserIdIndex (WorkerUserId),
   INDEX IWA_Task_ProcessModelIdIndex (ProcessModelId),
   INDEX IWA_Task_ApplicationIdIndex (ApplicationId),
@@ -681,22 +631,7 @@ CREATE TABLE IWA_Task
   INDEX IWA_Task_WorkingTime (WorkingTime),
   INDEX IWA_Task_BusinessRuntime (BusinessRuntime),
   INDEX IWA_Task_NumberOfResumes (NumberOfResumes),
-  INDEX IWA_Task_KindCodeIndex (KindCode),
-  INDEX IWA_Task_CustVarCharFld1Idx (CustomVarCharField1(255)),
-  INDEX IWA_Task_CustVarCharFld2Idx (CustomVarCharField2(255)),
-  INDEX IWA_Task_CustVarCharFld3Idx (CustomVarCharField3(255)),
-  INDEX IWA_Task_CustVarCharFld4Idx (CustomVarCharField4(255)),
-  INDEX IWA_Task_CustVarCharFld5Idx (CustomVarCharField5(255)),
-  INDEX IWA_Task_CustDecimalFld1Idx (CustomDecimalField1),
-  INDEX IWA_Task_CustDecimalFld2Idx (CustomDecimalField2),
-  INDEX IWA_Task_CustDecimalFld3Idx (CustomDecimalField3),
-  INDEX IWA_Task_CustDecimalFld4Idx (CustomDecimalField4),
-  INDEX IWA_Task_CustDecimalFld5Idx (CustomDecimalField5),
-  INDEX IWA_Task_CustTimestmpFld1Idx (CustomTimestampField1),
-  INDEX IWA_Task_CustTimestmpFld2Idx (CustomTimestampField2),
-  INDEX IWA_Task_CustTimestmpFld3Idx (CustomTimestampField3),
-  INDEX IWA_Task_CustTimestmpFld4Idx (CustomTimestampField4),
-  INDEX IWA_Task_CustTimestmpFld5Idx (CustomTimestampField5)
+  INDEX IWA_Task_CategoryIndex (Category)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_TaskData
@@ -738,6 +673,39 @@ CREATE TABLE IWA_WorkflowEvent
   INDEX IWA_WorkflowEvent_UserNameIndex (UserName),
   INDEX IWA_WorkflowEvent_UserIdIndex (UserId),
   INDEX IWA_WorkflowEvent_EventKindIndex (EventKind)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_CaseMapBusinessCase
+(
+  BusinessCaseId BIGINT NOT NULL,
+  CaseMapId BIGINT NOT NULL,
+  PRIMARY KEY (BusinessCaseId),
+  FOREIGN KEY (BusinessCaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE,
+  FOREIGN KEY (CaseMapId) REFERENCES IWA_CaseMap(CaseMapId) ON DELETE CASCADE,
+  INDEX IWA_CaseMapBusCase_CsMpIdIdx (CaseMapId)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_CaseMapEvent
+(
+  CaseMapEventId BIGINT NOT NULL,
+  BusinessCaseId BIGINT NOT NULL,
+  `Timestamp` DATETIME NOT NULL,
+  Kind INTEGER NOT NULL,
+  Stage VARCHAR(200) NOT NULL,
+  Process VARCHAR(200) NOT NULL,
+  ProcessCaseId BIGINT,
+  Milestone VARCHAR(200) NOT NULL,
+  Reason VARCHAR(200) NOT NULL,
+  ProcessingState INTEGER NOT NULL,
+  ProcessingErrorMessage VARCHAR(750) NOT NULL,
+  ProcessingErrorCount INTEGER NOT NULL,
+  ProcessingRetryTimestamp DATETIME,
+  PRIMARY KEY (CaseMapEventId),
+  FOREIGN KEY (BusinessCaseId) REFERENCES IWA_CaseMapBusinessCase(BusinessCaseId) ON DELETE CASCADE,
+  FOREIGN KEY (ProcessCaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE,
+  INDEX IWA_CaseMapEvent_BcId (BusinessCaseId),
+  INDEX IWA_CaseMapEvent_PrcRtryTstmp (ProcessingRetryTimestamp),
+  INDEX IWA_CaseMapEvent_PrcState (ProcessingState)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_IntermediateEvent
@@ -935,27 +903,100 @@ CREATE TABLE IWA_CaseNote
   PRIMARY KEY (CaseId, NoteId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_AdditionalProperty
+CREATE TABLE IWA_TaskCustomStringField
 (
-  AdditionalPropertyId BIGINT NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  `Value` MEDIUMTEXT NOT NULL,
-  PRIMARY KEY (AdditionalPropertyId),
-  INDEX IWA_AdditionalProperty_NameIndex (Name)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_TaskAdditionalProperty
-(
+  TaskCustomStringFieldId BIGINT NOT NULL,
   TaskId BIGINT NOT NULL,
-  AdditionalPropertyId BIGINT NOT NULL,
-  PRIMARY KEY (TaskId, AdditionalPropertyId)
+  Name VARCHAR(200) NOT NULL,
+  `Value` VARCHAR(2000) NOT NULL,
+  PRIMARY KEY (TaskCustomStringFieldId),
+  FOREIGN KEY (TaskId) REFERENCES IWA_Task(TaskId) ON DELETE CASCADE,
+  UNIQUE (TaskId, Name),
+  INDEX IWA_TaskCstmStringFldNmValIdx (Name(55), `Value`(200))
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_CaseAdditionalProperty
+CREATE TABLE IWA_TaskCustomTextField
 (
+  TaskCustomTextFieldId BIGINT NOT NULL,
+  TaskId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  `Value` TEXT NOT NULL,
+  PRIMARY KEY (TaskCustomTextFieldId),
+  FOREIGN KEY (TaskId) REFERENCES IWA_Task(TaskId) ON DELETE CASCADE,
+  UNIQUE (TaskId, Name),
+  INDEX IWA_TaskCstmTextFldNameIdx (Name)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_TaskCustomNumberField
+(
+  TaskCustomNumberFieldId BIGINT NOT NULL,
+  TaskId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  `Value` DECIMAL(30, 10) NOT NULL,
+  PRIMARY KEY (TaskCustomNumberFieldId),
+  FOREIGN KEY (TaskId) REFERENCES IWA_Task(TaskId) ON DELETE CASCADE,
+  UNIQUE (TaskId, Name),
+  INDEX IWA_TaskCstmNumberFldNmValIdx (Name, `Value`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_TaskCustomTimestampField
+(
+  TaskCustomTimestampFieldId BIGINT NOT NULL,
+  TaskId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  `Value` DATETIME NOT NULL,
+  PRIMARY KEY (TaskCustomTimestampFieldId),
+  FOREIGN KEY (TaskId) REFERENCES IWA_Task(TaskId) ON DELETE CASCADE,
+  UNIQUE (TaskId, Name),
+  INDEX IWA_TaskCstmTmstmpFldNmValIdx (Name, `Value`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_CaseCustomStringField
+(
+  CaseCustomStringFieldId BIGINT NOT NULL,
   CaseId BIGINT NOT NULL,
-  AdditionalPropertyId BIGINT NOT NULL,
-  PRIMARY KEY (CaseId, AdditionalPropertyId)
+  Name VARCHAR(200) NOT NULL,
+  `Value` VARCHAR(2000) NOT NULL,
+  PRIMARY KEY (CaseCustomStringFieldId),
+  FOREIGN KEY (CaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE,
+  UNIQUE (CaseId, Name),
+  INDEX IWA_CaseCstmStringFldNmValIdx (Name(55), `Value`(200))
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_CaseCustomTextField
+(
+  CaseCustomTextFieldId BIGINT NOT NULL,
+  CaseId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  `Value` TEXT NOT NULL,
+  PRIMARY KEY (CaseCustomTextFieldId),
+  FOREIGN KEY (CaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE,
+  UNIQUE (CaseId, Name),
+  INDEX IWA_CaseCstmTextFldNameIdx (Name)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_CaseCustomNumberField
+(
+  CaseCustomNumberFieldId BIGINT NOT NULL,
+  CaseId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  `Value` DECIMAL(30, 10) NOT NULL,
+  PRIMARY KEY (CaseCustomNumberFieldId),
+  FOREIGN KEY (CaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE,
+  UNIQUE (CaseId, Name),
+  INDEX IWA_CaseCstmNumberFldNmValIdx (Name, `Value`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_CaseCustomTimestampField
+(
+  CaseCustomTimestampFieldId BIGINT NOT NULL,
+  CaseId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  `Value` DATETIME NOT NULL,
+  PRIMARY KEY (CaseCustomTimestampFieldId),
+  FOREIGN KEY (CaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE,
+  UNIQUE (CaseId, Name),
+  INDEX IWA_CaseCstmTmstmpFldNmValIdx (Name, `Value`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_UserLocation
@@ -1048,6 +1089,7 @@ CREATE TABLE IWA_StartSignalEventElement
 (
   TaskStartId BIGINT NOT NULL,
   SignalCodePattern VARCHAR(200) NOT NULL,
+  AttachToBusinessCase BIT NOT NULL DEFAULT 0,
   PRIMARY KEY (TaskStartId),
   INDEX IWA_StrtSigEvntElmnt_SgCdPttrn (SignalCodePattern)
 ) ENGINE=InnoDB;
@@ -1143,16 +1185,6 @@ CREATE TABLE IWA_ContentObject
   INDEX IWA_ContentObject_ParentContentObjectIdIndex (ParentContentObjectId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_StartPage
-(
-  StartPageId BIGINT NOT NULL,
-  ContentObjectId BIGINT,
-  ExternalUri VARCHAR(500),
-  ContentManagementSystemId BIGINT NOT NULL,
-  PRIMARY KEY (StartPageId),
-  INDEX IWA_StartPage_ContentManagementSystemIdIndex (ContentManagementSystemId)
-) ENGINE=InnoDB;
-
 CREATE TABLE IWA_ContentObjectValue
 (
   ContentObjectValueId BIGINT NOT NULL,
@@ -1177,27 +1209,6 @@ CREATE TABLE IWA_ContentDataString
   PRIMARY KEY (ContentObjectValueId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_ContentDataInteger
-(
-  ContentObjectValueId BIGINT NOT NULL,
-  `Value` INTEGER,
-  PRIMARY KEY (ContentObjectValueId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentDataFloat
-(
-  ContentObjectValueId BIGINT NOT NULL,
-  `Value` FLOAT,
-  PRIMARY KEY (ContentObjectValueId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentDataDateTime
-(
-  ContentObjectValueId BIGINT NOT NULL,
-  `Value` DATETIME,
-  PRIMARY KEY (ContentObjectValueId)
-) ENGINE=InnoDB;
-
 CREATE TABLE IWA_ContentDataText
 (
   ContentObjectValueId BIGINT NOT NULL,
@@ -1209,13 +1220,6 @@ CREATE TABLE IWA_ContentDataImage
 (
   ContentObjectValueId BIGINT NOT NULL,
   `Value` LONGBLOB,
-  PRIMARY KEY (ContentObjectValueId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentDataDecimal
-(
-  ContentObjectValueId BIGINT NOT NULL,
-  `Value` DECIMAL(9, 2),
   PRIMARY KEY (ContentObjectValueId)
 ) ENGINE=InnoDB;
 
@@ -1269,12 +1273,15 @@ CREATE TABLE IWA_PermissionGroupPermission
 (
   PermissionGroupId BIGINT NOT NULL,
   PermissionId BIGINT NOT NULL,
-  PRIMARY KEY (PermissionGroupId, PermissionId)
+  PRIMARY KEY (PermissionGroupId, PermissionId),
+  FOREIGN KEY (PermissionGroupId) REFERENCES IWA_PermissionGroup(PermissionGroupId) ON DELETE CASCADE,
+  FOREIGN KEY (PermissionId) REFERENCES IWA_Permission(PermissionId) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_UploadedFile
 (
   FileId BIGINT NOT NULL,
+  ApplicationId BIGINT,
   FileName VARCHAR(255) NOT NULL,
   FilePath VARCHAR(750) NOT NULL,
   CreationUserId VARCHAR(200),
@@ -1326,6 +1333,39 @@ CREATE TABLE IWA_RestServiceClientFeature
   FOREIGN KEY (RestClientId) REFERENCES IWA_RestServiceClient(RestClientId) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE IWA_BusinessData
+(
+  BusinessDataId VARCHAR(100) NOT NULL,
+  Version BIGINT NOT NULL,
+  FormatVersion INTEGER NOT NULL DEFAULT 63000,
+  ObjectType VARCHAR(255) NOT NULL,
+  ObjectValue TEXT NOT NULL,
+  CreatedAt DATETIME NOT NULL,
+  CreatedByUserName VARCHAR(200) NOT NULL,
+  CreatedByAppId BIGINT NOT NULL,
+  ModifiedAt DATETIME NOT NULL,
+  ModifiedByUserName VARCHAR(200) NOT NULL,
+  ModifiedByAppId BIGINT NOT NULL,
+  PRIMARY KEY (BusinessDataId),
+  INDEX IWA_BusinessData_TypeIdx (ObjectType),
+  INDEX IWA_BusinessData_CrtdAtIdx (CreatedAt),
+  INDEX IWA_BusinessData_CrtdByUserIdx (CreatedByUserName),
+  INDEX IWA_BusinessData_CrtdByAppIdx (CreatedByAppId),
+  INDEX IWA_BusinessData_ModAtIdx (ModifiedAt),
+  INDEX IWA_BusinessData_ModByUserIdx (ModifiedByUserName),
+  INDEX IWA_BusinessData_ModByAppIdx (ModifiedByAppId)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_BusinessCaseData
+(
+  BusinessDataId VARCHAR(100) NOT NULL,
+  ObjectType VARCHAR(255) NOT NULL,
+  BusinessCaseId BIGINT NOT NULL,
+  PRIMARY KEY (BusinessDataId),
+  FOREIGN KEY (BusinessCaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE,
+  UNIQUE (BusinessCaseId, ObjectType)
+) ENGINE=InnoDB;
+
 ALTER TABLE IWA_AsyncProcessCaseData ADD
 (
  FOREIGN KEY (CaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE
@@ -1361,9 +1401,19 @@ ALTER TABLE IWA_Role ADD
  FOREIGN KEY (ParentRoleId) REFERENCES IWA_Role(RoleId) ON DELETE CASCADE
 );
 
+ALTER TABLE IWA_Case ADD
+(
+ FOREIGN KEY (BusinessCaseId) REFERENCES IWA_Case(CaseId) ON DELETE SET NULL
+);
+
 ALTER TABLE IWA_ContentObject ADD
 (
  FOREIGN KEY (ParentContentObjectId) REFERENCES IWA_ContentObject(ContentObjectId) ON DELETE CASCADE
+);
+
+ALTER TABLE IWA_PermissionGroup ADD
+(
+ FOREIGN KEY (ParentPermissionGroupId) REFERENCES IWA_PermissionGroup(PermissionGroupId) ON DELETE CASCADE
 );
 
 ALTER TABLE IWA_RestServiceClient ADD
@@ -1371,10 +1421,113 @@ ALTER TABLE IWA_RestServiceClient ADD
  FOREIGN KEY (ParentRestClientId) REFERENCES IWA_RestServiceClient(RestClientId) ON DELETE CASCADE
 );
 
+CREATE VIEW IWA_TaskCustomField
+(
+  TaskId,
+  Name,
+  `Type`,
+  StringValue,
+  TextValue,
+  NumberValue,
+  TimestampValue
+)
+AS
+  SELECT
+    StringField.TaskId,
+    StringField.Name,
+    'String',
+    StringField.`Value`,
+    NULL,
+    NULL,
+    NULL
+  FROM IWA_TaskCustomStringField AS StringField
+UNION ALL
+  SELECT
+    TextField.TaskId,
+    TextField.Name,
+    'Text',
+    NULL,
+    TextField.`Value`,
+    NULL,
+    NULL
+  FROM IWA_TaskCustomTextField AS TextField
+UNION ALL
+  SELECT
+    NumberField.TaskId,
+    NumberField.Name,
+    'Number',
+    NULL,
+    NULL,
+    NumberField.`Value`,
+    NULL
+  FROM IWA_TaskCustomNumberField AS NumberField
+UNION ALL
+  SELECT
+    TimestampField.TaskId,
+    TimestampField.Name,
+    'Timestamp',
+    NULL,
+    NULL,
+    NULL,
+    TimestampField.`Value`
+  FROM IWA_TaskCustomTimestampField AS TimestampField;
+
+CREATE VIEW IWA_CaseCustomField
+(
+  CaseId,
+  Name,
+  `Type`,
+  StringValue,
+  TextValue,
+  NumberValue,
+  TimestampValue
+)
+AS
+  SELECT
+    StringField.CaseId,
+    StringField.Name,
+    'String',
+    StringField.`Value`,
+    NULL,
+    NULL,
+    NULL
+  FROM IWA_CaseCustomStringField AS StringField
+UNION ALL
+  SELECT
+    TextField.CaseId,
+    TextField.Name,
+    'Text',
+    NULL,
+    TextField.`Value`,
+    NULL,
+    NULL
+  FROM IWA_CaseCustomTextField AS TextField
+UNION ALL
+  SELECT
+    NumberField.CaseId,
+    NumberField.Name,
+    'Number',
+    NULL,
+    NULL,
+    NumberField.`Value`,
+    NULL
+  FROM IWA_CaseCustomNumberField AS NumberField
+UNION ALL
+  SELECT
+    TimestampField.CaseId,
+    TimestampField.Name,
+    'Timestamp',
+    NULL,
+    NULL,
+    NULL,
+    TimestampField.`Value`
+  FROM IWA_CaseCustomTimestampField AS TimestampField;
+
 CREATE VIEW IWA_TaskQuery
 (
   TaskId,
   CaseId,
+  BusinessCaseId,
   ProcessModelId,
   ApplicationId,
   StartTaskSwitchEventId,
@@ -1383,13 +1536,16 @@ CREATE VIEW IWA_TaskQuery
   TaskEndId,
   WorkerUserId,
   WorkerUserName,
+  WorkerUserDisplayName,
   WorkerSessionId,
   ActivatorRoleId,
   ActivatorUserId,
   ActivatorName,
+  ActivatorDisplayName,
   ExpiryActivatorRoleId,
   ExpiryActivatorUserId,
   ExpiryActivatorName,
+  ExpiryActivatorDisplayName,
   ExpiryPriority,
   ExpiryTimestamp,
   ExpiryTaskStartElementPid,
@@ -1412,49 +1568,20 @@ CREATE VIEW IWA_TaskQuery
   FailedTimeoutTimestamp,
   NumberOfFailures,
   NumberOfResumes,
-  KindCode,
-  KindName,
-  BusinessMilestoneTimestamp,
-  CustomVarCharField1,
-  CustomVarCharField2,
-  CustomVarCharField3,
-  CustomVarCharField4,
-  CustomVarCharField5,
-  CustomDecimalField1,
-  CustomDecimalField2,
-  CustomDecimalField3,
-  CustomDecimalField4,
-  CustomDecimalField5,
-  CustomTimestampField1,
-  CustomTimestampField2,
-  CustomTimestampField3,
-  CustomTimestampField4,
-  CustomTimestampField5,
+  Category,
   IsUpdatedOnStart,
   IsOffline,
   CurrentPriority,
   CurrentActivatorName,
+  CurrentActivatorDisplayName,
   CurrentActivatorRoleId,
-  CurrentActivatorUserId,
-  ProcessCategoryCode,
-  ProcessCategoryName,
-  ProcessCode,
-  ProcessName,
-  TypeCode,
-  TypeName,
-  SubTypeCode,
-  SubTypeName,
-  BusinessObjectCode,
-  BusinessObjectName,
-  BusinessMainContactId,
-  BusinessMainContactName,
-  BusinessStartTimestamp,
-  BusinessCreatorUser
+  CurrentActivatorUserId
 )
 AS
   SELECT
     IWA_Task.TaskId,
     IWA_Task.CaseId,
+    IWA_Task.BusinessCaseId,
     IWA_Task.ProcessModelId,
     IWA_Task.ApplicationId,
     IWA_Task.StartTaskSwitchEventId,
@@ -1463,13 +1590,16 @@ AS
     IWA_Task.TaskEndId,
     IWA_Task.WorkerUserId,
     IWA_Task.WorkerUserName,
+    CASE WHEN WorkerUserId IS NOT NULL AND LENGTH(WorkerUser.FullName) > 0 THEN WorkerUser.FullName WHEN WorkerUserId IS NOT NULL THEN WorkerUser.Name ELSE NULL END,
     IWA_Task.WorkerSessionId,
     IWA_Task.ActivatorRoleId,
     IWA_Task.ActivatorUserId,
     IWA_Task.ActivatorName,
+    CASE WHEN IWA_Task.ActivatorUserId IS NOT NULL AND LENGTH(ActivatorUser.FullName) > 0 THEN ActivatorUser.FullName WHEN IWA_Task.ActivatorUserId IS NOT NULL THEN ActivatorUser.Name WHEN IWA_Task.ActivatorRoleId IS NOT NULL AND LENGTH(ActivatorRole.DisplayNameTemplate) > 0 THEN ActivatorRole.DisplayNameTemplate WHEN IWA_Task.ActivatorRoleId IS NOT NULL THEN ActivatorRole.Name ELSE NULL END,
     IWA_Task.ExpiryActivatorRoleId,
     IWA_Task.ExpiryActivatorUserId,
     IWA_Task.ExpiryActivatorName,
+    CASE WHEN IWA_Task.ExpiryActivatorUserId IS NOT NULL AND LENGTH(ExpiryActivatorUser.FullName) > 0 THEN ExpiryActivatorUser.FullName WHEN IWA_Task.ExpiryActivatorUserId IS NOT NULL THEN ExpiryActivatorUser.Name WHEN IWA_Task.ExpiryActivatorRoleId IS NOT NULL AND LENGTH(ExpiryActivatorRole.DisplayNameTemplate) > 0 THEN ExpiryActivatorRole.DisplayNameTemplate WHEN IWA_Task.ExpiryActivatorRoleId IS NOT NULL THEN ExpiryActivatorRole.Name ELSE NULL END,
     IWA_Task.ExpiryPriority,
     IWA_Task.ExpiryTimestamp,
     IWA_Task.ExpiryTaskStartElementPid,
@@ -1492,46 +1622,82 @@ AS
     IWA_Task.FailedTimeoutTimestamp,
     IWA_Task.NumberOfFailures,
     IWA_Task.NumberOfResumes,
-    IWA_Task.KindCode,
-    IWA_Task.KindName,
-    IWA_Task.BusinessMilestoneTimestamp,
-    IWA_Task.CustomVarCharField1,
-    IWA_Task.CustomVarCharField2,
-    IWA_Task.CustomVarCharField3,
-    IWA_Task.CustomVarCharField4,
-    IWA_Task.CustomVarCharField5,
-    IWA_Task.CustomDecimalField1,
-    IWA_Task.CustomDecimalField2,
-    IWA_Task.CustomDecimalField3,
-    IWA_Task.CustomDecimalField4,
-    IWA_Task.CustomDecimalField5,
-    IWA_Task.CustomTimestampField1,
-    IWA_Task.CustomTimestampField2,
-    IWA_Task.CustomTimestampField3,
-    IWA_Task.CustomTimestampField4,
-    IWA_Task.CustomTimestampField5,
+    IWA_Task.Category,
     IWA_Task.IsUpdatedOnStart,
     IWA_Task.IsOffline,
     CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryPriority WHEN 0 THEN IWA_Task.Priority END,
     CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryActivatorName WHEN 0 THEN IWA_Task.ActivatorName END,
+    CASE WHEN IWA_Task.IsExpired = 1 AND IWA_Task.ExpiryActivatorUserId IS NOT NULL AND LENGTH(ExpiryActivatorUser.FullName) > 0 THEN ExpiryActivatorUser.FullName WHEN IWA_Task.IsExpired = 1 AND IWA_Task.ExpiryActivatorUserId IS NOT NULL THEN ExpiryActivatorUser.Name WHEN IWA_Task.IsExpired = 1 AND IWA_Task.ExpiryActivatorRoleId IS NOT NULL AND LENGTH(ExpiryActivatorRole.DisplayNameTemplate) > 0 THEN ExpiryActivatorRole.DisplayNameTemplate WHEN IWA_Task.IsExpired = 1 AND IWA_Task.ExpiryActivatorRoleId IS NOT NULL THEN ExpiryActivatorRole.Name WHEN IWA_Task.IsExpired = 0 AND IWA_Task.ActivatorUserId IS NOT NULL AND LENGTH(ActivatorUser.FullName) > 0 THEN ActivatorUser.FullName WHEN IWA_Task.IsExpired = 0 AND IWA_Task.ActivatorUserId IS NOT NULL THEN ActivatorUser.Name WHEN IWA_Task.IsExpired = 0 AND IWA_Task.ActivatorRoleId IS NOT NULL AND LENGTH(ActivatorRole.DisplayNameTemplate) > 0 THEN ActivatorRole.DisplayNameTemplate WHEN IWA_Task.IsExpired = 0 AND IWA_Task.ActivatorRoleId IS NOT NULL THEN ActivatorRole.Name ELSE NULL END,
     CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryActivatorRoleId WHEN 0 THEN IWA_Task.ActivatorRoleId END,
-    CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryActivatorUserId WHEN 0 THEN IWA_Task.ActivatorUserId END,
-    IWA_Case.ProcessCategoryCode,
-    IWA_Case.ProcessCategoryName,
-    IWA_Case.ProcessCode,
-    IWA_Case.ProcessName,
-    IWA_Case.TypeCode,
-    IWA_Case.TypeName,
-    IWA_Case.SubTypeCode,
-    IWA_Case.SubTypeName,
-    IWA_Case.BusinessObjectCode,
-    IWA_Case.BusinessObjectName,
-    IWA_Case.BusinessMainContactId,
-    IWA_Case.BusinessMainContactName,
-    IWA_Case.BusinessStartTimestamp,
-    IWA_Case.BusinessCreatorUser
-  FROM IWA_Task, IWA_Case
-  WHERE IWA_Task.CaseId = IWA_Case.CaseId;
+    CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryActivatorUserId WHEN 0 THEN IWA_Task.ActivatorUserId END
+  FROM IWA_Task
+    LEFT OUTER JOIN IWA_User AS ActivatorUser ON IWA_Task.ActivatorUserId = ActivatorUser.UserId
+    LEFT OUTER JOIN IWA_Role AS ActivatorRole ON IWA_Task.ActivatorRoleId = ActivatorRole.RoleId
+    LEFT OUTER JOIN IWA_User AS ExpiryActivatorUser ON IWA_Task.ExpiryActivatorUserId = ExpiryActivatorUser.UserId
+    LEFT OUTER JOIN IWA_Role AS ExpiryActivatorRole ON IWA_Task.ExpiryActivatorRoleId = ExpiryActivatorRole.RoleId
+    LEFT OUTER JOIN IWA_User AS WorkerUser ON IWA_Task.WorkerUserId = WorkerUser.UserId;
+
+CREATE VIEW IWA_CaseQuery
+(
+  CaseId,
+  BusinessCaseId,
+  Kind,
+  ApplicationId,
+  ProcessModelId,
+  TaskStartId,
+  CreatorUserId,
+  CreatorUserName,
+  CreatorUserDisplayName,
+  CreatorTaskId,
+  EnvironmentId,
+  DisplayNameTemplate,
+  Name,
+  DisplayDescriptionTemplate,
+  Description,
+  StartTimestamp,
+  EndTimestamp,
+  BusinessCalendarId,
+  WorkingTime,
+  BusinessRuntime,
+  `State`,
+  Priority,
+  Stage,
+  OwnerRoleId,
+  OwnerUserId,
+  OwnerName,
+  Category
+)
+AS
+  SELECT
+    IWA_Case.CaseId,
+    IWA_Case.BusinessCaseId,
+    IWA_Case.Kind,
+    IWA_Case.ApplicationId,
+    IWA_Case.ProcessModelId,
+    IWA_Case.TaskStartId,
+    IWA_Case.CreatorUserId,
+    IWA_Case.CreatorUserName,
+    CASE WHEN IWA_Case.CreatorUserId IS NOT NULL AND LENGTH(IWA_User.FullName) > 0 THEN IWA_User.FullName WHEN IWA_Case.CreatorUserId IS NOT NULL THEN IWA_User.Name ELSE NULL END,
+    IWA_Case.CreatorTaskId,
+    IWA_Case.EnvironmentId,
+    IWA_Case.DisplayNameTemplate,
+    IWA_Case.Name,
+    IWA_Case.DisplayDescriptionTemplate,
+    IWA_Case.Description,
+    IWA_Case.StartTimestamp,
+    IWA_Case.EndTimestamp,
+    IWA_Case.BusinessCalendarId,
+    IWA_Case.WorkingTime,
+    IWA_Case.BusinessRuntime,
+    IWA_Case.`State`,
+    IWA_Case.Priority,
+    IWA_Case.Stage,
+    IWA_Case.OwnerRoleId,
+    IWA_Case.OwnerUserId,
+    IWA_Case.OwnerName,
+    IWA_Case.Category
+  FROM IWA_Case
+    LEFT OUTER JOIN IWA_User ON IWA_Case.CreatorUserId = IWA_User.UserId;
 
 CREATE VIEW IWA_ProcessStart
 (
@@ -1556,7 +1722,9 @@ AS
     IWA_TaskStart.StartRequestPath,
     IWA_TaskStart.UserFriendlyStartRequestPath,
     IWA_StartElement.ActivatorRoleId
-  FROM IWA_TaskElement, IWA_TaskStart, IWA_StartElement
+  FROM IWA_TaskElement,
+    IWA_TaskStart,
+    IWA_StartElement
   WHERE IWA_TaskElement.TaskElementId = IWA_TaskStart.TaskElementId AND IWA_TaskStart.TaskStartId = IWA_StartElement.TaskStartId
 UNION ALL
   SELECT
@@ -1569,7 +1737,9 @@ UNION ALL
     IWA_TaskStart.StartRequestPath,
     IWA_TaskStart.UserFriendlyStartRequestPath,
     IWA_StartEventElement.ActivatorRoleId
-  FROM IWA_TaskElement, IWA_TaskStart, IWA_StartEventElement
+  FROM IWA_TaskElement,
+    IWA_TaskStart,
+    IWA_StartEventElement
   WHERE IWA_TaskElement.TaskElementId = IWA_TaskStart.TaskElementId AND IWA_TaskStart.TaskStartId = IWA_StartEventElement.TaskStartId
 UNION ALL
   SELECT
@@ -1582,9 +1752,10 @@ UNION ALL
     IWA_TaskStart.StartRequestPath,
     IWA_TaskStart.UserFriendlyStartRequestPath,
     IWA_WebServiceProcStartElement.ActivatorRoleId
-  FROM IWA_TaskElement, IWA_TaskStart, IWA_WebServiceProcStartElement
+  FROM IWA_TaskElement,
+    IWA_TaskStart,
+    IWA_WebServiceProcStartElement
   WHERE IWA_TaskElement.TaskElementId = IWA_TaskStart.TaskElementId AND IWA_TaskStart.TaskStartId = IWA_WebServiceProcStartElement.TaskStartId;
-
 
 INSERT INTO IWA_Permission (PermissionId, Name) VALUES (0, 'AdministrateWorkflow');
 
@@ -2569,6 +2740,20 @@ INSERT INTO IWA_Permission (PermissionId, Name) VALUES (587, 'DocumentWrite');
 INSERT INTO IWA_Permission (PermissionId, Name) VALUES (588, 'DocumentOfInvolvedCaseRead');
 
 INSERT INTO IWA_Permission (PermissionId, Name) VALUES (589, 'DocumentOfInvolvedCaseWrite');
+
+INSERT INTO IWA_Permission (PermissionId, Name) VALUES (590, 'CaseAttachToBusinessCase');
+
+INSERT INTO IWA_Permission (PermissionId, Name) VALUES (591, 'CaseReadSubCases');
+
+INSERT INTO IWA_Permission (PermissionId, Name) VALUES (592, 'CaseReadCategory');
+
+INSERT INTO IWA_Permission (PermissionId, Name) VALUES (593, 'CaseWriteCategory');
+
+INSERT INTO IWA_Permission (PermissionId, Name) VALUES (594, 'TaskReadCategory');
+
+INSERT INTO IWA_Permission (PermissionId, Name) VALUES (595, 'TaskWriteCategory');
+
+INSERT INTO IWA_Permission (PermissionId, Name) VALUES (596, 'TaskWriteExpiryTimestamp');
 
 INSERT INTO IWA_PermissionGroup (PermissionGroupId, ParentPermissionGroupId, Name) VALUES (0, NULL, 'ApplicationSpecificPermissions');
 
@@ -4567,3 +4752,32 @@ INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALU
 INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (90, 588);
 
 INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (90, 589);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (61, 590);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (61, 591);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (62, 590);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (62, 591);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (75, 592);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (75, 593);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (76, 592);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (76, 593);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (69, 594);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (69, 595);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (70, 594);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (70, 595);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (69, 596);
+
+INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (70, 596);
+

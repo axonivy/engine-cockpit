@@ -16,8 +16,8 @@ import ch.ivyteam.db.jdbc.DatabaseUtil;
 public class SystemDatabaseCreator
 {
 
-  private static final String OLD_DB_NAME = "engine_cockpit_old_db_version44";
-  private static final String TEST_DB_NAME = "engine_cockpit_test_temp";
+  private static final String OLD_DB_NAME = "old_version_60";
+  private static final String TEST_DB_NAME = "temp";
   
   public static void createOldDatabase() throws Exception
   {
@@ -68,10 +68,10 @@ public class SystemDatabaseCreator
     {
       try (Statement stmt = connection.createStatement())
       {
-        executeScript("CreateBaseDatabaseVersion39.sql", ";", stmt);
-        executeScript("CreateDatabaseVersion39.sql", ";", stmt);
-        executeScript("CreateTriggerDatabaseVersion39.sql", "END;", stmt);
-        executeScript("CreateSystemApplication.sql", ";", stmt);
+        executeScript("CreateBaseDatabaseVersion60.sql", ";", stmt);
+        executeScript("CreateDatabaseVersion60.sql", ";", stmt);
+        executeScript("CreateTriggerDatabaseVersion60.sql", "END;", stmt);
+        executeScript("CreateSystemApplicationVersion60.sql", ";", stmt);
       }
     }
   }

@@ -29,8 +29,9 @@ CREATE TABLE IWA_SystemProperty
 (
   PropertyName VARCHAR(200) NOT NULL,
   PropertyValue TEXT NOT NULL,
+  IsEncrypted BIT NOT NULL DEFAULT 0,
   PRIMARY KEY (PropertyName)
 ) ENGINE=InnoDB;
 
-INSERT INTO IWA_Version (Version) VALUES (39);
+INSERT INTO IWA_Version (Version) VALUES (60);
 
