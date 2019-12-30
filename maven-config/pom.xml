@@ -8,7 +8,6 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<nexus.root.url>http://zugpronexus:8081/nexus</nexus.root.url>
 		<engine.page.url>https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/</engine.page.url>
 		<engine.dir>../.ivy-engine</engine.dir>
 		<revision>8.0.1-SNAPSHOT</revision>
@@ -53,23 +52,16 @@
 	</build>
 
 	<distributionManagement>
-		<repository>
-			<id>zugpronexus.releases</id>
-			<name>Internal Release Repository</name>
-			<url>${nexus.root.url}/content/repositories/build-releases/</url>
-		</repository>
 		<snapshotRepository>
-			<id>zugpronexus.snapshots</id>
-			<name>Internal Build Integration Repository</name>
-			<url>${nexus.root.url}/content/repositories/build-snapshots/</url>
+			<id>nexus.ivyteam.io.snapshots</id>
+			<url>https://nexus.ivyteam.io/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<repositories>
 		<repository>
-			<id>zugpronexus.build</id>
-			<name>Internal Build Repository</name>
-			<url>${nexus.root.url}/content/groups/build</url>
+			<id>nexus.ivyteam.io</id>
+			<url>https://nexus.ivyteam.io/repository/maven/</url>
 			<snapshots>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
@@ -79,9 +71,8 @@
 	<pluginRepositories>
 		<!-- Used to install ivy maven plugins -->
 		<pluginRepository>
-			<id>zugpronexus.build-plugins</id>
-			<name>Internal Plugin Build Integration Repository</name>
-			<url>${nexus.root.url}/content/groups/build-plugins/</url>
+			<id>nexus.ivyteam.io</id>
+			<url>https://nexus.ivyteam.io/repository/maven/</url>
 			<snapshots>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>

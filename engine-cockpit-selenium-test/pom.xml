@@ -17,6 +17,16 @@
 		<junit.engine.version>5.5.2</junit.engine.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>central.snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
@@ -286,7 +296,7 @@
 		<dependency>
 			<groupId>com.axonivy.ivy.supplements</groupId>
 			<artifactId>primeui-tester</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>0.0.5-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
