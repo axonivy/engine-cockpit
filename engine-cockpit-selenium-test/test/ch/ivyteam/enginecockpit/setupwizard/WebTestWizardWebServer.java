@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.$;
@@ -21,14 +22,15 @@ public class WebTestWizardWebServer extends WebTestBase
   void cleanup()
   {
     resetConfig();
-    driver.quit();
   }
   
   @Test
   void testWebServerStep()
   {
     navigateToWebServerWizardStep();
-    
+    $("#webserverWarnMessage").shouldBe(empty);
+    WebTestWizard.activeStepShouldBeOk();
+
     SelectBooleanCheckbox httpEnable = primeUi.selectBooleanCheckbox(By.id("webserverForm:httpEnabledCheckbox"));
     SelectBooleanCheckbox httpsEnable = primeUi.selectBooleanCheckbox(By.id("webserverForm:httpsEnabledCheckbox"));
     SelectBooleanCheckbox ajpEnable = primeUi.selectBooleanCheckbox(By.id("webserverForm:ajpEnabledCheckbox"));
@@ -40,13 +42,13 @@ public class WebTestWizardWebServer extends WebTestBase
     setConnector(httpsEnable, "httpsPortInput", false, "8444", "HTTPS");
     setConnector(ajpEnable, "ajpPortInput", true, "8010", "AJP");
     
+    $("#webserverWarnMessage").shouldBe(text("Enable at least the HTTP or HTTPS Connector"));
+    WebTestWizard.activeStepShouldHaveWarnings();
+    
     Selenide.refresh();
     assertConnector(httpEnable, "httpPortInput", false, "8081");
     assertConnector(httpsEnable, "httpsPortInput", false, "8444");
     assertConnector(ajpEnable, "ajpPortInput", true, "8010");
-    
-    httpEnable.removeChecked();
-    assertThat(httpEnable.isChecked()).isFalse();
   }
   
   private void setConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled, String value, String growlMessage)
@@ -81,14 +83,7 @@ public class WebTestWizardWebServer extends WebTestBase
 
   private void navigateToWebServerWizardStep()
   {
-    login("setup.xhtml");
-    WebTestWizardLicence.skipLicStep();
-    WebTestWizardAdmins.skipAdminStep();
-    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Web Server"));
+    WebTestWizard.navigateToStep("Web Server");
   }
 
-  public static void skipWebserverStep()
-  {
-    $("#wsNextStep").click();
-  }
 }

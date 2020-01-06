@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
-import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -22,23 +22,22 @@ public class WebTestWizardAdmins extends WebTestBase
   void cleanup()
   {
     resetConfig();
-    driver.quit();
   }
   
   @Test
   void testAdminStep()
   {
+    addSystemAdmin();
     navigateToAdminsWizardStep();
-    $("#adminNextStep").shouldBe(enabled);
     Table table = new Table(By.id("admins:adminForm:adminTable"));
     WebTestAdmins.addAdmin("admin", "admin@ivyTeam.ch", "password", "password");
     $(".ui-growl-title").shouldBe(text("'admin' added successfully"));
     Selenide.refresh();
     table.firstColumnShouldBe(exactTexts("admin"));
-    $("#adminNextStep").shouldBe(enabled);
-    
-    $("#adminNextStep").click();
-    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Web Server"));
+    $("#addAdminForm\\:adminWarnMessage").shouldBe(empty);
+    WebTestWizard.activeStepShouldBeOk();
+    WebTestWizard.nextStep();
+    $(WebTestWizard.ACTIVE_WIZARD_STEP).shouldBe(text("Web Server"));
   }
   
   @Test
@@ -65,16 +64,7 @@ public class WebTestWizardAdmins extends WebTestBase
   
   private void navigateToAdminsWizardStep()
   {
-    login("setup.xhtml");
-    WebTestWizardLicence.skipLicStep();
-    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Administrators"));
-  }
-  
-  public static void skipAdminStep()
-  {
-    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Administrators"));
-    $("#adminNextStep").shouldBe(enabled);
-    $("#adminNextStep").click();
+    WebTestWizard.navigateToStep("Administrators");
   }
 
 }

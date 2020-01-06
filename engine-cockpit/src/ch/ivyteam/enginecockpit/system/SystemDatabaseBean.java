@@ -21,6 +21,7 @@ import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.db.jdbc.SystemDatabaseConfig;
+import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
@@ -34,7 +35,7 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SystemDatabaseBean
+public class SystemDatabaseBean extends StepStatus
 {
   private DatabaseProduct product;
   private JdbcDriver driver;
@@ -324,6 +325,18 @@ public class SystemDatabaseBean
     DatabaseConnectionConfiguration config = configurator.getDatabaseConnectionConfiguration(props);
     config.setProperties(getAdditionalProperties());
     return config;
+  }
+  
+  @Override
+  public boolean isStepOk()
+  {
+    return getConnectionInfo().isSuccessful();
+  }
+  
+  @Override
+  public String getStepWarningMessage()
+  {
+    return isStepOk() ? getProblemMessage() : getConnectionInfo().getAdvise();
   }
   
 }

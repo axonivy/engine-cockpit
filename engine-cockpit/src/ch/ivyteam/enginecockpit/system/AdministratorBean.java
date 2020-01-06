@@ -9,11 +9,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.model.User;
+import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
 @ManagedBean
 @ViewScoped
-public class AdministratorBean
+public class AdministratorBean extends StepStatus
 {
   private List<User> admins;
   private User editAdmin;
@@ -58,6 +59,25 @@ public class AdministratorBean
   public User getAdmin()
   {
     return editAdmin;
+  }
+  
+  public boolean hasDefaultAdmin()
+  {
+    return AdministratorService.get().find("admin")
+            .map(admin -> admin.getPassword().equals("admin"))
+            .orElse(false);
+  }
+  
+  @Override
+  public boolean isStepOk()
+  {
+    return !hasDefaultAdmin() && !admins.isEmpty();
+  }
+  
+@Override
+  public String getStepWarningMessage()
+  {
+    return hasDefaultAdmin() ? "Please configure your own admin user!" : "Please configure at least one admin!";
   }
   
   public void saveAdmin()

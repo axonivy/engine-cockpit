@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
-import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -19,21 +18,20 @@ public class WebTestWizardSystemDb extends WebTestBase
   {
     resetConfig();
     deleteTempDb();
-    driver.quit();
   }
   
   @Test
   void testWebServerStep()
   {
     navigateToSystemDbWizardStep();
-    $("#sysDbNextStep").shouldBe(enabled);
+    WebTestWizard.activeStepShouldBeOk();
     WebTestSystemDb.assertDefaultValues();
     WebTestSystemDb.assertSystemDbCreationDialog();
+    WebTestWizard.activeStepShouldHaveWarnings();
     WebTestSystemDb.assertSystemDbCreation();
-    $("#sysDbNextStep").shouldBe(enabled);
-    $("#sysDbNextStep").click();
-    $("#sysDbNextStepModel").shouldBe(visible);
-    $("#sysDbNextStepForm\\:licNextStepDemoYes").click();
+    WebTestWizard.finishWizard();
+    $("#configErrorMessage").shouldBe(visible, text("LICENCE"));
+    $("#finishWizardForm\\:finishWizardYes").click();
     assertCurrentUrlContains("info");
   }
   
@@ -63,10 +61,6 @@ public class WebTestWizardSystemDb extends WebTestBase
 
   private void navigateToSystemDbWizardStep()
   {
-    login("setup.xhtml");
-    WebTestWizardLicence.skipLicStep();
-    WebTestWizardAdmins.skipAdminStep();
-    WebTestWizardWebServer.skipWebserverStep();
-    $("#wizardSteps li.ui-state-highlight").shouldBe(text("System Database"));
+    WebTestWizard.navigateToStep("System Database");
   }
 }

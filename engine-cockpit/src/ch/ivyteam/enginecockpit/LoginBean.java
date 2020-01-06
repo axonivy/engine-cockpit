@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.ISession;
+import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
 @SessionScoped
+@SuppressWarnings("restriction")
 public class LoginBean
 {
   private String userName;
@@ -25,8 +27,20 @@ public class LoginBean
     if (ISession.get().isSessionUserUnknown())
     {
       originalUrl = evalOriginalUrl();
-      redirect();
+      loginDefaultAdminOrRedirect();
     }
+  }
+  
+  public void loginDefaultAdminOrRedirect()
+  {
+    if (EngineMode.is(EngineMode.DEMO))
+    {
+      if(ISession.get().loginSessionUser("admin", "admin"))
+      {
+        return;
+      }
+    }
+    redirect();
   }
 
   public void login()

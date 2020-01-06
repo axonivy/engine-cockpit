@@ -18,15 +18,6 @@ public class WebTestEnvironmentSwitch extends WebTestBase
   }
   
   @Test
-  void testEnvironmentSwitch()
-  {
-    login();
-    Navigation.toExternalDatabases();
-    EnvironmentSwitch.switchToEnv("test");
-    assertThat(EnvironmentSwitch.getEnv()).isEqualTo("test");
-  }
-  
-  @Test
   void testEnvironmentSwitchAndHoldState()
   {
     login();
@@ -42,7 +33,5 @@ public class WebTestEnvironmentSwitch extends WebTestBase
     
     Navigation.toWebservices();
     assertThat(EnvironmentSwitch.getEnv()).isEqualTo("Default");
-    EnvironmentSwitch.switchToEnv("test");
-    assertThat(EnvironmentSwitch.getEnv()).isEqualTo("test");
   }
 }

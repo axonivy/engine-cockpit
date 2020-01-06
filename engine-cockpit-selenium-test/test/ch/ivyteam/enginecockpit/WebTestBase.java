@@ -20,7 +20,7 @@ public class WebTestBase extends WebBase
     $(element).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
   }
   
-  public void login(String url)
+  public static void login(String url)
   {
     open(viewUrl(url));
     if (driver.getCurrentUrl().endsWith("login.xhtml"))
@@ -34,7 +34,7 @@ public class WebTestBase extends WebBase
     assertCurrentUrlEndsWith(url);
   }
   
-  public void login()
+  public static void login()
   {
     login("dashboard.xhtml");
   }

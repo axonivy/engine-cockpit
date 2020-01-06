@@ -1,5 +1,8 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -8,11 +11,17 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class WizardBean
 {
-  private STEPS activeStep;
+  private Steps activeStep;
+  private List<StepStatus> steps;
   
   public WizardBean()
   {
-    activeStep = STEPS.LICENCE;
+    activeStep = Steps.LICENCE;
+    Steps firstStep = getFirstStepWithWarning();
+    if (firstStep != null)
+    {
+      activeStep = firstStep;
+    }
   }
 
   public String getInfoPageUrl()
@@ -25,36 +34,95 @@ public class WizardBean
     return activeStep.value;
   }
   
+  public void setActiveStep(int step)
+  {
+    activeStep = Steps.valueOf(step);
+  }
+  
   public void nextStep()
   {
-    activeStep = STEPS.valueOf(activeStep.value + 1);
+    activeStep = Steps.valueOf(activeStep.value + 1);
   }
   
   public void prevStep()
   {
-    activeStep = STEPS.valueOf(activeStep.value - 1);
+    activeStep = Steps.valueOf(activeStep.value - 1);
   }
-
-  public static enum STEPS {
-    LICENCE (0),
-    ADMINS (1),
-    WEBSERVER (2),
-    SYSTEMDB (3);
+  
+  public boolean isLastStep()
+  {
+    return activeStep.value == Steps.values().length - 1;
+  }
+  
+  public boolean isFirstStep()
+  {
+    return activeStep.value == 0;
+  }
+  
+  public Steps getFirstStepWithWarning()
+  {
+    steps = new ArrayList<>();
+    FacesContext context = FacesContext.getCurrentInstance();
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{licenceBean}", StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{administratorBean}", StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{webServerConnectorBean}", StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{systemDatabaseBean}", StepStatus.class));
+    for (StepStatus step : steps)
+    {
+      if (!step.isStepOk())
+      {
+        return Steps.valueOf(steps.indexOf(step));
+      }
+    }
+    return null;
+  }
+  
+  public void gotoFirstWarningStep()
+  {
+    Steps firstStepWithWarning = getFirstStepWithWarning();
+    if (firstStepWithWarning != null)
+    {
+      setActiveStep(getFirstStepWithWarning().value);
+    }
+  }
+  
+  public static enum Steps {
+    LICENCE (0, "Licence"),
+    ADMINS (1, "Administrators"),
+    WEBSERVER (2, "Web Server"),
+    SYSTEMDB (3, "System Database");
     
     private final int value;
+    private final String name;
     
-    STEPS(int value)
+    Steps(int value, String name)
     {
       this.value = value;
+      this.name = name;
     }
     
-    public static STEPS valueOf(int index)
+    public String getName()
     {
-      if (index >= STEPS.values().length || index < 0)
+      return name;
+    }
+    
+    public static Steps valueOf(int index)
+    {
+      if (index >= Steps.values().length || index < 0)
       {
-        return STEPS.LICENCE;
+        return Steps.LICENCE;
       }
       return values()[index];
+    }
+  }
+  
+  public abstract static class StepStatus
+  {
+    public abstract boolean isStepOk();
+    public abstract String getStepWarningMessage();
+    public String getStepStatus()
+    {
+      return isStepOk() ? "step-ok" : "step-warning";
     }
   }
 }

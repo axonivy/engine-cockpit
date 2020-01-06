@@ -50,7 +50,7 @@ public class WebTestLogin extends WebTestBase
     logout();
     assertLoginPageVisible();
     Selenide.open(viewUrl("dashboard.xhtml"));
-    assertLoginPageVisible();
+    $("#sessionUserName").shouldBe(exactText(getAdminUser())); 
   }
 
   private void assertLoginPageVisible()

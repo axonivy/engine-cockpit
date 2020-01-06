@@ -10,18 +10,22 @@
         <p:autoUpdate/>
       </p:growl>
       <div class="ui-fluid container">
-        <p:staticMessage rendered="#{engineModeBean.isMaintenance()}" severity="warn" style="margin: 0 0 20px 0;"
-          detail="#{engineModeBean.dashboardWarningDetail}" />
         <div class="card card-w-title ">
           <div class="ui-g ">
             <div class="ui-g-12 ">
               <h:panelGroup id="wizardStepPage">
-                <p:steps activeIndex="#{wizardBean.activeStep}" id="wizardSteps">
-                  <p:menuitem value="Licence" />
-                  <p:menuitem value="Administrators" />
-                  <p:menuitem value="Web Server" />
-                  <p:menuitem value="System Database" />
-                </p:steps>
+              	<h:form id="stepForm">
+                  <p:steps activeIndex="#{wizardBean.activeStep}" id="wizardSteps" readonly="false">
+                    <p:menuitem value="Licence" actionListener="#{wizardBean.setActiveStep(0)}" update="wizardStepPage" 
+                      styleClass="#{licenceBean.stepStatus}" />
+                    <p:menuitem value="Administrators" actionListener="#{wizardBean.setActiveStep(1)}" update="wizardStepPage" 
+                      styleClass="#{administratorBean.stepStatus}" />
+                    <p:menuitem value="Web Server" actionListener="#{wizardBean.setActiveStep(2)}" update="wizardStepPage" 
+                      styleClass="#{webServerConnectorBean.stepStatus}" />
+                    <p:menuitem value="System Database" actionListener="#{wizardBean.setActiveStep(3)}" update="wizardStepPage" 
+                      styleClass="#{systemDatabaseBean.stepStatus}" />
+                  </p:steps>
+                </h:form>
                   
                 <h:panelGroup rendered="#{wizardBean.activeStep eq 0}">
                   <ui:include src="components/setup/setup-licence.xhtml" />
@@ -35,6 +39,43 @@
                 <h:panelGroup rendered="#{wizardBean.activeStep eq 3}">
                   <ui:include src="components/setup/setup-systemdb.xhtml" />
                 </h:panelGroup>
+                
+                <h:panelGroup id="wizardStepButtons">
+                  <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Next" 
+                    update="wizardStepPage" process="@this" immediate="true" icon="ui-icon-navigate-next" 
+                    styleClass="wizard-step-button" rendered="#{!wizardBean.lastStep}" />
+                  <p:commandButton id="finishWizard" value="Finish" oncomplete="PF('finishWizardModel').show();"
+                    update="finishWizardModel" icon="ui-icon-check" styleClass="wizard-step-button" rendered="#{wizardBean.lastStep}" />
+                  <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
+                    icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" 
+                    rendered="#{!wizardBean.firstStep}" />
+                  <p:commandButton id="cancelWizard" onclick="window.location = '/'" value="Cancel" type="button"
+                    icon="ui-icon-clear" styleClass="secondary-btn wizard-step-button" rendered="#{wizardBean.firstStep}"/>
+                </h:panelGroup>
+                
+                <p:dialog style="min-width: 300px;" header="Finish Setup Wizard" id="finishWizardModel"
+                  widgetVar="finishWizardModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+                  <h:form id="finishWizardForm">
+                    <h:panelGroup rendered="#{wizardBean.firstStepWithWarning != null}">
+                      <div id="configErrorMessage" class="ui-message ui-staticmessage ui-message-warn ui-widget ui-corner-all">
+                        <span class="ui-message-warn-icon"></span>
+                        <span class="ui-message-warn-summary">Configuration incomplete</span>
+                        <span class="ui-message-warn-detail">You have warnings in the in your 
+                          <p:commandLink actionListener="#{wizardBean.gotoFirstWarningStep()}" 
+                            update="wizardStepPage" value="#{wizardBean.firstStepWithWarning.name}" immediate="true" /> configuration.
+                        </span>
+                      </div>
+                    </h:panelGroup>
+                    <p:staticMessage severity="warn" summary="Engine restart" detail="Your engine needs to be restarted to finish the setup process!" />
+                    <br />
+                    
+                    <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="OK" icon="ui-icon-check" 
+                      styleClass="primary-btn modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" />
+                    <p:commandButton id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="Cancel" type="button"
+                      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+                  </h:form>
+                </p:dialog>
+                
               </h:panelGroup>
             </div>
           </div>

@@ -7,6 +7,14 @@ body .ui-growl {
 .ui-steps .ui-steps-item {
   width: 25%;
 }
+body .ui-steps .ui-steps-item .step-warning .ui-steps-number {
+  background-color: #FFCE29;
+  color: #575656;
+}
+body .ui-steps .ui-steps-item .step-ok .ui-steps-number {
+  background-color: #C7D426;
+  color: #575656;
+}
 .ui-fluid .ui-button.wizard-step-button {
   width: 100px; 
   margin-right: 5px; 
@@ -25,4 +33,5 @@ body .ui-growl {
 #drop_zone {
   line-height: 100px; 
   text-align: center;
+  margin-bottom: 20px;
 }

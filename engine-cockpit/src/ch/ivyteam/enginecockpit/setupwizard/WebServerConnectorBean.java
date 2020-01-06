@@ -5,12 +5,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
+import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class WebServerConnectorBean
+public class WebServerConnectorBean extends StepStatus
 {
   private static final String ENABLED = "Enabled";
   private static final String PORT = "Port";
@@ -115,6 +116,18 @@ public class WebServerConnectorBean
     }
     FacesContext.getCurrentInstance().addMessage("",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + key + "' changed successfully", ""));
+  }
+  
+  @Override
+  public boolean isStepOk()
+  {
+    return isHttpEnabled() || isHttpsEnabled();
+  }
+  
+  @Override
+  public String getStepWarningMessage()
+  {
+    return "Enable at least the HTTP or HTTPS Connector";
   }
   
 }

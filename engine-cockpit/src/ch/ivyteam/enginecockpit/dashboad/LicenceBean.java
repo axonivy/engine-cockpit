@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.LicenceMessage;
+import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
@@ -26,7 +27,7 @@ import ch.ivyteam.licence.SystemLicence;
 @SuppressWarnings("restriction")
 @ManagedBean
 @RequestScoped
-public class LicenceBean
+public class LicenceBean extends StepStatus
 {
   private static final String LICENCEE_ORGANISATION = "licencee.organisation";
   private static final String LICENCE_TYPE = "licence.type";
@@ -149,6 +150,18 @@ public class LicenceBean
       return "Invalid licence installed."+maintenanceMode;
     }
     return "";
+  }
+  
+  @Override
+  public boolean isStepOk()
+  {
+    return !(isDemo() || (isInstalled() && !isValid()));
+  }
+  
+  @Override
+  public String getStepWarningMessage()
+  {
+    return isDemo() ? "Please upload a valid licence." : getProblemMessage();
   }
   
   public List<LicenceMessage> getLicenceEvents()

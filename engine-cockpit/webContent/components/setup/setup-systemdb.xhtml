@@ -3,26 +3,6 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-  <cc:SystemDb id="systemDb" updateFields="systemDb:systemDbForm:connectionPanel,sysDbWizardStepButtons" />
+  <cc:SystemDb id="systemDb" updateFields="systemDb:systemDbForm:connectionPanel,stepForm:wizardSteps" />
   
-  <h:panelGroup id="sysDbWizardStepButtons">
-    <p:commandButton id="sysDbNextStep" value="Finish" update="wizardStepPage" oncomplete="PF('sysDbNextStepModel').show();"
-      actionListener="#{systemDatabaseBean.saveConfiguration}"
-      icon="ui-icon-check" styleClass="wizard-step-button" disabled="#{!systemDatabaseBean.connectionInfo.successful}" />
-    <p:tooltip for="sysDbNextStep" value="No connection" position="top" rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
-    <p:commandButton id="sysDbPrevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
-      icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" />
-  </h:panelGroup>
-  
-  <p:dialog style="min-width: 300px;" header="Finish Setup Wizard" id="sysDbNextStepModel"
-    widgetVar="sysDbNextStepModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
-    <h:form id="sysDbNextStepForm">
-      <p:staticMessage severity="warn" summary="Engine restart" detail="Your engine needs to be restarted to finish the setup process!" />
-      <br />
-      <p:commandButton id="licNextStepDemoYes" onclick="window.location = '/'" value="OK" icon="ui-icon-check" type="button"
-        styleClass="primary-btn modal-input-button" widgetVar="licNextStepDemoYes" />
-      <p:commandButton id="licNextStepDemoNo" onclick="PF('sysDbNextStepModel').hide();" value="Cancel" type="button"
-        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-    </h:form>
-  </p:dialog>
 </html>

@@ -4,6 +4,10 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
     
   <h:form id="addAdminForm">
+    <h:panelGroup id="adminWarnMessage">
+      <p:staticMessage rendered="#{!administratorBean.stepOk}" severity="warn" 
+        detail="#{administratorBean.stepWarningMessage}" />
+    </h:panelGroup>
     <div class="ui-g">
       <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}"
         icon="ui-icon-plus" title="Edit" update="admins:editAdminDialog" value="Add Administrator"
@@ -11,13 +15,6 @@
     </div>
   </h:form>
       
-  <cc:Administrators id="admins" updateFields="admins:adminForm,@form,adminWizardStepButtons" />
-    
-  <h:panelGroup id="adminWizardStepButtons">
-    <p:commandButton id="adminNextStep" actionListener="#{wizardBean.nextStep()}" value="Next" update="wizardStepPage" process="@this" immediate="true"
-      icon="ui-icon-navigate-next" styleClass="wizard-step-button" disabled="#{empty administratorBean.admins}" />
-    <p:tooltip for="adminNextStep" value="Add at least one administrator." position="top" rendered="#{empty administratorBean.admins}" />
-    <p:commandButton id="adminPrevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
-      icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" />
-  </h:panelGroup>
+  <cc:Administrators id="admins" updateFields="admins:adminForm,@form,wizardStepButtons,addAdminForm,stepForm:wizardSteps" />
+  
 </html>

@@ -11,9 +11,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
-import ch.ivyteam.enginecockpit.setupwizard.WebTestWizardAdmins;
-import ch.ivyteam.enginecockpit.setupwizard.WebTestWizardLicence;
-import ch.ivyteam.enginecockpit.setupwizard.WebTestWizardWebServer;
+import ch.ivyteam.enginecockpit.setupwizard.WebTestWizard;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -94,13 +92,13 @@ public class WebDocuScreenshot extends WebTestBase
     Navigation.toLogs();
     takeScreenshot("engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
     
-    login("setup.xhtml");
+    WebTestWizard.navigateToStep("Licence");
     takeScreenshot("engine-cockpit-setup-licence", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
-    WebTestWizardLicence.skipLicStep();
+    WebTestWizard.navigateToStep("Administrators");
     takeScreenshot("engine-cockpit-setup-admins", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
-    WebTestWizardAdmins.skipAdminStep();
+    WebTestWizard.navigateToStep("Web Server");
     takeScreenshot("engine-cockpit-setup-webserver", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
-    WebTestWizardWebServer.skipWebserverStep();
+    WebTestWizard.navigateToStep("System Database");
     takeScreenshot("engine-cockpit-setup-systemdb", new Dimension(SCREENSHOT_SETUP_WIDTH, 900));
   }
 

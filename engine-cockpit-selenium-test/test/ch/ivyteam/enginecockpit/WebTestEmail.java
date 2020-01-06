@@ -5,9 +5,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -57,8 +55,7 @@ public class WebTestEmail extends WebTestBase
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty();
     
-    List<String> days = new ArrayList<String>(Arrays.asList("Tue", "Wed", "Thu", "Sat"));
-    dailyCheckbox.setCheckboxes(days);
+    dailyCheckbox.setCheckboxes(Arrays.asList("Tue", "Wed", "Thu", "Sat"));
     assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Tue", "Wed", "Thu", "Sat");
     
     taskCheckbox.setChecked();

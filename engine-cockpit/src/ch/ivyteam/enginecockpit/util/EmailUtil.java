@@ -1,10 +1,9 @@
 package ch.ivyteam.enginecockpit.util;
 
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;

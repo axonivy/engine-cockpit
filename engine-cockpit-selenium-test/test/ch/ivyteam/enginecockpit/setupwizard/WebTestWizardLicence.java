@@ -2,9 +2,7 @@ package ch.ivyteam.enginecockpit.setupwizard;
 
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 import java.io.File;
@@ -24,7 +22,6 @@ public class WebTestWizardLicence extends WebTestBase
   void cleanup()
   {
     resetLicence();
-    driver.quit();
   }
   
   @Test
@@ -32,26 +29,16 @@ public class WebTestWizardLicence extends WebTestBase
   {
     navigateToLicWizardStep();
     
-    $("#fileUploadForm\\:licDetailLink").shouldBe(text("Demo licence"));
-    $("#licNextStepModel").shouldNotBe(visible);
-    $("#fileUploadForm\\:licNextStep").shouldNotBe(exist);
-    $("#fileUploadForm\\:licNextStepDemo").click();
-    $("#licNextStepModel").shouldBe(visible);
-    $("#licNextStepForm\\:licNextStepDemoNo").click();
-    $("#licNextStepModel").shouldNotBe(visible);
-    
+    $("#licWarnMessage").shouldHave(text("Please upload a valid licence."));
+    WebTestWizard.activeStepShouldHaveWarnings();
     uploadLicence();
-    $("#fileUploadForm\\:licDetailLink").shouldBe(text("Jacek Lajdecki"));
     $("#uploadStatus").shouldBe(exactText("Success"));
+    $("#fileUploadForm\\:licenceInfoTable").shouldHave(text("Jacek Lajdecki"));
+    $("#licWarnMessage").shouldHave(empty);
+    WebTestWizard.activeStepShouldBeOk();
     
-    $("#fileUploadForm\\:licDetailLink").click();
-    $("#licenceDetailDialog").shouldBe(visible);
-    $("#licenceDetailDialog .ui-dialog-titlebar-close").click();
-    $("#licenceDetailDialog").shouldNotBe(visible);
-    
-    $("#fileUploadForm\\:licNextStepDemo").shouldNotBe(exist);
-    $("#fileUploadForm\\:licNextStep").click();
-    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Administrators"));
+    WebTestWizard.nextStep();
+    $(WebTestWizard.ACTIVE_WIZARD_STEP).shouldBe(text("Administrators"));
   }
   
   @Test
@@ -86,15 +73,7 @@ public class WebTestWizardLicence extends WebTestBase
   
   private void navigateToLicWizardStep()
   {
-    login("setup.xhtml");
-    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Licence"));
+    WebTestWizard.navigateToStep("Licence");
   }
-  
-  public static void skipLicStep()
-  {
-    $("#wizardSteps li.ui-state-highlight").shouldBe(text("Licence"));
-    $("#fileUploadForm\\:licNextStepDemo").click();
-    $("#licNextStepModel").shouldBe(visible);
-    $("#licNextStepForm\\:licNextStepDemoYes").click();
-  }
+
 }
