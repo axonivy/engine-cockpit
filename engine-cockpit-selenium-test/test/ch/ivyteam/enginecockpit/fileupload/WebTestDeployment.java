@@ -15,8 +15,9 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
@@ -77,12 +78,12 @@ public class WebTestDeployment extends WebTestBase
     toAppDetailAndOpenDeployment();
     
     showDeploymentOptions();
-    SelectOneMenu testUser = primeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
-    SelectBooleanCheckbox overwrite = primeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
-    SelectOneMenu cleanup = primeUi.selectOne(By.id("deploymentModal:cleanupProject"));
-    SelectOneMenu version = primeUi.selectOne(By.id("deploymentModal:version"));
-    SelectOneMenu state = primeUi.selectOne(By.id("deploymentModal:state"));
-    SelectOneMenu fileFormat = primeUi.selectOne(By.id("deploymentModal:fileFormat"));
+    SelectOneMenu testUser = PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
+    SelectBooleanCheckbox overwrite = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
+    SelectOneMenu cleanup = PrimeUi.selectOne(By.id("deploymentModal:cleanupProject"));
+    SelectOneMenu version = PrimeUi.selectOne(By.id("deploymentModal:version"));
+    SelectOneMenu state = PrimeUi.selectOne(By.id("deploymentModal:state"));
+    SelectOneMenu fileFormat = PrimeUi.selectOne(By.id("deploymentModal:fileFormat"));
 
     assertThat(testUser.getSelectedItem()).isEqualTo("AUTO");
     assertThat(overwrite.isChecked()).isFalse();
@@ -91,7 +92,7 @@ public class WebTestDeployment extends WebTestBase
     assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED");
     assertThat(fileFormat.getSelectedItem()).isEqualTo("AUTO");
     
-    SelectBooleanCheckbox checkbox = primeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
+    SelectBooleanCheckbox checkbox = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
     checkbox.setChecked();
     assertThat(overwrite.isChecked()).isTrue();
   }

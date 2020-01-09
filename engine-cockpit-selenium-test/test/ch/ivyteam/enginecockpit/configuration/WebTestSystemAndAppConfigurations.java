@@ -14,8 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -264,7 +265,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     String classAttr = $("#config\\:editConfigurationForm\\:editConfigurationValue").getAttribute("class");
     if (StringUtils.contains(classAttr, "ui-chkbox"))
     {
-      SelectBooleanCheckbox checkbox = primeUi.selectBooleanCheckbox(By.id("config:editConfigurationForm:editConfigurationValue"));
+      SelectBooleanCheckbox checkbox = PrimeUi.selectBooleanCheckbox(By.id("config:editConfigurationForm:editConfigurationValue"));
       assertThat(checkbox.isChecked()).isEqualTo(Boolean.valueOf(value));
     }
     else if (StringUtils.contains(classAttr, "ui-inputnumber"))
@@ -273,7 +274,7 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     }
     else if (StringUtils.contains(classAttr, "ui-selectonemenu"))
     {
-      SelectOneMenu menu = primeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"));
+      SelectOneMenu menu = PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"));
       assertThat(menu.getSelectedItem()).isEqualTo(value);
     }
     else

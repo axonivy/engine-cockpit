@@ -10,7 +10,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
@@ -31,9 +32,9 @@ public class WebTestWizardWebServer extends WebTestBase
     $("#webserverWarnMessage").shouldBe(empty);
     WebTestWizard.activeStepShouldBeOk();
 
-    SelectBooleanCheckbox httpEnable = primeUi.selectBooleanCheckbox(By.id("webserverForm:httpEnabledCheckbox"));
-    SelectBooleanCheckbox httpsEnable = primeUi.selectBooleanCheckbox(By.id("webserverForm:httpsEnabledCheckbox"));
-    SelectBooleanCheckbox ajpEnable = primeUi.selectBooleanCheckbox(By.id("webserverForm:ajpEnabledCheckbox"));
+    SelectBooleanCheckbox httpEnable = PrimeUi.selectBooleanCheckbox(By.id("webserverForm:httpEnabledCheckbox"));
+    SelectBooleanCheckbox httpsEnable = PrimeUi.selectBooleanCheckbox(By.id("webserverForm:httpsEnabledCheckbox"));
+    SelectBooleanCheckbox ajpEnable = PrimeUi.selectBooleanCheckbox(By.id("webserverForm:ajpEnabledCheckbox"));
     assertConnector(httpEnable, "httpPortInput", true, "8080");
     assertConnector(httpsEnable, "httpsPortInput", true, "8443");
     assertConnector(ajpEnable, "ajpPortInput", false, "8009");

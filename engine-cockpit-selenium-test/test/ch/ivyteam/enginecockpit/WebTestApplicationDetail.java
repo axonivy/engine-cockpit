@@ -13,7 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
@@ -38,7 +39,7 @@ public class WebTestApplicationDetail extends WebTestBase
     toApplicationDetail(APP);
     
     $("#appDetailInfoForm\\:activeEnvironmentSelect").shouldBe(visible);
-    SelectOneMenu env = primeUi.selectOne(By.id("appDetailInfoForm:activeEnvironmentSelect"));
+    SelectOneMenu env = PrimeUi.selectOne(By.id("appDetailInfoForm:activeEnvironmentSelect"));
     env.selectItemByLabel("test");
     $("#appDetailInfoForm\\:saveApplicationInformation").click();
     $("#appDetailInfoForm\\:informationSaveSuccess_container").shouldBe(visible);
