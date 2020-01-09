@@ -17,8 +17,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
@@ -112,8 +113,8 @@ public class WebTestSystemDb extends WebTestBase
   private static void insertDbConnection(String database, String driverName, String host, 
           String databaseName, String user, String password)
   {
-    SelectOneMenu dbType = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
-    SelectOneMenu dbDriver = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
+    SelectOneMenu dbType = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
+    SelectOneMenu dbDriver = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
     dbType.selectItemByLabel(database);
     $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
     dbDriver.selectItemByLabel(driverName);
@@ -188,7 +189,7 @@ public class WebTestSystemDb extends WebTestBase
     
     Selenide.refresh();
     insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
-    SelectBooleanCheckbox defaultPort = primeUi.selectBooleanCheckbox(
+    SelectBooleanCheckbox defaultPort = PrimeUi.selectBooleanCheckbox(
             By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
     defaultPort.removeChecked();
     $(".sysdb-dynamic-form-port input").shouldBe(enabled);
@@ -252,11 +253,11 @@ public class WebTestSystemDb extends WebTestBase
   
   public static void assertDefaultPortSwitch()
   {
-    SelectOneMenu dbType = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
+    SelectOneMenu dbType = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     dbType.selectItemByLabel("MySQL");
     $(".sysdb-dynamic-form-port input").shouldBe(visible);
     
-    SelectBooleanCheckbox defaultPort = primeUi.selectBooleanCheckbox(
+    SelectBooleanCheckbox defaultPort = PrimeUi.selectBooleanCheckbox(
             By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
     $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
     assertThat(defaultPort.isChecked()).isTrue();
@@ -272,8 +273,8 @@ public class WebTestSystemDb extends WebTestBase
   
   public static void assertDatabaseTypeSwitch()
   {
-    SelectOneMenu dbType = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
-    SelectOneMenu dbDriver = primeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
+    SelectOneMenu dbType = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
+    SelectOneMenu dbDriver = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
     assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db");
     assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory");
     $(".sysdb-dynamic-form-databasename").shouldBe(exactValue("AxonIvySystemDatabase"));

@@ -16,9 +16,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectManyCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneRadio;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
@@ -111,11 +112,11 @@ public class WebTestUserDetail extends WebTestBase
   void testEmailSettings()
   {
     openUserFooDetail();
-    SelectOneRadio radioSettings = primeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
-    SelectBooleanCheckbox neverCheckbox = primeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
-    SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
-    SelectManyCheckbox dailyCheckbox = primeUi.selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
-    assertThat(radioSettings.getSelected()).isEqualTo("Application");
+    SelectOneRadio radioSettings = PrimeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
+    SelectBooleanCheckbox neverCheckbox = PrimeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
+    SelectBooleanCheckbox taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
+    SelectManyCheckbox dailyCheckbox = PrimeUi.selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
+    assertThat(radioSettings.getSelectedValue()).isEqualTo("Application");
     assertThat(neverCheckbox.isChecked()).isFalse();
     assertThat(neverCheckbox.isDisabled()).isTrue();
     assertThat(taskCheckbox.isChecked()).isFalse();
@@ -133,7 +134,7 @@ public class WebTestUserDetail extends WebTestBase
     
     taskCheckbox.setChecked();
     neverCheckbox.setChecked();
-    assertThat(radioSettings.getSelected()).isEqualTo("Specific");
+    assertThat(radioSettings.getSelectedValue()).isEqualTo("Specific");
     assertThat(neverCheckbox.isChecked()).isTrue();
     assertThat(taskCheckbox.isChecked()).isTrue();
     assertThat(taskCheckbox.isDisabled()).isTrue();
@@ -142,7 +143,7 @@ public class WebTestUserDetail extends WebTestBase
     $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible);
 
     Selenide.refresh();
-    assertThat(radioSettings.getSelected()).isEqualTo("Specific");
+    assertThat(radioSettings.getSelectedValue()).isEqualTo("Specific");
     assertThat(neverCheckbox.isChecked()).isTrue();
     assertThat(taskCheckbox.isChecked()).isTrue();
     assertThat(taskCheckbox.isDisabled()).isTrue();

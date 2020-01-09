@@ -11,6 +11,8 @@ import static com.codeborne.selenide.Selenide.$$;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -123,7 +125,7 @@ public class WebTestApplication extends WebTestBase
     
     $("#card\\:newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
     $("#card\\:newApplicationForm\\:newApplicationDescInput").sendKeys("test description");
-    primeUi.selectBooleanCheckbox(By.id("card:newApplicationForm:newApplicationActivate")).removeChecked();
+    PrimeUi.selectBooleanCheckbox(By.id("card:newApplicationForm:newApplicationActivate")).removeChecked();
     
     $("#card\\:newApplicationForm\\:saveNewApplication").click();
 

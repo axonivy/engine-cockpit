@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.WebTestBase;
@@ -113,7 +114,7 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     $("#securityLdapForm\\:ldapEmail").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapLanguage").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapUserMemberOfAttribute").shouldBe(exactValue(""));
-    assertThat(primeUi.selectBooleanCheckbox(By.id("securityLdapForm:ldapUseUserMemberOfForUserRoleMembership"))
+    assertThat(PrimeUi.selectBooleanCheckbox(By.id("securityLdapForm:ldapUseUserMemberOfForUserRoleMembership"))
             .isChecked()).isTrue();
     $("#securityLdapForm\\:ldapUserGroupMemberOfAttribute").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapUserGroupMembersAttribute").shouldBe(exactValue(""));

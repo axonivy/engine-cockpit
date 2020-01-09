@@ -10,9 +10,10 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectManyCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -28,7 +29,7 @@ public class WebTestEmail extends WebTestBase
   {
     toEmail();
     
-    SelectOneMenu language = primeUi.selectOne(By.id(getActivePanel() + "emailSetting:languageDropDown"));
+    SelectOneMenu language = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:languageDropDown"));
     language.selectItemByLabel("German");
     assertThat(language.getSelectedItem()).isEqualTo("German");
     $(getActivePanelCss() + "saveEmailSettings").click();
@@ -48,8 +49,8 @@ public class WebTestEmail extends WebTestBase
   {
     toEmail();
     
-    SelectBooleanCheckbox taskCheckbox = primeUi.selectBooleanCheckbox(By.id(getActivePanel() + "emailSetting:taskCheckbox"));
-    SelectManyCheckbox dailyCheckbox = primeUi.selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
+    SelectBooleanCheckbox taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id(getActivePanel() + "emailSetting:taskCheckbox"));
+    SelectManyCheckbox dailyCheckbox = PrimeUi.selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
     assertThat(taskCheckbox.isChecked()).isFalse();
     assertThat(taskCheckbox.isDisabled()).isFalse();
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
