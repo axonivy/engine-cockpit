@@ -6,6 +6,9 @@ body {
 .login-body .login-panel {
   height: auto;
 }
+.login-body .ui-staticmessage {
+  margin: 0px;
+}
 
 /*Navigation*/
 @media ( max-width : 1024px) {

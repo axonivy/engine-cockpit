@@ -21,8 +21,14 @@
     <div class="login-panel-header">
       <p:graphicImage name="resources/images/axon_ivy_logo_round.svg" />
     </div>
-    <p:staticMessage rendered="#{engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}" severity="warn"
-      summary="#{engineModeBean.dashboardWarningSummary}" detail="No administrators configured, check your ivy.yaml" />
+    <h:panelGroup layout="block" rendered="#{engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}"
+      styleClass="ui-message ui-staticmessage ui-message-warn">
+      <span class="ui-message-warn-icon"></span>
+      <span class="ui-message-warn-summary">#{engineModeBean.dashboardWarningSummary}</span>
+      <span class="ui-message-warn-detail">No administrators configured, check your 
+      <a href="#{advisorBean.getEngineGuideBaseUrl()}/configuration/files/ivy-yaml.html">ivy.yaml</a>
+      </span>
+    </h:panelGroup>
     <div class="login-panel-content">
       <h:form id="loginForm">
         <p:focus for="userName" />
