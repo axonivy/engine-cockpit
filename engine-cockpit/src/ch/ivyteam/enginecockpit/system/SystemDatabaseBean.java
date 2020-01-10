@@ -308,13 +308,18 @@ public class SystemDatabaseBean extends StepStatus
   {
     oldProps.forEach(old -> {
       newProps.forEach(p -> {
-        if (p.getProperty().equals(old.getProperty()) && !old.getValue().isBlank())
+        if (p.getProperty().equals(old.getProperty()) && !old.getValue().isBlank() && !wasDefaultPort(old))
         {
           p.setValue(old.getValue());
         }
       });
     });
     return newProps;
+  }
+  
+  private static boolean wasDefaultPort(SystemDbConnectionProperty oldPort)
+  {
+    return StringUtils.equals(oldPort.getProperty().getLabel(), "Port") && oldPort.isDefaultValue();
   }
   
   private DatabaseConnectionConfiguration createConfiguration()
