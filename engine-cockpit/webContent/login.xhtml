@@ -21,6 +21,8 @@
     <div class="login-panel-header">
       <p:graphicImage name="resources/images/axon_ivy_logo_round.svg" />
     </div>
+    <p:staticMessage rendered="#{engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}" severity="warn"
+      summary="#{engineModeBean.dashboardWarningSummary}" detail="No administrators configured, check your ivy.yaml" />
     <div class="login-panel-content">
       <h:form id="loginForm">
         <p:focus for="userName" />

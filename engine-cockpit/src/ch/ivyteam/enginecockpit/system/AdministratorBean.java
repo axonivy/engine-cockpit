@@ -71,7 +71,7 @@ public class AdministratorBean extends StepStatus
   @Override
   public boolean isStepOk()
   {
-    return !hasDefaultAdmin() && !admins.isEmpty();
+    return !hasDefaultAdmin() && hasAdmins();
   }
   
 @Override
@@ -96,5 +96,10 @@ public class AdministratorBean extends StepStatus
   public boolean isDirty()
   {
     return dirty;
+  }
+
+  public boolean hasAdmins()
+  {
+    return !admins.isEmpty();
   }
 }
