@@ -283,11 +283,13 @@ public class WebTestSystemDb extends WebTestBase
     assertThat(dbType.getSelectedItem()).isEqualTo("Oracle");
     assertThat(dbDriver.getSelectedItem()).isEqualTo("Oracle Thin");
     $(".sysdb-dynamic-form-oracleservicename").shouldBe(exactValue(""));
+    $(".sysdb-dynamic-form-port input").shouldBe(exactValue("1521"));
     
     dbType.selectItemByLabel("MySQL");
     assertThat(dbType.getSelectedItem()).isEqualTo("MySQL");
     assertThat(dbDriver.getSelectedItem()).isEqualTo("mySQL");
     $(".sysdb-dynamic-form-host").shouldBe(exactValue("localhost"));
+    $(".sysdb-dynamic-form-port input").shouldBe(exactValue("3306"));
     
     dbType.selectItemByLabel("Hypersonic SQL Db");
     assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db");
