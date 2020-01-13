@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 
+import com.codeborne.selenide.Selenide;
+
 import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.setupwizard.WebTestWizard;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
@@ -107,6 +109,7 @@ public class WebDocuScreenshot extends WebTestBase
     Dimension oldSize = driver.manage().window().getSize();
     resizeBrowser(size);
     scrollToPosition(0, 0);
+    Selenide.sleep(100); //wait for menu animation
     saveDocuScreenshot(fileName);
     resizeBrowser(oldSize);
   }
