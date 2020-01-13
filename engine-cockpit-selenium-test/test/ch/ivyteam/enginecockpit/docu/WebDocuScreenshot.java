@@ -109,7 +109,7 @@ public class WebDocuScreenshot extends WebTestBase
     Dimension oldSize = driver.manage().window().getSize();
     resizeBrowser(size);
     scrollToPosition(0, 0);
-    Selenide.sleep(100); //wait for menu animation
+    Selenide.sleep(200); //wait for menu animation
     saveDocuScreenshot(fileName);
     resizeBrowser(oldSize);
   }
