@@ -46,7 +46,7 @@
 			<plugin>
 				<groupId>ch.ivyteam.maven</groupId>
 				<artifactId>screenshot-html-plugin</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>0.0.2-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<id>validate-images</id>
@@ -67,6 +67,7 @@
 						<phase>generate-resources</phase>
 						<goals><goal>generate-html</goal></goals>
 						<configuration>
+							<artifactTargetPath>/artifact/engine-cockpit-selenium-test/target/</artifactTargetPath>
 							<images>
 								<directory>${test.target.dir}docu</directory>
 								<includes>
