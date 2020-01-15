@@ -5,12 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 
+@IvySelenide
 public class WebBase
 {
   public static RemoteWebDriver driver;
@@ -18,10 +18,6 @@ public class WebBase
   @BeforeEach
   void initDriver()
   {
-    Configuration.browser = "firefox";
-    Configuration.headless = true;
-    Configuration.reportsFolder = "target/senenide/reports";
-    Selenide.open();
     WebBase.driver = (RemoteWebDriver) WebDriverRunner.getWebDriver();
   }
   
