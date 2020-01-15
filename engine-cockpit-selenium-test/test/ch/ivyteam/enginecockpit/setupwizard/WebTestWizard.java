@@ -8,7 +8,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +26,7 @@ public class WebTestWizard extends WebTestBase
     $("#applicationTabView").should(exist);
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
     $("#content > h1").shouldNot(exist);
-    assertThat(driver.getCurrentUrl()).endsWith("/ivy/sys/info.xhtml");
+    assertCurrentUrlEndsWith("/ivy/sys/info.xhtml");
   }
   
   @Test
