@@ -17,6 +17,7 @@ import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.synch.UserSynchResult;
+import ch.ivyteam.ivy.security.synch.UserSynchResult.SynchStatus;
 
 @ManagedBean
 @ViewScoped
@@ -68,8 +69,16 @@ public class UserDetailBean
   
   public void resetSynchInfo()
   {
-    this.userSynchName = null;
+    if (isUserNameSet())
+    {
+      this.userSynchName = null;
+    }
     this.synchLog = null;
+  }
+
+  public boolean isUserNameSet()
+  {
+    return StringUtils.isEmpty(userName);
   }
 
   public User getUser()
@@ -105,40 +114,21 @@ public class UserDetailBean
   public void synchUser()
   {
     UserSynchResult synchResult = getSecurityContext().synchronizeUser(userSynchName);
-    synchLog = synchResult.getMessage();
-  }
-
-  public void synchUserWithMessage()
-  {
-    UserSynchResult synchResult = getSecurityContext().synchronizeUser(userSynchName);
-    synchLog = synchResult.getMessage();
-    FacesMessage message;
-    switch (synchResult.getStatus())
+    if (synchResult.getStatus() == SynchStatus.SUCCESS)
     {
-      case NOT_FOUND:
-        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "User not found", "");
-        break;
-      case ERROR:
-        message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while synchronizing user " + userSynchName, "");
-        break;
-
-      case SUCCESS:
-      default:
-        this.user = new User(synchResult.getUser());
-        message = new FacesMessage("User synchronized");
-        break;
+      user = new User(synchResult.getUser());      
     }
-    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", message);
+    synchLog = synchResult.getSynchLog();
   }
-  
+
   public boolean isSynchLogAvailable()
   {
-	  return StringUtils.isNotEmpty(synchLog);
+    return StringUtils.isNotEmpty(synchLog);
   }
-  
+
   public String getSynchLog()
   {
-	  return synchLog;
+    return synchLog;
   }
 
   public String deleteSelectedUser()

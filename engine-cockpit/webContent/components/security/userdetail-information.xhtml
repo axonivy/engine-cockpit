@@ -11,19 +11,16 @@
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
     <p:autoUpdate/>
   </p:growl>
-  <p:commandButton id="synchronizeUser" actionListener="#{userDetailBean.synchUserWithMessage}" title="Synchronize"
-      icon="fa fa-refresh" styleClass="primary-btn card-button" rendered="#{!managerBean.ivySecuritySystem}"
-      update="userInformationForm" resetValues="true"/>
-  <p:commandButton id="showAdSyncLogBtn" icon="fa fa-info" styleClass="secondary-btn card-button"
-      rendered="#{userDetailBean.isSynchLogAvailable()}" type="button" />
-  <p:overlayPanel rendered="#{userDetailBean.isSynchLogAvailable()}" id="adSyncLog" for="showAdSyncLogBtn"
-      hideEffect="fade">
-    <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto; background-image: none;" readonly="true" id="logViewer"
-        value="#{userDetailBean.synchLog}" rows="1" />
-  </p:overlayPanel>
+  <div style="float: right; margin-right: 5px;">
+    <h:form id="synchronizeForm">
+      <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+          type="button" icon="fa fa-refresh" styleClass="primary-btn card-button" style="float: right;"
+          onclick="PF('synchUserModal').show()" update="@this" />
+    </h:form>
+  </div>
 
   <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
-      icon="ui-icon-save" styleClass="accent-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
+    icon="ui-icon-save" styleClass="accent-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
   <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
     icon="ui-icon-delete" styleClass="red-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
   <p:confirmDialog id="deleteUserConfirmDialog" message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User"
@@ -62,4 +59,5 @@
     <h:outputText value="This user is managed by an external security system"/>
   </h:panelGroup>
 </h:form>
+<ui:include src="../../dialogs/synchuser.xhtml" />
 </html>

@@ -11,7 +11,7 @@
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>User Name</label>
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required" value="#{userDetailBean.userSynchName}"/>
+        <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required" value="#{userDetailBean.userSynchName}" disabled="#{!userDetailBean.isUserNameSet()}"/>
         <p:message for="userSynchName" id="userNameMessage" />
       </h:panelGroup>
 

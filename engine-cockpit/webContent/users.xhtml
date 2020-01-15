@@ -30,16 +30,16 @@
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-3" style="margin: auto;">
-	            <h:panelGroup id="syncPanel">
-	              <div class="single-card-top-right-btn">
-	                <ui:include src="components/security/adsyncbtn.xhtml" />
-	                <p:commandButton id="newUserBtn" rendered="#{securityBean.ivySecurityForSelectedApp}"
-	                    value="New" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" />
-	              </div>
-	              <div style="float: right; margin-right: 5px;">
-	                <ui:include src="components/security/adsynclog.xhtml" />
-	              </div>
-	            </h:panelGroup>
+                <h:panelGroup id="syncPanel">
+                  <div class="single-card-top-right-btn">
+                    <ui:include src="components/security/adsyncbtn.xhtml" />
+                    <p:commandButton id="newUserBtn" rendered="#{securityBean.ivySecurityForSelectedApp}"
+                      value="New" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" />
+                  </div>
+                  <div style="float: right; margin-right: 5px;">
+                    <ui:include src="components/security/adsynclog.xhtml" />
+                  </div>
+                </h:panelGroup>
                 <div style="float: right; margin-right: 5px;">
                   <h:form id="synchronizeForm">
                     <p:commandButton title="More" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
