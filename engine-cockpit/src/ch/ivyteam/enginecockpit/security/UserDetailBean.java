@@ -8,12 +8,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.EmailSettings;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.synch.UserSynchResult;
 
 @ManagedBean
 @ViewScoped
@@ -23,6 +26,8 @@ public class UserDetailBean
   private User user;
   private EmailSettings emailSettings;
   private MemberProperty userProperties;
+  private String userSynchName;
+  private String synchLog;
 
   private List<Role> filteredRoles;
 
@@ -45,9 +50,26 @@ public class UserDetailBean
   public void setUserName(String userName)
   {
     this.userName = userName;
+    this.userSynchName = userName;
     IUser iUser = getSecurityContext().findUser(userName);
     this.user = new User(iUser);
     this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
+  }
+
+  public String getUserSynchName()
+  {
+    return userSynchName;
+  }
+
+  public void setUserSynchName(String userName)
+  {
+    this.userSynchName = userName;
+  }
+  
+  public void resetSynchInfo()
+  {
+    this.userSynchName = null;
+    this.synchLog = null;
   }
 
   public User getUser()
@@ -78,6 +100,45 @@ public class UserDetailBean
     }
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
             new FacesMessage("User information changes saved"));
+  }
+
+  public void synchUser()
+  {
+    UserSynchResult synchResult = getSecurityContext().synchronizeUser(userSynchName);
+    synchLog = synchResult.getMessage();
+  }
+
+  public void synchUserWithMessage()
+  {
+    UserSynchResult synchResult = getSecurityContext().synchronizeUser(userSynchName);
+    synchLog = synchResult.getMessage();
+    FacesMessage message;
+    switch (synchResult.getStatus())
+    {
+      case NOT_FOUND:
+        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "User not found", "");
+        break;
+      case ERROR:
+        message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while synchronizing user " + userSynchName, "");
+        break;
+
+      case SUCCESS:
+      default:
+        this.user = new User(synchResult.getUser());
+        message = new FacesMessage("User synchronized");
+        break;
+    }
+    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", message);
+  }
+  
+  public boolean isSynchLogAvailable()
+  {
+	  return StringUtils.isNotEmpty(synchLog);
+  }
+  
+  public String getSynchLog()
+  {
+	  return synchLog;
   }
 
   public String deleteSelectedUser()
