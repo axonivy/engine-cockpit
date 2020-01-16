@@ -32,7 +32,7 @@ public class WebTestMonitor
   void testLogsContent()
   {
     Navigation.toLogs();
-    $$(".ui-panel").shouldHave(size(4));
+    $$(".ui-panel").shouldHave(size(5));
   }
   
 }
