@@ -42,12 +42,11 @@
                 </h:panelGroup>
                 <div style="float: right; margin-right: 5px;">
                   <h:form id="synchronizeForm">
-                    <p:commandButton title="More" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+                    <p:commandButton title="More" id="moreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
                       type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
-                    <p:menu overlay="true" trigger="userSynchBtn" my="right top" at="right bottom" id="synchronizationMenu" style="min-width:180px;">
-                      <p:menuitem value="Synchronize User" 
-                          icon="fa fa-refresh" onclick="PF('synchUserModal').show()" update="@this" 
-                          id="synchUserBtn">
+                    <p:menu overlay="true" trigger="moreBtn" my="right top" at="right bottom" id="synchronizationMenu" style="min-width:180px;">
+                      <p:menuitem value="Synchronize User" id="synchUserBtn"
+                          icon="fa fa-refresh" onclick="PF('synchUserModal').show()">
                       </p:menuitem>
                     </p:menu>
                   </h:form>

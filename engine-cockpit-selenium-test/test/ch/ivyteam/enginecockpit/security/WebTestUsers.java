@@ -76,8 +76,7 @@ public class WebTestUsers extends WebTestBase
   void testSynchronizeSingleUser()
   {
     showSynchUserDialog();
-    $("#synchUserForm\\:userSynchName").shouldHave(text(""));
-    $("#synchUserForm\\:userSynchName").sendKeys("user1");
+    $("#synchUserForm\\:userSynchName").shouldHave(text("")).sendKeys("user1");
     $("#synchUserForm\\:synchUserVar").click();
     $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
   }
@@ -85,8 +84,8 @@ public class WebTestUsers extends WebTestBase
   private void showSynchUserDialog()
   {
     navigateToUsers("test-ad");
-    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:synchronizeForm\\:userSynchBtn").click();
-    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:synchronizeForm\\:synchUserBtn").click();
+    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:synchronizeForm\\:moreBtn").click();
+    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:synchronizeForm\\:synchUserBtn").shouldBe(visible).click();
     $("#synchUserForm").shouldBe(visible);
   }
   

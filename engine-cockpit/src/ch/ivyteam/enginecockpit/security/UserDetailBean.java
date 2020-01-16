@@ -69,16 +69,11 @@ public class UserDetailBean
   
   public void resetSynchInfo()
   {
-    if (isUserNameSet())
+    if (StringUtils.isEmpty(userName))
     {
       this.userSynchName = null;
     }
     this.synchLog = null;
-  }
-
-  public boolean isUserNameSet()
-  {
-    return StringUtils.isEmpty(userName);
   }
 
   public User getUser()
@@ -119,11 +114,6 @@ public class UserDetailBean
       user = new User(synchResult.getUser());      
     }
     synchLog = synchResult.getSynchLog();
-  }
-
-  public boolean isSynchLogAvailable()
-  {
-    return StringUtils.isNotEmpty(synchLog);
   }
 
   public String getSynchLog()

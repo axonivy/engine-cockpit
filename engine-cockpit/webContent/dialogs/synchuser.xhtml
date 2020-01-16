@@ -11,7 +11,8 @@
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>User Name</label>
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required" value="#{userDetailBean.userSynchName}" disabled="#{!userDetailBean.isUserNameSet()}"/>
+        <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required" value="#{userDetailBean.userSynchName}"
+            disabled="#{not empty userDetailBean.userName}"/>
         <p:message for="userSynchName" id="userNameMessage" />
       </h:panelGroup>
 
@@ -24,10 +25,10 @@
     <p:commandButton id="synchUserVar" validateClient="true"
       actionListener="#{userDetailBean.synchUser}" value="Synch" icon="fa fa-refresh"
       styleClass="primary-btn modal-input-button" update="@form"  />
-    <p:commandButton id="closeSynchUser" onclick="PF('synchUserModal').hide()" value="Close" ajax="false" actionListener="#{userDetailBean.resetSynchInfo}"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" immediate="true">
+    <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{userDetailBean.resetSynchInfo}"
+          icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" immediate="true">
       <p:resetInput target=":synchUserForm" />
-      </p:commandButton>
+    </p:commandButton>
   </h:form>
 </p:dialog>
 </html>

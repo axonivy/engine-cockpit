@@ -217,10 +217,9 @@ public class WebTestUserDetail extends WebTestBase
   void testSynchronizeUser()
   {
     openADUserDetail();
-    $("#userInformationForm\\:synchronizeForm\\:userSynchBtn").click();
+    $("#userInformationForm\\:userSynchBtn").click();
     $("#synchUserForm").shouldBe(visible);
-    $("#synchUserForm\\:userSynchName").shouldBe(disabled);
-    $("#synchUserForm\\:userSynchName").shouldBe(value(DETAIL_AD_USER_NAME));
+    $("#synchUserForm\\:userSynchName").shouldBe(disabled, value(DETAIL_AD_USER_NAME));
     $("#synchUserForm\\:synchUserVar").click();
     $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
   }

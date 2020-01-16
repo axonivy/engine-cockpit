@@ -12,11 +12,9 @@
     <p:autoUpdate/>
   </p:growl>
   <div style="float: right; margin-right: 5px;">
-    <h:form id="synchronizeForm">
-      <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
-          type="button" icon="fa fa-refresh" styleClass="primary-btn card-button" style="float: right;"
-          onclick="PF('synchUserModal').show()" update="@this" />
-    </h:form>
+    <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+        type="button" icon="fa fa-refresh" styleClass="secondary-btn card-button" style="float: right;"
+        onclick="PF('synchUserModal').show()" />
   </div>
 
   <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
