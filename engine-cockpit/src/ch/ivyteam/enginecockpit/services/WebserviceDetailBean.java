@@ -22,6 +22,7 @@ import ch.ivyteam.enginecockpit.model.Webservice;
 import ch.ivyteam.enginecockpit.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
+import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.util.Authenticator;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
@@ -39,12 +40,15 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private String activeEndpointUrl;
   private ConnectionTestResult testResult;
   
+  private final ConnectionTestWrapper connectionTest;
+  
   public WebserviceDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
+    connectionTest = new ConnectionTestWrapper();
   }
   
   public String getWebserviceId()
@@ -119,6 +123,11 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   
   public void testWsEndpointUrl()
   {
+    testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
+  }
+  
+  private ConnectionTestResult testConnection()
+  {
     Client client = ClientBuilder.newClient();
     if (authSupportedForTesting())
     {
@@ -129,20 +138,20 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
       int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
       if (status == 401)
       {
-        testResult = new ConnectionTestResult("POST", status, TestResult.WARNING, "Authentication (only HttpBasic supported) was not successful");
+        return new ConnectionTestResult("POST", status, TestResult.WARNING, "Authentication (only HttpBasic supported) was not successful");
       }
       else if (status == 404)
       {
-        testResult = new ConnectionTestResult("POST", status, TestResult.WARNING, "Service not found");
+        return new ConnectionTestResult("POST", status, TestResult.WARNING, "Service not found");
       }
       else
       {
-        testResult = new ConnectionTestResult("POST", status, TestResult.SUCCESS, "Successfully reached web service");
+        return new ConnectionTestResult("POST", status, TestResult.SUCCESS, "Successfully reached web service");
       }
     }
     catch (ProcessingException ex)
     {
-      testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
+      return new ConnectionTestResult("", 0, TestResult.ERROR, "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
               + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
@@ -161,6 +170,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   
   public void saveConfig()
   {
+    connectionTest.stop();
     Webservice originConfig = createWebService();
     setIfChanged(wsConfigKey + ".Properties.username", webservice.getUsername(), originConfig.getUsername());
     setIfPwChanged(wsConfigKey + ".Properties.password", webservice);
@@ -172,6 +182,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   @SuppressWarnings("restriction")
   public void resetConfig()
   {
+    connectionTest.stop();
     configuration.remove(wsConfigKey + ".Properties");
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
             new FacesMessage("Web Service configuration reset", ""));

@@ -19,6 +19,7 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
+import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
@@ -39,6 +40,8 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private String restConfigKey;
   private ConnectionTestResult testResult;
   
+  private final ConnectionTestWrapper connectionTest;
+  
   public RestClientDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
@@ -46,6 +49,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
             ManagerBean.class);
     restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
     configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
+    connectionTest = new ConnectionTestWrapper();
   }
   
   public String getRestClientName()
@@ -115,6 +119,11 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   
   public void testRestConnection()
   {
+    testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
+  }
+  
+  private ConnectionTestResult testConnection()
+  {
     try
     {
       ExternalRestWebServiceCall restCall = DiCore.getGlobalInjector().getInstance(WebserviceExecutionManager.class)
@@ -123,26 +132,27 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
       int status = restCall.getWebTarget().request().head().getStatus();
       if (status >= 200 && status < 400)
       {
-        testResult = new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
+        return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
       }
       else if (status == 401)
       {
-        testResult = new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
+        return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
       }
       else 
       {
-        testResult = new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
+        return new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
       }
     }
     catch (ProcessingException ex)
     {
-      testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
+      return new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
               + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
   
   public void saveConfig()
   {
+    connectionTest.stop();
     RestClient originConfig = createRestClient();
     setIfChanged(restConfigKey + ".Url", restClient.getUrl(), originConfig.getUrl());
     setIfChanged(restConfigKey + ".Properties.username", restClient.getUsername(), originConfig.getUsername());
@@ -154,6 +164,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   
   public void resetConfig()
   {
+    connectionTest.stop();
     configuration.remove(restConfigKey);
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
             new FacesMessage("Rest configuration reset", ""));

@@ -27,7 +27,7 @@
       </p:panelGrid>
       <p:commandButton id="testConnectionBtn" title="Test External Database Connection" update="@form" value="Test"
         icon="ui-icon-call-made" styleClass="primary-btn modal-input-button" actionListener="#{cc.attrs.testMethod}" immediate="true"
-        process="@this"/>
+        process="@this" async="true"/>
       <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide();" value="Close" type="button"
         icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
     </h:form>

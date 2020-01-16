@@ -31,7 +31,7 @@
       <p:commandButton id="testWsEndpointBtn" title="Test Web Service Endpoint Connection" update="connResult:connectionTestModel"
         icon="ui-icon-call-made" styleClass="secondary-btn table-control-btn card-button" process="@this"
         actionListener="#{webserviceDetailBean.setActiveEndpoint(endpoint.name)}" style="margin-right: 0px;"
-        rendered="#{endpoint.type eq 'link'}" oncomplete="PF('connectionTestModel').show()" />
+        rendered="#{endpoint.type eq 'link'}" oncomplete="PF('connectionTestModel').show()" async="true" />
     </p:column>
   </p:treeTable>
   <h:outputText value="No Enpoint defined for this webservice" rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" />

@@ -23,6 +23,7 @@ import ch.ivyteam.enginecockpit.model.ExternalDatabase.Connection;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase.ExecStatement;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
+import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.db.IExternalDatabase;
@@ -42,12 +43,15 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   private String dbConfigKey;
   private ConnectionTestResult testResult;
   
+  private final ConnectionTestWrapper connectionTest;
+  
   public ExternalDatabaseDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
+    connectionTest = new ConnectionTestWrapper();
   }
   
   public String getDatabaseName()
@@ -136,27 +140,33 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   
   public void testDbConnection()
   {
+    testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
+  }
+  
+  private ConnectionTestResult testConnection()
+  {
     ExternalDatabaseManager dbManager = DiCore.getGlobalInjector().getInstance(ExternalDatabaseManager.class);
     IExternalDatabase iExternalDatabase = dbManager.getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
     try
     {
       if (iExternalDatabase.getConnection().isValid(10))
       {
-        testResult = new ConnectionTestResult("", 0, TestResult.SUCCESS, "Successfully connected to database");
+        return new ConnectionTestResult("", 0, TestResult.SUCCESS, "Successfully connected to database");
       }
       else
       {
-        testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "Could not connect to database");
+        return new ConnectionTestResult("", 0, TestResult.ERROR, "Could not connect to database");
       }
     }
     catch (NullPointerException | SQLException ex)
     {
-      testResult = new ConnectionTestResult("", 0, TestResult.ERROR, "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+      return new ConnectionTestResult("", 0, TestResult.ERROR, "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
   
   public void saveDbConfig()
   {
+    connectionTest.stop();
     ExternalDatabase originConfig = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
     setIfChanged(dbConfigKey + ".Url", externalDatabase.getUrl(), originConfig.getUrl());
     setIfChanged(dbConfigKey + ".Driver", externalDatabase.getDriver(), originConfig.getDriver());
@@ -170,6 +180,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   
   public void resetDbConfig()
   {
+    connectionTest.stop();
     configuration.remove(dbConfigKey);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
             new FacesMessage("Database configuration reset", ""));

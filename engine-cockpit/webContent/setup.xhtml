@@ -43,12 +43,12 @@
                 <h:panelGroup id="wizardStepButtons">
                   <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Next" 
                     update="wizardStepPage" process="@this" immediate="true" icon="ui-icon-navigate-next" 
-                    styleClass="wizard-step-button" rendered="#{!wizardBean.lastStep}" />
+                    styleClass="wizard-step-button" rendered="#{!wizardBean.lastStep}" async="true"/>
                   <p:commandButton id="finishWizard" value="Finish" oncomplete="PF('finishWizardModel').show();"
                     update="finishWizardModel" icon="ui-icon-check" styleClass="wizard-step-button" rendered="#{wizardBean.lastStep}" />
                   <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
                     icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" 
-                    rendered="#{!wizardBean.firstStep}" />
+                    rendered="#{!wizardBean.firstStep}" async="true"/>
                   <p:commandButton id="cancelWizard" onclick="window.location = '/'" value="Cancel" type="button"
                     icon="ui-icon-clear" styleClass="secondary-btn wizard-step-button" rendered="#{wizardBean.firstStep}"/>
                 </h:panelGroup>

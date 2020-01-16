@@ -25,7 +25,7 @@
           
           <div>
             <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button primary-btn"
-              onstart="$('#connectionIcon').attr('class', 'fa fa-refresh fa-spin fa-fw');"
+              onstart="$('#connectionIcon').attr('class', 'fa fa-refresh fa-spin fa-fw');" async="true"
               icon="ui-icon-check" update="#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.testConnection()}" />
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="ui-icon-dns" styleClass="wizard-top-button secondary-btn" 
               actionListener="#{systemDatabaseBean.initCreator()}" update="systemDb:createDatabaseDialog" 

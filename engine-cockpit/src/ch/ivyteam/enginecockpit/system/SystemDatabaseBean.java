@@ -48,6 +48,8 @@ public class SystemDatabaseBean extends StepStatus
   private SystemDatabaseConverter converter;
   private SystemDatabaseCreator creator;
   
+  private final ConnectionTestWrapper connectionTest;
+  
   public SystemDatabaseBean()
   {
     DatabaseConnectionConfiguration config = SystemDatabaseSetup.getConfiguredSystemDatabaseConfig().getDbConnectionConfig();
@@ -57,6 +59,7 @@ public class SystemDatabaseBean extends StepStatus
     this.creationParameters = Collections.emptyList();
     this.additionalProps = config.getProperties();
     this.connectionInfo = new ConnectionInfo();
+    this.connectionTest = new ConnectionTestWrapper(new ConnectionInfo());
   }
 
   private Set<DatabaseProduct> getSupportedDatabases()
@@ -160,6 +163,7 @@ public class SystemDatabaseBean extends StepStatus
   
   public void configChanged()
   {
+    connectionTest.stop();
     this.connectionInfo = new ConnectionInfo();
   }
   
@@ -181,12 +185,18 @@ public class SystemDatabaseBean extends StepStatus
   
   public void testConnection()
   {
+    connectionInfo = (ConnectionInfo) connectionTest.test(() -> testSystemDbConnection());
+  }
+  
+  private ConnectionInfo testSystemDbConnection()
+  {
     ConnectionTestResult testConnection = ConnectionTester.testConnection(createConfiguration());
-    connectionInfo = new ConnectionInfo(testConnection);
-    if (connectionInfo.hasError())
+    ConnectionInfo connection = new ConnectionInfo(testConnection);
+    if (connection.hasError())
     {
       Ivy.log().error("System Database connection test has an error:", connectionInfo.getError());
     }
+    return connection;
   }
   
   public void saveConfiguration()
