@@ -1,5 +1,8 @@
 package ch.ivyteam.enginecockpit.services;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createBusinessData;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
@@ -10,23 +13,39 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestSearchEngine extends WebTestBase
+@IvySelenide
+public class WebTestSearchEngine
 {
 
   private static final String dossierIndex = "ivy.businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
   private static final String addressIndex = "ivy.businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
 
+  @BeforeAll
+  static void setup()
+  {
+    createBusinessData();
+  }
+ 
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toSearchEngine();
+  }
+  
   @Test
   public void testElasticSearchInfo()
   {
-    toSearchEngine();
     $$(".ui-panel").shouldHave(size(2));
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
@@ -38,9 +57,6 @@ public class WebTestSearchEngine extends WebTestBase
   @Test
   public void testElasticSearchIndices()
   {
-    createBusinessData();
-    toSearchEngine();
-    
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSize(2)
             .contains(dossierIndex, addressIndex);
@@ -51,7 +67,6 @@ public class WebTestSearchEngine extends WebTestBase
   @Test
   public void testElasticSearchConfigEdit()
   {
-    toSearchEngine();
     $("#searchEngineInfoForm\\:configSearchEngine").click();
     assertCurrentUrlEndsWith("systemconfig.xhtml?filter=ElasticSearch");
   }
@@ -59,7 +74,6 @@ public class WebTestSearchEngine extends WebTestBase
   @Test
   public void testElasticSearchQueryTool()
   {
-    toSearchEngine();
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     $("#searchEngineInfoForm\\:queryToolBtn").click();
     assertQueryTool("GET: http://localhost:19200/", "ivy-elasticsearch", 3);
@@ -68,8 +82,6 @@ public class WebTestSearchEngine extends WebTestBase
   @Test
   public void testElasticSearchIndexQueryTool()
   {
-    createBusinessData();
-    toSearchEngine();
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable"))
             .clickButtonForEntry(dossierIndex, "queryToolBtn");
@@ -79,8 +91,6 @@ public class WebTestSearchEngine extends WebTestBase
   @Test
   public void testElasticSearchReindex()
   {
-    createBusinessData();
-    toSearchEngine();
     $("reindexSearchEngineModel").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);
@@ -117,9 +127,4 @@ public class WebTestSearchEngine extends WebTestBase
     assertThat(table.getValueForEntry(tableRow, 5)).doesNotContain("unknown");
   }
   
-  private void toSearchEngine()
-  {
-    login();
-    Navigation.toSearchEngine();
-  }
 }

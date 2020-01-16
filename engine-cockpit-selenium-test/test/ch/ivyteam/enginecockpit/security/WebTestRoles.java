@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Selenide.$;
@@ -9,11 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import com.codeborne.selenide.Condition;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-public class WebTestRoles extends WebTestBase
+public class WebTestRoles
 {
 
   @Test

@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exist;
@@ -9,19 +11,26 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
 
-public class WebTestWizard extends WebTestBase
+@IvySelenide
+public class WebTestWizard
 {
   static final String ACTIVE_WIZARD_STEP = "#stepForm\\:wizardSteps li.ui-state-highlight";
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    navigateToStep("Licence");
+    $(ACTIVE_WIZARD_STEP).should(exist);
+  }
   
   @Test
   public void testBannerLink()
   {
-    navigateToWizard();
-
     $("#bannerLogo").click();
     $("#applicationTabView").should(exist);
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
@@ -32,7 +41,6 @@ public class WebTestWizard extends WebTestBase
   @Test
   public void testNextAndPrevStep()
   {
-    navigateToStep("Licence");
     nextStep();
     $(ACTIVE_WIZARD_STEP).shouldBe(text("Administrators"));
     prevStep();
@@ -42,7 +50,6 @@ public class WebTestWizard extends WebTestBase
   @Test
   public void testCancelWizard()
   {
-    navigateToStep("Licence");
     cancelWizard();
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
   }
@@ -54,15 +61,6 @@ public class WebTestWizard extends WebTestBase
     finishWizard();
     $("#configErrorMessage a").shouldBe(visible, text("LICENCE")).click();
     $(ACTIVE_WIZARD_STEP).shouldBe(text("Licence"));
-  }
-  
-  //TODO: add tests for finish dialog warnings
-  //TODO: add tests for start with warning step
-  
-  private void navigateToWizard()
-  {
-    login("setup.xhtml");
-    $(ACTIVE_WIZARD_STEP).should(exist);
   }
   
   public static void cancelWizard()

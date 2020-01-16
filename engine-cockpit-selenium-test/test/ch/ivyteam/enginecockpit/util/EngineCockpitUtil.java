@@ -1,29 +1,45 @@
-package ch.ivyteam.enginecockpit;
+package ch.ivyteam.enginecockpit.util;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebDriverRunner;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
-
-public class WebTestBase extends WebBase
+public class EngineCockpitUtil
 {
+  public static final String DESIGNER_APP = "designer";
   
-  public void scrollToElement(By element)
+  public static String applicationName()
   {
-    $(element).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+    return System.getProperty("test.engine.app", DESIGNER_APP);
+  }
+  
+  public static boolean isDesignerApp()
+  {
+    return System.getProperty("test.engine.app", DESIGNER_APP).equals(DESIGNER_APP);
+  }
+
+  public static String pmvName()
+  {
+    return System.getProperty("test.engine.pmv", "engine-cockpit");
+  }
+  
+  public static String getAdminUser()
+  {
+    return isDesignerApp() ? "Developer" : "admin";
   }
   
   public static void login(String url)
   {
     open(viewUrl(url));
-    if (driver.getCurrentUrl().endsWith("login.xhtml"))
+    if (getCurrentUrl().endsWith("login.xhtml"))
     {
       $("h1").shouldHave(text("Engine Cockpit"));
       $("#loginForm\\:userName").sendKeys(getAdminUser());
@@ -39,14 +55,34 @@ public class WebTestBase extends WebBase
     login("dashboard.xhtml");
   }
   
-  public static String getAdminUser()
-  {
-    return EngineCockpitUrl.isDesignerApp() ? "Developer" : "admin";
-  }
-  
   public static void waitUntilAjaxIsFinished()
   {
     $("#ajaxLoadingStatus_start").shouldNotBe(visible);
+  }
+  
+  public static void assertCurrentUrlContains(String contains)
+  {
+    assertThat(getCurrentUrl()).contains(contains);
+  }
+  
+  public static void assertCurrentUrlEndsWith(String endsWith)
+  {
+    String url = getCurrentUrl();
+    if (url.contains(";jsessionid"))
+    {
+      url = url.substring(0, url.indexOf(";jsessionid"));
+    }
+    assertThat(url).endsWith(endsWith);
+  }
+  
+  public static void executeJs(String js)
+  {
+    ((RemoteWebDriver) WebDriverRunner.getWebDriver()).executeScript(js);
+  }
+  
+  public static String escapeSelector(String selector)
+  {
+    return "#" + selector.replace(":", "\\:");
   }
   
   public static void addSystemAdmin()
@@ -104,7 +140,7 @@ public class WebTestBase extends WebBase
   private static void runTestProcess(String processLink)
   {
     open(EngineCockpitUrl.base() + "/pro/" + getAppName() + processLink);
-    if (EngineCockpitUrl.isDesignerApp())
+    if (isDesignerApp())
     {
       $("h2").shouldBe(Condition.text("Personal Task List"));
     }
@@ -112,11 +148,16 @@ public class WebTestBase extends WebBase
     {
       $("h3").shouldBe(Condition.text("Task End"));
     }
-    assertCurrentUrlContains(EngineCockpitUrl.isDesignerApp() ? "index.jsp" : "end");
+    assertCurrentUrlContains(isDesignerApp() ? "index.jsp" : "end");
   }
   
   private static String getAppName()
   {
-    return EngineCockpitUrl.isDesignerApp() ? EngineCockpitUrl.DESIGNER_APP : "test";
+    return isDesignerApp() ? DESIGNER_APP : "test";
+  }
+  
+  private static String getCurrentUrl()
+  {
+    return WebDriverRunner.getWebDriver().getCurrentUrl();
   }
 }

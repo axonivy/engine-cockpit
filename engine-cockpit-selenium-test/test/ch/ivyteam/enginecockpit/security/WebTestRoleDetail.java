@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.empty;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -11,30 +13,39 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-public class WebTestRoleDetail extends WebTestBase
+@IvySelenide
+public class WebTestRoleDetail
 {
   private static final String DETAIL_ROLE_NAME = "boss";
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toRoles();
+    Tab.switchToTab("test");
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+  }
   
   @Test
   void testRoleDetailOpen()
   {
-    toRoleDetail();
     assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
   }
   
   @Test
   void testSaveRoleInformation()
   {
-    toRoleDetail();
     clearRoleInfoInputs();
     
     $("#roleInformationForm\\:displayName").sendKeys("display");
@@ -57,8 +68,6 @@ public class WebTestRoleDetail extends WebTestBase
   @Test
   void testNewChildRole()
   {
-    toRoleDetail();
-    
     $("#roleInformationForm\\:createNewChildRole").click();
     $("#newChildRoleDialog").shouldBe(visible);
     
@@ -83,8 +92,6 @@ public class WebTestRoleDetail extends WebTestBase
   @Test
   void testAddAndRemoveUser()
   {
-    toRoleDetail("test");
-    
     String roleUsers = "#usersOfRoleForm\\:roleUserTable td.user-row";
     $$(roleUsers).shouldBe(empty);
     $("#usersOfRoleForm\\:addUserDropDown_input").sendKeys("fo");
@@ -105,8 +112,6 @@ public class WebTestRoleDetail extends WebTestBase
   @Test
   void testAddAndRemoveMember()
   {
-    toRoleDetail();
-    
     String roleMembers = "#membersOfRoleForm\\:roleMemberTable td.member-row";
     $$(roleMembers).shouldBe(empty);
     
@@ -129,7 +134,6 @@ public class WebTestRoleDetail extends WebTestBase
   @Test
   void testExternalSecurityName()
   {
-    login();
     Navigation.toRoles();
     Tab.switchToTab("test-ad");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
@@ -161,19 +165,6 @@ public class WebTestRoleDetail extends WebTestBase
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
   }
 
-  private void toRoleDetail()
-  {
-    toRoleDetail("test-ad");
-  }
-  
-  private void toRoleDetail(String app)
-  {
-    login();
-    Navigation.toRoles();
-    Tab.switchToTab(app);
-    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
-  }
-  
   private void clearRoleInfoInputs()
   {
     $("#roleInformationForm\\:displayName").clear();

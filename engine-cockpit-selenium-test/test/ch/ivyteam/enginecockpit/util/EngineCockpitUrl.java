@@ -1,5 +1,8 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.applicationName;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.pmvName;
+
 import java.net.URISyntaxException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -7,7 +10,6 @@ import org.apache.http.client.utils.URIBuilder;
 
 public class EngineCockpitUrl
 {
-  public static final String DESIGNER_APP = "designer";
   private URIBuilder uriBuilder;
 
   private EngineCockpitUrl(String... parts)
@@ -49,18 +51,4 @@ public class EngineCockpitUrl
     return StringUtils.removeEnd(System.getProperty("test.engine.url", "http://localhost:8081/ivy"), "/");
   }
 
-  public static String applicationName()
-  {
-    return System.getProperty("test.engine.app", DESIGNER_APP);
-  }
-  
-  public static boolean isDesignerApp()
-  {
-    return System.getProperty("test.engine.app", DESIGNER_APP).equals(DESIGNER_APP);
-  }
-
-  public static String pmvName()
-  {
-    return System.getProperty("test.engine.pmv", "engine-cockpit");
-  }
 }

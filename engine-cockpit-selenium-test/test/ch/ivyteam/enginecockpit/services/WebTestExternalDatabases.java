@@ -1,21 +1,26 @@
 package ch.ivyteam.enginecockpit.services;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestExternalDatabases extends WebTestBase
+@IvySelenide
+public class WebTestExternalDatabases
 {
+  
   @Test
   void testDatabasesInTable()
   {
-    navigateToDatabases();
+    login();
+    Navigation.toExternalDatabases();
     Table table = new Table(By.id("form:card:tabs:applicationTabView:" + 
             Tab.getSelectedTabIndex() + ":tableForm:externalDatabasesTable"), true);
     table.firstColumnShouldBe(size(3));
@@ -24,9 +29,4 @@ public class WebTestExternalDatabases extends WebTestBase
     table.firstColumnShouldBe(size(1));
   }
   
-  private void navigateToDatabases()
-  {
-    login();
-    Navigation.toExternalDatabases();
-  }
 }

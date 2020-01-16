@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createLicenceEvents;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.exactText;
@@ -8,19 +10,34 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestDashboard extends WebTestBase
+@IvySelenide
+public class WebTestDashboard
 {
+  @BeforeAll
+  static void setup()
+  {
+    createLicenceEvents();
+  }
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+  }
+  
   @Test
   void testDashboardContent()
   {
-    toDashboard();
     $$(".overview-box-content").shouldHave(size(4));
     $$(".ui-panel").shouldHave(size(5));
   }
@@ -28,8 +45,7 @@ public class WebTestDashboard extends WebTestBase
   @Test
   void checkLicenceInfo()
   {
-    toDashboard();
-    $("#tasksButtonLicenceDetail").click();
+    $("#tasksButtonLicenceDetail").shouldBe(visible).click();
     $("#licenceDetailDialog").shouldBe(visible);
     new Table(By.id("licenceInfoForm:licenceInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
   }
@@ -37,8 +53,6 @@ public class WebTestDashboard extends WebTestBase
   @Test
   void checkLicenceEvents()
   {
-    createLicenceEvents();
-    toDashboard();
     $("#tasksButtonLicenceEvents").shouldBe(visible);
     $$(".topbar-notifications > a > span").first().shouldBe(exactText("2"));
     
@@ -64,8 +78,7 @@ public class WebTestDashboard extends WebTestBase
   @Test
   void checkJavaInfo()
   {
-    toDashboard();
-    $("#tasksButtonJavaDetail").click();
+    $("#tasksButtonJavaDetail").shouldBe(visible).click();
     $("#javaDetailDialog").shouldBe(visible);
     new Table(By.id("javaInfoForm:javaJVMInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
     new Table(By.id("javaInfoForm:javaPropertiesInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
@@ -74,8 +87,7 @@ public class WebTestDashboard extends WebTestBase
   @Test
   public void testSendTestMailInvalidInputs()
   {
-    toDashboardAndOpenSendMailModal();
-    
+    openSendMailModal();
     $("#sendTestMailForm\\:sendToInput").clear();
     $("#sendTestMailForm\\:subjectInput").clear();
     $("#sendTestMailForm\\:sendTestMailBtn").click();
@@ -86,23 +98,18 @@ public class WebTestDashboard extends WebTestBase
   @Test
   public void testSendTestMailError()
   {
-    toDashboardAndOpenSendMailModal();
-    
+    openSendMailModal();
     $("#sendTestMailForm\\:sendToInput").sendKeys("test@example.com");
     $("#sendTestMailForm\\:sendTestMailBtn").click();
     $("#mailConfigForm\\:msgs_container").shouldBe(visible);
     $("#mailConfigForm\\:msgs_container").shouldHave(Condition.text("Error while sending test mail"));
   }
 
-  private void toDashboardAndOpenSendMailModal()
+  private void openSendMailModal()
   {
-    toDashboard();
-    $("#mailConfigForm\\:openTestMailBtn").click();
+    $("#mailConfigForm\\:openTestMailBtn").shouldBe(visible).click();
     $("#sendTestMailModal").shouldBe(visible);
   }
   
-  private void toDashboard()
-  {
-    login();
-  }
+
 }

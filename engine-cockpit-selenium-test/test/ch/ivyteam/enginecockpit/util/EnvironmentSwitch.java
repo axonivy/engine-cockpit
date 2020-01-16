@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.escapeSelector;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -8,8 +9,6 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import ch.ivyteam.enginecockpit.WebBase;
 
 public class EnvironmentSwitch
 {
@@ -41,6 +40,6 @@ public class EnvironmentSwitch
   
   private static String getEnvId()
   {
-    return WebBase.escapeSelector($$(ENV_SWITCH).find(visible).getAttribute("id"));
+    return escapeSelector($$(ENV_SWITCH).find(visible).getAttribute("id"));
   }
 }

@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
@@ -8,17 +9,20 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.Condition;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestUserAndRoleProperties extends WebTestBase
+@IvySelenide
+public class WebTestProperties
 {
   private static final String PROPERTY_VALUE_MESSAGE = "#propertyModalForm\\:propertyValueMessage";
   private static final String PROPERTY_NAME_MESSAGE = "#propertyModalForm\\:propertyNameMessage";
@@ -29,48 +33,15 @@ public class WebTestUserAndRoleProperties extends WebTestBase
   private static final String PROPERTY_VALUE_INPUT = "#propertyModalForm\\:propertyValueInput";
   private static final By TABLE_ID = By.id("propertiesForm:propertiesTable");
   
-  @Test
-  public void testUserPropertyInvalid()
-  {
-    toUserDetail();
-    openAddPropertyModal();
-    saveInvalidAddProperty();
-  }
-  
-  @Test
-  public void testRolePropertyInvalid()
-  {
-    toRoleDetail("boss");
-    openAddPropertyModal();
-    saveInvalidAddProperty();
-  }
-  
-  @Test
-  public void testUserPropertyAddEditDelete()
-  {
-    String key = "test";
-    toUserDetail();
-    openAddPropertyModal();
-    addProperty(key, "testValue");
-    editProperty(key, "edit");
-    deleteProperty(key);
-  }
-  
-  @Test
-  public void testRolePropertyAddEditDelete()
-  {
-    String key = "test";
-    toRoleDetail("boss");
-    openAddPropertyModal();
-    addProperty(key, "testValue");
-    editProperty(key, "edit");
-    deleteProperty(key);
-  }
-  
-  @Test
-  public void testUserDirectoryProperties()
+  @BeforeEach
+  void beforeEach()
   {
     login();
+  }
+  
+  @Test
+  public void testUserADSyncProperties()
+  {
     Navigation.toUsers();
     Tab.switchToTab("test-ad");
     String syncBtnId = "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
@@ -78,6 +49,61 @@ public class WebTestUserAndRoleProperties extends WebTestBase
     $(syncBtnId + " > span:first-child").shouldNotHave(cssClass("fa-spin"));
     Navigation.toUserDetail("user1");
     assertTableHasDirectoryProperty("Address", "Baarerstrasse 12");
+  }
+  
+  @Nested
+  class User
+  {
+    @BeforeEach
+    void beforeEach()
+    {
+      Navigation.toUsers();
+      Tab.switchToTab("test");
+      Navigation.toUserDetail("foo");
+      openAddPropertyModal();
+    }
+    
+    @Test
+    public void testPropertyInvalid()
+    {
+      saveInvalidAddProperty();
+    }
+    
+    @Test
+    public void testPropertyAddEditDelete()
+    {
+      String key = "test";
+      addProperty(key, "testValue");
+      editProperty(key, "edit");
+      deleteProperty(key);
+    }
+  }
+  
+  @Nested
+  class Role
+  {
+    @BeforeEach
+    void beforeEach()
+    {
+      login();
+      Navigation.toRoleDetail("boss");
+      openAddPropertyModal();
+    }
+    
+    @Test
+    public void testPropertyInvalid()
+    {
+      saveInvalidAddProperty();
+    }
+    
+    @Test
+    public void testPropertyAddEditDelete()
+    {
+      String key = "test";
+      addProperty(key, "testValue");
+      editProperty(key, "edit");
+      deleteProperty(key);
+    }
   }
   
   private void editProperty(String key, String value)
@@ -146,17 +172,4 @@ public class WebTestUserAndRoleProperties extends WebTestBase
     $(PROPERTY_VALUE_MESSAGE).shouldBe(empty);
   }
   
-  private void toUserDetail()
-  {
-    login();
-    Navigation.toUsers();
-    Tab.switchToTab("test");
-    Navigation.toUserDetail("foo");
-  }
-  
-  private void toRoleDetail(String roleName)
-  {
-    login();
-    Navigation.toRoleDetail(roleName);
-  }
 }

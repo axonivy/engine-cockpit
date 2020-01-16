@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
@@ -16,9 +18,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
@@ -26,11 +30,11 @@ import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-public class WebTestUserDetail extends WebTestBase
+@IvySelenide
+public class WebTestUserDetail
 {
   private static final String CSS_MEMBER_INHERIT = "member-inherit-icon";
   private static final String CSS_MEMBER = "fa-check";
@@ -39,28 +43,36 @@ public class WebTestUserDetail extends WebTestBase
   private static final String ROLE_ADD_BUTTON = "button:nth-child(1)";
   private static final String ROLE_EXPANDER = "span:nth-child(2)";
   private static final String MEMBER_ICON = "td:nth-child(2) > i";
-  private static final String DETAIL_USER_NAME = "foo";
-  private static final String DETAIL_AD_USER_NAME = "user1";
-  private static final String DETAIL_USER_NAME_DELETE = "bar";
+  private static final String USER_FOO = "foo";
+  private static final String USER_BAR = "bar";
+  private static final String USER_AD = "user1";
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toUsers();
+    Tab.switchToTab("test");
+  }
   
   @Test
   void testUsersDetailOpen()
   {
-    openUserFooDetail();
-    assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + DETAIL_USER_NAME);
+    Navigation.toUserDetail(USER_FOO);
+    assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + USER_FOO);
   }
 
   @Test
   void testUserDetailInformation()
   {
-    openUserFooDetail();
-    $("#userInformationForm\\:name").shouldBe(exactText(DETAIL_USER_NAME));
+    Navigation.toUserDetail(USER_FOO);
+    $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
   }
   
   @Test
   void testSaveUserInformation()
   {
-    openUserFooDetail();
+    Navigation.toUserDetail(USER_FOO);
     clearUserInfoInputs();
     $("#userInformationForm\\:fullName").sendKeys("Foo User");
     $("#userInformationForm\\:email").sendKeys("foo@ivyteam.ch");
@@ -70,7 +82,7 @@ public class WebTestUserDetail extends WebTestBase
     
     $("#userInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
     Selenide.refresh();
-    $("#userInformationForm\\:name").shouldBe(exactText(DETAIL_USER_NAME));
+    $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
     $("#userInformationForm\\:fullName").shouldBe(exactValue("Foo User"));
     $("#userInformationForm\\:email").shouldBe(exactValue("foo@ivyteam.ch"));
     $("#userInformationForm\\:password1").shouldBe(exactValue(""));
@@ -80,7 +92,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testSaveUserInformationNoPasswordMatch()
   {
-    openUserFooDetail();
+    Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm\\:password1").sendKeys("foopassword");
     $("#userInformationForm\\:saveUserInformation").click();
     $("#userInformationForm\\:informationMessages").shouldBe(visible);
@@ -90,7 +102,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testDeleteUser()
   {
-    openUserDetail(DETAIL_USER_NAME_DELETE, "test");
+    Navigation.toUserDetail(USER_BAR);
     $("#userInformationForm\\:deleteUser").click();
     $("#userInformationForm\\:deleteUserConfirmDialog").shouldBe(visible);
     $("#userInformationForm\\:deleteUserConfirmYesBtn").click();
@@ -100,7 +112,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testEmailLanguageSwitch()
   {
-    openUserFooDetail();
+    Navigation.toUserDetail(USER_FOO);
     $("#userEmailForm\\:emailSettings\\:languageDropDown_label").shouldBe(visible).click();
     $("#userEmailForm\\:emailSettings\\:languageDropDown_items").shouldBe(visible);
     String chooseLanguage = $("#userEmailForm\\:emailSettings\\:languageDropDown_1").getText();
@@ -115,7 +127,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testEmailSettings()
   {
-    openUserFooDetail();
+    Navigation.toUserDetail(USER_FOO);
     SelectOneRadio radioSettings = PrimeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
     SelectBooleanCheckbox neverCheckbox = PrimeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
     SelectBooleanCheckbox taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
@@ -158,7 +170,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testRolesAddRemove()
   {
-    openUserFooDetail();
+    Navigation.toUserDetail(USER_FOO);
     String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent().getAttribute("id");
     By bossId = By.id(boss);
     $(bossId).find(ROLE_EXPANDER).click();
@@ -180,7 +192,7 @@ public class WebTestUserDetail extends WebTestBase
     $(managerId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER));
     $(bossId).find(MEMBER_ICON).shouldNotHave(cssClass(CSS_MEMBER_INHERIT));
     
-    Navigation.toUserDetail(DETAIL_USER_NAME);
+    Navigation.toUserDetail(USER_FOO);
     $(bossId).find(ROLE_EXPANDER).shouldBe(visible, enabled).click();
     $(managerId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER));
     $(bossId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER)).shouldNotHave(cssClass(CSS_MEMBER_INHERIT));
@@ -195,7 +207,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testPermission()
   {
-    openUserFooDetail();
+    Navigation.toUserDetail(USER_FOO);
     String permissionStateCss = "#permissionsForm\\:permissionTable_node_0 > .permission-icon > i";
     String firstPermissionCss = "#permissionsForm\\:permissionTable\\:0\\:";
     $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
@@ -216,10 +228,11 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testSynchronizeUser()
   {
-    openADUserDetail();
+    Tab.switchToTab("test-ad");
+    Navigation.toUserDetail(USER_AD);
     $("#userInformationForm\\:userSynchBtn").click();
     $("#synchUserForm").shouldBe(visible);
-    $("#synchUserForm\\:userSynchName").shouldBe(disabled, value(DETAIL_AD_USER_NAME));
+    $("#synchUserForm\\:userSynchName").shouldBe(disabled, value(USER_AD));
     $("#synchUserForm\\:synchUserVar").click();
     $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
   }
@@ -232,21 +245,4 @@ public class WebTestUserDetail extends WebTestBase
     $("#userInformationForm\\:password2").clear();
   }
   
-  private void openUserDetail(String userName, String appName)
-  {
-    login();
-    Navigation.toUsers();
-    Tab.switchToTab(appName);
-    Navigation.toUserDetail(userName);
-  }
-  
-  private void openUserFooDetail()
-  {
-    openUserDetail(DETAIL_USER_NAME, "test");
-  }
-
-  private void openADUserDetail()
-  {
-    openUserDetail(DETAIL_AD_USER_NAME, "test-ad");
-  }
 }

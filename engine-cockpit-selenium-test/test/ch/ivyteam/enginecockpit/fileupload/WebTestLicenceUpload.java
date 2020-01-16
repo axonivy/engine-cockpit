@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -10,17 +11,28 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
 
-public class WebTestLicenceUpload extends WebTestBase
+@IvySelenide
+public class WebTestLicenceUpload
 {
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    $("#uploadLicenceBtn").click();
+    $("#licenceUpload\\:fileUploadModal").shouldBe(visible);
+    $("#selectedFileOutput").shouldHave(text(".lic"));
+    $("#uploadError").shouldBe(empty);
+  }
+  
   @Test
   public void testLicenceUploadWithNoFile()
   {
-    toDashboardAndOpenLicenceUpload();
-    
     $("#licenceUpload\\:uploadBtn").click();
     $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
@@ -28,8 +40,6 @@ public class WebTestLicenceUpload extends WebTestBase
   @Test
   public void testLicenceUploadInvalidFileEnding() throws IOException
   {
-    toDashboardAndOpenLicenceUpload();
-    
     Path createTempFile = Files.createTempFile("licence", ".txt");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#licenceUpload\\:uploadBtn").click();
@@ -40,8 +50,6 @@ public class WebTestLicenceUpload extends WebTestBase
   @Test
   public void testLicenceUploadInvalidLicenceAndBack() throws IOException
   {
-    toDashboardAndOpenLicenceUpload();
-    
     Path createTempFile = Files.createTempFile("licence", ".lic");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#licenceUpload\\:uploadBtn").click();
@@ -52,21 +60,6 @@ public class WebTestLicenceUpload extends WebTestBase
     $("#licenceUpload\\:backBtn").click();
     $("#fileUploadForm").shouldBe(visible);
     $("#uploadLog").shouldNotBe(visible);
-  }
-
-  private void toDashboardAndOpenLicenceUpload()
-  {
-    toDashboard();
-    
-    $("#uploadLicenceBtn").click();
-    $("#licenceUpload\\:fileUploadModal").shouldBe(visible);
-    $("#selectedFileOutput").shouldHave(text(".lic"));
-    $("#uploadError").shouldBe(empty);
-  }
-  
-  private void toDashboard()
-  {
-    login();
   }
   
 }

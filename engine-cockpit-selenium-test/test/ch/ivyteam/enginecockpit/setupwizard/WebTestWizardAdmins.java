@@ -1,25 +1,34 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.system.WebTestAdmins;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestWizardAdmins extends WebTestBase
+@IvySelenide
+public class WebTestWizardAdmins
 {
   
+  @BeforeEach
+  void beforeEach()
+  {
+    WebTestWizard.navigateToStep("Administrators");
+  }
+  
   @AfterEach
-  void cleanup()
+  void afterEach()
   {
     resetConfig();
   }
@@ -27,8 +36,6 @@ public class WebTestWizardAdmins extends WebTestBase
   @Test
   void testAdminStep()
   {
-    addSystemAdmin();
-    navigateToAdminsWizardStep();
     Table table = new Table(By.id("admins:adminForm:adminTable"));
     WebTestAdmins.addAdmin("admin", "admin@ivyTeam.ch", "password", "password");
     $(".ui-growl-title").shouldBe(text("'admin' added successfully"));
@@ -43,14 +50,12 @@ public class WebTestWizardAdmins extends WebTestBase
   @Test
   void testAddEditDeleteAdmin()
   {
-    navigateToAdminsWizardStep();
     WebTestAdmins.testAddEditDelete();
   }
   
   @Test
   void testAdminDialogInvalid()
   {
-    navigateToAdminsWizardStep();
     WebTestAdmins.testAddAdminInvalidValues();
     WebTestAdmins.testAddAdminInvalidPassword();
   }
@@ -58,13 +63,7 @@ public class WebTestWizardAdmins extends WebTestBase
   @Test
   void testOwnAdminCannotBeDeleted()
   {    
-    navigateToAdminsWizardStep();
     WebTestAdmins.assertOwnAdminCannotBeDeleted();
   }
   
-  private void navigateToAdminsWizardStep()
-  {
-    WebTestWizard.navigateToStep("Administrators");
-  }
-
 }

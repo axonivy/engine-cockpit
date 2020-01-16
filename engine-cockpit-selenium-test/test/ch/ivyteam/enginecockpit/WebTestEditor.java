@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit;
 
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.empty;
@@ -14,36 +16,44 @@ import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver.Options;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-public class WebTestEditor extends WebTestBase
+@IvySelenide
+public class WebTestEditor
 {
   
   private static final String DEV_MODE_COOKIE = "preview";
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    driverOptions().deleteCookie(new Cookie(DEV_MODE_COOKIE, "false"));
+    enableDevMode();
+    Navigation.toEditor();
+  }
 
   @Test
   void testDevMode()
   {
-    login();
-    driver.manage().deleteCookie(new Cookie(DEV_MODE_COOKIE, "false"));
-    
-    enableDevMode();
-    assertThat(driver.manage().getCookieNamed(DEV_MODE_COOKIE).getValue()).isEqualTo("true");
-    
+    assertThat(driverOptions().getCookieNamed(DEV_MODE_COOKIE).getValue()).isEqualTo("true");
     disableDevMode();
-    assertThat(driver.manage().getCookieNamed(DEV_MODE_COOKIE).getValue()).isEqualTo("false");
+    assertThat(driverOptions().getCookieNamed(DEV_MODE_COOKIE).getValue()).isEqualTo("false");
   }
   
   @Test
   void testEditor()
   {
-    toEditor();
     assertThat(Tab.getCount()).isGreaterThan(1);
     String ivyYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     $(editorContentSelector()).shouldNotHave(attribute("value", ""));
@@ -56,12 +66,11 @@ public class WebTestEditor extends WebTestBase
   @Test
   void testEditorSaveErrorsDialog()
   {
-    toEditor();
     Tab.switchToTab("app-test.yaml");
     String newEditorContent = "test: hi\n  bla: fail";
     String editorContent = $(editorContentSelector()).shouldNotBe(empty).getAttribute("value");
     
-    driver.executeScript("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(newEditorContent) + "\");");
+    executeJs("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(newEditorContent) + "\");");
     $(editorContentSelector()).shouldBe(exactValue(newEditorContent));
     $$(".CodeMirror-lint-marker-error").shouldBe(sizeGreaterThan(0));
     $("#card\\:saveEditorModel").shouldNotBe(visible);
@@ -72,8 +81,8 @@ public class WebTestEditor extends WebTestBase
     $("#card\\:saveEditorForm\\:cancelChangesBtn").click();
     $("#card\\:saveEditorModel").shouldNotBe(visible);
     
-    driver.executeScript("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(editorContent) + "\");");
-    driver.executeScript("editor_app_test.performLint();");
+    executeJs("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(editorContent) + "\");");
+    executeJs("editor_app_test.performLint();");
     $(editorContentSelector()).shouldNotBe(empty);
     $$(".CodeMirror-lint-marker-error").shouldBe(CollectionCondition.empty);
     
@@ -119,13 +128,10 @@ public class WebTestEditor extends WebTestBase
   {
     return "#card\\:editorTabView\\:" + Tab.getSelectedTabIndex() + "\\:";
   }
-
-  private void toEditor()
-  {
-    login();
-    driver.manage().deleteCookie(new Cookie(DEV_MODE_COOKIE, "false"));
-    enableDevMode();
-    Navigation.toEditor();
-  }
   
+  private Options driverOptions()
+  {
+    return WebDriverRunner.getWebDriver().manage();
+  }
+
 }

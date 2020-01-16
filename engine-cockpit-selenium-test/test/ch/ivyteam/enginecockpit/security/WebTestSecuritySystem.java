@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.text;
@@ -7,17 +9,27 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebTestSecuritySystem extends WebTestBase
+@IvySelenide
+public class WebTestSecuritySystem
 {
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toSecuritySystem();
+  }
+  
   @Test
   void testSecuritySystem()
   {
-    toSecuritySystem();
     $("h1").shouldBe(text("Security Systems"));
     $$("tbody tr").shouldBe(sizeGreaterThan(0));
   }
@@ -25,7 +37,6 @@ public class WebTestSecuritySystem extends WebTestBase
   @Test
   void testAddNewSecuritySystemInvalid()
   {
-    toSecuritySystem();
     $("#card\\:form\\:createSecuritySystemBtn").click();
     $("#card\\:newSecuritySystemModal").shouldBe(visible);
     $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
@@ -35,7 +46,6 @@ public class WebTestSecuritySystem extends WebTestBase
   @Test
   void testAddAndDeleteSecuritySystem()
   {
-    toSecuritySystem();
     $("#card\\:form\\:createSecuritySystemBtn").click();
     $("#card\\:newSecuritySystemModal").shouldBe(visible);
     $("#card\\:newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");
@@ -54,9 +64,4 @@ public class WebTestSecuritySystem extends WebTestBase
     $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "ivy Security System"));
   }
   
-  private void toSecuritySystem()
-  {
-    login();
-    Navigation.toSecuritySystem();
-  }
 }

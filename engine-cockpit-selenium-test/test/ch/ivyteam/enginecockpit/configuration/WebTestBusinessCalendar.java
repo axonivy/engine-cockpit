@@ -1,21 +1,31 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-public class WebTestBusinessCalendar extends WebTestBase
+@IvySelenide
+public class WebTestBusinessCalendar
 {
-  
+
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+  }
+
   @Test
   void testBusinessCalendarTree()
   {
-    toBusinessCalendar();
+    Navigation.toBusinessCalendar();
     $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + 
             "\\:treeForm\\:tree\\:0\\:calendarNode").shouldBe(text("Default"));
   }
@@ -23,7 +33,7 @@ public class WebTestBusinessCalendar extends WebTestBase
   @Test
   void testBusinessCalendarDetail()
   {
-    toBusinessCalendarDetail("Default");
+    Navigation.toBusinessCalendarDetail("Default");
     $("#weekConfigurationPanel").shouldHave(text("Week configuration"), 
             text("Start day of week\nMONDAY"),
             text("Free days of week Day"), 
@@ -38,15 +48,4 @@ public class WebTestBusinessCalendar extends WebTestBase
             text("Description Date"));
   }
   
-  private void toBusinessCalendar()
-  {
-    login();
-    Navigation.toBusinessCalendar();
-  }
-
-  private void toBusinessCalendarDetail(String calendarName)
-  {
-    login();
-    Navigation.toBusinessCalendarDetail(calendarName);
-  }
 }

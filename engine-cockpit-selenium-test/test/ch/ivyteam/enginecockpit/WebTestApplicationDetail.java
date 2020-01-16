@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFinished;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.enabled;
@@ -10,24 +12,33 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebTestApplicationDetail extends WebTestBase
+@IvySelenide
+public class WebTestApplicationDetail
 {
-  private static final String APP = EngineCockpitUrl.isDesignerApp() ? "designer" : "test-ad";
+  private static final String APP = EngineCockpitUtil.isDesignerApp() ? "designer" : "test-ad";
 
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+  }
+  
   @Test
   void testApplicationDetailDashboardContent()
   {
-    toApplicationDetail(APP);
+    Navigation.toApplicationDetail(APP);
     
     $$(".overview-box-content").shouldHave(size(4));
     $$(".ui-panel").shouldHave(size(4));
@@ -36,7 +47,7 @@ public class WebTestApplicationDetail extends WebTestBase
   @Test
   void testChangeEnvironment()
   {
-    toApplicationDetail(APP);
+    Navigation.toApplicationDetail(APP);
     
     $("#appDetailInfoForm\\:activeEnvironmentSelect").shouldBe(visible);
     SelectOneMenu env = PrimeUi.selectOne(By.id("appDetailInfoForm:activeEnvironmentSelect"));
@@ -58,7 +69,7 @@ public class WebTestApplicationDetail extends WebTestBase
   @Test
   void testAdSync()
   {
-    toApplicationDetail("test-ad");
+    Navigation.toApplicationDetail("test-ad");
     
     waitUntilAjaxIsFinished();
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").shouldNotBe(exist);
@@ -69,10 +80,4 @@ public class WebTestApplicationDetail extends WebTestBase
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").shouldBe(visible);
   }
 
-  private void toApplicationDetail(String app)
-  {
-    login();
-    Navigation.toApplicationDetail(app);
-  }
-  
 }

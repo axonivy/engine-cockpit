@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetLicence;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -11,15 +12,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
 
-public class WebTestWizardLicence extends WebTestBase
+@IvySelenide
+public class WebTestWizardLicence
 {
   
+  @BeforeEach
+  void beforeEach()
+  {
+    WebTestWizard.navigateToStep("Licence");
+  }
+  
   @AfterEach
-  void cleanup()
+  void afterEach()
   {
     resetLicence();
   }
@@ -27,8 +36,6 @@ public class WebTestWizardLicence extends WebTestBase
   @Test
   void testLicenceStep()
   {
-    navigateToLicWizardStep();
-    
     $("#licWarnMessage").shouldHave(text("Please upload a valid licence."));
     WebTestWizard.activeStepShouldHaveWarnings();
     uploadLicence();
@@ -44,8 +51,6 @@ public class WebTestWizardLicence extends WebTestBase
   @Test
   public void testLicenceUploadInvalidFileEnding() throws IOException
   {
-    navigateToLicWizardStep();
-    
     uploadLicence(Files.createTempFile("licence", ".txt"));
     $("#uploadStatus").shouldBe(empty);
     $("#selectedFileOutput").shouldBe(exactText("Choose or drop a file which ends with: .lic"));
@@ -54,8 +59,6 @@ public class WebTestWizardLicence extends WebTestBase
   @Test
   public void testLicenceUploadInvalidLicence() throws IOException
   {
-    navigateToLicWizardStep();
-    
     uploadLicence(Files.createTempFile("licence", ".lic"));
     $("#uploadStatus").shouldBe(exactText("Error"));
     $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
@@ -71,9 +74,4 @@ public class WebTestWizardLicence extends WebTestBase
     $("#fileInput").sendKeys(lic.toString());
   }
   
-  private void navigateToLicWizardStep()
-  {
-    WebTestWizard.navigateToStep("Licence");
-  }
-
 }

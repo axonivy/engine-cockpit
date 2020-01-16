@@ -1,41 +1,51 @@
 package ch.ivyteam.enginecockpit.docu;
 
-import java.io.File;
-import java.io.IOException;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.isDesignerApp;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.OutputType;
 
+import com.axonivy.ivy.supplements.IvySelenide;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.setupwizard.WebTestWizard;
-import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebDocuScreenshot extends WebTestBase
+@IvySelenide
+public class WebDocuScreenshot
 {
 
   private static final int SCREENSHOT_WIDTH = 1500;
   private static final int SCREENSHOT_SETUP_WIDTH = 1200;
   
-  @BeforeEach
-  void setupDocuData()
+  @BeforeAll
+  static void setup()
   {
-    populateBusinessCalendar();
-    runExternalDbQuery();
-    createBusinessData();
-    addSystemAdmin();
+    EngineCockpitUtil.populateBusinessCalendar();
+    EngineCockpitUtil.runExternalDbQuery();
+    EngineCockpitUtil.createBusinessData();
+    EngineCockpitUtil.addSystemAdmin();
   }
   
-  @AfterEach
-  void cleanUpDocuData()
+  @BeforeEach
+  void beforeEach()
   {
-    resetConfig();
+    Configuration.reportsFolder = "target/docu/screenshots/";
+    Configuration.savePageSource = false;
+  }
+  
+  @AfterAll
+  static void cleanUp()
+  {
+    EngineCockpitUtil.resetConfig();
   }
 
   @Test
@@ -45,7 +55,7 @@ public class WebDocuScreenshot extends WebTestBase
     takeScreenshot("engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toApplications();
     takeScreenshot("engine-cockpit-applications", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toApplicationDetail(EngineCockpitUrl.isDesignerApp() ? "designer" : "test");
+    Navigation.toApplicationDetail(isDesignerApp() ? "designer" : "test");
     takeScreenshot("engine-cockpit-application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toSecuritySystem();
     takeScreenshot("engine-cockpit-security-system", new Dimension(SCREENSHOT_WIDTH, 500));
@@ -106,41 +116,17 @@ public class WebDocuScreenshot extends WebTestBase
 
   public void takeScreenshot(String fileName, Dimension size)
   {
-    Dimension oldSize = driver.manage().window().getSize();
+    Dimension oldSize = WebDriverRunner.getWebDriver().manage().window().getSize();
     resizeBrowser(size);
-    scrollToPosition(0, 0);
+    executeJs("scroll(0,0);");
     Selenide.sleep(200); //wait for menu animation
-    saveDocuScreenshot(fileName);
+    Selenide.screenshot(fileName);
     resizeBrowser(oldSize);
   }
   
-  public void saveDocuScreenshot(String name) 
+  private void resizeBrowser(Dimension size)
   {
-    File source = driver.getScreenshotAs(OutputType.FILE);
-    try
-    {
-      String dir = "target/docu/screenshots/";
-      File file = new File(dir, name + ".png");
-      if (file.exists())
-      {
-        file.delete();
-      }
-      FileUtils.moveFile(source, file);
-    }
-    catch (IOException ex)
-    {
-      throw new RuntimeException(ex);
-    }
-  }
-
-  protected void scrollToPosition(int x, int y)
-  {
-    driver.executeScript("scroll(" + x + "," + y + ");");
-  }
-
-  protected void resizeBrowser(Dimension size)
-  {
-    driver.manage().window().setSize(size);
+    WebDriverRunner.getWebDriver().manage().window().setSize(size);
   }
   
 }

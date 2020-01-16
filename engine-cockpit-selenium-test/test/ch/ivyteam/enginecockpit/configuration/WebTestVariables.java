@@ -1,24 +1,35 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-public class WebTestVariables extends WebTestBase
+@IvySelenide
+public class WebTestVariables
 {
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toVariables();
+    Tab.switchToTab("test");
+  }
   
   @Test
   void testNewEditVariable()
   {
-    toVariables();
     $(activeTabPanel() + "newGlobalVarBtn").click();
 
     String name = "aName";
@@ -49,7 +60,6 @@ public class WebTestVariables extends WebTestBase
   @Test
   void testNewValidation()
   {
-    toVariables();
     $(activeTabPanel() + "newGlobalVarBtn").click();
 
     $("#newGlobalVarModal").shouldBe(visible);
@@ -67,11 +77,4 @@ public class WebTestVariables extends WebTestBase
     return "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:";
   }
   
-  private void toVariables()
-  {
-    login();
-    Navigation.toVariables();
-    Tab.switchToTab("test");
-  }
-
 }

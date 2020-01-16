@@ -1,20 +1,40 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createOldDb;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.deleteTempDb;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
+
 import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 
-public class WebTestWizardSystemDb extends WebTestBase
+@IvySelenide
+public class WebTestWizardSystemDb
 {
   
+  @BeforeAll
+  static void setup()
+  {
+    createOldDb();
+  }
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    WebTestWizard.navigateToStep("System Database");
+  }
+  
   @AfterEach
-  void cleanup()
+  void afterEach()
   {
     resetConfig();
     deleteTempDb();
@@ -23,7 +43,6 @@ public class WebTestWizardSystemDb extends WebTestBase
   @Test
   void testWebServerStep()
   {
-    navigateToSystemDbWizardStep();
     WebTestWizard.activeStepShouldBeOk();
     WebTestSystemDb.assertDefaultValues();
     WebTestSystemDb.assertSystemDbCreationDialog();
@@ -38,29 +57,21 @@ public class WebTestWizardSystemDb extends WebTestBase
   @Test
   void testConnectionResults()
   {
-    navigateToSystemDbWizardStep();
     WebTestSystemDb.assertConnectionResults();
   }
   
   @Test
   void testOldDbConversionNeeded()
   {
-    createOldDb();
-    navigateToSystemDbWizardStep();
     WebTestSystemDb.assertSystemDbConversionDialog();
   }
   
   @Test
   void testUiLogicSwitchesAndDefaults()
   {
-    navigateToSystemDbWizardStep();
     WebTestSystemDb.assertDatabaseTypeSwitch();
     WebTestSystemDb.assertDefaultPortSwitch();
     WebTestSystemDb.assertAdditionalProperties();
   }
 
-  private void navigateToSystemDbWizardStep()
-  {
-    WebTestWizard.navigateToStep("System Database");
-  }
 }

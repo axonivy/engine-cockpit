@@ -1,7 +1,8 @@
 package ch.ivyteam.enginecockpit.services;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
@@ -10,23 +11,29 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.$x;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestExternalDatabaseDetail extends WebTestBase
+@IvySelenide
+public class WebTestExternalDatabaseDetail
 {
   private static final String DATABASE_NAME = "test-db";
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toExternalDatabaseDetail(DATABASE_NAME);
+  }
   
   @Test
   void testExternalDatabaseDetailOpen()
   {
-    navigateToDatabaseDetail();
     assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME);
     $$(".ui-panel").shouldHave(size(4));
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
@@ -35,8 +42,6 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   @Test
   void testOpenExternalDatabaseHelp()
   {
-    navigateToDatabaseDetail();
-    
     $("#breadcrumbOptions > a").shouldBe(visible).click();
     $("#helpExternalDatabaseDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(DATABASE_NAME));
@@ -45,8 +50,6 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   @Test
   void testExternalDatabaseTestConnection()
   {
-    navigateToDatabaseDetail();
-    
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     $("#databaseConfigurationForm\\:testDatabaseBtn").click();
     $("#connResult\\:connectionTestModel").shouldBe(visible);
@@ -65,8 +68,6 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
   @Test
   void testSaveAndResetChanges()
   {
-    navigateToDatabaseDetail();
-    
     setConfiguration("url", "org.postgresql.Driver", "testUser", "13");
     Selenide.refresh();
     checkConfiguration("url", "org.postgresql.Driver", "testUser", "13");
@@ -112,19 +113,4 @@ public class WebTestExternalDatabaseDetail extends WebTestBase
     $("#databaseConfigurationForm\\:databaseConfigMsg_container").shouldBe(text("Database configuration reset"));
   }
   
-  @Test
-  void testConnectionAndHistory()
-  {
-    runExternalDbQuery();
-    login();
-    Navigation.toExternalDatabaseDetail("realdb");
-    new Table(By.id("databaseConnectionForm:databaseConnectionsTable")).firstColumnShouldBe(sizeGreaterThan(0));
-    new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable")).firstColumnShouldBe(sizeGreaterThan(0));
-  }
-  
-  private void navigateToDatabaseDetail()
-  {
-    login();
-    Navigation.toExternalDatabaseDetail(DATABASE_NAME);
-  }
 }

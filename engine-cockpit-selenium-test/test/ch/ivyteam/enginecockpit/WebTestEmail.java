@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.escapeSelector;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -7,9 +9,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
@@ -19,16 +23,22 @@ import com.codeborne.selenide.Selenide;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-public class WebTestEmail extends WebTestBase
+@IvySelenide
+public class WebTestEmail
 {
   
   private static final String EMAIL_GROWL = "#form\\:emailSaveSuccess_container";
 
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toEmail();
+  }
+  
   @Test
   void testEmailLanguageSwitch()
   {
-    toEmail();
-    
     SelectOneMenu language = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:languageDropDown"));
     language.selectItemByLabel("German");
     assertThat(language.getSelectedItem()).isEqualTo("German");
@@ -47,8 +57,6 @@ public class WebTestEmail extends WebTestBase
   @Test
   void testApplicationEmail()
   {
-    toEmail();
-    
     SelectBooleanCheckbox taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id(getActivePanel() + "emailSetting:taskCheckbox"));
     SelectManyCheckbox dailyCheckbox = PrimeUi.selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
     assertThat(taskCheckbox.isChecked()).isFalse();
@@ -90,10 +98,4 @@ public class WebTestEmail extends WebTestBase
     return escapeSelector(getActivePanel());
   }
 
-  private void toEmail()
-  {
-    login();
-    Navigation.toEmail();
-  }
-  
 }

@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.empty;
@@ -12,17 +13,19 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestSecuritySystemDetail extends WebTestBase
+@IvySelenide
+public class WebTestSecuritySystemDetail
 {
   private static final String SAVE_LDAP_ATTRIBUTE = "#ldapAttributeForm\\:saveLdapAttribute";
   private static final String LDAP_ATTRIBUTE_MODAL = "#ldapAttributeModal";
@@ -39,17 +42,22 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   private static final String URL = "#securitySystemConfigForm\\:url";
   private static final String SYNC_TIME = "#securitySystemConfigForm\\:syncTime";
 
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toSecuritySystemDetail("test-ad");
+  }
+  
   @Test
   void testSecuritySystemDetail()
   {
-    toSecurityDetail();
     $$(".ui-panel").shouldHave(size(4));
   }
 
   @Test
   void testConnectionInfos()
   {
-    toSecurityDetail();
     $("#securitySystemConfigForm\\:provider").shouldBe(exactText("Microsoft Active Directory"));
     $(URL).shouldBe(exactValue("ldap://zugtstdirads"));
     $("#securitySystemConfigForm\\:userName").shouldBe(exactValue("admin@zugtstdomain.wan"));
@@ -71,14 +79,12 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   @Test
   void testDirNotDeletableIfUsedByApp()
   {
-    toSecurityDetail();
     $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldNotBe(exist);
   }
   
   @Test
   void testInvalidAndValidSyncTimes()
   {
-    toSecurityDetail();
     $(SYNC_TIME).shouldBe(exactValue(""));
     $(SYNC_TIME).shouldBe(attribute("placeholder", "00:00"));
     $(SYNC_TIME_MESSAGE).shouldNotBe(visible);
@@ -108,7 +114,6 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   @Test
   void testLdapInfos()
   {
-    toSecurityDetail();
     $(LDAP_NAME).shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapFullName").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapEmail").shouldBe(exactValue(""));
@@ -133,7 +138,6 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   @Test
   void testBinding()
   {
-    toSecurityDetail();
     $("#securitySystemBindingForm\\:defaultContext").shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue(""));
     $("#securitySystemBindingForm\\:userFilter").shouldBe(exactValue(""));
@@ -152,7 +156,6 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   @Test
   void testLdapAttributesNewInvalid()
   {
-    toSecurityDetail();
     $(NEW_LDAP_ATTRIBUTE_BTN).shouldBe(visible).click();
     $(LDAP_ATTRIBUTE_MODAL).shouldBe(visible);
     $("#ldapAttributeForm\\:attributeNameMessage").shouldBe(empty);
@@ -166,7 +169,6 @@ public class WebTestSecuritySystemDetail extends WebTestBase
   @Test
   void testLdapAttributes()
   {
-    toSecurityDetail();
     Table table = new Table(By.id("securityLdapAttributesForm:ldapPropertiesTable"));
     assertThat(table.getFirstColumnEntries()).hasSize(2);
     
@@ -187,12 +189,6 @@ public class WebTestSecuritySystemDetail extends WebTestBase
     
     table.clickButtonForEntry("test", "deleteLdapAttributeBtn");
     assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test");
-  }
-  
-  private void toSecurityDetail()
-  {
-    login();
-    Navigation.toSecuritySystemDetail("test-ad");
   }
   
 }

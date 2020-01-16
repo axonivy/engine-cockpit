@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.exactText;
@@ -8,23 +9,31 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestApplication extends WebTestBase
+@IvySelenide
+public class WebTestApplication
 {
   private static final String NEW_TEST_APP = "newTestApp";
 
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toApplications();
+  }
+  
   @Test
   void testApplications()
   {
-    toApplications();
-
     $("h1").shouldHave(text("Applications"));
     Table table = new Table(By.className("ui-treetable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
@@ -35,8 +44,6 @@ public class WebTestApplication extends WebTestBase
   @Test
   void testInvalidInputNewApplication()
   {
-    toApplications();
-    
     openNewApplicationModal();
 
     $("#card\\:newApplicationForm\\:saveNewApplication").click();
@@ -46,8 +53,6 @@ public class WebTestApplication extends WebTestBase
   @Test
   void testAddStartStopRemoveApplication()
   {
-    toApplications();
-
     int appCount = $$(".activity-name").size();
     addNewApplication();
     $$(".activity-name").shouldBe(size(appCount + 1));
@@ -87,7 +92,6 @@ public class WebTestApplication extends WebTestBase
   
   private void addNewAppAndNavigateToIt()
   {
-    toApplications();
     addNewApplication();
     Navigation.toApplicationDetail(NEW_TEST_APP);
   }
@@ -142,10 +146,5 @@ public class WebTestApplication extends WebTestBase
   {
     return By.id($$(".activity-name").find(text(NEW_TEST_APP)).parent().parent().parent().getAttribute("id"));
   }
-  
-  private void toApplications()
-  {
-    login();
-    Navigation.toApplications();
-  }
+
 }

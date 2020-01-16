@@ -1,37 +1,38 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.$$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.axonivy.ivy.supplements.IvySelenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebTestMonitor extends WebTestBase
+@IvySelenide
+public class WebTestMonitor
 {
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+  }
+  
   @Test
   void testMontorContent()
   {
-    toMonitor();
+    Navigation.toResourcesMonitor();
     $$(".ui-panel").shouldHave(size(4));
   }
   
   @Test
   void testLogsContent()
   {
-    toLogs();
+    Navigation.toLogs();
     $$(".ui-panel").shouldHave(size(4));
   }
   
-  private void toMonitor()
-  {
-    login();
-    Navigation.toResourcesMonitor();
-  }
-  
-  private void toLogs()
-  {
-    login();
-    Navigation.toLogs();
-  }
 }

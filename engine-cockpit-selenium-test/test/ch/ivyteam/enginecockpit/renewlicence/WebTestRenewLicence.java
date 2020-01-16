@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.renewlicence;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetLicence;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -9,45 +11,19 @@ import static com.codeborne.selenide.Selenide.$;
 import java.io.File;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
 
-public class WebTestRenewLicence extends WebTestBase
+@IvySelenide
+public class WebTestRenewLicence
 {
   
-  @AfterEach
-  void cleanup()
+  @BeforeEach
+  void beforeEach()
   {
-    resetLicence();
-  }
-
-  @Test
-  public void testRenewRequest()
-  {
-    toDashboard();
-    uploadLicenceToRenew();
-    sendRenew("webTest@renewLicence.axonivy.test");
-    $(".ui-growl-message").shouldHave(text("This is for testing"));
-    $("#renewLicence\\:renewLicence").shouldNotBe(visible);
-  }
-  
-  @Test
-  public void testRenewRequestNoOrInvalidMail()
-  {
-    toDashboard();
-    uploadLicenceToRenew();
-    sendRenew("");
-    $("#renewLicence\\:form\\:emailInputMessage").shouldBe(exactText("Please put your mail"));
-    $("#renewLicence\\:form\\:cancelRenewBtn").click();
-    $("#renewLicence\\:renewLicence").shouldNotBe(visible);
-    
-    sendRenew("invalid");
-    $(".ui-growl-message").shouldHave(text("Your email address is not valid"));
-  }
-
-  private void uploadLicenceToRenew()
-  {
+    login();
     $("#uploadLicenceBtn").click();
     $("#licenceUpload\\:fileUploadModal").shouldBe(visible);
     $("#selectedFileOutput").shouldHave(text(".lic"));
@@ -61,6 +37,32 @@ public class WebTestRenewLicence extends WebTestBase
     $("#licenceUpload\\:closeDeploymentBtn").click();
     $("#licenceType").shouldHave(text("Standard Edition"));
   }
+  
+  @AfterEach
+  void afterEach()
+  {
+    resetLicence();
+  }
+
+  @Test
+  public void testRenewRequest()
+  {
+    sendRenew("webTest@renewLicence.axonivy.test");
+    $(".ui-growl-message").shouldHave(text("This is for testing"));
+    $("#renewLicence\\:renewLicence").shouldNotBe(visible);
+  }
+  
+  @Test
+  public void testRenewRequestNoOrInvalidMail()
+  {
+    sendRenew("");
+    $("#renewLicence\\:form\\:emailInputMessage").shouldBe(exactText("Please put your mail"));
+    $("#renewLicence\\:form\\:cancelRenewBtn").click();
+    $("#renewLicence\\:renewLicence").shouldNotBe(visible);
+    
+    sendRenew("invalid");
+    $(".ui-growl-message").shouldHave(text("Your email address is not valid"));
+  }
 
   private void sendRenew(String mailTo)
   {
@@ -70,8 +72,5 @@ public class WebTestRenewLicence extends WebTestBase
     $("#renewLicence\\:form\\:renewBtn").click();
   }
 
-  private void toDashboard()
-  {
-    login();
-  }
+  
 }

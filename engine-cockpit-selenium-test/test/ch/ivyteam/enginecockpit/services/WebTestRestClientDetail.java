@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.services;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -8,21 +10,30 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebTestRestClientDetail extends WebTestBase
+@IvySelenide
+public class WebTestRestClientDetail
 {
   private static final String RESTCLIENT_NAME = "test-rest";
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toRestClientDetail(RESTCLIENT_NAME);
+    $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
+  }
   
   @Test
   void testExternalDatabaseDetailOpen()
   {
-    navigateToRestClientDetail();
     assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME);
     $$(".ui-panel").shouldHave(size(2));
   }
@@ -30,8 +41,6 @@ public class WebTestRestClientDetail extends WebTestBase
   @Test
   void testOpenRestClientHelp()
   {
-    navigateToRestClientDetail();
-    
     $("#breadcrumbOptions > a").shouldBe(visible).click();
     $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(RESTCLIENT_NAME));
@@ -40,8 +49,6 @@ public class WebTestRestClientDetail extends WebTestBase
   @Test
   void testRestTestConnection()
   {
-    navigateToRestClientDetail();
-    
     setConfiguration("localhost", "");
     Selenide.refresh();
     testAndAssertConnection("Invalid Url");
@@ -75,8 +82,6 @@ public class WebTestRestClientDetail extends WebTestBase
   @Test
   void testSaveAndResetChanges()
   {
-    navigateToRestClientDetail();
-    
     setConfiguration("url", "testUser");
     Selenide.refresh();
     checkConfiguration("url", "testUser");
@@ -117,10 +122,4 @@ public class WebTestRestClientDetail extends WebTestBase
     $("#restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration reset"));
   }
   
-  private void navigateToRestClientDetail()
-  {
-    login();
-    Navigation.toRestClientDetail(RESTCLIENT_NAME);
-    $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
-  }
 }

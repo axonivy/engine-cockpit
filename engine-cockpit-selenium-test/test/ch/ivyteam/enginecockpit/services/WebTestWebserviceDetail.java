@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.services;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -12,24 +14,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestWebserviceDetail extends WebTestBase
+@IvySelenide
+public class WebTestWebserviceDetail
 {
   private static final String WEBSERVICE_NAME = "test-web";
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toWebserviceDetail(WEBSERVICE_NAME);
+  }
   
   @Test
   void testExternalDatabaseDetailOpen()
   {
-    navigateToWebserviceDetail();
     assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
     $$(".ui-panel").shouldHave(size(3));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
@@ -38,8 +48,6 @@ public class WebTestWebserviceDetail extends WebTestBase
   @Test
   void testOpenWebserviceHelp()
   {
-    navigateToWebserviceDetail();
-    
     $("#breadcrumbOptions > a").shouldBe(visible).click();
     $("#helpWebserviceDialog\\:helpServicesModal").shouldBe(Condition.visible);
     $(".code-block").shouldBe(text(WEBSERVICE_NAME));
@@ -48,8 +56,6 @@ public class WebTestWebserviceDetail extends WebTestBase
   @Test
   void testSaveAndResetChanges()
   {
-    navigateToWebserviceDetail();
-    
     setConfiguration("testUser");
     Selenide.refresh();
     checkConfiguration("testUser");
@@ -89,7 +95,6 @@ public class WebTestWebserviceDetail extends WebTestBase
   @Test
   void testWsEndpointTestConnection()
   {
-    navigateToWebserviceDetail();
     setEndPoint("http://zugtstweb:80/notfound");
     Selenide.refresh();
     testAndAssertConnection("Status 404");
@@ -121,7 +126,6 @@ public class WebTestWebserviceDetail extends WebTestBase
   @Test
   void testEditEndpointsInvalid()
   {
-    navigateToWebserviceDetail();
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
             .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
     $("#webservcieEndPointForm\\:defaultInput").clear();
@@ -132,8 +136,6 @@ public class WebTestWebserviceDetail extends WebTestBase
   @Test
   void testSetAndResetEndpoints()
   {
-    navigateToWebserviceDetail();
-    
     setEndPoint("default", "first", "second");
     Selenide.refresh();
     checkEndPoint("default", "first", "second");
@@ -147,8 +149,6 @@ public class WebTestWebserviceDetail extends WebTestBase
   @Test
   void testSetAndResetEndpoints_noFallbacks()
   {
-    navigateToWebserviceDetail();
-    
     setEndPoint("default");
     Selenide.refresh();
     checkEndPoint("default");
@@ -199,9 +199,4 @@ public class WebTestWebserviceDetail extends WebTestBase
             .doesNotContainAnyElementsOf(Arrays.asList(links));
   }
   
-  private void navigateToWebserviceDetail()
-  {
-    login();
-    Navigation.toWebserviceDetail(WEBSERVICE_NAME);
-  }
 }

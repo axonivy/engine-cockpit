@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.setupwizard;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
@@ -7,6 +8,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
@@ -14,13 +16,17 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
-
-public class WebTestWizardWebServer extends WebTestBase
+public class WebTestWizardWebServer
 {
   
+  @BeforeEach
+  void beforeEach()
+  {
+    WebTestWizard.navigateToStep("Web Server");
+  }
+  
   @AfterEach
-  void cleanup()
+  void afterEach()
   {
     resetConfig();
   }
@@ -28,7 +34,6 @@ public class WebTestWizardWebServer extends WebTestBase
   @Test
   void testWebServerStep()
   {
-    navigateToWebServerWizardStep();
     $("#webserverWarnMessage").shouldBe(empty);
     WebTestWizard.activeStepShouldBeOk();
 
@@ -80,11 +85,6 @@ public class WebTestWizardWebServer extends WebTestBase
   {
     $(By.id("webserverForm:" + input + "_input")).shouldBe(value(value));
     assertThat(checkbox.isChecked()).isEqualTo(enabled);
-  }
-
-  private void navigateToWebServerWizardStep()
-  {
-    WebTestWizard.navigateToStep("Web Server");
   }
 
 }

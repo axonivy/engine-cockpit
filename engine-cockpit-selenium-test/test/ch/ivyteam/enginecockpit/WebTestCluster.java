@@ -1,23 +1,34 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+
+import com.axonivy.ivy.supplements.IvySelenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestCluster extends WebTestBase
+@IvySelenide
+public class WebTestCluster
 {
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toCluster();
+  }
+  
   @Test
   void testCluster()
   {
-    toCluster();
-
     $("h1").shouldBe(text("Cluster"));
     new Table(By.className("ui-datatable"), true).firstColumnShouldBe(sizeGreaterThan(0));
     
@@ -26,9 +37,4 @@ public class WebTestCluster extends WebTestBase
     $("#clusterNodeDialog").shouldBe(visible);
   }
   
-  private void toCluster()
-  {
-    login();
-    Navigation.toCluster();
-  }
 }

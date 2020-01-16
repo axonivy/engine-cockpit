@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.util;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUrl.viewUrl;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -8,8 +10,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 import com.codeborne.selenide.Selenide;
-
-import ch.ivyteam.enginecockpit.WebBase;
 
 public class Navigation
 {
@@ -41,14 +41,14 @@ public class Navigation
   public static void toDashboard()
   {
     toMenu(DASHBOARD_MENU);
-    WebBase.assertCurrentUrlEndsWith("dashboard.xhtml");
+    assertCurrentUrlEndsWith("dashboard.xhtml");
     menuShouldBeActive(DASHBOARD_MENU);
   }
   
   public static void toApplications()
   {
     toMenu(APPLICATIONS_MENU);
-    WebBase.assertCurrentUrlEndsWith("applications.xhtml");
+    assertCurrentUrlEndsWith("applications.xhtml");
     menuShouldBeActive(APPLICATIONS_MENU);
   }
   
@@ -56,14 +56,14 @@ public class Navigation
   {
     Navigation.toApplications();
     $$(".activity-name").find(text(appName)).shouldBe(visible).click();
-    WebBase.assertCurrentUrlEndsWith("application-detail.xhtml?appName=" + appName);
+    assertCurrentUrlEndsWith("application-detail.xhtml?appName=" + appName);
     menuShouldBeActive(APPLICATIONS_MENU);
   }
   
   public static void toSecuritySystem()
   {
     toSubMenu(SECURITY_MENU, SECURITY_SYSTEM_MENU);
-    WebBase.assertCurrentUrlEndsWith("securitysystem.xhtml");
+    assertCurrentUrlEndsWith("securitysystem.xhtml");
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
   
@@ -71,21 +71,21 @@ public class Navigation
   {
     Navigation.toSecuritySystem();
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
-    WebBase.assertCurrentUrlEndsWith("security-detail.xhtml?securitySystemName=" + secSystemName);
+    assertCurrentUrlEndsWith("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
   public static void toVariables()
   {
     toSubMenu(CONFIGURATION_MENU, VARIABLES_MENU);
-    WebBase.assertCurrentUrlEndsWith("global-variables.xhtml");
+    assertCurrentUrlEndsWith("global-variables.xhtml");
     menuShouldBeActive(VARIABLES_MENU);
   }
   
   public static void toBusinessCalendar()
   {
     toSubMenu(CONFIGURATION_MENU, BUSINESS_CALENDAR_MENU);
-    WebBase.assertCurrentUrlEndsWith("businesscalendar.xhtml");
+    assertCurrentUrlEndsWith("businesscalendar.xhtml");
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
   
@@ -93,14 +93,14 @@ public class Navigation
   {
     Navigation.toBusinessCalendar();
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content a").find(text(calendarName)).shouldBe(visible).click();
-    WebBase.assertCurrentUrlEndsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName);
+    assertCurrentUrlEndsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName);
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
   
   public static void toUsers()
   {
     toSubMenu(SECURITY_MENU, SECURITY_USER_MENU);
-    WebBase.assertCurrentUrlEndsWith("users.xhtml");
+    assertCurrentUrlEndsWith("users.xhtml");
     menuShouldBeActive(SECURITY_USER_MENU);
   }
   
@@ -108,14 +108,14 @@ public class Navigation
   {
     Navigation.toUsers();
     $$(Tab.ACITVE_PANEL_CSS + " .user-name").find(text(userName)).shouldBe(visible).click();
-    WebBase.assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + userName);
+    assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + userName);
     menuShouldBeActive(SECURITY_USER_MENU);
   }
   
   public static void toRoles()
   {
     toSubMenu(SECURITY_MENU, SECURITY_ROLES_MENU);
-    WebBase.assertCurrentUrlEndsWith("roles.xhtml");
+    assertCurrentUrlEndsWith("roles.xhtml");
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
   
@@ -123,28 +123,28 @@ public class Navigation
   {
     Navigation.toRoles();
     $$(Tab.ACITVE_PANEL_CSS + " .role-name").find(text(roleName)).shouldBe(visible).click();
-    WebBase.assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + roleName);
+    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + roleName);
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
   
   public static void toSearchEngine()
   {
     toSubMenu(SERVICES_MENU, SERVICES_SEARCH_ENGINE);
-    WebBase.assertCurrentUrlEndsWith("searchengine.xhtml");
+    assertCurrentUrlEndsWith("searchengine.xhtml");
     menuShouldBeActive(SERVICES_SEARCH_ENGINE);
   }
   
   public static void toEmail()
   {
     toSubMenu(SERVICES_MENU, SERVICES_EMAIL_MENU);
-    WebBase.assertCurrentUrlEndsWith("email.xhtml");
+    assertCurrentUrlEndsWith("email.xhtml");
     menuShouldBeActive(SERVICES_EMAIL_MENU);
   }
   
   public static void toExternalDatabases()
   {
     toSubMenu(SERVICES_MENU, SERVICES_DATABASES_MENU);
-    WebBase.assertCurrentUrlEndsWith("externaldatabases.xhtml");
+    assertCurrentUrlEndsWith("externaldatabases.xhtml");
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
   
@@ -152,14 +152,14 @@ public class Navigation
   {
     Navigation.toExternalDatabases();
     $$(Tab.ACITVE_PANEL_CSS + " .database-name").find(text(databaseName)).shouldBe(visible).click();
-    WebBase.assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName);
+    assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
   
   public static void toRestClients()
   {
     toSubMenu(SERVICES_MENU, SERVICES_RESTCLIENTS_MENU);
-    WebBase.assertCurrentUrlEndsWith("restclients.xhtml");
+    assertCurrentUrlEndsWith("restclients.xhtml");
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
   
@@ -167,14 +167,14 @@ public class Navigation
   {
     Navigation.toRestClients();
     $$(Tab.ACITVE_PANEL_CSS + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
-    WebBase.assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + restClientName);
+    assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + restClientName);
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
   
   public static void toWebservices()
   {
     toSubMenu(SERVICES_MENU, SERVICES_WEBSERVICES_MENU);
-    WebBase.assertCurrentUrlEndsWith("webservices.xhtml");
+    assertCurrentUrlEndsWith("webservices.xhtml");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
   
@@ -182,56 +182,56 @@ public class Navigation
   {
     Navigation.toWebservices();
     $$(Tab.ACITVE_PANEL_CSS + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
-    WebBase.assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
+    assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
   
   public static void toAdmins()
   {
     toSubMenu(SYSTEM_MENU, SYSTEM_ADMINS);
-    WebBase.assertCurrentUrlEndsWith("admins.xhtml");
+    assertCurrentUrlEndsWith("admins.xhtml");
     menuShouldBeActive(SYSTEM_ADMINS);
   }
 
   public static void toSystemDb()
   {
     toSubMenu(SYSTEM_MENU, SYSTEM_SYSTEMDB_MENU);
-    WebBase.assertCurrentUrlEndsWith("systemdb.xhtml");
+    assertCurrentUrlEndsWith("systemdb.xhtml");
     menuShouldBeActive(SYSTEM_SYSTEMDB_MENU);
   }
   
   public static void toSystemConfig()
   {
     toSubMenu(SYSTEM_MENU, SYSTEM_CONFIG_MENU);
-    WebBase.assertCurrentUrlEndsWith("systemconfig.xhtml");
+    assertCurrentUrlEndsWith("systemconfig.xhtml");
     menuShouldBeActive(SYSTEM_CONFIG_MENU);
   }
   
   public static void toCluster()
   {
     Selenide.open(viewUrl("cluster.xhtml?cluster"));
-    WebBase.assertCurrentUrlContains("cluster.xhtml");
+    assertCurrentUrlContains("cluster.xhtml");
     menuShouldBeActive(SYSTEM_CLUSTER);
   }
   
   public static void toEditor()
   {
     toSubMenu(SYSTEM_MENU, SYSTEM_EDITOR_MENU);
-    WebBase.assertCurrentUrlEndsWith("editor.xhtml");
+    assertCurrentUrlEndsWith("editor.xhtml");
     menuShouldBeActive(SYSTEM_EDITOR_MENU);
   }
   
   public static void toResourcesMonitor()
   {
     toSubMenu(MONITOR_MENU, MONITOR_RESOURCES_MENU);
-    WebBase.assertCurrentUrlEndsWith("monitor.xhtml");
+    assertCurrentUrlEndsWith("monitor.xhtml");
     menuShouldBeActive(MONITOR_RESOURCES_MENU);
   }
   
   public static void toLogs()
   {
     toSubMenu(MONITOR_MENU, MONITOR_LOGS_MENU);
-    WebBase.assertCurrentUrlContains("logs.xhtml");
+    assertCurrentUrlContains("logs.xhtml");
     menuShouldBeActive(MONITOR_LOGS_MENU);
   }
   

@@ -29,13 +29,11 @@ pipeline {
               //'MySql', 'jdbc:mysql://db:3306', 'root', '1234'
 
               maven cmd: 'clean verify ' +
-                      '-Dengine.page.url=' + params.engineSource + ' ' + 
-                      '-Dsel.jup.output.folder=target/surefire-reports ' + 
-                      '-Dsel.jup.screenshot.at.the.end.of.tests=true ' + 
-                      '-Dsel.jup.screenshot.format=png'
+                      '-Dengine.page.url=' + params.engineSource
       
               junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
               archiveArtifacts '**/target/*.iar'
+              archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
             }
           }
         }
@@ -57,13 +55,6 @@ pipeline {
             archiveArtifacts '**/target/*.html'
             recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image')], unstableNewAll: 1,
             qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
-          }
-        }
-      }
-      post {
-        success {
-          dir ('engine-cockpit-selenium-test/target/surefire-reports') {
-            deleteDir()
           }
         }
       }

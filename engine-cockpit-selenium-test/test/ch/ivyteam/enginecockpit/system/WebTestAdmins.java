@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
@@ -8,20 +9,29 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
+import com.axonivy.ivy.supplements.IvySelenide;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestAdmins extends WebTestBase
+@IvySelenide
+public class WebTestAdmins
 {
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toAdmins();
+  }
   
   @Test
   void testAddEditDeleteAdmin()
   {
-    navigateToAdmins();
     $("h1").shouldBe(text("Administrators"));
     testAddEditDelete();
     $("#adminMessages").shouldBe(text("Your engine needs to be restarted"));
@@ -30,7 +40,6 @@ public class WebTestAdmins extends WebTestBase
   @Test
   void testAdminDialogInvalid()
   {
-    navigateToAdmins();
     testAddAdminInvalidValues();
     testAddAdminInvalidPassword();
   }
@@ -38,7 +47,6 @@ public class WebTestAdmins extends WebTestBase
   @Test
   void testOwnAdminCannotBeDeleted()
   {    
-    navigateToAdmins();
     assertOwnAdminCannotBeDeleted();
   }
 
@@ -131,9 +139,4 @@ public class WebTestAdmins extends WebTestBase
     $("#admins\\:editAdminForm\\:saveAdmin").click();
   }
 
-  private void navigateToAdmins()
-  {
-    login();
-    Navigation.toAdmins();
-  }
 }

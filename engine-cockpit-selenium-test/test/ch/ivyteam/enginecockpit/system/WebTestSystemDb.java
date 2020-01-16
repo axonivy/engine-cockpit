@@ -1,5 +1,10 @@
 package ch.ivyteam.enginecockpit.system;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createOldDb;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.deleteTempDb;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFinished;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.and;
 import static com.codeborne.selenide.Condition.appears;
@@ -14,19 +19,22 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestSystemDb extends WebTestBase
+@IvySelenide
+public class WebTestSystemDb
 {
   private static final String SYS_DB = "db";
   private static final String SYS_DB_PW = "1234";
@@ -36,8 +44,21 @@ public class WebTestSystemDb extends WebTestBase
   private static final String OLD_DB_NAME = "old_version_60";
   private static final String TEST_DB_NAME = "temp";
   
+  @BeforeAll
+  static void setup()
+  {
+    createOldDb();
+  }
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+    Navigation.toSystemDb();
+  }
+  
   @AfterEach
-  void cleanup()
+  void afterEach()
   {
     resetConfig();
     deleteTempDb();
@@ -46,7 +67,6 @@ public class WebTestSystemDb extends WebTestBase
   @Test
   void testSystemDb()
   {
-    navigateToSystemDb();
     $("h1").shouldBe(text("System Database"));
     assertDefaultValues();
     assertSystemDbCreationDialog();
@@ -56,7 +76,6 @@ public class WebTestSystemDb extends WebTestBase
   @Test
   void testSaveConfiguration()
   {
-    navigateToSystemDb();
     $(".sysdb-dynamic-form-user").sendKeys(" ");
     $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
     $("#saveUnknownSystemDbConfig").shouldBe(visible);
@@ -76,15 +95,12 @@ public class WebTestSystemDb extends WebTestBase
   @Test
   void testConnectionResults()
   {
-    navigateToSystemDb();
     assertConnectionResults();
   }
   
   @Test
   void testConvertOldDb()
   {
-    createOldDb();
-    navigateToSystemDb();
     assertSystemDbConversionDialog();
     assertSystemDbConversion();
   }
@@ -92,21 +108,18 @@ public class WebTestSystemDb extends WebTestBase
   @Test
   void testDefaultPortSwitch()
   {
-    navigateToSystemDb();
     assertDefaultPortSwitch();
   }
   
   @Test
   void testDatabaseDropdownSwitch()
   {
-    navigateToSystemDb();
     assertDatabaseTypeSwitch();
   }
   
   @Test
   void testAdditionalProperties()
   {
-    navigateToSystemDb();
     assertAdditionalProperties();
   }
   
@@ -296,9 +309,4 @@ public class WebTestSystemDb extends WebTestBase
     assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory");
   }
   
-  private void navigateToSystemDb()
-  {
-    login();
-    Navigation.toSystemDb();
-  }
 }

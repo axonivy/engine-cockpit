@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -11,154 +13,35 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-public class WebTestSystemAndAppConfigurations extends WebTestBase
+@IvySelenide
+public class WebTestConfiguration
 {
   private static final By TABLE_ID = By.id("config:form:configTable");
   private Table table;
 
-  @Test
-  void testSystemConfig()
+  @BeforeEach
+  void beforeEach()
   {
-    toSystemConfig();
-    $("h1").shouldHave(text("System Config"));
-  }
-  
-  @Test
-  void testSearchConfig()
-  {
-    toSystemConfig();
-    assertSearchConfigEntry();
-  }
-
-  @Test
-  void testSearchConfig_app()
-  {
-    toApplicationDetail();
-    assertSearchConfigEntry();
-  }
-  
-  @Test
-  void testHideDefaults()
-  {
-    toSystemConfig();
-    assertDefaultToggle("Data.AppDirectory");
-  }
-  
-  @Test
-  void testHideDefaults_app()
-  {
-    toApplicationDetail();
-    assertDefaultToggle("Data.FilesDirectory");
-  }
-  
-  @Test
-  void testShowConfigFile()
-  {
-    toSystemConfig();
-    String key = "Connector.HTTP.AllowTrace";
-    assertShowConfigFile(key);
-  }
-  
-  @Test
-  void testShowConfigFile_app()
-  {
-    toApplicationDetail();
-    String key = "SecuritySystem";
-    assertShowConfigFile(key);
-  }
-
-  @Test
-  void testNewConfigInvalid()
-  {
-    toSystemConfig();
-    $("#newConfigBtn").click();
-    assertNewConfigInvalid();
-  }
-  
-  @Test
-  void testNewConfigInvalid_app()
-  {
-    toApplicationDetail();
-    $("#configMoreForm\\:newConfigBtn").click();
-    assertNewConfigInvalid();
-  }
-  
-  @Test
-  void testNewEditAndResetConfig()
-  {
-    String key = "testKey";
-    String value = "testValue";
-    toSystemConfig();
-    $("#newConfigBtn").click();
-    assertNewConfig(key, value);
-    assertEditConfig(key, value, "newValue");
-    assertResetConfig(key);
-  }
-  
-  @Test
-  void testNewEditAndResetConfig_app()
-  {
-    String key = "testKey";
-    String value = "testValue";
-    toApplicationDetail();
-    $("#configMoreForm\\:newConfigBtn").click();
-    assertNewConfig(key, value);
-    assertEditConfig(key, value, "newValue");
-    assertResetConfig(key);
-  }
-  
-  @Test
-  void testEditConfig_booleanFormat()
-  {
-    toSystemConfig();
-    String config = "EMail.Server.SSL.UseKey";
-    table.clickButtonForEntry(config, "editConfigBtn");
-    assertThatConfigEditModalIsVisible(config, "false");
-  }
-  
-  @Test
-  void testEditConfig_numberFormat()
-  {
-    toSystemConfig();
-    String config = "Elasticsearch.ExternalServer.BootTimeout";
-    table.clickButtonForEntry(config, "editConfigBtn");
-    assertThatConfigEditModalIsVisible(config, "60");
-  }
-  
-  @Test
-  void testEditConfig_daytimeFormat()
-  {
-    toSystemConfig();
-    String config = "EMail.DailyTaskSummary.TriggerTime";
-    table.clickButtonForEntry(config, "editConfigBtn");
-    assertThatConfigEditModalIsVisible(config, "00:00");
-  }
-  
-  @Test
-  void testEditConfig_enumerationFormat()
-  {
-    toSystemConfig();
-    String config = "SystemTask.Failure.Behaviour";
-    table.clickButtonForEntry(config, "editConfigBtn");
-    assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY");
+    login();
   }
   
   @Test
   void testEmailUrlFilter()
   {
     String filter = "EMail";
-    login();
     $("#mailConfigForm\\:configureEmailBtn").click();
     assertUrlFiltering(filter);
   }
@@ -166,9 +49,144 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
   @Test
   void testSystemDbConfigUrl()
   {
-    login();
     $("#configureSystemDbBtn").click();
     assertCurrentUrlEndsWith("systemdb.xhtml");
+  }
+  
+  @Nested
+  class System
+  {
+    @BeforeEach
+    void beforeEach()
+    {
+      Navigation.toSystemConfig();
+      table = new Table(TABLE_ID);
+    }
+    
+    @Test
+    void testSystemConfig()
+    {
+      $("h1").shouldHave(text("System Config"));
+    }
+    
+    @Test
+    void testSearchConfig()
+    {
+      assertSearchConfigEntry();
+    }
+    
+    @Test
+    void testHideDefaults()
+    {
+      assertDefaultToggle("Data.AppDirectory");
+    }
+    
+    @Test
+    void testShowConfigFile()
+    {
+      String key = "Connector.HTTP.AllowTrace";
+      assertShowConfigFile(key);
+    }
+    
+    @Test
+    void testNewConfigInvalid()
+    {
+      $("#newConfigBtn").click();
+      assertNewConfigInvalid();
+    }
+
+    @Test
+    void testNewEditAndResetConfig()
+    {
+      String key = "testKey";
+      String value = "testValue";
+      $("#newConfigBtn").click();
+      assertNewConfig(key, value);
+      assertEditConfig(key, value, "newValue");
+      assertResetConfig(key);
+    }
+    
+    @Test
+    void testEditConfig_booleanFormat()
+    {
+      String config = "EMail.Server.SSL.UseKey";
+      table.clickButtonForEntry(config, "editConfigBtn");
+      assertThatConfigEditModalIsVisible(config, "false");
+    }
+    
+    @Test
+    void testEditConfig_numberFormat()
+    {
+      String config = "Elasticsearch.ExternalServer.BootTimeout";
+      table.clickButtonForEntry(config, "editConfigBtn");
+      assertThatConfigEditModalIsVisible(config, "60");
+    }
+    
+    @Test
+    void testEditConfig_daytimeFormat()
+    {
+      String config = "EMail.DailyTaskSummary.TriggerTime";
+      table.clickButtonForEntry(config, "editConfigBtn");
+      assertThatConfigEditModalIsVisible(config, "00:00");
+    }
+    
+    @Test
+    void testEditConfig_enumerationFormat()
+    {
+      String config = "SystemTask.Failure.Behaviour";
+      table.clickButtonForEntry(config, "editConfigBtn");
+      assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY");
+    }
+  }
+  
+  @Nested
+  class Application
+  {
+    @BeforeEach
+    void beforeEach()
+    {
+      Navigation.toApplicationDetail("test-ad");
+      $(By.id("configMoreForm:configMoreButton"))
+              .scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      table = new Table(TABLE_ID);
+    }
+    
+    @Test
+    void testSearchConfig()
+    {
+      assertSearchConfigEntry();
+    }
+    
+    @Test
+    void testHideDefaults()
+    {
+      assertDefaultToggle("Data.FilesDirectory");
+    }
+    
+    @Test
+    void testShowConfigFile()
+    {
+      String key = "SecuritySystem";
+      assertShowConfigFile(key);
+    }
+    
+    @Test
+    void testNewConfigInvalid()
+    {
+      $("#configMoreForm\\:newConfigBtn").click();
+      assertNewConfigInvalid();
+    }
+
+    @Test
+    void testNewEditAndResetConfig()
+    {
+      String key = "testKey";
+      String value = "testValue";
+      $("#configMoreForm\\:newConfigBtn").click();
+      assertNewConfig(key, value);
+      assertEditConfig(key, value, "newValue");
+      assertResetConfig(key);
+    }
   }
   
   private void assertUrlFiltering(String filter)
@@ -283,18 +301,4 @@ public class WebTestSystemAndAppConfigurations extends WebTestBase
     }
   }
   
-  private void toSystemConfig()
-  {
-    login();
-    Navigation.toSystemConfig();
-    table = new Table(TABLE_ID);
-  }
-  
-  private void toApplicationDetail()
-  {
-    login();
-    Navigation.toApplicationDetail("test-ad");
-    scrollToElement(By.id("configMoreForm:configMoreButton"));
-    table = new Table(TABLE_ID);
-  }
 }

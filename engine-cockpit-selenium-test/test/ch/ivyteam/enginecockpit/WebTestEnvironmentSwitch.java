@@ -1,27 +1,35 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.axonivy.ivy.supplements.IvySelenide;
 
 import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebTestEnvironmentSwitch extends WebTestBase
+@IvySelenide
+public class WebTestEnvironmentSwitch
 {
-  @Test
-  void testEnvironmentCount()
+  @BeforeEach
+  void beforeEach()
   {
     login();
     Navigation.toExternalDatabases();
+  }
+  
+  @Test
+  void testEnvironmentCount()
+  {
     assertThat(EnvironmentSwitch.getAvailableEnvs()).hasSize(2).contains("Default", "test");
   }
   
   @Test
   void testEnvironmentSwitchAndHoldState()
   {
-    login();
-    Navigation.toExternalDatabases();
     assertThat(EnvironmentSwitch.getEnv()).isEqualTo("Default");
     EnvironmentSwitch.switchToEnv("test");
     assertThat(EnvironmentSwitch.getEnv()).isEqualTo("test");

@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.isDesignerApp;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -12,26 +14,32 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 
-import ch.ivyteam.enginecockpit.WebTestBase;
-import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-public class WebTestDeployment extends WebTestBase
+@IvySelenide
+public class WebTestDeployment
 {
-  private static final String APP = EngineCockpitUrl.isDesignerApp() ? "designer" : "test-ad";
+  private static final String APP = isDesignerApp() ? "designer" : "test-ad";
+  
+  @BeforeEach
+  void beforeEach()
+  {
+    login();
+  }
   
   @Test
   void testDeploymentNoFile()
   {
     toAppDetailAndOpenDeployment();
-    
     $("#deploymentModal\\:uploadBtn").click();
     $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
@@ -40,7 +48,6 @@ public class WebTestDeployment extends WebTestBase
   void testDeplomentInvalidFileEnding() throws IOException
   {
     toAppDetailAndOpenDeployment();
-    
     Path createTempFile = Files.createTempFile("app", ".txt");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#deploymentModal\\:uploadBtn").click();
@@ -52,13 +59,12 @@ public class WebTestDeployment extends WebTestBase
   void testDeploymentInvalidAppAndBack() throws IOException
   {
     toAppDetailAndOpenDeployment();
-    
     Path createTempFile = Files.createTempFile("app", ".iar");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#deploymentModal\\:uploadBtn").click();
     $("#uploadLog").shouldNotBe(empty);
     $("#fileUploadForm").shouldNotBe(visible);
-    if (EngineCockpitUrl.isDesignerApp())
+    if (isDesignerApp())
     {
       $("#uploadLog").shouldHave(text("404"));
     }
@@ -76,7 +82,6 @@ public class WebTestDeployment extends WebTestBase
   void testDeploymentDeployOptions() 
   {
     toAppDetailAndOpenDeployment();
-    
     showDeploymentOptions();
     SelectOneMenu testUser = PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
     SelectBooleanCheckbox overwrite = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
@@ -105,12 +110,6 @@ public class WebTestDeployment extends WebTestBase
   }
   
   @Test
-  void testDeploymentDialogOpenApps()
-  {
-    toAppsAndOpenDeployDialog();
-  }
-  
-  @Test
   void testDeploymentDeployOptionsVersionRange_AppsView()
   {
     toAppsAndOpenDeployDialog();
@@ -120,7 +119,6 @@ public class WebTestDeployment extends WebTestBase
   private void openDeployOptionsAndAssertVersionRange()
   {
     showDeploymentOptions();
-    
     $("#deploymentModal\\:versionRangeLabel").shouldNotBe(visible);
     $("#deploymentModal\\:version").click();
     $("#deploymentModal\\:version_items").shouldBe(visible);
@@ -131,7 +129,7 @@ public class WebTestDeployment extends WebTestBase
   
   private void showDeploymentOptions()
   {
-    if (!$("#deploymentModal\\:deployOptionsPanel").isDisplayed())
+    if (!$("#deploymentModal\\:deployOptionsPanel").is(visible))
     {
       $("#deploymentModal\\:showDeployOptionsBtn").click();
       $("#deploymentModal\\:deployOptionsPanel").shouldBe(visible);
@@ -140,8 +138,7 @@ public class WebTestDeployment extends WebTestBase
   
   private void toAppsAndOpenDeployDialog()
   {
-    toApplications();
-    
+    Navigation.toApplications();
     String appName = $$(".activity-name").first().shouldBe(visible).getText();
     $("#card\\:form\\:tree\\:0\\:deployBtn").shouldBe(visible).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
@@ -150,23 +147,11 @@ public class WebTestDeployment extends WebTestBase
   
   private void toAppDetailAndOpenDeployment()
   {
-    toApplicationDetail();
-    
+    Navigation.toApplicationDetail(APP);
     $("#appDetailInfoForm\\:showDeployment").shouldBe(visible).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
     $("#uploadError").shouldBe(empty);
     $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(APP));
   }
   
-  private void toApplicationDetail()
-  {
-    login();
-    Navigation.toApplicationDetail(APP);
-  }
-  
-  private void toApplications()
-  {
-    login();
-    Navigation.toApplications();
-  }
 }
