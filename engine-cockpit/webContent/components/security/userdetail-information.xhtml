@@ -11,6 +11,12 @@
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
     <p:autoUpdate/>
   </p:growl>
+  <div style="float: right; margin-right: 5px;">
+    <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+        type="button" icon="fa fa-refresh" styleClass="secondary-btn card-button" style="float: right;"
+        onclick="PF('synchUserModal').show()" />
+  </div>
+
   <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
     icon="ui-icon-save" styleClass="accent-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
   <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
@@ -51,4 +57,5 @@
     <h:outputText value="This user is managed by an external security system"/>
   </h:panelGroup>
 </h:form>
+<ui:include src="../../dialogs/synchuser.xhtml" />
 </html>

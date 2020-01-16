@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog style="min-width: 400px;" header="Synchronize User" id="synchUserModal"
+  widgetVar="synchUserModal" modal="true" responsive="true" closable="false" >
+
+  <h:form id="synchUserForm">
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
+      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <label>User Name</label>
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required" value="#{userDetailBean.userSynchName}"
+            disabled="#{not empty userDetailBean.userName}"/>
+        <p:message for="userSynchName" id="userNameMessage" />
+      </h:panelGroup>
+
+      <h:panelGroup>
+        <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto; background-image: none;" readonly="true" id="logViewer"
+            value="#{userDetailBean.synchLog}" rows="1" />
+      </h:panelGroup>
+    </p:panelGrid>
+
+    <p:commandButton id="synchUserVar" validateClient="true"
+      actionListener="#{userDetailBean.synchUser}" value="Synch" icon="fa fa-refresh"
+      styleClass="primary-btn modal-input-button" update="@form"  />
+    <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{userDetailBean.resetSynchInfo}"
+          icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" immediate="true">
+      <p:resetInput target=":synchUserForm" />
+    </p:commandButton>
+  </h:form>
+</p:dialog>
+</html>

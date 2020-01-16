@@ -40,6 +40,17 @@
                     <ui:include src="components/security/adsynclog.xhtml" />
                   </div>
                 </h:panelGroup>
+                <div style="float: right; margin-right: 5px;">
+                  <h:form id="synchronizeForm">
+                    <p:commandButton title="More" id="moreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+                      type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
+                    <p:menu overlay="true" trigger="moreBtn" my="right top" at="right bottom" id="synchronizationMenu" style="min-width:180px;">
+                      <p:menuitem value="Synchronize User" id="synchUserBtn"
+                          icon="fa fa-refresh" onclick="PF('synchUserModal').show()">
+                      </p:menuitem>
+                    </p:menu>
+                  </h:form>
+                </div>
               </div>
             </div>
             <ui:include src="components/security/users-table.xhtml"/>
@@ -47,6 +58,7 @@
         </cc:SingleCard>
       </h:form>
       <ui:include src="dialogs/newuser.xhtml" />
+      <ui:include src="dialogs/synchuser.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>
