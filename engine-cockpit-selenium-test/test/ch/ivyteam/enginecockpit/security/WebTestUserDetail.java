@@ -2,9 +2,12 @@ package ch.ivyteam.enginecockpit.security;
 
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,6 +40,7 @@ public class WebTestUserDetail extends WebTestBase
   private static final String ROLE_EXPANDER = "span:nth-child(2)";
   private static final String MEMBER_ICON = "td:nth-child(2) > i";
   private static final String DETAIL_USER_NAME = "foo";
+  private static final String DETAIL_AD_USER_NAME = "user1";
   private static final String DETAIL_USER_NAME_DELETE = "bar";
   
   @Test
@@ -86,7 +90,7 @@ public class WebTestUserDetail extends WebTestBase
   @Test
   void testDeleteUser()
   {
-    openUserDetail(DETAIL_USER_NAME_DELETE);
+    openUserDetail(DETAIL_USER_NAME_DELETE, "test");
     $("#userInformationForm\\:deleteUser").click();
     $("#userInformationForm\\:deleteUserConfirmDialog").shouldBe(visible);
     $("#userInformationForm\\:deleteUserConfirmYesBtn").click();
@@ -208,7 +212,19 @@ public class WebTestUserDetail extends WebTestBase
     $(firstPermissionCss + "unDenyPermissionBtn").click();
     $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
   }
-  
+
+  @Test
+  void testSynchronizeUser()
+  {
+    openADUserDetail();
+    $("#userInformationForm\\:synchronizeForm\\:userSynchBtn").click();
+    $("#synchUserForm").shouldBe(visible);
+    $("#synchUserForm\\:userSynchName").shouldBe(disabled);
+    $("#synchUserForm\\:userSynchName").shouldBe(value(DETAIL_AD_USER_NAME));
+    $("#synchUserForm\\:synchUserVar").click();
+    $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
+  }
+
   private void clearUserInfoInputs()
   {
     $("#userInformationForm\\:fullName").clear();
@@ -217,17 +233,21 @@ public class WebTestUserDetail extends WebTestBase
     $("#userInformationForm\\:password2").clear();
   }
   
-  private void openUserDetail(String userName)
+  private void openUserDetail(String userName, String appName)
   {
     login();
     Navigation.toUsers();
-    Tab.switchToTab("test");
+    Tab.switchToTab(appName);
     Navigation.toUserDetail(userName);
   }
   
   private void openUserFooDetail()
   {
-    openUserDetail(DETAIL_USER_NAME);
+    openUserDetail(DETAIL_USER_NAME, "test");
   }
 
+  private void openADUserDetail()
+  {
+    openUserDetail(DETAIL_AD_USER_NAME, "test-ad");
+  }
 }

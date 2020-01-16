@@ -25,7 +25,7 @@ public class WebTestUsers extends WebTestBase
   @Test
   void testUsersInTable()
   {
-    navigateToUsers();
+    navigateToUsers("test");
     $("h1").shouldHave(text("Users"));
     Table table = new Table(By.className("userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
@@ -71,18 +71,36 @@ public class WebTestUsers extends WebTestBase
     assertThat(table.getValueForEntry(user, 2)).isEqualTo(fullName);
     assertThat(table.getValueForEntry(user, 3)).isEqualTo(email);
   }
+
+  @Test
+  void testSynchronizeSingleUser()
+  {
+    showSynchUserDialog();
+    $("#synchUserForm\\:userSynchName").shouldHave(text(""));
+    $("#synchUserForm\\:userSynchName").sendKeys("user1");
+    $("#synchUserForm\\:synchUserVar").click();
+    $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
+  }
+  
+  private void showSynchUserDialog()
+  {
+    navigateToUsers("test-ad");
+    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:synchronizeForm\\:userSynchBtn").click();
+    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:synchronizeForm\\:synchUserBtn").click();
+    $("#synchUserForm").shouldBe(visible);
+  }
   
   private void showNewUserDialog()
   {
-    navigateToUsers();
+    navigateToUsers("test");
     $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:newUserBtn").click();
     $("#newUserModal").shouldBe(visible);
   }
   
-  private void navigateToUsers()
+  private void navigateToUsers(String testApp)
   {
     login();
     Navigation.toUsers();
-    Tab.switchToTab("test");
+    Tab.switchToTab(testApp);
   }
 }
