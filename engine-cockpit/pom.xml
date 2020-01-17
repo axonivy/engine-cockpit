@@ -6,13 +6,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>ch.ivyteam.ivy</groupId>
+		<groupId>ch.ivyteam.enginecockpit</groupId>
 		<artifactId>engine-cockpit-config</artifactId>
 		<version>${revision}</version>
 		<relativePath>../maven-config</relativePath>
 	</parent>
 
-	<groupId>ch.ivyteam.ivy</groupId>
 	<artifactId>engine-cockpit</artifactId>
 	<packaging>iar</packaging>
 
