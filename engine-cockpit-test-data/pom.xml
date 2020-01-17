@@ -12,6 +12,7 @@
 		<relativePath>../maven-config</relativePath>
 	</parent>
 
+	<groupId>ch.ivyteam.enginecockpit</groupId>
 	<artifactId>engine-cockpit-test-data</artifactId>
 	<packaging>iar</packaging>
 
