@@ -68,16 +68,21 @@ public class AdministratorBean extends StepStatus
             .orElse(false);
   }
   
+  private boolean hasOnlyDefaultAdmin()
+  {
+    return AdministratorService.get().all().size() > 1 ? false : hasDefaultAdmin();
+  }
+  
   @Override
   public boolean isStepOk()
   {
-    return !hasDefaultAdmin() && hasAdmins();
+    return !hasOnlyDefaultAdmin() && hasAdmins();
   }
   
-@Override
+  @Override
   public String getStepWarningMessage()
   {
-    return hasDefaultAdmin() ? "Please configure your own admin user!" : "Please configure at least one admin!";
+    return hasOnlyDefaultAdmin() ? "Please configure your own admin user!" : "Please configure at least one admin!";
   }
   
   public void saveAdmin()
