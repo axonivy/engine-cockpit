@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>ch.ivyteam.ivy</groupId>
+		<groupId>ch.ivyteam.enginecockpit</groupId>
 		<artifactId>engine-cockpit-config</artifactId>
 		<version>${revision}</version>
 		<relativePath>../maven-config</relativePath>
@@ -77,7 +77,7 @@
 				<configuration>
 					<artifactItems>
 						<artifactItem>
-							<groupId>ch.ivyteam.ivy</groupId>
+							<groupId>ch.ivyteam.enginecockpit</groupId>
 							<artifactId>engine-cockpit</artifactId>
 							<version>${project.version}</version>
 							<type>iar</type>
