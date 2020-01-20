@@ -39,7 +39,7 @@
       </p:selectOneMenu>
     </p:panelGrid>
     <p:commandButton id="showDeployOptionsBtn" value="Options" icon="ui-icon-visibility" styleClass="secondary-btn modal-input-button"
-      type="button" onclick="$('#deploymentModal\\:deployOptionsPanel').toggle()" style="float: left; width: 25%;" />
+      type="button" onclick="visualToggle()" style="float: left; width: 25%;" />
     <a href="#{advisorBean.engineGuideBaseUrl}/administration/deployment.html#deployment-options" 
       target="_blank" style="float: left; padding-top: 2px; margin-left: 10px;">
       <i class="material-icons">help</i>
@@ -57,8 +57,24 @@
           PF('versionRange').jq.parent().parent().fadeOut();
         }
       }
-    
+      
+      function visualToggle(){
+        $('#deploymentModal\\:deployOptionsPanel').toggle();
+        disabled = optionsHidden();
+      	$('#deploymentModal\\:showDeployOptionsBtn').toggleClass("primary-btn", disabled);
+      	$('#deploymentModal\\:showDeployOptionsBtn').toggleClass("secondary-btn", disabled);
+      }
+      
+      function optionsHidden(){
+        return $('#deploymentModal\\:deployOptionsPanel').css("display")=="none"
+      }
+      
       function addDeployOptions(form_data){
+        if (optionsHidden())
+        { // don't send params: deploy.options.yaml (e.g. in app.zip) should take precedence
+          return
+        }
+        
         if (PF('version').input.val() == 'RANGE') {
           var version = PF('versionRange').jq.val();
         } else {
