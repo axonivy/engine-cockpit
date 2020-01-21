@@ -18,7 +18,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
 
-@IvySelenide(headless = false)
+@IvySelenide
 public class WebTestPagesNotAvailable
 {
   
