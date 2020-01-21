@@ -4,12 +4,14 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -43,20 +45,18 @@ public class WebTestPagesNotAvailable
   
   private List<Path> getSubDirectoryXhtmlFiles(Path path)
   {
-    List<Path> files = new ArrayList<>();
-    for (File file : Arrays.asList(path.toFile().listFiles()))
+    try
     {
-      if (file.isDirectory())
-      {
-        files.addAll(getSubDirectoryXhtmlFiles(file.toPath()));
-      }
-      else if (file.isFile() && 
-              !file.getParent().equals(engineDir.toFile().getAbsolutePath()) && 
-              "xhtml".equals(FilenameUtils.getExtension(file.getName())))
-      {
-        files.add(engineDir.relativize(file.toPath()));
-      }
+      return Files.walk(path)
+              .map(engineDir::relativize)
+              .filter(file -> StringUtils.contains(file.toString(), "/"))
+              .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
+              .collect(Collectors.toList());
     }
-    return files;
+    catch (IOException ex)
+    {
+      ex.printStackTrace();
+    }
+    return Collections.emptyList();
   }
 }
