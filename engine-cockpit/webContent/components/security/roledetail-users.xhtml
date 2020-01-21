@@ -18,7 +18,7 @@
     icon="ui-icon-add" title="Add" styleClass="primary-btn" 
     disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
   <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
-    filteredValue="#{roleDetailBean.filteredUsers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
+    lazy="true" paginator="true" rows="10" paginatorPosition="bottom"
     paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
     <f:facet name="header">
@@ -26,11 +26,11 @@
         <p:outputLabel styleClass="table-search-icon">
           <i class="material-icons">search</i>
         </p:outputLabel>
-        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+        <p:inputText styleClass="table-search-input-withicon" id="globalFilter" value="#{roleDetailBean.usersOfRoleFilter}"
           onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
       </p:outputPanel>
     </f:facet>
-    <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}" filterBy="#{user.name}">
+    <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
       <a href="userdetail.xhtml?userName=#{user.name}">
         <h:outputText styleClass="user-name" value="#{user.name}">
           <i class="material-icons table-icon">person</i>

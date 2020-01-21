@@ -15,6 +15,8 @@ import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.query.UserQuery;
 
 @ManagedBean
 @ViewScoped
@@ -26,26 +28,23 @@ public class RoleDetailBean
   private String roleMemberName;
   private Role role;
 
-  private List<User> usersOfRole;
-  private List<User> filteredUsers;
+  private UserDataModel usersOfRole;
   private List<Role> membersOfRole;
   private List<Role> filteredMembers;
   
   private MemberProperty roleProperties;
 
   private ManagerBean managerBean;
-  private UserBean userBean;
   private RoleBean roleBean;
 
   public RoleDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
-    userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     roleBean = context.getApplication().evaluateExpressionGet(context, "#{roleBean}", RoleBean.class);
     role = new Role();
     roleProperties = new MemberProperty().new RoleProperty();
+    usersOfRole = new UserDataModel();
   }
 
   public String getRoleName()
@@ -58,8 +57,20 @@ public class RoleDetailBean
     this.roleName = roleName;
     IRole iRole = getSecurityContext().findRole(roleName);
     this.role = new Role(iRole);
-    loadUsersOfRole();
+    this.usersOfRole.setApp(managerBean.getSelectedIApplication());
+    this.usersOfRole.setFilterRole(getIRole());
+    this.usersOfRole.setFilter("");
     loadMembersOfRole();
+  }
+
+  public String getUsersOfRoleFilter()
+  {
+    return usersOfRole.getFilter();
+  }
+
+  public void setUsersOfRoleFilter(String filter)
+  {
+    this.usersOfRole.setFilter(filter);
   }
 
   public String getNewChildRoleName()
@@ -104,20 +115,15 @@ public class RoleDetailBean
     return "roles.xhtml?faces-redirect=true";
   }
 
-  public List<User> getUsersOfRole()
+  public UserDataModel getUsersOfRole()
   {
     return usersOfRole;
   }
 
-  public boolean isUserMemberOfRole(String userName)
-  {
-    return !usersOfRole.stream().filter(u -> u.getName().equals(userName)).findAny().isPresent();
-  }
-
   public void removeUser(String userName)
   {
-    getSecurityContext().findUser(userName).removeRole(getIRole());
-    loadUsersOfRole();
+    IUser user = getSecurityContext().findUser(userName);
+    user.removeRole(getIRole());
   }
 
   public void addUser()
@@ -128,7 +134,6 @@ public class RoleDetailBean
     }
     getSecurityContext().findUser(roleUserName).addRole(getIRole());
     roleUserName = "";
-    loadUsersOfRole();
   }
   
   public String getRoleUserName()
@@ -143,27 +148,15 @@ public class RoleDetailBean
   
   public List<User> searchUser(String query)
   {
-    List<User> search = userBean.getUsers().stream()
-            .filter(u -> StringUtils.startsWithIgnoreCase(u.getName(), query) && isUserMemberOfRole(u.getName()))
-            .limit(10).collect(Collectors.toList());
-    return search;
-  }
-
-  public List<User> getFilteredUsers()
-  {
-    return filteredUsers;
-  }
-
-  public void setFilteredUsers(List<User> filteredUsers)
-  {
-    this.filteredUsers = filteredUsers;
-  }
-
-  private void loadUsersOfRole()
-  {
-    usersOfRole = getIRole().getUsers().stream()
-            .filter(UserBean::isNotSystemUser)
-            .map(u -> new User(u))
+    var hasRole = UserQuery.create().where().hasRole(getIRole());
+    return getSecurityContext().getUserQueryExecutor().createUserQuery()
+            .where()
+                .not(hasRole)
+              .and()
+                .name().isLikeIgnoreCase(query + "%")
+            .executor().results(0, 10)
+            .stream()
+            .map(User::new)
             .collect(Collectors.toList());
   }
 

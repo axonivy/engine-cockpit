@@ -33,6 +33,7 @@ pipeline {
       
               junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
               archiveArtifacts '**/target/*.iar'
+              archiveArtifacts '.ivy-engine/logs/*'
               archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
             }
           }
