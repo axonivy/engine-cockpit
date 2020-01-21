@@ -24,6 +24,7 @@ import ch.ivyteam.enginecockpit.model.ExternalDatabase.ExecStatement;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
+import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.db.IExternalDatabase;
@@ -99,7 +100,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
     return JdbcDriver.all().stream()
             .filter(driver -> driver.isInstalled())
             .map(driver -> driver.getDriverName())
-            .filter(name -> !StringUtils.startsWith(name, "org.hsqldb"))
+            .filter(name -> !StringUtils.startsWith(name, SystemDatabaseBean.HSQL_DB))
             .filter(name -> StringUtils.startsWith(name, value))
             .distinct()
             .collect(Collectors.toList());

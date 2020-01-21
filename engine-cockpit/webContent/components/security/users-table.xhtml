@@ -6,8 +6,8 @@
 <h:form id="tableForm">
   <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-    var="user" value="#{userBean.users}" widgetVar="usersTable_#{app.id}" filteredValue="#{userBean.filteredUsers}"
-    lazy="false" styleClass="userTable" id="userTable">
+    var="user" value="#{userBean.userDataModel}" widgetVar="usersTable_#{app.id}"
+    lazy="true" styleClass="userTable" id="userTable">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
@@ -17,19 +17,19 @@
           onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" value="#{userBean.filter}"/>
       </p:outputPanel>
     </f:facet>
-    <p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}" styleClass="user-name-column">
+    <p:column headerText="Name" sortBy="#{user.name}" styleClass="user-name-column">
       <a href="userdetail.xhtml?userName=#{user.name}"> <h:outputText value="#{user.name}" styleClass="user-name">
           <i class="material-icons table-icon">person</i>
         </h:outputText>
       </a>
     </p:column>
-    <p:column headerText="Full Name" sortBy="#{user.fullName}" filterBy="#{user.fullName}">
+    <p:column headerText="Full Name" sortBy="#{user.fullName}">
       <h:outputText value="#{user.fullName}" styleClass="user-fullname" />
     </p:column>
-    <p:column headerText="Email" sortBy="#{user.email}" filterBy="#{user.email}">
+    <p:column headerText="Email" sortBy="#{user.email}">
       <h:outputText value="#{user.email}" styleClass="user-email" />
     </p:column>
-    <p:column headerText="Logged in" sortBy="#{user.loggedIn}">
+    <p:column headerText="Logged in">
       <h:outputText>
         <i class="material-icons search-machine-state #{user.loggedIn ? 'state-active' : 'state-inactive'}">#{user.loggedIn ? 'done' : 'clear'}</i>
       </h:outputText>
