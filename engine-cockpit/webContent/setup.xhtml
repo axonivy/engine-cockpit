@@ -60,12 +60,14 @@
                       <div id="configErrorMessage" class="ui-message ui-staticmessage ui-message-warn ui-widget ui-corner-all">
                         <span class="ui-message-warn-icon"></span>
                         <span class="ui-message-warn-summary">Configuration incomplete</span>
-                        <span class="ui-message-warn-detail">You have warnings in the in your 
+                        <span class="ui-message-warn-detail">You have warnings in your 
                           <p:commandLink actionListener="#{wizardBean.gotoFirstWarningStep()}" 
                             update="wizardStepPage" value="#{wizardBean.firstStepWithWarning.name}" immediate="true" /> configuration.
                         </span>
                       </div>
                     </h:panelGroup>
+                    <p:staticMessage rendered="#{!systemDatabaseBean.isPersistentDb()}" severity="warn" summary="Database not persistent"
+                      detail="Please configure a persistent database to use this engine in a productive environment." />
                     <p:staticMessage severity="warn" summary="Engine restart" detail="Your engine needs to be restarted to finish the setup process!" />
                     <br />
                     

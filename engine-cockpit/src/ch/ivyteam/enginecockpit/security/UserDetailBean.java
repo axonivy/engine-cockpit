@@ -144,12 +144,12 @@ public class UserDetailBean
 
   public boolean isUserMemberOfAllRole(String roleName)
   {
-    return getIUser().getAllRoles().stream().filter(r -> r.getName().equals(roleName)).findAny().isPresent();
+    return getIUser().getAllRoles().stream().anyMatch(r -> r.getName().equals(roleName));
   }
 
   public boolean isUserMemberOfRole(String roleName)
   {
-    return getIUser().getRoles().stream().filter(r -> r.getName().equals(roleName)).findAny().isPresent();
+    return getIUser().getRoles().stream().anyMatch(r -> r.getName().equals(roleName));
   }
 
   public void removeRole(String roleName)

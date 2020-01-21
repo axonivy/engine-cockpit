@@ -1,101 +1,55 @@
 package ch.ivyteam.enginecockpit.security;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.security.IUser;
-import ch.ivyteam.ivy.security.SessionInfo;
 
 @ManagedBean
 @ViewScoped
 public class UserBean
 {
-  private List<User> filteredUsers;
-  private List<User> users;
-  private String filter;
-
+  private UserDataModel userDataModel;
   private ManagerBean managerBean;
 
   public UserBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    userDataModel = new UserDataModel();
     reloadUsers();
   }
 
   public void reloadUsers()
   {
-    filteredUsers = null;
-    filter = "";
     IApplication app = managerBean.getSelectedIApplication();
-    users = getUsersOfApp(app);
+    userDataModel.setApp(app);
+    userDataModel.setFilter("");
   }
 
-  public List<User> getUsers()
+  public UserDataModel getUserDataModel()
   {
-    return users;
-  }
-
-  private List<User> getUsersOfApp(IApplication app)
-  {
-    List<User> appUsers = app.getSecurityContext().getUsers().stream()
-            .filter(UserBean::isNotSystemUser)
-            .map(user -> new User(user))
-            .collect(Collectors.toList());
-    checkIfUserIsLoggedIn(app, appUsers);
-    return appUsers;
-  }
-
-  public static boolean isNotSystemUser(IUser user)
-  {
-    return !user.getName().equals("SYSTEM");
-  }
-
-  private void checkIfUserIsLoggedIn(IApplication app, List<User> appUsers)
-  {
-    for (SessionInfo session : app.getSecurityContext().getClusterSessionsSnapshot().getSessionInfos())
-    {
-      String sessionUser = session.getSessionUserName();
-      Optional<User> user = appUsers.stream().filter(u -> u.getName().equals(sessionUser)).findAny();
-      if (user.isPresent())
-      {
-        user.get().setLoggedIn(true);
-      }
-    }
-  }
-
-  public List<User> getFilteredUsers()
-  {
-    return filteredUsers;
-  }
-
-  public void setFilteredUsers(List<User> filteredUsers)
-  {
-    this.filteredUsers = filteredUsers;
+    return userDataModel;
   }
   
   public String getFilter()
   {
-    return filter;
+    return userDataModel.getFilter();
   }
-  
+
   public void setFilter(String filter)
   {
-    this.filter = filter;
+    this.userDataModel.setFilter(filter);
   }
-  
+
   public String getUserCount()
   {
-    return String.valueOf(users.size());
+    var count = managerBean.getSelectedIApplication().getSecurityContext().getUserQueryExecutor()
+            .createUserQuery()
+            .executor()
+            .count();
+    return String.valueOf(count);
   }
-  
 }

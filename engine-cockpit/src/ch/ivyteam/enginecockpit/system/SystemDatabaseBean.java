@@ -37,6 +37,8 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 @ViewScoped
 public class SystemDatabaseBean extends StepStatus
 {
+  public static String HSQL_DB = "org.hsqldb";
+  
   private DatabaseProduct product;
   private JdbcDriver driver;
   private List<SystemDbConnectionProperty> connectionProperties;
@@ -350,7 +352,12 @@ public class SystemDatabaseBean extends StepStatus
   @Override
   public boolean isStepOk()
   {
-    return getConnectionInfo().isSuccessful();
+    return getConnectionInfo().isSuccessful() && isPersistentDb();
+  }
+
+  public boolean isPersistentDb()
+  {
+    return !StringUtils.contains(driver.getDriverName(), HSQL_DB);
   }
   
   @Override

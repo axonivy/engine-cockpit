@@ -43,7 +43,6 @@ public class WebTestWizardSystemDb
   @Test
   void testWebServerStep()
   {
-    WebTestWizard.activeStepShouldBeOk();
     WebTestSystemDb.assertDefaultValues();
     WebTestSystemDb.assertSystemDbCreationDialog();
     WebTestWizard.activeStepShouldHaveWarnings();
