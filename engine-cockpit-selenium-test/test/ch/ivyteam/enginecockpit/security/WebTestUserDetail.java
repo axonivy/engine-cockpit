@@ -229,6 +229,11 @@ public class WebTestUserDetail
   void testSynchronizeUser()
   {
     Tab.switchToTab("test-ad");
+    String syncBtnId = "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
+    $(syncBtnId).shouldBe(visible).click();
+    $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
+    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));
+    
     Navigation.toUserDetail(USER_AD);
     $("#userInformationForm\\:userSynchBtn").click();
     $("#synchUserForm").shouldBe(visible);
