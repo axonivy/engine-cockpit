@@ -297,14 +297,19 @@ public class SystemDatabaseBean extends StepStatus
   {
     return creationParameters;
   }
-  
+
   private List<SystemDbConnectionProperty> getConnectionPropertiesList(DatabaseConnectionConfiguration config)
   {
-    return driver.getConnectionConfigurator().getDatabaseConnectionProperties(config).entrySet().stream()
-            .map(e -> new SystemDbConnectionProperty(e.getKey(), e.getValue()))
-            .collect(Collectors.toList());
+    var connectionPropertiesWithCorrectOrder = getConnectionPropertiesList();
+    var connectionPropertiesWithValues = driver.getConnectionConfigurator().getDatabaseConnectionProperties(config);
+    for (var connectionProperty : connectionPropertiesWithCorrectOrder)
+    {
+      var value = connectionPropertiesWithValues.get(connectionProperty.getProperty());
+      connectionProperty.setValue(value);
+    }
+    return connectionPropertiesWithCorrectOrder;
   }
-  
+
   private List<SystemDbConnectionProperty> getConnectionPropertiesList()
   {
     return driver.getConnectionConfigurator().getDatabaseConnectionProperties().stream()
