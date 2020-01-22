@@ -4,8 +4,6 @@ import java.util.concurrent.Callable;
 
 import com.google.common.base.Objects;
 
-import ch.ivyteam.ivy.environment.Ivy;
-
 public class ConnectionTestWrapper
 {
   private Callable<?> callable;
@@ -41,9 +39,8 @@ public class ConnectionTestWrapper
     }
     catch (Exception ex)
     {
-      Ivy.log().error("Failed to test connection " + ex);
+      return defaultValue;
     }
-    return defaultValue;
   }
 
 }
