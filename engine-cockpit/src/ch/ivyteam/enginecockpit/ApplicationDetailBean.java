@@ -84,7 +84,7 @@ public class ApplicationDetailBean
     return getIApplication().getSecurityContext().getSessionCount();
   }
   
-  public int getUsersCount()
+  public long getUsersCount()
   {
     return security.getUsersCount();
   }
