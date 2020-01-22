@@ -29,6 +29,21 @@ public class SystemDbCreationParameter
     return param.getLabel();
   }
   
+  public boolean isDisabled()
+  {
+    return "databaseName".equals(param.getName());
+  }
+  
+  public boolean isPassword()
+  {
+    return param.isPassword();
+  }
+  
+  public boolean isRequired()
+  {
+    return param.isRequired();
+  }
+  
   public String getCssClass()
   {
     return "creation-param-" + getLabel().replace(" ", "").toLowerCase();
