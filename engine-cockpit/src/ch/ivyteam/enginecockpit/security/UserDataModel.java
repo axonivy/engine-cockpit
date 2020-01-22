@@ -70,7 +70,12 @@ public class UserDataModel extends LazyDataModel<User>
   {
     if (StringUtils.isNotEmpty(filter))
     {
-      query.where().name().isLikeIgnoreCase(filter + "%");
+      query.where()
+        .name().isLikeIgnoreCase(filter + "%")
+       .or()
+        .fullName().isLikeIgnoreCase(filter + "%")
+       .or()
+        .eMailAddress().isLikeIgnoreCase(filter + "%");
     }
   }
 
