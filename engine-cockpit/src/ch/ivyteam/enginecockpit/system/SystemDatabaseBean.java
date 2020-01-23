@@ -37,6 +37,8 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 @ViewScoped
 public class SystemDatabaseBean extends StepStatus
 {
+  public static String HSQL_DB = "org.hsqldb";
+  
   private DatabaseProduct product;
   private JdbcDriver driver;
   private List<SystemDbConnectionProperty> connectionProperties;
@@ -297,14 +299,19 @@ public class SystemDatabaseBean extends StepStatus
   {
     return creationParameters;
   }
-  
+
   private List<SystemDbConnectionProperty> getConnectionPropertiesList(DatabaseConnectionConfiguration config)
   {
-    return driver.getConnectionConfigurator().getDatabaseConnectionProperties(config).entrySet().stream()
-            .map(e -> new SystemDbConnectionProperty(e.getKey(), e.getValue()))
-            .collect(Collectors.toList());
+    var connectionPropertiesWithCorrectOrder = getConnectionPropertiesList();
+    var connectionPropertiesWithValues = driver.getConnectionConfigurator().getDatabaseConnectionProperties(config);
+    for (var connectionProperty : connectionPropertiesWithCorrectOrder)
+    {
+      var value = connectionPropertiesWithValues.get(connectionProperty.getProperty());
+      connectionProperty.setValue(value);
+    }
+    return connectionPropertiesWithCorrectOrder;
   }
-  
+
   private List<SystemDbConnectionProperty> getConnectionPropertiesList()
   {
     return driver.getConnectionConfigurator().getDatabaseConnectionProperties().stream()
@@ -345,7 +352,12 @@ public class SystemDatabaseBean extends StepStatus
   @Override
   public boolean isStepOk()
   {
-    return getConnectionInfo().isSuccessful();
+    return getConnectionInfo().isSuccessful() && isPersistentDb();
+  }
+
+  public boolean isPersistentDb()
+  {
+    return !StringUtils.contains(driver.getDriverName(), HSQL_DB);
   }
   
   @Override

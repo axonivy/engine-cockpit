@@ -3,6 +3,10 @@ package ch.ivyteam.enginecockpit;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.apache.commons.lang3.StringUtils;
+
+import ch.ivyteam.enginecockpit.dashboad.LicenceBean;
+import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
@@ -33,7 +37,17 @@ public class EngineModeBean
   
   public String getDashboardWarningDetail()
   {
-    return isDemo() ? "No license installed" : getMaintenanceReason();
+    return isDemo() ? getWarningMessage() : getMaintenanceReason();
+  }
+  
+  private String getWarningMessage()
+  {
+    String licenceProblemMsg = new LicenceBean().getProblemMessage();
+    if (StringUtils.isNotBlank(licenceProblemMsg))
+    {
+      return licenceProblemMsg;
+    }
+    return new SystemDatabaseBean().isPersistentDb() ? "Unfinished setup." : "No persistent database configured.";
   }
   
   public String getMaintenanceReason()

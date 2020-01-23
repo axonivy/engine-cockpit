@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlCo
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createOldDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.deleteTempDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -43,7 +44,6 @@ public class WebTestWizardSystemDb
   @Test
   void testWebServerStep()
   {
-    WebTestWizard.activeStepShouldBeOk();
     WebTestSystemDb.assertDefaultValues();
     WebTestSystemDb.assertSystemDbCreationDialog();
     WebTestWizard.activeStepShouldHaveWarnings();
@@ -51,6 +51,7 @@ public class WebTestWizardSystemDb
     WebTestWizard.finishWizard();
     $("#configErrorMessage").shouldBe(visible, text("LICENCE"));
     $("#finishWizardForm\\:finishWizardYes").click();
+    $(WebTestWizard.ACTIVE_WIZARD_STEP).shouldNot(exist);
     assertCurrentUrlContains("info");
   }
   

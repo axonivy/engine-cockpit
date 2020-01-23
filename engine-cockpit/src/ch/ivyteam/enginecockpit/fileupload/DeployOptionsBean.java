@@ -2,25 +2,43 @@ package ch.ivyteam.enginecockpit.fileupload;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import ch.ivyteam.ivy.deployment.DeploymentOptions.Cleanup;
+import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetFileFormat;
+import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetState;
+import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetVersion;
+import ch.ivyteam.ivy.deployment.DeploymentOptions.TestUser;
 
 @ManagedBean
 @ViewScoped
 public class DeployOptionsBean
 {
-  private String deployTestUsers = "AUTO";
-  private List<String> deployTestUsersValues = Arrays.asList(deployTestUsers, "TRUE", "FALSE");
+  private String deployTestUsers = TestUser.AUTO.name();
+  private List<String> deployTestUsersValues = listNames(TestUser.values());
+  
   private boolean overwriteProject = false;
-  private String cleanup = "DISABLED";
-  private List<String> cleanupValues = Arrays.asList(cleanup, "REMOVE_UNUSED", "REMOVE_ALL");
-  private String version = "AUTO";
-  private List<String> versions = Arrays.asList(version, "RELEASED", "RANGE");
-  private String state = "ACTIVE_AND_RELEASED";
-  private List<String> states = Arrays.asList(state, "ACTIVE", "INACTIVE");
-  private String fileFormat = "AUTO";
-  private List<String> fileFormats = Arrays.asList(fileFormat, "PACKED", "EXPANDED");
+  private String cleanup = Cleanup.DISABLED.name();
+  private List<String> cleanupValues = listNames(Cleanup.values());
+  
+  private String version = TargetVersion.AUTO.name();
+  private List<String> versions = listNames(TargetVersion.values());
+  
+  private String state = TargetState.ACTIVE_AND_RELEASED.name();
+  private List<String> states = listNames(TargetState.values());
+  
+  private String fileFormat = TargetFileFormat.AUTO.name();
+  private List<String> fileFormats = listNames(TargetFileFormat.values());
+  
+  private static List<String> listNames(Enum<?>[] vals)
+  {
+	  return Arrays.stream(vals)
+			  .map(val -> val.name())
+			  .collect(Collectors.toList());
+  }
   
   public String getDeployTestUsers()
   {

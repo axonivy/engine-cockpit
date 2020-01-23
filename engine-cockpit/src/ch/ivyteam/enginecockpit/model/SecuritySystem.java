@@ -6,6 +6,7 @@ import java.util.Optional;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.query.UserQuery;
 
 @SuppressWarnings("restriction")
 public class SecuritySystem
@@ -15,7 +16,7 @@ public class SecuritySystem
   private String securitySystemName;
   private long id;
   private List<String> appNames;
-  private int usersCount;
+  private long usersCount;
   private int rolesCount;
   
   public SecuritySystem(String securitySystemName, Optional<ISecurityContext> securityContext, List<String> appNames)
@@ -24,9 +25,15 @@ public class SecuritySystem
     securitySystemProvider = IConfiguration.get().get("SecuritySystems." + securitySystemName + ".Provider")
             .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemProvider().getProviderName()).orElse(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
     id = securityContext.map(c -> c.getId()).orElse(0L);
+    
     this.appNames = appNames;
-    this.usersCount = securityContext.map(c -> c.getUsers().size() -1).orElse(0);
+    this.usersCount = securityContext.map(c -> countUser(c)).orElse(0l);
     this.rolesCount = securityContext.map(c -> c.getRoles().size()).orElse(0);
+  }
+
+  private long countUser(ISecurityContext securityContext)
+  {
+    return securityContext.getUserQueryExecutor().getCount(UserQuery.create());
   }
 
   public String getSecuritySystemProvider()
@@ -64,7 +71,7 @@ public class SecuritySystem
     return appNames;
   }
 
-  public int getUsersCount()
+  public long getUsersCount()
   {
     return usersCount;
   }
