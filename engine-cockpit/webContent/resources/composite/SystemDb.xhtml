@@ -16,6 +16,9 @@
     <div class="ui-g">
       <div class="ui-g-12">
         <p:outputPanel id="connectionPanel" styleClass="connection-panel">
+          <p:staticMessage rendered="#{!systemDatabaseBean.isPersistentDb()}" severity="warn" summary="Database not persistent"
+            detail="Please configure a persistent database to use this engine in a productive environment." />
+
           <div class="ui-message ui-staticmessage #{systemDatabaseBean.connectionInfo.messageLevel} ui-widget ui-corner-all">
             <i id="connectionIcon" class="#{systemDatabaseBean.connectionInfo.icon}" />
             <span class="ui-message-error-summary">#{systemDatabaseBean.connectionInfo.label}</span>
