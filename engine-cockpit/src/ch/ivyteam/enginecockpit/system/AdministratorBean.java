@@ -28,7 +28,8 @@ public class AdministratorBean extends StepStatus
   
   private static List<User> reloadAdmins()
   {
-    return AdministratorService.get().all().stream().map(admin -> new User(admin))
+    return AdministratorService.get().allConfigured().stream()
+            .map(admin -> new User(admin))
             .collect(Collectors.toList());
   }
   
@@ -61,28 +62,16 @@ public class AdministratorBean extends StepStatus
     return editAdmin;
   }
   
-  public boolean hasDefaultAdmin()
-  {
-    return AdministratorService.get().find("admin")
-            .map(admin -> admin.getPassword().equals("admin"))
-            .orElse(false);
-  }
-  
-  private boolean hasOnlyDefaultAdmin()
-  {
-    return AdministratorService.get().all().size() > 1 ? false : hasDefaultAdmin();
-  }
-  
   @Override
   public boolean isStepOk()
   {
-    return !hasOnlyDefaultAdmin() && hasAdmins();
+    return hasAdmins();
   }
   
   @Override
   public String getStepWarningMessage()
   {
-    return hasOnlyDefaultAdmin() ? "Please configure your own admin user!" : "Please configure at least one admin!";
+    return "Please configure at least one admin!";
   }
   
   public void saveAdmin()
