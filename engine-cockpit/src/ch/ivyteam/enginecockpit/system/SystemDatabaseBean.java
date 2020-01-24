@@ -23,7 +23,6 @@ import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.db.jdbc.SystemDatabaseConfig;
 import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConverter;
@@ -193,12 +192,7 @@ public class SystemDatabaseBean extends StepStatus
   private ConnectionInfo testSystemDbConnection()
   {
     ConnectionTestResult testConnection = ConnectionTester.testConnection(createConfiguration());
-    ConnectionInfo connection = new ConnectionInfo(testConnection);
-    if (connection.hasError())
-    {
-      Ivy.log().error("System Database connection test has an error:", connectionInfo.getError());
-    }
-    return connection;
+    return new ConnectionInfo(testConnection);
   }
   
   public void saveConfiguration()
