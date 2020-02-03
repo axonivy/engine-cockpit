@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<engine.page.url>https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/</engine.page.url>
+		<engine.page.url>https://jenkins.ivyteam.io/job/ivy-core_product/job/release%252F8.0/lastSuccessfulBuild/</engine.page.url>
 		<engine.dir>../.ivy-engine</engine.dir>
 		<revision>8.0.2-SNAPSHOT</revision>
 	</properties>
@@ -21,7 +21,7 @@
 				<version>8.0.1</version>
 				<extensions>true</extensions>
 				<configuration>
-					<ivyVersion>[8.0.0,]</ivyVersion>
+					<ivyVersion>[8.0.0,9.0.0)</ivyVersion>
 					<engineListPageUrl>${engine.page.url}</engineListPageUrl>
                     <engineDirectory>${engine.dir}</engineDirectory>
 					<skipScriptValidation>false</skipScriptValidation>
