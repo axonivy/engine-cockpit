@@ -76,6 +76,7 @@ public class SecurityDefaultValueBean
   public static class SpecificDefaults
   {
     private String userFilter;
+    private String id;
     private String name;
     private String fullName;
     private String userMemberOfAttribute;
@@ -98,6 +99,11 @@ public class SecurityDefaultValueBean
     public String getUserFilter()
     {
       return userFilter;
+    }
+
+    public String getId()
+    {
+      return id;
     }
 
     public String getName()
@@ -133,6 +139,7 @@ public class SecurityDefaultValueBean
     private void initNovellValues()
     {
       this.userFilter = SecuritySystemConfig.DefaultValue.USER_FILTER_ND;
+      this.id = SecuritySystemConfig.DefaultValue.ID_ND;
       this.name = SecuritySystemConfig.DefaultValue.NAME_ND;
       this.fullName = SecuritySystemConfig.DefaultValue.FULL_NAME_ND;
       this.userMemberOfAttribute = SecuritySystemConfig.DefaultValue.USER_MEMBER_OF_ATTRIBUTE_ND;
@@ -144,6 +151,7 @@ public class SecurityDefaultValueBean
     private void initActiveDirectoryValues()
     {
       this.userFilter = SecuritySystemConfig.DefaultValue.USER_FILTER_AD;
+      this.id = SecuritySystemConfig.DefaultValue.ID_AD;
       this.name = SecuritySystemConfig.DefaultValue.NAME_AD;
       this.fullName = SecuritySystemConfig.DefaultValue.FULL_NAME_AD;
       this.userMemberOfAttribute = SecuritySystemConfig.DefaultValue.USER_MEMBER_OF_ATTRIBUTE_AD;

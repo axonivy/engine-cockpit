@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.security.ISecurityConstants;
+import ch.ivyteam.ivy.security.jndi.IJndiSecuritySystemConstants;
 
 @SuppressWarnings("restriction")
 public class SecuritySystemConfig
@@ -16,30 +18,31 @@ public class SecuritySystemConfig
 
   public interface ConfigKey
   {
-    String PROVIDER = "Provider";
-    String CONNECTION_URL = "Connection.Url";
-    String CONNECTION_USER_NAME = "Connection.UserName";
-    String CONNECTION_PASSWORD = "Connection.Password";
-    String CONNECTION_AUTHENTICATION_KIND = "Connection.AuthenticationKind";
-    String CONNECTION_USE_LDAP_CONNECTION_POOL = "Connection.UseLdapConnectionPool";
-    String CONNECTION_ENVIRONMENT_ALIASES = "Connection.Environment.java.naming.ldap.derefAliases";
-    String CONNECTION_ENVIRONMENT_PROTOCOL = "Connection.Environment.java.naming.security.protocol";
-    String CONNECTION_ENVIRONMENT_REFERRAL = "Connection.Environment.java.naming.referral";
-    String BINDING_DEFAULT_CONTEXT = "Binding.DefaultContext";
-    String BINDING_IMPORT_USERS_OF_GROUP = "Binding.ImportUsersOfGroup";
-    String BINDING_USER_FILTER = "Binding.UserFilter";
-    String UPDATE_TIME = "UpdateTime";
-    String IMPORT_ONDEMAND = "Import.OnDemand";
+    String PROVIDER = ISecurityConstants.PROVIDER_CONFIG_KEY;
+    String CONNECTION_URL = IJndiSecuritySystemConstants.CONNECTION_URL;
+    String CONNECTION_USER_NAME = IJndiSecuritySystemConstants.CONNECTION_USER_NAME;
+    String CONNECTION_PASSWORD = IJndiSecuritySystemConstants.CONNECTION_PASSWORD;
+    String CONNECTION_AUTHENTICATION_KIND = IJndiSecuritySystemConstants.CONNECTION_AUTHENTICATION_KIND;
+    String CONNECTION_USE_LDAP_CONNECTION_POOL = IJndiSecuritySystemConstants.CONNECTION_USE_LDAP_CONNECTION_POOL;
+    String CONNECTION_ENVIRONMENT_ALIASES = IJndiSecuritySystemConstants.CONNECTION_ENVIRONMENT_DEREF_ALIASES;
+    String CONNECTION_ENVIRONMENT_PROTOCOL = IJndiSecuritySystemConstants.CONNECTION_ENVIRONMENT_SECURITY_PROTOCOL;
+    String CONNECTION_ENVIRONMENT_REFERRAL = IJndiSecuritySystemConstants.CONNECTION_ENVIRONMENT_REFFERAL;
+    String BINDING_DEFAULT_CONTEXT = IJndiSecuritySystemConstants.BINDING_DEFAULT_CONTEXT;
+    String BINDING_IMPORT_USERS_OF_GROUP = IJndiSecuritySystemConstants.BINDING_IMPORT_USERS_OF_GROUP;
+    String BINDING_USER_FILTER = IJndiSecuritySystemConstants.BINDING_USER_FILTER;
+    String UPDATE_TIME = IJndiSecuritySystemConstants.UPDATE_TIME;
+    String IMPORT_ONDEMAND = IJndiSecuritySystemConstants.IMPORT_ON_DEMAND;
     
-    String USER_ATTRIBUTE_NAME = "UserAttribute.Name";
-    String USER_ATTRIBUTE_FULL_NAME = "UserAttribute.FullName";
-    String USER_ATTRIBUTE_E_MAIL = "UserAttribute.EMail";
-    String USER_ATTRIBUTE_LANGUAGE = "UserAttribute.Language";
-    String USER_ATTRIBUTE_PROPERTIES = "UserAttribute.Properties";
-    String MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE = "Membership.UserMemberOfAttribute";
-    String MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP = "Membership.UseUserMemberOfForUserRoleMembership";
-    String MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE = "Membership.UserGroupMemberOfAttribute";
-    String MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE = "Membership.UserGroupMembersAttribute";
+    String USER_ATTRIBUTE_ID = IJndiSecuritySystemConstants.USER_ATTRIBUTE_ID;
+    String USER_ATTRIBUTE_NAME = IJndiSecuritySystemConstants.USER_ATTRIBUTE_NAME;
+    String USER_ATTRIBUTE_FULL_NAME = IJndiSecuritySystemConstants.USER_ATTRIBUTE_FULL_NAME;
+    String USER_ATTRIBUTE_E_MAIL = IJndiSecuritySystemConstants.USER_ATTRIBUTE_EMAIL;
+    String USER_ATTRIBUTE_LANGUAGE = IJndiSecuritySystemConstants.USER_ATTRIBUTE_LANGUAGE;
+    String USER_ATTRIBUTE_PROPERTIES = StringUtils.removeEnd(IJndiSecuritySystemConstants.USER_ATTRIBUTE_PROPERTIES_PREFIX, ".");
+    String MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE = IJndiSecuritySystemConstants.MEMBERSHIP_USER_MEMBER_OF_GROUP;
+    String MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP =IJndiSecuritySystemConstants.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP;
+    String MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE = IJndiSecuritySystemConstants.MEMBERSHIP_USER_GROUP_MEMBER_OF_GROUP;
+    String MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE = IJndiSecuritySystemConstants.MEMBERSHIP_USER_GROUP_MEMBERS;
   }
   
   public interface DefaultValue
@@ -53,6 +56,7 @@ public class SecuritySystemConfig
     boolean IMPORT_ONDEMAND = false;
 
     String USER_FILTER_ND = "objectClass=inetOrgPerson";
+    String ID_ND = "guid";
     String NAME_ND = "uid";
     String FULL_NAME_ND = "fullName";
     String USER_MEMBER_OF_ATTRIBUTE_ND = "groupMembership";
@@ -61,6 +65,7 @@ public class SecuritySystemConfig
     String USER_GROUP_MEMBERS_ATTRIBUTE_ND = "uniqueMember";
 
     String USER_FILTER_AD = "(&(objectClass=user)(!(objectClass=computer)))";
+    String ID_AD = "objectGUID";
     String NAME_AD = "sAMAccountName";
     String FULL_NAME_AD = "displayName";
     String USER_MEMBER_OF_ATTRIBUTE_AD = "memberOf";

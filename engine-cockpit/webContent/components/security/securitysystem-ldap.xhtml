@@ -21,6 +21,10 @@
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
 
+    <p:outputLabel for="ldapId" value="Id"/>
+    <p:inputText id="ldapId"
+      value="#{securityLdapDetailBean.userId}" placeholder="#{securityDefaultValueBean.specificDefaults.id}"/>
+
     <p:outputLabel for="ldapName" value="Name"/>
     <p:inputText id="ldapName"
       value="#{securityLdapDetailBean.userName}" placeholder="#{securityDefaultValueBean.specificDefaults.name}"/>

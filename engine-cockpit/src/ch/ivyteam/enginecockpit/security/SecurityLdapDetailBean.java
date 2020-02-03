@@ -25,6 +25,7 @@ public class SecurityLdapDetailBean
   
   private String name;
 
+  private String userId;
   private String userName;
   private String fullName;
   private String email;
@@ -59,6 +60,7 @@ public class SecurityLdapDetailBean
   
   private void loadSecuritySystem()
   {
+    userId = getConfiguration(ConfigKey.USER_ATTRIBUTE_ID);
     userName = getConfiguration(ConfigKey.USER_ATTRIBUTE_NAME);
     fullName = getConfiguration(ConfigKey.USER_ATTRIBUTE_FULL_NAME);
     email = getConfiguration(ConfigKey.USER_ATTRIBUTE_E_MAIL);
@@ -77,6 +79,16 @@ public class SecurityLdapDetailBean
     }
     
     ldapProperty = new LdapProperty();
+  }
+
+  public String getUserId()
+  {
+    return userId;
+  }
+
+  public void setUserId(String userId)
+  {
+    this.userId = userId;
   }
 
   public String getUserName()
@@ -214,6 +226,7 @@ public class SecurityLdapDetailBean
   
   public void saveConfiguration()
   {
+    setConfiguration(ConfigKey.USER_ATTRIBUTE_ID, this.userId);
     setConfiguration(ConfigKey.USER_ATTRIBUTE_NAME, this.userName);
     setConfiguration(ConfigKey.USER_ATTRIBUTE_FULL_NAME, this.fullName);
     setConfiguration(ConfigKey.USER_ATTRIBUTE_E_MAIL, this.email);

@@ -20,7 +20,7 @@ public class Role
   
   public Role(IRole role, boolean member)
   {
-    this(role.getName(), role.getDisplayDescription(), role.getDisplayName(), role.getExternalSecurityName(), member, role.isDynamic());
+    this(role.getName(), role.getDisplayDescription(), role.getDisplayName(), role.getExternalName(), member, role.isDynamic());
   }
 
   public Role(String name)

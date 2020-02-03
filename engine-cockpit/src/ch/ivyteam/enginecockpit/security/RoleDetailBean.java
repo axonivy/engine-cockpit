@@ -104,7 +104,7 @@ public class RoleDetailBean
     IRole iRole = getSecurityContext().findRole(role.getName());
     iRole.setDisplayDescriptionTemplate(role.getDescription());
     iRole.setDisplayNameTemplate(role.getDisplayName());
-    iRole.setExternalSecurityName(role.getExternalName());
+    iRole.setExternalName(role.getExternalName());
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
             new FacesMessage("Role information changes saved"));
   }
