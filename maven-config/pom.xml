@@ -21,7 +21,7 @@
 				<version>8.0.1</version>
 				<extensions>true</extensions>
 				<configuration>
-					<ivyVersion>[8.0.0,]</ivyVersion>
+					<ivyVersion>[9.1.0,]</ivyVersion>
 					<engineListPageUrl>${engine.page.url}</engineListPageUrl>
                     <engineDirectory>${engine.dir}</engineDirectory>
 					<skipScriptValidation>false</skipScriptValidation>
