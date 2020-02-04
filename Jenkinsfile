@@ -63,7 +63,7 @@ pipeline {
     stage('deploy') {
       when {
         allOf {
-          branch 'master'
+          branch 'release/8.0'
           expression {return currentBuild.currentResult == 'SUCCESS' || params.deployArtifacts}
         }
       }
