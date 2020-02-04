@@ -83,7 +83,7 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus.ivyteam.io</id>
-			<url>https://nexus.ivyteam.io/repository/maven-snapshots/</url>
+			<url>https://nexus.ivyteam.io/repository/maven-snapshots-8/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
