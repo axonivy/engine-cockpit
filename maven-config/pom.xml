@@ -90,7 +90,7 @@
 	<repositories>
 		<repository>
 			<id>nexus.ivyteam.io</id>
-			<url>https://nexus.ivyteam.io/repository/maven/</url>
+			<url>https://nexus.ivyteam.io/repository/maven-8/</url>
 			<snapshots>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
@@ -101,7 +101,7 @@
 		<!-- Used to install ivy maven plugins -->
 		<pluginRepository>
 			<id>nexus.ivyteam.io</id>
-			<url>https://nexus.ivyteam.io/repository/maven/</url>
+			<url>https://nexus.ivyteam.io/repository/maven-8/</url>
 			<snapshots>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
