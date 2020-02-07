@@ -42,19 +42,19 @@ public class UserDataModel extends LazyDataModel<User>
   @Override
   public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters)
   {
-    var userQuery = UserQuery.create();
+    var userQuery = app.getSecurityContext().users().query();
 
     filterRole(userQuery);
     applyFilter(userQuery);
     applyOrdering(userQuery, sortField, sortOrder);
 
-    var executor = app.getSecurityContext().users().queryExecutor();
-    var users = executor
-    		.getResultsPaged(userQuery)
-    		.map(User::new)
-    		.page(first, pageSize);
+    var users = userQuery
+        .executor()
+        .resultsPaged()
+        .map(User::new)
+        .page(first, pageSize);
     checkIfUserIsLoggedIn(app, users);
-    setRowCount((int) executor.getCount(userQuery));
+    setRowCount((int) userQuery.executor().count());
     return users;
   }
 

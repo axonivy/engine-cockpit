@@ -89,10 +89,12 @@ public class UserDetailBean
 
   public String creatNewUser()
   {
-	NewUser newUser = new  NewUser(user.getName());
-	newUser.setFullName(user.getFullName());
-	newUser.setPassword(user.getPassword());
-	newUser.setMailAddress(user.getEmail());
+    NewUser newUser = NewUser
+        .create(user.getName())
+        .fullName(user.getFullName())
+        .password(user.getPassword())
+        .mailAddress(user.getEmail())
+        .toNewUser();
     getSecurityContext().users().create(newUser);
     return "users.xhtml";
   }
