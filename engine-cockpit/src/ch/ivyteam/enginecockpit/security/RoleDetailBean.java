@@ -122,7 +122,7 @@ public class RoleDetailBean
 
   public void removeUser(String userName)
   {
-    IUser user = getSecurityContext().findUser(userName);
+    IUser user = getSecurityContext().users().find(userName);
     user.removeRole(getIRole());
   }
 
@@ -132,7 +132,7 @@ public class RoleDetailBean
     {
       return;
     }
-    getSecurityContext().findUser(roleUserName).addRole(getIRole());
+    getSecurityContext().users().find(roleUserName).addRole(getIRole());
     roleUserName = "";
   }
   
@@ -149,15 +149,15 @@ public class RoleDetailBean
   public List<User> searchUser(String query)
   {
     var hasRole = UserQuery.create().where().hasRole(getIRole());
-    return getSecurityContext().getUserQueryExecutor().createUserQuery()
+    return getSecurityContext().users().query()
             .where()
                 .not(hasRole)
               .and()
                 .name().isLikeIgnoreCase(query + "%")
-            .executor().results(0, 10)
-            .stream()
+            .executor()
+            .resultsPaged(10)
             .map(User::new)
-            .collect(Collectors.toList());
+            .page(0);
   }
 
   private IRole getIRole()

@@ -18,6 +18,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.synch.UserSynchResult;
 import ch.ivyteam.ivy.security.synch.UserSynchResult.SynchStatus;
+import ch.ivyteam.ivy.security.user.NewUser;
 
 @ManagedBean
 @ViewScoped
@@ -52,7 +53,7 @@ public class UserDetailBean
   {
     this.userName = userName;
     this.userSynchName = userName;
-    IUser iUser = getSecurityContext().findUser(userName);
+    IUser iUser = getSecurityContext().users().find(userName);
     this.user = new User(iUser);
     this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
   }
@@ -88,8 +89,11 @@ public class UserDetailBean
 
   public String creatNewUser()
   {
-    getSecurityContext().createUser(user.getName(), user.getFullName(), user.getPassword(), null,
-            user.getEmail(), null);
+	NewUser newUser = new  NewUser(user.getName());
+	newUser.setFullName(user.getFullName());
+	newUser.setPassword(user.getPassword());
+	newUser.setMailAddress(user.getEmail());
+    getSecurityContext().users().create(newUser);
     return "users.xhtml";
   }
 
@@ -123,7 +127,7 @@ public class UserDetailBean
 
   public String deleteSelectedUser()
   {
-    getSecurityContext().deleteUser(userName);
+    getSecurityContext().users().delete(userName);
     return "users.xhtml?faces-redirect=true";
   }
 
@@ -182,7 +186,7 @@ public class UserDetailBean
 
   private IUser getIUser()
   {
-    return getSecurityContext().findUser(userName);
+    return getSecurityContext().users().find(userName);
   }
 
   private ISecurityContext getSecurityContext()
