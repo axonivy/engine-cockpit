@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.LazyDataModel;
@@ -43,18 +42,19 @@ public class UserDataModel extends LazyDataModel<User>
   @Override
   public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters)
   {
-    var userQuery = UserQuery.create();
+    var userQuery = app.getSecurityContext().users().query();
 
     filterRole(userQuery);
     applyFilter(userQuery);
     applyOrdering(userQuery, sortField, sortOrder);
 
-    var executor = app.getSecurityContext().getUserQueryExecutor();
-    var users = executor.getResults(userQuery, first, pageSize).stream()
-            .map(User::new)
-            .collect(Collectors.toList());
+    var users = userQuery
+        .executor()
+        .resultsPaged()
+        .map(User::new)
+        .window(first, pageSize);
     checkIfUserIsLoggedIn(app, users);
-    setRowCount((int) executor.getCount(userQuery));
+    setRowCount((int) userQuery.executor().count());
     return users;
   }
 
