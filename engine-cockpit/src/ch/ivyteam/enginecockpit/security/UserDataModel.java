@@ -52,7 +52,7 @@ public class UserDataModel extends LazyDataModel<User>
         .executor()
         .resultsPaged()
         .map(User::new)
-        .page(first, pageSize);
+        .window(first, pageSize);
     checkIfUserIsLoggedIn(app, users);
     setRowCount((int) userQuery.executor().count());
     return users;
