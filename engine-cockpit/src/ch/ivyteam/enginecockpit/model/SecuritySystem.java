@@ -6,7 +6,6 @@ import java.util.Optional;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContext;
-import ch.ivyteam.ivy.security.query.UserQuery;
 
 @SuppressWarnings("restriction")
 public class SecuritySystem
@@ -33,7 +32,7 @@ public class SecuritySystem
 
   private long countUser(ISecurityContext securityContext)
   {
-    return securityContext.getUserQueryExecutor().getCount(UserQuery.create());
+    return securityContext.users().count();
   }
 
   public String getSecuritySystemProvider()

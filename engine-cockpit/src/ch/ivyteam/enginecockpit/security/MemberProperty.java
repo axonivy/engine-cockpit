@@ -131,7 +131,7 @@ public class MemberProperty
     public void setMemberName(String memberName)
     {
       super.setMemberName(memberName);
-      user = managerBean.getSelectedIApplication().getSecurityContext().findUser(memberName);
+      user = managerBean.getSelectedIApplication().getSecurityContext().users().find(memberName);
       reloadProperties();
     }
 
