@@ -51,7 +51,7 @@ public class WebTestSecuritySystem
     $("#card\\:newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");
     $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
     $("#card\\:newSecuritySystemModal").shouldNotBe(visible);
-    $$(".security-name").shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "ivy Security System"));
+    $$(".security-name").shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "test-nd", "ivy Security System"));
   
     Navigation.toSecuritySystemDetail("NewFromTest");
     $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible);
@@ -61,7 +61,7 @@ public class WebTestSecuritySystem
     
     $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmYesBtn").click();
     assertCurrentUrlEndsWith("securitysystem.xhtml");
-    $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "ivy Security System"));
+    $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "test-nd", "ivy Security System"));
   }
   
 }

@@ -13,6 +13,14 @@ SecuritySystems:
       Properties:
         Place: st
         Address: streetAddress
+  test-nd:
+    Provider: Novell eDirectory
+    Connection:
+      Url: ldap://zugtstdirnds:389
+      UserName: cn=admin, o=zugtstorg
+      Password: nimda
+    Binding:
+      DefaultContext: ou=IvyTeam Test-OU,o=zugtstorg
 
 Administrators:
   admin:

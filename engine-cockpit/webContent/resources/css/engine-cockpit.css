@@ -85,6 +85,9 @@ body {
 .dashboard-card .min-height-500 {
   min-height: 500px;
 }
+.dashboard-card .min-height-550 {
+  min-height: 550px;
+}
 .dashboard-card .min-height-600 {
   min-height: 600px;
 }
@@ -280,6 +283,11 @@ body {
   width: 100px;
   margin-right: 5px;
   float: right;
+}
+.ui-dialog-content a.modal-input-button {
+  width: auto;
+  margin-right: 10px;
+  line-height: 30px;
 }
 
 /*General*/
