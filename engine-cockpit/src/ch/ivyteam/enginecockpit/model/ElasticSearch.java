@@ -78,18 +78,20 @@ public class ElasticSearch
   }
   
   public static enum SearchEngineHealth {
-    GREEN("green", "check"),
-    YELLOW("yellow", "check"),
-    RED("red", "close"),
-    UNKNOWN("unknown", "help_outline");
+    GREEN("green", "check", "Everything is ok"),
+    YELLOW("yellow", "check", "Everything is ok, all data is saved in the system database"),
+    RED("red", "close", "There is a problem, so some data is unavailable"),
+    UNKNOWN("unknown", "help_outline", "Health state unknown");
     
     private final String state;
     private final String icon;
+    private final String hint;
 
-    private SearchEngineHealth(String state, String icon)
+    private SearchEngineHealth(String state, String icon, String hint)
     {
       this.state = state;
       this.icon = icon;
+      this.hint = hint;
     }
     
     public String getState()
@@ -100,6 +102,11 @@ public class ElasticSearch
     public String getIcon()
     {
       return icon;
+    }
+    
+    public String getHint()
+    {
+      return hint;
     }
     
     public static SearchEngineHealth getHealth(String health)
