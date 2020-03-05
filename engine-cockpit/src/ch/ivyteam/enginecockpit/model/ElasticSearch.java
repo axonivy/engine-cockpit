@@ -79,8 +79,10 @@ public class ElasticSearch
   
   public static enum SearchEngineHealth {
     GREEN("green", "check", "Everything is ok"),
-    YELLOW("yellow", "check", "Everything is ok, all data is saved in the system database"),
-    RED("red", "close", "There is a problem, so some data is unavailable"),
+    YELLOW("yellow", "check", "Everything is ok, "
+            + "if you run on a single node cluster, like the internal ivy ES, this is normal. "
+            + "On an external multi node cluster this can indicate some upcoming issues. Please check the ES logs."),
+    RED("red", "close", "There is a problem which needs your attention. Some data may be unavailable or functions are not working correctly."),
     UNKNOWN("unknown", "help_outline", "Health state unknown");
     
     private final String state;
