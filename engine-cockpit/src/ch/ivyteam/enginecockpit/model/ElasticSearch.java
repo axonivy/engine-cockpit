@@ -78,18 +78,22 @@ public class ElasticSearch
   }
   
   public static enum SearchEngineHealth {
-    GREEN("green", "check"),
-    YELLOW("yellow", "check"),
-    RED("red", "close"),
-    UNKNOWN("unknown", "help_outline");
+    GREEN("green", "check", "Everything is ok"),
+    YELLOW("yellow", "check", "Everything is ok, "
+            + "if you run on a single node cluster, like the internal ivy ES, this is normal. "
+            + "On an external multi node cluster this can indicate some upcoming issues. Please check the ES logs."),
+    RED("red", "close", "There is a problem which needs your attention. Some data may be unavailable or functions are not working correctly."),
+    UNKNOWN("unknown", "help_outline", "Health state unknown");
     
     private final String state;
     private final String icon;
+    private final String hint;
 
-    private SearchEngineHealth(String state, String icon)
+    private SearchEngineHealth(String state, String icon, String hint)
     {
       this.state = state;
       this.icon = icon;
+      this.hint = hint;
     }
     
     public String getState()
@@ -100,6 +104,11 @@ public class ElasticSearch
     public String getIcon()
     {
       return icon;
+    }
+    
+    public String getHint()
+    {
+      return hint;
     }
     
     public static SearchEngineHealth getHealth(String health)
