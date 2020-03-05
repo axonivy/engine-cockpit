@@ -37,7 +37,7 @@
     </p:column>
     <p:column headerText="Health" style="text-align: center; width: 50px; font-weight: bold;">
       <i class="material-icons table-icon search-machine-state search-machine-health-#{index.status.state}" 
-        title="#{index.status.state}">#{index.status.icon}</i>
+        title="#{index.status.hint}">#{index.status.icon}</i>
     </p:column>
     <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 60px;">
       <h:outputText value="#{index.size}" />
