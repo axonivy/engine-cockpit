@@ -45,35 +45,6 @@ public class SecuritySystemConfig
     String MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE = IJndiSecuritySystemConstants.MEMBERSHIP_USER_GROUP_MEMBERS;
   }
   
-  public interface DefaultValue
-  {
-    String URL = "ldap://localhost:389";
-    boolean USE_LDAP_CONNECTION_POOL = false;
-    String DEREF_ALIAS = "always";
-    String REFERRAL = "follow";
-    String EMAIL = "mail";
-    String UPDATE_TIME = "00:00";
-    boolean IMPORT_ONDEMAND = false;
-
-    String USER_FILTER_ND = "objectClass=inetOrgPerson";
-    String ID_ND = "guid";
-    String NAME_ND = "uid";
-    String FULL_NAME_ND = "fullName";
-    String USER_MEMBER_OF_ATTRIBUTE_ND = "groupMembership";
-    boolean USE_USER_MEMBER_OF_FOR_ROLE_MEMBERSHIP_ND = false;
-    String USER_GROUP_MEMBER_OF_ATTRIBUTE_ND = "groupMembership";
-    String USER_GROUP_MEMBERS_ATTRIBUTE_ND = "uniqueMember";
-
-    String USER_FILTER_AD = "(&(objectClass=user)(!(objectClass=computer)))";
-    String ID_AD = "objectGUID";
-    String NAME_AD = "sAMAccountName";
-    String FULL_NAME_AD = "displayName";
-    String USER_MEMBER_OF_ATTRIBUTE_AD = "memberOf";
-    boolean USE_USER_MEMBER_OF_FOR_ROLE_MEMBERSHIP_AD = true;
-    String USER_GROUP_MEMBER_OF_ATTRIBUTE_AD = "memberOf";
-    String USER_GROUP_MEMBERS_ATTRIBUTE_AD = "member";
-  }
-  
   public static String getPrefix(String name)
   {
     return SECURITY_SYSTEMS + "." + name + "."; 

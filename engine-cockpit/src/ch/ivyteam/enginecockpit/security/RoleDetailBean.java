@@ -36,6 +36,7 @@ public class RoleDetailBean
 
   private ManagerBean managerBean;
   private RoleBean roleBean;
+  private LdapBrowser ldapBrowser;
 
   public RoleDetailBean()
   {
@@ -45,6 +46,7 @@ public class RoleDetailBean
     role = new Role();
     roleProperties = new MemberProperty().new RoleProperty();
     usersOfRole = new UserDataModel();
+    ldapBrowser = new LdapBrowser();
   }
 
   public String getRoleName()
@@ -239,5 +241,21 @@ public class RoleDetailBean
   public MemberProperty getMemberProperty()
   {
     return roleProperties;
+  }
+  
+  public void browseLdap()
+  {
+    SecurityConfigDetailBean secBean = new SecurityConfigDetailBean(managerBean.getSelectedApplication().getSecuritySystemName());
+    ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()));
+  }
+  
+  public LdapBrowser getLdapBrowser()
+  {
+    return ldapBrowser;
+  }
+  
+  public void chooseLdapName()
+  {
+    role.setExternalName(ldapBrowser.getSelectedLdapName());
   }
 }

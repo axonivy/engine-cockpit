@@ -1,5 +1,8 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.naming.Name;
@@ -10,6 +13,7 @@ import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import ch.ivyteam.enginecockpit.model.LdapProperty;
 import ch.ivyteam.naming.JndiConfig;
 
 public class LdapBrowser
@@ -20,6 +24,7 @@ public class LdapBrowser
   
   private TreeNode root;
   private TreeNode selectedNode;
+  private List<LdapProperty> selectedNodeAttributes;
   private JndiConfig jndiConfig;
   
   public void browse(JndiConfig config)
@@ -81,8 +86,30 @@ public class LdapBrowser
   public void setSelectedNode(TreeNode selectedNode) 
   {
     this.selectedNode = selectedNode;
+    if (selectedNode != null)
+    {
+      selectedNodeAttributes = getNodeArguments();
+    }
   }
   
+  public List<LdapProperty> getSelectedNodeAttributes()
+  {
+    return selectedNodeAttributes;
+  }
+  
+  private List<LdapProperty> getNodeArguments()
+  {
+    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig))
+    {
+      return context.getAttributes(getSelectedLdapName());
+    }
+    catch (NamingException ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", ex.getMessage()));
+    }
+    return Collections.emptyList();
+  }
+
   public String getSelectedLdapName()
   {
     return evalLdapName(selectedNode);

@@ -5,7 +5,7 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions">
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">link</i>
@@ -26,7 +26,7 @@
       <p:inputText id="defaultContext" style="width: calc(100% - 32px);"
         value="#{securityConfigDetailBean.defaultContext}" />
       <p:commandButton id="browseDefaultContext" icon="ui-icon-language" title="Browse" styleClass="primary-btn" style="right: -6px;"
-        actionListener="#{securityConfigDetailBean.browseLdap('defaultContext')}" update="ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
+        actionListener="#{securityConfigDetailBean.browseLdap('defaultContext')}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
     </h:panelGroup>
 
     <p:outputLabel for="importUsersOfGroup" value="Import Users Of Group"/>
@@ -34,39 +34,16 @@
       <p:inputText id="importUsersOfGroup" style="width: calc(100% - 32px);"
         value="#{securityConfigDetailBean.importUsersOfGroup}" />
       <p:commandButton id="browseImportUserOfGroup" icon="ui-icon-language" title="Browse" styleClass="primary-btn" style="right: -6px;"
-        actionListener="#{securityConfigDetailBean.browseLdap('importUsersOfGroup')}" update="ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
+        actionListener="#{securityConfigDetailBean.browseLdap('importUsersOfGroup')}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
     </h:panelGroup>
 
     <p:outputLabel for="userFilter" value="User Filter"/>
     <p:inputText id="userFilter"
       value="#{securityConfigDetailBean.userFilter}"
-      placeholder="#{securityDefaultValueBean.specificDefaults.userFilter}" />
+      placeholder="#{securityDefaultValueBean.userFilter}" />
 
   </p:panelGrid>
 </h:form>
-
-<p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true">
-  <h:form id="ldapBrowserForm">
-    <p:growl id="ldapBrowserMessage" showDetail="true">
-      <p:autoUpdate />
-    </p:growl>
-    <p:staticMessage id="ldapConnectionFailMessage" severity="error" summary="Ldap Server configuration wrong" 
-      detail="Are your URL and credentials valid?" rendered="#{securityConfigDetailBean.ldapBrowser.tree == null}" />
-    <p:tree id="tree" widgetVar="tree" value="#{securityConfigDetailBean.ldapBrowser.tree}" var="node"
-      selectionMode="single" selection="#{securityConfigDetailBean.ldapBrowser.selectedNode}" dynamic="true"
-      style="max-height: 400px; min-height: 200px; overflow-y: auto; padding: 0; margin-bottom: 10px; border: none;">
-      <p:ajax event="expand" listener="#{securityConfigDetailBean.ldapBrowser.onNodeExpand}" update="@form:tree"/>
-      <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
-      <p:treeNode icon="ui-icon-#{node.icon}">
-        <h:outputText value="#{node}" />
-      </p:treeNode>
-    </p:tree>
-    <p:commandButton id="chooseLdapName" actionListener="#{securityConfigDetailBean.chooseLdapName}" value="Choose" icon="ui-icon-check"
-      styleClass="primary-btn modal-input-button" update="securitySystemBindingForm" onclick="PF('ldapBrowserDialog').hide();"
-      disabled="#{securityConfigDetailBean.ldapBrowser.tree == null}" />
-    <p:commandLink id="cancelNewApplication" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
-      styleClass="secondary-btn modal-input-button" />
-  </h:form>
-</p:dialog>
-
+<cc:LdapBrowser updateFields="securitySystemBindingForm" ldapBrowser="#{securityConfigDetailBean.ldapBrowser}" 
+  returnListener="#{securityConfigDetailBean.chooseLdapName()}" id="ldapBrowser" />
 </html>

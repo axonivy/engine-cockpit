@@ -15,14 +15,13 @@ import ch.ivyteam.enginecockpit.model.LdapProperty;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.security.internal.config.ExternalSecuritySystemConfiguration;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SecurityLdapDetailBean
 {
-  private SecurityDefaultValueBean defaultBean;
-  
   private String name;
 
   private String userId;
@@ -37,12 +36,7 @@ public class SecurityLdapDetailBean
   private Map<String, LdapProperty> properties;
   private LdapProperty ldapProperty;
 
-  public SecurityLdapDetailBean()
-  {
-    FacesContext context = FacesContext.getCurrentInstance();
-    
-    defaultBean = context.getApplication().evaluateExpressionGet(context, "#{securityDefaultValueBean}", SecurityDefaultValueBean.class);
-  }
+  private ExternalSecuritySystemConfiguration securityConfiguration;
 
   public String getSecuritySystemName()
   {
@@ -54,6 +48,7 @@ public class SecurityLdapDetailBean
     if (StringUtils.isBlank(name))
     {
       this.name = secSystemName;
+      securityConfiguration = new ExternalSecuritySystemConfiguration(secSystemName);
       loadSecuritySystem();
     }
   }
@@ -156,14 +151,14 @@ public class SecurityLdapDetailBean
     String membership = getConfiguration(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP);
     if (StringUtils.isBlank(membership))
     {
-      return defaultBean.getSpecificDefaults().getUseUserMemberOfForUserRoleMembership();
+      return securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP);
     }
     return Boolean.parseBoolean(membership);
   }
   
   private Object getSaveValueUseUserMemberOfForUserRoleMembership()
   {
-    if (this.useUserMemberOfForUserRoleMembership == defaultBean.getSpecificDefaults().getUseUserMemberOfForUserRoleMembership())
+    if (this.useUserMemberOfForUserRoleMembership == securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP))
     {
       return "";
     }

@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -17,8 +16,9 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.security.internal.config.ExternalSecuritySystemConfiguration;
+import ch.ivyteam.ivy.security.internal.config.JndiConfigBuilder;
 import ch.ivyteam.naming.JndiConfig;
-import ch.ivyteam.naming.JndiProvider;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -48,12 +48,19 @@ public class SecurityConfigDetailBean
   private boolean importOnDemand;
   private LdapBrowser ldapBrowser;
   private String ldapBrowserTarget;
+  private ExternalSecuritySystemConfiguration securityConfiguration;
 
   public SecurityConfigDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
+  }
+  
+  public SecurityConfigDetailBean(String secSystemName)
+  {
+    this();
+    setSecuritySystemName(secSystemName);
   }
   
   public String getSecuritySystemName()
@@ -66,6 +73,7 @@ public class SecurityConfigDetailBean
     if (StringUtils.isBlank(name))
     {
       name = secSystemName;
+      securityConfiguration = new ExternalSecuritySystemConfiguration(name);
       loadSecuritySystem();
     }
   }
@@ -87,7 +95,7 @@ public class SecurityConfigDetailBean
     password = getConfiguration(ConfigKey.CONNECTION_PASSWORD);
     
     useLdapConnectionPool = getInitBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, 
-            SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL);
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL));
     derefAlias = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
     ssl = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL)
             .equalsIgnoreCase("ssl");
@@ -97,7 +105,7 @@ public class SecurityConfigDetailBean
     userFilter = getConfiguration(ConfigKey.BINDING_USER_FILTER);
     updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
     importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
-            SecuritySystemConfig.DefaultValue.IMPORT_ONDEMAND);
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND));
     ldapBrowser = new LdapBrowser();
   }
   
@@ -295,15 +303,15 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
     setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, 
-            getSaveBooleanValue(this.useLdapConnectionPool, SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL));
+            getSaveBooleanValue(this.useLdapConnectionPool, securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL)));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
-            StringUtils.equals(this.derefAlias, SecuritySystemConfig.DefaultValue.DEREF_ALIAS) ? "" : this.derefAlias);
+            StringUtils.equals(this.derefAlias, securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES)) ? "" : this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, 
-            StringUtils.equals(this.referral, SecuritySystemConfig.DefaultValue.REFERRAL) ? "" : this.referral);
+            StringUtils.equals(this.referral, securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? "" : this.referral);
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
     setConfiguration(ConfigKey.IMPORT_ONDEMAND, 
-            getSaveBooleanValue(this.importOnDemand, SecuritySystemConfig.DefaultValue.IMPORT_ONDEMAND));
+            getSaveBooleanValue(this.importOnDemand, securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System configuration saved"));
@@ -377,27 +385,15 @@ public class SecurityConfigDetailBean
     }
   }
   
-  private JndiConfig getJndiConfig(String browseDefaultContext)
+  public JndiConfig getJndiConfig(String browseDefaultContext)
   {
-    JndiProvider jndiProvider = JndiProvider.ACTIVE_DIRECTORY;
-    if (getProvider().equals(JndiProvider.NOVELL_E_DIRECTORY.getProviderName()))
-    {
-      jndiProvider = JndiProvider.NOVELL_E_DIRECTORY;
-    }
-    String authKind = JndiConfig.AUTH_KIND_SIMPLE;
-    if (StringUtils.isBlank(getUserName()))
-    {
-      authKind = JndiConfig.AUTH_KIND_NONE;
-    }
-    return new JndiConfig(
-            jndiProvider, 
-            getUrl(),
-            authKind, 
-            getUserName(), 
-            getPassword(), 
-            getUseLdapConnectionPool(), 
-            browseDefaultContext, 
-            Collections.emptyMap());
+    return JndiConfigBuilder.create(getSecuritySystemName())
+            .url(url)
+            .user(userName)
+            .password(password)
+            .useLdapConnectionPool(useLdapConnectionPool)
+            .defaultContext(browseDefaultContext)
+            .toJndiConfig();
   }
 
 }
