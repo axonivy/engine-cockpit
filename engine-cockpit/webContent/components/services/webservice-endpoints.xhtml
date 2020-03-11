@@ -18,7 +18,7 @@
       <i class="material-icons table-icon">#{endpoint.type eq 'port' ? 'language' : 'link'}</i>
       <h:outputText value="#{endpoint.name}" styleClass="endpoint-entry"/>
     </p:column>
-    <p:column style="width: 70px;">
+    <p:column style="width: 95px;">
       <p:commandButton id="resetEndpointConfig" oncomplete="PF('resetEndpointConfirmDialog').show()" 
         title="Reset Endpoint" style="margin-right: 0px;" process="@this" update="@form:resetEndpointConfirmDialog"
         icon="ui-icon-close" styleClass="red-btn table-control-btn card-button" rendered="#{endpoint.type eq 'port'}"
@@ -38,10 +38,9 @@
   
   <p:confirmDialog id="resetEndpointConfirmDialog" message="Are you sure about reset the Endpoint '#{webserviceDetailBean.activePortType.name}'?" 
     header="Reset Endpoint" severity="alert" widgetVar="resetEndpointConfirmDialog">
-    <p:commandButton id="resetEndpointConfirmYesBtn" value="Yes" immediate="true" actionListener="#{webserviceDetailBean.resetPortType}"
-      icon="ui-icon-check" style="width: inherit;" update="@form" />
-    <p:commandButton value="Cancel" onclick="PF('resetEndpointConfirmDialog').hide();" type="button" icon="ui-icon-close"
-      style="width: inherit;" />
+    <p:commandLink value="Cancel" onclick="PF('resetEndpointConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
+    <p:commandButton id="resetEndpointConfirmYesBtn" value="Reset" immediate="true" actionListener="#{webserviceDetailBean.resetPortType}"
+      icon="ui-icon-close" update="@form" styleClass="modal-input-button" />
   </p:confirmDialog>
   
   <p:dialog styleClass="config-edit" header="Edit endpoint '#{webserviceDetailBean.activePortType.name}'" id="editEndpointModal"
@@ -59,9 +58,9 @@
     </p:panelGrid>
     <p:commandButton id="saveEndpoint" update="@form" onsuccess="PF('editEndpointModal').hide()" validateClient="true"
       actionListener="#{webserviceDetailBean.savePortType}" value="Save" icon="ui-icon-save" process="@form:editEndpointModal"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+      styleClass="modal-input-button" />
+    <p:commandLink id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="Cancel" type="button"
+      styleClass="modal-input-button" />
   </p:dialog>
 </h:form>
 <cc:ConnectionTestResult result="#{webserviceDetailBean.result}" url="#{webserviceDetailBean.activeEndpoint}"

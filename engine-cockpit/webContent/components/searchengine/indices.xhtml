@@ -29,20 +29,20 @@
         <i class="material-icons table-icon">insert_drive_file</i>
       </h:outputText>
     </p:column>
-    <p:column headerText="Index" sortBy="#{index.countIndexed}" style="text-align: center; width: 60px;">
+    <p:column headerText="Index" sortBy="#{index.countIndexed}" style="text-align: center; width: 85px;">
       <h:outputText value="#{index.countIndexed}" />
     </p:column>
-    <p:column headerText="Store" sortBy="#{index.countStored}" style="text-align: center; width: 60px;">
+    <p:column headerText="Store" sortBy="#{index.countStored}" style="text-align: center; width: 85px;">
       <h:outputText value="#{index.countStored}" />
     </p:column>
-    <p:column headerText="Health" style="text-align: center; width: 50px; font-weight: bold;">
+    <p:column headerText="Health" style="text-align: center; width: 65px; font-weight: bold;">
       <i class="material-icons table-icon search-machine-state search-machine-health-#{index.status.state}" 
         title="#{index.status.hint}">#{index.status.icon}</i>
     </p:column>
-    <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 60px;">
+    <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 75px;">
       <h:outputText value="#{index.size}" />
     </p:column>
-    <p:column style="text-align: center; width: 72px;">
+    <p:column style="text-align: center; width: 97px;">
       <p:commandButton title="Reindex" icon="fa fa-refresh #{searchEngineBean.isReindexing(index) ? 'fa-spin' : ''} spin-icon"
         style="margin-right: 10px;" styleClass="secondary-btn" id="reindexBtn" oncomplete="PF('reindexSearchEngineModel').show();"
         actionListener="#{searchEngineBean.setActiveIndex(index)}" update="reindexSearchEngineModel" />
@@ -63,11 +63,13 @@
         <h:outputText value="This step triggers the reindexation of the search engine and can take a while!"/>
       </h:panelGroup>
     </p:panelGrid>
+  </h:form>
+  <f:facet name="footer">
+    <p:commandLink id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel" type="button"
+      styleClass="scondary-btn modal-input-button" />
     <p:commandButton id="reindexSearchEngineBtn" update="searchEngineIndexForm" onclick="PF('reindexPoller').start(); PF('reindexSearchEngineModel').hide();"
       actionListener="#{searchEngineBean.reindex}" value="Reindex" icon="ui-icon-refresh"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
-  </h:form>
+      styleClass="modal-input-button" />
+  </f:facet>
 </p:dialog>
 </html>

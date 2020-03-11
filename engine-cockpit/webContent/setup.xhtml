@@ -49,8 +49,8 @@
                   <p:commandButton id="prevStep" actionListener="#{wizardBean.prevStep()}" value="Previous" update="wizardStepPage" process="@this" immediate="true"
                     icon="ui-icon-navigate-before" styleClass="secondary-btn wizard-step-button" 
                     rendered="#{!wizardBean.firstStep}" async="true"/>
-                  <p:commandButton id="cancelWizard" onclick="window.location = '/'" value="Cancel" type="button"
-                    icon="ui-icon-clear" styleClass="secondary-btn wizard-step-button" rendered="#{wizardBean.firstStep}"/>
+                  <p:commandLink id="cancelWizard" onclick="window.location = '/'" value="Cancel" type="button"
+                    styleClass="wizard-step-button" />
                 </h:panelGroup>
                 
                 <p:dialog style="min-width: 300px;" header="Finish Setup Wizard" id="finishWizardModel"
@@ -70,9 +70,9 @@
                     <br />
                     
                     <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="OK" icon="ui-icon-check" 
-                      styleClass="primary-btn modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" />
-                    <p:commandButton id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="Cancel" type="button"
-                      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+                      styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" />
+                    <p:commandLink id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="Cancel" type="button"
+                      styleClass="modal-input-button" />
                   </h:form>
                 </p:dialog>
                 

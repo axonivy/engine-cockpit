@@ -50,7 +50,7 @@
       </h:outputText>
     </p:column>
 
-    <p:column headerText="Grant" style="text-align: center; width: 75px; ">
+    <p:column headerText="Grant" style="text-align: center; width: 95px; ">
       <p:commandButton id="grantPermissionBtn" type="button" icon="ui-icon-add" title="Grant"
         styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.grantDisabled}">
         <p:ajax update="@form" listener="#{permission.grant}" />
@@ -61,7 +61,7 @@
       </p:commandButton>
     </p:column>
 
-    <p:column headerText="Deny" style="text-align: center; width: 75px;">
+    <p:column headerText="Deny" style="text-align: center; width: 95px;">
       <p:commandButton id="denyPermissionBtn" type="button" icon="ui-icon-add" title="Deny"
         styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.denyDisabled}">
         <p:ajax update="@form" listener="#{permission.deny}" />

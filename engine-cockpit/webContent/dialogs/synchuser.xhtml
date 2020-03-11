@@ -24,11 +24,11 @@
 
     <p:commandButton id="synchUserVar" validateClient="true"
       actionListener="#{userDetailBean.synchUser}" value="Synch" icon="fa fa-refresh"
-      styleClass="primary-btn modal-input-button" update="@form"  />
-    <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{userDetailBean.resetSynchInfo}"
-          icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" immediate="true">
+      styleClass="modal-input-button" update="@form" />
+    <p:commandLink id="closeSynchUser" value="Close" ajax="false" actionListener="#{userDetailBean.resetSynchInfo}"
+      styleClass="modal-input-button" immediate="true">
       <p:resetInput target=":synchUserForm" />
-    </p:commandButton>
+    </p:commandLink>
   </h:form>
 </p:dialog>
 </html>

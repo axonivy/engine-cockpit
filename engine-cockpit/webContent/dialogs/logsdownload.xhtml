@@ -13,13 +13,11 @@
     <p:commandButton id="allLogs" ajax="false" value="Download" 
       onclick="$('#uploadFileSpinner').show(); window.onblur = function(){$('#uploadFileSpinner').hide();};"
       title="Download All Log Files" icon="ui-icon-cloud-download"
-      styleClass="primary-btn modal-input-button" style="width: 150px;">
+      styleClass="modal-input-button" style="width: 150px;">
       <p:fileDownload value="#{logBean.allLogs}" />
     </p:commandButton>
-    <p:commandButton id="cancelEditGlobalVar"
-      onclick="PF('logsDownloadModal').hide();" value="Cancel"
-      type="button" icon="ui-icon-clear"
-      styleClass="secondary-btn modal-input-button" />
+    <p:commandLink id="cancelEditGlobalVar" onclick="PF('logsDownloadModal').hide();" value="Cancel"
+      type="button" styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
 </html>

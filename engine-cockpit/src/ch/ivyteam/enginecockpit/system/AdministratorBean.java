@@ -43,12 +43,12 @@ public class AdministratorBean extends StepStatus
     this.editAdmin = admin;
   }
   
-  public void removeAdmin(User admin)
+  public void removeAdmin()
   {
-    AdministratorService.get().find(admin.getName()).ifPresent(a -> AdministratorService.get().remove(a));
+    AdministratorService.get().find(editAdmin.getName()).ifPresent(a -> AdministratorService.get().remove(a));
     FacesContext.getCurrentInstance().addMessage("",
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + admin.getName() + "' removed successfully", ""));
-    admins.remove(admin);
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' removed successfully", ""));
+    admins.remove(editAdmin);
     dirty = true;
   }
   

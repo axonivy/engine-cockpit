@@ -95,7 +95,7 @@ public class WebTestSearchEngine
     new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);
     $("#reindexSearchEngineModel_title").shouldBe(text(dossierIndex));
-    $("#reindexSearchEngineForm\\:reindexSearchEngineBtn").click();
+    $("#reindexSearchEngineBtn").click();
     $("#reindexSearchEngineModel").shouldNotBe(visible);
   }
   

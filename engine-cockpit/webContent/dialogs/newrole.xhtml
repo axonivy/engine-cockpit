@@ -16,9 +16,9 @@
       </h:panelGroup>
     </p:panelGrid>
     <p:commandButton id="saveNewRole" validateClient="true" action="#{roleDetailBean.createNewChildRole}"
-      ajax="false" update="@form" value="Save" icon="ui-icon-save" styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelNewRole" onclick="PF('newChildRoleModal').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+      ajax="false" update="@form" value="Add" icon="ui-icon-add" styleClass="modal-input-button" />
+    <p:commandLink id="cancelNewRole" onclick="PF('newChildRoleModal').hide();" value="Cancel" type="button"
+      styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
 </html>

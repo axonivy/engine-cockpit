@@ -46,7 +46,7 @@
               <div class="ui-g-12">
                 <h:form id="editorForm">
                   <p:inputTextarea id="yamlhints" value="#{config.keys}" style="display: none"/>
-                  <div id="editor_#{config.varName}"><p:inputTextarea id="content" value="#{config.content}" style="display: none"/></div>
+                  <div id="editor_#{config.varName}" style="margin-bottom: 10px;"><p:inputTextarea id="content" value="#{config.content}" style="display: none"/></div>
                   <script>
                     var contentId_#{config.varName} = $("#editor_#{config.varName} textarea").attr('id');
                     
@@ -87,10 +87,10 @@
                     <span>Tip: Use Ctrl+Space to get a list of known keywords</span>
                   </span>
                   <p:commandButton id="saveEditor" style="width: 150px; float: right; margin-left: 10px;" process="content" update="card:saveEditorModel"
-                    value="Save" icon="ui-icon-save" styleClass="primary-btn" actionListener="#{editorBean.setActiveConfigFile(config)}" 
+                    value="Save" icon="ui-icon-save" actionListener="#{editorBean.setActiveConfigFile(config)}" 
                     oncomplete="saveDirectlyOrOpenDialog_#{config.varName}();" widgetVar="saveEditor_#{config.varName}"/>
-                  <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
-                    icon="ui-icon-clear" styleClass="secondary-btn" style="width: 150px; float: right;"/>
+                  <p:commandLink id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
+                    style="float: right; line-height: 30px;"/>
                 </h:form>
               </div>
             </div>
@@ -112,9 +112,9 @@
             </p:panelGrid>
             <p:commandButton id="saveChangesBtn" onclick="PF('saveEditorModel').hide();"
               actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="ui-icon-save"
-              styleClass="primary-btn modal-input-button" widgetVar="saveChanges" />
-            <p:commandButton id="cancelChangesBtn" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
-              icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+              styleClass="modal-input-button" widgetVar="saveChanges" />
+            <p:commandLink id="cancelChangesBtn" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
+              styleClass="modal-input-button" />
           </h:form>
         </p:dialog>
       </cc:SingleCard>

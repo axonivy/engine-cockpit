@@ -19,9 +19,9 @@
     </div>
     <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"
       actionListener="#{searchEngineBean.runQuery}" value="Run" icon="ui-icon-send"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+      styleClass="modal-input-button" />
+    <p:commandLink id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel" type="button"
+      styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
 </html>

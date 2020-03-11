@@ -15,12 +15,18 @@ body .ui-steps .ui-steps-item .step-ok .ui-steps-number {
   background-color: #C7D426;
   color: #575656;
 }
-.ui-fluid .ui-button.wizard-step-button {
+.ui-fluid .wizard-step-button {
   width: 100px; 
   margin-right: 5px; 
   float: right;
   margin-top: 20px;
   pointer-events: all;
+}
+.ui-fluid a.wizard-step-button {
+  width: auto;
+  margin-right: 10px;
+  line-height: 30px;
+  color: var(--ivy-primary-color-grey-dark, gray);
 }
 #chooseFileBtn {
   width: 100%;

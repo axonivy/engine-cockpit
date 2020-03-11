@@ -36,7 +36,7 @@
       <h:outputText value="#{property.value}" />
     </p:column>
     
-    <p:column style="width: 70px;">
+    <p:column style="width: 95px;">
       <p:outputLabel>
         <p:commandButton id="deletePropertyBtn" type="button" disabled="#{property.backed}"
           icon="ui-icon-delete" title="#{property.backed ? 'From Security System' : 'Delete'}" 
@@ -74,9 +74,9 @@
     </p:panelGrid>
     <p:commandButton id="saveProperty" validateClient="true" ajax="false" update=":propertiesForm" type="submit"
       actionListener="#{memberProperty.saveProperty}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+      styleClass="modal-input-button" />
+    <p:commandLink id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
+      styleClass="secondary-btn modal-input-button" />
   </h:form>
 </p:dialog>
 </html>

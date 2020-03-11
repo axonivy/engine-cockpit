@@ -19,10 +19,10 @@
     icon="ui-icon-delete" styleClass="red-btn card-button" />
   <p:confirmDialog id="deleteRoleConfirmDialog" message="Are you sure about deleteing the role '#{roleDetailBean.roleName}'?" header="Delete Role"
     severity="alert" widgetVar="deleteRoleConfirmDialog">
-    <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Yes" ajax="false" immediate="true" action="#{roleDetailBean.deleteRole}"
-      icon="ui-icon-check" style="width: inherit;" />
-    <p:commandButton value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button" icon="ui-icon-close"
-      style="width: inherit;" />
+    <p:commandLink value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
+      styleClass="secondary-btn modal-input-button" />
+    <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" ajax="false" immediate="true" action="#{roleDetailBean.deleteRole}"
+      styleClass="modal-input-button" icon="ui-icon-delete" />
   </p:confirmDialog>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">

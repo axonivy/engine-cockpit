@@ -25,9 +25,9 @@
     </p:panelGrid>
     <p:commandButton id="saveNewSecuritySystem" validateClient="true" ajax="false" 
       actionListener="#{securityBean.createNewSecuritySystem}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+      styleClass="modal-input-button" />
+    <p:commandLink id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="Cancel" type="button"
+      styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
 </html>

@@ -25,9 +25,9 @@
       </p:dataList>
       <p:commandButton id="confirmAllLicenceEvents" ajax="false" style="width: 120px;"
         actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="ui-icon-done-all"
-        styleClass="primary-btn modal-input-button" />
-      <p:commandButton id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close" type="button"
-        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+        styleClass="modal-input-button" />
+      <p:commandLink id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close" type="button"
+        styleClass="modal-input-button" />
     </div>
   </h:form>
 </p:dialog>

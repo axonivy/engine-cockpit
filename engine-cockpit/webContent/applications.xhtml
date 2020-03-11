@@ -69,7 +69,7 @@
                   styleClass="activity-state-#{activity.operationStateLowerCase}"
                   title="#{activity.errorMessage}" />
               </p:column>
-              <p:column style="text-align: right; width: 155px;">
+              <p:column style="text-align: right; width: 177px;">
                 <p:commandButton title="Deployment" icon="ui-icon-cloud-upload" rendered="#{activity.application}" 
                   type="button" style="margin-right: 10px;" id="deployBtn" styleClass="primary-btn">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 
@@ -101,10 +101,10 @@
             <p:confirmDialog id="deleteConfirmDialog"
               message="Are you sure about deleting #{applicationBean.activeActivity.activityType} '#{applicationBean.activeActivity.name}'?"
               header="Delete #{applicationBean.activeActivity.activityType}" severity="alert" widgetVar="deleteConfirmDialog">
-              <p:commandButton id="deleteConfirmYesBtn" value="Yes" immediate="true"
-                actionListener="#{applicationBean.delete}" update="card:form" icon="ui-icon-check" style="width: inherit;" />
-              <p:commandButton value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
-                icon="ui-icon-close" style="width: inherit;" />
+              <p:commandLink value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
+                styleClass="modal-input-button" />
+              <p:commandButton id="deleteConfirmYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
+                actionListener="#{applicationBean.delete}" update="card:form" icon="ui-icon-delete" />
             </p:confirmDialog>
           </h:form>
           <ui:include src="dialogs/newapplication.xhtml" />

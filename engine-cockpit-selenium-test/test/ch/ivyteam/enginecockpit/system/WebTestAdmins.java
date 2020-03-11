@@ -78,6 +78,8 @@ public class WebTestAdmins
   private static void deleteAdmin(Table table, String user)
   {
     table.clickButtonForEntry(user, "deleteAdmin");
+    $("#admins\\:adminForm\\:deleteAdminDialog").shouldBe(visible);
+    $("#admins\\:adminForm\\:deleteAdminYesBtn").shouldBe(visible).click();
     assertGrowlMessage(user, "removed");
   }
 

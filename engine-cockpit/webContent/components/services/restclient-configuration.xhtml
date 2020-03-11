@@ -18,10 +18,9 @@
     icon="ui-icon-close" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure about reset this Rest Client?" header="Reset Rest Client"
     severity="alert" widgetVar="resetRestConfirmDialog">
-    <p:commandButton id="resetRestConfirmYesBtn" value="Yes" actionListener="#{restClientDetailBean.resetConfig}"
-      icon="ui-icon-check" style="width: inherit;" update="@form, restClientAdditionalConfigForm" />
-    <p:commandButton value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button" icon="ui-icon-close"
-      style="width: inherit;" />
+    <p:commandLink value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
+    <p:commandButton id="resetRestConfirmYesBtn" value="Reset" actionListener="#{restClientDetailBean.resetConfig}"
+      icon="ui-icon-close" update="@form, restClientAdditionalConfigForm" styleClass="modal-input-button" />
   </p:confirmDialog>
   <p:commandButton id="testRestBtn" title="Test Rest Connection" onclick="PF('connectionTestModel').show()"
     type="button" icon="ui-icon-call-made" styleClass="secondary-btn card-button"/>

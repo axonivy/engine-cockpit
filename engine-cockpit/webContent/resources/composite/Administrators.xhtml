@@ -15,15 +15,24 @@
       <p:column headerText="Email" sortBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />
       </p:column>
-      <p:column style="width: 75px;">
-        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.removeAdmin(admin)}" update="#{cc.attrs.updateFields}"
+      <p:column style="width: 95px;">
+        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.setAdmin(admin)}" update="@form:deleteAdminDialog"
           icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" 
-          disabled="#{admin.name eq loginBean.sessionUserName}" />
+          disabled="#{admin.name eq loginBean.sessionUserName}" oncomplete="PF('deleteAdminDialog').show();"/>
         <p:commandButton id="editAdminBtn" actionListener="#{administratorBean.setAdmin(admin)}"
           icon="ui-icon-pencil" title="Edit" update="admins:editAdminDialog"
           styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
       </p:column>
     </p:dataTable>
+    
+    <p:confirmDialog id="deleteAdminDialog"
+      message="Are you sure about deleting the administrator '#{administratorBean.admin.name}'?"
+      header="Delete #{administratorBean.admin.name}" severity="alert" widgetVar="deleteAdminDialog">
+      <p:commandLink value="Cancel" onclick="PF('deleteAdminDialog').hide();" type="button"
+        styleClass="modal-input-button" />
+      <p:commandButton id="deleteAdminYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
+        actionListener="#{administratorBean.removeAdmin}" update="#{cc.attrs.updateFields}" icon="ui-icon-delete" />
+    </p:confirmDialog>
   </h:form>
   
   <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500"
@@ -69,9 +78,9 @@
       </p:panelGrid>
       <p:commandButton id="saveAdmin" validateClient="true" update="#{cc.attrs.updateFields}"
         actionListener="#{administratorBean.saveAdmin()}" value="Save" icon="ui-icon-save"
-        styleClass="primary-btn modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
-      <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
-        icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+        styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
+      <p:commandLink id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
+        styleClass="modal-input-button" immediate="true" />
     </h:form>
   </p:dialog>
 </cc:implementation>

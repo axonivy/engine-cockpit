@@ -284,10 +284,12 @@ body {
   margin-right: 5px;
   float: right;
 }
+.ui-dialog-footer a.modal-input-button,
 .ui-dialog-content a.modal-input-button {
   width: auto;
   margin-right: 10px;
   line-height: 30px;
+  color: var(--ivy-primary-color-grey-dark, gray);
 }
 
 /*General*/

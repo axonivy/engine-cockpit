@@ -29,7 +29,7 @@
     <p:column headerText="LDAP Attribute" styleClass="ldap-value">
       <h:outputText value="#{property.ldapAttribute}"/>
     </p:column>
-    <p:column style="width: 70px;">
+    <p:column style="width: 95px;">
       <p:commandButton id="deleteLdapAttributeBtn" type="button"
         icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
         <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form"/>
@@ -64,9 +64,9 @@
     </p:panelGrid>
     <p:commandButton id="saveLdapAttribute" validateClient="true" ajax="false" update=":securityLdapAttributesForm"
       actionListener="#{securityLdapDetailBean.saveProperty}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" />
-    <p:commandButton id="cancelLdapAttribute" onclick="PF('ldapAttributeModal').hide();" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button" />
+      styleClass="modal-input-button" />
+    <p:commandLink id="cancelLdapAttribute" onclick="PF('ldapAttributeModal').hide();" value="Cancel" type="button"
+      styleClass="modal-input-button" immediate="true" />
   </h:form>
 </p:dialog>
 </html>

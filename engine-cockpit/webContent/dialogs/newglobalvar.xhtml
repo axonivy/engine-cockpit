@@ -24,9 +24,9 @@
     
     <p:commandButton id="saveNewGlobalVar" validateClient="true" onsuccess="PF('newGlobalVarModal').hide()"
       actionListener="#{globalVarBean.saveGlobalVar}" value="Save" icon="ui-icon-save"
-      styleClass="primary-btn modal-input-button" update="@form" ajax="false" />
-    <p:commandButton id="cancelNewGlobalVar" onclick="PF('newGlobalVarModal').hide()" value="Cancel" type="button"
-      icon="ui-icon-clear" styleClass="secondary-btn modal-input-button"/>
+      styleClass="modal-input-button" update="@form" ajax="false" />
+    <p:commandLink id="cancelNewGlobalVar" onclick="PF('newGlobalVarModal').hide()" value="Cancel" type="button"
+      styleClass="modal-input-button"/>
   </h:form>
   
 </p:dialog>

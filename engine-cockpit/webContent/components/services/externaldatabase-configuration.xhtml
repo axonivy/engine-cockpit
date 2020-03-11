@@ -18,10 +18,9 @@
     icon="ui-icon-close" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this External Database?" header="Reset Database"
     severity="alert" widgetVar="resetDbConfirmDialog">
-    <p:commandButton id="resetDbConfirmYesBtn" value="Yes" actionListener="#{externalDatabaseDetailBean.resetDbConfig}"
-      icon="ui-icon-check" style="width: inherit;" update="@form" />
-    <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button" icon="ui-icon-close"
-      style="width: inherit;" />
+    <p:commandLink value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
+    <p:commandButton id="resetDbConfirmYesBtn" value="Reset" actionListener="#{externalDatabaseDetailBean.resetDbConfig}"
+      icon="ui-icon-close" update="@form" styleClass="modal-input-button" />
   </p:confirmDialog>
   <p:commandButton id="testDatabaseBtn" title="Test External Database Connection" onclick="PF('connectionTestModel').show()"
     type="button" icon="ui-icon-call-made" styleClass="secondary-btn card-button"/>
