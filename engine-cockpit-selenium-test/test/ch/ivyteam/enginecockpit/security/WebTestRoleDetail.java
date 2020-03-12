@@ -189,7 +189,7 @@ public class WebTestRoleDetail
             .find(text("CN=role1")).click();
     $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
-    $(LDAP_BROWSER_FORM + "chooseLdapName").click();
+    $("#ldapBrowser\\:chooseLdapName").click();
     $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
     $("#roleInformationForm\\:externalSecurityName").shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }

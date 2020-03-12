@@ -9,7 +9,7 @@
 </cc:interface>
   
 <cc:implementation>
-  <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true">
+  <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true" width="700">
     <h:form id="ldapBrowserForm" styleClass="ldap-browser">
       <p:growl id="ldapBrowserMessage" for="ldapBrowserMessage" showDetail="true">
         <p:autoUpdate />
@@ -37,14 +37,14 @@
           </p:column>
         </p:dataTable>
       </p:panelGrid>
-      <div class="ldap-browser-btns">
-        <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose" icon="ui-icon-check"
-          styleClass="primary-btn modal-input-button" update="#{cc.attrs.updateFields}" onclick="PF('ldapBrowserDialog').hide();"
-          disabled="#{cc.attrs.ldapBrowser.tree == null}" />
-        <p:commandLink id="cancelNewApplication" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
-          styleClass="secondary-btn modal-input-button" />
-      </div>
     </h:form>
+    <f:facet name="footer">
+      <p:commandLink id="cancelLdapBrowser" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
+        styleClass="secondary-btn modal-input-button" />
+      <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose" icon="ui-icon-check"
+        styleClass="primary-btn modal-input-button" update="#{cc.attrs.updateFields}" onclick="PF('ldapBrowserDialog').hide();"
+        disabled="#{cc.attrs.ldapBrowser.tree == null}" />
+    </f:facet>
   </p:dialog>
 </cc:implementation>
 </html>

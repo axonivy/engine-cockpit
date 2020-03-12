@@ -458,12 +458,6 @@ body {
 }
 
 /* LDAP Browser */
-.ldap-browser {
-	max-width: 700px;
-}
-.ldap-browser-btns {
-	margin-top: 10px;
-}
 .ldap-browser .ui-g .ui-panelgrid-cell {
 	padding: 0;
 }
