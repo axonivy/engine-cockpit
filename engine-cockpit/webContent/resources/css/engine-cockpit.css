@@ -472,11 +472,6 @@ body {
 .ldap-browser .ui-datatable {
 	white-space: nowrap;
 }
-.ldap-browser .ui-datatable tbody {
-  overflow: auto;
-	max-height: 400px; 
-	min-height: 200px;
-}
 .ldap-browser .ui-datatable td {
 	padding: 0.3em;
 }
