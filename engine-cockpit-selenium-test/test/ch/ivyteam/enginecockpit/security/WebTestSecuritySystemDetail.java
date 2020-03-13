@@ -357,7 +357,7 @@ public class WebTestSecuritySystemDetail
   private void openLdapBrowserWithConnError()
   {
     openDefaultLdapBrowser();
-    $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldBe(visible);
+    $(LDAP_BROWSER_FORM + "ldapBrowserMessage").shouldBe(visible).shouldNotBe(empty);
     $(LDAP_BROWSER_CHOOSE).shouldBe(disabled);
     $(LDAP_BROWSER_CANCEL).click();
   }

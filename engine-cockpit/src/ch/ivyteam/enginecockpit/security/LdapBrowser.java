@@ -45,7 +45,7 @@ public class LdapBrowser
     }
     catch (NamingException ex)
     {
-      FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", ex.getMessage()));
+      errorMessage(ex.getMessage());
     }
   }
 
@@ -59,7 +59,7 @@ public class LdapBrowser
     }
     catch (NamingException ex)
     {
-      FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", ex.getMessage()));
+      errorMessage(ex.getMessage());
     }
   }
   
@@ -105,7 +105,7 @@ public class LdapBrowser
     }
     catch (NamingException ex)
     {
-      FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", ex.getMessage()));
+      errorMessage(ex.getMessage());
     }
     return Collections.emptyList();
   }
@@ -133,4 +133,16 @@ public class LdapBrowser
     return "";
   }
   
+
+  private void errorMessage(String ex)
+  {
+    String message = ex;
+    if (ex.contains("AcceptSecurityContext"))
+    {
+      message = "There seems to be a problem with your credentials.";
+    }
+    FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage", 
+            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
+    
+  }
 }

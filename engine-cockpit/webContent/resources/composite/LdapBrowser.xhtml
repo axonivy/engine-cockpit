@@ -11,11 +11,9 @@
 <cc:implementation>
   <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true" width="700">
     <h:form id="ldapBrowserForm" styleClass="ldap-browser">
-      <p:growl id="ldapBrowserMessage" for="ldapBrowserMessage" showDetail="true">
+      <p:messages id="ldapBrowserMessage" for="ldapBrowserMessage" showDetail="true">
         <p:autoUpdate />
-      </p:growl>
-      <p:staticMessage id="ldapConnectionFailMessage" severity="error" summary="Ldap Server configuration wrong" 
-        detail="Are your URL and credentials valid?" rendered="#{cc.attrs.ldapBrowser.tree == null}" />
+      </p:messages>
       <p:panelGrid layout="grid" columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-g-12 ui-md-5, ui-g-12 ui-md-7">
         <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.ldapBrowser.tree}" var="node"
           selectionMode="single" selection="#{cc.attrs.ldapBrowser.selectedNode}" dynamic="true">
