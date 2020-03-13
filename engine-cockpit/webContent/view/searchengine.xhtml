@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
     
     <ui:define name="breadcrumb">
       <li><a href="searchengine.xhtml">Search Engine</a></li>
@@ -20,16 +20,16 @@
       <div class="ui-g ui-fluid dashboard">
         <div class="ui-g-12 dashboard-card ui-panelgrid">
           <p:panel styleClass="min-height-250">
-            <ui:include src="components/searchengine/information.xhtml" />
+            <ui:include src="../includes/components/searchengine/information.xhtml" />
           </p:panel>
         </div>
         <div class="ui-g-12 dashboard-card ui-panelgrid">
           <p:panel styleClass="min-height-300">
-            <ui:include src="components/searchengine/indices.xhtml" />
+            <ui:include src="../includes/components/searchengine/indices.xhtml" />
           </p:panel>
         </div>
       </div>
-      <ui:include src="dialogs/searchenginetool.xhtml" />
+      <ui:include src="../includes/dialogs/searchenginetool.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>

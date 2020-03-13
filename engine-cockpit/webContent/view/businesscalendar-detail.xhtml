@@ -7,7 +7,7 @@
     <f:viewParam name="calendarName" value="#{businessCalendarBean.calendarSelection}"/>
   </f:metadata>
 
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Configuration</li>
@@ -26,19 +26,19 @@
     <ui:define name="content">
       <div class="ui-g">
         <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
-          <ui:include src="components/configuration/weekConfiguration.xhtml"/>
+          <ui:include src="../includes/components/configuration/weekConfiguration.xhtml"/>
         </div>
         
         <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
-          <ui:include src="components/configuration/freeDaysOfYear.xhtml"/>
+          <ui:include src="../includes/components/configuration/freeDaysOfYear.xhtml"/>
         </div>
         
         <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
-          <ui:include src="components/configuration/freeEasterRelativeDays.xhtml"/>
+          <ui:include src="../includes/components/configuration/freeEasterRelativeDays.xhtml"/>
         </div>
         
         <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
-          <ui:include src="components/configuration/freeDays.xhtml"/>
+          <ui:include src="../includes/components/configuration/freeDays.xhtml"/>
         </div>
       </div>
     </ui:define>

@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Security</li>
@@ -70,7 +70,7 @@
               </p:column>
             </p:dataTable>
           </h:form>
-          <ui:include src="dialogs/newsecuritysystem.xhtml" />
+          <ui:include src="../includes/dialogs/newsecuritysystem.xhtml" />
         </div>
       </cc:SingleCard>
     </ui:define>

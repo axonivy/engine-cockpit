@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
   
     <ui:define name="breadcrumb-right">
       <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}index.html'); return false;">
@@ -34,31 +34,31 @@
         
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid">
           <p:panel styleClass="min-height-250">
-            <ui:include src="components/dashboard/axonivy.xhtml"/>
+            <ui:include src="../includes/components/dashboard/axonivy.xhtml"/>
           </p:panel>
         </div>
 
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid">
           <p:panel styleClass="min-height-250">
-            <ui:include src="components/dashboard/licence.xhtml"/>
+            <ui:include src="../includes/components/dashboard/licence.xhtml"/>
           </p:panel>
         </div>
 
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card ui-panelgrid email">
           <p:panel styleClass="min-height-250">
-            <ui:include src="components/dashboard/email.xhtml"/>
+            <ui:include src="../includes/components/dashboard/email.xhtml"/>
           </p:panel>
         </div>
         
         <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
           <p:panel>
-            <ui:include src="components/dashboard/systemdatabase.xhtml"/>
+            <ui:include src="../includes/components/dashboard/systemdatabase.xhtml"/>
           </p:panel>
         </div>
         
         <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card ui-panelgrid">
           <p:panel>
-            <ui:include src="components/dashboard/java.xhtml"/>
+            <ui:include src="../includes/components/dashboard/java.xhtml"/>
           </p:panel>
         </div>
       </div>

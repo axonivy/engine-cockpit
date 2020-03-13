@@ -8,7 +8,7 @@
     <f:viewParam name="log" value="#{logBean.showLog}" />
   </f:metadata>
 
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
     
     <ui:define name="breadcrumb">
       <li><a href="logs.xhtml">Logs</a></li>
@@ -46,7 +46,7 @@
           <cc:LogView log="#{logBean.userSynchLog}" id="userSynchLogView"/>
         </div>
       </div>
-      <ui:include src="dialogs/logsdownload.xhtml" />
+      <ui:include src="../includes/dialogs/logsdownload.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>
