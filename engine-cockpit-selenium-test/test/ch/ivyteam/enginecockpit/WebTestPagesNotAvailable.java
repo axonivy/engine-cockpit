@@ -39,7 +39,7 @@ public class WebTestPagesNotAvailable
     for (Path xhtml : getSubDirectoryXhtmlFiles(engineDir))
     {
       Selenide.open(EngineCockpitUrl.viewUrl(xhtml.toString()));
-      $("#content").shouldHave(text("500"), text("SecurityException"));
+      $("#content").shouldHave(text("404"));
     }
   }
   
@@ -49,6 +49,7 @@ public class WebTestPagesNotAvailable
     {
       return Files.walk(path)
               .map(engineDir::relativize)
+              .filter(file -> StringUtils.startsWith(file.toString(), "view/"))
               .filter(file -> StringUtils.contains(file.toString(), "/"))
               .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
               .collect(Collectors.toList());

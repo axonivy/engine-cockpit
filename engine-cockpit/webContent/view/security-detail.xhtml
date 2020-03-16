@@ -14,7 +14,7 @@
     <f:viewParam name="securitySystemName" value="#{securityLdapDetailBean.securitySystemName}"/>
   </f:metadata>
 
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Security</li>
@@ -37,25 +37,25 @@
 
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
             <p:panel styleClass="min-height-500">
-              <ui:include src="components/security/securitysystem-configuration.xhtml" />
+              <ui:include src="../includes/components/security/securitysystem-configuration.xhtml" />
             </p:panel>
           </div>
           
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
             <p:panel styleClass="min-height-500">
-              <ui:include src="components/security/securitysystem-ldap.xhtml" />
+              <ui:include src="../includes/components/security/securitysystem-ldap.xhtml" />
             </p:panel>
           </div>
           
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
             <p:panel>
-              <ui:include src="components/security/securitysystem-binding.xhtml" />
+              <ui:include src="../includes/components/security/securitysystem-binding.xhtml" />
             </p:panel>
           </div>
           
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid  ui-fluid">
             <p:panel>
-              <ui:include src="components/security/securitysystem-ldap-attributes.xhtml" />
+              <ui:include src="../includes/components/security/securitysystem-ldap-attributes.xhtml" />
             </p:panel>
           </div>
 

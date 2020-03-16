@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Security</li>
@@ -32,12 +32,12 @@
               <div class="ui-g-12 ui-md-3" style="margin: auto;">
                 <h:panelGroup id="syncPanel">
                   <div class="single-card-top-right-btn">
-                    <ui:include src="components/security/adsyncbtn.xhtml" />
+                    <ui:include src="../includes/components/security/adsyncbtn.xhtml" />
                     <p:commandButton id="newUserBtn" rendered="#{securityBean.ivySecurityForSelectedApp}"
                       value="New" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" />
                   </div>
                   <div style="float: right; margin-right: 5px;">
-                    <ui:include src="components/security/adsynclog.xhtml" />
+                    <ui:include src="../includes/components/security/adsynclog.xhtml" />
                   </div>
                 </h:panelGroup>
                 <div style="float: right; margin-right: 5px;">
@@ -53,12 +53,12 @@
                 </div>
               </div>
             </div>
-            <ui:include src="components/security/users-table.xhtml"/>
+            <ui:include src="../includes/components/security/users-table.xhtml"/>
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>
-      <ui:include src="dialogs/newuser.xhtml" />
-      <ui:include src="dialogs/synchuser.xhtml" />
+      <ui:include src="../includes/dialogs/newuser.xhtml" />
+      <ui:include src="../includes/dialogs/synchuser.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>
