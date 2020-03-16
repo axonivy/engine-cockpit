@@ -148,6 +148,7 @@ body {
 .ui-tree-search-header .table-search-icon,
 .ui-datatable .table-search-icon {
   float: left;
+  height: 24px;
 }
 .ui-tree-search-header .table-search-input-withicon,
 .ui-datatable-header .table-search-input-withicon,

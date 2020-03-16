@@ -34,7 +34,7 @@ Mn0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 Mn0 f0 @C|.responsibility Everybody #txt
 Mn0 f0 81 49 30 30 -25 17 #rect
 Mn0 f0 @|StartRequestIcon #fIcon
-Mn0 f3 template "dashboard.xhtml" #txt
+Mn0 f3 template "view/dashboard.xhtml" #txt
 Mn0 f3 337 49 30 30 0 15 #rect
 Mn0 f3 @|EndRequestIcon #fIcon
 Mn0 f1 expr out #txt
@@ -55,7 +55,7 @@ Mn0 f2 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 Mn0 f2 @C|.responsibility Everybody #txt
 Mn0 f2 81 145 30 30 -25 17 #rect
 Mn0 f2 @|StartRequestIcon #fIcon
-Mn0 f4 template "setup.xhtml" #txt
+Mn0 f4 template "view/setup.xhtml" #txt
 Mn0 f4 337 145 30 30 0 15 #rect
 Mn0 f4 @|EndRequestIcon #fIcon
 Mn0 f5 111 160 337 160 #arcP

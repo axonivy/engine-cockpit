@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
       <li><a href="cluster.xhtml">Cluster</a></li>
@@ -80,7 +80,7 @@
           </h:form>
         </div>
       </cc:SingleCard>
-      <ui:include src="dialogs/clusternodeinfo.xhtml" />
+      <ui:include src="../includes/dialogs/clusternodeinfo.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>
