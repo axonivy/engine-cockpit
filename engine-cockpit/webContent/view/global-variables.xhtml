@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="/template/template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Configuration</li>
@@ -103,8 +103,8 @@
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>
-    <ui:include src="dialogs/newglobalvar.xhtml" />
-    <ui:include src="dialogs/editglobalvar.xhtml" />
+    <ui:include src="../includes/dialogs/newglobalvar.xhtml" />
+    <ui:include src="../includes/dialogs/editglobalvar.xhtml" />
     </ui:define>
     
   </ui:composition>
