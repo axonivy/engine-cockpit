@@ -62,4 +62,10 @@ public class MTraceMonitor extends Monitor
   {
     return traces;
   }
+  
+  @Override
+  public boolean isRunning()
+  {
+    return !traces.isEmpty();
+  }
 }
