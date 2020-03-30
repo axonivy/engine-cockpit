@@ -21,6 +21,7 @@ import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.db.jdbc.SystemDatabaseConfig;
+import ch.ivyteam.enginecockpit.RestartBean;
 import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
@@ -50,6 +51,8 @@ public class SystemDatabaseBean extends StepStatus
   private SystemDatabaseCreator creator;
   
   private final ConnectionTestWrapper connectionTest;
+
+  private RestartBean restartBean;
   
   public SystemDatabaseBean()
   {
@@ -61,6 +64,9 @@ public class SystemDatabaseBean extends StepStatus
     this.additionalProps = config.getProperties();
     this.connectionInfo = new ConnectionInfo();
     this.connectionTest = new ConnectionTestWrapper(new ConnectionInfo());
+    FacesContext context = FacesContext.getCurrentInstance();
+    restartBean = context.getApplication().evaluateExpressionGet(context, "#{restartBean}",
+            RestartBean.class);
   }
 
   private Set<DatabaseProduct> getSupportedDatabases()
@@ -206,6 +212,7 @@ public class SystemDatabaseBean extends StepStatus
     SystemDatabaseSetup.saveSystemDatabaseConfig(newSystemDbConfig);
     FacesContext.getCurrentInstance().addMessage("systemDbSave",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "System Database config saved successfully"));
+    restartBean.setRestartEngine(true);
   }
   
   public void initCreator()

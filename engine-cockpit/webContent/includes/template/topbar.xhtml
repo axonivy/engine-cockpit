@@ -40,12 +40,28 @@
           </ul>
         </li>
         <h:outputText rendered="#{not empty licenceBean.licenceEvents}">
-          <li class="topbar-notifications">
+          <li class="topbar-notifications licence-notification">
             <a href="#" onclick="PF('licenceEventsDialog').show();">
               <i class="topbar-icon material-icons animated swing">notifications</i>
               <span class="topbar-badge animated rubberBand">#{licenceBean.licenceEventCount}</span>
               <span class="topbar-item-name">Messages</span>
             </a>
+          </li>
+        </h:outputText>
+        <h:outputText rendered="#{restartBean.restartEngine}">
+          <li class="topbar-notifications restart-notification">
+            <a href="#">
+              <i class="topbar-icon material-icons animated swing">warning</i>
+              <span class="topbar-item-name">Restart Engine</span>
+            </a>
+            <ul class="animated">
+              <li role="menuitem">
+                <a href="logs.xhtml?log=config.log">
+                  <i class="material-icons">settings_backup_restore</i>
+                  <span style="max-width: calc(100% - 40px)">You have changed settings that require an engine restart!</span>
+                </a>
+              </li>
+            </ul>
           </li>
         </h:outputText>
       </ul>

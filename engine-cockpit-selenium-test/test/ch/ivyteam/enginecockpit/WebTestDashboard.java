@@ -54,7 +54,7 @@ public class WebTestDashboard
   void checkLicenceEvents()
   {
     $("#tasksButtonLicenceEvents").shouldBe(visible);
-    $$(".topbar-notifications > a > span").first().shouldBe(exactText("2"));
+    $$(".licence-notification > a > span").first().shouldBe(exactText("2"));
     
     $("#tasksButtonLicenceEvents").click();
     $("#licenceEventsDialog").shouldBe(visible);
@@ -64,7 +64,7 @@ public class WebTestDashboard
     $("#licenceEventForm\\:closeLicenceEventsDialog").click();
     $("#licenceEventsDialog").shouldNotBe(visible);
    
-    $(".topbar-notifications > a").click();
+    $(".licence-notification > a").click();
     $("#licenceEventsDialog").shouldBe(visible);
     $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(1));
     $("#licenceEventForm\\:confirmAllLicenceEvents").click();
@@ -72,7 +72,7 @@ public class WebTestDashboard
     $("#tasksButtonLicenceDetail").shouldBe(visible);
     $("#licenceEventsDialog").shouldNotBe(visible);
     $("#tasksButtonLicenceEvents").shouldNotBe(exist);
-    $(".topbar-notifications").shouldNotBe(exist);
+    $(".licence-notification").shouldNotBe(exist);
   }
   
   @Test

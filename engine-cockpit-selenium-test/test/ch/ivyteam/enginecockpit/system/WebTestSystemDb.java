@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createOldDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.deleteTempDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertAndResetRestartHint;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFinished;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.and;
@@ -90,6 +91,7 @@ public class WebTestSystemDb
     $("#saveSystemDbConfig").shouldBe(visible);
     $("#saveSystemDbConfig").click();
     $("#systemDbSave_container").shouldBe(text("System Database config saved successfully"));
+    assertAndResetRestartHint();
   }
   
   @Test

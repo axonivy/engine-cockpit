@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertAndResetRestartHint;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -137,6 +138,15 @@ public class WebTestConfiguration
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY");
     }
+    
+    @Test
+    void testRestartHint()
+    {
+      String config = "Connector.HTTP.Address";
+      assertEditConfig(config, "", "hi");
+      assertResetConfig(config);
+      assertAndResetRestartHint();
+    }
   }
   
   @Nested
@@ -250,7 +260,6 @@ public class WebTestConfiguration
     
     $("#config\\:resetConfigConfirmForm\\:resetConfigConfirmYesBtn").click();
     $("#config\\:form\\:msgs_container").shouldHave(text(key), text("reset"));
-    assertThat(table.getFirstColumnEntries()).doesNotContain(key);
   }
 
   private void assertNewConfig(String key, String value)

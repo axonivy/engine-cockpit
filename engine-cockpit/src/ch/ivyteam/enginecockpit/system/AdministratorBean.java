@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.RestartBean;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
@@ -18,12 +19,14 @@ public class AdministratorBean extends StepStatus
 {
   private List<User> admins;
   private User editAdmin;
-  private boolean dirty;
+  private RestartBean restartBean;
   
   public AdministratorBean()
   {
     admins = reloadAdmins();
-    dirty = false;
+    FacesContext context = FacesContext.getCurrentInstance();
+    restartBean = context.getApplication().evaluateExpressionGet(context, "#{restartBean}",
+            RestartBean.class);
   }
   
   private static List<User> reloadAdmins()
@@ -49,7 +52,7 @@ public class AdministratorBean extends StepStatus
     FacesContext.getCurrentInstance().addMessage("",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' removed successfully", ""));
     admins.remove(editAdmin);
-    dirty = true;
+    restartBean.setRestartEngine(true);
   }
   
   public void addAdmin()
@@ -84,14 +87,9 @@ public class AdministratorBean extends StepStatus
     }
     FacesContext.getCurrentInstance().addMessage("", message);
     AdministratorService.get().save(editAdmin.getAdmin());
-    dirty = true;
+    restartBean.setRestartEngine(true);
   }
   
-  public boolean isDirty()
-  {
-    return dirty;
-  }
-
   public boolean hasAdmins()
   {
     return !admins.isEmpty();
