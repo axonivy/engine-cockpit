@@ -8,7 +8,7 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartSeries;
 
-public class NetworkMonitor extends Monitor
+public class NetworkMonitor extends SystemMonitor
 {
   private LineChartSeries networkSend;
   private LineChartSeries networkResv;
@@ -23,13 +23,11 @@ public class NetworkMonitor extends Monitor
   
   public NetworkMonitor()
   {
-    super();
+    initMonitor();
   }
   
-  @Override
-  protected void initMonitor()
+  private void initMonitor()
   {
-    super.initMonitor();
     Axis yAxis = model.getAxis(AxisType.Y);
     yAxis.setMin(0);
     yAxis.setLabel("Send / Resv [kB]");

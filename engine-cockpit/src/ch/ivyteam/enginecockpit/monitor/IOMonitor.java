@@ -8,7 +8,7 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartSeries;
 
-public class IOMonitor extends Monitor
+public class IOMonitor extends SystemMonitor
 {
   private LineChartSeries ioWrite;
   private LineChartSeries ioRead;
@@ -23,13 +23,11 @@ public class IOMonitor extends Monitor
   
   public IOMonitor()
   {
-    super();
+    initMonitor();
   }
   
-  @Override
-  protected void initMonitor()
+  private void initMonitor()
   {
-    super.initMonitor();
     Axis yAxis = model.getAxis(AxisType.Y);
     yAxis.setMin(0);
     yAxis.setLabel("Read / Write [kB]");

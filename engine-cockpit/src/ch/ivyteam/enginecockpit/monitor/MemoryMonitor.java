@@ -9,7 +9,7 @@ import org.primefaces.model.chart.LineChartSeries;
 
 import oshi.hardware.GlobalMemory;
 
-public class MemoryMonitor extends Monitor
+public class MemoryMonitor extends SystemMonitor
 {
   private LineChartSeries memoryLoad;
   private LineChartSeries jvmMemory;
@@ -27,13 +27,11 @@ public class MemoryMonitor extends Monitor
   
   public MemoryMonitor() 
   {
-    super();
+    initMonitor();
   }
   
-  @Override
-  protected void initMonitor()
+  private void initMonitor()
   {
-    super.initMonitor();
     memory = systemInfo.getHardware().getMemory();
     maxMem = memory.getTotal();
     totalJvmMem = Runtime.getRuntime().maxMemory() / 1000000000.0;

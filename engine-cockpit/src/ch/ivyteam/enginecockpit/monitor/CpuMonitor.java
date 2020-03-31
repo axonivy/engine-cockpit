@@ -7,7 +7,7 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartSeries;
 
-public class CpuMonitor extends Monitor
+public class CpuMonitor extends SystemMonitor
 {
   private LineChartSeries cpuLoad;
   private Map<Object, Number> cpuData;
@@ -17,13 +17,11 @@ public class CpuMonitor extends Monitor
 
   public CpuMonitor() 
   {
-    super();
+    initMonitor();
   }
   
-  @Override
-  protected void initMonitor()
+  private void initMonitor()
   {
-    super.initMonitor();
     Axis yAxis = model.getAxis(AxisType.Y);
     yAxis.setMin(0);
     yAxis.setMax(100);

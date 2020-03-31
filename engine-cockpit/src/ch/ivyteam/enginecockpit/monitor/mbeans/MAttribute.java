@@ -62,6 +62,10 @@ public class MAttribute
     if (isComposite(type))
     {
       CompositeData data = (CompositeData)attribute.getValue();
+      if (data == null)
+      {
+        return false;
+      }
       CompositeType ctype = data.getCompositeType();
       return ctype
           .keySet()

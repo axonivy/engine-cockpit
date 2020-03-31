@@ -12,10 +12,13 @@ public class MTraceMonitor extends Monitor
 {
   private final List<MTrace> traces = new ArrayList<>();
   
-  @Override
-  protected void initMonitor()
+  public MTraceMonitor()
   {
-    super.initMonitor();
+    initMonitor();
+  }
+  
+  private void initMonitor()
+  {
     Axis xAxis = model.getAxis(AxisType.X);
     xAxis.setTickCount(11);
     xAxis.setLabel("Time [s]");
