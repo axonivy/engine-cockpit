@@ -1,8 +1,9 @@
 package ch.ivyteam.enginecockpit.docu;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.isDesignerApp;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -19,7 +20,7 @@ import ch.ivyteam.enginecockpit.setupwizard.WebTestWizard;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvySelenide
+@IvyWebTest
 public class WebDocuScreenshot
 {
 
@@ -55,7 +56,7 @@ public class WebDocuScreenshot
     takeScreenshot("engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toApplications();
     takeScreenshot("engine-cockpit-applications", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toApplicationDetail(isDesignerApp() ? "designer" : "test");
+    Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
     takeScreenshot("engine-cockpit-application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toSecuritySystem();
     takeScreenshot("engine-cockpit-security-system", new Dimension(SCREENSHOT_WIDTH, 500));

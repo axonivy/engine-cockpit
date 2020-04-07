@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -15,12 +16,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUrl;
-
-@IvySelenide
+@IvyWebTest
 public class WebTestPagesNotAvailable
 {
   
@@ -38,7 +37,7 @@ public class WebTestPagesNotAvailable
   {
     for (Path xhtml : getSubDirectoryXhtmlFiles(engineDir))
     {
-      Selenide.open(EngineCockpitUrl.viewUrl(xhtml.toString()));
+      Selenide.open(viewUrl(xhtml.toString()));
       $("#content").shouldHave(text("404"));
     }
   }

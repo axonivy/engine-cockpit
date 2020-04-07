@@ -39,7 +39,7 @@
     </div>
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
-      var uploadUrl = "/#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}"
+      var uploadUrl = "#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}"
     
       function beforeUpload() {
         $('#fileUploadResponse').show();

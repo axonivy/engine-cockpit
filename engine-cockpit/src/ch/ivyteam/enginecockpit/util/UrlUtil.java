@@ -7,9 +7,10 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.io.FileUtil;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.config.IFileAccess;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.request.RequestUriFactory;
 import ch.ivyteam.util.Version;
 
 @SuppressWarnings("restriction")
@@ -53,7 +54,7 @@ public class UrlUtil
   
   public static String getApiBaseUrl()
   {
-    return IConfiguration.get().getOrDefault("WebServer.IvyContextName") + "/api";
+    return RequestUriFactory.getIvyBaseContextPath() + "/system/api";
   }
   
   public static String replaceLinks(String text)
@@ -81,6 +82,6 @@ public class UrlUtil
   
   public static File getLogDir()
   {
-    return new File(Advisor.getAdvisor().getInstallationDirectory() + File.separator + "logs");
+    return new File(FileUtil.getWorkingDirectory() + File.separator + "logs");
   }
 }

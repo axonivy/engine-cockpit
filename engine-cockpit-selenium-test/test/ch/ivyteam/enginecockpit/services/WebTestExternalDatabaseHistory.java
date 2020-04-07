@@ -4,17 +4,19 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.runExternalDbQuery;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestExternalDatabaseHistory
 {
   
@@ -23,11 +25,18 @@ public class WebTestExternalDatabaseHistory
   {
     runExternalDbQuery();
     login();
+    Navigation.toExternalDatabases();
+    Tab.switchToTab("test");
     Navigation.toExternalDatabaseDetail("realdb");
   }
   
+  @AfterEach
+  void cleanup()
+  {
+    EngineCockpitUtil.resetConfig();
+  }
+  
   @Test
-  @Disabled //FIXME
   void testConnectionAndHistory()
   {
     new Table(By.id("databaseConnectionForm:databaseConnectionsTable")).firstColumnShouldBe(sizeGreaterThan(0));
