@@ -21,14 +21,14 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver.Options;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestEditor
 {
   

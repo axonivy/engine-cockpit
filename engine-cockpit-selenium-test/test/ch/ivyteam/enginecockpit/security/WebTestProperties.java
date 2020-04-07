@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestProperties
 {
   private static final String PROPERTY_VALUE_MESSAGE = "#propertyModalForm\\:propertyValueMessage";

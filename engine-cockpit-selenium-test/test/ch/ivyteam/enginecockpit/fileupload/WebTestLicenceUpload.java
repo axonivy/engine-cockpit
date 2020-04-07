@@ -14,9 +14,9 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestLicenceUpload
 {
   

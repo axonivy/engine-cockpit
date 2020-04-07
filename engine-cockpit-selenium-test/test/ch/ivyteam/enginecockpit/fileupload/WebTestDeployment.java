@@ -1,7 +1,8 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.isDesignerApp;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -18,17 +19,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.IvySelenide;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
-import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
+import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
+import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestDeployment
 {
-  private static final String APP = isDesignerApp() ? "designer" : "test-ad";
+  private static final String APP = isDesigner() ? DESIGNER : "test-ad";
   
   @BeforeEach
   void beforeEach()
@@ -64,7 +65,7 @@ public class WebTestDeployment
     $("#deploymentModal\\:uploadBtn").click();
     $("#uploadLog").shouldNotBe(empty);
     $("#fileUploadForm").shouldNotBe(visible);
-    if (isDesignerApp())
+    if (isDesigner())
     {
       $("#uploadLog").shouldHave(text("404"));
     }

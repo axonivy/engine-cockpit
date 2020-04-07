@@ -16,14 +16,14 @@ import static com.codeborne.selenide.Selenide.$$;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestRoleDetail
 {
   private static final String DETAIL_ROLE_NAME = "boss";
@@ -94,7 +94,7 @@ public class WebTestRoleDetail
   {
     String roleUsers = "#usersOfRoleForm\\:roleUserTable td.user-row";
     $$(roleUsers).shouldBe(empty);
-    $("#usersOfRoleForm\\:addUserDropDown_input").sendKeys("fo");
+    $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(visible).sendKeys("fo");
     $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
     $(".ui-autocomplete-list-item").click();
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(exactValue("foo"));
@@ -115,7 +115,7 @@ public class WebTestRoleDetail
     String roleMembers = "#membersOfRoleForm\\:roleMemberTable td.member-row";
     $$(roleMembers).shouldBe(empty);
     
-    $("#membersOfRoleForm\\:addMemberDropDown_input").sendKeys("wor");
+    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(visible).sendKeys("wor");
     $("#membersOfRoleForm\\:addMemberDropDown_panel").shouldBe(visible);
     $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
     $(".ui-autocomplete-list-item").click();

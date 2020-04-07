@@ -6,12 +6,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestEnvironmentSwitch
 {
   @BeforeEach

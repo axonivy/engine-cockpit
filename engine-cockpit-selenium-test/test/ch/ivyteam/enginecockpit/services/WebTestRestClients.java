@@ -6,13 +6,13 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestRestClients
 {
   @Test

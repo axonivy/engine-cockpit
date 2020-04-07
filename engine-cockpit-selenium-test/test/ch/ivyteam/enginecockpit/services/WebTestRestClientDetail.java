@@ -13,12 +13,12 @@ import static com.codeborne.selenide.Selenide.$$;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestRestClientDetail
 {
   private static final String RESTCLIENT_NAME = "test-rest";
