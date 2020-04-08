@@ -35,6 +35,7 @@ pipeline {
               archiveArtifacts '**/target/*.iar'
               archiveArtifacts '.ivy-engine/logs/*'
               archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
+              checkVersions cmd: '-f maven-config/pom.xml', onlyProjectBuildPluginWithVersion: "8", additionalVersionArgs: "-DallowSnapshots=true"
             }
           }
         }
