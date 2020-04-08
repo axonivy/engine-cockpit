@@ -30,7 +30,9 @@ pipeline {
 
               maven cmd: 'clean verify ' +
                       '-Dengine.page.url=' + params.engineSource
-      
+
+              checkVersions recordIssue: false
+              checkVersions cmd: '-f maven-config/pom.xml'
               junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
               archiveArtifacts '**/target/*.iar'
               archiveArtifacts '.ivy-engine/logs/*'

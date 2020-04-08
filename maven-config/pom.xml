@@ -11,14 +11,32 @@
 		<engine.page.url>https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/</engine.page.url>
 		<engine.dir>../.ivy-engine</engine.dir>
 		<revision>9.1.0-SNAPSHOT</revision>
+		<flatten.plugin.version>1.2.2</flatten.plugin.version>
+		<project.build.plugin.version>9.1.0-SNAPSHOT</project.build.plugin.version>
 	</properties>
 
 	<build>
 		<plugins>
+			<!-- Ensures only new versions of plugins are found in pipeline -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M3</version>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals><goal>enforce</goal></goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion><version>3.6.0</version></requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.axonivy.ivy.ci</groupId>
 				<artifactId>project-build-plugin</artifactId>
-				<version>9.1.0-SNAPSHOT</version>
 				<extensions>true</extensions>
 				<configuration>
 					<ivyVersion>[9.1.0,]</ivyVersion>
@@ -31,7 +49,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>
-				<version>1.1.0</version>
+				<version>${flatten.plugin.version}</version>
 				<executions>
 					<execution>
 					  <id>flatten</id>
@@ -54,6 +72,11 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>com.axonivy.ivy.ci</groupId>
+					<artifactId>project-build-plugin</artifactId>
+					<version>${project.build.plugin.version}</version>
+				</plugin>
+				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
 					<version>1.0.0</version>
@@ -64,7 +87,7 @@
 									<pluginExecutionFilter>
 										<groupId>org.codehaus.mojo</groupId>
 										<artifactId>flatten-maven-plugin</artifactId>
-										<versionRange>[1.1.0,)</versionRange>
+										<versionRange>[${flatten.plugin.version},)</versionRange>
 										<goals>
 											<goal>flatten</goal>
 										</goals>
