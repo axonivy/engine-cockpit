@@ -65,6 +65,10 @@ public class ClusterNode
   
   private String formatDate(Date date)
   {
+    if (date == null)
+    {
+      return "";
+    }
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", new Locale("en"));
     return dateFormat.format(date);
   }
