@@ -58,8 +58,10 @@
                     <i class="fa fa-#{activity.icon} table-icon" title="#{activity.activityType}" />
                   </h:outputText>
                 </h:outputText>
+                <h:outputText rendered="#{activity.pmv}" value="[#{activity.qualifiedVersion} / #{activity.lastChangeDate}]"
+                  title="Library version: #{activity.qualifiedVersion} / Last change date: #{activity.lastChangeDate}" style="color: grey; margin-left: 10px;" />
                 <h:outputText rendered="#{activity.pmv}" value="(#{activity.releaseState})"
-                    styleClass="release-state-#{activity.releaseStateLowerCase}" style="margin-left: 10px;" />
+                  styleClass="release-state-#{activity.releaseStateLowerCase}" style="margin-left: 10px;" />
               </p:column>
               <p:column headerText="Running Cases" styleClass="second-row" style="text-align: center; width: 100px;">
                 <h:outputText value="#{activity.runningCasesCount}"/>
