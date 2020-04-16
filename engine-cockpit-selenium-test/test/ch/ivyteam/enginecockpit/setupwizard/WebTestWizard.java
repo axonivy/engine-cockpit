@@ -14,9 +14,9 @@ import static com.codeborne.selenide.Selenide.$$;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.axonivy.ivy.supplements.IvySelenide;
+import com.axonivy.ivy.webtest.IvyWebTest;
 
-@IvySelenide
+@IvyWebTest
 public class WebTestWizard
 {
   static final String ACTIVE_WIZARD_STEP = "#stepForm\\:wizardSteps li.ui-state-highlight";
