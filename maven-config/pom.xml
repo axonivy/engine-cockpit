@@ -132,8 +132,11 @@
 		</pluginRepository>
 		<!-- Used to install project-build-plugin -->
 		<pluginRepository>
-			<id>sonatype</id>
+			<id>central.snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
 			<snapshots>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
