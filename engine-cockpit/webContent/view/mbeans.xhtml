@@ -24,8 +24,8 @@
                 <h:outputText value="MBeans" />
               </f:facet>
               <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single" 
-                style="border: none; max-height: 350px; overflow: auto; padding: 0;">
-                <p:ajax event="select" update="table" listener="#{mBeansBean.onSelectNode}" />
+                style="border: none; max-height: 350px; overflow: auto; padding: 0;" id="mBeans">
+                <p:ajax event="select" update="attributes" listener="#{mBeansBean.onSelectNode}" />
                 <p:treeNode type="folder" icon="ui-icon-folder">
                   <h:outputText value="#{node.displayName}" />
                 </p:treeNode>
@@ -41,11 +41,11 @@
                 <i class="material-icons table-icon panel-title-icon">settings</i>
                 <h:outputText value="Attributes" />
               </f:facet>
-              <p:dataTable id="table" var="mAttr" value="#{mBeansBean.attributes}" rowIndexVar="rowIndex"
+              <p:dataTable id="attributes" var="mAttr" value="#{mBeansBean.attributes}" rowIndexVar="rowIndex"
                 style="max-height: 350px; overflow: auto" emptyMessage="Select a bean to see its attributes">
                 <p:column headerText="Name">
                   <h:outputText id="name" value="#{mAttr.name}" />
-                  <p:tooltip for="table:#{rowIndex}:name" value="#{mAttr.tooltip}" />
+                  <p:tooltip for="attributes:#{rowIndex}:name" value="#{mAttr.tooltip}" />
                 </p:column>
 
                 <p:column headerText="Value">
