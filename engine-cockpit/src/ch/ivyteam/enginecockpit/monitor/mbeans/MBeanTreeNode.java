@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import org.primefaces.model.DefaultTreeNode;
 
-import ch.ivyteam.ivy.environment.Ivy;
-
 public class MBeanTreeNode extends DefaultTreeNode
 {
   MBeanTreeNode(MName name, Set<MName> allNames)
@@ -23,7 +21,6 @@ public class MBeanTreeNode extends DefaultTreeNode
   @Override
   public void setSelected(boolean value)
   {
-    Ivy.log().info("selected "+ this);
     super.setSelected(value);
   }
 }

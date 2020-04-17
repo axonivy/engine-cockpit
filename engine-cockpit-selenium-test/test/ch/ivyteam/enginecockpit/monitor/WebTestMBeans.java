@@ -5,9 +5,13 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
@@ -15,8 +19,9 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
+@IvyWebTest(headless=false)
 public class WebTestMBeans
 {
   
@@ -24,12 +29,12 @@ public class WebTestMBeans
   void beforeEach()
   {
     login();
+    Navigation.toMBeans();
   }
   
   @Test
   void mBeansContent()
   {
-    Navigation.toMBeans();
     $$(".ui-panel").shouldHave(size(3));
     mBeanNodes().shouldHave(sizeGreaterThan(5));
   }
@@ -37,28 +42,44 @@ public class WebTestMBeans
   @Test
   void selectMBean()
   {
-    Navigation.toMBeans();
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Runtime");
-    attributesTableRows().shouldHave(sizeGreaterThan(5));
+    assertThat(attributesTableRows().size()).isGreaterThan(5);
   }
 
   @Test
-  void traceAttribute()
+  void traceAttributes()
   {
-    Navigation.toMBeans();
+    expandMBeanNodeWithText("java.lang");
+    clickMBeanNodeWithText("Runtime");
+    
+    clickTraceButtonForAttribute("Uptime");
+    assertThat(tracesTableRows().size()).isEqualTo(1);
+    
+    clickTraceButtonForAttribute("StartTime");
+    assertThat(tracesTableRows().size()).isEqualTo(2);
+
+  }
+
+  @Test
+  void removeTrace()
+  {
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Runtime");
     clickTraceButtonForAttribute("Uptime");
-    tracesTableRows().shouldHave(size(2));
+    assertThat(tracesTableRows().size()).isEqualTo(1);
+    
+    clickRemoveTraceButtonForAttribute("Uptime");
+    assertThat(tracesTableRows()).isEmpty();
   }
 
   private void expandMBeanNodeWithText(String treeNodeText)
   {
-    SelenideElement element = getTreeNodeWithText(treeNodeText);
-    SelenideElement parent = element.parent();
-    SelenideElement toggler = parent.find(".ui-tree-toggler");
-    toggler.shouldBe(visible).click();
+    getTreeNodeWithText(treeNodeText)
+        .parent()
+        .find(".ui-tree-toggler")
+        .shouldBe(visible)
+        .click();
   }
 
   private void clickMBeanNodeWithText(String treeNodeText)
@@ -68,8 +89,7 @@ public class WebTestMBeans
   
   private SelenideElement getTreeNodeWithText(String treeNodeText)
   {
-    SelenideElement element = mBeanNodes().find(Condition.text(treeNodeText));
-    return element;
+    return mBeanNodes().find(Condition.text(treeNodeText));
   }
 
   private ElementsCollection mBeanNodes()
@@ -77,19 +97,24 @@ public class WebTestMBeans
     return $$("#mBeans .ui-treenode-content");
   }
   
-  private ElementsCollection attributesTableRows()
+  private List<String> attributesTableRows()
   {
-    return $$("#attributes tr");
+    return new Table(By.id("attributes")).getFirstColumnEntries();
   }
 
   private void clickTraceButtonForAttribute(String attributeName)
   {
-    attributesTableRows().find(Condition.text(attributeName)).parent().find("button").click();
+    new Table(By.id("attributes")).clickButtonForEntry(attributeName, "addTrace");
   }
   
-  private ElementsCollection tracesTableRows()
+  private List<String> tracesTableRows()
   {
-    return $$("#traces tr");
+    return new Table(By.id("traces")).getFirstColumnEntries();
+  }
+  
+  private void clickRemoveTraceButtonForAttribute(String attributeName)
+  {
+    new Table(By.id("traces")).clickButtonForEntry(attributeName, "removeTrace");
   }
 
 }

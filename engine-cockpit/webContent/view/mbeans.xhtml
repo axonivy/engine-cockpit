@@ -9,7 +9,7 @@
     </ui:define>
 
     <ui:define name="breadcrumb-right">
-      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}monitor.html#resources'); return false;"> <i
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}monitor.html#mbeans'); return false;"> <i
         class="material-icons">help</i>
       </a>
     </ui:define>
@@ -52,7 +52,7 @@
                   <h:outputText escape="false" value="#{mAttr.value}" />
                 </p:column>
                 <p:column style="width: 55px">
-                  <p:commandButton rendered="#{mAttr.isTraceable}" update="chart" immediate="true"
+                  <p:commandButton id="addTrace" rendered="#{mAttr.isTraceable}" update="chart" immediate="true"
                     actionListener="#{mBeansBean.addTrace(mAttr)}" icon="ui-icon-equalizer" />
                 </p:column>
               </p:dataTable>
@@ -70,7 +70,7 @@
               <p:dataTable id="traces" var="trace" value="#{mBeansBean.traces}" rowIndexVar="rowIndex"
                 style="max-height: 200px; overflow: auto">
                 <p:column headerText="Attribute">
-                  <h:outputText value="#{trace.attributeName}" />
+                  <h:outputText id="attribute" value="#{trace.attributeName}" />
                 </p:column>
                 <p:column headerText="Object">
                   <h:outputText value="#{trace.objectName}" />
@@ -83,7 +83,7 @@
                   <h:outputText id="lastValue" value="#{trace.lastValue}" />
                 </p:column>
                 <p:column style="width: 55px">
-                  <p:commandButton update="chart" immediate="true" actionListener="#{mBeansBean.removeTrace(trace)}" 
+                  <p:commandButton id="removeTrace" update="chart" immediate="true" actionListener="#{mBeansBean.removeTrace(trace)}" 
                     icon="ui-icon-clear" styleClass="red-btn" />
                 </p:column>
               </p:dataTable>

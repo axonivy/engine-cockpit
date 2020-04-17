@@ -11,37 +11,42 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.management.Attribute;
+import javax.management.InstanceNotFoundException;
+import javax.management.IntrospectionException;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanInfo;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import javax.management.ReflectionException;
 
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.monitor.Monitor;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
 public class MBeansBean
 {
-  private MBeanTreeNode root;
+  private final MBeanTreeNode root;
   private List<MAttribute> attributes = Collections.emptyList();
   private MName selected;
   private MTraceMonitor monitor = new MTraceMonitor();
   
+  public MBeansBean()
+  {
+    MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+    Set<ObjectName> beanNames = server.queryNames(null, null);
+    Set<MName> names = beanNames
+        .stream()
+        .map(beanName -> new MName(beanName))
+        .collect(Collectors.toSet());
+    root = new MBeanTreeNode(MName.ROOT, names);
+  }
+  
   public TreeNode getRoot()
   {
-    if (root == null)
-    {
-      MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-      Set<ObjectName> beanNames = server.queryNames(null, null);
-      Set<MName> names = beanNames
-          .stream()
-          .map(beanName -> new MName(beanName))
-          .collect(Collectors.toSet());
-      root = new MBeanTreeNode(MName.ROOT, names);
-    }
     return root;
   }
   
@@ -91,8 +96,9 @@ public class MBeansBean
                 .map(attr -> createAttribute(attr, attributeInfos))
                 .collect(Collectors.toList());
       }
-      catch(Exception ex)
+      catch(InstanceNotFoundException | ReflectionException | IntrospectionException ex)
       {
+        Ivy.log().error("Could not get attributes of MBean "+selected.getObjectName(), ex);
       }
     }
     return attributes;
