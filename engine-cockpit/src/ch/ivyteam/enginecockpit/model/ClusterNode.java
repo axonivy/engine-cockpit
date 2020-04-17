@@ -1,7 +1,8 @@
 package ch.ivyteam.enginecockpit.model;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import ch.ivyteam.ivy.cluster.restricted.ClusterNodeCommunicationState;
 import ch.ivyteam.ivy.cluster.restricted.ClusterNodeState;
@@ -24,9 +25,9 @@ public class ClusterNode
   private boolean master;
   private IClusterNode masterClusterNode;
   private boolean local;
-  private Date lastStartTimestamp;
-  private Date lastStopTimestamp;
-  private Date lastFailTimestamp;
+  private String lastStartTimestamp;
+  private String lastStopTimestamp;
+  private String lastFailTimestamp;
   private Version ivyVersion;
   private String operatingSystemName;
   private String operatingSystemVersion;
@@ -50,9 +51,9 @@ public class ClusterNode
       master = node.isMaster();
       masterClusterNode = node.getMasterClusterNode();
       local = node.isLocal();
-      lastStartTimestamp = node.getLastStartTimestamp();
-      lastStopTimestamp = node.getLastStopTimestamp();
-      lastFailTimestamp = node.getLastFailTimestamp();
+      lastStartTimestamp = formatDate(node.getLastStartTimestamp());
+      lastStopTimestamp = formatDate(node.getLastStopTimestamp());
+      lastFailTimestamp = formatDate(node.getLastFailTimestamp());
       ivyVersion = node.getIvyVersion();
       operatingSystemName = node.getOperatingSystemName();
       operatingSystemVersion = node.getOperatingSystemVersion();
@@ -60,6 +61,16 @@ public class ClusterNode
       javaVersion = node.getJavaVersion();
       javaVirtualMachineName = node.getJavaVirtualMachineName();
     }
+  }
+  
+  private String formatDate(Date date)
+  {
+    if (date == null)
+    {
+      return "";
+    }
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", new Locale("en"));
+    return dateFormat.format(date);
   }
   
   public String getName()
@@ -175,26 +186,17 @@ public class ClusterNode
   
   public String getStartTimestamp()
   {
-    return convertTimeStamp(lastStartTimestamp);
+    return lastStartTimestamp;
   }
   
   public String getStopTimestamp()
   {
-    return convertTimeStamp(lastStopTimestamp);
+    return lastStopTimestamp;
   }
   
   public String getFailTimestamp()
   {
-    return convertTimeStamp(lastFailTimestamp);
-  }
-  
-  private String convertTimeStamp(Date timestamp)
-  {
-    if (timestamp == null)
-    {
-      return "-";
-    }
-    return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(timestamp);
+    return lastFailTimestamp;
   }
   
   public IClusterNode getNode()

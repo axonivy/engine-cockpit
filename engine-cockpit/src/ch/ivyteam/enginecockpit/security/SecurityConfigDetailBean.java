@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -16,6 +17,8 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.naming.JndiConfig;
+import ch.ivyteam.naming.JndiProvider;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -43,12 +46,20 @@ public class SecurityConfigDetailBean
   private String userFilter;
   private String updateTime;
   private boolean importOnDemand;
+  private LdapBrowser ldapBrowser;
+  private String ldapBrowserTarget;
 
   public SecurityConfigDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
+  }
+  
+  public SecurityConfigDetailBean(String secSystemName)
+  {
+    this();
+    setSecuritySystemName(secSystemName);
   }
   
   public String getSecuritySystemName()
@@ -58,8 +69,11 @@ public class SecurityConfigDetailBean
   
   public void setSecuritySystemName(String secSystemName)
   {
-    this.name = secSystemName;
-    loadSecuritySystem();
+    if (StringUtils.isBlank(name))
+    {
+      this.name = secSystemName;
+      loadSecuritySystem();
+    }
   }
 
   private void loadSecuritySystem()
@@ -90,6 +104,7 @@ public class SecurityConfigDetailBean
     updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
     importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
             SecuritySystemConfig.DefaultValue.IMPORT_ONDEMAND);
+    ldapBrowser = new LdapBrowser();
   }
   
   public String getName()
@@ -339,5 +354,56 @@ public class SecurityConfigDetailBean
     IConfiguration.get().remove(SecuritySystemConfig.getPrefix(name));
     return "securitysystem.xhtml?faces-redirect=true";
   }
-
+  
+  public LdapBrowser getLdapBrowser()
+  {
+    return ldapBrowser;
+  }
+  
+  public void browseLdap(String field)
+  {
+    ldapBrowserTarget = field;
+    JndiConfig jndiConfig = getJndiConfig(null);
+    if (LdapBrowser.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget))
+    {
+      jndiConfig = getJndiConfig(getDefaultContext());
+    }
+    ldapBrowser.browse(jndiConfig);
+  }
+  
+  public void chooseLdapName()
+  {
+    if (LdapBrowser.DEFAULT_CONTEXT.equals(ldapBrowserTarget))
+    {
+      setDefaultContext(ldapBrowser.getSelectedLdapName());
+    }
+    if (LdapBrowser.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget))
+    {
+      setImportUsersOfGroup(ldapBrowser.getSelectedLdapName());
+    }
+  }
+  
+  public JndiConfig getJndiConfig(String browseDefaultContext)
+  {
+    JndiProvider jndiProvider = JndiProvider.ACTIVE_DIRECTORY;
+    if (getProvider().equals(JndiProvider.NOVELL_E_DIRECTORY.getProviderName()))
+    {
+      jndiProvider = JndiProvider.NOVELL_E_DIRECTORY;
+    }
+    String authKind = JndiConfig.AUTH_KIND_SIMPLE;
+    if (StringUtils.isBlank(getUserName()))
+    {
+      authKind = JndiConfig.AUTH_KIND_NONE;
+    }
+    return new JndiConfig(
+            jndiProvider, 
+            getUrl(),
+            authKind, 
+            getUserName(), 
+            getPassword(), 
+            getUseLdapConnectionPool(), 
+            browseDefaultContext, 
+            Collections.emptyMap());
+  }
+  
 }

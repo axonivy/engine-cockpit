@@ -3,6 +3,8 @@ package ch.ivyteam.enginecockpit.security;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -14,11 +16,13 @@ import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -27,6 +31,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestSecuritySystemDetail
 {
+  private static final String DEFAULT_CONTEXT = "#securitySystemBindingForm\\:defaultContext";
   private static final String SAVE_LDAP_ATTRIBUTE = "#ldapAttributeForm\\:saveLdapAttribute";
   private static final String LDAP_ATTRIBUTE_MODAL = "#ldapAttributeModal";
   private static final String NEW_LDAP_ATTRIBUTE_BTN = "#securityLdapAttributesForm\\:newLdapAttributeBtn";
@@ -40,7 +45,12 @@ public class WebTestSecuritySystemDetail
   private static final String SAVE_SECURITY_SYSTEM_BTN = "#securitySystemConfigForm\\:saveSecuritySystemConfigBtn";
   private static final String SYNC_TIME_MESSAGE = "#securitySystemConfigForm\\:syncTimeMessage";
   private static final String URL = "#securitySystemConfigForm\\:url";
+  private static final String USERNAME = "#securitySystemConfigForm\\:userName";
   private static final String SYNC_TIME = "#securitySystemConfigForm\\:syncTime";
+  public static final String LDAP_BROWSER_DIALOG = "#ldapBrowser\\:ldapBrowserDialog";
+  public static final String LDAP_BROWSER_FORM = "#ldapBrowser\\:ldapBrowserForm\\:";
+  private static final String LDAP_BROWSER_CHOOSE = "#ldapBrowser\\:chooseLdapName";
+  private static final String LDAP_BROWSER_CANCEL = "#ldapBrowser\\:cancelLdapBrowser";
 
   @BeforeEach
   void beforeEach()
@@ -189,6 +199,167 @@ public class WebTestSecuritySystemDetail
     
     table.clickButtonForEntry("test", "deleteLdapAttributeBtn");
     assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test");
+  }
+  
+  @Test
+  void testLdapBrowser_wrongConfig()
+  {
+    $(URL).clear();
+    $(URL).sendKeys("ldap://zugtstdirads2");
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+    openLdapBrowserWithConnError();
+    $(URL).clear();
+    $(URL).sendKeys("ldap://zugtstdirads");
+    $(USERNAME).clear();
+    $(USERNAME).sendKeys("bla");
+    $(SAVE_SECURITY_SYSTEM_BTN).scrollIntoView("{block: \"center\"}").click();
+    openLdapBrowserWithConnError();
+    $(USERNAME).clear();
+    $(USERNAME).sendKeys("admin@zugtstdomain.wan");
+    $(SAVE_SECURITY_SYSTEM_BTN).scrollIntoView("{block: \"center\"}").click();
+    openDefaultLdapBrowser();
+    $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
+  }
+  
+  @Test
+  void testLdapBrowser_chooseDefaultContext()
+  {
+    $(DEFAULT_CONTEXT).clear();
+    openDefaultLdapBrowser();
+    $$(LDAP_BROWSER_FORM + "tree > ul > li").shouldHave(size(5));
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+            .find(text("OU=IvyTeam Test-OU")).click();
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+            .find(text("OU=IvyTeam Test-OU")).shouldHave(cssClass("ui-state-highlight"));
+    $(LDAP_BROWSER_CHOOSE).scrollTo().click();
+    $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
+    $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+  }
+  
+  @Test
+  void testLdapBrowser_chooseImportUsersOfGroup()
+  {
+    $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    openImportLdapBrowser();
+    $(LDAP_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11));
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+            .find(text("CN=role1")).click();
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+            .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
+    $(LDAP_BROWSER_CHOOSE).click();
+    $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
+    $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+  }
+  
+  @Test
+  void testLdapBrowser_attributes()
+  {
+    openDefaultLdapBrowser();
+    Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+    table.firstColumnShouldBe(CollectionCondition.empty);
+    $(LDAP_BROWSER_FORM + "tree\\:0").click();
+    assertThat(table.getValueForEntry("distinguishedName", 2)).isEqualTo("DC=zugtstdomain,DC=wan");
+  }
+  
+  @Nested
+  class LdapBrowserNovell
+  {
+    @BeforeEach
+    void beforeEach()
+    {
+      Navigation.toSecuritySystemDetail("test-nd");
+    }
+    
+    @Test
+    void testLdapBrowser_wrongConfig()
+    {
+      $(URL).clear();
+      $(URL).sendKeys("ldap://zugtstdirnds2");
+      $(SAVE_SECURITY_SYSTEM_BTN).click();
+      openLdapBrowserWithConnError();
+      $(URL).clear();
+      $(URL).sendKeys("ldap://zugtstdirnds:389");
+      $(USERNAME).clear();
+      $(USERNAME).sendKeys("bla");
+      $(SAVE_SECURITY_SYSTEM_BTN).scrollIntoView("{block: \"center\"}").click();
+      openLdapBrowserWithConnError();
+      $(USERNAME).clear();
+      $(USERNAME).sendKeys("cn=admin, o=zugtstorg");
+      $(SAVE_SECURITY_SYSTEM_BTN).scrollIntoView("{block: \"center\"}").click();
+      openDefaultLdapBrowser();
+      $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
+    }
+    
+    @Test
+    void testLdapBrowser_chooseImportUsersOfGroup()
+    {
+      Navigation.toSecuritySystemDetail("test-nd");
+      $(DEFAULT_CONTEXT).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
+      openImportLdapBrowser();
+      $(LDAP_BROWSER_FORM + "tree\\:0").shouldHave(text("ou=IvyTeam Test-OU,o=zugtstorg"));
+      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11));
+      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+      .find(text("cn=role1")).click();
+      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+      .find(text("cn=role1")).shouldHave(cssClass("ui-state-highlight"));
+      $(LDAP_BROWSER_CHOOSE).click();
+      $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
+      $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg"));
+    }
+    
+    @Test
+    void testLdapBrowser_chooseDefaultContext()
+    {
+      $(DEFAULT_CONTEXT).clear();
+      openDefaultLdapBrowser();
+      $$(LDAP_BROWSER_FORM + "tree > ul > li").shouldHave(size(1));
+      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(4));
+      $(LDAP_BROWSER_FORM + "tree\\:0_0 .ui-tree-toggler").click();
+      $$(LDAP_BROWSER_FORM + "tree\\:0_0 .ui-treenode .ui-treenode-label")
+              .find(text("ou=IvyTeam Test-OU")).click();
+      $$(LDAP_BROWSER_FORM + "tree\\:0_0 .ui-treenode .ui-treenode-label")
+              .find(text("ou=IvyTeam Test-OU")).shouldHave(cssClass("ui-state-highlight"));
+      $(LDAP_BROWSER_CHOOSE).scrollTo().click();
+      $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
+      $(DEFAULT_CONTEXT).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
+    }
+    
+    @Test
+    void testLdapBrowser_attributes()
+    {
+      openDefaultLdapBrowser();
+      Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+      table.firstColumnShouldBe(CollectionCondition.empty);
+      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+      $(LDAP_BROWSER_FORM + "tree\\:0_0").click();
+      assertThat(table.getValueForEntry("o", 2)).isEqualTo("zugtstorg");
+    }
+    
+  }
+  
+  private void openImportLdapBrowser()
+  {
+    $("#securitySystemBindingForm\\:browseImportUserOfGroup").click();
+    $(LDAP_BROWSER_DIALOG).shouldBe(visible);
+  }
+  
+  private void openDefaultLdapBrowser()
+  {
+    $("#securitySystemBindingForm\\:browseDefaultContext").click();
+    $(LDAP_BROWSER_DIALOG).shouldBe(visible);
+  }
+  
+  private void openLdapBrowserWithConnError()
+  {
+    openDefaultLdapBrowser();
+    $(LDAP_BROWSER_FORM + "ldapBrowserMessage").shouldBe(visible).shouldNotBe(empty);
+    $(LDAP_BROWSER_CHOOSE).shouldBe(disabled);
+    $(LDAP_BROWSER_CANCEL).click();
   }
   
 }

@@ -1,14 +1,18 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemDetail.LDAP_BROWSER_DIALOG;
+import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemDetail.LDAP_BROWSER_FORM;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.empty;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -163,6 +167,31 @@ public class WebTestRoleDetail
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
+  }
+  
+  @Test
+  void testExternalSecurityName_ldapBrowser()
+  {
+    $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
+    Navigation.toRoles();
+    Tab.switchToTab("test-ad");
+    Navigation.toRoleDetail("Everybody");
+    $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
+    Navigation.toRoles();
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
+    
+    $(LDAP_BROWSER_DIALOG).shouldBe(visible);
+    $(LDAP_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11));
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+            .find(text("CN=role1")).click();
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+            .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
+    $("#ldapBrowser\\:chooseLdapName").click();
+    $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
+    $("#roleInformationForm\\:externalSecurityName").shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
   private void clearRoleInfoInputs()

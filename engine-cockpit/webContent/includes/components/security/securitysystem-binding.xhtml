@@ -5,7 +5,7 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions">
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="material-icons table-icon panel-title-icon">link</i>
@@ -22,12 +22,20 @@
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
 
     <p:outputLabel for="defaultContext" value="Default Context"/>
-    <p:inputText id="defaultContext"
-      value="#{securityConfigDetailBean.defaultContext}" />
+    <h:panelGroup>
+      <p:inputText id="defaultContext" style="width: calc(100% - 32px);"
+        value="#{securityConfigDetailBean.defaultContext}" />
+      <p:commandButton id="browseDefaultContext" icon="ui-icon-language" title="Browse" styleClass="primary-btn" style="right: -6px;"
+        actionListener="#{securityConfigDetailBean.browseLdap('defaultContext')}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
+    </h:panelGroup>
 
     <p:outputLabel for="importUsersOfGroup" value="Import Users Of Group"/>
-    <p:inputText id="importUsersOfGroup"
-      value="#{securityConfigDetailBean.importUsersOfGroup}" />
+    <h:panelGroup>
+      <p:inputText id="importUsersOfGroup" style="width: calc(100% - 32px);"
+        value="#{securityConfigDetailBean.importUsersOfGroup}" />
+      <p:commandButton id="browseImportUserOfGroup" icon="ui-icon-language" title="Browse" styleClass="primary-btn" style="right: -6px;"
+        actionListener="#{securityConfigDetailBean.browseLdap('importUsersOfGroup')}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
+    </h:panelGroup>
 
     <p:outputLabel for="userFilter" value="User Filter"/>
     <p:inputText id="userFilter"
@@ -36,4 +44,6 @@
 
   </p:panelGrid>
 </h:form>
+<cc:LdapBrowser updateFields="securitySystemBindingForm" ldapBrowser="#{securityConfigDetailBean.ldapBrowser}" 
+  returnListener="#{securityConfigDetailBean.chooseLdapName()}" id="ldapBrowser" />
 </html>
