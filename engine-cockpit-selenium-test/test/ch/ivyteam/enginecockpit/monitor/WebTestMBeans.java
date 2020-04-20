@@ -6,8 +6,10 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,8 +74,26 @@ public class WebTestMBeans
     clickRemoveTraceButtonForAttribute("Uptime");
     assertThat(tracesTableRows()).isEmpty();
   }
+  
+  public static void toMBeans()
+  {
+    expandMBeanNodeWithText("java.lang");
+    clickMBeanNodeWithText("Memory");
+    clickTraceButtonForAttribute("HeapMemoryUsage");
+    assertThat(tracesTableRows().size()).isEqualTo(4);
+    
+    try
+    {
+      TimeUnit.SECONDS.sleep(20);
+    }
+    catch(InterruptedException ex)
+    {
+      fail("sleep", ex);
+    }
+  }
 
-  private void expandMBeanNodeWithText(String treeNodeText)
+
+  private static void expandMBeanNodeWithText(String treeNodeText)
   {
     getTreeNodeWithText(treeNodeText)
         .parent()
@@ -82,39 +102,38 @@ public class WebTestMBeans
         .click();
   }
 
-  private void clickMBeanNodeWithText(String treeNodeText)
+  private static void clickMBeanNodeWithText(String treeNodeText)
   {
     getTreeNodeWithText(treeNodeText).shouldBe(visible).click();   
   }
   
-  private SelenideElement getTreeNodeWithText(String treeNodeText)
+  private static SelenideElement getTreeNodeWithText(String treeNodeText)
   {
     return mBeanNodes().find(Condition.text(treeNodeText));
   }
 
-  private ElementsCollection mBeanNodes()
+  private static ElementsCollection mBeanNodes()
   {
     return $$("#mBeans .ui-treenode-content");
   }
   
-  private List<String> attributesTableRows()
+  private static List<String> attributesTableRows()
   {
     return new Table(By.id("attributes")).getFirstColumnEntries();
   }
 
-  private void clickTraceButtonForAttribute(String attributeName)
+  private static void clickTraceButtonForAttribute(String attributeName)
   {
     new Table(By.id("attributes")).clickButtonForEntry(attributeName, "addTrace");
   }
   
-  private List<String> tracesTableRows()
+  private static List<String> tracesTableRows()
   {
     return new Table(By.id("traces")).getFirstColumnEntries();
   }
   
-  private void clickRemoveTraceButtonForAttribute(String attributeName)
+  private static void clickRemoveTraceButtonForAttribute(String attributeName)
   {
     new Table(By.id("traces")).clickButtonForEntry(attributeName, "removeTrace");
   }
-
 }
