@@ -29,8 +29,6 @@ public class LoginBean
       originalUrl = evalOriginalUrl();
       loginDefaultAdminOrRedirect();
     }
-    FacesContext context = FacesContext.getCurrentInstance();
-    context.getApplication().evaluateExpressionGet(context, "#{restartBean}", RestartBean.class).reset();
   }
   
   public void loginDefaultAdminOrRedirect()

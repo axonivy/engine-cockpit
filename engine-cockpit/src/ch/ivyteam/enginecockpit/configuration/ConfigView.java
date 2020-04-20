@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.RestartBean;
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -22,7 +21,6 @@ public class ConfigView
   private boolean showDefaults;
   private ConfigProperty activeConfig;
   private IConfiguration configuration;
-  private RestartBean restartBean;
 
   public ConfigView()
   {
@@ -34,9 +32,6 @@ public class ConfigView
     this.configuration = configuration;
     reloadConfigs();
     showDefaults = true;
-    FacesContext context = FacesContext.getCurrentInstance();
-    restartBean = context.getApplication().evaluateExpressionGet(context, "#{restartBean}",
-            RestartBean.class);
   }
 
   private void reloadConfigs()
@@ -157,9 +152,5 @@ public class ConfigView
     reloadConfigs();
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeConfig.getKey() + "' " + message));
-    if (activeConfig.isRestartRequired())
-    {
-      restartBean.setRestartEngine(true);
-    }
   }
 }

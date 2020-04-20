@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.system;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertAndResetRestartHint;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.empty;
@@ -35,7 +34,6 @@ public class WebTestAdmins
   {
     $("h1").shouldBe(text("Administrators"));
     testAddEditDelete();
-    assertAndResetRestartHint();
   }
   
   @Test

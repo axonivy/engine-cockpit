@@ -4,7 +4,6 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createOldDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.deleteTempDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertAndResetRestartHint;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFinished;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.and;
@@ -79,8 +78,7 @@ public class WebTestSystemDb
   {
     $(".sysdb-dynamic-form-user").sendKeys(" ");
     $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
-    $("#saveUnknownSystemDbConfig").shouldBe(visible);
-    $("#saveUnknownSystemDbConfig").click();
+    $("#saveUnknownSystemDbConfig").shouldBe(visible).click();
     $("#saveUnknownConnectionModel").shouldBe(visible);
     $("#saveUnknownConnectionForm\\:saveUnknownConneciton").click();
     $("#saveUnknownConnectionModel").shouldNotBe(visible);
@@ -88,12 +86,10 @@ public class WebTestSystemDb
     
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
-    $("#saveSystemDbConfig").shouldBe(visible);
-    $("#saveSystemDbConfig").click();
+    $("#saveSystemDbConfig").shouldBe(visible).click();
     $("#systemDbSave_container").shouldBe(text("System Database config saved successfully"));
-    assertAndResetRestartHint();
   }
-  
+
   @Test
   void testConnectionResults()
   {

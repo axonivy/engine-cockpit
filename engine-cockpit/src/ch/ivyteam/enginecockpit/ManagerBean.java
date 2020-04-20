@@ -23,8 +23,10 @@ import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @SessionScoped
 public class ManagerBean
@@ -227,5 +229,10 @@ public class ManagerBean
   public boolean hideDashboardWarnings()
   {
     return hideDashboadWarnings; 
+  }
+  
+  public boolean isRestartEngine()
+  {
+    return IConfiguration.get().isEngineRestartNeeded();
   }
 }

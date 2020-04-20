@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertAndResetRestartHint;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -11,6 +10,7 @@ import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.refresh;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.lang3.StringUtils;
@@ -144,9 +144,14 @@ public class WebTestConfiguration
     {
       String config = "Connector.HTTP.Address";
       assertEditConfig(config, "", "hi");
+      refresh();
+      $(".restart-notification").shouldBe(visible);
+      
       assertResetConfig(config);
-      assertAndResetRestartHint();
+      refresh();
+      $(".restart-notification").shouldNotBe(visible);
     }
+    
   }
   
   @Nested
