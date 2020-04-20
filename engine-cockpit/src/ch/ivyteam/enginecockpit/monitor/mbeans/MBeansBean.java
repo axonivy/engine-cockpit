@@ -25,14 +25,14 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.monitor.Monitor;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@ManagedBean(name="mBeansBean")
 @ViewScoped
 public class MBeansBean
 {
   private final MBeanTreeNode root;
   private List<MAttribute> attributes = Collections.emptyList();
   private MName selected;
-  private MTraceMonitor monitor = new MTraceMonitor();
+  private final MTraceMonitor monitor = new MTraceMonitor();
   
   public MBeansBean()
   {

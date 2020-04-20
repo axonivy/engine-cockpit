@@ -21,7 +21,7 @@ import com.codeborne.selenide.SelenideElement;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless=false)
+@IvyWebTest
 public class WebTestMBeans
 {
   
