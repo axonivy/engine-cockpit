@@ -77,6 +77,7 @@ public class WebTestMBeans
   
   public static void toMBeans()
   {
+    Navigation.toMBeans();
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Memory");
     clickTraceButtonForAttribute("HeapMemoryUsage");
