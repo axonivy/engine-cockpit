@@ -6,10 +6,8 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,17 +78,6 @@ public class WebTestMBeans
     Navigation.toMBeans();
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Memory");
-    clickTraceButtonForAttribute("HeapMemoryUsage");
-    assertThat(tracesTableRows().size()).isEqualTo(4);
-    
-    try
-    {
-      TimeUnit.SECONDS.sleep(20);
-    }
-    catch(InterruptedException ex)
-    {
-      fail("sleep", ex);
-    }
   }
 
 
