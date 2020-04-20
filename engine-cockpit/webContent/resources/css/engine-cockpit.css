@@ -140,10 +140,10 @@ body {
   display: none;
 }
 .ui-panelgrid.ui-panelgrid-blank .ui-datatable tbody tr.ui-widget-content {
-    border: 1px solid #d8d8d8;
+  border: 1px solid #d8d8d8;
 }
 .ui-panelgrid.ui-panelgrid-blank .ui-datatable tbody tr.ui-datatable-even {
-    background-color: #f4f4f4;
+  background-color: #f4f4f4;
 }
 .ui-tree-search-header .table-search-icon,
 .ui-datatable .table-search-icon {

@@ -37,6 +37,7 @@ public class Navigation
   private static final String MONITOR_MENU = "#menuform\\:sr_monitor";
   private static final String MONITOR_RESOURCES_MENU = "#menuform\\:sr_resources_monitor";
   private static final String MONITOR_LOGS_MENU = "#menuform\\:sr_logs";
+  private static final String MONITOR_MBEANS_MENU = "#menuform\\:sr_mbeans";
 
   public static void toDashboard()
   {
@@ -235,6 +236,14 @@ public class Navigation
     menuShouldBeActive(MONITOR_LOGS_MENU);
   }
   
+  public static void toMBeans() 
+  {
+    toSubMenu(MONITOR_MENU, MONITOR_MBEANS_MENU);
+    assertCurrentUrlContains("mbeans.xhtml");
+    menuShouldBeActive(MONITOR_MBEANS_MENU);
+  }
+
+  
   private static void toMenu(String menuItemPath)
   {
     $(menuItemPath).find("a").click();
@@ -255,5 +264,4 @@ public class Navigation
   {
     $(menu).shouldHave(cssClass("active-menuitem"));
   }
-  
 }

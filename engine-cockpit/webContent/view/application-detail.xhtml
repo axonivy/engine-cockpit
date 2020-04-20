@@ -30,12 +30,12 @@
         <cc:OverviewBox box="3" count="#{applicationDetailBean.casesCount}" icon="storage" title="Running Cases" link="#"/>
         <cc:OverviewBox box="4" count="#{applicationDetailBean.pmCount}" icon="settings_applications" title="Process Models" link="#"/>
       
-        <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
           <p:panel style="min-height: 357px">
             <ui:include src="../includes/components/application/information.xhtml" />
           </p:panel>
         </div>
-        <div class="ui-g-12 ui-md-12 ui-lg-6 ui-g-nopad dashboard-card ui-panelgrid">
+        <div class="ui-g-12 ui-md-12 ui-lg-6 ui-g-nopad dashboard-card">
           <div class="ui-g-12">
             <p:panel styleClass="min-height-200">
               <ui:include src="../includes/components/application/security.xhtml" />
@@ -47,7 +47,7 @@
             </p:panel>
           </div>
         </div>
-        <div class="ui-g-12 dashboard-card ui-panelgrid">
+        <div class="ui-g-12 dashboard-card">
           <p:panel styleClass="min-height-250">
             <ui:include src="../includes/components/application/configuration.xhtml" />
           </p:panel>

@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="template.xhtml">
+
+    <ui:define name="head">
+      <script type="text/javascript">
+        function skinChart() {
+          this.cfg.shadow = false;
+          this.cfg.title = '';
+          this.cfg.seriesColors = [ '#607D8B', '#FFC107', '#FF5722' ];
+          this.cfg.grid = {
+            background : '#ffffff',
+            borderColor : '#ffffff',
+            gridLineColor : '#F5F5F5',
+            shadow : false
+          };
+          this.cfg.axesDefaults = {
+            borderWidth : 0.1,
+            borderColor : 'bdbdbd',
+            labelRenderer : $.jqplot.CanvasAxisLabelRenderer,
+            rendererOptions : {
+              textColor : '#666F77'
+            }
+          };
+          this.cfg.seriesDefaults = {
+            shadow : false,
+            lineWidth : 1,
+            markerOptions : {
+              shadow : false,
+              size : 7,
+              style : 'circle'
+            }
+          }
+        }
+      </script>
+      <style type="text/css">
+        .jqplot-xaxis-label, .jqplot-yaxis-label, .jqplot-y2axis-label, .jqplot-x2axis-label {
+          color: #757575;
+        }
+        
+        table.jqplot-table-legend {
+          background-color: #ffffff;
+          color: #757575;
+          border-color: #bdbdbd;
+        }
+      </style>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

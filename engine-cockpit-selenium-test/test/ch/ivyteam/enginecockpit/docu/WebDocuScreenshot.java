@@ -29,6 +29,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 
+import ch.ivyteam.enginecockpit.monitor.WebTestMBeans;
 import ch.ivyteam.enginecockpit.setupwizard.WebTestWizard;
 import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -124,6 +125,8 @@ public class WebDocuScreenshot
     takeScreenshot("engine-cockpit-cluster", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toResourcesMonitor();
     takeScreenshot("engine-cockpit-monitor", new Dimension(SCREENSHOT_WIDTH, 1000));
+    WebTestMBeans.toMBeans();
+    takeScreenshot("engine-cockpit-mbeans", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toLogs();
     takeScreenshot("engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
     

@@ -4,51 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="../includes/template/template.xhtml">
-
-    <ui:define name="head">
-      <script type="text/javascript">
-        function skinChart() {
-          this.cfg.shadow = false;
-          this.cfg.title = '';
-          this.cfg.seriesColors = [ '#607D8B', '#FFC107', '#FF5722' ];
-          this.cfg.grid = {
-            background : '#ffffff',
-            borderColor : '#ffffff',
-            gridLineColor : '#F5F5F5',
-            shadow : false
-          };
-          this.cfg.axesDefaults = {
-            borderWidth : 0.1,
-            borderColor : 'bdbdbd',
-            labelRenderer : $.jqplot.CanvasAxisLabelRenderer,
-            rendererOptions : {
-              textColor : '#666F77'
-            }
-          };
-          this.cfg.seriesDefaults = {
-            shadow : false,
-            lineWidth : 1,
-            markerOptions : {
-              shadow : false,
-              size : 7,
-              style : 'circle'
-            }
-          }
-        }
-      </script>
-      <style type="text/css">
-        .jqplot-xaxis-label, .jqplot-yaxis-label, .jqplot-y2axis-label, .jqplot-x2axis-label {
-          color: #757575;
-        }
-        
-        table.jqplot-table-legend {
-          background-color: #ffffff;
-          color: #757575;
-          border-color: #bdbdbd;
-        }
-      </style>
-    </ui:define>
+  <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
       <li><a href="monitor.xhtml">Monitor</a></li>
@@ -62,7 +18,7 @@
 
     <ui:define name="content">
       <div class="ui-g dashboard">
-        <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <div class="ui-g-12 ui-lg-6 dashboard-card">
           <p:panel header="CPU Load Monitor">
             <f:facet name="header">
               <i class="material-icons table-icon panel-title-icon">computer</i>
@@ -72,7 +28,7 @@
           </p:panel>
         </div>
 
-        <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <div class="ui-g-12 ui-lg-6 dashboard-card">
           <p:panel header="Memory Monitor">
             <f:facet name="header">
               <i class="material-icons table-icon panel-title-icon">memory</i>
@@ -82,7 +38,7 @@
           </p:panel>
         </div>
 
-        <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <div class="ui-g-12 ui-lg-6 dashboard-card">
           <p:panel header="Network Monitor">
             <f:facet name="header">
               <i class="material-icons table-icon panel-title-icon">network_check</i>
@@ -92,7 +48,7 @@
           </p:panel>
         </div>
 
-        <div class="ui-g-12 ui-lg-6 dashboard-card ui-panelgrid">
+        <div class="ui-g-12 ui-lg-6 dashboard-card">
           <p:panel header="IO Monitor">
             <f:facet name="header">
               <i class="material-icons table-icon panel-title-icon">storage</i>

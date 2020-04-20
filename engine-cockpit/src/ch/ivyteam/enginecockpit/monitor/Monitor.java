@@ -7,30 +7,18 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
 
-import oshi.SystemInfo;
-import oshi.hardware.HardwareAbstractionLayer;
-
 public abstract class Monitor
 {
-  protected SystemInfo systemInfo;
-  protected HardwareAbstractionLayer hardware;
   protected boolean running;
   protected long startMilliSec;
   protected long actualSec;
   protected long pausedMilliSec;
-  protected LineChartModel model;
+  protected final LineChartModel model;
   protected static final int MAX_TIME_VIEW = 600;
 
   public Monitor()
   {
-    systemInfo = new SystemInfo();
-    hardware = systemInfo.getHardware();
     running = true;
-    initMonitor();
-  }
-
-  protected void initMonitor()
-  {
     model = new LineChartModel();
     model.setDatatipFormat("%2$d");
     model.setSeriesColors("607D8B,FFC107,FF5722");
@@ -90,11 +78,6 @@ public abstract class Monitor
       startMilliSec = Calendar.getInstance().getTimeInMillis() - (pausedMilliSec - startMilliSec);
     }
     running = true;
-  }
-  
-  public void resetMonitor()
-  {
-    initMonitor();
   }
   
   protected void cleanUpOldData(Map<Object, Number> data)
