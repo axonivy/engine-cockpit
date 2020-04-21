@@ -4,12 +4,18 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="monitor" shortDescription="Monitor object" />
+  <cc:attribute name="id" shortDescription="div id" />
 </cc:interface>
 <cc:implementation>
-  <h:form>
-    <h:outputText value="#{cc.attrs.monitor.info}"/>
-    <p:chart type="line" model="#{cc.attrs.monitor.model}" responsive="true" style="height:300px;" />
-    <p:poll update="@form" interval="1" autoStart="#{cc.attrs.monitor.running}" />
-  </h:form>
+  <div class="ui-g-12 ui-lg-6 dashboard-card" id="#{cc.attrs.id}">
+    <p:panel header="#{cc.attrs.monitor.title}">
+      <f:facet name="header">
+        <i class="material-icons table-icon panel-title-icon">#{cc.attrs.monitor.icon}</i>
+        <h:outputText value="#{cc.attrs.monitor.title}" />
+      </f:facet>
+      <h:outputText value="#{cc.attrs.monitor.info}"/>
+      <p:chart type="line" model="#{cc.attrs.monitor.model}" responsive="true" style="height:300px;" />
+    </p:panel>
+  </div>
 </cc:implementation>
 </html>

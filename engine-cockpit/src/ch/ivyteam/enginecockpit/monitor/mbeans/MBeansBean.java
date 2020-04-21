@@ -54,14 +54,21 @@ public class MBeansBean
   {
     if (attribute.isComposite())
     {
-      attribute.getCompositeNames().forEach(name -> monitor.addTrace(new MTrace(selected, attribute, name)));
+      attribute.getCompositeNames().forEach(name -> addTrace(attribute, name));
     }
     else
     {
-      monitor.addTrace(new MTrace(selected, attribute));
+      var trace = new MTrace(selected, attribute);
+      monitor.addTrace(trace);
     }
   }
   
+  private void addTrace(MAttribute attribute, String compositeName)
+  {
+    var trace = new MTrace(selected, attribute, compositeName);
+    monitor.addTrace(trace);
+  }
+
   public void removeTrace(MTrace trace)
   {
     monitor.removeTrace(trace);

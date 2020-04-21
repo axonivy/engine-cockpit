@@ -8,6 +8,8 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartSeries;
 
+import oshi.hardware.NetworkIF;
+
 public class NetworkMonitor extends SystemMonitor
 {
   private LineChartSeries networkSend;
@@ -23,6 +25,7 @@ public class NetworkMonitor extends SystemMonitor
   
   public NetworkMonitor()
   {
+    super(MonitorInfo.build().name("Network").icon("network_check").yAxisLabel("Send / Resv [kB]").toInfo());
     initMonitor();
   }
   
@@ -30,10 +33,6 @@ public class NetworkMonitor extends SystemMonitor
   {
     Axis yAxis = model.getAxis(AxisType.Y);
     yAxis.setMin(0);
-    yAxis.setLabel("Send / Resv [kB]");
-    Axis xAxis = model.getAxis(AxisType.X);
-    xAxis.setTickCount(11);
-    xAxis.setLabel("Time [s]");
     
     sendData = new LinkedHashMap<>();
     resvData = new LinkedHashMap<>();
@@ -51,8 +50,10 @@ public class NetworkMonitor extends SystemMonitor
     model.setLegendPosition("ne");
     model.addSeries(networkSend);
     model.addSeries(networkResv);
-    totalSend = Arrays.asList(hardware.getNetworkIFs()).stream().mapToLong(n -> n.getBytesSent()).sum();
-    totalResv = Arrays.asList(hardware.getNetworkIFs()).stream().mapToLong(n -> n.getBytesRecv()).sum();
+    
+    NetworkIF[] networkIFs = hardware.getNetworkIFs();
+    totalSend = Arrays.asList(networkIFs).stream().mapToLong(n -> n.getBytesSent()).sum();
+    totalResv = Arrays.asList(networkIFs).stream().mapToLong(n -> n.getBytesRecv()).sum();
   }
   
   @Override
@@ -67,19 +68,13 @@ public class NetworkMonitor extends SystemMonitor
   }
   
   @Override
-  protected void calcNewValues()
+  protected void calcNewValues(long time)
   {
-    long time = newTime();
-    if (time == actualSec && actualSec != 0)
-    {
-      return;
-    }
-    actualSec = time;
-    setXAxis(actualSec);
-    actualSend = Arrays.asList(hardware.getNetworkIFs()).stream().mapToLong(n -> n.getBytesSent()).sum() - totalSend;
-    actualResv = Arrays.asList(hardware.getNetworkIFs()).stream().mapToLong(n -> n.getBytesRecv()).sum() - totalResv;
-    sendData.put(actualSec, actualSend / 1000);
-    resvData.put(actualSec, actualResv / 1000);
+    NetworkIF[] networkIFs = hardware.getNetworkIFs();
+    actualSend = Arrays.asList(networkIFs).stream().mapToLong(n -> n.getBytesSent()).sum() - totalSend;
+    actualResv = Arrays.asList(networkIFs).stream().mapToLong(n -> n.getBytesRecv()).sum() - totalResv;
+    sendData.put(time, actualSend / 1000);
+    resvData.put(time, actualResv / 1000);
     totalSend += actualSend;
     totalResv += actualResv;
     cleanUpOldData(sendData);

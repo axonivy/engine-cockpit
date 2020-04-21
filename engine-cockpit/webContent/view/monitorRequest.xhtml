@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/charts-template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li>Monitor</li>
+      <li>/</li>
+      <li>Engine</li>
+      <li>/</li>
+      <li><a href="monitorRequest.xhtml">Requests</a></li>
+    </ui:define>
+    
+    <ui:define name="breadcrumb-right">
+      <a href="systemconfig.xhtml?filter=Connector" title="Configuration">
+        <i class="material-icons">settings_applications</i>
+      </a>
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}monitor.html#engine'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
+
+    <ui:define name="content">
+      <h:form>
+        <p:poll update="@form" interval="1" />
+        <div class="ui-g dashboard">
+          <cc:MonitorGraph monitor="#{requestMonitorBean.requestsMonitor}" id="requests"/>
+          <cc:MonitorGraph monitor="#{requestMonitorBean.errorsMonitor}" id="errors"/>
+          <cc:MonitorGraph monitor="#{requestMonitorBean.bytesMonitor}" id="bytes"/>
+          <cc:MonitorGraph monitor="#{requestMonitorBean.processingTimeMonitor}" id="processingTime"/>
+        </div>
+      </h:form> 
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

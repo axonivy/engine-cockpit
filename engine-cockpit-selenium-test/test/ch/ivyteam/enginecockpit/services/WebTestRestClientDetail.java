@@ -34,13 +34,13 @@ public class WebTestRestClientDetail
   }
   
   @Test
-  void testExternalDatabaseDetailOpen()
+  void testDetailOpen()
   {
     assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME);
     $$(".ui-panel").shouldHave(size(2));
     $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
     
-    $("#breadcrumbOptions > a").shouldBe(visible).click();
+    $("#breadcrumbOptions > a[href='#']").shouldBe(visible).click();
     $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(RESTCLIENT_NAME));
   }

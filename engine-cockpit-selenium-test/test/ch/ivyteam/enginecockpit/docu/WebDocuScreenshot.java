@@ -125,13 +125,16 @@ public class WebDocuScreenshot
     takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toCluster();
     takeScreenshot("engine-cockpit-cluster", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toResourcesMonitor();
-    takeScreenshot("engine-cockpit-monitor", new Dimension(SCREENSHOT_WIDTH, 1000));
-    WebTestMBeans.toMBeans();
-    takeScreenshot("engine-cockpit-mbeans", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toLogs();
-    takeScreenshot("engine-cockpit-logs", new Dimension(SCREENSHOT_WIDTH, 900));
-    
+    takeScreenshot("engine-cockpit-monitor-logs", new Dimension(SCREENSHOT_WIDTH, 900));
+    Navigation.toMonitorExternalDatabases();
+    takeScreenshot("engine-cockpit-monitor-external-databases", new Dimension(SCREENSHOT_WIDTH, 1000));
+    WebTestMBeans.toMBeans();
+    takeScreenshot("engine-cockpit-monitor-mbeans", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toJvm();
+    takeScreenshot("engine-cockpit-monitor-jvm", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toOs();
+    takeScreenshot("engine-cockpit-monitor-os", new Dimension(SCREENSHOT_WIDTH, 1000));
     WebTestWizard.navigateToStep("Licence");
     takeScreenshot("engine-cockpit-setup-licence", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizard.navigateToStep("Administrators");

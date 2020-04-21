@@ -27,6 +27,7 @@ public class MemoryMonitor extends SystemMonitor
   
   public MemoryMonitor() 
   {
+    super(MonitorInfo.build().name("Memory").icon("memory").yAxisLabel("Memory [GB]").toInfo());
     initMonitor();
   }
   
@@ -39,9 +40,6 @@ public class MemoryMonitor extends SystemMonitor
     yAxis.setMin(0);
     yAxis.setMax(maxMem / 1000000000.0);
     yAxis.setLabel("Memory [GB]");
-    Axis xAxis = model.getAxis(AxisType.X);
-    xAxis.setTickCount(11);
-    xAxis.setLabel("Time [s]");
     
     memData = new LinkedHashMap<>();
     jvmData = new LinkedHashMap<>();
@@ -80,21 +78,14 @@ public class MemoryMonitor extends SystemMonitor
   }
 
   @Override
-  protected void calcNewValues()
+  protected void calcNewValues(long time)
   {
-    long time = newTime();
-    if (time == actualSec && actualSec != 0)
-    {
-      return;
-    }
-    actualSec = time;
-    setXAxis(actualSec);
     actualMem = (maxMem - memory.getAvailable()) / 1000000000.0;
     actualJvmMem = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000000000.0;
     
-    memData.put(actualSec, actualMem);
-    jvmData.put(actualSec, actualJvmMem);
-    totData.put(actualSec, totalJvmMem);
+    memData.put(time, actualMem);
+    jvmData.put(time, actualJvmMem);
+    totData.put(time, totalJvmMem);
     
     cleanUpOldData(memData);
     cleanUpOldData(jvmData);

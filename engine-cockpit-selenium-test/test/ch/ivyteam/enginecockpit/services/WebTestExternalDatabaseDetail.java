@@ -39,13 +39,13 @@ public class WebTestExternalDatabaseDetail
   }
   
   @Test
-  void testExternalDatabaseDetailOpen()
+  void testDetailOpen()
   {
     assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME);
     $$(".ui-panel").shouldHave(size(4));
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
     
-    $("#breadcrumbOptions > a").shouldBe(visible).click();
+    $("#breadcrumbOptions > a[href='#']").shouldBe(visible).click();
     $("#helpExternalDatabaseDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(DATABASE_NAME));
   }

@@ -6,6 +6,8 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="webserviceId" value="#{webserviceDetailBean.webserviceId}" />
+    <f:viewParam name="applicationName" value="#{managerBean.selectedApplicationName}" />
+    <f:viewParam name="environment" value="#{managerBean.selectedEnvironment}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -19,6 +21,9 @@
     </ui:define>
     
     <ui:define name="breadcrumb-right">
+      <a href="monitorWebServices.xhtml?applicationName=#{managerBean.selectedApplicationName}&amp;environment=#{managerBean.selectedEnvironment}&amp;webserviceId=#{webserviceDetailBean.webserviceId}" title="Monitor">
+        <i class="material-icons">track_changes</i>
+      </a>
       <a href="#" onclick="PF('helpServicesModal').show();">
         <i class="material-icons">help</i>
       </a>

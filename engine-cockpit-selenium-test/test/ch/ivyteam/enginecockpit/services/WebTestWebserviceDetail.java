@@ -41,13 +41,13 @@ public class WebTestWebserviceDetail
   }
   
   @Test
-  void testExternalDatabaseDetailOpen()
+  void testDetailOpen()
   {
     assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
     $$(".ui-panel").shouldHave(size(3));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
     
-    $("#breadcrumbOptions > a").shouldBe(visible).click();
+    $("#breadcrumbOptions > a[href='#']").shouldBe(visible).click();
     $("#helpWebserviceDialog\\:helpServicesModal").shouldBe(Condition.visible);
     $(".code-block").shouldBe(text(WEBSERVICE_NAME));
   }

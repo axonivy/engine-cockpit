@@ -8,6 +8,8 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartSeries;
 
+import oshi.hardware.HWDiskStore;
+
 public class IOMonitor extends SystemMonitor
 {
   private LineChartSeries ioWrite;
@@ -23,6 +25,7 @@ public class IOMonitor extends SystemMonitor
   
   public IOMonitor()
   {
+    super(MonitorInfo.build().name("IO").icon("storage").yAxisLabel("Read / Write [kB]").toInfo());
     initMonitor();
   }
   
@@ -30,10 +33,6 @@ public class IOMonitor extends SystemMonitor
   {
     Axis yAxis = model.getAxis(AxisType.Y);
     yAxis.setMin(0);
-    yAxis.setLabel("Read / Write [kB]");
-    Axis xAxis = model.getAxis(AxisType.X);
-    xAxis.setTickCount(11);
-    xAxis.setLabel("Time [s]");
     
     writeData = new LinkedHashMap<>();
     readData = new LinkedHashMap<>();
@@ -51,8 +50,9 @@ public class IOMonitor extends SystemMonitor
     model.setLegendPosition("ne");
     model.addSeries(ioWrite);
     model.addSeries(ioRead);
-    totalWrite = Arrays.asList(hardware.getDiskStores()).stream().mapToLong(d -> d.getWriteBytes()).sum();
-    totalRead = Arrays.asList(hardware.getDiskStores()).stream().mapToLong(d -> d.getReadBytes()).sum();
+    HWDiskStore[] diskStores = hardware.getDiskStores();
+    totalWrite = Arrays.asList(diskStores).stream().mapToLong(d -> d.getWriteBytes()).sum();
+    totalRead = Arrays.asList(diskStores).stream().mapToLong(d -> d.getReadBytes()).sum();
   }
   
   @Override
@@ -67,19 +67,13 @@ public class IOMonitor extends SystemMonitor
   }
 
   @Override
-  protected void calcNewValues()
+  protected void calcNewValues(long time)
   {
-    long time = newTime();
-    if (time == actualSec && actualSec != 0)
-    {
-      return;
-    }
-    actualSec = time;
-    setXAxis(actualSec);
-    actualWrite = Arrays.asList(hardware.getDiskStores()).stream().mapToLong(d -> d.getWriteBytes()).sum() - totalWrite;
-    actualRead = Arrays.asList(hardware.getDiskStores()).stream().mapToLong(d -> d.getReadBytes()).sum() - totalRead;
-    writeData.put(actualSec, actualWrite / 1000);
-    readData.put(actualSec, actualRead / 1000);
+    HWDiskStore[] diskStores = hardware.getDiskStores();
+    actualWrite = Arrays.asList(diskStores).stream().mapToLong(d -> d.getWriteBytes()).sum() - totalWrite;
+    actualRead = Arrays.asList(diskStores).stream().mapToLong(d -> d.getReadBytes()).sum() - totalRead;
+    writeData.put(time, actualWrite / 1000);
+    readData.put(time, actualRead / 1000);
     totalWrite += actualWrite;
     totalRead += actualRead;
     cleanUpOldData(writeData);
