@@ -98,7 +98,7 @@ public class LogBean
   public StreamedContent getAllLogs() throws IOException 
   {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    DownloadUtil.compressDirectory(UrlUtil.getLogDir(), out);
+    DownloadUtil.zipDir(UrlUtil.getLogDir().toPath(), out);
     return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip", "logs.zip");
   }
   
