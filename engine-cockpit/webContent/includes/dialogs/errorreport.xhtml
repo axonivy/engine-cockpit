@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog style="min-width: 400px;" header="Download Error Report"
+  id="errorReportModal" widgetVar="errorReportModal" modal="true"
+  responsive="true" closeOnEscape="true">
+  <h:form>
+    <div>
+      <i id="reportFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" style="display: none; margin-bottom: 20px;" aria-hidden="true" />
+    </div>
+    <p>This is a zip archive that contains:</p>
+    <ul>
+      <li>Axon.ivy Engine Error Report</li>
+      <li>Today's log files</li>
+    </ul>
+    <p:commandButton id="download" ajax="false" value="Download" 
+      onclick="$('#reportFileSpinner').show(); window.onblur = function(){$('#reportFileSpinner').hide();};"
+      title="Download Error Report" icon="ui-icon-cloud-download"
+      styleClass="modal-input-button" style="width: 150px;">
+      <p:fileDownload value="#{reportBean.errorReport}" />
+    </p:commandButton>
+    <p:commandLink id="cancel" onclick="PF('errorReportModal').hide();" value="Cancel"
+      type="button" styleClass="modal-input-button" />
+  </h:form>
+</p:dialog>
+</html>
