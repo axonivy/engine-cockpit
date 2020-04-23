@@ -29,7 +29,7 @@ public class UrlUtil
   
   public static String getDesignerGuideBaseUrl()
   {
-	return Advisor.get().getDocBaseUrl() + "/designer-guide";
+    return Advisor.get().getDocBaseUrl() + "/designer-guide";
   }
   
   public static String getCockpitEngineGuideUrl()
