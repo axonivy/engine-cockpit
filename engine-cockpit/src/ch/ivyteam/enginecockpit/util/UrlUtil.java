@@ -9,8 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.io.FileUtil;
 import ch.ivyteam.ivy.Advisor;
+import ch.ivyteam.ivy.application.restricted.ApplicationConstants;
 import ch.ivyteam.ivy.config.IFileAccess;
-import ch.ivyteam.ivy.request.RequestUriFactory;
 import ch.ivyteam.util.Version;
 
 @SuppressWarnings("restriction")
@@ -54,7 +54,7 @@ public class UrlUtil
   
   public static String getApiBaseUrl()
   {
-    return RequestUriFactory.getIvyBaseContextPath() + "/system/api";
+    return ApplicationConstants.baseContextPath("system/api");
   }
   
   public static String replaceLinks(String text)
