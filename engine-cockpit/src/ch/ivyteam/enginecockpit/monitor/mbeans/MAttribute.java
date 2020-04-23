@@ -13,7 +13,7 @@ import javax.management.openmbean.TabularData;
 
 import org.apache.commons.lang.ArrayUtils;
 
-public class MAttribute
+public class MAttribute implements Comparable<MAttribute>
 {
   private Attribute attribute;
   private MBeanAttributeInfo info;
@@ -32,6 +32,12 @@ public class MAttribute
   public String getTooltip()
   {
     return info.getDescription();
+  }
+
+  @Override
+  public int compareTo(MAttribute other)
+  {
+    return getName().compareTo(other.getName());
   }
 
   public boolean getIsTraceable()

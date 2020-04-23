@@ -94,6 +94,7 @@ public class MBeansBean
                 .asList()
                 .stream()
                 .map(attr -> createAttribute(attr, attributeInfos))
+                .sorted()
                 .collect(Collectors.toList());
       }
       catch(InstanceNotFoundException | ReflectionException | IntrospectionException ex)
