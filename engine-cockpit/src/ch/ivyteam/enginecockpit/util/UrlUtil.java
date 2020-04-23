@@ -9,9 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.io.FileUtil;
 import ch.ivyteam.ivy.Advisor;
+import ch.ivyteam.ivy.application.restricted.ApplicationConstants;
 import ch.ivyteam.ivy.config.IFileAccess;
-import ch.ivyteam.ivy.request.RequestUriFactory;
-import ch.ivyteam.util.Version;
 
 @SuppressWarnings("restriction")
 public class UrlUtil
@@ -25,12 +24,12 @@ public class UrlUtil
   
   public static String getEngineGuideBaseUrl()
   {
-    return "https://developer.axonivy.com/doc/" + getDocuVersion() + "/engine-guide";
+    return Advisor.get().getDocBaseUrl() + "/engine-guide";
   }
   
   public static String getDesignerGuideBaseUrl()
   {
-    return "https://developer.axonivy.com/doc/" + getDocuVersion() + "/designer-guide";
+    return Advisor.get().getDocBaseUrl() + "/designer-guide";
   }
   
   public static String getCockpitEngineGuideUrl()
@@ -38,23 +37,9 @@ public class UrlUtil
     return getEngineGuideBaseUrl() + "/tool-reference/engine-cockpit/";
   }
   
-  private static String getDocuVersion()
-  {
-    String version;
-    if (Advisor.getAdvisor().isReleaseCandidate())
-    {
-      version = "dev";
-    }
-    else
-    {
-      version = Advisor.getAdvisor().getVersion().getVersionString(Version.DETAIL_PATCH, Version.FORM_SHORT_ALL);
-    }
-    return version;
-  }
-  
   public static String getApiBaseUrl()
   {
-    return RequestUriFactory.getIvyBaseContextPath() + "/system/api";
+    return ApplicationConstants.baseContextPath("system/api");
   }
   
   public static String replaceLinks(String text)
