@@ -18,7 +18,7 @@ import com.codeborne.selenide.Selenide;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvyWebTest(headless=false)
+@IvyWebTest
 public class WebTestDownload
 {
 
