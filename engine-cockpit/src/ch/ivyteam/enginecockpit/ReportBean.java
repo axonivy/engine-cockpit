@@ -59,8 +59,7 @@ public class ReportBean
             new ApplicationConfigurationDumper(applicationConfigurationManager),
             new PersistencyDumper(systemDatabasePersistencyService));
 
-    String errorReport = ErrorReport.createErrorReport(dumpers);
-    return errorReport;
+    return ErrorReport.createErrorReport(dumpers);
   }
 
   private Path collectReportData(String errorReport) throws IOException
@@ -69,6 +68,7 @@ public class ReportBean
     Files.writeString(Files.createFile(tempDirectory.resolve("report.txt")), errorReport);
     Files.walk(UrlUtil.getLogDir().toPath())
             .filter(Files::isRegularFile)
+            .filter(log -> log.toString().endsWith(".log"))
             .forEach(log -> copyLogFile(log, tempDirectory));
     return tempDirectory;
   }
