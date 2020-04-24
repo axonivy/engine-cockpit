@@ -25,7 +25,7 @@ pipeline {
       steps {
         script {
           docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=1234" -e "MYSQL_DATABASE=test"') { container ->
-            docker.build('maven-build').inside("--link ${container.id}:db ${dockerfileParams}") {
+            docker.image('axonivy/build-container:web-1.0').inside("--link ${container.id}:db ${dockerfileParams}") {
               //'MySql', 'jdbc:mysql://db:3306', 'root', '1234'
 
               maven cmd: 'clean verify ' +

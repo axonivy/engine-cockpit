@@ -28,7 +28,6 @@ public class WebTestDownload
     Selenide.closeWebDriver();
     Configuration.proxyEnabled = true;
     Configuration.fileDownload = FileDownloadMode.PROXY;
-    Selenide.open();
     EngineCockpitUtil.login();
   }
   
