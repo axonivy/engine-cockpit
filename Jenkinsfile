@@ -48,7 +48,7 @@ pipeline {
       }
       steps {
         script {
-          docker.build('maven-build').inside("${dockerfileParams}") {
+          docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
             maven cmd: 'clean verify ' +
                     '-f image-validation/pom.xml ' + 
                     '-Dmaven.test.failure.ignore=true ' + 
@@ -71,7 +71,7 @@ pipeline {
       }
       steps {
         script {
-          docker.build('maven-build').inside("${dockerfileParams}") {
+          docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
             maven cmd: "deploy -Dmaven.test.skip=true"
           }
         }
