@@ -3,10 +3,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 400px;" header="Download Error Report"
-  id="errorReportModal" widgetVar="errorReportModal" modal="true"
+<p:dialog style="min-width: 400px;" header="Download Engine Report"
+  id="engineReportModal" widgetVar="engineReportModal" modal="true"
   responsive="true" closeOnEscape="true">
-  <h:form>
+  <h:form id="reportForm">
     <div>
       <i id="reportFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" style="display: none; margin-bottom: 20px;" aria-hidden="true" />
     </div>
@@ -17,11 +17,11 @@
     </ul>
     <p:commandButton id="download" ajax="false" value="Download" 
       onclick="$('#reportFileSpinner').show(); window.onblur = function(){$('#reportFileSpinner').hide();};"
-      title="Download Error Report" icon="ui-icon-cloud-download"
+      title="Download Engine Report" icon="ui-icon-cloud-download"
       styleClass="modal-input-button" style="width: 150px;">
-      <p:fileDownload value="#{reportBean.errorReport}" />
+      <p:fileDownload value="#{reportBean.engineReport}" />
     </p:commandButton>
-    <p:commandLink id="cancel" onclick="PF('errorReportModal').hide();" value="Cancel"
+    <p:commandLink id="cancel" onclick="PF('engineReportModal').hide();" value="Cancel"
       type="button" styleClass="modal-input-button" />
   </h:form>
 </p:dialog>

@@ -42,29 +42,27 @@ public class ReportBean
     DiCore.getGlobalInjector().injectMembers(this);
   }
   
-  public StreamedContent getErrorReport() throws IOException
+  public StreamedContent getEngineReport() throws IOException
   {
-    String errorReport = createErrorReport();
+    String errorReport = createEngineReport();
     Path tempDirectory = collectReportData(errorReport);
-    
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     DownloadUtil.zipDir(tempDirectory, out);
     FileUtils.deleteDirectory(tempDirectory.toFile());
-    return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip", "errorReport.zip");
+    return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip", "engine-report.zip");
   }
 
-  private String createErrorReport()
+  private String createEngineReport()
   {
     IDumper[] dumpers = ErrorReport.addStandardDumpers(false,
             new ApplicationConfigurationDumper(applicationConfigurationManager),
             new PersistencyDumper(systemDatabasePersistencyService));
-
     return ErrorReport.createErrorReport(dumpers);
   }
 
   private Path collectReportData(String errorReport) throws IOException
   {
-    Path tempDirectory = Files.createTempDirectory("errorReport");
+    Path tempDirectory = Files.createTempDirectory("EngineReport");
     Files.writeString(Files.createFile(tempDirectory.resolve("report.txt")), errorReport);
     Files.walk(UrlUtil.getLogDir().toPath())
             .filter(Files::isRegularFile)
