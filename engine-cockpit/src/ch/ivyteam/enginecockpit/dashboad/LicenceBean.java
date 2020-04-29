@@ -38,15 +38,13 @@ public class LicenceBean extends StepStatus
   @Inject
   private ISecurityManager securityManager;
   
-  private final String users;
-  private final String sessions;
+  private String users;
+  private String sessions;
   private List<LicenceMessage> unconfirmedLicenceEvents;
   
   public LicenceBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
-    users = calculateUsers();
-    sessions = calculateSessions();
     reloadLicenceMessages();
   }
 
@@ -105,11 +103,19 @@ public class LicenceBean extends StepStatus
 
   public String getUsers()
   {
+    if (users == null)
+    { // lazy because calculation can be expensive whit many users
+      users = calculateUsers();
+    }
     return users;
   }
   
   public String getSessions()
   {
+	if (sessions == null)
+	{ // lazy because calculation can be expensive with many sessions
+	  sessions = calculateSessions();
+	}
     return sessions;
   }
 
