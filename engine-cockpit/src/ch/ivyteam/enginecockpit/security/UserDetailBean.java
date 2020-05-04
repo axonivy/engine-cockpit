@@ -133,6 +133,26 @@ public class UserDetailBean
     return "users.xhtml?faces-redirect=true";
   }
 
+  public void disableUser()
+  {
+    getIUser().disable();
+  }
+
+  public boolean isUserDisabled()
+  {
+    return !isUserEnabled();
+  }
+
+  public void enableUser()
+  {
+    getIUser().enable();
+  }
+
+  public boolean isUserEnabled()
+  {
+    return getIUser().isEnabled();
+  }
+
   public void saveUserEmail()
   {
     IUser iUser = getIUser();
