@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.util.Property;
 import ch.ivyteam.ivy.application.IExternalDatabaseConfiguration;
 import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.db.IStatementExecution;
-import ch.ivyteam.util.Property;
 
 public class ExternalDatabase implements IService
 {

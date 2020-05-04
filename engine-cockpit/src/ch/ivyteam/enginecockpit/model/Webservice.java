@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import ch.ivyteam.enginecockpit.util.Property;
 import ch.ivyteam.ivy.application.restricted.IWebService;
-import ch.ivyteam.util.Property;
 
 @SuppressWarnings("restriction")
 public class Webservice implements IService

@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.util.Property;
 import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
-import ch.ivyteam.util.Property;
-
+ 
 @SuppressWarnings("restriction")
 public class RestClient implements IService
 {
