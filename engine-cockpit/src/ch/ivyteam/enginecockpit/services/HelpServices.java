@@ -11,9 +11,9 @@ import org.apache.commons.io.IOUtils;
 import com.google.common.base.Objects;
 
 import ch.ivyteam.enginecockpit.model.IService;
+import ch.ivyteam.enginecockpit.util.Property;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.util.Property;
 
 @SuppressWarnings("restriction")
 public abstract class HelpServices
