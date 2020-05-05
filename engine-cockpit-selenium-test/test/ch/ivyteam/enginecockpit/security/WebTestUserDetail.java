@@ -110,19 +110,11 @@ public class WebTestUserDetail
   }
   
   @Test
-  void testDiableUser()
+  void testEnableDisableUser()
   {
     Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm\\:disableUser").shouldBe(visible).click();
-    $("#userInformationForm\\:enableUser").shouldBe(visible);
     $("#userInformationForm\\:disableUser").shouldNotBe(visible);
-  }
-
-  @Test
-  void testEnableUser()
-  {
-    Navigation.toUserDetail(USER_FOO);
-    $("#userInformationForm\\:disableUser").shouldBe(visible).click();
     $("#userInformationForm\\:enableUser").shouldBe(visible).click();
     $("#userInformationForm\\:enableUser").shouldNotBe(visible);
     $("#userInformationForm\\:disableUser").shouldBe(visible);
