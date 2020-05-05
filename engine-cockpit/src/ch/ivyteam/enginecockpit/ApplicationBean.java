@@ -167,14 +167,22 @@ public class ApplicationBean
   
   public void createNewApplication()
   {
-    IApplication app = managerBean.getManager().createApplication(newApp.getName());
-    app.setDescription(newApp.getDesc());
-    if (activateNewApp)
+    try
     {
-      app.activate();
+      IApplication app = managerBean.getManager().createApplication(newApp.getName());
+      app.setDescription(newApp.getDesc());
+      if (activateNewApp)
+      {
+        app.activate();
+      }
+      reloadActivities();
+      managerBean.reloadApplications();
     }
-    reloadActivities();
-    managerBean.reloadApplications();
+    catch (RuntimeException ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("applicationMessage",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+    }
   }
   
   public void setActiveActivity(AbstractActivity activity)
@@ -202,7 +210,7 @@ public class ApplicationBean
       deletePmv(managerBean.getManager().findApplication(selectedActivity.getApplicationId()));
     }
     FacesContext.getCurrentInstance().addMessage("applicationMessage",
-            new FacesMessage("'" + selectedActivity.getName() + "' deleted successfully"));
+            new FacesMessage("'" + selectedActivity.getName() + "' deleted successfully", ""));
     selectedActivity = new Application();
     reloadActivities();
     managerBean.reloadApplications();

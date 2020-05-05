@@ -56,6 +56,9 @@ public class WebTestApplication
     int appCount = $$(".activity-name").size();
     addNewApplication();
     $$(".activity-name").shouldBe(size(appCount + 1));
+    addNewApplication();
+    $("#card\\:form\\:applicationMessage_container .ui-growl-message")
+            .shouldHave(text("Application with name '" + NEW_TEST_APP + "' already exists"));
     
     By newApp = getNewAppId();
     startNewApplication(newApp);
@@ -127,6 +130,7 @@ public class WebTestApplication
   {
     openNewApplicationModal();
     
+    $("#card\\:newApplicationForm\\:newApplicationNameInput").clear();
     $("#card\\:newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
     $("#card\\:newApplicationForm\\:newApplicationDescInput").sendKeys("test description");
     PrimeUi.selectBooleanCheckbox(By.id("card:newApplicationForm:newApplicationActivate")).removeChecked();
