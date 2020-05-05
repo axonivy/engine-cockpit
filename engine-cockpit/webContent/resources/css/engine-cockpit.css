@@ -32,7 +32,7 @@ body {
 .topbar-notifications {
   margin-right: 10px;
 }
-.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu .topbar-notifications.restart-notification i {
+.layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu .topbar-notifications.restart-notification i.topbar-icon {
 	color: var(--message-warn-bg-color, gold);
 }
 
