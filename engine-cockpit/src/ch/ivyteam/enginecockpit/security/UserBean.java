@@ -49,4 +49,14 @@ public class UserBean
     var count = managerBean.getSelectedIApplication().getSecurityContext().users().count();
     return String.valueOf(count);
   }
+
+  public void switchDisabledUsers()
+  {
+    userDataModel.setShowDisabledUsers(!userDataModel.showDisabledUsers());
+  }
+  
+  public boolean isShowDisabledUsers()
+  {
+    return userDataModel.showDisabledUsers();
+  }
 }

@@ -18,6 +18,7 @@ public class UserDataModel extends LazyDataModel<User>
   private IApplication app;
   private IRole filterRole;
   private String filter;
+  private boolean showDisabledUsers;
 
   public void setApp(IApplication app)
   {
@@ -37,6 +38,16 @@ public class UserDataModel extends LazyDataModel<User>
   public String getFilter()
   {
     return filter;
+  }
+
+  public boolean showDisabledUsers()
+  {
+    return showDisabledUsers;
+  }
+  
+  public void setShowDisabledUsers(boolean showDisabledUsers)
+  {
+    this.showDisabledUsers = showDisabledUsers;
   }
 
   @Override
@@ -76,6 +87,10 @@ public class UserDataModel extends LazyDataModel<User>
         .fullName().isLikeIgnoreCase(filter + "%")
        .or()
         .eMailAddress().isLikeIgnoreCase(filter + "%");
+    }
+    if (!showDisabledUsers)
+    {
+      query.where().enabled();
     }
   }
 
