@@ -129,6 +129,11 @@ public class EngineCockpitUtil
     runTestProcess("16E8EAD7CC77A0A3/deleteTempDatabase.ivp");
   }
 
+  public static void createDisabledUser()
+  {
+    runTestProcess("16E88DD61E825E70/createDisabledUser.ivp");    
+  }
+
   private static void runTestProcess(String processLink)
   {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink).toUrl());

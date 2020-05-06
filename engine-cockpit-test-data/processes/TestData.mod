@@ -32,6 +32,11 @@ Ta0 @ErrorBoundaryEvent f20 '' #zField
 Ta0 @DBStep f21 '' #zField
 Ta0 @PushWFArc f22 '' #zField
 Ta0 @PushWFArc f23 '' #zField
+Ta0 @EndTask f24 '' #zField
+Ta0 @StartRequest f25 '' #zField
+Ta0 @GridStep f26 '' #zField
+Ta0 @PushWFArc f27 '' #zField
+Ta0 @PushWFArc f28 '' #zField
 >Proto Ta0 Ta0 TestData #zField
 Ta0 f0 outLink addAdministrator.ivp #txt
 Ta0 f0 inParamDecl '<> param;' #txt
@@ -239,6 +244,34 @@ Ta0 f22 256 399 256 458 #arcP
 Ta0 f23 312 480 352 367 #arcP
 Ta0 f23 1 352 480 #addKink
 Ta0 f23 1 0.08034838254922853 0 0 #arcLabel
+Ta0 f24 329 545 30 30 0 15 #rect
+Ta0 f24 @|EndIcon #fIcon
+Ta0 f25 outLink createDisabledUser.ivp #txt
+Ta0 f25 inParamDecl '<> param;' #txt
+Ta0 f25 requestEnabled true #txt
+Ta0 f25 triggerEnabled false #txt
+Ta0 f25 callSignature createDisabledUser() #txt
+Ta0 f25 caseData businessCase.attach=true #txt
+Ta0 f25 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>createDisabledUser.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Ta0 f25 @C|.responsibility Everybody #txt
+Ta0 f25 73 545 30 30 -63 17 #rect
+Ta0 f25 @|StartRequestIcon #fIcon
+Ta0 f26 actionTable 'out=in;
+' #txt
+Ta0 f26 actionCode 'import ch.ivyteam.enginecockpit.testdata.user.TestDataUser;
+
+TestDataUser.createDisabledUser();
+' #txt
+Ta0 f26 160 538 112 44 0 -7 #rect
+Ta0 f26 @|StepIcon #fIcon
+Ta0 f27 272 560 329 560 #arcP
+Ta0 f28 103 560 160 560 #arcP
 >Proto Ta0 .type engine.cockpit.test.data.Data #txt
 >Proto Ta0 .processKind NORMAL #txt
 >Proto Ta0 0 0 32 24 18 0 #rect
@@ -263,3 +296,7 @@ Ta0 f20 mainOut f22 tail #connect
 Ta0 f22 head f21 mainIn #connect
 Ta0 f21 mainOut f23 tail #connect
 Ta0 f23 head f15 mainIn #connect
+Ta0 f25 mainOut f28 tail #connect
+Ta0 f28 head f26 mainIn #connect
+Ta0 f26 mainOut f27 tail #connect
+Ta0 f27 head f24 mainIn #connect
