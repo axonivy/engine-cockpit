@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -43,6 +44,32 @@ public class WebTestUsers
     String firstUser = table.getFirstColumnEntries().get(0);
     table.search(firstUser);
     table.firstColumnShouldBe(size(1));
+  }
+
+  @Test
+  void testDisabledUsersInTable()
+  {
+    EngineCockpitUtil.createDisabledUser();
+    
+    login();
+    Navigation.toUsers();
+    Tab.switchToTab("test");
+    $("h1").shouldHave(text("Users"));
+    
+    Table table = new Table(By.className("userTable"), true);
+    assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
+
+    clickShowHideDisabledUserButton();
+    assertThat(table.getFirstColumnEntries()).contains("disableduser");
+
+    clickShowHideDisabledUserButton();
+    assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
+  }
+
+  private void clickShowHideDisabledUserButton()
+  {
+    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:moreBtn").click();
+    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:showDisabledUserBtn").shouldBe(visible).click();
   }
 
   @Test
