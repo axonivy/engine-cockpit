@@ -57,12 +57,15 @@ public class WebTestUsers
     $("h1").shouldHave(text("Users"));
     
     Table table = new Table(By.className("userTable"), true);
+    table.firstColumnShouldBe(sizeGreaterThan(0));
     assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
 
     clickShowHideDisabledUserButton();
+    table.firstColumnShouldBe(size(1));
     assertThat(table.getFirstColumnEntries()).contains("disableduser");
 
     clickShowHideDisabledUserButton();
+    table.firstColumnShouldBe(sizeGreaterThan(0));
     assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
   }
 
