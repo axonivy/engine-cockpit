@@ -14,6 +14,7 @@ public class User
   private String realPassword = "";
 
   private boolean loggedIn;
+  private boolean enabled = true;
   private long id;
 
   public User()
@@ -27,6 +28,7 @@ public class User
     this.fullName = user.getFullName();
     this.email = user.getEMailAddress();
     this.loggedIn = false;
+    this.enabled = user.isEnabled();
     this.id = user.getId();
   }
 
@@ -66,6 +68,11 @@ public class User
   public void setEmail(String email)
   {
     this.email = email;
+  }
+
+  public boolean isEnabled()
+  {
+    return enabled;
   }
 
   public boolean isLoggedIn()

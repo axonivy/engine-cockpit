@@ -48,8 +48,8 @@
                           rendered="#{!securityBean.ivySecurityForSelectedApp}"
                           icon="fa fa-refresh" onclick="PF('synchUserModal').show()">
                       </p:menuitem>
-                      <p:menuitem value="#{userBean.showDisabledUsers ? 'Hide' : 'Show'} disabled users" 
-                          icon="ui-icon-visibility#{userBean.showDisabledUsers ? '-off' : ''}"
+                      <p:menuitem value="Show #{userBean.showDisabledUsers ? 'enabled' : 'disabled'} users" 
+                          icon="ui-icon-visibility"
                           id="showDisabledUserBtn" process="@this" update="@form" action="#{userBean.switchDisabledUsers}" >
                       </p:menuitem>
                     </p:menu>
