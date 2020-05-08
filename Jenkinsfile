@@ -25,7 +25,7 @@ pipeline {
       steps {
         script {
           docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=1234" -e "MYSQL_DATABASE=test"') { container ->
-            docker.build('maven-build').inside("--link ${container.id}:db ${dockerfileParams}") {
+            docker.image('axonivy/build-container:web-1.0').inside("--link ${container.id}:db ${dockerfileParams}") {
               //'MySql', 'jdbc:mysql://db:3306', 'root', '1234'
 
               maven cmd: 'clean verify ' +
@@ -48,7 +48,7 @@ pipeline {
       }
       steps {
         script {
-          docker.build('maven-build').inside("${dockerfileParams}") {
+          docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
             maven cmd: 'clean verify ' +
                     '-f image-validation/pom.xml ' + 
                     '-Dmaven.test.failure.ignore=true ' + 
@@ -71,7 +71,7 @@ pipeline {
       }
       steps {
         script {
-          docker.build('maven-build').inside("${dockerfileParams}") {
+          docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
             maven cmd: "deploy -Dmaven.test.skip=true"
           }
         }
