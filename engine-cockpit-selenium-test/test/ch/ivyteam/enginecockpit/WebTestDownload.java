@@ -35,10 +35,10 @@ public class WebTestDownload
   void errorReport() throws FileNotFoundException
   {
     $("#sessionUser").shouldBe(visible).click();
-    $("#engineReport").shouldBe(visible).click();
-    $("#engineReportModal").shouldBe(visible);
+    $("#supportReport").shouldBe(visible).click();
+    $("#supportReportModal").shouldBe(visible);
     File download = $("#reportForm\\:download").shouldBe(visible).download();
-    assertThat(download.getName()).isEqualTo("engine-report.zip");
+    assertThat(download.getName()).isEqualTo("support-engine-report.zip");
     assertThat(download.length() / 1024).isGreaterThan(30);
   }
   

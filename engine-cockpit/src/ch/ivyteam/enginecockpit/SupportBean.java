@@ -28,7 +28,7 @@ import ch.ivyteam.ivy.persistence.restricted.PersistencyDumper;
 @SuppressWarnings("restriction")
 @ManagedBean
 @RequestScoped
-public class ReportBean
+public class SupportBean
 {
   
   @Inject
@@ -37,22 +37,22 @@ public class ReportBean
   @Inject
   private ISystemDatabasePersistencyService systemDatabasePersistencyService;
 
-  public ReportBean()
+  public SupportBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
   }
   
-  public StreamedContent getEngineReport() throws IOException
+  public StreamedContent getSupportReport() throws IOException
   {
-    String errorReport = createEngineReport();
+    String errorReport = createSupportReport();
     Path tempDirectory = collectReportData(errorReport);
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     DownloadUtil.zipDir(tempDirectory, out);
     FileUtils.deleteDirectory(tempDirectory.toFile());
-    return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip", "engine-report.zip");
+    return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip", "support-engine-report.zip");
   }
 
-  private String createEngineReport()
+  private String createSupportReport()
   {
     IDumper[] dumpers = ErrorReport.addStandardDumpers(false,
             new ApplicationConfigurationDumper(applicationConfigurationManager),
@@ -62,7 +62,7 @@ public class ReportBean
 
   private Path collectReportData(String errorReport) throws IOException
   {
-    Path tempDirectory = Files.createTempDirectory("EngineReport");
+    Path tempDirectory = Files.createTempDirectory("SupportReport");
     Files.writeString(Files.createFile(tempDirectory.resolve("report.txt")), errorReport);
     Files.walk(UrlUtil.getLogDir().toPath())
             .filter(Files::isRegularFile)
