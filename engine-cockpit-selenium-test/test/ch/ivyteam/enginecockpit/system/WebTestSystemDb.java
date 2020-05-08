@@ -160,7 +160,7 @@ public class WebTestSystemDb
   {
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $(".fa.fa-circle-o-notch.fa-spin").shouldBe(visible);
+    $("#systemDb\\:createDatabaseForm .fa.fa-circle-o-notch.fa-spin").shouldBe(visible);
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").waitUntil(
             and("wait until db created", appears, enabled), 20000);
     $("#systemDb\\:createDatabaseForm\\:creationResult").shouldBe(empty);
@@ -185,7 +185,7 @@ public class WebTestSystemDb
   {
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $(".fa.fa-circle-o-notch.fa-spin").shouldBe(visible);
+    $("#systemDb\\:convertDatabaseForm .fa.fa-circle-o-notch.fa-spin").shouldBe(visible);
     $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").waitUntil(
             and("wait until db converted", appears, enabled), 20000);
     $("#systemDb\\:convertDatabaseForm\\:conversionResult").shouldBe(empty);
