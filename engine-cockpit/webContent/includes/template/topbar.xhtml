@@ -37,12 +37,6 @@
                 <span>Preview #{cookie['preview'].value eq 'true' ? 'Off' : 'On'}</span>
               </p:commandLink>
             </li>
-            <li>
-              <p:commandLink id="supportReport" type="button" onclick="PF('supportReportModal').show()">
-                <i class="material-icons">report</i>
-                <span>Support</span>
-              </p:commandLink>
-            </li>
           </ul>
         </li>
         <h:outputText rendered="#{not empty licenceBean.licenceEvents}">
@@ -59,5 +53,4 @@
   </div>
   
   <ui:include src="../dialogs/licenceevents.xhtml" />
-  <ui:include src="../dialogs/supportreport.xhtml" />
 </ui:composition>

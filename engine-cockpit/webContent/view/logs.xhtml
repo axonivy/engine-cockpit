@@ -18,11 +18,11 @@
       <a style="float: right;" href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}monitor.html#logs'); return false;">
         <i class="material-icons">help</i>
       </a>
-      <a id="downloadAllLogs" style="float: right;" href="#" onclick="PF('logsDownloadModal').show();">
+      <a style="float: right;" href="#" onclick="PF('logsDownloadModal').show();">
         <i class="material-icons">cloud_download</i>
       </a>
-      <h:form id="logDateForm" style="float: right;">
-        <p:calendar id="calendar" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd" maxdate="#{logBean.today}" >
+      <h:form style="float: right;">
+        <p:calendar id="button" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd" maxdate="#{logBean.today}" >
           <p:ajax event="dateSelect" update="consoleLogView:logPanel, configLogView:logPanel, ivyLogView:logPanel"/>
         </p:calendar>
       </h:form>
