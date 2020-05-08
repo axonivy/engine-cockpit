@@ -22,8 +22,8 @@
       styleClass="modal-input-button" style="width: 150px;">
       <p:fileDownload value="#{supportBean.supportReport}" />
     </p:commandButton>
-    <p:commandButton id="cancel" onclick="PF('supportReportModal').hide();" value="Cancel"
-      type="button" styleClass="secondary-btn modal-input-button" icon="ui-icon-clear" />
+    <p:commandLink id="cancel" onclick="PF('supportReportModal').hide();" value="Cancel"
+      type="button" styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
 </html>
