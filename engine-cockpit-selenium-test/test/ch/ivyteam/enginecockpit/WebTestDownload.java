@@ -39,7 +39,7 @@ public class WebTestDownload
     $("#supportReportModal").shouldBe(visible);
     File download = $("#reportForm\\:download").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("support-engine-report.zip");
-    assertThat(download.length() / 1024).isGreaterThan(30);
+    assertThat(download.length() / 1024).isGreaterThan(1);
   }
   
   @Test
@@ -50,16 +50,15 @@ public class WebTestDownload
     $("#logsDownloadModal").shouldBe(visible);
     File download = $("#logForm\\:allLogs").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("logs.zip");
-    assertThat(download.length() / 1024).isGreaterThan(10);
+    assertThat(download.length() / 1024).isGreaterThan(1);
   }
   
   @Test
   void log() throws FileNotFoundException
   {
     Navigation.toLogs();
-    $("#ivyLogView\\:logPanel_toggler").shouldBe(visible).click();
-    File download = $("#ivyLogView\\:fileForm\\:showLog").shouldBe(visible).download();
-    assertThat(download.getName()).isEqualTo("ivy.log");
+    File download = $("#consoleLogView\\:fileForm\\:showLog").shouldBe(visible).download();
+    assertThat(download.getName()).isEqualTo("console.log");
     assertThat(download).isNotEmpty();
   }
 
