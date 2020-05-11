@@ -20,14 +20,14 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 public class WebTestWizard
 {
   static final String ACTIVE_WIZARD_STEP = "#stepForm\\:wizardSteps li.ui-state-highlight";
-  
+
   @BeforeEach
   void beforeEach()
   {
     navigateToStep("Licence");
     $(ACTIVE_WIZARD_STEP).should(exist);
   }
-  
+
   @Test
   public void testBannerLink()
   {
@@ -35,9 +35,9 @@ public class WebTestWizard
     $("#applicationTabView").should(exist);
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
     $("#content > h1").shouldNot(exist);
-    assertCurrentUrlEndsWith("/sys/info.xhtml");
+    assertCurrentUrlEndsWith("/system/");
   }
-  
+
   @Test
   public void testNextAndPrevStep()
   {
@@ -46,14 +46,14 @@ public class WebTestWizard
     prevStep();
     $(ACTIVE_WIZARD_STEP).shouldBe(text("Licence"));
   }
-  
+
   @Test
   public void testCancelWizard()
   {
     cancelWizard();
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
   }
-  
+
   @Test
   public void testFinishWizard()
   {
@@ -62,28 +62,28 @@ public class WebTestWizard
     $("#configErrorMessage a").shouldBe(visible, text("LICENCE")).click();
     $(ACTIVE_WIZARD_STEP).shouldBe(text("Licence"));
   }
-  
+
   public static void cancelWizard()
   {
     $("#cancelWizard").shouldBe(visible).click();
   }
-  
+
   public static void finishWizard()
   {
     $("#finishWizard").shouldBe(visible).click();
     $("#finishWizardModel").shouldBe(visible);
   }
-  
+
   public static void nextStep()
   {
     $("#nextStep").shouldBe(visible).click();
   }
-  
+
   public static void prevStep()
   {
     $("#prevStep").shouldBe(visible).click();
   }
-  
+
   public static void navigateToStep(String step)
   {
     login("setup.xhtml");
@@ -99,12 +99,12 @@ public class WebTestWizard
     }
     $(WebTestWizard.ACTIVE_WIZARD_STEP + " .ui-steps-title").shouldBe(exactText(step));
   }
-  
+
   public static void activeStepShouldBeOk()
   {
     $(WebTestWizard.ACTIVE_WIZARD_STEP + " > a").shouldHave(not(cssClass("step-warning")), cssClass("step-ok"));
   }
-  
+
   public static void activeStepShouldHaveWarnings()
   {
     $(WebTestWizard.ACTIVE_WIZARD_STEP + " > a").shouldHave(cssClass("step-warning"), not(cssClass("step-ok")));
