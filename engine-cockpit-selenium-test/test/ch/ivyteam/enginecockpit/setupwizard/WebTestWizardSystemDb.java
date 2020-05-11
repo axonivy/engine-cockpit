@@ -21,26 +21,26 @@ import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 @IvyWebTest
 public class WebTestWizardSystemDb
 {
-  
+
   @BeforeAll
   static void setup()
   {
     createOldDb();
   }
-  
+
   @BeforeEach
   void beforeEach()
   {
     WebTestWizard.navigateToStep("System Database");
   }
-  
+
   @AfterEach
   void afterEach()
   {
     resetConfig();
     deleteTempDb();
   }
-  
+
   @Test
   void testWebServerStep()
   {
@@ -52,21 +52,21 @@ public class WebTestWizardSystemDb
     $("#configErrorMessage").shouldBe(visible, text("LICENCE"));
     $("#finishWizardForm\\:finishWizardYes").click();
     $(WebTestWizard.ACTIVE_WIZARD_STEP).shouldNot(exist);
-    assertCurrentUrlContains("info");
+    assertCurrentUrlContains("system");
   }
-  
+
   @Test
   void testConnectionResults()
   {
     WebTestSystemDb.assertConnectionResults();
   }
-  
+
   @Test
   void testOldDbConversionNeeded()
   {
     WebTestSystemDb.assertSystemDbConversionDialog();
   }
-  
+
   @Test
   void testUiLogicSwitchesAndDefaults()
   {
