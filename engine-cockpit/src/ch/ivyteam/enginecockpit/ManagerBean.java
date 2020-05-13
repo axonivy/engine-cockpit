@@ -20,6 +20,7 @@ import com.google.inject.Inject;
 
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.Application;
+import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
@@ -196,12 +197,12 @@ public class ManagerBean
             .map(l -> new SelectItem(l.getLanguage(), l.getDisplayLanguage()))
             .collect(Collectors.toList());
   }
-  
+
   public boolean isIvySecuritySystem() 
   {
-    return getSelectedIApplication().getSecurityContext().getExternalSecuritySystemProvider().getProviderName().equals("ivy Security System");
+    return SecuritySystemConfig.IVY_SECURITY_SYSTEM.equals(getSelectedIApplication().getSecurityContext().getExternalSecuritySystemName());
   }
-  
+
   public List<String> getEnvironments()
   {
     return environments.get(getSelectedApplication().getId());

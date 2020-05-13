@@ -22,9 +22,9 @@ public class SecuritySystem
   {
     this.securitySystemName = securitySystemName;
     securitySystemProvider = IConfiguration.get().get("SecuritySystems." + securitySystemName + ".Provider")
-            .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemProvider().getProviderName()).orElse(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
+            .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemName()).orElse(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
     id = securityContext.map(c -> c.getId()).orElse(0L);
-    
+
     this.appNames = appNames;
     this.usersCount = securityContext.map(c -> countUser(c)).orElse(0l);
     this.rolesCount = securityContext.map(c -> c.getRoles().size()).orElse(0);
