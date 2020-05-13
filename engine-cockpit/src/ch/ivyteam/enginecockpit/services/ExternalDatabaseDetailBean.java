@@ -25,6 +25,7 @@ import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestRes
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
+import ch.ivyteam.util.Property;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.db.IExternalDatabase;
@@ -36,6 +37,7 @@ import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
 public class ExternalDatabaseDetailBean extends HelpServices implements IConnectionTestResult
 {
   private ExternalDatabase externalDatabase;
+  private Property activeProperty;
   private List<ExecStatement> history;
   private List<Connection> connections;
   private String databaseName;
@@ -83,6 +85,37 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   public ExternalDatabase getExternalDatabase()
   {
     return externalDatabase;
+  }
+  
+  public void setProperty(Property property)
+  {
+    if (property == null)
+    {
+      property = new Property();
+    }
+    this.activeProperty = property;
+  }
+  
+  public Property getProperty()
+  {
+    return activeProperty;
+  }
+  
+  public void saveProperty()
+  {
+    configuration.set(propertyConfigKey(activeProperty.getName()), activeProperty.getValue());
+    reloadExternalDb();
+  }
+  
+  public void removeProperty(Property property)
+  {
+    configuration.remove(propertyConfigKey(property.getName()));
+    reloadExternalDb();
+  }
+
+  private String propertyConfigKey(String propertyName)
+  {
+    return dbConfigKey + ".Properties." + propertyName;
   }
   
   public List<Connection> getConnections()

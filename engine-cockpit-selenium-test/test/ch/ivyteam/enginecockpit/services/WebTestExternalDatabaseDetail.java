@@ -5,19 +5,24 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.$x;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestExternalDatabaseDetail
@@ -75,6 +80,34 @@ public class WebTestExternalDatabaseDetail
     Selenide.refresh();
     checkConfiguration("jdbc:mysql://localhost:3306/test-db", "com.mysql.jdbc.Driver", "user", "5");
   }
+  
+  @Test
+  void addEditRemoveProperty()
+  {
+    Table properties = new Table(By.id("databasePropertiesForm:databasePropertiesTable"));
+    properties.firstColumnShouldBe(size(2));
+    
+    $("#databasePropertiesForm\\:newServicePropertyBtn").shouldBe(visible).click();
+    $("#propertyModal").shouldBe(visible);
+    $("#propertyForm\\:nameInput").sendKeys("bla");
+    $("#propertyForm\\:valueInput").sendKeys("value");
+    $("#propertyForm\\:saveProperty").click();
+    properties.firstColumnShouldBe(size(3));
+    assertThat(properties.getValueForEntry("bla", 2)).isEqualTo("value");
+    $("#propertyModal").shouldNotBe(visible);
+    
+    properties.clickButtonForEntry("bla", "editPropertyBtn");
+    $("#propertyModal").shouldBe(visible);
+    $("#propertyForm\\:nameInput").shouldNotBe(exist);
+    $("#propertyForm\\:valueInput").shouldBe(value("value")).sendKeys("1");
+    $("#propertyForm\\:saveProperty").click();
+    properties.firstColumnShouldBe(size(3));
+    assertThat(properties.getValueForEntry("bla", 2)).isEqualTo("value1");
+    $("#propertyModal").shouldNotBe(visible);
+    
+    properties.clickButtonForEntry("bla", "deletePropertyBtn");
+    properties.firstColumnShouldBe(size(2));
+  }
 
   private void setConfiguration(String url, String driverName, String username, String connections)
   {
@@ -91,7 +124,6 @@ public class WebTestExternalDatabaseDetail
 
     $("#databaseConfigurationForm\\:maxConnections_input").clear();
     $("#databaseConfigurationForm\\:maxConnections_input").sendKeys(connections);
-    
     
     $("#databaseConfigurationForm\\:saveDatabaseConfig").click();
     $("#databaseConfigurationForm\\:databaseConfigMsg_container").shouldBe(text("Database configuration saved"));
