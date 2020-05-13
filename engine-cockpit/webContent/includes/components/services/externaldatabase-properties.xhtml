@@ -54,8 +54,8 @@
     <p:commandButton id="saveProperty" validateClient="true" ajax="false" update="databasePropertiesForm"
       actionListener="#{externalDatabaseDetailBean.saveProperty}" value="Save" icon="ui-icon-save"
       styleClass="modal-input-button" />
-    <p:commandLink id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
-      styleClass="modal-input-button" immediate="true" />
+    <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
+      styleClass="secondary-btn modal-input-button" immediate="true" icon="ui-icon-close" />
   </h:form>
 </p:dialog>
 </html>
