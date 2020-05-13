@@ -24,7 +24,7 @@ import com.codeborne.selenide.Selenide;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless = false)
+@IvyWebTest
 public class WebTestExternalDatabaseDetail
 {
   private static final String DATABASE_NAME = "test-db";

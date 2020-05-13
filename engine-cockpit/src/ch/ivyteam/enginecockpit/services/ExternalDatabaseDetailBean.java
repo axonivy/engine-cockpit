@@ -25,7 +25,7 @@ import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestRes
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
-import ch.ivyteam.enginecockpit.util.Property;
+import ch.ivyteam.util.Property;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.db.IExternalDatabase;
