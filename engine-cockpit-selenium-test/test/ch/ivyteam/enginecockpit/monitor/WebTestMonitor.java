@@ -39,7 +39,7 @@ public class WebTestMonitor
     Navigation.toLogs();
     $$(".ui-panel").shouldHave(size(5));
     $("#consoleLogView\\:logPanel_content").shouldBe(visible);
-    $("#ivyLogView\\:logPanel").shouldHave(text("ivy.log"), not(text("0kB")));
+    $("#ivyLogView\\:logPanel").shouldHave(text("ivy.log"));
     $("#ivyLogView\\:logPanel .ui-panel-title > span").click();
     $("#ivyLogView\\:logPanel_content").shouldBe(visible);
     $("#ivyLogView\\:logPanel_toggler").click();
