@@ -19,6 +19,9 @@ import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.synch.UserSynchResult;
 import ch.ivyteam.ivy.security.synch.UserSynchResult.SynchStatus;
 import ch.ivyteam.ivy.security.user.NewUser;
+import ch.ivyteam.ivy.workflow.TaskState;
+import ch.ivyteam.ivy.workflow.query.CaseQuery;
+import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
 @ManagedBean
 @ViewScoped
@@ -34,6 +37,10 @@ public class UserDetailBean
   private List<Role> filteredRoles;
 
   private ManagerBean managerBean;
+  private long canWorkOn;
+  private long personalTasks;
+  private long startedCases;
+  private long workingOn;
 
   public UserDetailBean()
   {
@@ -55,6 +62,17 @@ public class UserDetailBean
     IUser iUser = getSecurityContext().users().find(userName);
     this.user = new User(iUser);
     this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
+    startedCases = CaseQuery.create().where().isBusinessCase().and().creatorUserId().isEqual(iUser.getId()).executor().count();
+    workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+            .or().state().isEqual(TaskState.RESUMED)
+            .or().state().isEqual(TaskState.PARKED)
+            .andOverall().workerUserId().isEqual(iUser.getId()).executor().count();
+    personalTasks = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+            .or().state().isEqual(TaskState.SUSPENDED)
+            .or().state().isEqual(TaskState.RESUMED)
+            .or().state().isEqual(TaskState.PARKED)
+            .andOverall().activatorUserId().isEqual(iUser.getId()).executor().count();
+    canWorkOn = TaskQuery.create().where().canWorkOn(iUser).executor().count();
   }
 
   public String getUserSynchName()
@@ -218,5 +236,36 @@ public class UserDetailBean
   public MemberProperty getMemberProperty()
   {
     return userProperties;
+  }
+  
+  public String userDeleteHint()
+  {
+    String message = "";
+    if (getPersonalTasks() != 0)
+    {
+      message += "The user '" + getUserName() + "' has " + getPersonalTasks() + " personal tasks. "
+              + "If you delete this user, no other user can work on these tasks. ";
+    }
+    return message + "You may want to deactivate this user instead of deleting it, because you may loose workflow history.";
+  }
+  
+  public long getCanWorkOn()
+  {
+    return canWorkOn;
+  }
+  
+  public long getPersonalTasks()
+  {
+    return personalTasks;
+  }
+  
+  public long getStartedCases()
+  {
+    return startedCases;
+  }
+  
+  public long getWorkingOn()
+  {
+    return workingOn;
   }
 }

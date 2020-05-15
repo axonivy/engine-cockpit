@@ -20,9 +20,11 @@
     icon="ui-icon-save" styleClass="accent-btn card-button" />
   <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
     icon="ui-icon-delete" styleClass="red-btn card-button" />
-  <p:confirmDialog id="deleteUserConfirmDialog" message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User"
-    severity="alert" widgetVar="deleteUserConfirmDialog">
+  <p:confirmDialog id="deleteUserConfirmDialog" header="Delete User" severity="alert" widgetVar="deleteUserConfirmDialog"
+    message="#{userDetailBean.userDeleteHint()}">
     <p:commandLink value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
+    <p:commandButton id="disableUserConfirmBtn" value="Disable" immediate="true" actionListener="#{userDetailBean.disableUser}"
+      icon="ui-icon-block" styleClass="modal-input-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
     <p:commandButton id="deleteUserConfirmYesBtn" value="Delete" ajax="false" immediate="true" action="#{userDetailBean.deleteSelectedUser}"
       icon="ui-icon-delete" styleClass="modal-input-button" />
   </p:confirmDialog>
