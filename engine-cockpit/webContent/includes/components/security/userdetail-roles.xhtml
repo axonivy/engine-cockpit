@@ -32,6 +32,9 @@
           <i class="material-icons table-icon">group</i>
         </h:outputText>
         <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+        <h:panelGroup rendered="#{role.managed}">
+      	  <i class="material-icons table-icon" title="Role is managed by the external security system">synchronize</i>
+        </h:panelGroup>
       </a>
     </p:column>
     <p:column style="width: 41px;">
@@ -47,11 +50,11 @@
     <p:column style="width: 95px;">
       <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
         icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" style="margin: 0;"
-        disabled="#{role.name == 'Everybody' or userDetailBean.isUserMemberOfRole(role.name) or (!managerBean.ivySecuritySystem and role.adSynced)}" />
+        disabled="#{role.name == 'Everybody' or userDetailBean.isUserMemberOfRole(role.name)}" />
       <p:commandButton id="removeRoleFromUserBtn" update="@form"
         actionListener="#{userDetailBean.removeRole(role.name)}" icon="ui-icon-remove" title="Remove"
         styleClass="card-button table-control-btn secondary-btn"
-        disabled="#{role.name == 'Everybody' or !userDetailBean.isUserMemberOfRole(role.name) or (!managerBean.ivySecuritySystem and role.adSynced)}" />
+        disabled="#{role.name == 'Everybody' or !userDetailBean.isUserMemberOfRole(role.name)}" />
     </p:column>
   </p:treeTable>
 </h:form>

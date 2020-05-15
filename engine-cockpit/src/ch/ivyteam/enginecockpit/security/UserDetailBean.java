@@ -38,8 +38,7 @@ public class UserDetailBean
   public UserDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     user = new User();
     userProperties = new MemberProperty().new UserProperty();
   }

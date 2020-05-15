@@ -11,14 +11,13 @@
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
     <p:autoUpdate/>
   </p:growl>
-  <div style="float: right; margin-right: 5px;">
-    <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
-        type="button" icon="fa fa-refresh" styleClass="secondary-btn card-button" style="float: right;"
+
+  <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+        type="button" icon="fa fa-refresh" styleClass="secondary-btn card-button"
         onclick="PF('synchUserModal').show()" />
-  </div>
 
   <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
-    icon="ui-icon-save" styleClass="accent-btn card-button" rendered="#{managerBean.ivySecuritySystem}" />
+    icon="ui-icon-save" styleClass="accent-btn card-button" />
   <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
     icon="ui-icon-delete" styleClass="red-btn card-button" />
   <p:confirmDialog id="deleteUserConfirmDialog" message="Are you sure about deleteing the user '#{userDetailBean.userName}'?" header="Delete User"
@@ -50,15 +49,27 @@
       
     <p:outputLabel for="password2" value="Confirm Password" />
     <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}" autocomplete="new-password" />
-      
   </p:panelGrid>
+
   <p:messages for="password1" id="informationMessages">
     <p:autoUpdate/>
   </p:messages>
-  <h:panelGroup layout="block" styleClass="static-message static-info-message" rendered="#{!managerBean.ivySecuritySystem}">
-    <i class="fa fa-info-circle"/>
-    <h:outputText value="This user is managed by an external security system"/>
+  
+  <h:panelGroup rendered="#{userDetailBean.user.managed}">
+    <h:panelGroup layout="block" styleClass="static-message static-info-message">
+      <i class="fa fa-info-circle"/>
+      <h:outputText value="This user is managed by an external security system"/>
+    </h:panelGroup>
+
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+      <label>External Name</label>
+      <h:outputText id="externalName" value="#{userDetailBean.user.externalName}" />
+
+      <label>External ID</label>
+      <h:outputText id="externalId" value="#{userDetailBean.user.externalId}" />
+    </p:panelGrid>
   </h:panelGroup>
+
 </h:form>
 <ui:include src="../../dialogs/synchuser.xhtml" />
 </html>
