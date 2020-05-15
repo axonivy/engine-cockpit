@@ -13,10 +13,10 @@
   </p:growl>
   <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
     completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search user to add" 
-    disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
+    disabled="#{roleDetailBean.roleName == 'Everybody'}" />
   <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
     icon="ui-icon-add" title="Add" styleClass="primary-btn" 
-    disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
+    disabled="#{roleDetailBean.roleName == 'Everybody'}" />
   <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
     lazy="true" paginator="true" rows="10" paginatorPosition="bottom"
     paginatorAlwaysVisible="false"
@@ -42,7 +42,7 @@
       <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
         actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove" title="Remove"
         styleClass="card-button table-control-btn secondary-btn" style="margin: 0;" 
-        disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
+        disabled="#{roleDetailBean.roleName == 'Everybody'}" />
     </p:column>
   </p:dataTable>
 </h:form>

@@ -48,7 +48,7 @@ public class WebTestProperties
     $(syncBtnId).click();
     $(syncBtnId + " > span:first-child").shouldNotHave(cssClass("fa-spin"));
     Navigation.toUserDetail("user1");
-    assertTableHasDirectoryProperty("Address", "Baarerstrasse 12");
+    assertTableHasDirectoryProperty("Address", "Baarerstrasse 12 synchronize");
   }
   
   @Nested
@@ -144,9 +144,6 @@ public class WebTestProperties
   private void assertTableHasDirectoryProperty(String key, String value)
   {
     assertTableHasKeyValue(key, value);
-    Table table = new Table(TABLE_ID);
-    table.buttonForEntryShouldBeDisabled(key, "editPropertyBtn");
-    table.buttonForEntryShouldBeDisabled(key, "deletePropertyBtn");
   }
   
   private void assertTableHasKeyValue(String key, String value)

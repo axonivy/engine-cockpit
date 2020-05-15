@@ -154,9 +154,6 @@ public class WebTestRoleDetail
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
     
     $$("#usersOfRoleForm\\:roleUserTable td.user-row").shouldHave(size(3));
-    $("#usersOfRoleForm\\:addUserDropDown_input").shouldHave(cssClass("ui-state-disabled"));
-    $("#usersOfRoleForm\\:addUserToRoleBtn").shouldHave(cssClass("ui-state-disabled"));
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldHave(cssClass("ui-state-disabled"));
   
     $("#roleInformationForm\\:externalSecurityName").clear();
     $("#roleInformationForm\\:externalSecurityName").shouldBe(Condition.empty);

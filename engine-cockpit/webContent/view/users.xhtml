@@ -33,8 +33,7 @@
                 <h:panelGroup id="syncPanel">
                   <div class="single-card-top-right-btn">
                     <ui:include src="../includes/components/security/adsyncbtn.xhtml" />
-                    <p:commandButton id="newUserBtn" rendered="#{securityBean.ivySecurityForSelectedApp}"
-                      value="Add" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" />
+                    <p:commandButton id="newUserBtn" value="Add" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" />
                   </div>
                   <div style="float: right; margin-right: 5px;">
                     <ui:include src="../includes/components/security/adsynclog.xhtml" />

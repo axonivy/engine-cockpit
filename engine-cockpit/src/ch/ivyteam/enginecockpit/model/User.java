@@ -12,14 +12,16 @@ public class User
   private String email;
   private String password;
   private String realPassword = "";
+  private String externalName = "";
+  private String externalId = "";
 
   private boolean loggedIn;
   private boolean enabled = true;
+  private boolean isManaged;
   private long id;
 
   public User()
   {
-
   }
 
   public User(IUser user)
@@ -29,6 +31,9 @@ public class User
     this.email = user.getEMailAddress();
     this.loggedIn = false;
     this.enabled = user.isEnabled();
+    this.isManaged = StringUtils.isNotEmpty(user.getExternalName());
+    this.externalName = user.getExternalName();
+    this.externalId = user.getExternalId();
     this.id = user.getId();
   }
 
@@ -104,7 +109,22 @@ public class User
   {
     this.password = password;
   }
-  
+
+  public boolean isManaged()
+  {
+    return isManaged;
+  }
+
+  public String getExternalName()
+  {
+    return externalName;
+  }
+
+  public String getExternalId()
+  {
+    return externalId;
+  }
+
   //Use for <p:password redisplay="true"> without leak the real password in the DOM
   public void setRealPassword(String realPassword)
   {

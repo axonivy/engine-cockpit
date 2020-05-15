@@ -4,18 +4,18 @@ public class SecurityMemberProperty
 {
   private String key;
   private String value;
-  private boolean backed;
+  private boolean managed;
   
   public SecurityMemberProperty()
   {
     this("", "", false);
   }
 
-  public SecurityMemberProperty(String key, String property, boolean isBacked)
+  public SecurityMemberProperty(String key, String property, boolean isManaged)
   {
     this.key = key;
     this.value = property;
-    this.backed = isBacked;
+    this.managed = isManaged;
   }
 
   public String getKey()
@@ -38,9 +38,8 @@ public class SecurityMemberProperty
     this.value = value;
   }
 
-  public boolean isBacked()
+  public boolean isManaged()
   {
-    return backed;
+    return managed;
   }
-  
 }

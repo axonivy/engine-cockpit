@@ -40,7 +40,6 @@ public class Role
 
   public Role()
   {
-
   }
 
   public String getName()
@@ -93,11 +92,6 @@ public class Role
     this.member = member;
   }
   
-  public boolean isAdSynced()
-  {
-    return !StringUtils.isEmpty(externalName);
-  }
-  
   public boolean isDynamic()
   {
     return dynamic;
@@ -108,10 +102,14 @@ public class Role
     this.dynamic = dynamic;
   }
 
+  public boolean isManaged()
+  {
+    return StringUtils.isNotEmpty(externalName);
+  }
+
   @Override
   public String toString()
   {
     return name;
   }
-
 }
