@@ -223,6 +223,6 @@ public class LicenceBean extends StepStatus
 
   private String getSessionUsername()
   {
-    return ISession.get().getSessionUserName();
+    return ISession.current().getSessionUserName();
   }
 }

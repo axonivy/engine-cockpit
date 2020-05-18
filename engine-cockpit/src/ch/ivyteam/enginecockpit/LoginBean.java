@@ -24,7 +24,7 @@ public class LoginBean
 
   public void checkLogin()
   {
-    if (ISession.get().isSessionUserUnknown())
+    if (ISession.current().isSessionUserUnknown())
     {
       originalUrl = evalOriginalUrl();
       loginDefaultAdminOrRedirect();
@@ -35,7 +35,7 @@ public class LoginBean
   {
     if (EngineMode.is(EngineMode.DEMO))
     {
-      if(ISession.get().loginSessionUser("admin", "admin"))
+      if(ISession.current().loginSessionUser("admin", "admin"))
       {
         return;
       }
@@ -45,7 +45,7 @@ public class LoginBean
 
   public void login()
   {
-    if (ISession.get().loginSessionUser(userName, password))
+    if (ISession.current().loginSessionUser(userName, password))
     {
       redirect(StringUtils.isNotBlank(originalUrl) ? originalUrl : "dashboard.xhtml");
       return;
@@ -56,7 +56,7 @@ public class LoginBean
 
   public void logout()
   {
-    ISession.get().logoutSessionUser();
+    ISession.current().logoutSessionUser();
     redirect();
   }
   
@@ -92,7 +92,7 @@ public class LoginBean
 
   public String getSessionUserName()
   {
-    return ISession.get().getSessionUserName();
+    return ISession.current().getSessionUserName();
   }
 
   public String getUserName()

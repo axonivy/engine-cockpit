@@ -37,9 +37,9 @@ public class RenewLicence
   
   public RenewLicence()
   {
-    if (!ISession.get().isSessionUserUnknown())
+    if (!ISession.current().isSessionUserUnknown())
     {
-      mailAddress = ISession.get().getSessionUser().getEMailAddress();
+      mailAddress = ISession.current().getSessionUser().getEMailAddress();
     }
   }
   
