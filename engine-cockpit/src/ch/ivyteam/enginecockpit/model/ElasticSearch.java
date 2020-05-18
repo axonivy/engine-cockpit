@@ -32,8 +32,8 @@ public class ElasticSearch
   
   public ElasticSearch(String serverUrl, ElasticSearchInfo elasticSearchInfo)
   {
-    this.username = IConfiguration.get().getOrDefault("Elasticsearch.ExternalServer.UserName");
-    this.password = IConfiguration.get().getOrDefault("Elasticsearch.ExternalServer.Password");
+    this.username = IConfiguration.instance().getOrDefault("Elasticsearch.ExternalServer.UserName");
+    this.password = IConfiguration.instance().getOrDefault("Elasticsearch.ExternalServer.Password");
     this.serverUrl = serverUrl;
     if (elasticSearchInfo != null)
     {

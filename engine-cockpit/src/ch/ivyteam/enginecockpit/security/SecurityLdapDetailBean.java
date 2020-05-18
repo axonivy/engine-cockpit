@@ -66,7 +66,7 @@ public class SecurityLdapDetailBean
     userGroupMembersAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE);
     
     properties = new HashMap<>();
-    Map<String, String> yamlProperties = IConfiguration.get().getMap(
+    Map<String, String> yamlProperties = IConfiguration.instance().getMap(
             SecuritySystemConfig.getPrefix(name) + ConfigKey.USER_ATTRIBUTE_PROPERTIES);
     for (String key : yamlProperties.keySet())
     {
@@ -214,7 +214,7 @@ public class SecurityLdapDetailBean
   
   public void removeLdapAttribute(String attributeName)
   {
-    IConfiguration.get().remove(SecuritySystemConfig.getPrefix(name) + 
+    IConfiguration.instance().remove(SecuritySystemConfig.getPrefix(name) + 
             ConfigKey.USER_ATTRIBUTE_PROPERTIES + "." + attributeName);
     properties.remove(attributeName);
   }

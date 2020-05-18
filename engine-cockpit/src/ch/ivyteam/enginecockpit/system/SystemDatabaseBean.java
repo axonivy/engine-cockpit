@@ -106,7 +106,7 @@ public class SystemDatabaseBean extends StepStatus
   
   public String getUrl()
   {
-    return IConfiguration.get().getOrDefault("SystemDb.Url");
+    return IConfiguration.instance().getOrDefault("SystemDb.Url");
   }
 
   public void setDriver(String driver)

@@ -24,12 +24,12 @@ public class UrlUtil
   
   public static String getEngineGuideBaseUrl()
   {
-    return Advisor.get().getDocBaseUrl() + "/engine-guide";
+    return Advisor.instance().getDocBaseUrl() + "/engine-guide";
   }
   
   public static String getDesignerGuideBaseUrl()
   {
-    return Advisor.get().getDocBaseUrl() + "/designer-guide";
+    return Advisor.instance().getDocBaseUrl() + "/designer-guide";
   }
   
   public static String getCockpitEngineGuideUrl()
@@ -62,7 +62,7 @@ public class UrlUtil
   
   public static File getConfigFile(String configFile)
   {
-    return IFileAccess.get().getConfigurationFile(configFile);
+    return IFileAccess.instance().getConfigurationFile(configFile);
   }
   
   public static File getLogDir()

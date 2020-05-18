@@ -28,14 +28,14 @@ public class WebServerConnectorBean extends StepStatus
   
   public WebServerConnectorBean()
   {
-    httpEnabled = IConfiguration.get().getOrDefault(CONNECTOR_HTTP + ENABLED, Boolean.class);
-    httpPort = IConfiguration.get().getOrDefault(CONNECTOR_HTTP + PORT, int.class);
+    httpEnabled = IConfiguration.instance().getOrDefault(CONNECTOR_HTTP + ENABLED, Boolean.class);
+    httpPort = IConfiguration.instance().getOrDefault(CONNECTOR_HTTP + PORT, int.class);
     
-    httpsEnabled = IConfiguration.get().getOrDefault(CONNECTOR_HTTPS + ENABLED, Boolean.class);
-    httpsPort = IConfiguration.get().getOrDefault(CONNECTOR_HTTPS + PORT, int.class);
+    httpsEnabled = IConfiguration.instance().getOrDefault(CONNECTOR_HTTPS + ENABLED, Boolean.class);
+    httpsPort = IConfiguration.instance().getOrDefault(CONNECTOR_HTTPS + PORT, int.class);
     
-    ajpEnabled = IConfiguration.get().getOrDefault(CONNECTOR_AJP + ENABLED, Boolean.class);
-    ajpPort = IConfiguration.get().getOrDefault(CONNECTOR_AJP + PORT, int.class);
+    ajpEnabled = IConfiguration.instance().getOrDefault(CONNECTOR_AJP + ENABLED, Boolean.class);
+    ajpPort = IConfiguration.instance().getOrDefault(CONNECTOR_AJP + PORT, int.class);
   }
   
   public boolean isHttpEnabled()
@@ -106,13 +106,13 @@ public class WebServerConnectorBean extends StepStatus
   
   private void setConfig(String key, Object httpEnabled)
   {
-    if (String.valueOf(httpEnabled).equals(IConfiguration.get().getMetadata(key).getDefaultValue()))
+    if (String.valueOf(httpEnabled).equals(IConfiguration.instance().getMetadata(key).getDefaultValue()))
     {
-      IConfiguration.get().remove(key);
+      IConfiguration.instance().remove(key);
     }
     else
     {
-      IConfiguration.get().set(key, httpEnabled);
+      IConfiguration.instance().set(key, httpEnabled);
     }
     FacesContext.getCurrentInstance().addMessage("",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + key + "' changed successfully", ""));

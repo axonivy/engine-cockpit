@@ -35,7 +35,7 @@ public class EmailBean
     port = config.getSmtpPort();
     email = config.getFrom();
     user = config.getSmtpUser();
-    triggerTime = IConfiguration.get().getOrDefault(EmailUtil.DAILYTASKSUMMARY_TRIGGERTIME);
+    triggerTime = IConfiguration.instance().getOrDefault(EmailUtil.DAILYTASKSUMMARY_TRIGGERTIME);
     subject = "Test Mail";
     message = "This is a test mail.";
   }

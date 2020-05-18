@@ -32,7 +32,7 @@ public class EditorBean
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     File ivyYaml = UrlUtil.getConfigFile("ivy.yaml");
-    configFiles.add(new ConfigFile(ivyYaml, IConfiguration.get()));
+    configFiles.add(new ConfigFile(ivyYaml, IConfiguration.instance()));
     configFiles.addAll(managerBean.getIApplications().stream()
             .map(this::createAppConfigFile)
             .collect(Collectors.toList()));

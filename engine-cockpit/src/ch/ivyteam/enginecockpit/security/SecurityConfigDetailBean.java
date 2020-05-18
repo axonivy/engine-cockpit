@@ -353,7 +353,7 @@ public class SecurityConfigDetailBean
   
   public String deleteConfiguration()
   {
-    IConfiguration.get().remove(SecuritySystemConfig.getPrefix(name));
+    IConfiguration.instance().remove(SecuritySystemConfig.getPrefix(name));
     return "securitysystem.xhtml?faces-redirect=true";
   }
   
