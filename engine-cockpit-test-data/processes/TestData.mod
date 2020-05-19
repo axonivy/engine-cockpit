@@ -130,8 +130,8 @@ Ta0 f8 actionTable 'out=in;
 ' #txt
 Ta0 f8 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
-IConfiguration.get().set("Administrators.admin.Password", "admin");
-IConfiguration.get().set("Administrators.admin.Email", "admin@example.com");' #txt
+IConfiguration.instance().set("Administrators.admin.Password", "admin");
+IConfiguration.instance().set("Administrators.admin.Email", "admin@example.com");' #txt
 Ta0 f8 168 42 112 44 0 -7 #rect
 Ta0 f8 @|StepIcon #fIcon
 Ta0 f9 111 64 168 64 #arcP

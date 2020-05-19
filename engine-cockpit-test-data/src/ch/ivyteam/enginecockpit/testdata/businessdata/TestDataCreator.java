@@ -8,7 +8,7 @@ public class TestDataCreator
 {
   public static void createDemoDataIfNotExist()
   {
-    BusinessDataRepository repo = BusinessDataRepository.get();
+    BusinessDataRepository repo = BusinessDataRepository.current();
     long dossierCount = countDossier(repo);
 
     if (dossierCount == 0)
@@ -86,13 +86,13 @@ public class TestDataCreator
     person.address = address;
     dossier.person = person;
 
-    BusinessDataRepository repo = BusinessDataRepository.get();
+    BusinessDataRepository repo = BusinessDataRepository.current();
     repo.save(dossier);
   }
 
   public static void clearDemoData()
   {
-    BusinessDataRepository repo = BusinessDataRepository.get();
+    BusinessDataRepository repo = BusinessDataRepository.current();
     for (Dossier info : getDossiers(repo).getAll())
     {
       repo.delete(info);
