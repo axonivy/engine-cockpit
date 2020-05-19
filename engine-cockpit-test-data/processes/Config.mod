@@ -64,8 +64,8 @@ Cg0 f6 actionTable 'out=in;
 ' #txt
 Cg0 f6 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
-IConfiguration.get().remove("Administrators");
-IConfiguration.get().set("Administrators.admin.Password", "admin");' #txt
+IConfiguration.instance().remove("Administrators");
+IConfiguration.instance().set("Administrators.admin.Password", "admin");' #txt
 Cg0 f6 168 42 112 44 0 -7 #rect
 Cg0 f6 @|StepIcon #fIcon
 Cg0 f7 111 64 168 64 #arcP
@@ -74,7 +74,7 @@ Cg0 f8 actionTable 'out=in;
 ' #txt
 Cg0 f8 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
-IConfiguration.get().remove("Connector");' #txt
+IConfiguration.instance().remove("Connector");' #txt
 Cg0 f8 168 138 112 44 0 -7 #rect
 Cg0 f8 @|StepIcon #fIcon
 Cg0 f9 111 160 168 160 #arcP
@@ -101,7 +101,7 @@ Cg0 f12 actionTable 'out=in;
 ' #txt
 Cg0 f12 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
-IConfiguration.get().remove("SystemDb");
+IConfiguration.instance().remove("SystemDb");
 ' #txt
 Cg0 f12 168 234 112 44 0 -7 #rect
 Cg0 f12 @|StepIcon #fIcon
