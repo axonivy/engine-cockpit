@@ -234,6 +234,6 @@ public class ManagerBean
   
   public boolean isRestartEngine()
   {
-    return IConfiguration.get().isEngineRestartNeeded();
+    return IConfiguration.instance().isEngineRestartNeeded();
   }
 }

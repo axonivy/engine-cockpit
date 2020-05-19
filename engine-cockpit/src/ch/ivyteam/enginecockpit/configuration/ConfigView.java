@@ -24,7 +24,7 @@ public class ConfigView
 
   public ConfigView()
   {
-    this(IConfiguration.get());
+    this(IConfiguration.instance());
   }
 
   public ConfigView(IConfiguration configuration)

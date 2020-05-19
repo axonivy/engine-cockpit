@@ -26,7 +26,7 @@ public class AdministratorBean extends StepStatus
   
   private static List<User> reloadAdmins()
   {
-    return AdministratorService.get().allConfigured().stream()
+    return AdministratorService.instance().allConfigured().stream()
             .map(admin -> new User(admin))
             .collect(Collectors.toList());
   }
@@ -43,7 +43,7 @@ public class AdministratorBean extends StepStatus
   
   public void removeAdmin()
   {
-    AdministratorService.get().find(editAdmin.getName()).ifPresent(a -> AdministratorService.get().remove(a));
+    AdministratorService.instance().find(editAdmin.getName()).ifPresent(a -> AdministratorService.instance().remove(a));
     FacesContext.getCurrentInstance().addMessage("",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' removed successfully", ""));
     admins.remove(editAdmin);
@@ -80,7 +80,7 @@ public class AdministratorBean extends StepStatus
       message = new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' added successfully", "");
     }
     FacesContext.getCurrentInstance().addMessage("", message);
-    AdministratorService.get().save(editAdmin.getAdmin());
+    AdministratorService.instance().save(editAdmin.getAdmin());
   }
   
   public boolean hasAdmins()

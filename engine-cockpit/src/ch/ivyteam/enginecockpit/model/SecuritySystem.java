@@ -21,7 +21,7 @@ public class SecuritySystem
   public SecuritySystem(String securitySystemName, Optional<ISecurityContext> securityContext, List<String> appNames)
   {
     this.securitySystemName = securitySystemName;
-    securitySystemProvider = IConfiguration.get().get("SecuritySystems." + securitySystemName + ".Provider")
+    securitySystemProvider = IConfiguration.instance().get("SecuritySystems." + securitySystemName + ".Provider")
             .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemName()).orElse(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
     id = securityContext.map(c -> c.getId()).orElse(0L);
 

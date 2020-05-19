@@ -52,31 +52,31 @@ public class SecuritySystemConfig
   
   public static String getOrBlank(String key)
   {
-    return IConfiguration.get().get(key).orElse("");
+    return IConfiguration.instance().get(key).orElse("");
   }
   
   public static void setOrRemove(String key, Object value)
   {
     if (StringUtils.isBlank(value.toString()))
     {
-      IConfiguration.get().remove(key);
+      IConfiguration.instance().remove(key);
       return;
     }
-    IConfiguration.get().set(key, value);
+    IConfiguration.instance().set(key, value);
   }
   
   public static void setAuthenticationKind(String name)
   {
-    if (!IConfiguration.get().get(getPrefix(name) + ConfigKey.CONNECTION_USER_NAME).isPresent())
+    if (!IConfiguration.instance().get(getPrefix(name) + ConfigKey.CONNECTION_USER_NAME).isPresent())
     {
-      IConfiguration.get().set(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND, "none");
+      IConfiguration.instance().set(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND, "none");
       return;
     }
-    IConfiguration.get().remove(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND);
+    IConfiguration.instance().remove(getPrefix(name) + ConfigKey.CONNECTION_AUTHENTICATION_KIND);
   }
 
   public static Collection<String> getSecuritySystems()
   {
-    return IConfiguration.get().getNames(SecuritySystemConfig.SECURITY_SYSTEMS, "Provider");
+    return IConfiguration.instance().getNames(SecuritySystemConfig.SECURITY_SYSTEMS, "Provider");
   }
 }
