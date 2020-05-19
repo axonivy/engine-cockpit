@@ -143,7 +143,7 @@ body {
 .ui-staticmessage + .ui-staticmessage {
   margin-top: 5px;
 }
-.ui-staticmessage a {
+.ui-message.ui-staticmessage a {
   text-decoration: underline;
   font-weight: bold;
 }
