@@ -137,6 +137,25 @@ body {
 .dashboard .messages i.error {
   color: #D23636;
 }
+.card-top-static-message {
+  padding-top: 10px;
+}
+.ui-staticmessage + .ui-staticmessage {
+  margin-top: 5px;
+}
+.ui-staticmessage a {
+  text-decoration: underline;
+  font-weight: bold;
+}
+.ui-staticmessage.ui-message-info a {
+  color: var(--message-info-text-color, white);
+}
+.ui-staticmessage.ui-message-warn a {
+  color: var(--message-warn-text-color, yellow);
+}
+.ui-staticmessage.ui-message-error a {
+  color: var(--message-error-text-color, white);
+}
 
 /*Tables / Trees*/
 .ui-datatable.no-header-table thead {
@@ -322,24 +341,6 @@ body {
 }
 .release-state-archived {
   text-decoration: line-through;
-}
-.static-message {
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  padding: 5px 8px;
-}
-.static-message i {
-  margin-left: 5px;
-  margin-right: 10px;
-}
-.static-info-message {
-  color: #ffffff;
-  background-color: #9C9D9D;
-}
-.static-warn-message {
-  color: black;
-  background-color: #FFCE29;
 }
 .label-help-icon {
   float: right; 

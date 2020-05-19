@@ -87,16 +87,10 @@
   <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
     widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
     <h:form id="editConfigurationForm">
-      <h:panelGroup layout="block" styleClass="static-message static-info-message" 
-        rendered="#{cc.attrs.bean.activeConfig.shortSource eq 'app.yaml'}">
-        <i class="fa fa-info-circle"/>
-        <h:outputText value="Values from app.yaml files are overritten in the ivy.yaml file"/>
-      </h:panelGroup>
-      <h:panelGroup layout="block" styleClass="static-message static-info-message" 
-        rendered="#{cc.attrs.bean.activeConfig.restartRequired}">
-        <i class="fa fa-info-circle"/>
-        <h:outputText value="If you change this property, you have to restart you engine"/>
-      </h:panelGroup>
+      <p:staticMessage severity="info" summary="Values from app.yaml files are overritten in the ivy.yaml file" 
+        rendered="#{cc.attrs.bean.activeConfig.shortSource eq 'app.yaml'}" />
+      <p:staticMessage severity="info" summary="If you change this property, you have to restart you engine" 
+        rendered="#{cc.attrs.bean.activeConfig.restartRequired}" />
       
       <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
         styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">

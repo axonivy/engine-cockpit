@@ -37,6 +37,7 @@ public class UserDetailBean
   private List<Role> filteredRoles;
 
   private ManagerBean managerBean;
+  private String securitySystemName;
   private long canWorkOn;
   private long personalTasks;
   private long startedCases;
@@ -62,6 +63,7 @@ public class UserDetailBean
     IUser iUser = getSecurityContext().users().find(userName);
     this.user = new User(iUser);
     this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
+    this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
     startedCases = CaseQuery.create().where().isBusinessCase().and().creatorUserId().isEqual(iUser.getId()).executor().count();
     workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.RESUMED)
@@ -247,6 +249,11 @@ public class UserDetailBean
               + "If you delete this user, no other user can work on these tasks. ";
     }
     return message + "You may want to deactivate this user instead of deleting it, because you may loose workflow history.";
+  }
+  
+  public String getSecuritySystemName()
+  {
+    return securitySystemName;
   }
   
   public long getCanWorkOn()

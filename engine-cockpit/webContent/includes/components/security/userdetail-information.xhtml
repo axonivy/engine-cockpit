@@ -32,7 +32,19 @@
     icon="ui-icon-block" styleClass="red-btn card-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
   <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
     icon="ui-icon-done" styleClass="accent-btn card-button" rendered="#{userDetailBean.isUserDisabled()}" update="userInformationForm" />
-
+    
+  <div class="card-top-static-message">
+    <p:staticMessage rendered="#{userDetailBean.isUserDisabled()}" severity="warn" 
+      summary="This user is disabled" />
+    <h:panelGroup rendered="#{userDetailBean.user.managed}" layout="block" 
+      styleClass="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
+      <span class="ui-message-info-icon" />
+      <span class="ui-message-info-summary">This user is managed by the external security system</span>
+      <span class="ui-message-info-detail">
+        <a href="security-detail.xhtml?securitySystemName=#{userDetailBean.securitySystemName}">#{userDetailBean.securitySystemName}</a>
+      </span>
+    </h:panelGroup>
+  </div>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     
@@ -58,11 +70,6 @@
   </p:messages>
   
   <h:panelGroup rendered="#{userDetailBean.user.managed}">
-    <h:panelGroup layout="block" styleClass="static-message static-info-message">
-      <i class="fa fa-info-circle"/>
-      <h:outputText value="This user is managed by an external security system"/>
-    </h:panelGroup>
-
     <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
       <label>External Name</label>
       <h:outputText id="externalName" value="#{userDetailBean.user.externalName}" />

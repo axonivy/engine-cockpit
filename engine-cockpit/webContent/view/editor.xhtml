@@ -104,12 +104,8 @@
         <p:dialog style="min-width: 300px;" header="Save #{editorBean.activeConfigFile.fileName}" id="saveEditorModel"
           widgetVar="saveEditorModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
           <h:form id="saveEditorForm">
-            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-              <h:panelGroup layout="block" styleClass="static-message static-warn-message">
-                <i class="fa fa-info-circle"/>
-                <h:outputText value="Yaml errors are detected. Do you want to save anyway?"/>
-              </h:panelGroup>
-            </p:panelGrid>
+            <p:staticMessage severity="info" summary="Yaml errors are detected. Do you want to save anyway?" style="margin-bottom: 10px;"/>
+            
             <p:commandButton id="saveChangesBtn" onclick="PF('saveEditorModel').hide();"
               actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="ui-icon-save"
               styleClass="modal-input-button" widgetVar="saveChanges" />
