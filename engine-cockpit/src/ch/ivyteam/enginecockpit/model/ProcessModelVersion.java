@@ -3,16 +3,16 @@ package ch.ivyteam.enginecockpit.model;
 import java.text.SimpleDateFormat;
 
 import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
-import ch.ivyteam.ivy.application.value.QualifiedVersion;
 import ch.ivyteam.ivy.environment.Ivy;
 
 public class ProcessModelVersion extends AbstractActivity
 {
   private ReleaseState releaseState;
   private IProcessModelVersion pmv;
-  private QualifiedVersion qualifiedVersion;
+  private String qualifiedVersion;
   private String lastChangeDate;
 
   public ProcessModelVersion(IProcessModelVersion pmv)
@@ -25,13 +25,15 @@ public class ProcessModelVersion extends AbstractActivity
     super(pmv.getVersionName(), pmv.getId(), pmv, bean);
     setOperationState(pmv.getActivityOperationState());
     releaseState = pmv.getReleaseState();
-    disable = pmv.getProcessModel().getApplication().getName().equals("designer");
-    qualifiedVersion = pmv.getLibrary().getQualifiedVersion();
+    qualifiedVersion = getLibraryVersion(pmv);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    lastChangeDate = formatter.format(pmv.getLastChangeDate());
+    if (pmv.getLastChangeDate() != null)
+    {
+      lastChangeDate = formatter.format(pmv.getLastChangeDate());
+    }
     this.pmv = pmv;
   }
-  
+
   @Override
   public void updateStats()
   {
@@ -117,12 +119,28 @@ public class ProcessModelVersion extends AbstractActivity
   
   public String getQualifiedVersion()
   {
-    return qualifiedVersion.getRawVersion();
+    return qualifiedVersion;
   }
   
   public String getLastChangeDate()
   {
     return lastChangeDate;
+  }
+  
+  private static String getLibraryVersion(IProcessModelVersion pmv)
+  {
+    ILibrary library = pmv.getLibrary();
+    if (library != null)
+    {
+      return library.getQualifiedVersion().getRawVersion();
+    }
+    return "Unknown version";
+  }
+  
+  @Override
+  public boolean isDisabled()
+  {
+    return getName().startsWith("engine-cockpit");
   }
   
 }
