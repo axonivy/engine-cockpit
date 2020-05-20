@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.modal;
+package ch.ivytea.enginecockpit.modal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

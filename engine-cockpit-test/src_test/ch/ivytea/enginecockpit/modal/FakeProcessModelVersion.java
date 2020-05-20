@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.modal;
+package ch.ivytea.enginecockpit.modal;
 
 import java.net.URI;
 import java.util.Date;
