@@ -27,7 +27,10 @@ public class ProcessModelVersion extends AbstractActivity
     releaseState = pmv.getReleaseState();
     qualifiedVersion = getLibraryVersion(pmv);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    lastChangeDate = formatter.format(pmv.getLastChangeDate());
+    if (pmv.getLastChangeDate() != null)
+    {
+      lastChangeDate = formatter.format(pmv.getLastChangeDate());
+    }
     this.pmv = pmv;
   }
 
