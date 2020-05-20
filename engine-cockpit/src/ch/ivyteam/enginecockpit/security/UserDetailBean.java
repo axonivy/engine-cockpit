@@ -248,7 +248,7 @@ public class UserDetailBean
       message += "The user '" + getUserName() + "' has " + getPersonalTasks() + " personal tasks. "
               + "If you delete this user, no other user can work on these tasks. ";
     }
-    return message + "You may want to deactivate this user instead of deleting it, because you may loose workflow history.";
+    return message + "You may want to disable this user instead of deleting it, you could lose part of the workflow history.";
   }
   
   public String getSecuritySystemName()
