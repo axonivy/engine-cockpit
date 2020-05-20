@@ -14,7 +14,6 @@ public abstract class AbstractActivity
   private ActivityState state;
   private ActivityOperationState operationState;
   private String errorMessage;
-  protected boolean disable;
   private ApplicationBean bean;
   
   public static final String APP = "APP";
@@ -142,17 +141,17 @@ public abstract class AbstractActivity
   
   public boolean isActive()
   {
-    return state == ActivityState.ACTIVE || disable;
+    return state == ActivityState.ACTIVE || isDisabled();
   }
   
   public boolean isInActive()
   {
-    return state == ActivityState.INACTIVE || disable;
+    return state == ActivityState.INACTIVE || isDisabled();
   }
   
   public boolean isLocked()
   {
-    return state == ActivityState.LOCKED || state == ActivityState.INACTIVE || disable;
+    return state == ActivityState.LOCKED || state == ActivityState.INACTIVE || isDisabled();
   }
 
   public String getErrorMessage()
@@ -167,7 +166,7 @@ public abstract class AbstractActivity
   
   public boolean isDeleteDisabled()
   {
-    return disable;
+    return isDisabled();
   }
   
   public void activate()
@@ -204,6 +203,8 @@ public abstract class AbstractActivity
   public abstract long getApplicationId();
   
   public abstract String getActivityType();
+  
+  public abstract boolean isDisabled();
   
   private void reloadBeanData()
   {

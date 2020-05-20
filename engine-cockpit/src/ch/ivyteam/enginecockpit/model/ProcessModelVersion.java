@@ -25,7 +25,6 @@ public class ProcessModelVersion extends AbstractActivity
     super(pmv.getVersionName(), pmv.getId(), pmv, bean);
     setOperationState(pmv.getActivityOperationState());
     releaseState = pmv.getReleaseState();
-    disable = pmv.getProcessModel().getApplication().getName().equals("designer");
     qualifiedVersion = getLibraryVersion(pmv);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     lastChangeDate = formatter.format(pmv.getLastChangeDate());
@@ -133,6 +132,12 @@ public class ProcessModelVersion extends AbstractActivity
       return library.getQualifiedVersion().getRawVersion();
     }
     return "Unknown version";
+  }
+  
+  @Override
+  public boolean isDisabled()
+  {
+    return getName().startsWith("engine-cockpit");
   }
   
 }

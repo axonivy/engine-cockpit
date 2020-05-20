@@ -17,7 +17,6 @@ public class ProcessModel extends AbstractActivity
   {
     super(pm.getName(), pm.getId(), pm, bean);
     setOperationState(pm.getActivityOperationState());
-    disable = pm.getApplication().getName().equals("designer");
     runningCasesCount = pm.getProcessModelVersions().stream()
             .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
   }
@@ -44,6 +43,12 @@ public class ProcessModel extends AbstractActivity
   public String getActivityType()
   {
     return AbstractActivity.PM;
+  }
+  
+  @Override
+  public boolean isDisabled()
+  {
+    return getName().equals("engine-cockpit");
   }
 
 }
