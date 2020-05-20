@@ -17,6 +17,8 @@ import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.query.UserQuery;
+import ch.ivyteam.ivy.workflow.TaskState;
+import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
 @ManagedBean
 @ViewScoped
@@ -37,6 +39,10 @@ public class RoleDetailBean
   private ManagerBean managerBean;
   private RoleBean roleBean;
   private LdapBrowser ldapBrowser;
+  private long userCount;
+  private long runningTaskCount;
+  private long directTaskCount;
+  private long userInheritCont;
 
   public RoleDetailBean()
   {
@@ -63,6 +69,17 @@ public class RoleDetailBean
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
     loadMembersOfRole();
+    userCount = managerBean.getSelectedIApplication().getSecurityContext().users().query().where().hasRoleAssigned(iRole).executor().count();
+    userInheritCont = managerBean.getSelectedIApplication().getSecurityContext().users().query().where().hasRole(iRole).executor().count();
+    runningTaskCount = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+            .or().state().isEqual(TaskState.RESUMED)
+            .or().state().isEqual(TaskState.PARKED)
+            .andOverall().activatorRoleId().isEqual(iRole.getId()).executor().count();
+    directTaskCount = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+            .or().state().isEqual(TaskState.SUSPENDED)
+            .or().state().isEqual(TaskState.RESUMED)
+            .or().state().isEqual(TaskState.PARKED)
+            .andOverall().activatorRoleId().isEqual(iRole.getId()).executor().count();
   }
 
   public String getUsersOfRoleFilter()
@@ -257,5 +274,25 @@ public class RoleDetailBean
   public void chooseLdapName()
   {
     role.setExternalName(ldapBrowser.getSelectedLdapName());
+  }
+  
+  public long getUserCount()
+  {
+    return userCount;
+  }
+  
+  public long getUserInheritCount()
+  {
+    return userInheritCont;
+  }
+  
+  public long getRunningTaskCount()
+  {
+    return runningTaskCount;
+  }
+  
+  public long getDirectTaskCount()
+  {
+    return directTaskCount;
   }
 }

@@ -5,6 +5,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -113,10 +114,13 @@ public class WebTestUserDetail
   void testEnableDisableUser()
   {
     Navigation.toUserDetail(USER_FOO);
+    $("#userInformationForm .card-top-static-message").shouldBe(empty);
     $("#userInformationForm\\:disableUser").shouldBe(visible).click();
     $("#userInformationForm\\:disableUser").shouldNotBe(visible);
+    $("#userInformationForm .card-top-static-message").shouldHave(text("This user is disabled"));
     $("#userInformationForm\\:enableUser").shouldBe(visible).click();
     $("#userInformationForm\\:enableUser").shouldNotBe(visible);
+    $("#userInformationForm .card-top-static-message").shouldBe(empty);
     $("#userInformationForm\\:disableUser").shouldBe(visible);
   }
 
@@ -246,6 +250,7 @@ public class WebTestUserDetail
     $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));
     
     Navigation.toUserDetail(USER_AD);
+    $("#userInformationForm .card-top-static-message").shouldHave(text("This user is managed"));
     $("#userInformationForm\\:userSynchBtn").click();
     $("#synchUserForm").shouldBe(visible);
     $("#synchUserForm\\:userSynchName").shouldBe(disabled, value(USER_AD));

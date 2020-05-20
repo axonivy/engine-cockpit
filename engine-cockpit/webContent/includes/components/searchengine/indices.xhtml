@@ -56,14 +56,9 @@
 
 <p:dialog style="min-width: 300px;" header="Reindex #{searchEngineBean.activeIndex.name}" id="reindexSearchEngineModel"
   widgetVar="reindexSearchEngineModel" modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="reindexSearchEngineForm">
-    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
-      <h:panelGroup layout="block" styleClass="static-message static-info-message">
-        <i class="fa fa-info-circle"/>
-        <h:outputText value="This step triggers the reindexation of the search engine and can take a while!"/>
-      </h:panelGroup>
-    </p:panelGrid>
-  </h:form>
+  
+  <p:staticMessage severity="info" summary="This step triggers the reindexation of the search engine and can take a while!" />
+  
   <f:facet name="footer">
     <p:commandLink id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel" type="button"
       styleClass="scondary-btn modal-input-button" />
