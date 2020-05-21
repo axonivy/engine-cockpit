@@ -19,6 +19,7 @@ public class UserDataModel extends LazyDataModel<User>
   private IRole filterRole;
   private String filter;
   private boolean showDisabledUsers;
+  private boolean showManualUsers;
 
   public void setApp(IApplication app)
   {
@@ -48,6 +49,16 @@ public class UserDataModel extends LazyDataModel<User>
   public void setShowDisabledUsers(boolean showDisabledUsers)
   {
     this.showDisabledUsers = showDisabledUsers;
+  }
+  
+  public boolean showManualUsers()
+  {
+    return showManualUsers;
+  }
+  
+  public void setShowManualUsers(boolean showManualUsers)
+  {
+    this.showManualUsers = showManualUsers;
   }
 
   @Override
@@ -95,6 +106,10 @@ public class UserDataModel extends LazyDataModel<User>
     else
     {
       query.where().enabled();
+    }
+    if (showManualUsers)
+    {
+      query.where().externalId().isEqual("").or().externalId().isNull();
     }
   }
 

@@ -48,16 +48,16 @@
                   </div>
                 </h:panelGroup>
                 <div style="float: right; margin-right: 5px;">
-                    <p:commandButton title="More" id="moreBtn"
-                      type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
-                    <p:menu overlay="true" trigger="moreBtn" my="right top" at="right bottom" id="synchronizationMenu" style="min-width:200px;">
-                      <p:menuitem value="Show #{userBean.showDisabledUsers ? 'enabled' : 'disabled'} users" 
-                        icon="ui-icon-visibility"
-                        id="showDisabledUserBtn" process="@this" update="@form" action="#{userBean.switchDisabledUsers}" />
-                      <p:menuitem value="Show #{userBean.showDisabledUsers ? 'manual' : 'all'} users" 
-                        icon="ui-icon-visibility" rendered="#{!securityBean.ivySecurityForSelectedApp}"
-                        id="showManualUserBtn" process="@this" update="@form" action="#{userBean.switchDisabledUsers}" />
-                    </p:menu>
+                  <p:commandButton title="More" id="moreBtn"
+                    type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
+                  <p:menu overlay="true" trigger="moreBtn" my="right top" at="right bottom" id="synchronizationMenu" style="min-width:200px;">
+                    <p:menuitem value="Show #{userBean.showDisabledUsers ? 'enabled' : 'disabled'} users" 
+                      icon="ui-icon-visibility"
+                      id="showDisabledUserBtn" process="@this" update="@form" action="#{userBean.switchDisabledUsers}" />
+                    <p:menuitem value="Show #{userBean.showManualUsers ? 'all' : 'manual'} users" 
+                      icon="ui-icon-visibility" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+                      id="showManualUserBtn" process="@this" update="@form" action="#{userBean.switchManualUsers}" />
+                  </p:menu>
                 </div>
               </div>
             </div>
