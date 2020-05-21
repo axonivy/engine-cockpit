@@ -17,13 +17,10 @@
     <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
   </p:commandButton>
   <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
-  <p:commandButton id="showAdSyncLogBtn" icon="fa fa-info" styleClass="secondary-btn card-button"
-    rendered="#{securityBean.isNewLogAwailable()}" type="button" />
-  <p:overlayPanel rendered="#{securityBean.isNewLogAwailable()}" id="adSyncLog" for="showAdSyncLogBtn"
-    hideEffect="fade">
-    <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto; background-image: none;" readonly="true" id="logViewer"
-      value="#{securityBean.logs}" rows="1" />
-  </p:overlayPanel>
+  <p:commandButton id="showAdSyncLogBtn" icon="ui-icon-format-align-left" styleClass="secondary-btn card-button"
+    onclick="window.location.href='logs.xhtml?log=usersynch.log'" type="button" 
+    rendered="#{!securityBean.ivySecurityForSelectedApp}" />
+
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}" />

@@ -37,14 +37,13 @@
                       actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
                       <p:menuitem id="synchUserBtn" value="Synch Single User" icon="fa fa-refresh" onclick="PF('synchUserModal').show()" />
                       <p:menuitem id="syncNewUserBtn" value="Add User" icon="ui-icon-add" onclick="PF('newUserModal').show();" />
+                      <p:menuitem id="userSyncLog" value="Synchronization Log" icon="ui-icon-format-align-left" 
+                        onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
                     </p:splitButton>
                     <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
                     
                     <p:commandButton id="newUserBtn" value="Add" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" 
                       rendered="#{securityBean.ivySecurityForSelectedApp}" />
-                  </div>
-                  <div style="float: right; margin-right: 5px;">
-                    <ui:include src="../includes/components/security/adsynclog.xhtml" />
                   </div>
                 </h:panelGroup>
                 <div style="float: right; margin-right: 5px;">
