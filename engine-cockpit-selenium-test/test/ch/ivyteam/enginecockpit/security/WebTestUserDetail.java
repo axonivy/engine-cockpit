@@ -27,6 +27,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
+import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
@@ -128,15 +129,19 @@ public class WebTestUserDetail
   void testEmailLanguageSwitch()
   {
     Navigation.toUserDetail(USER_FOO);
-    $("#userEmailForm\\:emailSettings\\:languageDropDown_label").shouldBe(visible).click();
-    $("#userEmailForm\\:emailSettings\\:languageDropDown_items").shouldBe(visible);
-    String chooseLanguage = $("#userEmailForm\\:emailSettings\\:languageDropDown_1").getText();
-    $("#userEmailForm\\:emailSettings\\:languageDropDown_1").click();
-    $("#userEmailForm\\:emailSettings\\:languageDropDown_label").shouldBe(exactText(chooseLanguage));
+    changeEmailLanguage("Application default (English)", "German");
+    Selenide.refresh();
+    changeEmailLanguage("German", "Application default (English)");
+  }
+
+  private void changeEmailLanguage(String oldLang, String lang)
+  {
+    SelectOneMenu language = PrimeUi.selectOne(By.id("userEmailForm:emailSettings:languageDropDown"));
+    assertThat(language.getSelectedItem()).isEqualTo(oldLang);
+    language.selectItemByLabel(lang);
+    assertThat(language.getSelectedItem()).isEqualTo(lang);
     $("#userEmailForm\\:saveEmailNotificationSettings").click();
     $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible, exactText("User email changes saved"));
-    Selenide.refresh();
-    $("#userEmailForm\\:emailSettings\\:languageDropDown_label").shouldBe(exactText(chooseLanguage));
   }
   
   @Test
