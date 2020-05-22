@@ -36,7 +36,7 @@
                       id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
                       actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
                       <p:menuitem id="synchUserBtn" value="Synch Single User" icon="fa fa-refresh" onclick="PF('synchUserModal').show()" />
-                      <p:menuitem id="syncNewUserBtn" value="Add" icon="ui-icon-add" onclick="PF('newUserModal').show();" />
+                      <p:menuitem id="syncNewUserBtn" value="Add User" icon="ui-icon-add" onclick="PF('newUserModal').show();" />
                     </p:splitButton>
                     <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
                     
