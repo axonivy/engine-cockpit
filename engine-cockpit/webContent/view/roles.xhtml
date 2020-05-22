@@ -32,10 +32,13 @@
               <div class="ui-g-12 ui-md-3" style="margin: auto;">
                 <h:panelGroup id="syncPanel">
                   <div class="single-card-top-right-btn">
-                    <ui:include src="../includes/components/security/adsyncbtn.xhtml" />
-                  </div>
-                  <div style="float: right; margin-right: 5px;">
-                    <ui:include src="../includes/components/security/adsynclog.xhtml" />
+                    <p:splitButton value="Synchronize" icon="fa fa-refresh #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} spin-icon" 
+                      id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
+                      actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
+                      <p:menuitem id="userSyncLog" value="Synchronization Log" icon="ui-icon-format-align-left" 
+                        onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
+                    </p:splitButton>
+                    <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
                   </div>
                 </h:panelGroup>
               </div>

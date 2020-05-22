@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
-import ch.ivyteam.enginecockpit.util.SynchronizationLogger;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -35,8 +34,6 @@ public class SecurityBean
   private String newSecuritySystemProvider;
   private List<String> providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
   
-  private SynchronizationLogger synchronizationLogger = new SynchronizationLogger();
-
   private ManagerBean managerBean;
 
   public SecurityBean()
@@ -115,7 +112,7 @@ public class SecurityBean
   public void triggerSynchronization(String appName)
   {
     managerBean.getManager().findApplication(appName).getSecurityContext()
-            .triggerSynchronization(synchronizationLogger);
+            .triggerSynchronization();
   }
   
   public void triggerSyncForSelectedApp()
@@ -152,21 +149,6 @@ public class SecurityBean
     return managerBean.getIApplications().stream()
             .filter(app -> app.getSecurityContext().isSynchronizationRunning() == true)
             .findAny().isPresent();
-  }
-  
-  public boolean isNewLogAwailable()
-  {
-    return synchronizationLogger.isNewLogAwailable();
-  }
-  
-  public String getLogs()
-  {
-    StringBuilder sb = new StringBuilder();
-    synchronizationLogger.getSynchronizationLogMessages().stream().forEach(msg -> sb.append(msg).append("\n"));
-    if(sb.length() > 2) {
-      sb.setLength(sb.length() - 2);
-    }
-    return sb.toString();
   }
   
   public String getNewSecuritySystemName()
