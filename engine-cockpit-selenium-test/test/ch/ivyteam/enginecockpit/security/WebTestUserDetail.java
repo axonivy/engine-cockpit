@@ -243,11 +243,7 @@ public class WebTestUserDetail
   @Test
   void testSynchronizeUser()
   {
-    Tab.switchToTab("test-ad");
-    String syncBtnId = "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
-    $(syncBtnId).shouldBe(visible).click();
-    $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
-    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));
+    WebTestUsers.triggerSync();
     
     Navigation.toUserDetail(USER_AD);
     $("#userInformationForm .card-top-static-message").shouldHave(text("This user is managed"));

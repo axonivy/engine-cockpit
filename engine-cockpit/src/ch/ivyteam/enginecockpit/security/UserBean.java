@@ -52,11 +52,21 @@ public class UserBean
 
   public void switchDisabledUsers()
   {
-    userDataModel.setShowDisabledUsers(!userDataModel.showDisabledUsers());
+    userDataModel.setShowDisabledUsers(!isShowDisabledUsers());
   }
   
   public boolean isShowDisabledUsers()
   {
     return userDataModel.showDisabledUsers();
+  }
+  
+  public void switchManualUsers()
+  {
+    userDataModel.setShowManualUsers(!isShowManualUsers());
+  }
+  
+  public boolean isShowManualUsers()
+  {
+    return userDataModel.showManualUsers();
   }
 }

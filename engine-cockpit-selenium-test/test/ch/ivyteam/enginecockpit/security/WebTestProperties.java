@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -43,10 +42,8 @@ public class WebTestProperties
   public void testUserADSyncProperties()
   {
     Navigation.toUsers();
-    Tab.switchToTab("test-ad");
-    String syncBtnId = "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
-    $(syncBtnId).click();
-    $(syncBtnId + " > span:first-child").shouldNotHave(cssClass("fa-spin"));
+    WebTestUsers.triggerSync();
+   
     Navigation.toUserDetail("user1");
     assertTableHasDirectoryProperty("Address", "Baarerstrasse 12 synchronize");
   }
