@@ -73,12 +73,13 @@ public class WebTestApplicationDetail
     Navigation.toApplicationDetail("test-ad");
     
     waitUntilAjaxIsFinished();
-    $("#appDetailSecurityForm\\:showAdSyncLogBtn").shouldNotBe(exist);
+    $("#appDetailSecurityForm\\:showAdSyncLogBtn").should(exist);
     $("#appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
     $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("fa-spin"));
     $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("fa-spin")), 10000);
     
-    $("#appDetailSecurityForm\\:showAdSyncLogBtn").shouldBe(visible);
+    $("#appDetailSecurityForm\\:showAdSyncLogBtn").click();
+    $("#userSynchLogView\\:logPanel_content").shouldBe(visible);
   }
 
 }

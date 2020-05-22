@@ -150,6 +150,15 @@ public class WebTestUsers
     $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
   }
   
+  @Test
+  void jumpToSyncLog()
+  {
+    Tab.switchToTab("test-ad");
+    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:syncMoreBtn_menuButton").click();
+    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:userSyncLog").shouldBe(visible).click();
+    $("#userSynchLogView\\:logPanel_content").shouldBe(visible);
+  }
+  
   private void showSynchUserDialog()
   {
     Tab.switchToTab("test-ad");
