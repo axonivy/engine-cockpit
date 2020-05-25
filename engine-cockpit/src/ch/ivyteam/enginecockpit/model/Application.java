@@ -32,7 +32,6 @@ public class Application extends AbstractActivity
   {
     super(app.getName(), app.getId(), app, bean);
     setOperationState(app.getActivityOperationState());
-    disable = app.getName().equals("designer");
     desc = app.getDescription();
     fileDir = app.getFileDirectory();
     owner = app.getOwnerName();
@@ -65,6 +64,12 @@ public class Application extends AbstractActivity
   public String getIcon()
   {
     return "cube";
+  }
+  
+  @Override
+  public boolean isDisabled()
+  {
+    return getName().equals("designer");
   }
 
   public String getDesc()
