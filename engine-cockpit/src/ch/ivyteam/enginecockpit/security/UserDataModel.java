@@ -99,17 +99,12 @@ public class UserDataModel extends LazyDataModel<User>
        .or()
         .eMailAddress().isLikeIgnoreCase(filter + "%");
     }
-    if (showDisabledUsers)
-    {
-      query.where().disabled();
-    }
-    else
-    {
-      query.where().enabled();
-    }
+
+    query.where().enabled().is(!showDisabledUsers);
+
     if (showManualUsers)
     {
-      query.where().externalId().isEqual("").or().externalId().isNull();
+      query.where().external().isFalse();
     }
   }
 
