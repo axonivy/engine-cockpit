@@ -13,6 +13,7 @@
 	<modules>
 		<module>engine-cockpit</module>
 		<module>engine-cockpit-test-data</module>
+		<module>engine-cockpit-test</module>
 		<module>engine-cockpit-selenium-test</module>
 	</modules>
 
