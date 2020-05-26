@@ -17,7 +17,7 @@ public class User
 
   private boolean loggedIn;
   private boolean enabled = true;
-  private boolean isManaged;
+  private boolean isExternal;
   private long id;
 
   public User()
@@ -31,7 +31,7 @@ public class User
     this.email = user.getEMailAddress();
     this.loggedIn = false;
     this.enabled = user.isEnabled();
-    this.isManaged = StringUtils.isNotEmpty(user.getExternalName());
+    this.isExternal = user.isExternal();
     this.externalName = user.getExternalName();
     this.externalId = user.getExternalId();
     this.id = user.getId();
@@ -110,9 +110,9 @@ public class User
     this.password = password;
   }
 
-  public boolean isManaged()
+  public boolean isExternal()
   {
-    return isManaged;
+    return isExternal;
   }
 
   public String getExternalName()

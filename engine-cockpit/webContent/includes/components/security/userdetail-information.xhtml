@@ -36,7 +36,7 @@
   <div class="card-top-static-message">
     <p:staticMessage rendered="#{userDetailBean.isUserDisabled()}" severity="warn" 
       summary="This user is disabled" />
-    <h:panelGroup rendered="#{userDetailBean.user.managed}" layout="block" 
+    <h:panelGroup rendered="#{userDetailBean.user.external}" layout="block" 
       styleClass="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
       <span class="ui-message-info-icon" />
       <span class="ui-message-info-summary">This user is managed by the external security system</span>
@@ -69,7 +69,7 @@
     <p:autoUpdate/>
   </p:messages>
   
-  <h:panelGroup rendered="#{userDetailBean.user.managed}">
+  <h:panelGroup rendered="#{userDetailBean.user.external}">
     <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
       <label>External Name</label>
       <h:outputText id="externalName" value="#{userDetailBean.user.externalName}" />
