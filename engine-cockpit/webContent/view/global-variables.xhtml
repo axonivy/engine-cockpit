@@ -19,86 +19,82 @@
     </ui:define>
     
     <ui:define name="content">
-      <h:form id="form">
-        <p:growl id="msgs" for="msgs" />
-        <cc:SingleCard id="card">
-          <cc:ApplicationTabs tabChange="#{globalVarBean.reloadGlobalVars}" id="apps">
+      <p:growl id="msgs" for="msgs" />
+      <cc:ApplicationTabs tabChange="#{globalVarBean.reloadGlobalVars}" id="apps">
+        <h:form id="form">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-7">
+              <h1>
+                <i class="material-icons card-title-icon">donut_large</i>Global Variables
+              </h1>
+            </div>
+            <div class="ui-g-12 ui-md-3" style="margin: auto;">
+              <cc:EnvironmentSelect environmentChange="#{globalVarBean.reloadGlobalVars}"/>
+            </div>
+            <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
+              <p:commandButton id="newGlobalVarBtn"
+                value="Add" icon="ui-icon-add" type="button" onclick="PF('newGlobalVarModal').show();" process="@this"/>
+            </div>
+          </div>  
 
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-7">
-                <h1>
-                  <i class="material-icons card-title-icon">donut_large</i>Global Variables
-                </h1>
-              </div>
-              <div class="ui-g-12 ui-md-3" style="margin: auto;">
-                <cc:EnvironmentSelect environmentChange="#{globalVarBean.reloadGlobalVars}"/>
-              </div>
-              <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                <p:commandButton id="newGlobalVarBtn"
-                  value="Add" icon="ui-icon-add" type="button" onclick="PF('newGlobalVarModal').show();" process="@this"/>
-              </div>
-            </div>  
+          <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable_#{app.id}" id="globalVarTable_#{app.id}"
+            filteredValue="#{globalVarBean.filteredVariables}">
+            <f:facet name="header">
+              <p:outputPanel>
+                <p:outputLabel styleClass="table-search-icon">
+                  <i class="material-icons">search</i>
+                </p:outputLabel>
+                <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                  onkeyup="PF('globalVarTable_#{app.id}').filter()" placeholder="Search"/>
+              </p:outputPanel>
+            </f:facet>
 
-            <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable_#{app.id}" id="globalVarTable_#{app.id}"
-              filteredValue="#{globalVarBean.filteredVariables}">
-              <f:facet name="header">
-                <p:outputPanel>
-                  <p:outputLabel styleClass="table-search-icon">
-                    <i class="material-icons">search</i>
-                  </p:outputLabel>
-                  <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                    onkeyup="PF('globalVarTable_#{app.id}').filter()" placeholder="Search"/>
-                </p:outputPanel>
-              </f:facet>
+            <p:column headerText="Name" sortBy="#{globalVar.name}" filterBy="#{globalVar.name}" >
+              <h:outputText value="#{globalVar.name}"/>
+            </p:column>
+            
+            <p:column headerText="Description" filterBy="#{globalVar.description}">
+              <h:outputText value="#{globalVar.description}"/>
+            </p:column>
+            
+            <p:column headerText="Default value" filterBy="#{globalVar.defaultValue}">
+              <h:outputText value="#{globalVar.defaultValue}"/>
+            </p:column>
+            
+            <p:column headerText="Value" filterBy="#{globalVar.value}" rendered="#{!globalVarBean.isDefaultEnv()}">
+              <h:outputText value="#{globalVar.value}"/>
+            </p:column>
+    
+            <p:column style="width: 95px;">
+              <p:commandButton id="resetGlobalVar" icon="ui-icon-close"
+                title="Reset" styleClass="card-button table-control-btn red-btn"
+                actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
+                oncomplete="PF('resetGlobalVarDialog').show()"
+                update="resetGlobalVarDialog"
+                style="margin-right: 0; float: right;"
+                process="@this"
+                disabled="#{!globalVar.yamlConfig and globalVarBean.isDefaultEnv()}" />
 
-              <p:column headerText="Name" sortBy="#{globalVar.name}" filterBy="#{globalVar.name}" >
-                <h:outputText value="#{globalVar.name}"/>
-              </p:column>
-              
-              <p:column headerText="Description" filterBy="#{globalVar.description}">
-                <h:outputText value="#{globalVar.description}"/>
-              </p:column>
-              
-              <p:column headerText="Default value" filterBy="#{globalVar.defaultValue}">
-                <h:outputText value="#{globalVar.defaultValue}"/>
-              </p:column>
-              
-              <p:column headerText="Value" filterBy="#{globalVar.value}" rendered="#{!globalVarBean.isDefaultEnv()}">
-                <h:outputText value="#{globalVar.value}"/>
-              </p:column>
-      
-              <p:column style="width: 95px;">
-                <p:commandButton id="resetGlobalVar" icon="ui-icon-close"
-                  title="Reset" styleClass="card-button table-control-btn red-btn"
-                  actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
-                  oncomplete="PF('resetGlobalVarDialog').show()"
-                  update="resetGlobalVarDialog"
-                  style="margin-right: 0; float: right;"
-                  process="@this"
-                  disabled="#{!globalVar.yamlConfig and globalVarBean.isDefaultEnv()}" />
-
-                <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
-                  title="Edit"
-                  styleClass="card-button table-control-btn secondary-btn"
-                  actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
-                  update="editGlobalVarModal"
-                  oncomplete="PF('editGlobalVarModal').show()"
-                  process="@this" />
-                  
-                <p:confirmDialog id="resetGlobalVarDialog" header="Reset global variable"
-                  message="Are you sure about resetting '#{globalVarBean.activeVar.name}'?" 
-                  severity="alert" widgetVar="resetGlobalVarDialog">
-                  <p:commandLink value="Cancel" onclick="PF('resetGlobalVarDialog').hide();" type="button" styleClass="modal-input-button" />
-                  <p:commandButton id="resetGlobalVarYesBtn" value="Reset" immediate="true" styleClass="modal-input-button"
-                    onclick="PF('resetGlobalVarDialog').hide();" actionListener="#{globalVarBean.resetGlobalVar}"
-                    icon="ui-icon-close" update="form" process="@this"/>
-                </p:confirmDialog>
-              </p:column>
-            </p:dataTable>
-        
-          </cc:ApplicationTabs>
-        </cc:SingleCard>
-      </h:form>
+              <p:commandButton id="editGlobalVarBtn" icon="ui-icon-edit"
+                title="Edit"
+                styleClass="card-button table-control-btn secondary-btn"
+                actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
+                update="editGlobalVarModal"
+                oncomplete="PF('editGlobalVarModal').show()"
+                process="@this" />
+                
+              <p:confirmDialog id="resetGlobalVarDialog" header="Reset global variable"
+                message="Are you sure about resetting '#{globalVarBean.activeVar.name}'?" 
+                severity="alert" widgetVar="resetGlobalVarDialog">
+                <p:commandLink value="Cancel" onclick="PF('resetGlobalVarDialog').hide();" type="button" styleClass="modal-input-button" />
+                <p:commandButton id="resetGlobalVarYesBtn" value="Reset" immediate="true" styleClass="modal-input-button"
+                  onclick="PF('resetGlobalVarDialog').hide();" actionListener="#{globalVarBean.resetGlobalVar}"
+                  icon="ui-icon-close" update="@form" process="@this"/>
+              </p:confirmDialog>
+            </p:column>
+          </p:dataTable>
+        </h:form>
+      </cc:ApplicationTabs>
     <ui:include src="../includes/dialogs/newglobalvar.xhtml" />
     <ui:include src="../includes/dialogs/editglobalvar.xhtml" />
     </ui:define>

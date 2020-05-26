@@ -19,52 +19,50 @@
     </ui:define>
 
     <ui:define name="content">
-      <h:form id="form">
-        <p:growl id="msgs" />
-        <cc:SingleCard id="card">
-          <cc:ApplicationTabs tabChange="#{userBean.reloadUsers}" id="apps">
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-7">
-                <h1>
-                  <i class="material-icons card-title-icon">person</i>Users <h:outputText style="font-style: italic; color: grey;" value="(#{userBean.userCount})"/>
-                </h1>
-              </div>
-              <div class="ui-g-12 ui-md-5" style="margin: auto;">
-                <h:panelGroup id="syncPanel">
-                  <div class="single-card-top-right-btn">
-                    <p:splitButton value="Synchronize" icon="fa fa-refresh #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} spin-icon" 
-                      id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
-                      actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
-                      <p:menuitem id="synchUserBtn" value="Synch Single User" icon="fa fa-refresh" onclick="PF('synchUserModal').show()" />
-                      <p:menuitem id="userSyncLog" value="Synchronization Log" icon="ui-icon-format-align-left" 
-                        onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
-                      <p:separator />
-                      <p:menuitem id="syncNewUserBtn" value="Add User" icon="ui-icon-add" onclick="PF('newUserModal').show();" />
-                    </p:splitButton>
-                    <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
-                    
-                    <p:commandButton id="newUserBtn" value="Add" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" 
-                      rendered="#{securityBean.ivySecurityForSelectedApp}" />
-                  </div>
-                </h:panelGroup>
-                <div style="float: right; margin-right: 5px;">
-                  <p:commandButton title="More" id="moreBtn"
-                    type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
-                  <p:menu overlay="true" trigger="moreBtn" my="right top" at="right bottom" id="synchronizationMenu" style="min-width:200px;">
-                    <p:menuitem value="Show #{userBean.showDisabledUsers ? 'enabled' : 'disabled'} users" 
-                      icon="ui-icon-visibility"
-                      id="showDisabledUserBtn" process="@this" update="@form" action="#{userBean.switchDisabledUsers}" />
-                    <p:menuitem value="Show #{userBean.showManualUsers ? 'all' : 'manual'} users" 
-                      icon="ui-icon-visibility" rendered="#{!securityBean.ivySecurityForSelectedApp}"
-                      id="showManualUserBtn" process="@this" update="@form" action="#{userBean.switchManualUsers}" />
-                  </p:menu>
+      <p:growl id="msgs" />
+      <cc:ApplicationTabs tabChange="#{userBean.reloadUsers}" id="apps">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-7">
+            <h1>
+              <i class="material-icons card-title-icon">person</i>Users <h:outputText style="font-style: italic; color: grey;" value="(#{userBean.userCount})"/>
+            </h1>
+          </div>
+          <div class="ui-g-12 ui-md-5" style="margin: auto;">
+            <h:form id="form">
+              <h:panelGroup id="syncPanel">
+                <div class="single-card-top-right-btn">
+                  <p:splitButton value="Synchronize" icon="fa fa-refresh #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} spin-icon" 
+                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
+                    actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
+                    <p:menuitem id="synchUserBtn" value="Synch Single User" icon="fa fa-refresh" onclick="PF('synchUserModal').show()" />
+                    <p:menuitem id="userSyncLog" value="Synchronization Log" icon="ui-icon-format-align-left" 
+                      onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
+                    <p:separator />
+                    <p:menuitem id="syncNewUserBtn" value="Add User" icon="ui-icon-add" onclick="PF('newUserModal').show();" />
+                  </p:splitButton>
+                  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
+                  
+                  <p:commandButton id="newUserBtn" value="Add" icon="ui-icon-add" type="button" onclick="PF('newUserModal').show();" 
+                    rendered="#{securityBean.ivySecurityForSelectedApp}" />
                 </div>
+              </h:panelGroup>
+              <div style="float: right; margin-right: 5px;">
+                <p:commandButton title="More" id="moreBtn"
+                  type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
+                <p:menu overlay="true" trigger="moreBtn" my="right top" at="right bottom" id="synchronizationMenu" style="min-width:200px;">
+                  <p:menuitem value="Show #{userBean.showDisabledUsers ? 'enabled' : 'disabled'} users" 
+                    icon="ui-icon-visibility"
+                    id="showDisabledUserBtn" process="@this" update="apps:applicationTabView" action="#{userBean.switchDisabledUsers}" />
+                  <p:menuitem value="Show #{userBean.showManualUsers ? 'all' : 'manual'} users" 
+                    icon="ui-icon-visibility" rendered="#{!securityBean.ivySecurityForSelectedApp}"
+                    id="showManualUserBtn" process="@this" update="apps:applicationTabView" action="#{userBean.switchManualUsers}" />
+                </p:menu>
               </div>
-            </div>
-            <ui:include src="../includes/components/security/users-table.xhtml"/>
-          </cc:ApplicationTabs>
-        </cc:SingleCard>
-      </h:form>
+            </h:form>
+          </div>
+        </div>
+        <ui:include src="../includes/components/security/users-table.xhtml"/>
+      </cc:ApplicationTabs>
       <ui:include src="../includes/dialogs/newuser.xhtml" />
       <ui:include src="../includes/dialogs/synchuser.xhtml" />
     </ui:define>

@@ -19,58 +19,56 @@
     </ui:define>
 
     <ui:define name="content">
-      <h:form id="form">
-        <p:growl id="msgs" />
-        <cc:SingleCard id="card">
-          <cc:ApplicationTabs tabChange="#{roleBean.reloadRoles}" id="tabs">
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-9">
-                <h1>
-                  <i class="material-icons card-title-icon">group</i>Roles <h:outputText style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})"/>
-                </h1>
-              </div>
-              <div class="ui-g-12 ui-md-3" style="margin: auto;">
-                <h:panelGroup id="syncPanel">
-                  <div class="single-card-top-right-btn">
-                    <p:splitButton value="Synchronize" icon="fa fa-refresh #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} spin-icon" 
-                      id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
-                      actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
-                      <p:menuitem id="userSyncLog" value="Synchronization Log" icon="ui-icon-format-align-left" 
-                        onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
-                    </p:splitButton>
-                    <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
-                  </div>
-                </h:panelGroup>
-              </div>
-            </div>
-            <div class="ui-tree-search-header">
-              <div class="ui-datatable-header ui-widget-header ui-corner-top">
-                <p:outputPanel>
-                  <label class="table-search-icon">
-                    <i class="material-icons">search</i>
-                  </label>
-                  <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.filter}">
-                    <p:ajax event="keyup" delay="300" update=":form" />
-                  </p:inputText>
-                </p:outputPanel>
-              </div>
-            </div>
-            <h:form id="treeForm">
-              <p:tree id="tree" widgetVar="tree" value="#{roleBean.rolesWithMembers}" var="role">
-                <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-                <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
-                <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}">
-                  <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
-                    <h:outputText value="#{role.name}" />
-                    <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
-                    <h:outputText value=" [Linked to '#{role.externalName}']" rendered="#{not empty role.externalName}" styleClass="addition-row-info"/>
-                  </a>
-                </p:treeNode>
-              </p:tree>
+      <p:growl id="msgs" />
+      <cc:ApplicationTabs tabChange="#{roleBean.reloadRoles}" id="tabs">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-9">
+            <h1>
+              <i class="material-icons card-title-icon">group</i>Roles <h:outputText style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})"/>
+            </h1>
+          </div>
+          <div class="ui-g-12 ui-md-3" style="margin: auto;">
+            <h:form id="form">
+              <h:panelGroup id="syncPanel">
+                <div class="single-card-top-right-btn">
+                  <p:splitButton value="Synchronize" icon="fa fa-refresh #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} spin-icon" 
+                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
+                    actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
+                    <p:menuitem id="userSyncLog" value="Synchronization Log" icon="ui-icon-format-align-left" 
+                      onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
+                  </p:splitButton>
+                  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
+                </div>
+              </h:panelGroup>
             </h:form>
-          </cc:ApplicationTabs>
-        </cc:SingleCard>
-      </h:form>
+          </div>
+        </div>
+        <h:form id="treeForm">
+	        <div class="ui-tree-search-header">
+	          <div class="ui-datatable-header ui-widget-header ui-corner-top">
+	            <p:outputPanel>
+	              <label class="table-search-icon">
+	                <i class="material-icons">search</i>
+	              </label>
+	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.filter}">
+	                <p:ajax event="keyup" delay="300" update="@form" />
+	              </p:inputText>
+	            </p:outputPanel>
+	          </div>
+	        </div>
+          <p:tree id="tree" widgetVar="tree" value="#{roleBean.rolesWithMembers}" var="role">
+            <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
+            <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+            <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}">
+              <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
+                <h:outputText value="#{role.name}" />
+                <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+                <h:outputText value=" [Linked to '#{role.externalName}']" rendered="#{not empty role.externalName}" styleClass="addition-row-info"/>
+              </a>
+            </p:treeNode>
+          </p:tree>
+        </h:form>
+      </cc:ApplicationTabs>
     </ui:define>
   </ui:composition>
 </h:body>

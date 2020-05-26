@@ -74,7 +74,7 @@ public class WebTestVariables
   
   private String activeTabPanel()
   {
-    return "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:";
+    return "#apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:form\\:";
   }
   
 }

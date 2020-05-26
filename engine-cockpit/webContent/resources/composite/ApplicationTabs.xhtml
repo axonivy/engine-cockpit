@@ -1,25 +1,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui">
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="tabChange"
     shortDescription="TableRowSelected will be invoked on the callback when a person is selected."
     method-signature="void handleEvent()" required="true" />
 </cc:interface>
 <cc:implementation>
-  <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card" value="#{managerBean.applications}"
-    activeIndex="#{managerBean.selectedApplicationIndex}" var="app" rendered="#{not empty managerBean.applications}">
-    <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
-    <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@form" />
-    <p:tab title="#{app.name}" titleStyleClass="application-tab">
-      <cc:insertChildren />
-    </p:tab>
-  </p:tabView>
-  <h:panelGroup rendered="#{empty managerBean.applications}">
-    <div class="ui-fluid">
-      <div class="ui-g">
-        <div class="ui-g-12">
+  <div class="ui-fluid">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card" value="#{managerBean.applications}"
+          activeIndex="#{managerBean.selectedApplicationIndex}" var="app" rendered="#{not empty managerBean.applications}">
+          <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
+          <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this" />
+          <p:tab title="#{app.name}" titleStyleClass="application-tab">
+            <cc:insertChildren />
+          </p:tab>
+        </p:tabView>
+        <h:panelGroup rendered="#{empty managerBean.applications}">
           <div class="card card-w-title">
             <div class="ui-g">
               <div class="ui-g-12 ui-md-8">
@@ -30,9 +29,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </h:panelGroup>
       </div>
     </div>
-  </h:panelGroup>
+  </div>
 </cc:implementation>
 </html>

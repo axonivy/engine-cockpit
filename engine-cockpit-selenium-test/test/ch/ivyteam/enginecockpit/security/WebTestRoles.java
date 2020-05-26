@@ -21,7 +21,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 public class WebTestRoles
 {
   
-  private static final String APPLICATION_TAB_VIEW = "#form\\:card\\:tabs\\:applicationTabView\\:";
+  private static final String APPLICATION_TAB_VIEW = "#tabs\\:applicationTabView\\:";
   
   @BeforeEach
   void beforeEach()
@@ -44,18 +44,23 @@ public class WebTestRoles
   void jumpToSyncLog()
   {
     Tab.switchToTab("test-ad");
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:syncMoreBtn_menuButton").click();
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:userSyncLog").shouldBe(visible).click();
+    $(getAppTabId() + "syncMoreBtn_menuButton").click();
+    $(getAppTabId() + "userSyncLog").shouldBe(visible).click();
     $("#userSynchLogView\\:logPanel_content").shouldBe(visible);
   }
   
   public static void triggerSync()
   {
     Tab.switchToTab("test-ad");
-    String syncBtnId = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:syncMoreBtn_button";
+    String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
     $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));
+  }
+  
+  private static String getAppTabId()
+  {
+    return APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:form\\:";
   }
 
 }
