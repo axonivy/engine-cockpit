@@ -29,7 +29,7 @@ pipeline {
               //'MySql', 'jdbc:mysql://db:3306', 'root', '1234'
 
               maven cmd: 'clean verify ' +
-                      '-Dmaven.test.failure.ignore=true '
+                      '-Dmaven.test.failure.ignore=true ' +
                       '-Dengine.page.url=' + params.engineSource
 
               checkVersions recordIssue: false
