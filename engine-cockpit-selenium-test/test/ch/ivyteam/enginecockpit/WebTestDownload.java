@@ -39,7 +39,7 @@ public class WebTestDownload
     $("#supportReportModal").shouldBe(visible);
     File download = $("#reportForm\\:download").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("support-engine-report.zip");
-    assertThat(download.length() / 1024).isGreaterThan(1);
+    assertThat(download.length() / 1024).isGreaterThan(10);
   }
   
   @Test
@@ -50,7 +50,7 @@ public class WebTestDownload
     $("#logsDownloadModal").shouldBe(visible);
     File download = $("#logForm\\:allLogs").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("logs.zip");
-    assertThat(download.length() / 1024).isGreaterThan(1);
+    assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
   }
   
   @Test
