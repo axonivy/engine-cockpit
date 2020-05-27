@@ -64,7 +64,7 @@ public class SupportBean
   {
     Path tempDirectory = Files.createTempDirectory("SupportReport");
     Files.writeString(Files.createFile(tempDirectory.resolve("report.txt")), errorReport);
-    Files.walk(UrlUtil.getLogDir().toPath())
+    Files.walk(UrlUtil.getLogDir().toPath().toRealPath())
             .filter(Files::isRegularFile)
             .filter(log -> log.toString().endsWith(".log"))
             .forEach(log -> copyLogFile(log, tempDirectory));
