@@ -91,7 +91,7 @@ public class Table
   {
     if (withLink)
     {
-      return "//div[@id='" + id + "']//tbody/tr/td[1]/a/span";
+      return "//div[@id='" + id + "']//tbody/tr/td[1]/a/span[1]";
     }
     return "//div[@id='" + id + "']//tbody/tr/td[1]/span";
   }

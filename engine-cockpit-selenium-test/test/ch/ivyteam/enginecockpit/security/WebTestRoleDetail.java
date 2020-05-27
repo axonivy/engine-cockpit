@@ -19,6 +19,7 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
@@ -26,6 +27,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestRoleDetail
@@ -142,6 +144,7 @@ public class WebTestRoleDetail
     Tab.switchToTab("test-ad");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
     
+    new Table(By.id("usersOfRoleForm:roleUserTable"), true).firstColumnShouldBe(size(0));
     $("#roleInformationForm\\:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     $("#roleInformationForm\\:saveRoleInformation").click();
     
@@ -150,17 +153,27 @@ public class WebTestRoleDetail
     
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
     
-    $$("#usersOfRoleForm\\:roleUserTable td.user-row").shouldHave(size(3));
+    checkIfRoleIsExternal();
   
     $("#roleInformationForm\\:externalSecurityName").clear();
     $("#roleInformationForm\\:externalSecurityName").shouldBe(Condition.empty);
     $("#roleInformationForm\\:saveRoleInformation").click();
     Selenide.refresh();
     assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldNotHave(cssClass("ui-state-disabled"));
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldNotHave(cssClass("ui-state-disabled")).click();
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldNotHave(cssClass("ui-state-disabled")).click();
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldNotHave(cssClass("ui-state-disabled")).click();
+  }
+
+  private void checkIfRoleIsExternal()
+  {
+    Table usersOfRole = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    usersOfRole.firstColumnShouldBe(size(3));
+    usersOfRole.buttonForEntryShouldBeDisabled("user1", "removeUserFromRoleBtn");
+    usersOfRole.buttonForEntryShouldBeDisabled("user2", "removeUserFromRoleBtn");
+    usersOfRole.buttonForEntryShouldBeDisabled("user3", "removeUserFromRoleBtn");
+    $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(disabled);
+    $("#usersOfRoleForm\\:addUserToRoleBtn").shouldBe(disabled);
   }
   
   @Test

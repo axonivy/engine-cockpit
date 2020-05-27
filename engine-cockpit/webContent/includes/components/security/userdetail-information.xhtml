@@ -12,31 +12,33 @@
     <p:autoUpdate/>
   </p:growl>
 
-  <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}"
-        type="button" icon="fa fa-refresh" styleClass="secondary-btn card-button"
-        onclick="PF('synchUserModal').show()" />
-
-  <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
-    icon="ui-icon-save" styleClass="accent-btn card-button" />
-  <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
-    icon="ui-icon-delete" styleClass="red-btn card-button" />
-  <p:confirmDialog id="deleteUserConfirmDialog" header="Delete User" severity="alert" widgetVar="deleteUserConfirmDialog"
-    message="#{userDetailBean.userDeleteHint()}">
-    <p:commandLink value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
-    <p:commandButton id="disableUserConfirmBtn" value="Disable" immediate="true" actionListener="#{userDetailBean.disableUser}"
-      icon="ui-icon-block" styleClass="modal-input-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
-    <p:commandButton id="deleteUserConfirmYesBtn" value="Delete" ajax="false" immediate="true" action="#{userDetailBean.deleteSelectedUser}"
-      icon="ui-icon-delete" styleClass="modal-input-button" />
-  </p:confirmDialog>
-  <p:commandButton id="disableUser" actionListener="#{userDetailBean.disableUser}" title="Disable this user"
-    icon="ui-icon-block" styleClass="red-btn card-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
-  <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
-    icon="ui-icon-done" styleClass="accent-btn card-button" rendered="#{userDetailBean.isUserDisabled()}" update="userInformationForm" />
-    
+  <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!managerBean.ivySecuritySystem}"
+    type="button" icon="fa fa-refresh" styleClass="secondary-btn card-button"
+    onclick="PF('synchUserModal').show()" />
+   
+  <h:panelGroup rendered="#{!userDetailBean.user.external or managerBean.ivySecuritySystem}" >
+    <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
+      icon="ui-icon-save" styleClass="accent-btn card-button" />
+    <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
+      icon="ui-icon-delete" styleClass="red-btn card-button" />
+    <p:confirmDialog id="deleteUserConfirmDialog" header="Delete User" severity="alert" widgetVar="deleteUserConfirmDialog"
+      message="#{userDetailBean.userDeleteHint()}">
+      <p:commandLink value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
+      <p:commandButton id="disableUserConfirmBtn" value="Disable" immediate="true" actionListener="#{userDetailBean.disableUser}"
+        icon="ui-icon-block" styleClass="modal-input-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
+      <p:commandButton id="deleteUserConfirmYesBtn" value="Delete" ajax="false" immediate="true" action="#{userDetailBean.deleteSelectedUser}"
+        icon="ui-icon-delete" styleClass="modal-input-button" />
+    </p:confirmDialog>
+    <p:commandButton id="disableUser" actionListener="#{userDetailBean.disableUser}" title="Disable this user"
+      icon="ui-icon-block" styleClass="red-btn card-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
+    <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
+      icon="ui-icon-done" styleClass="accent-btn card-button" rendered="#{userDetailBean.isUserDisabled()}" update="userInformationForm" />
+  </h:panelGroup>
+  
   <div class="card-top-static-message">
     <p:staticMessage rendered="#{userDetailBean.isUserDisabled()}" severity="warn" 
       summary="This user is disabled" />
-    <h:panelGroup rendered="#{userDetailBean.user.external}" layout="block" 
+    <h:panelGroup rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystem}" layout="block" 
       styleClass="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
       <span class="ui-message-info-icon" />
       <span class="ui-message-info-summary">This user is managed by the external security system</span>
@@ -69,7 +71,7 @@
     <p:autoUpdate/>
   </p:messages>
   
-  <h:panelGroup rendered="#{userDetailBean.user.external}">
+  <h:panelGroup rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystem}">
     <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
       <label>External Name</label>
       <h:outputText id="externalName" value="#{userDetailBean.user.externalName}" />

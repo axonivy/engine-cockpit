@@ -112,7 +112,7 @@ public class WebTestProperties
     $(PROPERTY_VALUE_INPUT).clear();
     $(PROPERTY_VALUE_INPUT).sendKeys(value);
     $(SAVE_PROPERTY).click();
-    assertTableHasKeyValue(key, value);
+    assertTableHasKeyValue(key, value, false);
     $(PROPERTIES_GROWL).shouldHave(text("Successfully"));
   }
 
@@ -134,19 +134,24 @@ public class WebTestProperties
     $(SAVE_PROPERTY).click();
     
     assertThat(table.getFirstColumnEntries()).hasSize(1);
-    assertTableHasKeyValue(key, value);
+    assertTableHasKeyValue(key, value, false);
     $(PROPERTIES_GROWL).shouldHave(text("Successfully"));
   }
 
   private void assertTableHasDirectoryProperty(String key, String value)
   {
-    assertTableHasKeyValue(key, value);
+    assertTableHasKeyValue(key, value, true);
   }
   
-  private void assertTableHasKeyValue(String key, String value)
+  private void assertTableHasKeyValue(String key, String value, boolean managed)
   {
     Table table = new Table(TABLE_ID);
     assertThat(table.getValueForEntry(key, 2)).isEqualTo(value);
+    if (managed)
+    {
+      table.buttonForEntryShouldBeDisabled(key, "deletePropertyBtn");
+      table.buttonForEntryShouldBeDisabled(key, "editPropertyBtn");
+    }
   }
 
   private void saveInvalidAddProperty()

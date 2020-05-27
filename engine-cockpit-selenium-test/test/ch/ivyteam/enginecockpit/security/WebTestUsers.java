@@ -42,8 +42,8 @@ public class WebTestUsers
   @Test
   void testUsersInTable()
   {
-    $("h1").shouldHave(text("Users"));
-    Table table = new Table(By.className("userTable"), true);
+    $(Tab.ACITVE_PANEL_CSS + " h1").shouldHave(text("Users"));
+    Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
     String firstUser = table.getFirstColumnEntries().get(0);
     table.search(firstUser);
@@ -61,7 +61,7 @@ public class WebTestUsers
     $("#newUserForm\\:newUserNameInput").sendKeys("manual");
     $("#newUserForm\\:saveNewUser").click();
     
-    Table table = new Table(By.className("userTable"), true);
+    Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThanOrEqual(4));
     
     $(getAppTabId() + "moreBtn").click();
@@ -82,9 +82,9 @@ public class WebTestUsers
     login();
     Navigation.toUsers();
     Tab.switchToTab("test");
-    $("h1").shouldHave(text("Users"));
+    $(Tab.ACITVE_PANEL_CSS + " h1").shouldHave(text("Users"));
     
-    Table table = new Table(By.className("userTable"), true);
+    Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
     assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
 
@@ -125,7 +125,7 @@ public class WebTestUsers
   void testNewUserDialogValidInput()
   {
     showNewUserDialog();
-    Table table = new Table(By.className("userTable"), true);
+    Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     int users = table.getFirstColumnEntries().size();
     $("#newUserForm\\:newUserNameInput").sendKeys(user);
     $("#newUserForm\\:fullName").sendKeys(fullName);

@@ -119,6 +119,11 @@ public class User
   {
     return externalName;
   }
+  
+  public String getExternalNameShort()
+  {
+    return StringUtils.substringBefore(externalName, ",") + ",...";
+  }
 
   public String getExternalId()
   {
