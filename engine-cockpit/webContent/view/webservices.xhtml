@@ -18,50 +18,46 @@
     </ui:define>
 
     <ui:define name="content">
-      <h:form id="form">
-        <p:growl id="msgs" />
-        <cc:SingleCard id="card">
-          <cc:ApplicationTabs tabChange="#{webserviceBean.reloadWebservices}" id="tabs">
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-7 ui-lg-9">
-                <h1>
-                  <i class="material-icons card-title-icon">language</i>Web Services
-                </h1>
-              </div>
-              <div class="ui-g-12 ui-md-5 ui-lg-3" style="margin: auto;">
-                <cc:EnvironmentSelect environmentChange="#{webserviceBean.reloadWebservices}" />
-              </div>
+      <p:growl id="msgs" />
+      <cc:ApplicationTabs tabChange="#{webserviceBean.reloadWebservices}" id="tabs">
+        <h:form id="form">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-7 ui-lg-9">
+              <h1>
+                <i class="material-icons card-title-icon">language</i>Web Services
+              </h1>
             </div>
-            <h:form id="tableForm">
-              <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
-                paginatorAlwaysVisible="false" emptyMessage="No webservices found on deployed apps"
-                paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                var="webservice" value="#{webserviceBean.webservices}" widgetVar="webservicesTable_#{app.id}"
-                filteredValue="#{webserviceBean.filteredWebservices}" lazy="false" id="webservicesTable">
-                <f:facet name="header">
-                  <p:outputPanel>
-                    <p:outputLabel styleClass="table-search-icon">
-                      <i class="material-icons">search</i>
-                    </p:outputLabel>
-                    <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                      onkeyup="PF('webservicesTable_#{app.id}').filter()" placeholder="Search" value="#{webserviceBean.filter}" />
-                  </p:outputPanel>
-                </f:facet>
-                <p:column headerText="Name" sortBy="#{webservice.name}" filterBy="#{webservice.name}" styleClass="webservice-name-column">
-                  <a href="webservicedetail.xhtml?webserviceId=#{webservice.genId}"> <h:outputText value="#{webservice.name}"
-                      styleClass="webservice-name">
-                      <i class="material-icons table-icon">language</i>
-                    </h:outputText>
-                  </a>
-                </p:column>
-                <p:column headerText="Wsdl Url" sortBy="#{webservice.wsdlUrl}" filterBy="#{webservice.wsdlUrl}">
-                  <h:outputText value="#{webservice.wsdlUrl}" styleClass="webservice-wsdlurl" />
-                </p:column>
-              </p:dataTable>
-            </h:form>
-          </cc:ApplicationTabs>
-        </cc:SingleCard>
-      </h:form>
+            <div class="ui-g-12 ui-md-5 ui-lg-3" style="margin: auto;">
+              <cc:EnvironmentSelect environmentChange="#{webserviceBean.reloadWebservices}" />
+            </div>
+          </div>
+          <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
+            paginatorAlwaysVisible="false" emptyMessage="No webservices found on deployed apps"
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            var="webservice" value="#{webserviceBean.webservices}" widgetVar="webservicesTable_#{app.id}"
+            filteredValue="#{webserviceBean.filteredWebservices}" lazy="false" id="webservicesTable">
+            <f:facet name="header">
+              <p:outputPanel>
+                <p:outputLabel styleClass="table-search-icon">
+                  <i class="material-icons">search</i>
+                </p:outputLabel>
+                <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+                  onkeyup="PF('webservicesTable_#{app.id}').filter()" placeholder="Search" value="#{webserviceBean.filter}" />
+              </p:outputPanel>
+            </f:facet>
+            <p:column headerText="Name" sortBy="#{webservice.name}" filterBy="#{webservice.name}" styleClass="webservice-name-column">
+              <a href="webservicedetail.xhtml?webserviceId=#{webservice.genId}"> <h:outputText value="#{webservice.name}"
+                  styleClass="webservice-name">
+                  <i class="material-icons table-icon">language</i>
+                </h:outputText>
+              </a>
+            </p:column>
+            <p:column headerText="Wsdl Url" sortBy="#{webservice.wsdlUrl}" filterBy="#{webservice.wsdlUrl}">
+              <h:outputText value="#{webservice.wsdlUrl}" styleClass="webservice-wsdlurl" />
+            </p:column>
+          </p:dataTable>
+        </h:form>
+      </cc:ApplicationTabs>
     </ui:define>
   </ui:composition>
 </h:body>

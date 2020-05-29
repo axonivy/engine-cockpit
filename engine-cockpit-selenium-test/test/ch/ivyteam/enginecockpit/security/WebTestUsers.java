@@ -25,7 +25,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestUsers
 {
-  private static final String APPLICATION_TAB_VIEW = "#form\\:card\\:apps\\:applicationTabView\\:";
+  private static final String APPLICATION_TAB_VIEW = "#apps\\:applicationTabView\\:";
   private String user = "test";
   private String fullName = "test user";
   private String email = "test@test.ch";
@@ -54,8 +54,8 @@ public class WebTestUsers
   void testManualUsersInManagedApp()
   {
     triggerSync();
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:syncMoreBtn_menuButton").shouldBe(visible).click();
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:syncNewUserBtn").shouldBe(visible).click();
+    $(getAppTabId() + "syncMoreBtn_menuButton").shouldBe(visible).click();
+    $(getAppTabId() + "syncNewUserBtn").shouldBe(visible).click();
     
     $("#newUserModal").shouldBe(visible);
     $("#newUserForm\\:newUserNameInput").sendKeys("manual");
@@ -64,8 +64,8 @@ public class WebTestUsers
     Table table = new Table(By.className("userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThanOrEqual(4));
     
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:moreBtn").click();
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:showManualUserBtn").click();
+    $(getAppTabId() + "moreBtn").click();
+    $(getAppTabId() + "showManualUserBtn").click();
     
     table.firstColumnShouldBe(sizeLessThanOrEqual(2));
     Navigation.toUserDetail("manual");
@@ -99,8 +99,8 @@ public class WebTestUsers
 
   private void clickShowHideDisabledUserButton()
   {
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:moreBtn").click();
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:showDisabledUserBtn").shouldBe(visible).click();
+    $(getAppTabId() + "moreBtn").click();
+    $(getAppTabId() + "showDisabledUserBtn").shouldBe(visible).click();
   }
 
   @Test
@@ -118,7 +118,7 @@ public class WebTestUsers
     $("#newUserForm\\:newUserNameInput").sendKeys("test");
     $("#newUserForm\\:password1").sendKeys("password");
     $("#newUserForm\\:saveNewUser").click();
-    $("#form\\:msgs_container").shouldBe(visible);
+    $("#msgs_container").shouldBe(visible);
   }
   
   @Test
@@ -154,29 +154,34 @@ public class WebTestUsers
   void jumpToSyncLog()
   {
     Tab.switchToTab("test-ad");
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:syncMoreBtn_menuButton").click();
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:userSyncLog").shouldBe(visible).click();
+    $(getAppTabId() + "syncMoreBtn_menuButton").click();
+    $(getAppTabId() + "userSyncLog").shouldBe(visible).click();
     $("#userSynchLogView\\:logPanel_content").shouldBe(visible);
   }
   
   private void showSynchUserDialog()
   {
     Tab.switchToTab("test-ad");
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:syncMoreBtn_menuButton").click();
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:synchUserBtn").shouldBe(visible).click();
+    $(getAppTabId() + "syncMoreBtn_menuButton").click();
+    $(getAppTabId() + "synchUserBtn").shouldBe(visible).click();
     $("#synchUserForm").shouldBe(visible);
   }
   
   private void showNewUserDialog()
   {
-    $(APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:newUserBtn").click();
+    $(getAppTabId() + "newUserBtn").click();
     $("#newUserModal").shouldBe(visible);
+  }
+  
+  private static String getAppTabId()
+  {
+    return APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:form\\:";
   }
   
   public static void triggerSync()
   {
     Tab.switchToTab("test-ad");
-    String syncBtnId = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:syncMoreBtn_button";
+    String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
     $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));

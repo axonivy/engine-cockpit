@@ -20,8 +20,8 @@ public class WebTestWebservices
   {
     login();
     Navigation.toWebservices();
-    Table table = new Table(By.id("form:card:tabs:applicationTabView:" + 
-            Tab.getSelectedTabIndex() + ":tableForm:webservicesTable"), true);
+    Table table = new Table(By.id("tabs:applicationTabView:" + 
+            Tab.getSelectedTabIndex() + ":form:webservicesTable"), true);
     table.firstColumnShouldBe(size(2));
     
     table.search(table.getFirstColumnEntries().get(0));

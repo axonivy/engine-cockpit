@@ -27,7 +27,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 public class WebTestEmail
 {
   
-  private static final String EMAIL_GROWL = "#form\\:emailSaveSuccess_container";
+  private static final String EMAIL_GROWL = "#emailSaveSuccess_container";
 
   @BeforeEach
   void beforeEach()
@@ -90,7 +90,7 @@ public class WebTestEmail
   
   private String getActivePanel()
   {
-    return "form:card:tabs:applicationTabView:" + Tab.getSelectedTabIndex() + ":";
+    return "tabs:applicationTabView:" + Tab.getSelectedTabIndex() + ":form:";
   }
   
   private String getActivePanelCss()

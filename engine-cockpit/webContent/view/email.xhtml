@@ -19,30 +19,28 @@
     </ui:define>
 
     <ui:define name="content">
-      <h:form id="form">
-        <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
-          <p:autoUpdate/>
-        </p:growl>
-        <cc:SingleCard id="card">
-          <cc:ApplicationTabs tabChange="#{applicationEmailBean.reloadEmailSettings}" id="tabs">
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-12">
-                <h1>
-                  <i class="material-icons card-title-icon">email</i>Email
-                </h1>
-              </div>
-            </div>
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-12 ui-lg-6">
-                <cc:EmailSettings emailSettings="#{applicationEmailBean.emailSettings}"
-                  supportedLanguages="#{managerBean.supportedLanguages}" id="emailSetting" />
-                <p:commandButton actionListener="#{applicationEmailBean.saveEmailSettings}" value="Save" icon="ui-icon-save"
-                  style="width: auto; float: right;" id="saveEmailSettings"/>
-              </div>
-            </div>
-          </cc:ApplicationTabs>
-        </cc:SingleCard>
-      </h:form>
+      <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
+        <p:autoUpdate/>
+      </p:growl>
+      <cc:ApplicationTabs tabChange="#{applicationEmailBean.reloadEmailSettings}" id="tabs">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-12">
+            <h1>
+              <i class="material-icons card-title-icon">email</i>Email
+            </h1>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-12 ui-lg-6">
+            <h:form id="form">
+	            <cc:EmailSettings emailSettings="#{applicationEmailBean.emailSettings}"
+	              supportedLanguages="#{managerBean.supportedLanguages}" id="emailSetting" />
+	            <p:commandButton actionListener="#{applicationEmailBean.saveEmailSettings}" value="Save" icon="ui-icon-save"
+	              style="width: auto; float: right;" id="saveEmailSettings"/>
+            </h:form>
+          </div>
+        </div>
+      </cc:ApplicationTabs>
     </ui:define>
   </ui:composition>
 </h:body>

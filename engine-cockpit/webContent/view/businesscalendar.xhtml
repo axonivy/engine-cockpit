@@ -17,45 +17,42 @@
     </ui:define>
     
     <ui:define name="content">
-      <h:form id="form">
-        <p:growl id="msgs" />
-        <cc:SingleCard id="card">
-          <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadBusinessCalendar}" id="apps">
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-12">
-                <h1>
-                  <i class="material-icons card-title-icon">event</i>Business Calendar
-                </h1>
-              </div>
-            </div>  
-            
-            <div class="ui-tree-search-header">
-              <div class="ui-datatable-header ui-widget-header ui-corner-top">
-                <p:outputPanel>
-                  <label class="table-search-icon">
-                    <i class="material-icons">search</i>
-                  </label>
-                  <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{businessCalendarBean.filter}">
-                    <p:ajax event="keyup" delay="300" update=":form" />
-                  </p:inputText>
-                </p:outputPanel>
-              </div>
-            </div>
-            <h:form id="treeForm">
-              <p:tree id="tree" widgetVar="tree" value="#{businessCalendarBean.rootNode}" var="node">
-                <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-                <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
-                <p:treeNode icon="ui-icon-calendar">
-                  <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node.name}" id="calendarNode">
-                    <h:outputText value="#{node.name}"/>
-                    <h:outputText value=" (#{node.environments})" rendered="#{not empty node.environments}" styleClass="addition-row-info"/>
-                  </h:outputLink>
-                </p:treeNode>
-              </p:tree>
-            </h:form>
-          </cc:ApplicationTabs>
-        </cc:SingleCard>
-      </h:form>
+      <p:growl id="msgs" />
+      
+      <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadBusinessCalendar}" id="apps">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-12">
+            <h1>
+              <i class="material-icons card-title-icon">event</i>Business Calendar
+            </h1>
+          </div>
+        </div>  
+        
+        <h:form id="treeForm">
+	        <div class="ui-tree-search-header">
+	          <div class="ui-datatable-header ui-widget-header ui-corner-top">
+	            <p:outputPanel>
+	              <label class="table-search-icon">
+	                <i class="material-icons">search</i>
+	              </label>
+	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{businessCalendarBean.filter}">
+	                <p:ajax event="keyup" delay="300" update="@form" />
+	              </p:inputText>
+	            </p:outputPanel>
+	          </div>
+	        </div>
+          <p:tree id="tree" widgetVar="tree" value="#{businessCalendarBean.rootNode}" var="node">
+            <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
+            <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+            <p:treeNode icon="ui-icon-calendar">
+              <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node.name}" id="calendarNode">
+                <h:outputText value="#{node.name}"/>
+                <h:outputText value=" (#{node.environments})" rendered="#{not empty node.environments}" styleClass="addition-row-info"/>
+              </h:outputLink>
+            </p:treeNode>
+          </p:tree>
+        </h:form>
+      </cc:ApplicationTabs>
     </ui:define>
     
   </ui:composition>

@@ -26,7 +26,7 @@ public class WebTestBusinessCalendar
   void testBusinessCalendarTree()
   {
     Navigation.toBusinessCalendar();
-    $("#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + 
+    $("#apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + 
             "\\:treeForm\\:tree\\:0\\:calendarNode").shouldBe(text("Default"));
   }
   

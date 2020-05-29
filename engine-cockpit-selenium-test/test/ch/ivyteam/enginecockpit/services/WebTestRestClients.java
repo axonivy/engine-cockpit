@@ -20,8 +20,8 @@ public class WebTestRestClients
   {
     login();
     Navigation.toRestClients();
-    Table table = new Table(By.id("form:card:tabs:applicationTabView:" + 
-            Tab.getSelectedTabIndex() + ":tableForm:restClientsTable"), true);
+    Table table = new Table(By.id("tabs:applicationTabView:" + 
+            Tab.getSelectedTabIndex() + ":form:restClientsTable"), true);
     table.firstColumnShouldBe(size(2));
 
     table.search(table.getFirstColumnEntries().get(0));
