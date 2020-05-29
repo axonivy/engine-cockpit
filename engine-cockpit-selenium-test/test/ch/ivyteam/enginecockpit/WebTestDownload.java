@@ -50,7 +50,7 @@ public class WebTestDownload
     $("#logsDownloadModal").shouldBe(visible);
     File download = $("#logForm\\:allLogs").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("logs.zip");
-    assertThat(download.length() / 1024).isGreaterThan(3);
+    assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
   }
   
   @Test
