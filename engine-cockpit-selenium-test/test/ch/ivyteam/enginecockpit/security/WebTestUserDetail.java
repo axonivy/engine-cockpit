@@ -251,12 +251,21 @@ public class WebTestUserDetail
     WebTestUsers.triggerSync();
     
     Navigation.toUserDetail(USER_AD);
-    $("#userInformationForm .card-top-static-message").shouldHave(text("This user is managed"));
+    checkUserIsExternal();
     $("#userInformationForm\\:userSynchBtn").click();
     $("#synchUserForm").shouldBe(visible);
     $("#synchUserForm\\:userSynchName").shouldBe(disabled, value(USER_AD));
     $("#synchUserForm\\:synchUserVar").click();
     $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
+  }
+
+  private void checkUserIsExternal()
+  {
+    $("#userInformationForm .card-top-static-message").shouldHave(text("This user is managed"));
+    $("#userInformationForm\\:disableUser").shouldNotBe(visible);
+    $("#userInformationForm\\:deleteUser").shouldNotBe(visible);
+    $("#userInformationForm\\:saveUserInformation").shouldNotBe(visible);
+    $("#userInformationForm\\:userSynchBtn").shouldBe(visible);
   }
 
   private void clearUserInfoInputs()

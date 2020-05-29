@@ -35,19 +35,19 @@
     <p:column headerText="Value" filterBy="#{property.value}">
       <h:outputText value="#{property.value}" />
       <h:panelGroup rendered="#{property.managed}">
-      	<i class="material-icons table-icon" title="Property is managed by the external security system">synchronize</i>
+        <i class="material-icons table-icon" title="Property is managed by the external security system">synchronize</i>
       </h:panelGroup>
     </p:column>
     
     <p:column style="width: 95px;">
       <p:outputLabel>
         <p:commandButton id="deletePropertyBtn" type="button"
-          icon="ui-icon-delete" title="Delete"
+          icon="ui-icon-delete" title="Delete" disabled="#{property.managed}"
           styleClass="card-button table-control-btn red-btn" style="margin: 0;">
           <p:ajax listener="#{memberProperty.removeProperty(property.key)}" update="@form"/>
         </p:commandButton>
         <p:commandButton id="editPropertyBtn" actionListener="#{memberProperty.setProperty(property)}"
-          icon="ui-icon-pencil" title="Edit" update=":propertyModal"
+          icon="ui-icon-pencil" title="Edit" update=":propertyModal" disabled="#{property.managed}"
           styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('propertyModal').show();" process="@this" />
       </p:outputLabel>
     </p:column>

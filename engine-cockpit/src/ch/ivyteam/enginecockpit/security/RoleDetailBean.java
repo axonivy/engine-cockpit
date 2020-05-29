@@ -14,6 +14,7 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.IRole;
+import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.query.UserQuery;
@@ -258,6 +259,12 @@ public class RoleDetailBean
   public MemberProperty getMemberProperty()
   {
     return roleProperties;
+  }
+  
+  public boolean isManaged()
+  {
+    return getRoleName().equals(ISecurityConstants.TOP_LEVEL_ROLE_NAME) || 
+      (!managerBean.isIvySecuritySystem() && getRole().isManaged());
   }
   
   public void browseLdap()

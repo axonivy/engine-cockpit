@@ -13,7 +13,11 @@ public class TestDataUser
   private static void newDisabledUser()
   {
     var app = IApplicationConfigurationManager.instance().findApplication("test");
-    var user = app.getSecurityContext().users().create("disableduser");
+    var user = app.getSecurityContext().users().find("disableduser");
+    if (user == null)
+    {
+      user = app.getSecurityContext().users().create("disableduser");
+    }
     user.disable();
   }
 }

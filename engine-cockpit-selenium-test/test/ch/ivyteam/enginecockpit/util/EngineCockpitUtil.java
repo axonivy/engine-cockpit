@@ -145,7 +145,7 @@ public class EngineCockpitUtil
     {
       $("h3").shouldBe(text("Task End"));
     }
-    assertCurrentUrlContains(isDesigner() ? "index.jsp" : "end");
+    assertCurrentUrlContains(isDesigner() ? "wf" : "end");
   }
   
   public static String viewUrl(String page)
