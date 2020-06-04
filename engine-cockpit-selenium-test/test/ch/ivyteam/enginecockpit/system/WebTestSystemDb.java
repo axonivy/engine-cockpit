@@ -77,6 +77,7 @@ public class WebTestSystemDb
   void testSaveConfiguration()
   {
     $(".sysdb-dynamic-form-user").sendKeys(" ");
+    $(".sysdb-dynamic-form-user").clear();
     $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
     $("#saveUnknownSystemDbConfig").shouldBe(visible).click();
     $("#saveUnknownConnectionModel").shouldBe(visible);

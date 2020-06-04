@@ -111,8 +111,16 @@ public class SystemDatabaseBean extends StepStatus
 
   public void setDriver(String driver)
   {
-    this.driver = getSupportedDrivers().stream().filter(d -> StringUtils.equals(d.getName(), driver)).findFirst().orElseThrow();
-    this.connectionProperties = mergeConnectionProperties(connectionProperties, getConnectionPropertiesList());
+    var newDriver = getSupportedDrivers().stream()
+      .filter(d -> StringUtils.equals(d.getName(), driver))
+      .findFirst()
+      .orElseThrow();
+
+    if (!newDriver.equals(this.driver))
+    { 
+      this.driver = newDriver;
+      this.connectionProperties = mergeConnectionProperties(connectionProperties, getConnectionPropertiesList());
+    }
   }
 
   public Properties getAdditionalProperties()
