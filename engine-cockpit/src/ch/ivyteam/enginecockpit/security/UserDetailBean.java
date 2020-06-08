@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -42,6 +41,7 @@ public class UserDetailBean
   private long personalTasks;
   private long startedCases;
   private long workingOn;
+  private RoleDataModel roleDataModel;
 
   public UserDetailBean()
   {
@@ -58,23 +58,27 @@ public class UserDetailBean
 
   public void setUserName(String userName)
   {
-    this.userName = userName;
-    this.userSynchName = userName;
-    IUser iUser = getSecurityContext().users().find(userName);
-    this.user = new User(iUser);
-    this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
-    this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
-    startedCases = CaseQuery.create().where().isBusinessCase().and().creatorUserId().isEqual(iUser.getId()).executor().count();
-    workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
-            .or().state().isEqual(TaskState.RESUMED)
-            .or().state().isEqual(TaskState.PARKED)
-            .andOverall().workerUserId().isEqual(iUser.getId()).executor().count();
-    personalTasks = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
-            .or().state().isEqual(TaskState.SUSPENDED)
-            .or().state().isEqual(TaskState.RESUMED)
-            .or().state().isEqual(TaskState.PARKED)
-            .andOverall().activatorUserId().isEqual(iUser.getId()).executor().count();
-    canWorkOn = TaskQuery.create().where().canWorkOn(iUser).executor().count();
+    if (this.userName == null)
+    {
+      this.userName = userName;
+      this.userSynchName = userName;
+      var iUser = getSecurityContext().users().find(userName);
+      this.user = new User(iUser);
+      this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
+      this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
+      roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
+      startedCases = CaseQuery.create().where().isBusinessCase().and().creatorUserId().isEqual(iUser.getId()).executor().count();
+      workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+              .or().state().isEqual(TaskState.RESUMED)
+              .or().state().isEqual(TaskState.PARKED)
+              .andOverall().workerUserId().isEqual(iUser.getId()).executor().count();
+      personalTasks = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+              .or().state().isEqual(TaskState.SUSPENDED)
+              .or().state().isEqual(TaskState.RESUMED)
+              .or().state().isEqual(TaskState.PARKED)
+              .andOverall().activatorUserId().isEqual(iUser.getId()).executor().count();
+      canWorkOn = TaskQuery.create().where().canWorkOn(iUser).executor().count();
+    }
   }
 
   public String getUserSynchName()
@@ -120,7 +124,7 @@ public class UserDetailBean
 
   public void saveUserInfos()
   {
-    IUser iUser = getIUser();
+    var iUser = getIUser();
     iUser.setEMailAddress(user.getEmail());
     iUser.setFullName(user.getFullName());
     if (user.getPassword() != "")
@@ -136,7 +140,7 @@ public class UserDetailBean
     UserSynchResult synchResult = getSecurityContext().synchronizeUser(userSynchName);
     if (synchResult.getStatus() == SynchStatus.SUCCESS)
     {
-      user = new User(synchResult.getUser());      
+      user = new User(synchResult.getUser());
     }
     synchLog = synchResult.getSynchLog();
   }
@@ -174,8 +178,8 @@ public class UserDetailBean
 
   public void saveUserEmail()
   {
-    IUser iUser = getIUser();
-    Locale language = emailSettings.getLanguageLocale();
+    var iUser = getIUser();
+    var language = emailSettings.getLanguageLocale();
     if (language.getLanguage().equals("app"))
     {
       language = null;
@@ -185,6 +189,11 @@ public class UserDetailBean
             emailSettings.saveUserEmailSettings(iUser.getEMailNotificationSettings()));
     FacesContext.getCurrentInstance().addMessage("emailSaveSuccess",
             new FacesMessage("User email changes saved"));
+  }
+  
+  public RoleDataModel getRoles()
+  {
+    return roleDataModel;
   }
 
   public boolean isUserMemberOfAllRole(String roleName)

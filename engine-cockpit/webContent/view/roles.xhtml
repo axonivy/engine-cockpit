@@ -24,7 +24,8 @@
         <div class="ui-g">
           <div class="ui-g-12 ui-md-9">
             <h1>
-              <i class="material-icons card-title-icon">group</i>Roles <h:outputText style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})"/>
+              <i class="material-icons card-title-icon">group</i>Roles 
+              <h:outputText id="roleCounter" style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})"/>
             </h1>
           </div>
           <div class="ui-g-12 ui-md-3" style="margin: auto;">
@@ -50,21 +51,25 @@
 	              <label class="table-search-icon">
 	                <i class="material-icons">search</i>
 	              </label>
-	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.filter}">
+	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.roles.filter}">
 	                <p:ajax event="keyup" delay="300" update="@form" />
 	              </p:inputText>
 	            </p:outputPanel>
 	          </div>
 	        </div>
-          <p:tree id="tree" widgetVar="tree" value="#{roleBean.rolesWithMembers}" var="role">
+          <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role" dynamic="true">
             <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
             <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
-            <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}">
+            <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role">
               <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
                 <h:outputText value="#{role.name}" />
                 <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
                 <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}" styleClass="addition-row-info"/>
               </a>
+            </p:treeNode>
+            <p:treeNode icon="ui-icon-more-horiz" type="dummy">
+              <h:outputText value="#{role.name}" 
+                title="For performance reasons only the first 100 roles are loaded. Use the search to find a specific role." />
             </p:treeNode>
           </p:tree>
         </h:form>

@@ -94,9 +94,6 @@ body {
 .dashboard-card .min-height-600 {
   min-height: 600px;
 }
-.dashboard-card .max-height-700 {
-  max-height: 700px;
-}
 .dashboard-card .max-height-700 .ui-panel-content {
   overflow-y: auto;
   max-height: 664px;

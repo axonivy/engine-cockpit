@@ -17,44 +17,56 @@
         <label class="table-search-icon">
           <i class="material-icons">search</i>
         </label>
-        <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.filter}">
+        <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{userDetailBean.roles.filter}">
           <p:ajax event="keyup" delay="300" update="@form" />
         </p:inputText>
       </p:outputPanel>
     </div>
   </div>
-  <p:treeTable id="rolesTree" value="#{roleBean.roles}" var="role">
+  <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node">
     <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
     <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
     <p:column headerText="All Roles" sortBy="#{role.name}">
-      <a href="roledetail.xhtml?roleName=#{role.name}">
-        <h:outputText value="#{role.name}" styleClass="role-name">
-          <i class="material-icons table-icon">group</i>
+      <p:treeNode type="role" rendered="#{node.type == 'role'}">
+	      <a href="roledetail.xhtml?roleName=#{role.name}">
+	        <h:outputText value="#{role.name}" styleClass="role-name">
+	          <i class="material-icons table-icon">group</i>
+	        </h:outputText>
+	        <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+	        <h:panelGroup rendered="#{role.managed and !managerBean.ivySecuritySystem}">
+	          <i class="material-icons table-icon" title="Role is managed by the external security system">synchronize</i>
+	        </h:panelGroup>
+	      </a>
+      </p:treeNode>
+      <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
+        <h:outputText value="#{role.name}"
+          title="For performance reasons only the first 100 roles are loaded. Use the search to find a specific role.">
+          <i class="material-icons table-icon">more_horiz</i>
         </h:outputText>
-        <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
-        <h:panelGroup rendered="#{role.managed and !managerBean.ivySecuritySystem}">
-          <i class="material-icons table-icon" title="Role is managed by the external security system">synchronize</i>
-        </h:panelGroup>
-      </a>
+      </p:treeNode>
     </p:column>
     <p:column style="width: 41px;">
-      <h:outputText
-        rendered="#{userDetailBean.isUserMemberOfAllRole(role.name) and !userDetailBean.isUserMemberOfRole(role.name)}">
-        <i class="fa fa-check table-icon member-inherit-icon no-margin" title="Inherited" />
-      </h:outputText>
-      <h:outputText
-        rendered="#{userDetailBean.isUserMemberOfAllRole(role.name) and userDetailBean.isUserMemberOfRole(role.name)}">
-        <i class="fa fa-check table-icon no-margin" />
-      </h:outputText>
+      <h:panelGroup rendered="#{node.type == 'role'}">
+	      <h:outputText
+	        rendered="#{userDetailBean.isUserMemberOfAllRole(role.name) and !userDetailBean.isUserMemberOfRole(role.name)}">
+	        <i class="fa fa-check table-icon member-inherit-icon no-margin" title="Inherited" />
+	      </h:outputText>
+	      <h:outputText
+	        rendered="#{userDetailBean.isUserMemberOfAllRole(role.name) and userDetailBean.isUserMemberOfRole(role.name)}">
+	        <i class="fa fa-check table-icon no-margin" />
+	      </h:outputText>
+      </h:panelGroup>
     </p:column>
     <p:column style="width: 95px;">
-      <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
-        icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" style="margin: 0;"
-        disabled="#{role.name == 'Everybody' or userDetailBean.isUserMemberOfRole(role.name) or role.managed and !managerBean.ivySecuritySystem}" />
-      <p:commandButton id="removeRoleFromUserBtn" update="@form"
-        actionListener="#{userDetailBean.removeRole(role.name)}" icon="ui-icon-remove" title="Remove"
-        styleClass="card-button table-control-btn secondary-btn"
-        disabled="#{role.name == 'Everybody' or !userDetailBean.isUserMemberOfRole(role.name) or role.managed and !managerBean.ivySecuritySystem}" />
+      <h:panelGroup rendered="#{node.type == 'role'}">
+	      <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
+	        icon="ui-icon-add" title="Add" styleClass="card-button table-control-btn primary-btn" style="margin: 0;"
+	        disabled="#{role.name == 'Everybody' or userDetailBean.isUserMemberOfRole(role.name) or role.managed and !managerBean.ivySecuritySystem}" />
+	      <p:commandButton id="removeRoleFromUserBtn" update="@form"
+	        actionListener="#{userDetailBean.removeRole(role.name)}" icon="ui-icon-remove" title="Remove"
+	        styleClass="card-button table-control-btn secondary-btn"
+	        disabled="#{role.name == 'Everybody' or !userDetailBean.isUserMemberOfRole(role.name) or role.managed and !managerBean.ivySecuritySystem}" />
+      </h:panelGroup>
     </p:column>
   </p:treeTable>
 </h:form>
