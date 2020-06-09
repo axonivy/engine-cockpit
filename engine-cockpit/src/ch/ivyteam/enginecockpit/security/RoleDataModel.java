@@ -117,25 +117,25 @@ public class RoleDataModel
               role != null && getParent().isExpanded())
       {
         childrenFetched = true;
-        addRolesToTree(role.getChildRoles(), false);
-        var count = super.getChildCount();
+        var rolesLeft = addRolesToTree(role.getChildRoles(), false);
         if (showMember)
         {
           addRolesToTree(role.getRoleMembers(), true);
         }
-        if (count >= ROLE_CHILDREN_LIMIT)
+        if (rolesLeft > 0)
         {
-          new DefaultTreeNode("dummy", new Role("Please use the search to find a specific role"), this);
+          new DefaultTreeNode("dummy", new Role("Please use the search to find a specific role (" + rolesLeft + " more roles)"), this);
         }
       }
     }
 
-    private void addRolesToTree(List<IRole> rolesToAdd, boolean isMember)
+    private int addRolesToTree(List<IRole> rolesToAdd, boolean isMember)
     {
       super.getChildren().addAll(rolesToAdd.stream()
               .limit(ROLE_CHILDREN_LIMIT)
               .map(child -> new LazyRoleTreeNode(child, isMember, this))
               .collect(Collectors.toList()));
+      return rolesToAdd.size() - ROLE_CHILDREN_LIMIT;
     }
   }
 
