@@ -38,7 +38,7 @@ public class WebTestPagesNotAvailable
     for (Path xhtml : getSubDirectoryXhtmlFiles(engineDir))
     {
       Selenide.open(viewUrl(xhtml.toString()));
-      $("#content").shouldHave(text("404"));
+      $(".exception-detail").shouldHave(text("404"));
     }
   }
   
