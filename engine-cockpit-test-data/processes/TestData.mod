@@ -32,6 +32,11 @@ Ta0 @ErrorBoundaryEvent f20 '' #zField
 Ta0 @DBStep f21 '' #zField
 Ta0 @PushWFArc f22 '' #zField
 Ta0 @PushWFArc f23 '' #zField
+Ta0 @StartRequest f24 '' #zField
+Ta0 @EndTask f25 '' #zField
+Ta0 @GridStep f26 '' #zField
+Ta0 @PushWFArc f27 '' #zField
+Ta0 @PushWFArc f28 '' #zField
 >Proto Ta0 Ta0 TestData #zField
 Ta0 f0 outLink addAdministrator.ivp #txt
 Ta0 f0 inParamDecl '<> param;' #txt
@@ -239,6 +244,32 @@ Ta0 f22 256 399 256 458 #arcP
 Ta0 f23 312 480 352 367 #arcP
 Ta0 f23 1 352 480 #addKink
 Ta0 f23 1 0.08034838254922853 0 0 #arcLabel
+Ta0 f24 outLink createManyDynamicRoles.ivp #txt
+Ta0 f24 inParamDecl '<> param;' #txt
+Ta0 f24 requestEnabled true #txt
+Ta0 f24 triggerEnabled false #txt
+Ta0 f24 callSignature createManyDynamicRoles() #txt
+Ta0 f24 caseData businessCase.attach=true #txt
+Ta0 f24 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>createManyDynamicRoles.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Ta0 f24 @C|.responsibility Everybody #txt
+Ta0 f24 81 553 30 30 -78 33 #rect
+Ta0 f24 @|StartRequestIcon #fIcon
+Ta0 f25 337 553 30 30 0 15 #rect
+Ta0 f25 @|EndIcon #fIcon
+Ta0 f26 actionTable 'out=in;
+' #txt
+Ta0 f26 actionCode 'import ch.ivyteam.enginecockpit.testdata.security.DynamicRoles;
+DynamicRoles.createRoles();' #txt
+Ta0 f26 168 546 112 44 0 -7 #rect
+Ta0 f26 @|StepIcon #fIcon
+Ta0 f27 280 568 337 568 #arcP
+Ta0 f28 111 568 168 568 #arcP
 >Proto Ta0 .type engine.cockpit.test.data.Data #txt
 >Proto Ta0 .processKind NORMAL #txt
 >Proto Ta0 0 0 32 24 18 0 #rect
@@ -263,3 +294,7 @@ Ta0 f20 mainOut f22 tail #connect
 Ta0 f22 head f21 mainIn #connect
 Ta0 f21 mainOut f23 tail #connect
 Ta0 f23 head f15 mainIn #connect
+Ta0 f24 mainOut f28 tail #connect
+Ta0 f28 head f26 mainIn #connect
+Ta0 f26 mainOut f27 tail #connect
+Ta0 f27 head f25 mainIn #connect
