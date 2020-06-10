@@ -13,35 +13,27 @@ public class Role
   private boolean member;
   private boolean dynamic;
 
+  public Role(String name)
+  {
+    this.name = name;
+  }
+
   public Role(IRole role)
   {
-    this(role, false);
+    this.name = role.getName();
+    this.description = role.getDisplayDescription();
+    this.displayName = role.getDisplayName();
+    this.externalName = role.getExternalSecurityName();
+    this.member = false;
+    this.dynamic = role.isDynamic();
   }
   
   public Role(IRole role, boolean member)
   {
-    this(role.getName(), role.getDisplayDescription(), role.getDisplayName(), role.getExternalSecurityName(), member, role.isDynamic());
-  }
-
-  public Role(String name)
-  {
-    this(name, "", "", "", false, false);
-  }
-
-  public Role(String name, String description, String displayName, String externalName, boolean member, boolean dynamic)
-  {
-    this.name = name;
-    this.description = description;
-    this.displayName = displayName;
-    this.externalName = externalName;
+    this(role);
     this.member = member;
-    this.dynamic = dynamic;
   }
 
-  public Role()
-  {
-
-  }
 
   public String getName()
   {

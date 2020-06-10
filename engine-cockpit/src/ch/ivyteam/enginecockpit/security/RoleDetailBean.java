@@ -15,7 +15,6 @@ import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
-import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.query.UserQuery;
 
 @ManagedBean
@@ -29,21 +28,19 @@ public class RoleDetailBean
   private Role role;
 
   private UserDataModel usersOfRole;
+  private RoleDataModel roleDataModel;
   private List<Role> membersOfRole;
   private List<Role> filteredMembers;
   
   private MemberProperty roleProperties;
 
   private ManagerBean managerBean;
-  private RoleBean roleBean;
   private LdapBrowser ldapBrowser;
 
   public RoleDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
-    roleBean = context.getApplication().evaluateExpressionGet(context, "#{roleBean}", RoleBean.class);
-    role = new Role();
     roleProperties = new MemberProperty().new RoleProperty();
     usersOfRole = new UserDataModel();
     ldapBrowser = new LdapBrowser();
@@ -57,11 +54,12 @@ public class RoleDetailBean
   public void setRoleName(String roleName)
   {
     this.roleName = roleName;
-    IRole iRole = getSecurityContext().findRole(roleName);
+    var iRole = getSecurityContext().findRole(roleName);
     this.role = new Role(iRole);
     this.usersOfRole.setApp(managerBean.getSelectedIApplication());
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
+    this.roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
     loadMembersOfRole();
   }
 
@@ -103,7 +101,7 @@ public class RoleDetailBean
 
   public void saveRoleInfos()
   {
-    IRole iRole = getSecurityContext().findRole(role.getName());
+    var iRole = getIRole();
     iRole.setDisplayDescriptionTemplate(role.getDescription());
     iRole.setDisplayNameTemplate(role.getDisplayName());
     iRole.setExternalSecurityName(role.getExternalName());
@@ -124,7 +122,7 @@ public class RoleDetailBean
 
   public void removeUser(String userName)
   {
-    IUser user = getSecurityContext().users().find(userName);
+    var user = getSecurityContext().users().find(userName);
     user.removeRole(getIRole());
   }
 
@@ -184,8 +182,8 @@ public class RoleDetailBean
 
   public boolean isRoleMemberOfRole(String name)
   {
-    return membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent()
-            || name.equals(roleName);
+    return name.equals(roleName) || 
+            membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent();
   }
 
   public List<Role> getFilteredMembers()
@@ -227,10 +225,9 @@ public class RoleDetailBean
   
   public List<Role> searchMember(String query)
   {
-    List<Role> search = roleBean.getRolesFlat().stream()
+    return roleDataModel.getList().stream()
             .filter(m -> StringUtils.startsWithIgnoreCase(m.getName(), query) && !isRoleMemberOfRole(m.getName()))
             .limit(10).collect(Collectors.toList());
-    return search;
   }
 
   private ISecurityContext getSecurityContext()
