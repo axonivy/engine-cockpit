@@ -137,9 +137,9 @@ public class WebTestUserDetail
   private void changeEmailLanguage(String oldLang, String lang)
   {
     SelectOneMenu language = PrimeUi.selectOne(By.id("userEmailForm:emailSettings:languageDropDown"));
-    assertThat(language.getSelectedItem()).isEqualTo(oldLang);
+    language.selectedItemShould(exactText(oldLang));
     language.selectItemByLabel(lang);
-    assertThat(language.getSelectedItem()).isEqualTo(lang);
+    language.selectedItemShould(exactText(lang));
     $("#userEmailForm\\:saveEmailNotificationSettings").click();
     $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible, exactText("User email changes saved"));
   }
