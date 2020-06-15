@@ -118,7 +118,17 @@ public class UserDetailBean
         .password(user.getPassword())
         .mailAddress(user.getEmail())
         .toNewUser();
-    getSecurityContext().users().create(newUser);
+    try
+    {
+      getSecurityContext().users().create(newUser);
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage("User '"+newUser.getName()+"' created successfully", ""));
+    }
+    catch (Exception ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + newUser.getName() + "' couldn't be created", ex.getMessage()));
+    }
     return "users.xhtml";
   }
 

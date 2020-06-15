@@ -82,8 +82,10 @@ public class WebTestRoleDetail
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(text("Value is required"));
     
     String newRoleName = "test";
+    $("#newChildRoleForm\\:newChildRoleNameInput").clear();
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
     $("#newChildRoleForm\\:saveNewRole").click();
+    $("#msgs_container").should(visible, text("Role '" + newRoleName + "' created successfully"));
     assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + newRoleName);
     $("#roleInformationForm\\:name").shouldBe(exactText(newRoleName));
     
@@ -93,6 +95,18 @@ public class WebTestRoleDetail
     
     $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
     assertCurrentUrlEndsWith("roles.xhtml");
+  }
+  
+  @Test
+  void createNewChildRoleWithSameNameAsExisting()
+  {
+    $("#roleInformationForm\\:createNewChildRole").click();
+    $("#newChildRoleDialog").shouldBe(visible);
+    $("#newChildRoleForm\\:newChildRoleNameInput").clear();
+    $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(DETAIL_ROLE_NAME);
+    $("#newChildRoleForm\\:saveNewRole").click();
+    $("#msgs_container").should(visible, text("Role '" + DETAIL_ROLE_NAME + "' couldn't be created"));
+    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
   }
   
   @Test
