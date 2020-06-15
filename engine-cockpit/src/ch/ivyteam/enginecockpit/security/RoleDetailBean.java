@@ -95,7 +95,19 @@ public class RoleDetailBean
 
   public String createNewChildRole()
   {
-    getIRole().createChildRole(newChildRoleName, "", "", true);
+    FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+    try
+    {
+      getIRole().createChildRole(newChildRoleName, "", "", true);
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage("Role '" + newChildRoleName + "' created successfully", ""));
+    }
+    catch (Exception ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role '" + newChildRoleName + "' couldn't be created", ex.getMessage()));
+      return "roledetail.xhtml?roleName=" + roleName + "&faces-redirect=true";
+    }
     return "roledetail.xhtml?roleName=" + newChildRoleName + "&faces-redirect=true";
   }
 

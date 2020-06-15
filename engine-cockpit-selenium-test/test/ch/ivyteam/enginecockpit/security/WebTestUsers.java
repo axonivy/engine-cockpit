@@ -76,11 +76,21 @@ public class WebTestUsers
     $("#newUserForm\\:password2").sendKeys(password);
     $("#newUserForm\\:saveNewUser").click();
     $("#newUserModal").shouldNotBe(visible);
-    $("#form\\:msgs_container").shouldNotBe(visible);
+    $("#form\\:msgs_container").shouldBe(visible, text("User '" + user + "' created successfully"));
     assertThat(table.getFirstColumnEntries().size()).isGreaterThan(users);
     assertThat(table.getFirstColumnEntries().get(users)).isEqualTo(user);
     assertThat(table.getValueForEntry(user, 2)).isEqualTo(fullName);
     assertThat(table.getValueForEntry(user, 3)).isEqualTo(email);
+  }
+  
+  @Test
+  void createNewUserWithSameNameAsExisting()
+  {
+    showNewUserDialog();
+    $("#newUserForm\\:newUserNameInput").sendKeys("foo");
+    $("#newUserForm\\:saveNewUser").click();
+    $("#newUserModal").shouldNotBe(visible);
+    $("#form\\:msgs_container").should(visible, text("User 'foo' couldn't be created"));
   }
 
   @Test
