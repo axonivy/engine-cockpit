@@ -42,14 +42,14 @@ public class WebTestConfiguration
   void testEmailUrlFilter()
   {
     String filter = "EMail";
-    $("#mailConfigForm\\:configureEmailBtn").click();
+    $("#mailConfigForm\\:configureEmailBtn").shouldBe(visible).click();
     assertUrlFiltering(filter);
   }
   
   @Test
   void testSystemDbConfigUrl()
   {
-    $("#configureSystemDbBtn").click();
+    $("#configureSystemDbBtn").shouldBe(visible).click();
     assertCurrentUrlEndsWith("systemdb.xhtml");
   }
   
@@ -193,7 +193,6 @@ public class WebTestConfiguration
   {
     assertCurrentUrlEndsWith("systemconfig.xhtml?filter=" + filter);
     table = new Table(TABLE_ID);
-    table.getSearchFilter();
     assertThat(table.getSearchFilter()).isEqualTo(filter);
     table.firstColumnShouldBe(size(9));
   }
@@ -261,7 +260,7 @@ public class WebTestConfiguration
     $("#config\\:newConfigurationForm\\:newConfigurationValue").sendKeys(value);
     $("#config\\:newConfigurationForm\\:saveNewConfiguration").click();
     $("#config\\:form\\:msgs_container").shouldHave(text(key), text("created"));
-    assertThat(table.getValueForEntry(key, 2)).isEqualTo(value);
+    table.valueForEntryShould(key, 2, exactText(value));
   }
   
   private void assertEditConfig(String key, String value, String newValue)
@@ -273,7 +272,7 @@ public class WebTestConfiguration
     $("#config\\:editConfigurationForm\\:editConfigurationValue").sendKeys(newValue);
     $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
     $("#config\\:form\\:msgs_container").shouldHave(text(key), text("changed"));
-    assertThat(table.getValueForEntry(key, 2)).isEqualTo(newValue);
+    table.valueForEntryShould(key, 2, exactText(newValue));
   }
   
   private void assertThatConfigEditModalIsVisible(String key, String value)

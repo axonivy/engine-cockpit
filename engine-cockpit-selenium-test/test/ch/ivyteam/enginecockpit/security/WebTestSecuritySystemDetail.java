@@ -188,14 +188,14 @@ public class WebTestSecuritySystemDetail
     $("#ldapAttributeForm\\:attributeInput").sendKeys("value");
     $(SAVE_LDAP_ATTRIBUTE).click();
     assertThat(table.getFirstColumnEntries()).hasSize(3).contains("test");
-    assertThat(table.getValueForEntry("test", 2)).isEqualTo("value");
+    table.valueForEntryShould("test", 2, exactText("value"));
     
     table.clickButtonForEntry("test", "editPropertyBtn");
     $(LDAP_ATTRIBUTE_MODAL).shouldBe(visible);
     $("#ldapAttributeForm\\:attributeInput").clear();
     $("#ldapAttributeForm\\:attributeInput").sendKeys("newValue");
     $(SAVE_LDAP_ATTRIBUTE).click();
-    assertThat(table.getValueForEntry("test", 2)).isEqualTo("newValue");
+    table.valueForEntryShould("test", 2, exactText("newValue"));
     
     table.clickButtonForEntry("test", "deleteLdapAttributeBtn");
     assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test");
@@ -261,7 +261,7 @@ public class WebTestSecuritySystemDetail
     Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
     table.firstColumnShouldBe(CollectionCondition.empty);
     $(LDAP_BROWSER_FORM + "tree\\:0").click();
-    assertThat(table.getValueForEntry("distinguishedName", 2)).isEqualTo("DC=zugtstdomain,DC=wan");
+    table.valueForEntryShould("distinguishedName", 2, exactText("DC=zugtstdomain,DC=wan"));
   }
   
   @Nested
@@ -337,20 +337,20 @@ public class WebTestSecuritySystemDetail
       table.firstColumnShouldBe(CollectionCondition.empty);
       $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
       $(LDAP_BROWSER_FORM + "tree\\:0_0").click();
-      assertThat(table.getValueForEntry("o", 2)).isEqualTo("zugtstorg");
+      table.valueForEntryShould("o", 2, exactText("zugtstorg"));
     }
     
   }
   
   private void openImportLdapBrowser()
   {
-    $("#securitySystemBindingForm\\:browseImportUserOfGroup").click();
+    $("#securitySystemBindingForm\\:browseImportUserOfGroup").shouldBe(visible).click();
     $(LDAP_BROWSER_DIALOG).shouldBe(visible);
   }
   
   private void openDefaultLdapBrowser()
   {
-    $("#securitySystemBindingForm\\:browseDefaultContext").click();
+    $("#securitySystemBindingForm\\:browseDefaultContext").shouldBe(visible).click();
     $(LDAP_BROWSER_DIALOG).shouldBe(visible);
   }
   

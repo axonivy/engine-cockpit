@@ -28,7 +28,6 @@ public class WebTestRestClientDetail
   {
     login();
     Navigation.toRestClientDetail(RESTCLIENT_NAME);
-    $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
   }
   
   @Test
@@ -36,11 +35,8 @@ public class WebTestRestClientDetail
   {
     assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME);
     $$(".ui-panel").shouldHave(size(2));
-  }
-  
-  @Test
-  void testOpenRestClientHelp()
-  {
+    $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
+    
     $("#breadcrumbOptions > a").shouldBe(visible).click();
     $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(RESTCLIENT_NAME));

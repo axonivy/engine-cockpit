@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.security;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -79,8 +80,8 @@ public class WebTestUsers
     $("#form\\:msgs_container").shouldBe(visible, text("User '" + user + "' created successfully"));
     assertThat(table.getFirstColumnEntries().size()).isGreaterThan(users);
     assertThat(table.getFirstColumnEntries().get(users)).isEqualTo(user);
-    assertThat(table.getValueForEntry(user, 2)).isEqualTo(fullName);
-    assertThat(table.getValueForEntry(user, 3)).isEqualTo(email);
+    table.valueForEntryShould(user, 2, exactText(fullName));
+    table.valueForEntryShould(user, 3, exactText(email));
   }
   
   @Test

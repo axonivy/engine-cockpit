@@ -12,7 +12,6 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.$x;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,11 +41,7 @@ public class WebTestExternalDatabaseDetail
     assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME);
     $$(".ui-panel").shouldHave(size(4));
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
-  }
-  
-  @Test
-  void testOpenExternalDatabaseHelp()
-  {
+    
     $("#breadcrumbOptions > a").shouldBe(visible).click();
     $("#helpExternalDatabaseDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(DATABASE_NAME));
@@ -93,7 +88,7 @@ public class WebTestExternalDatabaseDetail
     $("#propertyForm\\:valueInput").sendKeys("value");
     $("#propertyForm\\:saveProperty").click();
     properties.firstColumnShouldBe(size(3));
-    assertThat(properties.getValueForEntry("bla", 2)).isEqualTo("value");
+    properties.valueForEntryShould("bla", 2, exactText("value"));
     $("#propertyModal").shouldNotBe(visible);
     
     properties.clickButtonForEntry("bla", "editPropertyBtn");
@@ -102,7 +97,7 @@ public class WebTestExternalDatabaseDetail
     $("#propertyForm\\:valueInput").shouldBe(value("value")).sendKeys("1");
     $("#propertyForm\\:saveProperty").click();
     properties.firstColumnShouldBe(size(3));
-    assertThat(properties.getValueForEntry("bla", 2)).isEqualTo("value1");
+    properties.valueForEntryShould("bla", 2, exactText("value1"));
     $("#propertyModal").shouldNotBe(visible);
     
     properties.clickButtonForEntry("bla", "deletePropertyBtn");
@@ -111,7 +106,7 @@ public class WebTestExternalDatabaseDetail
 
   private void setConfiguration(String url, String driverName, String username, String connections)
   {
-    $("#databaseConfigurationForm\\:url").clear();
+    $("#databaseConfigurationForm\\:url").shouldBe(visible).clear();
     $("#databaseConfigurationForm\\:url").sendKeys(url);
     
     $("#databaseConfigurationForm\\:driver_input").clear();

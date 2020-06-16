@@ -7,6 +7,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -121,10 +122,10 @@ public class WebTestSearchEngine
   
   private void checkIndexValues(Table table, String tableRow, String count)
   {
-    assertThat(table.getValueForEntry(tableRow, 2)).contains(count);
-    assertThat(table.getValueForEntry(tableRow, 3)).contains(count);
-    assertThat(table.getValueForEntry(tableRow, 4)).contains("check");
-    assertThat(table.getValueForEntry(tableRow, 5)).doesNotContain("unknown");
+    table.valueForEntryShould(tableRow, 2, text(count));
+    table.valueForEntryShould(tableRow, 3, text(count));
+    table.valueForEntryShould(tableRow, 4, text("check"));
+    table.valueForEntryShould(tableRow, 5, not(text("unknown")));
   }
   
 }

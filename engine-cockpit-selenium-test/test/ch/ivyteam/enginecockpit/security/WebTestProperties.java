@@ -152,7 +152,7 @@ public class WebTestProperties
   private void assertTableHasKeyValue(String key, String value)
   {
     Table table = new Table(TABLE_ID);
-    assertThat(table.getValueForEntry(key, 2)).isEqualTo(value);
+    table.valueForEntryShould(key, 2, exactText(value));
   }
 
   private void saveInvalidAddProperty()
