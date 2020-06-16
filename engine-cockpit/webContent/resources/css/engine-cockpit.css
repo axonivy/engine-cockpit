@@ -113,6 +113,13 @@ body {
 .dashboard-warnings .ui-staticmessage:last-child {
   margin-bottom: 0;
 }
+.card-top-static-message {
+  padding-top: 10px;
+}
+.ui-staticmessage + .ui-staticmessage {
+  margin-top: 5px;
+}
+/*Licence Message*/
 .dashboard .messages {
   margin-bottom: 10px;
 }
@@ -133,25 +140,6 @@ body {
 }
 .dashboard .messages i.error {
   color: #D23636;
-}
-.card-top-static-message {
-  padding-top: 10px;
-}
-.ui-staticmessage + .ui-staticmessage {
-  margin-top: 5px;
-}
-.ui-message.ui-staticmessage a {
-  text-decoration: underline;
-  font-weight: bold;
-}
-.ui-staticmessage.ui-message-info a {
-  color: var(--message-info-text-color, white);
-}
-.ui-staticmessage.ui-message-warn a {
-  color: var(--message-warn-text-color, yellow);
-}
-.ui-staticmessage.ui-message-error a {
-  color: var(--message-error-text-color, white);
 }
 
 /*Tables / Trees*/
