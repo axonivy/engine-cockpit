@@ -247,7 +247,7 @@ public class WebTestSystemDb
     $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
     $("#systemDb\\:addAdditionalPropertyDialog").shouldNotBe(visible);
     table.firstColumnShouldBe(exactTexts("test"));
-    assertThat(table.getValueForEntry("test", 2)).isEqualTo("testValue");
+    table.valueForEntryShould("test", 2, exactText("testValue"));
     
     table.clickButtonForEntry("test", "removeAdditionalProperty");
     $("#systemDb\\:systemDbForm\\:additionalPropertiesTable").shouldBe(text("No records found."));

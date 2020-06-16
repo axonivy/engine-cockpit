@@ -43,11 +43,7 @@ public class WebTestWebserviceDetail
     assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
     $$(".ui-panel").shouldHave(size(3));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
-  }
-  
-  @Test
-  void testOpenWebserviceHelp()
-  {
+    
     $("#breadcrumbOptions > a").shouldBe(visible).click();
     $("#helpWebserviceDialog\\:helpServicesModal").shouldBe(Condition.visible);
     $(".code-block").shouldBe(text(WEBSERVICE_NAME));
@@ -66,7 +62,7 @@ public class WebTestWebserviceDetail
   
   private void setConfiguration(String username, String password)
   {
-    $("#webserviceConfigurationForm\\:password").sendKeys(password);
+    $("#webserviceConfigurationForm\\:password").shouldBe(visible).sendKeys(password);
     setConfiguration(username);
   }
 

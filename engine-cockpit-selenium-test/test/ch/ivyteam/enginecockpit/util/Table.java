@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.openqa.selenium.By;
 
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 
 public class Table
 {
@@ -47,7 +48,7 @@ public class Table
   
   public void firstColumnShouldBe(CollectionCondition cond)
   {
-    $$x(getFirstColumnSpanElement()).shouldBe(cond);
+    $$x(getFirstColumnSpanElement()).shouldBe(cond, 10000);
   }
 
   public List<String> getFirstColumnEntriesForSpanClass(String span)
@@ -56,9 +57,9 @@ public class Table
             .map(e -> e.getText()).collect(Collectors.toList());
   }
   
-  public String getValueForEntry(String entry, int column)
+  public void valueForEntryShould(String entry, int column, Condition condition)
   {
-    return $x(findColumnOverEntry(entry) + "/td[" + column + "]").getText();
+    $x(findColumnOverEntry(entry) + "/td[" + column + "]").should(condition);
   }
 
   public void clickButtonForEntry(String entry, String btn)
@@ -108,13 +109,13 @@ public class Table
   
   public void search(String search)
   {
-    $(By.id(globalFilter)).clear();
+    $(By.id(globalFilter)).shouldBe(visible).clear();
     $(By.id(globalFilter)).sendKeys(search);
   }
   
   public String getSearchFilter()
   {
-    return $(By.id(globalFilter)).getAttribute("value");
+    return $(By.id(globalFilter)).shouldBe(visible).getAttribute("value");
   }
   
 }

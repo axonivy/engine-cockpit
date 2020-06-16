@@ -74,7 +74,7 @@ public class WebTestRoleDetail
   @Test
   void testNewChildRole()
   {
-    $("#roleInformationForm\\:createNewChildRole").click();
+    $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
     $("#newChildRoleDialog").shouldBe(visible);
     
     $("#newChildRoleForm\\:saveNewRole").click();
@@ -100,7 +100,7 @@ public class WebTestRoleDetail
   @Test
   void createNewChildRoleWithSameNameAsExisting()
   {
-    $("#roleInformationForm\\:createNewChildRole").click();
+    $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
     $("#newChildRoleDialog").shouldBe(visible);
     $("#newChildRoleForm\\:newChildRoleNameInput").clear();
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(DETAIL_ROLE_NAME);

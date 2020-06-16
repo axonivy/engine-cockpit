@@ -4,10 +4,10 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +68,7 @@ public class WebTestAdmins
     
     editAdmin(table, user, "test@admin.com");
     table.firstColumnShouldBe(exactTexts("admin", user));
-    assertThat(table.getValueForEntry(user, 2)).isEqualTo("test@admin.com");
+    table.valueForEntryShould(user, 2, exactText("test@admin.com"));
     
     deleteAdmin(table, user);
     table.firstColumnShouldBe(exactTexts("admin"));

@@ -146,7 +146,7 @@ public class WebTestProperties
   private void assertTableHasKeyValue(String key, String value, boolean managed)
   {
     Table table = new Table(TABLE_ID);
-    assertThat(table.getValueForEntry(key, 2)).isEqualTo(value);
+    table.valueForEntryShould(key, 2, exactText(value));
     if (managed)
     {
       table.buttonForEntryShouldBeDisabled(key, "deletePropertyBtn");

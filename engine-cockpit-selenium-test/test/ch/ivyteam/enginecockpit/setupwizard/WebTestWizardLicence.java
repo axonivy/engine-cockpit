@@ -40,7 +40,7 @@ public class WebTestWizardLicence
     WebTestWizard.activeStepShouldHaveWarnings();
     uploadLicence();
     $("#uploadStatus").shouldBe(exactText("Success"));
-    $("#fileUploadForm\\:licenceInfoTable").shouldHave(text("Jacek Lajdecki"));
+    $("#fileUploadForm\\:licenceInfoTable").shouldHave(text("Lukas Lieb"));
     $("#licWarnMessage").shouldHave(empty);
     WebTestWizard.activeStepShouldBeOk();
     
