@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.SelenideElement;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -36,13 +38,14 @@ public class WebTestMonitor
   void logsViewContent()
   {
     Navigation.toLogs();
-    $$(".ui-panel").shouldHave(size(5));
-    $("#consoleLogView\\:logPanel_content").shouldBe(visible);
-    $("#ivyLogView\\:logPanel").shouldHave(text("ivy.log"));
-    $("#ivyLogView\\:logPanel .ui-panel-title > span").click();
-    $("#ivyLogView\\:logPanel_content").shouldBe(visible);
-    $("#ivyLogView\\:logPanel_toggler").click();
-    $("#ivyLogView\\:logPanel_content").shouldNotBe(visible);
+    $$(".ui-panel").shouldHave(sizeGreaterThanOrEqual(1));
+    $$(".ui-panel-titlebar").find(text("console.log")).parent()
+            .find(".ui-panel-content").shouldBe(visible);
+    SelenideElement ivyLogPanel = $$(".ui-panel-titlebar").find(text("ivy.log")).parent();
+    ivyLogPanel.find(".ui-panel-title > span").click();
+    ivyLogPanel.find(".ui-panel-content").shouldBe(visible);
+    ivyLogPanel.find(".ui-panel-titlebar-icon").click();
+    ivyLogPanel.find(".ui-panel-content").shouldNotBe(visible);
   }
   
   @Test
@@ -50,14 +53,14 @@ public class WebTestMonitor
   {
     Navigation.toLogs();
     String originDate = $("#logDateForm\\:calendar_input").shouldBe(visible).getValue();
-    $("#ivyLogView\\:logPanel").shouldHave(text(originDate));
+    $$(".ui-panel-titlebar").find(text("ivy.log")).shouldHave(text(originDate));
     
     $("#logDateForm\\:calendar > button").shouldBe(visible).click();
     $("#ui-datepicker-div").should(visible);
     $("#logDateForm\\:calendar_input").clear();
     $("#logDateForm\\:calendar_input").sendKeys("2020-04-01");
     $("#logDateForm\\:calendar_input").sendKeys(Keys.ENTER);
-    $("#ivyLogView\\:logPanel").shouldHave(text("2020-04-01"));
+    $$(".ui-panel-titlebar").find(text("ivy.log")).shouldHave(text("2020-04-01"));
   }
   
 }
