@@ -10,6 +10,7 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -167,7 +168,8 @@ public class WebTestUsers
     Tab.switchToTab("test-ad");
     $(getAppTabId() + "syncMoreBtn_menuButton").click();
     $(getAppTabId() + "userSyncLog").shouldBe(visible).click();
-    $("#userSynchLogView\\:logPanel_content").shouldBe(visible);
+    $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
+            .find(".ui-panel-content").shouldBe(visible);
   }
   
   private void showSynchUserDialog()

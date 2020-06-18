@@ -9,6 +9,7 @@ import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -79,7 +80,8 @@ public class WebTestApplicationDetail
     $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("fa-spin")), 10000);
     
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").click();
-    $("#userSynchLogView\\:logPanel_content").shouldBe(visible);
+    $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
+            .find(".ui-panel-content").shouldBe(visible);
   }
 
 }

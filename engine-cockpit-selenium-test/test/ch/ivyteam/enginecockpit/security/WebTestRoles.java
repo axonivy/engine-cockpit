@@ -55,8 +55,8 @@ public class WebTestRoles
     Tab.switchToTab("test-ad");
     $(getAppTabId() + "syncMoreBtn_menuButton").click();
     $(getAppTabId() + "userSyncLog").shouldBe(visible).click();
-    $("#userSynchLogView\\:logPanel_content").shouldBe(visible);
-  }
+    $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
+            .find(".ui-panel-content").shouldBe(visible);  }
   
   @Test
   void testManyRolesLoadLimit()
