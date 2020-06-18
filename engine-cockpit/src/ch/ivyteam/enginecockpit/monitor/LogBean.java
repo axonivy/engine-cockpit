@@ -3,11 +3,16 @@ package ch.ivyteam.enginecockpit.monitor;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -21,11 +26,7 @@ import ch.ivyteam.enginecockpit.util.UrlUtil;
 @ViewScoped
 public class LogBean
 {
-  private LogView ivyLog;
-  private LogView consoleLog;
-  private LogView configLog;
-  private LogView deprecationLog;
-  private LogView usersynchLog;
+  private List<LogView> logs;
   private Date date;
   private String showLog;
   
@@ -47,36 +48,23 @@ public class LogBean
 
   private void initLogFiles()
   {
-    ivyLog = new LogView("ivy.log", date);
-    consoleLog = new LogView("console.log", date);
-    configLog = new LogView("config.log", date);
-    deprecationLog = new LogView("deprecation.log", date);
-    usersynchLog = new LogView("usersynch.log", date);
+    try
+    {
+      logs = Files.walk(UrlUtil.getLogDir().toPath().toRealPath())
+              .filter(Files::isRegularFile)
+              .filter(log -> log.toString().endsWith(".log"))
+              .map(log -> new LogView(log.getFileName().toString(), date))
+              .collect(Collectors.toList());
+    }
+    catch(IOException ex)
+    {
+      FacesContext.getCurrentInstance().addMessage("msgs", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not load logs", ex.getMessage()));
+    }
   }
   
-  public LogView getIvyLog()
+  public List<LogView> getLogs()
   {
-    return ivyLog;
-  }
-  
-  public LogView getConsoleLog()
-  {
-    return consoleLog;
-  }
-  
-  public LogView getConfigLog()
-  {
-    return configLog;
-  }
-  
-  public LogView getDeprecationLog()
-  {
-    return deprecationLog;
-  }
-  
-  public LogView getUserSynchLog()
-  {
-    return usersynchLog;
+    return logs;
   }
   
   public void setDate(Date date)
