@@ -1,7 +1,9 @@
 package ch.ivyteam.enginecockpit;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -57,7 +59,8 @@ public class WebTestDownload
   void log() throws FileNotFoundException
   {
     Navigation.toLogs();
-    File download = $("#consoleLogView\\:fileForm\\:showLog").shouldBe(visible).download();
+    File download = $$(".ui-panel-titlebar").find(text("console.log")).parent()
+            .find(".ui-panel-content button").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("console.log");
     assertThat(download).isNotEmpty();
   }
