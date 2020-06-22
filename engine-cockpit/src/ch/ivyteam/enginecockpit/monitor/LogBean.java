@@ -54,6 +54,7 @@ public class LogBean
               .filter(Files::isRegularFile)
               .filter(log -> log.toString().endsWith(".log"))
               .map(log -> new LogView(log.getFileName().toString(), date))
+              .sorted()
               .collect(Collectors.toList());
     }
     catch(IOException ex)
