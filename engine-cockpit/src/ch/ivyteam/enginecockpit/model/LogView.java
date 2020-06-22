@@ -21,7 +21,7 @@ import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 
-public class LogView
+public class LogView implements Comparable<LogView>
 {
   private File file;
   private String fileName;
@@ -134,6 +134,12 @@ public class LogView
   {
     InputStream newInputStream = Files.newInputStream(file.toPath());
     return new DefaultStreamedContent(newInputStream, "text/plain", file.getName());
+  }
+  
+  @Override
+  public int compareTo(LogView other)
+  {
+    return fileName.compareTo(other.getFileName());
   }
   
 }
