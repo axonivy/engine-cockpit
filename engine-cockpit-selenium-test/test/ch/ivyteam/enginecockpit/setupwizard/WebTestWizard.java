@@ -32,7 +32,7 @@ public class WebTestWizard
   public void testBannerLink()
   {
     $("#bannerLogo").click();
-    $("#applicationTabView").should(exist);
+    $(".ui-message-warn").shouldHave(text("Demo Mode"));
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
     $("#content > h1").shouldNot(exist);
     assertCurrentUrlEndsWith("/system/");
