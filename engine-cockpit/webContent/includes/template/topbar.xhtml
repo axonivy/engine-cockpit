@@ -32,9 +32,9 @@
               </p:commandLink>
             </li>
             <li role="menuitem">
-              <p:commandLink id="devModeBtn" type="button" onclick="$.cookie('preview', $.cookie('preview') != 'true', { expires: 30, path: '/' }); window.location.reload();">
-                <i class="material-icons">bug_report</i>
-                <span>Preview #{cookie['preview'].value eq 'true' ? 'Off' : 'On'}</span>
+              <p:commandLink id="devModeBtn" type="button" onclick="$.cookie('advanced', $.cookie('advanced') != 'true', { expires: 30, path: '/' }); window.location.reload();">
+                <i class="material-icons">verified_user</i>
+                <span>Advanced Mode #{cookie['advanced'].value eq 'true' ? 'Off' : 'On'}</span>
               </p:commandLink>
             </li>
             <li>

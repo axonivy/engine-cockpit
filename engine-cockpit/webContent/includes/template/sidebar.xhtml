@@ -40,8 +40,8 @@
                 <p:menuitem id="sr_system_config" value="System Configuration" icon="settings" url="systemconfig.xhtml" />
                 <p:menuitem id="sr_cluster" value="Cluster" icon="view_carousel" url="cluster.xhtml" 
                 	rendered="#{clusterBean.clusterServer or param['cluster'] != null}"/>
-                <p:menuitem id="sr_editor" value="Yaml Editor (Preview)" icon="edit" url="editor.xhtml" 
-                  rendered="#{cookie['preview'].value eq 'true'}"/>
+                <p:menuitem id="sr_editor" value="Yaml Editor" icon="edit" url="editor.xhtml" 
+                  rendered="#{cookie['advanced'].value eq 'true'}"/>
               </p:submenu>
               <p:submenu id="sr_monitor" label="Monitor" icon="track_changes">
                 <p:menuitem id="sr_resources_monitor" value="Resources" icon="memory" url="monitor.xhtml" />

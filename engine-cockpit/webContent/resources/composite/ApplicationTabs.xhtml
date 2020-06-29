@@ -13,6 +13,10 @@
     <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
     <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@form" />
     <p:tab title="#{app.name}" titleStyleClass="application-tab">
+      <f:facet name="title">
+         <i class="fa fa-cube" />
+         <h:outputText value="#{app.name}"/>
+      </f:facet>
       <cc:insertChildren />
     </p:tab>
   </p:tabView>

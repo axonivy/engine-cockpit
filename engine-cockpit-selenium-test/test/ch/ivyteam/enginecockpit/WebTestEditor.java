@@ -32,7 +32,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 public class WebTestEditor
 {
   
-  private static final String DEV_MODE_COOKIE = "preview";
+  private static final String DEV_MODE_COOKIE = "advanced";
   
   @BeforeEach
   void beforeEach()

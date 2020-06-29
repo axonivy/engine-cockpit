@@ -262,6 +262,11 @@ body {
   float: right;
 }
 
+/* Tab view */
+.application-tab i {
+	margin-right: 5px;
+}
+
 /*Panels*/
 .log-viewer {
   margin-top: 20px;
@@ -465,4 +470,13 @@ body {
 }
 .ldap-browser .ui-datatable td {
   padding: 0.3em;
+}
+
+/* Yaml Editor */
+.editor-card {
+	margin-bottom: 0; 
+	height: calc(100vh - 161px);
+}
+.editor-card .CodeMirror.cm-s-default {
+	height: calc(100vh - 270px);
 }
