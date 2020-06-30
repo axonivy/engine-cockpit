@@ -176,9 +176,7 @@ public class WebTestSystemDb
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL).shouldBe(
             text("Database too old"), text("Convert system database."));
-    $("#systemDb\\:systemDbForm\\:migrateDatabaseButton").shouldBe(enabled);
-    
-    $("#systemDb\\:systemDbForm\\:migrateDatabaseButton").click();
+    $("#systemDb\\:systemDbForm\\:migrateDatabaseButton").shouldBe(enabled).click();
     $("#systemDb\\:convertDatabaseDialog").shouldBe(visible);
   }
 
@@ -192,6 +190,9 @@ public class WebTestSystemDb
     $("#systemDb\\:convertDatabaseForm\\:conversionResult").shouldBe(empty);
     $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").click();
     $("#systemDb\\:convertDatabaseDialog").shouldNotBe(visible);
+    $(CONNECTION_PANEL).shouldBe(text("Connected"));
+    
+    Selenide.refresh();
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
   }
 
