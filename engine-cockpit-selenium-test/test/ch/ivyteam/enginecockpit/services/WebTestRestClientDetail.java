@@ -17,6 +17,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 public class WebTestRestClientDetail
@@ -27,6 +28,8 @@ public class WebTestRestClientDetail
   void beforeEach()
   {
     login();
+    Navigation.toRestClients();
+    Tab.switchToDefault();
     Navigation.toRestClientDetail(RESTCLIENT_NAME);
   }
   

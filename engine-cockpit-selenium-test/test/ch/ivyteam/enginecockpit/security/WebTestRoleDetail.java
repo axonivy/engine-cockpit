@@ -160,7 +160,7 @@ public class WebTestRoleDetail
     $("#roleInformationForm\\:saveRoleInformation").click();
     
     Navigation.toRoles();
-    String syncBtnId = "#form\\:card\\:tabs\\:applicationTabView\\:1\\:panelSyncBtn";
+    String syncBtnId = "#form\\:card\\:tabs\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
     $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));

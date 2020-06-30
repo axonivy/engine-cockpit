@@ -21,6 +21,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -32,6 +33,8 @@ public class WebTestExternalDatabaseDetail
   void beforeEach()
   {
     login();
+    Navigation.toExternalDatabases();
+    Tab.switchToDefault();
     Navigation.toExternalDatabaseDetail(DATABASE_NAME);
   }
   

@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.util;
 
+import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
@@ -41,6 +43,11 @@ public class Tab
   public static String getSelectedTab()
   {
     return $(SELECTED_APPLICATION_TAB).getText();
+  }
+  
+  public static void switchToDefault()
+  {
+    Tab.switchToTab(isDesigner() ? DESIGNER : "test");
   }
 
   public static void switchToTab(int index)

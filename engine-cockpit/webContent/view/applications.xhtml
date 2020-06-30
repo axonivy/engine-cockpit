@@ -92,7 +92,7 @@
                     actionListener="#{activity.lock}" update="card:form" />
                   <p:menuitem value="Release" rendered="#{activity.pmv}" icon="ui-icon-unarchive"
                     disabled="#{activity.releaseDisabled}" actionListener="#{activity.release}" update="card:form" />
-                  <p:menuitem value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
+                  <p:menuitem id="deleteBtn" value="Delete" icon="ui-icon-delete" disabled="#{activity.deleteDisabled}"
                     actionListener="#{applicationBean.setActiveActivity(activity)}"
                     update="card:form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
                 </p:menu>

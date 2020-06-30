@@ -23,6 +23,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -34,6 +35,8 @@ public class WebTestWebserviceDetail
   void beforeEach()
   {
     login();
+    Navigation.toWebservices();
+    Tab.switchToDefault();
     Navigation.toWebserviceDetail(WEBSERVICE_NAME);
   }
   

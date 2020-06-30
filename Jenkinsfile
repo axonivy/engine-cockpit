@@ -24,18 +24,22 @@ pipeline {
     stage('build') {
       steps {
         script {
-          docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=1234" -e "MYSQL_DATABASE=test"') { container ->
-            docker.image('axonivy/build-container:web-1.0').inside("--link ${container.id}:db ${dockerfileParams}") {
-              //'MySql', 'jdbc:mysql://db:3306', 'root', '1234'
+          withCredentials([string(credentialsId: 'github.ivy-team.token', variable: 'GITHUB_TOKEN')]) {
+            docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=1234" -e "MYSQL_DATABASE=test"') { container ->
+              docker.image('axonivy/build-container:web-1.0').inside("--link ${container.id}:db ${dockerfileParams}") {
+                //'MySql', 'jdbc:mysql://db:3306', 'root', '1234'
 
-              maven cmd: 'clean verify ' +
-                      '-Dengine.page.url=' + params.engineSource
-      
-              junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
-              archiveArtifacts '**/target/*.iar'
-              archiveArtifacts '.ivy-engine/logs/*'
-              archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
-              checkVersions cmd: '-f maven-config/pom.xml', onlyProjectBuildPluginWithVersion: "8", additionalVersionArgs: "-DallowSnapshots=true"
+                maven cmd: "clean verify " +
+                        "-Dwdm.gitHubTokenName=ivy-team " +
+                        "-Dwdm.gitHubTokenSecret=${env.GITHUB_TOKEN} " +
+                        "-Dengine.page.url=" + params.engineSource
+
+                junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
+                archiveArtifacts '**/target/*.iar'
+                archiveArtifacts '.ivy-engine/logs/*'
+                archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
+                checkVersions cmd: '-f maven-config/pom.xml', onlyProjectBuildPluginWithVersion: "8", additionalVersionArgs: "-DallowSnapshots=true"
+              }
             }
           }
         }
