@@ -62,7 +62,7 @@ public class NetworkMonitor extends Monitor
   {
     if (!isRunning())
     {
-      return "Sending: -- kB / Reseiving: -- kB";
+      return "Sending: -- kB / Receiving: -- kB";
     }
     calcNewValues();
     return String.format("Sending: %dkB / Reseiving: %dkB", actualSend / 1000, actualResv / 1000);
