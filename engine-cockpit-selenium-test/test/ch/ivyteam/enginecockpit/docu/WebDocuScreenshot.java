@@ -74,6 +74,8 @@ public class WebDocuScreenshot
     Navigation.toApplications();
     takeScreenshot("engine-cockpit-applications", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("engine-cockpit-dialog-new-app", By.id("card:form:createApplicationBtn"));
+    Navigation.toPmvDetail(isDesigner() ? DESIGNER : "demo-portal", "PortalTemplate", "PortalTemplate$1");
+    takeScreenshot("engine-cockpit-pmv-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
     Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
     takeScreenshot("engine-cockpit-application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("engine-cockpit-dialog-change-security", By.id("appDetailSecurityForm:changeSecuritySystem"));

@@ -12,8 +12,9 @@ public class ProcessModelVersion extends AbstractActivity
 {
   private ReleaseState releaseState;
   private IProcessModelVersion pmv;
-  private String qualifiedVersion;
   private String lastChangeDate;
+  private String description;
+  private Library lib;
 
   public ProcessModelVersion(IProcessModelVersion pmv)
   {
@@ -25,13 +26,20 @@ public class ProcessModelVersion extends AbstractActivity
     super(pmv.getVersionName(), pmv.getId(), pmv, bean);
     setOperationState(pmv.getActivityOperationState());
     releaseState = pmv.getReleaseState();
-    qualifiedVersion = getLibraryVersion(pmv);
+    lib = new Library(pmv.getLibrary());
+    description = pmv.getDescription();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     if (pmv.getLastChangeDate() != null)
     {
       lastChangeDate = formatter.format(pmv.getLastChangeDate());
     }
     this.pmv = pmv;
+  }
+
+  @Override
+  public String getDetailView()
+  {
+    return "pmv-detail.xhtml?appName=" + pmv.getApplication().getName() + "&pmName=" + pmv.getName() + "&pmvVersion=" + pmv.getVersionNumber();
   }
 
   @Override
@@ -119,28 +127,55 @@ public class ProcessModelVersion extends AbstractActivity
   
   public String getQualifiedVersion()
   {
-    return qualifiedVersion;
+    return lib.version;
   }
   
   public String getLastChangeDate()
   {
     return lastChangeDate;
   }
-  
-  private static String getLibraryVersion(IProcessModelVersion pmv)
+ 
+  public String getDescription()
   {
-    ILibrary library = pmv.getLibrary();
-    if (library != null)
-    {
-      return library.getQualifiedVersion().getRawVersion();
-    }
-    return "Unknown version";
+    return description;
+  }
+
+  public String getLibraryId()
+  {
+    return lib.id;
+  }
+  
+  public boolean isLibraryResolved()
+  {
+    return lib.resolved;
+  }
+  
+  public String getLibraryResolvedTooltip()
+  {
+    return (isLibraryResolved() ? "All" : "Not all") + " direct and indirect required libraries are available in the system.";
   }
   
   @Override
   public boolean isDisabled()
   {
     return getName().startsWith("engine-cockpit");
+  }
+  
+  private class Library
+  {
+    private String id = "Unknown id";
+    private String version = "Unknown version";
+    private boolean resolved = false;
+    
+    private Library(ILibrary lib)
+    {
+      if (lib != null)
+      {
+        id = lib.getId();
+        version = lib.getQualifiedVersion().getRawVersion();
+        resolved = lib.isResolved();
+      }
+    }
   }
   
 }

@@ -20,6 +20,7 @@ public class WebTestWebservices
   {
     login();
     Navigation.toWebservices();
+    Tab.switchToDefault();
     Table table = new Table(By.id("tabs:applicationTabView:" + 
             Tab.getSelectedTabIndex() + ":form:webservicesTable"), true);
     table.firstColumnShouldBe(size(2));

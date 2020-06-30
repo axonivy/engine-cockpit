@@ -43,7 +43,7 @@
 					<engineListPageUrl>${engine.page.url}</engineListPageUrl>
 					<engineDirectory>${engine.dir}</engineDirectory>
 					<skipScriptValidation>false</skipScriptValidation>
-					<!--<testEngine>COPY_FROM_TEMPLATE</testEngine>-->
+					<osArchitecture>All_x64</osArchitecture>
 				</configuration>
 			</plugin>
 			<plugin>

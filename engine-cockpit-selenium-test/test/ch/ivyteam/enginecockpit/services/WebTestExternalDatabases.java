@@ -21,6 +21,7 @@ public class WebTestExternalDatabases
   {
     login();
     Navigation.toExternalDatabases();
+    Tab.switchToDefault();
     Table table = new Table(By.id("tabs:applicationTabView:" + 
             Tab.getSelectedTabIndex() + ":form:externalDatabasesTable"), true);
     table.firstColumnShouldBe(size(3));

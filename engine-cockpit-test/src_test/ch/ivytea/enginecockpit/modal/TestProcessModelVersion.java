@@ -17,6 +17,7 @@ public class TestProcessModelVersion
   {
     ProcessModelVersion pmv = new ProcessModelVersion(new ProcessModelVersionAdapter());
     assertThat(pmv.getQualifiedVersion()).isEqualTo("Unknown version");
+    assertThat(pmv.getLibraryId()).isEqualTo("Unknown id");
   }
   
 }

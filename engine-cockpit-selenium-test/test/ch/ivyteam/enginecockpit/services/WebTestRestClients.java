@@ -20,6 +20,7 @@ public class WebTestRestClients
   {
     login();
     Navigation.toRestClients();
+    Tab.switchToDefault();
     Table table = new Table(By.id("tabs:applicationTabView:" + 
             Tab.getSelectedTabIndex() + ":form:restClientsTable"), true);
     table.firstColumnShouldBe(size(2));

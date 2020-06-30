@@ -20,12 +20,13 @@ public class WebTestBusinessCalendar
   void beforeEach()
   {
     login();
+    Navigation.toBusinessCalendar();
+    Tab.switchToDefault();
   }
 
   @Test
   void testBusinessCalendarTree()
   {
-    Navigation.toBusinessCalendar();
     $("#apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + 
             "\\:treeForm\\:tree\\:0\\:calendarNode").shouldBe(text("Default"));
   }

@@ -56,9 +56,28 @@ public class Navigation
   public static void toApplicationDetail(String appName)
   {
     Navigation.toApplications();
-    $$(".activity-name").find(text(appName)).shouldBe(visible).click();
+    clickAppTreeActivity(appName);
     assertCurrentUrlEndsWith("application-detail.xhtml?appName=" + appName);
     menuShouldBeActive(APPLICATIONS_MENU);
+  }
+  
+  public static void toPmvDetail(String appName, String pmName, String pmvName)
+  {
+    Navigation.toApplications();
+    openAppTreeActivity(appName);
+    openAppTreeActivity(pmName);
+    clickAppTreeActivity(pmvName);
+    menuShouldBeActive(APPLICATIONS_MENU);
+  }
+
+  private static void openAppTreeActivity(String appName)
+  {
+    $$(".activity-name").find(text(appName)).parent().parent().find(".ui-treetable-toggler").shouldBe(visible).click();
+  }
+  
+  private static void clickAppTreeActivity(String appName)
+  {
+    $$(".activity-name").find(text(appName)).shouldBe(visible).click();
   }
   
   public static void toSecuritySystem()
@@ -264,4 +283,5 @@ public class Navigation
   {
     $(menu).shouldHave(cssClass("active-menuitem"));
   }
+
 }
