@@ -22,6 +22,10 @@ public class SystemDbConnectionProperty
 
   public void setValue(String value)
   {
+    if (ConnectionProperty.PASSWORD == this.property && StringUtils.isBlank(value))
+    {
+      return;
+    }
     this.isDefault = StringUtils.equals(value, defaultValue);
     this.value = value;
   }
