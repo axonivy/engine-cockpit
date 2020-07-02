@@ -24,9 +24,9 @@ public class SecurityDefaultValueBean
   private String fullName;
   private String email;
   private String userMemberOfAttribute;
-  private boolean groupMemberLookupAllowed;
-  private String groupMemberOfAttribute;
-  private String groupMembersAttribute;
+  private boolean useUserMemberOfForUserRoleMembership;
+  private String userGroupMemberOfAttribute;
+  private String userGroupMembersAttribute;
   
   private String secSystemName;
 
@@ -62,9 +62,9 @@ public class SecurityDefaultValueBean
     fullName = securityConfiguration.getDefaultValue(ConfigKey.USER_ATTRIBUTE_FULL_NAME);
     email = securityConfiguration.getDefaultValue(ConfigKey.USER_ATTRIBUTE_E_MAIL);
     userMemberOfAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE);
-    groupMemberLookupAllowed = securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_GROUP_MEMBER_LOOKUP_ALLOWED);
-    groupMemberOfAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_GROUP_MEMBER_OF_ATTRIBUTE);
-    groupMembersAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_GROUP_MEMBERS_ATTRIBUTE);
+    useUserMemberOfForUserRoleMembership = securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP);
+    userGroupMemberOfAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE);
+    userGroupMembersAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE);
   }
 
   public String getUrl()
@@ -117,19 +117,19 @@ public class SecurityDefaultValueBean
     return userMemberOfAttribute;
   }
   
-  public boolean getGroupMemberLookupAllowed()
+  public boolean getUseUserMemberOfForUserRoleMembership()
   {
-    return groupMemberLookupAllowed;
+    return useUserMemberOfForUserRoleMembership;
   }
   
-  public String getGroupMemberOfAttribute()
+  public String getUserGroupMemberOfAttribute()
   {
-    return groupMemberOfAttribute;
+    return userGroupMemberOfAttribute;
   }
   
-  public String getGroupMembersAttribute()
+  public String getUserGroupMembersAttribute()
   {
-    return groupMembersAttribute;
+    return userGroupMembersAttribute;
   }
   
 }

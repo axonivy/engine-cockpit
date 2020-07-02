@@ -129,10 +129,10 @@ public class WebTestSecuritySystemDetail
     $("#securityLdapForm\\:ldapEmail").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapLanguage").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapUserMemberOfAttribute").shouldBe(exactValue(""));
-    assertThat(PrimeUi.selectBooleanCheckbox(By.id("securityLdapForm:ldapGroupMemberLookupAllowed"))
+    assertThat(PrimeUi.selectBooleanCheckbox(By.id("securityLdapForm:ldapUseUserMemberOfForUserRoleMembership"))
             .isChecked()).isTrue();
-    $("#securityLdapForm\\:ldapGroupMemberOfAttribute").shouldBe(exactValue(""));
-    $("#securityLdapForm\\:ldapGroupMembersAttribute").shouldBe(exactValue(""));
+    $("#securityLdapForm\\:ldapUserGroupMemberOfAttribute").shouldBe(exactValue(""));
+    $("#securityLdapForm\\:ldapUserGroupMembersAttribute").shouldBe(exactValue(""));
     
     $(LDAP_NAME).sendKeys("test");
     $(LDAP_SAVE_BTN).click();
