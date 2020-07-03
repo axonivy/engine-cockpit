@@ -12,7 +12,7 @@
 		<engine.dir>../.ivy-engine</engine.dir>
 		<revision>9.1.0-SNAPSHOT</revision>
 		<flatten.plugin.version>1.2.4</flatten.plugin.version>
-		<project.build.plugin.version>9.1.0-SNAPSHOT</project.build.plugin.version>
+		<project.build.plugin.version>9.1.0</project.build.plugin.version>
 	</properties>
 
 	<build>
