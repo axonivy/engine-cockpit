@@ -30,9 +30,9 @@ public class SecurityLdapDetailBean
   private String email;
   private String language;
   private String userMemberOfAttribute;
-  private boolean useUserMemberOfForUserRoleMembership;
-  private String userGroupMemberOfAttribute;
-  private String userGroupMembersAttribute;
+  private boolean userMemberOfLookupAllowed;
+  private String groupMemberOfAttribute;
+  private String groupMembersAttribute;
   private Map<String, LdapProperty> properties;
   private LdapProperty ldapProperty;
 
@@ -61,9 +61,9 @@ public class SecurityLdapDetailBean
     email = getConfiguration(ConfigKey.USER_ATTRIBUTE_E_MAIL);
     language = getConfiguration(ConfigKey.USER_ATTRIBUTE_LANGUAGE);
     userMemberOfAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE);
-    useUserMemberOfForUserRoleMembership = getInitValueUseUserMemberOfForUserRoleMembership();
-    userGroupMemberOfAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE);
-    userGroupMembersAttribute = getConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE);
+    userMemberOfLookupAllowed = getInitValueUserMemberOfLookupAllowed();
+    groupMemberOfAttribute = getConfiguration(ConfigKey.MEMBERSHIP_GROUP_MEMBER_OF_ATTRIBUTE);
+    groupMembersAttribute = getConfiguration(ConfigKey.MEMBERSHIP_GROUP_MEMBERS_ATTRIBUTE);
     
     properties = new HashMap<>();
     Map<String, String> yamlProperties = IConfiguration.instance().getMap(
@@ -136,53 +136,53 @@ public class SecurityLdapDetailBean
     this.userMemberOfAttribute = userMemberOfAttribute;
   }
 
-  public boolean getUseUserMemberOfForUserRoleMembership()
+  public boolean getUserMemberOfLookupAllowed()
   {
-    return useUserMemberOfForUserRoleMembership;
+    return userMemberOfLookupAllowed;
   }
 
-  public void setUseUserMemberOfForUserRoleMembership(boolean useUserMemberOfForUserRoleMembership)
+  public void setUserMemberOfLookupAllowed(boolean userMemberOfLookupAllowed)
   {
-    this.useUserMemberOfForUserRoleMembership = useUserMemberOfForUserRoleMembership;
+    this.userMemberOfLookupAllowed = userMemberOfLookupAllowed;
   }
   
-  private boolean getInitValueUseUserMemberOfForUserRoleMembership()
+  private boolean getInitValueUserMemberOfLookupAllowed()
   {
-    String membership = getConfiguration(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP);
+    String membership = getConfiguration(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_LOOKUP_ALLOWED);
     if (StringUtils.isBlank(membership))
     {
-      return securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP);
+      return securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_LOOKUP_ALLOWED);
     }
     return Boolean.parseBoolean(membership);
   }
   
-  private Object getSaveValueUseUserMemberOfForUserRoleMembership()
+  private Object getSaveValueUserMemberOfLookupAllowed()
   {
-    if (this.useUserMemberOfForUserRoleMembership == securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP))
+    if (this.userMemberOfLookupAllowed == securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_LOOKUP_ALLOWED))
     {
       return "";
     }
-    return this.useUserMemberOfForUserRoleMembership;
+    return this.userMemberOfLookupAllowed;
   }
 
-  public String getUserGroupMemberOfAttribute()
+  public String getGroupMemberOfAttribute()
   {
-    return userGroupMemberOfAttribute;
+    return groupMemberOfAttribute;
   }
 
-  public void setUserGroupMemberOfAttribute(String userGroupMemberOfAttribute)
+  public void setGroupMemberOfAttribute(String userGroupMemberOfAttribute)
   {
-    this.userGroupMemberOfAttribute = userGroupMemberOfAttribute;
+    this.groupMemberOfAttribute = userGroupMemberOfAttribute;
   }
 
-  public String getUserGroupMembersAttribute()
+  public String getGroupMembersAttribute()
   {
-    return userGroupMembersAttribute;
+    return groupMembersAttribute;
   }
 
-  public void setUserGroupMembersAttribute(String userGroupMembersAttribute)
+  public void setGroupMembersAttribute(String userGroupMembersAttribute)
   {
-    this.userGroupMembersAttribute = userGroupMembersAttribute;
+    this.groupMembersAttribute = userGroupMembersAttribute;
   }
 
   public Collection<LdapProperty> getProperties()
@@ -227,9 +227,9 @@ public class SecurityLdapDetailBean
     setConfiguration(ConfigKey.USER_ATTRIBUTE_E_MAIL, this.email);
     setConfiguration(ConfigKey.USER_ATTRIBUTE_LANGUAGE, this.language);
     setConfiguration(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE, this.userMemberOfAttribute);
-    setConfiguration(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP, getSaveValueUseUserMemberOfForUserRoleMembership());
-    setConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE, this.userGroupMemberOfAttribute);
-    setConfiguration(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE, this.userGroupMembersAttribute);
+    setConfiguration(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_LOOKUP_ALLOWED, getSaveValueUserMemberOfLookupAllowed());
+    setConfiguration(ConfigKey.MEMBERSHIP_GROUP_MEMBER_OF_ATTRIBUTE, this.groupMemberOfAttribute);
+    setConfiguration(ConfigKey.MEMBERSHIP_GROUP_MEMBERS_ATTRIBUTE, this.groupMembersAttribute);
 
     FacesContext.getCurrentInstance().addMessage("securitySystemLdapSaveSuccess",
             new FacesMessage("Security System LDAP Attributes saved"));

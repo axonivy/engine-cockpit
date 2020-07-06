@@ -62,9 +62,9 @@ public class SecurityDefaultValueBean
     fullName = securityConfiguration.getDefaultValue(ConfigKey.USER_ATTRIBUTE_FULL_NAME);
     email = securityConfiguration.getDefaultValue(ConfigKey.USER_ATTRIBUTE_E_MAIL);
     userMemberOfAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE);
-    useUserMemberOfForUserRoleMembership = securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USE_USER_MEMBER_OF_FOR_USER_ROLE_MEMBERSHIP);
-    userGroupMemberOfAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBER_OF_ATTRIBUTE);
-    userGroupMembersAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_USER_GROUP_MEMBERS_ATTRIBUTE);
+    useUserMemberOfForUserRoleMembership = securityConfiguration.getDefaultBooleanValue(ConfigKey.MEMBERSHIP_USER_MEMBER_OF_LOOKUP_ALLOWED);
+    userGroupMemberOfAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_GROUP_MEMBER_OF_ATTRIBUTE);
+    userGroupMembersAttribute = securityConfiguration.getDefaultValue(ConfigKey.MEMBERSHIP_GROUP_MEMBERS_ATTRIBUTE);
   }
 
   public String getUrl()

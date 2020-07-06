@@ -44,18 +44,17 @@
     <p:inputText id="ldapUserMemberOfAttribute"
       value="#{securityLdapDetailBean.userMemberOfAttribute}" placeholder="#{securityDefaultValueBean.userMemberOfAttribute}"/>
 
-    <p:outputLabel for="ldapUseUserMemberOfForUserRoleMembership" value="Use [Groups of a User] for User Role Membership"/>
-    <p:selectBooleanCheckbox
-      id="ldapUseUserMemberOfForUserRoleMembership"
-      value="#{securityLdapDetailBean.useUserMemberOfForUserRoleMembership}" />
+    <p:outputLabel for="ldapUserMemberLookupAllowed" value="Is usage of 'Groups of a User' allowed for lookup"/>
+    <p:selectBooleanCheckbox id="ldapUserMemberLookupAllowed"
+      value="#{securityLdapDetailBean.userMemberOfLookupAllowed}" />
 
-    <p:outputLabel for="ldapUserGroupMemberOfAttribute" value="Groups of a Group"/>
-    <p:inputText id="ldapUserGroupMemberOfAttribute"
-      value="#{securityLdapDetailBean.userGroupMemberOfAttribute}" placeholder="#{securityDefaultValueBean.userGroupMemberOfAttribute}"/>
+    <p:outputLabel for="ldapGroupMemberOfAttribute" value="Groups of a Group"/>
+    <p:inputText id="ldapGroupMemberOfAttribute"
+      value="#{securityLdapDetailBean.groupMemberOfAttribute}" placeholder="#{securityDefaultValueBean.userGroupMemberOfAttribute}"/>
 
-    <p:outputLabel for="ldapUserGroupMembersAttribute" value="Members of a Group"/>
-    <p:inputText id="ldapUserGroupMembersAttribute"
-      value="#{securityLdapDetailBean.userGroupMembersAttribute}" placeholder="#{securityDefaultValueBean.userGroupMembersAttribute}"/>
+    <p:outputLabel for="ldapGroupMembersAttribute" value="Members of a Group"/>
+    <p:inputText id="ldapGroupMembersAttribute"
+      value="#{securityLdapDetailBean.groupMembersAttribute}" placeholder="#{securityDefaultValueBean.userGroupMembersAttribute}"/>
   </p:panelGrid>
 
 </h:form>
