@@ -50,7 +50,7 @@
                 </p:outputPanel>
               </f:facet>
               <p:column headerText="Name" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
-                <h:outputLink value="security-detail.xhtml?securitySystemName=#{system.securitySystemName}" rendered="#{system.securitySystemProvider != 'ivy Security System'}">
+                <h:outputLink value="#{system.link}" rendered="#{system.securitySystemProvider != 'ivy Security System'}">
                   <i class="material-icons table-icon">security</i>
                   <h:outputText value="#{system.securitySystemName}" styleClass="security-name"/>
                 </h:outputLink>

@@ -79,4 +79,13 @@ public class SecuritySystem
   {
     return rolesCount;
   }
+  
+  public String getLink()
+  {
+    if (SecuritySystemConfig.IVY_SECURITY_SYSTEM.equals(securitySystemProvider))
+    {
+      return "";
+    }
+    return "security-detail.xhtml?securitySystemName=" + securitySystemName;
+  }
 }

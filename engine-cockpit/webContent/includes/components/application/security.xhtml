@@ -23,16 +23,20 @@
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
-    <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}" />
+      <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
+        <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}" rendered="#{not empty applicationDetailBean.securitySystem.link}">
+          <i class="material-icons link-icon">security</i>
+        </h:outputText>
+      </h:outputLink>
     <label>Provider</label>
     <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
     <label>Users</label>
-    <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}" style="float: left;">
-      <a href="users.xhtml" style="margin-left: 10px;"><i class="fa fa-external-link" /></a>
+    <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
+      <a href="users.xhtml"><i class="material-icons link-icon">person</i></a>
     </h:outputText>
     <label>Roles</label>
-    <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}" style="float: left;">
-      <a href="roles.xhtml" style="margin-left: 10px;"><i class="fa fa-external-link" /></a>
+    <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}">
+      <a href="roles.xhtml"><i class="material-icons link-icon">people</i></a>
     </h:outputText>
   </p:panelGrid>
 </h:form>
