@@ -338,6 +338,12 @@ body {
 .label-help-icon i {
   font-size: 13px;
 }
+.material-icons.link-icon {
+	font-size: 1em;
+	margin-right: 5px;
+	position: relative;
+	top: 2px;
+}
 .code-block .yaml {
   max-height: 500px;
 }
