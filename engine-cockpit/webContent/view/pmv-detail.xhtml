@@ -94,10 +94,10 @@
           <p:panel styleClass="min-height-250">
             <f:facet name="header">
               <i class="material-icons table-icon panel-title-icon">arrow_upward</i>
-              <h:outputText value="All PMVs depending on this project" />
+              <h:outputText value="All PMVs depending on this PMV" />
             </f:facet>
             <p:dataTable id="dependentPmvTable" var="pmv" value="#{pmvDetailBean.dependentPmvs}" 
-              emptyMessage="The PMV '#{pmvDetailBean.pmv.name}' has no dependend projects.">
+              emptyMessage="The PMV '#{pmvDetailBean.pmv.name}' has no dependend PMVs.">
               <p:column headerText="PMV">
                 <h:outputLink value="#{pmv.detailView}">
                   <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
@@ -128,10 +128,11 @@
           <p:panel styleClass="min-height-250">
             <f:facet name="header">
               <i class="material-icons table-icon panel-title-icon">arrow_downward</i>
-              <h:outputText value="All PMVs required by this project" />
+              <h:outputText value="All PMVs required by this PMV" />
             </f:facet>
             <p:dataTable id="requriedPmvTable" var="pmv" value="#{pmvDetailBean.requiredPmvs}"
-              emptyMessage="The PMV '#{pmvDetailBean.pmv.name}' has no required projects.">
+              emptyMessage="The PMV '#{pmvDetailBean.pmv.name}' has no required PMVs. 
+                #{not empty pmvDetailBean.requiredSpecifications ? 'Although some required projects are specified!' : ''}">
               <p:column headerText="PMV">
                 <h:outputLink value="#{pmv.detailView}">
                   <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
