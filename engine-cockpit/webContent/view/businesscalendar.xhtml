@@ -38,7 +38,7 @@
                     <i class="material-icons">search</i>
                   </label>
                   <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{businessCalendarBean.filter}">
-                    <p:ajax event="keyup" delay="300" update=":form" />
+                    <p:ajax event="keyup" delay="300" update="treeForm:tree" />
                   </p:inputText>
                 </p:outputPanel>
               </div>
