@@ -1,11 +1,13 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
   xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:pa="http://primefaces.org/serenity">
 
-  <p:ajaxStatus id="ajaxLoadingStatus" style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+  <p:ajaxStatus id="ajaxLoadingStatus" style="position:fixed;left:45%;top:45%">
     <f:facet name="start">
-      <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+      <div class="axonivy-loader">
+        <div class="spinner"></div>
+        <h5>Loading...</h5>
+      </div>
     </f:facet>
-
     <f:facet name="complete">
       <h:outputText value="" />
     </f:facet>
