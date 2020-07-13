@@ -1,25 +1,35 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
+
+import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
+import ch.ivyteam.enginecockpit.ContentFilter;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.SessionInfo;
 import ch.ivyteam.ivy.security.query.UserQuery;
 
-public class UserDataModel extends LazyDataModel<User>
+public class UserDataModel extends LazyDataModel<User> implements ContentFilter
 {
+  private static final String MANUAL_FILTER = "manual";
+  private static final String DISABLED_FILTER = "disabled";
   private IApplication app;
   private IRole filterRole;
   private String filter;
   private boolean showDisabledUsers;
   private boolean showManualUsers;
+  private List<SelectItem> contentFilters;
+  private List<String> selectedContentFilters;
 
   public void setApp(IApplication app)
   {
@@ -33,32 +43,68 @@ public class UserDataModel extends LazyDataModel<User>
 
   public void setFilter(String filter)
   {
-    this.filter = filter;    
+    this.filter = filter;
   }
 
   public String getFilter()
   {
     return filter;
   }
-
-  public boolean showDisabledUsers()
+  
+  public void loadContentFilters(boolean isIvySecSystem)
   {
-    return showDisabledUsers;
+    contentFilters = new ArrayList<>();
+    contentFilters.add(new SelectItem(DISABLED_FILTER, "Show disabled users"));
+    if (!isIvySecSystem)
+    {
+      contentFilters.add(new SelectItem(MANUAL_FILTER, "Show manual users"));
+    }
   }
   
-  public void setShowDisabledUsers(boolean showDisabledUsers)
+  @Override
+  public List<SelectItem> getContentFilters()
   {
-    this.showDisabledUsers = showDisabledUsers;
+    return contentFilters;
   }
   
-  public boolean showManualUsers()
+  @Override
+  public List<String> getSelectedContentFilters()
   {
-    return showManualUsers;
+    return selectedContentFilters;
   }
   
-  public void setShowManualUsers(boolean showManualUsers)
+  @Override
+  public void setSelectedContentFilters(List<String> selectedContentFilters)
   {
-    this.showManualUsers = showManualUsers;
+    this.selectedContentFilters = selectedContentFilters;
+    showDisabledUsers = selectedContentFilters.contains(DISABLED_FILTER);
+    showManualUsers = selectedContentFilters.contains(MANUAL_FILTER);
+  }
+  
+  @Override
+  public void resetSelectedContentFilters()
+  {
+    setSelectedContentFilters(Collections.emptyList());
+  }
+  
+  @Override
+  public String getContentFilterText()
+  {
+    var joiner = new StringJoiner(" ");
+    if (showManualUsers)
+    {
+      joiner.add(MANUAL_FILTER);
+    }
+    if (showDisabledUsers)
+    {
+      joiner.add(DISABLED_FILTER);
+    }
+    var filterText = joiner.toString();
+    if (filterText.isBlank())
+    {
+      filterText = "enabled";
+    }
+    return filterText + " users";
   }
 
   @Override

@@ -27,6 +27,7 @@ public class UserBean
     IApplication app = managerBean.getSelectedIApplication();
     userDataModel.setApp(app);
     userDataModel.setFilter("");
+    userDataModel.loadContentFilters(managerBean.isIvySecuritySystem());
   }
 
   public UserDataModel getUserDataModel()
@@ -50,23 +51,4 @@ public class UserBean
     return String.valueOf(count);
   }
 
-  public void switchDisabledUsers()
-  {
-    userDataModel.setShowDisabledUsers(!isShowDisabledUsers());
-  }
-  
-  public boolean isShowDisabledUsers()
-  {
-    return userDataModel.showDisabledUsers();
-  }
-  
-  public void switchManualUsers()
-  {
-    userDataModel.setShowManualUsers(!isShowManualUsers());
-  }
-  
-  public boolean isShowManualUsers()
-  {
-    return userDataModel.showManualUsers();
-  }
 }

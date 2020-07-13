@@ -13,11 +13,14 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -66,8 +69,7 @@ public class WebTestUsers
     Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThanOrEqual(4));
     
-    $(getAppTabId() + "moreBtn").click();
-    $(getAppTabId() + "showManualUserBtn").click();
+    filterTableFor("Show manual users");
     
     table.firstColumnShouldBe(sizeLessThanOrEqual(2));
     Navigation.toUserDetail("manual");
@@ -90,19 +92,54 @@ public class WebTestUsers
     table.firstColumnShouldBe(sizeGreaterThan(0));
     assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
 
-    clickShowHideDisabledUserButton();
+    filterTableFor("Show disabled users");
     table.firstColumnShouldBe(size(1));
     assertThat(table.getFirstColumnEntries()).contains("disableduser");
 
-    clickShowHideDisabledUserButton();
+    filterTableFor("Show disabled users");
     table.firstColumnShouldBe(sizeGreaterThan(0));
     assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
   }
 
-  private void clickShowHideDisabledUserButton()
+  @Test
+  void contentFilter()
   {
-    $(getAppTabId() + "moreBtn").click();
-    $(getAppTabId() + "showDisabledUserBtn").shouldBe(visible).click();
+    var filterBtn = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterBtn";
+    var resetFilter = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:resetFilter";
+    var filterPanel = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterPanel";
+    $(filterBtn).shouldHave(text("Filter: enabled users"));
+    filterTableFor("Show disabled users");
+    $(filterBtn).shouldHave(text("Filter: disabled users"));
+    $(resetFilter).shouldBe(visible).click();
+    $(filterBtn).shouldHave(text("Filter: enabled users"));
+    $(filterBtn).click();
+    $$(filterPanel + " .ui-chkbox").shouldBe(size(1));
+  }
+  
+  @Test
+  void contentFilterAD()
+  {
+    Tab.switchToTab("test-ad");
+    var filterBtn = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterBtn";
+    var resetFilter = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:resetFilter";
+    var filterPanel = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterPanel";
+    $(filterBtn).shouldHave(text("Filter: enabled users"));
+    filterTableFor("Show manual users");
+    $(filterBtn).shouldHave(text("Filter: manual users"));
+    filterTableFor("Show disabled users");
+    $(filterBtn).shouldHave(text("Filter: manual disabled users"));
+    $(resetFilter).shouldBe(visible).click();
+    $(filterBtn).shouldHave(text("Filter: enabled users"));
+    $$(filterPanel + " .ui-chkbox").shouldBe(size(2));
+  }
+  
+  private void filterTableFor(String filter)
+  {
+    var appId = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:";
+    $(appId + "contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
+    PrimeUi.selectManyCheckbox(By.cssSelector(appId + "contentFilter\\:form\\:filterCheckboxes"))
+            .setCheckboxes(List.of(filter));
+    $(appId + "contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
   }
 
   @Test

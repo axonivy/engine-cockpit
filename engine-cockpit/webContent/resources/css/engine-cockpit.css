@@ -292,11 +292,13 @@ body {
   padding-left: 0;
   padding-right: 0;
 }
+.ui-overlaypanel-content .modal-input-button,
 .ui-dialog-content .modal-input-button {
   width: 100px;
   margin-right: 5px;
   float: right;
 }
+.ui-overlaypanel-content a.modal-input-button,
 .ui-dialog-footer a.modal-input-button,
 .ui-dialog-content a.modal-input-button {
   width: auto;
