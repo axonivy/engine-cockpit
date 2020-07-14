@@ -22,15 +22,15 @@
       <p:growl id="msgs" showDetail="true" />
       <cc:ApplicationTabs tabChange="#{userBean.reloadUsers}" id="apps">
         <div class="ui-g">
-          <div class="ui-g-12 ui-md-7">
+          <div class="ui-g-12 ui-md-5">
             <h1>
               <i class="material-icons card-title-icon">person</i>Users <h:outputText style="font-style: italic; color: grey;" value="(#{userBean.userCount})"/>
             </h1>
           </div>
-          <div class="ui-g-12 ui-md-5" style="margin: auto;">
+          <div class="ui-g-12 ui-md-7" style="margin: auto;">
             <h:form id="form">
               <h:panelGroup id="syncPanel">
-                <div class="single-card-top-right-btn">
+                <div class="single-card-top-right-btn" style="margin: 0 0 5px 5px;">
                   <p:splitButton value="Synchronize" icon="fa fa-refresh #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} spin-icon" 
                     id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
                     actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
@@ -46,19 +46,12 @@
                     rendered="#{securityBean.ivySecurityForSelectedApp}" />
                 </div>
               </h:panelGroup>
-              <div style="float: right; margin-right: 5px;">
-                <p:commandButton title="More" id="moreBtn"
-                  type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="float: right;" />
-                <p:menu overlay="true" trigger="moreBtn" my="right top" at="right bottom" id="synchronizationMenu" style="min-width:200px;">
-                  <p:menuitem value="Show #{userBean.showDisabledUsers ? 'enabled' : 'disabled'} users" 
-                    icon="ui-icon-visibility"
-                    id="showDisabledUserBtn" process="@this" update="apps:applicationTabView" action="#{userBean.switchDisabledUsers}" />
-                  <p:menuitem value="Show #{userBean.showManualUsers ? 'all' : 'manual'} users" 
-                    icon="ui-icon-visibility" rendered="#{!securityBean.ivySecurityForSelectedApp}"
-                    id="showManualUserBtn" process="@this" update="apps:applicationTabView" action="#{userBean.switchManualUsers}" />
-                </p:menu>
-              </div>
             </h:form>
+            <div style="float: right; position: relative;">
+              <cc:TableFilter index="#{app.id}" filters="#{userBean.userDataModel.contentFilters}" update="apps:applicationTabView"
+                selectedFilters="#{userBean.userDataModel.selectedContentFilters}" filterText="#{userBean.userDataModel.contentFilterText}"
+                resetFilters="#{userBean.userDataModel.resetSelectedContentFilters()}" id="contentFilter" />
+            </div>
           </div>
         </div>
         <ui:include src="../includes/components/security/users-table.xhtml"/>

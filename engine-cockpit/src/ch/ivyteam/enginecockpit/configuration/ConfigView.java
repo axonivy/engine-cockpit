@@ -1,26 +1,33 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.ContentFilter;
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")
-public class ConfigView
+public class ConfigView implements ContentFilter
 {
+  private static final String DEFINED_FILTER = "defined";
   private List<ConfigProperty> configs;
   private List<ConfigProperty> filteredConfigs;
   private String filter;
   private boolean showDefaults;
   private ConfigProperty activeConfig;
   private IConfiguration configuration;
+  private List<SelectItem> contentFilters;
+  private List<String> selectedContentFilters;
 
   public ConfigView()
   {
@@ -32,6 +39,7 @@ public class ConfigView
     this.configuration = configuration;
     reloadConfigs();
     showDefaults = true;
+    loadContentFilters();
   }
 
   private void reloadConfigs()
@@ -97,6 +105,47 @@ public class ConfigView
   public void switchDefaults()
   {
     showDefaults = !showDefaults;
+  }
+  
+  public void loadContentFilters()
+  {
+    contentFilters = new ArrayList<>();
+    contentFilters.add(new SelectItem(DEFINED_FILTER, "Show only defined values"));
+  }
+  
+  @Override
+  public List<SelectItem> getContentFilters()
+  {
+    return contentFilters;
+  }
+  
+  @Override
+  public List<String> getSelectedContentFilters()
+  {
+    return selectedContentFilters;
+  }
+  
+  @Override
+  public void setSelectedContentFilters(List<String> selectedContentFilters)
+  {
+    this.selectedContentFilters = selectedContentFilters;
+    showDefaults = !selectedContentFilters.contains(DEFINED_FILTER);
+  }
+  
+  @Override
+  public void resetSelectedContentFilters()
+  {
+    setSelectedContentFilters(Collections.emptyList());
+  }
+  
+  @Override
+  public String getContentFilterText()
+  {
+    if (showDefaults)
+    {
+      return "all values";
+    }
+    return "defined values";
   }
   
   public void setActiveConfig(String configKey)

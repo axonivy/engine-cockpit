@@ -10,8 +10,11 @@ import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.refresh;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -79,7 +82,24 @@ public class WebTestConfiguration
     @Test
     void testHideDefaults()
     {
-      assertDefaultToggle("Data.AppDirectory");
+      var config = "Data.AppDirectory";
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: all values"));
+      assertThat(table.getFirstColumnEntries()).contains(config);
+      toggleSystemDefaultFilter();
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: defined values"));
+      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      $("#contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: all values"));
+      assertThat(table.getFirstColumnEntries()).contains(config);
+    }
+
+    private void toggleSystemDefaultFilter()
+    {
+      $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
+      $$("#contentFilter\\:form\\:filterPanel .ui-chkbox").shouldBe(size(1));
+      var checkboxes = PrimeUi.selectManyCheckbox(By.cssSelector("#contentFilter\\:form\\:filterCheckboxes"));
+      checkboxes.setCheckboxes(List.of("Show only defined values"));
+      $("#contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
     }
     
     @Test
@@ -175,7 +195,12 @@ public class WebTestConfiguration
     @Test
     void testHideDefaults()
     {
-      assertDefaultToggle("Data.FilesDirectory");
+      var config = "Data.FilesDirectory";
+      assertThat(table.getFirstColumnEntries()).contains(config);
+      toggleDefaultValues();
+      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      toggleDefaultValues();
+      assertThat(table.getFirstColumnEntries()).contains(config);
     }
     
     @Test
@@ -221,15 +246,6 @@ public class WebTestConfiguration
     table.firstColumnShouldBe(exactTexts(search));
   }
 
-  private void assertDefaultToggle(String config)
-  {
-    assertThat(table.getFirstColumnEntries()).contains(config);
-    toggleDefaultValues();
-    assertThat(table.getFirstColumnEntries()).doesNotContain(config);
-    toggleDefaultValues();
-    assertThat(table.getFirstColumnEntries()).contains(config);
-  }
-  
   private void toggleDefaultValues()
   {
     $("#configMoreForm\\:configMoreButton").click();
