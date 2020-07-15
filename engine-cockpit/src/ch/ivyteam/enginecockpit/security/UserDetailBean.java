@@ -262,7 +262,7 @@ public class UserDetailBean
   public String userDeleteHint()
   {
     String message = "";
-    if (!getPersonalTasks().equals("0"))
+    if (personalTasks != 0)
     {
       message += "The user '" + getUserName() + "' has " + getPersonalTasks() + " personal tasks. "
               + "If you delete this user, no other user can work on these tasks. ";

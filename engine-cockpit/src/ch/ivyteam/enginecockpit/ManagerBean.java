@@ -41,7 +41,7 @@ public class ManagerBean
   private String selectedEnvironment;
   
   private boolean hideDashboadWarnings;
-  private ISession session;
+  private Locale formattingLocale;
 
   @Inject
   private IApplicationConfigurationManager manager;
@@ -54,7 +54,12 @@ public class ManagerBean
     DiCore.getGlobalInjector().injectMembers(this);
     reloadApplications();
     hideDashboadWarnings = BooleanUtils.toBoolean(System.getProperty("hide.dashboard.warnings"));
-    session = ISession.current();
+    var session = ISession.current();
+    formattingLocale = Locale.ENGLISH;
+    if (session != null)
+    {
+      formattingLocale = session.getFormattingLocale();
+    }
   }
   
   public void reloadEnvironments()
@@ -243,7 +248,7 @@ public class ManagerBean
   
   public String formatNumber(long count)
   {
-    return NumberFormat.getInstance(session.getFormattingLocale()).format(count);
+    return NumberFormat.getInstance(formattingLocale).format(count);
   }
   
 }
