@@ -47,8 +47,7 @@ public class UserBean
 
   public String getUserCount()
   {
-    var count = managerBean.getSelectedIApplication().getSecurityContext().users().count();
-    return String.valueOf(count);
+    return managerBean.formatNumber(managerBean.getSelectedIApplication().getSecurityContext().users().count());
   }
 
 }

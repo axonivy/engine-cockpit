@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
+import ch.ivyteam.ivy.security.ISession;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -39,6 +41,7 @@ public class ManagerBean
   private String selectedEnvironment;
   
   private boolean hideDashboadWarnings;
+  private Locale formattingLocale;
 
   @Inject
   private IApplicationConfigurationManager manager;
@@ -51,6 +54,12 @@ public class ManagerBean
     DiCore.getGlobalInjector().injectMembers(this);
     reloadApplications();
     hideDashboadWarnings = BooleanUtils.toBoolean(System.getProperty("hide.dashboard.warnings"));
+    var session = ISession.current();
+    formattingLocale = Locale.ENGLISH;
+    if (session != null)
+    {
+      formattingLocale = session.getFormattingLocale();
+    }
   }
   
   public void reloadEnvironments()
@@ -154,24 +163,24 @@ public class ManagerBean
     return manager.getApplicationsSortedByName(false);
   }
 
-  public long getSessionCount()
+  public String getSessionCount()
   {
-    return securityManager.getSessionCount();
+    return formatNumber(securityManager.getSessionCount());
   }
   
-  public long getApplicationCount()
+  public String getApplicationCount()
   {
-    return getIApplications().size();
+    return formatNumber(getIApplications().size());
   }
   
-  public long getUsersCount()
+  public String getUsersCount()
   {
-    return securityManager.getUsersCount();
+    return formatNumber(securityManager.getUsersCount());
   }
   
-  public long getRunningCasesCount()
+  public String getRunningCasesCount()
   {
-    return getApplications().stream().mapToLong(a -> a.getRunningCasesCount()).sum();
+    return formatNumber(getApplications().stream().mapToLong(a -> a.getRunningCasesCount()).sum());
   }
 
   public Locale getDefaultEmailLanguageForSelectedApp()
@@ -236,4 +245,10 @@ public class ManagerBean
   {
     return IConfiguration.instance().isEngineRestartNeeded();
   }
+  
+  public String formatNumber(long count)
+  {
+    return NumberFormat.getInstance(formattingLocale).format(count);
+  }
+  
 }

@@ -31,13 +31,17 @@
     <label>Provider</label>
     <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
     <label>Users</label>
-    <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
-      <a href="users.xhtml"><i class="material-icons link-icon">person</i></a>
-    </h:outputText>
+    <h:outputLink value="users.xhtml">
+      <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
+        <i class="material-icons link-icon">person</i>
+      </h:outputText>
+    </h:outputLink>
     <label>Roles</label>
-    <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}">
-      <a href="roles.xhtml"><i class="material-icons link-icon">people</i></a>
-    </h:outputText>
+    <h:outputLink value="roles.xhtml">
+      <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}">
+        <i class="material-icons link-icon">people</i>
+      </h:outputText>
+    </h:outputLink>
   </p:panelGrid>
 </h:form>
 <ui:include src="../../dialogs/changesecuritysystem.xhtml" />

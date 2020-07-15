@@ -262,7 +262,7 @@ public class UserDetailBean
   public String userDeleteHint()
   {
     String message = "";
-    if (getPersonalTasks() != 0)
+    if (personalTasks != 0)
     {
       message += "The user '" + getUserName() + "' has " + getPersonalTasks() + " personal tasks. "
               + "If you delete this user, no other user can work on these tasks. ";
@@ -275,23 +275,23 @@ public class UserDetailBean
     return securitySystemName;
   }
   
-  public long getCanWorkOn()
+  public String getCanWorkOn()
   {
-    return canWorkOn;
+    return managerBean.formatNumber(canWorkOn);
   }
   
-  public long getPersonalTasks()
+  public String getPersonalTasks()
   {
-    return personalTasks;
+    return managerBean.formatNumber(personalTasks);
   }
   
-  public long getStartedCases()
+  public String getStartedCases()
   {
-    return startedCases;
+    return managerBean.formatNumber(startedCases);
   }
   
-  public long getWorkingOn()
+  public String getWorkingOn()
   {
-    return workingOn;
+    return managerBean.formatNumber(workingOn);
   }
 }

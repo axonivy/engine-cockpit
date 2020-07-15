@@ -79,25 +79,25 @@ public class ApplicationDetailBean
     return "applications.xhtml?faces-redirect=true";
   }
   
-  public long getSessionCount()
+  public String getSessionCount()
   {
-    return getIApplication().getSecurityContext().getSessionCount();
+    return managerBean.formatNumber(getIApplication().getSecurityContext().getSessionCount());
   }
   
-  public long getUsersCount()
+  public String getUsersCount()
   {
-    return security.getUsersCount();
+    return managerBean.formatNumber(security.getUsersCount());
   }
   
-  public long getCasesCount()
+  public String getCasesCount()
   {
-    return app.getRunningCasesCount();
+    return managerBean.formatNumber(app.getRunningCasesCount());
   }
   
-  public int getPmCount()
+  public String getPmCount()
   {
-    return getIApplication().getProcessModels().stream()
-            .mapToInt(pm -> pm.getProcessModelVersions().size()).sum();
+    return managerBean.formatNumber(getIApplication().getProcessModels().stream()
+            .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
   }
   
   public List<String> getEnvironments()
