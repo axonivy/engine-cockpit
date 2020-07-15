@@ -33,7 +33,7 @@ public class RoleBean
   
   public String getRoleCount()
   {
-    return String.valueOf(roleDataModel.getList().size());
+    return managerBean.formatNumber(roleDataModel.getList().size());
   }
   
 }

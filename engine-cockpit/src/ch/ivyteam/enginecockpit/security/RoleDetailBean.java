@@ -292,23 +292,23 @@ public class RoleDetailBean
     role.setExternalName(ldapBrowser.getSelectedLdapName());
   }
   
-  public long getUserCount()
+  public String getUserCount()
   {
-    return userCount;
+    return managerBean.formatNumber(userCount);
   }
   
-  public long getUserInheritCount()
+  public String getUserInheritCount()
   {
-    return userInheritCont;
+    return managerBean.formatNumber(userInheritCont);
   }
   
-  public long getRunningTaskCount()
+  public String getRunningTaskCount()
   {
-    return runningTaskCount;
+    return managerBean.formatNumber(runningTaskCount);
   }
   
-  public long getDirectTaskCount()
+  public String getDirectTaskCount()
   {
-    return directTaskCount;
+    return managerBean.formatNumber(directTaskCount);
   }
 }
