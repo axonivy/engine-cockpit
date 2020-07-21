@@ -17,6 +17,7 @@ public class Application extends AbstractActivity
   private String activeEnv;
   private long runningCasesCount;
   private IConfiguration configuration;
+  private IApplication app;
   
   public Application()
   {
@@ -31,17 +32,15 @@ public class Application extends AbstractActivity
   public Application(IApplication app, ApplicationBean bean)
   {
     super(app.getName(), app.getId(), app, bean);
+    this.app = app;
     setOperationState(app.getActivityOperationState());
     desc = app.getDescription();
     fileDir = app.getFileDirectory();
     owner = app.getOwnerName();
     activeEnv = app.getActualEnvironment().getName();
-    runningCasesCount = app.getProcessModels().stream()
-            .flatMap(pm -> pm.getProcessModelVersions().stream())
-            .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
     configuration = ((IApplicationInternal) app).getConfiguration();
   }
-  
+
   @Override
   public boolean isApplication()
   {
@@ -57,6 +56,7 @@ public class Application extends AbstractActivity
   @Override
   public long getRunningCasesCount()
   {
+    countRunningCases();
     return runningCasesCount;
   }
   
@@ -132,6 +132,16 @@ public class Application extends AbstractActivity
   public void setSecuritySystem(String securitySystemName)
   {
     configuration.set(SecuritySystemConfig.SECURITY_STSTEM, securitySystemName);
+  }
+  
+  private void countRunningCases()
+  {
+    if (app != null && runningCasesCount == 0)
+    {
+      runningCasesCount = app.getProcessModels().stream()
+              .flatMap(pm -> pm.getProcessModelVersions().stream())
+              .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
+    }
   }
 
 }
