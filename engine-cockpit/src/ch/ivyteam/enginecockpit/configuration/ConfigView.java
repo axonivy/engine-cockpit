@@ -161,7 +161,7 @@ public class ConfigView implements ContentFilter
   public void resetConfig()
   {
     configuration.remove(activeConfig.getKey());
-    if (StringUtils.isNotBlank(filter) || !showDefaults)
+    if (filteredConfigs != null)
     {
       filteredConfigs.remove(activeConfig);
     }
