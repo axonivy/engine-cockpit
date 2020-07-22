@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemDetail.LDAP_BROWSER_DIALOG;
 import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemDetail.LDAP_BROWSER_FORM;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.empty;
@@ -81,12 +82,12 @@ public class WebTestRoleDetail
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(visible);
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(text("Value is required"));
     
-    String newRoleName = "test";
+    String newRoleName = "testäüö";
     $("#newChildRoleForm\\:newChildRoleNameInput").clear();
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
     $("#newChildRoleForm\\:saveNewRole").click();
     $("#msgs_container").should(visible, text("Role '" + newRoleName + "' created successfully"));
-    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + newRoleName);
+    assertCurrentUrlContains("roledetail.xhtml?roleName=test");
     $("#roleInformationForm\\:name").shouldBe(exactText(newRoleName));
     
     $("#roleInformationForm\\:deleteRole").shouldBe(visible);
