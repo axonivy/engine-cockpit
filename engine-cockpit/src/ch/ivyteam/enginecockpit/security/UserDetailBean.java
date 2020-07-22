@@ -67,16 +67,16 @@ public class UserDetailBean
       this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
       this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
       roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
-      startedCases = CaseQuery.create().where().isBusinessCase().and().creatorUserId().isEqual(iUser.getId()).executor().count();
+      startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
       workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
               .or().state().isEqual(TaskState.RESUMED)
               .or().state().isEqual(TaskState.PARKED)
-              .andOverall().workerUserId().isEqual(iUser.getId()).executor().count();
+              .andOverall().workerId().isEqual(iUser.getSecurityMemberId()).executor().count();
       personalTasks = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
               .or().state().isEqual(TaskState.SUSPENDED)
               .or().state().isEqual(TaskState.RESUMED)
               .or().state().isEqual(TaskState.PARKED)
-              .andOverall().activatorUserId().isEqual(iUser.getId()).executor().count();
+              .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
       canWorkOn = TaskQuery.create().where().canWorkOn(iUser).executor().count();
     }
   }
