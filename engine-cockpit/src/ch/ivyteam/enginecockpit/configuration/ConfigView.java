@@ -112,7 +112,7 @@ public class ConfigView
   public void resetConfig()
   {
     configuration.remove(activeConfig.getKey());
-    if (StringUtils.isNotBlank(filter) || !showDefaults)
+    if (filteredConfigs != null)
     {
       filteredConfigs.remove(activeConfig);
     }

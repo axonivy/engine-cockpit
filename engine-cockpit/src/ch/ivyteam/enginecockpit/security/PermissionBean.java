@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +53,7 @@ public class PermissionBean
 
   public void setMember(String member)
   {
-    this.member = member;
+    this.member = URLDecoder.decode(member, StandardCharsets.UTF_8);
     reloadPermissions();
   }
 
