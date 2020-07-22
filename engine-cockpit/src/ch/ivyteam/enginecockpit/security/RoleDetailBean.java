@@ -73,12 +73,12 @@ public class RoleDetailBean
     runningTaskCount = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.RESUMED)
             .or().state().isEqual(TaskState.PARKED)
-            .andOverall().activatorRoleId().isEqual(iRole.getId()).executor().count();
+            .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
     directTaskCount = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.SUSPENDED)
             .or().state().isEqual(TaskState.RESUMED)
             .or().state().isEqual(TaskState.PARKED)
-            .andOverall().activatorRoleId().isEqual(iRole.getId()).executor().count();
+            .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
   }
 
   public String getUsersOfRoleFilter()
