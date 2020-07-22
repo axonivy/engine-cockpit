@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -53,14 +56,15 @@ public class RoleDetailBean
 
   public void setRoleName(String roleName)
   {
-    this.roleName = roleName;
-    var iRole = getSecurityContext().findRole(roleName);
+    this.roleName = URLDecoder.decode(roleName, StandardCharsets.UTF_8);
+    var iRole = getSecurityContext().findRole(this.roleName);
     this.role = new Role(iRole);
     this.usersOfRole.setApp(managerBean.getSelectedIApplication());
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
     this.roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
     loadMembersOfRole();
+    roleProperties.setMemberName(this.roleName);
   }
 
   public String getUsersOfRoleFilter()
@@ -106,9 +110,10 @@ public class RoleDetailBean
     {
       FacesContext.getCurrentInstance().addMessage("msgs",
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role '" + newChildRoleName + "' couldn't be created", ex.getMessage()));
-      return "roledetail.xhtml?roleName=" + roleName + "&faces-redirect=true";
+      newChildRoleName = roleName;
     }
-    return "roledetail.xhtml?roleName=" + newChildRoleName + "&faces-redirect=true";
+    return UriBuilder.fromPath("roledetail.xhtml").queryParam("roleName", newChildRoleName)
+            .queryParam("faces-redirect", "true").build().toASCIIString();
   }
 
   public void saveRoleInfos()
