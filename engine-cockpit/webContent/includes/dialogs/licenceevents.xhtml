@@ -10,21 +10,21 @@
         style="max-height: 300px; overflow-y: auto;" id="licenceEventList">
         <a href="#">
           <h:outputText rendered="#{event.level eq 'ERROR'}">
-            <i class="material-icons error">error</i>
+            <i class="icon icon-xl ivyicon-alert-circle error"></i>
           </h:outputText>
           <h:outputText rendered="#{event.level eq 'WARN'}">
-            <i class="material-icons warning">warning</i>
+            <i class="icon icon-xl ivyicon-road-sign-warning warning"></i>
           </h:outputText>
           <h:panelGroup layout="block" id="eventMessage">
             <h:outputText styleClass="name" value="#{event.timestamp}" />
             <h:outputText styleClass="message" value="#{event.message}" />
           </h:panelGroup>
-          <p:commandButton icon="ui-icon-check" title="Confirm" styleClass="message-btn secondary-btn" id="confirmEventBtn"
+          <p:commandButton icon="icon ivyicon-check-1" title="Confirm" styleClass="message-btn secondary-btn" id="confirmEventBtn"
             actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" style="right: 10px;" />
         </a>
       </p:dataList>
       <p:commandButton id="confirmAllLicenceEvents" ajax="false" style="width: 120px;"
-        actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="ui-icon-done-all"
+        actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="icon ivyicon-check-double-1"
         styleClass="modal-input-button" />
       <p:commandLink id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close" type="button"
         styleClass="modal-input-button" />

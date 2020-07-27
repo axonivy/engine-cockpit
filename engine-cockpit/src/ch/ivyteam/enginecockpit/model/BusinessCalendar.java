@@ -129,7 +129,7 @@ public class BusinessCalendar
     {
       this(freeDay);
       this.calendarName = calendarName;
-      this.icon = "update";
+      this.icon = "synchronize-arrow-clock";
       this.tooltip = "Free day (MM-dd) every year";
     }
 
@@ -137,7 +137,7 @@ public class BusinessCalendar
     {
       this(freeDay);
       this.calendarName = calendarName;
-      this.icon = "update";
+      this.icon = "synchronize-arrow-clock";
       this.tooltip = "Free day relative to easter every year";
     }
 
@@ -145,7 +145,7 @@ public class BusinessCalendar
     {
       this(freeDay);
       this.calendarName = calendarName;
-      this.icon = "schedule";
+      this.icon = "time-clock-circle";
       this.tooltip = "Free day at fixed date";
     }
     
@@ -153,7 +153,7 @@ public class BusinessCalendar
     {
       this(time);
       this.calendarName = calendarName;
-      this.icon = "alarm";
+      this.icon = "hourglass";
       this.tooltip = "Defined working time";
     }
     

@@ -3,10 +3,10 @@
 
   <div class="layout-topbar">
     <a href="#" class="menu-btn">
-      <i class="material-icons">&#xE5D2;</i>
+      <i class="icon ivyicon-navigation-menu"></i>
     </a>
     <a href="#" class="topbar-menu-btn">
-      <i class="material-icons">&#xE853;</i>
+      <i class="icon ivyicon-single-neutral-circle"></i>
     </a>
 
     <div class="layout-topbar-menu-wrapper">
@@ -14,32 +14,32 @@
         <li id="sessionUser" class="profile-item">
           <a href="#">
             <span class="profile-image-wrapper">
-              <i class="material-icons" style="font-size: 40px;">&#xE853;</i>
+              <i class="icon ivyicon-single-neutral-circle" style="font-size: 36px; padding: 2px;"></i>
             </span>
             <span id="sessionUserName" class="topbar-item-name profile-name">#{loginBean.sessionUserName}</span>
           </a>
           <ul class="animated">
             <li role="menuitem">
               <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}index.html'); return false;">
-                <i class="material-icons">help</i>
+                <i class="icon icon-lg ivyicon-question-circle"></i>
                 <span>Help</span>
               </a>
             </li>
             <li role="menuitem">
               <p:commandLink id="sessionLogoutBtn" actionListener="#{loginBean.logout}">
-                <i class="material-icons">power_settings_new</i>
+                <i class="icon icon-lg ivyicon-logout-1"></i>
                 <span>Logout</span>
               </p:commandLink>
             </li>
             <li role="menuitem">
               <p:commandLink id="devModeBtn" type="button" onclick="$.cookie('advanced', $.cookie('advanced') != 'true', { expires: 30, path: '/' }); window.location.reload();">
-                <i class="material-icons">verified_user</i>
+                <i class="icon icon-lg ivyicon-hammer-wench"></i>
                 <span>Advanced Mode #{cookie['advanced'].value eq 'true' ? 'Off' : 'On'}</span>
               </p:commandLink>
             </li>
             <li>
               <p:commandLink id="supportReport" type="button" onclick="PF('supportReportModal').show()">
-                <i class="material-icons">report</i>
+                <i class="icon icon-lg ivyicon-help-wheel"></i>
                 <span>Support Report</span>
               </p:commandLink>
             </li>
@@ -48,7 +48,7 @@
         <h:outputText rendered="#{not empty licenceBean.licenceEvents}">
           <li class="topbar-notifications licence-notification">
             <a href="#" onclick="PF('licenceEventsDialog').show();">
-              <i class="topbar-icon material-icons animated swing">notifications</i>
+              <i class="topbar-icon icon ivyicon-alarm-bell-timer animated swing"></i>
               <span class="topbar-badge animated rubberBand">#{licenceBean.licenceEventCount}</span>
               <span class="topbar-item-name">Messages</span>
             </a>
@@ -57,13 +57,13 @@
         <h:outputText rendered="#{managerBean.restartEngine}">
           <li class="topbar-notifications restart-notification">
             <a href="#">
-              <i class="topbar-icon material-icons animated swing">warning</i>
+              <i class="topbar-icon icon ivyicon-road-sign-warning animated swing"></i>
               <span class="topbar-item-name">Restart Engine</span>
             </a>
             <ul class="animated">
               <li role="menuitem">
                 <a href="logs.xhtml?log=config.log">
-                  <i class="material-icons">settings_backup_restore</i>
+                  <i class="icon icon-lg ivyicon-synchronize-arrow-clock"></i>
                   <span style="max-width: calc(100% - 40px)">You have changed settings that require an engine restart!</span>
                 </a>
               </li>

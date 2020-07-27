@@ -14,7 +14,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-database" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
     </ui:define>
 
@@ -29,14 +29,14 @@
               <div class="ui-g">
                 <div class="ui-g-12 ui-md-10">
                   <h1>
-                    <i class="material-icons card-title-icon">dns</i>System Database
+                    <i class="icon ivyicon-database-settings card-title-icon"></i>System Database
                   </h1>
                 </div>
                 <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
                   <h:panelGroup id="sysDbSaveButtons">
-                    <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="ui-icon-save"
+                    <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="icon ivyicon-floppy-disk"
                       style="width: auto; float: right;" id="saveSystemDbConfig" rendered="#{systemDatabaseBean.connectionInfo.successful}" />
-                    <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="Save" icon="ui-icon-save"
+                    <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="Save" icon="icon ivyicon-floppy-disk"
                       style="width: auto; float: right;" id="saveUnknownSystemDbConfig" rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
                   </h:panelGroup>
                 </div>
@@ -56,7 +56,7 @@
         <h:form id="saveUnknownConnectionForm">
           <p:staticMessage severity="warn" summary="No Connection" detail="Do really you want to save this configuration?" />
           <br />
-          <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="ui-icon-save"
+          <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="icon ivyicon-floppy-disk"
             styleClass="modal-input-button" widgetVar="saveUnknownConneciton" oncomplete="PF('saveUnknownConnectionModel').hide();" />
           <p:commandLink id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();" value="Cancel" type="button"
             styleClass="modal-input-button" />

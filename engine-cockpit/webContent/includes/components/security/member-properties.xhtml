@@ -4,14 +4,14 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">settings</i>
+  <i class="icon ivyicon-cog table-icon panel-title-icon"></i>
   <h:outputText value="Properties" />
 </f:facet>
 <h:form id="propertiesForm">
   <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
   <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
     actionListener="#{memberProperty.setProperty(null)}" update="propertyModalForm:propertyModal"
-    title="Add" icon="ui-icon-add" styleClass="secondary-btn card-button"/>
+    title="Add" icon="icon ivyicon-add" styleClass="secondary-btn card-button"/>
   
   <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -20,7 +20,7 @@
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
-          <i class="material-icons">search</i>
+          <i class="icon ivyicon-search"></i>
         </p:outputLabel>
         <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
           onkeyup="PF('propertiesTable').filter()" placeholder="Search" value="#{memberProperty.filter}"/>
@@ -28,26 +28,27 @@
     </f:facet>
     <p:column headerText="Name" filterBy="#{property.key}" sortBy="#{property.value}">
       <h:outputText value="#{property.key}" styleClass="property-name">
-        <i class="material-icons table-icon">settings</i>
+        <i class="icon ivyicon-cog table-icon"></i>
       </h:outputText>
     </p:column>
 
     <p:column headerText="Value" filterBy="#{property.value}">
-      <h:outputText value="#{property.value}" title="#{property.value}" styleClass="table-cell-autocut" />
+      <h:outputText value="#{property.value}" title="#{property.value}" styleClass="table-cell-autocut">
       <h:panelGroup rendered="#{property.managed}">
-        <i class="material-icons table-icon" title="Property is managed by the external security system">synchronize</i>
+        <i class="icon ivyicon-button-refresh-arrows table-icon" title="Property is managed by the external security system"></i>
       </h:panelGroup>
+      </h:outputText>
     </p:column>
     
     <p:column style="width: 95px;">
       <p:outputLabel>
         <p:commandButton id="deletePropertyBtn" type="button"
-          icon="ui-icon-delete" title="Delete" disabled="#{property.managed}"
+          icon="icon ivyicon-bin-1" title="Delete" disabled="#{property.managed}"
           styleClass="card-button table-control-btn red-btn" style="margin: 0;">
           <p:ajax listener="#{memberProperty.removeProperty(property.key)}" update="@form"/>
         </p:commandButton>
         <p:commandButton id="editPropertyBtn" actionListener="#{memberProperty.setProperty(property)}"
-          icon="ui-icon-pencil" title="Edit" update="propertyModalForm:propertyModal" disabled="#{property.managed}"
+          icon="icon ivyicon-pencil" title="Edit" update="propertyModalForm:propertyModal" disabled="#{property.managed}"
           styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('propertyModal').show();" process="@this" />
       </p:outputLabel>
     </p:column>
@@ -79,7 +80,7 @@
       <p:commandLink id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
         styleClass="secondary-btn modal-input-button" />
       <p:commandButton id="saveProperty" validateClient="true" ajax="false" update=":propertiesForm"
-        actionListener="#{memberProperty.saveProperty}" value="Save" icon="ui-icon-save"
+        actionListener="#{memberProperty.saveProperty}" value="Save" icon="icon ivyicon-floppy-disk"
         styleClass="modal-input-button" />
     </f:facet>
   </p:dialog>

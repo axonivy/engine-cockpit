@@ -18,10 +18,10 @@
     
     <ui:define name="breadcrumb-right">
       <a style="float: right;" href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#logs" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
       <a id="downloadAllLogs" style="float: right;" href="#" onclick="PF('logsDownloadModal').show();">
-        <i class="material-icons">cloud_download</i>
+        <i class="icon icon-lg ivyicon-download-bottom"></i>
       </a>
       <h:form id="logDateForm" style="float: right;">
         <p:calendar id="calendar" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd" maxdate="#{logBean.today}" >

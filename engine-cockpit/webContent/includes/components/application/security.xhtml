@@ -4,20 +4,20 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">security</i>
+  <i class="icon ivyicon-lock-1 table-icon panel-title-icon"></i>
   <h:outputText value="Security System" />
 </f:facet>
 <h:form id="appDetailSecurityForm">
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
-    title="Synchronize" type="button" icon="fa #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} fa-refresh"
+    title="Synchronize" type="button" icon="icon ivyicon-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'icon-is-spinning' : ''}"
     styleClass="primary-btn card-button spin-icon" onclick="PF('logPoller').start()">
     <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
   </p:commandButton>
   <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
-  <p:commandButton id="changeSecuritySystem" icon="ui-icon-settings" styleClass="secondary-btn card-button"
+  <p:commandButton id="changeSecuritySystem" icon="icon ivyicon-cog" styleClass="secondary-btn card-button"
     onclick="PF('changeSecuritySystemModel').show()" type="button" />
-  <p:commandButton id="showAdSyncLogBtn" icon="ui-icon-format-align-left" styleClass="secondary-btn card-button"
+  <p:commandButton id="showAdSyncLogBtn" icon="icon ivyicon-common-file-text" styleClass="secondary-btn card-button"
     onclick="window.location.href='logs.xhtml?log=usersynch.log'" type="button" 
     rendered="#{!securityBean.ivySecurityForSelectedApp}" />
 
@@ -25,7 +25,7 @@
     <label>Name</label>
       <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
         <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}" rendered="#{not empty applicationDetailBean.securitySystem.link}">
-          <i class="material-icons link-icon">security</i>
+          <i class="icon ivyicon-lock-1 link-icon"></i>
         </h:outputText>
       </h:outputLink>
     <label>Provider</label>
@@ -33,13 +33,13 @@
     <label>Users</label>
     <h:outputLink value="users.xhtml">
       <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
-        <i class="material-icons link-icon">person</i>
+        <i class="icon ivyicon-single-neutral-actions link-icon"></i>
       </h:outputText>
     </h:outputLink>
     <label>Roles</label>
     <h:outputLink value="roles.xhtml">
       <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}">
-        <i class="material-icons link-icon">people</i>
+        <i class="icon ivyicon-multiple-neutral-1 link-icon"></i>
       </h:outputText>
     </h:outputLink>
   </p:panelGrid>

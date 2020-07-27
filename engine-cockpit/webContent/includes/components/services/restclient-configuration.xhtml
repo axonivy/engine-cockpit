@@ -5,7 +5,7 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">info</i>
+  <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
   <h:outputText value="Rest Client configurations" />
 </f:facet>
 <h:form id="restClientConfigurationForm">
@@ -13,17 +13,17 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
-    icon="ui-icon-save" styleClass="accent-btn card-button" update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
+    icon="icon ivyicon-floppy-disk" styleClass="accent-btn card-button" update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()" title="Reset configuration"
-    icon="ui-icon-close" styleClass="red-btn card-button" />
+    icon="icon ivyicon-undo" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure about reset this Rest Client?" header="Reset Rest Client"
     severity="alert" widgetVar="resetRestConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
     <p:commandButton id="resetRestConfirmYesBtn" value="Reset" actionListener="#{restClientDetailBean.resetConfig}"
-      icon="ui-icon-close" update="@form, restClientAdditionalConfigForm" styleClass="modal-input-button" />
+      icon="icon ivyicon-undo" update="@form, restClientAdditionalConfigForm" styleClass="modal-input-button" />
   </p:confirmDialog>
   <p:commandButton id="testRestBtn" title="Test Rest Connection" onclick="PF('connectionTestModel').show()"
-    type="button" icon="ui-icon-call-made" styleClass="secondary-btn card-button"/>
+    type="button" icon="icon ivyicon-phone-actions-call" styleClass="secondary-btn card-button"/>
     
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">

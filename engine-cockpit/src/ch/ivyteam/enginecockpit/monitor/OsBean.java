@@ -18,10 +18,10 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class OsBean
 {
-  private Monitor memoryMonitor = Monitor.build().name("Memory").icon("memory").yAxisLabel("Memory").toMonitor();
-  private Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer").yAxisLabel("Load").toMonitor();
-  private Monitor networkMonitor = Monitor.build().name("Network").icon("network_check").yAxisLabel("Send / Resv").toMonitor();
-  private Monitor ioMonitor = Monitor.build().name("IO").icon("storage").yAxisLabel("Read / Write").toMonitor();
+  private Monitor memoryMonitor = Monitor.build().name("Memory").icon("analytics-board-graph-line").yAxisLabel("Memory").toMonitor();
+  private Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer-chip").yAxisLabel("Load").toMonitor();
+  private Monitor networkMonitor = Monitor.build().name("Network").icon("network-signal").yAxisLabel("Send / Resv").toMonitor();
+  private Monitor ioMonitor = Monitor.build().name("IO").icon("cd").yAxisLabel("Read / Write").toMonitor();
   
   public OsBean()
   {

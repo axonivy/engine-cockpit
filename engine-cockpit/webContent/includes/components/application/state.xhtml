@@ -4,19 +4,19 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">play_circle_outline</i>
+  <i class="icon ivyicon-cog-play table-icon panel-title-icon"></i>
   <h:outputText value="Activity" />
 </f:facet>
 <h:form id="appDetailStateForm">
-  <p:commandButton id="activateApplication" title="Activate" type="button" icon="ui-icon-play-arrow"
+  <p:commandButton id="activateApplication" title="Activate" type="button" icon="icon ivyicon-controls-play"
     rendered="#{!applicationDetailBean.application.active}" styleClass="green-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
   </p:commandButton>
-  <p:commandButton id="deActivateApplication" title="Deactivate" type="button" icon="ui-icon-stop"
+  <p:commandButton id="deActivateApplication" title="Deactivate" type="button" icon="icon ivyicon-controls-stop"
     rendered="#{!applicationDetailBean.application.inActive}" styleClass="red-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
   </p:commandButton>
-  <p:commandButton id="lockApplication" title="Lock" type="button" icon="ui-icon-lock"
+  <p:commandButton id="lockApplication" title="Lock" type="button" icon="icon ivyicon-lock-1"
     rendered="#{!applicationDetailBean.application.locked}" styleClass="secondary-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
   </p:commandButton>

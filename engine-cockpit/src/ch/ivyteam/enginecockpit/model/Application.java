@@ -63,7 +63,7 @@ public class Application extends AbstractActivity
   @Override
   public String getIcon()
   {
-    return "cube";
+    return "module";
   }
   
   @Override

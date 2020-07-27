@@ -19,7 +19,7 @@
           selectionMode="single" selection="#{cc.attrs.ldapBrowser.selectedNode}" dynamic="true">
           <p:ajax event="expand" listener="#{cc.attrs.ldapBrowser.onNodeExpand}" update="@form:tree"/>
           <p:ajax event="select" update="@form:nodeAttrTable" />
-          <p:treeNode icon="ui-icon-#{node.icon}">
+          <p:treeNode icon="icon ivyicon-#{node.icon}">
             <h:outputText value="#{node}" />
           </p:treeNode>
         </p:tree>
@@ -38,7 +38,7 @@
     <f:facet name="footer">
       <p:commandLink id="cancelLdapBrowser" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
         styleClass="secondary-btn modal-input-button" />
-      <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose" icon="ui-icon-check"
+      <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose" icon="icon ivyicon-check-1"
         styleClass="primary-btn modal-input-button" update="#{cc.attrs.updateFields}" onclick="PF('ldapBrowserDialog').hide();"
         disabled="#{cc.attrs.ldapBrowser.tree == null}" />
     </f:facet>

@@ -14,7 +14,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#administrators" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
     </ui:define>
 
@@ -30,12 +30,12 @@
                 <div class="ui-g">
                   <div class="ui-g-12 ui-md-10">
                     <h1>
-                      <i class="material-icons card-title-icon">supervisor_account</i>Administrators
+                      <i class="icon ivyicon-single-neutral-shield card-title-icon"></i>Administrators
                     </h1>
                   </div>
                   <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
                     <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}"
-                      icon="ui-icon-plus" title="Edit" update="admins:editAdminDialog" value="Add"
+                      icon="icon ivyicon-add" title="Edit" update="admins:editAdminDialog" value="Add"
                       oncomplete="PF('editAdminDialog').show();" process="@this" />
                   </div>
                 </div>

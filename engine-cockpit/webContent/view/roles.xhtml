@@ -14,7 +14,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}security.html#roles" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
     </ui:define>
 
@@ -24,7 +24,7 @@
         <div class="ui-g">
           <div class="ui-g-12 ui-md-9">
             <h1>
-              <i class="material-icons card-title-icon">group</i>Roles 
+              <i class="icon ivyicon-multiple-neutral-1 card-title-icon"></i>Roles 
               <h:outputText id="roleCounter" style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})"/>
             </h1>
           </div>
@@ -32,10 +32,10 @@
             <h:form id="form">
               <h:panelGroup id="syncPanel">
                 <div class="single-card-top-right-btn">
-                  <p:splitButton value="Synchronize" icon="fa fa-refresh #{securityBean.syncRunningForSelectedApp ? 'fa-spin' : ''} spin-icon" 
+                  <p:splitButton value="Synchronize" icon="icon ivyicon-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'icon-is-spinning' : ''} spin-icon" 
                     id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
                     actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
-                    <p:menuitem id="userSyncLog" value="Synchronization Log" icon="ui-icon-format-align-left" 
+                    <p:menuitem id="userSyncLog" value="Synchronization Log" icon="icon ivyicon-common-file-text" 
                       onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
                   </p:splitButton>
                   <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
@@ -48,30 +48,30 @@
 	        <div class="ui-tree-search-header">
 	          <div class="ui-datatable-header ui-widget-header ui-corner-top">
 	            <p:outputPanel>
-	              <label class="table-search-icon">
-	                <i class="material-icons">search</i>
-	              </label>
+	              <span class="table-search-icon">
+	                <i class="icon ivyicon-search"></i>
+	              </span>
 	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.roles.filter}">
 	                <p:ajax event="keyup" delay="500" update="@form:tree" />
 	              </p:inputText>
-                  <p:commandButton id="expandAll" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{roleBean.roles.expandAllNodes}"
-                    update="tree" title="Expand all" styleClass="secondary-btn" />
-                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{roleBean.roles.collapseAllNodes}"
-                    update="tree"  title="Collapse all" styleClass="secondary-btn" />
+                <p:commandButton id="expandAll" widgetVar="createApplication" icon="icon ivyicon-move-expand-vertical" actionListener="#{roleBean.roles.expandAllNodes}"
+                  update="tree" title="Expand all" styleClass="secondary-btn" />
+                <p:commandButton id="collapseAll" widgetVar="createApplication" icon="icon ivyicon-move-shrink-vertical" actionListener="#{roleBean.roles.collapseAllNodes}"
+                  update="tree"  title="Collapse all" styleClass="secondary-btn" />
 	            </p:outputPanel>
 	          </div>
 	        </div>
           <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role" dynamic="true">
             <p:ajax event="expand" listener="#{roleBean.roles.nodeExpand}"/>
             <p:ajax event="collapse" listener="#{roleBean.roles.nodeCollapse}"/>
-            <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role">
+            <p:treeNode icon="icon ivyicon-multiple-#{role.member ? 'actions-add' : 'neutral-1'}" type="role">
               <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
                 <h:outputText value="#{role.name}" />
                 <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
                 <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}" styleClass="addition-row-info"/>
               </a>
             </p:treeNode>
-            <p:treeNode icon="ui-icon-more-horiz" type="dummy">
+            <p:treeNode icon="icon ivyicon-navigation-menu-horizontal" type="dummy">
               <h:outputText value="#{role.name}" 
                 title="For performance reasons only the first 100 roles are loaded. Use the search to find a specific role." />
             </p:treeNode>

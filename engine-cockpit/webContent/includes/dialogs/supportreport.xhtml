@@ -7,9 +7,6 @@
   id="supportReportModal" widgetVar="supportReportModal" modal="true"
   responsive="true" closeOnEscape="true">
   <h:form id="reportForm">
-    <div>
-      <i id="reportFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" style="display: none; margin-bottom: 20px;" aria-hidden="true" />
-    </div>
     <p>If you spot a problem while using the Axon.ivy Engine please open a support ticket, download this zip archive and attach it to the ticket.</p>
     <p>This zip archive contains:</p>
     <ul>
@@ -17,8 +14,8 @@
       <li>Today's log files</li>
     </ul>
     <p:commandButton id="download" ajax="false" value="Download" 
-      onclick="$('#reportFileSpinner').show(); window.onblur = function(){$('#reportFileSpinner').hide();};"
-      title="Download Support Report" icon="ui-icon-cloud-download"
+      onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ivyicon-download-bottom');}"
+      title="Download Support Report" icon="icon ivyicon-download-bottom"
       styleClass="modal-input-button" style="width: 150px;">
       <p:fileDownload value="#{supportBean.supportReport}" />
     </p:commandButton>

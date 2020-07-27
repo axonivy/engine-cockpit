@@ -30,7 +30,7 @@ public class ProcessModel extends AbstractActivity
   @Override
   public String getIcon()
   {
-    return "cogs";
+    return "module-three-2";
   }
   
   @Override

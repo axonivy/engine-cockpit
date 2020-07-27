@@ -16,7 +16,7 @@
           <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this" />
           <p:tab title="#{app.name}" titleStyleClass="application-tab">
             <f:facet name="title">
-               <i class="fa fa-cube" />
+               <i class="icon ivyicon-module" />
                <h:outputText value="#{app.name}"/>
             </f:facet>
             <cc:insertChildren />
@@ -29,7 +29,7 @@
                 <h:outputText value="You don't have any applications configured."/>
               </div>
               <div class="ui-g-12 ui-md-4">
-                <p:button icon="ui-icon-add" value="Create Application" outcome="applications" />
+                <p:button icon="icon ivyicon-add" value="Create Application" outcome="applications" />
               </div>
             </div>
           </div>

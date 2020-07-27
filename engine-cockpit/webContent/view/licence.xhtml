@@ -14,7 +14,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#licence" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
     </ui:define>
 
@@ -30,11 +30,11 @@
                 <div class="ui-g">
                   <div class="ui-g-12 ui-md-10">
                     <h1>
-                      <i class="material-icons card-title-icon">vpn_key</i>Licence
+                      <i class="icon ivyicon-real-estate-action-house-key card-title-icon"></i>Licence
                     </h1>
                   </div>
                   <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                    <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button" icon="ui-icon-refresh"
+                    <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button" icon="icon ivyicon-navigation-right-circle"
                       value="Renew" rendered="#{licenceBean.showRenewLicFeature()}" onclick="PF('renewLicence').show()" />
                   </div>
                 </div>
@@ -64,7 +64,7 @@
             <h:outputText value="#{activeSession.count}" />
           </p:column>
           <p:column style="width: 56px;">
-            <p:commandButton id="killSession" title="Kill session" icon="ui-icon-remove-circle"
+            <p:commandButton id="killSession" title="Kill session" icon="icon ivyicon-logout-1"
               actionListener="#{licenceBean.killSession(activeSession.name)}" styleClass="red-btn" style="float: right;" />
           </p:column>
         </p:dataTable>

@@ -7,12 +7,9 @@
   id="logsDownloadModal" widgetVar="logsDownloadModal" modal="true"
   responsive="true" closeOnEscape="true">
   <h:form id="logForm">
-    <div style="margin-bottom: 20px;">
-      <i id="uploadFileSpinner" class="fa fa-circle-o-notch fa-spin ajax-loader" style="display: none;" aria-hidden="true" />
-    </div>
     <p:commandButton id="allLogs" ajax="false" value="Download" 
-      onclick="$('#uploadFileSpinner').show(); window.onblur = function(){$('#uploadFileSpinner').hide();};"
-      title="Download All Log Files" icon="ui-icon-cloud-download"
+      onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ivyicon-download-bottom');}"
+      title="Download All Log Files" icon="icon ivyicon-download-bottom"
       styleClass="modal-input-button" style="width: 150px;">
       <p:fileDownload value="#{logBean.allLogs}" />
     </p:commandButton>
