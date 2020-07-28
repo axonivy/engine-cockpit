@@ -43,6 +43,9 @@
 					<engineListPageUrl>${engine.page.url}</engineListPageUrl>
 					<engineDirectory>${engine.dir}</engineDirectory>
 					<skipScriptValidation>false</skipScriptValidation>
+					<compilerOptions><!-- unnecessary suppress warnings: false positives off -->
+						<compilerOption>-warn:-warningToken</compilerOption>
+					</compilerOptions>
 					<osArchitecture>All_x64</osArchitecture>
 				</configuration>
 			</plugin>
