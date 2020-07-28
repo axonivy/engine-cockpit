@@ -19,7 +19,7 @@ import ch.ivyteam.enginecockpit.model.ElasticSearch;
 import ch.ivyteam.enginecockpit.model.ElasticSearch.SearchEngineHealth;
 import ch.ivyteam.enginecockpit.model.SearchEngineIndex;
 import ch.ivyteam.ivy.business.data.store.restricted.IBusinessDataManager;
-import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.server.ServerConfig;
+import ch.ivyteam.ivy.business.data.store.search.restricted.elasticsearch.server.ServerConfig;
 
 @SuppressWarnings("restriction")
 @ManagedBean
