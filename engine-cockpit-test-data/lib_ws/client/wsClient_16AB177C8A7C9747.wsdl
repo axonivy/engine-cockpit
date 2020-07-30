@@ -107,7 +107,7 @@
   </wsdl:binding>
   <wsdl:service name="ZHR_WF_READ_PERS_DATA">
     <wsdl:port name="ZHR_WF_READ_PERS_DATA_soap12" binding="tns:ZHR_WF_READ_PERS_DATA_soap12">
-      <wsoap12:address location="http://zugtstweb:7078/mockZHR_WF_READ_PERS_DATA_soap12"/>
+      <wsoap12:address location="test-webservices.ivyteam.io:7078/mockZHR_WF_READ_PERS_DATA_soap12"/>
     </wsdl:port>
     <wsdl:port name="ZHR_WF_READ_PERS_DATA" binding="tns:ZHR_WF_READ_PERS_DATA">
       <soap:address location="http://D30.migros.ch:8000/sap/bc/srt/rfc/sap/zhr_wf_read_pers_data/161/zhr_wf_read_pers_data/zhr_wf_read_pers_data"/>

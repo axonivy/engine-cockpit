@@ -52,15 +52,15 @@ public class WebTestRestClientDetail
     Selenide.refresh();
     testAndAssertConnection("Invalid Url");
 
-    setConfiguration("http://zugtstweb:80/testnotfound", "");
+    setConfiguration("http://test-webservices.ivyteam.io:8080/testnotfound", "");
     Selenide.refresh();
     testAndAssertConnection("Status 404");
     
-    setConfiguration("http://zugtstweb:81/", "");
+    setConfiguration("http://test-webservices.ivyteam.io:91/", "");
     Selenide.refresh();
     testAndAssertConnection("Status 401");
     
-    setConfiguration("http://zugtstweb:81/", "admin", "nimda");
+    setConfiguration("http://test-webservices.ivyteam.io:91/", "admin", "nimda");
     Selenide.refresh();
     testAndAssertConnection("Status 200");
 

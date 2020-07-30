@@ -25,8 +25,7 @@ public class WebTestWebservices
             Tab.getSelectedTabIndex() + ":tableForm:webservicesTable"), true);
     table.firstColumnShouldBe(size(2));
     
-    table.search(table.getFirstColumnEntries().get(0));
+    table.search("axis2");
     table.firstColumnShouldBe(size(1));
   }
-  
 }
