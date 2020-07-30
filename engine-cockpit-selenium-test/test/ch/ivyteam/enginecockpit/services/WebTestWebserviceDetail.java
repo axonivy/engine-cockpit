@@ -94,17 +94,17 @@ public class WebTestWebserviceDetail
   @Test
   void testWsEndpointTestConnection()
   {
-    setEndPoint("http://zugtstweb:80/notfound");
+    setEndPoint("http://test-webservices.ivyteam.io:8080/notfound");
     Selenide.refresh();
     testAndAssertConnection("Status 404");
 
-    setEndPoint("http://zugtstweb:81");
+    setEndPoint("http://test-webservices.ivyteam.io:91");
     Selenide.refresh();
     testAndAssertConnection("Status 401");
     
     setConfiguration("admin", "nimda");
     Selenide.refresh();
-    testAndAssertConnection("Status 405");
+    testAndAssertConnection("Status 200");
     
     resetEndPoint();
     resetConfiguration();
