@@ -127,7 +127,7 @@
         <name>axis2</name>
         <id>16AB177C8A7C9747</id>
         <description>axis 2 webservice</description>
-        <wsdlUrl>http://zugtstweb:7078/mockZHR_WF_READ_PERS_DATA_soap12?WSDL</wsdlUrl>
+        <wsdlUrl>http://test-webservices.ivyteam.io:7078/mockZHR_WF_READ_PERS_DATA_soap12?WSDL</wsdlUrl>
         <wsCallLibrary>AXIS_2_0</wsCallLibrary>
         <property>
             <name>authType</name>
@@ -148,7 +148,7 @@
             <serviceClass>functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATA</serviceClass>
             <port>
                 <name>ZHR_WF_READ_PERS_DATA_soap12</name>
-                <locationUri>http://zugtstweb:7078/mockZHR_WF_READ_PERS_DATA_soap12</locationUri>
+                <locationUri>test-webservices.ivyteam.io:7078/mockZHR_WF_READ_PERS_DATA_soap12</locationUri>
             </port>
             <port>
                 <name>ZHR_WF_READ_PERS_DATA</name>
