@@ -135,6 +135,11 @@ public class Webservice implements IService
     return portTypeMap;
   }
   
+  public String getEndpoints()
+  {
+    return getPortTypeMap().values().stream().map(pt -> pt.getDefault()).collect(Collectors.joining(", "));
+  }
+  
   public static class EndPoint
   {
     private String type;

@@ -173,7 +173,7 @@ public class UserDataModel extends LazyDataModel<User> implements ContentFilter
       applySorting(query.orderBy().eMailAddress(), sortOrder);
     }
   }
-
+  
   private static void applySorting(UserQuery.OrderByColumnQuery query, SortOrder sortOrder)
   {
     if (SortOrder.ASCENDING.equals(sortOrder))
