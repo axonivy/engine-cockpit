@@ -39,7 +39,7 @@ public class ProcessModelVersion extends AbstractActivity
   @Override
   public String getDetailView()
   {
-    return "pmv-detail.xhtml?appName=" + pmv.getApplication().getName() + "&pmName=" + pmv.getName() + "&pmvVersion=" + pmv.getVersionNumber();
+    return "pmv-detail.xhtml?appName=" + pmv.getApplication().getName() + "&pmName=" + pmv.getProcessModel().getName() + "&pmvVersion=" + pmv.getVersionNumber();
   }
 
   @Override
