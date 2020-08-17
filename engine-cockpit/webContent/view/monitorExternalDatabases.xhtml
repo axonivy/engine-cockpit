@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="databaseName" value="#{externalDatabaseMonitorBean.databaseName}" />
+    <f:viewParam name="applicationName" value="#{externalDatabaseMonitorBean.applicationName}" />
+    <f:viewParam name="environment" value="#{externalDatabaseMonitorBean.environment}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/charts-template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li>Monitor</li>
+      <li>/</li>
+      <li>Services</li>
+      <li>/</li>
+      <li><a href="monitorExternalDatabases.xhtml">External Databases</a></li>
+      <li>/</li>
+      <li>
+        <h:form>
+ 	      <p:selectOneMenu id="externalDatabase" value="#{externalDatabaseMonitorBean.externalDatabase}">
+	        <f:selectItems value="#{externalDatabaseMonitorBean.externalDatabases}" />
+	        <p:ajax update="configLink, main:dashboard" />
+	      </p:selectOneMenu>
+        </h:form>
+	  </li>     
+    </ui:define>
+
+    <ui:define name="breadcrumb-right">
+      <p:link href="#{externalDatabaseMonitorBean.configurationLink}" title="Configuration" id="configLink">
+        <i class="material-icons">settings_applications</i>
+      </p:link>
+      <a href="#" onclick="window.open('#{advisorBean.cockpitEngineGuideUrl}monitor.html#services'); return false;">
+        <i class="material-icons">help</i>
+      </a>
+    </ui:define>
+
+    <ui:define name="content">
+      <h:form id="main">
+        <p:poll update="dashboard" interval="1" />
+        <h:panelGroup id="dashboard" layout="block" styleClass="ui-g dashboard">
+          <cc:MonitorGraph monitor="#{externalDatabaseMonitorBean.connectionsMonitor}" id="externalDatabaseConnections"/>
+          <cc:MonitorGraph monitor="#{externalDatabaseMonitorBean.queriesMonitor}" id="externalDatabaseQueries"/>
+          <cc:MonitorGraph monitor="#{externalDatabaseMonitorBean.executionTimeMonitor}" id="externalDatabaseExecutionTime"/>
+        </h:panelGroup>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

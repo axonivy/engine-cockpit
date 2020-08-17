@@ -1,14 +1,13 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
@@ -18,20 +17,14 @@ import com.codeborne.selenide.SelenideElement;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestMonitor
+public class WebTestLogs
 {
   
-  @BeforeEach
-  void beforeEach()
+  @BeforeAll
+  static void beforeAll()
   {
     login();
-  }
-  
-  @Test
-  void resourcesMonitorContent()
-  {
-    Navigation.toResourcesMonitor();
-    $$(".ui-panel").shouldHave(size(4));
+    Navigation.toLogs();
   }
   
   @Test
@@ -51,7 +44,6 @@ public class WebTestMonitor
   @Test
   void logsChangeDate()
   {
-    Navigation.toLogs();
     String originDate = $("#logDateForm\\:calendar_input").shouldBe(visible).getValue();
     $$(".ui-panel-titlebar").find(text("ivy.log")).shouldHave(text(originDate));
     

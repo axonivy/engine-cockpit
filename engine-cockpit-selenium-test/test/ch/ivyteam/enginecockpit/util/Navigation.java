@@ -35,9 +35,20 @@ public class Navigation
   private static final String SYSTEM_CLUSTER = "#menuform\\:sr_cluster";
   private static final String SYSTEM_EDITOR_MENU = "#menuform\\:sr_editor";
   private static final String MONITOR_MENU = "#menuform\\:sr_monitor";
-  private static final String MONITOR_RESOURCES_MENU = "#menuform\\:sr_resources_monitor";
+  private static final String MONITOR_OS_MENU = "#menuform\\:sr_monitor_os";
   private static final String MONITOR_LOGS_MENU = "#menuform\\:sr_logs";
-  private static final String MONITOR_MBEANS_MENU = "#menuform\\:sr_mbeans";
+  private static final String MONITOR_ENGINE_MENU = "#menuform\\:sr_monitor_engine";
+  private static final String MONITOR_ENGINE_JVM_MENU = "#menuform\\:sr_monitor_engine_jvm";
+  private static final String MONITOR_ENGINE_MEMORY_MENU = "#menuform\\:sr_monitor_engine_memory";
+  private static final String MONITOR_ENGINE_REQUESTS_MENU = "#menuform\\:sr_monitor_engine_requests";
+  private static final String MONITOR_ENGINE_SESSIONS_MENU = "#menuform\\:sr_monitor_engine_sessions";
+  private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
+  private static final String MONITOR_SERVICES_MENU = "#menuform\\:sr_monitor_services";
+  private static final String MONITOR_SERVICES_EMAIL_MENU = "#menuform\\:sr_monitor_services_email";
+  private static final String MONITOR_SERVICES_SYSTEM_DATABASE_MENU = "#menuform\\:sr_monitor_services_sysdb";
+  private static final String MONITOR_SERVICES_EXTERNAL_DATABASES_MENU = "#menuform\\:sr_monitor_services_extdb";
+  private static final String MONITOR_SERVICES_WEB_SERVICES_MENU = "#menuform\\:sr_monitor_services_ws";
+  private static final String MONITOR_SERVICES_REST_CLIENTS_MENU = "#menuform\\:sr_monitor_services_rest";
 
   public static void toDashboard()
   {
@@ -241,11 +252,11 @@ public class Navigation
     menuShouldBeActive(SYSTEM_EDITOR_MENU);
   }
   
-  public static void toResourcesMonitor()
+  public static void toOs()
   {
-    toSubMenu(MONITOR_MENU, MONITOR_RESOURCES_MENU);
-    assertCurrentUrlEndsWith("monitor.xhtml");
-    menuShouldBeActive(MONITOR_RESOURCES_MENU);
+    toSubMenu(MONITOR_MENU, MONITOR_OS_MENU);
+    assertCurrentUrlEndsWith("monitorOs.xhtml");
+    menuShouldBeActive(MONITOR_OS_MENU);
   }
   
   public static void toLogs()
@@ -257,15 +268,79 @@ public class Navigation
   
   public static void toMBeans() 
   {
-    toSubMenu(MONITOR_MENU, MONITOR_MBEANS_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MBEANS_MENU);
     assertCurrentUrlContains("mbeans.xhtml");
-    menuShouldBeActive(MONITOR_MBEANS_MENU);
+    menuShouldBeActive(MONITOR_ENGINE_MBEANS_MENU);
+  }
+  
+  public static void toJvm()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_JVM_MENU);
+    assertCurrentUrlContains("monitorJvm.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_JVM_MENU);
+  }
+  
+  public static void toMemory()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MEMORY_MENU);
+    assertCurrentUrlContains("monitorMemory.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_MEMORY_MENU);
   }
 
   
+  public static void toRequests()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_REQUESTS_MENU);
+    assertCurrentUrlContains("monitorRequest.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_REQUESTS_MENU);
+  }
+  
+  public static void toSessions()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_SESSIONS_MENU);
+    assertCurrentUrlContains("monitorSession.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_SESSIONS_MENU);
+  }
+
+
+  public static void toSystemDatabase()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_SYSTEM_DATABASE_MENU);
+    assertCurrentUrlContains("monitorSysDb.xhtml");
+    menuShouldBeActive(MONITOR_SERVICES_SYSTEM_DATABASE_MENU);
+  }
+
+  public static void toMonitorEmail()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_EMAIL_MENU);
+    assertCurrentUrlContains("monitorEmail.xhtml");
+    menuShouldBeActive(MONITOR_SERVICES_EMAIL_MENU);
+  }
+  
+  public static void toMonitorExternalDatabases()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_EXTERNAL_DATABASES_MENU);
+    assertCurrentUrlContains("monitorExternalDatabases.xhtml");
+    menuShouldBeActive(MONITOR_SERVICES_EXTERNAL_DATABASES_MENU);
+  }
+
+  public static void toWebServices()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_WEB_SERVICES_MENU);
+    assertCurrentUrlContains("monitorWebServices.xhtml");
+    menuShouldBeActive(MONITOR_SERVICES_WEB_SERVICES_MENU);
+  }
+
+  public static void toMonitorRestClients()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_REST_CLIENTS_MENU);
+    assertCurrentUrlContains("monitorRestClients.xhtml");
+    menuShouldBeActive(MONITOR_SERVICES_REST_CLIENTS_MENU);
+  }
+
   private static void toMenu(String menuItemPath)
   {
-    $(menuItemPath).find("a").click();
+    $(menuItemPath).find("a").scrollIntoView(false).click();
     menuShouldBeActive(menuItemPath);
   }
   
@@ -273,12 +348,26 @@ public class Navigation
   {
     $(menuItemPath).shouldBe(visible);
     if(!$(subMenuItemPath).isDisplayed()) {
-      $(menuItemPath).find("a").click();
+      $(menuItemPath).find("a").scrollIntoView(false).click();
     }
-    $(subMenuItemPath).find("a").shouldBe(visible).click();
+    $(subMenuItemPath).find("a").shouldBe(visible).scrollIntoView(false).click();
     menuShouldBeActive(subMenuItemPath);
   }
   
+  private static void toSubSubMenu(String menuItemPath, String subMenuItemPath, String subSubMenuItemPath)
+  {
+    $(menuItemPath).shouldBe(visible);
+    if(!$(subMenuItemPath).isDisplayed()) {
+      $(menuItemPath).find("a").scrollIntoView(false).click();
+    }
+    $(subMenuItemPath).find("a").shouldBe(visible);
+    if(!$(subSubMenuItemPath).isDisplayed()) {
+      $(subMenuItemPath).find("a").scrollIntoView(false).click();
+    }    
+    $(subSubMenuItemPath).scrollIntoView(false).click();
+    menuShouldBeActive(subSubMenuItemPath);
+  }
+
   private static void menuShouldBeActive(String menu)
   {
     $(menu).shouldHave(cssClass("active-menuitem"));

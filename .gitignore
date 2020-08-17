@@ -21,3 +21,4 @@ src_wsproc/
 
 engine-cockpit/lib/
 .flattened-pom.xml
+/workspace

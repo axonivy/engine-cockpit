@@ -1,26 +1,14 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans;
 
-import java.lang.management.ManagementFactory;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.ReflectionException;
-import javax.management.openmbean.CompositeData;
-
 import org.apache.commons.lang3.StringUtils;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartSeries;
 
-public class MTrace
+import ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider;
+
+public class MTrace extends MSeries
 {
   private final MName name;
   private final MAttribute attribute;
   private final String compositeName;
-  private final LineChartSeries series;
-  private final Map<Object, Number> data = new LinkedHashMap<>();
   private Number lastValue;
 
   public MTrace(MName name, MAttribute attribute)
@@ -30,16 +18,33 @@ public class MTrace
   
   public MTrace(MName name, MAttribute attribute, String compositeName)
   {
+    super(createValueProvider(name, attribute, compositeName), createLabel(name, attribute, compositeName));
     this.name = name;
     this.attribute = attribute;
     this.compositeName = compositeName;
-    series = new LineChartSeries();
-    series.setSmoothLine(true);
-    series.setData(data);    
-    series.setLabel(getAttributeName() +" ("+name.getDisplayName()+")");
+  }
+
+  private static MValueProvider createValueProvider(MName name, MAttribute attribute, String compositeName)
+  {
+    var provider = MValueProvider.attribute(name, attribute);
+    if (compositeName != null)
+    {
+      provider = MValueProvider.composite(provider, compositeName);
+    }
+    return provider;
+  }
+
+  private static String createLabel(MName name, MAttribute attribute, String compositeName)
+  {
+    return getAttributeName(attribute, compositeName) +" ("+name.getDisplayName()+")";
   }
 
   public String getAttributeName()
+  {
+    return getAttributeName(attribute, compositeName);
+  }
+  
+  private static String getAttributeName(MAttribute attribute, String compositeName)
   {
     String attributeName = attribute.getName();
     if (StringUtils.isNotBlank(compositeName))
@@ -48,7 +53,7 @@ public class MTrace
     }
     return attributeName;
   }
-  
+
   public String getObjectName()
   {
     return name.getFullDisplayName();
@@ -64,37 +69,10 @@ public class MTrace
     return lastValue;
   }
 
-  public ChartSeries getSeries()
+  @Override
+  protected Number nextValue()
   {
-    return series;
-  }
-
-  public void calcNewValue(long actualSec)
-  {
-    data.put(actualSec, evaluateLastValue());
-  }
-
-  private Number evaluateLastValue()
-  {
-    try
-    {
-      var server = ManagementFactory.getPlatformMBeanServer();
-      var value = server.getAttribute(name.getObjectName(), attribute.getName());
-      if (value instanceof CompositeData)
-      {
-        value = ((CompositeData)value).get(compositeName);
-      }
-      lastValue = (Number)value;
-      return lastValue;
-    }
-    catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex)
-    {
-      return -1;
-    }
-  }
-
-  public Map<Object, Number> getData()
-  {
-    return data;
+    lastValue = super.nextValue();
+    return lastValue;
   }
 }

@@ -1,74 +1,27 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-
-import ch.ivyteam.enginecockpit.monitor.Monitor;
-
-public class MTraceMonitor extends Monitor
+public class MTraceMonitor extends MMonitor
 {
-  private final List<MTrace> traces = new ArrayList<>();
-  
   public MTraceMonitor()
   {
-    initMonitor();
-  }
-  
-  private void initMonitor()
-  {
-    Axis xAxis = model.getAxis(AxisType.X);
-    xAxis.setTickCount(11);
-    xAxis.setLabel("Time [s]");
-    model.setLegendPosition("ne");
-  }
-  
-  @Override
-  public String getInfo()
-  {
-    return "Traces";
+    super(MonitorInfo.build().name("Traces").icon("equalizer").toInfo());
   }
 
-  @Override
-  protected void calcNewValues()
+  public void addTrace(MTrace trace)
   {
-    long time = newTime();
-    if (time == actualSec && actualSec != 0)
-    {
-      return;
-    }
-    actualSec = time;
-    setXAxis(actualSec);
-    traces.forEach(trace -> trace.calcNewValue(actualSec));
-    traces.forEach(trace -> cleanUpOldData(trace.getData()));
-  }
-
-  public void addTrace(MTrace jmxTrace)
-  {    
-    traces.add(jmxTrace);
-    model.addSeries(jmxTrace.getSeries());
-    if (traces.size() == 1)
-    {
-      startMonitor();
-    }
+    addSeries(trace);
   }
 
   public void removeTrace(MTrace trace)
   {
-    traces.remove(trace);
-    model.getSeries().remove(trace.getSeries());
+    removeSeries(trace);
   }    
 
+  @SuppressWarnings("unchecked")
   public List<MTrace> getTraces()
   {
-    return traces;
-  }
-  
-  @Override
-  public boolean isRunning()
-  {
-    return !traces.isEmpty();
+    return (List<MTrace>)(List<?>)getSeries();
   }
 }

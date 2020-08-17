@@ -4,27 +4,41 @@ $(document).ready(function() {
       var timeoutID = window.setTimeout(initFix, 10);
     } else {
       $.removeCookie('serenity_expandeditems', {path: '/'});
-	  var page = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1);
-	  page = searchCorrectMenuItemPage(page);
-	  $('#menuform>ul>li>a').each(function() {
-	    var menuItemPage = $(this).attr('href');
-	    var menuItemId = $(this).parent().attr('id');
-	    if (menuItemPage != "#") {
-	      if (menuItemPage.startsWith(page)) {
-	        activateMenuItem(menuItemId);
-	      }
-	    }
-	    else {
-	      $(this).parent().find('ul>li>a').each(function() {
-	        var subMenuItemPage = $(this).attr('href');
-	        var subMenuItemId = $(this).parent().attr('id');
-	        if (subMenuItemPage.startsWith(page)) {
-	          activateMenuItem(menuItemId);
-	          activateMenuItem(subMenuItemId);
-	        }
-	      });
-	    }
-	  });
+    var page = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1);
+    page = searchCorrectMenuItemPage(page);
+    $('#menuform>ul>li>a').each(function() {
+      var menuItemPage = $(this).attr('href');
+      var menuItemId = $(this).parent().attr('id');
+      if (menuItemPage != "#") {
+        if (menuItemPage.startsWith(page)) {
+          activateMenuItem(menuItemId);
+        }
+      }
+      else {
+        $(this).parent().find('ul>li>a').each(function() {
+          var subMenuItemPage = $(this).attr('href');
+          var subMenuItemId = $(this).parent().attr('id');
+          if (subMenuItemPage != "#") {
+            if (subMenuItemPage.startsWith(page)) {
+              activateMenuItem(menuItemId);
+              activateMenuItem(subMenuItemId);
+            }
+          }
+          else
+          {
+            $(this).parent().find('ul>li>a').each(function() {
+              var subSubMenuItemPage = $(this).attr('href');
+              var subSubMenuItemId = $(this).parent().attr('id');
+              if (subSubMenuItemPage.startsWith(page)) {
+                activateMenuItem(menuItemId);
+                activateMenuItem(subMenuItemId);
+                activateMenuItem(subSubMenuItemId);
+              }
+            });
+          }
+        });
+      }
+    });
 
       function searchCorrectMenuItemPage(value) {
         var map = {

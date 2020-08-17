@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
@@ -25,8 +25,8 @@ import ch.ivyteam.enginecockpit.util.Table;
 public class WebTestMBeans
 {
   
-  @BeforeEach
-  void beforeEach()
+  @BeforeAll
+  static void beforeAll()
   {
     login();
     Navigation.toMBeans();
@@ -83,11 +83,14 @@ public class WebTestMBeans
 
   private static void expandMBeanNodeWithText(String treeNodeText)
   {
-    getTreeNodeWithText(treeNodeText)
+    var toggler = getTreeNodeWithText(treeNodeText)
         .parent()
-        .find(".ui-tree-toggler")
-        .shouldBe(visible)
-        .click();
+        .find(".ui-tree-toggler");
+    toggler.shouldBe(visible);
+    if (toggler.attr("class").contains("ui-icon-triangle-1-e")) // not yet expanded
+    {
+      toggler.click();
+    }
   }
 
   private static void clickMBeanNodeWithText(String treeNodeText)

@@ -17,6 +17,7 @@ public class CpuMonitor extends SystemMonitor
 
   public CpuMonitor() 
   {
+    super(MonitorInfo.build().name("CPU Load").icon("computer").yAxisLabel("Load [%]").toInfo());
     initMonitor();
   }
   
@@ -25,10 +26,6 @@ public class CpuMonitor extends SystemMonitor
     Axis yAxis = model.getAxis(AxisType.Y);
     yAxis.setMin(0);
     yAxis.setMax(100);
-    yAxis.setLabel("Load [%]");
-    Axis xAxis = model.getAxis(AxisType.X);
-    xAxis.setTickCount(11);
-    xAxis.setLabel("Time [s]");
     cpuData = new LinkedHashMap<>();
     
     cpuLoad = new LineChartSeries();
@@ -46,24 +43,17 @@ public class CpuMonitor extends SystemMonitor
   {
     if (!isRunning())
     {
-      return String.format("Cpu load: -- / %d Cores, %d Threads", cores, threads);
+      return String.format("CPU Load: -- / %d Cores, %d Threads", cores, threads);
     }
     calcNewValues();
-    return String.format("Cpu load: %.1f%% / %d Cores, %d Threads", actualCpuLoad, cores, threads);
+    return String.format("CPU Load: %.1f%% / %d Cores, %d Threads", actualCpuLoad, cores, threads);
   }
   
   @Override
-  protected void calcNewValues()
+  protected void calcNewValues(long time)
   {
-    long time = newTime();
-    if (time == actualSec && actualSec != 0)
-    {
-      return;
-    }
-    actualSec = time;
-    setXAxis(actualSec);
     actualCpuLoad = hardware.getProcessor().getSystemCpuLoad() * 100;
-    cpuData.put(actualSec, actualCpuLoad);
+    cpuData.put(time, actualCpuLoad);
     cleanUpOldData(cpuData);
   }
   

@@ -7,6 +7,8 @@
     <ui:define name="breadcrumb">
       <li>Monitor</li>
       <li>/</li>
+      <li>Engine</li>
+      <li>/</li>
       <li><a href="mbeans.xhtml">MBeans</a></li>
     </ui:define>
 
@@ -67,7 +69,7 @@
                 <h:outputText value="Chart" />
               </f:facet>
               <p:chart id="diagram" type="line" model="#{mBeansBean.tracesMonitor.model}" responsive="true" style="height:300px;" />
-              <p:poll update="diagram" interval="1" autoStart="#{mBeansBean.tracesMonitor.running}" />
+              <p:poll update="chart" interval="1" autoStart="#{mBeansBean.tracesMonitor.running}" />
 
               <p:dataTable id="traces" var="trace" value="#{mBeansBean.traces}" rowIndexVar="rowIndex"
                 style="max-height: 200px; overflow: auto">
@@ -81,7 +83,7 @@
                   <h:outputText value="#{trace.description}" />
                 </p:column>
 
-                <p:column headerText="First Value">
+                <p:column headerText="Last Value">
                   <h:outputText id="lastValue" value="#{trace.lastValue}" />
                 </p:column>
                 <p:column style="width: 55px">
