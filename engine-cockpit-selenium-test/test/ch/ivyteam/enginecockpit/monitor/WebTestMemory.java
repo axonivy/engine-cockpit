@@ -35,7 +35,7 @@ public class WebTestMemory
   void gcContent()
   {
     $("#gc")
-        .shouldHave(text("Garbage Collection Monitor"))
+        .shouldHave(text("Garbage Collection"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
@@ -43,7 +43,7 @@ public class WebTestMemory
   void heapMemoryContent()
   {
     $("#heapMemory")
-        .shouldHave(text("Heap Memory Monitor"))
+        .shouldHave(text("Heap Memory"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
@@ -51,7 +51,7 @@ public class WebTestMemory
   void nonHeapMemoryContent()
   {
     $("#nonHeapMemory")
-        .shouldHave(text("Non Heap Memory Monitor"))
+        .shouldHave(text("Non Heap Memory"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 }

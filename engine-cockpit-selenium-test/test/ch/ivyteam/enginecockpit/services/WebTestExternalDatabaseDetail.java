@@ -13,6 +13,8 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.$x;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -20,6 +22,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -105,6 +108,13 @@ public class WebTestExternalDatabaseDetail
     
     properties.clickButtonForEntry("bla", "deletePropertyBtn");
     properties.firstColumnShouldBe(size(2));
+  }
+  
+  @Test
+  void liveStats()
+  {
+    EngineCockpitUtil.assertLiveStats(List.of("External Database Connections", "External Database Queries", 
+            "External Database Query Execution Time"), "Default > test-db");
   }
 
   private void setConfiguration(String url, String driverName, String username, String connections)

@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -108,6 +109,7 @@ public class WebDocuScreenshot
     takeScreenshot("engine-cockpit-external-databases", new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toExternalDatabaseDetail("realdb");
     takeScreenshot("engine-cockpit-external-database-detail", new Dimension(SCREENSHOT_WIDTH, 800));
+    takeLiveStatsScreenshot("engine-cockpit-monitor-external-databases", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toWebservices();
     takeScreenshot("engine-cockpit-webservice", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toWebserviceDetail("test-web");
@@ -127,8 +129,6 @@ public class WebDocuScreenshot
     takeScreenshot("engine-cockpit-cluster", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toLogs();
     takeScreenshot("engine-cockpit-monitor-logs", new Dimension(SCREENSHOT_WIDTH, 900));
-    Navigation.toMonitorExternalDatabases();
-    takeScreenshot("engine-cockpit-monitor-external-databases", new Dimension(SCREENSHOT_WIDTH, 1000));
     WebTestMBeans.toMBeans();
     takeScreenshot("engine-cockpit-monitor-mbeans", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toJvm();
@@ -176,7 +176,7 @@ public class WebDocuScreenshot
     takeDialogScreenshot(screenshotName);
   }
 
-  public void takeScreenshot(String fileName, Dimension size)
+  private void takeScreenshot(String fileName, Dimension size)
   {
     Dimension oldSize = WebDriverRunner.getWebDriver().manage().window().getSize();
     resizeBrowser(size);
@@ -184,6 +184,13 @@ public class WebDocuScreenshot
     Selenide.sleep(200); //wait for menu animation
     Selenide.screenshot(fileName);
     resizeBrowser(oldSize);
+  }
+  
+  private void takeLiveStatsScreenshot(String fileName, Dimension size)
+  {
+    $("#layout-config-button").shouldBe(visible).click();
+    $("#layout-config .ui-tabs-selected").shouldBe(visible, text("Live Stats"));
+    takeScreenshot(fileName, size);
   }
   
   private void resizeBrowser(Dimension size)

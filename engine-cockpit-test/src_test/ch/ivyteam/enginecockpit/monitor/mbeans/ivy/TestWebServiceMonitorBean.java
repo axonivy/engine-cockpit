@@ -21,9 +21,7 @@ public class TestWebServiceMonitorBean
   @Test
   public void noData()
   {
-    var testee = new WebServiceMonitorBean();
-    assertThat(testee.getWebServices()).containsOnly("No Data");
-    assertThat(testee.getConfigurationLink()).isEqualTo("webservices.xhtml");
+    var testee = new WebServiceMonitor();
     assertThat(testee.getWebService()).isEqualTo("No Data");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
@@ -34,45 +32,21 @@ public class TestWebServiceMonitorBean
   {
     MBeans.registerMBeanFor(new Ws("ws1 (1)"));
     MBeans.registerMBeanFor(new Ws("ws2 (2)"));
-    var testee = new WebServiceMonitorBean();
-    assertThat(testee.getWebServices()).containsOnly("test > Default > ws1", "test > Default > ws2", "No Data");
-    assertThat(testee.getConfigurationLink()).isEqualTo("webservicedetail.xhtml?applicationName=test&environment=Default&webserviceId=2");
+    var testee = new WebServiceMonitor("test", "Default", "1");
+    assertThat(testee.getWebService()).isEqualTo("test > Default > ws1");
+    assertThat(testee.getCallsMonitor()).isNotNull();
+    assertThat(testee.getExecutionTimeMonitor()).isNotNull();
+    testee = new WebServiceMonitor("test", "Default", "2");
     assertThat(testee.getWebService()).isEqualTo("test > Default > ws2");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
   }
 
   @Test
-  public void WebServiceSelectionByCombo() throws Exception
-  {
-    MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    MBeans.registerMBeanFor(new Ws("ws2 (2)"));
-    var testee = new WebServiceMonitorBean();
-    assertThat(testee.getWebService()).isEqualTo("test > Default > ws2");
-    testee.setWebService("test > Default > ws1");
-    assertThat(testee.getWebService()).isEqualTo("test > Default > ws1");
-    testee.setWebService("No Data");
-    assertThat(testee.getWebService()).isEqualTo("No Data");
-  }
-  
-  @Test
-  public void WebServiceSelectionByNavigation() throws Exception
-  {
-    MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    MBeans.registerMBeanFor(new Ws("ws2 (2)"));
-    var testee = new WebServiceMonitorBean();
-    assertThat(testee.getWebService()).isEqualTo("test > Default > ws2");
-    testee.setApplicationName("test");
-    testee.setEnvironment("Default");
-    testee.setWebServiceId("1");
-    assertThat(testee.getWebService()).isEqualTo("test > Default > ws1");
-  }
-  
-  @Test
   public void callsMonitor()
   {
     MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    var testee = new WebServiceMonitorBean();
+    var testee = new WebServiceMonitor("test", "Default", "1");
     
     var series = testee.getCallsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -92,7 +66,7 @@ public class TestWebServiceMonitorBean
   public void executionTimeMonitor()
   {
     MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    var testee = new WebServiceMonitorBean();
+    var testee = new WebServiceMonitor("test", "Default", "1");
     
     var series = testee.getExecutionTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);
@@ -113,7 +87,7 @@ public class TestWebServiceMonitorBean
   }
 
   
-  @MBean("ivy Engine:type=External Web Service,application=test,environment=Default,name=#{name}")
+  @MBean("ivy Engine:type=External Web Service,application=test,environment=Default,name=\"#{name}\"")
   private static final class Ws
   {    
     private final String name;

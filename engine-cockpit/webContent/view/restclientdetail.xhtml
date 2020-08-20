@@ -10,7 +10,7 @@
     <f:viewParam name="environment" value="#{managerBean.selectedEnvironment}" />
   </f:metadata>
 
-  <ui:composition template="../includes/template/template.xhtml">
+  <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Services</li>
@@ -21,9 +21,6 @@
     </ui:define>
     
     <ui:define name="breadcrumb-right">
-      <a href="monitorRestClients.xhtml?applicationName=#{managerBean.selectedApplicationName}&amp;environment=#{managerBean.selectedEnvironment}&amp;restClientName=#{restClientDetailBean.restClientName}" title="Monitor">
-        <i class="material-icons">track_changes</i>
-      </a>
       <a href="#" onclick="PF('helpServicesModal').show();">
         <i class="material-icons">help</i>
       </a>
@@ -45,6 +42,14 @@
         </div>
       </div>
       <cc:HelpServiceDialog service="#{restClientDetailBean}" id="helpRestClientDialog" />
+    </ui:define>
+    
+    <ui:define name="sidebar">
+      <cc:Sidebar jmxSource="#{restClientDetailBean.liveStats.restClient}">
+        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.connectionsMonitor}" id="restConnections"/>
+        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.callsMonitor}" id="restCalls"/>
+        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.executionTimeMonitor}" id="restExecutionTime"/>
+      </cc:Sidebar>
     </ui:define>
   </ui:composition>
 </h:body>

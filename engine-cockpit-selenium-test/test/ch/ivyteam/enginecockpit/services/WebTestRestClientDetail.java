@@ -10,12 +10,15 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
@@ -26,6 +29,11 @@ public class WebTestRestClientDetail
   
   @BeforeEach
   void beforeEach()
+  {
+    navigateToRestDetail();
+  }
+
+  private void navigateToRestDetail()
   {
     login();
     Navigation.toRestClients();
@@ -86,7 +94,16 @@ public class WebTestRestClientDetail
     checkConfiguration("url", "testUser");
     resetConfiguration();
     Selenide.refresh();
-    checkConfiguration("http://localhost/", "admin");
+    checkConfiguration("http://test-webservices.ivyteam.io:8090/api/v3", "admin");
+  }
+  
+  @Test
+  void liveStats()
+  {
+    EngineCockpitUtil.runRestClient();
+    navigateToRestDetail();
+    EngineCockpitUtil.assertLiveStats(List.of("REST Client Connections", "REST Client Calls", 
+            "REST Client Execution Time"), "Default > test-rest");
   }
   
   private void setConfiguration(String url, String username, String password)

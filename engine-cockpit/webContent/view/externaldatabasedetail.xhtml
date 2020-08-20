@@ -10,7 +10,7 @@
     <f:viewParam name="environment" value="#{managerBean.selectedEnvironment}" />
   </f:metadata>
 
-  <ui:composition template="../includes/template/template.xhtml">
+  <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Services</li>
@@ -21,9 +21,6 @@
     </ui:define>
     
     <ui:define name="breadcrumb-right">
-      <a href="monitorExternalDatabases.xhtml?applicationName=#{managerBean.selectedApplicationName}&amp;environment=#{managerBean.selectedEnvironment}&amp;databaseName=#{externalDatabaseDetailBean.databaseName}" title="Monitor">
-        <i class="material-icons">track_changes</i>
-      </a>
       <a href="#" onclick="PF('helpServicesModal').show();">
         <i class="material-icons">help</i>
       </a>
@@ -55,6 +52,14 @@
         </div>
       </div>
       <cc:HelpServiceDialog service="#{externalDatabaseDetailBean}" id="helpExternalDatabaseDialog" />
+    </ui:define>
+    
+    <ui:define name="sidebar">
+      <cc:Sidebar jmxSource="#{externalDatabaseDetailBean.liveStats.externalDatabase}">
+        <cc:LiveStats monitor="#{externalDatabaseDetailBean.liveStats.connectionsMonitor}" id="externalDatabaseConnections"/>
+        <cc:LiveStats monitor="#{externalDatabaseDetailBean.liveStats.queriesMonitor}" id="externalDatabaseQueries"/>
+        <cc:LiveStats monitor="#{externalDatabaseDetailBean.liveStats.executionTimeMonitor}" id="externalDatabaseExecutionTime"/>
+      </cc:Sidebar>
     </ui:define>
   </ui:composition>
 </h:body>

@@ -10,7 +10,7 @@ import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 @SuppressWarnings("restriction")
-public class TestRestClientMonitorBean
+public class TestRestClientMonitor
 { 
   @AfterEach
   public void afterEach()
@@ -21,9 +21,7 @@ public class TestRestClientMonitorBean
   @Test
   public void noData()
   {
-    var testee = new RestClientMonitorBean();
-    assertThat(testee.getRestClients()).containsOnly("No Data");
-    assertThat(testee.getConfigurationLink()).isEqualTo("restclients.xhtml");
+    var testee = new RestClientMonitor();
     assertThat(testee.getRestClient()).isEqualTo("No Data");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
@@ -33,48 +31,25 @@ public class TestRestClientMonitorBean
   @Test
   public void withData() throws Exception
   {
-    MBeans.registerMBeanFor(new Client("client1"));
-    MBeans.registerMBeanFor(new Client("client2"));
-    var testee = new RestClientMonitorBean();
-    assertThat(testee.getRestClients()).containsOnly("test > Default > client1", "test > Default > client2", "No Data");
-    assertThat(testee.getConfigurationLink()).isEqualTo("restclientdetail.xhtml?applicationName=test&environment=Default&restClientName=client1");
+    MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
+    MBeans.registerMBeanFor(new Client("client2 (uuid-2)"));
+    var testee = new RestClientMonitor("test", "Default", "uuid-1");
     assertThat(testee.getRestClient()).isEqualTo("test > Default > client1");
+    assertThat(testee.getCallsMonitor()).isNotNull();
+    assertThat(testee.getConnectionsMonitor()).isNotNull();
+    assertThat(testee.getExecutionTimeMonitor()).isNotNull();
+    testee = new RestClientMonitor("test", "Default", "uuid-2");
+    assertThat(testee.getRestClient()).isEqualTo("test > Default > client2");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
   }
 
   @Test
-  public void restClientSelectionByCombo() throws Exception
-  {
-    MBeans.registerMBeanFor(new Client("client1"));
-    MBeans.registerMBeanFor(new Client("client2"));
-    var testee = new RestClientMonitorBean();
-    assertThat(testee.getRestClient()).isEqualTo("test > Default > client1");
-    testee.setRestClient("test > Default > client2");
-    assertThat(testee.getRestClient()).isEqualTo("test > Default > client2");
-    testee.setRestClient("No Data");
-    assertThat(testee.getRestClient()).isEqualTo("No Data");
-  }
-  
-  @Test
-  public void restClientSelectionByNavigation() throws Exception
-  {
-    MBeans.registerMBeanFor(new Client("client1"));
-    MBeans.registerMBeanFor(new Client("client2"));
-    var testee = new RestClientMonitorBean();
-    assertThat(testee.getRestClient()).isEqualTo("test > Default > client1");
-    testee.setApplicationName("test");
-    testee.setEnvironment("Default");
-    testee.setRestClientName("client2");
-    assertThat(testee.getRestClient()).isEqualTo("test > Default > client2");
-  }
-  
-  @Test
   public void connectionMonitor()
   {
-    MBeans.registerMBeanFor(new Client("client1"));
-    var testee = new RestClientMonitorBean();
+    MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
+    var testee = new RestClientMonitor("test", "Default", "uuid-1");
     
     var series = testee.getConnectionsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -93,8 +68,8 @@ public class TestRestClientMonitorBean
   @Test
   public void callsMonitor()
   {
-    MBeans.registerMBeanFor(new Client("client1"));
-    var testee = new RestClientMonitorBean();
+    MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
+    var testee = new RestClientMonitor("test", "Default", "uuid-1");
     
     var series = testee.getCallsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -114,8 +89,8 @@ public class TestRestClientMonitorBean
   @Test
   public void executionTimeMonitor()
   {
-    MBeans.registerMBeanFor(new Client("client1"));
-    var testee = new RestClientMonitorBean();
+    MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
+    var testee = new RestClientMonitor("test", "Default", "uuid-1");
     
     var series = testee.getExecutionTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);
@@ -136,7 +111,7 @@ public class TestRestClientMonitorBean
   }
 
   
-  @MBean("ivy Engine:type=External REST Web Service,application=test,environment=Default,name=#{name}")
+  @MBean("ivy Engine:type=External REST Web Service,application=test,environment=Default,name=\"#{name}\"")
   private static final class Client
   {    
     private final String name;

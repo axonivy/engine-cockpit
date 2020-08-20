@@ -21,6 +21,7 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase.Connection;
 import ch.ivyteam.enginecockpit.model.ExternalDatabase.ExecStatement;
+import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.ExternalDatabaseMonitor;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
@@ -47,6 +48,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   private ConnectionTestResult testResult;
   
   private final ConnectionTestWrapper connectionTest;
+  private ExternalDatabaseMonitor liveStats;
   
   public ExternalDatabaseDetailBean()
   {
@@ -64,8 +66,12 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   
   public void setDatabaseName(String databaseName)
   {
-    this.databaseName = databaseName;
-    reloadExternalDb();
+    if (this.databaseName == null)
+    {
+      this.databaseName = databaseName;
+      reloadExternalDb();
+      liveStats = new ExternalDatabaseMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedIApplication().getActiveEnvironment(), databaseName);
+    }
   }
 
   private void reloadExternalDb()
@@ -225,6 +231,11 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   public ConnectionTestResult getResult()
   {
     return testResult;
+  }
+  
+  public ExternalDatabaseMonitor getLiveStats()
+  {
+    return liveStats;
   }
 
 }

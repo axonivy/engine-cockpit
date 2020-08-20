@@ -36,7 +36,7 @@ public class WebTestSessions
   void sessionsContent()
   {
     $("#sessions")
-        .shouldHave(text("Sessions Monitor"))
+        .shouldHave(text("Sessions"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 

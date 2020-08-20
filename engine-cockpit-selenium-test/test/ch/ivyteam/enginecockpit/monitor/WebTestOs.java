@@ -35,7 +35,7 @@ public class WebTestOs
   void cpuContent()
   {
     $("#cpu")
-        .shouldHave(text("CPU Load Monitor"))
+        .shouldHave(text("CPU Load"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
@@ -43,7 +43,7 @@ public class WebTestOs
   void memoryContent()
   {
     $("#memory")
-        .shouldHave(text("Memory Monitor"))
+        .shouldHave(text("Memory"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
   
@@ -51,7 +51,7 @@ public class WebTestOs
   void networkContent()
   {
     $("#network")
-        .shouldHave(text("Network Monitor"))
+        .shouldHave(text("Network"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
   
@@ -59,7 +59,7 @@ public class WebTestOs
   void ioContent()
   {
     $("#io")
-        .shouldHave(text("IO Monitor"))
+        .shouldHave(text("IO"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 

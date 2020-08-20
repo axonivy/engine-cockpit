@@ -12,8 +12,10 @@ import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -22,6 +24,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -30,6 +33,12 @@ import ch.ivyteam.enginecockpit.util.Table;
 public class WebTestWebserviceDetail
 {
   private static final String WEBSERVICE_NAME = "test-web";
+  
+  @BeforeAll
+  static void setup()
+  {
+    EngineCockpitUtil.runWebService();
+  }
   
   @BeforeEach
   void beforeEach()
@@ -156,6 +165,12 @@ public class WebTestWebserviceDetail
     Selenide.refresh();
     checkEndPoint("localhost", "localhost/test");
     checkEndPointDoesNotContain("default");
+  }
+  
+  @Test
+  void liveStats()
+  {
+    EngineCockpitUtil.assertLiveStats(List.of("Web Service Calls", "Web Service Execution Time"), "Default > test-web");
   }
 
   private void setEndPoint(String defaultLink, String... fallbacks)

@@ -161,7 +161,7 @@ public abstract class Monitor
     
     public Builder title(String t)
     {
-      this.title = t + " Monitor";
+      this.title = t;
       return this;
     }
     
@@ -195,7 +195,7 @@ public abstract class Monitor
       }
       if (title == null)
       {
-        title = name +" Monitor";
+        title = name;
       }
       return new MonitorInfo(title, name, icon, yAxisLabel);
     }

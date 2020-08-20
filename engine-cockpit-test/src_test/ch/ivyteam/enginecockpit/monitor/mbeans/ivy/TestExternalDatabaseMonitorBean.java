@@ -21,9 +21,7 @@ public class TestExternalDatabaseMonitorBean
   @Test
   public void noData()
   {
-    var testee = new ExternalDatabaseMonitorBean();
-    assertThat(testee.getExternalDatabases()).containsOnly("No Data");
-    assertThat(testee.getConfigurationLink()).isEqualTo("externaldatabases.xhtml");
+    var testee = new ExternalDatabaseMonitor();
     assertThat(testee.getExternalDatabase()).isEqualTo("No Data");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
@@ -35,9 +33,12 @@ public class TestExternalDatabaseMonitorBean
   {
     MBeans.registerMBeanFor(new Db("db1"));
     MBeans.registerMBeanFor(new Db("db2"));
-    var testee = new ExternalDatabaseMonitorBean();
-    assertThat(testee.getExternalDatabases()).containsOnly("test > Default > db1", "test > Default > db2", "No Data");
-    assertThat(testee.getConfigurationLink()).isEqualTo("externaldatabasedetail.xhtml?applicationName=test&environment=Default&databaseName=db2");
+    var testee = new ExternalDatabaseMonitor("test", "Default", "db1");
+    assertThat(testee.getExternalDatabase()).isEqualTo("test > Default > db1");
+    assertThat(testee.getQueriesMonitor()).isNotNull();
+    assertThat(testee.getConnectionsMonitor()).isNotNull();
+    assertThat(testee.getExecutionTimeMonitor()).isNotNull();
+    testee = new ExternalDatabaseMonitor("test", "Default", "db2");
     assertThat(testee.getExternalDatabase()).isEqualTo("test > Default > db2");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
@@ -45,36 +46,10 @@ public class TestExternalDatabaseMonitorBean
   }
 
   @Test
-  public void ExternalDatabaseSelectionByCombo() throws Exception
-  {
-    MBeans.registerMBeanFor(new Db("db1"));
-    MBeans.registerMBeanFor(new Db("db2"));
-    var testee = new ExternalDatabaseMonitorBean();
-    assertThat(testee.getExternalDatabase()).isEqualTo("test > Default > db2");
-    testee.setExternalDatabase("test > Default > db1");
-    assertThat(testee.getExternalDatabase()).isEqualTo("test > Default > db1");
-    testee.setExternalDatabase("No Data");
-    assertThat(testee.getExternalDatabase()).isEqualTo("No Data");
-  }
-  
-  @Test
-  public void ExternalDatabaseSelectionByNavigation() throws Exception
-  {
-    MBeans.registerMBeanFor(new Db("db1"));
-    MBeans.registerMBeanFor(new Db("db2"));
-    var testee = new ExternalDatabaseMonitorBean();
-    assertThat(testee.getExternalDatabase()).isEqualTo("test > Default > db2");
-    testee.setApplicationName("test");
-    testee.setEnvironment("Default");
-    testee.setDatabaseName("db1");
-    assertThat(testee.getExternalDatabase()).isEqualTo("test > Default > db1");
-  }
-  
-  @Test
   public void connectionMonitor()
   {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new ExternalDatabaseMonitorBean();
+    var testee = new ExternalDatabaseMonitor("test", "Default", "db1");
     
     var series = testee.getConnectionsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -94,7 +69,7 @@ public class TestExternalDatabaseMonitorBean
   public void callsMonitor()
   {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new ExternalDatabaseMonitorBean();
+    var testee = new ExternalDatabaseMonitor("test", "Default", "db1");
     
     var series = testee.getQueriesMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -114,7 +89,7 @@ public class TestExternalDatabaseMonitorBean
   public void executionTimeMonitor()
   {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new ExternalDatabaseMonitorBean();
+    var testee = new ExternalDatabaseMonitor("test", "Default", "db1");
     
     var series = testee.getExecutionTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);

@@ -18,6 +18,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +32,7 @@ import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -120,6 +123,12 @@ public class WebTestSystemDb
   void testAdditionalProperties()
   {
     assertAdditionalProperties();
+  }
+  
+  @Test
+  void liveStats()
+  {
+    EngineCockpitUtil.assertLiveStats(List.of("Connections", "Transactions", "Processing Time"));
   }
   
   private static void insertDbConnection(String database, String driverName, String host, 

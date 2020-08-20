@@ -35,7 +35,7 @@ public class WebTestJvm
   void cpuContent()
   {
     $("#cpu")
-        .shouldHave(text("CPU Load Monitor"))
+        .shouldHave(text("CPU Load"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
   
@@ -43,7 +43,7 @@ public class WebTestJvm
   void classesContent()
   {
     $("#classes")
-        .shouldHave(text("Classes Monitor"))
+        .shouldHave(text("Classes"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
@@ -51,7 +51,7 @@ public class WebTestJvm
   void threadsContent()
   {
     $("#threads")
-        .shouldHave(text("Threads Monitor"))
+        .shouldHave(text("Threads"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
