@@ -42,6 +42,16 @@ Ta0 @StartRequest f30 '' #zField
 Ta0 @GridStep f31 '' #zField
 Ta0 @PushWFArc f32 '' #zField
 Ta0 @PushWFArc f33 '' #zField
+Ta0 @StartRequest f34 '' #zField
+Ta0 @RestClientCall f35 '' #zField
+Ta0 @EndTask f36 '' #zField
+Ta0 @PushWFArc f37 '' #zField
+Ta0 @PushWFArc f38 '' #zField
+Ta0 @StartRequest f39 '' #zField
+Ta0 @WSElement f40 '' #zField
+Ta0 @PushWFArc f41 '' #zField
+Ta0 @EndTask f42 '' #zField
+Ta0 @PushWFArc f43 '' #zField
 >Proto Ta0 Ta0 TestData #zField
 Ta0 f0 outLink addAdministrator.ivp #txt
 Ta0 f0 inParamDecl '<> param;' #txt
@@ -303,6 +313,57 @@ Ta0 f31 168 650 112 44 0 -7 #rect
 Ta0 f31 @|StepIcon #fIcon
 Ta0 f32 111 672 168 672 #arcP
 Ta0 f33 280 672 337 672 #arcP
+Ta0 f34 outLink executeRest.ivp #txt
+Ta0 f34 inParamDecl '<> param;' #txt
+Ta0 f34 requestEnabled true #txt
+Ta0 f34 triggerEnabled false #txt
+Ta0 f34 callSignature executeRest() #txt
+Ta0 f34 caseData businessCase.attach=true #txt
+Ta0 f34 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>executeRest.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Ta0 f34 @C|.responsibility Everybody #txt
+Ta0 f34 81 753 30 30 -49 18 #rect
+Ta0 f34 @|StartRequestIcon #fIcon
+Ta0 f35 clientId 2fb1152a-d43a-4840-b798-81ce34cef104 #txt
+Ta0 f35 path /store/inventory #txt
+Ta0 f35 168 746 112 44 0 -7 #rect
+Ta0 f35 @|RestClientCallIcon #fIcon
+Ta0 f36 337 753 30 30 0 15 #rect
+Ta0 f36 @|EndIcon #fIcon
+Ta0 f37 111 768 168 768 #arcP
+Ta0 f38 280 768 337 768 #arcP
+Ta0 f39 outLink executeWebService.ivp #txt
+Ta0 f39 inParamDecl '<> param;' #txt
+Ta0 f39 requestEnabled true #txt
+Ta0 f39 triggerEnabled false #txt
+Ta0 f39 callSignature executeWebService() #txt
+Ta0 f39 caseData businessCase.attach=true #txt
+Ta0 f39 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>executeWebService.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Ta0 f39 @C|.responsibility Everybody #txt
+Ta0 f39 81 849 30 30 -71 30 #rect
+Ta0 f39 @|StartRequestIcon #fIcon
+Ta0 f40 actionTable 'out=in;
+' #txt
+Ta0 f40 clientId 16AB1778C1FA54E5 #txt
+Ta0 f40 port SampleWebServiceSoap #txt
+Ta0 f40 operation HelloWorld #txt
+Ta0 f40 168 842 112 44 0 -7 #rect
+Ta0 f40 @|WebServiceIcon #fIcon
+Ta0 f41 111 864 168 864 #arcP
+Ta0 f42 337 849 30 30 0 15 #rect
+Ta0 f42 @|EndIcon #fIcon
+Ta0 f43 280 864 337 864 #arcP
 >Proto Ta0 .type engine.cockpit.test.data.Data #txt
 >Proto Ta0 .processKind NORMAL #txt
 >Proto Ta0 0 0 32 24 18 0 #rect
@@ -335,3 +396,11 @@ Ta0 f30 mainOut f32 tail #connect
 Ta0 f32 head f31 mainIn #connect
 Ta0 f31 mainOut f33 tail #connect
 Ta0 f33 head f29 mainIn #connect
+Ta0 f34 mainOut f37 tail #connect
+Ta0 f37 head f35 mainIn #connect
+Ta0 f35 mainOut f38 tail #connect
+Ta0 f38 head f36 mainIn #connect
+Ta0 f39 mainOut f41 tail #connect
+Ta0 f41 head f40 mainIn #connect
+Ta0 f40 mainOut f43 tail #connect
+Ta0 f43 head f42 mainIn #connect

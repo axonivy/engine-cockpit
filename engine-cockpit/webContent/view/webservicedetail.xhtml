@@ -10,7 +10,7 @@
     <f:viewParam name="environment" value="#{managerBean.selectedEnvironment}" />
   </f:metadata>
 
-  <ui:composition template="../includes/template/template.xhtml">
+  <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Services</li>
@@ -21,9 +21,6 @@
     </ui:define>
     
     <ui:define name="breadcrumb-right">
-      <a href="monitorWebServices.xhtml?applicationName=#{managerBean.selectedApplicationName}&amp;environment=#{managerBean.selectedEnvironment}&amp;webserviceId=#{webserviceDetailBean.webserviceId}" title="Monitor">
-        <i class="material-icons">track_changes</i>
-      </a>
       <a href="#" onclick="PF('helpServicesModal').show();">
         <i class="material-icons">help</i>
       </a>
@@ -50,6 +47,13 @@
         </div>
       </div>
       <cc:HelpServiceDialog service="#{webserviceDetailBean}" id="helpWebserviceDialog" />
+    </ui:define>
+    
+    <ui:define name="sidebar">
+      <cc:Sidebar jmxSource="#{webserviceDetailBean.liveStats.webService}">
+        <cc:LiveStats monitor="#{webserviceDetailBean.liveStats.callsMonitor}" id="soapCalls"/>
+        <cc:LiveStats monitor="#{webserviceDetailBean.liveStats.executionTimeMonitor}" id="soapExecutionTime"/>
+      </cc:Sidebar>
     </ui:define>
   </ui:composition>
 </h:body>

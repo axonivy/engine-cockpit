@@ -35,7 +35,7 @@ public class WebTestRequests
   void requestsContent()
   {
     $("#requests")
-        .shouldHave(text("Requests Monitor"))
+        .shouldHave(text("Requests"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
@@ -43,7 +43,7 @@ public class WebTestRequests
   void errorsContent()
   {
     $("#errors")
-        .shouldHave(text("Errors Monitor"))
+        .shouldHave(text("Errors"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
   
@@ -51,7 +51,7 @@ public class WebTestRequests
   void bytesContent()
   {
     $("#bytes")
-        .shouldHave(text("Bytes Monitor"))
+        .shouldHave(text("Bytes"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
   
@@ -59,7 +59,7 @@ public class WebTestRequests
   void processingTimeContent()
   {
     $("#processingTime")
-        .shouldHave(text("Processing Time Monitor"))
+        .shouldHave(text("Processing Time"))
         .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 }

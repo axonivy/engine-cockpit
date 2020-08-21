@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,10 @@ import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
@@ -41,16 +44,14 @@ public class WebTestEmail
   {
     SelectOneMenu language = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:languageDropDown"));
     language.selectItemByLabel("German");
-    assertThat(language.getSelectedItem()).isEqualTo("German");
+    language.selectedItemShould(Condition.exactText("German"));
     $(getActivePanelCss() + "saveEmailSettings").click();
     $(EMAIL_GROWL).shouldBe(visible, exactText("User email changes saved"));
     
     Selenide.refresh();
-    //FIXME remove when primeUi improved
-    $(getActivePanelCss() + "emailSetting\\:languageDropDown").shouldBe(visible);
-    assertThat(language.getSelectedItem()).isEqualTo("German");
+    language.selectedItemShould(Condition.exactText("German"));
     language.selectItemByLabel("English");
-    assertThat(language.getSelectedItem()).isEqualTo("English");
+    language.selectedItemShould(Condition.exactText("English"));
     $(getActivePanelCss() + "saveEmailSettings").click();
   }
   
@@ -86,6 +87,12 @@ public class WebTestEmail
     assertThat(taskCheckbox.isDisabled()).isFalse();
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty();
+  }
+  
+  @Test
+  void liveStats()
+  {
+    EngineCockpitUtil.assertLiveStats(List.of("Mails Sent", "Mail Sending Execution Time"));
   }
   
   private String getActivePanel()

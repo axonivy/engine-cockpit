@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="../includes/template/template.xhtml">
+  <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Services</li>
@@ -13,9 +13,6 @@
     </ui:define>
     
     <ui:define name="breadcrumb-right">
-      <a href="monitorSysDb.xhtml" title="Monitor">
-        <i class="material-icons">track_changes</i>
-      </a>  
       <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-database" target="_blank" rel="noopener noreferrer">
         <i class="material-icons">help</i>
       </a>
@@ -65,6 +62,14 @@
             styleClass="modal-input-button" />
         </h:form>
       </p:dialog>
+    </ui:define>
+    
+    <ui:define name="sidebar">
+      <cc:Sidebar>
+        <cc:LiveStats monitor="#{systemDatabaseMonitorBean.connectionsMonitor}" id="connections" />
+        <cc:LiveStats monitor="#{systemDatabaseMonitorBean.transactionsMonitor}" id="transactions" />
+        <cc:LiveStats monitor="#{systemDatabaseMonitorBean.processingTimeMonitor}" id="processingTime" />
+      </cc:Sidebar>
     </ui:define>
   </ui:composition>
 </h:body>

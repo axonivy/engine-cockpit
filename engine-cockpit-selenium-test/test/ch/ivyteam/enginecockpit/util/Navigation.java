@@ -43,12 +43,6 @@ public class Navigation
   private static final String MONITOR_ENGINE_REQUESTS_MENU = "#menuform\\:sr_monitor_engine_requests";
   private static final String MONITOR_ENGINE_SESSIONS_MENU = "#menuform\\:sr_monitor_engine_sessions";
   private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
-  private static final String MONITOR_SERVICES_MENU = "#menuform\\:sr_monitor_services";
-  private static final String MONITOR_SERVICES_EMAIL_MENU = "#menuform\\:sr_monitor_services_email";
-  private static final String MONITOR_SERVICES_SYSTEM_DATABASE_MENU = "#menuform\\:sr_monitor_services_sysdb";
-  private static final String MONITOR_SERVICES_EXTERNAL_DATABASES_MENU = "#menuform\\:sr_monitor_services_extdb";
-  private static final String MONITOR_SERVICES_WEB_SERVICES_MENU = "#menuform\\:sr_monitor_services_ws";
-  private static final String MONITOR_SERVICES_REST_CLIENTS_MENU = "#menuform\\:sr_monitor_services_rest";
 
   public static void toDashboard()
   {
@@ -300,42 +294,6 @@ public class Navigation
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_SESSIONS_MENU);
     assertCurrentUrlContains("monitorSession.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_SESSIONS_MENU);
-  }
-
-
-  public static void toSystemDatabase()
-  {
-    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_SYSTEM_DATABASE_MENU);
-    assertCurrentUrlContains("monitorSysDb.xhtml");
-    menuShouldBeActive(MONITOR_SERVICES_SYSTEM_DATABASE_MENU);
-  }
-
-  public static void toMonitorEmail()
-  {
-    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_EMAIL_MENU);
-    assertCurrentUrlContains("monitorEmail.xhtml");
-    menuShouldBeActive(MONITOR_SERVICES_EMAIL_MENU);
-  }
-  
-  public static void toMonitorExternalDatabases()
-  {
-    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_EXTERNAL_DATABASES_MENU);
-    assertCurrentUrlContains("monitorExternalDatabases.xhtml");
-    menuShouldBeActive(MONITOR_SERVICES_EXTERNAL_DATABASES_MENU);
-  }
-
-  public static void toWebServices()
-  {
-    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_WEB_SERVICES_MENU);
-    assertCurrentUrlContains("monitorWebServices.xhtml");
-    menuShouldBeActive(MONITOR_SERVICES_WEB_SERVICES_MENU);
-  }
-
-  public static void toMonitorRestClients()
-  {
-    toSubSubMenu(MONITOR_MENU, MONITOR_SERVICES_MENU, MONITOR_SERVICES_REST_CLIENTS_MENU);
-    assertCurrentUrlContains("monitorRestClients.xhtml");
-    menuShouldBeActive(MONITOR_SERVICES_REST_CLIENTS_MENU);
   }
 
   private static void toMenu(String menuItemPath)

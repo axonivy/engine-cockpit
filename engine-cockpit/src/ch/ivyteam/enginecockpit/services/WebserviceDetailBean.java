@@ -20,6 +20,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Webservice;
 import ch.ivyteam.enginecockpit.model.Webservice.PortType;
+import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
@@ -41,6 +42,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private ConnectionTestResult testResult;
   
   private final ConnectionTestWrapper connectionTest;
+  private WebServiceMonitor liveStats;
   
   public WebserviceDetailBean()
   {
@@ -58,8 +60,12 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   
   public void setWebserviceId(String webserviceId)
   {
-    this.webserviceId = webserviceId;
-    reloadWebservice();
+    if (this.webserviceId == null)
+    {
+      this.webserviceId = webserviceId;
+      reloadWebservice();
+      liveStats = new WebServiceMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedIApplication().getActiveEnvironment(), webserviceId);
+    }
   }
   
   private void reloadWebservice()
@@ -221,6 +227,11 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public ConnectionTestResult getResult()
   {
     return testResult;
+  }
+  
+  public WebServiceMonitor getLiveStats()
+  {
+    return liveStats;
   }
   
 }

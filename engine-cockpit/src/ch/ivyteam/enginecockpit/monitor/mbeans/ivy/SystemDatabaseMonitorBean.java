@@ -9,7 +9,7 @@ import ch.ivyteam.enginecockpit.monitor.Monitor;
 @ViewScoped
 public class SystemDatabaseMonitorBean
 {
-  private static final SystemDatabase DATABASE = new SystemDatabase();
+  private final SystemDatabase DATABASE = new SystemDatabase();
   
   public Monitor getConnectionsMonitor()
   {

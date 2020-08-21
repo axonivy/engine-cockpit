@@ -4,11 +4,17 @@ import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.create;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.createStaticViewUrl;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.texts;
+import static com.codeborne.selenide.Condition.hidden;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -91,6 +97,16 @@ public class EngineCockpitUtil
   {
     runTestProcess("16E88DD61E825E70/runDbExecution.ivp");
   }
+  
+  public static void runRestClient()
+  {
+    runTestProcess("16E88DD61E825E70/executeRest.ivp");
+  }
+  
+  public static void runWebService()
+  {
+    runTestProcess("16E88DD61E825E70/executeWebService.ivp");
+  }
 
   public static void createBusinessData()
   {
@@ -167,4 +183,28 @@ public class EngineCockpitUtil
   {
     return WebDriverRunner.getWebDriver().getCurrentUrl();
   }
+  
+  public static void assertLiveStats(List<String> expectedChartTitles)
+  {
+    assertLiveStats(expectedChartTitles, null);
+  }
+
+  public static void assertLiveStats(List<String> expectedChartTitles, String jmxSourceMessage)
+  {
+    $("#layout-config-button").shouldBe(visible).click();
+    $("#layout-config .ui-tabs-selected").shouldBe(visible, text("Live Stats"));
+    $$("#layout-config .ui-tabs-panels .ui-tabs-panel h4").shouldHave(
+            texts(expectedChartTitles));
+    $$("#layout-config .ui-tabs-panels .ui-tabs-panel .jqplot-base-canvas").shouldBe(
+            size(expectedChartTitles.size()));
+    
+    if (jmxSourceMessage != null)
+    {
+      $("#layout-config .ui-tabs-panels .ui-staticmessage").shouldHave(text(jmxSourceMessage));
+    }
+    
+    $("#layout-config .layout-config-close").click();
+    $("#layout-config .layout-config-close").shouldBe(hidden);
+  }
+
 }

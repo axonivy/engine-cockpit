@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="../includes/template/template.xhtml">
+  <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
       <li>Services</li>
@@ -13,9 +13,6 @@
     </ui:define>
     
     <ui:define name="breadcrumb-right">
-      <a href="monitorEmail.xhtml" title="Monitor">
-        <i class="material-icons">track_changes</i>
-      </a>
       <a href="#{advisorBean.cockpitEngineGuideUrl}services.html#email" target="_blank" rel="noopener noreferrer">
         <i class="material-icons">help</i>
       </a>
@@ -44,6 +41,13 @@
           </div>
         </div>
       </cc:ApplicationTabs>
+    </ui:define>
+    
+    <ui:define name="sidebar">
+      <cc:Sidebar>
+        <cc:LiveStats monitor="#{mailClientMonitorBean.sentMonitor}" id="mailsSent" />
+        <cc:LiveStats monitor="#{mailClientMonitorBean.executionTimeMonitor}" id="mailsExecutionTime" />
+      </cc:Sidebar>
     </ui:define>
   </ui:composition>
 </h:body>

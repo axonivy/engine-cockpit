@@ -17,6 +17,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.RestClient;
+import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
@@ -39,6 +40,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private RestClientDao restClientDao;
   private String restConfigKey;
   private ConnectionTestResult testResult;
+  private RestClientMonitor liveStats;
   
   private final ConnectionTestWrapper connectionTest;
   
@@ -59,8 +61,13 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   
   public void setRestClientName(String restClientName)
   {
-    this.restClientName = restClientName;
-    reloadRestClient();
+    if (this.restClientName == null)
+    {
+      this.restClientName = restClientName;
+      reloadRestClient();
+      liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(), 
+              managerBean.getSelectedIApplication().getActiveEnvironment(), restClient.getUniqueId().toString());
+    }
   }
 
   private void reloadRestClient()
@@ -177,4 +184,9 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return testResult;
   }
 
+  public RestClientMonitor getLiveStats()
+  {
+    return liveStats;
+  }
+  
 }

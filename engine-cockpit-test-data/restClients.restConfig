@@ -4,7 +4,7 @@
         <uuid>2fb1152a-d43a-4840-b798-81ce34cef104</uuid>
         <name>test-rest</name>
         <configuration>
-            <uri>http://localhost/</uri>
+            <uri>http://test-webservices.ivyteam.io:8090/api/v3</uri>
             <property>
                 <name>JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES</name>
                 <value>false</value>
