@@ -37,15 +37,15 @@ public class TestSessionMonitorBean
     
     var licensedSessions = series.get(0);
     assertThat(licensedSessions.getLabel()).isEqualTo("Licensed Sessions");
-    assertThat(licensedSessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5L)); 
+    assertThat(licensedSessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D)); 
     
     var sessions = series.get(1);
     assertThat(sessions.getLabel()).isEqualTo("Sessions");
-    assertThat(sessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7L)); 
+    assertThat(sessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D)); 
     
     var httpSessions = series.get(2);
     assertThat(httpSessions.getLabel()).isEqualTo("Http Sessions");
-    assertThat(httpSessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(6L)); 
+    assertThat(httpSessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(6.0D)); 
 
     assertThat(testee.getSessionsMonitor().getInfo()).isEqualTo("Sessions: Licensed Sessions 5, Sessions 7, Http Sessions 6, Licensed Users 100");
   }

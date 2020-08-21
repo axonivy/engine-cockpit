@@ -1,10 +1,9 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.jvm;
 
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.attribute;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.composite;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.delta;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.format;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.scale;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.attribute;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.composite;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.delta;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
 import java.lang.management.ManagementFactory;
 
@@ -13,19 +12,18 @@ import javax.faces.bean.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MMonitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MSeries;
-import ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 @ManagedBean
 @ViewScoped
 public class MemoryMonitorBean
 {
-  private static final long MEGA = 1024l*1024l;
-  private final MMonitor heapMemoryMonitor = MMonitor.build().name("Heap Memory").icon("memory").yAxisLabel("Memory [MB]").toMonitor();
-  private final MMonitor nonHeapMemoryMonitor = MMonitor.build().name("Non Heap Memory").icon("memory").yAxisLabel("Memory [MB]").toMonitor();
-  private final MMonitor gcMonitor = MMonitor.build().name("Garbage Collection").icon("delete").yAxisLabel("Time [ms]").toMonitor();
+  private final Monitor heapMemoryMonitor = Monitor.build().name("Heap Memory").icon("memory").yAxisLabel("Memory").toMonitor();
+  private final Monitor nonHeapMemoryMonitor = Monitor.build().name("Non Heap Memory").icon("memory").yAxisLabel("Memory").toMonitor();
+  private final Monitor gcMonitor = Monitor.build().name("Garbage Collection").icon("delete").yAxisLabel("Time").toMonitor();
   
   public MemoryMonitorBean()
   {
@@ -36,20 +34,20 @@ public class MemoryMonitorBean
 
   private void setupHeapMemoryMonitor()
   {
-    heapMemoryMonitor.addInfoValue(format("Used %d MB", heapMemoryUsed()));
-    heapMemoryMonitor.addInfoValue(format("Committed %d MB", heapMemoryCommitted()));
-    heapMemoryMonitor.addInfoValue(format("Init %d MB", heapMemoryInit()));
-    heapMemoryMonitor.addInfoValue(format("Max %d MB", heapMemoryMax()));
-    heapMemoryMonitor.addSeries(new MSeries(heapMemoryUsed(), "Used"));
-    heapMemoryMonitor.addSeries(new MSeries(heapMemoryCommitted(),"Committed"));
+    heapMemoryMonitor.addInfoValue(format("Used %5d", heapMemoryUsed()));
+    heapMemoryMonitor.addInfoValue(format("Committed %5d", heapMemoryCommitted()));
+    heapMemoryMonitor.addInfoValue(format("Init %5d", heapMemoryInit()));
+    heapMemoryMonitor.addInfoValue(format("Max %5d", heapMemoryMax()));
+    heapMemoryMonitor.addSeries(Series.build(heapMemoryUsed(), "Used").toSeries());
+    heapMemoryMonitor.addSeries(Series.build(heapMemoryCommitted(),"Committed").toSeries());
   }
 
   private void setupNonHeapMemoryMonitor()
   {
-    nonHeapMemoryMonitor.addInfoValue(format("Used %d MB", nonHeapMemoryUsed()));
-    nonHeapMemoryMonitor.addInfoValue(format("Committed %d MB", nonHeapMemoryCommitted()));
-    nonHeapMemoryMonitor.addSeries(new MSeries(nonHeapMemoryUsed(), "Used"));
-    nonHeapMemoryMonitor.addSeries(new MSeries(nonHeapMemoryCommitted(), "Committed"));
+    nonHeapMemoryMonitor.addInfoValue(format("Used %5d", nonHeapMemoryUsed()));
+    nonHeapMemoryMonitor.addInfoValue(format("Committed %5d", nonHeapMemoryCommitted()));
+    nonHeapMemoryMonitor.addSeries(Series.build(nonHeapMemoryUsed(), "Used").toSeries());
+    nonHeapMemoryMonitor.addSeries(Series.build(nonHeapMemoryCommitted(), "Committed").toSeries());
   }
 
   private void setupGcMonitors()
@@ -60,8 +58,8 @@ public class MemoryMonitorBean
       for (ObjectName garbageCollector : garbageCollectors)
       {
         String label = garbageCollector.getKeyProperty("name");
-        gcMonitor.addInfoValue(format(label + " %d ms/%d ms Count %d", deltaGcCollectionTime(garbageCollector), gcCollectionTime(garbageCollector), gcCollections(garbageCollector)));
-        gcMonitor.addSeries(new MSeries(deltaGcCollectionTime(garbageCollector), label));
+        gcMonitor.addInfoValue(format(label + " %t/%t Count %5d", deltaGcCollectionTime(garbageCollector), gcCollectionTime(garbageCollector), gcCollections(garbageCollector)));
+        gcMonitor.addSeries(Series.build(deltaGcCollectionTime(garbageCollector), label).toSeries());
       }
     }
     catch(MalformedObjectNameException ex)
@@ -85,48 +83,48 @@ public class MemoryMonitorBean
     return gcMonitor;
   }
   
-  private MValueProvider heapMemoryMax()
+  private ValueProvider heapMemoryMax()
   {
-    return scale(composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "HeapMemoryUsage"), "max"), MEGA);
+    return composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "HeapMemoryUsage", Unit.ONE), "max", Unit.BYTES);
   }
   
-  private MValueProvider heapMemoryInit()
+  private ValueProvider heapMemoryInit()
   {
-    return scale(composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "HeapMemoryUsage"), "init"), MEGA);
+    return composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "HeapMemoryUsage", Unit.ONE), "init", Unit.BYTES);
   }
 
-  private MValueProvider heapMemoryUsed()
+  private ValueProvider heapMemoryUsed()
   {
-    return scale(composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "HeapMemoryUsage"), "used"), MEGA);
+    return composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "HeapMemoryUsage", Unit.ONE), "used", Unit.BYTES);
   }
 
-  private MValueProvider heapMemoryCommitted()
+  private ValueProvider heapMemoryCommitted()
   {
-    return scale(composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "HeapMemoryUsage"), "committed"), MEGA);
+    return composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "HeapMemoryUsage", Unit.ONE), "committed", Unit.BYTES);
   }
 
-  private MValueProvider nonHeapMemoryCommitted()
+  private ValueProvider nonHeapMemoryCommitted()
   {
-    return scale(composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "NonHeapMemoryUsage"), "committed"), MEGA);
+    return composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "NonHeapMemoryUsage", Unit.ONE), "committed", Unit.BYTES);
   }
 
-  private MValueProvider nonHeapMemoryUsed()
+  private ValueProvider nonHeapMemoryUsed()
   {
-    return scale(composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "NonHeapMemoryUsage"), "used"), MEGA);
+    return composite(attribute(ManagementFactory.MEMORY_MXBEAN_NAME, "NonHeapMemoryUsage", Unit.ONE), "used", Unit.BYTES);
   }
 
-  private MValueProvider deltaGcCollectionTime(ObjectName garbabeCollector)
+  private ValueProvider deltaGcCollectionTime(ObjectName garbabeCollector)
   {
     return delta(gcCollectionTime(garbabeCollector));
   }
 
-  private MValueProvider gcCollectionTime(ObjectName garbabeCollector)
+  private ValueProvider gcCollectionTime(ObjectName garbabeCollector)
   {
-    return attribute(garbabeCollector, "CollectionTime");
+    return attribute(garbabeCollector, "CollectionTime", Unit.MILLI_SECONDS);
   }
   
-  private MValueProvider gcCollections(ObjectName garbabeCollector)
+  private ValueProvider gcCollections(ObjectName garbabeCollector)
   {
-    return attribute(garbabeCollector, "CollectionCount");
+    return attribute(garbabeCollector, "CollectionCount", Unit.ONE);
   }
 }

@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import ch.ivyteam.enginecockpit.monitor.mbeans.MMonitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 public final class SystemDatabase extends Database
 {
@@ -26,8 +26,8 @@ public final class SystemDatabase extends Database
     super(
         DATABASE_PERSISTENCY_SERVICE, 
         "Transactions", 
-        MMonitor.build().name("Connections").icon("insert_link").toMonitor(),
-        MMonitor.build().name("Transactions").icon("dns").toMonitor(),
-        MMonitor.build().name("Processing Time").icon("timer").yAxisLabel("Time [us]").toMonitor());
+        Monitor.build().name("Connections").icon("insert_link").toMonitor(),
+        Monitor.build().name("Transactions").icon("dns").toMonitor(),
+        Monitor.build().name("Processing Time").icon("timer").yAxisLabel("Time").toMonitor());
   }
 }

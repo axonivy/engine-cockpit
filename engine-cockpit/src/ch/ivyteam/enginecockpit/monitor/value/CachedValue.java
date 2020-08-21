@@ -1,20 +1,20 @@
-package ch.ivyteam.enginecockpit.monitor.mbeans.value;
+package ch.ivyteam.enginecockpit.monitor.value;
 
-public class MCachedValue implements MValueProvider
+public class CachedValue implements ValueProvider
 {
   private final int cacheTimes;
-  private final MValueProvider original;
+  private final ValueProvider original;
   private int read = 0;
-  private Object cachedValue;
+  private Value cachedValue;
 
-  public MCachedValue(int cacheTimes, MValueProvider original)
+  public CachedValue(int cacheTimes, ValueProvider original)
   {
     this.cacheTimes = cacheTimes;
     this.original = original;
   }
 
   @Override
-  public Object nextValue()
+  public Value nextValue()
   {
     if (read == 0)
     {

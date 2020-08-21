@@ -36,13 +36,13 @@ public class TestRequestMonitorBean
     
     var http = series.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
-    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta 
+    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta 
     
     var https = series.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
-    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta
+    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
     
-    assertThat(testee.getRequestsMonitor().getInfo()).isEqualTo("Requests: Http 0, Http Total 300, Https 0, Https Total 300");
+    assertThat(testee.getRequestsMonitor().getInfo()).isEqualTo("Requests: Http -, Http Total 300, Https -, Https Total 300");
   }
 
   @Test
@@ -55,13 +55,13 @@ public class TestRequestMonitorBean
     
     var http = series.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
-    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta 
+    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta 
     
     var https = series.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
-    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta
+    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
     
-    assertThat(testee.getErrorsMonitor().getInfo()).isEqualTo("Errors: Http 0, Http Total 4, Https 0, Https Total 4");
+    assertThat(testee.getErrorsMonitor().getInfo()).isEqualTo("Errors: Http -, Http Total 4, Https -, Https Total 4");
   }
   
   @Test
@@ -74,21 +74,21 @@ public class TestRequestMonitorBean
     
     var httpSent = series.get(0);
     assertThat(httpSent.getLabel()).isEqualTo("Http Sent");
-    assertThat(httpSent.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta 
+    assertThat(httpSent.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta 
     
     var httpReceived = series.get(1);
     assertThat(httpReceived.getLabel()).isEqualTo("Http Received");
-    assertThat(httpReceived.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta
+    assertThat(httpReceived.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
     
     var httpsSent = series.get(2);
     assertThat(httpsSent.getLabel()).isEqualTo("Https Sent");
-    assertThat(httpsSent.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta 
+    assertThat(httpsSent.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta 
     
     var httpsReceived = series.get(3);
     assertThat(httpsReceived.getLabel()).isEqualTo("Https Received");
-    assertThat(httpsReceived.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta
+    assertThat(httpsReceived.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(testee.getBytesMonitor().getInfo()).isEqualTo("Bytes: Http Sent 0/0 [kB], Http Received 0/1 [kB], Https Sent 0/0 [kB], Https Received 0/1 [kB]");
+    assertThat(testee.getBytesMonitor().getInfo()).isEqualTo("Bytes: Http Sent -/1000 B, Http Received -/2000 B, Https Sent -/1000 B, Https Received -/2000 B");
   }
 
   @Test
@@ -101,13 +101,13 @@ public class TestRequestMonitorBean
     
     var http = series.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
-    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0)); // delta 
+    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta 
     
     var https = series.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
-    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0)); // delta
+    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
     
-    assertThat(testee.getProcessingTimeMonitor().getInfo()).isEqualTo("Processing Time: Http 0 ms, Http Total 5000 ms, Https 0 ms, Https Total 5000 ms");
+    assertThat(testee.getProcessingTimeMonitor().getInfo()).isEqualTo("Processing Time: Http -, Http Total 5000 ms, Https -, Https Total 5000 ms");
   }
   
   @MBean("ivy:type=GlobalRequestProcessor,name=#{name}")

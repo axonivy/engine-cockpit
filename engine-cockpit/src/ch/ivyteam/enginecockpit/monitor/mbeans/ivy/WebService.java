@@ -1,21 +1,20 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.format;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
 import javax.management.ObjectName;
 
 import org.apache.commons.lang.StringUtils;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MMonitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MSeries;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 
 class WebService
 {
   public static final WebService NO_DATA = new WebService();
   
-  private final MMonitor callsMonitor = MMonitor.build().name("Calls").title("Web Service Calls").icon("language").toMonitor();
-  private final MMonitor executionTimeMonitor = MMonitor.build().name("Execution Time").title("Web Service Execution Time").icon("timer").yAxisLabel("Execution Time [us]").toMonitor();
+  private final Monitor callsMonitor = Monitor.build().name("Calls").title("Web Service Calls").icon("language").toMonitor();
+  private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time").title("Web Service Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
 
   private final String label;
   private final String id;
@@ -53,20 +52,20 @@ class WebService
     label = application +" > " + environment +" > " + name;
     
     var calls = new ExecutionCounter(webService.getCanonicalName(), "calls");
-    callsMonitor.addInfoValue(format("%d", calls.deltaExecutions()));
-    callsMonitor.addInfoValue(format("Total %d", calls.executions()));
-    callsMonitor.addInfoValue(format("Errors %d", calls.deltaErrors()));
-    callsMonitor.addInfoValue(format("Errors Total %d", calls.errors()));
-    callsMonitor.addSeries(new MSeries(calls.deltaExecutions(), "Calls"));
-    callsMonitor.addSeries(new MSeries(calls.deltaErrors(), "Errors"));
+    callsMonitor.addInfoValue(format("%5d", calls.deltaExecutions()));
+    callsMonitor.addInfoValue(format("Total %5d", calls.executions()));
+    callsMonitor.addInfoValue(format("Errors %5d", calls.deltaErrors()));
+    callsMonitor.addInfoValue(format("Errors Total %5d", calls.errors()));
+    callsMonitor.addSeries(Series.build(calls.deltaExecutions(), "Calls").toSeries());
+    callsMonitor.addSeries(Series.build(calls.deltaErrors(), "Errors").toSeries());
     
-    executionTimeMonitor.addInfoValue(format("Min %d us", calls.deltaMinExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Avg %d us", calls.deltaAvgExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Max %d us", calls.deltaMaxExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Total %d us", calls.executionTime()));
-    executionTimeMonitor.addSeries(new MSeries(calls.deltaMinExecutionTime(), "Min"));
-    executionTimeMonitor.addSeries(new MSeries(calls.deltaAvgExecutionTime(), "Avg"));
-    executionTimeMonitor.addSeries(new MSeries(calls.deltaMaxExecutionTime(), "Max"));
+    executionTimeMonitor.addInfoValue(format("Min %t", calls.deltaMinExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Avg %t", calls.deltaAvgExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Max %t", calls.deltaMaxExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Total %t", calls.executionTime()));
+    executionTimeMonitor.addSeries(Series.build(calls.deltaMinExecutionTime(), "Min").toSeries());
+    executionTimeMonitor.addSeries(Series.build(calls.deltaAvgExecutionTime(), "Avg").toSeries());
+    executionTimeMonitor.addSeries(Series.build(calls.deltaMaxExecutionTime(), "Max").toSeries());
   }
 
   public String id()

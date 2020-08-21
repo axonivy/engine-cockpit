@@ -8,7 +8,7 @@ import javax.faces.bean.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 @ManagedBean
 @ViewScoped

@@ -1,77 +1,78 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.attribute;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.cache;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.delta;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.derivation;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.attribute;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.cache;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.delta;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.derivation;
 
-import ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider;
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 class ExecutionCounter
 {
-  private final MValueProvider executions;
+  private final ValueProvider executions;
 
-  private final MValueProvider deltaExecutions;
+  private final ValueProvider deltaExecutions;
 
-  private final MValueProvider errors;
-  private final MValueProvider deltaErrors;
+  private final ValueProvider errors;
+  private final ValueProvider deltaErrors;
   
-  private final MValueProvider executionTime;
-  private final MValueProvider deltaMinExecutionTime;
-  private final MValueProvider deltaAvgExecutionTime;
-  private final MValueProvider deltaMaxExecutionTime;
+  private final ValueProvider executionTime;
+  private final ValueProvider deltaMinExecutionTime;
+  private final ValueProvider deltaAvgExecutionTime;
+  private final ValueProvider deltaMaxExecutionTime;
 
   ExecutionCounter(String objectName, String executionsName)
   {
-    executions = attribute(objectName, executionsName);
+    executions = attribute(objectName, executionsName, Unit.ONE);
     
     deltaExecutions = cache(1, delta(executions));
     
-    errors = attribute(objectName, "errors");
+    errors = attribute(objectName, "errors", Unit.ONE);
     deltaErrors = cache(1, delta(errors));
     
-    executionTime = attribute(objectName, executionsName+"TotalExecutionTimeInMicroSeconds");
-    deltaMinExecutionTime = cache(1, attribute(objectName, executionsName+"MinExecutionTimeDeltaInMicroSeconds"));
+    executionTime = attribute(objectName, executionsName+"TotalExecutionTimeInMicroSeconds", Unit.MICRO_SECONDS);
+    deltaMinExecutionTime = cache(1, attribute(objectName, executionsName+"MinExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
     deltaAvgExecutionTime = cache(1, derivation(executionTime, executions));
-    deltaMaxExecutionTime = cache(1, attribute(objectName, executionsName+"MaxExecutionTimeDeltaInMicroSeconds"));
+    deltaMaxExecutionTime = cache(1, attribute(objectName, executionsName+"MaxExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
   }
 
-  MValueProvider executions()
+  ValueProvider executions()
   {
     return executions;
   }
 
-  MValueProvider deltaExecutions()
+  ValueProvider deltaExecutions()
   {
     return deltaExecutions;
   }
 
-  MValueProvider errors()
+  ValueProvider errors()
   {
     return errors;
   }
   
-  MValueProvider deltaErrors()
+  ValueProvider deltaErrors()
   {
     return deltaErrors;
   }
 
-  MValueProvider deltaMinExecutionTime()
+  ValueProvider deltaMinExecutionTime()
   {    
     return deltaMinExecutionTime;
   }
 
-  MValueProvider deltaAvgExecutionTime()
+  ValueProvider deltaAvgExecutionTime()
   {
     return deltaAvgExecutionTime;
   }
 
-  MValueProvider deltaMaxExecutionTime()
+  ValueProvider deltaMaxExecutionTime()
   {
     return deltaMaxExecutionTime;
   }
 
-  MValueProvider executionTime()
+  ValueProvider executionTime()
   {
     return executionTime;
   }

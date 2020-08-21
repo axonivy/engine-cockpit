@@ -2,14 +2,17 @@ package ch.ivyteam.enginecockpit.monitor.mbeans;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider;
+import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.monitor.value.Value;
+import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
-public class MTrace extends MSeries
+public class MTrace extends Series
 {
   private final MName name;
   private final MAttribute attribute;
   private final String compositeName;
-  private Number lastValue;
+  private Value lastValue = Value.NO_VALUE;
 
   public MTrace(MName name, MAttribute attribute)
   {
@@ -18,18 +21,18 @@ public class MTrace extends MSeries
   
   public MTrace(MName name, MAttribute attribute, String compositeName)
   {
-    super(createValueProvider(name, attribute, compositeName), createLabel(name, attribute, compositeName));
+    super(build(createValueProvider(name, attribute, compositeName), createLabel(name, attribute, compositeName)));
     this.name = name;
     this.attribute = attribute;
     this.compositeName = compositeName;
   }
 
-  private static MValueProvider createValueProvider(MName name, MAttribute attribute, String compositeName)
+  private static ValueProvider createValueProvider(MName name, MAttribute attribute, String compositeName)
   {
-    var provider = MValueProvider.attribute(name, attribute);
+    var provider = ValueProvider.attribute(name, attribute, Unit.ONE);
     if (compositeName != null)
     {
-      provider = MValueProvider.composite(provider, compositeName);
+      provider = ValueProvider.composite(provider, compositeName, Unit.ONE);
     }
     return provider;
   }
@@ -66,11 +69,11 @@ public class MTrace extends MSeries
   
   public Number getLastValue()
   {
-    return lastValue;
+    return lastValue.numberValue();
   }
 
   @Override
-  protected Number nextValue()
+  protected Value nextValue()
   {
     lastValue = super.nextValue();
     return lastValue;
