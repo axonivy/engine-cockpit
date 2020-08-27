@@ -46,6 +46,7 @@ public class SecurityConfigDetailBean
   private String userFilter;
   private String updateTime;
   private boolean importOnDemand;
+  private boolean updateEnabled;
   private LdapBrowser ldapBrowser;
   private String ldapBrowserTarget;
   private ExternalSecuritySystemConfiguration securityConfiguration;
@@ -106,6 +107,8 @@ public class SecurityConfigDetailBean
     updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
     importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
             securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND));
+    updateEnabled = getInitBooleanValue(ConfigKey.UPDATE_ENABLED,
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED));
     ldapBrowser = new LdapBrowser();
   }
   
@@ -276,6 +279,16 @@ public class SecurityConfigDetailBean
   {
     this.importOnDemand = importOnDemand;
   }
+  
+  public boolean isUpdateEnabled()
+  {
+    return updateEnabled;
+  }
+
+  public void setUpdateEnabled(boolean updateEnabled)
+  {
+    this.updateEnabled = updateEnabled;
+  }
 
 
   public List<String> getDerefAliases()
@@ -312,6 +325,8 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
     setConfiguration(ConfigKey.IMPORT_ONDEMAND, 
             getSaveBooleanValue(this.importOnDemand, securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
+    setConfiguration(ConfigKey.UPDATE_ENABLED, 
+            getSaveBooleanValue(this.updateEnabled, securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED)));
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System configuration saved"));
