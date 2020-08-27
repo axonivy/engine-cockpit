@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 public class RestClientMonitor
 {

@@ -22,7 +22,7 @@ import javax.management.ReflectionException;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean(name="mBeansBean")

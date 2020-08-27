@@ -29,13 +29,13 @@ public class TestEmailMonitorBean
     
     var mails = series.get(0);
     assertThat(mails.getLabel()).isEqualTo("Mails");
-    assertThat(mails.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta
+    assertThat(mails.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
     
     var errors = series.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
-    assertThat(errors.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta
+    assertThat(errors.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
     
-    assertThat(testee.getSentMonitor().getInfo()).isEqualTo("Mails Sent: Count 0/3 Errors 0/4");
+    assertThat(testee.getSentMonitor().getInfo()).isEqualTo("Mails Sent: Count -/3 Errors -/4");
   }
 
   @Test
@@ -49,17 +49,17 @@ public class TestEmailMonitorBean
     
     var min = series.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
-    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5L)); 
+    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D)); 
     
     var avg = series.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
-    assertThat(avg.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0)); // delta
+    assertThat(avg.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
     var max = series.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
-    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7L)); 
+    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D)); 
     
-    assertThat(testee.getExecutionTimeMonitor().getInfo()).isEqualTo("Execution Time: Min 5 Avg 0 Max 7 Total 6 us");
+    assertThat(testee.getExecutionTimeMonitor().getInfo()).isEqualTo("Execution Time: Min 5 us Avg - Max 7 us Total 6 us");
   }
   
   @MBean("ivy Engine:name=External Mail Server")

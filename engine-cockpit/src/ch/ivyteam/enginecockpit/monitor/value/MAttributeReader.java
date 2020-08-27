@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.monitor.mbeans.value;
+package ch.ivyteam.enginecockpit.monitor.value;
 
 import java.lang.management.ManagementFactory;
 
@@ -8,31 +8,28 @@ import javax.management.MBeanException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
-final class MPatternAttributeReader implements MValueProvider
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+
+final class MAttributeReader implements ValueProvider
 {
   private final ObjectName mBeanName;
   private final String attributeName;
+  private final Unit unit;
   
-  MPatternAttributeReader(ObjectName mBeanName, String attributeName)
+  MAttributeReader(ObjectName mBeanName, String attributeName, Unit unit)
   {
     this.mBeanName = mBeanName;
     this.attributeName = attributeName;
+    this.unit = unit;
   }
 
   @Override
-  public Object nextValue()
+  public Value nextValue()
   {
     var server = ManagementFactory.getPlatformMBeanServer();
     try
     {
-      var names = server.queryNames(mBeanName, null);
-      long value = 0l;
-      for (ObjectName name : names)
-      {
-        Number val = (Number)server.getAttribute(name, attributeName);
-        value += val.longValue();
-      }
-      return value;
+      return new Value(server.getAttribute(mBeanName, attributeName), unit);
     }
     catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex)
     {

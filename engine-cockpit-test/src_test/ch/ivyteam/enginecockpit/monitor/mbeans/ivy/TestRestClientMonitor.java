@@ -56,11 +56,11 @@ public class TestRestClientMonitor
     
     var openConnections = series.get(0);
     assertThat(openConnections.getLabel()).isEqualTo("Open");
-    assertThat(openConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(2));
+    assertThat(openConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(2.0D));
     
     var usedConnections = series.get(1);
     assertThat(usedConnections.getLabel()).isEqualTo("Used");
-    assertThat(usedConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(1));    
+    assertThat(usedConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(1.0D));    
     
     assertThat(testee.getConnectionsMonitor().getInfo()).isEqualTo("Connections: Used 1, Open 2, Max 50");
   }
@@ -76,13 +76,13 @@ public class TestRestClientMonitor
     
     var calls = series.get(0);
     assertThat(calls.getLabel()).isEqualTo("Calls");
-    assertThat(calls.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta
+    assertThat(calls.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
     
     var errors = series.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
-    assertThat(errors.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0L)); // delta
+    assertThat(errors.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
     
-    assertThat(testee.getCallsMonitor().getInfo()).isEqualTo("Calls: 0, Total 3, Errors 0, Errors Total 4");
+    assertThat(testee.getCallsMonitor().getInfo()).isEqualTo("Calls: -, Total 3, Errors -, Errors Total 4");
 
   }
 
@@ -97,17 +97,17 @@ public class TestRestClientMonitor
     
     var min = series.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
-    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5L)); 
+    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D)); 
     
     var avg = series.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
-    assertThat(avg.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0)); // delta
+    assertThat(avg.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
     var max = series.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
-    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7L));
+    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D));
     
-    assertThat(testee.getExecutionTimeMonitor().getInfo()).isEqualTo("Execution Time: Min 5 us, Avg 0 us, Max 7 us, Total 6 us");
+    assertThat(testee.getExecutionTimeMonitor().getInfo()).isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
   

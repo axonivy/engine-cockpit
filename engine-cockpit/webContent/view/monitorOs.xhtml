@@ -23,10 +23,10 @@
         <p:poll update="@form" interval="1" />
         
         <div class="ui-g dashboard">
-          <cc:MonitorGraph monitor="#{monitorBean.cpuMonitor}" id="cpu"/>
-          <cc:MonitorGraph monitor="#{monitorBean.memoryMonitor}" id="memory"/>
-          <cc:MonitorGraph monitor="#{monitorBean.networkMonitor}" id="network"/>
-          <cc:MonitorGraph monitor="#{monitorBean.ioMonitor}" id="io"/>
+          <cc:MonitorGraph monitor="#{osBean.cpuMonitor}" id="cpu"/>
+          <cc:MonitorGraph monitor="#{osBean.memoryMonitor}" id="memory"/>
+          <cc:MonitorGraph monitor="#{osBean.networkMonitor}" id="network"/>
+          <cc:MonitorGraph monitor="#{osBean.ioMonitor}" id="io"/>
         </div>
       </h:form>
     </ui:define>

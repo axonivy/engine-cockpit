@@ -1,26 +1,26 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.jvm;
 
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.attribute;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.format;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.percentage;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.attribute;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.percentage;
 
 import java.lang.management.ManagementFactory;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MMonitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MSeries;
-import ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 @ManagedBean
 @ViewScoped
 public class JvmMonitorBean
 {
-  private final MMonitor cpuMonitor = MMonitor.build().name("CPU Load").icon("computer").yAxisLabel("Load [%]").toMonitor();
-  private final MMonitor classesMonitor = MMonitor.build().name("Classes").icon("free_breakfast").toMonitor();
-  private final MMonitor threadsMonitor = MMonitor.build().name("Threads").icon("gesture").toMonitor();
+  private final Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer").yAxisLabel("Load").toMonitor();
+  private final Monitor classesMonitor = Monitor.build().name("Classes").icon("free_breakfast").toMonitor();
+  private final Monitor threadsMonitor = Monitor.build().name("Threads").icon("gesture").toMonitor();
   
   public JvmMonitorBean()
   {
@@ -31,29 +31,29 @@ public class JvmMonitorBean
 
   private void setupCpuMonitor()
   {
-    cpuMonitor.addInfoValue(format("System %.1f%%", systemCpuLoad()));
-    cpuMonitor.addInfoValue(format("Axon.ivy %.1f%%", processCpuLoad()));
-    cpuMonitor.addSeries(new MSeries(systemCpuLoad(), "System"));
-    cpuMonitor.addSeries(new MSeries(processCpuLoad(), "Process"));
+    cpuMonitor.addInfoValue(format("System %.1f", systemCpuLoad()));
+    cpuMonitor.addInfoValue(format("Axon.ivy %.1f", processCpuLoad()));
+    cpuMonitor.addSeries(Series.build(systemCpuLoad(), "System").toSeries());
+    cpuMonitor.addSeries(Series.build(processCpuLoad(), "Process").toSeries());
   }
 
   private void setupClassesMonitor()
   {
-    classesMonitor.addInfoValue(format("Loaded %d", classesLoaded()));
-    classesMonitor.addInfoValue(format("Unloaded  %d", classesUnloaded()));
-    classesMonitor.addInfoValue(format("Total Loaded %d", classesTotalLoaded()));
-    classesMonitor.addSeries(new MSeries(classesLoaded(), "Loaded"));
-    classesMonitor.addSeries(new MSeries(classesUnloaded(), "Unloaded"));
+    classesMonitor.addInfoValue(format("Loaded %5d", classesLoaded()));
+    classesMonitor.addInfoValue(format("Unloaded  %5d", classesUnloaded()));
+    classesMonitor.addInfoValue(format("Total Loaded %5d", classesTotalLoaded()));
+    classesMonitor.addSeries(Series.build(classesLoaded(), "Loaded").toSeries());
+    classesMonitor.addSeries(Series.build(classesUnloaded(), "Unloaded").toSeries());
   }
 
   private void setupThreadsMonitor()
   {
-    threadsMonitor.addInfoValue(format("Active %d", threadsCount()));
-    threadsMonitor.addInfoValue(format("Daemons  %d", threadsDeamonCount()));
-    threadsMonitor.addInfoValue(format("Peak %d", threadsPeakCount()));
-    threadsMonitor.addInfoValue(format("Total Started %d", threadsTotalStarted()));
-    threadsMonitor.addSeries(new MSeries(threadsCount(), "Active"));
-    threadsMonitor.addSeries(new MSeries(threadsDeamonCount(), "Daemons"));
+    threadsMonitor.addInfoValue(format("Active %5d", threadsCount()));
+    threadsMonitor.addInfoValue(format("Daemons  %5d", threadsDeamonCount()));
+    threadsMonitor.addInfoValue(format("Peak %5d", threadsPeakCount()));
+    threadsMonitor.addInfoValue(format("Total Started %5d", threadsTotalStarted()));
+    threadsMonitor.addSeries(Series.build(threadsCount(), "Active").toSeries());
+    threadsMonitor.addSeries(Series.build(threadsDeamonCount(), "Daemons").toSeries());
   }
 
   public Monitor getCpuMonitor()
@@ -71,48 +71,48 @@ public class JvmMonitorBean
     return threadsMonitor;
   }
   
-  private MValueProvider processCpuLoad()
+  private ValueProvider processCpuLoad()
   {
-    return percentage(attribute(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, "ProcessCpuLoad"));
+    return percentage(attribute(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, "ProcessCpuLoad", Unit.PERCENTAGE));
   }
 
-  private MValueProvider systemCpuLoad()
+  private ValueProvider systemCpuLoad()
   {
-    return percentage(attribute(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, "SystemCpuLoad"));
+    return percentage(attribute(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, "SystemCpuLoad", Unit.PERCENTAGE));
   }
   
-  private MValueProvider classesLoaded()
+  private ValueProvider classesLoaded()
   {
-    return attribute(ManagementFactory.CLASS_LOADING_MXBEAN_NAME, "LoadedClassCount");
+    return attribute(ManagementFactory.CLASS_LOADING_MXBEAN_NAME, "LoadedClassCount", Unit.ONE);
   }
 
-  private MValueProvider classesUnloaded()
+  private ValueProvider classesUnloaded()
   {
-    return attribute(ManagementFactory.CLASS_LOADING_MXBEAN_NAME, "UnloadedClassCount");
+    return attribute(ManagementFactory.CLASS_LOADING_MXBEAN_NAME, "UnloadedClassCount", Unit.ONE);
   }
 
-  private MValueProvider classesTotalLoaded()
+  private ValueProvider classesTotalLoaded()
   {
-    return attribute(ManagementFactory.CLASS_LOADING_MXBEAN_NAME, "TotalLoadedClassCount");
+    return attribute(ManagementFactory.CLASS_LOADING_MXBEAN_NAME, "TotalLoadedClassCount", Unit.ONE);
   }
 
-  private MValueProvider threadsDeamonCount()
+  private ValueProvider threadsDeamonCount()
   {
-    return attribute(ManagementFactory.THREAD_MXBEAN_NAME, "DaemonThreadCount");
+    return attribute(ManagementFactory.THREAD_MXBEAN_NAME, "DaemonThreadCount", Unit.ONE);
   }
   
-  private MValueProvider threadsPeakCount()
+  private ValueProvider threadsPeakCount()
   {
-    return attribute(ManagementFactory.THREAD_MXBEAN_NAME, "PeakThreadCount");
+    return attribute(ManagementFactory.THREAD_MXBEAN_NAME, "PeakThreadCount", Unit.ONE);
   }
 
-  private MValueProvider threadsTotalStarted()
+  private ValueProvider threadsTotalStarted()
   {
-    return attribute(ManagementFactory.THREAD_MXBEAN_NAME, "TotalStartedThreadCount");
+    return attribute(ManagementFactory.THREAD_MXBEAN_NAME, "TotalStartedThreadCount", Unit.ONE);
   }
 
-  private MValueProvider threadsCount()
+  private ValueProvider threadsCount()
   {
-    return attribute(ManagementFactory.THREAD_MXBEAN_NAME, "ThreadCount");
+    return attribute(ManagementFactory.THREAD_MXBEAN_NAME, "ThreadCount", Unit.ONE);
   }
 }

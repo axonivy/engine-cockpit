@@ -1,8 +1,14 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans;
 
 import java.util.List;
+import java.util.Optional;
 
-public class MTraceMonitor extends MMonitor
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.MonitorInfo;
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.monitor.value.Value;
+
+public class MTraceMonitor extends Monitor
 {
   public MTraceMonitor()
   {
@@ -23,5 +29,11 @@ public class MTraceMonitor extends MMonitor
   public List<MTrace> getTraces()
   {
     return (List<MTrace>)(List<?>)getSeries();
+  }
+  
+  @Override
+  protected Unit scaleUnit(Optional<Value> maxValue)
+  {
+    return null;
   }
 }

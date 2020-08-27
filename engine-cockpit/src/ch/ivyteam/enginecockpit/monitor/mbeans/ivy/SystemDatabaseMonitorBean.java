@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 @ManagedBean
 @ViewScoped

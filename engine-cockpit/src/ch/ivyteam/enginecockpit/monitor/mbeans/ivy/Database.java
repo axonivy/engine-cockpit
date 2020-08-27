@@ -1,20 +1,20 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.attribute;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.cache;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.format;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.attribute;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.cache;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
 import javax.management.ObjectName;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MMonitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MSeries;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 
 class Database 
 {
-  private final MMonitor connectionsMonitor;
-  private final MMonitor queriesMonitor;
-  private final MMonitor executionTimeMonitor;
+  private final Monitor connectionsMonitor;
+  private final Monitor queriesMonitor;
+  private final Monitor executionTimeMonitor;
 
 
   private final String label;
@@ -22,7 +22,7 @@ class Database
   private final String environment;
   private final String application;
 
-  Database(ObjectName extDatabase, String queries, MMonitor connectionsMonitor, MMonitor queriesMonitor, MMonitor executionTimeMonitor)
+  Database(ObjectName extDatabase, String queries, Monitor connectionsMonitor, Monitor queriesMonitor, Monitor executionTimeMonitor)
   {
     this.connectionsMonitor = connectionsMonitor;
     this.queriesMonitor = queriesMonitor;
@@ -46,32 +46,32 @@ class Database
     label = toLabel(application, environment, name);
     var canonicalName = extDatabase.getCanonicalName();
 
-    var usedConnections = cache(1, attribute(canonicalName, "usedConnections"));
-    var openConnections = attribute(canonicalName, "openConnections");
-    var maxConnections = attribute(canonicalName, "maxConnections");
+    var usedConnections = cache(1, attribute(canonicalName, "usedConnections", Unit.ONE));
+    var openConnections = attribute(canonicalName, "openConnections", Unit.ONE);
+    var maxConnections = attribute(canonicalName, "maxConnections", Unit.ONE);
     var transactions = new ExecutionCounter(canonicalName, "transactions");
 
-    connectionsMonitor.addInfoValue(format("Used %d", usedConnections));
-    connectionsMonitor.addInfoValue(format("Open %d", openConnections));
-    connectionsMonitor.addInfoValue(format("Max %d", maxConnections));
-    connectionsMonitor.addSeries(new MSeries(openConnections, "Open"));
-    connectionsMonitor.addSeries(new MSeries(usedConnections, "Used"));
+    connectionsMonitor.addInfoValue(format("Used %5d", usedConnections));
+    connectionsMonitor.addInfoValue(format("Open %5d", openConnections));
+    connectionsMonitor.addInfoValue(format("Max %5d", maxConnections));
+    connectionsMonitor.addSeries(Series.build(openConnections, "Open").toSeries());
+    connectionsMonitor.addSeries(Series.build(usedConnections, "Used").toSeries());
     
-    queriesMonitor.addInfoValue(format("%d", transactions.deltaExecutions()));
-    queriesMonitor.addInfoValue(format("Total %d", transactions.executions()));
-    queriesMonitor.addInfoValue(format("Errors %d", transactions.deltaErrors()));
-    queriesMonitor.addInfoValue(format("Errors Total %d", transactions.errors()));
+    queriesMonitor.addInfoValue(format("%5d", transactions.deltaExecutions()));
+    queriesMonitor.addInfoValue(format("Total %5d", transactions.executions()));
+    queriesMonitor.addInfoValue(format("Errors %5d", transactions.deltaErrors()));
+    queriesMonitor.addInfoValue(format("Errors Total %5d", transactions.errors()));
     
-    queriesMonitor.addSeries(new MSeries(transactions.deltaExecutions(), queries));
-    queriesMonitor.addSeries(new MSeries(transactions.deltaErrors(), "Errors"));
+    queriesMonitor.addSeries(Series.build(transactions.deltaExecutions(), queries).toSeries());
+    queriesMonitor.addSeries(Series.build(transactions.deltaErrors(), "Errors").toSeries());
     
-    executionTimeMonitor.addInfoValue(format("Min %d us", transactions.deltaMinExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Avg %d us", transactions.deltaAvgExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Max %d us", transactions.deltaMaxExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Total %d us", transactions.executionTime()));
-    executionTimeMonitor.addSeries(new MSeries(transactions.deltaMinExecutionTime(), "Min"));
-    executionTimeMonitor.addSeries(new MSeries(transactions.deltaAvgExecutionTime(), "Avg"));
-    executionTimeMonitor.addSeries(new MSeries(transactions.deltaMaxExecutionTime(), "Max"));
+    executionTimeMonitor.addInfoValue(format("Min %t", transactions.deltaMinExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Avg %t", transactions.deltaAvgExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Max %t", transactions.deltaMaxExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Total %t", transactions.executionTime()));
+    executionTimeMonitor.addSeries(Series.build(transactions.deltaMinExecutionTime(), "Min").toSeries());
+    executionTimeMonitor.addSeries(Series.build(transactions.deltaAvgExecutionTime(), "Avg").toSeries());
+    executionTimeMonitor.addSeries(Series.build(transactions.deltaMaxExecutionTime(), "Max").toSeries());
   }
 
   public String name()

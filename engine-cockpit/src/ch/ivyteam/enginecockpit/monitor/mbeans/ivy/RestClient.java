@@ -1,24 +1,24 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.attribute;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.cache;
-import static ch.ivyteam.enginecockpit.monitor.mbeans.value.MValueProvider.format;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.attribute;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.cache;
+import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
 import javax.management.ObjectName;
 
 import org.apache.commons.lang.StringUtils;
 
-import ch.ivyteam.enginecockpit.monitor.Monitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MMonitor;
-import ch.ivyteam.enginecockpit.monitor.mbeans.MSeries;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Series;
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 
 class RestClient
 {
   public static final RestClient NO_DATA = new RestClient();
   
-  private final MMonitor connectionsMonitor = MMonitor.build().name("Connections").title("REST Client Connections").icon("insert_link").toMonitor();
-  private final MMonitor callsMonitor = MMonitor.build().name("Calls").title("REST Client Calls").icon("settings_ethernet").toMonitor();
-  private final MMonitor executionTimeMonitor = MMonitor.build().name("Execution Time").title("REST Client Execution Time").icon("timer").yAxisLabel("Execution Time [us]").toMonitor();
+  private final Monitor connectionsMonitor = Monitor.build().name("Connections").title("REST Client Connections").icon("insert_link").toMonitor();
+  private final Monitor callsMonitor = Monitor.build().name("Calls").title("REST Client Calls").icon("settings_ethernet").toMonitor();
+  private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time").title("REST Client Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
 
   private final String label;
   private final String id;
@@ -56,31 +56,31 @@ class RestClient
     environment = restClient.getKeyProperty("environment");
     label = toLabel(application, environment, name);
 
-    var usedConnections = cache(1, attribute(restClient, "usedConnections"));
-    var openConnections = attribute(restClient, "openConnections");
-    var maxConnections = attribute(restClient, "maxConnections");
+    var usedConnections = cache(1, attribute(restClient, "usedConnections", Unit.ONE));
+    var openConnections = attribute(restClient, "openConnections", Unit.ONE);
+    var maxConnections = attribute(restClient, "maxConnections", Unit.ONE);
     
-    connectionsMonitor.addInfoValue(format("Used %d", usedConnections));
-    connectionsMonitor.addInfoValue(format("Open %d", openConnections));
-    connectionsMonitor.addInfoValue(format("Max %d", maxConnections));
-    connectionsMonitor.addSeries(new MSeries(openConnections, "Open"));
-    connectionsMonitor.addSeries(new MSeries(usedConnections, "Used"));
+    connectionsMonitor.addInfoValue(format("Used %5d", usedConnections));
+    connectionsMonitor.addInfoValue(format("Open %5d", openConnections));
+    connectionsMonitor.addInfoValue(format("Max %5d", maxConnections));
+    connectionsMonitor.addSeries(Series.build(openConnections, "Open").toSeries());
+    connectionsMonitor.addSeries(Series.build(usedConnections, "Used").toSeries());
 
     var calls = new ExecutionCounter(restClient.getCanonicalName(), "calls");
-    callsMonitor.addInfoValue(format("%d", calls.deltaExecutions()));
-    callsMonitor.addInfoValue(format("Total %d", calls.executions()));
-    callsMonitor.addInfoValue(format("Errors %d", calls.deltaErrors()));
-    callsMonitor.addInfoValue(format("Errors Total %d", calls.errors()));
-    callsMonitor.addSeries(new MSeries(calls.deltaExecutions(), "Calls"));
-    callsMonitor.addSeries(new MSeries(calls.deltaErrors(), "Errors"));
+    callsMonitor.addInfoValue(format("%5d", calls.deltaExecutions()));
+    callsMonitor.addInfoValue(format("Total %5d", calls.executions()));
+    callsMonitor.addInfoValue(format("Errors %5d", calls.deltaErrors()));
+    callsMonitor.addInfoValue(format("Errors Total %5d", calls.errors()));
+    callsMonitor.addSeries(Series.build(calls.deltaExecutions(), "Calls").toSeries());
+    callsMonitor.addSeries(Series.build(calls.deltaErrors(), "Errors").toSeries());
     
-    executionTimeMonitor.addInfoValue(format("Min %d us", calls.deltaMinExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Avg %d us", calls.deltaAvgExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Max %d us", calls.deltaMaxExecutionTime()));
-    executionTimeMonitor.addInfoValue(format("Total %d us", calls.executionTime()));
-    executionTimeMonitor.addSeries(new MSeries(calls.deltaMinExecutionTime(), "Min"));
-    executionTimeMonitor.addSeries(new MSeries(calls.deltaAvgExecutionTime(), "Avg"));
-    executionTimeMonitor.addSeries(new MSeries(calls.deltaMaxExecutionTime(), "Max"));
+    executionTimeMonitor.addInfoValue(format("Min %t", calls.deltaMinExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Avg %t", calls.deltaAvgExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Max %t", calls.deltaMaxExecutionTime()));
+    executionTimeMonitor.addInfoValue(format("Total %t", calls.executionTime()));
+    executionTimeMonitor.addSeries(Series.build(calls.deltaMinExecutionTime(), "Min").toSeries());
+    executionTimeMonitor.addSeries(Series.build(calls.deltaAvgExecutionTime(), "Avg").toSeries());
+    executionTimeMonitor.addSeries(Series.build(calls.deltaMaxExecutionTime(), "Max").toSeries());
   }
 
   public String id()

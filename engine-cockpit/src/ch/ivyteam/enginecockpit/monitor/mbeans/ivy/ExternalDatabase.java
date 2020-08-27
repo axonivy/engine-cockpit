@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
 import javax.management.ObjectName;
 
-import ch.ivyteam.enginecockpit.monitor.mbeans.MMonitor;
+import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 final class ExternalDatabase extends Database
 {
@@ -13,9 +13,9 @@ final class ExternalDatabase extends Database
     super(
         extDatabase, 
         "Queries",      
-        MMonitor.build().title("External Database Connections").name("Connections").icon("insert_link").toMonitor(),
-        MMonitor.build().title("External Database Queries").name("Queries").icon("dns").toMonitor(),
-        MMonitor.build().title("External Database Query Execution Time").name("Execution Time").icon("timer").yAxisLabel("Execution Time [us]").toMonitor());
+        Monitor.build().title("External Database Connections").name("Connections").icon("insert_link").toMonitor(),
+        Monitor.build().title("External Database Queries").name("Queries").icon("dns").toMonitor(),
+        Monitor.build().title("External Database Query Execution Time").name("Execution Time").icon("timer").yAxisLabel("Execution Time [us]").toMonitor());
   }
 
   private ExternalDatabase()
