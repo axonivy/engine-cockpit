@@ -10,7 +10,7 @@
 	<properties>
 		<engine.page.url>https://jenkins.ivyteam.io/job/ivy-core_product/job/release%252F8.0/lastSuccessfulBuild/</engine.page.url>
 		<engine.dir>../.ivy-engine</engine.dir>
-		<revision>8.0.8-SNAPSHOT</revision>
+		<revision>8.0.9-SNAPSHOT</revision>
 		<flatten.plugin.version>1.2.3</flatten.plugin.version>
 	</properties>
 

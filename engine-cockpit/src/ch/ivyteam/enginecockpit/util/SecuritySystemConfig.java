@@ -28,6 +28,7 @@ public class SecuritySystemConfig
     String BINDING_DEFAULT_CONTEXT = "Binding.DefaultContext";
     String BINDING_IMPORT_USERS_OF_GROUP = "Binding.ImportUsersOfGroup";
     String BINDING_USER_FILTER = "Binding.UserFilter";
+    String UPDATE_ENABLED = "UpdateEnabled";
     String UPDATE_TIME = "UpdateTime";
     String IMPORT_ONDEMAND = "Import.OnDemand";
     
@@ -49,6 +50,7 @@ public class SecuritySystemConfig
     String DEREF_ALIAS = "always";
     String REFERRAL = "follow";
     String EMAIL = "mail";
+    boolean UPDATE_ENABLED = true;
     String UPDATE_TIME = "00:00";
     boolean IMPORT_ONDEMAND = false;
 

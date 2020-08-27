@@ -44,6 +44,7 @@ public class SecurityConfigDetailBean
   private String defaultContext;
   private String importUsersOfGroup;
   private String userFilter;
+  private boolean updateEnabled;
   private String updateTime;
   private boolean importOnDemand;
   private LdapBrowser ldapBrowser;
@@ -101,6 +102,8 @@ public class SecurityConfigDetailBean
     defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
     userFilter = getConfiguration(ConfigKey.BINDING_USER_FILTER);
+    updateEnabled = getInitBooleanValue(ConfigKey.UPDATE_ENABLED,
+    		SecuritySystemConfig.DefaultValue.UPDATE_ENABLED);
     updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
     importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
             SecuritySystemConfig.DefaultValue.IMPORT_ONDEMAND);
@@ -265,6 +268,16 @@ public class SecurityConfigDetailBean
     this.updateTime = updateTime;
   }
   
+  public boolean isUpdateEnabled()
+  {
+    return updateEnabled;
+  }
+
+  public void setUpdateEnabled(boolean updateEnabled)
+  {
+    this.updateEnabled = updateEnabled;
+  }
+  
   public boolean isImportOnDemand()
   {
     return importOnDemand;
@@ -307,6 +320,8 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, 
             StringUtils.equals(this.referral, SecuritySystemConfig.DefaultValue.REFERRAL) ? "" : this.referral);
+    setConfiguration(ConfigKey.UPDATE_ENABLED, 
+            getSaveBooleanValue(this.updateEnabled, SecuritySystemConfig.DefaultValue.UPDATE_ENABLED));
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
     setConfiguration(ConfigKey.IMPORT_ONDEMAND, 
             getSaveBooleanValue(this.importOnDemand, SecuritySystemConfig.DefaultValue.IMPORT_ONDEMAND));
