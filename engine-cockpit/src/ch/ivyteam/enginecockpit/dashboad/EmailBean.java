@@ -7,7 +7,7 @@ import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.email.EmailSetupProviderUtil;
+import ch.ivyteam.ivy.email.MailClientConfigProvider;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -30,11 +30,11 @@ public class EmailBean
   
   private void initEmailConfigs()
   {
-    var config = EmailSetupProviderUtil.getServerEmailSenderConfiguration();
-    host = config.getSmtpServer();
-    port = config.getSmtpPort();
-    email = config.getFrom();
-    user = config.getSmtpUser();
+    var config = MailClientConfigProvider.get(null);
+    host = config.host();
+    port = config.port();
+    email = config.from();
+    user = config.user();
     triggerTime = IConfiguration.instance().getOrDefault(EmailUtil.DAILYTASKSUMMARY_TRIGGERTIME);
     subject = "Test Mail";
     message = "This is a test mail.";
