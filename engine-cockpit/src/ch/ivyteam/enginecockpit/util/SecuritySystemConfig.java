@@ -32,6 +32,7 @@ public class SecuritySystemConfig
     String BINDING_USER_FILTER = IJndiSecuritySystemConstants.BINDING_USER_FILTER;
     String UPDATE_TIME = IJndiSecuritySystemConstants.UPDATE_TIME;
     String IMPORT_ONDEMAND = IJndiSecuritySystemConstants.IMPORT_ON_DEMAND;
+    String UPDATE_ENABLED = IJndiSecuritySystemConstants.UPDATE_ENABLED;
     
     String USER_ATTRIBUTE_ID = IJndiSecuritySystemConstants.USER_ATTRIBUTE_ID;
     String USER_ATTRIBUTE_NAME = IJndiSecuritySystemConstants.USER_ATTRIBUTE_NAME;
