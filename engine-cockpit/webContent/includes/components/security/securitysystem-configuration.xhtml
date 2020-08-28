@@ -55,6 +55,10 @@
     <p:outputLabel for="useSsl" value="Use SSL" />
     <p:selectBooleanCheckbox id="useSsl"
       value="#{securityConfigDetailBean.ssl}" />
+    
+    <p:outputLabel for="enableDailySynch" value="Auto Synch Enabled" />
+    <p:selectBooleanCheckbox id="enableDailySynch"
+      value="#{securityConfigDetailBean.updateEnabled}" />
 
     <p:outputLabel for="syncTime" value="Synchronization Time" />
     <h:panelGroup>
