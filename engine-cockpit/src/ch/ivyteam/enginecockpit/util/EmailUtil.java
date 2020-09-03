@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.util;
 
 import java.util.regex.Pattern;
 
-import ch.ivyteam.ivy.email.MailClient;
-import ch.ivyteam.ivy.email.MailMessage;
+import ch.ivyteam.ivy.mail.MailClient;
+import ch.ivyteam.ivy.mail.MailMessage;
 
 @SuppressWarnings("restriction")
 public class EmailUtil
