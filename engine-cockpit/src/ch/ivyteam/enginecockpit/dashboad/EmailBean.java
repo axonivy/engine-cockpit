@@ -7,7 +7,7 @@ import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.email.MailClientConfigProvider;
+import ch.ivyteam.ivy.mail.MailClientConfigProvider;
 
 @SuppressWarnings("restriction")
 @ManagedBean
