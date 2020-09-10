@@ -6,6 +6,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -46,8 +47,8 @@ public class WebTestDashboard
   void checkLicenceInfo()
   {
     $("#tasksButtonLicenceDetail").shouldBe(visible).click();
-    $("#licenceDetailDialog").shouldBe(visible);
-    new Table(By.id("licenceInfoForm:licenceInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
+    $("h1").shouldHave(text("Licence"));
+    $("#licence\\:licWarnMessage").shouldHave(text("Please upload a valid licence"));
   }
   
   @Test

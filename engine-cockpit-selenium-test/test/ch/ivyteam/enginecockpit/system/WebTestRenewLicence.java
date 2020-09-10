@@ -1,8 +1,8 @@
-package ch.ivyteam.enginecockpit.renewlicence;
+package ch.ivyteam.enginecockpit.system;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetLicence;
-import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -13,8 +13,12 @@ import java.io.File;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+
+import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestRenewLicence
@@ -24,18 +28,14 @@ public class WebTestRenewLicence
   void beforeEach()
   {
     login();
-    $("#uploadLicenceBtn").click();
-    $("#licenceUpload\\:fileUploadModal").shouldBe(visible);
-    $("#selectedFileOutput").shouldHave(text(".lic"));
-    $("#uploadError").shouldBe(empty);
-    
+    Navigation.toLicence();
     File file = new File(System.getProperty("user.dir")+"/resources/test.lic");
     String path = file.getAbsolutePath();
     $("#fileInput").sendKeys(path);
-    $("#licenceUpload\\:uploadBtn").click();
     $("#uploadLog").shouldHave(text("Successfully uploaded licence"));
-    $("#licenceUpload\\:closeDeploymentBtn").click();
-    $("#licenceType").shouldHave(text("Standard Edition"));
+    var table = new Table(By.id("licence:fileUploadForm:licenceInfoTable"));
+    table.firstColumnShouldBe(size(13));
+    table.valueForEntryShould("licence.type", 2, text("Standard Edition"));
   }
   
   @AfterEach
@@ -66,11 +66,10 @@ public class WebTestRenewLicence
 
   private void sendRenew(String mailTo)
   {
-    $("#tasksButtonLicenceRenew").click();
+    $("#renewForm\\:tasksButtonLicenceRenew").click();
     $("#renewLicence\\:renewLicence").shouldBe(visible);
     $("#renewLicence\\:form\\:emailInput").sendKeys(mailTo);
     $("#renewLicence\\:form\\:renewBtn").click();
   }
 
-  
 }

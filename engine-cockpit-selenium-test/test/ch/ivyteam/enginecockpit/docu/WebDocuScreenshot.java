@@ -70,7 +70,6 @@ public class WebDocuScreenshot
   {
     login();
     takeScreenshot("engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeDialogScreenshot("engine-cockpit-dialog-licence", By.id("uploadLicenceBtn"));
     takeDialogScreenshot("engine-cockpit-dialog-test-mail", By.id("mailConfigForm:openTestMailBtn"));
     Navigation.toApplications();
     takeScreenshot("engine-cockpit-applications", new Dimension(SCREENSHOT_WIDTH, 500));
@@ -123,6 +122,8 @@ public class WebDocuScreenshot
     takeDialogScreenshot("engine-cockpit-dialog-new-admin", By.id("addAdminForm:newAdminBtn"));
     Navigation.toSystemDb();
     takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 900));
+    Navigation.toLicence();
+    takeScreenshot("engine-cockpit-licence", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toSystemConfig();
     takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toCluster();

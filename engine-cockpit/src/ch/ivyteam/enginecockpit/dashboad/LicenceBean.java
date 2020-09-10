@@ -193,6 +193,23 @@ public class LicenceBean extends StepStatus
     reloadLicenceMessages();
   }
   
+  public List<UserSession> getActiveSessions()
+  {
+    return securityManager.getSessions().stream()
+            .filter(s -> !s.isSessionUserUnknown())
+            .filter(s -> !s.isSessionUserSystemUser())
+            .map(s -> new UserSession(s))
+            .distinct()
+            .collect(Collectors.toList());
+  }
+  
+  public void killSession(String session)
+  {
+    securityManager.getSessions().stream()
+            .filter(s -> StringUtils.equals(s.getSessionUserName(), session))
+            .forEach(s -> s.logoutSessionUser());
+  }
+  
   private String calculateSessions()
   {
     int licensedSessions = securityManager.getLicensedSessions();
@@ -224,5 +241,48 @@ public class LicenceBean extends StepStatus
   private String getSessionUsername()
   {
     return ISession.current().getSessionUserName();
+  }
+  
+  public class UserSession
+  {
+    private String name;
+    private int count;
+
+    public UserSession(ISession session)
+    {
+      this.name = session.getSessionUserName();
+      this.count = session.getMySessions().size();
+    }
+    
+    public String getName()
+    {
+      return name;
+    }
+    
+    public int getCount()
+    {
+      return count;
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+      if (obj == this)
+      {
+        return true;
+      }
+      if (obj == null || obj.getClass() != this.getClass())
+      {
+        return false;
+      }
+      UserSession other = (UserSession) obj;
+      return other.name.equals(other.name);
+    }
+    
+    @Override
+    public int hashCode()
+    {
+      return name.hashCode();
+    }
   }
 }

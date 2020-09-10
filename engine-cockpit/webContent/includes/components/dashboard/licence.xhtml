@@ -7,12 +7,10 @@
   <i class="material-icons table-icon panel-title-icon">vpn_key</i>
   <h:outputText value="Licence" />
 </f:facet>
-<p:commandButton id="tasksButtonLicenceDetail" onclick="PF('licenceDetailDialog').show();" title="Licence Details" type="button"
-  icon="ui-icon-info" styleClass="secondary-btn card-button" />
+<p:commandButton id="tasksButtonLicenceDetail" onclick="window.location.href='licence.xhtml'" title="Configure Licence" type="button"
+  icon="ui-icon-settings" styleClass="secondary-btn card-button" />
 <p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events" type="button"
   icon="ui-icon-notifications" styleClass="secondary-btn card-button" rendered="#{not empty licenceBean.licenceEvents}" />
-<p:commandButton id="tasksButtonLicence" title="Upload Licence" type="button" icon="ui-icon-cloud-upload"
-  styleClass="secondary-btn card-button" rendered="#{licenceBean.installed}" onclick="PF('fileUploadModal').show()" />
 <p:panelGrid rendered="#{licenceBean.installed}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>
@@ -22,8 +20,6 @@
   <label>Expires</label>
   <h:panelGroup>
     <h:outputText id="expiryDate" value="#{licenceBean.expiryDate}" />
-    <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button" icon="ui-icon-refresh"
-      value="Renew" style="float: right;" rendered="#{licenceBean.showRenewLicFeature()}" onclick="PF('renewLicence').show()" />
   </h:panelGroup>
   <label>Named users</label>
   <h:outputText value="#{licenceBean.users}" />
@@ -34,10 +30,6 @@
   <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}"/>
   <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn" detail="#{licenceBean.problemMessage}"/>
   <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" rendered="#{!licenceBean.installed or !licenceBean.valid}"
-    icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
+    icon="ui-icon-cloud-upload" onclick="window.location.href='licence.xhtml'" />
 </p:panelGrid>
-
-<cc:RenewLicence id="renewLicence" title="Renew Licence"/>
-<cc:FileUpload id="licenceUpload" apiUrl="licence" title="Licence Upload" acceptFiles=".lic" />
-<ui:include src="../../dialogs/licenceinfo.xhtml" />
 </html>

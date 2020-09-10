@@ -33,7 +33,6 @@ body .ui-steps .ui-steps-item .step-ok .ui-steps-number {
 }
 #uploadStatus {
   padding: 0; 
-  line-height: 30px;
   margin-right: 10px;
 }
 #drop_zone {
