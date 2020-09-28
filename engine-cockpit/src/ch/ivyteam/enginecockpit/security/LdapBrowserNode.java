@@ -49,6 +49,10 @@ public class LdapBrowserNode
       try
       {
         Attribute attribute = context.getAttributes(fullName, new String[] {"objectClass"}).get("objectClass");
+        if (attribute == null)
+        {
+          return ICON_DEFAULT;
+        }
         if (isGroup(attribute))
         {
           return ICON_GROUP;
@@ -58,9 +62,9 @@ public class LdapBrowserNode
           return ICON_USER;
         }
       }
-      catch (NamingException ex)
+      catch (Exception ex)
       {
-        // use default icon
+        return ICON_DEFAULT;
       }
     }
     return ICON_DEFAULT;
