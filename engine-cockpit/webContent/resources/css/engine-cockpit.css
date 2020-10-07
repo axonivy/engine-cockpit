@@ -210,6 +210,13 @@ body {
     display: none;
   }
 }
+.ui-datatable .table-cell-autocut {
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  width: 100%; 
+  display: inline-block;
+}
 
 /*Table Paging*/
 .ui-fluid .ui-paginator {
