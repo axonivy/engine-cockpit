@@ -6,8 +6,12 @@
   <f:metadata>
     <f:viewParam name="calendarName" value="#{businessCalendarBean.calendarSelection}"/>
   </f:metadata>
-
+  
   <ui:composition template="../includes/template/template.xhtml">
+    
+    <ui:define name="head">
+      <h:outputStylesheet name="css/primeflex.min.css" library="serenity-layout" />
+    </ui:define>
 
     <ui:define name="breadcrumb">
       <li>Configuration</li>
@@ -27,14 +31,6 @@
       <div class="ui-g">
         <div class="ui-g-12 ui-lg-6 dashboard-card">
           <ui:include src="../includes/components/configuration/weekConfiguration.xhtml"/>
-        </div>
-        
-        <div class="ui-g-12 ui-lg-6 dashboard-card">
-          <ui:include src="../includes/components/configuration/freeDaysOfYear.xhtml"/>
-        </div>
-        
-        <div class="ui-g-12 ui-lg-6 dashboard-card">
-          <ui:include src="../includes/components/configuration/freeEasterRelativeDays.xhtml"/>
         </div>
         
         <div class="ui-g-12 ui-lg-6 dashboard-card">

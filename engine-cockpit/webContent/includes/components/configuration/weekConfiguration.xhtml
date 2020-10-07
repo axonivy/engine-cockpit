@@ -3,44 +3,50 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
   
+  <style>
+  .box {
+    background-color: var(--ivy-primary-color-light);
+		text-align: center;
+		padding-top: 1em;
+		padding-bottom: 1em;
+		border-radius: 4px;
+  }
+  .box.free {
+    background-color: var(--ivy-tertinary-color-green-light);
+  }
+  </style>
+  
   <p:panel styleClass="min-height-350" id="weekConfigurationPanel">
     <f:facet name="header">
       <i class="material-icons table-icon panel-title-icon">settings</i>
       Week configuration
     </f:facet>
     
-    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
-      <label>Start day of week</label>
-      <h:outputText value="#{businessCalendarBean.activeCalendar.firstDayOfWeek}"/>
-    </p:panelGrid>
-    <br/>
+    <div class="p-grid">
+      <p:repeat var="day" value="#{businessCalendarBean.activeCalendar.week}">
+	    <div class="p-col">
+        <div class="box #{day.free ? 'free' : ''}" title="#{day.free ? 'free' : 'work'}">#{day.name}</div>
+	    </div>
+      </p:repeat>
+		</div>
     
-    <p:dataTable var="freeDaysOfWeek" value="#{businessCalendarBean.activeCalendar.freeDaysOfWeek}">
-      <p:column headerText="Free days of week">
-          <h:outputText value="#{freeDaysOfWeek.description}" />
-      </p:column>
-   
-      <p:column headerText="Day">
-          <h:outputText value="#{freeDaysOfWeek.value}" />
-      </p:column>
-      
-      <p:column headerText="Calendar">
-          <h:outputText value="#{freeDaysOfWeek.calendarName}" />
-      </p:column>
-    </p:dataTable>
-    <br/>
-  
     <p:dataTable var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">
       <p:column headerText="Working time">
-          <h:outputText value="#{workingTime.description}" />
+        <h:outputText value="#{workingTime.desc}" />
       </p:column>
    
-      <p:column headerText="Time">
-          <h:outputText value="#{workingTime.value}" />
+      <p:column headerText="From to">
+        <h:outputText value="#{workingTime.value}">
+          <i class="material-icons table-icon">#{workingTime.icon}</i>
+        </h:outputText>
       </p:column>
       
-      <p:column headerText="Calendar">
-          <h:outputText value="#{workingTime.calendarName}" />
+      <p:column headerText="Defined by">
+        <a href="businesscalendar-detail.xhtml?calendarName=#{workingTime.calendarName}">
+          <h:outputText value="#{workingTime.calendarName}">
+            <i class="material-icons table-icon">date_range</i>
+          </h:outputText>
+        </a>
       </p:column>
     </p:dataTable>
   </p:panel>
