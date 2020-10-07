@@ -27,12 +27,12 @@
   	<p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
   	<p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
     <p:column headerText="All Permissions">
-      <h:outputText value="#{permission.name}">
+      <h:outputText value="#{permission.name}" title="#{permission.path}">
         <i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
       </h:outputText>
     </p:column>
 
-    <p:column style="width: 40px; text-align: center;" styleClass="permission-icon">
+    <p:column style="width: 62px; text-align: center;" styleClass="permission-icon">
       <h:outputText rendered="#{permission.grant}">
         <i class="fa fa-check table-icon no-margin" title="Permission granted"/>
       </h:outputText>
