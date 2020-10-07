@@ -10,7 +10,7 @@
 <h:form id="propertiesForm">
   <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
   <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-    actionListener="#{memberProperty.setProperty(null)}" update=":propertyModal"
+    actionListener="#{memberProperty.setProperty(null)}" update="propertyModalForm:propertyModal"
     title="Add" icon="ui-icon-add" styleClass="secondary-btn card-button"/>
   
   <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
@@ -33,7 +33,7 @@
     </p:column>
 
     <p:column headerText="Value" filterBy="#{property.value}">
-      <h:outputText value="#{property.value}" />
+      <h:outputText value="#{property.value}" title="#{property.value}" styleClass="table-cell-autocut" />
       <h:panelGroup rendered="#{property.managed}">
         <i class="material-icons table-icon" title="Property is managed by the external security system">synchronize</i>
       </h:panelGroup>
@@ -47,16 +47,16 @@
           <p:ajax listener="#{memberProperty.removeProperty(property.key)}" update="@form"/>
         </p:commandButton>
         <p:commandButton id="editPropertyBtn" actionListener="#{memberProperty.setProperty(property)}"
-          icon="ui-icon-pencil" title="Edit" update=":propertyModal" disabled="#{property.managed}"
+          icon="ui-icon-pencil" title="Edit" update="propertyModalForm:propertyModal" disabled="#{property.managed}"
           styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('propertyModal').show();" process="@this" />
       </p:outputLabel>
     </p:column>
   </p:dataTable>
 </h:form>
 
-<p:dialog style="min-width: 300px;" header="Property" id="propertyModal" widgetVar="propertyModal"
-  modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="propertyModalForm">
+<h:form id="propertyModalForm">
+  <p:dialog width="auto" header="Property" id="propertyModal" widgetVar="propertyModal"
+    modal="true" responsive="true" closeOnEscape="true">
     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
@@ -70,16 +70,18 @@
       
       <label>Value</label>
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="propertyValueInput" requiredMessage="Value is required" 
+        <p:inputTextarea id="propertyValueInput" requiredMessage="Value is required" rows="5" cols="100" autoResize="false"
           value="#{memberProperty.property.value}" required="true" />
         <p:message for="propertyValueInput" id="propertyValueMessage" />
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="saveProperty" validateClient="true" ajax="false" update=":propertiesForm" type="submit"
-      actionListener="#{memberProperty.saveProperty}" value="Save" icon="ui-icon-save"
-      styleClass="modal-input-button" />
-    <p:commandLink id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
-      styleClass="secondary-btn modal-input-button" />
-  </h:form>
-</p:dialog>
+    <f:facet name="footer">
+      <p:commandLink id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
+        styleClass="secondary-btn modal-input-button" />
+      <p:commandButton id="saveProperty" validateClient="true" ajax="false" update=":propertiesForm"
+        actionListener="#{memberProperty.saveProperty}" value="Save" icon="ui-icon-save"
+        styleClass="modal-input-button" />
+    </f:facet>
+  </p:dialog>
+</h:form>
 </html>

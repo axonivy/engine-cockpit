@@ -25,7 +25,7 @@ public class WebTestProperties
 {
   private static final String PROPERTY_VALUE_MESSAGE = "#propertyModalForm\\:propertyValueMessage";
   private static final String PROPERTY_NAME_MESSAGE = "#propertyModalForm\\:propertyNameMessage";
-  private static final String PROPERTY_MODAL = "#propertyModal";
+  private static final String PROPERTY_MODAL = "#propertyModalForm\\:propertyModal";
   private static final String PROPERTY_NAME_INPUT = "#propertyModalForm\\:propertyNameInput";
   private static final String PROPERTIES_GROWL = "#propertiesForm\\:propertiesMessage_container";
   private static final String SAVE_PROPERTY = "#propertyModalForm\\:saveProperty";
