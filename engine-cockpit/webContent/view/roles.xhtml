@@ -54,9 +54,9 @@
 	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.roles.filter}">
 	                <p:ajax event="keyup" delay="500" update="@form:tree" />
 	              </p:inputText>
-                  <p:commandButton id="ex" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{roleBean.roles.expandAllNodes}"
+                  <p:commandButton id="expandAll" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{roleBean.roles.expandAllNodes}"
                     update="tree" title="Expand all" styleClass="secondary-btn" />
-                  <p:commandButton id="col" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{roleBean.roles.collapseAllNodes}"
+                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{roleBean.roles.collapseAllNodes}"
                     update="tree"  title="Collapse all" styleClass="secondary-btn" />
 	            </p:outputPanel>
 	          </div>

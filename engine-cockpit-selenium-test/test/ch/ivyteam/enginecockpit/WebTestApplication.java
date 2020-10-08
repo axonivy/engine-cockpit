@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -77,6 +78,17 @@ public class WebTestApplication
     stopAppInsideDetailView();
     Navigation.toApplications();
     deleteNewApplication(getNewAppId());
+  }
+  
+  @Test
+  void testExpandCollapseTree()
+  {
+    Table table = new Table(By.className("ui-treetable"), true);
+    table.firstColumnShouldBe(sizeLessThanOrEqual(3));
+    $("#card\\:form\\:expandAll").shouldBe(visible).click();
+    table.firstColumnShouldBe(sizeGreaterThan(3));
+    $("#card\\:form\\:collapseAll").shouldBe(visible).click();
+    table.firstColumnShouldBe(sizeLessThanOrEqual(3));
   }
 
   private void stopAppInsideDetailView()

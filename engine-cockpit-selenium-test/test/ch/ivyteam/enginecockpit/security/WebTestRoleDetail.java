@@ -24,6 +24,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -214,6 +215,21 @@ public class WebTestRoleDetail
     $("#ldapBrowser\\:chooseLdapName").click();
     $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
     $("#roleInformationForm\\:externalSecurityName").shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+  }
+  
+  @Test
+  void testExpandCollapsePermissionTree()
+  {
+    getVisibleTreeNodes().shouldBe(size(4));
+    $("#permissionsForm\\:collapseAll").shouldBe(visible).click();
+    getVisibleTreeNodes().shouldBe(size(1));
+    $("#permissionsForm\\:expandAll").shouldBe(visible).click();
+    getVisibleTreeNodes().shouldBe(sizeGreaterThan(50));
+  }
+  
+  private ElementsCollection getVisibleTreeNodes()
+  {
+    return $$("#permissionsForm\\:permissionTable .ui-treetable-data > tr").filter(visible);
   }
 
   private void clearRoleInfoInputs()

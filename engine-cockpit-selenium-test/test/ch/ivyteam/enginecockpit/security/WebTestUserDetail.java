@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
@@ -34,6 +35,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestUserDetail
@@ -244,7 +246,7 @@ public class WebTestUserDetail
     $(firstPermissionCss + "unDenyPermissionBtn").click();
     $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
   }
-
+  
   @Test
   void testSynchronizeUser()
   {
@@ -257,6 +259,18 @@ public class WebTestUserDetail
     $("#synchUserForm\\:userSynchName").shouldBe(disabled, value(USER_AD));
     $("#synchUserForm\\:synchUserVar").click();
     $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
+  }
+  
+  @Test
+  void testExpandCollapseRoleTree()
+  {
+    Navigation.toUserDetail(USER_FOO);
+    Table table = new Table(By.id("rolesOfUserForm:rolesTree"), true);
+    table.firstColumnShouldBe(size(3));
+    $("#rolesOfUserForm\\:expandAll").shouldBe(visible).click();
+    table.firstColumnShouldBe(size(4));
+    $("#rolesOfUserForm\\:collapseAll").shouldBe(visible).click();
+    table.firstColumnShouldBe(size(1));
   }
 
   private void checkUserIsExternal()

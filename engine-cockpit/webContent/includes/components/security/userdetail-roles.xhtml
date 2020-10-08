@@ -20,9 +20,9 @@
         <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{userDetailBean.roles.filter}">
           <p:ajax event="keyup" delay="500" update="@form:rolesTree" />
         </p:inputText>
-        <p:commandButton id="ex" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{userDetailBean.roles.expandAllNodes}"
+        <p:commandButton id="expandAll" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{userDetailBean.roles.expandAllNodes}"
           update="rolesTree" title="Expand all" styleClass="secondary-btn" />
-        <p:commandButton id="col" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{userDetailBean.roles.collapseAllNodes}"
+        <p:commandButton id="collapseAll" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{userDetailBean.roles.collapseAllNodes}"
           update="rolesTree"  title="Collapse all" styleClass="secondary-btn" />
       </p:outputPanel>
     </div>

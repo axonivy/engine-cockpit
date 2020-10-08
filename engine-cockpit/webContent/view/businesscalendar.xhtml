@@ -40,9 +40,9 @@
 	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{businessCalendarBean.filter}">
 	                <p:ajax event="keyup" delay="300" update="@form:tree" />
 	              </p:inputText>
-	              <p:commandButton id="ex" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{businessCalendarBean.expandAllNodes}"
+	              <p:commandButton id="expandAll" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{businessCalendarBean.expandAllNodes}"
                     update="tree" title="Expand all" styleClass="secondary-btn" />
-                  <p:commandButton id="col" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{businessCalendarBean.collapseAllNodes}"
+                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{businessCalendarBean.collapseAllNodes}"
                     update="tree"  title="Collapse all" styleClass="secondary-btn" />
 	            </p:outputPanel>
 	          </div>
