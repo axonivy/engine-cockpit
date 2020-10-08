@@ -54,12 +54,16 @@
 	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.roles.filter}">
 	                <p:ajax event="keyup" delay="500" update="@form:tree" />
 	              </p:inputText>
+                  <p:commandButton id="expandAll" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{roleBean.roles.expandAllNodes}"
+                    update="tree" title="Expand all" styleClass="secondary-btn" />
+                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{roleBean.roles.collapseAllNodes}"
+                    update="tree"  title="Collapse all" styleClass="secondary-btn" />
 	            </p:outputPanel>
 	          </div>
 	        </div>
           <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role" dynamic="true">
-            <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-            <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+            <p:ajax event="expand" listener="#{roleBean.roles.nodeExpand}"/>
+            <p:ajax event="collapse" listener="#{roleBean.roles.nodeCollapse}"/>
             <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role">
               <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
                 <h:outputText value="#{role.name}" />

@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.configuration;
 
-import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -11,41 +9,33 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
+import ch.ivyteam.enginecockpit.TreeView;
 import ch.ivyteam.enginecockpit.model.BusinessCalendar;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.scripting.objects.Tree;
 
 @ManagedBean
 @ViewScoped
-public class BusinessCalendarBean
+public class BusinessCalendarBean extends TreeView
 {
   private ManagerBean managerBean;
-  private TreeNode treeRootNode;
   private BusinessCalendar activeCalendar;
   private String calendarSelection;
   private String environmentCalendar;
-
-  private String filter = "";
-  private TreeNode filteredTreeRootNode;
 
   public BusinessCalendarBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
-    reloadBusinessCalendar();
+    environmentCalendar = managerBean.getSelectedIApplication().getActualEnvironment().getBusinessCalendar().getName();
+    reloadTree();
   }
   
-  public void reloadBusinessCalendar()
-  {
-    treeRootNode = new DefaultTreeNode("Calendars", null);
-    environmentCalendar = managerBean.getSelectedIApplication().getActualEnvironment().getBusinessCalendar().getName();
-    loadCalendarTree(treeRootNode);
-  }
-
-  private void loadCalendarTree(TreeNode rootNode)
+  @Override
+  protected void buildTree()
   {
     Tree rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings().getAllBusinessCalendarConfigurations();
-    TreeNode node = new DefaultTreeNode(findCalendar(rootTree.getInfo()), rootNode);
+    TreeNode node = new DefaultTreeNode(findCalendar(rootTree.getInfo()), rootTreeNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);
   }
@@ -94,39 +84,15 @@ public class BusinessCalendarBean
   {
     return environmentCalendar;
   }
-
-  public TreeNode getRootNode()
-  {
-    if (filter.isEmpty())
-    {
-      return treeRootNode;
-    }
-    return filteredTreeRootNode;
-  }
   
-  public String getFilter()
-  {
-    return filter;
-  }
-  
-  public void setFilter(String filter)
-  {
-    this.filter = filter.toLowerCase();
-    filteredTreeRootNode = new DefaultTreeNode("Filtered calendars", null);
-    filterTreeRootNode(treeRootNode.getChildren());
-  }
-  
+  @Override
   @SuppressWarnings("unused")
-  private void filterTreeRootNode(List<TreeNode> nodes)
+  protected void filterNode(TreeNode node)
   {
-    for (TreeNode node : nodes)
+    BusinessCalendar calendar = (BusinessCalendar) node.getData();
+    if (calendar.getName().toLowerCase().contains(filter))
     {
-      BusinessCalendar calendar = (BusinessCalendar) node.getData();
-      if (calendar.getName().toLowerCase().contains(filter))
-      {
-        new DefaultTreeNode(calendar, filteredTreeRootNode);
-      }
-      filterTreeRootNode(node.getChildren());
+      new DefaultTreeNode(calendar, filteredTreeNode);
     }
   }
   

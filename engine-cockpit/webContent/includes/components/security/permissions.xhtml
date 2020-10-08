@@ -20,12 +20,16 @@
         <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{permissionBean.filter}">
           <p:ajax event="keyup" delay="500" update="@form:permissionTable" />
         </p:inputText>
+        <p:commandButton id="expandAll" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{permissionBean.expandAllNodes}"
+          update="permissionTable" title="Expand all" styleClass="secondary-btn" />
+        <p:commandButton id="collapseAll" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{permissionBean.collapseAllNodes}"
+          update="permissionTable"  title="Collapse all" styleClass="secondary-btn" />
       </p:outputPanel>
     </div>
   </div>
-  <p:treeTable id="permissionTable" value="#{permissionBean.permissions}" var="permission">
-  	<p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-  	<p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+  <p:treeTable id="permissionTable" value="#{permissionBean.tree}" var="permission">
+  	<p:ajax event="expand" listener="#{permissionBean.nodeExpand}"/>
+  	<p:ajax event="collapse" listener="#{permissionBean.nodeCollapse}"/>
     <p:column headerText="All Permissions">
       <h:outputText value="#{permission.name}" title="#{permission.path}">
         <i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>

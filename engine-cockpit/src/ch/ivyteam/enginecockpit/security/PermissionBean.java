@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.security;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,6 +15,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.ManagerBean;
+import ch.ivyteam.enginecockpit.TreeView;
 import ch.ivyteam.enginecockpit.model.AbstractPermission;
 import ch.ivyteam.enginecockpit.model.Permission;
 import ch.ivyteam.enginecockpit.model.PermissionGroup;
@@ -28,13 +28,10 @@ import ch.ivyteam.ivy.security.ISecurityMember;
 
 @ManagedBean
 @ViewScoped
-public class PermissionBean
+public class PermissionBean extends TreeView
 {
-  private TreeNode rootTreeNode;
-  private TreeNode filteredRootTreeNode;
   private Map<Long, Permission> permissionMap;
   private Map<Long, PermissionGroup> permissionGroupMap;
-  private String filter = "";
   private String member;
 
   private ManagerBean managerBean;
@@ -54,7 +51,7 @@ public class PermissionBean
   public void setMember(String member)
   {
     this.member = URLDecoder.decode(member, StandardCharsets.UTF_8);
-    reloadPermissions();
+    reloadTree();
   }
 
   public String getUserMember()
@@ -67,19 +64,9 @@ public class PermissionBean
     setMember("#" + member);
   }
 
-  public TreeNode getPermissions()
+  @Override
+  protected void buildTree()
   {
-    if (filter.isEmpty())
-    {
-      return rootTreeNode;
-    }
-    return filteredRootTreeNode;
-  }
-
-  public void reloadPermissions()
-  {
-    filter = "";
-    rootTreeNode = new DefaultTreeNode("Permissions", null);
     permissionMap = new HashMap<>();
     permissionGroupMap = new HashMap<>();
     ISecurityMember iMember = getSecurityMember();
@@ -128,32 +115,17 @@ public class PermissionBean
     }
   }
 
+  @Override
   @SuppressWarnings("unused")
-  private void filterRootTreeNode(List<TreeNode> nodes)
+  protected void filterNode(TreeNode node)
   {
-    for (TreeNode node : nodes)
+    AbstractPermission permission = (AbstractPermission) node.getData();
+    if (permission.getName().toLowerCase().contains(filter.toLowerCase()))
     {
-      AbstractPermission permission = (AbstractPermission) node.getData();
-      if (permission.getName().toLowerCase().contains(filter.toLowerCase()))
-      {
-        new DefaultTreeNode(permission, filteredRootTreeNode);
-      }
-      filterRootTreeNode(node.getChildren());
+      new DefaultTreeNode(permission, filteredTreeNode);
     }
   }
 
-  public String getFilter()
-  {
-    return filter;
-  }
-
-  public void setFilter(String filter)
-  {
-    this.filter = filter;
-    filteredRootTreeNode = new DefaultTreeNode("Filtered roles", null);
-    filterRootTreeNode(rootTreeNode.getChildren());
-  }
- 
   public void reSetRootPermissionGroup()
   {
     reSetPermissionGroup(getSecurityDescriptor().getSecurityDescriptorType()

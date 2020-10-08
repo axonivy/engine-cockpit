@@ -20,12 +20,16 @@
         <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{userDetailBean.roles.filter}">
           <p:ajax event="keyup" delay="500" update="@form:rolesTree" />
         </p:inputText>
+        <p:commandButton id="expandAll" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{userDetailBean.roles.expandAllNodes}"
+          update="rolesTree" title="Expand all" styleClass="secondary-btn" />
+        <p:commandButton id="collapseAll" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{userDetailBean.roles.collapseAllNodes}"
+          update="rolesTree"  title="Collapse all" styleClass="secondary-btn" />
       </p:outputPanel>
     </div>
   </div>
   <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node">
-    <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-    <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+    <p:ajax event="expand" listener="#{userDetailBean.roles.nodeExpand}"/>
+    <p:ajax event="collapse" listener="#{userDetailBean.roles.nodeCollapse}"/>
     <p:column headerText="All Roles" sortBy="#{role.name}">
       <p:treeNode type="role" rendered="#{node.type == 'role'}">
 	      <a href="roledetail.xhtml?roleName=#{role.name}">

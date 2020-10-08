@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -77,6 +78,27 @@ public class WebTestRoles
     $("#rolesOfUserForm .table-search-input-withicon").sendKeys("role-");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(101));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last().shouldHave(text("The current search has more than 100 results."));
+  }
+  
+  @Test
+  void testExpandCollapseTree()
+  {
+    Tab.switchToTab("test-ad");
+    getVisibleTreeNodes().shouldBe(size(3));
+    $(getTreeFormId() + "\\:expandAll").shouldBe(visible).click();
+    getVisibleTreeNodes().shouldBe(size(4));
+    $(getTreeFormId() + "\\:collapseAll").shouldBe(visible).click();
+    getVisibleTreeNodes().shouldBe(size(1));
+  }
+  
+  private ElementsCollection getVisibleTreeNodes()
+  {
+    return $(getTreeFormId()).findAll(".ui-treenode-content").filter(visible);
+  }
+  
+  private String getTreeFormId()
+  {
+    return APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:treeForm";
   }
   
   public static void triggerSync()

@@ -7,21 +7,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import ch.ivyteam.enginecockpit.TreeView;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
-public class RoleDataModel
+public class RoleDataModel extends TreeView
 {
   private static final int ROLE_CHILDREN_LIMIT = 100;
   private ISecurityContext securityContext;
-  private String filter;
   private boolean showMember;
-  
   private List<Role> roles;
-  private TreeNode treeRootNode;
-  private TreeNode filteredTreeRootNode;
 
   public RoleDataModel(IApplication app, boolean showMember)
   {
@@ -30,48 +27,41 @@ public class RoleDataModel
     this.roles = app.getSecurityContext().getRoles().stream()
             .map(role -> new Role(role)).collect(Collectors.toList());
     this.filter = "";
-    buildRoleTree();
+    reloadTree();
   }
 
+  @Override
   @SuppressWarnings("unused")
   public void setFilter(String filter)
   {
     this.filter = filter;
-    filteredTreeRootNode = new DefaultTreeNode("Filtered roles", null);
+    filteredTreeNode = new DefaultTreeNode("Filtered roles", null);
     roles.stream().filter(role -> StringUtils.containsIgnoreCase(role.getName(), filter))
             .limit(ROLE_CHILDREN_LIMIT)
-            .forEach(role -> new DefaultTreeNode("role", role, filteredTreeRootNode));
-    if (filteredTreeRootNode.getChildCount() >= ROLE_CHILDREN_LIMIT)
+            .forEach(role -> new DefaultTreeNode("role", role, filteredTreeNode));
+    if (filteredTreeNode.getChildCount() >= ROLE_CHILDREN_LIMIT)
     {
-      new DefaultTreeNode("dummy", new Role("The current search has more than " + ROLE_CHILDREN_LIMIT + " results."), filteredTreeRootNode);
+      new DefaultTreeNode("dummy", new Role("The current search has more than " + ROLE_CHILDREN_LIMIT + " results."), filteredTreeNode);
     }
   }
-
-  public String getFilter()
+  
+  @Override
+  protected void filterNode(TreeNode node)
   {
-    return filter;
+    // Not used because of overridden setFilter
   }
-
+  
   public List<Role> getList()
   {
     return roles;
   }
   
-  public TreeNode getTree()
+  @Override
+  protected void buildTree()
   {
-    if (StringUtils.isBlank(filter))
-    {
-      return treeRootNode;
-    }
-    return filteredTreeRootNode;
-  }
-  
-  private void buildRoleTree()
-  {
-    treeRootNode = new DefaultTreeNode("Roles", null);
-    treeRootNode.setExpanded(true);
+    rootTreeNode.setExpanded(true);
     var role = securityContext.getTopLevelRole();
-    TreeNode node = new LazyRoleTreeNode(role, false, treeRootNode);
+    TreeNode node = new LazyRoleTreeNode(role, false, rootTreeNode);
     node.setExpanded(true);
   }
   

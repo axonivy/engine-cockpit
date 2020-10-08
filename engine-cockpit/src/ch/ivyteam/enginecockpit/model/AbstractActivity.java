@@ -210,7 +210,7 @@ public abstract class AbstractActivity
   {
     if (bean != null)
     {
-      bean.reloadActivities();
+      bean.reloadTree();
     }
   }
   

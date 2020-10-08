@@ -4,13 +4,16 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.ElementsCollection;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -30,8 +33,7 @@ public class WebTestBusinessCalendar
   @Test
   void testBusinessCalendarTree()
   {
-    $("#apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + 
-            "\\:treeForm\\:tree\\:0\\:calendarNode").shouldBe(text("Default"));
+    $(By.id(getFormId() + ":tree:0:calendarNode")).shouldBe(text("Default"));
   }
   
   @Test
@@ -47,6 +49,26 @@ public class WebTestBusinessCalendar
     $("#freeDatesPanel").shouldHave(text("Free days"), 
             text("Christmas Day"), text("12-25"),
             text("Ascension Day"), text("easter + 39"));
+  }
+  
+  @Test
+  void testExpandCollapseTree()
+  {
+    getVisibleTreeNodes().shouldBe(size(3));
+    $(By.id(getFormId() + ":collapseAll")).shouldBe(visible).click();
+    getVisibleTreeNodes().shouldBe(size(1));
+    $(By.id(getFormId() + ":expandAll")).shouldBe(visible).click();
+    getVisibleTreeNodes().shouldBe(size(3));
+  }
+
+  private ElementsCollection getVisibleTreeNodes()
+  {
+    return $(By.id(getFormId())).findAll(".ui-treenode-content").filter(visible);
+  }
+  
+  private String getFormId()
+  {
+    return "apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":treeForm";
   }
   
 }
