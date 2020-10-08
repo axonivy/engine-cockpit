@@ -1,8 +1,11 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,19 +37,16 @@ public class WebTestBusinessCalendar
   @Test
   void testBusinessCalendarDetail()
   {
-    Navigation.toBusinessCalendarDetail("Default");
-    $("#weekConfigurationPanel").shouldHave(text("Week configuration"), 
-            text("Start day of week\nMONDAY"),
-            text("Free days of week Day"), 
-            text("weekend1 SATURDAY"), 
-            text("Working time Time"), 
-            text("morning 08:00:00 - 12:00:00"));
-    $("#freeDaysOfYearPanel").shouldHave(text("Free days of year"), 
-            text("Description Day"));
-    $("#freeEasterRelativeDaysPanel").shouldHave(text("Free Easter relative days"), 
-            text("Description Days after Easter"));
-    $("#freeDatesPanel").shouldHave(text("Free non-recurring dates"), 
-            text("Description Date"));
+    Navigation.toBusinessCalendarDetail("Luzern");
+    $("#weekConfigurationPanel").shouldHave(text("Week configuration"));
+    $$(".box").shouldHave(size(7)).first().shouldHave(text("Monday"));
+    $$(".box.free").shouldHave(texts("Saturday", "Sunday"));
+    $("#weekConfigurationPanel .ui-datatable").shouldHave(
+            text("morning"), text("08:00:00 - 12:00:00"),
+            text("afternoon"), text("13:00:00 - 17:00:00"));
+    $("#freeDatesPanel").shouldHave(text("Free days"), 
+            text("Christmas Day"), text("12-25"),
+            text("Ascension Day"), text("easter + 39"));
   }
   
 }
