@@ -16,10 +16,7 @@
       </h:panelGroup>
       
       <label>Value</label>
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newGlobalVarValue" required="true" requiredMessage="Value is required" value="#{globalVarBean.activeVar.value}"/>
-        <p:message for="newGlobalVarValue" id="newGlobalVarValueMessage" />
-      </h:panelGroup>
+      <p:inputText id="newGlobalVarValue" value="#{globalVarBean.activeVar.value}"/>
     </p:panelGrid>
     
     <p:commandButton id="saveNewGlobalVar" validateClient="true" onsuccess="PF('newGlobalVarModal').hide()"
