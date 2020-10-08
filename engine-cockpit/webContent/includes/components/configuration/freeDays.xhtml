@@ -15,16 +15,16 @@
       </p:column>
    
       <p:column headerText="Date">
-        <h:outputText value="#{day.value}">
+        <h:outputText value="#{day.value}" title="#{day.tooltip}">
           <i class="material-icons table-icon">#{day.icon}</i>
         </h:outputText>
       </p:column>
       
       <p:column headerText="Defined by">
         <a href="businesscalendar-detail.xhtml?calendarName=#{day.calendarName}">
-	        <h:outputText value="#{day.calendarName}">
-	          <i class="material-icons table-icon">date_range</i>
-	        </h:outputText>
+          <h:outputText value="#{day.calendarName}">
+            <i class="material-icons table-icon">date_range</i>
+          </h:outputText>
         </a>
       </p:column>
     </p:dataTable>

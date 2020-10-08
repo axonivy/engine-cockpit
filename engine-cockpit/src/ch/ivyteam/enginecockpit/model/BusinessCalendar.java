@@ -117,6 +117,7 @@ public class BusinessCalendar
     private String value;
     private String calendarName;
     private String icon;
+    private String tooltip;
     
     private TimeDayConfig(CalendarListEntry day)
     {
@@ -129,6 +130,7 @@ public class BusinessCalendar
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "update";
+      this.tooltip = "Free day (MM:dd) every year";
     }
 
     public TimeDayConfig(FreeEasterRelativeDay freeDay, String calendarName)
@@ -136,6 +138,7 @@ public class BusinessCalendar
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "timer";
+      this.tooltip = "Free day relative to easter every year";
     }
 
     public TimeDayConfig(FreeDate freeDay, String calendarName)
@@ -143,6 +146,7 @@ public class BusinessCalendar
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "schedule";
+      this.tooltip = "Free day at fixed date";
     }
     
     public TimeDayConfig(WorkingTime time, String calendarName)
@@ -150,6 +154,7 @@ public class BusinessCalendar
       this(time);
       this.calendarName = calendarName;
       this.icon = "alarm";
+      this.tooltip = "Defined working time";
     }
     
     public String getDesc()
@@ -170,6 +175,11 @@ public class BusinessCalendar
     public String getIcon()
     {
       return icon;
+    }
+    
+    public String getTooltip()
+    {
+      return tooltip;
     }
   }
   

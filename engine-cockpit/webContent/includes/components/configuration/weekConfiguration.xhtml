@@ -6,10 +6,9 @@
   <style>
   .box {
     background-color: var(--ivy-primary-color-light);
-		text-align: center;
-		padding-top: 1em;
-		padding-bottom: 1em;
-		border-radius: 4px;
+    text-align: center;
+    padding: 1em 0.5em;
+    border-radius: 4px;
   }
   .box.free {
     background-color: var(--ivy-tertinary-color-green-light);
@@ -24,11 +23,11 @@
     
     <div class="p-grid">
       <p:repeat var="day" value="#{businessCalendarBean.activeCalendar.week}">
-	    <div class="p-col">
-        <div class="box #{day.free ? 'free' : ''}" title="#{day.free ? 'free' : 'work'}">#{day.name}</div>
-	    </div>
+        <div class="p-col">
+          <div class="box #{day.free ? 'free' : ''}" title="#{day.free ? 'free' : 'work'}">#{day.dayName}</div>
+        </div>
       </p:repeat>
-		</div>
+    </div>
     
     <p:dataTable var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">
       <p:column headerText="Working time">
@@ -36,7 +35,7 @@
       </p:column>
    
       <p:column headerText="From to">
-        <h:outputText value="#{workingTime.value}">
+        <h:outputText value="#{workingTime.value}" title="#{workingTime.tooltip}">
           <i class="material-icons table-icon">#{workingTime.icon}</i>
         </h:outputText>
       </p:column>
