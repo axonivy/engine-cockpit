@@ -100,7 +100,7 @@ public class WebDocuScreenshot
     Navigation.toBusinessCalendar();
     takeScreenshot("engine-cockpit-configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendarDetail("Luzern");
-    takeScreenshot("engine-cockpit-configuration-businesscalendar-detail", new Dimension(SCREENSHOT_WIDTH, 750));
+    takeScreenshot("engine-cockpit-configuration-businesscalendar-detail", new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toSearchEngine();
     takeScreenshot("engine-cockpit-search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toEmail();

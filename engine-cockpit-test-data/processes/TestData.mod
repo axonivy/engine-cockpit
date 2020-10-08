@@ -1,5 +1,5 @@
 [Ivy]
-16E88DD61E825E70 7.5.0 #module
+16E88DD61E825E70 9.2.0 #module
 >Proto >Proto Collection #zClass
 Ta0 TestData Big #zClass
 Ta0 B #cInfo
@@ -103,38 +103,7 @@ import ch.ivyteam.ivy.application.calendar.IBusinessCalendarSettings;
 
 IApplication app = ivy.wf.getApplication();
 
-IBusinessCalendarSettings settings = app.getBusinessCalendarSettings();
-
-if (settings.findBusinessCalendarConfiguration("Luzern") == null)
-{
-	IBusinessCalendarConfiguration luzern = settings.createBusinessCalendarConfiguration("Luzern");
-	IBusinessCalendarConfiguration zug = settings.createBusinessCalendarConfiguration("Zug");
-	
-	zug.setParent(luzern);
-	
-	FreeDayOfYear fdoy1 = new FreeDayOfYear(5, 30);
-	fdoy1.setDescription("Auffahrt");
-	FreeDayOfYear fdoy2 = new FreeDayOfYear(6, 9);
-	fdoy2.setDescription("Pfingsten");
-	luzern.getFreeDaysOfYear().add(fdoy1);
-	luzern.getFreeDaysOfYear().add(fdoy2);
-	
-	FreeEasterRelativeDay ferd1 = new FreeEasterRelativeDay(1);
-	ferd1.setDescription("Ostermontag");
-	luzern.getFreeEasterRelativeDays().add(ferd1);
-	
-	FreeDate fd1 = new FreeDate(new Date(2019, 8, 15));
-	fd1.setDescription("Day off");
-	FreeDate fd2 = new FreeDate(new Date(2019, 8, 16));
-	fd1.setDescription("Day off");
-	
-	zug.getFreeDates().add(fd1);
-	
-	settings.saveBusinessCalendarConfiguration(luzern);
-	settings.saveBusinessCalendarConfiguration(zug);
-	
-	app.findEnvironment("test").setBusinessCalendar(app.getActualEnvironment().getBusinessCalendar().get("Luzern"));
-}' #txt
+app.findEnvironment("test").setBusinessCalendar(app.getActualEnvironment().getBusinessCalendar().get("Luzern"));' #txt
 Ta0 f5 168 138 112 44 0 -7 #rect
 Ta0 f5 @|StepIcon #fIcon
 Ta0 f6 expr out #txt

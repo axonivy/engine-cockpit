@@ -1,0 +1,22 @@
+BusinessCalendars:
+  Default:
+    Parent:
+    FirstDayOfWeek: monday
+    WorkingTimes:
+      morning: 8:00-12:00
+      afternoon: 13:00-17:00
+    FreeDays:
+      WeekendStart: saturday
+      WeekendEnd: sunday
+      "New Year": 01-01
+      "Christmas Day": 12-25
+      "Good Friday": easter - 2
+      "Easter Monday": easter + 1
+      "Pentecost Monday": easter + 50
+      "50 Years Ivyteam": 2043-04-07
+  Luzern:
+    Parent: Default
+    FreeDays:
+      "Ascension Day": easter + 39
+  Zug:
+    Parent: Luzern
