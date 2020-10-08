@@ -11,9 +11,10 @@ public class PermissionGroup extends AbstractPermission
   private PermissionBean bean;
   private IPermissionGroup permissionGroup;
 
-  public PermissionGroup(IPermissionGroupAccess groupAccess, PermissionBean bean)
+  public PermissionGroup(IPermissionGroupAccess groupAccess, String path, PermissionBean bean)
   {
     super(groupAccess.getPermissionGroup().getName(),
+            path,
             groupAccess.getPermissionGroup().getId(),
             groupAccess.isGrantedAllPermissions(),
             groupAccess.isDeniedAllPermissions());
