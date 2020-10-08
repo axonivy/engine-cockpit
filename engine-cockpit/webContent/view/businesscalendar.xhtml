@@ -21,7 +21,7 @@
     <ui:define name="content">
       <p:growl id="msgs" />
       
-      <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadBusinessCalendar}" id="apps">
+      <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadTree}" id="apps">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-12">
             <h1>
@@ -40,12 +40,16 @@
 	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{businessCalendarBean.filter}">
 	                <p:ajax event="keyup" delay="300" update="@form:tree" />
 	              </p:inputText>
+	              <p:commandButton id="ex" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{businessCalendarBean.expandAllNodes}"
+                    update="tree" title="Expand all" styleClass="secondary-btn" />
+                  <p:commandButton id="col" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{businessCalendarBean.collapseAllNodes}"
+                    update="tree"  title="Collapse all" styleClass="secondary-btn" />
 	            </p:outputPanel>
 	          </div>
 	        </div>
-          <p:tree id="tree" widgetVar="tree" value="#{businessCalendarBean.rootNode}" var="node">
-            <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-            <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+          <p:tree id="tree" widgetVar="tree" value="#{businessCalendarBean.tree}" var="node">
+            <p:ajax event="expand" listener="#{businessCalendarBean.nodeExpand}"/>
+            <p:ajax event="collapse" listener="#{businessCalendarBean.nodeCollapse}"/>
             <p:treeNode icon="ui-icon-calendar">
               <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node.name}" id="calendarNode">
                 <h:outputText value="#{node.name}"/>

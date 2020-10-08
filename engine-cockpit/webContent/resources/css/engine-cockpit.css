@@ -157,10 +157,28 @@ body {
   float: left;
   height: 24px;
 }
-.ui-tree-search-header .table-search-input-withicon,
 .ui-datatable-header .table-search-input-withicon,
 .ui-datatable .table-search-input-withicon {
   width: calc(100% - 24px);
+}
+.ui-tree-search-header .table-search-input-withicon {
+  width: calc(100% - 100px);
+}
+.ui-tree-search-header .table-search-input-withicon~button {
+  margin-left: 5px;
+  background-color: inherit;
+  box-shadow: none;
+  height: 27px;
+  width: 25px;
+  float: right;
+  position: relative;
+  top: -2px;
+}
+.ui-tree-search-header .table-search-input-withicon~button.ui-state-hover {
+  background-color: var(--button-secondary-bg-color);
+}
+.ui-tree-search-header .table-search-input-withicon~button .ui-icon {
+  color: var(--widget-header-text-color);
 }
 .ui-fluid .ui-tree {
   width: auto;

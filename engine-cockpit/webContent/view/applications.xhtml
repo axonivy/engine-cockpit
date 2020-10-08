@@ -41,12 +41,16 @@
                   <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{applicationBean.filter}">
                     <p:ajax event="keyup" delay="500" update="@form:tree" />
                   </p:inputText>
+                  <p:commandButton id="ex" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{applicationBean.expandAllNodes}"
+                    update="tree" title="Expand all" styleClass="secondary-btn" />
+                  <p:commandButton id="col" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{applicationBean.collapseAllNodes}"
+                    update="tree"  title="Collapse all" styleClass="secondary-btn" />
                 </p:outputPanel>
               </div>
             </div>
-            <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.activities}" var="activity">
-              <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
-              <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
+            <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.tree}" var="activity">
+              <p:ajax event="expand" listener="#{applicationBean.nodeExpand}"/>
+              <p:ajax event="collapse" listener="#{applicationBean.nodeCollapse}"/>
               <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
                 <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
                   <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">

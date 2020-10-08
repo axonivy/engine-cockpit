@@ -22,11 +22,8 @@ import ch.ivyteam.ivy.application.ReleaseState;
 
 @ManagedBean
 @ViewScoped
-public class ApplicationBean
+public class ApplicationBean extends TreeView
 {
-  private TreeNode rootTreeNode;
-  private TreeNode filteredRootTreeNode;
-  private String filter = "";
   private boolean operating;
   
   private AbstractActivity selectedActivity;
@@ -41,34 +38,19 @@ public class ApplicationBean
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    reloadActivities();
     newApp = new Application();
     activateNewApp = true;
     selectedActivity = new Application();
     operating = false;
+    reloadTree();
   }
   
-  public TreeNode getActivities()
-  {
-    if (filter.isEmpty())
-    {
-      return rootTreeNode;
-    }
-    return filteredRootTreeNode;
-  }
-  
-  public void reloadActivities()
-  {
-    filter = "";
-    rootTreeNode = new DefaultTreeNode("Activities", null);
-    loadApplicationTree(rootTreeNode);
-  }
-  
-  private void loadApplicationTree(TreeNode rootNode)
+  @Override
+  protected void buildTree()
   {
     for (IApplication app : managerBean.getIApplications())
     {
-      TreeNode node = new DefaultTreeNode(new Application(app, this), rootNode);
+      TreeNode node = new DefaultTreeNode(new Application(app, this), rootTreeNode);
       loadPmTree(app, node);
     }
   }
@@ -94,17 +76,14 @@ public class ApplicationBean
     }
   }
   
+  @Override
   @SuppressWarnings("unused")
-  private void filterRootTreeNode(List<TreeNode> nodes)
+  protected void filterNode(TreeNode node)
   {
-    for (TreeNode node : nodes)
+    AbstractActivity activity = (AbstractActivity) node.getData();
+    if (StringUtils.startsWithIgnoreCase(activity.getName(), filter))
     {
-      AbstractActivity activity = (AbstractActivity) node.getData();
-      if (StringUtils.startsWithIgnoreCase(activity.getName(), filter))
-      {
-        new DefaultTreeNode(activity, filteredRootTreeNode);
-      }
-      filterRootTreeNode(node.getChildren());
+      new DefaultTreeNode(activity, filteredTreeNode);
     }
   }
   
@@ -131,18 +110,6 @@ public class ApplicationBean
   public boolean isOperating()
   {
     return operating;
-  }
-  
-  public String getFilter()
-  {
-    return filter;
-  }
-
-  public void setFilter(String filter)
-  {
-    this.filter = filter;
-    filteredRootTreeNode = new DefaultTreeNode("Filtered activities", null);
-    filterRootTreeNode(rootTreeNode.getChildren());
   }
   
   public List<Application> getApplications()
@@ -175,7 +142,7 @@ public class ApplicationBean
       {
         app.activate();
       }
-      reloadActivities();
+      reloadTree();
       managerBean.reloadApplications();
     }
     catch (RuntimeException ex)
@@ -212,7 +179,7 @@ public class ApplicationBean
     FacesContext.getCurrentInstance().addMessage("applicationMessage",
             new FacesMessage("'" + selectedActivity.getName() + "' deleted successfully", ""));
     selectedActivity = new Application();
-    reloadActivities();
+    reloadTree();
     managerBean.reloadApplications();
   }
   

@@ -18,7 +18,6 @@
         <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.ldapBrowser.tree}" var="node"
           selectionMode="single" selection="#{cc.attrs.ldapBrowser.selectedNode}" dynamic="true">
           <p:ajax event="expand" listener="#{cc.attrs.ldapBrowser.onNodeExpand}" update="@form:tree"/>
-          <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
           <p:ajax event="select" update="@form:nodeAttrTable" />
           <p:treeNode icon="ui-icon-#{node.icon}">
             <h:outputText value="#{node}" />
