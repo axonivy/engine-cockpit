@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +16,6 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 
-import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
@@ -26,12 +24,6 @@ public class WebTestRoles
 {
   
   private static final String APPLICATION_TAB_VIEW = "#tabs\\:applicationTabView\\:";
-  
-  @BeforeAll
-  static void setup()
-  {
-    EngineCockpitUtil.createManyDynamicRoles();
-  }
   
   @BeforeEach
   void beforeEach()
@@ -57,33 +49,12 @@ public class WebTestRoles
     $(getAppTabId() + "syncMoreBtn_menuButton").click();
     $(getAppTabId() + "userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
-            .find(".ui-panel-content").shouldBe(visible);  }
-  
-  @Test
-  void testManyRolesLoadLimit()
-  {
-    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(102));
-    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
-    $(Tab.ACITVE_PANEL_CSS + " .ui-inputfield").sendKeys("role-");
-    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(101));
-    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last().shouldHave(text("The current search has more than 100 results."));
-  }
-  
-  @Test
-  void testManyRolesLoadLimit_userDetail()
-  {
-    Navigation.toUserDetail("foo");
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").shouldBe(size(101));
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
-    $("#rolesOfUserForm .table-search-input-withicon").sendKeys("role-");
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(101));
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last().shouldHave(text("The current search has more than 100 results."));
+            .find(".ui-panel-content").shouldBe(visible);  
   }
   
   @Test
   void testExpandCollapseTree()
   {
-    Tab.switchToTab("test-ad");
     getVisibleTreeNodes().shouldBe(size(3));
     $(getTreeFormId() + "\\:expandAll").shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(4));
