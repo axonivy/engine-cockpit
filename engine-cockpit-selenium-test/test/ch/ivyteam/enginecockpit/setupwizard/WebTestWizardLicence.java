@@ -36,12 +36,12 @@ public class WebTestWizardLicence
   @Test
   void testLicenceStep()
   {
-    $("#licWarnMessage").shouldHave(text("Please upload a valid licence."));
+    $("#licence\\:licWarnMessage").shouldHave(text("Please upload a valid licence."));
     WebTestWizard.activeStepShouldHaveWarnings();
     uploadLicence();
     $("#uploadStatus").shouldBe(exactText("Success"));
-    $("#fileUploadForm\\:licenceInfoTable").shouldHave(text("Lukas Lieb"));
-    $("#licWarnMessage").shouldHave(empty);
+    $("#licence\\:fileUploadForm\\:licenceInfoTable").shouldHave(text("Lukas Lieb"));
+    $("#licence\\:licWarnMessage").shouldHave(empty);
     WebTestWizard.activeStepShouldBeOk();
     
     WebTestWizard.nextStep();

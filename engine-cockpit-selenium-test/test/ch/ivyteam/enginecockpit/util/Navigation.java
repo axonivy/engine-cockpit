@@ -31,6 +31,7 @@ public class Navigation
   private static final String SYSTEM_MENU = "#menuform\\:sr_system";
   private static final String SYSTEM_ADMINS = "#menuform\\:sr_admins";
   private static final String SYSTEM_SYSTEMDB_MENU = "#menuform\\:sr_systemdb";
+  private static final String SYSTEM_LICENCE = "#menuform\\:sr_licence";
   private static final String SYSTEM_CONFIG_MENU = "#menuform\\:sr_system_config";
   private static final String SYSTEM_CLUSTER = "#menuform\\:sr_cluster";
   private static final String SYSTEM_EDITOR_MENU = "#menuform\\:sr_editor";
@@ -41,7 +42,6 @@ public class Navigation
   private static final String MONITOR_ENGINE_JVM_MENU = "#menuform\\:sr_monitor_engine_jvm";
   private static final String MONITOR_ENGINE_MEMORY_MENU = "#menuform\\:sr_monitor_engine_memory";
   private static final String MONITOR_ENGINE_REQUESTS_MENU = "#menuform\\:sr_monitor_engine_requests";
-  private static final String MONITOR_ENGINE_SESSIONS_MENU = "#menuform\\:sr_monitor_engine_sessions";
   private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
 
   public static void toDashboard()
@@ -225,6 +225,13 @@ public class Navigation
     menuShouldBeActive(SYSTEM_SYSTEMDB_MENU);
   }
   
+  public static void toLicence()
+  {
+    toSubMenu(SYSTEM_MENU, SYSTEM_LICENCE);
+    assertCurrentUrlEndsWith("licence.xhtml");
+    menuShouldBeActive(SYSTEM_LICENCE);
+  }
+  
   public static void toSystemConfig()
   {
     toSubMenu(SYSTEM_MENU, SYSTEM_CONFIG_MENU);
@@ -289,13 +296,6 @@ public class Navigation
     menuShouldBeActive(MONITOR_ENGINE_REQUESTS_MENU);
   }
   
-  public static void toSessions()
-  {
-    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_SESSIONS_MENU);
-    assertCurrentUrlContains("monitorSession.xhtml");
-    menuShouldBeActive(MONITOR_ENGINE_SESSIONS_MENU);
-  }
-
   private static void toMenu(String menuItemPath)
   {
     $(menuItemPath).find("a").scrollIntoView(false).click();

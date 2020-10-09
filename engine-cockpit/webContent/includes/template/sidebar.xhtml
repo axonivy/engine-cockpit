@@ -37,6 +37,7 @@
               <p:submenu id="sr_system" label="System" icon="build">
                 <p:menuitem id="sr_admins" value="Administrators" icon="supervisor_account" url="admins.xhtml" />
                 <p:menuitem id="sr_systemdb" value="System Database" icon="dns" url="systemdb.xhtml" />
+                <p:menuitem id="sr_licence" value="Licence" icon="vpn_key" url="licence.xhtml" />
                 <p:menuitem id="sr_system_config" value="System Configuration" icon="settings" url="systemconfig.xhtml" />
                 <p:menuitem id="sr_cluster" value="Cluster" icon="view_carousel" url="cluster.xhtml" 
                 	rendered="#{clusterBean.clusterServer or param['cluster'] != null}"/>
@@ -49,7 +50,6 @@
                   <p:menuitem id="sr_monitor_engine_jvm" value="JVM" icon="free_breakfast" url="monitorJvm.xhtml" />
                   <p:menuitem id="sr_monitor_engine_memory" value="Memory" icon="memory" url="monitorMemory.xhtml" />
                   <p:menuitem id="sr_monitor_engine_requests" value="Requests" icon="rss_feed" url="monitorRequest.xhtml" />
-                  <p:menuitem id="sr_monitor_engine_sessions" value="Sessions" icon="person" url="monitorSession.xhtml" />
                   <p:menuitem id="sr_monitor_engine_mbeans" value="MBeans" icon="equalizer" url="mbeans.xhtml"/>
                 </p:submenu>
                 <p:menuitem id="sr_logs" value="Logs" icon="format_align_left" url="logs.xhtml?log=console.log"/>

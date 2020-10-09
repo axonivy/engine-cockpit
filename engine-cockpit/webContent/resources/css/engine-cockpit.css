@@ -423,6 +423,7 @@ body {
   padding: 8px 14px;
   color: red;
   font-weight: bold;
+  line-height: 30px;
 }
 .file-upload .ui-panelgrid .ui-panelgrid-cell:nth-child(odd) {
   padding-left: 0;
