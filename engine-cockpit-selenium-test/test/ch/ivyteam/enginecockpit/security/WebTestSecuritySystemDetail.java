@@ -6,6 +6,7 @@ import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.exist;
@@ -166,7 +167,7 @@ public class WebTestSecuritySystemDetail
   @Test
   void testLdapAttributesNewInvalid()
   {
-    $(NEW_LDAP_ATTRIBUTE_BTN).shouldBe(visible).click();
+    $(NEW_LDAP_ATTRIBUTE_BTN).shouldBe(visible, enabled).click();
     $(LDAP_ATTRIBUTE_MODAL).shouldBe(visible);
     $("#ldapAttributeForm\\:attributeNameMessage").shouldBe(empty);
     $("#ldapAttributeForm\\:attributeMessage").shouldBe(empty);
