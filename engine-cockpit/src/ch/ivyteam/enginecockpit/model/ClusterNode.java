@@ -1,8 +1,6 @@
 package ch.ivyteam.enginecockpit.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import static ch.ivyteam.enginecockpit.util.DateUtil.formatDate;
 
 import ch.ivyteam.ivy.cluster.restricted.ClusterNodeCommunicationState;
 import ch.ivyteam.ivy.cluster.restricted.ClusterNodeState;
@@ -61,16 +59,6 @@ public class ClusterNode
       javaVersion = node.getJavaVersion();
       javaVirtualMachineName = node.getJavaVirtualMachineName();
     }
-  }
-  
-  private String formatDate(Date date)
-  {
-    if (date == null)
-    {
-      return "";
-    }
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", new Locale("en"));
-    return dateFormat.format(date);
   }
   
   public String getName()
