@@ -29,6 +29,8 @@ import ch.ivyteam.enginecockpit.util.Table;
 public class WebTestLicence
 {
   
+  private static final String SESSION_USER = "foo";
+
   @BeforeEach
   void beforeEach()
   {
@@ -66,8 +68,8 @@ public class WebTestLicence
     openAnotherSession();
     $("#layout-config-button").shouldBe(visible).click();
     var table = new Table(By.cssSelector("#layout-config .ui-datatable"));
-    table.firstColumnShouldBe(textsInAnyOrder("admin", "bar"));
-    table.clickButtonForEntry("bar", "killSession");
+    table.firstColumnShouldBe(textsInAnyOrder("admin", SESSION_USER));
+    table.clickButtonForEntry(SESSION_USER, "killSession");
     table.firstColumnShouldBe(textsInAnyOrder("admin"));
     assertOtherSession();
   }
@@ -78,10 +80,10 @@ public class WebTestLicence
     Selenide.switchTo().window(1);
     Selenide.open(EngineUrl.create().app("test").path("login").toUrl());
     $("h1").shouldHave(text("Login"));
-    $("#loginForm\\:userName").sendKeys("bar");
-    $("#loginForm\\:password").sendKeys("bar");
+    $("#loginForm\\:userName").sendKeys(SESSION_USER);
+    $("#loginForm\\:password").sendKeys(SESSION_USER);
     $("#loginForm\\:login").click();
-    $("#sessionUserName").shouldHave(text("bar"));
+    $("#sessionUserName").shouldHave(text(SESSION_USER));
     Selenide.switchTo().window(0);
   }
   
