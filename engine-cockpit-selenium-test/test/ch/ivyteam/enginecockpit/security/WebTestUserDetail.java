@@ -80,8 +80,8 @@ public class WebTestUserDetail
     clearUserInfoInputs();
     $("#userInformationForm\\:fullName").sendKeys("Foo User");
     $("#userInformationForm\\:email").sendKeys("foo@ivyteam.ch");
-    $("#userInformationForm\\:password1").sendKeys("foopassword");
-    $("#userInformationForm\\:password2").sendKeys("foopassword");
+    $("#userInformationForm\\:password1").sendKeys("foo");
+    $("#userInformationForm\\:password2").sendKeys("foo");
     $("#userInformationForm\\:saveUserInformation").click();
     
     $("#userInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
