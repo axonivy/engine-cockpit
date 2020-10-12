@@ -1,8 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
-import java.text.SimpleDateFormat;
-
 import ch.ivyteam.enginecockpit.ApplicationBean;
+import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
@@ -26,11 +25,7 @@ public class ProcessModelVersion extends AbstractActivity
     setOperationState(pmv.getActivityOperationState());
     releaseState = pmv.getReleaseState();
     lib = new Library(pmv.getLibrary());
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    if (pmv.getLastChangeDate() != null)
-    {
-      lastChangeDate = formatter.format(pmv.getLastChangeDate());
-    }
+    lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
     this.pmv = pmv;
   }
 

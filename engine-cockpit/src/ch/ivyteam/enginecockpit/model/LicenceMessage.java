@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.model;
 
-import java.text.SimpleDateFormat;
-
+import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.licence.LicenceEvent;
 import ch.ivyteam.licence.LicenceEvent.Level;
 
@@ -17,7 +16,7 @@ public class LicenceMessage
   {
     level = event.getLevel();
     message = event.getMessage();
-    timestamp = new SimpleDateFormat("dd MMMMM yyyy").format(event.getTimestamp());
+    timestamp = DateUtil.formatDate(event.getTimestamp());
     this.event = event;
   }
 
