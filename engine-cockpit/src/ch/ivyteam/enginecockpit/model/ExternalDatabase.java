@@ -1,11 +1,11 @@
 package ch.ivyteam.enginecockpit.model;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.IExternalDatabaseConfiguration;
 import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.db.IStatementExecution;
@@ -109,7 +109,7 @@ public class ExternalDatabase implements IService
   
   public static class ExecStatement
   {
-    private Date time;
+    private String time;
     private String execTime;
     private String resultTime;
     private String sql;
@@ -117,14 +117,14 @@ public class ExternalDatabase implements IService
 
     public ExecStatement(IStatementExecution statement)
     {
-      time = statement.getExecutionTimestamp();
+      time = DateUtil.formatDate(statement.getExecutionTimestamp());
       execTime = (double) statement.getExecutionTimeInMicroSeconds() / 1000 + "ms";
       resultTime = (double) statement.getReadingResultTimeInMicroSeconds() / 1000 + "ms";
       sql = statement.getSql();
       element = statement.getDatabaseElement().getProcessElementId();
     }
 
-    public Date getTime()
+    public String getTime()
     {
       return time;
     }
@@ -152,16 +152,16 @@ public class ExternalDatabase implements IService
   
   public static class Connection
   {
-    private Date lastUsed;
+    private String lastUsed;
     private boolean inUse;
 
     public Connection(IExternalDatabaseRuntimeConnection conn)
     {
-      lastUsed = conn.getLastUsed();
+      lastUsed = DateUtil.formatDate(conn.getLastUsed());
       inUse = conn.isInUse();
     }
 
-    public Date getLastUsed()
+    public String getLastUsed()
     {
       return lastUsed;
     }
