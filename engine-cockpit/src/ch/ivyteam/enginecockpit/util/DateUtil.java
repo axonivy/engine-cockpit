@@ -6,13 +6,19 @@ import java.util.Date;
 public class DateUtil
 {
   
-  public static String formatDate(Date date)
+  public static String formatDate(Date date, String format)
   {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat formatter = new SimpleDateFormat(format);
     if (date != null)
     {
       return formatter.format(date);
     }
     return "";
   }
+  
+  public static String formatDate(Date date)
+  {
+    return formatDate(date, "yyyy-MM-dd HH:mm");
+  }
+  
 }

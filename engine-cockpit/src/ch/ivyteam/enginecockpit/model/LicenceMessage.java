@@ -16,7 +16,7 @@ public class LicenceMessage
   {
     level = event.getLevel();
     message = event.getMessage();
-    timestamp = DateUtil.formatDate(event.getTimestamp());
+    timestamp = DateUtil.formatDate(event.getTimestamp(), "dd MMMMM yyyy");
     this.event = event;
   }
 
