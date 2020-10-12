@@ -6,5 +6,6 @@
     </user>
     <user>
         <username>bar</username>
+        <password>bar</password>
     </user>
 </userConfig>
