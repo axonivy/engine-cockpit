@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
 import javax.naming.Name;
-import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.ldap.LdapContext;
 
