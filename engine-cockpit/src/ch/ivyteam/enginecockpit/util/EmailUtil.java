@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import ch.ivyteam.ivy.mail.MailClient;
 import ch.ivyteam.ivy.mail.MailMessage;
 
-@SuppressWarnings("restriction")
 public class EmailUtil
 {
   private static final Pattern EMAIL_REGEX = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
