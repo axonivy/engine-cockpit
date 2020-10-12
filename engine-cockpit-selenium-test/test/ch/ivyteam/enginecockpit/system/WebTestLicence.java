@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.system;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.CollectionCondition.texts;
+import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -19,6 +19,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.engine.EngineUrl;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -57,12 +58,39 @@ public class WebTestLicence
   void liveStats()
   {
     EngineCockpitUtil.assertLiveStats(List.of("Sessions"));
+  }
+  
+  @Test
+  void killSession()
+  {
+    openAnotherSession();
     $("#layout-config-button").shouldBe(visible).click();
     var table = new Table(By.cssSelector("#layout-config .ui-datatable"));
-    var expectedSession = EngineUrl.isDesigner() ? "Developer" : "admin";
-    table.firstColumnShouldBe(texts(expectedSession));
-    table.clickButtonForEntry(expectedSession, "killSession");
-    $("h1").shouldHave(text("Engine Cockpit"));
+    table.firstColumnShouldBe(textsInAnyOrder("admin", "foo"));
+    table.clickButtonForEntry("foo", "killSession");
+    table.firstColumnShouldBe(textsInAnyOrder("admin"));
+    assertOtherSession();
+  }
+
+  private void openAnotherSession()
+  {
+    $("#breadcrumbOptions a").shouldBe(visible).click();
+    Selenide.switchTo().window(1);
+    Selenide.open(EngineUrl.create().app("test").path("login").toUrl());
+    $("h1").shouldHave(text("Login"));
+    $("#loginForm\\:userName").sendKeys("foo");
+    $("#loginForm\\:password").sendKeys("foo");
+    $("#loginForm\\:login").click();
+    $("#sessionUserName").shouldHave(text("foo"));
+    Selenide.switchTo().window(0);
+  }
+  
+  private void assertOtherSession()
+  {
+    Selenide.switchTo().window(1);
+    Selenide.refresh();
+    $("#sessionUserName").shouldHave(text("Unknown User"));
+    Selenide.switchTo().window(0);
   }
   
 }
