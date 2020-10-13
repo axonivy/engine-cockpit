@@ -6,8 +6,8 @@ pipeline {
   }
   
   triggers {
-    pollSCM '@hourly'
     cron '@midnight'
+    bitbucketPush()
   }
 
   parameters {
