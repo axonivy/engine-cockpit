@@ -11,7 +11,7 @@
   <p:dataTable value="#{externalDatabaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 700px;"
     var="exec" id="databaseExecHistoryTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-    <p:column headerText="Time" style="width: 82px" sortBy="#{exec.time}">
+    <p:column headerText="Time" style="width: 95px" sortBy="#{exec.time}">
       <h:outputText value="#{exec.time}" styleClass="histroy"/>
     </p:column>
     <p:column headerText="Exec Time" style="width: 114px" sortBy="#{exec.execTime}">
