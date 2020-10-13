@@ -130,14 +130,14 @@ public class BusinessCalendar
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "update";
-      this.tooltip = "Free day (MM:dd) every year";
+      this.tooltip = "Free day (MM-dd) every year";
     }
 
     public TimeDayConfig(FreeEasterRelativeDay freeDay, String calendarName)
     {
       this(freeDay);
       this.calendarName = calendarName;
-      this.icon = "timer";
+      this.icon = "update";
       this.tooltip = "Free day relative to easter every year";
     }
 
