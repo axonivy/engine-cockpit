@@ -16,9 +16,9 @@ import static com.codeborne.selenide.Selenide.$x;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 
@@ -123,7 +123,7 @@ public class WebTestExternalDatabaseDetail
     $("#databaseConfigurationForm\\:userName").clear();
     $("#databaseConfigurationForm\\:userName").sendKeys(username);
 
-    $("#databaseConfigurationForm\\:maxConnections_input").sendKeys(Keys.BACK_SPACE + connections);
+    PrimeUi.inputNumber(By.id("databaseConfigurationForm:maxConnections")).setValue(connections);
     
     $("#databaseConfigurationForm\\:saveDatabaseConfig").click();
     $("#databaseConfigurationForm\\:databaseConfigMsg_container").shouldBe(text("Database configuration saved"));
