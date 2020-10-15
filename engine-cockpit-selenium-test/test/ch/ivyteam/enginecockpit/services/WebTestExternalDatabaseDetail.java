@@ -18,8 +18,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -39,6 +41,7 @@ public class WebTestExternalDatabaseDetail
     Navigation.toExternalDatabases();
     Tab.switchToDefault();
     Navigation.toExternalDatabaseDetail(DATABASE_NAME);
+    Configuration.fastSetValue = true;
   }
   
   @Test
@@ -130,8 +133,7 @@ public class WebTestExternalDatabaseDetail
     $("#databaseConfigurationForm\\:userName").clear();
     $("#databaseConfigurationForm\\:userName").sendKeys(username);
 
-    $("#databaseConfigurationForm\\:maxConnections_input").clear();
-    $("#databaseConfigurationForm\\:maxConnections_input").sendKeys(connections);
+    $("#databaseConfigurationForm\\:maxConnections_input").sendKeys(Keys.BACK_SPACE + connections);
     
     $("#databaseConfigurationForm\\:saveDatabaseConfig").click();
     $("#databaseConfigurationForm\\:databaseConfigMsg_container").shouldBe(text("Database configuration saved"));
