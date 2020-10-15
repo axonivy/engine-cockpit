@@ -19,7 +19,7 @@
 
     <p:outputLabel value="Notification send" for="checkboxNotification" />
     <p:panelGrid id="checkboxNotification" columns="2" layout="grid"
-      styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive email-checkbox-style">
+      styleClass="ui-panelgrid-blank ui-selectmanycheckbox ui-grid-responsive email-checkbox-style">
       <p:selectBooleanCheckbox rendered="#{cc.attrs.emailSettings.notificationCheckboxRender}" id="neverCheckbox"
         value="#{cc.attrs.emailSettings.notificationDisabled}"
         disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}" style="float: left;">

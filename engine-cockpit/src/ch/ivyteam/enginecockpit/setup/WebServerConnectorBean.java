@@ -1,11 +1,11 @@
-package ch.ivyteam.enginecockpit.setupwizard;
+package ch.ivyteam.enginecockpit.setup;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
-import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
+import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")

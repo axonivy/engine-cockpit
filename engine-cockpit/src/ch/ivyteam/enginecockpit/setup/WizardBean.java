@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.setupwizard;
+package ch.ivyteam.enginecockpit.setup;
 
 import java.util.ArrayList;
 import java.util.List;

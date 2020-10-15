@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/wizard.xhtml">
+
+    <ui:define name="content">
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html.min.js"></script>
+      <script>
+      var diffOptions = {
+        drawFileList: false,
+        matching: 'words',
+        outputFormat: 'side-by-side',
+      }
+      function showDiff(id, patch) {
+        var diffHtml = Diff2Html.html(patch, diffOptions);
+        document.getElementById(id).innerHTML = diffHtml;
+      }
+      </script>
+      
+      <div class="p-col" style="width: 100%;">
+        <div class="ui-fluid">
+          <div class="card card-w-title">
+            <h1>
+              <i class="si si-navigation-right-circle card-title-icon"></i>Migrate old Axon.ivy Engine
+            </h1>
+            <h:form>
+              <p:growl id="migrateGrowl" for="migrateGrowl" showDetail="true">
+                <p:autoUpdate />
+              </p:growl>
+              <p:panelGrid columns="3" layout="grid"
+                styleClass="ui-panelgrid-blank"
+                columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
+                <p:outputLabel for="oldEngineInput"
+                  value="Location of old Engine" />
+                <h:panelGroup styleClass="md-inputfield">
+                  <p:inputText id="oldEngineInput"
+                    requiredMessage="Value is required"
+                    value="#{migrationBean.pathToOldEngine}"
+                    required="true" />
+                  <p:message for="oldEngineInput"
+                    id="oldEngineInputMessage" />
+                </h:panelGroup>
+
+                <p:commandButton icon="si si-heavy-equipment-hook"
+                  value="Load Location"
+                  actionListener="#{migrationBean.checkOldEngineLocation}"
+                  validateClient="true" update="migration" />
+              </p:panelGrid>
+            </h:form>
+
+            <h:panelGroup layout="block" id="migration">
+              <h:form id="form" rendered="#{not empty migrationBean.migrationPath}">
+                <p:panelGrid columns="2" layout="grid"
+                  styleClass="ui-panelgrid-blank"
+                  columnClasses="ui-grid-col-9, ui-grid-col-3">
+                  <h3>Migrating: #{migrationBean.migrationPath}</h3>
+                  
+                  <h:panelGroup layout="block" style="margin: 20px 0;">
+                    <p:commandButton icon="si si-controls-play" value="Start"
+                      actionListener="#{migrationBean.execute}"
+                      update="migration" onsuccess="PF('migrationPoller').start()"
+                      rendered="#{migrationBean.state == 'START'}" />
+                    <p:linkButton icon="si si-check-1" value="Finish"
+                      href="/" rendered="#{migrationBean.state == 'FINISHED'}" />
+                    <p:commandButton icon="si si-button-refresh-arrows si-is-spinning"
+                      value="Running" disabled="true"
+                      rendered="#{migrationBean.state == 'RUNNING'}" />
+                    <p:poll interval="1"
+                      autoStart="#{migrationBean.state == 'RUNNING' and !migrationBean.runnerPaused}"
+                      update="migration" widgetVar="migrationPoller" />
+                  </h:panelGroup>
+                </p:panelGrid>
+                <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" closable="true" />
+                <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="repeatStatus">
+                  <div style="padding: 0 14px;">
+                    <h4 style="margin-top: 2rem; margin-bottom: 0;">
+                      <i class="si si-#{task.stateIcon}"
+                        style="margin-right: 10px;"></i> #{task.name}
+                    </h4>
+                    <p style="margin-left: 30px;">#{task.description}</p>
+                    <h:panelGroup rendered="#{task.state == 'running'}" layout="block">
+                      <h:panelGroup id="diff" layout="block" />
+                      <script>
+                      showDiff('form:tasks:#{repeatStatus.index}:diff', '#{task.question.diff}');
+                      </script>
+                      <h:panelGroup rendered="#{task.question != null}">
+                        <p style="font-weight: bold;">#{task.question.title}</p>
+                        <p style="white-space: pre-wrap;">#{task.question.more}</p>
+                        <p:selectOneButton value="#{task.question.answer}">
+                          <f:selectItems value="#{task.question.options}"
+                            var="option" itemLabel="#{option}"
+                            itemValue="#{option}" />
+                          <p:ajax onsuccess="PF('migrationPoller').start()"/>
+                        </p:selectOneButton>
+                      </h:panelGroup>
+                    </h:panelGroup>
+                  </div>
+                </ui:repeat>
+              </h:form>
+            </h:panelGroup>
+          </div>
+        </div>
+      </div>
+      
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

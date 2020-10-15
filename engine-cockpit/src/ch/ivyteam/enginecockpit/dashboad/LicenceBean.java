@@ -17,7 +17,7 @@ import com.google.inject.Inject;
 
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.model.LicenceMessage;
-import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
+import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
