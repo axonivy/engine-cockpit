@@ -7,6 +7,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -194,7 +195,7 @@ public class WebTestUsers
   void testSynchronizeSingleUser()
   {
     showSynchUserDialog();
-    $("#synchUserForm\\:userSynchName").shouldHave(text("")).sendKeys("user1");
+    $("#synchUserForm\\:userSynchName").shouldBe(exactValue("")).sendKeys("user1");
     $("#synchUserForm\\:synchUserVar").click();
     $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
   }
