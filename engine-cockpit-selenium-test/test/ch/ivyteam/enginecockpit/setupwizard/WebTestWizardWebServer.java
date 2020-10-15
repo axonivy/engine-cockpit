@@ -11,10 +11,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.axonivy.ivy.webtest.primeui.widget.InputNumber;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.codeborne.selenide.Selenide;
 
@@ -73,12 +73,9 @@ public class WebTestWizardWebServer
     assertThat(checkbox.isChecked()).isEqualTo(enabled);
     assertGrowl("Connector." + growlMessage + ".Enabled");
 
-    $(By.id("webserverForm:" + input + "_input")).sendKeys(Keys.BACK_SPACE);
-    $(By.id("webserverForm:" + input + "_input")).sendKeys(Keys.BACK_SPACE);
-    $(By.id("webserverForm:" + input + "_input")).sendKeys(Keys.BACK_SPACE);
-    $(By.id("webserverForm:" + input + "_input")).sendKeys(Keys.BACK_SPACE);
-    $(By.id("webserverForm:" + input + "_input")).sendKeys(value);
-    $(By.id("webserverForm:" + input + "_input")).shouldBe(value(value));
+    InputNumber inputNumber = PrimeUi.inputNumber(By.id("webserverForm:" + input));
+    inputNumber.setValue(value);
+    inputNumber.should(value(value));
     assertGrowl("Connector." + growlMessage + ".Port");
   }
 
