@@ -12,11 +12,11 @@
         <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
       </p:selectOneMenu>
 
-      <p:outputLabel value="Overwrite Project" for="overwriteProject" />
-      <p:selectBooleanCheckbox value="#{deployOptionsBean.overwriteProject}" widgetVar="overwriteProject"  id="overwriteProject" />
+      <p:outputLabel value="Overwrite Configuration" for="overwriteConfig" />
+      <p:selectBooleanCheckbox value="#{deployOptionsBean.overwriteConfig}" widgetVar="overwriteConfig"  id="overwriteConfig" />
       
-      <p:outputLabel value="Cleanup Project" for="cleanupProject" />
-      <p:selectOneMenu value="#{deployOptionsBean.cleanup}" widgetVar="cleanupProject" id="cleanupProject">
+      <p:outputLabel value="Cleanup Configuration" for="cleanupConfig" />
+      <p:selectOneMenu value="#{deployOptionsBean.cleanup}" widgetVar="cleanupConfig" id="cleanupConfig">
         <f:selectItems value="#{deployOptionsBean.cleanupValues}" />
       </p:selectOneMenu>
       
@@ -81,8 +81,8 @@
           var version = PF('version').input.val();
         }
         form_data.append('deployTestUsers', PF('deployTestUsers').input.val());
-        form_data.append('overwriteConfig', PF('overwriteProject').input.is(':checked'));
-        form_data.append('cleanupConfig', PF('cleanupProject').input.val());
+        form_data.append('overwriteConfig', PF('overwriteConfig').input.is(':checked'));
+        form_data.append('cleanupConfig', PF('cleanupConfig').input.val());
         form_data.append('targetVersion', version);
         form_data.append('targetState', PF('state').input.val());
         form_data.append('targetFileFormat', PF('fileFormat').input.val());
