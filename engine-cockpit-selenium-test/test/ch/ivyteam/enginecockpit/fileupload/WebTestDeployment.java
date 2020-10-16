@@ -85,8 +85,8 @@ public class WebTestDeployment
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
     SelectOneMenu testUser = PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
-    SelectBooleanCheckbox overwrite = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
-    SelectOneMenu cleanup = PrimeUi.selectOne(By.id("deploymentModal:cleanupProject"));
+    SelectBooleanCheckbox overwrite = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteConfig"));
+    SelectOneMenu cleanup = PrimeUi.selectOne(By.id("deploymentModal:cleanupConfig"));
     SelectOneMenu version = PrimeUi.selectOne(By.id("deploymentModal:version"));
     SelectOneMenu state = PrimeUi.selectOne(By.id("deploymentModal:state"));
     SelectOneMenu fileFormat = PrimeUi.selectOne(By.id("deploymentModal:fileFormat"));
@@ -98,7 +98,7 @@ public class WebTestDeployment
     assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED");
     assertThat(fileFormat.getSelectedItem()).isEqualTo("AUTO");
     
-    SelectBooleanCheckbox checkbox = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteProject"));
+    SelectBooleanCheckbox checkbox = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteConfig"));
     checkbox.setChecked();
     assertThat(overwrite.isChecked()).isTrue();
   }
