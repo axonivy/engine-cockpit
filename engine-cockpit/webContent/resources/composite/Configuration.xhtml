@@ -57,8 +57,8 @@
     severity="alert" widgetVar="resetConfigConfirmDialog">
     <h:form id="resetConfigConfirmForm">
       <p:commandLink value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
-      <p:commandButton id="resetConfigConfirmYesBtn" value="Reset" ajax="false" immediate="true" actionListener="#{cc.attrs.bean.resetConfig}"
-        icon="ui-icon-close" styleClass="modal-input-button" />
+      <p:commandButton id="resetConfigConfirmYesBtn" value="Reset" update="config:form:configTable" immediate="true" actionListener="#{cc.attrs.bean.resetConfig}"
+        icon="ui-icon-close" styleClass="modal-input-button" onclick="PF('resetConfigConfirmDialog').hide();" />
     </h:form>
   </p:confirmDialog>
     
