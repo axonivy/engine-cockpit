@@ -129,9 +129,19 @@ public class ConfigProperty
     return configValueFormat.name();
   }
   
+  public void setConfigValueFormat(ConfigValueFormat format)
+  {
+    this.configValueFormat = format;
+  }
+  
   public List<String> getEnumerationValues()
   {
     return enumerationValues;
+  }
+  
+  public void setEnumerationValues(List<String> values)
+  {
+    this.enumerationValues = values;
   }
   
   public boolean isRestartRequired()

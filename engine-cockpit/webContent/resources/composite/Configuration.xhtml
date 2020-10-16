@@ -56,8 +56,8 @@
     message="Are you sure about reseting the configuration '#{cc.attrs.bean.activeConfig.key}=#{cc.attrs.bean.activeConfig.password ? '******' : cc.attrs.bean.activeConfig.value}'?" 
     severity="alert" widgetVar="resetConfigConfirmDialog">
     <h:form id="resetConfigConfirmForm">
-      <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" ajax="false" immediate="true" actionListener="#{cc.attrs.bean.resetConfig}"
-        icon="ui-icon-check" style="width: inherit;" />
+      <p:commandButton id="resetConfigConfirmYesBtn" value="Yes" update="config:form:configTable" immediate="true" actionListener="#{cc.attrs.bean.resetConfig}"
+        icon="ui-icon-check" style="width: inherit;" onclick="PF('resetConfigConfirmDialog').hide();" />
       <p:commandButton value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button" icon="ui-icon-close"
         style="width: inherit;" />
     </h:form>

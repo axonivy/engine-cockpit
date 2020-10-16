@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -21,15 +22,17 @@ public class ConfigView
   private boolean showDefaults;
   private ConfigProperty activeConfig;
   private IConfiguration configuration;
+  private Function<ConfigProperty, ConfigProperty> propertyEnricher;
 
   public ConfigView()
   {
-    this(IConfiguration.get());
+    this(IConfiguration.get(), c -> c);
   }
 
-  public ConfigView(IConfiguration configuration)
+  public ConfigView(IConfiguration configuration, Function<ConfigProperty, ConfigProperty> propertyEnricher)
   {
     this.configuration = configuration;
+    this.propertyEnricher = propertyEnricher;
     reloadConfigs();
     showDefaults = true;
   }
@@ -40,6 +43,7 @@ public class ConfigView
             .filter(property -> !StringUtils.startsWith(property.getKey(), "Applications."))
             .filter(property -> !StringUtils.startsWith(property.getKey(), "SecuritySystems."))
             .map(property -> new ConfigProperty(property))
+            .map(propertyEnricher)
             .collect(Collectors.toList());
   }
 

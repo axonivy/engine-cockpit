@@ -1,8 +1,10 @@
 package ch.ivyteam.enginecockpit;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -10,14 +12,21 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.configuration.ConfigView;
 import ch.ivyteam.enginecockpit.model.Application;
+import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
+import ch.ivyteam.ivy.workflow.StandardProcessType;
+import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("restriction")
 public class ApplicationDetailBean
 {
   private String appName;
@@ -58,8 +67,7 @@ public class ApplicationDetailBean
     security = initSecuritySystem(appName);
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
-    
-    configView = new ConfigView(((IApplicationInternal) getIApplication()).getConfiguration());
+    configView = new ConfigView(((IApplicationInternal) getIApplication()).getConfiguration(), this::enrichStandardProcessConfigs);
   }
   
   public Application getApplication()
@@ -145,4 +153,34 @@ public class ApplicationDetailBean
     return configView;
   }
   
+  private ConfigProperty enrichStandardProcessConfigs(ConfigProperty property)
+  {
+    if (StringUtils.startsWith(property.getKey(), "StandardProcess"))
+    {
+      property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
+      property.setEnumerationValues(availableStandardProcesses(property));
+    }
+    return property;
+  }
+  
+  private List<String> availableStandardProcesses(ConfigProperty config)
+  {
+    var workflow = WorkflowNavigationUtil.getWorkflowContext(managerBean.getSelectedIApplication());
+    var libraries = new LinkedHashSet<String>();
+    libraries.add(config.getValue());
+    for (StandardProcessType processType : processTypesForConfig(config.getKey()))
+    {
+      libraries.addAll(workflow.getAvailableStandardProcessImplementations(processType));
+    }
+    return List.copyOf(libraries);
+  }
+  
+  private Set<StandardProcessType> processTypesForConfig(String key)
+  {
+    if (StringUtils.endsWith(key, "DefaultPages"))
+    {
+      return StandardProcessType.DEFAULT_PAGES_PROCESS_TYPES;
+    }
+    return StandardProcessType.MAIL_NOTIFICATION_PROCESS_TYPES;
+  }
 }
