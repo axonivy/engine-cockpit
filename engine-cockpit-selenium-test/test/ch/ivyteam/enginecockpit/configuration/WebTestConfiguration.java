@@ -5,6 +5,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
@@ -186,6 +187,37 @@ public class WebTestConfiguration
       assertNewConfig(key, value);
       assertEditConfig(key, value, "newValue");
       assertResetConfig(key);
+    }
+  }
+  
+  @Nested
+  class ApplicationPortal
+  {
+    @BeforeEach
+    void beforeEach()
+    {
+      Navigation.toApplicationDetail("demo-portal");
+      $(By.id("configMoreForm:configMoreButton"))
+              .scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      table = new Table(TABLE_ID);
+    }
+    
+    @Test
+    void testStandardProcess_defaultPages()
+    {
+      String config = "StandardProcess.DefaultPages";
+      table.clickButtonForEntry(config, "editConfigBtn");
+      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate");
+      $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
+    }
+    
+    @Test
+    void testStandardProcess_mailNotification()
+    {
+      String config = "StandardProcess.MailNotification";
+      table.clickButtonForEntry(config, "editConfigBtn");
+      assertThatConfigEditModalIsVisible(config, " ");
+      $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
   }
   
