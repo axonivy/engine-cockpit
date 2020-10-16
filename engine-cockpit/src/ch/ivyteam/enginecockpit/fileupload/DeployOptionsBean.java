@@ -20,7 +20,7 @@ public class DeployOptionsBean
   private String deployTestUsers = TestUser.AUTO.name();
   private List<String> deployTestUsersValues = listNames(TestUser.values());
   
-  private boolean overwriteProject = false;
+  private boolean overwriteConfig = false;
   private String cleanup = Cleanup.DISABLED.name();
   private List<String> cleanupValues = listNames(Cleanup.values());
   
@@ -50,9 +50,9 @@ public class DeployOptionsBean
     return deployTestUsersValues;
   }
   
-  public boolean isOverwriteProject()
+  public boolean isOverwriteConfig()
   {
-    return overwriteProject;
+    return overwriteConfig;
   }
 
   public String getCleanup()
@@ -105,9 +105,9 @@ public class DeployOptionsBean
     this.deployTestUsersValues = deployTestUsersValues;
   }
 
-  public void setOverwriteProject(boolean overwriteProject)
+  public void setOverwriteConfig(boolean overwriteConfig)
   {
-    this.overwriteProject = overwriteProject;
+    this.overwriteConfig = overwriteConfig;
   }
 
   public void setCleanup(String cleanup)
