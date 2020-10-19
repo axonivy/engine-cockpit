@@ -167,6 +167,7 @@ public class ApplicationDetailBean
   {
     var workflow = WorkflowNavigationUtil.getWorkflowContext(managerBean.getSelectedIApplication());
     var libraries = new LinkedHashSet<String>();
+    libraries.add("");
     libraries.add(config.getValue());
     for (StandardProcessType processType : processTypesForConfig(config.getKey()))
     {
