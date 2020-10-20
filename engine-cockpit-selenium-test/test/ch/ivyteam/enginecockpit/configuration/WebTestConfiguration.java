@@ -27,7 +27,6 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
-import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -170,7 +169,6 @@ public class WebTestConfiguration
       $(".restart-notification").shouldBe(visible);
       table.valueForEntryShould(config, 2, exactText("hi"));
       assertResetConfig(config);
-      Selenide.sleep(500);
       refresh();
       $(".restart-notification").shouldNotBe(visible);
     }

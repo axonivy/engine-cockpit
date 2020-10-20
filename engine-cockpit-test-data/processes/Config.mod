@@ -1,5 +1,5 @@
 [Ivy]
-16E881C7DC458C7D 7.5.0 #module
+16E881C7DC458C7D 9.2.0 #module
 >Proto >Proto Collection #zClass
 Cg0 Config Big #zClass
 Cg0 B #cInfo
@@ -74,7 +74,10 @@ Cg0 f8 actionTable 'out=in;
 ' #txt
 Cg0 f8 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
-IConfiguration.instance().remove("Connector");' #txt
+IConfiguration.instance().remove("Connector.HTTPS");
+IConfiguration.instance().remove("Connector.AJP");
+IConfiguration.instance().remove("Connector.HTTP.Enabled");
+IConfiguration.instance().remove("Connector.HTTP.Port");' #txt
 Cg0 f8 168 138 112 44 0 -7 #rect
 Cg0 f8 @|StepIcon #fIcon
 Cg0 f9 111 160 168 160 #arcP
