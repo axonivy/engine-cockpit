@@ -41,7 +41,7 @@
     <p:commandButton id="showDeployOptionsBtn" value="Options" icon="ui-icon-visibility" styleClass="secondary-btn modal-input-button"
       type="button" onclick="visualToggle()" style="float: left; width: 25%;" />
     <a href="#{advisorBean.engineGuideBaseUrl}/administration/deployment.html#deployment-options" 
-      target="_blank" style="float: left; padding-top: 2px; margin-left: 10px;">
+      target="_blank" style="float: left; padding-top: 2px; margin-left: 10px; display: none;">
       <i class="material-icons">help</i>
     </a>
     <script>
@@ -60,6 +60,7 @@
       
       function visualToggle(){
         $('#deploymentModal\\:deployOptionsPanel').toggle();
+        $('.file-upload > a').toggle();
         disabled = optionsHidden();
       	$('#deploymentModal\\:showDeployOptionsBtn').toggleClass("primary-btn", disabled);
       	$('#deploymentModal\\:showDeployOptionsBtn').toggleClass("secondary-btn", disabled);
