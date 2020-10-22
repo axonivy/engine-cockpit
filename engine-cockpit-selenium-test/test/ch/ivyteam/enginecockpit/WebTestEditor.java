@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.empty;
@@ -13,6 +14,7 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -89,6 +91,14 @@ public class WebTestEditor
     $("#card\\:editorMessage_container").shouldBe(empty);
     $(getActivePanelCss() + "editorForm\\:saveEditor").click();
     $("#card\\:editorMessage_container").shouldBe(exactText("Saved app-test.yaml Successfully"));
+  }
+  
+  @Test
+  void directFileOpenUrl()
+  {
+    open(viewUrl("editor.xhtml?file=app-test.yaml"));
+    assertThat(Tab.getSelectedTab()).contains("app-test.yaml");
+    $(editorContentSelector()).shouldHave(value("BusinessCalendars:"));
   }
   
   private void disableDevMode()
