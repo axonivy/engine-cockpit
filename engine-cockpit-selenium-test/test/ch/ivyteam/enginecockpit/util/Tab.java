@@ -5,6 +5,7 @@ import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
@@ -42,7 +43,7 @@ public class Tab
   
   public static String getSelectedTab()
   {
-    return $(SELECTED_APPLICATION_TAB).getText();
+    return $(SELECTED_APPLICATION_TAB).shouldBe(visible).getText();
   }
   
   public static void switchToDefault()

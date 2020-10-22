@@ -26,6 +26,8 @@ public class EditorBean
   
   private ManagerBean managerBean;
 
+  private String selectedFile;
+
   public EditorBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
@@ -57,6 +59,28 @@ public class EditorBean
   public void setActiveConfigFile(ConfigFile activeConfigFile)
   {
     this.activeConfigFile = activeConfigFile;
+  }
+  
+  public int getTabIndex()
+  {
+    var configFile = configFiles.stream().filter(f -> f.getFileName().equals(selectedFile)).findFirst()
+            .orElse(configFiles.get(0));
+    return configFiles.indexOf(configFile);
+  }
+  
+  public void setTabIndex(@SuppressWarnings("unused") int index)
+  {
+    //Do nothing
+  }
+  
+  public String getSelectedFile()
+  {
+    return selectedFile;
+  }
+  
+  public void setSelectedFile(String file)
+  {
+    this.selectedFile = file;
   }
   
 }

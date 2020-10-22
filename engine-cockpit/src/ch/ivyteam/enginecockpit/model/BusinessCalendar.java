@@ -122,7 +122,7 @@ public class BusinessCalendar
     private TimeDayConfig(CalendarListEntry day)
     {
       this.desc = day.getDescription();
-      this.value = day.getValue();
+      this.value = StringUtils.capitalize(day.getValue());
     }
     
     public TimeDayConfig(FreeDayOfYear freeDay, String calendarName)
