@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
 import ch.ivyteam.ivy.application.ILibrarySpecification;
+import ch.ivyteam.ivy.application.value.VersionRange;
 
 public class LibSpecification
 {
@@ -15,8 +16,7 @@ public class LibSpecification
   {
     id = spec.getId();
     resolved = spec.isResolved();
-    version = "[" + spec.getMinimumVersion().getQualifiedVersion() + 
-            " .. " + spec.getMaximumVersion().getQualifiedVersion() + "]";
+    version = VersionRange.of(spec).toString();
     var resolvedLib = spec.getResolvedLibrary();
     if (resolvedLib != null)
     {
