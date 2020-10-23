@@ -74,7 +74,7 @@
             <p:dataTable id="specifiedTable" var="spec" value="#{pmvDetailBean.requiredSpecifications}"
               emptyMessage="The PMV '#{pmvDetailBean.pmv.name}' has no specified required projects.">
               <p:column headerText="Id">
-                <h:outputText value="#{spec.Id}" title="#{spec.Id}" />
+                <h:outputText value="#{spec.id}" title="#{spec.id}" />
               </p:column>
               <p:column headerText="Version">
                 <h:outputText value="#{spec.version}" />
