@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.fileupload;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -77,6 +78,7 @@ public class WebTestDeployment
     $("#deploymentModal\\:backBtn").click();
     $("#fileUploadForm").shouldBe(visible);
     $("#uploadLog").shouldNotBe(visible);
+    $("#deploymentModal\\:uploadBtn > .ui-icon").shouldNotHave(cssClass("icon-is-spinning"));
   }
   
   @Test

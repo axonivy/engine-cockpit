@@ -20,7 +20,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless = false)
+@IvyWebTest
 public class WebTestProperties
 {
   private static final String PROPERTY_VALUE_MESSAGE = "#propertyModalForm\\:propertyValueMessage";
@@ -45,7 +45,7 @@ public class WebTestProperties
     WebTestUsers.triggerSync();
    
     Navigation.toUserDetail("user1");
-    assertTableHasDirectoryProperty("Address", "Baarerstrasse 12 synchronize");
+    assertTableHasDirectoryProperty("Address", "Baarerstrasse 12");
   }
   
   @Nested

@@ -41,10 +41,11 @@
       var uploadUrl = "#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}"
     
       function beforeUpload() {
-    	  buttonSpinner($("#deploymentModal\\:uploadBtn"), "ivyicon-upload-bottom");
+    	  buttonAddSpinner($("#deploymentModal\\:uploadBtn"));
       }
       
       function uploadedAlways() {
+    	  buttonRemoveSpinner($("#deploymentModal\\:uploadBtn"), "ivyicon-upload-bottom");
     	  $('#fileUploadResponse').show();
     	  $('#fileUploadForm').hide();
         PF('fileUploadModal').initPosition();

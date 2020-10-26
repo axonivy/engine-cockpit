@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -26,8 +27,6 @@ public class WebTestPmvDetail
   private static final String APP = isDesigner() ? DESIGNER : "demo-portal";
   private static final String PM = "PortalTemplate";
   private static final String PMV = "PortalTemplate$1";
-  private static final String RESOLVED = "done";  
-  private static final String NOT_RESOLVED = "clear";
 
   @BeforeEach
   void beforeEach()
@@ -68,37 +67,36 @@ public class WebTestPmvDetail
   {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
     depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "portal-user-examples$1"));
-    checkPmvEntry(depTable, "AxonIvyExpress$1", NOT_RESOLVED);
-    checkPmvEntry(depTable, "portal-user-examples$1", NOT_RESOLVED);
+    checkPmvEntry(depTable, "AxonIvyExpress$1");
+    checkPmvEntry(depTable, "portal-user-examples$1");
     
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
     reqTable.firstColumnShouldBe(empty);
     
     Table specTable = new Table(By.id("specifiedTable"));
     specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
-    specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, text(NOT_RESOLVED));
+    specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, Condition.empty);
   }
 
   private void dependenciesResolved()
   {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
     depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "portal-user-examples$1"));
-    checkPmvEntry(depTable, "AxonIvyExpress$1", RESOLVED);
-    checkPmvEntry(depTable, "portal-user-examples$1", RESOLVED);
+    checkPmvEntry(depTable, "AxonIvyExpress$1");
+    checkPmvEntry(depTable, "portal-user-examples$1");
     
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
     reqTable.firstColumnShouldBe(texts("PortalKit$1", "PortalStyle$1"));
-    checkPmvEntry(reqTable, "PortalKit$1", RESOLVED);
-    checkPmvEntry(reqTable, "PortalStyle$1", RESOLVED);
+    checkPmvEntry(reqTable, "PortalKit$1");
+    checkPmvEntry(reqTable, "PortalStyle$1");
     
     Table specTable = new Table(By.id("specifiedTable"));
     specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
-    specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, text(RESOLVED));
+    specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, text("PortalKit$1"));
   }
 
-  private void checkPmvEntry(Table table, String entry, String resolved)
+  private void checkPmvEntry(Table table, String entry)
   {
-    table.valueForEntryShould(entry, 2, text(resolved));
     table.valueForEntryShould(entry, 4, text("ACTIVE"));
     table.valueForEntryShould(entry, 5, text("RELEASED"));
   }

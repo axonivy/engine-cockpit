@@ -8,6 +8,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFin
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.and;
 import static com.codeborne.selenide.Condition.appears;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
@@ -168,7 +169,7 @@ public class WebTestSystemDb
   {
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $("#systemDb\\:createDatabaseForm .fa.fa-circle-o-notch.fa-spin").shouldBe(visible);
+    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("icon-is-spinning"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").waitUntil(
             and("wait until db created", appears, enabled), 20000);
     $("#systemDb\\:createDatabaseForm\\:creationResult").shouldBe(empty);
@@ -191,7 +192,7 @@ public class WebTestSystemDb
   {
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $("#systemDb\\:convertDatabaseForm .fa.fa-circle-o-notch.fa-spin").shouldBe(visible);
+    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("icon-is-spinning"));
     $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").waitUntil(
             and("wait until db converted", appears, enabled), 20000);
     $("#systemDb\\:convertDatabaseForm\\:conversionResult").shouldBe(empty);

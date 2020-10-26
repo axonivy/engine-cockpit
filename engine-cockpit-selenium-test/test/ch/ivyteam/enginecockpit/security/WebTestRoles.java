@@ -77,8 +77,8 @@ public class WebTestRoles
     Tab.switchToTab("test-ad");
     String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
-    $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
-    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));
+    $(syncBtnId).findAll("span").first().shouldHave(cssClass("icon-is-spinning"));
+    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("icon-is-spinning"));
   }
   
   private static String getAppTabId()
