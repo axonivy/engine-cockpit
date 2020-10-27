@@ -105,6 +105,9 @@ body {
 	font-size: 18px;
 	margin-right: 5px;
 }
+.dashboard .overview-box .overview-box-content .overview-box-icon i {
+  font-size: 26px;
+}
 
 /*Messages*/
 .dashboard-warnings .ui-staticmessage {
