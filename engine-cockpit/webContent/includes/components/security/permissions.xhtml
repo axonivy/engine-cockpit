@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">lock_open</i>
+  <i class="icon ivyicon-lock-1 table-icon panel-title-icon"></i>
   <h:outputText value="Permissions" />
 </f:facet>
 <h:form id="permissionsForm">
@@ -14,15 +14,15 @@
   <div class="ui-tree-search-header">
     <div class="ui-datatable-header ui-widget-header ui-corner-top">
       <p:outputPanel>
-        <label class="table-search-icon">
-          <i class="material-icons">search</i>
-        </label>
+        <span class="table-search-icon">
+          <i class="icon ivyicon-search"></i>
+        </span>
         <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{permissionBean.filter}">
           <p:ajax event="keyup" delay="500" update="@form:permissionTable" />
         </p:inputText>
-        <p:commandButton id="expandAll" widgetVar="createApplication" icon="ui-icon-unfold-more" actionListener="#{permissionBean.expandAllNodes}"
+        <p:commandButton id="expandAll" widgetVar="createApplication" icon="icon ivyicon-move-expand-vertical" actionListener="#{permissionBean.expandAllNodes}"
           update="permissionTable" title="Expand all" styleClass="secondary-btn" />
-        <p:commandButton id="collapseAll" widgetVar="createApplication" icon="ui-icon-unfold-less" actionListener="#{permissionBean.collapseAllNodes}"
+        <p:commandButton id="collapseAll" widgetVar="createApplication" icon="icon ivyicon-move-shrink-vertical" actionListener="#{permissionBean.collapseAllNodes}"
           update="permissionTable"  title="Collapse all" styleClass="secondary-btn" />
       </p:outputPanel>
     </div>
@@ -32,45 +32,45 @@
   	<p:ajax event="collapse" listener="#{permissionBean.nodeCollapse}"/>
     <p:column headerText="All Permissions">
       <h:outputText value="#{permission.name}" title="#{permission.path}">
-        <i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
+        <i class="icon ivyicon-#{permission.group ? 'folder-empty' : 'lock-1'} table-icon"></i>
       </h:outputText>
     </p:column>
 
-    <p:column style="width: 62px; text-align: center;" styleClass="permission-icon">
+    <p:column style="width: 70px; text-align: center;" styleClass="permission-icon">
       <h:outputText rendered="#{permission.grant}">
-        <i class="fa fa-check table-icon no-margin" title="Permission granted"/>
+        <i class="icon ivyicon-check-circle table-icon no-margin" title="Permission granted"/>
       </h:outputText>
       <h:outputText rendered="#{!permission.grant and permission.someGrant}">
-        <i class="fa fa-check table-icon no-margin light" title="Some Permission granted"/>
+        <i class="icon ivyicon-check-circle table-icon no-margin light" title="Some Permission granted"/>
       </h:outputText>
       <h:outputText rendered="#{permission.deny}">
-        <i class="fa fa-minus-circle table-icon"  title="Permission denied"/>
+        <i class="icon ivyicon-subtract-circle table-icon"  title="Permission denied"/>
       </h:outputText>
       <h:outputText rendered="#{!permission.deny and permission.someDeny}">
-        <i class="fa fa-minus-circle table-icon light" title="Some Permission denied"/>
+        <i class="icon ivyicon-subtract-circle table-icon light" title="Some Permission denied"/>
       </h:outputText>
       <h:outputText rendered="#{!permission.group and not empty permission.permissionHolder and !permission.explicit}">
-        <i class="material-icons table-icon" title="#{permission.permissionHolder}">people</i>
+        <i class="icon ivyicon-multiple-neutral-1 table-icon" title="#{permission.permissionHolder}"></i>
       </h:outputText>
     </p:column>
 
     <p:column headerText="Grant" style="text-align: center; width: 95px; ">
-      <p:commandButton id="grantPermissionBtn" type="button" icon="ui-icon-add" title="Grant"
+      <p:commandButton id="grantPermissionBtn" type="button" icon="icon ivyicon-add" title="Grant"
         styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.grantDisabled}">
         <p:ajax update="@form" listener="#{permission.grant}" />
       </p:commandButton>
-      <p:commandButton id="unGrantPermissionBtn" type="button" icon="ui-icon-remove" title="Ungrant"
+      <p:commandButton id="unGrantPermissionBtn" type="button" icon="icon ivyicon-subtract" title="Ungrant"
         styleClass="card-button table-control-btn secondary-btn" disabled="#{permission.unGrantDisabled}">
         <p:ajax update="@form" listener="#{permission.ungrant}" />
       </p:commandButton>
     </p:column>
 
     <p:column headerText="Deny" style="text-align: center; width: 95px;">
-      <p:commandButton id="denyPermissionBtn" type="button" icon="ui-icon-add" title="Deny"
+      <p:commandButton id="denyPermissionBtn" type="button" icon="icon ivyicon-add" title="Deny"
         styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.denyDisabled}">
         <p:ajax update="@form" listener="#{permission.deny}" />
       </p:commandButton>
-      <p:commandButton id="unDenyPermissionBtn" type="button" icon="ui-icon-remove" title="Undeny"
+      <p:commandButton id="unDenyPermissionBtn" type="button" icon="icon ivyicon-subtract" title="Undeny"
         styleClass="card-button table-control-btn secondary-btn" disabled="#{permission.unDenyDisabled}">
         <p:ajax update="@form" listener="#{permission.undeny}" />
       </p:commandButton>

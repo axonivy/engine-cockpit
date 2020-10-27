@@ -14,7 +14,7 @@
 
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#mbeans" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
     </ui:define>
 
@@ -24,16 +24,16 @@
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
             <p:panel style="min-height: 350px;">
               <f:facet name="header">
-                <i class="material-icons table-icon panel-title-icon">local_cafe</i>
+                <i class="icon ivyicon-coffee-cup table-icon panel-title-icon"></i>
                 <h:outputText value="MBeans" />
               </f:facet>
               <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single" 
                 style="border: none; max-height: 350px; overflow: auto; padding: 0;" id="mBeans">
                 <p:ajax event="select" update="attributes" listener="#{mBeansBean.onSelectNode}" />
-                <p:treeNode type="folder" icon="ui-icon-folder">
+                <p:treeNode type="folder" icon="icon ivyicon-folder-empty">
                   <h:outputText value="#{node.displayName}" />
                 </p:treeNode>
-                <p:treeNode type="bean" icon="ui-icon-equalizer">
+                <p:treeNode type="bean" icon="icon ivyicon-analytics-bars">
                   <h:outputText value="#{node.displayName}" />
                 </p:treeNode>
               </p:tree>
@@ -42,7 +42,7 @@
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
             <p:panel style="min-height: 350px;">
               <f:facet name="header">
-                <i class="material-icons table-icon panel-title-icon">settings</i>
+                <i class="icon ivyicon-cog table-icon panel-title-icon"></i>
                 <h:outputText value="Attributes" />
               </f:facet>
               <p:dataTable id="attributes" var="mAttr" value="#{mBeansBean.attributes}" rowIndexVar="rowIndex"
@@ -57,7 +57,7 @@
                 </p:column>
                 <p:column style="width: 55px">
                   <p:commandButton id="addTrace" rendered="#{mAttr.isTraceable}" update="chart" immediate="true"
-                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="ui-icon-equalizer" />
+                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="icon ivyicon-analytics-graph" />
                 </p:column>
               </p:dataTable>
             </p:panel>
@@ -65,7 +65,7 @@
           <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
             <p:panel id="chart" style="min-height: 350px;">
               <f:facet name="header">
-                <i class="material-icons table-icon panel-title-icon">equalizer</i>
+                <i class="icon ivyicon-analytics-bars table-icon panel-title-icon"></i>
                 <h:outputText value="Chart" />
               </f:facet>
               <p:chart id="diagram" type="line" model="#{mBeansBean.tracesMonitor.model}" responsive="true" style="height:300px;" />
@@ -88,7 +88,7 @@
                 </p:column>
                 <p:column style="width: 55px">
                   <p:commandButton id="removeTrace" update="chart" immediate="true" actionListener="#{mBeansBean.removeTrace(trace)}" 
-                    icon="ui-icon-clear" styleClass="red-btn" />
+                    icon="icon ivyicon-remove" styleClass="red-btn" />
                 </p:column>
               </p:dataTable>
             </p:panel>

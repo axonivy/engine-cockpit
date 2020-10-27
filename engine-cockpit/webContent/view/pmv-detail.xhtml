@@ -23,7 +23,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}applications.html#pmv-detail" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
     </ui:define>
     
@@ -32,7 +32,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-8 dashboard-card">
           <p:panel id="info" styleClass="min-height-200">
             <f:facet name="header">
-              <i class="material-icons table-icon panel-title-icon">info</i>
+              <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
               <h:outputText value="PMV information" />
             </f:facet>
             <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -51,7 +51,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-4 dashboard-card">
           <p:panel id="activity" styleClass="min-height-200">
             <f:facet name="header">
-              <i class="material-icons table-icon panel-title-icon">play_circle_outline</i>
+              <i class="icon ivyicon-cog-play table-icon panel-title-icon"></i>
               <h:outputText value="Activity" />
             </f:facet>
             <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -68,7 +68,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
           <p:panel styleClass="min-height-250">
             <f:facet name="header">
-              <i class="material-icons table-icon panel-title-icon">device_hub</i>
+              <i class="icon ivyicon-module-three-1 table-icon panel-title-icon"></i>
               <h:outputText value="Specified required projects" />
             </f:facet>
             <p:dataTable id="specifiedTable" var="spec" value="#{pmvDetailBean.requiredSpecifications}"
@@ -80,8 +80,8 @@
                 <h:outputText value="#{spec.version}" />
               </p:column>
               <p:column headerText="Resolved PMV">
-                <i class="material-icons state-#{spec.resolved ? 'active' : 'inactive'} table-icon" style="font-size: 24px; top: 5px;"
-                  title="#{spec.resolvedTooltip}">#{spec.resolved ? 'done' : 'clear'}</i>
+                <i class="icon ivyicon-#{spec.resolved ? 'check-circle-1' : 'remove-circle'} state-#{spec.resolved ? 'active' : 'inactive'} table-icon" 
+                  title="#{spec.resolvedTooltip}"></i>
                 <h:outputLink value="#{spec.resolvedPmv.detailView}">
                   <h:outputText value="#{spec.resolvedPmvName}" />
                 </h:outputLink>
@@ -93,7 +93,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
           <p:panel styleClass="min-height-250">
             <f:facet name="header">
-              <i class="material-icons table-icon panel-title-icon">arrow_upward</i>
+              <i class="icon ivyicon-navigation-up-circle table-icon panel-title-icon"></i>
               <h:outputText value="All PMVs depending on this PMV" />
             </f:facet>
             <p:dataTable id="dependentPmvTable" var="pmv" value="#{pmvDetailBean.dependentPmvs}" 
@@ -106,8 +106,8 @@
                 </h:outputLink>
               </p:column>
               <p:column headerText="Resolved">
-                <i class="material-icons state-#{pmv.libraryResolved ? 'active' : 'inactive'}"
-                  title="#{pmv.libraryResolvedTooltip}">#{pmv.libraryResolved ? 'done' : 'clear'}</i>
+                <i class="icon ivyicon-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon state-#{pmv.libraryResolved ? 'active' : 'inactive'}"
+                  title="#{pmv.libraryResolvedTooltip}"></i>
               </p:column>
               <p:column headerText="Version">
                 <h:outputText value="#{pmv.qualifiedVersion}" />
@@ -127,7 +127,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
           <p:panel styleClass="min-height-250">
             <f:facet name="header">
-              <i class="material-icons table-icon panel-title-icon">arrow_downward</i>
+              <i class="icon ivyicon-navigation-down-circle table-icon panel-title-icon"></i>
               <h:outputText value="All PMVs required by this PMV" />
             </f:facet>
             <p:dataTable id="requriedPmvTable" var="pmv" value="#{pmvDetailBean.requiredPmvs}"
@@ -141,8 +141,8 @@
                 </h:outputLink>
               </p:column>
               <p:column headerText="Resolved">
-                <i class="material-icons state-#{pmv.libraryResolved ? 'active' : 'inactive'}"
-                  title="#{pmv.libraryResolvedTooltip}">#{pmv.libraryResolved ? 'done' : 'clear'}</i>
+                <i class="icon ivyicon-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon state-#{pmv.libraryResolved ? 'active' : 'inactive'}"
+                  title="#{pmv.libraryResolvedTooltip}"></i>
               </p:column>
               <p:column headerText="Version">
                 <h:outputText value="#{pmv.qualifiedVersion}" />

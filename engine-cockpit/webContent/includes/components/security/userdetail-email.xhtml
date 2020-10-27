@@ -5,7 +5,7 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">email</i>
+  <i class="icon ivyicon-email-action-unread table-icon panel-title-icon"></i>
   <h:outputText value="Email Notification Settings" />
 </f:facet>
 <h:form id="userEmailForm">
@@ -13,7 +13,7 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
-    title="Save changes" icon="ui-icon-save" styleClass="accent-btn card-button" />
+    title="Save changes" icon="icon ivyicon-floppy-disk" styleClass="accent-btn card-button" />
   <cc:EmailSettings emailSettings="#{userDetailBean.emailSettings}"
     supportedLanguages="#{managerBean.supportedLanguagesWithDefault}" id="emailSettings">
     <p:outputLabel value="Settings from" for="radioSettings" />

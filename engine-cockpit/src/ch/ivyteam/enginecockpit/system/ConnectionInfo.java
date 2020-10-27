@@ -19,7 +19,7 @@ public class ConnectionInfo
     label = "Connection state unknown";
     advise = "Please check the connection to the Database.";
     messageLevel = "ui-message-info";
-    icon = "fa fa-plug fa-fw";
+    icon = "icon ivyicon-question-circle";
   }
   
   public ConnectionInfo(ConnectionTestResult result)
@@ -101,13 +101,13 @@ public class ConnectionInfo
   {
     if (result.isSuccessful())
     {
-      return "fa fa-check-circle fa-fw";
+      return "icon ivyicon-check-circle";
     }
     else if (result.isFailed())
     {
-      return "fa fa-times-circle fa-fw";
+      return "icon ivyicon-delete-1";
     }
-    return "fa fa-exclamation-triangle fa-fw";
+    return "icon ivyicon-question-circle";
   }
   
 }

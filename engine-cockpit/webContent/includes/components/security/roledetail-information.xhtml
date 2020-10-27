@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">info</i>
+  <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
   <h:outputText value="Role information" />
 </f:facet>
 <h:form id="roleInformationForm">
@@ -12,17 +12,17 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
-    icon="ui-icon-save" styleClass="accent-btn card-button" update="usersOfRoleForm" />
+    icon="icon ivyicon-floppy-disk" styleClass="accent-btn card-button" update="usersOfRoleForm" />
   <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
-    title="Add new child role" icon="ui-icon-add" styleClass="secondary-btn card-button" />
+    title="Add new child role" icon="icon ivyicon-add" styleClass="secondary-btn card-button" />
   <p:commandButton id="deleteRole" rendered="#{roleDetailBean.role.dynamic}" type="button" onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role"
-    icon="ui-icon-delete" styleClass="red-btn card-button" />
+    icon="icon ivyicon-bin-1" styleClass="red-btn card-button" />
   <p:confirmDialog id="deleteRoleConfirmDialog" message="Are you sure about deleteing the role '#{roleDetailBean.roleName}'?" header="Delete Role"
     severity="alert" widgetVar="deleteRoleConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
       styleClass="secondary-btn modal-input-button" />
     <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" ajax="false" immediate="true" action="#{roleDetailBean.deleteRole}"
-      styleClass="modal-input-button" icon="ui-icon-delete" />
+      styleClass="modal-input-button" icon="icon ivyicon-bin-1" />
   </p:confirmDialog>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -39,7 +39,7 @@
     <h:panelGroup>
       <p:inputText id="externalSecurityName" style="width: calc(100% - 32px);"
         value="#{roleDetailBean.role.externalName}" />
-      <p:commandButton id="browseExternalName" icon="ui-icon-language" title="Browse" styleClass="primary-btn" style="right: -6px;"
+      <p:commandButton id="browseExternalName" icon="icon ivyicon-network-browser" title="Browse" style="right: -6px;"
         actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"
         disabled="#{roleDetailBean.role.name eq 'Everybody' or managerBean.ivySecuritySystem}" />
     </h:panelGroup>

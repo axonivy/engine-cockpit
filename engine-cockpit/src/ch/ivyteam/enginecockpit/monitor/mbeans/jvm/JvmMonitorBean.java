@@ -18,9 +18,9 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class JvmMonitorBean
 {
-  private final Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer").yAxisLabel("Load").toMonitor();
-  private final Monitor classesMonitor = Monitor.build().name("Classes").icon("free_breakfast").toMonitor();
-  private final Monitor threadsMonitor = Monitor.build().name("Threads").icon("gesture").toMonitor();
+  private final Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer-chip").yAxisLabel("Load").toMonitor();
+  private final Monitor classesMonitor = Monitor.build().name("Classes").icon("coffee-cup").toMonitor();
+  private final Monitor threadsMonitor = Monitor.build().name("Threads").icon("analytics-graph").toMonitor();
   
   public JvmMonitorBean()
   {

@@ -8,11 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 
 public class LdapBrowserNode
 {
-  private static final String ICON_DEFAULT = "folder";
-  private static final String ICON_ORGANIZATION = "folder-shared";
-  private static final String ICON_DOMAIN = "domain";
-  private static final String ICON_GROUP = "group";
-  private static final String ICON_USER = "person";
+  private static final String ICON_DEFAULT = "folder-empty";
+  private static final String ICON_ORGANIZATION = "folder-share";
+  private static final String ICON_DOMAIN = "buildings-1";
+  private static final String ICON_GROUP = "multiple-neutral-1";
+  private static final String ICON_USER = "single-neutral-actions";
   
   private final Name name;
   private final String icon;

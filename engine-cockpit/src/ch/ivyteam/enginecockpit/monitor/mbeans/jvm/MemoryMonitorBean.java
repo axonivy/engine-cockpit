@@ -21,9 +21,9 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class MemoryMonitorBean
 {
-  private final Monitor heapMemoryMonitor = Monitor.build().name("Heap Memory").icon("memory").yAxisLabel("Memory").toMonitor();
-  private final Monitor nonHeapMemoryMonitor = Monitor.build().name("Non Heap Memory").icon("memory").yAxisLabel("Memory").toMonitor();
-  private final Monitor gcMonitor = Monitor.build().name("Garbage Collection").icon("delete").yAxisLabel("Time").toMonitor();
+  private final Monitor heapMemoryMonitor = Monitor.build().name("Heap Memory").icon("analytics-board-graph-line").yAxisLabel("Memory").toMonitor();
+  private final Monitor nonHeapMemoryMonitor = Monitor.build().name("Non Heap Memory").icon("analytics-board-graph-line").yAxisLabel("Memory").toMonitor();
+  private final Monitor gcMonitor = Monitor.build().name("Garbage Collection").icon("recycling-trash-bin-2").yAxisLabel("Time").toMonitor();
   
   public MemoryMonitorBean()
   {

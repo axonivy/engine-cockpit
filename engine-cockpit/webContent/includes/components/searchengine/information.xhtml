@@ -4,17 +4,17 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">info</i>
+  <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
   <h:outputText value="Search Engine information" />
 </f:facet>
 <h:form id="searchEngineInfoForm">
   <p:growl id="searchEngineMessages" for="searchEngineMessages">
     <p:autoUpdate/>
   </p:growl>
-  <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="ui-icon-bug-report" update="searchEngineQueryToolModal"
+  <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="icon ivyicon-monitor-heart-beat-search" update="searchEngineQueryToolModal"
     actionListener="#{searchEngineBean.setActiveIndex(null)}"
     styleClass="secondary-btn card-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
-  <p:commandButton id="configSearchEngine" title="Configure Search Engine" icon="ui-icon-settings" type="button"
+  <p:commandButton id="configSearchEngine" title="Configure Search Engine" icon="icon ivyicon-cog" type="button"
     styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=ElasticSearch'" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
@@ -25,18 +25,18 @@
     <h:panelGroup>
       <h:outputText id="version" value="#{searchEngineBean.elasticSearch.version}" />
       <h:outputText rendered="#{searchEngineBean.elasticSearch.version ne '7.3.0'}">
-        <i class="material-icons search-machine-health-yellow" style="position: relative; top: 3px;"
-          title="This elastic search version is not supported">warning</i>
+        <i class="icon icon-lg ivyicon-road-sign-warning search-machine-health-yellow" style="position: relative; top: 3px; font-weight: 700;"
+          title="This elastic search version is not supported"></i>
       </h:outputText>
     </h:panelGroup>
     <label>State</label>
     <h:panelGroup id="state">
-      <i class="material-icons search-machine-state search-machine-state-#{searchEngineBean.state}">#{searchEngineBean.state ? 'check' : 'close'}</i>
+      <i class="icon ivyicon-#{searchEngineBean.state ? 'check-circle-1' : 'remove-circle'} search-machine-state search-machine-state-#{searchEngineBean.state}"></i>
     </h:panelGroup>
     <label>Health</label>
     <h:panelGroup id="health">
-      <i class="material-icons search-machine-state search-machine-health-#{searchEngineBean.elasticSearch.health.state}" 
-        title="#{searchEngineBean.elasticSearch.health.hint}">#{searchEngineBean.elasticSearch.health.icon}</i>
+      <i class="icon ivyicon-#{searchEngineBean.elasticSearch.health.icon} search-machine-state search-machine-health-#{searchEngineBean.elasticSearch.health.state}" 
+        title="#{searchEngineBean.elasticSearch.health.hint}"></i>
     </h:panelGroup>
   </p:panelGrid>
 </h:form>

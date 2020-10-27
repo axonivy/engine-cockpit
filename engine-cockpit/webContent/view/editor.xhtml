@@ -30,7 +30,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
     </ui:define>
     
@@ -51,7 +51,7 @@
           onTabShow="handleTabChange(index)" activeIndex="#{editorBean.tabIndex}">
           <p:tab title="#{config.fileName}" titleStyleClass="application-tab">
             <f:facet name="title">
-               <i class="fa fa-pencil" />
+               <i class="icon ivyicon-pencil" />
                <h:outputText value="#{config.fileName}"/>
             </f:facet>
             <div class="ui-g">
@@ -95,11 +95,11 @@
                   </script>
                   
                   <span style="color: grey; line-height: 30px;">
-                    <i class="material-icons card-title-icon" style="font-size: 17px;">info</i>
+                    <i class="icon icon-lg ivyicon-information-circle card-title-icon"></i>
                     <span>Tip: Use Ctrl+Space to get a list of known keywords</span>
                   </span>
                   <p:commandButton id="saveEditor" style="width: 150px; float: right; margin-left: 10px;" process="content" update="card:saveEditorModel"
-                    value="Save" icon="ui-icon-save" actionListener="#{editorBean.setActiveConfigFile(config)}" 
+                    value="Save" icon="icon ivyicon-floppy-disk" actionListener="#{editorBean.setActiveConfigFile(config)}" 
                     oncomplete="saveDirectlyOrOpenDialog_#{config.varName}();" widgetVar="saveEditor_#{config.varName}"/>
                   <p:commandLink id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
                     style="float: right; line-height: 30px;"/>
@@ -115,7 +115,7 @@
             <p:staticMessage severity="info" summary="Yaml errors are detected. Do you want to save anyway?" style="margin-bottom: 10px;"/>
             
             <p:commandButton id="saveChangesBtn" onclick="PF('saveEditorModel').hide();"
-              actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="ui-icon-save"
+              actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="icon ivyicon-floppy-disk"
               styleClass="modal-input-button" widgetVar="saveChanges" />
             <p:commandLink id="cancelChangesBtn" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
               styleClass="modal-input-button" />

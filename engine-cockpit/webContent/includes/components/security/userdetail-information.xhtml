@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">info</i>
+  <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
   <h:outputText value="User information" />
 </f:facet>
 <h:form id="userInformationForm">
@@ -13,26 +13,26 @@
   </p:growl>
 
   <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!managerBean.ivySecuritySystem}"
-    type="button" icon="fa fa-refresh" styleClass="secondary-btn card-button"
+    type="button" icon="icon ivyicon-button-refresh-arrows" styleClass="secondary-btn card-button"
     onclick="PF('synchUserModal').show()" />
    
   <h:panelGroup rendered="#{!userDetailBean.user.external or managerBean.ivySecuritySystem}" >
     <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
-      icon="ui-icon-save" styleClass="accent-btn card-button" />
+      icon="icon ivyicon-floppy-disk" styleClass="accent-btn card-button" />
     <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()" title="Delete this user"
-      icon="ui-icon-delete" styleClass="red-btn card-button" />
+      icon="icon ivyicon-bin-1" styleClass="red-btn card-button" />
     <p:confirmDialog id="deleteUserConfirmDialog" header="Delete User" severity="alert" widgetVar="deleteUserConfirmDialog"
       message="#{userDetailBean.userDeleteHint()}">
       <p:commandLink value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
       <p:commandButton id="disableUserConfirmBtn" value="Disable" immediate="true" actionListener="#{userDetailBean.disableUser}"
-        icon="ui-icon-block" styleClass="modal-input-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
+        icon="icon ivyicon-delete" styleClass="modal-input-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
       <p:commandButton id="deleteUserConfirmYesBtn" value="Delete" ajax="false" immediate="true" action="#{userDetailBean.deleteSelectedUser}"
-        icon="ui-icon-delete" styleClass="modal-input-button" />
+        icon="icon ivyicon-bin-1" styleClass="modal-input-button" />
     </p:confirmDialog>
     <p:commandButton id="disableUser" actionListener="#{userDetailBean.disableUser}" title="Disable this user"
-      icon="ui-icon-block" styleClass="red-btn card-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
+      icon="icon ivyicon-delete" styleClass="red-btn card-button" rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
     <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
-      icon="ui-icon-done" styleClass="accent-btn card-button" rendered="#{userDetailBean.isUserDisabled()}" update="userInformationForm" />
+      icon="icon ivyicon-check-circle-1" styleClass="accent-btn card-button" rendered="#{userDetailBean.isUserDisabled()}" update="userInformationForm" />
   </h:panelGroup>
   
   <div class="card-top-static-message">

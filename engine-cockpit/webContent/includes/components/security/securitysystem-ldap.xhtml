@@ -8,14 +8,14 @@
   xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">settings</i>
+  <i class="icon ivyicon-cog table-icon panel-title-icon"></i>
   <h:outputText value="LDAP Attributes" />
 </f:facet>
 <h:form id="securityLdapForm">
   <p:growl id="securitySystemLdapSaveSuccess" for="securitySystemLdapSaveSuccess">
     <p:autoUpdate/>
   </p:growl>
-  <p:commandButton title="Save" icon="ui-icon-save" id="saveSecurtiySystemLdapBtn"
+  <p:commandButton title="Save" icon="icon ivyicon-floppy-disk" id="saveSecurtiySystemLdapBtn"
     styleClass="accent-btn card-button" actionListener="#{securityLdapDetailBean.saveConfiguration}" />
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"

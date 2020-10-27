@@ -115,6 +115,7 @@ public class WebTestRoleDetail
   void testAddAndRemoveUser()
   {
     String roleUsers = "#usersOfRoleForm\\:roleUserTable td.user-row";
+    removeUserIfExists();
     $$(roleUsers).shouldBe(empty);
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(visible).sendKeys("fo");
     $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
@@ -129,6 +130,15 @@ public class WebTestRoleDetail
     
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
     $$(roleUsers).shouldBe(empty);
+  }
+
+  private void removeUserIfExists()
+  {
+    var firstUser = "usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn";
+    if ($(By.id(firstUser)).is(visible))
+    {
+      $(By.id(firstUser)).click();
+    }
   }
   
   @Test

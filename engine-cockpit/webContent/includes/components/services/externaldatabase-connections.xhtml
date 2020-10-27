@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">import_export</i>
+  <i class="icon ivyicon-hyperlink-3 table-icon panel-title-icon"></i>
   <h:outputText value="Connections" />
 </f:facet>
 <h:form id="databaseConnectionForm" style="overflow-y: auto;">
@@ -13,7 +13,7 @@
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
     <p:column headerText="In Use" sortBy="#{conn.inUse}">
       <h:outputText styleClass="connection">
-        <i class="material-icons table-icon">#{conn.inUse ? 'check' : 'close'}</i>
+        <i class="icon ivyicon-#{conn.inUse ? 'check-circle-1' : 'remove-circle'} table-icon"></i>
       </h:outputText>
     </p:column>
     <p:column headerText="Last Used" sortBy="#{conn.lastUsed}">

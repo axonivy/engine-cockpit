@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEn
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createBusinessData;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -51,8 +52,8 @@ public class WebTestSearchEngine
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
     $("#searchEngineInfoForm\\:version").shouldBe(exactText("7.3.0"));
-    $("#searchEngineInfoForm\\:state").shouldBe(exactText("check"));
-    $("#searchEngineInfoForm\\:health").shouldBe(exactText("check"));
+    $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("ivyicon-check-circle-1"));
+    $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("ivyicon-check-circle-1"));
   }
   
   @Test
@@ -124,7 +125,6 @@ public class WebTestSearchEngine
   {
     table.valueForEntryShould(tableRow, 2, text(count));
     table.valueForEntryShould(tableRow, 3, text(count));
-    table.valueForEntryShould(tableRow, 4, text("check"));
     table.valueForEntryShould(tableRow, 5, not(text("unknown")));
   }
   

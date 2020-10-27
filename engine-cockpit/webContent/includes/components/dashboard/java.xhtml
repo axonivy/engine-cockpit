@@ -4,11 +4,11 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">info</i>
+  <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
   <h:outputText value="Java" />
 </f:facet>
 <p:commandButton id="tasksButtonJavaDetail" onclick="PF('javaDetailDialog').show();" title="Java Details" type="button"
-  icon="ui-icon-info" styleClass="secondary-btn card-button" />
+  icon="icon ivyicon-information-circle" styleClass="secondary-btn card-button" />
 <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Product</label>
   <h:outputText value="#{javaBean.name}" />

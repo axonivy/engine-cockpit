@@ -24,10 +24,10 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class RequestMonitorBean
 {
-  private final Monitor requestsMonitor = Monitor.build().name("Requests").icon("rss_feed").toMonitor();
-  private final Monitor errorsMonitor = Monitor.build().name("Errors").icon("error_outline").toMonitor();
-  private final Monitor bytesMonitor = Monitor.build().name("Bytes").icon("network_check").yAxisLabel("Bytes").toMonitor();
-  private final Monitor processingTimeMonitor = Monitor.build().name("Processing Time").icon("timer").yAxisLabel("Time").toMonitor();
+  private final Monitor requestsMonitor = Monitor.build().name("Requests").icon("network-signal").toMonitor();
+  private final Monitor errorsMonitor = Monitor.build().name("Errors").icon("global-warming-globe-fire").toMonitor();
+  private final Monitor bytesMonitor = Monitor.build().name("Bytes").icon("cd").yAxisLabel("Bytes").toMonitor();
+  private final Monitor processingTimeMonitor = Monitor.build().name("Processing Time").icon("optimization-timer").yAxisLabel("Time").toMonitor();
   
   public RequestMonitorBean()
   {

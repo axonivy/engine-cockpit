@@ -56,7 +56,7 @@ public class ProcessModelVersion extends AbstractActivity
   @Override
   public String getIcon()
   {
-    return "cog";
+    return "module-three-1";
   }
   
   @Override

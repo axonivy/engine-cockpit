@@ -8,7 +8,7 @@
   
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}index.html" target="_blank" rel="noopener noreferrer">
-        <i class="material-icons">help</i>
+        <i class="icon icon-lg ivyicon-question-circle"></i>
       </a>
     </ui:define>
     
@@ -27,10 +27,10 @@
           </h:panelGroup>
         </h:panelGroup>
       
-        <cc:OverviewBox box="1" count="#{managerBean.sessionCount}" icon="person_pin_circle" title="Sessions" link="users.xhtml"/>
-        <cc:OverviewBox box="2" count="#{managerBean.usersCount}" icon="person" title="Users" link="users.xhtml"/>
-        <cc:OverviewBox box="3" count="#{managerBean.runningCasesCount}" icon="storage" title="Running Cases" link="applications.xhtml"/>
-        <cc:OverviewBox box="4" count="#{managerBean.applicationCount}" icon="apps" title="Applications" link="applications.xhtml"/>
+        <cc:OverviewBox box="1" count="#{managerBean.sessionCount}" icon="icon ivyicon-style-two-pin-user" title="Sessions" link="users.xhtml"/>
+        <cc:OverviewBox box="2" count="#{managerBean.usersCount}" icon="icon ivyicon-single-neutral-actions" title="Users" link="users.xhtml"/>
+        <cc:OverviewBox box="3" count="#{managerBean.runningCasesCount}" icon="icon ivyicon-briefcase" title="Running Cases" link="applications.xhtml"/>
+        <cc:OverviewBox box="4" count="#{managerBean.applicationCount}" icon="icon ivyicon-module" title="Applications" link="applications.xhtml"/>
         
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card">
           <p:panel styleClass="min-height-250">

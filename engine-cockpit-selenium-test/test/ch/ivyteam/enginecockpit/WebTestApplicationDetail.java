@@ -76,8 +76,8 @@ public class WebTestApplicationDetail
     waitUntilAjaxIsFinished();
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").should(exist);
     $("#appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
-    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("fa-spin"));
-    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("fa-spin")), 10000);
+    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("icon-is-spinning"));
+    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("icon-is-spinning")), 10000);
     
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()

@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="material-icons table-icon panel-title-icon">info</i>
+  <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
   <h:outputText value="Application information" />
 </f:facet>
 <h:form id="appDetailInfoForm">
@@ -12,7 +12,7 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}" title="Save changes"
-    icon="ui-icon-save" styleClass="accent-btn card-button" update="appDetailInfoForm" />
+    icon="icon ivyicon-floppy-disk" styleClass="accent-btn card-button" update="appDetailInfoForm" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText value="#{applicationDetailBean.application.name}" />
@@ -30,7 +30,7 @@
   <p:panelGrid columns="1" columnClasses="ui-grid-col-4" layout="grid"
   styleClass="ui-panelgrid-blank">
     <p:commandButton id="showDeployment" title="Deployment" value="Deployment" style="margin-top: 20px; min-width: 150px;"
-      type="button" icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
+      type="button" icon="icon ivyicon-upload-bottom" onclick="PF('fileUploadModal').show()" />
   </p:panelGrid>
 </h:form>
 <h:panelGroup id="deployPanel">

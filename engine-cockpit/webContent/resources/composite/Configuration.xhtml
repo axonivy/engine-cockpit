@@ -15,7 +15,7 @@
       <f:facet name="header">
         <p:outputPanel>
           <p:outputLabel styleClass="table-search-icon">
-            <i class="material-icons">search</i>
+            <i class="icon ivyicon-search"></i>
           </p:outputLabel>
           <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
             onkeyup="PF('configTable').filter()" placeholder="Search" value="#{cc.attrs.bean.filter}" />
@@ -23,7 +23,7 @@
       </f:facet>
       <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}" styleClass="#{config.default ? 'default-value' : ''}">
         <h:outputText value="#{config.key}" title="#{config.description}" styleClass="config-name">
-          <i class="material-icons table-icon">#{config.password ? 'vpn_key' : 'settings'}</i>
+          <i class="icon ivyicon-#{config.password ? 'password-lock-2' : 'cog'} table-icon"></i>
         </h:outputText>
       </p:column>
       <p:column headerText="Value" filterBy="#{config.value}" styleClass="#{config.default ? 'default-value' : ''}">
@@ -34,17 +34,17 @@
       </p:column>
       <p:column style="width: 95px;">
         <p:commandButton title="More" id="tasksButton" disabled="#{config.default}"
-          type="button" icon="ui-icon-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
+          type="button" icon="icon ivyicon-navigation-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
         <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-          <p:menuitem value="View File" icon="ui-icon-find-in-page" oncomplete="PF('showConfigurationFileModal').show()"
+          <p:menuitem value="View File" icon="icon ivyicon-common-file-search" oncomplete="PF('showConfigurationFileModal').show()"
             actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update="config:showConfigurationFileModal" 
             id="showFileBtn" process="@this" disabled="#{!config.fileExist()}">
           </p:menuitem>
-          <p:menuitem value="Reset" icon="ui-icon-close" process="@this"
+          <p:menuitem value="Reset" icon="icon ivyicon-undo" process="@this"
             actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" id="resetConfigBtn"
             update="config:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
         </p:menu>
-        <p:commandButton id="editConfigBtn" icon="ui-icon-edit" title="Edit" 
+        <p:commandButton id="editConfigBtn" icon="icon ivyicon-pencil" title="Edit" 
           styleClass="card-button table-control-btn secondary-btn" process="@this"
           actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}"
           update="config:editConfigurationModal" oncomplete="PF('editConfigurationModal').show()"/>
@@ -58,7 +58,7 @@
     <h:form id="resetConfigConfirmForm">
       <p:commandLink value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
       <p:commandButton id="resetConfigConfirmYesBtn" value="Reset" update="config:form:configTable" immediate="true" actionListener="#{cc.attrs.bean.resetConfig}"
-        icon="ui-icon-close" styleClass="modal-input-button" onclick="PF('resetConfigConfirmDialog').hide();" />
+        icon="icon ivyicon-undo" styleClass="modal-input-button" onclick="PF('resetConfigConfirmDialog').hide();" />
     </h:form>
   </p:confirmDialog>
     
@@ -75,7 +75,7 @@
         </h:panelGroup>
         
       </p:panelGrid>
-      <p:commandButton id="downloadConfigurationFile" ajax="false" value="Download" icon="ui-icon-cloud-download"
+      <p:commandButton id="downloadConfigurationFile" ajax="false" value="Download" icon="icon ivyicon-download-bottom"
         styleClass="modal-input-button" style="width: 125px;">
         <p:fileDownload value="#{cc.attrs.bean.activeConfig.downloadFile()}"/>
       </p:commandButton>
@@ -131,7 +131,7 @@
         </c:choose>
       </p:panelGrid>
       <p:commandButton id="saveEditConfiguration" update="config:form:configTable" onsuccess="PF('editConfigurationModal').hide()"
-        actionListener="#{cc.attrs.bean.saveConfig}" value="Save" icon="ui-icon-save" process="editConfigurationForm"
+        actionListener="#{cc.attrs.bean.saveConfig}" value="Save" icon="icon ivyicon-floppy-disk" process="editConfigurationForm"
         styleClass="modal-input-button" />
       <p:commandLink id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel" type="button"
         styleClass="modal-input-button" />
@@ -159,7 +159,7 @@
       </p:panelGrid>
       <p:commandButton id="saveNewConfiguration" validateClient="true" process="newConfigurationForm" 
         update="config:form:configTable, @form"
-        actionListener="#{cc.attrs.bean.createConfig}" value="Save" icon="ui-icon-save"
+        actionListener="#{cc.attrs.bean.createConfig}" value="Save" icon="icon ivyicon-floppy-disk"
         styleClass="modal-input-button" onsuccess="PF('newConfigurationModal').hide()"/>
       <p:commandLink id="cancelNewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel" type="button"
         styleClass="modal-input-button" immediate="true" />

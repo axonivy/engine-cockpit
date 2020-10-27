@@ -125,9 +125,9 @@ public class WebTestUsers
     var resetFilter = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:resetFilter";
     var filterPanel = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterPanel";
     $(filterBtn).shouldHave(text("Filter: enabled users"));
-    filterTableFor("Show manual users");
-    $(filterBtn).shouldHave(text("Filter: manual users"));
     filterTableFor("Show disabled users");
+    $(filterBtn).shouldHave(text("Filter: disabled users"));
+    filterTableFor("Show manual users");
     $(filterBtn).shouldHave(text("Filter: manual disabled users"));
     $(resetFilter).shouldBe(visible).click();
     $(filterBtn).shouldHave(text("Filter: enabled users"));
@@ -234,7 +234,7 @@ public class WebTestUsers
     Tab.switchToTab("test-ad");
     String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
-    $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
-    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));
+    $(syncBtnId).findAll("span").first().shouldHave(cssClass("icon-is-spinning"));
+    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("icon-is-spinning"));
   }
 }
