@@ -7,16 +7,12 @@ import ch.ivyteam.ivy.environment.Ivy;
 public class ProcessModel extends AbstractActivity
 {
   private long runningCasesCount;
-  
-  public ProcessModel(IProcessModel pm)
-  {
-    this(pm, null);
-  }
+  private IProcessModel pm;
   
   public ProcessModel(IProcessModel pm, ApplicationBean bean)
   {
     super(pm.getName(), pm.getId(), pm, bean);
-    setOperationState(pm.getActivityOperationState());
+    this.pm = pm;
     runningCasesCount = pm.getProcessModelVersions().stream()
             .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
   }
@@ -46,7 +42,13 @@ public class ProcessModel extends AbstractActivity
   }
   
   @Override
-  public boolean isDisabled()
+  public void delete()
+  {
+    execute(() -> pm.getApplication().deleteProcessModel(getName()), "delete", false);
+  }
+  
+  @Override
+  public boolean isProtected()
   {
     return getName().equals("engine-cockpit");
   }

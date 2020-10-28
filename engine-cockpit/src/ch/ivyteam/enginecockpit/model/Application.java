@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.model;
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
@@ -21,7 +22,7 @@ public class Application extends AbstractActivity
   
   public Application()
   {
-    super();
+    super("", 0, null, null);
   }
 
   public Application(IApplication app)
@@ -33,7 +34,6 @@ public class Application extends AbstractActivity
   {
     super(app.getName(), app.getId(), app, bean);
     this.app = app;
-    setOperationState(app.getActivityOperationState());
     desc = app.getDescription();
     fileDir = app.getFileDirectory();
     owner = app.getOwnerName();
@@ -67,11 +67,11 @@ public class Application extends AbstractActivity
   }
   
   @Override
-  public boolean isDisabled()
+  public boolean isProtected()
   {
     return getName().equals("designer");
   }
-
+  
   public String getDesc()
   {
     return desc;
@@ -122,6 +122,12 @@ public class Application extends AbstractActivity
   public String getActivityType()
   {
     return AbstractActivity.APP;
+  }
+  
+  @Override
+  public void delete()
+  {
+    execute(() -> IApplicationConfigurationManager.instance().deleteApplication(getName()), "delete", false);
   }
 
   public String getSecuritySystemName()

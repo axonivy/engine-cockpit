@@ -1,34 +1,27 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import ch.ivyteam.enginecockpit.ApplicationBean;
-import ch.ivyteam.ivy.application.ActivityOperationState;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IActivity;
-import ch.ivyteam.ivy.application.ReleaseState;
 
 public abstract class AbstractActivity
 {
   private String name;
-  private long id;
-  protected IActivity activity;
-  private ActivityState state;
-  private ActivityOperationState operationState;
-  private String errorMessage;
-  private ApplicationBean bean;
+  private final long id;
+  protected final IActivity activity;
+  private final ApplicationBean bean;
+  protected List<AbstractActivity> children;
   
   public static final String APP = "APP";
   public static final String PM = "PM";
   public static final String PMV = "PMV";
-  
-  public AbstractActivity()
-  {
-    this("", 0, null);
-  }
-  
-  public AbstractActivity(String name, long id, IActivity activity)
-  {
-    this(name, id, activity, null);
-  }
+  private StateOfActivity state;
   
   public AbstractActivity(String name, long id, IActivity activity, ApplicationBean bean)
   {
@@ -36,21 +29,8 @@ public abstract class AbstractActivity
     this.id = id;
     this.activity = activity;
     this.bean = bean;
+    this.children = new ArrayList<>();
     updateStats();
-  }
-  
-  public void updateStats()
-  {
-    if (activity == null)
-    {
-      state = ActivityState.INACTIVE;
-      operationState = ActivityOperationState.INACTIVE;
-      errorMessage = null;
-      return;
-    }
-    state = activity.getActivityState();
-    operationState = activity.getActivityOperationState();
-    errorMessage = activity.getErrorMessage();
   }
   
   public boolean isApplication()
@@ -81,144 +61,116 @@ public abstract class AbstractActivity
   {
     this.name = name;
   }
-
+  
   public long getId()
   {
     return id;
   }
-
-  public void setId(long id)
-  {
-    this.id = id;
-  }
   
-  public ActivityState getState()
+  public void addChild(AbstractActivity child)
+  {
+    children.add(child);
+  }
+
+  public StateOfActivity getState()
   {
     return state;
   }
   
-  public String getStateLowerCase()
+  public boolean isNotStartable()
   {
-    return state.toString().toLowerCase();
+    return state.is(ActivityState.ACTIVE) || isProtected();
   }
   
-  public void setState(ActivityState state)
+  public boolean isNotStopable()
   {
-    this.state = state;
+    return state.is(ActivityState.INACTIVE) || isProtected();
   }
   
-  public ActivityOperationState getOperationState()
+  public boolean isNotLockable()
   {
-    return operationState;
-  }
-  
-  public String getOperationStateLowerCase()
-  {
-    return operationState.toString().toLowerCase();
-  }
-  
-  public void setOperationState(ActivityOperationState operationState)
-  {
-    this.operationState = operationState;
-  }
-  
-  public boolean isOperating()
-  {
-    return operationState == ActivityOperationState.ACTIVATING || 
-            operationState == ActivityOperationState.DEACTIVATING || 
-            operationState == ActivityOperationState.LOCKING;
-  }
-  
-  public ReleaseState getReleaseState()
-  {
-    return null;
-  }
-  
-  public String getReleaseStateLowerCase()
-  {
-    return "";
-  }
-  
-  public boolean isActive()
-  {
-    return state == ActivityState.ACTIVE || isDisabled();
-  }
-  
-  public boolean isInActive()
-  {
-    return state == ActivityState.INACTIVE || isDisabled();
-  }
-  
-  public boolean isLocked()
-  {
-    return state == ActivityState.LOCKED || state == ActivityState.INACTIVE || isDisabled();
+    return state.is(ActivityState.LOCKED, ActivityState.INACTIVE) || isProtected();
   }
 
-  public String getErrorMessage()
-  {
-    return errorMessage;
-  }
-
-  public boolean isReleaseDisabled()
+  public boolean isReleasable()
   {
     return true;
   }
   
-  public boolean isDeleteDisabled()
+  public boolean isDeletable()
   {
-    return isDisabled();
+    return !isProtected();
   }
   
   public void activate()
   {
-    activity.activate();
-    updateStats();
-    reloadBeanStats();
+    execute(() -> activity.activate(), "activate", true);
   }
   
   public void deactivate()
   {
-    activity.deactivate();
-    updateStats();
-    reloadBeanStats();
+    execute(() -> activity.deactivate(), "deactivate", true);
   }
   
   public void lock()
   {
-    activity.lock();
-    updateStats();
-    reloadBeanStats();
+    execute(() -> activity.lock(), "lock", true);
   }
   
   public void release()
   {
-    reloadBeanStats();
   }
   
-  public void delete()
+  public abstract void delete();
+  
+  protected void execute(Runnable executor, String action, boolean reloadOnlyStats)
   {
-    reloadBeanData();
+    var message = new FacesMessage("Successfully " + action + " module", getActivityType() + " " + getName());
+    try 
+    {
+      executor.run();
+      reloadBean(reloadOnlyStats);
+    }
+    catch (IllegalStateException ex)
+    {
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not " + action + " module", ex.getMessage());
+    }
+    FacesContext.getCurrentInstance().addMessage("applicationMessage", message);
+  }
+
+  private void reloadBean(boolean reloadOnlyStats)
+  {
+    if (bean == null)
+    {
+      updateStats();
+      return;
+    }
+    if (reloadOnlyStats)
+    {
+      bean.reloadActivityStates();
+    }
+    else
+    {
+      bean.reloadTree();
+    }
   }
   
   public abstract long getApplicationId();
   
   public abstract String getActivityType();
   
-  public abstract boolean isDisabled();
+  public abstract boolean isProtected();
   
-  private void reloadBeanData()
+  public void updateStats()
   {
-    if (bean != null)
+    if (activity == null)
     {
-      bean.reloadTree();
+      state = new StateOfActivity();
+    }
+    else
+    {
+      state = new StateOfActivity(activity);
     }
   }
   
-  private void reloadBeanStats()
-  {
-    if (bean != null)
-    {
-      bean.reloadActivityStates();
-    }
-  }
 }

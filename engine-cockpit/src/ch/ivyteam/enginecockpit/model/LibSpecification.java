@@ -22,7 +22,7 @@ public class LibSpecification
     {
       resolvedPmv = new ProcessModelVersion(resolvedLib.getProcessModelVersion());
       resolvedPmvName = resolvedPmv.getName() + " (" + resolvedPmv.getQualifiedVersion() + " / " + 
-              resolvedPmv.getOperationState() + " / " + resolvedPmv.getReleaseState() + ")";
+              resolvedPmv.getState().getOperation() + " / " + resolvedPmv.getState().getReleaseState() + ")";
     }
   }
   

@@ -6,6 +6,8 @@ import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.empty;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
+import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -41,7 +43,7 @@ public class WebTestPmvDetail
     $$(".ui-panel").shouldHave(size(5));
     
     $("#info_content").shouldHave(text(PMV), text("ch.ivyteam.ivy.project.portal:portalTemplate"));
-    $("#activity_content").shouldHave(text("ACTIVE"));
+    $("#activity_content").findAll(".activity-state-active").shouldBe(size(2));
   }
   
   @Test
@@ -67,8 +69,8 @@ public class WebTestPmvDetail
   {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
     depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "portal-user-examples$1"));
-    checkPmvEntry(depTable, "AxonIvyExpress$1");
-    checkPmvEntry(depTable, "portal-user-examples$1");
+    checkPmvEntry(depTable, "AxonIvyExpress$1", "inactive");
+    checkPmvEntry(depTable, "portal-user-examples$1", "inactive");
     
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
     reqTable.firstColumnShouldBe(empty);
@@ -82,23 +84,24 @@ public class WebTestPmvDetail
   {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
     depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "portal-user-examples$1"));
-    checkPmvEntry(depTable, "AxonIvyExpress$1");
-    checkPmvEntry(depTable, "portal-user-examples$1");
+    checkPmvEntry(depTable, "AxonIvyExpress$1", "active");
+    checkPmvEntry(depTable, "portal-user-examples$1", "active");
     
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
     reqTable.firstColumnShouldBe(texts("PortalKit$1", "PortalStyle$1"));
-    checkPmvEntry(reqTable, "PortalKit$1");
-    checkPmvEntry(reqTable, "PortalStyle$1");
+    checkPmvEntry(reqTable, "PortalKit$1", "active");
+    checkPmvEntry(reqTable, "PortalStyle$1", "active");
     
     Table specTable = new Table(By.id("specifiedTable"));
     specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
     specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, text("PortalKit$1"));
   }
 
-  private void checkPmvEntry(Table table, String entry)
+  private void checkPmvEntry(Table table, String entry, String resolved)
   {
-    table.valueForEntryShould(entry, 4, text("ACTIVE"));
-    table.valueForEntryShould(entry, 5, text("RELEASED"));
+    table.tableEntry(entry, 2).find("i").shouldHave(cssClass("activity-state-" + resolved));
+    table.tableEntry(entry, 4).find("i").shouldHave(attribute("title", "ACTIVE"));
+    table.tableEntry(entry, 5).find("i").shouldHave(attribute("title", "RELEASED"));
   }
 
 }

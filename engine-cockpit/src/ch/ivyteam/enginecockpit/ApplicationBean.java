@@ -17,14 +17,13 @@ import ch.ivyteam.enginecockpit.model.ProcessModel;
 import ch.ivyteam.enginecockpit.model.ProcessModelVersion;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModel;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
 
 @ManagedBean
 @ViewScoped
 public class ApplicationBean extends TreeView
 {
-  private boolean operating;
+  private boolean processing;
   
   private AbstractActivity selectedActivity;
   
@@ -41,37 +40,44 @@ public class ApplicationBean extends TreeView
     newApp = new Application();
     activateNewApp = true;
     selectedActivity = new Application();
-    operating = false;
+    processing = false;
     reloadTree();
   }
   
   @Override
   protected void buildTree()
   {
-    for (IApplication app : managerBean.getIApplications())
+    for (var app : managerBean.getIApplications())
     {
-      TreeNode node = new DefaultTreeNode(new Application(app, this), rootTreeNode);
-      loadPmTree(app, node);
+      var activity = new Application(app, this);
+      var node = new DefaultTreeNode(activity, rootTreeNode);
+      loadPmTree(app, node, activity);
+      activity.getState().updateChildProblems(activity);
     }
   }
   
-  private void loadPmTree(IApplication app, TreeNode appNode)
+  private void loadPmTree(IApplication app, TreeNode appNode, AbstractActivity parent)
   {
-    for (IProcessModel pm : app.getProcessModels())
+    for (var pm : app.getProcessModels())
     {
-      TreeNode node = new DefaultTreeNode(new ProcessModel(pm, this), appNode);
-      loadPmvTree(pm, node);
+      var activity = new ProcessModel(pm, this);
+      parent.addChild(activity);
+      var node = new DefaultTreeNode(activity, appNode);
+      loadPmvTree(pm, node, activity);
+      activity.getState().updateChildProblems(activity);
     }
   }
   
   @SuppressWarnings("unused")
-  private void loadPmvTree(IProcessModel pm, TreeNode pmNode)
+  private void loadPmvTree(IProcessModel pm, TreeNode pmNode, AbstractActivity parent)
   {
-    for (IProcessModelVersion pmv : pm.getProcessModelVersions())
+    for (var pmv : pm.getProcessModelVersions())
     {
       if (pmv.getReleaseState() != ReleaseState.DELETED)
       {
-        new DefaultTreeNode(new ProcessModelVersion(pmv, this), pmNode);
+        var activity = new ProcessModelVersion(pmv, this);
+        parent.addChild(activity);
+        new DefaultTreeNode(activity, pmNode);
       }
     }
   }
@@ -89,7 +95,7 @@ public class ApplicationBean extends TreeView
   
   public void reloadActivityStates()
   {
-    operating = false;
+    processing = false;
     reloadNodeState(rootTreeNode.getChildren());
   }
   
@@ -99,17 +105,18 @@ public class ApplicationBean extends TreeView
     {
       AbstractActivity activity = (AbstractActivity) node.getData();
       activity.updateStats();
-      if (operating == false)
+      if (processing == false)
       {
-        operating = activity.isOperating();
+        processing = activity.getState().isProcessing();
       }
       reloadNodeState(node.getChildren());
+      activity.getState().updateChildProblems(activity);
     }
   }
   
-  public boolean isOperating()
+  public boolean isProcessing()
   {
-    return operating;
+    return processing;
   }
   
   public List<Application> getApplications()
@@ -160,42 +167,6 @@ public class ApplicationBean extends TreeView
   public AbstractActivity getActiveActivity()
   {
     return selectedActivity;
-  }
-  
-  public void delete()
-  {
-    if (AbstractActivity.APP.equals(selectedActivity.getActivityType()))
-    {
-      deleteApp();
-    }
-    else if (AbstractActivity.PM.equals(selectedActivity.getActivityType()))
-    {
-      deletePm(managerBean.getManager().findApplication(selectedActivity.getApplicationId()));
-    }
-    else
-    {
-      deletePmv(managerBean.getManager().findApplication(selectedActivity.getApplicationId()));
-    }
-    FacesContext.getCurrentInstance().addMessage("applicationMessage",
-            new FacesMessage("'" + selectedActivity.getName() + "' deleted successfully", ""));
-    selectedActivity = new Application();
-    reloadTree();
-    managerBean.reloadApplications();
-  }
-  
-  public void deleteApp()
-  {
-    managerBean.getManager().deleteApplication(selectedActivity.getName());
-  }
-  
-  public void deletePm(IApplication app)
-  {
-    app.deleteProcessModel(selectedActivity.getName());
-  }
-  
-  public void deletePmv(IApplication app)
-  {
-    app.findProcessModelVersion(selectedActivity.getName()).delete();
   }
   
 }
