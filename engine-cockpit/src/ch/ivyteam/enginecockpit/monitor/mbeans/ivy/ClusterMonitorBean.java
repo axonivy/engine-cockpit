@@ -35,10 +35,10 @@ public class ClusterMonitorBean
 
   public ClusterMonitorBean()
   {
-    sendMessagesMonitor = Monitor.build().name("Send Messages").icon("dns").toMonitor();
+    sendMessagesMonitor = Monitor.build().name("Sent Messages").icon("dns").toMonitor();
     sendProcessingTimeMonitor = Monitor.build().name("Send Processing Time").icon("timer").yAxisLabel("Time")
             .toMonitor();
-    receiveMessagesMonitor = Monitor.build().name("Receive Messages").icon("dns").toMonitor();
+    receiveMessagesMonitor = Monitor.build().name("Received Messages").icon("dns").toMonitor();
     receiveProcessingTimeMonitor = Monitor.build().name("Receive Processing Time").icon("timer")
             .yAxisLabel("Time").toMonitor();
 
