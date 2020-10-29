@@ -17,10 +17,7 @@
       
       <label>IP Port</label>
       <h:outputText value="#{clusterBean.activeClusterNode.ipPort}" />
-      
-      <label>Local Identifier</label>
-      <h:outputText value="#{clusterBean.activeClusterNode.id}" />
-      
+            
       <label>Jvm Route</label>
       <h:outputText value="#{clusterBean.activeClusterNode.jvmRouteName}" />
       
@@ -32,20 +29,17 @@
       
       <label>Is Master</label>
       <h:outputText value="#{clusterBean.activeClusterNode.master}" />
-      
-      <label>Master Cluster Node</label>
-      <h:outputText value="#{clusterBean.activeClusterNode.masterClusterNode.name}" />
-      
+            
       <label>Is Local</label>
       <h:outputText value="#{clusterBean.activeClusterNode.local}" />
       
-      <label>Last Start Timestamp</label>
+      <label>Start Timestamp</label>
       <h:outputText value="#{clusterBean.activeClusterNode.startTimestamp}" />
       
-      <label>Last Stop Timestamp</label>
+      <label>Stop Timestamp</label>
       <h:outputText value="#{clusterBean.activeClusterNode.stopTimestamp}" />
       
-      <label>Last Fail Timestamp</label>
+      <label>Fail Timestamp</label>
       <h:outputText value="#{clusterBean.activeClusterNode.failTimestamp}" />
       
       <label>Axon.ivy Version</label>

@@ -16,12 +16,10 @@ public class ClusterNode
   private String hostName;
   private String ipAddress;
   private int ipPort;
-  private long id;
   private String jvmRouteName;
   private ClusterNodeState state;
   private ClusterNodeCommunicationState communicationState;
   private boolean master;
-  private IClusterNode masterClusterNode;
   private boolean local;
   private String lastStartTimestamp;
   private String lastStopTimestamp;
@@ -42,12 +40,10 @@ public class ClusterNode
       hostName = node.getHostName();
       ipAddress = node.getIpAddress();
       ipPort = node.getIpPort();
-      id = node.getId();
       jvmRouteName = node.getJvmRouteName();
       state = node.getState();
       communicationState = node.getCommunicationState();
       master = node.isMaster();
-      masterClusterNode = node.getMasterClusterNode();
       local = node.isLocal();
       lastStartTimestamp = formatDate(node.getLastStartTimestamp());
       lastStopTimestamp = formatDate(node.getLastStopTimestamp());
@@ -81,11 +77,6 @@ public class ClusterNode
     return ipPort;
   }
 
-  public long getId()
-  {
-    return id;
-  }
-
   public String getJvmRouteName()
   {
     return jvmRouteName;
@@ -104,11 +95,6 @@ public class ClusterNode
   public boolean isMaster()
   {
     return master;
-  }
-
-  public IClusterNode getMasterClusterNode()
-  {
-    return masterClusterNode;
   }
 
   public boolean isLocal()
