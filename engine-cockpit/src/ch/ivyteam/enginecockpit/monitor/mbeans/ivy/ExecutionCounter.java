@@ -16,7 +16,7 @@ class ExecutionCounter
 
   private final ValueProvider errors;
   private final ValueProvider deltaErrors;
-  
+
   private final ValueProvider executionTime;
   private final ValueProvider deltaMinExecutionTime;
   private final ValueProvider deltaAvgExecutionTime;
@@ -24,17 +24,22 @@ class ExecutionCounter
 
   ExecutionCounter(String objectName, String executionsName)
   {
+    this(objectName, executionsName, "errors");
+  }
+
+  ExecutionCounter(String objectName, String executionsName, String errorName)
+  {
     executions = attribute(objectName, executionsName, Unit.ONE);
-    
+
     deltaExecutions = cache(1, delta(executions));
-    
-    errors = attribute(objectName, "errors", Unit.ONE);
+
+    errors = attribute(objectName, errorName, Unit.ONE);
     deltaErrors = cache(1, delta(errors));
-    
-    executionTime = attribute(objectName, executionsName+"TotalExecutionTimeInMicroSeconds", Unit.MICRO_SECONDS);
-    deltaMinExecutionTime = cache(1, attribute(objectName, executionsName+"MinExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
+
+    executionTime = attribute(objectName, executionsName + "TotalExecutionTimeInMicroSeconds", Unit.MICRO_SECONDS);
+    deltaMinExecutionTime = cache(1, attribute(objectName, executionsName + "MinExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
     deltaAvgExecutionTime = cache(1, derivation(executionTime, executions));
-    deltaMaxExecutionTime = cache(1, attribute(objectName, executionsName+"MaxExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
+    deltaMaxExecutionTime = cache(1, attribute(objectName, executionsName + "MaxExecutionTimeDeltaInMicroSeconds", Unit.MICRO_SECONDS));
   }
 
   ValueProvider executions()
@@ -51,14 +56,14 @@ class ExecutionCounter
   {
     return errors;
   }
-  
+
   ValueProvider deltaErrors()
   {
     return deltaErrors;
   }
 
   ValueProvider deltaMinExecutionTime()
-  {    
+  {
     return deltaMinExecutionTime;
   }
 

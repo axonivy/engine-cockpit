@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <ui:composition template="../includes/template/template.xhtml">
+  <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
       <li><a href="cluster.xhtml">Cluster</a></li>
@@ -81,6 +81,14 @@
         </div>
       </cc:SingleCard>
       <ui:include src="../includes/dialogs/clusternodeinfo.xhtml" />
+    </ui:define>
+    <ui:define name="sidebar">
+      <cc:Sidebar>
+        <cc:LiveStats monitor="#{clusterMonitorBean.sendMessagesMonitor}" id="send" />
+        <cc:LiveStats monitor="#{clusterMonitorBean.sendProcessingTimeMonitor}" id="sendProcessingTime" />
+        <cc:LiveStats monitor="#{clusterMonitorBean.receiveMessagesMonitor}" id="receive" />
+        <cc:LiveStats monitor="#{clusterMonitorBean.receiveProcessingTimeMonitor}" id="receiveProcessingTime" />
+      </cc:Sidebar>
     </ui:define>
   </ui:composition>
 </h:body>
