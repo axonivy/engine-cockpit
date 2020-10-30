@@ -13,9 +13,11 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import ch.ivyteam.ivy.config.NewLicenceFileInstaller;
+import io.swagger.v3.oas.annotations.Hidden;
 
 @SuppressWarnings("restriction")
 @Path("licence")
+@Hidden
 public class FileUploadService
 {
   @POST
