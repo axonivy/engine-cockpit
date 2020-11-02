@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.monitor.mbeans.ivy;
 
 import static ch.ivyteam.enginecockpit.monitor.value.ValueProvider.format;
 
+import java.lang.management.ManagementFactory;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.management.MalformedObjectNameException;
@@ -42,6 +44,10 @@ public class ClusterMonitorBean
     receiveProcessingTimeMonitor = Monitor.build().name("Receive Processing Time").icon("timer")
             .yAxisLabel("Time").toMonitor();
 
+    if (ManagementFactory.getPlatformMBeanServer().queryNames(CLUSTER_CHANNEL, null).isEmpty())
+    {
+      return;
+    }
     var sendMessages = new ExecutionCounter(CLUSTER_CHANNEL.getCanonicalName(), "sendMessages", "sendErrors");
     var receivedMessages = new ExecutionCounter(CLUSTER_CHANNEL.getCanonicalName(), "receiveMessages", "receiveErrors");
 
