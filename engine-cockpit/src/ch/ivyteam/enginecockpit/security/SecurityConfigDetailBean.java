@@ -40,6 +40,7 @@ public class SecurityConfigDetailBean
   private boolean useLdapConnectionPool;
   private String derefAlias;
   private boolean ssl;
+  private boolean enableInsecureSsl;
   private String referral;
   private String defaultContext;
   private String importUsersOfGroup;
@@ -100,6 +101,8 @@ public class SecurityConfigDetailBean
     derefAlias = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
     ssl = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL)
             .equalsIgnoreCase("ssl");
+    enableInsecureSsl = getInitBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL,
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL));
     referral = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL);
     defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
@@ -220,6 +223,16 @@ public class SecurityConfigDetailBean
     this.ssl = ssl;
   }
 
+  public boolean getEnableInsecureSsl()
+  {
+    return enableInsecureSsl;
+  }
+
+  public void setEnableInsecureSsl(boolean enableInsecureSsl)
+  {
+    this.enableInsecureSsl = enableInsecureSsl;
+  }
+
   public String getReferral()
   {
     return referral;
@@ -320,6 +333,8 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
             StringUtils.equals(this.derefAlias, securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES)) ? "" : this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
+    setConfiguration(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL,
+            getSaveBooleanValue(this.enableInsecureSsl, securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL)));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, 
             StringUtils.equals(this.referral, securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? "" : this.referral);
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
