@@ -54,6 +54,10 @@
     <p:outputLabel for="useSsl" value="Use SSL" />
     <p:selectBooleanCheckbox id="useSsl"
       value="#{securityConfigDetailBean.ssl}" />
+
+    <p:outputLabel for="enableInsecureSsl" value="Enable Insecure SSL" />
+    <p:selectBooleanCheckbox id="enableInsecureSsl"
+      value="#{securityConfigDetailBean.enableInsecureSsl}" />
     
     <p:outputLabel for="enableDailySynch" value="Update Job Enabled" />
     <p:selectBooleanCheckbox id="enableDailySynch"
