@@ -400,7 +400,7 @@ public class SecurityConfigDetailBean
     {
       jndiConfig = getJndiConfig(getDefaultContext());
     }
-    ldapBrowser.browse(jndiConfig);
+    ldapBrowser.browse(jndiConfig, enableInsecureSsl);
   }
   
   public void chooseLdapName()

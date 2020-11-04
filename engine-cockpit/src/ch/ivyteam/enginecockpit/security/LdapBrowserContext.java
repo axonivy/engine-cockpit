@@ -14,6 +14,7 @@ import javax.naming.ldap.LdapName;
 import org.apache.commons.codec.binary.Hex;
 
 import ch.ivyteam.enginecockpit.model.LdapProperty;
+import ch.ivyteam.ivy.security.jndi.JndiContextUtil;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiUtil;
 
@@ -22,9 +23,9 @@ public class LdapBrowserContext implements AutoCloseable
   
   private LdapContext context;
 
-  public LdapBrowserContext(JndiConfig config) throws NamingException
+  public LdapBrowserContext(JndiConfig config, boolean enableInsecureSsl) throws NamingException
   {
-    context = JndiUtil.openLdapContext(config);
+    context = JndiContextUtil.openLdapContext(config, enableInsecureSsl);
   }
 
   @Override
