@@ -9,26 +9,32 @@
 </f:facet>
 <h:form id="appDetailStateForm">
   <p:commandButton id="activateApplication" title="Activate" type="button" icon="icon ivyicon-controls-play"
-    rendered="#{!applicationDetailBean.application.active}" styleClass="green-btn card-button">
+    rendered="#{!applicationDetailBean.application.notStartable}" styleClass="green-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
   </p:commandButton>
   <p:commandButton id="deActivateApplication" title="Deactivate" type="button" icon="icon ivyicon-controls-stop"
-    rendered="#{!applicationDetailBean.application.inActive}" styleClass="red-btn card-button">
+    rendered="#{!applicationDetailBean.application.notStopable}" styleClass="red-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
   </p:commandButton>
   <p:commandButton id="lockApplication" title="Lock" type="button" icon="icon ivyicon-lock-1"
-    rendered="#{!applicationDetailBean.application.locked}" styleClass="secondary-btn card-button">
+    rendered="#{!applicationDetailBean.application.notLockable}" styleClass="secondary-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
   </p:commandButton>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>State</label>
-    <h:outputText id="operationStateLabel" value="#{applicationDetailBean.application.operationState}"
-      styleClass="activity-state-#{applicationDetailBean.application.operationStateLowerCase}" />
+    <h:outputText>
+      <i class="icon ivyicon-#{applicationDetailBean.application.state.operationIcon} icon-bold
+        activity-state-#{applicationDetailBean.application.state.operationCssClass}"
+        title="#{applicationDetailBean.application.state.operation}" />
+    </h:outputText>
     <label>Configured state</label>
-    <h:outputText value="#{applicationDetailBean.application.state}"
-      styleClass="activity-state-#{applicationDetailBean.application.stateLowerCase}" />
+    <h:outputText>
+      <i class="icon ivyicon-#{applicationDetailBean.application.state.stateIcon} icon-bold
+        activity-state-#{applicationDetailBean.application.state.stateCssClass}"
+        title="#{applicationDetailBean.application.state.state}" />
+    </h:outputText>
   </p:panelGrid>
   <p:poll listener="#{applicationDetailBean.application.updateStats}" update="@form"
-    autoStart="#{applicationDetailBean.application.operating}" interval="1" />
+    autoStart="#{applicationDetailBean.application.state.processing}" interval="1" />
 </h:form>
 </html>

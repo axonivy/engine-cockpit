@@ -1,10 +1,12 @@
 package ch.ivyteam.enginecockpit;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
+import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
-import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -73,7 +75,7 @@ public class WebTestApplication
   {
     addNewAppAndNavigateToIt();
     
-    $("#appDetailStateForm\\:operationStateLabel").shouldBe(exactText("INACTIVE"));
+    $$(".activity-state-inactive").shouldBe(size(2));
     startAppInsideDetailView();
     stopAppInsideDetailView();
     Navigation.toApplications();
@@ -90,18 +92,43 @@ public class WebTestApplication
     $("#card\\:form\\:collapseAll").shouldBe(visible).click();
     table.firstColumnShouldBe(sizeLessThanOrEqual(3));
   }
+  
+  @Test
+  void testChildProblemOnParent()
+  {
+    $("#card\\:form\\:expandAll").shouldBe(visible).click();
+    
+    var appName = isDesigner() ? DESIGNER : "test";
+    var app = $$(".activity-name").find(text(appName)).parent().parent().parent();
+    var pm = $$(".activity-name").find(text("engine-cockpit-test-data")).parent().parent();
+    app.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
+            .findAll("i").shouldHave(size(1));
+    pm.find("button", 1).click();
+    pm.find(".module-state").shouldBe(attribute("title", "INACTIVE"))
+            .findAll("i").shouldHave(size(1));
+    app.find(".module-state").shouldBe(attribute("title", "ACTIVE\n" +
+            "engine-cockpit-test-data: INACTIVE\n" +
+            "engine-cockpit-test-data$1: INACTIVE"))
+            .findAll("i").shouldHave(size(2));
+
+    pm.find("button", 0).click();
+    pm.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
+            .findAll("i").shouldHave(size(1));
+    app.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
+            .findAll("i").shouldHave(size(1));
+  }
 
   private void stopAppInsideDetailView()
   {
     $("#appDetailStateForm\\:deActivateApplication").click();
-    $("#appDetailStateForm\\:operationStateLabel").shouldBe(exactText("INACTIVE"));
+    $$(".activity-state-inactive").shouldBe(size(2));
     $("#appDetailStateForm\\:activateApplication").shouldBe(visible);
   }
 
   private void startAppInsideDetailView()
   {
     $("#appDetailStateForm\\:activateApplication").click();
-    $("#appDetailStateForm\\:operationStateLabel").shouldBe(exactText("ACTIVE"));
+    $$(".activity-state-active").shouldBe(size(2));
     $("#appDetailStateForm\\:deActivateApplication").shouldBe(visible);
   }
   
@@ -114,14 +141,14 @@ public class WebTestApplication
   private void stopNewApplication(By newAppId)
   {
     $(newAppId).find(By.xpath("./td[4]/button[3]")).click();
-    $(newAppId).find(By.xpath("./td[3]")).shouldBe(exactText("INACTIVE"));
+    $(newAppId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
   }
 
   private void startNewApplication(By newAppId)
   {
-    $(newAppId).find(By.xpath("./td[3]")).shouldBe(exactText("INACTIVE"));
+    $(newAppId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
     $(newAppId).find(By.xpath("./td[4]/button[2]")).click();
-    $(newAppId).find(By.xpath("./td[3]")).shouldBe(exactText("ACTIVE"));
+    $(newAppId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "ACTIVE"));
   }
 
   private void deleteNewApplication(By newAppId)

@@ -9,7 +9,6 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 public class ProcessModelVersion extends AbstractActivity
 {
-  private ReleaseState releaseState;
   private IProcessModelVersion pmv;
   private String lastChangeDate;
   private String description;
@@ -23,12 +22,11 @@ public class ProcessModelVersion extends AbstractActivity
   public ProcessModelVersion(IProcessModelVersion pmv, ApplicationBean bean)
   {
     super(pmv.getVersionName(), pmv.getId(), pmv, bean);
-    setOperationState(pmv.getActivityOperationState());
-    releaseState = pmv.getReleaseState();
     lib = new Library(pmv.getLibrary());
     description = pmv.getDescription();
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
     this.pmv = pmv;
+    updateStats();
   }
 
   @Override
@@ -43,7 +41,7 @@ public class ProcessModelVersion extends AbstractActivity
     super.updateStats();
     if (pmv != null)
     {
-      releaseState = pmv.getReleaseState();
+      getState().updateReleaseState(pmv.getReleaseState());
     }
   }
   
@@ -66,46 +64,27 @@ public class ProcessModelVersion extends AbstractActivity
   }
   
   @Override
-  public ReleaseState getReleaseState()
-  {
-    return releaseState;
-  }
-  
-  @Override
-  public String getReleaseStateLowerCase()
-  {
-    return releaseState.toString().toLowerCase();
-  }
-  
-  public void setReleaseState(ReleaseState state)
-  {
-    this.releaseState = state;
-  }
-  
-  @Override
   public void release()
   {
-    pmv.release();
-    super.release();
+    execute(() -> pmv.release(), "release", true);
   }
   
   @Override
   public void delete()
   {
-    pmv.delete();
-    super.delete();
+    execute(() -> pmv.delete(), "delete", false);
   }
   
   @Override
-  public boolean isReleaseDisabled()
+  public boolean isReleasable()
   {
-    return releaseState == ReleaseState.RELEASED || releaseState == ReleaseState.DELETED;
+    return getState().is(ReleaseState.DEPRECATED, ReleaseState.ARCHIVED, ReleaseState.PREPARED);
   }
   
   @Override
-  public boolean isDeleteDisabled()
+  public boolean isDeletable()
   {
-    return pmv.isRequired() || (releaseState != ReleaseState.PREPARED && releaseState != ReleaseState.ARCHIVED);
+    return !pmv.isRequired() && getState().is(ReleaseState.PREPARED, ReleaseState.ARCHIVED);
   }
   
   @Override
@@ -151,7 +130,7 @@ public class ProcessModelVersion extends AbstractActivity
   }
   
   @Override
-  public boolean isDisabled()
+  public boolean isProtected()
   {
     return getName().startsWith("engine-cockpit");
   }

@@ -31,11 +31,11 @@
     </h:panelGroup>
     <label>State</label>
     <h:panelGroup id="state">
-      <i class="icon ivyicon-#{searchEngineBean.state ? 'check-circle-1' : 'remove-circle'} search-machine-state search-machine-state-#{searchEngineBean.state}"></i>
+      <i class="icon ivyicon-#{searchEngineBean.state ? 'check-circle-1' : 'remove-circle'} icon-bold search-machine-state-#{searchEngineBean.state}"></i>
     </h:panelGroup>
     <label>Health</label>
     <h:panelGroup id="health">
-      <i class="icon ivyicon-#{searchEngineBean.elasticSearch.health.icon} search-machine-state search-machine-health-#{searchEngineBean.elasticSearch.health.state}" 
+      <i class="icon ivyicon-#{searchEngineBean.elasticSearch.health.icon} icon-bold search-machine-health-#{searchEngineBean.elasticSearch.health.state}" 
         title="#{searchEngineBean.elasticSearch.health.hint}"></i>
     </h:panelGroup>
   </p:panelGrid>

@@ -196,7 +196,7 @@ body {
 .ui-treetable .table-icon {
   position: relative;
   top: 3px;
-  font-size: 17px;
+  font-size: 1.2em;
   margin-right: 5px;
 }
 .ui-fluid .ui-column-filter {
@@ -348,29 +348,15 @@ body {
 /*General*/
 .activity-state-active {
   color: #2AA483;
-  font-weight: bold;
 }
 .activity-state-inactive {
-  color: #9C9D9D;
-  font-weight: bold;
+  color: hsl(0, 1%, 20%);
 }
 .activity-state-locked {
-  color: #FFCE29;
-  font-weight: bold;
+  color: hsl(46, 100%, 45%);
 }
-.release-state-released {
-  color: #2AA483;
-}
-.release-state-deprecated {
-  color: #9C9D9D;
-  font-style: italic;
-}
-.release-state-created, 
-.release-state-prepared {
-  font-style: italic;
-}
-.release-state-archived {
-  text-decoration: line-through;
+.activity-state-error {
+  color: hsl(0, 63%, 52%);
 }
 .label-help-icon {
   float: right; 
@@ -449,8 +435,7 @@ body {
 }
 
 /* Search Engine */
-.table-icon.search-machine-state,
-.ui-panelgrid-blank .search-machine-state {
+.icon.icon-bold {
   font-weight: bold; 
   font-size: 24px;
 }

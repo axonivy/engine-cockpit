@@ -56,11 +56,17 @@
             </f:facet>
             <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
               <label>State</label>
-              <h:outputText id="operationStateLabel" value="#{pmvDetailBean.pmv.operationState}"
-                styleClass="activity-state-#{pmvDetailBean.pmv.operationStateLowerCase}" />
+              <h:outputText>
+                <i class="icon ivyicon-#{pmvDetailBean.pmv.state.operationIcon} icon-bold
+                  activity-state-#{pmvDetailBean.pmv.state.operationCssClass}"
+                  title="#{pmvDetailBean.pmv.state.operation}" />
+              </h:outputText>
               <label>Configured state</label>
-              <h:outputText value="#{pmvDetailBean.pmv.state}"
-                styleClass="activity-state-#{pmvDetailBean.pmv.stateLowerCase}" />
+              <h:outputText>
+                <i class="icon ivyicon-#{pmvDetailBean.pmv.state.stateIcon} icon-bold
+                  activity-state-#{pmvDetailBean.pmv.state.stateCssClass}"
+                  title="#{pmvDetailBean.pmv.state.state}" />
+              </h:outputText>
             </p:panelGrid>
           </p:panel>
         </div>
@@ -101,24 +107,24 @@
               <p:column headerText="PMV">
                 <h:outputLink value="#{pmv.detailView}">
                   <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                    <i class="fa fa-#{pmv.icon}" style="margin-right: 5px;" />
+                    <i class="icon ivyicon-#{pmv.icon}" style="margin-right: 5px;" />
                   </h:outputText>
                 </h:outputLink>
               </p:column>
               <p:column headerText="Resolved">
-                <i class="icon ivyicon-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon state-#{pmv.libraryResolved ? 'active' : 'inactive'}"
-                  title="#{pmv.libraryResolvedTooltip}"></i>
+                <i class="icon ivyicon-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon 
+                  activity-state-#{pmv.libraryResolved ? 'active' : 'inactive'}" title="#{pmv.libraryResolvedTooltip}"></i>
               </p:column>
               <p:column headerText="Version">
                 <h:outputText value="#{pmv.qualifiedVersion}" />
               </p:column>
               <p:column headerText="Activity state">
-                <h:outputText styleClass="activity-state-#{pmv.operationStateLowerCase}"
-                  value="#{pmv.operationState}" />
+                <i class="icon ivyicon-#{pmv.state.operationIcon} table-icon activity-state-#{pmv.state.operationCssClass}" 
+                  title="#{pmv.state.operation}#{activity.state.errorMessage}"></i>
               </p:column>
               <p:column headerText="Release state">
-                <h:outputText styleClass="release-state-#{pmv.releaseStateLowerCase}"
-                  value="#{pmv.releaseState}" />
+                <i class="icon ivyicon-#{pmv.state.releaseStateIcon} table-icon activity-state-#{pmv.state.releaseStateCssClass}" 
+                  title="#{pmv.state.releaseState}"></i>
               </p:column>
             </p:dataTable>
           </p:panel>
@@ -136,24 +142,24 @@
               <p:column headerText="PMV">
                 <h:outputLink value="#{pmv.detailView}">
                   <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                    <i class="fa fa-#{pmv.icon}" style="margin-right: 5px;" />
+                    <i class="icon ivyicon-#{pmv.icon}" style="margin-right: 5px;" />
                   </h:outputText>
                 </h:outputLink>
               </p:column>
               <p:column headerText="Resolved">
-                <i class="icon ivyicon-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon state-#{pmv.libraryResolved ? 'active' : 'inactive'}"
-                  title="#{pmv.libraryResolvedTooltip}"></i>
+                <i class="icon ivyicon-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon 
+                  activity-state-#{pmv.libraryResolved ? 'active' : 'inactive'}" title="#{pmv.libraryResolvedTooltip}"></i>
               </p:column>
               <p:column headerText="Version">
                 <h:outputText value="#{pmv.qualifiedVersion}" />
               </p:column>
               <p:column headerText="Activity state">
-                <h:outputText styleClass="activity-state-#{pmv.operationStateLowerCase}"
-                  value="#{pmv.operationState}" />
+                <i class="icon ivyicon-#{pmv.state.operationIcon} table-icon activity-state-#{pmv.state.operationCssClass}" 
+                  title="#{pmv.state.operation}#{activity.state.errorMessage}"></i>
               </p:column>
               <p:column headerText="Release state">
-                <h:outputText styleClass="release-state-#{pmv.releaseStateLowerCase}"
-                  value="#{pmv.releaseState}" />
+                <i class="icon ivyicon-#{pmv.state.releaseStateIcon} table-icon" 
+                  title="#{pmv.state.releaseState}"></i>
               </p:column>
             </p:dataTable>
           </p:panel>
