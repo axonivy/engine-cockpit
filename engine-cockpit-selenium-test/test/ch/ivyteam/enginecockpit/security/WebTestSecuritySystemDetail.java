@@ -47,6 +47,8 @@ public class WebTestSecuritySystemDetail
   private static final String URL = "#securitySystemConfigForm\\:url";
   private static final String USERNAME = "#securitySystemConfigForm\\:userName";
   private static final String SYNC_TIME = "#securitySystemConfigForm\\:syncTime";
+  private static final String USE_SSL = "#securitySystemConfigForm\\:useSsl";
+  private static final String ENABLE_INSECURE_SSL = "#securitySystemConfigForm\\:enableInsecureSsl";
   public static final String LDAP_BROWSER_DIALOG = "#ldapBrowser\\:ldapBrowserDialog";
   public static final String LDAP_BROWSER_FORM = "#ldapBrowser\\:ldapBrowserForm\\:";
   private static final String LDAP_BROWSER_CHOOSE = "#ldapBrowser\\:chooseLdapName";
@@ -219,6 +221,26 @@ public class WebTestSecuritySystemDetail
     $(SAVE_SECURITY_SYSTEM_BTN).scrollIntoView("{block: \"center\"}").click();
     openDefaultLdapBrowser();
     $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
+  }
+  
+  @Test
+  void testLdapBrowser_ssl()
+  {
+    $(URL).clear();
+    $(URL).sendKeys("ldaps://zugtstdirads");
+    $(USE_SSL).click();
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+    openLdapBrowserWithConnError();
+    $(ENABLE_INSECURE_SSL).click();
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+    openDefaultLdapBrowser();
+    $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
+    $(LDAP_BROWSER_CANCEL).click();
+    $(URL).clear();
+    $(URL).sendKeys("ldap://zugtstdirads");
+    $(USE_SSL).click();
+    $(ENABLE_INSECURE_SSL).click();
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
   }
   
   @Test
