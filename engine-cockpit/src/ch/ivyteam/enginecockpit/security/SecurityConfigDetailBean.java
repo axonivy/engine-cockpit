@@ -1,8 +1,9 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,8 @@ import ch.ivyteam.naming.JndiProvider;
 @ViewScoped
 public class SecurityConfigDetailBean
 {
+  private static final String SSL = "ssl";
+  
   private String name;
   private ManagerBean managerBean;
   private List<String> usedByApps;
@@ -40,6 +43,7 @@ public class SecurityConfigDetailBean
   private boolean useLdapConnectionPool;
   private String derefAlias;
   private boolean ssl;
+  private boolean enableInsecureSsl;
   private String referral;
   private String defaultContext;
   private String importUsersOfGroup;
@@ -85,7 +89,7 @@ public class SecurityConfigDetailBean
             .collect(Collectors.toList());
 
     derefAliases = Arrays.asList("always", "never", "finding", "searching");
-    protocols = Arrays.asList("", "ssl");
+    protocols = Arrays.asList("", SSL);
     referrals = Arrays.asList("follow", "ignore", "throw");
 
     provider = getConfiguration(ConfigKey.PROVIDER);
@@ -97,7 +101,9 @@ public class SecurityConfigDetailBean
             SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL);
     derefAlias = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
     ssl = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL)
-            .equalsIgnoreCase("ssl");
+            .equalsIgnoreCase(SSL);
+    enableInsecureSsl = getInitBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL,
+    		SecuritySystemConfig.DefaultValue.ENABLE_INSECURE_SSL);
     referral = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL);
     defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
@@ -218,6 +224,16 @@ public class SecurityConfigDetailBean
     this.ssl = ssl;
   }
 
+  public boolean getEnableInsecureSsl()
+  {
+    return enableInsecureSsl;
+  }
+
+  public void setEnableInsecureSsl(boolean enableInsecureSsl)
+  {
+    this.enableInsecureSsl = enableInsecureSsl;
+  }
+
   public String getReferral()
   {
     return referral;
@@ -317,7 +333,9 @@ public class SecurityConfigDetailBean
             getSaveBooleanValue(this.useLdapConnectionPool, SecuritySystemConfig.DefaultValue.USE_LDAP_CONNECTION_POOL));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
             StringUtils.equals(this.derefAlias, SecuritySystemConfig.DefaultValue.DEREF_ALIAS) ? "" : this.derefAlias);
-    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? SSL : "");
+    setConfiguration(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL,
+            getSaveBooleanValue(this.enableInsecureSsl, SecuritySystemConfig.DefaultValue.ENABLE_INSECURE_SSL));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, 
             StringUtils.equals(this.referral, SecuritySystemConfig.DefaultValue.REFERRAL) ? "" : this.referral);
     setConfiguration(ConfigKey.UPDATE_ENABLED, 
@@ -383,7 +401,7 @@ public class SecurityConfigDetailBean
     {
       jndiConfig = getJndiConfig(getDefaultContext());
     }
-    ldapBrowser.browse(jndiConfig);
+    ldapBrowser.browse(jndiConfig, enableInsecureSsl);
   }
   
   public void chooseLdapName()
@@ -410,6 +428,8 @@ public class SecurityConfigDetailBean
     {
       authKind = JndiConfig.AUTH_KIND_NONE;
     }
+    Map<String, String> env = new HashMap<>();
+    env.put(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL_POSTFIX, getSsl() ? SSL : "");
     return new JndiConfig(
             jndiProvider, 
             getUrl(),
@@ -418,7 +438,7 @@ public class SecurityConfigDetailBean
             getPassword(), 
             getUseLdapConnectionPool(), 
             browseDefaultContext, 
-            Collections.emptyMap());
+            env);
   }
   
 }

@@ -23,7 +23,9 @@ public class SecuritySystemConfig
     String CONNECTION_AUTHENTICATION_KIND = "Connection.AuthenticationKind";
     String CONNECTION_USE_LDAP_CONNECTION_POOL = "Connection.UseLdapConnectionPool";
     String CONNECTION_ENVIRONMENT_ALIASES = "Connection.Environment.java.naming.ldap.derefAliases";
-    String CONNECTION_ENVIRONMENT_PROTOCOL = "Connection.Environment.java.naming.security.protocol";
+    String CONNECTION_ENVIRONMENT_PROTOCOL_POSTFIX = "java.naming.security.protocol";
+    String CONNECTION_ENVIRONMENT_PROTOCOL = "Connection.Environment." + CONNECTION_ENVIRONMENT_PROTOCOL_POSTFIX;
+    String CONNECTION_ENABLE_INSECURE_SSL = "Connection.EnableInsecureSSL";
     String CONNECTION_ENVIRONMENT_REFERRAL = "Connection.Environment.java.naming.referral";
     String BINDING_DEFAULT_CONTEXT = "Binding.DefaultContext";
     String BINDING_IMPORT_USERS_OF_GROUP = "Binding.ImportUsersOfGroup";
@@ -47,6 +49,7 @@ public class SecuritySystemConfig
   {
     String URL = "ldap://localhost:389";
     boolean USE_LDAP_CONNECTION_POOL = false;
+    boolean ENABLE_INSECURE_SSL = false;
     String DEREF_ALIAS = "always";
     String REFERRAL = "follow";
     String EMAIL = "mail";

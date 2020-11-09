@@ -26,12 +26,14 @@ public class LdapBrowser
   private TreeNode selectedNode;
   private List<LdapProperty> selectedNodeAttributes;
   private JndiConfig jndiConfig;
+  private boolean enableInsecureSsl;
   
-  public void browse(JndiConfig config)
+  public void browse(JndiConfig config, boolean enableInsecureSsl)
   {
     this.jndiConfig = config;
+    this.enableInsecureSsl = enableInsecureSsl;
     this.root = null;
-    try(LdapBrowserContext context = new LdapBrowserContext(config))
+    try(LdapBrowserContext context = new LdapBrowserContext(config, enableInsecureSsl))
     {
       Name name = jndiConfig.getDefaultContextName();
       if (name.isEmpty())
@@ -53,7 +55,7 @@ public class LdapBrowser
     TreeNode node = event.getTreeNode();
     node.getChildren().clear();
     String name = evalLdapName(node);
-    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig))
+    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig, enableInsecureSsl))
     {
       context.children(name).forEach(child -> addNewSubnode(node, child));
     }
@@ -99,7 +101,7 @@ public class LdapBrowser
   
   private List<LdapProperty> getNodeArguments()
   {
-    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig))
+    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig, enableInsecureSsl))
     {
       return context.getAttributes(getSelectedLdapName());
     }
