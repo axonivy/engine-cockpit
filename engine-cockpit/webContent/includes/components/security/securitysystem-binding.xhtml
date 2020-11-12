@@ -8,14 +8,14 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
-  <i class="icon ivyicon-hyperlink-3 table-icon panel-title-icon"></i>
+  <i class="si si-hyperlink-3 table-icon panel-title-icon"></i>
   <h:outputText value="Binding" />
 </f:facet>
 <h:form id="securitySystemBindingForm">
   <p:growl id="securitySystemBindingSaveSuccess" for="securitySystemBindingSaveSuccess">
     <p:autoUpdate/>
   </p:growl>
-  <p:commandButton title="Save" icon="icon ivyicon-floppy-disk" id="saveSecuritySystemBindingBtn"
+  <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecuritySystemBindingBtn"
     styleClass="accent-btn card-button" actionListener="#{securityConfigDetailBean.saveBinding}" />
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
@@ -25,7 +25,7 @@
     <h:panelGroup>
       <p:inputText id="defaultContext" style="width: calc(100% - 32px);"
         value="#{securityConfigDetailBean.defaultContext}" />
-      <p:commandButton id="browseDefaultContext" icon="icon ivyicon-network-browser" title="Browse" style="right: -6px;"
+      <p:commandButton id="browseDefaultContext" icon="si si-network-browser" title="Browse" style="right: -6px;"
         actionListener="#{securityConfigDetailBean.browseLdap('defaultContext')}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
     </h:panelGroup>
 
@@ -33,7 +33,7 @@
     <h:panelGroup>
       <p:inputText id="importUsersOfGroup" style="width: calc(100% - 32px);"
         value="#{securityConfigDetailBean.importUsersOfGroup}" />
-      <p:commandButton id="browseImportUserOfGroup" icon="icon ivyicon-network-browser" title="Browse" style="right: -6px;"
+      <p:commandButton id="browseImportUserOfGroup" icon="si si-network-browser" title="Browse" style="right: -6px;"
         actionListener="#{securityConfigDetailBean.browseLdap('importUsersOfGroup')}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
     </h:panelGroup>
 

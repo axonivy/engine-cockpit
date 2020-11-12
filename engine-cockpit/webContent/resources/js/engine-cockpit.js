@@ -75,9 +75,9 @@ function buttonAddSpinner(button) {
   $(button).addClass('ui-state-disabled');
   var icon = $(button).find('.ui-icon'); 
   icon.removeClass(function (index, css) {
-    return (css.match (/\ivyicon-\S+/g) || []).join(' '); // removes anything that starts with "page-"
+    return (css.match (/\si-\S+/g) || []).join(' '); // removes anything that starts with "page-"
   });
-  $(icon).addClass('ivyicon-button-refresh-arrows icon-is-spinning');
+  $(icon).addClass('si-button-refresh-arrows icon-is-spinning');
   window.onblur = function(){
     
   };
@@ -85,7 +85,7 @@ function buttonAddSpinner(button) {
 
 function buttonRemoveSpinner(button, defaultIcon) {
   var icon = $(button).find('.ui-icon')
-  $(icon).removeClass('ivyicon-button-refresh-arrows icon-is-spinning');
+  $(icon).removeClass('si-button-refresh-arrows icon-is-spinning');
   $(icon).addClass(defaultIcon);
   $(button).removeClass('ui-state-disabled');
 }

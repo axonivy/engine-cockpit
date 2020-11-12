@@ -41,7 +41,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 public class WebTestUserDetail
 {
   private static final String CSS_MEMBER_INHERIT = "member-inherit-icon";
-  private static final String CSS_MEMBER = "ivyicon-check-circle";
+  private static final String CSS_MEMBER = "si-check-circle";
   private static final String CSS_DISABLED = "ui-state-disabled";
   private static final String ROLE_REMOVE_BUTTON = "button:nth-child(2)";
   private static final String ROLE_ADD_BUTTON = "button:nth-child(1)";

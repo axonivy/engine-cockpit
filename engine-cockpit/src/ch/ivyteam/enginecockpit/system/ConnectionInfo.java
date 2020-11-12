@@ -19,7 +19,7 @@ public class ConnectionInfo
     label = "Connection state unknown";
     advise = "Please check the connection to the Database.";
     messageLevel = "ui-message-info";
-    icon = "icon ivyicon-question-circle";
+    icon = "si si-question-circle";
   }
   
   public ConnectionInfo(ConnectionTestResult result)
@@ -101,13 +101,13 @@ public class ConnectionInfo
   {
     if (result.isSuccessful())
     {
-      return "icon ivyicon-check-circle";
+      return "si si-check-circle";
     }
     else if (result.isFailed())
     {
-      return "icon ivyicon-delete-1";
+      return "si si-delete-1";
     }
-    return "icon ivyicon-question-circle";
+    return "si si-question-circle";
   }
   
 }

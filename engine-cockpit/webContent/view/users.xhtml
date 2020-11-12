@@ -14,7 +14,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}security.html#users" target="_blank" rel="noopener noreferrer">
-        <i class="icon icon-lg ivyicon-question-circle"></i>
+        <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
 
@@ -24,25 +24,25 @@
         <div class="ui-g">
           <div class="ui-g-12 ui-md-5">
             <h1>
-              <i class="icon ivyicon-single-neutral-actions card-title-icon"></i>Users <h:outputText style="font-style: italic; color: grey;" value="(#{userBean.userCount})"/>
+              <i class="si si-single-neutral-actions card-title-icon"></i>Users <h:outputText style="font-style: italic; color: grey;" value="(#{userBean.userCount})"/>
             </h1>
           </div>
           <div class="ui-g-12 ui-md-7" style="margin: auto;">
             <h:form id="form">
               <h:panelGroup id="syncPanel">
                 <div class="single-card-top-right-btn" style="margin: 0 0 5px 5px;">
-                  <p:splitButton value="Synchronize" icon="icon ivyicon-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'icon-is-spinning' : ''} spin-icon" 
+                  <p:splitButton value="Synchronize" icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'icon-is-spinning' : ''} spin-icon" 
                     id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
                     actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
-                    <p:menuitem id="synchUserBtn" value="Synch Single User" icon="icon ivyicon-button-refresh-arrows" onclick="PF('synchUserModal').show()" />
-                    <p:menuitem id="userSyncLog" value="Synchronization Log" icon="icon ivyicon-common-file-text" 
+                    <p:menuitem id="synchUserBtn" value="Synch Single User" icon="si si-button-refresh-arrows" onclick="PF('synchUserModal').show()" />
+                    <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text" 
                       onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
                     <p:separator />
-                    <p:menuitem id="syncNewUserBtn" value="Add User" icon="icon ivyicon-add" onclick="PF('newUserModal').show();" />
+                    <p:menuitem id="syncNewUserBtn" value="Add User" icon="si si-add" onclick="PF('newUserModal').show();" />
                   </p:splitButton>
                   <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
                   
-                  <p:commandButton id="newUserBtn" value="Add" icon="icon ivyicon-add" type="button" onclick="PF('newUserModal').show();" 
+                  <p:commandButton id="newUserBtn" value="Add" icon="si si-add" type="button" onclick="PF('newUserModal').show();" 
                     rendered="#{securityBean.ivySecurityForSelectedApp}" />
                 </div>
               </h:panelGroup>

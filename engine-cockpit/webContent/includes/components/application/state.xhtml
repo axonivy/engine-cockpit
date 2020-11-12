@@ -4,32 +4,32 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="icon ivyicon-cog-play table-icon panel-title-icon"></i>
+  <i class="si si-cog-play table-icon panel-title-icon"></i>
   <h:outputText value="Activity" />
 </f:facet>
 <h:form id="appDetailStateForm">
-  <p:commandButton id="activateApplication" title="Activate" type="button" icon="icon ivyicon-controls-play"
+  <p:commandButton id="activateApplication" title="Activate" type="button" icon="si si-controls-play"
     rendered="#{!applicationDetailBean.application.notStartable}" styleClass="green-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
   </p:commandButton>
-  <p:commandButton id="deActivateApplication" title="Deactivate" type="button" icon="icon ivyicon-controls-stop"
+  <p:commandButton id="deActivateApplication" title="Deactivate" type="button" icon="si si-controls-stop"
     rendered="#{!applicationDetailBean.application.notStopable}" styleClass="red-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
   </p:commandButton>
-  <p:commandButton id="lockApplication" title="Lock" type="button" icon="icon ivyicon-lock-1"
+  <p:commandButton id="lockApplication" title="Lock" type="button" icon="si si-lock-1"
     rendered="#{!applicationDetailBean.application.notLockable}" styleClass="secondary-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
   </p:commandButton>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>State</label>
     <h:outputText>
-      <i class="icon ivyicon-#{applicationDetailBean.application.state.operationIcon} icon-bold
+      <i class="si si-#{applicationDetailBean.application.state.operationIcon} icon-bold
         activity-state-#{applicationDetailBean.application.state.operationCssClass}"
         title="#{applicationDetailBean.application.state.operation}" />
     </h:outputText>
     <label>Configured state</label>
     <h:outputText>
-      <i class="icon ivyicon-#{applicationDetailBean.application.state.stateIcon} icon-bold
+      <i class="si si-#{applicationDetailBean.application.state.stateIcon} icon-bold
         activity-state-#{applicationDetailBean.application.state.stateCssClass}"
         title="#{applicationDetailBean.application.state.state}" />
     </h:outputText>

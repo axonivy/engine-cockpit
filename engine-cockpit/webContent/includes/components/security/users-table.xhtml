@@ -11,7 +11,7 @@
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
-          <i class="icon ivyicon-search"></i>
+          <i class="si si-search"></i>
         </p:outputLabel>
         <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
           onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" value="#{userBean.filter}"/>
@@ -20,7 +20,7 @@
     <p:column headerText="Name" sortBy="#{user.name}" styleClass="user-name-column">
       <a href="userdetail.xhtml?userName=#{user.name}">
         <h:outputText value="#{user.name}" styleClass="user-name">
-          <i class="icon ivyicon-single-neutral-actions table-icon"></i>
+          <i class="si si-single-neutral-actions table-icon"></i>
         </h:outputText>
         <h:outputText value=" [External: '#{user.externalNameShort}']" title="#{user.externalName}" 
           rendered="#{user.external}" styleClass="addition-row-info"/>
@@ -35,7 +35,7 @@
     </p:column>
     <p:column headerText="Logged in" style="width: 100px; text-align: center">
       <h:outputText>
-        <i class="icon table-icon ivyicon-#{user.loggedIn ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}"></i>
+        <i class="icon table-si si-#{user.loggedIn ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}"></i>
       </h:outputText>
     </p:column>
   </p:dataTable>

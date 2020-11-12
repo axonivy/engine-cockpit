@@ -28,12 +28,12 @@
           
           <div>
             <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button primary-btn"
-              onstart="$('#connectionIcon').attr('class', 'icon ivyicon-button-refresh-arrows icon-is-spinning');" async="true"
-              icon="icon ivyicon-check-1" update="#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.testConnection()}" />
-            <p:commandButton value="Create Database" id="createDatabaseButton" icon="icon ivyicon-database-settings" styleClass="wizard-top-button secondary-btn" 
+              onstart="$('#connectionIcon').attr('class', 'si si-button-refresh-arrows icon-is-spinning');" async="true"
+              icon="si si-check-1" update="#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.testConnection()}" />
+            <p:commandButton value="Create Database" id="createDatabaseButton" icon="si si-database-settings" styleClass="wizard-top-button secondary-btn" 
               actionListener="#{systemDatabaseBean.initCreator()}" update="systemDb:createDatabaseDialog" 
               oncomplete="PF('createDatabaseDialog').show();" disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
-            <p:commandButton value="Migrate Database" id="migrateDatabaseButton" icon="icon ivyicon-synchronize-arrows" styleClass="wizard-top-button secondary-btn"
+            <p:commandButton value="Migrate Database" id="migrateDatabaseButton" icon="si si-synchronize-arrows" styleClass="wizard-top-button secondary-btn"
               actionListener="#{systemDatabaseBean.createConverter()}" update="systemDb:convertDatabaseDialog" 
               onsuccess="PF('convertDatabaseDialog').show();" disabled="#{!systemDatabaseBean.connectionInfo.mustConvert}" />
           </div>
@@ -120,11 +120,11 @@
               </p:column>
               <p:column style="width: 55px;">
                 <p:commandButton id="removeAdditionalProperty" actionListener="#{systemDatabaseBean.removeProp(property.key)}" update="@form:additionalPropertiesTable"
-                  icon="icon ivyicon-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
+                  icon="si si-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
               </p:column>
             </p:dataTable>
             <p:commandButton id="newAdditionalPropertyBtn" actionListener="#{systemDatabaseBean.addProp()}"
-              icon="icon ivyicon-add" title="Add Property" update="systemDb:addAdditionalPropertyDialog" value="Add Property"
+              icon="si si-add" title="Add Property" update="systemDb:addAdditionalPropertyDialog" value="Add Property"
               styleClass="secondary-btn" oncomplete="PF('addAdditionalPropertyDialog').show();" process="@this" 
               style="float: right; width: 150px; margin-top: 5px;"/>
           </h:panelGroup>
@@ -163,7 +163,7 @@
       
       <h:panelGroup rendered="#{!systemDatabaseBean.dbCreatorFinished}">
         <p:commandButton id="confirmConvertButton" value="Save and create" disabled="#{systemDatabaseBean.dbCreatorRunning}"
-          icon="icon ivyicon-#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows icon-is-spinning' : 'database-settings'}" 
+          icon="si si-#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows icon-is-spinning' : 'database-settings'}" 
           actionListener="#{systemDatabaseBean.createDatabase}" style="width: 170px;"
           update="@form" styleClass="modal-input-button" />
         <p:commandLink value="Cancel" rendered="#{!systemDatabaseBean.dbCreatorRunning}"
@@ -171,7 +171,7 @@
       </h:panelGroup>
       <h:panelGroup rendered="#{systemDatabaseBean.dbCreatorFinished}">
         <p:commandButton id="closeCreationButton" value="Connect"
-          icon="icon ivyicon-check-1" actionListener="#{systemDatabaseBean.testConnection}"
+          icon="si si-check-1" actionListener="#{systemDatabaseBean.testConnection}"
           onclick="PF('createDatabaseDialog').hide();"
           update="#{cc.attrs.updateFields}" styleClass="modal-input-button" />
       </h:panelGroup>
@@ -194,7 +194,7 @@
       
       <h:panelGroup rendered="#{!systemDatabaseBean.dbConversionFinished}">
         <p:commandButton id="confirmConvertButton" value="Save and convert" disabled="#{systemDatabaseBean.dbConversionRunning}"
-          icon="icon ivyicon-#{systemDatabaseBean.dbConversionRunning ? 'button-refresh-arrows icon-is-spinning' : 'synchronize-arrows'}" 
+          icon="si si-#{systemDatabaseBean.dbConversionRunning ? 'button-refresh-arrows icon-is-spinning' : 'synchronize-arrows'}" 
           actionListener="#{systemDatabaseBean.convertDatabase}" style="width: 170px;"
           update="@form" styleClass="modal-input-button" 
           onclick="window.onbeforeunload = function () {return 'A database conversion is running!';}" />
@@ -203,7 +203,7 @@
       </h:panelGroup>
       <h:panelGroup rendered="#{systemDatabaseBean.dbConversionFinished}">
         <p:commandButton id="closeConversionButton" value="Connect"
-          icon="icon ivyicon-check-1" actionListener="#{systemDatabaseBean.testConnection}"
+          icon="si si-check-1" actionListener="#{systemDatabaseBean.testConnection}"
           onclick="PF('convertDatabaseDialog').hide(); window.onbeforeunload = undefined;"
           update="#{cc.attrs.updateFields}" styleClass="modal-input-button" />
       </h:panelGroup>
@@ -231,7 +231,7 @@
         </h:panelGroup>
       </p:panelGrid>
       <p:commandButton id="saveProperty" validateClient="true" update="@form,systemDb:systemDbForm:additionalPropertiesTable"
-        actionListener="#{systemDatabaseBean.saveProp()}" value="Save" icon="icon ivyicon-floppy-disk"
+        actionListener="#{systemDatabaseBean.saveProp()}" value="Save" icon="si si-floppy-disk"
         styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('addAdditionalPropertyDialog').hide();" />
       <p:commandLink id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="Cancel" type="button"
         styleClass="modal-input-button" />

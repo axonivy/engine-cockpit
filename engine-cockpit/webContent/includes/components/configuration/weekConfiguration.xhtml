@@ -17,7 +17,7 @@
   
   <p:panel styleClass="min-height-350" id="weekConfigurationPanel">
     <f:facet name="header">
-      <i class="icon ivyicon-cog table-icon panel-title-icon"></i>
+      <i class="si si-cog table-icon panel-title-icon"></i>
       Week configuration
     </f:facet>
     
@@ -36,14 +36,14 @@
    
       <p:column headerText="From to">
         <h:outputText value="#{workingTime.value}" title="#{workingTime.tooltip}">
-          <i class="icon ivyicon-#{workingTime.icon} table-icon"></i>
+          <i class="si si-#{workingTime.icon} table-icon"></i>
         </h:outputText>
       </p:column>
       
       <p:column headerText="Defined by">
         <a href="businesscalendar-detail.xhtml?calendarName=#{workingTime.calendarName}">
           <h:outputText value="#{workingTime.calendarName}">
-            <i class="icon ivyicon-calendar table-icon"></i>
+            <i class="si si-calendar table-icon"></i>
           </h:outputText>
         </a>
       </p:column>

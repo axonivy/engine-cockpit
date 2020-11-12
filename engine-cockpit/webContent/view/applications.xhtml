@@ -12,7 +12,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}applications.html#applications" target="_blank" rel="noopener noreferrer">
-        <i class="icon icon-lg ivyicon-question-circle"></i>
+        <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
 
@@ -24,11 +24,11 @@
             <div class="ui-g">
               <div class="ui-g-12 ui-md-10">
                 <h1>
-                  <i class="icon ivyicon-layout-module card-title-icon"></i>Applications
+                  <i class="si si-layout-module card-title-icon"></i>Applications
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                <p:commandButton id="createApplicationBtn" widgetVar="createApplication" icon="icon ivyicon-add" type="button" value="Add"
+                <p:commandButton id="createApplicationBtn" widgetVar="createApplication" icon="si si-add" type="button" value="Add"
                   onclick="PF('newApplicationModal').show();" />
               </div>
             </div>
@@ -36,14 +36,14 @@
               <div class="ui-datatable-header ui-widget-header ui-corner-top">
                 <p:outputPanel>
                   <span class="table-search-icon">
-                    <i class="icon ivyicon-search"></i>
+                    <i class="si si-search"></i>
                   </span>
                   <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{applicationBean.filter}">
                     <p:ajax event="keyup" delay="500" update="@form:tree" />
                   </p:inputText>
-                  <p:commandButton id="expandAll" widgetVar="createApplication" icon="icon ivyicon-move-expand-vertical" actionListener="#{applicationBean.expandAllNodes}"
+                  <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical" actionListener="#{applicationBean.expandAllNodes}"
                     update="tree" title="Expand all" styleClass="secondary-btn" />
-                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="icon ivyicon-move-shrink-vertical" actionListener="#{applicationBean.collapseAllNodes}"
+                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical" actionListener="#{applicationBean.collapseAllNodes}"
                     update="tree"  title="Collapse all" styleClass="secondary-btn" />
                 </p:outputPanel>
               </div>
@@ -54,16 +54,16 @@
               <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
                 <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
                   <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
-                    <i class="icon ivyicon-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                    <i class="si si-#{activity.icon} table-icon" title="#{activity.activityType}" />
                   </h:outputText>
                 </h:outputLink>
                 <h:outputText rendered="#{activity.detailView == '#'}">
                   <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}" style="color: grey;">
-                    <i class="icon ivyicon-#{activity.icon} table-icon" title="#{activity.activityType}" />
+                    <i class="si si-#{activity.icon} table-icon" title="#{activity.activityType}" />
                   </h:outputText>
                 </h:outputText>
                 <h:outputText rendered="#{activity.pmv}">
-                  <i class="icon ivyicon-#{activity.state.releaseStateIcon} table-icon" 
+                  <i class="si si-#{activity.state.releaseStateIcon} table-icon" 
                     title="#{activity.state.releaseState}" style="margin-left: 10px;"></i>
                 </h:outputText>
                 <h:outputText rendered="#{activity.pmv}" value="[#{activity.qualifiedVersion} / #{activity.lastChangeDate}]"
@@ -74,34 +74,34 @@
               </p:column>
               <p:column headerText="State" styleClass="thrid-row" style="text-align: center; width: 120px;">
                 <h:panelGroup styleClass="module-state" title="#{activity.state.operation}#{activity.state.errorMessage}#{activity.state.childProblems}">
-                  <i class="icon ivyicon-#{activity.state.operationIcon} activity-state-#{activity.state.operationCssClass} table-icon"></i>
+                  <i class="si si-#{activity.state.operationIcon} activity-state-#{activity.state.operationCssClass} table-icon"></i>
                   <h:outputText rendered="#{not empty activity.state.childProblems}">
-                    <i class="icon ivyicon-road-sign-warning table-icon"></i>
+                    <i class="si si-road-sign-warning table-icon"></i>
                   </h:outputText>
                 </h:panelGroup>
               </p:column>
               <p:column style="text-align: right; width: 177px;">
-                <p:commandButton title="Deployment" icon="icon ivyicon-upload-bottom" rendered="#{activity.application}" 
+                <p:commandButton title="Deployment" icon="si si-upload-bottom" rendered="#{activity.application}" 
                   type="button" style="margin-right: 10px;" id="deployBtn" styleClass="primary-btn">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 
                     oncomplete="PF('fileUploadModal').show()"/>
                 </p:commandButton>
-                <p:commandButton title="Activate" icon="icon ivyicon-controls-play" disabled="#{activity.notStartable}"
+                <p:commandButton title="Activate" icon="si si-controls-play" disabled="#{activity.notStartable}"
                   type="button" style="margin-right: 10px;" styleClass="green-btn">
                   <p:ajax update="card:form" listener="#{activity.activate}" />
                 </p:commandButton>
-                <p:commandButton title="Deactivate" icon="icon ivyicon-controls-stop" disabled="#{activity.notStopable}"
+                <p:commandButton title="Deactivate" icon="si si-controls-stop" disabled="#{activity.notStopable}"
                   type="button" style="margin-right: 10px;" styleClass="red-btn">
                   <p:ajax update="card:form" listener="#{activity.deactivate}" />
                 </p:commandButton>
                 <p:commandButton title="More" id="tasksButton"
-                  type="button" icon="icon ivyicon-navigation-menu" styleClass="secondary-btn" style="float: right;" />
+                  type="button" icon="si si-navigation-menu" styleClass="secondary-btn" style="float: right;" />
                 <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
-                  <p:menuitem value="Lock" icon="icon ivyicon-lock-1" disabled="#{activity.notLockable}"
+                  <p:menuitem value="Lock" icon="si si-lock-1" disabled="#{activity.notLockable}"
                     actionListener="#{activity.lock}" update="card:form" />
-                  <p:menuitem value="Release" rendered="#{activity.pmv}" icon="icon ivyicon-heavy-equipment-hook"
+                  <p:menuitem value="Release" rendered="#{activity.pmv}" icon="si si-heavy-equipment-hook"
                     disabled="#{!activity.releasable}" actionListener="#{activity.release}" update="card:form" />
-                  <p:menuitem id="deleteBtn" value="Delete" icon="icon ivyicon-bin-1" disabled="#{!activity.deletable}"
+                  <p:menuitem id="deleteBtn" value="Delete" icon="si si-bin-1" disabled="#{!activity.deletable}"
                     actionListener="#{applicationBean.setActiveActivity(activity)}"
                     update="card:form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
                 </p:menu>
@@ -115,7 +115,7 @@
               <p:commandLink value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
                 styleClass="modal-input-button" />
               <p:commandButton id="deleteConfirmYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
-                actionListener="#{applicationBean.activeActivity.delete}" update="card:form" icon="icon ivyicon-bin-1" />
+                actionListener="#{applicationBean.activeActivity.delete}" update="card:form" icon="si si-bin-1" />
             </p:confirmDialog>
           </h:form>
           <ui:include src="../includes/dialogs/newapplication.xhtml" />

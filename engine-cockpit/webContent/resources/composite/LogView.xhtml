@@ -8,7 +8,7 @@
 <p:panel id="logPanel" widgetVar="#{cc.attrs.log.fileName}" toggleable="true" toggleSpeed="200" collapsed="#{logBean.showLog ne cc.attrs.log.fileName}" style="min-height: unset;">
   <f:facet name="header">
   	<span onclick="PF('#{cc.attrs.log.fileName}').toggle()" style="cursor: pointer; display: inline-flex;">
-      <i class="icon ivyicon-common-file-text table-icon panel-title-icon"></i>
+      <i class="si si-common-file-text table-icon panel-title-icon"></i>
 	    <h:outputText value="#{cc.attrs.log.fileName}" style="width: 150px;" />
 	    <h:outputText value="#{cc.attrs.log.date}" />
 	    <h:outputText value="#{cc.attrs.log.size}kB" style="margin-left: 15px;"/>
@@ -16,7 +16,7 @@
     </span>
   </f:facet>
   <h:form id="fileForm">
-    <p:commandButton id="showLog" ajax="false" title="Download Log File" icon="icon ivyicon-download-bottom"
+    <p:commandButton id="showLog" ajax="false" title="Download Log File" icon="si si-download-bottom"
       styleClass="secondary-btn card-button" rendered="#{cc.attrs.log.downloadEnabled}" style="margin-top: -37px; margin-right: 25px;">
       <p:fileDownload value="#{cc.attrs.log.file}" />
     </p:commandButton>

@@ -17,10 +17,10 @@
       </p:column>
       <p:column style="width: 95px;">
         <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.setAdmin(admin)}" update="@form:deleteAdminDialog"
-          icon="icon ivyicon-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" 
+          icon="si si-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" 
           disabled="#{admin.name eq loginBean.sessionUserName}" oncomplete="PF('deleteAdminDialog').show();"/>
         <p:commandButton id="editAdminBtn" actionListener="#{administratorBean.setAdmin(admin)}"
-          icon="icon ivyicon-pencil" title="Edit" update="admins:editAdminDialog"
+          icon="si si-pencil" title="Edit" update="admins:editAdminDialog"
           styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
       </p:column>
     </p:dataTable>
@@ -31,7 +31,7 @@
       <p:commandLink value="Cancel" onclick="PF('deleteAdminDialog').hide();" type="button"
         styleClass="modal-input-button" />
       <p:commandButton id="deleteAdminYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
-        actionListener="#{administratorBean.removeAdmin}" update="#{cc.attrs.updateFields}" icon="icon ivyicon-bin-1" />
+        actionListener="#{administratorBean.removeAdmin}" update="#{cc.attrs.updateFields}" icon="si si-bin-1" />
     </p:confirmDialog>
   </h:form>
   
@@ -77,7 +77,7 @@
         </h:panelGroup>
       </p:panelGrid>
       <p:commandButton id="saveAdmin" validateClient="true" update="#{cc.attrs.updateFields}"
-        actionListener="#{administratorBean.saveAdmin()}" value="Save" icon="icon ivyicon-floppy-disk"
+        actionListener="#{administratorBean.saveAdmin()}" value="Save" icon="si si-floppy-disk"
         styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
       <p:commandLink id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
         styleClass="modal-input-button" immediate="true" />

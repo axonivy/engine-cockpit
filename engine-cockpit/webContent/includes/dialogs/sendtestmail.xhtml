@@ -24,7 +24,7 @@
       <p:inputTextarea id="messageText" value="#{emailBean.message}" autoResize="false" rows="5" />
     </p:panelGrid>
     <p:commandButton id="sendTestMailBtn" validateClient="true" onsuccess="PF('sendTestMailModal').hide()"
-      actionListener="#{emailBean.sendTestMail}" value="Send" icon="icon ivyicon-send-email" styleClass="modal-input-button" />
+      actionListener="#{emailBean.sendTestMail}" value="Send" icon="si si-send-email" styleClass="modal-input-button" />
     <p:commandLink id="cancelSendTestMailBtn" onclick="PF('sendTestMailModal').hide()" value="Cancel" type="button"
       styleClass="modal-input-button" immediate="true" />
   </h:form>

@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="icon ivyicon-multiple-neutral-1 table-icon panel-title-icon"></i>
+  <i class="si si-multiple-neutral-1 table-icon panel-title-icon"></i>
   <h:outputText value="Role members" />
 </f:facet>
 <h:form id="membersOfRoleForm">
@@ -12,7 +12,7 @@
     completeMethod="#{roleDetailBean.searchMember}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
     placeholder="Search role to add" />
   <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
-    icon="icon ivyicon-add" title="Add" styleClass="primary-btn" />
+    icon="si si-add" title="Add" styleClass="primary-btn" />
   <p:growl for="membersMessage">
     <p:autoUpdate/>
   </p:growl>
@@ -23,7 +23,7 @@
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
-          <i class="icon ivyicon-search"></i>
+          <i class="si si-search"></i>
         </p:outputLabel>
         <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
           onkeyup="PF('membersOfRoleTable').filter()" placeholder="Search" />
@@ -32,14 +32,14 @@
     <p:column styleClass="member-row" headerText="Role Members Of Role" sortBy="#{member.name}" filterBy="#{member.name}">
       <a href="roledetail.xhtml?roleName=#{member.name}">
         <h:outputText styleClass="member-name" value="#{member.name}">
-          <i class="icon ivyicon-multiple-neutral-1 table-icon"></i>
+          <i class="si si-multiple-neutral-1 table-icon"></i>
         </h:outputText>
         <h:outputText value=" (#{member.displayName})" styleClass="addition-row-info" />
       </a>
     </p:column>
     <p:column style="width: 55px;">
       <p:commandButton id="removeMemberFromRoleBtn" update="membersOfRoleForm"
-        actionListener="#{roleDetailBean.removeMember(member.name)}" icon="icon ivyicon-subtract" title="Remove"
+        actionListener="#{roleDetailBean.removeMember(member.name)}" icon="si si-subtract" title="Remove"
         styleClass="card-button table-control-btn secondary-btn" style="margin: 0;" />
     </p:column>
   </p:dataTable>

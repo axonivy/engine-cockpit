@@ -13,7 +13,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}services.html#rest-clients" target="_blank" rel="noopener noreferrer">
-        <i class="icon icon-lg ivyicon-question-circle"></i>
+        <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
 
@@ -24,7 +24,7 @@
           <div class="ui-g">
             <div class="ui-g-12 ui-md-7 ui-lg-9">
               <h1>
-                <i class="icon ivyicon-network-share card-title-icon"></i>Rest Clients
+                <i class="si si-network-share card-title-icon"></i>Rest Clients
               </h1>
             </div>
             <div class="ui-g-12 ui-md-5 ui-lg-3" style="margin: auto;">
@@ -39,7 +39,7 @@
             <f:facet name="header">
               <p:outputPanel>
                 <p:outputLabel styleClass="table-search-icon">
-                  <i class="icon ivyicon-search"></i>
+                  <i class="si si-search"></i>
                 </p:outputLabel>
                 <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
                   onkeyup="PF('restClientsTable_#{app.id}').filter()" placeholder="Search" value="#{restClientsBean.filter}" />
@@ -48,7 +48,7 @@
             <p:column headerText="Name" sortBy="#{restclient.name}" filterBy="#{restclient.name}" styleClass="restclient-name-column">
               <a href="restclientdetail.xhtml?restClientName=#{restclient.name}"> <h:outputText value="#{restclient.name}"
                   styleClass="restclient-name">
-                  <i class="icon ivyicon-network-share table-icon"></i>
+                  <i class="si si-network-share table-icon"></i>
                 </h:outputText>
               </a>
             </p:column>

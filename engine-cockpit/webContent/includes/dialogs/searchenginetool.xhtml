@@ -18,7 +18,7 @@
       <pre style="overflow: auto; max-height: 500px;"><h:outputText value="#{searchEngineBean.queryResult}" /></pre>
     </div>
     <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"
-      actionListener="#{searchEngineBean.runQuery}" value="Run" icon="icon ivyicon-send-email"
+      actionListener="#{searchEngineBean.runQuery}" value="Run" icon="si si-send-email"
       styleClass="modal-input-button" />
     <p:commandLink id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel" type="button"
       styleClass="modal-input-button" />

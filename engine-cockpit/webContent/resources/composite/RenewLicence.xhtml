@@ -21,7 +21,7 @@
           requiredMessage="Please put your mail" />
         <p:message for="emailInput" id="emailInputMessage" />
       </h:panelGroup>
-      <p:commandButton id="renewBtn" value="Send" icon="icon ivyicon-send-email" validateClient="true"
+      <p:commandButton id="renewBtn" value="Send" icon="si si-send-email" validateClient="true"
         styleClass="modal-input-button" actionListener="#{renewLicence.send}" 
         onsuccess="PF('renewLicence').hide();" />
       <p:commandLink id="cancelRenewBtn" onclick="PF('renewLicence').hide();" value="Cancel"

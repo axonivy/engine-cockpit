@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
   
 <f:facet name="header">
-  <i class="icon ivyicon-common-file-text table-icon panel-title-icon"></i>
+  <i class="si si-common-file-text table-icon panel-title-icon"></i>
   <h:outputText value="Indices" />
 </f:facet>
 <h:form id="searchEngineIndexForm" style="overflow-y: auto;">
@@ -18,7 +18,7 @@
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
-          <i class="icon ivyicon-search"></i>
+          <i class="si si-search"></i>
         </p:outputLabel>
         <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
           onkeyup="PF('indiciesTable').filter()" placeholder="Search" value="#{searchEngineBean.filter}"/>
@@ -26,7 +26,7 @@
     </f:facet>
     <p:column headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}" styleClass="index-name-column">
       <h:outputText value="#{index.name}" styleClass="index-name" style="overflow: auto">
-        <i class="icon ivyicon-common-file-text table-icon"></i>
+        <i class="si si-common-file-text table-icon"></i>
       </h:outputText>
     </p:column>
     <p:column headerText="Index" sortBy="#{index.countIndexed}" style="text-align: center; width: 85px;">
@@ -36,17 +36,17 @@
       <h:outputText value="#{index.countStored}" />
     </p:column>
     <p:column headerText="Health" style="text-align: center; width: 65px; font-weight: bold;">
-      <i class="icon ivyicon-#{index.status.icon} table-icon icon-bold search-machine-health-#{index.status.state}" 
+      <i class="si si-#{index.status.icon} table-icon icon-bold search-machine-health-#{index.status.state}" 
         title="#{index.status.hint}"></i>
     </p:column>
     <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 75px;">
       <h:outputText value="#{index.size}" />
     </p:column>
     <p:column style="text-align: center; width: 97px;">
-      <p:commandButton title="Reindex" icon="icon ivyicon-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'icon-is-spinning' : ''} spin-icon"
+      <p:commandButton title="Reindex" icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'icon-is-spinning' : ''} spin-icon"
         style="margin-right: 10px;" styleClass="secondary-btn" id="reindexBtn" oncomplete="PF('reindexSearchEngineModel').show();"
         actionListener="#{searchEngineBean.setActiveIndex(index)}" update="reindexSearchEngineModel" />
-      <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="icon ivyicon-monitor-heart-beat-search"
+      <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="si si-monitor-heart-beat-search"
         actionListener="#{searchEngineBean.setActiveIndex(index)}" update="searchEngineQueryToolModal"
         styleClass="secondary-btn" oncomplete="PF('searchEngineQueryToolModal').show()" />
     </p:column>
@@ -63,7 +63,7 @@
     <p:commandLink id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel" type="button"
       styleClass="scondary-btn modal-input-button" />
     <p:commandButton id="reindexSearchEngineBtn" update="searchEngineIndexForm" onclick="PF('reindexPoller').start(); PF('reindexSearchEngineModel').hide();"
-      actionListener="#{searchEngineBean.reindex}" value="Reindex" icon="icon ivyicon-button-refresh-arrows"
+      actionListener="#{searchEngineBean.reindex}" value="Reindex" icon="si si-button-refresh-arrows"
       styleClass="modal-input-button" />
   </f:facet>
 </p:dialog>
