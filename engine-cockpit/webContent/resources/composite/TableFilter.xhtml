@@ -13,10 +13,10 @@
 <cc:implementation>
   <h:form id="form">
 	  <h:panelGroup>
-	    <p:commandButton id="filterBtn" value="Filter: #{cc.attrs.filterText}" icon="icon ivyicon-filter-1" type="button" 
+	    <p:commandButton id="filterBtn" value="Filter: #{cc.attrs.filterText}" icon="si si-filter-1" type="button" 
 	      style="padding-right: 25px;" styleClass="secondary-btn" onclick="PF('filterPanel_#{cc.attrs.index}').show();"/>
-	    <p:commandLink id="resetFilter" styleClass="icon ivyicon-delete-2" update="#{cc.attrs.update}" actionListener="#{cc.attrs.resetFilters}"
-	      style="font-family: IvyIcons; position: absolute; top:8px; right: 7px; color: var(--button-secondary-text-color);" />
+	    <p:commandLink id="resetFilter" styleClass="si si-delete-2" update="#{cc.attrs.update}" actionListener="#{cc.attrs.resetFilters}"
+	      style="font-family: StreamlineIcons; position: absolute; top:8px; right: 7px; color: var(--button-secondary-text-color);" />
 	  </h:panelGroup>
    
     <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel_#{cc.attrs.index}" style="min-width: 250px;">
@@ -25,7 +25,7 @@
 	    </p:selectManyCheckbox>
 	    
 	    <h:panelGroup layout="block" style="margin-top: 10px;">
-		    <p:commandButton id="applyFilter" value="Apply" class="modal-input-button" icon="icon ivyicon-check-1" update="#{cc.attrs.update}" />
+		    <p:commandButton id="applyFilter" value="Apply" class="modal-input-button" icon="si si-check-1" update="#{cc.attrs.update}" />
 		    <p:commandLink id="cancelFilter" value="Cancel" class="modal-input-button" onclick="PF('filterPanel_#{cc.attrs.index}').hide();"/>
 	    </h:panelGroup>
 	  </p:overlayPanel>

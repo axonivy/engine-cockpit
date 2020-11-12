@@ -4,16 +4,16 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" >
 
 <f:facet name="header">
-  <i class="icon ivyicon-email-action-unread table-icon panel-title-icon"></i>
+  <i class="si si-email-action-unread table-icon panel-title-icon"></i>
   <h:outputText value="Email" />
 </f:facet>
 <h:form id="mailConfigForm">
   <p:growl id="msgs" showDetail="true">
     <p:autoUpdate/>
   </p:growl>
-  <p:commandButton id="openTestMailBtn" title="Send Test Mail" icon="icon ivyicon-send-email" type="button"
+  <p:commandButton id="openTestMailBtn" title="Send Test Mail" icon="si si-send-email" type="button"
     styleClass="secondary-btn card-button" onclick="PF('sendTestMailModal').show()" />
-  <p:commandButton id="configureEmailBtn" title="Configure Email Server" icon="icon ivyicon-cog" type="button"
+  <p:commandButton id="configureEmailBtn" title="Configure Email Server" icon="si si-cog" type="button"
     styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=EMail'" />
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Server</label>

@@ -52,8 +52,8 @@ public class WebTestSearchEngine
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
     $("#searchEngineInfoForm\\:version").shouldBe(exactText("7.3.0"));
-    $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("ivyicon-check-circle-1"));
-    $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("ivyicon-check-circle-1"));
+    $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("si-check-circle-1"));
+    $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("si-check-circle-1"));
   }
   
   @Test

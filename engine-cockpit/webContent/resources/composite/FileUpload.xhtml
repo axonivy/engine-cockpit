@@ -14,7 +14,7 @@
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
         <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" 
           styleClass="ui-panelgrid-blank">
-          <p:commandButton id="chooseFileBtn" type="button" icon="icon ivyicon-add" value="Choose file" 
+          <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose file" 
             onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
           <div id="drop_zone">
             <span id="selectedFileOutput" class="file-upload-file" />
@@ -23,7 +23,7 @@
         <div id="uploadError" class="file-upload-error" />
         <cc:insertChildren />
       </div>
-      <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="icon ivyicon-upload-bottom"
+      <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="si si-upload-bottom"
         styleClass="modal-input-button" onclick="upload();" />
       <p:commandLink id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
         styleClass="modal-input-button" />
@@ -32,8 +32,8 @@
       <div style="font-weight: bold;" id="uploadStatus"></div>
       <pre style="max-height: 500px; overflow: auto;" id="uploadLog"></pre>
       <p:commandButton id="closeDeploymentBtn" onclick="closeFileUpload();" value="Close" type="button"
-        icon="icon ivyicon-remove-circle" styleClass="modal-input-button" />
-      <p:commandButton id="backBtn" type="button" value="Back" icon="icon ivyicon-navigation-left-circle-1"
+        icon="si si-remove-circle" styleClass="modal-input-button" />
+      <p:commandButton id="backBtn" type="button" value="Back" icon="si si-navigation-left-circle-1"
         styleClass="secondary-btn modal-input-button" onclick="back();" />
     </div>
     <script>
@@ -45,7 +45,7 @@
       }
       
       function uploadedAlways() {
-    	  buttonRemoveSpinner($("#deploymentModal\\:uploadBtn"), "ivyicon-upload-bottom");
+    	  buttonRemoveSpinner($("#deploymentModal\\:uploadBtn"), "si-upload-bottom");
     	  $('#fileUploadResponse').show();
     	  $('#fileUploadForm').hide();
         PF('fileUploadModal').initPosition();

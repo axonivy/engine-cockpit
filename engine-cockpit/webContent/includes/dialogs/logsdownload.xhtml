@@ -8,8 +8,8 @@
   responsive="true" closeOnEscape="true">
   <h:form id="logForm">
     <p:commandButton id="allLogs" ajax="false" value="Download" 
-      onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ivyicon-download-bottom');}"
-      title="Download All Log Files" icon="icon ivyicon-download-bottom"
+      onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
+      title="Download All Log Files" icon="si si-download-bottom"
       styleClass="modal-input-button" style="width: 150px;">
       <p:fileDownload value="#{logBean.allLogs}" />
     </p:commandButton>

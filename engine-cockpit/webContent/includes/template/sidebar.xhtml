@@ -14,45 +14,45 @@
         <div class="layout-menu-container">
           <h:form id="menuform">
             <pm:menu widgetVar="sidebar_menu">
-              <p:menuitem id="sr_dashboard" value="Dashboard" icon="icon ivyicon-layout-dashboard" url="dashboard.xhtml" />
-              <p:menuitem id="sr_applications" value="Applications" icon="icon ivyicon-layout-module" url="applications.xhtml"/>
-              <p:submenu id="sr_security" label="Security" icon="icon ivyicon-shield-lock">
-                <p:menuitem id="sr_security_system" value="Security Systems" icon="icon ivyicon-lock-1" url="securitysystem.xhtml" />
-                <p:menuitem id="sr_users" value="Users" icon="icon ivyicon-single-neutral-actions" url="users.xhtml" />
-                <p:menuitem id="sr_roles" value="Roles" icon="icon ivyicon-multiple-neutral-1" url="roles.xhtml" />
+              <p:menuitem id="sr_dashboard" value="Dashboard" icon="si si-layout-dashboard" url="dashboard.xhtml" />
+              <p:menuitem id="sr_applications" value="Applications" icon="si si-layout-module" url="applications.xhtml"/>
+              <p:submenu id="sr_security" label="Security" icon="si si-shield-lock">
+                <p:menuitem id="sr_security_system" value="Security Systems" icon="si si-lock-1" url="securitysystem.xhtml" />
+                <p:menuitem id="sr_users" value="Users" icon="si si-single-neutral-actions" url="users.xhtml" />
+                <p:menuitem id="sr_roles" value="Roles" icon="si si-multiple-neutral-1" url="roles.xhtml" />
               </p:submenu>
               
-              <p:submenu id="sr_configuration" label="Configuration" icon="icon ivyicon-cog">
-                <p:menuitem id="sr_variables" value="Global Variables" icon="icon ivyicon-archive-folder" url="global-variables.xhtml"/>
-                <p:menuitem id="sr_business_calendar" value="Business Calendar" icon="icon ivyicon-calendar" url="businesscalendar.xhtml"/>
+              <p:submenu id="sr_configuration" label="Configuration" icon="si si-cog">
+                <p:menuitem id="sr_variables" value="Global Variables" icon="si si-archive-folder" url="global-variables.xhtml"/>
+                <p:menuitem id="sr_business_calendar" value="Business Calendar" icon="si si-calendar" url="businesscalendar.xhtml"/>
               </p:submenu>
                             
-              <p:submenu id="sr_services" label="Services" icon="icon ivyicon-conversation-chat-2">
-                <p:menuitem id="sr_email" value="Email" icon="icon ivyicon-email-action-unread" url="email.xhtml" />
-                <p:menuitem id="sr_database" value="External Databases" icon="icon ivyicon-database" url="externaldatabases.xhtml" />
-                <p:menuitem id="sr_web_service" value="Web Services" icon="icon ivyicon-network-arrow" url="webservices.xhtml" />
-                <p:menuitem id="sr_rest_client" value="Rest Clients" icon="icon ivyicon-network-share" url="restclients.xhtml" />
-                <p:menuitem id="sr_searchengine" value="Search Engine" icon="icon ivyicon-monitor-heart-beat-search" url="searchengine.xhtml" />
+              <p:submenu id="sr_services" label="Services" icon="si si-conversation-chat-2">
+                <p:menuitem id="sr_email" value="Email" icon="si si-email-action-unread" url="email.xhtml" />
+                <p:menuitem id="sr_database" value="External Databases" icon="si si-database" url="externaldatabases.xhtml" />
+                <p:menuitem id="sr_web_service" value="Web Services" icon="si si-network-arrow" url="webservices.xhtml" />
+                <p:menuitem id="sr_rest_client" value="Rest Clients" icon="si si-network-share" url="restclients.xhtml" />
+                <p:menuitem id="sr_searchengine" value="Search Engine" icon="si si-monitor-heart-beat-search" url="searchengine.xhtml" />
               </p:submenu>
-              <p:submenu id="sr_system" label="System" icon="icon ivyicon-cog-double-2">
-                <p:menuitem id="sr_admins" value="Administrators" icon="icon ivyicon-single-neutral-shield" url="admins.xhtml" />
-                <p:menuitem id="sr_systemdb" value="System Database" icon="icon ivyicon-database-settings" url="systemdb.xhtml" />
-                <p:menuitem id="sr_licence" value="Licence" icon="icon ivyicon-real-estate-action-house-key" url="licence.xhtml" />
-                <p:menuitem id="sr_system_config" value="System Configuration" icon="icon ivyicon-cog-double" url="systemconfig.xhtml" />
-                <p:menuitem id="sr_cluster" value="Cluster" icon="icon ivyicon-monitor-network" url="cluster.xhtml" 
+              <p:submenu id="sr_system" label="System" icon="si si-cog-double-2">
+                <p:menuitem id="sr_admins" value="Administrators" icon="si si-single-neutral-shield" url="admins.xhtml" />
+                <p:menuitem id="sr_systemdb" value="System Database" icon="si si-database-settings" url="systemdb.xhtml" />
+                <p:menuitem id="sr_licence" value="Licence" icon="si si-real-estate-action-house-key" url="licence.xhtml" />
+                <p:menuitem id="sr_system_config" value="System Configuration" icon="si si-cog-double" url="systemconfig.xhtml" />
+                <p:menuitem id="sr_cluster" value="Cluster" icon="si si-monitor-network" url="cluster.xhtml" 
                 	rendered="#{clusterBean.clusterServer or param['cluster'] != null}"/>
-                <p:menuitem id="sr_editor" value="Yaml Editor" icon="icon ivyicon-common-file-text-edit" url="editor.xhtml" 
+                <p:menuitem id="sr_editor" value="Yaml Editor" icon="si si-common-file-text-edit" url="editor.xhtml" 
                   rendered="#{cookie['advanced'].value eq 'true'}"/>
               </p:submenu>
-              <p:submenu id="sr_monitor" label="Monitor" icon="icon ivyicon-pie-line-graph-desktop">
-                <p:menuitem id="sr_monitor_os" value="OS" icon="icon ivyicon-server-search" url="monitorOs.xhtml" />
-                <p:submenu id="sr_monitor_engine" label="Engine" icon="icon ivyicon-computer-chip-search" >
-                  <p:menuitem id="sr_monitor_engine_jvm" value="JVM" icon="icon ivyicon-coffee-cup" url="monitorJvm.xhtml" />
-                  <p:menuitem id="sr_monitor_engine_memory" value="Memory" icon="icon ivyicon-analytics-board-graph-line" url="monitorMemory.xhtml" />
-                  <p:menuitem id="sr_monitor_engine_requests" value="Requests" icon="icon ivyicon-network-signal" url="monitorRequest.xhtml" />
-                  <p:menuitem id="sr_monitor_engine_mbeans" value="MBeans" icon="icon ivyicon-graph-statistics-coffee" url="mbeans.xhtml"/>
+              <p:submenu id="sr_monitor" label="Monitor" icon="si si-pie-line-graph-desktop">
+                <p:menuitem id="sr_monitor_os" value="OS" icon="si si-server-search" url="monitorOs.xhtml" />
+                <p:submenu id="sr_monitor_engine" label="Engine" icon="si si-computer-chip-search" >
+                  <p:menuitem id="sr_monitor_engine_jvm" value="JVM" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
+                  <p:menuitem id="sr_monitor_engine_memory" value="Memory" icon="si si-analytics-board-graph-line" url="monitorMemory.xhtml" />
+                  <p:menuitem id="sr_monitor_engine_requests" value="Requests" icon="si si-network-signal" url="monitorRequest.xhtml" />
+                  <p:menuitem id="sr_monitor_engine_mbeans" value="MBeans" icon="si si-graph-statistics-coffee" url="mbeans.xhtml"/>
                 </p:submenu>
-                <p:menuitem id="sr_logs" value="Logs" icon="icon ivyicon-common-file-text" url="logs.xhtml?log=console.log"/>
+                <p:menuitem id="sr_logs" value="Logs" icon="si si-common-file-text" url="logs.xhtml?log=console.log"/>
               </p:submenu>
             </pm:menu>
           </h:form>

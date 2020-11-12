@@ -14,8 +14,8 @@
       <li>Today's log files</li>
     </ul>
     <p:commandButton id="download" ajax="false" value="Download" 
-      onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'ivyicon-download-bottom');}"
-      title="Download Support Report" icon="icon ivyicon-download-bottom"
+      onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
+      title="Download Support Report" icon="si si-download-bottom"
       styleClass="modal-input-button" style="width: 150px;">
       <p:fileDownload value="#{supportBean.supportReport}" />
     </p:commandButton>

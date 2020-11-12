@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="icon ivyicon-single-neutral-actions table-icon panel-title-icon"></i>
+  <i class="si si-single-neutral-actions table-icon panel-title-icon"></i>
   <h:outputText value="Users" />
 </f:facet>
 <h:form id="usersOfRoleForm">
@@ -15,7 +15,7 @@
     completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search user to add" 
     disabled="#{roleDetailBean.managed}" />
   <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
-    icon="icon ivyicon-add" title="Add" styleClass="primary-btn" 
+    icon="si si-add" title="Add" styleClass="primary-btn" 
     disabled="#{roleDetailBean.managed}" />
   <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
     lazy="true" paginator="true" rows="10" paginatorPosition="bottom"
@@ -24,7 +24,7 @@
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
-          <i class="icon ivyicon-search"></i>
+          <i class="si si-search"></i>
         </p:outputLabel>
         <p:inputText styleClass="table-search-input-withicon" id="globalFilter" value="#{roleDetailBean.usersOfRoleFilter}"
           onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
@@ -33,14 +33,14 @@
     <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
       <a href="userdetail.xhtml?userName=#{user.name}">
         <h:outputText styleClass="user-name" value="#{user.name}">
-          <i class="icon ivyicon-single-neutral-actions table-icon"></i>
+          <i class="si si-single-neutral-actions table-icon"></i>
         </h:outputText>
         <h:outputText value=" (#{user.fullName})" styleClass="addition-row-info" />
       </a>
     </p:column>
     <p:column style="width: 55px;">
       <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
-        actionListener="#{roleDetailBean.removeUser(user.name)}" icon="icon ivyicon-subtract" title="Remove"
+        actionListener="#{roleDetailBean.removeUser(user.name)}" icon="si si-subtract" title="Remove"
         styleClass="card-button table-control-btn secondary-btn" style="margin: 0;" 
         disabled="#{roleDetailBean.managed}" />
     </p:column>

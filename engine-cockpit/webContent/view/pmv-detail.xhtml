@@ -23,7 +23,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}applications.html#pmv-detail" target="_blank" rel="noopener noreferrer">
-        <i class="icon icon-lg ivyicon-question-circle"></i>
+        <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
     
@@ -32,7 +32,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-8 dashboard-card">
           <p:panel id="info" styleClass="min-height-200">
             <f:facet name="header">
-              <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
+              <i class="si si-information-circle table-icon panel-title-icon"></i>
               <h:outputText value="PMV information" />
             </f:facet>
             <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
@@ -51,19 +51,19 @@
         <div class="ui-g-12 ui-md-12 ui-lg-4 dashboard-card">
           <p:panel id="activity" styleClass="min-height-200">
             <f:facet name="header">
-              <i class="icon ivyicon-cog-play table-icon panel-title-icon"></i>
+              <i class="si si-cog-play table-icon panel-title-icon"></i>
               <h:outputText value="Activity" />
             </f:facet>
             <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
               <label>State</label>
               <h:outputText>
-                <i class="icon ivyicon-#{pmvDetailBean.pmv.state.operationIcon} icon-bold
+                <i class="si si-#{pmvDetailBean.pmv.state.operationIcon} icon-bold
                   activity-state-#{pmvDetailBean.pmv.state.operationCssClass}"
                   title="#{pmvDetailBean.pmv.state.operation}" />
               </h:outputText>
               <label>Configured state</label>
               <h:outputText>
-                <i class="icon ivyicon-#{pmvDetailBean.pmv.state.stateIcon} icon-bold
+                <i class="si si-#{pmvDetailBean.pmv.state.stateIcon} icon-bold
                   activity-state-#{pmvDetailBean.pmv.state.stateCssClass}"
                   title="#{pmvDetailBean.pmv.state.state}" />
               </h:outputText>
@@ -74,7 +74,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
           <p:panel styleClass="min-height-250">
             <f:facet name="header">
-              <i class="icon ivyicon-module-three-1 table-icon panel-title-icon"></i>
+              <i class="si si-module-three-1 table-icon panel-title-icon"></i>
               <h:outputText value="Specified required projects" />
             </f:facet>
             <p:dataTable id="specifiedTable" var="spec" value="#{pmvDetailBean.requiredSpecifications}"
@@ -86,7 +86,7 @@
                 <h:outputText value="#{spec.version}" />
               </p:column>
               <p:column headerText="Resolved PMV">
-                <i class="icon ivyicon-#{spec.resolved ? 'check-circle-1' : 'remove-circle'} state-#{spec.resolved ? 'active' : 'inactive'} table-icon" 
+                <i class="si si-#{spec.resolved ? 'check-circle-1' : 'remove-circle'} state-#{spec.resolved ? 'active' : 'inactive'} table-icon" 
                   title="#{spec.resolvedTooltip}"></i>
                 <h:outputLink value="#{spec.resolvedPmv.detailView}">
                   <h:outputText value="#{spec.resolvedPmvName}" />
@@ -99,7 +99,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
           <p:panel styleClass="min-height-250">
             <f:facet name="header">
-              <i class="icon ivyicon-navigation-up-circle table-icon panel-title-icon"></i>
+              <i class="si si-navigation-up-circle table-icon panel-title-icon"></i>
               <h:outputText value="All PMVs depending on this PMV" />
             </f:facet>
             <p:dataTable id="dependentPmvTable" var="pmv" value="#{pmvDetailBean.dependentPmvs}" 
@@ -107,23 +107,23 @@
               <p:column headerText="PMV">
                 <h:outputLink value="#{pmv.detailView}">
                   <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                    <i class="icon ivyicon-#{pmv.icon}" style="margin-right: 5px;" />
+                    <i class="si si-#{pmv.icon}" style="margin-right: 5px;" />
                   </h:outputText>
                 </h:outputLink>
               </p:column>
               <p:column headerText="Resolved">
-                <i class="icon ivyicon-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon 
+                <i class="si si-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon 
                   activity-state-#{pmv.libraryResolved ? 'active' : 'inactive'}" title="#{pmv.libraryResolvedTooltip}"></i>
               </p:column>
               <p:column headerText="Version">
                 <h:outputText value="#{pmv.qualifiedVersion}" />
               </p:column>
               <p:column headerText="Activity state">
-                <i class="icon ivyicon-#{pmv.state.operationIcon} table-icon activity-state-#{pmv.state.operationCssClass}" 
+                <i class="si si-#{pmv.state.operationIcon} table-icon activity-state-#{pmv.state.operationCssClass}" 
                   title="#{pmv.state.operation}#{activity.state.errorMessage}"></i>
               </p:column>
               <p:column headerText="Release state">
-                <i class="icon ivyicon-#{pmv.state.releaseStateIcon} table-icon activity-state-#{pmv.state.releaseStateCssClass}" 
+                <i class="si si-#{pmv.state.releaseStateIcon} table-icon activity-state-#{pmv.state.releaseStateCssClass}" 
                   title="#{pmv.state.releaseState}"></i>
               </p:column>
             </p:dataTable>
@@ -133,7 +133,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
           <p:panel styleClass="min-height-250">
             <f:facet name="header">
-              <i class="icon ivyicon-navigation-down-circle table-icon panel-title-icon"></i>
+              <i class="si si-navigation-down-circle table-icon panel-title-icon"></i>
               <h:outputText value="All PMVs required by this PMV" />
             </f:facet>
             <p:dataTable id="requriedPmvTable" var="pmv" value="#{pmvDetailBean.requiredPmvs}"
@@ -142,23 +142,23 @@
               <p:column headerText="PMV">
                 <h:outputLink value="#{pmv.detailView}">
                   <h:outputText value="#{pmv.name}" title="#{pmv.libraryId}">
-                    <i class="icon ivyicon-#{pmv.icon}" style="margin-right: 5px;" />
+                    <i class="si si-#{pmv.icon}" style="margin-right: 5px;" />
                   </h:outputText>
                 </h:outputLink>
               </p:column>
               <p:column headerText="Resolved">
-                <i class="icon ivyicon-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon 
+                <i class="si si-#{pmv.libraryResolved ? 'check-circle-1' : 'remove-circle'} table-icon 
                   activity-state-#{pmv.libraryResolved ? 'active' : 'inactive'}" title="#{pmv.libraryResolvedTooltip}"></i>
               </p:column>
               <p:column headerText="Version">
                 <h:outputText value="#{pmv.qualifiedVersion}" />
               </p:column>
               <p:column headerText="Activity state">
-                <i class="icon ivyicon-#{pmv.state.operationIcon} table-icon activity-state-#{pmv.state.operationCssClass}" 
+                <i class="si si-#{pmv.state.operationIcon} table-icon activity-state-#{pmv.state.operationCssClass}" 
                   title="#{pmv.state.operation}#{activity.state.errorMessage}"></i>
               </p:column>
               <p:column headerText="Release state">
-                <i class="icon ivyicon-#{pmv.state.releaseStateIcon} table-icon" 
+                <i class="si si-#{pmv.state.releaseStateIcon} table-icon" 
                   title="#{pmv.state.releaseState}"></i>
               </p:column>
             </p:dataTable>

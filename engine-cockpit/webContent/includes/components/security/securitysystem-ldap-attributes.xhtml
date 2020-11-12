@@ -8,7 +8,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
-  <i class="icon ivyicon-cog table-icon panel-title-icon"></i>
+  <i class="si si-cog table-icon panel-title-icon"></i>
   <h:outputText value="Additional LDAP Attributes" />
 </f:facet>
 <h:form id="securityLdapAttributesForm">
@@ -17,7 +17,7 @@
   </p:growl>
   <p:commandButton id="newLdapAttributeBtn" oncomplete="PF('ldapAttributeModal').show();" process="@this"
     actionListener="#{securityLdapDetailBean.setProperty(null)}" update=":ldapAttributeForm"
-    title="Add" icon="icon ivyicon-add" styleClass="secondary-btn card-button"/>
+    title="Add" icon="si si-add" styleClass="secondary-btn card-button"/>
     
   <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -31,11 +31,11 @@
     </p:column>
     <p:column style="width: 95px;">
       <p:commandButton id="deleteLdapAttributeBtn" type="button"
-        icon="icon ivyicon-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
+        icon="si si-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
         <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form"/>
       </p:commandButton>
       <p:commandButton id="editPropertyBtn" actionListener="#{securityLdapDetailBean.setProperty(property)}"
-        icon="icon ivyicon-pencil" title="Edit" update=":ldapAttributeForm"
+        icon="si si-pencil" title="Edit" update=":ldapAttributeForm"
         styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('ldapAttributeModal').show();" process="@this" />
     </p:column>
   </p:dataTable>
@@ -63,7 +63,7 @@
       </h:panelGroup>
     </p:panelGrid>
     <p:commandButton id="saveLdapAttribute" validateClient="true" ajax="false" update=":securityLdapAttributesForm"
-      actionListener="#{securityLdapDetailBean.saveProperty}" value="Save" icon="icon ivyicon-floppy-disk"
+      actionListener="#{securityLdapDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
       styleClass="modal-input-button" />
     <p:commandLink id="cancelLdapAttribute" onclick="PF('ldapAttributeModal').hide();" value="Cancel" type="button"
       styleClass="modal-input-button" immediate="true" />

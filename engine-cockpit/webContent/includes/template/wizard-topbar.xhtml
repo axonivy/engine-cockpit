@@ -9,11 +9,11 @@
     </div>
     
     <a href="#" class="menu-btn">
-      <i class="icon ivyicon-navigation-menu"></i>
+      <i class="si si-navigation-menu"></i>
     </a>
     
     <a href="#" class="topbar-menu-btn">
-      <i class="icon ivyicon-single-neutral-circle"></i>
+      <i class="si si-single-neutral-circle"></i>
     </a>
     
     <div class="layout-topbar-menu-wrapper">
@@ -21,20 +21,20 @@
         <li id="sessionUser" class="profile-item">
           <a href="#">
             <span class="profile-image-wrapper">
-              <i class="icon ivyicon-single-neutral-circle" style="font-size: 36px; padding: 2px;"></i>
+              <i class="si si-single-neutral-circle" style="font-size: 36px; padding: 2px;"></i>
             </span>
             <span id="sessionUserName" class="topbar-item-name profile-name">#{loginBean.sessionUserName}</span>
           </a>
           <ul class="animated">
             <li role="menuitem">
               <a href="#" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/tool-reference/setup-wizard.html'); return false;">
-                <i class="icon icon-lg ivyicon-question-circle"></i>
+                <i class="si si-lg si-question-circle"></i>
                 <span>Help</span>
               </a>
             </li>
             <li role="menuitem">
               <p:commandLink id="sessionLogoutBtn" actionListener="#{loginBean.logout}">
-                <i class="icon icon-lg ivyicon-logout-1"></i>
+                <i class="si si-lg si-logout-1"></i>
                 <span>Logout</span>
               </p:commandLink>
             </li>

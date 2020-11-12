@@ -17,7 +17,7 @@
         <pre style="max-height: 400px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
       </p:panelGrid>
       <p:commandButton id="testConnectionBtn" title="Test External Database Connection" update="@form" value="Test"
-        icon="icon ivyicon-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}" immediate="true"
+        icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}" immediate="true"
         process="@this" async="true" onclick="buttonAddSpinner(this);" />
       <p:commandLink id="closeConTesterDialog" onclick="PF('connectionTestModel').hide();" value="Close" type="button"
         styleClass="modal-input-button" />

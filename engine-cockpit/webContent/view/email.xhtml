@@ -14,7 +14,7 @@
     
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}services.html#email" target="_blank" rel="noopener noreferrer">
-        <i class="icon icon-lg ivyicon-question-circle"></i>
+        <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
 
@@ -26,7 +26,7 @@
         <div class="ui-g">
           <div class="ui-g-12 ui-md-12">
             <h1>
-              <i class="icon ivyicon-email-action-unread card-title-icon"></i>Email
+              <i class="si si-email-action-unread card-title-icon"></i>Email
             </h1>
           </div>
         </div>
@@ -35,7 +35,7 @@
             <h:form id="form">
 	            <cc:EmailSettings emailSettings="#{applicationEmailBean.emailSettings}"
 	              supportedLanguages="#{managerBean.supportedLanguages}" id="emailSetting" />
-	            <p:commandButton actionListener="#{applicationEmailBean.saveEmailSettings}" value="Save" icon="icon ivyicon-floppy-disk"
+	            <p:commandButton actionListener="#{applicationEmailBean.saveEmailSettings}" value="Save" icon="si si-floppy-disk"
 	              style="width: auto; float: right;" id="saveEmailSettings"/>
             </h:form>
           </div>

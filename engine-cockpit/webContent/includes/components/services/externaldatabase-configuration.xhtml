@@ -5,7 +5,7 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
-  <i class="icon ivyicon-information-circle table-icon panel-title-icon"></i>
+  <i class="si si-information-circle table-icon panel-title-icon"></i>
   <h:outputText value="External Database configurations" />
 </f:facet>
 <h:form id="databaseConfigurationForm">
@@ -13,17 +13,17 @@
     <p:autoUpdate/>
   </p:growl>
   <p:commandButton id="saveDatabaseConfig" actionListener="#{externalDatabaseDetailBean.saveDbConfig}" title="Save changes"
-    icon="icon ivyicon-floppy-disk" styleClass="accent-btn card-button" update="@form, connResult:connectionTestModel" />
+    icon="si si-floppy-disk" styleClass="accent-btn card-button" update="@form, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()" title="Reset configuration"
-    icon="icon ivyicon-undo" styleClass="red-btn card-button" />
+    icon="si si-undo" styleClass="red-btn card-button" />
   <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this External Database?" header="Reset Database"
     severity="alert" widgetVar="resetDbConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
     <p:commandButton id="resetDbConfirmYesBtn" value="Reset" actionListener="#{externalDatabaseDetailBean.resetDbConfig}"
-      icon="icon ivyicon-undo" update="@form" styleClass="modal-input-button" />
+      icon="si si-undo" update="@form" styleClass="modal-input-button" />
   </p:confirmDialog>
   <p:commandButton id="testDatabaseBtn" title="Test External Database Connection" onclick="PF('connectionTestModel').show()"
-    type="button" icon="icon ivyicon-phone-actions-call" styleClass="secondary-btn card-button"/>
+    type="button" icon="si si-phone-actions-call" styleClass="secondary-btn card-button"/>
     
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
     layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">

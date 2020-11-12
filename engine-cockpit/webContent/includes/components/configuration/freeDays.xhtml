@@ -5,7 +5,7 @@
 
   <p:panel styleClass="min-height-350" id="freeDatesPanel">
     <f:facet name="header">
-      <i class="icon ivyicon-calendar-date table-icon panel-title-icon"></i>
+      <i class="si si-calendar-date table-icon panel-title-icon"></i>
       Free days
     </f:facet>
     
@@ -16,14 +16,14 @@
    
       <p:column headerText="Date">
         <h:outputText value="#{day.value}" title="#{day.tooltip}">
-          <i class="icon ivyicon-#{day.icon} table-icon"></i>
+          <i class="si si-#{day.icon} table-icon"></i>
         </h:outputText>
       </p:column>
       
       <p:column headerText="Defined by">
         <a href="businesscalendar-detail.xhtml?calendarName=#{day.calendarName}">
           <h:outputText value="#{day.calendarName}">
-            <i class="icon ivyicon-calendar table-icon"></i>
+            <i class="si si-calendar table-icon"></i>
           </h:outputText>
         </a>
       </p:column>

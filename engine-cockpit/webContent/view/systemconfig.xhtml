@@ -18,10 +18,10 @@
     
     <ui:define name="breadcrumb-right">
       <a href="logs.xhtml?log=config.log" title="Show configuration log">
-        <i class="icon icon-lg ivyicon-common-file-text"></i>
+        <i class="si si-lg si-common-file-text"></i>
       </a>
       <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-configuration" target="_blank" rel="noopener noreferrer">
-        <i class="icon icon-lg ivyicon-question-circle"></i>
+        <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
 
@@ -33,13 +33,13 @@
               <div class="ui-g">
                 <div class="ui-g-12 ui-md-8">
                   <h1>
-                    <i class="icon ivyicon-cog card-title-icon"></i>
+                    <i class="si si-cog card-title-icon"></i>
                     <span>System Configuration</span>
                   </h1>
                 </div>
                 <div class="ui-g-12 ui-md-4" style="margin: auto;">
                   <div class="single-card-top-right-btn" style="margin: 0 0 5px 5px;">
-                    <p:commandButton id="newConfigBtn" value="New" icon="icon ivyicon-add" actionListener="#{systemConfigBean.configView.setActiveConfig(null)}"
+                    <p:commandButton id="newConfigBtn" value="New" icon="si si-add" actionListener="#{systemConfigBean.configView.setActiveConfig(null)}"
                       update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
                   </div>
                   <div style="float: right; position: relative;">
