@@ -364,7 +364,7 @@ body {
 .label-help-icon i {
   font-size: 13px;
 }
-.icon.link-icon {
+.si.link-icon {
 	font-size: 1em;
 	margin-right: 5px;
 	position: relative;
@@ -435,7 +435,7 @@ body {
 }
 
 /* Search Engine */
-.icon.icon-bold {
+.si.icon-bold {
   font-weight: bold; 
   font-size: 24px;
 }
