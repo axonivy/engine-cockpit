@@ -77,7 +77,7 @@ function buttonAddSpinner(button) {
   icon.removeClass(function (index, css) {
     return (css.match (/\si-\S+/g) || []).join(' '); // removes anything that starts with "page-"
   });
-  $(icon).addClass('si-button-refresh-arrows icon-is-spinning');
+  $(icon).addClass('si-button-refresh-arrows si-is-spinning');
   window.onblur = function(){
     
   };
@@ -85,7 +85,7 @@ function buttonAddSpinner(button) {
 
 function buttonRemoveSpinner(button, defaultIcon) {
   var icon = $(button).find('.ui-icon')
-  $(icon).removeClass('si-button-refresh-arrows icon-is-spinning');
+  $(icon).removeClass('si-button-refresh-arrows si-is-spinning');
   $(icon).addClass(defaultIcon);
   $(button).removeClass('ui-state-disabled');
 }
