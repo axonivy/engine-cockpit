@@ -169,7 +169,7 @@ public class WebTestSystemDb
   {
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("icon-is-spinning"));
+    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("si-is-spinning"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").waitUntil(
             and("wait until db created", appears, enabled), 20000);
     $("#systemDb\\:createDatabaseForm\\:creationResult").shouldBe(empty);
@@ -192,7 +192,7 @@ public class WebTestSystemDb
   {
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("icon-is-spinning"));
+    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("si-is-spinning"));
     $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").waitUntil(
             and("wait until db converted", appears, enabled), 20000);
     $("#systemDb\\:convertDatabaseForm\\:conversionResult").shouldBe(empty);

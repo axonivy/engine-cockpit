@@ -28,7 +28,7 @@
           
           <div>
             <p:commandButton value="Check Connection" id="checkConnectionButton" styleClass="wizard-top-button primary-btn"
-              onstart="$('#connectionIcon').attr('class', 'si si-button-refresh-arrows icon-is-spinning');" async="true"
+              onstart="$('#connectionIcon').attr('class', 'si si-button-refresh-arrows si-is-spinning');" async="true"
               icon="si si-check-1" update="#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.testConnection()}" />
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="si si-database-settings" styleClass="wizard-top-button secondary-btn" 
               actionListener="#{systemDatabaseBean.initCreator()}" update="systemDb:createDatabaseDialog" 
@@ -163,7 +163,7 @@
       
       <h:panelGroup rendered="#{!systemDatabaseBean.dbCreatorFinished}">
         <p:commandButton id="confirmConvertButton" value="Save and create" disabled="#{systemDatabaseBean.dbCreatorRunning}"
-          icon="si si-#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows icon-is-spinning' : 'database-settings'}" 
+          icon="si si-#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows si-is-spinning' : 'database-settings'}" 
           actionListener="#{systemDatabaseBean.createDatabase}" style="width: 170px;"
           update="@form" styleClass="modal-input-button" />
         <p:commandLink value="Cancel" rendered="#{!systemDatabaseBean.dbCreatorRunning}"
@@ -194,7 +194,7 @@
       
       <h:panelGroup rendered="#{!systemDatabaseBean.dbConversionFinished}">
         <p:commandButton id="confirmConvertButton" value="Save and convert" disabled="#{systemDatabaseBean.dbConversionRunning}"
-          icon="si si-#{systemDatabaseBean.dbConversionRunning ? 'button-refresh-arrows icon-is-spinning' : 'synchronize-arrows'}" 
+          icon="si si-#{systemDatabaseBean.dbConversionRunning ? 'button-refresh-arrows si-is-spinning' : 'synchronize-arrows'}" 
           actionListener="#{systemDatabaseBean.convertDatabase}" style="width: 170px;"
           update="@form" styleClass="modal-input-button" 
           onclick="window.onbeforeunload = function () {return 'A database conversion is running!';}" />

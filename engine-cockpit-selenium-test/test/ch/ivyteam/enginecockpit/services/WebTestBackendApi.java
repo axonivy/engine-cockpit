@@ -50,8 +50,8 @@ public class WebTestBackendApi
   @Test
   void webServices()
   {
-    $$("#webServicesTable_data tr a").shouldBe(size(1));
-    
+    //Service is temporary removed from the engine-cockpit-test-data project, as this will cause another test to fail because of the bug XIVY-5040
+    //$$("#webServicesTable_data tr a").shouldBe(size(1));
     var appSwitch = PrimeUi.selectOne(By.id("appSwitch:appSelect"));
     appSwitch.selectedItemShould(text(APP));
     appSwitch.selectItemByLabel("test-ad");

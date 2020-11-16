@@ -32,7 +32,7 @@
             <h:form id="form">
               <h:panelGroup id="syncPanel">
                 <div class="single-card-top-right-btn">
-                  <p:splitButton value="Synchronize" icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'icon-is-spinning' : ''} spin-icon" 
+                  <p:splitButton value="Synchronize" icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''} spin-icon" 
                     id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
                     actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
                     <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text" 
