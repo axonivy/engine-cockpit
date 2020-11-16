@@ -28,6 +28,7 @@ public class Navigation
   private static final String SERVICES_DATABASES_MENU = "#menuform\\:sr_database";
   private static final String SERVICES_RESTCLIENTS_MENU = "#menuform\\:sr_rest_client";
   private static final String SERVICES_WEBSERVICES_MENU = "#menuform\\:sr_web_service";
+  private static final String SERVICES_BACKEND_MENU = "#menuform\\:sr_backend";
   private static final String SYSTEM_MENU = "#menuform\\:sr_system";
   private static final String SYSTEM_ADMINS = "#menuform\\:sr_admins";
   private static final String SYSTEM_SYSTEMDB_MENU = "#menuform\\:sr_systemdb";
@@ -209,6 +210,13 @@ public class Navigation
     $$(Tab.ACITVE_PANEL_CSS + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
     assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
+  }
+  
+  public static void toBackendApi()
+  {
+    toSubMenu(SERVICES_MENU, SERVICES_BACKEND_MENU);
+    assertCurrentUrlEndsWith("backend-api.xhtml");
+    menuShouldBeActive(SERVICES_BACKEND_MENU);
   }
   
   public static void toAdmins()
