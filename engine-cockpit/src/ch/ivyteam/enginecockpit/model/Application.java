@@ -1,5 +1,9 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
@@ -7,6 +11,8 @@ import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.jsf.bean.info.model.WebServiceProcess;
+import ch.ivyteam.ivy.workflow.IWorkflowManager;
 
 @SuppressWarnings("restriction")
 public class Application extends AbstractActivity
@@ -19,6 +25,7 @@ public class Application extends AbstractActivity
   private long runningCasesCount;
   private IConfiguration configuration;
   private IApplication app;
+  private List<WebServiceProcess> webServiceProcesses;
   
   public Application()
   {
@@ -149,5 +156,20 @@ public class Application extends AbstractActivity
               .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
     }
   }
-
+  
+  public List<WebServiceProcess> getWebServiceProcesses()
+  {
+    if (webServiceProcesses == null)
+    {
+      var wfManager = DiCore.getGlobalInjector().getInstance(IWorkflowManager.class);
+      webServiceProcesses = app.getProcessModels().stream()
+              .map(pm -> pm.getReleasedProcessModelVersion())
+              .map(pmv -> wfManager.getWorkflowProcessModelVersion(pmv))
+              .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
+              .map(WebServiceProcess::new)
+              .collect(Collectors.toList());
+    }
+    return webServiceProcesses;
+  }
+  
 }
