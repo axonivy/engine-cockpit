@@ -78,7 +78,7 @@ public class WebTestDeployment
     $("#deploymentModal\\:backBtn").click();
     $("#fileUploadForm").shouldBe(visible);
     $("#uploadLog").shouldNotBe(visible);
-    $("#deploymentModal\\:uploadBtn > .ui-icon").shouldNotHave(cssClass("icon-is-spinning"));
+    $("#deploymentModal\\:uploadBtn > .ui-icon").shouldNotHave(cssClass("si-is-spinning"));
   }
   
   @Test

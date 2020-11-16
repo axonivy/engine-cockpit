@@ -10,7 +10,7 @@
 <h:form id="appDetailSecurityForm">
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
-    title="Synchronize" type="button" icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'icon-is-spinning' : ''}"
+    title="Synchronize" type="button" icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
     styleClass="primary-btn card-button spin-icon" onclick="PF('logPoller').start()">
     <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
   </p:commandButton>

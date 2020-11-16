@@ -43,7 +43,7 @@
       <h:outputText value="#{index.size}" />
     </p:column>
     <p:column style="text-align: center; width: 97px;">
-      <p:commandButton title="Reindex" icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'icon-is-spinning' : ''} spin-icon"
+      <p:commandButton title="Reindex" icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'si-is-spinning' : ''} spin-icon"
         style="margin-right: 10px;" styleClass="secondary-btn" id="reindexBtn" oncomplete="PF('reindexSearchEngineModel').show();"
         actionListener="#{searchEngineBean.setActiveIndex(index)}" update="reindexSearchEngineModel" />
       <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="si si-monitor-heart-beat-search"
