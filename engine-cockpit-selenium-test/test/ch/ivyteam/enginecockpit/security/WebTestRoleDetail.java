@@ -20,6 +20,7 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
@@ -80,7 +81,7 @@ public class WebTestRoleDetail
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(visible);
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(text("Value is required"));
     
-    String newRoleName = "testäüö";
+    String newRoleName = "testï¿½ï¿½ï¿½";
     $("#newChildRoleForm\\:newChildRoleNameInput").clear();
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
     $("#newChildRoleForm\\:saveNewRole").click();
@@ -112,6 +113,7 @@ public class WebTestRoleDetail
   void testAddAndRemoveUser()
   {
     String roleUsers = "#usersOfRoleForm\\:roleUserTable td.user-row";
+    removeUserIfExists();
     $$(roleUsers).shouldBe(empty);
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(visible).sendKeys("fo");
     $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
@@ -128,6 +130,15 @@ public class WebTestRoleDetail
     $$(roleUsers).shouldBe(empty);
   }
   
+  private void removeUserIfExists()
+  {
+    var firstUser = "usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn";
+    if ($(By.id(firstUser)).is(visible))
+    {
+      $(By.id(firstUser)).click();
+    }
+  }
+    
   @Test
   void testAddAndRemoveMember()
   {
