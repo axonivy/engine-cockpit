@@ -8,8 +8,8 @@
   <h:outputText value="Connections" />
 </f:facet>
 <h:form id="databaseConnectionForm" style="overflow-y: auto;">
-  <p:dataTable value="#{externalDatabaseDetailBean.connections}" style="padding-top: 10px;"
-    var="conn" id="databaseConnectionsTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+  <p:dataTable value="#{externalDatabaseDetailBean.connections}" style="padding-top: 10px;" var="conn"
+    id="databaseConnectionsTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
     <p:column headerText="In Use" sortBy="#{conn.inUse}">
       <h:outputText styleClass="connection">
@@ -17,8 +17,9 @@
       </h:outputText>
     </p:column>
     <p:column headerText="Last Used" sortBy="#{conn.lastUsed}">
-      <h:outputText value="#{conn.lastUsed}"/>
+      <h:outputText value="#{conn.lastUsed}" />
     </p:column>
   </p:dataTable>
 </h:form>
+
 </html>

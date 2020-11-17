@@ -9,25 +9,23 @@
 </f:facet>
 <h:form id="usersOfRoleForm">
   <p:growl for="usersMessage">
-    <p:autoUpdate/>
+    <p:autoUpdate />
   </p:growl>
   <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
-    completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search" placeholder="Search user to add" 
-    disabled="#{roleDetailBean.managed}" />
+    completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
+    placeholder="Search user to add" disabled="#{roleDetailBean.managed}" />
   <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
-    icon="si si-add" title="Add" styleClass="primary-btn" 
-    disabled="#{roleDetailBean.managed}" />
+    icon="si si-add" title="Add" styleClass="primary-btn" disabled="#{roleDetailBean.managed}" />
   <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
-    lazy="true" paginator="true" rows="10" paginatorPosition="bottom"
-    paginatorAlwaysVisible="false"
+    lazy="true" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
           <i class="si si-search"></i>
         </p:outputLabel>
-        <p:inputText styleClass="table-search-input-withicon" id="globalFilter" value="#{roleDetailBean.usersOfRoleFilter}"
-          onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
+        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+          value="#{roleDetailBean.usersOfRoleFilter}" onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
       </p:outputPanel>
     </f:facet>
     <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
@@ -41,9 +39,10 @@
     <p:column style="width: 55px;">
       <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
         actionListener="#{roleDetailBean.removeUser(user.name)}" icon="si si-subtract" title="Remove"
-        styleClass="card-button table-control-btn secondary-btn" style="margin: 0;" 
+        styleClass="card-button table-control-btn secondary-btn" style="margin: 0;"
         disabled="#{roleDetailBean.managed}" />
     </p:column>
   </p:dataTable>
 </h:form>
+
 </html>

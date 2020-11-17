@@ -3,7 +3,8 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog id="licenceEventsDialog" header="Licence Events" widgetVar="licenceEventsDialog" modal="true" closeOnEscape="true" width="400px">
+<p:dialog id="licenceEventsDialog" header="Licence Events" widgetVar="licenceEventsDialog" modal="true"
+  closeOnEscape="true" width="400px">
   <h:form id="licenceEventForm">
     <div class="dashboard">
       <p:dataList value="#{licenceBean.licenceEvents}" var="event" type="unordered" styleClass="messages"
@@ -19,16 +20,18 @@
             <h:outputText styleClass="name" value="#{event.timestamp}" />
             <h:outputText styleClass="message" value="#{event.message}" />
           </h:panelGroup>
-          <p:commandButton icon="si si-check-1" title="Confirm" styleClass="message-btn secondary-btn" id="confirmEventBtn"
-            actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" style="right: 10px;" />
+          <p:commandButton icon="si si-check-1" title="Confirm" styleClass="message-btn secondary-btn"
+            id="confirmEventBtn" actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form"
+            style="right: 10px;" />
         </a>
       </p:dataList>
       <p:commandButton id="confirmAllLicenceEvents" ajax="false" style="width: 120px;"
         actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="si si-check-double-1"
         styleClass="modal-input-button" />
-      <p:commandLink id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close" type="button"
-        styleClass="modal-input-button" />
+      <p:commandLink id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close"
+        type="button" styleClass="modal-input-button" />
     </div>
   </h:form>
 </p:dialog>
+
 </html>

@@ -1,44 +1,43 @@
-$(document).ready(function() {
+$(document).ready(function () {
   function initFix() {
     if (PF('sidebar_menu') == null) {
       var timeoutID = window.setTimeout(initFix, 10);
     } else {
-      $.removeCookie('serenity_expandeditems', {path: '/'});
-    var page = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1);
-    page = searchCorrectMenuItemPage(page);
-    $('#menuform>ul>li>a').each(function() {
-      var menuItemPage = $(this).attr('href');
-      var menuItemId = $(this).parent().attr('id');
-      if (menuItemPage != "#") {
-        if (menuItemPage.startsWith(page)) {
-          activateMenuItem(menuItemId);
-        }
-      }
-      else {
-        $(this).parent().find('ul>li>a').each(function() {
-          var subMenuItemPage = $(this).attr('href');
-          var subMenuItemId = $(this).parent().attr('id');
-          if (subMenuItemPage != "#") {
-            if (subMenuItemPage.startsWith(page)) {
-              activateMenuItem(menuItemId);
-              activateMenuItem(subMenuItemId);
-            }
+      $.removeCookie('serenity_expandeditems', { path: '/' });
+      var page = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1);
+      page = searchCorrectMenuItemPage(page);
+      $('#menuform>ul>li>a').each(function () {
+        var menuItemPage = $(this).attr('href');
+        var menuItemId = $(this).parent().attr('id');
+        if (menuItemPage != "#") {
+          if (menuItemPage.startsWith(page)) {
+            activateMenuItem(menuItemId);
           }
-          else
-          {
-            $(this).parent().find('ul>li>a').each(function() {
-              var subSubMenuItemPage = $(this).attr('href');
-              var subSubMenuItemId = $(this).parent().attr('id');
-              if (subSubMenuItemPage.startsWith(page)) {
+        }
+        else {
+          $(this).parent().find('ul>li>a').each(function () {
+            var subMenuItemPage = $(this).attr('href');
+            var subMenuItemId = $(this).parent().attr('id');
+            if (subMenuItemPage != "#") {
+              if (subMenuItemPage.startsWith(page)) {
                 activateMenuItem(menuItemId);
                 activateMenuItem(subMenuItemId);
-                activateMenuItem(subSubMenuItemId);
               }
-            });
-          }
-        });
-      }
-    });
+            }
+            else {
+              $(this).parent().find('ul>li>a').each(function () {
+                var subSubMenuItemPage = $(this).attr('href');
+                var subSubMenuItemId = $(this).parent().attr('id');
+                if (subSubMenuItemPage.startsWith(page)) {
+                  activateMenuItem(menuItemId);
+                  activateMenuItem(subMenuItemId);
+                  activateMenuItem(subSubMenuItemId);
+                }
+              });
+            }
+          });
+        }
+      });
 
       function searchCorrectMenuItemPage(value) {
         var map = {
@@ -59,7 +58,7 @@ $(document).ready(function() {
         var menuitem = $("#" + id.replace(/:/g, "\\:"));
         menuitem.addClass('active-menuitem');
         var submenu = menuitem.children('ul');
-        if(submenu.length) {
+        if (submenu.length) {
           submenu.show();
         }
       }
@@ -73,13 +72,13 @@ https://developer.axonivy.com/team");
 
 function buttonAddSpinner(button) {
   $(button).addClass('ui-state-disabled');
-  var icon = $(button).find('.ui-icon'); 
+  var icon = $(button).find('.ui-icon');
   icon.removeClass(function (index, css) {
-    return (css.match (/\si-\S+/g) || []).join(' '); // removes anything that starts with "si-"
+    return (css.match(/\si-\S+/g) || []).join(' '); // removes anything that starts with "si-"
   });
   $(icon).addClass('si-button-refresh-arrows si-is-spinning');
-  window.onblur = function(){
-    
+  window.onblur = function () {
+
   };
 }
 

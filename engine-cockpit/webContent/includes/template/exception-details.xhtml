@@ -20,7 +20,8 @@
   <h3 class="page-header">
     <h:outputText value="#{errorPage.error.errorCode}" />
     <span style="font-size: 0.8em">
-      <h:outputText rendered="#{errorPage.error.message!=errorPage.error.errorCode}" value=" #{errorPage.error.message}" />
+      <h:outputText rendered="#{errorPage.error.message!=errorPage.error.errorCode}"
+        value=" #{errorPage.error.message}" />
     </span>
   </h3>
   <ui:fragment rendered="#{!errorPage.error.attributeNames.isEmpty()}">
@@ -36,8 +37,12 @@
         <tbody>
           <ui:repeat value="#{errorPage.error.attributeNames}" var="attributeName">
             <tr>
-              <td><h:outputText value="#{attributeName}" /></td>
-              <td style="width: 100%"><h:outputText value="#{errorPage.error.getAttribute(attributeName)}" /></td>
+              <td>
+                <h:outputText value="#{attributeName}" />
+              </td>
+              <td style="width: 100%">
+                <h:outputText value="#{errorPage.error.getAttribute(attributeName)}" />
+              </td>
             </tr>
           </ui:repeat>
         </tbody>
@@ -57,18 +62,18 @@
     <h4 class="list-group-item-heading">Process call stack</h4>
     <!-- Don't move me: I'm a PRE!!! -->
     <pre>
-				<code>
-					<ui:repeat value="#{errorPage.error.processCallStack}" var="caller">#{caller.callerElement}</ui:repeat>
-				</code>
-			</pre>
+      <code>
+        <ui:repeat value="#{errorPage.error.processCallStack}" var="caller">#{caller.callerElement}</ui:repeat>
+      </code>
+    </pre>
     <br />
   </ui:fragment>
   <ui:fragment rendered="#{!errorPage.causedBy.isEmpty()}">
     <h4 class="list-group-item-heading">Technical cause</h4>
     <ui:repeat value="#{errorPage.causedBy}" var="causedBy">
       <pre>
-					<code>#{causedBy.class.simpleName}: #{causedBy.message.trim()}</code>
-				</pre>
+        <code>#{causedBy.class.simpleName}: #{causedBy.message.trim()}</code>
+      </pre>
     </ui:repeat>
     <br />
   </ui:fragment>
@@ -97,8 +102,12 @@
         <tbody>
           <ui:repeat value="#{errorPage.threadLocalValues}" var="threadLocal">
             <tr>
-              <td><h:outputText value="#{threadLocal.key}" /></td>
-              <td style="width: 100%"><h:outputText value="#{threadLocal.value}" /></td>
+              <td>
+                <h:outputText value="#{threadLocal.key}" />
+              </td>
+              <td style="width: 100%">
+                <h:outputText value="#{threadLocal.value}" />
+              </td>
             </tr>
           </ui:repeat>
         </tbody>
@@ -109,7 +118,8 @@
 
   <h4 class="list-group-item-heading">Stack-Trace</h4>
   <pre>
-			<code>#{errorPage.getStackTrace()}</code>
-		</pre>
+    <code>#{errorPage.getStackTrace()}</code>
+  </pre>
 </ui:fragment>
+
 </html>

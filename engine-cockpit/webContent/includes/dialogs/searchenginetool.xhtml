@@ -7,10 +7,9 @@
   widgetVar="searchEngineQueryToolModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="searchEngineQueryToolForm" styleClass="querytool ui-fluid">
     <div style="width: 100%; overflow: auto;">
-      <h:outputText styleClass="querytool-url"
-        value="GET: #{searchEngineBean.queryUrl}/"/>
+      <h:outputText styleClass="querytool-url" value="GET: #{searchEngineBean.queryUrl}/" />
       <span class="querytool-query">
-        <p:autoComplete id="query" dropdown="true" value="#{searchEngineBean.query}" 
+        <p:autoComplete id="query" dropdown="true" value="#{searchEngineBean.query}"
           completeMethod="#{searchEngineBean.queryProposals}" />
       </span>
     </div>
@@ -20,8 +19,9 @@
     <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"
       actionListener="#{searchEngineBean.runQuery}" value="Run" icon="si si-send-email"
       styleClass="modal-input-button" />
-    <p:commandLink id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel" type="button"
-      styleClass="modal-input-button" />
+    <p:commandLink id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel"
+      type="button" styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
+
 </html>

@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="../includes/template/template.xhtml">
 
@@ -11,7 +10,7 @@
       <li>/</li>
       <li><a href="roles.xhtml">Roles</a></li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}security.html#roles" target="_blank" rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
@@ -24,55 +23,62 @@
         <div class="ui-g">
           <div class="ui-g-12 ui-md-9">
             <h1>
-              <i class="si si-multiple-neutral-1 card-title-icon"></i>Roles 
-              <h:outputText id="roleCounter" style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})"/>
+              <i class="si si-multiple-neutral-1 card-title-icon"></i>Roles
+              <h:outputText id="roleCounter" style="font-style: italic; color: grey;" value="(#{roleBean.roleCount})" />
             </h1>
           </div>
           <div class="ui-g-12 ui-md-3" style="margin: auto;">
             <h:form id="form">
               <h:panelGroup id="syncPanel">
                 <div class="single-card-top-right-btn">
-                  <p:splitButton value="Synchronize" icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''} spin-icon" 
-                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true" process="@this"
-                    actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
-                    <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text" 
+                  <p:splitButton value="Synchronize"
+                    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''} spin-icon"
+                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true"
+                    process="@this" actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
+                    <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
                       onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
                   </p:splitButton>
-                  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2" update="@parent" />
+                  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2"
+                    update="@parent" />
                 </div>
               </h:panelGroup>
             </h:form>
           </div>
         </div>
         <h:form id="treeForm">
-	        <div class="ui-tree-search-header">
-	          <div class="ui-datatable-header ui-widget-header ui-corner-top">
-	            <p:outputPanel>
-	              <span class="table-search-icon">
-	                <i class="si si-search"></i>
-	              </span>
-	              <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{roleBean.roles.filter}">
-	                <p:ajax event="keyup" delay="500" update="@form:tree" />
-	              </p:inputText>
-                <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical" actionListener="#{roleBean.roles.expandAllNodes}"
-                  update="tree" title="Expand all" styleClass="secondary-btn" />
-                <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical" actionListener="#{roleBean.roles.collapseAllNodes}"
-                  update="tree"  title="Collapse all" styleClass="secondary-btn" />
-	            </p:outputPanel>
-	          </div>
-	        </div>
+          <div class="ui-tree-search-header">
+            <div class="ui-datatable-header ui-widget-header ui-corner-top">
+              <p:outputPanel>
+                <span class="table-search-icon">
+                  <i class="si si-search"></i>
+                </span>
+                <p:inputText styleClass="table-search-input-withicon" placeholder="Search"
+                  value="#{roleBean.roles.filter}">
+                  <p:ajax event="keyup" delay="500" update="@form:tree" />
+                </p:inputText>
+                <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical"
+                  actionListener="#{roleBean.roles.expandAllNodes}" update="tree" title="Expand all"
+                  styleClass="secondary-btn" />
+                <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical"
+                  actionListener="#{roleBean.roles.collapseAllNodes}" update="tree" title="Collapse all"
+                  styleClass="secondary-btn" />
+              </p:outputPanel>
+            </div>
+          </div>
           <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role" dynamic="true">
-            <p:ajax event="expand" listener="#{roleBean.roles.nodeExpand}"/>
-            <p:ajax event="collapse" listener="#{roleBean.roles.nodeCollapse}"/>
+            <p:ajax event="expand" listener="#{roleBean.roles.nodeExpand}" />
+            <p:ajax event="collapse" listener="#{roleBean.roles.nodeCollapse}" />
             <p:treeNode icon="si si-multiple-#{role.member ? 'actions-add' : 'neutral-1'}" type="role">
-              <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name" title="#{role.member ? 'Member' : 'Role'}"> 
+              <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name"
+                title="#{role.member ? 'Member' : 'Role'}">
                 <h:outputText value="#{role.name}" />
                 <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
-                <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}" styleClass="addition-row-info"/>
+                <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}"
+                  styleClass="addition-row-info" />
               </a>
             </p:treeNode>
             <p:treeNode icon="si si-navigation-menu-horizontal" type="dummy">
-              <h:outputText value="#{role.name}" 
+              <h:outputText value="#{role.name}"
                 title="For performance reasons only the first 100 roles are loaded. Use the search to find a specific role." />
             </p:treeNode>
           </p:tree>
@@ -81,4 +87,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

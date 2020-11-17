@@ -9,43 +9,47 @@
 </f:facet>
 <h:form id="roleInformationForm">
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
-    <p:autoUpdate/>
+    <p:autoUpdate />
   </p:growl>
   <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
     icon="si si-floppy-disk" styleClass="accent-btn card-button" update="usersOfRoleForm" />
   <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
     title="Add new child role" icon="si si-add" styleClass="secondary-btn card-button" />
-  <p:commandButton id="deleteRole" rendered="#{roleDetailBean.role.dynamic}" type="button" onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role"
-    icon="si si-bin-1" styleClass="red-btn card-button" />
-  <p:confirmDialog id="deleteRoleConfirmDialog" message="Are you sure about deleteing the role '#{roleDetailBean.roleName}'?" header="Delete Role"
-    severity="alert" widgetVar="deleteRoleConfirmDialog">
+  <p:commandButton id="deleteRole" rendered="#{roleDetailBean.role.dynamic}" type="button"
+    onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
+    styleClass="red-btn card-button" />
+  <p:confirmDialog id="deleteRoleConfirmDialog"
+    message="Are you sure about deleteing the role '#{roleDetailBean.roleName}'?" header="Delete Role" severity="alert"
+    widgetVar="deleteRoleConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
       styleClass="secondary-btn modal-input-button" />
-    <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" ajax="false" immediate="true" action="#{roleDetailBean.deleteRole}"
-      styleClass="modal-input-button" icon="si si-bin-1" />
+    <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" ajax="false" immediate="true"
+      action="#{roleDetailBean.deleteRole}" styleClass="modal-input-button" icon="si si-bin-1" />
   </p:confirmDialog>
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
-    layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
-    
+
     <p:outputLabel for="displayName" value="Display Name" />
     <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
-    
+
     <p:outputLabel for="description" value="Description" />
     <p:inputText id="description" value="#{roleDetailBean.role.description}" />
-    
+
     <p:outputLabel for="externalSecurityName" value="External Name" />
     <h:panelGroup>
       <p:inputText id="externalSecurityName" style="width: calc(100% - 32px);"
         value="#{roleDetailBean.role.externalName}" />
       <p:commandButton id="browseExternalName" icon="si si-network-browser" title="Browse" style="right: -6px;"
-        actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"
+        actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:ldapBrowserDialog"
+        oncomplete="PF('ldapBrowserDialog').show();"
         disabled="#{roleDetailBean.role.name eq 'Everybody' or managerBean.ivySecuritySystem}" />
     </h:panelGroup>
   </p:panelGrid>
 </h:form>
-<cc:LdapBrowser updateFields="roleInformationForm" ldapBrowser="#{roleDetailBean.ldapBrowser}" 
+<cc:LdapBrowser updateFields="roleInformationForm" ldapBrowser="#{roleDetailBean.ldapBrowser}"
   returnListener="#{roleDetailBean.chooseLdapName()}" id="ldapBrowser" />
 <ui:include src="../../dialogs/newrole.xhtml" />
+
 </html>

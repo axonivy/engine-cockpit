@@ -1,11 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-  xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
   <i class="si si-cog table-icon panel-title-icon"></i>
@@ -13,49 +9,49 @@
 </f:facet>
 <h:form id="securityLdapForm">
   <p:growl id="securitySystemLdapSaveSuccess" for="securitySystemLdapSaveSuccess">
-    <p:autoUpdate/>
+    <p:autoUpdate />
   </p:growl>
   <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecurtiySystemLdapBtn"
     styleClass="accent-btn card-button" actionListener="#{securityLdapDetailBean.saveConfiguration}" />
 
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
-    layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel">
 
-    <p:outputLabel for="ldapId" value="Id"/>
-    <p:inputText id="ldapId"
-      value="#{securityLdapDetailBean.userId}" placeholder="#{securityDefaultValueBean.id}"/>
+    <p:outputLabel for="ldapId" value="Id" />
+    <p:inputText id="ldapId" value="#{securityLdapDetailBean.userId}" placeholder="#{securityDefaultValueBean.id}" />
 
-    <p:outputLabel for="ldapName" value="Name"/>
-    <p:inputText id="ldapName"
-      value="#{securityLdapDetailBean.userName}" placeholder="#{securityDefaultValueBean.name}"/>
+    <p:outputLabel for="ldapName" value="Name" />
+    <p:inputText id="ldapName" value="#{securityLdapDetailBean.userName}"
+      placeholder="#{securityDefaultValueBean.name}" />
 
-    <p:outputLabel for="ldapFullName" value="Full Name"/>
-    <p:inputText id="ldapFullName"
-      value="#{securityLdapDetailBean.fullName}" placeholder="#{securityDefaultValueBean.fullName}"/>
+    <p:outputLabel for="ldapFullName" value="Full Name" />
+    <p:inputText id="ldapFullName" value="#{securityLdapDetailBean.fullName}"
+      placeholder="#{securityDefaultValueBean.fullName}" />
 
-    <p:outputLabel for="ldapEmail" value="Email"/>
-    <p:inputText id="ldapEmail" value="#{securityLdapDetailBean.email}" placeholder="#{securityDefaultValueBean.email}"/>
+    <p:outputLabel for="ldapEmail" value="Email" />
+    <p:inputText id="ldapEmail" value="#{securityLdapDetailBean.email}"
+      placeholder="#{securityDefaultValueBean.email}" />
 
-    <p:outputLabel for="ldapLanguage" value="Language"/>
-    <p:inputText id="ldapLanguage"
-      value="#{securityLdapDetailBean.language}" />
+    <p:outputLabel for="ldapLanguage" value="Language" />
+    <p:inputText id="ldapLanguage" value="#{securityLdapDetailBean.language}" />
 
-    <p:outputLabel for="ldapUserMemberOfAttribute" value="Groups of a User"/>
-    <p:inputText id="ldapUserMemberOfAttribute"
-      value="#{securityLdapDetailBean.userMemberOfAttribute}" placeholder="#{securityDefaultValueBean.userMemberOfAttribute}"/>
+    <p:outputLabel for="ldapUserMemberOfAttribute" value="Groups of a User" />
+    <p:inputText id="ldapUserMemberOfAttribute" value="#{securityLdapDetailBean.userMemberOfAttribute}"
+      placeholder="#{securityDefaultValueBean.userMemberOfAttribute}" />
 
-    <p:outputLabel for="ldapUserMemberOfLookupAllowed" value="Is usage of 'Groups of a User' allowed for lookup"/>
+    <p:outputLabel for="ldapUserMemberOfLookupAllowed" value="Is usage of 'Groups of a User' allowed for lookup" />
     <p:selectBooleanCheckbox id="ldapUserMemberOfLookupAllowed"
       value="#{securityLdapDetailBean.userMemberOfLookupAllowed}" />
 
-    <p:outputLabel for="ldapGroupMemberOfAttribute" value="Groups of a Group"/>
-    <p:inputText id="ldapGroupMemberOfAttribute"
-      value="#{securityLdapDetailBean.groupMemberOfAttribute}" placeholder="#{securityDefaultValueBean.userGroupMemberOfAttribute}"/>
+    <p:outputLabel for="ldapGroupMemberOfAttribute" value="Groups of a Group" />
+    <p:inputText id="ldapGroupMemberOfAttribute" value="#{securityLdapDetailBean.groupMemberOfAttribute}"
+      placeholder="#{securityDefaultValueBean.userGroupMemberOfAttribute}" />
 
-    <p:outputLabel for="ldapGroupMembersAttribute" value="Members of a Group"/>
-    <p:inputText id="ldapGroupMembersAttribute"
-      value="#{securityLdapDetailBean.groupMembersAttribute}" placeholder="#{securityDefaultValueBean.userGroupMembersAttribute}"/>
+    <p:outputLabel for="ldapGroupMembersAttribute" value="Members of a Group" />
+    <p:inputText id="ldapGroupMembersAttribute" value="#{securityLdapDetailBean.groupMembersAttribute}"
+      placeholder="#{securityDefaultValueBean.userGroupMembersAttribute}" />
   </p:panelGrid>
 
 </h:form>
+
 </html>

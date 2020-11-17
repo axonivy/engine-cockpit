@@ -6,7 +6,7 @@
 <p:dialog id="newChildRoleDialog" style="min-width: 300px;" header="Add new child role for #{roleDetailBean.roleName}"
   widgetVar="newChildRoleModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newChildRoleForm">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
       <h:panelGroup styleClass="md-inputfield">
@@ -15,10 +15,11 @@
         <p:message for="newChildRoleNameInput" id="newRoleNameMessage" />
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="saveNewRole" validateClient="true" action="#{roleDetailBean.createNewChildRole}"
-      ajax="false" update="@form" value="Add" icon="si si-add" styleClass="modal-input-button" />
+    <p:commandButton id="saveNewRole" validateClient="true" action="#{roleDetailBean.createNewChildRole}" ajax="false"
+      update="@form" value="Add" icon="si si-add" styleClass="modal-input-button" />
     <p:commandLink id="cancelNewRole" onclick="PF('newChildRoleModal').hide();" value="Cancel" type="button"
       styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
+
 </html>

@@ -5,20 +5,20 @@
 <cc:interface>
   <cc:attribute name="updateFields" default="licence:fileUploadForm:licenceOverview, licWarnMessage" />
 </cc:interface>
-  
+
 <cc:implementation>
   <p:remoteCommand name="updateLic" update="#{cc.attrs.updateFields}" />
-  
+
   <h:panelGroup id="licWarnMessage">
-    <p:staticMessage rendered="#{!licenceBean.stepOk}" severity="warn" detail="#{licenceBean.stepWarningMessage}"/>
+    <p:staticMessage rendered="#{!licenceBean.stepOk}" severity="warn" detail="#{licenceBean.stepWarningMessage}" />
   </h:panelGroup>
 
   <h:form enctype="multipart/form-data" id="fileUploadForm">
     <div class="file-upload">
-      <input type="file" id="fileInput" class="deploy-file" required="required" accept=".lic"/>
-      <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" 
+      <input type="file" id="fileInput" class="deploy-file" required="required" accept=".lic" />
+      <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
         styleClass="ui-panelgrid-blank">
-        <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose licence" 
+        <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose licence"
           onclick="$('#fileInput').trigger('click')" />
         <h:panelGroup layout="block">
           <span id="uploadStatus" class="file-upload-error" />
@@ -29,34 +29,33 @@
         <span id="selectedFileOutput" class="file-upload-file">Choose or drop a licence file.</span>
       </div>
     </div>
-    
+
     <h:panelGroup id="licenceOverview">
-      <p:dataTable id="licenceInfoTable" var="property"
-        rendered="#{!licenceBean.demo}"
+      <p:dataTable id="licenceInfoTable" var="property" rendered="#{!licenceBean.demo}"
         value="#{licenceBean.licenceProperties.entrySet().toArray()}"
         style="width: 100%; overflow-y: auto; min-height: 200px; max-height: calc(100vh - 510px);">
         <p:column headerText="Name">
           <h:outputText value="#{property.key}" styleClass="licence-key" />
         </p:column>
         <p:column headerText="Value">
-        <h:outputText
-          value="#{property.value eq '0' or '' ? 'Unlimited' : property.value}" />
+          <h:outputText value="#{property.value eq '0' or '' ? 'Unlimited' : property.value}" />
         </p:column>
       </p:dataTable>
     </h:panelGroup>
   </h:form>
-  
+
   <script>
     var accepts = [".lic"];
     var directUpload = true;
     var uploadUrl = "#{advisorBean.apiBaseUrl}/licence";
     var uploadErrorField = "#uploadStatus";
-    
+
     function uploadDone() {
       updateLic();
     }
-    
+
     initFileUpload();
   </script>
 </cc:implementation>
+
 </html>

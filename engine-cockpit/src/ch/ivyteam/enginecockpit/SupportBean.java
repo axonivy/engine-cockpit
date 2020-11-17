@@ -30,10 +30,10 @@ import ch.ivyteam.ivy.persistence.restricted.PersistencyDumper;
 @RequestScoped
 public class SupportBean
 {
-  
+
   @Inject
   private IApplicationConfigurationManager applicationConfigurationManager;
-  
+
   @Inject
   private ISystemDatabasePersistencyService systemDatabasePersistencyService;
 
@@ -41,7 +41,7 @@ public class SupportBean
   {
     DiCore.getGlobalInjector().injectMembers(this);
   }
-  
+
   public StreamedContent getSupportReport() throws IOException
   {
     String errorReport = createSupportReport();
@@ -49,7 +49,8 @@ public class SupportBean
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     DownloadUtil.zipDir(tempDirectory, out);
     FileUtils.deleteDirectory(tempDirectory.toFile());
-    return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip", "support-engine-report.zip");
+    return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip",
+            "support-engine-report.zip");
   }
 
   private String createSupportReport()

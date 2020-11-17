@@ -88,9 +88,9 @@ public class LicenceBean extends StepStatus
 
   public boolean showExpiryWarning()
   {
-	LocalDate inThreeMonth = LocalDate
-	    .now()
-	    .plus(3, ChronoUnit.MONTHS);
+    LocalDate inThreeMonth = LocalDate
+        .now()
+        .plus(3, ChronoUnit.MONTHS);
     try
     {
       return SystemLicence.isExpiredAt(inThreeMonth);
@@ -112,10 +112,10 @@ public class LicenceBean extends StepStatus
   
   public String getSessions()
   {
-	if (sessions == null)
-	{ // lazy because calculation can be expensive with many sessions
-	  sessions = calculateSessions();
-	}
+    if (sessions == null)
+    { // lazy because calculation can be expensive with many sessions
+      sessions = calculateSessions();
+    }
     return sessions;
   }
 

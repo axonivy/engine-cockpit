@@ -1,6 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="url" />
   <cc:attribute name="result" />
@@ -12,16 +13,18 @@
     <h:form id="connTestForm">
       <p:panelGrid columns="1" layout="grid" id="resultLog"
         styleClass="ui-panelgrid-blank form-group modal-input-form ui-fluid">
-        <h:outputText value="#{cc.attrs.result.testResult}" style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
-        
+        <h:outputText value="#{cc.attrs.result.testResult}"
+          style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
+
         <pre style="max-height: 400px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
       </p:panelGrid>
       <p:commandButton id="testConnectionBtn" title="Test External Database Connection" update="@form" value="Test"
-        icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}" immediate="true"
-        process="@this" async="true" onclick="buttonAddSpinner(this);" />
+        icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}"
+        immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" />
       <p:commandLink id="closeConTesterDialog" onclick="PF('connectionTestModel').hide();" value="Close" type="button"
         styleClass="modal-input-button" />
     </h:form>
   </p:dialog>
 </cc:implementation>
+
 </html>

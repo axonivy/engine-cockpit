@@ -11,18 +11,19 @@
 </cc:interface>
 <cc:implementation>
   <div class="ui-g-12 ui-md-3">
-    <div class="overview-box overview-box-#{cc.attrs.box}" onclick="window.location.href='#{cc.attrs.link}'" 
+    <div class="overview-box overview-box-#{cc.attrs.box}" onclick="window.location.href='#{cc.attrs.link}'"
       style="cursor: #{empty cc.attrs.link ? 'normal' : 'pointer'};">
       <div class="overview-box-header"></div>
       <div class="overview-box-content">
         <div class="overview-box-icon">
           <i class="#{cc.attrs.icon}"></i>
         </div>
-        
+
         <div class="overview-box-title">#{cc.attrs.title}</div>
         <div class="overview-box-count">#{cc.attrs.count}</div>
       </div>
     </div>
   </div>
 </cc:implementation>
+
 </html>

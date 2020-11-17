@@ -5,7 +5,7 @@
 <cc:interface>
   <cc:attribute name="updateFields" default="admins:adminForm,@form" />
 </cc:interface>
-  
+
 <cc:implementation>
   <h:form id="adminForm">
     <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable">
@@ -16,15 +16,16 @@
         <h:outputText value="#{admin.email}" />
       </p:column>
       <p:column style="width: 95px;">
-        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.setAdmin(admin)}" update="@form:deleteAdminDialog"
-          icon="si si-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" 
-          disabled="#{admin.name eq loginBean.sessionUserName}" oncomplete="PF('deleteAdminDialog').show();"/>
-        <p:commandButton id="editAdminBtn" actionListener="#{administratorBean.setAdmin(admin)}"
-          icon="si si-pencil" title="Edit" update="admins:editAdminDialog"
-          styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('editAdminDialog').show();" process="@this" />
+        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.setAdmin(admin)}"
+          update="@form:deleteAdminDialog" icon="si si-bin-1" title="Delete"
+          styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this"
+          disabled="#{admin.name eq loginBean.sessionUserName}" oncomplete="PF('deleteAdminDialog').show();" />
+        <p:commandButton id="editAdminBtn" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
+          title="Edit" update="admins:editAdminDialog" styleClass="card-button table-control-btn secondary-btn"
+          oncomplete="PF('editAdminDialog').show();" process="@this" />
       </p:column>
     </p:dataTable>
-    
+
     <p:confirmDialog id="deleteAdminDialog"
       message="Are you sure about deleting the administrator '#{administratorBean.admin.name}'?"
       header="Delete #{administratorBean.admin.name}" severity="alert" widgetVar="deleteAdminDialog">
@@ -34,41 +35,42 @@
         actionListener="#{administratorBean.removeAdmin}" update="#{cc.attrs.updateFields}" icon="si si-bin-1" />
     </p:confirmDialog>
   </h:form>
-  
-  <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500"
-    header="Add / Edit Administrator" modal="true" closeOnEscape="true"
-    focus="editAdminForm:name">
+
+  <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500" header="Add / Edit Administrator" modal="true"
+    closeOnEscape="true" focus="editAdminForm:name">
     <h:form id="editAdminForm">
-      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8" 
+      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8"
         styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
         <p:outputLabel for="name" value="Name" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="name" requiredMessage="Value is required" disabled="#{not empty administratorBean.admin.name}"
-            value="#{administratorBean.admin.name}" required="true" />
+          <p:inputText id="name" requiredMessage="Value is required"
+            disabled="#{not empty administratorBean.admin.name}" value="#{administratorBean.admin.name}"
+            required="true" />
           <p:message for="name" id="nameMessage">
             <p:autoUpdate />
           </p:message>
         </h:panelGroup>
-        
-        <p:outputLabel for="fullname" value="Full Name"/>
+
+        <p:outputLabel for="fullname" value="Full Name" />
         <p:inputText id="fullname" value="#{administratorBean.admin.fullName}" />
-        
+
         <p:outputLabel for="email" value="Email" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="email" requiredMessage="Value is required" autocomplete="off"
             value="#{administratorBean.admin.email}" required="true" />
           <p:message for="email" id="emailMessage" />
         </h:panelGroup>
-        
+
         <p:outputLabel for="password1" value="Password" />
         <h:panelGroup styleClass="md-inputfield">
-          <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2" autocomplete="new-password"
-            value="#{administratorBean.admin.password}" required="true" requiredMessage="Value is required" redisplay="true" />
+          <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true"
+            match="password2" autocomplete="new-password" value="#{administratorBean.admin.password}" required="true"
+            requiredMessage="Value is required" redisplay="true" />
           <p:message for="password1" id="passwordMessage">
             <p:autoUpdate />
           </p:message>
         </h:panelGroup>
-          
+
         <p:outputLabel for="password2" value="Confirm Password" />
         <h:panelGroup styleClass="md-inputfield">
           <p:password id="password2" feedback="true" inline="true" value="#{administratorBean.admin.password}"
@@ -84,4 +86,5 @@
     </h:form>
   </p:dialog>
 </cc:implementation>
+
 </html>

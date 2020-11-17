@@ -3,18 +3,17 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 400px;" header="Download all log files"
-  id="logsDownloadModal" widgetVar="logsDownloadModal" modal="true"
-  responsive="true" closeOnEscape="true">
+<p:dialog style="min-width: 400px;" header="Download all log files" id="logsDownloadModal" widgetVar="logsDownloadModal"
+  modal="true" responsive="true" closeOnEscape="true">
   <h:form id="logForm">
-    <p:commandButton id="allLogs" ajax="false" value="Download" 
+    <p:commandButton id="allLogs" ajax="false" value="Download"
       onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
-      title="Download All Log Files" icon="si si-download-bottom"
-      styleClass="modal-input-button" style="width: 150px;">
+      title="Download All Log Files" icon="si si-download-bottom" styleClass="modal-input-button" style="width: 150px;">
       <p:fileDownload value="#{logBean.allLogs}" />
     </p:commandButton>
-    <p:commandLink id="cancelEditGlobalVar" onclick="PF('logsDownloadModal').hide();" value="Cancel"
-      type="button" styleClass="modal-input-button" />
+    <p:commandLink id="cancelEditGlobalVar" onclick="PF('logsDownloadModal').hide();" value="Cancel" type="button"
+      styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
+
 </html>

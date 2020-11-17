@@ -1,17 +1,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
       <li><a href="cluster.xhtml">Cluster</a></li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.engineGuideBaseUrl}/integration/axonivy-cluster.html" target="_blank" rel="noopener noreferrer">
+      <a href="#{advisorBean.engineGuideBaseUrl}/integration/axonivy-cluster.html" target="_blank"
+        rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
@@ -27,25 +27,26 @@
                 </h1>
               </div>
             </div>
-            <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+            <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
+              paginatorAlwaysVisible="false"
               paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-              var="node" value="#{clusterBean.nodes}" widgetVar="clusterTable" filteredValue="#{clusterBean.filteredNodes}"
-              lazy="false" styleClass="userTable" id="clusterTable">
+              var="node" value="#{clusterBean.nodes}" widgetVar="clusterTable"
+              filteredValue="#{clusterBean.filteredNodes}" lazy="false" styleClass="userTable" id="clusterTable">
               <f:facet name="header">
                 <p:outputPanel>
                   <p:outputLabel styleClass="table-search-icon">
                     <i class="si si-search"></i>
                   </p:outputLabel>
                   <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                    onkeyup="PF('clusterTable').filter()" placeholder="Search" value="#{clusterBean.filter}"/>
+                    onkeyup="PF('clusterTable').filter()" placeholder="Search" value="#{clusterBean.filter}" />
                 </p:outputPanel>
               </f:facet>
               <p:column headerText="Name" sortBy="#{node.name}" filterBy="#{node.name}">
                 <p:commandLink id="clusterNode">
-                  <p:ajax listener="#{clusterBean.setActiveClusterNode(node)}" process="@this" oncomplete="PF('clusterNodeDialog').show()"
-                    update="clusterNodeDialog" />
+                  <p:ajax listener="#{clusterBean.setActiveClusterNode(node)}" process="@this"
+                    oncomplete="PF('clusterNodeDialog').show()" update="clusterNodeDialog" />
                   <i class="si si-monitor table-icon"></i>
-                  <h:outputText value="#{node.name}" styleClass="node-name"/>
+                  <h:outputText value="#{node.name}" styleClass="node-name" />
                 </p:commandLink>
               </p:column>
               <p:column headerText="Host" sortBy="#{node.hostName}" filterBy="#{node.hostName}">
@@ -59,12 +60,14 @@
               </p:column>
               <p:column headerText="Is Master" sortBy="#{node.master}">
                 <h:outputText>
-                  <i class="si si-#{node.master ? 'check-circle-1' : 'remove-circle'} table-icon #{node.master ? 'state-active' : 'state-inactive'}"></i>
+                  <i
+                    class="si si-#{node.master ? 'check-circle-1' : 'remove-circle'} table-icon #{node.master ? 'state-active' : 'state-inactive'}"></i>
                 </h:outputText>
               </p:column>
               <p:column headerText="Is Local" sortBy="#{node.local}">
                 <h:outputText>
-                  <i class="si si-#{node.local ? 'check-circle-1' : 'remove-circle'} table-icon #{node.local ? 'state-active' : 'state-inactive'}"></i>
+                  <i
+                    class="si si-#{node.local ? 'check-circle-1' : 'remove-circle'} table-icon #{node.local ? 'state-active' : 'state-inactive'}"></i>
                 </h:outputText>
               </p:column>
               <p:column headerText="Start Timestamp" sortBy="#{node.startTimestamp}">
@@ -92,4 +95,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

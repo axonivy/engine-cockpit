@@ -7,17 +7,19 @@
   <cc:attribute name="ldapBrowser" />
   <cc:attribute name="returnListener" />
 </cc:interface>
-  
+
 <cc:implementation>
-  <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true" width="700">
+  <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true"
+    width="700">
     <h:form id="ldapBrowserForm" styleClass="ldap-browser">
       <p:messages id="ldapBrowserMessage" for="ldapBrowserMessage" showDetail="true">
         <p:autoUpdate />
       </p:messages>
-      <p:panelGrid layout="grid" columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-g-12 ui-md-5, ui-g-12 ui-md-7">
-        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.ldapBrowser.tree}" var="node"
-          selectionMode="single" selection="#{cc.attrs.ldapBrowser.selectedNode}" dynamic="true">
-          <p:ajax event="expand" listener="#{cc.attrs.ldapBrowser.onNodeExpand}" update="@form:tree"/>
+      <p:panelGrid layout="grid" columns="2" styleClass="ui-panelgrid-blank"
+        columnClasses="ui-g-12 ui-md-5, ui-g-12 ui-md-7">
+        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.ldapBrowser.tree}" var="node" selectionMode="single"
+          selection="#{cc.attrs.ldapBrowser.selectedNode}" dynamic="true">
+          <p:ajax event="expand" listener="#{cc.attrs.ldapBrowser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
           <p:treeNode icon="si si-#{node.icon}">
             <h:outputText value="#{node}" />
@@ -26,10 +28,11 @@
         <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.ldapBrowser.selectedNodeAttributes}"
           scrollable="true" scrollHeight="355" emptyMessage="Select a node to see its attributes"
           rendered="#{cc.attrs.ldapBrowser.tree != null}">
-          <p:column headerText="Name" >
+          <p:column headerText="Name">
             <h:outputText value="#{attr.name}" styleClass="node-attr-name" />
           </p:column>
-          <p:column headerText="Value" style="min-width: #{empty cc.attrs.ldapBrowser.selectedNodeAttributes ? '100px' : '1000px'};">
+          <p:column headerText="Value"
+            style="min-width: #{empty cc.attrs.ldapBrowser.selectedNodeAttributes ? '100px' : '1000px'};">
             <h:outputText value="#{attr.ldapAttribute}" />
           </p:column>
         </p:dataTable>
@@ -38,10 +41,11 @@
     <f:facet name="footer">
       <p:commandLink id="cancelLdapBrowser" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
         styleClass="secondary-btn modal-input-button" />
-      <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose" icon="si si-check-1"
-        styleClass="primary-btn modal-input-button" update="#{cc.attrs.updateFields}" onclick="PF('ldapBrowserDialog').hide();"
-        disabled="#{cc.attrs.ldapBrowser.tree == null}" />
+      <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose"
+        icon="si si-check-1" styleClass="primary-btn modal-input-button" update="#{cc.attrs.updateFields}"
+        onclick="PF('ldapBrowserDialog').hide();" disabled="#{cc.attrs.ldapBrowser.tree == null}" />
     </f:facet>
   </p:dialog>
 </cc:implementation>
+
 </html>

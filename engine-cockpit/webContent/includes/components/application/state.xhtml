@@ -20,7 +20,8 @@
     rendered="#{!applicationDetailBean.application.notLockable}" styleClass="secondary-btn card-button">
     <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
   </p:commandButton>
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel">
     <label>State</label>
     <h:outputText>
       <i class="si si-#{applicationDetailBean.application.state.operationIcon} icon-bold
@@ -37,4 +38,5 @@
   <p:poll listener="#{applicationDetailBean.application.updateStats}" update="@form"
     autoStart="#{applicationDetailBean.application.state.processing}" interval="1" />
 </h:form>
+
 </html>

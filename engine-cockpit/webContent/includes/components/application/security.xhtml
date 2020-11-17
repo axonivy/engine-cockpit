@@ -10,7 +10,8 @@
 <h:form id="appDetailSecurityForm">
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
-    title="Synchronize" type="button" icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
+    title="Synchronize" type="button"
+    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
     styleClass="primary-btn card-button spin-icon" onclick="PF('logPoller').start()">
     <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
   </p:commandButton>
@@ -18,16 +19,18 @@
   <p:commandButton id="changeSecuritySystem" icon="si si-cog" styleClass="secondary-btn card-button"
     onclick="PF('changeSecuritySystemModel').show()" type="button" />
   <p:commandButton id="showAdSyncLogBtn" icon="si si-common-file-text" styleClass="secondary-btn card-button"
-    onclick="window.location.href='logs.xhtml?log=usersynch.log'" type="button" 
+    onclick="window.location.href='logs.xhtml?log=usersynch.log'" type="button"
     rendered="#{!securityBean.ivySecurityForSelectedApp}" />
 
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
-      <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
-        <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}" rendered="#{not empty applicationDetailBean.securitySystem.link}">
-          <i class="si si-lock-1 link-icon"></i>
-        </h:outputText>
-      </h:outputLink>
+    <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
+      <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}"
+        rendered="#{not empty applicationDetailBean.securitySystem.link}">
+        <i class="si si-lock-1 link-icon"></i>
+      </h:outputText>
+    </h:outputLink>
     <label>Provider</label>
     <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
     <label>Users</label>
@@ -45,4 +48,5 @@
   </p:panelGrid>
 </h:form>
 <ui:include src="../../dialogs/changesecuritysystem.xhtml" />
+
 </html>

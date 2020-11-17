@@ -1,5 +1,6 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="../includes/template/charts-template.xhtml">
@@ -27,7 +28,7 @@
                 <i class="si si-coffee-cup table-icon panel-title-icon"></i>
                 <h:outputText value="MBeans" />
               </f:facet>
-              <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single" 
+              <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single"
                 style="border: none; max-height: 350px; overflow: auto; padding: 0;" id="mBeans">
                 <p:ajax event="select" update="attributes" listener="#{mBeansBean.onSelectNode}" />
                 <p:treeNode type="folder" icon="si si-folder-empty">
@@ -68,7 +69,8 @@
                 <i class="si si-analytics-bars table-icon panel-title-icon"></i>
                 <h:outputText value="Chart" />
               </f:facet>
-              <p:chart id="diagram" type="line" model="#{mBeansBean.tracesMonitor.model}" responsive="true" style="height:300px;" />
+              <p:chart id="diagram" type="line" model="#{mBeansBean.tracesMonitor.model}" responsive="true"
+                style="height:300px;" />
               <p:poll update="chart" interval="1" autoStart="#{mBeansBean.tracesMonitor.running}" />
 
               <p:dataTable id="traces" var="trace" value="#{mBeansBean.traces}" rowIndexVar="rowIndex"
@@ -87,8 +89,8 @@
                   <h:outputText id="lastValue" value="#{trace.lastValue}" />
                 </p:column>
                 <p:column style="width: 55px">
-                  <p:commandButton id="removeTrace" update="chart" immediate="true" actionListener="#{mBeansBean.removeTrace(trace)}" 
-                    icon="si si-remove" styleClass="red-btn" />
+                  <p:commandButton id="removeTrace" update="chart" immediate="true"
+                    actionListener="#{mBeansBean.removeTrace(trace)}" icon="si si-remove" styleClass="red-btn" />
                 </p:column>
               </p:dataTable>
             </p:panel>
@@ -98,4 +100,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

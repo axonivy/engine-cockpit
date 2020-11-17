@@ -3,10 +3,10 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 500px;" header="Add new user" id="newUserModal" widgetVar="newUserModal" modal="true" responsive="true"
-  closeOnEscape="true">
+<p:dialog style="min-width: 500px;" header="Add new user" id="newUserModal" widgetVar="newUserModal" modal="true"
+  responsive="true" closeOnEscape="true">
   <h:form id="newUserForm">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8" 
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8"
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
       <h:panelGroup styleClass="md-inputfield">
@@ -14,26 +14,26 @@
           required="true" />
         <p:message for="newUserNameInput" id="newUserNameMessage" />
       </h:panelGroup>
-      
+
       <label>Full Name</label>
       <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
-      
+
       <label>E-Mail Address</label>
       <p:inputText id="email" value="#{userDetailBean.user.email}" />
-      
+
       <label>Password</label>
       <p:password id="password1" widgetVar="password1" validatorMessage="Password didn't match" match="password2"
         value="#{userDetailBean.user.password}" feedback="true" inline="true" />
-      
+
       <label>Confirm Password</label>
       <p:password id="password2" widgetVar="password2" value="#{userDetailBean.user.password}" feedback="true"
         inline="true" />
     </p:panelGrid>
     <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update="apps"
-      action="#{userDetailBean.creatNewUser}" value="Save" icon="si si-floppy-disk"
-      styleClass="modal-input-button" />
+      action="#{userDetailBean.creatNewUser}" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
     <p:commandLink id="cancelNewUser" onclick="PF('newUserModal').hide();" value="Cancel" type="button"
       styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
+
 </html>

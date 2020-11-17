@@ -1,35 +1,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
     <f:viewParam name="appName" value="#{applicationDetailBean.appName}" />
     <f:viewParam name="appName" value="#{managerBean.selectedApplicationName}" />
   </f:metadata>
-  
+
   <ui:composition template="../includes/template/template.xhtml">
-    
+
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">Applications</a></li>
       <li>/</li>
-      <li><a href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
+      <li><a
+          href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a>
+      </li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}applications.html#application-detail" target="_blank" rel="noopener noreferrer">
+      <a href="#{advisorBean.cockpitEngineGuideUrl}applications.html#application-detail" target="_blank"
+        rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
-    
+
     <ui:define name="content">
       <div class="ui-g ui-fluid dashboard">
-        <cc:OverviewBox box="1" count="#{applicationDetailBean.sessionCount}" icon="si si-style-two-pin-user" title="Sessions" link="users.xhtml"/>
-        <cc:OverviewBox box="2" count="#{applicationDetailBean.usersCount}" icon="si si-single-neutral-actions" title="Users" link="users.xhtml"/>
-        <cc:OverviewBox box="3" count="#{applicationDetailBean.casesCount}" icon="si si-layout-bullets" title="Running Cases" link="#"/>
-        <cc:OverviewBox box="4" count="#{applicationDetailBean.pmCount}" icon="si si-module-three-2" title="Process Models" link="#"/>
-      
+        <cc:OverviewBox box="1" count="#{applicationDetailBean.sessionCount}" icon="si si-style-two-pin-user"
+          title="Sessions" link="users.xhtml" />
+        <cc:OverviewBox box="2" count="#{applicationDetailBean.usersCount}" icon="si si-single-neutral-actions"
+          title="Users" link="users.xhtml" />
+        <cc:OverviewBox box="3" count="#{applicationDetailBean.casesCount}" icon="si si-layout-bullets"
+          title="Running Cases" link="#" />
+        <cc:OverviewBox box="4" count="#{applicationDetailBean.pmCount}" icon="si si-module-three-2"
+          title="Process Models" link="#" />
+
         <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
           <p:panel style="min-height: 372px">
             <ui:include src="../includes/components/application/information.xhtml" />
@@ -40,8 +46,8 @@
             <p:panel styleClass="min-height-200">
               <ui:include src="../includes/components/application/security.xhtml" />
             </p:panel>
-            </div>
-            <div class="ui-g-12">
+          </div>
+          <div class="ui-g-12">
             <p:panel styleClass="min-height-150">
               <ui:include src="../includes/components/application/state.xhtml" />
             </p:panel>
@@ -56,4 +62,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

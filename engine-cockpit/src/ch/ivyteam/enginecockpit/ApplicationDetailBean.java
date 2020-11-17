@@ -34,18 +34,18 @@ public class ApplicationDetailBean
   private SecuritySystem security;
   private String changeSecuritySystem;
   private List<String> environments;
-  
+
   private ConfigView configView;
-  
+
   private ManagerBean managerBean;
-  
+
   public ApplicationDetailBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
   }
-  
+
   public void setAppName(String appName)
   {
     if (this.appName == null || this.appName != appName)
@@ -59,7 +59,7 @@ public class ApplicationDetailBean
   {
     return appName;
   }
-  
+
   private void reloadDetailApplication()
   {
     managerBean.reloadApplications();
@@ -67,52 +67,53 @@ public class ApplicationDetailBean
     security = initSecuritySystem(appName);
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
-    configView = new ConfigView(((IApplicationInternal) getIApplication()).getConfiguration(), this::enrichStandardProcessConfigs);
+    configView = new ConfigView(((IApplicationInternal) getIApplication()).getConfiguration(),
+            this::enrichStandardProcessConfigs);
   }
-  
+
   public Application getApplication()
   {
     return app;
   }
-  
-  public SecuritySystem getSecuritySystem() 
+
+  public SecuritySystem getSecuritySystem()
   {
     return security;
   }
-  
+
   public String deleteApplication()
   {
     managerBean.getManager().deleteApplication(appName);
     managerBean.reloadApplications();
     return "applications.xhtml?faces-redirect=true";
   }
-  
+
   public String getSessionCount()
   {
     return managerBean.formatNumber(getIApplication().getSecurityContext().getSessionCount());
   }
-  
+
   public String getUsersCount()
   {
     return managerBean.formatNumber(security.getUsersCount());
   }
-  
+
   public String getCasesCount()
   {
     return managerBean.formatNumber(app.getRunningCasesCount());
   }
-  
+
   public String getPmCount()
   {
     return managerBean.formatNumber(getIApplication().getProcessModels().stream()
             .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
   }
-  
+
   public List<String> getEnvironments()
   {
     return environments;
   }
-  
+
   public void saveApplicationInfos()
   {
     managerBean.getIApplication(app.getId()).setActiveEnvironment(app.getActiveEnv());
@@ -127,7 +128,8 @@ public class ApplicationDetailBean
 
   private SecuritySystem initSecuritySystem(String applicationName)
   {
-    SecuritySystem securitySystem = new SecuritySystem(app.getSecuritySystemName(), Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
+    SecuritySystem securitySystem = new SecuritySystem(app.getSecuritySystemName(),
+            Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
     changeSecuritySystem = securitySystem.getSecuritySystemName();
     return securitySystem;
   }
@@ -137,22 +139,22 @@ public class ApplicationDetailBean
     app.setSecuritySystem(changeSecuritySystem);
     security = initSecuritySystem(getAppName());
   }
-  
+
   public String getChangeSecuritySystem()
   {
     return changeSecuritySystem;
   }
-  
+
   public void setChangeSecuritySystem(String changeSecuritySystem)
   {
     this.changeSecuritySystem = changeSecuritySystem;
   }
-  
+
   public ConfigView getConfigView()
   {
     return configView;
   }
-  
+
   private ConfigProperty enrichStandardProcessConfigs(ConfigProperty property)
   {
     if (StringUtils.startsWith(property.getKey(), "StandardProcess"))
@@ -162,7 +164,7 @@ public class ApplicationDetailBean
     }
     return property;
   }
-  
+
   private List<String> availableStandardProcesses(ConfigProperty config)
   {
     var workflow = WorkflowNavigationUtil.getWorkflowContext(managerBean.getSelectedIApplication());
@@ -175,7 +177,7 @@ public class ApplicationDetailBean
     }
     return List.copyOf(libraries);
   }
-  
+
   private Set<StandardProcessType> processTypesForConfig(String key)
   {
     if (StringUtils.endsWith(key, "DefaultPages"))
