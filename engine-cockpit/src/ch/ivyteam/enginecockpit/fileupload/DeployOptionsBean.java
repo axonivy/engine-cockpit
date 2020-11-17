@@ -35,9 +35,9 @@ public class DeployOptionsBean
   
   private static List<String> listNames(Enum<?>[] vals)
   {
-	  return Arrays.stream(vals)
-			  .map(val -> val.name())
-			  .collect(Collectors.toList());
+    return Arrays.stream(vals)
+        .map(val -> val.name())
+        .collect(Collectors.toList());
   }
   
   public String getDeployTestUsers()

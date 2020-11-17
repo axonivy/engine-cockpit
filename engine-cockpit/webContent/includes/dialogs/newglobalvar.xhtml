@@ -3,28 +3,30 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 400px;" header="New global variable" id="newGlobalVarModal"
-  widgetVar="newGlobalVarModal" modal="true" responsive="true" closeOnEscape="true">
-  
+<p:dialog style="min-width: 400px;" header="New global variable" id="newGlobalVarModal" widgetVar="newGlobalVarModal"
+  modal="true" responsive="true" closeOnEscape="true">
+
   <h:form id="newGlobalVarForm">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newGlobalVarName" required="true" requiredMessage="Name is required" value="#{globalVarBean.activeVar.name}"/>
+        <p:inputText id="newGlobalVarName" required="true" requiredMessage="Name is required"
+          value="#{globalVarBean.activeVar.name}" />
         <p:message for="newGlobalVarName" id="newGlobalVarNameMessage" />
       </h:panelGroup>
-      
+
       <label>Value</label>
-      <p:inputText id="newGlobalVarValue" value="#{globalVarBean.activeVar.value}"/>
+      <p:inputText id="newGlobalVarValue" value="#{globalVarBean.activeVar.value}" />
     </p:panelGrid>
-    
+
     <p:commandButton id="saveNewGlobalVar" validateClient="true" onsuccess="PF('newGlobalVarModal').hide()"
       actionListener="#{globalVarBean.saveGlobalVar}" value="Save" icon="si si-floppy-disk"
       styleClass="modal-input-button" update="@form" ajax="false" />
     <p:commandLink id="cancelNewGlobalVar" onclick="PF('newGlobalVarModal').hide()" value="Cancel" type="button"
-      styleClass="modal-input-button"/>
+      styleClass="modal-input-button" />
   </h:form>
-  
+
 </p:dialog>
+
 </html>

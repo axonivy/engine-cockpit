@@ -21,9 +21,9 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 public class EditorBean
 {
   private List<ConfigFile> configFiles = new ArrayList<>();
-  
+
   private ConfigFile activeConfigFile;
-  
+
   private ManagerBean managerBean;
 
   private String selectedFile;
@@ -39,48 +39,48 @@ public class EditorBean
             .map(this::createAppConfigFile)
             .collect(Collectors.toList()));
   }
-  
+
   private ConfigFile createAppConfigFile(IApplication app)
   {
     File appYaml = UrlUtil.getConfigFile("app-" + app.getName() + ".yaml");
     return new ConfigFile(appYaml, ((IApplicationInternal) app).getConfiguration());
   }
-  
+
   public List<ConfigFile> getConfigFiles()
   {
     return configFiles;
   }
-  
+
   public ConfigFile getActiveConfigFile()
   {
     return activeConfigFile;
   }
-  
+
   public void setActiveConfigFile(ConfigFile activeConfigFile)
   {
     this.activeConfigFile = activeConfigFile;
   }
-  
+
   public int getTabIndex()
   {
     var configFile = configFiles.stream().filter(f -> f.getFileName().equals(selectedFile)).findFirst()
             .orElse(configFiles.get(0));
     return configFiles.indexOf(configFile);
   }
-  
+
   public void setTabIndex(@SuppressWarnings("unused") int index)
   {
-    //Do nothing
+    // Do nothing
   }
-  
+
   public String getSelectedFile()
   {
     return selectedFile;
   }
-  
+
   public void setSelectedFile(String file)
   {
     this.selectedFile = file;
   }
-  
+
 }

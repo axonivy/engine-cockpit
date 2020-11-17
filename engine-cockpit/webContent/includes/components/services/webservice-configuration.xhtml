@@ -10,38 +10,42 @@
 </f:facet>
 <h:form id="webserviceConfigurationForm">
   <p:growl id="wsConfigMsg" for="wsConfigMsg" showDetail="true">
-    <p:autoUpdate/>
+    <p:autoUpdate />
   </p:growl>
   <p:commandButton id="saveWsConfig" actionListener="#{webserviceDetailBean.saveConfig}" title="Save changes"
     icon="si si-floppy-disk" styleClass="accent-btn card-button" update="@form, webservcieAdditionalConfigForm" />
-  <p:commandButton id="resetConfig" type="button" onclick="PF('resetWsConfirmDialog').show()" title="Reset configuration"
-    icon="si si-undo" styleClass="red-btn card-button" />
-  <p:confirmDialog id="resetWsConfirmDialog" message="Are you sure about reset this Web Service?" header="Reset Web Service"
-    severity="alert" widgetVar="resetWsConfirmDialog">
-    <p:commandLink value="Cancel" onclick="PF('resetWsConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
+  <p:commandButton id="resetConfig" type="button" onclick="PF('resetWsConfirmDialog').show()"
+    title="Reset configuration" icon="si si-undo" styleClass="red-btn card-button" />
+  <p:confirmDialog id="resetWsConfirmDialog" message="Are you sure about reset this Web Service?"
+    header="Reset Web Service" severity="alert" widgetVar="resetWsConfirmDialog">
+    <p:commandLink value="Cancel" onclick="PF('resetWsConfirmDialog').hide();" type="button"
+      styleClass="modal-input-button" />
     <p:commandButton id="resetWsConfirmYesBtn" value="Reset" actionListener="#{webserviceDetailBean.resetConfig}"
       icon="si si-undo" update="@form, webservcieAdditionalConfigForm" styleClass="modal-input-button" />
   </p:confirmDialog>
-    
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
-    layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText id="name" value="#{webserviceDetailBean.webservice.name}" />
-    
+
     <label>Description</label>
     <h:outputText id="description" value="#{webserviceDetailBean.webservice.description}" />
-    
+
     <label>Wsdl Url</label>
     <h:outputText id="url" value="#{webserviceDetailBean.webservice.wsdlUrl}" />
-    
+
     <label>Authentication Type</label>
     <h:outputText id="type" value="#{webserviceDetailBean.webservice.authType}" />
-    
+
     <p:outputLabel for="username" value="Username" />
-    <p:inputText id="username" value="#{webserviceDetailBean.webservice.username}" disabled="#{empty webserviceDetailBean.webservice.authType}" />
-    
+    <p:inputText id="username" value="#{webserviceDetailBean.webservice.username}"
+      disabled="#{empty webserviceDetailBean.webservice.authType}" />
+
     <p:outputLabel for="password" value="Password" />
-    <p:password id="password" value="#{webserviceDetailBean.webservice.password}" disabled="#{empty webserviceDetailBean.webservice.authType}" />
+    <p:password id="password" value="#{webserviceDetailBean.webservice.password}"
+      disabled="#{empty webserviceDetailBean.webservice.authType}" />
   </p:panelGrid>
 </h:form>
+
 </html>

@@ -30,12 +30,12 @@ public class LoginBean
       loginDefaultAdminOrRedirect();
     }
   }
-  
+
   public void loginDefaultAdminOrRedirect()
   {
     if (EngineMode.is(EngineMode.DEMO))
     {
-      if(ISession.current().loginSessionUser("admin", "admin"))
+      if (ISession.current().loginSessionUser("admin", "admin"))
       {
         return;
       }
@@ -59,18 +59,18 @@ public class LoginBean
     ISession.current().logoutSessionUser();
     redirect();
   }
-  
+
   public void redirectToLoginPage()
   {
     originalUrl = evalOriginalUrl();
     redirect();
   }
-  
+
   private void redirect()
   {
     redirect("login.xhtml");
   }
-  
+
   private void redirect(String url)
   {
     try
@@ -83,10 +83,11 @@ public class LoginBean
       throw new RuntimeException("Could not send redirect", e);
     }
   }
-  
+
   private static String evalOriginalUrl()
   {
-    HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+    HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+            .getRequest();
     return request.getRequestURI();
   }
 

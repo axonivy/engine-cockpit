@@ -108,7 +108,7 @@ public class RenewLicence
 
   private static String parseErrorMessage(Response response)
   {
-	String responseEntity = response.readEntity(String.class);
+  String responseEntity = response.readEntity(String.class);
     try
     {
       JsonObject json = JsonParser.parseString(responseEntity).getAsJsonObject();

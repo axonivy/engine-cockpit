@@ -14,7 +14,7 @@
   <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
     icon="si si-add" title="Add" styleClass="primary-btn" />
   <p:growl for="membersMessage">
-    <p:autoUpdate/>
+    <p:autoUpdate />
   </p:growl>
   <p:dataTable id="roleMemberTable" value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
     filteredValue="#{roleDetailBean.filteredMembers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
@@ -29,7 +29,8 @@
           onkeyup="PF('membersOfRoleTable').filter()" placeholder="Search" />
       </p:outputPanel>
     </f:facet>
-    <p:column styleClass="member-row" headerText="Role Members Of Role" sortBy="#{member.name}" filterBy="#{member.name}">
+    <p:column styleClass="member-row" headerText="Role Members Of Role" sortBy="#{member.name}"
+      filterBy="#{member.name}">
       <a href="roledetail.xhtml?roleName=#{member.name}">
         <h:outputText styleClass="member-name" value="#{member.name}">
           <i class="si si-multiple-neutral-1 table-icon"></i>
@@ -44,4 +45,5 @@
     </p:column>
   </p:dataTable>
 </h:form>
+
 </html>

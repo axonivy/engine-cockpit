@@ -31,12 +31,12 @@ public class ApplicationEmailBean
     emailSettings = new EmailSettings(managerBean.getSelectedIApplication());
     emailSettings.setNotificationCheckboxRender(false);
   }
-  
+
   public EmailSettings getEmailSettings()
   {
     return emailSettings;
   }
-  
+
   public void saveEmailSettings()
   {
     IApplication iApp = managerBean.getSelectedIApplication();

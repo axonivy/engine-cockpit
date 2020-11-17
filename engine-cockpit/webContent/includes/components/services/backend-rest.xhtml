@@ -8,13 +8,16 @@
   <h:outputText value="Rest Services" />
 </f:facet>
 <h:form id="restApiForm">
-  <p:linkButton id="browseRestAPI" title="Browse available REST Backend Services" icon="si si-network-browser" type="button"
-    href="/#{advisorBean.app}/api-browser/index.html?urls.primaryName=#{managerBean.selectedApplicationName}" target="_blank" rel="noopener noreferrer"
-    styleClass="card-button" onclick="window.location.href='systemconfig.xhtml?filter=REST'" />
+  <p:linkButton id="browseRestAPI" title="Browse available REST Backend Services" icon="si si-network-browser"
+    type="button"
+    href="/#{advisorBean.app}/api-browser/index.html?urls.primaryName=#{managerBean.selectedApplicationName}"
+    target="_blank" rel="noopener noreferrer" styleClass="card-button"
+    onclick="window.location.href='systemconfig.xhtml?filter=REST'" />
   <p:commandButton id="configRestBackend" title="Configure Rest Backend" icon="si si-cog" type="button"
     styleClass="secondary-btn card-button" onclick="window.location.href='systemconfig.xhtml?filter=REST.Servlet'" />
-    
-  <iframe id="apiBrowser" src="/#{advisorBean.app}/api-browser/index.html?urls.primaryName=#{managerBean.selectedApplicationName}"
+
+  <iframe id="apiBrowser"
+    src="/#{advisorBean.app}/api-browser/index.html?urls.primaryName=#{managerBean.selectedApplicationName}"
     style="border: none; width: 100%; height: calc(100vh - 500px); min-height: 400px; margin-top: 10px;"></iframe>
 </h:form>
 

@@ -9,7 +9,8 @@
 </f:facet>
 <p:commandButton id="tasksButtonJavaDetail" onclick="PF('javaDetailDialog').show();" title="Java Details" type="button"
   icon="si si-information-circle" styleClass="secondary-btn card-button" />
-<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+  styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Product</label>
   <h:outputText value="#{javaBean.name}" />
   <label>Version</label>
@@ -18,4 +19,5 @@
   <h:outputText value="#{javaBean.vendor}" />
 </p:panelGrid>
 <ui:include src="../../dialogs/javainfo.xhtml" />
+
 </html>

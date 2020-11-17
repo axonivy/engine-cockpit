@@ -6,7 +6,7 @@
 <p:dialog style="min-width: 400px;" header="Add new security system" id="newSecuritySystemModal"
   widgetVar="newSecuritySystemModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newSecuritySystemForm">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
       <h:panelGroup styleClass="md-inputfield">
@@ -14,20 +14,20 @@
           value="#{securityBean.newSecuritySystemName}" required="true" />
         <p:message for="newSecuritySystemNameInput" id="newSecuritySystemNameMessage" />
       </h:panelGroup>
-      
+
       <label>Provider</label>
       <h:panelGroup>
-        <p:selectOneMenu id="newSecuritySystemProviderSelect"
-          value="#{securityBean.newSecuritySystemProvider}">
+        <p:selectOneMenu id="newSecuritySystemProviderSelect" value="#{securityBean.newSecuritySystemProvider}">
           <f:selectItems value="#{securityBean.providers}" />
         </p:selectOneMenu>
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="saveNewSecuritySystem" validateClient="true" ajax="false" 
+    <p:commandButton id="saveNewSecuritySystem" validateClient="true" ajax="false"
       actionListener="#{securityBean.createNewSecuritySystem}" value="Save" icon="si si-floppy-disk"
       styleClass="modal-input-button" />
-    <p:commandLink id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="Cancel" type="button"
-      styleClass="modal-input-button" />
+    <p:commandLink id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="Cancel"
+      type="button" styleClass="modal-input-button" />
   </h:form>
 </p:dialog>
+
 </html>

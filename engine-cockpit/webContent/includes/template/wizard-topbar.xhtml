@@ -1,21 +1,22 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:pa="http://primefaces.org/serenity">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+  xmlns:pa="http://primefaces.org/serenity">
 
   <div class="layout-topbar" style="padding-right: 24px;">
     <div class="container">
-      <a id="bannerLogo" class="topbar-logo" href="/sys/info.xhtml"> 
+      <a id="bannerLogo" class="topbar-logo" href="/sys/info.xhtml">
         <p:graphicImage name="resources/images/axon_ivy_logo_white.svg" />
       </a>
     </div>
-    
+
     <a href="#" class="menu-btn">
       <i class="si si-navigation-menu"></i>
     </a>
-    
+
     <a href="#" class="topbar-menu-btn">
       <i class="si si-single-neutral-circle"></i>
     </a>
-    
+
     <div class="layout-topbar-menu-wrapper">
       <ul class="topbar-menu animated">
         <li id="sessionUser" class="profile-item">
@@ -27,7 +28,8 @@
           </a>
           <ul class="animated">
             <li role="menuitem">
-              <a href="#" onclick="window.open('#{advisorBean.engineGuideBaseUrl}/tool-reference/setup-wizard.html'); return false;">
+              <a href="#"
+                onclick="window.open('#{advisorBean.engineGuideBaseUrl}/tool-reference/setup-wizard.html'); return false;">
                 <i class="si si-lg si-question-circle"></i>
                 <span>Help</span>
               </a>

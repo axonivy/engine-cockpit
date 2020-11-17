@@ -17,7 +17,7 @@
       <li>/</li>
       <li><a href="roledetail.xhtml?roleName=#{roleDetailBean.roleName}">#{roleDetailBean.roleName}</a></li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}security.html#role-detail" target="_blank" rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
@@ -28,14 +28,18 @@
       <p:growl id="msgs" showDetail="true" />
       <div class="ui-fluid role-detail">
         <div class="ui-g dashboard">
-          <cc:OverviewBox box="1" count="#{roleDetailBean.userCount}" icon="si si-single-neutral-actions" title="Users" />
-          <cc:OverviewBox box="2" count="#{roleDetailBean.userInheritCount}" icon="si si-multiple-neutral-1" title="Inherit users" />
-          <cc:OverviewBox box="3" count="#{roleDetailBean.runningTaskCount}" icon="si si-briefcase" title="Running Tasks" />
-          <cc:OverviewBox box="4" count="#{roleDetailBean.directTaskCount}" icon="si si-task-list-approve" title="Direct open tasks" />
-          
+          <cc:OverviewBox box="1" count="#{roleDetailBean.userCount}" icon="si si-single-neutral-actions"
+            title="Users" />
+          <cc:OverviewBox box="2" count="#{roleDetailBean.userInheritCount}" icon="si si-multiple-neutral-1"
+            title="Inherit users" />
+          <cc:OverviewBox box="3" count="#{roleDetailBean.runningTaskCount}" icon="si si-briefcase"
+            title="Running Tasks" />
+          <cc:OverviewBox box="4" count="#{roleDetailBean.directTaskCount}" icon="si si-task-list-approve"
+            title="Direct open tasks" />
+
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
             <p:panel styleClass="min-height-250">
-              <ui:include src="../includes/components/security/roledetail-information.xhtml"/>
+              <ui:include src="../includes/components/security/roledetail-information.xhtml" />
             </p:panel>
           </div>
 
@@ -46,22 +50,22 @@
               </ui:include>
             </p:panel>
           </div>
-          
+
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
             <p:panel styleClass="min-height-300 max-height-700">
-              <ui:include src="../includes/components/security/roledetail-users.xhtml"/>
+              <ui:include src="../includes/components/security/roledetail-users.xhtml" />
             </p:panel>
           </div>
-          
+
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
             <p:panel styleClass="min-height-300 max-height-700">
-              <ui:include src="../includes/components/security/roledetail-members.xhtml"/>
+              <ui:include src="../includes/components/security/roledetail-members.xhtml" />
             </p:panel>
           </div>
-          
+
           <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
             <p:panel styleClass="min-height-300 max-height-700">
-              <ui:include src="../includes/components/security/permissions.xhtml"/>
+              <ui:include src="../includes/components/security/permissions.xhtml" />
             </p:panel>
           </div>
         </div>
@@ -69,4 +73,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

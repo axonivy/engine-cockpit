@@ -21,13 +21,13 @@ public class ClusterBean
   private boolean isClusterServer;
   private List<ClusterNode> clusterNodes;
   private ClusterNode activeClusterNode;
-  
+
   private List<ClusterNode> filteredNodes;
   private String filter;
-  
+
   @Inject
   private IClusterManager clusterManager;
-  
+
   public ClusterBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
@@ -35,27 +35,28 @@ public class ClusterBean
     clusterNodes = loadClusterNodes();
     activeClusterNode = new ClusterNode(null);
   }
-  
+
   public boolean isClusterServer()
   {
     return isClusterServer;
   }
-  
+
   private List<ClusterNode> loadClusterNodes()
   {
-    return clusterManager.getClusterNodes().stream().map(node -> new ClusterNode(node)).collect(Collectors.toList());
+    return clusterManager.getClusterNodes().stream().map(node -> new ClusterNode(node))
+            .collect(Collectors.toList());
   }
-  
+
   public List<ClusterNode> getNodes()
   {
     return clusterNodes;
   }
-  
+
   public void setActiveClusterNode(ClusterNode node)
   {
     activeClusterNode = node;
   }
-  
+
   public ClusterNode getActiveClusterNode()
   {
     return activeClusterNode;
@@ -65,20 +66,20 @@ public class ClusterBean
   {
     return filteredNodes;
   }
-  
+
   public void setFilteredNodes(List<ClusterNode> filteredNodes)
   {
     this.filteredNodes = filteredNodes;
   }
-  
+
   public String getFilter()
   {
     return filter;
   }
-  
+
   public void setFilter(String filter)
   {
     this.filter = filter;
   }
-  
+
 }

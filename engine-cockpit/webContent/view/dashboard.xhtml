@@ -1,68 +1,74 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="../includes/template/template.xhtml">
-  
+
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}index.html" target="_blank" rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
-    
+
     <ui:define name="content">
       <div class="ui-g dashboard">
-        <h:panelGroup layout="block" styleClass="ui-g-12 dashboard-warnings" rendered="#{!managerBean.hideDashboardWarnings()}">
-          <p:staticMessage rendered="#{ivyAdvisor.releaseCandidate}" severity="error"
-            summary="Release Candidate!" detail="Don't use this version in production!" />
-          
-          <h:panelGroup layout="block" rendered="#{engineModeBean.hasDashboardWarning()}" styleClass="ui-message ui-staticmessage ui-message-warn">
+        <h:panelGroup layout="block" styleClass="ui-g-12 dashboard-warnings"
+          rendered="#{!managerBean.hideDashboardWarnings()}">
+          <p:staticMessage rendered="#{ivyAdvisor.releaseCandidate}" severity="error" summary="Release Candidate!"
+            detail="Don't use this version in production!" />
+
+          <h:panelGroup layout="block" rendered="#{engineModeBean.hasDashboardWarning()}"
+            styleClass="ui-message ui-staticmessage ui-message-warn">
             <span class="ui-message-warn-icon"></span>
             <span class="ui-message-warn-summary">#{engineModeBean.dashboardWarningSummary}</span>
-            <span class="ui-message-warn-detail">#{engineModeBean.dashboardWarningDetail} Please use the 
-              <a href="setup.xhtml">Setup Wizard</a> to set up your Axon.ivy Engine. 
+            <span class="ui-message-warn-detail">#{engineModeBean.dashboardWarningDetail} Please use the
+              <a href="setup.xhtml">Setup Wizard</a> to set up your Axon.ivy Engine.
             </span>
           </h:panelGroup>
         </h:panelGroup>
-      
-        <cc:OverviewBox box="1" count="#{managerBean.sessionCount}" icon="si si-style-two-pin-user" title="Sessions" link="users.xhtml"/>
-        <cc:OverviewBox box="2" count="#{managerBean.usersCount}" icon="si si-single-neutral-actions" title="Users" link="users.xhtml"/>
-        <cc:OverviewBox box="3" count="#{managerBean.runningCasesCount}" icon="si si-layout-bullets" title="Running Cases" link="applications.xhtml"/>
-        <cc:OverviewBox box="4" count="#{managerBean.applicationCount}" icon="si si-module" title="Applications" link="applications.xhtml"/>
-        
+
+        <cc:OverviewBox box="1" count="#{managerBean.sessionCount}" icon="si si-style-two-pin-user" title="Sessions"
+          link="users.xhtml" />
+        <cc:OverviewBox box="2" count="#{managerBean.usersCount}" icon="si si-single-neutral-actions" title="Users"
+          link="users.xhtml" />
+        <cc:OverviewBox box="3" count="#{managerBean.runningCasesCount}" icon="si si-layout-bullets"
+          title="Running Cases" link="applications.xhtml" />
+        <cc:OverviewBox box="4" count="#{managerBean.applicationCount}" icon="si si-module" title="Applications"
+          link="applications.xhtml" />
+
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card">
           <p:panel styleClass="min-height-250">
-            <ui:include src="../includes/components/dashboard/axonivy.xhtml"/>
+            <ui:include src="../includes/components/dashboard/axonivy.xhtml" />
           </p:panel>
         </div>
 
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card">
           <p:panel styleClass="min-height-250">
-            <ui:include src="../includes/components/dashboard/licence.xhtml"/>
+            <ui:include src="../includes/components/dashboard/licence.xhtml" />
           </p:panel>
         </div>
 
         <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card email">
           <p:panel styleClass="min-height-250">
-            <ui:include src="../includes/components/dashboard/email.xhtml"/>
+            <ui:include src="../includes/components/dashboard/email.xhtml" />
           </p:panel>
         </div>
-        
+
         <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card">
           <p:panel>
-            <ui:include src="../includes/components/dashboard/systemdatabase.xhtml"/>
+            <ui:include src="../includes/components/dashboard/systemdatabase.xhtml" />
           </p:panel>
         </div>
-        
+
         <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card">
           <p:panel>
-            <ui:include src="../includes/components/dashboard/java.xhtml"/>
+            <ui:include src="../includes/components/dashboard/java.xhtml" />
           </p:panel>
         </div>
       </div>
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

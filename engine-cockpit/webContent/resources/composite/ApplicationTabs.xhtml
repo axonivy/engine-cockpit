@@ -10,14 +10,15 @@
   <div class="ui-fluid">
     <div class="ui-g">
       <div class="ui-g-12">
-        <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card" value="#{managerBean.applications}"
-          activeIndex="#{managerBean.selectedApplicationIndex}" var="app" rendered="#{not empty managerBean.applications}">
+        <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card"
+          value="#{managerBean.applications}" activeIndex="#{managerBean.selectedApplicationIndex}" var="app"
+          rendered="#{not empty managerBean.applications}">
           <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
           <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this" />
           <p:tab title="#{app.name}" titleStyleClass="application-tab">
             <f:facet name="title">
-               <i class="si si-module" />
-               <h:outputText value="#{app.name}"/>
+              <i class="si si-module" />
+              <h:outputText value="#{app.name}" />
             </f:facet>
             <cc:insertChildren />
           </p:tab>
@@ -26,7 +27,7 @@
           <div class="card card-w-title">
             <div class="ui-g">
               <div class="ui-g-12 ui-md-8">
-                <h:outputText value="You don't have any applications configured."/>
+                <h:outputText value="You don't have any applications configured." />
               </div>
               <div class="ui-g-12 ui-md-4">
                 <p:button icon="si si-add" value="Create Application" outcome="applications" />
@@ -38,4 +39,5 @@
     </div>
   </div>
 </cc:implementation>
+
 </html>

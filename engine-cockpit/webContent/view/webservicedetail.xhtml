@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
     <f:viewParam name="webserviceId" value="#{webserviceDetailBean.webserviceId}" />
@@ -17,15 +16,17 @@
       <li>/</li>
       <li><a href="webservices.xhtml">Web Service</a></li>
       <li>/</li>
-      <li><a href="webservicedetail.xhtml?webserviceId=#{webserviceDetailBean.webserviceId}">#{webserviceDetailBean.webservice.name}</a></li>
+      <li><a
+          href="webservicedetail.xhtml?webserviceId=#{webserviceDetailBean.webserviceId}">#{webserviceDetailBean.webservice.name}</a>
+      </li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
       <a href="#" onclick="PF('helpServicesModal').show();">
         <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
-    
+
     <ui:define name="content">
       <div class="ui-fluid restclient-detail">
         <div class="ui-g">
@@ -48,13 +49,14 @@
       </div>
       <cc:HelpServiceDialog service="#{webserviceDetailBean}" id="helpWebserviceDialog" />
     </ui:define>
-    
+
     <ui:define name="sidebar">
       <cc:Sidebar jmxSource="#{webserviceDetailBean.liveStats.webService}">
-        <cc:LiveStats monitor="#{webserviceDetailBean.liveStats.callsMonitor}" id="soapCalls"/>
-        <cc:LiveStats monitor="#{webserviceDetailBean.liveStats.executionTimeMonitor}" id="soapExecutionTime"/>
+        <cc:LiveStats monitor="#{webserviceDetailBean.liveStats.callsMonitor}" id="soapCalls" />
+        <cc:LiveStats monitor="#{webserviceDetailBean.liveStats.executionTimeMonitor}" id="soapExecutionTime" />
       </cc:Sidebar>
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

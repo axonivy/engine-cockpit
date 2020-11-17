@@ -36,19 +36,19 @@ public class ManagerBean
 {
   private List<Application> applications = Collections.emptyList();
   private int selectedApplicationIndex;
-  
+
   private Map<Long, List<String>> environments = new HashMap<>();
   private String selectedEnvironment;
-  
+
   private boolean hideDashboadWarnings;
   private Locale formattingLocale;
 
   @Inject
   private IApplicationConfigurationManager manager;
-  
+
   @Inject
   private ISecurityManager securityManager;
-  
+
   public ManagerBean()
   {
     DiCore.getGlobalInjector().injectMembers(this);
@@ -61,18 +61,20 @@ public class ManagerBean
       formattingLocale = session.getFormattingLocale();
     }
   }
-  
+
   public void reloadEnvironments()
   {
     if (!applications.isEmpty())
     {
       if (StringUtils.isBlank(selectedEnvironment))
       {
-        selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(), IEnvironment.DEFAULT_ENVIRONMENT_NAME);
+        selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(),
+                IEnvironment.DEFAULT_ENVIRONMENT_NAME);
       }
       for (IApplication iApplication : getIApplications())
       {
-        environments.put(iApplication.getId(), iApplication.getEnvironmentsSortedByName().stream().map(e -> e.getName()).collect(Collectors.toList()));
+        environments.put(iApplication.getId(), iApplication.getEnvironmentsSortedByName().stream()
+                .map(e -> e.getName()).collect(Collectors.toList()));
       }
     }
   }
@@ -89,7 +91,7 @@ public class ManagerBean
     }
     reloadEnvironments();
   }
-  
+
   public List<Application> getApplications()
   {
     reloadApplications();
@@ -117,8 +119,8 @@ public class ManagerBean
       }
     }
   }
-  
-  public void setSelectedApplicationName(String appName) 
+
+  public void setSelectedApplicationName(String appName)
   {
     for (int i = 0; i < applications.size(); i++)
     {
@@ -129,7 +131,7 @@ public class ManagerBean
       }
     }
   }
-  
+
   public String getSelectedApplicationName()
   {
     if (applications.isEmpty())
@@ -138,8 +140,9 @@ public class ManagerBean
     }
     return getSelectedApplication().getName();
   }
-  
-  public IApplicationConfigurationManager getManager() {
+
+  public IApplicationConfigurationManager getManager()
+  {
     return manager;
   }
 
@@ -167,17 +170,17 @@ public class ManagerBean
   {
     return formatNumber(securityManager.getSessionCount());
   }
-  
+
   public String getApplicationCount()
   {
     return formatNumber(getIApplications().size());
   }
-  
+
   public String getUsersCount()
   {
     return formatNumber(securityManager.getUsersCount());
   }
-  
+
   public String getRunningCasesCount()
   {
     return formatNumber(getApplications().stream().mapToLong(a -> a.getRunningCasesCount()).sum());
@@ -196,10 +199,10 @@ public class ManagerBean
     languages.addAll(getSupportedLanguages());
     return languages;
   }
-  
+
   public List<SelectItem> getSupportedLanguages()
   {
-    //Fix for PortalKit (creates a second german language)
+    // Fix for PortalKit (creates a second german language)
     return manager.getLanguages().stream()
             .map(l -> l.getLocale())
             .collect(Collectors.toMap(Locale::getLanguage, l -> l, (l1, l2) -> l1)).values().stream()
@@ -207,21 +210,22 @@ public class ManagerBean
             .collect(Collectors.toList());
   }
 
-  public boolean isIvySecuritySystem() 
+  public boolean isIvySecuritySystem()
   {
-    return SecuritySystemConfig.IVY_SECURITY_SYSTEM.equals(getSelectedIApplication().getSecurityContext().getExternalSecuritySystemName());
+    return SecuritySystemConfig.IVY_SECURITY_SYSTEM
+            .equals(getSelectedIApplication().getSecurityContext().getExternalSecuritySystemName());
   }
 
   public List<String> getEnvironments()
   {
     return environments.get(getSelectedApplication().getId());
   }
-  
+
   public void setSelectedEnvironment(String environment)
   {
     selectedEnvironment = environment;
   }
-  
+
   public String getSelectedEnvironment()
   {
     if (environments.get(getSelectedApplication().getId()).contains(selectedEnvironment))
@@ -230,25 +234,25 @@ public class ManagerBean
     }
     return IEnvironment.DEFAULT_ENVIRONMENT_NAME;
   }
-  
+
   public IEnvironment getSelectedIEnvironment()
   {
     return getSelectedIApplication().findEnvironment(getSelectedEnvironment());
   }
-  
+
   public boolean hideDashboardWarnings()
   {
-    return hideDashboadWarnings; 
+    return hideDashboadWarnings;
   }
-  
+
   public boolean isRestartEngine()
   {
     return IConfiguration.instance().isEngineRestartNeeded();
   }
-  
+
   public String formatNumber(long count)
   {
     return NumberFormat.getInstance(formattingLocale).format(count);
   }
-  
+
 }

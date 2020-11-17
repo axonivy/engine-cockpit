@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
     <f:viewParam name="filter" value="#{systemConfigBean.configView.filter}" />
@@ -15,12 +14,13 @@
       <li>/</li>
       <li><a href="systemconfig.xhtml">System Configuration</a></li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
       <a href="logs.xhtml?log=config.log" title="Show configuration log">
         <i class="si si-lg si-common-file-text"></i>
       </a>
-      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-configuration" target="_blank" rel="noopener noreferrer">
+      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-configuration" target="_blank"
+        rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
@@ -39,21 +39,24 @@
                 </div>
                 <div class="ui-g-12 ui-md-4" style="margin: auto;">
                   <div class="single-card-top-right-btn" style="margin: 0 0 5px 5px;">
-                    <p:commandButton id="newConfigBtn" value="New" icon="si si-add" actionListener="#{systemConfigBean.configView.setActiveConfig(null)}"
+                    <p:commandButton id="newConfigBtn" value="New" icon="si si-add"
+                      actionListener="#{systemConfigBean.configView.setActiveConfig(null)}"
                       update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
                   </div>
                   <div style="float: right; position: relative;">
-                    <cc:TableFilter index="0" filters="#{systemConfigBean.configView.contentFilters}" update="contentFilter:form, config:form"
-                      selectedFilters="#{systemConfigBean.configView.selectedContentFilters}" filterText="#{systemConfigBean.configView.contentFilterText}"
+                    <cc:TableFilter index="0" filters="#{systemConfigBean.configView.contentFilters}"
+                      update="contentFilter:form, config:form"
+                      selectedFilters="#{systemConfigBean.configView.selectedContentFilters}"
+                      filterText="#{systemConfigBean.configView.contentFilterText}"
                       resetFilters="#{systemConfigBean.configView.resetSelectedContentFilters()}" id="contentFilter" />
                   </div>
                 </div>
               </div>
-              <cc:Configuration bean="#{systemConfigBean.configView}" id="config"/>
+              <cc:Configuration bean="#{systemConfigBean.configView}" id="config" />
             </div>
-            
+
             <script>
-              $(document).ready(function() {
+              $(document).ready(function () {
                 try {
                   var url = new URL(window.location.href)
                   if (url.searchParams.get("filter") != null) {
@@ -61,7 +64,7 @@
                     PF('configTable').filter();
                   }
                 }
-                catch(err) {
+                catch (err) {
                   console.log("Failed to init startup filter: " + err);
                 }
               });
@@ -72,4 +75,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

@@ -1,16 +1,18 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <f:facet name="header">
   <i class="si si-real-estate-action-house-key table-icon panel-title-icon"></i>
   <h:outputText value="Licence" />
 </f:facet>
-<p:commandButton id="tasksButtonLicenceDetail" onclick="window.location.href='licence.xhtml'" title="Configure Licence" type="button"
-  icon="si si-cog" styleClass="secondary-btn card-button" />
-<p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events" type="button"
-  icon="si si-alarm-bell-timer" styleClass="secondary-btn card-button" rendered="#{not empty licenceBean.licenceEvents}" />
+<p:commandButton id="tasksButtonLicenceDetail" onclick="window.location.href='licence.xhtml'" title="Configure Licence"
+  type="button" icon="si si-cog" styleClass="secondary-btn card-button" />
+<p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events"
+  type="button" icon="si si-alarm-bell-timer" styleClass="secondary-btn card-button"
+  rendered="#{not empty licenceBean.licenceEvents}" />
 <p:panelGrid rendered="#{licenceBean.installed}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
   styleClass="ui-panelgrid-blank grey-label-panel">
   <label>Owner</label>
@@ -27,9 +29,12 @@
   <h:outputText value="#{licenceBean.sessions}" />
 </p:panelGrid>
 <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
-  <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}"/>
-  <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn" detail="#{licenceBean.problemMessage}"/>
-  <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" rendered="#{!licenceBean.installed or !licenceBean.valid}"
-    icon="si si-upload-bottom" onclick="window.location.href='licence.xhtml'" />
+  <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}" />
+  <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn"
+    detail="#{licenceBean.problemMessage}" />
+  <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence"
+    rendered="#{!licenceBean.installed or !licenceBean.valid}" icon="si si-upload-bottom"
+    onclick="window.location.href='licence.xhtml'" />
 </p:panelGrid>
+
 </html>

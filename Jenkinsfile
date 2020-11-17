@@ -67,6 +67,15 @@ pipeline {
         }
       }
     }
+    stage('check editorconfig') {
+      steps {
+        script {
+          docker.image('mstruebing/editorconfig-checker').inside {
+            sh 'ec -no-color'
+          }
+        }
+      }
+    }
     stage('deploy') {
       when {
         allOf {

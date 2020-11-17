@@ -18,7 +18,7 @@
       <li>/</li>
       <li><a href="userdetail.xhtml?userName=#{userDetailBean.userName}">#{userDetailBean.userName}</a></li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
       <a href="#{advisorBean.cockpitEngineGuideUrl}security.html#user-detail" target="_blank" rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
@@ -28,11 +28,14 @@
     <ui:define name="content">
       <div class="ui-fluid user-detail">
         <div class="ui-g dashboard">
-          <cc:OverviewBox box="1" count="#{userDetailBean.startedCases}" icon="si si-plane-take-off" title="Started cases" />
+          <cc:OverviewBox box="1" count="#{userDetailBean.startedCases}" icon="si si-plane-take-off"
+            title="Started cases" />
           <cc:OverviewBox box="2" count="#{userDetailBean.workingOn}" icon="si si-briefcase" title="Working on tasks" />
-          <cc:OverviewBox box="3" count="#{userDetailBean.personalTasks}" icon="si si-task-list-edit" title="Personal tasks" />
-          <cc:OverviewBox box="4" count="#{userDetailBean.canWorkOn}" icon="si si-task-list-approve" title="Can work on tasks" />
-          
+          <cc:OverviewBox box="3" count="#{userDetailBean.personalTasks}" icon="si si-task-list-edit"
+            title="Personal tasks" />
+          <cc:OverviewBox box="4" count="#{userDetailBean.canWorkOn}" icon="si si-task-list-approve"
+            title="Can work on tasks" />
+
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
             <p:panel styleClass="min-height-350">
               <ui:include src="../includes/components/security/userdetail-information.xhtml" />
@@ -46,7 +49,7 @@
               </ui:include>
             </p:panel>
           </div>
-          
+
           <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
             <p:panel styleClass="min-height-350 max-height-700">
               <ui:include src="../includes/components/security/userdetail-roles.xhtml" />
@@ -58,10 +61,10 @@
               <ui:include src="../includes/components/security/userdetail-email.xhtml" />
             </p:panel>
           </div>
-          
+
           <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
             <p:panel styleClass="min-height-350 max-height-700">
-              <ui:include src="../includes/components/security/permissions.xhtml"/>
+              <ui:include src="../includes/components/security/permissions.xhtml" />
             </p:panel>
           </div>
         </div>
@@ -69,4 +72,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

@@ -24,14 +24,14 @@ import ch.ivyteam.ivy.application.ReleaseState;
 public class ApplicationBean extends TreeView
 {
   private boolean processing;
-  
+
   private AbstractActivity selectedActivity;
-  
+
   private Application newApp;
   private boolean activateNewApp;
-  
+
   private ManagerBean managerBean;
-  
+
   public ApplicationBean()
   {
     FacesContext context = FacesContext.getCurrentInstance();
@@ -43,7 +43,7 @@ public class ApplicationBean extends TreeView
     processing = false;
     reloadTree();
   }
-  
+
   @Override
   protected void buildTree()
   {
@@ -55,7 +55,7 @@ public class ApplicationBean extends TreeView
       activity.getState().updateChildProblems(activity);
     }
   }
-  
+
   private void loadPmTree(IApplication app, TreeNode appNode, AbstractActivity parent)
   {
     for (var pm : app.getProcessModels())
@@ -67,7 +67,7 @@ public class ApplicationBean extends TreeView
       activity.getState().updateChildProblems(activity);
     }
   }
-  
+
   @SuppressWarnings("unused")
   private void loadPmvTree(IProcessModel pm, TreeNode pmNode, AbstractActivity parent)
   {
@@ -81,7 +81,7 @@ public class ApplicationBean extends TreeView
       }
     }
   }
-  
+
   @Override
   @SuppressWarnings("unused")
   protected void filterNode(TreeNode node)
@@ -92,13 +92,13 @@ public class ApplicationBean extends TreeView
       new DefaultTreeNode(activity, filteredTreeNode);
     }
   }
-  
+
   public void reloadActivityStates()
   {
     processing = false;
     reloadNodeState(rootTreeNode.getChildren());
   }
-  
+
   private void reloadNodeState(List<TreeNode> nodes)
   {
     for (TreeNode node : nodes)
@@ -113,32 +113,32 @@ public class ApplicationBean extends TreeView
       activity.getState().updateChildProblems(activity);
     }
   }
-  
+
   public boolean isProcessing()
   {
     return processing;
   }
-  
+
   public List<Application> getApplications()
   {
     return managerBean.getApplications();
   }
-  
+
   public Application getNewApplication()
   {
     return newApp;
   }
-  
+
   public boolean getActivateNewApp()
   {
     return activateNewApp;
   }
-  
+
   public void setActivateNewApp(boolean activateNewApp)
   {
     this.activateNewApp = activateNewApp;
   }
-  
+
   public void createNewApplication()
   {
     try
@@ -158,15 +158,15 @@ public class ApplicationBean extends TreeView
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
     }
   }
-  
+
   public void setActiveActivity(AbstractActivity activity)
   {
     this.selectedActivity = activity;
   }
-  
+
   public AbstractActivity getActiveActivity()
   {
     return selectedActivity;
   }
-  
+
 }

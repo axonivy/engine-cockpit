@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="../includes/template/charts-template.xhtml">
 
@@ -11,16 +10,17 @@
       <li>/</li>
       <li><a href="systemdb.xhtml">System Database</a></li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-database" target="_blank" rel="noopener noreferrer">
+      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-database" target="_blank"
+        rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
 
     <ui:define name="content">
       <p:growl for="systemDbSave" id="systemDbSave" showDetail="true">
-        <p:autoUpdate/>
+        <p:autoUpdate />
       </p:growl>
       <div class="ui-fluid">
         <div class="ui-g">
@@ -34,10 +34,12 @@
                 </div>
                 <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
                   <h:panelGroup id="sysDbSaveButtons">
-                    <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="si si-floppy-disk"
-                      style="width: auto; float: right;" id="saveSystemDbConfig" rendered="#{systemDatabaseBean.connectionInfo.successful}" />
-                    <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="Save" icon="si si-floppy-disk"
-                      style="width: auto; float: right;" id="saveUnknownSystemDbConfig" rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
+                    <p:commandButton actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save"
+                      icon="si si-floppy-disk" style="width: auto; float: right;" id="saveSystemDbConfig"
+                      rendered="#{systemDatabaseBean.connectionInfo.successful}" />
+                    <p:commandButton type="button" onclick="PF('saveUnknownConnectionModel').show()" value="Save"
+                      icon="si si-floppy-disk" style="width: auto; float: right;" id="saveUnknownSystemDbConfig"
+                      rendered="#{!systemDatabaseBean.connectionInfo.successful}" />
                   </h:panelGroup>
                 </div>
               </div>
@@ -50,20 +52,23 @@
           </div>
         </div>
       </div>
-      
+
       <p:dialog style="min-width: 300px;" header="No Connection" id="saveUnknownConnectionModel"
-        widgetVar="saveUnknownConnectionModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+        widgetVar="saveUnknownConnectionModel" modal="true" responsive="true" closeOnEscape="true"
+        styleClass="dashboard-card">
         <h:form id="saveUnknownConnectionForm">
-          <p:staticMessage severity="warn" summary="No Connection" detail="Do really you want to save this configuration?" />
+          <p:staticMessage severity="warn" summary="No Connection"
+            detail="Do really you want to save this configuration?" />
           <br />
-          <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}" value="Save" icon="si si-floppy-disk"
-            styleClass="modal-input-button" widgetVar="saveUnknownConneciton" oncomplete="PF('saveUnknownConnectionModel').hide();" />
-          <p:commandLink id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();" value="Cancel" type="button"
-            styleClass="modal-input-button" />
+          <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}"
+            value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
+            oncomplete="PF('saveUnknownConnectionModel').hide();" />
+          <p:commandLink id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();"
+            value="Cancel" type="button" styleClass="modal-input-button" />
         </h:form>
       </p:dialog>
     </ui:define>
-    
+
     <ui:define name="sidebar">
       <cc:Sidebar>
         <cc:LiveStats monitor="#{systemDatabaseMonitorBean.connectionsMonitor}" id="connections" />
@@ -73,4 +78,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

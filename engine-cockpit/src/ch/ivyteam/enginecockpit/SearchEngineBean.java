@@ -28,18 +28,18 @@ public class SearchEngineBean
 {
   @Inject
   private IBusinessDataManager searchEngine;
-  
+
   @Inject
   private ServerConfig serverConfig;
-  
+
   private ElasticSearch elasticSearch;
-  
+
   private List<SearchEngineIndex> indices;
   private List<SearchEngineIndex> filteredIndices;
   private String filter;
-  
+
   private SearchEngineIndex activeIndex;
-  
+
   private String query;
   private String queryResult;
 
@@ -53,7 +53,7 @@ public class SearchEngineBean
                     searchEngine.isReindexing(index.getIndexName())))
             .collect(Collectors.toList());
   }
-  
+
   public List<SearchEngineIndex> getFilteredIndicies()
   {
     return filteredIndices;
@@ -63,44 +63,44 @@ public class SearchEngineBean
   {
     this.filteredIndices = filteredIndices;
   }
-  
+
   public String getFilter()
   {
     return filter;
   }
-  
+
   public void setFilter(String filter)
   {
     this.filter = filter;
   }
-  
+
   public ElasticSearch getElasticSearch()
   {
     return elasticSearch;
   }
-  
+
   public boolean getState()
   {
     return elasticSearch.getHealth() != SearchEngineHealth.UNKNOWN;
   }
-  
+
   public List<SearchEngineIndex> getIndices()
   {
     return indices;
   }
-  
+
   public void setActiveIndex(SearchEngineIndex index)
   {
     this.activeIndex = index;
     this.query = "";
     this.queryResult = "";
   }
-  
+
   public SearchEngineIndex getActiveIndex()
   {
     return activeIndex;
   }
-  
+
   public String getQueryUrl()
   {
     if (activeIndex != null)
@@ -109,22 +109,22 @@ public class SearchEngineBean
     }
     return elasticSearch.getServerUrl();
   }
-  
+
   public String getQuery()
   {
     return query;
   }
-  
+
   public void setQuery(String query)
   {
     this.query = query;
   }
-  
+
   public String getQueryResult()
   {
     return queryResult;
   }
-  
+
   public List<String> queryProposals(String value)
   {
     return getQueryApis().stream()
@@ -133,18 +133,18 @@ public class SearchEngineBean
             .distinct()
             .collect(Collectors.toList());
   }
-  
+
   private List<String> getQueryApis()
   {
     if (activeIndex == null)
     {
       return Arrays.asList(ElasticSearch.ElasticSearchApi.ALIASES_URL,
-            ElasticSearch.ElasticSearchApi.HEALTH_URL,
-            ElasticSearch.ElasticSearchApi.INDICIES_URL);
+              ElasticSearch.ElasticSearchApi.HEALTH_URL,
+              ElasticSearch.ElasticSearchApi.INDICIES_URL);
     }
     return Arrays.asList(ElasticSearch.ElasticSearchIndexApi.MAPPING_URL);
   }
-  
+
   public void runQuery()
   {
     try
@@ -158,7 +158,7 @@ public class SearchEngineBean
       queryResult = ex.getMessage();
     }
   }
-  
+
   private String tryToBeutifyQueryResult(String result)
   {
     try
@@ -166,7 +166,8 @@ public class SearchEngineBean
       Gson gson = new GsonBuilder().setPrettyPrinting().create();
       return gson.toJson(JsonParser.parseString(result));
     }
-    catch (Exception e) {
+    catch (Exception e)
+    {
       return result;
     }
   }
@@ -175,12 +176,12 @@ public class SearchEngineBean
   {
     searchEngine.reindex(activeIndex.getIndexName());
   }
-  
+
   public boolean isReindexing()
   {
     return searchEngine.isReindexing();
   }
-  
+
   public boolean isReindexing(SearchEngineIndex index)
   {
     return searchEngine.isReindexing(index.getIndexName());

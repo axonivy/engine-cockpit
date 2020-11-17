@@ -9,9 +9,9 @@
 </f:facet>
 <h:form id="databasePropertiesForm">
   <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-    actionListener="#{externalDatabaseDetailBean.setProperty(null)}" update=":propertyForm"
-    title="Add" icon="si si-add" styleClass="secondary-btn card-button"/>
-    
+    actionListener="#{externalDatabaseDetailBean.setProperty(null)}" update=":propertyForm" title="Add" icon="si si-add"
+    styleClass="secondary-btn card-button" />
+
   <p:dataTable value="#{externalDatabaseDetailBean.externalDatabase.properties}" style="padding-top: 10px;"
     var="property" id="databasePropertiesTable">
     <p:column headerText="Name">
@@ -21,19 +21,20 @@
       <h:outputText value="#{property.value}" styleClass="database-property-value" />
     </p:column>
     <p:column style="width: 95px;">
-      <p:commandButton id="deletePropertyBtn" actionListener="#{externalDatabaseDetailBean.removeProperty(property)}" update="@form"
-        icon="si si-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" />
+      <p:commandButton id="deletePropertyBtn" actionListener="#{externalDatabaseDetailBean.removeProperty(property)}"
+        update="@form" icon="si si-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn"
+        style="margin: 0;" />
       <p:commandButton id="editPropertyBtn" actionListener="#{externalDatabaseDetailBean.setProperty(property)}"
-        icon="si si-pencil" title="Edit" update="propertyModal"
-        styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('propertyModal').show();" process="@this" />
+        icon="si si-pencil" title="Edit" update="propertyModal" styleClass="card-button table-control-btn secondary-btn"
+        oncomplete="PF('propertyModal').show();" process="@this" />
     </p:column>
   </p:dataTable>
 </h:form>
 
-<p:dialog style="min-width: 300px;" header="Property" id="propertyModal" widgetVar="propertyModal"
-  modal="true" responsive="true" closeOnEscape="true">
+<p:dialog style="min-width: 300px;" header="Property" id="propertyModal" widgetVar="propertyModal" modal="true"
+  responsive="true" closeOnEscape="true">
   <h:form id="propertyForm">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
       <h:panelGroup styleClass="md-inputfield" rendered="#{empty externalDatabaseDetailBean.property.name}">
@@ -41,12 +42,12 @@
           value="#{externalDatabaseDetailBean.property.name}" required="true" />
         <p:message for="nameInput" id="nameMessage" />
       </h:panelGroup>
-      <h:outputText id="propertyName" rendered="#{not empty externalDatabaseDetailBean.property.name}" 
-        value="#{externalDatabaseDetailBean.property.name}"/>
-      
+      <h:outputText id="propertyName" rendered="#{not empty externalDatabaseDetailBean.property.name}"
+        value="#{externalDatabaseDetailBean.property.name}" />
+
       <label>Value</label>
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="valueInput" requiredMessage="Value is required" 
+        <p:inputText id="valueInput" requiredMessage="Value is required"
           value="#{externalDatabaseDetailBean.property.value}" required="true" />
         <p:message for="valueInput" id="valueMessage" />
       </h:panelGroup>
@@ -58,4 +59,5 @@
       styleClass="modal-input-button" immediate="true" />
   </h:form>
 </p:dialog>
+
 </html>

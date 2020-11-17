@@ -12,14 +12,14 @@ public abstract class TreeView
   protected TreeNode rootTreeNode;
   protected TreeNode filteredTreeNode;
   protected String filter = "";
-  
+
   public void reloadTree()
   {
     filter = "";
     rootTreeNode = new DefaultTreeNode("Tree", null);
     buildTree();
   }
-  
+
   protected abstract void buildTree();
 
   public TreeNode getTree()
@@ -30,19 +30,19 @@ public abstract class TreeView
     }
     return filteredTreeNode;
   }
-  
+
   public String getFilter()
   {
     return filter;
   }
-  
+
   public void setFilter(String filter)
   {
     this.filter = filter;
     filteredTreeNode = new DefaultTreeNode("Filtered tree", null);
     filterTree(rootTreeNode.getChildren());
   }
-    
+
   private void filterTree(List<TreeNode> nodes)
   {
     for (TreeNode node : nodes)
@@ -54,16 +54,16 @@ public abstract class TreeView
 
   protected abstract void filterNode(TreeNode node);
 
-  public void nodeExpand(NodeExpandEvent event) 
+  public void nodeExpand(NodeExpandEvent event)
   {
     event.getTreeNode().setExpanded(true);
   }
-  
-  public void nodeCollapse(NodeCollapseEvent event) 
+
+  public void nodeCollapse(NodeCollapseEvent event)
   {
     event.getTreeNode().setExpanded(false);
   }
-  
+
   public void expandAllNodes()
   {
     expandAllNodes(rootTreeNode, true);
@@ -73,11 +73,12 @@ public abstract class TreeView
   {
     expandAllNodes(rootTreeNode, false);
   }
-  
-  private static void expandAllNodes(TreeNode treeNode, boolean expand) 
+
+  private static void expandAllNodes(TreeNode treeNode, boolean expand)
   {
     List<TreeNode> children = treeNode.getChildren();
-    for (TreeNode child : children) {
+    for (TreeNode child : children)
+    {
       expandAllNodes(child, expand);
     }
     treeNode.setExpanded(expand);

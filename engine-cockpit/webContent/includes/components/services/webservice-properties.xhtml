@@ -8,21 +8,23 @@
   <h:outputText value="Features and properties" />
 </f:facet>
 <h:form id="webservcieAdditionalConfigForm">
-  <p:dataTable value="#{webserviceDetailBean.webservice.features}" style="padding-top: 10px;"
-    var="feature" id="webserviceFeaturesTable">
+  <p:dataTable value="#{webserviceDetailBean.webservice.features}" style="padding-top: 10px;" var="feature"
+    id="webserviceFeaturesTable">
     <p:column headerText="Features">
-      <p:outputLabel value="#{feature}" styleClass="webservice-feature"/>
+      <p:outputLabel value="#{feature}" styleClass="webservice-feature" />
     </p:column>
   </p:dataTable>
-  
-  <p:dataTable value="#{webserviceDetailBean.webservice.properties}" style="padding-top: 20px;"
-    var="property" id="webservicePropertiesTable">
+
+  <p:dataTable value="#{webserviceDetailBean.webservice.properties}" style="padding-top: 20px;" var="property"
+    id="webservicePropertiesTable">
     <p:column headerText="Name">
-      <p:outputLabel value="#{property.name}" styleClass="webservice-property-name"/>
+      <p:outputLabel value="#{property.name}" styleClass="webservice-property-name" />
     </p:column>
     <p:column headerText="Value">
-      <p:outputLabel value="#{property.name eq 'password' ? '*****' : property.value}" styleClass="webservice-property-value"/>
+      <p:outputLabel value="#{property.name eq 'password' ? '*****' : property.value}"
+        styleClass="webservice-property-value" />
     </p:column>
   </p:dataTable>
 </h:form>
+
 </html>

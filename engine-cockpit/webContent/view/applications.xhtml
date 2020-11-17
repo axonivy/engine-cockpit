@@ -1,17 +1,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">Applications</a></li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}applications.html#applications" target="_blank" rel="noopener noreferrer">
+      <a href="#{advisorBean.cockpitEngineGuideUrl}applications.html#applications" target="_blank"
+        rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
@@ -28,8 +28,8 @@
                 </h1>
               </div>
               <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                <p:commandButton id="createApplicationBtn" widgetVar="createApplication" icon="si si-add" type="button" value="Add"
-                  onclick="PF('newApplicationModal').show();" />
+                <p:commandButton id="createApplicationBtn" widgetVar="createApplication" icon="si si-add" type="button"
+                  value="Add" onclick="PF('newApplicationModal').show();" />
               </div>
             </div>
             <div class="ui-tree-search-header">
@@ -38,53 +38,62 @@
                   <span class="table-search-icon">
                     <i class="si si-search"></i>
                   </span>
-                  <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{applicationBean.filter}">
+                  <p:inputText styleClass="table-search-input-withicon" placeholder="Search"
+                    value="#{applicationBean.filter}">
                     <p:ajax event="keyup" delay="500" update="@form:tree" />
                   </p:inputText>
-                  <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical" actionListener="#{applicationBean.expandAllNodes}"
-                    update="tree" title="Expand all" styleClass="secondary-btn" />
-                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical" actionListener="#{applicationBean.collapseAllNodes}"
-                    update="tree"  title="Collapse all" styleClass="secondary-btn" />
+                  <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical"
+                    actionListener="#{applicationBean.expandAllNodes}" update="tree" title="Expand all"
+                    styleClass="secondary-btn" />
+                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical"
+                    actionListener="#{applicationBean.collapseAllNodes}" update="tree" title="Collapse all"
+                    styleClass="secondary-btn" />
                 </p:outputPanel>
               </div>
             </div>
             <p:treeTable id="tree" widgetVar="tree" value="#{applicationBean.tree}" var="activity">
-              <p:ajax event="expand" listener="#{applicationBean.nodeExpand}"/>
-              <p:ajax event="collapse" listener="#{applicationBean.nodeCollapse}"/>
+              <p:ajax event="expand" listener="#{applicationBean.nodeExpand}" />
+              <p:ajax event="collapse" listener="#{applicationBean.nodeCollapse}" />
               <p:column headerText="App / PM / PMV" sortBy="#{activity.name}">
                 <h:outputLink rendered="#{activity.detailView != '#'}" value="#{activity.detailView}">
-                  <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}">
+                  <h:outputText value="#{activity.name}" styleClass="activity-name"
+                    title="#{activity.activityType} #{activity.name}">
                     <i class="si si-#{activity.icon} table-icon" title="#{activity.activityType}" />
                   </h:outputText>
                 </h:outputLink>
                 <h:outputText rendered="#{activity.detailView == '#'}">
-                  <h:outputText value="#{activity.name}" styleClass="activity-name" title="#{activity.activityType} #{activity.name}" style="color: grey;">
+                  <h:outputText value="#{activity.name}" styleClass="activity-name"
+                    title="#{activity.activityType} #{activity.name}" style="color: grey;">
                     <i class="si si-#{activity.icon} table-icon" title="#{activity.activityType}" />
                   </h:outputText>
                 </h:outputText>
                 <h:outputText rendered="#{activity.pmv}">
-                  <i class="si si-#{activity.state.releaseStateIcon} table-icon" 
-                    title="#{activity.state.releaseState}" style="margin-left: 10px;"></i>
+                  <i class="si si-#{activity.state.releaseStateIcon} table-icon" title="#{activity.state.releaseState}"
+                    style="margin-left: 10px;"></i>
                 </h:outputText>
-                <h:outputText rendered="#{activity.pmv}" value="[#{activity.qualifiedVersion} / #{activity.lastChangeDate}]"
-                  title="Library version: #{activity.qualifiedVersion} / Last change date: #{activity.lastChangeDate}" style="color: grey; margin-left: 10px;" />
+                <h:outputText rendered="#{activity.pmv}"
+                  value="[#{activity.qualifiedVersion} / #{activity.lastChangeDate}]"
+                  title="Library version: #{activity.qualifiedVersion} / Last change date: #{activity.lastChangeDate}"
+                  style="color: grey; margin-left: 10px;" />
               </p:column>
               <p:column headerText="Running Cases" styleClass="second-row" style="text-align: center; width: 100px;">
-                <h:outputText value="#{activity.runningCasesCount}"/>
+                <h:outputText value="#{activity.runningCasesCount}" />
               </p:column>
               <p:column headerText="State" styleClass="thrid-row" style="text-align: center; width: 120px;">
-                <h:panelGroup styleClass="module-state" title="#{activity.state.operation}#{activity.state.errorMessage}#{activity.state.childProblems}">
-                  <i class="si si-#{activity.state.operationIcon} activity-state-#{activity.state.operationCssClass} table-icon"></i>
+                <h:panelGroup styleClass="module-state"
+                  title="#{activity.state.operation}#{activity.state.errorMessage}#{activity.state.childProblems}">
+                  <i
+                    class="si si-#{activity.state.operationIcon} activity-state-#{activity.state.operationCssClass} table-icon"></i>
                   <h:outputText rendered="#{not empty activity.state.childProblems}">
                     <i class="si si-road-sign-warning table-icon"></i>
                   </h:outputText>
                 </h:panelGroup>
               </p:column>
               <p:column style="text-align: right; width: 177px;">
-                <p:commandButton title="Deployment" icon="si si-upload-bottom" rendered="#{activity.application}" 
+                <p:commandButton title="Deployment" icon="si si-upload-bottom" rendered="#{activity.application}"
                   type="button" style="margin-right: 10px;" id="deployBtn" styleClass="primary-btn">
-                  <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 
-                    oncomplete="PF('fileUploadModal').show()"/>
+                  <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
+                    oncomplete="PF('fileUploadModal').show()" />
                 </p:commandButton>
                 <p:commandButton title="Activate" icon="si si-controls-play" disabled="#{activity.notStartable}"
                   type="button" style="margin-right: 10px;" styleClass="green-btn">
@@ -94,8 +103,8 @@
                   type="button" style="margin-right: 10px;" styleClass="red-btn">
                   <p:ajax update="card:form" listener="#{activity.deactivate}" />
                 </p:commandButton>
-                <p:commandButton title="More" id="tasksButton"
-                  type="button" icon="si si-navigation-menu" styleClass="secondary-btn" style="float: right;" />
+                <p:commandButton title="More" id="tasksButton" type="button" icon="si si-navigation-menu"
+                  styleClass="secondary-btn" style="float: right;" />
                 <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
                   <p:menuitem value="Lock" icon="si si-lock-1" disabled="#{activity.notLockable}"
                     actionListener="#{activity.lock}" update="card:form" />
@@ -111,7 +120,8 @@
               autoStart="#{applicationBean.processing}" interval="1" />
             <p:confirmDialog id="deleteConfirmDialog"
               message="Are you sure about deleting #{applicationBean.activeActivity.activityType} '#{applicationBean.activeActivity.name}'?"
-              header="Delete #{applicationBean.activeActivity.activityType}" severity="alert" widgetVar="deleteConfirmDialog">
+              header="Delete #{applicationBean.activeActivity.activityType}" severity="alert"
+              widgetVar="deleteConfirmDialog">
               <p:commandLink value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
                 styleClass="modal-input-button" />
               <p:commandButton id="deleteConfirmYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
@@ -130,4 +140,5 @@
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>

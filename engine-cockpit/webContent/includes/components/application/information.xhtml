@@ -9,11 +9,12 @@
 </f:facet>
 <h:form id="appDetailInfoForm">
   <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
-    <p:autoUpdate/>
+    <p:autoUpdate />
   </p:growl>
-  <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}" title="Save changes"
-    icon="si si-floppy-disk" styleClass="accent-btn card-button" update="appDetailInfoForm" />
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}"
+    title="Save changes" icon="si si-floppy-disk" styleClass="accent-btn card-button" update="appDetailInfoForm" />
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
     <h:outputText value="#{applicationDetailBean.application.name}" />
     <label>Description</label>
@@ -27,10 +28,10 @@
       <f:selectItems value="#{applicationDetailBean.environments}" />
     </p:selectOneMenu>
   </p:panelGrid>
-  <p:panelGrid columns="1" columnClasses="ui-grid-col-4" layout="grid"
-  styleClass="ui-panelgrid-blank">
-    <p:commandButton id="showDeployment" title="Deployment" value="Deployment" style="margin-top: 20px; min-width: 150px;"
-      type="button" icon="si si-upload-bottom" onclick="PF('fileUploadModal').show()" />
+  <p:panelGrid columns="1" columnClasses="ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank">
+    <p:commandButton id="showDeployment" title="Deployment" value="Deployment"
+      style="margin-top: 20px; min-width: 150px;" type="button" icon="si si-upload-bottom"
+      onclick="PF('fileUploadModal').show()" />
   </p:panelGrid>
 </h:form>
 <h:panelGroup id="deployPanel">
@@ -39,4 +40,5 @@
     <ui:param name="url" value="apps/#{applicationDetailBean.application.name}" />
   </ui:include>
 </h:panelGroup>
+
 </html>

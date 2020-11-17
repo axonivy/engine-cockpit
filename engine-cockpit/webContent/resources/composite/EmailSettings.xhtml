@@ -3,41 +3,42 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="emailSettings" shortDescription="Email settings object" required="true"/>
-  <cc:attribute name="supportedLanguages" shortDescription="All supported languages" required="true"/>
+  <cc:attribute name="emailSettings" shortDescription="Email settings object" required="true" />
+  <cc:attribute name="supportedLanguages" shortDescription="All supported languages" required="true" />
 </cc:interface>
 <cc:implementation>
-  <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9"
-    layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel">
     <p:outputLabel value="Language" for="languageDropDown" />
     <p:selectOneMenu id="languageDropDown" value="#{cc.attrs.emailSettings.language}" style="width: 100%;">
       <f:selectItems value="#{cc.attrs.supportedLanguages}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
-    
+
     <cc:insertChildren />
-    
+
     <p:outputLabel value="Notification send" for="checkboxNotification" />
     <p:panelGrid id="checkboxNotification" columns="2" layout="grid"
       styleClass="ui-panlegrid-blank ui-selectmanycheckbox ui-grid-responsive email-checkbox-style">
       <p:selectBooleanCheckbox rendered="#{cc.attrs.emailSettings.notificationCheckboxRender}" id="neverCheckbox"
-        value="#{cc.attrs.emailSettings.notificationDisabled}" disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}"
-        style="float: left;">
+        value="#{cc.attrs.emailSettings.notificationDisabled}"
+        disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}" style="float: left;">
         <p:outputLabel value="Never"
           styleClass="#{cc.attrs.emailSettings.notificationCheckboxDisabled ? 'ui-state-disabled' : ''}" />
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
       <p:selectBooleanCheckbox id="taskCheckbox" value="#{cc.attrs.emailSettings.sendOnNewWorkTasks}"
         disabled="#{cc.attrs.emailSettings.taskCheckboxDisabled}" style="float: left;">
-        <p:outputLabel value="New Task" styleClass="#{cc.attrs.emailSettings.taskCheckboxDisabled ? 'ui-state-disabled' : ''}" />
+        <p:outputLabel value="New Task"
+          styleClass="#{cc.attrs.emailSettings.taskCheckboxDisabled ? 'ui-state-disabled' : ''}" />
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
     </p:panelGrid>
-    
+
     <p:outputLabel value="Daily summary on" for="radioDailyNotification" />
     <p:selectManyCheckbox id="radioDailyNotification" value="#{cc.attrs.emailSettings.sendDailyTasks}"
-      disabled="#{cc.attrs.emailSettings.dailyCheckboxGroupDisabled}" widgetVar="radioDailyNotification" layout="responsive"
-      styleClass="float-select-many-checkbox" columns="7">
+      disabled="#{cc.attrs.emailSettings.dailyCheckboxGroupDisabled}" widgetVar="radioDailyNotification"
+      layout="responsive" styleClass="float-select-many-checkbox" columns="7">
       <f:selectItem itemLabel="Mon" itemValue="MONDAY" />
       <f:selectItem itemLabel="Tue" itemValue="TUESDAY" />
       <f:selectItem itemLabel="Wed" itemValue="WEDNESDAY" />
@@ -49,4 +50,5 @@
     </p:selectManyCheckbox>
   </p:panelGrid>
 </cc:implementation>
+
 </html>

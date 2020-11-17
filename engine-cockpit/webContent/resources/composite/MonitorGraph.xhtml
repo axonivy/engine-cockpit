@@ -13,9 +13,10 @@
         <i class="si si-#{cc.attrs.monitor.icon} table-icon panel-title-icon"></i>
         <h:outputText value="#{cc.attrs.monitor.title}" />
       </f:facet>
-      <h:outputText value="#{cc.attrs.monitor.info}"/>
+      <h:outputText value="#{cc.attrs.monitor.info}" />
       <p:chart type="line" model="#{cc.attrs.monitor.model}" responsive="true" style="height:300px;" />
     </p:panel>
   </div>
 </cc:implementation>
+
 </html>

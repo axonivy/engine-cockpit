@@ -1,93 +1,95 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <cc:FileUpload title="Deploy to App '#{appName}'" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
-    <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" 
-      styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px; display: none;">
-      <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
-      <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
-        <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
-      </p:selectOneMenu>
+  <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px; display: none;">
+    <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
+    <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
+      <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
+    </p:selectOneMenu>
 
-      <p:outputLabel value="Overwrite Configuration" for="overwriteConfig" />
-      <p:selectBooleanCheckbox value="#{deployOptionsBean.overwriteConfig}" widgetVar="overwriteConfig"  id="overwriteConfig" />
-      
-      <p:outputLabel value="Cleanup Configuration" for="cleanupConfig" />
-      <p:selectOneMenu value="#{deployOptionsBean.cleanup}" widgetVar="cleanupConfig" id="cleanupConfig">
-        <f:selectItems value="#{deployOptionsBean.cleanupValues}" />
-      </p:selectOneMenu>
-      
-      <p:outputLabel value="Version" for="version" />
-      <p:selectOneMenu value="#{deployOptionsBean.version}" widgetVar="version" id="version" onchange="versionSelectChange()">
-        <f:selectItems value="#{deployOptionsBean.versions}" />
-      </p:selectOneMenu>
-      
-      <p:outputLabel value="Version Range" for="versionRange" id="versionRangeLabel" />
-      <p:inputText placeholder="e.g. 2.5 or (2.0,3.0]" widgetVar="versionRange" id="versionRange" />
-      
-      <p:outputLabel value="State" for="state" />
-      <p:selectOneMenu value="#{deployOptionsBean.state}" widgetVar="state" id="state">
-        <f:selectItems value="#{deployOptionsBean.states}" />
-      </p:selectOneMenu>
-      
-      <p:outputLabel value="File Format" for="fileFormat" />
-      <p:selectOneMenu value="#{deployOptionsBean.fileFormat}" widgetVar="fileFormat" id="fileFormat">
-        <f:selectItems value="#{deployOptionsBean.fileFormats}" />
-      </p:selectOneMenu>
-    </p:panelGrid>
-    <p:commandButton id="showDeployOptionsBtn" value="Options" icon="si si-view-1" styleClass="secondary-btn modal-input-button"
-      type="button" onclick="visualToggle()" style="float: left; width: 25%;" />
-    <a href="#{advisorBean.engineGuideBaseUrl}/administration/deployment.html#deployment-options" 
-      target="_blank" rel="noopener noreferrer" style="float: left; padding-top: 2px; margin-left: 10px; display: none;">
-      <i class="si si-xl si-question-circle"></i>
-    </a>
-    <script>
-      $(document).ready(function(){
-        versionSelectChange();
-      });
-    
-      function versionSelectChange() {
-        if (PF('version').input.val() == 'RANGE') {
-          PF('versionRange').jq.parent().parent().fadeIn();
-        }
-        else {
-          PF('versionRange').jq.parent().parent().fadeOut();
-        }
+    <p:outputLabel value="Overwrite Configuration" for="overwriteConfig" />
+    <p:selectBooleanCheckbox value="#{deployOptionsBean.overwriteConfig}" widgetVar="overwriteConfig"
+      id="overwriteConfig" />
+
+    <p:outputLabel value="Cleanup Configuration" for="cleanupConfig" />
+    <p:selectOneMenu value="#{deployOptionsBean.cleanup}" widgetVar="cleanupConfig" id="cleanupConfig">
+      <f:selectItems value="#{deployOptionsBean.cleanupValues}" />
+    </p:selectOneMenu>
+
+    <p:outputLabel value="Version" for="version" />
+    <p:selectOneMenu value="#{deployOptionsBean.version}" widgetVar="version" id="version"
+      onchange="versionSelectChange()">
+      <f:selectItems value="#{deployOptionsBean.versions}" />
+    </p:selectOneMenu>
+
+    <p:outputLabel value="Version Range" for="versionRange" id="versionRangeLabel" />
+    <p:inputText placeholder="e.g. 2.5 or (2.0,3.0]" widgetVar="versionRange" id="versionRange" />
+
+    <p:outputLabel value="State" for="state" />
+    <p:selectOneMenu value="#{deployOptionsBean.state}" widgetVar="state" id="state">
+      <f:selectItems value="#{deployOptionsBean.states}" />
+    </p:selectOneMenu>
+
+    <p:outputLabel value="File Format" for="fileFormat" />
+    <p:selectOneMenu value="#{deployOptionsBean.fileFormat}" widgetVar="fileFormat" id="fileFormat">
+      <f:selectItems value="#{deployOptionsBean.fileFormats}" />
+    </p:selectOneMenu>
+  </p:panelGrid>
+  <p:commandButton id="showDeployOptionsBtn" value="Options" icon="si si-view-1"
+    styleClass="secondary-btn modal-input-button" type="button" onclick="visualToggle()"
+    style="float: left; width: 25%;" />
+  <a href="#{advisorBean.engineGuideBaseUrl}/administration/deployment.html#deployment-options" target="_blank"
+    rel="noopener noreferrer" style="float: left; padding-top: 2px; margin-left: 10px; display: none;">
+    <i class="si si-xl si-question-circle"></i>
+  </a>
+  <script>
+    $(document).ready(function () {
+      versionSelectChange();
+    });
+
+    function versionSelectChange() {
+      if (PF('version').input.val() == 'RANGE') {
+        PF('versionRange').jq.parent().parent().fadeIn();
       }
-      
-      function visualToggle(){
-        $('#deploymentModal\\:deployOptionsPanel').toggle();
-        $('.file-upload > a').toggle();
-        disabled = optionsHidden();
-      	$('#deploymentModal\\:showDeployOptionsBtn').toggleClass("primary-btn", disabled);
-      	$('#deploymentModal\\:showDeployOptionsBtn').toggleClass("secondary-btn", disabled);
+      else {
+        PF('versionRange').jq.parent().parent().fadeOut();
       }
-      
-      function optionsHidden(){
-        return $('#deploymentModal\\:deployOptionsPanel').css("display")=="none"
+    }
+
+    function visualToggle() {
+      $('#deploymentModal\\:deployOptionsPanel').toggle();
+      $('.file-upload > a').toggle();
+      disabled = optionsHidden();
+      $('#deploymentModal\\:showDeployOptionsBtn').toggleClass("primary-btn", disabled);
+      $('#deploymentModal\\:showDeployOptionsBtn').toggleClass("secondary-btn", disabled);
+    }
+
+    function optionsHidden() {
+      return $('#deploymentModal\\:deployOptionsPanel').css("display") == "none"
+    }
+
+    function addDeployOptions(form_data) {
+      if (optionsHidden()) { // don't send params: deploy.options.yaml (e.g. in app.zip) should take precedence
+        return
       }
-      
-      function addDeployOptions(form_data){
-        if (optionsHidden())
-        { // don't send params: deploy.options.yaml (e.g. in app.zip) should take precedence
-          return
-        }
-        
-        if (PF('version').input.val() == 'RANGE') {
-          var version = PF('versionRange').jq.val();
-        } else {
-          var version = PF('version').input.val();
-        }
-        form_data.append('deployTestUsers', PF('deployTestUsers').input.val());
-        form_data.append('overwriteConfig', PF('overwriteConfig').input.is(':checked'));
-        form_data.append('cleanupConfig', PF('cleanupConfig').input.val());
-        form_data.append('targetVersion', version);
-        form_data.append('targetState', PF('state').input.val());
-        form_data.append('targetFileFormat', PF('fileFormat').input.val());
+
+      if (PF('version').input.val() == 'RANGE') {
+        var version = PF('versionRange').jq.val();
+      } else {
+        var version = PF('version').input.val();
       }
-    </script>
+      form_data.append('deployTestUsers', PF('deployTestUsers').input.val());
+      form_data.append('overwriteConfig', PF('overwriteConfig').input.is(':checked'));
+      form_data.append('cleanupConfig', PF('cleanupConfig').input.val());
+      form_data.append('targetVersion', version);
+      form_data.append('targetState', PF('state').input.val());
+      form_data.append('targetFileFormat', PF('fileFormat').input.val());
+    }
+  </script>
 </cc:FileUpload>
+
 </html>

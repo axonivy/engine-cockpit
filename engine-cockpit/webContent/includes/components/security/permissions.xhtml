@@ -9,7 +9,7 @@
 </f:facet>
 <h:form id="permissionsForm">
   <p:growl for="permissionMessage">
-    <p:autoUpdate/>
+    <p:autoUpdate />
   </p:growl>
   <div class="ui-tree-search-header">
     <div class="ui-datatable-header ui-widget-header ui-corner-top">
@@ -20,16 +20,18 @@
         <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{permissionBean.filter}">
           <p:ajax event="keyup" delay="500" update="@form:permissionTable" />
         </p:inputText>
-        <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical" actionListener="#{permissionBean.expandAllNodes}"
-          update="permissionTable" title="Expand all" styleClass="secondary-btn" />
-        <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical" actionListener="#{permissionBean.collapseAllNodes}"
-          update="permissionTable"  title="Collapse all" styleClass="secondary-btn" />
+        <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical"
+          actionListener="#{permissionBean.expandAllNodes}" update="permissionTable" title="Expand all"
+          styleClass="secondary-btn" />
+        <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical"
+          actionListener="#{permissionBean.collapseAllNodes}" update="permissionTable" title="Collapse all"
+          styleClass="secondary-btn" />
       </p:outputPanel>
     </div>
   </div>
   <p:treeTable id="permissionTable" value="#{permissionBean.tree}" var="permission">
-  	<p:ajax event="expand" listener="#{permissionBean.nodeExpand}"/>
-  	<p:ajax event="collapse" listener="#{permissionBean.nodeCollapse}"/>
+    <p:ajax event="expand" listener="#{permissionBean.nodeExpand}" />
+    <p:ajax event="collapse" listener="#{permissionBean.nodeCollapse}" />
     <p:column headerText="All Permissions">
       <h:outputText value="#{permission.name}" title="#{permission.path}">
         <i class="si si-#{permission.group ? 'folder-empty' : 'lock-1'} table-icon"></i>
@@ -38,16 +40,16 @@
 
     <p:column style="width: 70px; text-align: center;" styleClass="permission-icon">
       <h:outputText rendered="#{permission.grant}">
-        <i class="si si-check-circle table-icon no-margin" title="Permission granted"/>
+        <i class="si si-check-circle table-icon no-margin" title="Permission granted" />
       </h:outputText>
       <h:outputText rendered="#{!permission.grant and permission.someGrant}">
-        <i class="si si-check-circle table-icon no-margin light" title="Some Permission granted"/>
+        <i class="si si-check-circle table-icon no-margin light" title="Some Permission granted" />
       </h:outputText>
       <h:outputText rendered="#{permission.deny}">
-        <i class="si si-subtract-circle table-icon"  title="Permission denied"/>
+        <i class="si si-subtract-circle table-icon" title="Permission denied" />
       </h:outputText>
       <h:outputText rendered="#{!permission.deny and permission.someDeny}">
-        <i class="si si-subtract-circle table-icon light" title="Some Permission denied"/>
+        <i class="si si-subtract-circle table-icon light" title="Some Permission denied" />
       </h:outputText>
       <h:outputText rendered="#{!permission.group and not empty permission.permissionHolder and !permission.explicit}">
         <i class="si si-multiple-neutral-1 table-icon" title="#{permission.permissionHolder}"></i>
@@ -56,7 +58,8 @@
 
     <p:column headerText="Grant" style="text-align: center; width: 95px; ">
       <p:commandButton id="grantPermissionBtn" type="button" icon="si si-add" title="Grant"
-        styleClass="card-button table-control-btn primary-btn" style="margin: 0;" disabled="#{permission.grantDisabled}">
+        styleClass="card-button table-control-btn primary-btn" style="margin: 0;"
+        disabled="#{permission.grantDisabled}">
         <p:ajax update="@form" listener="#{permission.grant}" />
       </p:commandButton>
       <p:commandButton id="unGrantPermissionBtn" type="button" icon="si si-subtract" title="Ungrant"
@@ -77,4 +80,5 @@
     </p:column>
   </p:treeTable>
 </h:form>
+
 </html>

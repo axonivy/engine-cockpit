@@ -6,7 +6,8 @@
   <cc:attribute name="environmentChange" method-signature="void handleEvent()" required="true" />
 </cc:interface>
 <cc:implementation>
-  <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8" styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8"
+    styleClass="ui-panelgrid-blank grey-label-panel">
     <label style="float: right;">Environment</label>
     <p:selectOneMenu id="environmentSelect" value="#{managerBean.selectedEnvironment}" styleClass="environment-switch">
       <f:selectItems value="#{managerBean.environments}" />
@@ -14,4 +15,5 @@
     </p:selectOneMenu>
   </p:panelGrid>
 </cc:implementation>
+
 </html>

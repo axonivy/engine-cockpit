@@ -1,11 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-  xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:facet name="header">
   <i class="si si-information-circle table-icon panel-title-icon"></i>
@@ -13,95 +9,88 @@
 </f:facet>
 <h:form id="securitySystemConfigForm">
   <p:growl id="securitySystemConfigSaveSuccess" for="securitySystemConfigSaveSuccess">
-    <p:autoUpdate/>
+    <p:autoUpdate />
   </p:growl>
   <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecuritySystemConfigBtn"
     styleClass="accent-btn card-button" actionListener="#{securityConfigDetailBean.saveConfiguration}" />
-  <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()" title="Delete this security system"
-    icon="si si-bin-1" styleClass="red-btn card-button" rendered="#{empty securityConfigDetailBean.usedByApps}" />
-  <p:confirmDialog id="deleteSecuritySystemConfirmDialog" message="Are you sure about deleteing the security system '#{securityConfigDetailBean.name}'?" header="Delete Security System"
-    severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
-    <p:commandLink value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button" styleClass="modal-input-button" />
-    <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="Delete" ajax="false" immediate="true" action="#{securityConfigDetailBean.deleteConfiguration}"
-      icon="si si-bin-1" styleClass="modal-input-button" />
+  <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
+    title="Delete this security system" icon="si si-bin-1" styleClass="red-btn card-button"
+    rendered="#{empty securityConfigDetailBean.usedByApps}" />
+  <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
+    message="Are you sure about deleteing the security system '#{securityConfigDetailBean.name}'?"
+    header="Delete Security System" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
+    <p:commandLink value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button"
+      styleClass="modal-input-button" />
+    <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="Delete" ajax="false" immediate="true"
+      action="#{securityConfigDetailBean.deleteConfiguration}" icon="si si-bin-1" styleClass="modal-input-button" />
   </p:confirmDialog>
-  
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8"
-    layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
-    
+
+  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+    styleClass="ui-panelgrid-blank grey-label-panel">
+
     <label>Name</label>
-    <h:outputText id="name" value="#{securityConfigDetailBean.name}"/>
+    <h:outputText id="name" value="#{securityConfigDetailBean.name}" />
 
     <label>Provider</label>
     <h:outputText id="provider" value="#{securityConfigDetailBean.provider}" />
 
     <p:outputLabel for="url" value="URL" />
-    <p:inputText id="url" value="#{securityConfigDetailBean.url}"
-      placeholder="#{securityDefaultValueBean.url}" />
+    <p:inputText id="url" value="#{securityConfigDetailBean.url}" placeholder="#{securityDefaultValueBean.url}" />
 
     <p:outputLabel for="userName" value="User Name" />
-    <p:inputText id="userName"
-      value="#{securityConfigDetailBean.userName}" />
+    <p:inputText id="userName" value="#{securityConfigDetailBean.userName}" />
 
     <p:outputLabel for="password" value="Password" />
-    <p:password id="password"
-      value="#{securityConfigDetailBean.password}" />
+    <p:password id="password" value="#{securityConfigDetailBean.password}" />
 
     <p:outputLabel for="ldapConnectionPool" value="Use LDAP Connection Pool" />
-    <p:selectBooleanCheckbox id="ldapConnectionPool"
-      value="#{securityConfigDetailBean.useLdapConnectionPool}" />
+    <p:selectBooleanCheckbox id="ldapConnectionPool" value="#{securityConfigDetailBean.useLdapConnectionPool}" />
 
     <p:outputLabel for="useSsl" value="Use SSL" />
-    <p:selectBooleanCheckbox id="useSsl"
-      value="#{securityConfigDetailBean.ssl}" />
+    <p:selectBooleanCheckbox id="useSsl" value="#{securityConfigDetailBean.ssl}" />
 
     <p:outputLabel for="enableInsecureSsl" value="Enable Insecure SSL" />
-    <p:selectBooleanCheckbox id="enableInsecureSsl"
-      value="#{securityConfigDetailBean.enableInsecureSsl}" />
-    
+    <p:selectBooleanCheckbox id="enableInsecureSsl" value="#{securityConfigDetailBean.enableInsecureSsl}" />
+
     <p:outputLabel for="enableDailySynch" value="Update Job Enabled" />
-    <p:selectBooleanCheckbox id="enableDailySynch"
-      value="#{securityConfigDetailBean.updateEnabled}" />
+    <p:selectBooleanCheckbox id="enableDailySynch" value="#{securityConfigDetailBean.updateEnabled}" />
 
     <p:outputLabel for="syncTime" value="Synchronization Time" />
     <h:panelGroup>
-      <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99" placeholder="#{securityDefaultValueBean.updatetime}" />
+      <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99"
+        placeholder="#{securityDefaultValueBean.updatetime}" />
       <p:messages for="syncTime" id="syncTimeMessage" showDetail="true">
-        <p:autoUpdate/>
+        <p:autoUpdate />
       </p:messages>
     </h:panelGroup>
 
     <p:outputLabel for="derefAliasesDropDown" value="Dereference Aliases" />
-    <p:selectOneMenu id="derefAliasesDropDown"
-      value="#{securityConfigDetailBean.derefAlias}"
-      placeholder="always">
+    <p:selectOneMenu id="derefAliasesDropDown" value="#{securityConfigDetailBean.derefAlias}" placeholder="always">
       <f:selectItems value="#{securityConfigDetailBean.derefAliases}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
 
     <p:outputLabel for="ReferralDropDown" value="Referral" />
-    <p:selectOneMenu id="ReferralDropDown"
-      value="#{securityConfigDetailBean.referral}"
-      placeholder="follow">
+    <p:selectOneMenu id="ReferralDropDown" value="#{securityConfigDetailBean.referral}" placeholder="follow">
       <f:selectItems value="#{securityConfigDetailBean.referrals}" />
       <p:ajax update="@form" />
     </p:selectOneMenu>
-    
+
     <p:outputLabel for="onDemandImport" value="Import On Demand" />
-    <p:selectBooleanCheckbox id="onDemandImport"
-      value="#{securityConfigDetailBean.importOnDemand}" />
+    <p:selectBooleanCheckbox id="onDemandImport" value="#{securityConfigDetailBean.importOnDemand}" />
 
     <h:panelGroup>
       <label>Used by applications</label>
       <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
         <i class="si si-question-circle"></i>
-        <p:tooltip for="@parent" value="Every application, which using this security system." position="top"/>
+        <p:tooltip for="@parent" value="Every application, which using this security system." position="top" />
       </h:panelGroup>
     </h:panelGroup>
     <ui:repeat var="app" value="#{securityConfigDetailBean.usedByApps}" varStatus="status">
       <a href="application-detail.xhtml?appName=#{app}">#{app}</a>
-      <h:outputText value="#{status.last ? '' : ' / '}"/>
+      <h:outputText value="#{status.last ? '' : ' / '}" />
     </ui:repeat>
   </p:panelGrid>
 </h:form>
+
 </html>

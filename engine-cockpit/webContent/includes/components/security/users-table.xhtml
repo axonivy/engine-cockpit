@@ -4,17 +4,18 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:form id="tableForm">
-  <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+  <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
+    paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-    var="user" value="#{userBean.userDataModel}" widgetVar="usersTable_#{app.id}"
-    lazy="true" styleClass="userTable" id="userTable">
+    var="user" value="#{userBean.userDataModel}" widgetVar="usersTable_#{app.id}" lazy="true" styleClass="userTable"
+    id="userTable">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
           <i class="si si-search"></i>
         </p:outputLabel>
         <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-          onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" value="#{userBean.filter}"/>
+          onkeyup="PF('usersTable_#{app.id}').filter()" placeholder="Search" value="#{userBean.filter}" />
       </p:outputPanel>
     </f:facet>
     <p:column headerText="Name" sortBy="#{user.name}" styleClass="user-name-column">
@@ -22,9 +23,9 @@
         <h:outputText value="#{user.name}" styleClass="user-name">
           <i class="si si-single-neutral-actions table-icon"></i>
         </h:outputText>
-        <h:outputText value=" [External: '#{user.externalNameShort}']" title="#{user.externalName}" 
-          rendered="#{user.external}" styleClass="addition-row-info"/>
-        <h:outputText value=" [Disabled]" rendered="#{!user.enabled}" styleClass="addition-row-info"/>
+        <h:outputText value=" [External: '#{user.externalNameShort}']" title="#{user.externalName}"
+          rendered="#{user.external}" styleClass="addition-row-info" />
+        <h:outputText value=" [Disabled]" rendered="#{!user.enabled}" styleClass="addition-row-info" />
       </a>
     </p:column>
     <p:column headerText="Full Name" sortBy="#{user.fullName}">
@@ -35,9 +36,11 @@
     </p:column>
     <p:column headerText="Logged in" style="width: 100px; text-align: center">
       <h:outputText>
-        <i class="si table-icon si-#{user.loggedIn ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}"></i>
+        <i
+          class="si table-icon si-#{user.loggedIn ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}"></i>
       </h:outputText>
     </p:column>
   </p:dataTable>
 </h:form>
+
 </html>

@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
     <f:viewParam name="restClientName" value="#{restClientDetailBean.restClientName}" />
@@ -17,15 +16,17 @@
       <li>/</li>
       <li><a href="restclients.xhtml">Rest Clients</a></li>
       <li>/</li>
-      <li><a href="restclientdetail.xhtml?restClientName=#{restClientDetailBean.restClientName}">#{restClientDetailBean.restClientName}</a></li>
+      <li><a
+          href="restclientdetail.xhtml?restClientName=#{restClientDetailBean.restClientName}">#{restClientDetailBean.restClientName}</a>
+      </li>
     </ui:define>
-    
+
     <ui:define name="breadcrumb-right">
       <a href="#" onclick="PF('helpServicesModal').show();">
         <i class="si si-lg si-question-circle"></i>
       </a>
     </ui:define>
-    
+
     <ui:define name="content">
       <div class="ui-fluid restclient-detail">
         <div class="ui-g">
@@ -43,14 +44,15 @@
       </div>
       <cc:HelpServiceDialog service="#{restClientDetailBean}" id="helpRestClientDialog" />
     </ui:define>
-    
+
     <ui:define name="sidebar">
       <cc:Sidebar jmxSource="#{restClientDetailBean.liveStats.restClient}">
-        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.connectionsMonitor}" id="restConnections"/>
-        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.callsMonitor}" id="restCalls"/>
-        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.executionTimeMonitor}" id="restExecutionTime"/>
+        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.connectionsMonitor}" id="restConnections" />
+        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.callsMonitor}" id="restCalls" />
+        <cc:LiveStats monitor="#{restClientDetailBean.liveStats.executionTimeMonitor}" id="restExecutionTime" />
       </cc:Sidebar>
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>
