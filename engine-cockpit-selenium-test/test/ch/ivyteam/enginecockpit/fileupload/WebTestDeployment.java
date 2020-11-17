@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -149,7 +150,7 @@ public class WebTestDeployment
   private void toAppDetailAndOpenDeployment()
   {
     Navigation.toApplicationDetail(APP);
-    $("#appDetailInfoForm\\:showDeployment").shouldBe(visible).click();
+    $("#appDetailInfoForm\\:showDeployment").shouldBe(visible, enabled).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
     $("#uploadError").shouldBe(empty);
     $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(APP));
