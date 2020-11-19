@@ -8,8 +8,10 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 
@@ -94,6 +96,16 @@ public class LoginBean
   public String getSessionUserName()
   {
     return ISession.current().getSessionUserName();
+  }
+  
+  public String getGravatarHash()
+  {
+    var email = ISession.current().getSessionUser().getEMailAddress();
+    if (EmailUtil.validateEmailAddress(email))
+    {
+      return DigestUtils.md5Hex(email).toString();
+    }
+    return "";
   }
 
   public String getUserName()

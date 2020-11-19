@@ -25,6 +25,10 @@ public class EmailUtil
 
   public static boolean validateEmailAddress(String email)
   {
+    if (email == null)
+    {
+      return false;
+    }
     return EMAIL_REGEX.matcher(email).matches();
   }
 }

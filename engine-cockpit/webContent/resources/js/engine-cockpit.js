@@ -88,3 +88,10 @@ function buttonRemoveSpinner(button, defaultIcon) {
   $(icon).addClass(defaultIcon);
   $(button).removeClass('ui-state-disabled');
 }
+
+function checkGravatarImg(img)
+{
+  console.log("load");
+  img.style.display = "block";
+  img.nextElementSibling.style.display = "none";
+}
