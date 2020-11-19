@@ -15,6 +15,9 @@
         <li id="sessionUser" class="profile-item">
           <a href="#">
             <span class="profile-image-wrapper">
+              <h:outputText rendered="#{not empty loginBean.gravatarHash}">
+                <img src="https://www.gravatar.com/avatar/#{loginBean.gravatarHash}?d=404" style="border-radius: 20px; display: none;" onload="checkGravatarImg(this);"/>
+              </h:outputText>
               <i class="si si-single-neutral-circle" style="font-size: 36px; padding: 2px;"></i>
             </span>
             <span id="sessionUserName" class="topbar-item-name profile-name">#{loginBean.sessionUserName}</span>
