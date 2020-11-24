@@ -74,12 +74,9 @@ function buttonAddSpinner(button) {
   $(button).addClass('ui-state-disabled');
   var icon = $(button).find('.ui-icon');
   icon.removeClass(function (index, css) {
-    return (css.match(/\si-\S+/g) || []).join(' '); // removes anything that starts with "si-"
+    return (css.match(/(^|\s)si-\S+/g) || []).join(' '); // removes anything that starts with "si-"
   });
   $(icon).addClass('si-button-refresh-arrows si-is-spinning');
-  window.onblur = function () {
-
-  };
 }
 
 function buttonRemoveSpinner(button, defaultIcon) {
