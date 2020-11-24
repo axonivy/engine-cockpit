@@ -100,7 +100,17 @@ public class LoginBean
   
   public String getGravatarHash()
   {
-    var email = ISession.current().getSessionUser().getEMailAddress();
+    var session = ISession.current();
+    if (session == null)
+    {
+      return null;
+    }
+    var sessionUser = session.getSessionUser();
+    if (sessionUser == null)
+    {
+      return null;
+    }
+    var email = sessionUser.getEMailAddress();
     if (EmailUtil.validateEmailAddress(email))
     {
       return DigestUtils.md5Hex(email).toString();
