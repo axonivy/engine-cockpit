@@ -204,7 +204,8 @@ public class StateOfActivity
     var problems = new ArrayList<String>();
     for (var child : activity.children)
     {
-      if (is(child.getState().operation, ActivityOperationState.INACTIVE, ActivityOperationState.ERROR))
+      if (is(child.getState().operation, ActivityOperationState.INACTIVE, ActivityOperationState.ERROR) 
+              && isNotArchived(child))
       {
         problems.add(child.getName() + ": " + child.getState().operation);
       }
@@ -212,5 +213,9 @@ public class StateOfActivity
     }
     return problems;
   }
-  
+
+  private static boolean isNotArchived(AbstractActivity child)
+  {
+    return !(child.isPmv() && child.getState().is(ReleaseState.ARCHIVED));
+  }
 }
