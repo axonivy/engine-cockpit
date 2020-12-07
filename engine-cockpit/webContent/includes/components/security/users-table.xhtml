@@ -20,9 +20,9 @@
     </f:facet>
     <p:column headerText="Name" sortBy="#{user.name}" styleClass="user-name-column">
       <a href="userdetail.xhtml?userName=#{user.name}">
-        <img name="#{user.name}" src="#{user.avatarUri}"/>
         <h:outputText value="#{user.name}" styleClass="user-name">
           <i class="si si-single-neutral-actions table-icon"></i>
+          <img name="#{user.name}" src="#{user.avatarUri}"/>          
         </h:outputText>
         <h:outputText value=" [External: '#{user.externalNameShort}']" title="#{user.externalName}"
           rendered="#{user.external}" styleClass="addition-row-info" />

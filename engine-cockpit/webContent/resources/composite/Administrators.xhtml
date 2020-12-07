@@ -40,8 +40,8 @@
   <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500" header="Add / Edit Administrator" modal="true"
     closeOnEscape="true" focus="editAdminForm:name">
     <h:form id="editAdminForm">
-      <a href="avatar.xhtml?applicationName=system&amp;userName=#{admin.name}">
-        <img name="#{admin.name}" src="#{admin.avatarUri}"/>
+      <a href="avatar.xhtml?applicationName=system&amp;userName=#{administratorBean.admin.name}">
+        <img name="#{administratorBean.admin.name}" src="#{administratorBean.admin.avatarUri}"/>
       </a>      
       <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8"
         styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
