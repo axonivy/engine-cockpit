@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="userName" value="#{avatarBean.userName}" />
+    <f:viewParam name="roleName" value="#{avatarBean.roleName}" />
+    <f:viewParam name="applicationName" value="#{avatarBean.applicationName}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li>Avatar</li>
+    </ui:define>
+
+    <ui:define name="breadcrumb-right">
+      <a style="float: right;" href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#logs" target="_blank"
+        rel="noopener noreferrer">
+        <i class="si si-lg si-question-circle"></i>
+      </a>
+    </ui:define>
+
+    <ui:define name="content">
+      <p:growl id="msgs" showDetail="true">
+        <p:autoUpdate />
+      </p:growl>
+      <h:form id="form">
+	      <h:panelGrid columns="3">
+	        <p:imageCropper value="#{avatarBean.croppedImage}" image="#{avatarBean.originalImageUrl}" initialCoords="10,10,20,20" minSize="128,128" maxSize="1024,1024" aspectRatio="1"/>
+	        <p:commandButton action="#{avatarBean.crop}" value="Crop" update="form"/>
+          <img src="#{avatarBean.originalCroppedImageUrl}"/>
+<!--    	      <p:commandButton value="Crop" action="#{avatarBean.crop}" update="cropped msgs" icon="pi pi-clone"/>-->
+
+	      </h:panelGrid>
+	    </h:form>
+	    <h:form enctype="multipart/form-data">
+        <p:fileUpload fileUploadListener="#{avatarBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                  update="msgs form" sizeLimit="100000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+	    </h:form>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

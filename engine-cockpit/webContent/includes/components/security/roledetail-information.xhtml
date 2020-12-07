@@ -26,6 +26,9 @@
     <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" ajax="false" immediate="true"
       action="#{roleDetailBean.deleteRole}" styleClass="modal-input-button" icon="si si-bin-1" />
   </p:confirmDialog>
+  <a href="avatar.xhtml?applicationName=#{managerBean.selectedApplication.name}&amp;roleName=#{roleDetailBean.role.name}">
+    <img name="#{roleDetailBean.role.name}" src="/#{managerBean.selectedApplication.name}/avatar/roles/#{roleDetailBean.role.name}"/>
+  </a>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
     styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>

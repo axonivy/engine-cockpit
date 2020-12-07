@@ -20,6 +20,7 @@
     </f:facet>
     <p:column headerText="Name" sortBy="#{user.name}" styleClass="user-name-column">
       <a href="userdetail.xhtml?userName=#{user.name}">
+        <img name="#{user.name}" src="/#{managerBean.selectedApplication.name}/avatar/users/#{user.id}?size=20"/>
         <h:outputText value="#{user.name}" styleClass="user-name">
           <i class="si si-single-neutral-actions table-icon"></i>
         </h:outputText>
