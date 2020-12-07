@@ -19,6 +19,7 @@ import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.avatar.IAvatar.Option;
 import ch.ivyteam.ivy.security.query.UserQuery;
 import ch.ivyteam.ivy.workflow.TaskState;
 import ch.ivyteam.ivy.workflow.query.TaskQuery;
@@ -27,10 +28,12 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 @ViewScoped
 public class RoleDetailBean
 {
+  private static final Option SIZE_64 = new Option(64);
   private String roleName;
   private String newChildRoleName;
   private String roleUserName;
   private String roleMemberName;
+  private String avatarUri;
   private Role role;
 
   private UserDataModel usersOfRole;
@@ -66,6 +69,7 @@ public class RoleDetailBean
     this.roleName = URLDecoder.decode(roleName, StandardCharsets.UTF_8);
     var iRole = getSecurityContext().findRole(this.roleName);
     this.role = new Role(iRole);
+    this.avatarUri = iRole.avatar().webLink(SIZE_64).getRelative();
     this.usersOfRole.setApp(managerBean.getSelectedIApplication());
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
@@ -315,5 +319,10 @@ public class RoleDetailBean
   public String getDirectTaskCount()
   {
     return managerBean.formatNumber(directTaskCount);
+  }
+  
+  public String getAvatarUri()
+  {
+    return avatarUri;
   }
 }

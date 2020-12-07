@@ -8,11 +8,10 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.ISession;
+import ch.ivyteam.ivy.security.avatar.IAvatar.Option;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
@@ -20,6 +19,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 @SuppressWarnings("restriction")
 public class LoginBean
 {
+  private static final Option SIZE_64 = new Option(64);
   private String userName;
   private String password;
   private String originalUrl;
@@ -98,24 +98,19 @@ public class LoginBean
     return ISession.current().getSessionUserName();
   }
   
-  public String getGravatarHash()
+  public String getAvatarUri()
   {
     var session = ISession.current();
     if (session == null)
     {
-      return null;
+      return "";
     }
     var sessionUser = session.getSessionUser();
     if (sessionUser == null)
     {
-      return null;
+      return "";
     }
-    var email = sessionUser.getEMailAddress();
-    if (EmailUtil.validateEmailAddress(email))
-    {
-      return DigestUtils.md5Hex(email).toString();
-    }
-    return "";
+    return sessionUser.avatar().webLink(SIZE_64).getRelative();
   }
 
   public String getUserName()

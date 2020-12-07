@@ -3,13 +3,16 @@ package ch.ivyteam.enginecockpit.model;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.IRole;
+import ch.ivyteam.ivy.security.avatar.IAvatar.Option;
 
 public class Role
 {
+  private static final Option SIZE_20 = new Option(20);
   private String name;
   private String description;
   private String displayName;
   private String externalName;
+  private String avatarUri;
   private boolean member;
   private boolean dynamic;
 
@@ -24,6 +27,7 @@ public class Role
     this.description = role.getDisplayDescription();
     this.displayName = role.getDisplayName();
     this.externalName = role.getExternalName();
+    this.avatarUri = role.avatar().webLink(SIZE_20).getRelative();
     this.member = false;
     this.dynamic = role.isDynamic();
   }
@@ -97,6 +101,11 @@ public class Role
   public boolean isManaged()
   {
     return StringUtils.isNotEmpty(externalName);
+  }
+  
+  public String getAvatarUri()
+  {
+    return avatarUri;
   }
   
   @Override

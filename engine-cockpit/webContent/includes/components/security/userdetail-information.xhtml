@@ -51,7 +51,7 @@
     </h:panelGroup>
   </div>
   <a href="avatar.xhtml?applicationName=#{managerBean.selectedApplication.name}&amp;userName=#{userDetailBean.user.name}">
-    <img name="#{userDetailBean.user.name}" src="/#{managerBean.selectedApplication.name}/avatar/users/#{userDetailBean.user.id}"/>
+    <img name="#{userDetailBean.user.name}" src="#{userDetailBean.avatarUri}"/>
   </a>
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
     styleClass="ui-panelgrid-blank grey-label-panel">

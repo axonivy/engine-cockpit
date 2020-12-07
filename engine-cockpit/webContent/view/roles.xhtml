@@ -71,7 +71,7 @@
             <p:treeNode icon="si si-multiple-#{role.member ? 'actions-add' : 'neutral-1'}" type="role">
               <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name"
                 title="#{role.member ? 'Member' : 'Role'}">
-                <img name="#{role.name}" src="/#{managerBean.selectedApplication.name}/avatar/roles/#{role.name}?size=20"/>
+                <img name="#{role.name}" src="#{role.avatarUri}"/>
                 <h:outputText value="#{role.name}" />
                 <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
                 <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}"

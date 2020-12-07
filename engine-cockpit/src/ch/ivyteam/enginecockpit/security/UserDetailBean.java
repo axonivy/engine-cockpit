@@ -15,6 +15,7 @@ import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.avatar.IAvatar.Option;
 import ch.ivyteam.ivy.security.synch.UserSynchResult;
 import ch.ivyteam.ivy.security.synch.UserSynchResult.SynchStatus;
 import ch.ivyteam.ivy.security.user.NewUser;
@@ -26,12 +27,14 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 @ViewScoped
 public class UserDetailBean
 {
+  private static final Option SIZE_64 = new Option(64);
   private String userName;
   private User user;
   private EmailSettings emailSettings;
   private MemberProperty userProperties;
   private String userSynchName;
   private String synchLog;
+  private String avatarUri;
 
   private List<Role> filteredRoles;
 
@@ -64,6 +67,7 @@ public class UserDetailBean
       this.userSynchName = userName;
       var iUser = getSecurityContext().users().find(userName);
       this.user = new User(iUser);
+      this.avatarUri = iUser.avatar().webLink(SIZE_64).getRelative();
       this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
       this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
       roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
@@ -293,5 +297,10 @@ public class UserDetailBean
   public String getWorkingOn()
   {
     return managerBean.formatNumber(workingOn);
+  }
+  
+  public String getAvatarUri()
+  {
+    return avatarUri;
   }
 }

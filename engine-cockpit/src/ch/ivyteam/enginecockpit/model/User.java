@@ -2,11 +2,16 @@ package ch.ivyteam.enginecockpit.model;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.di.restricted.DiCore;
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.administrator.Administrator;
+import ch.ivyteam.ivy.security.avatar.IAvatar.Option;
 
 public class User
 {
+  private static final Option SIZE_20 = new Option(20);
   private String name;
   private String fullName;
   private String email;
@@ -14,6 +19,7 @@ public class User
   private String realPassword = "";
   private String externalName = "";
   private String externalId = "";
+  private String avatarUri;
 
   private boolean loggedIn;
   private boolean enabled = true;
@@ -35,6 +41,7 @@ public class User
     this.externalName = user.getExternalName();
     this.externalId = user.getExternalId();
     this.id = user.getId();
+    this.avatarUri = user.avatar().webLink(SIZE_20).getRelative();
   }
 
   public User(Administrator admin)
@@ -43,6 +50,18 @@ public class User
     setFullName(admin.getFullName());
     setEmail(admin.getEmail());
     setRealPassword(admin.getPassword());
+    var appConfig = DiCore.getGlobalInjector().getInstance(IApplicationConfigurationManager.class);
+    var systemApp = appConfig.findApplication(IApplication.SYSTEM_APPLICATION_NAME);
+    if (systemApp == null)
+    {
+      return;      
+    }
+    var user = systemApp.getSecurityContext().users().find(admin.getUsername());
+    if (user == null)
+    {
+      return;
+    }
+    this.avatarUri = user.avatar().webLink(SIZE_20).getRelative();            
   }
 
   public String getName()
@@ -153,6 +172,11 @@ public class User
             .email(getEmail())
             .password(getRealPassword())
             .toAdministrator();
+  }
+  
+  public String getAvatarUri()
+  {
+    return avatarUri;
   }
 
   @Override

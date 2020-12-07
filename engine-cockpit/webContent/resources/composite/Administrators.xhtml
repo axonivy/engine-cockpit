@@ -10,7 +10,7 @@
   <h:form id="adminForm">
     <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable">
       <p:column headerText="Name" sortBy="#{admin.name}">
-        <img name="#{admin.name}" src="/system/avatar/users/#{admin.name}?size=20"/>
+        <img name="#{admin.name}" src="#{admin.avatarUri}"/>
         <h:outputText value="#{admin.name}" styleClass="admin_name" />
       </p:column>
       <p:column headerText="Email" sortBy="#{admin.email}">
@@ -41,7 +41,7 @@
     closeOnEscape="true" focus="editAdminForm:name">
     <h:form id="editAdminForm">
       <a href="avatar.xhtml?applicationName=system&amp;userName=#{admin.name}">
-        <img name="#{admin.name}" src="/system/avatar/users/#{admin.name}"/>
+        <img name="#{admin.name}" src="#{admin.avatarUri}"/>
       </a>      
       <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8"
         styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">

@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.io.IOException;
-import java.util.Random;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +14,7 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.avatar.IAvatar;
+import ch.ivyteam.ivy.security.avatar.IAvatar.Option;
 
 @ManagedBean
 @SessionScoped
@@ -26,7 +26,6 @@ public class AvatarBean
   private ManagerBean managerBean;  
   
   private CroppedImage croppedImage;
-  private String newImageName;
   
   public AvatarBean()
   {
@@ -99,19 +98,12 @@ public class AvatarBean
   
   public String getOriginalImageUrl()
   {
-    if (userName != null)
-    {
-      return "http://localhost:8081/"+getApplicationName()+"/avatar/users/"+userName+"?original&rnd="+new Random().nextInt();
-    }
-    else
-    {
-      return "http://localhost:8081/"+getApplicationName()+"/avatar/roles/"+roleName+"?original&rnd="+new Random().nextInt();
-    }
+    return getAvatar().webLink(Option.ORIGINAL).getAbsolute();
   }
   
   public String getOriginalCroppedImageUrl()
   {
-    return getOriginalImageUrl()+"&crop";
+    return getAvatar().webLink(Option.ORIGINAL_CROPPED).getRelative();
   }
   
   public CroppedImage getCroppedImage()
@@ -127,14 +119,5 @@ public class AvatarBean
   public void crop() 
   {
     getAvatar().crop(croppedImage.getLeft(), croppedImage.getTop(), croppedImage.getWidth(), croppedImage.getHeight());
-  }
-   
-   
-  public String getNewImageName() {
-      return newImageName;
-  }
-
-  public void setNewImageName(String newImageName) {
-      this.newImageName = newImageName;
   }
 }
