@@ -10,7 +10,8 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
+import ch.ivyteam.di.restricted.DiCore;
+import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.avatar.IAvatar;
@@ -23,14 +24,13 @@ public class AvatarBean
   private String userName;
   private String roleName;
   private String applicationName;
-  private ManagerBean managerBean;  
+  private IApplicationConfigurationManager appConfigManager;  
   
   private CroppedImage croppedImage;
   
   public AvatarBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    this.appConfigManager = DiCore.getGlobalInjector().getInstance(IApplicationConfigurationManager.class);
   }
 
   public void handleFileUpload(FileUploadEvent event) 
@@ -53,7 +53,7 @@ public class AvatarBean
 
   private IAvatar getAvatar()
   {
-    ISecurityContext securityContext = managerBean.getSelectedIApplication().getSecurityContext();
+    ISecurityContext securityContext = appConfigManager.findApplication(applicationName).getSecurityContext();
     if (userName != null)
     {
       return securityContext.users().find(userName).avatar();
