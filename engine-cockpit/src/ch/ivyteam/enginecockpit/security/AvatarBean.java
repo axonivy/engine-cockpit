@@ -120,4 +120,9 @@ public class AvatarBean
   {
     getAvatar().crop(croppedImage.getLeft(), croppedImage.getTop(), croppedImage.getWidth(), croppedImage.getHeight());
   }
+  
+  public void reset()
+  {
+    getAvatar().resetToDefault();
+  }
 }

@@ -29,11 +29,10 @@
       <h:form id="form">
 	      <h:panelGrid columns="3">
 	        <p:imageCropper value="#{avatarBean.croppedImage}" image="#{avatarBean.originalImageUrl}" initialCoords="10,10,20,20" minSize="128,128" maxSize="1024,1024" aspectRatio="1"/>
-	        <p:commandButton action="#{avatarBean.crop}" value="Crop" update="form"/>
+	        <p:commandButton actionListener="#{avatarBean.crop}" value="Crop" update="form"/>
           <img src="#{avatarBean.originalCroppedImageUrl}"/>
-<!--    	      <p:commandButton value="Crop" action="#{avatarBean.crop}" update="cropped msgs" icon="pi pi-clone"/>-->
-
 	      </h:panelGrid>
+	      <p:commandButton actionListener="#{avatarBean.reset}" value="Reset" update="form"/>
 	    </h:form>
 	    <h:form enctype="multipart/form-data">
         <p:fileUpload fileUploadListener="#{avatarBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
