@@ -19,7 +19,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 @SuppressWarnings("restriction")
 public class LoginBean
 {
-  private static final Option SIZE_64 = new Option(64);
+  private static final Option SIZE_64 = Option.size(64);
   private String userName;
   private String password;
   private String originalUrl;

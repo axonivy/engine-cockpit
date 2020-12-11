@@ -11,7 +11,7 @@ import ch.ivyteam.ivy.security.avatar.IAvatar.Option;
 
 public class User
 {
-  private static final Option SIZE_20 = new Option(20);
+  private static final Option SIZE_20 = Option.size(20);
   private String name;
   private String fullName;
   private String email;

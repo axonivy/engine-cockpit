@@ -98,12 +98,12 @@ public class AvatarBean
   
   public String getOriginalImageUrl()
   {
-    return getAvatar().webLink(Option.ORIGINAL).getAbsolute();
+    return getAvatar().webLink(Option.original()).getAbsolute();
   }
   
   public String getOriginalCroppedImageUrl()
   {
-    return getAvatar().webLink(Option.ORIGINAL_CROPPED).getRelative();
+    return getAvatar().webLink(Option.originalCropped()).getRelative();
   }
   
   public CroppedImage getCroppedImage()

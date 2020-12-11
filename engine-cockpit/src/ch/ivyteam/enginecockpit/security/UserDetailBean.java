@@ -27,7 +27,7 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 @ViewScoped
 public class UserDetailBean
 {
-  private static final Option SIZE_64 = new Option(64);
+  private static final Option SIZE_64 = Option.size(64);
   private String userName;
   private User user;
   private EmailSettings emailSettings;
