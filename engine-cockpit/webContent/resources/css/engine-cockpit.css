@@ -542,3 +542,18 @@ body {
 .editor-card .CodeMirror.cm-s-default {
   height: calc(100vh - 270px);
 }
+
+img.avatar {
+	border-radius: 100%;
+}
+
+img.avatar-small {
+	position: relative;
+	top: 4px;
+	margin-right: 5px;
+}
+
+img.avatar-large {
+	position: relative;
+	left: 14px;
+}

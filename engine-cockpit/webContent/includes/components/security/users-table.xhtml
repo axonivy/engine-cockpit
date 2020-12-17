@@ -22,7 +22,7 @@
       <a href="userdetail.xhtml?userName=#{user.name}">
         <h:outputText value="#{user.name}" styleClass="user-name">
           <i class="si si-single-neutral-actions table-icon"></i>
-          <img name="#{user.name}" src="#{user.avatarUri}"/>          
+          <img name="#{user.name}" src="#{user.avatarUri}" class="avatar avatar-small"/>          
         </h:outputText>
         <h:outputText value=" [External: '#{user.externalNameShort}']" title="#{user.externalName}"
           rendered="#{user.external}" styleClass="addition-row-info" />

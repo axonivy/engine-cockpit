@@ -30,7 +30,7 @@
 	      <h:panelGrid columns="3">
 	        <p:imageCropper value="#{avatarBean.croppedImage}" image="#{avatarBean.originalImageUrl}" initialCoords="10,10,20,20" minSize="128,128" maxSize="1024,1024" aspectRatio="1"/>
 	        <p:commandButton actionListener="#{avatarBean.crop}" value="Crop" update="form"/>
-          <img src="#{avatarBean.originalCroppedImageUrl}"/>
+          <img src="#{avatarBean.originalCroppedImageUrl}" class="avatar"/>
 	      </h:panelGrid>
 	      <p:commandButton actionListener="#{avatarBean.reset}" value="Reset" update="form"/>
 	    </h:form>
