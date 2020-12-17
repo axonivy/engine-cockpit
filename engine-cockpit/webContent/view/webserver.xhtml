@@ -1,0 +1,156 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/charts-template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li>System</li>
+      <li>/</li>
+      <li><a href="webserver.xhtml">Web Server</a></li>
+    </ui:define>
+
+    <ui:define name="breadcrumb-right">
+      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#web-server" target="_blank" rel="noopener noreferrer">
+        <i class="si si-lg si-question-circle"></i>
+      </a>
+    </ui:define>
+
+    <ui:define name="content">
+      <p:growl>
+        <p:autoUpdate />
+      </p:growl>
+      <div class="ui-fluid user-detail">
+        <div class="ui-g dashboard">
+          <div class="ui-g-12 ui-md-12 ui-lg-8 dashboard-card">
+            <p:panel styleClass="min-height-250">
+              <f:facet name="header">
+                <i class="si si-network-signal table-icon panel-title-icon"></i>
+                <h:outputText value="Web Server Connectors" />
+              </f:facet>
+              <cc:WebServer id="webServer" />
+            </p:panel>
+          </div>
+          
+          <div class="ui-g-12 ui-md-12 ui-lg-4 dashboard-card">
+            <p:panel styleClass="min-height-250">
+              <f:facet name="header">
+                <i class="si si-cog table-icon panel-title-icon"></i>
+                <h:outputText value="Frontend Settings" />
+              </f:facet>
+              <h:form id="frontendForm">
+                <p:commandButton id="save" actionListener="#{webServerBean.saveFrontend}" title="Save changes"
+                  icon="si si-floppy-disk" styleClass="accent-btn card-button" />
+                  
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+                  styleClass="ui-panelgrid-blank grey-label-panel">
+                  <p:outputLabel for="host" value="Frontend Hostname" />
+                  <p:inputText id="host" value="#{webServerBean.frontendHost}" />
+                  
+                  <p:outputLabel for="port" value="Frontend Port" />
+                  <p:inputNumber id="port" value="#{webServerBean.frontendPort}" minValue="0" decimalPlaces="0" thousandSeparator="'" />
+                  
+                  <p:outputLabel for="protocol" value="Frontend Portocol" />
+                  <p:selectOneMenu id="protocol" value="#{webServerBean.frontendProtocol}">
+                    <f:selectItems value="#{webServerBean.frontendProtocols}" />
+                  </p:selectOneMenu>
+                  
+                  <h:panelGroup>
+                    <label>Frontend Base URL</label>
+                    <h:panelGroup id="frontendUrlHelp" styleClass="label-help-icon">
+                      <i class="si si-question-circle"></i>
+                      <p:tooltip for="frontendUrlHelp" value="Base-URL used by the engine to build absolute URI's without a request (email links, ...)" position="top" />
+                    </h:panelGroup>
+                  </h:panelGroup>
+                  <h:outputText value="#{webServerBean.frontendUrl}" />
+                </p:panelGrid>
+                
+                <h:panelGroup id="infoMessage" layout="block" rendered="#{engineModeBean.hasDashboardWarning()}"
+                  styleClass="ui-message ui-staticmessage ui-message-info" style="margin: 0 0 20px 0; display: none;">
+                  <span class="ui-message-info-icon"></span>
+                  <span class="ui-message-info-summary">Problem detected</span>
+                  <span class="ui-message-info-detail">'Frontend Base Url' seems to be different form your current browser base Url. You may need to configure your 'Frontend' settings correctly</span>
+                </h:panelGroup>
+              </h:form>
+            </p:panel>
+          </div>
+          <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
+            <p:panel styleClass="min-height-200">
+              <f:facet name="header">
+                <i class="si si-monitor-heart-beat-search table-icon panel-title-icon"></i>
+                <h:outputText value="Data" />
+              </f:facet>
+              <h:panelGroup id="problemMessage" layout="block" rendered="#{engineModeBean.hasDashboardWarning()}"
+                styleClass="ui-message ui-staticmessage ui-message-warn" style="margin: 0 0 20px 0; display: none;">
+                <span class="ui-message-warn-icon"></span>
+                <span class="ui-message-warn-summary">Problem detected</span>
+                <span class="ui-message-warn-detail">'External Base Url' seems to be different form your current browser base Url</span>
+              </h:panelGroup>
+              
+              <p:panelGrid id="coreRequestData" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+                styleClass="ui-panelgrid-blank grey-label-panel">
+                <h:panelGroup>
+                  <label>External Base URL</label>
+                  <h:panelGroup id="externalUrlHelp" styleClass="label-help-icon">
+                    <i class="si si-question-circle"></i>
+                    <p:tooltip for="externalUrlHelp" value="Base-URL used by the engine to build absolute URI's (start links, email links, ...)" position="top" />
+                  </h:panelGroup>
+                </h:panelGroup>
+                <h:outputText value="#{webServerBean.externalUrl}" />
+                
+                <h:panelGroup>
+                  <label>Evaluated URL</label>
+                  <h:panelGroup id="evaluatedUrlHelp" styleClass="label-help-icon">
+                    <i class="si si-question-circle"></i>
+                    <p:tooltip for="evaluatedUrlHelp" value="Example how an external link is calculated" position="top" />
+                  </h:panelGroup>
+                </h:panelGroup>
+                <h:outputText value="#{webServerBean.evaluatedUrl}" />
+                
+                <h:panelGroup>
+                  <label>Remote Address</label>
+                  <h:panelGroup id="remoteAddrHelp" styleClass="label-help-icon">
+                    <i class="si si-question-circle"></i>
+                    <p:tooltip for="remoteAddrHelp" value="The address form where the request comes from (should be your IP)" position="top" />
+                  </h:panelGroup>
+                </h:panelGroup>
+                <h:outputText value="#{webServerBean.remoteAddr}" />
+              </p:panelGrid>
+              
+              <p:dataTable id="requestHeaderTable" var="data" value="#{webServerBean.requestData}">
+                <p:column headerText="Header">
+                  <h:outputText styleClass="header" value="#{data.data}" />
+                </p:column>
+                <p:column headerText="Value">
+                  <h:outputText value="#{data.value}" />
+                </p:column>
+              </p:dataTable>
+              
+              <script>
+              if (!window.location.href.startsWith('#{webServerBean.externalUrl}')) {
+                $('#problemMessage').show();
+              }
+              if (!window.location.href.startsWith('#{webServerBean.frontendUrl}') &amp;&amp; 
+                  !(window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1')) {
+                $('#frontendForm\\:infoMessage').show();
+              }
+              </script>
+            </p:panel>
+          </div>
+        </div>
+      </div>
+    </ui:define>
+
+    <ui:define name="sidebar">
+      <cc:Sidebar>
+        <cc:LiveStats monitor="#{requestMonitorBean.requestsMonitor}" id="requests" />
+        <cc:LiveStats monitor="#{requestMonitorBean.errorsMonitor}" id="errors" />
+        <cc:LiveStats monitor="#{requestMonitorBean.bytesMonitor}" id="bytes" />
+        <cc:LiveStats monitor="#{requestMonitorBean.processingTimeMonitor}" id="processingTime" />
+      </cc:Sidebar>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>
