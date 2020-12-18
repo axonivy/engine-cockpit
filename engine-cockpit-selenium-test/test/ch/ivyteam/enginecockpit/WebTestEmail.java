@@ -37,6 +37,7 @@ public class WebTestEmail
   {
     login();
     Navigation.toEmail();
+    Tab.switchToDefault();
   }
   
   @Test
