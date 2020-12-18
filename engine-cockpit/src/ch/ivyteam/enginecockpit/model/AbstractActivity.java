@@ -102,6 +102,11 @@ public abstract class AbstractActivity
     return !isProtected();
   }
   
+  public String getDeleteHint()
+  {
+    return "Are you sure about deleting this " + getActivityType() + "?";
+  }
+  
   public void activate()
   {
     execute(() -> activity.activate(), "activate", true);

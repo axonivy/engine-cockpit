@@ -99,7 +99,7 @@
                   type="button" style="margin-right: 10px;" styleClass="green-btn">
                   <p:ajax update="card:form" listener="#{activity.activate}" />
                 </p:commandButton>
-                <p:commandButton title="Deactivate" icon="si si-controls-stop" disabled="#{activity.notStopable}"
+                <p:commandButton title="Deactivate" id="deactivateButton" icon="si si-controls-stop" disabled="#{activity.notStopable}"
                   type="button" style="margin-right: 10px;" styleClass="red-btn">
                   <p:ajax update="card:form" listener="#{activity.deactivate}" />
                 </p:commandButton>
@@ -119,8 +119,8 @@
             <p:poll listener="#{applicationBean.reloadActivityStates}" update="card:form"
               autoStart="#{applicationBean.processing}" interval="1" />
             <p:confirmDialog id="deleteConfirmDialog"
-              message="Are you sure about deleting #{applicationBean.activeActivity.activityType} '#{applicationBean.activeActivity.name}'?"
-              header="Delete #{applicationBean.activeActivity.activityType}" severity="alert"
+              message="#{applicationBean.activeActivity.deleteHint}"
+              header="Delete '#{applicationBean.activeActivity.name}'" severity="alert"
               widgetVar="deleteConfirmDialog">
               <p:commandLink value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
                 styleClass="modal-input-button" />
