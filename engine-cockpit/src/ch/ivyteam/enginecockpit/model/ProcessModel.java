@@ -1,7 +1,12 @@
 package ch.ivyteam.enginecockpit.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ch.ivyteam.enginecockpit.ApplicationBean;
 import ch.ivyteam.ivy.application.IProcessModel;
+import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
 import ch.ivyteam.ivy.environment.Ivy;
 
 public class ProcessModel extends AbstractActivity
@@ -45,6 +50,48 @@ public class ProcessModel extends AbstractActivity
   public void delete()
   {
     execute(() -> pm.getApplication().deleteProcessModel(getName()), "delete", false);
+  }
+  
+  @Override
+  public boolean isDeletable()
+  {
+    return pm.isDeletable();
+  }
+  
+  @Override
+  public String getDeleteHint()
+  {
+    var message = new StringBuilder();
+    if (runningCasesCount > 0)
+    {
+      message.append(runningCasesCount + " running cases");
+    }
+    var dependentPmvs = getDependentPmvs();
+    if (!dependentPmvs.isEmpty())
+    {
+      if (message.length() > 0)
+      {
+        message.append(" and ");
+      }
+      message.append(dependentPmvs.size() + " dependent PMV(s)");
+    }
+    
+    if (message.length() > 0)
+    {
+      message.insert(0, "PM contains ");
+      message.append(". ");
+    }
+    message.append(super.getDeleteHint());
+
+    return message.toString();
+  }
+  
+  private Set<IProcessModelVersion> getDependentPmvs()
+  {
+    var dependentPMVs = new HashSet<IProcessModelVersion>();
+    var pmvs = pm.getProcessModelVersions();
+    pmvs.forEach(pmv -> dependentPMVs.addAll(pmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT)));
+    return dependentPMVs;
   }
   
   @Override
