@@ -50,14 +50,22 @@ public class WebTestPmvDetail
   {
     dependenciesResolved();
     Navigation.toApplications();
+    deactivatePortalKit();
     deletePortalKit();
     Navigation.toPmvDetail(APP, PM, PMV);
     dependenciesNotResolved();
   }
 
-  private void deletePortalKit()
+  private void deactivatePortalKit()
   {
     $$(".activity-name").find(text(APP)).parent().parent().find(".ui-treetable-toggler").shouldBe(visible).click();
+    $$(".activity-name").find(text("PortalKit")).parent().parent().find(".ui-treetable-toggler").shouldBe(visible).click();
+    var portalKitVersionId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit$1")).parent().parent().parent().shouldBe(visible).attr("data-rk");
+    $(By.id(portalKitVersionId + ":deactivateButton")).shouldBe(visible).click();
+  }
+
+  private void deletePortalKit()
+  {
     var portalKitId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit")).parent().parent().shouldBe(visible).attr("data-rk");
     $(By.id(portalKitId + ":tasksButton")).shouldBe(visible).click();
     $(By.id(portalKitId + ":deleteBtn")).shouldBe(visible).click();

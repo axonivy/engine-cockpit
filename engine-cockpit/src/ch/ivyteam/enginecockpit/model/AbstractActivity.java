@@ -169,6 +169,11 @@ public abstract class AbstractActivity
     return isDisabled();
   }
   
+  public String getDeleteHint()
+  {
+    return "Are you sure about deleting this " + getActivityType() + "?";
+  }
+  
   public void activate()
   {
     activity.activate();
