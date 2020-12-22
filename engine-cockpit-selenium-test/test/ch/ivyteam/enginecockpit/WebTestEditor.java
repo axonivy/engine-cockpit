@@ -59,7 +59,7 @@ public class WebTestEditor
     assertThat(Tab.getCount()).isGreaterThan(1);
     String ivyYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     $(editorContentSelector()).shouldNotHave(attribute("value", ""));
-    Tab.switchToTab("app-test-ad.yaml");
+    Tab.switchToTab("test-ad/app.yaml");
     String appYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     assertThat(ivyYamlHints).isNotEqualTo(appYamlHints);
     $(editorContentSelector()).shouldHave(value("SecuritySystem: test-ad"));
@@ -68,36 +68,36 @@ public class WebTestEditor
   @Test
   void testEditorSaveErrorsDialog()
   {
-    Tab.switchToTab("app-test.yaml");
+    Tab.switchToTab("test/app.yaml");
     String newEditorContent = "test: hi\n  bla: fail";
     String editorContent = $(editorContentSelector()).shouldNotBe(empty).getAttribute("value");
-    
-    executeJs("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(newEditorContent) + "\");");
+
+    executeJs("editor_test_app.setValue(\"" + StringEscapeUtils.escapeJava(newEditorContent) + "\");");
     $(editorContentSelector()).shouldBe(exactValue(newEditorContent));
     $$(".CodeMirror-lint-marker-error").shouldBe(sizeGreaterThan(0));
     $("#card\\:saveEditorModel").shouldNotBe(visible);
-    
+
     $(getActivePanelCss() + "editorForm\\:saveEditor").click();
     $("#card\\:saveEditorModel").shouldBe(visible);
-    
+
     $("#card\\:saveEditorForm\\:cancelChangesBtn").click();
     $("#card\\:saveEditorModel").shouldNotBe(visible);
-    
-    executeJs("editor_app_test.setValue(\"" + StringEscapeUtils.escapeJava(editorContent) + "\");");
-    executeJs("editor_app_test.performLint();");
+
+    executeJs("editor_test_app.setValue(\"" + StringEscapeUtils.escapeJava(editorContent) + "\");");
+    executeJs("editor_test_app.performLint();");
     $(editorContentSelector()).shouldNotBe(empty);
     $$(".CodeMirror-lint-marker-error").shouldBe(CollectionCondition.empty);
-    
+
     $("#card\\:editorMessage_container").shouldBe(empty);
     $(getActivePanelCss() + "editorForm\\:saveEditor").click();
-    $("#card\\:editorMessage_container").shouldBe(exactText("Saved app-test.yaml Successfully"));
+    $("#card\\:editorMessage_container").shouldBe(exactText("Saved test/app.yaml Successfully"));
   }
   
   @Test
   void directFileOpenUrl()
   {
-    open(viewUrl("editor.xhtml?file=app-test.yaml"));
-    assertThat(Tab.getSelectedTab()).contains("app-test.yaml");
+    open(viewUrl("editor.xhtml?file=test/app.yaml"));
+    assertThat(Tab.getSelectedTab()).contains("test/app.yaml");
     $(editorContentSelector()).shouldHave(value("BusinessCalendars:"));
   }
   

@@ -34,7 +34,7 @@ public class EditorBean
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     File ivyYaml = UrlUtil.getConfigFile("ivy.yaml");
-    configFiles.add(new ConfigFile(ivyYaml, IConfiguration.instance()));
+    configFiles.add(new ConfigFile(ivyYaml, ivyYaml.getName(), IConfiguration.instance()));
     configFiles.addAll(managerBean.getIApplications().stream()
             .map(this::createAppConfigFile)
             .collect(Collectors.toList()));
@@ -42,8 +42,9 @@ public class EditorBean
 
   private ConfigFile createAppConfigFile(IApplication app)
   {
-    File appYaml = UrlUtil.getConfigFile("app-" + app.getName() + ".yaml");
-    return new ConfigFile(appYaml, ((IApplicationInternal) app).getConfiguration());
+    var appYaml = new File(UrlUtil.getConfigFile(app.getName()), "app.yaml");
+    var name = app.getName() + "/app.yaml";
+    return new ConfigFile(appYaml, name, ((IApplicationInternal) app).getConfiguration());
   }
 
   public List<ConfigFile> getConfigFiles()
