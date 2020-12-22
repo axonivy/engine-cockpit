@@ -31,6 +31,7 @@ public class Navigation
   private static final String SYSTEM_MENU = "#menuform\\:sr_system";
   private static final String SYSTEM_ADMINS = "#menuform\\:sr_admins";
   private static final String SYSTEM_SYSTEMDB_MENU = "#menuform\\:sr_systemdb";
+  private static final String SYSTEM_WEB_SERVER_MENU = "#menuform\\:sr_web_server";
   private static final String SYSTEM_CONFIG_MENU = "#menuform\\:sr_system_config";
   private static final String SYSTEM_CLUSTER = "#menuform\\:sr_cluster";
   private static final String SYSTEM_EDITOR_MENU = "#menuform\\:sr_editor";
@@ -217,6 +218,13 @@ public class Navigation
     toSubMenu(SYSTEM_MENU, SYSTEM_SYSTEMDB_MENU);
     assertCurrentUrlEndsWith("systemdb.xhtml");
     menuShouldBeActive(SYSTEM_SYSTEMDB_MENU);
+  }
+  
+  public static void toWebServer()
+  {
+    toSubMenu(SYSTEM_MENU, SYSTEM_WEB_SERVER_MENU);
+    assertCurrentUrlEndsWith("webserver.xhtml");
+    menuShouldBeActive(SYSTEM_WEB_SERVER_MENU);
   }
   
   public static void toSystemConfig()

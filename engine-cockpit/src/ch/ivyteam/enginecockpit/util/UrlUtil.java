@@ -42,7 +42,7 @@ public class UrlUtil
     String version;
     if (Advisor.getAdvisor().isReleaseCandidate())
     {
-      version = "dev";
+      version = "nightly-8";
     }
     else
     {
