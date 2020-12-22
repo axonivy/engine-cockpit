@@ -30,8 +30,8 @@
       <p:column headerText="Value" filterBy="#{config.value}" styleClass="#{config.default ? 'default-value' : ''}">
         <h:outputText value="#{config.password ? '******' : config.value}" />
       </p:column>
-      <p:column headerText="Location" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}"
-        style="width: 150px;" styleClass="second-row">
+      <p:column headerText="Source" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}"
+        style="width: 150px;" styleClass="#{config.default ? 'default-value' : ''} second-row">
         <h:outputText value="#{config.shortSource}" title="#{config.source}" />
       </p:column>
       <p:column style="width: 95px;">
@@ -91,8 +91,6 @@
   <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
     widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
     <h:form id="editConfigurationForm">
-      <p:staticMessage severity="info" summary="Values from app.yaml files are overritten in the ivy.yaml file"
-        rendered="#{cc.attrs.bean.activeConfig.shortSource eq 'app.yaml'}" />
       <p:staticMessage severity="info" summary="If you change this property, you have to restart you engine"
         rendered="#{cc.attrs.bean.activeConfig.restartRequired}" />
 
