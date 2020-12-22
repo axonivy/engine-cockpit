@@ -17,14 +17,14 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 @SuppressWarnings("restriction")
 public class ConfigFile
 {
-private File file;
-private String content;
-private String fileName;
-private IConfiguration config;
-  
-  public ConfigFile(File file, IConfiguration config)
+  private File file;
+  private String content;
+  private String fileName;
+  private IConfiguration config;
+
+  public ConfigFile(File file, String filename, IConfiguration config)
   {
-    this.fileName = file.getName();
+    this.fileName = filename;
     this.config = config;
     this.file = file;
     this.content = getFileContent();
@@ -34,13 +34,14 @@ private IConfiguration config;
   {
     return fileName;
   }
-  
+
   public String getVarName()
   {
-    String name = StringUtils.replace(fileName, "-", "_");
+    var name = StringUtils.replace(fileName, "-", "_");
+    name = StringUtils.replace(fileName, "/", "_");
     return StringUtils.removeEnd(name, ".yaml");
   }
-  
+
   public String getContent()
   {
     return content;
