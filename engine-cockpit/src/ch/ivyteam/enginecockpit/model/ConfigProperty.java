@@ -46,10 +46,7 @@ public class ConfigProperty
     this.value = property.getValue();
     this.defaultValue = property.getMetaData().getDefaultValue();
     this.isDefault = property.isDefault();
-    if (!isDefault)
-    {
-      this.source = property.getSource();
-    }
+    this.source = property.getSource();
     this.password = property.getMetaData().isPassword();
     this.configValueFormat = property.getMetaData().getFormat();
     this.enumerationValues = property.getMetaData().getEnumerationValues();
