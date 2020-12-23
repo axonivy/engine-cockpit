@@ -28,6 +28,7 @@ public class WebServerBean
   private ConfigProperty frontendHost;
   private ConfigProperty frontendPort;
   private ConfigProperty frontendProtocol;
+  private boolean showHeaders = false;
 
   public WebServerBean()
   {
@@ -102,6 +103,16 @@ public class WebServerBean
   public List<String> getFrontendProtocols()
   {
     return frontendProtocol.getEnumerationValues();
+  }
+  
+  public void setShowHeaders()
+  {
+    showHeaders = true;
+  }
+  
+  public boolean isShowHeaders()
+  {
+    return showHeaders;
   }
   
   public void saveFrontend()
