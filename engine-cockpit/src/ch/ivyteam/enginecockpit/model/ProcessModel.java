@@ -62,23 +62,23 @@ public class ProcessModel extends AbstractActivity
   public String getDeleteHint()
   {
     var message = new StringBuilder();
-    if (runningCasesCount > 0)
-    {
-      message.append(runningCasesCount + " running cases");
-    }
     var dependentPmvs = getDependentPmvs();
     if (!dependentPmvs.isEmpty())
     {
-      if (message.length() > 0)
-      {
-        message.append(" and ");
-      }
-      message.append(dependentPmvs.size() + " dependent PMV(s)");
+      message.append(dependentPmvs.size()).append(" dependent PMV(s)");
+    }
+    if (runningCasesCount > 0)
+    {
+        if (message.length() > 0)
+        {
+          message.append(" and ");
+        }
+      message.append(runningCasesCount).append(" running cases. The cases will also be deleted");
     }
     
     if (message.length() > 0)
     {
-      message.insert(0, "PM contains ");
+      message.insert(0, getActivityType() + " has ");
       message.append(". ");
     }
     message.append(super.getDeleteHint());
