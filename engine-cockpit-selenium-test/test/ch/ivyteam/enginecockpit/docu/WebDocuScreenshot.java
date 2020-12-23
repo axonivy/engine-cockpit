@@ -99,7 +99,7 @@ public class WebDocuScreenshot
     Navigation.toSystemDb();
     takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 900));
     Navigation.toWebServer();
-    takeScreenshot("engine-cockpit-web-server", new Dimension(SCREENSHOT_WIDTH, 900));
+    takeScreenshot("engine-cockpit-web-server", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toSystemConfig();
     takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
     Navigation.toCluster();
