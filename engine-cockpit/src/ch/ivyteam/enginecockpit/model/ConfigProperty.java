@@ -34,6 +34,7 @@ public class ConfigProperty
   private boolean restartRequired;
   private String description;
   private File file;
+  private String fileExtension;
   
   public ConfigProperty()
   {
@@ -52,6 +53,7 @@ public class ConfigProperty
     this.enumerationValues = property.getMetaData().getEnumerationValues();
     this.restartRequired = property.getMetaData().isRestartRequired();
     this.description = property.getMetaData().getDescription();
+    this.fileExtension = property.getMetaData().getFileExtension();
     correctValuesIfDaytimeFormat();
     getFile();
   }
@@ -159,6 +161,11 @@ public class ConfigProperty
   public boolean hasDescription()
   {
     return StringUtils.isNotBlank(description);
+  }
+  
+  public String getEditorMode()
+  {
+    return StringUtils.equals(fileExtension, "json") ? "javascript" : "";
   }
   
   public boolean fileExist()
