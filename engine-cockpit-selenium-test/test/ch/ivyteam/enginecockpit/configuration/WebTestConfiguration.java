@@ -339,7 +339,7 @@ public class WebTestConfiguration
   
   private void assertThatConfigEditModalIsVisible(String key, String value)
   {
-    $("#config\\:editConfigurationModal").shouldBe(visible);
+    $("#config\\:editConfigurationForm\\:editConfigurationModal").shouldBe(visible);
     $("#config\\:editConfigurationForm\\:editConfigurationKey").shouldBe(exactText(key));
     String classAttr = $("#config\\:editConfigurationForm\\:editConfigurationValue").getAttribute("class");
     if (StringUtils.contains(classAttr, "ui-chkbox"))

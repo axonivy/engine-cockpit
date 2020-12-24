@@ -50,7 +50,7 @@
         </p:menu>
         <p:commandButton id="editConfigBtn" icon="si si-pencil" title="Edit"
           styleClass="card-button table-control-btn secondary-btn" process="@this"
-          actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update="config:editConfigurationModal"
+          actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update="config:editConfigurationForm:editConfigurationModal"
           oncomplete="PF('editConfigurationModal').show();" />
       </p:column>
     </p:dataTable>
@@ -89,9 +89,9 @@
     </h:form>
   </p:dialog>
 
-  <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
-    widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
-    <h:form id="editConfigurationForm">
+  <h:form id="editConfigurationForm">
+    <p:dialog styleClass="config-edit" header="Edit configuration" id="editConfigurationModal"
+      widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
       <p:staticMessage severity="info" summary="If you change this property, you have to restart you engine"
         rendered="#{cc.attrs.bean.activeConfig.restartRequired}" />
 
@@ -139,13 +139,15 @@
           </c:otherwise>
         </c:choose>
       </p:panelGrid>
-      <p:commandButton id="saveEditConfiguration" update="config:form:configTable"
-        onsuccess="PF('editConfigurationModal').hide()" actionListener="#{cc.attrs.bean.saveConfig}" value="Save"
-        icon="si si-floppy-disk" process="editConfigurationForm" styleClass="modal-input-button" />
-      <p:commandLink id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel"
-        type="button" styleClass="modal-input-button" />
-    </h:form>
-  </p:dialog>
+      <f:facet name="footer">
+        <p:commandLink id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel"
+          type="button" styleClass="modal-input-button" />
+        <p:commandButton id="saveEditConfiguration" update="config:form:configTable"
+          onsuccess="PF('editConfigurationModal').hide()" actionListener="#{cc.attrs.bean.saveConfig}" value="Save"
+          icon="si si-floppy-disk" process="editConfigurationForm" styleClass="modal-input-button" />
+      </f:facet>
+    </p:dialog>
+  </h:form>
 
   <p:dialog style="min-width: 400px;" header="New configuration" id="newConfigurationModal"
     widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
