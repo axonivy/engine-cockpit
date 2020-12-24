@@ -228,6 +228,16 @@ public class WebTestConfiguration
       assertEditConfig(key, value, "newValue");
       assertResetConfig(key);
     }
+    
+    @Test
+    void testEditConfig_fileFormat()
+    {
+      String config = "variables.PORTAL_DASHBOARD";
+      table.clickButtonForEntry(config, "editConfigBtn");
+      assertThatConfigEditModalIsVisible(config, "{\n" + 
+              "  \"name\": \"this is a json file\"\n" + 
+              "}");
+    }
   }
   
   @Nested
@@ -341,7 +351,8 @@ public class WebTestConfiguration
   {
     $("#config\\:editConfigurationForm\\:editConfigurationModal").shouldBe(visible);
     $("#config\\:editConfigurationForm\\:editConfigurationKey").shouldBe(exactText(key));
-    String classAttr = $("#config\\:editConfigurationForm\\:editConfigurationValue").getAttribute("class");
+    var configValue = $("#config\\:editConfigurationForm\\:editConfigurationValue");
+    String classAttr = configValue.getAttribute("class");
     if (StringUtils.contains(classAttr, "ui-chkbox"))
     {
       SelectBooleanCheckbox checkbox = PrimeUi.selectBooleanCheckbox(By.id("config:editConfigurationForm:editConfigurationValue"));
@@ -355,6 +366,11 @@ public class WebTestConfiguration
     {
       SelectOneMenu menu = PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"));
       assertThat(menu.getSelectedItem()).isEqualTo(value);
+    }
+    else if (StringUtils.contains(configValue.getTagName(), "textarea"))
+    {
+      configValue.shouldNotBe(visible).shouldBe(exactValue(value));
+      $(".CodeMirror").shouldBe(visible, text("this is a json file"));
     }
     else
     {

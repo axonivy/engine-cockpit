@@ -29,7 +29,8 @@
         </h:outputText>
       </p:column>
       <p:column headerText="Value" filterBy="#{config.value}" styleClass="#{config.default ? 'default-value' : ''}">
-        <h:outputText value="#{config.password ? '******' : config.value}" />
+        <h:outputText class="table-cell-autocut" rendered="#{!config.password}" value="#{config.value}" title="#{config.value}" />
+        <h:outputText rendered="#{config.password}" value="******" />
       </p:column>
       <p:column headerText="Source" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}"
         style="width: 150px;" styleClass="#{config.default ? 'default-value' : ''} second-row">
@@ -57,7 +58,7 @@
   </h:form>
 
   <p:confirmDialog id="resetConfigConfirmDialog" header="Reset Config"
-    message="Are you sure about reseting the configuration '#{cc.attrs.bean.activeConfig.key}=#{cc.attrs.bean.activeConfig.password ? '******' : cc.attrs.bean.activeConfig.value}'?"
+    message="Are you sure about reseting the configuration '#{cc.attrs.bean.activeConfig.key}'?"
     severity="alert" widgetVar="resetConfigConfirmDialog">
     <h:form id="resetConfigConfirmForm">
       <p:commandLink value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button"
