@@ -118,14 +118,19 @@
                 <h:outputText value="#{webServerBean.remoteAddr}" />
               </p:panelGrid>
               
-              <p:dataTable id="requestHeaderTable" var="data" value="#{webServerBean.requestData}">
-                <p:column headerText="Header">
-                  <h:outputText styleClass="header" value="#{data.data}" />
-                </p:column>
-                <p:column headerText="Value">
-                  <h:outputText value="#{data.value}" />
-                </p:column>
-              </p:dataTable>
+              <h:form id="form">
+                <p:commandButton id="showHeaders" value="Show Headers" icon="si si-view-1" actionListener="#{webServerBean.setShowHeaders}" 
+                  update="@form" rendered="#{!webServerBean.isShowHeaders()}" style="margin: 20px 0; width: 200px;" />
+                
+                <p:dataTable id="requestHeaderTable" var="data" value="#{webServerBean.requestData}" rendered="#{webServerBean.isShowHeaders()}">
+                  <p:column headerText="Header">
+                    <h:outputText styleClass="header" value="#{data.data}" />
+                  </p:column>
+                  <p:column headerText="Value">
+                    <h:outputText value="#{data.value}" />
+                  </p:column>
+                </p:dataTable>
+              </h:form>
               
               <script>
               if (!window.location.href.startsWith('#{webServerBean.externalUrl}')) {

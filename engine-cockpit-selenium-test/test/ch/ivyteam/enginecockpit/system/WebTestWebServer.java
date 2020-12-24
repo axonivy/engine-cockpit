@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
@@ -64,7 +65,10 @@ public class WebTestWebServer
   {
     $("#coreRequestData").shouldHave(text(EngineUrl.base()), 
             text("/faces/view/engine-cockpit/webserver.xhtml"));
-    var headerTable = new Table(By.id("requestHeaderTable"));
+    $(By.id("form:requestHeaderTable")).shouldNot(exist);
+    $("#form\\:showHeaders").shouldBe(visible).click();
+    $("#form\\:showHeaders").shouldNotBe(visible);
+    var headerTable = new Table(By.id("form:requestHeaderTable"));
     headerTable.firstColumnShouldBe(sizeGreaterThan(5));
     headerTable.valueForEntryShould("user-agent", 2, text("Firefox"));
   }
