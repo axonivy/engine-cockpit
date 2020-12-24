@@ -136,6 +136,19 @@ public class Application extends AbstractActivity
   {
     execute(() -> IApplicationConfigurationManager.instance().deleteApplication(getName()), "delete", false);
   }
+  
+  @Override
+  public String getDeleteHint()
+  {
+    var message = new StringBuilder();
+    if (runningCasesCount > 0)
+    {
+      message.append(getActivityType()).append(" has ").append(runningCasesCount).append(" running cases. ");
+      message.append("They will also be deleted. ");
+    }
+    message.append(super.getDeleteHint());
+    return message.toString();
+  }
 
   public String getSecuritySystemName()
   {
