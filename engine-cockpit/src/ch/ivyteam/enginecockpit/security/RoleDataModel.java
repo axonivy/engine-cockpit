@@ -75,17 +75,17 @@ public class RoleDataModel
     node.setExpanded(true);
   }
   
-  public class LazyRoleTreeNode extends DefaultTreeNode
+  private final class LazyRoleTreeNode extends DefaultTreeNode
   {
-    private IRole role;
+    private final IRole role;
     private boolean childrenFetched;
-    private boolean member;
+    private final boolean isMember;
 
-    public LazyRoleTreeNode(IRole role, boolean member, TreeNode node)
+    public LazyRoleTreeNode(IRole role, boolean isMember, TreeNode node)
     {
-      super(new Role(role, member), node);
+      super(new Role(role, isMember), node);
       this.role = role;
-      this.member = member;
+      this.isMember = isMember;
       setType("role");
     }
     
@@ -113,19 +113,28 @@ public class RoleDataModel
     @SuppressWarnings("unused")
     private void ensureChildrenFetched()
     {
-      if (!childrenFetched && !member &&
-              role != null && getParent().isExpanded())
+      if (childrenFetched)
       {
-        childrenFetched = true;
-        var rolesLeft = addRolesToTree(role.getChildRoles(), false);
-        if (showMember)
-        {
-          addRolesToTree(role.getRoleMembers(), true);
-        }
-        if (rolesLeft > 0)
-        {
-          new DefaultTreeNode("dummy", new Role("Please use the search to find a specific role (" + rolesLeft + " more roles)"), this);
-        }
+        return;
+      }
+      if (isMember)
+      {
+        return;
+      }
+      if (role == null)
+      {
+        return;
+      }
+
+      childrenFetched = true;
+      var rolesLeft = addRolesToTree(role.getChildRoles(), false);
+      if (showMember)
+      {
+        addRolesToTree(role.getRoleMembers(), true);
+      }
+      if (rolesLeft > 0)
+      {
+        new DefaultTreeNode("dummy", new Role("Please use the search to find a specific role (" + rolesLeft + " more roles)"), this);
       }
     }
 
@@ -138,5 +147,4 @@ public class RoleDataModel
       return rolesToAdd.size() - ROLE_CHILDREN_LIMIT;
     }
   }
-
 }
