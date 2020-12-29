@@ -113,8 +113,7 @@ public class RoleDataModel
     @SuppressWarnings("unused")
     private void ensureChildrenFetched()
     {
-      if (!childrenFetched && !member &&
-              role != null && getParent().isExpanded())
+      if (!childrenFetched && !member && role != null)
       {
         childrenFetched = true;
         var rolesLeft = addRolesToTree(role.getChildRoles(), false);
