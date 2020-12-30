@@ -115,7 +115,6 @@ public class RoleDataModel extends TreeView
       {
         return;
       }
-    	
       childrenFetched = true;
       var rolesLeft = addRolesToTree(role.getChildRoles(), false);
       if (showMember)
