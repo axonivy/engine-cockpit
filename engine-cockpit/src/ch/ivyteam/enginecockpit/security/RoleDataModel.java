@@ -103,19 +103,27 @@ public class RoleDataModel extends TreeView
     @SuppressWarnings("unused")
     private void ensureChildrenFetched()
     {
-      if (!childrenFetched && !member &&
-              role != null && getParent().isExpanded())
+      if (childrenFetched)
       {
-        childrenFetched = true;
-        var rolesLeft = addRolesToTree(role.getChildRoles(), false);
-        if (showMember)
-        {
-          addRolesToTree(role.getRoleMembers(), true);
-        }
-        if (rolesLeft > 0)
-        {
-          new DefaultTreeNode("dummy", new Role("Please use the search to find a specific role (" + rolesLeft + " more roles)"), this);
-        }
+        return;
+      }
+      if (member)
+      {
+        return;
+      }
+      if (role == null)
+      {
+        return;
+      }
+      childrenFetched = true;
+      var rolesLeft = addRolesToTree(role.getChildRoles(), false);
+      if (showMember)
+      {
+        addRolesToTree(role.getRoleMembers(), true);
+      }
+      if (rolesLeft > 0)
+      {
+        new DefaultTreeNode("dummy", new Role("Please use the search to find a specific role (" + rolesLeft + " more roles)"), this);
       }
     }
 
@@ -128,5 +136,4 @@ public class RoleDataModel extends TreeView
       return rolesToAdd.size() - ROLE_CHILDREN_LIMIT;
     }
   }
-
 }
