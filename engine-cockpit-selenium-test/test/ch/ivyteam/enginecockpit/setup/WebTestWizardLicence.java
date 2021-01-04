@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.setupwizard;
+package ch.ivyteam.enginecockpit.setup;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetLicence;
 import static com.codeborne.selenide.Condition.empty;

@@ -24,12 +24,12 @@ import ch.ivyteam.ivy.migration.restricted.MigrationTaskLoader;
 @SuppressWarnings("restriction")
 public class MigrationBean
 {
-  private String pathToOldEngine = "/home/lli/Downloads/RealEngineForEclipse8"; //TODO: set to empty 
+  private String pathToOldEngine;
   private MigrationEngines engines;
   private MigrationPath migrationPath;
   private MigrationScenario scenario;
   private List<Task> tasks;
-  private MigrationState running = MigrationState.START;
+  private MigrationState running;
   private CompletableFuture<String> migrationRunner;
   private MigrationRunner client;
   
@@ -42,6 +42,7 @@ public class MigrationBean
       migrationPath = MigrationPath.of(engines.getOrigin().getVersion(), engines.getTarget().getVersion());
       scenario = MigrationScenario.create(migrationPath, ()->MigrationTaskLoader.allTasks());
       reloadTasks();
+      running = MigrationState.START;
     }
     catch (Exception ex)
     {

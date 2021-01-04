@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.setupwizard;
+package ch.ivyteam.enginecockpit.setup;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
