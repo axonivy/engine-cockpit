@@ -25,7 +25,7 @@
       <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}"
         styleClass="#{config.default ? 'default-value' : ''}">
         <h:outputText value="#{config.key}" title="#{config.description}" styleClass="config-name">
-          <i class="si si-#{config.password ? 'password-lock-2' : 'cog'} table-icon"></i>
+          <i class="si si-#{config.icon} table-icon"></i>
         </h:outputText>
       </p:column>
       <p:column headerText="Value" filterBy="#{config.value}" styleClass="#{config.default ? 'default-value' : ''}">

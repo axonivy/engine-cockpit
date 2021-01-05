@@ -117,10 +117,18 @@ public class ConfigProperty
   {
     return password;
   }
-
-  public void setPassword(boolean password)
+  
+  public String getIcon()
   {
-    this.password = password;
+    if(isPassword())
+    {
+      return "password-lock-2";
+    }
+    if (configValueFormat == ConfigValueFormat.FILE)
+    {
+      return "common-file-text";
+    }
+    return "cog";
   }
   
   public String getConfigValueFormat()
