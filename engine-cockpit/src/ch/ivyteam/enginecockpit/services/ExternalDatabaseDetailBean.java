@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.services;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import ch.ivyteam.db.jdbc.DatabaseUtil;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
@@ -25,11 +25,11 @@ import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestRes
 import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
-import ch.ivyteam.util.Property;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.db.IExternalDatabase;
 import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
+import ch.ivyteam.util.Property;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -179,20 +179,17 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   
   private ConnectionTestResult testConnection()
   {
-    ExternalDatabaseManager dbManager = DiCore.getGlobalInjector().getInstance(ExternalDatabaseManager.class);
-    IExternalDatabase iExternalDatabase = dbManager.getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
-    try
+    var dbConfig = managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName).getDatabaseConnectionConfiguration();
+    try (var connection =  DatabaseUtil.openConnection(dbConfig))
     {
-      if (iExternalDatabase.getConnection().isValid(10))
-      {
-        return new ConnectionTestResult("", 0, TestResult.SUCCESS, "Successfully connected to database");
-      }
-      else
-      {
-        return new ConnectionTestResult("", 0, TestResult.ERROR, "Could not connect to database");
-      }
+      var metaData = connection.getMetaData();
+      var productName = metaData.getDatabaseProductName();
+      var productVersion = metaData.getDatabaseProductVersion();
+      var jdbcVersion = metaData.getJDBCMajorVersion();
+      return new ConnectionTestResult("", 0, TestResult.SUCCESS, "Successfully connected to database: " + productName
+              + " (" + productVersion + ") with JDBC Version " + jdbcVersion);
     }
-    catch (NullPointerException | SQLException ex)
+    catch (Exception ex)
     {
       return new ConnectionTestResult("", 0, TestResult.ERROR, "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
