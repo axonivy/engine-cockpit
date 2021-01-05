@@ -8,6 +8,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -67,9 +68,9 @@ public class WebTestPmvDetail
   private void deletePortalKit()
   {
     var portalKitId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit")).parent().parent().shouldBe(visible).attr("data-rk");
-    $(By.id(portalKitId + ":tasksButton")).shouldBe(visible).click();
-    $(By.id(portalKitId + ":deleteBtn")).shouldBe(visible).click();
-    $(By.id("card:form:deleteConfirmYesBtn")).shouldBe(visible).click();
+    $(By.id(portalKitId + ":tasksButton")).shouldBe(visible, enabled).click();
+    $(By.id(portalKitId + ":deleteBtn")).shouldBe(visible, enabled).click();
+    $(By.id("card:form:deleteConfirmYesBtn")).shouldBe(visible, enabled).click();
   }
   
   private void dependenciesNotResolved()
