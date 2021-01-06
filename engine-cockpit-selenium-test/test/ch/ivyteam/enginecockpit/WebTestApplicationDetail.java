@@ -77,7 +77,7 @@ public class WebTestApplicationDetail
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").should(exist);
     $("#appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
     $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("si-is-spinning"));
-    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("si-is-spinning")), 10000);
+    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("si-is-spinning")), 20000);
     
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()

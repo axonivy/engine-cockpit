@@ -71,7 +71,7 @@ public class WebTestSecuritySystemDetail
   void testConnectionInfos()
   {
     $("#securitySystemConfigForm\\:provider").shouldBe(exactText("Microsoft Active Directory"));
-    $(URL).shouldBe(exactValue("ldap://zugtstdirads"));
+    $(URL).shouldBe(exactValue("ldap://test-ad.ivyteam.io"));
     $("#securitySystemConfigForm\\:userName").shouldBe(exactValue("admin@zugtstdomain.wan"));
     $("#securitySystemConfigForm\\:password").shouldBe(exactValue(""));
     
@@ -83,7 +83,7 @@ public class WebTestSecuritySystemDetail
     
     $(URL).shouldBe(exactValue("test"));
     $(URL).clear();
-    $(URL).sendKeys("ldap://zugtstdirads");
+    $(URL).sendKeys("ldap://test-ad.ivyteam.io");
     $(SAVE_SECURITY_SYSTEM_BTN).click();
     $(SAVE_SUCCESS_GROWL).shouldBe(visible);
   }
@@ -207,11 +207,11 @@ public class WebTestSecuritySystemDetail
   void testLdapBrowser_wrongConfig()
   {
     $(URL).clear();
-    $(URL).sendKeys("ldap://zugtstdirads2");
+    $(URL).sendKeys("ldap://test-ad.ivyteam.io2");
     $(SAVE_SECURITY_SYSTEM_BTN).click();
     openLdapBrowserWithConnError();
     $(URL).clear();
-    $(URL).sendKeys("ldap://zugtstdirads");
+    $(URL).sendKeys("ldap://test-ad.ivyteam.io");
     $(USERNAME).clear();
     $(USERNAME).sendKeys("bla");
     $(SAVE_SECURITY_SYSTEM_BTN).scrollIntoView("{block: \"center\"}").click();
@@ -227,7 +227,7 @@ public class WebTestSecuritySystemDetail
   void testLdapBrowser_ssl()
   {
     $(URL).clear();
-    $(URL).sendKeys("ldaps://zugtstdirads");
+    $(URL).sendKeys("ldaps://test-ad.ivyteam.io:637"); // 637 for self-signed certificate
     $(USE_SSL).click();
     $(SAVE_SECURITY_SYSTEM_BTN).click();
     openLdapBrowserWithConnError();
@@ -237,7 +237,7 @@ public class WebTestSecuritySystemDetail
     $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
     $(LDAP_BROWSER_CANCEL).click();
     $(URL).clear();
-    $(URL).sendKeys("ldap://zugtstdirads");
+    $(URL).sendKeys("ldap://test-ad.ivyteam.io");
     $(USE_SSL).click();
     $(ENABLE_INSECURE_SSL).click();
     $(SAVE_SECURITY_SYSTEM_BTN).click();
@@ -248,11 +248,11 @@ public class WebTestSecuritySystemDetail
   {
     $(DEFAULT_CONTEXT).clear();
     openDefaultLdapBrowser();
-    $$(LDAP_BROWSER_FORM + "tree > ul > li").shouldHave(size(5));
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+    $$(LDAP_BROWSER_FORM + "tree > ul > li").shouldHave(size(3));
+    $(LDAP_BROWSER_FORM + "tree\\:2 .ui-tree-toggler").click();
+    $(LDAP_BROWSER_FORM + "tree\\:2 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("OU=IvyTeam Test-OU")).click();
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+    $(LDAP_BROWSER_FORM + "tree\\:2 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("OU=IvyTeam Test-OU")).shouldHave(cssClass("ui-state-highlight"));
     $(LDAP_BROWSER_CHOOSE).scrollTo().click();
     $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
@@ -282,7 +282,7 @@ public class WebTestSecuritySystemDetail
     openDefaultLdapBrowser();
     Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
     table.firstColumnShouldBe(CollectionCondition.empty);
-    $(LDAP_BROWSER_FORM + "tree\\:0").click();
+    $(LDAP_BROWSER_FORM + "tree\\:2").click();
     table.valueForEntryShould("distinguishedName", 2, exactText("DC=zugtstdomain,DC=wan"));
   }
   

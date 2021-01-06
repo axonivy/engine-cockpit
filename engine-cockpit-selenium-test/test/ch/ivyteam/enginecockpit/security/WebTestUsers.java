@@ -8,6 +8,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -197,7 +198,7 @@ public class WebTestUsers
     showSynchUserDialog();
     $("#synchUserForm\\:userSynchName").shouldBe(exactValue("")).sendKeys("user1");
     $("#synchUserForm\\:synchUserVar").click();
-    $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
+    $("#synchUserForm\\:logViewer").waitUntil(text("INFO: User synchronization"), 10000);
   }
   
   @Test
@@ -235,6 +236,6 @@ public class WebTestUsers
     String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("si-is-spinning"));
-    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("si-is-spinning"));
+    $(syncBtnId).findAll("span").first().waitUntil(not(cssClass("si-is-spinning")), 20000);
   }
 }

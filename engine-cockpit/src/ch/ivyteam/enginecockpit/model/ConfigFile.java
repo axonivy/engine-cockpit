@@ -38,7 +38,7 @@ public class ConfigFile
   public String getVarName()
   {
     var name = StringUtils.replace(fileName, "-", "_");
-    name = StringUtils.replace(fileName, "/", "_");
+    name = StringUtils.replace(name, "/", "_");
     return StringUtils.removeEnd(name, ".yaml");
   }
 

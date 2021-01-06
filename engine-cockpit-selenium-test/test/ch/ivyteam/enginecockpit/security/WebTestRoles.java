@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -78,7 +79,7 @@ public class WebTestRoles
     String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("si-is-spinning"));
-    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("si-is-spinning"));
+    $(syncBtnId).findAll("span").first().waitUntil(not(cssClass("si-is-spinning")), 20000);
   }
   
   private static String getAppTabId()
