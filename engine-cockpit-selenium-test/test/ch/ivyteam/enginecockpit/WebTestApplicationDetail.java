@@ -76,7 +76,7 @@ public class WebTestApplicationDetail
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").shouldNotBe(exist);
     $("#appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
     $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("fa-spin"));
-    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("fa-spin")), 10000);
+    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("fa-spin")), 20000);
     
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").shouldBe(visible);
   }
