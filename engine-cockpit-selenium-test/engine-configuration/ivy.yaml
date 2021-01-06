@@ -4,7 +4,7 @@ SecuritySystems:
   test-ad:
     Provider: "Microsoft Active Directory"
     Connection:
-      Url: ldap://zugtstdirads
+      Url: ldap://test-ad.ivyteam.io
       UserName: admin@zugtstdomain.wan
       Password: nimda
     Binding:

@@ -100,7 +100,7 @@ public class WebTestUsers
     showSynchUserDialog();
     $("#synchUserForm\\:userSynchName").shouldHave(text("")).sendKeys("user1");
     $("#synchUserForm\\:synchUserVar").click();
-    $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
+    $("#synchUserForm\\:logViewer").waitUntil(text("INFO: User synchronization"), 10000);
   }
   
   private void showSynchUserDialog()
