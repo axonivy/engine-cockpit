@@ -38,8 +38,9 @@ public class SystemDatabaseCreator
   
   private static DatabaseConnectionConfiguration getDbConfig(String dbName)
   {
+    var dbHost = System.getProperty("db.host", "db host not set via system property db.host");
     return new DatabaseConnectionConfiguration(
-            "jdbc:mysql://db:3306/" + dbName,
+            "jdbc:mysql://"+dbHost+":3306/" + dbName,
             "com.mysql.jdbc.Driver", "root", "1234");
   }
   

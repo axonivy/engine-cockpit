@@ -25,23 +25,36 @@ pipeline {
       steps {
         script {
           withCredentials([string(credentialsId: 'github.ivy-team.token', variable: 'GITHUB_TOKEN')]) {
-            docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=1234" -e "MYSQL_DATABASE=test"') { container ->
-              docker.image('axonivy/build-container:web-1.0').inside("--link ${container.id}:db ${dockerfileParams}") {
-                  //'MySql', 'jdbc:mysql://db:3306', 'root', '1234'
-
-              maven cmd: "clean verify " +
+            def random = (new Random()).nextInt(10000000)
+            def networkName = "build-" + random
+            def seleniumName = "selenium-" + random
+            def ivyName = "ivy-" + random
+            def dbName = "db-" + random
+            try {
+              sh "docker network create ${networkName}"
+              docker.image('mysql:5').withRun("-e \"MYSQL_ROOT_PASSWORD=1234\" -e \"MYSQL_DATABASE=test\" --name ${dbName} --network ${networkName}") {
+                docker.image("selenium/standalone-firefox:3").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} ${dockerfileParams}") {
+                  docker.build('maven').inside("--name ${ivyName} --network ${networkName}") {
+                    maven cmd: "clean verify " +
                         "-Dwdm.gitHubTokenName=ivy-team " +
                         "-Dwdm.gitHubTokenSecret=${env.GITHUB_TOKEN} " +
                         "-Dmaven.test.failure.ignore=true " +
-                        "-Dengine.page.url=" + params.engineSource
+                        "-Dengine.page.url=${params.engineSource} " +
+                        "-Dtest.engine.url=http://${ivyName}:8080 " +
+                        "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
+                        "-Ddb.host=${dbName} "
 
-                checkVersions recordIssue: false
-                checkVersions cmd: '-f maven-config/pom.xml'
-                junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
-                archiveArtifacts '**/target/*.iar'
-                archiveArtifacts '.ivy-engine/logs/*'
-                archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
+                    checkVersions recordIssue: false
+                    checkVersions cmd: '-f maven-config/pom.xml'
+                    junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
+                    archiveArtifacts '**/target/*.iar'
+                    archiveArtifacts '.ivy-engine/logs/*'
+                    archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true                    
+                  }
+                }
               }
+            } finally {
+              sh "docker network rm ${networkName}"
             }
           }
         }
