@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ContentFilter;
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
-import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")
@@ -174,23 +173,7 @@ public class ConfigView implements ContentFilter
 
   public void saveConfig()
   {
-    if (activeConfig.getValue().equals(activeConfig.getDefaultValue()))
-    {
-      resetConfig();
-      return;
-    }
-    else if (ConfigValueFormat.NUMBER.name().equals(activeConfig.getConfigValueFormat()))
-    {
-      configuration.set(activeConfig.getKey(), Long.valueOf(activeConfig.getValue()));
-    }
-    else if (ConfigValueFormat.BOOLEAN.name().equals(activeConfig.getConfigValueFormat()))
-    {
-      configuration.set(activeConfig.getKey(), Boolean.valueOf(activeConfig.getValue()));
-    }
-    else
-    {
-      configuration.set(activeConfig.getKey(), activeConfig.getValue());
-    }
+    configuration.set(activeConfig.getKey(), activeConfig.getValue());
     reloadAndUiMessage("changed");
   }
   
