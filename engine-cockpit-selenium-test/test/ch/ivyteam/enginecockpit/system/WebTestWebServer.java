@@ -49,7 +49,7 @@ public class WebTestWebServer
   @Test
   void frontEndSettings()
   {
-    $("#frontendForm\\:infoMessage").shouldNotBe(visible);
+    $("#frontendForm\\:infoMessage").shouldBe(visible);
     assertFrontEndConfig("", "0", "http");
     setFrontEndConfig("frontend", "9443", "https");
     Selenide.refresh();
