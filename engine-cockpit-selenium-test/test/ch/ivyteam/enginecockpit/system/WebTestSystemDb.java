@@ -40,7 +40,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestSystemDb
 {
-  private static final String SYS_DB = "db";
+  private static final String SYS_DB = System.getProperty("db.host", "db host not set via ${db.host} system property");
   private static final String SYS_DB_PW = "1234";
   private static final String SYS_DB_USER = "root";
   private static final String CONNECTION_BUTTON = "#systemDb\\:systemDbForm\\:checkConnectionButton";
