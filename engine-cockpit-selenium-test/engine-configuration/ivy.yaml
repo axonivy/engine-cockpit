@@ -16,9 +16,9 @@ SecuritySystems:
   test-nd:
     Provider: Novell eDirectory
     Connection:
-      Url: ldap://zugtstdirnds:389
-      UserName: cn=admin, o=zugtstorg
-      Password: nimda
+      Url: ldap://test-edirectory.ivyteam.io:389
+      UserName: cn=admin,o=org
+      Password: admin
     Binding:
       DefaultContext: ou=IvyTeam Test-OU,o=zugtstorg
 
