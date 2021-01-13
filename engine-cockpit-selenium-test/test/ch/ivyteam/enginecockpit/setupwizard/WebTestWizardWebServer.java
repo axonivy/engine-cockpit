@@ -30,8 +30,10 @@ public class WebTestWizardWebServer
   void testWebServerStep()
   {
     WebTestWizard.activeStepShouldBeOk();
-    WebTestWebServer.assertConnectorSettings();
+    WebTestWebServer.assertConnectorSettings();    
+    WebTestWebServer.disableHttpConnectors();
     WebTestWizard.activeStepShouldHaveWarnings();
+    WebTestWebServer.enableHttpsConnector();
     WebTestWebServer.resetConnectorsToDefault();
   }
 
