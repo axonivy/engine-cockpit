@@ -98,37 +98,60 @@ public class WebTestWebServer
     portInput.should(exactValue(port));
     protocolInput.selectedItemShould(Condition.exactText(portocol));
   }
-  
+
   public static void assertConnectorSettings()
   {
     $("#webServer\\:webserverWarnMessage").shouldBe(empty);
 
-    var httpEnable = PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "httpEnabledCheckbox"));
-    var httpsEnable = PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "httpsEnabledCheckbox"));
+    var httpEnable = httpConnector();
+    var httpsEnable = httpsConnector();
     var ajpEnable = PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "ajpEnabledCheckbox"));
     assertConnector(httpEnable, "httpPortInput", true, "8080");
-    assertConnector(httpsEnable, "httpsPortInput", true, "8443");
+    assertConnector(httpsEnable, "httpsPortInput", false, "8443");
     assertConnector(ajpEnable, "ajpPortInput", false, "8009");
-    
+
     setConnector(httpEnable, "httpPortInput", false, "8081", "HTTP");
-    setConnector(httpsEnable, "httpsPortInput", false, "8444", "HTTPS");
     setConnector(ajpEnable, "ajpPortInput", true, "8010", "AJP");
-    
     $("#webServer\\:webserverWarnMessage").shouldBe(text("Enable at least the HTTP or HTTPS Connector"));
+    
+    setConnector(httpsEnable, "httpsPortInput", true, "8444", "HTTPS");
+    $("#webServer\\:webserverWarnMessage").shouldBe(empty);
 
     Selenide.refresh();
     assertConnector(httpEnable, "httpPortInput", false, "8081");
-    assertConnector(httpsEnable, "httpsPortInput", false, "8444");
+    assertConnector(httpsEnable, "httpsPortInput", true, "8444");
     assertConnector(ajpEnable, "ajpPortInput", true, "8010");
+  }
+
+  public static void disableHttpConnectors()
+  {
+	httpConnector().removeChecked();
+    httpsConnector().removeChecked();
+  }
+
+  private static SelectBooleanCheckbox httpsConnector()
+  {
+    return PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "httpsEnabledCheckbox"));
+  }
+
+  private static SelectBooleanCheckbox httpConnector()
+  {
+    return PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "httpEnabledCheckbox"));
+  }
+
+  public static void enableHttpsConnector()
+  {
+    var httpsEnable = httpsConnector();
+    httpsEnable.setChecked();
   }
 
   public static void resetConnectorsToDefault()
   {
-    var httpEnable = PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "httpEnabledCheckbox"));
-    var httpsEnable = PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "httpsEnabledCheckbox"));
+    var httpEnable = httpConnector();
+    var httpsEnable = httpsConnector();
     var ajpEnable = PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "ajpEnabledCheckbox"));
     setConnector(httpEnable, "httpPortInput", true, "8080", "HTTP");
-    setConnector(httpsEnable, "httpsPortInput", true, "8443", "HTTPS");
+    setConnector(httpsEnable, "httpsPortInput", false, "8443", "HTTPS");
     setConnector(ajpEnable, "ajpPortInput", false, "8009", "AJP");
   }
   
