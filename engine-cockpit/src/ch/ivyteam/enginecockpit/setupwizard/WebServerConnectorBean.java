@@ -106,14 +106,7 @@ public class WebServerConnectorBean extends StepStatus
   
   private void setConfig(String key, Object httpEnabled)
   {
-    if (String.valueOf(httpEnabled).equals(IConfiguration.instance().getMetadata(key).getDefaultValue()))
-    {
-      IConfiguration.instance().remove(key);
-    }
-    else
-    {
-      IConfiguration.instance().set(key, httpEnabled);
-    }
+    IConfiguration.instance().set(key, httpEnabled);
     FacesContext.getCurrentInstance().addMessage("",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + key + "' changed successfully", ""));
   }

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
-import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.request.EngineUriResolver;
 import ch.ivyteam.ivy.request.internal.DefaultEngineUriResolver;
@@ -127,19 +126,7 @@ public class WebServerBean
   
   public void saveConfig(ConfigProperty property)
   {
-    var config = IConfiguration.instance();
-    if (property.getValue().equals(property.getDefaultValue()))
-    {
-      config.remove(property.getKey());
-    }
-    else 
-    {
-      if (ConfigValueFormat.NUMBER.name().equals(property.getConfigValueFormat()))
-      {
-        config.set(property.getKey(), Integer.valueOf(property.getValue()));
-      }
-      config.set(property.getKey(), property.getValue());
-    }
+    IConfiguration.instance().set(property.getKey(), property.getValue());
   }
   
   private HttpServletRequest getRequest()
