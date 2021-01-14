@@ -12,7 +12,7 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
-    booleanParam(name: 'deployScreenshots', defaultValue: false, description: 'Deploy new screenshots')
+    booleanParam(name: 'forceDeployScreenshots', defaultValue: false, description: 'Force deploy new screenshots')
     booleanParam(name: 'skipScreenshots', defaultValue: false, description: 'Skip screenshot test (flag will be ignored on master)')
     string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
@@ -68,7 +68,7 @@ pipeline {
     }
     stage('verify') {
       when {
-        expression {return !params.deployScreenshots && !env.skipScreenshots}
+        expression {return !params.forceDeployScreenshots && !env.skipScreenshots.toBoolean()}
       }
       steps {
         script {          
