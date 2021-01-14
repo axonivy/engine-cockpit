@@ -193,7 +193,6 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <skip>true</skip>
               <includes>
                 <include>**/${test.filter}</include>
               </includes>

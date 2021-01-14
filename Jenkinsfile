@@ -48,7 +48,9 @@ pipeline {
                         "-Dengine.page.url=${params.engineSource} " +
                         "-Dtest.engine.url=http://${ivyName}:8080 " +
                         "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
-                        "-Ddb.host=${dbName} "
+                        "-Ddb.host=${dbName} " + 
+                        "-Dtest.filter=${testFilter} " +
+                        "-Dskip.screenshots=${skipScreenshots} "
 
                     checkVersions recordIssue: false
                     checkVersions cmd: '-f maven-config/pom.xml'
