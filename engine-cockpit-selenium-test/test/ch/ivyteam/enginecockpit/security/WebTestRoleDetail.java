@@ -83,7 +83,7 @@ public class WebTestRoleDetail
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(visible);
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(text("Value is required"));
     
-    String newRoleName = "testäüö";
+    String newRoleName = "testÃ¤Ã¶Ã¼";
     $("#newChildRoleForm\\:newChildRoleNameInput").clear();
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
     $("#newChildRoleForm\\:saveNewRole").click();
