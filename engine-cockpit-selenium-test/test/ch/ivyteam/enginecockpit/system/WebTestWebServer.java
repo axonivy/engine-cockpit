@@ -125,7 +125,7 @@ public class WebTestWebServer
 
   public static void disableHttpConnectors()
   {
-	httpConnector().removeChecked();
+    httpConnector().removeChecked();
     httpsConnector().removeChecked();
   }
 
