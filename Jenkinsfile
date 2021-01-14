@@ -20,16 +20,14 @@ pipeline {
   environment {
     imgSimilarity = getImageSimilarity()
     dockerfileParams = '--shm-size 1g --hostname=ivy'
+    skipScreenshots = getSkipScreenshots()
+    testFilter = getTestFilter()
   }
 
   stages {
     stage('build') {
       steps {
         script {
-          if (env.BRANCH_NAME == 'master') {
-            params.testFilter = 'WebTest*.java'
-            params.skipScreenshots = false
-          }
           withCredentials([string(credentialsId: 'github.ivy-team.token', variable: 'GITHUB_TOKEN')]) {
             def random = (new Random()).nextInt(10000000)
             def networkName = "build-" + random
@@ -49,8 +47,8 @@ pipeline {
                         "-Dtest.engine.url=http://${ivyName}:8080 " +
                         "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                         "-Ddb.host=${dbName} " + 
-                        "-Dtest.filter=${testFilter} " +
-                        "-Dskip.screenshots=${skipScreenshots} "
+                        "-Dtest.filter=${env.testFilter} " +
+                        "-Dskip.screenshots=${env.skipScreenshots} "
 
                     checkVersions recordIssue: false
                     checkVersions cmd: '-f maven-config/pom.xml'
@@ -70,7 +68,7 @@ pipeline {
     }
     stage('verify') {
       when {
-        expression {return !params.deployScreenshots && !params.skipScreenshots}
+        expression {return !params.deployScreenshots && !env.skipScreenshots}
       }
       steps {
         script {          
@@ -129,7 +127,20 @@ pipeline {
 def getImageSimilarity() {
   if (env.BRANCH_NAME == 'master') {
     return '98'
-  } else {
-    return '95'
   }
+  return '95'
+}
+
+def getSkipScreenshots() {
+  if (env.BRANCH_NAME == 'master') {
+    return false;
+  }
+  return params.skipScreenshots
+}
+
+def getTestFilter() {
+  if (env.BRANCH_NAME == 'master') {
+    return 'WebTest*.java';
+  }
+  return params.testFilter
 }
