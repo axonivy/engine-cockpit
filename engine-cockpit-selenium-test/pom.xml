@@ -11,6 +11,8 @@
 
   <properties>
     <test.application>system</test.application>
+    <test.filter>WebTest*.java</test.filter>
+    <skip.screenshots>false</skip.screenshots>
   </properties>
 
   <repositories>
@@ -175,6 +177,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
+              <skip>${skip.screenshots}</skip>
               <includes>
                 <include>**/WebDocu*.java</include>
               </includes>
@@ -190,8 +193,9 @@
               <goal>test</goal>
             </goals>
             <configuration>
+              <skip>true</skip>
               <includes>
-                <include>**/WebTest*.java</include>
+                <include>**/${test.filter}</include>
               </includes>
               <argLine>
                 -Dtest.engine.url=${test.engine.url}
@@ -203,6 +207,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <phase>integration-test</phase>
@@ -210,6 +215,7 @@
               <goal>single</goal>
             </goals>
             <configuration>
+              <skipAssembly>${skip.screenshots}</skipAssembly>
               <appendAssemblyId>false</appendAssemblyId>
               <descriptors>
                 <descriptor>zip.xml</descriptor>

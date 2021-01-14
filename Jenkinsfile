@@ -12,7 +12,9 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
-    booleanParam(name: 'deployArtifacts', defaultValue: false, description: 'Deploy new version of cockpit and screenshots')
+    booleanParam(name: 'deployScreenshots', defaultValue: false, description: 'Deploy new screenshots')
+    booleanParam(name: 'skipScreenshots', defaultValue false, description: 'Skip screenshot test (flag will be ignored on master)')
+    string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
   environment {
@@ -24,6 +26,10 @@ pipeline {
     stage('build') {
       steps {
         script {
+          if (env.BRANCH_NAME == 'master') {
+            params.testFilter = 'WebTest*.java'
+            params.skipScreenshots = false
+          }
           withCredentials([string(credentialsId: 'github.ivy-team.token', variable: 'GITHUB_TOKEN')]) {
             def random = (new Random()).nextInt(10000000)
             def networkName = "build-" + random
@@ -62,7 +68,7 @@ pipeline {
     }
     stage('verify') {
       when {
-        expression {return !params.deployArtifacts}
+        expression {return !params.deployScreenshots && !params.skipScreenshots}
       }
       steps {
         script {          
@@ -76,6 +82,7 @@ pipeline {
             archiveArtifacts '**/target/*.html'
             recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image')], unstableNewAll: 1,
             qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+            currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
           }          
         }
       }
