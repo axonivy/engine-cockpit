@@ -1,33 +1,24 @@
 package ch.ivyteam.enginecockpit.model;
 
-import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationInternal;
-import ch.ivyteam.ivy.application.restricted.IDefaultGlobalVariable;
-import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
+import ch.ivyteam.ivy.vars.Variable;
 
-@SuppressWarnings("restriction")
 public class SimpleVariable
 {
-  public static final String GLOBAL_VARIABLES = "GlobalVariables.";
   private String name;
   private String description;
   private String defaultValue;
   private String value;
-  private boolean yamlConfig;
 
   public SimpleVariable()
   {
-    
   }
   
-  public SimpleVariable(IGlobalVariable variable, IApplication app)
+  public SimpleVariable(Variable var)
   {
-    IDefaultGlobalVariable defaultVar = app.findDefaultGlobalVariable(variable.getName());
-    this.defaultValue = defaultVar.getValue();
-    this.name = variable.getName();
-    this.description = variable.getDescription();
-    this.value = variable.getValue();
-    this.yamlConfig = ((IApplicationInternal) app).getConfiguration().get(GLOBAL_VARIABLES + name).isPresent();
+    this.name = var.name();
+    this.value = var.value();
+    this.defaultValue = var.defaultValue();
+    this.description = var.description();
   }
 
   public void setName(String name)
@@ -65,8 +56,4 @@ public class SimpleVariable
     return value;
   }
   
-  public boolean isYamlConfig()
-  {
-    return yamlConfig;
-  }
 }

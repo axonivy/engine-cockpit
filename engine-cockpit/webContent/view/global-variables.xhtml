@@ -38,7 +38,8 @@
           </div>
 
           <p:dataTable var="globalVar" value="#{globalVarBean.globalVariables}" widgetVar="globalVarTable_#{app.id}"
-            id="globalVarTable_#{app.id}" filteredValue="#{globalVarBean.filteredVariables}">
+            id="globalVarTable_#{app.id}" filteredValue="#{globalVarBean.filteredVariables}" 
+            rowStyleClass="#{globalVar.value eq globalVar.defaultValue ? 'default-value' : ''}">
             <f:facet name="header">
               <p:outputPanel>
                 <p:outputLabel styleClass="table-search-icon">
@@ -57,11 +58,7 @@
               <h:outputText value="#{globalVar.description}" />
             </p:column>
 
-            <p:column headerText="Default value" filterBy="#{globalVar.defaultValue}">
-              <h:outputText value="#{globalVar.defaultValue}" />
-            </p:column>
-
-            <p:column headerText="Value" filterBy="#{globalVar.value}" rendered="#{!globalVarBean.isDefaultEnv()}">
+            <p:column headerText="Value" filterBy="#{globalVar.value}">
               <h:outputText value="#{globalVar.value}" />
             </p:column>
 
@@ -71,7 +68,7 @@
                 actionListener="#{globalVarBean.setActiveVar(globalVar.name)}"
                 oncomplete="PF('resetGlobalVarDialog').show()" update="resetGlobalVarDialog"
                 style="margin-right: 0; float: right;" process="@this"
-                disabled="#{!globalVar.yamlConfig and globalVarBean.isDefaultEnv()}" />
+                disabled="#{globalVar.value eq globalVar.defaultValue}" />
 
               <p:commandButton id="editGlobalVarBtn" icon="si si-pencil" title="Edit"
                 styleClass="card-button table-control-btn secondary-btn"
