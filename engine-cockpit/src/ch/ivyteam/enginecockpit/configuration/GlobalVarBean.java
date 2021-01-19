@@ -42,7 +42,9 @@ public class GlobalVarBean
       app = managerBean.getSelectedIApplication();
       env = managerBean.getSelectedIEnvironment();
       
-      globalVariables = context().variables().stream().map(SimpleVariable::new).collect(Collectors.toList());
+      globalVariables = context().variables().stream()
+              .map(var -> new SimpleVariable(var, env.isDefault() ? null : env.getName()))
+              .collect(Collectors.toList());
     }
     filteredVariables = null;
   }
@@ -80,7 +82,7 @@ public class GlobalVarBean
       activeVar = new SimpleVariable();
       return;
     }
-    activeVar = new SimpleVariable(variable);
+    activeVar = new SimpleVariable(variable, null);
   }
 
   public void resetGlobalVar()

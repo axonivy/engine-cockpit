@@ -63,7 +63,7 @@ public class WebTestVariables
     EnvironmentSwitch.switchToEnv("test");
     assertEntry(variable, "env override", false);
     resetVariable(variable);
-    assertEntry(variable, "override", false); //should be "default"
+    assertEntry(variable, "override", true);
 
     EnvironmentSwitch.switchToEnv("Default");
     assertEntry(variable, "override", false);
