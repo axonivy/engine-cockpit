@@ -97,6 +97,21 @@ public class WebTestVariables
     
     table.firstColumnShouldBe(size(entryCount));
   }
+  
+  @Test
+  void testNewValidation()
+  {
+    $(By.id(activeTabPanel() + "newGlobalVarBtn")).click();
+
+    $("#newGlobalVarModal").shouldBe(visible);
+    $("#newGlobalVarForm\\:newGlobalVarName").shouldBe(exactValue(""));
+    $("#newGlobalVarForm\\:newGlobalVarValue").shouldBe(exactValue(""));
+    $("#newGlobalVarForm\\:saveNewGlobalVar").click();
+
+    $("#newGlobalVarForm\\:newGlobalVarNameMessage").shouldBe(exactText("Name is required"));
+    $("#newGlobalVarForm\\:cancelNewGlobalVar").click();
+    $("#newGlobalVarModal").shouldNotBe(visible);
+  }
 
   private void resetVariable(String name)
   {
@@ -129,21 +144,6 @@ public class WebTestVariables
     }
     $("#editGlobalVarForm\\:editGlobalVarName").shouldBe(exactText(name));
     $("#editGlobalVarForm\\:editGlobalVarValue").shouldBe(exactValue(oldValue));
-  }
-  
-  @Test
-  void testNewValidation()
-  {
-    $(activeTabPanel() + "newGlobalVarBtn").click();
-
-    $("#newGlobalVarModal").shouldBe(visible);
-    $("#newGlobalVarForm\\:newGlobalVarName").shouldBe(exactValue(""));
-    $("#newGlobalVarForm\\:newGlobalVarValue").shouldBe(exactValue(""));
-    $("#newGlobalVarForm\\:saveNewGlobalVar").click();
-
-    $("#newGlobalVarForm\\:newGlobalVarNameMessage").shouldBe(exactText("Name is required"));
-    $("#newGlobalVarForm\\:cancelNewGlobalVar").click();
-    $("#newGlobalVarModal").shouldNotBe(visible);
   }
   
   private void assertEntry(String name, String value, boolean isDefault)
