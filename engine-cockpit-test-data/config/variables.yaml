@@ -3,3 +3,5 @@ Variables:
   # Default Dashboard
   # [file: json]
   PORTAL_DASHBOARD: 
+  # test variable
+  variable: hello

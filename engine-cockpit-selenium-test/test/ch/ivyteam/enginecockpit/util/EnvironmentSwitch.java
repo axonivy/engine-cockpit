@@ -16,6 +16,10 @@ public class EnvironmentSwitch
 
   public static void switchToEnv(String env)
   {
+    if (getEnv().equals(env))
+    {
+      return;
+    }
     clickOnEnvSwitch();
     $(getEnvId() + "_items").findAll("li").find(text(env)).click();
   }

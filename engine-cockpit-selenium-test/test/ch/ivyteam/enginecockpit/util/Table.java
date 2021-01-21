@@ -67,6 +67,11 @@ public class Table
   {
     return $x(findColumnOverEntry(entry) + "/td[" + column + "]");
   }
+  
+  public SelenideElement row(String entry)
+  {
+    return $x(findColumnOverEntry(entry));
+  }
 
   public void clickButtonForEntry(String entry, String btn)
   {
@@ -85,7 +90,20 @@ public class Table
   
   public void buttonForEntryShouldBeDisabled(String entry, String btn)
   {
-    $(By.id(getElementIdForEntry(entry, btn))).shouldHave(cssClass("ui-state-disabled"));
+    buttonForEntryShouldBeDisabled(entry, btn, true);
+  }
+  
+  public void buttonForEntryShouldBeDisabled(String entry, String btn, boolean isDisabled)
+  {
+    var button = $(By.id(getElementIdForEntry(entry, btn)));
+    if (isDisabled)
+    {
+      button.shouldHave(cssClass("ui-state-disabled"));
+    }
+    else
+    {
+      button.shouldNotHave(cssClass("ui-state-disabled"));
+    }
   }
 
   private String getRowNumber(String entry)

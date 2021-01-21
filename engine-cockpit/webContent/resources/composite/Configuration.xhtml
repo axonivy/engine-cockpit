@@ -12,7 +12,7 @@
       <p:autoUpdate />
     </p:growl>
     <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable"
-      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable">
+      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable" rowStyleClass="#{config.default ? 'default-value' : ''}">
       <f:facet name="header">
         <p:outputPanel>
           <p:outputLabel styleClass="table-search-icon">
@@ -22,18 +22,17 @@
             placeholder="Search" value="#{cc.attrs.bean.filter}" />
         </p:outputPanel>
       </f:facet>
-      <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}"
-        styleClass="#{config.default ? 'default-value' : ''}">
+      <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
         <h:outputText value="#{config.key}" title="#{config.description}" styleClass="config-name">
           <i class="si si-#{config.icon} table-icon"></i>
         </h:outputText>
       </p:column>
-      <p:column headerText="Value" filterBy="#{config.value}" styleClass="#{config.default ? 'default-value' : ''}">
+      <p:column headerText="Value" filterBy="#{config.value}">
         <h:outputText class="table-cell-autocut" rendered="#{!config.password}" value="#{config.value}" title="#{config.value}" />
         <h:outputText rendered="#{config.password}" value="******" />
       </p:column>
       <p:column headerText="Source" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}"
-        style="width: 150px;" styleClass="#{config.default ? 'default-value' : ''} second-row">
+        style="width: 150px;" styleClass="second-row">
         <h:outputText value="#{config.shortSource}" title="#{config.source}" />
       </p:column>
       <p:column style="width: 95px;">

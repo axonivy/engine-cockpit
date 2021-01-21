@@ -11,14 +11,12 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SimpleVariable;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
-import ch.ivyteam.ivy.application.restricted.IGlobalVariable;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.globalvars.IGlobalVariableContext;
+import ch.ivyteam.ivy.vars.VariableContext;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
 public class GlobalVarBean
 {
   private ManagerBean managerBean;
@@ -27,7 +25,6 @@ public class GlobalVarBean
   private SimpleVariable activeVar;
   private IApplication app;
   private IEnvironment env;
-  private IConfiguration configuration;
 
   public GlobalVarBean()
   {
@@ -42,11 +39,12 @@ public class GlobalVarBean
     activeVar = new SimpleVariable();
     if (managerBean.getApplications().size() != 0)
     {
-      configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
       app = managerBean.getSelectedIApplication();
       env = managerBean.getSelectedIEnvironment();
-      globalVariables = env.getGlobalVariables()
-              .stream().map(var -> new SimpleVariable(var, app)).collect(Collectors.toList());
+      
+      globalVariables = context().variables().stream()
+              .map(var -> new SimpleVariable(var, env.isDefault() ? null : env.getName()))
+              .collect(Collectors.toList());
     }
     filteredVariables = null;
   }
@@ -58,7 +56,14 @@ public class GlobalVarBean
 
   public void saveGlobalVar()
   {
-    configuration.set(SimpleVariable.GLOBAL_VARIABLES + activeVar.getName(), activeVar.getValue());
+    try
+    {
+      context().set(activeVar.getName(), activeVar.getValue());
+    }
+    catch (IllegalArgumentException ex)
+    {
+      VariableContext.of(app, env.getName()).set(activeVar.getName(), activeVar.getValue());
+    }
     reloadAndUiMessage("saved");
     reloadGlobalVars();
   }
@@ -70,19 +75,19 @@ public class GlobalVarBean
 
   public void setActiveVar(String name)
   {
-    IGlobalVariable selectedVar = env.findGlobalVariable(name);
+    var variable = context().variable(name);
     
-    if (selectedVar == null)
+    if (variable == null)
     {
       activeVar = new SimpleVariable();
       return;
     }
-    activeVar = new SimpleVariable(selectedVar, app);
+    activeVar = new SimpleVariable(variable, null);
   }
 
   public void resetGlobalVar()
   {
-    configuration.remove(SimpleVariable.GLOBAL_VARIABLES + activeVar.getName());
+    context().reset(activeVar.getName());
     reloadAndUiMessage("reset to default");
     reloadGlobalVars();
   }
@@ -106,5 +111,10 @@ public class GlobalVarBean
   public boolean isDefaultEnv()
   {
     return env.isDefault();
+  }
+  
+  private IGlobalVariableContext context()
+  {
+    return IGlobalVariableContext.of(app, env.getName());
   }
 }
