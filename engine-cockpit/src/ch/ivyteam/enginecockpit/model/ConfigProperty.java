@@ -19,6 +19,7 @@ import org.primefaces.model.StreamedContent;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.Property;
+import ch.ivyteam.ivy.vars.Variable;
 
 @SuppressWarnings("restriction")
 public class ConfigProperty
@@ -54,8 +55,25 @@ public class ConfigProperty
     this.restartRequired = property.getMetaData().isRestartRequired();
     this.description = property.getMetaData().getDescription();
     this.fileExtension = property.getMetaData().getFileExtension();
+    this.file = getFile(source);
     correctValuesIfDaytimeFormat();
-    getFile();
+  }
+
+  public ConfigProperty(Variable variable)
+  {
+    this.key = variable.name();
+    this.value = variable.value();
+    this.defaultValue = variable.defaultValue();
+    this.isDefault = variable.isDefault();
+    this.source = variable.source();
+    this.configValueFormat = ConfigValueFormat.of(variable.type());
+    this.password = configValueFormat == ConfigValueFormat.PASSWORD;
+    this.enumerationValues = variable.enumerationValues();
+    this.restartRequired = false;
+    this.description = variable.description();
+    this.fileExtension = "";
+    this.file = getFile(source);
+    correctValuesIfDaytimeFormat();
   }
 
   public String getKey()
@@ -110,7 +128,7 @@ public class ConfigProperty
 
   public String getShortSource()
   {
-    return StringUtils.substring(source, StringUtils.lastIndexOf(source, '/') + 1, getIndexOfSourceSuffix());
+    return StringUtils.substring(source, StringUtils.lastIndexOf(source, '/') + 1, getIndexOfSourceSuffix(source));
   }
   
   public boolean isPassword()
@@ -212,19 +230,19 @@ public class ConfigProperty
     }
   }
   
-  private void getFile()
+  private static File getFile(String source)
   {
     try
     {
-      file = new File(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix())));
+      return new File(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix(source))));
     }
     catch (Exception ex)
     {
-      file = null;
+      return null;
     }
   }
   
-  private int getIndexOfSourceSuffix()
+  private static int getIndexOfSourceSuffix(String source)
   {
     int prefixString = StringUtils.lastIndexOf(source, ',');
     if(prefixString == -1) 

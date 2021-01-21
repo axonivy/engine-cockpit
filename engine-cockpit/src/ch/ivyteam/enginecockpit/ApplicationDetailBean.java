@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.configuration.ConfigView;
+import ch.ivyteam.enginecockpit.configuration.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
@@ -67,7 +68,7 @@ public class ApplicationDetailBean
     security = initSecuritySystem(appName);
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
-    configView = new ConfigView(((IApplicationInternal) getIApplication()).getConfiguration(),
+    configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
             this::enrichStandardProcessConfigs);
   }
 

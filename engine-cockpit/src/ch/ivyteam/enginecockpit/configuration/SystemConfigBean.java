@@ -11,7 +11,7 @@ public class SystemConfigBean
 
   public SystemConfigBean()
   {
-    configView = new ConfigView();
+    configView = new ConfigViewImpl();
   }
 
   public ConfigView getConfigView()

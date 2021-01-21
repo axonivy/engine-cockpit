@@ -1,4 +1,4 @@
 Variables:
 
-  # test variable
+  # test env variable
   variable: hello from env

@@ -8,6 +8,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -123,7 +124,7 @@ public class WebTestConfiguration
       String value = "testValue";
       $("#newConfigBtn").click();
       assertNewConfig(key, value);
-      assertEditConfig(key, value, "newValue");
+      assertEditConfig(key, value, "newValue", "");
       assertResetConfig(key);
     }
     
@@ -132,7 +133,7 @@ public class WebTestConfiguration
     {
       String config = "EMail.Server.SSL.UseKey";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "false");
+      assertThatConfigEditModalIsVisible(config, "false", "");
     }
     
     @Test
@@ -140,7 +141,7 @@ public class WebTestConfiguration
     {
       String config = "Elasticsearch.ExternalServer.BootTimeout";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "60");
+      assertThatConfigEditModalIsVisible(config, "60", "Defines how long");
     }
     
     @Test
@@ -148,7 +149,7 @@ public class WebTestConfiguration
     {
       String config = "EMail.DailyTaskSummary.TriggerTime";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "00:00");
+      assertThatConfigEditModalIsVisible(config, "00:00", "Time of day");
     }
     
     @Test
@@ -156,14 +157,14 @@ public class WebTestConfiguration
     {
       String config = "SystemTask.Failure.Behaviour";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY");
+      assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY", "Defines the behaviour");
     }
     
     @Test
     void testRestartHint()
     {
       String config = "Connector.HTTP.Address";
-      assertEditConfig(config, "", "hi");
+      assertEditConfig(config, "", "hi", "https://tomcat.apache.org");
       refresh();
       $(".restart-notification").shouldBe(visible);
       table.valueForEntryShould(config, 2, exactText("hi"));
@@ -224,7 +225,7 @@ public class WebTestConfiguration
       String value = "testValue";
       $("#configMoreForm\\:newConfigBtn").click();
       assertNewConfig(key, value);
-      assertEditConfig(key, value, "newValue");
+      assertEditConfig(key, value, "newValue", "");
       assertResetConfig(key);
     }
     
@@ -235,7 +236,7 @@ public class WebTestConfiguration
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "{\n" + 
               "  \"name\": \"this is a json file\"\n" + 
-              "}");
+              "}", "Dashboard");
     }
   }
   
@@ -256,7 +257,7 @@ public class WebTestConfiguration
     {
       String config = "StandardProcess.DefaultPages";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate");
+      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate", "#default-pages", "");
       $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
     
@@ -265,7 +266,7 @@ public class WebTestConfiguration
     {
       String config = "StandardProcess.MailNotification";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, " ");
+      assertThatConfigEditModalIsVisible(config, " ", "#email-notification", "");
       $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
   }
@@ -330,40 +331,67 @@ public class WebTestConfiguration
     $("#config\\:newConfigurationForm\\:newConfigurationKey").sendKeys(key);
     $("#config\\:newConfigurationForm\\:newConfigurationValue").sendKeys(value);
     $("#config\\:newConfigurationForm\\:saveNewConfiguration").click();
-    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("created"));
+    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
     table.valueForEntryShould(key, 2, exactText(value));
   }
   
-  private void assertEditConfig(String key, String value, String newValue)
+  private void assertEditConfig(String key, String value, String newValue, String desc)
   {
     table.clickButtonForEntry(key, "editConfigBtn");
-    assertThatConfigEditModalIsVisible(key, value);
+    assertThatConfigEditModalIsVisible(key, value, desc, "");
     
     $("#config\\:editConfigurationForm\\:editConfigurationValue").clear();
     $("#config\\:editConfigurationForm\\:editConfigurationValue").sendKeys(newValue);
-    $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
-    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("changed"));
+    $("#config\\:saveEditConfiguration").click();
+    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
     table.valueForEntryShould(key, 2, exactText(newValue));
   }
   
-  private void assertThatConfigEditModalIsVisible(String key, String value)
+  private void assertThatConfigEditModalIsVisible(String key, String value, String desc)
   {
-    $("#config\\:editConfigurationForm\\:editConfigurationModal").shouldBe(visible);
-    $("#config\\:editConfigurationForm\\:editConfigurationKey").shouldBe(exactText(key));
-    var configValue = $("#config\\:editConfigurationForm\\:editConfigurationValue");
+    assertThatConfigEditModalIsVisible("config", key, value, desc, value);
+  }
+  
+  private void assertThatConfigEditModalIsVisible(String key, String value, String desc, String defaultValue)
+  {
+    assertThatConfigEditModalIsVisible("config", key, value, desc, defaultValue);
+  }
+  
+  public static void assertThatConfigEditModalIsVisible(String idPrefix, String key, String value, String desc, String defaultValue)
+  {
+    $(By.id(idPrefix + ":editConfigurationModal")).shouldBe(visible);
+    $(By.id(idPrefix + ":editConfigurationForm:editConfigurationKey")).shouldBe(exactText(key));
+    if (StringUtils.isBlank(desc))
+    {
+      $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDescription")).shouldNot(exist);
+    }
+    else
+    {
+      $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDescription")).shouldBe(text(desc));
+    }
+    if (StringUtils.isBlank(defaultValue))
+    {
+      $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDefaultValue")).shouldNot(exist);
+    }
+    else
+    {
+      $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDefaultValue")).shouldBe(exactText(defaultValue));
+    }
+    
+    var configValue = $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
     String classAttr = configValue.getAttribute("class");
     if (StringUtils.contains(classAttr, "ui-chkbox"))
     {
-      PrimeUi.selectBooleanCheckbox(By.id("config:editConfigurationForm:editConfigurationValue"))
+      PrimeUi.selectBooleanCheckbox(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"))
               .shouldBeChecked(Boolean.valueOf(value));
     }
     else if (StringUtils.contains(classAttr, "ui-inputnumber"))
     {
-      $("#config\\:editConfigurationForm\\:editConfigurationValue_input").shouldBe(exactValue(value));
+      $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input")).shouldBe(exactValue(value));
     }
     else if (StringUtils.contains(classAttr, "ui-selectonemenu"))
     {
-      SelectOneMenu menu = PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"));
+      SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
       assertThat(menu.getSelectedItem()).isEqualTo(value);
     }
     else if (StringUtils.contains(configValue.getTagName(), "textarea"))
@@ -373,7 +401,7 @@ public class WebTestConfiguration
     }
     else
     {
-      $("#config\\:editConfigurationForm\\:editConfigurationValue").shouldBe(exactValue(value));
+      $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue")).shouldBe(exactValue(value));
     }
   }
   

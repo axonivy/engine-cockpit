@@ -500,6 +500,7 @@ body {
 
 /* SystemDb / Wizard */
 .card .ui-staticmessage,
+.ui-dialog .ui-staticmessage,
 .connection-panel .ui-staticmessage {
   margin: 0 0 20px 0;
 }
