@@ -41,7 +41,7 @@ public class SystemDatabaseCreator
     var dbHost = System.getProperty("db.host", "db host not set via system property db.host");
     return new DatabaseConnectionConfiguration(
             "jdbc:mysql://"+dbHost+":3306/" + dbName,
-            "com.mysql.jdbc.Driver", "root", "1234");
+            "com.mysql.cj.jdbc.Driver", "root", "1234");
   }
   
   private static void deleteSystemDb(String dbName)

@@ -14,6 +14,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -157,7 +158,7 @@ public class EngineCockpitUtil
 
   public static void createDisabledUser()
   {
-    runTestProcess("16E88DD61E825E70/createDisabledUser.ivp");    
+    runTestProcess("16E88DD61E825E70/createDisabledUser.ivp");
   }
 
   private static void runTestProcess(String processLink)
@@ -169,7 +170,7 @@ public class EngineCockpitUtil
     }
     else
     {
-      $("h3").shouldBe(text("Task End"));
+      $("h3").shouldBe(text("Task End"), Duration.ofSeconds(10));
     }
     assertCurrentUrlContains(isDesigner() ? "wf" : "end");
   }
