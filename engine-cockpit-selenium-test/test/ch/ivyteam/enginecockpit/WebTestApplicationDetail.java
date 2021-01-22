@@ -15,6 +15,8 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Duration;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -77,7 +79,7 @@ public class WebTestApplicationDetail
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").should(exist);
     $("#appDetailSecurityForm\\:synchronizeSecurity").shouldBe(visible, enabled).click();
     $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(cssClass("si-is-spinning"));
-    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().waitUntil(not(cssClass("si-is-spinning")), 20000);
+    $$("#appDetailSecurityForm\\:synchronizeSecurity span").first().shouldHave(not(cssClass("si-is-spinning")), Duration.ofSeconds(20));
     
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
