@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+import java.net.URI;
 
 import javax.imageio.ImageIO;
 
@@ -156,9 +156,10 @@ public class WebDocuScreenshot
     SelenideElement dialog = $$(".ui-dialog").find(visible);
     Rectangle dialogRect = dialog.getRect();
     Point dialogCoordiantes = dialog.getCoordinates().inViewPort();
-    File dialogFile = new File(Selenide.screenshot(screenshotName));
+    String screenshot = Selenide.screenshot(screenshotName);
     try
     {
+      File dialogFile = new File(new URI(screenshot));
       BufferedImage dialogScreenshot = ImageIO.read(dialogFile).getSubimage(
               dialogCoordiantes.getX(), 
               dialogCoordiantes.getY(), 
@@ -166,7 +167,7 @@ public class WebDocuScreenshot
               dialogRect.getHeight() + 1);
       ImageIO.write(dialogScreenshot, "png", dialogFile);
     }
-    catch (IOException ex)
+    catch (Exception ex)
     {
       throw new RuntimeException("Error while try crop screenshot to dialog size: ", ex);
     }

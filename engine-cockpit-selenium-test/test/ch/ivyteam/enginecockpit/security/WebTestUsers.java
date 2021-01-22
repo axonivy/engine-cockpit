@@ -15,6 +15,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -198,7 +199,7 @@ public class WebTestUsers
     showSynchUserDialog();
     $("#synchUserForm\\:userSynchName").shouldBe(exactValue("")).sendKeys("user1");
     $("#synchUserForm\\:synchUserVar").click();
-    $("#synchUserForm\\:logViewer").waitUntil(text("INFO: User synchronization"), 10000);
+    $("#synchUserForm\\:logViewer").shouldBe(text("INFO: User synchronization"), Duration.ofSeconds(10));
   }
   
   @Test
@@ -236,6 +237,6 @@ public class WebTestUsers
     String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("si-is-spinning"));
-    $(syncBtnId).findAll("span").first().waitUntil(not(cssClass("si-is-spinning")), 20000);
+    $(syncBtnId).findAll("span").first().shouldHave(not(cssClass("si-is-spinning")), Duration.ofSeconds(20));
   }
 }

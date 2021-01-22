@@ -94,7 +94,7 @@ public class WebTestDeployment
     SelectOneMenu fileFormat = PrimeUi.selectOne(By.id("deploymentModal:fileFormat"));
 
     assertThat(testUser.getSelectedItem()).isEqualTo("AUTO");
-    assertThat(overwrite.isChecked()).isFalse();
+    overwrite.shouldBeChecked(false);
     assertThat(cleanup.getSelectedItem()).isEqualTo("DISABLED");
     assertThat(version.getSelectedItem()).isEqualTo("AUTO");
     assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED");
@@ -102,7 +102,7 @@ public class WebTestDeployment
     
     SelectBooleanCheckbox checkbox = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteConfig"));
     checkbox.setChecked();
-    assertThat(overwrite.isChecked()).isTrue();
+    overwrite.shouldBeChecked(true);
   }
   
   @Test

@@ -7,7 +7,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFinished;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.and;
-import static com.codeborne.selenide.Condition.appears;
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
@@ -19,6 +19,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -170,8 +171,7 @@ public class WebTestSystemDb
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("si-is-spinning"));
-    $("#systemDb\\:createDatabaseForm\\:closeCreationButton").waitUntil(
-            and("wait until db created", appears, enabled), 20000);
+    $("#systemDb\\:createDatabaseForm\\:closeCreationButton").shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(20));
     $("#systemDb\\:createDatabaseForm\\:creationResult").shouldBe(empty);
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").click();
     $("#systemDb\\:createDatabaseDialog").shouldNotBe(visible);
@@ -193,8 +193,7 @@ public class WebTestSystemDb
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("si-is-spinning"));
-    $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").waitUntil(
-            and("wait until db converted", appears, enabled), 20000);
+    $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").shouldBe(and("wait until db converted", appear, enabled), Duration.ofSeconds(20));
     $("#systemDb\\:convertDatabaseForm\\:conversionResult").shouldBe(empty);
     $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").click();
     $("#systemDb\\:convertDatabaseDialog").shouldNotBe(visible);
@@ -283,14 +282,14 @@ public class WebTestSystemDb
     SelectBooleanCheckbox defaultPort = PrimeUi.selectBooleanCheckbox(
             By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
     $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
-    assertThat(defaultPort.isChecked()).isTrue();
+    defaultPort.shouldBeChecked(true);
     
     defaultPort.removeChecked();
-    assertThat(defaultPort.isChecked()).isFalse();
+    defaultPort.shouldBeChecked(false);
     $(".sysdb-dynamic-form-port input").shouldBe(enabled);
     
     defaultPort.setChecked();
-    assertThat(defaultPort.isChecked()).isTrue();
+    defaultPort.shouldBeChecked(true);
     $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
   }
   

@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -165,7 +164,7 @@ public class WebTestWebServer
     {
       checkbox.removeChecked();
     }
-    assertThat(checkbox.isChecked()).isEqualTo(enabled);
+    checkbox.shouldBeChecked(enabled);
     assertGrowl("Connector." + growlMessage + ".Enabled");
 
     InputNumber inputNumber = PrimeUi.inputNumber(By.id(WEB_SERVER_FORM + input));
@@ -182,7 +181,7 @@ public class WebTestWebServer
   private static void assertConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled, String value)
   {
     $(By.id(WEB_SERVER_FORM + input + "_input")).shouldBe(value(value));
-    assertThat(checkbox.isChecked()).isEqualTo(enabled);
+    checkbox.shouldBeChecked(enabled);
   }
   
 }

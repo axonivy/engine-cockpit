@@ -61,8 +61,8 @@ public class WebTestEmail
   {
     SelectBooleanCheckbox taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id(getActivePanel() + "emailSetting:taskCheckbox"));
     SelectManyCheckbox dailyCheckbox = PrimeUi.selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
-    assertThat(taskCheckbox.isChecked()).isFalse();
-    assertThat(taskCheckbox.isDisabled()).isFalse();
+    taskCheckbox.shouldBeChecked(false);
+    taskCheckbox.shouldBeDisabled(false);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty();
     
@@ -70,22 +70,22 @@ public class WebTestEmail
     assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Tue", "Wed", "Thu", "Sat");
     
     taskCheckbox.setChecked();
-    assertThat(taskCheckbox.isChecked()).isTrue();
+    taskCheckbox.shouldBeChecked(true);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     $(getActivePanelCss() + "saveEmailSettings").click();
     $(EMAIL_GROWL).shouldBe(visible);
 
     Selenide.refresh();
-    assertThat(taskCheckbox.isChecked()).isTrue();
-    assertThat(taskCheckbox.isDisabled()).isFalse();
+    taskCheckbox.shouldBeChecked(true);
+    taskCheckbox.shouldBeDisabled(false);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Tue", "Wed", "Thu", "Sat");
     
     dailyCheckbox.clear();
     taskCheckbox.removeChecked();
     $(getActivePanelCss() + "saveEmailSettings").click();
-    assertThat(taskCheckbox.isChecked()).isFalse();
-    assertThat(taskCheckbox.isDisabled()).isFalse();
+    taskCheckbox.shouldBeChecked(false);
+    taskCheckbox.shouldBeDisabled(false);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty();
   }

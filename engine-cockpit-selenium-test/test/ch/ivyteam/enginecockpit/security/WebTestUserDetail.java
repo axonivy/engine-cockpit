@@ -154,16 +154,16 @@ public class WebTestUserDetail
     SelectBooleanCheckbox neverCheckbox = PrimeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
     SelectBooleanCheckbox taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
     SelectManyCheckbox dailyCheckbox = PrimeUi.selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
-    assertThat(radioSettings.getSelectedValue()).isEqualTo("Application");
-    assertThat(neverCheckbox.isChecked()).isFalse();
-    assertThat(neverCheckbox.isDisabled()).isTrue();
-    assertThat(taskCheckbox.isChecked()).isFalse();
-    assertThat(taskCheckbox.isDisabled()).isTrue();
+    radioSettings.selectedValueShouldBe(exactValue("Application"));
+    neverCheckbox.shouldBeChecked(false);
+    neverCheckbox.shouldBeDisabled(true);
+    taskCheckbox.shouldBeChecked(false);
+    taskCheckbox.shouldBeDisabled(true);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
     
     radioSettings.selectItemByValue("Specific");
-    assertThat(neverCheckbox.isDisabled()).isFalse();
-    assertThat(taskCheckbox.isDisabled()).isFalse();
+    neverCheckbox.shouldBeDisabled(false);
+    taskCheckbox.shouldBeDisabled(false);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     
     List<String> days = new ArrayList<String>(Arrays.asList("Mon", "Fri", "Sun"));
@@ -172,19 +172,19 @@ public class WebTestUserDetail
     
     taskCheckbox.setChecked();
     neverCheckbox.setChecked();
-    assertThat(radioSettings.getSelectedValue()).isEqualTo("Specific");
-    assertThat(neverCheckbox.isChecked()).isTrue();
-    assertThat(taskCheckbox.isChecked()).isTrue();
-    assertThat(taskCheckbox.isDisabled()).isTrue();
+    radioSettings.selectedValueShouldBe(exactValue("Specific"));
+    neverCheckbox.shouldBeChecked(true);
+    taskCheckbox.shouldBeChecked(true);
+    taskCheckbox.shouldBeDisabled(true);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
     $("#userEmailForm\\:saveEmailNotificationSettings").click();
     $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible);
 
     Selenide.refresh();
-    assertThat(radioSettings.getSelectedValue()).isEqualTo("Specific");
-    assertThat(neverCheckbox.isChecked()).isTrue();
-    assertThat(taskCheckbox.isChecked()).isTrue();
-    assertThat(taskCheckbox.isDisabled()).isTrue();
+    radioSettings.selectedValueShouldBe(exactValue("Specific"));
+    neverCheckbox.shouldBeChecked(true);
+    taskCheckbox.shouldBeChecked(true);
+    taskCheckbox.shouldBeDisabled(true);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
     assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun");
   }
