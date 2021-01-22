@@ -101,19 +101,20 @@
       
       <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9" 
         styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel">
-        <label>Key</label>
+        <h:outputLabel for="editConfigurationKey" value="Key" />
         <h:outputText id="editConfigurationKey"
           value="#{cc.attrs.bean.activeConfig.key}" />
           
-        <h:outputLabel for="editConfigurationDefaultValue" rendered="#{not empty cc.attrs.bean.activeConfig.defaultValue}" value="Default"/>
-        <h:outputText id="editConfigurationDefaultValue" rendered="#{not empty cc.attrs.bean.activeConfig.defaultValue}"
-          value="#{cc.attrs.bean.activeConfig.defaultValue}" styleClass="config-edit-defaultvalue"/>
+        <h:outputLabel for="editConfigurationDefaultValue" value="Default"
+          rendered="#{not empty cc.attrs.bean.activeConfig.defaultValue and !cc.attrs.bean.activeConfig.password}" />
+        <h:outputText id="editConfigurationDefaultValue" value="#{cc.attrs.bean.activeConfig.defaultValue}" styleClass="config-edit-defaultvalue"
+          rendered="#{not empty cc.attrs.bean.activeConfig.defaultValue and !cc.attrs.bean.activeConfig.password}" />
           
         <h:outputLabel for="editConfigurationDescription" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}" value="Description" />
         <h:outputText id="editConfigurationDescription" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}"
           value="#{cc.attrs.bean.activeConfig.htmlDescription}" styleClass="config-edit-description" escape="false" />
         
-        <label>Value</label>
+        <h:outputLabel for="editConfigurationValue" value="Value" />
         <c:choose>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'DAYTIME'}">
             <p:inputMask id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" mask="99:99"/>
