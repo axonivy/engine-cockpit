@@ -25,7 +25,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -355,8 +354,8 @@ public class WebTestConfiguration
     String classAttr = configValue.getAttribute("class");
     if (StringUtils.contains(classAttr, "ui-chkbox"))
     {
-      SelectBooleanCheckbox checkbox = PrimeUi.selectBooleanCheckbox(By.id("config:editConfigurationForm:editConfigurationValue"));
-      assertThat(checkbox.isChecked()).isEqualTo(Boolean.valueOf(value));
+      PrimeUi.selectBooleanCheckbox(By.id("config:editConfigurationForm:editConfigurationValue"))
+              .shouldBeChecked(Boolean.valueOf(value));
     }
     else if (StringUtils.contains(classAttr, "ui-inputnumber"))
     {

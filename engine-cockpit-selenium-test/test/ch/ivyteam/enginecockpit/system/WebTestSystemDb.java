@@ -283,14 +283,14 @@ public class WebTestSystemDb
     SelectBooleanCheckbox defaultPort = PrimeUi.selectBooleanCheckbox(
             By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
     $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
-    assertThat(defaultPort.isChecked()).isTrue();
+    defaultPort.shouldBeChecked(true);
     
     defaultPort.removeChecked();
-    assertThat(defaultPort.isChecked()).isFalse();
+    defaultPort.shouldBeChecked(false);
     $(".sysdb-dynamic-form-port input").shouldBe(enabled);
     
     defaultPort.setChecked();
-    assertThat(defaultPort.isChecked()).isTrue();
+    defaultPort.shouldBeChecked(true);
     $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
   }
   

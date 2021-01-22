@@ -131,8 +131,8 @@ public class WebTestSecuritySystemDetail
     $("#securityLdapForm\\:ldapEmail").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapLanguage").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapUserMemberOfAttribute").shouldBe(exactValue(""));
-    assertThat(PrimeUi.selectBooleanCheckbox(By.id("securityLdapForm:ldapUserMemberOfLookupAllowed"))
-            .isChecked()).isTrue();
+    PrimeUi.selectBooleanCheckbox(By.id("securityLdapForm:ldapUserMemberOfLookupAllowed"))
+            .shouldBeChecked(true);
     $("#securityLdapForm\\:ldapGroupMemberOfAttribute").shouldBe(exactValue(""));
     $("#securityLdapForm\\:ldapGroupMembersAttribute").shouldBe(exactValue(""));
     
