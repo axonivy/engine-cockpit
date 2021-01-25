@@ -14,7 +14,6 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.configuration.ConfigView;
 import ch.ivyteam.enginecockpit.configuration.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.model.Application;
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
@@ -36,7 +35,7 @@ public class ApplicationDetailBean
   private String changeSecuritySystem;
   private List<String> environments;
 
-  private ConfigView configView;
+  private ConfigViewImpl configView;
 
   private ManagerBean managerBean;
 
@@ -69,7 +68,9 @@ public class ApplicationDetailBean
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
-            this::enrichStandardProcessConfigs);
+            this::enrichStandardProcessConfigs, List.of(ConfigViewImpl.defaultFilter(), 
+                    new ContentFilter<ConfigProperty>("Variables", "Show Variables", 
+                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true)));
   }
 
   public Application getApplication()
@@ -151,7 +152,7 @@ public class ApplicationDetailBean
     this.changeSecuritySystem = changeSecuritySystem;
   }
 
-  public ConfigView getConfigView()
+  public ConfigViewImpl getConfigView()
   {
     return configView;
   }

@@ -44,11 +44,8 @@
                       update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
                   </div>
                   <div style="float: right; position: relative;">
-                    <cc:TableFilter index="0" filters="#{systemConfigBean.configView.contentFilters}"
-                      update="contentFilter:form, config:form"
-                      selectedFilters="#{systemConfigBean.configView.selectedContentFilters}"
-                      filterText="#{systemConfigBean.configView.contentFilterText}"
-                      resetFilters="#{systemConfigBean.configView.resetSelectedContentFilters()}" id="contentFilter" />
+                    <cc:TableFilter bean="#{systemConfigBean.configView}"
+                      update="contentFilter:form, config:form" id="contentFilter" />
                   </div>
                 </div>
               </div>

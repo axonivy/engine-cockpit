@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.configuration;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -13,42 +12,40 @@ import javax.faces.model.SelectItem;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.ContentFilter;
+import ch.ivyteam.enginecockpit.TableFilter;
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")
-public class ConfigViewImpl implements ContentFilter, ConfigView
+public class ConfigViewImpl implements TableFilter, ConfigView
 {
   private static final String DEFINED_FILTER = "defined";
   private List<ConfigProperty> configs;
   private List<ConfigProperty> filteredConfigs;
   private String filter;
-  private boolean showDefaults;
   private ConfigProperty activeConfig;
   private IConfiguration configuration;
-  private List<SelectItem> contentFilters;
   private List<String> selectedContentFilters;
   private Function<ConfigProperty, ConfigProperty> propertyEnricher;
+  private List<ContentFilter<ConfigProperty>> contentFilters;
 
-  public ConfigViewImpl()
+  public ConfigViewImpl(List<ContentFilter<ConfigProperty>> contentFilters)
   {
-    this(IConfiguration.instance(), c -> c);
+    this(IConfiguration.instance(), c -> c, contentFilters);
   }
 
-  public ConfigViewImpl(IConfiguration configuration, Function<ConfigProperty, ConfigProperty> propertyEnricher)
+  public ConfigViewImpl(IConfiguration configuration, Function<ConfigProperty, ConfigProperty> propertyEnricher, 
+          List<ContentFilter<ConfigProperty>> contentFilters)
   {
     this.configuration = configuration;
     this.propertyEnricher = propertyEnricher;
+    this.contentFilters = contentFilters;
     reloadConfigs();
-    showDefaults = true;
-    loadContentFilters();
   }
 
   private void reloadConfigs()
   {
     configs = configuration.getProperties().stream()
-            .filter(property -> !StringUtils.startsWith(property.getKey(), "Applications."))
-            .filter(property -> !StringUtils.startsWith(property.getKey(), "SecuritySystems."))
             .map(property -> new ConfigProperty(property))
             .map(propertyEnricher)
             .collect(Collectors.toList());
@@ -57,19 +54,24 @@ public class ConfigViewImpl implements ContentFilter, ConfigView
   @Override
   public List<ConfigProperty> getConfigs()
   {
-    return filterDefault(configs);
+    return filter(configs);
   }
 
-  private List<ConfigProperty> filterDefault(List<ConfigProperty> properties)
+  private List<ConfigProperty> filter(List<ConfigProperty> properties)
   {
-    if (showDefaults)
+    if (properties == null)
     {
       return properties;
     }
-    else
+    var props = properties.stream();
+    for (var contentFilter : contentFilters)
     {
-      return properties.stream().filter(c -> !c.isDefault()).collect(Collectors.toList());
+      if (contentFilter.isActive())
+      {
+        props = props.filter(contentFilter.filter());
+      }
     }
+    return props.collect(Collectors.toList());
   }
 
   @Override
@@ -77,7 +79,7 @@ public class ConfigViewImpl implements ContentFilter, ConfigView
   {
     if (StringUtils.isNotBlank(filter))
     {
-      return filterDefault(filteredConfigs);
+      return filter(filteredConfigs);
     }
     return filteredConfigs;
   }
@@ -100,31 +102,10 @@ public class ConfigViewImpl implements ContentFilter, ConfigView
     this.filter = filter;
   }
   
-  public boolean isShowDefaults() 
-  {
-    return showDefaults;
-  }
-  
-  public void setShowDefaults(boolean showDefaults)
-  {
-    this.showDefaults = showDefaults;
-  }
-  
-  public void switchDefaults()
-  {
-    showDefaults = !showDefaults;
-  }
-  
-  public void loadContentFilters()
-  {
-    contentFilters = new ArrayList<>();
-    contentFilters.add(new SelectItem(DEFINED_FILTER, "Show only defined values"));
-  }
-  
   @Override
   public List<SelectItem> getContentFilters()
   {
-    return contentFilters;
+    return contentFilters.stream().map(ContentFilter::selectItem).collect(Collectors.toList());
   }
   
   @Override
@@ -137,7 +118,9 @@ public class ConfigViewImpl implements ContentFilter, ConfigView
   public void setSelectedContentFilters(List<String> selectedContentFilters)
   {
     this.selectedContentFilters = selectedContentFilters;
-    showDefaults = !selectedContentFilters.contains(DEFINED_FILTER);
+    contentFilters.forEach(contentFilter -> {
+      contentFilter.enabled(selectedContentFilters.contains(contentFilter.name()));
+    });
   }
   
   @Override
@@ -149,11 +132,15 @@ public class ConfigViewImpl implements ContentFilter, ConfigView
   @Override
   public String getContentFilterText()
   {
-    if (showDefaults)
+    var text = contentFilters.stream()
+            .filter(ContentFilter::enabled)
+            .map(ContentFilter::name)
+            .collect(Collectors.joining(", "));
+    if (StringUtils.isBlank(text))
     {
-      return "all values";
+      return "none";
     }
-    return "defined values";
+    return text;
   }
   
   @Override
@@ -191,5 +178,10 @@ public class ConfigViewImpl implements ContentFilter, ConfigView
     reloadConfigs();
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeConfig.getKey() + "' " + message));
+  }
+  
+  public static ContentFilter<ConfigProperty> defaultFilter()
+  {
+    return new ContentFilter<ConfigProperty>(DEFINED_FILTER, "Show only defined values", c -> !c.isDefault());
   }
 }
