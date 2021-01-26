@@ -10,7 +10,7 @@
   <div class="ui-fluid">
     <div class="ui-g">
       <div class="ui-g-12">
-        <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card"
+        <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card" dynamic="true"
           value="#{managerBean.applications}" activeIndex="#{managerBean.selectedApplicationIndex}" var="app"
           rendered="#{not empty managerBean.applications}">
           <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
