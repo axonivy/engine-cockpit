@@ -104,7 +104,7 @@ public class Navigation
   public static void toVariables()
   {
     toSubMenu(CONFIGURATION_MENU, VARIABLES_MENU);
-    assertCurrentUrlEndsWith("global-variables.xhtml");
+    assertCurrentUrlEndsWith("variables.xhtml");
     menuShouldBeActive(VARIABLES_MENU);
   }
   
