@@ -5,6 +5,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -84,25 +85,16 @@ public class WebTestConfiguration
     void testHideDefaults()
     {
       var config = "Data.AppDirectory";
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: all values"));
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
       assertThat(table.getFirstColumnEntries()).contains(config);
-      toggleSystemDefaultFilter();
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: defined values"));
+      toggleDefaultFilter();
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: defined"));
       assertThat(table.getFirstColumnEntries()).doesNotContain(config);
       $("#contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: all values"));
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
       assertThat(table.getFirstColumnEntries()).contains(config);
     }
 
-    private void toggleSystemDefaultFilter()
-    {
-      $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
-      $$("#contentFilter\\:form\\:filterPanel .ui-chkbox").shouldBe(size(1));
-      var checkboxes = PrimeUi.selectManyCheckbox(By.cssSelector("#contentFilter\\:form\\:filterCheckboxes"));
-      checkboxes.setCheckboxes(List.of("Show only defined values"));
-      $("#contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
-    }
-    
     @Test
     void testShowConfigFile()
     {
@@ -182,7 +174,7 @@ public class WebTestConfiguration
     void beforeEach()
     {
       Navigation.toApplicationDetail("test-ad");
-      $(By.id("configMoreForm:configMoreButton"))
+      $(By.id("contentFilter:form:filterBtn"))
               .scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
       table = new Table(TABLE_ID);
     }
@@ -198,9 +190,10 @@ public class WebTestConfiguration
     {
       var config = "Data.FilesDirectory";
       assertThat(table.getFirstColumnEntries()).contains(config);
-      toggleDefaultValues();
+      toggleDefaultFilter();
       assertThat(table.getFirstColumnEntries()).doesNotContain(config);
-      toggleDefaultValues();
+      $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
+      $("#contentFilter\\:form\\:resetFilterBtn").shouldBe(visible).click();
       assertThat(table.getFirstColumnEntries()).contains(config);
     }
     
@@ -214,7 +207,7 @@ public class WebTestConfiguration
     @Test
     void testNewConfigInvalid()
     {
-      $("#configMoreForm\\:newConfigBtn").click();
+      $("#newConfigBtn").click();
       assertNewConfigInvalid();
     }
 
@@ -223,20 +216,10 @@ public class WebTestConfiguration
     {
       String key = "testKey";
       String value = "testValue";
-      $("#configMoreForm\\:newConfigBtn").click();
+      $("#newConfigBtn").click();
       assertNewConfig(key, value);
       assertEditConfig(key, value, "newValue", "");
       assertResetConfig(key);
-    }
-    
-    @Test
-    void testEditConfig_fileFormat()
-    {
-      String config = "variables.PORTAL_DASHBOARD";
-      table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "{\n" + 
-              "  \"name\": \"this is a json file\"\n" + 
-              "}", "Dashboard");
     }
   }
   
@@ -247,7 +230,7 @@ public class WebTestConfiguration
     void beforeEach()
     {
       Navigation.toApplicationDetail("demo-portal");
-      $(By.id("configMoreForm:configMoreButton"))
+      $(By.id("contentFilter:form:filterBtn"))
               .scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
       table = new Table(TABLE_ID);
     }
@@ -287,14 +270,16 @@ public class WebTestConfiguration
     table.firstColumnShouldBe(size(1));
     table.firstColumnShouldBe(exactTexts(search));
   }
-
-  private void toggleDefaultValues()
-  {
-    $("#configMoreForm\\:configMoreButton").click();
-    $("#configMoreForm\\:configMoreMenu").shouldBe(visible);
-    $("#configMoreForm\\:showDefaultsBtn").click();
-  }
   
+  private void toggleDefaultFilter()
+  {
+    $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
+    $$("#contentFilter\\:form\\:filterPanel .ui-chkbox").shouldBe(sizeGreaterThanOrEqual(1));
+    var checkboxes = PrimeUi.selectManyCheckbox(By.cssSelector("#contentFilter\\:form\\:filterCheckboxes"));
+    checkboxes.setCheckboxes(List.of("Show only defined values"));
+    $("#contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
+  }
+
   private void assertShowConfigFile(String key)
   {
     table.clickButtonForEntry(key, "tasksButton");
