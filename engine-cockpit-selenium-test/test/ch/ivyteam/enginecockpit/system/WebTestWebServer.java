@@ -47,16 +47,17 @@ public class WebTestWebServer
     assertConnectorSettings();
     resetConnectorsToDefault();
   }
-  
+
   @Test
-  void frontEndSettings()
+  void baseUrlSettings()
   {
-    $("#frontendForm\\:infoMessage").shouldBe(visible);
-    assertFrontEndConfig("", "0", "http");
-    setFrontEndConfig("frontend", "9443", "https");
+    $("#baseUrlForm\\:infoMessage").shouldBe(visible);
+    assertBaseUrl("");
+    setBaseUrl("https://frontend:9443");
     Selenide.refresh();
-    assertFrontEndConfig("frontend", "9'443", "https");
-    setFrontEndConfig("", "0", "http");
+    assertBaseUrl("https://frontend:9443");
+    clearBaseUrl();
+    assertBaseUrl("");
   }
 
   @Test
@@ -78,24 +79,23 @@ public class WebTestWebServer
     EngineCockpitUtil.assertLiveStats(List.of("Requests", "Errors", "Bytes", "Processing Time"));
   }
   
-  private void setFrontEndConfig(String host, String port, String portocol)
+  private void setBaseUrl(String baseUrl)
   {
-    var portInput = PrimeUi.inputNumber(By.id("frontendForm:port"));
-    var protocolInput = PrimeUi.selectOne(By.id("frontendForm:protocol"));
-    $(By.id("frontendForm:host")).sendKeys(host);
-    portInput.setValue(port);
-    protocolInput.selectItemByLabel(portocol);
-    $(By.id("frontendForm:save")).shouldBe(Condition.visible).click();
-    assertGrowl("Frontend configuration changes saved");
+    $(By.id("baseUrlForm:baseUrl")).sendKeys(baseUrl);
+    $(By.id("baseUrlForm:save")).shouldBe(Condition.visible).click();
+    assertGrowl("Base Url saved");
+  }
+  
+  private void clearBaseUrl()
+  {
+    $(By.id("baseUrlForm:baseUrl")).clear();
+    $(By.id("baseUrlForm:save")).shouldBe(Condition.visible).click();
+    assertGrowl("Base Url saved");
   }
 
-  private void assertFrontEndConfig(String host, String port, String portocol)
+  private void assertBaseUrl(String baseUrl)
   {
-    var portInput = PrimeUi.inputNumber(By.id("frontendForm:port"));
-    var protocolInput = PrimeUi.selectOne(By.id("frontendForm:protocol"));
-    $(By.id("frontendForm:host")).shouldBe(exactValue(host));
-    portInput.should(exactValue(port));
-    protocolInput.selectedItemShould(Condition.exactText(portocol));
+    $(By.id("baseUrlForm:baseUrl")).shouldBe(exactValue(baseUrl));
   }
 
   public static void assertConnectorSettings()
@@ -183,5 +183,4 @@ public class WebTestWebServer
     $(By.id(WEB_SERVER_FORM + input + "_input")).shouldBe(value(value));
     checkbox.shouldBeChecked(enabled);
   }
-  
 }
