@@ -34,16 +34,6 @@ public class UserBean
   {
     return userDataModel;
   }
-  
-  public String getFilter()
-  {
-    return userDataModel.getFilter();
-  }
-
-  public void setFilter(String filter)
-  {
-    this.userDataModel.setFilter(filter);
-  }
 
   public String getUserCount()
   {
