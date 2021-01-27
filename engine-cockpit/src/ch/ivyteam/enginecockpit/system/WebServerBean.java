@@ -9,33 +9,28 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
-
-import ch.ivyteam.enginecockpit.model.ConfigProperty;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.request.EngineUriResolver;
-import ch.ivyteam.ivy.request.internal.DefaultEngineUriResolver;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class WebServerBean
 {
-  public static String FRONTEND_HOST_KEY = "Frontend.HostName";
-  public static String FRONTEND_PORT_KEY = "Frontend.Port";
-  public static String FRONTEND_PROTOCOL_KEY = "Frontend.Protocol";
-  
-  private ConfigProperty frontendHost;
-  private ConfigProperty frontendPort;
-  private ConfigProperty frontendProtocol;
+  private String baseUrl;
   private boolean showHeaders = false;
 
   public WebServerBean()
+  {    
+    baseUrl = EngineUriResolver.instance().baseUrl().toString();
+  }
+
+  public String getBaseUrl()
   {
-    var config = IConfiguration.instance();
-    frontendHost = new ConfigProperty(config.getProperty(FRONTEND_HOST_KEY).get());
-    frontendPort = new ConfigProperty(config.getProperty(FRONTEND_PORT_KEY).get());
-    frontendProtocol = new ConfigProperty(config.getProperty(FRONTEND_PROTOCOL_KEY).get());
+    return baseUrl;
+  }
+
+  public void setBaseUrl(String baseUrl)
+  {
+    this.baseUrl = baseUrl;
   }
 
   public List<RequestData> getRequestData()
@@ -50,12 +45,7 @@ public class WebServerBean
   {
     return EngineUriResolver.instance().external().toString();
   }
-  
-  public String getFrontendUrl()
-  {
-    return DefaultEngineUriResolver.frontendUri().toString();
-  }
-  
+
   public String getEvaluatedUrl()
   {
     return getExternalUrl() + getRequest().getRequestURI();
@@ -64,45 +54,6 @@ public class WebServerBean
   public String getRemoteAddr()
   {
     return getRequest().getRemoteAddr();
-  }
-
-  public String getFrontendHost()
-  {
-    return frontendHost.getValue();
-  }
-
-  public void setFrontendHost(String frontendHost)
-  {
-    this.frontendHost.setValue(frontendHost);
-  }
-
-  public String getFrontendPort()
-  {
-    return frontendPort.getValue();
-  }
-
-  public void setFrontendPort(String frontendPort)
-  {
-    if (StringUtils.isBlank(frontendPort))
-    {
-      frontendPort = "0";
-    }
-    this.frontendPort.setValue(frontendPort);
-  }
-
-  public String getFrontendProtocol()
-  {
-    return frontendProtocol.getValue();
-  }
-
-  public void setFrontendProtocol(String frontendProtocol)
-  {
-    this.frontendProtocol.setValue(frontendProtocol);
-  }
-  
-  public List<String> getFrontendProtocols()
-  {
-    return frontendProtocol.getEnumerationValues();
   }
   
   public void setShowHeaders()
@@ -115,18 +66,11 @@ public class WebServerBean
     return showHeaders;
   }
   
-  public void saveFrontend()
+  public void saveBaseUrl()
   {
-    saveConfig(frontendHost);
-    saveConfig(frontendPort);
-    saveConfig(frontendProtocol);
-    FacesContext.getCurrentInstance().addMessage("frontendSaveGrowl",
-            new FacesMessage("Frontend configuration changes saved"));
-  }
-  
-  public void saveConfig(ConfigProperty property)
-  {
-    IConfiguration.instance().set(property.getKey(), property.getValue());
+    EngineUriResolver.instance().baseUrl(baseUrl);
+    var msg = new FacesMessage("Base Url saved");
+    FacesContext.getCurrentInstance().addMessage("baseUrlSaveGrowl", msg);
   }
   
   private HttpServletRequest getRequest()

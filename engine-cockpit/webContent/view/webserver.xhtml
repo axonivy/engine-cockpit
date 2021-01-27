@@ -37,40 +37,28 @@
             <p:panel styleClass="min-height-250">
               <f:facet name="header">
                 <i class="si si-cog table-icon panel-title-icon"></i>
-                <h:outputText value="Frontend Settings" />
+                <h:outputText value="Base Url Settings" />
               </f:facet>
-              <h:form id="frontendForm">
-                <p:commandButton id="save" actionListener="#{webServerBean.saveFrontend}" title="Save changes"
+              <h:form id="baseUrlForm">
+                <p:commandButton id="save" actionListener="#{webServerBean.saveBaseUrl}" title="Save changes"
                   icon="si si-floppy-disk" styleClass="accent-btn card-button" />
                   
-                <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-                  styleClass="ui-panelgrid-blank grey-label-panel">
-                  <p:outputLabel for="host" value="Frontend Hostname" />
-                  <p:inputText id="host" value="#{webServerBean.frontendHost}" />
-                  
-                  <p:outputLabel for="port" value="Frontend Port" />
-                  <p:inputNumber id="port" value="#{webServerBean.frontendPort}" minValue="0" decimalPlaces="0" thousandSeparator="'" />
-                  
-                  <p:outputLabel for="protocol" value="Frontend Portocol" />
-                  <p:selectOneMenu id="protocol" value="#{webServerBean.frontendProtocol}">
-                    <f:selectItems value="#{webServerBean.frontendProtocols}" />
-                  </p:selectOneMenu>
-                  
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
                   <h:panelGroup>
-                    <label>Frontend Base URL</label>
-                    <h:panelGroup id="frontendUrlHelp" styleClass="label-help-icon">
+                    <label>Base Url</label>
+                    <h:panelGroup id="baseUrlHelp" styleClass="label-help-icon">
                       <i class="si si-question-circle"></i>
-                      <p:tooltip for="frontendUrlHelp" value="Base-URL used by the engine to build absolute URI's without a request (email links, ...)" position="top" />
+                      <p:tooltip for="baseUrlHelp" value="Base Url used by the engine to build absolute URI's without a request (email links, ...)" position="top" />
                     </h:panelGroup>
                   </h:panelGroup>
-                  <h:outputText value="#{webServerBean.frontendUrl}" />
+                  <p:inputText id="baseUrl" value="#{webServerBean.baseUrl}" />
                 </p:panelGrid>
-                
+
                 <h:panelGroup id="infoMessage" layout="block" rendered="#{engineModeBean.hasDashboardWarning()}"
                   styleClass="ui-message ui-staticmessage ui-message-info" style="margin: 0 0 20px 0; display: none;">
                   <span class="ui-message-info-icon"></span>
                   <span class="ui-message-info-summary">Problem detected</span>
-                  <span class="ui-message-info-detail">'Frontend Base Url' seems to be different form your current browser base Url. You may need to configure your 'Frontend' settings correctly</span>
+                  <span class="ui-message-info-detail"><i>Base Url</i> seems to be different form your current browser base Url. You may need to configure your <i>Base Url</i> correctly</span>
                 </h:panelGroup>
               </h:form>
             </p:panel>
@@ -136,9 +124,10 @@
               if (!window.location.href.startsWith('#{webServerBean.externalUrl}')) {
                 $('#problemMessage').show();
               }
-              if (!window.location.href.startsWith('#{webServerBean.frontendUrl}') &amp;&amp; 
-                  !(window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1')) {
-                $('#frontendForm\\:infoMessage').show();
+              if (!window.location.href.startsWith('#{webServerBean.baseUrl}') || '#{webServerBean.baseUrl}'.length == 0) {
+                if (!(window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1')) {
+                  $('#baseUrlForm\\:infoMessage').show();
+                }
               }
               </script>
             </p:panel>
