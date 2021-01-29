@@ -240,7 +240,7 @@ public class WebTestConfiguration
     {
       String config = "StandardProcess.DefaultPages";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate", "#default-pages", "");
+      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate", "standard-processes", "");
       $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
     
@@ -249,7 +249,7 @@ public class WebTestConfiguration
     {
       String config = "StandardProcess.MailNotification";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, " ", "#email-notification", "");
+      assertThatConfigEditModalIsVisible(config, " ", "standard-processes", "");
       $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
   }
