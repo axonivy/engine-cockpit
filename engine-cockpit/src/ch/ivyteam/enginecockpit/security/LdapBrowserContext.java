@@ -1,7 +1,9 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.naming.Name;
 import javax.naming.NameClassPair;
@@ -20,7 +22,7 @@ import ch.ivyteam.naming.JndiUtil;
 
 public class LdapBrowserContext implements AutoCloseable
 {
-  
+
   private LdapContext context;
 
   public LdapBrowserContext(JndiConfig config, boolean enableInsecureSsl) throws NamingException
@@ -33,7 +35,7 @@ public class LdapBrowserContext implements AutoCloseable
   {
     JndiUtil.closeQuietly(context);
   }
-  
+
   public List<LdapBrowserNode> browse(Name defaultContext) throws NamingException
   {
     List<LdapBrowserNode> names = new ArrayList<>();
@@ -43,9 +45,11 @@ public class LdapBrowserContext implements AutoCloseable
       Name name = context.getNameParser(attribute.get(pos).toString()).parse(attribute.get(pos).toString());
       names.add(createLdapNode(name, defaultContext.toString()));
     }
-    return names;
+    return names.stream()
+            .sorted(Comparator.comparing(LdapBrowserNode::toString, String.CASE_INSENSITIVE_ORDER))
+            .collect(Collectors.toList());
   }
-  
+
   public List<LdapBrowserNode> children(String parent) throws NamingException
   {
     List<LdapBrowserNode> children = new ArrayList<>();
@@ -56,9 +60,12 @@ public class LdapBrowserContext implements AutoCloseable
       Name child = context.getNameParser(nextElement.getName()).parse(nextElement.getName());
       children.add(createLdapNode(child, parent));
     }
-    return children;
+
+    return children.stream()
+            .sorted(Comparator.comparing(LdapBrowserNode::toString, String.CASE_INSENSITIVE_ORDER))
+            .collect(Collectors.toList());
   }
-  
+
   public List<LdapProperty> getAttributes(String node) throws NamingException
   {
     List<LdapProperty> attributeList = new ArrayList<>();
@@ -72,21 +79,22 @@ public class LdapBrowserContext implements AutoCloseable
         attributeList.add(getLdapProperty(attr.getID(), subAttrs.next()));
       }
     }
-    return attributeList;
+    return attributeList.stream()
+            .sorted(Comparator.comparing(LdapProperty::getName, String.CASE_INSENSITIVE_ORDER))
+            .collect(Collectors.toList());
   }
-  
+
   private LdapProperty getLdapProperty(String attrId, Object attr)
   {
     if (attr instanceof byte[])
     {
-      attr = Hex.encodeHexString((byte[])attr, false);
+      attr = Hex.encodeHexString((byte[]) attr, false);
     }
     return new LdapProperty(attrId, attr.toString());
   }
-  
+
   public LdapBrowserNode createLdapNode(Name name, String parent)
   {
     return LdapBrowserNode.create(context, name, parent);
   }
-  
 }
