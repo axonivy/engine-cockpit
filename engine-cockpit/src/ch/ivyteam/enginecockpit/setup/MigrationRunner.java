@@ -118,8 +118,6 @@ public class MigrationRunner implements MigrationClient
         case STARTED:
           dto.run();
           break;
-        case PENDING:
-        case RUNNING:
         default:
           break;
       }
@@ -136,20 +134,10 @@ public class MigrationRunner implements MigrationClient
     return tasks.stream().filter(t -> StringUtils.contains(t.getStateIcon(), "si-is-spinning")).findFirst().get();
   }
   
-  @Override
-  public void showDiff(ContentComparator comparison)
+  protected Optional<String> getChange(TextContentComparison compare)
   {
-    //not used with ui
-  }
-  
-  protected Optional<String> getChange(ContentComparator comparison)
-  {
-    if (comparison instanceof TextContentComparison)
-    {
-      var change = ((TextContentComparison) comparison).getChangedLines();
-      return Optional.of(change);
-    }
-    return Optional.empty();
+    var change = compare.getChangedLines();
+    return Optional.of(change);
   }
 
 }

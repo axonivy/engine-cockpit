@@ -39,7 +39,7 @@ public class MigrationBean
     {
       var oldEngine = Path.of(pathToOldEngine);
       engines = MigrateToLocalEngine.fromOrigin(oldEngine);
-      migrationPath = MigrationPath.of(engines.getOrigin().getVersion(), engines.getTarget().getVersion());
+      migrationPath = new MigrationPath(engines.getOrigin().getVersion(), engines.getTarget().getVersion());
       scenario = MigrationScenario.create(migrationPath, ()->MigrationTaskLoader.allTasks());
       reloadTasks();
       running = MigrationState.START;
