@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.model.User;
-import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
+import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
 @ManagedBean

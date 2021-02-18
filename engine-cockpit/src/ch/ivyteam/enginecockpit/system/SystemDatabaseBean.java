@@ -21,7 +21,7 @@ import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.db.jdbc.SystemDatabaseConfig;
-import ch.ivyteam.enginecockpit.setupwizard.WizardBean.StepStatus;
+import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;

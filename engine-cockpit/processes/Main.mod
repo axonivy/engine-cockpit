@@ -1,5 +1,5 @@
 [Ivy]
-01682CA38FC4E775 7.5.0 #module
+01682CA38FC4E775 9.2.0 #module
 >Proto >Proto Collection #zClass
 Mn0 Main Big #zClass
 Mn0 B #cInfo
@@ -39,23 +39,23 @@ Mn0 f3 337 49 30 30 0 15 #rect
 Mn0 f3 @|EndRequestIcon #fIcon
 Mn0 f1 expr out #txt
 Mn0 f1 111 64 337 64 #arcP
-Mn0 f2 outLink setupWizard.ivp #txt
+Mn0 f2 outLink maintenance.ivp #txt
 Mn0 f2 inParamDecl '<> param;' #txt
 Mn0 f2 requestEnabled true #txt
 Mn0 f2 triggerEnabled false #txt
-Mn0 f2 callSignature setupWizard() #txt
+Mn0 f2 callSignature maintenance() #txt
 Mn0 f2 caseData businessCase.attach=true #txt
 Mn0 f2 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
-        <name>setupWizard.ivp</name>
+        <name>maintenance.ivp</name>
     </language>
 </elementInfo>
 ' #txt
 Mn0 f2 @C|.responsibility Everybody #txt
-Mn0 f2 81 145 30 30 -25 17 #rect
+Mn0 f2 81 145 30 30 -43 22 #rect
 Mn0 f2 @|StartRequestIcon #fIcon
-Mn0 f4 template "view/setup.xhtml" #txt
+Mn0 f4 template "view/maintenance.xhtml" #txt
 Mn0 f4 337 145 30 30 0 15 #rect
 Mn0 f4 @|EndRequestIcon #fIcon
 Mn0 f5 111 160 337 160 #arcP

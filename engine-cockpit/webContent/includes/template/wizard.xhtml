@@ -21,6 +21,7 @@
   <h:outputScript name="js/layout.js" library="serenity-layout" />
   <h:outputScript name="js/ripple.js" library="serenity-layout" />
   <h:outputScript name="resources/js/polyfill.js" />
+  <h:outputScript name="resources/js/engine-cockpit.js" />
   <h:outputScript name="resources/js/file-upload.js" />
   <ui:insert name="head" />
 </h:head>
@@ -34,8 +35,10 @@
 
       <div class="layout-breadcrumb" style="min-height: 0px;" />
 
-      <div class="layout-content">
-        <ui:insert name="content" />
+      <div class="layout-content container">
+        <div class="p-grid">
+          <ui:insert name="content" />
+        </div>
       </div>
 
       <div class="layout-main-mask"></div>
@@ -48,6 +51,7 @@
   <h:outputStylesheet name="css/ripple.css" library="serenity-layout" />
   <h:outputStylesheet name="css/layout-ivy.css" library="serenity-layout" />
   <h:outputStylesheet name="css/cockpit.css" library="serenity-layout" />
+  <h:outputStylesheet name="css/primeflex.min.css" library="serenity-layout" />
   <h:outputStylesheet name="resources/css/engine-cockpit.css" />
   <h:outputStylesheet name="resources/css/horizontal-container.css" />
   <h:outputStylesheet name="resources/css/setup-wizard.css" />
