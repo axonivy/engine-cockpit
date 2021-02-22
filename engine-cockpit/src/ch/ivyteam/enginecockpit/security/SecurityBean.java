@@ -10,15 +10,19 @@ import java.util.stream.Stream;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.util.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.security.IExternalSecuritySystemProvider;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.ISecurityManager;
 
 @ManagedBean
 @ViewScoped
@@ -32,12 +36,15 @@ public class SecurityBean
   
   private String newSecuritySystemName;
   private String newSecuritySystemProvider;
-  private List<String> providers = Arrays.asList("Microsoft Active Directory", "Novell eDirectory", "ivy Security System");
   
   private ManagerBean managerBean;
 
+  @Inject
+  private ISecurityManager securityManager;
+
   public SecurityBean()
   {
+    DiCore.getGlobalInjector().injectMembers(this);
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
@@ -170,12 +177,14 @@ public class SecurityBean
   {
     this.newSecuritySystemProvider = provider;
   }
-  
+
   public List<String> getProviders()
   {
-    return providers;
+    return securityManager.getExternalSecuritySystemProviders().stream()
+             .map(IExternalSecuritySystemProvider::getProviderName)
+             .collect(Collectors.toList());
   }
-  
+
   public void createNewSecuritySystem()
   {
     SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(QUOTE + newSecuritySystemName + QUOTE) + 
