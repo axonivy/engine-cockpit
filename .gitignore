@@ -19,6 +19,6 @@ classes/
 src_dataClasses/
 src_wsproc/
 
-engine-cockpit/lib/
+**/lib/mvn-deps/*
 .flattened-pom.xml
 /workspace
