@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
@@ -237,7 +238,7 @@ public class WebTestUserDetail
     String syncBtnId = "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
-    $(syncBtnId).findAll("span").first().shouldNotHave(cssClass("fa-spin"));
+    $(syncBtnId).findAll("span").first().waitUntil(not(cssClass("fa-spin")), 20000);
     
     Navigation.toUserDetail(USER_AD);
     $("#userInformationForm\\:userSynchBtn").click();

@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -46,7 +47,7 @@ public class WebTestProperties
     Tab.switchToTab("test-ad");
     String syncBtnId = "#form\\:card\\:apps\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
     $(syncBtnId).click();
-    $(syncBtnId + " > span:first-child").shouldNotHave(cssClass("fa-spin"));
+    $(syncBtnId + " > span:first-child").waitUntil(not(cssClass("fa-spin")), 20000);
     Navigation.toUserDetail("user1");
     assertTableHasDirectoryProperty("Address", "Baarerstrasse 12");
   }
