@@ -40,6 +40,9 @@
               </h:panelGroup>
               
               <h:panelGroup id="wizardStepButtons" layout="block" style="height: 3em">
+                <a href="#{advisorBean.engineGuideBaseUrl}/tool-reference/setup-wizard.html" target="_blank" rel="noopener noreferrer">
+                  <i class="si si-xl si-question-circle"></i>
+                </a>
                 <p:commandButton id="nextStep" actionListener="#{wizardBean.nextStep()}" value="Next" 
                   update="wizardStepPage" process="@this" immediate="true" icon="si si-arrow-right-1" 
                   styleClass="wizard-step-button" rendered="#{!wizardBean.lastStep}" async="true"/>
