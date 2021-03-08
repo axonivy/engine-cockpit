@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.system;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,15 +14,16 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.db.jdbc.ConnectionConfigurator;
-import ch.ivyteam.db.jdbc.ConnectionProperty;
 import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseProduct;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.db.jdbc.SystemDatabaseConfig;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
+import ch.ivyteam.enginecockpit.system.model.ConnectionInfo;
+import ch.ivyteam.enginecockpit.system.model.SystemDbConnectionProperty;
+import ch.ivyteam.enginecockpit.system.model.SystemDbCreationParameter;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConverter;
 import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseCreator;
@@ -53,7 +53,7 @@ public class SystemDatabaseBean extends StepStatus
 
   public SystemDatabaseBean()
   {
-    DatabaseConnectionConfiguration config = SystemDatabaseSetup.getConfiguredSystemDatabaseConfig().getDbConnectionConfig();
+    var config = SystemDatabaseSetup.getConfiguredSystemDatabaseConfig().getDbConnectionConfig();
     this.driver = JdbcDriver.forConnectionConfiguration(config).orElseThrow();
     this.product = driver.getDatabaseProduct();
     this.connectionProperties = getConnectionPropertiesList(config);
@@ -199,18 +199,16 @@ public class SystemDatabaseBean extends StepStatus
   
   private ConnectionInfo testSystemDbConnection()
   {
-    ConnectionTestResult testConnection = ConnectionTester.testConnection(createConfiguration());
+    var testConnection = ConnectionTester.testConnection(createConfiguration());
     return new ConnectionInfo(testConnection);
   }
   
   public void saveConfiguration()
   {
-    DatabaseConnectionConfiguration dbConnectionConfig = createConfiguration();
-
-    SystemDatabaseConfig newSystemDbConfig = SystemDatabaseConfig.create()
+    var dbConnectionConfig = createConfiguration();
+    var newSystemDbConfig = SystemDatabaseConfig.create()
             .dbConnectionConfig(dbConnectionConfig)
             .toSystemDatabaseConfig();  
-    
     SystemDatabaseSetup.saveSystemDatabaseConfig(newSystemDbConfig);
     FacesContext.getCurrentInstance().addMessage("systemDbSave",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "System Database config saved successfully"));
@@ -343,10 +341,10 @@ public class SystemDatabaseBean extends StepStatus
   
   private DatabaseConnectionConfiguration createConfiguration()
   {
-    ConnectionConfigurator configurator = driver.getConnectionConfigurator();
-    Map<ConnectionProperty, String> props = connectionProperties.stream()
+    var configurator = driver.getConnectionConfigurator();
+    var props = connectionProperties.stream()
             .collect(Collectors.toMap(p -> p.getProperty(), p -> p.getValue()));
-    DatabaseConnectionConfiguration config = configurator.getDatabaseConnectionConfiguration(props);
+    var config = configurator.getDatabaseConnectionConfiguration(props);
     config.setProperties(getAdditionalProperties());
     return config;
   }

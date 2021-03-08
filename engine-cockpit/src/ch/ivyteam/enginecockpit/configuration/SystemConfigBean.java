@@ -7,8 +7,9 @@ import javax.faces.bean.ViewScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.ContentFilter;
-import ch.ivyteam.enginecockpit.model.ConfigProperty;
+import ch.ivyteam.enginecockpit.commons.ContentFilter;
+import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
+import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 
 @ManagedBean
 @ViewScoped

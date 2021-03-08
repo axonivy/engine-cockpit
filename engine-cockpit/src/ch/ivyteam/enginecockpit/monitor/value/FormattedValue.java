@@ -153,7 +153,6 @@ class FormattedValue implements ValueProvider
             }
           }
         }
-        while (scaling);
       }
       builder.append(formatValue);
       if (value.unit().hasSymbol())
@@ -252,7 +251,6 @@ class FormattedValue implements ValueProvider
           }
         }
       }
-      while (scaling);
       builder.append(formatValue);
       builder.append(' ');
       builder.append(formatUnit.symbol());

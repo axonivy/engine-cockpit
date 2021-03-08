@@ -12,12 +12,12 @@ public class DownloadUtil
   
   public static void zipDir(Path source, OutputStream out) throws IOException
   {
-    try (ZipOutputStream zs = new ZipOutputStream(out))
+    try (var zs = new ZipOutputStream(out))
     {
       Files.walk(source)
               .filter(path -> !Files.isDirectory(path))
               .forEach(path -> {
-                ZipEntry zipEntry = new ZipEntry(source.relativize(path).toString());
+                var zipEntry = new ZipEntry(source.relativize(path).toString());
                 try
                 {
                   zs.putNextEntry(zipEntry);

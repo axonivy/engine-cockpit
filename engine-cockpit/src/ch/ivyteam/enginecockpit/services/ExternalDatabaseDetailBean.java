@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.services;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -16,21 +15,21 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.db.jdbc.DatabaseUtil;
 import ch.ivyteam.db.jdbc.JdbcDriver;
-import ch.ivyteam.di.restricted.DiCore;
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.ExternalDatabase;
-import ch.ivyteam.enginecockpit.model.ExternalDatabase.Connection;
-import ch.ivyteam.enginecockpit.model.ExternalDatabase.ExecStatement;
+import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.ExternalDatabaseMonitor;
-import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
-import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
-import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
+import ch.ivyteam.enginecockpit.services.help.HelpServices;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
+import ch.ivyteam.enginecockpit.services.model.ExternalDatabase;
+import ch.ivyteam.enginecockpit.services.model.ExternalDatabase.Connection;
+import ch.ivyteam.enginecockpit.services.model.ExternalDatabase.ExecStatement;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
-import ch.ivyteam.enginecockpit.util.Property;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
-import ch.ivyteam.ivy.db.IExternalDatabase;
-import ch.ivyteam.ivy.db.internal.ExternalDatabaseManager;
+import ch.ivyteam.ivy.db.IExternalDatabaseManager;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -52,7 +51,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   
   public ExternalDatabaseDetailBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
@@ -78,8 +77,9 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   {
     externalDatabase = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
     dbConfigKey = "Databases." + databaseName;
-    ExternalDatabaseManager dbManager = DiCore.getGlobalInjector().getInstance(ExternalDatabaseManager.class);
-    IExternalDatabase externalDb = dbManager.getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
+    
+    var externalDb = IExternalDatabaseManager.instance()
+            .getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
     history = externalDb.getExecutionHistory().stream()
             .map(statement -> new ExecStatement(statement))
             .collect(Collectors.toList());
@@ -160,7 +160,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   @Override
   public String getYaml()
   {
-    Map<String, String> valuesMap = new HashMap<>();
+    var valuesMap = new HashMap<String, String>();
     valuesMap.put("name", externalDatabase.getName());
     valuesMap.put("url", externalDatabase.getUrl());
     valuesMap.put("driver", externalDatabase.getDriver());
@@ -204,7 +204,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   public void saveDbConfig()
   {
     connectionTest.stop();
-    ExternalDatabase originConfig = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
+    var originConfig = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
     setIfChanged(dbConfigKey + ".Url", externalDatabase.getUrl(), originConfig.getUrl());
     setIfChanged(dbConfigKey + ".Driver", externalDatabase.getDriver(), originConfig.getDriver());
     setIfChanged(dbConfigKey + ".UserName", externalDatabase.getUserName(), originConfig.getUserName());

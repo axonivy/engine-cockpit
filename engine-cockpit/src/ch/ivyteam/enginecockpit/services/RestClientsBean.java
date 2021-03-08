@@ -7,8 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.RestClient;
+import ch.ivyteam.enginecockpit.services.model.RestClient;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
 
 @ManagedBean
@@ -24,7 +24,7 @@ public class RestClientsBean
   
   public RestClientsBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     reloadRestClients();
@@ -32,7 +32,7 @@ public class RestClientsBean
 
   public void reloadRestClients()
   {
-    RestClientDao restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
+    var restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
     restClients = restClientDao.getAll(managerBean.getSelectedIEnvironment()).stream()
             .map(rest -> new RestClient(rest))
             .collect(Collectors.toList());

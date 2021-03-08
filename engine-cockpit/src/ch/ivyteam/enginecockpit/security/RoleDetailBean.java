@@ -13,9 +13,14 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.Role;
-import ch.ivyteam.enginecockpit.model.User;
+import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
+import ch.ivyteam.enginecockpit.security.model.MemberProperty;
+import ch.ivyteam.enginecockpit.security.model.Role;
+import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
+import ch.ivyteam.enginecockpit.security.model.User;
+import ch.ivyteam.enginecockpit.security.model.UserDataModel;
+import ch.ivyteam.enginecockpit.security.system.SecurityConfigDetailBean;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -49,7 +54,7 @@ public class RoleDetailBean
 
   public RoleDetailBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     roleProperties = new MemberProperty().new RoleProperty();
     usersOfRole = new UserDataModel();
@@ -283,7 +288,7 @@ public class RoleDetailBean
   
   public void browseLdap()
   {
-    SecurityConfigDetailBean secBean = new SecurityConfigDetailBean(managerBean.getSelectedApplication().getSecuritySystemName());
+    var secBean = new SecurityConfigDetailBean(managerBean.getSelectedApplication().getSecuritySystemName());
     ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl());
   }
   

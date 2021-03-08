@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -14,19 +13,19 @@ import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import ch.ivyteam.di.restricted.DiCore;
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.RestClient;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
-import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
-import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
-import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
+import ch.ivyteam.enginecockpit.services.help.HelpServices;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
+import ch.ivyteam.enginecockpit.services.model.RestClient;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
-import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
 import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
-import ch.ivyteam.ivy.rest.client.internal.ExternalRestWebServiceCall;
 import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
+import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -46,7 +45,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   
   public RestClientDetailBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
@@ -78,7 +77,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private RestClient createRestClient()
   {
-    IRestClient iRestClient = restClientDao.findByName(restClientName, managerBean.getSelectedIEnvironment());
+    var iRestClient = restClientDao.findByName(restClientName, managerBean.getSelectedIEnvironment());
     if (iRestClient == null)
     {
       iRestClient = restClientDao.findByName(restClientName);
@@ -106,15 +105,15 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   @Override
   public String getYaml()
   {
-    Map<String, String> valuesMap = new HashMap<>();
+    var valuesMap = new HashMap<String, String>();
     valuesMap.put("name", restClient.getName());
     valuesMap.put("url", restClient.getUrl());
     valuesMap.put("features", parseFeaturesToYaml(restClient.getFeatures()));
     valuesMap.put("properties", parsePropertiesToYaml(restClient.getProperties().stream()
             .filter(p -> !StringUtils.equals(p.getName(), "password"))
             .collect(Collectors.toList())));
-    String templateString = readTemplateString("restclient.yaml");
-    StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
+    var templateString = readTemplateString("restclient.yaml");
+    var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
   
@@ -133,10 +132,11 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   {
     try
     {
-      ExternalRestWebServiceCall restCall = DiCore.getGlobalInjector().getInstance(WebserviceExecutionManager.class)
+      var executionManger = (WebserviceExecutionManager) IWebserviceExecutionManager.instance();
+      var restCall = executionManger
               .getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
               .getRestWebService(restClient.getUniqueId()).createCall();
-      int status = restCall.getWebTarget().request().head().getStatus();
+      var status = restCall.getWebTarget().request().head().getStatus();
       if (status >= 200 && status < 400)
       {
         return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
@@ -160,7 +160,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public void saveConfig()
   {
     connectionTest.stop();
-    RestClient originConfig = createRestClient();
+    var originConfig = createRestClient();
     setIfChanged(restConfigKey + ".Url", restClient.getUrl(), originConfig.getUrl());
     setIfChanged(restConfigKey + ".Properties.username", restClient.getUsername(), originConfig.getUsername());
     setIfPwChanged(restConfigKey + ".Properties.password", restClient);

@@ -23,7 +23,7 @@
       <h:outputText value="#{property.name}" styleClass="ldap-attribute" />
     </p:column>
     <p:column headerText="LDAP Attribute" styleClass="ldap-value">
-      <h:outputText value="#{property.ldapAttribute}" />
+      <h:outputText value="#{property.value}" />
     </p:column>
     <p:column style="width: 95px;">
       <p:commandButton id="deleteLdapAttributeBtn" type="button" icon="si si-bin-1" title="Delete"
@@ -55,7 +55,7 @@
       <label>Attribute</label>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="attributeInput" requiredMessage="Value is required"
-          value="#{securityLdapDetailBean.property.ldapAttribute}" required="true" />
+          value="#{securityLdapDetailBean.property.value}" required="true" />
         <p:message for="attributeInput" id="attributeMessage" />
       </h:panelGroup>
     </p:panelGrid>
