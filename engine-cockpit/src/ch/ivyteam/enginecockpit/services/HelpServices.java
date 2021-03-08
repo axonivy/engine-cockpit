@@ -64,15 +64,20 @@ public abstract class HelpServices
   {
     if (!Objects.equal(value, oldValue))
     {
-      configuration.set(key, value);
+      set(key, value);
     }
   }
-  
+
   protected void setIfPwChanged(String key, IService client)
   {
     if (client.passwordChanged())
     {
-      configuration.set(key, client.getPassword());
+      set(key, client.getPassword());
     }
+  }
+
+  protected void set(String key, Object value)
+  {
+    configuration.set(key, value);
   }
 }

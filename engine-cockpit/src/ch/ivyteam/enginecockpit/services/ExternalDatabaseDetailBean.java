@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -199,14 +200,23 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   {
     connectionTest.stop();
     ExternalDatabase originConfig = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
-    setIfChanged(dbConfigKey + ".Url", externalDatabase.getUrl(), originConfig.getUrl());
-    setIfChanged(dbConfigKey + ".Driver", externalDatabase.getDriver(), originConfig.getDriver());
+    setDriverAndUrl(originConfig);
     setIfChanged(dbConfigKey + ".UserName", externalDatabase.getUserName(), originConfig.getUserName());
     setIfPwChanged(dbConfigKey + ".Password", externalDatabase);
     setIfChanged(dbConfigKey + ".MaxConnections", externalDatabase.getMaxConnections(), originConfig.getMaxConnections());
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
             new FacesMessage("Database configuration saved", ""));
     reloadExternalDb();
+  }
+
+  private void setDriverAndUrl(ExternalDatabase originConfig)
+  {
+    if (!Objects.equals(externalDatabase.getUrl(), originConfig.getUrl()) || 
+            !Objects.equals(externalDatabase.getDriver(), originConfig.getDriver()))
+    {
+      set(dbConfigKey + ".Url", externalDatabase.getUrl());
+      set(dbConfigKey + ".Driver", externalDatabase.getDriver());
+    }
   }
   
   public void resetDbConfig()
