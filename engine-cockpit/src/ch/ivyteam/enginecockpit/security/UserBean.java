@@ -4,8 +4,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.enginecockpit.security.model.UserDataModel;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 
 @ManagedBean
 @ViewScoped
@@ -16,7 +16,7 @@ public class UserBean
 
   public UserBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     userDataModel = new UserDataModel();
     reloadUsers();
@@ -24,7 +24,7 @@ public class UserBean
 
   public void reloadUsers()
   {
-    IApplication app = managerBean.getSelectedIApplication();
+    var app = managerBean.getSelectedIApplication();
     userDataModel.setApp(app);
     userDataModel.setFilter("");
     userDataModel.loadContentFilters(managerBean.isIvySecuritySystem());

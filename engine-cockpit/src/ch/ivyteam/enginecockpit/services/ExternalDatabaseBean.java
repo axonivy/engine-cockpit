@@ -9,8 +9,8 @@ import javax.faces.view.ViewScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.ExternalDatabase;
+import ch.ivyteam.enginecockpit.services.model.ExternalDatabase;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 
 @ManagedBean
 @ViewScoped
@@ -24,7 +24,7 @@ public class ExternalDatabaseBean
   
   public ExternalDatabaseBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     reloadExternalDatabases();
@@ -62,6 +62,5 @@ public class ExternalDatabaseBean
   {
     this.filter = filter;
   }
-  
   
 }

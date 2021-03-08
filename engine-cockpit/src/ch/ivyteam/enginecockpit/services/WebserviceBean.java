@@ -7,8 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.Webservice;
+import ch.ivyteam.enginecockpit.services.model.Webservice;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 
 @ManagedBean
 @ViewScoped
@@ -22,7 +22,7 @@ public class WebserviceBean
   
   public WebserviceBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     reloadWebservices();

@@ -62,7 +62,7 @@ public class WizardBean
   public Steps getFirstStepWithWarning()
   {
     steps = new ArrayList<>();
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     steps.add(context.getApplication().evaluateExpressionGet(context, "#{licenceBean}", StepStatus.class));
     steps.add(context.getApplication().evaluateExpressionGet(context, "#{administratorBean}", StepStatus.class));
     steps.add(context.getApplication().evaluateExpressionGet(context, "#{webServerConnectorBean}", StepStatus.class));
@@ -79,7 +79,7 @@ public class WizardBean
   
   public void gotoFirstWarningStep()
   {
-    Steps firstStepWithWarning = getFirstStepWithWarning();
+    var firstStepWithWarning = getFirstStepWithWarning();
     if (firstStepWithWarning != null)
     {
       setActiveStep(getFirstStepWithWarning().value);

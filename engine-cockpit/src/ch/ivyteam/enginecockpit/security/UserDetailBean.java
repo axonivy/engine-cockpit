@@ -9,13 +9,14 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.EmailSettings;
-import ch.ivyteam.enginecockpit.model.Role;
-import ch.ivyteam.enginecockpit.model.User;
+import ch.ivyteam.enginecockpit.security.model.MemberProperty;
+import ch.ivyteam.enginecockpit.security.model.Role;
+import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
+import ch.ivyteam.enginecockpit.security.model.User;
+import ch.ivyteam.enginecockpit.services.model.EmailSettings;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
-import ch.ivyteam.ivy.security.synch.UserSynchResult;
 import ch.ivyteam.ivy.security.synch.UserSynchResult.SynchStatus;
 import ch.ivyteam.ivy.security.user.NewUser;
 import ch.ivyteam.ivy.workflow.TaskState;
@@ -45,7 +46,7 @@ public class UserDetailBean
 
   public UserDetailBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     user = new User();
     userProperties = new MemberProperty().new UserProperty();
@@ -112,7 +113,7 @@ public class UserDetailBean
 
   public String creatNewUser()
   {
-    NewUser newUser = NewUser
+    var newUser = NewUser
         .create(user.getName())
         .fullName(user.getFullName())
         .password(user.getPassword())
@@ -147,7 +148,7 @@ public class UserDetailBean
 
   public void synchUser()
   {
-    UserSynchResult synchResult = getSecurityContext().synchronizeUser(userSynchName);
+    var synchResult = getSecurityContext().synchronizeUser(userSynchName);
     if (synchResult.getStatus() == SynchStatus.SUCCESS)
     {
       user = new User(synchResult.getUser());
@@ -261,7 +262,7 @@ public class UserDetailBean
   
   public String userDeleteHint()
   {
-    String message = "";
+    var message = "";
     if (personalTasks != 0)
     {
       message += "The user '" + getUserName() + "' has " + getPersonalTasks() + " personal tasks. "

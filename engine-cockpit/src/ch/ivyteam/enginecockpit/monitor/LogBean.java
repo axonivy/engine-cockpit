@@ -17,7 +17,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import ch.ivyteam.enginecockpit.model.LogView;
+import ch.ivyteam.enginecockpit.monitor.model.LogView;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 
@@ -50,7 +50,7 @@ public class LogBean
   {
     try
     {
-      logs = Files.walk(UrlUtil.getLogDir().toPath().toRealPath())
+      logs = Files.walk(UrlUtil.getLogDir().toRealPath())
               .filter(Files::isRegularFile)
               .filter(log -> log.toString().endsWith(".log"))
               .map(log -> new LogView(log.getFileName().toString(), date))
@@ -87,7 +87,7 @@ public class LogBean
   public StreamedContent getAllLogs() throws IOException 
   {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    DownloadUtil.zipDir(UrlUtil.getLogDir().toPath().toRealPath(), out);
+    DownloadUtil.zipDir(UrlUtil.getLogDir().toRealPath(), out);
     return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip", "logs.zip");
   }
   

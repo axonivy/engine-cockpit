@@ -9,7 +9,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 
@@ -17,14 +16,16 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.Webservice;
-import ch.ivyteam.enginecockpit.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
-import ch.ivyteam.enginecockpit.services.ConnectionTestResult.IConnectionTestResult;
-import ch.ivyteam.enginecockpit.services.ConnectionTestResult.TestResult;
-import ch.ivyteam.enginecockpit.system.ConnectionTestWrapper;
-import ch.ivyteam.enginecockpit.util.Authenticator;
+import ch.ivyteam.enginecockpit.services.help.HelpServices;
+import ch.ivyteam.enginecockpit.services.model.Authenticator;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
+import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
+import ch.ivyteam.enginecockpit.services.model.Webservice;
+import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 
@@ -46,7 +47,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   
   public WebserviceDetailBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
@@ -99,15 +100,15 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   @Override
   public String getYaml()
   {
-    Map<String, String> valuesMap = new HashMap<>();
+    var valuesMap = new HashMap<String, String>();
     valuesMap.put("name", webservice.getName());
     valuesMap.put("endpoints", parseEndpointsToYaml(webservice.getPortTypeMap()));
     valuesMap.put("features", parseFeaturesToYaml(webservice.getFeatures()));
     valuesMap.put("properties", parsePropertiesToYaml(webservice.getProperties().stream()
             .filter(p -> !StringUtils.equals(p.getName(), "password"))
             .collect(Collectors.toList())));
-    String templateString = readTemplateString("webservice.yaml");
-    StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
+    var templateString = readTemplateString("webservice.yaml");
+    var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
   
@@ -134,7 +135,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   
   private ConnectionTestResult testConnection()
   {
-    Client client = ClientBuilder.newClient();
+    var client = ClientBuilder.newClient();
     if (authSupportedForTesting())
     {
       client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
@@ -177,7 +178,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public void saveConfig()
   {
     connectionTest.stop();
-    Webservice originConfig = createWebService();
+    var originConfig = createWebService();
     setIfChanged(wsConfigKey + ".Properties.username", webservice.getUsername(), originConfig.getUsername());
     setIfPwChanged(wsConfigKey + ".Properties.password", webservice);
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 

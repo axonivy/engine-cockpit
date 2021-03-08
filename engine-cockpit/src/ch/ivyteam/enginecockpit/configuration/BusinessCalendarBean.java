@@ -8,9 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.TreeView;
-import ch.ivyteam.enginecockpit.model.BusinessCalendar;
+import ch.ivyteam.enginecockpit.commons.TreeView;
+import ch.ivyteam.enginecockpit.configuration.model.BusinessCalendar;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.scripting.objects.Tree;
 
@@ -25,7 +25,7 @@ public class BusinessCalendarBean extends TreeView
 
   public BusinessCalendarBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     environmentCalendar = managerBean.getSelectedIApplication().getActualEnvironment().getBusinessCalendar().getName();
     reloadTree();
@@ -34,17 +34,17 @@ public class BusinessCalendarBean extends TreeView
   @Override
   protected void buildTree()
   {
-    Tree rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings().getAllBusinessCalendarConfigurations();
-    TreeNode node = new DefaultTreeNode(findCalendar(rootTree.getInfo()), rootTreeNode);
+    var rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings().getAllBusinessCalendarConfigurations();
+    var node = new DefaultTreeNode(findCalendar(rootTree.getInfo()), rootTreeNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);
   }
   
   private void buildCalendarTree(Tree rootTree, TreeNode rootNode)
   {
-    for (Tree child : rootTree.getChildren())
+    for (var child : rootTree.getChildren())
     {
-      TreeNode node = new DefaultTreeNode(findCalendar(child.getInfo()), rootNode);
+      var node = new DefaultTreeNode(findCalendar(child.getInfo()), rootNode);
       node.setExpanded(true);
       buildCalendarTree(child, node);
     }
@@ -52,7 +52,7 @@ public class BusinessCalendarBean extends TreeView
 
   private BusinessCalendar findCalendar(String name)
   {
-    BusinessCalendar businessCalendar = new BusinessCalendar(getBusinessCalendarConfiguration(name));
+    var businessCalendar = new BusinessCalendar(getBusinessCalendarConfiguration(name));
     managerBean.getSelectedIApplication().getEnvironments().stream()
             .filter(e -> StringUtils.equals(e.getBusinessCalendar().getName(), businessCalendar.getName()))
             .forEach(e -> businessCalendar.addEnvironment(e.getName()));
@@ -89,7 +89,7 @@ public class BusinessCalendarBean extends TreeView
   @SuppressWarnings("unused")
   protected void filterNode(TreeNode node)
   {
-    BusinessCalendar calendar = (BusinessCalendar) node.getData();
+    var calendar = (BusinessCalendar) node.getData();
     if (calendar.getName().toLowerCase().contains(filter))
     {
       new DefaultTreeNode(calendar, filteredTreeNode);
@@ -98,13 +98,11 @@ public class BusinessCalendarBean extends TreeView
   
   private IBusinessCalendarConfiguration getBusinessCalendarConfiguration(String calendarName)
   {
-    IBusinessCalendarConfiguration calConfiguration = managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(calendarName);
-    
+    var calConfiguration = managerBean.getSelectedIApplication().getBusinessCalendarSettings().findBusinessCalendarConfiguration(calendarName);
     if (calConfiguration == null)
     {
       calConfiguration = managerBean.getSelectedIApplication().getBusinessCalendarSettings().getRootBusinessCalendarConfiguration();
     }
-    
     return calConfiguration;
   }
 }

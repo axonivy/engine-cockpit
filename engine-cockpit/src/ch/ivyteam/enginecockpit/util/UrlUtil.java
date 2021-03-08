@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
-import java.io.File;
-import java.util.regex.Matcher;
+import java.nio.file.Path;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
@@ -15,12 +14,13 @@ import ch.ivyteam.ivy.config.IFileAccess;
 @SuppressWarnings("restriction")
 public class UrlUtil
 {
-  private static final Pattern urlPattern = Pattern.compile(
+  private static final Pattern URL_PATTERN = Pattern.compile(
           "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
                   + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
                   + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
           Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
   private static final String ENGINE_GUIDE_URL_PATTERN = "@engine.guide.url@";
+  private static final String DESIGNER_GUIDE_URL_PATTERN = "@designer.guide.url@";
   
   public static String getEngineGuideBaseUrl()
   {
@@ -45,28 +45,29 @@ public class UrlUtil
   public static String replaceLinks(String text)
   {
     text = RegExUtils.replaceAll(text, ENGINE_GUIDE_URL_PATTERN, getEngineGuideBaseUrl());
-    Matcher matcher = urlPattern.matcher(text);
+    text = RegExUtils.replaceAll(text, DESIGNER_GUIDE_URL_PATTERN, getDesignerGuideBaseUrl());
+    var matcher = URL_PATTERN.matcher(text);
     while (matcher.find()) {
-        int matchStart = matcher.start(1);
-        int matchEnd = matcher.end();
-        String link = StringUtils.substring(text, matchStart, matchEnd);
+        var matchStart = matcher.start(1);
+        var matchEnd = matcher.end();
+        var link = StringUtils.substring(text, matchStart, matchEnd);
         text = matcher.replaceAll("\n<a href='" + link + "' target='_blank'>" + link + "</a>");
     }
     return text;
   }
   
-  public static File getLogFile(String logFile)
+  public static Path getLogFile(String logFile)
   {
-    return new File(getLogDir() + File.separator + logFile);
+    return getLogDir().resolve(logFile);
   }
   
-  public static File getConfigFile(String configFile)
+  public static Path getConfigFile(String configFile)
   {
-    return IFileAccess.instance().getConfigurationFile(configFile);
+    return IFileAccess.instance().getConfigFile(configFile);
   }
   
-  public static File getLogDir()
+  public static Path getLogDir()
   {
-    return new File(FileUtil.getWorkingDirectory() + File.separator + "logs");
+    return FileUtil.getWorkingDirectory().toPath().resolve("logs");
   }
 }

@@ -13,12 +13,12 @@
         Enter a valid email address and your existing license will be sent to the Axon.ivy Company. 
         Your request will be checked and, if valid, a new license will be sent back to the specified email address." />
       <h:panelGroup styleClass="md-inputfield" style="margin-top: 10px;">
-        <p:inputText id="emailInput" value="#{renewLicence.mailAddress}" type="email" placeholder="E-Mail"
+        <p:inputText id="emailInput" value="#{renewLicenceBean.mailAddress}" type="email" placeholder="E-Mail"
           required="true" requiredMessage="Please put your mail" />
         <p:message for="emailInput" id="emailInputMessage" />
       </h:panelGroup>
       <p:commandButton id="renewBtn" value="Send" icon="si si-send-email" validateClient="true"
-        styleClass="modal-input-button" actionListener="#{renewLicence.send}" onsuccess="PF('renewLicence').hide();" />
+        styleClass="modal-input-button" actionListener="#{renewLicenceBean.send}" onsuccess="PF('renewLicence').hide();" />
       <p:commandLink id="cancelRenewBtn" onclick="PF('renewLicence').hide();" value="Cancel" type="button"
         styleClass="modal-input-button" immediate="true" />
     </h:form>

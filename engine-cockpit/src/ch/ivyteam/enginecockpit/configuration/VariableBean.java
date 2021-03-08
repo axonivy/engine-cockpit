@@ -10,8 +10,9 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.ManagerBean;
-import ch.ivyteam.enginecockpit.model.ConfigProperty;
+import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
+import ch.ivyteam.enginecockpit.configuration.model.ConfigView;
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.globalvars.IGlobalVariableContext;
@@ -31,7 +32,7 @@ public class VariableBean implements ConfigView
 
   public VariableBean()
   {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
 
     reloadVariables();
