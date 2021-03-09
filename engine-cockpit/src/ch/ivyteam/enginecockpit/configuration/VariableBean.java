@@ -15,8 +15,7 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
-import ch.ivyteam.ivy.globalvars.IGlobalVariableContext;
-import ch.ivyteam.ivy.vars.VariableContext;
+import ch.ivyteam.ivy.vars.Variables;
 
 @ManagedBean
 @ViewScoped
@@ -46,7 +45,7 @@ public class VariableBean implements ConfigView
       app = managerBean.getSelectedIApplication();
       env = managerBean.getSelectedIEnvironment();
       
-      variables = context().variables().stream()
+      variables = variables().all().stream()
               .map(ConfigProperty::new)
               .collect(Collectors.toList());
     }
@@ -88,7 +87,7 @@ public class VariableBean implements ConfigView
   {
     if (StringUtils.isNotBlank(configKey))
     {
-      var variable = context().variable(configKey);
+      var variable = variables().variable(configKey);
       if (variable != null)
       {
         activeVariable = new ConfigProperty(variable);
@@ -107,7 +106,7 @@ public class VariableBean implements ConfigView
   @Override
   public void resetConfig()
   {
-    context().reset(activeVariable.getKey());
+    variables().reset(activeVariable.getKey());
     reloadAndUiMessage("reset to default");
     reloadVariables();
   }
@@ -115,14 +114,7 @@ public class VariableBean implements ConfigView
   @Override
   public void saveConfig()
   {
-    try
-    {
-      context().set(activeVariable.getKey(), activeVariable.getValue());
-    }
-    catch (IllegalArgumentException ex)
-    {
-      VariableContext.of(app, env.getName()).set(activeVariable.getKey(), activeVariable.getValue());
-    }
+    variables().set(activeVariable.getKey(), activeVariable.getValue());
     reloadAndUiMessage("saved");
     reloadVariables();
   }
@@ -139,8 +131,8 @@ public class VariableBean implements ConfigView
     return env.isDefault();
   }
   
-  private IGlobalVariableContext context()
+  private Variables variables()
   {
-    return IGlobalVariableContext.of(app, env.getName());
+    return Variables.of(app, env.getName());
   }
 }

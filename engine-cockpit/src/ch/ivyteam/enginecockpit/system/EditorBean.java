@@ -41,7 +41,7 @@ public class EditorBean
 
   private ConfigFile createAppConfigFile(IApplication app)
   {
-    var appYaml = UrlUtil.getConfigFile(app.getName()).resolve(IApplication.APP_CONFIG_FILE);
+    var appYaml = UrlUtil.getConfigFile("applications").resolve(app.getName()).resolve(IApplication.APP_CONFIG_FILE);
     var name = app.getName() + "/" + IApplication.APP_CONFIG_FILE;
     return new ConfigFile(appYaml, name, ((IApplicationInternal) app).getConfiguration());
   }

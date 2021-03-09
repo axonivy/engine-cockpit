@@ -1,5 +1,5 @@
 [Ivy]
-16E84204B7FE6C91 7.5.0 #module
+16E84204B7FE6C91 9.2.0 #module
 >Proto >Proto Collection #zClass
 Le0 Licence Big #zClass
 Le0 B #cInfo
@@ -39,9 +39,7 @@ Le0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Le0 f0 @C|.responsibility Everybody #txt
 Le0 f0 81 49 30 30 -42 25 #rect
-Le0 f0 @|StartRequestIcon #fIcon
 Le0 f1 337 49 30 30 0 15 #rect
-Le0 f1 @|EndIcon #fIcon
 Le0 f3 actionTable 'out=in;
 ' #txt
 Le0 f3 actionCode 'import ch.ivyteam.licence.SystemLicence;
@@ -53,7 +51,6 @@ method.invoke(null);
 ' #txt
 Le0 f3 security system #txt
 Le0 f3 168 42 112 44 0 -7 #rect
-Le0 f3 @|StepIcon #fIcon
 Le0 f4 111 64 168 64 #arcP
 Le0 f2 280 64 337 64 #arcP
 Le0 f5 outLink addLicenceEvents.ivp #txt
@@ -71,9 +68,7 @@ Le0 f5 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Le0 f5 @C|.responsibility Everybody #txt
 Le0 f5 81 145 30 30 -62 24 #rect
-Le0 f5 @|StartRequestIcon #fIcon
 Le0 f6 337 145 30 30 0 15 #rect
-Le0 f6 @|EndIcon #fIcon
 Le0 f7 actionTable 'out=in;
 ' #txt
 Le0 f7 actionCode 'import ch.ivyteam.licence.LicenceEventManager;
@@ -84,7 +79,6 @@ LicenceEventManager.getInstance().reportLicenceEvent(Level.ERROR, "",
 LicenceEventManager.getInstance().reportLicenceEvent(Level.WARN, "", 
 	"No administrator email addresses defined. License violation notification is not sent by email.");' #txt
 Le0 f7 168 138 112 44 0 -7 #rect
-Le0 f7 @|StepIcon #fIcon
 Le0 f8 111 160 168 160 #arcP
 Le0 f9 280 160 337 160 #arcP
 Le0 f10 actionTable 'out=in;
@@ -92,7 +86,6 @@ Le0 f10 actionTable 'out=in;
 Le0 f10 actionCode 'import ch.ivyteam.ivy.config.LicenceInstaller;
 LicenceInstaller.install();' #txt
 Le0 f10 168 234 112 44 0 -8 #rect
-Le0 f10 @|StepIcon #fIcon
 Le0 f11 outLink installLicence.ivp #txt
 Le0 f11 inParamDecl '<> param;' #txt
 Le0 f11 requestEnabled true #txt
@@ -108,9 +101,7 @@ Le0 f11 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Le0 f11 @C|.responsibility Everybody #txt
 Le0 f11 81 241 30 30 -47 24 #rect
-Le0 f11 @|StartRequestIcon #fIcon
 Le0 f12 337 241 30 30 0 15 #rect
-Le0 f12 @|EndIcon #fIcon
 Le0 f13 111 256 168 256 #arcP
 Le0 f14 280 256 337 256 #arcP
 >Proto Le0 .type engine.cockpit.test.data.Data #txt

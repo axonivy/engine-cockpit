@@ -17,3 +17,10 @@ Variables:
   # test enum
   # [enum: hi, hello, hallo]
   enum: hi
+  # This is a global variable for testing
+  globVar: 'data'
+
+
+  # This is a global variable for testing
+  globVar: 'data'
+
