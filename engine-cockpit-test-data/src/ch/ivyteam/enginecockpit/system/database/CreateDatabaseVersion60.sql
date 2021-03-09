@@ -10,7 +10,7 @@
 # Database: MySQL
 # ---------------------------------------------------------------------------------
 # Copyright:
-# AXON IVY AG, Baarerstrasse 12, 6300 Zug
+# Axon Ivy AG, Baarerstrasse 12, 6300 Zug
 # ---------------------------------------------------------------------------------
 
 CREATE TABLE IWA_AsyncProcessCaseData

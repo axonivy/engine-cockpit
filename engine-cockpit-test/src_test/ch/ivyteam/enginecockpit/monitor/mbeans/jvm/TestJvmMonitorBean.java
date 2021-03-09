@@ -22,7 +22,7 @@ public class TestJvmMonitorBean
     assertThat(errors.getLabel()).isEqualTo("Process");
     assertThat(errors.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isInstanceOf(Number.class));
     
-    assertThat(testee.getCpuMonitor().getInfo()).contains("CPU Load: System ", "Axon.ivy ");
+    assertThat(testee.getCpuMonitor().getInfo()).contains("CPU Load: System ", "Axon Ivy ");
   }
 
   @Test
