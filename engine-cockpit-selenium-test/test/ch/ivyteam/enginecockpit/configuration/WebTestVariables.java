@@ -43,7 +43,7 @@ public class WebTestVariables
     assertVariable("variable", "hello", true);
     EnvironmentSwitch.switchToEnv("test");
     table.firstColumnShouldBe(textsInAnyOrder("boolean", "daytime", "enum", "globVar", "number", "password", "PORTAL_DASHBOARD", "variable"));
-    assertVariable("globVar", "test data", false);
+    assertVariable("globVar", "test data", true);
     assertVariable("variable", "hello from env", true);
   }
   
