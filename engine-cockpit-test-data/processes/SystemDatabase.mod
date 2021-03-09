@@ -1,5 +1,5 @@
 [Ivy]
-16E8EAD7CC77A0A3 7.5.0 #module
+16E8EAD7CC77A0A3 9.2.0 #module
 >Proto >Proto Collection #zClass
 Se0 SystemDatabase Big #zClass
 Se0 B #cInfo
@@ -39,20 +39,16 @@ Se0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Se0 f0 @C|.responsibility Everybody #txt
 Se0 f0 81 49 30 30 -61 30 #rect
-Se0 f0 @|StartRequestIcon #fIcon
 Se0 f1 337 49 30 30 0 15 #rect
-Se0 f1 @|EndIcon #fIcon
 Se0 f3 actionTable 'out=in;
 ' #txt
 Se0 f3 actionCode 'import ch.ivyteam.enginecockpit.system.database.SystemDatabaseCreator;
 SystemDatabaseCreator.createOldDatabase();
 ' #txt
 Se0 f3 168 42 112 44 0 -7 #rect
-Se0 f3 @|StepIcon #fIcon
 Se0 f4 111 64 168 64 #arcP
 Se0 f2 280 64 337 64 #arcP
 Se0 f5 337 145 30 30 0 15 #rect
-Se0 f5 @|EndIcon #fIcon
 Se0 f6 outLink deleteOldDatabase.ivp #txt
 Se0 f6 inParamDecl '<> param;' #txt
 Se0 f6 requestEnabled true #txt
@@ -68,14 +64,12 @@ Se0 f6 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Se0 f6 @C|.responsibility Everybody #txt
 Se0 f6 81 145 30 30 -61 30 #rect
-Se0 f6 @|StartRequestIcon #fIcon
 Se0 f7 actionTable 'out=in;
 ' #txt
 Se0 f7 actionCode 'import ch.ivyteam.enginecockpit.system.database.SystemDatabaseCreator;
 SystemDatabaseCreator.deleteOldDatabase();
 ' #txt
 Se0 f7 168 138 112 44 0 -7 #rect
-Se0 f7 @|StepIcon #fIcon
 Se0 f8 280 160 337 160 #arcP
 Se0 f9 111 160 168 160 #arcP
 Se0 f10 actionTable 'out=in;
@@ -84,9 +78,7 @@ Se0 f10 actionCode 'import ch.ivyteam.enginecockpit.system.database.SystemDataba
 SystemDatabaseCreator.deleteTempDatabase();
 ' #txt
 Se0 f10 168 234 112 44 0 -7 #rect
-Se0 f10 @|StepIcon #fIcon
 Se0 f11 337 241 30 30 0 15 #rect
-Se0 f11 @|EndIcon #fIcon
 Se0 f12 outLink deleteTempDatabase.ivp #txt
 Se0 f12 inParamDecl '<> param;' #txt
 Se0 f12 requestEnabled true #txt
@@ -102,7 +94,6 @@ Se0 f12 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Se0 f12 @C|.responsibility Everybody #txt
 Se0 f12 81 241 30 30 -61 30 #rect
-Se0 f12 @|StartRequestIcon #fIcon
 Se0 f13 280 256 337 256 #arcP
 Se0 f14 111 256 168 256 #arcP
 >Proto Se0 .type engine.cockpit.test.data.Data #txt

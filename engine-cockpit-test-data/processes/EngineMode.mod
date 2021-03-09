@@ -1,5 +1,5 @@
 [Ivy]
-16E600A121BCA31F 7.5.0 #module
+16E600A121BCA31F 9.2.0 #module
 >Proto >Proto Collection #zClass
 Ee0 EngineMode Big #zClass
 Ee0 B #cInfo
@@ -54,16 +54,13 @@ Ee0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ee0 f0 @C|.responsibility Everybody #txt
 Ee0 f0 81 49 30 30 -21 17 #rect
-Ee0 f0 @|StartRequestIcon #fIcon
 Ee0 f1 337 49 30 30 0 15 #rect
-Ee0 f1 @|EndIcon #fIcon
 Ee0 f3 actionTable 'out=in;
 ' #txt
 Ee0 f3 actionCode 'import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 EngineMode.set(EngineMode.DEMO);' #txt
 Ee0 f3 168 42 112 44 0 -8 #rect
-Ee0 f3 @|StepIcon #fIcon
 Ee0 f4 111 64 168 64 #arcP
 Ee0 f2 280 64 337 64 #arcP
 Ee0 f5 outLink maintenance_invalidLicence.ivp #txt
@@ -81,7 +78,6 @@ Ee0 f5 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ee0 f5 @C|.responsibility Everybody #txt
 Ee0 f5 81 145 30 30 -77 20 #rect
-Ee0 f5 @|StartRequestIcon #fIcon
 Ee0 f6 actionTable 'out=in;
 ' #txt
 Ee0 f6 actionCode 'import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
@@ -90,9 +86,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 EngineMode.set(EngineMode.MAINTENANCE);
 MaintenanceReason.set(MaintenanceReason.INVALID_LICENCE);' #txt
 Ee0 f6 168 138 112 44 0 -8 #rect
-Ee0 f6 @|StepIcon #fIcon
 Ee0 f7 337 145 30 30 0 15 #rect
-Ee0 f7 @|EndIcon #fIcon
 Ee0 f8 280 160 337 160 #arcP
 Ee0 f9 111 160 168 160 #arcP
 Ee0 f10 actionTable 'out=in;
@@ -103,9 +97,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 EngineMode.set(EngineMode.MAINTENANCE);
 MaintenanceReason.set(MaintenanceReason.EXPIRED_LICENCE);' #txt
 Ee0 f10 168 234 112 44 0 -8 #rect
-Ee0 f10 @|StepIcon #fIcon
 Ee0 f11 337 241 30 30 0 15 #rect
-Ee0 f11 @|EndIcon #fIcon
 Ee0 f12 outLink maintenance_expiredLicence.ivp #txt
 Ee0 f12 inParamDecl '<> param;' #txt
 Ee0 f12 requestEnabled true #txt
@@ -121,7 +113,6 @@ Ee0 f12 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ee0 f12 @C|.responsibility Everybody #txt
 Ee0 f12 81 241 30 30 -77 20 #rect
-Ee0 f12 @|StartRequestIcon #fIcon
 Ee0 f13 111 256 168 256 #arcP
 Ee0 f14 280 256 337 256 #arcP
 Ee0 f15 actionTable 'out=in;
@@ -132,9 +123,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 EngineMode.set(EngineMode.MAINTENANCE);
 MaintenanceReason.set(MaintenanceReason.WRONG_SYSTEM_DATABASE_VERSION);' #txt
 Ee0 f15 168 330 112 44 0 -8 #rect
-Ee0 f15 @|StepIcon #fIcon
 Ee0 f16 337 337 30 30 0 15 #rect
-Ee0 f16 @|EndIcon #fIcon
 Ee0 f17 outLink maintenance_wrongSysDbVersion.ivp #txt
 Ee0 f17 inParamDecl '<> param;' #txt
 Ee0 f17 requestEnabled true #txt
@@ -150,11 +139,9 @@ Ee0 f17 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ee0 f17 @C|.responsibility Everybody #txt
 Ee0 f17 81 337 30 30 -77 20 #rect
-Ee0 f17 @|StartRequestIcon #fIcon
 Ee0 f18 280 352 337 352 #arcP
 Ee0 f19 111 352 168 352 #arcP
 Ee0 f20 337 433 30 30 0 15 #rect
-Ee0 f20 @|EndIcon #fIcon
 Ee0 f21 outLink maintenance_invalidSysDbConfig.ivp #txt
 Ee0 f21 inParamDecl '<> param;' #txt
 Ee0 f21 requestEnabled true #txt
@@ -170,7 +157,6 @@ Ee0 f21 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ee0 f21 @C|.responsibility Everybody #txt
 Ee0 f21 81 433 30 30 -77 20 #rect
-Ee0 f21 @|StartRequestIcon #fIcon
 Ee0 f22 actionTable 'out=in;
 ' #txt
 Ee0 f22 actionCode 'import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
@@ -179,7 +165,6 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 EngineMode.set(EngineMode.MAINTENANCE);
 MaintenanceReason.set(MaintenanceReason.INVALID_SYSTEM_DATABASE_CONFIG);' #txt
 Ee0 f22 168 426 112 44 0 -8 #rect
-Ee0 f22 @|StepIcon #fIcon
 Ee0 f23 280 448 337 448 #arcP
 Ee0 f24 111 448 168 448 #arcP
 Ee0 f25 actionTable 'out=in;
@@ -190,9 +175,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 EngineMode.set(EngineMode.MAINTENANCE);
 MaintenanceReason.set(MaintenanceReason.MISSING_SYSTEM_DATABASE);' #txt
 Ee0 f25 168 522 112 44 0 -8 #rect
-Ee0 f25 @|StepIcon #fIcon
 Ee0 f26 337 529 30 30 0 15 #rect
-Ee0 f26 @|EndIcon #fIcon
 Ee0 f27 outLink maintenance_missingSysDb.ivp #txt
 Ee0 f27 inParamDecl '<> param;' #txt
 Ee0 f27 requestEnabled true #txt
@@ -208,7 +191,6 @@ Ee0 f27 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ee0 f27 @C|.responsibility Everybody #txt
 Ee0 f27 81 529 30 30 -77 20 #rect
-Ee0 f27 @|StartRequestIcon #fIcon
 Ee0 f28 111 544 168 544 #arcP
 Ee0 f29 280 544 337 544 #arcP
 >Proto Ee0 .type engine.cockpit.test.data.Data #txt
