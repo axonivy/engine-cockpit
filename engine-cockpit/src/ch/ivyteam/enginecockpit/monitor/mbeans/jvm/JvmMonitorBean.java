@@ -32,7 +32,7 @@ public class JvmMonitorBean
   private void setupCpuMonitor()
   {
     cpuMonitor.addInfoValue(format("System %.1f", systemCpuLoad()));
-    cpuMonitor.addInfoValue(format("Axon.ivy %.1f", processCpuLoad()));
+    cpuMonitor.addInfoValue(format("Axon Ivy %.1f", processCpuLoad()));
     cpuMonitor.addSeries(Series.build(systemCpuLoad(), "System").toSeries());
     cpuMonitor.addSeries(Series.build(processCpuLoad(), "Process").toSeries());
   }
