@@ -132,8 +132,10 @@
             </p:selectOneMenu>
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'FILE'}">
-            <pe:codeMirror id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" 
+            <pe:codeMirror id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"
               mode="#{cc.attrs.bean.activeConfig.editorMode}" lineNumbers="true" matchBrackets="true" />
+            <pe:remoteCommand name="refreshCodeMirror" update="editConfigurationValue" />
+            <script>refreshCodeMirror();</script>
           </c:when>
           <c:otherwise>
             <p:inputText id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" />
