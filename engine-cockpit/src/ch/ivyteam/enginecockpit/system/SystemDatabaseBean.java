@@ -176,11 +176,6 @@ public class SystemDatabaseBean extends StepStatus
     this.connectionInfo = new ConnectionInfo();
   }
   
-  public String getHelpPath()
-  {
-    return "installation/systemdatabase.html";
-  }
-  
   public boolean isHasProblem()
   {
     return EngineMode.is(EngineMode.MAINTENANCE) && 

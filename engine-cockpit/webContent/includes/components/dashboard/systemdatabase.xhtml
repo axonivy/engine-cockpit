@@ -7,9 +7,9 @@
   <i class="si si-database-settings table-icon panel-title-icon"></i>
   <h:outputText value="System Database" />
 </f:facet>
-<p:commandButton id="helpSystemDbBtn" title="Help" icon="si si-question-circle" type="button"
-  styleClass="secondary-btn card-button"
-  onclick="window.open('#{advisorBean.engineGuideBaseUrl}/#{systemDatabaseBean.helpPath}'); return false;" />
+<p:linkButton id="helpSystemDbBtn" title="Help" icon="si si-question-circle" type="button"
+  href="#{advisorBean.engineGuideBaseUrl}/configuration/system-database/index.html"
+  target="_blank" rel="noopener noreferrer" styleClass="secondary-btn card-button" />
 <p:commandButton id="configureSystemDbBtn" title="Configure SystemDb" icon="si si-cog" type="button"
   styleClass="secondary-btn card-button" onclick="window.location.href='systemdb.xhtml'" />
 <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
