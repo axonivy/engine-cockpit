@@ -139,8 +139,8 @@ public class WebDocuScreenshot
     Navigation.toOs();
     takeScreenshot("engine-cockpit-monitor-os", new Dimension(SCREENSHOT_WIDTH, 1000));
     
-    login("maintenance.xhtml");
-    takeScreenshot("engine-cockpit-maintenance", new Dimension(SCREENSHOT_SETUP_WIDTH, 600));
+    login("setup-intro.xhtml");
+    takeScreenshot("engine-cockpit-setup-intro", new Dimension(SCREENSHOT_SETUP_WIDTH, 600));
     
     login("migrate.xhtml");
     takeScreenshot("engine-cockpit-migrate", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));

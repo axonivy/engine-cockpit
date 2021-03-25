@@ -33,31 +33,27 @@ Mn0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Mn0 f0 @C|.responsibility Everybody #txt
 Mn0 f0 81 49 30 30 -25 17 #rect
-Mn0 f0 @|StartRequestIcon #fIcon
 Mn0 f3 template "view/dashboard.xhtml" #txt
 Mn0 f3 337 49 30 30 0 15 #rect
-Mn0 f3 @|EndRequestIcon #fIcon
 Mn0 f1 expr out #txt
 Mn0 f1 111 64 337 64 #arcP
-Mn0 f2 outLink maintenance.ivp #txt
+Mn0 f2 outLink setup.ivp #txt
 Mn0 f2 inParamDecl '<> param;' #txt
 Mn0 f2 requestEnabled true #txt
 Mn0 f2 triggerEnabled false #txt
-Mn0 f2 callSignature maintenance() #txt
+Mn0 f2 callSignature setup() #txt
 Mn0 f2 caseData businessCase.attach=true #txt
 Mn0 f2 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
-        <name>maintenance.ivp</name>
+        <name>setup.ivp</name>
     </language>
 </elementInfo>
 ' #txt
 Mn0 f2 @C|.responsibility Everybody #txt
-Mn0 f2 81 145 30 30 -43 22 #rect
-Mn0 f2 @|StartRequestIcon #fIcon
-Mn0 f4 template "view/maintenance.xhtml" #txt
+Mn0 f2 81 145 30 30 -29 23 #rect
+Mn0 f4 template "view/setup-intro.xhtml" #txt
 Mn0 f4 337 145 30 30 0 15 #rect
-Mn0 f4 @|EndRequestIcon #fIcon
 Mn0 f5 111 160 337 160 #arcP
 >Proto Mn0 .type ch.ivyteam.enginecockpit.Data #txt
 >Proto Mn0 .processKind NORMAL #txt
