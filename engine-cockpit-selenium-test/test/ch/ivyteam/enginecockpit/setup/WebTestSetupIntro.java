@@ -14,13 +14,13 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 
 @IvyWebTest
-public class WebTestMaintenance
+public class WebTestSetupIntro
 {
   
   @BeforeEach
   void beforeEach()
   {
-    login("maintenance.xhtml");
+    login("setup-intro.xhtml");
   }
 
   @Test

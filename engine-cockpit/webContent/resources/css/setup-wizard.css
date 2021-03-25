@@ -1,18 +1,18 @@
 /* Maintanance */
-.maintenance .ui-message {
+.setup-intro .ui-message {
   margin: 0 0 10px 0;
 }
-.maintenance .card {
+.setup-intro .card {
   text-align: center; 
   padding: 2rem; 
   min-width: 300px; 
   height: 100%; 
   background: hsla(0, 0%, 100%, 0.9);
 }
-.maintenance .card i:first-child {
+.setup-intro .card i:first-child {
   font-size: 56px; 
 }
-.maintenance .card .ui-linkbutton {
+.setup-intro .card .ui-linkbutton {
   margin-top: 2rem;
 }
 
