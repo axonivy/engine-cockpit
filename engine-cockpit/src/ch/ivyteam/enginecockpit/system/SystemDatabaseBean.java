@@ -267,15 +267,15 @@ public class SystemDatabaseBean extends StepStatus
   {
     return converter != null && converter.isRunning();
   }
-  
+
   public boolean isDbConversionFinished()
   {
     return converter != null && 
             !converter.isRunning() && 
             StringUtils.equals(converter.getProgressText(), "Finished") &&
-            getDbConversionError().isBlank();
+            StringUtils.isBlank(getDbConversionError());
   }
-  
+
   public String getDbConversionError()
   {
     if (converter != null && converter.getError() != null)
