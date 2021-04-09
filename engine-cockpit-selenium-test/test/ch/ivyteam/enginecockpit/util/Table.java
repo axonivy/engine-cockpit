@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class Table
   
   public void firstColumnShouldBe(CollectionCondition cond)
   {
-    $$x(getFirstColumnSpanElement()).shouldBe(cond, 10000);
+    $$x(getFirstColumnSpanElement()).shouldBe(cond, Duration.ofSeconds(10));
   }
 
   public List<String> getFirstColumnEntriesForSpanClass(String span)
