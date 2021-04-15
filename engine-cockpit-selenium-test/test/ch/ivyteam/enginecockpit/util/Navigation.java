@@ -148,6 +148,7 @@ public class Navigation
   public static void toRoleDetail(String roleName)
   {
     Navigation.toRoles();
+    $(Tab.ACITVE_PANEL_CSS + " .expand-all").shouldBe(visible).click();
     $$(Tab.ACITVE_PANEL_CSS + " .role-name").find(text(roleName)).shouldBe(visible).click();
     assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + roleName);
     menuShouldBeActive(SECURITY_ROLES_MENU);

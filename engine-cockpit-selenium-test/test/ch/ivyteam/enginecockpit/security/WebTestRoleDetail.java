@@ -114,7 +114,7 @@ public class WebTestRoleDetail
   @Test
   void testAddAndRemoveUser()
   {
-    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable td.user-row"), true);
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
     addUserFoo();
