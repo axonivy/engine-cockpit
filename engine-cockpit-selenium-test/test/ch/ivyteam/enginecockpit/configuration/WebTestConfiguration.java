@@ -94,6 +94,20 @@ public class WebTestConfiguration
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
       assertThat(table.getFirstColumnEntries()).contains(config);
     }
+    
+    @Test
+    void showSecuritySystemConfigs()
+    {
+      var config = "SecuritySystems.test-ad.Provider";
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
+      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      toggleFilter(List.of("Show Security Systems"));
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: Security Systems"));
+      assertThat(table.getFirstColumnEntries()).contains(config);
+      $("#contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
+      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
+      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+    }
 
     @Test
     void testShowConfigFile()
@@ -198,6 +212,28 @@ public class WebTestConfiguration
     }
     
     @Test
+    void showVariablesConfigs()
+    {
+      assertShowAppConfigFilter("Show Variables", "Variables.variable");
+    }
+    
+    @Test
+    void showDatabasesConfigs()
+    {
+      assertShowAppConfigFilter("Show Databases", "Databases.realdb.Driver");
+    }
+    
+    private void assertShowAppConfigFilter(String filter, String config)
+    {
+      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      toggleFilter(List.of(filter));
+      assertThat(table.getFirstColumnEntries()).contains(config);
+      $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
+      $("#contentFilter\\:form\\:resetFilterBtn").shouldBe(visible).click();
+      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+    }
+    
+    @Test
     void testShowConfigFile()
     {
       String key = "SecuritySystem";
@@ -273,10 +309,15 @@ public class WebTestConfiguration
   
   private void toggleDefaultFilter()
   {
+    toggleFilter(List.of("Show only defined values"));
+  }
+  
+  private void toggleFilter(List<String> filter)
+  {
     $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
     $$("#contentFilter\\:form\\:filterPanel .ui-chkbox").shouldBe(sizeGreaterThanOrEqual(1));
     var checkboxes = PrimeUi.selectManyCheckbox(By.cssSelector("#contentFilter\\:form\\:filterCheckboxes"));
-    checkboxes.setCheckboxes(List.of("Show only defined values"));
+    checkboxes.setCheckboxes(filter);
     $("#contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
   }
 

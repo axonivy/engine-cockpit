@@ -46,7 +46,7 @@ $(document).ready(function () {
           'roledetail.xhtml': 'roles.xhtml',
           'application-detail.xhtml': 'applications.xhtml',
           'pmv-detail.xhtml': 'applications.xhtml',
-          'externaldatabasedetail.xhtml': 'externaldatabases.xhtml',
+          'databasedetail.xhtml': 'databases.xhtml',
           'restclientdetail.xhtml': 'restclients.xhtml',
           'webservicedetail.xhtml': 'webservices.xhtml',
           'businesscalendar-detail.xhtml': 'businesscalendar.xhtml'

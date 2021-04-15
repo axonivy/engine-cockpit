@@ -1,17 +1,16 @@
 package ch.ivyteam.enginecockpit.services.model;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.util.DateUtil;
-import ch.ivyteam.ivy.application.IExternalDatabaseConfiguration;
+import ch.ivyteam.ivy.db.Database;
 import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.db.IStatementExecution;
 
-public class ExternalDatabase implements IService
+public class DatabaseDto implements IService
 {
   private String name;
   private String url;
@@ -19,20 +18,18 @@ public class ExternalDatabase implements IService
   private String userName;
   private String password;
   private int maxConnections;
-  private List<Property> properties;
+  private Map<String, String> properties;
   private boolean passwordChanged;
   
-  public ExternalDatabase(IExternalDatabaseConfiguration externalDatabase)
+  public DatabaseDto(Database db)
   {
-    name = externalDatabase.getUserFriendlyName();
-    url = externalDatabase.getDatabaseConnectionConfiguration().getConnectionUrl();
-    driver = externalDatabase.getDatabaseConnectionConfiguration().getDriverName();
-    userName = externalDatabase.getDatabaseConnectionConfiguration().getUserName();
-    password = externalDatabase.getDatabaseConnectionConfiguration().getPassword();
-    maxConnections = externalDatabase.getMaxConnections();
-    properties = externalDatabase.getDatabaseConnectionConfiguration().getProperties().entrySet().stream()
-            .map(e -> new Property(e.getKey().toString(), e.getValue().toString()))
-            .collect(Collectors.toList());
+    name = db.name();
+    url = db.url();
+    driver = db.driver();
+    userName = db.user();
+    password = db.password();
+    maxConnections = db.maxConnections();
+    properties = new HashMap<>(db.properties());
     passwordChanged = false;
   }
 
@@ -102,7 +99,7 @@ public class ExternalDatabase implements IService
     this.maxConnections = maxConnections;
   }
 
-  public List<Property> getProperties()
+  public Map<String, String> getProperties()
   {
     return properties;
   }

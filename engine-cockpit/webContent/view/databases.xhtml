@@ -8,11 +8,11 @@
     <ui:define name="breadcrumb">
       <li>Services</li>
       <li>/</li>
-      <li><a href="externaldatabases.xhtml">External Databases</a></li>
+      <li><a href="databases.xhtml">Databases</a></li>
     </ui:define>
 
     <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}services.html#external-databases" target="_blank"
+      <a href="#{advisorBean.cockpitEngineGuideUrl}services.html#databases" target="_blank"
         rel="noopener noreferrer">
         <i class="si si-lg si-question-circle"></i>
       </a>
@@ -20,37 +20,37 @@
 
     <ui:define name="content">
       <p:growl id="msgs" />
-      <cc:ApplicationTabs tabChange="#{externalDatabaseBean.reloadExternalDatabases}" id="tabs">
+      <cc:ApplicationTabs tabChange="#{databaseBean.reloadDatabases}" id="tabs">
         <h:form id="form">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-7 ui-lg-9">
               <h1>
-                <i class="si si-database card-title-icon"></i>External Databases
+                <i class="si si-database card-title-icon"></i>Databases
               </h1>
             </div>
             <div class="ui-g-12 ui-md-5 ui-lg-3" style="margin: auto;">
-              <cc:EnvironmentSelect environmentChange="#{externalDatabaseBean.reloadExternalDatabases}" />
+              <cc:EnvironmentSelect environmentChange="#{databaseBean.reloadDatabases}" />
             </div>
           </div>
           <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
-            paginatorAlwaysVisible="false" emptyMessage="No external databases found on deployed apps"
+            paginatorAlwaysVisible="false" emptyMessage="No Databases found on deployed apps"
             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            var="database" value="#{externalDatabaseBean.externalDatabases}"
-            widgetVar="externalDatabasesTable_#{app.id}"
-            filteredValue="#{externalDatabaseBean.filteredExternalDatabases}" lazy="false" id="externalDatabasesTable">
+            var="database" value="#{databaseBean.databases}"
+            widgetVar="databasesTable_#{app.id}"
+            filteredValue="#{databaseBean.filteredDatabases}" lazy="false" id="databasesTable">
             <f:facet name="header">
               <p:outputPanel>
                 <p:outputLabel styleClass="table-search-icon">
                   <i class="si si-search"></i>
                 </p:outputLabel>
                 <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                  onkeyup="PF('externalDatabasesTable_#{app.id}').filter()" placeholder="Search"
-                  value="#{externalDatabaseBean.filter}" />
+                  onkeyup="PF('databasesTable_#{app.id}').filter()" placeholder="Search"
+                  value="#{databaseBean.filter}" />
               </p:outputPanel>
             </f:facet>
             <p:column headerText="Name" sortBy="#{database.name}" filterBy="#{database.name}"
               styleClass="database-name-column">
-              <a href="externaldatabasedetail.xhtml?databaseName=#{database.name}">
+              <a href="databasedetail.xhtml?databaseName=#{database.name}">
                 <h:outputText value="#{database.name}" styleClass="database-name">
                   <i class="si si-database table-icon"></i>
                 </h:outputText>

@@ -30,7 +30,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestExternalDatabaseDetail
+public class WebTestDatabaseDetail
 {
   private static final String DATABASE_NAME = "test-db";
   
@@ -38,26 +38,26 @@ public class WebTestExternalDatabaseDetail
   void beforeEach()
   {
     login();
-    Navigation.toExternalDatabases();
+    Navigation.toDatabases();
     Tab.switchToDefault();
-    Navigation.toExternalDatabaseDetail(DATABASE_NAME);
+    Navigation.toDatabaseDetail(DATABASE_NAME);
     Configuration.fastSetValue = true;
   }
   
   @Test
   void testDetailOpen()
   {
-    assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + DATABASE_NAME);
+    assertCurrentUrlEndsWith("databasedetail.xhtml?databaseName=" + DATABASE_NAME);
     $$(".ui-panel").shouldHave(size(4));
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
     
     $("#breadcrumbOptions > a[href='#']").shouldBe(visible).click();
-    $("#helpExternalDatabaseDialog\\:helpServicesModal").shouldBe(visible);
+    $("#helpDatabaseDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(DATABASE_NAME));
   }
   
   @Test
-  void testExternalDatabaseTestConnection()
+  void testDatabaseTestConnection()
   {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     $("#databaseConfigurationForm\\:testDatabaseBtn").click();
@@ -65,7 +65,7 @@ public class WebTestExternalDatabaseDetail
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
     $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text("Error"));
   
-    Navigation.toExternalDatabaseDetail("realdb");
+    Navigation.toDatabaseDetail("realdb");
     
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     $("#databaseConfigurationForm\\:testDatabaseBtn").click();
@@ -116,8 +116,8 @@ public class WebTestExternalDatabaseDetail
   @Test
   void liveStats()
   {
-    EngineCockpitUtil.assertLiveStats(List.of("External Database Connections", "External Database Queries", 
-            "External Database Query Execution Time"), "Default > test-db");
+    EngineCockpitUtil.assertLiveStats(List.of("Database Connections", "Database Queries", 
+            "Database Query Execution Time"), "Default > test-db");
   }
 
   private void setConfiguration(String url, String driverName, String username, String connections)

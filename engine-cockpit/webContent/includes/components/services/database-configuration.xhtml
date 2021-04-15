@@ -6,54 +6,54 @@
 
 <f:facet name="header">
   <i class="si si-information-circle table-icon panel-title-icon"></i>
-  <h:outputText value="External Database configurations" />
+  <h:outputText value="Database configurations" />
 </f:facet>
 <h:form id="databaseConfigurationForm">
   <p:growl id="databaseConfigMsg" for="databaseConfigMsg" showDetail="true">
     <p:autoUpdate />
   </p:growl>
-  <p:commandButton id="saveDatabaseConfig" actionListener="#{externalDatabaseDetailBean.saveDbConfig}"
+  <p:commandButton id="saveDatabaseConfig" actionListener="#{databaseDetailBean.saveDbConfig}"
     title="Save changes" icon="si si-floppy-disk" styleClass="accent-btn card-button"
     update="@form, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()"
     title="Reset configuration" icon="si si-undo" styleClass="red-btn card-button" />
-  <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this External Database?"
+  <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this Database?"
     header="Reset Database" severity="alert" widgetVar="resetDbConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button"
       styleClass="modal-input-button" />
     <p:commandButton id="resetDbConfirmYesBtn" value="Reset"
-      actionListener="#{externalDatabaseDetailBean.resetDbConfig}" icon="si si-undo" update="@form"
+      actionListener="#{databaseDetailBean.resetDbConfig}" icon="si si-undo" update="@form"
       styleClass="modal-input-button" />
   </p:confirmDialog>
-  <p:commandButton id="testDatabaseBtn" title="Test External Database Connection"
+  <p:commandButton id="testDatabaseBtn" title="Test Database Connection"
     onclick="PF('connectionTestModel').show()" type="button" icon="si si-phone-actions-call"
     styleClass="secondary-btn card-button" />
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
     styleClass="ui-panelgrid-blank grey-label-panel">
     <label>Name</label>
-    <h:outputText id="name" value="#{externalDatabaseDetailBean.databaseName}" />
+    <h:outputText id="name" value="#{databaseDetailBean.databaseName}" />
 
     <p:outputLabel for="url" value="Url" />
-    <p:inputText id="url" value="#{externalDatabaseDetailBean.externalDatabase.url}" />
+    <p:inputText id="url" value="#{databaseDetailBean.database.url}" />
 
     <p:outputLabel for="driver" value="Driver" />
-    <p:autoComplete id="driver" dropdown="true" value="#{externalDatabaseDetailBean.externalDatabase.driver}"
-      completeMethod="#{externalDatabaseDetailBean.completeDriver}" />
+    <p:autoComplete id="driver" dropdown="true" value="#{databaseDetailBean.database.driver}"
+      completeMethod="#{databaseDetailBean.completeDriver}" />
 
     <p:outputLabel for="userName" value="Username" />
-    <p:inputText id="userName" value="#{externalDatabaseDetailBean.externalDatabase.userName}" />
+    <p:inputText id="userName" value="#{databaseDetailBean.database.userName}" />
 
     <p:outputLabel for="password" value="Password" />
-    <p:password id="password" value="#{externalDatabaseDetailBean.externalDatabase.password}" />
+    <p:password id="password" value="#{databaseDetailBean.database.password}" />
 
     <p:outputLabel for="maxConnections" value="Max Connections" />
-    <p:inputNumber id="maxConnections" value="#{externalDatabaseDetailBean.externalDatabase.maxConnections}"
+    <p:inputNumber id="maxConnections" value="#{databaseDetailBean.database.maxConnections}"
       decimalPlaces="0" />
   </p:panelGrid>
 </h:form>
-<cc:ConnectionTestResult result="#{externalDatabaseDetailBean.result}"
-  url="#{externalDatabaseDetailBean.externalDatabase.url}" testMethod="#{externalDatabaseDetailBean.testDbConnection()}"
+<cc:ConnectionTestResult result="#{databaseDetailBean.result}"
+  url="#{databaseDetailBean.database.url}" testMethod="#{databaseDetailBean.testDbConnection()}"
   id="connResult" />
 
 </html>

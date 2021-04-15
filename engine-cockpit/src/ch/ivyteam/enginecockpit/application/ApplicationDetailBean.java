@@ -72,7 +72,9 @@ public class ApplicationDetailBean
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
             this::enrichStandardProcessConfigs, List.of(ConfigViewImpl.defaultFilter(), 
                     new ContentFilter<ConfigProperty>("Variables", "Show Variables", 
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true)));
+                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
+                    new ContentFilter<ConfigProperty>("Databases", "Show Databases",
+                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true)));
   }
 
   public Application getApplication()

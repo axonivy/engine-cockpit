@@ -5,7 +5,7 @@ import javax.management.ObjectName;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
-public final class SystemDatabase extends Database
+public final class SystemDatabase extends AbstractDatabase
 {
   private static final ObjectName DATABASE_PERSISTENCY_SERVICE;
   

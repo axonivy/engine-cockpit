@@ -65,7 +65,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
       this.restClientName = restClientName;
       reloadRestClient();
       liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(), 
-              managerBean.getSelectedIApplication().getActiveEnvironment(), restClient.getUniqueId().toString());
+              managerBean.getSelectedEnvironment(), restClient.getUniqueId().toString());
     }
   }
 

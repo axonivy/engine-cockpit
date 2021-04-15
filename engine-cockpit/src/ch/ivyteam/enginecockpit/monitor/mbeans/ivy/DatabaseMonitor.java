@@ -12,36 +12,36 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 @ManagedBean
 @ViewScoped
-public class ExternalDatabaseMonitor
+public class DatabaseMonitor
 {
-  private Database database;
+  private AbstractDatabase database;
   private String applicationName;
   private String databaseName;
   
-  public ExternalDatabaseMonitor()
+  public DatabaseMonitor()
   {
     this("", "", "");
   }
 
-  public ExternalDatabaseMonitor(String appName, String env, String databaseName)
+  public DatabaseMonitor(String appName, String env, String databaseName)
   {
     this.applicationName = appName;
     this.databaseName = databaseName;
     try
     {
-      var databases = searchJmxRestClient(appName, env, databaseName);
+      var databases = searchJmx(appName, env, databaseName);
       if (databases.isEmpty())
       {
-        databases = searchJmxRestClient(appName, "Default", databaseName);
+        databases = searchJmx(appName, "Default", databaseName);
       }
       database = databases.stream()
-              .map(client -> new ExternalDatabase(client))
+              .map(client -> new Database(client))
               .filter(this::isDatabase)
-              .findFirst().orElse(ExternalDatabase.NO_DATA);
+              .findFirst().orElse(Database.NO_DATA);
     }
     catch(MalformedObjectNameException ex)
     {
-      database = ExternalDatabase.NO_DATA;
+      database = Database.NO_DATA;
     }
   }
   
@@ -60,18 +60,18 @@ public class ExternalDatabaseMonitor
     return database.executionTimeMonitor();
   } 
   
-  public String getExternalDatabase()
+  public String getDatabase()
   {
     return database.label();
   }
   
-  private boolean isDatabase(Database db)
+  private boolean isDatabase(AbstractDatabase db)
   {
     return db.application().equals(applicationName) &&
             db.name().equals(databaseName);
   }
   
-  private static Set<ObjectName> searchJmxRestClient(String appName, String env, String databaseName) throws MalformedObjectNameException
+  private static Set<ObjectName> searchJmx(String appName, String env, String databaseName) throws MalformedObjectNameException
   {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
             new ObjectName("ivy Engine:type=External Database,application=" + appName + ",environment=" + env + ",name=" + databaseName), null);
