@@ -114,22 +114,97 @@ public class WebTestRoleDetail
   @Test
   void testAddAndRemoveUser()
   {
-    String roleUsers = "#usersOfRoleForm\\:roleUserTable td.user-row";
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
-    $$(roleUsers).shouldBe(empty);
+    roleUsers.firstColumnShouldBe(empty);
+    addUserFoo();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    
+    Selenide.refresh();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    
+    roleUsers.clickButtonForEntry("foo", "removeUserFromRoleBtn");
+    roleUsers.firstColumnShouldBe(empty);
+  }
+  
+  @Test
+  void testAddAndRemoveMember()
+  {
+    var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
+    roleMembers.firstColumnShouldBe(empty);
+    addRoleMember();
+    roleMembers.firstColumnShouldBe(sizeGreaterThan(0));
+    
+    Selenide.refresh();
+    roleMembers.firstColumnShouldBe(sizeGreaterThan(0));
+    
+    roleMembers.clickButtonForEntry("worker", "removeMemberFromRoleBtn");
+    roleMembers.firstColumnShouldBe(empty);
+  }
+
+  @Test
+  void testInheritedUserFromSubRole()
+  {
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    removeUserIfExists();
+    roleUsers.firstColumnShouldBe(empty);
+    
+    Navigation.toRoleDetail("manager");
+    removeUserIfExists();
+    addUserFoo();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    roleUsers.buttonForEntryShouldBeDisabled("foo", "removeUserFromRoleBtn");
+    
+    Navigation.toRoleDetail("manager");
+    roleUsers.clickButtonForEntry("foo", "removeUserFromRoleBtn");
+  }
+  
+  @Test
+  void testInheritedUserFromRoleMember()
+  {
+    var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    removeUserIfExists();
+    roleMembers.firstColumnShouldBe(empty);
+    addRoleMember();
+    roleMembers.firstColumnShouldBe(sizeGreaterThan(0));
+    
+    Navigation.toRoleDetail("worker");
+    removeUserIfExists();
+    addUserFoo();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    roleUsers.buttonForEntryShouldBeDisabled("foo", "removeUserFromRoleBtn");
+    
+    roleMembers.clickButtonForEntry("worker", "removeMemberFromRoleBtn");
+    roleMembers.firstColumnShouldBe(empty);
+    
+    Navigation.toRoleDetail("worker");
+    roleUsers.clickButtonForEntry("foo", "removeUserFromRoleBtn");
+  }
+  
+  private void addRoleMember()
+  {
+    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(visible).sendKeys("wor");
+    $("#membersOfRoleForm\\:addMemberDropDown_panel").shouldBe(visible);
+    $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
+    $(".ui-autocomplete-list-item").click();
+    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(exactValue("worker"));
+    $("#membersOfRoleForm\\:addMemberToRoleBtn").click();
+  }
+  
+  private void addUserFoo()
+  {
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(visible).sendKeys("fo");
     $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
     $(".ui-autocomplete-list-item").click();
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(exactValue("foo"));
-    
     $("#usersOfRoleForm\\:addUserToRoleBtn").click();
-    $$(roleUsers).shouldBe(sizeGreaterThan(0));
-    
-    Selenide.refresh();
-    $$(roleUsers).shouldBe(sizeGreaterThan(0));
-    
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
-    $$(roleUsers).shouldBe(empty);
   }
 
   private void removeUserIfExists()
@@ -139,28 +214,6 @@ public class WebTestRoleDetail
     {
       $(By.id(firstUser)).click();
     }
-  }
-  
-  @Test
-  void testAddAndRemoveMember()
-  {
-    String roleMembers = "#membersOfRoleForm\\:roleMemberTable td.member-row";
-    $$(roleMembers).shouldBe(empty);
-    
-    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(visible).sendKeys("wor");
-    $("#membersOfRoleForm\\:addMemberDropDown_panel").shouldBe(visible);
-    $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
-    $(".ui-autocomplete-list-item").click();
-    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(exactValue("worker"));
-    
-    $("#membersOfRoleForm\\:addMemberToRoleBtn").click();
-    $$(roleMembers).shouldBe(sizeGreaterThan(0));
-    
-    Selenide.refresh();
-    $$(roleMembers).shouldBe(sizeGreaterThan(0));
-    
-    $("#membersOfRoleForm\\:roleMemberTable\\:0\\:removeMemberFromRoleBtn").click();
-    $$(roleMembers).shouldBe(empty);
   }
   
   @Test
