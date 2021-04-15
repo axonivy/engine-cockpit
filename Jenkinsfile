@@ -23,8 +23,18 @@ pipeline {
     skipScreenshots = getSkipScreenshots()
     testFilter = getTestFilter()
   }
-
   stages {
+    stage('check editorconfig') {
+      steps {
+        script {          
+          docker.image('mstruebing/editorconfig-checker').inside {
+            warnError('There are some editor errors') {
+              sh 'ec -no-color'
+            } 
+          }
+        }
+      }
+    }
     stage('build') {
       steps {
         script {
@@ -83,15 +93,6 @@ pipeline {
             recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image')], unstableNewAll: 1,
             qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
             currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
-          }          
-        }
-      }
-    }
-    stage('check editorconfig') {
-      steps {
-        script {          
-          docker.image('mstruebing/editorconfig-checker').inside {
-            sh 'ec -no-color'
           }          
         }
       }
