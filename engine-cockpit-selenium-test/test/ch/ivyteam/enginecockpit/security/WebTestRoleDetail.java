@@ -29,12 +29,13 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestRoleDetail
 {
   private static final String DETAIL_ROLE_NAME = "boss";
-  
+
   @BeforeEach
   void beforeEach()
   {
@@ -43,45 +44,45 @@ public class WebTestRoleDetail
     Tab.switchToTab("test");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
   }
-  
+
   @Test
   void testRoleDetailOpen()
   {
     assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
   }
-  
+
   @Test
   void testSaveRoleInformation()
   {
     clearRoleInfoInputs();
-    
+
     $("#roleInformationForm\\:displayName").sendKeys("display");
     $("#roleInformationForm\\:description").sendKeys("desc");
     $("#roleInformationForm\\:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     $("#roleInformationForm\\:saveRoleInformation").click();
-    
+
     $("#roleInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
     Selenide.refresh();
-    
+
     $("#roleInformationForm\\:name").shouldBe(exactText(DETAIL_ROLE_NAME));
     $("#roleInformationForm\\:displayName").shouldBe(exactValue("display"));
     $("#roleInformationForm\\:description").shouldBe(exactValue("desc"));
     $("#roleInformationForm\\:externalSecurityName").shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
-  
+
     clearRoleInfoInputs();
     $("#roleInformationForm\\:saveRoleInformation").click();
   }
-  
+
   @Test
   void testNewChildRole()
   {
     $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
     $("#newChildRoleDialog").shouldBe(visible);
-    
+
     $("#newChildRoleForm\\:saveNewRole").click();
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(visible);
     $("#newChildRoleForm\\:newRoleNameMessage").shouldBe(text("Value is required"));
-    
+
     String newRoleName = "test���";
     $("#newChildRoleForm\\:newChildRoleNameInput").clear();
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
@@ -89,15 +90,15 @@ public class WebTestRoleDetail
     $("#msgs_container").should(visible, text("Role '" + newRoleName + "' created successfully"));
     assertCurrentUrlContains("roledetail.xhtml?roleName=test");
     $("#roleInformationForm\\:name").shouldBe(exactText(newRoleName));
-    
+
     $("#roleInformationForm\\:deleteRole").shouldBe(visible);
     $("#roleInformationForm\\:deleteRole").click();
     $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
-    
+
     $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
     assertCurrentUrlEndsWith("roles.xhtml");
   }
-  
+
   @Test
   void createNewChildRoleWithSameNameAsExisting()
   {
@@ -109,28 +110,103 @@ public class WebTestRoleDetail
     $("#msgs_container").should(visible, text("Role '" + DETAIL_ROLE_NAME + "' couldn't be created"));
     assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
   }
-  
+
   @Test
   void testAddAndRemoveUser()
   {
-    String roleUsers = "#usersOfRoleForm\\:roleUserTable td.user-row";
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
-    $$(roleUsers).shouldBe(empty);
+    roleUsers.firstColumnShouldBe(empty);
+    addUserFoo();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+
+    Selenide.refresh();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+
+    roleUsers.clickButtonForEntry("foo", "removeUserFromRoleBtn");
+    roleUsers.firstColumnShouldBe(empty);
+  }
+
+  @Test
+  void testAddAndRemoveMember()
+  {
+    var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
+    roleMembers.firstColumnShouldBe(empty);
+    addRoleMember();
+    roleMembers.firstColumnShouldBe(sizeGreaterThan(0));
+
+    Selenide.refresh();
+    roleMembers.firstColumnShouldBe(sizeGreaterThan(0));
+
+    roleMembers.clickButtonForEntry("worker", "removeMemberFromRoleBtn");
+    roleMembers.firstColumnShouldBe(empty);
+  }
+
+  @Test
+  void testInheritedUserFromSubRole()
+  {
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    removeUserIfExists();
+    roleUsers.firstColumnShouldBe(empty);
+
+    Navigation.toRoleDetail("manager");
+    removeUserIfExists();
+    addUserFoo();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    roleUsers.buttonForEntryShouldBeDisabled("foo", "removeUserFromRoleBtn");
+
+    Navigation.toRoleDetail("manager");
+    roleUsers.clickButtonForEntry("foo", "removeUserFromRoleBtn");
+  }
+
+  @Test
+  void testInheritedUserFromRoleMember()
+  {
+    var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    removeUserIfExists();
+    roleMembers.firstColumnShouldBe(empty);
+    addRoleMember();
+    roleMembers.firstColumnShouldBe(sizeGreaterThan(0));
+
+    Navigation.toRoleDetail("worker");
+    removeUserIfExists();
+    addUserFoo();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    roleUsers.buttonForEntryShouldBeDisabled("foo", "removeUserFromRoleBtn");
+
+    roleMembers.clickButtonForEntry("worker", "removeMemberFromRoleBtn");
+    roleMembers.firstColumnShouldBe(empty);
+
+    Navigation.toRoleDetail("worker");
+    roleUsers.clickButtonForEntry("foo", "removeUserFromRoleBtn");
+  }
+
+  private void addRoleMember()
+  {
+    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(visible).sendKeys("wor");
+    $("#membersOfRoleForm\\:addMemberDropDown_panel").shouldBe(visible);
+    $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
+    $(".ui-autocomplete-list-item").click();
+    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(exactValue("worker"));
+    $("#membersOfRoleForm\\:addMemberToRoleBtn").click();
+  }
+
+  private void addUserFoo()
+  {
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(visible).sendKeys("fo");
     $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
     $(".ui-autocomplete-list-item").click();
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(exactValue("foo"));
-    
     $("#usersOfRoleForm\\:addUserToRoleBtn").click();
-    $$(roleUsers).shouldBe(sizeGreaterThan(0));
-    
-    Selenide.refresh();
-    $$(roleUsers).shouldBe(sizeGreaterThan(0));
-    
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
-    $$(roleUsers).shouldBe(empty);
   }
-  
+
   private void removeUserIfExists()
   {
     var firstUser = "usersOfRoleForm:roleUserTable:0:removeUserFromRoleBtn";
@@ -139,52 +215,30 @@ public class WebTestRoleDetail
       $(By.id(firstUser)).click();
     }
   }
-    
-  @Test
-  void testAddAndRemoveMember()
-  {
-    String roleMembers = "#membersOfRoleForm\\:roleMemberTable td.member-row";
-    $$(roleMembers).shouldBe(empty);
-    
-    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(visible).sendKeys("wor");
-    $("#membersOfRoleForm\\:addMemberDropDown_panel").shouldBe(visible);
-    $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
-    $(".ui-autocomplete-list-item").click();
-    $("#membersOfRoleForm\\:addMemberDropDown_input").shouldBe(exactValue("worker"));
-    
-    $("#membersOfRoleForm\\:addMemberToRoleBtn").click();
-    $$(roleMembers).shouldBe(sizeGreaterThan(0));
-    
-    Selenide.refresh();
-    $$(roleMembers).shouldBe(sizeGreaterThan(0));
-    
-    $("#membersOfRoleForm\\:roleMemberTable\\:0\\:removeMemberFromRoleBtn").click();
-    $$(roleMembers).shouldBe(empty);
-  }
-  
+
   @Test
   void testExternalSecurityName()
   {
     Navigation.toRoles();
     Tab.switchToTab("test-ad");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
-    
+
     $("#roleInformationForm\\:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     $("#roleInformationForm\\:saveRoleInformation").click();
-    
+
     Navigation.toRoles();
     String syncBtnId = "#form\\:card\\:tabs\\:applicationTabView\\:" + Tab.getSelectedTabIndex() + "\\:panelSyncBtn";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("fa-spin"));
     $(syncBtnId).findAll("span").first().waitUntil(not(cssClass("fa-spin")), 20000);
-    
+
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
-    
+
     $$("#usersOfRoleForm\\:roleUserTable td.user-row").shouldHave(size(3));
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldHave(cssClass("ui-state-disabled"));
     $("#usersOfRoleForm\\:addUserToRoleBtn").shouldHave(cssClass("ui-state-disabled"));
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldHave(cssClass("ui-state-disabled"));
-  
+
     $("#roleInformationForm\\:externalSecurityName").clear();
     $("#roleInformationForm\\:externalSecurityName").shouldBe(Condition.empty);
     $("#roleInformationForm\\:saveRoleInformation").click();
@@ -195,7 +249,7 @@ public class WebTestRoleDetail
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").click();
   }
-  
+
   @Test
   void testExternalSecurityName_ldapBrowser()
   {
@@ -207,15 +261,13 @@ public class WebTestRoleDetail
     Navigation.toRoles();
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
     $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
-    
+
     $(LDAP_BROWSER_DIALOG).shouldBe(visible);
     $(LDAP_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
     $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11), 10000);
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
-            .find(text("CN=role1")).click();
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
-            .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label").find(text("CN=role1")).click();
+    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label").find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
     $("#ldapBrowser\\:chooseLdapName").click();
     $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
     $("#roleInformationForm\\:externalSecurityName").shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
