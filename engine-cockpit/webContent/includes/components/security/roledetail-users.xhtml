@@ -37,10 +37,12 @@
       </a>
     </p:column>
     <p:column style="width: 55px;">
+      <ui:param name="canBeRemoved" value="#{roleDetailBean.hasRoleAssigned(user.name)}" />
       <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
-        actionListener="#{roleDetailBean.removeUser(user.name)}" icon="si si-subtract" title="Remove"
-        styleClass="card-button table-control-btn secondary-btn" style="margin: 0;"
-        disabled="#{roleDetailBean.managed}" />
+        actionListener="#{roleDetailBean.removeUser(user.name)}" icon="si si-subtract" 
+        title="#{canBeRemoved ? 'Remove' : 'This user is inherited by a sub role or a role member'}"
+        styleClass="card-button table-control-btn secondary-btn" style="margin: 0; pointer-events: all;"
+        disabled="#{roleDetailBean.managed or !canBeRemoved}" />
     </p:column>
   </p:dataTable>
 </h:form>

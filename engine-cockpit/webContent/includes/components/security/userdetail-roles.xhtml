@@ -33,6 +33,8 @@
   <p:treeTable id="rolesTree" value="#{userDetailBean.roles.tree}" var="role" nodeVar="node">
     <p:ajax event="expand" listener="#{userDetailBean.roles.nodeExpand}" />
     <p:ajax event="collapse" listener="#{userDetailBean.roles.nodeCollapse}" />
+    <ui:param name="isUserDirectMember" value="#{userDetailBean.isUserMemberOfRole(role.name)}" />
+    <ui:param name="isUserMember" value="#{userDetailBean.isUserMemberOfAllRole(role.name)}" />
     <p:column headerText="All Roles" sortBy="#{role.name}">
       <p:treeNode type="role" rendered="#{node.type == 'role'}">
         <a href="roledetail.xhtml?roleName=#{role.name}">
@@ -56,11 +58,11 @@
     <p:column style="width: 41px;">
       <h:panelGroup rendered="#{node.type == 'role'}">
         <h:outputText
-          rendered="#{userDetailBean.isUserMemberOfAllRole(role.name) and !userDetailBean.isUserMemberOfRole(role.name)}">
+          rendered="#{isUserMember and !isUserDirectMember}">
           <i class="si si-check-circle table-icon member-inherit-icon no-margin" title="Inherited" />
         </h:outputText>
         <h:outputText
-          rendered="#{userDetailBean.isUserMemberOfAllRole(role.name) and userDetailBean.isUserMemberOfRole(role.name)}">
+          rendered="#{isUserMember and isUserDirectMember}">
           <i class="si si-check-circle table-icon no-margin" />
         </h:outputText>
       </h:panelGroup>
@@ -69,11 +71,11 @@
       <h:panelGroup rendered="#{node.type == 'role'}">
         <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
           icon="si si-add" title="Add" styleClass="card-button table-control-btn primary-btn" style="margin: 0;"
-          disabled="#{role.name == 'Everybody' or userDetailBean.isUserMemberOfRole(role.name) or role.managed and !managerBean.ivySecuritySystem}" />
+          disabled="#{role.name == 'Everybody' or isUserDirectMember or role.managed and !managerBean.ivySecuritySystem}" />
         <p:commandButton id="removeRoleFromUserBtn" update="@form"
           actionListener="#{userDetailBean.removeRole(role.name)}" icon="si si-subtract" title="Remove"
           styleClass="card-button table-control-btn secondary-btn"
-          disabled="#{role.name == 'Everybody' or !userDetailBean.isUserMemberOfRole(role.name) or role.managed and !managerBean.ivySecuritySystem}" />
+          disabled="#{role.name == 'Everybody' or !isUserDirectMember or role.managed and !managerBean.ivySecuritySystem}" />
       </h:panelGroup>
     </p:column>
   </p:treeTable>
