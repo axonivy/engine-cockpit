@@ -108,7 +108,7 @@ pipeline {
       steps {
         script {
           docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
-            maven cmd: "deploy -Dmaven.test.skip=true"          
+            maven cmd: "deploy -Dskip.screenshots=${env.skipScreenshots}"
           }
         }
       }
