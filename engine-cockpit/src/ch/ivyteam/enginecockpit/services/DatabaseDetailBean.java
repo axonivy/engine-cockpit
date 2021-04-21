@@ -253,7 +253,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   
   private void saveDatabase(Builder dbBuilder)
   {
-    databases.create(dbBuilder.toDatabase());
+    databases.set(dbBuilder.toDatabase());
   }
 
 }
