@@ -9,22 +9,22 @@
 </f:facet>
 <h:form id="databasePropertiesForm">
   <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-    actionListener="#{externalDatabaseDetailBean.setProperty(null)}" update=":propertyForm" title="Add" icon="si si-add"
+    actionListener="#{databaseDetailBean.setProperty(null)}" update=":propertyForm" title="Add" icon="si si-add"
     styleClass="secondary-btn card-button" />
 
-  <p:dataTable value="#{externalDatabaseDetailBean.externalDatabase.properties}" style="padding-top: 10px;"
+  <p:dataTable value="#{databaseDetailBean.database.properties}" style="padding-top: 10px;"
     var="property" id="databasePropertiesTable">
     <p:column headerText="Name">
-      <h:outputText value="#{property.name}" styleClass="database-property-key" />
+      <h:outputText value="#{property.key}" styleClass="database-property-key" />
     </p:column>
     <p:column headerText="Value">
       <h:outputText value="#{property.value}" styleClass="database-property-value" />
     </p:column>
     <p:column style="width: 95px;">
-      <p:commandButton id="deletePropertyBtn" actionListener="#{externalDatabaseDetailBean.removeProperty(property)}"
+      <p:commandButton id="deletePropertyBtn" actionListener="#{databaseDetailBean.removeProperty(property.key)}"
         update="@form" icon="si si-bin-1" title="Delete" styleClass="card-button table-control-btn red-btn"
         style="margin: 0;" />
-      <p:commandButton id="editPropertyBtn" actionListener="#{externalDatabaseDetailBean.setProperty(property)}"
+      <p:commandButton id="editPropertyBtn" actionListener="#{databaseDetailBean.setProperty(property.key)}"
         icon="si si-pencil" title="Edit" update="propertyModal" styleClass="card-button table-control-btn secondary-btn"
         oncomplete="PF('propertyModal').show();" process="@this" />
     </p:column>
@@ -37,23 +37,23 @@
     <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
       styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
       <label>Name</label>
-      <h:panelGroup styleClass="md-inputfield" rendered="#{empty externalDatabaseDetailBean.property.name}">
+      <h:panelGroup styleClass="md-inputfield" rendered="#{empty databaseDetailBean.property.name}">
         <p:inputText id="nameInput" requiredMessage="Value is required"
-          value="#{externalDatabaseDetailBean.property.name}" required="true" />
+          value="#{databaseDetailBean.property.name}" required="true" />
         <p:message for="nameInput" id="nameMessage" />
       </h:panelGroup>
-      <h:outputText id="propertyName" rendered="#{not empty externalDatabaseDetailBean.property.name}"
-        value="#{externalDatabaseDetailBean.property.name}" />
+      <h:outputText id="propertyName" rendered="#{not empty databaseDetailBean.property.name}"
+        value="#{databaseDetailBean.property.name}" />
 
       <label>Value</label>
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="valueInput" requiredMessage="Value is required"
-          value="#{externalDatabaseDetailBean.property.value}" required="true" />
+          value="#{databaseDetailBean.property.value}" required="true" />
         <p:message for="valueInput" id="valueMessage" />
       </h:panelGroup>
     </p:panelGrid>
     <p:commandButton id="saveProperty" validateClient="true" ajax="false" update="databasePropertiesForm"
-      actionListener="#{externalDatabaseDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
+      actionListener="#{databaseDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
       styleClass="modal-input-button" />
     <p:commandLink id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
       styleClass="modal-input-button" immediate="true" />

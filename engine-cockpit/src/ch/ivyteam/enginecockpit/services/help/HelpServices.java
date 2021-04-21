@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.services.help;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
@@ -48,6 +49,12 @@ public abstract class HelpServices
     }
   }
 
+  public static String parsePropertiesToYaml(Map<String, String> properties)
+  {
+    return properties.entrySet().stream().map(p -> p.getKey() + ": " + p.getValue())
+            .collect(Collectors.joining("\n      "));
+  }
+  
   public static String parsePropertiesToYaml(List<Property> properties)
   {
     return properties.stream().map(p -> p.getName() + ": " + p.getValue())

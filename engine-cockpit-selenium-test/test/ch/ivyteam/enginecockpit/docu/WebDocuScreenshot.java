@@ -104,11 +104,11 @@ public class WebDocuScreenshot
     takeScreenshot("engine-cockpit-search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toEmail();
     takeScreenshot("engine-cockpit-email", new Dimension(SCREENSHOT_WIDTH, 650));
-    Navigation.toExternalDatabases();
-    takeScreenshot("engine-cockpit-external-databases", new Dimension(SCREENSHOT_WIDTH, 550));
-    Navigation.toExternalDatabaseDetail("realdb");
-    takeScreenshot("engine-cockpit-external-database-detail", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeLiveStatsScreenshot("engine-cockpit-monitor-external-databases", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toDatabases();
+    takeScreenshot("engine-cockpit-databases", new Dimension(SCREENSHOT_WIDTH, 550));
+    Navigation.toDatabaseDetail("realdb");
+    takeScreenshot("engine-cockpit-database-detail", new Dimension(SCREENSHOT_WIDTH, 800));
+    takeLiveStatsScreenshot("engine-cockpit-monitor-databases", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toWebservices();
     takeScreenshot("engine-cockpit-webservice", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toWebserviceDetail("test-web");

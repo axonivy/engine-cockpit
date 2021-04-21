@@ -17,7 +17,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestExternalDatabaseHistory
+public class WebTestDatabaseHistory
 {
   
   @BeforeEach
@@ -25,9 +25,9 @@ public class WebTestExternalDatabaseHistory
   {
     runExternalDbQuery();
     login();
-    Navigation.toExternalDatabases();
+    Navigation.toDatabases();
     Tab.switchToTab("test");
-    Navigation.toExternalDatabaseDetail("realdb");
+    Navigation.toDatabaseDetail("realdb");
   }
   
   @AfterEach

@@ -168,18 +168,18 @@ public class Navigation
     menuShouldBeActive(SERVICES_EMAIL_MENU);
   }
   
-  public static void toExternalDatabases()
+  public static void toDatabases()
   {
     toSubMenu(SERVICES_MENU, SERVICES_DATABASES_MENU);
-    assertCurrentUrlEndsWith("externaldatabases.xhtml");
+    assertCurrentUrlEndsWith("databases.xhtml");
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
   
-  public static void toExternalDatabaseDetail(String databaseName)
+  public static void toDatabaseDetail(String databaseName)
   {
-    Navigation.toExternalDatabases();
+    Navigation.toDatabases();
     $$(Tab.ACITVE_PANEL_CSS + " .database-name").find(text(databaseName)).shouldBe(visible).click();
-    assertCurrentUrlEndsWith("externaldatabasedetail.xhtml?databaseName=" + databaseName);
+    assertCurrentUrlEndsWith("databasedetail.xhtml?databaseName=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
   

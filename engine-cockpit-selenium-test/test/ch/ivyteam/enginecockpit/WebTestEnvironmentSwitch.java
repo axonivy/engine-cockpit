@@ -19,7 +19,7 @@ public class WebTestEnvironmentSwitch
   void beforeEach()
   {
     login();
-    Navigation.toExternalDatabases();
+    Navigation.toDatabases();
     Tab.switchToTab("test");
   }
   

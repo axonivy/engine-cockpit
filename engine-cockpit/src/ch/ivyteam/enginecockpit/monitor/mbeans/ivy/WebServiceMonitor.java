@@ -25,10 +25,10 @@ public class WebServiceMonitor
     this.webServiceId = webServiceId;
     try
     {
-      var services = searchJmxWebservice(appName, env, webServiceId);
+      var services = searchJmx(appName, env, webServiceId);
       if (services.isEmpty())
       {
-        services = searchJmxWebservice(appName, "Default", webServiceId);
+        services = searchJmx(appName, "Default", webServiceId);
       }
       webService = services.stream()
               .map(service -> new WebService(service))
@@ -62,7 +62,7 @@ public class WebServiceMonitor
             service.id().equals(webServiceId);
   }
   
-  private static Set<ObjectName> searchJmxWebservice(String appName, String env, String webServiceId) throws MalformedObjectNameException
+  private static Set<ObjectName> searchJmx(String appName, String env, String webServiceId) throws MalformedObjectNameException
   {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
             new ObjectName("ivy Engine:type=External Web Service,application=" + appName + ",environment=" + env + ",name=\"*(" + webServiceId + ")\""), null);

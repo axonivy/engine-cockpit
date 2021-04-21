@@ -10,7 +10,7 @@ import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 @SuppressWarnings("restriction")
-public class TestExternalDatabaseMonitorBean
+public class TestDatabaseMonitorBean
 { 
   @AfterEach
   public void afterEach()
@@ -21,8 +21,8 @@ public class TestExternalDatabaseMonitorBean
   @Test
   public void noData()
   {
-    var testee = new ExternalDatabaseMonitor();
-    assertThat(testee.getExternalDatabase()).isEqualTo("No Data");
+    var testee = new DatabaseMonitor();
+    assertThat(testee.getDatabase()).isEqualTo("No Data");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
@@ -33,13 +33,13 @@ public class TestExternalDatabaseMonitorBean
   {
     MBeans.registerMBeanFor(new Db("db1"));
     MBeans.registerMBeanFor(new Db("db2"));
-    var testee = new ExternalDatabaseMonitor("test", "Default", "db1");
-    assertThat(testee.getExternalDatabase()).isEqualTo("test > Default > db1");
+    var testee = new DatabaseMonitor("test", "Default", "db1");
+    assertThat(testee.getDatabase()).isEqualTo("test > Default > db1");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new ExternalDatabaseMonitor("test", "Default", "db2");
-    assertThat(testee.getExternalDatabase()).isEqualTo("test > Default > db2");
+    testee = new DatabaseMonitor("test", "Default", "db2");
+    assertThat(testee.getDatabase()).isEqualTo("test > Default > db2");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
@@ -49,7 +49,7 @@ public class TestExternalDatabaseMonitorBean
   public void connectionMonitor()
   {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new ExternalDatabaseMonitor("test", "Default", "db1");
+    var testee = new DatabaseMonitor("test", "Default", "db1");
     
     var series = testee.getConnectionsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -69,7 +69,7 @@ public class TestExternalDatabaseMonitorBean
   public void callsMonitor()
   {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new ExternalDatabaseMonitor("test", "Default", "db1");
+    var testee = new DatabaseMonitor("test", "Default", "db1");
     
     var series = testee.getQueriesMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -89,7 +89,7 @@ public class TestExternalDatabaseMonitorBean
   public void executionTimeMonitor()
   {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new ExternalDatabaseMonitor("test", "Default", "db1");
+    var testee = new DatabaseMonitor("test", "Default", "db1");
     
     var series = testee.getExecutionTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);

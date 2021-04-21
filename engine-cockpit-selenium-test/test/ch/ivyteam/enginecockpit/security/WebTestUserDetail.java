@@ -16,8 +16,6 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -166,17 +164,10 @@ public class WebTestUserDetail
     taskCheckbox.shouldBeDisabled(false);
     assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
     
-    List<String> days = new ArrayList<String>(Arrays.asList("Mon", "Fri", "Sun"));
-    dailyCheckbox.setCheckboxes(days);
-    assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun");
-    
+    dailyCheckbox.clear();
+    dailyCheckbox.setCheckboxes(List.of("Mon", "Fri", "Sun"));
     taskCheckbox.setChecked();
     neverCheckbox.setChecked();
-    radioSettings.selectedValueShouldBe(exactValue("Specific"));
-    neverCheckbox.shouldBeChecked(true);
-    taskCheckbox.shouldBeChecked(true);
-    taskCheckbox.shouldBeDisabled(true);
-    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
     $("#userEmailForm\\:saveEmailNotificationSettings").click();
     $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible);
 

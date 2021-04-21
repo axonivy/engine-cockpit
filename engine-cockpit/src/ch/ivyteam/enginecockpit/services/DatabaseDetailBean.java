@@ -16,45 +16,45 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import ch.ivyteam.db.jdbc.DatabaseUtil;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.enginecockpit.commons.Property;
-import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.ExternalDatabaseMonitor;
+import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.DatabaseMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
-import ch.ivyteam.enginecockpit.services.model.ExternalDatabase;
-import ch.ivyteam.enginecockpit.services.model.ExternalDatabase.Connection;
-import ch.ivyteam.enginecockpit.services.model.ExternalDatabase.ExecStatement;
+import ch.ivyteam.enginecockpit.services.model.DatabaseDto;
+import ch.ivyteam.enginecockpit.services.model.DatabaseDto.Connection;
+import ch.ivyteam.enginecockpit.services.model.DatabaseDto.ExecStatement;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
-import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.db.Database;
+import ch.ivyteam.ivy.db.Database.Builder;
+import ch.ivyteam.ivy.db.Databases;
 import ch.ivyteam.ivy.db.IExternalDatabaseManager;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class ExternalDatabaseDetailBean extends HelpServices implements IConnectionTestResult
+public class DatabaseDetailBean extends HelpServices implements IConnectionTestResult
 {
-  private ExternalDatabase externalDatabase;
+  private DatabaseDto database;
   private Property activeProperty;
   private List<ExecStatement> history;
   private List<Connection> connections;
   private String databaseName;
   
   private ManagerBean managerBean;
-  private String dbConfigKey;
   private ConnectionTestResult testResult;
   
   private final ConnectionTestWrapper connectionTest;
-  private ExternalDatabaseMonitor liveStats;
+  private DatabaseMonitor liveStats;
+  private Databases databases;
   
-  public ExternalDatabaseDetailBean()
+  public DatabaseDetailBean()
   {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
     connectionTest = new ConnectionTestWrapper();
   }
   
@@ -68,18 +68,19 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
     if (this.databaseName == null)
     {
       this.databaseName = databaseName;
+      databases = Databases.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
       reloadExternalDb();
-      liveStats = new ExternalDatabaseMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedIApplication().getActiveEnvironment(), databaseName);
+      liveStats = new DatabaseMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), databaseName);
     }
   }
 
   private void reloadExternalDb()
   {
-    externalDatabase = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
-    dbConfigKey = "Databases." + databaseName;
-    
-    var externalDb = IExternalDatabaseManager.instance()
-            .getExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
+    var app = managerBean.getSelectedIApplication();
+    var env = managerBean.getSelectedEnvironment();
+    var db = databases.find(databaseName);
+    database = new DatabaseDto(db);
+    var externalDb = IExternalDatabaseManager.instance().getExternalDatabase(app, db, env);
     history = externalDb.getExecutionHistory().stream()
             .map(statement -> new ExecStatement(statement))
             .collect(Collectors.toList());
@@ -88,18 +89,18 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
             .collect(Collectors.toList());
   }
   
-  public ExternalDatabase getExternalDatabase()
+  public DatabaseDto getDatabase()
   {
-    return externalDatabase;
+    return database;
   }
   
-  public void setProperty(Property property)
+  public void setProperty(String key)
   {
-    if (property == null)
+    this.activeProperty = new Property();
+    if (key != null)
     {
-      property = new Property();
+      this.activeProperty = new Property(key, database.getProperties().get(key));
     }
-    this.activeProperty = property;
   }
   
   public Property getProperty()
@@ -109,21 +110,20 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   
   public void saveProperty()
   {
-    configuration.set(propertyConfigKey(activeProperty.getName()), activeProperty.getValue());
+    var props = database.getProperties();
+    props.put(activeProperty.getName(), activeProperty.getValue());
+    saveDatabase(dbBuilder().properties(props));
     reloadExternalDb();
   }
   
-  public void removeProperty(Property property)
+  public void removeProperty(String key)
   {
-    configuration.remove(propertyConfigKey(property.getName()));
+    var props = database.getProperties();
+    props.remove(key);
+    saveDatabase(dbBuilder().properties(props));
     reloadExternalDb();
   }
 
-  private String propertyConfigKey(String propertyName)
-  {
-    return dbConfigKey + ".Properties." + propertyName;
-  }
-  
   public List<Connection> getConnections()
   {
     return connections;
@@ -148,26 +148,26 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   @Override
   public String getTitle()
   {
-    return "External Database '" + databaseName + "'";
+    return "Database '" + databaseName + "'";
   }
   
   @Override
   public String getGuideText()
   {
-    return "To edit your External Database overwrite your app.yaml file. For example copy and paste the snippet below.";
+    return "To edit your Database overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
   
   @Override
   public String getYaml()
   {
     var valuesMap = new HashMap<String, String>();
-    valuesMap.put("name", externalDatabase.getName());
-    valuesMap.put("url", externalDatabase.getUrl());
-    valuesMap.put("driver", externalDatabase.getDriver());
-    valuesMap.put("username", externalDatabase.getUserName());
-    valuesMap.put("maxConnections", String.valueOf(externalDatabase.getMaxConnections()));
-    valuesMap.put("properties", parsePropertiesToYaml(externalDatabase.getProperties()));
-    String templateString = readTemplateString("externaldatabase.yaml");
+    valuesMap.put("name", database.getName());
+    valuesMap.put("url", database.getUrl());
+    valuesMap.put("driver", database.getDriver());
+    valuesMap.put("username", database.getUserName());
+    valuesMap.put("maxConnections", String.valueOf(database.getMaxConnections()));
+    valuesMap.put("properties", parsePropertiesToYaml(database.getProperties()));
+    String templateString = readTemplateString("database.yaml");
     StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
@@ -185,7 +185,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   
   private ConnectionTestResult testConnection()
   {
-    var dbConfig = managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName).getDatabaseConnectionConfiguration();
+    var dbConfig = databases.find(databaseName).config();
     try (var connection =  DatabaseUtil.openConnection(dbConfig))
     {
       var metaData = connection.getMetaData();
@@ -200,16 +200,20 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
       return new ConnectionTestResult("", 0, TestResult.ERROR, "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
-  
+
   public void saveDbConfig()
   {
     connectionTest.stop();
-    var originConfig = new ExternalDatabase(managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName));
-    setIfChanged(dbConfigKey + ".Url", externalDatabase.getUrl(), originConfig.getUrl());
-    setIfChanged(dbConfigKey + ".Driver", externalDatabase.getDriver(), originConfig.getDriver());
-    setIfChanged(dbConfigKey + ".UserName", externalDatabase.getUserName(), originConfig.getUserName());
-    setIfPwChanged(dbConfigKey + ".Password", externalDatabase);
-    setIfChanged(dbConfigKey + ".MaxConnections", externalDatabase.getMaxConnections(), originConfig.getMaxConnections());
+    var dbBuilder = dbBuilder()
+            .url(database.getUrl())
+            .driver(database.getDriver())
+            .user(database.getUserName())
+            .maxConnections(database.getMaxConnections());
+    if (database.passwordChanged())
+    {
+      dbBuilder.password(database.getPassword());
+    }
+    saveDatabase(dbBuilder);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
             new FacesMessage("Database configuration saved", ""));
     reloadExternalDb();
@@ -218,7 +222,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   public void resetDbConfig()
   {
     connectionTest.stop();
-    configuration.remove(dbConfigKey);
+    databases.remove(databaseName);
     FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
             new FacesMessage("Database configuration reset", ""));
     reloadExternalDb();
@@ -230,9 +234,26 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
     return testResult;
   }
   
-  public ExternalDatabaseMonitor getLiveStats()
+  public DatabaseMonitor getLiveStats()
   {
     return liveStats;
+  }
+  
+  private Builder dbBuilder()
+  {
+    var originDb = databases.find(databaseName);
+    return Database.create(databaseName)
+            .url(originDb.url())
+            .driver(originDb.driver())
+            .user(originDb.user())
+            .password(originDb.password())
+            .maxConnections(originDb.maxConnections())
+            .properties(originDb.properties());
+  }
+  
+  private void saveDatabase(Builder dbBuilder)
+  {
+    databases.create(dbBuilder.toDatabase());
   }
 
 }

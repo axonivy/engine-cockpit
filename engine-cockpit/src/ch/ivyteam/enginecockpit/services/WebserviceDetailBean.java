@@ -65,7 +65,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     {
       this.webserviceId = webserviceId;
       reloadWebservice();
-      liveStats = new WebServiceMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedIApplication().getActiveEnvironment(), webserviceId);
+      liveStats = new WebServiceMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), webserviceId);
     }
   }
   

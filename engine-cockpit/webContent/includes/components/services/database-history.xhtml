@@ -8,7 +8,7 @@
   <h:outputText value="Execution History (last 200)" />
 </f:facet>
 <h:form id="databaseExecHistoryForm" style="overflow-y: auto;">
-  <p:dataTable value="#{externalDatabaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 700px;"
+  <p:dataTable value="#{databaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 700px;"
     var="exec" id="databaseExecHistoryTable" paginator="true" rows="10" paginatorPosition="bottom"
     paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
