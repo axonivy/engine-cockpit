@@ -2,10 +2,11 @@ package ch.ivyteam.enginecockpit.services;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.escapeSelector;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.empty;
+import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,31 +64,31 @@ public class WebTestEmail
     SelectManyCheckbox dailyCheckbox = PrimeUi.selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
     taskCheckbox.shouldBeChecked(false);
     taskCheckbox.shouldBeDisabled(false);
-    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
-    assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty();
+    dailyCheckbox.shouldBeDisabled(false);
+    dailyCheckbox.shouldBe(empty);
     
     dailyCheckbox.setCheckboxes(Arrays.asList("Tue", "Wed", "Thu", "Sat"));
-    assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Tue", "Wed", "Thu", "Sat");
+    dailyCheckbox.shouldBe(exactTexts("Tue", "Wed", "Thu", "Sat"));
     
     taskCheckbox.setChecked();
     taskCheckbox.shouldBeChecked(true);
-    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
+    dailyCheckbox.shouldBeDisabled(false);
     $(getActivePanelCss() + "saveEmailSettings").click();
     $(EMAIL_GROWL).shouldBe(visible);
 
     Selenide.refresh();
     taskCheckbox.shouldBeChecked(true);
     taskCheckbox.shouldBeDisabled(false);
-    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
-    assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Tue", "Wed", "Thu", "Sat");
+    dailyCheckbox.shouldBeDisabled(false);
+    dailyCheckbox.shouldBe(exactTexts("Tue", "Wed", "Thu", "Sat"));
     
     dailyCheckbox.clear();
     taskCheckbox.removeChecked();
     $(getActivePanelCss() + "saveEmailSettings").click();
     taskCheckbox.shouldBeChecked(false);
     taskCheckbox.shouldBeDisabled(false);
-    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
-    assertThat(dailyCheckbox.getSelectedCheckboxes()).isEmpty();
+    dailyCheckbox.shouldBeDisabled(false);
+    dailyCheckbox.shouldBe(empty);
   }
   
   @Test

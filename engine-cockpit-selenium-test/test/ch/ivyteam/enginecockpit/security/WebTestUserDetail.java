@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
@@ -14,7 +15,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class WebTestUserDetail
   {
     login();
     Navigation.toUsers();
-    Tab.switchToTab("test");
+    Tab.switchToDefault();
   }
   
   @Test
@@ -157,12 +157,12 @@ public class WebTestUserDetail
     neverCheckbox.shouldBeDisabled(true);
     taskCheckbox.shouldBeChecked(false);
     taskCheckbox.shouldBeDisabled(true);
-    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
+    dailyCheckbox.shouldBeDisabled(true);
     
     radioSettings.selectItemByValue("Specific");
     neverCheckbox.shouldBeDisabled(false);
     taskCheckbox.shouldBeDisabled(false);
-    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isFalse();
+    dailyCheckbox.shouldBeDisabled(false);
     
     dailyCheckbox.clear();
     dailyCheckbox.setCheckboxes(List.of("Mon", "Fri", "Sun"));
@@ -176,8 +176,8 @@ public class WebTestUserDetail
     neverCheckbox.shouldBeChecked(true);
     taskCheckbox.shouldBeChecked(true);
     taskCheckbox.shouldBeDisabled(true);
-    assertThat(dailyCheckbox.isManyCheckboxDisabled()).isTrue();
-    assertThat(dailyCheckbox.getSelectedCheckboxes()).containsExactlyInAnyOrder("Mon", "Fri", "Sun");
+    dailyCheckbox.shouldBeDisabled(true);
+    dailyCheckbox.shouldBe(exactTexts("Mon", "Fri", "Sun"));
   }
   
   @Test
