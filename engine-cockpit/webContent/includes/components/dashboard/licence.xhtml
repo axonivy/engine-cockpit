@@ -27,6 +27,12 @@
   <h:outputText value="#{licenceBean.users}" />
   <label>Concurrent sessions</label>
   <h:outputText value="#{licenceBean.sessions}" />
+  <ui:fragment rendered="#{licenceBean.cluster}">
+    <label>Cluster nodes</label>
+  </ui:fragment>
+  <ui:fragment rendered="#{licenceBean.cluster}">
+    <h:outputText value="#{licenceBean.nodes}" />
+  </ui:fragment>
 </p:panelGrid>
 <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
   <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}" />

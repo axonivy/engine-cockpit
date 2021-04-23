@@ -54,6 +54,7 @@
               </p:column>
               <p:column headerText="State" sortBy="#{node.state}">
                 <h:outputText value="#{node.state}" styleClass="#{node.stateClass}" />
+                <i class="#{node.licensedClass}" title="Node is not licensed. It will always response with error code 503 Service Unavailable."></i>
               </p:column>
               <p:column headerText="Communication" sortBy="#{node.communicationState}">
                 <h:outputText value="#{node.communicationState}" styleClass="#{node.communicationStateClass}" />
