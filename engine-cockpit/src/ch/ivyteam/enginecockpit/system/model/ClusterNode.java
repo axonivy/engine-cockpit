@@ -21,6 +21,7 @@ public class ClusterNode
   private ClusterNodeCommunicationState communicationState;
   private boolean master;
   private boolean local;
+  private boolean licensed;
   private String lastStartTimestamp;
   private String lastStopTimestamp;
   private String lastFailTimestamp;
@@ -45,6 +46,7 @@ public class ClusterNode
       communicationState = node.getCommunicationState();
       master = node.isMaster();
       local = node.isLocal();
+      licensed = node.isLicensed();
       lastStartTimestamp = formatDate(node.getLastStartTimestamp());
       lastStopTimestamp = formatDate(node.getLastStopTimestamp());
       lastFailTimestamp = formatDate(node.getLastFailTimestamp());
@@ -101,7 +103,21 @@ public class ClusterNode
   {
     return local;
   }
-
+  
+  public boolean isLicensed()
+  {
+    return licensed;
+  }
+  
+  public String getLicensedClass()
+  {
+    if (isLicensed())
+    {
+      return "";
+    }
+    return "si si-real-estate-action-house-key table-icon state-inactive";
+  }
+  
   public Version getIvyVersion()
   {
     return ivyVersion;

@@ -15,9 +15,11 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.enginecockpit.system.model.LicenceMessage;
+import ch.ivyteam.ivy.cluster.restricted.IClusterManager;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
+import ch.ivyteam.licence.LicenceConstants;
 import ch.ivyteam.licence.LicenceEventManager;
 import ch.ivyteam.licence.SystemLicence;
 
@@ -110,6 +112,17 @@ public class LicenceBean extends StepStatus
       sessions = calculateSessions();
     }
     return sessions;
+  }
+  
+  public String getNodes()
+  {
+    var nodes = IClusterManager.instance().getNumberOfRunningClusterNodes();  
+    var nodesLimit = getValueFromProperty(LicenceConstants.PARAM_SRV_MAX_NODES);
+    if (StringUtils.isBlank(nodesLimit))
+    {
+        nodesLimit = "Unlimited";
+    }
+    return nodes + " / " + nodesLimit;
   }
 
   public boolean isCluster()
