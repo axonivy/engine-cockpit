@@ -7,10 +7,9 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Property;
-import ch.ivyteam.ivy.application.restricted.rest.IRestClient;
+import ch.ivyteam.ivy.rest.client.RestClient;
  
-@SuppressWarnings("restriction")
-public class RestClient implements IService
+public class RestClientDto implements IService
 {
   private String name;
   private String url;
@@ -22,16 +21,16 @@ public class RestClient implements IService
   private UUID uniqueId;
   private boolean passwordChanged;
 
-  public RestClient(IRestClient client)
+  public RestClientDto(RestClient client)
   {
-    name = client.getName();
-    url = client.getUri();
-    description = client.getDescription();
-    uniqueId = client.getUniqueId();
-    properties = client.getProperties().stream().map(p -> new Property(p.getName(), p.getValue())).collect(Collectors.toList());
+    name = client.name();
+    url = client.uri();
+    description = client.description();
+    uniqueId = client.uniqueId();
+    properties = client.properties().entrySet().stream().map(p -> new Property(p.getKey(), p.getValue())).collect(Collectors.toList());
     password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password")).findAny().map(p -> p.getValue()).orElse("");
     username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).findAny().map(p -> p.getValue()).orElse("");
-    features = client.getFeatures().stream().map(f -> f.getClazz()).collect(Collectors.toList());
+    features = client.features();
     passwordChanged = false;
   }
   

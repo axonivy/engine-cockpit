@@ -19,11 +19,11 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
-import ch.ivyteam.enginecockpit.services.model.RestClient;
+import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
-import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
+import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
 import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
 
@@ -32,12 +32,11 @@ import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManage
 @ViewScoped
 public class RestClientDetailBean extends HelpServices implements IConnectionTestResult
 {
-  private RestClient restClient;
+  private RestClientDto restClient;
   private String restClientName;
   
-  private ManagerBean managerBean;
-  private RestClientDao restClientDao;
-  private String restConfigKey;
+  private final ManagerBean managerBean;
+  private final RestClients restClients;
   private ConnectionTestResult testResult;
   private RestClientMonitor liveStats;
   
@@ -48,7 +47,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
+    restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
     configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
     connectionTest = new ConnectionTestWrapper();
   }
@@ -71,21 +70,10 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private void reloadRestClient()
   {
-    this.restClient = createRestClient();
-    restConfigKey = "RestClients." + restClientName;
+    this.restClient = new RestClientDto(restClients.find(restClientName));
   }
 
-  private RestClient createRestClient()
-  {
-    var iRestClient = restClientDao.findByName(restClientName, managerBean.getSelectedIEnvironment());
-    if (iRestClient == null)
-    {
-      iRestClient = restClientDao.findByName(restClientName);
-    }
-    return new RestClient(iRestClient);
-  }
-  
-  public RestClient getRestClient()
+  public RestClientDto getRestClient()
   {
     return restClient;
   }
@@ -160,10 +148,14 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public void saveConfig()
   {
     connectionTest.stop();
-    var originConfig = createRestClient();
-    setIfChanged(restConfigKey + ".Url", restClient.getUrl(), originConfig.getUrl());
-    setIfChanged(restConfigKey + ".Properties.username", restClient.getUsername(), originConfig.getUsername());
-    setIfPwChanged(restConfigKey + ".Properties.password", restClient);
+    var builder = restClients.find(restClientName).toBuilder()
+            .uri(restClient.getUrl());
+    builder.property("username", restClient.getUsername());
+    if (restClient.passwordChanged())
+    {
+      builder.property("password", restClient.getPassword());
+    }
+    restClients.set(builder.toRestClient());
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
             new FacesMessage("Rest configuration saved", ""));
     reloadRestClient();
@@ -172,7 +164,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public void resetConfig()
   {
     connectionTest.stop();
-    configuration.remove(restConfigKey);
+    restClients.remove(restClientName);
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
             new FacesMessage("Rest configuration reset", ""));
     reloadRestClient();
