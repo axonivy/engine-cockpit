@@ -63,6 +63,9 @@ body {
   i.topbar-icon {
   color: var(--message-warn-bg-color, gold);
 }
+.layout-wrapper .layout-main .layout-breadcrumb ul li a {
+  color: var(--primary-color, rgb(0, 111, 148))
+}
 
 /*Dashboard*/
 .card .card-button,
