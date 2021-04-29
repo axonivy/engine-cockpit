@@ -41,7 +41,7 @@ public class WebTestRoleDetail
   {
     login();
     Navigation.toRoles();
-    Tab.switchToTab("test");
+    Tab.switchToDefault();
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
   }
   
@@ -121,6 +121,11 @@ public class WebTestRoleDetail
     roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
     
     Selenide.refresh();
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+    
+    roleUsers.search("ba");
+    roleUsers.firstColumnShouldBe(empty);
+    roleUsers.search("fo");
     roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
     
     roleUsers.clickButtonForEntry("foo", "removeUserFromRoleBtn");
