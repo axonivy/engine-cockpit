@@ -32,7 +32,7 @@ public class WebTestUsers
   {
     login();
     Navigation.toUsers();
-    Tab.switchToTab("test");
+    Tab.switchToDefault();
   }
   
   @Test

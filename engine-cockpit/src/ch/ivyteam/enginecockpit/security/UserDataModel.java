@@ -42,7 +42,7 @@ public class UserDataModel extends LazyDataModel<User>
   @Override
   public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters)
   {
-    var userQuery = app.getSecurityContext().users().query();
+    var userQuery = userQuery();
 
     filterRole(userQuery);
     applyFilter(userQuery);
@@ -70,13 +70,18 @@ public class UserDataModel extends LazyDataModel<User>
   {
     if (StringUtils.isNotEmpty(filter))
     {
-      query.where()
+      query.where().and(userQuery().where()
         .name().isLikeIgnoreCase(filter + "%")
        .or()
         .fullName().isLikeIgnoreCase(filter + "%")
        .or()
-        .eMailAddress().isLikeIgnoreCase(filter + "%");
+        .eMailAddress().isLikeIgnoreCase(filter + "%"));
     }
+  }
+  
+  private UserQuery userQuery()
+  {
+    return app.getSecurityContext().users().query();
   }
 
   private static void applyOrdering(UserQuery query, String sortField, SortOrder sortOrder)
