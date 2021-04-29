@@ -74,7 +74,9 @@ public class ApplicationDetailBean
                     new ContentFilter<ConfigProperty>("Variables", "Show Variables", 
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
                     new ContentFilter<ConfigProperty>("Databases", "Show Databases",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true)));
+                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true),
+                    new ContentFilter<ConfigProperty>("RestClients", "Show Rest Clients",
+                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "RestClients."), true)));
   }
 
   public Application getApplication()

@@ -223,6 +223,12 @@ public class WebTestConfiguration
       assertShowAppConfigFilter("Show Databases", "Databases.realdb.Driver");
     }
     
+    @Test
+    void showRestClientsConfigs()
+    {
+      assertShowAppConfigFilter("Show Rest Clients", "RestClients.test-rest.Url");
+    }
+    
     private void assertShowAppConfigFilter(String filter, String config)
     {
       assertThat(table.getFirstColumnEntries()).doesNotContain(config);

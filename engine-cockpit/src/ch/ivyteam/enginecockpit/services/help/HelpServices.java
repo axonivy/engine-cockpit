@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.services.help;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,7 +62,7 @@ public abstract class HelpServices
             .collect(Collectors.joining("\n      "));
   }
 
-  public static String parseFeaturesToYaml(List<String> features)
+  public static String parseFeaturesToYaml(Collection<String> features)
   {
     return features.stream().collect(Collectors.joining("\n      - "));
   }

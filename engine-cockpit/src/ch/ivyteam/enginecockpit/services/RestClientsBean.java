@@ -7,17 +7,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
-import ch.ivyteam.enginecockpit.services.model.RestClient;
+import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.restricted.rest.RestClientDao;
+import ch.ivyteam.ivy.rest.client.RestClients;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
 public class RestClientsBean
 {
-  private List<RestClient> restClients;
-  private List<RestClient> filteredRestClients;
+  private List<RestClientDto> restClients;
+  private List<RestClientDto> filteredRestClients;
   private String filter;
   
   private ManagerBean managerBean;
@@ -32,23 +31,22 @@ public class RestClientsBean
 
   public void reloadRestClients()
   {
-    var restClientDao = RestClientDao.forApp(managerBean.getSelectedIApplication());
-    restClients = restClientDao.getAll(managerBean.getSelectedIEnvironment()).stream()
-            .map(rest -> new RestClient(rest))
+    restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment()).all().stream()
+            .map(rest -> new RestClientDto(rest))
             .collect(Collectors.toList());
   }
   
-  public List<RestClient> getRestClients()
+  public List<RestClientDto> getRestClients()
   {
     return restClients;
   }
   
-  public List<RestClient> getFilteredRestClients()
+  public List<RestClientDto> getFilteredRestClients()
   {
     return filteredRestClients;
   }
 
-  public void setFilteredRestClients(List<RestClient> filteredRestClients)
+  public void setFilteredRestClients(List<RestClientDto> filteredRestClients)
   {
     this.filteredRestClients = filteredRestClients;
   }
@@ -62,6 +60,5 @@ public class RestClientsBean
   {
     this.filter = filter;
   }
-  
   
 }
