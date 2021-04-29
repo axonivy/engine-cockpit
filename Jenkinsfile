@@ -11,7 +11,7 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
+    string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/ivy-core_product/job/release%2F9.2/lastSuccessfulBuild/', description: 'Engine page url')
     booleanParam(name: 'forceDeployScreenshots', defaultValue: false, description: 'Force deploy new screenshots')
     booleanParam(name: 'skipScreenshots', defaultValue: false, description: 'Skip screenshot test (flag will be ignored on master)')
     string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
@@ -37,7 +37,7 @@ pipeline {
             try {
               sh "docker network create ${networkName}"
               docker.image('mysql:5').withRun("-e \"MYSQL_ROOT_PASSWORD=1234\" -e \"MYSQL_DATABASE=test\" --name ${dbName} --network ${networkName}") {
-                docker.image("selenium/standalone-firefox:3").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} ${dockerfileParams}") {
+                docker.image("selenium/standalone-firefox:87.0").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} ${dockerfileParams}") {
                   docker.build('maven').inside("--name ${ivyName} --network ${networkName}") {
                     maven cmd: "clean verify " +
                         "-Dwdm.gitHubTokenName=ivy-team " +

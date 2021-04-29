@@ -108,7 +108,7 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter
   @Override
   public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters)
   {
-    var userQuery = app.getSecurityContext().users().query();
+    var userQuery = userQuery();
 
     filterRole(userQuery);
     applyFilter(userQuery);
@@ -136,20 +136,25 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter
   {
     if (StringUtils.isNotEmpty(filter))
     {
-      query.where()
+      query.where().and(userQuery().where()
         .name().isLikeIgnoreCase(filter + "%")
        .or()
         .fullName().isLikeIgnoreCase(filter + "%")
        .or()
-        .eMailAddress().isLikeIgnoreCase(filter + "%");
+        .eMailAddress().isLikeIgnoreCase(filter + "%"));
     }
 
-    query.where().enabled().is(!showDisabledUsers);
+    query.where().and(userQuery().where().enabled().is(!showDisabledUsers));
 
     if (showManualUsers)
     {
-      query.where().external().isFalse();
+      query.where().and(userQuery().where().external().isFalse());
     }
+  }
+  
+  private UserQuery userQuery()
+  {
+    return app.getSecurityContext().users().query();
   }
 
   private static void applyOrdering(UserQuery query, String sortField, SortOrder sortOrder)
@@ -195,4 +200,5 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter
         .ifPresent(user -> user.setLoggedIn(true));
     }
   }
+  
 }

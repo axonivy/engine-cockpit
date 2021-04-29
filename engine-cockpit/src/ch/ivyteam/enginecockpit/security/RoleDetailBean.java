@@ -186,9 +186,14 @@ public class RoleDetailBean
     this.roleUserName = roleUserName;
   }
   
+  public boolean hasRoleAssigned(String userName)
+  {
+    return getIRole().users().assignedPaged().stream().anyMatch(u -> u.getName().equals(userName));
+  }
+  
   public List<User> searchUser(String query)
   {
-    var hasRole = UserQuery.create().where().hasRole(getIRole());
+    var hasRole = UserQuery.create().where().hasRoleAssigned(getIRole());
     return getSecurityContext().users().query()
             .where()
                 .not(hasRole)
