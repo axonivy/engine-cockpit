@@ -1,10 +1,12 @@
 package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.empty;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
+import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -44,7 +46,7 @@ public class WebTestUsers
   {
     login();
     Navigation.toUsers();
-    Tab.switchToTab("test");
+    Tab.switchToDefault();
   }
   
   @Test
@@ -73,10 +75,13 @@ public class WebTestUsers
     table.firstColumnShouldBe(sizeGreaterThanOrEqual(4));
     
     filterTableFor("Show manual users");
-    
     table.firstColumnShouldBe(sizeLessThanOrEqual(2));
-    Navigation.toUserDetail("manual");
+    table.search("user");
+    table.firstColumnShouldBe(empty);
+    table.search("ma");
+    table.firstColumnShouldBe(sizeLessThanOrEqual(1));
     
+    Navigation.toUserDetail("manual");
     $("#userInformationForm\\:deleteUser").shouldBe(visible).click();
     $("#userInformationForm\\:deleteUserConfirmYesBtn").shouldBe(visible).click();
   }
@@ -97,9 +102,15 @@ public class WebTestUsers
 
     filterTableFor("Show disabled users");
     table.firstColumnShouldBe(size(1));
-    assertThat(table.getFirstColumnEntries()).contains("disableduser");
+    table.firstColumnShouldBe(texts("disableduser"));
+    
+    table.search("fo");
+    table.firstColumnShouldBe(empty);
+    table.search("dis");
+    table.firstColumnShouldBe(size(1));
 
-    filterTableFor("Show disabled users");
+    resetFilter();
+    table.search("%");
     table.firstColumnShouldBe(sizeGreaterThan(0));
     assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
   }
@@ -143,6 +154,12 @@ public class WebTestUsers
     PrimeUi.selectManyCheckbox(By.cssSelector(appId + "contentFilter\\:form\\:filterCheckboxes"))
             .setCheckboxes(List.of(filter));
     $(appId + "contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
+  }
+  
+  private void resetFilter()
+  {
+    var appId = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:";
+    $(appId + "contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
   }
 
   @Test
