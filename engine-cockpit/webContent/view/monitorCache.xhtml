@@ -26,72 +26,63 @@
     </ui:define>
 
     <ui:define name="content">
-      <div class="ui-fluid">
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <div class="card card-w-title">
-              <div class="ui-g">
-                <div class="ui-g-12 ui-md-10">
-                  <h1>
-                    <i class="si si-monitor-heart-beat-search card-title-icon"></i>Caches
-                  </h1>
-                </div>
-                <h:form id="form">
-                  <div class="ui-g">
-                    <div class="ui-g-12 ui-md-12 ui-lg-12">
-                      <p:dataTable var="cache" value="#{cacheBean.caches}"
-                        widgetVar="cacheTable"
-                        filteredValue="#{cacheBean.filteredCaches}"
-                        id="cacheTable">
-                        <f:facet name="header">
-                          <p:outputPanel>
-                            <p:outputLabel styleClass="table-search-icon">
-                              <i class="si si-search"></i>
-                            </p:outputLabel>
-                            <p:inputText styleClass="table-search-input-withicon"
-                              id="globalFilter" onkeyup="PF('cacheTable').filter()"
-                              placeholder="Search" value="#{cacheBean.filter}" />
-                          </p:outputPanel>
-                        </f:facet>
-                        <p:column headerText="Name" sortBy="#{cache.name}" filterBy="#{cache.name}">
-                          <h:outputText value="#{cache.name}" styleClass="">
-                          </h:outputText>
-                        </p:column>
-                        <p:column style="width: 100px;" headerText="Count" sortBy="#{cache.count}">
-                          <h:outputText value="#{cache.count}" styleClass="#{cache.countStyle}">
-                          </h:outputText>
-                        </p:column>
-                        <p:column style="width: 100px;" headerText="Limit" sortBy="#{cache.limit}">
-                          <h:outputText value="#{cache.limit}">
-                          </h:outputText>
-                        </p:column>
-                        <p:column style="width: 110px;" headerText="Read Hits" sortBy="#{cache.readHits}">
-                          <h:outputText value="#{cache.readHits}">
-                          </h:outputText>
-                        </p:column>
-                        <p:column style="width: 130px;" headerText="Read Misses" sortBy="#{cache.readMisses}">
-                          <h:outputText value="#{cache.readMisses}" styleClass="#{cache.readMissesStyle}">
-                          </h:outputText>
-                        </p:column>
-                        <p:column style="width: 100px;" headerText="Writes" sortBy="#{cache.writes}">
-                          <h:outputText value="#{cache.writes}">
-                          </h:outputText>
-                        </p:column>
-                        <p:column style="width: 100px;" headerText="Info" sortBy="#{cache.info}">
-                          <h:outputText value="#{cache.info}">
-                          </h:outputText>
-                        </p:column>
-                      </p:dataTable>
-                    </div>
-                  </div>
-                </h:form>
-              </div>
+      <cc:SingleCard id="cache">
+        <div class="card card-w-title">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-10">
+              <h1>
+                <i class="si si-monitor-heart-beat-search card-title-icon"></i>Caches
+              </h1>
             </div>
           </div>
+          <h:form id="form">
+            <p:dataTable var="cache" value="#{cacheBean.caches}"
+              widgetVar="cacheTable"
+              filteredValue="#{cacheBean.filteredCaches}"
+              id="cacheTable">
+              <f:facet name="header">
+                <p:outputPanel>
+                  <p:outputLabel styleClass="table-search-icon">
+                    <i class="si si-search"></i>
+                  </p:outputLabel>
+                  <p:inputText styleClass="table-search-input-withicon"
+                    id="globalFilter" onkeyup="PF('cacheTable').filter()"
+                    placeholder="Search" value="#{cacheBean.filter}" />
+                </p:outputPanel>
+              </f:facet>
+              <p:column headerText="Name" sortBy="#{cache.name}" filterBy="#{cache.name}">
+                <h:outputText value="#{cache.name}" styleClass="">
+                </h:outputText>
+              </p:column>
+              <p:column style="width: 100px;" headerText="Count" sortBy="#{cache.count}">
+                <h:outputText value="#{cache.count}" styleClass="#{cache.countStyle}">
+                </h:outputText>
+              </p:column>
+              <p:column style="width: 100px;" headerText="Limit" sortBy="#{cache.limit}">
+                <h:outputText value="#{cache.limit}">
+                </h:outputText>
+              </p:column>
+              <p:column style="width: 110px;" headerText="Read Hits" sortBy="#{cache.readHits}">
+                <h:outputText value="#{cache.readHits}">
+                </h:outputText>
+              </p:column>
+              <p:column style="width: 130px;" headerText="Read Misses" sortBy="#{cache.readMisses}">
+                <h:outputText value="#{cache.readMisses}" styleClass="#{cache.readMissesStyle}">
+                </h:outputText>
+              </p:column>
+              <p:column style="width: 100px;" headerText="Writes" sortBy="#{cache.writes}">
+                <h:outputText value="#{cache.writes}">
+                </h:outputText>
+              </p:column>
+              <p:column style="width: 100px;" headerText="Info" sortBy="#{cache.info}">
+                <h:outputText value="#{cache.info}">
+                </h:outputText>
+              </p:column>
+            </p:dataTable>
+          </h:form>
         </div>
-      </div>
+      </cc:SingleCard>
     </ui:define>
   </ui:composition>
 </h:body>
-
 </html>
