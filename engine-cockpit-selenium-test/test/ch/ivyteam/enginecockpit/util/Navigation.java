@@ -44,6 +44,7 @@ public class Navigation
   private static final String MONITOR_ENGINE_JVM_MENU = "#menuform\\:sr_monitor_engine_jvm";
   private static final String MONITOR_ENGINE_MEMORY_MENU = "#menuform\\:sr_monitor_engine_memory";
   private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
+  private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
 
   public static void toDashboard()
   {
@@ -283,6 +284,13 @@ public class Navigation
     menuShouldBeActive(MONITOR_LOGS_MENU);
   }
   
+  public static void toCache()
+  {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_CACHE_MENU);
+    assertCurrentUrlContains("monitorCache.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_CACHE_MENU);
+  }
+  
   public static void toMBeans() 
   {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MBEANS_MENU);
@@ -338,5 +346,4 @@ public class Navigation
   {
     $(menu).shouldHave(cssClass("active-menuitem"));
   }
-
 }
