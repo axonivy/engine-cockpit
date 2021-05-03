@@ -256,11 +256,6 @@ body {
 .ui-treetable .table-control-btn {
   margin-top: 0;
 }
-.ui-datatable tbody tr td:first-child a,
-.ui-tree a,
-.ui-treetable a {
-  color: inherit;
-}
 .ui-tree .addition-row-info,
 .ui-datatable .addition-row-info,
 .ui-treetable .addition-row-info {
