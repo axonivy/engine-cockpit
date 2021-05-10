@@ -1,5 +1,6 @@
 RestClients:
   test-rest:
+    UUID: 2fb1152a-d43a-4840-b798-81ce34cef104
     Url: http://localhost/test
     Features:
     - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
