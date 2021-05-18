@@ -33,11 +33,14 @@ body .ui-steps .ui-steps-item .step-ok .ui-steps-number {
   background-color: #c7d426;
   color: #575656;
 }
+.ui-fluid .wizard-steps {
+  height: 3em;
+  margin-top: 20px;
+}
 .ui-fluid .wizard-step-button {
   width: 100px;
   margin-right: 5px;
   float: right;
-  margin-top: 20px;
   pointer-events: all;
 }
 .ui-fluid a.wizard-step-button {
