@@ -10,7 +10,7 @@
     <engine.dir>../.ivy-engine</engine.dir>
     <revision>9.3.0-SNAPSHOT</revision>
     <flatten.plugin.version>1.2.7</flatten.plugin.version>
-    <project.build.plugin.version>9.2.3-SNAPSHOT</project.build.plugin.version>
+    <project.build.plugin.version>9.3.0-SNAPSHOT</project.build.plugin.version>
     <maven.test.skip>true</maven.test.skip>
   </properties>
 
