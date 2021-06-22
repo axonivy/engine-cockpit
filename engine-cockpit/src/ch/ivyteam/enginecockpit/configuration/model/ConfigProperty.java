@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -252,7 +253,7 @@ public class ConfigProperty
   
   private void correctValuesIfDaytimeFormat()
   {
-    if (configValueFormat.equals(ConfigValueFormat.DAYTIME))
+    if (Objects.equals(configValueFormat, ConfigValueFormat.DAYTIME))
     {
       if (defaultValue.equals("0"))
       {
