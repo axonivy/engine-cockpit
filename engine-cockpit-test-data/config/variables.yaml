@@ -19,8 +19,3 @@ Variables:
   enum: hi
   # This is a global variable for testing
   globVar: 'data'
-
-
-  # This is a global variable for testing
-  globVar: 'data'
-
