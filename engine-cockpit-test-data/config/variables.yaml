@@ -1,7 +1,7 @@
 Variables:
   # Default Dashboard
   # [file: json]
-  PORTAL_DASHBOARD: 
+  PORTAL_DASHBOARD:
   # test variable
   variable: hello
   # test boolean

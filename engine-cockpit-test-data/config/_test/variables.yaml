@@ -1,5 +1,4 @@
 Variables:
-
   globVar: 'test data'
   # test env variable
   variable: hello from env
