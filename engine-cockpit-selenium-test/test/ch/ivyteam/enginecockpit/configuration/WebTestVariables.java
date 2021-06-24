@@ -16,6 +16,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
+import ch.ivyteam.enginecockpit.configuration.WebTestConfiguration.ConfigAssert;
 import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -24,7 +25,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestVariables
 {
-  
+
   @BeforeEach
   void beforeEach()
   {
@@ -33,7 +34,7 @@ public class WebTestVariables
     Tab.switchToDefault();
     EnvironmentSwitch.switchToEnv("Default");
   }
-  
+
   @Test
   void testInitialVariables()
   {
@@ -46,7 +47,7 @@ public class WebTestVariables
     assertVariable("globVar", "test data", true);
     assertVariable("variable", "hello from env", true);
   }
-  
+
   @Test
   void editVariable()
   {
@@ -55,12 +56,12 @@ public class WebTestVariables
     assertVariable(variable, "hello from env", true);
     editVariable(variable, "env override");
     assertVariable(variable, "env override", false);
-    
+
     EnvironmentSwitch.switchToEnv("Default");
     assertVariable(variable, "hello", true);
     editVariable(variable, "");
     assertVariable(variable, "", false);
-    
+
     EnvironmentSwitch.switchToEnv("test");
     assertVariable(variable, "env override", false);
     resetVariable(variable);
@@ -82,16 +83,16 @@ public class WebTestVariables
     String name = "aName";
     String value = "aValue";
     createNewVariable(name, value);
-    
+
     table.firstColumnShouldBe(size(entryCount + 1));
     assertVariable(name, value, false);
-    
+
     String newValue = "aNewValue";
     editVariable(name, newValue, value);
-    
+
     assertVariable(name, newValue, false);
     resetVariable(name);
-    
+
     table.firstColumnShouldBe(size(entryCount));
   }
 
@@ -110,7 +111,7 @@ public class WebTestVariables
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "10:30", "test daytime");
   }
-  
+
   @Test
   void testEditConfig_enumerationFormat()
   {
@@ -118,7 +119,7 @@ public class WebTestVariables
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "hi", "test enum");
   }
-  
+
   @Test
   void testEditConfig_numberFormat()
   {
@@ -126,7 +127,7 @@ public class WebTestVariables
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "123", "test number");
   }
-  
+
   @Test
   void testEditConfig_passwordFormat()
   {
@@ -135,7 +136,7 @@ public class WebTestVariables
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "", "test password");
   }
-  
+
   @Test
   void testEditConfig_fileFormat()
   {
@@ -143,7 +144,7 @@ public class WebTestVariables
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "{  \"name\": \"this is a json file\"}", "Default Dashboard");
   }
-  
+
   @Test
   void testEditConfig_stringFormat()
   {
@@ -151,7 +152,7 @@ public class WebTestVariables
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "hello", "test variable");
   }
-  
+
   @Test
   void testNewValidation()
   {
@@ -177,14 +178,14 @@ public class WebTestVariables
     $(By.id(activeTabPanel() + "config:newConfigurationForm:saveNewConfiguration")).click();
     $("#msgs_container").shouldHave(text(name), text("saved"));
   }
-  
+
   private void resetVariable(String name)
   {
     Table table = variableTable();
     table.clickButtonForEntry(name, "tasksButton");
     table.buttonMenuForEntryShouldBeVisible(name, "activityMenu");
     table.clickButtonForEntry(name, "resetConfigBtn");
-    
+
     $(By.id(activeTabPanel() + "config:resetConfigConfirmForm:resetConfigConfirmYesBtn")).click();
     $("#msgs_container").shouldHave(text(name), text("reset"));
   }
@@ -193,7 +194,7 @@ public class WebTestVariables
   {
     editVariable(name, value, null);
   }
-  
+
   private void editVariable(String name, String value, String oldValue)
   {
     variableTable().clickButtonForEntry(name, "editConfigBtn");
@@ -205,7 +206,7 @@ public class WebTestVariables
     $("#msgs_container").shouldHave(text(name), text("saved"));
   }
 
-  
+
   private void assertEditVariableDialog(String name, String oldValue)
   {
     if (oldValue == null)
@@ -215,7 +216,7 @@ public class WebTestVariables
     $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationKey")).shouldBe(exactText(name));
     $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationValue")).shouldBe(exactValue(oldValue));
   }
-  
+
   private void assertVariable(String name, String value, boolean isDefault)
   {
     var table = variableTable();
@@ -230,20 +231,28 @@ public class WebTestVariables
     }
     table.buttonForEntryShouldBeDisabled(name, "tasksButton", isDefault);
   }
-  
+
   private void assertThatConfigEditModalIsVisible(String config, String value, String desc)
   {
-    WebTestConfiguration.assertThatConfigEditModalIsVisible(activeTabPanel() + "config", config, value, desc, value);
+    assertConfig()
+      .assertKey(config)
+      .assertDesc(desc)
+      .assertValue(value)
+      .assertDefault(value);
   }
-  
+
+  private ConfigAssert assertConfig() {
+    return new ConfigAssert(activeTabPanel() + "config");
+  }
+
   private Table variableTable()
   {
     return new Table(By.id(activeTabPanel() + "config:form:configTable"));
   }
-  
+
   private String activeTabPanel()
   {
     return "apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":";
   }
-  
+
 }
