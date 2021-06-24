@@ -142,7 +142,15 @@ public class WebTestVariables
   {
     String config = "PORTAL_DASHBOARD";
     variableTable().clickButtonForEntry(config, "editConfigBtn");
-    assertThatConfigEditModalIsVisible(config, "{  \"name\": \"this is a json file\"}", "Default Dashboard");
+    String onelineJson = "{ \"name\": \"this is a json file\" }";
+    String editJson = "{\n"
+            + "  \"name\": \"this is a json file\"\n"
+            + "}";
+    assertConfig()
+      .assertKey(config)
+      .assertDesc("Default Dashboard")
+      .assertValue(editJson)
+      .assertDefault(onelineJson);
   }
 
   @Test
