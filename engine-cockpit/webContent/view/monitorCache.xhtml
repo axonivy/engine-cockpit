@@ -74,10 +74,17 @@
                 <h:outputText value="#{cache.writes}">
                 </h:outputText>
               </p:column>
-              <p:column style="width: 100px;" headerText="Info" sortBy="#{cache.info}">
+              <p:column style="width: 112px;" headerText="Info" sortBy="#{cache.info}">
                 <h:outputText value="#{cache.info}">
                 </h:outputText>
               </p:column>
+              <p:column style="width: 50px;">
+                <p:commandButton title="Clear" id="clearButton" icon="si si-bin-1" disabled="#{cache.notClearable}"
+                    type="button" style="margin-right: 10px;" styleClass="blue-btn">
+                  <p:ajax update="cache:form" listener="#{cache.clear}"/>
+                </p:commandButton>
+              </p:column>
+              
             </p:dataTable>
           </h:form>
         </div>

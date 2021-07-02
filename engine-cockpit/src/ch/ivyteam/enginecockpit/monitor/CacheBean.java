@@ -7,13 +7,17 @@ import java.util.stream.Stream;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import javax.management.ReflectionException;
 
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -64,6 +68,9 @@ public class CacheBean
   
   public static final class Cache
   {
+    private static final String[] SIGNATURE = new String[0];
+    private static final Object[] PARAMS = new Object[0];
+    private final ObjectName objectName;
     private final String name;
     private final ValueProvider count;
     private final ValueProvider writes;
@@ -71,6 +78,7 @@ public class CacheBean
     private final ValueProvider readMisses;
     private final ValueProvider limit;
     private final ValueProvider info;
+    private final boolean clearable;
     
     private static Stream<Cache> toCaches(ObjectName objectName)
     {
@@ -99,7 +107,9 @@ public class CacheBean
       if (ManagementFactory.getPlatformMBeanServer().isRegistered(advisorName))
       {
         limit = ValueProvider.attribute(advisorName, "countLimit", Unit.ONE);
-        info = ValueProvider.attribute(advisorName, "usageLimit", Unit.ONE);
+        var timeToIdle = ValueProvider.attribute(advisorName, "timeToIdle", Unit.SECONDS);
+        var timeToLive = ValueProvider.attribute(advisorName, "timeToLive", Unit.SECONDS);
+        info = ValueProvider.format("tti=%d, ttl=%d", timeToIdle, timeToLive);
       }
 
       objectName = new ObjectName(objectName.toString()+",cache=ObjectsAndAssociations");
@@ -108,7 +118,7 @@ public class CacheBean
       var writes = ValueProvider.attribute(objectName, "objectWrites", Unit.ONE);
       var readHits = ValueProvider.attribute(objectName, "objectReadHits", Unit.ONE);
       var readMisses = ValueProvider.attribute(objectName, "objectReadMisses", Unit.ONE);
-      return new Cache(name+" Entities", count, limit, readHits, readMisses, writes, info);
+      return new Cache(objectName, name+" Entities", count, limit, readHits, readMisses, writes, info, true);
     }
 
     private static Cache toAssociationCache(String name, ObjectName objectName) throws MalformedObjectNameException
@@ -119,7 +129,7 @@ public class CacheBean
       var writes = ValueProvider.attribute(objectName, "associationWrites", Unit.ONE);
       var readHits = ValueProvider.attribute(objectName, "assocationReadHits", Unit.ONE);
       var readMisses = ValueProvider.attribute(objectName, "associationReadMisses", Unit.ONE);
-      return new Cache(name+" Associations", count, null, readHits, readMisses, writes, null);
+      return new Cache(objectName, name+" Associations", count, null, readHits, readMisses, writes, null, false);
     }
     
     private static Cache toBinaryCache(String name, ObjectName objectName) throws MalformedObjectNameException
@@ -128,14 +138,16 @@ public class CacheBean
       var advisorName = getAdvisorName(objectName);
       if (advisorName != null)
       {
-        info = ValueProvider.attribute(advisorName, "maxBytesToCache", Unit.BYTES);
+        info = ValueProvider.format(
+            "max=%d", 
+            ValueProvider.attribute(advisorName, "maxBytesToCache", Unit.BYTES));
       }
       objectName = new ObjectName(objectName.toString()+",cache=LongBinaries");
       var count = ValueProvider.attribute(objectName, "cachedLongValues", Unit.ONE);
       var writes = ValueProvider.attribute(objectName, "writes", Unit.ONE);
       var readHits = ValueProvider.attribute(objectName, "readHits", Unit.ONE);
       var readMisses = ValueProvider.attribute(objectName, "readMisses", Unit.ONE);
-      return new Cache(name+" Long Binaries", count, null, readHits, readMisses, writes, info);
+      return new Cache(objectName, name+" Long Binaries", count, null, readHits, readMisses, writes, info, true);
     }
 
     private static Cache toCharacterCache(String name, ObjectName objectName) throws MalformedObjectNameException
@@ -144,14 +156,16 @@ public class CacheBean
       var advisorName = getAdvisorName(objectName);
       if (advisorName != null)
       {
-        info = ValueProvider.attribute(advisorName, "maxCharactersToCache", Unit.BYTES);
+        info = ValueProvider.format(
+            "max=%d", 
+            ValueProvider.attribute(advisorName, "maxCharactersToCache", Unit.ONE));
       }
       objectName = new ObjectName(objectName.toString()+",cache=LongCharacters");
       var count = ValueProvider.attribute(objectName, "cachedLongValues", Unit.ONE);
       var writes = ValueProvider.attribute(objectName, "writes", Unit.ONE);
       var readHits = ValueProvider.attribute(objectName, "readHits", Unit.ONE);
       var readMisses = ValueProvider.attribute(objectName, "readMisses", Unit.ONE);
-      return new Cache(name+" Long Characaters", count, null, readHits, readMisses, writes, info);
+      return new Cache(objectName, name+" Long Characaters", count, null, readHits, readMisses, writes, info, true);
     }
 
     private static ObjectName getAdvisorName(ObjectName objectName) throws MalformedObjectNameException
@@ -169,8 +183,9 @@ public class CacheBean
       return null;
     }
 
-    private Cache(String name, ValueProvider count, ValueProvider limit, ValueProvider readHits, ValueProvider readMisses, ValueProvider writes, ValueProvider info)
+    private Cache(ObjectName objectName, String name, ValueProvider count, ValueProvider limit, ValueProvider readHits, ValueProvider readMisses, ValueProvider writes, ValueProvider info, boolean clearable)
     {
+      this.objectName = objectName;
       this.name = name;
       this.count = count;
       this.limit = limit;
@@ -178,6 +193,7 @@ public class CacheBean
       this.readMisses = readMisses;
       this.writes = writes;
       this.info = info;
+      this.clearable = clearable;
     }
     
     public String getName()
@@ -259,6 +275,23 @@ public class CacheBean
         return info.nextValue().toString();
       }
       return "";
+    }
+    
+    public boolean isNotClearable()
+    {
+      return !clearable;
+    }
+    
+    public void clear()
+    {
+      try 
+      {
+        ManagementFactory.getPlatformMBeanServer().invoke(objectName, "clearCache", PARAMS, SIGNATURE);
+      } 
+      catch (InstanceNotFoundException | ReflectionException | MBeanException ex)
+      {
+        Ivy.log().error("Could not clear cache", ex);
+      }
     }
   }
 }

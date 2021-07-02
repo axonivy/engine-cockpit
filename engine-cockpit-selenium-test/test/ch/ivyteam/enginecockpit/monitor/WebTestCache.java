@@ -46,14 +46,15 @@ public class WebTestCache
     
     table.row("IntermediateEventData Entities").should(exist);
     table.tableEntry("IntermediateEventData Entities", 3).shouldHave(Condition.text("1000"));
-    table.tableEntry("IntermediateEventData Entities", 7).shouldHave(Condition.text("57600"));
+    table.tableEntry("IntermediateEventData Entities", 7).shouldHave(Condition.text("tti=600 s, ttl=0 s"));
+    table.tableEntry("IntermediateEventData Entities", 8).$("button").click();
     
     table.row("Language Long Binaries").should(exist);
     table.tableEntry("Language Long Binaries", 3).shouldHave(Condition.text("n.a."));
-    table.tableEntry("Language Long Binaries", 7).shouldHave(Condition.text("32768 [B]"));
+    table.tableEntry("Language Long Binaries", 7).shouldHave(Condition.text("max=32768 B"));
 
     table.row("WorkflowEvent Long Characaters").should(exist);
     table.tableEntry("WorkflowEvent Long Characaters", 3).shouldHave(Condition.text("n.a."));
-    table.tableEntry("WorkflowEvent Long Characaters", 7).shouldHave(Condition.text("32768 [B]"));
+    table.tableEntry("WorkflowEvent Long Characaters", 7).shouldHave(Condition.text("max=32768"));
   }
 }
