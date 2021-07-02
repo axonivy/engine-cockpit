@@ -15,9 +15,8 @@
       <li>/</li>
       <li><a href="roles.xhtml">Role</a></li>
       <li>/</li>
-      <li><a href="application-detail.xhtml?appName=#{managerBean.selectedApplicationName}">#{managerBean.selectedApplicationName}</a></li>
-      <li>/</li>
       <li><a href="roledetail.xhtml?roleName=#{roleDetailBean.roleName}">#{roleDetailBean.roleName}</a></li>
+      <cc:BreadcrumbInfos renderEnv="false"/>
     </ui:define>
 
     <ui:define name="breadcrumb-right">
