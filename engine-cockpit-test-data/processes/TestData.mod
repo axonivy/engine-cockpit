@@ -1,5 +1,5 @@
 [Ivy]
-16E88DD61E825E70 9.2.0 #module
+16E88DD61E825E70 9.3.0 #module
 >Proto >Proto Collection #zClass
 Ta0 TestData Big #zClass
 Ta0 B #cInfo
@@ -73,9 +73,7 @@ Ta0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f0 @C|.responsibility Everybody #txt
 Ta0 f0 81 49 30 30 -63 23 #rect
-Ta0 f0 @|StartRequestIcon #fIcon
 Ta0 f1 337 49 30 30 0 15 #rect
-Ta0 f1 @|EndIcon #fIcon
 Ta0 f3 outLink createBusinessCalendar.ivp #txt
 Ta0 f3 inParamDecl '<> param;' #txt
 Ta0 f3 requestEnabled true #txt
@@ -91,9 +89,7 @@ Ta0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f3 @C|.responsibility Everybody #txt
 Ta0 f3 81 145 30 30 -75 25 #rect
-Ta0 f3 @|StartRequestIcon #fIcon
 Ta0 f4 337 145 30 30 0 15 #rect
-Ta0 f4 @|EndIcon #fIcon
 Ta0 f5 actionTable 'out=in;
 ' #txt
 Ta0 f5 actionCode 'import ch.ivyteam.ivy.application.calendar.FreeDate;
@@ -110,7 +106,6 @@ IApplication app = ivy.wf.getApplication();
 
 app.findEnvironment("test").setBusinessCalendar(app.getActualEnvironment().getBusinessCalendar().get("Luzern"));' #txt
 Ta0 f5 168 138 112 44 0 -7 #rect
-Ta0 f5 @|StepIcon #fIcon
 Ta0 f6 expr out #txt
 Ta0 f6 111 160 168 160 #arcP
 Ta0 f7 expr out #txt
@@ -122,7 +117,6 @@ Ta0 f8 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration
 IConfiguration.instance().set("Administrators.admin.Password", "admin");
 IConfiguration.instance().set("Administrators.admin.Email", "admin@example.com");' #txt
 Ta0 f8 168 42 112 44 0 -7 #rect
-Ta0 f8 @|StepIcon #fIcon
 Ta0 f9 111 64 168 64 #arcP
 Ta0 f2 280 64 337 64 #arcP
 Ta0 f10 outLink createBusinessData.ivp #txt
@@ -140,7 +134,6 @@ Ta0 f10 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f10 @C|.responsibility Everybody #txt
 Ta0 f10 81 241 30 30 -68 28 #rect
-Ta0 f10 @|StartRequestIcon #fIcon
 Ta0 f11 actionTable 'out=in;
 ' #txt
 Ta0 f11 actionCode 'import ch.ivyteam.enginecockpit.testdata.businessdata.TestDataCreator;
@@ -154,13 +147,10 @@ Ta0 f11 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Ta0 f11 152 234 144 44 -63 -7 #rect
-Ta0 f11 @|StepIcon #fIcon
 Ta0 f12 337 241 30 30 0 15 #rect
-Ta0 f12 @|EndIcon #fIcon
 Ta0 f13 111 256 152 256 #arcP
 Ta0 f14 296 256 337 256 #arcP
 Ta0 f15 337 337 30 30 0 15 #rect
-Ta0 f15 @|EndIcon #fIcon
 Ta0 f16 actionTable 'out=in;
 ' #txt
 Ta0 f16 dbSql '<?xml version=""1.0"" standalone=""no""?>
@@ -183,7 +173,6 @@ Ta0 f16 dbWizard 'CREATE TABLE Persons (
 Ta0 f16 lotSize 2147483647 #txt
 Ta0 f16 startIdx 0 #txt
 Ta0 f16 168 330 112 44 0 -7 #rect
-Ta0 f16 @|DBStepIcon #fIcon
 Ta0 f17 outLink runDbExecution.ivp #txt
 Ta0 f17 inParamDecl '<> param;' #txt
 Ta0 f17 requestEnabled true #txt
@@ -199,7 +188,6 @@ Ta0 f17 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f17 @C|.responsibility Everybody #txt
 Ta0 f17 81 337 30 30 -53 22 #rect
-Ta0 f17 @|StartRequestIcon #fIcon
 Ta0 f18 expr out #txt
 Ta0 f18 111 352 168 352 #arcP
 Ta0 f19 280 352 337 352 #arcP
@@ -215,7 +203,6 @@ Ta0 f20 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Ta0 f20 241 369 30 30 0 15 #rect
-Ta0 f20 @|ErrorBoundaryEventIcon #fIcon
 Ta0 f21 actionTable 'out=in;
 ' #txt
 Ta0 f21 dbSql '<?xml version=""1.0"" standalone=""no""?>
@@ -228,13 +215,11 @@ FROM Persons' #txt
 Ta0 f21 lotSize 2147483647 #txt
 Ta0 f21 startIdx 0 #txt
 Ta0 f21 200 458 112 44 0 -7 #rect
-Ta0 f21 @|DBStepIcon #fIcon
 Ta0 f22 256 399 256 458 #arcP
 Ta0 f23 312 480 352 367 #arcP
 Ta0 f23 1 352 480 #addKink
 Ta0 f23 1 0.08034838254922853 0 0 #arcLabel
 Ta0 f24 337 545 30 30 0 15 #rect
-Ta0 f24 @|EndIcon #fIcon
 Ta0 f25 outLink createDisabledUser.ivp #txt
 Ta0 f25 inParamDecl '<> param;' #txt
 Ta0 f25 requestEnabled true #txt
@@ -250,7 +235,6 @@ Ta0 f25 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f25 @C|.responsibility Everybody #txt
 Ta0 f25 81 545 30 30 -63 17 #rect
-Ta0 f25 @|StartRequestIcon #fIcon
 Ta0 f26 actionTable 'out=in;
 ' #txt
 Ta0 f26 actionCode 'import ch.ivyteam.enginecockpit.testdata.user.TestDataUser;
@@ -258,11 +242,9 @@ Ta0 f26 actionCode 'import ch.ivyteam.enginecockpit.testdata.user.TestDataUser;
 TestDataUser.createDisabledUser();
 ' #txt
 Ta0 f26 168 538 112 44 0 -7 #rect
-Ta0 f26 @|StepIcon #fIcon
 Ta0 f27 280 560 337 560 #arcP
 Ta0 f28 111 560 168 560 #arcP
 Ta0 f29 337 657 30 30 0 15 #rect
-Ta0 f29 @|EndIcon #fIcon
 Ta0 f30 outLink createManyDynamicRoles.ivp #txt
 Ta0 f30 inParamDecl '<> param;' #txt
 Ta0 f30 requestEnabled true #txt
@@ -278,13 +260,11 @@ Ta0 f30 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f30 @C|.responsibility Everybody #txt
 Ta0 f30 81 657 30 30 -85 27 #rect
-Ta0 f30 @|StartRequestIcon #fIcon
 Ta0 f31 actionTable 'out=in;
 ' #txt
 Ta0 f31 actionCode 'import ch.ivyteam.enginecockpit.testdata.security.DynamicRoles;
 DynamicRoles.createRoles();' #txt
 Ta0 f31 168 650 112 44 0 -7 #rect
-Ta0 f31 @|StepIcon #fIcon
 Ta0 f32 111 672 168 672 #arcP
 Ta0 f33 280 672 337 672 #arcP
 Ta0 f34 outLink executeRest.ivp #txt
@@ -302,13 +282,10 @@ Ta0 f34 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f34 @C|.responsibility Everybody #txt
 Ta0 f34 81 753 30 30 -49 18 #rect
-Ta0 f34 @|StartRequestIcon #fIcon
 Ta0 f35 clientId 2fb1152a-d43a-4840-b798-81ce34cef104 #txt
 Ta0 f35 path /store/inventory #txt
 Ta0 f35 168 746 112 44 0 -7 #rect
-Ta0 f35 @|RestClientCallIcon #fIcon
 Ta0 f36 337 753 30 30 0 15 #rect
-Ta0 f36 @|EndIcon #fIcon
 Ta0 f37 111 768 168 768 #arcP
 Ta0 f38 280 768 337 768 #arcP
 Ta0 f39 outLink executeWebService.ivp #txt
@@ -326,17 +303,14 @@ Ta0 f39 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f39 @C|.responsibility Everybody #txt
 Ta0 f39 81 849 30 30 -71 30 #rect
-Ta0 f39 @|StartRequestIcon #fIcon
 Ta0 f40 actionTable 'out=in;
 ' #txt
 Ta0 f40 clientId 16AB1778C1FA54E5 #txt
 Ta0 f40 port SampleWebServiceSoap #txt
 Ta0 f40 operation HelloWorld #txt
 Ta0 f40 168 842 112 44 0 -7 #rect
-Ta0 f40 @|WebServiceIcon #fIcon
 Ta0 f41 111 864 168 864 #arcP
 Ta0 f42 337 849 30 30 0 15 #rect
-Ta0 f42 @|EndIcon #fIcon
 Ta0 f43 280 864 337 864 #arcP
 Ta0 f44 outLink cleanupDynamicRoles.ivp #txt
 Ta0 f44 inParamDecl '<> param;' #txt
@@ -353,15 +327,12 @@ Ta0 f44 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Ta0 f44 @C|.responsibility Everybody #txt
 Ta0 f44 433 657 30 30 -64 29 #rect
-Ta0 f44 @|StartRequestIcon #fIcon
 Ta0 f45 actionTable 'out=in;
 ' #txt
 Ta0 f45 actionCode 'import ch.ivyteam.enginecockpit.testdata.security.DynamicRoles;
 DynamicRoles.cleanupRoles();' #txt
 Ta0 f45 520 650 112 44 0 -7 #rect
-Ta0 f45 @|StepIcon #fIcon
 Ta0 f46 689 657 30 30 0 15 #rect
-Ta0 f46 @|EndIcon #fIcon
 Ta0 f47 463 672 520 672 #arcP
 Ta0 f48 632 672 689 672 #arcP
 >Proto Ta0 .type engine.cockpit.test.data.Data #txt
