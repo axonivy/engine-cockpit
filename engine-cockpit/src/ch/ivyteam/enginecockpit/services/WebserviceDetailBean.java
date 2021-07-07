@@ -28,6 +28,8 @@ import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.webservice.client.WebServiceClient;
+import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
@@ -77,9 +79,10 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   private Webservice createWebService()
   {
-    return new Webservice(managerBean.getSelectedIEnvironment().findWebService(webserviceId));
+    var client = WebServiceClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment()).find(webserviceId);
+    return new Webservice(client);
   }
-  
+
   public Webservice getWebservice()
   {
     return webservice;

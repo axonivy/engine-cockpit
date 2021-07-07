@@ -12,7 +12,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.commons.Property;
-import ch.ivyteam.ivy.application.restricted.IWebService;
+import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 
 @SuppressWarnings("restriction")
 public class Webservice implements IService
@@ -29,30 +29,25 @@ public class Webservice implements IService
   private TreeNode portTypes = new DefaultTreeNode("PortTypes", null);
   private Map<String, PortType> portTypeMap = new HashMap<>();
   
-  public Webservice(IWebService webservice)
+  public Webservice(WebServiceClient webservice)
   {
-    name = webservice.getName();
-    description = webservice.getDescription();
-    wsdlUrl = webservice.getWsdlUrl();
-    properties = webservice.getProperties().stream().map(p -> new Property(p.getName(), p.getValue())).collect(Collectors.toList());
+    name = webservice.name();
+    description = webservice.description();
+    wsdlUrl = webservice.wsdlUrl();
+    properties = webservice.properties().entrySet().stream().map(p -> new Property(p.getKey(), p.getValue())).collect(Collectors.toList());
     password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password")).map(p -> p.getValue()).findFirst().orElse("");
     username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).map(p -> p.getValue()).findFirst().orElse("");
     passwordChanged = false;
-    features = webservice.getFeatures().stream().map(f -> f.getClazz()).collect(Collectors.toList());
-    genId = webservice.getGenerationIdentifier();
+    features = webservice.features();
+    genId = webservice.id();
     
-    webservice.getPortTypes()
+    webservice.portTypes()
             .forEach(p -> {
-              var portType = new DefaultTreeNode(new EndPoint("port", p.getPortType()), portTypes);
+              var portType = new DefaultTreeNode(new EndPoint("port", p), portTypes);
               portType.setExpanded(true);
-              webservice.getWebServiceEndpoints(p.getPortType()).forEach(e -> new DefaultTreeNode(
-                      new EndPoint("link", e.getEndpointAddress()), portType));
+              webservice.endpoints().get(p).forEach(e -> new DefaultTreeNode(new EndPoint("link", e), portType));
             });
-    
-    webservice.getPortTypes()
-            .forEach(p -> portTypeMap.put(p.getPortType(), new PortType(p.getPortType(), 
-                    webservice.getWebServiceEndpoints(p.getPortType()).stream()
-                            .map(e -> e.getEndpointAddress()).collect(Collectors.toList()))));
+    webservice.portTypes().forEach(p -> portTypeMap.put(p, new PortType(p, webservice.endpoints().get(p))));
   }
 
   public String getName()

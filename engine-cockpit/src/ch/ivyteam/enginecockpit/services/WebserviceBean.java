@@ -9,6 +9,8 @@ import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.webservice.client.WebServiceClient;
+import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
@@ -30,7 +32,8 @@ public class WebserviceBean
 
   public void reloadWebservices()
   {
-    webservices = managerBean.getSelectedIEnvironment().getWebServices().stream()
+    webservices = WebServiceClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
+    		.all().stream()
             .map(web -> new Webservice(web))
             .collect(Collectors.toList());
   }
