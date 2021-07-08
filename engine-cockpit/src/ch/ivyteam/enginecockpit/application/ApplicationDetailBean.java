@@ -70,13 +70,15 @@ public class ApplicationDetailBean
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
-            this::enrichStandardProcessConfigs, List.of(ConfigViewImpl.defaultFilter(), 
-                    new ContentFilter<ConfigProperty>("Variables", "Show Variables", 
+            this::enrichStandardProcessConfigs, List.of(ConfigViewImpl.defaultFilter(),
+                    new ContentFilter<ConfigProperty>("Variables", "Show Variables",
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
                     new ContentFilter<ConfigProperty>("Databases", "Show Databases",
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true),
                     new ContentFilter<ConfigProperty>("RestClients", "Show Rest Clients",
-                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "RestClients."), true)));
+                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "RestClients."), true),
+                    new ContentFilter<ConfigProperty>("WebServiceClients", "Show Web Service Clients",
+                            p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "WebServiceClients."), true)));
   }
 
   public Application getApplication()
