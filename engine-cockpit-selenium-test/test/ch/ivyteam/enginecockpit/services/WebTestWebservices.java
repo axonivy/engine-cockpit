@@ -21,11 +21,11 @@ public class WebTestWebservices
     login();
     Navigation.toWebservices();
     Tab.switchToDefault();
-    Table table = new Table(By.id("tabs:applicationTabView:" + 
+    Table table = new Table(By.id("tabs:applicationTabView:" +
             Tab.getSelectedTabIndex() + ":form:webservicesTable"), true);
     table.firstColumnShouldBe(size(2));
-    
-    table.search("axis2");
+
+    table.search("second-web");
     table.firstColumnShouldBe(size(1));
   }
 }
