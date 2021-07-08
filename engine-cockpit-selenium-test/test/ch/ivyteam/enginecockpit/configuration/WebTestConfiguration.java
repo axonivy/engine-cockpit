@@ -229,6 +229,12 @@ public class WebTestConfiguration
       assertShowAppConfigFilter("Show Rest Clients", "RestClients.test-rest.Url");
     }
 
+    @Test
+    void showWebSerivceClientsConfigs()
+    {
+      assertShowAppConfigFilter("Show Web Service Clients", "WebServiceClients.test-web.WsCallLibrary");
+    }
+
     private void assertShowAppConfigFilter(String filter, String config)
     {
       assertThat(table.getFirstColumnEntries()).doesNotContain(config);

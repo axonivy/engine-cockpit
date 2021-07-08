@@ -9,7 +9,6 @@ import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
@@ -19,9 +18,9 @@ public class WebserviceBean
   private List<Webservice> webservices;
   private List<Webservice> filteredWebservices;
   private String filter;
-  
+
   private ManagerBean managerBean;
-  
+
   public WebserviceBean()
   {
     var context = FacesContext.getCurrentInstance();
@@ -33,16 +32,16 @@ public class WebserviceBean
   public void reloadWebservices()
   {
     webservices = WebServiceClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
-    		.all().stream()
+            .all().stream()
             .map(web -> new Webservice(web))
             .collect(Collectors.toList());
   }
-  
+
   public List<Webservice> getWebservices()
   {
     return webservices;
   }
-  
+
   public List<Webservice> getFilteredWebservices()
   {
     return filteredWebservices;
@@ -52,15 +51,15 @@ public class WebserviceBean
   {
     this.filteredWebservices = filteredWebservices;
   }
-  
+
   public String getFilter()
   {
     return filter;
   }
-  
+
   public void setFilter(String filter)
   {
     this.filter = filter;
   }
-  
+
 }
