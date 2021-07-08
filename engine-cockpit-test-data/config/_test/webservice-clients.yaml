@@ -1,0 +1,14 @@
+WebServiceClients:
+  test-web:
+    Id: 16AB1778C1FA54E5
+    Description: this is a web service
+    WsdlUrl: http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx?WSDL
+    WsCallLibrary: CXF
+    ServiceClass: com.smartbear.client.SampleWebService
+    Endpoints:
+      SampleWebServiceSoap:
+      - http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx
+      - test/env
+      SampleWebServiceSoap12:
+      - http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx
+      - test.com

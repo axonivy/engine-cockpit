@@ -1,0 +1,35 @@
+WebServiceClients:
+  test-web:
+    Id: 16AB1778C1FA54E5
+    Description: this is a web service
+    WsdlUrl: http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx?WSDL
+    WsCallLibrary: CXF
+    ServiceClass: com.smartbear.client.SampleWebService
+    Features:
+    - ch.ivyteam.ivy.webservice.exec.cxf.feature.HttpBasicAuthenticationFeature
+    Properties:
+      username: admin
+      password: ${decrypt:\u0075\u0070\u00A9\u00EF\u009C\u0075\u0055\u0041\u0008\u0098\u005E\u0085\u00B2\u000D\u00E2\u00E3\u0097\u0089\u007D\u0054\u002D\u0058\u006C\u002D\u00B0\u0087\u00ED\u004E\u00ED\u00B0\u005A\u002D}
+    Endpoints:
+      SampleWebServiceSoap:
+      - http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx
+      - localhost
+      - localhost/test
+      SampleWebServiceSoap12:
+      - http://secure.smartbearsoftware.com/samples/testcomplete12/webservices/Service.asmx
+      - test.com
+  axis2:
+    Id: 16AB177C8A7C9747
+    Description: axis 2 webservice
+    WsdlUrl: http://test-webservices.ivyteam.io:7078/mockZHR_WF_READ_PERS_DATA_soap12?WSDL
+    WsCallLibrary: AXIS_2_0
+    ServiceClass: functions.rfc.sap.document.sap_com.ZHR_WF_READ_PERS_DATA
+    Properties:
+      authType: HTTP_BASIC
+      username: asdf
+      password: ${decrypt:\u0083\u0060\u0020\u00CE\u00DB\u0037\u009E\u00CB\u00E1\u00F5\u00D7\u00F9\u00F5\u00A2\u0006\u0010\u0098\u004E\u008F\u006B\u002E\u00AE\u00F4\u00D5\u0027\u004E\u0091\u007E\u00EF\u00F3\u0051\u0004}
+    Endpoints:
+      ZHR_WF_READ_PERS_DATA_soap12:
+      - test-webservices.ivyteam.io:7078/mockZHR_WF_READ_PERS_DATA_soap12
+      ZHR_WF_READ_PERS_DATA:
+      - http://D30.migros.ch:8000/sap/bc/srt/rfc/sap/zhr_wf_read_pers_data/161/zhr_wf_read_pers_data/zhr_wf_read_pers_data

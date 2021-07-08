@@ -1,5 +1,5 @@
 [Ivy]
-16E881C7DC458C7D 9.2.0 #module
+16E881C7DC458C7D 9.3.0 #module
 >Proto >Proto Collection #zClass
 Cg0 Config Big #zClass
 Cg0 B #cInfo
@@ -39,9 +39,7 @@ Cg0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Cg0 f0 @C|.responsibility Everybody #txt
 Cg0 f0 81 49 30 30 -51 23 #rect
-Cg0 f0 @|StartRequestIcon #fIcon
 Cg0 f1 337 49 30 30 0 15 #rect
-Cg0 f1 @|EndIcon #fIcon
 Cg0 f3 outLink cleanupConnectors.ivp #txt
 Cg0 f3 inParamDecl '<> param;' #txt
 Cg0 f3 requestEnabled true #txt
@@ -57,9 +55,7 @@ Cg0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Cg0 f3 @C|.responsibility Everybody #txt
 Cg0 f3 81 145 30 30 -51 23 #rect
-Cg0 f3 @|StartRequestIcon #fIcon
 Cg0 f4 337 145 30 30 0 15 #rect
-Cg0 f4 @|EndIcon #fIcon
 Cg0 f6 actionTable 'out=in;
 ' #txt
 Cg0 f6 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -67,7 +63,6 @@ Cg0 f6 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration
 IConfiguration.instance().remove("Administrators");
 IConfiguration.instance().set("Administrators.admin.Password", "admin");' #txt
 Cg0 f6 168 42 112 44 0 -7 #rect
-Cg0 f6 @|StepIcon #fIcon
 Cg0 f7 111 64 168 64 #arcP
 Cg0 f2 280 64 337 64 #arcP
 Cg0 f8 actionTable 'out=in;
@@ -79,11 +74,9 @@ IConfiguration.instance().remove("Connector.AJP");
 IConfiguration.instance().remove("Connector.HTTP.Enabled");
 IConfiguration.instance().remove("Connector.HTTP.Port");' #txt
 Cg0 f8 168 138 112 44 0 -7 #rect
-Cg0 f8 @|StepIcon #fIcon
 Cg0 f9 111 160 168 160 #arcP
 Cg0 f5 280 160 337 160 #arcP
 Cg0 f10 337 241 30 30 0 15 #rect
-Cg0 f10 @|EndIcon #fIcon
 Cg0 f11 outLink cleanupSystemDb.ivp #txt
 Cg0 f11 inParamDecl '<> param;' #txt
 Cg0 f11 requestEnabled true #txt
@@ -99,7 +92,6 @@ Cg0 f11 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Cg0 f11 @C|.responsibility Everybody #txt
 Cg0 f11 81 241 30 30 -61 30 #rect
-Cg0 f11 @|StartRequestIcon #fIcon
 Cg0 f12 actionTable 'out=in;
 ' #txt
 Cg0 f12 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -107,7 +99,6 @@ Cg0 f12 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguratio
 IConfiguration.instance().remove("SystemDb");
 ' #txt
 Cg0 f12 168 234 112 44 0 -7 #rect
-Cg0 f12 @|StepIcon #fIcon
 Cg0 f13 280 256 337 256 #arcP
 Cg0 f14 111 256 168 256 #arcP
 >Proto Cg0 .type engine.cockpit.test.data.Data #txt
