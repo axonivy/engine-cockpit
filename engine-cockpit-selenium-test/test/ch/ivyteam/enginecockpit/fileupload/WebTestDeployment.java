@@ -22,7 +22,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -87,22 +86,14 @@ public class WebTestDeployment
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
     SelectOneMenu testUser = PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
-    SelectBooleanCheckbox overwrite = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteConfig"));
-    SelectOneMenu cleanup = PrimeUi.selectOne(By.id("deploymentModal:cleanupConfig"));
     SelectOneMenu version = PrimeUi.selectOne(By.id("deploymentModal:version"));
     SelectOneMenu state = PrimeUi.selectOne(By.id("deploymentModal:state"));
     SelectOneMenu fileFormat = PrimeUi.selectOne(By.id("deploymentModal:fileFormat"));
 
     assertThat(testUser.getSelectedItem()).isEqualTo("AUTO");
-    overwrite.shouldBeChecked(false);
-    assertThat(cleanup.getSelectedItem()).isEqualTo("DISABLED");
     assertThat(version.getSelectedItem()).isEqualTo("AUTO");
     assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED");
     assertThat(fileFormat.getSelectedItem()).isEqualTo("AUTO");
-    
-    SelectBooleanCheckbox checkbox = PrimeUi.selectBooleanCheckbox(By.id("deploymentModal:overwriteConfig"));
-    checkbox.setChecked();
-    overwrite.shouldBeChecked(true);
   }
   
   @Test

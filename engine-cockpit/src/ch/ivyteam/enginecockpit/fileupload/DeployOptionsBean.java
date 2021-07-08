@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.ivy.deployment.DeploymentOptions.Cleanup;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetFileFormat;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetState;
 import ch.ivyteam.ivy.deployment.DeploymentOptions.TargetVersion;
@@ -19,10 +18,6 @@ public class DeployOptionsBean
 {
   private String deployTestUsers = TestUser.AUTO.name();
   private List<String> deployTestUsersValues = listNames(TestUser.values());
-  
-  private boolean overwriteConfig = false;
-  private String cleanup = Cleanup.DISABLED.name();
-  private List<String> cleanupValues = listNames(Cleanup.values());
   
   private String version = TargetVersion.AUTO.name();
   private List<String> versions = listNames(TargetVersion.values());
@@ -50,21 +45,6 @@ public class DeployOptionsBean
     return deployTestUsersValues;
   }
   
-  public boolean isOverwriteConfig()
-  {
-    return overwriteConfig;
-  }
-
-  public String getCleanup()
-  {
-    return cleanup;
-  }
-
-  public List<String> getCleanupValues()
-  {
-    return cleanupValues;
-  }
-
   public String getVersion()
   {
     return version;
@@ -103,21 +83,6 @@ public class DeployOptionsBean
   public void setDeployTestUsersValues(List<String> deployTestUsersValues)
   {
     this.deployTestUsersValues = deployTestUsersValues;
-  }
-
-  public void setOverwriteConfig(boolean overwriteConfig)
-  {
-    this.overwriteConfig = overwriteConfig;
-  }
-
-  public void setCleanup(String cleanup)
-  {
-    this.cleanup = cleanup;
-  }
-
-  public void setCleanupValues(List<String> cleanupValues)
-  {
-    this.cleanupValues = cleanupValues;
   }
 
   public void setVersion(String version)
