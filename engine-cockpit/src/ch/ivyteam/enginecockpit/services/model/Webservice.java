@@ -14,7 +14,6 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 
-@SuppressWarnings("restriction")
 public class Webservice implements IService
 {
   private String name;
