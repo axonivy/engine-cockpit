@@ -27,7 +27,8 @@ import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
-import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.webservice.client.WebServiceClient;
+import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
@@ -36,30 +37,30 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 {
   private Webservice webservice;
   private String webserviceId;
-  private String wsConfigKey;
-  
+
   private ManagerBean managerBean;
   private PortType activePortType;
   private String activeEndpointUrl;
   private ConnectionTestResult testResult;
-  
+
   private final ConnectionTestWrapper connectionTest;
   private WebServiceMonitor liveStats;
-  
+  private WebServiceClients webServiceClients;
+
   public WebserviceDetailBean()
   {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
+    webServiceClients = WebServiceClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
     connectionTest = new ConnectionTestWrapper();
   }
-  
+
   public String getWebserviceId()
   {
     return webserviceId;
   }
-  
+
   public void setWebserviceId(String webserviceId)
   {
     if (this.webserviceId == null)
@@ -69,17 +70,15 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
       liveStats = new WebServiceMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), webserviceId);
     }
   }
-  
+
   private void reloadWebservice()
   {
     webservice = createWebService();
-    wsConfigKey = "WebServiceClients." + webservice.getName();
   }
 
   private Webservice createWebService()
   {
-    var client = WebServiceClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment()).find(webserviceId);
-    return new Webservice(client);
+    return new Webservice(webServiceClients.find(webserviceId));
   }
 
   public Webservice getWebservice()
@@ -92,13 +91,13 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   {
     return "Web Service '" + webservice.getName() + "'";
   }
-  
+
   @Override
   public String getGuideText()
   {
     return "To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
-  
+
   @Override
   public String getYaml()
   {
@@ -113,13 +112,13 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
-  
+
   @Override
   public String getHelpUrl()
   {
     return UrlUtil.getCockpitEngineGuideUrl() + "services.html#web-service-detail";
   }
-  
+
   public void setActiveEndpoint(String endpointUrl)
   {
     this.activeEndpointUrl = endpointUrl;
@@ -129,12 +128,12 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   {
     return activeEndpointUrl;
   }
-  
+
   public void testWsEndpointUrl()
   {
     testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
   }
-  
+
   private ConnectionTestResult testConnection()
   {
     var client = ClientBuilder.newClient();
@@ -176,65 +175,79 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
             .map(v -> "\"" + v + "\"")
             .collect(Collectors.joining("\n        - "))).collect(Collectors.joining("\n      "));
   }
-  
+
   public void saveConfig()
   {
     connectionTest.stop();
-    var originConfig = createWebService();
-    setIfChanged(wsConfigKey + ".Properties.username", webservice.getUsername(), originConfig.getUsername());
-    setIfPwChanged(wsConfigKey + ".Properties.password", webservice);
-    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+    var builder = wsBuilder();
+    builder.property("username", webservice.getUsername());
+    if (webservice.passwordChanged())
+    {
+      builder.property("password", webservice.getPassword());
+    }
+    webServiceClients.set(builder.toWebServiceClient());
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg",
             new FacesMessage("Web Service configuration saved", ""));
     reloadWebservice();
   }
-  
-  @SuppressWarnings("restriction")
+
   public void resetConfig()
   {
     connectionTest.stop();
-    configuration.remove(wsConfigKey + ".Properties");
-    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+    webServiceClients.remove(webservice.getName());
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg",
             new FacesMessage("Web Service configuration reset", ""));
     reloadWebservice();
   }
-  
+
   public void setActivePortType(String name)
   {
     activePortType = webservice.getPortTypeMap().get(name);
   }
-  
+
   public PortType getActivePortType()
   {
     return activePortType;
   }
-  
-  @SuppressWarnings("restriction")
+
   public void resetPortType()
   {
-    configuration.remove(wsConfigKey + ".Endpoints." + activePortType.getName());
-    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+    wsBuilder().endpoints(activePortType.getName(), null);
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg",
             new FacesMessage("EndPoint reset", ""));
     reloadWebservice();
   }
-  
-  @SuppressWarnings("restriction")
+
   public void savePortType()
   {
-    configuration.set(wsConfigKey + ".Endpoints." + activePortType.getName(), activePortType.getLinks());
-    FacesContext.getCurrentInstance().addMessage("wsConfigMsg", 
+    wsBuilder().endpoints(activePortType.getName(), activePortType.getLinks());
+    FacesContext.getCurrentInstance().addMessage("wsConfigMsg",
             new FacesMessage("EndPoint saved", ""));
     reloadWebservice();
   }
-  
+
   @Override
   public ConnectionTestResult getResult()
   {
     return testResult;
   }
-  
+
   public WebServiceMonitor getLiveStats()
   {
     return liveStats;
   }
-  
+
+  private Builder wsBuilder()
+  {
+    var originConfig = webServiceClients.find(webserviceId);
+    var builder = WebServiceClient.create(originConfig.name())
+            .id(originConfig.id())
+            .description(originConfig.description())
+            .wsdlUrl(originConfig.wsdlUrl())
+            .serviceClass(originConfig.serviceClass())
+            .features(originConfig.features())
+            .properties(originConfig.properties());
+    originConfig.endpoints().forEach((portType, urls) -> builder.endpoints(portType, urls));
+    return builder;
+  }
 }

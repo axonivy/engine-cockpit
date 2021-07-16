@@ -22,7 +22,6 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
-import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
 import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
@@ -34,36 +33,35 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 {
   private RestClientDto restClient;
   private String restClientName;
-  
+
   private final ManagerBean managerBean;
   private final RestClients restClients;
   private ConnectionTestResult testResult;
   private RestClientMonitor liveStats;
-  
+
   private final ConnectionTestWrapper connectionTest;
-  
+
   public RestClientDetailBean()
   {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
-    configuration = ((IApplicationInternal) managerBean.getSelectedIApplication()).getConfiguration();
     connectionTest = new ConnectionTestWrapper();
   }
-  
+
   public String getRestClientName()
   {
     return restClientName;
   }
-  
+
   public void setRestClientName(String restClientName)
   {
     if (this.restClientName == null)
     {
       this.restClientName = restClientName;
       reloadRestClient();
-      liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(), 
+      liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(),
               managerBean.getSelectedEnvironment(), restClient.getUniqueId().toString());
     }
   }
@@ -83,13 +81,13 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   {
     return "Rest Client '" + restClientName + "'";
   }
-  
+
   @Override
   public String getGuideText()
   {
     return "To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
-  
+
   @Override
   public String getYaml()
   {
@@ -104,18 +102,18 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
-  
+
   @Override
   public String getHelpUrl()
   {
     return UrlUtil.getCockpitEngineGuideUrl() + "services.html#rest-client-detail";
   }
-  
+
   public void testRestConnection()
   {
     testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
   }
-  
+
   private ConnectionTestResult testConnection()
   {
     try
@@ -133,7 +131,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
       {
         return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
       }
-      else 
+      else
       {
         return new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
       }
@@ -144,7 +142,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
               + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
-  
+
   public void saveConfig()
   {
     connectionTest.stop();
@@ -156,16 +154,16 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
       builder.property("password", restClient.getPassword());
     }
     restClients.set(builder.toRestClient());
-    FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+    FacesContext.getCurrentInstance().addMessage("restConfigMsg",
             new FacesMessage("Rest configuration saved", ""));
     reloadRestClient();
   }
-  
+
   public void resetConfig()
   {
     connectionTest.stop();
     restClients.remove(restClientName);
-    FacesContext.getCurrentInstance().addMessage("restConfigMsg", 
+    FacesContext.getCurrentInstance().addMessage("restConfigMsg",
             new FacesMessage("Rest configuration reset", ""));
     reloadRestClient();
   }
@@ -180,5 +178,5 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   {
     return liveStats;
   }
-  
+
 }
