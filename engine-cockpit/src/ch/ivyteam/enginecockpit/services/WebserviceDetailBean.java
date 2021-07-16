@@ -210,17 +210,10 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return activePortType;
   }
 
-  public void resetPortType()
-  {
-    wsBuilder().endpoints(activePortType.getName(), null);
-    FacesContext.getCurrentInstance().addMessage("wsConfigMsg",
-            new FacesMessage("EndPoint reset", ""));
-    reloadWebservice();
-  }
-
   public void savePortType()
   {
-    wsBuilder().endpoints(activePortType.getName(), activePortType.getLinks());
+    var builder = wsBuilder().endpoints(activePortType.getName(), activePortType.getLinks());
+    webServiceClients.set(builder.toWebServiceClient());
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg",
             new FacesMessage("EndPoint saved", ""));
     reloadWebservice();

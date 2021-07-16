@@ -541,6 +541,9 @@ body {
 .editor-card .CodeMirror.cm-s-default {
   height: calc(100vh - 270px);
 }
+.editor-card .CodeMirror .cm-whitespace::before {
+  color: lightgray;
+}
 
 .ui-datatable-data .warning {
   color: #ffce29;
