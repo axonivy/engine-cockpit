@@ -28,7 +28,6 @@ import ch.ivyteam.enginecockpit.services.model.DatabaseDto.ExecStatement;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
-import ch.ivyteam.ivy.db.Database;
 import ch.ivyteam.ivy.db.Database.Builder;
 import ch.ivyteam.ivy.db.Databases;
 import ch.ivyteam.ivy.db.IExternalDatabaseManager;
@@ -42,14 +41,14 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   private List<ExecStatement> history;
   private List<Connection> connections;
   private String databaseName;
-  
+
   private ManagerBean managerBean;
   private ConnectionTestResult testResult;
-  
+
   private final ConnectionTestWrapper connectionTest;
   private DatabaseMonitor liveStats;
   private Databases databases;
-  
+
   public DatabaseDetailBean()
   {
     var context = FacesContext.getCurrentInstance();
@@ -57,12 +56,12 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
             ManagerBean.class);
     connectionTest = new ConnectionTestWrapper();
   }
-  
+
   public String getDatabaseName()
   {
     return databaseName;
   }
-  
+
   public void setDatabaseName(String databaseName)
   {
     if (this.databaseName == null)
@@ -88,12 +87,12 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
             .map(conn -> new Connection(conn))
             .collect(Collectors.toList());
   }
-  
+
   public DatabaseDto getDatabase()
   {
     return database;
   }
-  
+
   public void setProperty(String key)
   {
     this.activeProperty = new Property();
@@ -102,12 +101,12 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
       this.activeProperty = new Property(key, database.getProperties().get(key));
     }
   }
-  
+
   public Property getProperty()
   {
     return activeProperty;
   }
-  
+
   public void saveProperty()
   {
     var props = database.getProperties();
@@ -115,7 +114,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     saveDatabase(dbBuilder().properties(props));
     reloadExternalDb();
   }
-  
+
   public void removeProperty(String key)
   {
     var props = database.getProperties();
@@ -128,7 +127,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   {
     return connections;
   }
-  
+
   public List<ExecStatement> getExecutionHistory()
   {
     return history;
@@ -150,13 +149,13 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   {
     return "Database '" + databaseName + "'";
   }
-  
+
   @Override
   public String getGuideText()
   {
     return "To edit your Database overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
-  
+
   @Override
   public String getYaml()
   {
@@ -171,18 +170,18 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     StrSubstitutor strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
   }
-  
+
   @Override
   public String getHelpUrl()
   {
     return UrlUtil.getCockpitEngineGuideUrl() + "services.html#external-database-detail";
   }
-  
+
   public void testDbConnection()
   {
     testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
   }
-  
+
   private ConnectionTestResult testConnection()
   {
     var dbConfig = databases.find(databaseName).config();
@@ -214,16 +213,16 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
       dbBuilder.password(database.getPassword());
     }
     saveDatabase(dbBuilder);
-    FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
+    FacesContext.getCurrentInstance().addMessage("databaseConfigMsg",
             new FacesMessage("Database configuration saved", ""));
     reloadExternalDb();
   }
-  
+
   public void resetDbConfig()
   {
     connectionTest.stop();
     databases.remove(databaseName);
-    FacesContext.getCurrentInstance().addMessage("databaseConfigMsg", 
+    FacesContext.getCurrentInstance().addMessage("databaseConfigMsg",
             new FacesMessage("Database configuration reset", ""));
     reloadExternalDb();
   }
@@ -233,24 +232,17 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   {
     return testResult;
   }
-  
+
   public DatabaseMonitor getLiveStats()
   {
     return liveStats;
   }
-  
+
   private Builder dbBuilder()
   {
-    var originDb = databases.find(databaseName);
-    return Database.create(databaseName)
-            .url(originDb.url())
-            .driver(originDb.driver())
-            .user(originDb.user())
-            .password(originDb.password())
-            .maxConnections(originDb.maxConnections())
-            .properties(originDb.properties());
+    return databases.find(databaseName).toBuilder();
   }
-  
+
   private void saveDatabase(Builder dbBuilder)
   {
     databases.set(dbBuilder.toDatabase());

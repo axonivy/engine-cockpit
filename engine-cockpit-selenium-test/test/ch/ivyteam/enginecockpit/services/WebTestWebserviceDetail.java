@@ -36,13 +36,13 @@ import ch.ivyteam.enginecockpit.util.Table;
 class WebTestWebserviceDetail
 {
   private static final String WEBSERVICE_NAME = "test-web";
-  
+
   @BeforeAll
   static void setup()
   {
     EngineCockpitUtil.runWebService();
   }
-  
+
   @BeforeEach
   void beforeEach()
   {
@@ -51,19 +51,19 @@ class WebTestWebserviceDetail
     Tab.switchToDefault();
     Navigation.toWebserviceDetail(WEBSERVICE_NAME);
   }
-  
+
   @Test
   void testDetailOpen()
   {
     assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
     $$(".ui-panel").shouldHave(size(3));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
-    
+
     $("#breadcrumbOptions > a[href='#']").shouldBe(visible).click();
     $("#helpWebserviceDialog\\:helpServicesModal").shouldBe(Condition.visible);
     $(".code-block").shouldBe(text(WEBSERVICE_NAME));
   }
-  
+
   @Test
   void testSaveAndResetChanges()
   {
@@ -74,7 +74,7 @@ class WebTestWebserviceDetail
     Selenide.refresh();
     checkConfiguration("admin");
   }
-  
+
   private void setConfiguration(String username, String password)
   {
     $("#webserviceConfigurationForm\\:password").shouldBe(visible).sendKeys(password);
@@ -85,16 +85,16 @@ class WebTestWebserviceDetail
   {
     $("#webserviceConfigurationForm\\:username").clear();
     $("#webserviceConfigurationForm\\:username").sendKeys(username);
-    
+
     $("#webserviceConfigurationForm\\:saveWsConfig").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container").shouldBe(text("Web Service configuration saved"));
   }
-  
+
   private void checkConfiguration(String username)
   {
     $("#webserviceConfigurationForm\\:username").shouldBe(exactValue(username));
   }
-  
+
   private void resetConfiguration()
   {
     $("#webserviceConfigurationForm\\:resetConfig").click();
@@ -102,7 +102,7 @@ class WebTestWebserviceDetail
     $("#webserviceConfigurationForm\\:resetWsConfirmYesBtn").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container").shouldBe(text("Web Service configuration reset"));
   }
-  
+
   @Test
   void testWsEndpointTestConnection()
   {
@@ -113,12 +113,11 @@ class WebTestWebserviceDetail
     setEndPoint("http://test-webservices.ivyteam.io:91");
     Selenide.refresh();
     testAndAssertConnection("Status 401");
-    
+
     setConfiguration("admin", "nimda");
     Selenide.refresh();
     testAndAssertConnection("Status 200");
-    
-    resetEndPoint();
+
     resetConfiguration();
   }
 
@@ -133,7 +132,7 @@ class WebTestWebserviceDetail
     $("#connResult\\:connTestForm\\:closeConTesterDialog").click();
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
   }
-  
+
   @Test
   void testEditEndpointsInvalid()
   {
@@ -143,7 +142,7 @@ class WebTestWebserviceDetail
     $("#webservcieEndPointForm\\:saveEndpoint").click();
     $("#webservcieEndPointForm\\:defaultInputMessage").shouldBe(text("Value is required"));
   }
-  
+
   @Test
   void testSetAndResetEndpoints()
   {
@@ -151,12 +150,12 @@ class WebTestWebserviceDetail
     Selenide.refresh();
     checkEndPoint("default", "first", "second");
     checkEndPointDoesNotContain("localhost", "localhost/test");
-    resetEndPoint();
+    resetConfiguration();
     Selenide.refresh();
     checkEndPoint("localhost", "localhost/test");
     checkEndPointDoesNotContain("default", "first", "second");
   }
-  
+
   @Test
   void testSetAndResetEndpoints_noFallbacks()
   {
@@ -164,12 +163,12 @@ class WebTestWebserviceDetail
     Selenide.refresh();
     checkEndPoint("default");
     checkEndPointDoesNotContain("localhost", "localhost/test");
-    resetEndPoint();
+    resetConfiguration();
     Selenide.refresh();
     checkEndPoint("localhost", "localhost/test");
     checkEndPointDoesNotContain("default");
   }
-  
+
   @Test
   void liveStats()
   {
@@ -181,7 +180,7 @@ class WebTestWebserviceDetail
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
             .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
     $("#webservcieEndPointForm\\:editEndpointModal").shouldBe(visible);
-    
+
     $("#webservcieEndPointForm\\:defaultInput").clear();
     $("#webservcieEndPointForm\\:defaultInput").sendKeys(defaultLink);
     $("#webservcieEndPointForm\\:fallBackInput").clear();
@@ -191,29 +190,19 @@ class WebTestWebserviceDetail
     $("#webservcieEndPointForm\\:saveEndpoint").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container").shouldBe(text("EndPoint saved"));
   }
-  
-  private void resetEndPoint()
-  {
-    new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
-            .clickButtonForEntry("SampleWebServiceSoap", "resetEndpointConfig");
-    $("#webservcieEndPointForm\\:resetEndpointConfirmDialog").shouldBe(visible);
-    
-    $("#webservcieEndPointForm\\:resetEndpointConfirmYesBtn").click();
-    $("#webserviceConfigurationForm\\:wsConfigMsg_container").shouldBe(text("EndPoint reset"));
-  }
-  
+
   private void checkEndPoint(String... links)
   {
     assertThat(new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
             .getFirstColumnEntriesForSpanClass("endpoint-entry"))
             .containsAll(Arrays.asList(links));
   }
-  
+
   private void checkEndPointDoesNotContain(String... links)
   {
     assertThat(new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
             .getFirstColumnEntriesForSpanClass("endpoint-entry"))
             .doesNotContainAnyElementsOf(Arrays.asList(links));
   }
-  
+
 }

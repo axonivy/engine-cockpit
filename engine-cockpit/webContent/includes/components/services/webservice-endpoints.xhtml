@@ -19,12 +19,8 @@
       <h:outputText value="#{endpoint.name}" styleClass="endpoint-entry" />
     </p:column>
     <p:column style="width: 95px;">
-      <p:commandButton id="resetEndpointConfig" oncomplete="PF('resetEndpointConfirmDialog').show()"
-        title="Reset Endpoint" style="margin-right: 0px;" process="@this" update="@form:resetEndpointConfirmDialog"
-        icon="si si-undo" styleClass="red-btn table-control-btn card-button" rendered="#{endpoint.type eq 'port'}"
-        actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" />
       <p:commandButton id="editEndpointBtn" icon="si si-pencil" title="Edit"
-        styleClass="card-button table-control-btn secondary-btn" process="@this"
+        styleClass="card-button table-control-btn secondary-btn" process="@this" style="margin-right: 0px;"
         actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" update="@form:editEndpointModal"
         oncomplete="PF('editEndpointModal').show()" rendered="#{endpoint.type eq 'port'}" />
       <p:commandButton id="testWsEndpointBtn" title="Test Web Service Endpoint Connection"
@@ -36,16 +32,6 @@
   </p:treeTable>
   <h:outputText value="No Enpoint defined for this webservice"
     rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" />
-
-  <p:confirmDialog id="resetEndpointConfirmDialog"
-    message="Are you sure about reset the Endpoint '#{webserviceDetailBean.activePortType.name}'?"
-    header="Reset Endpoint" severity="alert" widgetVar="resetEndpointConfirmDialog">
-    <p:commandLink value="Cancel" onclick="PF('resetEndpointConfirmDialog').hide();" type="button"
-      styleClass="modal-input-button" />
-    <p:commandButton id="resetEndpointConfirmYesBtn" value="Reset" immediate="true"
-      actionListener="#{webserviceDetailBean.resetPortType}" icon="si si-undo" update="@form"
-      styleClass="modal-input-button" />
-  </p:confirmDialog>
 
   <p:dialog styleClass="config-edit" header="Edit endpoint '#{webserviceDetailBean.activePortType.name}'"
     id="editEndpointModal" widgetVar="editEndpointModal" modal="true" responsive="true" closeOnEscape="true"

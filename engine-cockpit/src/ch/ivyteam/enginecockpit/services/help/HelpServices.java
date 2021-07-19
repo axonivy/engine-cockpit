@@ -9,18 +9,11 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 
-import com.google.common.base.Objects;
-
 import ch.ivyteam.enginecockpit.commons.Property;
-import ch.ivyteam.enginecockpit.services.model.IService;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
-@SuppressWarnings("restriction")
 public abstract class HelpServices
 {
-  protected IConfiguration configuration;
-  
   public String getTitle()
   {
     return "Service";
@@ -55,7 +48,7 @@ public abstract class HelpServices
     return properties.entrySet().stream().map(p -> p.getKey() + ": " + p.getValue())
             .collect(Collectors.joining("\n      "));
   }
-  
+
   public static String parsePropertiesToYaml(List<Property> properties)
   {
     return properties.stream().map(p -> p.getName() + ": " + p.getValue())
@@ -66,20 +59,5 @@ public abstract class HelpServices
   {
     return features.stream().collect(Collectors.joining("\n      - "));
   }
-  
-  protected void setIfChanged(String key, Object value, Object oldValue)
-  {
-    if (!Objects.equal(value, oldValue))
-    {
-      configuration.set(key, value);
-    }
-  }
-  
-  protected void setIfPwChanged(String key, IService client)
-  {
-    if (client.passwordChanged())
-    {
-      configuration.set(key, client.getPassword());
-    }
-  }
+
 }
