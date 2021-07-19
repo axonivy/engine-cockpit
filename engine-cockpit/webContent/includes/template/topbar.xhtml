@@ -35,13 +35,6 @@
                 <span>Logout</span>
               </p:commandLink>
             </li>
-            <li role="menuitem">
-              <p:commandLink id="devModeBtn" type="button"
-                onclick="$.cookie('advanced', $.cookie('advanced') != 'true', { expires: 30, path: '/' }); window.location.reload();">
-                <i class="si si-lg si-hammer-wench"></i>
-                <span>Advanced Mode #{cookie['advanced'].value eq 'true' ? 'Off' : 'On'}</span>
-              </p:commandLink>
-            </li>
             <li>
               <p:commandLink id="supportReport" type="button" onclick="PF('supportReportModal').show()">
                 <i class="si si-lg si-help-wheel"></i>
