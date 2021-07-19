@@ -27,7 +27,6 @@ import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
-import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
@@ -179,8 +178,8 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public void saveConfig()
   {
     connectionTest.stop();
-    var builder = wsBuilder();
-    builder.property("username", webservice.getUsername());
+    var builder = wsBuilder()
+            .property("username", webservice.getUsername());
     if (webservice.passwordChanged())
     {
       builder.property("password", webservice.getPassword());
@@ -212,8 +211,10 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   public void savePortType()
   {
-    var builder = wsBuilder().endpoints(activePortType.getName(), activePortType.getLinks());
-    webServiceClients.set(builder.toWebServiceClient());
+    var client = wsBuilder()
+            .endpoints(activePortType.getName(), activePortType.getLinks())
+            .toWebServiceClient();
+    webServiceClients.set(client);
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg",
             new FacesMessage("EndPoint saved", ""));
     reloadWebservice();
@@ -232,15 +233,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   private Builder wsBuilder()
   {
-    var originConfig = webServiceClients.find(webserviceId);
-    var builder = WebServiceClient.create(originConfig.name())
-            .id(originConfig.id())
-            .description(originConfig.description())
-            .wsdlUrl(originConfig.wsdlUrl())
-            .serviceClass(originConfig.serviceClass())
-            .features(originConfig.features())
-            .properties(originConfig.properties());
-    originConfig.endpoints().forEach((portType, urls) -> builder.endpoints(portType, urls));
-    return builder;
+    return webServiceClients.find(webserviceId).toBuilder();
   }
+
 }
