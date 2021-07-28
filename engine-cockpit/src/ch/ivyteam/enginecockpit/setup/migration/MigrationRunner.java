@@ -26,7 +26,7 @@ public class MigrationRunner implements MigrationClient
   {
     this.tasks = tasks;
   }
-  
+
   public boolean isPaused()
   {
     return paused;
@@ -37,7 +37,7 @@ public class MigrationRunner implements MigrationClient
   {
     return LOGGER;
   }
-  
+
   @SuppressWarnings("unchecked")
   @Override
   public <T> T choose(Quest<T> quest)
@@ -54,7 +54,7 @@ public class MigrationRunner implements MigrationClient
     show(dto, quest);
     return select(quest.options, dto);
   }
-  
+
   private <T> T select(List<Option<T>> options, Task dto)
   {
     while (StringUtils.isBlank(dto.answer())) {
@@ -97,7 +97,7 @@ public class MigrationRunner implements MigrationClient
     }
     dto.question(quest, diff);
   }
-  
+
   @Override
   public void event(MigrationEvent event)
   {
@@ -105,7 +105,6 @@ public class MigrationRunner implements MigrationClient
     {
       var taskEvent = (MigrationTaskEvent) event;
       var dto = findDTOByTask(taskEvent.getTask());
-      System.out.println(dto.getName() + " -> " + taskEvent.getState());
       switch(taskEvent.getState())
       {
         case DONE:
@@ -122,17 +121,17 @@ public class MigrationRunner implements MigrationClient
       }
     }
   }
-  
+
   private Task findDTOByTask(MigrationTask task)
   {
     return tasks.stream().filter(t -> t.getTask().equals(task)).findFirst().get();
   }
-  
+
   private Task findRunningDTO()
   {
     return tasks.stream().filter(t -> StringUtils.contains(t.getStateIcon(), "si-is-spinning")).findFirst().get();
   }
-  
+
   protected Optional<String> getChange(TextContentComparison compare)
   {
     var change = compare.getChangedLines();
