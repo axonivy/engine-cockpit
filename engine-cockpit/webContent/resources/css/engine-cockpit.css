@@ -201,9 +201,16 @@ body {
 .ui-datatable .table-search-input-withicon {
   width: calc(100% - 24px);
 }
+
+.ui-datatable-header .table-search-input-with2icon {
+  width: calc(100% - 55px);
+}
+
 .ui-tree-search-header .table-search-input-withicon {
   width: calc(100% - 100px);
 }
+
+.ui-datatable-header .table-search-input-with2icon ~ button,
 .ui-tree-search-header .table-search-input-withicon ~ button {
   margin-left: 5px;
   background-color: inherit;
@@ -214,9 +221,11 @@ body {
   position: relative;
   top: -2px;
 }
+.ui-datatable-header .table-search-input-with2icon ~ button.ui-state-hover,
 .ui-tree-search-header .table-search-input-withicon ~ button.ui-state-hover {
   background-color: var(--button-secondary-bg-color);
 }
+.ui-datatable-header .table-search-input-with2icon ~ button .ui-icon,
 .ui-tree-search-header .table-search-input-withicon ~ button .ui-icon {
   color: var(--widget-header-text-color);
 }

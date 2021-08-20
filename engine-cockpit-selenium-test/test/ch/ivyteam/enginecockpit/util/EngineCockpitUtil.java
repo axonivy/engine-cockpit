@@ -47,6 +47,10 @@ public class EngineCockpitUtil {
     login("dashboard.xhtml");
   }
 
+  public static void openDashboard() {
+    open(viewUrl("dashboard.xhtml"));
+  }
+
   public static void waitUntilAjaxIsFinished() {
     $("#ajaxLoadingStatus_start").shouldNotBe(visible);
   }
@@ -133,11 +137,16 @@ public class EngineCockpitUtil {
     runTestProcess("16E88DD61E825E70/createDisabledUser.ivp");
   }
 
+  public static void performanceData() {
+    runTestProcess("17B77E4EAE9AC806/performance.ivp");
+  }
+
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
             .toUrl());
     assertCurrentUrlContains("end");
   }
+
 
   public static String viewUrl(String page) {
     return createStaticViewUrl(pmvName() + "/" + page);
@@ -170,5 +179,4 @@ public class EngineCockpitUtil {
     $("#layout-config .layout-config-close").click();
     $("#layout-config .layout-config-close").shouldBe(hidden);
   }
-
 }
