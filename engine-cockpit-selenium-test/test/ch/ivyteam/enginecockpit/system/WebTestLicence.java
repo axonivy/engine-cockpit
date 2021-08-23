@@ -28,7 +28,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestLicence
 {
-  
+
   private static final String SESSION_USER = "foo";
 
   @BeforeEach
@@ -39,7 +39,7 @@ public class WebTestLicence
     $("#selectedFileOutput").shouldHave(text(".lic"));
     $("#uploadStatus").shouldBe(empty);
   }
-  
+
   @Test
   public void testLicenceUploadInvalidFileEnding() throws IOException
   {
@@ -47,7 +47,7 @@ public class WebTestLicence
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#uploadStatus").shouldBe(empty);
   }
-  
+
   @Test
   public void testLicenceUploadInvalidLicence() throws IOException
   {
@@ -55,13 +55,13 @@ public class WebTestLicence
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
   }
-  
+
   @Test
   void liveStats()
   {
     EngineCockpitUtil.assertLiveStats(List.of("Sessions"));
   }
-  
+
   @Test
   void killSession()
   {
@@ -80,13 +80,13 @@ public class WebTestLicence
     Selenide.switchTo().window(1);
     Selenide.open(EngineUrl.create().app("test").path("login").toUrl());
     $("h1").shouldHave(text("Login"));
-    $("#loginForm\\:userName").sendKeys(SESSION_USER);
+    $("#loginForm\\:username").sendKeys(SESSION_USER);
     $("#loginForm\\:password").sendKeys(SESSION_USER);
     $("#loginForm\\:login").click();
     $("#sessionUserName").shouldHave(text(SESSION_USER));
     Selenide.switchTo().window(0);
   }
-  
+
   private void assertOtherSession()
   {
     Selenide.switchTo().window(1);
@@ -94,5 +94,5 @@ public class WebTestLicence
     $("#sessionUserName").shouldHave(text("Unknown User"));
     Selenide.switchTo().window(0);
   }
-  
+
 }

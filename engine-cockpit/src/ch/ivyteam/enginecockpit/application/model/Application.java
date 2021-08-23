@@ -10,7 +10,6 @@ import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.jsf.bean.info.model.WebServiceProcess;
 import ch.ivyteam.ivy.workflow.IWorkflowManager;
 
 @SuppressWarnings("restriction")

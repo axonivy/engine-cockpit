@@ -164,15 +164,7 @@ public class EngineCockpitUtil
   private static void runTestProcess(String processLink)
   {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink).toUrl());
-    if (isDesigner())
-    {
-      $("h2").shouldBe(text("Personal Task List"));
-    }
-    else
-    {
-      $("h3").shouldBe(text("Task End"), Duration.ofSeconds(10));
-    }
-    assertCurrentUrlContains(isDesigner() ? "wf" : "end");
+    assertCurrentUrlContains("end");
   }
   
   public static String viewUrl(String page)
