@@ -28,7 +28,8 @@ public class RequestMonitorBean
   private final Monitor errorsMonitor = Monitor.build().name("Errors").icon("global-warming-globe-fire").toMonitor();
   private final Monitor bytesMonitor = Monitor.build().name("Bytes").icon("cd").yAxisLabel("Bytes").toMonitor();
   private final Monitor processingTimeMonitor = Monitor.build().name("Processing Time").icon("optimization-timer").yAxisLabel("Time").toMonitor();
-  
+  private final Monitor connectionsMonitor = Monitor.build().name("Connections").icon("insert_link-timer").yAxisLabel("Connections").toMonitor();
+
   public RequestMonitorBean()
   {
     try
@@ -36,8 +37,14 @@ public class RequestMonitorBean
       Set<ObjectName> requestProcessors = ManagementFactory.getPlatformMBeanServer().queryNames(new ObjectName("ivy:type=GlobalRequestProcessor,name=*"), null);
       for (ObjectName requestProcessor : requestProcessors)
       {
-        setupRequestProcessingMonitors(requestProcessor);      
+        setupRequestProcessingMonitors(requestProcessor);
       }
+      Set<ObjectName> protocolHandlers = ManagementFactory.getPlatformMBeanServer().queryNames(new ObjectName("ivy:type=ProtocolHandler,port=*"), null);
+      for (ObjectName protocolHandler : protocolHandlers)
+      {
+        setupProtocolHandlerMonitors(protocolHandler);
+      }
+
     }
     catch(MalformedObjectNameException ex)
     {
@@ -55,6 +62,15 @@ public class RequestMonitorBean
     setupErrorsMonitor(requestProcessor, label);
     setupBytesMonitor(requestProcessor, label);
     setupProcessTimeMonitor(requestProcessor, label);
+  }
+
+  private void setupProtocolHandlerMonitors(ObjectName protocolHandler)
+  {
+    String label = attribute(protocolHandler, "name", Unit.ONE).nextValue().toString();
+    label = StringUtils.substringBefore(label, "-");
+    label = StringUtils.removeStart(label, "\"");
+    label = StringUtils.capitalize(label);
+    setupConnectionsMonitor(protocolHandler, label);
   }
 
   private void setupRequestsMonitor(ObjectName requestProcessor, String label)
@@ -75,7 +91,7 @@ public class RequestMonitorBean
   {
     bytesMonitor.addInfoValue(format(label +" Sent %5d/%5d", deltaBytesSent(requestProcessor), bytesSent(requestProcessor)));
     bytesMonitor.addInfoValue(format(label +" Received %5d/%5d", deltaBytesReceived(requestProcessor), bytesReceived(requestProcessor)));
-  
+
     bytesMonitor.addSeries(Series.build(deltaBytesSent(requestProcessor), label+" Sent").toSeries());
     bytesMonitor.addSeries(Series.build(deltaBytesReceived(requestProcessor), label+" Received").toSeries());
   }
@@ -87,16 +103,23 @@ public class RequestMonitorBean
     processingTimeMonitor.addSeries(Series.build(deltaProcessingTime(requestProcessor), label).toSeries());
   }
 
+  private void setupConnectionsMonitor(ObjectName protocolHandler, String label)
+  {
+    connectionsMonitor.addInfoValue(format(label +" %5d", openConnections(protocolHandler)));
+    connectionsMonitor.addInfoValue(format(label +" Max %5d", maxConnections(protocolHandler)));
+    connectionsMonitor.addSeries(Series.build(openConnections(protocolHandler), label).toSeries());
+  }
+
   public Monitor getRequestsMonitor()
   {
     return requestsMonitor;
   }
-  
+
   public Monitor getErrorsMonitor()
   {
     return errorsMonitor;
   }
-  
+
   public Monitor getBytesMonitor()
   {
     return bytesMonitor;
@@ -106,7 +129,12 @@ public class RequestMonitorBean
   {
     return processingTimeMonitor;
   }
-  
+
+  public Monitor getConnectionsMonitor()
+  {
+    return connectionsMonitor;
+  }
+
   private ValueProvider deltaProcessingTime(ObjectName requestProcessor)
   {
     return derivation(
@@ -160,5 +188,13 @@ public class RequestMonitorBean
     return attribute(requestProcessor, "bytesReceived", Unit.BYTES);
   }
 
-  
+  private ValueProvider openConnections(ObjectName protocolHandler)
+  {
+    return attribute(protocolHandler, "connectionCount", Unit.ONE);
+  }
+
+  private ValueProvider maxConnections(ObjectName protocolHandler)
+  {
+    return attribute(protocolHandler, "maxConnections", Unit.ONE);
+  }
 }

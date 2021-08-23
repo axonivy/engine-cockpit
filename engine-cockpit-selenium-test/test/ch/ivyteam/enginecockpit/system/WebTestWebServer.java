@@ -31,7 +31,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestWebServer
 {
-  
+
   private static final String WEB_SERVER_FORM = "webServer:webserverForm:";
 
   @BeforeEach
@@ -40,7 +40,7 @@ public class WebTestWebServer
     login();
     Navigation.toWebServer();
   }
-  
+
   @Test
   void webServerConnectors()
   {
@@ -63,7 +63,7 @@ public class WebTestWebServer
   @Test
   void checkData()
   {
-    $("#coreRequestData").shouldHave(text(EngineUrl.base()), 
+    $("#coreRequestData").shouldHave(text(EngineUrl.base()),
             text("/faces/view/engine-cockpit/webserver.xhtml"));
     $(By.id("form:requestHeaderTable")).shouldNot(exist);
     $("#form\\:showHeaders").shouldBe(visible).click();
@@ -72,20 +72,20 @@ public class WebTestWebServer
     headerTable.firstColumnShouldBe(sizeGreaterThan(5));
     headerTable.valueForEntryShould("user-agent", 2, text("Firefox"));
   }
-  
+
   @Test
   void liveStats()
   {
-    EngineCockpitUtil.assertLiveStats(List.of("Requests", "Errors", "Bytes", "Processing Time"));
+    EngineCockpitUtil.assertLiveStats(List.of("Requests", "Errors", "Bytes", "Processing Time", "Connections"));
   }
-  
+
   private void setBaseUrl(String baseUrl)
   {
     $(By.id("baseUrlForm:baseUrl")).sendKeys(baseUrl);
     $(By.id("baseUrlForm:save")).shouldBe(Condition.visible).click();
     assertGrowl("Base Url saved");
   }
-  
+
   private void clearBaseUrl()
   {
     $(By.id("baseUrlForm:baseUrl")).clear();
@@ -112,7 +112,7 @@ public class WebTestWebServer
     setConnector(httpEnable, "httpPortInput", false, "8081", "HTTP");
     setConnector(ajpEnable, "ajpPortInput", true, "8010", "AJP");
     $("#webServer\\:webserverWarnMessage").shouldBe(text("Enable at least the HTTP or HTTPS Connector"));
-    
+
     setConnector(httpsEnable, "httpsPortInput", true, "8444", "HTTPS");
     $("#webServer\\:webserverWarnMessage").shouldBe(empty);
 
@@ -153,7 +153,7 @@ public class WebTestWebServer
     setConnector(httpsEnable, "httpsPortInput", false, "8443", "HTTPS");
     setConnector(ajpEnable, "ajpPortInput", false, "8009", "AJP");
   }
-  
+
   private static void setConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled, String value, String growlMessage)
   {
     if (enabled)
