@@ -2,8 +2,12 @@
 <userConfig>
     <user>
         <username>foo</username>
+        <fullName>Marcelo Footer</fullName>
+        <emailAddress>m.footer@test.com</emailAddress>
     </user>
     <user>
         <username>bar</username>
+        <fullName>Ibrahim Barma</fullName>
+        <emailAddress>i.barman@test.com</emailAddress>
     </user>
 </userConfig>
