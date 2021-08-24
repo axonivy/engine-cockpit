@@ -203,8 +203,8 @@ public class RoleDetailBean
 
     return getSecurityContext().users().query()
             .where()
-            	.not(hasRole)
-            	.and(searchFilter)
+              .not(hasRole)
+              .and(searchFilter)
             .executor()
             .resultsPaged(10)
             .map(User::new)
