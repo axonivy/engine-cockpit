@@ -133,6 +133,26 @@ public class WebTestRoleDetail
   }
 
   @Test
+  void testAddUserByFullname()
+  {
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    removeUserIfExists();
+    roleUsers.firstColumnShouldBe(empty);
+    addUserFoo("Marcelo Footer");
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+  }
+
+  @Test
+  void testAddUserByEmail()
+  {
+    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    removeUserIfExists();
+    roleUsers.firstColumnShouldBe(empty);
+    addUserFoo("m.footer@test.com");
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
+  }
+
+  @Test
   void testAddAndRemoveMember()
   {
     var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
@@ -205,7 +225,12 @@ public class WebTestRoleDetail
 
   private void addUserFoo()
   {
-    $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(visible).sendKeys("fo");
+    addUserFoo("fo");
+  }
+
+  private void addUserFoo(String filter)
+  {
+    $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(visible).sendKeys(filter);
     $$(".ui-autocomplete-list-item").shouldBe(sizeGreaterThan(0));
     $(".ui-autocomplete-list-item").click();
     $("#usersOfRoleForm\\:addUserDropDown_input").shouldBe(exactValue("foo"));
