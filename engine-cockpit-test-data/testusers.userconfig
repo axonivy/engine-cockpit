@@ -3,9 +3,13 @@
     <user>
         <username>foo</username>
         <password>foo</password>
+        <fullName>Marcelo Footer</fullName>
+        <emailAddress>m.footer@test.com</emailAddress>
     </user>
     <user>
         <username>bar</username>
         <password>bar</password>
+        <fullName>Ibrahim Barman</fullName>
+        <emailAddress>i.barman@test.com</emailAddress>
     </user>
 </userConfig>

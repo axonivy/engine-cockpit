@@ -190,15 +190,21 @@ public class RoleDetailBean
   {
     return getIRole().users().assignedPaged().stream().anyMatch(u -> u.getName().equals(userName));
   }
-  
+
   public List<User> searchUser(String query)
   {
     var hasRole = UserQuery.create().where().hasRoleAssigned(getIRole());
+    var searchFilter = UserQuery.create().where()
+            .name().isLikeIgnoreCase(query + "%")
+              .or()
+            .fullName().isLikeIgnoreCase(query + "%")
+              .or()
+            .eMailAddress().isLikeIgnoreCase(query + "%");
+
     return getSecurityContext().users().query()
             .where()
-                .not(hasRole)
-              .and()
-                .name().isLikeIgnoreCase(query + "%")
+            	.not(hasRole)
+            	.and(searchFilter)
             .executor()
             .resultsPaged(10)
             .map(User::new)
