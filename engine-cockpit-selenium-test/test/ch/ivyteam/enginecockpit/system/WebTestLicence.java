@@ -80,7 +80,7 @@ public class WebTestLicence
     Selenide.switchTo().window(1);
     Selenide.open(EngineUrl.create().app("test").path("login").toUrl());
     $("h1").shouldHave(text("Login"));
-    $("#loginForm\\:username").sendKeys(SESSION_USER);
+    $("#loginForm\\:userName").sendKeys(SESSION_USER);
     $("#loginForm\\:password").sendKeys(SESSION_USER);
     $("#loginForm\\:login").click();
     $("#sessionUserName").shouldHave(text(SESSION_USER));
