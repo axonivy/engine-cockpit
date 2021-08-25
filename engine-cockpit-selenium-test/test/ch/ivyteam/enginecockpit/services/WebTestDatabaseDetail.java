@@ -82,7 +82,7 @@ public class WebTestDatabaseDetail
     checkConfiguration("url", "org.postgresql.Driver", "testUser", "13");
     resetConfiguration();
     Selenide.refresh();
-    checkConfiguration("jdbc:mysql://localhost:3306/test-db", "com.mysql.jdbc.Driver", "user", "5");
+    checkConfiguration("jdbc:mysql://localhost:3306/test-db", "com.mysql.cj.jdbc.Driver", "user", "5");
   }
   
   @Test
