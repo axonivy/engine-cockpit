@@ -133,26 +133,6 @@ public class WebTestRoleDetail
   }
 
   @Test
-  void testAddUserByFullname()
-  {
-    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
-    removeUserIfExists();
-    roleUsers.firstColumnShouldBe(empty);
-    addUserFoo("Marcelo Footer");
-    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
-  }
-
-  @Test
-  void testAddUserByEmail()
-  {
-    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
-    removeUserIfExists();
-    roleUsers.firstColumnShouldBe(empty);
-    addUserFoo("m.footer@test.com");
-    roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
-  }
-
-  @Test
   void testAddAndRemoveMember()
   {
     var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
