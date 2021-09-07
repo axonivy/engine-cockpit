@@ -107,9 +107,13 @@ public class PermissionBean
 
       if (access.getPermission() != null)
       {
-        Permission permission = new Permission(access, this);
+        Permission permission = permissionMap.get(access.getPermission().getId());
+        if (permission == null) 
+        {
+          permission = new Permission(access, this);
+          permissionMap.put(permission.getId(), permission);
+        }
         new DefaultTreeNode(permission, node);
-        permissionMap.put(permission.getId(), permission);
       }
     }
 
