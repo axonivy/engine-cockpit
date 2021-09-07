@@ -4,7 +4,6 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEn
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
@@ -48,7 +47,7 @@ public class WebTestUserDetail
   private static final String USER_FOO = "foo";
   private static final String USER_BAR = "bar";
   private static final String USER_AD = "user1";
-  
+
   @BeforeEach
   void beforeEach()
   {
@@ -56,7 +55,7 @@ public class WebTestUserDetail
     Navigation.toUsers();
     Tab.switchToDefault();
   }
-  
+
   @Test
   void testUsersDetailOpen()
   {
@@ -70,7 +69,7 @@ public class WebTestUserDetail
     Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
   }
-  
+
   @Test
   void testSaveUserInformation()
   {
@@ -81,7 +80,7 @@ public class WebTestUserDetail
     $("#userInformationForm\\:password1").sendKeys("foo");
     $("#userInformationForm\\:password2").sendKeys("foo");
     $("#userInformationForm\\:saveUserInformation").click();
-    
+
     $("#userInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
     Selenide.refresh();
     $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
@@ -90,7 +89,7 @@ public class WebTestUserDetail
     $("#userInformationForm\\:password1").shouldBe(exactValue(""));
     $("#userInformationForm\\:password2").shouldBe(exactValue(""));
   }
-  
+
   @Test
   void testSaveUserInformationNoPasswordMatch()
   {
@@ -100,7 +99,7 @@ public class WebTestUserDetail
     $("#userInformationForm\\:informationMessages").shouldBe(visible);
     $("#userInformationForm\\:informationMessages").shouldBe(exactText("Password didn't match"));
   }
-  
+
   @Test
   void testDeleteUser()
   {
@@ -110,7 +109,7 @@ public class WebTestUserDetail
     $("#userInformationForm\\:deleteUserConfirmYesBtn").click();
     assertCurrentUrlEndsWith("users.xhtml");
   }
-  
+
   @Test
   void testEnableDisableUser()
   {
@@ -143,7 +142,7 @@ public class WebTestUserDetail
     $("#userEmailForm\\:saveEmailNotificationSettings").click();
     $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible, exactText("User email changes saved"));
   }
-  
+
   @Test
   void testEmailSettings()
   {
@@ -158,12 +157,12 @@ public class WebTestUserDetail
     taskCheckbox.shouldBeChecked(false);
     taskCheckbox.shouldBeDisabled(true);
     dailyCheckbox.shouldBeDisabled(true);
-    
+
     radioSettings.selectItemByValue("Specific");
     neverCheckbox.shouldBeDisabled(false);
     taskCheckbox.shouldBeDisabled(false);
     dailyCheckbox.shouldBeDisabled(false);
-    
+
     dailyCheckbox.clear();
     dailyCheckbox.setCheckboxes(List.of("Mon", "Fri", "Sun"));
     taskCheckbox.setChecked();
@@ -179,7 +178,7 @@ public class WebTestUserDetail
     dailyCheckbox.shouldBeDisabled(true);
     dailyCheckbox.shouldBe(exactTexts("Mon", "Fri", "Sun"));
   }
-  
+
   @Test
   void testRolesAddRemove()
   {
@@ -198,13 +197,13 @@ public class WebTestUserDetail
     $(managerRemoveButtonId).shouldNotHave(cssClass(CSS_DISABLED));
     $(managerId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER));
     $(bossId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER_INHERIT));
-    
+
     $(bossAddButtonId).click();
     $(bossAddButtonId).shouldHave(cssClass(CSS_DISABLED));
     $(bossRemoveButtonId).shouldNotHave(cssClass(CSS_DISABLED));
     $(managerId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER));
     $(bossId).find(MEMBER_ICON).shouldNotHave(cssClass(CSS_MEMBER_INHERIT));
-    
+
     Navigation.toUserDetail(USER_FOO);
     $(bossId).find(ROLE_EXPANDER).shouldBe(visible, enabled).click();
     $(managerId).find(MEMBER_ICON).shouldHave(cssClass(CSS_MEMBER));
@@ -213,36 +212,15 @@ public class WebTestUserDetail
     $(managerRemoveButtonId).click();
     $(managerAddButtonId).shouldNotHave(cssClass(CSS_DISABLED));
     $(managerRemoveButtonId).shouldHave(cssClass(CSS_DISABLED));
-    
+
     $(bossRemoveButtonId).click();
   }
-  
-  @Test
-  void testPermission()
-  {
-    Navigation.toUserDetail(USER_FOO);
-    String permissionStateCss = "#permissionsForm\\:permissionTable_node_0 > .permission-icon > i";
-    String firstPermissionCss = "#permissionsForm\\:permissionTable\\:0\\:";
-    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
-    
-    $(firstPermissionCss + "grantPermissionBtn").click();
-    $(permissionStateCss).shouldHave(attribute("title", "Permission granted"));
 
-    $(firstPermissionCss + "unGrantPermissionBtn").click();
-    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
-
-    $(firstPermissionCss + "denyPermissionBtn").click();
-    $(permissionStateCss).shouldHave(attribute("title", "Permission denied"));
-
-    $(firstPermissionCss + "unDenyPermissionBtn").click();
-    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
-  }
-  
   @Test
   void testSynchronizeUser()
   {
     WebTestUsers.triggerSync();
-    
+
     Navigation.toUserDetail(USER_AD);
     checkUserIsExternal();
     $("#userInformationForm\\:userSynchBtn").click();
@@ -251,7 +229,7 @@ public class WebTestUserDetail
     $("#synchUserForm\\:synchUserVar").click();
     $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
   }
-  
+
   @Test
   void testExpandCollapseRoleTree()
   {
@@ -280,5 +258,5 @@ public class WebTestUserDetail
     $("#userInformationForm\\:password1").clear();
     $("#userInformationForm\\:password2").clear();
   }
-  
+
 }

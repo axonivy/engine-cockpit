@@ -87,9 +87,12 @@ public class PermissionBean extends TreeView
       var access = securityDescriptor.getPermissionAccess(iPermission, securityMember);
       if (access.getPermission() != null)
       {
-        var permission = new Permission(access, ((AbstractPermission) node.getData()).getPath(), this);
+        var permission = permissionMap.get(access.getPermission().getId());
+        if (permission == null) {
+          permission = new Permission(access, ((AbstractPermission) node.getData()).getPath(), this);
+          permissionMap.put(permission.getId(), permission);
+        }
         new DefaultTreeNode(permission, node);
-        permissionMap.put(permission.getId(), permission);
       }
     }
 

@@ -17,7 +17,7 @@
         <span class="table-search-icon">
           <i class="si si-search"></i>
         </span>
-        <p:inputText styleClass="table-search-input-withicon" placeholder="Search" value="#{permissionBean.filter}">
+        <p:inputText id="globalFilter" styleClass="table-search-input-withicon" placeholder="Search" value="#{permissionBean.filter}">
           <p:ajax event="keyup" delay="500" update="@form:permissionTable" />
         </p:inputText>
         <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical"
