@@ -33,7 +33,6 @@ public class VariableBean implements ConfigView
   {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
-
     reloadVariables();
   }
 
@@ -44,12 +43,12 @@ public class VariableBean implements ConfigView
     {
       app = managerBean.getSelectedIApplication();
       env = managerBean.getSelectedIEnvironment();
-      
       variables = variables().all().stream()
               .map(ConfigProperty::new)
               .collect(Collectors.toList());
     }
     filteredVariables = null;
+    triggerTableFilter();
   }
 
   @Override
@@ -108,7 +107,6 @@ public class VariableBean implements ConfigView
   {
     variables().reset(activeVariable.getKey());
     reloadAndUiMessage("reset to default");
-    reloadVariables();
   }
 
   @Override
@@ -116,7 +114,6 @@ public class VariableBean implements ConfigView
   {
     variables().set(activeVariable.getKey(), activeVariable.getValue());
     reloadAndUiMessage("saved");
-    reloadVariables();
   }
 
   private void reloadAndUiMessage(String message)
@@ -125,12 +122,12 @@ public class VariableBean implements ConfigView
             new FacesMessage("'" + activeVariable.getKey() + "' " + message));
     reloadVariables();
   }
-  
+
   public boolean isDefaultEnv()
   {
     return env.isDefault();
   }
-  
+
   private Variables variables()
   {
     return Variables.of(app, env.getName());

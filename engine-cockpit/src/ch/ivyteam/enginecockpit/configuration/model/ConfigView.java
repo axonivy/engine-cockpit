@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.configuration.model;
 
 import java.util.List;
 
+import org.primefaces.PrimeFaces;
+
 public interface ConfigView
 {
 
@@ -14,5 +16,9 @@ public interface ConfigView
   ConfigProperty getActiveConfig();
   void resetConfig();
   void saveConfig();
+
+  default void triggerTableFilter() {
+    PrimeFaces.current().executeScript("PF('configTable').filter();");
+  }
 
 }

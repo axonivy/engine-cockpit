@@ -3,6 +3,8 @@ package ch.ivyteam.enginecockpit.configuration;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
+import static com.codeborne.selenide.CollectionCondition.itemWithText;
+import static com.codeborne.selenide.CollectionCondition.noneMatch;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
@@ -28,6 +30,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -86,13 +89,14 @@ public class WebTestConfiguration
     {
       var config = "Data.AppDirectory";
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
-      assertThat(table.getFirstColumnEntries()).contains(config);
+      table.firstColumnShouldBe(itemWithText(config));
       toggleDefaultFilter();
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: defined"));
-      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      table.firstColumnShouldBe(noneMatch("Config not visible", e -> config.equals(e.getText())));
+
       $("#contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
-      assertThat(table.getFirstColumnEntries()).contains(config);
+      table.firstColumnShouldBe(itemWithText(config));
     }
 
     @Test
@@ -100,13 +104,13 @@ public class WebTestConfiguration
     {
       var config = "SecuritySystems.test-ad.Provider";
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
-      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      table.firstColumnShouldBe(noneMatch("Config not visible", e -> config.equals(e.getText())));
       toggleFilter(List.of("Show Security Systems"));
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: Security Systems"));
-      assertThat(table.getFirstColumnEntries()).contains(config);
+      table.firstColumnShouldBe(itemWithText(config));
       $("#contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
-      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      table.firstColumnShouldBe(noneMatch("Config not visible", e -> config.equals(e.getText())));
     }
 
     @Test
@@ -132,6 +136,26 @@ public class WebTestConfiguration
       assertNewConfig(key, value);
       assertEditConfig(key, value, "newValue", "");
       assertResetConfig(key);
+    }
+
+    @Test
+    void testSearchAndUpdateConfig() {
+      String config = "EMail.Server.EncryptionMethod";
+      table.firstColumnShouldBe(sizeGreaterThan(0));
+      table.row(config).shouldHave(cssClass("default-value"));
+      Selenide.sleep(200);
+      table.search("email");
+      table.firstColumnShouldBe(size(9));
+
+      table.clickButtonForEntry(config, "editConfigBtn");
+      PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue")).selectItemByLabel("SSL");
+      $("#config\\:saveEditConfiguration").click();
+      table.row(config).shouldNotHave(cssClass("default-value"));
+
+      toggleFilter(List.of("Show only defined values"));
+      table.firstColumnShouldBe(size(1));
+      assertResetConfig(config);
+      table.firstColumnShouldBe(size(0));
     }
 
     @Test

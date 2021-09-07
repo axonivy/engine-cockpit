@@ -22,7 +22,7 @@
     </ui:define>
 
     <ui:define name="content">
-      <p:growl id="msgs">
+      <p:growl id="msgs" keepAlive="true">
         <p:autoUpdate />
       </p:growl>
       <cc:ApplicationTabs tabChange="#{variableBean.reloadVariables}" id="apps">

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
 import ch.ivyteam.enginecockpit.commons.TableFilter;
+import ch.ivyteam.ivy.configuration.internal.Configuration;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")
@@ -33,7 +34,7 @@ public class ConfigViewImpl implements TableFilter, ConfigView
     this(IConfiguration.instance(), c -> c, contentFilters);
   }
 
-  public ConfigViewImpl(IConfiguration configuration, Function<ConfigProperty, ConfigProperty> propertyEnricher, 
+  public ConfigViewImpl(IConfiguration configuration, Function<ConfigProperty, ConfigProperty> propertyEnricher,
           List<ContentFilter<ConfigProperty>> contentFilters)
   {
     this.configuration = configuration;
@@ -44,6 +45,7 @@ public class ConfigViewImpl implements TableFilter, ConfigView
 
   private void reloadConfigs()
   {
+    ((Configuration) configuration).blockUntilReloaded();
     configs = configuration.getProperties().stream()
             .map(property -> new ConfigProperty(property))
             .map(propertyEnricher)
@@ -88,31 +90,31 @@ public class ConfigViewImpl implements TableFilter, ConfigView
   {
     this.filteredConfigs = filteredConfigs;
   }
-  
+
   @Override
   public String getFilter()
   {
     return filter;
   }
-  
+
   @Override
   public void setFilter(String filter)
   {
     this.filter = filter;
   }
-  
+
   @Override
   public List<SelectItem> getContentFilters()
   {
     return contentFilters.stream().map(ContentFilter::selectItem).collect(Collectors.toList());
   }
-  
+
   @Override
   public List<String> getSelectedContentFilters()
   {
     return selectedContentFilters;
   }
-  
+
   @Override
   public void setSelectedContentFilters(List<String> selectedContentFilters)
   {
@@ -120,14 +122,16 @@ public class ConfigViewImpl implements TableFilter, ConfigView
     contentFilters.forEach(contentFilter -> {
       contentFilter.enabled(selectedContentFilters.contains(contentFilter.name()));
     });
+    triggerTableFilter();
   }
-  
+
   @Override
   public void resetSelectedContentFilters()
   {
     setSelectedContentFilters(Collections.emptyList());
+    triggerTableFilter();
   }
-  
+
   @Override
   public String getContentFilterText()
   {
@@ -141,19 +145,19 @@ public class ConfigViewImpl implements TableFilter, ConfigView
     }
     return text;
   }
-  
+
   @Override
   public void setActiveConfig(String configKey)
   {
     this.activeConfig = configs.stream().filter(c -> StringUtils.equals(c.getKey(), configKey)).findFirst().orElse(new ConfigProperty());
   }
-  
+
   @Override
   public ConfigProperty getActiveConfig()
   {
     return activeConfig;
   }
-  
+
   @Override
   public void resetConfig()
   {
@@ -171,14 +175,15 @@ public class ConfigViewImpl implements TableFilter, ConfigView
     configuration.set(activeConfig.getKey(), activeConfig.getValue());
     reloadAndUiMessage("saved");
   }
-  
+
   private void reloadAndUiMessage(String message)
   {
     reloadConfigs();
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeConfig.getKey() + "' " + message));
+    triggerTableFilter();
   }
-  
+
   public static ContentFilter<ConfigProperty> defaultFilter()
   {
     return new ContentFilter<ConfigProperty>(DEFINED_FILTER, "Show only defined values", c -> !c.isDefault());

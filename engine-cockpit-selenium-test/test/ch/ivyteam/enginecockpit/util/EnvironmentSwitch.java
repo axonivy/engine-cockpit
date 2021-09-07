@@ -23,25 +23,25 @@ public class EnvironmentSwitch
     clickOnEnvSwitch();
     $(getEnvId() + "_items").findAll("li").find(text(env)).click();
   }
-  
+
   public static String getEnv()
   {
     return $(getEnvId() + "_label").shouldBe(visible).getText();
   }
-  
+
   public static List<String> getAvailableEnvs()
   {
     clickOnEnvSwitch();
     return $(getEnvId() + "_items").findAll("li").stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
-  
+
   private static void clickOnEnvSwitch()
   {
-    $(getEnvId()).shouldBe(visible, enabled).click();
+    $(getEnvId()).shouldBe(visible, enabled).scrollIntoView("{block: \"center\", inline: \"center\"}").click();
     $(getEnvId() + "_items").shouldBe(visible);
   }
-  
+
   private static String getEnvId()
   {
     return escapeSelector($$(ENV_SWITCH).find(visible).getAttribute("id"));
