@@ -45,6 +45,10 @@ public class ConfigProperty
   {
     this.key = property.getKey();
     this.value = property.getValue();
+    String unresolved = property.getMetaData().getUnresolvedValue();
+    if (StringUtils.isNotBlank(unresolved)) {
+    	this.value = unresolved;
+    }
     this.defaultValue = property.getMetaData().getDefaultValue();
     this.isDefault = property.isDefault();
     this.source = property.getSource();
@@ -135,15 +139,15 @@ public class ConfigProperty
     return password;
   }
   
-  public String getIcon()
-  {
-    if(isPassword())
-    {
+  public String getIcon() {
+    if(isPassword()) {
       return "password-lock-2";
     }
-    if (configValueFormat == ConfigValueFormat.FILE)
-    {
+    if (configValueFormat == ConfigValueFormat.FILE) {
       return "common-file-text";
+    }
+    if (configValueFormat == ConfigValueFormat.EXPRESSION) {
+      return "archive-folder";
     }
     return "cog";
   }
