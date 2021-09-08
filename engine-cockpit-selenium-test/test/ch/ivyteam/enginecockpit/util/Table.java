@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 
 public class Table
 {
@@ -60,6 +61,11 @@ public class Table
   public void valueForEntryShould(String entry, int column, Condition condition)
   {
     $x(findColumnOverEntry(entry) + "/td[" + column + "]").should(condition);
+  }
+  
+  public SelenideElement row(String entry)
+  {
+    return $x(findColumnOverEntry(entry));
   }
 
   public void clickButtonForEntry(String entry, String btn)

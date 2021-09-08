@@ -23,6 +23,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -105,6 +106,23 @@ public class WebTestConfiguration
       assertNewConfig(key, value);
       assertEditConfig(key, value, "newValue");
       assertResetConfig(key);
+    }
+    
+    @Test
+    void testSeachAndUpdateConfig()
+    {
+      String config = "EMail.Server.EncryptionMethod";
+      table.firstColumnShouldBe(sizeGreaterThan(0));
+      table.row(config).shouldHave(cssClass("default-value"));
+      Selenide.sleep(400);
+      table.search("email");
+      table.firstColumnShouldBe(size(9));
+
+      table.clickButtonForEntry(config, "editConfigBtn");
+      PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue")).selectItemByLabel("SSL");
+      $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
+      table.row(config).shouldNotHave(cssClass("default-value"));
+      assertResetConfig(config);
     }
     
     @Test
@@ -281,7 +299,6 @@ public class WebTestConfiguration
     
     $("#config\\:resetConfigConfirmForm\\:resetConfigConfirmYesBtn").click();
     $("#config\\:form\\:msgs_container").shouldHave(text(key), text("reset"));
-    assertThat(table.getFirstColumnEntries()).doesNotContain(key);
   }
 
   private void assertNewConfig(String key, String value)
