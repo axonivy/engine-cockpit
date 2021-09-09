@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.PrimeFaces;
+
 import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.SimpleVariable;
 import ch.ivyteam.ivy.application.IApplication;
@@ -60,7 +62,6 @@ public class GlobalVarBean
   {
     configuration.set(SimpleVariable.GLOBAL_VARIABLES + activeVar.getName(), activeVar.getValue());
     reloadAndUiMessage("saved");
-    reloadGlobalVars();
   }
 
   public SimpleVariable getActiveVar()
@@ -84,7 +85,6 @@ public class GlobalVarBean
   {
     configuration.remove(SimpleVariable.GLOBAL_VARIABLES + activeVar.getName());
     reloadAndUiMessage("reset to default");
-    reloadGlobalVars();
   }
   
   public List<SimpleVariable> getFilteredVariables()
@@ -101,6 +101,8 @@ public class GlobalVarBean
   {
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeVar.getName() + "' " + message));
+    reloadGlobalVars();
+    PrimeFaces.current().executeScript("PF('globalVarTable_" + app.getId() + "').filter();");
   }
   
   public boolean isDefaultEnv()

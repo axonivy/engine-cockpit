@@ -8,8 +8,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.PrimeFaces;
 
 import ch.ivyteam.enginecockpit.model.ConfigProperty;
+import ch.ivyteam.ivy.configuration.internal.Configuration;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
@@ -39,6 +41,7 @@ public class ConfigView
 
   private void reloadConfigs()
   {
+    ((Configuration) configuration).blockUntilReloaded();
     configs = configuration.getProperties().stream()
             .filter(property -> !StringUtils.startsWith(property.getKey(), "Applications."))
             .filter(property -> !StringUtils.startsWith(property.getKey(), "SecuritySystems."))
@@ -156,5 +159,7 @@ public class ConfigView
     reloadConfigs();
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeConfig.getKey() + "' " + message));
+    PrimeFaces.current().executeScript("PF('configTable').filter();");
   }
+  
 }
