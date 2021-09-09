@@ -45,10 +45,6 @@ public class ConfigProperty
   {
     this.key = property.getKey();
     this.value = property.getValue();
-    String unresolved = property.getMetaData().getUnresolvedValue();
-    if (StringUtils.isNotBlank(unresolved)) {
-    	this.value = unresolved;
-    }
     this.defaultValue = property.getMetaData().getDefaultValue();
     this.isDefault = property.isDefault();
     this.source = property.getSource();
@@ -78,6 +74,18 @@ public class ConfigProperty
     this.file = getFile(source);
     correctValuesIfDaytimeFormat();
   }
+  
+  public String getEditValue() {
+    if (configValueFormat == ConfigValueFormat.EXPRESSION) {
+      return defaultValue; // scripted value rather than resolved
+    }
+    return value;
+  }
+  
+  public void setEditValue(String edited) {
+    setValue(edited);
+  }
+  
 
   public String getKey()
   {
