@@ -74,6 +74,18 @@ public class ConfigProperty
     this.file = getFile(source);
     correctValuesIfDaytimeFormat();
   }
+  
+  public String getEditValue() {
+    if (configValueFormat == ConfigValueFormat.EXPRESSION) {
+      return defaultValue; // scripted value rather than resolved
+    }
+    return value;
+  }
+  
+  public void setEditValue(String edited) {
+    setValue(edited);
+  }
+  
 
   public String getKey()
   {
@@ -135,15 +147,15 @@ public class ConfigProperty
     return password;
   }
   
-  public String getIcon()
-  {
-    if(isPassword())
-    {
+  public String getIcon() {
+    if(isPassword()) {
       return "password-lock-2";
     }
-    if (configValueFormat == ConfigValueFormat.FILE)
-    {
+    if (configValueFormat == ConfigValueFormat.FILE) {
       return "common-file-text";
+    }
+    if (configValueFormat == ConfigValueFormat.EXPRESSION) {
+      return "archive-folder";
     }
     return "cog";
   }

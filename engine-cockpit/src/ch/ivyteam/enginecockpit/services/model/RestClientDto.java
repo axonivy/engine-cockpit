@@ -27,9 +27,11 @@ public class RestClientDto implements IService
     url = client.uri();
     description = client.description();
     uniqueId = client.uniqueId();
-    properties = client.properties().entrySet().stream().map(p -> new Property(p.getKey(), p.getValue())).collect(Collectors.toList());
-    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password")).findAny().map(p -> p.getValue()).orElse("");
-    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).findAny().map(p -> p.getValue()).orElse("");
+    properties = client.properties().entrySet().stream()
+      .map(p -> new Property(p.getKey(), p.getValue()))
+      .collect(Collectors.toList());
+    password = client.properties().getOrDefault("password", "");
+    username = client.properties().getOrDefault("username", "");
     features = client.features();
     passwordChanged = false;
   }
@@ -56,8 +58,11 @@ public class RestClientDto implements IService
   
   public String getAuthType()
   {
-    return features.stream().filter(f -> StringUtils.contains(f, "authentication"))
-            .map(f -> StringUtils.substringBetween(f, "authentication.", "AuthenticationFeature")).findFirst().orElse("");
+    return features.stream()
+		.filter(f -> StringUtils.contains(f, "authentication"))
+	    .map(f -> StringUtils.substringBetween(f, "authentication.", "AuthenticationFeature"))
+	    .findFirst()
+	    .orElse("");
   }
   
   public String getUsername()
