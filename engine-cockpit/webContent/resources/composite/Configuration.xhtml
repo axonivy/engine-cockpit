@@ -9,10 +9,10 @@
 </cc:interface>
 <cc:implementation>
   <h:form id="form">
-    <p:growl id="msgs">
+    <p:growl id="msgs" keepAlive="true">
       <p:autoUpdate />
     </p:growl>
-    <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable"
+    <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable" globalFilter="#{cc.attrs.bean.filter}"
       filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable" rowStyleClass="#{config.default ? 'default-value' : ''}">
       <f:facet name="header">
         <p:outputPanel>
@@ -65,7 +65,7 @@
         styleClass="modal-input-button" />
       <p:commandButton id="resetConfigConfirmYesBtn" value="Reset" update=":#{cc.clientId}:form:configTable" immediate="true"
         actionListener="#{cc.attrs.bean.resetConfig}" icon="si si-undo" styleClass="modal-input-button"
-        onclick="PF('resetConfigConfirmDialog').hide();" />
+        onsuccess="PF('resetConfigConfirmDialog').hide();" />
     </h:form>
   </p:confirmDialog>
 
@@ -147,7 +147,7 @@
       <p:commandLink id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel"
         type="button" styleClass="modal-input-button" />
       <p:commandButton id="saveEditConfiguration" update=":#{cc.clientId}:form:configTable" partialSubmit="true"
-        onsuccess="PF('editConfigurationModal').hide()" actionListener="#{cc.attrs.bean.saveConfig}" value="Save"
+        onsuccess="PF('editConfigurationModal').hide();" actionListener="#{cc.attrs.bean.saveConfig}" value="Save"
         icon="si si-floppy-disk" process="editConfigurationForm:editConfigurationValue" styleClass="modal-input-button" />
     </f:facet>
   </p:dialog>
