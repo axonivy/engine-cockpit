@@ -261,6 +261,16 @@ public class WebTestSecuritySystemDetail
   }
   
   @Test
+  void testLdapBrowser_initDefaultContext()
+  {
+    openDefaultLdapBrowser();
+    $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=IvyTeam Test-OU"))
+            .shouldBe(visible, cssClass("ui-state-highlight"));
+    Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+    table.tableEntry("distinguishedName", 2).shouldBe(exactText("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+  }
+  
+  @Test
   void testLdapBrowser_chooseImportUsersOfGroup()
   {
     $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
@@ -278,8 +288,20 @@ public class WebTestSecuritySystemDetail
   }
   
   @Test
+  void testLdapBrowser_initImportUsersOfGroup()
+  {
+    $(IMPORT_USERS_OF_GROUP).sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
+    openImportLdapBrowser();
+    $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
+            .shouldBe(visible, cssClass("ui-state-highlight"));
+    Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+    table.tableEntry("distinguishedName", 2).shouldBe(exactText("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+  }
+  
+  @Test
   void testLdapBrowser_attributes()
   {
+    $(DEFAULT_CONTEXT).clear();
     openDefaultLdapBrowser();
     Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
     table.firstColumnShouldBe(CollectionCondition.empty);
@@ -353,8 +375,30 @@ public class WebTestSecuritySystemDetail
     }
     
     @Test
+    void testLdapBrowser_initImportUsersOfGroup()
+    {
+      $(IMPORT_USERS_OF_GROUP).sendKeys("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg");
+      openImportLdapBrowser();
+      $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
+              .shouldBe(visible, cssClass("ui-state-highlight"));
+      Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+      table.tableEntry("cn", 2).shouldBe(exactText("role1"));
+    }
+    
+    @Test
+    void testLdapBrowser_initDefaultContext()
+    {
+      openDefaultLdapBrowser();
+      $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("ou=IvyTeam Test-OU"))
+              .shouldBe(visible, cssClass("ui-state-highlight"));
+      Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+      table.tableEntry("ou", 2).shouldBe(exactText("IvyTeam Test-OU"));
+    }
+    
+    @Test
     void testLdapBrowser_attributes()
     {
+      $(DEFAULT_CONTEXT).clear();
       openDefaultLdapBrowser();
       Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
       table.firstColumnShouldBe(CollectionCondition.empty);

@@ -26,7 +26,7 @@
       <p:inputText id="defaultContext" style="width: calc(100% - 32px);"
         value="#{securityConfigDetailBean.defaultContext}" />
       <p:commandButton id="browseDefaultContext" icon="ui-icon-language" title="Browse" styleClass="primary-btn" style="right: -6px;"
-        actionListener="#{securityConfigDetailBean.browseLdap('defaultContext')}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
+        actionListener="#{securityConfigDetailBean.browseDefaultContext()}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
     </h:panelGroup>
 
     <p:outputLabel for="importUsersOfGroup" value="Import Users Of Group"/>
@@ -34,7 +34,7 @@
       <p:inputText id="importUsersOfGroup" style="width: calc(100% - 32px);"
         value="#{securityConfigDetailBean.importUsersOfGroup}" />
       <p:commandButton id="browseImportUserOfGroup" icon="ui-icon-language" title="Browse" styleClass="primary-btn" style="right: -6px;"
-        actionListener="#{securityConfigDetailBean.browseLdap('importUsersOfGroup')}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
+        actionListener="#{securityConfigDetailBean.browseUsersOfGroup()}" update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();"/>
     </h:panelGroup>
 
     <p:outputLabel for="userFilter" value="User Filter"/>
