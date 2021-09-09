@@ -16,3 +16,4 @@ RestClients:
     - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
     Properties:
       JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES: 'false'
+      appKey: ${ivy.var.password}

@@ -246,6 +246,16 @@ public class WebTestConfiguration
     }
 
     @Test
+    void dynamicExpressions() throws InterruptedException {
+      toggleFilter(List.of("Show Rest Clients"));
+      String dynamic = "RestClients.second-rest.Properties.appKey";
+      table.clickButtonForEntry(dynamic, "editConfigBtn");
+      new ConfigAssert("config")
+      	.assertDefault("${ivy.var.password}")
+      	.assertValue("${ivy.var.password}");
+    }
+
+    @Test
     void testShowConfigFile()
     {
       String key = "SecuritySystem";
