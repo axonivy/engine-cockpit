@@ -58,18 +58,18 @@ public class SecurityConfigDetailBean
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
   }
-  
+
   public SecurityConfigDetailBean(String secSystemName)
   {
     this();
     setSecuritySystemName(secSystemName);
   }
-  
+
   public String getSecuritySystemName()
   {
     return name;
   }
-  
+
   public void setSecuritySystemName(String secSystemName)
   {
     if (StringUtils.isBlank(name))
@@ -95,8 +95,8 @@ public class SecurityConfigDetailBean
     url = getConfiguration(ConfigKey.CONNECTION_URL);
     userName = getConfiguration(ConfigKey.CONNECTION_USER_NAME);
     password = getConfiguration(ConfigKey.CONNECTION_PASSWORD);
-    
-    useLdapConnectionPool = getInitBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, 
+
+    useLdapConnectionPool = getInitBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL,
             securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL));
     derefAlias = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
     ssl = getConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL)
@@ -114,7 +114,7 @@ public class SecurityConfigDetailBean
             securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED));
     ldapBrowser = new LdapBrowser();
   }
-  
+
   public String getName()
   {
     return name;
@@ -183,7 +183,7 @@ public class SecurityConfigDetailBean
   {
     this.useLdapConnectionPool = useLdapConnectionPool;
   }
-  
+
   private boolean getInitBooleanValue(String key, boolean defaultValue)
   {
     var connectionPool = getConfiguration(key);
@@ -193,7 +193,7 @@ public class SecurityConfigDetailBean
     }
     return Boolean.parseBoolean(connectionPool);
   }
-  
+
   private Object getSaveBooleanValue(boolean value, boolean defaultValue)
   {
     if (value == defaultValue)
@@ -202,7 +202,7 @@ public class SecurityConfigDetailBean
     }
     return value;
   }
-  
+
   public String getDerefAlias()
   {
     return derefAlias;
@@ -282,7 +282,7 @@ public class SecurityConfigDetailBean
   {
     this.updateTime = updateTime;
   }
-  
+
   public boolean isImportOnDemand()
   {
     return importOnDemand;
@@ -292,7 +292,7 @@ public class SecurityConfigDetailBean
   {
     this.importOnDemand = importOnDemand;
   }
-  
+
   public boolean isUpdateEnabled()
   {
     return updateEnabled;
@@ -328,25 +328,25 @@ public class SecurityConfigDetailBean
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
-    setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL, 
+    setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL,
             getSaveBooleanValue(this.useLdapConnectionPool, securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL)));
-    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES, 
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES,
             StringUtils.equals(this.derefAlias, securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES)) ? "" : this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
     setConfiguration(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL,
             getSaveBooleanValue(this.enableInsecureSsl, securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL)));
-    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL, 
+    setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL,
             StringUtils.equals(this.referral, securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? "" : this.referral);
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
-    setConfiguration(ConfigKey.IMPORT_ONDEMAND, 
+    setConfiguration(ConfigKey.IMPORT_ONDEMAND,
             getSaveBooleanValue(this.importOnDemand, securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
-    setConfiguration(ConfigKey.UPDATE_ENABLED, 
+    setConfiguration(ConfigKey.UPDATE_ENABLED,
             getSaveBooleanValue(this.updateEnabled, securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED)));
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System configuration saved"));
   }
-  
+
   private boolean validateUpdateTime()
   {
     if (StringUtils.isEmpty(updateTime))
@@ -355,7 +355,7 @@ public class SecurityConfigDetailBean
     }
     final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
     if (!pattern.matcher(this.updateTime).matches()) {
-      FacesContext.getCurrentInstance().addMessage("syncTime", 
+      FacesContext.getCurrentInstance().addMessage("syncTime",
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Please check that synchronization Time is max '23:59'"));
       return false;
     }
@@ -370,39 +370,38 @@ public class SecurityConfigDetailBean
     FacesContext.getCurrentInstance().addMessage("securitySystemBindingSaveSuccess",
             new FacesMessage("Security System binding saved"));
   }
-  
+
   private String getConfiguration(String key)
   {
     return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getPrefix(name) + key);
   }
-  
+
   public void setConfiguration(String key, Object value)
   {
     SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(name) + key, value);
   }
-  
+
   public String deleteConfiguration()
   {
     IConfiguration.instance().remove(SecuritySystemConfig.getPrefix(name));
     return "securitysystem.xhtml?faces-redirect=true";
   }
-  
+
   public LdapBrowser getLdapBrowser()
   {
     return ldapBrowser;
   }
-  
-  public void browseLdap(String field)
-  {
-    ldapBrowserTarget = field;
-    JndiConfig jndiConfig = getJndiConfig(null);
-    if (LdapBrowser.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget))
-    {
-      jndiConfig = getJndiConfig(getDefaultContext());
-    }
-    ldapBrowser.browse(jndiConfig, enableInsecureSsl);
+
+  public void browseDefaultContext() {
+    ldapBrowserTarget = LdapBrowser.DEFAULT_CONTEXT;
+    ldapBrowser.browse(getJndiConfig(null), enableInsecureSsl, defaultContext);
   }
-  
+
+  public void browseUsersOfGroup() {
+    ldapBrowserTarget = LdapBrowser.IMPORT_USERS_OF_GROUP;
+    ldapBrowser.browse(getJndiConfig(getDefaultContext()), enableInsecureSsl, importUsersOfGroup);
+  }
+
   public void chooseLdapName()
   {
     if (LdapBrowser.DEFAULT_CONTEXT.equals(ldapBrowserTarget))
@@ -414,7 +413,7 @@ public class SecurityConfigDetailBean
       setImportUsersOfGroup(ldapBrowser.getSelectedLdapName());
     }
   }
-  
+
   public JndiConfig getJndiConfig(String browseDefaultContext)
   {
     return JndiConfigBuilder.create(getSecuritySystemName())
