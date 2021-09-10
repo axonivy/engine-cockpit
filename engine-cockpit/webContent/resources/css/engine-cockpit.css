@@ -461,12 +461,16 @@ body {
 }
 
 /* LDAP Browser */
+.ldap-browser,
+.ldap-browser .p-grid {
+  height: 100%;
+}
 .ldap-browser .ui-g .ui-panelgrid-cell {
   padding: 0;
 }
 .ldap-browser .ui-tree {
-  margin-right: 10px;
-  max-height: 400px; 
+  width: 50%;
+	max-height: 100%; 
   min-height: 200px; 
   overflow-y: auto; 
   padding: 0; 
@@ -474,9 +478,44 @@ body {
 }
 .ldap-browser .ui-datatable {
   white-space: nowrap;
+  height: 100%;
+}
+.ldap-browser .ui-datatable-scrollable-body {
+  max-height: calc(100% - 39px);
 }
 .ldap-browser .ui-datatable td {
   padding: 0.3em;
+}
+
+/*Some snippets from Primeflex 2.0*/
+.p-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+.p-grid, .p-grid > div {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.p-grid > .p-col, .p-grid > [class*="p-col"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.p-col-6 {
+  width: 50%;
+}
+.p-col-1, .p-col-2, .p-col-3, .p-col-4, .p-col-5, .p-col-6, .p-col-7, .p-col-8, .p-col-9, .p-col-10, .p-col-11, .p-col-12 {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  padding: .5rem;
 }
 
 /* Yaml Editor */
