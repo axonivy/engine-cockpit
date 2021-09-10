@@ -21,8 +21,7 @@ import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 
-public class LogView implements Comparable<LogView>
-{
+public class LogView implements Comparable<LogView> {
   private Path file;
   private String fileName;
   private String content;
@@ -30,116 +29,91 @@ public class LogView implements Comparable<LogView>
   private long size;
   private boolean endReached = true;
   private String date;
-  
-  public LogView(String logName, Date date)
-  {
+
+  public LogView(String logName, Date date) {
     fileName = logName;
     this.date = new SimpleDateFormat("yyyy-MM-dd").format(date);
-    if (DateUtils.isSameDay(date, Calendar.getInstance().getTime()))
-    {
+    if (DateUtils.isSameDay(date, Calendar.getInstance().getTime())) {
       file = UrlUtil.getLogFile(logName);
-    }
-    else
-    {
+    } else {
       file = UrlUtil.getLogFile(logName + "." + this.date);
     }
     content = readContent();
     readFileMetadata();
   }
-  
-  private void readFileMetadata()
-  {
-    try
-    {
+
+  private void readFileMetadata() {
+    try {
       BasicFileAttributes fileMeta = Files.readAttributes(file, BasicFileAttributes.class);
       size = fileMeta.size() / 1000;
-    }
-    catch (IOException e)
-    {
+    } catch (IOException e) {
       size = 0;
     }
   }
-  
-  public String getFileName()
-  {
+
+  public String getFileName() {
     return fileName;
   }
 
-  private String readContent()
-  {
-    if (!Files.exists(file))
-    {
+  private String readContent() {
+    if (!Files.exists(file)) {
       return "Logfile '" + file.getFileName().toString() + "' doesn't exist.";
     }
     List<String> lines = readFileLines();
-    if (lines.isEmpty())
-    {
+    if (lines.isEmpty()) {
       return "Logfile '" + file.getFileName().toString() + "' is empty.";
     }
     downloadEnabled = true;
     return lines.stream().collect(Collectors.joining("\n"));
   }
 
-  private List<String> readFileLines()
-  {
+  private List<String> readFileLines() {
     List<String> lines = new ArrayList<>();
-    try (ReversedLinesFileReader reader = new ReversedLinesFileReader(file, StandardCharsets.UTF_8))
-    {
+    try (ReversedLinesFileReader reader = new ReversedLinesFileReader(file, StandardCharsets.UTF_8)) {
       String line = reader.readLine();
       int count = 0;
-      while(line != null && count < 1000)
-      {
+      while (line != null && count < 1000) {
         lines.add(0, line);
-        count ++;
+        count++;
         line = reader.readLine();
       }
-      if (count == 1000)
-      {
-        endReached = false; 
+      if (count == 1000) {
+        endReached = false;
       }
-    }
-    catch (IOException ex)
-    {
+    } catch (IOException ex) {
       return Collections.emptyList();
     }
     return lines;
   }
-  
-  public String getContent()
-  {
+
+  public String getContent() {
     return content;
   }
-  
-  public boolean isDownloadEnabled()
-  {
+
+  public boolean isDownloadEnabled() {
     return downloadEnabled;
   }
-  
-  public long getSize()
-  {
+
+  public long getSize() {
     return size;
   }
-  
-  public boolean isEndReached()
-  {
+
+  public boolean isEndReached() {
     return endReached;
   }
-  
-  public String getDate()
-  {
+
+  public String getDate() {
     return date;
   }
-  
-  public StreamedContent getFile() throws IOException 
-  {
+
+  public StreamedContent getFile() throws IOException {
     InputStream newInputStream = Files.newInputStream(file);
     return new DefaultStreamedContent(newInputStream, "text/plain", file.getFileName().toString());
   }
-  
+
   @Override
-  public int compareTo(LogView other)
-  {
+  public int compareTo(LogView other) {
     return fileName.compareTo(other.getFileName());
   }
-  
+
 }

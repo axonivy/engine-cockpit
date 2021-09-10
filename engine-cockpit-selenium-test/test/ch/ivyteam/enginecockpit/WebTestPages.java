@@ -24,52 +24,44 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.HttpAsserter;
 
 @IvyWebTest
-public class WebTestPages
-{
-  
+public class WebTestPages {
+
   private Path webContentDir;
 
   @BeforeEach
-  void beforeEacht()
-  {
+  void beforeEacht() {
     Path testDir = new File(System.getProperty("user.dir")).getParentFile().toPath();
     webContentDir = testDir.resolve("engine-cockpit/webContent");
   }
 
   @Test
-  void testExternalLinks()
-  {
+  void testExternalLinks() {
     EngineCockpitUtil.login();
     var viewDir = webContentDir.resolve("view");
-    for (Path xhtml : getSubDirectoryXhtmlFiles(viewDir, file -> !StringUtils.endsWith(file.getFileName().toString(), "login.xhtml")))
-    {
+    for (Path xhtml : getSubDirectoryXhtmlFiles(viewDir,
+            file -> !StringUtils.endsWith(file.getFileName().toString(), "login.xhtml"))) {
       HttpAsserter.assertThat(viewUrl(xhtml.toString())).hasNoDeadLinks();
     }
   }
-  
+
   @Test
-  void testPagesNotAccessable()
-  {
-    for (Path xhtml : getSubDirectoryXhtmlFiles(webContentDir, 
-            file -> !StringUtils.startsWith(file.toString(), "view/") && StringUtils.contains(file.toString(), "/")))
-    {
+  void testPagesNotAccessable() {
+    for (Path xhtml : getSubDirectoryXhtmlFiles(webContentDir,
+            file -> !StringUtils.startsWith(file.toString(), "view/")
+                    && StringUtils.contains(file.toString(), "/"))) {
       open(viewUrl(xhtml.toString()));
       $(".exception-detail").shouldHave(text("404"));
     }
   }
-  
-  private static List<Path> getSubDirectoryXhtmlFiles(Path basePath, Predicate<Path> filter)
-  {
-    try
-    {
+
+  private static List<Path> getSubDirectoryXhtmlFiles(Path basePath, Predicate<Path> filter) {
+    try {
       return Files.walk(basePath)
               .map(basePath::relativize)
               .filter(filter)
               .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
               .collect(Collectors.toList());
-    }
-    catch (IOException ex)
-    {
+    } catch (IOException ex) {
       ex.printStackTrace();
     }
     return Collections.emptyList();

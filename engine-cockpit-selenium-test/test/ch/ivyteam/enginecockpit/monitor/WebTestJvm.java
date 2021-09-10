@@ -15,44 +15,38 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestJvm
-{
-  
+public class WebTestJvm {
+
   @BeforeAll
-  static void beforeAll()
-  {
+  static void beforeAll() {
     login();
     Navigation.toJvm();
   }
-  
+
   @Test
-  void jvmPageContent()
-  {
-    $$(".ui-panel").shouldHave(size(3)); 
-  }
-  
-  @Test
-  void cpuContent()
-  {
-    $("#cpu")
-        .shouldHave(text("CPU Load"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
-  }
-  
-  @Test
-  void classesContent()
-  {
-    $("#classes")
-        .shouldHave(text("Classes"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+  void jvmPageContent() {
+    $$(".ui-panel").shouldHave(size(3));
   }
 
   @Test
-  void threadsContent()
-  {
+  void cpuContent() {
+    $("#cpu")
+            .shouldHave(text("CPU Load"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
+  }
+
+  @Test
+  void classesContent() {
+    $("#classes")
+            .shouldHave(text("Classes"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
+  }
+
+  @Test
+  void threadsContent() {
     $("#threads")
-        .shouldHave(text("Threads"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+            .shouldHave(text("Threads"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
 }

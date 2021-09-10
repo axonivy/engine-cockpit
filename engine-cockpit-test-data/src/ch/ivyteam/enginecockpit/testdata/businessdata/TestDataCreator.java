@@ -4,15 +4,12 @@ import ch.ivyteam.ivy.business.data.store.BusinessDataRepository;
 import ch.ivyteam.ivy.business.data.store.search.Result;
 import ch.ivyteam.ivy.scripting.objects.Date;
 
-public class TestDataCreator
-{
-  public static void createDemoDataIfNotExist()
-  {
+public class TestDataCreator {
+  public static void createDemoDataIfNotExist() {
     BusinessDataRepository repo = BusinessDataRepository.current();
     long dossierCount = countDossier(repo);
 
-    if (dossierCount == 0)
-    {
+    if (dossierCount == 0) {
       createDemoDossier("HEISENBERG DE", "Werner", "Heisenberg", new Date(1901, 12, 5), "97070", "Würzburg",
               "Germany");
       createDemoDossier("PAULI AT", "Wolfgang", "Pauli", new Date(1900, 04, 25), "1010", "Wien", "Austria");
@@ -31,7 +28,7 @@ public class TestDataCreator
       createDemoDossier("NEUMANN HU", "John", "von Neumann", new Date(1903, 12, 28), "1011", "Budapest",
               "Hungary");
       waitForDossierCount(repo, 10);
-      
+
       Address address = new Address();
       address.zip = "6030";
       address.city = "Zug";
@@ -40,36 +37,28 @@ public class TestDataCreator
     }
   }
 
-  private static void waitForDossierCount(BusinessDataRepository repo, int count)
-  {
+  private static void waitForDossierCount(BusinessDataRepository repo, int count) {
     long dossierCount;
     dossierCount = countDossier(repo);
-    while (dossierCount < count)
-    {
-      try
-      {
+    while (dossierCount < count) {
+      try {
         Thread.sleep(500);
-      }
-      catch (InterruptedException e)
-      {
+      } catch (InterruptedException e) {
       }
       dossierCount = countDossier(repo);
     }
   }
 
-  private static long countDossier(BusinessDataRepository repo)
-  {
+  private static long countDossier(BusinessDataRepository repo) {
     return getDossiers(repo).count();
   }
 
-  private static Result<Dossier> getDossiers(BusinessDataRepository repo)
-  {
+  private static Result<Dossier> getDossiers(BusinessDataRepository repo) {
     return repo.search(Dossier.class).execute();
   }
 
   private static void createDemoDossier(String dossierName, String firstName, String lastName, Date birthdate,
-          String zip, String city, String country)
-  {
+          String zip, String city, String country) {
     Dossier dossier = new Dossier();
     dossier.name = dossierName;
 
@@ -90,38 +79,33 @@ public class TestDataCreator
     repo.save(dossier);
   }
 
-  public static void clearDemoData()
-  {
+  public static void clearDemoData() {
     BusinessDataRepository repo = BusinessDataRepository.current();
-    for (Dossier info : getDossiers(repo).getAll())
-    {
+    for (Dossier info : getDossiers(repo).getAll()) {
       repo.delete(info);
     }
     waitForDossierCount(repo, 0);
   }
-  
+
   @SuppressWarnings("unused")
-  private static class Dossier
-  {
+  private static class Dossier {
     String name;
     Person person;
   }
-  
+
   @SuppressWarnings("unused")
-  private static class Person
-  {
+  private static class Person {
     String firstName;
     String lastName;
     Date birthDate;
     Address address;
   }
- 
+
   @SuppressWarnings("unused")
-  private static class Address
-  {
+  private static class Address {
     String zip;
     String country;
     String city;
   }
-  
+
 }

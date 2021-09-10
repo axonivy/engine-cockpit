@@ -21,8 +21,7 @@ import ch.ivyteam.ivy.configuration.restricted.Property;
 import ch.ivyteam.ivy.vars.Variable;
 
 @SuppressWarnings("restriction")
-public class ConfigProperty
-{
+public class ConfigProperty {
   private String key;
   private String value;
   private String defaultValue;
@@ -35,14 +34,12 @@ public class ConfigProperty
   private String description;
   private Path file;
   private String fileExtension;
-  
-  public ConfigProperty()
-  {
+
+  public ConfigProperty() {
     configValueFormat = ConfigValueFormat.STRING;
   }
 
-  public ConfigProperty(Property property)
-  {
+  public ConfigProperty(Property property) {
     this.key = property.getKey();
     this.value = property.getValue();
     this.defaultValue = property.getMetaData().getDefaultValue();
@@ -58,8 +55,7 @@ public class ConfigProperty
     correctValuesIfDaytimeFormat();
   }
 
-  public ConfigProperty(Variable variable)
-  {
+  public ConfigProperty(Variable variable) {
     this.key = variable.name();
     this.value = variable.value();
     this.defaultValue = variable.defaultValue();
@@ -74,81 +70,69 @@ public class ConfigProperty
     this.file = getFile(source);
     correctValuesIfDaytimeFormat();
   }
-  
+
   public String getEditValue() {
     if (configValueFormat == ConfigValueFormat.EXPRESSION) {
       return defaultValue; // scripted value rather than resolved
     }
     return value;
   }
-  
+
   public void setEditValue(String edited) {
     setValue(edited);
   }
-  
 
-  public String getKey()
-  {
+  public String getKey() {
     return key;
   }
 
-  public void setKey(String key)
-  {
+  public void setKey(String key) {
     this.key = key;
   }
 
-  public String getValue()
-  {
+  public String getValue() {
     return value;
   }
 
-  public void setValue(String value)
-  {
+  public void setValue(String value) {
     this.value = value;
   }
 
-  public String getDefaultValue()
-  {
+  public String getDefaultValue() {
     return defaultValue;
   }
-  
-  public void setDefaultValue(String defaultValue)
-  {
+
+  public void setDefaultValue(String defaultValue) {
     this.defaultValue = defaultValue;
   }
-  
-  public boolean isDefault()
-  {
+
+  public boolean isDefault() {
     return isDefault;
   }
-  
-  public void setDefault(boolean isDefault)
-  {
+
+  public void setDefault(boolean isDefault) {
     this.isDefault = isDefault;
   }
 
-  public String getSource()
-  {
+  public String getSource() {
     return source;
   }
-  
-  public void setSource(String source)
-  {
+
+  public void setSource(String source) {
     this.source = source;
   }
 
-  public String getShortSource()
-  {
-    return StringUtils.substring(source, StringUtils.lastIndexOf(source, '/') + 1, getIndexOfSourceSuffix(source));
+  public String getShortSource() {
+    return StringUtils.substring(source, StringUtils.lastIndexOf(source, '/') + 1,
+            getIndexOfSourceSuffix(source));
   }
-  
-  public boolean isPassword()
-  {
+
+  public boolean isPassword() {
     return password;
   }
-  
+
   public String getIcon() {
-    if(isPassword()) {
+    if (isPassword()) {
       return "password-lock-2";
     }
     if (configValueFormat == ConfigValueFormat.FILE) {
@@ -159,120 +143,91 @@ public class ConfigProperty
     }
     return "cog";
   }
-  
-  public String getConfigValueFormat()
-  {
+
+  public String getConfigValueFormat() {
     return configValueFormat.name();
   }
-  
-  public void setConfigValueFormat(ConfigValueFormat format)
-  {
+
+  public void setConfigValueFormat(ConfigValueFormat format) {
     this.configValueFormat = format;
   }
-  
-  public List<String> getEnumerationValues()
-  {
+
+  public List<String> getEnumerationValues() {
     return enumerationValues;
   }
-  
-  public void setEnumerationValues(List<String> values)
-  {
+
+  public void setEnumerationValues(List<String> values) {
     this.enumerationValues = values;
   }
-  
-  public boolean isRestartRequired()
-  {
+
+  public boolean isRestartRequired() {
     return restartRequired;
   }
-  
-  public String getDescription()
-  {
+
+  public String getDescription() {
     return description;
   }
-  
-  public String getHtmlDescription()
-  {
+
+  public String getHtmlDescription() {
     return "<pre>" + UrlUtil.replaceLinks(description) + "</pre>";
   }
-  
-  public boolean hasDescription()
-  {
+
+  public boolean hasDescription() {
     return StringUtils.isNotBlank(description);
   }
-  
-  public String getEditorMode()
-  {
+
+  public String getEditorMode() {
     return StringUtils.equals(fileExtension, "json") ? "javascript" : "";
   }
-  
-  public boolean fileExist()
-  {
+
+  public boolean fileExist() {
     return file != null;
   }
-  
-  public String getFileContent()
-  {
-    if (!fileExist())
-    {
+
+  public String getFileContent() {
+    if (!fileExist()) {
       return "";
     }
-    try
-    {
+    try {
       return Files.readString(file, StandardCharsets.UTF_8);
-    }
-    catch (IOException e)
-    {
+    } catch (IOException e) {
       return "Could not read file (" + e.getMessage() + ")";
     }
   }
-  
-  public StreamedContent downloadFile()
-  {
-    try
-    {
+
+  public StreamedContent downloadFile() {
+    try {
       var newInputStream = Files.newInputStream(file);
       return new DefaultStreamedContent(newInputStream, "application/x-yaml", file.getFileName().toString());
-    }
-    catch (IOException e)
-    {
+    } catch (IOException e) {
       FacesContext.getCurrentInstance().addMessage("msgs",
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));
       return null;
     }
   }
-  
-  private static Path getFile(String source)
-  {
-    try
-    {
+
+  private static Path getFile(String source) {
+    try {
       return Path.of(new URI(StringUtils.substring(source, 0, getIndexOfSourceSuffix(source))));
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       return null;
     }
   }
-  
-  private static int getIndexOfSourceSuffix(String source)
-  {
+
+  private static int getIndexOfSourceSuffix(String source) {
     int prefixString = StringUtils.lastIndexOf(source, ',');
-    if(prefixString == -1) 
-    {
+    if (prefixString == -1) {
       prefixString = StringUtils.length(source);
     }
     return prefixString;
   }
-  
-  private void correctValuesIfDaytimeFormat()
-  {
-    if (Objects.equals(configValueFormat, ConfigValueFormat.DAYTIME))
-    {
-      if (defaultValue.equals("0"))
-      {
+
+  private void correctValuesIfDaytimeFormat() {
+    if (Objects.equals(configValueFormat, ConfigValueFormat.DAYTIME)) {
+      if (defaultValue.equals("0")) {
         this.defaultValue = "00:00";
       }
-      if (value.equals("0"))
-      {
+      if (value.equals("0")) {
         this.value = "00:00";
       }
     }

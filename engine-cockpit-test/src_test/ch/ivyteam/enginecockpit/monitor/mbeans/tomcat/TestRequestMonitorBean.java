@@ -11,11 +11,9 @@ import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 @SuppressWarnings("restriction")
-public class TestRequestMonitorBean
-{
+public class TestRequestMonitorBean {
   @BeforeEach
-  public void beforeEach()
-  {
+  public void beforeEach() {
     MBeans.registerMBeanFor(new Connector("http"));
     MBeans.registerMBeanFor(new Connector("https"));
     MBeans.registerMBeanFor(new ProtocolHandler(8080, "http"));
@@ -23,14 +21,12 @@ public class TestRequestMonitorBean
   }
 
   @AfterEach
-  public void afterEach()
-  {
+  public void afterEach() {
     MBeans.unregisterAllMBeans();
   }
 
   @Test
-  public void requestMonitor()
-  {
+  public void requestMonitor() {
     var testee = new RequestMonitorBean();
 
     var series = testee.getRequestsMonitor().getModel().getSeries();
@@ -44,12 +40,12 @@ public class TestRequestMonitorBean
     assertThat(https.getLabel()).isEqualTo("Https");
     assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(testee.getRequestsMonitor().getInfo()).isEqualTo("Requests: Http -, Http Total 300, Https -, Https Total 300");
+    assertThat(testee.getRequestsMonitor().getInfo())
+            .isEqualTo("Requests: Http -, Http Total 300, Https -, Https Total 300");
   }
 
   @Test
-  public void errorsMonitor()
-  {
+  public void errorsMonitor() {
     var testee = new RequestMonitorBean();
 
     var series = testee.getErrorsMonitor().getModel().getSeries();
@@ -63,12 +59,12 @@ public class TestRequestMonitorBean
     assertThat(https.getLabel()).isEqualTo("Https");
     assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(testee.getErrorsMonitor().getInfo()).isEqualTo("Errors: Http -, Http Total 4, Https -, Https Total 4");
+    assertThat(testee.getErrorsMonitor().getInfo())
+            .isEqualTo("Errors: Http -, Http Total 4, Https -, Https Total 4");
   }
 
   @Test
-  public void bytesMonitor()
-  {
+  public void bytesMonitor() {
     var testee = new RequestMonitorBean();
 
     var series = testee.getBytesMonitor().getModel().getSeries();
@@ -90,12 +86,12 @@ public class TestRequestMonitorBean
     assertThat(httpsReceived.getLabel()).isEqualTo("Https Received");
     assertThat(httpsReceived.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(testee.getBytesMonitor().getInfo()).isEqualTo("Bytes: Http Sent -/1000 B, Http Received -/2000 B, Https Sent -/1000 B, Https Received -/2000 B");
+    assertThat(testee.getBytesMonitor().getInfo()).isEqualTo(
+            "Bytes: Http Sent -/1000 B, Http Received -/2000 B, Https Sent -/1000 B, Https Received -/2000 B");
   }
 
   @Test
-  public void processingMonitor()
-  {
+  public void processingMonitor() {
     var testee = new RequestMonitorBean();
 
     var series = testee.getProcessingTimeMonitor().getModel().getSeries();
@@ -109,12 +105,12 @@ public class TestRequestMonitorBean
     assertThat(https.getLabel()).isEqualTo("Https");
     assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    assertThat(testee.getProcessingTimeMonitor().getInfo()).isEqualTo("Processing Time: Http -, Http Total 5000 ms, Https -, Https Total 5000 ms");
+    assertThat(testee.getProcessingTimeMonitor().getInfo())
+            .isEqualTo("Processing Time: Http -, Http Total 5000 ms, Https -, Https Total 5000 ms");
   }
 
   @Test
-  public void connectionsMonitor()
-  {
+  public void connectionsMonitor() {
     var testee = new RequestMonitorBean();
 
     var series = testee.getConnectionsMonitor().getModel().getSeries();
@@ -128,84 +124,71 @@ public class TestRequestMonitorBean
     assertThat(https.getLabel()).isEqualTo("Https");
     assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(1.0));
 
-    assertThat(testee.getConnectionsMonitor().getInfo()).isEqualTo("Connections: Http 2, Http Max 8192, Https 1, Https Max 4096");
+    assertThat(testee.getConnectionsMonitor().getInfo())
+            .isEqualTo("Connections: Http 2, Http Max 8192, Https 1, Https Max 4096");
   }
 
-
   @MBean("ivy:type=GlobalRequestProcessor,name=#{name}")
-  private static final class Connector
-  {
+  private static final class Connector {
     private final String name;
 
-    public Connector(String name)
-    {
+    public Connector(String name) {
       this.name = name;
     }
 
     @SuppressWarnings("unused")
-    public String getName()
-    {
+    public String getName() {
       return name;
     }
 
     @MAttribute
-    public long getBytesSent()
-    {
+    public long getBytesSent() {
       return 1000;
     }
 
     @MAttribute
-    public long getBytesReceived()
-    {
+    public long getBytesReceived() {
       return 2000;
     }
 
     @MAttribute
-    public long getRequestCount()
-    {
+    public long getRequestCount() {
       return 300;
     }
 
     @MAttribute
-    public long getErrorCount()
-    {
+    public long getErrorCount() {
       return 4;
     }
 
     @MAttribute
-    public long getProcessingTime()
-    {
+    public long getProcessingTime() {
       return 5000;
     }
   }
 
   @MBean("ivy:type=ProtocolHandler,port=#{port}")
-  private static final class ProtocolHandler
-  {
+  private static final class ProtocolHandler {
     private final int port;
     private final String protocol;
 
-    public ProtocolHandler(int port, String protocol)
-    {
+    public ProtocolHandler(int port, String protocol) {
       this.port = port;
       this.protocol = protocol;
     }
 
     @MAttribute
-    public String getName()
-    {
-      return "\""+protocol+"-nio-"+port+"\"";
+    public String getName() {
+      return "\"" + protocol + "-nio-" + port + "\"";
     }
 
     @MAttribute
-    public long getConnectionCount()
-    {
+    public long getConnectionCount() {
       return protocol.equals("http") ? 2 : 1;
     }
 
     @MAttribute
-    public long getMaxConnections()
-    {
+    public long getMaxConnections() {
       return protocol.equals("http") ? 8192 : 4096;
     }
   }

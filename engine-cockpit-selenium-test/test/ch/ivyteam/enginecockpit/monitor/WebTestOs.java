@@ -15,54 +15,45 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestOs
-{
-  
+public class WebTestOs {
+
   @BeforeAll
-  static void beforeAll()
-  {
+  static void beforeAll() {
     login();
     Navigation.toOs();
   }
-  
+
   @Test
-  void osPageContent()
-  {
+  void osPageContent() {
     $$(".ui-panel").shouldHave(size(4));
-  }  
-  
+  }
+
   @Test
-  void cpuContent()
-  {
+  void cpuContent() {
     $("#cpu")
-        .shouldHave(text("CPU Load"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+            .shouldHave(text("CPU Load"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
   @Test
-  void memoryContent()
-  {
+  void memoryContent() {
     $("#memory")
-        .shouldHave(text("Memory"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+            .shouldHave(text("Memory"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
   }
-  
+
   @Test
-  void networkContent()
-  {
+  void networkContent() {
     $("#network")
-        .shouldHave(text("Network"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+            .shouldHave(text("Network"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
   }
-  
+
   @Test
-  void ioContent()
-  {
+  void ioContent() {
     $("#io")
-        .shouldHave(text("IO"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+            .shouldHave(text("IO"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
   }
-
-
 
 }

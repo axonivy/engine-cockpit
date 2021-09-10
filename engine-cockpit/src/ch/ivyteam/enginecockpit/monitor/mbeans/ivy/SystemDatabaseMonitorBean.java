@@ -7,22 +7,18 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 @ManagedBean
 @ViewScoped
-public class SystemDatabaseMonitorBean
-{
+public class SystemDatabaseMonitorBean {
   private final SystemDatabase DATABASE = new SystemDatabase();
-  
-  public Monitor getConnectionsMonitor()
-  {
+
+  public Monitor getConnectionsMonitor() {
     return DATABASE.connectionsMonitor();
   }
-  
-  public Monitor getTransactionsMonitor()
-  {
+
+  public Monitor getTransactionsMonitor() {
     return DATABASE.queriesMonitor();
   }
-  
-  public Monitor getProcessingTimeMonitor()
-  {
+
+  public Monitor getProcessingTimeMonitor() {
     return DATABASE.executionTimeMonitor();
   }
 }

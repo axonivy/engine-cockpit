@@ -62,7 +62,8 @@ public class WebTestRoleDetail {
     $("#roleInformationForm\\:name").shouldBe(exactText(DETAIL_ROLE_NAME));
     $("#roleInformationForm\\:displayName").shouldBe(exactValue("display"));
     $("#roleInformationForm\\:description").shouldBe(exactValue("desc"));
-    $("#roleInformationForm\\:externalSecurityName").shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $("#roleInformationForm\\:externalSecurityName")
+            .shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     clearRoleInfoInputs();
     $("#roleInformationForm\\:saveRoleInformation").click();
   }
@@ -249,9 +250,12 @@ public class WebTestRoleDetail {
     $("#roleInformationForm\\:saveRoleInformation").click();
     Selenide.refresh();
     assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldNotHave(cssClass("ui-state-disabled")).click();
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldNotHave(cssClass("ui-state-disabled")).click();
-    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn").shouldNotHave(cssClass("ui-state-disabled")).click();
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn")
+            .shouldNotHave(cssClass("ui-state-disabled")).click();
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn")
+            .shouldNotHave(cssClass("ui-state-disabled")).click();
+    $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn")
+            .shouldNotHave(cssClass("ui-state-disabled")).click();
   }
 
   private void checkIfRoleIsExternal() {
@@ -285,22 +289,24 @@ public class WebTestRoleDetail {
             .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
     $("#ldapBrowser\\:chooseLdapName").click();
     $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
-    $("#roleInformationForm\\:externalSecurityName").shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $("#roleInformationForm\\:externalSecurityName")
+            .shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
-  void testExternalSecurityName_ldapBrowser_initValue()
-  {
+  void testExternalSecurityName_ldapBrowser_initValue() {
     Navigation.toRoles();
     Tab.switchToTab("test-ad");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
-    $("#roleInformationForm\\:externalSecurityName").sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
+    $("#roleInformationForm\\:externalSecurityName")
+            .sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
 
     $(LDAP_BROWSER_DIALOG).shouldBe(visible);
     $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
             .shouldBe(visible, cssClass("ui-state-highlight"));
     Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
-    table.tableEntry("distinguishedName", 2).shouldBe(exactText("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    table.tableEntry("distinguishedName", 2)
+            .shouldBe(exactText("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
   private void clearRoleInfoInputs() {

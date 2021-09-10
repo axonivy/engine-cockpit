@@ -29,8 +29,7 @@ import ch.ivyteam.ivy.security.ISession;
 @SuppressWarnings("restriction")
 @ManagedBean
 @SessionScoped
-public class ManagerBean
-{
+public class ManagerBean {
   private List<Application> applications = Collections.emptyList();
   private int selectedApplicationIndex;
 
@@ -43,149 +42,119 @@ public class ManagerBean
   private IApplicationConfigurationManager manager = IApplicationConfigurationManager.instance();
   private ISecurityManager securityManager = ISecurityManager.instance();
 
-  public ManagerBean()
-  {
+  public ManagerBean() {
     reloadApplications();
     hideDashboadWarnings = BooleanUtils.toBoolean(System.getProperty("hide.dashboard.warnings"));
     var session = ISession.current();
     formattingLocale = Locale.ENGLISH;
-    if (session != null)
-    {
+    if (session != null) {
       formattingLocale = session.getFormattingLocale();
     }
   }
 
-  public void reloadEnvironments()
-  {
-    if (!applications.isEmpty())
-    {
-      if (StringUtils.isBlank(selectedEnvironment))
-      {
+  public void reloadEnvironments() {
+    if (!applications.isEmpty()) {
+      if (StringUtils.isBlank(selectedEnvironment)) {
         selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(),
                 IEnvironment.DEFAULT_ENVIRONMENT_NAME);
       }
-      for (IApplication iApplication : getIApplications())
-      {
+      for (IApplication iApplication : getIApplications()) {
         environments.put(iApplication.getId(), iApplication.getEnvironmentsSortedByName().stream()
                 .map(e -> e.getName()).collect(Collectors.toList()));
       }
     }
   }
 
-  public void reloadApplications()
-  {
+  public void reloadApplications() {
     int appCount = applications.size();
     applications = getIApplications().stream()
             .map(app -> new Application(app))
             .collect(Collectors.toList());
-    if (selectedApplicationIndex != 0 && appCount != applications.size())
-    {
+    if (selectedApplicationIndex != 0 && appCount != applications.size()) {
       selectedApplicationIndex = 0;
     }
     reloadEnvironments();
   }
 
-  public List<Application> getApplications()
-  {
+  public List<Application> getApplications() {
     reloadApplications();
     return applications;
   }
 
-  public int getSelectedApplicationIndex()
-  {
+  public int getSelectedApplicationIndex() {
     return selectedApplicationIndex;
   }
 
-  public void setSelectedApplicationIndex(int index)
-  {
+  public void setSelectedApplicationIndex(int index) {
     selectedApplicationIndex = index;
   }
 
-  public void updateSelectedApplication(TabChangeEvent event)
-  {
+  public void updateSelectedApplication(TabChangeEvent event) {
     setSelectedApplicationIndex(0);
-    for (var app : applications)
-    {
-      if (app.getName().equals(event.getTab().getTitle()))
-      {
+    for (var app : applications) {
+      if (app.getName().equals(event.getTab().getTitle())) {
         setSelectedApplicationIndex(applications.indexOf(app));
       }
     }
   }
 
-  public void setSelectedApplicationName(String appName)
-  {
-    for (int i = 0; i < applications.size(); i++)
-    {
-      if (applications.get(i).getName().equals(appName))
-      {
+  public void setSelectedApplicationName(String appName) {
+    for (int i = 0; i < applications.size(); i++) {
+      if (applications.get(i).getName().equals(appName)) {
         setSelectedApplicationIndex(i);
         return;
       }
     }
   }
 
-  public String getSelectedApplicationName()
-  {
-    if (applications.isEmpty())
-    {
+  public String getSelectedApplicationName() {
+    if (applications.isEmpty()) {
       return "";
     }
     return getSelectedApplication().getName();
   }
 
-  public IApplicationConfigurationManager getManager()
-  {
+  public IApplicationConfigurationManager getManager() {
     return manager;
   }
 
-  public Application getSelectedApplication()
-  {
+  public Application getSelectedApplication() {
     return applications.get(selectedApplicationIndex);
   }
 
-  public IApplication getSelectedIApplication()
-  {
+  public IApplication getSelectedIApplication() {
     return manager.getApplication(getSelectedApplication().getId());
   }
 
-  public IApplication getIApplication(long id)
-  {
+  public IApplication getIApplication(long id) {
     return manager.getApplication(id);
   }
 
-  public List<IApplication> getIApplications()
-  {
+  public List<IApplication> getIApplications() {
     return manager.getApplicationsSortedByName(false);
   }
 
-  public String getSessionCount()
-  {
+  public String getSessionCount() {
     return formatNumber(securityManager.getSessionCount());
   }
 
-  public String getApplicationCount()
-  {
+  public String getApplicationCount() {
     return formatNumber(getIApplications().size());
   }
 
-  public String getUsersCount()
-  {
+  public String getUsersCount() {
     return formatNumber(securityManager.getUsersCount());
   }
 
-  public String getRunningCasesCount()
-  {
+  public String getRunningCasesCount() {
     return formatNumber(getApplications().stream().mapToLong(a -> a.getRunningCasesCount()).sum());
   }
 
-  public Locale getDefaultEmailLanguageForSelectedApp()
-  {
+  public Locale getDefaultEmailLanguageForSelectedApp() {
     return getSelectedIApplication().getDefaultEMailLanguage();
   }
 
-  public List<SelectItem> getSupportedLanguagesWithDefault()
-  {
+  public List<SelectItem> getSupportedLanguagesWithDefault() {
     var appLanguage = getSelectedIApplication().getDefaultEMailLanguage();
     var languages = new ArrayList<SelectItem>();
     languages.add(new SelectItem("app", "Application default (" + appLanguage.getDisplayLanguage() + ")"));
@@ -193,8 +162,7 @@ public class ManagerBean
     return languages;
   }
 
-  public List<SelectItem> getSupportedLanguages()
-  {
+  public List<SelectItem> getSupportedLanguages() {
     // Fix for PortalKit (creates a second german language)
     return manager.getLanguages().stream()
             .map(l -> l.getLocale())
@@ -203,48 +171,39 @@ public class ManagerBean
             .collect(Collectors.toList());
   }
 
-  public boolean isIvySecuritySystem()
-  {
+  public boolean isIvySecuritySystem() {
     return SecuritySystemConfig.IVY_SECURITY_SYSTEM
             .equals(getSelectedIApplication().getSecurityContext().getExternalSecuritySystemName());
   }
 
-  public List<String> getEnvironments()
-  {
+  public List<String> getEnvironments() {
     return environments.get(getSelectedApplication().getId());
   }
 
-  public void setSelectedEnvironment(String environment)
-  {
+  public void setSelectedEnvironment(String environment) {
     selectedEnvironment = environment;
   }
 
-  public String getSelectedEnvironment()
-  {
-    if (environments.get(getSelectedApplication().getId()).contains(selectedEnvironment))
-    {
+  public String getSelectedEnvironment() {
+    if (environments.get(getSelectedApplication().getId()).contains(selectedEnvironment)) {
       return selectedEnvironment;
     }
     return IEnvironment.DEFAULT_ENVIRONMENT_NAME;
   }
 
-  public IEnvironment getSelectedIEnvironment()
-  {
+  public IEnvironment getSelectedIEnvironment() {
     return getSelectedIApplication().findEnvironment(getSelectedEnvironment());
   }
 
-  public boolean hideDashboardWarnings()
-  {
+  public boolean hideDashboardWarnings() {
     return hideDashboadWarnings;
   }
 
-  public boolean isRestartEngine()
-  {
+  public boolean isRestartEngine() {
     return IConfiguration.instance().isEngineRestartNeeded();
   }
 
-  public String formatNumber(long count)
-  {
+  public String formatNumber(long count) {
     return NumberFormat.getInstance(formattingLocale).format(count);
   }
 

@@ -15,54 +15,46 @@ import ch.ivyteam.ivy.db.Databases;
 
 @ManagedBean
 @ViewScoped
-public class DatabaseBean
-{
+public class DatabaseBean {
   private List<DatabaseDto> databases;
   private List<DatabaseDto> filteredDatabases;
   private String filter;
-  
+
   private ManagerBean managerBean;
-  
-  public DatabaseBean()
-  {
+
+  public DatabaseBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     reloadDatabases();
   }
 
-  public void reloadDatabases()
-  {
+  public void reloadDatabases() {
     databases = Databases.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
             .all().stream()
             .filter(db -> !StringUtils.equals(db.name(), "IvySystemDatabase"))
             .map(db -> new DatabaseDto(db))
             .collect(Collectors.toList());
   }
-  
-  public List<DatabaseDto> getDatabases()
-  {
+
+  public List<DatabaseDto> getDatabases() {
     return databases;
   }
-  
-  public List<DatabaseDto> getFilteredDatabases()
-  {
+
+  public List<DatabaseDto> getFilteredDatabases() {
     return filteredDatabases;
   }
 
-  public void setFilteredDatabases(List<DatabaseDto> filteredDatabases)
-  {
+  public void setFilteredDatabases(List<DatabaseDto> filteredDatabases) {
     this.filteredDatabases = filteredDatabases;
   }
-  
-  public String getFilter()
-  {
+
+  public String getFilter() {
     return filter;
   }
-  
-  public void setFilter(String filter)
-  {
+
+  public void setFilter(String filter) {
     this.filter = filter;
   }
-  
+
 }

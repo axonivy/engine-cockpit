@@ -17,8 +17,7 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.query.UserQuery;
 
-public class UserDataModel extends LazyDataModel<User> implements TableFilter
-{
+public class UserDataModel extends LazyDataModel<User> implements TableFilter {
   private static final String MANUAL_FILTER = "manual";
   private static final String DISABLED_FILTER = "disabled";
   private IApplication app;
@@ -29,94 +28,77 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter
   private List<SelectItem> contentFilters;
   private List<String> selectedContentFilters;
 
-  public UserDataModel()
-  {
-  }
+  public UserDataModel() {}
 
-  public UserDataModel(IApplication app)
-  {
+  public UserDataModel(IApplication app) {
     this.app = app;
   }
 
-  public void setApp(IApplication app)
-  {
+  public void setApp(IApplication app) {
     this.app = app;
   }
 
-  public void setFilterRole(IRole filterRole)
-  {
+  public void setFilterRole(IRole filterRole) {
     this.filterRole = filterRole;
   }
 
-  public void setFilter(String filter)
-  {
+  public void setFilter(String filter) {
     this.filter = filter;
   }
 
-  public String getFilter()
-  {
+  public String getFilter() {
     return filter;
   }
-  
-  public void loadContentFilters(boolean isIvySecSystem)
-  {
+
+  public void loadContentFilters(boolean isIvySecSystem) {
     contentFilters = new ArrayList<>();
     contentFilters.add(new SelectItem(DISABLED_FILTER, "Show disabled users"));
-    if (!isIvySecSystem)
-    {
+    if (!isIvySecSystem) {
       contentFilters.add(new SelectItem(MANUAL_FILTER, "Show manual users"));
     }
   }
-  
+
   @Override
-  public List<SelectItem> getContentFilters()
-  {
+  public List<SelectItem> getContentFilters() {
     return contentFilters;
   }
-  
+
   @Override
-  public List<String> getSelectedContentFilters()
-  {
+  public List<String> getSelectedContentFilters() {
     return selectedContentFilters;
   }
-  
+
   @Override
-  public void setSelectedContentFilters(List<String> selectedContentFilters)
-  {
+  public void setSelectedContentFilters(List<String> selectedContentFilters) {
     this.selectedContentFilters = selectedContentFilters;
     showDisabledUsers = selectedContentFilters.contains(DISABLED_FILTER);
     showManualUsers = selectedContentFilters.contains(MANUAL_FILTER);
   }
-  
+
   @Override
-  public void resetSelectedContentFilters()
-  {
+  public void resetSelectedContentFilters() {
     setSelectedContentFilters(Collections.emptyList());
   }
-  
+
   @Override
-  public String getContentFilterText()
-  {
+  public String getContentFilterText() {
     var joiner = new StringJoiner(" ");
-    if (showManualUsers)
-    {
+    if (showManualUsers) {
       joiner.add(MANUAL_FILTER);
     }
-    if (showDisabledUsers)
-    {
+    if (showDisabledUsers) {
       joiner.add(DISABLED_FILTER);
     }
     var filterText = joiner.toString();
-    if (filterText.isBlank())
-    {
+    if (filterText.isBlank()) {
       filterText = "enabled";
     }
     return filterText + " users";
   }
 
   @Override
-  public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters)
-  {
+  public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+          Map<String, Object> filters) {
     var userQuery = userQuery();
 
     filterRole(userQuery);
@@ -124,90 +106,74 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter
     applyOrdering(userQuery, sortField, sortOrder);
 
     var users = userQuery
-        .executor()
-        .resultsPaged()
-        .map(User::new)
-        .window(first, pageSize);
+            .executor()
+            .resultsPaged()
+            .map(User::new)
+            .window(first, pageSize);
     checkIfUserIsLoggedIn(app, users);
     setRowCount((int) userQuery.executor().count());
     return users;
   }
 
-  private void filterRole(UserQuery userQuery)
-  {
-    if (filterRole != null)
-    {
+  private void filterRole(UserQuery userQuery) {
+    if (filterRole != null) {
       userQuery.where().hasRole(filterRole);
     }
   }
 
-  private void applyFilter(UserQuery query)
-  {
-    if (StringUtils.isNotEmpty(filter))
-    {
+  private void applyFilter(UserQuery query) {
+    if (StringUtils.isNotEmpty(filter)) {
       query.where().and(userQuery().where()
-        .name().isLikeIgnoreCase(filter + "%")
-       .or()
-        .fullName().isLikeIgnoreCase(filter + "%")
-       .or()
-        .eMailAddress().isLikeIgnoreCase(filter + "%"));
+              .name().isLikeIgnoreCase(filter + "%")
+              .or()
+              .fullName().isLikeIgnoreCase(filter + "%")
+              .or()
+              .eMailAddress().isLikeIgnoreCase(filter + "%"));
     }
 
     query.where().and(userQuery().where().enabled().is(!showDisabledUsers));
 
-    if (showManualUsers)
-    {
+    if (showManualUsers) {
       query.where().and(userQuery().where().external().isFalse());
     }
   }
-  
-  private UserQuery userQuery()
-  {
+
+  private UserQuery userQuery() {
     return app.getSecurityContext().users().query();
   }
 
-  private static void applyOrdering(UserQuery query, String sortField, SortOrder sortOrder)
-  {
-    if (StringUtils.isEmpty(sortField))
-    {
+  private static void applyOrdering(UserQuery query, String sortField, SortOrder sortOrder) {
+    if (StringUtils.isEmpty(sortField)) {
       return;
     }
-    if ("name".equals(sortField))
-    {
+    if ("name".equals(sortField)) {
       applySorting(query.orderBy().name(), sortOrder);
     }
-    if ("fullName".equals(sortField))
-    {
+    if ("fullName".equals(sortField)) {
       applySorting(query.orderBy().fullName(), sortOrder);
     }
-    if ("email".equals(sortField))
-    {
+    if ("email".equals(sortField)) {
       applySorting(query.orderBy().eMailAddress(), sortOrder);
     }
   }
-  
-  private static void applySorting(UserQuery.OrderByColumnQuery query, SortOrder sortOrder)
-  {
-    if (SortOrder.ASCENDING.equals(sortOrder))
-    {
+
+  private static void applySorting(UserQuery.OrderByColumnQuery query, SortOrder sortOrder) {
+    if (SortOrder.ASCENDING.equals(sortOrder)) {
       query.ascending();
     }
-    if (SortOrder.DESCENDING.equals(sortOrder))
-    {
+    if (SortOrder.DESCENDING.equals(sortOrder)) {
       query.descending();
     }
   }
 
-  private static void checkIfUserIsLoggedIn(IApplication app, List<User> appUsers)
-  {
-    for (var session : app.getSecurityContext().getClusterSessionsSnapshot().getSessionInfos())
-    {
+  private static void checkIfUserIsLoggedIn(IApplication app, List<User> appUsers) {
+    for (var session : app.getSecurityContext().getClusterSessionsSnapshot().getSessionInfos()) {
       var sessionUser = session.getSessionUserName();
       appUsers.stream()
-        .filter(u -> u.getName().equals(sessionUser))
-        .findAny()
-        .ifPresent(user -> user.setLoggedIn(true));
+              .filter(u -> u.getName().equals(sessionUser))
+              .findAny()
+              .ifPresent(user -> user.setLoggedIn(true));
     }
   }
-  
+
 }

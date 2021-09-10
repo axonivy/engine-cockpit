@@ -9,119 +9,101 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
-public class WizardBean
-{
+public class WizardBean {
   private Steps activeStep;
   private List<StepStatus> steps;
-  
-  public WizardBean()
-  {
+
+  public WizardBean() {
     activeStep = Steps.LICENCE;
     Steps firstStep = getFirstStepWithWarning();
-    if (firstStep != null)
-    {
+    if (firstStep != null) {
       activeStep = firstStep;
     }
   }
 
-  public String getInfoPageUrl()
-  {
+  public String getInfoPageUrl() {
     return FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath();
   }
-  
-  public int getActiveStep()
-  {
+
+  public int getActiveStep() {
     return activeStep.value;
   }
-  
-  public void setActiveStep(int step)
-  {
+
+  public void setActiveStep(int step) {
     activeStep = Steps.valueOf(step);
   }
-  
-  public void nextStep()
-  {
+
+  public void nextStep() {
     activeStep = Steps.valueOf(activeStep.value + 1);
   }
-  
-  public void prevStep()
-  {
+
+  public void prevStep() {
     activeStep = Steps.valueOf(activeStep.value - 1);
   }
-  
-  public boolean isLastStep()
-  {
+
+  public boolean isLastStep() {
     return activeStep.value == Steps.values().length - 1;
   }
-  
-  public boolean isFirstStep()
-  {
+
+  public boolean isFirstStep() {
     return activeStep.value == 0;
   }
-  
-  public Steps getFirstStepWithWarning()
-  {
+
+  public Steps getFirstStepWithWarning() {
     steps = new ArrayList<>();
     var context = FacesContext.getCurrentInstance();
     steps.add(context.getApplication().evaluateExpressionGet(context, "#{licenceBean}", StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{administratorBean}", StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{webServerConnectorBean}", StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{systemDatabaseBean}", StepStatus.class));
-    for (StepStatus step : steps)
-    {
-      if (!step.isStepOk())
-      {
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{administratorBean}",
+            StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{webServerConnectorBean}",
+            StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{systemDatabaseBean}",
+            StepStatus.class));
+    for (StepStatus step : steps) {
+      if (!step.isStepOk()) {
         return Steps.valueOf(steps.indexOf(step));
       }
     }
     return null;
   }
-  
-  public void gotoFirstWarningStep()
-  {
+
+  public void gotoFirstWarningStep() {
     var firstStepWithWarning = getFirstStepWithWarning();
-    if (firstStepWithWarning != null)
-    {
+    if (firstStepWithWarning != null) {
       setActiveStep(getFirstStepWithWarning().value);
     }
   }
-  
+
   public static enum Steps {
-    LICENCE (0, "Licence"),
-    ADMINS (1, "Administrators"),
-    WEBSERVER (2, "Web Server"),
-    SYSTEMDB (3, "System Database");
-    
+    LICENCE(0, "Licence"), ADMINS(1, "Administrators"), WEBSERVER(2, "Web Server"), SYSTEMDB(3,
+            "System Database");
+
     private final int value;
     private final String name;
-    
-    Steps(int value, String name)
-    {
+
+    Steps(int value, String name) {
       this.value = value;
       this.name = name;
     }
-    
-    public String getName()
-    {
+
+    public String getName() {
       return name;
     }
-    
-    public static Steps valueOf(int index)
-    {
-      if (index >= Steps.values().length || index < 0)
-      {
+
+    public static Steps valueOf(int index) {
+      if (index >= Steps.values().length || index < 0) {
         return Steps.LICENCE;
       }
       return values()[index];
     }
   }
-  
-  public abstract static class StepStatus
-  {
+
+  public abstract static class StepStatus {
     public abstract boolean isStepOk();
+
     public abstract String getStepWarningMessage();
-    public String getStepStatus()
-    {
+
+    public String getStepStatus() {
       return isStepOk() ? "step-ok" : "step-warning";
     }
   }

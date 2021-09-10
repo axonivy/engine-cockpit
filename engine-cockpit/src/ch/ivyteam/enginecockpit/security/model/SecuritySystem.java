@@ -8,8 +8,7 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 @SuppressWarnings("restriction")
-public class SecuritySystem
-{
+public class SecuritySystem {
 
   private String securitySystemProvider;
   private String securitySystemName;
@@ -17,12 +16,14 @@ public class SecuritySystem
   private List<String> appNames;
   private long usersCount;
   private int rolesCount;
-  
-  public SecuritySystem(String securitySystemName, Optional<ISecurityContext> securityContext, List<String> appNames)
-  {
+
+  public SecuritySystem(String securitySystemName, Optional<ISecurityContext> securityContext,
+          List<String> appNames) {
     this.securitySystemName = securitySystemName;
-    securitySystemProvider = IConfiguration.instance().get("SecuritySystems." + securitySystemName + ".Provider")
-            .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemName()).orElse(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
+    securitySystemProvider = IConfiguration.instance()
+            .get("SecuritySystems." + securitySystemName + ".Provider")
+            .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemName())
+                    .orElse(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
     id = securityContext.map(c -> c.getId()).orElse(0L);
 
     this.appNames = appNames;
@@ -30,60 +31,48 @@ public class SecuritySystem
     this.rolesCount = securityContext.map(c -> c.getRoles().size()).orElse(0);
   }
 
-  private long countUser(ISecurityContext securityContext)
-  {
+  private long countUser(ISecurityContext securityContext) {
     return securityContext.users().count();
   }
 
-  public String getSecuritySystemProvider()
-  {
+  public String getSecuritySystemProvider() {
     return securitySystemProvider;
   }
 
-  public void setSecuritySystemProvider(String securitySystemProvider)
-  {
+  public void setSecuritySystemProvider(String securitySystemProvider) {
     this.securitySystemProvider = securitySystemProvider;
   }
 
-  public String getSecuritySystemName()
-  {
+  public String getSecuritySystemName() {
     return securitySystemName;
   }
 
-  public void setSecuritySystemName(String securitySystemName)
-  {
+  public void setSecuritySystemName(String securitySystemName) {
     this.securitySystemName = securitySystemName;
   }
 
-  public long getId()
-  {
+  public long getId() {
     return id;
   }
 
-  public void setId(long id)
-  {
+  public void setId(long id) {
     this.id = id;
   }
-  
-  public List<String> getAppNames()
-  {
+
+  public List<String> getAppNames() {
     return appNames;
   }
 
-  public long getUsersCount()
-  {
+  public long getUsersCount() {
     return usersCount;
   }
 
-  public int getRolesCount()
-  {
+  public int getRolesCount() {
     return rolesCount;
   }
-  
-  public String getLink()
-  {
-    if (SecuritySystemConfig.IVY_SECURITY_SYSTEM.equals(securitySystemProvider))
-    {
+
+  public String getLink() {
+    if (SecuritySystemConfig.IVY_SECURITY_SYSTEM.equals(securitySystemProvider)) {
       return "";
     }
     return "security-detail.xhtml?securitySystemName=" + securitySystemName;

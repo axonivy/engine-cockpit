@@ -19,8 +19,7 @@ import ch.ivyteam.ivy.vars.Variables;
 
 @ManagedBean
 @ViewScoped
-public class VariableBean implements ConfigView
-{
+public class VariableBean implements ConfigView {
   private ManagerBean managerBean;
   private List<ConfigProperty> variables;
   private List<ConfigProperty> filteredVariables;
@@ -29,18 +28,16 @@ public class VariableBean implements ConfigView
   private IApplication app;
   private IEnvironment env;
 
-  public VariableBean()
-  {
+  public VariableBean() {
     var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
     reloadVariables();
   }
 
-  public void reloadVariables()
-  {
+  public void reloadVariables() {
     activeVariable = new ConfigProperty();
-    if (managerBean.getApplications().size() != 0)
-    {
+    if (managerBean.getApplications().size() != 0) {
       app = managerBean.getSelectedIApplication();
       env = managerBean.getSelectedIEnvironment();
       variables = variables().all().stream()
@@ -52,43 +49,35 @@ public class VariableBean implements ConfigView
   }
 
   @Override
-  public List<ConfigProperty> getConfigs()
-  {
+  public List<ConfigProperty> getConfigs() {
     return variables;
   }
 
   @Override
-  public List<ConfigProperty> getFilteredConfigs()
-  {
+  public List<ConfigProperty> getFilteredConfigs() {
     return filteredVariables;
   }
 
   @Override
-  public void setFilteredConfigs(List<ConfigProperty> filteredConfigs)
-  {
+  public void setFilteredConfigs(List<ConfigProperty> filteredConfigs) {
     this.filteredVariables = filteredConfigs;
   }
 
   @Override
-  public String getFilter()
-  {
+  public String getFilter() {
     return filter;
   }
 
   @Override
-  public void setFilter(String filter)
-  {
+  public void setFilter(String filter) {
     this.filter = filter;
   }
 
   @Override
-  public void setActiveConfig(String configKey)
-  {
-    if (StringUtils.isNotBlank(configKey))
-    {
+  public void setActiveConfig(String configKey) {
+    if (StringUtils.isNotBlank(configKey)) {
       var variable = variables().variable(configKey);
-      if (variable != null)
-      {
+      if (variable != null) {
         activeVariable = new ConfigProperty(variable);
         return;
       }
@@ -97,39 +86,33 @@ public class VariableBean implements ConfigView
   }
 
   @Override
-  public ConfigProperty getActiveConfig()
-  {
+  public ConfigProperty getActiveConfig() {
     return activeVariable;
   }
 
   @Override
-  public void resetConfig()
-  {
+  public void resetConfig() {
     variables().reset(activeVariable.getKey());
     reloadAndUiMessage("reset to default");
   }
 
   @Override
-  public void saveConfig()
-  {
+  public void saveConfig() {
     variables().set(activeVariable.getKey(), activeVariable.getValue());
     reloadAndUiMessage("saved");
   }
 
-  private void reloadAndUiMessage(String message)
-  {
+  private void reloadAndUiMessage(String message) {
     FacesContext.getCurrentInstance().addMessage("msgs",
             new FacesMessage("'" + activeVariable.getKey() + "' " + message));
     reloadVariables();
   }
 
-  public boolean isDefaultEnv()
-  {
+  public boolean isDefaultEnv() {
     return env.isDefault();
   }
 
-  private Variables variables()
-  {
+  private Variables variables() {
     return Variables.of(app, env.getName());
   }
 }

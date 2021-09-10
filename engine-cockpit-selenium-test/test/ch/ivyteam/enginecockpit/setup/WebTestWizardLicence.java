@@ -18,24 +18,20 @@ import org.junit.jupiter.api.Test;
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 @IvyWebTest
-public class WebTestWizardLicence
-{
-  
+public class WebTestWizardLicence {
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     WebTestWizard.navigateToStep("Licence");
   }
-  
+
   @AfterEach
-  void afterEach()
-  {
+  void afterEach() {
     resetLicence();
   }
-  
+
   @Test
-  void testLicenceStep()
-  {
+  void testLicenceStep() {
     $("#licence\\:licWarnMessage").shouldHave(text("Please upload a valid licence."));
     WebTestWizard.activeStepShouldHaveWarnings();
     uploadLicence();
@@ -43,35 +39,31 @@ public class WebTestWizardLicence
     $("#licence\\:fileUploadForm\\:licenceInfoTable").shouldHave(text("Lukas Lieb"));
     $("#licence\\:licWarnMessage").shouldHave(empty);
     WebTestWizard.activeStepShouldBeOk();
-    
+
     WebTestWizard.nextStep();
     $(WebTestWizard.ACTIVE_WIZARD_STEP).shouldBe(text("Administrators"));
   }
-  
+
   @Test
-  public void testLicenceUploadInvalidFileEnding() throws IOException
-  {
+  public void testLicenceUploadInvalidFileEnding() throws IOException {
     uploadLicence(Files.createTempFile("licence", ".txt"));
     $("#uploadStatus").shouldBe(empty);
     $("#selectedFileOutput").shouldBe(exactText("Choose or drop a file which ends with: .lic"));
   }
-  
+
   @Test
-  public void testLicenceUploadInvalidLicence() throws IOException
-  {
+  public void testLicenceUploadInvalidLicence() throws IOException {
     uploadLicence(Files.createTempFile("licence", ".lic"));
     $("#uploadStatus").shouldBe(exactText("Error"));
     $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
   }
-  
-  private void uploadLicence()
-  {
-    uploadLicence(new File(System.getProperty("user.dir")+"/resources/test.lic").toPath());
+
+  private void uploadLicence() {
+    uploadLicence(new File(System.getProperty("user.dir") + "/resources/test.lic").toPath());
   }
-  
-  private void uploadLicence(Path lic)
-  {
+
+  private void uploadLicence(Path lic) {
     $("#fileInput").sendKeys(lic.toString());
   }
-  
+
 }

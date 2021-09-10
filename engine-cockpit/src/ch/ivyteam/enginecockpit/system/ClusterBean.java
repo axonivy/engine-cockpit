@@ -12,8 +12,7 @@ import ch.ivyteam.ivy.cluster.restricted.IClusterManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class ClusterBean
-{
+public class ClusterBean {
 
   private boolean isClusterServer;
   private List<ClusterNode> clusterNodes;
@@ -24,56 +23,46 @@ public class ClusterBean
 
   private IClusterManager clusterManager = IClusterManager.instance();
 
-  public ClusterBean()
-  {
+  public ClusterBean() {
     isClusterServer = clusterManager.isClusterServer();
     clusterNodes = loadClusterNodes();
     activeClusterNode = new ClusterNode(null);
   }
 
-  public boolean isClusterServer()
-  {
+  public boolean isClusterServer() {
     return isClusterServer;
   }
 
-  private List<ClusterNode> loadClusterNodes()
-  {
+  private List<ClusterNode> loadClusterNodes() {
     return clusterManager.getClusterNodes().stream().map(node -> new ClusterNode(node))
             .collect(Collectors.toList());
   }
 
-  public List<ClusterNode> getNodes()
-  {
+  public List<ClusterNode> getNodes() {
     return clusterNodes;
   }
 
-  public void setActiveClusterNode(ClusterNode node)
-  {
+  public void setActiveClusterNode(ClusterNode node) {
     activeClusterNode = node;
   }
 
-  public ClusterNode getActiveClusterNode()
-  {
+  public ClusterNode getActiveClusterNode() {
     return activeClusterNode;
   }
 
-  public List<ClusterNode> getFilteredNodes()
-  {
+  public List<ClusterNode> getFilteredNodes() {
     return filteredNodes;
   }
 
-  public void setFilteredNodes(List<ClusterNode> filteredNodes)
-  {
+  public void setFilteredNodes(List<ClusterNode> filteredNodes) {
     this.filteredNodes = filteredNodes;
   }
 
-  public String getFilter()
-  {
+  public String getFilter() {
     return filter;
   }
 
-  public void setFilter(String filter)
-  {
+  public void setFilter(String filter) {
     this.filter = filter;
   }
 

@@ -25,14 +25,12 @@ import ch.ivyteam.ivy.persistence.restricted.PersistencyDumper;
 @SuppressWarnings("restriction")
 @ManagedBean
 @RequestScoped
-public class SupportBean
-{
+public class SupportBean {
 
   private IApplicationConfigurationManager appManager = IApplicationConfigurationManager.instance();
   private ISystemDatabasePersistencyService systemDbService = ISystemDatabasePersistencyService.instance();
 
-  public StreamedContent getSupportReport() throws IOException
-  {
+  public StreamedContent getSupportReport() throws IOException {
     var errorReport = createSupportReport();
     var tempDirectory = collectReportData(errorReport);
     var out = new ByteArrayOutputStream();
@@ -42,16 +40,14 @@ public class SupportBean
             "support-engine-report.zip");
   }
 
-  private String createSupportReport()
-  {
+  private String createSupportReport() {
     var dumpers = ErrorReport.addStandardDumpers(false,
             new ApplicationConfigurationDumper(appManager),
             new PersistencyDumper(systemDbService));
     return ErrorReport.createErrorReport(dumpers);
   }
 
-  private Path collectReportData(String errorReport) throws IOException
-  {
+  private Path collectReportData(String errorReport) throws IOException {
     var tempDirectory = Files.createTempDirectory("SupportReport");
     Files.writeString(Files.createFile(tempDirectory.resolve("report.txt")), errorReport);
     Files.walk(UrlUtil.getLogDir().toRealPath())
@@ -61,14 +57,10 @@ public class SupportBean
     return tempDirectory;
   }
 
-  private void copyLogFile(Path log, Path tempDirectory)
-  {
-    try
-    {
+  private void copyLogFile(Path log, Path tempDirectory) {
+    try {
       Files.copy(log, tempDirectory.resolve(log.getFileName()));
-    }
-    catch (IOException ex)
-    {
+    } catch (IOException ex) {
       Ivy.log().info("Couldn't copy file '" + log + "' to tempDir '" + tempDirectory + "': ", ex);
     }
   }

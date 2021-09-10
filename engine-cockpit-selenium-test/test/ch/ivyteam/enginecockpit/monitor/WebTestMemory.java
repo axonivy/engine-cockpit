@@ -15,43 +15,37 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestMemory
-{
-  
+public class WebTestMemory {
+
   @BeforeAll
-  static void beforeAll()
-  {
+  static void beforeAll() {
     login();
     Navigation.toMemory();
   }
-  
+
   @Test
-  void memoryPageContent()
-  {
-    $$(".ui-panel").shouldHave(size(3)); 
+  void memoryPageContent() {
+    $$(".ui-panel").shouldHave(size(3));
   }
-  
+
   @Test
-  void gcContent()
-  {
+  void gcContent() {
     $("#gc")
-        .shouldHave(text("Garbage Collection"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+            .shouldHave(text("Garbage Collection"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
   @Test
-  void heapMemoryContent()
-  {
+  void heapMemoryContent() {
     $("#heapMemory")
-        .shouldHave(text("Heap Memory"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+            .shouldHave(text("Heap Memory"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 
   @Test
-  void nonHeapMemoryContent()
-  {
+  void nonHeapMemoryContent() {
     $("#nonHeapMemory")
-        .shouldHave(text("Non Heap Memory"))
-        .find(".jqplot-grid-canvas").shouldBe(visible);
+            .shouldHave(text("Non Heap Memory"))
+            .find(".jqplot-grid-canvas").shouldBe(visible);
   }
 }

@@ -21,15 +21,13 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestRenewLicence
-{
-  
+public class WebTestRenewLicence {
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toLicence();
-    File file = new File(System.getProperty("user.dir")+"/resources/test.lic");
+    File file = new File(System.getProperty("user.dir") + "/resources/test.lic");
     String path = file.getAbsolutePath();
     $("#fileInput").sendKeys(path);
     $("#uploadLog").shouldHave(text("Successfully uploaded licence"));
@@ -37,35 +35,31 @@ public class WebTestRenewLicence
     table.firstColumnShouldBe(size(13));
     table.valueForEntryShould("licence.type", 2, text("Standard Edition"));
   }
-  
+
   @AfterEach
-  void afterEach()
-  {
+  void afterEach() {
     resetLicence();
   }
 
   @Test
-  public void testRenewRequest()
-  {
+  public void testRenewRequest() {
     sendRenew("webTest@renewLicence.axonivy.test");
     $(".ui-growl-message").shouldHave(text("This is for testing"));
     $("#renewLicence\\:renewLicence").shouldNotBe(visible);
   }
-  
+
   @Test
-  public void testRenewRequestNoOrInvalidMail()
-  {
+  public void testRenewRequestNoOrInvalidMail() {
     sendRenew("");
     $("#renewLicence\\:form\\:emailInputMessage").shouldBe(exactText("Please put your mail"));
     $("#renewLicence\\:form\\:cancelRenewBtn").click();
     $("#renewLicence\\:renewLicence").shouldNotBe(visible);
-    
+
     sendRenew("invalid");
     $(".ui-growl-message").shouldHave(text("Your email address is not valid"));
   }
 
-  private void sendRenew(String mailTo)
-  {
+  private void sendRenew(String mailTo) {
     $("#renewForm\\:tasksButtonLicenceRenew").click();
     $("#renewLicence\\:renewLicence").shouldBe(visible);
     $("#renewLicence\\:form\\:emailInput").sendKeys(mailTo);

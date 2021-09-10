@@ -8,8 +8,7 @@ import ch.ivyteam.ivy.cluster.restricted.IClusterNode;
 import ch.ivyteam.util.Version;
 
 @SuppressWarnings("restriction")
-public class ClusterNode
-{
+public class ClusterNode {
 
   private IClusterNode node;
   private String name;
@@ -32,11 +31,9 @@ public class ClusterNode
   private String javaVersion;
   private String javaVirtualMachineName;
 
-  public ClusterNode(IClusterNode node)
-  {
+  public ClusterNode(IClusterNode node) {
     this.node = node;
-    if (node != null)
-    {
+    if (node != null) {
       name = node.getName();
       hostName = node.getHostName();
       ipAddress = node.getIpAddress();
@@ -58,139 +55,109 @@ public class ClusterNode
       javaVirtualMachineName = node.getJavaVirtualMachineName();
     }
   }
-  
-  public String getName()
-  {
+
+  public String getName() {
     return name;
   }
 
-  public String getHostName()
-  {
+  public String getHostName() {
     return hostName;
   }
 
-  public String getIpAddress()
-  {
+  public String getIpAddress() {
     return ipAddress;
   }
 
-  public int getIpPort()
-  {
+  public int getIpPort() {
     return ipPort;
   }
 
-  public String getJvmRouteName()
-  {
+  public String getJvmRouteName() {
     return jvmRouteName;
   }
 
-  public ClusterNodeState getState()
-  {
+  public ClusterNodeState getState() {
     return state;
   }
 
-  public ClusterNodeCommunicationState getCommunicationState()
-  {
+  public ClusterNodeCommunicationState getCommunicationState() {
     return communicationState;
   }
 
-  public boolean isMaster()
-  {
+  public boolean isMaster() {
     return master;
   }
 
-  public boolean isLocal()
-  {
+  public boolean isLocal() {
     return local;
   }
-  
-  public boolean isLicensed()
-  {
+
+  public boolean isLicensed() {
     return licensed;
   }
-  
-  public String getLicensedClass()
-  {
-    if (isLicensed())
-    {
+
+  public String getLicensedClass() {
+    if (isLicensed()) {
       return "";
     }
     return "si si-real-estate-action-house-key table-icon state-inactive";
   }
-  
-  public Version getIvyVersion()
-  {
+
+  public Version getIvyVersion() {
     return ivyVersion;
   }
 
-  public String getOperatingSystemName()
-  {
+  public String getOperatingSystemName() {
     return operatingSystemName;
   }
 
-  public String getOperatingSystemVersion()
-  {
+  public String getOperatingSystemVersion() {
     return operatingSystemVersion;
   }
 
-  public String getOperatingSystemArchitecture()
-  {
+  public String getOperatingSystemArchitecture() {
     return operatingSystemArchitecture;
   }
 
-  public String getJavaVersion()
-  {
+  public String getJavaVersion() {
     return javaVersion;
   }
 
-  public String getJavaVirtualMachineName()
-  {
+  public String getJavaVirtualMachineName() {
     return javaVirtualMachineName;
   }
 
-  public String getStateClass()
-  {
-    if (ClusterNodeState.DOWN.equals(state))
-    {
+  public String getStateClass() {
+    if (ClusterNodeState.DOWN.equals(state)) {
       return "state-inactive";
-    }
-    else if (ClusterNodeState.RUNNING.equals(state))
-    {
+    } else if (ClusterNodeState.RUNNING.equals(state)) {
       return "state-active";
     }
     return "state-unknown";
   }
-  
-  public String getCommunicationStateClass()
-  {
-    if (ClusterNodeCommunicationState.DOWN.equals(communicationState))
-    {
+
+  public String getCommunicationStateClass() {
+    if (ClusterNodeCommunicationState.DOWN.equals(communicationState)) {
       return "state-inactive";
-    }
-    else if (ClusterNodeCommunicationState.UP.equals(communicationState))
-    {
+    } else if (ClusterNodeCommunicationState.UP.equals(communicationState)) {
       return "state-active";
     }
     return "state-unknown";
   }
-  
-  public String getStartTimestamp()
-  {
+
+  public String getStartTimestamp() {
     return lastStartTimestamp;
   }
-  
-  public String getStopTimestamp()
-  {
+
+  public String getStopTimestamp() {
     return lastStopTimestamp;
   }
-  
-  public String getFailTimestamp()
-  {
+
+  public String getFailTimestamp() {
     return lastFailTimestamp;
   }
-  
-  public IClusterNode getNode()
-  {
+
+  public IClusterNode getNode() {
     return node;
   }
 }

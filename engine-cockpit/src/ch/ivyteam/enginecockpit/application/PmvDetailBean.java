@@ -15,8 +15,7 @@ import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
 
 @ManagedBean
 @ViewScoped
-public class PmvDetailBean
-{
+public class PmvDetailBean {
   private String appName;
   private String pmName;
   private String pmvVersion;
@@ -28,50 +27,41 @@ public class PmvDetailBean
   private List<ProcessModelVersion> requriedPmvs;
   private List<LibSpecification> requiredSpecifications;
 
-  public PmvDetailBean()
-  {
+  public PmvDetailBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
   }
 
-  public void setPmvVersion(String pmvVersion)
-  {
+  public void setPmvVersion(String pmvVersion) {
     this.pmvVersion = pmvVersion;
     reloadDetailPmv();
   }
 
-  public String getPmvVersion()
-  {
+  public String getPmvVersion() {
     return pmvVersion;
   }
 
-  public void setAppName(String appName)
-  {
+  public void setAppName(String appName) {
     this.appName = appName;
     reloadDetailPmv();
   }
 
-  public String getAppName()
-  {
+  public String getAppName() {
     return appName;
   }
 
-  public void setPmName(String pmName)
-  {
+  public void setPmName(String pmName) {
     this.pmName = pmName;
     reloadDetailPmv();
   }
 
-  public String getPmName()
-  {
+  public String getPmName() {
     return pmName;
   }
 
-  private void reloadDetailPmv()
-  {
-    if (this.appName != null && this.pmName != null && this.pmvVersion != null)
-    {
+  private void reloadDetailPmv() {
+    if (this.appName != null && this.pmName != null && this.pmvVersion != null) {
       managerBean.reloadApplications();
       IProcessModelVersion iPmv = managerBean.getManager().findProcessModelVersion(appName, pmName,
               Integer.parseInt(pmvVersion));
@@ -86,28 +76,23 @@ public class PmvDetailBean
     }
   }
 
-  public ProcessModelVersion getPmv()
-  {
+  public ProcessModelVersion getPmv() {
     return pmv;
   }
 
-  public String getDeployedProject()
-  {
+  public String getDeployedProject() {
     return deployedProject;
   }
 
-  public List<ProcessModelVersion> getDependentPmvs()
-  {
+  public List<ProcessModelVersion> getDependentPmvs() {
     return dependendPmvs;
   }
 
-  public List<ProcessModelVersion> getRequiredPmvs()
-  {
+  public List<ProcessModelVersion> getRequiredPmvs() {
     return requriedPmvs;
   }
 
-  public List<LibSpecification> getRequiredSpecifications()
-  {
+  public List<LibSpecification> getRequiredSpecifications() {
     return requiredSpecifications;
   }
 

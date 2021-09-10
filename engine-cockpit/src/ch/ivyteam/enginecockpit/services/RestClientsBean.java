@@ -13,52 +13,45 @@ import ch.ivyteam.ivy.rest.client.RestClients;
 
 @ManagedBean
 @ViewScoped
-public class RestClientsBean
-{
+public class RestClientsBean {
   private List<RestClientDto> restClients;
   private List<RestClientDto> filteredRestClients;
   private String filter;
-  
+
   private ManagerBean managerBean;
-  
-  public RestClientsBean()
-  {
+
+  public RestClientsBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     reloadRestClients();
   }
 
-  public void reloadRestClients()
-  {
-    restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment()).all().stream()
+  public void reloadRestClients() {
+    restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
+            .all().stream()
             .map(rest -> new RestClientDto(rest))
             .collect(Collectors.toList());
   }
-  
-  public List<RestClientDto> getRestClients()
-  {
+
+  public List<RestClientDto> getRestClients() {
     return restClients;
   }
-  
-  public List<RestClientDto> getFilteredRestClients()
-  {
+
+  public List<RestClientDto> getFilteredRestClients() {
     return filteredRestClients;
   }
 
-  public void setFilteredRestClients(List<RestClientDto> filteredRestClients)
-  {
+  public void setFilteredRestClients(List<RestClientDto> filteredRestClients) {
     this.filteredRestClients = filteredRestClients;
   }
-  
-  public String getFilter()
-  {
+
+  public String getFilter() {
     return filter;
   }
-  
-  public void setFilter(String filter)
-  {
+
+  public void setFilter(String filter) {
     this.filter = filter;
   }
-  
+
 }

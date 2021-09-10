@@ -13,20 +13,18 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestRestClients
-{
+public class WebTestRestClients {
   @Test
-  void testRestClientsInTable()
-  {
+  void testRestClientsInTable() {
     login();
     Navigation.toRestClients();
     Tab.switchToDefault();
-    Table table = new Table(By.id("tabs:applicationTabView:" + 
+    Table table = new Table(By.id("tabs:applicationTabView:" +
             Tab.getSelectedTabIndex() + ":form:restClientsTable"), true);
     table.firstColumnShouldBe(size(2));
 
     table.search(table.getFirstColumnEntries().get(0));
     table.firstColumnShouldBe(size(1));
   }
-  
+
 }

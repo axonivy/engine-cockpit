@@ -32,8 +32,7 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
-public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult
-{
+public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult {
   private Webservice webservice;
   private String webserviceId;
 
@@ -46,60 +45,52 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceMonitor liveStats;
   private WebServiceClients webServiceClients;
 
-  public WebserviceDetailBean()
-  {
+  public WebserviceDetailBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
-    webServiceClients = WebServiceClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
+    webServiceClients = WebServiceClients.of(managerBean.getSelectedIApplication(),
+            managerBean.getSelectedEnvironment());
     connectionTest = new ConnectionTestWrapper();
   }
 
-  public String getWebserviceId()
-  {
+  public String getWebserviceId() {
     return webserviceId;
   }
 
-  public void setWebserviceId(String webserviceId)
-  {
-    if (this.webserviceId == null)
-    {
+  public void setWebserviceId(String webserviceId) {
+    if (this.webserviceId == null) {
       this.webserviceId = webserviceId;
       reloadWebservice();
-      liveStats = new WebServiceMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), webserviceId);
+      liveStats = new WebServiceMonitor(managerBean.getSelectedApplicationName(),
+              managerBean.getSelectedEnvironment(), webserviceId);
     }
   }
 
-  private void reloadWebservice()
-  {
+  private void reloadWebservice() {
     webservice = createWebService();
   }
 
-  private Webservice createWebService()
-  {
+  private Webservice createWebService() {
     return new Webservice(webServiceClients.find(webserviceId));
   }
 
-  public Webservice getWebservice()
-  {
+  public Webservice getWebservice() {
     return webservice;
   }
 
   @Override
-  public String getTitle()
-  {
+  public String getTitle() {
     return "Web Service '" + webservice.getName() + "'";
   }
 
   @Override
-  public String getGuideText()
-  {
+  public String getGuideText() {
     return "To edit your Web Service overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
 
   @Override
-  public String getYaml()
-  {
+  public String getYaml() {
     var valuesMap = new HashMap<String, String>();
     valuesMap.put("name", webservice.getName());
     valuesMap.put("endpoints", parseEndpointsToYaml(webservice.getPortTypeMap()));
@@ -113,75 +104,63 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   @Override
-  public String getHelpUrl()
-  {
+  public String getHelpUrl() {
     return UrlUtil.getCockpitEngineGuideUrl() + "services.html#web-service-detail";
   }
 
-  public void setActiveEndpoint(String endpointUrl)
-  {
+  public void setActiveEndpoint(String endpointUrl) {
     this.activeEndpointUrl = endpointUrl;
   }
 
-  public String getActiveEndpoint()
-  {
+  public String getActiveEndpoint() {
     return activeEndpointUrl;
   }
 
-  public void testWsEndpointUrl()
-  {
+  public void testWsEndpointUrl() {
     testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
   }
 
-  private ConnectionTestResult testConnection()
-  {
+  private ConnectionTestResult testConnection() {
     var client = ClientBuilder.newClient();
-    if (authSupportedForTesting())
-    {
+    if (authSupportedForTesting()) {
       client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
     }
-    try
-    {
+    try {
       int status = client.target(activeEndpointUrl).request().post(Entity.json("")).getStatus();
-      if (status == 401)
-      {
-        return new ConnectionTestResult("POST", status, TestResult.WARNING, "Authentication (only HttpBasic supported) was not successful");
-      }
-      else if (status == 404)
-      {
+      if (status == 401) {
+        return new ConnectionTestResult("POST", status, TestResult.WARNING,
+                "Authentication (only HttpBasic supported) was not successful");
+      } else if (status == 404) {
         return new ConnectionTestResult("POST", status, TestResult.WARNING, "Service not found");
+      } else {
+        return new ConnectionTestResult("POST", status, TestResult.SUCCESS,
+                "Successfully reached web service");
       }
-      else
-      {
-        return new ConnectionTestResult("POST", status, TestResult.SUCCESS, "Successfully reached web service");
-      }
-    }
-    catch (ProcessingException ex)
-    {
-      return new ConnectionTestResult("", 0, TestResult.ERROR, "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
-              + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
+    } catch (ProcessingException ex) {
+      return new ConnectionTestResult("", 0, TestResult.ERROR,
+              "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
+                      + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
 
-  private boolean authSupportedForTesting()
-  {
-    return StringUtils.equals(webservice.getAuthType(), "HttpBasic") || StringUtils.equals(webservice.getAuthType(), "HTTP_BASIC");
+  private boolean authSupportedForTesting() {
+    return StringUtils.equals(webservice.getAuthType(), "HttpBasic")
+            || StringUtils.equals(webservice.getAuthType(), "HTTP_BASIC");
   }
 
-  private String parseEndpointsToYaml(Map<String, PortType> portTypes)
-  {
-    return portTypes.entrySet().stream().map(e -> e.getKey() + ": \n        - " + e.getValue().getLinks().stream()
-            .map(v -> "\"" + v + "\"")
-            .collect(Collectors.joining("\n        - "))).collect(Collectors.joining("\n      "));
+  private String parseEndpointsToYaml(Map<String, PortType> portTypes) {
+    return portTypes.entrySet().stream()
+            .map(e -> e.getKey() + ": \n        - " + e.getValue().getLinks().stream()
+                    .map(v -> "\"" + v + "\"")
+                    .collect(Collectors.joining("\n        - ")))
+            .collect(Collectors.joining("\n      "));
   }
 
-  public void saveConfig()
-  {
+  public void saveConfig() {
     connectionTest.stop();
     var builder = wsBuilder()
             .property("username", webservice.getUsername());
-    if (webservice.passwordChanged())
-    {
+    if (webservice.passwordChanged()) {
       builder.property("password", webservice.getPassword());
     }
     webServiceClients.set(builder.toWebServiceClient());
@@ -190,8 +169,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     reloadWebservice();
   }
 
-  public void resetConfig()
-  {
+  public void resetConfig() {
     connectionTest.stop();
     webServiceClients.remove(webservice.getName());
     FacesContext.getCurrentInstance().addMessage("wsConfigMsg",
@@ -199,18 +177,15 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     reloadWebservice();
   }
 
-  public void setActivePortType(String name)
-  {
+  public void setActivePortType(String name) {
     activePortType = webservice.getPortTypeMap().get(name);
   }
 
-  public PortType getActivePortType()
-  {
+  public PortType getActivePortType() {
     return activePortType;
   }
 
-  public void savePortType()
-  {
+  public void savePortType() {
     var client = wsBuilder()
             .endpoints(activePortType.getName(), activePortType.getLinks())
             .toWebServiceClient();
@@ -221,18 +196,15 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   @Override
-  public ConnectionTestResult getResult()
-  {
+  public ConnectionTestResult getResult() {
     return testResult;
   }
 
-  public WebServiceMonitor getLiveStats()
-  {
+  public WebServiceMonitor getLiveStats() {
     return liveStats;
   }
 
-  private Builder wsBuilder()
-  {
+  private Builder wsBuilder() {
     return webServiceClients.find(webserviceId).toBuilder();
   }
 

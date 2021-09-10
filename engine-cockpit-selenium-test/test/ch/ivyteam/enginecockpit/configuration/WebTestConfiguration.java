@@ -36,57 +36,48 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestConfiguration
-{
+public class WebTestConfiguration {
   private static final By TABLE_ID = By.id("config:form:configTable");
   private Table table;
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
   }
 
   @Test
-  void testEmailUrlFilter()
-  {
+  void testEmailUrlFilter() {
     String filter = "EMail";
     $("#mailConfigForm\\:configureEmailBtn").shouldBe(visible).click();
     assertUrlFiltering(filter);
   }
 
   @Test
-  void testSystemDbConfigUrl()
-  {
+  void testSystemDbConfigUrl() {
     $("#configureSystemDbBtn").shouldBe(visible).click();
     assertCurrentUrlEndsWith("systemdb.xhtml");
   }
 
   @Nested
-  class System
-  {
+  class System {
     @BeforeEach
-    void beforeEach()
-    {
+    void beforeEach() {
       Navigation.toSystemConfig();
       table = new Table(TABLE_ID);
     }
 
     @Test
-    void testSystemConfig()
-    {
+    void testSystemConfig() {
       $("h1").shouldHave(text("System Config"));
     }
 
     @Test
-    void testSearchConfig()
-    {
+    void testSearchConfig() {
       assertSearchConfigEntry();
     }
 
     @Test
-    void testHideDefaults()
-    {
+    void testHideDefaults() {
       var config = "Data.AppDirectory";
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
       table.firstColumnShouldBe(itemWithText(config));
@@ -100,8 +91,7 @@ public class WebTestConfiguration
     }
 
     @Test
-    void showSecuritySystemConfigs()
-    {
+    void showSecuritySystemConfigs() {
       var config = "SecuritySystems.test-ad.Provider";
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
       table.firstColumnShouldBe(noneMatch("Config not visible", e -> config.equals(e.getText())));
@@ -114,22 +104,19 @@ public class WebTestConfiguration
     }
 
     @Test
-    void testShowConfigFile()
-    {
+    void testShowConfigFile() {
       String key = "Connector.HTTP.AllowTrace";
       assertShowConfigFile(key);
     }
 
     @Test
-    void testNewConfigInvalid()
-    {
+    void testNewConfigInvalid() {
       $("#newConfigBtn").click();
       assertNewConfigInvalid();
     }
 
     @Test
-    void testNewEditAndResetConfig()
-    {
+    void testNewEditAndResetConfig() {
       String key = "testKey";
       String value = "testValue";
       $("#newConfigBtn").click();
@@ -148,7 +135,8 @@ public class WebTestConfiguration
       table.firstColumnShouldBe(size(9));
 
       table.clickButtonForEntry(config, "editConfigBtn");
-      PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue")).selectItemByLabel("SSL");
+      PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"))
+              .selectItemByLabel("SSL");
       $("#config\\:saveEditConfiguration").click();
       table.row(config).shouldNotHave(cssClass("default-value"));
 
@@ -159,40 +147,35 @@ public class WebTestConfiguration
     }
 
     @Test
-    void testEditConfig_booleanFormat()
-    {
+    void testEditConfig_booleanFormat() {
       String config = "EMail.Server.SSL.UseKey";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "false", "");
     }
 
     @Test
-    void testEditConfig_numberFormat()
-    {
+    void testEditConfig_numberFormat() {
       String config = "Elasticsearch.ExternalServer.BootTimeout";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "60", "Defines how long");
     }
 
     @Test
-    void testEditConfig_daytimeFormat()
-    {
+    void testEditConfig_daytimeFormat() {
       String config = "EMail.DailyTaskSummary.TriggerTime";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "00:00", "Time of day");
     }
 
     @Test
-    void testEditConfig_enumerationFormat()
-    {
+    void testEditConfig_enumerationFormat() {
       String config = "SystemTask.Failure.Behaviour";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY", "Defines the behaviour");
     }
 
     @Test
-    void testRestartHint()
-    {
+    void testRestartHint() {
       String config = "Connector.HTTP.Address";
       assertEditConfig(config, "", "hi", "https://tomcat.apache.org");
       refresh();
@@ -206,11 +189,9 @@ public class WebTestConfiguration
   }
 
   @Nested
-  class Application
-  {
+  class Application {
     @BeforeEach
-    void beforeEach()
-    {
+    void beforeEach() {
       Navigation.toApplicationDetail("test-ad");
       $(By.id("contentFilter:form:filterBtn"))
               .scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
@@ -218,14 +199,12 @@ public class WebTestConfiguration
     }
 
     @Test
-    void testSearchConfig()
-    {
+    void testSearchConfig() {
       assertSearchConfigEntry();
     }
 
     @Test
-    void testHideDefaults()
-    {
+    void testHideDefaults() {
       var config = "Data.FilesDirectory";
       assertThat(table.getFirstColumnEntries()).contains(config);
       toggleDefaultFilter();
@@ -236,31 +215,26 @@ public class WebTestConfiguration
     }
 
     @Test
-    void showVariablesConfigs()
-    {
+    void showVariablesConfigs() {
       assertShowAppConfigFilter("Show Variables", "Variables.variable");
     }
 
     @Test
-    void showDatabasesConfigs()
-    {
+    void showDatabasesConfigs() {
       assertShowAppConfigFilter("Show Databases", "Databases.realdb.Driver");
     }
 
     @Test
-    void showRestClientsConfigs()
-    {
+    void showRestClientsConfigs() {
       assertShowAppConfigFilter("Show Rest Clients", "RestClients.test-rest.Url");
     }
 
     @Test
-    void showWebSerivceClientsConfigs()
-    {
+    void showWebSerivceClientsConfigs() {
       assertShowAppConfigFilter("Show Web Service Clients", "WebServiceClients.test-web.WsCallLibrary");
     }
 
-    private void assertShowAppConfigFilter(String filter, String config)
-    {
+    private void assertShowAppConfigFilter(String filter, String config) {
       assertThat(table.getFirstColumnEntries()).doesNotContain(config);
       toggleFilter(List.of(filter));
       assertThat(table.getFirstColumnEntries()).contains(config);
@@ -275,27 +249,24 @@ public class WebTestConfiguration
       String dynamic = "RestClients.second-rest.Properties.appKey";
       table.clickButtonForEntry(dynamic, "editConfigBtn");
       new ConfigAssert("config")
-        .assertDefault("${ivy.var.password}")
-        .assertValue("${ivy.var.password}");
+              .assertDefault("${ivy.var.password}")
+              .assertValue("${ivy.var.password}");
     }
 
     @Test
-    void testShowConfigFile()
-    {
+    void testShowConfigFile() {
       String key = "SecuritySystem";
       assertShowConfigFile(key);
     }
 
     @Test
-    void testNewConfigInvalid()
-    {
+    void testNewConfigInvalid() {
       $("#newConfigBtn").click();
       assertNewConfigInvalid();
     }
 
     @Test
-    void testNewEditAndResetConfig()
-    {
+    void testNewEditAndResetConfig() {
       String key = "testKey";
       String value = "testValue";
       $("#newConfigBtn").click();
@@ -306,11 +277,9 @@ public class WebTestConfiguration
   }
 
   @Nested
-  class ApplicationPortal
-  {
+  class ApplicationPortal {
     @BeforeEach
-    void beforeEach()
-    {
+    void beforeEach() {
       Navigation.toApplicationDetail("demo-portal");
       $(By.id("contentFilter:form:filterBtn"))
               .scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
@@ -318,34 +287,33 @@ public class WebTestConfiguration
     }
 
     @Test
-    void testStandardProcess_defaultPages()
-    {
+    void testStandardProcess_defaultPages() {
       String config = "StandardProcess.DefaultPages";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate", "standard-processes", "");
-      $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
+      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate",
+              "standard-processes", "");
+      $(By.id("config:editConfigurationForm:editConfigurationValue"))
+              .shouldHave(cssClass("ui-selectonemenu"));
     }
 
     @Test
-    void testStandardProcess_mailNotification()
-    {
+    void testStandardProcess_mailNotification() {
       String config = "StandardProcess.MailNotification";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, " ", "standard-processes", "");
-      $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
+      $(By.id("config:editConfigurationForm:editConfigurationValue"))
+              .shouldHave(cssClass("ui-selectonemenu"));
     }
   }
 
-  private void assertUrlFiltering(String filter)
-  {
+  private void assertUrlFiltering(String filter) {
     assertCurrentUrlEndsWith("systemconfig.xhtml?filter=" + filter);
     table = new Table(TABLE_ID);
     assertThat(table.getSearchFilter()).isEqualTo(filter);
     table.firstColumnShouldBe(size(9));
   }
 
-  private void assertSearchConfigEntry()
-  {
+  private void assertSearchConfigEntry() {
     table.firstColumnShouldBe(sizeGreaterThan(0));
     String search = table.getFirstColumnEntries().get(0);
     table.search(search);
@@ -353,13 +321,11 @@ public class WebTestConfiguration
     table.firstColumnShouldBe(exactTexts(search));
   }
 
-  private void toggleDefaultFilter()
-  {
+  private void toggleDefaultFilter() {
     toggleFilter(List.of("Show only defined values"));
   }
 
-  private void toggleFilter(List<String> filter)
-  {
+  private void toggleFilter(List<String> filter) {
     $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
     $$("#contentFilter\\:form\\:filterPanel .ui-chkbox").shouldBe(sizeGreaterThanOrEqual(1));
     var checkboxes = PrimeUi.selectManyCheckbox(By.cssSelector("#contentFilter\\:form\\:filterCheckboxes"));
@@ -367,8 +333,7 @@ public class WebTestConfiguration
     $("#contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
   }
 
-  private void assertShowConfigFile(String key)
-  {
+  private void assertShowConfigFile(String key) {
     table.clickButtonForEntry(key, "tasksButton");
     table.buttonMenuForEntryShouldBeVisible(key, "activityMenu");
     table.clickButtonForEntry(key, "showFileBtn");
@@ -376,17 +341,17 @@ public class WebTestConfiguration
     $(".code-block").shouldHave(text(key));
   }
 
-  private void assertNewConfigInvalid()
-  {
+  private void assertNewConfigInvalid() {
     $("#config\\:newConfigurationModal").shouldBe(visible);
     $("#config\\:newConfigurationForm\\:newConfigurationKey").shouldBe(exactValue(""));
     $("#config\\:newConfigurationForm\\:saveNewConfiguration").click();
-    $("#config\\:newConfigurationForm\\:newConfigurationKeyMessage").shouldBe(visible, exactText("Value is required"));
-    $("#config\\:newConfigurationForm\\:newConfigurationValueMessage").shouldBe(visible, exactText("Value is required"));
+    $("#config\\:newConfigurationForm\\:newConfigurationKeyMessage").shouldBe(visible,
+            exactText("Value is required"));
+    $("#config\\:newConfigurationForm\\:newConfigurationValueMessage").shouldBe(visible,
+            exactText("Value is required"));
   }
 
-  private void assertResetConfig(String key)
-  {
+  private void assertResetConfig(String key) {
     table.clickButtonForEntry(key, "tasksButton");
     table.buttonMenuForEntryShouldBeVisible(key, "activityMenu");
     table.clickButtonForEntry(key, "resetConfigBtn");
@@ -396,8 +361,7 @@ public class WebTestConfiguration
     $("#config\\:form\\:msgs_container").shouldHave(text(key), text("reset"));
   }
 
-  private void assertNewConfig(String key, String value)
-  {
+  private void assertNewConfig(String key, String value) {
     $("#config\\:newConfigurationModal").shouldBe(visible);
 
     $("#config\\:newConfigurationForm\\:newConfigurationKey").sendKeys(key);
@@ -407,8 +371,7 @@ public class WebTestConfiguration
     table.valueForEntryShould(key, 2, exactText(value));
   }
 
-  private void assertEditConfig(String key, String value, String newValue, String desc)
-  {
+  private void assertEditConfig(String key, String value, String newValue, String desc) {
     table.clickButtonForEntry(key, "editConfigBtn");
     assertThatConfigEditModalIsVisible(key, value, desc, "");
 
@@ -419,26 +382,25 @@ public class WebTestConfiguration
     table.valueForEntryShould(key, 2, exactText(newValue));
   }
 
-  private void assertThatConfigEditModalIsVisible(String key, String value, String desc)
-  {
+  private void assertThatConfigEditModalIsVisible(String key, String value, String desc) {
     assertThatConfigEditModalIsVisible("config", key, value, desc, value);
   }
 
-  private void assertThatConfigEditModalIsVisible(String key, String value, String desc, String defaultValue)
-  {
+  private void assertThatConfigEditModalIsVisible(String key, String value, String desc,
+          String defaultValue) {
     assertThatConfigEditModalIsVisible("config", key, value, desc, defaultValue);
   }
 
-  public static void assertThatConfigEditModalIsVisible(String idPrefix, String key, String value, String desc, String defaultValue)
-  {
+  public static void assertThatConfigEditModalIsVisible(String idPrefix, String key, String value,
+          String desc, String defaultValue) {
     new ConfigAssert(idPrefix)
-      .assertKey(key)
-      .assertDesc(desc)
-      .assertDefault(defaultValue)
-      .assertValue(value);
+            .assertKey(key)
+            .assertDesc(desc)
+            .assertDefault(defaultValue)
+            .assertValue(value);
   }
 
-  public static class ConfigAssert{
+  public static class ConfigAssert {
     private final String idPrefix;
 
     public ConfigAssert(String idPrefix) {
@@ -455,7 +417,8 @@ public class WebTestConfiguration
       if (StringUtils.isBlank(defaultValue)) {
         $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDefaultValue")).shouldNot(exist);
       } else {
-        $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDefaultValue")).shouldBe(exactText(defaultValue));
+        $(By.id(idPrefix + ":editConfigurationForm:editConfigurationDefaultValue"))
+                .shouldBe(exactText(defaultValue));
       }
       return this;
     }
@@ -476,9 +439,11 @@ public class WebTestConfiguration
         PrimeUi.selectBooleanCheckbox(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"))
                 .shouldBeChecked(Boolean.valueOf(value));
       } else if (StringUtils.contains(classAttr, "ui-inputnumber")) {
-        $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input")).shouldBe(exactValue(value));
+        $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input"))
+                .shouldBe(exactValue(value));
       } else if (StringUtils.contains(classAttr, "ui-selectonemenu")) {
-        SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
+        SelectOneMenu menu = PrimeUi
+                .selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
         assertThat(menu.getSelectedItem()).isEqualTo(value);
       } else if (StringUtils.contains(configValue.getTagName(), "textarea")) {
         configValue.shouldNotBe(visible).shouldBe(exactValue(value));

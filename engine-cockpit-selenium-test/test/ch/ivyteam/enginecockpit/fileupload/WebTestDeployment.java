@@ -27,27 +27,23 @@ import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestDeployment
-{
+public class WebTestDeployment {
   private static final String APP = isDesigner() ? DESIGNER : "test-ad";
-  
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
   }
-  
+
   @Test
-  void testDeploymentNoFile()
-  {
+  void testDeploymentNoFile() {
     toAppDetailAndOpenDeployment();
     $("#deploymentModal\\:uploadBtn").click();
     $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
 
   @Test
-  void testDeplomentInvalidFileEnding() throws IOException
-  {
+  void testDeplomentInvalidFileEnding() throws IOException {
     toAppDetailAndOpenDeployment();
     Path createTempFile = Files.createTempFile("app", ".txt");
     $("#fileInput").sendKeys(createTempFile.toString());
@@ -55,34 +51,29 @@ public class WebTestDeployment
     $("#uploadError").shouldNotBe(empty);
     $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
-  
+
   @Test
-  void testDeploymentInvalidAppAndBack() throws IOException
-  {
+  void testDeploymentInvalidAppAndBack() throws IOException {
     toAppDetailAndOpenDeployment();
     Path createTempFile = Files.createTempFile("app", ".iar");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#deploymentModal\\:uploadBtn").click();
     $("#uploadLog").shouldNotBe(empty);
     $("#fileUploadForm").shouldNotBe(visible);
-    if (isDesigner())
-    {
+    if (isDesigner()) {
       $("#uploadLog").shouldHave(text("404"));
-    }
-    else
-    {
+    } else {
       $("#uploadLog").shouldHave(text("Deployment failed: No ivy projects found in deployment artifact.."));
     }
-    
+
     $("#deploymentModal\\:backBtn").click();
     $("#fileUploadForm").shouldBe(visible);
     $("#uploadLog").shouldNotBe(visible);
     $("#deploymentModal\\:uploadBtn > .ui-icon").shouldNotHave(cssClass("si-is-spinning"));
   }
-  
+
   @Test
-  void testDeploymentDeployOptions() 
-  {
+  void testDeploymentDeployOptions() {
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
     SelectOneMenu testUser = PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
@@ -95,57 +86,50 @@ public class WebTestDeployment
     assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED");
     assertThat(fileFormat.getSelectedItem()).isEqualTo("AUTO");
   }
-  
+
   @Test
-  void testDeploymentDeployOptionsVersionRange()
-  {
+  void testDeploymentDeployOptionsVersionRange() {
     toAppDetailAndOpenDeployment();
     openDeployOptionsAndAssertVersionRange();
   }
-  
+
   @Test
-  void testDeploymentDeployOptionsVersionRange_AppsView()
-  {
+  void testDeploymentDeployOptionsVersionRange_AppsView() {
     toAppsAndOpenDeployDialog();
     openDeployOptionsAndAssertVersionRange();
   }
-  
-  private void openDeployOptionsAndAssertVersionRange()
-  {
+
+  private void openDeployOptionsAndAssertVersionRange() {
     showDeploymentOptions();
     $("#deploymentModal\\:versionRangeLabel").shouldNotBe(visible);
     $("#deploymentModal\\:version").click();
     $("#deploymentModal\\:version_items").shouldBe(visible);
-    
+
     $$("#deploymentModal\\:version_items > li").find(text("RANGE")).click();
     $("#deploymentModal\\:versionRangeLabel").shouldBe(visible);
   }
-  
-  private void showDeploymentOptions()
-  {
-    if (!$("#deploymentModal\\:deployOptionsPanel").is(visible))
-    {
+
+  private void showDeploymentOptions() {
+    if (!$("#deploymentModal\\:deployOptionsPanel").is(visible)) {
       $("#deploymentModal\\:showDeployOptionsBtn").click();
       $("#deploymentModal\\:deployOptionsPanel").shouldBe(visible);
     }
   }
-  
-  private void toAppsAndOpenDeployDialog()
-  {
+
+  private void toAppsAndOpenDeployDialog() {
     Navigation.toApplications();
     String appName = $$(".activity-name").first().shouldBe(visible).getText();
     $("#card\\:form\\:tree\\:0\\:deployBtn").shouldBe(visible).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
     $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(appName));
   }
-  
-  private void toAppDetailAndOpenDeployment()
-  {
+
+  private void toAppDetailAndOpenDeployment() {
     Navigation.toApplicationDetail(APP);
     $("#appDetailInfoForm\\:showDeployment").shouldBe(visible).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
     $("#uploadError").shouldBe(empty);
     $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(APP));
   }
-  
+
 }

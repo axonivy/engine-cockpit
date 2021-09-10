@@ -25,31 +25,27 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestPmvDetail
-{
+public class WebTestPmvDetail {
   private static final String APP = isDesigner() ? DESIGNER : "demo-portal";
   private static final String PM = "PortalTemplate";
   private static final String PMV = "PortalTemplate$1";
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toPmvDetail(APP, PM, PMV);
   }
-  
+
   @Test
-  void pmvDetailContent()
-  {
+  void pmvDetailContent() {
     $$(".ui-panel").shouldHave(size(5));
-    
+
     $("#info_content").shouldHave(text(PMV), text("ch.ivyteam.ivy.project.portal:portalTemplate"));
     $("#activity_content").findAll(".activity-state-active").shouldBe(size(2));
   }
-  
+
   @Test
-  void pmvDependencies()
-  {
+  void pmvDependencies() {
     dependenciesResolved();
     Navigation.toApplications();
     deactivatePortalKit();
@@ -58,55 +54,52 @@ public class WebTestPmvDetail
     dependenciesNotResolved();
   }
 
-  private void deactivatePortalKit()
-  {
+  private void deactivatePortalKit() {
     $(By.id("card:form:expandAll")).shouldBe(visible).click();
-    var portalKitVersionId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit$1")).parent().parent().parent().shouldBe(visible).attr("data-rk");
+    var portalKitVersionId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit$1")).parent()
+            .parent().parent().shouldBe(visible).attr("data-rk");
     $(By.id(portalKitVersionId + ":deactivateButton")).shouldBe(visible).click();
   }
 
-  private void deletePortalKit()
-  {
-    var portalKitId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit")).parent().parent().shouldBe(visible).attr("data-rk");
+  private void deletePortalKit() {
+    var portalKitId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit")).parent().parent()
+            .shouldBe(visible).attr("data-rk");
     $(By.id(portalKitId + ":tasksButton")).shouldBe(visible, enabled).click();
     $(By.id(portalKitId + ":deleteBtn")).shouldBe(visible, enabled).click();
     $(By.id("card:form:deleteConfirmYesBtn")).shouldBe(visible, enabled).click();
   }
-  
-  private void dependenciesNotResolved()
-  {
+
+  private void dependenciesNotResolved() {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
     depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "portal-user-examples$1"));
     checkPmvEntry(depTable, "AxonIvyExpress$1", "inactive");
     checkPmvEntry(depTable, "portal-user-examples$1", "inactive");
-    
+
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
     reqTable.firstColumnShouldBe(empty);
-    
+
     Table specTable = new Table(By.id("specifiedTable"));
     specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
     specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, Condition.empty);
   }
 
-  private void dependenciesResolved()
-  {
+  private void dependenciesResolved() {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
     depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "portal-user-examples$1"));
     checkPmvEntry(depTable, "AxonIvyExpress$1", "active");
     checkPmvEntry(depTable, "portal-user-examples$1", "active");
-    
+
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
     reqTable.firstColumnShouldBe(texts("PortalKit$1", "PortalStyle$1"));
     checkPmvEntry(reqTable, "PortalKit$1", "active");
     checkPmvEntry(reqTable, "PortalStyle$1", "active");
-    
+
     Table specTable = new Table(By.id("specifiedTable"));
     specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
     specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, text("PortalKit$1"));
   }
 
-  private void checkPmvEntry(Table table, String entry, String resolved)
-  {
+  private void checkPmvEntry(Table table, String entry, String resolved) {
     table.tableEntry(entry, 2).find("i").shouldHave(cssClass("activity-state-" + resolved));
     table.tableEntry(entry, 4).find("i").shouldHave(attribute("title", "ACTIVE"));
     table.tableEntry(entry, 5).find("i").shouldHave(attribute("title", "RELEASED"));

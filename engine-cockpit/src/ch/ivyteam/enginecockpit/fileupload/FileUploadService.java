@@ -18,20 +18,15 @@ import io.swagger.v3.oas.annotations.Hidden;
 @SuppressWarnings("restriction")
 @Path("licence")
 @Hidden
-public class FileUploadService
-{
+public class FileUploadService {
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
   public Response uploadLicence(@FormDataParam("licence") InputStream stream,
-          @FormDataParam("licence") FormDataContentDisposition fileDetail)
-  {
-    try
-    {
+          @FormDataParam("licence") FormDataContentDisposition fileDetail) {
+    try {
       NewLicenceFileInstaller.install(fileDetail.getFileName(), stream);
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       return Response.status(500).entity(ex.getMessage()).build();
     }
     return Response.status(200).entity("Successfully uploaded licence").build();

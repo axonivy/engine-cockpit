@@ -13,51 +13,43 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 @ManagedBean
 @ViewScoped
-public class SessionMonitorBean
-{
+public class SessionMonitorBean {
   private static final String SECURITY_MANAGER = "ivy Engine:type=Security Manager";
   private static final String TOMCAT_MANAGER = "ivy:type=Manager,host=*,context=*";
   private final Monitor sessionsMonitor = Monitor.build().name("Sessions").icon("person").toMonitor();
-  
-  public SessionMonitorBean()
-  {
+
+  public SessionMonitorBean() {
     setupSessionMonitor();
   }
 
-  private void setupSessionMonitor()
-  {
+  private void setupSessionMonitor() {
     sessionsMonitor.addInfoValue(format("Licensed Sessions %5d", licensedSessions()));
     sessionsMonitor.addInfoValue(format("Sessions %5d", sessions()));
     sessionsMonitor.addInfoValue(format("Http Sessions %5d", httpSessions()));
     sessionsMonitor.addInfoValue(format("Licensed Users %5d", licensedUsers()));
-    
+
     sessionsMonitor.addSeries(Series.build(licensedSessions(), "Licensed Sessions").toSeries());
     sessionsMonitor.addSeries(Series.build(sessions(), "Sessions").toSeries());
     sessionsMonitor.addSeries(Series.build(httpSessions(), "Http Sessions").toSeries());
   }
 
-  public Monitor getSessionsMonitor()
-  {
+  public Monitor getSessionsMonitor() {
     return sessionsMonitor;
   }
-  
-  private ValueProvider licensedUsers()
-  {
+
+  private ValueProvider licensedUsers() {
     return attribute(SECURITY_MANAGER, "licensedUsers", Unit.ONE);
   }
 
-  private ValueProvider sessions()
-  {
+  private ValueProvider sessions() {
     return attribute(SECURITY_MANAGER, "sessions", Unit.ONE);
   }
 
-  private ValueProvider licensedSessions()
-  {
+  private ValueProvider licensedSessions() {
     return attribute(SECURITY_MANAGER, "licensedSessions", Unit.ONE);
   }
 
-  private ValueProvider httpSessions()
-  {
+  private ValueProvider httpSessions() {
     return attribute(TOMCAT_MANAGER, "activeSessions", Unit.ONE);
   }
 }

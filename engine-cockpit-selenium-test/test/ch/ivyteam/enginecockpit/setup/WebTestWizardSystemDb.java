@@ -19,31 +19,26 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 
 @IvyWebTest
-public class WebTestWizardSystemDb
-{
+public class WebTestWizardSystemDb {
 
   @BeforeAll
-  static void setup()
-  {
+  static void setup() {
     createOldDb();
   }
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     WebTestWizard.navigateToStep("System Database");
   }
 
   @AfterEach
-  void afterEach()
-  {
+  void afterEach() {
     resetConfig();
     deleteTempDb();
   }
 
   @Test
-  void testWebServerStep()
-  {
+  void testWebServerStep() {
     WebTestSystemDb.assertDefaultValues();
     WebTestSystemDb.assertSystemDbCreationDialog();
     WebTestWizard.activeStepShouldHaveWarnings();
@@ -56,20 +51,17 @@ public class WebTestWizardSystemDb
   }
 
   @Test
-  void testConnectionResults()
-  {
+  void testConnectionResults() {
     WebTestSystemDb.assertConnectionResults();
   }
 
   @Test
-  void testOldDbConversionNeeded()
-  {
+  void testOldDbConversionNeeded() {
     WebTestSystemDb.assertSystemDbConversionDialog();
   }
 
   @Test
-  void testUiLogicSwitchesAndDefaults()
-  {
+  void testUiLogicSwitchesAndDefaults() {
     WebTestSystemDb.assertDatabaseTypeSwitch();
     WebTestSystemDb.assertDefaultPortSwitch();
     WebTestSystemDb.assertAdditionalProperties();

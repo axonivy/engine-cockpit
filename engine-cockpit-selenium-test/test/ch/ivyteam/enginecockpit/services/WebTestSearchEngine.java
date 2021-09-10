@@ -26,28 +26,24 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestSearchEngine
-{
+public class WebTestSearchEngine {
 
   private static final String dossierIndex = "ivy.businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
   private static final String addressIndex = "ivy.businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
 
   @BeforeAll
-  static void setup()
-  {
+  static void setup() {
     createBusinessData();
   }
- 
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toSearchEngine();
   }
-  
+
   @Test
-  public void testElasticSearchInfo()
-  {
+  public void testElasticSearchInfo() {
     $$(".ui-panel").shouldHave(size(2));
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
@@ -55,44 +51,39 @@ public class WebTestSearchEngine
     $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("si-check-circle-1"));
     $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("si-check-circle-1"));
   }
-  
+
   @Test
-  public void testElasticSearchIndices()
-  {
+  public void testElasticSearchIndices() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSize(2)
             .contains(dossierIndex, addressIndex);
     checkIndexValues(table, dossierIndex, "10");
     checkIndexValues(table, addressIndex, "1");
   }
-  
+
   @Test
-  public void testElasticSearchConfigEdit()
-  {
+  public void testElasticSearchConfigEdit() {
     $("#searchEngineInfoForm\\:configSearchEngine").click();
     assertCurrentUrlEndsWith("systemconfig.xhtml?filter=ElasticSearch");
   }
-  
+
   @Test
-  public void testElasticSearchQueryTool()
-  {
+  public void testElasticSearchQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     $("#searchEngineInfoForm\\:queryToolBtn").click();
     assertQueryTool("GET: http://localhost:19200/", "ivy-elasticsearch", 3);
   }
-  
+
   @Test
-  public void testElasticSearchIndexQueryTool()
-  {
+  public void testElasticSearchIndexQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable"))
             .clickButtonForEntry(dossierIndex, "queryToolBtn");
     assertQueryTool("GET: http://localhost:19200/" + dossierIndex + "/", "mappings", 1);
   }
-  
+
   @Test
-  public void testElasticSearchReindex()
-  {
+  public void testElasticSearchReindex() {
     $("reindexSearchEngineModel").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);
@@ -100,32 +91,29 @@ public class WebTestSearchEngine
     $("#reindexSearchEngineBtn").click();
     $("#reindexSearchEngineModel").shouldNotBe(visible);
   }
-  
-  private void assertQueryTool(String url, String responseContent, int apiCount)
-  {
+
+  private void assertQueryTool(String url, String responseContent, int apiCount) {
     $("#searchEngineQueryToolModal").shouldBe(visible);
     $(".querytool-url").shouldBe(exactText(url));
     $("#searchEngineQueryToolForm\\:query_input").shouldBe(exactValue(""));
     assertQueryToolProposal(apiCount);
     $("#searchEngineQueryToolForm pre").shouldBe(empty);
-    
+
     $("#searchEngineQueryToolForm\\:runSearchEngineQueryBtn").click();
     $("#searchEngineQueryToolForm pre").shouldBe(text(responseContent));
   }
-  
-  private void assertQueryToolProposal(int apiCount)
-  {
+
+  private void assertQueryToolProposal(int apiCount) {
     $("#searchEngineQueryToolForm\\:query > button").click();
     $("#searchEngineQueryToolForm\\:query_panel").shouldBe(visible);
     $$("#searchEngineQueryToolForm\\:query_panel li").shouldHave(size(apiCount));
     $("#searchEngineQueryToolForm\\:query_input").click();
   }
-  
-  private void checkIndexValues(Table table, String tableRow, String count)
-  {
+
+  private void checkIndexValues(Table table, String tableRow, String count) {
     table.valueForEntryShould(tableRow, 2, text(count));
     table.valueForEntryShould(tableRow, 3, text(count));
     table.valueForEntryShould(tableRow, 5, not(text("unknown")));
   }
-  
+
 }
