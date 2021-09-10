@@ -135,7 +135,7 @@
             <p:inputText id="editConfigurationValue" readonly="true" value="#{cc.attrs.bean.activeConfig.editValue}" />
             <p:outputLabel>Variable</p:outputLabel>
             <h:outputLink onclick="PF('editConfigurationModal').hide();"
-            	value="variables.xhtml">Go and edit the Variable value</h:outputLink>
+              value="variables.xhtml">Go and edit the Variable value</h:outputLink>
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'FILE'}">
             <pe:codeMirror id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"
