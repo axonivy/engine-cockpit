@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.rest.client.RestClient;
- 
+
 public class RestClientDto implements IService
 {
   private String name;
@@ -35,7 +35,7 @@ public class RestClientDto implements IService
     features = client.features();
     passwordChanged = false;
   }
-  
+
   public UUID getUniqueId()
   {
     return uniqueId;
@@ -50,26 +50,26 @@ public class RestClientDto implements IService
   {
     return url;
   }
-  
+
   public String getDescription()
   {
     return description;
   }
-  
+
   public String getAuthType()
   {
     return features.stream()
-		.filter(f -> StringUtils.contains(f, "authentication"))
-	    .map(f -> StringUtils.substringBetween(f, "authentication.", "AuthenticationFeature"))
-	    .findFirst()
-	    .orElse("");
+      .filter(f -> StringUtils.contains(f, "authentication"))
+      .map(f -> StringUtils.substringBetween(f, "authentication.", "AuthenticationFeature"))
+      .findFirst()
+      .orElse("");
   }
-  
+
   public String getUsername()
   {
     return username;
   }
-  
+
   @Override
   public String getPassword()
   {
@@ -86,7 +86,7 @@ public class RestClientDto implements IService
   {
     return properties;
   }
-  
+
   public List<String> getFeatures()
   {
     return features;
@@ -105,10 +105,10 @@ public class RestClientDto implements IService
       passwordChanged = true;
     }
   }
-  
+
   public void setUsername(String username)
   {
     this.username = username;
   }
-  
+
 }
