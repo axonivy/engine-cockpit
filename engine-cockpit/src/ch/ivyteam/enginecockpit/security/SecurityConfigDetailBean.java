@@ -393,15 +393,16 @@ public class SecurityConfigDetailBean
     return ldapBrowser;
   }
   
-  public void browseLdap(String field)
+  public void browseDefaultContext()
   {
-    ldapBrowserTarget = field;
-    JndiConfig jndiConfig = getJndiConfig(null);
-    if (LdapBrowser.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget))
-    {
-      jndiConfig = getJndiConfig(getDefaultContext());
-    }
-    ldapBrowser.browse(jndiConfig, enableInsecureSsl);
+    ldapBrowserTarget = LdapBrowser.DEFAULT_CONTEXT;
+    ldapBrowser.browse(getJndiConfig(null), enableInsecureSsl, defaultContext);
+  }
+  
+  public void browseUsersOfGroup()
+  {
+    ldapBrowserTarget = LdapBrowser.IMPORT_USERS_OF_GROUP;
+    ldapBrowser.browse(getJndiConfig(getDefaultContext()), enableInsecureSsl, importUsersOfGroup);
   }
   
   public void chooseLdapName()

@@ -67,6 +67,11 @@ public class Table
   {
     return $x(findColumnOverEntry(entry));
   }
+  
+  public SelenideElement tableEntry(String entry, int column)
+  {
+    return $x(findColumnOverEntry(entry) + "/td[" + column + "]");
+  }
 
   public void clickButtonForEntry(String entry, String btn)
   {

@@ -271,7 +271,7 @@ public class RoleDetailBean
   public void browseLdap()
   {
     SecurityConfigDetailBean secBean = new SecurityConfigDetailBean(managerBean.getSelectedApplication().getSecuritySystemName());
-    ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl());
+    ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
   }
   
   public LdapBrowser getLdapBrowser()

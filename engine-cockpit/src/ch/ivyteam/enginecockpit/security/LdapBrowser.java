@@ -26,12 +26,12 @@ public class LdapBrowser
   private TreeNode selectedNode;
   private List<LdapProperty> selectedNodeAttributes;
   private JndiConfig jndiConfig;
-  private boolean enableInsecureSsl;
+  private boolean insecureSsl;
   
-  public void browse(JndiConfig config, boolean enableInsecureSsl)
+  public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue)
   {
     this.jndiConfig = config;
-    this.enableInsecureSsl = enableInsecureSsl;
+    this.insecureSsl = enableInsecureSsl;
     this.root = null;
     try(LdapBrowserContext context = new LdapBrowserContext(config, enableInsecureSsl))
     {
@@ -39,11 +39,11 @@ public class LdapBrowser
       if (name.isEmpty())
       {
         root = new DefaultTreeNode(name, null);
-        context.browse(name).forEach(node -> addNewSubnode(root, node));
+        context.browse(name).forEach(node -> addNewSubnode(root, node, initialValue));
         return;
       }
       root = new DefaultTreeNode("", null);
-      addNewSubnode(root, context.createLdapNode(name, evalLdapName(root)));
+      addNewSubnode(root, context.createLdapNode(name, evalLdapName(root)), initialValue);
     }
     catch (NamingException ex)
     {
@@ -54,10 +54,15 @@ public class LdapBrowser
   public void onNodeExpand(NodeExpandEvent event) {
     TreeNode node = event.getTreeNode();
     node.getChildren().clear();
+    loadChildren(node, null);
+  }
+  
+  private void loadChildren(TreeNode node, String initialValue)
+  {
     String name = evalLdapName(node);
-    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig, enableInsecureSsl))
+    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig, insecureSsl))
     {
-      context.children(name).forEach(child -> addNewSubnode(node, child));
+      context.children(name).forEach(child -> addNewSubnode(node, child, initialValue));
     }
     catch (NamingException ex)
     {
@@ -66,10 +71,22 @@ public class LdapBrowser
   }
   
   @SuppressWarnings("unused")
-  private void addNewSubnode(TreeNode treeNode, LdapBrowserNode ldapNode)
+  private void addNewSubnode(TreeNode treeNode, LdapBrowserNode ldapNode, String initialValue)
   {
-    TreeNode node = new DefaultTreeNode(ldapNode, treeNode);
-    if (ldapNode.isExpandable())
+    var node = new DefaultTreeNode(ldapNode, treeNode);
+    var nodeName = ldapNode.getName().toString();
+    if (StringUtils.isNotBlank(initialValue) && StringUtils.endsWithIgnoreCase(initialValue, nodeName)) {
+      var subInitValue = StringUtils.removeEndIgnoreCase(initialValue, nodeName);
+      if (StringUtils.isBlank(subInitValue)) {
+        node.setSelected(true);
+        setSelectedNode(node);
+      }
+      else {
+        node.setExpanded(true);
+        loadChildren(node, StringUtils.removeEnd(subInitValue, ","));
+      }
+    }
+    if (ldapNode.isExpandable() && !node.isExpanded())
     {
       new DefaultTreeNode("loading...", node);
     }
@@ -101,7 +118,7 @@ public class LdapBrowser
   
   private List<LdapProperty> getNodeArguments()
   {
-    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig, enableInsecureSsl))
+    try(LdapBrowserContext context = new LdapBrowserContext(jndiConfig, insecureSsl))
     {
       return context.getAttributes(getSelectedLdapName());
     }
