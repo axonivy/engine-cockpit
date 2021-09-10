@@ -19,6 +19,15 @@ public class UserDataModel extends LazyDataModel<User>
   private IRole filterRole;
   private String filter;
 
+  public UserDataModel()
+  {
+  }
+
+  public UserDataModel(IApplication app)
+  {
+    this.app = app;
+  }
+
   public void setApp(IApplication app)
   {
     this.app = app;
