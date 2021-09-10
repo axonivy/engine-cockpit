@@ -128,7 +128,7 @@ public class WebTestRoleDetail {
     var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
-    addUserJon();
+    addUser("Johnny Depp", "jon (Johnny Depp)");
     roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
   }
 
@@ -137,7 +137,7 @@ public class WebTestRoleDetail {
     var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
-    addUserJon();
+    addUser("jd@ivyteam.ch", "jon (Johnny Depp)");
     roleUsers.firstColumnShouldBe(sizeGreaterThan(0));
   }
 
@@ -210,10 +210,6 @@ public class WebTestRoleDetail {
 
   private void addUserFoo() {
     addUser("fo", "foo (Marcelo Footer)");
-  }
-
-  private void addUserJon() {
-    addUser("jo", "jon (Johnny Depp)");
   }
 
   private void addUser(String filter, String display) {
