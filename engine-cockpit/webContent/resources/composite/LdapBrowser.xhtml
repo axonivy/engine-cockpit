@@ -9,13 +9,13 @@
 </cc:interface>
   
 <cc:implementation>
-  <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true" width="700">
+  <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true" width="700" height="400">
     <h:form id="ldapBrowserForm" styleClass="ldap-browser">
       <p:messages id="ldapBrowserMessage" for="ldapBrowserMessage" showDetail="true">
         <p:autoUpdate />
       </p:messages>
-      <p:panelGrid layout="grid" columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-g-12 ui-md-5, ui-g-12 ui-md-7">
-        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.ldapBrowser.tree}" var="node"
+      <div class="p-grid">
+        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.ldapBrowser.tree}" var="node" styleClass="p-col-6"
           selectionMode="single" selection="#{cc.attrs.ldapBrowser.selectedNode}" dynamic="true">
           <p:ajax event="expand" listener="#{cc.attrs.ldapBrowser.onNodeExpand}" update="@form:tree"/>
           <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
@@ -25,8 +25,8 @@
           </p:treeNode>
         </p:tree>
         <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.ldapBrowser.selectedNodeAttributes}"
-          scrollable="true" scrollHeight="355" emptyMessage="Select a node to see its attributes"
-          rendered="#{cc.attrs.ldapBrowser.tree != null}">
+          scrollable="true" emptyMessage="Select a node to see its attributes"
+          rendered="#{cc.attrs.ldapBrowser.tree != null}" styleClass="p-col-6">
           <p:column headerText="Name" >
             <h:outputText value="#{attr.name}" styleClass="node-attr-name" />
           </p:column>
@@ -34,7 +34,7 @@
             <h:outputText value="#{attr.ldapAttribute}" />
           </p:column>
         </p:dataTable>
-      </p:panelGrid>
+      </div>
     </h:form>
     <f:facet name="footer">
       <p:commandButton id="cancelLdapBrowser" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
