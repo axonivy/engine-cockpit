@@ -14,6 +14,7 @@ public class User
   private String realPassword = "";
   private String externalName = "";
   private String externalId = "";
+  private String securityMemberId = "";
 
   private boolean loggedIn;
   private boolean enabled = true;
@@ -35,6 +36,7 @@ public class User
     this.externalName = user.getExternalName();
     this.externalId = user.getExternalId();
     this.id = user.getId();
+    this.securityMemberId = user.getSecurityMemberId();
   }
 
   public User(Administrator admin)
@@ -130,6 +132,11 @@ public class User
     return externalId;
   }
 
+  public String getDisplayName()
+  {
+    return name + " (" + fullName + ")";
+  }
+
   //Use for <p:password redisplay="true"> without leak the real password in the DOM
   public void setRealPassword(String realPassword)
   {
@@ -161,4 +168,8 @@ public class User
     return name;
   }
 
+  public String getSecurityMemberId()
+  {
+    return securityMemberId;
+  }
 }

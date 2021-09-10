@@ -12,4 +12,10 @@
         <fullName>Ibrahim Barman</fullName>
         <emailAddress>i.barman@test.com</emailAddress>
     </user>
+    <user>
+        <username>jon</username>
+        <password>jon</password>
+        <fullName>Johnny Depp</fullName>
+        <emailAddress>jd@ivyteam.ch</emailAddress>
+    </user>
 </userConfig>

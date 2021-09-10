@@ -11,8 +11,9 @@
   <p:growl for="usersMessage">
     <p:autoUpdate />
   </p:growl>
-  <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
+  <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUser}" dropdown="true" forceSelection="true"
     completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
+    var="user" itemLabel="#{user.displayName}" itemValue="#{user}" converter="userConverter"
     placeholder="Search user to add" disabled="#{roleDetailBean.managed}" />
   <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
     icon="si si-add" title="Add" styleClass="primary-btn" disabled="#{roleDetailBean.managed}" />
