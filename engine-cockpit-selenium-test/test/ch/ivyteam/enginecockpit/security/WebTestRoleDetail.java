@@ -289,6 +289,22 @@ public class WebTestRoleDetail
     $("#roleInformationForm\\:externalSecurityName").shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
+  @Test
+  void testExternalSecurityName_ldapBrowser_initValue()
+  {
+    Navigation.toRoles();
+    Tab.switchToTab("test-ad");
+    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    $("#roleInformationForm\\:externalSecurityName").sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
+    $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
+
+    $(LDAP_BROWSER_DIALOG).shouldBe(visible);
+    $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
+            .shouldBe(visible, cssClass("ui-state-highlight"));
+    Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+    table.tableEntry("distinguishedName", 2).shouldBe(exactText("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+  }
+
   private void clearRoleInfoInputs()
   {
     $("#roleInformationForm\\:displayName").clear();

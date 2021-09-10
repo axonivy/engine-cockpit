@@ -42,7 +42,7 @@ public class RoleDetailBean
   private RoleDataModel roleDataModel;
   private List<Role> membersOfRole;
   private List<Role> filteredMembers;
-  
+
   private MemberProperty roleProperties;
 
   private ManagerBean managerBean;
@@ -175,7 +175,7 @@ public class RoleDetailBean
     getSecurityContext().users().find(roleUserName).addRole(getIRole());
     roleUserName = "";
   }
-  
+
   public String getRoleUserName()
   {
     return roleUserName;
@@ -185,7 +185,7 @@ public class RoleDetailBean
   {
     this.roleUserName = roleUserName;
   }
-  
+
   public boolean hasRoleAssigned(String userName)
   {
     return getIRole().users().assignedPaged().stream().anyMatch(u -> u.getName().equals(userName));
@@ -233,7 +233,7 @@ public class RoleDetailBean
 
   public boolean isRoleMemberOfRole(String name)
   {
-    return name.equals(roleName) || 
+    return name.equals(roleName) ||
             membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent();
   }
 
@@ -263,7 +263,7 @@ public class RoleDetailBean
     getIRole().removeRoleMember(getIRole(member));
     loadMembersOfRole();
   }
-  
+
   public String getRoleMemberName()
   {
     return roleMemberName;
@@ -273,7 +273,7 @@ public class RoleDetailBean
   {
     this.roleMemberName = roleMemberName;
   }
-  
+
   public List<Role> searchMember(String query)
   {
     return roleDataModel.getList().stream()
@@ -285,49 +285,49 @@ public class RoleDetailBean
   {
     return managerBean.getSelectedIApplication().getSecurityContext();
   }
-  
+
   public MemberProperty getMemberProperty()
   {
     return roleProperties;
   }
-  
+
   public boolean isManaged()
   {
-    return getRoleName().equals(ISecurityConstants.TOP_LEVEL_ROLE_NAME) || 
+    return getRoleName().equals(ISecurityConstants.TOP_LEVEL_ROLE_NAME) ||
       (!managerBean.isIvySecuritySystem() && getRole().isManaged());
   }
-  
+
   public void browseLdap()
   {
     var secBean = new SecurityConfigDetailBean(managerBean.getSelectedApplication().getSecuritySystemName());
-    ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl());
+    ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
   }
-  
+
   public LdapBrowser getLdapBrowser()
   {
     return ldapBrowser;
   }
-  
+
   public void chooseLdapName()
   {
     role.setExternalName(ldapBrowser.getSelectedLdapName());
   }
-  
+
   public String getUserCount()
   {
     return managerBean.formatNumber(userCount);
   }
-  
+
   public String getUserInheritCount()
   {
     return managerBean.formatNumber(userInheritCont);
   }
-  
+
   public String getRunningTaskCount()
   {
     return managerBean.formatNumber(runningTaskCount);
   }
-  
+
   public String getDirectTaskCount()
   {
     return managerBean.formatNumber(directTaskCount);
