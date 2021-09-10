@@ -29,6 +29,15 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter
   private List<SelectItem> contentFilters;
   private List<String> selectedContentFilters;
 
+  public UserDataModel()
+  {
+  }
+
+  public UserDataModel(IApplication app)
+  {
+    this.app = app;
+  }
+
   public void setApp(IApplication app)
   {
     this.app = app;

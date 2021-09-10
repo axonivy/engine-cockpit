@@ -34,7 +34,7 @@ public class RoleDetailBean
 {
   private String roleName;
   private String newChildRoleName;
-  private String roleUserName;
+  private User roleUser;
   private String roleMemberName;
   private Role role;
 
@@ -57,7 +57,7 @@ public class RoleDetailBean
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     roleProperties = new MemberProperty().new RoleProperty();
-    usersOfRole = new UserDataModel();
+    usersOfRole = new UserDataModel(managerBean.getSelectedIApplication());
     ldapBrowser = new LdapBrowser();
   }
 
@@ -168,22 +168,22 @@ public class RoleDetailBean
 
   public void addUser()
   {
-    if (roleUserName.isEmpty())
+    if (roleUser == null)
     {
       return;
     }
-    getSecurityContext().users().find(roleUserName).addRole(getIRole());
-    roleUserName = "";
+    getSecurityContext().users().find(roleUser.getId()).addRole(getIRole());
+    roleUser = null;
   }
 
-  public String getRoleUserName()
+  public User getRoleUser()
   {
-    return roleUserName;
+    return roleUser;
   }
 
-  public void setRoleUserName(String roleUserName)
+  public void setRoleUser(User roleUser)
   {
-    this.roleUserName = roleUserName;
+    this.roleUser = roleUser;
   }
 
   public boolean hasRoleAssigned(String userName)
@@ -293,8 +293,7 @@ public class RoleDetailBean
 
   public boolean isManaged()
   {
-    return getRoleName().equals(ISecurityConstants.TOP_LEVEL_ROLE_NAME) ||
-      (!managerBean.isIvySecuritySystem() && getRole().isManaged());
+    return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getRoleName()) || (!managerBean.isIvySecuritySystem() && getRole().isManaged());
   }
 
   public void browseLdap()
