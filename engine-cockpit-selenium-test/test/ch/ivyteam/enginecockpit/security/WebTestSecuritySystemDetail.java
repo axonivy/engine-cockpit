@@ -402,7 +402,7 @@ public class WebTestSecuritySystemDetail
       Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
       table.firstColumnShouldBe(CollectionCondition.empty);
       $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
-      $(LDAP_BROWSER_FORM + "tree\\:0_3").click();
+      $(LDAP_BROWSER_FORM + "tree\\:0_3 .ui-tree-selectable").click();
       table.valueForEntryShould("o", 2, exactText("zugtstorg"));
     }
   }
