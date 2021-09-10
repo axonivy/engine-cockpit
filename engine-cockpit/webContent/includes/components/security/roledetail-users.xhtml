@@ -11,10 +11,12 @@
   <p:growl for="usersMessage">
     <p:autoUpdate />
   </p:growl>
-  <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUserName}" dropdown="true" forceSelection="true"
+  <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUser}" dropdown="true" forceSelection="true"
     completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
     placeholder="Search user to add"
-    disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
+    disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}"
+    var="user" itemLabel="#{user.displayName}" itemValue="#{user}" converter="userConverter" />
+
   <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
     icon="ui-icon-add" title="Add" styleClass="primary-btn"
     disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />

@@ -12,6 +12,8 @@ public class User
   private String email;
   private String password;
   private String realPassword = "";
+  private String externalName = "";
+  private String externalId = "";
 
   private boolean loggedIn;
   private long id;
@@ -98,6 +100,21 @@ public class User
     this.password = password;
   }
   
+  public String getExternalNameShort()
+  {
+    return StringUtils.substringBefore(externalName, ",") + ",...";
+  }
+
+  public String getExternalId()
+  {
+    return externalId;
+  }
+
+  public String getDisplayName()
+  {
+    return name + " (" + fullName + ")";
+  }
+
   //Use for <p:password redisplay="true"> without leak the real password in the DOM
   public void setRealPassword(String realPassword)
   {
@@ -128,5 +145,4 @@ public class User
   {
     return name;
   }
-
 }

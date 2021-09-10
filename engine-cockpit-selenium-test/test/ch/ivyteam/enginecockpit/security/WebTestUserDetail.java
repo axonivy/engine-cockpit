@@ -88,6 +88,19 @@ public class WebTestUserDetail
     $("#userInformationForm\\:email").shouldBe(exactValue("foo@ivyteam.ch"));
     $("#userInformationForm\\:password1").shouldBe(exactValue(""));
     $("#userInformationForm\\:password2").shouldBe(exactValue(""));
+
+    clearUserInfoInputs();
+    $("#userInformationForm\\:fullName").sendKeys("Marcelo Footer");
+    $("#userInformationForm\\:email").sendKeys("m.footer@ivyteam.ch");
+    $("#userInformationForm\\:password1").sendKeys("foo");
+    $("#userInformationForm\\:password2").sendKeys("foo");
+    $("#userInformationForm\\:saveUserInformation").click();
+
+    $("#userInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
+    Selenide.refresh();
+    $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
+    $("#userInformationForm\\:fullName").shouldBe(exactValue("Marcelo Footer"));
+    $("#userInformationForm\\:email").shouldBe(exactValue("m.footer@ivyteam.ch"));
   }
 
   @Test

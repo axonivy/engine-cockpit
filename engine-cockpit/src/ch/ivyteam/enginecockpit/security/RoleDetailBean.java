@@ -17,6 +17,7 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.Role;
 import ch.ivyteam.enginecockpit.model.User;
 import ch.ivyteam.ivy.security.IRole;
+import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.query.UserQuery;
 
@@ -26,7 +27,7 @@ public class RoleDetailBean
 {
   private String roleName;
   private String newChildRoleName;
-  private String roleUserName;
+  private User roleUser;
   private String roleMemberName;
   private Role role;
 
@@ -45,7 +46,7 @@ public class RoleDetailBean
     FacesContext context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     roleProperties = new MemberProperty().new RoleProperty();
-    usersOfRole = new UserDataModel();
+    usersOfRole = new UserDataModel(managerBean.getSelectedIApplication());
     ldapBrowser = new LdapBrowser();
   }
 
@@ -145,22 +146,22 @@ public class RoleDetailBean
 
   public void addUser()
   {
-    if (roleUserName.isEmpty())
+    if (roleUser == null)
     {
       return;
     }
-    getSecurityContext().users().find(roleUserName).addRole(getIRole());
-    roleUserName = "";
+    getSecurityContext().users().find(roleUser.getId()).addRole(getIRole());
+    roleUser = null;
   }
   
-  public String getRoleUserName()
+  public User getRoleUser()
   {
-    return roleUserName;
+    return roleUser;
   }
 
-  public void setRoleUserName(String roleUserName)
+  public void setRoleUser(User roleUser)
   {
-    this.roleUserName = roleUserName;
+    this.roleUser = roleUser;
   }
   
   public boolean hasRoleAssigned(String userName)
@@ -267,7 +268,12 @@ public class RoleDetailBean
   {
     return roleProperties;
   }
-  
+
+  public boolean isManaged()
+  {
+    return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getRoleName());
+  }
+
   public void browseLdap()
   {
     SecurityConfigDetailBean secBean = new SecurityConfigDetailBean(managerBean.getSelectedApplication().getSecuritySystemName());
