@@ -21,21 +21,18 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestDownload
-{
+public class WebTestDownload {
 
   @BeforeAll
-  static void setup()
-  {
+  static void setup() {
     Selenide.closeWebDriver();
     Configuration.proxyEnabled = true;
     Configuration.fileDownload = FileDownloadMode.PROXY;
     EngineCockpitUtil.login();
   }
-  
+
   @Test
-  void errorReport() throws FileNotFoundException
-  {
+  void errorReport() throws FileNotFoundException {
     $("#sessionUser").shouldBe(visible).click();
     $("#supportReport").shouldBe(visible).click();
     $("#supportReportModal").shouldBe(visible);
@@ -43,10 +40,9 @@ public class WebTestDownload
     assertThat(download.getName()).isEqualTo("support-engine-report.zip");
     assertThat(download.length() / 1024).isGreaterThan(10);
   }
-  
+
   @Test
-  void allLogs() throws FileNotFoundException
-  {
+  void allLogs() throws FileNotFoundException {
     Navigation.toLogs();
     $("#downloadAllLogs").shouldBe(visible).click();
     $("#logsDownloadModal").shouldBe(visible);
@@ -54,10 +50,9 @@ public class WebTestDownload
     assertThat(download.getName()).isEqualTo("logs.zip");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
   }
-  
+
   @Test
-  void log() throws FileNotFoundException
-  {
+  void log() throws FileNotFoundException {
     Navigation.toLogs();
     File download = $$(".ui-panel-titlebar").find(text("console.log")).parent()
             .find(".ui-panel-content button").shouldBe(visible).download();

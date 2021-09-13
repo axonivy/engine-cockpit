@@ -22,109 +22,94 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestMBeans
-{
-  
+public class WebTestMBeans {
+
   @BeforeAll
-  static void beforeAll()
-  {
+  static void beforeAll() {
     login();
     Navigation.toMBeans();
   }
-  
+
   @Test
-  void mBeansContent()
-  {
+  void mBeansContent() {
     $$(".ui-panel").shouldHave(size(3));
     mBeanNodes().shouldHave(sizeGreaterThan(5));
   }
-  
+
   @Test
-  void selectMBean()
-  {
+  void selectMBean() {
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Runtime");
     assertThat(attributesTableRows().size()).isGreaterThan(5);
   }
 
   @Test
-  void traceAttributes()
-  {
+  void traceAttributes() {
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Runtime");
-    
+
     clickTraceButtonForAttribute("Uptime");
     assertThat(tracesTableRows().size()).isEqualTo(1);
-    
+
     clickTraceButtonForAttribute("StartTime");
     assertThat(tracesTableRows().size()).isEqualTo(2);
 
   }
 
   @Test
-  void removeTrace()
-  {
+  void removeTrace() {
     expandMBeanNodeWithText("java.lang");
     clickMBeanNodeWithText("Runtime");
     clickTraceButtonForAttribute("Uptime");
     assertThat(tracesTableRows().size()).isEqualTo(1);
-    
+
     clickRemoveTraceButtonForAttribute("Uptime");
     assertThat(tracesTableRows()).isEmpty();
   }
-  
-  public static void toMBeans()
-  {
+
+  public static void toMBeans() {
     Navigation.toMBeans();
     expandMBeanNodeWithText("ivy Engine");
     clickMBeanNodeWithText("Database Persistency Service");
   }
 
-
-  private static void expandMBeanNodeWithText(String treeNodeText)
-  {
+  private static void expandMBeanNodeWithText(String treeNodeText) {
     var toggler = getTreeNodeWithText(treeNodeText)
-        .parent()
-        .find(".ui-tree-toggler");
+            .parent()
+            .find(".ui-tree-toggler");
     toggler.shouldBe(visible);
-    if (toggler.attr("class").contains("ui-icon-triangle-1-e")) // not yet expanded
+    if (toggler.attr("class").contains("ui-icon-triangle-1-e")) // not yet
+                                                                // expanded
     {
       toggler.click();
     }
   }
 
-  private static void clickMBeanNodeWithText(String treeNodeText)
-  {
-    getTreeNodeWithText(treeNodeText).shouldBe(visible).click();   
+  private static void clickMBeanNodeWithText(String treeNodeText) {
+    getTreeNodeWithText(treeNodeText).shouldBe(visible).click();
   }
-  
-  private static SelenideElement getTreeNodeWithText(String treeNodeText)
-  {
+
+  private static SelenideElement getTreeNodeWithText(String treeNodeText) {
     return mBeanNodes().find(Condition.text(treeNodeText));
   }
 
-  private static ElementsCollection mBeanNodes()
-  {
+  private static ElementsCollection mBeanNodes() {
     return $$("#mBeans .ui-treenode-content");
   }
-  
-  private static List<String> attributesTableRows()
-  {
+
+  private static List<String> attributesTableRows() {
     return new Table(By.id("attributes")).getFirstColumnEntries();
   }
 
-  private static void clickTraceButtonForAttribute(String attributeName)
-  {
+  private static void clickTraceButtonForAttribute(String attributeName) {
     new Table(By.id("attributes")).clickButtonForEntry(attributeName, "addTrace");
   }
-  
-  private static List<String> tracesTableRows()
-  {
+
+  private static List<String> tracesTableRows() {
     return new Table(By.id("traces")).getFirstColumnEntries();
   }
-  
-  private static void clickRemoveTraceButtonForAttribute(String attributeName)
-  {
+
+  private static void clickRemoveTraceButtonForAttribute(String attributeName) {
     new Table(By.id("traces")).clickButtonForEntry(attributeName, "removeTrace");
   }
 }

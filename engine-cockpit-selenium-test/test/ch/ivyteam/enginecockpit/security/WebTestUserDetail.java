@@ -35,8 +35,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestUserDetail
-{
+public class WebTestUserDetail {
   private static final String CSS_MEMBER_INHERIT = "member-inherit-icon";
   private static final String CSS_MEMBER = "si-check-circle";
   private static final String CSS_DISABLED = "ui-state-disabled";
@@ -49,30 +48,26 @@ public class WebTestUserDetail
   private static final String USER_AD = "user1";
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toUsers();
     Tab.switchToDefault();
   }
 
   @Test
-  void testUsersDetailOpen()
-  {
+  void testUsersDetailOpen() {
     Navigation.toUserDetail(USER_FOO);
     assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + USER_FOO);
   }
 
   @Test
-  void testUserDetailInformation()
-  {
+  void testUserDetailInformation() {
     Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
   }
 
   @Test
-  void testSaveUserInformation()
-  {
+  void testSaveUserInformation() {
     Navigation.toUserDetail(USER_FOO);
     clearUserInfoInputs();
     $("#userInformationForm\\:fullName").sendKeys("Foo User");
@@ -104,8 +99,7 @@ public class WebTestUserDetail
   }
 
   @Test
-  void testSaveUserInformationNoPasswordMatch()
-  {
+  void testSaveUserInformationNoPasswordMatch() {
     Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm\\:password1").sendKeys("foopassword");
     $("#userInformationForm\\:saveUserInformation").click();
@@ -114,8 +108,7 @@ public class WebTestUserDetail
   }
 
   @Test
-  void testDeleteUser()
-  {
+  void testDeleteUser() {
     Navigation.toUserDetail(USER_BAR);
     $("#userInformationForm\\:deleteUser").click();
     $("#userInformationForm\\:deleteUserConfirmDialog").shouldBe(visible);
@@ -124,8 +117,7 @@ public class WebTestUserDetail
   }
 
   @Test
-  void testEnableDisableUser()
-  {
+  void testEnableDisableUser() {
     Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm .card-top-static-message").shouldBe(empty);
     $("#userInformationForm\\:disableUser").shouldBe(visible).click();
@@ -138,16 +130,14 @@ public class WebTestUserDetail
   }
 
   @Test
-  void testEmailLanguageSwitch()
-  {
+  void testEmailLanguageSwitch() {
     Navigation.toUserDetail(USER_FOO);
     changeEmailLanguage("Application default (English)", "German");
     Selenide.refresh();
     changeEmailLanguage("German", "Application default (English)");
   }
 
-  private void changeEmailLanguage(String oldLang, String lang)
-  {
+  private void changeEmailLanguage(String oldLang, String lang) {
     SelectOneMenu language = PrimeUi.selectOne(By.id("userEmailForm:emailSettings:languageDropDown"));
     language.selectedItemShould(exactText(oldLang));
     language.selectItemByLabel(lang);
@@ -157,13 +147,15 @@ public class WebTestUserDetail
   }
 
   @Test
-  void testEmailSettings()
-  {
+  void testEmailSettings() {
     Navigation.toUserDetail(USER_FOO);
     SelectOneRadio radioSettings = PrimeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
-    SelectBooleanCheckbox neverCheckbox = PrimeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
-    SelectBooleanCheckbox taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
-    SelectManyCheckbox dailyCheckbox = PrimeUi.selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
+    SelectBooleanCheckbox neverCheckbox = PrimeUi
+            .selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
+    SelectBooleanCheckbox taskCheckbox = PrimeUi
+            .selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
+    SelectManyCheckbox dailyCheckbox = PrimeUi
+            .selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
     radioSettings.selectedValueShouldBe(exactValue("Application"));
     neverCheckbox.shouldBeChecked(false);
     neverCheckbox.shouldBeDisabled(true);
@@ -193,10 +185,10 @@ public class WebTestUserDetail
   }
 
   @Test
-  void testRolesAddRemove()
-  {
+  void testRolesAddRemove() {
     Navigation.toUserDetail(USER_FOO);
-    String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent().getAttribute("id");
+    String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent()
+            .getAttribute("id");
     By bossId = By.id(boss);
     $(bossId).find(ROLE_EXPANDER).click();
     By managerId = By.id(boss + "_0");
@@ -230,8 +222,7 @@ public class WebTestUserDetail
   }
 
   @Test
-  void testSynchronizeUser()
-  {
+  void testSynchronizeUser() {
     WebTestUsers.triggerSync();
 
     Navigation.toUserDetail(USER_AD);
@@ -244,8 +235,7 @@ public class WebTestUserDetail
   }
 
   @Test
-  void testExpandCollapseRoleTree()
-  {
+  void testExpandCollapseRoleTree() {
     Navigation.toUserDetail(USER_FOO);
     Table table = new Table(By.id("rolesOfUserForm:rolesTree"), true);
     table.firstColumnShouldBe(size(3));
@@ -255,8 +245,7 @@ public class WebTestUserDetail
     table.firstColumnShouldBe(size(1));
   }
 
-  private void checkUserIsExternal()
-  {
+  private void checkUserIsExternal() {
     $("#userInformationForm .card-top-static-message").shouldHave(text("This user is managed"));
     $("#userInformationForm\\:disableUser").shouldNotBe(visible);
     $("#userInformationForm\\:deleteUser").shouldNotBe(visible);
@@ -264,8 +253,7 @@ public class WebTestUserDetail
     $("#userInformationForm\\:userSynchBtn").shouldBe(visible);
   }
 
-  private void clearUserInfoInputs()
-  {
+  private void clearUserInfoInputs() {
     $("#userInformationForm\\:fullName").clear();
     $("#userInformationForm\\:email").clear();
     $("#userInformationForm\\:password1").clear();

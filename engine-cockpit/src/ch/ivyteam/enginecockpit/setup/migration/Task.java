@@ -6,8 +6,7 @@ import ch.ivyteam.ivy.migration.MigrationTask;
 import ch.ivyteam.ivy.migration.input.Quest;
 
 @SuppressWarnings("restriction")
-public class Task
-{
+public class Task {
 
   private String name;
   private String description;
@@ -16,70 +15,58 @@ public class Task
   private MigrationTask task;
   private Question question;
 
-  public Task(MigrationTask task)
-  {
+  public Task(MigrationTask task) {
     this.task = task;
-    name = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(task.getClass().getSimpleName()), StringUtils.SPACE);
+    name = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(task.getClass().getSimpleName()),
+            StringUtils.SPACE);
     description = task.getDescription();
     stateIcon = "navigation-menu-horizontal";
   }
-  
-  public void run()
-  {
+
+  public void run() {
     state = "running";
     stateIcon = "button-refresh-arrows si-is-spinning";
   }
-  
-  public void done()
-  {
+
+  public void done() {
     state = "done";
     stateIcon = "check-circle-1";
   }
-  
-  public void fail()
-  {
+
+  public void fail() {
     state = "fail";
     stateIcon = "remove-circle";
   }
 
-  
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
-  
-  public String getDescription()
-  {
+
+  public String getDescription() {
     return description;
   }
-  
-  public String getState()
-  {
+
+  public String getState() {
     return state;
   }
-  
-  public String getStateIcon()
-  {
+
+  public String getStateIcon() {
     return stateIcon;
   }
-  
-  MigrationTask getTask()
-  {
+
+  MigrationTask getTask() {
     return task;
   }
 
-  public void question(Quest<?> quest, String diff)
-  {
+  public void question(Quest<?> quest, String diff) {
     question = new Question(quest, diff);
   }
-  
-  public Question getQuestion()
-  {
+
+  public Question getQuestion() {
     return question;
   }
 
-  public String answer()
-  {
+  public String answer() {
     return question.getAnswer();
   }
 }

@@ -10,37 +10,31 @@ import javax.management.ReflectionException;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 
-final class MPatternAttributeReader implements ValueProvider
-{
+final class MPatternAttributeReader implements ValueProvider {
   private final ObjectName mBeanName;
   private final String attributeName;
   private final Unit unit;
-  
-  MPatternAttributeReader(ObjectName mBeanName, String attributeName, Unit unit)
-  {
+
+  MPatternAttributeReader(ObjectName mBeanName, String attributeName, Unit unit) {
     this.mBeanName = mBeanName;
     this.attributeName = attributeName;
     this.unit = unit;
   }
 
   @Override
-  public Value nextValue()
-  {
+  public Value nextValue() {
     var server = ManagementFactory.getPlatformMBeanServer();
-    try
-    {
+    try {
       var names = server.queryNames(mBeanName, null);
       long value = 0l;
-      for (ObjectName name : names)
-      {
-        Number val = (Number)server.getAttribute(name, attributeName);
+      for (ObjectName name : names) {
+        Number val = (Number) server.getAttribute(name, attributeName);
         value += val.longValue();
       }
       return new Value(value, unit);
-    }
-    catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex)
-    {
-      throw new RuntimeException("Cannot read attribute "+attributeName+" of MBean "+mBeanName, ex);
+    } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException
+            | MBeanException ex) {
+      throw new RuntimeException("Cannot read attribute " + attributeName + " of MBean " + mBeanName, ex);
     }
   }
 }

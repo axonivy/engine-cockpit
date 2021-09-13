@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.system;
 
-
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
@@ -27,19 +26,16 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestEditor
-{
+public class WebTestEditor {
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toEditor();
   }
 
   @Test
-  void testEditor()
-  {
+  void testEditor() {
     assertThat(Tab.getCount()).isGreaterThan(1);
     String ivyYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     $(editorContentSelector()).shouldNotHave(attribute("value", ""));
@@ -50,8 +46,7 @@ public class WebTestEditor
   }
 
   @Test
-  void testEditorSaveErrorsDialog()
-  {
+  void testEditorSaveErrorsDialog() {
     Tab.switchToTab("test/app.yaml");
     String newEditorContent = "test: hi\n  bla: fail";
     String editorContent = $(editorContentSelector()).shouldNotBe(empty).getAttribute("value");
@@ -78,25 +73,21 @@ public class WebTestEditor
   }
 
   @Test
-  void directFileOpenUrl()
-  {
+  void directFileOpenUrl() {
     open(viewUrl("editor.xhtml?file=test/app.yaml"));
     assertThat(Tab.getSelectedTab()).contains("test/app.yaml");
     $(editorContentSelector()).shouldHave(value("BusinessCalendars:"));
   }
 
-  private String yamlHintsSelector()
-  {
+  private String yamlHintsSelector() {
     return getActivePanelCss() + "editorForm\\:yamlhints";
   }
 
-  private String editorContentSelector()
-  {
+  private String editorContentSelector() {
     return getActivePanelCss() + "editorForm\\:content";
   }
 
-  private String getActivePanelCss()
-  {
+  private String getActivePanelCss() {
     return "#card\\:editorTabView\\:" + Tab.getSelectedTabIndex() + "\\:";
   }
 

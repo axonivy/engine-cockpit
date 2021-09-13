@@ -17,8 +17,7 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class EditorBean
-{
+public class EditorBean {
   private List<ConfigFile> configFiles = new ArrayList<>();
 
   private ConfigFile activeConfigFile;
@@ -27,8 +26,7 @@ public class EditorBean
 
   private String selectedFile;
 
-  public EditorBean()
-  {
+  public EditorBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
@@ -39,47 +37,40 @@ public class EditorBean
             .collect(Collectors.toList()));
   }
 
-  private ConfigFile createAppConfigFile(IApplication app)
-  {
-    var appYaml = UrlUtil.getConfigFile("applications").resolve(app.getName()).resolve(IApplication.APP_CONFIG_FILE);
+  private ConfigFile createAppConfigFile(IApplication app) {
+    var appYaml = UrlUtil.getConfigFile("applications").resolve(app.getName())
+            .resolve(IApplication.APP_CONFIG_FILE);
     var name = app.getName() + "/" + IApplication.APP_CONFIG_FILE;
     return new ConfigFile(appYaml, name, ((IApplicationInternal) app).getConfiguration());
   }
 
-  public List<ConfigFile> getConfigFiles()
-  {
+  public List<ConfigFile> getConfigFiles() {
     return configFiles;
   }
 
-  public ConfigFile getActiveConfigFile()
-  {
+  public ConfigFile getActiveConfigFile() {
     return activeConfigFile;
   }
 
-  public void setActiveConfigFile(ConfigFile activeConfigFile)
-  {
+  public void setActiveConfigFile(ConfigFile activeConfigFile) {
     this.activeConfigFile = activeConfigFile;
   }
 
-  public int getTabIndex()
-  {
+  public int getTabIndex() {
     var configFile = configFiles.stream().filter(f -> f.getFileName().equals(selectedFile)).findFirst()
             .orElse(configFiles.get(0));
     return configFiles.indexOf(configFile);
   }
 
-  public void setTabIndex(@SuppressWarnings("unused") int index)
-  {
+  public void setTabIndex(@SuppressWarnings("unused") int index) {
     // Do nothing
   }
 
-  public String getSelectedFile()
-  {
+  public String getSelectedFile() {
     return selectedFile;
   }
 
-  public void setSelectedFile(String file)
-  {
+  public void setSelectedFile(String file) {
     this.selectedFile = file;
   }
 

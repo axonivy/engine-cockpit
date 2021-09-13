@@ -13,51 +13,41 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 @ManagedBean
 @SessionScoped
 @SuppressWarnings("restriction")
-public class AdvisorBean
-{
-  public String getApplicationName()
-  {
+public class AdvisorBean {
+  public String getApplicationName() {
     return Advisor.getAdvisor().getApplicationName();
   }
 
-  public String getVersion()
-  {
+  public String getVersion() {
     return Advisor.getAdvisor().getVersion().toString();
   }
 
-  public String getBuildDate()
-  {
+  public String getBuildDate() {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     return formatter.format(Advisor.getAdvisor().getBuildDate());
   }
 
-  public String getCopyright()
-  {
+  public String getCopyright() {
     return "&copy; 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
   }
-  
-  public String getApp()
-  {
+
+  public String getApp() {
     return EngineMode.isEmbeddedInDesigner() ? "designer" : "system";
   }
-  
-  public String getApiBaseUrl()
-  {
+
+  public String getApiBaseUrl() {
     return UrlUtil.getApiBaseUrl();
   }
 
-  public String getEngineGuideBaseUrl()
-  {
+  public String getEngineGuideBaseUrl() {
     return UrlUtil.getEngineGuideBaseUrl();
   }
-  
-  public String getCockpitEngineGuideUrl()
-  {
+
+  public String getCockpitEngineGuideUrl() {
     return UrlUtil.getCockpitEngineGuideUrl();
   }
-  
-  public String getDesignerGuideBaseUrl()
-  {
+
+  public String getDesignerGuideBaseUrl() {
     return UrlUtil.getDesignerGuideBaseUrl();
   }
 }

@@ -10,126 +10,114 @@ import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 @SuppressWarnings("restriction")
-public class TestSystemDatabaseMonitorBean
-{ 
+public class TestSystemDatabaseMonitorBean {
   @AfterEach
-  public void afterEach()
-  {
+  public void afterEach() {
     MBeans.unregisterAllMBeans();
   }
-    
+
   @Test
-  public void connectionMonitor()
-  {
+  public void connectionMonitor() {
     MBeans.registerMBeanFor(new SysDb());
     var testee = new SystemDatabaseMonitorBean();
-    
+
     var series = testee.getConnectionsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
-    
+
     var openConnections = series.get(0);
     assertThat(openConnections.getLabel()).isEqualTo("Open");
     assertThat(openConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(2.0D));
-    
+
     var usedConnections = series.get(1);
     assertThat(usedConnections.getLabel()).isEqualTo("Used");
-    assertThat(usedConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(1.0D));    
-    
+    assertThat(usedConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(1.0D));
+
     assertThat(testee.getConnectionsMonitor().getInfo()).isEqualTo("Connections: Used 1, Open 2, Max 50");
   }
 
   @Test
-  public void transactionsMonitor()
-  {
+  public void transactionsMonitor() {
     MBeans.registerMBeanFor(new SysDb());
     var testee = new SystemDatabaseMonitorBean();
-    
+
     var series = testee.getTransactionsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
-    
+
     var transactions = series.get(0);
     assertThat(transactions.getLabel()).isEqualTo("Transactions");
     assertThat(transactions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
-    
+
     var errors = series.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
     assertThat(errors.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
-    
-    assertThat(testee.getTransactionsMonitor().getInfo()).isEqualTo("Transactions: -, Total 3, Errors -, Errors Total 4");
+
+    assertThat(testee.getTransactionsMonitor().getInfo())
+            .isEqualTo("Transactions: -, Total 3, Errors -, Errors Total 4");
   }
 
   @Test
-  public void processingTimeMonitor()
-  {
+  public void processingTimeMonitor() {
     MBeans.registerMBeanFor(new SysDb());
     var testee = new SystemDatabaseMonitorBean();
-    
+
     var series = testee.getProcessingTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);
-    
+
     var min = series.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
-    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D)); 
-    
+    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D));
+
     var avg = series.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
     assertThat(avg.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
     var max = series.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
-    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D)); 
-    
-    assertThat(testee.getProcessingTimeMonitor().getInfo()).isEqualTo("Processing Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
+    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D));
+
+    assertThat(testee.getProcessingTimeMonitor().getInfo())
+            .isEqualTo("Processing Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
-  
+
   @MBean("ivy Engine:type=Database Persistency Service")
-  private static final class SysDb
-  {    
+  private static final class SysDb {
     @MAttribute
-    public int getOpenConnections()
-    {
+    public int getOpenConnections() {
       return 2;
     }
-    
+
     @MAttribute
-    public int getUsedConnections()
-    {
+    public int getUsedConnections() {
       return 1;
     }
-    
+
     @MAttribute
-    public int getMaxConnections()
-    {
+    public int getMaxConnections() {
       return 50;
     }
 
     @MAttribute
-    public long getTransactions()
-    {
+    public long getTransactions() {
       return 3;
     }
-    
+
     @MAttribute
-    public long getErrors()
-    {
+    public long getErrors() {
       return 4;
     }
-    
+
     @MAttribute
-    public long getTransactionsMinExecutionTimeDeltaInMicroSeconds()
-    {
+    public long getTransactionsMinExecutionTimeDeltaInMicroSeconds() {
       return 5;
     }
 
     @MAttribute
-    public long getTransactionsTotalExecutionTimeInMicroSeconds()
-    {
+    public long getTransactionsTotalExecutionTimeInMicroSeconds() {
       return 6;
     }
 
     @MAttribute
-    public long getTransactionsMaxExecutionTimeDeltaInMicroSeconds()
-    {
+    public long getTransactionsMaxExecutionTimeDeltaInMicroSeconds() {
       return 7;
     }
   }

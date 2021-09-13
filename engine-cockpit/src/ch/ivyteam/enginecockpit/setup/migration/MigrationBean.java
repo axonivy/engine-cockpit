@@ -22,8 +22,7 @@ import ch.ivyteam.ivy.migration.restricted.MigrationTaskLoader;
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("restriction")
-public class MigrationBean
-{
+public class MigrationBean {
   private String pathToOldEngine;
   private MigrationEngines engines;
   private MigrationPath migrationPath;
@@ -32,95 +31,77 @@ public class MigrationBean
   private MigrationState running;
   private CompletableFuture<String> migrationRunner;
   private MigrationRunner client;
-  
-  public void checkOldEngineLocation()
-  {
-    try
-    {
+
+  public void checkOldEngineLocation() {
+    try {
       var oldEngine = Path.of(pathToOldEngine);
       engines = MigrateToLocalEngine.fromOrigin(oldEngine);
       migrationPath = new MigrationPath(engines.getOrigin().getVersion(), engines.getTarget().getVersion());
-      scenario = MigrationScenario.create(migrationPath, ()->MigrationTaskLoader.allTasks());
+      scenario = MigrationScenario.create(migrationPath, () -> MigrationTaskLoader.allTasks());
       reloadTasks();
       running = MigrationState.START;
-    }
-    catch (Exception ex)
-    {
-      FacesContext.getCurrentInstance().addMessage("migrateGrowl", 
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while validate location", ex.getMessage()));
+    } catch (Exception ex) {
+      FacesContext.getCurrentInstance().addMessage("migrateGrowl",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while validate location",
+                      ex.getMessage()));
     }
   }
-  
-  public void execute() throws Exception
-  {
+
+  public void execute() throws Exception {
     running = MigrationState.RUNNING;
     migrationRunner = CompletableFuture.supplyAsync(() -> {
-      try
-      {
-        //TODO: add cancel scenario possibility
+      try {
+        // TODO: add cancel scenario possibility
         scenario.run(engines, client);
         return "";
-      }
-      catch (Exception ex)
-      {
+      } catch (Exception ex) {
         return ex.getMessage();
       }
     });
   }
-  
-  private void reloadTasks()
-  {
+
+  private void reloadTasks() {
     tasks = scenario.getTasks().stream().map(Task::new).collect(Collectors.toList());
     client = new MigrationRunner(tasks);
   }
-  
-  public String getPathToOldEngine()
-  {
+
+  public String getPathToOldEngine() {
     return pathToOldEngine;
   }
-  
-  public void setPathToOldEngine(String pathToOldEngine)
-  {
+
+  public void setPathToOldEngine(String pathToOldEngine) {
     this.pathToOldEngine = pathToOldEngine;
   }
-  
-  public String getMigrationPath()
-  {
+
+  public String getMigrationPath() {
     return migrationPath != null ? migrationPath.toString() : "";
   }
-  
-  public List<Task> getTasks()
-  {
+
+  public List<Task> getTasks() {
     return tasks;
   }
-  
-  public MigrationState getState() throws InterruptedException, ExecutionException
-  {
-    if (running == MigrationState.RUNNING && migrationRunner != null && migrationRunner.isDone())
-    {
+
+  public MigrationState getState() throws InterruptedException, ExecutionException {
+    if (running == MigrationState.RUNNING && migrationRunner != null && migrationRunner.isDone()) {
       running = MigrationState.FINISHED;
-      if (StringUtils.isNotBlank(migrationRunner.get()))
-      {
-        FacesContext.getCurrentInstance().addMessage("migrationMessage", 
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while migration", migrationRunner.get()));
-      }
-      else
-      {
-        FacesContext.getCurrentInstance().addMessage("migrationMessage", 
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Your engine was migrated successfully. Please restart your engine!"));
+      if (StringUtils.isNotBlank(migrationRunner.get())) {
+        FacesContext.getCurrentInstance().addMessage("migrationMessage",
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while migration",
+                        migrationRunner.get()));
+      } else {
+        FacesContext.getCurrentInstance().addMessage("migrationMessage",
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
+                        "Your engine was migrated successfully. Please restart your engine!"));
       }
     }
     return running;
   }
-  
-  public boolean isRunnerPaused()
-  {
+
+  public boolean isRunnerPaused() {
     return client.isPaused();
   }
-  
+
   public static enum MigrationState {
-    START,
-    RUNNING,
-    FINISHED,
-  }  
+    START, RUNNING, FINISHED,
+  }
 }

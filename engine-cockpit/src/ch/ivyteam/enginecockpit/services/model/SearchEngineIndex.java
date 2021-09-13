@@ -5,17 +5,15 @@ import ch.ivyteam.ivy.business.data.store.restricted.IndexInfo;
 import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.IndexName;
 
 @SuppressWarnings("restriction")
-public class SearchEngineIndex
-{
+public class SearchEngineIndex {
   private IndexName indexName;
   private long countIndexed;
   private long countStored;
   private SearchEngineHealth status;
   private String size;
   private boolean reindexing;
-  
-  public SearchEngineIndex(IndexInfo info, boolean reindexing)
-  {
+
+  public SearchEngineIndex(IndexInfo info, boolean reindexing) {
     this.indexName = info.getIndexName();
     this.countIndexed = info.getIndexCount();
     this.countStored = info.getStoreCount();
@@ -24,54 +22,44 @@ public class SearchEngineIndex
     this.reindexing = reindexing;
   }
 
-  public IndexName getIndexName()
-  {
+  public IndexName getIndexName() {
     return indexName;
   }
 
-  public String getName()
-  {
+  public String getName() {
     return indexName.getName();
   }
 
-  public long getCountIndexed()
-  {
+  public long getCountIndexed() {
     return countIndexed;
   }
 
-  public long getCountStored()
-  {
+  public long getCountStored() {
     return countStored;
   }
 
-  public SearchEngineHealth getStatus()
-  {
+  public SearchEngineHealth getStatus() {
     return status;
   }
-  
-  public void setStatus(SearchEngineHealth searchEngineHealth)
-  {
+
+  public void setStatus(SearchEngineHealth searchEngineHealth) {
     this.status = searchEngineHealth;
   }
-  
-  public String getSize()
-  {
+
+  public String getSize() {
     return size;
   }
-  
-  public void setSize(String size)
-  {
+
+  public void setSize(String size) {
     this.size = size;
   }
-  
-  public boolean isReindexing()
-  {
+
+  public boolean isReindexing() {
     return reindexing;
   }
-  
-  public void setReindexing(boolean running)
-  {
+
+  public void setReindexing(boolean running) {
     this.reindexing = running;
   }
-  
+
 }

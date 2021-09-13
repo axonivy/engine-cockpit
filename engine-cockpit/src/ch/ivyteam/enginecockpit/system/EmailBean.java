@@ -12,8 +12,7 @@ import ch.ivyteam.ivy.mail.MailClientConfigProvider;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class EmailBean
-{
+public class EmailBean {
   private String host;
   private int port;
   private String email;
@@ -22,14 +21,12 @@ public class EmailBean
   private String sendTo;
   private String subject;
   private String message;
-  
-  public EmailBean()
-  {
+
+  public EmailBean() {
     initEmailConfigs();
   }
-  
-  private void initEmailConfigs()
-  {
+
+  private void initEmailConfigs() {
     var config = MailClientConfigProvider.get(null);
     host = config.host();
     port = config.port();
@@ -40,72 +37,58 @@ public class EmailBean
     message = "This is a test mail.";
   }
 
-  public String getHost()
-  {
+  public String getHost() {
     return host;
   }
 
-  public int getPort()
-  {
+  public int getPort() {
     return port;
   }
 
-  public String getEmail()
-  {
+  public String getEmail() {
     return email;
   }
 
-  public String getUser()
-  {
+  public String getUser() {
     return user;
   }
 
-  public String getTriggerTime()
-  {
+  public String getTriggerTime() {
     return triggerTime;
   }
-  
-  public String getSendTo()
-  {
+
+  public String getSendTo() {
     return sendTo;
   }
 
-  public void setSendTo(String sendTo)
-  {
+  public void setSendTo(String sendTo) {
     this.sendTo = sendTo;
   }
 
-  public String getSubject()
-  {
+  public String getSubject() {
     return subject;
   }
 
-  public void setSubject(String subject)
-  {
+  public void setSubject(String subject) {
     this.subject = subject;
   }
 
-  public String getMessage()
-  {
+  public String getMessage() {
     return message;
   }
 
-  public void setMessage(String message)
-  {
+  public void setMessage(String message) {
     this.message = message;
   }
 
-  public void sendTestMail()
-  {
+  public void sendTestMail() {
     FacesMessage facesMessage;
-    try
-    {
+    try {
       EmailUtil.sendTestMail(subject, sendTo, message);
       facesMessage = new FacesMessage("Successfully sent test mail", "");
-    }
-    catch (Exception ex)
-    {
-      facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while sending test mail", ex.getMessage());
+    } catch (Exception ex) {
+      facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while sending test mail",
+              ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage("msgs", facesMessage);
   }

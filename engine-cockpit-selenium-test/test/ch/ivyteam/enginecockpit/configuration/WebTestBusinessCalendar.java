@@ -19,26 +19,22 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestBusinessCalendar
-{
+public class WebTestBusinessCalendar {
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toBusinessCalendar();
     Tab.switchToDefault();
   }
 
   @Test
-  void testBusinessCalendarTree()
-  {
+  void testBusinessCalendarTree() {
     $(By.id(getFormId() + ":tree:0:calendarNode")).shouldBe(text("Default"));
   }
-  
+
   @Test
-  void testBusinessCalendarDetail()
-  {
+  void testBusinessCalendarDetail() {
     Navigation.toBusinessCalendarDetail("Luzern");
     $("#weekConfigurationPanel").shouldHave(text("Week configuration"));
     $$(".box").shouldHave(size(7)).first().shouldHave(text("Monday"));
@@ -46,14 +42,13 @@ public class WebTestBusinessCalendar
     $("#weekConfigurationPanel .ui-datatable").shouldHave(
             text("morning"), text("08:00:00 - 12:00:00"),
             text("afternoon"), text("13:00:00 - 17:00:00"));
-    $("#freeDatesPanel").shouldHave(text("Free days"), 
+    $("#freeDatesPanel").shouldHave(text("Free days"),
             text("Christmas Day"), text("12-25"),
             text("Ascension Day"), text("easter + 39"));
   }
-  
+
   @Test
-  void testExpandCollapseTree()
-  {
+  void testExpandCollapseTree() {
     getVisibleTreeNodes().shouldBe(size(3));
     $(By.id(getFormId() + ":collapseAll")).shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
@@ -61,14 +56,12 @@ public class WebTestBusinessCalendar
     getVisibleTreeNodes().shouldBe(size(3));
   }
 
-  private ElementsCollection getVisibleTreeNodes()
-  {
+  private ElementsCollection getVisibleTreeNodes() {
     return $(By.id(getFormId())).findAll(".ui-treenode-content").filter(visible);
   }
-  
-  private String getFormId()
-  {
+
+  private String getFormId() {
     return "apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":treeForm";
   }
-  
+
 }

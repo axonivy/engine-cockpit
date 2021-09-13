@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.services.model;
 
-public interface IService
-{
+public interface IService {
   boolean passwordChanged();
+
   String getPassword();
 }

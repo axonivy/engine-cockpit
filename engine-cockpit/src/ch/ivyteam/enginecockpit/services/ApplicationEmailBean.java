@@ -10,33 +10,28 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 
 @ManagedBean
 @ViewScoped
-public class ApplicationEmailBean
-{
+public class ApplicationEmailBean {
   private EmailSettings emailSettings;
 
   private ManagerBean managerBean;
 
-  public ApplicationEmailBean()
-  {
+  public ApplicationEmailBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     reloadEmailSettings();
   }
 
-  public void reloadEmailSettings()
-  {
+  public void reloadEmailSettings() {
     emailSettings = new EmailSettings(managerBean.getSelectedIApplication());
     emailSettings.setNotificationCheckboxRender(false);
   }
 
-  public EmailSettings getEmailSettings()
-  {
+  public EmailSettings getEmailSettings() {
     return emailSettings;
   }
 
-  public void saveEmailSettings()
-  {
+  public void saveEmailSettings() {
     var iApp = managerBean.getSelectedIApplication();
     var language = emailSettings.getLanguageLocale();
     iApp.setDefaultEMailLanguage(language);

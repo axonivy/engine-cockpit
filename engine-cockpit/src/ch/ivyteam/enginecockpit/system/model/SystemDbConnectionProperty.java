@@ -4,93 +4,76 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.db.jdbc.ConnectionProperty;
 
-public class SystemDbConnectionProperty
-{
-  
+public class SystemDbConnectionProperty {
+
   private String value;
   private String defaultValue;
   private boolean isDefault;
   private ConnectionProperty property;
-  
-  public SystemDbConnectionProperty(ConnectionProperty connectionProperty, String defaultValue)
-  {
+
+  public SystemDbConnectionProperty(ConnectionProperty connectionProperty, String defaultValue) {
     this.property = connectionProperty;
     this.value = defaultValue;
     this.defaultValue = defaultValue;
     this.isDefault = StringUtils.equals(value, defaultValue);
   }
 
-  public void setValue(String value)
-  {
-    if (ConnectionProperty.PASSWORD == this.property && StringUtils.isBlank(value))
-    {
+  public void setValue(String value) {
+    if (ConnectionProperty.PASSWORD == this.property && StringUtils.isBlank(value)) {
       return;
     }
     this.isDefault = StringUtils.equals(value, defaultValue);
     this.value = value;
   }
-  
-  public String getValue()
-  {
+
+  public String getValue() {
     return value;
   }
-  
-  public String getPasswordPlaceholder()
-  {
+
+  public String getPasswordPlaceholder() {
     return "*".repeat(value.length());
   }
-  
-  public void setDefaultValue(boolean defaultValue)
-  {
+
+  public void setDefaultValue(boolean defaultValue) {
     isDefault = defaultValue;
-    if (defaultValue)
-    {
+    if (defaultValue) {
       this.value = this.defaultValue;
     }
   }
-  
-  public boolean isDefaultValue()
-  {
+
+  public boolean isDefaultValue() {
     return isDefault;
   }
-  
-  public String getName()
-  {
+
+  public String getName() {
     return property.getName();
   }
-  
-  public String getLabel()
-  {
+
+  public String getLabel() {
     return property.getLabel();
   }
-  
-  public String getCssClass()
-  {
+
+  public String getCssClass() {
     return "sysdb-dynamic-form-" + getLabel().replace(" ", "").toLowerCase();
   }
-  
-  public boolean isInput()
-  {
+
+  public boolean isInput() {
     return !isNumber() && !isPassword();
   }
-  
-  public boolean isNumber()
-  {
+
+  public boolean isNumber() {
     return property.isNumber();
   }
-  
-  public boolean isPassword()
-  {
+
+  public boolean isPassword() {
     return property.isConfidential();
   }
-  
-  public boolean isRequired()
-  {
+
+  public boolean isRequired() {
     return property.isMandatory();
   }
-  
-  public ConnectionProperty getProperty()
-  {
+
+  public ConnectionProperty getProperty() {
     return property;
   }
 

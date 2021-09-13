@@ -26,181 +26,148 @@ import ch.ivyteam.licence.SystemLicence;
 @SuppressWarnings("restriction")
 @ManagedBean
 @RequestScoped
-public class LicenceBean extends StepStatus
-{
+public class LicenceBean extends StepStatus {
   private static final String LICENCEE_ORGANISATION = "licencee.organisation";
   private static final String LICENCE_TYPE = "licence.type";
   private static final String LICENCE_VALID_UNTIL = "licence.valid.until";
   private static final String USER_LIMIT = "server.users.limit";
   private static final String SESSION_LIMIT = "server.sessions.limit";
-  
+
   private ISecurityManager securityManager = ISecurityManager.instance();
-  
+
   private String users;
   private String sessions;
   private List<LicenceMessage> unconfirmedLicenceEvents;
-  
-  public LicenceBean()
-  {
+
+  public LicenceBean() {
     reloadLicenceMessages();
   }
 
-  public String getValueFromProperty(String key)
-  {
+  public String getValueFromProperty(String key) {
     return SystemLicence.getParam(key);
   }
 
-  public Properties getLicenceProperties()
-  {
+  public Properties getLicenceProperties() {
     return SystemLicence.getParams();
   }
 
-  public String getOrganisation()
-  {
+  public String getOrganisation() {
     return getValueFromProperty(LICENCEE_ORGANISATION);
   }
 
-  public String getLicenceType()
-  {
+  public String getLicenceType() {
     return getValueFromProperty(LICENCE_TYPE);
   }
 
-  public String getExpiryDate()
-  {
+  public String getExpiryDate() {
     var expiryDate = getValueFromProperty(LICENCE_VALID_UNTIL);
     return StringUtils.isBlank(expiryDate) ? "Never" : expiryDate;
   }
-  
-  public boolean showRenewLicFeature()
-  {
-    try
-    {
+
+  public boolean showRenewLicFeature() {
+    try {
       return SystemLicence.isInstalled() && SystemLicence.getValidUntil() != null;
-    }
-    catch (DateTimeParseException ex)
-    {
+    } catch (DateTimeParseException ex) {
       return false;
     }
   }
 
-  public boolean showExpiryWarning()
-  {
+  public boolean showExpiryWarning() {
     var inThreeMonth = LocalDate.now().plus(3, ChronoUnit.MONTHS);
-    try
-    {
+    try {
       return SystemLicence.isExpiredAt(inThreeMonth);
-    }
-    catch (DateTimeParseException e)
-    {
+    } catch (DateTimeParseException e) {
       return false;
     }
   }
 
-  public String getUsers()
-  {
-    if (users == null)
-    { // lazy because calculation can be expensive with many users
+  public String getUsers() {
+    if (users == null) { // lazy because calculation can be expensive with many
+                         // users
       users = calculateUsers();
     }
     return users;
   }
-  
-  public String getSessions()
-  {
-    if (sessions == null)
-    { // lazy because calculation can be expensive with many sessions
+
+  public String getSessions() {
+    if (sessions == null) { // lazy because calculation can be expensive with
+                            // many sessions
       sessions = calculateSessions();
     }
     return sessions;
   }
-  
-  public String getNodes()
-  {
-    var nodes = IClusterManager.instance().getNumberOfRunningClusterNodes();  
+
+  public String getNodes() {
+    var nodes = IClusterManager.instance().getNumberOfRunningClusterNodes();
     var nodesLimit = getValueFromProperty(LicenceConstants.PARAM_SRV_MAX_NODES);
-    if (StringUtils.isBlank(nodesLimit))
-    {
-        nodesLimit = "Unlimited";
+    if (StringUtils.isBlank(nodesLimit)) {
+      nodesLimit = "Unlimited";
     }
     return nodes + " / " + nodesLimit;
   }
 
-  public boolean isCluster()
-  {
+  public boolean isCluster() {
     return SystemLicence.isEnterprise();
   }
 
-  public boolean isDemo()
-  {
+  public boolean isDemo() {
     return SystemLicence.isDemo();
   }
-  
-  public boolean isInstalled()
-  {
+
+  public boolean isInstalled() {
     return SystemLicence.isInstalled();
   }
-  
-  public boolean isValid()
-  {
+
+  public boolean isValid() {
     return SystemLicence.isValid();
   }
-  
-  public boolean isExpired()
-  {
+
+  public boolean isExpired() {
     return SystemLicence.isExpired();
   }
-  
-  public String getProblemMessage()
-  {
-    var maintenanceMode = EngineMode.is(EngineMode.MAINTENANCE) ? " Your engine runs in maintenance mode." : "";
-    if (isExpired())
-    {
-      return "Your licence has expired."+maintenanceMode;
+
+  public String getProblemMessage() {
+    var maintenanceMode = EngineMode.is(EngineMode.MAINTENANCE) ? " Your engine runs in maintenance mode."
+            : "";
+    if (isExpired()) {
+      return "Your licence has expired." + maintenanceMode;
     }
-    if (!isValid())
-    {
-      return "Invalid licence installed."+maintenanceMode;
+    if (!isValid()) {
+      return "Invalid licence installed." + maintenanceMode;
     }
     return "";
   }
-  
+
   @Override
-  public boolean isStepOk()
-  {
+  public boolean isStepOk() {
     return !(isDemo() || (isInstalled() && !isValid()));
   }
-  
+
   @Override
-  public String getStepWarningMessage()
-  {
+  public String getStepWarningMessage() {
     return isDemo() ? "Please upload a valid licence." : getProblemMessage();
   }
-  
-  public List<LicenceMessage> getLicenceEvents()
-  {
+
+  public List<LicenceMessage> getLicenceEvents() {
     return unconfirmedLicenceEvents;
   }
-  
-  public int getLicenceEventCount()
-  {
+
+  public int getLicenceEventCount() {
     int size = unconfirmedLicenceEvents.size();
     return size < 100 ? size : 99;
   }
-  
-  public void confirmLicenceEvent(LicenceMessage event)
-  {
+
+  public void confirmLicenceEvent(LicenceMessage event) {
     event.confirm(getSessionUsername());
     reloadLicenceMessages();
   }
-  
-  public void confirmAllLicenceEvents()
-  {
+
+  public void confirmAllLicenceEvents() {
     LicenceEventManager.getInstance().confirmAll(getSessionUsername());
     reloadLicenceMessages();
   }
-  
-  public List<UserSession> getActiveSessions()
-  {
+
+  public List<UserSession> getActiveSessions() {
     return securityManager.getSessions().stream()
             .filter(s -> !s.isSessionUserUnknown())
             .filter(s -> !s.isSessionUserSystemUser())
@@ -208,86 +175,71 @@ public class LicenceBean extends StepStatus
             .distinct()
             .collect(Collectors.toList());
   }
-  
-  public void killSession(String session)
-  {
+
+  public void killSession(String session) {
     securityManager.getSessions().stream()
             .filter(s -> StringUtils.equals(s.getSessionUserName(), session))
             .forEach(s -> s.logoutSessionUser());
   }
-  
-  private String calculateSessions()
-  {
+
+  private String calculateSessions() {
     int licensedSessions = securityManager.getLicensedSessions();
     var sessionLimit = getValueFromProperty(SESSION_LIMIT);
-    if (sessionLimit != null && NumberUtils.isParsable(sessionLimit) && Long.parseLong(sessionLimit) > 0)
-    {
-      return licensedSessions + " / " + sessionLimit; 
+    if (sessionLimit != null && NumberUtils.isParsable(sessionLimit) && Long.parseLong(sessionLimit) > 0) {
+      return licensedSessions + " / " + sessionLimit;
     }
     return licensedSessions + " / Unlimited";
   }
-  
-  private String calculateUsers()
-  {
+
+  private String calculateUsers() {
     long licensedUsers = securityManager.countLicensedUsers();
     var usersLimit = getValueFromProperty(USER_LIMIT);
-    if (usersLimit != null && NumberUtils.isParsable(usersLimit) && Long.parseLong(usersLimit) > 0)
-    {
+    if (usersLimit != null && NumberUtils.isParsable(usersLimit) && Long.parseLong(usersLimit) > 0) {
       return licensedUsers + " / " + usersLimit;
     }
     return licensedUsers + " / Unlimited";
   }
-  
-  private void reloadLicenceMessages()
-  {
+
+  private void reloadLicenceMessages() {
     unconfirmedLicenceEvents = LicenceEventManager.getInstance().getUnconfirmedLicenceEvents().stream()
             .map(event -> new LicenceMessage(event)).collect(Collectors.toList());
   }
 
-  private String getSessionUsername()
-  {
+  private String getSessionUsername() {
     return ISession.current().getSessionUserName();
   }
-  
-  public class UserSession
-  {
+
+  public class UserSession {
     private String name;
     private int count;
 
-    public UserSession(ISession session)
-    {
+    public UserSession(ISession session) {
       this.name = session.getSessionUserName();
       this.count = session.getMySessions().size();
     }
-    
-    public String getName()
-    {
+
+    public String getName() {
       return name;
     }
-    
-    public int getCount()
-    {
+
+    public int getCount() {
       return count;
     }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-      if (obj == this)
-      {
+    public boolean equals(Object obj) {
+      if (obj == this) {
         return true;
       }
-      if (obj == null || obj.getClass() != this.getClass())
-      {
+      if (obj == null || obj.getClass() != this.getClass()) {
         return false;
       }
       UserSession other = (UserSession) obj;
       return other.name.equals(other.name);
     }
-    
+
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
       return name.hashCode();
     }
   }

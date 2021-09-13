@@ -3,8 +3,7 @@ package ch.ivyteam.enginecockpit.system.model;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTestResult;
 
 @SuppressWarnings("restriction")
-public class ConnectionInfo
-{
+public class ConnectionInfo {
   private String label;
   private String advise;
   private String messageLevel;
@@ -14,16 +13,14 @@ public class ConnectionInfo
   private boolean successful;
   private Exception error;
 
-  public ConnectionInfo()
-  {
+  public ConnectionInfo() {
     label = "Connection state unknown";
     advise = "Please check the connection to the Database.";
     messageLevel = "ui-message-info";
     icon = "si si-question-circle";
   }
-  
-  public ConnectionInfo(ConnectionTestResult result)
-  {
+
+  public ConnectionInfo(ConnectionTestResult result) {
     label = result.getConnectionState().getLabel();
     advise = result.getConnectionState().getAdvise();
     messageLevel = getMessageLevel(result);
@@ -33,81 +30,63 @@ public class ConnectionInfo
     successful = result.isSuccessful();
     error = result.getError();
   }
-  
-  public String getLabel()
-  {
+
+  public String getLabel() {
     return label;
   }
 
-  public String getAdvise()
-  {
+  public String getAdvise() {
     return advise;
   }
-  
-  public boolean hasError()
-  {
+
+  public boolean hasError() {
     return error != null && !error.getMessage().isBlank();
   }
-  
-  public Exception getError()
-  {
+
+  public Exception getError() {
     return error;
   }
-  
-  public String getErrorMessage()
-  {
+
+  public String getErrorMessage() {
     return hasError() ? "Error: " + error.getMessage() : "";
   }
 
-  public String getMessageLevel()
-  {
+  public String getMessageLevel() {
     return messageLevel;
   }
 
-  public String getIcon()
-  {
+  public String getIcon() {
     return icon;
   }
-  
-  public boolean isMustConvert()
-  {
+
+  public boolean isMustConvert() {
     return mustConvert;
   }
-  
-  public boolean isMustCreate()
-  {
+
+  public boolean isMustCreate() {
     return mustCreate;
   }
-  
-  public boolean isSuccessful()
-  {
+
+  public boolean isSuccessful() {
     return successful;
   }
 
-  private static String getMessageLevel(ConnectionTestResult result)
-  {
-    if (result.isSuccessful())
-    {
+  private static String getMessageLevel(ConnectionTestResult result) {
+    if (result.isSuccessful()) {
       return "ui-message-success";
-    }
-    else if (result.isFailed())
-    {
+    } else if (result.isFailed()) {
       return "ui-message-error";
     }
     return "ui-message-warn";
   }
-  
-  private static String getIcon(ConnectionTestResult result)
-  {
-    if (result.isSuccessful())
-    {
+
+  private static String getIcon(ConnectionTestResult result) {
+    if (result.isSuccessful()) {
       return "si si-check-circle";
-    }
-    else if (result.isFailed())
-    {
+    } else if (result.isFailed()) {
       return "si si-delete-1";
     }
     return "si si-question-circle";
   }
-  
+
 }

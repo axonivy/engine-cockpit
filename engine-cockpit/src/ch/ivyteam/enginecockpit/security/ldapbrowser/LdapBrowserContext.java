@@ -17,28 +17,23 @@ import ch.ivyteam.ivy.security.jndi.JndiContextUtil;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiUtil;
 
-public class LdapBrowserContext implements AutoCloseable
-{
+public class LdapBrowserContext implements AutoCloseable {
 
   private LdapContext context;
 
-  public LdapBrowserContext(JndiConfig config, boolean enableInsecureSsl) throws NamingException
-  {
+  public LdapBrowserContext(JndiConfig config, boolean enableInsecureSsl) throws NamingException {
     context = JndiContextUtil.openLdapContext(config, enableInsecureSsl);
   }
 
   @Override
-  public void close() throws NamingException
-  {
+  public void close() throws NamingException {
     JndiUtil.closeQuietly(context);
   }
 
-  public List<LdapBrowserNode> browse(Name defaultContext) throws NamingException
-  {
+  public List<LdapBrowserNode> browse(Name defaultContext) throws NamingException {
     var names = new ArrayList<LdapBrowserNode>();
     var attribute = context.getAttributes(defaultContext).get("namingContexts");
-    for (int pos = 0; pos < attribute.size(); pos++)
-    {
+    for (int pos = 0; pos < attribute.size(); pos++) {
       var name = context.getNameParser(attribute.get(pos).toString()).parse(attribute.get(pos).toString());
       names.add(createLdapNode(name, defaultContext.toString()));
     }
@@ -47,12 +42,10 @@ public class LdapBrowserContext implements AutoCloseable
             .collect(Collectors.toList());
   }
 
-  public List<LdapBrowserNode> children(String parent) throws NamingException
-  {
+  public List<LdapBrowserNode> children(String parent) throws NamingException {
     var children = new ArrayList<LdapBrowserNode>();
     var list = context.list(parent);
-    while (list.hasMoreElements())
-    {
+    while (list.hasMoreElements()) {
       var nextElement = list.nextElement();
       var child = context.getNameParser(nextElement.getName()).parse(nextElement.getName());
       children.add(createLdapNode(child, parent));
@@ -63,16 +56,13 @@ public class LdapBrowserContext implements AutoCloseable
             .collect(Collectors.toList());
   }
 
-  public List<Property> getAttributes(String node) throws NamingException
-  {
+  public List<Property> getAttributes(String node) throws NamingException {
     var attributeList = new ArrayList<Property>();
     var attrs = context.getAttributes(new LdapName(node)).getAll();
-    while (attrs.hasMore())
-    {
+    while (attrs.hasMore()) {
       var attr = attrs.next();
       var subAttrs = attr.getAll();
-      while (subAttrs.hasMore())
-      {
+      while (subAttrs.hasMore()) {
         attributeList.add(getLdapProperty(attr.getID(), subAttrs.next()));
       }
     }
@@ -81,17 +71,14 @@ public class LdapBrowserContext implements AutoCloseable
             .collect(Collectors.toList());
   }
 
-  private Property getLdapProperty(String attrId, Object attr)
-  {
-    if (attr instanceof byte[])
-    {
+  private Property getLdapProperty(String attrId, Object attr) {
+    if (attr instanceof byte[]) {
       attr = Hex.encodeHexString((byte[]) attr, false);
     }
     return new Property(attrId, attr.toString());
   }
 
-  public LdapBrowserNode createLdapNode(Name name, String parent)
-  {
+  public LdapBrowserNode createLdapNode(Name name, String parent) {
     return LdapBrowserNode.create(context, name, parent);
   }
 }

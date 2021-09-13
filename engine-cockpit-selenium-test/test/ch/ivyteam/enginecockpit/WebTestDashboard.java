@@ -22,41 +22,35 @@ import com.codeborne.selenide.Condition;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestDashboard
-{
+public class WebTestDashboard {
   @BeforeAll
-  static void setup()
-  {
+  static void setup() {
     createLicenceEvents();
   }
-  
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
   }
-  
+
   @Test
-  void testDashboardContent()
-  {
+  void testDashboardContent() {
     $$(".overview-box-content").shouldHave(size(4));
     $$(".ui-panel").shouldHave(size(5));
   }
-  
+
   @Test
-  void checkLicenceInfo()
-  {
+  void checkLicenceInfo() {
     $("#tasksButtonLicenceDetail").shouldBe(visible).click();
     $("h1").shouldHave(text("Licence"));
     $("#licence\\:licWarnMessage").shouldHave(text("Please upload a valid licence"));
   }
-  
+
   @Test
-  void checkLicenceEvents()
-  {
+  void checkLicenceEvents() {
     $("#tasksButtonLicenceEvents").shouldBe(visible);
     $$(".licence-notification > a > span").first().shouldBe(exactText("2"));
-    
+
     $("#tasksButtonLicenceEvents").click();
     $("#licenceEventsDialog").shouldBe(visible);
     $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(2));
@@ -64,30 +58,28 @@ public class WebTestDashboard
     $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(1));
     $("#licenceEventForm\\:closeLicenceEventsDialog").click();
     $("#licenceEventsDialog").shouldNotBe(visible);
-   
+
     $(".licence-notification > a").click();
     $("#licenceEventsDialog").shouldBe(visible);
     $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(1));
     $("#licenceEventForm\\:confirmAllLicenceEvents").click();
-    
+
     $("#tasksButtonLicenceDetail").shouldBe(visible);
     $("#licenceEventsDialog").shouldNotBe(visible);
     $("#tasksButtonLicenceEvents").shouldNotBe(exist);
     $(".licence-notification").shouldNotBe(exist);
   }
-  
+
   @Test
-  void checkJavaInfo()
-  {
+  void checkJavaInfo() {
     $("#tasksButtonJavaDetail").shouldBe(visible).click();
     $("#javaDetailDialog").shouldBe(visible);
     new Table(By.id("javaInfoForm:javaJVMInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
     new Table(By.id("javaInfoForm:javaPropertiesInfoTable")).firstColumnShouldBe(sizeGreaterThan(0));
   }
-  
+
   @Test
-  public void testSendTestMailInvalidInputs()
-  {
+  public void testSendTestMailInvalidInputs() {
     openSendMailModal();
     $("#sendTestMailForm\\:sendToInput").clear();
     $("#sendTestMailForm\\:subjectInput").clear();
@@ -95,10 +87,9 @@ public class WebTestDashboard
     $("#sendTestMailForm\\:sendToInputMessage").shouldBe(exactText("Value is required"));
     $("#sendTestMailForm\\:subjectInputMessage").shouldBe(exactText("Value is required"));
   }
-  
+
   @Test
-  public void testSendTestMailError()
-  {
+  public void testSendTestMailError() {
     openSendMailModal();
     $("#sendTestMailForm\\:sendToInput").sendKeys("test@example.com");
     $("#sendTestMailForm\\:sendTestMailBtn").click();
@@ -106,11 +97,9 @@ public class WebTestDashboard
     $("#mailConfigForm\\:msgs_container").shouldHave(Condition.text("Error while sending test mail"));
   }
 
-  private void openSendMailModal()
-  {
+  private void openSendMailModal() {
     $("#mailConfigForm\\:openTestMailBtn").shouldBe(visible).click();
     $("#sendTestMailModal").shouldBe(visible);
   }
-  
 
 }

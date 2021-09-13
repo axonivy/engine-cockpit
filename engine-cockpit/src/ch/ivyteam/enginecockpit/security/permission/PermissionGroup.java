@@ -3,15 +3,13 @@ package ch.ivyteam.enginecockpit.security.permission;
 import ch.ivyteam.ivy.security.IPermissionGroup;
 import ch.ivyteam.ivy.security.IPermissionGroupAccess;
 
-public class PermissionGroup extends AbstractPermission
-{
+public class PermissionGroup extends AbstractPermission {
   private boolean someGrant;
   private boolean someDeny;
   private PermissionBean bean;
   private IPermissionGroup permissionGroup;
 
-  public PermissionGroup(IPermissionGroupAccess groupAccess, String path, PermissionBean bean)
-  {
+  public PermissionGroup(IPermissionGroupAccess groupAccess, String path, PermissionBean bean) {
     super(groupAccess.getPermissionGroup().getName(),
             path,
             groupAccess.getPermissionGroup().getId(),
@@ -24,83 +22,70 @@ public class PermissionGroup extends AbstractPermission
   }
 
   @Override
-  public boolean isGrantDisabled()
-  {
+  public boolean isGrantDisabled() {
     return false;
   }
 
   @Override
-  public boolean isUnGrantDisabled()
-  {
+  public boolean isUnGrantDisabled() {
     return isDeny() || !someGrant;
   }
 
   @Override
-  public boolean isDenyDisabled()
-  {
+  public boolean isDenyDisabled() {
     return false;
   }
 
   @Override
-  public boolean isUnDenyDisabled()
-  {
+  public boolean isUnDenyDisabled() {
     return isGrant() || !someDeny;
   }
-  
-  public void setSomeDeny(boolean someDeny)
-  {
+
+  public void setSomeDeny(boolean someDeny) {
     this.someDeny = someDeny;
   }
-  
-  public void setSomeGrant(boolean someGrant)
-  {
+
+  public void setSomeGrant(boolean someGrant) {
     this.someGrant = someGrant;
   }
-  
+
   @Override
-  public boolean isSomeGrant()
-  {
+  public boolean isSomeGrant() {
     return someGrant;
   }
-  
+
   @Override
-  public boolean isSomeDeny()
-  {
+  public boolean isSomeDeny() {
     return someDeny;
   }
 
   @Override
-  public boolean isGroup()
-  {
+  public boolean isGroup() {
     return true;
   }
 
   @Override
-  public void grant()
-  {
+  public void grant() {
     bean.getSecurityDescriptor().grantPermissions(permissionGroup, bean.getSecurityMember());
     bean.reSetRootPermissionGroup();
   }
 
   @Override
-  public void ungrant()
-  {
+  public void ungrant() {
     bean.getSecurityDescriptor().ungrantPermissions(permissionGroup, bean.getSecurityMember());
     bean.reSetRootPermissionGroup();
   }
 
   @Override
-  public void deny()
-  {
+  public void deny() {
     bean.getSecurityDescriptor().denyPermissions(permissionGroup, bean.getSecurityMember());
     bean.reSetRootPermissionGroup();
   }
 
   @Override
-  public void undeny()
-  {
+  public void undeny() {
     bean.getSecurityDescriptor().undenyPermissions(permissionGroup, bean.getSecurityMember());
     bean.reSetRootPermissionGroup();
   }
-  
+
 }

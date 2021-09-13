@@ -7,50 +7,42 @@ import org.apache.commons.lang3.RegExUtils;
 import ch.ivyteam.ivy.migration.input.Quest;
 
 @SuppressWarnings("restriction")
-public class Question
-{
+public class Question {
 
   private String title;
   private String more;
   private List<?> options;
   private String answer;
   private String diff;
-  
-  public Question(Quest<?> quest, String diff)
-  {
+
+  public Question(Quest<?> quest, String diff) {
     title = quest.title;
     more = quest.more;
     options = quest.options;
     this.diff = RegExUtils.replaceAll(diff, "(\\r|\\n|\\r\\n)", "\\\\n");
   }
-  
-  public String getTitle()
-  {
+
+  public String getTitle() {
     return title;
   }
-  
-  public String getMore()
-  {
+
+  public String getMore() {
     return more;
   }
-  
-  public List<?> getOptions()
-  {
+
+  public List<?> getOptions() {
     return options;
   }
-  
-  public void setAnswer(String answer)
-  {
+
+  public void setAnswer(String answer) {
     this.answer = answer;
   }
-  
-  public String getAnswer()
-  {
+
+  public String getAnswer() {
     return answer;
   }
-  
-  public String getDiff()
-  {
+
+  public String getDiff() {
     return diff;
   }
 

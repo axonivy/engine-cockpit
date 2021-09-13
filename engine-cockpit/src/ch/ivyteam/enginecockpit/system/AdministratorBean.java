@@ -14,77 +14,68 @@ import ch.ivyteam.ivy.security.administrator.AdministratorService;
 
 @ManagedBean
 @ViewScoped
-public class AdministratorBean extends StepStatus
-{
+public class AdministratorBean extends StepStatus {
   private List<User> admins;
   private User editAdmin;
-  
-  public AdministratorBean()
-  {
+
+  public AdministratorBean() {
     admins = reloadAdmins();
   }
-  
-  private static List<User> reloadAdmins()
-  {
+
+  private static List<User> reloadAdmins() {
     return AdministratorService.instance().allConfigured().stream()
             .map(admin -> new User(admin))
             .collect(Collectors.toList());
   }
-  
-  public List<User> getAdmins()
-  {
+
+  public List<User> getAdmins() {
     return admins;
   }
-  
-  public void setAdmin(User admin)
-  {
+
+  public void setAdmin(User admin) {
     this.editAdmin = admin;
   }
-  
-  public void removeAdmin()
-  {
-    AdministratorService.instance().find(editAdmin.getName()).ifPresent(a -> AdministratorService.instance().remove(a));
+
+  public void removeAdmin() {
+    AdministratorService.instance().find(editAdmin.getName())
+            .ifPresent(a -> AdministratorService.instance().remove(a));
     FacesContext.getCurrentInstance().addMessage("",
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' removed successfully", ""));
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' removed successfully",
+                    ""));
     admins.remove(editAdmin);
   }
-  
-  public void addAdmin()
-  {
+
+  public void addAdmin() {
     editAdmin = new User();
   }
-  
-  public User getAdmin()
-  {
+
+  public User getAdmin() {
     return editAdmin;
   }
-  
+
   @Override
-  public boolean isStepOk()
-  {
+  public boolean isStepOk() {
     return hasAdmins();
   }
-  
+
   @Override
-  public String getStepWarningMessage()
-  {
+  public String getStepWarningMessage() {
     return "Please configure at least one admin!";
   }
-  
-  public void saveAdmin()
-  {
-    var message = new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' modified successfully", "");
-    if (!admins.contains(editAdmin))
-    {
+
+  public void saveAdmin() {
+    var message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+            "'" + editAdmin.getName() + "' modified successfully", "");
+    if (!admins.contains(editAdmin)) {
       admins.add(editAdmin);
-      message = new FacesMessage(FacesMessage.SEVERITY_INFO, "'" + editAdmin.getName() + "' added successfully", "");
+      message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+              "'" + editAdmin.getName() + "' added successfully", "");
     }
     FacesContext.getCurrentInstance().addMessage("", message);
     AdministratorService.instance().save(editAdmin.getAdmin());
   }
-  
-  public boolean hasAdmins()
-  {
+
+  public boolean hasAdmins() {
     return !admins.isEmpty();
   }
 }

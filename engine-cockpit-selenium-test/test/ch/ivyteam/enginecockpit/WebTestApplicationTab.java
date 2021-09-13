@@ -12,31 +12,26 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestApplicationTab
-{
-  
+public class WebTestApplicationTab {
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toUsers();
   }
-  
+
   @Test
-  void testApplicationCount()
-  {
+  void testApplicationCount() {
     assertThat(Tab.getCount()).isGreaterThan(0);
   }
 
   @Test
-  void testApplicationNames()
-  {
+  void testApplicationNames() {
     assertThat(Tab.getTabs()).isNotEmpty();
   }
 
   @Test
-  void testApplicationSwitchPerIndex()
-  {
+  void testApplicationSwitchPerIndex() {
     assertThat(Tab.getSelectedTabIndex()).isNotEqualTo(-1);
     Tab.switchToTab(0);
     assertThat(Tab.getSelectedTabIndex()).isSameAs(0);
@@ -47,8 +42,7 @@ public class WebTestApplicationTab
   }
 
   @Test
-  void testApplicationSwtichPerName()
-  {
+  void testApplicationSwtichPerName() {
     String selectedApplication = Tab.getSelectedTab();
     assertThat(selectedApplication).isNotBlank();
     String otherApp = Tab.getTabs().get(1);

@@ -29,8 +29,7 @@ import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("restriction")
-public class ApplicationDetailBean
-{
+public class ApplicationDetailBean {
   private String appName;
   private Application app;
   private SecuritySystem security;
@@ -41,29 +40,24 @@ public class ApplicationDetailBean
 
   private ManagerBean managerBean;
 
-  public ApplicationDetailBean()
-  {
+  public ApplicationDetailBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
   }
 
-  public void setAppName(String appName)
-  {
-    if (this.appName == null || this.appName != appName)
-    {
+  public void setAppName(String appName) {
+    if (this.appName == null || this.appName != appName) {
       this.appName = appName;
       reloadDetailApplication();
     }
   }
 
-  public String getAppName()
-  {
+  public String getAppName() {
     return appName;
   }
 
-  private void reloadDetailApplication()
-  {
+  private void reloadDetailApplication() {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream().filter(a -> a.getName().equals(appName)).findFirst().get();
     security = initSecuritySystem(appName);
@@ -81,117 +75,96 @@ public class ApplicationDetailBean
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "WebServiceClients."), true)));
   }
 
-  public Application getApplication()
-  {
+  public Application getApplication() {
     return app;
   }
 
-  public SecuritySystem getSecuritySystem()
-  {
+  public SecuritySystem getSecuritySystem() {
     return security;
   }
 
-  public String deleteApplication()
-  {
+  public String deleteApplication() {
     managerBean.getManager().deleteApplication(appName);
     managerBean.reloadApplications();
     return "applications.xhtml?faces-redirect=true";
   }
 
-  public String getSessionCount()
-  {
+  public String getSessionCount() {
     return managerBean.formatNumber(getIApplication().getSecurityContext().getSessionCount());
   }
 
-  public String getUsersCount()
-  {
+  public String getUsersCount() {
     return managerBean.formatNumber(security.getUsersCount());
   }
 
-  public String getCasesCount()
-  {
+  public String getCasesCount() {
     return managerBean.formatNumber(app.getRunningCasesCount());
   }
 
-  public String getPmCount()
-  {
+  public String getPmCount() {
     return managerBean.formatNumber(getIApplication().getProcessModels().stream()
             .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
   }
 
-  public List<String> getEnvironments()
-  {
+  public List<String> getEnvironments() {
     return environments;
   }
 
-  public void saveApplicationInfos()
-  {
+  public void saveApplicationInfos() {
     managerBean.getIApplication(app.getId()).setActiveEnvironment(app.getActiveEnv());
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
             new FacesMessage("Active Environment change saved"));
   }
 
-  private IApplication getIApplication()
-  {
+  private IApplication getIApplication() {
     return managerBean.getIApplication(app.getId());
   }
 
-  private SecuritySystem initSecuritySystem(String applicationName)
-  {
+  private SecuritySystem initSecuritySystem(String applicationName) {
     var securitySystem = new SecuritySystem(app.getSecuritySystemName(),
             Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
     changeSecuritySystem = securitySystem.getSecuritySystemName();
     return securitySystem;
   }
 
-  public void setSecuritySystem()
-  {
+  public void setSecuritySystem() {
     app.setSecuritySystem(changeSecuritySystem);
     security = initSecuritySystem(getAppName());
   }
 
-  public String getChangeSecuritySystem()
-  {
+  public String getChangeSecuritySystem() {
     return changeSecuritySystem;
   }
 
-  public void setChangeSecuritySystem(String changeSecuritySystem)
-  {
+  public void setChangeSecuritySystem(String changeSecuritySystem) {
     this.changeSecuritySystem = changeSecuritySystem;
   }
 
-  public ConfigViewImpl getConfigView()
-  {
+  public ConfigViewImpl getConfigView() {
     return configView;
   }
 
-  private ConfigProperty enrichStandardProcessConfigs(ConfigProperty property)
-  {
-    if (StringUtils.startsWith(property.getKey(), "StandardProcess"))
-    {
+  private ConfigProperty enrichStandardProcessConfigs(ConfigProperty property) {
+    if (StringUtils.startsWith(property.getKey(), "StandardProcess")) {
       property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
       property.setEnumerationValues(availableStandardProcesses(property));
     }
     return property;
   }
 
-  private List<String> availableStandardProcesses(ConfigProperty config)
-  {
+  private List<String> availableStandardProcesses(ConfigProperty config) {
     var workflow = WorkflowNavigationUtil.getWorkflowContext(managerBean.getSelectedIApplication());
     var libraries = new LinkedHashSet<String>();
     libraries.add("");
     libraries.add(config.getValue());
-    for (StandardProcessType processType : processTypesForConfig(config.getKey()))
-    {
+    for (StandardProcessType processType : processTypesForConfig(config.getKey())) {
       libraries.addAll(workflow.getAvailableStandardProcessImplementations(processType));
     }
     return List.copyOf(libraries);
   }
 
-  private Set<StandardProcessType> processTypesForConfig(String key)
-  {
-    if (StringUtils.endsWith(key, "DefaultPages"))
-    {
+  private Set<StandardProcessType> processTypesForConfig(String key) {
+    if (StringUtils.endsWith(key, "DefaultPages")) {
       return StandardProcessType.DEFAULT_PAGES_PROCESS_TYPES;
     }
     return StandardProcessType.MAIL_NOTIFICATION_PROCESS_TYPES;

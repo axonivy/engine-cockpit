@@ -13,11 +13,9 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestWebservices
-{
+public class WebTestWebservices {
   @Test
-  void testWebserviesInTable()
-  {
+  void testWebserviesInTable() {
     login();
     Navigation.toWebservices();
     Tab.switchToDefault();

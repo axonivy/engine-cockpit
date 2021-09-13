@@ -17,20 +17,17 @@ import org.junit.jupiter.api.Test;
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 @IvyWebTest
-public class WebTestWizard
-{
+public class WebTestWizard {
   static final String ACTIVE_WIZARD_STEP = "#stepForm\\:wizardSteps li.ui-state-highlight";
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     navigateToStep("Licence");
     $(ACTIVE_WIZARD_STEP).should(exist);
   }
 
   @Test
-  public void testBannerLink()
-  {
+  public void testBannerLink() {
     $("#bannerLogo").click();
     $(".ui-message-warn").shouldHave(text("Demo Mode"));
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
@@ -39,8 +36,7 @@ public class WebTestWizard
   }
 
   @Test
-  public void testNextAndPrevStep()
-  {
+  public void testNextAndPrevStep() {
     nextStep();
     $(ACTIVE_WIZARD_STEP).shouldBe(text("Administrators"));
     prevStep();
@@ -48,65 +44,57 @@ public class WebTestWizard
   }
 
   @Test
-  public void testCancelWizard()
-  {
+  public void testCancelWizard() {
     cancelWizard();
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
   }
 
   @Test
-  public void testFinishWizard()
-  {
+  public void testFinishWizard() {
     navigateToStep("System Database");
     finishWizard();
     $("#configErrorMessage a").shouldBe(visible, text("LICENCE")).click();
     $(ACTIVE_WIZARD_STEP).shouldBe(text("Licence"));
   }
 
-  public static void cancelWizard()
-  {
+  public static void cancelWizard() {
     $("#cancelWizard").shouldBe(visible).click();
   }
 
-  public static void finishWizard()
-  {
+  public static void finishWizard() {
     $("#finishWizard").shouldBe(visible).click();
     $("#finishWizardModel").shouldBe(visible);
   }
 
-  public static void nextStep()
-  {
+  public static void nextStep() {
     $("#nextStep").shouldBe(visible).click();
   }
 
-  public static void prevStep()
-  {
+  public static void prevStep() {
     $("#prevStep").shouldBe(visible).click();
   }
 
-  public static void navigateToStep(String step)
-  {
+  public static void navigateToStep(String step) {
     login("setup.xhtml");
-    String stepIndex = $$("#stepForm\\:wizardSteps .ui-steps-title").find(text(step)).parent().find(".ui-steps-number").getText();
+    String stepIndex = $$("#stepForm\\:wizardSteps .ui-steps-title").find(text(step)).parent()
+            .find(".ui-steps-number").getText();
     String activeStep = $(WebTestWizard.ACTIVE_WIZARD_STEP + " .ui-steps-title").should(exist).getText();
-    if (!activeStep.equals(step))
-    {
+    if (!activeStep.equals(step)) {
       $$("#stepForm\\:wizardSteps li > a").find(text("1")).click();
-      for (int i = 1; i < Integer.parseInt(stepIndex); i++)
-      {
+      for (int i = 1; i < Integer.parseInt(stepIndex); i++) {
         nextStep();
       }
     }
     $(WebTestWizard.ACTIVE_WIZARD_STEP + " .ui-steps-title").shouldBe(exactText(step));
   }
 
-  public static void activeStepShouldBeOk()
-  {
-    $(WebTestWizard.ACTIVE_WIZARD_STEP + " > a").shouldHave(not(cssClass("step-warning")), cssClass("step-ok"));
+  public static void activeStepShouldBeOk() {
+    $(WebTestWizard.ACTIVE_WIZARD_STEP + " > a").shouldHave(not(cssClass("step-warning")),
+            cssClass("step-ok"));
   }
 
-  public static void activeStepShouldHaveWarnings()
-  {
-    $(WebTestWizard.ACTIVE_WIZARD_STEP + " > a").shouldHave(cssClass("step-warning"), not(cssClass("step-ok")));
+  public static void activeStepShouldHaveWarnings() {
+    $(WebTestWizard.ACTIVE_WIZARD_STEP + " > a").shouldHave(cssClass("step-warning"),
+            not(cssClass("step-ok")));
   }
 }

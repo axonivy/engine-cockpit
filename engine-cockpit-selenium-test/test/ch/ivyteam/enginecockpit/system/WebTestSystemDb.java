@@ -39,48 +39,43 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestSystemDb
-{
-  private static final String SYS_DB = System.getProperty("db.host", "db host not set via ${db.host} system property");
+public class WebTestSystemDb {
+  private static final String SYS_DB = System.getProperty("db.host",
+          "db host not set via ${db.host} system property");
   private static final String SYS_DB_PW = "1234";
   private static final String SYS_DB_USER = "root";
   private static final String CONNECTION_BUTTON = "#systemDb\\:systemDbForm\\:checkConnectionButton";
   private static final String CONNECTION_PANEL = "#systemDb\\:systemDbForm\\:connectionPanel";
   private static final String OLD_DB_NAME = "old_version_60";
   private static final String TEST_DB_NAME = "temp";
-  
+
   @BeforeAll
-  static void setup()
-  {
+  static void setup() {
     createOldDb();
   }
-  
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toSystemDb();
   }
-  
+
   @AfterEach
-  void afterEach()
-  {
+  void afterEach() {
     resetConfig();
     deleteTempDb();
   }
-  
+
   @Test
-  void testSystemDb()
-  {
+  void testSystemDb() {
     $("h1").shouldBe(text("System Database"));
     assertDefaultValues();
     assertSystemDbCreationDialog();
     assertSystemDbCreation();
   }
-  
+
   @Test
-  void testSaveConfiguration()
-  {
+  void testSaveConfiguration() {
     $(".sysdb-dynamic-form-user").sendKeys(" ");
     $(".sysdb-dynamic-form-user").clear();
     $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
@@ -89,7 +84,7 @@ public class WebTestSystemDb
     $("#saveUnknownConnectionForm\\:saveUnknownConneciton").click();
     $("#saveUnknownConnectionModel").shouldNotBe(visible);
     $("#systemDbSave_container").shouldBe(text("System Database config saved successfully"));
-    
+
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
     $("#saveSystemDbConfig").shouldBe(visible).click();
@@ -97,45 +92,38 @@ public class WebTestSystemDb
   }
 
   @Test
-  void testConnectionResults()
-  {
+  void testConnectionResults() {
     assertConnectionResults();
   }
-  
+
   @Test
-  void testConvertOldDb()
-  {
+  void testConvertOldDb() {
     assertSystemDbConversionDialog();
     assertSystemDbConversion();
   }
 
   @Test
-  void testDefaultPortSwitch()
-  {
+  void testDefaultPortSwitch() {
     assertDefaultPortSwitch();
   }
-  
+
   @Test
-  void testDatabaseDropdownSwitch()
-  {
+  void testDatabaseDropdownSwitch() {
     assertDatabaseTypeSwitch();
   }
-  
+
   @Test
-  void testAdditionalProperties()
-  {
+  void testAdditionalProperties() {
     assertAdditionalProperties();
   }
-  
+
   @Test
-  void liveStats()
-  {
+  void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Connections", "Transactions", "Processing Time"));
   }
-  
-  private static void insertDbConnection(String database, String driverName, String host, 
-          String databaseName, String user, String password)
-  {
+
+  private static void insertDbConnection(String database, String driverName, String host,
+          String databaseName, String user, String password) {
     SelectOneMenu dbType = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     SelectOneMenu dbDriver = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
     dbType.selectItemByLabel(database);
@@ -152,34 +140,33 @@ public class WebTestSystemDb
     waitUntilAjaxIsFinished();
     $(CONNECTION_BUTTON).shouldBe(enabled, visible);
   }
-  
-  public static void assertSystemDbCreationDialog()
-  {
+
+  public static void assertSystemDbCreationDialog() {
     insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL)
             .shouldBe(text("Missing Database/Schema"), text("Create system database."));
     $("#systemDb\\:systemDbForm\\:createDatabaseButton").shouldBe(enabled);
-    
+
     $("#systemDb\\:systemDbForm\\:createDatabaseButton").click();
     $("#systemDb\\:createDatabaseDialog").shouldBe(visible);
     $(".creation-param-databasename").shouldBe(exactValue(TEST_DB_NAME));
   }
-  
-  public static void assertSystemDbCreation()
-  {
+
+  public static void assertSystemDbCreation() {
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("si-is-spinning"));
-    $("#systemDb\\:createDatabaseForm\\:closeCreationButton").shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(20));
+    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton > .ui-icon")
+            .shouldHave(cssClass("si-is-spinning"));
+    $("#systemDb\\:createDatabaseForm\\:closeCreationButton")
+            .shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(20));
     $("#systemDb\\:createDatabaseForm\\:creationResult").shouldBe(empty);
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").click();
     $("#systemDb\\:createDatabaseDialog").shouldNotBe(visible);
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
   }
-  
-  public static void assertSystemDbConversionDialog()
-  {
+
+  public static void assertSystemDbConversionDialog() {
     insertDbConnection("MySQL", "mySQL", SYS_DB, OLD_DB_NAME, SYS_DB_USER, SYS_DB_PW);
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL).shouldBe(
@@ -188,27 +175,27 @@ public class WebTestSystemDb
     $("#systemDb\\:convertDatabaseDialog").shouldBe(visible);
   }
 
-  private static void assertSystemDbConversion()
-  {
+  private static void assertSystemDbConversion() {
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").click();
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton > .ui-icon").shouldHave(cssClass("si-is-spinning"));
-    $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").shouldBe(and("wait until db converted", appear, enabled), Duration.ofSeconds(20));
+    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton > .ui-icon")
+            .shouldHave(cssClass("si-is-spinning"));
+    $("#systemDb\\:convertDatabaseForm\\:closeConversionButton")
+            .shouldBe(and("wait until db converted", appear, enabled), Duration.ofSeconds(20));
     $("#systemDb\\:convertDatabaseForm\\:conversionResult").shouldBe(empty);
     $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").click();
     $("#systemDb\\:convertDatabaseDialog").shouldNotBe(visible);
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
-    
+
     Selenide.refresh();
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
   }
 
-  public static void assertConnectionResults()
-  {
+  public static void assertConnectionResults() {
     insertDbConnection("MySQL", "mySQL", "db2", TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL).shouldBe(text("Incorrect host or port"));
-    
+
     Selenide.refresh();
     insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, SYS_DB_PW);
     SelectBooleanCheckbox defaultPort = PrimeUi.selectBooleanCheckbox(
@@ -220,51 +207,49 @@ public class WebTestSystemDb
     waitUntilAjaxIsFinished();
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL).shouldBe(text("Incorrect host or port"));
-    
+
     Selenide.refresh();
     insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, "root2", SYS_DB_PW);
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL).shouldBe(text("Incorrect username or password"));
-    
+
     Selenide.refresh();
     insertDbConnection("MySQL", "mySQL", SYS_DB, TEST_DB_NAME, SYS_DB_USER, "12345");
     $(CONNECTION_BUTTON).click();
     $(CONNECTION_PANEL).shouldBe(text("Incorrect username or password"));
   }
-  
-  public static void assertAdditionalProperties()
-  {
+
+  public static void assertAdditionalProperties() {
     Table table = new Table(By.id("systemDb:systemDbForm:additionalPropertiesTable"));
     $("#systemDb\\:systemDbForm\\:additionalPropertiesTable").shouldBe(text("No records found."));
-    
+
     $("#systemDb\\:systemDbForm\\:newAdditionalPropertyBtn").click();
     $("#systemDb\\:addAdditionalPropertyDialog").shouldBe(visible);
     $("#systemDb\\:addAdditionalPropertyForm\\:key").shouldBe(value(""));
     $("#systemDb\\:addAdditionalPropertyForm\\:keyMessage").shouldBe(empty);
     $("#systemDb\\:addAdditionalPropertyForm\\:value").shouldBe(value(""));
     $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(empty);
-    
+
     $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
     $("#systemDb\\:addAdditionalPropertyForm\\:keyMessage").shouldBe(text("Value is required"));
     $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(text("Value is required"));
-    
+
     $("#systemDb\\:addAdditionalPropertyForm\\:key").sendKeys("test");
     $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
     $("#systemDb\\:addAdditionalPropertyForm\\:keyMessage").shouldBe(empty);
     $("#systemDb\\:addAdditionalPropertyForm\\:valueMessage").shouldBe(text("Value is required"));
-    
+
     $("#systemDb\\:addAdditionalPropertyForm\\:value").sendKeys("testValue");
     $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
     $("#systemDb\\:addAdditionalPropertyDialog").shouldNotBe(visible);
     table.firstColumnShouldBe(exactTexts("test"));
     table.valueForEntryShould("test", 2, exactText("testValue"));
-    
+
     table.clickButtonForEntry("test", "removeAdditionalProperty");
     $("#systemDb\\:systemDbForm\\:additionalPropertiesTable").shouldBe(text("No records found."));
   }
 
-  public static void assertDefaultValues()
-  {
+  public static void assertDefaultValues() {
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
     $("#systemDb\\:systemDbForm\\:databaseType_label").shouldBe(exactText("Hypersonic SQL Db"));
     $("#systemDb\\:systemDbForm\\:databaseDriver_label").shouldBe(exactText("HSQL Db Memory"));
@@ -272,50 +257,48 @@ public class WebTestSystemDb
     $(".sysdb-dynamic-form-user").shouldBe(exactValue(""));
     $(".sysdb-dynamic-form-password").shouldBe(exactValue(""));
   }
-  
-  public static void assertDefaultPortSwitch()
-  {
+
+  public static void assertDefaultPortSwitch() {
     SelectOneMenu dbType = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     dbType.selectItemByLabel("MySQL");
     $(".sysdb-dynamic-form-port input").shouldBe(visible);
-    
+
     SelectBooleanCheckbox defaultPort = PrimeUi.selectBooleanCheckbox(
             By.cssSelector(".sysdb-dynamic-form-port-default-checkbox"));
     $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
     defaultPort.shouldBeChecked(true);
-    
+
     defaultPort.removeChecked();
     defaultPort.shouldBeChecked(false);
     $(".sysdb-dynamic-form-port input").shouldBe(enabled);
-    
+
     defaultPort.setChecked();
     defaultPort.shouldBeChecked(true);
     $(".sysdb-dynamic-form-port input").shouldNotBe(enabled);
   }
-  
-  public static void assertDatabaseTypeSwitch()
-  {
+
+  public static void assertDatabaseTypeSwitch() {
     SelectOneMenu dbType = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseType"));
     SelectOneMenu dbDriver = PrimeUi.selectOne(By.id("systemDb:systemDbForm:databaseDriver"));
     assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db");
     assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory");
     $(".sysdb-dynamic-form-databasename").shouldBe(exactValue("AxonIvySystemDatabase"));
-    
+
     dbType.selectItemByLabel("Oracle");
     assertThat(dbType.getSelectedItem()).isEqualTo("Oracle");
     assertThat(dbDriver.getSelectedItem()).isEqualTo("Oracle Thin");
     $(".sysdb-dynamic-form-oracleservicename").shouldBe(exactValue(""));
     $(".sysdb-dynamic-form-port input").shouldBe(exactValue("1521"));
-    
+
     dbType.selectItemByLabel("MySQL");
     assertThat(dbType.getSelectedItem()).isEqualTo("MySQL");
     assertThat(dbDriver.getSelectedItem()).isEqualTo("mySQL");
     $(".sysdb-dynamic-form-host").shouldBe(exactValue("localhost"));
     $(".sysdb-dynamic-form-port input").shouldBe(exactValue("3306"));
-    
+
     dbType.selectItemByLabel("Hypersonic SQL Db");
     assertThat(dbType.getSelectedItem()).isEqualTo("Hypersonic SQL Db");
     assertThat(dbDriver.getSelectedItem()).isEqualTo("HSQL Db Memory");
   }
-  
+
 }

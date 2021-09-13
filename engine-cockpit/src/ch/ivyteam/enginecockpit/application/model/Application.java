@@ -13,9 +13,8 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowManager;
 
 @SuppressWarnings("restriction")
-public class Application extends AbstractActivity
-{
-  
+public class Application extends AbstractActivity {
+
   private String desc;
   private String fileDir;
   private String owner;
@@ -24,19 +23,16 @@ public class Application extends AbstractActivity
   private IConfiguration configuration;
   private IApplication app;
   private List<WebServiceProcess> webServiceProcesses;
-  
-  public Application()
-  {
+
+  public Application() {
     super("", 0, null, null);
   }
 
-  public Application(IApplication app)
-  {
+  public Application(IApplication app) {
     this(app, null);
   }
-  
-  public Application(IApplication app, ApplicationBean bean)
-  {
+
+  public Application(IApplication app, ApplicationBean bean) {
     super(app.getName(), app.getId(), app, bean);
     this.app = app;
     desc = app.getDescription();
@@ -47,100 +43,82 @@ public class Application extends AbstractActivity
   }
 
   @Override
-  public boolean isApplication()
-  {
+  public boolean isApplication() {
     return true;
   }
-  
+
   @Override
-  public String getDetailView()
-  {
+  public String getDetailView() {
     return "application-detail.xhtml?appName=" + getName();
   }
 
   @Override
-  public long getRunningCasesCount()
-  {
+  public long getRunningCasesCount() {
     countRunningCases();
     return runningCasesCount;
   }
-  
+
   @Override
-  public String getIcon()
-  {
+  public String getIcon() {
     return "module";
   }
-  
+
   @Override
-  public boolean isProtected()
-  {
+  public boolean isProtected() {
     return getName().equals("designer");
   }
-  
-  public String getDesc()
-  {
+
+  public String getDesc() {
     return desc;
   }
 
-  public void setDesc(String desc)
-  {
+  public void setDesc(String desc) {
     this.desc = desc;
   }
 
-  public String getFileDir()
-  {
+  public String getFileDir() {
     return fileDir;
   }
 
-  public void setFileDir(String fileDir)
-  {
+  public void setFileDir(String fileDir) {
     this.fileDir = fileDir;
   }
 
-  public String getOwner()
-  {
+  public String getOwner() {
     return owner;
   }
 
-  public void setOwner(String owner)
-  {
+  public void setOwner(String owner) {
     this.owner = owner;
   }
 
-  public String getActiveEnv()
-  {
+  public String getActiveEnv() {
     return activeEnv;
   }
 
-  public void setActiveEnv(String activeEnv)
-  {
+  public void setActiveEnv(String activeEnv) {
     this.activeEnv = activeEnv;
   }
-  
+
   @Override
-  public long getApplicationId()
-  {
+  public long getApplicationId() {
     return getId();
   }
-  
+
   @Override
-  public String getActivityType()
-  {
+  public String getActivityType() {
     return AbstractActivity.APP;
   }
-  
+
   @Override
-  public void delete()
-  {
+  public void delete() {
     execute(() -> IApplicationConfigurationManager.instance().deleteApplication(getName()), "delete", false);
   }
-  
+
   @Override
-  public String getDeleteHint()
-  {
+  public String getDeleteHint() {
     var message = new StringBuilder();
-    if (runningCasesCount > 0)
-    {
+    if (runningCasesCount > 0) {
       message.append(getActivityType()).append(" has ").append(runningCasesCount).append(" running cases. ");
       message.append("They will also be deleted. ");
     }
@@ -148,30 +126,24 @@ public class Application extends AbstractActivity
     return message.toString();
   }
 
-  public String getSecuritySystemName()
-  {
+  public String getSecuritySystemName() {
     return configuration.getOrDefault(SecuritySystemConfig.SECURITY_STSTEM);
   }
 
-  public void setSecuritySystem(String securitySystemName)
-  {
+  public void setSecuritySystem(String securitySystemName) {
     configuration.set(SecuritySystemConfig.SECURITY_STSTEM, securitySystemName);
   }
-  
-  private void countRunningCases()
-  {
-    if (app != null && runningCasesCount == 0)
-    {
+
+  private void countRunningCases() {
+    if (app != null && runningCasesCount == 0) {
       runningCasesCount = app.getProcessModels().stream()
               .flatMap(pm -> pm.getProcessModelVersions().stream())
               .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
     }
   }
-  
-  public List<WebServiceProcess> getWebServiceProcesses()
-  {
-    if (webServiceProcesses == null)
-    {
+
+  public List<WebServiceProcess> getWebServiceProcesses() {
+    if (webServiceProcesses == null) {
       var wfManager = IWorkflowManager.instance();
       webServiceProcesses = app.getProcessModels().stream()
               .map(pm -> pm.getReleasedProcessModelVersion())
@@ -182,5 +154,5 @@ public class Application extends AbstractActivity
     }
     return webServiceProcesses;
   }
-  
+
 }

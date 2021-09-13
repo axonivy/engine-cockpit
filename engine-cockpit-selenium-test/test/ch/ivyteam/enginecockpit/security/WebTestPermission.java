@@ -23,14 +23,12 @@ import ch.ivyteam.enginecockpit.util.Tab;
 public class WebTestPermission {
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
   }
 
   @Test
-  void testPermission()
-  {
+  void testPermission() {
     Navigation.toUsers();
     Tab.switchToDefault();
     Navigation.toUserDetail("foo");
@@ -75,8 +73,7 @@ public class WebTestPermission {
   }
 
   @Test
-  void testExpandCollapsePermissionTree()
-  {
+  void testExpandCollapsePermissionTree() {
     Navigation.toRoles();
     Tab.switchToDefault();
     Navigation.toRoleDetail("boss");
@@ -88,8 +85,7 @@ public class WebTestPermission {
     getVisibleTreeNodes().shouldBe(sizeGreaterThan(50));
   }
 
-  private ElementsCollection getVisibleTreeNodes()
-  {
+  private ElementsCollection getVisibleTreeNodes() {
     return $$("#permissionsForm\\:permissionTable .ui-treetable-data > tr").filter(visible);
   }
 }

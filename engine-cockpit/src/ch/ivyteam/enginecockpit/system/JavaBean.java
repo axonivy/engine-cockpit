@@ -9,37 +9,30 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class JavaBean
-{
+public class JavaBean {
   List<String> jvmArgs;
-  
-  public JavaBean()
-  {
+
+  public JavaBean() {
     jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
   }
-  
-  public String getVersion()
-  {
+
+  public String getVersion() {
     return System.getProperty("java.version");
   }
 
-  public String getVendor()
-  {
+  public String getVendor() {
     return System.getProperty("java.vendor");
   }
 
-  public String getName()
-  {
+  public String getName() {
     return System.getProperty("java.vm.name");
   }
-  
-  public List<Object> getProperties()
-  {
+
+  public List<Object> getProperties() {
     return Arrays.asList(System.getProperties().entrySet().toArray());
   }
-  
-  public List<String> getJvmArguments()
-  {
+
+  public List<String> getJvmArguments() {
     return jvmArgs;
   }
 }

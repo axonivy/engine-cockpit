@@ -29,8 +29,7 @@ import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManage
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class RestClientDetailBean extends HelpServices implements IConnectionTestResult
-{
+public class RestClientDetailBean extends HelpServices implements IConnectionTestResult {
   private RestClientDto restClient;
   private String restClientName;
 
@@ -41,8 +40,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private final ConnectionTestWrapper connectionTest;
 
-  public RestClientDetailBean()
-  {
+  public RestClientDetailBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
@@ -50,15 +48,12 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     connectionTest = new ConnectionTestWrapper();
   }
 
-  public String getRestClientName()
-  {
+  public String getRestClientName() {
     return restClientName;
   }
 
-  public void setRestClientName(String restClientName)
-  {
-    if (this.restClientName == null)
-    {
+  public void setRestClientName(String restClientName) {
+    if (this.restClientName == null) {
       this.restClientName = restClientName;
       reloadRestClient();
       liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(),
@@ -66,31 +61,26 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
   }
 
-  private void reloadRestClient()
-  {
+  private void reloadRestClient() {
     this.restClient = new RestClientDto(restClients.find(restClientName));
   }
 
-  public RestClientDto getRestClient()
-  {
+  public RestClientDto getRestClient() {
     return restClient;
   }
 
   @Override
-  public String getTitle()
-  {
+  public String getTitle() {
     return "Rest Client '" + restClientName + "'";
   }
 
   @Override
-  public String getGuideText()
-  {
+  public String getGuideText() {
     return "To edit your Rest Client overwrite your app.yaml file. For example copy and paste the snippet below.";
   }
 
   @Override
-  public String getYaml()
-  {
+  public String getYaml() {
     var valuesMap = new HashMap<String, String>();
     valuesMap.put("name", restClient.getName());
     valuesMap.put("url", restClient.getUrl());
@@ -104,53 +94,43 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   @Override
-  public String getHelpUrl()
-  {
+  public String getHelpUrl() {
     return UrlUtil.getCockpitEngineGuideUrl() + "services.html#rest-client-detail";
   }
 
-  public void testRestConnection()
-  {
+  public void testRestConnection() {
     testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
   }
 
-  private ConnectionTestResult testConnection()
-  {
-    try
-    {
+  private ConnectionTestResult testConnection() {
+    try {
       var executionManger = (WebserviceExecutionManager) IWebserviceExecutionManager.instance();
       var restCall = executionManger
               .getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
               .getRestWebService(restClient.getUniqueId()).createCall();
       var status = restCall.getWebTarget().request().head().getStatus();
-      if (status >= 200 && status < 400)
-      {
-        return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
+      if (status >= 200 && status < 400) {
+        return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS,
+                "Successfully sent test request to REST service");
+      } else if (status == 401) {
+        return new ConnectionTestResult("HEAD", status, TestResult.WARNING,
+                "Authentication was not successful");
+      } else {
+        return new ConnectionTestResult("HEAD", status, TestResult.ERROR,
+                "Could not connect to REST service");
       }
-      else if (status == 401)
-      {
-        return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
-      }
-      else
-      {
-        return new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
-      }
-    }
-    catch (ProcessingException ex)
-    {
+    } catch (ProcessingException ex) {
       return new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
               + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
   }
 
-  public void saveConfig()
-  {
+  public void saveConfig() {
     connectionTest.stop();
     var builder = restClients.find(restClientName).toBuilder()
             .uri(restClient.getUrl());
     builder.property("username", restClient.getUsername());
-    if (restClient.passwordChanged())
-    {
+    if (restClient.passwordChanged()) {
       builder.property("password", restClient.getPassword());
     }
     restClients.set(builder.toRestClient());
@@ -159,8 +139,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     reloadRestClient();
   }
 
-  public void resetConfig()
-  {
+  public void resetConfig() {
     connectionTest.stop();
     restClients.remove(restClientName);
     FacesContext.getCurrentInstance().addMessage("restConfigMsg",
@@ -169,13 +148,11 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   @Override
-  public ConnectionTestResult getResult()
-  {
+  public ConnectionTestResult getResult() {
     return testResult;
   }
 
-  public RestClientMonitor getLiveStats()
-  {
+  public RestClientMonitor getLiveStats() {
     return liveStats;
   }
 

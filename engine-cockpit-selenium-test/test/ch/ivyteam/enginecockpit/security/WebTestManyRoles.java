@@ -18,47 +18,45 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestManyRoles
-{
-  
+public class WebTestManyRoles {
+
   @BeforeAll
-  static void setup()
-  {
+  static void setup() {
     EngineCockpitUtil.createManyDynamicRoles();
   }
-  
+
   @AfterAll
-  static void cleanup()
-  {
+  static void cleanup() {
     EngineCockpitUtil.cleanupDynamicRoles();
   }
-  
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toRoles();
     Tab.switchToTab("test");
   }
-  
+
   @Test
-  void testManyRolesLoadLimit()
-  {
+  void testManyRolesLoadLimit() {
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(102));
-    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
+    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last()
+            .shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
     $(Tab.ACITVE_PANEL_CSS + " .ui-inputfield").sendKeys("role-");
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(101));
-    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last().shouldHave(text("The current search has more than 100 results."));
+    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last()
+            .shouldHave(text("The current search has more than 100 results."));
   }
-  
+
   @Test
-  void testManyRolesLoadLimit_userDetail()
-  {
+  void testManyRolesLoadLimit_userDetail() {
     Navigation.toUserDetail("foo");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").shouldBe(size(101));
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
+    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last()
+            .shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
     $("#rolesOfUserForm .table-search-input-withicon").sendKeys("role-");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(101));
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last().shouldHave(text("The current search has more than 100 results."));
+    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last()
+            .shouldHave(text("The current search has more than 100 results."));
   }
 }

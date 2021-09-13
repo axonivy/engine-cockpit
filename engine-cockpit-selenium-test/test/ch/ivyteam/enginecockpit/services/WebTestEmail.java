@@ -28,48 +28,46 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestEmail
-{
-  
+public class WebTestEmail {
+
   private static final String EMAIL_GROWL = "#emailSaveSuccess_container";
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toEmail();
     Tab.switchToDefault();
   }
-  
+
   @Test
-  void testEmailLanguageSwitch()
-  {
+  void testEmailLanguageSwitch() {
     SelectOneMenu language = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:languageDropDown"));
     language.selectItemByLabel("German");
     language.selectedItemShould(Condition.exactText("German"));
     $(getActivePanelCss() + "saveEmailSettings").click();
     $(EMAIL_GROWL).shouldBe(visible, exactText("User email changes saved"));
-    
+
     Selenide.refresh();
     language.selectedItemShould(Condition.exactText("German"));
     language.selectItemByLabel("English");
     language.selectedItemShould(Condition.exactText("English"));
     $(getActivePanelCss() + "saveEmailSettings").click();
   }
-  
+
   @Test
-  void testApplicationEmail()
-  {
-    SelectBooleanCheckbox taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id(getActivePanel() + "emailSetting:taskCheckbox"));
-    SelectManyCheckbox dailyCheckbox = PrimeUi.selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
+  void testApplicationEmail() {
+    SelectBooleanCheckbox taskCheckbox = PrimeUi
+            .selectBooleanCheckbox(By.id(getActivePanel() + "emailSetting:taskCheckbox"));
+    SelectManyCheckbox dailyCheckbox = PrimeUi
+            .selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
     taskCheckbox.shouldBeChecked(false);
     taskCheckbox.shouldBeDisabled(false);
     dailyCheckbox.shouldBeDisabled(false);
     dailyCheckbox.shouldBe(empty);
-    
+
     dailyCheckbox.setCheckboxes(Arrays.asList("Tue", "Wed", "Thu", "Sat"));
     dailyCheckbox.shouldBe(exactTexts("Tue", "Wed", "Thu", "Sat"));
-    
+
     taskCheckbox.setChecked();
     taskCheckbox.shouldBeChecked(true);
     dailyCheckbox.shouldBeDisabled(false);
@@ -81,7 +79,7 @@ public class WebTestEmail
     taskCheckbox.shouldBeDisabled(false);
     dailyCheckbox.shouldBeDisabled(false);
     dailyCheckbox.shouldBe(exactTexts("Tue", "Wed", "Thu", "Sat"));
-    
+
     dailyCheckbox.clear();
     taskCheckbox.removeChecked();
     $(getActivePanelCss() + "saveEmailSettings").click();
@@ -90,20 +88,17 @@ public class WebTestEmail
     dailyCheckbox.shouldBeDisabled(false);
     dailyCheckbox.shouldBe(empty);
   }
-  
+
   @Test
-  void liveStats()
-  {
+  void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Mails Sent", "Mail Sending Execution Time"));
   }
-  
-  private String getActivePanel()
-  {
+
+  private String getActivePanel() {
     return "tabs:applicationTabView:" + Tab.getSelectedTabIndex() + ":form:";
   }
-  
-  private String getActivePanelCss()
-  {
+
+  private String getActivePanelCss() {
     return escapeSelector(getActivePanel());
   }
 

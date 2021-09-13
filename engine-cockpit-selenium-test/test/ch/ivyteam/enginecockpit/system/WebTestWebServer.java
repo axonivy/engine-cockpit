@@ -29,28 +29,24 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestWebServer
-{
+public class WebTestWebServer {
 
   private static final String WEB_SERVER_FORM = "webServer:webserverForm:";
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toWebServer();
   }
 
   @Test
-  void webServerConnectors()
-  {
+  void webServerConnectors() {
     assertConnectorSettings();
     resetConnectorsToDefault();
   }
 
   @Test
-  void baseUrlSettings()
-  {
+  void baseUrlSettings() {
     $("#baseUrlForm\\:infoMessage").shouldBe(visible);
     assertBaseUrl("");
     setBaseUrl("https://frontend:9443");
@@ -61,8 +57,7 @@ public class WebTestWebServer
   }
 
   @Test
-  void checkData()
-  {
+  void checkData() {
     $("#coreRequestData").shouldHave(text(EngineUrl.base()),
             text("/faces/view/engine-cockpit/webserver.xhtml"));
     $(By.id("form:requestHeaderTable")).shouldNot(exist);
@@ -74,32 +69,28 @@ public class WebTestWebServer
   }
 
   @Test
-  void liveStats()
-  {
-    EngineCockpitUtil.assertLiveStats(List.of("Requests", "Errors", "Bytes", "Processing Time", "Connections"));
+  void liveStats() {
+    EngineCockpitUtil
+            .assertLiveStats(List.of("Requests", "Errors", "Bytes", "Processing Time", "Connections"));
   }
 
-  private void setBaseUrl(String baseUrl)
-  {
+  private void setBaseUrl(String baseUrl) {
     $(By.id("baseUrlForm:baseUrl")).sendKeys(baseUrl);
     $(By.id("baseUrlForm:save")).shouldBe(Condition.visible).click();
     assertGrowl("Base Url saved");
   }
 
-  private void clearBaseUrl()
-  {
+  private void clearBaseUrl() {
     $(By.id("baseUrlForm:baseUrl")).clear();
     $(By.id("baseUrlForm:save")).shouldBe(Condition.visible).click();
     assertGrowl("Base Url saved");
   }
 
-  private void assertBaseUrl(String baseUrl)
-  {
+  private void assertBaseUrl(String baseUrl) {
     $(By.id("baseUrlForm:baseUrl")).shouldBe(exactValue(baseUrl));
   }
 
-  public static void assertConnectorSettings()
-  {
+  public static void assertConnectorSettings() {
     $("#webServer\\:webserverWarnMessage").shouldBe(empty);
 
     var httpEnable = httpConnector();
@@ -122,30 +113,25 @@ public class WebTestWebServer
     assertConnector(ajpEnable, "ajpPortInput", true, "8010");
   }
 
-  public static void disableHttpConnectors()
-  {
+  public static void disableHttpConnectors() {
     httpConnector().removeChecked();
     httpsConnector().removeChecked();
   }
 
-  private static SelectBooleanCheckbox httpsConnector()
-  {
+  private static SelectBooleanCheckbox httpsConnector() {
     return PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "httpsEnabledCheckbox"));
   }
 
-  private static SelectBooleanCheckbox httpConnector()
-  {
+  private static SelectBooleanCheckbox httpConnector() {
     return PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "httpEnabledCheckbox"));
   }
 
-  public static void enableHttpsConnector()
-  {
+  public static void enableHttpsConnector() {
     var httpsEnable = httpsConnector();
     httpsEnable.setChecked();
   }
 
-  public static void resetConnectorsToDefault()
-  {
+  public static void resetConnectorsToDefault() {
     var httpEnable = httpConnector();
     var httpsEnable = httpsConnector();
     var ajpEnable = PrimeUi.selectBooleanCheckbox(By.id(WEB_SERVER_FORM + "ajpEnabledCheckbox"));
@@ -154,14 +140,11 @@ public class WebTestWebServer
     setConnector(ajpEnable, "ajpPortInput", false, "8009", "AJP");
   }
 
-  private static void setConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled, String value, String growlMessage)
-  {
-    if (enabled)
-    {
+  private static void setConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled,
+          String value, String growlMessage) {
+    if (enabled) {
       checkbox.setChecked();
-    }
-    else
-    {
+    } else {
       checkbox.removeChecked();
     }
     checkbox.shouldBeChecked(enabled);
@@ -173,13 +156,12 @@ public class WebTestWebServer
     assertGrowl("Connector." + growlMessage + ".Port");
   }
 
-  private static void assertGrowl(String message)
-  {
+  private static void assertGrowl(String message) {
     $(".ui-growl-title").shouldBe(text(message));
   }
 
-  private static void assertConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled, String value)
-  {
+  private static void assertConnector(SelectBooleanCheckbox checkbox, String input, boolean enabled,
+          String value) {
     $(By.id(WEB_SERVER_FORM + input + "_input")).shouldBe(value(value));
     checkbox.shouldBeChecked(enabled);
   }

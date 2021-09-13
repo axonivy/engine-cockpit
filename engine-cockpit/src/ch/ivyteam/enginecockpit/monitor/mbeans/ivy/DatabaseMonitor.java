@@ -12,69 +12,59 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
 @ManagedBean
 @ViewScoped
-public class DatabaseMonitor
-{
+public class DatabaseMonitor {
   private AbstractDatabase database;
   private String applicationName;
   private String databaseName;
-  
-  public DatabaseMonitor()
-  {
+
+  public DatabaseMonitor() {
     this("", "", "");
   }
 
-  public DatabaseMonitor(String appName, String env, String databaseName)
-  {
+  public DatabaseMonitor(String appName, String env, String databaseName) {
     this.applicationName = appName;
     this.databaseName = databaseName;
-    try
-    {
+    try {
       var databases = searchJmx(appName, env, databaseName);
-      if (databases.isEmpty())
-      {
+      if (databases.isEmpty()) {
         databases = searchJmx(appName, "Default", databaseName);
       }
       database = databases.stream()
               .map(client -> new Database(client))
               .filter(this::isDatabase)
               .findFirst().orElse(Database.NO_DATA);
-    }
-    catch(MalformedObjectNameException ex)
-    {
+    } catch (MalformedObjectNameException ex) {
       database = Database.NO_DATA;
     }
   }
-  
-  public Monitor getConnectionsMonitor()
-  {
-    return database.connectionsMonitor();
-  } 
-  
-  public Monitor getQueriesMonitor()
-  {
-    return database.queriesMonitor();
-  } 
 
-  public Monitor getExecutionTimeMonitor()
-  {
+  public Monitor getConnectionsMonitor() {
+    return database.connectionsMonitor();
+  }
+
+  public Monitor getQueriesMonitor() {
+    return database.queriesMonitor();
+  }
+
+  public Monitor getExecutionTimeMonitor() {
     return database.executionTimeMonitor();
-  } 
-  
-  public String getDatabase()
-  {
+  }
+
+  public String getDatabase() {
     return database.label();
   }
-  
-  private boolean isDatabase(AbstractDatabase db)
-  {
+
+  private boolean isDatabase(AbstractDatabase db) {
     return db.application().equals(applicationName) &&
             db.name().equals(databaseName);
   }
-  
-  private static Set<ObjectName> searchJmx(String appName, String env, String databaseName) throws MalformedObjectNameException
-  {
+
+  private static Set<ObjectName> searchJmx(String appName, String env, String databaseName)
+          throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-            new ObjectName("ivy Engine:type=External Database,application=" + appName + ",environment=" + env + ",name=" + databaseName), null);
+            new ObjectName("ivy Engine:type=External Database,application=" + appName + ",environment=" + env
+                    + ",name=" + databaseName),
+            null);
   }
-  
+
 }

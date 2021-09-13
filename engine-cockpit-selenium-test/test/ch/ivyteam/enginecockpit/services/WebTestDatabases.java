@@ -13,21 +13,19 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestDatabases
-{
-  
+public class WebTestDatabases {
+
   @Test
-  void testDatabasesInTable()
-  {
+  void testDatabasesInTable() {
     login();
     Navigation.toDatabases();
     Tab.switchToDefault();
-    Table table = new Table(By.id("tabs:applicationTabView:" + 
+    Table table = new Table(By.id("tabs:applicationTabView:" +
             Tab.getSelectedTabIndex() + ":form:databasesTable"), true);
     table.firstColumnShouldBe(size(3));
 
     table.search(table.getFirstColumnEntries().get(0));
     table.firstColumnShouldBe(size(1));
   }
-  
+
 }
