@@ -31,7 +31,7 @@ public class EmailSettings
   
   public EmailSettings(IUser user, IEMailNotificationSettings defaultAppSettings)
   {
-    this.language = user.getEMailLanguage() != null ? user.getEMailLanguage() : new Locale("app");
+    this.language = user.getLanguage() != null ? user.getLanguage() : new Locale("app");
     useApplicationDefault = user.getEMailNotificationSettings().isUseApplicationDefault();
     if (useApplicationDefault)
     {

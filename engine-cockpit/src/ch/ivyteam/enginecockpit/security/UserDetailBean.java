@@ -191,15 +191,12 @@ public class UserDetailBean
   {
     var iUser = getIUser();
     var language = emailSettings.getLanguageLocale();
-    if (language.getLanguage().equals("app"))
-    {
+    if ("app".equals(language.getLanguage())) {
       language = null;
     }
-    iUser.setEMailLanguage(language);
-    iUser.setEMailNotificationSettings(
-            emailSettings.saveUserEmailSettings(iUser.getEMailNotificationSettings()));
-    FacesContext.getCurrentInstance().addMessage("emailSaveSuccess",
-            new FacesMessage("User email changes saved"));
+    iUser.setLanguage(language);
+    iUser.setEMailNotificationSettings(emailSettings.saveUserEmailSettings(iUser.getEMailNotificationSettings()));
+    FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", new FacesMessage("User email changes saved"));
   }
   
   public RoleDataModel getRoles()
