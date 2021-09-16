@@ -21,6 +21,7 @@ import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
@@ -163,9 +164,13 @@ public class ManagerBean {
   }
 
   public List<SelectItem> getSupportedLanguages() {
-    // Fix for PortalKit (creates a second german language)
-    return manager.getLanguages().stream()
-            .map(l -> l.getLocale())
+    var locales = new ArrayList<Locale>();
+    locales.add(Locale.ENGLISH);
+    locales.add(Locale.GERMAN);
+    locales.add(Locale.FRENCH);
+    locales.addAll(((IApplicationInternal) getSelectedIApplication()).getLanguages());  
+    return locales.stream()
+            .distinct()
             .collect(Collectors.toMap(Locale::getLanguage, l -> l, (l1, l2) -> l1)).values().stream()
             .map(l -> new SelectItem(l.getLanguage(), l.getDisplayLanguage()))
             .collect(Collectors.toList());
