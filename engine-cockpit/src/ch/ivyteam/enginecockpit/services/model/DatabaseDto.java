@@ -10,8 +10,7 @@ import ch.ivyteam.ivy.db.Database;
 import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.db.IStatementExecution;
 
-public class DatabaseDto implements IService
-{
+public class DatabaseDto implements IService {
   private String name;
   private String url;
   private String driver;
@@ -20,9 +19,8 @@ public class DatabaseDto implements IService
   private int maxConnections;
   private Map<String, String> properties;
   private boolean passwordChanged;
-  
-  public DatabaseDto(Database db)
-  {
+
+  public DatabaseDto(Database db) {
     name = db.name();
     url = db.url();
     driver = db.driver();
@@ -33,87 +31,71 @@ public class DatabaseDto implements IService
     passwordChanged = false;
   }
 
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
 
-  public String getUrl()
-  {
+  public String getUrl() {
     return url;
   }
-  
-  public void setUrl(String url)
-  {
+
+  public void setUrl(String url) {
     this.url = url;
   }
-  
-  public String getDriver()
-  {
+
+  public String getDriver() {
     return driver;
   }
-  
-  public void setDriver(String driver)
-  {
+
+  public void setDriver(String driver) {
     this.driver = driver;
   }
 
-  public String getUserName()
-  {
+  public String getUserName() {
     return userName;
   }
 
-  public void setUserName(String userName)
-  {
+  public void setUserName(String userName) {
     this.userName = userName;
   }
-  
+
   @Override
-  public String getPassword()
-  {
+  public String getPassword() {
     return password;
   }
-  
-  public void setPassword(String password)
-  {
+
+  public void setPassword(String password) {
     this.password = password;
-    if (StringUtils.isNotBlank(password))
-    {
+    if (StringUtils.isNotBlank(password)) {
       passwordChanged = true;
     }
   }
-  
+
   @Override
-  public boolean passwordChanged()
-  {
+  public boolean passwordChanged() {
     return passwordChanged;
   }
 
-  public int getMaxConnections()
-  {
+  public int getMaxConnections() {
     return maxConnections;
   }
-  
-  public void setMaxConnections(int maxConnections)
-  {
+
+  public void setMaxConnections(int maxConnections) {
     this.maxConnections = maxConnections;
   }
 
-  public Map<String, String> getProperties()
-  {
+  public Map<String, String> getProperties() {
     return properties;
   }
-  
-  public static class ExecStatement
-  {
+
+  public static class ExecStatement {
     private String time;
     private String execTime;
     private String resultTime;
     private String sql;
     private String element;
 
-    public ExecStatement(IStatementExecution statement)
-    {
+    public ExecStatement(IStatementExecution statement) {
       time = DateUtil.formatDate(statement.getExecutionTimestamp());
       execTime = (double) statement.getExecutionTimeInMicroSeconds() / 1000 + "ms";
       resultTime = (double) statement.getReadingResultTimeInMicroSeconds() / 1000 + "ms";
@@ -121,52 +103,43 @@ public class DatabaseDto implements IService
       element = statement.getDatabaseElement().getProcessElementId();
     }
 
-    public String getTime()
-    {
+    public String getTime() {
       return time;
     }
 
-    public String getExecTime()
-    {
+    public String getExecTime() {
       return execTime;
     }
 
-    public String getResultTime()
-    {
+    public String getResultTime() {
       return resultTime;
     }
 
-    public String getSql()
-    {
+    public String getSql() {
       return sql;
     }
 
-    public String getElement()
-    {
+    public String getElement() {
       return element;
     }
   }
-  
-  public static class Connection
-  {
+
+  public static class Connection {
     private String lastUsed;
     private boolean inUse;
 
-    public Connection(IExternalDatabaseRuntimeConnection conn)
-    {
+    public Connection(IExternalDatabaseRuntimeConnection conn) {
       lastUsed = DateUtil.formatDate(conn.getLastUsed());
       inUse = conn.isInUse();
     }
 
-    public String getLastUsed()
-    {
+    public String getLastUsed() {
       return lastUsed;
     }
 
-    public boolean isInUse()
-    {
+    public boolean isInUse() {
       return inUse;
     }
   }
-  
+
 }

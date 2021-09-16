@@ -11,8 +11,7 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import com.codeborne.selenide.Selenide;
 
-public class Navigation
-{
+public class Navigation {
   private static final String DASHBOARD_MENU = "#menuform\\:sr_dashboard";
   private static final String APPLICATIONS_MENU = "#menuform\\:sr_applications";
   private static final String SECURITY_MENU = "#menuform\\:sr_security";
@@ -46,30 +45,26 @@ public class Navigation
   private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
 
-  public static void toDashboard()
-  {
+  public static void toDashboard() {
     toMenu(DASHBOARD_MENU);
     assertCurrentUrlEndsWith("dashboard.xhtml");
     menuShouldBeActive(DASHBOARD_MENU);
   }
-  
-  public static void toApplications()
-  {
+
+  public static void toApplications() {
     toMenu(APPLICATIONS_MENU);
     assertCurrentUrlEndsWith("applications.xhtml");
     menuShouldBeActive(APPLICATIONS_MENU);
   }
-  
-  public static void toApplicationDetail(String appName)
-  {
+
+  public static void toApplicationDetail(String appName) {
     Navigation.toApplications();
     clickAppTreeActivity(appName);
     assertCurrentUrlEndsWith("application-detail.xhtml?appName=" + appName);
     menuShouldBeActive(APPLICATIONS_MENU);
   }
-  
-  public static void toPmvDetail(String appName, String pmName, String pmvName)
-  {
+
+  public static void toPmvDetail(String appName, String pmName, String pmvName) {
     Navigation.toApplications();
     openAppTreeActivity(appName);
     openAppTreeActivity(pmName);
@@ -77,273 +72,237 @@ public class Navigation
     menuShouldBeActive(APPLICATIONS_MENU);
   }
 
-  private static void openAppTreeActivity(String appName)
-  {
-    $$(".activity-name").find(text(appName)).parent().parent().find(".ui-treetable-toggler").shouldBe(visible).click();
+  private static void openAppTreeActivity(String appName) {
+    $$(".activity-name").find(text(appName)).parent().parent().find(".ui-treetable-toggler").shouldBe(visible)
+            .click();
   }
-  
-  private static void clickAppTreeActivity(String appName)
-  {
+
+  private static void clickAppTreeActivity(String appName) {
     $$(".activity-name").find(text(appName)).shouldBe(visible).click();
   }
-  
-  public static void toSecuritySystem()
-  {
+
+  public static void toSecuritySystem() {
     toSubMenu(SECURITY_MENU, SECURITY_SYSTEM_MENU);
     assertCurrentUrlEndsWith("securitysystem.xhtml");
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
-  
-  public static void toSecuritySystemDetail(String secSystemName)
-  {
+
+  public static void toSecuritySystemDetail(String secSystemName) {
     Navigation.toSecuritySystem();
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
     assertCurrentUrlEndsWith("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
-  public static void toVariables()
-  {
+  public static void toVariables() {
     toSubMenu(CONFIGURATION_MENU, VARIABLES_MENU);
     assertCurrentUrlEndsWith("variables.xhtml");
     menuShouldBeActive(VARIABLES_MENU);
   }
-  
-  public static void toBusinessCalendar()
-  {
+
+  public static void toBusinessCalendar() {
     toSubMenu(CONFIGURATION_MENU, BUSINESS_CALENDAR_MENU);
     assertCurrentUrlEndsWith("businesscalendar.xhtml");
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
-  
-  public static void toBusinessCalendarDetail(String calendarName)
-  {
+
+  public static void toBusinessCalendarDetail(String calendarName) {
     Navigation.toBusinessCalendar();
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content a").find(text(calendarName)).shouldBe(visible).click();
     assertCurrentUrlEndsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName);
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
-  
-  public static void toUsers()
-  {
+
+  public static void toUsers() {
     toSubMenu(SECURITY_MENU, SECURITY_USER_MENU);
     assertCurrentUrlEndsWith("users.xhtml");
     menuShouldBeActive(SECURITY_USER_MENU);
   }
-  
-  public static void toUserDetail(String userName)
-  {
+
+  public static void toUserDetail(String userName) {
     Navigation.toUsers();
     $$(Tab.ACITVE_PANEL_CSS + " .user-name").find(text(userName)).shouldBe(visible).click();
     assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + userName);
     menuShouldBeActive(SECURITY_USER_MENU);
   }
-  
-  public static void toRoles()
-  {
+
+  public static void toRoles() {
     toSubMenu(SECURITY_MENU, SECURITY_ROLES_MENU);
     assertCurrentUrlEndsWith("roles.xhtml");
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
-  
-  public static void toRoleDetail(String roleName)
-  {
+
+  public static void toRoleDetail(String roleName) {
     Navigation.toRoles();
     $(Tab.ACITVE_PANEL_CSS + " .expand-all").shouldBe(visible).click();
     $$(Tab.ACITVE_PANEL_CSS + " .role-name").find(text(roleName)).shouldBe(visible).click();
     assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + roleName);
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
-  
-  public static void toSearchEngine()
-  {
+
+  public static void toSearchEngine() {
     toSubMenu(SERVICES_MENU, SERVICES_SEARCH_ENGINE);
     assertCurrentUrlEndsWith("searchengine.xhtml");
     menuShouldBeActive(SERVICES_SEARCH_ENGINE);
   }
-  
-  public static void toEmail()
-  {
+
+  public static void toEmail() {
     toSubMenu(SERVICES_MENU, SERVICES_EMAIL_MENU);
     assertCurrentUrlEndsWith("email.xhtml");
     menuShouldBeActive(SERVICES_EMAIL_MENU);
   }
-  
-  public static void toDatabases()
-  {
+
+  public static void toDatabases() {
     toSubMenu(SERVICES_MENU, SERVICES_DATABASES_MENU);
     assertCurrentUrlEndsWith("databases.xhtml");
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
-  
-  public static void toDatabaseDetail(String databaseName)
-  {
+
+  public static void toDatabaseDetail(String databaseName) {
     Navigation.toDatabases();
     $$(Tab.ACITVE_PANEL_CSS + " .database-name").find(text(databaseName)).shouldBe(visible).click();
     assertCurrentUrlEndsWith("databasedetail.xhtml?databaseName=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
-  
-  public static void toRestClients()
-  {
+
+  public static void toRestClients() {
     toSubMenu(SERVICES_MENU, SERVICES_RESTCLIENTS_MENU);
     assertCurrentUrlEndsWith("restclients.xhtml");
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
-  
-  public static void toRestClientDetail(String restClientName)
-  {
+
+  public static void toRestClientDetail(String restClientName) {
     Navigation.toRestClients();
     $$(Tab.ACITVE_PANEL_CSS + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
     assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + restClientName);
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
-  
-  public static void toWebservices()
-  {
+
+  public static void toWebservices() {
     toSubMenu(SERVICES_MENU, SERVICES_WEBSERVICES_MENU);
     assertCurrentUrlEndsWith("webservices.xhtml");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
-  
-  public static void toWebserviceDetail(String webserviceName)
-  {
+
+  public static void toWebserviceDetail(String webserviceName) {
     Navigation.toWebservices();
     $$(Tab.ACITVE_PANEL_CSS + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
     assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
-  
-  public static void toBackendApi()
-  {
+
+  public static void toBackendApi() {
     toSubMenu(SERVICES_MENU, SERVICES_BACKEND_MENU);
     assertCurrentUrlEndsWith("backend-api.xhtml");
     menuShouldBeActive(SERVICES_BACKEND_MENU);
   }
-  
-  public static void toAdmins()
-  {
+
+  public static void toAdmins() {
     toSubMenu(SYSTEM_MENU, SYSTEM_ADMINS);
     assertCurrentUrlEndsWith("admins.xhtml");
     menuShouldBeActive(SYSTEM_ADMINS);
   }
 
-  public static void toSystemDb()
-  {
+  public static void toSystemDb() {
     toSubMenu(SYSTEM_MENU, SYSTEM_SYSTEMDB_MENU);
     assertCurrentUrlEndsWith("systemdb.xhtml");
     menuShouldBeActive(SYSTEM_SYSTEMDB_MENU);
   }
-  
-  public static void toLicence()
-  {
+
+  public static void toLicence() {
     toSubMenu(SYSTEM_MENU, SYSTEM_LICENCE);
     assertCurrentUrlEndsWith("licence.xhtml");
     menuShouldBeActive(SYSTEM_LICENCE);
   }
-  
-  public static void toWebServer()
-  {
+
+  public static void toWebServer() {
     toSubMenu(SYSTEM_MENU, SYSTEM_WEB_SERVER_MENU);
     assertCurrentUrlEndsWith("webserver.xhtml");
     menuShouldBeActive(SYSTEM_WEB_SERVER_MENU);
   }
-  
-  public static void toSystemConfig()
-  {
+
+  public static void toSystemConfig() {
     toSubMenu(SYSTEM_MENU, SYSTEM_CONFIG_MENU);
     assertCurrentUrlEndsWith("systemconfig.xhtml");
     menuShouldBeActive(SYSTEM_CONFIG_MENU);
   }
-  
-  public static void toCluster()
-  {
+
+  public static void toCluster() {
     Selenide.open(viewUrl("cluster.xhtml?cluster"));
     assertCurrentUrlContains("cluster.xhtml");
     menuShouldBeActive(SYSTEM_CLUSTER);
   }
-  
-  public static void toEditor()
-  {
+
+  public static void toEditor() {
     toSubMenu(SYSTEM_MENU, SYSTEM_EDITOR_MENU);
     assertCurrentUrlEndsWith("editor.xhtml");
     menuShouldBeActive(SYSTEM_EDITOR_MENU);
   }
-  
-  public static void toOs()
-  {
+
+  public static void toOs() {
     toSubMenu(MONITOR_MENU, MONITOR_OS_MENU);
     assertCurrentUrlEndsWith("monitorOs.xhtml");
     menuShouldBeActive(MONITOR_OS_MENU);
   }
-  
-  public static void toLogs()
-  {
+
+  public static void toLogs() {
     toSubMenu(MONITOR_MENU, MONITOR_LOGS_MENU);
     assertCurrentUrlContains("logs.xhtml");
     menuShouldBeActive(MONITOR_LOGS_MENU);
   }
-  
-  public static void toCache()
-  {
+
+  public static void toCache() {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_CACHE_MENU);
     assertCurrentUrlContains("monitorCache.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_CACHE_MENU);
   }
-  
-  public static void toMBeans() 
-  {
+
+  public static void toMBeans() {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MBEANS_MENU);
     assertCurrentUrlContains("mbeans.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_MBEANS_MENU);
   }
-  
-  public static void toJvm()
-  {
+
+  public static void toJvm() {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_JVM_MENU);
     assertCurrentUrlContains("monitorJvm.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_JVM_MENU);
   }
-  
-  public static void toMemory()
-  {
+
+  public static void toMemory() {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MEMORY_MENU);
     assertCurrentUrlContains("monitorMemory.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_MEMORY_MENU);
   }
 
-  private static void toMenu(String menuItemPath)
-  {
+  private static void toMenu(String menuItemPath) {
     $(menuItemPath).find("a").scrollIntoView(false).click();
     menuShouldBeActive(menuItemPath);
   }
-  
-  private static void toSubMenu(String menuItemPath, String subMenuItemPath)
-  {
+
+  private static void toSubMenu(String menuItemPath, String subMenuItemPath) {
     $(menuItemPath).shouldBe(visible);
-    if(!$(subMenuItemPath).isDisplayed()) {
+    if (!$(subMenuItemPath).isDisplayed()) {
       $(menuItemPath).find("a").scrollIntoView(false).click();
     }
     $(subMenuItemPath).find("a").shouldBe(visible).scrollIntoView(false).click();
     menuShouldBeActive(subMenuItemPath);
   }
-  
-  private static void toSubSubMenu(String menuItemPath, String subMenuItemPath, String subSubMenuItemPath)
-  {
+
+  private static void toSubSubMenu(String menuItemPath, String subMenuItemPath, String subSubMenuItemPath) {
     $(menuItemPath).shouldBe(visible);
-    if(!$(subMenuItemPath).isDisplayed()) {
+    if (!$(subMenuItemPath).isDisplayed()) {
       $(menuItemPath).find("a").scrollIntoView(false).click();
     }
     $(subMenuItemPath).find("a").shouldBe(visible);
-    if(!$(subSubMenuItemPath).isDisplayed()) {
+    if (!$(subSubMenuItemPath).isDisplayed()) {
       $(subMenuItemPath).find("a").scrollIntoView(false).click();
-    }    
+    }
     $(subSubMenuItemPath).scrollIntoView(false).click();
     menuShouldBeActive(subSubMenuItemPath);
   }
 
-  private static void menuShouldBeActive(String menu)
-  {
+  private static void menuShouldBeActive(String menu) {
     $(menu).shouldHave(cssClass("active-menuitem"));
   }
 }

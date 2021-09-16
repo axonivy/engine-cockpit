@@ -9,13 +9,11 @@ import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
 import ch.ivyteam.ivy.environment.Ivy;
 
-public class ProcessModel extends AbstractActivity
-{
+public class ProcessModel extends AbstractActivity {
   private long runningCasesCount;
   private IProcessModel pm;
-  
-  public ProcessModel(IProcessModel pm, ApplicationBean bean)
-  {
+
+  public ProcessModel(IProcessModel pm, ApplicationBean bean) {
     super(pm.getName(), pm.getId(), pm, bean);
     this.pm = pm;
     runningCasesCount = pm.getProcessModelVersions().stream()
@@ -23,61 +21,50 @@ public class ProcessModel extends AbstractActivity
   }
 
   @Override
-  public long getRunningCasesCount()
-  {
+  public long getRunningCasesCount() {
     return runningCasesCount;
   }
-  
+
   @Override
-  public String getIcon()
-  {
+  public String getIcon() {
     return "module-three-2";
   }
-  
+
   @Override
-  public long getApplicationId()
-  {
+  public long getApplicationId() {
     return ((IProcessModel) activity).getApplication().getId();
   }
-  
+
   @Override
-  public String getActivityType()
-  {
+  public String getActivityType() {
     return AbstractActivity.PM;
   }
-  
+
   @Override
-  public void delete()
-  {
+  public void delete() {
     execute(() -> pm.getApplication().deleteProcessModel(getName()), "delete", false);
   }
-  
+
   @Override
-  public boolean isDeletable()
-  {
+  public boolean isDeletable() {
     return pm.isDeletable();
   }
-  
+
   @Override
-  public String getDeleteHint()
-  {
+  public String getDeleteHint() {
     var message = new StringBuilder();
     var dependentPmvs = getDependentPmvs();
-    if (!dependentPmvs.isEmpty())
-    {
+    if (!dependentPmvs.isEmpty()) {
       message.append(dependentPmvs.size()).append(" dependent PMV(s)");
     }
-    if (runningCasesCount > 0)
-    {
-        if (message.length() > 0)
-        {
-          message.append(" and ");
-        }
+    if (runningCasesCount > 0) {
+      if (message.length() > 0) {
+        message.append(" and ");
+      }
       message.append(runningCasesCount).append(" running cases. The cases will also be deleted");
     }
-    
-    if (message.length() > 0)
-    {
+
+    if (message.length() > 0) {
       message.insert(0, getActivityType() + " has ");
       message.append(". ");
     }
@@ -85,18 +72,17 @@ public class ProcessModel extends AbstractActivity
 
     return message.toString();
   }
-  
-  private Set<IProcessModelVersion> getDependentPmvs()
-  {
+
+  private Set<IProcessModelVersion> getDependentPmvs() {
     var dependentPMVs = new HashSet<IProcessModelVersion>();
     var pmvs = pm.getProcessModelVersions();
-    pmvs.forEach(pmv -> dependentPMVs.addAll(pmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT)));
+    pmvs.forEach(pmv -> dependentPMVs
+            .addAll(pmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT)));
     return dependentPMVs;
   }
-  
+
   @Override
-  public boolean isProtected()
-  {
+  public boolean isProtected() {
     return getName().equals("engine-cockpit");
   }
 

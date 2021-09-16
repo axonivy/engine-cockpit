@@ -9,32 +9,30 @@ import org.apache.commons.lang.StringUtils;
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 
-class WebService
-{
+class WebService {
   public static final WebService NO_DATA = new WebService();
-  
-  private final Monitor callsMonitor = Monitor.build().name("Calls").title("Web Service Calls").icon("language").toMonitor();
-  private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time").title("Web Service Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
+
+  private final Monitor callsMonitor = Monitor.build().name("Calls").title("Web Service Calls")
+          .icon("language").toMonitor();
+  private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time")
+          .title("Web Service Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
 
   private final String label;
   private final String id;
   private final String name;
   private final String environment;
   private final String application;
-  
-  private WebService()
-  {
+
+  private WebService() {
     this(null);
   }
 
-  WebService(ObjectName webService)
-  {
-    if (webService == null)
-    {
+  WebService(ObjectName webService) {
+    if (webService == null) {
       id = "";
       name = "";
       environment = "";
-      application ="";
+      application = "";
       label = "No Data";
       callsMonitor.addInfoValue(format("No data available"));
       executionTimeMonitor.addInfoValue(format("No data available"));
@@ -46,11 +44,11 @@ class WebService
     this.name = StringUtils.substringBeforeLast(nm, "(").trim();
     var identifier = StringUtils.substringAfterLast(nm, "(");
     this.id = StringUtils.removeEnd(identifier, ")");
-    
+
     application = webService.getKeyProperty("application");
     environment = webService.getKeyProperty("environment");
-    label = application +" > " + environment +" > " + name;
-    
+    label = application + " > " + environment + " > " + name;
+
     var calls = new ExecutionCounter(webService.getCanonicalName(), "calls");
     callsMonitor.addInfoValue(format("%5d", calls.deltaExecutions()));
     callsMonitor.addInfoValue(format("Total %5d", calls.executions()));
@@ -58,7 +56,7 @@ class WebService
     callsMonitor.addInfoValue(format("Errors Total %5d", calls.errors()));
     callsMonitor.addSeries(Series.build(calls.deltaExecutions(), "Calls").toSeries());
     callsMonitor.addSeries(Series.build(calls.deltaErrors(), "Errors").toSeries());
-    
+
     executionTimeMonitor.addInfoValue(format("Min %t", calls.deltaMinExecutionTime()));
     executionTimeMonitor.addInfoValue(format("Avg %t", calls.deltaAvgExecutionTime()));
     executionTimeMonitor.addInfoValue(format("Max %t", calls.deltaMaxExecutionTime()));
@@ -68,38 +66,31 @@ class WebService
     executionTimeMonitor.addSeries(Series.build(calls.deltaMaxExecutionTime(), "Max").toSeries());
   }
 
-  public String id()
-  {
+  public String id() {
     return id;
   }
-  
-  public String name()
-  {
+
+  public String name() {
     return name;
   }
-  
-  public String application()
-  {
+
+  public String application() {
     return application;
   }
-  
-  public String environment()
-  {
+
+  public String environment() {
     return environment;
   }
-  
-  public String label()
-  {
+
+  public String label() {
     return label;
   }
 
-  public Monitor callsMonitor()
-  {
+  public Monitor callsMonitor() {
     return callsMonitor;
   }
-  
-  public Monitor executionTimeMonitor()
-  {
+
+  public Monitor executionTimeMonitor() {
     return executionTimeMonitor;
   }
 }

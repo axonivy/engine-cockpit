@@ -15,65 +15,52 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 
-public class HttpAsserter
-{
+public class HttpAsserter {
   final static Pattern A_TAG = Pattern.compile("(?i)<a([^>]+)>");
   final static Pattern A_LINK = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
   final static Pattern BUTTON_TAG = Pattern.compile("(?i)<button([^>]+)>");
-  final static Pattern BUTTON_LINK = Pattern.compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
+  final static Pattern BUTTON_LINK = Pattern
+          .compile("\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
 
-  public static HttpAssert assertThat(String url)
-  {
+  public static HttpAssert assertThat(String url) {
     return new HttpAssert(url);
   }
 
-  public static class HttpAssert
-  {
+  public static class HttpAssert {
     private String url;
 
-    private HttpAssert(String url)
-    {
+    private HttpAssert(String url) {
       this.url = url;
     }
 
-    public void exists()
-    {
+    public void exists() {
       Assertions.assertThat(getResponse(url).statusCode()).isEqualTo(200);
     }
 
-    private static HttpResponse<Void> getResponse(String url)
-    {
+    private static HttpResponse<Void> getResponse(String url) {
       return getResponse(url, false);
     }
 
-    private static HttpResponse<Void> getResponseFollowRedirects(String url)
-    {
+    private static HttpResponse<Void> getResponseFollowRedirects(String url) {
       return getResponse(url, true);
     }
 
-    private static String getContent(String url)
-    {
-      try
-      {
+    private static String getContent(String url) {
+      try {
         System.out.println("Crawling (GET): " + url);
         var client = HttpClient.newBuilder().followRedirects(Redirect.NEVER).build();
         var request = HttpRequest.newBuilder().uri(URI.create(url)).build();
         var response = client.send(request, BodyHandlers.ofString());
         return response.body();
-      }
-      catch (Exception ex)
-      {
+      } catch (Exception ex) {
         throw new RuntimeException("Could not crawl: " + url, ex);
       }
     }
 
-    private static HttpResponse<Void> getResponse(String url, boolean followRedirects)
-    {
-      try
-      {
+    private static HttpResponse<Void> getResponse(String url, boolean followRedirects) {
+      try {
         var method = "HEAD";
-        if (url.contains("developer.axonivy.com") || url.contains("file.axonivy.rocks"))
-        {
+        if (url.contains("developer.axonivy.com") || url.contains("file.axonivy.rocks")) {
           method = "GET";
         }
         System.out.println("Crawling (" + method + " - Drop Body): " + url);
@@ -85,9 +72,7 @@ public class HttpAsserter
                 .uri(URI.create(url))
                 .build();
         return client.send(request, BodyHandlers.discarding());
-      }
-      catch (Exception ex)
-      {
+      } catch (Exception ex) {
         throw new RuntimeException("Could not crawl: " + url, ex);
       }
     }
@@ -96,8 +81,7 @@ public class HttpAsserter
             "mailto",
             "javascript");
 
-    public void hasNoDeadLinks()
-    {
+    public void hasNoDeadLinks() {
       assertThat(url).exists();
 
       Set<String> links = parseAllLinksOfPage(url, A_TAG, A_LINK);
@@ -109,31 +93,26 @@ public class HttpAsserter
       Assertions.assertThat(failingLinks).as("Found dead links on " + url).isEmpty();
     }
 
-    private static Set<String> getDeadLinks(Set<String> links)
-    {
+    private static Set<String> getDeadLinks(Set<String> links) {
       return links.stream()
               .filter(link -> getResponseFollowRedirects(link).statusCode() != 200)
               .collect(Collectors.toSet());
     }
 
-    private static Set<String> parseAllLinksOfPage(String baseUrl, Pattern pTag, Pattern pLink)
-    {
+    private static Set<String> parseAllLinksOfPage(String baseUrl, Pattern pTag, Pattern pLink) {
       var content = getContent(baseUrl);
       var result = new HashSet<String>();
       var matcherTag = pTag.matcher(content);
-      while (matcherTag.find())
-      {
+      while (matcherTag.find()) {
         var href = matcherTag.group(1);
         var matcherLink = pLink.matcher(href);
-        while (matcherLink.find())
-        {
+        while (matcherLink.find()) {
           var link = matcherLink.group(1);
           var quote = StringUtils.substring(link, 0, 1);
           link = StringUtils.substringBetween(link, quote, quote);
           link = StringUtils.substringBeforeLast(link, "#");
 
-          if (ignoreLink(link) || !link.startsWith("http"))
-          {
+          if (ignoreLink(link) || !link.startsWith("http")) {
             continue;
           }
           result.add(link);
@@ -142,14 +121,11 @@ public class HttpAsserter
       return result;
     }
 
-    private static boolean ignoreLink(String link)
-    {
-      if (StringUtils.isBlank(link))
-      {
+    private static boolean ignoreLink(String link) {
+      if (StringUtils.isBlank(link)) {
         return true;
       }
-      if (DO_NOT_CHECK_LINK_WHICH_STARTS_WITH.stream().anyMatch(pattern -> link.startsWith(pattern)))
-      {
+      if (DO_NOT_CHECK_LINK_WHICH_STARTS_WITH.stream().anyMatch(pattern -> link.startsWith(pattern))) {
         return true;
       }
 

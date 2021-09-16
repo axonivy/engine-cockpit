@@ -10,27 +10,23 @@ import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 @SuppressWarnings("restriction")
-public class TestDatabaseMonitorBean
-{ 
+public class TestDatabaseMonitorBean {
   @AfterEach
-  public void afterEach()
-  {
+  public void afterEach() {
     MBeans.unregisterAllMBeans();
   }
-  
+
   @Test
-  public void noData()
-  {
+  public void noData() {
     var testee = new DatabaseMonitor();
     assertThat(testee.getDatabase()).isEqualTo("No Data");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
   }
-  
+
   @Test
-  public void withData() throws Exception
-  {
+  public void withData() throws Exception {
     MBeans.registerMBeanFor(new Db("db1"));
     MBeans.registerMBeanFor(new Db("db2"));
     var testee = new DatabaseMonitor("test", "Default", "db1");
@@ -46,131 +42,118 @@ public class TestDatabaseMonitorBean
   }
 
   @Test
-  public void connectionMonitor()
-  {
+  public void connectionMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
     var testee = new DatabaseMonitor("test", "Default", "db1");
-    
+
     var series = testee.getConnectionsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
-    
+
     var openConnections = series.get(0);
     assertThat(openConnections.getLabel()).isEqualTo("Open");
     assertThat(openConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(2.0D));
-    
+
     var usedConnections = series.get(1);
     assertThat(usedConnections.getLabel()).isEqualTo("Used");
-    assertThat(usedConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(1.0D));    
-    
+    assertThat(usedConnections.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(1.0D));
+
     assertThat(testee.getConnectionsMonitor().getInfo()).isEqualTo("Connections: Used 1, Open 2, Max 50");
   }
 
   @Test
-  public void callsMonitor()
-  {
+  public void callsMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
     var testee = new DatabaseMonitor("test", "Default", "db1");
-    
+
     var series = testee.getQueriesMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
-    
+
     var queries = series.get(0);
     assertThat(queries.getLabel()).isEqualTo("Queries");
     assertThat(queries.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
-    
+
     var errors = series.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
     assertThat(errors.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
-    
-    assertThat(testee.getQueriesMonitor().getInfo()).isEqualTo("Queries: -, Total 3, Errors -, Errors Total 4");
+
+    assertThat(testee.getQueriesMonitor().getInfo())
+            .isEqualTo("Queries: -, Total 3, Errors -, Errors Total 4");
   }
 
   @Test
-  public void executionTimeMonitor()
-  {
+  public void executionTimeMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
     var testee = new DatabaseMonitor("test", "Default", "db1");
-    
+
     var series = testee.getExecutionTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);
-    
+
     var min = series.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
-    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D)); 
-    
+    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D));
+
     var avg = series.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
     assertThat(avg.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
 
     var max = series.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
-    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D)); 
-    
-    assertThat(testee.getExecutionTimeMonitor().getInfo()).isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
+    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D));
+
+    assertThat(testee.getExecutionTimeMonitor().getInfo())
+            .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
-  
   @MBean("ivy Engine:type=External Database,application=test,environment=Default,name=#{name}")
-  private static final class Db
-  {    
+  private static final class Db {
     private final String name;
 
-    public Db(String name)
-    {
+    public Db(String name) {
       this.name = name;
     }
 
     @SuppressWarnings("unused")
-    private String getName()
-    {
+    private String getName() {
       return name;
     }
-    
+
     @MAttribute
-    public int getOpenConnections()
-    {
+    public int getOpenConnections() {
       return 2;
     }
-    
+
     @MAttribute
-    public int getUsedConnections()
-    {
+    public int getUsedConnections() {
       return 1;
     }
-    
+
     @MAttribute
-    public int getMaxConnections()
-    {
+    public int getMaxConnections() {
       return 50;
     }
 
     @MAttribute
-    public long getTransactions()
-    {
+    public long getTransactions() {
       return 3;
     }
-    
+
     @MAttribute
-    public long getErrors()
-    {
+    public long getErrors() {
       return 4;
     }
-    
+
     @MAttribute
-    public long getTransactionsMinExecutionTimeDeltaInMicroSeconds()
-    {
+    public long getTransactionsMinExecutionTimeDeltaInMicroSeconds() {
       return 5;
     }
 
     @MAttribute
-    public long getTransactionsTotalExecutionTimeInMicroSeconds()
-    {
+    public long getTransactionsTotalExecutionTimeInMicroSeconds() {
       return 6;
     }
 
     @MAttribute
-    public long getTransactionsMaxExecutionTimeDeltaInMicroSeconds()
-    {
+    public long getTransactionsMaxExecutionTimeDeltaInMicroSeconds() {
       return 7;
     }
   }

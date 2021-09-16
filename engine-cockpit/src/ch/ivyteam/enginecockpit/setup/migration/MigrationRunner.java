@@ -15,39 +15,32 @@ import ch.ivyteam.ivy.migration.restricted.diff.TextContentComparison;
 import ch.ivyteam.log.Logger;
 
 @SuppressWarnings("restriction")
-public class MigrationRunner implements MigrationClient
-{
+public class MigrationRunner implements MigrationClient {
 
   private List<Task> tasks;
   private static Logger LOGGER = Logger.getLogger(MigrationClient.class);
   private boolean paused = false;
 
-  public MigrationRunner(List<Task> tasks)
-  {
+  public MigrationRunner(List<Task> tasks) {
     this.tasks = tasks;
   }
 
-  public boolean isPaused()
-  {
+  public boolean isPaused() {
     return paused;
   }
 
   @Override
-  public org.apache.log4j.Logger log()
-  {
+  public org.apache.log4j.Logger log() {
     return LOGGER;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public <T> T choose(Quest<T> quest)
-  {
+  public <T> T choose(Quest<T> quest) {
     var dto = findRunningDTO();
-    if (quest instanceof FileChoice)
-    {
+    if (quest instanceof FileChoice) {
       var autoSelect = ((FileChoice) quest).autoSelect(log());
-      if (autoSelect.isPresent())
-      {
+      if (autoSelect.isPresent()) {
         return (T) autoSelect.get();
       }
     }
@@ -55,16 +48,12 @@ public class MigrationRunner implements MigrationClient
     return select(quest.options, dto);
   }
 
-  private <T> T select(List<Option<T>> options, Task dto)
-  {
+  private <T> T select(List<Option<T>> options, Task dto) {
     while (StringUtils.isBlank(dto.answer())) {
-      try
-      {
+      try {
         paused = true;
         Thread.sleep(1000);
-      }
-      catch (InterruptedException ex)
-      {
+      } catch (InterruptedException ex) {
         ex.printStackTrace();
       }
     }
@@ -72,41 +61,32 @@ public class MigrationRunner implements MigrationClient
     return matchToString(options, dto.answer());
   }
 
-  private static <T> T matchToString(List<Option<T>> options, String input)
-  {
-    if (StringUtils.isBlank(input))
-    {
+  private static <T> T matchToString(List<Option<T>> options, String input) {
+    if (StringUtils.isBlank(input)) {
       return options.get(0).value;
     }
-    for(Option<T> opt : options)
-    {
-      if (input.equalsIgnoreCase(opt.name))
-      {
+    for (Option<T> opt : options) {
+      if (input.equalsIgnoreCase(opt.name)) {
         return opt.value;
       }
     }
     return null;
   }
 
-  private final <T> void show(Task dto, Quest<T> quest)
-  {
+  private final <T> void show(Task dto, Quest<T> quest) {
     var diff = "";
-    if (quest instanceof FileChoice)
-    {
+    if (quest instanceof FileChoice) {
       diff = ((FileChoice) quest).getDiff().flatMap(content -> getChange(content)).orElse("");
     }
     dto.question(quest, diff);
   }
 
   @Override
-  public void event(MigrationEvent event)
-  {
-    if (event instanceof MigrationTaskEvent)
-    {
+  public void event(MigrationEvent event) {
+    if (event instanceof MigrationTaskEvent) {
       var taskEvent = (MigrationTaskEvent) event;
       var dto = findDTOByTask(taskEvent.getTask());
-      switch(taskEvent.getState())
-      {
+      switch (taskEvent.getState()) {
         case DONE:
           dto.done();
           break;
@@ -122,18 +102,16 @@ public class MigrationRunner implements MigrationClient
     }
   }
 
-  private Task findDTOByTask(MigrationTask task)
-  {
+  private Task findDTOByTask(MigrationTask task) {
     return tasks.stream().filter(t -> t.getTask().equals(task)).findFirst().get();
   }
 
-  private Task findRunningDTO()
-  {
-    return tasks.stream().filter(t -> StringUtils.contains(t.getStateIcon(), "si-is-spinning")).findFirst().get();
+  private Task findRunningDTO() {
+    return tasks.stream().filter(t -> StringUtils.contains(t.getStateIcon(), "si-is-spinning")).findFirst()
+            .get();
   }
 
-  protected Optional<String> getChange(TextContentComparison compare)
-  {
+  protected Optional<String> getChange(TextContentComparison compare) {
     var change = compare.getChangedLines();
     return Optional.of(change);
   }

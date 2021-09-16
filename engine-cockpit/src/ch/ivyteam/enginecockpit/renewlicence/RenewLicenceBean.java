@@ -28,62 +28,49 @@ import ch.ivyteam.licence.SystemLicence;
 
 @ManagedBean
 @RequestScoped
-public class RenewLicenceBean
-{
-  
+public class RenewLicenceBean {
+
   private String mailAddress;
-  
-  public RenewLicenceBean()
-  {
-    if (!ISession.current().isSessionUserUnknown())
-    {
+
+  public RenewLicenceBean() {
+    if (!ISession.current().isSessionUserUnknown()) {
       mailAddress = ISession.current().getSessionUser().getEMailAddress();
     }
   }
-  
-  public String getMailAddress()
-  {
+
+  public String getMailAddress() {
     return mailAddress;
   }
-  
-  public void setMailAddress(String mailAddress)
-  {
+
+  public void setMailAddress(String mailAddress) {
     this.mailAddress = mailAddress;
   }
-  
-  public void send()
-  {
-    if (!EmailUtil.validateEmailAddress(mailAddress)) 
-    {
+
+  public void send() {
+    if (!EmailUtil.validateEmailAddress(mailAddress)) {
       addMessage(FacesMessage.SEVERITY_ERROR, "Error", "Your email address is not valid");
       return;
     }
     showResultMessage(executeCall());
   }
 
-  private Response executeCall()
-  {
-    try
-    {
+  private Response executeCall() {
+    try {
       var signedLicence = SystemLicence.signedLicence().orElseThrow();
       var licenceContent = signedLicence.save().toAsciiOnlyString();
       var multipart = createMultipart(licenceContent);
       return createClient().target(getUri()).request()
-          .header("X-Requested-By", "ivy")
-          .header("MIME-Version", "1.0")
-          .header("mailTo", mailAddress)
-          .put(Entity.entity(multipart, multipart.getMediaType()));
-    }
-    catch (Exception ex)
-    {
+              .header("X-Requested-By", "ivy")
+              .header("MIME-Version", "1.0")
+              .header("mailTo", mailAddress)
+              .put(Entity.entity(multipart, multipart.getMediaType()));
+    } catch (Exception ex) {
       return Response.status(400).entity("There was problem with requesting response ").build();
     }
   }
 
-  private FormDataMultiPart createMultipart(String licContent) throws IOException
-  {
-    try (var formDataMultiPart = new FormDataMultiPart())
-    {
+  private FormDataMultiPart createMultipart(String licContent) throws IOException {
+    try (var formDataMultiPart = new FormDataMultiPart()) {
       var filePart = new FormDataBodyPart("oldLicense", licContent);
       var multipart = (FormDataMultiPart) formDataMultiPart.field("oldLicense", licContent,
               MediaType.MULTIPART_FORM_DATA_TYPE).bodyPart(filePart);
@@ -92,47 +79,37 @@ public class RenewLicenceBean
     }
   }
 
-  private void showResultMessage(Response response)
-  {
-    if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL)
-    {
+  private void showResultMessage(Response response) {
+    if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
       addMessage(FacesMessage.SEVERITY_INFO, "Success", "Your request has been successfully sent");
-    }
-    else 
-    {
+    } else {
       addMessage(FacesMessage.SEVERITY_ERROR, "Error", parseErrorMessage(response));
-    } 
+    }
   }
 
-  private static String parseErrorMessage(Response response)
-  {
+  private static String parseErrorMessage(Response response) {
     var responseEntity = response.readEntity(String.class);
-    try
-    {
+    try {
       var json = JsonParser.parseString(responseEntity).getAsJsonObject();
       return json.get("errorMessage").getAsString();
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       return responseEntity;
     }
   }
 
-  private static void addMessage(Severity severity, String summary, String detail)
-  {
+  private static void addMessage(Severity severity, String summary, String detail) {
     FacesContext.getCurrentInstance().addMessage("msgs", new FacesMessage(severity, summary, detail));
   }
-  
-  private static Client createClient()
-  {
+
+  private static Client createClient() {
     var httpClient = ClientBuilder.newClient();
     httpClient.register(JacksonJsonProvider.class);
     httpClient.register(MultiPartFeature.class);
     return httpClient;
   }
-  
-  private static String getUri()
-  {
-    return System.getProperty("licence.base.uri", "https://license-order.axonivy.io/ivy/api/LicenseOrder")+"/renewLicense";
+
+  private static String getUri() {
+    return System.getProperty("licence.base.uri", "https://license-order.axonivy.io/ivy/api/LicenseOrder")
+            + "/renewLicense";
   }
 }

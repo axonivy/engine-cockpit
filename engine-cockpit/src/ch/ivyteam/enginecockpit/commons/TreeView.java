@@ -7,14 +7,12 @@ import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-public abstract class TreeView
-{
+public abstract class TreeView {
   protected TreeNode rootTreeNode;
   protected TreeNode filteredTreeNode;
   protected String filter = "";
 
-  public void reloadTree()
-  {
+  public void reloadTree() {
     filter = "";
     rootTreeNode = new DefaultTreeNode("Tree", null);
     buildTree();
@@ -22,31 +20,25 @@ public abstract class TreeView
 
   protected abstract void buildTree();
 
-  public TreeNode getTree()
-  {
-    if (filter.isEmpty())
-    {
+  public TreeNode getTree() {
+    if (filter.isEmpty()) {
       return rootTreeNode;
     }
     return filteredTreeNode;
   }
 
-  public String getFilter()
-  {
+  public String getFilter() {
     return filter;
   }
 
-  public void setFilter(String filter)
-  {
+  public void setFilter(String filter) {
     this.filter = filter;
     filteredTreeNode = new DefaultTreeNode("Filtered tree", null);
     filterTree(rootTreeNode.getChildren());
   }
 
-  private void filterTree(List<TreeNode> nodes)
-  {
-    for (var node : nodes)
-    {
+  private void filterTree(List<TreeNode> nodes) {
+    for (var node : nodes) {
       filterNode(node);
       filterTree(node.getChildren());
     }
@@ -54,31 +46,25 @@ public abstract class TreeView
 
   protected abstract void filterNode(TreeNode node);
 
-  public void nodeExpand(NodeExpandEvent event)
-  {
+  public void nodeExpand(NodeExpandEvent event) {
     event.getTreeNode().setExpanded(true);
   }
 
-  public void nodeCollapse(NodeCollapseEvent event)
-  {
+  public void nodeCollapse(NodeCollapseEvent event) {
     event.getTreeNode().setExpanded(false);
   }
 
-  public void expandAllNodes()
-  {
+  public void expandAllNodes() {
     expandAllNodes(rootTreeNode, true);
   }
 
-  public void collapseAllNodes()
-  {
+  public void collapseAllNodes() {
     expandAllNodes(rootTreeNode, false);
   }
 
-  private static void expandAllNodes(TreeNode treeNode, boolean expand)
-  {
+  private static void expandAllNodes(TreeNode treeNode, boolean expand) {
     var children = treeNode.getChildren();
-    for (var child : children)
-    {
+    for (var child : children) {
       expandAllNodes(child, expand);
     }
     treeNode.setExpanded(expand);

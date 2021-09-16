@@ -34,10 +34,9 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SystemDatabaseBean extends StepStatus
-{
+public class SystemDatabaseBean extends StepStatus {
   public static String HSQL_DB = "org.hsqldb";
-  
+
   private DatabaseProduct product;
   private JdbcDriver driver;
   private List<SystemDbConnectionProperty> connectionProperties;
@@ -48,11 +47,10 @@ public class SystemDatabaseBean extends StepStatus
   private String propValue;
   private SystemDatabaseConverter converter;
   private SystemDatabaseCreator creator;
-  
+
   private final ConnectionTestWrapper connectionTest;
 
-  public SystemDatabaseBean()
-  {
+  public SystemDatabaseBean() {
     var config = SystemDatabaseSetup.getConfiguredSystemDatabaseConfig().getDbConnectionConfig();
     this.driver = JdbcDriver.forConnectionConfiguration(config).orElseThrow();
     this.product = driver.getDatabaseProduct();
@@ -63,279 +61,239 @@ public class SystemDatabaseBean extends StepStatus
     this.connectionTest = new ConnectionTestWrapper(new ConnectionInfo());
   }
 
-  private Set<DatabaseProduct> getSupportedDatabases()
-  {
+  private Set<DatabaseProduct> getSupportedDatabases() {
     return SystemDatabaseSetup.getSupportedDatabases();
   }
-  
-  private List<JdbcDriver> getSupportedDrivers()
-  {
+
+  private List<JdbcDriver> getSupportedDrivers() {
     return SystemDatabaseSetup.getSupportedDrivers(product);
   }
-  
-  public List<String> getSupporedDatabaseNames()
-  {
+
+  public List<String> getSupporedDatabaseNames() {
     return getSupportedDatabases().stream().map(DatabaseProduct::getName).collect(Collectors.toList());
   }
-  
-  public List<String> getSupportedDriverNames()
-  {
+
+  public List<String> getSupportedDriverNames() {
     return getSupportedDrivers().stream().map(JdbcDriver::getName).collect(Collectors.toList());
   }
-  
-  public DatabaseProduct getDbProduct()
-  {
+
+  public DatabaseProduct getDbProduct() {
     return product;
   }
-  
-  public String getProduct()
-  {
+
+  public String getProduct() {
     return product.getName();
   }
-  
-  public void setProduct(String product)
-  {
-    this.product = getSupportedDatabases().stream().filter(p -> StringUtils.equals(p.getName(), product)).findFirst().orElseThrow();
+
+  public void setProduct(String product) {
+    this.product = getSupportedDatabases().stream().filter(p -> StringUtils.equals(p.getName(), product))
+            .findFirst().orElseThrow();
     setDriver(getSupportedDriverNames().get(0));
   }
-  
-  public String getDriver()
-  {
+
+  public String getDriver() {
     return driver.getName();
   }
-  
-  public String getUrl()
-  {
+
+  public String getUrl() {
     return IConfiguration.instance().getOrDefault("SystemDb.Url");
   }
 
-  public void setDriver(String driver)
-  {
+  public void setDriver(String driver) {
     var newDriver = getSupportedDrivers().stream()
-      .filter(d -> StringUtils.equals(d.getName(), driver))
-      .findFirst()
-      .orElseThrow();
+            .filter(d -> StringUtils.equals(d.getName(), driver))
+            .findFirst()
+            .orElseThrow();
 
-    if (!newDriver.equals(this.driver))
-    { 
+    if (!newDriver.equals(this.driver)) {
       this.driver = newDriver;
-      this.connectionProperties = mergeConnectionProperties(connectionProperties, getConnectionPropertiesList());
+      this.connectionProperties = mergeConnectionProperties(connectionProperties,
+              getConnectionPropertiesList());
     }
   }
 
-  public Properties getAdditionalProperties()
-  {
+  public Properties getAdditionalProperties() {
     return additionalProps;
   }
-  
-  public String getPropKey()
-  {
+
+  public String getPropKey() {
     return propKey;
   }
 
-  public void setPropKey(String propKey)
-  {
+  public void setPropKey(String propKey) {
     this.propKey = propKey;
   }
 
-  public String getPropValue()
-  {
+  public String getPropValue() {
     return propValue;
   }
 
-  public void setPropValue(String propValue)
-  {
+  public void setPropValue(String propValue) {
     this.propValue = propValue;
   }
 
-  public void addProp()
-  {
+  public void addProp() {
     propKey = "";
     propValue = "";
   }
-  
-  public void removeProp(String key)
-  {
+
+  public void removeProp(String key) {
     additionalProps.remove(key);
   }
-  
-  public void saveProp()
-  {
+
+  public void saveProp() {
     additionalProps.put(propKey, propValue);
     configChanged();
   }
 
-  public ConnectionInfo getConnectionInfo()
-  {
+  public ConnectionInfo getConnectionInfo() {
     return connectionInfo;
   }
-  
-  public void configChanged()
-  {
+
+  public void configChanged() {
     connectionTest.stop();
     this.connectionInfo = new ConnectionInfo();
   }
-  
-  public boolean isHasProblem()
-  {
-    return EngineMode.is(EngineMode.MAINTENANCE) && 
-           MaintenanceReason.isSystemDatabaseReason();
+
+  public boolean isHasProblem() {
+    return EngineMode.is(EngineMode.MAINTENANCE) &&
+            MaintenanceReason.isSystemDatabaseReason();
   }
-  
-  public String getProblemMessage()
-  {
+
+  public String getProblemMessage() {
     return MaintenanceReason.getMessage();
   }
-  
-  public void testConnection()
-  {
+
+  public void testConnection() {
     connectionInfo = (ConnectionInfo) connectionTest.test(() -> testSystemDbConnection());
   }
-  
-  private ConnectionInfo testSystemDbConnection()
-  {
+
+  private ConnectionInfo testSystemDbConnection() {
     var testConnection = ConnectionTester.testConnection(createConfiguration());
     return new ConnectionInfo(testConnection);
   }
-  
-  public void saveConfiguration()
-  {
+
+  public void saveConfiguration() {
     var dbConnectionConfig = createConfiguration();
     var newSystemDbConfig = SystemDatabaseConfig.create()
             .dbConnectionConfig(dbConnectionConfig)
-            .toSystemDatabaseConfig();  
+            .toSystemDatabaseConfig();
     SystemDatabaseSetup.saveSystemDatabaseConfig(newSystemDbConfig);
     FacesContext.getCurrentInstance().addMessage("systemDbSave",
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "System Database config saved successfully"));
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
+                    "System Database config saved successfully"));
   }
-  
-  public void initCreator()
-  {
+
+  public void initCreator() {
     creationParameters = new SystemDatabaseSetup(createConfiguration())
-            .getDatabaseCreationParameters().entrySet().stream().map(e -> new SystemDbCreationParameter(e.getKey(), e.getValue()))
+            .getDatabaseCreationParameters().entrySet().stream()
+            .map(e -> new SystemDbCreationParameter(e.getKey(), e.getValue()))
             .collect(Collectors.toList());
     creator = null;
   }
-  
-  public void createDatabase()
-  {
+
+  public void createDatabase() {
     saveConfiguration();
     creator = new SystemDatabaseSetup(createConfiguration())
-            .createCreator(creationParameters.stream().collect(Collectors.toMap(p -> p.getParam(), p -> p.getValue())));
+            .createCreator(creationParameters.stream()
+                    .collect(Collectors.toMap(p -> p.getParam(), p -> p.getValue())));
     creator.executeAsync();
   }
-  
-  public boolean isDbCreatorRunning()
-  {
-    if (creator == null)
-    {
+
+  public boolean isDbCreatorRunning() {
+    if (creator == null) {
       return false;
     }
     return creator.isRunning();
   }
-  
-  public boolean isDbCreatorFinished()
-  {
-    return creator != null && 
-            !creator.isRunning() && 
+
+  public boolean isDbCreatorFinished() {
+    return creator != null &&
+            !creator.isRunning() &&
             StringUtils.equals(creator.getProgressText(), "Finished") &&
             getDbCreatorError().isBlank();
   }
-  
-  public String getDbCreatorError()
-  {
-    if (creator != null && creator.getError() != null)
-    {
+
+  public String getDbCreatorError() {
+    if (creator != null && creator.getError() != null) {
       return creator.getError().getMessage();
     }
     return "";
   }
-  
-  public void createConverter()
-  {
+
+  public void createConverter() {
     converter = new SystemDatabaseSetup(createConfiguration())
             .createConverter();
   }
-  
-  public void convertDatabase()
-  {
+
+  public void convertDatabase() {
     saveConfiguration();
     converter.executeAsync();
   }
-  
-  public boolean isDbConversionRunning()
-  {
+
+  public boolean isDbConversionRunning() {
     return converter != null && converter.isRunning();
   }
 
-  public boolean isDbConversionFinished()
-  {
-    return converter != null && 
-            !converter.isRunning() && 
+  public boolean isDbConversionFinished() {
+    return converter != null &&
+            !converter.isRunning() &&
             StringUtils.equals(converter.getProgressText(), "Finished") &&
             StringUtils.isBlank(getDbConversionError());
   }
 
-  public String getDbConversionError()
-  {
-    if (converter != null && converter.getError() != null)
-    {
+  public String getDbConversionError() {
+    if (converter != null && converter.getError() != null) {
       return converter.getError().getMessage();
     }
     return "";
   }
-  
-  public Collection<SystemDbConnectionProperty> getConnectionProperties()
-  {
+
+  public Collection<SystemDbConnectionProperty> getConnectionProperties() {
     return connectionProperties;
   }
-  
-  public List<SystemDbCreationParameter> getCreationParams()
-  {
+
+  public List<SystemDbCreationParameter> getCreationParams() {
     return creationParameters;
   }
 
-  private List<SystemDbConnectionProperty> getConnectionPropertiesList(DatabaseConnectionConfiguration config)
-  {
+  private List<SystemDbConnectionProperty> getConnectionPropertiesList(
+          DatabaseConnectionConfiguration config) {
     var connectionPropertiesWithCorrectOrder = getConnectionPropertiesList();
-    var connectionPropertiesWithValues = driver.getConnectionConfigurator().getDatabaseConnectionProperties(config);
-    for (var connectionProperty : connectionPropertiesWithCorrectOrder)
-    {
+    var connectionPropertiesWithValues = driver.getConnectionConfigurator()
+            .getDatabaseConnectionProperties(config);
+    for (var connectionProperty : connectionPropertiesWithCorrectOrder) {
       var value = connectionPropertiesWithValues.get(connectionProperty.getProperty());
       connectionProperty.setValue(value);
     }
     return connectionPropertiesWithCorrectOrder;
   }
 
-  private List<SystemDbConnectionProperty> getConnectionPropertiesList()
-  {
+  private List<SystemDbConnectionProperty> getConnectionPropertiesList() {
     return driver.getConnectionConfigurator().getDatabaseConnectionProperties().stream()
-            .map(p -> new SystemDbConnectionProperty(p, driver.getConnectionConfigurator().getDefaultValue(p)))
+            .map(p -> new SystemDbConnectionProperty(p,
+                    driver.getConnectionConfigurator().getDefaultValue(p)))
             .collect(Collectors.toList());
   }
-  
+
   private static List<SystemDbConnectionProperty> mergeConnectionProperties(
           List<SystemDbConnectionProperty> oldProps,
-          List<SystemDbConnectionProperty> newProps)
-  {
+          List<SystemDbConnectionProperty> newProps) {
     oldProps.forEach(old -> {
       newProps.forEach(p -> {
-        if (p.getProperty().equals(old.getProperty()) && !old.getValue().isBlank() && !wasDefaultPort(old))
-        {
+        if (p.getProperty().equals(old.getProperty()) && !old.getValue().isBlank() && !wasDefaultPort(old)) {
           p.setValue(old.getValue());
         }
       });
     });
     return newProps;
   }
-  
-  private static boolean wasDefaultPort(SystemDbConnectionProperty oldPort)
-  {
+
+  private static boolean wasDefaultPort(SystemDbConnectionProperty oldPort) {
     return StringUtils.equals(oldPort.getProperty().getLabel(), "Port") && oldPort.isDefaultValue();
   }
-  
-  private DatabaseConnectionConfiguration createConfiguration()
-  {
+
+  private DatabaseConnectionConfiguration createConfiguration() {
     var configurator = driver.getConnectionConfigurator();
     var props = connectionProperties.stream()
             .collect(Collectors.toMap(p -> p.getProperty(), p -> p.getValue()));
@@ -343,22 +301,19 @@ public class SystemDatabaseBean extends StepStatus
     config.setProperties(getAdditionalProperties());
     return config;
   }
-  
+
   @Override
-  public boolean isStepOk()
-  {
+  public boolean isStepOk() {
     return getConnectionInfo().isSuccessful() && isPersistentDb();
   }
 
-  public boolean isPersistentDb()
-  {
+  public boolean isPersistentDb() {
     return !StringUtils.contains(driver.getDriverName(), HSQL_DB);
   }
-  
+
   @Override
-  public String getStepWarningMessage()
-  {
+  public String getStepWarningMessage() {
     return isStepOk() ? getProblemMessage() : getConnectionInfo().getAdvise();
   }
-  
+
 }

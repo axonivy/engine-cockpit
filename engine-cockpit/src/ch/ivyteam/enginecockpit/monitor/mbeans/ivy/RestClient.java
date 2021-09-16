@@ -12,33 +12,32 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 
-class RestClient
-{
+class RestClient {
   public static final RestClient NO_DATA = new RestClient();
-  
-  private final Monitor connectionsMonitor = Monitor.build().name("Connections").title("REST Client Connections").icon("insert_link").toMonitor();
-  private final Monitor callsMonitor = Monitor.build().name("Calls").title("REST Client Calls").icon("settings_ethernet").toMonitor();
-  private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time").title("REST Client Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
+
+  private final Monitor connectionsMonitor = Monitor.build().name("Connections")
+          .title("REST Client Connections").icon("insert_link").toMonitor();
+  private final Monitor callsMonitor = Monitor.build().name("Calls").title("REST Client Calls")
+          .icon("settings_ethernet").toMonitor();
+  private final Monitor executionTimeMonitor = Monitor.build().name("Execution Time")
+          .title("REST Client Execution Time").icon("timer").yAxisLabel("Execution Time").toMonitor();
 
   private final String label;
   private final String id;
   private final String name;
   private final String environment;
   private final String application;
-  
-  private RestClient()
-  {
+
+  private RestClient() {
     this(null);
   }
 
-  RestClient(ObjectName restClient)
-  {
-    if (restClient == null)
-    {
+  RestClient(ObjectName restClient) {
+    if (restClient == null) {
       id = "";
       name = "";
       environment = "";
-      application ="";
+      application = "";
       label = "No Data";
       callsMonitor.addInfoValue(format("No data available"));
       executionTimeMonitor.addInfoValue(format("No data available"));
@@ -51,7 +50,7 @@ class RestClient
     this.name = StringUtils.substringBeforeLast(nm, "(").trim();
     var identifier = StringUtils.substringAfterLast(nm, "(");
     this.id = StringUtils.removeEnd(identifier, ")");
-    
+
     application = restClient.getKeyProperty("application");
     environment = restClient.getKeyProperty("environment");
     label = toLabel(application, environment, name);
@@ -59,7 +58,7 @@ class RestClient
     var usedConnections = cache(1, attribute(restClient, "usedConnections", Unit.ONE));
     var openConnections = attribute(restClient, "openConnections", Unit.ONE);
     var maxConnections = attribute(restClient, "maxConnections", Unit.ONE);
-    
+
     connectionsMonitor.addInfoValue(format("Used %5d", usedConnections));
     connectionsMonitor.addInfoValue(format("Open %5d", openConnections));
     connectionsMonitor.addInfoValue(format("Max %5d", maxConnections));
@@ -73,7 +72,7 @@ class RestClient
     callsMonitor.addInfoValue(format("Errors Total %5d", calls.errors()));
     callsMonitor.addSeries(Series.build(calls.deltaExecutions(), "Calls").toSeries());
     callsMonitor.addSeries(Series.build(calls.deltaErrors(), "Errors").toSeries());
-    
+
     executionTimeMonitor.addInfoValue(format("Min %t", calls.deltaMinExecutionTime()));
     executionTimeMonitor.addInfoValue(format("Avg %t", calls.deltaAvgExecutionTime()));
     executionTimeMonitor.addInfoValue(format("Max %t", calls.deltaMaxExecutionTime()));
@@ -83,48 +82,39 @@ class RestClient
     executionTimeMonitor.addSeries(Series.build(calls.deltaMaxExecutionTime(), "Max").toSeries());
   }
 
-  public String id()
-  {
+  public String id() {
     return id;
   }
-  
-  public String name()
-  {
+
+  public String name() {
     return name;
   }
-  
-  public String application()
-  {
+
+  public String application() {
     return application;
   }
-  
-  public String environment()
-  {
+
+  public String environment() {
     return environment;
   }
-  
-  public String label()
-  {
+
+  public String label() {
     return label;
   }
 
-  public Monitor connectionsMonitor()
-  {
+  public Monitor connectionsMonitor() {
     return connectionsMonitor;
   }
 
-  public Monitor callsMonitor()
-  {
+  public Monitor callsMonitor() {
     return callsMonitor;
   }
-  
-  public Monitor executionTimeMonitor()
-  {
+
+  public Monitor executionTimeMonitor() {
     return executionTimeMonitor;
   }
 
-  public static String toLabel(String applicationName, String environment, String restClientName)
-  {    
-    return applicationName +" > " + environment +" > " + restClientName;
+  public static String toLabel(String applicationName, String environment, String restClientName) {
+    return applicationName + " > " + environment + " > " + restClientName;
   }
 }

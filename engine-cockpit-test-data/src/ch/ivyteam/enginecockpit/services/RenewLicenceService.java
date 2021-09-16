@@ -18,22 +18,17 @@ import ch.ivyteam.api.API;
 import ch.ivyteam.licence.SignedLicence;
 
 @Path("test/renewLicense")
-public class RenewLicenceService
-{
+public class RenewLicenceService {
   @PermitAll
   @PUT
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   public Response create(@FormDataParam("oldLicense") InputStream oldLicenseStream,
-          @FormDataParam("oldLicense") FormDataContentDisposition oldLicenseDetail)
-  {
-    try
-    {
+          @FormDataParam("oldLicense") FormDataContentDisposition oldLicenseDetail) {
+    try {
       API.checkNotNull(oldLicenseDetail, "oldLicenseDetail");
       SignedLicence.load().fromInputStream(oldLicenseStream);
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       throw new BadRequestException("This is an empty license");
     }
     return Response.status(301).entity("This is for testing").build();

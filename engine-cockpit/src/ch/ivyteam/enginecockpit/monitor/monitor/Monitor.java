@@ -19,8 +19,7 @@ import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
-public class Monitor
-{
+public class Monitor {
   private long lastTimestamp;
   protected final LineChartModel model;
   private static final Duration MAX_DURATION = Duration.ofMinutes(10);
@@ -29,94 +28,80 @@ public class Monitor
 
   private final List<Series> series = new ArrayList<>();
   private final List<ValueProvider> infoValues = new ArrayList<>();
-  
-  protected Monitor(MonitorInfo info)
-  {
+
+  protected Monitor(MonitorInfo info) {
     this.info = info;
     model = new LineChartModel();
     model.setSeriesColors("607D8B,FFC107,FF5722");
     model.setExtender("skinChart");
-    
+
     Axis timeAxis = new DateAxis("Time");
     timeAxis.setTickFormat("%H:%M:%S");
     model.getAxes().put(AxisType.X, timeAxis);
-    
+
     setYAxisUnit(Unit.ONE);
 
     lastTimestamp = 0;
     model.setLegendPosition("ne");
   }
-  
-  public String getTitle()
-  {
+
+  public String getTitle() {
     return info.title;
   }
-  
-  public String getIcon()
-  {
+
+  public String getIcon() {
     return info.icon;
   }
-  
-  public String getName()
-  {
+
+  public String getName() {
     return info.name;
   }
 
-  public String getInfo()
-  {
+  public String getInfo() {
     StringBuilder builder = new StringBuilder();
     builder.append(getName());
-    if (!infoValues.isEmpty())
-    {
+    if (!infoValues.isEmpty()) {
       builder.append(": ");
       builder.append(infoValues
-          .stream()
-          .map(ValueProvider::nextValue)
-          .map(v -> v.value())
-          .map(Object::toString)
-          .collect(Collectors.joining(", ")));
+              .stream()
+              .map(ValueProvider::nextValue)
+              .map(v -> v.value())
+              .map(Object::toString)
+              .collect(Collectors.joining(", ")));
     }
     return builder.toString();
   }
 
-  public boolean isRunning()
-  {
+  public boolean isRunning() {
     return !series.isEmpty();
   }
-  
-  public void addSeries(Series mSeries)
-  {    
+
+  public void addSeries(Series mSeries) {
     series.add(mSeries);
     model.addSeries(mSeries.getSeries());
   }
 
-  public void removeSeries(Series mSeries)
-  {
+  public void removeSeries(Series mSeries) {
     series.remove(mSeries);
     model.getSeries().remove(mSeries.getSeries());
   }
-  
-  public void addInfoValue(ValueProvider valueProvider)
-  {
+
+  public void addInfoValue(ValueProvider valueProvider) {
     infoValues.add(valueProvider);
   }
 
-  public List<Series> getSeries()
-  {
+  public List<Series> getSeries() {
     return series;
   }
 
-  public LineChartModel getModel()
-  {
+  public LineChartModel getModel() {
     calcNewValues();
     return model;
   }
-    
-  private void calcNewValues()
-  {
+
+  private void calcNewValues() {
     long time = newTime();
-    if (lastTimestamp != 0 && time/1000 == lastTimestamp/1000)
-    {
+    if (lastTimestamp != 0 && time / 1000 == lastTimestamp / 1000) {
       return;
     }
     lastTimestamp = time;
@@ -124,69 +109,58 @@ public class Monitor
     calcNewValues(time);
   }
 
-  private  long newTime()
-  {
+  private long newTime() {
     return Calendar.getInstance().getTimeInMillis();
   }
-  
-  private void setXAxis(long max)
-  {
+
+  private void setXAxis(long max) {
     Axis xAxis = model.getAxis(AxisType.X);
     xAxis.setMax(max);
   }
-  
-  private void calcNewValues(long time)
-  {
-    series.forEach(serie -> serie.calcNewValue(time));    
+
+  private void calcNewValues(long time) {
+    series.forEach(serie -> serie.calcNewValue(time));
     series.forEach(serie -> cleanUpOldData(serie.getData()));
     Optional<Value> maxValue = series
-        .stream()
-        .map(Series::maxValue)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .max(Comparator.naturalOrder());
+            .stream()
+            .map(Series::maxValue)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .max(Comparator.naturalOrder());
     Unit scaleToUnit = scaleUnit(maxValue);
     setYAxisMaxValue(maxValue, scaleToUnit);
     setYAxisUnit(scaleToUnit);
     series.forEach(serie -> serie.scale(scaleToUnit));
   }
 
-  protected Unit scaleUnit(Optional<Value> maxValue)
-  {
-    if (maxValue.isEmpty() || maxValue.get() == Value.NO_VALUE)
-    {
+  protected Unit scaleUnit(Optional<Value> maxValue) {
+    if (maxValue.isEmpty() || maxValue.get() == Value.NO_VALUE) {
       return null;
     }
     long origValue = maxValue.get().longValue();
     long scaleValue = origValue;
     Unit origUnit = maxValue.get().unit();
     Unit scaleUnit = origUnit;
-    do
-    {
+    do {
       Unit unit = scaleUnit.scaleUp();
-      if (unit == null)
-      {
+      if (unit == null) {
         return scaleUnit;
       }
       scaleValue = origUnit.convertTo(origValue, unit);
-      if (scaleValue == 0)
-      {
+      if (scaleValue == 0) {
         return scaleUnit;
       }
       scaleUnit = unit;
     } while (true);
   }
 
-  private void setYAxisMaxValue(Optional<Value> maxValue, Unit scaleToUnit)
-  {
-    if (maxValue.isPresent())
-    {
+  private void setYAxisMaxValue(Optional<Value> maxValue, Unit scaleToUnit) {
+    if (maxValue.isPresent()) {
       Axis yAxis = model.getAxis(AxisType.Y);
       var max = maxValue.get();
       var value = max.doubleValue();
       yAxis.setMin(0);
-      if (scaleToUnit != null)
-      {
+      if (scaleToUnit != null) {
         value = max.unit().convertTo(value, scaleToUnit);
       }
       value = Math.floor((value + 4.0d) / 4.0d * 1.1d);
@@ -195,12 +169,10 @@ public class Monitor
     }
   }
 
-  private void setYAxisUnit(Unit unit)
-  {
+  private void setYAxisUnit(Unit unit) {
     String label = StringUtils.defaultString(info.yAxisLabel, info.name);
     String format = "%2$.3g";
-    if (unit != null && unit.hasSymbol())
-    {
+    if (unit != null && unit.hasSymbol()) {
       label += " " + unit.symbolWithBracesOrEmpty();
       format += " " + unit.symbol();
     }
@@ -210,55 +182,45 @@ public class Monitor
     model.setDatatipFormat(format);
   }
 
-  private void cleanUpOldData(Map<Object, ?> data)
-  {
-    if (data.size() > MAX_DATA)
-    {
+  private void cleanUpOldData(Map<Object, ?> data) {
+    if (data.size() > MAX_DATA) {
       data.remove(data.keySet().iterator().next());
     }
     var keys = data.keySet().iterator();
-    if (keys.hasNext())
-    {
+    if (keys.hasNext()) {
       Axis xAxis = model.getAxis(AxisType.X);
       xAxis.setMin(keys.next());
     }
   }
-  
-  public static Builder build()
-  {
+
+  public static Builder build() {
     return new Builder();
   }
-  
-  public static final class Builder
-  {
+
+  public static final class Builder {
     private MonitorInfo.Builder builder = MonitorInfo.build();
-    
-    public Builder title(String t)
-    {
+
+    public Builder title(String t) {
       builder.title(t);
       return this;
     }
-    
-    public Builder name(String nm)
-    {
+
+    public Builder name(String nm) {
       builder.name(nm);
       return this;
     }
-    
-    public Builder icon(String icn)
-    {
+
+    public Builder icon(String icn) {
       builder.icon(icn);
       return this;
     }
-    
-    public Builder yAxisLabel(String label)
-    {
+
+    public Builder yAxisLabel(String label) {
       builder.yAxisLabel(label);
       return this;
     }
-    
-    public Monitor toMonitor()
-    {
+
+    public Monitor toMonitor() {
       return new Monitor(builder.toInfo());
     }
   }

@@ -15,172 +15,151 @@ import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.application.calendar.WorkingTime;
 import ch.ivyteam.util.date.Weekday;
 
-public class BusinessCalendar
-{
+public class BusinessCalendar {
   private String name;
   private List<String> environments = new ArrayList<>();
   private Weekday firstDayOfWeek;
   private List<TimeDayConfig> workingTimes;
   private List<String> freeDaysOfWeek;
   private List<TimeDayConfig> freeDays;
-  
-  public BusinessCalendar(IBusinessCalendarConfiguration calendarConfig)
-  {
+
+  public BusinessCalendar(IBusinessCalendarConfiguration calendarConfig) {
     this.name = calendarConfig.getName();
     this.firstDayOfWeek = calendarConfig.getFirstDayOfWeek();
 
     this.workingTimes = new ArrayList<>();
     this.freeDaysOfWeek = new ArrayList<>();
     this.freeDays = new ArrayList<>();
-    
+
     addConfigurationsToLists(calendarConfig);
   }
-  
-  private void addConfigurationsToLists(IBusinessCalendarConfiguration calendarConfig)
-  {
+
+  private void addConfigurationsToLists(IBusinessCalendarConfiguration calendarConfig) {
     var calendarName = calendarConfig.getName();
 
-    if(calendarConfig.getParent() != null)
-    {
+    if (calendarConfig.getParent() != null) {
       addConfigurationsToLists(calendarConfig.getParent());
     }
-    
-    freeDays.addAll(calendarConfig.getFreeDaysOfYear().stream().map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
-    freeDays.addAll(calendarConfig.getFreeEasterRelativeDays().stream().map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
-    freeDays.addAll(calendarConfig.getFreeDates().stream().map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
 
-    workingTimes.addAll(calendarConfig.getWorkingTimes().stream().map(time -> new TimeDayConfig(time, calendarName)).collect(Collectors.toList()));
-    freeDaysOfWeek.addAll(calendarConfig.getFreeDaysOfWeek().stream().map(day -> day.getDayOfWeek().getName()).collect(Collectors.toList()));
+    freeDays.addAll(calendarConfig.getFreeDaysOfYear().stream()
+            .map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
+    freeDays.addAll(calendarConfig.getFreeEasterRelativeDays().stream()
+            .map(day -> new TimeDayConfig(day, calendarName)).collect(Collectors.toList()));
+    freeDays.addAll(calendarConfig.getFreeDates().stream().map(day -> new TimeDayConfig(day, calendarName))
+            .collect(Collectors.toList()));
+
+    workingTimes.addAll(calendarConfig.getWorkingTimes().stream()
+            .map(time -> new TimeDayConfig(time, calendarName)).collect(Collectors.toList()));
+    freeDaysOfWeek.addAll(calendarConfig.getFreeDaysOfWeek().stream().map(day -> day.getDayOfWeek().getName())
+            .collect(Collectors.toList()));
   }
-  
-  public void addEnvironment(String environment)
-  {
+
+  public void addEnvironment(String environment) {
     environments.add(environment);
   }
-  
-  public String getEnvironments()
-  {
+
+  public String getEnvironments() {
     return environments.stream().collect(Collectors.joining(", "));
   }
-  
-  public String getName()
-  {
+
+  public String getName() {
     return name;
   }
-  
-  public List<TimeDayConfig> getWorkingTimes()
-  {
+
+  public List<TimeDayConfig> getWorkingTimes() {
     return workingTimes;
   }
-  
-  public List<WeekDay> getWeek()
-  {
+
+  public List<WeekDay> getWeek() {
     var firstDay = DayOfWeek.valueOf(firstDayOfWeek.getName().toUpperCase());
     var days = new ArrayList<WeekDay>();
-    for (var i = 0; i < 7; i++)
-    {
+    for (var i = 0; i < 7; i++) {
       days.add(new WeekDay(firstDay.plus(i)));
     }
     return days;
   }
-  
-  public List<TimeDayConfig> getFreeDays()
-  {
+
+  public List<TimeDayConfig> getFreeDays() {
     return freeDays;
   }
-  
-  public final class WeekDay
-  {
+
+  public final class WeekDay {
     private String dayName;
     private boolean free;
-    
-    public WeekDay(DayOfWeek day)
-    {
+
+    public WeekDay(DayOfWeek day) {
       this.dayName = StringUtils.capitalize(day.name().toLowerCase());
       free = freeDaysOfWeek.contains(dayName);
     }
-    
-    public String getDayName()
-    {
+
+    public String getDayName() {
       return dayName;
     }
-    
-    public boolean isFree()
-    {
+
+    public boolean isFree() {
       return free;
     }
   }
-  
-  public final class TimeDayConfig
-  {
+
+  public final class TimeDayConfig {
     private String desc;
     private String value;
     private String calendarName;
     private String icon;
     private String tooltip;
-    
-    private TimeDayConfig(CalendarListEntry day)
-    {
+
+    private TimeDayConfig(CalendarListEntry day) {
       this.desc = day.getDescription();
       this.value = StringUtils.capitalize(day.getValue());
     }
-    
-    public TimeDayConfig(FreeDayOfYear freeDay, String calendarName)
-    {
+
+    public TimeDayConfig(FreeDayOfYear freeDay, String calendarName) {
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "synchronize-arrow-clock";
       this.tooltip = "Free day (MM-dd) every year";
     }
 
-    public TimeDayConfig(FreeEasterRelativeDay freeDay, String calendarName)
-    {
+    public TimeDayConfig(FreeEasterRelativeDay freeDay, String calendarName) {
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "synchronize-arrow-clock";
       this.tooltip = "Free day relative to easter every year";
     }
 
-    public TimeDayConfig(FreeDate freeDay, String calendarName)
-    {
+    public TimeDayConfig(FreeDate freeDay, String calendarName) {
       this(freeDay);
       this.calendarName = calendarName;
       this.icon = "time-clock-circle";
       this.tooltip = "Free day at fixed date";
     }
-    
-    public TimeDayConfig(WorkingTime time, String calendarName)
-    {
+
+    public TimeDayConfig(WorkingTime time, String calendarName) {
       this(time);
       this.calendarName = calendarName;
       this.icon = "hourglass";
       this.tooltip = "Defined working time";
     }
-    
-    public String getDesc()
-    {
+
+    public String getDesc() {
       return desc;
     }
-    
-    public String getValue()
-    {
+
+    public String getValue() {
       return value;
     }
 
-    public String getCalendarName()
-    {
+    public String getCalendarName() {
       return calendarName;
     }
 
-    public String getIcon()
-    {
+    public String getIcon() {
       return icon;
     }
-    
-    public String getTooltip()
-    {
+
+    public String getTooltip() {
       return tooltip;
     }
   }
-  
+
 }

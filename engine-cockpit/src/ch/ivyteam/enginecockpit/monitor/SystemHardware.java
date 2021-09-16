@@ -13,8 +13,7 @@ import oshi.hardware.HardwareAbstractionLayer;
 
 @ManagedBean
 @RequestScoped
-public class SystemHardware
-{
+public class SystemHardware {
   private static final HardwareAbstractionLayer HARDWARE;
   private static final GlobalMemory MEMORY;
   private static final CentralProcessor PROCESSOR;
@@ -28,17 +27,15 @@ public class SystemHardware
   private final double processorLoad;
   private final int processorPhysicalCount;
 
-  static
-  {
+  static {
     HARDWARE = new SystemInfo().getHardware();
     MEMORY = HARDWARE.getMemory();
     PROCESSOR = HARDWARE.getProcessor();
   }
-  
-  public SystemHardware()
-  {
+
+  public SystemHardware() {
     var diskStores = HARDWARE.getDiskStores();
-    ioWriteTotal = Arrays.stream(diskStores).mapToLong(n -> n.getWriteBytes()).sum(); 
+    ioWriteTotal = Arrays.stream(diskStores).mapToLong(n -> n.getWriteBytes()).sum();
     ioReadTotal = Arrays.stream(diskStores).mapToLong(n -> n.getReadBytes()).sum();
     var networkIFs = HARDWARE.getNetworkIFs();
     networkReceiveTotal = Arrays.stream(networkIFs).mapToLong(n -> n.getBytesRecv()).sum();
@@ -49,55 +46,45 @@ public class SystemHardware
     processorPhysicalCount = PROCESSOR.getPhysicalProcessorCount();
     processorLoad = PROCESSOR.getSystemCpuLoad();
   }
-  
-  static SystemHardware current()
-  {
+
+  static SystemHardware current() {
     FacesContext context = FacesContext.getCurrentInstance();
     return context.getApplication().evaluateExpressionGet(context, "#{systemHardware}", SystemHardware.class);
   }
-  
-  long ioWriteTotal()
-  {
-    return ioWriteTotal; 
+
+  long ioWriteTotal() {
+    return ioWriteTotal;
   }
-  
-  long ioReadTotal()
-  {
+
+  long ioReadTotal() {
     return ioReadTotal;
   }
-  
-  long networkReceiveTotal()
-  {
+
+  long networkReceiveTotal() {
     return networkReceiveTotal;
   }
-  
-  long networkSendTotal()
-  {
+
+  long networkSendTotal() {
     return networkSendTotal;
   }
-  
-  long memoryAvailable()
-  {
+
+  long memoryAvailable() {
     return memoryAvailable;
   }
-  
-  long memoryTotal()
-  {
+
+  long memoryTotal() {
     return memoryTotal;
   }
-  
-  int processorLogicalCount()
-  {
+
+  int processorLogicalCount() {
     return processorLogicalCount;
   }
-  
-  int processorPhysicalCount()
-  {
+
+  int processorPhysicalCount() {
     return processorPhysicalCount;
   }
 
-  double processorLoad()
-  {
+  double processorLoad() {
     return processorLoad;
   }
 }

@@ -23,69 +23,60 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestRoles
-{
-  
+public class WebTestRoles {
+
   private static final String APPLICATION_TAB_VIEW = "#tabs\\:applicationTabView\\:";
-  
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toRoles();
     Tab.switchToTab("test");
   }
 
   @Test
-  void testRolesInTable()
-  {
+  void testRolesInTable() {
     $(Tab.ACITVE_PANEL_CSS + " h1").shouldBe(Condition.text("Roles"));
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(sizeGreaterThan(1));
     $(Tab.ACITVE_PANEL_CSS + " .ui-inputfield").sendKeys("Everybody");
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(1));
   }
-  
+
   @Test
-  void jumpToSyncLog()
-  {
+  void jumpToSyncLog() {
     Tab.switchToTab("test-ad");
     $(getAppTabId() + "syncMoreBtn_menuButton").click();
     $(getAppTabId() + "userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
-            .find(".ui-panel-content").shouldBe(visible);  
+            .find(".ui-panel-content").shouldBe(visible);
   }
-  
+
   @Test
-  void testExpandCollapseTree()
-  {
+  void testExpandCollapseTree() {
     getVisibleTreeNodes().shouldBe(size(3));
     $(getTreeFormId() + "\\:expandAll").shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(4));
     $(getTreeFormId() + "\\:collapseAll").shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
   }
-  
-  private ElementsCollection getVisibleTreeNodes()
-  {
+
+  private ElementsCollection getVisibleTreeNodes() {
     return $(getTreeFormId()).findAll(".ui-treenode-content").filter(visible);
   }
-  
-  private String getTreeFormId()
-  {
+
+  private String getTreeFormId() {
     return APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:treeForm";
   }
-  
-  public static void triggerSync()
-  {
+
+  public static void triggerSync() {
     Tab.switchToTab("test-ad");
     String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("si-is-spinning"));
     $(syncBtnId).findAll("span").first().shouldHave(not(cssClass("si-is-spinning")), Duration.ofSeconds(20));
   }
-  
-  private static String getAppTabId()
-  {
+
+  private static String getAppTabId() {
     return APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:form\\:";
   }
 

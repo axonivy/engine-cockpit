@@ -14,8 +14,7 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 
-public class Webservice implements IService
-{
+public class Webservice implements IService {
   private String name;
   private String genId;
   private String description;
@@ -27,158 +26,136 @@ public class Webservice implements IService
   private boolean passwordChanged;
   private TreeNode portTypes = new DefaultTreeNode("PortTypes", null);
   private Map<String, PortType> portTypeMap = new HashMap<>();
-  
-  public Webservice(WebServiceClient webservice)
-  {
+
+  public Webservice(WebServiceClient webservice) {
     name = webservice.name();
     description = webservice.description();
     wsdlUrl = webservice.wsdlUrl();
-    properties = webservice.properties().entrySet().stream().map(p -> new Property(p.getKey(), p.getValue())).collect(Collectors.toList());
-    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password")).map(p -> p.getValue()).findFirst().orElse("");
-    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username")).map(p -> p.getValue()).findFirst().orElse("");
+    properties = webservice.properties().entrySet().stream().map(p -> new Property(p.getKey(), p.getValue()))
+            .collect(Collectors.toList());
+    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
+            .map(p -> p.getValue()).findFirst().orElse("");
+    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
+            .map(p -> p.getValue()).findFirst().orElse("");
     passwordChanged = false;
     features = webservice.features();
     genId = webservice.id();
-    
+
     webservice.portTypes()
             .forEach(p -> {
               var portType = new DefaultTreeNode(new EndPoint("port", p), portTypes);
               portType.setExpanded(true);
-              webservice.endpoints().get(p).forEach(e -> new DefaultTreeNode(new EndPoint("link", e), portType));
+              webservice.endpoints().get(p)
+                      .forEach(e -> new DefaultTreeNode(new EndPoint("link", e), portType));
             });
     webservice.portTypes().forEach(p -> portTypeMap.put(p, new PortType(p, webservice.endpoints().get(p))));
   }
 
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
 
-  public String getGenId()
-  {
+  public String getGenId() {
     return genId;
   }
-  
-  public String getDescription()
-  {
+
+  public String getDescription() {
     return description;
   }
 
-  public String getWsdlUrl()
-  {
+  public String getWsdlUrl() {
     return wsdlUrl;
   }
-  
-  public String getAuthType()
-  {
+
+  public String getAuthType() {
     return features.stream().filter(f -> StringUtils.contains(f, "AuthenticationFeature"))
             .map(f -> StringUtils.substringBetween(f, "cxf.feature.", "AuthenticationFeature"))
             .findFirst().orElseGet(() -> properties.stream()
                     .filter(p -> StringUtils.equals(p.getName(), "authType"))
                     .map(Property::getValue).findFirst().orElse(""));
   }
-  
-  public String getUsername()
-  {
+
+  public String getUsername() {
     return username;
   }
-  
-  public void setUsername(String username)
-  {
+
+  public void setUsername(String username) {
     this.username = username;
   }
-  
+
   @Override
-  public String getPassword()
-  {
+  public String getPassword() {
     return password;
   }
-  
-  public void setPassword(String password)
-  {
-    if (StringUtils.isNotBlank(password))
-    {
+
+  public void setPassword(String password) {
+    if (StringUtils.isNotBlank(password)) {
       this.password = password;
       passwordChanged = true;
     }
   }
-  
+
   @Override
-  public boolean passwordChanged()
-  {
+  public boolean passwordChanged() {
     return passwordChanged;
   }
 
-  public List<String> getFeatures()
-  {
+  public List<String> getFeatures() {
     return features;
   }
 
-  public List<Property> getProperties()
-  {
+  public List<Property> getProperties() {
     return properties;
   }
-  
-  public TreeNode getPortTypes()
-  {
+
+  public TreeNode getPortTypes() {
     return portTypes;
   }
-  
-  public Map<String, PortType> getPortTypeMap()
-  {
+
+  public Map<String, PortType> getPortTypeMap() {
     return portTypeMap;
   }
-  
-  public String getEndpoints()
-  {
+
+  public String getEndpoints() {
     return getPortTypeMap().values().stream().map(pt -> pt.getDefault()).collect(Collectors.joining(", "));
   }
-  
-  public static class EndPoint
-  {
+
+  public static class EndPoint {
     private String type;
     private String name;
 
-    public EndPoint(String type, String name)
-    {
+    public EndPoint(String type, String name) {
       this.type = type;
       this.name = name;
     }
-    
-    public String getType()
-    {
+
+    public String getType() {
       return type;
     }
-    
-    public String getName()
-    {
+
+    public String getName() {
       return name;
     }
   }
-  
-  public static class PortType
-  {
+
+  public static class PortType {
     private String name;
     private String defaultLink = "";
     private String fallbacks = "";
-    
-    public PortType(String name, List<String> links)
-    {
+
+    public PortType(String name, List<String> links) {
       this.name = name;
-      if (!links.isEmpty())
-      {
+      if (!links.isEmpty()) {
         this.defaultLink = links.get(0);
         this.fallbacks = links.stream().skip(1).collect(Collectors.joining("\n"));
       }
     }
-    
-    public String getName()
-    {
+
+    public String getName() {
       return name;
     }
-    
-    public List<String> getLinks()
-    {
+
+    public List<String> getLinks() {
       var links = new ArrayList<String>();
       links.add(defaultLink);
       Arrays.stream(StringUtils.split(fallbacks, "\n"))
@@ -186,26 +163,22 @@ public class Webservice implements IService
               .forEach(link -> links.add(link));
       return links;
     }
-    
-    public String getDefault()
-    {
+
+    public String getDefault() {
       return defaultLink;
     }
-    
-    public void setDefault(String defaultLink)
-    {
+
+    public void setDefault(String defaultLink) {
       this.defaultLink = defaultLink;
     }
-    
-    public String getFallbacks()
-    {
+
+    public String getFallbacks() {
       return fallbacks;
     }
-    
-    public void setFallbacks(String input)
-    {
+
+    public void setFallbacks(String input) {
       this.fallbacks = input;
     }
   }
-  
+
 }

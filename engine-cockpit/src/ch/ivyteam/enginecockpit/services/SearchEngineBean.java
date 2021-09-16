@@ -21,8 +21,7 @@ import ch.ivyteam.ivy.business.data.store.search.restricted.elasticsearch.server
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SearchEngineBean
-{
+public class SearchEngineBean {
   private IBusinessDataManager searchEngine = IBusinessDataManager.instance();
   private ServerConfig serverConfig = ServerConfig.instance();
 
@@ -37,8 +36,7 @@ public class SearchEngineBean
   private String query;
   private String queryResult;
 
-  public SearchEngineBean()
-  {
+  public SearchEngineBean() {
     elasticSearch = new ElasticSearch(serverConfig.getServerUrl(),
             searchEngine.getBusinessDataInfo());
     indices = searchEngine.getBusinessDataIndicesInfo().stream()
@@ -47,79 +45,64 @@ public class SearchEngineBean
             .collect(Collectors.toList());
   }
 
-  public List<SearchEngineIndex> getFilteredIndicies()
-  {
+  public List<SearchEngineIndex> getFilteredIndicies() {
     return filteredIndices;
   }
 
-  public void setFilteredIndicies(List<SearchEngineIndex> filteredIndices)
-  {
+  public void setFilteredIndicies(List<SearchEngineIndex> filteredIndices) {
     this.filteredIndices = filteredIndices;
   }
 
-  public String getFilter()
-  {
+  public String getFilter() {
     return filter;
   }
 
-  public void setFilter(String filter)
-  {
+  public void setFilter(String filter) {
     this.filter = filter;
   }
 
-  public ElasticSearch getElasticSearch()
-  {
+  public ElasticSearch getElasticSearch() {
     return elasticSearch;
   }
 
-  public boolean getState()
-  {
+  public boolean getState() {
     return elasticSearch.getHealth() != SearchEngineHealth.UNKNOWN;
   }
 
-  public List<SearchEngineIndex> getIndices()
-  {
+  public List<SearchEngineIndex> getIndices() {
     return indices;
   }
 
-  public void setActiveIndex(SearchEngineIndex index)
-  {
+  public void setActiveIndex(SearchEngineIndex index) {
     this.activeIndex = index;
     this.query = "";
     this.queryResult = "";
   }
 
-  public SearchEngineIndex getActiveIndex()
-  {
+  public SearchEngineIndex getActiveIndex() {
     return activeIndex;
   }
 
-  public String getQueryUrl()
-  {
-    if (activeIndex != null)
-    {
+  public String getQueryUrl() {
+    if (activeIndex != null) {
       return elasticSearch.getServerUrl() + "/" + activeIndex.getName();
     }
     return elasticSearch.getServerUrl();
   }
 
-  public String getQuery()
-  {
+  public String getQuery() {
     return query;
   }
 
-  public void setQuery(String query)
-  {
+  public void setQuery(String query) {
     this.query = query;
   }
 
-  public String getQueryResult()
-  {
+  public String getQueryResult() {
     return queryResult;
   }
 
-  public List<String> queryProposals(String value)
-  {
+  public List<String> queryProposals(String value) {
     return getQueryApis().stream()
             .map(api -> StringUtils.removeStart(api, "/"))
             .filter(api -> StringUtils.startsWith(api, value))
@@ -127,10 +110,8 @@ public class SearchEngineBean
             .collect(Collectors.toList());
   }
 
-  private List<String> getQueryApis()
-  {
-    if (activeIndex == null)
-    {
+  private List<String> getQueryApis() {
+    if (activeIndex == null) {
       return Arrays.asList(ElasticSearch.ElasticSearchApi.ALIASES_URL,
               ElasticSearch.ElasticSearchApi.HEALTH_URL,
               ElasticSearch.ElasticSearchApi.INDICIES_URL);
@@ -138,45 +119,34 @@ public class SearchEngineBean
     return Arrays.asList(ElasticSearch.ElasticSearchIndexApi.MAPPING_URL);
   }
 
-  public void runQuery()
-  {
-    try
-    {
+  public void runQuery() {
+    try {
       elasticSearch.executeRequest(getQueryUrl() + "/" + getQuery())
               .ifPresent(result -> queryResult = tryToBeutifyQueryResult(result));
 
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       queryResult = ex.getMessage();
     }
   }
 
-  private String tryToBeutifyQueryResult(String result)
-  {
-    try
-    {
+  private String tryToBeutifyQueryResult(String result) {
+    try {
       var gson = new GsonBuilder().setPrettyPrinting().create();
       return gson.toJson(JsonParser.parseString(result));
-    }
-    catch (Exception e)
-    {
+    } catch (Exception e) {
       return result;
     }
   }
 
-  public void reindex()
-  {
+  public void reindex() {
     searchEngine.reindex(activeIndex.getIndexName());
   }
 
-  public boolean isReindexing()
-  {
+  public boolean isReindexing() {
     return searchEngine.isReindexing();
   }
 
-  public boolean isReindexing(SearchEngineIndex index)
-  {
+  public boolean isReindexing(SearchEngineIndex index) {
     return searchEngine.isReindexing(index.getIndexName());
   }
 }

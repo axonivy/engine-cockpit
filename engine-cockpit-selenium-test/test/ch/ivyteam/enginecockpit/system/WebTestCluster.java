@@ -16,25 +16,22 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestCluster
-{
-  
+public class WebTestCluster {
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toCluster();
   }
-  
+
   @Test
-  void testCluster()
-  {
+  void testCluster() {
     $("h1").shouldBe(text("Cluster"));
     new Table(By.className("ui-datatable"), true).firstColumnShouldBe(sizeGreaterThan(0));
-    
+
     $("#clusterNodeDialog").shouldNotBe(visible);
     $("#card\\:form\\:clusterTable\\:0\\:clusterNode").click();
     $("#clusterNodeDialog").shouldBe(visible);
   }
-  
+
 }

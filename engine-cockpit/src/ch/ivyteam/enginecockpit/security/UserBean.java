@@ -9,35 +9,32 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 
 @ManagedBean
 @ViewScoped
-public class UserBean
-{
+public class UserBean {
   private UserDataModel userDataModel;
   private ManagerBean managerBean;
 
-  public UserBean()
-  {
+  public UserBean() {
     var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
+            ManagerBean.class);
     userDataModel = new UserDataModel();
     reloadUsers();
   }
 
-  public void reloadUsers()
-  {
+  public void reloadUsers() {
     var app = managerBean.getSelectedIApplication();
     userDataModel.setApp(app);
     userDataModel.setFilter("");
     userDataModel.loadContentFilters(managerBean.isIvySecuritySystem());
   }
 
-  public UserDataModel getUserDataModel()
-  {
+  public UserDataModel getUserDataModel() {
     return userDataModel;
   }
 
-  public String getUserCount()
-  {
-    return managerBean.formatNumber(managerBean.getSelectedIApplication().getSecurityContext().users().count());
+  public String getUserCount() {
+    return managerBean
+            .formatNumber(managerBean.getSelectedIApplication().getSecurityContext().users().count());
   }
 
 }

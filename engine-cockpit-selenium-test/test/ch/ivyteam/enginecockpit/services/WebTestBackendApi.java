@@ -21,37 +21,34 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestBackendApi
-{
-  
+public class WebTestBackendApi {
+
   private static final String APP = "test";
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toApplicationDetail(APP);
     Navigation.toBackendApi();
   }
-  
+
   @Test
-  void restSwaggerUi()
-  {
+  void restSwaggerUi() {
     Selenide.switchTo().frame("apiBrowser");
     $("#select").shouldBe(visible, value(APP));
     $$(".opblock-summary").shouldBe(size(1)).first().shouldHave(text("PUT"), text("/test/renewLicense"));
-    
+
     Selenide.switchTo().defaultContent();
     $("#restApiForm\\:configRestBackend").shouldBe(visible).click();
     var configs = new Table(By.id("config:form:configTable"));
     configs.firstColumnShouldBe(CollectionCondition.size(5));
   }
-  
+
   @Test
-  void webServices()
-  {
-    //Service is temporary removed from the engine-cockpit-test-data project, as this will cause another test to fail because of the bug XIVY-5040
-    //$$("#webServicesTable_data tr a").shouldBe(size(1));
+  void webServices() {
+    // Service is temporary removed from the engine-cockpit-test-data project,
+    // as this will cause another test to fail because of the bug XIVY-5040
+    // $$("#webServicesTable_data tr a").shouldBe(size(1));
     var appSwitch = PrimeUi.selectOne(By.id("appSwitch:appSelect"));
     appSwitch.selectedItemShould(text(APP));
     appSwitch.selectItemByLabel("test-ad");

@@ -23,8 +23,7 @@ import ch.ivyteam.naming.JndiConfig;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SecurityConfigDetailBean
-{
+public class SecurityConfigDetailBean {
   private String name;
   private ManagerBean managerBean;
   private List<String> usedByApps;
@@ -52,36 +51,30 @@ public class SecurityConfigDetailBean
   private String ldapBrowserTarget;
   private ExternalSecuritySystemConfiguration securityConfiguration;
 
-  public SecurityConfigDetailBean()
-  {
+  public SecurityConfigDetailBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
   }
 
-  public SecurityConfigDetailBean(String secSystemName)
-  {
+  public SecurityConfigDetailBean(String secSystemName) {
     this();
     setSecuritySystemName(secSystemName);
   }
 
-  public String getSecuritySystemName()
-  {
+  public String getSecuritySystemName() {
     return name;
   }
 
-  public void setSecuritySystemName(String secSystemName)
-  {
-    if (StringUtils.isBlank(name))
-    {
+  public void setSecuritySystemName(String secSystemName) {
+    if (StringUtils.isBlank(name)) {
       name = secSystemName;
       securityConfiguration = new ExternalSecuritySystemConfiguration(name);
       loadSecuritySystem();
     }
   }
 
-  private void loadSecuritySystem()
-  {
+  private void loadSecuritySystem() {
     usedByApps = managerBean.getApplications().stream()
             .filter(app -> StringUtils.equals(app.getSecuritySystemName(), name))
             .map(app -> app.getName())
@@ -115,255 +108,217 @@ public class SecurityConfigDetailBean
     ldapBrowser = new LdapBrowser();
   }
 
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
 
-  public void setName(String name)
-  {
+  public void setName(String name) {
     this.name = name;
   }
 
-  public List<String> getUsedByApps()
-  {
+  public List<String> getUsedByApps() {
     return usedByApps;
   }
 
-  public String getProvider()
-  {
+  public String getProvider() {
     return provider;
   }
 
-  public void setProvider(String provider)
-  {
+  public void setProvider(String provider) {
     this.provider = provider;
   }
 
-  public String getUrl()
-  {
+  public String getUrl() {
     return url;
   }
 
-  public void setUrl(String url)
-  {
+  public void setUrl(String url) {
     this.url = url;
   }
 
-  public String getUserName()
-  {
+  public String getUserName() {
     return userName;
   }
 
-  public void setUserName(String userName)
-  {
+  public void setUserName(String userName) {
     this.userName = userName;
   }
 
-  public String getPassword()
-  {
+  public String getPassword() {
     return password;
   }
 
-  public void setPassword(String password)
-  {
-    if (StringUtils.isAllEmpty(password))
-    {
+  public void setPassword(String password) {
+    if (StringUtils.isAllEmpty(password)) {
       return;
     }
     this.password = password;
   }
 
-  public boolean getUseLdapConnectionPool()
-  {
+  public boolean getUseLdapConnectionPool() {
     return useLdapConnectionPool;
   }
 
-  public void setUseLdapConnectionPool(boolean useLdapConnectionPool)
-  {
+  public void setUseLdapConnectionPool(boolean useLdapConnectionPool) {
     this.useLdapConnectionPool = useLdapConnectionPool;
   }
 
-  private boolean getInitBooleanValue(String key, boolean defaultValue)
-  {
+  private boolean getInitBooleanValue(String key, boolean defaultValue) {
     var connectionPool = getConfiguration(key);
-    if (StringUtils.isBlank(connectionPool))
-    {
+    if (StringUtils.isBlank(connectionPool)) {
       return defaultValue;
     }
     return Boolean.parseBoolean(connectionPool);
   }
 
-  private Object getSaveBooleanValue(boolean value, boolean defaultValue)
-  {
-    if (value == defaultValue)
-    {
+  private Object getSaveBooleanValue(boolean value, boolean defaultValue) {
+    if (value == defaultValue) {
       return "";
     }
     return value;
   }
 
-  public String getDerefAlias()
-  {
+  public String getDerefAlias() {
     return derefAlias;
   }
 
-  public void setDerefAlias(String derefAlias)
-  {
+  public void setDerefAlias(String derefAlias) {
     this.derefAlias = derefAlias;
   }
 
-  public boolean getSsl()
-  {
+  public boolean getSsl() {
     return ssl;
   }
 
-  public void setSsl(boolean ssl)
-  {
+  public void setSsl(boolean ssl) {
     this.ssl = ssl;
   }
 
-  public boolean getEnableInsecureSsl()
-  {
+  public boolean getEnableInsecureSsl() {
     return enableInsecureSsl;
   }
 
-  public void setEnableInsecureSsl(boolean enableInsecureSsl)
-  {
+  public void setEnableInsecureSsl(boolean enableInsecureSsl) {
     this.enableInsecureSsl = enableInsecureSsl;
   }
 
-  public String getReferral()
-  {
+  public String getReferral() {
     return referral;
   }
 
-  public void setReferral(String referral)
-  {
+  public void setReferral(String referral) {
     this.referral = referral;
   }
 
-  public String getDefaultContext()
-  {
+  public String getDefaultContext() {
     return defaultContext;
   }
 
-  public void setDefaultContext(String defaultContext)
-  {
+  public void setDefaultContext(String defaultContext) {
     this.defaultContext = defaultContext;
   }
 
-  public String getImportUsersOfGroup()
-  {
+  public String getImportUsersOfGroup() {
     return importUsersOfGroup;
   }
 
-  public void setImportUsersOfGroup(String importUsersOfGroup)
-  {
+  public void setImportUsersOfGroup(String importUsersOfGroup) {
     this.importUsersOfGroup = importUsersOfGroup;
   }
 
-  public String getUserFilter()
-  {
+  public String getUserFilter() {
     return userFilter;
   }
 
-  public void setUserFilter(String userFilter)
-  {
+  public void setUserFilter(String userFilter) {
     this.userFilter = userFilter;
   }
 
-  public String getUpdateTime()
-  {
+  public String getUpdateTime() {
     return updateTime;
   }
 
-  public void setUpdateTime(String updateTime)
-  {
+  public void setUpdateTime(String updateTime) {
     this.updateTime = updateTime;
   }
 
-  public boolean isImportOnDemand()
-  {
+  public boolean isImportOnDemand() {
     return importOnDemand;
   }
 
-  public void setImportOnDemand(boolean importOnDemand)
-  {
+  public void setImportOnDemand(boolean importOnDemand) {
     this.importOnDemand = importOnDemand;
   }
 
-  public boolean isUpdateEnabled()
-  {
+  public boolean isUpdateEnabled() {
     return updateEnabled;
   }
 
-  public void setUpdateEnabled(boolean updateEnabled)
-  {
+  public void setUpdateEnabled(boolean updateEnabled) {
     this.updateEnabled = updateEnabled;
   }
 
-
-  public List<String> getDerefAliases()
-  {
+  public List<String> getDerefAliases() {
     return derefAliases;
   }
 
-  public List<String> getReferrals()
-  {
+  public List<String> getReferrals() {
     return referrals;
   }
 
-  public List<String> getProtocols()
-  {
+  public List<String> getProtocols() {
     return protocols;
   }
 
-  public void saveConfiguration()
-  {
-    if (!validateUpdateTime())
-    {
+  public void saveConfiguration() {
+    if (!validateUpdateTime()) {
       return;
     }
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
     setConfiguration(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL,
-            getSaveBooleanValue(this.useLdapConnectionPool, securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL)));
+            getSaveBooleanValue(this.useLdapConnectionPool, securityConfiguration
+                    .getDefaultBooleanValue(ConfigKey.CONNECTION_USE_LDAP_CONNECTION_POOL)));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES,
-            StringUtils.equals(this.derefAlias, securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES)) ? "" : this.derefAlias);
+            StringUtils.equals(this.derefAlias,
+                    securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES)) ? ""
+                            : this.derefAlias);
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_PROTOCOL, this.ssl ? "ssl" : "");
     setConfiguration(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL,
-            getSaveBooleanValue(this.enableInsecureSsl, securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL)));
+            getSaveBooleanValue(this.enableInsecureSsl,
+                    securityConfiguration.getDefaultBooleanValue(ConfigKey.CONNECTION_ENABLE_INSECURE_SSL)));
     setConfiguration(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL,
-            StringUtils.equals(this.referral, securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? "" : this.referral);
+            StringUtils.equals(this.referral,
+                    securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? ""
+                            : this.referral);
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
     setConfiguration(ConfigKey.IMPORT_ONDEMAND,
-            getSaveBooleanValue(this.importOnDemand, securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
+            getSaveBooleanValue(this.importOnDemand,
+                    securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
     setConfiguration(ConfigKey.UPDATE_ENABLED,
-            getSaveBooleanValue(this.updateEnabled, securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED)));
+            getSaveBooleanValue(this.updateEnabled,
+                    securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED)));
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
             new FacesMessage("Security System configuration saved"));
   }
 
-  private boolean validateUpdateTime()
-  {
-    if (StringUtils.isEmpty(updateTime))
-    {
+  private boolean validateUpdateTime() {
+    if (StringUtils.isEmpty(updateTime)) {
       return true;
     }
     final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
     if (!pattern.matcher(this.updateTime).matches()) {
       FacesContext.getCurrentInstance().addMessage("syncTime",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Please check that synchronization Time is max '23:59'"));
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+                      "Please check that synchronization Time is max '23:59'"));
       return false;
     }
     return true;
   }
 
-  public void saveBinding()
-  {
+  public void saveBinding() {
     setConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT, this.defaultContext);
     setConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP, this.importUsersOfGroup);
     setConfiguration(ConfigKey.BINDING_USER_FILTER, this.userFilter);
@@ -371,24 +326,20 @@ public class SecurityConfigDetailBean
             new FacesMessage("Security System binding saved"));
   }
 
-  private String getConfiguration(String key)
-  {
+  private String getConfiguration(String key) {
     return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getPrefix(name) + key);
   }
 
-  public void setConfiguration(String key, Object value)
-  {
+  public void setConfiguration(String key, Object value) {
     SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(name) + key, value);
   }
 
-  public String deleteConfiguration()
-  {
+  public String deleteConfiguration() {
     IConfiguration.instance().remove(SecuritySystemConfig.getPrefix(name));
     return "securitysystem.xhtml?faces-redirect=true";
   }
 
-  public LdapBrowser getLdapBrowser()
-  {
+  public LdapBrowser getLdapBrowser() {
     return ldapBrowser;
   }
 
@@ -402,20 +353,16 @@ public class SecurityConfigDetailBean
     ldapBrowser.browse(getJndiConfig(getDefaultContext()), enableInsecureSsl, importUsersOfGroup);
   }
 
-  public void chooseLdapName()
-  {
-    if (LdapBrowser.DEFAULT_CONTEXT.equals(ldapBrowserTarget))
-    {
+  public void chooseLdapName() {
+    if (LdapBrowser.DEFAULT_CONTEXT.equals(ldapBrowserTarget)) {
       setDefaultContext(ldapBrowser.getSelectedLdapName());
     }
-    if (LdapBrowser.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget))
-    {
+    if (LdapBrowser.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget)) {
       setImportUsersOfGroup(ldapBrowser.getSelectedLdapName());
     }
   }
 
-  public JndiConfig getJndiConfig(String browseDefaultContext)
-  {
+  public JndiConfig getJndiConfig(String browseDefaultContext) {
     return JndiConfigBuilder.create(getSecuritySystemName())
             .url(url)
             .user(userName)

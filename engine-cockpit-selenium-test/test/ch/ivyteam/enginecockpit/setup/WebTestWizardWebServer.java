@@ -11,26 +11,22 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.system.WebTestWebServer;
 
 @IvyWebTest
-public class WebTestWizardWebServer
-{
-  
+public class WebTestWizardWebServer {
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     WebTestWizard.navigateToStep("Web Server");
   }
-  
+
   @AfterEach
-  void afterEach()
-  {
+  void afterEach() {
     resetConfig();
   }
-  
+
   @Test
-  void testWebServerStep()
-  {
+  void testWebServerStep() {
     WebTestWizard.activeStepShouldBeOk();
-    WebTestWebServer.assertConnectorSettings();    
+    WebTestWebServer.assertConnectorSettings();
     WebTestWebServer.disableHttpConnectors();
     WebTestWizard.activeStepShouldHaveWarnings();
     WebTestWebServer.enableHttpsConnector();

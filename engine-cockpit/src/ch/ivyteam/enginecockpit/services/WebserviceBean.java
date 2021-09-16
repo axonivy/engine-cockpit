@@ -13,52 +13,45 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
-public class WebserviceBean
-{
+public class WebserviceBean {
   private List<Webservice> webservices;
   private List<Webservice> filteredWebservices;
   private String filter;
 
   private ManagerBean managerBean;
 
-  public WebserviceBean()
-  {
+  public WebserviceBean() {
     var context = FacesContext.getCurrentInstance();
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     reloadWebservices();
   }
 
-  public void reloadWebservices()
-  {
-    webservices = WebServiceClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
+  public void reloadWebservices() {
+    webservices = WebServiceClients
+            .of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
             .all().stream()
             .map(web -> new Webservice(web))
             .collect(Collectors.toList());
   }
 
-  public List<Webservice> getWebservices()
-  {
+  public List<Webservice> getWebservices() {
     return webservices;
   }
 
-  public List<Webservice> getFilteredWebservices()
-  {
+  public List<Webservice> getFilteredWebservices() {
     return filteredWebservices;
   }
 
-  public void setFilteredWebservices(List<Webservice> filteredWebservices)
-  {
+  public void setFilteredWebservices(List<Webservice> filteredWebservices) {
     this.filteredWebservices = filteredWebservices;
   }
 
-  public String getFilter()
-  {
+  public String getFilter() {
     return filter;
   }
 
-  public void setFilter(String filter)
-  {
+  public void setFilter(String filter) {
     this.filter = filter;
   }
 

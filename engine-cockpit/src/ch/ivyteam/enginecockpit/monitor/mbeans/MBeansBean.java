@@ -25,112 +25,92 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean(name="mBeansBean")
+@ManagedBean(name = "mBeansBean")
 @ViewScoped
-public class MBeansBean
-{
+public class MBeansBean {
   private final MBeanTreeNode root;
   private List<MAttribute> attributes = Collections.emptyList();
   private MName selected;
   private final MTraceMonitor monitor = new MTraceMonitor();
-  
-  public MBeansBean()
-  {
+
+  public MBeansBean() {
     MBeanServer server = ManagementFactory.getPlatformMBeanServer();
     Set<ObjectName> beanNames = server.queryNames(null, null);
     Set<MName> names = beanNames
-        .stream()
-        .map(beanName -> new MName(beanName))
-        .collect(Collectors.toSet());
+            .stream()
+            .map(beanName -> new MName(beanName))
+            .collect(Collectors.toSet());
     root = new MBeanTreeNode(MName.ROOT, names);
   }
-  
-  public TreeNode getRoot()
-  {
+
+  public TreeNode getRoot() {
     return root;
   }
-  
-  public void addTrace(MAttribute attribute)
-  {
-    if (attribute.isComposite())
-    {
+
+  public void addTrace(MAttribute attribute) {
+    if (attribute.isComposite()) {
       attribute.getCompositeNames().forEach(name -> addTrace(attribute, name));
-    }
-    else
-    {
+    } else {
       var trace = new MTrace(selected, attribute);
       monitor.addTrace(trace);
     }
   }
-  
-  private void addTrace(MAttribute attribute, String compositeName)
-  {
+
+  private void addTrace(MAttribute attribute, String compositeName) {
     var trace = new MTrace(selected, attribute, compositeName);
     monitor.addTrace(trace);
   }
 
-  public void removeTrace(MTrace trace)
-  {
+  public void removeTrace(MTrace trace) {
     monitor.removeTrace(trace);
   }
-  
-  public Monitor getTracesMonitor()
-  {
+
+  public Monitor getTracesMonitor() {
     return monitor;
   }
-  
-  public List<MTrace> getTraces()
-  {
+
+  public List<MTrace> getTraces() {
     return monitor.getTraces();
   }
-  
-  public List<MAttribute> getAttributes() 
-  {
-    if (selected != null)
-    {
+
+  public List<MAttribute> getAttributes() {
+    if (selected != null) {
       MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-      try
-      {
+      try {
         MBeanInfo info = server.getMBeanInfo(selected.getObjectName());
         MBeanAttributeInfo[] attributeInfos = info.getAttributes();
         String[] attributeNames = Arrays
-            .stream(attributeInfos)
-            .map(MBeanAttributeInfo::getName)
-            .toArray(String[]::new);
+                .stream(attributeInfos)
+                .map(MBeanAttributeInfo::getName)
+                .toArray(String[]::new);
         attributes = server.getAttributes(selected.getObjectName(), attributeNames)
                 .asList()
                 .stream()
                 .map(attr -> createAttribute(attr, attributeInfos))
                 .sorted()
                 .collect(Collectors.toList());
-      }
-      catch(InstanceNotFoundException | ReflectionException | IntrospectionException ex)
-      {
-        Ivy.log().error("Could not get attributes of MBean "+selected.getObjectName(), ex);
+      } catch (InstanceNotFoundException | ReflectionException | IntrospectionException ex) {
+        Ivy.log().error("Could not get attributes of MBean " + selected.getObjectName(), ex);
       }
     }
     return attributes;
   }
-  
-  private MAttribute createAttribute(Attribute attribute, MBeanAttributeInfo[] infos)
-  {
+
+  private MAttribute createAttribute(Attribute attribute, MBeanAttributeInfo[] infos) {
     MBeanAttributeInfo info = Arrays
-        .stream(infos)
-        .filter(inf -> Objects.equals(inf.getName(), attribute.getName()))
-        .findAny()
-        .orElseThrow(()->new IllegalArgumentException("Attribute info for attribute "+attribute.getName()+" not found")); 
+            .stream(infos)
+            .filter(inf -> Objects.equals(inf.getName(), attribute.getName()))
+            .findAny()
+            .orElseThrow(() -> new IllegalArgumentException(
+                    "Attribute info for attribute " + attribute.getName() + " not found"));
     return new MAttribute(attribute, info);
   }
-  
-  public void onSelectNode(NodeSelectEvent event)
-  {
+
+  public void onSelectNode(NodeSelectEvent event) {
     TreeNode node = event.getTreeNode();
-    if ("bean".equals(node.getType()))
-    {
-      selected = (MName)node.getData();
-    }
-    else
-    {
+    if ("bean".equals(node.getType())) {
+      selected = (MName) node.getData();
+    } else {
       selected = null;
     }
   }

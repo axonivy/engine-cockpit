@@ -3,8 +3,7 @@ package ch.ivyteam.enginecockpit.fileupload;
 import java.io.InputStream;
 import java.util.Map;
 
-public class HttpFile
-{
+public class HttpFile {
   private final String name;
   private final String submittedFileName;
   private final long size;
@@ -12,8 +11,7 @@ public class HttpFile
   private final InputStream stream;
 
   public HttpFile(String name, String submittedFileName, long size, Map<String, String> parameters,
-          InputStream stream)
-  {
+          InputStream stream) {
     this.name = name;
     this.submittedFileName = submittedFileName;
     this.size = size;
@@ -21,28 +19,23 @@ public class HttpFile
     this.stream = stream;
   }
 
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
 
-  public String getSubmittedFileName()
-  {
+  public String getSubmittedFileName() {
     return submittedFileName;
   }
 
-  public long getSize()
-  {
+  public long getSize() {
     return size;
   }
 
-  public Map<String, String> getParameters()
-  {
+  public Map<String, String> getParameters() {
     return parameters;
   }
 
-  public InputStream getStream()
-  {
+  public InputStream getStream() {
     return stream;
   }
 }

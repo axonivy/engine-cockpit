@@ -26,14 +26,12 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestLicence
-{
+public class WebTestLicence {
 
   private static final String SESSION_USER = "foo";
 
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toLicence();
     $("#selectedFileOutput").shouldHave(text(".lic"));
@@ -41,30 +39,26 @@ public class WebTestLicence
   }
 
   @Test
-  public void testLicenceUploadInvalidFileEnding() throws IOException
-  {
+  public void testLicenceUploadInvalidFileEnding() throws IOException {
     Path createTempFile = Files.createTempFile("licence", ".txt");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#uploadStatus").shouldBe(empty);
   }
 
   @Test
-  public void testLicenceUploadInvalidLicence() throws IOException
-  {
+  public void testLicenceUploadInvalidLicence() throws IOException {
     Path createTempFile = Files.createTempFile("licence", ".lic");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
   }
 
   @Test
-  void liveStats()
-  {
+  void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Sessions"));
   }
 
   @Test
-  void killSession()
-  {
+  void killSession() {
     openAnotherSession();
     $("#layout-config-button").shouldBe(visible).click();
     var table = new Table(By.cssSelector("#layout-config .ui-datatable"));
@@ -74,8 +68,7 @@ public class WebTestLicence
     assertOtherSession();
   }
 
-  private void openAnotherSession()
-  {
+  private void openAnotherSession() {
     $("#breadcrumbOptions a").shouldBe(visible).click();
     Selenide.switchTo().window(1);
     Selenide.open(EngineUrl.create().app("test").path("login").toUrl());
@@ -87,8 +80,7 @@ public class WebTestLicence
     Selenide.switchTo().window(0);
   }
 
-  private void assertOtherSession()
-  {
+  private void assertOtherSession() {
     Selenide.switchTo().window(1);
     Selenide.refresh();
     $("#sessionUserName").shouldHave(text("Unknown User"));

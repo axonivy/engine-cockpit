@@ -37,37 +37,32 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebDocuScreenshot
-{
+public class WebDocuScreenshot {
 
   private static final int SCREENSHOT_WIDTH = 1500;
   private static final int SCREENSHOT_SETUP_WIDTH = 1200;
-  
+
   @BeforeAll
-  static void setup()
-  {
+  static void setup() {
     EngineCockpitUtil.populateBusinessCalendar();
     EngineCockpitUtil.runExternalDbQuery();
     EngineCockpitUtil.createBusinessData();
     EngineCockpitUtil.addSystemAdmin();
   }
-  
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     Configuration.reportsFolder = "target/docu/screenshots/";
     Configuration.savePageSource = false;
   }
-  
+
   @AfterAll
-  static void cleanUp()
-  {
+  static void cleanUp() {
     EngineCockpitUtil.resetConfig();
   }
 
   @Test
-  void docuScreeshot()
-  {
+  void docuScreeshot() {
     login();
     takeScreenshot("engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
     takeDialogScreenshot("engine-cockpit-dialog-test-mail", By.id("mailConfigForm:openTestMailBtn"));
@@ -78,14 +73,16 @@ public class WebDocuScreenshot
     takeScreenshot("engine-cockpit-pmv-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
     Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
     takeScreenshot("engine-cockpit-application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
-    takeDialogScreenshot("engine-cockpit-dialog-change-security", By.id("appDetailSecurityForm:changeSecuritySystem"));
+    takeDialogScreenshot("engine-cockpit-dialog-change-security",
+            By.id("appDetailSecurityForm:changeSecuritySystem"));
     takeDialogScreenshot("engine-cockpit-dialog-deploy-app", By.id("appDetailInfoForm:showDeployment"));
     Navigation.toSecuritySystem();
     takeScreenshot("engine-cockpit-security-system", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("engine-cockpit-dialog-new-security", By.id("card:form:createSecuritySystemBtn"));
     Navigation.toSecuritySystemDetail("test-ad");
     takeScreenshot("engine-cockpit-security-system-detail", new Dimension(SCREENSHOT_WIDTH, 900));
-    takeDialogScreenshot("engine-cockpit-dialog-ldap-browser", By.id("securitySystemBindingForm:browseDefaultContext"));
+    takeDialogScreenshot("engine-cockpit-dialog-ldap-browser",
+            By.id("securitySystemBindingForm:browseDefaultContext"));
     Navigation.toUsers();
     takeScreenshot("engine-cockpit-users", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toUserDetail("foo");
@@ -99,7 +96,8 @@ public class WebDocuScreenshot
     Navigation.toBusinessCalendar();
     takeScreenshot("engine-cockpit-configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendarDetail("Luzern");
-    takeScreenshot("engine-cockpit-configuration-businesscalendar-detail", new Dimension(SCREENSHOT_WIDTH, 550));
+    takeScreenshot("engine-cockpit-configuration-businesscalendar-detail",
+            new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toSearchEngine();
     takeScreenshot("engine-cockpit-search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toEmail();
@@ -140,13 +138,13 @@ public class WebDocuScreenshot
     takeScreenshot("engine-cockpit-monitor-os", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toCache();
     takeScreenshot("engine-cockpit-monitor-cache", new Dimension(SCREENSHOT_WIDTH, 1000));
-    
+
     login("setup-intro.xhtml");
     takeScreenshot("engine-cockpit-setup-intro", new Dimension(SCREENSHOT_SETUP_WIDTH, 600));
-    
+
     login("migrate.xhtml");
     takeScreenshot("engine-cockpit-migrate", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
-    
+
     WebTestWizard.navigateToStep("Licence");
     takeScreenshot("engine-cockpit-setup-licence", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizard.navigateToStep("Administrators");
@@ -160,55 +158,47 @@ public class WebDocuScreenshot
     takeDialogScreenshot("engine-cockpit-dialog-setup-finish", By.id("finishWizard"));
   }
 
-  private void takeDialogScreenshot(String screenshotName)
-  {
+  private void takeDialogScreenshot(String screenshotName) {
     SelenideElement dialog = $$(".ui-dialog").find(visible);
     Rectangle dialogRect = dialog.getRect();
     Point dialogCoordiantes = dialog.getCoordinates().inViewPort();
     String screenshot = Selenide.screenshot(screenshotName);
-    try
-    {
+    try {
       File dialogFile = new File(new URI(screenshot));
       BufferedImage dialogScreenshot = ImageIO.read(dialogFile).getSubimage(
-              dialogCoordiantes.getX(), 
-              dialogCoordiantes.getY(), 
-              dialogRect.getWidth(), 
+              dialogCoordiantes.getX(),
+              dialogCoordiantes.getY(),
+              dialogRect.getWidth(),
               dialogRect.getHeight() + 1);
       ImageIO.write(dialogScreenshot, "png", dialogFile);
-    }
-    catch (Exception ex)
-    {
+    } catch (Exception ex) {
       throw new RuntimeException("Error while try crop screenshot to dialog size: ", ex);
     }
     $$(".ui-dialog-titlebar-close").find(visible).click();
   }
 
-  private void takeDialogScreenshot(String screenshotName, By dialogOpenBtn)
-  {
+  private void takeDialogScreenshot(String screenshotName, By dialogOpenBtn) {
     $(dialogOpenBtn).shouldBe(visible).click();
     takeDialogScreenshot(screenshotName);
   }
 
-  private void takeScreenshot(String fileName, Dimension size)
-  {
+  private void takeScreenshot(String fileName, Dimension size) {
     Dimension oldSize = WebDriverRunner.getWebDriver().manage().window().getSize();
     resizeBrowser(size);
     executeJs("scroll(0,0);");
-    Selenide.sleep(200); //wait for menu animation
+    Selenide.sleep(200); // wait for menu animation
     Selenide.screenshot(fileName);
     resizeBrowser(oldSize);
   }
-  
-  private void takeLiveStatsScreenshot(String fileName, Dimension size)
-  {
+
+  private void takeLiveStatsScreenshot(String fileName, Dimension size) {
     $("#layout-config-button").shouldBe(visible).click();
     $("#layout-config .ui-tabs-selected").shouldBe(visible, text("Live Stats"));
     takeScreenshot(fileName, size);
   }
-  
-  private void resizeBrowser(Dimension size)
-  {
+
+  private void resizeBrowser(Dimension size) {
     WebDriverRunner.getWebDriver().manage().window().setSize(size);
   }
-  
+
 }

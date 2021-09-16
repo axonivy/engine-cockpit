@@ -8,70 +8,59 @@ import javax.management.ObjectName;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
 
-public class RestClientMonitor
-{
+public class RestClientMonitor {
   private RestClient restClient;
   private String applicationName;
   private String restClientUUID;
-  
-  public RestClientMonitor()
-  {
+
+  public RestClientMonitor() {
     this("", "", "");
   }
 
-  public RestClientMonitor(String appName, String env, String restClientUUID)
-  {
+  public RestClientMonitor(String appName, String env, String restClientUUID) {
     this.applicationName = appName;
     this.restClientUUID = restClientUUID;
-    try
-    {
+    try {
       var clients = searchJmx(appName, env, restClientUUID);
-      if (clients.isEmpty())
-      {
+      if (clients.isEmpty()) {
         clients = searchJmx(appName, "Default", restClientUUID);
       }
       restClient = clients.stream()
               .map(client -> new RestClient(client))
               .filter(this::isRestClient)
               .findFirst().orElse(RestClient.NO_DATA);
-    }
-    catch(MalformedObjectNameException ex)
-    {
+    } catch (MalformedObjectNameException ex) {
       restClient = RestClient.NO_DATA;
     }
   }
 
-  public Monitor getConnectionsMonitor()
-  {
+  public Monitor getConnectionsMonitor() {
     return restClient.connectionsMonitor();
   }
 
-  public Monitor getCallsMonitor()
-  {
+  public Monitor getCallsMonitor() {
     return restClient.callsMonitor();
-  } 
+  }
 
-  public Monitor getExecutionTimeMonitor()
-  {
+  public Monitor getExecutionTimeMonitor() {
     return restClient.executionTimeMonitor();
-  } 
-  
-  public String getRestClient()
-  {
+  }
+
+  public String getRestClient() {
     return restClient.label();
   }
-  
-  private boolean isRestClient(RestClient client)
-  {
+
+  private boolean isRestClient(RestClient client) {
     return client.application().equals(applicationName) &&
             client.id().equals(restClientUUID);
   }
-  
-  private static Set<ObjectName> searchJmx(String appName, String env, String restClientName) throws MalformedObjectNameException
-  {
+
+  private static Set<ObjectName> searchJmx(String appName, String env, String restClientName)
+          throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-            new ObjectName("ivy Engine:type=External REST Web Service,application=" + appName + 
-                    ",environment=" + env + ",name=\"*(" + restClientName + ")\""), null);
+            new ObjectName("ivy Engine:type=External REST Web Service,application=" + appName +
+                    ",environment=" + env + ",name=\"*(" + restClientName + ")\""),
+            null);
   }
 
 }

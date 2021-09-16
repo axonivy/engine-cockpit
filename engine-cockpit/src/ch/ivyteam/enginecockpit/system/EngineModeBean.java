@@ -11,46 +11,37 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 @ManagedBean
 @SessionScoped
 @SuppressWarnings("restriction")
-public class EngineModeBean
-{
-  public boolean isDemo()
-  {
+public class EngineModeBean {
+  public boolean isDemo() {
     return EngineMode.is(EngineMode.DEMO) || EngineMode.is(EngineMode.DESIGNER_EMBEDDED);
   }
 
-  public boolean isMaintenance()
-  {
+  public boolean isMaintenance() {
     return EngineMode.is(EngineMode.MAINTENANCE);
   }
 
-  public boolean hasDashboardWarning()
-  {
+  public boolean hasDashboardWarning() {
     return isDemo() || isMaintenance();
   }
 
-  public String getDashboardWarningSummary()
-  {
+  public String getDashboardWarningSummary() {
     return isDemo() ? "Demo Mode!" : "Maintenance Mode!";
   }
 
-  public String getDashboardWarningDetail()
-  {
+  public String getDashboardWarningDetail() {
     return isDemo() ? getWarningMessage() : getMaintenanceReason();
   }
 
-  private String getWarningMessage()
-  {
+  private String getWarningMessage() {
     var licenceProblemMsg = new LicenceBean().getProblemMessage();
-    if (StringUtils.isNotBlank(licenceProblemMsg))
-    {
+    if (StringUtils.isNotBlank(licenceProblemMsg)) {
       return licenceProblemMsg;
     }
     return new SystemDatabaseBean().isPersistentDb() ? "Unfinished setup."
             : "No persistent database configured.";
   }
 
-  public String getMaintenanceReason()
-  {
+  public String getMaintenanceReason() {
     return MaintenanceReason.getMessage();
   }
 }

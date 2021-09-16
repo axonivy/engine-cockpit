@@ -18,24 +18,20 @@ import ch.ivyteam.enginecockpit.system.WebTestAdmins;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestWizardAdmins
-{
-  
+public class WebTestWizardAdmins {
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     WebTestWizard.navigateToStep("Administrators");
   }
-  
+
   @AfterEach
-  void afterEach()
-  {
+  void afterEach() {
     resetConfig();
   }
-  
+
   @Test
-  void testAdminStep()
-  {
+  void testAdminStep() {
     Table table = new Table(By.id("admins:adminForm:adminTable"));
     WebTestAdmins.addAdmin("admin", "admin@ivyTeam.ch", "password", "password");
     $(".ui-growl-title").shouldBe(text("'admin' added successfully"));
@@ -46,24 +42,21 @@ public class WebTestWizardAdmins
     WebTestWizard.nextStep();
     $(WebTestWizard.ACTIVE_WIZARD_STEP).shouldBe(text("Web Server"));
   }
-  
+
   @Test
-  void testAddEditDeleteAdmin()
-  {
+  void testAddEditDeleteAdmin() {
     WebTestAdmins.testAddEditDelete();
   }
-  
+
   @Test
-  void testAdminDialogInvalid()
-  {
+  void testAdminDialogInvalid() {
     WebTestAdmins.testAddAdminInvalidValues();
     WebTestAdmins.testAddAdminInvalidPassword();
   }
-  
+
   @Test
-  void testOwnAdminCannotBeDeleted()
-  {    
+  void testOwnAdminCannotBeDeleted() {
     WebTestAdmins.assertOwnAdminCannotBeDeleted();
   }
-  
+
 }

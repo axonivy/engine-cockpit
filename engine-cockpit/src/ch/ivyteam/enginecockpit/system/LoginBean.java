@@ -18,37 +18,29 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 @ManagedBean
 @SessionScoped
 @SuppressWarnings("restriction")
-public class LoginBean
-{
+public class LoginBean {
   private String userName;
   private String password;
   private String originalUrl;
 
-  public void checkLogin()
-  {
-    if (ISession.current().isSessionUserUnknown())
-    {
+  public void checkLogin() {
+    if (ISession.current().isSessionUserUnknown()) {
       originalUrl = evalOriginalUrl();
       loginDefaultAdminOrRedirect();
     }
   }
 
-  public void loginDefaultAdminOrRedirect()
-  {
-    if (EngineMode.is(EngineMode.DEMO))
-    {
-      if (ISession.current().loginSessionUser("admin", "admin"))
-      {
+  public void loginDefaultAdminOrRedirect() {
+    if (EngineMode.is(EngineMode.DEMO)) {
+      if (ISession.current().loginSessionUser("admin", "admin")) {
         return;
       }
     }
     redirect();
   }
 
-  public void login()
-  {
-    if (ISession.current().loginSessionUser(userName, password))
-    {
+  public void login() {
+    if (ISession.current().loginSessionUser(userName, password)) {
       redirect(StringUtils.isNotBlank(originalUrl) ? originalUrl : "dashboard.xhtml");
       return;
     }
@@ -56,83 +48,66 @@ public class LoginBean
             new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed", "Login failed"));
   }
 
-  public void logout()
-  {
+  public void logout() {
     ISession.current().logoutSessionUser();
     redirect();
   }
 
-  public void redirectToLoginPage()
-  {
+  public void redirectToLoginPage() {
     originalUrl = evalOriginalUrl();
     redirect();
   }
 
-  private void redirect()
-  {
+  private void redirect() {
     redirect("login.xhtml");
   }
 
-  private void redirect(String url)
-  {
-    try
-    {
+  private void redirect(String url) {
+    try {
       FacesContext.getCurrentInstance().getExternalContext().redirect(url);
-    }
-    catch (IOException e)
-    {
+    } catch (IOException e) {
       throw new RuntimeException("Could not send redirect", e);
     }
   }
 
-  private static String evalOriginalUrl()
-  {
+  private static String evalOriginalUrl() {
     var request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
     return request.getRequestURI();
   }
 
-  public String getSessionUserName()
-  {
+  public String getSessionUserName() {
     return ISession.current().getSessionUserName();
   }
-  
-  public String getGravatarHash()
-  {
+
+  public String getGravatarHash() {
     var session = ISession.current();
-    if (session == null)
-    {
+    if (session == null) {
       return null;
     }
     var sessionUser = session.getSessionUser();
-    if (sessionUser == null)
-    {
+    if (sessionUser == null) {
       return null;
     }
     var email = sessionUser.getEMailAddress();
-    if (EmailUtil.validateEmailAddress(email))
-    {
+    if (EmailUtil.validateEmailAddress(email)) {
       return DigestUtils.md5Hex(email).toString();
     }
     return "";
   }
 
-  public String getUserName()
-  {
+  public String getUserName() {
     return userName;
   }
 
-  public void setUserName(String userName)
-  {
+  public void setUserName(String userName) {
     this.userName = userName;
   }
 
-  public String getPassword()
-  {
+  public String getPassword() {
     return password;
   }
 
-  public void setPassword(String password)
-  {
+  public void setPassword(String password) {
     this.password = password;
   }
 }

@@ -33,25 +33,22 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestUsers
-{
+public class WebTestUsers {
   private static final String APPLICATION_TAB_VIEW = "#apps\\:applicationTabView\\:";
   private String user = "test";
   private String fullName = "test user";
   private String email = "test@test.ch";
   private String password = "password";
-  
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     login();
     Navigation.toUsers();
     Tab.switchToDefault();
   }
-  
+
   @Test
-  void testUsersInTable()
-  {
+  void testUsersInTable() {
     $(Tab.ACITVE_PANEL_CSS + " h1").shouldHave(text("Users"));
     Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
@@ -59,43 +56,41 @@ public class WebTestUsers
     table.search(firstUser);
     table.firstColumnShouldBe(size(1));
   }
-  
+
   @Test
-  void testManualUsersInManagedApp()
-  {
+  void testManualUsersInManagedApp() {
     triggerSync();
     $(getAppTabId() + "syncMoreBtn_menuButton").shouldBe(visible).click();
     $(getAppTabId() + "syncNewUserBtn").shouldBe(visible).click();
-    
+
     $("#newUserModal").shouldBe(visible);
     $("#newUserForm\\:newUserNameInput").sendKeys("manual");
     $("#newUserForm\\:saveNewUser").click();
-    
+
     Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThanOrEqual(4));
-    
+
     filterTableFor("Show manual users");
     table.firstColumnShouldBe(sizeLessThanOrEqual(2));
     table.search("user");
     table.firstColumnShouldBe(empty);
     table.search("ma");
     table.firstColumnShouldBe(sizeLessThanOrEqual(1));
-    
+
     Navigation.toUserDetail("manual");
     $("#userInformationForm\\:deleteUser").shouldBe(visible).click();
     $("#userInformationForm\\:deleteUserConfirmYesBtn").shouldBe(visible).click();
   }
 
   @Test
-  void testDisabledUsersInTable()
-  {
+  void testDisabledUsersInTable() {
     EngineCockpitUtil.createDisabledUser();
-    
+
     login();
     Navigation.toUsers();
     Tab.switchToTab("test");
     $(Tab.ACITVE_PANEL_CSS + " h1").shouldHave(text("Users"));
-    
+
     Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
     assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
@@ -103,7 +98,7 @@ public class WebTestUsers
     filterTableFor("Show disabled users");
     table.firstColumnShouldBe(size(1));
     table.firstColumnShouldBe(texts("disableduser"));
-    
+
     table.search("fo");
     table.firstColumnShouldBe(empty);
     table.search("dis");
@@ -116,11 +111,12 @@ public class WebTestUsers
   }
 
   @Test
-  void contentFilter()
-  {
+  void contentFilter() {
     var filterBtn = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterBtn";
-    var resetFilter = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:resetFilter";
-    var filterPanel = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterPanel";
+    var resetFilter = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex()
+            + "\\:contentFilter\\:form\\:resetFilter";
+    var filterPanel = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex()
+            + "\\:contentFilter\\:form\\:filterPanel";
     $(filterBtn).shouldHave(text("Filter: enabled users"));
     filterTableFor("Show disabled users");
     $(filterBtn).shouldHave(text("Filter: disabled users"));
@@ -129,14 +125,15 @@ public class WebTestUsers
     $(filterBtn).click();
     $$(filterPanel + " .ui-chkbox").shouldBe(size(1));
   }
-  
+
   @Test
-  void contentFilterAD()
-  {
+  void contentFilterAD() {
     Tab.switchToTab("test-ad");
     var filterBtn = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterBtn";
-    var resetFilter = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:resetFilter";
-    var filterPanel = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterPanel";
+    var resetFilter = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex()
+            + "\\:contentFilter\\:form\\:resetFilter";
+    var filterPanel = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex()
+            + "\\:contentFilter\\:form\\:filterPanel";
     $(filterBtn).shouldHave(text("Filter: enabled users"));
     filterTableFor("Show disabled users");
     $(filterBtn).shouldHave(text("Filter: disabled users"));
@@ -146,43 +143,38 @@ public class WebTestUsers
     $(filterBtn).shouldHave(text("Filter: enabled users"));
     $$(filterPanel + " .ui-chkbox").shouldBe(size(2));
   }
-  
-  private void filterTableFor(String filter)
-  {
+
+  private void filterTableFor(String filter) {
     var appId = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:";
     $(appId + "contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
     PrimeUi.selectManyCheckbox(By.cssSelector(appId + "contentFilter\\:form\\:filterCheckboxes"))
             .setCheckboxes(List.of(filter));
     $(appId + "contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
   }
-  
-  private void resetFilter()
-  {
+
+  private void resetFilter() {
     var appId = APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:";
     $(appId + "contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
   }
 
   @Test
-  void testNewUserDialogNoUserName()
-  {
+  void testNewUserDialogNoUserName() {
     showNewUserDialog();
     $("#newUserForm\\:saveNewUser").click();
     $("#newUserForm\\:newUserNameMessage").shouldBe(visible);
   }
 
   @Test
-  void testNewUserDialogNoPasswordMatch()
-  {
+  void testNewUserDialogNoPasswordMatch() {
     showNewUserDialog();
     $("#newUserForm\\:newUserNameInput").sendKeys("test");
     $("#newUserForm\\:password1").sendKeys("password");
     $("#newUserForm\\:saveNewUser").click();
     $("#msgs_container").shouldBe(visible);
   }
-  
+
   @Test
-  void testNewUserDialogValidInput()
-  {
+  void testNewUserDialogValidInput() {
     showNewUserDialog();
     Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     int users = table.getFirstColumnEntries().size();
@@ -199,10 +191,9 @@ public class WebTestUsers
     table.valueForEntryShould(user, 2, exactText(fullName));
     table.valueForEntryShould(user, 3, exactText(email));
   }
-  
+
   @Test
-  void createNewUserWithSameNameAsExisting()
-  {
+  void createNewUserWithSameNameAsExisting() {
     showNewUserDialog();
     $("#newUserForm\\:newUserNameInput").sendKeys("foo");
     $("#newUserForm\\:saveNewUser").click();
@@ -211,45 +202,39 @@ public class WebTestUsers
   }
 
   @Test
-  void testSynchronizeSingleUser()
-  {
+  void testSynchronizeSingleUser() {
     showSynchUserDialog();
     $("#synchUserForm\\:userSynchName").shouldBe(exactValue("")).sendKeys("user1");
     $("#synchUserForm\\:synchUserVar").click();
     $("#synchUserForm\\:logViewer").shouldBe(text("INFO: User synchronization"), Duration.ofSeconds(10));
   }
-  
+
   @Test
-  void jumpToSyncLog()
-  {
+  void jumpToSyncLog() {
     Tab.switchToTab("test-ad");
     $(getAppTabId() + "syncMoreBtn_menuButton").click();
     $(getAppTabId() + "userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
             .find(".ui-panel-content").shouldBe(visible);
   }
-  
-  private void showSynchUserDialog()
-  {
+
+  private void showSynchUserDialog() {
     Tab.switchToTab("test-ad");
     $(getAppTabId() + "syncMoreBtn_menuButton").click();
     $(getAppTabId() + "synchUserBtn").shouldBe(visible).click();
     $("#synchUserForm").shouldBe(visible);
   }
-  
-  private void showNewUserDialog()
-  {
+
+  private void showNewUserDialog() {
     $(getAppTabId() + "newUserBtn").click();
     $("#newUserModal").shouldBe(visible);
   }
-  
-  private static String getAppTabId()
-  {
+
+  private static String getAppTabId() {
     return APPLICATION_TAB_VIEW + Tab.getSelectedTabIndex() + "\\:form\\:";
   }
-  
-  public static void triggerSync()
-  {
+
+  public static void triggerSync() {
     Tab.switchToTab("test-ad");
     String syncBtnId = getAppTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();

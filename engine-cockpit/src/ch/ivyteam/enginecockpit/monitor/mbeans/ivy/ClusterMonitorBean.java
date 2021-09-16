@@ -14,18 +14,13 @@ import ch.ivyteam.enginecockpit.monitor.monitor.Series;
 
 @ManagedBean
 @ViewScoped
-public class ClusterMonitorBean
-{
+public class ClusterMonitorBean {
   private static final ObjectName CLUSTER_CHANNEL;
 
-  static
-  {
-    try
-    {
+  static {
+    try {
       CLUSTER_CHANNEL = new ObjectName("ivy Engine:type=Cluster Channel");
-    }
-    catch (MalformedObjectNameException ex)
-    {
+    } catch (MalformedObjectNameException ex) {
       throw new IllegalArgumentException("Wrong object name", ex);
     }
   }
@@ -35,8 +30,7 @@ public class ClusterMonitorBean
   private final Monitor receiveMessagesMonitor;
   private final Monitor receiveProcessingTimeMonitor;
 
-  public ClusterMonitorBean()
-  {
+  public ClusterMonitorBean() {
     sendMessagesMonitor = Monitor.build().name("Sent Messages").icon("dns").toMonitor();
     sendProcessingTimeMonitor = Monitor.build().name("Send Processing Time").icon("timer").yAxisLabel("Time")
             .toMonitor();
@@ -44,12 +38,12 @@ public class ClusterMonitorBean
     receiveProcessingTimeMonitor = Monitor.build().name("Receive Processing Time").icon("timer")
             .yAxisLabel("Time").toMonitor();
 
-    if (ManagementFactory.getPlatformMBeanServer().queryNames(CLUSTER_CHANNEL, null).isEmpty())
-    {
+    if (ManagementFactory.getPlatformMBeanServer().queryNames(CLUSTER_CHANNEL, null).isEmpty()) {
       return;
     }
     var sendMessages = new ExecutionCounter(CLUSTER_CHANNEL.getCanonicalName(), "sendMessages", "sendErrors");
-    var receivedMessages = new ExecutionCounter(CLUSTER_CHANNEL.getCanonicalName(), "receiveMessages", "receiveErrors");
+    var receivedMessages = new ExecutionCounter(CLUSTER_CHANNEL.getCanonicalName(), "receiveMessages",
+            "receiveErrors");
 
     sendMessagesMonitor.addInfoValue(format("%5d", sendMessages.deltaExecutions()));
     sendMessagesMonitor.addInfoValue(format("Total %5d", sendMessages.executions()));
@@ -89,23 +83,19 @@ public class ClusterMonitorBean
             .addSeries(Series.build(receivedMessages.deltaMaxExecutionTime(), "Max").toSeries());
   }
 
-  public Monitor getSendMessagesMonitor()
-  {
+  public Monitor getSendMessagesMonitor() {
     return sendMessagesMonitor;
   }
 
-  public Monitor getSendProcessingTimeMonitor()
-  {
+  public Monitor getSendProcessingTimeMonitor() {
     return sendProcessingTimeMonitor;
   }
 
-  public Monitor getReceiveMessagesMonitor()
-  {
+  public Monitor getReceiveMessagesMonitor() {
     return receiveMessagesMonitor;
   }
 
-  public Monitor getReceiveProcessingTimeMonitor()
-  {
+  public Monitor getReceiveProcessingTimeMonitor() {
     return receiveProcessingTimeMonitor;
   }
 }

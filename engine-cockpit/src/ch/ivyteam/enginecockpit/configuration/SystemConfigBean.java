@@ -13,21 +13,18 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 
 @ManagedBean
 @ViewScoped
-public class SystemConfigBean
-{
+public class SystemConfigBean {
   private ConfigViewImpl configView;
 
-  public SystemConfigBean()
-  {
+  public SystemConfigBean() {
     configView = new ConfigViewImpl(List.of(
             ConfigViewImpl.defaultFilter(),
-            new ContentFilter<ConfigProperty>("Security Systems", "Show Security Systems", 
+            new ContentFilter<ConfigProperty>("Security Systems", "Show Security Systems",
                     p -> !StringUtils.startsWith(p.getKey(), "SecuritySystems."), true)));
   }
 
-  public ConfigViewImpl getConfigView()
-  {
+  public ConfigViewImpl getConfigView() {
     return configView;
   }
-  
+
 }

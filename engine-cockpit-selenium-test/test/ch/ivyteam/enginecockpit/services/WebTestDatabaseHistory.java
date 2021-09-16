@@ -17,29 +17,27 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestDatabaseHistory
-{
-  
+public class WebTestDatabaseHistory {
+
   @BeforeEach
-  void beforeEach()
-  {
+  void beforeEach() {
     runExternalDbQuery();
     login();
     Navigation.toDatabases();
     Tab.switchToTab("test");
     Navigation.toDatabaseDetail("realdb");
   }
-  
+
   @AfterEach
-  void cleanup()
-  {
+  void cleanup() {
     EngineCockpitUtil.resetConfig();
   }
-  
+
   @Test
-  void testConnectionAndHistory()
-  {
-    new Table(By.id("databaseConnectionForm:databaseConnectionsTable")).firstColumnShouldBe(sizeGreaterThan(0));
-    new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable")).firstColumnShouldBe(sizeGreaterThan(0));
+  void testConnectionAndHistory() {
+    new Table(By.id("databaseConnectionForm:databaseConnectionsTable"))
+            .firstColumnShouldBe(sizeGreaterThan(0));
+    new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable"))
+            .firstColumnShouldBe(sizeGreaterThan(0));
   }
 }

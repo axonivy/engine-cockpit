@@ -17,19 +17,16 @@ import com.codeborne.selenide.SelenideElement;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestLogs
-{
-  
+public class WebTestLogs {
+
   @BeforeAll
-  static void beforeAll()
-  {
+  static void beforeAll() {
     login();
     Navigation.toLogs();
   }
-  
+
   @Test
-  void logsViewContent()
-  {
+  void logsViewContent() {
     Navigation.toLogs();
     $$(".ui-panel").shouldHave(sizeGreaterThanOrEqual(1));
     $$(".ui-panel-titlebar").find(text("console.log")).parent()
@@ -40,13 +37,12 @@ public class WebTestLogs
     ivyLogPanel.find(".ui-panel-titlebar-icon").click();
     ivyLogPanel.find(".ui-panel-content").shouldNotBe(visible);
   }
-  
+
   @Test
-  void logsChangeDate()
-  {
+  void logsChangeDate() {
     String originDate = $("#logDateForm\\:calendar_input").shouldBe(visible).getValue();
     $$(".ui-panel-titlebar").find(text("ivy.log")).shouldHave(text(originDate));
-    
+
     $("#logDateForm\\:calendar > button").shouldBe(visible).click();
     $("#ui-datepicker-div").should(visible);
     $("#logDateForm\\:calendar_input").clear();
@@ -54,5 +50,5 @@ public class WebTestLogs
     $("#logDateForm\\:calendar_input").sendKeys(Keys.ENTER);
     $$(".ui-panel-titlebar").find(text("ivy.log")).shouldHave(text("2020-04-01"));
   }
-  
+
 }
