@@ -41,6 +41,7 @@ public class ConfigViewImpl implements TableFilter, ConfigView {
     reloadConfigs();
   }
 
+  @SuppressWarnings("deprecation")
   private void reloadConfigs() {
     ((Configuration) configuration).blockUntilReloaded();
     configs = configuration.getProperties().stream()
