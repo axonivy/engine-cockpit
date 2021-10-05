@@ -44,6 +44,7 @@ public class Navigation {
   private static final String MONITOR_ENGINE_MEMORY_MENU = "#menuform\\:sr_monitor_engine_memory";
   private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
+  private static final String MONITOR_ENGINE_PERFORMANCE_MENU = "#menuform\\:sr_monitor_engine_performance";
 
   public static void toDashboard() {
     toMenu(DASHBOARD_MENU);
@@ -273,6 +274,10 @@ public class Navigation {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MEMORY_MENU);
     assertCurrentUrlContains("monitorMemory.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_MEMORY_MENU);
+  }
+
+  public static void toPerformance() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_PERFORMANCE_MENU);
   }
 
   private static void toMenu(String menuItemPath) {
