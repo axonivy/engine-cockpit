@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.util;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.text;
@@ -48,20 +47,20 @@ public class Navigation {
 
   public static void toDashboard() {
     toMenu(DASHBOARD_MENU);
-    assertCurrentUrlEndsWith("dashboard.xhtml");
+    assertCurrentUrlContains("dashboard.xhtml");
     menuShouldBeActive(DASHBOARD_MENU);
   }
 
   public static void toApplications() {
     toMenu(APPLICATIONS_MENU);
-    assertCurrentUrlEndsWith("applications.xhtml");
+    assertCurrentUrlContains("applications.xhtml");
     menuShouldBeActive(APPLICATIONS_MENU);
   }
 
   public static void toApplicationDetail(String appName) {
     Navigation.toApplications();
     clickAppTreeActivity(appName);
-    assertCurrentUrlEndsWith("application-detail.xhtml?appName=" + appName);
+    assertCurrentUrlContains("application-detail.xhtml?appName=" + appName);
     menuShouldBeActive(APPLICATIONS_MENU);
   }
 
@@ -84,52 +83,52 @@ public class Navigation {
 
   public static void toSecuritySystem() {
     toSubMenu(SECURITY_MENU, SECURITY_SYSTEM_MENU);
-    assertCurrentUrlEndsWith("securitysystem.xhtml");
+    assertCurrentUrlContains("securitysystem.xhtml");
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
   public static void toSecuritySystemDetail(String secSystemName) {
     Navigation.toSecuritySystem();
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
-    assertCurrentUrlEndsWith("security-detail.xhtml?securitySystemName=" + secSystemName);
+    assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
   public static void toVariables() {
     toSubMenu(CONFIGURATION_MENU, VARIABLES_MENU);
-    assertCurrentUrlEndsWith("variables.xhtml");
+    assertCurrentUrlContains("variables.xhtml");
     menuShouldBeActive(VARIABLES_MENU);
   }
 
   public static void toBusinessCalendar() {
     toSubMenu(CONFIGURATION_MENU, BUSINESS_CALENDAR_MENU);
-    assertCurrentUrlEndsWith("businesscalendar.xhtml");
+    assertCurrentUrlContains("businesscalendar.xhtml");
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
 
   public static void toBusinessCalendarDetail(String calendarName) {
     Navigation.toBusinessCalendar();
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content a").find(text(calendarName)).shouldBe(visible).click();
-    assertCurrentUrlEndsWith("businesscalendar-detail.xhtml?calendarName=" + calendarName);
+    assertCurrentUrlContains("businesscalendar-detail.xhtml?calendarName=" + calendarName);
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
 
   public static void toUsers() {
     toSubMenu(SECURITY_MENU, SECURITY_USER_MENU);
-    assertCurrentUrlEndsWith("users.xhtml");
+    assertCurrentUrlContains("users.xhtml");
     menuShouldBeActive(SECURITY_USER_MENU);
   }
 
   public static void toUserDetail(String userName) {
     Navigation.toUsers();
     $$(Tab.ACITVE_PANEL_CSS + " .user-name").find(text(userName)).shouldBe(visible).click();
-    assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + userName);
+    assertCurrentUrlContains("userdetail.xhtml?userName=" + userName);
     menuShouldBeActive(SECURITY_USER_MENU);
   }
 
   public static void toRoles() {
     toSubMenu(SECURITY_MENU, SECURITY_ROLES_MENU);
-    assertCurrentUrlEndsWith("roles.xhtml");
+    assertCurrentUrlContains("roles.xhtml");
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
 
@@ -137,51 +136,51 @@ public class Navigation {
     Navigation.toRoles();
     $(Tab.ACITVE_PANEL_CSS + " .expand-all").shouldBe(visible).click();
     $$(Tab.ACITVE_PANEL_CSS + " .role-name").find(text(roleName)).shouldBe(visible).click();
-    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + roleName);
+    assertCurrentUrlContains("roledetail.xhtml?roleName=" + roleName);
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
 
   public static void toSearchEngine() {
     toSubMenu(SERVICES_MENU, SERVICES_SEARCH_ENGINE);
-    assertCurrentUrlEndsWith("searchengine.xhtml");
+    assertCurrentUrlContains("searchengine.xhtml");
     menuShouldBeActive(SERVICES_SEARCH_ENGINE);
   }
 
   public static void toEmail() {
     toSubMenu(SERVICES_MENU, SERVICES_EMAIL_MENU);
-    assertCurrentUrlEndsWith("email.xhtml");
+    assertCurrentUrlContains("email.xhtml");
     menuShouldBeActive(SERVICES_EMAIL_MENU);
   }
 
   public static void toDatabases() {
     toSubMenu(SERVICES_MENU, SERVICES_DATABASES_MENU);
-    assertCurrentUrlEndsWith("databases.xhtml");
+    assertCurrentUrlContains("databases.xhtml");
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
 
   public static void toDatabaseDetail(String databaseName) {
     Navigation.toDatabases();
     $$(Tab.ACITVE_PANEL_CSS + " .database-name").find(text(databaseName)).shouldBe(visible).click();
-    assertCurrentUrlEndsWith("databasedetail.xhtml?databaseName=" + databaseName);
+    assertCurrentUrlContains("databasedetail.xhtml?databaseName=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
 
   public static void toRestClients() {
     toSubMenu(SERVICES_MENU, SERVICES_RESTCLIENTS_MENU);
-    assertCurrentUrlEndsWith("restclients.xhtml");
+    assertCurrentUrlContains("restclients.xhtml");
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
 
   public static void toRestClientDetail(String restClientName) {
     Navigation.toRestClients();
     $$(Tab.ACITVE_PANEL_CSS + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
-    assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + restClientName);
+    assertCurrentUrlContains("restclientdetail.xhtml?restClientName=" + restClientName);
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
 
   public static void toWebservices() {
     toSubMenu(SERVICES_MENU, SERVICES_WEBSERVICES_MENU);
-    assertCurrentUrlEndsWith("webservices.xhtml");
+    assertCurrentUrlContains("webservices.xhtml");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
 
@@ -194,37 +193,37 @@ public class Navigation {
 
   public static void toBackendApi() {
     toSubMenu(SERVICES_MENU, SERVICES_BACKEND_MENU);
-    assertCurrentUrlEndsWith("backend-api.xhtml");
+    assertCurrentUrlContains("backend-api.xhtml");
     menuShouldBeActive(SERVICES_BACKEND_MENU);
   }
 
   public static void toAdmins() {
     toSubMenu(SYSTEM_MENU, SYSTEM_ADMINS);
-    assertCurrentUrlEndsWith("admins.xhtml");
+    assertCurrentUrlContains("admins.xhtml");
     menuShouldBeActive(SYSTEM_ADMINS);
   }
 
   public static void toSystemDb() {
     toSubMenu(SYSTEM_MENU, SYSTEM_SYSTEMDB_MENU);
-    assertCurrentUrlEndsWith("systemdb.xhtml");
+    assertCurrentUrlContains("systemdb.xhtml");
     menuShouldBeActive(SYSTEM_SYSTEMDB_MENU);
   }
 
   public static void toLicence() {
     toSubMenu(SYSTEM_MENU, SYSTEM_LICENCE);
-    assertCurrentUrlEndsWith("licence.xhtml");
+    assertCurrentUrlContains("licence.xhtml");
     menuShouldBeActive(SYSTEM_LICENCE);
   }
 
   public static void toWebServer() {
     toSubMenu(SYSTEM_MENU, SYSTEM_WEB_SERVER_MENU);
-    assertCurrentUrlEndsWith("webserver.xhtml");
+    assertCurrentUrlContains("webserver.xhtml");
     menuShouldBeActive(SYSTEM_WEB_SERVER_MENU);
   }
 
   public static void toSystemConfig() {
     toSubMenu(SYSTEM_MENU, SYSTEM_CONFIG_MENU);
-    assertCurrentUrlEndsWith("systemconfig.xhtml");
+    assertCurrentUrlContains("systemconfig.xhtml");
     menuShouldBeActive(SYSTEM_CONFIG_MENU);
   }
 
@@ -236,13 +235,13 @@ public class Navigation {
 
   public static void toEditor() {
     toSubMenu(SYSTEM_MENU, SYSTEM_EDITOR_MENU);
-    assertCurrentUrlEndsWith("editor.xhtml");
+    assertCurrentUrlContains("editor.xhtml");
     menuShouldBeActive(SYSTEM_EDITOR_MENU);
   }
 
   public static void toOs() {
     toSubMenu(MONITOR_MENU, MONITOR_OS_MENU);
-    assertCurrentUrlEndsWith("monitorOs.xhtml");
+    assertCurrentUrlContains("monitorOs.xhtml");
     menuShouldBeActive(MONITOR_OS_MENU);
   }
 

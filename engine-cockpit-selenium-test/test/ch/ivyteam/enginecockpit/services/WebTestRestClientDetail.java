@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
@@ -40,7 +40,7 @@ public class WebTestRestClientDetail {
 
   @Test
   void testDetailOpen() {
-    assertCurrentUrlEndsWith("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME);
+    assertCurrentUrlContains("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME);
     $$(".ui-panel").shouldHave(size(2));
     $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
 

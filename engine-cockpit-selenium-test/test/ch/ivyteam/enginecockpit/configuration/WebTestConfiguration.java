@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.configuration;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.itemWithText;
@@ -55,7 +55,7 @@ public class WebTestConfiguration {
   @Test
   void testSystemDbConfigUrl() {
     $("#configureSystemDbBtn").shouldBe(visible).click();
-    assertCurrentUrlEndsWith("systemdb.xhtml");
+    assertCurrentUrlContains("systemdb.xhtml");
   }
 
   @Nested
@@ -307,7 +307,7 @@ public class WebTestConfiguration {
   }
 
   private void assertUrlFiltering(String filter) {
-    assertCurrentUrlEndsWith("systemconfig.xhtml?filter=" + filter);
+    assertCurrentUrlContains("systemconfig.xhtml?filter=" + filter);
     table = new Table(TABLE_ID);
     assertThat(table.getSearchFilter()).isEqualTo(filter);
     table.firstColumnShouldBe(size(9));

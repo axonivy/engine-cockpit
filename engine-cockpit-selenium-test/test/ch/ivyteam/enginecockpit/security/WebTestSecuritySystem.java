@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
@@ -56,7 +56,7 @@ public class WebTestSecuritySystem {
     $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmDialog").shouldBe(visible);
 
     $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmYesBtn").click();
-    assertCurrentUrlEndsWith("securitysystem.xhtml");
+    assertCurrentUrlContains("securitysystem.xhtml");
     $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "test-nd", "ivy Security System"));
   }
 

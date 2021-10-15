@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -57,7 +57,7 @@ public class WebTestUserDetail {
   @Test
   void testUsersDetailOpen() {
     Navigation.toUserDetail(USER_FOO);
-    assertCurrentUrlEndsWith("userdetail.xhtml?userName=" + USER_FOO);
+    assertCurrentUrlContains("userdetail.xhtml?userName=" + USER_FOO);
   }
 
   @Test
@@ -113,7 +113,7 @@ public class WebTestUserDetail {
     $("#userInformationForm\\:deleteUser").click();
     $("#userInformationForm\\:deleteUserConfirmDialog").shouldBe(visible);
     $("#userInformationForm\\:deleteUserConfirmYesBtn").click();
-    assertCurrentUrlEndsWith("users.xhtml");
+    assertCurrentUrlContains("users.xhtml");
   }
 
   @Test

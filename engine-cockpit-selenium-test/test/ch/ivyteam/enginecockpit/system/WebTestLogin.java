@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAdminUser;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
@@ -21,7 +21,7 @@ public class WebTestLogin {
   @Test
   void testLogin() {
     login();
-    assertCurrentUrlEndsWith("dashboard.xhtml");
+    assertCurrentUrlContains("dashboard.xhtml");
     assertThat(Selenide.title()).startsWith("Engine Cockpit").doesNotContain("Login");
     $("#sessionUserName").shouldBe(exactText(getAdminUser()));
   }
@@ -55,7 +55,7 @@ public class WebTestLogin {
   }
 
   private void assertLoginPageVisible() {
-    assertCurrentUrlEndsWith("login.xhtml");
+    assertCurrentUrlContains("login.xhtml");
     assertThat(Selenide.title()).contains("Login");
   }
 

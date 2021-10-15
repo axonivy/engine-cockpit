@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.exactText;
@@ -44,7 +44,7 @@ public class WebTestDatabaseDetail {
 
   @Test
   void testDetailOpen() {
-    assertCurrentUrlEndsWith("databasedetail.xhtml?databaseName=" + DATABASE_NAME);
+    assertCurrentUrlContains("databasedetail.xhtml?databaseName=" + DATABASE_NAME);
     $$(".ui-panel").shouldHave(size(4));
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
 

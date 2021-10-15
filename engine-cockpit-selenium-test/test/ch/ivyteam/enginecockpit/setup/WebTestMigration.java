@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.setup;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.disabled;
@@ -18,8 +19,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
-
-import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 
 @IvyWebTest
 public class WebTestMigration {
@@ -71,7 +70,7 @@ public class WebTestMigration {
     $(By.id("form:migrationMessage")).shouldHave(text("Your engine was migrated successfully."));
     $(By.id("form:finishMigration")).shouldBe(visible).click();
     $(By.id("form:finishMigration")).shouldNot(exist);
-    EngineCockpitUtil.assertCurrentUrlContains("system");
+    assertCurrentUrlContains("system");
   }
 
 }
