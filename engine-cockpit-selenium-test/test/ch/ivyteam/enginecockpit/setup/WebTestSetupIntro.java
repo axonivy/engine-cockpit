@@ -48,17 +48,17 @@ public class WebTestSetupIntro {
   @Test
   void navigateToCockpit_menu() {
     $(By.id("menuform:cockpit")).shouldBe(visible).click();
-    EngineCockpitUtil.assertCurrentUrlEndsWith("dashboard.xhtml");
+    EngineCockpitUtil.assertCurrentUrlContains("dashboard.xhtml");
     $(By.id("menuform:sr_dashboard")).shouldBe(visible);
   }
 
   private void assertSetupPageIsVisible() {
-    EngineCockpitUtil.assertCurrentUrlEndsWith("setup.xhtml");
+    EngineCockpitUtil.assertCurrentUrlContains("setup.xhtml");
     $(By.id("stepForm:wizardSteps")).shouldBe(visible);
   }
 
   private void assertMigratePageIsVisible() {
-    EngineCockpitUtil.assertCurrentUrlEndsWith("migrate.xhtml");
+    EngineCockpitUtil.assertCurrentUrlContains("migrate.xhtml");
     $("h1").shouldHave(text("Migrate old Axon Ivy Engine"));
   }
 }

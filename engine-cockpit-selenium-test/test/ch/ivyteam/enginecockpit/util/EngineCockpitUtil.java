@@ -12,7 +12,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 
 import java.util.List;
 
@@ -33,14 +34,14 @@ public class EngineCockpitUtil {
 
   public static void login(String url) {
     open(viewUrl(url));
-    if (getCurrentUrl().endsWith("login.xhtml")) {
+    if (webdriver().driver().url().endsWith("login.xhtml")) {
       $("h1").shouldHave(text("Engine Cockpit"));
       $("#loginForm\\:userName").sendKeys(getAdminUser());
       $("#loginForm\\:password").sendKeys(getAdminUser());
       $("#loginForm\\:login").click();
     }
     $("#menuform").shouldBe(visible);
-    assertCurrentUrlEndsWith(url);
+    assertCurrentUrlContains(url);
   }
 
   public static void login() {
@@ -56,15 +57,7 @@ public class EngineCockpitUtil {
   }
 
   public static void assertCurrentUrlContains(String contains) {
-    assertThat(getCurrentUrl()).contains(contains);
-  }
-
-  public static void assertCurrentUrlEndsWith(String endsWith) {
-    String url = getCurrentUrl();
-    if (url.contains(";jsessionid")) {
-      url = url.substring(0, url.indexOf(";jsessionid"));
-    }
-    assertThat(url).endsWith(endsWith);
+    webdriver().shouldHave(urlContaining(contains));
   }
 
   public static void executeJs(String js) {
@@ -154,10 +147,6 @@ public class EngineCockpitUtil {
 
   private static String getAppName() {
     return isDesigner() ? DESIGNER : "test";
-  }
-
-  private static String getCurrentUrl() {
-    return WebDriverRunner.getWebDriver().getCurrentUrl();
   }
 
   public static void assertLiveStats(List<String> expectedChartTitles) {

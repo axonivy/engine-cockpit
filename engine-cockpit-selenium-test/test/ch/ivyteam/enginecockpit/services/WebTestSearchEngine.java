@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createBusinessData;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -64,7 +64,7 @@ public class WebTestSearchEngine {
   @Test
   public void testElasticSearchConfigEdit() {
     $("#searchEngineInfoForm\\:configSearchEngine").click();
-    assertCurrentUrlEndsWith("systemconfig.xhtml?filter=ElasticSearch");
+    assertCurrentUrlContains("systemconfig.xhtml?filter=ElasticSearch");
   }
 
   @Test

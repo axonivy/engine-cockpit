@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.setup;
 
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
@@ -32,7 +32,7 @@ public class WebTestWizard {
     $(".ui-message-warn").shouldHave(text("Demo Mode"));
     $(ACTIVE_WIZARD_STEP).shouldNot(exist);
     $("#content > h1").shouldNot(exist);
-    assertCurrentUrlEndsWith("/system/");
+    assertCurrentUrlContains("/system/");
   }
 
   @Test

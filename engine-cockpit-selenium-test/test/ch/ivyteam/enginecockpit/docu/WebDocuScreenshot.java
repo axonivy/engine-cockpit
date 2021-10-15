@@ -9,11 +9,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.URI;
-
-import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,13 +18,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.monitor.WebTestMBeans;
@@ -160,28 +154,21 @@ public class WebDocuScreenshot {
     takeDialogScreenshot("engine-cockpit-dialog-setup-finish", By.id("finishWizard"));
   }
 
-  private void takeDialogScreenshot(String screenshotName) {
-    SelenideElement dialog = $$(".ui-dialog").find(visible);
-    Rectangle dialogRect = dialog.getRect();
-    Point dialogCoordiantes = dialog.getCoordinates().inViewPort();
-    String screenshot = Selenide.screenshot(screenshotName);
-    try {
-      File dialogFile = new File(new URI(screenshot));
-      BufferedImage dialogScreenshot = ImageIO.read(dialogFile).getSubimage(
-              dialogCoordiantes.getX(),
-              dialogCoordiantes.getY(),
-              dialogRect.getWidth(),
-              dialogRect.getHeight() + 1);
-      ImageIO.write(dialogScreenshot, "png", dialogFile);
-    } catch (Exception ex) {
-      throw new RuntimeException("Error while try crop screenshot to dialog size: ", ex);
-    }
-    $$(".ui-dialog-titlebar-close").find(visible).click();
-  }
-
   private void takeDialogScreenshot(String screenshotName, By dialogOpenBtn) {
     $(dialogOpenBtn).shouldBe(visible).click();
     takeDialogScreenshot(screenshotName);
+  }
+
+  private void takeDialogScreenshot(String screenshotName) {
+    var dialogScreenshot = $$(".ui-dialog").find(visible).screenshot().toPath();
+    var screenshot = dialogScreenshot.getParent().resolve(screenshotName + ".png");
+    try {
+      Files.copy(dialogScreenshot, screenshot);
+      Files.delete(dialogScreenshot);
+    } catch (IOException ex) {
+      throw new RuntimeException("Error while try crop screenshot to dialog size: ", ex);
+    }
+    $$(".ui-dialog-titlebar-close").find(visible).click();
   }
 
   private void takeScreenshot(String fileName, Dimension size) {

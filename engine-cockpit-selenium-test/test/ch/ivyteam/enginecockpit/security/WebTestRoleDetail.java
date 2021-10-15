@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.security;
 import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemDetail.LDAP_BROWSER_DIALOG;
 import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemDetail.LDAP_BROWSER_FORM;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
-import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlEndsWith;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.empty;
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -44,7 +43,7 @@ public class WebTestRoleDetail {
 
   @Test
   void testRoleDetailOpen() {
-    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
+    assertCurrentUrlContains("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
   }
 
   @Test
@@ -90,7 +89,7 @@ public class WebTestRoleDetail {
     $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
 
     $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
-    assertCurrentUrlEndsWith("roles.xhtml");
+    assertCurrentUrlContains("roles.xhtml");
   }
 
   @Test
@@ -101,7 +100,7 @@ public class WebTestRoleDetail {
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(DETAIL_ROLE_NAME);
     $("#newChildRoleForm\\:saveNewRole").click();
     $("#msgs_container").should(visible, text("Role '" + DETAIL_ROLE_NAME + "' couldn't be created"));
-    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
+    assertCurrentUrlContains("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
   }
 
   @Test
@@ -249,7 +248,7 @@ public class WebTestRoleDetail {
     $("#roleInformationForm\\:externalSecurityName").shouldBe(Condition.empty);
     $("#roleInformationForm\\:saveRoleInformation").click();
     Selenide.refresh();
-    assertCurrentUrlEndsWith("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
+    assertCurrentUrlContains("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn")
             .shouldNotHave(cssClass("ui-state-disabled")).click();
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn")
