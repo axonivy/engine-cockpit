@@ -124,11 +124,11 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
   private void applyFilter(UserQuery query) {
     if (StringUtils.isNotEmpty(filter)) {
       query.where().and(userQuery().where()
-              .name().isLikeIgnoreCase(filter + "%")
+              .name().isLikeIgnoreCase("%" + filter + "%")
               .or()
-              .fullName().isLikeIgnoreCase(filter + "%")
+              .fullName().isLikeIgnoreCase("%" + filter + "%")
               .or()
-              .eMailAddress().isLikeIgnoreCase(filter + "%"));
+              .eMailAddress().isLikeIgnoreCase("%" + filter + "%"));
     }
 
     query.where().and(userQuery().where().enabled().is(!showDisabledUsers));

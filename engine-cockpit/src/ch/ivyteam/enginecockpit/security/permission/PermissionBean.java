@@ -103,7 +103,7 @@ public class PermissionBean extends TreeView {
   @SuppressWarnings("unused")
   protected void filterNode(TreeNode node) {
     var permission = (AbstractPermission) node.getData();
-    if (permission.getName().toLowerCase().contains(filter.toLowerCase())) {
+    if (StringUtils.containsIgnoreCase(permission.getName(), filter)) {
       new DefaultTreeNode(permission, filteredTreeNode);
     }
   }
