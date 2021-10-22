@@ -44,6 +44,8 @@ public class WebTestUsers
     String firstUser = table.getFirstColumnEntries().get(0);
     table.search(firstUser);
     table.firstColumnShouldBe(size(1));
+    table.search("@test.com");
+    table.firstColumnShouldBe(size(2));
   }
   
   @Test

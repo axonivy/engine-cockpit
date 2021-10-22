@@ -100,7 +100,7 @@ public class ApplicationBean
     for (TreeNode node : nodes)
     {
       AbstractActivity activity = (AbstractActivity) node.getData();
-      if (StringUtils.startsWithIgnoreCase(activity.getName(), filter))
+      if (StringUtils.containsIgnoreCase(activity.getName(), filter))
       {
         new DefaultTreeNode(activity, filteredRootTreeNode);
       }

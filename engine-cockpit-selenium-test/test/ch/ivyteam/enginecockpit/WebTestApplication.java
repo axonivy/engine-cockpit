@@ -37,7 +37,7 @@ public class WebTestApplication
     $("h1").shouldHave(text("Applications"));
     Table table = new Table(By.className("ui-treetable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
-    $(".table-search-input-withicon").sendKeys("test-ad");
+    $(".table-search-input-withicon").sendKeys("eSt-A");
     table.firstColumnShouldBe(size(1));
   }
   

@@ -138,7 +138,7 @@ public class PermissionBean
     for (TreeNode node : nodes)
     {
       AbstractPermission permission = (AbstractPermission) node.getData();
-      if (permission.getName().toLowerCase().contains(filter.toLowerCase()))
+      if (StringUtils.containsIgnoreCase(permission.getName(), filter.toLowerCase()))
       {
         new DefaultTreeNode(permission, filteredRootTreeNode);
       }
