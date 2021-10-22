@@ -85,6 +85,7 @@ public final class PerformanceBean {
   }
 
   public void stop() {
+    refresh();
     statistic.stop();
   }
 
