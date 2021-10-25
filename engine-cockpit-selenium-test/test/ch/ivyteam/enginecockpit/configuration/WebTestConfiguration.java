@@ -30,6 +30,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -43,6 +44,7 @@ public class WebTestConfiguration {
   @BeforeEach
   void beforeEach() {
     login();
+    Configuration.timeout = 10000;
   }
 
   @Test
