@@ -206,6 +206,20 @@ public class WebTestConfiguration
       assertEditConfig(key, value, "newValue");
       assertResetConfig(key);
     }
+
+    @Test
+    void overrideProject_pmvSelector() {
+      String config = "OverrideProject";
+      String value = "notMyLibrary";
+
+      $("#configMoreForm\\:newConfigBtn").click();
+      assertNewConfig(config, value);
+
+      table.clickButtonForEntry(config, "editConfigBtn");
+      assertThatConfigEditModalIsVisible(config, " ");
+      $(By.id("config:editConfigurationForm:editConfigurationValue"))
+              .shouldHave(cssClass("ui-selectonemenu"));
+    }
   }
   
   @Nested
