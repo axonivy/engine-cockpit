@@ -2,7 +2,9 @@ package ch.ivyteam.enginecockpit.application;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,6 +24,8 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.application.ILibrary;
+import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
 import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
@@ -149,6 +153,10 @@ public class ApplicationDetailBean {
       property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
       property.setEnumerationValues(availableStandardProcesses(property));
     }
+    if (Objects.equals(property.getKey(), "OverrideProject")) {
+      property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
+      property.setEnumerationValues(librariesOf(managerBean.getSelectedIApplication()));
+    }
     return property;
   }
 
@@ -168,5 +176,19 @@ public class ApplicationDetailBean {
       return StandardProcessType.DEFAULT_PAGES_PROCESS_TYPES;
     }
     return StandardProcessType.MAIL_NOTIFICATION_PROCESS_TYPES;
+  }
+
+  private static List<String> librariesOf(IApplication app) {
+    List<String> libs = new LinkedList<>();
+    libs.add("");
+    var available = app.getProcessModels().stream()
+      .flatMap(pm -> pm.getProcessModelVersions().stream())
+      .map(IProcessModelVersion::getLibrary)
+      .filter(Objects::nonNull)
+      .map(ILibrary::getId)
+      .distinct()
+      .collect(Collectors.toList());
+    libs.addAll(available);
+    return libs;
   }
 }
