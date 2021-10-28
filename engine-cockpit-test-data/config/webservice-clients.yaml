@@ -22,4 +22,5 @@ WebServiceClients:
   second-web:
     Id: 17A86479A1CF0D33
     WsdlUrl: blabla
+    WsCallLibrary: CXF
     Endpoints: {}
