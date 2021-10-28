@@ -68,7 +68,7 @@ public class ApplicationDetailBean {
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
-            this::enrichStandardProcessConfigs, List.of(ConfigViewImpl.defaultFilter(),
+            this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
                     new ContentFilter<ConfigProperty>("Variables", "Show Variables",
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
                     new ContentFilter<ConfigProperty>("Databases", "Show Databases",
@@ -148,7 +148,7 @@ public class ApplicationDetailBean {
     return configView;
   }
 
-  private ConfigProperty enrichStandardProcessConfigs(ConfigProperty property) {
+  private ConfigProperty enrichPmvProperties(ConfigProperty property) {
     if (StringUtils.startsWith(property.getKey(), "StandardProcess")) {
       property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
       property.setEnumerationValues(availableStandardProcesses(property));
