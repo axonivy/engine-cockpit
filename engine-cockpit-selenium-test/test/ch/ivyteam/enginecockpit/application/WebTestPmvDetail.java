@@ -13,6 +13,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,6 +65,7 @@ public class WebTestPmvDetail {
   private void deletePortalKit() {
     var portalKitId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit")).parent().parent()
             .shouldBe(visible).attr("data-rk");
+    sleep(100);
     $(By.id(portalKitId + ":tasksButton")).shouldBe(visible, enabled).click();
     $(By.id(portalKitId + ":deleteBtn")).shouldBe(visible, enabled).click();
     $(By.id("card:form:deleteConfirmYesBtn")).shouldBe(visible, enabled).click();

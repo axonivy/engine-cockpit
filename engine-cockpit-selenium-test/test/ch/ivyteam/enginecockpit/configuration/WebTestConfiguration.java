@@ -286,7 +286,7 @@ public class WebTestConfiguration {
       assertNewConfig(config, value);
 
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, " ", "", "");
+      assertThatConfigEditModalIsVisible(config, " ", "Defines a project containing overriding SubProcesses", "");
       $(By.id("config:editConfigurationForm:editConfigurationValue"))
               .shouldHave(cssClass("ui-selectonemenu"));
     }
