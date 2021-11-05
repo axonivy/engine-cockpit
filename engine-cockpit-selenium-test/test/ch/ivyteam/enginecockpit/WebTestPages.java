@@ -50,7 +50,7 @@ public class WebTestPages {
             file -> !StringUtils.startsWith(file.toString(), "view/")
                     && StringUtils.contains(file.toString(), "/"))) {
       open(viewUrl(xhtml.toString()));
-      $(".exception-detail").shouldHave(text("404"));
+      $(".exception-detail").shouldHave(text("Not Found"));
     }
   }
 

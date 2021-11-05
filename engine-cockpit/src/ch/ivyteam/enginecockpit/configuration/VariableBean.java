@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -41,6 +42,7 @@ public class VariableBean implements ConfigView {
       app = managerBean.getSelectedIApplication();
       env = managerBean.getSelectedIEnvironment();
       variables = variables().all().stream()
+              .filter(Objects::nonNull)
               .map(ConfigProperty::new)
               .collect(Collectors.toList());
     }
