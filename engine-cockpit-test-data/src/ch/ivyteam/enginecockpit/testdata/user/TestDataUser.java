@@ -5,7 +5,7 @@ import ch.ivyteam.ivy.security.exec.Sudo;
 
 public class TestDataUser {
   public static void createDisabledUser() {
-    Sudo.exec(TestDataUser::newDisabledUser);
+    Sudo.run(TestDataUser::newDisabledUser);
   }
 
   private static void newDisabledUser() {
