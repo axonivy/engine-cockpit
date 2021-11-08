@@ -8,7 +8,7 @@ import ch.ivyteam.ivy.security.exec.Sudo;
 
 public class DynamicRoles {
   public static void createRoles() {
-    Sudo.exec(() -> {
+    Sudo.run(() -> {
       for (var i = 0; i < 110; i++) {
         getEverybody().createChildRole("role-" + UUID.randomUUID(), "dynamic role", "dynamic role", true);
       }
@@ -16,7 +16,7 @@ public class DynamicRoles {
   }
 
   public static void cleanupRoles() {
-    Sudo.exec(() -> {
+    Sudo.run(() -> {
       for (IRole child : getEverybody().getChildRoles()) {
         if (child.isDynamic()) {
           child.delete();
