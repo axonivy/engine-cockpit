@@ -10,7 +10,7 @@ public class DynamicRoles
 {
   public static void createRoles()
   {
-    Sudo.exec(() -> {
+    Sudo.run(() -> {
       IRole everybody = Ivy.wf().getApplication().getSecurityContext().findRole("Everybody");
       for (var i = 0; i < 110; i++)
       {
