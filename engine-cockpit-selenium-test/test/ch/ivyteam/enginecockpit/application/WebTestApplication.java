@@ -81,7 +81,7 @@ public class WebTestApplication {
   void testExpandCollapseTree() {
     Table table = new Table(By.className("ui-treetable"), true);
     table.firstColumnShouldBe(sizeLessThanOrEqual(3));
-    $("#card\\:form\\:expandAll").shouldBe(visible).click();
+    expandAppTree();
     table.firstColumnShouldBe(sizeGreaterThan(3));
     $("#card\\:form\\:collapseAll").shouldBe(visible).click();
     table.firstColumnShouldBe(sizeLessThanOrEqual(3));
@@ -89,7 +89,7 @@ public class WebTestApplication {
 
   @Test
   void testChildProblemOnParent() {
-    $("#card\\:form\\:expandAll").shouldBe(visible).click();
+    expandAppTree();
 
     var appName = isDesigner() ? DESIGNER : "test";
     var app = $$(".activity-name").find(text(appName)).parent().parent().parent();
@@ -113,12 +113,18 @@ public class WebTestApplication {
 
   @Test
   void showOverrideProjectIconInTree() {
-    var appName = isDesigner() ? DESIGNER : "test";
-    $$(".activity-name").find(text(appName)).parent().parent().find(".ui-treetable-toggler").shouldBe(visible).click();
-    $$(".activity-name").find(text("engine-cockpit-test-data")).parent().find(".table-icon")
+    expandAppTree();
+    $$(".activity-name").filter(text("engine-cockpit-test-data")).first().parent().find(".table-icon")
             .shouldHave(cssClass("si-move-to-bottom"))
             .shouldHave(attribute("title", "This PM is configured as strict override project"));
+    $$(".activity-name").filter(text("engine-cockpit-test-data")).last().parent().find(".table-icon")
+            .shouldHave(cssClass("si-module-three-2"))
+            .shouldHave(attribute("title", "PM"));
 
+  }
+
+  private void expandAppTree() {
+    $("#card\\:form\\:expandAll").shouldBe(visible).click();
   }
 
   private void stopAppInsideDetailView() {
