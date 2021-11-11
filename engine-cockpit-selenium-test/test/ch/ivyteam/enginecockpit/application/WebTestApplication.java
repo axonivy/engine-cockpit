@@ -114,9 +114,11 @@ public class WebTestApplication {
   @Test
   void showOverrideProjectIconInTree() {
     expandAppTree();
+    //project of app test has override configured
     $$(".activity-name").filter(text("engine-cockpit-test-data")).first().parent().find(".table-icon")
             .shouldHave(cssClass("si-move-to-bottom"))
             .shouldHave(attribute("title", "This PM is configured as strict override project"));
+    //project of app test-ad has no override configured
     $$(".activity-name").filter(text("engine-cockpit-test-data")).last().parent().find(".table-icon")
             .shouldHave(cssClass("si-module-three-2"))
             .shouldHave(attribute("title", "PM"));
