@@ -115,7 +115,7 @@ public class ApplicationDetailBean {
   }
 
   public void saveApplicationInfos() {
-    managerBean.getIApplication(app.getId()).setActiveEnvironment(app.getActiveEnv());
+    getIApplication().setActiveEnvironment(app.getActiveEnv());
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
             new FacesMessage("Active Environment change saved"));
   }
@@ -161,7 +161,7 @@ public class ApplicationDetailBean {
   }
 
   private List<String> availableStandardProcesses(ConfigProperty config) {
-    var workflow = WorkflowNavigationUtil.getWorkflowContext(managerBean.getSelectedIApplication());
+    var workflow = WorkflowNavigationUtil.getWorkflowContext(getIApplication());
     var libraries = new LinkedHashSet<String>();
     libraries.add("");
     libraries.add(config.getValue());
