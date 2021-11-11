@@ -8,6 +8,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -115,11 +116,11 @@ public class WebTestApplication {
   void showOverrideProjectIconInTree() {
     expandAppTree();
     //project of app test has override configured
-    $$(".activity-name").filter(text("engine-cockpit-test-data")).first().parent().find(".table-icon")
+    $$(".activity-name").find(exactText("AxonIvyExpress")).parent().find(".table-icon")
             .shouldHave(cssClass("si-move-to-bottom"))
             .shouldHave(attribute("title", "This PM is configured as strict override project"));
     //project of app test-ad has no override configured
-    $$(".activity-name").filter(text("engine-cockpit-test-data")).last().parent().find(".table-icon")
+    $$(".activity-name").find(exactText("portal-user-examples")).parent().find(".table-icon")
             .shouldHave(cssClass("si-module-three-2"))
             .shouldHave(attribute("title", "PM"));
 
