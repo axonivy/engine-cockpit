@@ -1,9 +1,12 @@
 package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
+import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
@@ -12,6 +15,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 public class ProcessModel extends AbstractActivity {
   private long runningCasesCount;
   private IProcessModel pm;
+  private Boolean isOverrideProject;
 
   public ProcessModel(IProcessModel pm, ApplicationBean bean) {
     super(pm.getName(), pm.getId(), pm, bean);
@@ -21,13 +25,23 @@ public class ProcessModel extends AbstractActivity {
   }
 
   @Override
+  public boolean isPm() {
+    return true;
+  }
+
+  @Override
   public long getRunningCasesCount() {
     return runningCasesCount;
   }
 
   @Override
   public String getIcon() {
-    return "module-three-2";
+    return isOverrideProject() ? "move-to-bottom" : "module-three-2";
+  }
+
+  @Override
+  public String getIconTitle() {
+    return isOverrideProject() ? "This PM is configured as strict override project" : getActivityType();
   }
 
   @Override
@@ -84,6 +98,22 @@ public class ProcessModel extends AbstractActivity {
   @Override
   public boolean isProtected() {
     return getName().equals("engine-cockpit");
+  }
+
+  @SuppressWarnings("restriction")
+  public boolean isOverrideProject() {
+    if (isOverrideProject == null) {
+      var overrideProject = ((IApplicationInternal) pm.getApplication()).getConfiguration().getOrDefault("OverrideProject");
+      var projectId = pm.getProcessModelVersions().stream()
+              .map(IProcessModelVersion::getLibrary)
+              .filter(Objects::nonNull)
+              .map(ILibrary::getId)
+              .distinct()
+              .findFirst()
+              .orElse(null);
+      isOverrideProject = projectId != null && projectId.equals(overrideProject);
+    }
+    return isOverrideProject;
   }
 
 }

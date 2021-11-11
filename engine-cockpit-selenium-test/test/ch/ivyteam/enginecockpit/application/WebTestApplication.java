@@ -7,6 +7,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
 import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -108,6 +109,16 @@ public class WebTestApplication {
             .findAll("i").shouldHave(size(1));
     app.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
             .findAll("i").shouldHave(size(1));
+  }
+
+  @Test
+  void showOverrideProjectIconInTree() {
+    var appName = isDesigner() ? DESIGNER : "test";
+    $$(".activity-name").find(text(appName)).parent().parent().find(".ui-treetable-toggler").shouldBe(visible).click();
+    $$(".activity-name").find(text("engine-cockpit-test-data")).parent().find(".table-icon")
+            .shouldHave(cssClass("si-move-to-bottom"))
+            .shouldHave(attribute("title", "This PM is configured as strict override project"));
+
   }
 
   private void stopAppInsideDetailView() {
