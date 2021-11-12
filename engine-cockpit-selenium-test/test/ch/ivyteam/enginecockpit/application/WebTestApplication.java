@@ -7,6 +7,8 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
 import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -80,7 +82,7 @@ public class WebTestApplication {
   void testExpandCollapseTree() {
     Table table = new Table(By.className("ui-treetable"), true);
     table.firstColumnShouldBe(sizeLessThanOrEqual(3));
-    $("#card\\:form\\:expandAll").shouldBe(visible).click();
+    expandAppTree();
     table.firstColumnShouldBe(sizeGreaterThan(3));
     $("#card\\:form\\:collapseAll").shouldBe(visible).click();
     table.firstColumnShouldBe(sizeLessThanOrEqual(3));
@@ -88,7 +90,7 @@ public class WebTestApplication {
 
   @Test
   void testChildProblemOnParent() {
-    $("#card\\:form\\:expandAll").shouldBe(visible).click();
+    expandAppTree();
 
     var appName = isDesigner() ? DESIGNER : "test";
     var app = $$(".activity-name").find(text(appName)).parent().parent().parent();
@@ -108,6 +110,24 @@ public class WebTestApplication {
             .findAll("i").shouldHave(size(1));
     app.find(".module-state").shouldBe(attribute("title", "ACTIVE"))
             .findAll("i").shouldHave(size(1));
+  }
+
+  @Test
+  void showOverrideProjectIconInTree() {
+    expandAppTree();
+    //project of app test has override configured
+    $$(".activity-name").find(exactText("AxonIvyExpress")).parent().find(".table-icon")
+            .shouldHave(cssClass("si-move-to-bottom"))
+            .shouldHave(attribute("title", "This PM is configured as strict override project"));
+    //project of app test-ad has no override configured
+    $$(".activity-name").find(exactText("portal-user-examples")).parent().find(".table-icon")
+            .shouldHave(cssClass("si-module-three-2"))
+            .shouldHave(attribute("title", "PM"));
+
+  }
+
+  private void expandAppTree() {
+    $("#card\\:form\\:expandAll").shouldBe(visible).click();
   }
 
   private void stopAppInsideDetailView() {

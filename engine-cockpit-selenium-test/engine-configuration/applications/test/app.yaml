@@ -20,3 +20,5 @@ BusinessCalendars:
       "Ascension Day": easter + 39
   Zug:
     Parent: Luzern
+
+OverrideProject: ch.ivyteam.enginecockpit:engine-cockpit-test-data

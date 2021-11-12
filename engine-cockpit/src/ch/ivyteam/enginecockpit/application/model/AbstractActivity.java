@@ -35,6 +35,10 @@ public abstract class AbstractActivity {
     return false;
   }
 
+  public boolean isPm() {
+    return false;
+  }
+
   public boolean isPmv() {
     return false;
   }
@@ -46,6 +50,10 @@ public abstract class AbstractActivity {
   abstract long getRunningCasesCount();
 
   abstract String getIcon();
+
+  public String getIconTitle() {
+    return getActivityType();
+  }
 
   public String getName() {
     return name;
