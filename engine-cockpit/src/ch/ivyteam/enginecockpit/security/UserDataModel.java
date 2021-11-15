@@ -79,12 +79,16 @@ public class UserDataModel extends LazyDataModel<User>
   {
     if (StringUtils.isNotEmpty(filter))
     {
+      var dbFilter = filter + "%";
+      if (filter.startsWith("*")) {
+        dbFilter = "%" + StringUtils.removeStart(dbFilter, "*");
+      }
       query.where().and(userQuery().where()
-        .name().isLikeIgnoreCase(filter + "%")
+        .name().isLikeIgnoreCase(dbFilter)
        .or()
-        .fullName().isLikeIgnoreCase(filter + "%")
+        .fullName().isLikeIgnoreCase(dbFilter)
        .or()
-        .eMailAddress().isLikeIgnoreCase(filter + "%"));
+        .eMailAddress().isLikeIgnoreCase(dbFilter));
     }
   }
   

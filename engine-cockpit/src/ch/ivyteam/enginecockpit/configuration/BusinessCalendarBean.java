@@ -122,7 +122,7 @@ public class BusinessCalendarBean
     for (TreeNode node : nodes)
     {
       BusinessCalendar calendar = (BusinessCalendar) node.getData();
-      if (calendar.getName().toLowerCase().contains(filter))
+      if (StringUtils.containsIgnoreCase(calendar.getName(), filter))
       {
         new DefaultTreeNode(calendar, filteredTreeRootNode);
       }

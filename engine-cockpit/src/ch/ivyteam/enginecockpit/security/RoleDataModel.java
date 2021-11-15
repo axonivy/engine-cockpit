@@ -138,11 +138,11 @@ public class RoleDataModel
       }
     }
 
-    private int addRolesToTree(List<IRole> rolesToAdd, boolean isMember)
+    private int addRolesToTree(List<IRole> rolesToAdd, boolean member)
     {
       super.getChildren().addAll(rolesToAdd.stream()
               .limit(ROLE_CHILDREN_LIMIT)
-              .map(child -> new LazyRoleTreeNode(child, isMember, this))
+              .map(child -> new LazyRoleTreeNode(child, member, this))
               .collect(Collectors.toList()));
       return rolesToAdd.size() - ROLE_CHILDREN_LIMIT;
     }
