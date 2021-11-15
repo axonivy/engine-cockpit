@@ -81,7 +81,7 @@ public class BusinessCalendarBean extends TreeView {
   @SuppressWarnings("unused")
   protected void filterNode(TreeNode node) {
     var calendar = (BusinessCalendar) node.getData();
-    if (calendar.getName().toLowerCase().contains(filter)) {
+    if (StringUtils.containsIgnoreCase(calendar.getName(), filter)) {
       new DefaultTreeNode(calendar, filteredTreeNode);
     }
   }

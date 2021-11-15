@@ -79,7 +79,7 @@ public class ApplicationBean extends TreeView {
   @SuppressWarnings("unused")
   protected void filterNode(TreeNode node) {
     var activity = (AbstractActivity) node.getData();
-    if (StringUtils.startsWithIgnoreCase(activity.getName(), filter)) {
+    if (StringUtils.containsIgnoreCase(activity.getName(), filter)) {
       new DefaultTreeNode(activity, filteredTreeNode);
     }
   }
