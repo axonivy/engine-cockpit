@@ -80,7 +80,7 @@ public class MemberProperty {
     @Override
     public void setMemberName(String memberName) {
       super.setMemberName(memberName);
-      role = managerBean.getSelectedIApplication().getSecurityContext().findRole(memberName);
+      role = managerBean.getSelectedIApplication().getSecurityContext().roles().find(memberName);
       reloadProperties();
     }
 
