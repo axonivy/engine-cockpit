@@ -172,12 +172,13 @@ public class RoleDetailBean
   public List<User> searchUser(String query)
   {
     var hasRole = UserQuery.create().where().hasRoleAssigned(getIRole());
+    var dbQuery = "%" + query + "%";
     var searchFilter = UserQuery.create().where()
-            .name().isLikeIgnoreCase(query + "%")
+            .name().isLikeIgnoreCase(dbQuery)
               .or()
-            .fullName().isLikeIgnoreCase(query + "%")
+            .fullName().isLikeIgnoreCase(dbQuery)
               .or()
-            .eMailAddress().isLikeIgnoreCase(query + "%");
+            .eMailAddress().isLikeIgnoreCase(dbQuery);
 
     return getSecurityContext().users().query()
             .where()
@@ -255,7 +256,7 @@ public class RoleDetailBean
   public List<Role> searchMember(String query)
   {
     return roleDataModel.getList().stream()
-            .filter(m -> StringUtils.startsWithIgnoreCase(m.getName(), query) && !isRoleMemberOfRole(m.getName()))
+            .filter(m -> StringUtils.containsIgnoreCase(m.getName(), query) && !isRoleMemberOfRole(m.getName()))
             .limit(10).collect(Collectors.toList());
   }
 
