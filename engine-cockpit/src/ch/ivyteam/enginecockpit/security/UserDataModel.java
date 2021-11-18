@@ -79,10 +79,7 @@ public class UserDataModel extends LazyDataModel<User>
   {
     if (StringUtils.isNotEmpty(filter))
     {
-      var dbFilter = filter + "%";
-      if (filter.startsWith("*")) {
-        dbFilter = "%" + StringUtils.removeStart(dbFilter, "*");
-      }
+      var dbFilter = "%" + filter + "%";
       query.where().and(userQuery().where()
         .name().isLikeIgnoreCase(dbFilter)
        .or()
