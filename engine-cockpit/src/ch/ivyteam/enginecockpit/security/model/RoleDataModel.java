@@ -21,7 +21,7 @@ public class RoleDataModel extends TreeView {
   public RoleDataModel(IApplication app, boolean showMember) {
     this.securityContext = app.getSecurityContext();
     this.showMember = showMember;
-    this.roles = app.getSecurityContext().getRoles().stream()
+    this.roles = app.getSecurityContext().roles().all().stream()
             .map(role -> new Role(role)).collect(Collectors.toList());
     this.filter = "";
     reloadTree();
@@ -54,7 +54,7 @@ public class RoleDataModel extends TreeView {
   @Override
   protected void buildTree() {
     rootTreeNode.setExpanded(true);
-    var role = securityContext.getTopLevelRole();
+    var role = securityContext.roles().topLevel();
     var node = new LazyRoleTreeNode(role, false, rootTreeNode);
     node.setExpanded(true);
   }

@@ -190,12 +190,12 @@ public class UserDetailBean {
   }
 
   public void removeRole(String roleName) {
-    getIUser().removeRole(getSecurityContext().findRole(roleName));
+    getIUser().removeRole(getSecurityContext().roles().find(roleName));
   }
 
   public void addRole(String roleName) {
     try {
-      getIUser().addRole(getSecurityContext().findRole(roleName));
+      getIUser().addRole(getSecurityContext().roles().find(roleName));
     } catch (Exception e) {
       FacesContext.getCurrentInstance().addMessage("roleMessage",
               new FacesMessage("User already member of this role"));

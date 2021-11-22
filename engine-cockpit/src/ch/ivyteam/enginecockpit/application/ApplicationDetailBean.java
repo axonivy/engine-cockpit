@@ -94,7 +94,7 @@ public class ApplicationDetailBean {
   }
 
   public String getSessionCount() {
-    return managerBean.formatNumber(getIApplication().getSecurityContext().getSessionCount());
+    return managerBean.formatNumber(getIApplication().getSecurityContext().sessions().count());
   }
 
   public String getUsersCount() {

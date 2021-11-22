@@ -66,7 +66,7 @@ public class RoleDetailBean {
 
   public void setRoleName(String roleName) {
     this.roleName = URLDecoder.decode(roleName, StandardCharsets.UTF_8);
-    var iRole = getSecurityContext().findRole(this.roleName);
+    var iRole = getSecurityContext().roles().find(this.roleName);
     this.role = new Role(iRole);
     this.usersOfRole.setApp(managerBean.getSelectedIApplication());
     this.usersOfRole.setFilterRole(getIRole());
@@ -197,7 +197,7 @@ public class RoleDetailBean {
   }
 
   private IRole getIRole(String name) {
-    return getSecurityContext().findRole(name);
+    return getSecurityContext().roles().find(name);
   }
 
   private void loadMembersOfRole() {

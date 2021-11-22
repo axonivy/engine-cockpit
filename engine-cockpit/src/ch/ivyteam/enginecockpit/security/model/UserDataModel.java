@@ -168,7 +168,7 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
   }
 
   private static void checkIfUserIsLoggedIn(IApplication app, List<User> appUsers) {
-    for (var session : app.getSecurityContext().getClusterSessionsSnapshot().getSessionInfos()) {
+    for (var session : app.getSecurityContext().sessions().clusterSnapshot().getSessionInfos()) {
       var sessionUser = session.getSessionUserName();
       appUsers.stream()
               .filter(u -> u.getName().equals(sessionUser))

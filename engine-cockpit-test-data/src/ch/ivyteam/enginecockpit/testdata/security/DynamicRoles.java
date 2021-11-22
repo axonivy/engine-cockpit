@@ -27,6 +27,6 @@ public class DynamicRoles {
 
   private static IRole getEverybody() {
     return IApplicationConfigurationManager.instance().findApplication("test").getSecurityContext()
-            .findRole("Everybody");
+            .roles().topLevel();
   }
 }

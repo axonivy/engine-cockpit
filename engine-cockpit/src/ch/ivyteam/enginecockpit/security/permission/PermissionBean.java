@@ -141,6 +141,6 @@ public class PermissionBean extends TreeView {
   }
 
   public ISecurityMember getSecurityMember() {
-    return managerBean.getSelectedIApplication().getSecurityContext().findSecurityMember(member);
+    return managerBean.getSelectedIApplication().getSecurityContext().members().find(member);
   }
 }

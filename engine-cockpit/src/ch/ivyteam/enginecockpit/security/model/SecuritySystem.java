@@ -28,7 +28,7 @@ public class SecuritySystem {
 
     this.appNames = appNames;
     this.usersCount = securityContext.map(c -> countUser(c)).orElse(0l);
-    this.rolesCount = securityContext.map(c -> c.getRoles().size()).orElse(0);
+    this.rolesCount = securityContext.map(c -> c.roles().all().size()).orElse(0);
   }
 
   private long countUser(ISecurityContext securityContext) {
