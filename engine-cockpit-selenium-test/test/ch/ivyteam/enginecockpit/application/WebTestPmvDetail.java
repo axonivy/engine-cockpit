@@ -9,6 +9,7 @@ import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -57,13 +58,13 @@ public class WebTestPmvDetail {
 
   private void deactivatePortalKit() {
     $(By.id("card:form:expandAll")).shouldBe(visible).click();
-    var portalKitVersionId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit$1")).parent()
+    var portalKitVersionId = "card:form:tree:" + $$(".activity-name").find(exactText("PortalKit$1")).parent()
             .parent().parent().shouldBe(visible).attr("data-rk");
     $(By.id(portalKitVersionId + ":deactivateButton")).shouldBe(visible).click();
   }
 
   private void deletePortalKit() {
-    var portalKitId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit")).parent().parent()
+    var portalKitId = "card:form:tree:" + $$(".activity-name").find(exactText("PortalKit")).parent().parent()
             .shouldBe(visible).attr("data-rk");
     sleep(100);
     $(By.id(portalKitId + ":tasksButton")).shouldBe(visible, enabled).click();
