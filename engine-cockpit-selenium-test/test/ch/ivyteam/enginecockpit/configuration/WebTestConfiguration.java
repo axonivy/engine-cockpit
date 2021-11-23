@@ -17,7 +17,6 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.refresh;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -208,12 +207,12 @@ public class WebTestConfiguration {
     @Test
     void testHideDefaults() {
       var config = "Data.FilesDirectory";
-      assertThat(table.getFirstColumnEntries()).contains(config);
+      table.firstColumnShouldBe(itemWithText(config));
       toggleDefaultFilter();
-      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      table.firstColumnShouldBe(noneMatch("Hide default values", e -> StringUtils.equals(e.getText(), config)));
       $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
       $("#contentFilter\\:form\\:resetFilterBtn").shouldBe(visible).click();
-      assertThat(table.getFirstColumnEntries()).contains(config);
+      table.firstColumnShouldBe(itemWithText(config));
     }
 
     @Test
@@ -237,12 +236,14 @@ public class WebTestConfiguration {
     }
 
     private void assertShowAppConfigFilter(String filter, String config) {
-      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table per default: " + config,
+              element -> StringUtils.equals(element.getText(), config)));
       toggleFilter(List.of(filter));
-      assertThat(table.getFirstColumnEntries()).contains(config);
+      table.firstColumnShouldBe(itemWithText(config));
       $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
       $("#contentFilter\\:form\\:resetFilterBtn").shouldBe(visible).click();
-      assertThat(table.getFirstColumnEntries()).doesNotContain(config);
+      table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table after reset filter: " + config,
+              element -> StringUtils.equals(element.getText(), config)));
     }
 
     @Test
@@ -325,7 +326,7 @@ public class WebTestConfiguration {
   private void assertUrlFiltering(String filter) {
     assertCurrentUrlContains("systemconfig.xhtml?filter=" + filter);
     table = new Table(TABLE_ID);
-    assertThat(table.getSearchFilter()).isEqualTo(filter);
+    table.searchFilterShould(exactValue(filter));
     table.firstColumnShouldBe(size(9));
   }
 
@@ -458,9 +459,8 @@ public class WebTestConfiguration {
         $(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue_input"))
                 .shouldBe(exactValue(value));
       } else if (StringUtils.contains(classAttr, "ui-selectonemenu")) {
-        SelectOneMenu menu = PrimeUi
-                .selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
-        assertThat(menu.getSelectedItem()).isEqualTo(value);
+        SelectOneMenu menu = PrimeUi.selectOne(By.id(idPrefix + ":editConfigurationForm:editConfigurationValue"));
+        menu.selectedItemShould(exactText(value));
       } else if (StringUtils.contains(configValue.getTagName(), "textarea")) {
         configValue.shouldNotBe(visible).shouldBe(exactValue(value));
         $(".CodeMirror").shouldBe(visible, text("this is a json file"));
