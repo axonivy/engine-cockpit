@@ -114,6 +114,10 @@ public class Table {
     $(By.id(globalFilter)).sendKeys(search);
   }
 
+  public void searchFilterShould(Condition condition) {
+    $(By.id(globalFilter)).should(condition);
+  }
+
   public String getSearchFilter() {
     return $(By.id(globalFilter)).shouldBe(visible).getAttribute("value");
   }
