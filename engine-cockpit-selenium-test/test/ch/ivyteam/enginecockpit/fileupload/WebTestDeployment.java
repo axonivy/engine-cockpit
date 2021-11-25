@@ -10,7 +10,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,7 +21,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -36,14 +34,14 @@ public class WebTestDeployment {
   }
 
   @Test
-  void testDeploymentNoFile() {
+  void noFile() {
     toAppDetailAndOpenDeployment();
     $("#deploymentModal\\:uploadBtn").click();
     $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
   }
 
   @Test
-  void testDeplomentInvalidFileEnding() throws IOException {
+  void invalidFileEnding() throws IOException {
     toAppDetailAndOpenDeployment();
     Path createTempFile = Files.createTempFile("app", ".txt");
     $("#fileInput").sendKeys(createTempFile.toString());
@@ -53,13 +51,9 @@ public class WebTestDeployment {
   }
 
   @Test
-  void testDeploymentInvalidAppAndBack() throws IOException {
+  void invalidAppAndBack() throws IOException {
     toAppDetailAndOpenDeployment();
-    Path createTempFile = Files.createTempFile("app", ".iar");
-    $("#fileInput").sendKeys(createTempFile.toString());
-    $("#deploymentModal\\:uploadBtn").click();
-    $("#uploadLog").shouldNotBe(empty);
-    $("#fileUploadForm").shouldNotBe(visible);
+    deployPath(Files.createTempFile("app", ".iar"));
     if (isDesigner()) {
       $("#uploadLog").shouldHave(text("404"));
     } else {
@@ -73,28 +67,53 @@ public class WebTestDeployment {
   }
 
   @Test
-  void testDeploymentDeployOptions() {
+  void validApp() {
+    if (isDesigner()) {
+      return;
+    }
     toAppDetailAndOpenDeployment();
-    showDeploymentOptions();
-    SelectOneMenu testUser = PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers"));
-    SelectOneMenu version = PrimeUi.selectOne(By.id("deploymentModal:version"));
-    SelectOneMenu state = PrimeUi.selectOne(By.id("deploymentModal:state"));
-    SelectOneMenu fileFormat = PrimeUi.selectOne(By.id("deploymentModal:fileFormat"));
-
-    assertThat(testUser.getSelectedItem()).isEqualTo("AUTO");
-    assertThat(version.getSelectedItem()).isEqualTo("AUTO");
-    assertThat(state.getSelectedItem()).isEqualTo("ACTIVE_AND_RELEASED");
-    assertThat(fileFormat.getSelectedItem()).isEqualTo("AUTO");
+    deployPath(Path.of(System.getProperty("basedir")).getParent().resolve("engine-cockpit-test-data").resolve("target").resolve("engine-cockpit-test-data-9.3.0-SNAPSHOT.iar"));
+    $("#uploadLog").shouldHave(text("Using default>DeploymentOptions"),
+            text("successful deployed to application"));
   }
 
   @Test
-  void testDeploymentDeployOptionsVersionRange() {
+  void validAppWithDeployOptions() {
+    if (isDesigner()) {
+      return;
+    }
+    toAppDetailAndOpenDeployment();
+    showDeploymentOptions();
+    deployPath(Path.of(System.getProperty("basedir")).getParent().resolve("engine-cockpit-test-data").resolve("target").resolve("engine-cockpit-test-data-9.3.0-SNAPSHOT.iar"));
+    $("#uploadLog").shouldHave(text("Using resource.params>DeploymentOptions"),
+            text("successful deployed to application"));
+  }
+
+  private void deployPath(Path testDataIar) {
+    $("#fileInput").sendKeys(testDataIar.toString());
+    $("#deploymentModal\\:uploadBtn").click();
+    $("#uploadLog").shouldNotBe(empty);
+    $("#fileUploadForm").shouldNotBe(visible);
+  }
+
+  @Test
+  void deployOptions() {
+    toAppDetailAndOpenDeployment();
+    showDeploymentOptions();
+    PrimeUi.selectOne(By.id("deploymentModal:deployTestUsers")).selectedItemShould(exactText("AUTO"));
+    PrimeUi.selectOne(By.id("deploymentModal:version")).selectedItemShould(exactText("AUTO"));
+    PrimeUi.selectOne(By.id("deploymentModal:state")).selectedItemShould(exactText("ACTIVE_AND_RELEASED"));
+    PrimeUi.selectOne(By.id("deploymentModal:fileFormat")).selectedItemShould(exactText("AUTO"));
+  }
+
+  @Test
+  void deployOptionsVersionRange() {
     toAppDetailAndOpenDeployment();
     openDeployOptionsAndAssertVersionRange();
   }
 
   @Test
-  void testDeploymentDeployOptionsVersionRange_AppsView() {
+  void deployOptionsVersionRange_AppsView() {
     toAppsAndOpenDeployDialog();
     openDeployOptionsAndAssertVersionRange();
   }

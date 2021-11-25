@@ -5,6 +5,7 @@ import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -28,19 +29,33 @@ public class WebTestAdmins {
   }
 
   @Test
-  void testAddEditDeleteAdmin() {
+  void addEditDeleteAdmin() {
     $("h1").shouldBe(text("Administrators"));
     testAddEditDelete();
   }
 
   @Test
-  void testAdminDialogInvalid() {
+  void loginWithNewAdmin() {
+    addAdmin("support@ivyteam.ch", "support@ivyteam.ch", "password", "password");
+    login("login.xhtml", "support@ivyteam.ch", "password");
+    $("#sessionUserName").shouldBe(exactText("support@ivyteam.ch"));
+    $(".profile-image-wrapper img").shouldBe(exist);
+
+    login("login.xhtml");
+    $("#sessionUserName").shouldBe(exactText("admin"));
+    $(".profile-image-wrapper i").shouldBe(exist);
+    Navigation.toAdmins();
+    deleteAdmin(new Table(By.id("admins:adminForm:adminTable")), "support@ivyteam.ch");
+  }
+
+  @Test
+  void adminDialogInvalid() {
     testAddAdminInvalidValues();
     testAddAdminInvalidPassword();
   }
 
   @Test
-  void testOwnAdminCannotBeDeleted() {
+  void ownAdminCannotBeDeleted() {
     assertOwnAdminCannotBeDeleted();
   }
 

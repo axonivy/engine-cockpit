@@ -19,7 +19,6 @@ function buttonRemoveSpinner(button, defaultIcon) {
 
 function checkGravatarImg(img)
 {
-  console.log("load");
   img.style.display = "block";
   img.nextElementSibling.style.display = "none";
 }

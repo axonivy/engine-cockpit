@@ -4,6 +4,8 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlCo
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -11,10 +13,12 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestSecuritySystem {
@@ -26,13 +30,16 @@ public class WebTestSecuritySystem {
   }
 
   @Test
-  void testSecuritySystem() {
+  void securitySystem() {
     $("h1").shouldBe(text("Security Systems"));
-    $$("tbody tr").shouldBe(sizeGreaterThan(0));
+    var table = new Table(By.id("card:form:securitySystemTable"), true);
+    table.firstColumnShouldBe(sizeGreaterThan(0));
+    table.valueForEntryShould("test-nd", 3, empty);
+    table.valueForEntryShould("test-ad", 3, exactText("test-ad"));
   }
 
   @Test
-  void testAddNewSecuritySystemInvalid() {
+  void addNewSecuritySystemInvalid() {
     $("#card\\:form\\:createSecuritySystemBtn").click();
     $("#card\\:newSecuritySystemModal").shouldBe(visible);
     $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
@@ -40,7 +47,7 @@ public class WebTestSecuritySystem {
   }
 
   @Test
-  void testAddAndDeleteSecuritySystem() {
+  void addAndDeleteSecuritySystem() {
     $("#card\\:form\\:createSecuritySystemBtn").click();
     $("#card\\:newSecuritySystemModal").shouldBe(visible);
     $("#card\\:newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");

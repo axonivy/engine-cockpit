@@ -20,6 +20,7 @@ import java.util.List;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 
 public class EngineCockpitUtil {
@@ -32,20 +33,24 @@ public class EngineCockpitUtil {
     return isDesigner() ? "Developer" : "admin";
   }
 
+  public static void login() {
+    login("dashboard.xhtml");
+  }
+
   public static void login(String url) {
+    login(url, getAdminUser(), getAdminUser());
+  }
+
+  public static void login(String url, String username, String password) {
     open(viewUrl(url));
     if (webdriver().driver().url().endsWith("login.xhtml")) {
       $("h1").shouldHave(text("Engine Cockpit"));
-      $("#loginForm\\:userName").sendKeys(getAdminUser());
-      $("#loginForm\\:password").sendKeys(getAdminUser());
+      $("#loginForm\\:userName").sendKeys(username);
+      $("#loginForm\\:password").sendKeys(password);
       $("#loginForm\\:login").click();
     }
     $("#menuform").shouldBe(visible);
-    assertCurrentUrlContains(url);
-  }
-
-  public static void login() {
-    login("dashboard.xhtml");
+    assertCurrentUrlContains(url == "login.xhtml" ? "dashboard.xhtml" : url);
   }
 
   public static void openDashboard() {
@@ -132,6 +137,15 @@ public class EngineCockpitUtil {
 
   public static void performanceData() {
     runTestProcess("17B77E4EAE9AC806/performance.ivp");
+  }
+
+  public static void createRunningCase() {
+    runTestProcess("17D57ADFD804B24E/runningCase.ivp");
+    Selenide.sleep(500);
+  }
+
+  public static void destroyRunningCase() {
+    runTestProcess("17D57ADFD804B24E/destroyRunningCase.ivp");
   }
 
   private static void runTestProcess(String processLink) {
