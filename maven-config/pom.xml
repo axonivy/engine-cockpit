@@ -42,7 +42,6 @@
         <artifactId>project-build-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <ivyVersion>[9.1.0,]</ivyVersion>
           <engineListPageUrl>${engine.page.url}</engineListPageUrl>
           <engineDirectory>${engine.dir}</engineDirectory>
           <skipScriptValidation>false</skipScriptValidation>
