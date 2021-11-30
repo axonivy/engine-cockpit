@@ -109,10 +109,11 @@ public class ManagerBean {
   }
 
   public String getSelectedApplicationName() {
-    if (applications.isEmpty()) {
+    var selectedApplication = getSelectedApplication();
+    if (selectedApplication == null) {
       return "";
     }
-    return getSelectedApplication().getName();
+    return selectedApplication.getName();
   }
 
   public IApplicationConfigurationManager getManager() {
@@ -120,10 +121,16 @@ public class ManagerBean {
   }
 
   public Application getSelectedApplication() {
+    if (applications.isEmpty()) {
+      return null;
+    }
     return applications.get(selectedApplicationIndex);
   }
 
   public IApplication getSelectedIApplication() {
+    if (applications.isEmpty()) {
+      return null;
+    }
     return manager.getApplication(getSelectedApplication().getId());
   }
 
@@ -168,7 +175,10 @@ public class ManagerBean {
     locales.add(Locale.ENGLISH);
     locales.add(Locale.GERMAN);
     locales.add(Locale.FRENCH);
-    locales.addAll(((IApplicationInternal) getSelectedIApplication()).getLanguages());  
+    IApplicationInternal app = (IApplicationInternal) getSelectedIApplication();
+    if (app != null) {
+      locales.addAll(app.getLanguages());
+    }
     return locales.stream()
             .distinct()
             .collect(Collectors.toMap(Locale::getLanguage, l -> l, (l1, l2) -> l1)).values().stream()
@@ -182,7 +192,11 @@ public class ManagerBean {
   }
 
   public List<String> getEnvironments() {
-    return environments.get(getSelectedApplication().getId());
+    Application app = getSelectedApplication();
+    if (app == null) {
+      return List.of();
+    }
+    return environments.get(app.getId());
   }
 
   public void setSelectedEnvironment(String environment) {
