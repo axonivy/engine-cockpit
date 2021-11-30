@@ -61,3 +61,12 @@ body .ui-steps .ui-steps-item .step-ok .ui-steps-number {
   text-align: center;
   margin-bottom: 20px;
 }
+
+/* Migration Wizard */
+.question {
+  display: none;
+}
+.question:last-child {
+  display: block
+}
+

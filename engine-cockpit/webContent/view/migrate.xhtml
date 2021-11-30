@@ -81,7 +81,7 @@
                   </h:panelGroup>
                 </p:panelGrid>
                 <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" closable="true" />
-                <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="repeatStatus">
+                <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="tasksRepeat">
                   <div class="migration-step" style="padding: 0 14px;">
                     <h4 style="margin-top: 2rem; margin-bottom: 0;">
                       <i class="si si-#{task.stateIcon}"
@@ -89,20 +89,22 @@
                     </h4>
                     <p style="margin-left: 30px;">#{task.description}</p>
                     <h:panelGroup rendered="#{task.state == 'running'}" layout="block">
-                      <h:panelGroup id="diff" layout="block" />
-                      <script>
-                      showDiff('form:tasks:#{repeatStatus.index}:diff', '#{task.question.diff}');
-                      </script>
-                      <h:panelGroup rendered="#{task.question != null}">
-                        <p style="font-weight: bold;">#{task.question.title}</p>
-                        <p style="white-space: pre-wrap;">#{task.question.more}</p>
-                        <p:selectOneButton value="#{task.question.answer}">
-                          <f:selectItems value="#{task.question.options}"
-                            var="option" itemLabel="#{option}"
-                            itemValue="#{option}" />
-                          <p:ajax onsuccess="PF('migrationPoller').start()"/>
-                        </p:selectOneButton>
-                      </h:panelGroup>
+                      <p:repeat var="question" value="#{task.questions}" id="questions" varStatus="questionsRepeat">
+                        <h:panelGroup styleClass="question">
+                          <h:panelGroup id="diff" layout="block" />
+                          <script>
+                            showDiff('form:tasks:#{tasksRepeat.index}:questions:#{questionsRepeat.index}:diff', '#{question.diff}');
+                          </script>
+                          <p style="font-weight: bold;">#{question.title}</p>
+                          <p style="white-space: pre-wrap;">#{question.more}</p>
+                          <p:selectOneButton value="#{question.answer}">
+                            <f:selectItems value="#{question.options}"
+                              var="option" itemLabel="#{option}"
+                              itemValue="#{option}" />
+                            <p:ajax onsuccess="PF('migrationPoller').start()"/>
+                          </p:selectOneButton>
+                        </h:panelGroup>
+                      </p:repeat>
                     </h:panelGroup>
                   </div>
                 </ui:repeat>
