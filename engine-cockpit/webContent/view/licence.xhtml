@@ -53,7 +53,7 @@
     </ui:define>
 
     <ui:define name="sidebar">
-      <cc:Sidebar jmxSource="#{webserviceDetailBean.liveStats.webService}">
+      <cc:Sidebar>
         <cc:LiveStats monitor="#{sessionMonitorBean.sessionsMonitor}" id="sessions" />
 
         <p:dataTable value="#{licenceBean.activeSessions}" var="activeSession" style="margin-top: 20px;"
