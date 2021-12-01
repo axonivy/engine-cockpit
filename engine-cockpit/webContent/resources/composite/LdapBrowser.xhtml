@@ -31,7 +31,7 @@
             <h:outputText value="#{attr.name}" styleClass="node-attr-name" />
           </p:column>
           <p:column headerText="Value"
-            style="min-width: #{empty cc.attrs.ldapBrowser.selectedNodeAttributes ? '100px' : '1000px'};">
+            style="min-width: #{empty cc.attrs.ldapBrowser.selectedNodeAttributes ? '100px' : '1000px'}; white-space: pre-wrap; word-break: break-word;">
             <h:outputText value="#{attr.value}" />
           </p:column>
         </p:dataTable>
