@@ -1,5 +1,8 @@
 package ch.ivyteam.enginecockpit.setup.migration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.migration.MigrationTask;
@@ -13,7 +16,7 @@ public class Task {
   private String state;
   private String stateIcon;
   private MigrationTask task;
-  private Question question;
+  private List<Question> questions;
 
   public Task(MigrationTask task) {
     this.task = task;
@@ -21,6 +24,7 @@ public class Task {
             StringUtils.SPACE);
     description = task.getDescription();
     stateIcon = "navigation-menu-horizontal";
+    questions = new ArrayList<>();
   }
 
   public void run() {
@@ -59,14 +63,17 @@ public class Task {
   }
 
   public void question(Quest<?> quest, String diff) {
-    question = new Question(quest, diff);
+    questions.add(new Question(quest, diff));
   }
 
-  public Question getQuestion() {
-    return question;
+  public List<Question> getQuestions() {
+    return questions;
   }
 
-  public String answer() {
-    return question.getAnswer();
+  String answer() {
+    if (questions.size() > 0) {
+      return questions.get(questions.size() - 1).getAnswer();
+    }
+    return null;
   }
 }
