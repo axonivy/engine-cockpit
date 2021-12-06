@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li>Monitor</li>
+      <li>/</li>
+      <li>Engine</li>
+      <li>/</li>
+      <li><a href="monitorTraces.xhtml">Slow Requests</a></li>
+    </ui:define>
+
+    <ui:define name="breadcrumb-right">
+      <a
+        href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#SlowRequests"
+        target="_blank" rel="noopener noreferrer"> <i
+        class="si si-lg si-question-circle"></i>
+      </a>
+    </ui:define>
+
+    <ui:define name="content">
+      <cc:SingleCard id="traces">
+        <div class="card card-w-title">
+          <h:form id="form">
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-10">
+                <h1>
+                  <i class="si si-monitor-heart-beat-search card-title-icon"></i>Slow Requests
+                </h1>
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-11">
+                <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
+                    icon="si si-controls-play" styleClass="green-btn" disabled="#{traceBean.notStartable}" style="margin-right: 10px; margin-bottom: 10px"/>
+                <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="traces:form" title="Stop recording"
+                    icon="si si-controls-stop" styleClass="red-btn" disabled="#{traceBean.notStoppable}" style="margin-right: 10px;"/>
+                <p:commandButton id="clear" actionListener="#{traceBean.clear}" update="traces:form" title="Clear statistic"
+                    icon="si si-bin-1" styleClass="red-btn" disabled="#{traceBean.notCleanable}" style="margin-right: 10px;"/>
+                <p:commandButton id="refresh" actionListener="#{traceBean.refresh}" update="traces:form" title="Refresh statistic"
+                    icon="si si-button-refresh-arrows" disabled="#{traceBean.notRefreshable}" style="margin-right: 10px;"/>
+                <p:commandButton id="export" title="Export traces" ajax="false"
+                    icon="si si-office-file-xls-1" disabled="#{traceBean.notCleanable}">
+                  <p:dataExporter type="xlsxstream" target="traceTable" fileName="Traces"/>
+                </p:commandButton>
+                
+              </div>
+             </div>
+          
+            <p:dataTable var="trace" value="#{traceBean.slowTraces}"
+              widgetVar="traceTable"
+              filteredValue="#{traceBean.filteredTraces}"
+              id="traceTable">
+              <f:facet name="header">
+                <p:outputPanel>
+                  <p:outputLabel styleClass="table-search-icon">
+                    <i class="si si-search"></i>
+                  </p:outputLabel>
+                  <p:inputText styleClass="table-search-input-withicon"
+                    id="globalFilter" onkeyup="PF('traceTable').filter()"
+                    placeholder="Search" value="#{traceBean.filter}" />
+                </p:outputPanel>
+              </f:facet>
+              <p:column headerText="Name" sortBy="#{trace.name}" filterBy="#{trace.name}" exportFunction="#{performanceBean.export}">
+                <a href="monitorTraceDetail.xhtml?traceId=#{trace.id}">
+                  <h:outputText value="#{trace.name}" title="#{trace.info}" >
+                    <i class="si si-monitor-heart-beat-search table-icon"></i>
+                  </h:outputText>
+                </a>
+              </p:column>
+              <p:column style="width: 150px;" headerText="Execution Time" sortBy="#{trace.executionTime}" exportFunction="#{traceBean.export}">
+                <div style="background: #{trace.executionTimeBackground};">
+                  <h:outputText value="#{trace.executionTime}"/>
+                </div>                
+              </p:column>
+              <p:column style="width: 130px;" headerText="Start" sortBy="#{trace.start}">
+                <h:outputText value="#{trace.start}">
+                </h:outputText>
+              </p:column>
+              <p:column style="width: 130px;" headerText="End" sortBy="#{trace.end}">
+                <h:outputText value="#{trace.end}">
+                </h:outputText>
+              </p:column>
+            </p:dataTable>
+          </h:form>
+        </div>
+      </cc:SingleCard>
+      <p:confirmDialog style="min-width: 300px;" header="Start Recording" id="startRecordingDialog"
+            widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+        <h:form id="startTraces">
+          <p:staticMessage severity="warn" detail="Start the recording of the slow requests can have a negative impact on the performance of the engine." />
+          <p:commandLink id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="modal-input-button"/>
+          <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"                  
+            styleClass="modal-input-button" actionListener="#{traceBean.start}" update="traces:form"/>
+        </h:form>
+      </p:confirmDialog>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
