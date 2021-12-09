@@ -23,6 +23,7 @@ Mn0 f0 inParamDecl '<> param;' #txt
 Mn0 f0 requestEnabled true #txt
 Mn0 f0 triggerEnabled false #txt
 Mn0 f0 callSignature cockpit() #txt
+Mn0 f0 startCustomFields embedInFrame=false #txt
 Mn0 f0 caseData businessCase.attach=true #txt
 Mn0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
@@ -42,6 +43,7 @@ Mn0 f2 inParamDecl '<> param;' #txt
 Mn0 f2 requestEnabled true #txt
 Mn0 f2 triggerEnabled false #txt
 Mn0 f2 callSignature setup() #txt
+Mn0 f2 startCustomFields embedInFrame=false #txt
 Mn0 f2 caseData businessCase.attach=true #txt
 Mn0 f2 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>

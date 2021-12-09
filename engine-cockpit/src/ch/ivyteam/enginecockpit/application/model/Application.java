@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
@@ -8,9 +9,10 @@ import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
-import ch.ivyteam.ivy.workflow.IWorkflowManager;
+import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 
 @SuppressWarnings("restriction")
 public class Application extends AbstractActivity {
@@ -144,10 +146,10 @@ public class Application extends AbstractActivity {
 
   public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
-      var wfManager = IWorkflowManager.instance();
       webServiceProcesses = app.getProcessModels().stream()
-              .map(pm -> pm.getReleasedProcessModelVersion())
-              .map(pmv -> wfManager.getWorkflowProcessModelVersion(pmv))
+              .map(IProcessModel::getReleasedProcessModelVersion)
+              .map(IWorkflowProcessModelVersion::of)
+              .filter(Objects::nonNull)
               .flatMap(pmv -> pmv.getWebServiceProcesses().stream())
               .map(WebServiceProcess::new)
               .collect(Collectors.toList());
