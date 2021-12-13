@@ -14,6 +14,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,7 +73,7 @@ public class WebTestDeployment {
       return;
     }
     toAppDetailAndOpenDeployment();
-    deployPath(Path.of(System.getProperty("basedir")).getParent().resolve("engine-cockpit-test-data").resolve("target").resolve("engine-cockpit-test-data-9.3.0-SNAPSHOT.iar"));
+    deployPath(findTestProject());
     $("#uploadLog").shouldHave(text("Using default>DeploymentOptions"),
             text("successful deployed to application"));
   }
@@ -84,9 +85,23 @@ public class WebTestDeployment {
     }
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
-    deployPath(Path.of(System.getProperty("basedir")).getParent().resolve("engine-cockpit-test-data").resolve("target").resolve("engine-cockpit-test-data-9.3.0-SNAPSHOT.iar"));
+    deployPath(findTestProject());
     $("#uploadLog").shouldHave(text("Using resource.params>DeploymentOptions"),
             text("successful deployed to application"));
+  }
+
+  private Path findTestProject() {
+    var targetDir = Path.of(System.getProperty("basedir")).getParent().resolve("engine-cockpit-test-data").resolve("target");
+    try (var walker = Files.walk(targetDir, 1)) {
+      return walker.filter(Files::isRegularFile)
+              .filter(f -> {
+                var fileName = f.getFileName().toString();
+                return fileName.startsWith("engine-cockpit-test-data-") && fileName.endsWith(".iar");
+              })
+              .findFirst().orElseThrow();
+    } catch (IOException | NoSuchElementException ex) {
+      throw new RuntimeException("Couldn't find the engine-cockpit-test-data.iar project", ex);
+    }
   }
 
   private void deployPath(Path testDataIar) {
