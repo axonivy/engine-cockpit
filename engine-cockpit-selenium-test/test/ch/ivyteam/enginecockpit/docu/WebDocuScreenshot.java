@@ -147,6 +147,8 @@ public class WebDocuScreenshot {
     takeScreenshot("engine-cockpit-setup-admins", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizard.navigateToStep("Web Server");
     takeScreenshot("engine-cockpit-setup-webserver", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
+    WebTestWizard.navigateToStep("Storage");
+    takeScreenshot("engine-cockpit-setup-storage", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizard.navigateToStep("System Database");
     WebTestSystemDb.assertSystemDbCreationDialog();
     takeDialogScreenshot("engine-cockpit-dialog-setup-systemdb-create");
