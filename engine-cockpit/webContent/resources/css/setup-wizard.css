@@ -23,7 +23,7 @@ body .ui-growl {
   top: 125px;
 }
 .ui-steps .ui-steps-item {
-  width: 25%;
+  width: 20%;
 }
 body .ui-steps .ui-steps-item .step-warning .ui-steps-number {
   background-color: #ffce29;
@@ -60,6 +60,20 @@ body .ui-steps .ui-steps-item .step-ok .ui-steps-number {
   line-height: 100px;
   text-align: center;
   margin-bottom: 20px;
+}
+.storage-ctrls {
+  height: 30px;
+}
+.storage-ctrls .ui-button {
+  width: 100px;
+  float: right;
+  margin-right: 5px;
+}
+.storage-ctrls .ui-commandlink {
+  color: var(--ivy-primary-color-grey, gray);
+  float: right;
+  line-height: 30px;
+  margin-right: 10px;
 }
 
 /* Migration Wizard */

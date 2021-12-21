@@ -21,7 +21,9 @@
                     styleClass="#{administratorBean.stepStatus}" />
                   <p:menuitem value="Web Server" actionListener="#{wizardBean.setActiveStep(2)}" update="wizardStepPage" 
                     styleClass="#{webServerConnectorBean.stepStatus}" />
-                  <p:menuitem value="System Database" actionListener="#{wizardBean.setActiveStep(3)}" update="wizardStepPage" 
+                  <p:menuitem value="Storage" actionListener="#{wizardBean.setActiveStep(3)}" update="wizardStepPage" 
+                    styleClass="#{storageBean.stepStatus}" />
+                  <p:menuitem value="System Database" actionListener="#{wizardBean.setActiveStep(4)}" update="wizardStepPage" 
                     styleClass="#{systemDatabaseBean.stepStatus}" />
                 </p:steps>
               </h:form>
@@ -36,6 +38,9 @@
                 <ui:include src="../includes/components/setup/setup-webserver.xhtml" />
               </h:panelGroup>
               <h:panelGroup rendered="#{wizardBean.activeStep eq 3}">
+                <ui:include src="../includes/components/setup/setup-storage.xhtml" />
+              </h:panelGroup>
+              <h:panelGroup rendered="#{wizardBean.activeStep eq 4}">
                 <ui:include src="../includes/components/setup/setup-systemdb.xhtml" />
               </h:panelGroup>
               

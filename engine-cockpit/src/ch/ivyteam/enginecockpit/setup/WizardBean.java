@@ -53,12 +53,10 @@ public class WizardBean {
     steps = new ArrayList<>();
     var context = FacesContext.getCurrentInstance();
     steps.add(context.getApplication().evaluateExpressionGet(context, "#{licenceBean}", StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{administratorBean}",
-            StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{webServerConnectorBean}",
-            StepStatus.class));
-    steps.add(context.getApplication().evaluateExpressionGet(context, "#{systemDatabaseBean}",
-            StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{administratorBean}", StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{webServerConnectorBean}", StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{storageBean}", StepStatus.class));
+    steps.add(context.getApplication().evaluateExpressionGet(context, "#{systemDatabaseBean}", StepStatus.class));
     for (StepStatus step : steps) {
       if (!step.isStepOk()) {
         return Steps.valueOf(steps.indexOf(step));
@@ -75,8 +73,11 @@ public class WizardBean {
   }
 
   public static enum Steps {
-    LICENCE(0, "Licence"), ADMINS(1, "Administrators"), WEBSERVER(2, "Web Server"), SYSTEMDB(3,
-            "System Database");
+    LICENCE(0, "Licence"),
+    ADMINS(1, "Administrators"),
+    WEBSERVER(2, "Web Server"),
+    STORAGE(3, "Storage"),
+    SYSTEMDB(4, "System Database");
 
     private final int value;
     private final String name;

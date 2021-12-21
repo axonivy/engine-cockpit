@@ -23,6 +23,11 @@ Cg0 @StartRequest f11 '' #zField
 Cg0 @GridStep f12 '' #zField
 Cg0 @PushWFArc f13 '' #zField
 Cg0 @PushWFArc f14 '' #zField
+Cg0 @GridStep f15 '' #zField
+Cg0 @StartRequest f16 '' #zField
+Cg0 @EndTask f17 '' #zField
+Cg0 @PushWFArc f18 '' #zField
+Cg0 @PushWFArc f19 '' #zField
 >Proto Cg0 Cg0 Config #zField
 Cg0 f0 outLink cleanupAdmins.ivp #txt
 Cg0 f0 inParamDecl '<> param;' #txt
@@ -101,6 +106,31 @@ IConfiguration.instance().remove("SystemDb");
 Cg0 f12 168 234 112 44 0 -7 #rect
 Cg0 f13 280 256 337 256 #arcP
 Cg0 f14 111 256 168 256 #arcP
+Cg0 f15 actionTable 'out=in;
+' #txt
+Cg0 f15 actionCode 'import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+
+IConfiguration.instance().remove("Data");
+' #txt
+Cg0 f15 168 330 112 44 0 -7 #rect
+Cg0 f16 outLink cleanupDataDirs.ivp #txt
+Cg0 f16 inParamDecl '<> param;' #txt
+Cg0 f16 requestEnabled true #txt
+Cg0 f16 triggerEnabled false #txt
+Cg0 f16 callSignature cleanupDataDirs() #txt
+Cg0 f16 caseData businessCase.attach=true #txt
+Cg0 f16 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>cleanupDataDirs.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Cg0 f16 @C|.responsibility Everybody #txt
+Cg0 f16 81 337 30 30 -61 30 #rect
+Cg0 f17 337 337 30 30 0 15 #rect
+Cg0 f18 280 352 337 352 #arcP
+Cg0 f19 111 352 168 352 #arcP
 >Proto Cg0 .type engine.cockpit.test.data.Data #txt
 >Proto Cg0 .processKind NORMAL #txt
 >Proto Cg0 0 0 32 24 18 0 #rect
@@ -117,3 +147,7 @@ Cg0 f11 mainOut f14 tail #connect
 Cg0 f14 head f12 mainIn #connect
 Cg0 f12 mainOut f13 tail #connect
 Cg0 f13 head f10 mainIn #connect
+Cg0 f16 mainOut f19 tail #connect
+Cg0 f19 head f15 mainIn #connect
+Cg0 f15 mainOut f18 tail #connect
+Cg0 f18 head f17 mainIn #connect

@@ -117,6 +117,7 @@ public class EngineCockpitUtil {
     runTestProcess("16E881C7DC458C7D/cleanupAdmins.ivp");
     runTestProcess("16E881C7DC458C7D/cleanupConnectors.ivp");
     runTestProcess("16E881C7DC458C7D/cleanupSystemDb.ivp");
+    runTestProcess("16E881C7DC458C7D/cleanupDataDirs.ivp");
   }
 
   public static void createOldDb() {
