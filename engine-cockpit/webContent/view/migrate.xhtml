@@ -70,8 +70,9 @@
                       actionListener="#{migrationBean.execute}"
                       update="migration" onsuccess="PF('migrationPoller').start()"
                       rendered="#{migrationBean.state == 'START'}" />
-                    <p:linkButton id="finishMigration" icon="si si-check-1" value="Finish"
-                      href="/" rendered="#{migrationBean.state == 'FINISHED'}" />
+                    <p:commandButton id="finishMigration" icon="si si-check-1" value="Finish"
+                      rendered="#{migrationBean.state == 'FINISHED'}" type="button"
+                      onclick="PF('finishWizardModel').show();" />
                     <p:commandButton id="migrationRunning" icon="si si-button-refresh-arrows si-is-spinning"
                       value="Running" disabled="true"
                       rendered="#{migrationBean.state == 'RUNNING'}" />
@@ -113,6 +114,23 @@
           </div>
         </div>
       </div>
+      
+      <p:dialog style="min-width: 300px;" header="Finish Migration Wizard" id="finishWizardModel"
+        widgetVar="finishWizardModel" modal="true" responsive="true" closeOnEscape="true">
+        <h:form id="finishWizardForm">
+          <p:staticMessage severity="info" summary="Success" detail="To complete the migration, perform the follwing steps:" />
+          <ol>
+            <li>Restart your engine.</li>
+            <li>If the engine starts in <b>Maintenance Mode</b>, use the <b>Setup Wizard</b> to finish your migration.<br />E.g install a new licence or migrate your System Database.</li>
+          </ol>
+          <br />
+          
+          <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="OK" icon="si si-check-1" 
+            styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" />
+          <p:commandLink id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="Cancel" type="button"
+            styleClass="modal-input-button" />
+        </h:form>
+      </p:dialog>
       
     </ui:define>
   </ui:composition>

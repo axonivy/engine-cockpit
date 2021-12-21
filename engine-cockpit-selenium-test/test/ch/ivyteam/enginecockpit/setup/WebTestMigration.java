@@ -6,7 +6,6 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactValue;
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -67,9 +66,8 @@ public class WebTestMigration {
 
   private void checkMigrationFinished() {
     $$(".migration-step").last().find(".si").shouldHave(Condition.cssClass("si-check-circle-1"));
-    $(By.id("form:migrationMessage")).shouldHave(text("Your engine was migrated successfully."));
     $(By.id("form:finishMigration")).shouldBe(visible).click();
-    $(By.id("form:finishMigration")).shouldNot(exist);
+    $(By.id("finishWizardForm:finishWizardYes")).shouldBe(visible).click();
     assertCurrentUrlContains("system");
   }
 

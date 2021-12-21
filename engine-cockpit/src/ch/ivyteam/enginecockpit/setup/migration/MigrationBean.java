@@ -88,10 +88,6 @@ public class MigrationBean {
         FacesContext.getCurrentInstance().addMessage("migrationMessage",
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while migration",
                         migrationRunner.get()));
-      } else {
-        FacesContext.getCurrentInstance().addMessage("migrationMessage",
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
-                        "Your engine was migrated successfully. Please restart your engine!"));
       }
     }
     return running;
