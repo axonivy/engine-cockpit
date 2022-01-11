@@ -40,6 +40,10 @@ public class LdapBrowserContext implements AutoCloseable
   {
     List<LdapBrowserNode> names = new ArrayList<>();
     Attribute attribute = context.getAttributes(defaultContext).get("namingContexts");
+    if (attribute == null) 
+    {
+      throw new NamingException("Couldn't find any 'namingContexts' attributes");
+    }
     for (int pos = 0; pos < attribute.size(); pos++)
     {
       Name name = context.getNameParser(attribute.get(pos).toString()).parse(attribute.get(pos).toString());
