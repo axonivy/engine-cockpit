@@ -44,6 +44,8 @@ public class WebDocuScreenshot {
     EngineCockpitUtil.runExternalDbQuery();
     EngineCockpitUtil.createBusinessData();
     EngineCockpitUtil.addSystemAdmin();
+
+    login();
   }
 
   @BeforeEach
@@ -58,18 +60,6 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  void docuScreeshot() {
-    login();
-    screenshotDashboard();
-    screenshotApplications();
-    screenshotSecuritySystem();
-    screenshotConfiguration();
-    screenshotServices();
-    screenshotSystem();
-    screenshotMonitor();
-    screenshotSetup();
-  }
-
   private void screenshotSetup() {
     login("setup-intro.xhtml");
     takeScreenshot("setup-intro", new Dimension(SCREENSHOT_SETUP_WIDTH, 600));
@@ -92,6 +82,7 @@ public class WebDocuScreenshot {
     takeDialogScreenshot("dialog-setup-finish", By.id("finishWizard"));
   }
 
+  @Test
   private void screenshotMonitor() {
     Navigation.toLogs();
     takeScreenshot("monitor-logs", new Dimension(SCREENSHOT_WIDTH, 900));
@@ -107,6 +98,7 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-performance", new Dimension(SCREENSHOT_WIDTH, 1000));
   }
 
+  @Test
   private void screenshotSystem() {
     Navigation.toAdmins();
     takeScreenshot("system-admins", new Dimension(SCREENSHOT_WIDTH, 500));
@@ -125,10 +117,10 @@ public class WebDocuScreenshot {
     takeScreenshot("yaml-editor", new Dimension(SCREENSHOT_WIDTH, 700));
   }
 
+  @Test
   private void screenshotServices() {
-    Navigation.toSearchEngine();
-    takeScreenshot("search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toEmail();
+    Tab.switchToDefault();
     takeScreenshot("email", new Dimension(SCREENSHOT_WIDTH, 650));
     Navigation.toDatabases();
     takeScreenshot("databases", new Dimension(SCREENSHOT_WIDTH, 550));
@@ -143,10 +135,14 @@ public class WebDocuScreenshot {
     takeScreenshot("rest-clients", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toRestClientDetail("test-rest");
     takeScreenshot("rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
+    Navigation.toSearchEngine();
+    takeScreenshot("search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
+  @Test
   private void screenshotConfiguration() {
     Navigation.toVariables();
+    Tab.switchToDefault();
     takeScreenshot("configuration-variables", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendar();
     takeScreenshot("configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
@@ -158,6 +154,7 @@ public class WebDocuScreenshot {
     takeDialogScreenshot("branding-custom-css", By.id("apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":form:editCustomCssBtn"));
   }
 
+  @Test
   private void screenshotSecuritySystem() {
     Navigation.toSecuritySystem();
     takeScreenshot("security-system", new Dimension(SCREENSHOT_WIDTH, 500));
@@ -167,6 +164,7 @@ public class WebDocuScreenshot {
     takeDialogScreenshot("dialog-ldap-browser",
             By.id("securitySystemBindingForm:browseDefaultContext"));
     Navigation.toUsers();
+    Tab.switchToDefault();
     takeScreenshot("users", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toUserDetail("foo");
     takeScreenshot("user-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
@@ -176,6 +174,7 @@ public class WebDocuScreenshot {
     takeScreenshot("role-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
   }
 
+  @Test
   private void screenshotApplications() {
     Navigation.toApplications();
     takeScreenshot("applications", new Dimension(SCREENSHOT_WIDTH, 500));
@@ -189,6 +188,7 @@ public class WebDocuScreenshot {
     takeDialogScreenshot("dialog-deploy-app", By.id("appDetailInfoForm:showDeployment"));
   }
 
+  @Test
   private void screenshotDashboard() {
     takeScreenshot("dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
     takeDialogScreenshot("dialog-test-mail", By.id("mailConfigForm:openTestMailBtn"));
