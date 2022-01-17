@@ -30,6 +30,7 @@ import ch.ivyteam.enginecockpit.setup.WebTestWizard;
 import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 public class WebDocuScreenshot {
@@ -93,6 +94,9 @@ public class WebDocuScreenshot {
     Navigation.toBusinessCalendarDetail("Luzern");
     takeScreenshot("engine-cockpit-configuration-businesscalendar-detail",
             new Dimension(SCREENSHOT_WIDTH, 550));
+    Navigation.toBranding();
+    takeScreenshot("engine-cockpit-branding", new Dimension(SCREENSHOT_WIDTH, 600));
+    takeDialogScreenshot("engine-cockpit-branding-custom-css", By.id("apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":form:editCustomCssBtn"));
     Navigation.toSearchEngine();
     takeScreenshot("engine-cockpit-search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toEmail();

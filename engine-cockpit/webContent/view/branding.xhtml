@@ -1,0 +1,102 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li>Configuration</li>
+      <li>/</li>
+      <li><a href="branding.xhtml">Branding</a></li>
+    </ui:define>
+
+    <ui:define name="breadcrumb-right">
+      <a href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#branding" target="_blank"
+        rel="noopener noreferrer">
+        <i class="si si-lg si-question-circle"></i>
+      </a>
+    </ui:define>
+
+    <ui:define name="content">
+      <p:growl id="msgs">
+        <p:autoUpdate />
+      </p:growl>
+      
+      <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadTree}" id="apps">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-12">
+            <h1>
+              <i class="si si-buildings-1 card-title-icon"></i>Branding
+            </h1>
+          </div>
+        </div>
+        
+        <h:form id="form">
+          <div class="p-grid branding-resources">
+            <p:repeat var="res" value="#{brandingBean.resources}" id="images">
+              <div class="p-col-12 p-md-3 p-lg-1 p-col-align-center">
+                <p:outputLabel value="#{res.label}" />
+              </div>
+              <div class="p-col-12 p-md-5 p-lg-3 p-col-align-center">
+                <p:graphicImage url="#{res.url}" alt="#{res.name}" styleClass="branding-img" />
+              </div>
+              <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
+                <p:splitButton id="uploadBtn" value="Upload #{res.label}" title="Upload #{res.label}" icon="si si-upload-bottom" styleClass="branding-btn"
+                  actionListener="#{brandingBean.setCurrentRes(res.name)}" update="fileUpload" oncomplete="PF('fileUploadModal').show()">
+                  <p:menuitem id="resetBtn" value="Reset" icon="si si-undo" styleClass="secondary-btn" actionListener="#{brandingBean.resetRes(res.name)}" ajax="false" />
+                </p:splitButton>
+              </div>
+            </p:repeat>
+            <div class="p-col-12 p-md-3 p-lg-1 p-col-align-center">
+              <p:outputLabel value="Custom CSS" />
+            </div>
+            <div class="p-col-12 p-md-5 p-lg-3 p-col-align-center"></div>
+            <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
+              <p:commandButton id="editCustomCssBtn" value="Edit" icon="si si-pencil" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();" />
+            </div>
+          </div>
+        </h:form>
+      </cc:ApplicationTabs>
+      
+      <p:dialog styleClass="branding-custom-css" header="Edit custom.css" id="editCustomCssModal" appendTo="@(body)"
+        widgetVar="editCustomCssModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+        <h:form id="editCustomCssForm">
+          <pe:codeMirror id="editCustomCssValue" value="#{brandingBean.customCssContent}"
+            mode="text/css" lineNumbers="true" matchBrackets="true" />
+          <pe:remoteCommand name="refreshCodeMirror" update="editCustomCssValue" />
+          <script>refreshCodeMirror();</script>
+        </h:form>
+        <f:facet name="footer">
+          <a href="#{advisorBean.engineGuideBaseUrl}/configuration/files/custom-css.html" target="_blank"
+            rel="noopener noreferrer" style="float: left;">
+            <i class="si si-xl si-question-circle"></i>
+          </a>
+          <p:commandLink id="cancelCustomCss" onclick="PF('editCustomCssModal').hide();" value="Cancel"
+            type="button" styleClass="modal-input-button" />
+          <p:commandButton id="saveCustomCss" update="" process="editCustomCssForm:editCustomCssValue" partialSubmit="true"
+            onsuccess="PF('editCustomCssModal').hide();" actionListener="#{brandingBean.saveCustomCss}" value="Save"
+            icon="si si-floppy-disk" styleClass="modal-input-button" />
+        </f:facet>
+      </p:dialog>
+            
+      <h:panelGroup id="fileUpload">
+        <cc:FileUpload title="Upload resource to '#{managerBean.selectedApplicationName}'" apiUrl="upload/branding" acceptFiles=".png, .jpg, .jpeg, .svg, .gif, .webp" id="uploadModal">
+          <script>
+          function buildFormData() {
+            var form_data = new FormData();
+            form_data.append('resource', file, file.name);
+            form_data.append('resourceName', '#{brandingBean.currentRes}');
+            form_data.append('appName', '#{managerBean.selectedApplicationName}');
+            return form_data;
+          }
+          </script>
+        </cc:FileUpload>
+      </h:panelGroup>
+      
+    </ui:define>
+
+  </ui:composition>
+</h:body>
+
+</html>

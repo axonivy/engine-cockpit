@@ -565,3 +565,20 @@ body {
 .ui-datatable-data .critical {
   color: #d23636;
 }
+
+/* Branding */
+.branding-resources div[class*="p-col"] {
+  padding: 0.5rem 1rem;
+}
+.branding-img {
+  max-width: 100%;
+  max-height: 50px;
+}
+.branding-btn {
+  max-height: 30px;
+}
+.branding-btn .ui-button-text {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

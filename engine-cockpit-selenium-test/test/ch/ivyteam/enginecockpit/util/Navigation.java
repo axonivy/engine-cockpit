@@ -20,6 +20,7 @@ public class Navigation {
   private static final String CONFIGURATION_MENU = "#menuform\\:sr_configuration";
   private static final String VARIABLES_MENU = "#menuform\\:sr_variables";
   private static final String BUSINESS_CALENDAR_MENU = "#menuform\\:sr_business_calendar";
+  private static final String BRANDING_MENU = "#menuform\\:sr_branding";
   private static final String SERVICES_MENU = "#menuform\\:sr_services";
   private static final String SERVICES_SEARCH_ENGINE = "#menuform\\:sr_searchengine";
   private static final String SERVICES_EMAIL_MENU = "#menuform\\:sr_email";
@@ -111,6 +112,12 @@ public class Navigation {
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content a").find(text(calendarName)).shouldBe(visible).click();
     assertCurrentUrlContains("businesscalendar-detail.xhtml?calendarName=" + calendarName);
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
+  }
+
+  public static void toBranding() {
+    toSubMenu(CONFIGURATION_MENU, BRANDING_MENU);
+    assertCurrentUrlContains("branding.xhtml");
+    menuShouldBeActive(BRANDING_MENU);
   }
 
   public static void toUsers() {

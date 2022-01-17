@@ -36,7 +36,7 @@ public class AdvisorBean {
   }
 
   public String getApiBaseUrl() {
-    return UrlUtil.getApiBaseUrl();
+    return UrlUtil.getApiBaseUrl(getApp());
   }
 
   public String getEngineGuideBaseUrl() {
