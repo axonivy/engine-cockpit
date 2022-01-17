@@ -54,7 +54,7 @@ function endsWithAnyAccepts(fileName) {
 
 function upload() {
   if (!file) {
-    $(uploadErrorField).text("Choose a valid file before upload.");
+    $(uploadErrorField).html("<i class='si si-alert-circle'></i> Choose a valid file before upload.");
     return;
   }
 
@@ -74,11 +74,11 @@ function upload() {
     }
   }).done(function (response) {
     $('#uploadLog').text(response);
-    $('#uploadStatus').text("Success").css("color", "green");
+    $('#uploadStatus').html("<i class='si si-check-circle-1'></i> Success").css("color", "green");
     uploadDone();
   }).fail(function (request, status, error) {
     $('#uploadLog').text(request.responseText);
-    $('#uploadStatus').text("Error").css("color", "red");
+    $('#uploadStatus').html("<i class='si si-alert-circle'></i> Error").css("color", "red");
   }).always(function () {
     uploadedAlways();
   });
