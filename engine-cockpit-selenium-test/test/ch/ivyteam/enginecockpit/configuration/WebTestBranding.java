@@ -36,13 +36,13 @@ public class WebTestBranding {
 
   @Test
   void appSwitch() {
-    $(By.id(getFormId())).find("img", 0).shouldBe(visible, attributeMatching("src", ".*logo.png.*"));
+    $(By.id(getFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.png.*"));
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldHave(value(":root {"));
     $(By.id("cancelCustomCss")).shouldBe(visible).click();
 
     Tab.switchToTab("test-ad");
-    $(By.id(getFormId())).find("img", 0).shouldBe(visible, attributeMatching("src", ".*logo.svg.*"));
+    $(By.id(getFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.svg.*"));
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue(""));
   }
@@ -66,13 +66,13 @@ public class WebTestBranding {
   @Test
   void uploadLogoWhite() throws IOException {
     Tab.switchToTab("demo-portal");
-    uploadAndAssertImage(1, "blalba", ".jpg", "logo_white.jpg", "logo_white.svg");
+    uploadAndAssertImage(4, "blalba", ".jpg", "logo_white.jpg", "logo_white.svg");
   }
 
   @Test
   void uploadFavicon() throws IOException {
     Tab.switchToTab("test-ad");
-    uploadAndAssertImage(4, "icon", ".webp", "favicon.webp", "favicon.png");
+    uploadAndAssertImage(0, "icon", ".webp", "favicon.webp", "favicon.png");
   }
 
   @Test
@@ -87,9 +87,12 @@ public class WebTestBranding {
     Selenide.refresh();
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue("hallo123"));
-    executeJs("$('#editCustomCssForm > textarea').val('')");
-    executeJs("refreshCodeMirror();");
-    $(By.id("saveCustomCss")).shouldBe(visible).click();
+    $(By.id("cancelCustomCss")).shouldBe(visible).click();
+    resetCustomCss();
+    $(By.id("msgs_container")).shouldBe(visible, text("Successfully reset custom.css"));
+
+    openCustomCssDialog();
+    $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue(""));
   }
 
   private void uploadAndAssertImage(int index, String tempFileName, String tempFileExt, String expectedImg, String defaultImg) throws IOException {
@@ -117,11 +120,19 @@ public class WebTestBranding {
     var baseId = getFormId() + ":images:" + index + ":";
     $(By.id(baseId + "uploadBtn_menuButton")).shouldBe(visible).click();
     $(By.id(baseId + "resetBtn")).shouldBe(visible).click();
+    $(By.id("resetForm:resetBrandingConfirmYesBtn")).shouldBe(visible).click();
   }
 
   private void openCustomCssDialog() {
     $(By.id(getFormId() + ":editCustomCssBtn")).shouldBe(visible).click();
     $(By.id("editCustomCssModal")).shouldBe(visible);
+  }
+
+  private void resetCustomCss() {
+    var baseId = getFormId() + ":";
+    $(By.id(baseId + "editCustomCssBtn_menuButton")).shouldBe(visible).click();
+    $(By.id(baseId + "resetCustomCssBtn")).shouldBe(visible).click();
+    $(By.id("resetForm:resetBrandingConfirmYesBtn")).shouldBe(visible).click();
   }
 
   private String getFormId() {

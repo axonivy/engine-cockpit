@@ -470,6 +470,12 @@ body {
 .file-upload .ui-panelgrid .ui-panelgrid-content {
   padding: 0;
 }
+#uploadError .si,
+#uploadStatus .si {
+  margin-right: 5xp;
+  position: relative;
+  top: 2px;
+}
 
 /* Search Engine */
 .si.icon-bold {

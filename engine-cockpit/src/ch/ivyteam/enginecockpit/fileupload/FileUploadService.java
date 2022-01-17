@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.fileupload;
 
 import java.io.InputStream;
-import java.nio.file.Files;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -14,7 +13,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import ch.ivyteam.enginecockpit.configuration.BrandingBean;
+import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.config.NewLicenceFileInstaller;
 import io.swagger.v3.oas.annotations.Hidden;
 
@@ -42,20 +42,17 @@ public class FileUploadService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response uploadBrandingRes(@FormDataParam("resource") InputStream stream,
           @FormDataParam("resource") FormDataContentDisposition fileDetail,
-          @FormDataParam("resourceName") String resourceName,
+          @FormDataParam("oldResourceName") String oldResourceName,
           @FormDataParam("appName") String appName) {
-    String name = FilenameUtils.getBaseName(resourceName) + "." + FilenameUtils.getExtension(fileDetail.getFileName());
-    var brandingDir = BrandingBean.brandingDir(appName);
-    var oldResource = brandingDir.resolve(resourceName);
-    var newResource = brandingDir.resolve(name);
+    var newResourceName = fileDetail.getFileName();
     try {
-      Files.deleteIfExists(oldResource);
-      Files.createDirectories(brandingDir);
-      Files.copy(stream, newResource);
+      var app = IApplicationConfigurationManager.instance().findApplication(appName);
+      newResourceName = new BrandingIO(app).setImage(oldResourceName,
+              FilenameUtils.getExtension(fileDetail.getFileName()), stream);
     } catch (Exception ex) {
       return Response.status(500).entity(ex.getMessage()).build();
     }
-    return Response.status(200).entity("Successfully uploaded " + name).build();
+    return Response.status(200).entity("Successfully uploaded " + newResourceName).build();
   }
 
 }

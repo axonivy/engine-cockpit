@@ -41,13 +41,14 @@
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
       var uploadUrl = "#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}"
+      var compositeId = "#{cc.attrs.id}";
 
       function beforeUpload() {
-        buttonAddSpinner($("#deploymentModal\\:uploadBtn"));
+        buttonAddSpinner($("#" + compositeId + "\\:uploadBtn"));
       }
 
       function uploadedAlways() {
-        buttonRemoveSpinner($("#deploymentModal\\:uploadBtn"), "si-upload-bottom");
+        buttonRemoveSpinner($("#" + compositeId + "\\:uploadBtn"), "si-upload-bottom");
         $('#fileUploadResponse').show();
         $('#fileUploadForm').hide();
         PF('fileUploadModal').initPosition();

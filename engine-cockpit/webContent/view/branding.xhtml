@@ -19,11 +19,11 @@
     </ui:define>
 
     <ui:define name="content">
-      <p:growl id="msgs">
+      <p:growl id="msgs" showDetail="true">
         <p:autoUpdate />
       </p:growl>
       
-      <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadTree}" id="apps">
+      <cc:ApplicationTabs tabChange="#{brandingBean.reloadResources}" id="apps">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-12">
             <h1>
@@ -44,16 +44,20 @@
               <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
                 <p:splitButton id="uploadBtn" value="Upload #{res.label}" title="Upload #{res.label}" icon="si si-upload-bottom" styleClass="branding-btn"
                   actionListener="#{brandingBean.setCurrentRes(res.name)}" update="fileUpload" oncomplete="PF('fileUploadModal').show()">
-                  <p:menuitem id="resetBtn" value="Reset" icon="si si-undo" styleClass="secondary-btn" actionListener="#{brandingBean.resetRes(res.name)}" ajax="false" />
+                  <p:menuitem id="resetBtn" value="Reset" icon="si si-undo" styleClass="secondary-btn" oncomplete="PF('resetBrandingConfirmDialog').show()"
+                    actionListener="#{brandingBean.setCurrentRes(res.name)}" update="resetBrandingConfirmDialog" />
                 </p:splitButton>
               </div>
             </p:repeat>
             <div class="p-col-12 p-md-3 p-lg-1 p-col-align-center">
-              <p:outputLabel value="Custom CSS" />
+              <p:outputLabel value="custom.css" />
             </div>
             <div class="p-col-12 p-md-5 p-lg-3 p-col-align-center"></div>
             <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
-              <p:commandButton id="editCustomCssBtn" value="Edit" icon="si si-pencil" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();" />
+              <p:splitButton id="editCustomCssBtn" value="Edit" icon="si si-pencil" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();">
+                <p:menuitem id="resetCustomCssBtn" value="Reset" icon="si si-undo" styleClass="secondary-btn" oncomplete="PF('resetBrandingConfirmDialog').show()"
+                  actionListener="#{brandingBean.setCurrentRes('custom.css')}" update="resetBrandingConfirmDialog" />
+              </p:splitButton>
             </div>
           </div>
         </h:form>
@@ -79,14 +83,24 @@
             icon="si si-floppy-disk" styleClass="modal-input-button" />
         </f:facet>
       </p:dialog>
-            
+      
+      <p:confirmDialog id="resetBrandingConfirmDialog" header="Reset Branding Resource" severity="alert" appendTo="@(body)"
+        widgetVar="resetBrandingConfirmDialog" message="Are you sure about reset the Branding resource '#{brandingBean.currentRes}'">
+        <h:form id="resetForm">
+          <p:commandLink value="Cancel" onclick="PF('resetBrandingConfirmDialog').hide();" type="button"
+            styleClass="modal-input-button" />
+          <p:commandButton id="resetBrandingConfirmYesBtn" value="Reset" immediate="true" ajax="false"
+            actionListener="#{brandingBean.resetRes}" icon="si si-undo" styleClass="modal-input-button" />
+        </h:form>
+      </p:confirmDialog>
+      
       <h:panelGroup id="fileUpload">
         <cc:FileUpload title="Upload resource to '#{managerBean.selectedApplicationName}'" apiUrl="upload/branding" acceptFiles=".png, .jpg, .jpeg, .svg, .gif, .webp" id="uploadModal">
           <script>
           function buildFormData() {
             var form_data = new FormData();
             form_data.append('resource', file, file.name);
-            form_data.append('resourceName', '#{brandingBean.currentRes}');
+            form_data.append('oldResourceName', '#{brandingBean.currentRes}');
             form_data.append('appName', '#{managerBean.selectedApplicationName}');
             return form_data;
           }
