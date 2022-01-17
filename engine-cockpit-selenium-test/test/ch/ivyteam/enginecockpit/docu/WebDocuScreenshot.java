@@ -60,85 +60,17 @@ public class WebDocuScreenshot {
   @Test
   void docuScreeshot() {
     login();
-    takeScreenshot("engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeDialogScreenshot("engine-cockpit-dialog-test-mail", By.id("mailConfigForm:openTestMailBtn"));
-    Navigation.toApplications();
-    takeScreenshot("engine-cockpit-applications", new Dimension(SCREENSHOT_WIDTH, 500));
-    takeDialogScreenshot("engine-cockpit-dialog-new-app", By.id("card:form:createApplicationBtn"));
-    Navigation.toPmvDetail(isDesigner() ? DESIGNER : "demo-portal", "PortalTemplate", "PortalTemplate$1");
-    takeScreenshot("engine-cockpit-pmv-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
-    Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
-    takeScreenshot("engine-cockpit-application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
-    takeDialogScreenshot("engine-cockpit-dialog-change-security",
-            By.id("appDetailSecurityForm:changeSecuritySystem"));
-    takeDialogScreenshot("engine-cockpit-dialog-deploy-app", By.id("appDetailInfoForm:showDeployment"));
-    Navigation.toSecuritySystem();
-    takeScreenshot("engine-cockpit-security-system", new Dimension(SCREENSHOT_WIDTH, 500));
-    takeDialogScreenshot("engine-cockpit-dialog-new-security", By.id("card:form:createSecuritySystemBtn"));
-    Navigation.toSecuritySystemDetail("test-ad");
-    takeScreenshot("engine-cockpit-security-system-detail", new Dimension(SCREENSHOT_WIDTH, 900));
-    takeDialogScreenshot("engine-cockpit-dialog-ldap-browser",
-            By.id("securitySystemBindingForm:browseDefaultContext"));
-    Navigation.toUsers();
-    takeScreenshot("engine-cockpit-users", new Dimension(SCREENSHOT_WIDTH, 600));
-    Navigation.toUserDetail("foo");
-    takeScreenshot("engine-cockpit-user-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
-    Navigation.toRoles();
-    takeScreenshot("engine-cockpit-roles", new Dimension(SCREENSHOT_WIDTH, 550));
-    Navigation.toRoleDetail("boss");
-    takeScreenshot("engine-cockpit-role-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
-    Navigation.toVariables();
-    takeScreenshot("engine-cockpit-configuration-variables", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toBusinessCalendar();
-    takeScreenshot("engine-cockpit-configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toBusinessCalendarDetail("Luzern");
-    takeScreenshot("engine-cockpit-configuration-businesscalendar-detail",
-            new Dimension(SCREENSHOT_WIDTH, 550));
-    Navigation.toBranding();
-    takeScreenshot("engine-cockpit-branding", new Dimension(SCREENSHOT_WIDTH, 600));
-    takeDialogScreenshot("engine-cockpit-branding-custom-css", By.id("apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":form:editCustomCssBtn"));
-    Navigation.toSearchEngine();
-    takeScreenshot("engine-cockpit-search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
-    Navigation.toEmail();
-    takeScreenshot("engine-cockpit-email", new Dimension(SCREENSHOT_WIDTH, 650));
-    Navigation.toDatabases();
-    takeScreenshot("engine-cockpit-databases", new Dimension(SCREENSHOT_WIDTH, 550));
-    Navigation.toDatabaseDetail("realdb");
-    takeScreenshot("engine-cockpit-database-detail", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeLiveStatsScreenshot("engine-cockpit-monitor-databases", new Dimension(SCREENSHOT_WIDTH, 800));
-    Navigation.toWebservices();
-    takeScreenshot("engine-cockpit-webservice", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toWebserviceDetail("test-web");
-    takeScreenshot("engine-cockpit-webservice-detail", new Dimension(SCREENSHOT_WIDTH, 800));
-    Navigation.toRestClients();
-    takeScreenshot("engine-cockpit-rest-clients", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toRestClientDetail("test-rest");
-    takeScreenshot("engine-cockpit-rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
-    Navigation.toAdmins();
-    takeScreenshot("engine-cockpit-system-admins", new Dimension(SCREENSHOT_WIDTH, 500));
-    takeDialogScreenshot("engine-cockpit-dialog-new-admin", By.id("addAdminForm:newAdminBtn"));
-    Navigation.toSystemDb();
-    takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 900));
-    Navigation.toLicence();
-    takeScreenshot("engine-cockpit-licence", new Dimension(SCREENSHOT_WIDTH, 700));
-    Navigation.toWebServer();
-    takeScreenshot("engine-cockpit-web-server", new Dimension(SCREENSHOT_WIDTH, 600));
-    Navigation.toSystemConfig();
-    takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
-    Navigation.toCluster();
-    takeScreenshot("engine-cockpit-cluster", new Dimension(SCREENSHOT_WIDTH, 500));
-    Navigation.toLogs();
-    takeScreenshot("engine-cockpit-monitor-logs", new Dimension(SCREENSHOT_WIDTH, 900));
-    WebTestMBeans.toMBeans();
-    takeScreenshot("engine-cockpit-monitor-mbeans", new Dimension(SCREENSHOT_WIDTH, 1000));
-    Navigation.toJvm();
-    takeScreenshot("engine-cockpit-monitor-jvm", new Dimension(SCREENSHOT_WIDTH, 1000));
-    Navigation.toOs();
-    takeScreenshot("engine-cockpit-monitor-os", new Dimension(SCREENSHOT_WIDTH, 1000));
-    Navigation.toCache();
-    takeScreenshot("engine-cockpit-monitor-cache", new Dimension(SCREENSHOT_WIDTH, 1000));
-    WebTestPerformance.prepareScreenshot();
-    takeScreenshot("engine-cockpit-monitor-performance", new Dimension(SCREENSHOT_WIDTH, 1000));
+    screenshotDashboard();
+    screenshotApplications();
+    screenshotSecuritySystem();
+    screenshotConfiguration();
+    screenshotServices();
+    screenshotSystem();
+    screenshotMonitor();
+    screenshotSetup();
+  }
+
+  private void screenshotSetup() {
     login("setup-intro.xhtml");
     takeScreenshot("engine-cockpit-setup-intro", new Dimension(SCREENSHOT_SETUP_WIDTH, 600));
 
@@ -158,6 +90,108 @@ public class WebDocuScreenshot {
     takeDialogScreenshot("engine-cockpit-dialog-setup-systemdb-create");
     takeScreenshot("engine-cockpit-setup-systemdb", new Dimension(SCREENSHOT_SETUP_WIDTH, 900));
     takeDialogScreenshot("engine-cockpit-dialog-setup-finish", By.id("finishWizard"));
+  }
+
+  private void screenshotMonitor() {
+    Navigation.toLogs();
+    takeScreenshot("engine-cockpit-monitor-logs", new Dimension(SCREENSHOT_WIDTH, 900));
+    WebTestMBeans.toMBeans();
+    takeScreenshot("engine-cockpit-monitor-mbeans", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toJvm();
+    takeScreenshot("engine-cockpit-monitor-jvm", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toOs();
+    takeScreenshot("engine-cockpit-monitor-os", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toCache();
+    takeScreenshot("engine-cockpit-monitor-cache", new Dimension(SCREENSHOT_WIDTH, 1000));
+    WebTestPerformance.prepareScreenshot();
+    takeScreenshot("engine-cockpit-monitor-performance", new Dimension(SCREENSHOT_WIDTH, 1000));
+  }
+
+  private void screenshotSystem() {
+    Navigation.toAdmins();
+    takeScreenshot("engine-cockpit-system-admins", new Dimension(SCREENSHOT_WIDTH, 500));
+    takeDialogScreenshot("engine-cockpit-dialog-new-admin", By.id("addAdminForm:newAdminBtn"));
+    Navigation.toSystemDb();
+    takeScreenshot("engine-cockpit-system-database", new Dimension(SCREENSHOT_WIDTH, 900));
+    Navigation.toLicence();
+    takeScreenshot("engine-cockpit-licence", new Dimension(SCREENSHOT_WIDTH, 700));
+    Navigation.toWebServer();
+    takeScreenshot("engine-cockpit-web-server", new Dimension(SCREENSHOT_WIDTH, 600));
+    Navigation.toSystemConfig();
+    takeScreenshot("engine-cockpit-system-config", new Dimension(SCREENSHOT_WIDTH, 700));
+    Navigation.toCluster();
+    takeScreenshot("engine-cockpit-cluster", new Dimension(SCREENSHOT_WIDTH, 500));
+    Navigation.toEditor();
+    takeScreenshot("engine-cockpit-yaml-editor", new Dimension(SCREENSHOT_WIDTH, 700));
+  }
+
+  private void screenshotServices() {
+    Navigation.toSearchEngine();
+    takeScreenshot("engine-cockpit-search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toEmail();
+    takeScreenshot("engine-cockpit-email", new Dimension(SCREENSHOT_WIDTH, 650));
+    Navigation.toDatabases();
+    takeScreenshot("engine-cockpit-databases", new Dimension(SCREENSHOT_WIDTH, 550));
+    Navigation.toDatabaseDetail("realdb");
+    takeScreenshot("engine-cockpit-database-detail", new Dimension(SCREENSHOT_WIDTH, 800));
+    takeLiveStatsScreenshot("engine-cockpit-monitor-databases", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toWebservices();
+    takeScreenshot("engine-cockpit-webservice", new Dimension(SCREENSHOT_WIDTH, 500));
+    Navigation.toWebserviceDetail("test-web");
+    takeScreenshot("engine-cockpit-webservice-detail", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toRestClients();
+    takeScreenshot("engine-cockpit-rest-clients", new Dimension(SCREENSHOT_WIDTH, 500));
+    Navigation.toRestClientDetail("test-rest");
+    takeScreenshot("engine-cockpit-rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
+  }
+
+  private void screenshotConfiguration() {
+    Navigation.toVariables();
+    takeScreenshot("engine-cockpit-configuration-variables", new Dimension(SCREENSHOT_WIDTH, 500));
+    Navigation.toBusinessCalendar();
+    takeScreenshot("engine-cockpit-configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
+    Navigation.toBusinessCalendarDetail("Luzern");
+    takeScreenshot("engine-cockpit-configuration-businesscalendar-detail",
+            new Dimension(SCREENSHOT_WIDTH, 550));
+    Navigation.toBranding();
+    takeScreenshot("engine-cockpit-branding", new Dimension(SCREENSHOT_WIDTH, 600));
+    takeDialogScreenshot("engine-cockpit-branding-custom-css", By.id("apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":form:editCustomCssBtn"));
+  }
+
+  private void screenshotSecuritySystem() {
+    Navigation.toSecuritySystem();
+    takeScreenshot("engine-cockpit-security-system", new Dimension(SCREENSHOT_WIDTH, 500));
+    takeDialogScreenshot("engine-cockpit-dialog-new-security", By.id("card:form:createSecuritySystemBtn"));
+    Navigation.toSecuritySystemDetail("test-ad");
+    takeScreenshot("engine-cockpit-security-system-detail", new Dimension(SCREENSHOT_WIDTH, 900));
+    takeDialogScreenshot("engine-cockpit-dialog-ldap-browser",
+            By.id("securitySystemBindingForm:browseDefaultContext"));
+    Navigation.toUsers();
+    takeScreenshot("engine-cockpit-users", new Dimension(SCREENSHOT_WIDTH, 600));
+    Navigation.toUserDetail("foo");
+    takeScreenshot("engine-cockpit-user-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
+    Navigation.toRoles();
+    takeScreenshot("engine-cockpit-roles", new Dimension(SCREENSHOT_WIDTH, 550));
+    Navigation.toRoleDetail("boss");
+    takeScreenshot("engine-cockpit-role-detail", new Dimension(SCREENSHOT_WIDTH, 1000));
+  }
+
+  private void screenshotApplications() {
+    Navigation.toApplications();
+    takeScreenshot("engine-cockpit-applications", new Dimension(SCREENSHOT_WIDTH, 500));
+    takeDialogScreenshot("engine-cockpit-dialog-new-app", By.id("card:form:createApplicationBtn"));
+    Navigation.toPmvDetail(isDesigner() ? DESIGNER : "demo-portal", "PortalTemplate", "PortalTemplate$1");
+    takeScreenshot("engine-cockpit-pmv-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
+    Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
+    takeScreenshot("engine-cockpit-application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
+    takeDialogScreenshot("engine-cockpit-dialog-change-security",
+            By.id("appDetailSecurityForm:changeSecuritySystem"));
+    takeDialogScreenshot("engine-cockpit-dialog-deploy-app", By.id("appDetailInfoForm:showDeployment"));
+  }
+
+  private void screenshotDashboard() {
+    takeScreenshot("engine-cockpit-dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
+    takeDialogScreenshot("engine-cockpit-dialog-test-mail", By.id("mailConfigForm:openTestMailBtn"));
   }
 
   private void takeDialogScreenshot(String screenshotName, By dialogOpenBtn) {
