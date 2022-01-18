@@ -44,14 +44,13 @@ public class WebDocuScreenshot {
     EngineCockpitUtil.runExternalDbQuery();
     EngineCockpitUtil.createBusinessData();
     EngineCockpitUtil.addSystemAdmin();
-
-    login();
   }
 
   @BeforeEach
   void beforeEach() {
     Configuration.reportsFolder = "target/docu/screenshots/";
     Configuration.savePageSource = false;
+    login();
   }
 
   @AfterAll
