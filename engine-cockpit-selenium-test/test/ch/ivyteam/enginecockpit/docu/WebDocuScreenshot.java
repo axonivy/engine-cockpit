@@ -60,7 +60,7 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  private void screenshotSetup() {
+  void screenshotSetup() {
     login("setup-intro.xhtml");
     takeScreenshot("setup-intro", new Dimension(SCREENSHOT_SETUP_WIDTH, 600));
 
@@ -83,7 +83,7 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  private void screenshotMonitor() {
+  void screenshotMonitor() {
     Navigation.toLogs();
     takeScreenshot("monitor-logs", new Dimension(SCREENSHOT_WIDTH, 900));
     WebTestMBeans.toMBeans();
@@ -99,7 +99,7 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  private void screenshotSystem() {
+  void screenshotSystem() {
     Navigation.toAdmins();
     takeScreenshot("system-admins", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("dialog-new-admin", By.id("addAdminForm:newAdminBtn"));
@@ -118,7 +118,7 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  private void screenshotServices() {
+  void screenshotServices() {
     Navigation.toEmail();
     Tab.switchToDefault();
     takeScreenshot("email", new Dimension(SCREENSHOT_WIDTH, 650));
@@ -140,7 +140,7 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  private void screenshotConfiguration() {
+  void screenshotConfiguration() {
     Navigation.toVariables();
     Tab.switchToDefault();
     takeScreenshot("configuration-variables", new Dimension(SCREENSHOT_WIDTH, 500));
@@ -155,7 +155,7 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  private void screenshotSecuritySystem() {
+  void screenshotSecuritySystem() {
     Navigation.toSecuritySystem();
     takeScreenshot("security-system", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("dialog-new-security", By.id("card:form:createSecuritySystemBtn"));
@@ -175,7 +175,7 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  private void screenshotApplications() {
+  void screenshotApplications() {
     Navigation.toApplications();
     takeScreenshot("applications", new Dimension(SCREENSHOT_WIDTH, 500));
     takeDialogScreenshot("dialog-new-app", By.id("card:form:createApplicationBtn"));
@@ -189,7 +189,7 @@ public class WebDocuScreenshot {
   }
 
   @Test
-  private void screenshotDashboard() {
+  void screenshotDashboard() {
     takeScreenshot("dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
     takeDialogScreenshot("dialog-test-mail", By.id("mailConfigForm:openTestMailBtn"));
   }
