@@ -2,12 +2,16 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+import org.apache.commons.io.FilenameUtils;
 
 import ch.ivyteam.enginecockpit.configuration.model.BrandingResource;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -18,7 +22,11 @@ import ch.ivyteam.ivy.application.branding.BrandingIO;
 @ViewScoped
 public class BrandingBean {
 
-  private static final List<String> RESOURCE_NAMES = List.of("logo", "logo_white", "logo_small", "logo_mail", "favicon");
+  private static final Map<String, String> RESOURCE_NAMES = Map.of("logo", "The main logo image",
+          "logo_light", "Same as the main logo, but e.g. in our case with white writing",
+          "logo_small", "The logo in small (square format recommended), used by e.g. error, login pages",
+          "logo_mail", "The logo with is taken by the default Axon Ivy Engine email notifications",
+          "favicon", "The logo fot the browser tab (square format recommended)");
 
   private ManagerBean managerBean;
   private BrandingIO brandingIO;
@@ -38,8 +46,8 @@ public class BrandingBean {
   public void reloadResources() {
     var app = managerBean.getSelectedIApplication();
     brandingIO = new BrandingIO(app);
-    resources = brandingIO.findResources(RESOURCE_NAMES).entrySet().stream()
-            .map(entry -> new BrandingResource(entry.getKey(), entry.getValue()))
+    resources = brandingIO.findResources(List.copyOf(RESOURCE_NAMES.keySet())).entrySet().stream()
+            .map(this::toBrandingResource)
             .sorted(Comparator.comparing(BrandingResource::getLabel))
             .collect(Collectors.toList());
     customCssContent = brandingIO.readCustomCss();
@@ -84,6 +92,11 @@ public class BrandingBean {
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
     reloadResources();
+  }
+
+  private BrandingResource toBrandingResource(Entry<String, String> entry) {
+    var label = FilenameUtils.getBaseName(entry.getKey());
+    return new BrandingResource(label, entry.getKey(), entry.getValue(), RESOURCE_NAMES.get(label));
   }
 
 }

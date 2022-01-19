@@ -37,9 +37,13 @@
             <p:repeat var="res" value="#{brandingBean.resources}" id="images">
               <div class="p-col-12 p-md-3 p-lg-1 p-col-align-center">
                 <p:outputLabel value="#{res.label}" />
+                <h:panelGroup id="img_#{res.label}" styleClass="label-help-icon">
+                  <i class="si si-question-circle"></i>
+                  <p:tooltip for="@parent" value="#{res.description}" position="right" />
+                </h:panelGroup>
               </div>
               <div class="p-col-12 p-md-5 p-lg-3 p-col-align-center">
-                <p:graphicImage url="#{res.url}" alt="#{res.name}" styleClass="branding-img" />
+                <p:graphicImage url="#{res.url}" alt="#{res.name}" styleClass="branding-img #{res.label}" />
               </div>
               <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
                 <p:splitButton id="uploadBtn" value="Upload #{res.label}" title="Upload #{res.label}" icon="si si-upload-bottom" styleClass="branding-btn"
