@@ -580,6 +580,9 @@ body {
   max-width: 100%;
   max-height: 50px;
 }
+.branding-img.logo_white {
+  background-color: grey;
+}
 .branding-btn {
   max-height: 30px;
 }
