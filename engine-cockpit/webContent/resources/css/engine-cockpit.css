@@ -580,7 +580,7 @@ body {
   max-width: 100%;
   max-height: 50px;
 }
-.branding-img.logo_white {
+.branding-img.logo_light {
   background-color: grey;
 }
 .branding-btn {
@@ -590,4 +590,15 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+@media screen and (min-width: 1024px) and (max-width: 1332px) {
+  .branding-resources .p-md-3 {
+    width: 25%;
+  }
+  .branding-resources .p-md-4 {
+    width: 33.3333%;
+  }
+  .branding-resources .p-md-5 {
+    width: 41.6667%;
+  }
 }

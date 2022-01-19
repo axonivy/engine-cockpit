@@ -23,7 +23,7 @@ import ch.ivyteam.ivy.application.branding.BrandingIO;
 public class BrandingBean {
 
   private static final Map<String, String> RESOURCE_NAMES = Map.of("logo", "The main logo image",
-          "logo_white", "Same as the main logo, but e.g. in our case with white writing",
+          "logo_light", "Same as the main logo, but e.g. in our case with white writing",
           "logo_small", "The logo in small (square format recommended), used by e.g. error, login pages",
           "logo_mail", "The logo with is taken by the default Axon Ivy Engine email notifications",
           "favicon", "The logo fot the browser tab (square format recommended)");
