@@ -66,7 +66,7 @@ public class WebTestBranding {
   @Test
   void uploadLogoLight() throws IOException {
     Tab.switchToTab("demo-portal");
-    uploadAndAssertImage(4, "blalba", ".jpg", "logo_light.jpg", "logo_light.svg");
+    uploadAndAssertImage(2, "blalba", ".jpg", "logo_light.jpg", "logo_light.svg");
   }
 
   @Test
