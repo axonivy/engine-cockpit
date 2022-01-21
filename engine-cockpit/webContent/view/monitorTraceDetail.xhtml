@@ -53,7 +53,9 @@
               <p:ajax event="expand" listener="#{spanBean.nodeExpand}" />
               <p:ajax event="collapse" listener="#{spanBean.nodeCollapse}" />
               <p:column headerText="Name">
-                <h:outputText value="#{span.name}" title="#{span.attributesInfo}" />
+                <h:outputText value="#{span.name}" title="#{span.attributesInfo}">
+                  <i class="si #{span.statusClass} table-icon"></i>
+                </h:outputText>
               </p:column>
               <p:column style="width: 130px;" headerText="Execution Time">
                 <div style="background: #{span.executionTimeBackground};">

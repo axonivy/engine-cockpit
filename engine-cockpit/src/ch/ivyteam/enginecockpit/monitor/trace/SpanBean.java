@@ -11,6 +11,7 @@ import org.primefaces.model.TreeNode;
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
+import ch.ivyteam.ivy.trace.TraceSpan.Status;
 import ch.ivyteam.ivy.trace.Tracer;
 
 @ManagedBean
@@ -74,6 +75,10 @@ public class SpanBean extends TreeView {
       return BackgroundMeterUtil.background(span.executionTimeNanos(), trace.executionTimeNanos());
     }
 
+    public String getStatusClass() {
+      return getStatucClass(span.status());
+    }
+
     public String getAttributes() {
       return attributes(", ");
     }
@@ -95,4 +100,15 @@ public class SpanBean extends TreeView {
         .collect(Collectors.joining(delimiter));
   }
 
+  static String getStatucClass(Status status) {
+    switch(status) {
+      case ERROR:
+        return "si-alert-circle error";
+      case OK:
+        return "si-check-circle-1 success";
+      case UNSET:
+      default:
+        return "si-time-clock-circle";
+    }
+  }
 }

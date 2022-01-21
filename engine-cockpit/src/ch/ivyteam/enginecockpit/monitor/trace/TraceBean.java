@@ -161,5 +161,9 @@ public class TraceBean {
     public String getExecutionTimeBackground() {
       return BackgroundMeterUtil.background(trace.executionTimeNanos(), max);
     }
+
+    public String getStatusClass() {
+      return SpanBean.getStatucClass(trace.rootSpan().status());
+    }
   }
 }
