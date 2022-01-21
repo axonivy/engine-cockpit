@@ -2,7 +2,10 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attributeMatching;
+import static com.codeborne.selenide.Condition.cssValue;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -24,6 +27,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestBranding {
@@ -36,15 +40,17 @@ public class WebTestBranding {
 
   @Test
   void appSwitch() {
-    $(By.id(getFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.png.*"));
+    $(By.id(getResourcesFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.png.*"));
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldHave(value(":root {"));
     $(By.id("cancelCustomCss")).shouldBe(visible).click();
+    new Table(By.id(getColorTableId())).tableEntry("--primary-color", 2).shouldHave(text("hsl(64, 70%, 49%)"));
 
     Tab.switchToTab("test-ad");
-    $(By.id(getFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.svg.*"));
+    $(By.id(getResourcesFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.svg.*"));
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue(""));
+    new Table(By.id(getColorTableId())).tableEntry("--primary-color", 2).shouldHave(text("hsl(195, 100%, 29%)"));
   }
 
   @Test
@@ -82,17 +88,68 @@ public class WebTestBranding {
     executeJs("$('#editCustomCssForm > textarea').val('hallo123')");
     executeJs("refreshCodeMirror();");
     $(By.id("saveCustomCss")).shouldBe(visible).click();
-    $(By.id("msgs_container")).shouldBe(visible, text("Successfully saved custom.css"));
+    $(By.id("msgs_container")).shouldBe(visible, text("Successfully saved 'custom.css'"));
 
     Selenide.refresh();
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue("hallo123"));
     $(By.id("cancelCustomCss")).shouldBe(visible).click();
     resetCustomCss();
-    $(By.id("msgs_container")).shouldBe(visible, text("Successfully reset custom.css"));
+    $(By.id("msgs_container")).shouldBe(visible, text("Successfully reset 'custom.css'"));
 
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue(""));
+  }
+
+  @Test
+  void filterColors() {
+    var colorTable = new Table(By.id(getColorTableId()));
+    colorTable.search("primary-dark");
+    colorTable.firstColumnShouldBe(size(2));
+    colorTable.tableEntry("--primary-dark-color", 2).shouldHave(text("hsl(64, 70%, 39%)"));
+    colorTable.tableEntry("--primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(160, 169, 30)"));
+
+    Tab.switchToTab("test-ad");
+    colorTable = new Table(By.id(getColorTableId()));
+    colorTable.firstColumnShouldBe(sizeGreaterThan(40));
+    colorTable.tableEntry("--primary-dark-color", 2).shouldHave(text("hsl(195, 100%, 20%)"));
+    colorTable.tableEntry("--primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(0, 77, 102)"));
+  }
+
+  @Test
+  void setAndResetColor() {
+    var colorTable = new Table(By.id(getColorTableId()));
+    colorTable.clickButtonForEntry("--accent-color", "setColor");
+    $(By.id("cssColorPickerForm:editCssColorModal_title")).shouldBe(visible, exactText("Edit color --accent-color"));
+    $(By.id("cssColorPickerForm:cssColorPickerInput")).clear();
+    $(By.id("cssColorPickerForm:cssColorPickerInput")).sendKeys("#123456");
+    $(By.id("cssColorPickerForm:saveCssColor")).click();
+    $(By.id("msgs_container")).shouldBe(visible, text("Successfully update color '--accent-color"));
+    colorTable.tableEntry("--accent-color", 2).shouldHave(text("#123456"));
+    colorTable.tableEntry("--accent-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(18, 52, 86)"));
+
+    colorTable.clickButtonForEntry("--accent-color", "resetColor");
+    $(By.id("resetColorConfirmDialog_content")).shouldBe(visible, text("'--accent-color'"));
+    $(By.id("resetColorForm:resetColorConfirmYesBtn")).click();
+    $(By.id("msgs_container")).shouldBe(visible, text("Successfully update color '--accent-color"));
+    colorTable.tableEntry("--accent-color", 2).shouldHave(text("hsl(0, 1%, 34%)"));
+    colorTable.tableEntry("--accent-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(88, 86, 86)"));
+  }
+
+  @Test
+  void colorPicker() {
+    var colorTable = new Table(By.id(getColorTableId()));
+    colorTable.clickButtonForEntry("--primary-text-color", "setColor");
+    $(By.id("cssColorPickerForm:cssColorPickerInput")).shouldBe(exactValue("hsl(0, 0%, 100%)"));
+    $(By.id("cssColorPickerForm:cssColorPickerBtn")).shouldBe(exactValue("#ffffff"));
+
+    $(By.id("cssColorPickerForm:cssColorPickerInput")).clear();
+    $(By.id("cssColorPickerForm:cssColorPickerInput")).sendKeys("hsl(150, 60%, 50%)");
+    $(By.id("cssColorPickerForm:cssColorPickerBtn")).shouldBe(exactValue("#33cc80"));
+
+    Selenide.executeJavaScript("document.getElementById('cssColorPickerForm\\:cssColorPickerBtn').value = '#654321';");
+    Selenide.executeJavaScript("document.getElementById('cssColorPickerForm\\:cssColorPickerBtn').dispatchEvent(new Event('input'));");
+    $(By.id("cssColorPickerForm:cssColorPickerInput")).shouldBe(exactValue("hsl(30,50.7%,26.3%)"));
   }
 
   private void uploadAndAssertImage(int index, String tempFileName, String tempFileExt, String expectedImg, String defaultImg) throws IOException {
@@ -103,13 +160,13 @@ public class WebTestBranding {
     $("#uploadLog").shouldHave(exactText("Successfully uploaded " + expectedImg));
     $(By.id("uploadModal:closeDeploymentBtn")).shouldBe(visible).click();
 
-    $(By.id(getFormId())).find("img", index).shouldBe(visible, attributeMatching("src", ".*" + expectedImg + ".*"));
+    $(By.id(getResourcesFormId())).find("img", index).shouldBe(visible, attributeMatching("src", ".*" + expectedImg + ".*"));
     resetImage(index);
-    $(By.id(getFormId())).find("img", index).shouldBe(visible, attributeMatching("src", ".*" + defaultImg + ".*"));
+    $(By.id(getResourcesFormId())).find("img", index).shouldBe(visible, attributeMatching("src", ".*" + defaultImg + ".*"));
   }
 
   private void uploadImage(int index) {
-    var baseId = getFormId() + ":images:" + index + ":";
+    var baseId = getResourcesFormId() + ":images:" + index + ":";
     $(By.id(baseId + "uploadBtn")).shouldBe(visible).click();
     $(By.id("uploadModal:fileUploadModal")).shouldBe(visible);
     $(By.id("uploadError")).shouldBe(empty);
@@ -117,25 +174,29 @@ public class WebTestBranding {
   }
 
   private void resetImage(int index) {
-    var baseId = getFormId() + ":images:" + index + ":";
+    var baseId = getResourcesFormId() + ":images:" + index + ":";
     $(By.id(baseId + "uploadBtn_menuButton")).shouldBe(visible).click();
     $(By.id(baseId + "resetBtn")).shouldBe(visible).click();
     $(By.id("resetForm:resetBrandingConfirmYesBtn")).shouldBe(visible).click();
   }
 
   private void openCustomCssDialog() {
-    $(By.id(getFormId() + ":editCustomCssBtn")).shouldBe(visible).click();
+    $(By.id(getResourcesFormId() + ":editCustomCssBtn")).shouldBe(visible).click();
     $(By.id("editCustomCssModal")).shouldBe(visible);
   }
 
   private void resetCustomCss() {
-    var baseId = getFormId() + ":";
+    var baseId = getResourcesFormId() + ":";
     $(By.id(baseId + "editCustomCssBtn_menuButton")).shouldBe(visible).click();
     $(By.id(baseId + "resetCustomCssBtn")).shouldBe(visible).click();
     $(By.id("resetForm:resetBrandingConfirmYesBtn")).shouldBe(visible).click();
   }
 
-  private String getFormId() {
+  private String getResourcesFormId() {
     return "apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":form";
+  }
+
+  private String getColorTableId() {
+    return "apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":colorForm:colorsTable";
   }
 }
