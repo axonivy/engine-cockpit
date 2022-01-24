@@ -124,8 +124,14 @@ public class WebTestSlowRequests {
   }
 
   private static void recordData() {
+    recordData(1);
+  }
+
+  private static void recordData(int requests) {
     start();
-    Navigation.toPerformance();
+    while (requests-- > 0) {
+      Navigation.toPerformance();
+    }
     Navigation.toSlowRequests();
   }
 
@@ -167,7 +173,7 @@ public class WebTestSlowRequests {
   }
 
   public static void prepareScreenshot() {
-    Navigation.toPerformance();
-    recordData();
+    Navigation.toSlowRequests();
+    recordData(10);
   }
 }
