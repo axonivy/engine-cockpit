@@ -53,6 +53,10 @@
         $('#fileUploadForm').hide();
         PF('fileUploadModal').initPosition();
       }
+      
+      function uploadProgress(percent) {
+        $("#" + compositeId + "\\:uploadBtn .ui-button-text").text(percent+" %")
+      }
 
       initFileUpload();
 
@@ -61,6 +65,7 @@
         $('#fileUploadForm').show();
         $('#uploadLog').text("");
         $('#uploadStatus').text("");
+        $("#" + compositeId + "\\:uploadBtn .ui-button-text").text("Upload") // reset from percentage
         PF('fileUploadModal').initPosition();
       }
 

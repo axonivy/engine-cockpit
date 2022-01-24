@@ -59,6 +59,17 @@ function upload() {
   }
 
   $.ajax({
+  
+  xhr: function() {
+    var xhr = new window.XMLHttpRequest();
+    xhr.upload.addEventListener("progress", function(evt) {
+      if (evt.lengthComputable) {
+        var percentComplete = evt.loaded / evt.total;
+        percentComplete = parseInt(percentComplete * 100);
+        uploadProgress(percentComplete);
+      }}, false);
+      return xhr;
+    },
     url: uploadUrl,
     mimeType: 'multipart/form-data',
     cache: false,
@@ -106,3 +117,9 @@ function uploadDone() {
 function uploadedAlways() {
   //can be overwritten
 }
+
+function uploadProgress(percent) {
+  //can be overwritten
+  console.log("uploaded: "+percent+"%");
+}
+
