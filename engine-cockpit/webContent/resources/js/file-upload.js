@@ -2,6 +2,7 @@ var file;
 var directUpload = false;
 var uploadUrl = "";
 var uploadErrorField = "#uploadError";
+var headers = { "X-Requested-By": "engine-cockpit" };
 
 function initFileUpload() {
   $(document).ready(function (e) {
@@ -60,9 +61,12 @@ function upload() {
 
   $.ajax({
   
-  xhr: function() {
-    var xhr = new window.XMLHttpRequest();
-    xhr.upload.addEventListener("progress", function(evt) {
+    xhr: function() {
+      var xhr = new window.XMLHttpRequest();
+      xhr.onprogress = function () {
+        uploadResponse(xhr.responseText)
+      }
+      xhr.upload.addEventListener("progress", function(evt) {
       if (evt.lengthComputable) {
         var percentComplete = evt.loaded / evt.total;
         percentComplete = parseInt(percentComplete * 100);
@@ -77,7 +81,7 @@ function upload() {
     processData: false,
     data: buildFormData(),
     method: 'POST',
-    headers: { "X-Requested-By": "engine-cockpit" },
+    headers: headers,
     async: true,
     crossDomain: false,
     beforeSend: function (xhr) {
@@ -85,14 +89,22 @@ function upload() {
     }
   }).done(function (response) {
     $('#uploadLog').text(response);
-    $('#uploadStatus').html("<i class='si si-check-circle-1'></i> Success").css("color", "green");
+    markOk();
     uploadDone();
   }).fail(function (request, status, error) {
     $('#uploadLog').text(request.responseText);
-    $('#uploadStatus').html("<i class='si si-alert-circle'></i> Error").css("color", "red");
+    markError();
   }).always(function () {
     uploadedAlways();
   });
+}
+
+function markOk() {
+  $('#uploadStatus').html("<i class='si si-check-circle-1'></i> Success").css("color", "green");
+}
+
+function markError() {
+  $('#uploadStatus').html("<i class='si si-alert-circle'></i> Error").css("color", "red");
 }
 
 function buildFormData() {
@@ -121,5 +133,12 @@ function uploadedAlways() {
 function uploadProgress(percent) {
   //can be overwritten
   console.log("uploaded: "+percent+"%");
+}
+
+function uploadResponse(partial) {
+  //can be overwritten
+  var log = $('#uploadLog');
+  log.text(partial);
+  log.animate({ scrollTop: log.prop("scrollHeight") - log.height() }, 10);
 }
 
