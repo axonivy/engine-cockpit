@@ -137,6 +137,8 @@ function uploadProgress(percent) {
 
 function uploadResponse(partial) {
   //can be overwritten
-  $('#uploadLog').text(partial);
+  var log = $('#uploadLog');
+  log.text(partial);
+  log.animate({ scrollTop: log.prop("scrollHeight") - log.height() }, 10);
 }
 
