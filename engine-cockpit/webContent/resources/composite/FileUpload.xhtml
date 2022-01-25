@@ -51,7 +51,7 @@
         buttonAddSpinner($("#" + compositeId + "\\:uploadBtn"));
       }
 
-      function uploadedAlways() {
+      function uploaded() {
         buttonRemoveSpinner($("#" + compositeId + "\\:uploadBtn"), "si-upload-bottom");
         $('#fileUploadResponse').show();
         $('#fileUploadForm').hide();
@@ -60,6 +60,17 @@
       
       function uploadProgress(percent) {
         $("#" + compositeId + "\\:uploadBtn .ui-button-text").text(percent+" %")
+        if (percent == 100) {
+          console.log("upload finished")
+          uploaded()
+        }
+      }
+      
+      function uploadDone() {
+        var log = $('#uploadLog').text()
+        if (log.indexOf('--- SUCCESS ---') == -1){
+          markError();
+        }
       }
 
       initFileUpload();
