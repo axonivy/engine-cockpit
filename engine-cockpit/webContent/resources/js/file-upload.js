@@ -2,6 +2,7 @@ var file;
 var directUpload = false;
 var uploadUrl = "";
 var uploadErrorField = "#uploadError";
+var headers = { "X-Requested-By": "engine-cockpit" };
 
 function initFileUpload() {
   $(document).ready(function (e) {
@@ -77,7 +78,7 @@ function upload() {
     processData: false,
     data: buildFormData(),
     method: 'POST',
-    headers: { "X-Requested-By": "engine-cockpit" },
+    headers: headers,
     async: true,
     crossDomain: false,
     beforeSend: function (xhr) {

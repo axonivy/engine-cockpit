@@ -42,6 +42,10 @@
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);
       var uploadUrl = "#{advisorBean.apiBaseUrl}/#{cc.attrs.apiUrl}"
       var compositeId = "#{cc.attrs.id}";
+      var headers = { 
+        "X-Requested-By": "engine-cockpit",
+        "X-tail-log": "true"
+      };
 
       function beforeUpload() {
         buttonAddSpinner($("#" + compositeId + "\\:uploadBtn"));
