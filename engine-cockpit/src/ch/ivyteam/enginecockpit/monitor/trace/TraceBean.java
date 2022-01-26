@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.trace;
 
-import java.util.Date;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ import ch.ivyteam.ivy.trace.Tracer;
 @ViewScoped
 public class TraceBean {
 
-  private static final long ONE_MILLION = 1_000_000L;
+  private static final double ONE_MILLION = 1_000_000d;
   private Tracer tracer = Tracer.instance();
   private List<Trc> traces = readData();
   private List<Trc> filteredTraces;
@@ -96,12 +97,12 @@ public class TraceBean {
     traces = readData();
   }
 
-  static String toLocalTime(long epochNanos) {
-    return DateUtil.formatDate(new Date(epochNanos / ONE_MILLION), "HH:mm:ss.SSS");
+  static String toLocalTime(Instant instant) {
+    return DateUtil.formatInstant(instant, "HH:mm:ss.SSS");
   }
 
-  static double toMillis(long nanos) {
-    return nanos / (double)ONE_MILLION;
+  static double toMillis(Duration duration) {
+    return duration.toNanos() / ONE_MILLION;
   }
 
   public String export(UIColumn column) {
@@ -117,7 +118,7 @@ public class TraceBean {
     private long max = Integer.MIN_VALUE;
 
     private void add(Trace trace) {
-      max = Math.max(max, trace.executionTimeNanos());
+      max = Math.max(max, trace.rootSpan().times().executionTime().toNanos());
     }
 
     public long toMax() {
@@ -139,7 +140,7 @@ public class TraceBean {
     }
 
     public String getName() {
-      return trace.name();
+      return trace.rootSpan().name();
     }
 
     public String getInfo() {
@@ -147,19 +148,19 @@ public class TraceBean {
     }
 
     public String getStart() {
-      return toLocalTime(trace.startEpochNanos());
+      return toLocalTime(trace.rootSpan().times().start());
     }
 
     public String getEnd() {
-      return toLocalTime(trace.endEpochNanos());
+      return toLocalTime(trace.rootSpan().times().end());
     }
 
     public double getExecutionTime() {
-      return toMillis(trace.executionTimeNanos());
+      return toMillis(trace.rootSpan().times().executionTime());
     }
 
     public String getExecutionTimeBackground() {
-      return BackgroundMeterUtil.background(trace.executionTimeNanos(), max);
+      return BackgroundMeterUtil.background(trace.rootSpan().times().executionTime().toNanos(), max);
     }
 
     public String getStatusClass() {

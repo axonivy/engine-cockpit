@@ -60,19 +60,19 @@ public class SpanBean extends TreeView {
     }
 
     public String getStart() {
-      return TraceBean.toLocalTime(span.startEpochNanos());
+      return TraceBean.toLocalTime(span.times().start());
     }
 
     public String getEnd() {
-      return TraceBean.toLocalTime(span.endEpochNanos());
+      return TraceBean.toLocalTime(span.times().end());
     }
 
     public double getExecutionTime() {
-      return TraceBean.toMillis(span.executionTimeNanos());
+      return TraceBean.toMillis(span.times().executionTime());
     }
 
     public String getExecutionTimeBackground() {
-      return BackgroundMeterUtil.background(span.executionTimeNanos(), trace.executionTimeNanos());
+      return BackgroundMeterUtil.background(span.times().executionTime().toNanos(), trace.rootSpan().times().executionTime().toNanos());
     }
 
     public String getStatusClass() {
