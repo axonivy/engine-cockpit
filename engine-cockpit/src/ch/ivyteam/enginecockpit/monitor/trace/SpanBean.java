@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.trace;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
@@ -17,7 +18,7 @@ import ch.ivyteam.ivy.trace.Tracer;
 @ManagedBean
 @ViewScoped
 public class SpanBean extends TreeView {
-  private Trace trace;
+  private Optional<Trace> trace;
   private String traceId;
 
   public void setTraceId(String traceId) {
@@ -29,10 +30,16 @@ public class SpanBean extends TreeView {
     return traceId;
   }
 
+  public boolean isTraceAvailable() {
+    return trace.isPresent();
+  }
+
   @Override
   protected void buildTree() {
-    trace = Tracer.instance().slowTraces().stream().filter(trc -> trc.id().equals(traceId)).findAny().orElse(null);
-    buildTreeNode(trace.rootSpan(), rootTreeNode);
+    trace = Tracer.instance().findTrace(traceId);
+    if (trace.isPresent()) {
+      buildTreeNode(trace.get().rootSpan(), rootTreeNode);
+    }
   }
 
   private void buildTreeNode(TraceSpan span, TreeNode parentNode) {
@@ -72,7 +79,7 @@ public class SpanBean extends TreeView {
     }
 
     public String getExecutionTimeBackground() {
-      return BackgroundMeterUtil.background(span.times().executionTime().toNanos(), trace.rootSpan().times().executionTime().toNanos());
+      return BackgroundMeterUtil.background(span.times().executionTime().toNanos(), trace.get().rootSpan().times().executionTime().toNanos());
     }
 
     public String getStatusClass() {

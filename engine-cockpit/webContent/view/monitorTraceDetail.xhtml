@@ -36,7 +36,12 @@
               </h1>
             </div>
           </div>
-          <h:form id="form">
+          <h:panelGroup layout="block" rendered="#{! spanBean.traceAvailable}" styleClass="ui-message ui-staticmessage ui-message-warn">
+            <span class="ui-message-warn-icon"></span>
+            <span class="ui-message-warn-summary">Request no longer available</span>
+            <span class="ui-message-warn-detail">The request was remove from the slowest requests because other requests were even slower!</span>
+          </h:panelGroup>
+          <h:form id="form" rendered="#{spanBean.traceAvailable}">
             <div class="ui-tree-search-header">
               <div class="ui-datatable-header ui-widget-header ui-corner-top">
                 <p:outputPanel>
@@ -73,6 +78,7 @@
               </p:column>
             </p:treeTable>
           </h:form>
+          <h:outputLabel value="Trace Id: #{spanBean.traceId}"/>
         </div>
       </cc:SingleCard>
     </ui:define>
