@@ -50,6 +50,7 @@
             <compilerOption>-warn:-warningToken</compilerOption>
           </compilerOptions>
           <osArchitecture>All_x64</osArchitecture>
+          <ivyVersion>[9.3.0,9.4.0)</ivyVersion>
         </configuration>
       </plugin>
       <plugin>
