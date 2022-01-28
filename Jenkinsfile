@@ -11,9 +11,9 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
+    string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/ivy-core_product/job/release%252F9.3/lastSuccessfulBuild/', description: 'Engine page url')
     booleanParam(name: 'forceDeployScreenshots', defaultValue: false, description: 'Force deploy new screenshots')
-    booleanParam(name: 'skipScreenshots', defaultValue: false, description: 'Skip screenshot test (flag will be ignored on master)')
+    booleanParam(name: 'skipScreenshots', defaultValue: false, description: 'Skip screenshot test (flag will be ignored on 9.3)')
     string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
@@ -101,7 +101,7 @@ pipeline {
     stage('deploy') {
       when {
         allOf {
-          branch 'master'
+          branch 'release/9.3'
           expression {return currentBuild.currentResult == 'SUCCESS' || params.deployArtifacts}
         }
       }
@@ -127,21 +127,21 @@ pipeline {
 }
 
 def getImageSimilarity() {
-  if (env.BRANCH_NAME == 'master') {
+  if (env.BRANCH_NAME == 'release/9.3') {
     return '98'
   }
   return '95'
 }
 
 def getSkipScreenshots() {
-  if (env.BRANCH_NAME == 'master') {
+  if (env.BRANCH_NAME == 'release/9.3') {
     return false;
   }
   return params.skipScreenshots
 }
 
 def getTestFilter() {
-  if (env.BRANCH_NAME == 'master') {
+  if (env.BRANCH_NAME == 'release/9.3') {
     return 'WebTest*.java';
   }
   return params.testFilter
