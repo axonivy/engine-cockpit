@@ -6,11 +6,11 @@
   <packaging>pom</packaging>
 
   <properties>
-    <engine.page.url>https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/</engine.page.url>
+    <engine.page.url>https://jenkins.ivyteam.io/job/ivy-core_product/job/release%252F9.3/lastSuccessfulBuild/</engine.page.url>
     <engine.dir>../.ivy-engine</engine.dir>
     <revision>9.3.0-SNAPSHOT</revision>
     <flatten.plugin.version>1.2.7</flatten.plugin.version>
-    <project.build.plugin.version>9.4.0-SNAPSHOT</project.build.plugin.version>
+    <project.build.plugin.version>9.3.1</project.build.plugin.version>
     <maven.test.skip>true</maven.test.skip>
   </properties>
 
@@ -50,6 +50,7 @@
             <compilerOption>-warn:-warningToken</compilerOption>
           </compilerOptions>
           <osArchitecture>All_x64</osArchitecture>
+          <ivyVersion>[9.3.0,9.4.0)</ivyVersion>
         </configuration>
       </plugin>
       <plugin>
