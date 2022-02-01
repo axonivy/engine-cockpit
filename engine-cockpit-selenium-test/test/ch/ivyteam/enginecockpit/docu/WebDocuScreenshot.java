@@ -149,7 +149,7 @@ public class WebDocuScreenshot {
     takeScreenshot("configuration-businesscalendar-detail",
             new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toBranding();
-    takeScreenshot("branding", new Dimension(SCREENSHOT_WIDTH, 600));
+    takeScreenshot("branding", new Dimension(SCREENSHOT_WIDTH, 800));
     takeDialogScreenshot("branding-custom-css", By.id("apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":form:editCustomCssBtn"));
   }
 

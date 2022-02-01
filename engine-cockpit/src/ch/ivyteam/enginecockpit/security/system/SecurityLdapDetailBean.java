@@ -31,7 +31,7 @@ public class SecurityLdapDetailBean {
   private boolean userMemberOfLookupAllowed;
   private String groupMemberOfAttribute;
   private String groupMembersAttribute;
-  private Map<String, Property> properties;
+  private Map<String, Property> properties = new HashMap<>();
   private Property ldapProperty;
 
   private ExternalSecuritySystemConfiguration securityConfiguration;
