@@ -30,7 +30,6 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -127,13 +126,10 @@ public class WebTestConfiguration {
     }
 
     @Test
-    void testSearchAndUpdateConfig() {
+    void testUpdateConfig() {
       String config = "EMail.Server.EncryptionMethod";
       table.firstColumnShouldBe(sizeGreaterThan(0));
       table.row(config).shouldHave(cssClass("default-value"));
-      Selenide.sleep(200);
-      table.search("email");
-      table.firstColumnShouldBe(size(9));
 
       table.clickButtonForEntry(config, "editConfigBtn");
       PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"))
@@ -142,9 +138,10 @@ public class WebTestConfiguration {
       table.row(config).shouldNotHave(cssClass("default-value"));
 
       toggleFilter(List.of("Show only defined values"));
-      table.firstColumnShouldBe(size(1));
+      table.firstColumnShouldBe(itemWithText(config));
       assertResetConfig(config);
-      table.firstColumnShouldBe(size(0));
+      table.firstColumnShouldBe(noneMatch("Config no longer listed under defined values",
+              e -> e.getText().equals(config)));
     }
 
     @Test
