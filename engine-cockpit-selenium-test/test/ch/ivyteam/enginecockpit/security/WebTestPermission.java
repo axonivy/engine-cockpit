@@ -15,6 +15,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -55,6 +56,8 @@ public class WebTestPermission {
     Navigation.toUsers();
     Tab.switchToTab("demo-portal");
     Navigation.toUserDetail("demo");
+
+    Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
 
     $(By.id("permissionsForm:globalFilter")).sendKeys("CaseWriteName");
     var table = $(By.id("permissionsForm:permissionTable"));
