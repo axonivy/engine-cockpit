@@ -17,7 +17,7 @@
     title="Delete this security system" icon="si si-bin-1" styleClass="red-btn card-button"
     rendered="#{empty securityConfigDetailBean.usedByApps}" />
   <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
-    message="Are you sure about deleteing the security system '#{securityConfigDetailBean.name}'?"
+    message="Are you sure you want to delete the security system '#{securityConfigDetailBean.name}'?"
     header="Delete Security System" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button"
       styleClass="modal-input-button" />

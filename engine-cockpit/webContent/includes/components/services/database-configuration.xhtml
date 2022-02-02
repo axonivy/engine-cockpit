@@ -17,7 +17,7 @@
     update="@form, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()"
     title="Reset configuration" icon="si si-undo" styleClass="red-btn card-button" />
-  <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure about reset this Database?"
+  <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure you want to reset this Database?"
     header="Reset Database" severity="alert" widgetVar="resetDbConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button"
       styleClass="modal-input-button" />

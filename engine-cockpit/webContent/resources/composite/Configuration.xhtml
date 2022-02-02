@@ -58,7 +58,7 @@
   </h:form>
 
   <p:confirmDialog id="resetConfigConfirmDialog" header="Reset #{cc.attrs.dialogTitle}" appendTo="@(body)"
-    message="Are you sure about reseting the #{cc.attrs.dialogTitle} '#{cc.attrs.bean.activeConfig.key}'?"
+    message="Are you sure you want to reset the #{cc.attrs.dialogTitle} '#{cc.attrs.bean.activeConfig.key}'?"
     severity="alert" widgetVar="resetConfigConfirmDialog">
     <h:form id="resetConfigConfirmForm">
       <p:commandLink value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button"

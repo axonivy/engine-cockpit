@@ -96,7 +96,7 @@ public abstract class AbstractActivity {
   }
 
   public String getDeleteHint() {
-    return "Are you sure about deleting this " + getActivityType() + "?";
+    return "Are you sure you want to delete this " + getActivityType() + "?";
   }
 
   public void activate() {

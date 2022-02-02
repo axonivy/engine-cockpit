@@ -19,7 +19,7 @@
     onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
     styleClass="red-btn card-button" />
   <p:confirmDialog id="deleteRoleConfirmDialog"
-    message="Are you sure about deleteing the role '#{roleDetailBean.roleName}'?" header="Delete Role" severity="alert"
+    message="Are you sure you want to delete the role '#{roleDetailBean.roleName}'?" header="Delete Role" severity="alert"
     widgetVar="deleteRoleConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
       styleClass="secondary-btn modal-input-button" />
