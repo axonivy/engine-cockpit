@@ -21,7 +21,7 @@ public class ExternalDatabase implements IService
   private int maxConnections;
   private List<Property> properties;
   private boolean passwordChanged;
-  
+
   public ExternalDatabase(IExternalDatabaseConfiguration externalDatabase)
   {
     name = externalDatabase.getUserFriendlyName();
@@ -45,17 +45,17 @@ public class ExternalDatabase implements IService
   {
     return url;
   }
-  
+
   public void setUrl(String url)
   {
     this.url = url;
   }
-  
+
   public String getDriver()
   {
     return driver;
   }
-  
+
   public void setDriver(String driver)
   {
     this.driver = driver;
@@ -70,13 +70,13 @@ public class ExternalDatabase implements IService
   {
     this.userName = userName;
   }
-  
+
   @Override
   public String getPassword()
   {
     return password;
   }
-  
+
   public void setPassword(String password)
   {
     this.password = password;
@@ -85,7 +85,7 @@ public class ExternalDatabase implements IService
       passwordChanged = true;
     }
   }
-  
+
   @Override
   public boolean passwordChanged()
   {
@@ -96,7 +96,7 @@ public class ExternalDatabase implements IService
   {
     return maxConnections;
   }
-  
+
   public void setMaxConnections(int maxConnections)
   {
     this.maxConnections = maxConnections;
@@ -106,7 +106,7 @@ public class ExternalDatabase implements IService
   {
     return properties;
   }
-  
+
   public static class ExecStatement
   {
     private String time;
@@ -114,6 +114,7 @@ public class ExternalDatabase implements IService
     private String resultTime;
     private String sql;
     private String element;
+    private long rowsAffected;
 
     public ExecStatement(IStatementExecution statement)
     {
@@ -122,6 +123,7 @@ public class ExternalDatabase implements IService
       resultTime = (double) statement.getReadingResultTimeInMicroSeconds() / 1000 + "ms";
       sql = statement.getSql();
       element = statement.getDatabaseElement().getProcessElementId();
+      rowsAffected = statement.getRowsAffected();
     }
 
     public String getTime()
@@ -148,8 +150,13 @@ public class ExternalDatabase implements IService
     {
       return element;
     }
+
+    public long getRowsAffected()
+    {
+      return rowsAffected;
+    }
   }
-  
+
   public static class Connection
   {
     private String lastUsed;
@@ -171,5 +178,5 @@ public class ExternalDatabase implements IService
       return inUse;
     }
   }
-  
+
 }

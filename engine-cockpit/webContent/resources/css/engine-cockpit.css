@@ -355,6 +355,11 @@ body {
 .ui-growl-message {
   word-wrap: break-word;
 }
+.material-icons.icon-btn {
+  cursor: pointer;
+  color: #006f94;
+  font-size: 21px;
+}
 
 /*Email Style Changes*/
 .email-checkbox-style .ui-panelgrid-cell.ui-md-6,
