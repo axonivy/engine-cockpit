@@ -3,6 +3,10 @@ package ch.ivyteam.enginecockpit.services;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.runExternalDbQuery;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.switchTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,5 +43,10 @@ public class WebTestDatabaseHistory {
             .firstColumnShouldBe(sizeGreaterThan(0));
     new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable"))
             .firstColumnShouldBe(sizeGreaterThan(0));
+
+    $(".si-copy-paste").shouldBe(visible).click();
+    var copyPasteAlert = switchTo().alert();
+    assertThat(copyPasteAlert.getText()).contains("Person");
+    copyPasteAlert.accept();
   }
 }

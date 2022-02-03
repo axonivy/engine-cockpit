@@ -8,7 +8,7 @@
   <h:outputText value="Execution History (last 200)" />
 </f:facet>
 <h:form id="databaseExecHistoryForm" style="overflow-y: auto;">
-  <p:dataTable value="#{databaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 700px;"
+  <p:dataTable value="#{databaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 780px;"
     var="exec" id="databaseExecHistoryTable" paginator="true" rows="10" paginatorPosition="bottom"
     paginatorAlwaysVisible="false"
     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
@@ -16,18 +16,32 @@
       <h:outputText value="#{exec.time}" styleClass="histroy" />
     </p:column>
     <p:column headerText="Exec Time" style="width: 114px" sortBy="#{exec.execTime}">
-      <h:outputText value="#{exec.execTime}" />
+      <h:outputText value="#{exec.execTime}" title="Gets the time needed to execute the statement" />
     </p:column>
     <p:column headerText="Result Time" style="width: 124px" sortBy="#{exec.resultTime}">
-      <h:outputText value="#{exec.resultTime}" />
+      <h:outputText value="#{exec.resultTime}" title="Gets the time needed to read the results of the statement" />
     </p:column>
     <p:column headerText="SQL" sortBy="#{exec.sql}">
-      <h:outputText value="#{exec.sql}" title="#{exec.sql}" styleClass="table-cell-autocut" />
+      <h:outputText value="#{exec.sql}" title="#{exec.sql}" styleClass="table-cell-autocut" style="width: calc(100% - 2em);"/>
+      <i class="si si-copy-paste icon-btn" title="Copy to clipboard" onclick="copyToClipboard(this)"></i>
     </p:column>
     <p:column headerText="Process Element" style="width: 160px" sortBy="#{exec.element}">
       <h:outputText value="#{exec.element}" />
     </p:column>
+    <p:column headerText="Rows Affected" style="width: 150px" sortBy="#{exec.rowsAffected}">
+      <h:outputText value="#{exec.rowsAffected}" />
+    </p:column>
   </p:dataTable>
 </h:form>
+
+<script>
+function copyToClipboard(btn) {
+  var sqlContent = $(btn).siblings('.table-cell-autocut').text();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(sqlContent);
+  } 
+  alert(sqlContent);
+}
+</script>
 
 </html>
