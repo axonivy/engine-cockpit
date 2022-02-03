@@ -16,10 +16,10 @@
       <h:outputText value="#{exec.time}" styleClass="histroy" />
     </p:column>
     <p:column headerText="Exec Time" style="width: 114px" sortBy="#{exec.execTime}">
-      <h:outputText value="#{exec.execTime}" title="Gets the time needed to execute the statement" />
+      <h:outputText value="#{exec.execTime}" title="The time needed to execute the statement" />
     </p:column>
     <p:column headerText="Result Time" style="width: 124px" sortBy="#{exec.resultTime}">
-      <h:outputText value="#{exec.resultTime}" title="Gets the time needed to read the results of the statement" />
+      <h:outputText value="#{exec.resultTime}" title="The time needed to read the results of the statement" />
     </p:column>
     <p:column headerText="SQL" sortBy="#{exec.sql}">
       <h:outputText value="#{exec.sql}" title="#{exec.sql}" styleClass="table-cell-autocut" style="width: calc(100% - 2em);"/>
