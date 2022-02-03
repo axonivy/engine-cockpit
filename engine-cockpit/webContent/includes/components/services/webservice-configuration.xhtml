@@ -16,7 +16,7 @@
     icon="si si-floppy-disk" styleClass="accent-btn card-button" update="@form, webservcieAdditionalConfigForm" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetWsConfirmDialog').show()"
     title="Reset configuration" icon="si si-undo" styleClass="red-btn card-button" />
-  <p:confirmDialog id="resetWsConfirmDialog" message="Are you sure about reset this Web Service?"
+  <p:confirmDialog id="resetWsConfirmDialog" message="Are you sure you want to reset this Web Service?"
     header="Reset Web Service" severity="alert" widgetVar="resetWsConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('resetWsConfirmDialog').hide();" type="button"
       styleClass="modal-input-button" />

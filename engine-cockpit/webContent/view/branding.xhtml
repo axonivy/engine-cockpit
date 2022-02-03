@@ -60,7 +60,7 @@
       </p:dialog>
       
       <p:confirmDialog id="resetBrandingConfirmDialog" header="Reset Branding Resource" severity="alert" appendTo="@(body)"
-        widgetVar="resetBrandingConfirmDialog" message="Are you sure about reset the Branding resource '#{brandingBean.currentRes}'">
+        widgetVar="resetBrandingConfirmDialog" message="Are you sure you want to reset the Branding resource '#{brandingBean.currentRes}'">
         <h:form id="resetForm">
           <p:commandLink value="Cancel" onclick="PF('resetBrandingConfirmDialog').hide();" type="button"
             styleClass="modal-input-button" />
@@ -123,7 +123,7 @@
       </h:form>
       
       <p:confirmDialog id="resetColorConfirmDialog" header="Reset Color" severity="alert" appendTo="@(body)"
-        widgetVar="resetColorConfirmDialog" message="Are you sure about reset the CSS Color '#{brandingBean.selectedCssColor}'">
+        widgetVar="resetColorConfirmDialog" message="Are you sure you want to reset the CSS Color '#{brandingBean.selectedCssColor}'">
         <h:form id="resetColorForm">
           <p:commandLink value="Cancel" onclick="PF('resetColorConfirmDialog').hide();" type="button"
             styleClass="modal-input-button" />

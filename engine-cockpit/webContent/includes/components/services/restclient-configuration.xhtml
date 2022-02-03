@@ -17,7 +17,7 @@
     update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
   <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()"
     title="Reset configuration" icon="si si-undo" styleClass="red-btn card-button" />
-  <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure about reset this Rest Client?"
+  <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure you want to reset this Rest Client?"
     header="Reset Rest Client" severity="alert" widgetVar="resetRestConfirmDialog">
     <p:commandLink value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button"
       styleClass="modal-input-button" />

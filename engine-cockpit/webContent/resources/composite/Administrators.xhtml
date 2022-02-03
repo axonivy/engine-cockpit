@@ -27,7 +27,7 @@
     </p:dataTable>
 
     <p:confirmDialog id="deleteAdminDialog"
-      message="Are you sure about deleting the administrator '#{administratorBean.admin.name}'?"
+      message="Are you sure you want to delete the administrator '#{administratorBean.admin.name}'?"
       header="Delete #{administratorBean.admin.name}" severity="alert" widgetVar="deleteAdminDialog">
       <p:commandLink value="Cancel" onclick="PF('deleteAdminDialog').hide();" type="button"
         styleClass="modal-input-button" />
