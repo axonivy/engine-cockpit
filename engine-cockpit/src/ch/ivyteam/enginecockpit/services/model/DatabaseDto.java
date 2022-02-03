@@ -94,6 +94,7 @@ public class DatabaseDto implements IService {
     private String resultTime;
     private String sql;
     private String element;
+    private long rowsAffected;
 
     public ExecStatement(IStatementExecution statement) {
       time = DateUtil.formatDate(statement.getExecutionTimestamp());
@@ -101,6 +102,7 @@ public class DatabaseDto implements IService {
       resultTime = (double) statement.getReadingResultTimeInMicroSeconds() / 1000 + "ms";
       sql = statement.getSql();
       element = statement.getDatabaseElement().getProcessElementId();
+      rowsAffected = statement.getRowsAffected();
     }
 
     public String getTime() {
@@ -121,6 +123,10 @@ public class DatabaseDto implements IService {
 
     public String getElement() {
       return element;
+    }
+
+    public long getRowsAffected() {
+      return rowsAffected;
     }
   }
 

@@ -416,6 +416,10 @@ body {
 .ui-growl-message {
   word-wrap: break-word;
 }
+.icon-btn {
+  cursor: pointer;
+  color: var(--primary-color);
+}
 
 /*Email Style Changes*/
 .email-checkbox-style .ui-panelgrid-cell.ui-md-6,
