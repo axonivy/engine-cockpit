@@ -16,6 +16,7 @@ import ch.ivyteam.ivy.scripting.objects.Tree;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("removal")
 public class BusinessCalendarBean extends TreeView {
   private ManagerBean managerBean;
   private BusinessCalendar activeCalendar;

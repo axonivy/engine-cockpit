@@ -34,6 +34,7 @@ import ch.ivyteam.ivy.db.IExternalDatabaseManager;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("removal")
 public class DatabaseDetailBean extends HelpServices implements IConnectionTestResult {
   private DatabaseDto database;
   private Property activeProperty;

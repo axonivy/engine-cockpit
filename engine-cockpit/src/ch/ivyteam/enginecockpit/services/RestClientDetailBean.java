@@ -26,7 +26,7 @@ import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
 import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "removal"})
 @ManagedBean
 @ViewScoped
 public class RestClientDetailBean extends HelpServices implements IConnectionTestResult {

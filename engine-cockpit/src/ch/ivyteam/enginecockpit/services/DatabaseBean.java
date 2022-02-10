@@ -15,6 +15,7 @@ import ch.ivyteam.ivy.db.Databases;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("removal")
 public class DatabaseBean {
   private List<DatabaseDto> databases;
   private List<DatabaseDto> filteredDatabases;

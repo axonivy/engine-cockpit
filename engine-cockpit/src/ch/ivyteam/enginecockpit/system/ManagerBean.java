@@ -27,7 +27,7 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "removal"})
 @ManagedBean
 @SessionScoped
 public class ManagerBean {

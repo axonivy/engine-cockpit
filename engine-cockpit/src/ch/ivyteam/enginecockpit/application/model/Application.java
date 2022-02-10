@@ -14,7 +14,7 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "removal"})
 public class Application extends AbstractActivity {
 
   private String desc;

@@ -20,6 +20,7 @@ import ch.ivyteam.ivy.vars.Variables;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("removal")
 public class VariableBean implements ConfigView {
   private ManagerBean managerBean;
   private List<ConfigProperty> variables;
