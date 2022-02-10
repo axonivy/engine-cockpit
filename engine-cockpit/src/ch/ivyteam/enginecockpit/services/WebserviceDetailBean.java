@@ -32,6 +32,7 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("removal")
 public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult {
   private Webservice webservice;
   private String webserviceId;

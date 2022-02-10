@@ -13,6 +13,7 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("removal")
 public class WebserviceBean {
   private List<Webservice> webservices;
   private List<Webservice> filteredWebservices;

@@ -32,7 +32,7 @@ import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "removal"})
 public class ApplicationDetailBean {
   private String appName;
   private Application app;

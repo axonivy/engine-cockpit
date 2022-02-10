@@ -13,6 +13,7 @@ import ch.ivyteam.ivy.rest.client.RestClients;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("removal")
 public class RestClientsBean {
   private List<RestClientDto> restClients;
   private List<RestClientDto> filteredRestClients;
