@@ -67,13 +67,11 @@
     <p:outputLabel for="derefAliasesDropDown" value="Dereference Aliases" />
     <p:selectOneMenu id="derefAliasesDropDown" value="#{securityConfigDetailBean.derefAlias}" placeholder="always">
       <f:selectItems value="#{securityConfigDetailBean.derefAliases}" />
-      <p:ajax update="@form" />
     </p:selectOneMenu>
 
     <p:outputLabel for="ReferralDropDown" value="Referral" />
     <p:selectOneMenu id="ReferralDropDown" value="#{securityConfigDetailBean.referral}" placeholder="follow">
       <f:selectItems value="#{securityConfigDetailBean.referrals}" />
-      <p:ajax update="@form" />
     </p:selectOneMenu>
 
     <p:outputLabel for="onDemandImport" value="Import On Demand" />
