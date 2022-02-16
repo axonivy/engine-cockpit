@@ -46,7 +46,7 @@ public class WebTestSystemDb {
   private static final String SYS_DB_USER = "root";
   private static final String CONNECTION_BUTTON = "#systemDb\\:systemDbForm\\:checkConnectionButton";
   private static final String CONNECTION_PANEL = "#systemDb\\:systemDbForm\\:connectionPanel";
-  private static final String OLD_DB_NAME = "old_version_60";
+  private static final String OLD_DB_NAME = "old_version_95";
   private static final String TEST_DB_NAME = "temp";
 
   @BeforeAll

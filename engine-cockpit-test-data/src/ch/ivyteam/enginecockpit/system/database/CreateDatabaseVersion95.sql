@@ -1,17 +1,24 @@
-# ---------------------------------------------------------------------------------
-# 
-# SQL Script to generate ivy system database
-# 
-# ---------------------------------------------------------------------------------
-# 
-# This script was automatically generated. Do not edit it. Instead edit the source file
-# 
-# ---------------------------------------------------------------------------------
-# Database: MySQL
-# ---------------------------------------------------------------------------------
-# Copyright:
-# Axon Ivy AG, Baarerstrasse 12, 6300 Zug
-# ---------------------------------------------------------------------------------
+# SQL script to create database for MySQL
+
+CREATE TABLE IWA_Version
+(
+  Version INTEGER NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_Identifier
+(
+  IdentifierName VARCHAR(200) NOT NULL,
+  IdentifierValue BIGINT NOT NULL,
+  PRIMARY KEY (IdentifierName)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_SystemProperty
+(
+  PropertyName VARCHAR(200) NOT NULL,
+  PropertyValue TEXT NOT NULL,
+  IsEncrypted BIT NOT NULL DEFAULT 0,
+  PRIMARY KEY (PropertyName)
+) ENGINE=InnoDB;
 
 CREATE TABLE IWA_AsyncProcessCaseData
 (
@@ -21,218 +28,17 @@ CREATE TABLE IWA_AsyncProcessCaseData
   PRIMARY KEY (CaseId, EventId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_ClusterNode
-(
-  ClusterNodeId BIGINT NOT NULL,
-  HostName VARCHAR(50) NOT NULL,
-  LocalIdentifier INTEGER NOT NULL,
-  IpAddress CHAR(39) NOT NULL,
-  IpPort INTEGER NOT NULL,
-  `State` INTEGER NOT NULL,
-  MasterClusterNodeId BIGINT,
-  OperatingSystemName VARCHAR(50) NOT NULL,
-  OperatingSystemVersion VARCHAR(50) NOT NULL,
-  OperatingSystemArchitecture VARCHAR(50) NOT NULL,
-  JavaVersion VARCHAR(50) NOT NULL,
-  JavaVirtualMachineName VARCHAR(50) NOT NULL,
-  XpertIvyVersion VARCHAR(50) NOT NULL,
-  LastStartTimestamp DATETIME,
-  LastStopTimestamp DATETIME,
-  LastFailTimestamp DATETIME,
-  LastLifeCheckTimeStamp DATETIME NOT NULL,
-  PRIMARY KEY (ClusterNodeId),
-  UNIQUE (HostName, LocalIdentifier)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ClusterNodeProperty
-(
-  ClusterNodePropertyId BIGINT NOT NULL,
-  ClusterNodeId BIGINT NOT NULL,
-  PropertyName VARCHAR(50) NOT NULL,
-  PropertyValue TEXT NOT NULL,
-  PRIMARY KEY (ClusterNodePropertyId),
-  UNIQUE (ClusterNodeId, PropertyName)
-) ENGINE=InnoDB;
-
 CREATE TABLE IWA_Application
 (
   ApplicationId BIGINT NOT NULL,
   Name VARCHAR(40) NOT NULL,
   Description VARCHAR(2000) DEFAULT '',
   OwnerName VARCHAR(40) NOT NULL,
-  SystemUserId BIGINT,
-  ExternalSecuritySystemName VARCHAR(200) NOT NULL DEFAULT 'ivyteam.webapp.workflow.InternalAuthenticationAuthorizationSys',
   SecurityDescriptorId BIGINT DEFAULT NULL,
   `State` INTEGER NOT NULL,
   FileDirectory VARCHAR(500) NOT NULL,
-  BusinessCalendarId BIGINT,
   PRIMARY KEY (ApplicationId),
   UNIQUE (Name)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ApplicationProperty
-(
-  ApplicationPropertyId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  PropertyName VARCHAR(50) NOT NULL,
-  PropertyValue TEXT NOT NULL,
-  PRIMARY KEY (ApplicationPropertyId),
-  UNIQUE (ApplicationId, PropertyName)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_Environment
-(
-  EnvironmentId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  Description TEXT NOT NULL,
-  BusinessCalendarId BIGINT,
-  PRIMARY KEY (EnvironmentId),
-  UNIQUE (ApplicationId, Name)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_GlobalVariable
-(
-  GlobalVariableId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  ParentGlobalVariableId BIGINT,
-  EnvironmentId BIGINT,
-  Name VARCHAR(200) NOT NULL,
-  Description TEXT NOT NULL,
-  `Value` VARCHAR(2000) NOT NULL,
-  PRIMARY KEY (GlobalVariableId),
-  UNIQUE (ApplicationId, EnvironmentId, Name)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_WebService
-(
-  WebServiceId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  GenerationIdentifier VARCHAR(200) NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  Description TEXT NOT NULL,
-  WsdlUrl VARCHAR(2000) NOT NULL,
-  TransportSession BIT NOT NULL,
-  SessionHandlingMode INTEGER NOT NULL,
-  WebServiceFramework VARCHAR(200) NOT NULL,
-  PRIMARY KEY (WebServiceId),
-  FOREIGN KEY (ApplicationId) REFERENCES IWA_Application(ApplicationId) ON DELETE CASCADE,
-  UNIQUE (ApplicationId, GenerationIdentifier)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_WebServiceEnvironment
-(
-  WebServiceEnvironmentId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  WebServiceId BIGINT NOT NULL,
-  EnvironmentId BIGINT,
-  AuthenticationType VARCHAR(200) NOT NULL,
-  UserName VARCHAR(200) NOT NULL,
-  Password VARCHAR(200) NOT NULL,
-  AuthenticationHost VARCHAR(200) DEFAULT NULL,
-  AuthenticationDomain VARCHAR(200) DEFAULT NULL,
-  PRIMARY KEY (WebServiceEnvironmentId),
-  FOREIGN KEY (ApplicationId) REFERENCES IWA_Application(ApplicationId) ON DELETE CASCADE,
-  FOREIGN KEY (WebServiceId) REFERENCES IWA_WebService(WebServiceId) ON DELETE CASCADE,
-  FOREIGN KEY (EnvironmentId) REFERENCES IWA_Environment(EnvironmentId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_WebServiceFeature
-(
-  WebServiceFeatureId BIGINT NOT NULL,
-  WebServiceEnvironmentId BIGINT NOT NULL,
-  Class VARCHAR(200) NOT NULL,
-  PRIMARY KEY (WebServiceFeatureId),
-  FOREIGN KEY (WebServiceEnvironmentId) REFERENCES IWA_WebServiceEnvironment(WebServiceEnvironmentId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_WebServiceProperty
-(
-  WebServicePropertyId BIGINT NOT NULL,
-  WebServiceEnvironmentId BIGINT NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  `Value` VARCHAR(1024) NOT NULL,
-  IsPassword BIT NOT NULL,
-  PRIMARY KEY (WebServicePropertyId),
-  FOREIGN KEY (WebServiceEnvironmentId) REFERENCES IWA_WebServiceEnvironment(WebServiceEnvironmentId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_WebServicePortType
-(
-  WebServicePortTypeId BIGINT NOT NULL,
-  WebServiceId BIGINT NOT NULL,
-  PortType VARCHAR(200) NOT NULL,
-  PRIMARY KEY (WebServicePortTypeId),
-  FOREIGN KEY (WebServiceId) REFERENCES IWA_WebService(WebServiceId) ON DELETE CASCADE,
-  UNIQUE (WebServiceId, PortType)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_WebServiceEndpoint
-(
-  WebServiceEndpointId BIGINT NOT NULL,
-  WebServiceEnvironmentId BIGINT NOT NULL,
-  WebServicePortTypeId BIGINT NOT NULL,
-  CallOrderPosition INTEGER NOT NULL,
-  EndpointAddress VARCHAR(2000) NOT NULL,
-  PRIMARY KEY (WebServiceEndpointId),
-  FOREIGN KEY (WebServiceEnvironmentId) REFERENCES IWA_WebServiceEnvironment(WebServiceEnvironmentId) ON DELETE CASCADE,
-  FOREIGN KEY (WebServicePortTypeId) REFERENCES IWA_WebServicePortType(WebServicePortTypeId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_BusinessCalendar
-(
-  BusinessCalendarId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  ParentCalendarId BIGINT,
-  Name VARCHAR(200) NOT NULL,
-  XmlConfiguration TEXT NOT NULL,
-  PRIMARY KEY (BusinessCalendarId),
-  FOREIGN KEY (ApplicationId) REFERENCES IWA_Application(ApplicationId) ON DELETE CASCADE,
-  UNIQUE (ApplicationId, Name)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ExternalNamingAndDirectory
-(
-  ExternalNamingAndDirectoryId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  UserFriendlyName VARCHAR(40) NOT NULL,
-  ProviderName VARCHAR(40) NOT NULL,
-  ProviderClass VARCHAR(200) NOT NULL,
-  ConnectionUrl VARCHAR(2000) NOT NULL,
-  AuthenticationKind VARCHAR(40) NOT NULL,
-  UserName VARCHAR(200),
-  UserPassword VARCHAR(200),
-  Flags INTEGER NOT NULL,
-  DefaultContext VARCHAR(200) NOT NULL,
-  PRIMARY KEY (ExternalNamingAndDirectoryId),
-  UNIQUE (ApplicationId, UserFriendlyName)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ExternalDatabase
-(
-  ExternalDatabaseId BIGINT NOT NULL,
-  ParentExternalDatabaseId BIGINT,
-  EnvironmentId BIGINT,
-  UserFriendlyName VARCHAR(40) NOT NULL,
-  ConnectionUrl TEXT NOT NULL,
-  DriverName VARCHAR(200) NOT NULL,
-  UserName VARCHAR(40),
-  UserPassword VARCHAR(200),
-  ApplicationId BIGINT NOT NULL,
-  MaxNumberOfConnections INTEGER NOT NULL DEFAULT 1,
-  AutoCommitEnabled BIT NOT NULL DEFAULT 1,
-  PRIMARY KEY (ExternalDatabaseId),
-  UNIQUE (ApplicationId, ParentExternalDatabaseId, EnvironmentId, UserFriendlyName)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ExternalDatabaseProperty
-(
-  ExternalDatabaseId BIGINT NOT NULL,
-  ExternalDatabasePropertyId BIGINT NOT NULL,
-  PropertyName VARCHAR(255) NOT NULL,
-  PropertyValue TEXT NOT NULL,
-  PRIMARY KEY (ExternalDatabasePropertyId),
-  UNIQUE (ExternalDatabaseId, PropertyName)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_ProcessModel
@@ -259,6 +65,7 @@ CREATE TABLE IWA_ProcessModelVersion
   ScheduledReleaseTimestamp DATETIME,
   ProjectDirectory VARCHAR(500),
   ProjectName VARCHAR(200) NOT NULL,
+  ProjectHash VARCHAR(32),
   Changed DATETIME NOT NULL,
   ChangedBy VARCHAR(50) NOT NULL,
   ChangedFromHost VARCHAR(50) NOT NULL,
@@ -323,15 +130,21 @@ CREATE TABLE IWA_CaseMap
   UNIQUE (ProcessModelVersionId, UUID)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_PageElement
+CREATE TABLE IWA_SecurityMember
 (
-  PageElementId BIGINT NOT NULL,
-  ProcessModelVersionId BIGINT NOT NULL,
-  PID VARCHAR(200) NOT NULL,
+  SecurityMemberId VARCHAR(210) NOT NULL,
   Name VARCHAR(200) NOT NULL,
-  PageArchiveEnabled BIT NOT NULL,
-  PRIMARY KEY (PageElementId),
-  UNIQUE (ProcessModelVersionId, PID)
+  MemberName VARCHAR(201) NOT NULL,
+  DisplayName VARCHAR(200),
+  ApplicationId BIGINT NOT NULL,
+  Enabled BIT NOT NULL DEFAULT 0,
+  `Type` INTEGER NOT NULL,
+  PRIMARY KEY (SecurityMemberId),
+  INDEX IWA_SecurityMemberNameIdx (Name),
+  INDEX IWA_SecurityMemberMemberNameIdx (MemberName),
+  INDEX IWA_SecurityMemberDisplayNameIdx (DisplayName),
+  INDEX IWA_SecurityMemberEnabledIdx (Enabled),
+  INDEX IWA_SecurityMemberTypeIdx (`Type`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_Role
@@ -340,23 +153,29 @@ CREATE TABLE IWA_Role
   Name VARCHAR(200) NOT NULL,
   DisplayNameTemplate VARCHAR(200),
   DisplayDescriptionTemplate VARCHAR(200) DEFAULT '',
-  ParentRoleId BIGINT,
+  ParentSecurityMemberId VARCHAR(210),
   ApplicationId BIGINT NOT NULL,
   ExternalSecurityName VARCHAR(500),
   IsDynamic BIT NOT NULL,
+  SecurityMemberId VARCHAR(210) NOT NULL,
   PRIMARY KEY (RoleId),
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_SecurityMember(SecurityMemberId),
   UNIQUE (ApplicationId, Name),
+  UNIQUE (SecurityMemberId),
+  INDEX IWA_Role_ParentSecurityMemberIdIndex (ParentSecurityMemberId),
   INDEX IWA_Role_ExternalSecurityNameIndex (ApplicationId, ExternalSecurityName(253))
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_RoleProperty
 (
-  RoleId BIGINT NOT NULL,
+  SecurityMemberId VARCHAR(210) NOT NULL,
   RolePropertyId BIGINT NOT NULL,
   PropertyName VARCHAR(255) NOT NULL,
   PropertyValue TEXT NOT NULL,
   PRIMARY KEY (RolePropertyId),
-  UNIQUE (RoleId, PropertyName)
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_Role(SecurityMemberId) ON DELETE CASCADE,
+  UNIQUE (SecurityMemberId, PropertyName),
+  INDEX IWA_RoleProperty_SecurityMemberIdIndex (SecurityMemberId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_RoleRoleMember
@@ -372,14 +191,20 @@ CREATE TABLE IWA_User
   Name VARCHAR(200) NOT NULL,
   FullName VARCHAR(200) DEFAULT '',
   UserPassword VARCHAR(200) NOT NULL,
-  EMailLanguageId BIGINT,
   ApplicationId BIGINT NOT NULL,
   ExternalSecurityName VARCHAR(500),
+  ExternalId VARCHAR(200),
   EMailAddress VARCHAR(200),
   EMailNotificationSettings INTEGER NOT NULL DEFAULT 0,
+  `Language` VARCHAR(5),
   `State` INTEGER NOT NULL DEFAULT 0,
+  SecurityMemberId VARCHAR(210) NOT NULL,
   PRIMARY KEY (UserId),
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_SecurityMember(SecurityMemberId),
   UNIQUE (ApplicationId, Name),
+  UNIQUE (SecurityMemberId),
+  INDEX IWA_User_ExternalIdIndex (ApplicationId, ExternalId),
+  INDEX IWA_User_StateIndex (`State`),
   INDEX IWA_User_ExternalSecurityNameIndex (ApplicationId, ExternalSecurityName(253))
 ) ENGINE=InnoDB;
 
@@ -392,50 +217,55 @@ CREATE TABLE IWA_UserRole
 
 CREATE TABLE IWA_UserProperty
 (
-  UserId BIGINT NOT NULL,
+  SecurityMemberId VARCHAR(210) NOT NULL,
   UserPropertyId BIGINT NOT NULL,
   PropertyName VARCHAR(255) NOT NULL,
   PropertyValue TEXT NOT NULL,
   PRIMARY KEY (UserPropertyId),
-  UNIQUE (UserId, PropertyName)
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_User(SecurityMemberId) ON DELETE CASCADE,
+  UNIQUE (SecurityMemberId, PropertyName),
+  INDEX IWA_UserProperty_SecurityMemberIdIndex (SecurityMemberId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_UserAbsence
 (
   UserAbsenceId BIGINT NOT NULL,
-  UserId BIGINT NOT NULL,
+  SecurityMemberId VARCHAR(210) NOT NULL,
   StartTimestamp DATETIME NOT NULL,
   StopTimestamp DATETIME,
   Description VARCHAR(200) NOT NULL,
   PRIMARY KEY (UserAbsenceId),
-  INDEX IWA_UserAbsence_UserId (UserId)
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_User(SecurityMemberId) ON DELETE CASCADE,
+  INDEX IWA_UserAbsence_SecurityMemberIdIndex (SecurityMemberId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_UserSubstitute
 (
   UserSubstituteId BIGINT NOT NULL,
-  UserId BIGINT NOT NULL,
-  SubstituteUserId BIGINT NOT NULL,
-  SubstituteForRoleId BIGINT,
+  SecurityMemberId VARCHAR(210) NOT NULL,
+  SubstituteUserSecurityMemberId VARCHAR(210) NOT NULL,
+  SubstituteRoleSecurityMemberId VARCHAR(210),
   Description VARCHAR(200) NOT NULL,
   SubstitutionType INTEGER NOT NULL DEFAULT 0,
   PRIMARY KEY (UserSubstituteId),
-  UNIQUE (UserId, SubstituteUserId, SubstituteForRoleId),
-  INDEX IWA_UserSubstitute_UserIdIndex (UserId),
-  INDEX IWA_UserSubstitute_SubstituteUserIdIndex (SubstituteUserId)
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_User(SecurityMemberId) ON DELETE CASCADE,
+  FOREIGN KEY (SubstituteUserSecurityMemberId) REFERENCES IWA_User(SecurityMemberId) ON DELETE CASCADE,
+  FOREIGN KEY (SubstituteRoleSecurityMemberId) REFERENCES IWA_Role(SecurityMemberId) ON DELETE CASCADE,
+  UNIQUE (SecurityMemberId, SubstituteUserSecurityMemberId, SubstituteRoleSecurityMemberId),
+  INDEX IWA_UserSubstitute_SecurityMemberIdIndex (SecurityMemberId),
+  INDEX IWA_UserSbs_SbsUserScrtMmbrIdIdx (SubstituteUserSecurityMemberId),
+  INDEX IWA_UserSbs_SbsRoleScrtMmbrIdIdx (SubstituteRoleSecurityMemberId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_TaskElement
 (
   TaskElementId BIGINT NOT NULL,
   ProcessModelVersionId BIGINT NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  Description TEXT NOT NULL,
   ProcessElementId VARCHAR(200) NOT NULL,
   JoinPathes INTEGER NOT NULL,
   Kind INTEGER NOT NULL,
   PRIMARY KEY (TaskElementId),
-  UNIQUE (ProcessModelVersionId, ProcessElementId)
+  UNIQUE (ProcessModelVersionId, ProcessElementId, Kind)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_TaskStart
@@ -443,7 +273,6 @@ CREATE TABLE IWA_TaskStart
   TaskStartId BIGINT NOT NULL,
   TaskElementId BIGINT NOT NULL,
   StartRequestPath VARCHAR(200) NOT NULL,
-  UserFriendlyStartRequestPath VARCHAR(500) NOT NULL,
   PRIMARY KEY (TaskStartId),
   UNIQUE (TaskElementId, StartRequestPath)
 ) ENGINE=InnoDB;
@@ -452,11 +281,8 @@ CREATE TABLE IWA_TaskEnd
 (
   TaskEndId BIGINT NOT NULL,
   TaskElementId BIGINT NOT NULL,
-  JoinRequestPath VARCHAR(200),
-  UserFriendlyJoinRequestPath VARCHAR(500),
   JoinPathId INTEGER,
   PRIMARY KEY (TaskEndId),
-  UNIQUE (TaskElementId, JoinRequestPath),
   UNIQUE (TaskElementId, JoinPathId)
 ) ENGINE=InnoDB;
 
@@ -469,59 +295,6 @@ CREATE TABLE IWA_TaskSwitchEvent
   PRIMARY KEY (TaskSwitchEventId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_StartElement
-(
-  ActivatorRoleId BIGINT,
-  TaskStartId BIGINT NOT NULL,
-  ActivatorUserId BIGINT,
-  IsVisible BIT NOT NULL DEFAULT 1,
-  PersistOnStart BIT NOT NULL,
-  TriggerSignature VARCHAR(2000) NOT NULL,
-  PRIMARY KEY (TaskStartId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_StartEventElement
-(
-  EventBeanClassName VARCHAR(200) NOT NULL,
-  EventBeanConfiguration TEXT,
-  IsEventBeanEnabled BIT NOT NULL,
-  TaskStartId BIGINT NOT NULL,
-  ActivatorRoleId BIGINT,
-  PRIMARY KEY (TaskStartId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_WebServiceProcess
-(
-  WebServiceProcessId BIGINT NOT NULL,
-  ProcessModelVersionId BIGINT NOT NULL,
-  ProcessIdentifier VARCHAR(200) NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  Description VARCHAR(2000) NOT NULL,
-  WebServiceImplClassName VARCHAR(200) NOT NULL,
-  AuthenticationType INTEGER NOT NULL,
-  PRIMARY KEY (WebServiceProcessId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_WebServiceProcStartElement
-(
-  Signature VARCHAR(2000) NOT NULL,
-  UseAuthentication BIT NOT NULL,
-  ActivatorRoleId BIGINT,
-  TaskStartId BIGINT NOT NULL,
-  WebServiceProcessId BIGINT NOT NULL,
-  PRIMARY KEY (TaskStartId),
-  FOREIGN KEY (WebServiceProcessId) REFERENCES IWA_WebServiceProcess(WebServiceProcessId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_IntermediateEventElement
-(
-  IntermediateEventBeanClassName VARCHAR(200) NOT NULL,
-  IntermediateEventBeanConfig TEXT,
-  IsIntermediateEventBeanEnabled BIT NOT NULL,
-  TaskStartId BIGINT NOT NULL,
-  PRIMARY KEY (TaskStartId)
-) ENGINE=InnoDB;
-
 CREATE TABLE IWA_Case
 (
   CaseId BIGINT NOT NULL,
@@ -530,31 +303,29 @@ CREATE TABLE IWA_Case
   ApplicationId BIGINT NOT NULL,
   ProcessModelId BIGINT NOT NULL,
   TaskStartId BIGINT NOT NULL,
-  CreatorUserId BIGINT,
-  CreatorUserName VARCHAR(200),
+  ActivatorId VARCHAR(210),
+  CreatorId VARCHAR(210),
   CreatorTaskId BIGINT,
-  EnvironmentId BIGINT,
+  Environment VARCHAR(200),
   DisplayNameTemplate VARCHAR(200),
   Name VARCHAR(200) NOT NULL,
   DisplayDescriptionTemplate TEXT,
   Description TEXT NOT NULL,
   StartTimestamp DATETIME NOT NULL,
   EndTimestamp DATETIME,
-  BusinessCalendarId BIGINT,
+  BusinessCalendar VARCHAR(200),
   WorkingTime BIGINT,
   BusinessRuntime BIGINT,
   `State` INTEGER NOT NULL,
   Priority INTEGER NOT NULL,
   Stage VARCHAR(200) NOT NULL DEFAULT '',
-  OwnerRoleId BIGINT,
-  OwnerUserId BIGINT,
-  OwnerName VARCHAR(200),
+  OwnerId VARCHAR(210),
   Category VARCHAR(200) NOT NULL DEFAULT '',
   PRIMARY KEY (CaseId),
-  FOREIGN KEY (EnvironmentId) REFERENCES IWA_Environment(EnvironmentId) ON DELETE SET NULL,
-  FOREIGN KEY (BusinessCalendarId) REFERENCES IWA_BusinessCalendar(BusinessCalendarId) ON DELETE SET NULL,
+  FOREIGN KEY (ActivatorId) REFERENCES IWA_SecurityMember(SecurityMemberId),
+  FOREIGN KEY (CreatorId) REFERENCES IWA_SecurityMember(SecurityMemberId),
+  FOREIGN KEY (OwnerId) REFERENCES IWA_SecurityMember(SecurityMemberId),
   INDEX IWA_Case_BusinessCaseIdIndex (BusinessCaseId),
-  INDEX IWA_Case_CreatorUserIdIndex (CreatorUserId),
   INDEX IWA_Case_ApplicationIdIndex (ApplicationId),
   INDEX IWA_Case_ProcessModelIdIndex (ProcessModelId),
   INDEX IWA_Case_TaskStartIdIndex (TaskStartId),
@@ -563,10 +334,10 @@ CREATE TABLE IWA_Case
   INDEX IWA_Case_NameIndex (Name),
   INDEX IWA_Case_WorkingTime (WorkingTime),
   INDEX IWA_Case_BusinessRuntime (BusinessRuntime),
-  INDEX IWA_Case_OwnerRoleIdIndex (OwnerRoleId),
-  INDEX IWA_Case_OwnerUserIdIndex (OwnerUserId),
   INDEX IWA_Case_Category (Category),
-  INDEX IWA_Case_EndTimestamp (EndTimestamp)
+  INDEX IWA_Case_EndTimestamp (EndTimestamp),
+  INDEX IWA_Case_CreatorIdIndex (CreatorId),
+  INDEX IWA_Case_OwnerIdIndex (OwnerId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_Task
@@ -580,15 +351,11 @@ CREATE TABLE IWA_Task
   EndTaskSwitchEventId BIGINT,
   TaskStartId BIGINT NOT NULL,
   TaskEndId BIGINT,
-  WorkerUserId BIGINT,
-  WorkerUserName VARCHAR(200),
+  WorkerId VARCHAR(210),
   WorkerSessionId INTEGER,
-  ActivatorRoleId BIGINT,
-  ActivatorUserId BIGINT,
-  ActivatorName VARCHAR(200),
-  ExpiryActivatorRoleId BIGINT,
-  ExpiryActivatorUserId BIGINT,
-  ExpiryActivatorName VARCHAR(200),
+  ActivatorId VARCHAR(210),
+  OriginalActivatorId VARCHAR(210),
+  ExpiryActivatorId VARCHAR(210),
   ExpiryPriority INTEGER NOT NULL,
   ExpiryTimestamp DATETIME,
   ExpiryTaskStartElementPid VARCHAR(200),
@@ -602,10 +369,11 @@ CREATE TABLE IWA_Task
   Name VARCHAR(200) NOT NULL,
   DisplayDescriptionTemplate TEXT,
   Description TEXT NOT NULL,
+  OriginalPriority INTEGER NOT NULL,
   Priority INTEGER NOT NULL,
   StartTimestamp DATETIME NOT NULL,
   EndTimestamp DATETIME,
-  BusinessCalendarId BIGINT,
+  BusinessCalendar VARCHAR(200),
   WorkingTime BIGINT,
   BusinessRuntime BIGINT,
   FailedTimeoutTimestamp DATETIME,
@@ -615,23 +383,25 @@ CREATE TABLE IWA_Task
   IsUpdatedOnStart BIT NOT NULL,
   IsOffline BIT NOT NULL DEFAULT 0,
   PRIMARY KEY (TaskId),
-  FOREIGN KEY (BusinessCalendarId) REFERENCES IWA_BusinessCalendar(BusinessCalendarId) ON DELETE SET NULL,
+  FOREIGN KEY (WorkerId) REFERENCES IWA_SecurityMember(SecurityMemberId),
+  FOREIGN KEY (ActivatorId) REFERENCES IWA_SecurityMember(SecurityMemberId),
+  FOREIGN KEY (OriginalActivatorId) REFERENCES IWA_SecurityMember(SecurityMemberId),
+  FOREIGN KEY (ExpiryActivatorId) REFERENCES IWA_SecurityMember(SecurityMemberId),
   INDEX IWA_Task_CaseIdIndex (CaseId),
   INDEX IWA_Task_BusinessCaseIdIndex (BusinessCaseId),
-  INDEX IWA_Task_WorkerUserIdIndex (WorkerUserId),
   INDEX IWA_Task_ProcessModelIdIndex (ProcessModelId),
   INDEX IWA_Task_ApplicationIdIndex (ApplicationId),
-  INDEX IWA_Task_ActivatorUserIdIndex (ActivatorUserId),
-  INDEX IWA_Task_ActivatorRoleIdIndex (ActivatorRoleId),
-  INDEX IWA_Task_ExpiryActivatorUserIdIndex (ExpiryActivatorUserId),
-  INDEX IWA_Task_ExpiryActivatorRoleIdIndex (ExpiryActivatorRoleId),
   INDEX IWA_Task_NameIndex (Name),
   INDEX IWA_Task_StateIndex (`State`),
   INDEX IWA_Task_EndTimestamp (EndTimestamp),
   INDEX IWA_Task_WorkingTime (WorkingTime),
   INDEX IWA_Task_BusinessRuntime (BusinessRuntime),
   INDEX IWA_Task_NumberOfResumes (NumberOfResumes),
-  INDEX IWA_Task_CategoryIndex (Category)
+  INDEX IWA_Task_CategoryIndex (Category),
+  INDEX IWA_Task_WorkerIdIndex (WorkerId),
+  INDEX IWA_Task_ActivatorIdIndex (ActivatorId),
+  INDEX IWA_Task_OriginalActivatorIdIndex (OriginalActivatorId),
+  INDEX IWA_Task_ExpiryActivatorIdIndex (ExpiryActivatorId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_TaskData
@@ -655,8 +425,7 @@ CREATE TABLE IWA_WorkflowEvent
   CaseId BIGINT NOT NULL,
   TaskId BIGINT,
   EventTimestamp DATETIME NOT NULL,
-  UserName VARCHAR(200) NOT NULL,
-  UserId BIGINT,
+  UserId VARCHAR(210),
   EventKind INTEGER NOT NULL,
   AdditionalInfo1 VARCHAR(200),
   AdditionalInfo2 VARCHAR(200),
@@ -666,11 +435,11 @@ CREATE TABLE IWA_WorkflowEvent
   CaseState INTEGER NOT NULL,
   TaskState INTEGER,
   PRIMARY KEY (WorkflowEventId),
+  FOREIGN KEY (UserId) REFERENCES IWA_SecurityMember(SecurityMemberId),
   INDEX IWA_WorkflowEvent_ApplicationIdIndex (ApplicationId),
   INDEX IWA_WorkflowEvent_CaseIdIndex (CaseId),
   INDEX IWA_WorkflowEvent_TaskIdIndex (TaskId),
   INDEX IWA_WorkflowEvent_EventTimestampIndex (EventTimestamp),
-  INDEX IWA_WorkflowEvent_UserNameIndex (UserName),
   INDEX IWA_WorkflowEvent_UserIdIndex (UserId),
   INDEX IWA_WorkflowEvent_EventKindIndex (EventKind)
 ) ENGINE=InnoDB;
@@ -737,156 +506,16 @@ CREATE TABLE IWA_IntermediateEventData
   PRIMARY KEY (IntermediateEventId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_EventLog
-(
-  EventLogId BIGINT NOT NULL,
-  `TimeStamp` DATETIME,
-  Server VARCHAR(255),
-  `System` VARCHAR(20),
-  Subsystem VARCHAR(20),
-  ApplicationName VARCHAR(40),
-  Environment VARCHAR(200),
-  GroupId VARCHAR(20),
-  EventDate DATETIME,
-  EventTime DATETIME,
-  Initiator VARCHAR(200),
-  UserName VARCHAR(200),
-  Source VARCHAR(255),
-  Severity INTEGER,
-  ObjectId VARCHAR(20),
-  ObjectType VARCHAR(40),
-  ObjectSubType VARCHAR(40),
-  Context VARCHAR(255),
-  IsBusinessEvent BIT,
-  EventCategory VARCHAR(20),
-  EventSubCategory VARCHAR(20),
-  EventType VARCHAR(20),
-  EventSubType VARCHAR(20),
-  UserComment VARCHAR(255),
-  ErrorCode VARCHAR(20),
-  `Message` VARCHAR(255),
-  PRIMARY KEY (EventLogId),
-  INDEX IWA_EventLog_System (`System`),
-  INDEX IWA_EventLog_Subsystem (Subsystem),
-  INDEX IWA_EventLog_ApplicationName (ApplicationName),
-  INDEX IWA_EventLog_Environment (Environment),
-  INDEX IWA_EventLog_ObjectType (ObjectType),
-  INDEX IWA_EventLog_ObjectSubType (ObjectSubType),
-  INDEX IWA_EventLog_ObjectId (ObjectId),
-  INDEX IWA_EventLog_EventDate (EventDate),
-  INDEX IWA_EventLog_EventTime (EventTime)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_EventLogData
-(
-  EventLogId BIGINT NOT NULL,
-  EventData TEXT NOT NULL,
-  PRIMARY KEY (EventLogId),
-  FOREIGN KEY (EventLogId) REFERENCES IWA_EventLog(EventLogId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_EventLogTaskHistory
-(
-  TaskId BIGINT NOT NULL,
-  CaseId BIGINT NOT NULL,
-  EventLogId BIGINT NOT NULL,
-  WorkerUserName VARCHAR(200),
-  Name VARCHAR(200) NOT NULL,
-  Description VARCHAR(2000) NOT NULL,
-  Priority INTEGER NOT NULL,
-  KindCode VARCHAR(20),
-  KindName VARCHAR(200),
-  BusinessMilestoneTimestamp DATETIME,
-  CustomVarCharField1 VARCHAR(2000),
-  CustomVarCharField2 VARCHAR(2000),
-  CustomVarCharField3 VARCHAR(2000),
-  CustomVarCharField4 VARCHAR(2000),
-  CustomVarCharField5 VARCHAR(2000),
-  CustomDecimalField1 DECIMAL(30, 10),
-  CustomDecimalField2 DECIMAL(30, 10),
-  CustomDecimalField3 DECIMAL(30, 10),
-  CustomDecimalField4 DECIMAL(30, 10),
-  CustomDecimalField5 DECIMAL(30, 10),
-  CustomTimestampField1 DATETIME,
-  CustomTimestampField2 DATETIME,
-  CustomTimestampField3 DATETIME,
-  CustomTimestampField4 DATETIME,
-  CustomTimestampField5 DATETIME,
-  PRIMARY KEY (EventLogId),
-  FOREIGN KEY (EventLogId) REFERENCES IWA_EventLog(EventLogId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_EventLogCaseHistory
-(
-  CaseId BIGINT NOT NULL,
-  ApplicationName VARCHAR(40) NOT NULL,
-  ProcessModelName VARCHAR(40) NOT NULL,
-  CreatorUserName VARCHAR(200),
-  Name VARCHAR(200) NOT NULL,
-  DisplayDescriptionTemplate VARCHAR(2000),
-  Description VARCHAR(2000) NOT NULL,
-  StartTimestamp DATETIME NOT NULL,
-  EndTimestamp DATETIME,
-  Priority INTEGER NOT NULL,
-  ProcessCategoryCode VARCHAR(20),
-  ProcessCategoryName VARCHAR(200),
-  ProcessCode VARCHAR(20),
-  ProcessName VARCHAR(200),
-  TypeCode VARCHAR(20),
-  TypeName VARCHAR(200),
-  SubTypeCode VARCHAR(20),
-  SubTypeName VARCHAR(200),
-  BusinessStartTimestamp DATETIME,
-  BusinessMilestoneTimestamp DATETIME,
-  BusinessPriority VARCHAR(200),
-  BusinessCreatorUser VARCHAR(200),
-  BusinessMainContactType VARCHAR(200),
-  BusinessMainContactId INTEGER,
-  BusinessMainContactName VARCHAR(200),
-  BusinessMainContactDocDbCode VARCHAR(20),
-  BusinessMainContactFolderId VARCHAR(200),
-  BusinessCorrespondentId INTEGER,
-  BusinessObjectCode VARCHAR(20),
-  BusinessObjectName VARCHAR(200),
-  BusinessObjectDocDbCode VARCHAR(20),
-  BusinessObjectFolderId VARCHAR(200),
-  CustomVarCharField1 VARCHAR(2000),
-  CustomVarCharField2 VARCHAR(2000),
-  CustomVarCharField3 VARCHAR(2000),
-  CustomVarCharField4 VARCHAR(2000),
-  CustomVarCharField5 VARCHAR(2000),
-  CustomDecimalField1 DECIMAL(30, 10),
-  CustomDecimalField2 DECIMAL(30, 10),
-  CustomDecimalField3 DECIMAL(30, 10),
-  CustomDecimalField4 DECIMAL(30, 10),
-  CustomDecimalField5 DECIMAL(30, 10),
-  CustomTimestampField1 DATETIME,
-  CustomTimestampField2 DATETIME,
-  CustomTimestampField3 DATETIME,
-  CustomTimestampField4 DATETIME,
-  CustomTimestampField5 DATETIME,
-  PRIMARY KEY (CaseId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_EventLogStatus
-(
-  EventLogId BIGINT NOT NULL,
-  LastModificationTimestamp DATETIME NOT NULL,
-  Status INTEGER NOT NULL,
-  PRIMARY KEY (EventLogId),
-  FOREIGN KEY (EventLogId) REFERENCES IWA_EventLog(EventLogId) ON DELETE CASCADE,
-  INDEX IWA_EventLogStatus_StateEventLogIdIndex (Status, EventLogId)
-) ENGINE=InnoDB;
-
 CREATE TABLE IWA_Note
 (
   NoteId BIGINT NOT NULL,
-  UserId BIGINT,
+  SecurityMemberId VARCHAR(210),
   UserName VARCHAR(200) NOT NULL,
   `Timestamp` DATETIME NOT NULL,
   Note MEDIUMTEXT NOT NULL,
   PRIMARY KEY (NoteId),
-  INDEX IWA_Note_UserIdIndex (UserId)
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_User(SecurityMemberId) ON DELETE SET NULL,
+  INDEX IWA_Note_SecurityMemberIdIndex (SecurityMemberId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_TaskNote
@@ -1002,7 +631,7 @@ CREATE TABLE IWA_CaseCustomTimestampField
 CREATE TABLE IWA_UserLocation
 (
   UserLocationId BIGINT NOT NULL,
-  UserId BIGINT NOT NULL,
+  SecurityMemberId VARCHAR(210) NOT NULL,
   `Type` VARCHAR(200) NOT NULL,
   Note VARCHAR(2000) NOT NULL,
   Name VARCHAR(200) NOT NULL,
@@ -1016,7 +645,8 @@ CREATE TABLE IWA_UserLocation
   Bearing DECIMAL(6, 3),
   LocationTimestamp DATETIME,
   PRIMARY KEY (UserLocationId),
-  INDEX IWA_UserLocation_UserId (UserId)
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_User(SecurityMemberId) ON DELETE CASCADE,
+  INDEX IWA_UserLocation_SecurityMemberId (SecurityMemberId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_TaskLocation
@@ -1067,15 +697,15 @@ CREATE TABLE IWA_SignalEvent
   ApplicationId BIGINT NOT NULL,
   SignalCode VARCHAR(200) NOT NULL,
   SentTimestamp DATETIME NOT NULL,
-  SentByUserName VARCHAR(200),
-  SentByUserId BIGINT,
+  SentById VARCHAR(210),
   SentByTaskId BIGINT,
   SentByProcessElementPid VARCHAR(200),
   PRIMARY KEY (SignalEventId),
+  FOREIGN KEY (SentById) REFERENCES IWA_SecurityMember(SecurityMemberId),
   INDEX IWA_SignalEvent_SignalCode (SignalCode),
   INDEX IWA_SignalEvent_SentTimestamp (SentTimestamp),
   INDEX IWA_SignalEvent_SentByTaskId (SentByTaskId),
-  INDEX IWA_SignalEvent_SentByUserId (SentByUserId)
+  INDEX IWA_SignalEvent_SentById (SentById)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_SignalEventData
@@ -1085,149 +715,10 @@ CREATE TABLE IWA_SignalEventData
   PRIMARY KEY (SignalEventId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_StartSignalEventElement
-(
-  TaskStartId BIGINT NOT NULL,
-  SignalCodePattern VARCHAR(200) NOT NULL,
-  AttachToBusinessCase BIT NOT NULL DEFAULT 0,
-  PRIMARY KEY (TaskStartId),
-  INDEX IWA_StrtSigEvntElmnt_SgCdPttrn (SignalCodePattern)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_PageArchive
-(
-  PageArchiveId BIGINT NOT NULL,
-  UserId BIGINT,
-  UserName VARCHAR(200),
-  PageElementId BIGINT NOT NULL,
-  TaskId BIGINT NOT NULL,
-  SubmitTimestamp DATETIME NOT NULL,
-  PageContent MEDIUMTEXT NOT NULL,
-  PageContentType VARCHAR(255) NOT NULL,
-  FormData MEDIUMTEXT NOT NULL,
-  OriginalTemplateUri VARCHAR(500) NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  PRIMARY KEY (PageArchiveId),
-  INDEX IWA_PageArchive_UserIdIndex (UserId),
-  INDEX IWA_PageArchive_TaskIdIndex (TaskId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentManagementSystem
-(
-  ContentManagementSystemId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  ProcessModelVersionId BIGINT NOT NULL,
-  Name VARCHAR(100) NOT NULL,
-  Description VARCHAR(200) DEFAULT '',
-  DefaultLocaleCode VARCHAR(5),
-  DefaultPageLayoutId BIGINT,
-  DefaultPageStyleSheetId BIGINT,
-  PRIMARY KEY (ContentManagementSystemId),
-  UNIQUE (Name, ProcessModelVersionId),
-  INDEX IWA_ContentManagementSystem_ApplicationIdIndex (ApplicationId),
-  INDEX IWA_ContentManagementSystem_ProcessModelVersionId (ProcessModelVersionId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_Language
-(
-  LanguageId BIGINT NOT NULL,
-  LanguageCode VARCHAR(2) NOT NULL,
-  CountryCode VARCHAR(2),
-  LocaleCode VARCHAR(5) NOT NULL,
-  PRIMARY KEY (LanguageId),
-  UNIQUE (LanguageCode, CountryCode),
-  UNIQUE (LocaleCode)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_SupportedLanguage
-(
-  SupportedLanguageId BIGINT NOT NULL,
-  ContentManagementSystemId BIGINT NOT NULL,
-  LocaleCode VARCHAR(5) NOT NULL,
-  PRIMARY KEY (SupportedLanguageId),
-  INDEX IWA_SupportedLanguage_ContentManagementSystemIdIndex (ContentManagementSystemId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentObjectType
-(
-  ContentObjectTypeId BIGINT NOT NULL,
-  Name VARCHAR(50) NOT NULL,
-  Description VARCHAR(255) NOT NULL,
-  MimeType VARCHAR(255),
-  DataType VARCHAR(50),
-  FileExtension VARCHAR(10),
-  Downloadable INTEGER NOT NULL,
-  IconKey VARCHAR(50),
-  EditorName VARCHAR(50),
-  Guid CHAR(16) NOT NULL,
-  VisualOrder INTEGER NOT NULL,
-  RendererName VARCHAR(255),
-  PRIMARY KEY (ContentObjectTypeId),
-  UNIQUE (Name)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentObject
-(
-  ContentObjectId BIGINT NOT NULL,
-  ParentContentObjectId BIGINT,
-  TreeLevel INTEGER NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  Description VARCHAR(255),
-  Uri VARCHAR(255) NOT NULL,
-  ContentObjectTypeId BIGINT NOT NULL,
-  Changed DATETIME NOT NULL,
-  ChangedBy VARCHAR(50),
-  Guid CHAR(16) NOT NULL,
-  VisualOrder INTEGER NOT NULL,
-  ContentManagementSystemId BIGINT NOT NULL,
-  PRIMARY KEY (ContentObjectId),
-  UNIQUE (ContentManagementSystemId, Uri),
-  INDEX IWA_ContentObject_ParentContentObjectIdIndex (ParentContentObjectId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentObjectValue
-(
-  ContentObjectValueId BIGINT NOT NULL,
-  ContentObjectId BIGINT NOT NULL,
-  Description VARCHAR(255),
-  ValidFrom DATETIME NOT NULL,
-  ValidTo DATETIME,
-  LocaleCode VARCHAR(5) NOT NULL,
-  Changed DATETIME NOT NULL,
-  ChangedBy VARCHAR(50),
-  IsDefault INTEGER NOT NULL,
-  Guid CHAR(16) NOT NULL,
-  PropertyString TEXT,
-  PRIMARY KEY (ContentObjectValueId),
-  INDEX IWA_ContentObjectValue_ContentObjectIdIndex (ContentObjectId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentDataString
-(
-  ContentObjectValueId BIGINT NOT NULL,
-  `Value` VARCHAR(255),
-  PRIMARY KEY (ContentObjectValueId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentDataText
-(
-  ContentObjectValueId BIGINT NOT NULL,
-  `Value` MEDIUMTEXT,
-  PRIMARY KEY (ContentObjectValueId)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_ContentDataImage
-(
-  ContentObjectValueId BIGINT NOT NULL,
-  `Value` LONGBLOB,
-  PRIMARY KEY (ContentObjectValueId)
-) ENGINE=InnoDB;
-
 CREATE TABLE IWA_SecurityDescriptor
 (
   SecurityDescriptorId BIGINT NOT NULL,
   SecurityDescriptorTypeId BIGINT NOT NULL,
-  OwnerUserId BIGINT,
   PRIMARY KEY (SecurityDescriptorId)
 ) ENGINE=InnoDB;
 
@@ -1254,11 +745,12 @@ CREATE TABLE IWA_AccessControl
   SecurityDescriptorId BIGINT NOT NULL,
   PermissionId BIGINT NOT NULL,
   GrantDeny BIT NOT NULL,
-  RoleId BIGINT,
-  UserId BIGINT,
+  SecurityMemberId VARCHAR(210) NOT NULL,
   PRIMARY KEY (AccessControlId),
-  UNIQUE (SecurityDescriptorId, PermissionId, RoleId, UserId),
-  INDEX IWA_AccessControl_SecurityDescriptorIdIndex (SecurityDescriptorId)
+  FOREIGN KEY (SecurityMemberId) REFERENCES IWA_SecurityMember(SecurityMemberId) ON DELETE CASCADE,
+  UNIQUE (SecurityDescriptorId, PermissionId, SecurityMemberId),
+  INDEX IWA_AccessControl_SecurityDescriptorIdIndex (SecurityDescriptorId),
+  INDEX IWA_AccessControl_SecMembrIdIdx (SecurityMemberId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_Permission
@@ -1297,49 +789,13 @@ CREATE TABLE IWA_UploadedFile
   PRIMARY KEY (FileId)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IWA_RestServiceClient
-(
-  RestClientId BIGINT NOT NULL,
-  ParentRestClientId BIGINT,
-  UUID VARCHAR(36) NOT NULL,
-  ApplicationId BIGINT NOT NULL,
-  EnvironmentId BIGINT,
-  Name VARCHAR(200) NOT NULL,
-  Description VARCHAR(2000) NOT NULL,
-  URI VARCHAR(1024),
-  PRIMARY KEY (RestClientId),
-  FOREIGN KEY (EnvironmentId) REFERENCES IWA_Environment(EnvironmentId) ON DELETE CASCADE,
-  UNIQUE (ApplicationId, ParentRestClientId, EnvironmentId, UUID),
-  UNIQUE (ApplicationId, ParentRestClientId, EnvironmentId, Name)
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_RestServiceClientProperty
-(
-  RestClientPropertyId BIGINT NOT NULL,
-  RestClientId BIGINT NOT NULL,
-  Name VARCHAR(200) NOT NULL,
-  `Value` VARCHAR(1024) NOT NULL,
-  IsPassword BIT NOT NULL,
-  PRIMARY KEY (RestClientPropertyId),
-  FOREIGN KEY (RestClientId) REFERENCES IWA_RestServiceClient(RestClientId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE IWA_RestServiceClientFeature
-(
-  RestClientFeatureId BIGINT NOT NULL,
-  RestClientId BIGINT NOT NULL,
-  Class VARCHAR(200) NOT NULL,
-  PRIMARY KEY (RestClientFeatureId),
-  FOREIGN KEY (RestClientId) REFERENCES IWA_RestServiceClient(RestClientId) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
 CREATE TABLE IWA_BusinessData
 (
   BusinessDataId VARCHAR(100) NOT NULL,
   Version BIGINT NOT NULL,
   FormatVersion INTEGER NOT NULL DEFAULT 63000,
   ObjectType VARCHAR(255) NOT NULL,
-  ObjectValue TEXT NOT NULL,
+  ObjectValue MEDIUMTEXT NOT NULL,
   CreatedAt DATETIME NOT NULL,
   CreatedByUserName VARCHAR(200) NOT NULL,
   CreatedByAppId BIGINT NOT NULL,
@@ -1371,34 +827,9 @@ ALTER TABLE IWA_AsyncProcessCaseData ADD
  FOREIGN KEY (CaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE
 );
 
-ALTER TABLE IWA_Application ADD
-(
- FOREIGN KEY (BusinessCalendarId) REFERENCES IWA_BusinessCalendar(BusinessCalendarId) ON DELETE SET NULL
-);
-
-ALTER TABLE IWA_Environment ADD
-(
- FOREIGN KEY (BusinessCalendarId) REFERENCES IWA_BusinessCalendar(BusinessCalendarId) ON DELETE SET NULL
-);
-
-ALTER TABLE IWA_GlobalVariable ADD
-(
- FOREIGN KEY (ParentGlobalVariableId) REFERENCES IWA_GlobalVariable(GlobalVariableId) ON DELETE CASCADE
-);
-
-ALTER TABLE IWA_BusinessCalendar ADD
-(
- FOREIGN KEY (ParentCalendarId) REFERENCES IWA_BusinessCalendar(BusinessCalendarId) ON DELETE CASCADE
-);
-
-ALTER TABLE IWA_ExternalDatabase ADD
-(
- FOREIGN KEY (ParentExternalDatabaseId) REFERENCES IWA_ExternalDatabase(ExternalDatabaseId) ON DELETE CASCADE
-);
-
 ALTER TABLE IWA_Role ADD
 (
- FOREIGN KEY (ParentRoleId) REFERENCES IWA_Role(RoleId) ON DELETE CASCADE
+ FOREIGN KEY (ParentSecurityMemberId) REFERENCES IWA_Role(SecurityMemberId) ON DELETE CASCADE
 );
 
 ALTER TABLE IWA_Case ADD
@@ -1406,19 +837,9 @@ ALTER TABLE IWA_Case ADD
  FOREIGN KEY (BusinessCaseId) REFERENCES IWA_Case(CaseId) ON DELETE SET NULL
 );
 
-ALTER TABLE IWA_ContentObject ADD
-(
- FOREIGN KEY (ParentContentObjectId) REFERENCES IWA_ContentObject(ContentObjectId) ON DELETE CASCADE
-);
-
 ALTER TABLE IWA_PermissionGroup ADD
 (
  FOREIGN KEY (ParentPermissionGroupId) REFERENCES IWA_PermissionGroup(PermissionGroupId) ON DELETE CASCADE
-);
-
-ALTER TABLE IWA_RestServiceClient ADD
-(
- FOREIGN KEY (ParentRestClientId) REFERENCES IWA_RestServiceClient(RestClientId) ON DELETE CASCADE
 );
 
 CREATE VIEW IWA_TaskCustomField
@@ -1534,16 +955,16 @@ CREATE VIEW IWA_TaskQuery
   EndTaskSwitchEventId,
   TaskStartId,
   TaskEndId,
-  WorkerUserId,
+  WorkerId,
   WorkerUserName,
   WorkerUserDisplayName,
   WorkerSessionId,
-  ActivatorRoleId,
-  ActivatorUserId,
-  ActivatorName,
-  ActivatorDisplayName,
-  ExpiryActivatorRoleId,
-  ExpiryActivatorUserId,
+  ActivatorId,
+  OriginalActivatorId,
+  OriginalActivatorName,
+  OriginalActivatorDisplayName,
+  ActivatorAvailable,
+  ExpiryActivatorId,
   ExpiryActivatorName,
   ExpiryActivatorDisplayName,
   ExpiryPriority,
@@ -1560,9 +981,10 @@ CREATE VIEW IWA_TaskQuery
   DisplayDescriptionTemplate,
   Description,
   Priority,
+  OriginalPriority,
   StartTimestamp,
   EndTimestamp,
-  BusinessCalendarId,
+  BusinessCalendar,
   WorkingTime,
   BusinessRuntime,
   FailedTimeoutTimestamp,
@@ -1571,11 +993,8 @@ CREATE VIEW IWA_TaskQuery
   Category,
   IsUpdatedOnStart,
   IsOffline,
-  CurrentPriority,
-  CurrentActivatorName,
-  CurrentActivatorDisplayName,
-  CurrentActivatorRoleId,
-  CurrentActivatorUserId
+  ActivatorName,
+  ActivatorDisplayName
 )
 AS
   SELECT
@@ -1588,18 +1007,18 @@ AS
     IWA_Task.EndTaskSwitchEventId,
     IWA_Task.TaskStartId,
     IWA_Task.TaskEndId,
-    IWA_Task.WorkerUserId,
-    IWA_Task.WorkerUserName,
-    CASE WHEN WorkerUserId IS NOT NULL AND LENGTH(WorkerUser.FullName) > 0 THEN WorkerUser.FullName WHEN WorkerUserId IS NOT NULL THEN WorkerUser.Name ELSE NULL END,
+    IWA_Task.WorkerId,
+    Worker.Name,
+    Worker.DisplayName,
     IWA_Task.WorkerSessionId,
-    IWA_Task.ActivatorRoleId,
-    IWA_Task.ActivatorUserId,
-    IWA_Task.ActivatorName,
-    CASE WHEN IWA_Task.ActivatorUserId IS NOT NULL AND LENGTH(ActivatorUser.FullName) > 0 THEN ActivatorUser.FullName WHEN IWA_Task.ActivatorUserId IS NOT NULL THEN ActivatorUser.Name WHEN IWA_Task.ActivatorRoleId IS NOT NULL AND LENGTH(ActivatorRole.DisplayNameTemplate) > 0 THEN ActivatorRole.DisplayNameTemplate WHEN IWA_Task.ActivatorRoleId IS NOT NULL THEN ActivatorRole.Name ELSE NULL END,
-    IWA_Task.ExpiryActivatorRoleId,
-    IWA_Task.ExpiryActivatorUserId,
-    IWA_Task.ExpiryActivatorName,
-    CASE WHEN IWA_Task.ExpiryActivatorUserId IS NOT NULL AND LENGTH(ExpiryActivatorUser.FullName) > 0 THEN ExpiryActivatorUser.FullName WHEN IWA_Task.ExpiryActivatorUserId IS NOT NULL THEN ExpiryActivatorUser.Name WHEN IWA_Task.ExpiryActivatorRoleId IS NOT NULL AND LENGTH(ExpiryActivatorRole.DisplayNameTemplate) > 0 THEN ExpiryActivatorRole.DisplayNameTemplate WHEN IWA_Task.ExpiryActivatorRoleId IS NOT NULL THEN ExpiryActivatorRole.Name ELSE NULL END,
+    IWA_Task.ActivatorId,
+    IWA_Task.OriginalActivatorId,
+    OriginalActivator.MemberName,
+    OriginalActivator.DisplayName,
+    Activator.Enabled,
+    IWA_Task.ExpiryActivatorId,
+    ExpiryActivator.MemberName,
+    ExpiryActivator.DisplayName,
     IWA_Task.ExpiryPriority,
     IWA_Task.ExpiryTimestamp,
     IWA_Task.ExpiryTaskStartElementPid,
@@ -1614,9 +1033,10 @@ AS
     IWA_Task.DisplayDescriptionTemplate,
     IWA_Task.Description,
     IWA_Task.Priority,
+    IWA_Task.OriginalPriority,
     IWA_Task.StartTimestamp,
     IWA_Task.EndTimestamp,
-    IWA_Task.BusinessCalendarId,
+    IWA_Task.BusinessCalendar,
     IWA_Task.WorkingTime,
     IWA_Task.BusinessRuntime,
     IWA_Task.FailedTimeoutTimestamp,
@@ -1625,17 +1045,13 @@ AS
     IWA_Task.Category,
     IWA_Task.IsUpdatedOnStart,
     IWA_Task.IsOffline,
-    CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryPriority WHEN 0 THEN IWA_Task.Priority END,
-    CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryActivatorName WHEN 0 THEN IWA_Task.ActivatorName END,
-    CASE WHEN IWA_Task.IsExpired = 1 AND IWA_Task.ExpiryActivatorUserId IS NOT NULL AND LENGTH(ExpiryActivatorUser.FullName) > 0 THEN ExpiryActivatorUser.FullName WHEN IWA_Task.IsExpired = 1 AND IWA_Task.ExpiryActivatorUserId IS NOT NULL THEN ExpiryActivatorUser.Name WHEN IWA_Task.IsExpired = 1 AND IWA_Task.ExpiryActivatorRoleId IS NOT NULL AND LENGTH(ExpiryActivatorRole.DisplayNameTemplate) > 0 THEN ExpiryActivatorRole.DisplayNameTemplate WHEN IWA_Task.IsExpired = 1 AND IWA_Task.ExpiryActivatorRoleId IS NOT NULL THEN ExpiryActivatorRole.Name WHEN IWA_Task.IsExpired = 0 AND IWA_Task.ActivatorUserId IS NOT NULL AND LENGTH(ActivatorUser.FullName) > 0 THEN ActivatorUser.FullName WHEN IWA_Task.IsExpired = 0 AND IWA_Task.ActivatorUserId IS NOT NULL THEN ActivatorUser.Name WHEN IWA_Task.IsExpired = 0 AND IWA_Task.ActivatorRoleId IS NOT NULL AND LENGTH(ActivatorRole.DisplayNameTemplate) > 0 THEN ActivatorRole.DisplayNameTemplate WHEN IWA_Task.IsExpired = 0 AND IWA_Task.ActivatorRoleId IS NOT NULL THEN ActivatorRole.Name ELSE NULL END,
-    CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryActivatorRoleId WHEN 0 THEN IWA_Task.ActivatorRoleId END,
-    CASE IWA_Task.IsExpired WHEN 1 THEN IWA_Task.ExpiryActivatorUserId WHEN 0 THEN IWA_Task.ActivatorUserId END
+    Activator.MemberName,
+    Activator.DisplayName
   FROM IWA_Task
-    LEFT OUTER JOIN IWA_User AS ActivatorUser ON IWA_Task.ActivatorUserId = ActivatorUser.UserId
-    LEFT OUTER JOIN IWA_Role AS ActivatorRole ON IWA_Task.ActivatorRoleId = ActivatorRole.RoleId
-    LEFT OUTER JOIN IWA_User AS ExpiryActivatorUser ON IWA_Task.ExpiryActivatorUserId = ExpiryActivatorUser.UserId
-    LEFT OUTER JOIN IWA_Role AS ExpiryActivatorRole ON IWA_Task.ExpiryActivatorRoleId = ExpiryActivatorRole.RoleId
-    LEFT OUTER JOIN IWA_User AS WorkerUser ON IWA_Task.WorkerUserId = WorkerUser.UserId;
+    LEFT OUTER JOIN IWA_SecurityMember AS Activator ON IWA_Task.ActivatorId = Activator.SecurityMemberId
+    LEFT OUTER JOIN IWA_SecurityMember AS OriginalActivator ON IWA_Task.OriginalActivatorId = OriginalActivator.SecurityMemberId
+    LEFT OUTER JOIN IWA_SecurityMember AS ExpiryActivator ON IWA_Task.ExpiryActivatorId = ExpiryActivator.SecurityMemberId
+    LEFT OUTER JOIN IWA_SecurityMember AS Worker ON IWA_Task.WorkerId = Worker.SecurityMemberId;
 
 CREATE VIEW IWA_CaseQuery
 (
@@ -1645,26 +1061,27 @@ CREATE VIEW IWA_CaseQuery
   ApplicationId,
   ProcessModelId,
   TaskStartId,
-  CreatorUserId,
+  ActivatorId,
+  CreatorId,
   CreatorUserName,
   CreatorUserDisplayName,
   CreatorTaskId,
-  EnvironmentId,
+  Environment,
   DisplayNameTemplate,
   Name,
   DisplayDescriptionTemplate,
   Description,
   StartTimestamp,
   EndTimestamp,
-  BusinessCalendarId,
+  BusinessCalendar,
   WorkingTime,
   BusinessRuntime,
   `State`,
   Priority,
   Stage,
-  OwnerRoleId,
-  OwnerUserId,
+  OwnerId,
   OwnerName,
+  OwnerDisplayName,
   Category
 )
 AS
@@ -1675,87 +1092,61 @@ AS
     IWA_Case.ApplicationId,
     IWA_Case.ProcessModelId,
     IWA_Case.TaskStartId,
-    IWA_Case.CreatorUserId,
-    IWA_Case.CreatorUserName,
-    CASE WHEN IWA_Case.CreatorUserId IS NOT NULL AND LENGTH(IWA_User.FullName) > 0 THEN IWA_User.FullName WHEN IWA_Case.CreatorUserId IS NOT NULL THEN IWA_User.Name ELSE NULL END,
+    IWA_Case.ActivatorId,
+    IWA_Case.CreatorId,
+    Creator.Name,
+    Creator.DisplayName,
     IWA_Case.CreatorTaskId,
-    IWA_Case.EnvironmentId,
+    IWA_Case.Environment,
     IWA_Case.DisplayNameTemplate,
     IWA_Case.Name,
     IWA_Case.DisplayDescriptionTemplate,
     IWA_Case.Description,
     IWA_Case.StartTimestamp,
     IWA_Case.EndTimestamp,
-    IWA_Case.BusinessCalendarId,
+    IWA_Case.BusinessCalendar,
     IWA_Case.WorkingTime,
     IWA_Case.BusinessRuntime,
     IWA_Case.`State`,
     IWA_Case.Priority,
     IWA_Case.Stage,
-    IWA_Case.OwnerRoleId,
-    IWA_Case.OwnerUserId,
-    IWA_Case.OwnerName,
+    IWA_Case.OwnerId,
+    Owner.MemberName,
+    Owner.DisplayName,
     IWA_Case.Category
   FROM IWA_Case
-    LEFT OUTER JOIN IWA_User ON IWA_Case.CreatorUserId = IWA_User.UserId;
+    LEFT OUTER JOIN IWA_SecurityMember AS Creator ON IWA_Case.CreatorId = Creator.SecurityMemberId
+    LEFT OUTER JOIN IWA_SecurityMember AS Owner ON IWA_Case.OwnerId = Owner.SecurityMemberId;
 
-CREATE VIEW IWA_ProcessStart
+CREATE VIEW IWA_SignalEventQuery
 (
-  TaskElementId,
-  ProcessModelVersionId,
-  Name,
-  Description,
-  ProcessElementId,
-  TaskStartId,
-  StartRequestPath,
-  UserFriendlyStartRequestPath,
-  ActivatorRoleId
+  SignalEventId,
+  ApplicationId,
+  SignalCode,
+  SentTimestamp,
+  SentById,
+  SentByUserName,
+  SentByUserId,
+  SentByTaskId,
+  SentByProcessElementPid
 )
 AS
   SELECT
-    IWA_TaskElement.TaskElementId,
-    IWA_TaskElement.ProcessModelVersionId,
-    IWA_TaskElement.Name,
-    IWA_TaskElement.Description,
-    IWA_TaskElement.ProcessElementId,
-    IWA_TaskStart.TaskStartId,
-    IWA_TaskStart.StartRequestPath,
-    IWA_TaskStart.UserFriendlyStartRequestPath,
-    IWA_StartElement.ActivatorRoleId
-  FROM IWA_TaskElement,
-    IWA_TaskStart,
-    IWA_StartElement
-  WHERE IWA_TaskElement.TaskElementId = IWA_TaskStart.TaskElementId AND IWA_TaskStart.TaskStartId = IWA_StartElement.TaskStartId
-UNION ALL
-  SELECT
-    IWA_TaskElement.TaskElementId,
-    IWA_TaskElement.ProcessModelVersionId,
-    IWA_TaskElement.Name,
-    IWA_TaskElement.Description,
-    IWA_TaskElement.ProcessElementId,
-    IWA_TaskStart.TaskStartId,
-    IWA_TaskStart.StartRequestPath,
-    IWA_TaskStart.UserFriendlyStartRequestPath,
-    IWA_StartEventElement.ActivatorRoleId
-  FROM IWA_TaskElement,
-    IWA_TaskStart,
-    IWA_StartEventElement
-  WHERE IWA_TaskElement.TaskElementId = IWA_TaskStart.TaskElementId AND IWA_TaskStart.TaskStartId = IWA_StartEventElement.TaskStartId
-UNION ALL
-  SELECT
-    IWA_TaskElement.TaskElementId,
-    IWA_TaskElement.ProcessModelVersionId,
-    IWA_TaskElement.Name,
-    IWA_TaskElement.Description,
-    IWA_TaskElement.ProcessElementId,
-    IWA_TaskStart.TaskStartId,
-    IWA_TaskStart.StartRequestPath,
-    IWA_TaskStart.UserFriendlyStartRequestPath,
-    IWA_WebServiceProcStartElement.ActivatorRoleId
-  FROM IWA_TaskElement,
-    IWA_TaskStart,
-    IWA_WebServiceProcStartElement
-  WHERE IWA_TaskElement.TaskElementId = IWA_TaskStart.TaskElementId AND IWA_TaskStart.TaskStartId = IWA_WebServiceProcStartElement.TaskStartId;
+    IWA_SignalEvent.SignalEventId,
+    IWA_SignalEvent.ApplicationId,
+    IWA_SignalEvent.SignalCode,
+    IWA_SignalEvent.SentTimestamp,
+    IWA_SignalEvent.SentById,
+    IWA_SecurityMember.Name,
+    IWA_User.UserId,
+    IWA_SignalEvent.SentByTaskId,
+    IWA_SignalEvent.SentByProcessElementPid
+  FROM IWA_SignalEvent
+    LEFT OUTER JOIN IWA_SecurityMember ON IWA_SignalEvent.SentById = IWA_SecurityMember.SecurityMemberId
+    LEFT OUTER JOIN IWA_User ON IWA_SecurityMember.SecurityMemberId = IWA_User.SecurityMemberId;
+
+
+INSERT INTO IWA_Version (Version) VALUES (95);
 
 INSERT INTO IWA_Permission (PermissionId, Name) VALUES (0, 'AdministrateWorkflow');
 
@@ -2939,7 +2330,7 @@ INSERT INTO IWA_SecurityDescriptorType (SecurityDescriptorTypeId, RootPermission
 
 INSERT INTO IWA_SecurityDescriptorType (SecurityDescriptorTypeId, RootPermissionGroupId, Name) VALUES (1, 0, 'Application');
 
-INSERT INTO IWA_SecurityDescriptor (SecurityDescriptorId, SecurityDescriptorTypeId, OwnerUserId) VALUES (0, 0, NULL);
+INSERT INTO IWA_SecurityDescriptor (SecurityDescriptorId, SecurityDescriptorTypeId) VALUES (0, 0);
 
 INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (7, 100);
 
