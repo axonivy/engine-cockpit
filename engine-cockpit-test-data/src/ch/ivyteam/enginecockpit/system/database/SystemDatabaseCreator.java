@@ -15,7 +15,7 @@ import ch.ivyteam.db.jdbc.DatabaseUtil;
 
 public class SystemDatabaseCreator {
 
-  private static final String OLD_DB_NAME = "old_version_60";
+  private static final String OLD_DB_NAME = "old_version_95";
   private static final String TEST_DB_NAME = "temp";
 
   public static void createOldDatabase() throws Exception {
@@ -47,34 +47,33 @@ public class SystemDatabaseCreator {
     }
   }
 
-  private static void createSystemDb(String dbName)
-          throws SQLException {
+  private static void createSystemDb(String dbName) throws SQLException {
     DatabaseServer.createInstance(getDbConfig(dbName)).createDatabase(dbName);
   }
 
-  private static void fillSystemDb(String dbName)
-          throws FileNotFoundException, IOException, SQLException {
+  private static void fillSystemDb(String dbName) throws Exception {
     try (Connection connection = DatabaseUtil.openConnection(getDbConfig(dbName))) {
       try (Statement stmt = connection.createStatement()) {
-        executeScript("CreateBaseDatabaseVersion60.sql", ";", stmt);
-        executeScript("CreateDatabaseVersion60.sql", ";", stmt);
-        executeScript("CreateTriggerDatabaseVersion60.sql", "END;", stmt);
-        executeScript("CreateSystemApplicationVersion60.sql", ";", stmt);
+        executeScript("CreateDatabaseVersion95.sql", ";", stmt);
+        executeScript("CreateTriggers95.sql", "END;", stmt);
+        executeScript("CreateSystemApplicationVersion95.sql", ";", stmt);
       }
     }
   }
 
-  private static void executeScript(String scriptName, String splitter, Statement stmt)
-          throws FileNotFoundException, IOException, SQLException {
-    String sql = IOUtils.toString(SystemDatabaseCreator.class.getResource(scriptName), "utf-8");
-    String[] sqlStatements = sql.split(splitter);
-    for (String statement : sqlStatements) {
+  private static void executeScript(String scriptName, String splitter, Statement stmt) throws Exception {
+    var sql = IOUtils.toString(SystemDatabaseCreator.class.getResource(scriptName), "utf-8");
+    for (var statement : sql.split(splitter)) {
       if (StringUtils.isWhitespace(statement)) {
         break;
       }
       statement = statement.concat(splitter);
-      System.out.println(statement);
-      stmt.execute(statement);
+      try {
+        stmt.execute(statement);
+      } catch (Exception ex) {
+        System.out.println("Could not execute: " + statement);
+        throw ex;
+      }
     }
   }
 }
