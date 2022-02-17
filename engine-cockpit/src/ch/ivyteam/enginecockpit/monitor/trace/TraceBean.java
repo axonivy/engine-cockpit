@@ -34,6 +34,7 @@ public class TraceBean {
     slowTraces.forEach(builder::add);
     var max = builder.toMax();
     return slowTraces
+        .all()
         .stream()
         .map(trace -> new Trc(trace, max))
         .collect(Collectors.toList());
@@ -89,7 +90,7 @@ public class TraceBean {
   }
 
   public void clear() {
-    tracer.clear();
+    tracer.slowTraces().clear();
     traces = readData();
   }
 

@@ -36,7 +36,7 @@ public class SpanBean extends TreeView {
 
   @Override
   protected void buildTree() {
-    trace = Tracer.instance().findTrace(traceId);
+    trace = Tracer.instance().slowTraces().find(traceId);
     if (trace.isPresent()) {
       buildTreeNode(trace.get().rootSpan(), rootTreeNode);
     }

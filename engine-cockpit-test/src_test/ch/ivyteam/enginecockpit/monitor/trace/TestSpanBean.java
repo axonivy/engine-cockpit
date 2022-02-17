@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ch.ivyteam.enginecockpit.monitor.trace.SpanBean.Span;
-import ch.ivyteam.ivy.trace.SpanResult;
 import ch.ivyteam.ivy.trace.Tracer;
 
 class TestSpanBean {
@@ -20,15 +19,15 @@ class TestSpanBean {
   @BeforeEach
   void beforeEach() {
     Tracer.instance().start();
-    try (var undef = ch.ivyteam.ivy.trace.Span.build(() -> "undef").attributes(() -> List.of(attribute("attr", 1234), attribute("hello", "world"))).open()) {
-      try (var ok = ch.ivyteam.ivy.trace.Span.build(() -> "ok").open()){
-        try (var error = ch.ivyteam.ivy.trace.Span.build(() -> "error").open()){
+    try (var undef = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("undef", List.of(attribute("attr", 1234), attribute("hello", "world"))))) {
+      try (var ok = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("ok"))){
+        try (var error = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("error"))){
           error.error(new Throwable());
         }
-        ok.result(() -> SpanResult.ok());
+        ok.result(null);
       }
     }
-    traceId = Tracer.instance().slowTraces().get(0).id();
+    traceId = Tracer.instance().slowTraces().all().get(0).id();
     bean.setTraceId(traceId);
   }
 
