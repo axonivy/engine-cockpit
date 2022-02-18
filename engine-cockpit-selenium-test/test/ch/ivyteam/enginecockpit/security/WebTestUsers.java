@@ -1,7 +1,9 @@
 package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.anyMatch;
 import static com.codeborne.selenide.CollectionCondition.empty;
+import static com.codeborne.selenide.CollectionCondition.noneMatch;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
@@ -15,7 +17,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
 import java.util.List;
@@ -95,7 +96,7 @@ public class WebTestUsers {
 
     Table table = new Table(By.cssSelector(Tab.ACITVE_PANEL_CSS + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
-    assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
+    table.firstColumnShouldBe(noneMatch("disabled user not in table", ele -> ele.getText().contains("disableduser")));
 
     filterTableFor("Show disabled users");
     table.firstColumnShouldBe(size(1));
@@ -109,7 +110,7 @@ public class WebTestUsers {
     resetFilter();
     table.search("%");
     table.firstColumnShouldBe(sizeGreaterThan(0));
-    assertThat(table.getFirstColumnEntries()).doesNotContain("disableduser");
+    table.firstColumnShouldBe(noneMatch("disabled user not in table", ele -> ele.getText().contains("disableduser")));
   }
 
   @Test
@@ -188,8 +189,8 @@ public class WebTestUsers {
     $("#newUserForm\\:saveNewUser").click();
     $("#newUserModal").shouldNotBe(visible);
     $("#msgs_container").shouldBe(visible, text("User '" + user + "' created successfully"));
-    assertThat(table.getFirstColumnEntries().size()).isGreaterThan(users);
-    assertThat(table.getFirstColumnEntries().get(users)).isEqualTo(user);
+    table.firstColumnShouldBe(sizeGreaterThan(users));
+    table.firstColumnShouldBe(anyMatch("User should be in table", element -> element.getText().contains(user)));
     table.valueForEntryShould(user, 2, exactText(fullName));
     table.valueForEntryShould(user, 3, exactText(email));
   }
