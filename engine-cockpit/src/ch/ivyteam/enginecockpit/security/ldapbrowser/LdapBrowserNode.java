@@ -13,33 +13,38 @@ public class LdapBrowserNode {
   private static final String ICON_GROUP = "multiple-neutral-1";
   private static final String ICON_USER = "single-neutral-actions";
 
+  private final String displayName;
   private final Name name;
   private final String icon;
   private final boolean expandable;
 
-  private LdapBrowserNode(Name name, boolean expandable, String icon) {
+  private LdapBrowserNode(String displayName, Name name, boolean expandable, String icon) {
+    this.displayName = displayName;
     this.name = name;
     this.expandable = expandable;
     this.icon = icon;
   }
 
-  public static LdapBrowserNode create(LdapContext context, Name name, String parentName) {
-    var fullName = StringUtils.isBlank(parentName) ? name.toString() : name.toString() + "," + parentName;
-    var icon = evalIconFor(context, name, fullName);
+  static LdapBrowserNode create(LdapContext context, String displayName, Name name) {
+    var icon = evalIconFor(context, name);
     var expandable = !ICON_GROUP.equals(icon) && !ICON_USER.equals(icon);
-    return new LdapBrowserNode(name, expandable, icon);
+    return new LdapBrowserNode(displayName, name, expandable, icon);
   }
 
-  private static String evalIconFor(LdapContext context, Name name, String fullName) {
-    if (StringUtils.startsWithIgnoreCase(name.toString(), "ou")) {
+  private static String evalIconFor(LdapContext context, Name name) {
+    if (name.isEmpty()) {
+      return ICON_DEFAULT;
+    }
+    var suffix = name.getSuffix(name.size()-1);
+    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "ou")) {
       return ICON_ORGANIZATION;
     }
-    if (StringUtils.startsWithIgnoreCase(name.toString(), "dc")) {
+    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "dc")) {
       return ICON_DOMAIN;
     }
-    if (StringUtils.startsWithIgnoreCase(name.toString(), "cn")) {
+    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "cn")) {
       try {
-        var attribute = context.getAttributes(fullName, new String[] {"objectClass"}).get("objectClass");
+        var attribute = context.getAttributes(name, new String[] {"objectClass"}).get("objectClass");
         if (attribute == null) {
           return ICON_DEFAULT;
         }
@@ -64,7 +69,7 @@ public class LdapBrowserNode {
     return attribute.contains("group") || attribute.contains("groupOfNames");
   }
 
-  public Name getName() {
+  Name getName() {
     return name;
   }
 
@@ -76,8 +81,12 @@ public class LdapBrowserNode {
     return expandable;
   }
 
+  public String getDisplayName() {
+    return displayName;
+  }
+
   @Override
   public String toString() {
-    return name.toString();
+    return displayName.toString();
   }
 }
