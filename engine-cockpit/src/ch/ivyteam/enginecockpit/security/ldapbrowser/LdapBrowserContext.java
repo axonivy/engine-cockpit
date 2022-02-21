@@ -1,27 +1,31 @@
 package ch.ivyteam.enginecockpit.security.ldapbrowser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.ldap.LdapContext;
 import javax.naming.ldap.LdapName;
+import javax.naming.ldap.Rdn;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.security.jndi.JndiContextUtil;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiUtil;
 
-public class LdapBrowserContext implements AutoCloseable {
+class LdapBrowserContext implements AutoCloseable {
 
   private LdapContext context;
 
-  public LdapBrowserContext(JndiConfig config, boolean enableInsecureSsl) throws NamingException {
+  LdapBrowserContext(JndiConfig config, boolean enableInsecureSsl) throws NamingException {
     context = JndiContextUtil.openLdapContext(config, enableInsecureSsl);
   }
 
@@ -30,58 +34,94 @@ public class LdapBrowserContext implements AutoCloseable {
     JndiUtil.closeQuietly(context);
   }
 
-  public List<LdapBrowserNode> browse(Name defaultContext) throws NamingException {
+  List<LdapBrowserNode> browse(Name defaultContext) throws NamingException {
     var names = new ArrayList<LdapBrowserNode>();
     var attribute = context.getAttributes(defaultContext).get("namingContexts");
     if (attribute == null) {
       throw new NamingException("Couldn't find any 'namingContexts' attributes");
     }
     for (int pos = 0; pos < attribute.size(); pos++) {
-      var name = context.getNameParser(attribute.get(pos).toString()).parse(attribute.get(pos).toString());
-      names.add(createLdapNode(name, defaultContext.toString()));
+      var val = attribute.get(pos).toString();
+      var name = parse(val);
+      names.add(createLdapNode(val, name));
     }
     return names.stream()
-            .sorted(Comparator.comparing(LdapBrowserNode::toString, String.CASE_INSENSITIVE_ORDER))
+            .sorted(Comparator.comparing(LdapBrowserNode::getDisplayName, String.CASE_INSENSITIVE_ORDER))
             .collect(Collectors.toList());
   }
 
-  public List<LdapBrowserNode> children(String parent) throws NamingException {
+  List<LdapBrowserNode> children(Name parentName) throws NamingException {
     var children = new ArrayList<LdapBrowserNode>();
-    var list = context.list(parent);
-    while (list.hasMoreElements()) {
-      var nextElement = list.nextElement();
-      var child = context.getNameParser(nextElement.getName()).parse(nextElement.getName());
-      children.add(createLdapNode(child, parent));
-    }
-
-    return children.stream()
-            .sorted(Comparator.comparing(LdapBrowserNode::toString, String.CASE_INSENSITIVE_ORDER))
-            .collect(Collectors.toList());
-  }
-
-  public List<Property> getAttributes(String node) throws NamingException {
-    var attributeList = new ArrayList<Property>();
-    var attrs = context.getAttributes(new LdapName(node)).getAll();
-    while (attrs.hasMore()) {
-      var attr = attrs.next();
-      var subAttrs = attr.getAll();
-      while (subAttrs.hasMore()) {
-        attributeList.add(getLdapProperty(attr.getID(), subAttrs.next()));
+    var list = context.list(parentName);
+    try {
+      while (list.hasMoreElements()) {
+        var nextElement = list.nextElement();
+        var fqChildName = parse(nextElement.getNameInNamespace());
+        var childName = parse(nextElement.getName());
+        var displayName = toDisplayName(childName);
+        children.add(createLdapNode(displayName, fqChildName));
       }
+
+      return children.stream()
+              .sorted(Comparator.comparing(LdapBrowserNode::getDisplayName, String.CASE_INSENSITIVE_ORDER))
+              .collect(Collectors.toList());
     }
-    return attributeList.stream()
-            .sorted(Comparator.comparing(Property::getName, String.CASE_INSENSITIVE_ORDER))
-            .collect(Collectors.toList());
+    finally {
+      list.close();
+    }
   }
 
-  private Property getLdapProperty(String attrId, Object attr) {
-    if (attr instanceof byte[]) {
-      attr = Hex.encodeHexString((byte[]) attr, false);
-    }
-    return new Property(attrId, attr.toString());
+  String toDisplayName(Name childName) {
+    List<Rdn> rdns = new ArrayList<>(((LdapName)childName).getRdns());
+    Collections.reverse(rdns);
+    return rdns
+        .stream()
+        .map(LdapBrowserContext::toDisplayName)
+        .collect(Collectors.joining(","));
   }
 
-  public LdapBrowserNode createLdapNode(Name name, String parent) {
-    return LdapBrowserNode.create(context, name, parent);
+  private static String toDisplayName(Rdn rdn) {
+    return rdn.getType() + "=" + Rdn.unescapeValue(Objects.toString(rdn.getValue()));
+  }
+
+  List<Property> getAttributes(Name nodeName) throws NamingException {
+    var attributeList = new ArrayList<Property>();
+    var attrs = context.getAttributes(nodeName).getAll();
+    try {
+      while (attrs.hasMore()) {
+        var attr = attrs.next();
+        var subAttrs = attr.getAll();
+        while (subAttrs.hasMore()) {
+          attributeList.add(getLdapProperty(attr.getID(), subAttrs.next()));
+        }
+      }
+      return attributeList.stream()
+              .sorted(Comparator.comparing(Property::getName, String.CASE_INSENSITIVE_ORDER))
+              .collect(Collectors.toList());
+    }
+    finally {
+      attrs.close();
+    }
+  }
+
+  private Property getLdapProperty(String name, Object value) {
+    return new Property(name, toDisplayName(value));
+  }
+
+  private static String toDisplayName(Object value) {
+    if (value instanceof byte[]) {
+      return Hex.encodeHexString((byte[]) value, false);
+    }
+    return Objects.toString(value);
+  }
+
+  LdapBrowserNode createLdapNode(String displayName, Name name) {
+    return LdapBrowserNode.create(context, displayName, name);
+  }
+
+  Name parse(String name) throws NamingException {
+    name = StringUtils.unwrap(name, "\""); // If name contains a forward slash it is quoted.
+    name = name.replace("/", "\\2F"); // For Active Directory forward slash needs to be encoded too!
+    return context.getNameParser(name).parse(name);
   }
 }
