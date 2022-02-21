@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
@@ -260,6 +261,22 @@ public class WebTestSecuritySystemDetail
     $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
   
+  @Test
+  void browseEscapedNames() throws InterruptedException 
+  {
+    openDefaultLdapBrowser();
+    var treeNode = $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=issue22622"));
+    treeNode.shouldBe(visible);
+    treeNode.parent().$(".ui-tree-toggler").click();
+    treeNode.parent().parent().$(".ui-treenode-children").findAll("li")
+        .shouldBe(sizeGreaterThan(0));
+    treeNode = $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=issue25327"));
+    treeNode.shouldBe(visible);
+    treeNode.parent().$(".ui-tree-toggler").click();
+    treeNode.parent().parent().$(".ui-treenode-children").findAll("li")
+        .shouldBe(sizeGreaterThan(0));
+  }
+
   @Test
   void testLdapBrowser_initDefaultContext()
   {

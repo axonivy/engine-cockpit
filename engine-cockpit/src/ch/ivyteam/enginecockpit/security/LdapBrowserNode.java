@@ -6,62 +6,68 @@ import javax.naming.ldap.LdapContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class LdapBrowserNode
+public class LdapBrowserNode 
 {
   private static final String ICON_DEFAULT = "folder";
   private static final String ICON_ORGANIZATION = "folder-shared";
   private static final String ICON_DOMAIN = "domain";
   private static final String ICON_GROUP = "group";
   private static final String ICON_USER = "person";
-  
+
+  private final String displayName;
   private final Name name;
   private final String icon;
   private final boolean expandable;
-  
-  private LdapBrowserNode(Name name, boolean expandable, String icon)
+
+  private LdapBrowserNode(String displayName, Name name, boolean expandable, String icon) 
   {
+    this.displayName = displayName;
     this.name = name;
     this.expandable = expandable;
     this.icon = icon;
   }
-  
-  public static LdapBrowserNode create(LdapContext context, Name name, String parentName)
+
+  static LdapBrowserNode create(LdapContext context, String displayName, Name name) 
   {
-    String fullName = StringUtils.isBlank(parentName) ? name.toString() : name.toString() + "," + parentName;
-    String icon = evalIconFor(context, name, fullName);
-    boolean expandable = !ICON_GROUP.equals(icon) && !ICON_USER.equals(icon);
-    return new LdapBrowserNode(name, expandable, icon);
+    var icon = evalIconFor(context, name);
+    var expandable = !ICON_GROUP.equals(icon) && !ICON_USER.equals(icon);
+    return new LdapBrowserNode(displayName, name, expandable, icon);
   }
-  
-  private static String evalIconFor(LdapContext context, Name name, String fullName)
+
+  private static String evalIconFor(LdapContext context, Name name) 
   {
-    if (StringUtils.startsWithIgnoreCase(name.toString(), "ou"))
+    if (name.isEmpty()) 
+    {
+      return ICON_DEFAULT;
+    }
+    var suffix = name.getSuffix(name.size()-1);
+    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "ou")) 
     {
       return ICON_ORGANIZATION;
     }
-    if (StringUtils.startsWithIgnoreCase(name.toString(), "dc"))
+    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "dc")) 
     {
       return ICON_DOMAIN;
     }
-    if (StringUtils.startsWithIgnoreCase(name.toString(), "cn"))
+    if (StringUtils.startsWithIgnoreCase(suffix.toString(), "cn")) 
     {
-      try
+      try 
       {
-        Attribute attribute = context.getAttributes(fullName, new String[] {"objectClass"}).get("objectClass");
-        if (attribute == null)
+        var attribute = context.getAttributes(name, new String[] {"objectClass"}).get("objectClass");
+        if (attribute == null) 
         {
           return ICON_DEFAULT;
         }
-        if (isGroup(attribute))
+        if (isGroup(attribute)) 
         {
           return ICON_GROUP;
         }
-        if (isUser(attribute))
+        if (isUser(attribute)) 
         {
           return ICON_USER;
         }
-      }
-      catch (Exception ex)
+      } 
+      catch (Exception ex) 
       {
         return ICON_DEFAULT;
       }
@@ -69,34 +75,39 @@ public class LdapBrowserNode
     return ICON_DEFAULT;
   }
 
-  private static boolean isUser(Attribute attribute)
+  private static boolean isUser(Attribute attribute) 
   {
     return (attribute.contains("Person") || attribute.contains("user")) && (!attribute.contains("computer"));
   }
 
-  private static boolean isGroup(Attribute attribute)
+  private static boolean isGroup(Attribute attribute) 
   {
     return attribute.contains("group") || attribute.contains("groupOfNames");
   }
 
-  public Name getName()
+  Name getName() 
   {
     return name;
   }
-  
-  public String getIcon()
+
+  public String getIcon() 
   {
     return icon;
   }
-  
-  boolean isExpandable()
+
+  boolean isExpandable() 
   {
     return expandable;
   }
-  
-  @Override
-  public String toString()
+
+  public String getDisplayName() 
   {
-    return name.toString();
+    return displayName;
+  }
+
+  @Override
+  public String toString() 
+  {
+    return displayName.toString();
   }
 }
