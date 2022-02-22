@@ -21,7 +21,7 @@
           <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
           <p:ajax event="select" update="@form:nodeAttrTable" />
           <p:treeNode icon="ui-icon-#{node.icon}">
-            <h:outputText value="#{node}" />
+            <h:outputText value="#{node.displayName}" />
           </p:treeNode>
         </p:tree>
         <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.ldapBrowser.selectedNodeAttributes}"

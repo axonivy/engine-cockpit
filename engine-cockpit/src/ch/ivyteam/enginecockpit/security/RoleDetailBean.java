@@ -288,6 +288,6 @@ public class RoleDetailBean
   
   public void chooseLdapName()
   {
-    role.setExternalName(ldapBrowser.getSelectedLdapName());
+    role.setExternalName(ldapBrowser.getSelectedNameString());
   }
 }
