@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.naming.Name;
 import javax.naming.NamingException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.commons.Property;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.naming.JndiConfig;
 
 public class LdapBrowser {
@@ -27,21 +29,28 @@ public class LdapBrowser {
   private boolean insecureSsl;
 
   public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue) {
-    this.jndiConfig = config;
-    this.insecureSsl = enableInsecureSsl;
-    this.root = null;
     try (var context = new LdapBrowserContext(config, enableInsecureSsl)) {
+      this.jndiConfig = config;
+      this.insecureSsl = enableInsecureSsl;
+      this.root = new DefaultTreeNode(null, null);
+      Name initialName = parseInitialName(context, initialValue);
       var name = jndiConfig.getDefaultContextName();
       if (name.isEmpty()) {
-        root = new DefaultTreeNode(name, null);
-        context.browse(name).forEach(node -> addNewSubnode(root, node, initialValue));
+        context.browse(name).forEach(node -> addNewSubnode(root, node, initialName));
         return;
       }
-      root = new DefaultTreeNode("", null);
-      addNewSubnode(root, context.createLdapNode(name, evalLdapName(root)), initialValue);
+      var displayName = context.toDisplayName(name);
+      addNewSubnode(root, context.createLdapNode(displayName, name), initialName);
     } catch (NamingException ex) {
-      errorMessage(ex.getMessage());
+      errorMessage(ex);
     }
+  }
+
+  private static Name parseInitialName(LdapBrowserContext context, String initialValue) throws NamingException {
+    if (StringUtils.isBlank(initialValue)) {
+      return null;
+    }
+    return context.parse(initialValue);
   }
 
   public void onNodeExpand(NodeExpandEvent event) {
@@ -50,27 +59,25 @@ public class LdapBrowser {
     loadChildren(node, null);
   }
 
-  private void loadChildren(TreeNode node, String initialValue) {
-    var name = evalLdapName(node);
+  private void loadChildren(TreeNode node, Name initialValue) {
+    var name = ((LdapBrowserNode)node.getData()).getName();
     try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
       context.children(name).forEach(child -> addNewSubnode(node, child, initialValue));
     } catch (NamingException ex) {
-      errorMessage(ex.getMessage());
+      errorMessage(ex);
     }
   }
 
   @SuppressWarnings("unused")
-  private void addNewSubnode(TreeNode treeNode, LdapBrowserNode ldapNode, String initialValue) {
-    var node = new DefaultTreeNode(ldapNode, treeNode);
-    var nodeName = ldapNode.getName().toString();
-    if (StringUtils.isNotBlank(initialValue) && StringUtils.endsWithIgnoreCase(initialValue, nodeName)) {
-      var subInitValue = StringUtils.removeEndIgnoreCase(initialValue, nodeName);
-      if (StringUtils.isBlank(subInitValue)) {
+  private void addNewSubnode(TreeNode parent, LdapBrowserNode ldapNode, Name initialValue) {
+    var node = new DefaultTreeNode(ldapNode, parent);
+    if (initialValue != null && initialValue.startsWith(ldapNode.getName())) {
+      if (initialValue.equals(ldapNode.getName())) {
         node.setSelected(true);
         setSelectedNode(node);
       } else {
         node.setExpanded(true);
-        loadChildren(node, StringUtils.removeEnd(subInitValue, ","));
+        loadChildren(node, initialValue);
       }
     }
     if (ldapNode.isExpandable() && !node.isExpanded()) {
@@ -89,48 +96,46 @@ public class LdapBrowser {
   public void setSelectedNode(TreeNode selectedNode) {
     this.selectedNode = selectedNode;
     if (selectedNode != null) {
-      selectedNodeAttributes = getNodeArguments();
+      selectedNodeAttributes = getNodeAttributes();
     }
   }
+
+  public String getSelectedNameString() {
+    var name = getSelectedName();
+    if (name == null) {
+      return null;
+    }
+    return name.toString();
+  }
+
+  private Name getSelectedName() {
+    if (selectedNode == null) {
+      return null;
+    }
+    return ((LdapBrowserNode)selectedNode.getData()).getName();
+  }
+
 
   public List<Property> getSelectedNodeAttributes() {
     return selectedNodeAttributes;
   }
 
-  private List<Property> getNodeArguments() {
+  private List<Property> getNodeAttributes() {
     try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
-      return context.getAttributes(getSelectedLdapName());
+      return context.getAttributes(getSelectedName());
     } catch (NamingException ex) {
-      errorMessage(ex.getMessage());
+      errorMessage(ex);
     }
     return Collections.emptyList();
   }
 
-  public String getSelectedLdapName() {
-    return evalLdapName(selectedNode);
-  }
-
-  private String evalLdapName(TreeNode node) {
-    if (node == null) {
-      return "";
-    }
-    return node.toString() + evalParentName(node.getParent());
-  }
-
-  private String evalParentName(TreeNode parent) {
-    if (parent != null && !StringUtils.isBlank(parent.toString())) {
-      return "," + parent.toString() + evalParentName(parent.getParent());
-    }
-    return "";
-  }
-
-  private void errorMessage(String ex) {
-    var message = ex;
-    if (ex.contains("AcceptSecurityContext")) {
+  private void errorMessage(Exception ex) {
+    Ivy.log().debug("Error in LDAP call", ex);
+    var message = ex.getMessage();
+    if (message.contains("AcceptSecurityContext")) {
       message = "There seems to be a problem with your credentials.";
     }
     FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage",
             new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
-
   }
 }

@@ -355,10 +355,10 @@ public class SecurityConfigDetailBean {
 
   public void chooseLdapName() {
     if (LdapBrowser.DEFAULT_CONTEXT.equals(ldapBrowserTarget)) {
-      setDefaultContext(ldapBrowser.getSelectedLdapName());
+      setDefaultContext(ldapBrowser.getSelectedNameString());
     }
     if (LdapBrowser.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget)) {
-      setImportUsersOfGroup(ldapBrowser.getSelectedLdapName());
+      setImportUsersOfGroup(ldapBrowser.getSelectedNameString());
     }
   }
 

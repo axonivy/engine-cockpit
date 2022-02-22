@@ -21,7 +21,7 @@
           <p:ajax event="expand" listener="#{cc.attrs.ldapBrowser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
           <p:treeNode icon="si si-#{node.icon}">
-            <h:outputText value="#{node}" />
+            <h:outputText value="#{node.displayName}" />
           </p:treeNode>
         </p:tree>
         <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.ldapBrowser.selectedNodeAttributes}"
