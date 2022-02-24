@@ -21,7 +21,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvyWebTest(headless=false)
+@IvyWebTest
 public class WebTestSlowRequests {
 
   @BeforeEach
@@ -130,7 +130,7 @@ public class WebTestSlowRequests {
   private static void recordData(int requests) {
     start();
     while (requests-- > 0) {
-      Navigation.toPerformance();
+      Navigation.toPerformanceStatistic();
     }
     Navigation.toSlowRequests();
   }
