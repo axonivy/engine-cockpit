@@ -436,3 +436,17 @@ i.success {
 .ldap-browser .ui-datatable .ui-datatable-data td {
   padding: 0.5rem;
 }
+
+.ui-diagram-element {
+    border: 0.1em dotted #E5E4E2;
+    background-color: #EFEEEC;
+    width: 15em;
+    height: 5em;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    user-select: none;
+}
+
+.ui-diagram-element:hover {
+    background-color: #C7C6C4;
+}
