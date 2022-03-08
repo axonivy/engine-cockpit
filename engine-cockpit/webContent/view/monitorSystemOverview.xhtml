@@ -35,6 +35,18 @@
                 </h1>
               </div>
             </div>
+            <div class="ui-g">
+              <div class="ui-g-11">
+                <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
+                    icon="si si-controls-play" styleClass="green-btn" disabled="#{traceBean.notStartable}" style="margin-right: 10px; margin-bottom: 10px"/>
+                <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="overview:form" title="Stop recording"
+                    icon="si si-controls-stop" styleClass="red-btn" disabled="#{traceBean.notStoppable}" style="margin-right: 10px;"/>
+                <p:commandButton id="clear" actionListener="#{systemOverviewBean.clear}" update="overview:form" title="Clear statistic"
+                    icon="si si-bin-1" styleClass="red-btn" disabled="#{traceBean.notCleanable}" style="margin-right: 10px;"/>
+                <p:commandButton id="refresh" actionListener="#{systemOverviewBean.refresh}" update="overview:form" title="Refresh statistic"
+                    icon="si si-button-refresh-arrows" disabled="#{traceBean.notRefreshable}" style="margin-right: 10px;"/>
+              </div>
+            </div>
             <p:diagram value="#{systemOverviewBean.model}" style="height: 600px;" styleClass="ui-widget-content" var="system">
               <f:facet name="element">
                 <h:outputText value="#{system.name}" escape="false"/>
@@ -43,6 +55,16 @@
           </h:form>
         </div>
       </cc:SingleCard>
+      <p:confirmDialog style="min-width: 300px;" header="Start Recording" id="startRecordingDialog"
+            widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+        <h:form id="startTraces">
+          <p:staticMessage severity="warn" detail="Start the recording of the system overview can have a negative impact on the performance of the engine." />
+          <p:commandLink id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="modal-input-button"/>
+          <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"                  
+            styleClass="modal-input-button" actionListener="#{traceBean.start}" update="overview:form"/>
+        </h:form>
+      </p:confirmDialog>
+      
     </ui:define>
   </ui:composition>
 </h:body>

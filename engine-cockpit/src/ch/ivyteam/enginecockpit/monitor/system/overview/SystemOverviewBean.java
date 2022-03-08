@@ -27,6 +27,10 @@ public class SystemOverviewBean {
   private DefaultDiagramModel model;
 
   public SystemOverviewBean() {
+    refresh();
+  }
+
+  public void refresh() {
     model = new DefaultDiagramModel();
     model.setMaxConnections(-1);
     model.setContainment(false);
@@ -42,6 +46,11 @@ public class SystemOverviewBean {
     var requests = inboundRequests + outboundRequests;
     systemOverview.inbound().forEach(channel -> addInbound(channel, ivy, requests, inboundAverage));
     systemOverview.outbound().forEach(channel -> addOutbound(channel, ivy, requests, outboundAverage));
+  }
+
+  public void clear() {
+    Tracer.instance().systemOverview().clear();
+    refresh();
   }
 
   private void addInbound(CommunicationChannel channel, Element ivy, long requests, long average) {
