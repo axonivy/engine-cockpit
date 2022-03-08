@@ -176,8 +176,13 @@ body {
 .dashboard .messages i.warning {
   color: #ffce29;
 }
-.dashboard .messages i.error {
+.dashboard .messages i.error,
+i.error {
   color: #d23636;
+}
+
+i.success {
+  color: green;
 }
 
 /*Tables / Trees*/

@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.performance;
 
 
+import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.ivy.bpm.engine.restricted.model.IProcessElement;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionStatistic;
 
@@ -53,7 +54,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getInternalExecutionsBackground() {
-    return background(getInternalExecutions(), max.getInternalExecutions());
+    return BackgroundMeterUtil.background(getInternalExecutions(), max.getInternalExecutions());
   }
 
   public double getMinInternalExecutionTime() {
@@ -61,7 +62,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getMinInternalExecutionTimeBackground() {
-    return background(getMinInternalExecutionTime(), max.getMinInternalExecutionTime());
+    return BackgroundMeterUtil.background(getMinInternalExecutionTime(), max.getMinInternalExecutionTime());
   }
 
   public double getAvgInternalExecutionTime() {
@@ -69,7 +70,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getAvgInternalExecutionTimeBackground() {
-    return background(getAvgInternalExecutionTime(), max.getAvgInternalExecutionTime());
+    return BackgroundMeterUtil.background(getAvgInternalExecutionTime(), max.getAvgInternalExecutionTime());
   }
 
   public double getMaxInternalExecutionTime() {
@@ -77,7 +78,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getMaxInternalExecutionTimeBackground() {
-    return background(getMaxInternalExecutionTime(), max.getMaxInternalExecutionTime());
+    return BackgroundMeterUtil.background(getMaxInternalExecutionTime(), max.getMaxInternalExecutionTime());
   }
 
   public double getTotalInternalExecutionTime() {
@@ -85,7 +86,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getTotalInternalExecutionTimeBackground() {
-    return background(getTotalInternalExecutionTime(), max.getTotalInternalExecutionTime());
+    return BackgroundMeterUtil.background(getTotalInternalExecutionTime(), max.getTotalInternalExecutionTime());
   }
 
   public long getExternalExecutions() {
@@ -93,7 +94,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getExternalExecutionsBackground() {
-    return background(getExternalExecutions(), max.getExternalExecutions());
+    return BackgroundMeterUtil.background(getExternalExecutions(), max.getExternalExecutions());
   }
 
   public double getMinExternalExecutionTime() {
@@ -101,7 +102,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getMinExternalExecutionTimeBackground() {
-    return background(getMinExternalExecutionTime(), max.getMinExternalExecutionTime());
+    return BackgroundMeterUtil.background(getMinExternalExecutionTime(), max.getMinExternalExecutionTime());
   }
 
   public double getAvgExternalExecutionTime() {
@@ -109,7 +110,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getAvgExternalExecutionTimeBackground() {
-    return background(getAvgExternalExecutionTime(), max.getAvgExternalExecutionTime());
+    return BackgroundMeterUtil.background(getAvgExternalExecutionTime(), max.getAvgExternalExecutionTime());
   }
 
   public double getMaxExternalExecutionTime() {
@@ -117,7 +118,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getMaxExternalExecutionTimeBackground() {
-    return background(getMaxExternalExecutionTime(), max.getMaxExternalExecutionTime());
+    return BackgroundMeterUtil.background(getMaxExternalExecutionTime(), max.getMaxExternalExecutionTime());
   }
 
   public double getTotalExternalExecutionTime() {
@@ -125,7 +126,7 @@ public final class ProcessElementStatistic {
   }
 
   public String getTotalExternalExecutionTimeBackground() {
-    return background(getTotalExternalExecutionTime(), max.getTotalExternalExecutionTime());
+    return BackgroundMeterUtil.background(getTotalExternalExecutionTime(), max.getTotalExternalExecutionTime());
   }
 
   public double getTotalExecutionTime() {
@@ -133,35 +134,11 @@ public final class ProcessElementStatistic {
   }
 
   public String getTotalExecutionTimeBackground() {
-    return background(getTotalExecutionTime(), max.getTotalExecutionTime());
+    return BackgroundMeterUtil.background(getTotalExecutionTime(), max.getTotalExecutionTime());
   }
 
   private IProcessElement processElement() {
     return statistic.getProcessElement();
-  }
-
-  private static String background(double value, double max) {
-    return background(percentage(value, max));
-  }
-
-  private static String background(long value, long max) {
-    return background(percentage(value, max));
-  }
-
-  private static int percentage(long value, long max) {
-    var percentage = value * 100.0f / max;
-    return (int)percentage;
-  }
-
-  private static int percentage(double value, double max) {
-    var percentage = value * 100.0f / max;
-    return (int)percentage;
-  }
-
-  private static String background(int percentage) {
-    var maxPercentage = Math.min(percentage + 20, 100);
-    var color = 120 - percentage * 120 / 100;
-    return "linear-gradient(90deg, hsl("+color+", 100%, 70%) " + percentage + "%, #FFFFFF " + maxPercentage + "%)";
   }
 
   private static double avg(double time, long executions) {

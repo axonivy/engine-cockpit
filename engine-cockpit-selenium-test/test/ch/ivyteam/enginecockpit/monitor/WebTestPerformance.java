@@ -33,7 +33,7 @@ public class WebTestPerformance {
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toPerformance();
+    Navigation.toPerformanceStatistic();
     var stop = $(id("performance:form:stop"));
     if (stop.is(enabled)) {
       stop.click();
@@ -153,7 +153,7 @@ public class WebTestPerformance {
 
     EngineCockpitUtil.performanceData();
     EngineCockpitUtil.openDashboard();
-    Navigation.toPerformance();
+    Navigation.toPerformanceStatistic();
   }
 
   private static void start() {
@@ -182,7 +182,7 @@ public class WebTestPerformance {
   }
 
   public static void prepareScreenshot() {
-    Navigation.toPerformance();
+    Navigation.toPerformanceStatistic();
     recordData();
   }
 }

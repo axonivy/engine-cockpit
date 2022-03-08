@@ -64,6 +64,10 @@ public class Table {
     return $x(findColumnOverEntry(entry));
   }
 
+  public SelenideElement body() {
+    return $x(getBody());
+  }
+
   public void clickButtonForEntry(String entry, String btn) {
     $(By.id(getElementIdForEntry(entry, btn))).shouldBe(visible, enabled).click();
   }
@@ -96,9 +100,13 @@ public class Table {
 
   private String getFirstColumnSpanElement() {
     if (withLink) {
-      return "//div[@id='" + id + "']//tbody/tr/td[1]/a/span[1]";
+      return getBody()+"/tr/td[1]/a/span[1]";
     }
-    return "//div[@id='" + id + "']//tbody/tr/td[1]/span";
+    return getBody()+"/tr/td[1]/span";
+  }
+
+  private String getBody() {
+    return "//div[@id='" + id + "']//tbody";
   }
 
   private String findColumnOverEntry(String entry) {
@@ -121,5 +129,4 @@ public class Table {
   public String getSearchFilter() {
     return $(By.id(globalFilter)).shouldBe(visible).getAttribute("value");
   }
-
 }
