@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.primefaces.model.DefaultTreeNode;
 
-public class MBeanTreeNode extends DefaultTreeNode implements Comparable<MBeanTreeNode> {
+public class MBeanTreeNode extends DefaultTreeNode<MName> implements Comparable<MBeanTreeNode> {
   MBeanTreeNode(MName name, Set<MName> allNames) {
     setData(name);
     setChildren(name.getDirectChildren(allNames)
@@ -24,8 +24,8 @@ public class MBeanTreeNode extends DefaultTreeNode implements Comparable<MBeanTr
 
   @Override
   public int compareTo(MBeanTreeNode other) {
-    MName name1 = (MName) getData();
-    MName name2 = (MName) other.getData();
+    MName name1 = getData();
+    MName name2 = other.getData();
     return name1.getDisplayName().compareTo(name2.getDisplayName());
   }
 }

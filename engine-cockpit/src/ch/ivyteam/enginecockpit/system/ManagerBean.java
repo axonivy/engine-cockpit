@@ -90,7 +90,7 @@ public class ManagerBean {
     selectedApplicationIndex = index;
   }
 
-  public void updateSelectedApplication(TabChangeEvent event) {
+  public void updateSelectedApplication(TabChangeEvent<?> event) {
     setSelectedApplicationIndex(0);
     for (var app : applications) {
       if (app.getName().equals(event.getTab().getTitle())) {

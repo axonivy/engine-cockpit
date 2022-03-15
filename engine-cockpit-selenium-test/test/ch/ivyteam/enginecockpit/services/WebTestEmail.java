@@ -30,7 +30,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 @IvyWebTest
 public class WebTestEmail {
 
-  private static final String EMAIL_GROWL = "#emailSaveSuccess_container";
+  private static final String EMAIL_GROWL = "#emailSaveSuccess_container .ui-growl-message";
 
   @BeforeEach
   void beforeEach() {

@@ -36,8 +36,12 @@ public class SupportBean {
     var out = new ByteArrayOutputStream();
     DownloadUtil.zipDir(tempDirectory, out);
     FileUtils.deleteDirectory(tempDirectory.toFile());
-    return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip",
-            "support-engine-report.zip");
+    return DefaultStreamedContent
+        .builder()
+        .stream(() ->new ByteArrayInputStream(out.toByteArray()))
+        .contentType("application/zip")
+        .name("support-engine-report.zip")
+        .build();
   }
 
   private String createSupportReport() {

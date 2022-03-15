@@ -7,20 +7,20 @@ import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-public abstract class TreeView {
-  protected TreeNode rootTreeNode;
-  protected TreeNode filteredTreeNode;
+public abstract class TreeView<T> {
+  protected TreeNode<T> rootTreeNode;
+  protected TreeNode<T> filteredTreeNode;
   protected String filter = "";
 
   public void reloadTree() {
     filter = "";
-    rootTreeNode = new DefaultTreeNode("Tree", null);
+    rootTreeNode = new DefaultTreeNode<T>("Tree", null, null);
     buildTree();
   }
 
   protected abstract void buildTree();
 
-  public TreeNode getTree() {
+  public TreeNode<T> getTree() {
     if (filter.isEmpty()) {
       return rootTreeNode;
     }
@@ -33,18 +33,18 @@ public abstract class TreeView {
 
   public void setFilter(String filter) {
     this.filter = filter;
-    filteredTreeNode = new DefaultTreeNode("Filtered tree", null);
+    filteredTreeNode = new DefaultTreeNode<T>("Filtered tree", null, null);
     filterTree(rootTreeNode.getChildren());
   }
 
-  private void filterTree(List<TreeNode> nodes) {
+  private void filterTree(List<TreeNode<T>> nodes) {
     for (var node : nodes) {
       filterNode(node);
       filterTree(node.getChildren());
     }
   }
 
-  protected abstract void filterNode(TreeNode node);
+  protected abstract void filterNode(TreeNode<T> node);
 
   public void nodeExpand(NodeExpandEvent event) {
     event.getTreeNode().setExpanded(true);
@@ -62,7 +62,7 @@ public abstract class TreeView {
     expandAllNodes(rootTreeNode, false);
   }
 
-  private static void expandAllNodes(TreeNode treeNode, boolean expand) {
+  private static <T> void expandAllNodes(TreeNode<T> treeNode, boolean expand) {
     var children = treeNode.getChildren();
     for (var child : children) {
       expandAllNodes(child, expand);

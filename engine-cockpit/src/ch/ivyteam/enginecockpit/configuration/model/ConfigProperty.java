@@ -198,7 +198,12 @@ public class ConfigProperty {
   public StreamedContent downloadFile() {
     try {
       var newInputStream = Files.newInputStream(file);
-      return new DefaultStreamedContent(newInputStream, "application/x-yaml", file.getFileName().toString());
+      return DefaultStreamedContent
+          .builder()
+          .stream(() -> newInputStream)
+          .contentType("application/x-yaml")
+          .name(file.getFileName().toString())
+          .build();
     } catch (IOException e) {
       FacesContext.getCurrentInstance().addMessage("msgs",
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load file: " + source));

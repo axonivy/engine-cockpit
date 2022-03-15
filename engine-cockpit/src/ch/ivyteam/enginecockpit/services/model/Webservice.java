@@ -24,7 +24,7 @@ public class Webservice implements IService {
   private String username;
   private String password;
   private boolean passwordChanged;
-  private TreeNode portTypes = new DefaultTreeNode("PortTypes", null);
+  private TreeNode<EndPoint> portTypes = new DefaultTreeNode<>("PortTypes", null, null);
   private Map<String, PortType> portTypeMap = new HashMap<>();
 
   public Webservice(WebServiceClient webservice) {
@@ -43,10 +43,10 @@ public class Webservice implements IService {
 
     webservice.portTypes()
             .forEach(p -> {
-              var portType = new DefaultTreeNode(new EndPoint("port", p), portTypes);
+              var portType = new DefaultTreeNode<>(new EndPoint("port", p), portTypes);
               portType.setExpanded(true);
               webservice.endpoints().get(p)
-                      .forEach(e -> new DefaultTreeNode(new EndPoint("link", e), portType));
+                      .forEach(e -> new DefaultTreeNode<>(new EndPoint("link", e), portType));
             });
     webservice.portTypes().forEach(p -> portTypeMap.put(p, new PortType(p, webservice.endpoints().get(p))));
   }
@@ -108,7 +108,7 @@ public class Webservice implements IService {
     return properties;
   }
 
-  public TreeNode getPortTypes() {
+  public TreeNode<EndPoint> getPortTypes() {
     return portTypes;
   }
 

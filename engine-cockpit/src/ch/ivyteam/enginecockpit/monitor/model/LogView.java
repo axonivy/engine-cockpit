@@ -108,7 +108,12 @@ public class LogView implements Comparable<LogView> {
 
   public StreamedContent getFile() throws IOException {
     InputStream newInputStream = Files.newInputStream(file);
-    return new DefaultStreamedContent(newInputStream, "text/plain", file.getFileName().toString());
+    return DefaultStreamedContent
+        .builder()
+        .stream(() -> newInputStream)
+        .contentType("text/plain")
+        .name(file.getFileName().toString())
+        .build();
   }
 
   @Override

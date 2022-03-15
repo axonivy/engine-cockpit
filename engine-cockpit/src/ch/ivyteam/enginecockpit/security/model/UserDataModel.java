@@ -9,15 +9,15 @@ import java.util.StringJoiner;
 import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang3.StringUtils;
-import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import ch.ivyteam.enginecockpit.commons.TableFilter;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.jsf.primefaces.legazy.LazyDataModel7;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.query.UserQuery;
 
-public class UserDataModel extends LazyDataModel<User> implements TableFilter {
+public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
   private static final String MANUAL_FILTER = "manual";
   private static final String DISABLED_FILTER = "disabled";
   private IApplication app;

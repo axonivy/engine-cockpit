@@ -16,10 +16,12 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
@@ -100,22 +102,33 @@ public class WebTestSecuritySystemDetail {
     saveInvalidSyncTimeAndAssert("32:23");
     saveInvalidSyncTimeAndAssert("12:95");
 
-    $(SYNC_TIME).clear();
-    $(SYNC_TIME).sendKeys("16:47");
+    setSyncTime("16:47");
     $(SAVE_SECURITY_SYSTEM_BTN).click();
     $(SYNC_TIME_MESSAGE).shouldNotBe(visible);
     $(SAVE_SUCCESS_GROWL).shouldBe(visible);
 
-    $(SYNC_TIME).clear();
+    clearSyncTime();
     $(SAVE_SECURITY_SYSTEM_BTN).click();
     $(SAVE_SUCCESS_GROWL).shouldBe(visible);
   }
 
-  private void saveInvalidSyncTimeAndAssert(String time) {
-    $(SYNC_TIME).clear();
-    $(SYNC_TIME).sendKeys(time);
+  private void saveInvalidSyncTimeAndAssert( String time) {
+    setSyncTime(time);
     $(SAVE_SECURITY_SYSTEM_BTN).click();
     $(SYNC_TIME_MESSAGE).shouldBe(visible);
+  }
+
+  private void setSyncTime(String time) {
+      clearSyncTime();
+      $(SYNC_TIME).sendKeys(time);
+      $(SYNC_TIME).shouldBe(exactValue(time));
+  }
+
+  private void clearSyncTime() {
+    while (StringUtils.isNotEmpty($(SYNC_TIME).getValue())) {
+      $(SYNC_TIME).sendKeys(Keys.BACK_SPACE);
+    }
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
   }
 
   @Test
@@ -247,16 +260,16 @@ public class WebTestSecuritySystemDetail {
     $(LDAP_BROWSER_DIALOG).shouldNotBe(visible);
     $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
-  
+
   @Test
-  void browseEscapedNames() throws InterruptedException {
+  void browseEscapedNames() {
       openDefaultLdapBrowser();
       var treeNode = $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=issue22622"));
       treeNode.shouldBe(visible);
       treeNode.parent().$(".ui-tree-toggler").click();
       treeNode.parent().parent().$(".ui-treenode-children").findAll("li")
           .shouldBe(sizeGreaterThan(0));
-      
+
       treeNode = $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=issue25327"));
       treeNode.shouldBe(visible);
       treeNode.parent().$(".ui-tree-toggler").click();
@@ -388,7 +401,7 @@ public class WebTestSecuritySystemDetail {
       Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
       table.tableEntry("ou", 2).shouldBe(exactText("IvyTeam Test-OU"));
     }
-    
+
     @Test
     void ldapBrowser_attributes() {
       $(DEFAULT_CONTEXT).clear();
@@ -417,5 +430,4 @@ public class WebTestSecuritySystemDetail {
     $(LDAP_BROWSER_CHOOSE).shouldBe(disabled);
     $(LDAP_BROWSER_CANCEL).click();
   }
-
 }

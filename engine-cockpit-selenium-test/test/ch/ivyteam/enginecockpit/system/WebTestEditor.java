@@ -69,7 +69,7 @@ public class WebTestEditor {
 
     $("#card\\:editorMessage_container").shouldBe(empty);
     $(getActivePanelCss() + "editorForm\\:saveEditor").click();
-    $("#card\\:editorMessage_container").shouldBe(exactText("Saved test/app.yaml Successfully"));
+    $("#card\\:editorMessage_container .ui-growl-message").shouldBe(exactText("Saved test/app.yaml Successfully"));
   }
 
   @Test

@@ -23,7 +23,7 @@ import ch.ivyteam.ivy.application.ReleaseState;
 
 @ManagedBean
 @ViewScoped
-public class ApplicationBean extends TreeView {
+public class ApplicationBean extends TreeView<AbstractActivity> {
   private boolean processing;
 
   private AbstractActivity selectedActivity;
@@ -48,39 +48,39 @@ public class ApplicationBean extends TreeView {
   protected void buildTree() {
     for (var app : managerBean.getIApplications()) {
       var activity = new Application(app, this);
-      var node = new DefaultTreeNode(activity, rootTreeNode);
+      var node = new DefaultTreeNode<AbstractActivity>(activity, rootTreeNode);
       loadPmTree(app, node, activity);
       activity.getState().updateChildProblems(activity);
     }
   }
 
-  private void loadPmTree(IApplication app, TreeNode appNode, AbstractActivity parent) {
+  private void loadPmTree(IApplication app, TreeNode<AbstractActivity> appNode, AbstractActivity parent) {
     for (var pm : app.getProcessModels()) {
       var activity = new ProcessModel(pm, this);
       parent.addChild(activity);
-      var node = new DefaultTreeNode(activity, appNode);
+      var node = new DefaultTreeNode<AbstractActivity>(activity, appNode);
       loadPmvTree(pm, node, activity);
       activity.getState().updateChildProblems(activity);
     }
   }
 
   @SuppressWarnings("unused")
-  private void loadPmvTree(IProcessModel pm, TreeNode pmNode, AbstractActivity parent) {
+  private void loadPmvTree(IProcessModel pm, TreeNode<AbstractActivity> pmNode, AbstractActivity parent) {
     for (var pmv : pm.getProcessModelVersions()) {
       if (pmv.getReleaseState() != ReleaseState.DELETED) {
         var activity = new ProcessModelVersion(pmv, this);
         parent.addChild(activity);
-        new DefaultTreeNode(activity, pmNode);
+        new DefaultTreeNode<AbstractActivity>(activity, pmNode);
       }
     }
   }
 
   @Override
   @SuppressWarnings("unused")
-  protected void filterNode(TreeNode node) {
-    var activity = (AbstractActivity) node.getData();
+  protected void filterNode(TreeNode<AbstractActivity> node) {
+    var activity = node.getData();
     if (StringUtils.containsIgnoreCase(activity.getName(), filter)) {
-      new DefaultTreeNode(activity, filteredTreeNode);
+      new DefaultTreeNode<AbstractActivity>(activity, filteredTreeNode);
     }
   }
 
@@ -89,9 +89,9 @@ public class ApplicationBean extends TreeView {
     reloadNodeState(rootTreeNode.getChildren());
   }
 
-  private void reloadNodeState(List<TreeNode> nodes) {
-    for (TreeNode node : nodes) {
-      var activity = (AbstractActivity) node.getData();
+  private void reloadNodeState(List<TreeNode<AbstractActivity>> nodes) {
+    for (var node : nodes) {
+      var activity = node.getData();
       activity.updateStats();
       if (processing == false) {
         processing = activity.getState().isProcessing();
