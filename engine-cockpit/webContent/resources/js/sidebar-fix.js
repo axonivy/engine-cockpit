@@ -49,7 +49,8 @@ $(document).ready(function () {
           'databasedetail.xhtml': 'databases.xhtml',
           'restclientdetail.xhtml': 'restclients.xhtml',
           'webservicedetail.xhtml': 'webservices.xhtml',
-          'businesscalendar-detail.xhtml': 'businesscalendar.xhtml'
+          'businesscalendar-detail.xhtml': 'businesscalendar.xhtml',
+          'monitorTraceDetail.xhtml': 'monitorTraces.xhtml'
         };
         return map[value] == null ? value : map[value];
       }

@@ -110,13 +110,18 @@ public class WebTestSlowRequests {
 
     Table traces = new Table(By.id("traces:form:traceTable"), true);
     traces.tableEntry("HTTP/1.1 GET", 1).$("a").click();
-    $("h1").shouldHave(text("Slow Request Detail"));
-    Table spans = new Table(By.id("slowRequests:form:tree"), false);
+    $(id("spansTitle")).shouldHave(text("Slow Request Detail"));
+    Table spans = new Table(By.id("spansTree"), false);
     spans.tableEntry("HTTP/1.1 GET", 1).shouldHave(text("HTTP/1.1 GET"));
     spans.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 3).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 4).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 5).shouldBe(text("http.uri"));
+
+    $(id("attributesTitle")).shouldHave(text("Attributes"));
+    Table attributes = new Table(By.id("attributesTable"), false);
+    attributes.tableEntry("http.method", 1).shouldHave(text("http.method"));
+    attributes.tableEntry("http.method", 2).shouldHave(text("GET"));
   }
 
   @Test

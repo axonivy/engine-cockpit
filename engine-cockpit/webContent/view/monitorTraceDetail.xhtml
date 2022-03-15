@@ -27,39 +27,24 @@
     </ui:define>
 
     <ui:define name="content">
-      <cc:SingleCard id="slowRequests">
-        <div class="card card-w-title">
-          <div class="ui-g">
-            <div class="ui-g-12 ui-md-10">
-              <h1>
-                <i class="si si-monitor-heart-beat-search card-title-icon"></i>Slow Request Detail
-              </h1>
-            </div>
-          </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
+        <p:panel id="spans" style="min-height: 350px;">
+          <f:facet name="header">
+            <i class="si si-monitor-heart-beat-search table-icon panel-title-icon"></i>
+            <h:outputText id="spansTitle" value="Slow Request Detail" />
+          </f:facet>
           <p:staticMessage  
               rendered="#{! spanBean.traceAvailable}" 
               severity="WARN" 
               summary="Request no longer available" 
               detail="The request was remove from the slowest requests because other requests were even slower!"/>
-          <h:form id="form" rendered="#{spanBean.traceAvailable}">
-            <div class="ui-tree-search-header">
-              <div class="ui-datatable-header ui-widget-header ui-corner-top">
-                <p:outputPanel>
-                  <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical"
-                    actionListener="#{spanBean.expandAllNodes}" update="tree" title="Expand all"
-                    styleClass="secondary-btn" />
-                  <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical"
-                    actionListener="#{spanBean.collapseAllNodes}" update="tree" title="Collapse all"
-                    styleClass="secondary-btn" />
-                </p:outputPanel>
-              </div>
-            </div>
-            <p:treeTable id="tree" value="#{spanBean.tree}" var="span">
+            <p:treeTable id="spansTree" value="#{spanBean.tree}" var="span" selectionMode="single" style="border: none; max-height: 500px; overflow: auto; padding: 0;" rendered="#{spanBean.traceAvailable}">
               <p:ajax event="expand" listener="#{spanBean.nodeExpand}" />
               <p:ajax event="collapse" listener="#{spanBean.nodeCollapse}" />
+              <p:ajax event="select" listener="#{spanBean.nodeSelect}" update="attributesTable" />
               <p:column headerText="Name">
                 <h:outputText value="#{span.name}" title="#{span.attributesInfo}">
-                  <i class="si #{span.statusClass} table-icon"></i>
+                  <i class="si si-time-clock-circle #{span.statusClass} table-icon" title="#{span.statusTooltip}"></i>
                 </h:outputText>
               </p:column>
               <p:column style="width: 130px;" headerText="Execution Time">
@@ -77,10 +62,26 @@
                 <h:outputText value="#{span.attributes}" title="#{span.attributesInfo}" />
               </p:column>
             </p:treeTable>
-          </h:form>
-          <h:outputLabel value="Trace Id: #{spanBean.traceId}"/>
-        </div>
-      </cc:SingleCard>
+          <h:outputLabel value="Trace Id: #{spanBean.traceId}" rendered="#{spanBean.traceAvailable}"/>
+        </p:panel>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
+        <p:panel id="attributes" style="min-height: 350px;">
+          <f:facet name="header">
+            <i class="si si-cog table-icon panel-title-icon"></i>
+            <h:outputText id="attributesTitle" value="Attributes" />
+          </f:facet>
+          <p:dataTable id="attributesTable" var="attr" value="#{spanBean.attributes}" rowIndexVar="rowIndex" emptyMessage="Select a span to see its attributes">
+            <p:column headerText="Name" style="width: 40%;" sortBy="#{attr.name}" sortOrder="ASC">
+              <h:outputText id="name" value="#{attr.name}" />
+            </p:column>
+
+            <p:column headerText="Value"  sortBy="#{attr.value}">
+              <h:outputText escape="false" value="#{attr.value}"/>
+            </p:column>
+          </p:dataTable>
+        </p:panel>
+      </div>
     </ui:define>
   </ui:composition>
 </h:body>
