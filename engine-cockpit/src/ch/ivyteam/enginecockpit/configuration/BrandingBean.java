@@ -2,8 +2,10 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -67,7 +69,6 @@ public class BrandingBean {
     cssColors = brandingIO.cssColors().stream()
             .map(CssColorDTO::new)
             .collect(Collectors.toList());
-    filteredCssColors = cssColors;
     PrimeFaces.current().executeScript("PF('colorsTable').filter();");
   }
 
@@ -175,6 +176,11 @@ public class BrandingBean {
 
   public void setFilter(String filter) {
     this.filter = filter;
+  }
+
+  public boolean globalFilterFunction(Object value, Object filterStr, @SuppressWarnings("unused") Locale locale) {
+    var cssColor = (CssColorDTO)value;
+    return cssColor.getColor().contains(Objects.toString(filterStr, ""));
   }
 
 }

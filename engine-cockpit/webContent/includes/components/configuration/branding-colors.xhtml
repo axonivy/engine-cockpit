@@ -5,7 +5,7 @@
 
 <h:form id="colorForm">
   <p:dataTable var="color" value="#{brandingBean.cssColors}" rowStyleClass="#{color.default ? 'default-value' : ''}"
-    filteredValue="#{brandingBean.filteredCssColors}" widgetVar="colorsTable" id="colorsTable" globalFilter="#{brandingBean.filter}">
+    filteredValue="#{brandingBean.filteredCssColors}" widgetVar="colorsTable" id="colorsTable" globalFilter="#{brandingBean.filter}" globalFilterFunction="#{brandingBean.globalFilterFunction}">
     <f:facet name="header">
       <p:outputPanel>
         <p:outputLabel styleClass="table-search-icon">
@@ -15,7 +15,7 @@
           onkeyup="PF('colorsTable').filter()" placeholder="Search" value="#{brandingBean.filter}" />
       </p:outputPanel>
     </f:facet>
-    <p:column headerText="Color" filterBy="#{color.color}" sortBy="#{color.color}">
+    <p:column headerText="Color" sortBy="#{color.color}">
       <h:outputText value="#{color.color}" styleClass="color-name" />
     </p:column>
     <p:column headerText="Value">
