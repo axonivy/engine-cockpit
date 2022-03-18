@@ -23,7 +23,7 @@ import ch.ivyteam.ivy.security.ISecurityMember;
 
 @ManagedBean
 @ViewScoped
-public class PermissionBean extends TreeView {
+public class PermissionBean extends TreeView<AbstractPermission> {
   private Map<Long, Permission> permissionMap;
   private Map<Long, PermissionGroup> permissionGroupMap;
   private String member;
@@ -63,14 +63,14 @@ public class PermissionBean extends TreeView {
             .getRootPermissionGroup();
     var permission = new PermissionGroup(
             securityDescriptor.getPermissionGroupAccess(rootPermissionGroup, iMember), "", this);
-    var node = new DefaultTreeNode(permission, rootTreeNode);
+    var node = new DefaultTreeNode<AbstractPermission>(permission, rootTreeNode);
     permissionGroupMap.put(permission.getId(), permission);
     node.setExpanded(true);
     loadChildrenPermissions(node, securityDescriptor, rootPermissionGroup, iMember);
   }
 
   @SuppressWarnings("unused")
-  private void loadChildrenPermissions(TreeNode node, ISecurityDescriptor securityDescriptor,
+  private void loadChildrenPermissions(TreeNode<AbstractPermission> node, ISecurityDescriptor securityDescriptor,
           IPermissionGroup permissionGroup, ISecurityMember securityMember) {
     var permissionGroupAccess = securityDescriptor
             .getPermissionGroupAccess(permissionGroup, securityMember);
@@ -79,10 +79,10 @@ public class PermissionBean extends TreeView {
       if (access.getPermission() != null) {
         var permission = permissionMap.get(access.getPermission().getId());
         if (permission == null) {
-          permission = new Permission(access, ((AbstractPermission) node.getData()).getPath(), this);
+          permission = new Permission(access, node.getData().getPath(), this);
           permissionMap.put(permission.getId(), permission);
         }
-        new DefaultTreeNode(permission, node);
+        new DefaultTreeNode<>(permission, node);
       }
     }
 
@@ -90,9 +90,8 @@ public class PermissionBean extends TreeView {
       var childGroupAccess = securityDescriptor.getPermissionGroupAccess(childGroup,
               securityMember);
       if (childGroupAccess.getPermissionGroup() != null) {
-        var permission = new PermissionGroup(childGroupAccess,
-                ((AbstractPermission) node.getData()).getPath(), this);
-        var childNode = new DefaultTreeNode(permission, node);
+        var permission = new PermissionGroup(childGroupAccess, node.getData().getPath(), this);
+        var childNode = new DefaultTreeNode<AbstractPermission>(permission, node);
         permissionGroupMap.put(permission.getId(), permission);
         loadChildrenPermissions(childNode, securityDescriptor, childGroup, securityMember);
       }
@@ -101,10 +100,10 @@ public class PermissionBean extends TreeView {
 
   @Override
   @SuppressWarnings("unused")
-  protected void filterNode(TreeNode node) {
-    var permission = (AbstractPermission) node.getData();
+  protected void filterNode(TreeNode<AbstractPermission> node) {
+    var permission = node.getData();
     if (StringUtils.containsIgnoreCase(permission.getName(), filter)) {
-      new DefaultTreeNode(permission, filteredTreeNode);
+      new DefaultTreeNode<>(permission, filteredTreeNode);
     }
   }
 

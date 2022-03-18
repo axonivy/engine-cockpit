@@ -106,6 +106,6 @@ class TestSpanBean {
     }
     var span = node.getData();
     assertThat(span).isInstanceOf(Span.class);
-    return (Span)span;
+    return span;
   }
 }

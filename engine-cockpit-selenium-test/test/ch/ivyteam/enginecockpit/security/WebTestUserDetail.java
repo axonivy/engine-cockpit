@@ -143,7 +143,7 @@ public class WebTestUserDetail {
     language.selectItemByLabel(lang);
     language.selectedItemShould(exactText(lang));
     $("#userEmailForm\\:saveEmailNotificationSettings").click();
-    $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible, exactText("User email changes saved"));
+    $("#userEmailForm\\:emailSaveSuccess_container .ui-growl-message").shouldBe(visible, exactText("User email changes saved"));
   }
 
   @Test

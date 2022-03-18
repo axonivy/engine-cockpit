@@ -12,7 +12,7 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
-public class RoleDataModel extends TreeView {
+public class RoleDataModel extends TreeView<Object> {
   private static final int ROLE_CHILDREN_LIMIT = 100;
   private ISecurityContext securityContext;
   private boolean showMember;
@@ -31,19 +31,19 @@ public class RoleDataModel extends TreeView {
   @SuppressWarnings("unused")
   public void setFilter(String filter) {
     this.filter = filter;
-    filteredTreeNode = new DefaultTreeNode("Filtered roles", null);
+    filteredTreeNode = new DefaultTreeNode<>("Filtered roles", null, null);
     roles.stream().filter(role -> StringUtils.containsIgnoreCase(role.getName(), filter))
             .limit(ROLE_CHILDREN_LIMIT)
-            .forEach(role -> new DefaultTreeNode("role", role, filteredTreeNode));
+            .forEach(role -> new DefaultTreeNode<>("role", role, filteredTreeNode));
     if (filteredTreeNode.getChildCount() >= ROLE_CHILDREN_LIMIT) {
-      new DefaultTreeNode("dummy",
+      new DefaultTreeNode<>("dummy",
               new Role("The current search has more than " + ROLE_CHILDREN_LIMIT + " results."),
               filteredTreeNode);
     }
   }
 
   @Override
-  protected void filterNode(TreeNode node) {
+  protected void filterNode(TreeNode<Object> node) {
     // Not used because of overridden setFilter
   }
 
@@ -59,12 +59,12 @@ public class RoleDataModel extends TreeView {
     node.setExpanded(true);
   }
 
-  public class LazyRoleTreeNode extends DefaultTreeNode {
+  public class LazyRoleTreeNode extends DefaultTreeNode<Object> {
     private IRole role;
     private boolean childrenFetched;
     private boolean member;
 
-    public LazyRoleTreeNode(IRole role, boolean member, TreeNode node) {
+    public LazyRoleTreeNode(IRole role, boolean member, TreeNode<Object> node) {
       super(new Role(role, member), node);
       this.role = role;
       this.member = member;
@@ -72,7 +72,7 @@ public class RoleDataModel extends TreeView {
     }
 
     @Override
-    public List<TreeNode> getChildren() {
+    public List<TreeNode<Object>> getChildren() {
       ensureChildrenFetched();
       return super.getChildren();
     }
@@ -106,7 +106,7 @@ public class RoleDataModel extends TreeView {
         addRolesToTree(role.getRoleMembers(), true);
       }
       if (rolesLeft > 0) {
-        new DefaultTreeNode("dummy",
+        new DefaultTreeNode<>("dummy",
                 new Role("Please use the search to find a specific role (" + rolesLeft + " more roles)"),
                 this);
       }

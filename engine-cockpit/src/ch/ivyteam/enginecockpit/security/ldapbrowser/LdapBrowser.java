@@ -22,8 +22,8 @@ public class LdapBrowser {
   public static final String DEFAULT_CONTEXT = "defaultContext";
   public static final String IMPORT_USERS_OF_GROUP = "importUsersOfGroup";
 
-  private TreeNode root;
-  private TreeNode selectedNode;
+  private TreeNode<LdapBrowserNode> root;
+  private TreeNode<LdapBrowserNode> selectedNode;
   private List<Property> selectedNodeAttributes;
   private JndiConfig jndiConfig;
   private boolean insecureSsl;
@@ -32,7 +32,7 @@ public class LdapBrowser {
     try (var context = new LdapBrowserContext(config, enableInsecureSsl)) {
       this.jndiConfig = config;
       this.insecureSsl = enableInsecureSsl;
-      this.root = new DefaultTreeNode(null, null);
+      this.root = new DefaultTreeNode<LdapBrowserNode>(null, null);
       Name initialName = parseInitialName(context, initialValue);
       var name = jndiConfig.getDefaultContextName();
       if (name.isEmpty()) {
@@ -53,14 +53,15 @@ public class LdapBrowser {
     return context.parse(initialValue);
   }
 
+  @SuppressWarnings("unchecked")
   public void onNodeExpand(NodeExpandEvent event) {
     var node = event.getTreeNode();
     node.getChildren().clear();
     loadChildren(node, null);
   }
 
-  private void loadChildren(TreeNode node, Name initialValue) {
-    var name = ((LdapBrowserNode)node.getData()).getName();
+  private void loadChildren(TreeNode<LdapBrowserNode> node, Name initialValue) {
+    var name = node.getData().getName();
     try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
       context.children(name).forEach(child -> addNewSubnode(node, child, initialValue));
     } catch (NamingException ex) {
@@ -69,8 +70,8 @@ public class LdapBrowser {
   }
 
   @SuppressWarnings("unused")
-  private void addNewSubnode(TreeNode parent, LdapBrowserNode ldapNode, Name initialValue) {
-    var node = new DefaultTreeNode(ldapNode, parent);
+  private void addNewSubnode(TreeNode<LdapBrowserNode> parent, LdapBrowserNode ldapNode, Name initialValue) {
+    var node = new DefaultTreeNode<>(ldapNode, parent);
     if (initialValue != null && initialValue.startsWith(ldapNode.getName())) {
       if (initialValue.equals(ldapNode.getName())) {
         node.setSelected(true);
@@ -81,19 +82,19 @@ public class LdapBrowser {
       }
     }
     if (ldapNode.isExpandable() && !node.isExpanded()) {
-      new DefaultTreeNode("loading...", node);
+      new DefaultTreeNode<>("loading...", node);
     }
   }
 
-  public TreeNode getTree() {
+  public TreeNode<LdapBrowserNode> getTree() {
     return root;
   }
 
-  public TreeNode getSelectedNode() {
+  public TreeNode<LdapBrowserNode> getSelectedNode() {
     return selectedNode;
   }
 
-  public void setSelectedNode(TreeNode selectedNode) {
+  public void setSelectedNode(TreeNode<LdapBrowserNode> selectedNode) {
     this.selectedNode = selectedNode;
     if (selectedNode != null) {
       selectedNodeAttributes = getNodeAttributes();
@@ -112,7 +113,7 @@ public class LdapBrowser {
     if (selectedNode == null) {
       return null;
     }
-    return ((LdapBrowserNode)selectedNode.getData()).getName();
+    return selectedNode.getData().getName();
   }
 
 

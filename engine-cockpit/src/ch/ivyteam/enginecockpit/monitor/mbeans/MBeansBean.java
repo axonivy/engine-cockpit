@@ -43,7 +43,7 @@ public class MBeansBean {
     root = new MBeanTreeNode(MName.ROOT, names);
   }
 
-  public TreeNode getRoot() {
+  public TreeNode<MName> getRoot() {
     return root;
   }
 
@@ -107,7 +107,7 @@ public class MBeansBean {
   }
 
   public void onSelectNode(NodeSelectEvent event) {
-    TreeNode node = event.getTreeNode();
+    var node = event.getTreeNode();
     if ("bean".equals(node.getType())) {
       selected = (MName) node.getData();
     } else {

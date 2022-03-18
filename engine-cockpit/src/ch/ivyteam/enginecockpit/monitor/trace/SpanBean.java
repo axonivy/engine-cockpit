@@ -10,6 +10,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.commons.TreeView;
+import ch.ivyteam.enginecockpit.monitor.trace.SpanBean.Span;
 import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
 import ch.ivyteam.ivy.trace.TraceSpan.Status;
@@ -17,7 +18,7 @@ import ch.ivyteam.ivy.trace.Tracer;
 
 @ManagedBean
 @ViewScoped
-public class SpanBean extends TreeView {
+public class SpanBean extends TreeView<Span> {
   private Optional<Trace> trace;
   private String traceId;
 
@@ -42,13 +43,13 @@ public class SpanBean extends TreeView {
     }
   }
 
-  private void buildTreeNode(TraceSpan span, TreeNode parentNode) {
-    var node = new DefaultTreeNode(new Span(span), parentNode);
+  private void buildTreeNode(TraceSpan span, TreeNode<Span> parentNode) {
+    var node = new DefaultTreeNode<>(new Span(span), parentNode);
     span.children().forEach(child -> buildTreeNode(child, node));
   }
 
   @Override
-  protected void filterNode(TreeNode node) {
+  protected void filterNode(TreeNode<Span> node) {
   }
 
   public class Span {

@@ -17,7 +17,7 @@ import ch.ivyteam.ivy.scripting.objects.Tree;
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("removal")
-public class BusinessCalendarBean extends TreeView {
+public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   private ManagerBean managerBean;
   private BusinessCalendar activeCalendar;
   private String calendarSelection;
@@ -36,14 +36,14 @@ public class BusinessCalendarBean extends TreeView {
   protected void buildTree() {
     var rootTree = managerBean.getSelectedIApplication().getBusinessCalendarSettings()
             .getAllBusinessCalendarConfigurations();
-    var node = new DefaultTreeNode(findCalendar(rootTree.getInfo()), rootTreeNode);
+    var node = new DefaultTreeNode<>(findCalendar(rootTree.getInfo()), rootTreeNode);
     node.setExpanded(true);
     buildCalendarTree(rootTree, node);
   }
 
-  private void buildCalendarTree(Tree rootTree, TreeNode rootNode) {
+  private void buildCalendarTree(Tree rootTree, TreeNode<BusinessCalendar> rootNode) {
     for (var child : rootTree.getChildren()) {
-      var node = new DefaultTreeNode(findCalendar(child.getInfo()), rootNode);
+      var node = new DefaultTreeNode<>(findCalendar(child.getInfo()), rootNode);
       node.setExpanded(true);
       buildCalendarTree(child, node);
     }
@@ -80,10 +80,10 @@ public class BusinessCalendarBean extends TreeView {
 
   @Override
   @SuppressWarnings("unused")
-  protected void filterNode(TreeNode node) {
-    var calendar = (BusinessCalendar) node.getData();
+  protected void filterNode(TreeNode<BusinessCalendar> node) {
+    var calendar = node.getData();
     if (StringUtils.containsIgnoreCase(calendar.getName(), filter)) {
-      new DefaultTreeNode(calendar, filteredTreeNode);
+      new DefaultTreeNode<>(calendar, filteredTreeNode);
     }
   }
 
