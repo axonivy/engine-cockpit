@@ -1,7 +1,10 @@
 package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -16,9 +19,9 @@ import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.security.internal.config.ExternalSecuritySystemConfiguration;
-import ch.ivyteam.ivy.security.internal.config.JndiConfigBuilder;
+import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.naming.JndiConfig;
+import ch.ivyteam.naming.JndiProvider;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -363,13 +366,39 @@ public class SecurityConfigDetailBean {
   }
 
   public JndiConfig getJndiConfig(String browseDefaultContext) {
-    return JndiConfigBuilder.create(getSecuritySystemName())
-            .url(url)
-            .user(userName)
-            .password(password)
-            .useLdapConnectionPool(useLdapConnectionPool)
-            .defaultContext(browseDefaultContext)
-            .toJndiConfig();
+    var authenticationKind = getConfiguration(ConfigKey.CONNECTION_AUTHENTICATION_KIND);
+    return new JndiConfig(provider(),
+            url,
+            authenticationKind,
+            userName,
+            password,
+            useLdapConnectionPool,
+            browseDefaultContext,
+            getEnvironmentProperties());
   }
 
+  public JndiProvider provider() {
+    switch (provider) {
+      case ISecurityConstants.NOVELL_E_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
+        return JndiProvider.NOVELL_E_DIRECTORY;
+      case ISecurityConstants.MICROSOFT_ACTIVE_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
+        return JndiProvider.ACTIVE_DIRECTORY;
+      default:
+        return null;
+    }
+  }
+
+  public Map<String, String> getEnvironmentProperties() {
+    var propertyNames = new HashSet<>(propNames());
+    propertyNames.addAll(ExternalSecuritySystemConfiguration.props(provider).keySet());
+    return propertyNames.stream()
+            .collect(Collectors.toMap(key -> StringUtils.removeStart(key, "Connection.Environment."),
+                    key -> IConfiguration.instance().get("SecuritySystems." + name + "." + key).orElse("")));
+  }
+
+  private Set<String> propNames() {
+    return IConfiguration.instance().getMap("SecuritySystems." + name + "." + "Connection.Environment")
+            .keySet().stream()
+            .collect(Collectors.toSet());
+  }
 }

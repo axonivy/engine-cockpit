@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.security.internal.config.ExternalSecuritySystemConfiguration;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -43,7 +42,7 @@ public class SecurityLdapDetailBean {
   public void setSecuritySystemName(String secSystemName) {
     if (StringUtils.isBlank(name)) {
       this.name = secSystemName;
-      securityConfiguration = new ExternalSecuritySystemConfiguration(secSystemName);
+      this.securityConfiguration = new ExternalSecuritySystemConfiguration(secSystemName);
       loadSecuritySystem();
     }
   }

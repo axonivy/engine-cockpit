@@ -6,7 +6,6 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
-import ch.ivyteam.ivy.security.internal.config.ExternalSecuritySystemConfiguration;
 
 @ManagedBean
 @ViewScoped
@@ -117,5 +116,4 @@ public class SecurityDefaultValueBean {
   public String getUserGroupMembersAttribute() {
     return userGroupMembersAttribute;
   }
-
 }
