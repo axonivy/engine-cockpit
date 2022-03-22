@@ -1,10 +1,8 @@
 package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -367,6 +365,10 @@ public class SecurityConfigDetailBean {
 
   public JndiConfig getJndiConfig(String browseDefaultContext) {
     var authenticationKind = getConfiguration(ConfigKey.CONNECTION_AUTHENTICATION_KIND);
+    if (StringUtils.isBlank(authenticationKind)) {
+      authenticationKind = StringUtils.isBlank(userName) && StringUtils.isBlank(password) ? JndiConfig.AUTH_KIND_NONE : JndiConfig.AUTH_KIND_SIMPLE;
+    }
+    var envProps = getEnvironmentProperties();
     return new JndiConfig(provider(),
             url,
             authenticationKind,
@@ -374,7 +376,7 @@ public class SecurityConfigDetailBean {
             password,
             useLdapConnectionPool,
             browseDefaultContext,
-            getEnvironmentProperties());
+            envProps);
   }
 
   public JndiProvider provider() {
@@ -389,16 +391,9 @@ public class SecurityConfigDetailBean {
   }
 
   public Map<String, String> getEnvironmentProperties() {
-    var propertyNames = new HashSet<>(propNames());
-    propertyNames.addAll(ExternalSecuritySystemConfiguration.props(provider).keySet());
-    return propertyNames.stream()
+    return IConfiguration.instance().getMap(SecuritySystemConfig.SECURITY_SYSTEMS + "." + name + "." + "Connection.Environment")
+            .keySet().stream()
             .collect(Collectors.toMap(key -> StringUtils.removeStart(key, "Connection.Environment."),
                     key -> IConfiguration.instance().get("SecuritySystems." + name + "." + key).orElse("")));
-  }
-
-  private Set<String> propNames() {
-    return IConfiguration.instance().getMap("SecuritySystems." + name + "." + "Connection.Environment")
-            .keySet().stream()
-            .collect(Collectors.toSet());
   }
 }
