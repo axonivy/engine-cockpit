@@ -131,12 +131,11 @@ public class LdapBrowser {
   }
 
   private void errorMessage(Exception ex) {
-    Ivy.log().debug("Error in LDAP call", ex);
+    Ivy.log().error("Error in LDAP call", ex);
     var message = ex.getMessage();
     if (StringUtils.contains(message, "AcceptSecurityContext")) {
       message = "There seems to be a problem with your credentials.";
     }
-    FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage",
-            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
+    FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
   }
 }
