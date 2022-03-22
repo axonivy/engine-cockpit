@@ -133,7 +133,7 @@ public class LdapBrowser {
   private void errorMessage(Exception ex) {
     Ivy.log().debug("Error in LDAP call", ex);
     var message = ex.getMessage();
-    if (message.contains("AcceptSecurityContext")) {
+    if (StringUtils.contains(message, "AcceptSecurityContext")) {
       message = "There seems to be a problem with your credentials.";
     }
     FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage",
