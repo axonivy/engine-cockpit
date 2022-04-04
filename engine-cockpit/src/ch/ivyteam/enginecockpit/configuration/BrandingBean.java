@@ -41,8 +41,7 @@ public class BrandingBean {
   private List<CssColorDTO> filteredCssColors;
 
   private String currentResourceName;
-  private String selectedCssColor;
-  private String selectedCssColorValue;
+  private CssColorDTO selectedCssColor;
 
   private String filter;
 
@@ -93,23 +92,13 @@ public class BrandingBean {
   }
 
   public void setSelectedCssColor(String selectedCssColor) {
-    this.selectedCssColor = selectedCssColor;
-    this.selectedCssColorValue = cssColors.stream()
+    this.selectedCssColor = cssColors.stream()
             .filter(c -> c.getColor().equals(selectedCssColor))
-            .map(c -> c.getValue())
-            .findFirst().orElse("hsl(0, 0%, 0%)");
+            .findFirst().orElse(new CssColorDTO("unknown color", "", ""));
   }
 
-  public String getSelectedCssColor() {
+  public CssColorDTO getSelectedCssColor() {
     return selectedCssColor;
-  }
-
-  public void setSelectedCssColorValue(String value) {
-    this.selectedCssColorValue = value;
-  }
-
-  public String getSelectedCssColorValue() {
-    return selectedCssColorValue;
   }
 
   public List<CssColorDTO> getCssColors() {
@@ -125,19 +114,19 @@ public class BrandingBean {
   }
 
   public void saveColor() {
-    setColor(selectedCssColorValue);
+    setColor(selectedCssColor.getValue());
   }
 
   public void resetColor() {
     setColor(null);
   }
 
-  private void setColor(String value) {
-    var message = new FacesMessage("Successfully update color '" + selectedCssColor + "'", "");
+  public void setColor(String value) {
+    var message = new FacesMessage("Successfully update color '" + selectedCssColor.getColor() + "'", "");
     try {
-      brandingIO.writeCssColor(selectedCssColor, value);
+      brandingIO.writeCssColor(selectedCssColor.getColor(), value);
     } catch (Exception ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't update '" + selectedCssColor + "'", ex.getMessage());
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't update '" + selectedCssColor.getColor() + "'", ex.getMessage());
     }
     FacesContext.getCurrentInstance().addMessage(null, message);
     reloadCustomCssContent();
