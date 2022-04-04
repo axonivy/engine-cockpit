@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ch.ivyteam.enginecockpit.monitor.trace.SpanBean.Span;
+import ch.ivyteam.ivy.trace.Attribute;
 import ch.ivyteam.ivy.trace.Tracer;
 
 class TestSpanBean {
@@ -57,13 +57,20 @@ class TestSpanBean {
   }
 
   @Test
-  void getAttributes() {
+  void getSpanAttributes() {
     var span = getSpan(1);
     assertThat(span.getAttributes()).contains("attr=1234").contains(",").contains("hello=world");
     span = getSpan(2);
     assertThat(span.getAttributes()).isEmpty();
     span = getSpan(3);
     assertThat(span.getAttributes()).contains("error.message=null").contains(",").contains("error.class=java.lang.Throwable");
+  }
+
+  @Test
+  void getAttributes() {
+    assertThat(bean.getAttributes()).containsExactlyInAnyOrder(
+        new SpanAttribute(Attribute.attribute("attr", "1234")),
+        new SpanAttribute(Attribute.attribute("hello", "world")));
   }
 
   @Test

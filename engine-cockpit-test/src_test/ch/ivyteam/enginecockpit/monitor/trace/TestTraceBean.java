@@ -84,7 +84,8 @@ class TestTraceBean {
     assertThat(trc.getId()).isNotBlank();
     assertThat(trc.getName()).isEqualTo("test name");
     assertThat(trc.getInfo()).contains("attr=1234").contains("\n").contains("hello=world");
-    assertThat(trc.getStatusClass()).isEqualTo("si-time-clock-circle");
+    assertThat(trc.getStatusClass()).isEqualTo("");
+    assertThat(trc.getStatusTooltip()).isEqualTo("Status not set. No result attributes available.");
     assertThat(trc.getExecutionTime()).isGreaterThan(0.0d);
     assertThat(trc.getExecutionTimeBackground()).startsWith("linear-gradient(90deg, hsl(");
     assertThat(trc.getStart()).isNotBlank();
@@ -102,7 +103,8 @@ class TestTraceBean {
     assertThat(bean.getSlowTraces()).hasSize(1);
     var trc = bean.getSlowTraces().get(0);
     assertThat(trc.getName()).isEqualTo("with error");
-    assertThat(trc.getStatusClass()).isEqualTo("si-alert-circle error");
+    assertThat(trc.getStatusClass()).isEqualTo("error");
+    assertThat(trc.getStatusTooltip()).isEqualTo("Error status. See attributes for error details.");
   }
 
   @Test
@@ -117,6 +119,7 @@ class TestTraceBean {
     var trc = bean.getSlowTraces().get(0);
     assertThat(trc.getName()).isEqualTo("with ok");
     assertThat(trc.getInfo()).isEqualTo("status=200");
-    assertThat(trc.getStatusClass()).isEqualTo("si-check-circle-1 success");
+    assertThat(trc.getStatusClass()).isEqualTo("success");
+    assertThat(trc.getStatusTooltip()).isEqualTo("OK status. There might be some result attributes available.");
   }
 }

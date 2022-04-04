@@ -145,7 +145,7 @@ public class TraceBean {
     }
 
     public String getInfo() {
-      return SpanBean.attributes(trace.rootSpan(), "\n");
+      return Span.attributes(trace.rootSpan(), "\n");
     }
 
     public String getStart() {
@@ -165,7 +165,11 @@ public class TraceBean {
     }
 
     public String getStatusClass() {
-      return SpanBean.getStatucClass(trace.rootSpan().status());
+      return Span.getStatusClass(trace.rootSpan());
+    }
+
+    public String getStatusTooltip() {
+      return Span.getStatusTooltip(trace.rootSpan());
     }
   }
 }
