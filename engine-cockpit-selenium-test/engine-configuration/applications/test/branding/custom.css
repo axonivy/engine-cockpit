@@ -1,6 +1,6 @@
 :root {
-  --primary-color-h: 64;
-  --primary-color-s: 70%;
-  --primary-color-l: 49%;
-  --primary-dark-color: hsl(64, 70%, 39%);
+  --ivy-primary-color-h: 64;
+  --ivy-primary-color-s: 70%;
+  --ivy-primary-color-l: 49%;
+  --ivy-primary-dark-color: hsl(64, 70%, 39%);
 }
