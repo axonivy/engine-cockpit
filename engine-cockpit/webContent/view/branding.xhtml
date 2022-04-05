@@ -70,9 +70,15 @@
       </p:confirmDialog>
       
       <h:form id="cssColorPickerForm">
-        <p:dialog header="Edit color #{brandingBean.selectedCssColor}" id="editCssColorModal"
+        <p:dialog header="Edit color #{brandingBean.selectedCssColor.color}" id="editCssColorModal"
           widgetVar="editCssColorModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
           <div class="p-grid p-align-center ui-fluid">
+            <div class="p-col-3">
+              <p:outputLabel for="defaultColor" value="Default Value: "/>
+            </div>
+            <div class="p-col-8">
+              <p:inputText id="defaultColor" value="#{brandingBean.selectedCssColor.defaultValue}" disabled="true" />
+            </div>
             <div class="p-col-3">
               <p:outputLabel for="cssColorPickerInput" value="Value: "/>
             </div>
@@ -80,7 +86,7 @@
               <p:inputText id="cssColorPickerBtn" type="color" styleClass="color-picker-btn" />
             </div>
             <div class="p-col-8">
-              <p:inputText id="cssColorPickerInput" value="#{brandingBean.selectedCssColorValue}" />
+              <p:inputText id="cssColorPickerInput" value="#{brandingBean.selectedCssColor.value}" />
             </div>
           </div>
           
@@ -123,7 +129,7 @@
       </h:form>
       
       <p:confirmDialog id="resetColorConfirmDialog" header="Reset Color" severity="alert" appendTo="@(body)"
-        widgetVar="resetColorConfirmDialog" message="Are you sure you want to reset the CSS Color '#{brandingBean.selectedCssColor}'">
+        widgetVar="resetColorConfirmDialog" message="Are you sure you want to reset the CSS Color '#{brandingBean.selectedCssColor.color}'">
         <h:form id="resetColorForm">
           <p:commandLink value="Cancel" onclick="PF('resetColorConfirmDialog').hide();" type="button"
             styleClass="modal-input-button" />

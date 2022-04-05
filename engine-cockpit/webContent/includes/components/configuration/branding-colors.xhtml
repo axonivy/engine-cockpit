@@ -24,7 +24,7 @@
     </p:column>
     <p:column style="width: 100px;">
       <p:commandButton id="resetColor" icon="si si-undo" styleClass="secondary-btn" style="margin-right: 0; float: right;"
-        actionListener="#{brandingBean.setSelectedCssColor(color.color)}"
+        actionListener="#{brandingBean.setSelectedCssColor(color.color)}" disabled="#{color.default}"
         update="resetColorConfirmDialog" oncomplete="PF('resetColorConfirmDialog').show();" />
       <p:commandButton id="setColor" icon="si si-pencil" styleClass="card-button table-control-btn" 
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" 
