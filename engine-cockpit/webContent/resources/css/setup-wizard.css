@@ -1,4 +1,7 @@
 /* Maintanance */
+.container .p-grid .ui-g .card {
+  padding: 1rem;
+}
 .setup-intro .ui-message {
   margin: 0 0 10px 0;
 }

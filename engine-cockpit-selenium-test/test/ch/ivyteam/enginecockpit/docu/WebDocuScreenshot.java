@@ -198,7 +198,7 @@ public class WebDocuScreenshot {
 
   private void takeDialogScreenshot(String screenshotName, By dialogOpenBtn) {
     Dimension oldSize = WebDriverRunner.getWebDriver().manage().window().getSize();
-    resizeBrowser(new Dimension(SCREENSHOT_WIDTH, 1500));
+    resizeBrowser(new Dimension(SCREENSHOT_WIDTH, 2000));
     executeJs("scroll(0,0);");
     $(dialogOpenBtn).shouldBe(visible).click();
     takeDialogScreenshot(screenshotName);

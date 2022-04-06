@@ -1,6 +1,14 @@
 body {
   overflow-x: hidden;
 }
+.p-grid {
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+.p-col {
+  padding: 0.5rem;
+}
 
 /*Login*/
 .login-body .login-panel {
@@ -558,6 +566,7 @@ i.success {
 .ldap-browser .ui-datatable {
   white-space: nowrap;
   height: 100%;
+  padding: 0.5rem;
 }
 .ldap-browser .ui-datatable-scrollable-body {
   max-height: calc(100% - 39px);

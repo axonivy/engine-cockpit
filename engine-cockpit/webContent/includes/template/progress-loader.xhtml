@@ -2,9 +2,9 @@
   xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
   xmlns:pa="http://primefaces.org/serenity">
 
-  <p:ajaxStatus id="ajaxLoadingStatus" onstart="startHandler();" oncomplete="endHandler();">
+  <p:ajaxStatus id="ajaxLoadingStatus" delay="250">
     <f:facet name="start">
-      <div class="axonivy-loader" style="display: none;">
+      <div class="axonivy-loader">
         <div class="spinner"></div>
         <h5>Loading...</h5>
       </div>
@@ -12,18 +12,5 @@
     <f:facet name="complete">
       <h:outputText value="" />
     </f:facet>
-    <script>
-      var ajaxInProgress;
-      function startHandler() {
-        ajaxInProgress = setTimeout(function () {
-          $('.axonivy-loader').show();
-        }, 250);
-      }
-      function endHandler() {
-        clearTimeout(ajaxInProgress);
-        $('.axonivy-loader').hide();
-        ajaxInProgress = null;
-      }
-    </script>
   </p:ajaxStatus>
 </ui:composition>

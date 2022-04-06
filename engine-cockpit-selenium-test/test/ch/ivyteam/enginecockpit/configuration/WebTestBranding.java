@@ -44,13 +44,13 @@ public class WebTestBranding {
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldHave(value(":root {"));
     $(By.id("cancelCustomCss")).shouldBe(visible).click();
-    new Table(By.id(getColorTableId())).tableEntry("--primary-color", 2).shouldHave(text("hsl(64, 70%, 49%)"));
+    new Table(By.id(getColorTableId())).tableEntry("--ivy-primary-color", 2).shouldHave(text("hsl(64, 70%, 49%)"));
 
     Tab.switchToTab("test-ad");
     $(By.id(getResourcesFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.svg.*"));
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue(""));
-    new Table(By.id(getColorTableId())).tableEntry("--primary-color", 2).shouldHave(text("hsl(195, 100%, 29%)"));
+    new Table(By.id(getColorTableId())).tableEntry("--ivy-primary-color", 2).shouldHave(text("hsl(195, 100%, 29%)"));
   }
 
   @Test
@@ -106,14 +106,14 @@ public class WebTestBranding {
     var colorTable = new Table(By.id(getColorTableId()));
     colorTable.search("primary-dark");
     colorTable.firstColumnShouldBe(size(2));
-    colorTable.tableEntry("--primary-dark-color", 2).shouldHave(text("hsl(64, 70%, 39%)"));
-    colorTable.tableEntry("--primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(160, 169, 30)"));
+    colorTable.tableEntry("--ivy-primary-dark-color", 2).shouldHave(text("hsl(64, 70%, 39%)"));
+    colorTable.tableEntry("--ivy-primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(160, 169, 30)"));
 
     Tab.switchToTab("test-ad");
     colorTable = new Table(By.id(getColorTableId()));
     colorTable.firstColumnShouldBe(sizeGreaterThan(40));
-    colorTable.tableEntry("--primary-dark-color", 2).shouldHave(text("hsl(195, 100%, 20%)"));
-    colorTable.tableEntry("--primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(0, 77, 102)"));
+    colorTable.tableEntry("--ivy-primary-dark-color", 2).shouldHave(text("hsl(195, 100%, 24%)"));
+    colorTable.tableEntry("--ivy-primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(0, 92, 122)"));
   }
 
   @Test
@@ -139,7 +139,7 @@ public class WebTestBranding {
   @Test
   void colorPicker() {
     var colorTable = new Table(By.id(getColorTableId()));
-    colorTable.clickButtonForEntry("--primary-text-color", "setColor");
+    colorTable.clickButtonForEntry("--ivy-primary-text-color", "setColor");
     $(By.id("cssColorPickerForm:cssColorPickerInput")).shouldBe(exactValue("hsl(0, 0%, 100%)"));
     $(By.id("cssColorPickerForm:cssColorPickerBtn")).shouldBe(exactValue("#ffffff"));
 
