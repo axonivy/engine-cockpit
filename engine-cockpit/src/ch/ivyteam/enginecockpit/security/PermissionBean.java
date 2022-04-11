@@ -87,7 +87,7 @@ public class PermissionBean
     IPermissionGroup rootPermissionGroup = securityDescriptor.getSecurityDescriptorType()
             .getRootPermissionGroup();
     PermissionGroup permission = new PermissionGroup(
-            securityDescriptor.getPermissionGroupAccess(rootPermissionGroup, iMember), this);
+            securityDescriptor.getPermissionGroupAccess(rootPermissionGroup, iMember), "", this);
     TreeNode node = new DefaultTreeNode(permission, rootTreeNode);
     permissionGroupMap.put(permission.getId(), permission);
     node.setExpanded(true);
@@ -110,7 +110,7 @@ public class PermissionBean
         Permission permission = permissionMap.get(access.getPermission().getId());
         if (permission == null) 
         {
-          permission = new Permission(access, this);
+          permission = new Permission(access, ((AbstractPermission) node.getData()).getPath(), this);
           permissionMap.put(permission.getId(), permission);
         }
         new DefaultTreeNode(permission, node);
@@ -124,7 +124,7 @@ public class PermissionBean
 
       if (childGroupAccess.getPermissionGroup() != null)
       {
-        PermissionGroup permission = new PermissionGroup(childGroupAccess, this);
+        PermissionGroup permission = new PermissionGroup(childGroupAccess, ((AbstractPermission) node.getData()).getPath(), this);
         TreeNode childNode = new DefaultTreeNode(permission, node);
         permissionGroupMap.put(permission.getId(), permission);
         loadChildrenPermissions(childNode, securityDescriptor, childGroup, securityMember);

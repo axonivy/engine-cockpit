@@ -3,13 +3,15 @@ package ch.ivyteam.enginecockpit.model;
 public abstract class AbstractPermission
 {
   private String name;
+  private String path;
   private long id;
   private boolean grant;
   private boolean deny;
 
-  protected AbstractPermission(String name, long id, boolean grant, boolean deny)
+  protected AbstractPermission(String name, String path, long id, boolean grant, boolean deny)
   {
     this.name = name;
+    this.path = path + "/" + name;
     this.id = id;
     this.grant = grant;
     this.deny = deny;
@@ -18,6 +20,11 @@ public abstract class AbstractPermission
   public String getName()
   {
     return name;
+  }
+  
+  public String getPath()
+  {
+    return path;
   }
 
   public long getId()

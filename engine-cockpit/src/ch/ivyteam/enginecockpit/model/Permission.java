@@ -13,9 +13,10 @@ public class Permission extends AbstractPermission
   private IPermission iPermission;
   private PermissionBean bean;
 
-  public Permission(IPermissionAccess access, PermissionBean bean)
+  public Permission(IPermissionAccess access, String path, PermissionBean bean)
   {
     super(access.getPermission().getName(),
+            path,
             access.getPermission().getId(),
             access.isGranted(),
             access.isDenied());
