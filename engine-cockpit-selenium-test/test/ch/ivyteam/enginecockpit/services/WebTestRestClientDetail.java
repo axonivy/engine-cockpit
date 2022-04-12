@@ -20,7 +20,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.AppTab;
 
 @IvyWebTest
 public class WebTestRestClientDetail {
@@ -34,7 +34,7 @@ public class WebTestRestClientDetail {
   private void navigateToRestDetail() {
     login();
     Navigation.toRestClients();
-    Tab.switchToDefault();
+    AppTab.switchToDefault();
     Navigation.toRestClientDetail(RESTCLIENT_NAME);
   }
 

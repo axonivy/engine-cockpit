@@ -4,6 +4,8 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlCo
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
@@ -31,11 +33,12 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestUserDetail {
+class WebTestUserDetail {
+
   private static final String CSS_MEMBER_INHERIT = "member-inherit-icon";
   private static final String CSS_MEMBER = "si-check-circle";
   private static final String CSS_DISABLED = "ui-state-disabled";
@@ -51,23 +54,23 @@ public class WebTestUserDetail {
   void beforeEach() {
     login();
     Navigation.toUsers();
-    Tab.switchToDefault();
+    SecuritySystemTab.switchToDefault();
   }
 
   @Test
-  void testUsersDetailOpen() {
+  void usersDetailOpen() {
     Navigation.toUserDetail(USER_FOO);
     assertCurrentUrlContains("userdetail.xhtml?userName=" + USER_FOO);
   }
 
   @Test
-  void testUserDetailInformation() {
+  void userDetailInformation() {
     Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm\\:name").shouldBe(exactText(USER_FOO));
   }
 
   @Test
-  void testSaveUserInformation() {
+  void saveUserInformation() {
     Navigation.toUserDetail(USER_FOO);
     clearUserInfoInputs();
     $("#userInformationForm\\:fullName").sendKeys("Foo User");
@@ -99,7 +102,7 @@ public class WebTestUserDetail {
   }
 
   @Test
-  void testSaveUserInformationNoPasswordMatch() {
+  void saveUserInformationNoPasswordMatch() {
     Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm\\:password1").sendKeys("foopassword");
     $("#userInformationForm\\:saveUserInformation").click();
@@ -108,7 +111,7 @@ public class WebTestUserDetail {
   }
 
   @Test
-  void testDeleteUser() {
+  void deleteUser() {
     Navigation.toUserDetail(USER_BAR);
     $("#userInformationForm\\:deleteUser").click();
     $("#userInformationForm\\:deleteUserConfirmDialog").shouldBe(visible);
@@ -117,7 +120,7 @@ public class WebTestUserDetail {
   }
 
   @Test
-  void testEnableDisableUser() {
+  void enableDisableUser() {
     Navigation.toUserDetail(USER_FOO);
     $("#userInformationForm .card-top-static-message").shouldBe(empty);
     $("#userInformationForm\\:disableUser").shouldBe(visible).click();
@@ -130,7 +133,7 @@ public class WebTestUserDetail {
   }
 
   @Test
-  void testEmailLanguageSwitch() {
+  void emailLanguageSwitch() {
     Navigation.toUserDetail(USER_FOO);
     changeEmailLanguage("Application default (English)", "German");
     Selenide.refresh();
@@ -147,7 +150,7 @@ public class WebTestUserDetail {
   }
 
   @Test
-  void testEmailSettings() {
+  void emailSettings() {
     Navigation.toUserDetail(USER_FOO);
     SelectOneRadio radioSettings = PrimeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
     SelectBooleanCheckbox neverCheckbox = PrimeUi
@@ -185,7 +188,7 @@ public class WebTestUserDetail {
   }
 
   @Test
-  void testRolesAddRemove() {
+  void rolesAddRemove() {
     Navigation.toUserDetail(USER_FOO);
     String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent()
             .getAttribute("id");
@@ -222,7 +225,7 @@ public class WebTestUserDetail {
   }
 
   @Test
-  void testSynchronizeUser() {
+  void synchronizeUser() {
     WebTestUsers.triggerSync();
 
     Navigation.toUserDetail(USER_AD);
@@ -235,12 +238,14 @@ public class WebTestUserDetail {
   }
 
   @Test
-  void testExpandCollapseRoleTree() {
+  void expandCollapseRoleTree() {
     Navigation.toUserDetail(USER_FOO);
     Table table = new Table(By.id("rolesOfUserForm:rolesTree"), true);
-    table.firstColumnShouldBe(size(3));
+    table.firstColumnShouldBe(sizeGreaterThan(3));
+    table.firstColumnShouldBe(sizeLessThan(6));
     $("#rolesOfUserForm\\:expandAll").shouldBe(visible).click();
-    table.firstColumnShouldBe(size(4));
+    table.firstColumnShouldBe(sizeGreaterThan(3));
+    table.firstColumnShouldBe(sizeLessThan(6));
     $("#rolesOfUserForm\\:collapseAll").shouldBe(visible).click();
     table.firstColumnShouldBe(size(1));
   }

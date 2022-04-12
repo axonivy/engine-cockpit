@@ -18,10 +18,10 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
 
 @IvyWebTest
-public class WebTestPermission {
+class WebTestPermission {
 
   @BeforeEach
   void beforeEach() {
@@ -29,9 +29,9 @@ public class WebTestPermission {
   }
 
   @Test
-  void testPermission() {
+  void permission() {
     Navigation.toUsers();
-    Tab.switchToDefault();
+    SecuritySystemTab.switchToDefault();
     Navigation.toUserDetail("foo");
 
     String permissionStateCss = "#permissionsForm\\:permissionTable_node_0 > .permission-icon > i";
@@ -54,7 +54,7 @@ public class WebTestPermission {
   @Test
   void duplicatedPortalPermissions() {
     Navigation.toUsers();
-    Tab.switchToTab("demo-portal");
+    SecuritySystemTab.switchToDefault();
     Navigation.toUserDetail("demo");
 
     Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
@@ -76,9 +76,9 @@ public class WebTestPermission {
   }
 
   @Test
-  void testExpandCollapsePermissionTree() {
+  void expandCollapsePermissionTree() {
     Navigation.toRoles();
-    Tab.switchToDefault();
+    SecuritySystemTab.switchToDefault();
     Navigation.toRoleDetail("boss");
 
     getVisibleTreeNodes().shouldBe(size(4));

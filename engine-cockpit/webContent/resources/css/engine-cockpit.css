@@ -365,6 +365,12 @@ i.success {
   top: 3px;
 }
 
+.security-system-tab i {
+  margin-right: 5px;
+  position: relative;
+  top: 3px;
+}
+
 /*Panels*/
 .log-viewer {
   margin-top: 20px;

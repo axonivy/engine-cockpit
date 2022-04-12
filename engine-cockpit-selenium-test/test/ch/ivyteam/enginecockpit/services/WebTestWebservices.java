@@ -11,7 +11,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.AppTab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -20,14 +20,14 @@ public class WebTestWebservices {
   void beforeEach() {
     login();
     Navigation.toWebservices();
-    Tab.switchToDefault();
+    AppTab.switchToDefault();
     EnvironmentSwitch.switchToEnv("Default");
   }
 
   @Test
   void webserviesInTable() {
     Table table = new Table(By.id("tabs:applicationTabView:" +
-            Tab.getSelectedTabIndex() + ":form:webservicesTable"), true);
+            AppTab.getSelectedTabIndex() + ":form:webservicesTable"), true);
     table.firstColumnShouldBe(size(2));
 
     table.search("second-web");

@@ -19,7 +19,7 @@ public class UserConverter implements Converter {
     if (StringUtils.isNotBlank(value)) {
       var managebean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
               ManagerBean.class);
-      var user = managebean.getSelectedIApplication().getSecurityContext().users().query().where()
+      var user = managebean.getSelectedSecuritySystem().getSecurityContext().users().query().where()
               .securityMemberId().isEqual(value).executor().firstResult();
       if (user != null) {
         return new User(user);

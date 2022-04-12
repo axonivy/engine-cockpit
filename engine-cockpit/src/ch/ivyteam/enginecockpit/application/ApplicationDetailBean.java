@@ -1,11 +1,9 @@
 package ch.ivyteam.enginecockpit.application;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,9 +32,10 @@ import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 @ViewScoped
 @SuppressWarnings({"restriction", "removal"})
 public class ApplicationDetailBean {
+
   private String appName;
   private Application app;
-  private SecuritySystem security;
+  private SecuritySystem securitySystem;
   private String changeSecuritySystem;
   private List<String> environments;
 
@@ -63,8 +62,12 @@ public class ApplicationDetailBean {
 
   private void reloadDetailApplication() {
     managerBean.reloadApplications();
-    app = managerBean.getApplications().stream().filter(a -> a.getName().equals(appName)).findFirst().get();
-    security = initSecuritySystem(appName);
+    app = managerBean.getApplications().stream()
+            .filter(a -> a.getName().equals(appName))
+            .findFirst()
+            .get();
+    securitySystem = app.getSecuritySystem();
+    changeSecuritySystem = app.getSecuritySystemName();
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
@@ -84,7 +87,7 @@ public class ApplicationDetailBean {
   }
 
   public SecuritySystem getSecuritySystem() {
-    return security;
+    return securitySystem;
   }
 
   public String deleteApplication() {
@@ -98,7 +101,7 @@ public class ApplicationDetailBean {
   }
 
   public String getUsersCount() {
-    return managerBean.formatNumber(security.getUsersCount());
+    return managerBean.formatNumber(securitySystem.getUsersCount());
   }
 
   public String getCasesCount() {
@@ -124,16 +127,9 @@ public class ApplicationDetailBean {
     return managerBean.getIApplication(app.getId());
   }
 
-  private SecuritySystem initSecuritySystem(String applicationName) {
-    var securitySystem = new SecuritySystem(app.getSecuritySystemName(),
-            Optional.of(getIApplication().getSecurityContext()), Arrays.asList(applicationName));
-    changeSecuritySystem = securitySystem.getSecuritySystemName();
-    return securitySystem;
-  }
-
   public void setSecuritySystem() {
     app.setSecuritySystem(changeSecuritySystem);
-    security = initSecuritySystem(getAppName());
+    securitySystem = app.getSecuritySystem();
   }
 
   public String getChangeSecuritySystem() {

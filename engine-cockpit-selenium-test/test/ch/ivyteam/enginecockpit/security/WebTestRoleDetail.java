@@ -26,28 +26,29 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestRoleDetail {
+class WebTestRoleDetail {
+
   private static final String DETAIL_ROLE_NAME = "boss";
 
   @BeforeEach
   void beforeEach() {
     login();
     Navigation.toRoles();
-    Tab.switchToDefault();
+    SecuritySystemTab.switchToDefault();
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
   }
 
   @Test
-  void testRoleDetailOpen() {
+  void roleDetailOpen() {
     assertCurrentUrlContains("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
   }
 
   @Test
-  void testSaveRoleInformation() {
+  void saveRoleInformation() {
     clearRoleInfoInputs();
 
     $("#roleInformationForm\\:displayName").sendKeys("display");
@@ -68,7 +69,7 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testNewChildRole() {
+  void newChildRole() {
     $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
     $("#newChildRoleDialog").shouldBe(visible);
 
@@ -104,7 +105,7 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testAddAndRemoveUser() {
+  void addAndRemoveUser() {
     var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
@@ -124,7 +125,7 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testAddUserByFullname() {
+  void addUserByFullname() {
     var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
@@ -133,7 +134,7 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testAddUserByEmail() {
+  void addUserByEmail() {
     var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
@@ -142,7 +143,7 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testAddAndRemoveMember() {
+  void addAndRemoveMember() {
     var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
     roleMembers.firstColumnShouldBe(empty);
     addRoleMember();
@@ -156,7 +157,7 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testInheritedUserFromSubRole() {
+  void inheritedUserFromSubRole() {
     var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
@@ -175,7 +176,7 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testInheritedUserFromRoleMember() {
+  void inheritedUserFromRoleMember() {
     var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
     var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
     removeUserIfExists();
@@ -228,9 +229,9 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testExternalSecurityName() {
+  void externalSecurityName() {
     Navigation.toRoles();
-    Tab.switchToTab("test-ad");
+    SecuritySystemTab.switchToTab("test-ad");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
 
     new Table(By.id("usersOfRoleForm:roleUserTable"), true).firstColumnShouldBe(size(0));
@@ -268,10 +269,10 @@ public class WebTestRoleDetail {
   }
 
   @Test
-  void testExternalSecurityName_ldapBrowser() {
+  void externalSecurityName_ldapBrowser() {
     $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
     Navigation.toRoles();
-    Tab.switchToTab("test-ad");
+    SecuritySystemTab.switchToTab("test-ad");
     Navigation.toRoleDetail("Everybody");
     $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
     Navigation.toRoles();
@@ -292,9 +293,9 @@ public class WebTestRoleDetail {
             .shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
-  void testExternalSecurityName_ldapBrowser_initValue() {
+  void externalSecurityName_ldapBrowser_initValue() {
     Navigation.toRoles();
-    Tab.switchToTab("test-ad");
+    SecuritySystemTab.switchToTab("test-ad");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
     $("#roleInformationForm\\:externalSecurityName")
             .sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");

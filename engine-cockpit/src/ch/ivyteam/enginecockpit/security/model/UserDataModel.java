@@ -12,15 +12,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.SortOrder;
 
 import ch.ivyteam.enginecockpit.commons.TableFilter;
-import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.jsf.primefaces.legazy.LazyDataModel7;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.query.UserQuery;
 
 public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
+
   private static final String MANUAL_FILTER = "manual";
   private static final String DISABLED_FILTER = "disabled";
-  private IApplication app;
+  private SecuritySystem securitySystem;
   private IRole filterRole;
   private String filter;
   private boolean showDisabledUsers;
@@ -28,14 +28,12 @@ public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
   private List<SelectItem> contentFilters;
   private List<String> selectedContentFilters;
 
-  public UserDataModel() {}
-
-  public UserDataModel(IApplication app) {
-    this.app = app;
+  public UserDataModel(SecuritySystem securitySystem) {
+    this.securitySystem = securitySystem;
   }
 
-  public void setApp(IApplication app) {
-    this.app = app;
+  public void setSecuritySystem(SecuritySystem securitySystem) {
+    this.securitySystem = securitySystem;
   }
 
   public void setFilterRole(IRole filterRole) {
@@ -110,7 +108,7 @@ public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
             .resultsPaged()
             .map(User::new)
             .window(first, pageSize);
-    checkIfUserIsLoggedIn(app, users);
+    checkIfUserIsLoggedIn(securitySystem, users);
     setRowCount((int) userQuery.executor().count());
     return users;
   }
@@ -140,7 +138,7 @@ public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
   }
 
   private UserQuery userQuery() {
-    return app.getSecurityContext().users().query();
+    return securitySystem.getSecurityContext().users().query();
   }
 
   private static void applyOrdering(UserQuery query, String sortField, SortOrder sortOrder) {
@@ -167,8 +165,8 @@ public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
     }
   }
 
-  private static void checkIfUserIsLoggedIn(IApplication app, List<User> appUsers) {
-    for (var session : app.getSecurityContext().sessions().clusterSnapshot().getSessionInfos()) {
+  private static void checkIfUserIsLoggedIn(SecuritySystem securitySystem, List<User> appUsers) {
+    for (var session : securitySystem.getSecurityContext().sessions().clusterSnapshot().getSessionInfos()) {
       var sessionUser = session.getSessionUserName();
       appUsers.stream()
               .filter(u -> u.getName().equals(sessionUser))

@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.system;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -18,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.TabChangeEvent;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
+import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
+import ch.ivyteam.enginecockpit.security.system.SecurityBean;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
@@ -31,7 +32,11 @@ import ch.ivyteam.ivy.security.ISession;
 @ManagedBean
 @SessionScoped
 public class ManagerBean {
-  private List<Application> applications = Collections.emptyList();
+
+  private List<SecuritySystem> securitySystems = List.of();
+  private int selectedSecuritSystemIndex;
+
+  private List<Application> applications = List.of();
   private int selectedApplicationIndex;
 
   private Map<Long, List<String>> environments = new HashMap<>();
@@ -44,6 +49,7 @@ public class ManagerBean {
   private ISecurityManager securityManager = ISecurityManager.instance();
 
   public ManagerBean() {
+    reloadSecuritySystems();
     reloadApplications();
     hideDashboadWarnings = BooleanUtils.toBoolean(System.getProperty("hide.dashboard.warnings"));
     var session = ISession.current();
@@ -64,6 +70,14 @@ public class ManagerBean {
                 .map(e -> e.getName()).collect(Collectors.toList()));
       }
     }
+  }
+
+  public void reloadSecuritySystems() {
+    securitySystems = SecurityBean.readSecuritySystems();
+  }
+
+  public List<SecuritySystem> getSecuritySystems() {
+    return securitySystems;
   }
 
   public void reloadApplications() {
@@ -90,11 +104,31 @@ public class ManagerBean {
     selectedApplicationIndex = index;
   }
 
+  public void setSelectedSecuritSystemIndex(int selectedSecuritSystemIndex) {
+    this.selectedSecuritSystemIndex = selectedSecuritSystemIndex;
+  }
+
+  public int getSelectedSecuritSystemIndex() {
+    return selectedSecuritSystemIndex;
+  }
+
+  public SecuritySystem getSelectedSecuritySystem() {
+    return securitySystems.get(selectedSecuritSystemIndex);
+  }
+
   public void updateSelectedApplication(TabChangeEvent<?> event) {
     setSelectedApplicationIndex(0);
     for (var app : applications) {
       if (app.getName().equals(event.getTab().getTitle())) {
         setSelectedApplicationIndex(applications.indexOf(app));
+      }
+    }
+  }
+
+  public void updateSelectedSecuritySystem(TabChangeEvent<?> event) {
+    for (var securitySystem : securitySystems) {
+      if (securitySystem.getSecuritySystemName().equals(event.getTab().getTitle())) {
+        setSelectedSecuritSystemIndex(securitySystems.indexOf(securitySystem));
       }
     }
   }
@@ -188,11 +222,11 @@ public class ManagerBean {
 
   public boolean isIvySecuritySystem() {
     return SecuritySystemConfig.IVY_SECURITY_SYSTEM
-            .equals(getSelectedIApplication().getSecurityContext().getExternalSecuritySystemName());
+            .equals(getSelectedSecuritySystem().getSecurityContext().getExternalSecuritySystemName());
   }
 
   public List<String> getEnvironments() {
-    Application app = getSelectedApplication();
+    var app = getSelectedApplication();
     if (app == null) {
       return List.of();
     }
@@ -225,5 +259,4 @@ public class ManagerBean {
   public String formatNumber(long count) {
     return NumberFormat.getInstance(formattingLocale).format(count);
   }
-
 }

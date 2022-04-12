@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Tab {
+public class AppTab {
   private static final String APPLICATION_TAB = "li.application-tab > a";
   private static final String APPLICATION_TAB_LI = "li.application-tab";
   private static final String SELECTED_APPLICATION_TAB = "li.application-tab.ui-state-active";
@@ -40,7 +40,7 @@ public class Tab {
   }
 
   public static void switchToDefault() {
-    Tab.switchToTab(isDesigner() ? DESIGNER : "test");
+    AppTab.switchToTab(isDesigner() ? DESIGNER : "test");
   }
 
   public static void switchToTab(int index) {

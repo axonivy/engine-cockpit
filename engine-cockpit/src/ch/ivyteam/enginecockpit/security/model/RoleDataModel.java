@@ -8,7 +8,6 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.commons.TreeView;
-import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
@@ -18,11 +17,12 @@ public class RoleDataModel extends TreeView<Object> {
   private boolean showMember;
   private List<Role> roles;
 
-  public RoleDataModel(IApplication app, boolean showMember) {
-    this.securityContext = app.getSecurityContext();
+  public RoleDataModel(SecuritySystem securitySystem, boolean showMember) {
+    this.securityContext = securitySystem.getSecurityContext();
     this.showMember = showMember;
-    this.roles = app.getSecurityContext().roles().all().stream()
-            .map(role -> new Role(role)).collect(Collectors.toList());
+    this.roles = securityContext.roles().all().stream()
+              .map(role -> new Role(role))
+              .collect(Collectors.toList());
     this.filter = "";
     reloadTree();
   }

@@ -29,9 +29,10 @@ import ch.ivyteam.enginecockpit.monitor.WebTestPerformance;
 import ch.ivyteam.enginecockpit.monitor.WebTestSlowRequests;
 import ch.ivyteam.enginecockpit.setup.WebTestWizard;
 import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
+import ch.ivyteam.enginecockpit.util.AppTab;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
 
 @IvyWebTest
 public class WebDocuScreenshot {
@@ -122,7 +123,7 @@ public class WebDocuScreenshot {
   @Test
   void screenshotServices() {
     Navigation.toEmail();
-    Tab.switchToDefault();
+    AppTab.switchToDefault();
     takeScreenshot("email", new Dimension(SCREENSHOT_WIDTH, 650));
     Navigation.toDatabases();
     takeScreenshot("databases", new Dimension(SCREENSHOT_WIDTH, 550));
@@ -144,7 +145,7 @@ public class WebDocuScreenshot {
   @Test
   void screenshotConfiguration() {
     Navigation.toVariables();
-    Tab.switchToDefault();
+    AppTab.switchToDefault();
     takeScreenshot("configuration-variables", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toBusinessCalendar();
     takeScreenshot("configuration-businesscalendar", new Dimension(SCREENSHOT_WIDTH, 500));
@@ -153,7 +154,7 @@ public class WebDocuScreenshot {
             new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toBranding();
     takeScreenshot("branding", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeDialogScreenshot("branding-custom-css", By.id("apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":form:editCustomCssBtn"));
+    takeDialogScreenshot("branding-custom-css", By.id("apps:applicationTabView:" + AppTab.getSelectedTabIndex() + ":form:editCustomCssBtn"));
   }
 
   @Test
@@ -166,7 +167,7 @@ public class WebDocuScreenshot {
     takeDialogScreenshot("dialog-ldap-browser",
             By.id("securitySystemBindingForm:browseDefaultContext"));
     Navigation.toUsers();
-    Tab.switchToDefault();
+    SecuritySystemTab.switchToDefault();
     takeScreenshot("users", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toUserDetail("foo");
     takeScreenshot("user-detail", new Dimension(SCREENSHOT_WIDTH, 1100));

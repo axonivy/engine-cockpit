@@ -35,7 +35,8 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestConfiguration {
+class WebTestConfiguration {
+
   private static final By TABLE_ID = By.id("config:form:configTable");
   private Table table;
 
@@ -188,6 +189,7 @@ public class WebTestConfiguration {
 
   @Nested
   class Application {
+
     @BeforeEach
     void beforeEach() {
       Navigation.toApplicationDetail("test-ad");
