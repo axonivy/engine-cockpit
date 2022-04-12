@@ -29,7 +29,7 @@
       <p:password id="password2" widgetVar="password2" value="#{userDetailBean.user.password}" feedback="true"
         inline="true" />
     </p:panelGrid>
-    <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update="apps"
+    <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update="securitySystems"
       action="#{userDetailBean.creatNewUser}" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
     <p:commandLink id="cancelNewUser" onclick="PF('newUserModal').hide();" value="Cancel" type="button"
       styleClass="modal-input-button" />

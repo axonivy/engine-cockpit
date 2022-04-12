@@ -19,7 +19,7 @@
 
     <ui:define name="content">
       <p:growl id="msgs" />
-      <cc:ApplicationTabs tabChange="#{roleBean.reloadRoles}" id="tabs">
+      <cc:SecuritySystemTabs tabChange="#{roleBean.reloadRoles}" id="tabs">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-9">
             <h1>
@@ -32,13 +32,13 @@
               <h:panelGroup id="syncPanel">
                 <div class="single-card-top-right-btn">
                   <p:splitButton value="Synchronize"
-                    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''} spin-icon"
-                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true"
-                    process="@this" actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
+                    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
+                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
+                    process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
                     <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
                       onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
                   </p:splitButton>
-                  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2"
+                  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2"
                     update="@parent" />
                 </div>
               </h:panelGroup>
@@ -83,7 +83,7 @@
             </p:treeNode>
           </p:tree>
         </h:form>
-      </cc:ApplicationTabs>
+      </cc:SecuritySystemTabs>
     </ui:define>
   </ui:composition>
 </h:body>

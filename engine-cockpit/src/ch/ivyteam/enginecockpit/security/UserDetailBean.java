@@ -64,7 +64,7 @@ public class UserDetailBean {
       this.emailSettings = new EmailSettings(iUser,
               managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
       this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
-      roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
+      roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), false);
       startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId()
               .isEqual(iUser.getSecurityMemberId()).executor().count();
       workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
@@ -215,7 +215,7 @@ public class UserDetailBean {
   }
 
   private ISecurityContext getSecurityContext() {
-    return managerBean.getSelectedIApplication().getSecurityContext();
+    return managerBean.getSelectedSecuritySystem().getSecurityContext();
   }
 
   public MemberProperty getMemberProperty() {

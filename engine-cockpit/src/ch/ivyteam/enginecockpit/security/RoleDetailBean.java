@@ -56,7 +56,7 @@ public class RoleDetailBean {
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
             ManagerBean.class);
     roleProperties = new MemberProperty().new RoleProperty();
-    usersOfRole = new UserDataModel(managerBean.getSelectedIApplication());
+    usersOfRole = new UserDataModel(managerBean.getSelectedSecuritySystem());
     ldapBrowser = new LdapBrowser();
   }
 
@@ -68,10 +68,10 @@ public class RoleDetailBean {
     this.roleName = URLDecoder.decode(roleName, StandardCharsets.UTF_8);
     var iRole = getSecurityContext().roles().find(this.roleName);
     this.role = new Role(iRole);
-    this.usersOfRole.setApp(managerBean.getSelectedIApplication());
+    this.usersOfRole.setSecuritySystem(managerBean.getSelectedSecuritySystem());
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
-    this.roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
+    this.roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), false);
     loadMembersOfRole();
     userCount = managerBean.getSelectedIApplication().getSecurityContext().users().query().where()
             .hasRoleAssigned(iRole).executor().count();
@@ -156,7 +156,9 @@ public class RoleDetailBean {
     if (roleUser == null) {
       return;
     }
-    getSecurityContext().users().find(roleUser.getId()).addRole(getIRole());
+    getSecurityContext().users()
+            .findById(roleUser.getSecurityMemberId())
+            .addRole(getIRole());
     roleUser = null;
   }
 
@@ -251,7 +253,7 @@ public class RoleDetailBean {
   }
 
   private ISecurityContext getSecurityContext() {
-    return managerBean.getSelectedIApplication().getSecurityContext();
+    return managerBean.getSelectedSecuritySystem().getSecurityContext();
   }
 
   public MemberProperty getMemberProperty() {
@@ -260,7 +262,7 @@ public class RoleDetailBean {
 
   public boolean isManaged() {
     return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getRoleName())
-            || (!managerBean.isIvySecuritySystem() && getRole().isManaged());
+            || (!managerBean.isIvySecuritySystemForSelectedSecuritySystem() && getRole().isManaged());
   }
 
   public void browseLdap() {

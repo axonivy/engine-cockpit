@@ -359,7 +359,8 @@ i.success {
 }
 
 /* Tab view */
-.application-tab i {
+.application-tab i,
+.security-system-tab i {
   margin-right: 5px;
   position: relative;
   top: 3px;

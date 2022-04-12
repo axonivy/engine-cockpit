@@ -10,18 +10,18 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 @ManagedBean
 @ViewScoped
 public class RoleBean {
+
   private ManagerBean managerBean;
   private RoleDataModel roleDataModel;
 
   public RoleBean() {
     var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     reloadRoles();
   }
 
   public void reloadRoles() {
-    roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), true);
+    roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), true);
   }
 
   public RoleDataModel getRoles() {
@@ -31,5 +31,4 @@ public class RoleBean {
   public String getRoleCount() {
     return managerBean.formatNumber(roleDataModel.getList().size());
   }
-
 }

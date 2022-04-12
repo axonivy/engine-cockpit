@@ -10,22 +10,21 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 @ManagedBean
 @ViewScoped
 public class UserBean {
+
   private UserDataModel userDataModel;
   private ManagerBean managerBean;
 
   public UserBean() {
     var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
-    userDataModel = new UserDataModel();
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    userDataModel = new UserDataModel(managerBean.getSelectedSecuritySystem());
     reloadUsers();
   }
 
   public void reloadUsers() {
-    var app = managerBean.getSelectedIApplication();
-    userDataModel.setApp(app);
+    userDataModel.setSecuritySystem(managerBean.getSelectedSecuritySystem());
     userDataModel.setFilter("");
-    userDataModel.loadContentFilters(managerBean.isIvySecuritySystem());
+    userDataModel.loadContentFilters(managerBean.isIvySecuritySystemForSelectedSecuritySystem());
   }
 
   public UserDataModel getUserDataModel() {
@@ -33,8 +32,6 @@ public class UserBean {
   }
 
   public String getUserCount() {
-    return managerBean
-            .formatNumber(managerBean.getSelectedIApplication().getSecurityContext().users().count());
+    return managerBean.formatNumber(managerBean.getSelectedSecuritySystem().getSecurityContext().users().count());
   }
-
 }

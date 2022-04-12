@@ -12,10 +12,10 @@
     <p:autoUpdate />
   </p:growl>
 
-  <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!managerBean.ivySecuritySystem}" type="button"
+  <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!managerBean.ivySecuritySystemForSelectedSecuritySystem}" type="button"
     icon="si si-button-refresh-arrows" styleClass="secondary-btn card-button" onclick="PF('synchUserModal').show()" />
 
-  <h:panelGroup rendered="#{!userDetailBean.user.external or managerBean.ivySecuritySystem}">
+  <h:panelGroup rendered="#{!userDetailBean.user.external or managerBean.ivySecuritySystemForSelectedSecuritySystem}">
     <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
       icon="si si-floppy-disk" styleClass="accent-btn card-button" />
     <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()"
@@ -40,7 +40,7 @@
 
   <div class="card-top-static-message">
     <p:staticMessage rendered="#{userDetailBean.isUserDisabled()}" severity="warn" summary="This user is disabled" />
-    <h:panelGroup rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystem}" layout="block"
+    <h:panelGroup rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystemForSelectedSecuritySystem}" layout="block"
       styleClass="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
       <span class="ui-message-info-icon" />
       <span class="ui-message-info-summary">This user is managed by the external security system</span>
@@ -75,7 +75,7 @@
     <p:autoUpdate />
   </p:messages>
 
-  <h:panelGroup rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystem}">
+  <h:panelGroup rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystemForSelectedSecuritySystem}">
     <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
       styleClass="ui-panelgrid-blank grey-label-panel">
       <label>External Name</label>

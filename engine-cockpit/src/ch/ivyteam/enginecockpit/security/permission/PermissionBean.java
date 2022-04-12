@@ -16,11 +16,14 @@ import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.security.IPermission;
 import ch.ivyteam.ivy.security.IPermissionGroup;
 import ch.ivyteam.ivy.security.ISecurityDescriptor;
 import ch.ivyteam.ivy.security.ISecurityMember;
+import ch.ivyteam.ivy.security.internal.SecurityContext;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class PermissionBean extends TreeView<AbstractPermission> {
@@ -136,10 +139,12 @@ public class PermissionBean extends TreeView<AbstractPermission> {
   }
 
   public ISecurityDescriptor getSecurityDescriptor() {
-    return managerBean.getSelectedIApplication().getSecurityDescriptor();
+    var securityContext = (SecurityContext) managerBean.getSelectedSecuritySystem().getSecurityContext();
+    return ISystemDatabasePersistencyService.instance().transaction()
+      .executeAndGet(tx -> securityContext.getSecurityDescriptor(tx));
   }
 
   public ISecurityMember getSecurityMember() {
-    return managerBean.getSelectedIApplication().getSecurityContext().members().find(member);
+    return managerBean.getSelectedSecuritySystem().getSecurityContext().members().find(member);
   }
 }

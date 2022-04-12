@@ -19,7 +19,7 @@
 
     <ui:define name="content">
       <p:growl id="msgs" showDetail="true" />
-      <cc:ApplicationTabs tabChange="#{userBean.reloadUsers}" id="apps">
+      <cc:SecuritySystemTabs tabChange="#{userBean.reloadUsers}" id="securitySystems">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-5">
             <h1>
@@ -32,33 +32,29 @@
               <h:panelGroup id="syncPanel">
                 <div class="single-card-top-right-btn" style="margin: 0 0 5px 5px;">
                   <p:splitButton value="Synchronize"
-                    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''} spin-icon"
-                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true"
-                    process="@this" actionListener="#{securityBean.triggerSyncForSelectedApp}" update="@parent">
+                    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
+                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
+                    process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
                     <p:menuitem id="synchUserBtn" value="Synch Single User" icon="si si-button-refresh-arrows"
                       onclick="PF('synchUserModal').show()" />
                     <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
                       onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
                     <p:separator />
-                    <p:menuitem id="syncNewUserBtn" value="Add User" icon="si si-add"
-                      onclick="PF('newUserModal').show();" />
+                    <p:menuitem id="syncNewUserBtn" value="Add User" icon="si si-add" onclick="PF('newUserModal').show();" />
                   </p:splitButton>
-                  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="2"
-                    update="@parent" />
-
+                  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2" update="@parent" />
                   <p:commandButton id="newUserBtn" value="Add" icon="si si-add" type="button"
-                    onclick="PF('newUserModal').show();" rendered="#{securityBean.ivySecurityForSelectedApp}" />
+                    onclick="PF('newUserModal').show();" rendered="#{securityBean.ivySecurityForSelectedSecuritySystem}" />
                 </div>
               </h:panelGroup>
             </h:form>
             <div style="float: right; position: relative;">
-              <cc:TableFilter index="#{app.id}" bean="#{userBean.userDataModel}"
-                update="apps:applicationTabView" id="contentFilter" />
+              <cc:TableFilter index="#{securitySystem.id}" bean="#{userBean.userDataModel}" update="securitySystems:securitySystemTabView" id="contentFilter" /> 
             </div>
           </div>
         </div>
         <ui:include src="../includes/components/security/users-table.xhtml" />
-      </cc:ApplicationTabs>
+      </cc:SecuritySystemTabs>
       <ui:include src="../includes/dialogs/newuser.xhtml" />
       <ui:include src="../includes/dialogs/synchuser.xhtml" />
     </ui:define>

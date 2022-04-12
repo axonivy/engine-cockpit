@@ -2,28 +2,22 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.security.IExternalSecuritySystemProvider;
-import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityManager;
+import ch.ivyteam.ivy.security.internal.SecurityContext;
 
 @ManagedBean
 @ViewScoped
 public class SecurityBean {
-  private static final String QUOTE = "\'";
 
   private List<SecuritySystem> systems;
   private List<SecuritySystem> filteredSystems;
@@ -36,53 +30,19 @@ public class SecurityBean {
 
   public SecurityBean() {
     var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     loadSecuritySystems();
   }
 
   private void loadSecuritySystems() {
-    systems = SecuritySystemConfig.getSecuritySystems().stream()
-            .map(securitySystem -> new SecuritySystem(securitySystem,
-                    getSecurityContextForSecuritySystem(securitySystem),
-                    getAppNamesForSecuritySystem(securitySystem)))
+    systems = readSecuritySystems();
+  }
+
+  public static List<SecuritySystem> readSecuritySystems() {
+    return ISecurityManager.instance().securityContexts().all().stream()
+            .filter(s -> !ISecurityConstants.SECURITY_CONTEXT_SYSTEM.equals(s.getName()))
+            .map(s -> new SecuritySystem(s))
             .collect(Collectors.toList());
-    addIvySecuritySystem();
-  }
-
-  private void addIvySecuritySystem() {
-    var appsWithExternalSecuritySystem = systems.stream().flatMap(sys -> sys.getAppNames().stream())
-            .collect(Collectors.toList());
-    var appsWithIvySecuritySystem = managerBean.getApplications().stream()
-            .filter(app -> !appsWithExternalSecuritySystem.contains(app.getName()))
-            .map(app -> app.getName())
-            .collect(Collectors.toList());
-    if (!appsWithIvySecuritySystem.isEmpty()) {
-      systems.add(new SecuritySystem(SecuritySystemConfig.IVY_SECURITY_SYSTEM, Optional.empty(),
-              appsWithIvySecuritySystem));
-    }
-  }
-
-  private Optional<ISecurityContext> getSecurityContextForSecuritySystem(String securitySystem) {
-    return getApplicationsForSecuritySystems(securitySystem)
-            .findFirst()
-            .map(app -> app.getSecurityContext());
-  }
-
-  private List<String> getAppNamesForSecuritySystem(String securitySystem) {
-    return getApplicationsForSecuritySystems(securitySystem)
-            .map(app -> app.getName())
-            .collect(Collectors.toList());
-  }
-
-  private Stream<IApplication> getApplicationsForSecuritySystems(String securitySystem) {
-    return managerBean.getIApplications().stream()
-            .filter(app -> StringUtils.equals(getSecuritySystemNameFromAppConfig(app), securitySystem));
-  }
-
-  @SuppressWarnings("restriction")
-  private String getSecuritySystemNameFromAppConfig(IApplication app) {
-    return ((IApplicationInternal) app).getConfiguration().getOrDefault(SecuritySystemConfig.SECURITY_STSTEM);
   }
 
   public List<SecuritySystem> getSecuritySystems() {
@@ -90,47 +50,38 @@ public class SecurityBean {
   }
 
   public Collection<String> getAvailableSecuritySystems() {
-    var names = SecuritySystemConfig.getSecuritySystems();
-    names.add(SecuritySystemConfig.IVY_SECURITY_SYSTEM);
-    return names;
+    return systems.stream()
+            .map(s -> s.getSecuritySystemName())
+            .collect(Collectors.toList());
   }
 
-  public void triggerSynchronization(List<String> appNames) {
-    appNames.forEach(appName -> triggerSynchronization(appName));
-  }
-
-  public void triggerSynchronization(String appName) {
-    managerBean.getManager().findApplication(appName).getSecurityContext()
-            .triggerSynchronization();
+  public void triggerSyncForSelectedSecuritySystem() {
+    managerBean.getSelectedSecuritySystem().getSecurityContext().triggerSynchronization();
   }
 
   public void triggerSyncForSelectedApp() {
-    triggerSynchronization(managerBean.getSelectedApplication().getName());
+    managerBean.getSelectedApplication().getSecuritySystem().getSecurityContext().triggerSynchronization();
   }
 
   public boolean isIvySecurityForSelectedApp() {
-    return managerBean.isIvySecuritySystem();
+    return managerBean.isIvySecuritySystemForSelectedApp();
+  }
+
+  public boolean isIvySecurityForSelectedSecuritySystem() {
+    return managerBean.isIvySecuritySystemForSelectedSecuritySystem();
+  }
+
+  public boolean isSyncRunningForSelectedSecuritySystem() {
+    return managerBean.getSelectedSecuritySystem().getSecurityContext().isSynchronizationRunning();
   }
 
   public boolean isSyncRunningForSelectedApp() {
-    return isSyncRunning(managerBean.getSelectedApplication().getName());
-  }
-
-  public boolean isSyncRunning(List<String> appNames) {
-    return appNames.stream().anyMatch(appName -> isSyncRunning(appName) == true);
-  }
-
-  public boolean isSyncRunning(String appName) {
-    if (StringUtils.isBlank(appName)) {
-      return false;
-    }
-    return managerBean.getManager().findApplication(appName).getSecurityContext().isSynchronizationRunning();
+    return managerBean.getSelectedApplication().getSecuritySystem().getSecurityContext().isSynchronizationRunning();
   }
 
   public boolean isAnySyncRunning() {
-    return managerBean.getIApplications().stream()
-            .filter(app -> app.getSecurityContext().isSynchronizationRunning() == true)
-            .findAny().isPresent();
+    return systems.stream()
+            .anyMatch(system -> system.getSecurityContext().isSynchronizationRunning());
   }
 
   public String getNewSecuritySystemName() {
@@ -156,8 +107,8 @@ public class SecurityBean {
   }
 
   public void createNewSecuritySystem() {
-    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(QUOTE + newSecuritySystemName + QUOTE) +
-            SecuritySystemConfig.ConfigKey.PROVIDER, newSecuritySystemProvider);
+    var securityContext = (SecurityContext) ISecurityManager.instance().securityContexts().create(newSecuritySystemName);
+    securityContext.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, newSecuritySystemProvider);
     loadSecuritySystems();
   }
 
@@ -176,5 +127,4 @@ public class SecurityBean {
   public void setFilter(String filter) {
     this.filter = filter;
   }
-
 }

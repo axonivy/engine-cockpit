@@ -5,23 +5,12 @@
   <parent>
     <groupId>ch.ivyteam.enginecockpit</groupId>
     <artifactId>engine-cockpit-config</artifactId>
-    <version>${revision}</version>
+    <version>9.4.0-SNAPSHOT</version>
     <relativePath>../maven-config</relativePath>
   </parent>
   
   <groupId>ch.ivyteam.enginecockpit</groupId>
   <artifactId>engine-cockpit-test-data</artifactId>
-  <packaging>iar</packaging>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  <version>9.4.0-SNAPSHOT</version>
+  <packaging>iar</packaging>  
 </project>

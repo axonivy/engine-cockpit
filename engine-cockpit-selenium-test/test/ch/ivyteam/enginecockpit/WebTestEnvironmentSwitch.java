@@ -10,7 +10,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.AppTab;
 
 @IvyWebTest
 public class WebTestEnvironmentSwitch {
@@ -18,7 +18,7 @@ public class WebTestEnvironmentSwitch {
   void beforeEach() {
     login();
     Navigation.toDatabases();
-    Tab.switchToTab("test");
+    AppTab.switchToTab("test");
   }
 
   @Test

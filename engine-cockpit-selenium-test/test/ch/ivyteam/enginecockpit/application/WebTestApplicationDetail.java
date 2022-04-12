@@ -32,7 +32,8 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestApplicationDetail {
+class WebTestApplicationDetail {
+
   private static final String APP = isDesigner() ? DESIGNER : "test-ad";
 
   @BeforeEach
@@ -48,7 +49,7 @@ public class WebTestApplicationDetail {
     var sessions = $(".overview-box-count", 0).shouldBe(visible).text();
     assertThat(Integer.parseInt(sessions)).isGreaterThan(0);
     var users = $(".overview-box-count", 1).shouldBe(visible).text();
-    assertThat(Integer.parseInt(users)).isBetween(2, 4);
+    assertThat(Integer.parseInt(users)).isBetween(2, 7);
     var cases = $(".overview-box-count", 2).shouldBe(visible).text();
     assertThat(Integer.parseInt(cases)).isGreaterThan(0);
     var pms = $(".overview-box-count", 3).shouldBe(visible).text();
@@ -106,9 +107,9 @@ public class WebTestApplicationDetail {
   void changeSecuritySystem() {
     Navigation.toApplicationDetail("test-ad");
     $(By.id("appDetailSecurityForm:synchronizeSecurity")).shouldBe(visible);
-    changeSecuritySystem("test-ad", "ivy Security System");
+    changeSecuritySystem("test-ad", "default");
     $(By.id("appDetailSecurityForm:synchronizeSecurity")).shouldNotBe(visible);
-    changeSecuritySystem("ivy Security System", "test-ad");
+    changeSecuritySystem("default", "test-ad");
     $(By.id("appDetailSecurityForm:synchronizeSecurity")).shouldBe(visible);
   }
 
@@ -121,5 +122,4 @@ public class WebTestApplicationDetail {
     $(By.id("changeSecuritySystemForm:saveChangeSecuritySystem")).shouldBe(visible).click();
     $(By.id("changeSecuritySystemModel")).shouldNotBe(visible);
   }
-
 }

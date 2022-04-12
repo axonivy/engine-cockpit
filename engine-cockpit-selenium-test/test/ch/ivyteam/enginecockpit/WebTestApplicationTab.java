@@ -8,48 +8,52 @@ import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
+import ch.ivyteam.enginecockpit.util.AppTab;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestApplicationTab {
+class WebTestApplicationTab {
 
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toUsers();
+    Navigation.toVariables();
   }
 
   @Test
-  void testApplicationCount() {
-    assertThat(Tab.getCount()).isGreaterThan(0);
+  void applicationCount() {
+    assertThat(AppTab.getCount()).isGreaterThan(0);
   }
 
   @Test
-  void testApplicationNames() {
-    assertThat(Tab.getTabs()).isNotEmpty();
+  void applicationNames() {
+    assertThat(AppTab.getTabs()).isNotEmpty();
   }
 
   @Test
-  void testApplicationSwitchPerIndex() {
-    assertThat(Tab.getSelectedTabIndex()).isNotEqualTo(-1);
-    Tab.switchToTab(0);
-    assertThat(Tab.getSelectedTabIndex()).isSameAs(0);
-    Tab.switchToTab(1);
-    assertThat(Tab.getSelectedTabIndex()).isSameAs(1);
-    Tab.switchToTab(0);
-    assertThat(Tab.getSelectedTabIndex()).isSameAs(0);
+  void applicationSwitchPerIndex() {
+    assertThat(AppTab.getSelectedTabIndex()).isNotEqualTo(-1);
+
+    AppTab.switchToTab(0);
+    assertThat(AppTab.getSelectedTabIndex()).isSameAs(0);
+
+    AppTab.switchToTab(1);
+    assertThat(AppTab.getSelectedTabIndex()).isSameAs(1);
+
+    AppTab.switchToTab(0);
+    assertThat(AppTab.getSelectedTabIndex()).isSameAs(0);
   }
 
   @Test
-  void testApplicationSwtichPerName() {
-    String selectedApplication = Tab.getSelectedTab();
+  void applicationSwtichPerName() {
+    var selectedApplication = AppTab.getSelectedTab();
     assertThat(selectedApplication).isNotBlank();
-    String otherApp = Tab.getTabs().get(1);
-    Tab.switchToTab(otherApp);
-    assertThat(Tab.getSelectedTab()).isNotBlank().endsWith(otherApp);
-    Navigation.toRoles();
-    assertThat(Tab.getSelectedTab()).isNotBlank().endsWith(otherApp);
-  }
 
+    var otherApp = AppTab.getTabs().get(1);
+    AppTab.switchToTab(otherApp);
+    assertThat(AppTab.getSelectedTab()).isNotBlank().endsWith(otherApp);
+
+    Navigation.toBusinessCalendar();
+    assertThat(AppTab.getSelectedTab()).isNotBlank().endsWith(otherApp);
+  }
 }

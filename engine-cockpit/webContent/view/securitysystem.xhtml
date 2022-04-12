@@ -52,15 +52,10 @@
                 </p:outputPanel>
               </f:facet>
               <p:column headerText="Name" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
-                <h:outputLink value="#{system.link}"
-                  rendered="#{system.securitySystemProvider != 'ivy Security System'}">
+                <h:outputLink value="#{system.link}">
                   <i class="si si-lock-1 table-icon"></i>
                   <h:outputText value="#{system.securitySystemName}" styleClass="security-name" />
                 </h:outputLink>
-                <h:outputText rendered="#{system.securitySystemProvider == 'ivy Security System'}">
-                  <i class="si si-lock-1 table-icon"></i>
-                  <h:outputText value="#{system.securitySystemName}" styleClass="security-name" style="color: grey;" />
-                </h:outputText>
               </p:column>
               <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}"
                 filterBy="#{system.securitySystemProvider}">

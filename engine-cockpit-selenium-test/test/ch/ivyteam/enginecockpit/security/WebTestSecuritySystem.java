@@ -21,7 +21,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestSecuritySystem {
+class WebTestSecuritySystem {
 
   @BeforeEach
   void beforeEach() {
@@ -54,7 +54,7 @@ public class WebTestSecuritySystem {
     $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
     $("#card\\:newSecuritySystemModal").shouldNotBe(visible);
     $$(".security-name")
-            .shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "test-nd", "ivy Security System"));
+            .shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "test-nd", "default"));
 
     Navigation.toSecuritySystemDetail("NewFromTest");
     $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible);
@@ -64,7 +64,6 @@ public class WebTestSecuritySystem {
 
     $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmYesBtn").click();
     assertCurrentUrlContains("securitysystem.xhtml");
-    $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "test-nd", "ivy Security System"));
+    $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "test-nd", "default"));
   }
-
 }

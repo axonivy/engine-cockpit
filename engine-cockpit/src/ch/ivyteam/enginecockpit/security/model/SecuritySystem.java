@@ -1,62 +1,39 @@
 package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
-@SuppressWarnings("restriction")
 public class SecuritySystem {
 
-  private String securitySystemProvider;
-  private String securitySystemName;
-  private long id;
-  private List<String> appNames;
-  private long usersCount;
-  private int rolesCount;
+  private final ISecurityContext securityContext;
+  private final long usersCount;
+  private final int rolesCount;
+  private final List<String> appNames;
 
-  public SecuritySystem(String securitySystemName, Optional<ISecurityContext> securityContext,
-          List<String> appNames) {
-    this.securitySystemName = securitySystemName;
-    securitySystemProvider = IConfiguration.instance()
-            .get("SecuritySystems." + securitySystemName + ".Provider")
-            .orElseGet(() -> securityContext.map(c -> c.getExternalSecuritySystemName())
-                    .orElse(SecuritySystemConfig.IVY_SECURITY_SYSTEM));
-    id = securityContext.map(c -> c.getId()).orElse(0L);
-
-    this.appNames = appNames;
-    this.usersCount = securityContext.map(c -> countUser(c)).orElse(0l);
-    this.rolesCount = securityContext.map(c -> c.roles().all().size()).orElse(0);
-  }
-
-  private long countUser(ISecurityContext securityContext) {
-    return securityContext.users().count();
+  public SecuritySystem(ISecurityContext securityContext) {
+    this.securityContext = securityContext;
+    this.usersCount = securityContext.users().count();
+    this.rolesCount = securityContext.roles().all().size();
+    this.appNames = IApplicationConfigurationManager.all(securityContext).stream()
+            .map(IApplication::getName)
+            .collect(Collectors.toList());
   }
 
   public String getSecuritySystemProvider() {
-    return securitySystemProvider;
-  }
-
-  public void setSecuritySystemProvider(String securitySystemProvider) {
-    this.securitySystemProvider = securitySystemProvider;
+    return securityContext.getExternalSecuritySystemName();
   }
 
   public String getSecuritySystemName() {
-    return securitySystemName;
-  }
-
-  public void setSecuritySystemName(String securitySystemName) {
-    this.securitySystemName = securitySystemName;
+    return securityContext.getName();
   }
 
   public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
+    return securityContext.getId();
   }
 
   public List<String> getAppNames() {
@@ -71,10 +48,18 @@ public class SecuritySystem {
     return rolesCount;
   }
 
-  public String getLink() {
-    if (SecuritySystemConfig.IVY_SECURITY_SYSTEM.equals(securitySystemProvider)) {
-      return "";
+  public boolean getDeletable() {
+    if (ISecurityConstants.SECURITY_CONTEXT_DEFAULT.equals(getSecuritySystemName())) {
+      return false;
     }
-    return "security-detail.xhtml?securitySystemName=" + securitySystemName;
+    return getAppNames().isEmpty();
+  }
+
+  public String getLink() {
+    return "security-detail.xhtml?securitySystemName=" + securityContext.getName();
+  }
+
+  public ISecurityContext getSecurityContext() {
+    return securityContext;
   }
 }

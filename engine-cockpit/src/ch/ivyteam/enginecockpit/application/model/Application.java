@@ -5,16 +5,15 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
-import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
+import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.IProcessModel;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 
-@SuppressWarnings({"restriction", "removal"})
+@SuppressWarnings("removal")
 public class Application extends AbstractActivity {
 
   private String desc;
@@ -22,8 +21,7 @@ public class Application extends AbstractActivity {
   private String owner;
   private String activeEnv;
   private long runningCasesCount;
-  private IConfiguration configuration;
-  private IApplication app;
+  private IApplicationInternal app;
   private List<WebServiceProcess> webServiceProcesses;
 
   public Application() {
@@ -36,12 +34,11 @@ public class Application extends AbstractActivity {
 
   public Application(IApplication app, ApplicationBean bean) {
     super(app.getName(), app.getId(), app, bean);
-    this.app = app;
+    this.app = (IApplicationInternal) app;
     desc = app.getDescription();
     fileDir = app.getFileDirectory();
     owner = app.getOwnerName();
     activeEnv = app.getActualEnvironment().getName();
-    configuration = ((IApplicationInternal) app).getConfiguration();
   }
 
   @Override
@@ -129,11 +126,15 @@ public class Application extends AbstractActivity {
   }
 
   public String getSecuritySystemName() {
-    return configuration.getOrDefault(SecuritySystemConfig.SECURITY_STSTEM);
+    return app.getSecurityContext().getName();
   }
 
   public void setSecuritySystem(String securitySystemName) {
-    configuration.set(SecuritySystemConfig.SECURITY_STSTEM, securitySystemName);
+    app.setSecuritySystem(securitySystemName);
+  }
+
+  public SecuritySystem getSecuritySystem() {
+    return new SecuritySystem(app.getSecurityContext());
   }
 
   private void countRunningCases() {
@@ -156,5 +157,4 @@ public class Application extends AbstractActivity {
     }
     return webServiceProcesses;
   }
-
 }

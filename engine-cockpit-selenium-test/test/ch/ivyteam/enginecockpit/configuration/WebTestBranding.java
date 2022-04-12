@@ -26,7 +26,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.AppTab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -35,7 +35,7 @@ public class WebTestBranding {
   void beforeEach() {
     login();
     Navigation.toBranding();
-    Tab.switchToDefault();
+    AppTab.switchToDefault();
   }
 
   @Test
@@ -46,7 +46,7 @@ public class WebTestBranding {
     $(By.id("cancelCustomCss")).shouldBe(visible).click();
     new Table(By.id(getColorTableId())).tableEntry("--ivy-primary-color", 2).shouldHave(text("hsl(64, 70%, 49%)"));
 
-    Tab.switchToTab("test-ad");
+    AppTab.switchToTab("test-ad");
     $(By.id(getResourcesFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.svg.*"));
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue(""));
@@ -71,19 +71,19 @@ public class WebTestBranding {
 
   @Test
   void uploadLogoLight() throws IOException {
-    Tab.switchToTab("demo-portal");
+    AppTab.switchToTab("demo-portal");
     uploadAndAssertImage(2, "blalba", ".jpg", "logo_light.jpg", "logo_light.svg");
   }
 
   @Test
   void uploadFavicon() throws IOException {
-    Tab.switchToTab("test-ad");
+    AppTab.switchToTab("test-ad");
     uploadAndAssertImage(0, "icon", ".webp", "favicon.webp", "favicon.png");
   }
 
   @Test
   void editCustomCss() {
-    Tab.switchToTab("demo-portal");
+    AppTab.switchToTab("demo-portal");
     openCustomCssDialog();
     executeJs("$('#editCustomCssForm > textarea').val('hallo123')");
     executeJs("refreshCodeMirror();");
@@ -109,7 +109,7 @@ public class WebTestBranding {
     colorTable.tableEntry("--ivy-primary-dark-color", 2).shouldHave(text("hsl(64, 70%, 39%)"));
     colorTable.tableEntry("--ivy-primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(160, 169, 30)"));
 
-    Tab.switchToTab("test-ad");
+    AppTab.switchToTab("test-ad");
     colorTable = new Table(By.id(getColorTableId()));
     colorTable.firstColumnShouldBe(sizeGreaterThan(40));
     colorTable.tableEntry("--ivy-primary-dark-color", 2).shouldHave(text("hsl(195, 100%, 24%)"));
@@ -170,7 +170,7 @@ public class WebTestBranding {
     $(By.id(baseId + "uploadBtn")).shouldBe(visible).click();
     $(By.id("uploadModal:fileUploadModal")).shouldBe(visible);
     $(By.id("uploadError")).shouldBe(empty);
-    $(By.id("uploadModal:fileUploadModal_title")).shouldHave(text(Tab.getSelectedTab()));
+    $(By.id("uploadModal:fileUploadModal_title")).shouldHave(text(AppTab.getSelectedTab()));
   }
 
   private void resetImage(int index) {
@@ -193,10 +193,10 @@ public class WebTestBranding {
   }
 
   private String getResourcesFormId() {
-    return "apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":form";
+    return "apps:applicationTabView:" + AppTab.getSelectedTabIndex() + ":form";
   }
 
   private String getColorTableId() {
-    return "apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":colorForm:colorsTable";
+    return "apps:applicationTabView:" + AppTab.getSelectedTabIndex() + ":colorForm:colorsTable";
   }
 }

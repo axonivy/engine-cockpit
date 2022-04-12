@@ -16,7 +16,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.ElementsCollection;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.AppTab;
 
 @IvyWebTest
 public class WebTestBusinessCalendar {
@@ -25,7 +25,7 @@ public class WebTestBusinessCalendar {
   void beforeEach() {
     login();
     Navigation.toBusinessCalendar();
-    Tab.switchToDefault();
+    AppTab.switchToDefault();
   }
 
   @Test
@@ -61,7 +61,7 @@ public class WebTestBusinessCalendar {
   }
 
   private String getFormId() {
-    return "apps:applicationTabView:" + Tab.getSelectedTabIndex() + ":treeForm";
+    return "apps:applicationTabView:" + AppTab.getSelectedTabIndex() + ":treeForm";
   }
 
 }

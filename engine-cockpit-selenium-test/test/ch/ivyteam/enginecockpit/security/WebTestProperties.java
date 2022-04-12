@@ -17,11 +17,12 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestProperties {
+class WebTestProperties {
+
   private static final String PROPERTY_VALUE_MESSAGE = "#propertyModalForm\\:propertyValueMessage";
   private static final String PROPERTY_NAME_MESSAGE = "#propertyModalForm\\:propertyNameMessage";
   private static final String PROPERTY_MODAL = "#propertyModalForm\\:propertyModal";
@@ -37,7 +38,7 @@ public class WebTestProperties {
   }
 
   @Test
-  public void testUserADSyncProperties() {
+  void userADSyncProperties() {
     Navigation.toUsers();
     WebTestUsers.triggerSync();
 
@@ -47,22 +48,23 @@ public class WebTestProperties {
 
   @Nested
   class User {
+
     @BeforeEach
     void beforeEach() {
       Navigation.toUsers();
-      Tab.switchToTab("test");
+      SecuritySystemTab.switchToDefault();
       Navigation.toUserDetail("foo");
       openAddPropertyModal();
     }
 
     @Test
-    public void testPropertyInvalid() {
+    void propertyInvalid() {
       saveInvalidAddProperty();
     }
 
     @Test
-    public void testPropertyAddEditDelete() {
-      String key = "test";
+    void propertyAddEditDelete() {
+      var key = "test";
       addProperty(key, "testValue");
       editProperty(key, "edit");
       deleteProperty(key);
@@ -71,6 +73,7 @@ public class WebTestProperties {
 
   @Nested
   class Role {
+
     @BeforeEach
     void beforeEach() {
       login();
@@ -79,12 +82,12 @@ public class WebTestProperties {
     }
 
     @Test
-    public void testPropertyInvalid() {
+    void propertyInvalid() {
       saveInvalidAddProperty();
     }
 
     @Test
-    public void testPropertyAddEditDelete() {
+    void propertyAddEditDelete() {
       String key = "test";
       addProperty(key, "testValue");
       editProperty(key, "edit");
@@ -150,5 +153,4 @@ public class WebTestProperties {
     $(PROPERTY_VALUE_INPUT).shouldBe(Condition.exactValue(""));
     $(PROPERTY_VALUE_MESSAGE).shouldBe(empty);
   }
-
 }
