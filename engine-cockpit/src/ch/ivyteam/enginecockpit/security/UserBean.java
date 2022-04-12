@@ -24,7 +24,7 @@ public class UserBean {
   public void reloadUsers() {
     userDataModel.setSecuritySystem(managerBean.getSelectedSecuritySystem());
     userDataModel.setFilter("");
-    userDataModel.loadContentFilters(managerBean.isIvySecuritySystem());
+    userDataModel.loadContentFilters(managerBean.isIvySecuritySystemForSelectedSecuritySystem());
   }
 
   public UserDataModel getUserDataModel() {

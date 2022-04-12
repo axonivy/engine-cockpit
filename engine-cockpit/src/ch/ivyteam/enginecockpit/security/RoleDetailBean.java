@@ -262,7 +262,7 @@ public class RoleDetailBean {
 
   public boolean isManaged() {
     return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getRoleName())
-            || (!managerBean.isIvySecuritySystem() && getRole().isManaged());
+            || (!managerBean.isIvySecuritySystemForSelectedSecuritySystem() && getRole().isManaged());
   }
 
   public void browseLdap() {

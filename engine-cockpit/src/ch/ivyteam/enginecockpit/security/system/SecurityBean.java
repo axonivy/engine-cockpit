@@ -59,12 +59,20 @@ public class SecurityBean {
     managerBean.getSelectedSecuritySystem().getSecurityContext().triggerSynchronization();
   }
 
+  public void triggerSyncForSelectedApp() {
+    managerBean.getSelectedApplication().getSecuritySystem().getSecurityContext().triggerSynchronization();
+  }
+
   public boolean isIvySecurityForSelectedApp() {
-    return managerBean.isIvySecuritySystem();
+    return managerBean.isIvySecuritySystemForSelectedApp();
   }
 
   public boolean isSyncRunningForSelectedSecuritySystem() {
     return managerBean.getSelectedSecuritySystem().getSecurityContext().isSynchronizationRunning();
+  }
+
+  public boolean isSyncRunningForSelectedApp() {
+    return managerBean.getSelectedApplication().getSecuritySystem().getSecurityContext().isSynchronizationRunning();
   }
 
   public boolean isAnySyncRunning() {

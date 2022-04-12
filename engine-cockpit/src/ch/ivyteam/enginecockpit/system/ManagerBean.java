@@ -220,9 +220,14 @@ public class ManagerBean {
             .collect(Collectors.toList());
   }
 
-  public boolean isIvySecuritySystem() {
+  public boolean isIvySecuritySystemForSelectedSecuritySystem() {
     return SecuritySystemConfig.IVY_SECURITY_SYSTEM
             .equals(getSelectedSecuritySystem().getSecurityContext().getExternalSecuritySystemName());
+  }
+
+  public boolean isIvySecuritySystemForSelectedApp() {
+    return SecuritySystemConfig.IVY_SECURITY_SYSTEM
+            .equals(getSelectedApplication().getSecuritySystem().getSecurityContext().getExternalSecuritySystemName());
   }
 
   public List<String> getEnvironments() {

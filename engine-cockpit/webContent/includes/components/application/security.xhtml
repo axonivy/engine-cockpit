@@ -11,11 +11,11 @@
   <p:commandButton id="synchronizeSecurity"
     rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
     title="Synchronize" type="button"
-    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''}"
+    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
     styleClass="primary-btn card-button spin-icon" onclick="PF('logPoller').start()">
-    <p:ajax listener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@this" />
+    <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
   </p:commandButton>
-  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="5" update="@form" />
+  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
   <p:commandButton id="changeSecuritySystem" icon="si si-cog" styleClass="secondary-btn card-button"
     onclick="PF('changeSecuritySystemModel').show()" type="button" />
   <p:commandButton id="showAdSyncLogBtn" icon="si si-common-file-text" styleClass="secondary-btn card-button"
