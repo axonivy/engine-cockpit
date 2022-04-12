@@ -77,6 +77,7 @@ public class ManagerBean {
   }
 
   public List<SecuritySystem> getSecuritySystems() {
+    reloadSecuritySystems();
     return securitySystems;
   }
 

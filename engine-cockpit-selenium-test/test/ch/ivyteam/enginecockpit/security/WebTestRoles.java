@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.security;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.not;
@@ -54,11 +55,13 @@ class WebTestRoles {
 
   @Test
   void expandCollapseTree() {
-    getVisibleTreeNodes().as("Everybody, AXONIVY_PORTAL_ADMIN, boss, worker")
-      .shouldBe(sizeGreaterThan(3))
-      .shouldBe(sizeLessThan(7));
+    getVisibleTreeNodes().as("Everybody, boss, worker, AXONIVY_PORTAL_ADMIN")
+      .shouldBe(sizeGreaterThanOrEqual(3))
+      .shouldBe(sizeLessThan(5));
     $(getTreeFormId() + "\\:expandAll").shouldBe(visible).click();
-    getVisibleTreeNodes().shouldBe(size(4));
+    getVisibleTreeNodes().as("Everybody, boss, worker, AXONIVY_PORTAL_ADMIN, manager")
+      .shouldBe(sizeGreaterThanOrEqual(4))
+      .shouldBe(sizeLessThan(5));
     $(getTreeFormId() + "\\:collapseAll").shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
   }

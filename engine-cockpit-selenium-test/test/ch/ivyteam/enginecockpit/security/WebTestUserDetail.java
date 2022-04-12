@@ -264,5 +264,4 @@ class WebTestUserDetail {
     $("#userInformationForm\\:password1").clear();
     $("#userInformationForm\\:password2").clear();
   }
-
 }
