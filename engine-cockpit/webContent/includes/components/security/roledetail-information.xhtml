@@ -44,7 +44,7 @@
       <p:commandButton id="browseExternalName" icon="si si-network-browser" title="Browse" style="right: -6px;"
         actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:ldapBrowserDialog"
         oncomplete="PF('ldapBrowserDialog').show();"
-        disabled="#{roleDetailBean.role.name eq 'Everybody' or managerBean.ivySecuritySystem}" />
+        disabled="#{roleDetailBean.role.name eq 'Everybody' or managerBean.ivySecuritySystemForSelectedSecuritySystem}" />
     </h:panelGroup>
   </p:panelGrid>
 </h:form>
