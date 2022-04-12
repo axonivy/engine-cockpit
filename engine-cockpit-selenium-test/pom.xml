@@ -3,11 +3,12 @@
   <parent>
     <groupId>ch.ivyteam.enginecockpit</groupId>
     <artifactId>engine-cockpit-config-test</artifactId>
-    <version>${revision}</version>
+    <version>9.4.0-SNAPSHOT</version>
     <relativePath>../maven-config/test</relativePath>
   </parent>
 
   <artifactId>engine-cockpit-selenium-test</artifactId>
+  <version>9.4.0-SNAPSHOT</version>
 
   <properties>
     <test.application>system</test.application>
@@ -222,6 +223,15 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>

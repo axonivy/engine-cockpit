@@ -1,3 +1,4 @@
 #!/bin/bash
 
-mvn --batch-mode -f maven-config/pom.xml versions:set-property versions:commit -Dproperty=revision -DnewVersion=${1}
+mvn versions:set -DnewVersion=${1} -DprocessAllModules
+mvn versions:commit -DprocessAllModules
