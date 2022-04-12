@@ -25,12 +25,14 @@ import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.query.UserQuery;
+import ch.ivyteam.ivy.security.role.NewRole;
 import ch.ivyteam.ivy.workflow.TaskState;
 import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
 @ManagedBean
 @ViewScoped
 public class RoleDetailBean {
+
   private String roleName;
   private String newChildRoleName;
   private User roleUser;
@@ -68,14 +70,15 @@ public class RoleDetailBean {
     this.roleName = URLDecoder.decode(roleName, StandardCharsets.UTF_8);
     var iRole = getSecurityContext().roles().find(this.roleName);
     this.role = new Role(iRole);
-    this.usersOfRole.setSecuritySystem(managerBean.getSelectedSecuritySystem());
+    var securitySystem = managerBean.getSelectedSecuritySystem();
+    this.usersOfRole.setSecuritySystem(securitySystem);
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
-    this.roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), false);
+    this.roleDataModel = new RoleDataModel(securitySystem, false);
     loadMembersOfRole();
-    userCount = managerBean.getSelectedIApplication().getSecurityContext().users().query().where()
+    userCount = securitySystem.getSecurityContext().users().query().where()
             .hasRoleAssigned(iRole).executor().count();
-    userInheritCont = managerBean.getSelectedIApplication().getSecurityContext().users().query().where()
+    userInheritCont = securitySystem.getSecurityContext().users().query().where()
             .hasRole(iRole).executor().count();
     runningTaskCount = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.RESUMED)
@@ -114,19 +117,25 @@ public class RoleDetailBean {
   }
 
   public String createNewChildRole() {
-    FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+    var faces = FacesContext.getCurrentInstance();
+    faces.getExternalContext().getFlash().setKeepMessages(true);
     try {
-      getIRole().createChildRole(newChildRoleName, "", "", true);
-      FacesContext.getCurrentInstance().addMessage("msgs",
-              new FacesMessage("Role '" + newChildRoleName + "' created successfully", ""));
+      var newRole = NewRole.create(newChildRoleName)
+              .parentRole(getIRole())
+              .toNewRole();
+      getSecurityContext().roles().create(newRole);
+      var msg = new FacesMessage("Role '" + newChildRoleName + "' created successfully", "");
+      faces.addMessage("msgs", msg);
     } catch (Exception ex) {
-      FacesContext.getCurrentInstance().addMessage("msgs",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                      "Role '" + newChildRoleName + "' couldn't be created", ex.getMessage()));
+      var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role '" + newChildRoleName + "' couldn't be created", ex.getMessage());
+      faces.addMessage("msgs", msg);
       newChildRoleName = roleName;
     }
-    return UriBuilder.fromPath("roledetail.xhtml").queryParam("roleName", newChildRoleName)
-            .queryParam("faces-redirect", "true").build().toASCIIString();
+    return UriBuilder.fromPath("roledetail.xhtml")
+            .queryParam("roleName", newChildRoleName)
+            .queryParam("faces-redirect", "true")
+            .build()
+            .toASCIIString();
   }
 
   public void saveRoleInfos() {
@@ -203,7 +212,9 @@ public class RoleDetailBean {
   }
 
   private void loadMembersOfRole() {
-    membersOfRole = getIRole().getRoleMembers().stream().map(r -> new Role(r)).collect(Collectors.toList());
+    membersOfRole = getIRole().getRoleMembers().stream()
+            .map(r -> new Role(r))
+            .collect(Collectors.toList());
   }
 
   public List<Role> getMembersOfRole() {
@@ -211,8 +222,7 @@ public class RoleDetailBean {
   }
 
   public boolean isRoleMemberOfRole(String name) {
-    return name.equals(roleName) ||
-            membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent();
+    return name.equals(roleName) || membersOfRole.stream().filter(r -> r.getName().equals(name)).findAny().isPresent();
   }
 
   public List<Role> getFilteredMembers() {
@@ -247,8 +257,7 @@ public class RoleDetailBean {
 
   public List<Role> searchMember(String query) {
     return roleDataModel.getList().stream()
-            .filter(m -> StringUtils.containsIgnoreCase(m.getName(), query)
-                    && !isRoleMemberOfRole(m.getName()))
+            .filter(m -> StringUtils.containsIgnoreCase(m.getName(), query) && !isRoleMemberOfRole(m.getName()))
             .limit(10).collect(Collectors.toList());
   }
 
@@ -261,14 +270,12 @@ public class RoleDetailBean {
   }
 
   public boolean isManaged() {
-    return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getRoleName())
-            || (!managerBean.isIvySecuritySystemForSelectedSecuritySystem() && getRole().isManaged());
+    return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getRoleName()) || (!managerBean.isIvySecuritySystemForSelectedSecuritySystem() && getRole().isManaged());
   }
 
   public void browseLdap() {
     var secBean = new SecurityConfigDetailBean(managerBean.getSelectedApplication().getSecuritySystemName());
-    ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(),
-            role.getExternalName());
+    ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
   }
 
   public LdapBrowser getLdapBrowser() {
