@@ -369,7 +369,14 @@ public class SecurityConfigDetailBean {
       authenticationKind = StringUtils.isBlank(userName) && StringUtils.isBlank(password) ? JndiConfig.AUTH_KIND_NONE : JndiConfig.AUTH_KIND_SIMPLE;
     }
     var envProps = getEnvironmentProperties();
-    return new JndiConfig(provider(),
+
+
+    var jndiProvider = provider();
+    if (jndiProvider == null) {
+      throw new IllegalStateException("provider is null " + provider);
+    }
+
+    return new JndiConfig(jndiProvider,
             url,
             authenticationKind,
             userName,

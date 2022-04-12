@@ -180,7 +180,12 @@ public class RoleDetailBean {
   }
 
   public boolean hasRoleAssigned(String userName) {
-    return getIRole().users().assignedPaged().stream().anyMatch(u -> u.getName().equals(userName));
+    var iRole = getIRole();
+    if (iRole == null) {
+      throw new IllegalStateException("IRole not found: " + roleName);
+    }
+    return iRole.users().assignedPaged().stream()
+            .anyMatch(u -> u.getName().equals(userName));
   }
 
   public List<User> searchUser(String query) {
@@ -274,7 +279,7 @@ public class RoleDetailBean {
   }
 
   public void browseLdap() {
-    var secBean = new SecurityConfigDetailBean(managerBean.getSelectedApplication().getSecuritySystemName());
+    var secBean = new SecurityConfigDetailBean(managerBean.getSelectedSecuritySystem().getSecuritySystemName());
     ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
   }
 
