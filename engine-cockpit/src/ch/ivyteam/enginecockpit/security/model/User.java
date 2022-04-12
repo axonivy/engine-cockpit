@@ -18,7 +18,6 @@ public class User {
   private boolean loggedIn;
   private boolean enabled = true;
   private boolean isExternal;
-  private long id;
 
   public User() {}
 
@@ -31,7 +30,6 @@ public class User {
     this.isExternal = user.isExternal();
     this.externalName = user.getExternalName();
     this.externalId = user.getExternalId();
-    this.id = user.getId();
     this.securityMemberId = user.getSecurityMemberId();
   }
 
@@ -76,14 +74,6 @@ public class User {
 
   public void setLoggedIn(boolean loggedIn) {
     this.loggedIn = loggedIn;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
   }
 
   public String getPassword() {

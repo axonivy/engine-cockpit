@@ -1,9 +1,11 @@
 [Ivy]
-16E88DD61E825E70 9.3.1 #module
+16E88DD61E825E70 9.4.7 #module
 >Proto >Proto Collection #zClass
 Ta0 TestData Big #zClass
 Ta0 B #cInfo
 Ta0 #process
+Ta0 @TextInP .colors .colors #zField
+Ta0 @TextInP color color #zField
 Ta0 @TextInP .type .type #zField
 Ta0 @TextInP .processKind .processKind #zField
 Ta0 @TextInP .xml .xml #zField

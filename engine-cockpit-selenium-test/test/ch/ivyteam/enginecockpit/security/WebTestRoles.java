@@ -61,7 +61,7 @@ class WebTestRoles {
     $(getTreeFormId() + "\\:expandAll").shouldBe(visible).click();
     getVisibleTreeNodes().as("Everybody, boss, worker, AXONIVY_PORTAL_ADMIN, manager")
       .shouldBe(sizeGreaterThanOrEqual(4))
-      .shouldBe(sizeLessThan(5));
+      .shouldBe(sizeLessThan(6));
     $(getTreeFormId() + "\\:collapseAll").shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
   }
