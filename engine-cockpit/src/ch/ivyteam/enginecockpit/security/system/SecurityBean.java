@@ -67,6 +67,10 @@ public class SecurityBean {
     return managerBean.isIvySecuritySystemForSelectedApp();
   }
 
+  public boolean isIvySecurityForSelectedSecuritySystem() {
+    return managerBean.isIvySecuritySystemForSelectedSecuritySystem();
+  }
+
   public boolean isSyncRunningForSelectedSecuritySystem() {
     return managerBean.getSelectedSecuritySystem().getSecurityContext().isSynchronizationRunning();
   }

@@ -33,7 +33,7 @@
                 <div class="single-card-top-right-btn" style="margin: 0 0 5px 5px;">
                   <p:splitButton value="Synchronize"
                     icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
-                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedApp}" immediate="true"
+                    id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
                     process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
                     <p:menuitem id="synchUserBtn" value="Synch Single User" icon="si si-button-refresh-arrows"
                       onclick="PF('synchUserModal').show()" />
@@ -44,7 +44,7 @@
                   </p:splitButton>
                   <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2" update="@parent" />
                   <p:commandButton id="newUserBtn" value="Add" icon="si si-add" type="button"
-                    onclick="PF('newUserModal').show();" rendered="#{securityBean.ivySecurityForSelectedApp}" />
+                    onclick="PF('newUserModal').show();" rendered="#{securityBean.ivySecurityForSelectedSecuritySystem}" />
                 </div>
               </h:panelGroup>
             </h:form>
