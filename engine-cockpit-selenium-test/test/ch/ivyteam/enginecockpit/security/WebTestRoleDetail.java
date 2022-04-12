@@ -293,6 +293,7 @@ class WebTestRoleDetail {
             .shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
+  @Test
   void externalSecurityName_ldapBrowser_initValue() {
     Navigation.toRoles();
     SecuritySystemTab.switchToTab("test-ad");
