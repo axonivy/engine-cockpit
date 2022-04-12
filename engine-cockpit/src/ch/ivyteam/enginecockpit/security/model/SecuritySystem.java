@@ -10,14 +10,18 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class SecuritySystem {
 
-  private ISecurityContext securityContext;
-  private long usersCount;
-  private int rolesCount;
+  private final ISecurityContext securityContext;
+  private final long usersCount;
+  private final int rolesCount;
+  private final List<String> appNames;
 
   public SecuritySystem(ISecurityContext securityContext) {
     this.securityContext = securityContext;
     this.usersCount = securityContext.users().count();
     this.rolesCount = securityContext.roles().all().size();
+    this.appNames = IApplicationConfigurationManager.all(securityContext).stream()
+            .map(IApplication::getName)
+            .collect(Collectors.toList());
   }
 
   public String getSecuritySystemProvider() {
@@ -33,9 +37,7 @@ public class SecuritySystem {
   }
 
   public List<String> getAppNames() {
-    return IApplicationConfigurationManager.all(securityContext).stream()
-            .map(IApplication::getName)
-            .collect(Collectors.toList());
+    return appNames;
   }
 
   public long getUsersCount() {
