@@ -18,6 +18,7 @@ import ch.ivyteam.ivy.scripting.objects.Tree;
 @ViewScoped
 @SuppressWarnings("removal")
 public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
+
   private ManagerBean managerBean;
   private BusinessCalendar activeCalendar;
   private String calendarSelection;
@@ -25,10 +26,8 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
 
   public BusinessCalendarBean() {
     var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
-    environmentCalendar = managerBean.getSelectedIApplication().getActualEnvironment().getBusinessCalendar()
-            .getName();
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    environmentCalendar = managerBean.getSelectedIApplication().getActualEnvironment().getBusinessCalendar().getName();
     reloadTree();
   }
 
@@ -61,17 +60,17 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
     return activeCalendar;
   }
 
-  public void setActiveCalendar() {
-    this.activeCalendar = new BusinessCalendar(getBusinessCalendarConfiguration(calendarSelection));
-  }
-
   public void setCalendarSelection(String calendarSelection) {
     this.calendarSelection = calendarSelection;
-    setActiveCalendar();
   }
 
   public String getCalendarSelection() {
     return calendarSelection;
+  }
+
+  public void onload() {
+    var config = getBusinessCalendarConfiguration(calendarSelection);
+    this.activeCalendar = new BusinessCalendar(config);
   }
 
   public String getEnvironmentCalendar() {
@@ -88,11 +87,11 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   }
 
   private IBusinessCalendarConfiguration getBusinessCalendarConfiguration(String calendarName) {
-    var calConfiguration = managerBean.getSelectedIApplication().getBusinessCalendarSettings()
-            .findBusinessCalendarConfiguration(calendarName);
+    var app = managerBean.getSelectedIApplication();
+    var settings = app.getBusinessCalendarSettings();
+    var calConfiguration = settings.findBusinessCalendarConfiguration(calendarName);
     if (calConfiguration == null) {
-      calConfiguration = managerBean.getSelectedIApplication().getBusinessCalendarSettings()
-              .getRootBusinessCalendarConfiguration();
+      calConfiguration = settings.getRootBusinessCalendarConfiguration();
     }
     return calConfiguration;
   }

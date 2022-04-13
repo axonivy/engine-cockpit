@@ -5,6 +5,7 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="calendarName" value="#{businessCalendarBean.calendarSelection}" />
+    <f:viewAction action="#{businessCalendarBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
