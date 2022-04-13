@@ -13,6 +13,7 @@ import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
@@ -42,8 +43,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   public RestClientDetailBean() {
     var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
     restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
     connectionTest = new ConnectionTestWrapper();
   }
@@ -53,16 +53,21 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void setRestClientName(String restClientName) {
-    if (this.restClientName == null) {
-      this.restClientName = restClientName;
-      reloadRestClient();
-      liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(),
-              managerBean.getSelectedEnvironment(), restClient.getUniqueId().toString());
-    }
+    this.restClientName = restClientName;
+  }
+
+  public void onload() {
+    reloadRestClient();
+    liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), restClient.getUniqueId().toString());
   }
 
   private void reloadRestClient() {
-    this.restClient = new RestClientDto(restClients.find(restClientName));
+    var client = restClients.find(restClientName);
+    if (client == null) {
+      ResponseHelper.notFound("Rest client '" + restClientName + "' not found");
+      return;
+    }
+    this.restClient = new RestClientDto(client);
   }
 
   public RestClientDto getRestClient() {
