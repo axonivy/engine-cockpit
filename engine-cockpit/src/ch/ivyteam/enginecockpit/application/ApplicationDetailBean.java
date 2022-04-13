@@ -34,7 +34,9 @@ import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 @SuppressWarnings({"restriction", "removal"})
 public class ApplicationDetailBean {
 
+  // provided by GET parameter
   private String appName;
+
   private Application app;
   private SecuritySystem securitySystem;
   private String changeSecuritySystem;
@@ -49,46 +51,38 @@ public class ApplicationDetailBean {
     managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
   }
 
-  public void validateApp() {
-    if (app == null) {
-      ResponseHelper.notFound("Application '" + appName + "' not found.");
-    }
-  }
-
   public void setAppName(String appName) {
-    if (Objects.equals(this.appName, appName)) {
-      return;
-    }
     this.appName = appName;
-    reloadDetailApplication();
   }
 
   public String getAppName() {
     return appName;
   }
 
-  private void reloadDetailApplication() {
+  public void onload() {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream()
             .filter(a -> a.getName().equals(appName))
             .findAny()
             .orElse(null);
     if (app == null) {
+      ResponseHelper.notFound("Application '" + appName + "' not found.");
       return;
     }
+
     securitySystem = app.getSecuritySystem();
     changeSecuritySystem = app.getSecuritySystemName();
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
             .stream().map(e -> e.getName()).collect(Collectors.toList());
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
             this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
-                    new ContentFilter<ConfigProperty>("Variables", "Show Variables",
+                    new ContentFilter<>("Variables", "Show Variables",
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Variables."), true),
-                    new ContentFilter<ConfigProperty>("Databases", "Show Databases",
+                    new ContentFilter<>("Databases", "Show Databases",
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "Databases."), true),
-                    new ContentFilter<ConfigProperty>("RestClients", "Show Rest Clients",
+                    new ContentFilter<>("RestClients", "Show Rest Clients",
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "RestClients."), true),
-                    new ContentFilter<ConfigProperty>("WebServiceClients", "Show Web Service Clients",
+                    new ContentFilter<>("WebServiceClients", "Show Web Service Clients",
                             p -> !StringUtils.startsWithIgnoreCase(p.getKey(), "WebServiceClients."), true)));
   }
 
