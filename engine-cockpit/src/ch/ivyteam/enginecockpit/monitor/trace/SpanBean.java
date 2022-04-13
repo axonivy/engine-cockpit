@@ -11,6 +11,7 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
@@ -27,11 +28,18 @@ public final class SpanBean extends TreeView<Span> {
 
   public void setTraceId(String traceId) {
     this.traceId = traceId;
-    reloadTree();
   }
 
   public String getTraceId() {
     return traceId;
+  }
+
+  public void onload() {
+    if (Tracer.instance().slowTraces().find(traceId).isEmpty()) {
+      ResponseHelper.notFound("Trace with id '" + traceId + "' does not exist");
+      return;
+    }
+    reloadTree();
   }
 
   public boolean isTraceAvailable() {

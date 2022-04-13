@@ -5,7 +5,9 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="traceId" value="#{spanBean.traceId}" />
+    <f:viewAction action="#{spanBean.onload}" />
   </f:metadata>
+  
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
