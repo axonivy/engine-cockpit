@@ -88,7 +88,7 @@ public class SystemOverviewBean {
 
   private void connect(EndPoint in, EndPoint out, CommunicationChannel channel, int width, String color) {
     var connector = new BezierConnector(400, -1);
-    connector.setPaintStyle("{strokeStyle:'"+color+"', lineWidth:"+width+"}");
+    connector.setPaintStyle("{stroke:'"+color+"', strokeWidth:"+width+"}");
     var connection = new Connection(out, in, connector);
 
     var avg = format(channel.statistics().average());
