@@ -34,7 +34,6 @@ import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 @SuppressWarnings({"restriction", "removal"})
 public class ApplicationDetailBean {
 
-  // provided by GET parameter
   private String appName;
 
   private Application app;
