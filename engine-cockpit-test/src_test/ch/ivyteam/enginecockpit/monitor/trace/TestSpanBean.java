@@ -29,6 +29,7 @@ class TestSpanBean {
     }
     traceId = Tracer.instance().slowTraces().all().get(0).id();
     bean.setTraceId(traceId);
+    bean.onload();
   }
 
   @Test
