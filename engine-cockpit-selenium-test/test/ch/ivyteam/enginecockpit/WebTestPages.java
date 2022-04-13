@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -24,34 +23,41 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.HttpAsserter;
 
 @IvyWebTest
-public class WebTestPages {
+class WebTestPages {
 
   private Path webContentDir;
 
   @BeforeEach
   void beforeEacht() {
-    Path testDir = new File(System.getProperty("user.dir")).getParentFile().toPath();
+    var testDir = new File(System.getProperty("user.dir")).getParentFile().toPath();
     webContentDir = testDir.resolve("engine-cockpit/webContent");
   }
 
   @Test
-  void testExternalLinks() {
+  void externalLinks() {
     EngineCockpitUtil.login();
     var viewDir = webContentDir.resolve("view");
-    for (Path xhtml : getSubDirectoryXhtmlFiles(viewDir,
-            file -> !StringUtils.endsWith(file.getFileName().toString(), "login.xhtml"))) {
-      HttpAsserter.assertThat(viewUrl(xhtml.toString())).hasNoDeadLinks();
+    for (var xhtml : getSubDirectoryXhtmlFiles(viewDir, this::isNotLoginPage)) {
+      var url = viewUrl(xhtml.toString());
+      HttpAsserter.assertThat(url).hasNoDeadLinks();
     }
   }
 
+  private boolean isNotLoginPage(Path file) {
+    return !StringUtils.endsWith(file.getFileName().toString(), "login.xhtml");
+  }
+
   @Test
-  void testPagesNotAccessable() {
-    for (Path xhtml : getSubDirectoryXhtmlFiles(webContentDir,
-            file -> !StringUtils.startsWith(file.toString(), "view/")
-                    && StringUtils.contains(file.toString(), "/"))) {
+  void pagesNotAccessable() {
+    for (var xhtml : getSubDirectoryXhtmlFiles(webContentDir, this::isNotInViewFolder)) {
       open(viewUrl(xhtml.toString()));
       $(".exception-detail").shouldHave(text("Not Found"));
     }
+  }
+
+  private boolean isNotInViewFolder(Path file) {
+    var name = file.toString();
+    return !StringUtils.startsWith(name, "view/") && StringUtils.contains(name, "/");
   }
 
   private static List<Path> getSubDirectoryXhtmlFiles(Path basePath, Predicate<Path> filter) {
@@ -62,8 +68,7 @@ public class WebTestPages {
               .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
               .collect(Collectors.toList());
     } catch (IOException ex) {
-      ex.printStackTrace();
+      throw new RuntimeException(ex);
     }
-    return Collections.emptyList();
   }
 }
