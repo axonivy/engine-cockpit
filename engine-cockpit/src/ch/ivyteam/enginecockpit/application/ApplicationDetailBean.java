@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.commons.ContentFilter;
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigViewImpl;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
@@ -45,15 +46,21 @@ public class ApplicationDetailBean {
 
   public ApplicationDetailBean() {
     var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+  }
+
+  public void validateApp() {
+    if (app == null) {
+      ResponseHelper.notFound("Application '" + appName + "' not found.");
+    }
   }
 
   public void setAppName(String appName) {
-    if (this.appName == null || this.appName != appName) {
-      this.appName = appName;
-      reloadDetailApplication();
+    if (Objects.equals(this.appName, appName)) {
+      return;
     }
+    this.appName = appName;
+    reloadDetailApplication();
   }
 
   public String getAppName() {
@@ -64,8 +71,11 @@ public class ApplicationDetailBean {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream()
             .filter(a -> a.getName().equals(appName))
-            .findFirst()
-            .get();
+            .findAny()
+            .orElse(null);
+    if (app == null) {
+      return;
+    }
     securitySystem = app.getSecuritySystem();
     changeSecuritySystem = app.getSecuritySystemName();
     environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
