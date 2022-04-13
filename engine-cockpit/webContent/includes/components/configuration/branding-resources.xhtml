@@ -5,7 +5,7 @@
 
 <h:form id="form">
   <div class="p-grid branding-resources">
-    <p:repeat var="res" value="#{brandingBean.resources}" id="images">
+    <p:repeat var="res" value="#{brandingBean.resources}">
       <div class="p-col-12 p-md-3 p-lg-1 p-col-align-center">
         <p:outputLabel value="#{res.label}" />
         <h:panelGroup id="img_#{res.label}" styleClass="label-help-icon">

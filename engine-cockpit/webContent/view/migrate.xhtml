@@ -82,7 +82,7 @@
                   </h:panelGroup>
                 </p:panelGrid>
                 <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" closable="true" />
-                <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="tasksRepeat">
+                <ui:repeat var="task" value="#{migrationBean.tasks}" varStatus="tasksRepeat">
                   <div class="migration-step" style="padding: 0 14px;">
                     <h4 style="margin-top: 2rem; margin-bottom: 0;">
                       <i class="si si-#{task.stateIcon}"
@@ -90,7 +90,7 @@
                     </h4>
                     <p style="margin-left: 30px;">#{task.description}</p>
                     <h:panelGroup rendered="#{task.state == 'running'}" layout="block">
-                      <p:repeat var="question" value="#{task.questions}" id="questions" varStatus="questionsRepeat">
+                      <p:repeat var="question" value="#{task.questions}" varStatus="questionsRepeat">
                         <h:panelGroup styleClass="question">
                           <h:panelGroup id="diff" layout="block" />
                           <script>
