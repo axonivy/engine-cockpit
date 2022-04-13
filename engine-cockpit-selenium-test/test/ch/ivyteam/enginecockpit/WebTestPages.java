@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,10 +38,11 @@ class WebTestPages {
   void externalLinks() {
     EngineCockpitUtil.login();
     var viewDir = webContentDir.resolve("view");
-    for (var xhtml : getSubDirectoryXhtmlFiles(viewDir, this::isNotLoginPage)) {
-      var url = viewUrl(xhtml.toString());
-      HttpAsserter.assertThat(url).hasNoDeadLinks();
-    }
+
+    var urls = getSubDirectoryXhtmlFiles(viewDir, this::isNotLoginPage).stream()
+            .map(xhtml -> viewUrl(xhtml.toString()))
+            .collect(Collectors.toList());
+    assertThat(urls).allSatisfy(url -> HttpAsserter.assertThat(url).hasNoDeadLinks());
   }
 
   private boolean isNotLoginPage(Path file) {
