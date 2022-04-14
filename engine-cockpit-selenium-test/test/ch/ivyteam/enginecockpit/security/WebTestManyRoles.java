@@ -15,7 +15,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 class WebTestManyRoles {
@@ -34,17 +34,17 @@ class WebTestManyRoles {
   void beforeEach() {
     login();
     Navigation.toRoles();
-    SecuritySystemTab.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
   }
 
   @Test
   void manyRolesLoadLimit() {
-    $$(SecuritySystemTab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(102));
-    $$(SecuritySystemTab.ACITVE_PANEL_CSS + " .ui-treenode-content").last()
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").shouldBe(size(102));
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").last()
             .shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
-    $(SecuritySystemTab.ACITVE_PANEL_CSS + " .ui-inputfield").sendKeys("role-");
-    $$(SecuritySystemTab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(101));
-    $$(SecuritySystemTab.ACITVE_PANEL_CSS + " .ui-treenode-content").last()
+    $(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-inputfield").sendKeys("role-");
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").shouldBe(size(101));
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").last()
             .shouldHave(text("The current search has more than 100 results."));
   }
 

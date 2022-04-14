@@ -17,7 +17,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.AppTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -28,7 +28,7 @@ public class WebTestDatabaseHistory {
     runExternalDbQuery();
     login();
     Navigation.toDatabases();
-    AppTab.switchToTab("test");
+    Tab.APP.switchToTab("test");
     Navigation.toDatabaseDetail("realdb");
   }
 

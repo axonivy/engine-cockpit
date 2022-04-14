@@ -11,6 +11,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import com.codeborne.selenide.Selenide;
 
 public class Navigation {
+
   private static final String DASHBOARD_MENU = "#menuform\\:sr_dashboard";
   private static final String APPLICATIONS_MENU = "#menuform\\:sr_applications";
   private static final String SECURITY_MENU = "#menuform\\:sr_security";
@@ -111,7 +112,7 @@ public class Navigation {
 
   public static void toBusinessCalendarDetail(String calendarName) {
     Navigation.toBusinessCalendar();
-    $$(AppTab.ACITVE_PANEL_CSS + " .ui-treenode-content a").find(text(calendarName)).shouldBe(visible).click();
+    $$(Tab.APP.activePanelCss + " .ui-treenode-content a").find(text(calendarName)).shouldBe(visible).click();
     assertCurrentUrlContains("businesscalendar-detail.xhtml?calendarName=" + calendarName);
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }
@@ -130,7 +131,7 @@ public class Navigation {
 
   public static void toUserDetail(String userName) {
     Navigation.toUsers();
-    $$(SecuritySystemTab.ACITVE_PANEL_CSS + " .user-name").find(text(userName)).shouldBe(visible).click();
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .user-name").find(text(userName)).shouldBe(visible).click();
     assertCurrentUrlContains("userdetail.xhtml?userName=" + userName);
     menuShouldBeActive(SECURITY_USER_MENU);
   }
@@ -143,8 +144,8 @@ public class Navigation {
 
   public static void toRoleDetail(String roleName) {
     Navigation.toRoles();
-    $(SecuritySystemTab.ACITVE_PANEL_CSS + " .expand-all").shouldBe(visible).click();
-    $$(SecuritySystemTab.ACITVE_PANEL_CSS + " .role-name").find(text(roleName)).shouldBe(visible).click();
+    $(Tab.SECURITY_SYSTEM.activePanelCss + " .expand-all").shouldBe(visible).click();
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .role-name").find(text(roleName)).shouldBe(visible).click();
     assertCurrentUrlContains("roledetail.xhtml?roleName=" + roleName);
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
@@ -169,7 +170,7 @@ public class Navigation {
 
   public static void toDatabaseDetail(String databaseName) {
     Navigation.toDatabases();
-    $$(AppTab.ACITVE_PANEL_CSS + " .database-name").find(text(databaseName)).shouldBe(visible).click();
+    $$(Tab.APP.activePanelCss + " .database-name").find(text(databaseName)).shouldBe(visible).click();
     assertCurrentUrlContains("databasedetail.xhtml?databaseName=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
@@ -182,7 +183,7 @@ public class Navigation {
 
   public static void toRestClientDetail(String restClientName) {
     Navigation.toRestClients();
-    $$(AppTab.ACITVE_PANEL_CSS + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
+    $$(Tab.APP.activePanelCss + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
     assertCurrentUrlContains("restclientdetail.xhtml?restClientName=" + restClientName);
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
@@ -195,7 +196,7 @@ public class Navigation {
 
   public static void toWebserviceDetail(String webserviceName) {
     Navigation.toWebservices();
-    $$(AppTab.ACITVE_PANEL_CSS + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
+    $$(Tab.APP.activePanelCss + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
     assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }

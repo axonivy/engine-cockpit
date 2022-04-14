@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
-import ch.ivyteam.enginecockpit.util.AppTab;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 class WebTestApplicationTab {
@@ -22,38 +22,38 @@ class WebTestApplicationTab {
 
   @Test
   void applicationCount() {
-    assertThat(AppTab.getCount()).isGreaterThan(0);
+    assertThat(Tab.APP.getCount()).isGreaterThan(0);
   }
 
   @Test
   void applicationNames() {
-    assertThat(AppTab.getTabs()).isNotEmpty();
+    assertThat(Tab.APP.getTabs()).isNotEmpty();
   }
 
   @Test
   void applicationSwitchPerIndex() {
-    assertThat(AppTab.getSelectedTabIndex()).isNotEqualTo(-1);
+    assertThat(Tab.APP.getSelectedTabIndex()).isNotEqualTo(-1);
 
-    AppTab.switchToTab(0);
-    assertThat(AppTab.getSelectedTabIndex()).isSameAs(0);
+    Tab.APP.switchToTab(0);
+    assertThat(Tab.APP.getSelectedTabIndex()).isSameAs(0);
 
-    AppTab.switchToTab(1);
-    assertThat(AppTab.getSelectedTabIndex()).isSameAs(1);
+    Tab.APP.switchToTab(1);
+    assertThat(Tab.APP.getSelectedTabIndex()).isSameAs(1);
 
-    AppTab.switchToTab(0);
-    assertThat(AppTab.getSelectedTabIndex()).isSameAs(0);
+    Tab.APP.switchToTab(0);
+    assertThat(Tab.APP.getSelectedTabIndex()).isSameAs(0);
   }
 
   @Test
   void applicationSwtichPerName() {
-    var selectedApplication = AppTab.getSelectedTab();
+    var selectedApplication = Tab.APP.getSelectedTab();
     assertThat(selectedApplication).isNotBlank();
 
-    var otherApp = AppTab.getTabs().get(1);
-    AppTab.switchToTab(otherApp);
-    assertThat(AppTab.getSelectedTab()).isNotBlank().endsWith(otherApp);
+    var otherApp = Tab.APP.getTabs().get(1);
+    Tab.APP.switchToTab(otherApp);
+    assertThat(Tab.APP.getSelectedTab()).isNotBlank().endsWith(otherApp);
 
     Navigation.toBusinessCalendar();
-    assertThat(AppTab.getSelectedTab()).isNotBlank().endsWith(otherApp);
+    assertThat(Tab.APP.getSelectedTab()).isNotBlank().endsWith(otherApp);
   }
 }

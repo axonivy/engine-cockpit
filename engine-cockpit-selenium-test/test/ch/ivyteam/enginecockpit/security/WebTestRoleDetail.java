@@ -26,7 +26,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -38,7 +38,7 @@ class WebTestRoleDetail {
   void beforeEach() {
     login();
     Navigation.toRoles();
-    SecuritySystemTab.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
   }
 
@@ -231,7 +231,7 @@ class WebTestRoleDetail {
   @Test
   void externalSecurityName() {
     Navigation.toRoles();
-    SecuritySystemTab.switchToTab("test-ad");
+    Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
 
     new Table(By.id("usersOfRoleForm:roleUserTable"), true).firstColumnShouldBe(size(0));
@@ -272,7 +272,7 @@ class WebTestRoleDetail {
   void externalSecurityName_ldapBrowser() {
     $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
     Navigation.toRoles();
-    SecuritySystemTab.switchToTab("test-ad");
+    Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     Navigation.toRoleDetail("Everybody");
     $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
     Navigation.toRoles();
@@ -296,7 +296,7 @@ class WebTestRoleDetail {
   @Test
   void externalSecurityName_ldapBrowser_initValue() {
     Navigation.toRoles();
-    SecuritySystemTab.switchToTab("test-ad");
+    Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     Navigation.toRoleDetail(DETAIL_ROLE_NAME);
     $("#roleInformationForm\\:externalSecurityName")
             .sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");

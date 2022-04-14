@@ -22,7 +22,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 class WebTestRoles {
@@ -33,20 +33,20 @@ class WebTestRoles {
   void beforeEach() {
     login();
     Navigation.toRoles();
-    SecuritySystemTab.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
   }
 
   @Test
   void rolesInTable() {
-    $(SecuritySystemTab.ACITVE_PANEL_CSS + " h1").shouldBe(Condition.text("Roles"));
-    $$(SecuritySystemTab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(sizeGreaterThan(1));
-    $(SecuritySystemTab.ACITVE_PANEL_CSS + " .ui-inputfield").sendKeys("Everybody");
-    $$(SecuritySystemTab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(1));
+    $(Tab.SECURITY_SYSTEM.activePanelCss + " h1").shouldBe(Condition.text("Roles"));
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").shouldBe(sizeGreaterThan(1));
+    $(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-inputfield").sendKeys("Everybody");
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").shouldBe(size(1));
   }
 
   @Test
   void jumpToSyncLog() {
-    SecuritySystemTab.switchToTab("test-ad");
+    Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     $(securitySystemTabId() + "syncMoreBtn_menuButton").click();
     $(securitySystemTabId() + "userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
@@ -71,11 +71,11 @@ class WebTestRoles {
   }
 
   private String getTreeFormId() {
-    return SECURITY_SYSTEM_TAB_VIEW + SecuritySystemTab.getSelectedTabIndex() + "\\:treeForm";
+    return SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:treeForm";
   }
 
   public static void triggerSync() {
-    SecuritySystemTab.switchToTab("test-ad");
+    Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     var syncBtnId = securitySystemTabId() + "syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("si-is-spinning"));
@@ -83,6 +83,6 @@ class WebTestRoles {
   }
 
   private static String securitySystemTabId() {
-    return SECURITY_SYSTEM_TAB_VIEW + SecuritySystemTab.getSelectedTabIndex() + "\\:form\\:";
+    return SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:form\\:";
   }
 }

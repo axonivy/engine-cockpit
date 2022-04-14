@@ -18,7 +18,7 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 class WebTestPermission {
@@ -31,7 +31,7 @@ class WebTestPermission {
   @Test
   void permission() {
     Navigation.toUsers();
-    SecuritySystemTab.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toUserDetail("foo");
 
     String permissionStateCss = "#permissionsForm\\:permissionTable_node_0 > .permission-icon > i";
@@ -54,7 +54,7 @@ class WebTestPermission {
   @Test
   void duplicatedPortalPermissions() {
     Navigation.toUsers();
-    SecuritySystemTab.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toUserDetail("demo");
 
     Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
@@ -78,7 +78,7 @@ class WebTestPermission {
   @Test
   void expandCollapsePermissionTree() {
     Navigation.toRoles();
-    SecuritySystemTab.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toRoleDetail("boss");
 
     getVisibleTreeNodes().shouldBe(size(4));
