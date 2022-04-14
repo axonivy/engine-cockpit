@@ -23,6 +23,7 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
 import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
@@ -56,17 +57,22 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void onload() {
-    reloadRestClient();
-    liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), restClient.getUniqueId().toString());
-  }
-
-  private void reloadRestClient() {
-    var client = restClients.find(restClientName);
+    var client = findRestClient();
     if (client == null) {
       ResponseHelper.notFound("Rest client '" + restClientName + "' not found");
       return;
     }
-    this.restClient = new RestClientDto(client);
+
+    loadRestClient();
+    liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), restClient.getUniqueId().toString());
+  }
+
+  private void loadRestClient() {
+    this.restClient = new RestClientDto(findRestClient());
+  }
+
+  private RestClient findRestClient() {
+    return restClients.find(restClientName);
   }
 
   public RestClientDto getRestClient() {
@@ -114,14 +120,11 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
               .getRestWebService(restClient.getUniqueId()).createCall();
       var status = restCall.getWebTarget().request().head().getStatus();
       if (status >= 200 && status < 400) {
-        return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS,
-                "Successfully sent test request to REST service");
+        return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
       } else if (status == 401) {
-        return new ConnectionTestResult("HEAD", status, TestResult.WARNING,
-                "Authentication was not successful");
+        return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
       } else {
-        return new ConnectionTestResult("HEAD", status, TestResult.ERROR,
-                "Could not connect to REST service");
+        return new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
       }
     } catch (ProcessingException ex) {
       return new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
@@ -131,24 +134,23 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   public void saveConfig() {
     connectionTest.stop();
-    var builder = restClients.find(restClientName).toBuilder()
-            .uri(restClient.getUrl());
+    var builder = restClients.find(restClientName).toBuilder().uri(restClient.getUrl());
     builder.property("username", restClient.getUsername());
     if (restClient.passwordChanged()) {
       builder.property("password", restClient.getPassword());
     }
     restClients.set(builder.toRestClient());
-    FacesContext.getCurrentInstance().addMessage("restConfigMsg",
-            new FacesMessage("Rest configuration saved", ""));
-    reloadRestClient();
+    var msg = new FacesMessage("Rest configuration saved", "");
+    FacesContext.getCurrentInstance().addMessage("restConfigMsg", msg);
+    loadRestClient();
   }
 
   public void resetConfig() {
     connectionTest.stop();
     restClients.remove(restClientName);
-    FacesContext.getCurrentInstance().addMessage("restConfigMsg",
-            new FacesMessage("Rest configuration reset", ""));
-    reloadRestClient();
+    var msg = new FacesMessage("Rest configuration reset", "");
+    FacesContext.getCurrentInstance().addMessage("restConfigMsg", msg);
+    loadRestClient();
   }
 
   @Override
@@ -159,5 +161,4 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public RestClientMonitor getLiveStats() {
     return liveStats;
   }
-
 }
