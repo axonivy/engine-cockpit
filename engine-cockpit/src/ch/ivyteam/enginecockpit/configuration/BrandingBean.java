@@ -47,9 +47,7 @@ public class BrandingBean {
 
 
   public BrandingBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     reloadResources();
   }
 

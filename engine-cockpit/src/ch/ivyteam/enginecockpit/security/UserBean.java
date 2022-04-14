@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.security;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -15,8 +14,7 @@ public class UserBean {
   private ManagerBean managerBean;
 
   public UserBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = ManagerBean.instance();
     userDataModel = new UserDataModel(managerBean.getSelectedSecuritySystem());
     reloadUsers();
   }

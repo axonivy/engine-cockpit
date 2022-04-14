@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.application.model.LibSpecification;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
@@ -28,9 +27,7 @@ public class PmvDetailBean {
   private List<LibSpecification> requiredSpecifications;
 
   public PmvDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
   }
 
   public void setPmvVersion(String pmvVersion) {

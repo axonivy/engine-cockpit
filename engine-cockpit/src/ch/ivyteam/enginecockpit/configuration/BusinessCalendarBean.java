@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
@@ -25,8 +24,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   private String environmentCalendar;
 
   public BusinessCalendarBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = ManagerBean.instance();
     environmentCalendar = managerBean.getSelectedIApplication().getActualEnvironment().getBusinessCalendar().getName();
     reloadTree();
   }

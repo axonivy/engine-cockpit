@@ -52,8 +52,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   private Databases databases;
 
   public DatabaseDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = ManagerBean.instance();
     connectionTest = new ConnectionTestWrapper();
   }
 

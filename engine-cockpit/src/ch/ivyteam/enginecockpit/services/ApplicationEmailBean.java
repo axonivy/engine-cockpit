@@ -11,14 +11,12 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 @ManagedBean
 @ViewScoped
 public class ApplicationEmailBean {
-  private EmailSettings emailSettings;
 
   private ManagerBean managerBean;
+  private EmailSettings emailSettings;
 
   public ApplicationEmailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     reloadEmailSettings();
   }
 

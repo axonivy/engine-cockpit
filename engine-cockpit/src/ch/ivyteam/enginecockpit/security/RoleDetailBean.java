@@ -54,9 +54,7 @@ public class RoleDetailBean {
   private long userInheritCont;
 
   public RoleDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     roleProperties = new MemberProperty().new RoleProperty();
     usersOfRole = new UserDataModel(managerBean.getSelectedSecuritySystem());
     ldapBrowser = new LdapBrowser();

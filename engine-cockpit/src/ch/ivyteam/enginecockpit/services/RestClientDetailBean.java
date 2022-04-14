@@ -42,8 +42,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private final ConnectionTestWrapper connectionTest;
 
   public RestClientDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = ManagerBean.instance();
     restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
     connectionTest = new ConnectionTestWrapper();
   }

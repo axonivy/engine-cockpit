@@ -46,8 +46,7 @@ public class ApplicationDetailBean {
   private ManagerBean managerBean;
 
   public ApplicationDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = ManagerBean.instance();
   }
 
   public void setAppName(String appName) {

@@ -53,9 +53,7 @@ public class SecurityConfigDetailBean {
   private ExternalSecuritySystemConfiguration securityConfiguration;
 
   public SecurityConfigDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
   }
 
   public SecurityConfigDetailBean(String secSystemName) {

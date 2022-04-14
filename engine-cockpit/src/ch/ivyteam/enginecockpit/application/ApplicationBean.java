@@ -34,9 +34,7 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
   private ManagerBean managerBean;
 
   public ApplicationBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     newApp = new Application();
     activateNewApp = true;
     selectedActivity = new Application();

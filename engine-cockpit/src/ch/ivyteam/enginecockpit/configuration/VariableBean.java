@@ -31,9 +31,7 @@ public class VariableBean implements ConfigView {
   private IEnvironment env;
 
   public VariableBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     reloadVariables();
   }
 

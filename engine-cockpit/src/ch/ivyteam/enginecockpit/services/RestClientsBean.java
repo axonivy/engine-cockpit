@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
@@ -22,9 +21,7 @@ public class RestClientsBean {
   private ManagerBean managerBean;
 
   public RestClientsBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     reloadRestClients();
   }
 

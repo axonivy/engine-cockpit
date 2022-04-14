@@ -45,8 +45,7 @@ public class UserDetailBean {
   private RoleDataModel roleDataModel;
 
   public UserDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = ManagerBean.instance();
     user = new User();
     userProperties = new MemberProperty().new UserProperty();
   }
