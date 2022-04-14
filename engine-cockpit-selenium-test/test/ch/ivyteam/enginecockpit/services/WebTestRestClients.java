@@ -12,23 +12,24 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.AppTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestRestClients {
+
   @BeforeEach
   void beforeEach() {
     login();
     Navigation.toRestClients();
-    AppTab.switchToDefault();
+    Tab.APP.switchToDefault();
     EnvironmentSwitch.switchToEnv("Default");
   }
 
   @Test
   void restClientsInTable() {
     Table table = new Table(By.id("tabs:applicationTabView:" +
-            AppTab.getSelectedTabIndex() + ":form:restClientsTable"), true);
+            Tab.APP.getSelectedTabIndex() + ":form:restClientsTable"), true);
     table.firstColumnShouldBe(size(2));
 
     table.search(table.getFirstColumnEntries().get(0));
@@ -38,11 +39,10 @@ public class WebTestRestClients {
   @Test
   void envSwitch() {
     Table table = new Table(By.id("tabs:applicationTabView:" +
-            AppTab.getSelectedTabIndex() + ":form:restClientsTable"), true);
+            Tab.APP.getSelectedTabIndex() + ":form:restClientsTable"), true);
     table.valueForEntryShould("test-rest", 2, text("test-webservices"));
     EnvironmentSwitch.switchToEnv("test");
     table.valueForEntryShould("test-rest", 2, text("localhost/test"));
     EnvironmentSwitch.switchToEnv("Default");
   }
-
 }

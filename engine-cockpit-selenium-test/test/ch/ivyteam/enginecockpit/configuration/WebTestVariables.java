@@ -20,7 +20,7 @@ import com.codeborne.selenide.Selenide;
 import ch.ivyteam.enginecockpit.configuration.WebTestConfiguration.ConfigAssert;
 import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.AppTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -30,7 +30,7 @@ public class WebTestVariables {
   void beforeEach() {
     login();
     Navigation.toVariables();
-    AppTab.switchToDefault();
+    Tab.APP.switchToDefault();
     EnvironmentSwitch.switchToEnv("Default");
   }
 
@@ -243,7 +243,6 @@ public class WebTestVariables {
   }
 
   private String activeTabPanel() {
-    return "apps:applicationTabView:" + AppTab.getSelectedTabIndex() + ":";
+    return "apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":";
   }
-
 }

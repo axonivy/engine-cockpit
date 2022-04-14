@@ -26,7 +26,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.AppTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -37,7 +37,7 @@ public class WebTestDatabaseDetail {
   void beforeEach() {
     login();
     Navigation.toDatabases();
-    AppTab.switchToDefault();
+    Tab.APP.switchToDefault();
     Navigation.toDatabaseDetail(DATABASE_NAME);
     Configuration.fastSetValue = true;
   }

@@ -33,7 +33,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.SecuritySystemTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
@@ -54,7 +54,7 @@ class WebTestUserDetail {
   void beforeEach() {
     login();
     Navigation.toUsers();
-    SecuritySystemTab.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
   }
 
   @Test

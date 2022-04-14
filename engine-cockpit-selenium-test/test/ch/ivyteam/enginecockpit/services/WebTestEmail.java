@@ -25,7 +25,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.AppTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 public class WebTestEmail {
@@ -36,7 +36,7 @@ public class WebTestEmail {
   void beforeEach() {
     login();
     Navigation.toEmail();
-    AppTab.switchToDefault();
+    Tab.APP.switchToDefault();
   }
 
   @Test
@@ -95,7 +95,7 @@ public class WebTestEmail {
   }
 
   private String getActivePanel() {
-    return "tabs:applicationTabView:" + AppTab.getSelectedTabIndex() + ":form:";
+    return "tabs:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:";
   }
 
   private String getActivePanelCss() {

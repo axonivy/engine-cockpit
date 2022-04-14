@@ -23,7 +23,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
-import ch.ivyteam.enginecockpit.util.AppTab;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 public class WebTestEditor {
@@ -36,10 +36,10 @@ public class WebTestEditor {
 
   @Test
   void testEditor() {
-    assertThat(AppTab.getCount()).isGreaterThan(1);
+    assertThat(Tab.APP.getCount()).isGreaterThan(1);
     String ivyYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     $(editorContentSelector()).shouldNotHave(attribute("value", ""));
-    AppTab.switchToTab("test-ad/app.yaml");
+    Tab.APP.switchToTab("test-ad/app.yaml");
     String appYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     assertThat(ivyYamlHints).isNotEqualTo(appYamlHints);
     $(editorContentSelector()).shouldHave(value("SecuritySystem: test-ad"));
@@ -47,7 +47,7 @@ public class WebTestEditor {
 
   @Test
   void testEditorSaveErrorsDialog() {
-    AppTab.switchToTab("test/app.yaml");
+    Tab.APP.switchToTab("test/app.yaml");
     String newEditorContent = "test: hi\n  bla: fail";
     String editorContent = $(editorContentSelector()).shouldNotBe(empty).getAttribute("value");
 
@@ -75,7 +75,7 @@ public class WebTestEditor {
   @Test
   void directFileOpenUrl() {
     open(viewUrl("editor.xhtml?file=test/app.yaml"));
-    assertThat(AppTab.getSelectedTab()).contains("test/app.yaml");
+    assertThat(Tab.APP.getSelectedTab()).contains("test/app.yaml");
     $(editorContentSelector()).shouldHave(value("BusinessCalendars:"));
   }
 
@@ -88,7 +88,7 @@ public class WebTestEditor {
   }
 
   private String getActivePanelCss() {
-    return "#card\\:editorTabView\\:" + AppTab.getSelectedTabIndex() + "\\:";
+    return "#card\\:editorTabView\\:" + Tab.APP.getSelectedTabIndex() + "\\:";
   }
 
 }
