@@ -4,7 +4,6 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +16,10 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.HttpAsserter;
@@ -29,24 +30,19 @@ class WebTestPages {
   private Path webContentDir;
 
   @BeforeEach
-  void beforeEacht() {
+  void beforeEach() {
     var testDir = new File(System.getProperty("user.dir")).getParentFile().toPath();
     webContentDir = testDir.resolve("engine-cockpit/webContent");
   }
 
   @Test
-  void externalLinks() {
+  void deadLinks() {
     EngineCockpitUtil.login();
-    var viewDir = webContentDir.resolve("view");
+    var sessionId = ((RemoteWebDriver) WebDriverRunner.getWebDriver()).manage().getCookieNamed("JSESSIONID");
 
-    var urls = getSubDirectoryXhtmlFiles(viewDir, this::isNotLoginPage).stream()
-            .map(xhtml -> viewUrl(xhtml.toString()))
-            .collect(Collectors.toList());
-    assertThat(urls).allSatisfy(url -> HttpAsserter.assertThat(url).hasNoDeadLinks());
-  }
 
-  private boolean isNotLoginPage(Path file) {
-    return !StringUtils.endsWith(file.getFileName().toString(), "login.xhtml");
+    var url = viewUrl("dashboard.xhtml");
+    HttpAsserter.assertThat(url).hasNoDeadLinks(3, sessionId.getValue());
   }
 
   @Test
