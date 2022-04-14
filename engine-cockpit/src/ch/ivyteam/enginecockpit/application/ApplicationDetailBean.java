@@ -25,13 +25,11 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
-import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
+import ch.ivyteam.ivy.workflow.standard.StandardProcessConfigurator;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings({"restriction", "removal"})
 public class ApplicationDetailBean {
 
   private String appName;
@@ -57,6 +55,7 @@ public class ApplicationDetailBean {
     return appName;
   }
 
+  @SuppressWarnings("removal")
   public void onload() {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream()
@@ -70,8 +69,11 @@ public class ApplicationDetailBean {
 
     securitySystem = app.getSecuritySystem();
     changeSecuritySystem = app.getSecuritySystemName();
-    environments = managerBean.getIApplication(app.getId()).getEnvironmentsSortedByName()
-            .stream().map(e -> e.getName()).collect(Collectors.toList());
+    environments = managerBean.getIApplication(app.getId())
+              .getEnvironmentsSortedByName()
+              .stream()
+              .map(e -> e.getName())
+              .collect(Collectors.toList());
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
             this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
                     new ContentFilter<>("Variables", "Show Variables",
@@ -119,6 +121,7 @@ public class ApplicationDetailBean {
     return environments;
   }
 
+  @SuppressWarnings("removal")
   public void saveApplicationInfos() {
     getIApplication().setActiveEnvironment(app.getActiveEnv());
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
@@ -146,25 +149,26 @@ public class ApplicationDetailBean {
     return configView;
   }
 
+  @SuppressWarnings("restriction")
   private ConfigProperty enrichPmvProperties(ConfigProperty property) {
     if (StringUtils.startsWith(property.getKey(), "StandardProcess")) {
-      property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
+      property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);
       property.setEnumerationValues(availableStandardProcesses(property));
     }
     if (Objects.equals(property.getKey(), "OverrideProject")) {
-      property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
+      property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);
       property.setEnumerationValues(librariesOf(managerBean.getSelectedIApplication()));
     }
     return property;
   }
 
   private List<String> availableStandardProcesses(ConfigProperty config) {
-    var workflow = WorkflowNavigationUtil.getWorkflowContext(getIApplication());
+    var configurator = StandardProcessConfigurator.of(getIApplication());
     var libraries = new LinkedHashSet<String>();
     libraries.add("");
     libraries.add(config.getValue());
-    for (StandardProcessType processType : processTypesForConfig(config.getKey())) {
-      libraries.addAll(workflow.getAvailableStandardProcessImplementations(processType));
+    for (var processType : processTypesForConfig(config.getKey())) {
+      libraries.addAll(configurator.getAvailableStandardProcessImplementations(processType));
     }
     return List.copyOf(libraries);
   }
