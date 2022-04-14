@@ -6,6 +6,7 @@
   <f:metadata>
     <f:viewParam name="appName" value="#{applicationDetailBean.appName}" />
     <f:viewParam name="appName" value="#{managerBean.selectedApplicationName}" />
+    <f:viewAction action="#{applicationDetailBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">

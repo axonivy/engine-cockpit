@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
@@ -34,9 +33,7 @@ public class PermissionBean extends TreeView<AbstractPermission> {
   private ManagerBean managerBean;
 
   public PermissionBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
   }
 
   public String getMember() {

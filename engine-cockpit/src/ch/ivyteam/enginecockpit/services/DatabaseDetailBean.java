@@ -16,6 +16,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import ch.ivyteam.db.jdbc.DatabaseUtil;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.enginecockpit.commons.Property;
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.DatabaseMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
@@ -36,6 +37,7 @@ import ch.ivyteam.ivy.db.IExternalDatabaseManager;
 @ViewScoped
 @SuppressWarnings("removal")
 public class DatabaseDetailBean extends HelpServices implements IConnectionTestResult {
+
   private DatabaseDto database;
   private Property activeProperty;
   private List<ExecStatement> history;
@@ -50,9 +52,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   private Databases databases;
 
   public DatabaseDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     connectionTest = new ConnectionTestWrapper();
   }
 
@@ -61,26 +61,31 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   }
 
   public void setDatabaseName(String databaseName) {
-    if (this.databaseName == null) {
-      this.databaseName = databaseName;
-      databases = Databases.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
-      reloadExternalDb();
-      liveStats = new DatabaseMonitor(managerBean.getSelectedApplicationName(),
-              managerBean.getSelectedEnvironment(), databaseName);
-    }
+    this.databaseName = databaseName;
+  }
+
+  public void onload() {
+    databases = Databases.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
+    reloadExternalDb();
+    liveStats = new DatabaseMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), databaseName);
   }
 
   private void reloadExternalDb() {
     var app = managerBean.getSelectedIApplication();
     var env = managerBean.getSelectedEnvironment();
     var db = databases.find(databaseName);
+    if (db == null) {
+      ResponseHelper.notFound("Database '" + databaseName + "' not found");
+      return;
+    }
+
     database = new DatabaseDto(db);
     var externalDb = IExternalDatabaseManager.instance().getExternalDatabase(app, db, env);
     history = externalDb.getExecutionHistory().stream()
-            .map(statement -> new ExecStatement(statement))
+            .map(ExecStatement::new)
             .collect(Collectors.toList());
     connections = externalDb.getConnections().stream()
-            .map(conn -> new Connection(conn))
+            .map(Connection::new)
             .collect(Collectors.toList());
   }
 

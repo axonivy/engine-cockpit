@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.system.model.ConfigFile;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
@@ -27,9 +26,7 @@ public class EditorBean {
   private String selectedFile;
 
   public EditorBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     var ivyYaml = UrlUtil.getConfigFile("ivy.yaml");
     configFiles.add(new ConfigFile(ivyYaml, ivyYaml.getFileName().toString(), IConfiguration.instance()));
     configFiles.addAll(managerBean.getIApplications().stream()

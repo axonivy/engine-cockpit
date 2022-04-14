@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,9 +23,7 @@ public class DatabaseBean {
   private ManagerBean managerBean;
 
   public DatabaseBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     reloadDatabases();
   }
 

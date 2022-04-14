@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -19,39 +18,41 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.HttpAsserter;
 
 @IvyWebTest
-public class WebTestPages {
+class WebTestPages {
 
   private Path webContentDir;
 
   @BeforeEach
-  void beforeEacht() {
-    Path testDir = new File(System.getProperty("user.dir")).getParentFile().toPath();
+  void beforeEach() {
+    var testDir = new File(System.getProperty("user.dir")).getParentFile().toPath();
     webContentDir = testDir.resolve("engine-cockpit/webContent");
   }
 
   @Test
-  void testExternalLinks() {
+  void deadLinks() {
     EngineCockpitUtil.login();
-    var viewDir = webContentDir.resolve("view");
-    for (Path xhtml : getSubDirectoryXhtmlFiles(viewDir,
-            file -> !StringUtils.endsWith(file.getFileName().toString(), "login.xhtml"))) {
-      HttpAsserter.assertThat(viewUrl(xhtml.toString())).hasNoDeadLinks();
-    }
+    var sessionId = WebDriverRunner.getWebDriver().manage().getCookieNamed("JSESSIONID");
+    var url = viewUrl("dashboard.xhtml");
+    HttpAsserter.assertThat(url).hasNoDeadLinks(10, sessionId.getValue());
   }
 
   @Test
-  void testPagesNotAccessable() {
-    for (Path xhtml : getSubDirectoryXhtmlFiles(webContentDir,
-            file -> !StringUtils.startsWith(file.toString(), "view/")
-                    && StringUtils.contains(file.toString(), "/"))) {
+  void pagesNotAccessable() {
+    for (var xhtml : getSubDirectoryXhtmlFiles(webContentDir, this::isNotInViewFolder)) {
       open(viewUrl(xhtml.toString()));
       $(".exception-detail").shouldHave(text("Not Found"));
     }
+  }
+
+  private boolean isNotInViewFolder(Path file) {
+    var name = file.toString();
+    return !StringUtils.startsWith(name, "view/") && StringUtils.contains(name, "/");
   }
 
   private static List<Path> getSubDirectoryXhtmlFiles(Path basePath, Predicate<Path> filter) {
@@ -62,8 +63,7 @@ public class WebTestPages {
               .filter(file -> StringUtils.endsWith(file.getFileName().toString(), ".xhtml"))
               .collect(Collectors.toList());
     } catch (IOException ex) {
-      ex.printStackTrace();
+      throw new RuntimeException(ex);
     }
-    return Collections.emptyList();
   }
 }

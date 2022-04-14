@@ -13,6 +13,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.Role;
@@ -54,9 +55,7 @@ public class RoleDetailBean {
   private long userInheritCont;
 
   public RoleDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     roleProperties = new MemberProperty().new RoleProperty();
     usersOfRole = new UserDataModel(managerBean.getSelectedSecuritySystem());
     ldapBrowser = new LdapBrowser();
@@ -68,7 +67,15 @@ public class RoleDetailBean {
 
   public void setRoleName(String roleName) {
     this.roleName = URLDecoder.decode(roleName, StandardCharsets.UTF_8);
-    var iRole = getSecurityContext().roles().find(this.roleName);
+  }
+
+  public void onload() {
+    var iRole = getSecurityContext().roles().find(roleName);
+    if (iRole == null) {
+      ResponseHelper.notFound("Role '" + roleName + "' not found");
+      return;
+    }
+
     this.role = new Role(iRole);
     var securitySystem = managerBean.getSelectedSecuritySystem();
     this.usersOfRole.setSecuritySystem(securitySystem);

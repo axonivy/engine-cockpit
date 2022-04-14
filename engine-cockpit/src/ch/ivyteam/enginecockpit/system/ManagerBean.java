@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -264,5 +265,12 @@ public class ManagerBean {
 
   public String formatNumber(long count) {
     return NumberFormat.getInstance(formattingLocale).format(count);
+  }
+
+  public static ManagerBean instance() {
+    var context = FacesContext.getCurrentInstance();
+    return context
+            .getApplication()
+            .evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
   }
 }

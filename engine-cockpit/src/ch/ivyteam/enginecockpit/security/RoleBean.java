@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.security;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -15,8 +14,7 @@ public class RoleBean {
   private RoleDataModel roleDataModel;
 
   public RoleBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+    managerBean = ManagerBean.instance();
     reloadRoles();
   }
 

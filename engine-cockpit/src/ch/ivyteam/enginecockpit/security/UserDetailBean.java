@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
@@ -44,9 +45,7 @@ public class UserDetailBean {
   private RoleDataModel roleDataModel;
 
   public UserDetailBean() {
-    var context = FacesContext.getCurrentInstance();
-    managerBean = context.getApplication().evaluateExpressionGet(context, "#{managerBean}",
-            ManagerBean.class);
+    managerBean = ManagerBean.instance();
     user = new User();
     userProperties = new MemberProperty().new UserProperty();
   }
@@ -56,28 +55,34 @@ public class UserDetailBean {
   }
 
   public void setUserName(String userName) {
-    if (this.userName == null) {
-      this.userName = userName;
-      this.userSynchName = userName;
-      var iUser = getSecurityContext().users().find(userName);
-      this.user = new User(iUser);
-      this.emailSettings = new EmailSettings(iUser,
-              managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
-      this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
-      roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), false);
-      startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId()
-              .isEqual(iUser.getSecurityMemberId()).executor().count();
-      workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
-              .or().state().isEqual(TaskState.RESUMED)
-              .or().state().isEqual(TaskState.PARKED)
-              .andOverall().workerId().isEqual(iUser.getSecurityMemberId()).executor().count();
-      personalTasks = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
-              .or().state().isEqual(TaskState.SUSPENDED)
-              .or().state().isEqual(TaskState.RESUMED)
-              .or().state().isEqual(TaskState.PARKED)
-              .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
-      canWorkOn = TaskQuery.create().where().canWorkOn(iUser).executor().count();
+    this.userName = userName;
+  }
+
+  public void onload() {
+    var iUser = getSecurityContext().users().find(userName);
+    if (iUser == null) {
+      ResponseHelper.notFound("User '" + userName + "' not found");
+      return;
     }
+
+    this.userSynchName = userName;
+    this.user = new User(iUser);
+    this.emailSettings = new EmailSettings(iUser,
+            managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
+    this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
+    roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), false);
+    startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId()
+            .isEqual(iUser.getSecurityMemberId()).executor().count();
+    workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+            .or().state().isEqual(TaskState.RESUMED)
+            .or().state().isEqual(TaskState.PARKED)
+            .andOverall().workerId().isEqual(iUser.getSecurityMemberId()).executor().count();
+    personalTasks = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+            .or().state().isEqual(TaskState.SUSPENDED)
+            .or().state().isEqual(TaskState.RESUMED)
+            .or().state().isEqual(TaskState.PARKED)
+            .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
+    canWorkOn = TaskQuery.create().where().canWorkOn(iUser).executor().count();
   }
 
   public String getUserSynchName() {
