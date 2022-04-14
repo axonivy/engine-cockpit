@@ -6,6 +6,7 @@
   <f:metadata>
     <f:viewParam name="roleName" value="#{roleDetailBean.roleName}" />
     <f:viewParam name="roleName" value="#{permissionBean.member}" />
+    <f:viewAction action="#{roleDetailBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
