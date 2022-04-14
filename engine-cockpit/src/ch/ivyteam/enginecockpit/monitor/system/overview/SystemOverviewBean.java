@@ -56,6 +56,8 @@ public class SystemOverviewBean {
   private void addInbound(CommunicationChannel channel, Element ivy, long requests, long average) {
     var count = ivy.getEndPoints().stream().filter(ep -> ep.getAnchor() == EndPointAnchor.LEFT).count();
     var inbound = new Element(new System(channel.systemLink()), "1em", (1+count*8)+"em");
+    setTitle(inbound, channel);
+    setStyleClass(inbound, channel);
     model.addElement(inbound);
     var out = new BlankEndPoint(EndPointAnchor.RIGHT);
     inbound.addEndPoint(out);
@@ -69,6 +71,8 @@ public class SystemOverviewBean {
   private void addOutbound(CommunicationChannel channel, Element ivy, long requests, long average) {
     var count = ivy.getEndPoints().stream().filter(ep -> ep.getAnchor() == EndPointAnchor.RIGHT).count();
     var outbound = new Element(new System(channel.systemLink()), "98em",  (1+count*8)+"em");
+    setTitle(outbound, channel);
+    setStyleClass(outbound, channel);
     model.addElement(outbound);
     var in = new BlankEndPoint(EndPointAnchor.LEFT);
     outbound.addEndPoint(in);
@@ -77,6 +81,39 @@ public class SystemOverviewBean {
     var width = (int)Math.max(1, channel.statistics().requests() * 20 / requests);
     var color = color(channel.statistics().average(), average);
     connect(in, out, channel, width, color);
+  }
+
+  private void setTitle(Element element, CommunicationChannel channel) {
+    var statistics = channel.statistics();
+    StringBuilder builder = new StringBuilder();
+    builder.append("Requests: ");
+    builder.append(statistics.requests());
+    builder.append("\n");
+    builder.append("Errors: ");
+    builder.append(statistics.errors());
+    builder.append("\n");
+    builder.append("Response Times: ");
+    builder.append("\n");
+    builder.append("Avarage: ");
+    var avg = format(channel.statistics().average());
+    builder.append(avg);
+    builder.append("\n");
+    builder.append("Minimum: ");
+    var min = format(channel.statistics().minimum());
+    builder.append(min);
+    builder.append("\n");
+    builder.append("Maximum: ");
+    var max = format(channel.statistics().maximum());
+    builder.append(max);
+    element.setTitle(builder.toString());
+  }
+
+  private void setStyleClass(Element element, CommunicationChannel channel) {
+    if (channel.statistics().errors() > 0) {
+      element.setStyleClass("error");
+    } else {
+      element.setStyleClass("ok");
+    }
   }
 
   private String color(long value, long max) {
@@ -92,9 +129,7 @@ public class SystemOverviewBean {
     var connection = new Connection(out, in, connector);
 
     var avg = format(channel.statistics().average());
-    var min = format(channel.statistics().minimum());
-    var max = format(channel.statistics().maximum());
-    var label = new LabelOverlay(channel.statistics().requests() +" requests / " + avg +" ("+min+" .. "+max+")", "flow-label", 0.5);
+    var label = new LabelOverlay(channel.statistics().requests() +" requests / " + channel.statistics().errors() +" errors / " + avg);
     connection.getOverlays().add(label);
     var arrow = new ArrowOverlay(width*2+20, width+20, 1, 1);
     connection.getOverlays().add(arrow);
