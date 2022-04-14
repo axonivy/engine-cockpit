@@ -114,7 +114,7 @@ import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.calendar.IBusinessCalendarSettings;
 
-IApplication app = ivy.wf.getApplication();
+IApplication app = IApplication.current();
 
 app.findEnvironment("test").setBusinessCalendar(app.getActualEnvironment().getBusinessCalendar().get("Luzern"));' #txt
 Ta0 f5 168 138 112 44 0 -7 #rect

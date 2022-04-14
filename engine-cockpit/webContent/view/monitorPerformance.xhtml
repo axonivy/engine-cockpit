@@ -61,8 +61,7 @@
                 
             <p:dataTable var="processElement" value="#{performanceBean.processElements}"
               widgetVar="performanceTable" filteredValue="#{performanceBean.filteredProcessElements}"
-              id="performanceTable" resizableColumns="true"
-              sortBy="#{processElement.order}" sortOrder="ASCENDING">
+              id="performanceTable" resizableColumns="true">
               
               <f:facet name="header">
                 <p:outputPanel>
@@ -77,7 +76,7 @@
                 </p:outputPanel>
               </f:facet>
               
-              <p:column sortBy="#{processElement.order}" style="width: 50px">
+              <p:column sortBy="#{processElement.order}" sortOrder="ASCENDING" style="width: 50px">
                 <f:facet name="header">
                   <h:outputText value="Order" title="Order of first execution"/>
                 </f:facet>
