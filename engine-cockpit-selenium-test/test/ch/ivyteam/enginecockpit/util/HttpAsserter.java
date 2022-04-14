@@ -25,16 +25,20 @@ public class HttpAsserter {
     }
 
     public void hasNoDeadLinks(int maxDepth, String sessionId) {
-      hasNoDeadLinks(maxDepth, 0, new HashSet<>(), sessionId);
+      hasNoDeadLinks(maxDepth, 0, new HashSet<>(), new HashSet<>(), sessionId);
     }
 
-    private void hasNoDeadLinks(int maxDepth, int currentDepth, Set<String> checked, String sessionId) {
+    private void hasNoDeadLinks(int maxDepth, int currentDepth, Set<String> crawled, Set<String> checked, String sessionId) {
       if (maxDepth <= currentDepth) {
+        return;
+      }
+      if (crawled.contains(url)) {
         return;
       }
 
       var linksFound = parseLinks(url, sessionId);
       System.out.println(url + " found " + linksFound.size() + " links");
+      crawled.add(url);
 
       var deadLinks = findDeadLinks(linksFound, checked, sessionId);
       Assertions.assertThat(deadLinks).as("found dead links on " + url).isEmpty();
@@ -43,7 +47,7 @@ public class HttpAsserter {
       currentDepth += 1;
       for (var link : linksFound) {
         if (link.contains("faces/view/engine-cockpit")) {
-          assertThat(link).hasNoDeadLinks(maxDepth, currentDepth, checked, sessionId);
+          assertThat(link).hasNoDeadLinks(maxDepth, currentDepth, crawled, checked, sessionId);
         }
       }
     }
@@ -66,6 +70,9 @@ public class HttpAsserter {
         for (var link : links) {
           var href = link.attr("href");
           href = StringUtils.removeEnd(href, "#");
+          if (StringUtils.isEmpty(href)) {
+            continue;
+          }
           var u = URI.create(href);
           if (u.isAbsolute()) {
             result.add(href);

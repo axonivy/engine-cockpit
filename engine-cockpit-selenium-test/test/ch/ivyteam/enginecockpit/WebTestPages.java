@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.WebDriverRunner;
@@ -38,11 +37,9 @@ class WebTestPages {
   @Test
   void deadLinks() {
     EngineCockpitUtil.login();
-    var sessionId = ((RemoteWebDriver) WebDriverRunner.getWebDriver()).manage().getCookieNamed("JSESSIONID");
-
-
+    var sessionId = WebDriverRunner.getWebDriver().manage().getCookieNamed("JSESSIONID");
     var url = viewUrl("dashboard.xhtml");
-    HttpAsserter.assertThat(url).hasNoDeadLinks(3, sessionId.getValue());
+    HttpAsserter.assertThat(url).hasNoDeadLinks(10, sessionId.getValue());
   }
 
   @Test
