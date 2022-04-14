@@ -64,7 +64,7 @@ public class ApplicationDetailBean {
             .findAny()
             .orElse(null);
     if (app == null) {
-      ResponseHelper.notFound("Application '" + appName + "' not found.");
+      ResponseHelper.notFound("Application '" + appName + "' not found");
       return;
     }
 
