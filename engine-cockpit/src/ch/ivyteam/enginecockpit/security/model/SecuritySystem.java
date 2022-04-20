@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
-import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class SecuritySystem {
@@ -49,7 +48,7 @@ public class SecuritySystem {
   }
 
   public boolean getDeletable() {
-    if (ISecurityConstants.SECURITY_CONTEXT_DEFAULT.equals(getSecuritySystemName())) {
+    if (ISecurityContext.DEFAULT.equals(getSecuritySystemName())) {
       return false;
     }
     return getAppNames().isEmpty();

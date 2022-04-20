@@ -11,6 +11,7 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.IExternalSecuritySystemProvider;
 import ch.ivyteam.ivy.security.ISecurityConstants;
+import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.internal.SecurityContext;
 
@@ -38,7 +39,7 @@ public class SecurityBean {
 
   public static List<SecuritySystem> readSecuritySystems() {
     return ISecurityManager.instance().securityContexts().all().stream()
-            .filter(s -> !ISecurityConstants.SECURITY_CONTEXT_SYSTEM.equals(s.getName()))
+            .filter(s -> !ISecurityContext.SYSTEM.equals(s.getName()))
             .map(s -> new SecuritySystem(s))
             .collect(Collectors.toList());
   }
