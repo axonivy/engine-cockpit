@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
+import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -25,9 +26,10 @@ import ch.ivyteam.naming.JndiProvider;
 @ManagedBean
 @ViewScoped
 public class SecurityConfigDetailBean {
+
   private String name;
+  private SecuritySystem securitySystem;
   private ManagerBean managerBean;
-  private List<String> usedByApps;
 
   private List<String> derefAliases;
   private List<String> protocols;
@@ -74,10 +76,10 @@ public class SecurityConfigDetailBean {
   }
 
   private void loadSecuritySystem() {
-    usedByApps = managerBean.getApplications().stream()
-            .filter(app -> StringUtils.equals(app.getSecuritySystemName(), name))
-            .map(app -> app.getName())
-            .collect(Collectors.toList());
+    securitySystem = managerBean.getSecuritySystems().stream()
+            .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
+            .findAny()
+            .orElseThrow();
 
     derefAliases = Arrays.asList("always", "never", "finding", "searching");
     protocols = Arrays.asList("", "ssl");
@@ -116,7 +118,7 @@ public class SecurityConfigDetailBean {
   }
 
   public List<String> getUsedByApps() {
-    return usedByApps;
+    return securitySystem.getAppNames();
   }
 
   public String getProvider() {
@@ -129,6 +131,10 @@ public class SecurityConfigDetailBean {
 
   public String getUrl() {
     return url;
+  }
+
+  public boolean isJndiSecuritySystem() {
+    return !securitySystem.isIvySecuritySystem();
   }
 
   public void setUrl(String url) {
@@ -267,6 +273,10 @@ public class SecurityConfigDetailBean {
 
   public List<String> getProtocols() {
     return protocols;
+  }
+
+  public String getLink() {
+    return securitySystem.getLink();
   }
 
   public void saveConfiguration() {

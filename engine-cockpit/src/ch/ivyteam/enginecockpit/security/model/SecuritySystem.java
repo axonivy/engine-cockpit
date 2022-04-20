@@ -56,18 +56,14 @@ public class SecuritySystem {
   }
 
   public String getLink() {
-    var xhtml = xhtml();
-    return xhtml + "?securitySystemName=" + securityContext.getName();
-  }
-
-  private String xhtml() {
-    if (ManagerBean.isIvySecuritySystem(this)) {
-      return "security-detail-ivy.xhtml";
-    }
-    return "security-detail-jndi.xhtml";
+    return "security-detail.xhtml?securitySystemName=" + securityContext.getName();
   }
 
   public ISecurityContext getSecurityContext() {
     return securityContext;
+  }
+
+  public boolean isIvySecuritySystem() {
+    return ManagerBean.isIvySecuritySystem(this);
   }
 }
