@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.application.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class SecuritySystem {
@@ -18,7 +18,7 @@ public class SecuritySystem {
     this.securityContext = securityContext;
     this.usersCount = securityContext.users().count();
     this.rolesCount = securityContext.roles().all().size();
-    this.appNames = IApplicationConfigurationManager.all(securityContext).stream()
+    this.appNames = IApplicationRepository.instance().all(securityContext).stream()
             .map(IApplication::getName)
             .collect(Collectors.toList());
   }
