@@ -17,7 +17,9 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -36,6 +38,14 @@ public class WebTestSlowRequests {
     if (clear.is(enabled)) {
       clear.click();
     }
+  }
+
+  @Test
+  void notExisting() {
+    var url = EngineCockpitUtil.viewUrl("monitorTraceDetail.xhtml?traceId=NOT-EXISTING");
+    Selenide.open(url);
+    $(By.className("ui-message-warn-summary")).shouldHave(text("Request no longer available"));
+    $(By.className("ui-message-warn-detail")).shouldHave(text("The request was remove from the slowest requests because other requests were even slower!"));
   }
 
   @Test
