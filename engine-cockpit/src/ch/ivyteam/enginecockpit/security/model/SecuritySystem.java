@@ -19,7 +19,7 @@ public class SecuritySystem {
     this.securityContext = securityContext;
     this.usersCount = securityContext.users().count();
     this.rolesCount = securityContext.roles().all().size();
-    this.appNames = IApplicationRepository.instance().all(securityContext).stream()
+    this.appNames = IApplicationRepository.instance().allOf(securityContext).stream()
             .map(IApplication::getName)
             .collect(Collectors.toList());
   }
