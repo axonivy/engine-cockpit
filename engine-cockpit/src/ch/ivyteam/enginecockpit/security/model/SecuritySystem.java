@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.security.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -60,5 +61,9 @@ public class SecuritySystem {
 
   public ISecurityContext getSecurityContext() {
     return securityContext;
+  }
+
+  public boolean isIvySecuritySystem() {
+    return ManagerBean.isIvySecuritySystem(this);
   }
 }
