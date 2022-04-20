@@ -223,13 +223,16 @@ public class ManagerBean {
   }
 
   public boolean isIvySecuritySystemForSelectedSecuritySystem() {
+    return isIvySecuritySystem(getSelectedSecuritySystem());
+  }
+
+  public static boolean isIvySecuritySystem(SecuritySystem securitySystem) {
     return SecuritySystemConfig.IVY_SECURITY_SYSTEM
-            .equals(getSelectedSecuritySystem().getSecurityContext().getExternalSecuritySystemName());
+            .equals(securitySystem.getSecurityContext().getExternalSecuritySystemName());
   }
 
   public boolean isIvySecuritySystemForSelectedApp() {
-    return SecuritySystemConfig.IVY_SECURITY_SYSTEM
-            .equals(getSelectedApplication().getSecuritySystem().getSecurityContext().getExternalSecuritySystemName());
+    return isIvySecuritySystem(getSelectedApplication().getSecuritySystem());
   }
 
   public List<String> getEnvironments() {

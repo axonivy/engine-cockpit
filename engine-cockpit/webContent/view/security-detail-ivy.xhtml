@@ -5,9 +5,7 @@
 
 <h:body>
   <f:metadata>
-    <f:viewParam name="securitySystemName" value="#{securityDefaultValueBean.securitySystemName}" />
     <f:viewParam name="securitySystemName" value="#{securityConfigDetailBean.securitySystemName}" />
-    <f:viewParam name="securitySystemName" value="#{securityLdapDetailBean.securitySystemName}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -33,34 +31,14 @@
       <div>
         <div class="ui-g">
 
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-fluid">
-            <p:panel styleClass="min-height-550">
-              <ui:include src="../includes/components/security/securitysystem-configuration.xhtml" />
-            </p:panel>
-          </div>
-
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card  ui-fluid">
-            <p:panel styleClass="min-height-550">
-              <ui:include src="../includes/components/security/securitysystem-ldap.xhtml" />
-            </p:panel>
-          </div>
-
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-fluid">
+          <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card ui-fluid">
             <p:panel>
-              <ui:include src="../includes/components/security/securitysystem-binding.xhtml" />
+              <ui:include src="../includes/components/security/securitysystem-configuration-ivy.xhtml" />
             </p:panel>
           </div>
-
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card ui-fluid">
-            <p:panel>
-              <ui:include src="../includes/components/security/securitysystem-ldap-attributes.xhtml" />
-            </p:panel>
-          </div>
-
         </div>
       </div>
     </ui:define>
   </ui:composition>
 </h:body>
-
 </html>

@@ -35,6 +35,7 @@ public class SecurityBean {
 
   private void loadSecuritySystems() {
     systems = readSecuritySystems();
+    System.out.println(systems);
   }
 
   public static List<SecuritySystem> readSecuritySystems() {

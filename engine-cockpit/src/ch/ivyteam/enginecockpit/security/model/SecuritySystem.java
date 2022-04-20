@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.security.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -55,7 +56,15 @@ public class SecuritySystem {
   }
 
   public String getLink() {
-    return "security-detail.xhtml?securitySystemName=" + securityContext.getName();
+    var xhtml = xhtml();
+    return xhtml + "?securitySystemName=" + securityContext.getName();
+  }
+
+  private String xhtml() {
+    if (ManagerBean.isIvySecuritySystem(this)) {
+      return "security-detail-ivy.xhtml";
+    }
+    return "security-detail-jndi.xhtml";
   }
 
   public ISecurityContext getSecurityContext() {
