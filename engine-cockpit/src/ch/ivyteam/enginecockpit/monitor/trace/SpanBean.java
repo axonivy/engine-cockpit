@@ -11,7 +11,6 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.trace.Trace;
 import ch.ivyteam.ivy.trace.TraceSpan;
@@ -22,7 +21,7 @@ import ch.ivyteam.ivy.trace.Tracer;
 public final class SpanBean extends TreeView<Span> {
 
   private static final ArrayList<SpanAttribute> SORTABLE_EMPTY_LIST = new ArrayList<>();
-  private Optional<Trace> trace;
+  private Optional<Trace> trace = Optional.empty();
   private String traceId;
   private Span selected;
 
@@ -35,10 +34,6 @@ public final class SpanBean extends TreeView<Span> {
   }
 
   public void onload() {
-    if (Tracer.instance().slowTraces().find(traceId).isEmpty()) {
-      ResponseHelper.notFound("Trace with id '" + traceId + "' does not exist");
-      return;
-    }
     reloadTree();
   }
 
