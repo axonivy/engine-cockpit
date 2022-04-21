@@ -19,6 +19,8 @@
     </ui:define>
 
     <ui:define name="content">
+      <ui:include src="../includes/dialogs/changesecuritysystemprovider.xhtml" />
+
       <cc:SingleCard id="card">
         <div class="card card-w-title">
           <h:form id="form">
@@ -69,6 +71,17 @@
                   <h:outputText value="#{status.last ? '' : ' / '}" />
                 </ui:repeat>
               </p:column>
+
+              <p:column style="text-align: right;">
+                <p:commandButton process="@this"
+                                 id="change-provider-btn"
+                                 action="#{securitySystemProviderChangerBean.setSystem(system)}"
+                                 update=":changeSecuritySystemProviderModal"
+                                 oncomplete="PF('changeSecuritySystemProviderModal').show()"
+                                 icon="si si-pencil"
+                                 title="Change Provider">
+                </p:commandButton>
+              </p:column>
             </p:dataTable>
           </h:form>
           <ui:include src="../includes/dialogs/newsecuritysystem.xhtml" />
@@ -77,5 +90,4 @@
     </ui:define>
   </ui:composition>
 </h:body>
-
 </html>

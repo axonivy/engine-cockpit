@@ -18,6 +18,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 
 @IvyWebTest
 public class WebTestMigration {
@@ -62,6 +63,19 @@ public class WebTestMigration {
   private void startMigration() {
     $(By.id("form:startMigration")).shouldBe(visible).click();
     $(By.id("form:migrationRunning")).shouldBe(visible, disabled);
+    useOriginWhenCopyingFiles();
+  }
+
+  private void useOriginWhenCopyingFiles() {
+    while (!originRadios().isEmpty()) {
+      for (var radio : originRadios()) {
+        radio.click();
+      }
+    }
+  }
+
+  private ElementsCollection originRadios() {
+    return $$(By.tagName("input")).filter(Condition.value("Origin"));
   }
 
   private void checkMigrationFinished() {
@@ -70,5 +84,4 @@ public class WebTestMigration {
     $(By.id("finishWizardForm:finishWizardYes")).shouldBe(visible).click();
     assertCurrentUrlContains("system");
   }
-
 }
