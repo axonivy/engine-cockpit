@@ -50,48 +50,48 @@
   <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
       styleClass="ui-panelgrid-blank grey-label-panel" rendered="#{securityConfigDetailBean.jndiSecuritySystem}">
 
-	    <p:outputLabel for="url" value="URL" />
-	    <p:inputText id="url" value="#{securityConfigDetailBean.url}" placeholder="#{securityDefaultValueBean.url}" />
-	
-	    <p:outputLabel for="userName" value="User Name" />
-	    <p:inputText id="userName" value="#{securityConfigDetailBean.userName}" />
-	
-	    <p:outputLabel for="password" value="Password" />
-	    <p:password id="password" value="#{securityConfigDetailBean.password}" />
-	
-	    <p:outputLabel for="ldapConnectionPool" value="Use LDAP Connection Pool" />
-	    <p:selectBooleanCheckbox id="ldapConnectionPool" value="#{securityConfigDetailBean.useLdapConnectionPool}" />
-	
-	    <p:outputLabel for="useSsl" value="Use SSL" />
-	    <p:selectBooleanCheckbox id="useSsl" value="#{securityConfigDetailBean.ssl}" />
-	
-	    <p:outputLabel for="enableInsecureSsl" value="Enable Insecure SSL" />
-	    <p:selectBooleanCheckbox id="enableInsecureSsl" value="#{securityConfigDetailBean.enableInsecureSsl}" />
-	
-	    <p:outputLabel for="enableDailySynch" value="Update Job Enabled" />
-	    <p:selectBooleanCheckbox id="enableDailySynch" value="#{securityConfigDetailBean.updateEnabled}" />
-	
-	    <p:outputLabel for="syncTime" value="Synchronization Time" />
-	    <h:panelGroup>
-	      <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99"
-	        placeholder="#{securityDefaultValueBean.updatetime}" />
-	      <p:messages for="syncTime" id="syncTimeMessage" showDetail="true">
-	        <p:autoUpdate />
-	      </p:messages>
-	    </h:panelGroup>
-	
-	    <p:outputLabel for="derefAliasesDropDown" value="Dereference Aliases" />
-	    <p:selectOneMenu id="derefAliasesDropDown" value="#{securityConfigDetailBean.derefAlias}" placeholder="always">
-	      <f:selectItems value="#{securityConfigDetailBean.derefAliases}" />
-	    </p:selectOneMenu>
-	
-	    <p:outputLabel for="ReferralDropDown" value="Referral" />
-	    <p:selectOneMenu id="ReferralDropDown" value="#{securityConfigDetailBean.referral}" placeholder="follow">
-	      <f:selectItems value="#{securityConfigDetailBean.referrals}" />
-	    </p:selectOneMenu>
-	
-	    <p:outputLabel for="onDemandImport" value="Import On Demand" />
-	    <p:selectBooleanCheckbox id="onDemandImport" value="#{securityConfigDetailBean.importOnDemand}" />
+      <p:outputLabel for="url" value="URL" />
+      <p:inputText id="url" value="#{securityConfigDetailBean.url}" placeholder="#{securityDefaultValueBean.url}" />
+
+      <p:outputLabel for="userName" value="User Name" />
+      <p:inputText id="userName" value="#{securityConfigDetailBean.userName}" />
+
+      <p:outputLabel for="password" value="Password" />
+      <p:password id="password" value="#{securityConfigDetailBean.password}" />
+
+      <p:outputLabel for="ldapConnectionPool" value="Use LDAP Connection Pool" />
+      <p:selectBooleanCheckbox id="ldapConnectionPool" value="#{securityConfigDetailBean.useLdapConnectionPool}" />
+
+      <p:outputLabel for="useSsl" value="Use SSL" />
+      <p:selectBooleanCheckbox id="useSsl" value="#{securityConfigDetailBean.ssl}" />
+
+      <p:outputLabel for="enableInsecureSsl" value="Enable Insecure SSL" />
+      <p:selectBooleanCheckbox id="enableInsecureSsl" value="#{securityConfigDetailBean.enableInsecureSsl}" />
+
+      <p:outputLabel for="enableDailySynch" value="Update Job Enabled" />
+      <p:selectBooleanCheckbox id="enableDailySynch" value="#{securityConfigDetailBean.updateEnabled}" />
+
+      <p:outputLabel for="syncTime" value="Synchronization Time" />
+      <h:panelGroup>
+        <p:inputMask id="syncTime" value="#{securityConfigDetailBean.updateTime}" mask="99:99"
+          placeholder="#{securityDefaultValueBean.updatetime}" />
+        <p:messages for="syncTime" id="syncTimeMessage" showDetail="true">
+          <p:autoUpdate />
+        </p:messages>
+      </h:panelGroup>
+
+      <p:outputLabel for="derefAliasesDropDown" value="Dereference Aliases" />
+      <p:selectOneMenu id="derefAliasesDropDown" value="#{securityConfigDetailBean.derefAlias}" placeholder="always">
+        <f:selectItems value="#{securityConfigDetailBean.derefAliases}" />
+      </p:selectOneMenu>
+
+      <p:outputLabel for="ReferralDropDown" value="Referral" />
+      <p:selectOneMenu id="ReferralDropDown" value="#{securityConfigDetailBean.referral}" placeholder="follow">
+        <f:selectItems value="#{securityConfigDetailBean.referrals}" />
+      </p:selectOneMenu>
+
+      <p:outputLabel for="onDemandImport" value="Import On Demand" />
+      <p:selectBooleanCheckbox id="onDemandImport" value="#{securityConfigDetailBean.importOnDemand}" />
    </p:panelGrid>
    
    
