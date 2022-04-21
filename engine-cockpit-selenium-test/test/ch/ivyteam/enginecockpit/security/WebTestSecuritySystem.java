@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -48,14 +49,25 @@ class WebTestSecuritySystem {
 
   @Test
   void addAndDeleteSecuritySystem() {
+    // add
     $("#card\\:form\\:createSecuritySystemBtn").click();
     $("#card\\:newSecuritySystemModal").shouldBe(visible);
     $("#card\\:newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");
     $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
     $("#card\\:newSecuritySystemModal").shouldNotBe(visible);
-    $$(".security-name")
-            .shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "test-nd", "default"));
+    $$(".security-name").shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "test-nd", "default"));
+    $$(".provider-name").shouldBe(textsInAnyOrder("Microsoft Active Directory", "Microsoft Active Directory", "Novell eDirectory", "ivy Security System"));
 
+    // change provider
+    new Table(By.id("card:form:securitySystemTable"), true)
+      .clickButtonForEntry("NewFromTest", "change-provider-btn");
+    PrimeUi
+      .selectOne(By.id("changeSecuritySystemProviderFrom:newSecuritySystemProviderSelect"))
+      .selectItemByLabel("ivy Security System");
+    $(By.id("changeSecuritySystemProviderFrom:saveNewSecuritySystem")).shouldBe(visible).click();
+    $$(".provider-name").shouldBe(textsInAnyOrder("Microsoft Active Directory", "ivy Security System", "Novell eDirectory", "ivy Security System"));
+
+    // delete
     Navigation.toSecuritySystemDetail("NewFromTest");
     $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible);
 
