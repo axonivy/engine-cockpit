@@ -55,8 +55,6 @@ class WebTestUsers {
     $(Tab.SECURITY_SYSTEM.activePanelCss + " h1").shouldHave(text("Users"));
     Table table = new Table(By.cssSelector(Tab.SECURITY_SYSTEM.activePanelCss + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
-    table.search("bar");
-    table.firstColumnShouldBe(size(1));
     table.search("d@ivyteam");
     table.firstColumnShouldBe(size(1));
   }
