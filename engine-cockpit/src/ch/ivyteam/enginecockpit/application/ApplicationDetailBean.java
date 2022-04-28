@@ -166,9 +166,10 @@ public class ApplicationDetailBean {
     var configurator = StandardProcessConfigurator.of(getIApplication());
     var libraries = new LinkedHashSet<String>();
     libraries.add("");
+    libraries.add(StandardProcessConfigurator.AUTO);
     libraries.add(config.getValue());
     for (var processType : processTypesForConfig(config.getKey())) {
-      libraries.addAll(configurator.getAvailableStandardProcessImplementations(processType));
+      libraries.addAll(configurator.findLibraries(processType));
     }
     return List.copyOf(libraries);
   }
