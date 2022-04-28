@@ -22,3 +22,6 @@ BusinessCalendars:
     Parent: Luzern
 
 OverrideProject: ch.ivyteam.enginecockpit:engine-cockpit-test-data
+
+StandardProcess:
+  DefaultPages: ""

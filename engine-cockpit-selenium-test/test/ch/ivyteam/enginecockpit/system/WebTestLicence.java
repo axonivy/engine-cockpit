@@ -10,7 +10,6 @@ import static com.codeborne.selenide.Selenide.$;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +25,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestLicence {
+class WebTestLicence {
 
   private static final String SESSION_USER = "foo";
 
@@ -39,15 +38,15 @@ public class WebTestLicence {
   }
 
   @Test
-  public void testLicenceUploadInvalidFileEnding() throws IOException {
-    Path createTempFile = Files.createTempFile("licence", ".txt");
+  void licenceUploadInvalidFileEnding() throws IOException {
+    var createTempFile = Files.createTempFile("licence", ".txt");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#uploadStatus").shouldBe(empty);
   }
 
   @Test
-  public void testLicenceUploadInvalidLicence() throws IOException {
-    Path createTempFile = Files.createTempFile("licence", ".lic");
+  void licenceUploadInvalidLicence() throws IOException {
+    var createTempFile = Files.createTempFile("licence", ".lic");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
   }
@@ -86,5 +85,4 @@ public class WebTestLicence {
     $("#sessionUserName").shouldHave(text("Unknown User"));
     Selenide.switchTo().window(0);
   }
-
 }
