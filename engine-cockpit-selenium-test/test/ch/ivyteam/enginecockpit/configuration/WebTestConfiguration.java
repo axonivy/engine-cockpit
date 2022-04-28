@@ -47,20 +47,21 @@ class WebTestConfiguration {
   }
 
   @Test
-  void testEmailUrlFilter() {
+  void emailUrlFilter() {
     String filter = "EMail";
     $("#mailConfigForm\\:configureEmailBtn").shouldBe(visible).click();
     assertUrlFiltering(filter);
   }
 
   @Test
-  void testSystemDbConfigUrl() {
+  void systemDbConfigUrl() {
     $("#configureSystemDbBtn").shouldBe(visible).click();
     assertCurrentUrlContains("systemdb.xhtml");
   }
 
   @Nested
   class System {
+
     @BeforeEach
     void beforeEach() {
       Navigation.toSystemConfig();
@@ -68,17 +69,17 @@ class WebTestConfiguration {
     }
 
     @Test
-    void testSystemConfig() {
+    void systemConfig() {
       $("h1").shouldHave(text("System Config"));
     }
 
     @Test
-    void testSearchConfig() {
+    void searchConfig() {
       assertSearchConfigEntry();
     }
 
     @Test
-    void testHideDefaults() {
+    void hideDefaults() {
       var config = "Data.AppDirectory";
       $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
       table.firstColumnShouldBe(itemWithText(config));
@@ -105,19 +106,19 @@ class WebTestConfiguration {
     }
 
     @Test
-    void testShowConfigFile() {
+    void showConfigFile() {
       String key = "Connector.HTTP.AllowTrace";
       assertShowConfigFile(key);
     }
 
     @Test
-    void testNewConfigInvalid() {
+    void newConfigInvalid() {
       $("#newConfigBtn").click();
       assertNewConfigInvalid();
     }
 
     @Test
-    void testNewEditAndResetConfig() {
+    void newEditAndResetConfig() {
       String key = "testKey";
       String value = "testValue";
       $("#newConfigBtn").click();
@@ -127,8 +128,8 @@ class WebTestConfiguration {
     }
 
     @Test
-    void testUpdateConfig() {
-      String config = "EMail.Server.EncryptionMethod";
+    void updateConfig() {
+      var config = "EMail.Server.EncryptionMethod";
       table.firstColumnShouldBe(sizeGreaterThan(0));
       table.row(config).shouldHave(cssClass("default-value"));
 
@@ -146,36 +147,36 @@ class WebTestConfiguration {
     }
 
     @Test
-    void testEditConfig_booleanFormat() {
-      String config = "EMail.Server.SSL.UseKey";
+    void editConfig_booleanFormat() {
+      var config = "EMail.Server.SSL.UseKey";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "false", "");
     }
 
     @Test
-    void testEditConfig_numberFormat() {
-      String config = "Elasticsearch.ExternalServer.BootTimeout";
+    void editConfig_numberFormat() {
+      var config = "Elasticsearch.ExternalServer.BootTimeout";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "60", "Defines how long");
     }
 
     @Test
-    void testEditConfig_daytimeFormat() {
-      String config = "EMail.DailyTaskSummary.TriggerTime";
+    void editConfig_daytimeFormat() {
+      var config = "EMail.DailyTaskSummary.TriggerTime";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "00:00", "Time of day");
     }
 
     @Test
-    void testEditConfig_enumerationFormat() {
-      String config = "SystemTask.Failure.Behaviour";
+    void editConfig_enumerationFormat() {
+      var config = "SystemTask.Failure.Behaviour";
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, "FAIL_TASK_DO_RETRY", "Defines the behaviour");
     }
 
     @Test
-    void testRestartHint() {
-      String config = "Connector.HTTP.Address";
+    void restartHint() {
+      var config = "Connector.HTTP.Address";
       assertEditConfig(config, "", "hi", "https://tomcat.apache.org");
       refresh();
       $(".restart-notification").shouldBe(visible);
@@ -199,12 +200,12 @@ class WebTestConfiguration {
     }
 
     @Test
-    void testSearchConfig() {
+    void searchConfig() {
       assertSearchConfigEntry();
     }
 
     @Test
-    void testHideDefaults() {
+    void hideDefaults() {
       var config = "Data.FilesDirectory";
       table.firstColumnShouldBe(itemWithText(config));
       toggleDefaultFilter();
@@ -248,7 +249,7 @@ class WebTestConfiguration {
     @Test
     void dynamicExpressions() {
       toggleFilter(List.of("Show Rest Clients"));
-      String dynamic = "RestClients.second-rest.Properties.appKey";
+      var dynamic = "RestClients.second-rest.Properties.appKey";
       table.clickButtonForEntry(dynamic, "editConfigBtn");
       new ConfigAssert("config")
               .assertDefault("${ivy.var.password}")
@@ -256,21 +257,21 @@ class WebTestConfiguration {
     }
 
     @Test
-    void testShowConfigFile() {
+    void showConfigFile() {
       String key = "SecuritySystem";
       assertShowConfigFile(key);
     }
 
     @Test
-    void testNewConfigInvalid() {
+    void newConfigInvalid() {
       $("#newConfigBtn").click();
       assertNewConfigInvalid();
     }
 
     @Test
-    void testNewEditAndResetConfig() {
-      String key = "testKey";
-      String value = "testValue";
+    void newEditAndResetConfig() {
+      var key = "testKey";
+      var value = "testValue";
       $("#newConfigBtn").click();
       assertNewConfig(key, value);
       assertEditConfig(key, value, "newValue", "");
@@ -279,8 +280,8 @@ class WebTestConfiguration {
 
     @Test
     void overrideProject_pmvSelector() {
-      String config = "OverrideProject";
-      String value = "notMyLibrary";
+      var config = "OverrideProject";
+      var value = "notMyLibrary";
 
       $("#newConfigBtn").click();
       assertNewConfig(config, value);
@@ -293,32 +294,29 @@ class WebTestConfiguration {
   }
 
   @Nested
-  class ApplicationPortal {
-    @BeforeEach
+  class StandardProcess {
+
+	@BeforeEach
     void beforeEach() {
       Navigation.toApplicationDetail("demo-portal");
-      $(By.id("contentFilter:form:filterBtn"))
-              .scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      $(By.id("contentFilter:form:filterBtn")).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
       table = new Table(TABLE_ID);
     }
 
     @Test
-    void testStandardProcess_defaultPages() {
-      String config = "StandardProcess.DefaultPages";
+    void defaultPages() {
+      var config = "StandardProcess.DefaultPages";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate",
-              "standard-processes", "");
-      $(By.id("config:editConfigurationForm:editConfigurationValue"))
-              .shouldHave(cssClass("ui-selectonemenu"));
+      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate", "standard-processes", "auto");
+      $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
 
     @Test
-    void testStandardProcess_mailNotification() {
-      String config = "StandardProcess.MailNotification";
+    void mailNotification() {
+      var config = "StandardProcess.MailNotification";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, " ", "standard-processes", "");
-      $(By.id("config:editConfigurationForm:editConfigurationValue"))
-              .shouldHave(cssClass("ui-selectonemenu"));
+      assertThatConfigEditModalIsVisible(config, " ", "standard-processes", "auto");
+      $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
   }
 
