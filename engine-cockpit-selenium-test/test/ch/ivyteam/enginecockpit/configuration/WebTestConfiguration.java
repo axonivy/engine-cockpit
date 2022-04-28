@@ -296,7 +296,7 @@ class WebTestConfiguration {
   @Nested
   class StandardProcess {
 
-	@BeforeEach
+    @BeforeEach
     void beforeEach() {
       Navigation.toApplicationDetail("demo-portal");
       $(By.id("contentFilter:form:filterBtn")).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
