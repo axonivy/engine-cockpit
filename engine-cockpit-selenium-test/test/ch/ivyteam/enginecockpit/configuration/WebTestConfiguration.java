@@ -315,7 +315,7 @@ class WebTestConfiguration {
     void mailNotification() {
       var config = "StandardProcess.MailNotification";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, " ", "standard-processes", "auto");
+      assertThatConfigEditModalIsVisible(config, "auto", "standard-processes", "auto");
       $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
   }
