@@ -183,9 +183,9 @@ public class ApplicationDetailBean {
   }
 
   private Set<StandardProcessType> of(StandardProcessType.Kind kind) {
-	  return Arrays.stream(StandardProcessType.values())
-			  .filter(type -> type.kind() == kind)
-			  .collect(Collectors.toSet());
+    return Arrays.stream(StandardProcessType.values())
+      .filter(type -> type.kind() == kind)
+      .collect(Collectors.toSet());
   }
 
   private static List<String> librariesOf(IApplication app) {
