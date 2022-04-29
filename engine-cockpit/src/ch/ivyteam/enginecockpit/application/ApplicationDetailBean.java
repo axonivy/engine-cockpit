@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.application;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -176,9 +177,15 @@ public class ApplicationDetailBean {
 
   private Set<StandardProcessType> processTypesForConfig(String key) {
     if (StringUtils.endsWith(key, "DefaultPages")) {
-      return StandardProcessType.DEFAULT_PAGES_PROCESS_TYPES;
+      return of(StandardProcessType.Kind.PAGE);
     }
-    return StandardProcessType.MAIL_NOTIFICATION_PROCESS_TYPES;
+    return of(StandardProcessType.Kind.MAIL);
+  }
+
+  private Set<StandardProcessType> of(StandardProcessType.Kind kind) {
+	  return Arrays.stream(StandardProcessType.values())
+			  .filter(type -> type.kind() == kind)
+			  .collect(Collectors.toSet());
   }
 
   private static List<String> librariesOf(IApplication app) {
