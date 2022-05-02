@@ -6,10 +6,12 @@
   <cc:attribute name="url" />
   <cc:attribute name="result" />
   <cc:attribute name="testMethod" />
+  <cc:attribute name="saveHint" default="false" />
 </cc:interface>
 <cc:implementation>
   <p:dialog width="50%" header="Connection Test - Url: #{cc.attrs.url}" id="connectionTestModel" styleClass="ui-fluid"
     widgetVar="connectionTestModel" modal="true" responsive="true" closeOnEscape="true" style="margin-left: 120px;">
+    <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info" summary="Info" detail="Make sure that you saved your changes before you test the connection." />
     <h:form id="connTestForm">
       <p:panelGrid columns="1" layout="grid" id="resultLog"
         styleClass="ui-panelgrid-blank form-group modal-input-form ui-fluid">

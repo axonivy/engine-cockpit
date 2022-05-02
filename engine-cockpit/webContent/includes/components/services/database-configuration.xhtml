@@ -25,8 +25,8 @@
       actionListener="#{databaseDetailBean.resetDbConfig}" icon="si si-undo" update="@form"
       styleClass="modal-input-button" />
   </p:confirmDialog>
-  <p:commandButton id="testDatabaseBtn" title="Test Database Connection"
-    onclick="PF('connectionTestModel').show()" type="button" icon="si si-phone-actions-call"
+  <p:commandButton id="testDatabaseBtn" title="Test Database Connection" update="connResult:connectionTestModel"
+    oncomplete="PF('connectionTestModel').show()" icon="si si-phone-actions-call"
     styleClass="secondary-btn card-button" />
 
   <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"

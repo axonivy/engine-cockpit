@@ -51,23 +51,19 @@ public class WebTestRestClientDetail {
 
   @Test
   void testRestTestConnection() {
-    setConfiguration("localhost", "");
-    Selenide.refresh();
+    setUrl("localhost");
+    setUserName("");
     testAndAssertConnection("Invalid Url");
 
-    setConfiguration("http://test-webservices.ivyteam.io:8080/testnotfound", "");
-    Selenide.refresh();
+    setUrl("http://test-webservices.ivyteam.io:8080/testnotfound");
     testAndAssertConnection("Status 404");
 
-    setConfiguration("http://test-webservices.ivyteam.io:91/", "");
-    Selenide.refresh();
+    setUrl("http://test-webservices.ivyteam.io:91/");
     testAndAssertConnection("Status 401");
 
-    setConfiguration("http://test-webservices.ivyteam.io:91/", "admin", "nimda");
-    Selenide.refresh();
+    setUserName("admin");
+    setPassword("nimda");
     testAndAssertConnection("Status 200");
-
-    resetConfiguration();
   }
 
   private void testAndAssertConnection(String msg) {
@@ -98,20 +94,25 @@ public class WebTestRestClientDetail {
             "REST Client Execution Time"), "Default > test-rest");
   }
 
-  private void setConfiguration(String url, String username, String password) {
-    $("#restClientConfigurationForm\\:password").shouldBe(visible).sendKeys(password);
-    setConfiguration(url, username);
-  }
-
   private void setConfiguration(String url, String username) {
-    $("#restClientConfigurationForm\\:url").shouldBe(visible).clear();
-    $("#restClientConfigurationForm\\:url").sendKeys(url);
-
-    $("#restClientConfigurationForm\\:username").clear();
-    $("#restClientConfigurationForm\\:username").sendKeys(username);
-
+    setUrl(url);
+    setUserName(username);
     $("#restClientConfigurationForm\\:saveRestConfig").click();
     $("#restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration saved"));
+  }
+
+  private void setUrl(String url) {
+    $("#restClientConfigurationForm\\:url").shouldBe(visible).clear();
+    $("#restClientConfigurationForm\\:url").sendKeys(url);
+  }
+
+  private void setUserName(String username) {
+    $("#restClientConfigurationForm\\:username").clear();
+    $("#restClientConfigurationForm\\:username").sendKeys(username);
+  }
+
+  private void setPassword(String password) {
+    $("#restClientConfigurationForm\\:password").shouldBe(visible).sendKeys(password);
   }
 
   private void checkConfiguration(String url, String username) {

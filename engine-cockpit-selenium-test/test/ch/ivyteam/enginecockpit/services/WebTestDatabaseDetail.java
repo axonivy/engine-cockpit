@@ -55,19 +55,23 @@ public class WebTestDatabaseDetail {
 
   @Test
   void testDatabaseTestConnection() {
-    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
-    $("#databaseConfigurationForm\\:testDatabaseBtn").click();
-    $("#connResult\\:connectionTestModel").shouldBe(visible);
-    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text("Error"));
+    assertDatabaseTestConnection("Error");
 
     Navigation.toDatabaseDetail("realdb");
+    assertDatabaseTestConnection("Successfully connected to database");
 
+    $("#databaseConfigurationForm\\:userName").sendKeys("1");
+    assertDatabaseTestConnection("Error");
+  }
+
+  private void assertDatabaseTestConnection(String expectedLog) {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     $("#databaseConfigurationForm\\:testDatabaseBtn").click();
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text("Successfully connected to database"));
+    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(expectedLog));
+    $("#connResult\\:connectionTestModel .ui-dialog-titlebar-close").click();
+    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
   }
 
   @Test
