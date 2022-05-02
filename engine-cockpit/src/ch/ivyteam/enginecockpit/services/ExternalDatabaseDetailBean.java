@@ -15,6 +15,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseUtil;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.di.restricted.DiCore;
@@ -180,7 +181,7 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
   
   private ConnectionTestResult testConnection()
   {
-    var dbConfig = managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName).getDatabaseConnectionConfiguration();
+    var dbConfig = prepareDatabaseConnection();
     try (var connection =  DatabaseUtil.openConnection(dbConfig))
     {
       var metaData = connection.getMetaData();
@@ -194,6 +195,18 @@ public class ExternalDatabaseDetailBean extends HelpServices implements IConnect
     {
       return new ConnectionTestResult("", 0, TestResult.ERROR, "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
+  }
+  
+  private DatabaseConnectionConfiguration prepareDatabaseConnection() {
+    var dbConfig = managerBean.getSelectedIEnvironment().findExternalDatabaseConfiguration(databaseName).getDatabaseConnectionConfiguration();
+    dbConfig.setConnectionUrl(externalDatabase.getUrl());
+    dbConfig.setDriverName(externalDatabase.getDriver());
+    dbConfig.setUserName(externalDatabase.getUserName());
+    if (StringUtils.isNotBlank(externalDatabase.getPassword()))
+    {
+      dbConfig.setPassword(externalDatabase.getPassword());
+    }
+    return dbConfig;
   }
   
   public void saveDbConfig()

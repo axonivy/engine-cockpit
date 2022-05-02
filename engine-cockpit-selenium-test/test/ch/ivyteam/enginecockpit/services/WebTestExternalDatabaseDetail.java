@@ -56,21 +56,15 @@ public class WebTestExternalDatabaseDetail
   @Test
   void testExternalDatabaseTestConnection()
   {
-    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
-    $("#databaseConfigurationForm\\:testDatabaseBtn").click();
-    $("#connResult\\:connectionTestModel").shouldBe(visible);
-    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text("Error"));
-  
-    Navigation.toExternalDatabaseDetail("realdb");
+    assertDatabaseTestConnection("Error");
     
-    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
-    $("#databaseConfigurationForm\\:testDatabaseBtn").click();
-    $("#connResult\\:connectionTestModel").shouldBe(visible);
-    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text("Successfully connected to database"));
+    Navigation.toExternalDatabaseDetail("realdb");
+    assertDatabaseTestConnection("Successfully connected to database");
+    
+    $("#databaseConfigurationForm\\:userName").sendKeys("1");
+    assertDatabaseTestConnection("Error");
   }
-  
+
   @Test
   void testSaveAndResetChanges()
   {
@@ -108,6 +102,17 @@ public class WebTestExternalDatabaseDetail
     
     properties.clickButtonForEntry("bla", "deletePropertyBtn");
     properties.firstColumnShouldBe(size(2));
+  }
+  
+  private void assertDatabaseTestConnection(String exprectedLog)
+  {
+    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
+    $("#databaseConfigurationForm\\:testDatabaseBtn").click();
+    $("#connResult\\:connectionTestModel").shouldBe(visible);
+    $("#connResult\\:connTestForm\\:testConnectionBtn").click();
+    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(exprectedLog));
+    $("#connResult\\:connectionTestModel .ui-dialog-titlebar-close").click();
+    $("#connResult\\:connectionTestModel").shouldNotBe(visible);
   }
 
   private void setConfiguration(String url, String driverName, String username, String connections)
