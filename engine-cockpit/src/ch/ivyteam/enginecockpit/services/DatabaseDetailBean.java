@@ -13,6 +13,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import ch.ivyteam.db.jdbc.DatabaseConnectionConfiguration;
 import ch.ivyteam.db.jdbc.DatabaseUtil;
 import ch.ivyteam.db.jdbc.JdbcDriver;
 import ch.ivyteam.enginecockpit.commons.Property;
@@ -170,7 +171,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   }
 
   private ConnectionTestResult testConnection() {
-    var dbConfig = databases.find(databaseName).config();
+    var dbConfig = prepareDatabaseConnection();
     try (var connection = DatabaseUtil.openConnection(dbConfig)) {
       var metaData = connection.getMetaData();
       var productName = metaData.getDatabaseProductName();
@@ -183,6 +184,18 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
       return new ConnectionTestResult("", 0, TestResult.ERROR,
               "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
+  }
+
+  private DatabaseConnectionConfiguration prepareDatabaseConnection() {
+    var dbConfig = databases.find(databaseName).config();
+    dbConfig.setConnectionUrl(database.getUrl());
+    dbConfig.setDriverName(database.getDriver());
+    dbConfig.setUserName(database.getUserName());
+    if (StringUtils.isNotBlank(database.getPassword()))
+    {
+      dbConfig.setPassword(database.getPassword());
+    }
+    return dbConfig;
   }
 
   public void saveDbConfig() {

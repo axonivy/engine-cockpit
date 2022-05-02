@@ -25,13 +25,14 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClients;
-import ch.ivyteam.ivy.webservice.internal.execution.WebserviceExecutionManager;
-import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
+import ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService;
 
 @SuppressWarnings({"restriction", "removal"})
 @ManagedBean
 @ViewScoped
 public class RestClientDetailBean extends HelpServices implements IConnectionTestResult {
+  private static final String REST_PROP_USERNAME = "username";
+  private static final String REST_PROP_PASSWORD = "password";
   private RestClientDto restClient;
   private String restClientName;
 
@@ -96,7 +97,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     valuesMap.put("url", restClient.getUrl());
     valuesMap.put("features", parseFeaturesToYaml(restClient.getFeatures()));
     valuesMap.put("properties", parsePropertiesToYaml(restClient.getProperties().stream()
-            .filter(p -> !StringUtils.equals(p.getName(), "password"))
+            .filter(p -> !StringUtils.equals(p.getName(), REST_PROP_PASSWORD))
             .collect(Collectors.toList())));
     var templateString = readTemplateString("restclient.yaml");
     var strSubstitutor = new StrSubstitutor(valuesMap);
@@ -114,10 +115,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private ConnectionTestResult testConnection() {
     try {
-      var executionManger = (WebserviceExecutionManager) IWebserviceExecutionManager.instance();
-      var restCall = executionManger
-              .getRestWebServiceApplicationContext(managerBean.getSelectedIApplication())
-              .getRestWebService(restClient.getUniqueId()).createCall();
+      var restCall = prepareRestConnection().createCall();
       var status = restCall.getWebTarget().request().head().getStatus();
       if (status >= 200 && status < 400) {
         return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
@@ -132,12 +130,22 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
   }
 
+  private ExternalRestWebService prepareRestConnection() {
+    var restBuilder = restClients.find(restClientName).toBuilder()
+            .uri(restClient.getUrl())
+            .property(REST_PROP_USERNAME, restClient.getUsername());
+    if (restClient.passwordChanged()) {
+      restBuilder.property(REST_PROP_PASSWORD, restClient.getPassword());
+    }
+    return new ExternalRestWebService(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment(), restBuilder.toRestClient());
+  }
+
   public void saveConfig() {
     connectionTest.stop();
     var builder = restClients.find(restClientName).toBuilder().uri(restClient.getUrl());
-    builder.property("username", restClient.getUsername());
+    builder.property(REST_PROP_USERNAME, restClient.getUsername());
     if (restClient.passwordChanged()) {
-      builder.property("password", restClient.getPassword());
+      builder.property(REST_PROP_PASSWORD, restClient.getPassword());
     }
     restClients.set(builder.toRestClient());
     var msg = new FacesMessage("Rest configuration saved", "");
