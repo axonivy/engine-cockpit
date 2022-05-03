@@ -1,0 +1,108 @@
+{
+  "format" : "9.4.8",
+  "id" : "16E8EAD7CC77A0A3",
+  "data" : "engine.cockpit.test.data.Data",
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "createOldDatabase.ivp",
+      "config" : {
+        "callSignature" : "createOldDatabase",
+        "outLink" : "createOldDatabase.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 },
+        "labelOffset" : { "x" : -61, "y" : 30 }
+      },
+      "connect" : { "id" : "f4", "to" : "f3" }
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.system.database.SystemDatabaseCreator;",
+            "SystemDatabaseCreator.createOldDatabase();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : { "id" : "f2", "to" : "f1" }
+    }, {
+      "id" : "f5",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 160 }
+      }
+    }, {
+      "id" : "f6",
+      "type" : "RequestStart",
+      "name" : "deleteOldDatabase.ivp",
+      "config" : {
+        "callSignature" : "deleteOldDatabase",
+        "outLink" : "deleteOldDatabase.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 160 },
+        "labelOffset" : { "x" : -61, "y" : 30 }
+      },
+      "connect" : { "id" : "f9", "to" : "f7" }
+    }, {
+      "id" : "f7",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.system.database.SystemDatabaseCreator;",
+            "SystemDatabaseCreator.deleteOldDatabase();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 160 }
+      },
+      "connect" : { "id" : "f8", "to" : "f5" }
+    }, {
+      "id" : "f10",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.system.database.SystemDatabaseCreator;",
+            "SystemDatabaseCreator.deleteTempDatabase();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 256 }
+      },
+      "connect" : { "id" : "f13", "to" : "f11" }
+    }, {
+      "id" : "f11",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 256 }
+      }
+    }, {
+      "id" : "f12",
+      "type" : "RequestStart",
+      "name" : "deleteTempDatabase.ivp",
+      "config" : {
+        "callSignature" : "deleteTempDatabase",
+        "outLink" : "deleteTempDatabase.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 256 },
+        "labelOffset" : { "x" : -61, "y" : 30 }
+      },
+      "connect" : { "id" : "f14", "to" : "f10" }
+    } ]
+}

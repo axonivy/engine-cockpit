@@ -1,0 +1,50 @@
+{
+  "format" : "9.4.8",
+  "id" : "17B77E4EAE9AC806",
+  "data" : "engine.cockpit.test.data.Data",
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "performance.ivp",
+      "config" : {
+        "callSignature" : "performance",
+        "outLink" : "performance.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 128 },
+        "labelOffset" : { "x" : -21, "y" : 17 }
+      },
+      "connect" : { "id" : "f4", "to" : "f3" }
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 448, "y" : 128 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.count" : "in.count+1"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 128 }
+      },
+      "connect" : { "id" : "f6", "to" : "f5" }
+    }, {
+      "id" : "f5",
+      "type" : "Alternative",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 128 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f1", "condition" : "in.count > 100" },
+        { "id" : "f7", "to" : "f3", "via" : [ { "x" : 352, "y" : 48 }, { "x" : 224, "y" : 48 } ] }
+      ]
+    } ]
+}
