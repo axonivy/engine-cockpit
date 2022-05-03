@@ -9,14 +9,17 @@ import java.util.StringJoiner;
 import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 import ch.ivyteam.enginecockpit.commons.TableFilter;
-import ch.ivyteam.ivy.jsf.primefaces.legazy.LazyDataModel7;
+import ch.ivyteam.ivy.jsf.primefaces.sort.SortMetaConverter;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.query.UserQuery;
 
-public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
+public class UserDataModel extends LazyDataModel<User> implements TableFilter {
 
   private static final String MANUAL_FILTER = "manual";
   private static final String DISABLED_FILTER = "disabled";
@@ -95,13 +98,12 @@ public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
   }
 
   @Override
-  public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder,
-          Map<String, Object> filters) {
+  public List<User> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
     var userQuery = userQuery();
 
     filterRole(userQuery);
     applyFilter(userQuery);
-    applyOrdering(userQuery, sortField, sortOrder);
+    applyOrdering(userQuery, sortBy);
 
     var users = userQuery
             .executor()
@@ -141,7 +143,11 @@ public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
     return securitySystem.getSecurityContext().users().query();
   }
 
-  private static void applyOrdering(UserQuery query, String sortField, SortOrder sortOrder) {
+  private static void applyOrdering(UserQuery query, Map<String, SortMeta> sortBy) {
+    var sort = new SortMetaConverter(sortBy);
+    var sortOrder = sort.toOrder();
+    var sortField = sort.toField();
+
     if (StringUtils.isEmpty(sortField)) {
       return;
     }
@@ -173,6 +179,11 @@ public class UserDataModel extends LazyDataModel7<User> implements TableFilter {
               .findAny()
               .ifPresent(user -> user.setLoggedIn(true));
     }
+  }
+
+  @Override
+  public int count(Map<String, FilterMeta> filterBy) {
+    return getRowCount();
   }
 
 }
