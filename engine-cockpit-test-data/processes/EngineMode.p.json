@@ -1,0 +1,226 @@
+{
+  "format" : "9.4.8",
+  "id" : "16E600A121BCA31F",
+  "data" : "engine.cockpit.test.data.Data",
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "demo.ivp",
+      "config" : {
+        "callSignature" : "demo",
+        "outLink" : "demo.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 },
+        "labelOffset" : { "x" : -21, "y" : 17 }
+      },
+      "connect" : { "id" : "f4", "to" : "f3" }
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.server.restricted.EngineMode;",
+            "",
+            "EngineMode.set(EngineMode.DEMO);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : { "id" : "f2", "to" : "f1" }
+    }, {
+      "id" : "f5",
+      "type" : "RequestStart",
+      "name" : "maintenance_invalidLicence.ivp",
+      "config" : {
+        "callSignature" : "maintenance_invalidLicence",
+        "outLink" : "maintenance_invalidLicence.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 160 },
+        "labelOffset" : { "x" : -77, "y" : 20 }
+      },
+      "connect" : { "id" : "f9", "to" : "f6" }
+    }, {
+      "id" : "f6",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.server.restricted.MaintenanceReason;",
+            "import ch.ivyteam.ivy.server.restricted.EngineMode;",
+            "",
+            "EngineMode.set(EngineMode.MAINTENANCE);",
+            "MaintenanceReason.set(MaintenanceReason.INVALID_LICENCE);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 160 }
+      },
+      "connect" : { "id" : "f8", "to" : "f7" }
+    }, {
+      "id" : "f7",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 160 }
+      }
+    }, {
+      "id" : "f10",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.server.restricted.MaintenanceReason;",
+            "import ch.ivyteam.ivy.server.restricted.EngineMode;",
+            "",
+            "EngineMode.set(EngineMode.MAINTENANCE);",
+            "MaintenanceReason.set(MaintenanceReason.EXPIRED_LICENCE);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 256 }
+      },
+      "connect" : { "id" : "f14", "to" : "f11" }
+    }, {
+      "id" : "f11",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 256 }
+      }
+    }, {
+      "id" : "f12",
+      "type" : "RequestStart",
+      "name" : "maintenance_expiredLicence.ivp",
+      "config" : {
+        "callSignature" : "maintenance_expiredLicence",
+        "outLink" : "maintenance_expiredLicence.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 256 },
+        "labelOffset" : { "x" : -77, "y" : 20 }
+      },
+      "connect" : { "id" : "f13", "to" : "f10" }
+    }, {
+      "id" : "f15",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.server.restricted.MaintenanceReason;",
+            "import ch.ivyteam.ivy.server.restricted.EngineMode;",
+            "",
+            "EngineMode.set(EngineMode.MAINTENANCE);",
+            "MaintenanceReason.set(MaintenanceReason.WRONG_SYSTEM_DATABASE_VERSION);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 352 }
+      },
+      "connect" : { "id" : "f18", "to" : "f16" }
+    }, {
+      "id" : "f16",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 352 }
+      }
+    }, {
+      "id" : "f17",
+      "type" : "RequestStart",
+      "name" : "maintenance_wrongSysDbVersion.ivp",
+      "config" : {
+        "callSignature" : "maintenance_wrongSysDbVersion",
+        "outLink" : "maintenance_wrongSysDbVersion.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 352 },
+        "labelOffset" : { "x" : -77, "y" : 20 }
+      },
+      "connect" : { "id" : "f19", "to" : "f15" }
+    }, {
+      "id" : "f20",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 448 }
+      }
+    }, {
+      "id" : "f21",
+      "type" : "RequestStart",
+      "name" : "maintenance_invalidSysDbConfig.ivp",
+      "config" : {
+        "callSignature" : "maintenance_invalidSysDbConfig",
+        "outLink" : "maintenance_invalidSysDbConfig.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 448 },
+        "labelOffset" : { "x" : -77, "y" : 20 }
+      },
+      "connect" : { "id" : "f24", "to" : "f22" }
+    }, {
+      "id" : "f22",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.server.restricted.MaintenanceReason;",
+            "import ch.ivyteam.ivy.server.restricted.EngineMode;",
+            "",
+            "EngineMode.set(EngineMode.MAINTENANCE);",
+            "MaintenanceReason.set(MaintenanceReason.INVALID_SYSTEM_DATABASE_CONFIG);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 448 }
+      },
+      "connect" : { "id" : "f23", "to" : "f20" }
+    }, {
+      "id" : "f25",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.server.restricted.MaintenanceReason;",
+            "import ch.ivyteam.ivy.server.restricted.EngineMode;",
+            "",
+            "EngineMode.set(EngineMode.MAINTENANCE);",
+            "MaintenanceReason.set(MaintenanceReason.MISSING_SYSTEM_DATABASE);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 544 }
+      },
+      "connect" : { "id" : "f29", "to" : "f26" }
+    }, {
+      "id" : "f26",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 544 }
+      }
+    }, {
+      "id" : "f27",
+      "type" : "RequestStart",
+      "name" : "maintenance_missingSysDb.ivp",
+      "config" : {
+        "callSignature" : "maintenance_missingSysDb",
+        "outLink" : "maintenance_missingSysDb.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 544 },
+        "labelOffset" : { "x" : -77, "y" : 20 }
+      },
+      "connect" : { "id" : "f28", "to" : "f25" }
+    } ]
+}

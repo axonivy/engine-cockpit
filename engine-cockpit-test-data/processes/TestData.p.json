@@ -1,0 +1,440 @@
+{
+  "format" : "9.4.8",
+  "id" : "16E88DD61E825E70",
+  "data" : "engine.cockpit.test.data.Data",
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "addAdministrator.ivp",
+      "config" : {
+        "callSignature" : "addAdministrator",
+        "outLink" : "addAdministrator.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 },
+        "labelOffset" : { "x" : -63, "y" : 23 }
+      },
+      "connect" : { "id" : "f9", "to" : "f8" }
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "RequestStart",
+      "name" : "createBusinessCalendar.ivp",
+      "config" : {
+        "callSignature" : "createBusinessCalendar",
+        "outLink" : "createBusinessCalendar.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 160 },
+        "labelOffset" : { "x" : -75, "y" : 25 }
+      },
+      "connect" : { "id" : "f6", "to" : "f5" }
+    }, {
+      "id" : "f4",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 160 }
+      }
+    }, {
+      "id" : "f5",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.application.calendar.FreeDate;",
+            "import ch.ivyteam.ivy.application.calendar.FreeEasterRelativeDay;",
+            "import ch.ivyteam.ivy.application.calendar.FreeDayOfYear;",
+            "import ch.ivyteam.ivy.application.calendar.FreeDayOfWeek;",
+            "import ch.ivyteam.util.date.Weekday;",
+            "import ch.ivyteam.ivy.application.calendar.WorkingTime;",
+            "import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;",
+            "import ch.ivyteam.ivy.application.IApplication;",
+            "import ch.ivyteam.ivy.application.calendar.IBusinessCalendarSettings;",
+            "",
+            "IApplication app = IApplication.current();",
+            "",
+            "app.findEnvironment(\"test\").setBusinessCalendar(app.getActualEnvironment().getBusinessCalendar().get(\"Luzern\"));"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 160 }
+      },
+      "connect" : { "id" : "f7", "to" : "f4" }
+    }, {
+      "id" : "f8",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
+            "",
+            "IConfiguration.instance().set(\"Administrators.admin.Password\", \"admin\");",
+            "IConfiguration.instance().set(\"Administrators.admin.Email\", \"admin@example.com\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : { "id" : "f2", "to" : "f1" }
+    }, {
+      "id" : "f10",
+      "type" : "RequestStart",
+      "name" : "createBusinessData.ivp",
+      "config" : {
+        "callSignature" : "createBusinessData",
+        "outLink" : "createBusinessData.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 256 },
+        "labelOffset" : { "x" : -68, "y" : 28 }
+      },
+      "connect" : { "id" : "f13", "to" : "f11" }
+    }, {
+      "id" : "f11",
+      "type" : "Script",
+      "name" : "createBusinessData",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.testdata.businessdata.TestDataCreator;",
+            "",
+            "TestDataCreator.createDemoDataIfNotExist();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 256 },
+        "size" : { "width" : 144, "height" : 44 }
+      },
+      "connect" : { "id" : "f14", "to" : "f12" }
+    }, {
+      "id" : "f12",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 256 }
+      }
+    }, {
+      "id" : "f15",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 352 }
+      }
+    }, {
+      "id" : "f16",
+      "type" : "Database",
+      "config" : {
+        "dbWizard" : [
+          "CREATE TABLE Persons (",
+          "    PersonID int,",
+          "    LastName varchar(255),",
+          "    FirstName varchar(255),",
+          "    Address varchar(255),",
+          "    City varchar(255)",
+          ");"
+        ],
+        "dbUrl" : "realdb",
+        "dbSql" : [
+          "<?xml version=\"\"1.0\"\" standalone=\"\"no\"\"?>",
+          "<!DOCTYPE ANY_SQL SYSTEM  \"\"sqlStatements.dtd\"\">",
+          "<ANY_SQL><Verbatim quote='true'>CREATE TABLE Persons (",
+          "    PersonID int,",
+          "    LastName varchar(255),",
+          "    FirstName varchar(255),",
+          "    Address varchar(255),",
+          "    City varchar(255)",
+          ")</Verbatim></ANY_SQL>"
+        ]
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 352 }
+      },
+      "boundaries" : [ {
+          "id" : "f20",
+          "type" : "ErrorBoundaryEvent",
+          "name" : "ivy:error:database",
+          "config" : {
+            "errorCode" : "ivy:error:database"
+          },
+          "visual" : {
+            "at" : { "x" : 256, "y" : 384 },
+            "labelOffset" : { "x" : 0, "y" : 15 }
+          },
+          "connect" : { "id" : "f22", "to" : "f21" }
+        } ],
+      "connect" : { "id" : "f19", "to" : "f15" }
+    }, {
+      "id" : "f17",
+      "type" : "RequestStart",
+      "name" : "runDbExecution.ivp",
+      "config" : {
+        "callSignature" : "runDbExecution",
+        "outLink" : "runDbExecution.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 352 },
+        "labelOffset" : { "x" : -53, "y" : 22 }
+      },
+      "connect" : { "id" : "f18", "to" : "f16" }
+    }, {
+      "id" : "f21",
+      "type" : "Database",
+      "config" : {
+        "dbWizard" : [
+          "SELECT *",
+          "FROM Persons"
+        ],
+        "dbUrl" : "realdb",
+        "dbSql" : [
+          "<?xml version=\"\"1.0\"\" standalone=\"\"no\"\"?>",
+          "<!DOCTYPE ANY_SQL SYSTEM  \"\"sqlStatements.dtd\"\">",
+          "<ANY_SQL><Verbatim quote='true'>SELECT *",
+          "FROM Persons</Verbatim></ANY_SQL>"
+        ]
+      },
+      "visual" : {
+        "at" : { "x" : 256, "y" : 480 }
+      },
+      "connect" : { "id" : "f23", "to" : "f15", "via" : [ { "x" : 352, "y" : 480 } ] }
+    }, {
+      "id" : "f24",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 560 }
+      }
+    }, {
+      "id" : "f25",
+      "type" : "RequestStart",
+      "name" : "createDisabledUser.ivp",
+      "config" : {
+        "callSignature" : "createDisabledUser",
+        "outLink" : "createDisabledUser.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 560 },
+        "labelOffset" : { "x" : -63, "y" : 17 }
+      },
+      "connect" : { "id" : "f28", "to" : "f26" }
+    }, {
+      "id" : "f26",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.testdata.user.TestDataUser;",
+            "",
+            "TestDataUser.createDisabledUser();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 560 }
+      },
+      "connect" : { "id" : "f27", "to" : "f24" }
+    }, {
+      "id" : "f29",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 672 }
+      }
+    }, {
+      "id" : "f30",
+      "type" : "RequestStart",
+      "name" : "createManyDynamicRoles.ivp",
+      "config" : {
+        "callSignature" : "createManyDynamicRoles",
+        "outLink" : "createManyDynamicRoles.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 672 },
+        "labelOffset" : { "x" : -85, "y" : 27 }
+      },
+      "connect" : { "id" : "f32", "to" : "f31" }
+    }, {
+      "id" : "f31",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.testdata.security.DynamicRoles;",
+            "DynamicRoles.createRoles();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 672 }
+      },
+      "connect" : { "id" : "f33", "to" : "f29" }
+    }, {
+      "id" : "f34",
+      "type" : "RequestStart",
+      "name" : "executeRest.ivp",
+      "config" : {
+        "callSignature" : "executeRest",
+        "outLink" : "executeRest.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 864 },
+        "labelOffset" : { "x" : -49, "y" : 18 }
+      },
+      "connect" : { "id" : "f37", "to" : "f35" }
+    }, {
+      "id" : "f35",
+      "type" : "RestClientCall",
+      "config" : {
+        "path" : "/store/inventory",
+        "clientId" : "2fb1152a-d43a-4840-b798-81ce34cef104"
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 864 }
+      },
+      "connect" : { "id" : "f38", "to" : "f36" }
+    }, {
+      "id" : "f36",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 864 }
+      }
+    }, {
+      "id" : "f39",
+      "type" : "RequestStart",
+      "name" : "executeWebService.ivp",
+      "config" : {
+        "callSignature" : "executeWebService",
+        "outLink" : "executeWebService.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 960 },
+        "labelOffset" : { "x" : -71, "y" : 30 }
+      },
+      "connect" : { "id" : "f41", "to" : "f40" }
+    }, {
+      "id" : "f40",
+      "type" : "WebServiceCall",
+      "config" : {
+        "clientId" : "16AB1778C1FA54E5",
+        "port" : "SampleWebServiceSoap",
+        "operation" : "HelloWorld"
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 960 }
+      },
+      "connect" : { "id" : "f43", "to" : "f42" }
+    }, {
+      "id" : "f42",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 960 }
+      }
+    }, {
+      "id" : "f44",
+      "type" : "RequestStart",
+      "name" : "cleanupDynamicRoles.ivp",
+      "config" : {
+        "callSignature" : "cleanupDynamicRoles",
+        "outLink" : "cleanupDynamicRoles.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 448, "y" : 672 },
+        "labelOffset" : { "x" : -64, "y" : 29 }
+      },
+      "connect" : { "id" : "f47", "to" : "f45" }
+    }, {
+      "id" : "f45",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.testdata.security.DynamicRoles;",
+            "DynamicRoles.cleanupRoles();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 576, "y" : 672 }
+      },
+      "connect" : { "id" : "f48", "to" : "f46" }
+    }, {
+      "id" : "f46",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 704, "y" : 672 }
+      }
+    }, {
+      "id" : "f49",
+      "type" : "RequestStart",
+      "name" : "create200kUsers.ivp",
+      "config" : {
+        "callSignature" : "create200kUsers",
+        "outLink" : "create200kUsers.ivp",
+        "startName" : "create200kUsers"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 768 },
+        "labelOffset" : { "x" : -65, "y" : 26 }
+      },
+      "connect" : { "id" : "f56", "to" : "f50" }
+    }, {
+      "id" : "f50",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.testdata.user.TestDataUser;",
+            "TestDataUser.create200kUsers();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 768 }
+      },
+      "connect" : { "id" : "f55", "to" : "f53" }
+    }, {
+      "id" : "f51",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 704, "y" : 768 }
+      }
+    }, {
+      "id" : "f52",
+      "type" : "RequestStart",
+      "name" : "cleanup200kUsers.ivp",
+      "config" : {
+        "callSignature" : "cleanup200kUsers",
+        "outLink" : "cleanup200kUsers.ivp",
+        "startName" : "cleanup200kUsers"
+      },
+      "visual" : {
+        "at" : { "x" : 448, "y" : 768 },
+        "labelOffset" : { "x" : -59, "y" : 26 }
+      },
+      "connect" : { "id" : "f58", "to" : "f54" }
+    }, {
+      "id" : "f53",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 768 }
+      }
+    }, {
+      "id" : "f54",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.testdata.user.TestDataUser;",
+            "TestDataUser.cleanup200kUsers();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 576, "y" : 768 }
+      },
+      "connect" : { "id" : "f57", "to" : "f51" }
+    } ]
+}
