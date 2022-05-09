@@ -3,31 +3,27 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 400px;" header="Change security system provider" id="changeSecuritySystemProviderModal"
+<p:dialog header="Change security system provider" id="changeSecuritySystemProviderModal"
   widgetVar="changeSecuritySystemProviderModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="changeSecuritySystemProviderFrom">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-      <label>Name</label>
-      <h:panelGroup styleClass="md-inputfield">
-        <h:outputText value="#{securitySystemProviderChangerBean.name}" ></h:outputText>
-      </h:panelGroup>
-
-      <label>Provider</label>
-      <h:panelGroup>
-        <p:selectOneMenu id="newSecuritySystemProviderSelect" value="#{securitySystemProviderChangerBean.provider}">
-          <f:selectItems value="#{securityBean.providers}" />
-        </p:selectOneMenu>
-      </h:panelGroup>
-    </p:panelGrid>
-    
     <p:staticMessage severity="warn" detail="If you change the provider, you will lose ALL current settings of this security system!" />
+
+    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
+      styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="newSecuritySystemName" value="Name" />
+      <p:inputText id="newSecuritySystemName" value="#{securitySystemProviderChangerBean.name}" disabled="true" />
+
+      <p:outputLabel for="newSecuritySystemProviderSelect" value="Provider" />
+      <p:selectOneMenu id="newSecuritySystemProviderSelect" value="#{securitySystemProviderChangerBean.provider}">
+        <f:selectItems value="#{securityBean.providers}" />
+      </p:selectOneMenu>
+    </p:panelGrid>
     
     <p:commandButton id="saveNewSecuritySystem" validateClient="true" ajax="false"
       actionListener="#{securitySystemProviderChangerBean.change}" value="Save" icon="si si-floppy-disk"
       styleClass="modal-input-button" />
-    <p:commandLink id="cancelNewSecuritySystem" onclick="PF('changeSecuritySystemProviderModal').hide();" value="Cancel"
-      type="button" styleClass="modal-input-button" />
+    <p:commandButton id="cancelNewSecuritySystem" onclick="PF('changeSecuritySystemProviderModal').hide();" value="Cancel"
+      type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
   </h:form>
 </p:dialog>
 

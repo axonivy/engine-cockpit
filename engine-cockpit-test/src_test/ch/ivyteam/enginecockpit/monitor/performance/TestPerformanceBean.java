@@ -256,6 +256,6 @@ class TestPerformanceBean {
     var percentage = value * 100 / max;
     var end = Math.min(percentage+ 20, 100);
     var color = 120 - percentage * 120 / 100;
-    return "linear-gradient(90deg, hsl(" + color + ", 100%, 70%) " + percentage + "%, #FFFFFF "+ end +"%)";
+    return "linear-gradient(90deg, hsl(" + color + ", 100%, 70%) " + percentage + "%, var(--surface-a, #FFFFFF) "+ end +"%)";
   }
 }

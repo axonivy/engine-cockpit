@@ -41,10 +41,10 @@ public class WebTestRestClientDetail {
   @Test
   void testDetailOpen() {
     assertCurrentUrlContains("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME);
-    $$(".ui-panel").shouldHave(size(2));
+    $$(".card").shouldHave(size(2));
     $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
 
-    $("#breadcrumbOptions > a[href='#']").shouldBe(visible).click();
+    $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(RESTCLIENT_NAME));
   }
@@ -91,7 +91,7 @@ public class WebTestRestClientDetail {
     EngineCockpitUtil.runRestClient();
     navigateToRestDetail();
     EngineCockpitUtil.assertLiveStats(List.of("REST Client Connections", "REST Client Calls",
-            "REST Client Execution Time"), "Default > test-rest");
+            "REST Client Execution Time"), "Default > test-rest", false);
   }
 
   private void setConfiguration(String url, String username) {

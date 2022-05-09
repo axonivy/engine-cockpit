@@ -3,49 +3,55 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-single-neutral-actions table-icon panel-title-icon"></i>
-  <h:outputText value="Users" />
-</f:facet>
-<h:form id="usersOfRoleForm">
-  <p:growl for="usersMessage">
-    <p:autoUpdate />
-  </p:growl>
-  <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUser}" dropdown="true" forceSelection="true"
-    completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
-    var="user" itemLabel="#{user.displayName}" itemValue="#{user}" converter="userConverter"
-    placeholder="Search user to add" disabled="#{roleDetailBean.managed}" />
-  <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
-    icon="si si-add" title="Add" styleClass="primary-btn" disabled="#{roleDetailBean.managed}" />
-  <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
-    lazy="true" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-    <f:facet name="header">
-      <p:outputPanel>
-        <p:outputLabel styleClass="table-search-icon">
-          <i class="si si-search"></i>
-        </p:outputLabel>
-        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-          value="#{roleDetailBean.usersOfRoleFilter}" onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
-      </p:outputPanel>
-    </f:facet>
-    <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
-      <a href="userdetail.xhtml?userName=#{user.name}">
-        <h:outputText styleClass="user-name" value="#{user.name}">
-          <i class="si si-single-neutral-actions table-icon"></i>
-        </h:outputText>
-        <h:outputText value=" (#{user.fullName})" styleClass="addition-row-info" />
-      </a>
-    </p:column>
-    <p:column style="width: 55px;">
-      <ui:param name="canBeRemoved" value="#{roleDetailBean.hasRoleAssigned(user.name)}" />
-      <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
-        actionListener="#{roleDetailBean.removeUser(user.name)}" icon="si si-subtract" 
-        title="#{canBeRemoved ? 'Remove' : 'This user is inherited by a sub role or a role member'}"
-        styleClass="card-button table-control-btn secondary-btn" style="margin: 0; pointer-events: all;"
-        disabled="#{roleDetailBean.managed or !canBeRemoved}" />
-    </p:column>
-  </p:dataTable>
-</h:form>
+<div class="card ui-fluid">
+  <h:form id="usersOfRoleForm">
+    <p:growl for="usersMessage">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-single-neutral-actions"></i>
+        <h6 class="p-m-0">Users</h6>
+      </div>
+    </div>
+    
+    <div class="p-d-flex ui-fluid">
+      <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUser}" dropdown="true" forceSelection="true"
+        completeMethod="#{roleDetailBean.searchUser}" styleClass="card-autocomplete-search" style="width: 100%;"
+        var="user" itemLabel="#{user.displayName}" itemValue="#{user}" converter="userConverter"
+        placeholder="Search user to add" disabled="#{roleDetailBean.managed}" />
+      <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
+        icon="si si-add" title="Add" disabled="#{roleDetailBean.managed}" 
+        styleClass="p-ml-1 p-col-fixed rounded-button" />
+    </div>
+    <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
+      lazy="true" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+      styleClass="p-mt-2">
+      <f:facet name="header">
+        <div class="ui-input-icon-left filter-container">
+          <i class="pi pi-search"/>
+          <p:inputText id="globalFilter" onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" value="#{roleDetailBean.usersOfRoleFilter}" />
+        </div>
+      </f:facet>
+      
+      <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
+        <a href="userdetail.xhtml?userName=#{user.name}">
+          <h:outputText styleClass="user-name" value="#{user.name}">
+            <i class="si si-single-neutral-actions table-icon"></i>
+          </h:outputText>
+          <h:outputText value=" (#{user.fullName})" styleClass="addition-row-info" />
+        </a>
+      </p:column>
+      <p:column styleClass="table-btn-1">
+        <ui:param name="canBeRemoved" value="#{roleDetailBean.hasRoleAssigned(user.name)}" />
+        <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
+          actionListener="#{roleDetailBean.removeUser(user.name)}" icon="si si-subtract" 
+          title="#{canBeRemoved ? 'Remove' : 'This user is inherited by a sub role or a role member'}"
+          styleClass="ui-button-secondary rounded-button" 
+          disabled="#{roleDetailBean.managed or !canBeRemoved}" />
+      </p:column>
+    </p:dataTable>
+  </h:form>
+</div>
 
 </html>

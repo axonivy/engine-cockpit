@@ -7,27 +7,26 @@
   modal="true" responsive="true" closable="false">
 
   <h:form id="synchUserForm">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-      <label>User Name</label>
+    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
+      styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="userSynchName" value="User Name" />
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required"
           value="#{userDetailBean.userSynchName}" disabled="#{not empty userDetailBean.userName}" />
         <p:message for="userSynchName" id="userNameMessage" />
       </h:panelGroup>
-
-      <h:panelGroup>
-        <p:inputTextarea style="min-width: 400px; max-height: 600px; overflow-y: auto; background-image: none;"
-          readonly="true" id="logViewer" value="#{userDetailBean.synchLog}" rows="1" />
-      </h:panelGroup>
     </p:panelGrid>
+    
+    <h:panelGroup id="logViewer" layout="block" style="max-width: 400px; max-height: 600px; overflow-y: auto;">
+      <pre>#{userDetailBean.synchLog}</pre>
+    </h:panelGroup>
 
     <p:commandButton id="synchUserVar" validateClient="true" actionListener="#{userDetailBean.synchUser}" value="Synch"
       icon="si si-button-refresh-arrows" styleClass="modal-input-button" update="@form" />
-    <p:commandLink id="closeSynchUser" value="Close" ajax="false" actionListener="#{userDetailBean.resetSynchInfo}"
-      styleClass="modal-input-button" immediate="true">
+    <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{userDetailBean.resetSynchInfo}"
+      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true">
       <p:resetInput target=":synchUserForm" />
-    </p:commandLink>
+    </p:commandButton>
   </h:form>
 </p:dialog>
 

@@ -3,10 +3,8 @@ package ch.ivyteam.enginecockpit.configuration;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.cssValue;
-import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
@@ -57,7 +55,7 @@ public class WebTestBranding {
   void uploadNoFile() {
     uploadImage(0);
     $(By.id("uploadModal:uploadBtn")).click();
-    $(By.id("uploadError")).shouldBe(exactText("Choose a valid file before upload."));
+    $(By.id("uploadModal:uploadError")).shouldBe(text("Choose a valid file before upload"));
   }
 
   @Test
@@ -66,7 +64,7 @@ public class WebTestBranding {
     Path createTempFile = Files.createTempFile("logo", ".txt");
     $(By.id("fileInput")).sendKeys(createTempFile.toString());
     $(By.id("uploadModal:uploadBtn")).click();
-    $(By.id("uploadError")).shouldBe(exactText("Choose a valid file before upload."));
+    $(By.id("uploadModal:uploadError")).shouldBe(text("Choose a valid file before upload"));
   }
 
   @Test
@@ -103,17 +101,11 @@ public class WebTestBranding {
 
   @Test
   void filterColors() {
-    var colorTable = new Table(By.id(getColorTableId()));
-    colorTable.search("primary-dark");
-    colorTable.firstColumnShouldBe(size(2));
-    colorTable.tableEntry("--ivy-primary-dark-color", 2).shouldHave(text("hsl(64, 70%, 39%)"));
-    colorTable.tableEntry("--ivy-primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(160, 169, 30)"));
-
-    Tab.APP.switchToTab("test-ad");
-    colorTable = new Table(By.id(getColorTableId()));
-    colorTable.firstColumnShouldBe(sizeGreaterThan(40));
-    colorTable.tableEntry("--ivy-primary-dark-color", 2).shouldHave(text("hsl(195, 100%, 24%)"));
-    colorTable.tableEntry("--ivy-primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(0, 92, 122)"));
+    var colorTableTest = new Table(By.id(getColorTableId()));
+    colorTableTest.search("primary-dark");
+    colorTableTest.firstColumnShouldBe(size(2));
+    colorTableTest.tableEntry("--ivy-primary-dark-color", 2).shouldHave(text("hsl(64, 70%, 39%)"));
+    colorTableTest.tableEntry("--ivy-primary-dark-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(160, 169, 30)"));
   }
 
   @Test
@@ -169,7 +161,7 @@ public class WebTestBranding {
     var baseId = getResourcesFormId() + ":images:" + index + ":";
     $(By.id(baseId + "uploadBtn")).shouldBe(visible).click();
     $(By.id("uploadModal:fileUploadModal")).shouldBe(visible);
-    $(By.id("uploadError")).shouldBe(empty);
+    $(By.id("uploadModal:uploadError")).shouldNotBe(visible);
     $(By.id("uploadModal:fileUploadModal_title")).shouldHave(text(Tab.APP.getSelectedTab()));
   }
 

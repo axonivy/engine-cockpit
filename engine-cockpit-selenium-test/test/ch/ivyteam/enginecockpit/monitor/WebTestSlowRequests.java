@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
@@ -9,6 +10,7 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.id;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,11 +32,11 @@ public class WebTestSlowRequests {
   void beforeEach() {
     login();
     Navigation.toSlowRequests();
-    var stop = $(id("traces:form:stop"));
+    var stop = $(id("form:stop"));
     if (stop.is(enabled)) {
       stop.click();
     }
-    var clear = $(id("traces:form:clear"));
+    var clear = $(id("form:clear"));
     if (clear.is(enabled)) {
       clear.click();
     }
@@ -50,63 +52,63 @@ public class WebTestSlowRequests {
 
   @Test
   void buttonState_initial() {
-    $(id("traces:form:start")).shouldBe(visible, enabled);
-    $(id("traces:form:stop")).shouldBe(visible, disabled);
-    $(id("traces:form:clear")).shouldBe(visible, disabled);
-    $(id("traces:form:refresh")).shouldBe(visible, disabled);
-    $(id("traces:form:export")).shouldBe(visible, disabled);
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+    $(id("form:export")).shouldBe(visible, disabled);
     $(id("performance:form:loggingWarning")).shouldBe(Condition.hidden);
   }
 
   @Test
   void buttonState_afterStart() {
     start();
-    $(id("traces:form:start")).shouldBe(visible, disabled);
-    $(id("traces:form:stop")).shouldBe(visible, enabled);
-    $(id("traces:form:clear")).shouldBe(visible, disabled);
-    $(id("traces:form:refresh")).shouldBe(visible, enabled);
-    $(id("traces:form:export")).shouldBe(visible, disabled);
+    $(id("form:start")).shouldBe(visible, disabled);
+    $(id("form:stop")).shouldBe(visible, enabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, enabled);
+    $(id("form:export")).shouldBe(visible, disabled);
   }
 
   @Test
   void buttonState_afterCancelStart() {
-    $(id("traces:form:start")).click();
+    $(id("form:start")).click();
     $(id("startTraces:cancel")).click();
-    $(id("traces:form:start")).shouldBe(visible, enabled);
-    $(id("traces:form:stop")).shouldBe(visible, disabled);
-    $(id("traces:form:clear")).shouldBe(visible, disabled);
-    $(id("traces:form:refresh")).shouldBe(visible, disabled);
-    $(id("traces:form:export")).shouldBe(visible, disabled);
-    $(id("traces:form:loggingWarning")).shouldBe(Condition.hidden);
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+    $(id("form:export")).shouldBe(visible, disabled);
+    $(id("form:loggingWarning")).shouldBe(Condition.hidden);
   }
 
   @Test
   void buttonState_afterStop() {
     start();
-    $(id("traces:form:stop")).click();
-    $(id("traces:form:start")).shouldBe(visible, enabled);
-    $(id("traces:form:stop")).shouldBe(visible, disabled);
-    $(id("traces:form:clear")).shouldBe(visible, disabled);
-    $(id("traces:form:refresh")).shouldBe(visible, disabled);
-    $(id("traces:form:export")).shouldBe(visible, disabled);
+    $(id("form:stop")).click();
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+    $(id("form:export")).shouldBe(visible, disabled);
   }
 
   @Test
   void buttonState_afterRecording() {
     recordData();
 
-    $(id("traces:form:start")).shouldBe(visible, disabled);
-    $(id("traces:form:stop")).shouldBe(visible, enabled);
-    $(id("traces:form:clear")).shouldBe(visible, enabled);
-    $(id("traces:form:refresh")).shouldBe(visible, enabled);
-    $(id("traces:form:export")).shouldBe(visible, enabled);
+    $(id("form:start")).shouldBe(visible, disabled);
+    $(id("form:stop")).shouldBe(visible, enabled);
+    $(id("form:clear")).shouldBe(visible, enabled);
+    $(id("form:refresh")).shouldBe(visible, enabled);
+    $(id("form:export")).shouldBe(visible, enabled);
   }
 
   @Test
   void data_afterRecording() {
     recordData();
 
-    Table traces = new Table(By.id("traces:form:traceTable"), true);
+    Table traces = new Table(By.id("form:traceTable"), true);
     traces.tableEntry("HTTP/1.1 GET", 1).shouldHave(text("HTTP/1.1 GET"));
     traces.tableEntry("HTTP/1.1 GET", 1).$("a").$("span").shouldHave(attributeMatching("title", "(?s).*http\\.uri.*"));
     traces.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
@@ -118,9 +120,10 @@ public class WebTestSlowRequests {
   void navigateToDetail() {
     recordData();
 
-    Table traces = new Table(By.id("traces:form:traceTable"), true);
+    Table traces = new Table(By.id("form:traceTable"), true);
     traces.tableEntry("HTTP/1.1 GET", 1).$("a").click();
-    $(id("spansTitle")).shouldHave(text("Slow Request Detail"));
+    $$(".card").shouldHave(size(2));
+
     Table spans = new Table(By.id("spansTree"), false);
     spans.tableEntry("HTTP/1.1 GET", 1).shouldHave(text("HTTP/1.1 GET"));
     spans.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
@@ -128,7 +131,6 @@ public class WebTestSlowRequests {
     spans.tableEntry("HTTP/1.1 GET", 4).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 5).shouldBe(text("http.uri"));
 
-    $(id("attributesTitle")).shouldHave(text("Attributes"));
     Table attributes = new Table(By.id("attributesTable"), false);
     attributes.tableEntry("http.method", 1).shouldHave(text("http.method"));
     attributes.tableEntry("http.method", 2).shouldHave(text("GET"));
@@ -137,8 +139,8 @@ public class WebTestSlowRequests {
   @Test
   void data_afterClear() {
     recordData();
-    $(id("traces:form:clear")).click();
-    Table traces = new Table(By.id("traces:form:traceTable"), true);
+    $(id("form:clear")).click();
+    Table traces = new Table(By.id("form:traceTable"), true);
     traces.body().shouldHave(text("No records found."));
   }
 
@@ -155,7 +157,7 @@ public class WebTestSlowRequests {
   }
 
   private static void start() {
-    $(id("traces:form:start")).click();
+    $(id("form:start")).click();
     $(id("startTraces:start")).click();
   }
 

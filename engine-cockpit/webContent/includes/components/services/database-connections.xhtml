@@ -3,23 +3,30 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-hyperlink-3 table-icon panel-title-icon"></i>
-  <h:outputText value="Connections" />
-</f:facet>
-<h:form id="databaseConnectionForm" style="overflow-y: auto;">
-  <p:dataTable value="#{databaseDetailBean.connections}" style="padding-top: 10px;" var="conn"
-    id="databaseConnectionsTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-    <p:column headerText="In Use" sortBy="#{conn.inUse}">
-      <h:outputText styleClass="connection">
-        <i class="si si-#{conn.inUse ? 'check-circle-1' : 'remove-circle'} table-icon"></i>
-      </h:outputText>
-    </p:column>
-    <p:column headerText="Last Used" sortBy="#{conn.lastUsed}">
-      <h:outputText value="#{conn.lastUsed}" />
-    </p:column>
-  </p:dataTable>
-</h:form>
+<div class="card">
+  <h:form id="databaseConnectionForm">
+    <p:growl id="databaseConfigMsg" for="databaseConfigMsg" showDetail="true">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-hyperlink-3"></i>
+        <h6 class="p-m-0">Connections</h6>
+      </div>
+    </div>
+    
+    <p:dataTable value="#{databaseDetailBean.connections}" var="conn"
+      id="databaseConnectionsTable" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false">
+      <p:column headerText="In Use" sortBy="#{conn.inUse}">
+        <h:outputText styleClass="connection">
+          <i class="si si-#{conn.inUse ? 'check-circle-1' : 'remove-circle'} table-icon"></i>
+        </h:outputText>
+      </p:column>
+      <p:column headerText="Last Used" sortBy="#{conn.lastUsed}">
+        <h:outputText value="#{conn.lastUsed}" />
+      </p:column>
+    </p:dataTable>
+  </h:form>
+</div>
 
 </html>

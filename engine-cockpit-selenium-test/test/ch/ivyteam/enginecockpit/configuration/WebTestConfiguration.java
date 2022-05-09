@@ -8,6 +8,7 @@ import static com.codeborne.selenide.CollectionCondition.noneMatch;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -37,6 +38,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestConfiguration {
 
+  private static final By CONTENT_FILTER_BTN = By.id("config:form:configTable:filterBtn");
   private static final By TABLE_ID = By.id("config:form:configTable");
   private Table table;
 
@@ -49,7 +51,7 @@ class WebTestConfiguration {
   @Test
   void emailUrlFilter() {
     String filter = "EMail";
-    $("#mailConfigForm\\:configureEmailBtn").shouldBe(visible).click();
+    $("#configureEmailBtn").shouldBe(visible).click();
     assertUrlFiltering(filter);
   }
 
@@ -70,7 +72,7 @@ class WebTestConfiguration {
 
     @Test
     void systemConfig() {
-      $("h1").shouldHave(text("System Config"));
+      $("h2").shouldHave(text("System Config"));
     }
 
     @Test
@@ -81,27 +83,25 @@ class WebTestConfiguration {
     @Test
     void hideDefaults() {
       var config = "Data.AppDirectory";
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
+      assertContentFilterText("Filter: none");
       table.firstColumnShouldBe(itemWithText(config));
       toggleDefaultFilter();
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: defined"));
+      assertContentFilterText("Filter: defined");
       table.firstColumnShouldBe(noneMatch("Config not visible", e -> config.equals(e.getText())));
 
-      $("#contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
+      resetContentFilter();
       table.firstColumnShouldBe(itemWithText(config));
     }
 
     @Test
     void showSecuritySystemConfigs() {
       var config = "SecuritySystems.test-ad.Provider";
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
+      assertContentFilterText("Filter: none");
       table.firstColumnShouldBe(noneMatch("Config not visible", e -> config.equals(e.getText())));
       toggleFilter(List.of("Show Security Systems"));
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: Security Systems"));
+      assertContentFilterText("Filter: Security Systems");
       table.firstColumnShouldBe(itemWithText(config));
-      $("#contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
-      $("#contentFilter\\:form\\:filterBtn").shouldHave(text("Filter: none"));
+      resetContentFilter();
       table.firstColumnShouldBe(noneMatch("Config not visible", e -> config.equals(e.getText())));
     }
 
@@ -179,11 +179,11 @@ class WebTestConfiguration {
       var config = "Connector.HTTP.Address";
       assertEditConfig(config, "", "hi", "https://tomcat.apache.org");
       refresh();
-      $(".restart-notification").shouldBe(visible);
+      $(".restart-notification").should(exist);
       table.valueForEntryShould(config, 2, exactText("hi"));
       assertResetConfig(config);
       refresh();
-      $(".restart-notification").shouldNotBe(visible);
+      $(".restart-notification").shouldNot(exist);
     }
 
   }
@@ -194,8 +194,7 @@ class WebTestConfiguration {
     @BeforeEach
     void beforeEach() {
       Navigation.toApplicationDetail("test-ad");
-      $(By.id("contentFilter:form:filterBtn"))
-              .scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      $(CONTENT_FILTER_BTN).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
       table = new Table(TABLE_ID);
     }
 
@@ -210,8 +209,7 @@ class WebTestConfiguration {
       table.firstColumnShouldBe(itemWithText(config));
       toggleDefaultFilter();
       table.firstColumnShouldBe(noneMatch("Hide default values", e -> StringUtils.equals(e.getText(), config)));
-      $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
-      $("#contentFilter\\:form\\:resetFilterBtn").shouldBe(visible).click();
+      resetContentFilter();
       table.firstColumnShouldBe(itemWithText(config));
     }
 
@@ -240,8 +238,7 @@ class WebTestConfiguration {
               element -> StringUtils.equals(element.getText(), config)));
       toggleFilter(List.of(filter));
       table.firstColumnShouldBe(itemWithText(config));
-      $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
-      $("#contentFilter\\:form\\:resetFilterBtn").shouldBe(visible).click();
+      resetContentFilter();
       table.firstColumnShouldBe(noneMatch("Config should not be listed in the config table after reset filter: " + config,
               element -> StringUtils.equals(element.getText(), config)));
     }
@@ -299,7 +296,7 @@ class WebTestConfiguration {
     @BeforeEach
     void beforeEach() {
       Navigation.toApplicationDetail("demo-portal");
-      $(By.id("contentFilter:form:filterBtn")).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
+      $(By.id("config:form:configTable:filterBtn")).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
       table = new Table(TABLE_ID);
     }
 
@@ -332,11 +329,11 @@ class WebTestConfiguration {
   }
 
   private void toggleFilter(List<String> filter) {
-    $("#contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
-    $$("#contentFilter\\:form\\:filterPanel .ui-chkbox").shouldBe(sizeGreaterThanOrEqual(1));
-    var checkboxes = PrimeUi.selectManyCheckbox(By.cssSelector("#contentFilter\\:form\\:filterCheckboxes"));
+    $(CONTENT_FILTER_BTN).shouldBe(visible).click();
+    $$("#contentFilter\\:filterPanel .ui-chkbox").shouldBe(sizeGreaterThanOrEqual(1));
+    var checkboxes = PrimeUi.selectManyCheckbox(By.cssSelector("#contentFilter\\:filterForm\\:filterCheckboxes"));
     checkboxes.setCheckboxes(filter);
-    $("#contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
+    $("#contentFilter\\:filterForm\\:applyFilter").shouldBe(visible).click();
   }
 
   private void assertShowConfigFile(String key) {
@@ -404,6 +401,16 @@ class WebTestConfiguration {
             .assertDesc(desc)
             .assertDefault(defaultValue)
             .assertValue(value);
+  }
+
+  private void resetContentFilter() {
+    $(CONTENT_FILTER_BTN).shouldBe(visible).click();
+    $("#contentFilter\\:filterForm\\:resetFilterBtn").shouldBe(visible).click();
+    assertContentFilterText("Filter: none");
+  }
+
+  private void assertContentFilterText(String expectedFilter) {
+    $(CONTENT_FILTER_BTN).shouldHave(attribute("title", expectedFilter));
   }
 
   public static class ConfigAssert {

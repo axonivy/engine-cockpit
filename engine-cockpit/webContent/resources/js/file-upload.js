@@ -1,7 +1,7 @@
 var file;
 var directUpload = false;
 var uploadUrl = "";
-var uploadErrorField = "#uploadError";
+var uploadErrorField = "#deploymentModal\\:uploadError";
 var headers = { "X-Requested-By": "engine-cockpit" };
 
 function initFileUpload() {
@@ -55,12 +55,12 @@ function endsWithAnyAccepts(fileName) {
 
 function upload() {
   if (!file) {
-    $(uploadErrorField).html("<i class='si si-alert-circle'></i> Choose a valid file before upload.");
+    $(uploadErrorField).show();
     return;
   }
+  $(uploadErrorField).hide();
 
   $.ajax({
-  
     xhr: function() {
       var xhr = new window.XMLHttpRequest();
       xhr.onprogress = function () {

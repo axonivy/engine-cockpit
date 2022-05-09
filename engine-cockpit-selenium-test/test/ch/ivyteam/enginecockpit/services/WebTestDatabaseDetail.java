@@ -45,10 +45,10 @@ public class WebTestDatabaseDetail {
   @Test
   void testDetailOpen() {
     assertCurrentUrlContains("databasedetail.xhtml?databaseName=" + DATABASE_NAME);
-    $$(".ui-panel").shouldHave(size(4));
+    $$(".card").shouldHave(size(4));
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
 
-    $("#breadcrumbOptions > a[href='#']").shouldBe(visible).click();
+    $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $("#helpDatabaseDialog\\:helpServicesModal").shouldBe(visible);
     $(".code-block").shouldBe(text(DATABASE_NAME));
   }
@@ -114,7 +114,7 @@ public class WebTestDatabaseDetail {
   @Test
   void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Database Connections", "Database Queries",
-            "Database Query Execution Time"), "Default > test-db");
+            "Database Query Execution Time"), "Default > test-db", false);
   }
 
   private void setConfiguration(String url, String driverName, String username, String connections) {

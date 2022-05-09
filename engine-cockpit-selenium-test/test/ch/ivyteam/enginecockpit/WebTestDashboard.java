@@ -4,7 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createLicenceEvent
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -36,44 +36,44 @@ public class WebTestDashboard {
   }
 
   @Test
-  void testDashboardContent() {
+  void dashboardContent() {
     EngineCockpitUtil.createRunningCase();
     login();
-    var sessions = $(".overview-box-count", 0).shouldBe(visible).text();
+    var sessions = $(".overview-box h1", 0).shouldBe(visible).text();
     assertThat(Integer.parseInt(sessions)).isGreaterThan(0);
-    var users = $(".overview-box-count", 1).shouldBe(visible).text();
+    var users = $(".overview-box h1", 1).shouldBe(visible).text();
     assertThat(Integer.parseInt(users)).isBetween(5, 10);
-    var cases = $(".overview-box-count", 2).shouldBe(visible).text();
+    var cases = $(".overview-box h1", 2).shouldBe(visible).text();
     assertThat(Integer.parseInt(cases)).isGreaterThan(0);
-    var apps = $(".overview-box-count", 3).shouldBe(visible).text();
+    var apps = $(".overview-box h1", 3).shouldBe(visible).text();
     assertThat(Integer.parseInt(apps)).isEqualTo(3);
-    $$(".ui-panel").shouldHave(size(5));
+    $$(".card").shouldHave(size(9));
     EngineCockpitUtil.destroyRunningCase();
   }
 
   @Test
   void checkLicenceInfo() {
     $("#tasksButtonLicenceDetail").shouldBe(visible).click();
-    $("h1").shouldHave(text("Licence"));
+    $("h2").shouldHave(text("Licence"));
     $("#licence\\:licWarnMessage").shouldHave(text("Please upload a valid licence"));
   }
 
   @Test
   void checkLicenceEvents() {
     $("#tasksButtonLicenceEvents").shouldBe(visible);
-    $$(".licence-notification > a > span").first().shouldBe(exactText("2"));
+    $(".licence-notification").shouldBe(visible);
 
     $("#tasksButtonLicenceEvents").click();
     $("#licenceEventsDialog").shouldBe(visible);
-    $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(2));
-    $("#licenceEventForm\\:licenceEventList\\:0\\:confirmEventBtn").click();
-    $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(1));
+    $$(".licence-messages li").shouldHave(size(2));
+    $(".licence-messages li", 0).find(".ui-button").click();
+    $$(".licence-messages li").shouldHave(size(1));
     $("#licenceEventForm\\:closeLicenceEventsDialog").click();
     $("#licenceEventsDialog").shouldNotBe(visible);
 
     $(".licence-notification > a").click();
     $("#licenceEventsDialog").shouldBe(visible);
-    $$("#licenceEventForm\\:licenceEventList li").shouldHave(size(1));
+    $$(".licence-messages li").shouldHave(size(1));
     $("#licenceEventForm\\:confirmAllLicenceEvents").click();
 
     $("#tasksButtonLicenceDetail").shouldBe(visible);
@@ -91,26 +91,26 @@ public class WebTestDashboard {
   }
 
   @Test
-  public void testSendTestMailInvalidInputs() {
+  void sendTestMailInvalidInputs() {
     openSendMailModal();
     $("#sendTestMailForm\\:sendToInput").clear();
     $("#sendTestMailForm\\:subjectInput").clear();
     $("#sendTestMailForm\\:sendTestMailBtn").click();
-    $("#sendTestMailForm\\:sendToInputMessage").shouldBe(exactText("Value is required"));
-    $("#sendTestMailForm\\:subjectInputMessage").shouldBe(exactText("Value is required"));
+    $("#sendTestMailForm\\:sendToInput").shouldHave(cssClass("ui-state-error"));
+    $("#sendTestMailForm\\:subjectInput").shouldHave(cssClass("ui-state-error"));
   }
 
   @Test
-  public void testSendTestMailError() {
+  void sendTestMailError() {
     openSendMailModal();
     $("#sendTestMailForm\\:sendToInput").sendKeys("test@example.com");
     $("#sendTestMailForm\\:sendTestMailBtn").click();
-    $("#mailConfigForm\\:msgs_container").shouldBe(visible);
-    $("#mailConfigForm\\:msgs_container").shouldHave(Condition.text("Error while sending test mail"));
+    $("#msgs_container").shouldBe(visible);
+    $("#msgs_container").shouldHave(Condition.text("Error while sending test mail"));
   }
 
   private void openSendMailModal() {
-    $("#mailConfigForm\\:openTestMailBtn").shouldBe(visible).click();
+    $("#openTestMailBtn").shouldBe(visible).click();
     $("#sendTestMailModal").shouldBe(visible);
   }
 

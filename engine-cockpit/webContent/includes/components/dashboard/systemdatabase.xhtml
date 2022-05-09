@@ -3,29 +3,32 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-database-settings table-icon panel-title-icon"></i>
-  <h:outputText value="System Database" />
-</f:facet>
-<p:linkButton id="helpSystemDbBtn" title="Help" icon="si si-question-circle" type="button"
-  href="#{advisorBean.engineGuideBaseUrl}/configuration/system-database/index.html"
-  target="_blank" rel="noopener noreferrer" styleClass="secondary-btn card-button" />
-<p:commandButton id="configureSystemDbBtn" title="Configure SystemDb" icon="si si-cog" type="button"
-  styleClass="secondary-btn card-button" onclick="window.location.href='systemdb.xhtml'" />
-<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-  styleClass="ui-panelgrid-blank grey-label-panel" rendered="#{!engineModeBean.demo}">
-  <label>URL</label>
-  <h:outputText value="#{systemDatabaseBean.url}" />
-  <label>Driver</label>
-  <h:outputText value="#{systemDatabaseBean.driver}" />
-</p:panelGrid>
-<p:panelGrid rendered="#{engineModeBean.demo}" columns="1" columnClasses="ui-grid-col-12" layout="grid"
-  styleClass="ui-panelgrid-blank">
-  <h:outputText value="No licence installed. HSQL Memory Db is used." rendered="#{!licenceBean.installed}" />
-  <h:outputText value="No system database configured yet. HSQL Memory Db is used."
-    rendered="#{licenceBean.installed}" />
-</p:panelGrid>
-<p:staticMessage rendered="#{systemDatabaseBean.hasProblem}" severity="warn"
-  detail="#{systemDatabaseBean.problemMessage}" />
+<div class="card">
+  <div class="card-header">
+    <div class="card-title p-d-flex p-ai-center">
+      <i class="p-pr-3 si si-database-settings"></i>
+      <h6 class="p-m-0">System Database</h6>
+      <p:linkButton id="helpSystemDbBtn" title="Help" icon="si si-question-circle" type="button"
+        href="#{advisorBean.engineGuideBaseUrl}/configuration/system-database/index.html"
+        target="_blank" rel="noopener noreferrer" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" />
+      <p:linkButton id="configureSystemDbBtn" title="Configure SystemDb" icon="si si-cog" type="button"
+        styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button" href="systemdb.xhtml" />
+    </div>
+  </div>
+  <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8"
+    styleClass="grey-label-panel">
+    <label>URL</label>
+    <h:outputText value="#{systemDatabaseBean.url}" />
+    <label>Driver</label>
+    <h:outputText value="#{systemDatabaseBean.driver}" />
+  </p:panelGrid>
+  
+  <p:panelGrid rendered="#{engineModeBean.demo}" columns="1" layout="flex">
+    <p:staticMessage severity="info" summary="No licence installed" detail="HSQL Memory Db is used" rendered="#{!licenceBean.installed}" />
+    <p:staticMessage severity="warn" summary="No system database configured yet" detail="HSQL Memory Db is used" rendered="#{licenceBean.installed}" />
+  </p:panelGrid>
+  <p:staticMessage rendered="#{systemDatabaseBean.hasProblem}" severity="warn"
+    detail="#{systemDatabaseBean.problemMessage}" />
+</div>
 
 </html>

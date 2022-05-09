@@ -32,8 +32,8 @@ class WebTestSecuritySystem {
 
   @Test
   void securitySystem() {
-    $("h1").shouldBe(text("Security Systems"));
-    var table = new Table(By.id("card:form:securitySystemTable"), true);
+    $("h2").shouldBe(text("Security Systems"));
+    var table = new Table(By.id("form:securitySystemTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
     table.valueForEntryShould("test-nd", 3, empty);
     table.valueForEntryShould("test-ad", 3, exactText("test-ad"));
@@ -41,25 +41,25 @@ class WebTestSecuritySystem {
 
   @Test
   void addNewSecuritySystemInvalid() {
-    $("#card\\:form\\:createSecuritySystemBtn").click();
-    $("#card\\:newSecuritySystemModal").shouldBe(visible);
-    $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
-    $("#card\\:newSecuritySystemForm\\:newSecuritySystemNameMessage").shouldBe(text("Value is required"));
+    $("#form\\:createSecuritySystemBtn").click();
+    $("#newSecuritySystemModal").shouldBe(visible);
+    $("#newSecuritySystemForm\\:saveNewSecuritySystem").click();
+    $("#newSecuritySystemForm\\:newSecuritySystemNameMessage").shouldBe(text("Value is required"));
   }
 
   @Test
   void addAndDeleteSecuritySystem() {
     // add
-    $("#card\\:form\\:createSecuritySystemBtn").click();
-    $("#card\\:newSecuritySystemModal").shouldBe(visible);
-    $("#card\\:newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");
-    $("#card\\:newSecuritySystemForm\\:saveNewSecuritySystem").click();
-    $("#card\\:newSecuritySystemModal").shouldNotBe(visible);
+    $("#form\\:createSecuritySystemBtn").click();
+    $("#newSecuritySystemModal").shouldBe(visible);
+    $("#newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");
+    $("#newSecuritySystemForm\\:saveNewSecuritySystem").click();
+    $("#newSecuritySystemModal").shouldNotBe(visible);
     $$(".security-name").shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "test-nd", "default"));
     $$(".provider-name").shouldBe(textsInAnyOrder("Microsoft Active Directory", "Microsoft Active Directory", "Novell eDirectory", "ivy Security System"));
 
     // change provider
-    new Table(By.id("card:form:securitySystemTable"), true)
+    new Table(By.id("form:securitySystemTable"), true)
       .clickButtonForEntry("NewFromTest", "change-provider-btn");
     PrimeUi
       .selectOne(By.id("changeSecuritySystemProviderFrom:newSecuritySystemProviderSelect"))

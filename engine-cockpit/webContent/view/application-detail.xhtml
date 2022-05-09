@@ -10,60 +10,55 @@
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
+  
+    <ui:define name="head">
+      <h:outputStylesheet name="resources/codemirror/css/dark.css" />
+    </ui:define>
 
     <ui:define name="breadcrumb">
       <li><a href="applications.xhtml">Applications</a></li>
       <li>/</li>
-      <li><a
-          href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a>
-      </li>
+      <li><a href="application-detail.xhtml?appName=#{applicationDetailBean.appName}">#{applicationDetailBean.appName}</a></li>
     </ui:define>
-
-    <ui:define name="breadcrumb-right">
-      <a href="/#{applicationDetailBean.appName}" title="Application Workflow Home" target="_blank">
-        <i class="si si-lg si si-hyperlink-3"></i>
-      </a>
-      <a href="logs.xhtml?log=config.log" title="Show configuration log">
-        <i class="si si-lg si-common-file-text"></i>
-      </a>
-      <a href="#{advisorBean.cockpitEngineGuideUrl}applications.html#application-detail" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    
+    <ui:define name="topbar-items">
+      <cc:TopBarItem styleClass="app-home-link" href="/#{applicationDetailBean.appName}" icon="si-hyperlink-3" title="Application Workflow Home" />
+      <cc:TopBarItem styleClass="config-link" href="logs.xhtml?log=config.log" icon="si-common-file-text" title="Show configuration log" external="false" />
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}applications.html#application-detail" />
     </ui:define>
 
     <ui:define name="content">
-      <div class="ui-g ui-fluid dashboard">
-        <cc:OverviewBox box="1" count="#{applicationDetailBean.sessionCount}" icon="si si-style-two-pin-user"
-          title="Sessions" link="users.xhtml" />
-        <cc:OverviewBox box="2" count="#{applicationDetailBean.usersCount}" icon="si si-single-neutral-actions"
-          title="Users" link="users.xhtml" />
-        <cc:OverviewBox box="3" count="#{applicationDetailBean.casesCount}" icon="si si-layout-bullets"
-          title="Running Cases" link="#" />
-        <cc:OverviewBox box="4" count="#{applicationDetailBean.pmCount}" icon="si si-module-three-2"
-          title="Process Models" link="#" />
-
-        <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-          <p:panel style="min-height: 372px">
+      <div class="layout-dashboard">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <div class="p-grid" style="margin: -1rem;">
+              <cc:OverviewBox box="white" count="#{applicationDetailBean.sessionCount}" icon="si si-style-two-pin-user"
+                title="Sessions" link="users.xhtml" />
+              <cc:OverviewBox box="blue" count="#{applicationDetailBean.usersCount}" icon="si si-single-neutral-actions"
+                title="Users" link="users.xhtml" />
+              <cc:OverviewBox box="gray" count="#{applicationDetailBean.casesCount}" icon="si si-layout-bullets"
+                title="Running Cases" link="#" />
+              <cc:OverviewBox box="darkgray" count="#{applicationDetailBean.pmCount}" icon="si si-module-three-2"
+                title="Process Models" link="#" />
+            </div>
+          </div>
+          
+          <div class="p-col-12 p-md-12 p-xl-6">
             <ui:include src="../includes/components/application/information.xhtml" />
-          </p:panel>
-        </div>
-        <div class="ui-g-12 ui-md-12 ui-lg-6 ui-g-nopad dashboard-card">
-          <div class="ui-g-12">
-            <p:panel styleClass="min-height-200">
-              <ui:include src="../includes/components/application/security.xhtml" />
-            </p:panel>
           </div>
-          <div class="ui-g-12">
-            <p:panel styleClass="min-height-150">
-              <ui:include src="../includes/components/application/state.xhtml" />
-            </p:panel>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <div class="p-grid" style="margin: -1rem;">
+              <div class="p-col-12">
+                <ui:include src="../includes/components/application/security.xhtml" />
+              </div>
+              <div class="p-col-12">
+                <ui:include src="../includes/components/application/state.xhtml" />
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="ui-g-12 dashboard-card">
-          <p:panel styleClass="min-height-250">
+          <div class="p-col-12">
             <ui:include src="../includes/components/application/configuration.xhtml" />
-          </p:panel>
+          </div>
         </div>
       </div>
     </ui:define>

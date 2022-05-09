@@ -9,6 +9,7 @@ import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThanOrEqual;
 import static com.codeborne.selenide.CollectionCondition.texts;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -52,7 +53,7 @@ class WebTestUsers {
 
   @Test
   void usersInTable() {
-    $(Tab.SECURITY_SYSTEM.activePanelCss + " h1").shouldHave(text("Users"));
+    $("h2").shouldHave(text("Users"));
     Table table = new Table(By.cssSelector(Tab.SECURITY_SYSTEM.activePanelCss + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
     table.search("d@ivyteam");
@@ -62,8 +63,8 @@ class WebTestUsers {
   @Test
   void manualUsersInManagedSecuritySystem() {
     triggerSync();
-    $(getSecuritySystemTabId() + "syncMoreBtn_menuButton").shouldBe(visible).click();
-    $(getSecuritySystemTabId() + "syncNewUserBtn").shouldBe(visible).click();
+    $("#form\\:syncMoreBtn_menuButton").shouldBe(visible).click();
+    $("#form\\:syncNewUserBtn").shouldBe(visible).click();
 
     $("#newUserModal").shouldBe(visible);
     $("#newUserForm\\:newUserNameInput").sendKeys("manual");
@@ -91,7 +92,6 @@ class WebTestUsers {
     login();
     Navigation.toUsers();
     Tab.SECURITY_SYSTEM.switchToDefault();
-    $(Tab.SECURITY_SYSTEM.activePanelCss + " h1").shouldHave(text("Users"));
 
     Table table = new Table(By.cssSelector(Tab.SECURITY_SYSTEM.activePanelCss + " .userTable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
@@ -114,49 +114,49 @@ class WebTestUsers {
 
   @Test
   void contentFilter() {
-    var filterBtn = SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterBtn";
-    var resetFilter = SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex()
-            + "\\:contentFilter\\:form\\:resetFilter";
-    var filterPanel = SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex()
-            + "\\:contentFilter\\:form\\:filterPanel";
-    $(filterBtn).shouldHave(text("Filter: enabled users"));
+    $$(contentFilterSelector() + "filterPanel .ui-chkbox").shouldBe(size(1));
+    assertContentFilterText("Filter: enabled users");
     filterTableFor("Show disabled users");
-    $(filterBtn).shouldHave(text("Filter: disabled users"));
-    $(resetFilter).shouldBe(visible).click();
-    $(filterBtn).shouldHave(text("Filter: enabled users"));
-    $(filterBtn).click();
-    $$(filterPanel + " .ui-chkbox").shouldBe(size(1));
+    assertContentFilterText("Filter: disabled users");
+    resetFilter();
+    assertContentFilterText("Filter: enabled users");
+    $(filterBtn()).click();
   }
 
   @Test
   void contentFilterAD() {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    var filterBtn = SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:contentFilter\\:form\\:filterBtn";
-    var resetFilter = SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex()
-            + "\\:contentFilter\\:form\\:resetFilter";
-    var filterPanel = SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex()
-            + "\\:contentFilter\\:form\\:filterPanel";
-    $(filterBtn).shouldHave(text("Filter: enabled users"));
+    $$(contentFilterSelector() + "filterPanel .ui-chkbox").shouldBe(size(2));
+    assertContentFilterText("Filter: enabled users");
     filterTableFor("Show disabled users");
-    $(filterBtn).shouldHave(text("Filter: disabled users"));
+    assertContentFilterText("Filter: disabled users");
     filterTableFor("Show manual users");
-    $(filterBtn).shouldHave(text("Filter: manual disabled users"));
-    $(resetFilter).shouldBe(visible).click();
-    $(filterBtn).shouldHave(text("Filter: enabled users"));
-    $$(filterPanel + " .ui-chkbox").shouldBe(size(2));
+    assertContentFilterText("Filter: manual disabled users");
+    resetFilter();
+    assertContentFilterText("Filter: enabled users");
   }
 
   private void filterTableFor(String filter) {
-    var securitySystemId = SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:";
-    $(securitySystemId + "contentFilter\\:form\\:filterBtn").shouldBe(visible).click();
-    PrimeUi.selectManyCheckbox(By.cssSelector(securitySystemId + "contentFilter\\:form\\:filterCheckboxes"))
-            .setCheckboxes(List.of(filter));
-    $(securitySystemId + "contentFilter\\:form\\:applyFilter").shouldBe(visible).click();
+    $(filterBtn()).shouldBe(visible).click();
+    PrimeUi.selectManyCheckbox(By.cssSelector(contentFilterSelector() + "filterCheckboxes")).setCheckboxes(List.of(filter));
+    $(contentFilterSelector() + "applyFilter").shouldBe(visible).click();
   }
 
   private void resetFilter() {
-    var securitySystemId = SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:";
-    $(securitySystemId + "contentFilter\\:form\\:resetFilter").shouldBe(visible).click();
+    $(filterBtn()).shouldBe(visible).click();
+    $(contentFilterSelector() + "resetFilterBtn").shouldBe(visible).click();
+  }
+
+  private void assertContentFilterText(String expectedFilter) {
+    $(filterBtn()).shouldHave(attribute("title", expectedFilter));
+  }
+
+  private String filterBtn() {
+    return contentFilterSelector() + "filterBtn";
+  }
+
+  private String contentFilterSelector() {
+    return SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:tableForm\\:userTable\\:";
   }
 
   @Test
@@ -214,31 +214,27 @@ class WebTestUsers {
   @Test
   void jumpToSyncLog() {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    $(getSecuritySystemTabId() + "syncMoreBtn_menuButton").click();
-    $(getSecuritySystemTabId() + "userSyncLog").shouldBe(visible).click();
+    $("#form\\:syncMoreBtn_menuButton").click();
+    $("#form\\:userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
             .find(".ui-panel-content").shouldBe(visible);
   }
 
   private void showSynchUserDialog() {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    $(getSecuritySystemTabId() + "syncMoreBtn_menuButton").click();
-    $(getSecuritySystemTabId() + "synchUserBtn").shouldBe(visible).click();
+    $("#form\\:syncMoreBtn_menuButton").click();
+    $("#form\\:synchUserBtn").shouldBe(visible).click();
     $("#synchUserForm").shouldBe(visible);
   }
 
   private void showNewUserDialog() {
-    $(getSecuritySystemTabId() + "newUserBtn").click();
+    $(By.id("form:newUserBtn")).click();
     $("#newUserModal").shouldBe(visible);
-  }
-
-  private static String getSecuritySystemTabId() {
-    return SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:form\\:";
   }
 
   public static void triggerSync() {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    String syncBtnId = getSecuritySystemTabId() + "syncMoreBtn_button";
+    String syncBtnId = "#form\\:syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("si-is-spinning"));
     $(syncBtnId).findAll("span").first().shouldHave(not(cssClass("si-is-spinning")), Duration.ofSeconds(20));

@@ -13,7 +13,7 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Services</li>
+      <li><span>Services</span></li>
       <li>/</li>
       <li><a href="restclients.xhtml">Rest Clients</a></li>
       <li>/</li>
@@ -21,31 +21,29 @@
       <cc:BreadcrumbInfos />
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#" onclick="PF('helpServicesModal').show();">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <li class="topbar-item help-dialog">
+        <a href="#" onclick="PF('helpServicesModal').show();">
+          <i class="topbar-icon si si-question-circle"></i>
+        </a>
+      </li>
     </ui:define>
 
     <ui:define name="content">
-      <div class="ui-fluid restclient-detail">
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-            <p:panel styleClass="min-height-350">
-              <ui:include src="../includes/components/services/restclient-configuration.xhtml" />
-            </p:panel>
+      <div class="layout-dashboard">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/services/restclient-configuration.xhtml" />
           </div>
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-            <p:panel styleClass="min-height-350">
-              <ui:include src="../includes/components/services/restclient-properties.xhtml" />
-            </p:panel>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/services/restclient-properties.xhtml" />
           </div>
         </div>
       </div>
       <cc:HelpServiceDialog service="#{restClientDetailBean}" id="helpRestClientDialog" />
     </ui:define>
 
-    <ui:define name="sidebar">
+    <ui:define name="live-stats">
       <cc:Sidebar jmxSource="#{restClientDetailBean.liveStats.restClient}">
         <cc:LiveStats monitor="#{restClientDetailBean.liveStats.connectionsMonitor}" id="restConnections" />
         <cc:LiveStats monitor="#{restClientDetailBean.liveStats.callsMonitor}" id="restCalls" />

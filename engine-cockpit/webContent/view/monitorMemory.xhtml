@@ -6,18 +6,15 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Monitor</li>
+      <li><span>Monitor</span></li>
       <li>/</li>
-      <li>Engine</li>
+      <li><span>Engine</span></li>
       <li>/</li>
       <li><a href="monitorMemory.xhtml">Memory</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#engine" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#engine" />
     </ui:define>
 
     <ui:define name="content">

@@ -46,15 +46,15 @@ class WebTestApplicationDetail {
     EngineCockpitUtil.createRunningCase();
     login();
     Navigation.toApplicationDetail("test");
-    var sessions = $(".overview-box-count", 0).shouldBe(visible).text();
+    var sessions = $(".overview-box h1", 0).shouldBe(visible).text();
     assertThat(Integer.parseInt(sessions)).isGreaterThan(0);
-    var users = $(".overview-box-count", 1).shouldBe(visible).text();
+    var users = $(".overview-box h1", 1).shouldBe(visible).text();
     assertThat(Integer.parseInt(users)).isBetween(2, 7);
-    var cases = $(".overview-box-count", 2).shouldBe(visible).text();
+    var cases = $(".overview-box h1", 2).shouldBe(visible).text();
     assertThat(Integer.parseInt(cases)).isGreaterThan(0);
-    var pms = $(".overview-box-count", 3).shouldBe(visible).text();
+    var pms = $(".overview-box h1", 3).shouldBe(visible).text();
     assertThat(Integer.parseInt(pms)).isEqualTo(1);
-    $$(".ui-panel").shouldHave(size(4));
+    $$(".card").shouldHave(size(8));
     EngineCockpitUtil.destroyRunningCase();
   }
 
@@ -81,10 +81,10 @@ class WebTestApplicationDetail {
   @Test
   void securitySystemInfo() {
     Navigation.toApplicationDetail("test-ad");
-    $(By.id("appDetailSecurityForm")).find("a", 0).shouldHave(exactText("test-ad"), href("security-detail.xhtml?securitySystemName=test-ad"));
-    var userCount = $(By.id("appDetailSecurityForm")).find("a", 1).shouldHave(href("users.xhtml")).text();
+    $(By.id("appDetailSecurityForm")).find(".ui-panelgrid-content a", 0).shouldHave(exactText("test-ad"), href("security-detail.xhtml?securitySystemName=test-ad"));
+    var userCount = $(By.id("appDetailSecurityForm")).find(".ui-panelgrid-content a", 1).shouldHave(href("users.xhtml")).text();
     assertThat(Integer.parseInt(userCount)).isBetween(2, 8);
-    var roleCount = $(By.id("appDetailSecurityForm")).find("a", 2).shouldHave(href("roles.xhtml")).text();
+    var roleCount = $(By.id("appDetailSecurityForm")).find(".ui-panelgrid-content a", 2).shouldHave(href("roles.xhtml")).text();
     assertThat(Integer.parseInt(roleCount)).isBetween(3, 5);
   }
 

@@ -1,10 +1,9 @@
-$(document).ready(function () {
+jQuery(function () {
   function initFix() {
-    if (PF('sidebar_menu') == null) {
-      var timeoutID = window.setTimeout(initFix, 10);
-    } else {
-      $.removeCookie('serenity_expandeditems', { path: '/' });
-      var page = window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1);
+    try {
+      PF('sidebar_menu');
+      $.removeCookie('freya_expandeditems', { path: '/' });
+      var page = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
       page = searchCorrectMenuItemPage(page);
       $('#menuform>ul>li>a').each(function () {
         var menuItemPage = $(this).attr('href');
@@ -38,32 +37,35 @@ $(document).ready(function () {
           });
         }
       });
-
-      function searchCorrectMenuItemPage(value) {
-        var map = {
-          'security-detail.xhtml': 'securitysystem.xhtml',
-          'userdetail.xhtml': 'users.xhtml',
-          'roledetail.xhtml': 'roles.xhtml',
-          'application-detail.xhtml': 'applications.xhtml',
-          'pmv-detail.xhtml': 'applications.xhtml',
-          'databasedetail.xhtml': 'databases.xhtml',
-          'restclientdetail.xhtml': 'restclients.xhtml',
-          'webservicedetail.xhtml': 'webservices.xhtml',
-          'businesscalendar-detail.xhtml': 'businesscalendar.xhtml',
-          'monitorTraceDetail.xhtml': 'monitorTraces.xhtml'
-        };
-        return map[value] == null ? value : map[value];
-      }
-
-      function activateMenuItem(id) {
-        var menuitem = $("#" + id.replace(/:/g, "\\:"));
-        menuitem.addClass('active-menuitem');
-        var submenu = menuitem.children('ul');
-        if (submenu.length) {
-          submenu.show();
-        }
-      }
+    } catch (ex) {
+      var timeoutID = window.setTimeout(initFix, 10);
     }
   }
+
+  function searchCorrectMenuItemPage(value) {
+    var map = {
+      'security-detail.xhtml': 'securitysystem.xhtml',
+      'userdetail.xhtml': 'users.xhtml',
+      'roledetail.xhtml': 'roles.xhtml',
+      'application-detail.xhtml': 'applications.xhtml',
+      'pmv-detail.xhtml': 'applications.xhtml',
+      'databasedetail.xhtml': 'databases.xhtml',
+      'restclientdetail.xhtml': 'restclients.xhtml',
+      'webservicedetail.xhtml': 'webservices.xhtml',
+      'businesscalendar-detail.xhtml': 'businesscalendar.xhtml',
+      'monitorTraceDetail.xhtml': 'monitorTraces.xhtml'
+    };
+    return map[value] == null ? value : map[value];
+  }
+
+  function activateMenuItem(id) {
+    var menuitem = $("#" + id.replace(/:/g, "\\:"));
+    menuitem.addClass('active-menuitem');
+    var submenu = menuitem.children('ul');
+    if (submenu.length) {
+      submenu.show();
+    }
+  }
+  
   initFix();
 });

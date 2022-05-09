@@ -9,13 +9,13 @@
   </h:panelGroup>
 
   <h:form id="form">
-    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
-      styleClass="ui-panelgrid-blank grey-label-panel">
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex" 
+      styleClass="grey-label-panel ui-fluid">
       <h:panelGroup>
         <label for="appDir">App Directory</label>
         <h:panelGroup id="appDirHelp" styleClass="label-help-icon">
           <i class="si si-question-circle"></i>
-          <p:tooltip for="@parent" value="#{storageBean.appDirHelp}" escape="false" position="top" />
+          <p:tooltip for="@parent" value="#{storageBean.appDirHelp}" escape="false" position="right" />
         </h:panelGroup>
       </h:panelGroup>
       <p:inputText id="appDir" value="#{storageBean.appDir}" />
@@ -24,15 +24,17 @@
         <label for="fileDir">Files Directory</label>
         <h:panelGroup id="fileDirHelp" styleClass="label-help-icon">
           <i class="si si-question-circle"></i>
-          <p:tooltip for="@parent" value="#{storageBean.fileDirHelp}" escape="false" position="top" />
+          <p:tooltip for="@parent" value="#{storageBean.fileDirHelp}" escape="false" position="right" />
         </h:panelGroup>
       </h:panelGroup>
       <p:inputText id="fileDir" value="#{storageBean.fileDir}" />
     </p:panelGrid>
     
-    <h:panelGroup styleClass="storage-ctrls" layout="block">
-      <p:commandButton value="Save" id="save" actionListener="#{storageBean.save()}" update="@form, storageWarnMessage" icon="si si-floppy-disk" styleClass="storage-save-btn" />
-      <p:commandLink value="Reset" id="reset" actionListener="#{storageBean.reset()}" update="@form, storageWarnMessage" styleClass="storage-reset-link" />
+    <h:panelGroup styleClass="storage-ctrls p-d-flex p-jc-end" layout="block">
+      <p:commandButton value="Reset" id="reset" actionListener="#{storageBean.reset()}" update="@form, storageWarnMessage" 
+        styleClass="ui-button-secondary ui-button-flat storage-reset-link" />
+      <p:commandButton value="Save" id="save" actionListener="#{storageBean.save()}" update="@form, storageWarnMessage" icon="si si-floppy-disk" 
+        styleClass="storage-save-btn" />
     </h:panelGroup>
   </h:form>
 </html>

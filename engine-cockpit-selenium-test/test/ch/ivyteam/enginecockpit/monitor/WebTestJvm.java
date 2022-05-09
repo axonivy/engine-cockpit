@@ -25,7 +25,7 @@ public class WebTestJvm {
 
   @Test
   void jvmPageContent() {
-    $$(".ui-panel").shouldHave(size(3));
+    $$(".card").shouldHave(size(3));
   }
 
   @Test

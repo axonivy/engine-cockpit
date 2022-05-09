@@ -38,7 +38,7 @@ public class WebTestDeployment {
   void noFile() {
     toAppDetailAndOpenDeployment();
     $("#deploymentModal\\:uploadBtn").click();
-    $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
+    $("#deploymentModal\\:uploadError").shouldBe(text("Choose a valid file before upload"));
   }
 
   @Test
@@ -47,8 +47,7 @@ public class WebTestDeployment {
     Path createTempFile = Files.createTempFile("app", ".txt");
     $("#fileInput").sendKeys(createTempFile.toString());
     $("#deploymentModal\\:uploadBtn").click();
-    $("#uploadError").shouldNotBe(empty);
-    $("#uploadError").shouldBe(exactText("Choose a valid file before upload."));
+    $("#deploymentModal\\:uploadError").shouldBe(text("Choose a valid file before upload"));
   }
 
   @Test
@@ -153,7 +152,7 @@ public class WebTestDeployment {
   private void toAppsAndOpenDeployDialog() {
     Navigation.toApplications();
     String appName = $$(".activity-name").first().shouldBe(visible).getText();
-    $("#card\\:form\\:tree\\:0\\:deployBtn").shouldBe(visible).click();
+    $("#form\\:tree\\:0\\:deployBtn").shouldBe(visible).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
     $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(appName));
   }
@@ -162,7 +161,7 @@ public class WebTestDeployment {
     Navigation.toApplicationDetail(APP);
     $("#appDetailInfoForm\\:showDeployment").shouldBe(visible).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
-    $("#uploadError").shouldBe(empty);
+    $("#deploymentModal\\:uploadError").shouldBe(empty);
     $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(APP));
   }
 

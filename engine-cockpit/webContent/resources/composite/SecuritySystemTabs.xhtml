@@ -3,26 +3,21 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="tabChange" method-signature="void handleEvent()" required="true" />
+  <cc:attribute name="update" default="" />
 </cc:interface>
 <cc:implementation>
-  <div class="ui-fluid">
-    <div class="ui-g">
-      <div class="ui-g-12">
-        <p:tabView id="securitySystemTabView" styleClass="card card-w-title tab-view-card" dynamic="true"
-          value="#{managerBean.securitySystems}" activeIndex="#{managerBean.selectedSecuritSystemIndex}" var="securitySystem">
-          <p:ajax event="tabChange" listener="#{managerBean.updateSelectedSecuritySystem}" />
-          <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this" />
-          <p:tab title="#{securitySystem.securitySystemName}" titleStyleClass="security-system-tab">
-            <f:facet name="title">
-              <i class="si si-lock-1" />
-              <h:outputText value="#{securitySystem.securitySystemName}" />
-            </f:facet>
-            <cc:insertChildren />
-          </p:tab>
-        </p:tabView>
-      </div>
-    </div>
-  </div>
+  <p:tabView id="securitySystemTabView" styleClass="tab-view-card" dynamic="true"
+    value="#{managerBean.securitySystems}" activeIndex="#{managerBean.selectedSecuritSystemIndex}" var="securitySystem">
+    <p:ajax event="tabChange" listener="#{managerBean.updateSelectedSecuritySystem}" />
+    <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this #{cc.attrs.update}" />
+    <p:tab title="#{securitySystem.securitySystemName}" titleStyleClass="security-system-tab">
+      <f:facet name="title">
+        <i class="si si-lock-1 p-mr-1" />
+        <h:outputText value="#{securitySystem.securitySystemName}" />
+      </f:facet>
+      <cc:insertChildren />
+    </p:tab>
+  </p:tabView>
 </cc:implementation>
 
 </html>

@@ -11,8 +11,8 @@
       title="Download All Log Files" icon="si si-download-bottom" styleClass="modal-input-button" style="width: 150px;">
       <p:fileDownload value="#{logBean.allLogs}" />
     </p:commandButton>
-    <p:commandLink id="cancel" onclick="PF('logsDownloadModal').hide();" value="Cancel" type="button"
-      styleClass="modal-input-button" />
+    <p:commandButton id="cancel" onclick="PF('logsDownloadModal').hide();" value="Cancel" type="button"
+      styleClass="ui-button-secondary ui-button-flat modal-input-button" />
   </h:form>
 </p:dialog>
 

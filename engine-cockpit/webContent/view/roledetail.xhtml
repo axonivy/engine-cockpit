@@ -12,7 +12,7 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Security</li>
+      <li><span>Security</span></li>
       <li>/</li>
       <li><a href="roles.xhtml">Role</a></li>
       <li>/</li>
@@ -20,55 +20,47 @@
       <cc:BreadcrumbInfos renderEnv="false"/>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}security.html#role-detail" target="_blank" rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}security.html#role-detail" />
     </ui:define>
 
     <ui:define name="content">
       <p:growl id="msgs" showDetail="true" />
-      <div class="ui-fluid role-detail">
-        <div class="ui-g dashboard">
-          <cc:OverviewBox box="1" count="#{roleDetailBean.userCount}" icon="si si-single-neutral-actions"
-            title="Users" />
-          <cc:OverviewBox box="2" count="#{roleDetailBean.userInheritCount}" icon="si si-multiple-neutral-1"
-            title="Inherit users" />
-          <cc:OverviewBox box="3" count="#{roleDetailBean.runningTaskCount}" icon="si si-briefcase"
-            title="Running Tasks" />
-          <cc:OverviewBox box="4" count="#{roleDetailBean.directTaskCount}" icon="si si-task-list-approve"
-            title="Direct open tasks" />
-
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-            <p:panel styleClass="min-height-250">
-              <ui:include src="../includes/components/security/roledetail-information.xhtml" />
-            </p:panel>
+      <div class="layout-dashboard">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <div class="p-grid" style="margin: -1rem;">
+              <cc:OverviewBox box="white" count="#{roleDetailBean.userCount}" icon="si si-single-neutral-actions"
+                title="Users" />
+              <cc:OverviewBox box="blue" count="#{roleDetailBean.userInheritCount}" icon="si si-multiple-neutral-1"
+                title="Inherit users" />
+              <cc:OverviewBox box="gray" count="#{roleDetailBean.runningTaskCount}" icon="si si-briefcase"
+                title="Running Tasks" />
+              <cc:OverviewBox box="darkgray" count="#{roleDetailBean.directTaskCount}" icon="si si-task-list-approve"
+                title="Direct open tasks" />
+            </div>
           </div>
 
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-            <p:panel styleClass="min-height-250">
-              <ui:include src="../includes/components/security/member-properties.xhtml">
-                <ui:param name="memberProperty" value="#{roleDetailBean.memberProperty}" />
-              </ui:include>
-            </p:panel>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/security/roledetail-information.xhtml" />
           </div>
 
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-            <p:panel styleClass="min-height-300 max-height-700">
-              <ui:include src="../includes/components/security/roledetail-users.xhtml" />
-            </p:panel>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/security/member-properties.xhtml">
+              <ui:param name="memberProperty" value="#{roleDetailBean.memberProperty}" />
+            </ui:include>
           </div>
 
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-            <p:panel styleClass="min-height-300 max-height-700">
-              <ui:include src="../includes/components/security/roledetail-members.xhtml" />
-            </p:panel>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/security/roledetail-users.xhtml" />
           </div>
 
-          <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
-            <p:panel styleClass="min-height-300 max-height-700">
-              <ui:include src="../includes/components/security/permissions.xhtml" />
-            </p:panel>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/security/roledetail-members.xhtml" />
+          </div>
+
+          <div class="p-col-12">
+            <ui:include src="../includes/components/security/permissions.xhtml" />
           </div>
         </div>
       </div>

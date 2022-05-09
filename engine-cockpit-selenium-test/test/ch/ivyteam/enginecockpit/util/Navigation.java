@@ -112,7 +112,7 @@ public class Navigation {
 
   public static void toBusinessCalendarDetail(String calendarName) {
     Navigation.toBusinessCalendar();
-    $$(Tab.APP.activePanelCss + " .ui-treenode-content a").find(text(calendarName)).shouldBe(visible).click();
+    $$(Tab.APP.activePanelCss + " .business-calendar").find(text(calendarName)).shouldBe(visible).click();
     assertCurrentUrlContains("businesscalendar-detail.xhtml?calendarName=" + calendarName);
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
   }

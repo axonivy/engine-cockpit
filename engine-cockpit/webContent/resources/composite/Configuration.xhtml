@@ -6,6 +6,7 @@
 <cc:interface>
   <cc:attribute name="bean" />
   <cc:attribute name="dialogTitle" default="configuration" />
+  <cc:attribute name="showContentFilter" default="true" />
 </cc:interface>
 <cc:implementation>
   <h:form id="form">
@@ -13,16 +14,19 @@
       <p:autoUpdate />
     </p:growl>
     <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable" globalFilter="#{cc.attrs.bean.filter}"
-      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable" rowStyleClass="#{config.default ? 'default-value' : ''}">
+      filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable" rowStyleClass="#{config.default ? 'default-value' : ''}" styleClass="ui-fluid">
       <f:facet name="header">
-        <p:outputPanel>
-          <p:outputLabel styleClass="table-search-icon">
-            <i class="si si-search"></i>
-          </p:outputLabel>
-          <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('configTable').filter()"
-            placeholder="Search" value="#{cc.attrs.bean.filter}" />
-        </p:outputPanel>
+        <div class="p-d-flex">
+          <span class="ui-input-icon-left filter-container" style="width: 100%;">
+            <i class="pi pi-search"/>
+            <p:inputText id="globalFilter" onkeyup="PF('configTable').filter()" placeholder="Search" value="#{cc.attrs.bean.filter}" />
+          </span>
+          <p:commandButton id="filterBtn" title="Filter: #{cc.attrs.bean.contentFilterText}" type="button" icon="si si-filter-1"
+            styleClass="ui-button-secondary rounded-button p-ml-1 p-col-fixed" onclick="PF('filterPanel').show();"
+            rendered="#{cc.attrs.showContentFilter}" />
+        </div>
       </f:facet>
+      
       <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
         <h:outputText value="#{config.key}" title="#{config.description}" styleClass="config-name">
           <i class="si si-#{config.icon} table-icon"></i>
@@ -33,12 +37,16 @@
         <h:outputText rendered="#{config.password}" value="******" />
       </p:column>
       <p:column headerText="Source" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}"
-        style="width: 150px;" styleClass="second-row">
+        style="width: 150px;" responsivePriority="4">
         <h:outputText value="#{config.shortSource}" title="#{config.source}" />
       </p:column>
-      <p:column style="width: 95px;">
+      <p:column styleClass="table-btn-2">
+        <p:commandButton id="editConfigBtn" icon="si si-pencil" title="Edit"
+          styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button" process="@this"
+          actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update=":#{cc.clientId}:editConfigurationModal"
+          oncomplete="PF('editConfigurationModal').show();" />
         <p:commandButton title="More" id="tasksButton" disabled="#{config.default}" type="button"
-          icon="si si-navigation-menu" styleClass="secondary-btn" style="margin-right: 0; float: right;" />
+          icon="si si-navigation-menu" styleClass="p-col-fixed p-ml-1 ui-button-secondary ui-button-outlined rounded-button" />
         <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
           <p:menuitem value="View File" icon="si si-common-file-search"
             oncomplete="PF('showConfigurationFileModal').show()"
@@ -49,10 +57,6 @@
             actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" id="resetConfigBtn"
             update=":#{cc.clientId}:resetConfigConfirmDialog" oncomplete="PF('resetConfigConfirmDialog').show()" />
         </p:menu>
-        <p:commandButton id="editConfigBtn" icon="si si-pencil" title="Edit"
-          styleClass="card-button table-control-btn secondary-btn" process="@this"
-          actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update=":#{cc.clientId}:editConfigurationModal"
-          oncomplete="PF('editConfigurationModal').show();" />
       </p:column>
     </p:dataTable>
   </h:form>
@@ -61,8 +65,8 @@
     message="Are you sure you want to reset the #{cc.attrs.dialogTitle} '#{cc.attrs.bean.activeConfig.key}'?"
     severity="alert" widgetVar="resetConfigConfirmDialog">
     <h:form id="resetConfigConfirmForm">
-      <p:commandLink value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button"
-        styleClass="modal-input-button" />
+      <p:commandButton value="Cancel" onclick="PF('resetConfigConfirmDialog').hide();" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="resetConfigConfirmYesBtn" value="Reset" update=":#{cc.clientId}:form:configTable" immediate="true"
         actionListener="#{cc.attrs.bean.resetConfig}" icon="si si-undo" styleClass="modal-input-button"
         onsuccess="PF('resetConfigConfirmDialog').hide();" />
@@ -73,20 +77,20 @@
     id="showConfigurationFileModal" widgetVar="showConfigurationFileModal" modal="true" responsive="true"
     closeOnEscape="true" width="60%" onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
     <h:form id="showConfigurationFileForm">
-      <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+      <p:panelGrid columns="1" layout="flex">
         <h:outputText value="#{cc.attrs.bean.activeConfig.source}" />
 
-        <h:panelGroup styleClass="code-block">
+        <h:panelGroup styleClass="code-block" layout="block">
           <pre><code class="yaml"><h:outputText value="#{cc.attrs.bean.activeConfig.fileContent}" escape="false"/></code></pre>
         </h:panelGroup>
-
+        
       </p:panelGrid>
       <p:commandButton id="downloadConfigurationFile" ajax="false" value="Download" icon="si si-download-bottom"
         styleClass="modal-input-button" style="width: 125px;">
         <p:fileDownload value="#{cc.attrs.bean.activeConfig.downloadFile()}" />
       </p:commandButton>
-      <p:commandLink id="closeShowConfigurationFile" onclick="PF('showConfigurationFileModal').hide();" value="Close"
-        type="button" styleClass="modal-input-button" />
+      <p:commandButton id="closeShowConfigurationFile" onclick="PF('showConfigurationFileModal').hide();" value="Close"
+        type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     </h:form>
   </p:dialog>
 
@@ -96,8 +100,8 @@
       <p:staticMessage severity="info" summary="If you change this property, you have to restart you engine"
         rendered="#{cc.attrs.bean.activeConfig.restartRequired}" />
 
-      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
+        styleClass="grey-label-panel ui-fluid">
         <h:outputLabel for="editConfigurationKey" value="Key" />
         <h:outputText id="editConfigurationKey" value="#{cc.attrs.bean.activeConfig.key}" />
 
@@ -139,7 +143,8 @@
           </c:when>
           <c:when test="#{cc.attrs.bean.activeConfig.configValueFormat eq 'FILE'}">
             <pe:codeMirror id="editConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}"
-              mode="#{cc.attrs.bean.activeConfig.editorMode}" lineNumbers="true" matchBrackets="true" />
+              mode="#{cc.attrs.bean.activeConfig.editorMode}" lineNumbers="true" matchBrackets="true"
+              theme="#{ivyFreyaTheme.mode eq 'light' ? 'default' : 'dark'}" />
             <pe:remoteCommand name="refreshCodeMirror" update="editConfigurationValue" />
             <script>refreshCodeMirror();</script>
           </c:when>
@@ -150,8 +155,8 @@
       </p:panelGrid>
     </h:form>
     <f:facet name="footer">
-      <p:commandLink id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel"
-        type="button" styleClass="modal-input-button" />
+      <p:commandButton id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel"
+        type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="saveEditConfiguration" update=":#{cc.clientId}:form:configTable" partialSubmit="true"
         onsuccess="PF('editConfigurationModal').hide();" actionListener="#{cc.attrs.bean.saveConfig}" value="Save"
         icon="si si-floppy-disk" process="editConfigurationForm:editConfigurationValue" styleClass="modal-input-button" />
@@ -161,16 +166,16 @@
   <p:dialog style="min-width: 400px;" header="New #{cc.attrs.dialogTitle}" id="newConfigurationModal" appendTo="@(body)"
     widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
     <h:form id="newConfigurationForm">
-      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-        <label>Key</label>
+      <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
+        styleClass="grey-label-panel ui-fluid">
+        <p:outputLabel for="newConfigurationKey" value="Key" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="newConfigurationKey" required="true" requiredMessage="Value is required"
             value="#{cc.attrs.bean.activeConfig.key}" />
           <p:message for="newConfigurationKey" id="newConfigurationKeyMessage" />
         </h:panelGroup>
 
-        <label>Value</label>
+        <p:outputLabel for="newConfigurationValue" value="Value" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="newConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" required="true"
             requiredMessage="Value is required" />
@@ -180,8 +185,8 @@
       <p:commandButton id="saveNewConfiguration" validateClient="true" process="newConfigurationForm"
         update=":#{cc.clientId}:form:configTable, @form" actionListener="#{cc.attrs.bean.saveConfig}" value="Save"
         icon="si si-floppy-disk" styleClass="modal-input-button" onsuccess="PF('newConfigurationModal').hide()" />
-      <p:commandLink id="cancelNewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel"
-        type="button" styleClass="modal-input-button" immediate="true" />
+      <p:commandButton id="cancelNewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel"
+        type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
     </h:form>
   </p:dialog>
 

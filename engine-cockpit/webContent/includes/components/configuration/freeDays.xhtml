@@ -3,13 +3,15 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<p:panel styleClass="min-height-350" id="freeDatesPanel">
-  <f:facet name="header">
-    <i class="si si-calendar-date table-icon panel-title-icon"></i>
-    Free days
-  </f:facet>
+<div class="card">
+  <div class="card-header">
+    <div class="card-title p-d-flex p-ai-center">
+      <i class="p-pr-3 si si-calendar-date"></i>
+      <h6 class="p-m-0">Free days</h6>
+    </div>
+  </div>
 
-  <p:dataTable var="day" value="#{businessCalendarBean.activeCalendar.freeDays}">
+  <p:dataTable id="freeDaysTable" var="day" value="#{businessCalendarBean.activeCalendar.freeDays}">
     <p:column headerText="Name">
       <h:outputText value="#{day.desc}" />
     </p:column>
@@ -28,6 +30,6 @@
       </a>
     </p:column>
   </p:dataTable>
-</p:panel>
+</div>
 
 </html>

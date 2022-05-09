@@ -4,33 +4,26 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <p:dialog id="licenceEventsDialog" header="Licence Events" widgetVar="licenceEventsDialog" modal="true"
-  closeOnEscape="true" width="400px">
+  closeOnEscape="true" width="50%">
   <h:form id="licenceEventForm">
-    <div class="dashboard">
-      <p:dataList value="#{licenceBean.licenceEvents}" var="event" type="unordered" styleClass="messages"
-        style="max-height: 300px; overflow-y: auto;" id="licenceEventList">
-        <a href="#">
-          <h:outputText rendered="#{event.level eq 'ERROR'}">
-            <i class="si si-xl si-alert-circle error"></i>
-          </h:outputText>
-          <h:outputText rendered="#{event.level eq 'WARN'}">
-            <i class="si si-xl si-road-sign-warning warning"></i>
-          </h:outputText>
-          <h:panelGroup layout="block" id="eventMessage">
-            <h:outputText styleClass="name" value="#{event.timestamp}" />
-            <h:outputText styleClass="message" value="#{event.message}" />
-          </h:panelGroup>
-          <p:commandButton icon="si si-check-1" title="Confirm" styleClass="message-btn secondary-btn"
-            id="confirmEventBtn" actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form"
-            style="right: 10px;" />
-        </a>
-      </p:dataList>
-      <p:commandButton id="confirmAllLicenceEvents" ajax="false" style="width: 120px;"
-        actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="si si-check-double-1"
-        styleClass="modal-input-button" />
-      <p:commandLink id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close"
-        type="button" styleClass="modal-input-button" />
+    <div class="licence-messages timeline">
+      <ul>
+        <p:repeat value="#{licenceBean.licenceEvents}" var="event">
+          <li class="p-ai-center">
+            <i class="p-mr-2 p-mt-0 si si-xl si-#{event.level eq 'ERROR' ? 'alert-circle error' : 'road-sign-warning warning'}"></i>
+            <h:outputText styleClass="p-mr-2 name" value="#{event.timestamp}" />
+            <h:outputText styleClass="p-mr-1 message" value="#{event.message}" />
+            <p:commandButton icon="si si-check-1" title="Confirm" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button ui-button-outlined"
+              id="confirmEventBtn" actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" />
+          </li>
+        </p:repeat>
+      </ul>
     </div>
+    <p:commandButton id="confirmAllLicenceEvents" ajax="false" 
+      actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="si si-check-double-1"
+      styleClass="modal-input-button" />
+    <p:commandButton id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close"
+      type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
   </h:form>
 </p:dialog>
 

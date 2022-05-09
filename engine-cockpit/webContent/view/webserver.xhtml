@@ -6,44 +6,46 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>System</li>
+      <li><span>System</span></li>
       <li>/</li>
       <li><a href="webserver.xhtml">Web Server</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#web-server" target="_blank" rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}system.html#web-server" />
     </ui:define>
 
     <ui:define name="content">
       <p:growl>
         <p:autoUpdate />
       </p:growl>
-      <div class="ui-fluid user-detail">
-        <div class="ui-g dashboard">
-          <div class="ui-g-12 ui-md-12 ui-lg-8 dashboard-card">
-            <p:panel styleClass="min-height-250">
-              <f:facet name="header">
-                <i class="si si-network-signal table-icon panel-title-icon"></i>
-                <h:outputText value="Web Server Connectors" />
-              </f:facet>
+      <div class="layout-dashboard">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-12 p-lg-8">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-network-signal"></i>
+                  <h6 class="p-m-0">Web Server Connectors</h6>
+                </div>
+              </div>
               <cc:WebServer id="webServer" />
-            </p:panel>
+            </div>
           </div>
           
-          <div class="ui-g-12 ui-md-12 ui-lg-4 dashboard-card">
-            <p:panel styleClass="min-height-250">
-              <f:facet name="header">
-                <i class="si si-cog table-icon panel-title-icon"></i>
-                <h:outputText value="Base Url Settings" />
-              </f:facet>
+          <div class="p-col-12 p-md-12 p-lg-4">
+            <div class="card">
               <h:form id="baseUrlForm">
-                <p:commandButton id="save" actionListener="#{webServerBean.saveBaseUrl}" title="Save changes"
-                  icon="si si-floppy-disk" styleClass="accent-btn card-button" />
-                  
-                <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank grey-label-panel">
+                <div class="card-header">
+                  <div class="card-title p-d-flex p-ai-center">
+                    <i class="p-pr-3 si si-cog"></i>
+                    <h6 class="p-m-0">Base Url Settings</h6>
+                    <p:commandButton id="save" actionListener="#{webServerBean.saveBaseUrl}" title="Save changes"
+                      icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" />
+                  </div>
+                </div>
+                <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-12, p-col-12 p-md-9 p-lg-12" layout="flex" 
+                  styleClass="grey-label-panel ui-fluid">
                   <h:panelGroup>
                     <label>Base Url</label>
                     <h:panelGroup id="baseUrlHelp" styleClass="label-help-icon">
@@ -54,30 +56,27 @@
                   <p:inputText id="baseUrl" value="#{webServerBean.baseUrl}" />
                 </p:panelGrid>
 
-                <h:panelGroup id="infoMessage" layout="block" rendered="#{engineModeBean.hasDashboardWarning()}"
-                  styleClass="ui-message ui-staticmessage ui-message-info" style="margin: 0 0 20px 0; display: none;">
-                  <span class="ui-message-info-icon"></span>
-                  <span class="ui-message-info-summary">Problem detected</span>
-                  <span class="ui-message-info-detail"><i>Base Url</i> seems to be different form your current browser base Url. You may need to configure your <i>Base Url</i> correctly</span>
-                </h:panelGroup>
+                <p:staticMessage id="infoMessage" severity="info" summary="Problem detected" 
+                  style="display: none;"
+                  detail="'Base Url' seems to be different form your current browser base Url. You may need to configure your 'Base Url' correctly"/>
               </h:form>
-            </p:panel>
+            </div>
           </div>
-          <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
-            <p:panel styleClass="min-height-200">
-              <f:facet name="header">
-                <i class="si si-monitor-heart-beat-search table-icon panel-title-icon"></i>
-                <h:outputText value="Data" />
-              </f:facet>
-              <h:panelGroup id="problemMessage" layout="block" rendered="#{engineModeBean.hasDashboardWarning()}"
-                styleClass="ui-message ui-staticmessage ui-message-warn" style="margin: 0 0 20px 0; display: none;">
-                <span class="ui-message-warn-icon"></span>
-                <span class="ui-message-warn-summary">Problem detected</span>
-                <span class="ui-message-warn-detail">'External Base Url' seems to be different form your current browser base Url</span>
-              </h:panelGroup>
+          
+          <div class="p-col-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-monitor-heart-beat-search"></i>
+                  <h6 class="p-m-0">Data</h6>
+                </div>
+              </div>
+              <p:staticMessage id="problemMessage" severity="warn" summary="Problem detected" 
+                detail="'External Base Url' seems to be different form your current browser base Url"
+                style="display: none;" />
               
-              <p:panelGrid id="coreRequestData" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-                styleClass="ui-panelgrid-blank grey-label-panel">
+              <p:panelGrid id="coreRequestData" columns="2" columnClasses="p-col-12 p-md-4 p-lg-3, p-col-12 p-md-8 p-lg-9" layout="flex"
+                styleClass="grey-label-panel">
                 <h:panelGroup>
                   <label>External Base URL</label>
                   <h:panelGroup id="externalUrlHelp" styleClass="label-help-icon">
@@ -130,13 +129,13 @@
                 }
               }
               </script>
-            </p:panel>
+            </div>
           </div>
         </div>
       </div>
     </ui:define>
 
-    <ui:define name="sidebar">
+    <ui:define name="live-stats">
       <cc:Sidebar>
         <cc:LiveStats monitor="#{requestMonitorBean.requestsMonitor}" id="requests" />
         <cc:LiveStats monitor="#{requestMonitorBean.errorsMonitor}" id="errors" />

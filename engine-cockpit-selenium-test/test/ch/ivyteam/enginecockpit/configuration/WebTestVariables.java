@@ -76,7 +76,7 @@ public class WebTestVariables {
   void testNewEditResetVariable() {
     var table = variableTable();
     var entryCount = table.getFirstColumnEntries().size();
-    $(By.id(activeTabPanel() + "newVariableBtn")).click();
+    $(By.id("newVariableBtn")).click();
 
     String name = "aName";
     String value = "aValue";
@@ -154,7 +154,7 @@ public class WebTestVariables {
 
   @Test
   void testNewValidation() {
-    $(By.id(activeTabPanel() + "newVariableBtn")).click();
+    $(By.id("newVariableBtn")).click();
 
     $(By.id(activeTabPanel() + "config:newConfigurationModal")).shouldBe(visible);
     $(By.id(activeTabPanel() + "config:newConfigurationForm:newConfigurationKey")).shouldBe(exactValue(""));
@@ -188,6 +188,7 @@ public class WebTestVariables {
 
     $(By.id(activeTabPanel() + "config:resetConfigConfirmForm:resetConfigConfirmYesBtn")).click();
     $("#msgs_container").shouldHave(text(name), text("reset"));
+    Selenide.executeJavaScript("arguments[0].click();", $("#msgs_container .ui-growl-icon-close"));
   }
 
   private void editVariable(String name, String value) {

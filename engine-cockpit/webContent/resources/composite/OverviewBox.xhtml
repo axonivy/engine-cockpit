@@ -10,18 +10,14 @@
   <cc:attribute name="link" />
 </cc:interface>
 <cc:implementation>
-  <div class="ui-g-12 ui-md-3">
-    <div class="overview-box overview-box-#{cc.attrs.box}" onclick="window.location.href='#{cc.attrs.link}'"
+  <div class="p-col">
+    <div class="card overview-box #{cc.attrs.box}" onclick="window.location.href='#{cc.attrs.link}'"
       style="cursor: #{empty cc.attrs.link ? 'normal' : 'pointer'};">
-      <div class="overview-box-header"></div>
-      <div class="overview-box-content">
-        <div class="overview-box-icon">
-          <i class="#{cc.attrs.icon}"></i>
-        </div>
-
-        <div class="overview-box-title">#{cc.attrs.title}</div>
-        <div class="overview-box-count">#{cc.attrs.count}</div>
+      <div class="overview-info">
+        <h6>#{cc.attrs.title}</h6>
+        <h1>#{cc.attrs.count}</h1>
       </div>
+      <i class="#{cc.attrs.icon}"></i>
     </div>
   </div>
 </cc:implementation>

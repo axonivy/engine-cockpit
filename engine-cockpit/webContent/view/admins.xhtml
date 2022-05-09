@@ -6,52 +6,34 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>System</li>
+      <li><span>System</span></li>
       <li>/</li>
       <li><a href="admins.xhtml">Administrators</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#administrators" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}system.html#administrators" />
     </ui:define>
 
     <ui:define name="content">
       <p:growl>
         <p:autoUpdate />
       </p:growl>
-      <div class="ui-fluid">
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <div class="card card-w-title">
-              <h:form id="addAdminForm">
-                <div class="ui-g">
-                  <div class="ui-g-12 ui-md-10">
-                    <h1>
-                      <i class="si si-single-neutral-shield card-title-icon"></i>Administrators
-                    </h1>
-                  </div>
-                  <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                    <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}" icon="si si-add"
-                      title="Edit" update="admins:editAdminDialog" value="Add"
-                      oncomplete="PF('editAdminDialog').show();" process="@this" />
-                  </div>
-                </div>
-              </h:form>
-              <div class="ui-g">
-                <div class="ui-g-12 ui-md-12">
-                  <h:panelGroup id="adminMessages">
-                    <p:staticMessage rendered="#{!engineModeBean.demo and empty administratorBean.admins}"
-                      severity="error" detail="You need to define at least one administrator!" />
-                  </h:panelGroup>
-                  <cc:Administrators id="admins" updateFields="admins:adminForm,@form,adminMessages" />
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="card">
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-single-neutral-shield card-title-icon"></i>
+          <h2 class="p-m-0">Administrators</h2>
+          <h:form id="addAdminForm" styleClass="p-ml-auto">
+            <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}" icon="si si-add"
+              title="Edit" update="admins:editAdminDialog" value="Add"
+              oncomplete="PF('editAdminDialog').show();" process="@this" />
+          </h:form>
         </div>
+        <h:panelGroup id="adminMessages">
+          <p:staticMessage rendered="#{!engineModeBean.demo and empty administratorBean.admins}"
+            severity="error" detail="You need to define at least one administrator!" />
+        </h:panelGroup>
+        <cc:Administrators id="admins" updateFields="admins:adminForm,@form,adminMessages" />
       </div>
     </ui:define>
   </ui:composition>

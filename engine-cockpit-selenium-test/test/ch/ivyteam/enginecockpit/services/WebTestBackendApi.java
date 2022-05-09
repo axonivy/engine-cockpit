@@ -39,7 +39,7 @@ public class WebTestBackendApi {
     $$(".opblock-summary").shouldBe(size(1)).first().shouldHave(text("PUT"), text("/test/renewLicense"));
 
     Selenide.switchTo().defaultContent();
-    $("#restApiForm\\:configRestBackend").shouldBe(visible).click();
+    $("#configRestBackend").shouldBe(visible).click();
     var configs = new Table(By.id("config:form:configTable"));
     configs.firstColumnShouldBe(CollectionCondition.size(5));
   }

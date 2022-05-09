@@ -40,15 +40,17 @@ public class WebTestLogs {
 
   @Test
   void logsChangeDate() {
-    String originDate = $("#logDateForm\\:calendar_input").shouldBe(visible).getValue();
-    $$(".ui-panel-titlebar").find(text("ivy.log")).shouldHave(text(originDate));
+    var deprecationLogPanel = $$(".ui-panel-titlebar").find(text("deprecation.log")).parent();
+    deprecationLogPanel.find(".ui-panel-title > span").click();
+    deprecationLogPanel.find(".ui-panel-content pre").shouldHave(text("'deprecation.log'"));
 
     $("#logDateForm\\:calendar > button").shouldBe(visible).click();
     $("#ui-datepicker-div").should(visible);
     $("#logDateForm\\:calendar_input").clear();
     $("#logDateForm\\:calendar_input").sendKeys("2020-04-01");
     $("#logDateForm\\:calendar_input").sendKeys(Keys.ENTER);
-    $$(".ui-panel-titlebar").find(text("ivy.log")).shouldHave(text("2020-04-01"));
+    deprecationLogPanel.find(".ui-panel-title > span").click();
+    deprecationLogPanel.find(".ui-panel-content pre").shouldHave(text("'deprecation.log.2020-04-01'"));
   }
 
 }

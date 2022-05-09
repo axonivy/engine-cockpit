@@ -10,38 +10,47 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Monitor</li>
+      <li><span>Monitor</span></li>
       <li>/</li>
       <li><a href="logs.xhtml">Logs</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a style="float: right;" href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#logs" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
-      <a id="downloadAllLogs" style="float: right;" href="#" onclick="PF('logsDownloadModal').show();">
-        <i class="si si-lg si-download-bottom"></i>
-      </a>
-      <h:form id="logDateForm" style="float: right;">
-        <p:calendar id="calendar" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd"
-          maxdate="#{logBean.today}">
-          <p:ajax event="dateSelect" update="logs" />
-        </p:calendar>
-      </h:form>
+    <ui:define name="topbar-items">
+      <li class="topbar-item">
+        <a id="downloadAllLogs" href="#" onclick="PF('logsDownloadModal').show();">
+          <i class="topbar-icon si si-download-bottom"></i>
+        </a>
+      </li>
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#logs" />
     </ui:define>
 
     <ui:define name="content">
       <p:growl id="msgs" showDetail="true">
         <p:autoUpdate />
       </p:growl>
-      <h:panelGroup id="logs" layout="block" styleClass="ui-g dashboard">
-        <p:repeat var="log" value="#{logBean.logs}">
-          <div class="ui-g-12 ui-md-12 dashboard-card">
-            <cc:LogView log="#{log}" id="logView" />
+      <div class="layout-dashboard">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title p-d-flex p-ai-center">
+              <i class="p-pr-3 si si-common-file-text"></i>
+              <h2 class="p-m-0">Logs</h2>
+              <h:form id="logDateForm" styleClass="p-ml-auto">
+                <p:calendar id="calendar" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd"
+                  maxdate="#{logBean.today}">
+                  <p:ajax event="dateSelect" update="logs" />
+                </p:calendar>
+              </h:form>
+            </div>
           </div>
-        </p:repeat>
-      </h:panelGroup>
+          <h:panelGroup id="logs" layout="block" styleClass="p-grid">
+            <p:repeat var="log" value="#{logBean.logs}">
+              <div class="p-col-12">
+                <cc:LogView log="#{log}" id="logView" />
+              </div>
+            </p:repeat>
+          </h:panelGroup>
+        </div>
+      </div>
       <ui:include src="../includes/dialogs/logsdownload.xhtml" />
     </ui:define>
   </ui:composition>

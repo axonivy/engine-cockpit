@@ -18,7 +18,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestCache {
-  private static final By TABLE_ID = By.id("cache:form:cacheTable");
+  private static final By TABLE_ID = By.id("form:cacheTable");
   private Table table;
 
   @BeforeAll
@@ -34,7 +34,7 @@ public class WebTestCache {
 
   @Test
   void cacheViewContent() {
-    $("h1").shouldHave(text("Cache"));
+    $("h2").shouldHave(text("Cache"));
 
     table.row("AccessControl Associations").should(exist);
     table.tableEntry("AccessControl Associations", 3).shouldHave(Condition.text("n.a."));

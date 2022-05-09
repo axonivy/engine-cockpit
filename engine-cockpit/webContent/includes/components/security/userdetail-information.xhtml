@@ -3,90 +3,93 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-information-circle table-icon panel-title-icon"></i>
-  <h:outputText value="User information" />
-</f:facet>
-<h:form id="userInformationForm">
-  <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
-    <p:autoUpdate />
-  </p:growl>
+<div class="card">
+  <h:form id="userInformationForm">
+    <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-information-circle"></i>
+        <h6 class="p-m-0">User information</h6>
+        <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!managerBean.ivySecuritySystemForSelectedSecuritySystem}" type="button"
+          icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" onclick="PF('synchUserModal').show()" />
 
-  <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!managerBean.ivySecuritySystemForSelectedSecuritySystem}" type="button"
-    icon="si si-button-refresh-arrows" styleClass="secondary-btn card-button" onclick="PF('synchUserModal').show()" />
-
-  <h:panelGroup rendered="#{!userDetailBean.user.external or managerBean.ivySecuritySystemForSelectedSecuritySystem}">
-    <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
-      icon="si si-floppy-disk" styleClass="accent-btn card-button" />
-    <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()"
-      title="Delete this user" icon="si si-bin-1" styleClass="red-btn card-button" />
-    <p:confirmDialog id="deleteUserConfirmDialog" header="Delete User" severity="alert"
-      widgetVar="deleteUserConfirmDialog" message="#{userDetailBean.userDeleteHint()}">
-      <p:commandLink value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button"
-        styleClass="modal-input-button" />
-      <p:commandButton id="disableUserConfirmBtn" value="Disable" immediate="true"
-        actionListener="#{userDetailBean.disableUser}" icon="si si-delete" styleClass="modal-input-button"
-        rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
-      <p:commandButton id="deleteUserConfirmYesBtn" value="Delete" ajax="false" immediate="true"
-        action="#{userDetailBean.deleteSelectedUser}" icon="si si-bin-1" styleClass="modal-input-button" />
-    </p:confirmDialog>
-    <p:commandButton id="disableUser" actionListener="#{userDetailBean.disableUser}" title="Disable this user"
-      icon="si si-delete" styleClass="red-btn card-button" rendered="#{userDetailBean.isUserEnabled()}"
-      update="userInformationForm" />
-    <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
-      icon="si si-check-circle-1" styleClass="accent-btn card-button" rendered="#{userDetailBean.isUserDisabled()}"
-      update="userInformationForm" />
-  </h:panelGroup>
-
-  <div class="card-top-static-message">
-    <p:staticMessage rendered="#{userDetailBean.isUserDisabled()}" severity="warn" summary="This user is disabled" />
-    <h:panelGroup rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystemForSelectedSecuritySystem}" layout="block"
-      styleClass="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
-      <span class="ui-message-info-icon" />
-      <span class="ui-message-info-summary">This user is managed by the external security system</span>
-      <span class="ui-message-info-detail">
-        <a
-          href="security-detail.xhtml?securitySystemName=#{userDetailBean.securitySystemName}">#{userDetailBean.securitySystemName}</a>
-      </span>
-    </h:panelGroup>
-  </div>
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-    styleClass="ui-panelgrid-blank grey-label-panel">
-
-    <label>Name</label>
-    <h:outputText id="name" value="#{userDetailBean.user.name}" />
-
-    <p:outputLabel for="fullName" value="Full Name" />
-    <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
-
-    <p:outputLabel for="email" value="E-Mail Address" />
-    <p:inputText id="email" value="#{userDetailBean.user.email}" autocomplete="new-email" />
-
-    <p:outputLabel for="password1" value="Password" />
-    <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2"
-      value="#{userDetailBean.user.password}" autocomplete="new-password" />
-
-    <p:outputLabel for="password2" value="Confirm Password" />
-    <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}"
-      autocomplete="new-password" />
-  </p:panelGrid>
-
-  <p:messages for="password1" id="informationMessages">
-    <p:autoUpdate />
-  </p:messages>
-
-  <h:panelGroup rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystemForSelectedSecuritySystem}">
-    <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-      styleClass="ui-panelgrid-blank grey-label-panel">
+        <h:panelGroup rendered="#{!userDetailBean.user.external or managerBean.ivySecuritySystemForSelectedSecuritySystem}">
+          <p:commandButton id="disableUser" actionListener="#{userDetailBean.disableUser}" title="Disable this user"
+            icon="si si-delete" styleClass="p-col-fixed p-ml-auto ui-button-warning rounded-button" rendered="#{userDetailBean.isUserEnabled()}"
+            update="userInformationForm" />
+          <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
+            icon="si si-check-circle-1" styleClass="p-col-fixed p-ml-auto rounded-button" rendered="#{userDetailBean.isUserDisabled()}"
+            update="userInformationForm" />
+          <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()"
+            title="Delete this user" icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
+          <p:confirmDialog id="deleteUserConfirmDialog" header="Delete User" severity="alert"
+            widgetVar="deleteUserConfirmDialog" message="#{userDetailBean.userDeleteHint()}">
+            <p:commandButton value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button"
+              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="disableUserConfirmBtn" value="Disable" immediate="true"
+              actionListener="#{userDetailBean.disableUser}" icon="si si-delete" styleClass="modal-input-button"
+              rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
+            <p:commandButton id="deleteUserConfirmYesBtn" value="Delete" ajax="false" immediate="true"
+              action="#{userDetailBean.deleteSelectedUser}" icon="si si-bin-1" styleClass="modal-input-button" />
+          </p:confirmDialog>
+          <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
+            icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" />
+        </h:panelGroup>
+      </div>
+    </div>
+    
+    <ui:param name="isManaged" value="#{userDetailBean.user.external and !managerBean.ivySecuritySystemForSelectedSecuritySystem}" />
+    <div class="card-top-static-message">
+      <p:staticMessage rendered="#{userDetailBean.isUserDisabled()}" severity="warn" summary="Warning" detail="This user is disabled" />
+      <h:panelGroup rendered="#{isManaged}" layout="block"
+        styleClass="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
+        <span class="ui-message-info-icon" />
+        <span class="ui-message-info-summary">Info</span>
+        <span class="ui-message-info-detail">This user is managed by the external security system 
+          <a href="security-detail.xhtml?securitySystemName=#{userDetailBean.securitySystemName}">
+            <i class="si si-lock-1 link-icon"></i>#{userDetailBean.securitySystemName}
+          </a>
+        </span>
+      </h:panelGroup>
+    </div>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+      <label>Name</label>
+      <h:outputText id="name" value="#{userDetailBean.user.name}" />
+  
+      <p:outputLabel for="fullName" value="Full Name" />
+      <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" disabled="#{isManaged}" />
+  
+      <p:outputLabel for="email" value="E-Mail Address" />
+      <p:inputText id="email" value="#{userDetailBean.user.email}" autocomplete="new-email" disabled="#{isManaged}" />
+  
+      <p:outputLabel for="password1" value="Password" />
+      <p:password id="password1" validatorMessage="Password didn't match" feedback="true" inline="true" match="password2"
+        value="#{userDetailBean.user.password}" autocomplete="new-password" disabled="#{isManaged}" />
+  
+      <p:outputLabel for="password2" value="Confirm Password" />
+      <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}"
+        autocomplete="new-password" disabled="#{isManaged}" />
+    </p:panelGrid>
+    
+    <p:messages for="password1" id="informationMessages">
+      <p:autoUpdate />
+    </p:messages>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+      styleClass="grey-label-panel ui-fluid" rendered="#{userDetailBean.user.external and !managerBean.ivySecuritySystemForSelectedSecuritySystem}">
       <label>External Name</label>
       <h:outputText id="externalName" value="#{userDetailBean.user.externalName}" />
 
       <label>External ID</label>
       <h:outputText id="externalId" value="#{userDetailBean.user.externalId}" />
     </p:panelGrid>
-  </h:panelGroup>
+  </h:form>
+</div>
 
-</h:form>
 <ui:include src="../../dialogs/synchuser.xhtml" />
 
 </html>

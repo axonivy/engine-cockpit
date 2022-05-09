@@ -30,7 +30,7 @@ public class WebTestAdmins {
 
   @Test
   void addEditDeleteAdmin() {
-    $("h1").shouldBe(text("Administrators"));
+    $("h2").shouldBe(text("Administrators"));
     testAddEditDelete();
   }
 

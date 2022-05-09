@@ -4,43 +4,47 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-<f:facet name="header">
-  <i class="si si-real-estate-action-house-key table-icon panel-title-icon"></i>
-  <h:outputText value="Licence" />
-</f:facet>
-<p:commandButton id="tasksButtonLicenceDetail" onclick="window.location.href='licence.xhtml'" title="Configure Licence"
-  type="button" icon="si si-cog" styleClass="secondary-btn card-button" />
-<p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events"
-  type="button" icon="si si-alarm-bell-timer" styleClass="secondary-btn card-button"
-  rendered="#{not empty licenceBean.licenceEvents}" />
-<p:panelGrid rendered="#{licenceBean.installed}" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-  styleClass="ui-panelgrid-blank grey-label-panel">
-  <label>Owner</label>
-  <h:outputText value="#{licenceBean.organisation}" />
-  <label>Licence type</label>
-  <h:outputText value="#{licenceBean.licenceType}" id="licenceType" />
-  <label>Expires</label>
-  <h:panelGroup>
-    <h:outputText id="expiryDate" value="#{licenceBean.expiryDate}" />
-  </h:panelGroup>
-  <label>Named users</label>
-  <h:outputText value="#{licenceBean.users}" />
-  <label>Concurrent sessions</label>
-  <h:outputText value="#{licenceBean.sessions}" />
-  <ui:fragment rendered="#{licenceBean.cluster}">
-    <label>Cluster nodes</label>
-  </ui:fragment>
-  <ui:fragment rendered="#{licenceBean.cluster}">
-    <h:outputText value="#{licenceBean.nodes}" />
-  </ui:fragment>
-</p:panelGrid>
-<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
-  <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}" />
-  <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn"
-    detail="#{licenceBean.problemMessage}" />
-  <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence"
-    rendered="#{!licenceBean.installed or !licenceBean.valid}" icon="si si-upload-bottom"
-    onclick="window.location.href='licence.xhtml'" />
-</p:panelGrid>
+<div class="card">
+  <div class="card-header">
+    <div class="card-title p-d-flex p-ai-center">
+      <i class="p-pr-3 si si-real-estate-action-house-key"></i>
+      <h6 class="p-m-0">Licence</h6>
+      <p:linkButton id="tasksButtonLicenceDetail" href="licence.xhtml" title="Configure Licence"
+        type="button" icon="si si-cog" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" />
+      <p:commandButton id="tasksButtonLicenceEvents" onclick="PF('licenceEventsDialog').show();" title="Licence Events"
+        type="button" icon="si si-alarm-bell-timer" styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button"
+        rendered="#{not empty licenceBean.licenceEvents}" />
+    </div>
+  </div>
+  <p:panelGrid rendered="#{licenceBean.installed}" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8"
+    columns="2" layout="flex" styleClass="grey-label-panel">
+    <label>Owner</label>
+    <h:outputText value="#{licenceBean.organisation}" />
+    <label>Licence type</label>
+    <h:outputText value="#{licenceBean.licenceType}" id="licenceType" />
+    <label>Expires</label>
+    <h:panelGroup>
+      <h:outputText id="expiryDate" value="#{licenceBean.expiryDate}" />
+    </h:panelGroup>
+    <label>Named users</label>
+    <h:outputText value="#{licenceBean.users}" />
+    <label>Concurrent sessions</label>
+    <h:outputText value="#{licenceBean.sessions}" />
+    <ui:fragment rendered="#{licenceBean.cluster}">
+      <label>Cluster nodes</label>
+    </ui:fragment>
+    <ui:fragment rendered="#{licenceBean.cluster}">
+      <h:outputText value="#{licenceBean.nodes}" />
+    </ui:fragment>
+  </p:panelGrid>
+  <p:panelGrid columns="1" layout="flex">
+    <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}" />
+    <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn"
+      detail="#{licenceBean.problemMessage}" />
+    <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence"
+      rendered="#{!licenceBean.installed or !licenceBean.valid}" icon="si si-upload-bottom"
+      onclick="window.location.href='licence.xhtml'" />
+  </p:panelGrid>
+</div>
 
 </html>

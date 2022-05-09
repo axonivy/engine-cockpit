@@ -38,17 +38,17 @@ class WebTestRoles {
 
   @Test
   void rolesInTable() {
-    $(Tab.SECURITY_SYSTEM.activePanelCss + " h1").shouldBe(Condition.text("Roles"));
-    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").shouldBe(sizeGreaterThan(1));
+    $("h2").shouldBe(Condition.text("Roles"));
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treetable-data tr").shouldBe(sizeGreaterThan(1));
     $(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-inputfield").sendKeys("Everybody");
-    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").shouldBe(size(1));
+    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treetable-data tr").shouldBe(size(1));
   }
 
   @Test
   void jumpToSyncLog() {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    $(securitySystemTabId() + "syncMoreBtn_menuButton").click();
-    $(securitySystemTabId() + "userSyncLog").shouldBe(visible).click();
+    $("#form\\:syncMoreBtn_menuButton").click();
+    $("#form\\:userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
             .find(".ui-panel-content").shouldBe(visible);
   }
@@ -58,16 +58,16 @@ class WebTestRoles {
     getVisibleTreeNodes().as("Everybody, boss, worker, AXONIVY_PORTAL_ADMIN")
       .shouldBe(sizeGreaterThanOrEqual(3))
       .shouldBe(sizeLessThan(5));
-    $(getTreeFormId() + "\\:expandAll").shouldBe(visible).click();
+    $(getTreeFormId() + "\\:tree\\:expandAll").shouldBe(visible).click();
     getVisibleTreeNodes().as("Everybody, boss, worker, AXONIVY_PORTAL_ADMIN, manager")
       .shouldBe(sizeGreaterThanOrEqual(4))
       .shouldBe(sizeLessThan(6));
-    $(getTreeFormId() + "\\:collapseAll").shouldBe(visible).click();
+    $(getTreeFormId() + "\\:tree\\:collapseAll").shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
   }
 
   private ElementsCollection getVisibleTreeNodes() {
-    return $(getTreeFormId()).findAll(".ui-treenode-content").filter(visible);
+    return $(getTreeFormId()).findAll(".ui-treetable-data tr").filter(visible);
   }
 
   private String getTreeFormId() {
@@ -76,13 +76,9 @@ class WebTestRoles {
 
   public static void triggerSync() {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    var syncBtnId = securitySystemTabId() + "syncMoreBtn_button";
+    var syncBtnId = "#form\\:syncMoreBtn_button";
     $(syncBtnId).shouldBe(visible).click();
     $(syncBtnId).findAll("span").first().shouldHave(cssClass("si-is-spinning"));
     $(syncBtnId).findAll("span").first().shouldHave(not(cssClass("si-is-spinning")), Duration.ofSeconds(20));
-  }
-
-  private static String securitySystemTabId() {
-    return SECURITY_SYSTEM_TAB_VIEW + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + "\\:form\\:";
   }
 }

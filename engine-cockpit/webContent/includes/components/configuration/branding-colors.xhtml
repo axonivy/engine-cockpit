@@ -3,32 +3,30 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<h:form id="colorForm">
+<h:form id="colorForm" styleClass="ui-fluid">
   <p:dataTable var="color" value="#{brandingBean.cssColors}" rowStyleClass="#{color.default ? 'default-value' : ''}"
-    filteredValue="#{brandingBean.filteredCssColors}" widgetVar="colorsTable" id="colorsTable" globalFilter="#{brandingBean.filter}" globalFilterFunction="#{brandingBean.globalFilterFunction}">
+    filteredValue="#{brandingBean.filteredCssColors}" widgetVar="colorsTable" id="colorsTable">
     <f:facet name="header">
-      <p:outputPanel>
-        <p:outputLabel styleClass="table-search-icon">
-          <i class="si si-search"></i>
-        </p:outputLabel>
-        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-          onkeyup="PF('colorsTable').filter()" placeholder="Search" value="#{brandingBean.filter}" />
-      </p:outputPanel>
+      <div class="ui-input-icon-left filter-container">
+        <i class="pi pi-search"/>
+        <p:inputText id="globalFilter" onkeyup="PF('colorsTable').filter()" placeholder="Search" value="#{brandingBean.filter}" />
+      </div>
     </f:facet>
-    <p:column headerText="Color" sortBy="#{color.color}">
+    
+    <p:column headerText="Color" sortBy="#{color.color}" filterBy="#{color.color}">
       <h:outputText value="#{color.color}" styleClass="color-name" />
     </p:column>
     <p:column headerText="Value">
       <h:panelGroup class="color-preview" style="background-color: #{color.value};" />
       <h:outputText value="#{color.value}" />
     </p:column>
-    <p:column style="width: 100px;">
-      <p:commandButton id="resetColor" icon="si si-undo" styleClass="secondary-btn" style="margin-right: 0; float: right;"
-        actionListener="#{brandingBean.setSelectedCssColor(color.color)}" disabled="#{color.default}"
-        update="resetColorConfirmDialog" oncomplete="PF('resetColorConfirmDialog').show();" />
-      <p:commandButton id="setColor" icon="si si-pencil" styleClass="card-button table-control-btn" 
+    <p:column styleClass="table-btn-2">
+      <p:commandButton id="setColor" icon="si si-pencil" styleClass="ui-button-secondary rounded-button" 
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" 
         update="cssColorPickerForm:editCssColorModal" oncomplete="PF('editCssColorModal').show();"/>
+      <p:commandButton id="resetColor" icon="si si-undo" styleClass="p-ml-1 ui-button-danger rounded-button"
+        actionListener="#{brandingBean.setSelectedCssColor(color.color)}" disabled="#{color.default}"
+        update="resetColorConfirmDialog" oncomplete="PF('resetColorConfirmDialog').show();" />
     </p:column>
   </p:dataTable>
 </h:form>

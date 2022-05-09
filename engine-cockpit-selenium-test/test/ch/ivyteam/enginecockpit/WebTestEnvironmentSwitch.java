@@ -1,7 +1,9 @@
 package ch.ivyteam.enginecockpit;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.texts;
+import static com.codeborne.selenide.Condition.exactText;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,21 +26,23 @@ public class WebTestEnvironmentSwitch {
 
   @Test
   void testEnvironmentCount() {
-    assertThat(EnvironmentSwitch.getAvailableEnvs()).hasSize(2).contains("Default", "test");
+    EnvironmentSwitch.getAvailableEnvs()
+            .shouldBe(size(2))
+            .shouldBe(texts("Default", "test"));
   }
 
   @Test
   void testEnvironmentSwitchAndHoldState() {
-    assertThat(EnvironmentSwitch.getEnv()).isEqualTo("Default");
+    EnvironmentSwitch.getEnv().shouldBe(exactText("Default"));
     EnvironmentSwitch.switchToEnv("test");
-    assertThat(EnvironmentSwitch.getEnv()).isEqualTo("test");
+    EnvironmentSwitch.getEnv().shouldBe(exactText("test"));
 
     Navigation.toRestClients();
-    assertThat(EnvironmentSwitch.getEnv()).isEqualTo("test");
+    EnvironmentSwitch.getEnv().shouldBe(exactText("test"));
     EnvironmentSwitch.switchToEnv("Default");
-    assertThat(EnvironmentSwitch.getEnv()).isEqualTo("Default");
+    EnvironmentSwitch.getEnv().shouldBe(exactText("Default"));
 
     Navigation.toWebservices();
-    assertThat(EnvironmentSwitch.getEnv()).isEqualTo("Default");
+    EnvironmentSwitch.getEnv().shouldBe(exactText("Default"));
   }
 }

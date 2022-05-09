@@ -44,7 +44,7 @@ public class EngineCockpitUtil {
   public static void login(String url, String username, String password) {
     open(viewUrl(url));
     if (webdriver().driver().url().endsWith("login.xhtml")) {
-      $("h1").shouldHave(text("Engine Cockpit"));
+      $("h4").shouldHave(text("Engine Cockpit"));
       $("#loginForm\\:userName").sendKeys(username);
       $("#loginForm\\:password").sendKeys(password);
       $("#loginForm\\:login").click();
@@ -152,7 +152,7 @@ public class EngineCockpitUtil {
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
             .toUrl());
-    assertCurrentUrlContains("end");
+    assertCurrentUrlContains(isDesigner() ? "designer/faces" : "end");
   }
 
 
@@ -165,22 +165,26 @@ public class EngineCockpitUtil {
   }
 
   public static void assertLiveStats(List<String> expectedChartTitles) {
-    assertLiveStats(expectedChartTitles, null);
+    assertLiveStats(expectedChartTitles, null, false);
   }
 
-  public static void assertLiveStats(List<String> expectedChartTitles, String jmxSourceMessage) {
+  public static void assertLiveStats(List<String> expectedChartTitles, boolean emptyGraphs) {
+    assertLiveStats(expectedChartTitles, null, emptyGraphs);
+  }
+
+  public static void assertLiveStats(List<String> expectedChartTitles, String jmxSourceMessage, boolean emptyGraphs) {
     $("#layout-config-button").shouldBe(visible).click();
-    $("#layout-config .ui-tabs-selected").shouldBe(visible, text("Live Stats"));
-    $$("#layout-config .ui-tabs-panels .ui-tabs-panel h4").shouldHave(
+    $(".layout-config h3").shouldBe(visible, text("Live Stats"));
+    $$(".layout-config h4").shouldHave(
             texts(expectedChartTitles));
-    $$("#layout-config .ui-tabs-panels .ui-tabs-panel .jqplot-base-canvas").shouldBe(
-            size(expectedChartTitles.size()));
-
-    if (jmxSourceMessage != null) {
-      $("#layout-config .ui-tabs-panels .ui-staticmessage").shouldHave(text(jmxSourceMessage));
+    if (!emptyGraphs) {
+      $$(".layout-config .jqplot-base-canvas").shouldBe(
+              size(expectedChartTitles.size()));
     }
-
-    $("#layout-config .layout-config-close").click();
-    $("#layout-config .layout-config-close").shouldBe(hidden);
+    if (jmxSourceMessage != null) {
+      $(".layout-config .ui-staticmessage").shouldHave(text(jmxSourceMessage));
+    }
+    $(".layout-config .layout-config-close").click();
+    $(".layout-config .layout-config-close").shouldBe(hidden);
   }
 }

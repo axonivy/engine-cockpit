@@ -1,32 +1,48 @@
 /* Maintanance */
-.container .p-grid .ui-g .card {
-  padding: 1rem;
+@media (min-width: 1025px) {
+  .layout-topbar .layout-topbar-wrapper {
+    max-width: 1170px;
+    margin: 0 auto;
+  }
 }
-.setup-intro .ui-message {
-  margin: 0 0 10px 0;
+@media (min-width: 1200px) {
+  .layout-main .layout-content {
+    max-width: 1170px;
+    align-self: center;
+    width: 1170px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.layout-topbar-dark .layout-topbar .layout-topbar-wrapper .layout-topbar-right,
+.layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right {
+  flex-grow: 1;
+  min-width: unset;
 }
 .setup-intro .card {
   text-align: center; 
-  padding: 2rem; 
   min-width: 300px; 
   height: 100%; 
-  background: hsla(0, 0%, 100%, 0.9);
 }
 .setup-intro .card i:first-child {
   font-size: 56px; 
 }
-.setup-intro .card .ui-linkbutton {
-  margin-top: 2rem;
+.layout-content .card {
+  padding: 2rem;
 }
 
-body .ui-panelgrid .ui-panelgrid-cell {
-  padding-top: 0;
+/* Setup Wizard */
+body .ui-steps::before {
+  top: 25%;
 }
-body .ui-growl {
-  top: 125px;
+body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
+   margin-top: 0;
 }
-.ui-steps .ui-steps-item {
-  width: 20%;
+body .ui-steps .ui-steps-item:not(.ui-state-highlight) {
+  opacity: 1;
+}
+body .ui-steps .ui-steps-item:not(.ui-state-highlight) .ui-steps-title {
+  opacity: 0.65;
 }
 body .ui-steps .ui-steps-item .step-warning .ui-steps-number {
   background-color: #ffce29;
@@ -36,21 +52,9 @@ body .ui-steps .ui-steps-item .step-ok .ui-steps-number {
   background-color: #c7d426;
   color: #575656;
 }
-.ui-fluid .wizard-steps {
-  height: 3em;
-  margin-top: 20px;
-}
-.ui-fluid .wizard-step-button {
+.storage-ctrls .ui-button, 
+.wizard-steps .wizard-step-button {
   width: 100px;
-  margin-right: 5px;
-  float: right;
-  pointer-events: all;
-}
-.ui-fluid a.wizard-step-button {
-  width: auto;
-  margin-right: 10px;
-  line-height: 30px;
-  color: var(--ivy-primary-color-grey-dark, gray);
 }
 #chooseFileBtn {
   width: 100%;
@@ -63,20 +67,6 @@ body .ui-steps .ui-steps-item .step-ok .ui-steps-number {
   line-height: 100px;
   text-align: center;
   margin-bottom: 20px;
-}
-.storage-ctrls {
-  height: 30px;
-}
-.storage-ctrls .ui-button {
-  width: 100px;
-  float: right;
-  margin-right: 5px;
-}
-.storage-ctrls .ui-commandlink {
-  color: var(--ivy-primary-color-grey, gray);
-  float: right;
-  line-height: 30px;
-  margin-right: 10px;
 }
 
 /* Migration Wizard */

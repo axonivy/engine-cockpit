@@ -3,7 +3,7 @@
   xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-  <f:attribute name="primefaces.THEME" value="serenity-ivy" />
+  <f:attribute name="primefaces.THEME" value="freya-ivy-#{ivyFreyaTheme.mode}" />
   <f:facet name="first">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -11,67 +11,37 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
   </f:facet>
   <title>Engine Cockpit - Login</title>
-  <link rel="shortcut icon" href="#{resource['ivy-webcontent:resources/images/ivy_favicon_48.png']}" />
-  <h:outputScript name="js/layout.js" library="serenity-layout" />
-  <h:outputScript name="js/ripple.js" library="serenity-layout" />
+  <link rel="shortcut icon" href="#{resource['ivy-webcontent:resources/images/favicon.png']}" />
 </h:head>
 
 <h:body styleClass="login-body">
-  <div class="login-panel ui-fluid">
-    <div class="login-panel-header">
-      <p:graphicImage name="resources/images/axon_ivy_logo_round.svg" />
-    </div>
-    <h:panelGroup layout="block" rendered="#{engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}"
-      styleClass="ui-message ui-staticmessage ui-message-warn">
-      <span class="ui-message-warn-icon"></span>
-      <span class="ui-message-warn-summary">#{engineModeBean.dashboardWarningSummary}</span>
-      <span class="ui-message-warn-detail">No administrators configured, check your
-        <a href="#{advisorBean.getEngineGuideBaseUrl()}/configuration/files/ivy-yaml.html">ivy.yaml</a>
-      </span>
-    </h:panelGroup>
-    <div class="login-panel-content">
-      <h:form id="loginForm">
-        <p:focus for="userName" />
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <h1>Sign-in to Engine Cockpit</h1>
-          </div>
-          <div class="ui-g-12">
-            <p:messages globalOnly="true" id="loginMessage" />
-          </div>
-          <div class="ui-g-12">
-            <h:panelGroup styleClass="md-inputfield">
-              <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true" />
-              <p:outputLabel for="userName" indicateRequired="false">Username</p:outputLabel>
-              <p:message for="userName" id="userNameMessage" />
-            </h:panelGroup>
-          </div>
-          <div class="ui-g-12">
-            <h:panelGroup styleClass="md-inputfield">
-              <p:password id="password" autocomplete="off" value="#{loginBean.password}" required="true" />
-              <p:outputLabel for="password" indicateRequired="false">Password</p:outputLabel>
-              <p:message for="password" id="passwordMessage" />
-            </h:panelGroup>
-          </div>
-          <div class="ui-g-12">
-            <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="Sign In"
-              icon="si si-login-3" />
-          </div>
+  <h:form id="loginForm">
+    <div class="login-wrapper">
+      <div class="login-panel">
+        <div class="logo">
+          <p:graphicImage name="resources/images/logo_small.svg" />
         </div>
-      </h:form>
+        
+        <p:focus for="userName" />
+        <p:inputText id="userName" autocomplete="off" value="#{loginBean.userName}" required="true" placeholder="Username / Email" />
+        <p:password id="password" autocomplete="off" value="#{loginBean.password}" required="true" placeholder="Password" />
+        
+        <p:commandButton update="@form" id="login" actionListener="#{loginBean.login}" value="Sign In" icon="si si-login-3" />
+        <p:messages globalOnly="true" id="loginMessage" />
+        
+        <h:panelGroup rendered="#{!engineModeBean.isMaintenance() and !administratorBean.hasAdmins()}">
+          <p>No administrators configured, check your <a href="#{advisorBean.getEngineGuideBaseUrl()}/configuration/files/ivy-yaml.html">ivy.yaml</a></p>
+        </h:panelGroup>
+      </div>
+      <div class="login-footer">
+        <h4>Engine Cockpit</h4>
+        <h6>Copyright Ⓒ Axon Ivy</h6>
+      </div>
     </div>
-  </div>
+  </h:form>
 
-  <script>
-    $('#loginForm\\:password').on('change', function (e) {
-      if ($(e.target).val() != '') {
-        $(e.target).addClass('ui-state-filled');
-      }
-    });
-  </script>
-
-  <h:outputStylesheet name="css/layout-ivy.css" library="serenity-layout" />
-  <h:outputStylesheet name="css/cockpit.css" library="serenity-layout" />
+  <h:outputStylesheet name="css/layout-ivy-#{ivyFreyaTheme.mode}.css" library="freya-layout" />
+  <h:outputStylesheet name="primeflex-2.min.css" library="primeflex" />
   <h:outputStylesheet name="resources/css/engine-cockpit.css" />
 </h:body>
 

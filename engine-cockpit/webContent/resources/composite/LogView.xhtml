@@ -9,23 +9,22 @@
   <p:panel id="logPanel" widgetVar="#{cc.attrs.log.fileName}" toggleable="true" toggleSpeed="200"
     collapsed="#{logBean.showLog ne cc.attrs.log.fileName}" style="min-height: unset;">
     <f:facet name="header">
-      <span onclick="PF('#{cc.attrs.log.fileName}').toggle()" style="cursor: pointer; display: inline-flex;">
+      <span onclick="PF('#{cc.attrs.log.fileName}').toggle()" style="cursor: pointer;" class="p-d-inline-flex">
         <i class="si si-common-file-text table-icon panel-title-icon"></i>
-        <h:outputText value="#{cc.attrs.log.fileName}" style="width: 150px;" />
-        <h:outputText value="#{cc.attrs.log.date}" />
-        <h:outputText value="#{cc.attrs.log.size}kB" style="margin-left: 15px;" />
-        <h:outputText value="(download file for full log)" rendered="#{!cc.attrs.log.endReached}"
-          style="margin-left: 15px;" />
+        <h:outputText value="#{cc.attrs.log.fileName}" styleClass="p-ml-1" />
+        <h:outputText value="(#{cc.attrs.log.size}kB#{cc.attrs.log.endReached ? '' : ' - download file for full log'})" styleClass="p-ml-3" />
       </span>
     </f:facet>
-    <h:form id="fileForm">
-      <p:commandButton id="showLog" ajax="false" title="Download Log File" icon="si si-download-bottom"
-        styleClass="secondary-btn card-button" rendered="#{cc.attrs.log.downloadEnabled}"
-        style="margin-top: -37px; margin-right: 25px;">
-        <p:fileDownload value="#{cc.attrs.log.file}" />
-      </p:commandButton>
-      <pre style="max-height: 500px; overflow-x: auto;"><h:outputText value="#{cc.attrs.log.content}"/></pre>
-    </h:form>
+    <f:facet name="actions">
+      <h:form id="fileForm">
+        <p:commandLink id="showLog" ajax="false" title="Download Log File" 
+          styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" rendered="#{cc.attrs.log.downloadEnabled}">
+          <i class="si si-download-bottom"></i>
+          <p:fileDownload value="#{cc.attrs.log.file}" />
+        </p:commandLink>
+      </h:form>
+    </f:facet>
+      <pre style="max-height: 500px; overflow-x: auto; margin: 0;"><h:outputText value="#{cc.attrs.log.content}"/></pre>
   </p:panel>
 </cc:implementation>
 

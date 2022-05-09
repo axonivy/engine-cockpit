@@ -34,11 +34,11 @@ public class WebTestPerformance {
   void beforeEach() {
     login();
     Navigation.toPerformanceStatistic();
-    var stop = $(id("performance:form:stop"));
+    var stop = $(id("form:stop"));
     if (stop.is(enabled)) {
       stop.click();
     }
-    var clear = $(id("performance:form:clear"));
+    var clear = $(id("form:clear"));
     if (clear.is(enabled)) {
       clear.click();
     }
@@ -46,61 +46,56 @@ public class WebTestPerformance {
 
   @Test
   void buttonState_initial() {
-    $(id("performance:form:start")).shouldBe(visible, enabled);
-    $(id("performance:form:stop")).shouldBe(visible, disabled);
-    $(id("performance:form:clear")).shouldBe(visible, disabled);
-    $(id("performance:form:refresh")).shouldBe(visible, disabled);
-    $(id("performance:form:export")).shouldBe(visible, disabled);
-    $(id("performance:form:config")).shouldBe(visible, enabled);
-    $(id("performance:form:loggingWarning")).shouldBe(Condition.hidden);
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+    $(id("form:export")).shouldBe(visible, disabled);
+    $(id("form:loggingWarning")).shouldBe(Condition.hidden);
   }
 
   @Test
   void buttonState_afterStart() {
     start();
-    $(id("performance:form:start")).shouldBe(visible, disabled);
-    $(id("performance:form:stop")).shouldBe(visible, enabled);
-    $(id("performance:form:clear")).shouldBe(visible, disabled);
-    $(id("performance:form:refresh")).shouldBe(visible, enabled);
-    $(id("performance:form:export")).shouldBe(visible, disabled);
-    $(id("performance:form:config")).shouldBe(visible, enabled);
+    $(id("form:start")).shouldBe(visible, disabled);
+    $(id("form:stop")).shouldBe(visible, enabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, enabled);
+    $(id("form:export")).shouldBe(visible, disabled);
   }
 
   @Test
   void buttonState_afterCancelStart() {
-    $(id("performance:form:start")).click();
+    $(id("form:start")).click();
     $(id("startPerformance:cancel")).click();
-    $(id("performance:form:start")).shouldBe(visible, enabled);
-    $(id("performance:form:stop")).shouldBe(visible, disabled);
-    $(id("performance:form:clear")).shouldBe(visible, disabled);
-    $(id("performance:form:refresh")).shouldBe(visible, disabled);
-    $(id("performance:form:export")).shouldBe(visible, disabled);
-    $(id("performance:form:config")).shouldBe(visible, enabled);
-    $(id("performance:form:loggingWarning")).shouldBe(Condition.hidden);
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+    $(id("form:export")).shouldBe(visible, disabled);
+    $(id("form:loggingWarning")).shouldBe(Condition.hidden);
   }
 
   @Test
   void buttonState_afterStop() {
     start();
-    $(id("performance:form:stop")).click();
-    $(id("performance:form:start")).shouldBe(visible, enabled);
-    $(id("performance:form:stop")).shouldBe(visible, disabled);
-    $(id("performance:form:clear")).shouldBe(visible, disabled);
-    $(id("performance:form:refresh")).shouldBe(visible, disabled);
-    $(id("performance:form:export")).shouldBe(visible, disabled);
-    $(id("performance:form:config")).shouldBe(visible, enabled);
+    $(id("form:stop")).click();
+    $(id("form:start")).shouldBe(visible, enabled);
+    $(id("form:stop")).shouldBe(visible, disabled);
+    $(id("form:clear")).shouldBe(visible, disabled);
+    $(id("form:refresh")).shouldBe(visible, disabled);
+    $(id("form:export")).shouldBe(visible, disabled);
   }
 
   @Test
   void buttonState_afterRecording() {
     recordData();
 
-    $(id("performance:form:start")).shouldBe(visible, disabled);
-    $(id("performance:form:stop")).shouldBe(visible, enabled);
-    $(id("performance:form:clear")).shouldBe(visible, enabled);
-    $(id("performance:form:refresh")).shouldBe(visible, enabled);
-    $(id("performance:form:export")).shouldBe(visible, enabled);
-    $(id("performance:form:config")).shouldBe(visible, enabled);
+    $(id("form:start")).shouldBe(visible, disabled);
+    $(id("form:stop")).shouldBe(visible, enabled);
+    $(id("form:clear")).shouldBe(visible, enabled);
+    $(id("form:refresh")).shouldBe(visible, enabled);
+    $(id("form:export")).shouldBe(visible, enabled);
   }
 
   @Test
@@ -137,14 +132,14 @@ public class WebTestPerformance {
   @Test
   void data_afterClear() {
     recordData();
-    $(id("performance:form:clear")).click();
+    $(id("form:clear")).click();
     $x(tableBody()).shouldHave(text("No records found."));
   }
 
   @Test
   void navigateToConfig() {
-    $(id("performance:form:config")).click();
-    $(tagName("h1")).shouldHave(text("System Configuration"));
+    $(".config-link").click();
+    $(tagName("h2")).shouldHave(text("System Configuration"));
     $(id("config:form:configTable:globalFilter")).shouldHave(attribute("value", "ProcessEngine.FiringStatistic"));
   }
 
@@ -157,7 +152,7 @@ public class WebTestPerformance {
   }
 
   private static void start() {
-    $(id("performance:form:start")).click();
+    $(id("form:start")).click();
     $(id("startPerformance:start")).click();
   }
 
@@ -178,7 +173,7 @@ public class WebTestPerformance {
   }
 
   private String tableBody() {
-    return "//div[@id='performance:form:performanceTable']//tbody";
+    return "//div[@id='form:performanceTable']//tbody";
   }
 
   public static void prepareScreenshot() {
