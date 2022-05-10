@@ -36,7 +36,7 @@ public class SecuritySystemEmailBean {
     configurator.language(language);
     configurator.settings(emailSettings.saveEmailSettings(configurator.settings()));
     var msg = new FacesMessage("User email changes saved");
-	FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", msg);
+    FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", msg);
   }
   
   private EmailNotificationConfigurator configurator() {

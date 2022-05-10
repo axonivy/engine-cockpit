@@ -31,15 +31,15 @@ public class EmailSettings {
   public static final Locale ENGLISH = Locale.ENGLISH;
 
   public EmailSettings(ISecurityContext securityContext) {
-	this.securityContext = securityContext;
-	var configurator = new EmailNotificationConfigurator(securityContext);
+    this.securityContext = securityContext;
+    var configurator = new EmailNotificationConfigurator(securityContext);
     this.language = configurator.language();
     useApplicationDefault = false;
     initEmailSettings(configurator.settings());
   }
 
   public EmailSettings(IUser user, IEMailNotificationSettings defaultAppSettings) {
-	this.securityContext = user.getSecurityContext();
+    this.securityContext = user.getSecurityContext();
     this.language = user.getLanguage() != null ? user.getLanguage() : new Locale("app");
     useApplicationDefault = user.getEMailNotificationSettings().isUseApplicationDefault();
     if (useApplicationDefault) {
