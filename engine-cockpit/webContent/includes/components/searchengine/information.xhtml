@@ -25,7 +25,7 @@
     <label>Version</label>
     <h:panelGroup>
       <h:outputText id="version" value="#{searchEngineBean.elasticSearch.version}" />
-      <h:outputText rendered="#{searchEngineBean.elasticSearch.isNotSupported}">
+      <h:outputText rendered="#{searchEngineBean.elasticSearch.notSupported}">
         <i class="si si-lg si-road-sign-warning search-machine-health-yellow"
           style="position: relative; top: 3px; font-weight: 700;"
           title="This elastic search version is not supported"></i>
