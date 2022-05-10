@@ -21,7 +21,7 @@
       <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
         <p:autoUpdate />
       </p:growl>
-      <cc:ApplicationTabs tabChange="#{applicationEmailBean.reloadEmailSettings}" id="tabs">
+      <cc:SecuritySystemTabs tabChange="#{securitySystemEmailBean.reloadEmailSettings}" id="tabs">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-12">
             <h1>
@@ -32,14 +32,14 @@
         <div class="ui-g">
           <div class="ui-g-12 ui-md-12 ui-lg-6">
             <h:form id="form">
-              <cc:EmailSettings emailSettings="#{applicationEmailBean.emailSettings}"
+              <cc:EmailSettings emailSettings="#{securitySystemEmailBean.emailSettings}"
                 supportedLanguages="#{managerBean.supportedLanguages}" id="emailSetting" />
-              <p:commandButton actionListener="#{applicationEmailBean.saveEmailSettings}" value="Save"
+              <p:commandButton actionListener="#{securitySystemEmailBean.saveEmailSettings}" value="Save"
                 icon="si si-floppy-disk" style="width: auto; float: right;" id="saveEmailSettings" />
             </h:form>
           </div>
         </div>
-      </cc:ApplicationTabs>
+      </cc:SecuritySystemTabs>
     </ui:define>
 
     <ui:define name="sidebar">

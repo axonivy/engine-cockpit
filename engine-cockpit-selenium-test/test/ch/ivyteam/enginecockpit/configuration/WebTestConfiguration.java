@@ -310,14 +310,6 @@ class WebTestConfiguration {
       assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate", "standard-processes", "auto");
       $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
-
-    @Test
-    void mailNotification() {
-      var config = "StandardProcess.MailNotification";
-      table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "auto", "standard-processes", "auto");
-      $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
-    }
   }
 
   private void assertUrlFiltering(String filter) {

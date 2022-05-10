@@ -122,9 +122,11 @@ public class WebDocuScreenshot {
   @Test
   void screenshotServices() {
     Navigation.toEmail();
-    Tab.APP.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
     takeScreenshot("email", new Dimension(SCREENSHOT_WIDTH, 650));
+
     Navigation.toDatabases();
+    Tab.APP.switchToDefault();
     takeScreenshot("databases", new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toDatabaseDetail("realdb");
     takeScreenshot("database-detail", new Dimension(SCREENSHOT_WIDTH, 800));
