@@ -17,9 +17,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
-import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
-import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
@@ -36,12 +33,12 @@ public class WebTestEmail {
   void beforeEach() {
     login();
     Navigation.toEmail();
-    Tab.APP.switchToDefault();
+    Tab.SECURITY_SYSTEM.switchToDefault();
   }
 
   @Test
-  void testEmailLanguageSwitch() {
-    SelectOneMenu language = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:languageDropDown"));
+  void emailLanguageSwitch() {
+    var language = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:languageDropDown"));
     language.selectItemByLabel("German");
     language.selectedItemShould(Condition.exactText("German"));
     $(getActivePanelCss() + "saveEmailSettings").click();
@@ -53,13 +50,26 @@ public class WebTestEmail {
     language.selectedItemShould(Condition.exactText("English"));
     $(getActivePanelCss() + "saveEmailSettings").click();
   }
+  
+  @Test
+  void mailProcessSwitch() {
+    var mailProcess = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:mailProcess"));
+    mailProcess.selectItemByLabel("");
+    mailProcess.selectedItemShould(Condition.exactText(""));
+    $(getActivePanelCss() + "saveEmailSettings").click();
+    $(EMAIL_GROWL).shouldBe(visible, exactText("User email changes saved"));
+
+    Selenide.refresh();
+    mailProcess.selectedItemShould(Condition.exactText(""));
+    mailProcess.selectItemByLabel("auto");
+    mailProcess.selectedItemShould(Condition.exactText("auto"));
+    $(getActivePanelCss() + "saveEmailSettings").click();
+  }
 
   @Test
-  void testApplicationEmail() {
-    SelectBooleanCheckbox taskCheckbox = PrimeUi
-            .selectBooleanCheckbox(By.id(getActivePanel() + "emailSetting:taskCheckbox"));
-    SelectManyCheckbox dailyCheckbox = PrimeUi
-            .selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
+  void securitySystemMail() {
+    var taskCheckbox = PrimeUi.selectBooleanCheckbox(By.id(getActivePanel() + "emailSetting:taskCheckbox"));
+    var dailyCheckbox = PrimeUi.selectManyCheckbox(By.id(getActivePanel() + "emailSetting:radioDailyNotification"));
     taskCheckbox.shouldBeChecked(false);
     taskCheckbox.shouldBeDisabled(false);
     dailyCheckbox.shouldBeDisabled(false);
@@ -95,11 +105,10 @@ public class WebTestEmail {
   }
 
   private String getActivePanel() {
-    return "tabs:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:";
+    return "tabs:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":form:";
   }
 
   private String getActivePanelCss() {
     return escapeSelector(getActivePanel());
   }
-
 }

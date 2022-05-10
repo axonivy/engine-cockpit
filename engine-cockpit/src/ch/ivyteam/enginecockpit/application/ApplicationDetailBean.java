@@ -1,11 +1,9 @@
 package ch.ivyteam.enginecockpit.application;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -27,7 +25,8 @@ import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.workflow.StandardProcessType;
-import ch.ivyteam.ivy.workflow.standard.StandardProcessConfigurator;
+import ch.ivyteam.ivy.workflow.standard.DefaultPagesConfigurator;
+import ch.ivyteam.ivy.workflow.standard.StandardProcessStartFinder;
 
 @ManagedBean
 @ViewScoped
@@ -164,28 +163,17 @@ public class ApplicationDetailBean {
   }
 
   private List<String> availableStandardProcesses(ConfigProperty config) {
-    var configurator = StandardProcessConfigurator.of(getIApplication());
+    var configurator = DefaultPagesConfigurator.of(getIApplication());
     var libraries = new LinkedHashSet<String>();
     libraries.add("");
-    libraries.add(StandardProcessConfigurator.AUTO);
+    libraries.add(StandardProcessStartFinder.AUTO);
     libraries.add(config.getValue());
-    for (var processType : processTypesForConfig(config.getKey())) {
-      libraries.addAll(configurator.findLibraries(processType));
+    for (var type : StandardProcessType.values()) {
+      if (type.kind() == StandardProcessType.Kind.PAGE) {
+        libraries.addAll(configurator.findLibraries(type));
+      }
     }
     return List.copyOf(libraries);
-  }
-
-  private Set<StandardProcessType> processTypesForConfig(String key) {
-    if (StringUtils.endsWith(key, "DefaultPages")) {
-      return of(StandardProcessType.Kind.PAGE);
-    }
-    return of(StandardProcessType.Kind.MAIL);
-  }
-
-  private Set<StandardProcessType> of(StandardProcessType.Kind kind) {
-    return Arrays.stream(StandardProcessType.values())
-      .filter(type -> type.kind() == kind)
-      .collect(Collectors.toSet());
   }
 
   private static List<String> librariesOf(IApplication app) {

@@ -48,6 +48,12 @@
       <f:selectItem itemLabel="Sun" itemValue="SUNDAY" />
       <p:ajax update="@form" />
     </p:selectManyCheckbox>
+    
+    <p:outputLabel value="Mail Process" for="mailProcess" />
+    <p:selectOneMenu id="mailProcess" value="#{cc.attrs.emailSettings.mailProcess}" style="width: 100%;">
+      <f:selectItems value="#{cc.attrs.emailSettings.mailProcesses}" />
+      <p:ajax update="@form" />
+    </p:selectOneMenu>
   </p:panelGrid>
 </cc:implementation>
 
