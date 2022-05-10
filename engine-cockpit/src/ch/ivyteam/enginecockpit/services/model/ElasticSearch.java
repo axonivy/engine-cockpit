@@ -53,6 +53,10 @@ public class ElasticSearch {
     return health;
   }
 
+  public boolean isNotSupported() {
+    return !version.startsWith("7.17");
+  }
+
   public Optional<String> executeRequest(String url) {
     var client = ClientBuilder.newClient();
     client.register(new Authenticator(username, password));
