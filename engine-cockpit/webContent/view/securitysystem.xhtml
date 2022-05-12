@@ -6,87 +6,73 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Security</li>
+      <li><span>Security</span></li>
       <li>/</li>
       <li><a href="securitysystem.xhtml">Security Systems</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}security.html#security-system" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}security.html#security-system" />
     </ui:define>
 
     <ui:define name="content">
-      <ui:include src="../includes/dialogs/changesecuritysystemprovider.xhtml" />
-
-      <cc:SingleCard id="card">
-        <div class="card card-w-title">
-          <h:form id="form">
-            <p:growl for="log" id="msgs">
-              <p:autoUpdate />
-            </p:growl>
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-10">
-                <h1>
-                  <i class="si si-lock-1 card-title-icon"></i>Security Systems
-                </h1>
+      <div class="card">
+        <h:form id="form">
+          <p:growl for="log" id="msgs">
+            <p:autoUpdate />
+          </p:growl>
+          <div class="p-d-flex p-ai-center p-mb-3">
+            <i class="p-pr-3 si si-lock-1 card-title-icon"></i>
+            <h2 class="p-m-0">Security Systems</h2>
+            <p:commandButton styleClass="p-ml-auto" id="createSecuritySystemBtn" icon="si si-add" type="button" value="Add"
+              onclick="PF('newSecuritySystemModal').show();" />
+          </div>
+          <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+            var="system" value="#{securityBean.securitySystems}" widgetVar="securitySystemTable"
+            filteredValue="#{securityBean.filteredSystems}" lazy="false" styleClass="userTable ui-fluid"
+            id="securitySystemTable">
+            <f:facet name="header">
+              <div class="ui-input-icon-left filter-container">
+                <i class="pi pi-search"/>
+                <p:inputText id="globalFilter" onkeyup="PF('securitySystemTable').filter()" placeholder="Search" value="#{securityBean.filter}" />
               </div>
-              <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                <p:commandButton id="createSecuritySystemBtn" icon="si si-add" type="button" value="Add"
-                  onclick="PF('newSecuritySystemModal').show();" />
-              </div>
-            </div>
-            <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
-              paginatorAlwaysVisible="false"
-              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-              var="system" value="#{securityBean.securitySystems}" widgetVar="securitySystemTable"
-              filteredValue="#{securityBean.filteredSystems}" lazy="false" styleClass="userTable"
-              id="securitySystemTable">
-              <f:facet name="header">
-                <p:outputPanel>
-                  <p:outputLabel styleClass="table-search-icon">
-                    <i class="si si-search"></i>
-                  </p:outputLabel>
-                  <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                    onkeyup="PF('securitySystemTable').filter()" placeholder="Search" value="#{securityBean.filter}" />
-                </p:outputPanel>
-              </f:facet>
-              <p:column headerText="Name" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
-                <h:outputLink value="#{system.link}">
-                  <i class="si si-lock-1 table-icon"></i>
-                  <h:outputText value="#{system.securitySystemName}" styleClass="security-name" />
-                </h:outputLink>
-              </p:column>
-              <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}"
-                filterBy="#{system.securitySystemProvider}">
-                <h:outputText value="#{system.securitySystemProvider}" class="provider-name" />
-              </p:column>
-              <p:column headerText="Application">
-                <ui:repeat var="app" value="#{system.appNames}" varStatus="status">
-                  <a href="application-detail.xhtml?appName=#{app}">
-                    <i class="si si-module table-icon"></i>#{app}
-                  </a>
-                  <h:outputText value="#{status.last ? '' : ' / '}" />
-                </ui:repeat>
-              </p:column>
+            </f:facet>
+            <p:column headerText="Name" sortBy="#{system.securitySystemName}" filterBy="#{system.securitySystemName}">
+              <h:outputLink value="#{system.link}">
+                <i class="si si-lock-1 table-icon"></i>
+                <h:outputText value="#{system.securitySystemName}" styleClass="security-name" />
+              </h:outputLink>
+            </p:column>
+            
+            <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}"
+              filterBy="#{system.securitySystemProvider}">
+              <h:outputText value="#{system.securitySystemProvider}" class="provider-name" />
+            </p:column>
+            
+            <p:column headerText="Application">
+              <ui:repeat var="app" value="#{system.appNames}" varStatus="status">
+                <a href="application-detail.xhtml?appName=#{app}">
+                  <i class="si si-module table-icon"></i>#{app}
+                </a>
+                <h:outputText value="#{status.last ? '' : ' / '}" />
+              </ui:repeat>
+            </p:column>
 
-              <p:column style="text-align: right;">
-                <p:commandButton process="@this"
-                                 id="change-provider-btn"
-                                 action="#{securitySystemProviderChangerBean.setSystem(system)}"
-                                 update=":changeSecuritySystemProviderModal"
-                                 oncomplete="PF('changeSecuritySystemProviderModal').show()"
-                                 icon="si si-pencil"
-                                 title="Change Provider">
-                </p:commandButton>
-              </p:column>
-            </p:dataTable>
-          </h:form>
-          <ui:include src="../includes/dialogs/newsecuritysystem.xhtml" />
-        </div>
-      </cc:SingleCard>
+            <p:column styleClass="table-btn-1">
+              <p:commandButton process="@this"
+                id="change-provider-btn"
+                styleClass="ui-button-secondary rounded-button"
+                action="#{securitySystemProviderChangerBean.setSystem(system)}"
+                update=":changeSecuritySystemProviderModal"
+                oncomplete="PF('changeSecuritySystemProviderModal').show()"
+                icon="si si-pencil"
+                title="Change Provider" />
+            </p:column>
+          </p:dataTable>
+        </h:form>
+        <ui:include src="../includes/dialogs/changesecuritysystemprovider.xhtml" />
+        <ui:include src="../includes/dialogs/newsecuritysystem.xhtml" />
+      </div>
     </ui:define>
   </ui:composition>
 </h:body>

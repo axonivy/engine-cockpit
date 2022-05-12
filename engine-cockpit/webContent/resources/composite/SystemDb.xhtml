@@ -13,43 +13,41 @@
     });
   </script>
   <h:form id="systemDbForm">
-    <div class="ui-g">
-      <div class="ui-g-12">
+    <div class="p-grid">
+      <div class="p-col-12">
         <p:outputPanel id="connectionPanel" styleClass="connection-panel">
           <p:staticMessage rendered="#{!systemDatabaseBean.isPersistentDb()}" severity="warn"
             summary="Database not persistent"
             detail="Please configure a persistent database to use this engine in a productive environment." />
 
-          <div
-            class="ui-message ui-staticmessage #{systemDatabaseBean.connectionInfo.messageLevel} ui-widget ui-corner-all">
-            <i id="connectionIcon" class="#{systemDatabaseBean.connectionInfo.icon}" />
-            <span class="ui-message-error-summary">#{systemDatabaseBean.connectionInfo.label}</span>
+          <div class="ui-message ui-staticmessage #{systemDatabaseBean.connectionInfo.messageLevel} ui-widget ui-corner-all">
+            <i id="connectionIcon" class="#{systemDatabaseBean.connectionInfo.icon}"></i>
+            <span class="ui-message-error-summary p-ml-2">#{systemDatabaseBean.connectionInfo.label}</span>
             <span class="ui-message-error-detail">#{systemDatabaseBean.connectionInfo.advise}</span>
-            <div class="ui-message-error-detail" style="margin-left: 31px; font-size: 13px;">
-              #{systemDatabaseBean.connectionInfo.errorMessage}</div>
+            <div class="ui-message-error-detail">#{systemDatabaseBean.connectionInfo.errorMessage}</div>
           </div>
 
           <div>
             <p:commandButton value="Check Connection" id="checkConnectionButton"
-              styleClass="wizard-top-button primary-btn"
+              styleClass="p-mr-1 wizard-top-button"
               onstart="$('#connectionIcon').attr('class', 'si si-button-refresh-arrows si-is-spinning');" async="true"
               icon="si si-check-1" update="#{cc.attrs.updateFields}"
               actionListener="#{systemDatabaseBean.testConnection()}" />
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="si si-database-settings"
-              styleClass="wizard-top-button secondary-btn" actionListener="#{systemDatabaseBean.initCreator()}"
+              styleClass="p-mr-1 wizard-top-button ui-button-secondary" actionListener="#{systemDatabaseBean.initCreator()}"
               update="systemDb:createDatabaseDialog" oncomplete="PF('createDatabaseDialog').show();"
               disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
             <p:commandButton value="Migrate Database" id="migrateDatabaseButton" icon="si si-synchronize-arrows"
-              styleClass="wizard-top-button secondary-btn" actionListener="#{systemDatabaseBean.createConverter()}"
+              styleClass="wizard-top-button ui-button-secondary" actionListener="#{systemDatabaseBean.createConverter()}"
               update="systemDb:convertDatabaseDialog" onsuccess="PF('convertDatabaseDialog').show();"
               disabled="#{!systemDatabaseBean.connectionInfo.mustConvert}" />
           </div>
         </p:outputPanel>
       </div>
 
-      <div class="ui-g-12">
-        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-          styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <div class="p-col-12">
+        <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
+          styleClass="grey-label-panel ui-fluid">
           <p:outputLabel for="databaseType" value="Database" />
           <p:selectOneMenu id="databaseType" value="#{systemDatabaseBean.product}">
             <f:selectItems value="#{systemDatabaseBean.supporedDatabaseNames}" var="database" itemLabel="#{database}"
@@ -70,8 +68,8 @@
         <h:panelGroup id="dynamicForm">
           <p:repeat var="connProp" value="#{systemDatabaseBean.connectionProperties}">
             <ui:fragment rendered="#{connProp.number}">
-              <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-                styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+              <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
+                styleClass="grey-label-panel ui-fluid">                
                 <p:outputLabel for="numberProp" value="#{connProp.label}" />
                 <h:panelGroup>
                   <p:inputNumber styleClass="#{connProp.cssClass}" id="numberProp" value="#{connProp.value}"
@@ -90,8 +88,8 @@
             </ui:fragment>
 
             <ui:fragment rendered="#{connProp.password}">
-              <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-                styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+              <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
+                styleClass="grey-label-panel ui-fluid">
                 <p:outputLabel for="passwordProperty" value="#{connProp.label}" />
                 <h:panelGroup styleClass="md-inputfield">
                   <p:password styleClass="#{connProp.cssClass}" id="passwordProperty"
@@ -106,8 +104,8 @@
             </ui:fragment>
 
             <ui:fragment rendered="#{connProp.input}">
-              <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-                styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+              <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
+                styleClass="grey-label-panel ui-fluid">
                 <p:outputLabel for="inputProperty" value="#{connProp.label}" />
                 <h:panelGroup styleClass="md-inputfield">
                   <p:inputText styleClass="#{connProp.cssClass}" id="inputProperty" value="#{connProp.value}"
@@ -122,8 +120,8 @@
           </p:repeat>
         </h:panelGroup>
 
-        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-          styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+        <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
+          styleClass="grey-label-panel ui-fluid">
           <label>Additional Properties</label>
           <h:panelGroup>
             <p:dataTable var="property" value="#{systemDatabaseBean.additionalProperties}"
@@ -134,17 +132,17 @@
               <p:column>
                 <h:outputText value="#{property.value}" />
               </p:column>
-              <p:column style="width: 55px;">
+              <p:column styleClass="table-btn-1" style="box-sizing: content-box;">
                 <p:commandButton id="removeAdditionalProperty"
                   actionListener="#{systemDatabaseBean.removeProp(property.key)}"
                   update="@form:additionalPropertiesTable" icon="si si-bin-1" title="Delete"
-                  styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
+                  styleClass="ui-button-danger rounded-button" process="@this" />
               </p:column>
             </p:dataTable>
             <p:commandButton id="newAdditionalPropertyBtn" actionListener="#{systemDatabaseBean.addProp()}"
               icon="si si-add" title="Add Property" update="systemDb:addAdditionalPropertyDialog" value="Add Property"
-              styleClass="secondary-btn" oncomplete="PF('addAdditionalPropertyDialog').show();" process="@this"
-              style="float: right; width: 150px; margin-top: 5px;" />
+              styleClass="p-mt-2 ui-button-secondary" oncomplete="PF('addAdditionalPropertyDialog').show();" process="@this"
+              style="float: right; width: 150px;" />
           </h:panelGroup>
         </p:panelGrid>
       </div>
@@ -154,13 +152,11 @@
   <p:dialog id="createDatabaseDialog" widgetVar="createDatabaseDialog" header="Create System Database" modal="true"
     closeOnEscape="true" width="400">
     <h:form id="createDatabaseForm">
-      <p:panelGrid columns="1" layout="grid"
-        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-        <h:outputText value="Enter the required parameters for your System Database configuration:" />
-      </p:panelGrid>
+      <p:staticMessage severity="info" summary="Info" detail="Enter the required parameters for your System Database configuration"
+        rendered="#{!systemDatabaseBean.dbCreatorRunning and !systemDatabaseBean.dbCreatorFinished}" />
+      
       <p:repeat var="para" value="#{systemDatabaseBean.creationParams}">
-        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-          styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+        <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
           <p:outputLabel for="creationParam" value="#{para.label}" />
           <h:panelGroup styleClass="md-inputfield">
             <p:inputText id="creationParam" value="#{para.value}" type="#{para.password ? 'password' : 'input'}"
@@ -170,15 +166,13 @@
           </h:panelGroup>
         </p:panelGrid>
       </p:repeat>
-
-      <div style="margin-bottom: 20px;">
-        <p:poll autoStart="#{systemDatabaseBean.dbCreatorRunning}" id="convertingOutputPoll"
-          widgetVar="convertingOutputPoll" update="@form" interval="2" />
-
-        <h:outputText id="creationResult" value="#{systemDatabaseBean.dbCreatorError}" />
-        <h:outputText rendered="#{systemDatabaseBean.dbConversionFinished}"
-          value="The database was created successfully. Please check the connection!" />
-      </div>
+      
+      <p:poll autoStart="#{systemDatabaseBean.dbCreatorRunning}" id="convertingOutputPoll"
+        widgetVar="convertingOutputPoll" update="@form" interval="2" />
+      <p:staticMessage id="creationError" severity="error" summary="Error" detail="#{systemDatabaseBean.dbCreatorError}"
+        rendered="#{not empty systemDatabaseBean.dbCreatorError}" />
+      <p:staticMessage id="creationInfo" severity="info" summary="Info" detail="The database was created successfully. Please check the connection!"
+        rendered="#{systemDatabaseBean.dbCreatorFinished}" />
 
       <h:panelGroup rendered="#{!systemDatabaseBean.dbCreatorFinished}">
         <p:commandButton id="confirmConvertButton" value="Save and create"
@@ -186,7 +180,7 @@
           icon="si si-#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows si-is-spinning' : 'database-settings'}"
           actionListener="#{systemDatabaseBean.createDatabase}" style="width: 170px;" update="@form"
           styleClass="modal-input-button" />
-        <p:commandLink value="Cancel" rendered="#{!systemDatabaseBean.dbCreatorRunning}" styleClass="modal-input-button"
+        <p:commandButton value="Cancel" rendered="#{!systemDatabaseBean.dbCreatorRunning}" styleClass="ui-button-secondary ui-button-flat modal-input-button"
           oncomplete="PF('createDatabaseDialog').hide();" />
       </h:panelGroup>
       <h:panelGroup rendered="#{systemDatabaseBean.dbCreatorFinished}">
@@ -202,13 +196,12 @@
     <h:form id="convertDatabaseForm">
       <p:poll autoStart="#{systemDatabaseBean.dbConversionRunning}" id="convertingOutputPoll"
         widgetVar="convertingOutputPoll" update="@form" interval="2" />
-      <p:panelGrid columns="1" layout="grid"
-        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-        <p:staticMessage severity="warn" summary="Do not leave this page, while a migration is running!" />
-        <h:outputText id="conversionResult" value="#{systemDatabaseBean.dbConversionError}" />
-        <h:outputText rendered="#{systemDatabaseBean.dbConversionFinished}"
-          value="The database was migrated successfully. Please check the connection!" />
-      </p:panelGrid>
+      <p:staticMessage id="convertionError" severity="error" summary="Error" detail="#{systemDatabaseBean.dbConversionError}" 
+        rendered="#{not empty systemDatabaseBean.dbConversionError}" />
+      <p:staticMessage id="convertionWarning" severity="warn" summary="Warning" detail="Do not leave this page, while a migration is running!" 
+        rendered="#{systemDatabaseBean.dbConversionRunning}" />
+      <p:staticMessage id="convertionInfo" severity="info" summary="Success" detail="The database was migrated successfully. Please check the connection!" 
+        rendered="#{systemDatabaseBean.dbConversionFinished}" />
 
       <h:panelGroup rendered="#{!systemDatabaseBean.dbConversionFinished}">
         <p:commandButton id="confirmConvertButton" value="Save and convert"
@@ -217,8 +210,8 @@
           actionListener="#{systemDatabaseBean.convertDatabase}" style="width: 170px;" update="@form"
           styleClass="modal-input-button"
           onclick="window.onbeforeunload = function () {return 'A database conversion is running!';}" />
-        <p:commandLink value="Cancel" rendered="#{!systemDatabaseBean.dbConversionRunning}"
-          styleClass="modal-input-button" oncomplete="PF('convertDatabaseDialog').hide();" />
+        <p:commandButton value="Cancel" rendered="#{!systemDatabaseBean.dbConversionRunning}"
+          styleClass="ui-button-secondary ui-button-flat modal-input-button" oncomplete="PF('convertDatabaseDialog').hide();" />
       </h:panelGroup>
       <h:panelGroup rendered="#{systemDatabaseBean.dbConversionFinished}">
         <p:commandButton id="closeConversionButton" value="Connect" icon="si si-check-1"
@@ -232,8 +225,7 @@
   <p:dialog widgetVar="addAdditionalPropertyDialog" id="addAdditionalPropertyDialog" header="Additional property"
     modal="true" closeOnEscape="true" focus="addAdditionalPropertyForm:key">
     <h:form id="addAdditionalPropertyForm">
-      <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-        styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
+      <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
         <p:outputLabel for="key" value="Key" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="key" requiredMessage="Value is required" disabled="#{not empty systemDatabaseBean.propKey}"
@@ -252,8 +244,8 @@
         update="@form,systemDb:systemDbForm:additionalPropertiesTable" actionListener="#{systemDatabaseBean.saveProp()}"
         value="Save" icon="si si-floppy-disk" styleClass="modal-input-button"
         oncomplete="if (!args.validationFailed) PF('addAdditionalPropertyDialog').hide();" />
-      <p:commandLink id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="Cancel"
-        type="button" styleClass="modal-input-button" />
+      <p:commandButton id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="Cancel"
+        type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     </h:form>
   </p:dialog>
 </cc:implementation>

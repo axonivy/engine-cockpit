@@ -61,22 +61,28 @@ class WebTestLicence {
     openAnotherSession();
     $("#layout-config-button").shouldBe(visible).click();
     var table = new Table(By.cssSelector("#layout-config .ui-datatable"));
-    table.firstColumnShouldBe(textsInAnyOrder("admin", SESSION_USER));
+    var adminUser = EngineUrl.isDesigner() ? "Developer" : "admin";
+    table.firstColumnShouldBe(textsInAnyOrder(adminUser, SESSION_USER));
     table.clickButtonForEntry(SESSION_USER, "killSession");
-    table.firstColumnShouldBe(textsInAnyOrder("admin"));
+    table.firstColumnShouldBe(textsInAnyOrder(adminUser));
     assertOtherSession();
   }
 
   private void openAnotherSession() {
-    $("#breadcrumbOptions a").shouldBe(visible).click();
+    $(".layout-topbar-actions .help-link a").shouldBe(visible).click();
     Selenide.switchTo().window(1);
-    Selenide.open(EngineUrl.create().app("test").path("login").toUrl());
+    if (EngineUrl.isDesigner()) {
+      Selenide.open(EngineUrl.create().app(EngineUrl.DESIGNER).path("faces/login.xhtml").toUrl());
+    } else {
+      Selenide.open(EngineUrl.create().app("test").path("login").toUrl());
+    }
     $("h1").shouldHave(text("Login"));
     $("#loginForm\\:userName").sendKeys(SESSION_USER);
     $("#loginForm\\:password").sendKeys(SESSION_USER);
     $("#loginForm\\:login").click();
     $("#sessionUserName").shouldHave(text(SESSION_USER));
     Selenide.switchTo().window(0);
+    Selenide.refresh();
   }
 
   private void assertOtherSession() {

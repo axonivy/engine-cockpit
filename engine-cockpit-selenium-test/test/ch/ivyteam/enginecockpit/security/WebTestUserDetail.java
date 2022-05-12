@@ -39,7 +39,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestUserDetail {
 
-  private static final String CSS_MEMBER_INHERIT = "member-inherit-icon";
+  private static final String CSS_MEMBER_INHERIT = "light";
   private static final String CSS_MEMBER = "si-check-circle";
   private static final String CSS_DISABLED = "ui-state-disabled";
   private static final String ROLE_REMOVE_BUTTON = "button:nth-child(2)";
@@ -243,10 +243,10 @@ class WebTestUserDetail {
     Table table = new Table(By.id("rolesOfUserForm:rolesTree"), true);
     table.firstColumnShouldBe(sizeGreaterThan(3));
     table.firstColumnShouldBe(sizeLessThan(6));
-    $("#rolesOfUserForm\\:expandAll").shouldBe(visible).click();
+    $("#rolesOfUserForm\\:rolesTree\\:expandAll").shouldBe(visible).click();
     table.firstColumnShouldBe(sizeGreaterThan(3));
     table.firstColumnShouldBe(sizeLessThan(6));
-    $("#rolesOfUserForm\\:collapseAll").shouldBe(visible).click();
+    $("#rolesOfUserForm\\:rolesTree\\:collapseAll").shouldBe(visible).click();
     table.firstColumnShouldBe(size(1));
   }
 

@@ -3,24 +3,27 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-network-arrow table-icon panel-title-icon"></i>
-  <h:outputText value="Web Services" />
-  <h:form id="appSwitch">
-    <p:selectOneMenu id="appSelect" value="#{managerBean.selectedApplicationName}"
-      style="width: 200px; position: absolute; right: 38px;">
-      <f:selectItems value="#{managerBean.applications}" var="app" itemLabel="#{app.name}" itemValue="#{app.name}" />
-      <p:ajax event="change" update="webServicesTable" />
-    </p:selectOneMenu>
-  </h:form>
-</f:facet>
-<p:dataTable value="#{managerBean.selectedApplication.webServiceProcesses}" var="ws" widgetVar="webServicesTable"
-  id="webServicesTable">
-  <p:column headerText="Web Service WSDL" filterBy="#{ws.processName}">
-    <p:link href="#{ws.link}" target="_blank" rel="noopener noreferrer">
-      <i class="si si-network-arrow table-icon"></i> #{ws.processName}?WSDL
-    </p:link>
-  </p:column>
-</p:dataTable>
+<div class="card">
+  <div class="card-header">
+    <div class="card-title p-d-flex p-ai-center">
+      <i class="p-pr-3 si si-network-arrow"></i>
+      <h6 class="p-m-0">Web Services</h6>
+      <h:form id="appSwitch" styleClass="p-ml-auto">
+        <p:selectOneMenu id="appSelect" value="#{managerBean.selectedApplicationName}">
+          <f:selectItems value="#{managerBean.applications}" var="app" itemLabel="#{app.name}" itemValue="#{app.name}" />
+          <p:ajax event="change" update="webServicesTable" />
+        </p:selectOneMenu>
+      </h:form>
+    </div>
+  </div>
+  <p:dataTable value="#{managerBean.selectedApplication.webServiceProcesses}" var="ws" widgetVar="webServicesTable"
+    id="webServicesTable">
+    <p:column headerText="Web Service WSDL" filterBy="#{ws.processName}">
+      <p:link href="#{ws.link}" target="_blank" rel="noopener noreferrer">
+        <i class="si si-network-arrow table-icon"></i> #{ws.processName}?WSDL
+      </p:link>
+    </p:column>
+  </p:dataTable>
+</div>
 
 </html>

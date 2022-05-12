@@ -162,7 +162,7 @@ public class WebDocuScreenshot {
   void screenshotSecuritySystem() {
     Navigation.toSecuritySystem();
     takeScreenshot("security-system", new Dimension(SCREENSHOT_WIDTH, 500));
-    takeDialogScreenshot("dialog-new-security", By.id("card:form:createSecuritySystemBtn"));
+    takeDialogScreenshot("dialog-new-security", By.id("form:createSecuritySystemBtn"));
     Navigation.toSecuritySystemDetail("test-ad");
     takeScreenshot("security-system-detail", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("dialog-ldap-browser",
@@ -182,7 +182,7 @@ public class WebDocuScreenshot {
   void screenshotApplications() {
     Navigation.toApplications();
     takeScreenshot("applications", new Dimension(SCREENSHOT_WIDTH, 500));
-    takeDialogScreenshot("dialog-new-app", By.id("card:form:createApplicationBtn"));
+    takeDialogScreenshot("dialog-new-app", By.id("form:createApplicationBtn"));
     Navigation.toPmvDetail(isDesigner() ? DESIGNER : "demo-portal", "PortalTemplate", "PortalTemplate$1");
     takeScreenshot("pmv-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
     Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
@@ -195,7 +195,7 @@ public class WebDocuScreenshot {
   @Test
   void screenshotDashboard() {
     takeScreenshot("dashboard", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeDialogScreenshot("dialog-test-mail", By.id("mailConfigForm:openTestMailBtn"));
+    takeDialogScreenshot("dialog-test-mail", By.id("openTestMailBtn"));
   }
 
   private void takeDialogScreenshot(String screenshotName, By dialogOpenBtn) {
@@ -221,7 +221,7 @@ public class WebDocuScreenshot {
 
   private void takeLiveStatsScreenshot(String fileName, Dimension size) {
     $("#layout-config-button").shouldBe(visible).click();
-    $("#layout-config .ui-tabs-selected").shouldBe(visible, text("Live Stats"));
+    $(".layout-config h3").shouldBe(visible, text("Live Stats"));
     takeScreenshot(fileName, size);
   }
 

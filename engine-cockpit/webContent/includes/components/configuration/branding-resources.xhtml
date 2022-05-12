@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:form id="form">
-  <div class="p-grid branding-resources">
+  <div class="p-grid branding-resources  ui-fluid">
     <p:repeat id="images" var="res" value="#{brandingBean.resources}">
       <div class="p-col-12 p-md-3 p-lg-1 p-col-align-center">
         <p:outputLabel value="#{res.label}" />
@@ -19,7 +19,7 @@
       <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
         <p:splitButton id="uploadBtn" value="Upload #{res.label}" title="Upload #{res.label}" icon="si si-upload-bottom" styleClass="branding-btn"
           actionListener="#{brandingBean.setCurrentRes(res.name)}" update="fileUpload" oncomplete="PF('fileUploadModal').show()">
-          <p:menuitem id="resetBtn" value="Reset" icon="si si-undo" styleClass="secondary-btn" oncomplete="PF('resetBrandingConfirmDialog').show()"
+          <p:menuitem id="resetBtn" value="Reset" icon="si si-undo" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
             actionListener="#{brandingBean.setCurrentRes(res.name)}" update="resetBrandingConfirmDialog" />
         </p:splitButton>
       </div>
@@ -30,7 +30,7 @@
     <div class="p-col-12 p-md-5 p-lg-3 p-col-align-center"></div>
     <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
       <p:splitButton id="editCustomCssBtn" value="Edit" icon="si si-common-file-text-edit" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();">
-        <p:menuitem id="resetCustomCssBtn" value="Reset" icon="si si-undo" styleClass="secondary-btn" oncomplete="PF('resetBrandingConfirmDialog').show()"
+        <p:menuitem id="resetCustomCssBtn" value="Reset" icon="si si-undo" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
           actionListener="#{brandingBean.setCurrentRes('custom.css')}" update="resetBrandingConfirmDialog" />
       </p:splitButton>
     </div>

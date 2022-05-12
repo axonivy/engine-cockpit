@@ -27,7 +27,7 @@ public class BackgroundMeterUtil {
   {
     var maxPercentage = Math.min(percentage + 20, 100);
     var color = 120 - percentage * 120 / 100;
-    return "linear-gradient(90deg, hsl("+color+", 100%, 70%) " + percentage + "%, #FFFFFF " + maxPercentage + "%)";
+    return "linear-gradient(90deg, hsl("+color+", 100%, 70%) " + percentage + "%, var(--surface-a, #FFFFFF) " + maxPercentage + "%)";
   }
 
 }

@@ -1,88 +1,84 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-  xmlns:pm="http://primefaces.org/serenity-ivy">
+  xmlns:pm="http://primefaces.org/freya-ivy">
 
-  <div class="layout-sidebar">
+  <div class="menu-wrapper">
     <div class="sidebar-logo">
       <a href="dashboard.xhtml">
-        <p:graphicImage name="resources/images/axon_ivy_logo_white.svg" />
+        <p:graphicImage name="resources/images/#{ivyFreyaTheme.logo}.svg" />
       </a>
     </div>
 
-    <div class="nano">
-      <div class="nano-content sidebar-scroll-content">
-        <div class="layout-menu-container">
-          <h:form id="menuform">
-            <pm:menu widgetVar="sidebar_menu">
-              <p:menuitem id="sr_dashboard" value="Dashboard" icon="si si-layout-dashboard" url="dashboard.xhtml" />
-              <p:menuitem id="sr_applications" value="Applications" icon="si si-layout-module"
-                url="applications.xhtml" />
-              <p:submenu id="sr_security" label="Security" icon="si si-shield-lock">
-                <p:menuitem id="sr_security_system" value="Security Systems" icon="si si-lock-1"
-                  url="securitysystem.xhtml" />
-                <p:menuitem id="sr_users" value="Users" icon="si si-single-neutral-actions" url="users.xhtml" />
-                <p:menuitem id="sr_roles" value="Roles" icon="si si-multiple-neutral-1" url="roles.xhtml" />
-              </p:submenu>
+    <div class="layout-menu-container">
+      <h:form id="menuform">
+        <pm:menu widgetVar="sidebar_menu">
+          <p:menuitem id="sr_dashboard" value="Dashboard" icon="si si-layout-dashboard" url="dashboard.xhtml" />
+          <p:menuitem id="sr_applications" value="Applications" icon="si si-layout-module"
+            url="applications.xhtml" />
+          <p:submenu id="sr_security" label="Security" icon="si si-shield-lock">
+            <p:menuitem id="sr_security_system" value="Security Systems" icon="si si-lock-1"
+              url="securitysystem.xhtml" />
+            <p:menuitem id="sr_users" value="Users" icon="si si-single-neutral-actions" url="users.xhtml" />
+            <p:menuitem id="sr_roles" value="Roles" icon="si si-multiple-neutral-1" url="roles.xhtml" />
+          </p:submenu>
 
-              <p:submenu id="sr_configuration" label="Configuration" icon="si si-cog">
-                <p:menuitem id="sr_variables" value="Variables" icon="si si-archive-folder"
-                  url="variables.xhtml" />
-                <p:menuitem id="sr_business_calendar" value="Business Calendar" icon="si si-calendar"
-                  url="businesscalendar.xhtml" />
-                <p:menuitem id="sr_branding" value="Branding" icon="si si-buildings-1"
-                  url="branding.xhtml" />
-              </p:submenu>
+          <p:submenu id="sr_configuration" label="Configuration" icon="si si-cog">
+            <p:menuitem id="sr_variables" value="Variables" icon="si si-archive-folder"
+              url="variables.xhtml" />
+            <p:menuitem id="sr_business_calendar" value="Business Calendar" icon="si si-calendar"
+              url="businesscalendar.xhtml" />
+            <p:menuitem id="sr_branding" value="Branding" icon="si si-buildings-1"
+              url="branding.xhtml" />
+          </p:submenu>
 
-              <p:submenu id="sr_services" label="Services" icon="si si-conversation-chat-2">
-                <p:menuitem id="sr_email" value="Email" icon="si si-email-action-unread" url="email.xhtml" />
-                <p:menuitem id="sr_database" value="Databases" icon="si si-database"
-                  url="databases.xhtml" />
-                <p:menuitem id="sr_web_service" value="Web Services" icon="si si-network-arrow"
-                  url="webservices.xhtml" />
-                <p:menuitem id="sr_rest_client" value="Rest Clients" icon="si si-network-share"
-                  url="restclients.xhtml" />
-                <p:menuitem id="sr_backend" value="Backend API" icon="si si-network-browser" url="backend-api.xhtml" />
-                <p:menuitem id="sr_searchengine" value="Search Engine" icon="si si-monitor-heart-beat-search"
-                  url="searchengine.xhtml" />
-              </p:submenu>
-              <p:submenu id="sr_system" label="System" icon="si si-cog-double-2">
-                <p:menuitem id="sr_admins" value="Administrators" icon="si si-single-neutral-shield"
-                  url="admins.xhtml" />
-                <p:menuitem id="sr_systemdb" value="System Database" icon="si si-database-settings"
-                  url="systemdb.xhtml" />
-                <p:menuitem id="sr_licence" value="Licence" icon="si si-real-estate-action-house-key"
-                  url="licence.xhtml" />
-                <p:menuitem id="sr_web_server" value="Web Server" icon="si si-network-signal"
-                  url="webserver.xhtml" />
-                <p:menuitem id="sr_system_config" value="System Configuration" icon="si si-cog-double"
-                  url="systemconfig.xhtml" />
-                <p:menuitem id="sr_cluster" value="Cluster" icon="si si-monitor-network" url="cluster.xhtml"
-                  rendered="#{clusterBean.clusterServer or param['cluster'] != null}" />
-                <p:menuitem id="sr_editor" value="Yaml Editor" icon="si si-common-file-text-edit" url="editor.xhtml" />
-              </p:submenu>
-              <p:submenu id="sr_monitor" label="Monitor" icon="si si-pie-line-graph-desktop">
-                <p:menuitem id="sr_monitor_os" value="OS" icon="si si-server-search" url="monitorOs.xhtml" />
-                <p:submenu id="sr_monitor_engine" label="Engine" icon="si si-computer-chip-search">
-                  <p:menuitem id="sr_monitor_engine_jvm" value="JVM" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
-                  <p:menuitem id="sr_monitor_engine_memory" value="Memory" icon="si si-analytics-board-graph-line"
-                    url="monitorMemory.xhtml" />
-                  <p:menuitem id="sr_monitor_engine_cache" value="Cache" icon="si si-monitor-heart-beat-search"
-                    url="monitorCache.xhtml" />
-                  <p:menuitem id="sr_monitor_engine_mbeans" value="MBeans" icon="si si-graph-statistics-coffee"
-                    url="mbeans.xhtml" />
-                </p:submenu>
-                <p:submenu id="sr_monitor_performance" label="Performance" icon="si si-time-clock-circle">
-                  <p:menuitem id="sr_monitor_performance_statistic" value="Statistic" icon="si si-optimization-timer"
-                    url="monitorPerformance.xhtml" />
-                  <p:menuitem id="sr_monitor_performance_traces" value="Slow Requests" icon="si si-alarm-bell-timer"
-                    url="monitorTraces.xhtml" />
-                </p:submenu>
-                <p:menuitem id="sr_logs" value="Logs" icon="si si-common-file-text" url="logs.xhtml?log=console.log" />
-              </p:submenu>
-            </pm:menu>
-          </h:form>
-        </div>
-      </div>
+          <p:submenu id="sr_services" label="Services" icon="si si-conversation-chat-2">
+            <p:menuitem id="sr_email" value="Email" icon="si si-email-action-unread" url="email.xhtml" />
+            <p:menuitem id="sr_database" value="Databases" icon="si si-database"
+              url="databases.xhtml" />
+            <p:menuitem id="sr_web_service" value="Web Services" icon="si si-network-arrow"
+              url="webservices.xhtml" />
+            <p:menuitem id="sr_rest_client" value="Rest Clients" icon="si si-network-share"
+              url="restclients.xhtml" />
+            <p:menuitem id="sr_backend" value="Backend API" icon="si si-network-browser" url="backend-api.xhtml" />
+            <p:menuitem id="sr_searchengine" value="Search Engine" icon="si si-monitor-heart-beat-search"
+              url="searchengine.xhtml" />
+          </p:submenu>
+          <p:submenu id="sr_system" label="System" icon="si si-cog-double-2">
+            <p:menuitem id="sr_admins" value="Administrators" icon="si si-single-neutral-shield"
+              url="admins.xhtml" />
+            <p:menuitem id="sr_systemdb" value="System Database" icon="si si-database-settings"
+              url="systemdb.xhtml" />
+            <p:menuitem id="sr_licence" value="Licence" icon="si si-real-estate-action-house-key"
+              url="licence.xhtml" />
+            <p:menuitem id="sr_web_server" value="Web Server" icon="si si-network-signal"
+              url="webserver.xhtml" />
+            <p:menuitem id="sr_system_config" value="System Configuration" icon="si si-cog-double"
+              url="systemconfig.xhtml" />
+            <p:menuitem id="sr_cluster" value="Cluster" icon="si si-monitor-network" url="cluster.xhtml"
+              rendered="#{clusterBean.clusterServer or param['cluster'] != null}" />
+            <p:menuitem id="sr_editor" value="Yaml Editor" icon="si si-common-file-text-edit" url="editor.xhtml" />
+          </p:submenu>
+          <p:submenu id="sr_monitor" label="Monitor" icon="si si-pie-line-graph-desktop">
+            <p:menuitem id="sr_monitor_os" value="OS" icon="si si-server-search" url="monitorOs.xhtml" />
+            <p:submenu id="sr_monitor_engine" label="Engine" icon="si si-computer-chip-search">
+              <p:menuitem id="sr_monitor_engine_jvm" value="JVM" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
+              <p:menuitem id="sr_monitor_engine_memory" value="Memory" icon="si si-analytics-board-graph-line"
+                url="monitorMemory.xhtml" />
+              <p:menuitem id="sr_monitor_engine_cache" value="Cache" icon="si si-monitor-heart-beat-search"
+                url="monitorCache.xhtml" />
+              <p:menuitem id="sr_monitor_engine_mbeans" value="MBeans" icon="si si-graph-statistics-coffee"
+                url="mbeans.xhtml" />
+            </p:submenu>
+            <p:submenu id="sr_monitor_performance" label="Performance" icon="si si-time-clock-circle">
+              <p:menuitem id="sr_monitor_performance_statistic" value="Statistic" icon="si si-optimization-timer"
+                url="monitorPerformance.xhtml" />
+              <p:menuitem id="sr_monitor_performance_traces" value="Slow Requests" icon="si si-alarm-bell-timer"
+                url="monitorTraces.xhtml" />
+            </p:submenu>
+            <p:menuitem id="sr_logs" value="Logs" icon="si si-common-file-text" url="logs.xhtml?log=console.log" />
+          </p:submenu>
+        </pm:menu>
+      </h:form>
     </div>
   </div>
 

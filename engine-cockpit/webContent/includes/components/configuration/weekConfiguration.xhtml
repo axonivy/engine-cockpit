@@ -3,34 +3,23 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<style>
-  .box {
-    background-color: var(--ivy-primary-color-light);
-    text-align: center;
-    padding: 1em 0.5em;
-    border-radius: 4px;
-  }
+<div class="card">
+  <div class="card-header">
+    <div class="card-title p-d-flex p-ai-center">
+      <i class="p-pr-3 si si-cog"></i>
+      <h6 class="p-m-0">Week configuration</h6>
+    </div>
+  </div>
 
-  .box.free {
-    background-color: var(--ivy-tertinary-color-green-light);
-  }
-</style>
-
-<p:panel styleClass="min-height-350" id="weekConfigurationPanel">
-  <f:facet name="header">
-    <i class="si si-cog table-icon panel-title-icon"></i>
-    Week configuration
-  </f:facet>
-
-  <div class="p-grid">
+  <div class="p-d-flex p-flex-wrap p-ac-stretch">
     <p:repeat var="day" value="#{businessCalendarBean.activeCalendar.week}">
-      <div class="p-col">
-        <div class="box #{day.free ? 'free' : ''}" title="#{day.free ? 'free' : 'work'}">#{day.dayName}</div>
+      <div class="p-mr-2 p-mb-2 business-calendar-box">
+        <div class="#{day.free ? 'free' : ''} p-p-3" title="#{day.free ? 'free' : 'work'}">#{day.dayName}</div>
       </div>
     </p:repeat>
   </div>
 
-  <p:dataTable var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">
+  <p:dataTable id="workingTimeTable" var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">
     <p:column headerText="Working time">
       <h:outputText value="#{workingTime.desc}" />
     </p:column>
@@ -49,6 +38,6 @@
       </a>
     </p:column>
   </p:dataTable>
-</p:panel>
+</div>
 
 </html>

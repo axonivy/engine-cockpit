@@ -4,54 +4,59 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-<f:facet name="header">
-  <i class="si si-information-circle table-icon panel-title-icon"></i>
-  <h:outputText value="Database configurations" />
-</f:facet>
-<h:form id="databaseConfigurationForm">
-  <p:growl id="databaseConfigMsg" for="databaseConfigMsg" showDetail="true">
-    <p:autoUpdate />
-  </p:growl>
-  <p:commandButton id="saveDatabaseConfig" actionListener="#{databaseDetailBean.saveDbConfig}"
-    title="Save changes" icon="si si-floppy-disk" styleClass="accent-btn card-button"
-    update="@form, connResult:connectionTestModel" />
-  <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()"
-    title="Reset configuration" icon="si si-undo" styleClass="red-btn card-button" />
-  <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure you want to reset this Database?"
-    header="Reset Database" severity="alert" widgetVar="resetDbConfirmDialog">
-    <p:commandLink value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button"
-      styleClass="modal-input-button" />
-    <p:commandButton id="resetDbConfirmYesBtn" value="Reset"
-      actionListener="#{databaseDetailBean.resetDbConfig}" icon="si si-undo" update="@form"
-      styleClass="modal-input-button" />
-  </p:confirmDialog>
-  <p:commandButton id="testDatabaseBtn" title="Test Database Connection" update="connResult:connectionTestModel"
-    oncomplete="PF('connectionTestModel').show()" icon="si si-phone-actions-call"
-    styleClass="secondary-btn card-button" />
+<div class="card">
+  <h:form id="databaseConfigurationForm">
+    <p:growl id="databaseConfigMsg" for="databaseConfigMsg" showDetail="true">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-information-circle"></i>
+        <h6 class="p-m-0">Database configurations</h6>
+        <p:commandButton id="testDatabaseBtn" title="Test Database Connection" update="connResult:connectionTestModel"
+          oncomplete="PF('connectionTestModel').show()" icon="si si-phone-actions-call"
+          styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" />
+        <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()"
+          title="Reset configuration" icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
+        <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure you want to reset this Database?"
+          header="Reset Database" severity="alert" widgetVar="resetDbConfirmDialog">
+          <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button"
+            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+          <p:commandButton id="resetDbConfirmYesBtn" value="Reset"
+            actionListener="#{databaseDetailBean.resetDbConfig}" icon="si si-undo" update="@form"
+            styleClass="modal-input-button" />
+        </p:confirmDialog>
+        <p:commandButton id="saveDatabaseConfig" actionListener="#{databaseDetailBean.saveDbConfig}"
+          title="Save changes" icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button"
+          update="@form, connResult:connectionTestModel" />
+      </div>
+    </div>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+      <label>Name</label>
+      <h:outputText id="name" value="#{databaseDetailBean.databaseName}" />
+  
+      <p:outputLabel for="url" value="Url" />
+      <p:inputText id="url" value="#{databaseDetailBean.database.url}" />
+  
+      <p:outputLabel for="driver" value="Driver" />
+      <p:autoComplete id="driver" dropdown="true" value="#{databaseDetailBean.database.driver}"
+        completeMethod="#{databaseDetailBean.completeDriver}" />
+  
+      <p:outputLabel for="userName" value="Username" />
+      <p:inputText id="userName" value="#{databaseDetailBean.database.userName}" />
+  
+      <p:outputLabel for="password" value="Password" />
+      <p:password id="password" value="#{databaseDetailBean.database.password}" />
+  
+      <p:outputLabel for="maxConnections" value="Max Connections" />
+      <p:inputNumber id="maxConnections" value="#{databaseDetailBean.database.maxConnections}"
+        decimalPlaces="0" />
+    </p:panelGrid>
+  </h:form>
+</div>
 
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
-    styleClass="ui-panelgrid-blank grey-label-panel">
-    <label>Name</label>
-    <h:outputText id="name" value="#{databaseDetailBean.databaseName}" />
-
-    <p:outputLabel for="url" value="Url" />
-    <p:inputText id="url" value="#{databaseDetailBean.database.url}" />
-
-    <p:outputLabel for="driver" value="Driver" />
-    <p:autoComplete id="driver" dropdown="true" value="#{databaseDetailBean.database.driver}"
-      completeMethod="#{databaseDetailBean.completeDriver}" />
-
-    <p:outputLabel for="userName" value="Username" />
-    <p:inputText id="userName" value="#{databaseDetailBean.database.userName}" />
-
-    <p:outputLabel for="password" value="Password" />
-    <p:password id="password" value="#{databaseDetailBean.database.password}" />
-
-    <p:outputLabel for="maxConnections" value="Max Connections" />
-    <p:inputNumber id="maxConnections" value="#{databaseDetailBean.database.maxConnections}"
-      decimalPlaces="0" />
-  </p:panelGrid>
-</h:form>
 <cc:ConnectionTestResult result="#{databaseDetailBean.result}"
   url="#{databaseDetailBean.database.url}" testMethod="#{databaseDetailBean.testDbConnection()}"
   id="connResult" />

@@ -6,63 +6,59 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Configuration</li>
+      <li><span>Configuration</span></li>
       <li>/</li>
       <li><a href="businesscalendar.xhtml">Business Calendar</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#business-calendar" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#business-calendar" />
     </ui:define>
 
     <ui:define name="content">
-      <p:growl id="msgs" />
-
-      <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadTree}" id="apps">
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-12">
-            <h1>
-              <i class="si si-calendar card-title-icon"></i>Business Calendar
-            </h1>
-          </div>
+      <div class="card">
+        <p:growl id="msgs" />
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-calendar card-title-icon"></i>
+          <h2 class="p-m-0">Business Calendar</h2>
         </div>
 
-        <h:form id="treeForm">
-          <div class="ui-tree-search-header">
-            <div class="ui-datatable-header ui-widget-header ui-corner-top">
-              <p:outputPanel>
-                <span class="table-search-icon">
-                  <i class="si si-search"></i>
-                </span>
-                <p:inputText styleClass="table-search-input-withicon" placeholder="Search"
-                  value="#{businessCalendarBean.filter}">
-                  <p:ajax event="keyup" delay="300" update="@form:tree" />
-                </p:inputText>
-                <p:commandButton id="expandAll" widgetVar="createApplication" icon="si si-move-expand-vertical"
-                  actionListener="#{businessCalendarBean.expandAllNodes}" update="tree" title="Expand all"
-                  styleClass="secondary-btn" />
-                <p:commandButton id="collapseAll" widgetVar="createApplication" icon="si si-move-shrink-vertical"
-                  actionListener="#{businessCalendarBean.collapseAllNodes}" update="tree" title="Collapse all"
-                  styleClass="secondary-btn" />
-              </p:outputPanel>
-            </div>
-          </div>
-          <p:tree id="tree" widgetVar="tree" value="#{businessCalendarBean.tree}" var="node">
-            <p:ajax event="expand" listener="#{businessCalendarBean.nodeExpand}" />
-            <p:ajax event="collapse" listener="#{businessCalendarBean.nodeCollapse}" />
-            <p:treeNode icon="si si-calendar">
-              <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node.name}" id="calendarNode">
-                <h:outputText value="#{node.name}" />
-                <h:outputText value=" (#{node.environments})" rendered="#{not empty node.environments}"
-                  styleClass="addition-row-info" />
-              </h:outputLink>
-            </p:treeNode>
-          </p:tree>
-        </h:form>
-      </cc:ApplicationTabs>
+        <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadTree}" id="apps">
+          <h:form id="treeForm">
+            <p:treeTable id="tree" value="#{businessCalendarBean.tree}" var="node" styleClass="hide-head">
+              <p:ajax event="expand" listener="#{businessCalendarBean.nodeExpand}" />
+              <p:ajax event="collapse" listener="#{businessCalendarBean.nodeCollapse}" />
+              <f:facet name="header">
+                <div class="p-d-flex ui-fluid">
+                  <span class="ui-input-icon-left filter-container" style="width: 100%;">
+                    <i class="pi pi-search"/>
+                    <p:inputText id="globalFilter" placeholder="Search" value="#{businessCalendarBean.filter}">
+                      <p:ajax event="keyup" delay="300" update="@form:tree" />
+                    </p:inputText>
+                  </span>
+                  <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
+                    actionListener="#{businessCalendarBean.expandAllNodes}" update="tree" title="Expand all"
+                    styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
+                  <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
+                    actionListener="#{businessCalendarBean.collapseAllNodes}" update="tree" title="Collapse all"
+                    styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+                </div>
+              </f:facet>
+              
+              <p:column>
+                <p:treeNode>
+                  <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node.name}" id="calendarNode" styleClass="business-calendar">
+                    <i class="si si-calendar table-icon"></i>
+                    <h:outputText value="#{node.name}" />
+                    <h:outputText value=" (#{node.environments})" rendered="#{not empty node.environments}"
+                      styleClass="addition-row-info" />
+                  </h:outputLink>
+                </p:treeNode>
+              </p:column>
+            </p:treeTable>
+          </h:form>
+        </cc:ApplicationTabs>
+      </div>
     </ui:define>
 
   </ui:composition>

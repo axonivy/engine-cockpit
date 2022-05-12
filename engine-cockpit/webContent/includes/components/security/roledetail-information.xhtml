@@ -3,51 +3,56 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-<f:facet name="header">
-  <i class="si si-information-circle table-icon panel-title-icon"></i>
-  <h:outputText value="Role information" />
-</f:facet>
-<h:form id="roleInformationForm">
-  <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
-    <p:autoUpdate />
-  </p:growl>
-  <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
-    icon="si si-floppy-disk" styleClass="accent-btn card-button" update="usersOfRoleForm" />
-  <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
-    title="Add new child role" icon="si si-add" styleClass="secondary-btn card-button" />
-  <p:commandButton id="deleteRole" rendered="#{roleDetailBean.role.dynamic}" type="button"
-    onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
-    styleClass="red-btn card-button" />
-  <p:confirmDialog id="deleteRoleConfirmDialog"
-    message="Are you sure you want to delete the role '#{roleDetailBean.roleName}'?" header="Delete Role" severity="alert"
-    widgetVar="deleteRoleConfirmDialog">
-    <p:commandLink value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
-      styleClass="secondary-btn modal-input-button" />
-    <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" ajax="false" immediate="true"
-      action="#{roleDetailBean.deleteRole}" styleClass="modal-input-button" icon="si si-bin-1" />
-  </p:confirmDialog>
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-    styleClass="ui-panelgrid-blank grey-label-panel">
-    <label>Name</label>
-    <h:outputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
+<div class="card">
+  <h:form id="roleInformationForm">
+    <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-information-circle"></i>
+        <h6 class="p-m-0">Role information</h6>
+        <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
+          title="Add new child role" icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
+        <p:commandButton id="deleteRole" rendered="#{roleDetailBean.role.dynamic}" type="button"
+          onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
+          styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
+        <p:confirmDialog id="deleteRoleConfirmDialog"
+          message="Are you sure you want to delete the role '#{roleDetailBean.roleName}'?" header="Delete Role" severity="alert"
+          widgetVar="deleteRoleConfirmDialog">
+          <p:commandButton value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
+            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+          <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" ajax="false" immediate="true"
+            action="#{roleDetailBean.deleteRole}" styleClass="modal-input-button" icon="si si-bin-1" />
+        </p:confirmDialog>
+        <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
+          icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" update="usersOfRoleForm" />
+      </div>
+    </div>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+      <label>Name</label>
+      <h:outputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
+  
+      <p:outputLabel for="displayName" value="Display Name" />
+      <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
+  
+      <p:outputLabel for="description" value="Description" />
+      <p:inputText id="description" value="#{roleDetailBean.role.description}" />
+  
+      <p:outputLabel for="externalSecurityName" value="External Name" />
+      <h:panelGroup layout="block" styleClass="ui-inputgroup">
+        <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
+        <p:commandButton id="browseExternalName" icon="si si-network-browser" title="Browse"
+          actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:ldapBrowserDialog"
+          oncomplete="PF('ldapBrowserDialog').show();"
+          disabled="#{roleDetailBean.role.name eq 'Everybody' or managerBean.ivySecuritySystemForSelectedSecuritySystem}" />
+      </h:panelGroup>
+    </p:panelGrid>
+  </h:form>
+</div>
 
-    <p:outputLabel for="displayName" value="Display Name" />
-    <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
-
-    <p:outputLabel for="description" value="Description" />
-    <p:inputText id="description" value="#{roleDetailBean.role.description}" />
-
-    <p:outputLabel for="externalSecurityName" value="External Name" />
-    <h:panelGroup>
-      <p:inputText id="externalSecurityName" style="width: calc(100% - 32px);"
-        value="#{roleDetailBean.role.externalName}" />
-      <p:commandButton id="browseExternalName" icon="si si-network-browser" title="Browse" style="right: -6px;"
-        actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:ldapBrowserDialog"
-        oncomplete="PF('ldapBrowserDialog').show();"
-        disabled="#{roleDetailBean.role.name eq 'Everybody' or managerBean.ivySecuritySystemForSelectedSecuritySystem}" />
-    </h:panelGroup>
-  </p:panelGrid>
-</h:form>
 <cc:LdapBrowser updateFields="roleInformationForm" ldapBrowser="#{roleDetailBean.ldapBrowser}"
   returnListener="#{roleDetailBean.chooseLdapName()}" id="ldapBrowser" />
 <ui:include src="../../dialogs/newrole.xhtml" />

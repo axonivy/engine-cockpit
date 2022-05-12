@@ -3,36 +3,44 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-optimization-timer table-icon panel-title-icon"></i>
-  <h:outputText value="Execution History (last 200)" />
-</f:facet>
-<h:form id="databaseExecHistoryForm" style="overflow-y: auto;">
-  <p:dataTable value="#{databaseDetailBean.executionHistory}" style="padding-top: 10px; min-width: 780px;"
-    var="exec" id="databaseExecHistoryTable" paginator="true" rows="10" paginatorPosition="bottom"
-    paginatorAlwaysVisible="false"
-    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-    <p:column headerText="Time" style="width: 95px" sortBy="#{exec.time}">
-      <h:outputText value="#{exec.time}" styleClass="histroy" />
-    </p:column>
-    <p:column headerText="Exec Time" style="width: 114px" sortBy="#{exec.execTime}">
-      <h:outputText value="#{exec.execTime}" title="The time needed to execute the statement" />
-    </p:column>
-    <p:column headerText="Result Time" style="width: 124px" sortBy="#{exec.resultTime}">
-      <h:outputText value="#{exec.resultTime}" title="The time needed to read the results of the statement" />
-    </p:column>
-    <p:column headerText="SQL" sortBy="#{exec.sql}">
-      <h:outputText value="#{exec.sql}" title="#{exec.sql}" styleClass="table-cell-autocut" style="width: calc(100% - 2em);"/>
-      <i class="si si-copy-paste icon-btn" title="Copy to clipboard" onclick="copyToClipboard(this)"></i>
-    </p:column>
-    <p:column headerText="Process Element" style="width: 160px" sortBy="#{exec.element}">
-      <h:outputText value="#{exec.element}" />
-    </p:column>
-    <p:column headerText="Rows Affected" style="width: 150px" sortBy="#{exec.rowsAffected}">
-      <h:outputText value="#{exec.rowsAffected}" />
-    </p:column>
-  </p:dataTable>
-</h:form>
+<div class="card">
+  <h:form id="databaseExecHistoryForm" style="overflow: auto;">
+    <p:growl id="databaseConfigMsg" for="databaseConfigMsg" showDetail="true">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-optimization-timer"></i>
+        <h6 class="p-m-0">Execution History (last 200)</h6>
+      </div>
+    </div>
+    
+    <p:dataTable value="#{databaseDetailBean.executionHistory}" 
+      var="exec" id="databaseExecHistoryTable" paginator="true" rows="10" paginatorPosition="bottom"
+      paginatorAlwaysVisible="false" style="min-width: 800px;">
+      <p:column headerText="Time" style="width: 60px; word-wrap: anywhere;" sortBy="#{exec.time}">
+        <h:outputText value="#{exec.time}" styleClass="histroy" />
+      </p:column>
+      <p:column headerText="Exec Time" style="width: 60px; word-wrap: anywhere;" sortBy="#{exec.execTime}">
+        <h:outputText value="#{exec.execTime}" title="The time needed to execute the statement" />
+      </p:column>
+      <p:column headerText="Result Time" style="width: 60px; word-wrap: anywhere;" sortBy="#{exec.resultTime}">
+        <h:outputText value="#{exec.resultTime}" title="The time needed to read the results of the statement" />
+      </p:column>
+      <p:column headerText="SQL" sortBy="#{exec.sql}">
+        <h:outputText value="#{exec.sql}" title="#{exec.sql}" styleClass="table-cell-autocut" style="width: calc(100% - 3rem);"/>
+        <p:commandButton icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
+          styleClass="ui-button-flat rounded-button"/>
+      </p:column>
+      <p:column headerText="Process Element" style="width: 75px; word-wrap: anywhere;" sortBy="#{exec.element}">
+        <h:outputText value="#{exec.element}" />
+      </p:column>
+      <p:column headerText="Rows Affected" style="width: 75px; word-wrap: anywhere;" sortBy="#{exec.rowsAffected}">
+        <h:outputText value="#{exec.rowsAffected}" />
+      </p:column>
+    </p:dataTable>
+  </h:form>
+</div>
 
 <script>
 function copyToClipboard(btn) {

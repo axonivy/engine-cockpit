@@ -5,17 +5,19 @@
 <cc:interface>
   <cc:attribute name="environmentChange" method-signature="void handleEvent()" required="true" />
   <cc:attribute name="update" default="@form" />
+  <cc:attribute name="styleClass" default="" />
 </cc:interface>
 <cc:implementation>
-  <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4, ui-grid-col-8"
-    styleClass="ui-panelgrid-blank grey-label-panel">
-    <label style="float: right; text-decoration: line-through;" title="Deprecated">Environment</label>
-    <p:selectOneMenu id="environmentSelect" value="#{managerBean.selectedEnvironment}" styleClass="environment-switch">
-      <f:selectItems value="#{managerBean.environments}" />
-      <p:ajax event="change" listener="#{cc.attrs.environmentChange}" update="#{cc.attrs.update}" 
-        process="@parent" partialSubmit="true" />
-    </p:selectOneMenu>
-  </p:panelGrid>
+  <h:form id="envSwitchForm" styleClass="p-formgroup-inline #{cc.attrs.styleClass}">
+    <div class="p-field p-mb-0">
+        <label style="text-decoration: line-through;" title="Deprecated">Environment</label>
+        <p:selectOneMenu id="environmentSelect" value="#{managerBean.selectedEnvironment}" styleClass="environment-switch">
+          <f:selectItems value="#{managerBean.environments}" />
+          <p:ajax event="change" listener="#{cc.attrs.environmentChange}" update="#{cc.attrs.update}" 
+            process="@parent" partialSubmit="true" />
+        </p:selectOneMenu>
+    </div>
+  </h:form>
 </cc:implementation>
 
 </html>

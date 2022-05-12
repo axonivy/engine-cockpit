@@ -59,6 +59,6 @@ public class WebTestSetupIntro {
 
   private void assertMigratePageIsVisible() {
     EngineCockpitUtil.assertCurrentUrlContains("migrate.xhtml");
-    $("h1").shouldHave(text("Migrate old Axon Ivy Engine"));
+    $("h2").shouldHave(text("Migrate old Axon Ivy Engine"));
   }
 }

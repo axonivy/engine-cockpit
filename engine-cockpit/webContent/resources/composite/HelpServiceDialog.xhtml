@@ -10,7 +10,7 @@
     widgetVar="helpServicesModal" modal="true" responsive="true" closeOnEscape="true" width="60%"
     onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
     <h:form id="helpServicesForm">
-      <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group modal-input-form">
+      <p:panelGrid columns="1" layout="flex">
         <h:outputText value="#{cc.attrs.service.guideText}" />
 
         <h:panelGroup styleClass="code-block">
@@ -22,7 +22,7 @@
         <i class="si si-xl si-question-circle"></i>
       </a>
       <p:commandButton id="closeHelpServices" onclick="PF('helpServicesModal').hide();" value="Close" type="button"
-        icon="si si-close" styleClass="secondary-btn modal-input-button" />
+        icon="si si-close" styleClass="ui-button-secondary modal-input-button" />
     </h:form>
   </p:dialog>
 </cc:implementation>

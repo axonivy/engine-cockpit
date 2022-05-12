@@ -5,66 +5,45 @@
 <h:body>
   <ui:composition template="../includes/template/template.xhtml">
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}index.html" target="_blank" rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}index.html" />
     </ui:define>
 
     <ui:define name="content">
-      <div class="ui-g dashboard">
-        <h:panelGroup layout="block" styleClass="ui-g-12 dashboard-warnings"
-          rendered="#{!managerBean.hideDashboardWarnings()}">
-          <p:staticMessage rendered="#{ivyAdvisor.releaseCandidate}" severity="error" summary="Release Candidate!"
-            detail="Don't use this version in production!" />
-
-          <h:panelGroup layout="block" rendered="#{engineModeBean.hasDashboardWarning()}"
-            styleClass="ui-message ui-staticmessage ui-message-warn">
-            <span class="ui-message-warn-icon"></span>
-            <span class="ui-message-warn-summary">#{engineModeBean.dashboardWarningSummary}</span>
-            <span class="ui-message-warn-detail">#{engineModeBean.dashboardWarningDetail} Please use the
-              <a href="setup#{engineModeBean.demo ? '-intro' : ''}.xhtml">Setup Wizard</a> to set up your Axon Ivy Engine.
-            </span>
-          </h:panelGroup>
-        </h:panelGroup>
-
-        <cc:OverviewBox box="1" count="#{managerBean.sessionCount}" icon="si si-style-two-pin-user" title="Sessions"
-          link="users.xhtml" />
-        <cc:OverviewBox box="2" count="#{managerBean.usersCount}" icon="si si-single-neutral-actions" title="Users"
-          link="users.xhtml" />
-        <cc:OverviewBox box="3" count="#{managerBean.runningCasesCount}" icon="si si-layout-bullets"
-          title="Running Cases" link="applications.xhtml" />
-        <cc:OverviewBox box="4" count="#{managerBean.applicationCount}" icon="si si-module" title="Applications"
-          link="applications.xhtml" />
-
-        <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card">
-          <p:panel styleClass="min-height-300">
+      <div class="layout-dashboard">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <div class="p-grid" style="margin: -1rem;">
+              <cc:OverviewBox box="white" count="#{managerBean.sessionCount}" icon="si si-style-two-pin-user" title="Sessions"
+                link="users.xhtml" />
+              <cc:OverviewBox box="blue" count="#{managerBean.usersCount}" icon="si si-single-neutral-actions" title="Users"
+                link="users.xhtml" />
+              <cc:OverviewBox box="gray" count="#{managerBean.runningCasesCount}" icon="si si-layout-bullets"
+                title="Running Cases" link="applications.xhtml" />
+              <cc:OverviewBox box="darkgray" count="#{managerBean.applicationCount}" icon="si si-module" title="Applications"
+                link="applications.xhtml" />
+            </div>
+          </div>
+          
+          <div class="p-col-12 p-md-6 p-xl-4">
             <ui:include src="../includes/components/dashboard/axonivy.xhtml" />
-          </p:panel>
-        </div>
-
-        <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card">
-          <p:panel styleClass="min-height-300">
+          </div>
+  
+          <div class="p-col-12 p-md-6 p-xl-4">
             <ui:include src="../includes/components/dashboard/licence.xhtml" />
-          </p:panel>
-        </div>
-
-        <div class="ui-g-12 ui-md-6 ui-lg-4 dashboard-card email">
-          <p:panel styleClass="min-height-300">
+          </div>
+  
+          <div class="p-col-12 p-md-6 p-xl-4">
             <ui:include src="../includes/components/dashboard/email.xhtml" />
-          </p:panel>
-        </div>
-
-        <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card">
-          <p:panel>
+          </div>
+  
+          <div class="p-col-12 p-md-6 p-xl-6">
             <ui:include src="../includes/components/dashboard/systemdatabase.xhtml" />
-          </p:panel>
-        </div>
-
-        <div class="ui-g-12 ui-md-6 ui-lg-6 dashboard-card">
-          <p:panel>
+          </div>
+  
+          <div class="p-col-12 p-md-12 p-xl-6">
             <ui:include src="../includes/components/dashboard/java.xhtml" />
-          </p:panel>
+          </div>
         </div>
       </div>
     </ui:define>

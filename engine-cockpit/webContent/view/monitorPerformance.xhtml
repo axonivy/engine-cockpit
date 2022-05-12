@@ -10,70 +10,60 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Monitor</li>
+      <li><span>Monitor</span></li>
       <li>/</li>
-      <li>Performance</li>
+      <li><span>Performance</span></li>
       <li>/</li>
       <li><a href="monitorPerformance.xhtml">Statistic</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-       <a href="systemconfig.xhtml?filter=ProcessEngine.FiringStatistic" title="Performance Statistic Configuration" id="performance:form:config">
-        <i class="si si-lg si-cog"></i>
-      </a>
-      <a
-        href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#performance"
-        target="_blank" rel="noopener noreferrer"> <i
-        class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem styleClass="config-link" href="systemconfig.xhtml?filter=ProcessEngine.FiringStatistic" icon="si-cog" 
+        title="Performance Statistic Configuration" external="false" />
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#performance" />
     </ui:define>
 
     <ui:define name="content">
-      <cc:SingleCard id="performance">
-        <div class="card card-w-title">
-          <h:form id="form">
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-10">
-                <h1>
-                  <i class="si si-optimization-timer"></i> Performance Statistic
-                </h1>
-              </div>
-            </div>
-            <p:staticMessage id="loggingWarning" rendered="#{performanceBean.loggingActive}" severity="warn" summary="Logging Active!"
-                detail="The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every #{performanceBean.loggingInterval}!"/>
-            <div class="ui-g">
-              <div class="ui-g-11">
+      <h:form id="form">
+        <div class="layout-dashboard">
+          <div class="card">
+            <div class="card-header p-flex-wrap">
+              <div class="card-title p-d-flex p-ai-center">
+                <i class="p-pr-3 si si-optimization-timer"></i>
+                <h2 class="p-m-0">Performance Statistic</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
-                    icon="si si-controls-play" styleClass="green-btn" disabled="#{performanceBean.notStartable}" style="margin-right: 10px; margin-bottom: 10px"/>
-                <p:commandButton id="stop" actionListener="#{performanceBean.stop}" update="performance:form" title="Stop recording"
-                    icon="si si-controls-stop" styleClass="red-btn" disabled="#{performanceBean.notStoppable}" style="margin-right: 10px;"/>
-                <p:commandButton id="clear" actionListener="#{performanceBean.clear}" update="performance:form" title="Clear statistic"
-                    icon="si si-bin-1" styleClass="red-btn" disabled="#{performanceBean.notCleanable}" style="margin-right: 10px;"/>
-                <p:commandButton id="refresh" actionListener="#{performanceBean.refresh}" update="performance:form" title="Refresh statistic"
-                    icon="si si-button-refresh-arrows" disabled="#{performanceBean.notRefreshable}" style="margin-right: 10px;"/>
+                    icon="si si-controls-play" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" disabled="#{performanceBean.notStartable}" />
+                <p:commandButton id="stop" actionListener="#{performanceBean.stop}" update="@form" title="Stop recording"
+                    icon="si si-controls-stop" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{performanceBean.notStoppable}" />
+                <p:commandButton id="clear" actionListener="#{performanceBean.clear}" update="@form" title="Clear statistic"
+                    icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{performanceBean.notCleanable}" />
+                <p:commandButton id="refresh" actionListener="#{performanceBean.refresh}" update="@form" title="Refresh statistic"
+                    icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-1 rounded-button" disabled="#{performanceBean.notRefreshable}" />
                 <p:commandButton id="export" title="Export statistic" ajax="false"
-                    icon="si si-office-file-xls-1" disabled="#{performanceBean.notCleanable}">
+                    icon="si si-office-file-xls-1" styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button" disabled="#{performanceBean.notCleanable}">
                   <p:dataExporter type="xlsxstream" target="performanceTable" fileName="PerformanceStatistic"/>
                 </p:commandButton>
-                
               </div>
-             </div>
-                
+              <p:staticMessage id="loggingWarning" rendered="#{performanceBean.loggingActive}" severity="warn" summary="Logging Active!"
+                styleClass="p-mt-3"
+                detail="The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every #{performanceBean.loggingInterval}!"/>
+            </div>
+    
             <p:dataTable var="processElement" value="#{performanceBean.processElements}"
               widgetVar="performanceTable" filteredValue="#{performanceBean.filteredProcessElements}"
               id="performanceTable" resizableColumns="true">
-              
               <f:facet name="header">
-                <p:outputPanel>
-                  <p:outputLabel styleClass="table-search-icon">
-                    <i class="si si-search"></i>
-                  </p:outputLabel>
-                  <p:inputText styleClass="table-search-input-with2icon"
-                    id="globalFilter" onkeyup="PF('performanceTable').filter()"
-                    placeholder="Search" value="#{performanceBean.filter}" />
-                  <p:commandButton id="toggler" type="button" icon="si si-layers-grid-settings" styleClass="secondary-btn"/>	                    
-                  <p:columnToggler datasource="performanceTable" trigger="toggler"/>
-                </p:outputPanel>
+                <div class="p-d-flex ui-fluid">
+                  <div class="ui-input-icon-left filter-container" style="width: 100%;">
+                    <i class="pi pi-search"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('performanceTable').filter()" placeholder="Search" value="#{performanceBean.filter}" />
+                  </div>
+                  <div class="p-ml-1">
+                    <p:commandButton id="toggler" type="button" icon="si si-layers-grid-settings" 
+                      styleClass="ui-button-secondary ui-button-outlined rounded-button"/>
+                    <p:columnToggler datasource="performanceTable" trigger="toggler"/>
+                  </div>
+                </div>
               </f:facet>
               
               <p:column sortBy="#{processElement.order}" sortOrder="ASCENDING" style="width: 50px">
@@ -82,72 +72,72 @@
                 </f:facet>
                 <h:outputText value="#{processElement.order}"/>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.application}" filterBy="#{processElement.application}" visible="false">
                 <f:facet name="header">
                   <h:outputText value="Application" title="Application"/>
                 </f:facet>
                 <h:outputText value="#{processElement.application}" title="#{processElement.application}"/>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.processModel}" filterBy="#{processElement.processModel}" visible="false">
                 <f:facet name="header">
                   <h:outputText value="PM" title="Process Model"/>
                 </f:facet>
                 <h:outputText value="#{processElement.processModel}" title="#{processElement.processModel}"/>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.version}" filterBy="#{processElement.version}" visible="false">
                 <f:facet name="header">
                   <h:outputText value="Version" title="Process Model Version"/>
                 </f:facet>
                 <h:outputText value="#{processElement.version}" title="#{processElement.version}"/>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.process}" filterBy="#{processElement.process}" style="width: 250px">
                 <f:facet name="header">
                   <h:outputText value="Process" title="Process Name"/>
                 </f:facet>
                 <h:outputText value="#{processElement.process}" title="#{processElement.process}"/>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.name}" filterBy="#{processElement.name}" style="width: 250px">
                 <f:facet name="header">
                   <h:outputText value="Name" title="Process Element Name"/>
                 </f:facet>
                 <h:outputText value="#{processElement.name}" title="#{processElement.name}"/>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.id}" filterBy="#{processElement.id}" style="width: 140px">
                 <f:facet name="header">
                   <h:outputText value="Id" title="Process Element Id (PID)"/>
                 </f:facet>
                 <h:outputText value="#{processElement.id}" title="#{processElement.id}"/>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.type}" filterBy="#{processElement.type}" style="width: 90px">
                 <f:facet name="header">
                   <h:outputText value="Type" title="Process Element Type"/>
                 </f:facet>
                 <h:outputText value="#{processElement.type}" title="#{processElement.type}"/>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.totalExecutionTime}" visible="false" style="width: 65px" exportFunction="#{performanceBean.export}">
                 <f:facet name="header">
                   <h:outputText value="Total" title="Total execution time [ms] (internal + external)"/>
                 </f:facet>
                 <div style="background: #{processElement.totalExecutionTimeBackground};">
-                  <h:outputText value="#{processElement.totalExecutionTime}" title="#{processElement.totalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.totalExecutionTime}" title="#{processElement.totalExecutionTime}"/>
                 </div>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.internalExecutions}" style="width: 100px" exportFunction="#{performanceBean.export}">
                 <f:facet name="header">
                   <h:outputText value="Int Executions" title="Number of engine internal executions"/>
                 </f:facet>
                 <div style="background: #{processElement.internalExecutionsBackground};">
-                  <h:outputText value="#{processElement.internalExecutions}" title="#{processElement.internalExecutions}"/>
-                </div>                  
+                  <h:outputText styleClass="gradient-text" value="#{processElement.internalExecutions}" title="#{processElement.internalExecutions}"/>
+                </div>
               </p:column>
               
               <p:column sortBy="#{processElement.totalInternalExecutionTime}" style="width: 65px" exportFunction="#{performanceBean.export}">
@@ -155,7 +145,7 @@
                   <h:outputText value="Int Total" title="Total of engine internal execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.totalInternalExecutionTimeBackground};">
-                  <h:outputText value="#{processElement.totalInternalExecutionTime}" title="#{processElement.totalInternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.totalInternalExecutionTime}" title="#{processElement.totalInternalExecutionTime}"/>
                 </div>
               </p:column>
               
@@ -164,7 +154,7 @@
                   <h:outputText value="Int Min" title="Minimum of engine internal execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.minInternalExecutionTimeBackground};">
-                  <h:outputText value="#{processElement.minInternalExecutionTime}" title="#{processElement.minInternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.minInternalExecutionTime}" title="#{processElement.minInternalExecutionTime}"/>
                 </div>
               </p:column>
               
@@ -173,16 +163,16 @@
                   <h:outputText value="Int Avg" title="Average of engine internal execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.avgInternalExecutionTimeBackground};">
-                  <h:outputText value="#{processElement.avgInternalExecutionTime}" title="#{processElement.avgInternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.avgInternalExecutionTime}" title="#{processElement.avgInternalExecutionTime}"/>
                 </div>
               </p:column>
-
+  
               <p:column sortBy="#{processElement.maxInternalExecutionTime}" style="width: 65px" exportFunction="#{performanceBean.export}">
                 <f:facet name="header">
                   <h:outputText value="Int Max" title="Maximum of engine internal execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.totalInternalExecutionTimeBackground};">
-                  <h:outputText value="#{processElement.maxInternalExecutionTime}" title="#{processElement.maxInternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.maxInternalExecutionTime}" title="#{processElement.maxInternalExecutionTime}"/>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.externalExecutions}" visible="false" style="width: 100px" exportFunction="#{performanceBean.export}">
@@ -190,7 +180,7 @@
                   <h:outputText value="Ext Executions" title="Number of external executions"/>
                 </f:facet>
                 <div style="background: #{processElement.externalExecutionsBackground};">
-                  <h:outputText value="#{processElement.externalExecutions}" title="#{processElement.externalExecutions}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.externalExecutions}" title="#{processElement.externalExecutions}"/>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.totalExternalExecutionTime}" style="width: 65px" exportFunction="#{performanceBean.export}">
@@ -198,7 +188,7 @@
                   <h:outputText value="Ext Total" title="Total of external execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.totalExternalExecutionTimeBackground};"> 
-                  <h:outputText value="#{processElement.totalExternalExecutionTime}" title="#{processElement.totalExternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.totalExternalExecutionTime}" title="#{processElement.totalExternalExecutionTime}"/>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.minExternalExecutionTime}" visible="false" style="width: 65px" exportFunction="#{performanceBean.export}">
@@ -206,7 +196,7 @@
                   <h:outputText value="Ext Min" title="Minimum of external execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.minExternalExecutionTimeBackground};"> 
-                  <h:outputText value="#{processElement.minExternalExecutionTime}" title="#{processElement.minExternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.minExternalExecutionTime}" title="#{processElement.minExternalExecutionTime}"/>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.avgExternalExecutionTime}" style="width: 65px" exportFunction="#{performanceBean.export}">
@@ -214,7 +204,7 @@
                   <h:outputText value="Ext Avg" title="Average of external execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.avgExternalExecutionTimeBackground};"> 
-                  <h:outputText value="#{processElement.avgExternalExecutionTime}" title="#{processElement.avgExternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.avgExternalExecutionTime}" title="#{processElement.avgExternalExecutionTime}"/>
                 </div>
               </p:column>
               <p:column sortBy="#{processElement.maxExternalExecutionTime}" style="width: 65px" exportFunction="#{performanceBean.export}">
@@ -222,22 +212,22 @@
                   <h:outputText value="Ext Max" title="Maximum of external execution time [ms]"/>
                 </f:facet>
                 <div style="background: #{processElement.maxExternalExecutionTimeBackground};"> 
-                  <h:outputText value="#{processElement.maxExternalExecutionTime}" title="#{processElement.maxExternalExecutionTime}"/>
+                  <h:outputText styleClass="gradient-text" value="#{processElement.maxExternalExecutionTime}" title="#{processElement.maxExternalExecutionTime}"/>
                 </div>
               </p:column>
             </p:dataTable>
-          </h:form>
+          </div>
         </div>
-      </cc:SingleCard>
-      <p:confirmDialog style="min-width: 300px;" header="Start Recording" id="startRecordingDialog"
-            widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+      </h:form>
+      <p:dialog style="min-width: 300px;" header="Start Recording" id="startRecordingDialog"
+            widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true">
         <h:form id="startPerformance">
           <p:staticMessage severity="warn" detail="Start the recording of the performance statistics can have a negative impact on the performance of the engine." />
-          <p:commandLink id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="modal-input-button"/>
-          <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"                  
-            styleClass="modal-input-button" actionListener="#{performanceBean.start}" update="performance:form"/>
+          <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"
+            styleClass="modal-input-button" actionListener="#{performanceBean.start}" update="form"/>
+          <p:commandButton id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
         </h:form>
-      </p:confirmDialog>
+      </p:dialog>
     </ui:define>
   </ui:composition>
 </h:body>

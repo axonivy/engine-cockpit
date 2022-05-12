@@ -13,6 +13,7 @@ import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
@@ -68,7 +69,7 @@ public class WebTestSystemDb {
 
   @Test
   void testSystemDb() {
-    $("h1").shouldBe(text("System Database"));
+    $("h2").shouldBe(text("System Database"));
     assertDefaultValues();
     assertSystemDbCreationDialog();
     assertSystemDbCreation();
@@ -160,7 +161,8 @@ public class WebTestSystemDb {
             .shouldHave(cssClass("si-is-spinning"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton")
             .shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(20));
-    $("#systemDb\\:createDatabaseForm\\:creationResult").shouldBe(empty);
+    $("#systemDb\\:createDatabaseForm\\:creationError").shouldNot(exist);
+    $("#systemDb\\:createDatabaseForm\\:creationInfo").shouldBe(text("The database was created successfully"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton").click();
     $("#systemDb\\:createDatabaseDialog").shouldNotBe(visible);
     $(CONNECTION_PANEL).shouldBe(text("Connected"));
@@ -180,9 +182,12 @@ public class WebTestSystemDb {
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
     $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton > .ui-icon")
             .shouldHave(cssClass("si-is-spinning"));
+    $("#systemDb\\:convertDatabaseForm\\:convertionWarning").shouldBe(visible);
     $("#systemDb\\:convertDatabaseForm\\:closeConversionButton")
             .shouldBe(and("wait until db converted", appear, enabled), Duration.ofSeconds(20));
-    $("#systemDb\\:convertDatabaseForm\\:conversionResult").shouldBe(empty);
+    $("#systemDb\\:convertDatabaseForm\\:convertionError").shouldNot(exist);
+    $("#systemDb\\:convertDatabaseForm\\:convertionWarning").shouldNot(exist);
+    $("#systemDb\\:convertDatabaseForm\\:convertionInfo").shouldBe(text("The database was migrated successfully"));
     $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").click();
     $("#systemDb\\:convertDatabaseDialog").shouldNotBe(visible);
     $(CONNECTION_PANEL).shouldBe(text("Connected"));

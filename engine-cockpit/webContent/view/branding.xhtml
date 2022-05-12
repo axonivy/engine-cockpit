@@ -10,154 +10,151 @@
     </ui:define>
 
     <ui:define name="breadcrumb">
-      <li>Configuration</li>
+      <li><span>Configuration</span></li>
       <li>/</li>
       <li><a href="branding.xhtml">Branding</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#branding" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#branding" />
     </ui:define>
 
     <ui:define name="content">
-      <p:growl id="msgs" showDetail="true" />
-      
-      <cc:ApplicationTabs tabChange="#{brandingBean.reloadResources}" id="apps">
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-12">
-            <h1>
-              <i class="si si-buildings-1 card-title-icon"></i>Branding
-            </h1>
-          </div>
+      <div class="card">
+        <p:growl id="msgs" showDetail="true" />
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-buildings-1 card-title-icon"></i>
+          <h2 class="p-m-0">Branding</h2>
         </div>
-        <ui:include src="../includes/components/configuration/branding-resources.xhtml" />
-        <br/>
-        <ui:include src="../includes/components/configuration/branding-colors.xhtml" />
-      </cc:ApplicationTabs>
       
-      <p:dialog styleClass="branding-custom-css" header="Edit custom.css" id="editCustomCssModal" appendTo="@(body)"
-        widgetVar="editCustomCssModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
-        <h:form id="editCustomCssForm">
-          <pe:codeMirror id="editCustomCssValue" value="#{brandingBean.customCssContent}"
-            mode="text/css" lineNumbers="true" matchBrackets="true" />
-          <pe:remoteCommand name="refreshCodeMirror" update="editCustomCssValue" />
-          <script>refreshCodeMirror();</script>
-        </h:form>
-        <f:facet name="footer">
-          <a href="#{advisorBean.engineGuideBaseUrl}/configuration/files/custom-css.html" target="_blank"
-            rel="noopener noreferrer" style="float: left;">
-            <i class="si si-xl si-question-circle"></i>
-          </a>
-          <p:commandLink id="cancelCustomCss" onclick="PF('editCustomCssModal').hide();" value="Cancel"
-            type="button" styleClass="modal-input-button" />
-          <p:commandButton id="saveCustomCss" process="editCustomCssForm:editCustomCssValue" partialSubmit="true"
-            onsuccess="PF('editCustomCssModal').hide();" actionListener="#{brandingBean.saveCustomCss}" value="Save"
-            icon="si si-floppy-disk" styleClass="modal-input-button" update="msgs" />
-        </f:facet>
-      </p:dialog>
-      
-      <p:confirmDialog id="resetBrandingConfirmDialog" header="Reset Branding Resource" severity="alert" appendTo="@(body)"
-        widgetVar="resetBrandingConfirmDialog" message="Are you sure you want to reset the Branding resource '#{brandingBean.currentRes}'">
-        <h:form id="resetForm">
-          <p:commandLink value="Cancel" onclick="PF('resetBrandingConfirmDialog').hide();" type="button"
-            styleClass="modal-input-button" />
-          <p:commandButton id="resetBrandingConfirmYesBtn" value="Reset" immediate="true" ajax="false"
-            actionListener="#{brandingBean.resetRes}" icon="si si-undo" styleClass="modal-input-button" />
-        </h:form>
-      </p:confirmDialog>
-      
-      <h:form id="cssColorPickerForm">
-        <p:dialog header="Edit color #{brandingBean.selectedCssColor.color}" id="editCssColorModal"
-          widgetVar="editCssColorModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
-          <div class="p-grid p-align-center ui-fluid">
-            <div class="p-col-3">
-              <p:outputLabel for="defaultColor" value="Default Value: "/>
-            </div>
-            <div class="p-col-8">
-              <p:inputText id="defaultColor" value="#{brandingBean.selectedCssColor.defaultValue}" disabled="true" />
-            </div>
-            <div class="p-col-3">
-              <p:outputLabel for="cssColorPickerInput" value="Value: "/>
-            </div>
-            <div class="p-col-1">
-              <p:inputText id="cssColorPickerBtn" type="color" styleClass="color-picker-btn" />
-            </div>
-            <div class="p-col-8">
-              <p:inputText id="cssColorPickerInput" value="#{brandingBean.selectedCssColor.value}" />
-            </div>
-          </div>
-          
-          <script>
-            var input = '#cssColorPickerForm\\:cssColorPickerInput';
-            var btn = '#cssColorPickerForm\\:cssColorPickerBtn';
-            
-            $(btn).on('input', e => {
-              var newValue = hexToHsl(e.target.value);
-              $(input).val(newValue);
-            });
-            $(input).on('input', e => {
-              var newValue = e.target.value;
-              updateBtnColor(newValue);
-            });
-          
-            function updateColor() {
-              var cssVarValue = $(input).val();
-              updateBtnColor(cssVarValue);
-            }
-            
-            function updateBtnColor(value) {
-              try {
-                $(btn).val(hslToHex(value));
-              } catch (e) {
-                $(btn).val(value);
-              }
-            }
-            updateColor();
-          </script>
+        <cc:ApplicationTabs tabChange="#{brandingBean.reloadResources}" id="apps">
+          <ui:include src="../includes/components/configuration/branding-resources.xhtml" />
+          <br/>
+          <ui:include src="../includes/components/configuration/branding-colors.xhtml" />
+        </cc:ApplicationTabs>
         
+        <p:dialog styleClass="branding-custom-css" header="Edit custom.css" id="editCustomCssModal" appendTo="@(body)"
+          widgetVar="editCustomCssModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+          <h:form id="editCustomCssForm">
+            <pe:codeMirror id="editCustomCssValue" value="#{brandingBean.customCssContent}"
+              mode="text/css" lineNumbers="true" matchBrackets="true" />
+            <pe:remoteCommand name="refreshCodeMirror" update="editCustomCssValue" />
+            <script>refreshCodeMirror();</script>
+          </h:form>
           <f:facet name="footer">
-            <p:commandLink id="cancelCssColor" onclick="PF('editCssColorModal').hide();" value="Cancel"
-              type="button" styleClass="modal-input-button" />
-            <p:commandButton id="saveCssColor" icon="si si-floppy-disk" value="Save" 
-              actionListener="#{brandingBean.saveColor}" 
-              styleClass="modal-input-button" ajax="false" />
+            <a href="#{advisorBean.engineGuideBaseUrl}/configuration/files/custom-css.html" target="_blank"
+              rel="noopener noreferrer" style="float: left;">
+              <i class="si si-xl si-question-circle"></i>
+            </a>
+            <p:commandButton id="cancelCustomCss" onclick="PF('editCustomCssModal').hide();" value="Cancel"
+              type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="saveCustomCss" process="editCustomCssForm:editCustomCssValue" partialSubmit="true"
+              onsuccess="PF('editCustomCssModal').hide();" actionListener="#{brandingBean.saveCustomCss}" value="Save"
+              icon="si si-floppy-disk" styleClass="modal-input-button" update="msgs" />
           </f:facet>
         </p:dialog>
-      </h:form>
-      
-      <p:confirmDialog id="resetColorConfirmDialog" header="Reset Color" severity="alert" appendTo="@(body)"
-        widgetVar="resetColorConfirmDialog" message="Are you sure you want to reset the CSS Color '#{brandingBean.selectedCssColor.color}'">
-        <h:form id="resetColorForm">
-          <p:commandLink value="Cancel" onclick="PF('resetColorConfirmDialog').hide();" type="button"
-            styleClass="modal-input-button" />
-          <p:commandButton id="resetColorConfirmYesBtn" value="Reset" immediate="true" ajax="false"
-            actionListener="#{brandingBean.resetColor}" icon="si si-undo" styleClass="modal-input-button" />
+        
+        <p:confirmDialog id="resetBrandingConfirmDialog" header="Reset Branding Resource" severity="alert" appendTo="@(body)"
+          widgetVar="resetBrandingConfirmDialog" message="Are you sure you want to reset the Branding resource '#{brandingBean.currentRes}'">
+          <h:form id="resetForm">
+            <p:commandButton value="Cancel" onclick="PF('resetBrandingConfirmDialog').hide();" type="button"
+              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="resetBrandingConfirmYesBtn" value="Reset" immediate="true" ajax="false"
+              actionListener="#{brandingBean.resetRes}" icon="si si-undo" styleClass="modal-input-button" />
+          </h:form>
+        </p:confirmDialog>
+        
+        <h:form id="cssColorPickerForm">
+          <p:dialog header="Edit color #{brandingBean.selectedCssColor.color}" id="editCssColorModal"
+            widgetVar="editCssColorModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
+            <div class="p-grid p-align-center ui-fluid">
+              <div class="p-col-3">
+                <p:outputLabel for="defaultColor" value="Default Value: "/>
+              </div>
+              <div class="p-col-9">
+                <p:inputText id="defaultColor" value="#{brandingBean.selectedCssColor.defaultValue}" disabled="true" />
+              </div>
+              <div class="p-col-3">
+                <p:outputLabel for="cssColorPickerInput" value="Value: "/>
+              </div>
+              <div class="p-col-1">
+                <p:inputText id="cssColorPickerBtn" type="color" styleClass="color-picker-btn" />
+              </div>
+              <div class="p-col-8">
+                <p:inputText id="cssColorPickerInput" value="#{brandingBean.selectedCssColor.value}" />
+              </div>
+            </div>
+            
+            <script>
+              var input = '#cssColorPickerForm\\:cssColorPickerInput';
+              var btn = '#cssColorPickerForm\\:cssColorPickerBtn';
+              
+              $(btn).on('input', e => {
+                var newValue = hexToHsl(e.target.value);
+                $(input).val(newValue);
+              });
+              $(input).on('input', e => {
+                var newValue = e.target.value;
+                updateBtnColor(newValue);
+              });
+            
+              function updateColor() {
+                var cssVarValue = $(input).val();
+                updateBtnColor(cssVarValue);
+              }
+              
+              function updateBtnColor(value) {
+                try {
+                  $(btn).val(hslToHex(value));
+                } catch (e) {
+                  $(btn).val(value);
+                }
+              }
+              updateColor();
+            </script>
+          
+            <f:facet name="footer">
+              <p:commandButton id="cancelCssColor" onclick="PF('editCssColorModal').hide();" value="Cancel"
+                type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+              <p:commandButton id="saveCssColor" icon="si si-floppy-disk" value="Save" 
+                actionListener="#{brandingBean.saveColor}" 
+                styleClass="modal-input-button" ajax="false" />
+            </f:facet>
+          </p:dialog>
         </h:form>
-      </p:confirmDialog>
-      
-      <h:panelGroup id="fileUpload">
-        <cc:FileUpload title="Upload resource to '#{managerBean.selectedApplicationName}'" apiUrl="upload/branding" 
-          acceptFiles=".png, .jpg, .jpeg, .svg, .gif, .webp" id="uploadModal">
-          <script>
-          function buildFormData() {
-            var form_data = new FormData();
-            form_data.append('resource', file, file.name);
-            form_data.append('oldResourceName', '#{brandingBean.currentRes}');
-            form_data.append('appName', '#{managerBean.selectedApplicationName}');
-            return form_data;
-          }
-          </script>
-          <style>
-          #uploadLog {
-            height: unset;
-          }
-          </style>
-        </cc:FileUpload>
-      </h:panelGroup>
-      
+        
+        <p:confirmDialog id="resetColorConfirmDialog" header="Reset Color" severity="alert" appendTo="@(body)"
+          widgetVar="resetColorConfirmDialog" message="Are you sure you want to reset the CSS Color '#{brandingBean.selectedCssColor.color}'">
+          <h:form id="resetColorForm">
+            <p:commandButton value="Cancel" onclick="PF('resetColorConfirmDialog').hide();" type="button"
+              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="resetColorConfirmYesBtn" value="Reset" immediate="true" ajax="false"
+              actionListener="#{brandingBean.resetColor}" icon="si si-undo" styleClass="modal-input-button" />
+          </h:form>
+        </p:confirmDialog>
+        
+        <h:panelGroup id="fileUpload">
+          <cc:FileUpload title="Upload resource to '#{managerBean.selectedApplicationName}'" apiUrl="upload/branding" 
+            acceptFiles=".png, .jpg, .jpeg, .svg, .gif, .webp" id="uploadModal">
+            <script>
+            var uploadErrorField = "#uploadModal\\:uploadError";
+
+            function buildFormData() {
+              var form_data = new FormData();
+              form_data.append('resource', file, file.name);
+              form_data.append('oldResourceName', '#{brandingBean.currentRes}');
+              form_data.append('appName', '#{managerBean.selectedApplicationName}');
+              return form_data;
+            }
+            </script>
+            <style>
+            #uploadLog {
+              height: unset;
+            }
+            </style>
+          </cc:FileUpload>
+        </h:panelGroup>
+      </div>
     </ui:define>
 
   </ui:composition>

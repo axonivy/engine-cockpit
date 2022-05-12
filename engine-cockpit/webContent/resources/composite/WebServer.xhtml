@@ -4,20 +4,21 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="updateFields" default="webServer:webserverWarnMessage" />
+  <cc:attribute name="responsiveClasses" default="p-col-12 p-md-6 p-lg-4" />
 </cc:interface>
 
 <cc:implementation>
-<h:panelGroup id="webserverWarnMessage">
+<h:panelGroup id="webserverWarnMessage" layout="block">
   <p:staticMessage rendered="#{!webServerConnectorBean.stepOk}" severity="warn"
     detail="#{webServerConnectorBean.stepWarningMessage}" />
 </h:panelGroup>
 
 <h:form id="webserverForm">
-  <div class="ui-g">
-    <div class="ui-g-12 ui-md-6 ui-lg-4">
-      <p:fieldset id="httpFieldSet" legend="HTTP Connector" style="padding: 8px;">
-        <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid"
-          styleClass="ui-panelgrid-blank grey-label-panel">
+  <div class="p-grid">
+    <div class="#{cc.attrs.responsiveClasses} p-p-2">
+      <p:fieldset id="httpFieldSet" legend="HTTP Connector" class="p-p-2">
+        <p:panelGrid columns="2" columnClasses="p-col-12 p-md-5 p-lg-5, p-col-12 p-md-7 p-lg-7" layout="flex" 
+          styleClass="grey-label-panel ui-fluid">
           <p:outputLabel for="httpEnabledCheckbox" value="Enabled:" />
           <p:selectBooleanCheckbox id="httpEnabledCheckbox" value="#{webServerConnectorBean.httpEnabled}">
             <p:ajax process="@this" update="#{cc.attrs.updateFields}" />
@@ -31,10 +32,10 @@
         </p:panelGrid>
       </p:fieldset>
     </div>
-    <div class="ui-g-12 ui-md-6 ui-lg-4">
-      <p:fieldset id="httpsFieldSet" legend="HTTPS Connector" style="padding: 8px;">
-        <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid"
-          styleClass="ui-panelgrid-blank grey-label-panel">
+    <div class="#{cc.attrs.responsiveClasses} p-p-2">
+      <p:fieldset id="httpsFieldSet" legend="HTTPS Connector" class="p-p-2">
+        <p:panelGrid columns="2" columnClasses="p-col-12 p-md-5 p-lg-5, p-col-12 p-md-7 p-lg-7" layout="flex" 
+          styleClass="grey-label-panel ui-fluid">
           <p:outputLabel for="httpsEnabledCheckbox" value="Enabled:" />
           <p:selectBooleanCheckbox id="httpsEnabledCheckbox" value="#{webServerConnectorBean.httpsEnabled}">
             <p:ajax process="@this" update="#{cc.attrs.updateFields}" />
@@ -48,10 +49,10 @@
         </p:panelGrid>
       </p:fieldset>
     </div>
-    <div class="ui-g-12 ui-md-6 ui-lg-4">
-      <p:fieldset id="ajpFieldSet" legend="AJP Connector (deprecated)" style="padding: 8px;">
-        <p:panelGrid columns="2" columnClasses="ui-grid-col-5, ui-grid-col-7" layout="grid"
-          styleClass="ui-panelgrid-blank grey-label-panel">
+    <div class="#{cc.attrs.responsiveClasses} p-p-2">
+      <p:fieldset id="ajpFieldSet" legend="AJP Connector (deprecated)" class="p-p-2">
+        <p:panelGrid columns="2" columnClasses="p-col-12 p-md-5 p-lg-5, p-col-12 p-md-7 p-lg-7" layout="flex" 
+          styleClass="grey-label-panel ui-fluid">
           <p:outputLabel for="ajpEnabledCheckbox" value="Enabled:" />
           <p:selectBooleanCheckbox id="ajpEnabledCheckbox" value="#{webServerConnectorBean.ajpEnabled}">
             <p:ajax process="@this" />

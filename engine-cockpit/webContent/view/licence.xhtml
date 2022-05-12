@@ -6,68 +6,50 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>System</li>
+      <li><span>System</span></li>
       <li>/</li>
       <li><a href="licence.xhtml">Licence</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#licence" target="_blank" rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}system.html#licence" />
     </ui:define>
 
     <ui:define name="content">
       <p:growl showDetail="true">
         <p:autoUpdate />
       </p:growl>
-      <div class="ui-fluid">
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <div class="card card-w-title">
-              <h:form id="renewForm">
-                <div class="ui-g">
-                  <div class="ui-g-12 ui-md-10">
-                    <h1>
-                      <i class="si si-real-estate-action-house-key card-title-icon"></i>Licence
-                    </h1>
-                  </div>
-                  <div class="ui-g-12 ui-md-2 single-card-top-right-btn">
-                    <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button"
-                      icon="si si-navigation-right-circle" value="Renew" rendered="#{licenceBean.showRenewLicFeature()}"
-                      onclick="PF('renewLicence').show()" />
-                  </div>
-                </div>
-              </h:form>
-              <div class="ui-g">
-                <div class="ui-g-12 ui-md-12">
-                  <cc:Licence id="licence"
-                    updateFields="licence:fileUploadForm:licenceOverview, licWarnMessage, renewForm" />
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="card">
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-real-estate-action-house-key card-title-icon"></i>
+          <h2 class="p-m-0">Licence</h2>
+          <h:form id="renewForm" styleClass="p-ml-auto">
+            <p:commandButton id="tasksButtonLicenceRenew" title="Renew Licence" type="button"
+              icon="si si-navigation-right-circle" value="Renew" rendered="#{licenceBean.showRenewLicFeature()}"
+              onclick="PF('renewLicence').show()" />
+          </h:form>
         </div>
+        <cc:Licence id="licence"
+          updateFields="licence:fileUploadForm:licenceOverview, licWarnMessage, renewForm" />
       </div>
       <cc:RenewLicence id="renewLicence" title="Renew Licence" />
     </ui:define>
 
-    <ui:define name="sidebar">
+    <ui:define name="live-stats">
       <cc:Sidebar>
         <cc:LiveStats monitor="#{sessionMonitorBean.sessionsMonitor}" id="sessions" />
 
         <p:dataTable value="#{licenceBean.activeSessions}" var="activeSession" style="margin-top: 20px;"
           paginator="true" rows="5" paginatorPosition="bottom" paginatorAlwaysVisible="false">
-          <p:column headerText="Session">
+          <p:column headerText="Session" sortBy="#{activeSession.name}" sortOrder="desc">
             <h:outputText value="#{activeSession.name}" styleClass="activeSessionUser" />
           </p:column>
-          <p:column headerText="Active" style="width: 80px; text-align: center;">
+          <p:column headerText="Active" style="width: 80px; text-align: center;" sortBy="#{activeSession.count}">
             <h:outputText value="#{activeSession.count}" />
           </p:column>
-          <p:column style="width: 56px;">
+          <p:column styleClass="table-btn-1">
             <p:commandButton id="killSession" title="Kill session" icon="si si-logout-1"
-              actionListener="#{licenceBean.killSession(activeSession.name)}" styleClass="red-btn"
-              style="float: right;" />
+              actionListener="#{licenceBean.killSession(activeSession.name)}" styleClass="ui-button-danger rounded-button" />
           </p:column>
         </p:dataTable>
       </cc:Sidebar>

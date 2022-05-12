@@ -52,10 +52,10 @@ class WebTestWebserviceDetail {
   @Test
   void testDetailOpen() {
     assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
-    $$(".ui-panel").shouldHave(size(3));
+    $$(".card").shouldHave(size(3));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
 
-    $("#breadcrumbOptions > a[href='#']").shouldBe(visible).click();
+    $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $("#helpWebserviceDialog\\:helpServicesModal").shouldBe(Condition.visible);
     $(".code-block").shouldBe(text(WEBSERVICE_NAME));
   }
@@ -161,7 +161,7 @@ class WebTestWebserviceDetail {
   @Test
   void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Web Service Calls", "Web Service Execution Time"),
-            "Default > test-web");
+            "Default > test-web", false);
   }
 
   private void setEndPoint(String defaultLink, String... fallbacks) {

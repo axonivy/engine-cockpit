@@ -10,33 +10,34 @@
 <cc:implementation>
   <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="#{cc.attrs.title}"
     id="fileUploadModal" resizable="false" widgetVar="fileUploadModal" modal="true" responsive="true"
-    closeOnEscape="true" styleClass="ui-fluid">
+    closeOnEscape="true">
     <form enctype="multipart/form-data" id="fileUploadForm">
-      <div class="file-upload">
+      <div class="file-upload ui-fluid">
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
-        <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-          styleClass="ui-panelgrid-blank">
+        <p:panelGrid columns="2" columnClasses="p-col-4, p-col-8" layout="flex">
           <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose file"
             onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
           <div id="drop_zone">
             <span id="selectedFileOutput" class="file-upload-file" />
           </div>
         </p:panelGrid>
-        <div id="uploadError" class="file-upload-error" />
+        <p:staticMessage id="uploadError" severity="error" summary="Error" detail="Choose a valid file before upload" style="display: none;" />
         <cc:insertChildren />
       </div>
       <p:commandButton id="uploadBtn" validateClient="true" type="button" value="Upload" icon="si si-upload-bottom"
         styleClass="modal-input-button" onclick="upload();" />
-      <p:commandLink id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
-        styleClass="modal-input-button" />
+      <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     </form>
     <div id="fileUploadResponse" style="display:none;">
       <div style="font-weight: bold;" id="uploadStatus"></div>
       <pre id="uploadLog"></pre>
-      <p:commandButton id="closeDeploymentBtn" onclick="closeFileUpload();" value="Close" type="button"
-        icon="si si-remove-circle" styleClass="modal-input-button" />
-      <p:commandButton id="backBtn" type="button" value="Back" icon="si si-navigation-left-circle-1"
-        styleClass="secondary-btn modal-input-button" onclick="back();" />
+      <div class="p-d-flex p-flex-row-reverse">
+        <p:commandButton id="closeDeploymentBtn" onclick="closeFileUpload();" value="Close" type="button"
+          icon="si si-remove-circle" styleClass="modal-input-button" />
+        <p:commandButton id="backBtn" type="button" value="Back" icon="si si-navigation-left-circle-1"
+          styleClass="ui-button-secondary ui-button-flat modal-input-button" onclick="back();" />
+      </div>
     </div>
     <script>
       var accepts = "#{cc.attrs.acceptFiles}".split(",").map(Function.prototype.call, String.prototype.trim);

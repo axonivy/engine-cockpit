@@ -4,7 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlCo
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.getAdminUser;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
-import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -32,16 +32,18 @@ public class WebTestLogin {
     $("#loginForm\\:userName").shouldBe(visible).clear();
     $("#loginForm\\:password").shouldBe(visible).clear();
     $("#loginForm\\:login").shouldBe(visible).click();
-    $("#loginForm\\:userNameMessage").shouldBe(exactText("Value is required."));
-    $("#loginForm\\:passwordMessage").shouldBe(exactText("Value is required."));
+    $("#loginForm\\:userName").shouldHave(cssClass("ui-state-error"));
+    $("#loginForm\\:password").shouldHave(cssClass("ui-state-error"));
 
     $("#loginForm\\:userName").sendKeys(getAdminUser());
     $("#loginForm\\:login").click();
-    $("#loginForm\\:passwordMessage").shouldBe(exactText("Value is required."));
+    $("#loginForm\\:userName").shouldNotHave(cssClass("ui-state-error"));
+    $("#loginForm\\:password").shouldHave(cssClass("ui-state-error"));
 
     $("#loginForm\\:password").sendKeys("test");
     $("#loginForm\\:login").click();
-    $("#loginForm\\:passwordMessage").shouldBe(empty);
+    $("#loginForm\\:userName").shouldNotHave(cssClass("ui-state-error"));
+    $("#loginForm\\:password").shouldNotHave(cssClass("ui-state-error"));
     $("#loginForm\\:loginMessage").shouldBe(visible);
   }
 
@@ -60,7 +62,7 @@ public class WebTestLogin {
   }
 
   private void logout() {
-    $("#sessionUser > a").click();
+    $(".user-profile > a").click();
     $("#sessionLogoutBtn").shouldBe(visible).click();
   }
 }

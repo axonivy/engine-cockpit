@@ -6,22 +6,20 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Monitor</li>
+      <li><span>Monitor</span></li>
       <li>/</li>
       <li><a href="monitorOs.xhtml">OS</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#os" target="_blank" rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#os" />
     </ui:define>
 
     <ui:define name="content">
       <h:form>
         <p:poll update="@form" interval="1" />
 
-        <div class="ui-g dashboard">
+        <div class="p-grid">
           <cc:MonitorGraph monitor="#{osBean.cpuMonitor}" id="cpu" />
           <cc:MonitorGraph monitor="#{osBean.memoryMonitor}" id="memory" />
           <cc:MonitorGraph monitor="#{osBean.networkMonitor}" id="network" />

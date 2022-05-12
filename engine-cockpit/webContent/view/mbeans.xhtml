@@ -6,28 +6,28 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Monitor</li>
+      <li><span>Monitor</span></li>
       <li>/</li>
-      <li>Engine</li>
+      <li><span>Engine</span></li>
       <li>/</li>
       <li><a href="mbeans.xhtml">MBeans</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#mbeans" target="_blank" rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#mbeans" />
     </ui:define>
 
     <ui:define name="content">
-      <div class="ui-fluid">
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-            <p:panel style="min-height: 350px;">
-              <f:facet name="header">
-                <i class="si si-coffee-cup table-icon panel-title-icon"></i>
-                <h:outputText value="MBeans" />
-              </f:facet>
+      <div class="layout-dashboard">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-coffee-cup"></i>
+                  <h6 class="p-m-0">MBeans</h6>
+                </div>
+              </div>
               <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single"
                 style="border: none; max-height: 350px; overflow: auto; padding: 0;" id="mBeans">
                 <p:ajax event="select" update="attributes" listener="#{mBeansBean.onSelectNode}" />
@@ -38,41 +38,45 @@
                   <h:outputText value="#{node.displayName}" />
                 </p:treeNode>
               </p:tree>
-            </p:panel>
+            </div>
           </div>
-          <div class="ui-g-12 ui-md-12 ui-lg-6 dashboard-card">
-            <p:panel style="min-height: 350px;">
-              <f:facet name="header">
-                <i class="si si-cog table-icon panel-title-icon"></i>
-                <h:outputText value="Attributes" />
-              </f:facet>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-cog"></i>
+                  <h6 class="p-m-0">Attributes</h6>
+                </div>
+              </div>
               <p:dataTable id="attributes" var="mAttr" value="#{mBeansBean.attributes}" rowIndexVar="rowIndex"
                 style="max-height: 350px; overflow: auto" emptyMessage="Select a bean to see its attributes">
                 <p:column headerText="Name">
                   <h:outputText id="name" value="#{mAttr.name}" />
                   <p:tooltip for="attributes:#{rowIndex}:name" value="#{mAttr.tooltip}" />
                 </p:column>
-
+  
                 <p:column headerText="Value">
                   <h:outputText escape="false" value="#{mAttr.value}" />
                 </p:column>
-                <p:column style="width: 55px">
+                <p:column styleClass="table-btn-1">
                   <p:commandButton id="addTrace" rendered="#{mAttr.isTraceable}" update="chart" immediate="true"
-                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="si si-analytics-graph" />
+                    actionListener="#{mBeansBean.addTrace(mAttr)}" icon="si si-analytics-graph" styleClass="rounded-button" />
                 </p:column>
               </p:dataTable>
-            </p:panel>
+            </div>
           </div>
-          <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
-            <p:panel id="chart" style="min-height: 350px;">
-              <f:facet name="header">
-                <i class="si si-analytics-bars table-icon panel-title-icon"></i>
-                <h:outputText value="Chart" />
-              </f:facet>
+          <div class="p-col-12">
+            <h:panelGroup layout="block" id="chart" styleClass="card">
+              <div class="card-header">
+                <div class="card-title p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-analytics-bars"></i>
+                  <h6 class="p-m-0">Chart</h6>
+                </div>
+              </div>
               <p:chart id="diagram" type="line" model="#{mBeansBean.tracesMonitor.model}" responsive="true"
                 style="height:300px;" />
               <p:poll update="chart" interval="1" autoStart="#{mBeansBean.tracesMonitor.running}" />
-
+  
               <p:dataTable id="traces" var="trace" value="#{mBeansBean.traces}" rowIndexVar="rowIndex"
                 style="max-height: 200px; overflow: auto">
                 <p:column headerText="Attribute">
@@ -84,16 +88,16 @@
                 <p:column headerText="Description">
                   <h:outputText value="#{trace.description}" />
                 </p:column>
-
+  
                 <p:column headerText="Last Value">
                   <h:outputText id="lastValue" value="#{trace.lastValue}" />
                 </p:column>
-                <p:column style="width: 55px">
+                <p:column styleClass="table-btn-1">
                   <p:commandButton id="removeTrace" update="chart" immediate="true"
-                    actionListener="#{mBeansBean.removeTrace(trace)}" icon="si si-remove" styleClass="red-btn" />
+                    actionListener="#{mBeansBean.removeTrace(trace)}" icon="si si-remove" styleClass="ui-button-danger rounded-button" />
                 </p:column>
               </p:dataTable>
-            </p:panel>
+            </h:panelGroup>
           </div>
         </div>
       </div>

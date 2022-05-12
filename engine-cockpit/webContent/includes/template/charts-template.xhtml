@@ -7,22 +7,26 @@
 
     <ui:define name="head">
       <script type="text/javascript">
+        var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--surface-a');
+        var borderColor = getComputedStyle(document.documentElement).getPropertyValue('--surface-d');
+        var gridColor = getComputedStyle(document.documentElement).getPropertyValue('--surface-d');
+        var textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
         function skinChart() {
           this.cfg.shadow = false;
           this.cfg.title = '';
           this.cfg.seriesColors = ['#607D8B', '#FFC107', '#FF5722'];
           this.cfg.grid = {
-            background: '#ffffff',
-            borderColor: '#ffffff',
-            gridLineColor: '#F5F5F5',
+            background: bgColor,
+            borderColor: borderColor,
+            gridLineColor: gridColor,
             shadow: false
           };
           this.cfg.axesDefaults = {
             borderWidth: 0.1,
-            borderColor: 'bdbdbd',
+            borderColor: borderColor,
             labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-            rendererOptions: {
-              textColor: '#666F77'
+            labelOptions: {
+              textColor: textColor
             }
           };
           this.cfg.seriesDefaults = {
@@ -40,14 +44,15 @@
         .jqplot-xaxis-label,
         .jqplot-yaxis-label,
         .jqplot-y2axis-label,
-        .jqplot-x2axis-label {
-          color: #757575;
+        .jqplot-x2axis-label,
+        .jqplot-target {
+          color: var(--text-color, #757575);
         }
 
         table.jqplot-table-legend {
-          background-color: #ffffff;
-          color: #757575;
-          border-color: #bdbdbd;
+          background-color: var(--surface-b, #ffffff);
+          color: var(--text-color, #757575);
+          border-color: var(--surface-d, #bdbdbd);
         }
       </style>
     </ui:define>

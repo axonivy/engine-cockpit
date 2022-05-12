@@ -11,78 +11,81 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Monitor</li>
+      <li><span>Monitor</span></li>
       <li>/</li>
-      <li>Engine</li>
+      <li><span>Engine</span></li>
       <li>/</li>
       <li><a href="monitorTraces.xhtml">Slow Requests</a></li>
       <li>/</li>
-      <li><a href="monitorTraceDetail.xhtml?traceId=#{spanBean.traceId}">Detail</a></li>
+      <li><a href="monitorTraceDetail.xhtml?traceId=#{spanBean.traceId}">#{spanBean.traceId}</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a
-        href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#SlowRequests"
-        target="_blank" rel="noopener noreferrer"> <i
-        class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#SlowRequests" />
     </ui:define>
 
     <ui:define name="content">
-      <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
-        <p:panel id="spans" style="min-height: 350px;">
-          <f:facet name="header">
-            <i class="si si-monitor-heart-beat-search table-icon panel-title-icon"></i>
-            <h:outputText id="spansTitle" value="Slow Request Detail" />
-          </f:facet>
-          <p:staticMessage  
-              rendered="#{! spanBean.traceAvailable}" 
-              severity="WARN" 
-              summary="Request no longer available" 
-              detail="The request was remove from the slowest requests because other requests were even slower!"/>
-            <p:treeTable id="spansTree" value="#{spanBean.tree}" var="span" selectionMode="single" style="border: none; max-height: 500px; overflow: auto; padding: 0;" rendered="#{spanBean.traceAvailable}">
-              <p:ajax event="expand" listener="#{spanBean.nodeExpand}" />
-              <p:ajax event="collapse" listener="#{spanBean.nodeCollapse}" />
-              <p:ajax event="select" listener="#{spanBean.nodeSelect}" update="attributesTable" />
-              <p:column headerText="Name">
-                <h:outputText value="#{span.name}" title="#{span.attributesInfo}">
-                  <i class="si si-time-clock-circle #{span.statusClass} table-icon" title="#{span.statusTooltip}"></i>
-                </h:outputText>
-              </p:column>
-              <p:column style="width: 130px;" headerText="Execution Time">
-                <div style="background: #{span.executionTimeBackground};">
-                  <h:outputText value="#{span.executionTime}" />
+      <div class="layout-dashboard">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <div class="card">
+              <div class="card-header p-flex-wrap">
+                <div class="card-title p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-monitor-heart-beat-search"></i>
+                  <h6 class="p-m-0">Slow Request Detail</h6>
                 </div>
-              </p:column>
-              <p:column style="width: 130px;" headerText="Start">
-                <h:outputText value="#{span.start}" />
-              </p:column>
-              <p:column style="width: 130px;" headerText="End">
-                <h:outputText value="#{span.end}" />
-              </p:column>
-              <p:column headerText="Attributes" sortBy="#{span.attributes}">
-                <h:outputText value="#{span.attributes}" title="#{span.attributesInfo}" />
-              </p:column>
-            </p:treeTable>
-          <h:outputLabel value="Trace Id: #{spanBean.traceId}" rendered="#{spanBean.traceAvailable}"/>
-        </p:panel>
-      </div>
-      <div class="ui-g-12 ui-md-12 ui-lg-12 dashboard-card">
-        <p:panel id="attributes" style="min-height: 350px;">
-          <f:facet name="header">
-            <i class="si si-cog table-icon panel-title-icon"></i>
-            <h:outputText id="attributesTitle" value="Attributes" />
-          </f:facet>
-          <p:dataTable id="attributesTable" var="attr" value="#{spanBean.attributes}" rowIndexVar="rowIndex" emptyMessage="Select a span to see its attributes">
-            <p:column headerText="Name" style="width: 40%;" sortBy="#{attr.name}" sortOrder="ASC">
-              <h:outputText id="name" value="#{attr.name}" />
-            </p:column>
-
-            <p:column headerText="Value"  sortBy="#{attr.value}">
-              <h:outputText escape="false" value="#{attr.value}"/>
-            </p:column>
-          </p:dataTable>
-        </p:panel>
+                <p:staticMessage  
+                    rendered="#{!spanBean.traceAvailable}" 
+                    severity="WARN" 
+                    styleClass="p-mt-3"
+                    summary="Request no longer available" 
+                    detail="The request was remove from the slowest requests because other requests were even slower!"/>
+              </div>
+              <p:treeTable id="spansTree" value="#{spanBean.tree}" var="span" selectionMode="single" style="border: none; max-height: 500px; overflow: auto; padding: 0;" rendered="#{spanBean.traceAvailable}">
+                <p:ajax event="expand" listener="#{spanBean.nodeExpand}" />
+                <p:ajax event="collapse" listener="#{spanBean.nodeCollapse}" />
+                <p:ajax event="select" listener="#{spanBean.nodeSelect}" update="attributesTable" />
+                <p:column headerText="Name">
+                  <h:outputText value="#{span.name}" title="#{span.attributesInfo}">
+                    <i class="si si-time-clock-circle #{span.statusClass} table-icon" title="#{span.statusTooltip}"></i>
+                  </h:outputText>
+                </p:column>
+                <p:column style="width: 130px;" headerText="Execution Time">
+                  <div style="background: #{span.executionTimeBackground};">
+                    <h:outputText styleClass="gradient-text" value="#{span.executionTime}" />
+                  </div>
+                </p:column>
+                <p:column style="width: 130px;" headerText="Start">
+                  <h:outputText value="#{span.start}" />
+                </p:column>
+                <p:column style="width: 130px;" headerText="End">
+                  <h:outputText value="#{span.end}" />
+                </p:column>
+                <p:column headerText="Attributes" sortBy="#{span.attributes}">
+                  <h:outputText value="#{span.attributes}" title="#{span.attributesInfo}" />
+                </p:column>
+              </p:treeTable>
+            </div>
+          </div>
+          <div class="p-col-12">
+            <div class="card">
+              <div class="card-header p-flex-wrap">
+                <div class="card-title p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-cog"></i>
+                  <h6 class="p-m-0">Attributes</h6>
+                </div>
+              </div>
+              <p:dataTable id="attributesTable" var="attr" value="#{spanBean.attributes}" rowIndexVar="rowIndex" emptyMessage="Select a span to see its attributes">
+                <p:column headerText="Name" style="width: 40%;" sortBy="#{attr.name}" sortOrder="ASC">
+                  <h:outputText id="name" value="#{attr.name}" />
+                </p:column>
+                <p:column headerText="Value"  sortBy="#{attr.value}">
+                  <h:outputText escape="false" value="#{attr.value}"/>
+                </p:column>
+              </p:dataTable>
+            </div>
+          </div>
+        </div>
       </div>
     </ui:define>
   </ui:composition>

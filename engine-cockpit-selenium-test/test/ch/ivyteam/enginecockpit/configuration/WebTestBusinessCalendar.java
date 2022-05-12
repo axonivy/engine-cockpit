@@ -36,13 +36,12 @@ public class WebTestBusinessCalendar {
   @Test
   void testBusinessCalendarDetail() {
     Navigation.toBusinessCalendarDetail("Luzern");
-    $("#weekConfigurationPanel").shouldHave(text("Week configuration"));
-    $$(".box").shouldHave(size(7)).first().shouldHave(text("Monday"));
-    $$(".box.free").shouldHave(texts("Saturday", "Sunday"));
-    $("#weekConfigurationPanel .ui-datatable").shouldHave(
+    $$(".business-calendar-box").shouldHave(size(7)).first().shouldHave(text("Monday"));
+    $$(".business-calendar-box .free").shouldHave(texts("Saturday", "Sunday"));
+    $("#workingTimeTable").shouldHave(
             text("morning"), text("08:00:00 - 12:00:00"),
             text("afternoon"), text("13:00:00 - 17:00:00"));
-    $("#freeDatesPanel").shouldHave(text("Free days"),
+    $("#freeDaysTable").shouldHave(
             text("Christmas Day"), text("12-25"),
             text("Ascension Day"), text("easter + 39"));
   }
@@ -50,14 +49,14 @@ public class WebTestBusinessCalendar {
   @Test
   void testExpandCollapseTree() {
     getVisibleTreeNodes().shouldBe(size(3));
-    $(By.id(getFormId() + ":collapseAll")).shouldBe(visible).click();
+    $(By.id(getFormId() + ":tree:collapseAll")).shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
-    $(By.id(getFormId() + ":expandAll")).shouldBe(visible).click();
+    $(By.id(getFormId() + ":tree:expandAll")).shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(3));
   }
 
   private ElementsCollection getVisibleTreeNodes() {
-    return $(By.id(getFormId())).findAll(".ui-treenode-content").filter(visible);
+    return $(By.id(getFormId())).findAll(".business-calendar").filter(visible);
   }
 
   private String getFormId() {

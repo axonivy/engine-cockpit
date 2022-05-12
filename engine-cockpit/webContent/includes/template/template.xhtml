@@ -4,7 +4,7 @@
 <f:view beforePhase="#{loginBean.checkLogin()}" />
 
 <h:head>
-  <f:attribute name="primefaces.THEME" value="serenity-ivy" />
+  <f:attribute name="primefaces.THEME" value="freya-ivy-#{ivyFreyaTheme.mode}" />
   <f:facet name="first">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -15,36 +15,143 @@
     <ui:insert name="title">Engine Cockpit</ui:insert>
   </title>
 
-  <link rel="shortcut icon" href="#{resource['ivy-webcontent:resources/images/ivy_favicon_48.png']}" />
+  <link rel="shortcut icon" href="#{resource['ivy-webcontent:resources/images/favicon.png']}" />
 
-  <h:outputScript name="js/nanoscroller.js" library="serenity-layout" />
-  <h:outputScript name="js/layout.js" library="serenity-layout" />
-  <h:outputScript name="js/ripple.js" library="serenity-layout" />
-  <h:outputScript name="resources/js/polyfill.js" />
+  <h:outputScript name="js/layout.js" library="freya-layout" />
   <h:outputScript name="resources/js/highlight.pack.js" />
   <h:outputScript name="resources/js/engine-cockpit.js" />
-  <h:outputScript name="resources/js/sidebar-fix.js" />
   <h:outputScript name="resources/js/file-upload.js" />
+  <h:outputScript name="resources/js/sidebar-fix.js" />
   <ui:insert name="head" />
 </h:head>
 
 <h:body>
-  <div class="layout-wrapper layout-wrapper-static">
-    <ui:include src="./sidebar.xhtml" />
-
-    <div class="layout-main">
-      <ui:include src="./topbar.xhtml" />
-
-      <div class="layout-breadcrumb">
-        <ul>
-          <li><a href="dashboard.xhtml"><i class="si si-lg si-house-chimney-2"></i></a></li>
-          <li>/</li>
-          <ui:insert name="breadcrumb" />
-        </ul>
-        <div class="layout-breadcrumb-options" id="breadcrumbOptions">
-          <ui:insert name="breadcrumb-right" />
+  <div class="layout-wrapper layout-topbar-#{ivyFreyaTheme.mode} layout-menu-#{ivyFreyaTheme.mode} layout-sidebar layout-static">
+    
+    <div class="layout-topbar">
+      <div class="layout-topbar-wrapper">
+        <div class="layout-topbar-left">
+          <a href="#" class="menu-button">
+           <i class="pi pi-bars"/>
+          </a>
+        </div>
+        
+        <div class="layout-breadcrumb">
+          <ul class="p-d-inline-flex p-ai-center">
+            <li><a href="dashboard.xhtml"><i class="si si-lg si-house-chimney-2"></i></a></li>
+            <li>/</li>
+            <ui:insert name="breadcrumb" />
+          </ul>
+        </div>
+        
+        <ui:include src="./sidebar.xhtml" />
+        
+        <div class="layout-topbar-right">
+          <ul class="layout-topbar-actions">
+            <h:outputText rendered="#{not empty licenceBean.licenceEvents}">
+              <li class="topbar-item topbar-notifications licence-notification">
+                <a href="#" onclick="PF('licenceEventsDialog').show();">
+                  <i class="topbar-icon si si-alarm-bell-timer animated swing"></i>
+                </a>
+              </li>
+            </h:outputText>
+            <h:outputText rendered="#{managerBean.restartEngine or engineModeBean.hasDashboardWarning() or ivyAdvisor.releaseCandidate}">
+              <li class="topbar-item topbar-notifications engine-warnings">
+                <a href="#">
+                  <i class="topbar-icon si si-road-sign-warning animated swing"></i>
+                </a>
+                <ul>
+                  <h:panelGroup rendered="#{managerBean.restartEngine}">
+                    <li class="restart-notification">
+                      <a href="logs.xhtml?log=config.log">
+                        <i class="si si-lg si-synchronize-arrow-clock"></i>
+                        <span style="max-width: calc(100% - 40px)">You have changed settings that require an engine restart!</span>
+                      </a>
+                    </li>
+                  </h:panelGroup>
+                  <h:panelGroup rendered="#{ivyAdvisor.releaseCandidate}">
+                    <li>
+                      <a href="#">
+                        <i class="si si-lg si-alert-circle"></i>
+                        <span style="max-width: calc(100% - 40px)">
+                          Release Candidate!<br/>
+                          Don't use this version in production!
+                        </span>
+                      </a>
+                    </li>
+                  </h:panelGroup>
+                  <h:panelGroup rendered="#{engineModeBean.hasDashboardWarning()}">
+                    <li>
+                      <a href="setup#{engineModeBean.demo ? '-intro' : ''}.xhtml">
+                        <i class="si si-lg si-tools-wench"></i>
+                        <span style="max-width: calc(100% - 40px)">
+                          #{engineModeBean.dashboardWarningSummary}<br/>
+                          #{engineModeBean.dashboardWarningDetail} Please use the 'Setup Wizard' to set up your Axon Ivy Engine.
+                        </span>
+                      </a>
+                    </li>
+                  </h:panelGroup>
+                </ul>
+              </li>
+            </h:outputText>
+            <ui:insert name="topbar-items">
+              <li class="topbar-item">
+                <a href="#{advisorBean.cockpitEngineGuideUrl}index.html" target="_blank" rel="noopener noreferrer">
+                  <i class="topbar-icon si si-question-circle"></i>
+                </a>
+              </li>
+            </ui:insert>
+            <li class="topbar-item themeswitch-item">
+              <p:commandLink id="themeSwitcher" onclick="PrimeFaces.FreyaConfigurator.changeLayout('ivy', '#{ivyFreyaTheme.mode == 'light' ? 'dark' : 'light'}');"
+                style="text-decoration: none;">
+                <i class="topbar-icon pi pi-#{ivyFreyaTheme.mode == 'light' ? 'moon' : 'sun'}"/>
+                <p:ajax onstart="PrimeFaces.FreyaConfigurator.beforeResourceChange();" listener="#{ivyFreyaTheme.toggleTheme}" update="themeSwitcher" />
+              </p:commandLink>
+            </li>
+            <li class="topbar-item user-profile">
+              <a href="#">
+                <span class="profile-image-wrapper">
+                  <h:outputText rendered="#{not empty loginBean.gravatarHash}">
+                    <img src="https://www.gravatar.com/avatar/#{loginBean.gravatarHash}?d=404" style="border-radius: 10px; display: none;" onload="checkGravatarImg(this);"/>
+                  </h:outputText>
+                  <i class="si si-single-neutral-circle" style="font-size: 28px; padding: 2px;"></i>
+                </span>
+                <span id="sessionUserName" class="topbar-item-name profile-name">
+                  <span>#{loginBean.sessionUserName}</span>
+                </span>
+              </a>
+              <ul>
+                <li>
+                  <p:commandLink id="sessionLogoutBtn" actionListener="#{loginBean.logout}">
+                    <i class="si si-lg si-logout-1"></i>
+                    <span>Logout</span>
+                  </p:commandLink>
+                </li>
+                <li>
+                  <p:commandLink id="supportReport" type="button" onclick="PF('supportReportModal').show()">
+                    <i class="si si-lg si-help-wheel"></i>
+                    <span>Support Report</span>
+                  </p:commandLink>
+                </li>
+                <li>
+                  <p:link id="serverIndex" type="button" href="/">
+                    <i class="si si-lg si si-information-circle"></i>
+                    <span>Server Index</span>
+                  </p:link>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
+    
+    <ui:include src="../dialogs/licenceevents.xhtml" />
+    <ui:include src="../dialogs/supportreport.xhtml" />
+
+    <ui:insert name="live-stats" />
+    
+    <div class="layout-main">
 
       <div class="layout-content">
         <h:panelGroup layout="block" rendered="#{clusterBean.clusterServer}" 
@@ -58,8 +165,6 @@
         <ui:insert name="content" />
       </div>
 
-      <ui:insert name="sidebar" />
-
       <div class="layout-main-mask"></div>
     </div>
   </div>
@@ -68,12 +173,9 @@
 
   <ui:include src="exception.xhtml" />
 
-  <h:outputStylesheet name="resources/css/highlight-default.css" />
-  <h:outputStylesheet name="css/nanoscroller.css" library="serenity-layout" />
-  <h:outputStylesheet name="css/ripple.css" library="serenity-layout" />
-  <h:outputStylesheet name="css/layout-ivy.css" library="serenity-layout" />
-  <h:outputStylesheet name="css/cockpit.css" library="serenity-layout" />
+  <h:outputStylesheet name="css/layout-ivy-#{ivyFreyaTheme.mode}.css" library="freya-layout" />
   <h:outputStylesheet name="primeflex-2.min.css" library="primeflex" />
+  <h:outputStylesheet name="resources/css/highlight-default.css" />
   <h:outputStylesheet name="resources/css/engine-cockpit.css" />
 </h:body>
 

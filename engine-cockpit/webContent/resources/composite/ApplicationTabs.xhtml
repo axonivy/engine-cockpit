@@ -5,39 +5,27 @@
   <cc:attribute name="tabChange"
     shortDescription="TableRowSelected will be invoked on the callback when a person is selected."
     method-signature="void handleEvent()" required="true" />
+  <cc:attribute name="update" default="" />
 </cc:interface>
 <cc:implementation>
-  <div class="ui-fluid">
-    <div class="ui-g">
-      <div class="ui-g-12">
-        <p:tabView id="applicationTabView" styleClass="card card-w-title tab-view-card" dynamic="true"
-          value="#{managerBean.applications}" activeIndex="#{managerBean.selectedApplicationIndex}" var="app"
-          rendered="#{not empty managerBean.applications}">
-          <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
-          <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this" />
-          <p:tab title="#{app.name}" titleStyleClass="application-tab">
-            <f:facet name="title">
-              <i class="si si-module" />
-              <h:outputText value="#{app.name}" />
-            </f:facet>
-            <cc:insertChildren />
-          </p:tab>
-        </p:tabView>
-        <h:panelGroup rendered="#{empty managerBean.applications}">
-          <div class="card card-w-title">
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-8">
-                <h:outputText value="You don't have any applications configured." />
-              </div>
-              <div class="ui-g-12 ui-md-4">
-                <p:button icon="si si-add" value="Create Application" outcome="applications" />
-              </div>
-            </div>
-          </div>
-        </h:panelGroup>
-      </div>
-    </div>
-  </div>
+  <p:tabView id="applicationTabView" styleClass="tab-view-card" dynamic="true"
+    value="#{managerBean.applications}" activeIndex="#{managerBean.selectedApplicationIndex}" var="app"
+    rendered="#{not empty managerBean.applications}">
+    <p:ajax event="tabChange" listener="#{managerBean.updateSelectedApplication}" />
+    <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this #{cc.attrs.update}" />
+    <p:tab title="#{app.name}" titleStyleClass="application-tab">
+      <f:facet name="title">
+        <i class="si si-module p-mr-1" />
+        <h:outputText value="#{app.name}" />
+      </f:facet>
+      <cc:insertChildren />
+    </p:tab>
+  </p:tabView>
+  <h:panelGroup rendered="#{empty managerBean.applications}" layout="block" 
+    styleClass="p-d-flex p-ai-center">
+    <h:outputText value="You don't have any applications configured." />
+    <p:linkButton styleClass="p-ml-3" icon="si si-add" value="Create Application" href="applications.xhtml" />
+  </h:panelGroup>
 </cc:implementation>
 
 </html>

@@ -64,7 +64,7 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void securitySystemDetail() {
-    $$(".ui-panel").shouldHave(size(4));
+    $$(".card").shouldHave(size(4));
   }
 
   @Test

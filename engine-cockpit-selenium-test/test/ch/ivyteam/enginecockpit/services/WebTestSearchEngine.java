@@ -44,7 +44,7 @@ public class WebTestSearchEngine {
 
   @Test
   public void testElasticSearchInfo() {
-    $$(".ui-panel").shouldHave(size(2));
+    $$(".card").shouldHave(size(2));
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
     $("#searchEngineInfoForm\\:version").shouldBe(exactText("7.17.1"));

@@ -25,7 +25,7 @@ public class WebTestMemory {
 
   @Test
   void memoryPageContent() {
-    $$(".ui-panel").shouldHave(size(3));
+    $$(".card").shouldHave(size(3));
   }
 
   @Test

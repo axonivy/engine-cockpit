@@ -13,7 +13,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.TabChangeEvent;
 
@@ -43,7 +42,6 @@ public class ManagerBean {
   private Map<Long, List<String>> environments = new HashMap<>();
   private String selectedEnvironment;
 
-  private boolean hideDashboadWarnings;
   private Locale formattingLocale;
 
   private IApplicationConfigurationManager manager = IApplicationConfigurationManager.instance();
@@ -52,7 +50,6 @@ public class ManagerBean {
   public ManagerBean() {
     reloadSecuritySystems();
     reloadApplications();
-    hideDashboadWarnings = BooleanUtils.toBoolean(System.getProperty("hide.dashboard.warnings"));
     var session = ISession.current();
     formattingLocale = Locale.ENGLISH;
     if (session != null) {
@@ -256,10 +253,6 @@ public class ManagerBean {
 
   public IEnvironment getSelectedIEnvironment() {
     return getSelectedIApplication().findEnvironment(getSelectedEnvironment());
-  }
-
-  public boolean hideDashboardWarnings() {
-    return hideDashboadWarnings;
   }
 
   public boolean isRestartEngine() {

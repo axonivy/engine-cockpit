@@ -8,67 +8,50 @@
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
+  
+    <ui:define name="head">
+      <h:outputStylesheet name="resources/codemirror/css/dark.css" />
+    </ui:define>
 
     <ui:define name="breadcrumb">
-      <li>System</li>
+      <li><span>System</span></li>
       <li>/</li>
       <li><a href="systemconfig.xhtml">System Configuration</a></li>
     </ui:define>
-
-    <ui:define name="breadcrumb-right">
-      <a href="logs.xhtml?log=config.log" title="Show configuration log">
-        <i class="si si-lg si-common-file-text"></i>
-      </a>
-      <a href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-configuration" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    
+    <ui:define name="topbar-items">
+      <cc:TopBarItem styleClass="log-link" href="logs.xhtml?log=config.log" icon="si-common-file-text" title="Show configuration log" external="false" />
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}system.html#system-configuration" />
     </ui:define>
 
     <ui:define name="content">
-      <div class="ui-fluid">
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <div class="card card-w-title">
-              <div class="ui-g">
-                <div class="ui-g-12 ui-md-8">
-                  <h1>
-                    <i class="si si-cog card-title-icon"></i>
-                    <span>System Configuration</span>
-                  </h1>
-                </div>
-                <div class="ui-g-12 ui-md-4" style="margin: auto;">
-                  <div class="single-card-top-right-btn" style="margin: 0 0 5px 5px;">
-                    <p:commandButton id="newConfigBtn" value="New" icon="si si-add"
-                      actionListener="#{systemConfigBean.configView.setActiveConfig(null)}"
-                      update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
-                  </div>
-                  <div style="float: right; position: relative;">
-                    <cc:TableFilter bean="#{systemConfigBean.configView}"
-                      update="contentFilter:form, config:form" id="contentFilter" />
-                  </div>
-                </div>
-              </div>
-              <cc:Configuration bean="#{systemConfigBean.configView}" id="config" />
-            </div>
-
-            <script>
-              $(document).ready(function () {
-                try {
-                  var url = new URL(window.location.href)
-                  if (url.searchParams.get("filter") != null) {
-                    console.log("filter" + url.searchParams.get("filter"));
-                    PF('configTable').filter();
-                  }
-                }
-                catch (err) {
-                  console.log("Failed to init startup filter: " + err);
-                }
-              });
-            </script>
-          </div>
+      <div class="card">
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-cog card-title-icon"></i>
+          <h2 class="p-m-0">System Configuration</h2>
+          <p:commandButton styleClass="p-ml-auto" id="newConfigBtn" value="New" icon="si si-add"
+            actionListener="#{systemConfigBean.configView.setActiveConfig(null)}"
+            update="config:newConfigurationModal" oncomplete="PF('newConfigurationModal').show();" />
         </div>
+        <cc:Configuration id="config" bean="#{systemConfigBean.configView}" />
+        <cc:TableFilter id="contentFilter" bean="#{systemConfigBean.configView}" 
+          for="config:form:configTable:filterBtn" update="config:form contentFilter:filterPanel" />
       </div>
+
+      <script>
+        $(document).ready(function () {
+          try {
+            var url = new URL(window.location.href)
+            if (url.searchParams.get("filter") != null) {
+              console.log("filter" + url.searchParams.get("filter"));
+              PF('configTable').filter();
+            }
+          }
+          catch (err) {
+            console.log("Failed to init startup filter: " + err);
+          }
+        });
+      </script>
     </ui:define>
   </ui:composition>
 </h:body>

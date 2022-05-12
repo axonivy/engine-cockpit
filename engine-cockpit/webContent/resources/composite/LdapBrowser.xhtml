@@ -10,7 +10,7 @@
 
 <cc:implementation>
   <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true"
-    width="700" height="400">
+    width="70%" height="400">
     <h:form id="ldapBrowserForm" styleClass="ldap-browser">
       <p:messages id="ldapBrowserMessage" for="ldapBrowserMessage" showDetail="true">
         <p:autoUpdate />
@@ -38,10 +38,10 @@
       </div>
     </h:form>
     <f:facet name="footer">
-      <p:commandLink id="cancelLdapBrowser" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
-        styleClass="secondary-btn modal-input-button" />
+      <p:commandButton id="cancelLdapBrowser" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose"
-        icon="si si-check-1" styleClass="primary-btn modal-input-button" update="#{cc.attrs.updateFields}"
+        icon="si si-check-1" styleClass="modal-input-button" update="#{cc.attrs.updateFields}"
         onclick="PF('ldapBrowserDialog').hide();" disabled="#{cc.attrs.ldapBrowser.tree == null}" />
     </f:facet>
   </p:dialog>

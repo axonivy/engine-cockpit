@@ -36,10 +36,10 @@ public class WebTestApplication {
 
   @Test
   void testApplications() {
-    $("h1").shouldHave(text("Applications"));
+    $("h2").shouldHave(text("Applications"));
     Table table = new Table(By.className("ui-treetable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
-    $(".table-search-input-withicon").sendKeys("eSt-A");
+    table.search("eSt-A");
     table.firstColumnShouldBe(size(1));
   }
 
@@ -47,8 +47,8 @@ public class WebTestApplication {
   void testInvalidInputNewApplication() {
     openNewApplicationModal();
 
-    $("#card\\:newApplicationForm\\:saveNewApplication").click();
-    $("#card\\:newApplicationForm\\:newApplicationNameMessage").shouldBe(visible);
+    $("#newApplicationForm\\:saveNewApplication").click();
+    $("#newApplicationForm\\:newApplicationNameMessage").shouldBe(visible);
   }
 
   @Test
@@ -57,7 +57,7 @@ public class WebTestApplication {
     addNewApplication();
     $$(".activity-name").shouldBe(size(appCount + 1));
     addNewApplication();
-    $("#card\\:form\\:applicationMessage_container .ui-growl-message")
+    $("#form\\:applicationMessage_container .ui-growl-message")
             .shouldHave(text("Application with name '" + NEW_TEST_APP + "' already exists"));
 
     By newApp = getNewAppId();
@@ -84,7 +84,7 @@ public class WebTestApplication {
     table.firstColumnShouldBe(sizeLessThanOrEqual(3));
     expandAppTree();
     table.firstColumnShouldBe(sizeGreaterThan(3));
-    $("#card\\:form\\:collapseAll").shouldBe(visible).click();
+    $("#form\\:tree\\:collapseAll").shouldBe(visible).click();
     table.firstColumnShouldBe(sizeLessThanOrEqual(3));
   }
 
@@ -127,7 +127,7 @@ public class WebTestApplication {
   }
 
   private void expandAppTree() {
-    $("#card\\:form\\:expandAll").shouldBe(visible).click();
+    $("#form\\:tree\\:expandAll").shouldBe(visible).click();
   }
 
   private void stopAppInsideDetailView() {
@@ -165,28 +165,28 @@ public class WebTestApplication {
     $(activityMenu).shouldBe(visible);
 
     $(activityMenu).findAll("li").find(text("Delete")).click();
-    $("#card\\:form\\:deleteConfirmDialog").shouldBe(visible);
+    $("#form\\:deleteConfirmDialog").shouldBe(visible);
 
-    $("#card\\:form\\:deleteConfirmYesBtn").click();
-    $("#card\\:form\\:applicationMessage_container").shouldBe(visible);
+    $("#form\\:deleteConfirmYesBtn").click();
+    $("#form\\:applicationMessage_container").shouldBe(visible);
   }
 
   private void addNewApplication() {
     openNewApplicationModal();
 
-    $("#card\\:newApplicationForm\\:newApplicationNameInput").clear();
-    $("#card\\:newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
-    $("#card\\:newApplicationForm\\:newApplicationDescInput").sendKeys("test description");
-    PrimeUi.selectBooleanCheckbox(By.id("card:newApplicationForm:newApplicationActivate")).removeChecked();
+    $("#newApplicationForm\\:newApplicationNameInput").clear();
+    $("#newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
+    $("#newApplicationForm\\:newApplicationDescInput").sendKeys("test description");
+    PrimeUi.selectBooleanCheckbox(By.id("newApplicationForm:newApplicationActivate")).removeChecked();
 
-    $("#card\\:newApplicationForm\\:saveNewApplication").click();
+    $("#newApplicationForm\\:saveNewApplication").click();
 
     $$(".activity-name").find(text(NEW_TEST_APP)).shouldBe(visible);
   }
 
   private void openNewApplicationModal() {
-    $("#card\\:form\\:createApplicationBtn").click();
-    $("#card\\:newApplicationModal").shouldBe(visible);
+    $("#form\\:createApplicationBtn").click();
+    $("#newApplicationModal").shouldBe(visible);
   }
 
   private By getNewAppId() {

@@ -3,37 +3,43 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-information-circle table-icon panel-title-icon"></i>
-  <h:outputText value="Application information" />
-</f:facet>
-<h:form id="appDetailInfoForm">
-  <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
-    <p:autoUpdate />
-  </p:growl>
-  <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}"
-    title="Save changes" icon="si si-floppy-disk" styleClass="accent-btn card-button" update="appDetailInfoForm" />
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-    styleClass="ui-panelgrid-blank grey-label-panel">
-    <label>Name</label>
-    <h:outputText value="#{applicationDetailBean.application.name}" />
-    <label>Description</label>
-    <h:outputText value="#{applicationDetailBean.application.desc}" />
-    <label>File Directory</label>
-    <h:outputText value="#{applicationDetailBean.application.fileDir}" />
-    <label>Owner</label>
-    <h:outputText value="#{applicationDetailBean.application.owner}" />
-    <p:outputLabel for="activeEnvironmentSelect" value="Active Environment" title="Deprecated" style="text-decoration: line-through;" />
-    <p:selectOneMenu id="activeEnvironmentSelect" value="#{applicationDetailBean.application.activeEnv}">
-      <f:selectItems value="#{applicationDetailBean.environments}" />
-    </p:selectOneMenu>
-  </p:panelGrid>
-  <p:panelGrid columns="1" columnClasses="ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank">
-    <p:commandButton id="showDeployment" title="Deployment" value="Deployment"
-      style="margin-top: 20px; min-width: 150px;" type="button" icon="si si-upload-bottom"
-      onclick="PF('fileUploadModal').show()" />
-  </p:panelGrid>
-</h:form>
+<div class="card">
+  <h:form id="appDetailInfoForm">
+    <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-information-circle"></i>
+        <h6 class="p-m-0">Application information</h6>
+        <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}"
+          title="Save changes" icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" update="appDetailInfoForm" />
+      </div>
+    </div>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+      <label>Name</label>
+      <h:outputText value="#{applicationDetailBean.application.name}" />
+      <label>Description</label>
+      <h:outputText value="#{applicationDetailBean.application.desc}" />
+      <label>File Directory</label>
+      <h:outputText value="#{applicationDetailBean.application.fileDir}" />
+      <label>Owner</label>
+      <h:outputText value="#{applicationDetailBean.application.owner}" />
+      <p:outputLabel for="activeEnvironmentSelect" value="Active Environment" title="Deprecated" style="text-decoration: line-through;" />
+      <p:selectOneMenu id="activeEnvironmentSelect" value="#{applicationDetailBean.application.activeEnv}">
+        <f:selectItems value="#{applicationDetailBean.environments}" />
+      </p:selectOneMenu>
+    </p:panelGrid>
+    <p:panelGrid columns="1" layout="flex">
+      <p:commandButton id="showDeployment" title="Deployment" value="Deployment"
+        style="margin-top: 20px; min-width: 150px;" type="button" icon="si si-upload-bottom"
+        onclick="PF('fileUploadModal').show()" />
+    </p:panelGrid>
+  </h:form>
+</div>
+
 <h:panelGroup id="deployPanel">
   <ui:include src="../../dialogs/deployment.xhtml">
     <ui:param name="appName" value="#{applicationDetailBean.application.name}" />

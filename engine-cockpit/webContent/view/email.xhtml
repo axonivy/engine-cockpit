@@ -6,43 +6,38 @@
   <ui:composition template="../includes/template/charts-template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Services</li>
+      <li><span>Services</span></li>
       <li>/</li>
       <li><a href="email.xhtml">Email</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}services.html#email" target="_blank" rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}services.html#email" />
     </ui:define>
 
     <ui:define name="content">
-      <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
-        <p:autoUpdate />
-      </p:growl>
-      <cc:SecuritySystemTabs tabChange="#{securitySystemEmailBean.reloadEmailSettings}" id="tabs">
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-12">
-            <h1>
-              <i class="si si-email-action-unread card-title-icon"></i>Email
-            </h1>
-          </div>
+      <div class="card">
+        <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
+          <p:autoUpdate />
+        </p:growl>
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-email-action-unread card-title-icon"></i>
+          <h2 class="p-m-0">Email</h2>
         </div>
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-12 ui-lg-6">
-            <h:form id="form">
-              <cc:EmailSettings emailSettings="#{securitySystemEmailBean.emailSettings}"
-                supportedLanguages="#{managerBean.supportedLanguages}" id="emailSetting" />
+        <cc:SecuritySystemTabs tabChange="#{securitySystemEmailBean.reloadEmailSettings}" id="tabs">
+          <h:form id="form">
+            <cc:EmailSettings emailSettings="#{securitySystemEmailBean.emailSettings}"
+              supportedLanguages="#{managerBean.supportedLanguages}" id="emailSetting" />
+            <div class="p-d-flex p-jc-end">
               <p:commandButton actionListener="#{securitySystemEmailBean.saveEmailSettings}" value="Save"
-                icon="si si-floppy-disk" style="width: auto; float: right;" id="saveEmailSettings" />
-            </h:form>
-          </div>
-        </div>
-      </cc:SecuritySystemTabs>
+                icon="si si-floppy-disk" id="saveEmailSettings" />
+            </div>
+          </h:form>
+        </cc:SecuritySystemTabs>
+      </div>
     </ui:define>
 
-    <ui:define name="sidebar">
+    <ui:define name="live-stats">
       <cc:Sidebar>
         <cc:LiveStats monitor="#{mailClientMonitorBean.sentMonitor}" id="mailsSent" />
         <cc:LiveStats monitor="#{mailClientMonitorBean.executionTimeMonitor}" id="mailsExecutionTime" />

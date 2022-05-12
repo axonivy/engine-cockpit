@@ -25,7 +25,7 @@ public class WebTestOs {
 
   @Test
   void osPageContent() {
-    $$(".ui-panel").shouldHave(size(4));
+    $$(".card").shouldHave(size(4));
   }
 
   @Test

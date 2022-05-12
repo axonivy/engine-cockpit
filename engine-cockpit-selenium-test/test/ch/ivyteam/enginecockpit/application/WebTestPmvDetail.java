@@ -36,10 +36,10 @@ public class WebTestPmvDetail {
 
   @Test
   void pmvDetailContent() {
-    $$(".ui-panel").shouldHave(size(5));
+    $$(".card").shouldHave(size(5));
 
-    $("#info_content").shouldHave(text(PMV), text("ch.ivyteam.ivy.project.portal:portalTemplate"));
-    $("#activity_content").findAll(".activity-state-active").shouldBe(size(2));
+    $(".card", 0).shouldHave(text(PMV), text("ch.ivyteam.ivy.project.portal:portalTemplate"));
+    $(".card", 1).findAll(".activity-state-active").shouldBe(size(2));
   }
 
   @Test
@@ -55,8 +55,8 @@ public class WebTestPmvDetail {
   }
 
   private void deactivatePortalKit() {
-    $(By.id("card:form:expandAll")).shouldBe(visible).click();
-    var portalKitVersionId = "card:form:tree:" + $$(".activity-name").find(exactText("PortalKit$1")).parent()
+    $(By.id("form:tree:expandAll")).shouldBe(visible).click();
+    var portalKitVersionId = "form:tree:" + $$(".activity-name").find(exactText("PortalKit$1")).parent()
             .parent().parent().shouldBe(visible).attr("data-rk");
     $(By.id(portalKitVersionId + ":deactivateButton")).shouldBe(visible).click();
   }

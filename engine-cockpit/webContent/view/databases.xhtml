@@ -6,65 +6,55 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Services</li>
+      <li><span>Services</span></li>
       <li>/</li>
       <li><a href="databases.xhtml">Databases</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a href="#{advisorBean.cockpitEngineGuideUrl}services.html#databases" target="_blank"
-        rel="noopener noreferrer">
-        <i class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}services.html#databases" />
     </ui:define>
 
     <ui:define name="content">
-      <p:growl id="msgs" />
-      <cc:ApplicationTabs tabChange="#{databaseBean.reloadDatabases}" id="tabs">
-        <h:form id="form">
-          <div class="ui-g">
-            <div class="ui-g-12 ui-md-7 ui-lg-9">
-              <h1>
-                <i class="si si-database card-title-icon"></i>Databases
-              </h1>
-            </div>
-            <div class="ui-g-12 ui-md-5 ui-lg-3" style="margin: auto;">
-              <cc:EnvironmentSelect environmentChange="#{databaseBean.reloadDatabases}" />
-            </div>
-          </div>
-          <p:dataTable paginator="true" rows="20" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
-            paginatorAlwaysVisible="false" emptyMessage="No Databases found on deployed apps"
-            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            var="database" value="#{databaseBean.databases}"
-            widgetVar="databasesTable_#{app.id}"
-            filteredValue="#{databaseBean.filteredDatabases}" lazy="false" id="databasesTable">
-            <f:facet name="header">
-              <p:outputPanel>
-                <p:outputLabel styleClass="table-search-icon">
-                  <i class="si si-search"></i>
-                </p:outputLabel>
-                <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-                  onkeyup="PF('databasesTable_#{app.id}').filter()" placeholder="Search"
-                  value="#{databaseBean.filter}" />
-              </p:outputPanel>
-            </f:facet>
-            <p:column headerText="Name" sortBy="#{database.name}" filterBy="#{database.name}"
-              styleClass="database-name-column">
-              <a href="databasedetail.xhtml?databaseName=#{database.name}">
-                <h:outputText value="#{database.name}" styleClass="database-name">
-                  <i class="si si-database table-icon"></i>
-                </h:outputText>
-              </a>
-            </p:column>
-            <p:column headerText="Url" sortBy="#{database.url}" filterBy="#{database.url}">
-              <h:outputText value="#{database.url}" styleClass="database-url" />
-            </p:column>
-            <p:column headerText="Driver" sortBy="#{database.driver}" filterBy="#{database.driver}">
-              <h:outputText value="#{database.driver}" styleClass="database-driver" />
-            </p:column>
-          </p:dataTable>
-        </h:form>
-      </cc:ApplicationTabs>
+      <div class="card">
+        <p:growl id="msgs" />
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-database card-title-icon"></i>
+          <h2 class="p-m-0">Databases</h2>
+          <cc:EnvironmentSelect id="envs" environmentChange="#{databaseBean.reloadDatabases}" update="tabs:applicationTabView" 
+            styleClass="p-ml-auto" />
+        </div>
+        <cc:ApplicationTabs tabChange="#{databaseBean.reloadDatabases}" id="tabs" update="envs:envSwitchForm">
+          <h:form id="form">
+            <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" 
+              emptyMessage="No Databases found on deployed apps" var="database" value="#{databaseBean.databases}"
+              widgetVar="databasesTable_#{app.id}" styleClass="ui-fluid"
+              filteredValue="#{databaseBean.filteredDatabases}" lazy="false" id="databasesTable">
+              <f:facet name="header">
+                <div class="ui-input-icon-left filter-container">
+                  <i class="pi pi-search"/>
+                  <p:inputText id="globalFilter" onkeyup="PF('databasesTable_#{app.id}').filter()" placeholder="Search" value="#{databaseBean.filter}" />
+                </div>
+              </f:facet>
+              
+              <p:column headerText="Name" sortBy="#{database.name}" filterBy="#{database.name}"
+                styleClass="database-name-column">
+                <a href="databasedetail.xhtml?databaseName=#{database.name}">
+                  <h:outputText value="#{database.name}" styleClass="database-name">
+                    <i class="si si-database table-icon"></i>
+                  </h:outputText>
+                </a>
+              </p:column>
+              <p:column headerText="Url" sortBy="#{database.url}" filterBy="#{database.url}">
+                <h:outputText value="#{database.url}" styleClass="database-url" />
+              </p:column>
+              <p:column headerText="Driver" sortBy="#{database.driver}" filterBy="#{database.driver}">
+                <h:outputText value="#{database.driver}" styleClass="database-driver" />
+              </p:column>
+            </p:dataTable>
+          </h:form>
+        </cc:ApplicationTabs>
+      </div>
     </ui:define>
   </ui:composition>
 </h:body>

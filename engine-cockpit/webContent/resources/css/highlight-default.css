@@ -8,18 +8,18 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #f0f0f0;
+  background: var(--surface-b, #f0f0f0);
 }
 
 /* Base color: saturation 0; */
 
 .hljs,
 .hljs-subst {
-  color: #444;
+  color: var(--text-color, #444);
 }
 
 .hljs-comment {
-  color: #888888;
+  color: var(--text-color-secondary, #888888);
 }
 
 .hljs-keyword,
@@ -41,7 +41,7 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 .hljs-quote,
 .hljs-template-tag,
 .hljs-deletion {
-  color: #880000;
+  color: var(--primary-color, #880000);
 }
 
 .hljs-title,

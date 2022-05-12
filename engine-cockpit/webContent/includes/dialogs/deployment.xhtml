@@ -4,8 +4,8 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <cc:FileUpload title="Deploy to App '#{appName}'" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
-  <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-    styleClass="ui-panelgrid-blank grey-label-panel" style="min-width: 400px; display: none;">
+  <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="p-col-4, p-col-8" layout="flex"
+    styleClass="grey-label-panel" style="min-width: 400px; display: none;">
     <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
     <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">
       <f:selectItems value="#{deployOptionsBean.deployTestUsersValues}" />
@@ -17,8 +17,8 @@
       <f:selectItems value="#{deployOptionsBean.versions}" />
     </p:selectOneMenu>
 
-    <p:outputLabel value="Version Range" for="versionRange" id="versionRangeLabel" />
-    <p:inputText placeholder="e.g. 2.5 or (2.0,3.0]" widgetVar="versionRange" id="versionRange" />
+    <p:outputLabel value="Version Range" for="versionRange" id="versionRangeLabel" styleClass="version-range-label" />
+    <p:inputText placeholder="e.g. 2.5 or (2.0,3.0]" id="versionRange" styleClass="version-range" />
 
     <p:outputLabel value="State" for="state" />
     <p:selectOneMenu value="#{deployOptionsBean.state}" widgetVar="state" id="state">
@@ -31,12 +31,10 @@
     </p:selectOneMenu>
   </p:panelGrid>
   <p:commandButton id="showDeployOptionsBtn" value="Options" icon="si si-view-1"
-    styleClass="secondary-btn modal-input-button" type="button" onclick="visualToggle()"
-    style="float: left; width: 25%;" />
-  <a href="#{advisorBean.engineGuideBaseUrl}/deployment/advanced/index.html#deployment-options" target="_blank"
-    rel="noopener noreferrer" style="float: left; padding-top: 2px; margin-left: 10px; display: none;">
-    <i class="si si-xl si-question-circle"></i>
-  </a>
+    styleClass="ui-button-secondary ui-button-outlined modal-input-button" type="button" onclick="visualToggle()"
+    style="float: left; width: 25%; margin: 0;" />
+  <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/deployment/advanced/index.html#deployment-options" target="_blank" rel="noopener noreferrer" 
+    styleClass="ui-button-secondary ui-button-flat rounded-button" style="float: left; padding-top: 2px; margin-left: 10px; display: none;" icon="si si-question-circle" />
   <script>
     $(document).ready(function () {
       versionSelectChange();
@@ -44,23 +42,23 @@
 
     function versionSelectChange() {
       if (PF('version').input.val() == 'RANGE') {
-        PF('versionRange').jq.parent().parent().fadeIn();
+        $('.version-range').parent().fadeIn();
+        $('.version-range-label').parent().fadeIn();
       }
       else {
-        PF('versionRange').jq.parent().parent().fadeOut();
+        $('.version-range').parent().fadeOut();
+        $('.version-range-label').parent().fadeOut();
       }
     }
 
     function visualToggle() {
       $('#deploymentModal\\:deployOptionsPanel').toggle();
-      $('.file-upload > a').toggle();
-      disabled = optionsHidden();
-      $('#deploymentModal\\:showDeployOptionsBtn').toggleClass("primary-btn", disabled);
-      $('#deploymentModal\\:showDeployOptionsBtn').toggleClass("secondary-btn", disabled);
+      $('.file-upload > .ui-linkbutton').toggle();
+      $('#deploymentModal\\:showDeployOptionsBtn').toggleClass("ui-button-outlined");
     }
-
+    
     function optionsHidden() {
-      return $('#deploymentModal\\:deployOptionsPanel').css("display") == "none"
+      return $('#deploymentModal\\:deployOptionsPanel').css('display') == 'none';
     }
 
     function addDeployOptions(form_data) {

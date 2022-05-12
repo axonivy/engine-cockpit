@@ -39,13 +39,12 @@ class WebTestManyRoles {
 
   @Test
   void manyRolesLoadLimit() {
-    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").shouldBe(size(102));
-    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").last()
-            .shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
+    var treeNodes = Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treetable-data tr";
+    $$(treeNodes).shouldBe(size(102));
+    $$(treeNodes).last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
     $(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-inputfield").sendKeys("role-");
-    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").shouldBe(size(101));
-    $$(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treenode-content").last()
-            .shouldHave(text("The current search has more than 100 results."));
+    $$(treeNodes).shouldBe(size(101));
+    $$(treeNodes).last().shouldHave(text("The current search has more than 100 results."));
   }
 
   @Test
@@ -54,7 +53,7 @@ class WebTestManyRoles {
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").shouldBe(size(101));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last()
             .shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
-    $("#rolesOfUserForm .table-search-input-withicon").sendKeys("role-");
+    $("#rolesOfUserForm\\:rolesTree\\:globalFilter").sendKeys("role-");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(101));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last()
             .shouldHave(text("The current search has more than 100 results."));

@@ -3,67 +3,65 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-cog table-icon panel-title-icon"></i>
-  <h:outputText value="Properties" />
-</f:facet>
-<h:form id="propertiesForm">
-  <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
-  <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-    actionListener="#{memberProperty.setProperty(null)}" update="propertyModalForm:propertyModal" title="Add"
-    icon="si si-add" styleClass="secondary-btn card-button" />
-
-  <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
-    paginatorAlwaysVisible="false"
-    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-    var="property" value="#{memberProperty.properties}" widgetVar="propertiesTable" id="propertiesTable"
-    filteredValue="#{memberProperty.filteredPropteries}" lazy="false" styleClass="propertiesTable"
-    style="padding-top: 10px;">
-    <f:facet name="header">
-      <p:outputPanel>
-        <p:outputLabel styleClass="table-search-icon">
-          <i class="si si-search"></i>
+<div class="card">
+  <h:form id="propertiesForm">
+    <p:growl for="propertiesMessage" id="propertiesMessage" showDetail="true" />
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-cog"></i>
+        <h6 class="p-m-0">Properties</h6>
+        <p:commandButton id="newPropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
+          actionListener="#{memberProperty.setProperty(null)}" update="propertyModalForm:propertyModal" title="Add"
+          icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
+      </div>
+    </div>
+    
+    <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+      var="property" value="#{memberProperty.properties}" widgetVar="propertiesTable" id="propertiesTable"
+      filteredValue="#{memberProperty.filteredPropteries}" lazy="false" styleClass="propertiesTable ui-fluid">
+      <f:facet name="header">
+        <div class="ui-input-icon-left filter-container">
+          <i class="pi pi-search"/>
+          <p:inputText id="globalFilter" onkeyup="PF('propertiesTable').filter()" placeholder="Search" value="#{memberProperty.filter}" />
+        </div>
+      </f:facet>
+      
+      <p:column headerText="Name" filterBy="#{property.key}" sortBy="#{property.value}">
+        <h:outputText value="#{property.key}" styleClass="property-name">
+          <i class="si si-cog table-icon"></i>
+        </h:outputText>
+      </p:column>
+  
+      <p:column headerText="Value" filterBy="#{property.value}">
+        <h:outputText value="#{property.value}" title="#{property.value}" styleClass="table-cell-autocut">
+          <h:panelGroup rendered="#{property.managed}">
+            <i class="si si-button-refresh-arrows table-icon"
+              title="Property is managed by the external security system"></i>
+          </h:panelGroup>
+        </h:outputText>
+      </p:column>
+  
+      <p:column styleClass="table-btn-2">
+        <p:outputLabel>
+          <p:commandButton id="editPropertyBtn" actionListener="#{memberProperty.setProperty(property)}"
+            icon="si si-pencil" title="Edit" update="propertyModalForm:propertyModal" disabled="#{property.managed}"
+            styleClass="ui-button-secondary rounded-button" oncomplete="PF('propertyModal').show();"
+            process="@this" />
+          <p:commandButton id="deletePropertyBtn" type="button" icon="si si-bin-1" title="Delete"
+            disabled="#{property.managed}" styleClass="p-ml-1 ui-button-danger rounded-button">
+            <p:ajax listener="#{memberProperty.removeProperty(property.key)}" update="@form" />
+          </p:commandButton>
         </p:outputLabel>
-        <p:inputText styleClass="table-search-input-withicon" id="globalFilter" onkeyup="PF('propertiesTable').filter()"
-          placeholder="Search" value="#{memberProperty.filter}" />
-      </p:outputPanel>
-    </f:facet>
-    <p:column headerText="Name" filterBy="#{property.key}" sortBy="#{property.value}">
-      <h:outputText value="#{property.key}" styleClass="property-name">
-        <i class="si si-cog table-icon"></i>
-      </h:outputText>
-    </p:column>
-
-    <p:column headerText="Value" filterBy="#{property.value}">
-      <h:outputText value="#{property.value}" title="#{property.value}" styleClass="table-cell-autocut">
-        <h:panelGroup rendered="#{property.managed}">
-          <i class="si si-button-refresh-arrows table-icon"
-            title="Property is managed by the external security system"></i>
-        </h:panelGroup>
-      </h:outputText>
-    </p:column>
-
-    <p:column style="width: 95px;">
-      <p:outputLabel>
-        <p:commandButton id="deletePropertyBtn" type="button" icon="si si-bin-1" title="Delete"
-          disabled="#{property.managed}" styleClass="card-button table-control-btn red-btn" style="margin: 0;">
-          <p:ajax listener="#{memberProperty.removeProperty(property.key)}" update="@form" />
-        </p:commandButton>
-        <p:commandButton id="editPropertyBtn" actionListener="#{memberProperty.setProperty(property)}"
-          icon="si si-pencil" title="Edit" update="propertyModalForm:propertyModal" disabled="#{property.managed}"
-          styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('propertyModal').show();"
-          process="@this" />
-      </p:outputLabel>
-    </p:column>
-  </p:dataTable>
-</h:form>
+      </p:column>
+    </p:dataTable>
+  </h:form>
+</div>
 
 <h:form id="propertyModalForm">
   <p:dialog width="auto" header="Property" id="propertyModal" widgetVar="propertyModal" modal="true" responsive="true"
     closeOnEscape="true">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-      <label>Name</label>
+    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="propertyNameInput" value="Name" />
       <h:panelGroup styleClass="md-inputfield" rendered="#{empty memberProperty.property.key}">
         <p:inputText id="propertyNameInput" requiredMessage="Value is required" value="#{memberProperty.property.key}"
           required="true" />
@@ -72,7 +70,7 @@
       <h:outputText id="propertyName" rendered="#{not empty memberProperty.property.key}"
         value="#{memberProperty.property.key}" />
 
-      <label>Value</label>
+      <p:outputLabel for="propertyValueInput" value="Value" />
       <h:panelGroup styleClass="md-inputfield">
         <p:inputTextarea id="propertyValueInput" requiredMessage="Value is required" rows="5" cols="100"
           autoResize="false" value="#{memberProperty.property.value}" required="true" />
@@ -80,8 +78,8 @@
       </h:panelGroup>
     </p:panelGrid>
     <f:facet name="footer">
-      <p:commandLink id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
-        styleClass="secondary-btn modal-input-button" />
+      <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="saveProperty" validateClient="true" ajax="false" update=":propertiesForm"
         actionListener="#{memberProperty.saveProperty}" value="Save" icon="si si-floppy-disk"
         styleClass="modal-input-button" />

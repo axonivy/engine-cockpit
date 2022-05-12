@@ -3,28 +3,28 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog style="min-width: 400px;" header="Add new application" id="newApplicationModal"
+<p:dialog header="Add new application" id="newApplicationModal"
   widgetVar="newApplicationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="newApplicationForm">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-      <label>Name</label>
+    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
+      styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="newApplicationNameInput" value="Name" />
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="newApplicationNameInput" requiredMessage="Value is required"
           value="#{applicationBean.newApplication.name}" required="true" />
         <p:message for="newApplicationNameInput" id="newApplicationNameMessage" />
       </h:panelGroup>
-      <label>Description</label>
+      <p:outputLabel for="newApplicationDescInput" value="Description" />
       <p:inputText id="newApplicationDescInput" value="#{applicationBean.newApplication.desc}" />
 
-      <label>Activate</label>
+      <p:outputLabel for="newApplicationActivate" value="Activate" />
       <p:selectBooleanCheckbox id="newApplicationActivate" value="#{applicationBean.activateNewApp}" />
     </p:panelGrid>
     <p:commandButton id="saveNewApplication" validateClient="true" ajax="false"
       actionListener="#{applicationBean.createNewApplication}" value="Save" icon="si si-floppy-disk"
       styleClass="modal-input-button" />
-    <p:commandLink id="cancelNewApplication" onclick="PF('newApplicationModal').hide();" value="Cancel" type="button"
-      styleClass="modal-input-button" />
+    <p:commandButton id="cancelNewApplication" onclick="PF('newApplicationModal').hide();" value="Cancel" type="button"
+      styleClass="ui-button-secondary ui-button-flat modal-input-button" />
   </h:form>
 </p:dialog>
 

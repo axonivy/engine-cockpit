@@ -32,7 +32,7 @@ public class WebTestMBeans {
 
   @Test
   void mBeansContent() {
-    $$(".ui-panel").shouldHave(size(3));
+    $$(".card").shouldHave(size(3));
     mBeanNodes().shouldHave(sizeGreaterThan(5));
   }
 

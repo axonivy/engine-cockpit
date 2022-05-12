@@ -4,26 +4,31 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-<f:facet name="header">
-  <i class="si si-email-action-unread table-icon panel-title-icon"></i>
-  <h:outputText value="Email Notification Settings" />
-</f:facet>
-<h:form id="userEmailForm">
-  <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
-    <p:autoUpdate />
-  </p:growl>
-  <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
-    title="Save changes" icon="si si-floppy-disk" styleClass="accent-btn card-button" />
-  <cc:EmailSettings emailSettings="#{userDetailBean.emailSettings}"
-    supportedLanguages="#{managerBean.supportedLanguagesWithDefault}" id="emailSettings">
-    <p:outputLabel value="Settings from" for="radioSettings" />
-    <p:selectOneRadio id="radioSettings" value="#{userDetailBean.emailSettings.selectedSettings}" layout="responsive"
-      columns="2" styleClass="email-radio-style">
-      <f:selectItem itemLabel="Application" itemValue="Application" />
-      <f:selectItem itemLabel="Specific" itemValue="Specific" />
-      <p:ajax event="click" update="@form" />
-    </p:selectOneRadio>
-  </cc:EmailSettings>
-</h:form>
+<div class="card">
+  <h:form id="userEmailForm">
+    <p:growl id="emailSaveSuccess" for="emailSaveSuccess">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-email-action-unread"></i>
+        <h6 class="p-m-0">Email Notification Settings</h6>
+        <p:commandButton id="saveEmailNotificationSettings" immediate="true" actionListener="#{userDetailBean.saveUserEmail}"
+          title="Save changes" icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" />
+      </div>
+    </div>
+    
+    <cc:EmailSettings emailSettings="#{userDetailBean.emailSettings}"
+      supportedLanguages="#{managerBean.supportedLanguagesWithDefault}" id="emailSettings">
+      <p:outputLabel value="Settings from" for="radioSettings" />
+      <p:selectOneRadio id="radioSettings" value="#{userDetailBean.emailSettings.selectedSettings}" layout="responsive"
+        columns="2" styleClass="email-radio-style">
+        <f:selectItem itemLabel="Application" itemValue="Application" />
+        <f:selectItem itemLabel="Specific" itemValue="Specific" />
+        <p:ajax event="click" update="@form" />
+      </p:selectOneRadio>
+    </cc:EmailSettings>
+  </h:form>
+</div>
 
 </html>

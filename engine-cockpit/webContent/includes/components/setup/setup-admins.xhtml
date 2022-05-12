@@ -8,9 +8,9 @@
     <p:staticMessage rendered="#{!administratorBean.stepOk}" severity="warn"
       detail="#{administratorBean.stepWarningMessage}" />
   </h:panelGroup>
-  <div class="ui-g">
+  <div class="p-d-flex">
     <p:commandButton id="newAdminBtn" actionListener="#{administratorBean.addAdmin()}" icon="si si-add" title="Edit"
-      update="admins:editAdminDialog" value="Add Administrator" styleClass="wizard-top-button primary-btn"
+      update="admins:editAdminDialog" value="Add Administrator" styleClass="wizard-top-button"
       oncomplete="PF('editAdminDialog').show();" process="@this" />
   </div>
 </h:form>

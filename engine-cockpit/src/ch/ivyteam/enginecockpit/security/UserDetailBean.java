@@ -69,7 +69,7 @@ public class UserDetailBean {
     this.user = new User(iUser);
     this.emailSettings = new EmailSettings(iUser,
             managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
-    this.securitySystemName = managerBean.getSelectedApplication().getSecuritySystemName();
+    this.securitySystemName = managerBean.getSelectedSecuritySystem().getSecuritySystemName();
     roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), false);
     startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId()
             .isEqual(iUser.getSecurityMemberId()).executor().count();

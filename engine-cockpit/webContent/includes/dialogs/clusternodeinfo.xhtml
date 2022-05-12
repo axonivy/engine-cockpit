@@ -5,9 +5,8 @@
 
 <p:dialog id="clusterNodeDialog" header="Cluster Node Detail" widgetVar="clusterNodeDialog" modal="true"
   closeOnEscape="true" width="400px">
-  <h:form id="clusterNodeForm" style="max-height: 400px; overflow-y: auto;">
-    <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-      styleClass="ui-panelgrid-blank grey-label-panel">
+  <h:form id="clusterNodeForm" style="max-height: 400px;">
+    <p:panelGrid columns="2" columnClasses="p-col-4, p-col-8" layout="flex" styleClass="grey-label-panel">
       <label>Name</label>
       <h:outputText value="#{clusterBean.activeClusterNode.name}" />
 

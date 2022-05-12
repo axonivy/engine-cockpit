@@ -3,50 +3,51 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-lock-1 table-icon panel-title-icon"></i>
-  <h:outputText value="Security System" />
-</f:facet>
-<h:form id="appDetailSecurityForm">
-  <p:commandButton id="synchronizeSecurity"
-    rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
-    title="Synchronize" type="button"
-    icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
-    styleClass="primary-btn card-button spin-icon" onclick="PF('logPoller').start()">
-    <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
-  </p:commandButton>
-  <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
-  <p:commandButton id="changeSecuritySystem" icon="si si-cog" styleClass="secondary-btn card-button"
-    onclick="PF('changeSecuritySystemModel').show()" type="button" />
-  <p:commandButton id="showAdSyncLogBtn" icon="si si-common-file-text" styleClass="secondary-btn card-button"
-    onclick="window.location.href='logs.xhtml?log=usersynch.log'" type="button"
-    rendered="#{!securityBean.ivySecurityForSelectedApp}" />
-
-  <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-    styleClass="ui-panelgrid-blank grey-label-panel">
-    <label>Name</label>
-    <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
-      <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}"
-        rendered="#{not empty applicationDetailBean.securitySystem.link}">
-        <i class="si si-lock-1 link-icon"></i>
-      </h:outputText>
-    </h:outputLink>
-    <label>Provider</label>
-    <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
-    <label>Users</label>
-    <h:outputLink value="users.xhtml">
-      <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
-        <i class="si si-single-neutral-actions link-icon"></i>
-      </h:outputText>
-    </h:outputLink>
-    <label>Roles</label>
-    <h:outputLink value="roles.xhtml">
-      <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}">
-        <i class="si si-multiple-neutral-1 link-icon"></i>
-      </h:outputText>
-    </h:outputLink>
-  </p:panelGrid>
-</h:form>
+<div class="card">
+  <h:form id="appDetailSecurityForm">
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-lock-1"></i>
+        <h6 class="p-m-0">Security System</h6>
+        <p:commandButton id="changeSecuritySystem" icon="si si-cog" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button"
+          onclick="PF('changeSecuritySystemModel').show()" type="button" />
+        <p:commandButton id="synchronizeSecurity"
+          rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
+          title="Synchronize" type="button"
+          icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
+          styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
+          <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
+        </p:commandButton>
+        <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
+        <p:linkButton id="showAdSyncLogBtn" icon="si si-common-file-text" styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button"
+          href="logs.xhtml?log=usersynch.log" rendered="#{!securityBean.ivySecurityForSelectedApp}" />
+      </div>
+    </div>
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel">
+      <label>Name</label>
+      <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
+        <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}"
+          rendered="#{not empty applicationDetailBean.securitySystem.link}">
+          <i class="si si-lock-1 link-icon"></i>
+        </h:outputText>
+      </h:outputLink>
+      <label>Provider</label>
+      <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemProvider}" />
+      <label>Users</label>
+      <h:outputLink value="users.xhtml">
+        <h:outputText value="#{applicationDetailBean.securitySystem.usersCount}">
+          <i class="si si-single-neutral-actions link-icon"></i>
+        </h:outputText>
+      </h:outputLink>
+      <label>Roles</label>
+      <h:outputLink value="roles.xhtml">
+        <h:outputText value="#{applicationDetailBean.securitySystem.rolesCount}">
+          <i class="si si-multiple-neutral-1 link-icon"></i>
+        </h:outputText>
+      </h:outputLink>
+    </p:panelGrid>
+  </h:form>
+</div>
 <ui:include src="../../dialogs/changesecuritysystem.xhtml" />
 
 </html>

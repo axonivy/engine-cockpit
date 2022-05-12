@@ -3,47 +3,52 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-multiple-neutral-1 table-icon panel-title-icon"></i>
-  <h:outputText value="Role members" />
-</f:facet>
-<h:form id="membersOfRoleForm">
-  <p:autoComplete id="addMemberDropDown" value="#{roleDetailBean.roleMemberName}" dropdown="true" forceSelection="true"
-    completeMethod="#{roleDetailBean.searchMember}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
-    placeholder="Search role to add" />
-  <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
-    icon="si si-add" title="Add" styleClass="primary-btn" />
-  <p:growl for="membersMessage">
-    <p:autoUpdate />
-  </p:growl>
-  <p:dataTable id="roleMemberTable" value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
-    filteredValue="#{roleDetailBean.filteredMembers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
-    paginatorAlwaysVisible="false"
-    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-    <f:facet name="header">
-      <p:outputPanel>
-        <p:outputLabel styleClass="table-search-icon">
-          <i class="si si-search"></i>
-        </p:outputLabel>
-        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-          onkeyup="PF('membersOfRoleTable').filter()" placeholder="Search" />
-      </p:outputPanel>
-    </f:facet>
-    <p:column styleClass="member-row" headerText="Role Members Of Role" sortBy="#{member.name}"
-      filterBy="#{member.name}">
-      <a href="roledetail.xhtml?roleName=#{member.name}">
-        <h:outputText styleClass="member-name" value="#{member.name}">
-          <i class="si si-multiple-neutral-1 table-icon"></i>
-        </h:outputText>
-        <h:outputText value=" (#{member.displayName})" styleClass="addition-row-info" />
-      </a>
-    </p:column>
-    <p:column style="width: 55px;">
-      <p:commandButton id="removeMemberFromRoleBtn" update="membersOfRoleForm"
-        actionListener="#{roleDetailBean.removeMember(member.name)}" icon="si si-subtract" title="Remove"
-        styleClass="card-button table-control-btn secondary-btn" style="margin: 0;" />
-    </p:column>
-  </p:dataTable>
-</h:form>
+<div class="card ui-fluid">
+  <h:form id="membersOfRoleForm">
+    <p:growl for="membersMessage">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-multiple-neutral-1"></i>
+        <h6 class="p-m-0">Role members</h6>
+      </div>
+    </div>
+    
+    <div class="p-d-flex ui-fluid">
+      <p:autoComplete id="addMemberDropDown" value="#{roleDetailBean.roleMemberName}" dropdown="true" forceSelection="true"
+        completeMethod="#{roleDetailBean.searchMember}" style="width: 100%;" styleClass="card-autocomplete-search"
+        placeholder="Search role to add" />
+      <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
+        icon="si si-add" title="Add" 
+        styleClass="p-ml-1 p-col-fixed rounded-button" />
+    </div>
+    <p:dataTable id="roleMemberTable" value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
+      filteredValue="#{roleDetailBean.filteredMembers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
+      paginatorAlwaysVisible="false" styleClass="p-mt-2">
+      <f:facet name="header">
+        <div class="ui-input-icon-left filter-container">
+          <i class="pi pi-search"/>
+          <p:inputText onkeyup="PF('membersOfRoleTable').filter()" placeholder="Search" id="globalFilter" />
+        </div>
+      </f:facet>
+      
+      <p:column styleClass="member-row" headerText="Role Members Of Role" sortBy="#{member.name}"
+        filterBy="#{member.name}">
+        <a href="roledetail.xhtml?roleName=#{member.name}">
+          <h:outputText styleClass="member-name" value="#{member.name}">
+            <i class="si si-multiple-neutral-1 table-icon"></i>
+          </h:outputText>
+          <h:outputText value=" (#{member.displayName})" styleClass="addition-row-info" />
+        </a>
+      </p:column>
+      <p:column styleClass="table-btn-1">
+        <p:commandButton id="removeMemberFromRoleBtn" update="membersOfRoleForm"
+          actionListener="#{roleDetailBean.removeMember(member.name)}" icon="si si-subtract" title="Remove"
+          styleClass="ui-button-secondary rounded-button" />
+      </p:column>
+    </p:dataTable>
+  </h:form>
+</div>
 
 </html>

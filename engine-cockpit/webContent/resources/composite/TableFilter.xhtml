@@ -4,44 +4,27 @@
   xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <cc:interface>
   <cc:attribute name="bean" />
+  <cc:attribute name="for" />
   <cc:attribute name="update" />
-  <cc:attribute name="index" default="0" />
-  <cc:attribute name="onlyButton" default="false" />
 </cc:interface>
 <cc:implementation>
-  <h:form id="form">
-    <c:choose>
-      <c:when test="#{cc.attrs.onlyButton}">
-        <p:commandButton rendered="#{cc.attrs.onlyButton}" id="filterBtn" title="Filter: #{cc.attrs.bean.contentFilterText}" type="button" icon="si si-filter-1"
-          styleClass="secondary-btn card-button" onclick="PF('filterPanel_#{cc.attrs.index}').show();" />
-      </c:when>
-      <c:otherwise>
-        <h:panelGroup>
-          <p:commandButton id="filterBtn" value="Filter: #{cc.attrs.bean.contentFilterText}" icon="si si-filter-1" type="button"
-            style="padding-right: 25px;" styleClass="secondary-btn" onclick="PF('filterPanel_#{cc.attrs.index}').show();" />
-          <p:commandLink id="resetFilter" styleClass="si si-delete-2" update="#{cc.attrs.update}"
-            actionListener="#{cc.attrs.bean.resetSelectedContentFilters()}"
-            style="font-family: StreamlineIcons; position: absolute; top:8px; right: 7px; color: var(--button-secondary-text-color);" />
-        </h:panelGroup>
-      </c:otherwise>
-    </c:choose>
-
-    <p:overlayPanel id="filterPanel" for="@form:filterBtn" widgetVar="filterPanel_#{cc.attrs.index}"
-      style="min-width: 250px;">
+  <p:overlayPanel id="filterPanel" for="#{cc.attrs.for}" widgetVar="filterPanel" 
+    styleClass="table-content-filter" appendTo="@(body)">
+    <h:form id="filterForm">
       <p:selectManyCheckbox id="filterCheckboxes" layout="grid" columns="1" value="#{cc.attrs.bean.selectedContentFilters}">
         <f:selectItems value="#{cc.attrs.bean.contentFilters}" var="filter" itemLabel="#{filter}" itemValue="#{filter}" />
       </p:selectManyCheckbox>
-
-      <h:panelGroup layout="block" style="margin-top: 10px;">
-        <p:commandButton id="applyFilter" value="Apply" styleClass="modal-input-button" icon="si si-check-1"
+  
+      <h:panelGroup layout="block" styleClass="p-mt-1 p-d-flex p-jc-end">
+        <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
+          onclick="PF('filterPanel').hide();" type="button" />
+        <p:commandButton id="resetFilterBtn" value="Reset" styleClass="p-ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+          update="#{cc.attrs.update}" actionListener="#{cc.attrs.bean.resetSelectedContentFilters()}" />
+        <p:commandButton id="applyFilter" value="Apply" styleClass="p-ml-1 modal-input-button" icon="si si-check-1"
           update="#{cc.attrs.update}" />
-        <p:commandButton id="resetFilterBtn" value="Reset" styleClass="modal-input-button" icon="si si-delete-2"
-          update="#{cc.attrs.update}" actionListener="#{cc.attrs.bean.resetSelectedContentFilters()}" rendered="#{cc.attrs.onlyButton}" />
-        <p:commandLink id="cancelFilter" value="Cancel" styleClass="modal-input-button"
-          onclick="PF('filterPanel_#{cc.attrs.index}').hide();" />
       </h:panelGroup>
-    </p:overlayPanel>
-  </h:form>
+    </h:form>
+  </p:overlayPanel>
 </cc:implementation>
 
 </html>

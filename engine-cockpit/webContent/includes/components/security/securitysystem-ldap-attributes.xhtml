@@ -3,56 +3,55 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
-<f:facet name="header">
-  <i class="si si-cog table-icon panel-title-icon"></i>
-  <h:outputText value="Additional LDAP Attributes" />
-</f:facet>
-<h:form id="securityLdapAttributesForm">
-  <p:growl id="securitySystemLdapAttributesSuccess" for="securitySystemLdapAttributesSuccess">
-    <p:autoUpdate />
-  </p:growl>
-  <p:commandButton id="newLdapAttributeBtn" oncomplete="PF('ldapAttributeModal').show();" process="@this"
-    actionListener="#{securityLdapDetailBean.setProperty(null)}" update=":ldapAttributeForm" title="Add"
-    icon="si si-add" styleClass="secondary-btn card-button" />
-
-  <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,50" paginatorPosition="bottom"
-    paginatorAlwaysVisible="false"
-    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-    value="#{securityLdapDetailBean.properties}" style="padding-top: 10px;" var="property" id="ldapPropertiesTable">
-    <p:column headerText="Name">
-      <h:outputText value="#{property.name}" styleClass="ldap-attribute" />
-    </p:column>
-    <p:column headerText="LDAP Attribute" styleClass="ldap-value">
-      <h:outputText value="#{property.value}" />
-    </p:column>
-    <p:column style="width: 95px;">
-      <p:commandButton id="deleteLdapAttributeBtn" type="button" icon="si si-bin-1" title="Delete"
-        styleClass="card-button table-control-btn red-btn" style="margin: 0;">
-        <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form" />
-      </p:commandButton>
-      <p:commandButton id="editPropertyBtn" actionListener="#{securityLdapDetailBean.setProperty(property)}"
-        icon="si si-pencil" title="Edit" update=":ldapAttributeForm"
-        styleClass="card-button table-control-btn secondary-btn" oncomplete="PF('ldapAttributeModal').show();"
-        process="@this" />
-    </p:column>
-  </p:dataTable>
-</h:form>
+<div class="card">
+  <h:form id="securityLdapAttributesForm">
+    <p:growl id="securitySystemLdapAttributesSuccess" for="securitySystemLdapAttributesSuccess">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-cog"></i>
+        <h6 class="p-m-0">Additional LDAP Attributes</h6>
+        <p:commandButton id="newLdapAttributeBtn" oncomplete="PF('ldapAttributeModal').show();" process="@this"
+          actionListener="#{securityLdapDetailBean.setProperty(null)}" update=":ldapAttributeForm" title="Add"
+          icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
+      </div>
+    </div>
+    
+    <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+      value="#{securityLdapDetailBean.properties}" var="property" id="ldapPropertiesTable">
+      <p:column headerText="Name">
+        <h:outputText value="#{property.name}" styleClass="ldap-attribute" />
+      </p:column>
+      <p:column headerText="LDAP Attribute" styleClass="ldap-value">
+        <h:outputText value="#{property.value}" />
+      </p:column>
+      <p:column styleClass="table-btn-2">
+        <p:commandButton id="editPropertyBtn" actionListener="#{securityLdapDetailBean.setProperty(property)}"
+          icon="si si-pencil" title="Edit" update=":ldapAttributeForm"
+          styleClass="ui-button-secondary rounded-button" oncomplete="PF('ldapAttributeModal').show();"
+          process="@this" />
+        <p:commandButton id="deleteLdapAttributeBtn" type="button" icon="si si-bin-1" title="Delete"
+          styleClass="p-ml-1 ui-button-danger rounded-button">
+          <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form" />
+        </p:commandButton>
+      </p:column>
+    </p:dataTable>
+  </h:form>
+</div>
 
 <p:dialog style="min-width: 300px;" header="LDAP Attribute" id="ldapAttributeModal" widgetVar="ldapAttributeModal"
   modal="true" responsive="true" closeOnEscape="true">
   <h:form id="ldapAttributeForm">
-    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3, ui-grid-col-9"
-      styleClass="ui-panelgrid-blank form-group modal-input-form grey-label-panel ui-fluid">
-      <label>Name</label>
-      <h:panelGroup styleClass="md-inputfield" rendered="#{empty securityLdapDetailBean.property.name}">
+    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="attributeNameInput" value="Name" />
+      <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="attributeNameInput" requiredMessage="Value is required"
-          value="#{securityLdapDetailBean.property.name}" required="true" />
+          value="#{securityLdapDetailBean.property.name}" required="true" disabled="#{not empty securityLdapDetailBean.property.name}" />
         <p:message for="attributeNameInput" id="attributeNameMessage" />
       </h:panelGroup>
-      <h:outputText id="propertyName" rendered="#{not empty securityLdapDetailBean.property.name}"
-        value="#{securityLdapDetailBean.property.name}" />
 
-      <label>Attribute</label>
+      <p:outputLabel for="attributeInput" value="Attribute" />
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="attributeInput" requiredMessage="Value is required"
           value="#{securityLdapDetailBean.property.value}" required="true" />
@@ -62,8 +61,8 @@
     <p:commandButton id="saveLdapAttribute" validateClient="true" ajax="false" update=":securityLdapAttributesForm"
       actionListener="#{securityLdapDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
       styleClass="modal-input-button" />
-    <p:commandLink id="cancelLdapAttribute" onclick="PF('ldapAttributeModal').hide();" value="Cancel" type="button"
-      styleClass="modal-input-button" immediate="true" />
+    <p:commandButton id="cancelLdapAttribute" onclick="PF('ldapAttributeModal').hide();" value="Cancel" type="button"
+      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
   </h:form>
 </p:dialog>
 

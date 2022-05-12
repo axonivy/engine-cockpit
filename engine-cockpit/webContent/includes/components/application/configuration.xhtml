@@ -4,18 +4,20 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
-<f:facet name="header">
-  <i class="si si-cog table-icon panel-title-icon"></i>
-  <h:outputText value="Application Configuration" />
-</f:facet>
-
-<cc:TableFilter update="contentFilter:form, config:form" onlyButton="true"
-  bean="#{applicationDetailBean.configView}" id="contentFilter" />
-<p:commandButton id="newConfigBtn" styleClass="secondary-btn card-button" icon="si si-add" title="New"
-  actionListener="#{applicationDetailBean.configView.setActiveConfig(null)}" update="config:newConfigurationModal"
-  oncomplete="PF('newConfigurationModal').show();" />
+<div class="card">
+  <div class="card-header">
+    <div class="card-title p-d-flex p-ai-center">
+      <i class="p-pr-3 si si-cog"></i>
+      <h6 class="p-m-0">Application Configuration</h6>
+      <p:commandButton id="newConfigBtn" styleClass="p-col-fixed p-ml-auto rounded-button" icon="si si-add" title="New"
+        actionListener="#{applicationDetailBean.configView.setActiveConfig(null)}" update="config:newConfigurationModal"
+        oncomplete="PF('newConfigurationModal').show();" />
+    </div>
+  </div>
   
-<div style="margin-top: 10px;" />
-<cc:Configuration bean="#{applicationDetailBean.configView}" id="config" />
+  <cc:Configuration id="config" bean="#{applicationDetailBean.configView}" />
+  <cc:TableFilter id="contentFilter" bean="#{applicationDetailBean.configView}" 
+    for="config:form:configTable:filterBtn" update="config:form contentFilter:filterPanel" />
+</div>
 
 </html>

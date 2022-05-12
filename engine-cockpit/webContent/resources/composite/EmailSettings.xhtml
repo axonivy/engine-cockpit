@@ -7,8 +7,8 @@
   <cc:attribute name="supportedLanguages" shortDescription="All supported languages" required="true" />
 </cc:interface>
 <cc:implementation>
-  <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
-    styleClass="ui-panelgrid-blank grey-label-panel">
+  <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" 
+    layout="flex" styleClass="grey-label-panel">
     <p:outputLabel value="Language" for="languageDropDown" />
     <p:selectOneMenu id="languageDropDown" value="#{cc.attrs.emailSettings.language}" style="width: 100%;">
       <f:selectItems value="#{cc.attrs.supportedLanguages}" />
@@ -18,19 +18,15 @@
     <cc:insertChildren />
 
     <p:outputLabel value="Notification send" for="checkboxNotification" />
-    <p:panelGrid id="checkboxNotification" columns="2" layout="grid"
-      styleClass="ui-panelgrid-blank ui-selectmanycheckbox ui-grid-responsive email-checkbox-style">
+    <p:panelGrid id="checkboxNotification" columns="2" layout="flex"
+      styleClass="ui-selectmanycheckbox email-checkbox-style">
       <p:selectBooleanCheckbox rendered="#{cc.attrs.emailSettings.notificationCheckboxRender}" id="neverCheckbox"
-        value="#{cc.attrs.emailSettings.notificationDisabled}"
-        disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}" style="float: left;">
-        <p:outputLabel value="Never"
-          styleClass="#{cc.attrs.emailSettings.notificationCheckboxDisabled ? 'ui-state-disabled' : ''}" />
+        value="#{cc.attrs.emailSettings.notificationDisabled}" itemLabel="Never"
+        disabled="#{cc.attrs.emailSettings.notificationCheckboxDisabled}">
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
       <p:selectBooleanCheckbox id="taskCheckbox" value="#{cc.attrs.emailSettings.sendOnNewWorkTasks}"
-        disabled="#{cc.attrs.emailSettings.taskCheckboxDisabled}" style="float: left;">
-        <p:outputLabel value="New Task"
-          styleClass="#{cc.attrs.emailSettings.taskCheckboxDisabled ? 'ui-state-disabled' : ''}" />
+        disabled="#{cc.attrs.emailSettings.taskCheckboxDisabled}" itemLabel="New Task">
         <p:ajax update="@form" />
       </p:selectBooleanCheckbox>
     </p:panelGrid>

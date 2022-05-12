@@ -54,22 +54,22 @@ public class WebTestEditor {
     executeJs("editor_test_app.setValue(\"" + StringEscapeUtils.escapeJava(newEditorContent) + "\");");
     $(editorContentSelector()).shouldBe(exactValue(newEditorContent));
     $$(".CodeMirror-lint-marker-error").shouldBe(sizeGreaterThan(0));
-    $("#card\\:saveEditorModel").shouldNotBe(visible);
+    $("#saveEditorModel").shouldNotBe(visible);
 
     $(getActivePanelCss() + "editorForm\\:saveEditor").click();
-    $("#card\\:saveEditorModel").shouldBe(visible);
+    $("#saveEditorModel").shouldBe(visible);
 
-    $("#card\\:saveEditorForm\\:cancelChangesBtn").click();
-    $("#card\\:saveEditorModel").shouldNotBe(visible);
+    $("#saveEditorForm\\:cancelChangesBtn").click();
+    $("#saveEditorModel").shouldNotBe(visible);
 
     executeJs("editor_test_app.setValue(\"" + StringEscapeUtils.escapeJava(editorContent) + "\");");
     executeJs("editor_test_app.performLint();");
     $(editorContentSelector()).shouldNotBe(empty);
     $$(".CodeMirror-lint-marker-error").shouldBe(CollectionCondition.empty);
 
-    $("#card\\:editorMessage_container").shouldBe(empty);
+    $("#editorMessage_container").shouldBe(empty);
     $(getActivePanelCss() + "editorForm\\:saveEditor").click();
-    $("#card\\:editorMessage_container .ui-growl-message").shouldBe(exactText("Saved test/app.yaml Successfully"));
+    $("#editorMessage_container .ui-growl-message").shouldBe(exactText("Saved test/app.yaml Successfully"));
   }
 
   @Test
@@ -88,7 +88,7 @@ public class WebTestEditor {
   }
 
   private String getActivePanelCss() {
-    return "#card\\:editorTabView\\:" + Tab.APP.getSelectedTabIndex() + "\\:";
+    return "#editorTabView\\:" + Tab.APP.getSelectedTabIndex() + "\\:";
   }
 
 }

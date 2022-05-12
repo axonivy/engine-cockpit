@@ -70,8 +70,7 @@ public class WebTestWebServer {
 
   @Test
   void liveStats() {
-    EngineCockpitUtil
-            .assertLiveStats(List.of("Requests", "Errors", "Bytes", "Processing Time", "Connections"));
+    EngineCockpitUtil.assertLiveStats(List.of("Requests", "Errors", "Bytes", "Processing Time", "Connections"));
   }
 
   private void setBaseUrl(String baseUrl) {

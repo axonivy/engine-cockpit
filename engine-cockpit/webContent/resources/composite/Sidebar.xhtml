@@ -8,27 +8,25 @@
 </cc:interface>
 
 <cc:implementation>
+  <a href="#" id="layout-config-button" class="layout-config-button" onclick="PF('liveStatePoll').start();">
+    <i class="si si-#{cc.attrs.icon}"></i>
+  </a>
+  
   <div id="layout-config" class="layout-config">
     <div class="layout-config-content">
-      <a href="#" id="layout-config-button" class="layout-config-button" onclick="PF('liveStatePoll').start();">
-        <i class="si si-#{cc.attrs.icon}"></i>
-      </a>
-      <a href="#" class="layout-config-close" onclick="PF('liveStatePoll').stop();">
-        <i class="si si-remove"></i>
-      </a>
+      <div class="p-d-flex">
+        <h3>Live Stats</h3>
+        <p:commandButton icon="si si-remove" styleClass="p-ml-auto ui-button-danger ui-button-outlined rounded-button layout-config-close" 
+          onclick="PF('liveStatePoll').stop(); $('#layout-config').toggleClass('layout-config-active');" type="button" />
+      </div>
+      
       <h:form id="config-form">
-        <p:tabView id="config-form-tabs">
-          <p:tab title="Live Stats">
-            <div class="ui-g">
-              <p:poll widgetVar="liveStatePoll" update="charts" interval="1" autoStart="false" />
-              <h:panelGroup id="charts" layout="block" class="ui-g-12">
-                <p:staticMessage rendered="#{not empty cc.attrs.jmxSource}" severity="info"
-                  summary="Live stats found from" detail="#{cc.attrs.jmxSource}" />
-                <cc:insertChildren />
-              </h:panelGroup>
-            </div>
-          </p:tab>
-        </p:tabView>
+        <p:poll widgetVar="liveStatePoll" update="charts" interval="1" autoStart="false" />
+        <h:panelGroup id="charts" layout="block" class="ui-g-12">
+          <p:staticMessage rendered="#{not empty cc.attrs.jmxSource}" severity="info"
+            summary="Live stats found from" detail="#{cc.attrs.jmxSource}" />
+          <cc:insertChildren />
+        </h:panelGroup>
       </h:form>
     </div>
   </div>

@@ -33,12 +33,14 @@ public class WebTestDownload {
 
   @Test
   void errorReport() throws FileNotFoundException {
-    $("#sessionUser").shouldBe(visible).click();
+    $(".user-profile > a").shouldBe(visible).click();
     $("#supportReport").shouldBe(visible).click();
     $("#supportReportModal").shouldBe(visible);
     File download = $("#reportForm\\:download").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("support-engine-report.zip");
     assertThat(download.length() / 1024).isGreaterThan(10);
+    $("#reportForm\\:cancel").shouldBe(visible).click();
+    $("#supportReportModal").shouldNotBe(visible);
   }
 
   @Test
@@ -49,13 +51,15 @@ public class WebTestDownload {
     File download = $("#logForm\\:allLogs").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("logs.zip");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
+    $("#logForm\\:cancel").shouldBe(visible).click();
+    $("#logsDownloadModal").shouldNotBe(visible);
   }
 
   @Test
   void log() throws FileNotFoundException {
     Navigation.toLogs();
-    File download = $$(".ui-panel-titlebar").find(text("console.log")).parent()
-            .find(".ui-panel-content button").shouldBe(visible).download();
+    File download = $$(".ui-panel-titlebar").find(text("console.log"))
+            .find(".ui-panel-actions a").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("console.log");
     assertThat(download).isNotEmpty();
   }
