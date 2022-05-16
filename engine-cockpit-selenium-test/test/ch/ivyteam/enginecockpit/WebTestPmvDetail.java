@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
-import static com.codeborne.selenide.CollectionCondition.empty;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.text;
@@ -27,7 +26,6 @@ public class WebTestPmvDetail
   private static final String PM = "PortalTemplate";
   private static final String PMV = "PortalTemplate$1";
   private static final String RESOLVED = "done";  
-  private static final String NOT_RESOLVED = "clear";
 
   @BeforeEach
   void beforeEach()
@@ -48,12 +46,11 @@ public class WebTestPmvDetail
   @Test
   void pmvDependencies()
   {
-    dependenciesResolved();
+    dependenciesResolved("ACTIVE");
     Navigation.toApplications();
     deactivatePortalKit();
-    deletePortalKit();
     Navigation.toPmvDetail(APP, PM, PMV);
-    dependenciesNotResolved();
+    dependenciesResolved("INACTIVE");
   }
 
   private void deactivatePortalKit()
@@ -64,50 +61,27 @@ public class WebTestPmvDetail
     $(By.id(portalKitVersionId + ":deactivateButton")).shouldBe(visible).click();
   }
 
-  private void deletePortalKit()
-  {
-    var portalKitId = "card:form:tree:" + $$(".activity-name").find(text("PortalKit")).parent().parent().shouldBe(visible).attr("data-rk");
-    $(By.id(portalKitId + ":tasksButton")).shouldBe(visible).click();
-    $(By.id(portalKitId + ":deleteBtn")).shouldBe(visible).click();
-    $(By.id("card:form:deleteConfirmYesBtn")).shouldBe(visible).click();
-  }
-  
-  private void dependenciesNotResolved()
+  private void dependenciesResolved(String portalKitActivityState)
   {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
     depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "PortalExamples$1"));
-    checkPmvEntry(depTable, "AxonIvyExpress$1", NOT_RESOLVED);
-    checkPmvEntry(depTable, "PortalExamples$1", NOT_RESOLVED);
-    
-    Table reqTable = new Table(By.id("requriedPmvTable"), true);
-    reqTable.firstColumnShouldBe(empty);
-    
-    Table specTable = new Table(By.id("specifiedTable"));
-    specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
-    specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, text(NOT_RESOLVED));
-  }
-
-  private void dependenciesResolved()
-  {
-    Table depTable = new Table(By.id("dependentPmvTable"), true);
-    depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "PortalExamples$1"));
-    checkPmvEntry(depTable, "AxonIvyExpress$1", RESOLVED);
-    checkPmvEntry(depTable, "PortalExamples$1", RESOLVED);
+    checkPmvEntry(depTable, "AxonIvyExpress$1", "ACTIVE");
+    checkPmvEntry(depTable, "PortalExamples$1", "ACTIVE");
     
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
     reqTable.firstColumnShouldBe(texts("PortalKit$1", "PortalStyle$1"));
-    checkPmvEntry(reqTable, "PortalKit$1", RESOLVED);
-    checkPmvEntry(reqTable, "PortalStyle$1", RESOLVED);
+    checkPmvEntry(reqTable, "PortalKit$1", portalKitActivityState);
+    checkPmvEntry(reqTable, "PortalStyle$1", "ACTIVE");
     
     Table specTable = new Table(By.id("specifiedTable"));
     specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
     specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, text(RESOLVED));
   }
 
-  private void checkPmvEntry(Table table, String entry, String resolved)
+  private void checkPmvEntry(Table table, String entry, String activityState)
   {
-    table.valueForEntryShould(entry, 2, text(resolved));
-    table.valueForEntryShould(entry, 4, text("ACTIVE"));
+    table.valueForEntryShould(entry, 2, text(RESOLVED));
+    table.valueForEntryShould(entry, 4, text(activityState));
     table.valueForEntryShould(entry, 5, text("RELEASED"));
   }
 
