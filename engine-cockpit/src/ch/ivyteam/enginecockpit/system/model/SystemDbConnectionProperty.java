@@ -19,7 +19,7 @@ public class SystemDbConnectionProperty {
   }
 
   public void setValue(String value) {
-    if (ConnectionProperty.PASSWORD == this.property && StringUtils.isBlank(value)) {
+    if (StringUtils.isBlank(value) && (ConnectionProperty.PASSWORD == this.property || ConnectionProperty.PORT == this.property )) {
       return;
     }
     this.isDefault = StringUtils.equals(value, defaultValue);
