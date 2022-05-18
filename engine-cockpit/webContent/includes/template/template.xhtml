@@ -55,6 +55,26 @@
                 </a>
               </li>
             </h:outputText>
+            
+            <h:outputText rendered="#{clusterBean.clusterServer}">
+              <li class="topbar-item topbar-notifications cluster-warning">
+                <a href="#">
+                  <i class="topbar-icon si si-monitor-network animated swing"></i>
+                </a>
+                <ul>
+                  <li>
+                    <a href="#{advisorBean.engineGuideBaseUrl}/integration/cluster/configuration.html#changes">
+                      <i class="si si-lg si-road-sign-warning"></i>
+                      <span style="max-width: calc(100% - 40px)">
+                        <b>Cluster Mode!</b><br/>
+                        Configuration changes may only be applied on local node!
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </h:outputText>
+            
             <h:outputText rendered="#{managerBean.restartEngine or engineModeBean.hasDashboardWarning() or ivyAdvisor.releaseCandidate}">
               <li class="topbar-item topbar-notifications engine-warnings">
                 <a href="#">
@@ -74,7 +94,7 @@
                       <a href="#">
                         <i class="si si-lg si-alert-circle"></i>
                         <span style="max-width: calc(100% - 40px)">
-                          Release Candidate!<br/>
+                          <b>Release Candidate!</b><br/>
                           Don't use this version in production!
                         </span>
                       </a>
@@ -85,7 +105,7 @@
                       <a href="setup#{engineModeBean.demo ? '-intro' : ''}.xhtml">
                         <i class="si si-lg si-tools-wench"></i>
                         <span style="max-width: calc(100% - 40px)">
-                          #{engineModeBean.dashboardWarningSummary}<br/>
+                          <b>#{engineModeBean.dashboardWarningSummary}</b><br/>
                           #{engineModeBean.dashboardWarningDetail} Please use the 'Setup Wizard' to set up your Axon Ivy Engine.
                         </span>
                       </a>
@@ -154,14 +174,6 @@
     <div class="layout-main">
 
       <div class="layout-content">
-        <h:panelGroup layout="block" rendered="#{clusterBean.clusterServer}" 
-          styleClass="ui-message ui-staticmessage ui-message-warn">
-          <span class="ui-message-warn-icon"></span>
-          <span class="ui-message-warn-summary">Cluster Mode!</span>
-          <span class="ui-message-warn-detail">Configuration changes may only be applied on local node!
-            <p:link value="More info" href="#{advisorBean.engineGuideBaseUrl}/integration/cluster/configuration.html#changes" target="_blank"/>
-          </span>
-        </h:panelGroup>
         <ui:insert name="content" />
       </div>
 
