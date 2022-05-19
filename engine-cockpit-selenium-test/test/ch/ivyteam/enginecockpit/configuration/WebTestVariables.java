@@ -240,7 +240,7 @@ public class WebTestVariables {
   }
 
   private Table variableTable() {
-    return new Table(By.id(activeTabPanel() + "config:form:configTable"));
+    return new Table(By.id(activeTabPanel() + "config:form:configTable"), "span");
   }
 
   private String activeTabPanel() {

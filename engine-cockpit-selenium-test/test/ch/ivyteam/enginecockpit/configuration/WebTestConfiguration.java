@@ -67,7 +67,7 @@ class WebTestConfiguration {
     @BeforeEach
     void beforeEach() {
       Navigation.toSystemConfig();
-      table = new Table(TABLE_ID);
+      table = new Table(TABLE_ID, "span");
     }
 
     @Test
@@ -195,7 +195,7 @@ class WebTestConfiguration {
     void beforeEach() {
       Navigation.toApplicationDetail("test-ad");
       $(CONTENT_FILTER_BTN).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
-      table = new Table(TABLE_ID);
+      table = new Table(TABLE_ID, "span");
     }
 
     @Test
@@ -297,7 +297,7 @@ class WebTestConfiguration {
     void beforeEach() {
       Navigation.toApplicationDetail("demo-portal");
       $(By.id("config:form:configTable:filterBtn")).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
-      table = new Table(TABLE_ID);
+      table = new Table(TABLE_ID, "span");
     }
 
     @Test
@@ -311,7 +311,7 @@ class WebTestConfiguration {
 
   private void assertUrlFiltering(String filter) {
     assertCurrentUrlContains("systemconfig.xhtml?filter=" + filter);
-    table = new Table(TABLE_ID);
+    table = new Table(TABLE_ID, "span");
     table.searchFilterShould(exactValue(filter));
     table.firstColumnShouldBe(size(9));
   }

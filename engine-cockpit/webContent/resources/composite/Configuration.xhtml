@@ -28,16 +28,17 @@
       </f:facet>
       
       <p:column headerText="Name" sortBy="#{config.key}" filterBy="#{config.key}">
-        <h:outputText value="#{config.key}" title="#{config.description}" styleClass="config-name">
+        <h:panelGroup styleClass="config-name table-cell-autocut">
           <i class="si si-#{config.icon} table-icon"></i>
-        </h:outputText>
+          <h:outputText value="#{config.key}" title="#{config.key} - #{config.description}" />
+        </h:panelGroup>
       </p:column>
       <p:column headerText="Value" filterBy="#{config.value}">
         <h:outputText class="table-cell-autocut" rendered="#{!config.password}" value="#{config.value}" title="#{config.value}" />
         <h:outputText rendered="#{config.password}" value="******" />
       </p:column>
       <p:column headerText="Source" sortBy="#{config.shortSource}" filterBy="#{config.shortSource}"
-        style="width: 150px;" responsivePriority="4">
+        style="width: 6em;" responsivePriority="4">
         <h:outputText value="#{config.shortSource}" title="#{config.source}" />
       </p:column>
       <p:column styleClass="table-btn-2">
