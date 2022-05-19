@@ -115,7 +115,7 @@ class WebTestWebserviceDetail {
 
   private void testAndAssertConnection(String msg) {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
-    Table table = new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk");
+    Table table = new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk");
     table.clickButtonForEntry(table.getFirstColumnEntriesForSpanClass("endpoint-entry").get(1),
             "testWsEndpointBtn");
     $("#connResult\\:connectionTestModel").shouldBe(visible);
@@ -127,7 +127,7 @@ class WebTestWebserviceDetail {
 
   @Test
   void testEditEndpointsInvalid() {
-    new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
+    new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
             .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
     $("#webservcieEndPointForm\\:defaultInput").clear();
     $("#webservcieEndPointForm\\:saveEndpoint").click();
@@ -165,7 +165,7 @@ class WebTestWebserviceDetail {
   }
 
   private void setEndPoint(String defaultLink, String... fallbacks) {
-    new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
+    new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
             .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
     $("#webservcieEndPointForm\\:editEndpointModal").shouldBe(visible);
 
@@ -181,13 +181,13 @@ class WebTestWebserviceDetail {
   }
 
   private void checkEndPoint(String... links) {
-    assertThat(new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
+    assertThat(new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
             .getFirstColumnEntriesForSpanClass("endpoint-entry"))
                     .containsAll(Arrays.asList(links));
   }
 
   private void checkEndPointDoesNotContain(String... links) {
-    assertThat(new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk")
+    assertThat(new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
             .getFirstColumnEntriesForSpanClass("endpoint-entry"))
                     .doesNotContainAnyElementsOf(Arrays.asList(links));
   }

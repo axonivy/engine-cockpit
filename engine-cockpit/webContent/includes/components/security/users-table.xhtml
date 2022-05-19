@@ -34,13 +34,13 @@
     </f:facet>
     
     <p:column headerText="Name" sortBy="#{user.name}" styleClass="user-name-column">
-      <a href="userdetail.xhtml?userName=#{user.name}">
-        <h:outputText value="#{user.name}" styleClass="user-name">
-          <i class="si si-single-neutral-actions table-icon"></i>
+      <a href="userdetail.xhtml?userName=#{user.name}" class="p-d-flex p-ai-center">
+        <h:outputText value="#{user.name}" styleClass="p-ml-1 user-name">
+          <p:avatar gravatar="#{user.email}" icon="si si-single-neutral-actions" shape="circle" styleClass="user-avatar" />
         </h:outputText>
-        <h:outputText value=" [External: '#{user.externalNameShort}']" title="#{user.externalName}"
-          rendered="#{user.external}" styleClass="addition-row-info" />
-        <h:outputText value=" [Disabled]" rendered="#{!user.enabled}" styleClass="addition-row-info" />
+        <h:outputText value="[External: '#{user.externalNameShort}']" title="#{user.externalName}"
+          rendered="#{user.external}" styleClass="p-ml-1 addition-row-info table-cell-autocut" />
+        <h:outputText value="[Disabled]" rendered="#{!user.enabled}" styleClass="p-ml-1 addition-row-info table-cell-autocut" />
       </a>
     </p:column>
     <p:column headerText="Full Name" sortBy="#{user.fullName}">

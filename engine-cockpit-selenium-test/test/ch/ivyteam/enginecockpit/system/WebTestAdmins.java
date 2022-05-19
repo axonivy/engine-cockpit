@@ -45,7 +45,7 @@ public class WebTestAdmins {
     $("#sessionUserName").shouldBe(exactText("admin"));
     $(".profile-image-wrapper i").shouldBe(exist);
     Navigation.toAdmins();
-    deleteAdmin(new Table(By.id("admins:adminForm:adminTable")), "support@ivyteam.ch");
+    deleteAdmin(new Table(By.id("admins:adminForm:adminTable"), "span"), "support@ivyteam.ch");
   }
 
   @Test
@@ -60,12 +60,12 @@ public class WebTestAdmins {
   }
 
   public static void assertOwnAdminCannotBeDeleted() {
-    Table table = new Table(By.id("admins:adminForm:adminTable"));
+    Table table = new Table(By.id("admins:adminForm:adminTable"), "span");
     table.buttonForEntryShouldBeDisabled("admin", "deleteAdmin");
   }
 
   public static void testAddEditDelete() {
-    Table table = new Table(By.id("admins:adminForm:adminTable"));
+    Table table = new Table(By.id("admins:adminForm:adminTable"), "span");
     table.firstColumnShouldBe(exactTexts("admin"));
 
     String user = "test";

@@ -17,8 +17,8 @@
 
         <h:panelGroup rendered="#{!userDetailBean.user.external or managerBean.ivySecuritySystemForSelectedSecuritySystem}">
           <p:commandButton id="disableUser" actionListener="#{userDetailBean.disableUser}" title="Disable this user"
-            icon="si si-delete" styleClass="p-col-fixed p-ml-auto ui-button-warning rounded-button" rendered="#{userDetailBean.isUserEnabled()}"
-            update="userInformationForm" />
+            styleClass="p-col-fixed p-ml-#{!managerBean.ivySecuritySystemForSelectedSecuritySystem ? '1' : 'auto'} ui-button-warning rounded-button"
+            icon="si si-delete" update="userInformationForm"  rendered="#{userDetailBean.isUserEnabled()}" />
           <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
             icon="si si-check-circle-1" styleClass="p-col-fixed p-ml-auto rounded-button" rendered="#{userDetailBean.isUserDisabled()}"
             update="userInformationForm" />
@@ -58,7 +58,10 @@
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
-      <h:outputText id="name" value="#{userDetailBean.user.name}" />
+      <h:panelGroup styleClass="p-d-flex p-ai-center">
+        <p:avatar gravatar="#{userDetailBean.user.email}" icon="si si-single-neutral-actions" shape="circle" styleClass="user-avatar" />
+        <h:outputText id="name" value="#{userDetailBean.user.name}" styleClass="p-ml-1" />
+      </h:panelGroup>
   
       <p:outputLabel for="fullName" value="Full Name" />
       <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" disabled="#{isManaged}" />

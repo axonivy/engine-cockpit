@@ -35,11 +35,11 @@
       </f:facet>
       
       <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
-        <a href="userdetail.xhtml?userName=#{user.name}">
-          <h:outputText styleClass="user-name" value="#{user.name}">
-            <i class="si si-single-neutral-actions table-icon"></i>
+        <a href="userdetail.xhtml?userName=#{user.name}" class="p-d-flex p-ai-center">
+          <h:outputText styleClass="p-ml-1 user-name" value="#{user.name}">
+            <p:avatar gravatar="#{user.email}" icon="si si-single-neutral-actions" shape="circle" styleClass="user-avatar" />
           </h:outputText>
-          <h:outputText value=" (#{user.fullName})" styleClass="addition-row-info" />
+          <h:outputText value="(#{user.fullName})" styleClass="p-ml-1 addition-row-info table-cell-autocut" />
         </a>
       </p:column>
       <p:column styleClass="table-btn-1">

@@ -111,6 +111,13 @@ body .md-inputfield .ui-message.ui-message-error .ui-message-error-detail,
 body .md-inputfield .ui-message.ui-message-error .ui-message-error-icon {
   color: var(--error-color);
 }
+body .user-avatar {
+  background: transparent;
+  aspect-ratio: 1 / 1;
+}
+body .user-avatar > img {
+  z-index: 1;
+}
 
 /* Dashboard */
 .layout-dashboard .card {
@@ -248,8 +255,8 @@ body .ui-datatable .ui-datatable-header {
   text-overflow: ellipsis;
   width: 100%;
   display: inline-block;
-  position: relative;
-  top: 5px;
+/*   position: relative; */
+/*   top: 5px; */
 }
 .ui-datatable .table-icon ~ .table-cell-autocut {
   width: calc(100% - 25px);

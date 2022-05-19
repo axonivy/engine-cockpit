@@ -10,7 +10,11 @@
   <h:form id="adminForm">
     <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable">
       <p:column headerText="Name" sortBy="#{admin.name}">
-        <h:outputText value="#{admin.name}" styleClass="admin_name" />
+        <h:panelGroup styleClass="p-d-flex p-ai-center">
+          <h:outputText value="#{admin.name}" styleClass="p-ml-1 admin-name">
+            <p:avatar gravatar="#{admin.email}" icon="si si-single-neutral-shield" shape="circle" styleClass="user-avatar" />
+          </h:outputText>
+        </h:panelGroup>
       </p:column>
       <p:column headerText="Email" sortBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />

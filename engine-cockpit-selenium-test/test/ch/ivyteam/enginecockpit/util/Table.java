@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
 import com.codeborne.selenide.CollectionCondition;
@@ -20,22 +21,26 @@ import com.codeborne.selenide.SelenideElement;
 public class Table {
   private String id;
   private String rowNumberField;
-  private boolean withLink = false;
+  private String subElement = "";
   private String globalFilter;
 
   public Table(By by) {
-    this(by, "data-ri");
+    this(by, "", "data-ri");
   }
 
   public Table(By by, boolean withLink) {
-    this(by);
-    this.withLink = withLink;
+    this(by, withLink ? "a" : "", "data-ri");
   }
 
-  public Table(By by, String rowNumberField) {
+  public Table(By by, String subElement) {
+    this(by, subElement, "data-ri");
+  }
+
+  public Table(By by, String subElement, String rowNumberField) {
     this.id = $(by).getAttribute("id");
     this.globalFilter = id + ":globalFilter";
     this.rowNumberField = rowNumberField;
+    this.subElement = subElement;
   }
 
   public List<String> getFirstColumnEntries() {
@@ -99,8 +104,8 @@ public class Table {
   }
 
   private String getFirstColumnSpanElement() {
-    if (withLink) {
-      return getBody()+"/tr/td[1]/a/span[1]";
+    if (StringUtils.isNotBlank(subElement)) {
+      return getBody()+"/tr/td[1]/" + subElement + "/span[1]";
     }
     return getBody()+"/tr/td[1]/span";
   }
@@ -111,7 +116,7 @@ public class Table {
 
   private String findColumnOverEntry(String entry) {
     String parentTdFromSpan = "/../..";
-    if (withLink) {
+    if (StringUtils.isNotBlank(subElement)) {
       parentTdFromSpan = "/../../..";
     }
     return getFirstColumnSpanElement() + "[text()='" + entry + "']" + parentTdFromSpan;
