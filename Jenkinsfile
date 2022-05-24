@@ -128,7 +128,7 @@ pipeline {
 
 def getImageSimilarity() {
   if (env.BRANCH_NAME == 'master') {
-    return '98'
+    return '97'
   }
   return '95'
 }
