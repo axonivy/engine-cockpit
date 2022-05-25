@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.exactTexts;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.CollectionCondition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -32,6 +34,16 @@ public class WebTestAdmins {
   void addEditDeleteAdmin() {
     $("h2").shouldBe(text("Administrators"));
     testAddEditDelete();
+  }
+
+  @Test
+  void searchAdmin() {
+    var table = new Table(By.id("admins:adminForm:adminTable"), "span");
+    table.firstColumnShouldBe(sizeGreaterThanOrEqual(1));
+    table.search("dmi");
+    table.firstColumnShouldBe(sizeGreaterThanOrEqual(1));
+    table.search("notexist");
+    table.firstColumnShouldBe(CollectionCondition.empty);
   }
 
   @Test

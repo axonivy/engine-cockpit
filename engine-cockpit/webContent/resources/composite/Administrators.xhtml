@@ -8,15 +8,22 @@
 
 <cc:implementation>
   <h:form id="adminForm">
-    <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable">
-      <p:column headerText="Name" sortBy="#{admin.name}">
+    <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable" widgetVar="adminTable" styleClass="ui-fluid">
+      <f:facet name="header">
+        <div class="ui-input-icon-left filter-container">
+          <i class="pi pi-search"/>
+          <p:inputText id="globalFilter" onkeyup="PF('adminTable').filter()" placeholder="Search" />
+        </div>
+      </f:facet>
+      
+      <p:column headerText="Name" sortBy="#{admin.name}" filterBy="#{admin.name}">
         <h:panelGroup styleClass="p-d-flex p-ai-center">
           <h:outputText value="#{admin.name}" styleClass="p-ml-1 admin-name">
             <p:avatar gravatar="#{admin.email}" icon="si si-single-neutral-shield" shape="circle" styleClass="user-avatar" />
           </h:outputText>
         </h:panelGroup>
       </p:column>
-      <p:column headerText="Email" sortBy="#{admin.email}">
+      <p:column headerText="Email" sortBy="#{admin.email}"  filterBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />
       </p:column>
       <p:column styleClass="table-btn-2">
