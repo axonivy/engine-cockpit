@@ -46,7 +46,7 @@ class WebTestPages {
   void pagesNotAccessable() {
     for (var xhtml : getSubDirectoryXhtmlFiles(webContentDir, this::isNotInViewFolder)) {
       open(viewUrl(xhtml.toString()));
-      $(".exception-detail").shouldHave(text("Not Found"));
+      $(".exception-content").shouldHave(text("Not Found"));
     }
   }
 
