@@ -51,7 +51,7 @@
   .layout-breadcrumb {
     margin-left: 0;
   }
-  .layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > a {
+  .layout-wrapper .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > a {
     padding: 6px 2px;
   }
 }
@@ -112,7 +112,7 @@ body .md-inputfield .ui-message.ui-message-error .ui-message-error-icon {
   color: var(--error-color);
 }
 body .user-avatar {
-  background: transparent;
+  background: var(--surface-c);
   aspect-ratio: 1 / 1;
 }
 body .user-avatar > img {
