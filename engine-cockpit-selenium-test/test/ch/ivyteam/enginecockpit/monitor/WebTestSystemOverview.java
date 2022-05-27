@@ -117,6 +117,6 @@ public class WebTestSystemOverview {
 
   public static void prepareScreenshot() {
     Navigation.toSystemOverview();
-    recordData(1);
+    recordData(10);
   }
 }

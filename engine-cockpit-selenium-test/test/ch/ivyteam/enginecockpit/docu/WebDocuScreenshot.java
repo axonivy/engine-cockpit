@@ -95,9 +95,11 @@ public class WebDocuScreenshot {
     Navigation.toCache();
     takeScreenshot("monitor-cache", new Dimension(SCREENSHOT_WIDTH, 1000));
     WebTestPerformance.prepareScreenshot();
-    takeScreenshot("monitor-performance", new Dimension(SCREENSHOT_WIDTH, 600));
+    takeScreenshot("monitor-performance", new Dimension(SCREENSHOT_WIDTH, 800));
     WebTestSlowRequests.prepareScreenshot();
-    takeScreenshot("monitor-slow-requests", new Dimension(SCREENSHOT_WIDTH, 500));
+    takeScreenshot("monitor-slow-requests", new Dimension(SCREENSHOT_WIDTH, 800));
+    WebTestSlowRequests.prepareScreenshot();
+    takeScreenshot("monitor-system-overview", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
   @Test

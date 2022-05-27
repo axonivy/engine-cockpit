@@ -163,6 +163,6 @@ public class WebTestSlowRequests {
 
   public static void prepareScreenshot() {
     Navigation.toSlowRequests();
-    recordData(1);
+    recordData(10);
   }
 }
