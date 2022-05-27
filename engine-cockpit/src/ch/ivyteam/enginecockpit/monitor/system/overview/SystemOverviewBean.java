@@ -55,6 +55,10 @@ public class SystemOverviewBean {
     refresh();
   }
 
+  public boolean isNotClearable() {
+    return model.getElements().size() == 1;
+  }
+
   private void addInbound(CommunicationChannel channel, Element ivy, long requests, long average) {
     var count = ivy.getEndPoints().stream().filter(ep -> ep.getAnchor() == EndPointAnchor.LEFT).count();
     var inbound = new Element(new System(channel.systemLink()), "1em", (1+count*8)+"em");

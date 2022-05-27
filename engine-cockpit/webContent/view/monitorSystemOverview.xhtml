@@ -27,14 +27,14 @@
           <div class="card">
             <div class="card-header p-flex-wrap">
               <div class="card-title p-d-flex p-ai-center">
-                <i class="p-pr-3 si si-alarm-bell-timer"></i>
+                <i class="p-pr-3 si si si-view-1"></i>
                 <h2 class="p-m-0">System Overview</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
                     icon="si si-controls-play" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
                 <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="@form" title="Stop recording"
                     icon="si si-controls-stop" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}"/>
                 <p:commandButton id="clear" actionListener="#{systemOverviewBean.clear}" update="@form" title="Clear statistic"
-                    icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notCleanable}"/>
+                    icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{systemOverviewBean.notClearable}"/>
                 <p:commandButton id="refresh" actionListener="#{systemOverviewBean.refresh}" update="@form" title="Refresh statistic"
                     icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-1 rounded-button"  disabled="#{traceBean.notRefreshable}"/>
               </div>
