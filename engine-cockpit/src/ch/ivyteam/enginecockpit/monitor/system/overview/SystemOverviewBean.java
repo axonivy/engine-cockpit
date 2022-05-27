@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.system.overview;
 
+import java.util.Objects;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -164,6 +166,31 @@ public class SystemOverviewBean {
 
     public String getName() {
       return name;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null) {
+        return false;
+      }
+      if (getClass() != obj.getClass()) {
+        return false;
+      }
+      System other = (System) obj;
+      return Objects.equals(name, other.name);
+    }
+
+    @Override
+    public String toString() {
+      return "System [name="+name+"]";
     }
   }
 }
