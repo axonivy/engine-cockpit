@@ -10,41 +10,33 @@
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
-      <li>Monitor</li>
+      <li><span>Monitor</span></li>
       <li>/</li>
-      <li>Performance</li>
+      <li><span>Performance</span></li>
       <li>/</li>
       <li><a href="monitorSystemOverview">System Overview</a></li>
     </ui:define>
 
-    <ui:define name="breadcrumb-right">
-      <a
-        href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#SystemOverview"
-        target="_blank" rel="noopener noreferrer"> <i
-        class="si si-lg si-question-circle"></i>
-      </a>
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#SystemOverview" />
     </ui:define>
+
     <ui:define name="content">
-      <cc:SingleCard id="overview">
-        <div class="card card-w-title">
-          <h:form id="form">
-            <div class="ui-g">
-              <div class="ui-g-12 ui-md-10">
-                <h1>
-                  <i class="si si-alarm-bell-timer card-title-icon"></i>System Overview
-                </h1>
-              </div>
-            </div>
-            <div class="ui-g">
-              <div class="ui-g-11">
+      <h:form id="form">
+        <div class="layout-dashboard">
+          <div class="card">
+            <div class="card-header p-flex-wrap">
+              <div class="card-title p-d-flex p-ai-center">
+                <i class="p-pr-3 si si-alarm-bell-timer"></i>
+                <h2 class="p-m-0">System Overview</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
-                    icon="si si-controls-play" styleClass="green-btn" disabled="#{traceBean.notStartable}" style="margin-right: 10px; margin-bottom: 10px"/>
-                <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="overview:form" title="Stop recording"
-                    icon="si si-controls-stop" styleClass="red-btn" disabled="#{traceBean.notStoppable}" style="margin-right: 10px;"/>
-                <p:commandButton id="clear" actionListener="#{systemOverviewBean.clear}" update="overview:form" title="Clear statistic"
-                    icon="si si-bin-1" styleClass="red-btn" disabled="#{traceBean.notCleanable}" style="margin-right: 10px;"/>
-                <p:commandButton id="refresh" actionListener="#{systemOverviewBean.refresh}" update="overview:form" title="Refresh statistic"
-                    icon="si si-button-refresh-arrows" disabled="#{traceBean.notRefreshable}" style="margin-right: 10px;"/>
+                    icon="si si-controls-play" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
+                <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="@form" title="Stop recording"
+                    icon="si si-controls-stop" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}"/>
+                <p:commandButton id="clear" actionListener="#{systemOverviewBean.clear}" update="@form" title="Clear statistic"
+                    icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notCleanable}"/>
+                <p:commandButton id="refresh" actionListener="#{systemOverviewBean.refresh}" update="@form" title="Refresh statistic"
+                    icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-1 rounded-button"  disabled="#{traceBean.notRefreshable}"/>
               </div>
             </div>
             <p:diagram value="#{systemOverviewBean.model}" style="height: 600px;" styleClass="ui-widget-content" var="system">
@@ -52,19 +44,18 @@
                 <h:outputText value="#{system.name}" escape="false"/>
               </f:facet>
             </p:diagram>
-          </h:form>
+          </div>
         </div>
-      </cc:SingleCard>
-      <p:confirmDialog style="min-width: 300px;" header="Start Recording" id="startRecordingDialog"
-            widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
+      </h:form>
+      <p:dialog style="min-width: 300px;" header="Start Recording" id="startRecordingDialog"
+            widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true">
         <h:form id="startTraces">
-          <p:staticMessage severity="warn" detail="Start the recording of the system overview can have a negative impact on the performance of the engine." />
-          <p:commandLink id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="modal-input-button"/>
-          <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"                  
-            styleClass="modal-input-button" actionListener="#{traceBean.start}" update="overview:form"/>
+          <p:staticMessage severity="warn" detail="Start the recording of the slow requests can have a negative impact on the performance of the engine." />
+          <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"
+            styleClass="modal-input-button" actionListener="#{traceBean.start}" update="form"/>
+          <p:commandButton id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
         </h:form>
-      </p:confirmDialog>
-      
+      </p:dialog>
     </ui:define>
   </ui:composition>
 </h:body>
