@@ -18,20 +18,24 @@ import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvyWebTest(headless=false)
+@IvyWebTest
 public class WebTestSystemOverview {
 
   @BeforeEach
   void beforeEach() {
     login();
     Navigation.toSystemOverview();
-    var stop = $(id("form:stop"));
-    if (stop.is(enabled)) {
-      stop.click();
-    }
+    stop();
     var clear = $(id("form:clear"));
     if (clear.is(enabled)) {
       clear.click();
+    }
+  }
+
+  private static void stop() {
+    var stop = $(id("form:stop"));
+    if (stop.is(enabled)) {
+      stop.click();
     }
   }
 
@@ -117,6 +121,7 @@ public class WebTestSystemOverview {
 
   public static void prepareScreenshot() {
     Navigation.toSystemOverview();
+    stop();
     recordData(10);
   }
 }

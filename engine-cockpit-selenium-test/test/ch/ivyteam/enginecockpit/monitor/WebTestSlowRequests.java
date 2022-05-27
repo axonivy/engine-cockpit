@@ -110,7 +110,7 @@ public class WebTestSlowRequests {
 
     Table traces = new Table(By.id("form:traceTable"), true);
     traces.tableEntry("HTTP/1.1 GET", 1).shouldHave(text("HTTP/1.1 GET"));
-    traces.tableEntry("HTTP/1.1 GET", 1).$("a").$("span").shouldHave(attributeMatching("title", "(?s).*http\\.uri.*"));
+    traces.tableEntry("HTTP/1.1 GET", 1).$("a").$("span").shouldHave(attributeMatching("title", "(?s).*http\\.url.*"));
     traces.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
     traces.tableEntry("HTTP/1.1 GET", 3).shouldBe(not(empty));
     traces.tableEntry("HTTP/1.1 GET", 4).shouldBe(not(empty));
@@ -129,7 +129,7 @@ public class WebTestSlowRequests {
     spans.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 3).shouldBe(not(empty));
     spans.tableEntry("HTTP/1.1 GET", 4).shouldBe(not(empty));
-    spans.tableEntry("HTTP/1.1 GET", 5).shouldBe(text("http.uri"));
+    spans.tableEntry("HTTP/1.1 GET", 5).shouldBe(text("http.url"));
 
     Table attributes = new Table(By.id("attributesTable"), false);
     attributes.tableEntry("http.method", 1).shouldHave(text("http.method"));

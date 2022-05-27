@@ -27,6 +27,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import ch.ivyteam.enginecockpit.monitor.WebTestMBeans;
 import ch.ivyteam.enginecockpit.monitor.WebTestPerformance;
 import ch.ivyteam.enginecockpit.monitor.WebTestSlowRequests;
+import ch.ivyteam.enginecockpit.monitor.WebTestSystemOverview;
 import ch.ivyteam.enginecockpit.setup.WebTestWizard;
 import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -98,7 +99,7 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-performance", new Dimension(SCREENSHOT_WIDTH, 800));
     WebTestSlowRequests.prepareScreenshot();
     takeScreenshot("monitor-slow-requests", new Dimension(SCREENSHOT_WIDTH, 800));
-    WebTestSlowRequests.prepareScreenshot();
+    WebTestSystemOverview.prepareScreenshot();
     takeScreenshot("monitor-system-overview", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
