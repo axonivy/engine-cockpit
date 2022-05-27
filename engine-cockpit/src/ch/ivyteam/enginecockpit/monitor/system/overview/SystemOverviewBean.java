@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.ResizeEvent;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.DiagramModel;
@@ -27,6 +28,11 @@ import ch.ivyteam.ivy.trace.Tracer;
 public class SystemOverviewBean {
 
   private DefaultDiagramModel model;
+  private int width = 1100;
+  private int height = 600;
+  private static final int BORDER = 20;
+  private static final int ELEMENT_HEIGHT = 68;
+  private static final int ELEMENT_WIDTH = 208;
 
   public SystemOverviewBean() {
     refresh();
@@ -37,10 +43,13 @@ public class SystemOverviewBean {
     model.setMaxConnections(-1);
     model.setContainment(false);
 
-    var ivy = new Element(new System("Axon Ivy Engine"), "50em", "15em");
-    model.addElement(ivy);
 
     var systemOverview = Tracer.instance().systemOverview();
+    var inOutMax = Math.max(systemOverview.inbound().size(), systemOverview.outbound().size());
+
+    var ivy = new Element(new System("Axon Ivy Engine"), middleX(), middleY(inOutMax));
+    model.addElement(ivy);
+
     var inboundRequests = systemOverview.inbound().stream().mapToLong(channel -> channel.statistics().requests()).sum();
     var outboundRequests = systemOverview.outbound().stream().mapToLong(channel -> channel.statistics().requests()).sum();
     var inboundAverage = systemOverview.inbound().stream().mapToLong(channel -> channel.statistics().average()).sum();
@@ -59,9 +68,15 @@ public class SystemOverviewBean {
     return model.getElements().size() == 1;
   }
 
+  public void resize(ResizeEvent event) {
+    width = event.getWidth();
+    height = event.getHeight();
+    refresh();
+  }
+
   private void addInbound(CommunicationChannel channel, Element ivy, long requests, long average) {
     var count = ivy.getEndPoints().stream().filter(ep -> ep.getAnchor() == EndPointAnchor.LEFT).count();
-    var inbound = new Element(new System(channel.systemLink()), "1em", (1+count*8)+"em");
+    var inbound = new Element(new System(channel.systemLink()), leftX(), gridY(count));
     setTitle(inbound, channel);
     setStyleClass(inbound, channel);
     model.addElement(inbound);
@@ -69,14 +84,14 @@ public class SystemOverviewBean {
     inbound.addEndPoint(out);
     var in = new BlankEndPoint(EndPointAnchor.LEFT);
     ivy.addEndPoint(in);
-    var width = (int)Math.max(1, channel.statistics().requests() * 20 / requests);
+    var strokeWidth = (int)Math.max(1, channel.statistics().requests() * 20 / requests);
     var color = color(channel.statistics().average(), average);
-    connect(in, out, channel, width, color);
+    connect(in, out, channel, strokeWidth, color);
   }
 
   private void addOutbound(CommunicationChannel channel, Element ivy, long requests, long average) {
     var count = ivy.getEndPoints().stream().filter(ep -> ep.getAnchor() == EndPointAnchor.RIGHT).count();
-    var outbound = new Element(new System(channel.systemLink()), "98em",  (1+count*8)+"em");
+    var outbound = new Element(new System(channel.systemLink()), rightX(),  gridY(count));
     setTitle(outbound, channel);
     setStyleClass(outbound, channel);
     model.addElement(outbound);
@@ -84,9 +99,36 @@ public class SystemOverviewBean {
     outbound.addEndPoint(in);
     var out = new BlankEndPoint(EndPointAnchor.RIGHT);
     ivy.addEndPoint(out);
-    var width = (int)Math.max(1, channel.statistics().requests() * 20 / requests);
+    var strokeWidth = (int)Math.max(1, channel.statistics().requests() * 20 / requests);
     var color = color(channel.statistics().average(), average);
-    connect(in, out, channel, width, color);
+    connect(in, out, channel, strokeWidth, color);
+  }
+
+  private String leftX() {
+    return BORDER + "px";
+  }
+
+  private String rightX() {
+    return (width - ELEMENT_WIDTH - BORDER) +"px";
+  }
+
+  private String gridY(long count) {
+    return (BORDER + step(count)) + "px";
+  }
+
+  private String middleY(long max) {
+    if (max > 1) {
+      return (BORDER + (step(max) / 2) - ELEMENT_HEIGHT / 2) + "px";
+    }
+    return BORDER + "px";
+  }
+
+  private long step(long max) {
+    return max * (ELEMENT_HEIGHT + BORDER);
+  }
+
+  private String middleX() {
+    return (width/2 - ELEMENT_WIDTH / 2)  + "px";
   }
 
   private void setTitle(Element element, CommunicationChannel channel) {
@@ -129,15 +171,16 @@ public class SystemOverviewBean {
 
   }
 
-  private void connect(EndPoint in, EndPoint out, CommunicationChannel channel, int width, String color) {
-    var connector = new BezierConnector(400, -1);
-    connector.setPaintStyle("{stroke:'"+color+"', strokeWidth:"+width+"}");
+  private void connect(EndPoint in, EndPoint out, CommunicationChannel channel, int strokeWidth, String color) {
+    var curviness = Math.max(1, 100+(width-1000)/2);
+    var connector = new BezierConnector(curviness, -1);
+    connector.setPaintStyle("{stroke:'"+color+"', strokeWidth:"+strokeWidth+"}");
     var connection = new Connection(out, in, connector);
 
     var avg = format(channel.statistics().average());
     var label = new LabelOverlay(channel.statistics().requests() +" requests / " + channel.statistics().errors() +" errors / " + avg);
     connection.getOverlays().add(label);
-    var arrow = new ArrowOverlay(width*2+20, width+20, 1, 1);
+    var arrow = new ArrowOverlay(strokeWidth*2+20, strokeWidth+20, 1, 1);
     connection.getOverlays().add(arrow);
     model.connect(connection);
   }
@@ -154,6 +197,14 @@ public class SystemOverviewBean {
 
   public DiagramModel getModel() {
     return model;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public int getWidth() {
+    return width;
   }
 
   public static final class System {

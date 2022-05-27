@@ -14,7 +14,7 @@
       <li>/</li>
       <li><span>Performance</span></li>
       <li>/</li>
-      <li><a href="monitorSystemOverview">System Overview</a></li>
+      <li><a href="monitorSystemOverview.xhtml">System Overview</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -39,11 +39,14 @@
                     icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-1 rounded-button"  disabled="#{traceBean.notRefreshable}"/>
               </div>
             </div>
-            <p:diagram value="#{systemOverviewBean.model}" style="height: 600px;" styleClass="ui-widget-content" var="system">
+            <p:diagram id="diagram" style="border-right: dotted 1px; border-bottom: dotted 1px; height: #{systemOverviewBean.height}px; width: #{systemOverviewBean.width}px; overflow: hidden;" value="#{systemOverviewBean.model}" styleClass="ui-widget-content" var="system">
               <f:facet name="element">
                 <h:outputText value="#{system.name}" escape="false"/>
               </f:facet>
             </p:diagram>
+            <p:resizable for="diagram" minHeight="200" minWidth="300" ghost="true">
+              <p:ajax listener="#{systemOverviewBean.resize}" update="@form"/>
+            </p:resizable>
           </div>
         </div>
       </h:form>
