@@ -4,44 +4,6 @@
   flex-grow: 0;
   min-width: 325px;
 }
-.user-profile a {
-  white-space: nowrap;
-}
-.layout-topbar-light .user-profile a {
-  color: #293241;
-}
-.layout-topbar-dark .user-profile a {
-  color: #e9e9e9;
-}
-.layout-topbar-light .user-profile > a:hover {
-  border-radius: 6px;
-  background-color: #E8EDF0;
-}
-.layout-topbar-dark .user-profile > a:hover {
-  border-radius: 6px;
-  background-color: #333e51;
-}
-.layout-topbar-dark .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li.user-profile > a,
-.layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li.user-profile > a {
-  margin-left: 6px;
-}
-.profile-name {
-  display: inline-flex;
-  height: 32px;
-  vertical-align: bottom;
-  align-items: center;
-  white-space: normal;
-}
-.profile-image-wrapper img {
-  height: 28px;
-  width: 28px;
-}
-.layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > ul > li > a i {
-  color: rgba(41, 50, 65, 0.8);
-}
-.layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions a {
-  text-decoration: none;
-}
 .layout-breadcrumb {
   height: 100%;
   margin-left: 16rem;
