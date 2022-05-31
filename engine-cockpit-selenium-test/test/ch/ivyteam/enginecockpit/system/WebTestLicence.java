@@ -76,9 +76,8 @@ class WebTestLicence {
     } else {
       Selenide.open(EngineUrl.create().app("test").path("login").toUrl());
     }
-    $("h1").shouldHave(text("Login"));
-    $("#loginForm\\:userName").sendKeys(SESSION_USER);
-    $("#loginForm\\:password").sendKeys(SESSION_USER);
+    $("#loginForm\\:userName").shouldBe(visible).sendKeys(SESSION_USER);
+    $("#loginForm\\:password").shouldBe(visible).sendKeys(SESSION_USER);
     $("#loginForm\\:login").click();
     $("#sessionUserName").shouldHave(text(SESSION_USER));
     Selenide.switchTo().window(0);
