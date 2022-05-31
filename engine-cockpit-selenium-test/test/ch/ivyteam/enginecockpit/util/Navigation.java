@@ -48,6 +48,7 @@ public class Navigation {
   private static final String MONITOR_PERFORMANCE_MENU = "#menuform\\:sr_monitor_performance";
   private static final String MONITOR_PERFORMANCE_STATISTIC_MENU = "#menuform\\:sr_monitor_performance_statistic";
   private static final String MONITOR_PERFORMANCE_TRACES_MENU = "#menuform\\:sr_monitor_performance_traces";
+  private static final String MONITOR_PERFORMANCE_SYSTEM_OVERVIEW = "#menuform\\:sr_monitor_performance_system_overview";
 
   public static void toDashboard() {
     toMenu(DASHBOARD_MENU);
@@ -291,6 +292,10 @@ public class Navigation {
 
   public static void toSlowRequests() {
     toSubSubMenu(MONITOR_MENU, MONITOR_PERFORMANCE_MENU, MONITOR_PERFORMANCE_TRACES_MENU);
+  }
+
+  public static void toSystemOverview() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_PERFORMANCE_MENU, MONITOR_PERFORMANCE_SYSTEM_OVERVIEW);
   }
 
   private static void toMenu(String menuItemPath) {

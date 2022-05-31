@@ -398,3 +398,60 @@ i.success {
 .ldap-browser .ui-datatable .ui-datatable-data td {
   padding: 0.5rem;
 }
+
+.ui-diagram-element {
+  background-color: var(--surface-d);
+  width: 15em;
+  height: 5em;
+  text-align: center;
+  user-select: none;
+}
+
+.ui-diagram-element.error {
+  border: solid 2px var(--error-color);  
+}
+
+.ui-diagram-element.ok {
+  border: solid 2px var(--success-color);  
+}
+
+.ui-diagram-element[data-tooltip]:hover:before,
+.ui-diagram-element[data-tooltip]:hover:after {
+  opacity: 1;
+  visibility: visible;
+  transition: 0.4s ease-in-out 0.3s;
+}
+
+.ui-diagram-element[data-tooltip]:before,
+.ui-diagram-element[data-tooltip]:after {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  -webkit-font-smoothing: antialiased;
+  margin: 0 auto;
+  opacity: 1;
+  visibility: hidden;
+  z-index: 9;
+  transition: 0.6s ease-in-out 0.4s;
+}
+
+.ui-diagram-element[data-tooltip]:before {
+  content: "";
+  height: 0;
+  width: 0;
+  top: calc(100% - 9px);
+  border-style: solid;
+  border-width: 10px;
+  border-color: transparent transparent var(--ivy-primary-color) transparent;
+}
+
+.ui-diagram-element[data-tooltip]:after {
+  content: attr(data-tooltip);
+  white-space: pre;
+  background: var(--ivy-primary-color);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  box-sizing: border-box;
+  top: calc(100% + 11px);
+  color: var(--ivy-primary-text-color);
+  border-radius: 2px;
+}

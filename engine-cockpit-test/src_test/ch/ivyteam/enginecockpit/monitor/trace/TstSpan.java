@@ -6,7 +6,7 @@ import ch.ivyteam.ivy.trace.Attribute;
 import ch.ivyteam.ivy.trace.SpanInstance;
 import ch.ivyteam.ivy.trace.SpanResult;
 
-final class TstSpan implements SpanInstance<SpanResult> {
+public final class TstSpan implements SpanInstance<SpanResult> {
 
   private final String name;
   private final List<Attribute> attributes;
