@@ -7,12 +7,16 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import ch.ivyteam.ivy.trace.Span;
 import ch.ivyteam.ivy.trace.SpanResult;
 
 class TestTraceBean {
   private TraceBean bean = new TraceBean();
+
+  @RegisterExtension
+  TracerAccess tracer = new TracerAccess();
 
   @BeforeEach
   void beforeEach() {
