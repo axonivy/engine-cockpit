@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import ch.ivyteam.ivy.trace.Attribute;
 import ch.ivyteam.ivy.trace.Tracer;
@@ -16,9 +17,11 @@ class TestSpanBean {
   private SpanBean bean = new SpanBean();
   private String traceId;
 
+  @RegisterExtension
+  TracerAccess tracer = new TracerAccess();
+
   @BeforeEach
   void beforeEach() {
-    Tracer.instance().start();
     try (var undef = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("undef", List.of(attribute("attr", 1234), attribute("hello", "world"))))) {
       try (var ok = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("ok"))){
         try (var error = ch.ivyteam.ivy.trace.Span.open(() -> new TstSpan("error"))){

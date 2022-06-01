@@ -7,12 +7,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.Element;
 import org.primefaces.model.diagram.overlay.LabelOverlay;
 
 import ch.ivyteam.enginecockpit.monitor.system.overview.SystemOverviewBean.System;
 import ch.ivyteam.enginecockpit.monitor.trace.TraceBean;
+import ch.ivyteam.enginecockpit.monitor.trace.TracerAccess;
 import ch.ivyteam.enginecockpit.monitor.trace.TstSpan;
 import ch.ivyteam.ivy.trace.Span;
 import ch.ivyteam.ivy.trace.SpanResult;
@@ -20,6 +22,9 @@ import ch.ivyteam.ivy.trace.SpanResult;
 class TestSystemOverviewBean {
   private SystemOverviewBean bean = new SystemOverviewBean();
   private TraceBean trace = new TraceBean();
+
+  @RegisterExtension
+  TracerAccess tracer = new TracerAccess();
 
   @BeforeEach
   void beforeEach() {
