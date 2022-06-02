@@ -359,7 +359,7 @@ public class SecurityConfigDetailBean {
   }
 
   public String deleteConfiguration() {
-    ISecurityManager.instance().securityContexts().removeComplete(name);
+    ISecurityManager.instance().securityContexts().delete(name);
     return "securitysystem.xhtml?faces-redirect=true";
   }
 
