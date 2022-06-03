@@ -41,9 +41,9 @@
     <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}" />
     <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn"
       detail="#{licenceBean.problemMessage}" />
-    <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence"
+    <p:linkButton id="uploadLicenceBtn" type="button" value="Upload Licence"
       rendered="#{!licenceBean.installed or !licenceBean.valid}" icon="si si-upload-bottom"
-      onclick="window.location.href='licence.xhtml'" />
+      href="licence.xhtml" />
   </p:panelGrid>
 </div>
 
