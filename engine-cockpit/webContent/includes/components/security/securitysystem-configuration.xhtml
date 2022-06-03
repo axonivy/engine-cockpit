@@ -12,19 +12,19 @@
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-information-circle"></i>
         <h6 class="p-m-0">Security System</h6>
-        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecuritySystemConfigBtn"
-          styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" actionListener="#{securityConfigDetailBean.saveConfiguration}"
-          rendered="#{securityConfigDetailBean.jndiSecuritySystem}" />
         <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
-          title="Delete this security system" icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button"
-          rendered="#{empty securityConfigDetailBean.usedByApps}" />
+              title="Delete this security system" icon="si si-bin-1" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" />
+        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecuritySystemConfigBtn"
+              styleClass="p-ml-1 ui-button-success rounded-button" actionListener="#{securityConfigDetailBean.saveConfiguration}"
+              rendered="#{securityConfigDetailBean.jndiSecuritySystem}" />
         <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
-          message="Are you sure you want to delete the security system '#{securityConfigDetailBean.name}'?"
+          message="#{securityConfigDetailBean.notToDeleteReason}"
           header="Delete Security System" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
           <p:commandButton value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
           <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="Delete" ajax="false" immediate="true"
-            action="#{securityConfigDetailBean.deleteConfiguration}" icon="si si-bin-1" styleClass="modal-input-button" />
+            action="#{securityConfigDetailBean.deleteConfiguration}" icon="si si-bin-1" styleClass="modal-input-button"
+            disabled="#{!securityConfigDetailBean.deletable}" />
         </p:confirmDialog>
       </div>
     </div>
@@ -33,7 +33,6 @@
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
       <h:outputText id="name" value="#{securityConfigDetailBean.name}" />
-  
       <label>Provider</label>
       <h:outputText id="provider" value="#{securityConfigDetailBean.provider}" />
       <h:panelGroup>

@@ -17,8 +17,10 @@ import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityConstants;
+import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiProvider;
 
@@ -119,6 +121,19 @@ public class SecurityConfigDetailBean {
 
   public List<String> getUsedByApps() {
     return securitySystem.getAppNames();
+  }
+
+  public boolean isDeletable() {
+    var result = new SecurityContextRemovalCheck(securitySystem.getSecurityContext()).run();
+    return result.removable();
+  }
+
+  public String getNotToDeleteReason() {
+    var result = new SecurityContextRemovalCheck(securitySystem.getSecurityContext()).run();
+    if (result.removable()) {
+      return "Are you sure you want to delete the security system '" + name + "'?";
+    }
+    return result.reason();
   }
 
   public String getProvider() {
@@ -344,7 +359,7 @@ public class SecurityConfigDetailBean {
   }
 
   public String deleteConfiguration() {
-    IConfiguration.instance().remove(SecuritySystemConfig.getPrefix(name));
+    ISecurityManager.instance().securityContexts().delete(name);
     return "securitysystem.xhtml?faces-redirect=true";
   }
 
