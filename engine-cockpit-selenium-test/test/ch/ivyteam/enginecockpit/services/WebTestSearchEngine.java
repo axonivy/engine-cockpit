@@ -28,8 +28,8 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestSearchEngine {
 
-  private static final String dossierIndex = "ivy.businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
-  private static final String addressIndex = "ivy.businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
+  private static final String dossierIndex = "ivy.businessdata-default-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
+  private static final String addressIndex = "ivy.businessdata-default-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
 
   @BeforeAll
   static void setup() {
