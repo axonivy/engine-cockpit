@@ -131,7 +131,7 @@ public class SecurityConfigDetailBean {
   public String getNotToDeleteReason() {
     var result = new SecurityContextRemovalCheck(securitySystem.getSecurityContext()).run();
     if (result.removable()) {
-      return "Are you sure you want to delete the security system '" + name + "'";
+      return "Are you sure you want to delete the security system '" + name + "'?";
     }
     return result.reason();
   }
