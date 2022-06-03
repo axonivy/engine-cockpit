@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.system;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.server.restricted.EngineMode;
@@ -13,14 +12,7 @@ import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 @SessionScoped
 @SuppressWarnings("restriction")
 public class EngineModeBean {
-  private boolean hideDashboadWarnings;
-
-  public EngineModeBean() {
-    hideDashboadWarnings = BooleanUtils.toBoolean(System.getProperty("hide.dashboard.warnings"));
-  }
-
   public boolean isDemo() {
-
     return EngineMode.is(EngineMode.DEMO) || EngineMode.is(EngineMode.DESIGNER_EMBEDDED);
   }
 
@@ -29,7 +21,7 @@ public class EngineModeBean {
   }
 
   public boolean hasDashboardWarning() {
-    return (isDemo() || isMaintenance()) && !hideDashboadWarnings;
+    return (isDemo() || isMaintenance());
   }
 
   public String getDashboardWarningSummary() {

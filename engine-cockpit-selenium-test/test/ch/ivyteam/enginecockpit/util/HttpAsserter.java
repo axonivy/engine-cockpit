@@ -32,7 +32,7 @@ public class HttpAsserter {
       if (maxDepth <= currentDepth) {
         return;
       }
-      if (crawled.contains(url)) {
+      if (containsQueryParamIgnore(crawled, url)) {
         return;
       }
 
@@ -54,7 +54,7 @@ public class HttpAsserter {
 
     private Set<String> findDeadLinks(Set<String> linksToCheck, Set<String> linksAlreadyChecked, String sessionId) {
       return linksToCheck.stream()
-              .filter(link -> !linksAlreadyChecked.contains(link))
+              .filter(link -> !containsQueryParamIgnore(linksAlreadyChecked, link))
               .filter(link -> !check(link, sessionId))
               .collect(Collectors.toSet());
     }
@@ -78,13 +78,20 @@ public class HttpAsserter {
             result.add(href);
           } else {
             var absolute = URI.create(url).resolve(u).toString();
-            result.add(absolute);
+            if (!containsQueryParamIgnore(result, absolute)) {
+              result.add(absolute);
+            }
           }
         }
         return result;
       } catch (IOException ex) {
         throw new RuntimeException("Could not crawl " + url, ex);
       }
+    }
+
+    private static boolean containsQueryParamIgnore(Set<String> crawled, String url) {
+      var urlWithoutQuery = StringUtils.substringBefore(url, "?");
+      return crawled.stream().anyMatch(c -> StringUtils.equals(StringUtils.substringBefore(c, "?"), urlWithoutQuery));
     }
 
     private boolean check(String urlToCheck, String sessionId) {

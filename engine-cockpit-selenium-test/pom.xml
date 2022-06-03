@@ -120,7 +120,6 @@
             <configuration>
               <additionalVmOptions>
                 -Dlicence.base.uri=http://localhost:8080/test/api/test
-                -Dhide.dashboard.warnings=true
                 -Ddb.host=${db.host}
                 -Divy.Applications.test.Databases.realdb.Url=jdbc:mysql://${db.host}:3306/test
               </additionalVmOptions>
