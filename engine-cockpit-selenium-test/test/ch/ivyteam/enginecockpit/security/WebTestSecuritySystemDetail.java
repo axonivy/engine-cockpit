@@ -90,7 +90,8 @@ public class WebTestSecuritySystemDetail {
   @Test
   void dirNotDeletableIfUsedByApp() {
     $(By.id("securitySystemConfigForm:usedByHelp")).parent().parent().find("a").shouldHave(exactText("test-ad"));
-    $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldNotBe(exist);
+    $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible).click();
+    $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmYesBtn").shouldBe(disabled);
   }
 
   @Test
