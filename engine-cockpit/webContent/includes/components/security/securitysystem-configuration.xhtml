@@ -10,21 +10,13 @@
     </p:growl>
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
-        <div class="p-col-6">
-          <div class="p-d-flex">
-            <i class="p-pr-3 si si-information-circle"></i>
-            <h6 class="p-m-0">Security System</h6>
-          </div>
-        </div>
-        <div class="p-col-6">
-          <div class="p-d-flex p-justify-end">
-		        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecuritySystemConfigBtn"
-		          styleClass="p-ml-1 ui-button-success rounded-button" actionListener="#{securityConfigDetailBean.saveConfiguration}"
-		          rendered="#{securityConfigDetailBean.jndiSecuritySystem}" />
-		        <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
-		          title="Delete this security system" icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
-		  </div>
-        </div>
+        <i class="p-pr-3 si si-information-circle"></i>
+        <h6 class="p-m-0">Security System</h6>
+        <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
+              title="Delete this security system" icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 p-ml-auto ui-button-danger rounded-button" />
+        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecuritySystemConfigBtn"
+              styleClass="p-ml-1 ui-button-success rounded-button" actionListener="#{securityConfigDetailBean.saveConfiguration}"
+              rendered="#{securityConfigDetailBean.jndiSecuritySystem}" />
         <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
           message="#{securityConfigDetailBean.notToDeleteReason}"
           header="Delete Security System" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
