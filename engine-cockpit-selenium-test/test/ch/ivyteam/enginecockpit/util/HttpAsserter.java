@@ -69,7 +69,7 @@ public class HttpAsserter {
         var links = doc.select("a[href]");
         for (var link : links) {
           var href = link.attr("href");
-          href = StringUtils.removeEnd(href, "#");
+          href = StringUtils.substringBefore(href, "#");
           if (StringUtils.isEmpty(href)) {
             continue;
           }
