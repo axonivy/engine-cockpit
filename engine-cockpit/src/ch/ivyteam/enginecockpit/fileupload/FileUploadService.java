@@ -13,7 +13,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.config.NewLicenceFileInstaller;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -46,7 +46,7 @@ public class FileUploadService {
           @FormDataParam("appName") String appName) {
     var newResourceName = fileDetail.getFileName();
     try {
-      var app = IApplicationConfigurationManager.instance().findApplication(appName);
+      var app = IApplicationRepository.instance().findByName(appName).orElse(null);
       newResourceName = new BrandingIO(app).setImage(oldResourceName,
               FilenameUtils.getExtension(fileDetail.getFileName()), stream);
     } catch (Exception ex) {

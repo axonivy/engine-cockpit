@@ -95,7 +95,7 @@ public class ApplicationDetailBean {
   }
 
   public String deleteApplication() {
-    managerBean.getManager().deleteApplication(appName);
+    managerBean.apps().delete(appName);
     managerBean.reloadApplications();
     return "applications.xhtml?faces-redirect=true";
   }

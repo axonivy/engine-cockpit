@@ -121,7 +121,7 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
 
   public void createNewApplication() {
     try {
-      var app = managerBean.getManager().createApplication(newApp.getName());
+      var app = managerBean.apps().create(newApp.getName());
       app.setDescription(newApp.getDesc());
       if (activateNewApp) {
         app.activate();
@@ -141,5 +141,4 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
   public AbstractActivity getActiveActivity() {
     return selectedActivity;
   }
-
 }

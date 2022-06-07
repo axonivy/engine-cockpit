@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationRepository;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class SecuritySystem {

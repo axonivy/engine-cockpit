@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import ch.ivyteam.enginecockpit.application.model.LibSpecification;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
 
@@ -60,7 +61,7 @@ public class PmvDetailBean {
   private void reloadDetailPmv() {
     if (this.appName != null && this.pmName != null && this.pmvVersion != null) {
       managerBean.reloadApplications();
-      IProcessModelVersion iPmv = managerBean.getManager().findProcessModelVersion(appName, pmName,
+      IProcessModelVersion iPmv = IApplicationConfigurationManager.instance().findProcessModelVersion(appName, pmName,
               Integer.parseInt(pmvVersion));
       pmv = new ProcessModelVersion(iPmv);
       deployedProject = iPmv.getLibrary().getId();
