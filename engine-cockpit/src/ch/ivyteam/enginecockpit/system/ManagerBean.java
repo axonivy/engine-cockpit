@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.system;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -21,8 +22,8 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
@@ -44,7 +45,7 @@ public class ManagerBean {
 
   private Locale formattingLocale;
 
-  private IApplicationConfigurationManager manager = IApplicationConfigurationManager.instance();
+  private IApplicationRepository apps = IApplicationRepository.instance();
   private ISecurityManager securityManager = ISecurityManager.instance();
 
   public ManagerBean() {
@@ -149,8 +150,8 @@ public class ManagerBean {
     return selectedApplication.getName();
   }
 
-  public IApplicationConfigurationManager getManager() {
-    return manager;
+  public IApplicationRepository apps() {
+    return apps;
   }
 
   public Application getSelectedApplication() {
@@ -164,15 +165,18 @@ public class ManagerBean {
     if (applications.isEmpty()) {
       return null;
     }
-    return manager.getApplication(getSelectedApplication().getId());
+    return getIApplication(getSelectedApplication().getId());
   }
 
   public IApplication getIApplication(long id) {
-    return manager.getApplication(id);
+    return apps.findById(id).orElse(null);
   }
 
   public List<IApplication> getIApplications() {
-    return manager.getApplicationsSortedByName(false);
+    return apps.all().stream()
+            .filter(app -> !app.isSystem())
+            .sorted(Comparator.comparing(IApplication::getName, String.CASE_INSENSITIVE_ORDER))
+            .collect(Collectors.toList());
   }
 
   public String getSessionCount() {

@@ -15,7 +15,6 @@ import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
-import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.restricted.ApplicationConfigurationDumper;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.error.restricted.ErrorReport;
@@ -27,7 +26,6 @@ import ch.ivyteam.ivy.persistence.restricted.PersistencyDumper;
 @RequestScoped
 public class SupportBean {
 
-  private IApplicationConfigurationManager appManager = IApplicationConfigurationManager.instance();
   private ISystemDatabasePersistencyService systemDbService = ISystemDatabasePersistencyService.instance();
 
   public StreamedContent getSupportReport() throws IOException {
@@ -46,7 +44,7 @@ public class SupportBean {
 
   private String createSupportReport() {
     var dumpers = ErrorReport.addStandardDumpers(false,
-            new ApplicationConfigurationDumper(appManager),
+            new ApplicationConfigurationDumper(ch.ivyteam.ivy.application.app.IApplicationRepository.instance()),
             new PersistencyDumper(systemDbService));
     return ErrorReport.createErrorReport(dumpers);
   }
