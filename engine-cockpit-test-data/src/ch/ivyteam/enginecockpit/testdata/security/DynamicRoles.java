@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.testdata.security;
 
 import java.util.UUID;
 
-import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.exec.Sudo;
@@ -37,8 +37,8 @@ public class DynamicRoles {
   }
 
   private static ISecurityContext context() {
-    return IApplicationConfigurationManager.instance()
-              .findApplication("test")
+    return IApplicationRepository.instance()
+              .findByName("test").orElseThrow()
               .getSecurityContext();
   }
 }

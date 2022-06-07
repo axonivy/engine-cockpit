@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.testdata.user;
 
 import java.util.UUID;
 
-import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.exec.Sudo;
 
@@ -20,7 +20,7 @@ public class TestDataUser {
   }
 
   private static void newDisabledUser() {
-    var app = IApplicationConfigurationManager.instance().findApplication("test");
+    var app = IApplicationRepository.instance().findByName("test").orElse(null);
     var user = app.getSecurityContext().users().find("disableduser");
     if (user == null) {
       user = app.getSecurityContext().users().create("disableduser");
@@ -29,7 +29,7 @@ public class TestDataUser {
   }
 
   private static void new200kUsers() {
-    var app = IApplicationConfigurationManager.instance().createApplication("200kUsers");
+    var app = IApplicationRepository.instance().create("200kUsers");
     var userRepo = app.getSecurityContext().users();
     for (var i = 1; i <= 200000; i++) {
       if (i % 10000 == 0) {
@@ -41,6 +41,6 @@ public class TestDataUser {
   }
 
   private static void delete200kUsers() {
-    IApplicationConfigurationManager.instance().deleteApplication("200kUsers");
+    IApplicationRepository.instance().delete("200kUsers");
   }
 }
