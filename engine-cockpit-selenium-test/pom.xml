@@ -147,13 +147,12 @@
               <goal>deploy-to-engine</goal>
             </goals>
             <configuration>
-              <deployFile>../engine-cockpit-test-data/target/engine-cockpit-test-data-${project.version}.iar</deployFile>
+              <deployFile>./test-apps/test-ad/target/engine-cockpit-test-app-test-nd-${project.version}.zip</deployFile>
               <deployToEngineApplication>test-ad</deployToEngineApplication>
               <deployEngineDirectory>${engine.dir}</deployEngineDirectory>
               <skipDeploy>${maven.test.skip}</skipDeploy>
             </configuration>
           </execution>
-
         </executions>
       </plugin>
       <plugin>
