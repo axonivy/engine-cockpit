@@ -147,7 +147,7 @@
               <goal>deploy-to-engine</goal>
             </goals>
             <configuration>
-              <deployFile>./test-apps/test-ad/target/engine-cockpit-test-app-test-nd-${project.version}.zip</deployFile>
+              <deployFile>./test-apps/test-ad/target/engine-cockpit-test-app-test-ad-${project.version}.zip</deployFile>
               <deployToEngineApplication>test-ad</deployToEngineApplication>
               <deployEngineDirectory>${engine.dir}</deployEngineDirectory>
               <skipDeploy>${maven.test.skip}</skipDeploy>
