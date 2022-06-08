@@ -9,13 +9,11 @@
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-lock-1"></i>
         <h6 class="p-m-0">Security System</h6>
-        <p:commandButton id="changeSecuritySystem" icon="si si-cog" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button"
-          onclick="PF('changeSecuritySystemModel').show()" type="button" />
         <p:commandButton id="synchronizeSecurity"
           rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
           title="Synchronize" type="button"
           icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
-          styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
+          styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
           <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
         </p:commandButton>
         <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
@@ -48,6 +46,5 @@
     </p:panelGrid>
   </h:form>
 </div>
-<ui:include src="../../dialogs/changesecuritysystem.xhtml" />
 
 </html>

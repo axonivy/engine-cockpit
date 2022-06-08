@@ -11,6 +11,7 @@ import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 
 @SuppressWarnings("removal")
@@ -20,6 +21,7 @@ public class Application extends AbstractActivity {
   private String fileDir;
   private String owner;
   private String activeEnv;
+  private String secSystem = ISecurityContext.DEFAULT;
   private long runningCasesCount;
   private IApplicationInternal app;
   private List<WebServiceProcess> webServiceProcesses;
@@ -38,6 +40,7 @@ public class Application extends AbstractActivity {
     desc = app.getDescription();
     fileDir = app.getFileDirectory();
     owner = app.getOwnerName();
+    secSystem = app.getSecurityContext().getName();
     activeEnv = app.getActualEnvironment().getName();
   }
 
@@ -99,6 +102,14 @@ public class Application extends AbstractActivity {
     this.activeEnv = activeEnv;
   }
 
+  public void setSecSystem(String secSystem) {
+    this.secSystem = secSystem;
+  }
+
+  public String getSecSystem() {
+    return secSystem;
+  }
+
   @Override
   public long getApplicationId() {
     return getId();
@@ -127,10 +138,6 @@ public class Application extends AbstractActivity {
 
   public String getSecuritySystemName() {
     return app.getSecurityContext().getName();
-  }
-
-  public void setSecuritySystem(String securitySystemName) {
-    app.setSecuritySystem(securitySystemName);
   }
 
   public SecuritySystem getSecuritySystem() {

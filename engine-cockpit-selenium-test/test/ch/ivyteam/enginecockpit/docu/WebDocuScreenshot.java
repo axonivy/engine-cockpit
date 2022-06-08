@@ -190,8 +190,6 @@ public class WebDocuScreenshot {
     takeScreenshot("pmv-detail", new Dimension(SCREENSHOT_WIDTH, 1100));
     Navigation.toApplicationDetail(isDesigner() ? DESIGNER : "test");
     takeScreenshot("application-detail", new Dimension(SCREENSHOT_WIDTH, 900));
-    takeDialogScreenshot("dialog-change-security",
-            By.id("appDetailSecurityForm:changeSecuritySystem"));
     takeDialogScreenshot("dialog-deploy-app", By.id("appDetailInfoForm:showDeployment"));
   }
 

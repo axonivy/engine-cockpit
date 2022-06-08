@@ -20,6 +20,8 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.ReleaseState;
+import ch.ivyteam.ivy.application.app.NewApplication;
+import ch.ivyteam.ivy.security.ISecurityManager;
 
 @ManagedBean
 @ViewScoped
@@ -121,11 +123,13 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
 
   public void createNewApplication() {
     try {
-      var app = managerBean.apps().create(newApp.getName());
-      app.setDescription(newApp.getDesc());
-      if (activateNewApp) {
-        app.activate();
-      }
+      var securityContext = ISecurityManager.instance().securityContexts().get(newApp.getSecSystem());
+      var appToCreate = NewApplication.create(newApp.getName())
+              .description(newApp.getDesc())
+              .active(activateNewApp)
+              .securityContext(securityContext)
+              .toNewApplication();
+      managerBean.apps().create(appToCreate);
       reloadTree();
       managerBean.reloadApplications();
     } catch (RuntimeException ex) {

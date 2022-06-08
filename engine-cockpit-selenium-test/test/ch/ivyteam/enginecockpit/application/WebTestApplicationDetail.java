@@ -102,24 +102,4 @@ class WebTestApplicationDetail {
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
             .find(".ui-panel-content").shouldBe(visible);
   }
-
-  @Test
-  void changeSecuritySystem() {
-    Navigation.toApplicationDetail("test-ad");
-    $(By.id("appDetailSecurityForm:synchronizeSecurity")).shouldBe(visible);
-    changeSecuritySystem("test-ad", "default");
-    $(By.id("appDetailSecurityForm:synchronizeSecurity")).shouldNotBe(visible);
-    changeSecuritySystem("default", "test-ad");
-    $(By.id("appDetailSecurityForm:synchronizeSecurity")).shouldBe(visible);
-  }
-
-  private void changeSecuritySystem(String from, String to) {
-    $(By.id("appDetailSecurityForm:changeSecuritySystem")).shouldBe(visible).click();
-    $(By.id("changeSecuritySystemModel")).shouldBe(visible);
-    PrimeUi.selectOne(By.id("changeSecuritySystemForm:securitySystemSelect"))
-            .selectedItemShould(exactText(from))
-            .selectItemByLabel(to);
-    $(By.id("changeSecuritySystemForm:saveChangeSecuritySystem")).shouldBe(visible).click();
-    $(By.id("changeSecuritySystemModel")).shouldNotBe(visible);
-  }
 }

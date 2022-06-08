@@ -36,7 +36,6 @@ public class ApplicationDetailBean {
 
   private Application app;
   private SecuritySystem securitySystem;
-  private String changeSecuritySystem;
   private List<String> environments;
 
   private ConfigViewImpl configView;
@@ -68,7 +67,6 @@ public class ApplicationDetailBean {
     }
 
     securitySystem = app.getSecuritySystem();
-    changeSecuritySystem = app.getSecuritySystemName();
     environments = managerBean.getIApplication(app.getId())
               .getEnvironmentsSortedByName()
               .stream()
@@ -130,19 +128,6 @@ public class ApplicationDetailBean {
 
   private IApplication getIApplication() {
     return managerBean.getIApplication(app.getId());
-  }
-
-  public void setSecuritySystem() {
-    app.setSecuritySystem(changeSecuritySystem);
-    securitySystem = app.getSecuritySystem();
-  }
-
-  public String getChangeSecuritySystem() {
-    return changeSecuritySystem;
-  }
-
-  public void setChangeSecuritySystem(String changeSecuritySystem) {
-    this.changeSecuritySystem = changeSecuritySystem;
   }
 
   public ConfigViewImpl getConfigView() {
