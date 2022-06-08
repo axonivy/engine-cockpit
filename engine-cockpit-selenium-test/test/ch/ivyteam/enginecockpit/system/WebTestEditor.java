@@ -26,7 +26,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestEditor {
+class WebTestEditor {
 
   @BeforeEach
   void beforeEach() {
@@ -35,18 +35,18 @@ public class WebTestEditor {
   }
 
   @Test
-  void testEditor() {
+  void editor() {
     assertThat(Tab.APP.getCount()).isGreaterThan(1);
     String ivyYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     $(editorContentSelector()).shouldNotHave(attribute("value", ""));
-    Tab.APP.switchToTab("test-ad/app.yaml");
+    Tab.APP.switchToTab("demo-portal/app.yaml");
     String appYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     assertThat(ivyYamlHints).isNotEqualTo(appYamlHints);
-    $(editorContentSelector()).shouldHave(value("SecuritySystem: test-ad"));
+    $(editorContentSelector()).shouldHave(value("OverrideProject: ch.ivyteam.ivy.project.portal:axonIvyExpress"));
   }
 
   @Test
-  void testEditorSaveErrorsDialog() {
+  void editorSaveErrorsDialog() {
     Tab.APP.switchToTab("test/app.yaml");
     String newEditorContent = "test: hi\n  bla: fail";
     String editorContent = $(editorContentSelector()).shouldNotBe(empty).getAttribute("value");
@@ -90,5 +90,4 @@ public class WebTestEditor {
   private String getActivePanelCss() {
     return "#editorTabView\\:" + Tab.APP.getSelectedTabIndex() + "\\:";
   }
-
 }
