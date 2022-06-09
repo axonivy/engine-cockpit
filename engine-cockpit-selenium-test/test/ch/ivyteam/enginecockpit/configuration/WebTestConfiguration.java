@@ -255,7 +255,7 @@ class WebTestConfiguration {
 
     @Test
     void showConfigFile() {
-      String key = "SecuritySystem";
+      String key = "StandardProcess.DefaultPages";
       assertShowConfigFile(key);
     }
 
