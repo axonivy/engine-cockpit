@@ -193,7 +193,11 @@ class WebTestConfiguration {
 
     @BeforeEach
     void beforeEach() {
-      Navigation.toApplicationDetail("test-ad");
+      navigateTo("test-ad");
+    }
+
+    private void navigateTo(String app) {
+      Navigation.toApplicationDetail(app);
       $(CONTENT_FILTER_BTN).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
       table = new Table(TABLE_ID, "span");
     }
@@ -255,7 +259,8 @@ class WebTestConfiguration {
 
     @Test
     void showConfigFile() {
-      String key = "StandardProcess.DefaultPages";
+      navigateTo("demo-portal");
+      var key = "OverrideProject";
       assertShowConfigFile(key);
     }
 
