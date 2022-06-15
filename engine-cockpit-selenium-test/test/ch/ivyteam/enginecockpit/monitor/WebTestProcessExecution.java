@@ -28,12 +28,12 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestPerformance {
+public class WebTestProcessExecution {
 
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toPerformanceStatistic();
+    Navigation.toProcessExecution();
     var stop = $(id("form:stop"));
     if (stop.is(enabled)) {
       stop.click();
@@ -148,7 +148,7 @@ public class WebTestPerformance {
 
     EngineCockpitUtil.performanceData();
     EngineCockpitUtil.openDashboard();
-    Navigation.toPerformanceStatistic();
+    Navigation.toProcessExecution();
   }
 
   private static void start() {
@@ -177,7 +177,7 @@ public class WebTestPerformance {
   }
 
   public static void prepareScreenshot() {
-    Navigation.toPerformanceStatistic();
+    Navigation.toProcessExecution();
     recordData();
   }
 }

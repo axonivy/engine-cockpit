@@ -17,11 +17,11 @@ import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionSt
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @SuppressWarnings("restriction")
-class TestPerformanceBean {
+class TestProcessExecutionBean {
 
   private static final double ONE_MILLION = 1_000_000.0f;
   private TstExecutionStatistic statistic;
-  private PerformanceBean bean;
+  private ProcessExecutionBean bean;
 
   @BeforeEach
   void beforeEach() {
@@ -33,7 +33,7 @@ class TestPerformanceBean {
       }
     });
     statistic = (TstExecutionStatistic) DiCore.getGlobalInjector().getInstance(IBpmEngineManager.class).getExecutionStatistic();
-    bean = new PerformanceBean();
+    bean = new ProcessExecutionBean();
   }
 
   @AfterEach

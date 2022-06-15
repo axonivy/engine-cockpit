@@ -19,12 +19,12 @@ import com.codeborne.selenide.Condition;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestSystemOverview {
+public class WebTestTrafficGraph {
 
   @BeforeEach
   void beforeEach() {
     login();
-    Navigation.toSystemOverview();
+    Navigation.toTrafficGraph();
     stop();
     var clear = $(id("form:clear"));
     if (clear.is(enabled)) {
@@ -109,9 +109,9 @@ public class WebTestSystemOverview {
   private static void recordData(int requests) {
     start();
     while (requests-- > 0) {
-      Navigation.toPerformanceStatistic();
+      Navigation.toProcessExecution();
     }
-    Navigation.toSystemOverview();
+    Navigation.toTrafficGraph();
   }
 
   private static void start() {
@@ -120,7 +120,7 @@ public class WebTestSystemOverview {
   }
 
   public static void prepareScreenshot() {
-    Navigation.toSystemOverview();
+    Navigation.toTrafficGraph();
     stop();
     recordData(10);
   }
