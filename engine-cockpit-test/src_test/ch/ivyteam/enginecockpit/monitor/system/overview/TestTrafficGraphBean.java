@@ -12,15 +12,15 @@ import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.Element;
 import org.primefaces.model.diagram.overlay.LabelOverlay;
 
-import ch.ivyteam.enginecockpit.monitor.system.overview.SystemOverviewBean.System;
+import ch.ivyteam.enginecockpit.monitor.system.overview.TrafficGraphBean.System;
 import ch.ivyteam.enginecockpit.monitor.trace.TraceBean;
 import ch.ivyteam.enginecockpit.monitor.trace.TracerAccess;
 import ch.ivyteam.enginecockpit.monitor.trace.TstSpan;
 import ch.ivyteam.ivy.trace.Span;
 import ch.ivyteam.ivy.trace.SpanResult;
 
-class TestSystemOverviewBean {
-  private SystemOverviewBean bean = new SystemOverviewBean();
+class TestTrafficGraphBean {
+  private TrafficGraphBean bean = new TrafficGraphBean();
   private TraceBean trace = new TraceBean();
 
   @RegisterExtension

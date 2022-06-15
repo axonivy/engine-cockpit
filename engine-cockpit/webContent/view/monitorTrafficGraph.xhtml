@@ -14,11 +14,11 @@
       <li>/</li>
       <li><span>Performance</span></li>
       <li>/</li>
-      <li><a href="monitorSystemOverview.xhtml">System Overview</a></li>
+      <li><a href="monitorTrafficGraph.xhtml">Traffic Graph</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#SystemOverview" />
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#traffic-graph" />
     </ui:define>
 
     <ui:define name="content">
@@ -28,24 +28,24 @@
             <div class="card-header p-flex-wrap">
               <div class="card-title p-d-flex p-ai-center">
                 <i class="p-pr-3 si si si-view-1"></i>
-                <h2 class="p-m-0">System Overview</h2>
+                <h2 class="p-m-0">Traffic Graph</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
                     icon="si si-controls-play" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" disabled="#{traceBean.notStartable}" />
                 <p:commandButton id="stop" actionListener="#{traceBean.stop}" update="@form" title="Stop recording"
                     icon="si si-controls-stop" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{traceBean.notStoppable}"/>
-                <p:commandButton id="clear" actionListener="#{systemOverviewBean.clear}" update="@form" title="Clear statistic"
-                    icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{systemOverviewBean.notClearable}"/>
-                <p:commandButton id="refresh" actionListener="#{systemOverviewBean.refresh}" update="@form" title="Refresh statistic"
+                <p:commandButton id="clear" actionListener="#{trafficGraphBean.clear}" update="@form" title="Clear statistic"
+                    icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{trafficGraphBean.notClearable}"/>
+                <p:commandButton id="refresh" actionListener="#{trafficGraphBean.refresh}" update="@form" title="Refresh statistic"
                     icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-1 rounded-button"  disabled="#{traceBean.notRefreshable}"/>
               </div>
             </div>
-            <p:diagram id="diagram" style="border-right: dotted 1px; border-bottom: dotted 1px; height: #{systemOverviewBean.height}px; width: #{systemOverviewBean.width}px; overflow: hidden;" value="#{systemOverviewBean.model}" styleClass="ui-widget-content" var="system">
+            <p:diagram id="diagram" style="border-right: dotted 1px; border-bottom: dotted 1px; height: #{trafficGraphBean.height}px; width: #{trafficGraphBean.width}px; overflow: hidden;" value="#{trafficGraphBean.model}" styleClass="ui-widget-content" var="system">
               <f:facet name="element">
                 <h:outputText value="#{system.name}" escape="false"/>
               </f:facet>
             </p:diagram>
             <p:resizable for="diagram" minHeight="200" minWidth="300" ghost="true">
-              <p:ajax listener="#{systemOverviewBean.resize}" update="@form"/>
+              <p:ajax listener="#{trafficGraphBean.resize}" update="@form"/>
             </p:resizable>
           </div>
         </div>

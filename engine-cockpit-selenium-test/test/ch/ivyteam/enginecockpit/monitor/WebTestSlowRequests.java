@@ -151,7 +151,7 @@ public class WebTestSlowRequests {
   private static void recordData(int requests) {
     start();
     while (requests-- > 0) {
-      Navigation.toPerformanceStatistic();
+      Navigation.toProcessExecution();
     }
     Navigation.toSlowRequests();
   }

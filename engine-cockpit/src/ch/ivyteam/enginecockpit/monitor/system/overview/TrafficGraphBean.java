@@ -25,7 +25,7 @@ import ch.ivyteam.ivy.trace.Tracer;
 
 @ManagedBean
 @ViewScoped
-public class SystemOverviewBean {
+public class TrafficGraphBean {
 
   private DefaultDiagramModel model;
   private int width = 1100;
@@ -34,7 +34,7 @@ public class SystemOverviewBean {
   private static final int ELEMENT_HEIGHT = 68;
   private static final int ELEMENT_WIDTH = 208;
 
-  public SystemOverviewBean() {
+  public TrafficGraphBean() {
     refresh();
   }
 

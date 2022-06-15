@@ -26,7 +26,7 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("restriction")
-public final class PerformanceBean {
+public final class ProcessExecutionBean {
 
   private final IExecutionStatistic statistic = DiCore.getGlobalInjector().getInstance(IBpmEngineManager.class).getExecutionStatistic();
   private String filter;
