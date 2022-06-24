@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import ch.ivyteam.ivy.language.LanguageConfigurator;
 import ch.ivyteam.ivy.security.IEMailNotificationSettings;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
@@ -33,7 +34,7 @@ public class EmailSettings {
   public EmailSettings(ISecurityContext securityContext) {
     this.securityContext = securityContext;
     var configurator = new EmailNotificationConfigurator(securityContext);
-    this.language = configurator.language();
+    this.language = new LanguageConfigurator(securityContext).content();
     useApplicationDefault = false;
     initEmailSettings(configurator.settings());
   }

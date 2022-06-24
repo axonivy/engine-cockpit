@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.services.model.EmailSettings;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.ivy.language.LanguageConfigurator;
 import ch.ivyteam.ivy.security.email.EmailNotificationConfigurator;
 
 @ManagedBean
@@ -31,16 +32,11 @@ public class SecuritySystemEmailBean {
   }
 
   public void saveEmailSettings() {
-    var configurator = configurator();
-    var language = emailSettings.getLanguageLocale();
-    configurator.language(language);
+    var context = managerBean.getSelectedSecuritySystem().getSecurityContext();
+    new LanguageConfigurator(context).content(emailSettings.getLanguageLocale());
+    var configurator = new EmailNotificationConfigurator(context);
     configurator.settings(emailSettings.saveEmailSettings(configurator.settings()));
     var msg = new FacesMessage("User email changes saved");
     FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", msg);
-  }
-  
-  private EmailNotificationConfigurator configurator() {
-    var context = managerBean.getSelectedSecuritySystem().getSecurityContext();
-    return new EmailNotificationConfigurator(context);
   }
 }
