@@ -1,5 +1,5 @@
 {
-  "format" : "9.4.10",
+  "format" : "9.4.11",
   "id" : "16E88DD61E825E70",
   "data" : "engine.cockpit.test.data.Data",
   "elements" : [ {
@@ -46,19 +46,9 @@
       "config" : {
         "output" : {
           "code" : [
-            "import ch.ivyteam.ivy.application.calendar.FreeDate;",
-            "import ch.ivyteam.ivy.application.calendar.FreeEasterRelativeDay;",
-            "import ch.ivyteam.ivy.application.calendar.FreeDayOfYear;",
-            "import ch.ivyteam.ivy.application.calendar.FreeDayOfWeek;",
-            "import ch.ivyteam.util.date.Weekday;",
-            "import ch.ivyteam.ivy.application.calendar.WorkingTime;",
-            "import ch.ivyteam.ivy.application.calendar.IBusinessCalendarConfiguration;",
-            "import ch.ivyteam.ivy.application.IApplication;",
-            "import ch.ivyteam.ivy.application.calendar.IBusinessCalendarSettings;",
+            "import ch.ivyteam.enginecockpit.testdata.businesscalendar.TestBusinessCalendarData;",
             "",
-            "IApplication app = IApplication.current();",
-            "",
-            "app.findEnvironment(\"test\").setBusinessCalendar(app.getActualEnvironment().getBusinessCalendar().get(\"Luzern\"));"
+            "TestBusinessCalendarData.setBusinessCalendar();"
           ]
         }
       },
@@ -130,27 +120,20 @@
       "id" : "f16",
       "type" : "Database",
       "config" : {
-        "dbWizard" : [
-          "CREATE TABLE Persons (",
-          "    PersonID int,",
-          "    LastName varchar(255),",
-          "    FirstName varchar(255),",
-          "    Address varchar(255),",
-          "    City varchar(255)",
-          ");"
-        ],
-        "dbUrl" : "realdb",
-        "dbSql" : [
-          "<?xml version=\"\"1.0\"\" standalone=\"\"no\"\"?>",
-          "<!DOCTYPE ANY_SQL SYSTEM  \"\"sqlStatements.dtd\"\">",
-          "<ANY_SQL><Verbatim quote='true'>CREATE TABLE Persons (",
-          "    PersonID int,",
-          "    LastName varchar(255),",
-          "    FirstName varchar(255),",
-          "    Address varchar(255),",
-          "    City varchar(255)",
-          ")</Verbatim></ANY_SQL>"
-        ]
+        "query" : {
+          "kind" : "any",
+          "stmt" : [
+            "CREATE TABLE Persons (",
+            "    PersonID int,",
+            "    LastName varchar(255),",
+            "    FirstName varchar(255),",
+            "    Address varchar(255),",
+            "    City varchar(255)",
+            ");"
+          ],
+          "quote" : true
+        },
+        "dbUrl" : "realdb"
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 352 }
@@ -186,17 +169,15 @@
       "id" : "f21",
       "type" : "Database",
       "config" : {
-        "dbWizard" : [
-          "SELECT *",
-          "FROM Persons"
-        ],
-        "dbUrl" : "realdb",
-        "dbSql" : [
-          "<?xml version=\"\"1.0\"\" standalone=\"\"no\"\"?>",
-          "<!DOCTYPE ANY_SQL SYSTEM  \"\"sqlStatements.dtd\"\">",
-          "<ANY_SQL><Verbatim quote='true'>SELECT *",
-          "FROM Persons</Verbatim></ANY_SQL>"
-        ]
+        "query" : {
+          "kind" : "any",
+          "stmt" : [
+            "SELECT *",
+            "FROM Persons"
+          ],
+          "quote" : true
+        },
+        "dbUrl" : "realdb"
       },
       "visual" : {
         "at" : { "x" : 256, "y" : 480 }

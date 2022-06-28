@@ -63,6 +63,10 @@ pipeline {
 
                     checkVersions recordIssue: false
                     checkVersions cmd: '-f maven-config/pom.xml'
+                    recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
+                      excludeMessage('The system property test.engine.url is configured twice!*'),
+                      excludeMessage('JAR will be empty*')
+                    ]
                     junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
                     archiveArtifacts '**/target/*.iar'
                     archiveArtifacts '.ivy-engine/logs/*'
@@ -91,7 +95,7 @@ pipeline {
 
             archiveArtifacts '**/target/docu/**/*'
             archiveArtifacts '**/target/*.html'
-            recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image')], unstableNewAll: 1,
+            recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
             qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
             currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
           }          
