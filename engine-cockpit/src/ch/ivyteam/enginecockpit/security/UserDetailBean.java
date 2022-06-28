@@ -18,6 +18,7 @@ import ch.ivyteam.enginecockpit.services.model.EmailSettings;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.email.EmailNotificationConfigurator;
 import ch.ivyteam.ivy.security.synch.UserSynchResult.SynchStatus;
 import ch.ivyteam.ivy.security.user.NewUser;
 import ch.ivyteam.ivy.workflow.TaskState;
@@ -67,8 +68,7 @@ public class UserDetailBean {
 
     this.userSynchName = userName;
     this.user = new User(iUser);
-    this.emailSettings = new EmailSettings(iUser,
-            managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
+    this.emailSettings = new EmailSettings(iUser, new EmailNotificationConfigurator(getSecurityContext()).settings());
     this.securitySystemName = managerBean.getSelectedSecuritySystem().getSecuritySystemName();
     roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), false);
     startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId()
