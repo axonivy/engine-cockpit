@@ -4,16 +4,10 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="emailSettings" shortDescription="Email settings object" required="true" />
-  <cc:attribute name="supportedLanguages" shortDescription="All supported languages" required="true" />
 </cc:interface>
 <cc:implementation>
   <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" 
     layout="flex" styleClass="grey-label-panel">
-    <p:outputLabel value="Language" for="languageDropDown" />
-    <p:selectOneMenu id="languageDropDown" value="#{cc.attrs.emailSettings.language}" style="width: 100%;">
-      <f:selectItems value="#{cc.attrs.supportedLanguages}" />
-      <p:ajax update="@form" />
-    </p:selectOneMenu>
 
     <cc:insertChildren />
 
@@ -45,11 +39,7 @@
       <p:ajax update="@form" />
     </p:selectManyCheckbox>
     
-    <p:outputLabel value="Mail Process" for="mailProcess" />
-    <p:selectOneMenu id="mailProcess" value="#{cc.attrs.emailSettings.mailProcess}" style="width: 100%;">
-      <f:selectItems value="#{cc.attrs.emailSettings.mailProcesses}" />
-      <p:ajax update="@form" />
-    </p:selectOneMenu>
+
   </p:panelGrid>
 </cc:implementation>
 

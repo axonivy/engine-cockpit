@@ -7,7 +7,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import ch.ivyteam.ivy.language.LanguageConfigurator;
 import ch.ivyteam.ivy.security.IEMailNotificationSettings;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
@@ -20,7 +19,6 @@ import ch.ivyteam.util.date.Weekday;
 
 public class EmailSettings {
 
-  private Locale language;
   private boolean notificationDisabled;
   private boolean notificationCheckboxRender = true;
   private boolean sendOnNewWorkTasks;
@@ -34,14 +32,12 @@ public class EmailSettings {
   public EmailSettings(ISecurityContext securityContext) {
     this.securityContext = securityContext;
     var configurator = new EmailNotificationConfigurator(securityContext);
-    this.language = new LanguageConfigurator(securityContext).content();
     useApplicationDefault = false;
     initEmailSettings(configurator.settings());
   }
 
   public EmailSettings(IUser user, IEMailNotificationSettings defaultAppSettings) {
     this.securityContext = user.getSecurityContext();
-    this.language = user.getLanguage() != null ? user.getLanguage() : new Locale("app");
     useApplicationDefault = user.getEMailNotificationSettings().isUseApplicationDefault();
     if (useApplicationDefault) {
       initEmailSettings(defaultAppSettings);
@@ -57,18 +53,6 @@ public class EmailSettings {
             .map(w -> w.toString())
             .toArray(String[]::new);
     mailProcessLib = mailProcessConfig().getLibrary();
-  }
-
-  public String getLanguage() {
-    return this.language.getLanguage();
-  }
-
-  public void setLanguage(String language) {
-    this.language = new Locale(language);
-  }
-
-  public Locale getLanguageLocale() {
-    return this.language;
   }
 
   public boolean isNotificationCheckboxRender() {
@@ -154,7 +138,7 @@ public class EmailSettings {
     saveEmailSettings(settings);
     return settings;
   }
-  
+
   public String getMailProcess() {
     return mailProcessLib;
   }

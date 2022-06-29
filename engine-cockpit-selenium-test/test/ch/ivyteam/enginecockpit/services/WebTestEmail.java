@@ -37,21 +37,6 @@ public class WebTestEmail {
   }
 
   @Test
-  void emailLanguageSwitch() {
-    var language = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:languageDropDown"));
-    language.selectItemByLabel("German");
-    language.selectedItemShould(Condition.exactText("German"));
-    $(getActivePanelCss() + "saveEmailSettings").click();
-    $(EMAIL_GROWL).shouldBe(visible, exactText("User email changes saved"));
-
-    Selenide.refresh();
-    language.selectedItemShould(Condition.exactText("German"));
-    language.selectItemByLabel("English");
-    language.selectedItemShould(Condition.exactText("English"));
-    $(getActivePanelCss() + "saveEmailSettings").click();
-  }
-  
-  @Test
   void mailProcessSwitch() {
     var mailProcess = PrimeUi.selectOne(By.id(getActivePanel() + "emailSetting:mailProcess"));
     mailProcess.selectItemByLabel("");

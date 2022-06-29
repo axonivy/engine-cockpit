@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.TabChangeEvent;
@@ -22,7 +20,6 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -193,34 +190,6 @@ public class ManagerBean {
 
   public String getRunningCasesCount() {
     return formatNumber(getApplications().stream().mapToLong(a -> a.getRunningCasesCount()).sum());
-  }
-
-  public Locale getDefaultEmailLanguageForSelectedApp() {
-    return getSelectedIApplication().getDefaultEMailLanguage();
-  }
-
-  public List<SelectItem> getSupportedLanguagesWithDefault() {
-    var appLanguage = getSelectedIApplication().getDefaultEMailLanguage();
-    var languages = new ArrayList<SelectItem>();
-    languages.add(new SelectItem("app", "Application default (" + appLanguage.getDisplayLanguage() + ")"));
-    languages.addAll(getSupportedLanguages());
-    return languages;
-  }
-
-  public List<SelectItem> getSupportedLanguages() {
-    var locales = new ArrayList<Locale>();
-    locales.add(Locale.ENGLISH);
-    locales.add(Locale.GERMAN);
-    locales.add(Locale.FRENCH);
-    IApplicationInternal app = (IApplicationInternal) getSelectedIApplication();
-    if (app != null) {
-      locales.addAll(app.getLanguages());
-    }
-    return locales.stream()
-            .distinct()
-            .collect(Collectors.toMap(Locale::getLanguage, l -> l, (l1, l2) -> l1)).values().stream()
-            .map(l -> new SelectItem(l.getLanguage(), l.getDisplayLanguage()))
-            .collect(Collectors.toList());
   }
 
   public boolean isIvySecuritySystemForSelectedSecuritySystem() {

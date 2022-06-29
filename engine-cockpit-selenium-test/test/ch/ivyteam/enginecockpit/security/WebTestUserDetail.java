@@ -27,7 +27,6 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
-import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
@@ -133,20 +132,37 @@ class WebTestUserDetail {
   }
 
   @Test
-  void emailLanguageSwitch() {
+  void language() {
     Navigation.toUserDetail(USER_FOO);
-    changeEmailLanguage("Application default (English)", "German");
+    var language = PrimeUi.selectOne(By.id("userInformationForm:language"));
+    language.selectItemByLabel("German (de)");
+    language.selectedItemShould(exactText("German (de)"));
+    $("#userInformationForm\\:saveUserInformation").click();
+
     Selenide.refresh();
-    changeEmailLanguage("German", "Application default (English)");
+    language.selectedItemShould(exactText("German (de)"));
+    language.selectItemByLabel("English (en)");
+    $("#userInformationForm\\:saveUserInformation").click();
+
+    Selenide.refresh();
+    language.selectedItemShould(exactText("English (en)"));
   }
 
-  private void changeEmailLanguage(String oldLang, String lang) {
-    SelectOneMenu language = PrimeUi.selectOne(By.id("userEmailForm:emailSettings:languageDropDown"));
-    language.selectedItemShould(exactText(oldLang));
-    language.selectItemByLabel(lang);
-    language.selectedItemShould(exactText(lang));
-    $("#userEmailForm\\:saveEmailNotificationSettings").click();
-    $("#userEmailForm\\:emailSaveSuccess_container .ui-growl-message").shouldBe(visible, exactText("User email changes saved"));
+  @Test
+  void formattingLanguage() {
+    Navigation.toUserDetail(USER_FOO);
+    var language = PrimeUi.selectOne(By.id("userInformationForm:formattingLanguage"));
+    language.selectItemByLabel("Aghem (agq)");
+    language.selectedItemShould(exactText("Aghem (agq)"));
+    $("#userInformationForm\\:saveUserInformation").click();
+
+    Selenide.refresh();
+    language.selectedItemShould(exactText("Aghem (agq)"));
+    language.selectItemByLabel("English (en)");
+    $("#userInformationForm\\:saveUserInformation").click();
+
+    Selenide.refresh();
+    language.selectedItemShould(exactText("English (en)"));
   }
 
   @Test

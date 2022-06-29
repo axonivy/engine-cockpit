@@ -1,11 +1,14 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.util.Locale;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.administrator.Administrator;
 
 public class User {
+
   private String name;
   private String fullName;
   private String email;
@@ -14,6 +17,8 @@ public class User {
   private String externalName = "";
   private String externalId = "";
   private String securityMemberId = "";
+  private Locale language;
+  private Locale formattingLanguage;
 
   private boolean loggedIn;
   private boolean enabled = true;
@@ -31,6 +36,8 @@ public class User {
     this.externalName = user.getExternalName();
     this.externalId = user.getExternalId();
     this.securityMemberId = user.getSecurityMemberId();
+    this.language = user.getLanguage();
+    this.formattingLanguage = user.getFormattingLanguage();
   }
 
   public User(Administrator admin) {
@@ -102,6 +109,22 @@ public class User {
 
   public String getDisplayName() {
     return name + " (" + fullName + ")";
+  }
+
+  public Locale getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(Locale language) {
+    this.language = language;
+  }
+
+  public Locale getFormattingLanguage() {
+    return formattingLanguage;
+  }
+
+  public void setFormattingLanguage(Locale formattingLanguage) {
+    this.formattingLanguage = formattingLanguage;
   }
 
   // Use for <p:password redisplay="true"> without leak the real password in the

@@ -28,6 +28,7 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 @ManagedBean
 @ViewScoped
 public class UserDetailBean {
+
   private String userName;
   private User user;
   private EmailSettings emailSettings;
@@ -134,8 +135,10 @@ public class UserDetailBean {
     if (user.getPassword() != "") {
       iUser.setPassword(user.getPassword());
     }
-    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
-            new FacesMessage("User information changes saved"));
+    iUser.setLanguage(user.getLanguage());
+    iUser.setFormattingLanguage(user.getFormattingLanguage());
+    var msg = new FacesMessage("User information changes saved");
+    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);
   }
 
   public void synchUser() {
@@ -173,11 +176,6 @@ public class UserDetailBean {
 
   public void saveUserEmail() {
     var iUser = getIUser();
-    var language = emailSettings.getLanguageLocale();
-    if ("app".equals(language.getLanguage())) {
-      language = null;
-    }
-    iUser.setLanguage(language);
     iUser.setEMailNotificationSettings(emailSettings.saveUserEmailSettings(iUser.getEMailNotificationSettings()));
     FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", new FacesMessage("User email changes saved"));
   }
@@ -219,7 +217,7 @@ public class UserDetailBean {
     return getSecurityContext().users().find(userName);
   }
 
-  private ISecurityContext getSecurityContext() {
+  public ISecurityContext getSecurityContext() {
     return managerBean.getSelectedSecuritySystem().getSecurityContext();
   }
 

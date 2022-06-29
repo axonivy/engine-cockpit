@@ -76,6 +76,16 @@
       <p:outputLabel for="password2" value="Confirm Password" />
       <p:password id="password2" feedback="true" inline="true" value="#{userDetailBean.user.password}"
         autocomplete="new-password" disabled="#{isManaged}" />
+
+      <p:outputLabel for="language" value="Language" />
+      <p:selectOneMenu id="language" value="#{userDetailBean.user.language}" editable="true" converter="localeConverter">
+        <f:selectItems value="#{languageBean.getContentLanguages(userDetailBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
+      </p:selectOneMenu>
+      
+      <p:outputLabel for="formattingLanguage" value="Formatting language" />
+      <p:selectOneMenu id="formattingLanguage" value="#{userDetailBean.user.formattingLanguage}" editable="true" filter="true" filterMatchMode="contains" converter="localeConverter">
+        <f:selectItems value="#{languageBean.getFormattingLanguages(userDetailBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
+      </p:selectOneMenu>
     </p:panelGrid>
     
     <p:messages for="password1" id="informationMessages">

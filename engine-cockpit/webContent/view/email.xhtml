@@ -26,8 +26,13 @@
         </div>
         <cc:SecuritySystemTabs tabChange="#{securitySystemEmailBean.reloadEmailSettings}" id="tabs">
           <h:form id="form">
-            <cc:EmailSettings emailSettings="#{securitySystemEmailBean.emailSettings}"
-              supportedLanguages="#{managerBean.supportedLanguages}" id="emailSetting" />
+            <cc:EmailSettings emailSettings="#{securitySystemEmailBean.emailSettings}" id="emailSetting">
+                <p:outputLabel value="Mail Process" for="mailProcess" />
+						    <p:selectOneMenu id="mailProcess" value="#{cc.attrs.emailSettings.mailProcess}" style="width: 100%;">
+						      <f:selectItems value="#{cc.attrs.emailSettings.mailProcesses}" />
+						      <p:ajax update="@form" />
+						    </p:selectOneMenu>
+              </cc:EmailSettings>
             <div class="p-d-flex p-jc-end">
               <p:commandButton actionListener="#{securitySystemEmailBean.saveEmailSettings}" value="Save"
                 icon="si si-floppy-disk" id="saveEmailSettings" />

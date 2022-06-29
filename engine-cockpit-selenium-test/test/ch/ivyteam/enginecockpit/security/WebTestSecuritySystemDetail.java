@@ -155,6 +155,38 @@ public class WebTestSecuritySystemDetail {
   }
 
   @Test
+  void language() {
+    var language = PrimeUi.selectOne(By.id("securitySystemConfigForm:language"));
+    language.selectItemByLabel("German (de)");
+    language.selectedItemShould(exactText("German (de)"));
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+
+    Selenide.refresh();
+    language.selectedItemShould(exactText("German (de)"));
+    language.selectItemByLabel("English (en)");
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+
+    Selenide.refresh();
+    language.selectedItemShould(exactText("English (en)"));
+  }
+
+  @Test
+  void formattingLanguage() {
+    var language = PrimeUi.selectOne(By.id("securitySystemConfigForm:formattingLanguage"));
+    language.selectItemByLabel("Aghem (agq)");
+    language.selectedItemShould(exactText("Aghem (agq)"));
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+
+    Selenide.refresh();
+    language.selectedItemShould(exactText("Aghem (agq)"));
+    language.selectItemByLabel("English (en)");
+    $(SAVE_SECURITY_SYSTEM_BTN).click();
+
+    Selenide.refresh();
+    language.selectedItemShould(exactText("English (en)"));
+  }
+
+  @Test
   void binding() {
     $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue(""));
