@@ -10,6 +10,7 @@ import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -158,32 +159,32 @@ public class WebTestSecuritySystemDetail {
   void language() {
     var language = PrimeUi.selectOne(By.id("securitySystemConfigForm:language"));
     language.selectItemByLabel("German (de)");
-    language.selectedItemShould(exactText("de"));
     $(SAVE_SECURITY_SYSTEM_BTN).click();
+    language.selectedItemShould(value("de"));
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("de"));
+    language.selectedItemShould(value("de"));
     language.selectItemByLabel("English (en)");
     $(SAVE_SECURITY_SYSTEM_BTN).click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("en"));
+    language.selectedItemShould(value("en"));
   }
 
   @Test
   void formattingLanguage() {
     var language = PrimeUi.selectOne(By.id("securitySystemConfigForm:formattingLanguage"));
     language.selectItemByLabel("Aghem (agq)");
-    language.selectedItemShould(exactText("agq"));
     $(SAVE_SECURITY_SYSTEM_BTN).click();
+    language.selectedItemShould(value("agq"));
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("agq"));
+    language.selectedItemShould(value("agq"));
     language.selectItemByLabel("English (en)");
     $(SAVE_SECURITY_SYSTEM_BTN).click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("en"));
+    language.selectedItemShould(value("en"));
   }
 
   @Test
