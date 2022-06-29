@@ -158,32 +158,32 @@ public class WebTestSecuritySystemDetail {
   void language() {
     var language = PrimeUi.selectOne(By.id("securitySystemConfigForm:language"));
     language.selectItemByLabel("German (de)");
-    language.selectedItemShould(exactText("German (de)"));
+    language.selectedItemShould(exactText("de"));
     $(SAVE_SECURITY_SYSTEM_BTN).click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("German (de)"));
+    language.selectedItemShould(exactText("de"));
     language.selectItemByLabel("English (en)");
     $(SAVE_SECURITY_SYSTEM_BTN).click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("English (en)"));
+    language.selectedItemShould(exactText("en"));
   }
 
   @Test
   void formattingLanguage() {
     var language = PrimeUi.selectOne(By.id("securitySystemConfigForm:formattingLanguage"));
     language.selectItemByLabel("Aghem (agq)");
-    language.selectedItemShould(exactText("Aghem (agq)"));
+    language.selectedItemShould(exactText("agq"));
     $(SAVE_SECURITY_SYSTEM_BTN).click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("Aghem (agq)"));
+    language.selectedItemShould(exactText("agq"));
     language.selectItemByLabel("English (en)");
     $(SAVE_SECURITY_SYSTEM_BTN).click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("English (en)"));
+    language.selectedItemShould(exactText("en"));
   }
 
   @Test

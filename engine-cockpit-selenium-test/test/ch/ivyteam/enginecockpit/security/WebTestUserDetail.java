@@ -136,16 +136,16 @@ class WebTestUserDetail {
     Navigation.toUserDetail(USER_FOO);
     var language = PrimeUi.selectOne(By.id("userInformationForm:language"));
     language.selectItemByLabel("German (de)");
-    language.selectedItemShould(exactText("German (de)"));
+    language.selectedItemShould(exactText("de"));
     $("#userInformationForm\\:saveUserInformation").click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("German (de)"));
+    language.selectedItemShould(exactText("de"));
     language.selectItemByLabel("English (en)");
     $("#userInformationForm\\:saveUserInformation").click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("English (en)"));
+    language.selectedItemShould(exactText("en"));
   }
 
   @Test
@@ -153,16 +153,16 @@ class WebTestUserDetail {
     Navigation.toUserDetail(USER_FOO);
     var language = PrimeUi.selectOne(By.id("userInformationForm:formattingLanguage"));
     language.selectItemByLabel("Aghem (agq)");
-    language.selectedItemShould(exactText("Aghem (agq)"));
+    language.selectedItemShould(exactText("agq"));
     $("#userInformationForm\\:saveUserInformation").click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("Aghem (agq)"));
+    language.selectedItemShould(exactText("agq"));
     language.selectItemByLabel("English (en)");
     $("#userInformationForm\\:saveUserInformation").click();
 
     Selenide.refresh();
-    language.selectedItemShould(exactText("English (en)"));
+    language.selectedItemShould(exactText("en"));
   }
 
   @Test
