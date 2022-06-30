@@ -16,7 +16,7 @@
               title="Delete this security system" icon="si si-bin-1" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" />
         <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecuritySystemConfigBtn"
               styleClass="p-ml-1 ui-button-success rounded-button" actionListener="#{securityConfigDetailBean.saveConfiguration}"
-              rendered="#{securityConfigDetailBean.jndiSecuritySystem}" />
+               />
         <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
           message="#{securityConfigDetailBean.notToDeleteReason}"
           header="Delete Security System" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
@@ -33,8 +33,10 @@
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
       <h:outputText id="name" value="#{securityConfigDetailBean.name}" />
+      
       <label>Provider</label>
       <h:outputText id="provider" value="#{securityConfigDetailBean.provider}" />
+
       <h:panelGroup>
         <label>Used by applications</label>
         <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
@@ -48,6 +50,16 @@
         </a>
         <h:outputText value="#{status.last ? '' : ' / '}" />
       </ui:repeat>
+
+      <p:outputLabel for="language" value="Language" />
+      <p:selectOneMenu id="language" value="#{securityConfigDetailBean.language}" editable="true" converter="localeConverter">
+        <f:selectItems value="#{languageBean.getContentLanguages(securityConfigDetailBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
+      </p:selectOneMenu>
+      
+      <p:outputLabel for="formattingLanguage" value="Formatting language" />
+      <p:selectOneMenu id="formattingLanguage" value="#{securityConfigDetailBean.formattingLanguage}" editable="true" filter="true" filterMatchMode="contains" converter="localeConverter">
+        <f:selectItems value="#{languageBean.getFormattingLanguages(securityConfigDetailBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
+      </p:selectOneMenu>
     </p:panelGrid>
     
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"

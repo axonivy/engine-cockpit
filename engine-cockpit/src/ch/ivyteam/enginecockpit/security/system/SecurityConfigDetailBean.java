@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
@@ -19,7 +21,10 @@ import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.language.LanguageConfigurator;
+import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.security.ISecurityConstants;
+import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiProvider;
@@ -30,6 +35,8 @@ import ch.ivyteam.naming.JndiProvider;
 public class SecurityConfigDetailBean {
 
   private String name;
+  private Locale language;
+  private Locale formattingLanguage;
   private SecuritySystem securitySystem;
   private ManagerBean managerBean;
 
@@ -83,6 +90,10 @@ public class SecurityConfigDetailBean {
             .findAny()
             .orElseThrow();
 
+    var languageConfigurator = languageConfigurator();
+    language = languageConfigurator.content();
+    formattingLanguage = languageConfigurator.formatting();
+
     derefAliases = Arrays.asList("always", "never", "finding", "searching");
     protocols = Arrays.asList("", "ssl");
     referrals = Arrays.asList("follow", "ignore", "throw");
@@ -119,6 +130,22 @@ public class SecurityConfigDetailBean {
     this.name = name;
   }
 
+  public Locale getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(Locale language) {
+    this.language = language;
+  }
+
+  public Locale getFormattingLanguage() {
+    return formattingLanguage;
+  }
+
+  public void setFormattingLanguage(Locale formattingLanguage) {
+    this.formattingLanguage = formattingLanguage;
+  }
+
   public List<String> getUsedByApps() {
     return securitySystem.getAppNames();
   }
@@ -138,6 +165,10 @@ public class SecurityConfigDetailBean {
 
   public String getProvider() {
     return provider;
+  }
+
+  public ISecurityContext getSecurityContext() {
+    return securitySystem.getSecurityContext();
   }
 
   public void setProvider(String provider) {
@@ -294,10 +325,23 @@ public class SecurityConfigDetailBean {
     return securitySystem.getLink();
   }
 
+  private LanguageConfigurator languageConfigurator() {
+    return LanguageManager.instance().configurator(securitySystem.getSecurityContext());
+  }
+
   public void saveConfiguration() {
     if (!validateUpdateTime()) {
       return;
     }
+
+    var languageConfigurator = languageConfigurator();
+    languageConfigurator.content(LocaleUtils.toLocale(language));
+    languageConfigurator.formatting(LocaleUtils.toLocale(formattingLanguage));
+
+    if (!isJndiSecuritySystem()) {
+      return;
+    }
+
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
