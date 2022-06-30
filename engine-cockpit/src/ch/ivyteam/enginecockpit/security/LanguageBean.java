@@ -8,12 +8,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.ivy.language.LanguageManager;
 import ch.ivyteam.ivy.language.LanguageRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 @ManagedBean
+@ViewScoped
 public class LanguageBean {
 
   public List<Locale> getContentLanguages(ISecurityContext securityContext) {
