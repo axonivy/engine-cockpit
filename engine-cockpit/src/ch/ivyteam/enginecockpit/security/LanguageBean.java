@@ -30,13 +30,13 @@ public class LanguageBean {
     if (Locale.ROOT.equals(locale)) {
       return "";
     }
-    return locale.getDisplayName(Locale.ENGLISH) + " (" + locale.toString() + ")";
+    return locale.getDisplayLanguage(Locale.ENGLISH) + " (" + locale.toString() + ")";
   }
 
   private List<Locale> locales(ISecurityContext securityContext, Function<LanguageRepository, List<Locale>> supplier) {
     var languages = LanguageManager.instance().languages(securityContext);
     var locales = supplier.apply(languages).stream()
-            .sorted(Comparator.comparing(Locale::getDisplayName))
+            .sorted(Comparator.comparing(this::toDisplayName, String.CASE_INSENSITIVE_ORDER))
             .collect(Collectors.toList());
 
     var l = new ArrayList<Locale>();
