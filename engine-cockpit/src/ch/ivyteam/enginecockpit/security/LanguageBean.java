@@ -36,7 +36,7 @@ public class LanguageBean {
   private List<Locale> locales(ISecurityContext securityContext, Function<LanguageRepository, List<Locale>> supplier) {
     var languages = LanguageManager.instance().languages(securityContext);
     var locales = supplier.apply(languages).stream()
-            .sorted(Comparator.comparing(loc -> loc.getDisplayName(Locale.ENGLISH)))
+            .sorted(Comparator.comparing(this::toDisplayName, String.CASE_INSENSITIVE_ORDER))
             .collect(Collectors.toList());
 
     var l = new ArrayList<Locale>();
