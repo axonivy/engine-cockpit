@@ -208,7 +208,7 @@ class WebTestUsers {
     showSynchUserDialog();
     $("#synchUserForm\\:userSynchName").shouldBe(exactValue("")).sendKeys("user1");
     $("#synchUserForm\\:synchUserVar").click();
-    $("#synchUserForm\\:logViewer").shouldBe(text("INFO: User synchronization"), Duration.ofSeconds(10));
+    $("#synchUserForm\\:logViewer").shouldBe(text("INFO: Synchronization of user"), Duration.ofSeconds(10));
   }
 
   @Test
