@@ -250,7 +250,7 @@ class WebTestUserDetail {
     $("#synchUserForm").shouldBe(visible);
     $("#synchUserForm\\:userSynchName").shouldBe(disabled, value(USER_AD));
     $("#synchUserForm\\:synchUserVar").click();
-    $("#synchUserForm\\:logViewer").shouldHave(text("INFO: User synchronization"));
+    $("#synchUserForm\\:logViewer").shouldHave(text("INFO: Synchronization of user"));
   }
 
   @Test
