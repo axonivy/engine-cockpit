@@ -309,7 +309,7 @@ class WebTestConfiguration {
     void defaultPages() {
       var config = "StandardProcess.DefaultPages";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate", "standard-processes", "auto");
+      assertThatConfigEditModalIsVisible(config, "ch.ivyteam.ivy.project.portal:portalTemplate", "default-pages", "auto");
       $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
   }
