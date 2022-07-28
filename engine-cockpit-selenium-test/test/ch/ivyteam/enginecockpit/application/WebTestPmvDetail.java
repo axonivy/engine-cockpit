@@ -68,9 +68,9 @@ public class WebTestPmvDetail {
     checkPmvEntry(depTable, "portal-user-examples$1", "ACTIVE");
 
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
-    reqTable.firstColumnShouldBe(texts("PortalKit$1", "PortalStyle$1"));
+    reqTable.firstColumnShouldBe(texts("PortalKit$1", "portal-component$1"));
     checkPmvEntry(reqTable, "PortalKit$1", portalKitActivityState);
-    checkPmvEntry(reqTable, "PortalStyle$1", "ACTIVE");
+    checkPmvEntry(reqTable, "portal-component$1", "ACTIVE");
 
     Table specTable = new Table(By.id("specifiedTable"));
     specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
