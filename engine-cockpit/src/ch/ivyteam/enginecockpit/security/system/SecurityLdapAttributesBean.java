@@ -18,7 +18,7 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SecurityLdapDetailBean {
+public class SecurityLdapAttributesBean {
   private String name;
 
   private String userId;
@@ -184,7 +184,7 @@ public class SecurityLdapDetailBean {
     properties.remove(attributeName);
   }
 
-  public void saveConfiguration() {
+  public void saveAttributes() {
     setConfiguration(ConfigKey.USER_ATTRIBUTE_ID, this.userId);
     setConfiguration(ConfigKey.USER_ATTRIBUTE_NAME, this.userName);
     setConfiguration(ConfigKey.USER_ATTRIBUTE_FULL_NAME, this.fullName);
@@ -196,7 +196,7 @@ public class SecurityLdapDetailBean {
     setConfiguration(ConfigKey.MEMBERSHIP_GROUP_MEMBER_OF_ATTRIBUTE, this.groupMemberOfAttribute);
     setConfiguration(ConfigKey.MEMBERSHIP_GROUP_MEMBERS_ATTRIBUTE, this.groupMembersAttribute);
 
-    FacesContext.getCurrentInstance().addMessage("securitySystemLdapSaveSuccess",
+    FacesContext.getCurrentInstance().addMessage("securityLdapAttributesSaveSuccess",
             new FacesMessage("Security System LDAP Attributes saved"));
   }
 

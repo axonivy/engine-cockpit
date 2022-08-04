@@ -7,7 +7,8 @@
   <f:metadata>
     <f:viewParam name="securitySystemName" value="#{securityDefaultValueBean.securitySystemName}" />
     <f:viewParam name="securitySystemName" value="#{securityConfigBean.securitySystemName}" />
-    <f:viewParam name="securitySystemName" value="#{securityProviderBean.securitySystemName}" />
+    <f:viewParam name="securitySystemName" value="#{securityLdapBean.securitySystemName}" />
+    <f:viewParam name="securitySystemName" value="#{securityLdapAttributesBean.securitySystemName}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -17,9 +18,12 @@
       <li>/</li>
       <li><a href="securitysystem.xhtml">Security Systems</a></li>
       <li>/</li>
-      <li><a
-          href="#{securityConfigDetailBean.link}">#{securityConfigBean.name}</a>
+      <li><a href="#{securityConfigBean.link}">#{securityConfigBean.name}</a>
       </li>
+      <li>/</li>
+      <li><a href="#{ldapBean.link}">#{securityLdapBean.provider}</a>
+      </li>
+      
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -29,38 +33,24 @@
     <ui:define name="content">
       <div class="layout-dashboard">
         <div class="p-grid">
-<!--         
-          <div class="p-col-12 p-md-12 #{securityConfigDetailBean.jndiSecuritySystem ? 'p-xl-6' : ''}">
-            <ui:include src="../includes/components/security/securitysystem-configuration.xhtml" />
-          </div>
--->        
-          <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/security/securitysystem-info.xhtml" />
-          </div>
+          <h:panelGroup>
 
-          <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/security/securitysystem-provider.xhtml" />
-          </div>
-          
-          <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/security/securitysystem-language.xhtml" />
-          </div>
-
-<!-- 
-          <h:panelGroup rendered="#{securityConfigDetailBean.jndiSecuritySystem}">
             <div class="p-col-12 p-md-12 p-xl-6">
-              <ui:include src="../includes/components/security/securitysystem-ldap.xhtml" />
+              <ui:include src="../includes/components/security/securitysystem-ldap-connection.xhtml" />
             </div>
 
             <div class="p-col-12 p-md-12 p-xl-6">
-              <ui:include src="../includes/components/security/securitysystem-binding.xhtml" />
+              <ui:include src="../includes/components/security/securitysystem-ldap-binding.xhtml" />
             </div>
 
             <div class="p-col-12 p-md-12 p-xl-6">
               <ui:include src="../includes/components/security/securitysystem-ldap-attributes.xhtml" />
             </div>
+
+            <div class="p-col-12 p-md-12 p-xl-6">
+              <ui:include src="../includes/components/security/securitysystem-ldap-user-attributes.xhtml" />
+            </div>
           </h:panelGroup>
- -->
         </div>
       </div>
     </ui:define>

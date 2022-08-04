@@ -5,65 +5,55 @@
 
 <div class="card">
   <h:form id="securityLdapAttributesForm">
-    <p:growl id="securitySystemLdapAttributesSuccess" for="securitySystemLdapAttributesSuccess">
+    <p:growl id="securityLdapAttributesSaveSuccess" for="securityLdapAttributesSaveSuccess">
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-cog"></i>
-        <h6 class="p-m-0">Additional LDAP Attributes</h6>
-        <p:commandButton id="newLdapAttributeBtn" oncomplete="PF('ldapAttributeModal').show();" process="@this"
-          actionListener="#{securityLdapDetailBean.setProperty(null)}" update=":ldapAttributeForm" title="Add"
-          icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
+        <h6 class="p-m-0">LDAP Attributes</h6>
+        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecurtiySystemLdapBtn"
+          styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" actionListener="#{securityLdapAttributesBean.saveAttributes}" />
       </div>
     </div>
     
-    <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-      value="#{securityLdapDetailBean.properties}" var="property" id="ldapPropertiesTable">
-      <p:column headerText="Name">
-        <h:outputText value="#{property.name}" styleClass="ldap-attribute" />
-      </p:column>
-      <p:column headerText="LDAP Attribute" styleClass="ldap-value">
-        <h:outputText value="#{property.value}" />
-      </p:column>
-      <p:column styleClass="table-btn-2">
-        <p:commandButton id="editPropertyBtn" actionListener="#{securityLdapDetailBean.setProperty(property)}"
-          icon="si si-pencil" title="Edit" update=":ldapAttributeForm"
-          styleClass="ui-button-secondary rounded-button" oncomplete="PF('ldapAttributeModal').show();"
-          process="@this" />
-        <p:commandButton id="deleteLdapAttributeBtn" type="button" icon="si si-bin-1" title="Delete"
-          styleClass="p-ml-1 ui-button-danger rounded-button">
-          <p:ajax listener="#{securityLdapDetailBean.removeLdapAttribute(property.name)}" update="@form" />
-        </p:commandButton>
-      </p:column>
-    </p:dataTable>
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="ldapId" value="Id" />
+      <p:inputText id="ldapId" value="#{securityLdapAttributesBean.userId}" placeholder="#{securityDefaultValueBean.id}" />
+  
+      <p:outputLabel for="ldapName" value="Name" />
+      <p:inputText id="ldapName" value="#{securityLdapAttributesBean.userName}"
+        placeholder="#{securityDefaultValueBean.name}" />
+  
+      <p:outputLabel for="ldapFullName" value="Full Name" />
+      <p:inputText id="ldapFullName" value="#{securityLdapAttributesBean.fullName}"
+        placeholder="#{securityDefaultValueBean.fullName}" />
+  
+      <p:outputLabel for="ldapEmail" value="Email" />
+      <p:inputText id="ldapEmail" value="#{securityLdapAttributesBean.email}"
+        placeholder="#{securityDefaultValueBean.email}" />
+  
+      <p:outputLabel for="ldapLanguage" value="Language" />
+      <p:inputText id="ldapLanguage" value="#{securityLdapAttributesBean.language}" />
+  
+      <p:outputLabel for="ldapUserMemberOfAttribute" value="Groups of a User" />
+      <p:inputText id="ldapUserMemberOfAttribute" value="#{securityLdapAttributesBean.userMemberOfAttribute}"
+        placeholder="#{securityDefaultValueBean.userMemberOfAttribute}" />
+  
+      <p:outputLabel for="ldapUserMemberOfLookupAllowed" value="Is usage of 'Groups of a User' allowed for lookup" />
+      <p:selectBooleanCheckbox id="ldapUserMemberOfLookupAllowed"
+        value="#{securityLdapAttributesBean.userMemberOfLookupAllowed}" />
+  
+      <p:outputLabel for="ldapGroupMemberOfAttribute" value="Groups of a Group" />
+      <p:inputText id="ldapGroupMemberOfAttribute" value="#{securityLdapAttributesBean.groupMemberOfAttribute}"
+        placeholder="#{securityDefaultValueBean.userGroupMemberOfAttribute}" />
+  
+      <p:outputLabel for="ldapGroupMembersAttribute" value="Members of a Group" />
+      <p:inputText id="ldapGroupMembersAttribute" value="#{securityLdapAttributesBean.groupMembersAttribute}"
+        placeholder="#{securityDefaultValueBean.userGroupMembersAttribute}" />
+    </p:panelGrid>
   </h:form>
 </div>
-
-<p:dialog style="min-width: 300px;" header="LDAP Attribute" id="ldapAttributeModal" widgetVar="ldapAttributeModal"
-  modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="ldapAttributeForm">
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="attributeNameInput" value="Name" />
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="attributeNameInput" requiredMessage="Value is required"
-          value="#{securityLdapDetailBean.property.name}" required="true" disabled="#{not empty securityLdapDetailBean.property.name}" />
-        <p:message for="attributeNameInput" id="attributeNameMessage" />
-      </h:panelGroup>
-
-      <p:outputLabel for="attributeInput" value="Attribute" />
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="attributeInput" requiredMessage="Value is required"
-          value="#{securityLdapDetailBean.property.value}" required="true" />
-        <p:message for="attributeInput" id="attributeMessage" />
-      </h:panelGroup>
-    </p:panelGrid>
-    <p:commandButton id="saveLdapAttribute" validateClient="true" ajax="false" update=":securityLdapAttributesForm"
-      actionListener="#{securityLdapDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
-      styleClass="modal-input-button" />
-    <p:commandButton id="cancelLdapAttribute" onclick="PF('ldapAttributeModal').hide();" value="Cancel" type="button"
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
-  </h:form>
-</p:dialog>
 
 </html>

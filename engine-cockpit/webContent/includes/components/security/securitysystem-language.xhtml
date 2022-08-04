@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<div class="card">
+  <h:form id="securityLanguageForm">
+    <p:growl id="securityLanguageSaveSuccess" for="securityLanguageSaveSuccess">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-conversation-chat-2"></i>
+        <h6 class="p-m-0">Languages</h6>
+        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveLanguageConfigBtn"
+              styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" actionListener="#{securityConfigBean.saveLanguages}"/>
+      </div>
+    </div>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+
+      <p:outputLabel for="language" value="Language" />
+      <p:selectOneMenu id="language" value="#{securityConfigBean.language}" editable="true" converter="localeConverter">
+        <f:selectItems value="#{languageBean.getContentLanguages(securityConfigBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
+      </p:selectOneMenu>
+      
+      <p:outputLabel for="formattingLanguage" value="Formatting language" />
+      <p:selectOneMenu id="formattingLanguage" value="#{securityConfigBean.formattingLanguage}" editable="true" filter="true" filterMatchMode="contains" converter="localeConverter">
+        <f:selectItems value="#{languageBean.getFormattingLanguages(securityConfigBean.securityContext)}" var="locale" itemLabel="#{languageBean.toDisplayName(locale)}" />
+      </p:selectOneMenu>
+    </p:panelGrid>
+  </h:form>
+</div>
+
+</html>

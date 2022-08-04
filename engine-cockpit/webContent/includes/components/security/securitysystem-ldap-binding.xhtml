@@ -4,16 +4,16 @@
   xmlns:p="http://primefaces.org/ui" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <div class="card">
-  <h:form id="securitySystemBindingForm">
-    <p:growl id="securitySystemBindingSaveSuccess" for="securitySystemBindingSaveSuccess">
+  <h:form id="securityLdapBindingForm">
+    <p:growl id="securityLdapBindingSaveSuccess" for="securityLdapBindingSaveSuccess">
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-hyperlink-3"></i>
         <h6 class="p-m-0">Binding</h6>
-        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveSecuritySystemBindingBtn"
-          styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" actionListener="#{securityConfigDetailBean.saveBinding}" />
+        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveLdapBindingBtn"
+          styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" actionListener="#{securityLdapBean.saveBinding}" />
       </div>
     </div>
     
@@ -21,27 +21,27 @@
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="defaultContext" value="Default Context" />
       <h:panelGroup layout="block" styleClass="ui-inputgroup">
-        <p:inputText id="defaultContext" value="#{securityConfigDetailBean.defaultContext}" />
+        <p:inputText id="defaultContext" value="#{securityLdapBean.defaultContext}" />
         <p:commandButton id="browseDefaultContext" icon="si si-network-browser" title="Browse" 
-          actionListener="#{securityConfigDetailBean.browseDefaultContext()}" update="ldapBrowser:ldapBrowserDialog"
+          actionListener="#{securityLdapBean.browseDefaultContext()}" update="ldapBrowser:ldapBrowserDialog"
           oncomplete="PF('ldapBrowserDialog').show();" />
       </h:panelGroup>
   
       <p:outputLabel for="importUsersOfGroup" value="Import Users Of Group" />
       <h:panelGroup layout="block" styleClass="ui-inputgroup">
-        <p:inputText id="importUsersOfGroup" value="#{securityConfigDetailBean.importUsersOfGroup}" />
+        <p:inputText id="importUsersOfGroup" value="#{securityLdapBean.importUsersOfGroup}" />
         <p:commandButton id="browseImportUserOfGroup" icon="si si-network-browser" title="Browse" 
-          actionListener="#{securityConfigDetailBean.browseUsersOfGroup()}"
+          actionListener="#{securityLdapBean.browseUsersOfGroup()}"
           update="ldapBrowser:ldapBrowserDialog" oncomplete="PF('ldapBrowserDialog').show();" />
       </h:panelGroup>
       
       <p:outputLabel for="userFilter" value="User Filter" />
-      <p:inputText id="userFilter" value="#{securityConfigDetailBean.userFilter}"
+      <p:inputText id="userFilter" value="#{securityLdapBean.userFilter}"
         placeholder="#{securityDefaultValueBean.userFilter}" />
     </p:panelGrid>
   </h:form>
 </div>
-<cc:LdapBrowser updateFields="securitySystemBindingForm" ldapBrowser="#{securityConfigDetailBean.ldapBrowser}"
-  returnListener="#{securityConfigDetailBean.chooseLdapName()}" id="ldapBrowser" />
+<cc:LdapBrowser updateFields="securityLdapBindingForm" ldapBrowser="#{securityLdapBean.ldapBrowser}"
+  returnListener="#{securityLdapBean.chooseLdapName()}" id="ldapBrowser" />
 
 </html>

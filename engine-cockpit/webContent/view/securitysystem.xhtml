@@ -57,17 +57,6 @@
                 <h:outputText value="#{status.last ? '' : ' / '}" />
               </ui:repeat>
             </p:column>
-
-            <p:column styleClass="table-btn-1">
-              <p:commandButton process="@this"
-                id="change-provider-btn"
-                styleClass="ui-button-secondary rounded-button"
-                action="#{securitySystemProviderChangerBean.setSystem(system)}"
-                update=":changeSecuritySystemProviderModal"
-                oncomplete="PF('changeSecuritySystemProviderModal').show()"
-                icon="si si-pencil"
-                title="Change Provider" />
-            </p:column>
           </p:dataTable>
         </h:form>
         <ui:include src="../includes/dialogs/changesecuritysystemprovider.xhtml" />

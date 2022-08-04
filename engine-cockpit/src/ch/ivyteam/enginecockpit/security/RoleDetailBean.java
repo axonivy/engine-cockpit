@@ -20,7 +20,7 @@ import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
-import ch.ivyteam.enginecockpit.security.system.SecurityConfigDetailBean;
+import ch.ivyteam.enginecockpit.security.system.SecurityLdapBean;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
@@ -286,7 +286,8 @@ public class RoleDetailBean {
   }
 
   public void browseLdap() {
-    var secBean = new SecurityConfigDetailBean(managerBean.getSelectedSecuritySystem().getSecuritySystemName());
+    var secBean = new SecurityLdapBean();
+    secBean.setSecuritySystemName(managerBean.getSelectedSecuritySystem().getSecuritySystemName());
     ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
   }
 
