@@ -453,6 +453,7 @@ public class SecurityConfigDetailBean {
             envProps);
   }
 
+  @SuppressWarnings("removal")
   public JndiProvider provider() {
     switch (provider) {
       case ISecurityConstants.NOVELL_E_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
