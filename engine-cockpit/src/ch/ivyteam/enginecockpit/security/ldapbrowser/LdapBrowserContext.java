@@ -17,7 +17,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Property;
-import ch.ivyteam.ivy.security.jndi.JndiContextUtil;
+import ch.ivyteam.ivy.security.identity.jndi.JndiContextUtil;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiUtil;
 

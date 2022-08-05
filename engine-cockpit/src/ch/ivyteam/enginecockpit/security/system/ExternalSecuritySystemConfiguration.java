@@ -4,8 +4,8 @@ import java.util.Map;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityConstants;
-import ch.ivyteam.ivy.security.internal.ads.MicrosoftActiveDirectoryDefaults;
-import ch.ivyteam.ivy.security.internal.nds.NovellEDirectoryDefaults;
+import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryDefaults;
+import ch.ivyteam.ivy.security.identity.jndi.nds.NovellEDirectoryDefaults;
 
 /**
  * legacy layer. will be removed as soon as we are finished.
@@ -28,6 +28,7 @@ public class ExternalSecuritySystemConfiguration {
     return props(getProviderName()).get(key);
   }
 
+  @SuppressWarnings("removal")
   public static Map<String, String> props(String providerName) {
     if (providerName == null) {
       return Map.of();
