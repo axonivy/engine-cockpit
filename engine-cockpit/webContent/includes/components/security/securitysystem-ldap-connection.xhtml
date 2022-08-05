@@ -46,9 +46,6 @@
       <p:selectOneMenu id="ReferralDropDown" value="#{securityLdapBean.referral}" placeholder="follow">
         <f:selectItems value="#{securityLdapBean.referrals}" />
       </p:selectOneMenu>
-
-      <p:outputLabel for="onDemandImport" value="Import On Demand" />
-      <p:selectBooleanCheckbox id="onDemandImport" value="#{securityLdapBean.importOnDemand}" />
     </p:panelGrid>
   </h:form>
 </div>

@@ -29,6 +29,8 @@ public class SecurityProviderBean {
 
   private String updateTime;
   private boolean updateEnabled;
+  private boolean synchOnLogin;
+  private boolean importOnDemand;
 
   public String getSecuritySystemName() {
     return name;
@@ -52,6 +54,10 @@ public class SecurityProviderBean {
     updateEnabled = getInitBooleanValue(ConfigKey.UPDATE_ENABLED,
             securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED));
     updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
+    synchOnLogin = getInitBooleanValue(ConfigKey.SYNCH_ON_LOGIN,
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.SYNCH_ON_LOGIN));
+    importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND));
   }
 
   public boolean isJndiSecuritySystem() {
@@ -82,6 +88,22 @@ public class SecurityProviderBean {
     this.updateEnabled = updateEnabled;
   }
 
+  public boolean isSynchOnLogin() {
+    return synchOnLogin;
+  }
+
+  public void setSynchOnLogin(boolean synchOnLogin) {
+    this.synchOnLogin = synchOnLogin;
+  }
+
+  public boolean isImportOnDemand() {
+    return importOnDemand;
+  }
+
+  public void setImportOnDemand(boolean importOnDemand) {
+    this.importOnDemand = importOnDemand;
+  }
+
   public void saveProvider() {
     if (!validateUpdateTime()) {
       return;
@@ -98,8 +120,16 @@ public class SecurityProviderBean {
                     securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED)));
     setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
 
+    setConfiguration(ConfigKey.SYNCH_ON_LOGIN,
+            getSaveBooleanValue(this.synchOnLogin,
+                    securityConfiguration.getDefaultBooleanValue(ConfigKey.SYNCH_ON_LOGIN)));
+
+    setConfiguration(ConfigKey.IMPORT_ONDEMAND,
+            getSaveBooleanValue(this.importOnDemand,
+                    securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
+
     FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess",
-            new FacesMessage("Security System Provider saved"));
+            new FacesMessage("Security System Identity Provider saved"));
   }
 
   private boolean validateUpdateTime() {

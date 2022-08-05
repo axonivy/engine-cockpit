@@ -15,7 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.security.ISecurityConstants;
+import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryIdentityProvider;
+import ch.ivyteam.ivy.security.identity.jndi.nds.NovellEDirectoryIdentityProvider;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiProvider;
 
@@ -42,7 +43,6 @@ public class SecurityLdapBean {
   private String defaultContext;
   private String importUsersOfGroup;
   private String userFilter;
-  private boolean importOnDemand;
   private LdapBrowser ldapBrowser;
   private String ldapBrowserTarget;
   private ExternalSecuritySystemConfiguration securityConfiguration;
@@ -100,8 +100,6 @@ public class SecurityLdapBean {
     defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
     userFilter = getConfiguration(ConfigKey.BINDING_USER_FILTER);
-    importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND));
     ldapBrowser = new LdapBrowser();
   }
 
@@ -211,14 +209,6 @@ public class SecurityLdapBean {
     this.userFilter = userFilter;
   }
 
-  public boolean isImportOnDemand() {
-    return importOnDemand;
-  }
-
-  public void setImportOnDemand(boolean importOnDemand) {
-    this.importOnDemand = importOnDemand;
-  }
-
   public List<String> getDerefAliases() {
     return derefAliases;
   }
@@ -250,9 +240,6 @@ public class SecurityLdapBean {
             StringUtils.equals(this.referral,
                     securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? ""
                             : this.referral);
-    setConfiguration(ConfigKey.IMPORT_ONDEMAND,
-            getSaveBooleanValue(this.importOnDemand,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
     SecuritySystemConfig.setAuthenticationKind(name);
     FacesContext.getCurrentInstance().addMessage("securityLdapConnectionSaveSuccess",
             new FacesMessage("Security System Connection saved"));
@@ -322,9 +309,9 @@ public class SecurityLdapBean {
 
   public JndiProvider provider() {
     switch (provider) {
-      case ISecurityConstants.NOVELL_E_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
+      case NovellEDirectoryIdentityProvider.ID:
         return JndiProvider.NOVELL_E_DIRECTORY;
-      case ISecurityConstants.MICROSOFT_ACTIVE_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
+      case MicrosoftActiveDirectoryIdentityProvider.ID:
         return JndiProvider.ACTIVE_DIRECTORY;
       default:
         return null;

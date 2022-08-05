@@ -14,11 +14,8 @@
         <h6 class="p-m-0">Identity Provider</h6>
         <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtn" rendered="#{securityProviderBean.jndiSecuritySystem}"
               styleClass="p-col-fixed p-ml-auto rounded-button" outcome="security-ldap">
-              <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>"
+              <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
        </p:linkButton>
-
-        <p:commandButton title="Synchronize" icon="si si-button-refresh-arrows" id="synchProviderBtn" rendered="#{securityProviderBean.jndiSecuritySystem}"
-              styleClass="p-ml-1 rounded-button" actionListener="#{securityProviderBean.saveProvider}" />
 
         <p:commandButton title="Save" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm"
               styleClass="#{securityProviderBean.jndiSecuritySystem ? '' : 'p-col-fixed p-ml-auto'} p-ml-1 ui-button-success rounded-button" actionListener="#{securityProviderBean.saveProvider}" />
@@ -28,7 +25,7 @@
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <label>Provider</label>
-      <p:selectOneMenu id="newSecuritySystemProviderSelect" value="#{securityProviderBean.provider}">
+      <p:selectOneMenu id="newSecuritySystemProviderSelect" value="#{securityProviderBean.provider}" onchange="PF('changeSecuritySystemProviderModal').show()">
         <f:selectItems value="#{securityBean.providers}" />
       </p:selectOneMenu>
 
@@ -43,13 +40,15 @@
           <p:autoUpdate />
         </p:messages>
       </h:panelGroup>
+
+      <p:outputLabel for="synchOnLogin" value="Synchronize on Login" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
+      <p:selectBooleanCheckbox id="synchOnLogin" value="#{securityProviderBean.synchOnLogin}" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
       
-      <label>Managed Users</label>
-      <h:outputText id="managed" value="10" />
-      <label>Unmanaged Users</label>
-      <h:outputText id="unmanaged" value="1" />
+      <p:outputLabel for="onDemandImport" value="Import On Demand" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
+      <p:selectBooleanCheckbox id="onDemandImport" value="#{securityProviderBean.importOnDemand}" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
     </p:panelGrid>
   </h:form>
+   <ui:include src="../../dialogs/changesecuritysystemprovider.xhtml" />  
 </div>
 
 </html>
