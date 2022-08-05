@@ -9,7 +9,8 @@ import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.security.IExternalSecuritySystemProvider;
+import ch.ivyteam.ivy.security.identity.IdentityProvider;
+import ch.ivyteam.ivy.security.identity.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
@@ -100,9 +101,9 @@ public class SecurityBean {
   }
 
   public List<String> getProviders() {
-    return ISecurityManager.instance().getExternalSecuritySystemProviders().stream()
-            .map(IExternalSecuritySystemProvider::getProviderName)
-            .collect(Collectors.toList());
+    return IdentityProviderRegistry.all().stream()
+    		.map(IdentityProvider::id)
+    		.collect(Collectors.toList());
   }
 
   public void createNewSecuritySystem() {
