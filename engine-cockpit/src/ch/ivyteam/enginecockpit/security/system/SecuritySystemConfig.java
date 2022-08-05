@@ -6,7 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityConstants;
-import ch.ivyteam.ivy.security.jndi.IJndiSecuritySystemConstants;
+import ch.ivyteam.ivy.security.identity.IdentityProviderConfig;
+import ch.ivyteam.ivy.security.identity.jndi.IJndiSecuritySystemConstants;
 
 @SuppressWarnings("restriction")
 public class SecuritySystemConfig {
@@ -29,9 +30,9 @@ public class SecuritySystemConfig {
     String BINDING_DEFAULT_CONTEXT = IJndiSecuritySystemConstants.BINDING_DEFAULT_CONTEXT;
     String BINDING_IMPORT_USERS_OF_GROUP = IJndiSecuritySystemConstants.BINDING_IMPORT_USERS_OF_GROUP;
     String BINDING_USER_FILTER = IJndiSecuritySystemConstants.BINDING_USER_FILTER;
-    String UPDATE_TIME = IJndiSecuritySystemConstants.UPDATE_TIME;
-    String IMPORT_ONDEMAND = IJndiSecuritySystemConstants.IMPORT_ON_DEMAND;
-    String UPDATE_ENABLED = IJndiSecuritySystemConstants.UPDATE_ENABLED;
+    String UPDATE_TIME = IdentityProviderConfig.UPDATE_TIME;
+    String IMPORT_ONDEMAND = IdentityProviderConfig.IMPORT_ON_DEMAND;
+    String UPDATE_ENABLED = IdentityProviderConfig.UPDATE_ENABLED;
 
     String USER_ATTRIBUTE_ID = IJndiSecuritySystemConstants.USER_ATTRIBUTE_ID;
     String USER_ATTRIBUTE_NAME = IJndiSecuritySystemConstants.USER_ATTRIBUTE_NAME;
