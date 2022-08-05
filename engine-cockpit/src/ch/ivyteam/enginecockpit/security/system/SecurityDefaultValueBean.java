@@ -3,8 +3,6 @@ package ch.ivyteam.enginecockpit.security.system;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 
 @ManagedBean
@@ -42,10 +40,7 @@ public class SecurityDefaultValueBean {
 
   private void loadSecuritySystem() {
     url = securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_URL);
-    updateTime = securityConfiguration.getDefaultValue(ConfigKey.UPDATE_TIME);
-    if (StringUtils.equals(updateTime, "0")) {
-      updateTime = "00:00";
-    }
+    updateTime = "00:00";
     derefAliases = securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
     referral = securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL);
 
