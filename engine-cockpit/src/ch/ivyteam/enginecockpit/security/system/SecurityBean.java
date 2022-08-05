@@ -102,8 +102,8 @@ public class SecurityBean {
 
   public List<String> getProviders() {
     return IdentityProviderRegistry.all().stream()
-    		.map(IdentityProvider::id)
-    		.collect(Collectors.toList());
+        .map(IdentityProvider::id)
+        .collect(Collectors.toList());
   }
 
   public void createNewSecuritySystem() {
