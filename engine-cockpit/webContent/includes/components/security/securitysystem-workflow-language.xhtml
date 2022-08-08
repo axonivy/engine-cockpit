@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<div class="card">
+  <h:form id="securityWorkflowLanguageForm">
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-cog"></i>
+        <h6 class="p-m-0">Workflow Languages</h6>
+        <p:commandButton id="addBtn" oncomplete="PF('addWorkflowLanguageModal').show();" process="@this"
+          update="securityWorkflowLanguageForm" title="Add a new language"
+          icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" disabled="#{empty securityWorkflowLanguageBean.addable}"/>
+      </div>
+    </div>
+    
+    <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+      value="#{securityWorkflowLanguageBean.languages}" var="language" id="workflowLanguageTable">
+      <p:column headerText="Language">
+        <h:outputText value="#{language.displayName}" styleClass="ldap-attribute" />
+      </p:column>
+      <p:column headerText="Default" styleClass="ldap-value">
+        <h:outputText value="#{securityWorkflowLanguageBean.isDefault(language) ? 'Default' : ''}" />
+      </p:column>
+      <p:column styleClass="table-btn-2">
+        <p:commandButton id="defaultBtn" actionListener="#{securityWorkflowLanguageBean.setDefault(language)}"
+          icon="si si-pencil" title="Make this the default language" update="@form"
+          styleClass="ui-button-secondary rounded-button" disabled="#{securityWorkflowLanguageBean.isDefault(language)}" />
+        <p:commandButton id="deleteBtn"  actionListener="#{securityWorkflowLanguageBean.setEditLanguage(language)}" oncomplete="PF('removeWorkflowLanguageModal').show();"
+          icon="si si-bin-1" title="Delete this language" update="@form"
+          styleClass="p-ml-1 ui-button-danger rounded-button"  
+          disabled="#{securityWorkflowLanguageBean.isDefault(language)}">
+        </p:commandButton>
+      </p:column>
+    </p:dataTable>
+  </h:form>
+</div>
+
+<p:dialog style="min-width: 300px;" header="Add Workflow Language" id="addWorkflowLanguageModal" widgetVar="addWorkflowLanguageModal"
+  modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="addWorkflowLanguageForm">
+    <p:staticMessage severity="warn" detail="If you add a new workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the default language (#{securityWorkflowLanguageBean.default.displayName}) are copied to the new lanugage." />
+    <p:staticMessage severity="warn" detail="This operation will takes some time and the space of your system database will grow." />
+    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="language" value="Language" />
+      <p:selectOneMenu id="language" value="#{securityWorkflowLanguageBean.editLanguage}" editable="true" converter="localeConverter">
+        <f:selectItems value="#{securityWorkflowLanguageBean.addable}" var="language" itemLabel="#{language.getDisplayName()}" />
+      </p:selectOneMenu>
+    </p:panelGrid>
+    <p:commandButton id="addBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
+      actionListener="#{securityWorkflowLanguageBean.add(securityWorkflowLanguageBean.editLanguage)}" value="Add" icon="si si-add"
+      styleClass="modal-input-button" />
+    <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="Cancel" type="button"
+      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+  </h:form>
+</p:dialog>
+
+<p:confirmDialog style="min-width: 300px;" header="Remove Workflow Language" id="removeWorkflowLanguageModal" widgetVar="removeWorkflowLanguageModal"
+  responsive="true" closeOnEscape="true" message="If you delete a workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the language will be deleted! This operation will takes some time." severity="warn">
+  <h:form id="removeWorkflowLanguageForm">
+    <p:commandButton id="deleteBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
+      actionListener="#{securityWorkflowLanguageBean.remove(securityWorkflowLanguageBean.editLanguage)}" value="Delete" icon="si si-bin-1"
+      styleClass="modal-input-button" />
+    <p:commandButton id="cancelBtn" onclick="PF('removeWorkflowLanguageModal').hide();" value="Cancel" type="button"
+      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+  </h:form>
+</p:confirmDialog>
+
+</html>
