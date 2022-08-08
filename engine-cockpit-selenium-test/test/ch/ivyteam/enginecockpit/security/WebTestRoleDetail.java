@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
-import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemDetail.LDAP_BROWSER_DIALOG;
-import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemDetail.LDAP_BROWSER_FORM;
+import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemLdap.LDAP_BROWSER_DIALOG;
+import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemLdap.LDAP_BROWSER_FORM;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.empty;

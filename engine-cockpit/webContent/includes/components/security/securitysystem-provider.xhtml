@@ -25,7 +25,7 @@
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <label>Provider</label>
-      <p:selectOneMenu id="newSecuritySystemProviderSelect" value="#{securityProviderBean.provider}" onchange="PF('changeSecuritySystemProviderModal').show()">
+      <p:selectOneMenu id="provider" value="#{securityProviderBean.provider}" onchange="PF('changeSecuritySystemProviderModal').show()">
         <f:selectItems value="#{securityBean.providers}" />
       </p:selectOneMenu>
 

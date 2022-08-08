@@ -5,10 +5,10 @@
 
 <p:dialog header="Change security system identity provider" id="changeSecuritySystemProviderModal"
   widgetVar="changeSecuritySystemProviderModal" modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="changeSecuritySystemProviderFrom">
+  <h:form id="changeSecuritySystemProviderForm">
     <p:staticMessage severity="warn" detail="If you change the identity provider, you will lose ALL current settings of this security system!" />
     
-    <p:commandButton id="cancelNewSecuritySystem" onclick="PF('changeSecuritySystemProviderModal').hide();" value="OK"
+    <p:commandButton id="ok" onclick="PF('changeSecuritySystemProviderModal').hide();" value="OK"
       type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
   </h:form>
 </p:dialog>
