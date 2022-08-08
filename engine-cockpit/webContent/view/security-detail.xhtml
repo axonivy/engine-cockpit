@@ -29,11 +29,6 @@
     <ui:define name="content">
       <div class="layout-dashboard">
         <div class="p-grid">
-<!--         
-          <div class="p-col-12 p-md-12 #{securityConfigDetailBean.jndiSecuritySystem ? 'p-xl-6' : ''}">
-            <ui:include src="../includes/components/security/securitysystem-configuration.xhtml" />
-          </div>
--->        
           <div class="p-col-12 p-md-12 p-xl-6">
             <ui:include src="../includes/components/security/securitysystem-info.xhtml" />
           </div>
@@ -45,22 +40,6 @@
           <div class="p-col-12 p-md-12 p-xl-6">
             <ui:include src="../includes/components/security/securitysystem-language.xhtml" />
           </div>
-
-<!-- 
-          <h:panelGroup rendered="#{securityConfigDetailBean.jndiSecuritySystem}">
-            <div class="p-col-12 p-md-12 p-xl-6">
-              <ui:include src="../includes/components/security/securitysystem-ldap.xhtml" />
-            </div>
-
-            <div class="p-col-12 p-md-12 p-xl-6">
-              <ui:include src="../includes/components/security/securitysystem-binding.xhtml" />
-            </div>
-
-            <div class="p-col-12 p-md-12 p-xl-6">
-              <ui:include src="../includes/components/security/securitysystem-ldap-attributes.xhtml" />
-            </div>
-          </h:panelGroup>
- -->
         </div>
       </div>
     </ui:define>

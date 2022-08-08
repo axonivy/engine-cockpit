@@ -168,8 +168,10 @@ public class WebDocuScreenshot {
     takeDialogScreenshot("dialog-new-security", By.id("form:createSecuritySystemBtn"));
     Navigation.toSecuritySystemDetail("test-ad");
     takeScreenshot("security-system-detail", new Dimension(SCREENSHOT_WIDTH, 900));
+    Navigation.toSecuritySystemLdap("test-ad");
+    takeScreenshot("security-system-ldap", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("dialog-ldap-browser",
-            By.id("securitySystemBindingForm:browseDefaultContext"));
+            By.id("securityLdapBindingForm:browseDefaultContext"));
     Navigation.toUsers();
     Tab.SECURITY_SYSTEM.switchToDefault();
     takeScreenshot("users", new Dimension(SCREENSHOT_WIDTH, 600));
