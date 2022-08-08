@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.log4j.Logger;
+
 import ch.ivyteam.enginecockpit.application.model.LibSpecification;
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -16,6 +18,9 @@ import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
 @ManagedBean
 @ViewScoped
 public class PmvDetailBean {
+
+  private static final Logger LOGGER = Logger.getLogger(PmvDetailBean.class);
+
   private String appName;
   private String pmName;
   private String pmvVersion;
@@ -59,19 +64,28 @@ public class PmvDetailBean {
   }
 
   private void reloadDetailPmv() {
-    if (this.appName != null && this.pmName != null && this.pmvVersion != null) {
-      managerBean.reloadApplications();
-      IProcessModelVersion iPmv = IApplicationConfigurationManager.instance().findProcessModelVersion(appName, pmName,
-              Integer.parseInt(pmvVersion));
-      pmv = new ProcessModelVersion(iPmv);
-      deployedProject = iPmv.getLibrary().getId();
-      dependendPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT).stream()
-              .map(dep -> new ProcessModelVersion(dep)).collect(Collectors.toList());
-      requriedPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.REQUIRED).stream()
-              .map(req -> new ProcessModelVersion(req)).collect(Collectors.toList());
-      requiredSpecifications = iPmv.getLibrary().getRequiredLibrarySpecifications().stream()
-              .map(spec -> new LibSpecification(spec)).collect(Collectors.toList());
+    if (this.appName == null ||
+        this.pmName == null ||
+        this.pmvVersion == null) {
+      return;
     }
+
+    managerBean.reloadApplications();
+    var appMgr = IApplicationConfigurationManager.instance();
+    IProcessModelVersion iPmv = appMgr.findProcessModelVersion(appName, pmName, Integer.parseInt(pmvVersion));
+    if (iPmv == null) {
+      LOGGER.warn("Can not refresh PMV details for "+appName+"/"+pmName+"/"+pmvVersion);
+      return;
+    }
+
+    pmv = new ProcessModelVersion(iPmv);
+    deployedProject = iPmv.getLibrary().getId();
+    dependendPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT).stream()
+            .map(dep -> new ProcessModelVersion(dep)).collect(Collectors.toList());
+    requriedPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.REQUIRED).stream()
+            .map(req -> new ProcessModelVersion(req)).collect(Collectors.toList());
+    requiredSpecifications = iPmv.getLibrary().getRequiredLibrarySpecifications().stream()
+            .map(spec -> new LibSpecification(spec)).collect(Collectors.toList());
   }
 
   public ProcessModelVersion getPmv() {
