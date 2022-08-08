@@ -33,6 +33,7 @@ public class SecuritySystemConfig {
     String UPDATE_TIME = IdentityProviderConfig.UPDATE_TIME;
     String IMPORT_ONDEMAND = IdentityProviderConfig.IMPORT_ON_DEMAND;
     String UPDATE_ENABLED = IdentityProviderConfig.UPDATE_ENABLED;
+    String SYNCH_ON_LOGIN = IdentityProviderConfig.SYNCH_ON_LOGIN;
 
     String USER_ATTRIBUTE_ID = IJndiSecuritySystemConstants.USER_ATTRIBUTE_ID;
     String USER_ATTRIBUTE_NAME = IJndiSecuritySystemConstants.USER_ATTRIBUTE_NAME;

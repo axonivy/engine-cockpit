@@ -2,9 +2,7 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -12,39 +10,28 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
-import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.language.LanguageConfigurator;
-import ch.ivyteam.ivy.language.LanguageManager;
-import ch.ivyteam.ivy.security.ISecurityConstants;
-import ch.ivyteam.ivy.security.ISecurityContext;
-import ch.ivyteam.ivy.security.ISecurityManager;
+import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryIdentityProvider;
+import ch.ivyteam.ivy.security.identity.jndi.nds.NovellEDirectoryIdentityProvider;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiProvider;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SecurityConfigDetailBean {
+public class SecurityLdapBean {
 
   private String name;
-  private Locale language;
-  private Locale formattingLanguage;
-  private SecuritySystem securitySystem;
-  private ManagerBean managerBean;
+  private String provider;
 
   private List<String> derefAliases;
   private List<String> protocols;
   private List<String> referrals;
 
-  private String provider;
   private String url;
   private String userName;
   private String password;
@@ -56,18 +43,14 @@ public class SecurityConfigDetailBean {
   private String defaultContext;
   private String importUsersOfGroup;
   private String userFilter;
-  private String updateTime;
-  private boolean importOnDemand;
-  private boolean updateEnabled;
   private LdapBrowser ldapBrowser;
   private String ldapBrowserTarget;
   private ExternalSecuritySystemConfiguration securityConfiguration;
 
-  public SecurityConfigDetailBean() {
-    managerBean = ManagerBean.instance();
+  public SecurityLdapBean() {
   }
 
-  public SecurityConfigDetailBean(String secSystemName) {
+  public SecurityLdapBean(String secSystemName) {
     this();
     setSecuritySystemName(secSystemName);
   }
@@ -80,20 +63,23 @@ public class SecurityConfigDetailBean {
     if (StringUtils.isBlank(name)) {
       name = secSystemName;
       securityConfiguration = new ExternalSecuritySystemConfiguration(name);
-      loadSecuritySystem();
+      loadLdapConfig();
     }
   }
 
-  private void loadSecuritySystem() {
-    securitySystem = managerBean.getSecuritySystems().stream()
-            .filter(system -> StringUtils.equals(system.getSecuritySystemName(), name))
-            .findAny()
-            .orElseThrow();
+  public String getProvider() {
+    return provider;
+  }
 
-    var languageConfigurator = languageConfigurator();
-    language = languageConfigurator.content();
-    formattingLanguage = languageConfigurator.formatting();
+  public void setProvider(String provider) {
+    this.provider = provider;
+  }
 
+  public String getLink() {
+    return "security-ldap.xhtml?securitySystemName="+name;
+  }
+
+  private void loadLdapConfig() {
     derefAliases = Arrays.asList("always", "never", "finding", "searching");
     protocols = Arrays.asList("", "ssl");
     referrals = Arrays.asList("follow", "ignore", "throw");
@@ -114,73 +100,11 @@ public class SecurityConfigDetailBean {
     defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
     userFilter = getConfiguration(ConfigKey.BINDING_USER_FILTER);
-    updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
-    importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND));
-    updateEnabled = getInitBooleanValue(ConfigKey.UPDATE_ENABLED,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED));
     ldapBrowser = new LdapBrowser();
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Locale getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(Locale language) {
-    this.language = language;
-  }
-
-  public Locale getFormattingLanguage() {
-    return formattingLanguage;
-  }
-
-  public void setFormattingLanguage(Locale formattingLanguage) {
-    this.formattingLanguage = formattingLanguage;
-  }
-
-  public List<String> getUsedByApps() {
-    return securitySystem.getAppNames();
-  }
-
-  public boolean isDeletable() {
-    var result = new SecurityContextRemovalCheck(securitySystem.getSecurityContext()).run();
-    return result.removable();
-  }
-
-  public String getNotToDeleteReason() {
-    var result = new SecurityContextRemovalCheck(securitySystem.getSecurityContext()).run();
-    if (result.removable()) {
-      return "Are you sure you want to delete the security system '" + name + "'?";
-    }
-    return result.reason();
-  }
-
-  public String getProvider() {
-    return provider;
-  }
-
-  public ISecurityContext getSecurityContext() {
-    return securitySystem.getSecurityContext();
-  }
-
-  public void setProvider(String provider) {
-    this.provider = provider;
   }
 
   public String getUrl() {
     return url;
-  }
-
-  public boolean isJndiSecuritySystem() {
-    return !securitySystem.isIvySecuritySystem();
   }
 
   public void setUrl(String url) {
@@ -285,30 +209,6 @@ public class SecurityConfigDetailBean {
     this.userFilter = userFilter;
   }
 
-  public String getUpdateTime() {
-    return updateTime;
-  }
-
-  public void setUpdateTime(String updateTime) {
-    this.updateTime = updateTime;
-  }
-
-  public boolean isImportOnDemand() {
-    return importOnDemand;
-  }
-
-  public void setImportOnDemand(boolean importOnDemand) {
-    this.importOnDemand = importOnDemand;
-  }
-
-  public boolean isUpdateEnabled() {
-    return updateEnabled;
-  }
-
-  public void setUpdateEnabled(boolean updateEnabled) {
-    this.updateEnabled = updateEnabled;
-  }
-
   public List<String> getDerefAliases() {
     return derefAliases;
   }
@@ -321,27 +221,7 @@ public class SecurityConfigDetailBean {
     return protocols;
   }
 
-  public String getLink() {
-    return securitySystem.getLink();
-  }
-
-  private LanguageConfigurator languageConfigurator() {
-    return LanguageManager.instance().configurator(securitySystem.getSecurityContext());
-  }
-
-  public void saveConfiguration() {
-    if (!validateUpdateTime()) {
-      return;
-    }
-
-    var languageConfigurator = languageConfigurator();
-    languageConfigurator.content(LocaleUtils.toLocale(language));
-    languageConfigurator.formatting(LocaleUtils.toLocale(formattingLanguage));
-
-    if (!isJndiSecuritySystem()) {
-      return;
-    }
-
+  public void saveConnection() {
     setConfiguration(ConfigKey.CONNECTION_URL, this.url);
     setConfiguration(ConfigKey.CONNECTION_USER_NAME, this.userName);
     setConfiguration(ConfigKey.CONNECTION_PASSWORD, this.password);
@@ -360,38 +240,17 @@ public class SecurityConfigDetailBean {
             StringUtils.equals(this.referral,
                     securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL)) ? ""
                             : this.referral);
-    setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
-    setConfiguration(ConfigKey.IMPORT_ONDEMAND,
-            getSaveBooleanValue(this.importOnDemand,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
-    setConfiguration(ConfigKey.UPDATE_ENABLED,
-            getSaveBooleanValue(this.updateEnabled,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED)));
     SecuritySystemConfig.setAuthenticationKind(name);
-    FacesContext.getCurrentInstance().addMessage("securitySystemConfigSaveSuccess",
-            new FacesMessage("Security System configuration saved"));
-  }
-
-  private boolean validateUpdateTime() {
-    if (StringUtils.isEmpty(updateTime)) {
-      return true;
-    }
-    final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
-    if (!pattern.matcher(this.updateTime).matches()) {
-      FacesContext.getCurrentInstance().addMessage("syncTime",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-                      "Please check that synchronization Time is max '23:59'"));
-      return false;
-    }
-    return true;
+    FacesContext.getCurrentInstance().addMessage("securityLdapConnectionSaveSuccess",
+            new FacesMessage("Security System Connection saved"));
   }
 
   public void saveBinding() {
     setConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT, this.defaultContext);
     setConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP, this.importUsersOfGroup);
     setConfiguration(ConfigKey.BINDING_USER_FILTER, this.userFilter);
-    FacesContext.getCurrentInstance().addMessage("securitySystemBindingSaveSuccess",
-            new FacesMessage("Security System binding saved"));
+    FacesContext.getCurrentInstance().addMessage("securityLdapBindingSaveSuccess",
+            new FacesMessage("Security System Binging saved"));
   }
 
   private String getConfiguration(String key) {
@@ -400,11 +259,6 @@ public class SecurityConfigDetailBean {
 
   public void setConfiguration(String key, Object value) {
     SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(name) + key, value);
-  }
-
-  public String deleteConfiguration() {
-    ISecurityManager.instance().securityContexts().delete(name);
-    return "securitysystem.xhtml?faces-redirect=true";
   }
 
   public LdapBrowser getLdapBrowser() {
@@ -453,12 +307,11 @@ public class SecurityConfigDetailBean {
             envProps);
   }
 
-  @SuppressWarnings("removal")
   public JndiProvider provider() {
     switch (provider) {
-      case ISecurityConstants.NOVELL_E_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
+      case NovellEDirectoryIdentityProvider.ID:
         return JndiProvider.NOVELL_E_DIRECTORY;
-      case ISecurityConstants.MICROSOFT_ACTIVE_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
+      case MicrosoftActiveDirectoryIdentityProvider.ID:
         return JndiProvider.ACTIVE_DIRECTORY;
       default:
         return null;

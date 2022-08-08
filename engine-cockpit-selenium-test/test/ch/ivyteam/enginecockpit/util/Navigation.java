@@ -99,6 +99,16 @@ public class Navigation {
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
+  public static void toSecuritySystemLdap(String secSystemName) {
+    Navigation.toSecuritySystem();
+    $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
+    assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
+    menuShouldBeActive(SECURITY_SYSTEM_MENU);
+    $("#securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
+    assertCurrentUrlContains("security-ldap.xhtml?securitySystemName=" + secSystemName);
+    menuShouldBeActive(SECURITY_SYSTEM_MENU);
+  }
+
   public static void toVariables() {
     toSubMenu(CONFIGURATION_MENU, VARIABLES_MENU);
     assertCurrentUrlContains("variables.xhtml");
