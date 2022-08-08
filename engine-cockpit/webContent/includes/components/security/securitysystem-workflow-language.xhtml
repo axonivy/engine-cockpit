@@ -27,7 +27,7 @@
         <p:commandButton id="defaultBtn" actionListener="#{securityWorkflowLanguageBean.setDefault(language)}"
           icon="si si-pencil" title="Make this the default language" update="@form"
           styleClass="ui-button-secondary rounded-button" disabled="#{securityWorkflowLanguageBean.isDefault(language)}" />
-        <p:commandButton id="deleteBtn"  actionListener="#{securityWorkflowLanguageBean.setEditLanguage(language)}" oncomplete="PF('removeWorkflowLanguageModal').show();"
+        <p:commandButton id="deleteBtn"  actionListener="#{securityWorkflowLanguageBean.setEditLanguage(language)}" oncomplete="PF('deleteWorkflowLanguageModal').show();"
           icon="si si-bin-1" title="Delete this language" update="@form"
           styleClass="p-ml-1 ui-button-danger rounded-button"  
           disabled="#{securityWorkflowLanguageBean.isDefault(language)}">
@@ -56,13 +56,13 @@
   </h:form>
 </p:dialog>
 
-<p:confirmDialog style="min-width: 300px;" header="Remove Workflow Language" id="removeWorkflowLanguageModal" widgetVar="removeWorkflowLanguageModal"
+<p:confirmDialog style="min-width: 300px;" header="Delete Workflow Language" id="deleteWorkflowLanguageModal" widgetVar="deleteWorkflowLanguageModal"
   responsive="true" closeOnEscape="true" message="If you delete a workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the language will be deleted! This operation will takes some time." severity="warn">
-  <h:form id="removeWorkflowLanguageForm">
+  <h:form id="deleteWorkflowLanguageForm">
     <p:commandButton id="deleteBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
-      actionListener="#{securityWorkflowLanguageBean.remove(securityWorkflowLanguageBean.editLanguage)}" value="Delete" icon="si si-bin-1"
+      actionListener="#{securityWorkflowLanguageBean.delete(securityWorkflowLanguageBean.editLanguage)}" value="Delete" icon="si si-bin-1"
       styleClass="modal-input-button" />
-    <p:commandButton id="cancelBtn" onclick="PF('removeWorkflowLanguageModal').hide();" value="Cancel" type="button"
+    <p:commandButton id="cancelBtn" onclick="PF('deleteWorkflowLanguageModal').hide();" value="Cancel" type="button"
       styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
   </h:form>
 </p:confirmDialog>

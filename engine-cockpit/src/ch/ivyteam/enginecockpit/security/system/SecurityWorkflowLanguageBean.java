@@ -93,7 +93,7 @@ public class SecurityWorkflowLanguageBean {
     return languages.defaultWorkflow();
   }
 
-  public void remove(Locale language) {
+  public void delete(Locale language) {
     languages.deleteWorkflow(language);
     this.editLanguage = null;
   }
