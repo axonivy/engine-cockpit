@@ -10,6 +10,7 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebTestSecuritySystemDetail {
@@ -31,6 +33,15 @@ public class WebTestSecuritySystemDetail {
   private static final String CHANGE_PROVIDER_DIALOG_OK_BUTTON = "#changeSecuritySystemProviderForm\\:ok";
 
   private static final String SAVE_LANGUAGE_BTN = "#securityLanguageForm\\:saveLanguageConfigBtn";
+
+  private static final String ADD_WORKFLOW_LANGUAGE_BTN = "#securityWorkflowLanguageForm\\:addBtn";
+  private static final String ADD_WORKFLOW_LANGUAGE_DIALOG = "#addWorkflowLanguageModal";
+  private static final String ADD_WORKFLOW_LANGUAGE_FROM_LANGUAGE = "#addWorkflowLanguageForm\\:language";
+  private static final String ADD_WORKFLOW_LANGUAGE_FROM_ADD_BTN = "#addWorkflowLanguageForm\\:addBtn";
+  private static final String ADD_WORKFLOW_LANGUAGE_FROM_CACNEL_BTN = "#addWorkflowLanguageForm\\:cancelBtn";
+  private static final String REMOVE_WORKFLOW_LANGUAGE_DIALOG = "#deleteWorkflowLanguageModal";
+  private static final String REMOVE_WORKFLOW_LANGUAGE_FROM_DELETE_BTN = "#deleteWorkflowLanguageForm\\:deleteBtn";
+  private static final String REMOVE_WORKFLOW_LANGUAGE_FROM_CACNEL_BTN = "#deleteWorkflowLanguageForm\\:cancelBtn";
 
   private static final String SAVE_PROVIDER_BTN = "#securityProviderForm\\:saveProviderBtn";
   private static final String SAVE_PROVIDER_SUCCESS_GROWL = "#securityProviderForm\\:securityProviderSaveSuccess_container";
@@ -49,7 +60,7 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void securitySystemDetail() {
-    $$(".card").shouldHave(size(3));
+    $$(".card").shouldHave(size(4));
   }
 
   @Test
@@ -89,6 +100,62 @@ public class WebTestSecuritySystemDetail {
 
     Selenide.refresh();
     language.selectedItemShould(value("en"));
+  }
+
+  @Test
+  void addAndDeleteWorkflowLanguage() {
+    Table table = new Table(By.id("securityWorkflowLanguageForm:workflowLanguageTable"));
+    assertThat(table.getFirstColumnEntries()).containsExactlyInAnyOrder("English");
+
+    $(ADD_WORKFLOW_LANGUAGE_BTN).click();
+    $(ADD_WORKFLOW_LANGUAGE_DIALOG).shouldBe(visible);
+    PrimeUi.selectOne(By.cssSelector(ADD_WORKFLOW_LANGUAGE_FROM_LANGUAGE)).selectItemByLabel("French");
+    $(ADD_WORKFLOW_LANGUAGE_FROM_CACNEL_BTN).click();
+    assertThat(table.getFirstColumnEntries()).containsExactlyInAnyOrder("English");
+
+    $(ADD_WORKFLOW_LANGUAGE_BTN).click();
+    $(ADD_WORKFLOW_LANGUAGE_DIALOG).shouldBe(visible);
+    PrimeUi.selectOne(By.cssSelector(ADD_WORKFLOW_LANGUAGE_FROM_LANGUAGE)).selectItemByLabel("French");
+    $(ADD_WORKFLOW_LANGUAGE_FROM_ADD_BTN).click();
+
+    assertThat(table.getFirstColumnEntries()).containsExactlyInAnyOrder("English", "French");
+    table.buttonForEntryShouldBeDisabled("English", "deleteBtn");
+    table.clickButtonForEntry("French", "deleteBtn");
+
+    $(REMOVE_WORKFLOW_LANGUAGE_DIALOG).shouldBe(visible);
+    $(REMOVE_WORKFLOW_LANGUAGE_FROM_CACNEL_BTN).click();
+    assertThat(table.getFirstColumnEntries()).containsExactlyInAnyOrder("English", "French");
+
+    table.clickButtonForEntry("French", "deleteBtn");
+
+    $(REMOVE_WORKFLOW_LANGUAGE_DIALOG).shouldBe(visible);
+    $(REMOVE_WORKFLOW_LANGUAGE_FROM_DELETE_BTN).click();
+    assertThat(table.getFirstColumnEntries()).containsExactlyInAnyOrder("English");
+  }
+
+  @Test
+  void changeDefaultWorkflowLanguage() {
+    Table table = new Table(By.id("securityWorkflowLanguageForm:workflowLanguageTable"));
+    $(ADD_WORKFLOW_LANGUAGE_BTN).click();
+    PrimeUi.selectOne(By.cssSelector(ADD_WORKFLOW_LANGUAGE_FROM_LANGUAGE)).selectItemByLabel("French");
+    $(ADD_WORKFLOW_LANGUAGE_FROM_ADD_BTN).click();
+    assertThat(table.getFirstColumnEntries()).containsExactlyInAnyOrder("English", "French");
+
+    table.buttonForEntryShouldBeDisabled("English", "defaultBtn", true);
+    table.buttonForEntryShouldBeDisabled("French", "defaultBtn", false);
+
+    table.clickButtonForEntry("French", "defaultBtn");
+
+    table.buttonForEntryShouldBeDisabled("English", "defaultBtn", false);
+    table.buttonForEntryShouldBeDisabled("French", "defaultBtn", true);
+
+    table.clickButtonForEntry("English", "defaultBtn");
+
+    table.buttonForEntryShouldBeDisabled("English", "defaultBtn", true);
+    table.buttonForEntryShouldBeDisabled("French", "defaultBtn", false);
+
+    table.clickButtonForEntry("French", "deleteBtn");
+    $(REMOVE_WORKFLOW_LANGUAGE_FROM_DELETE_BTN).click();
   }
 
   @Test

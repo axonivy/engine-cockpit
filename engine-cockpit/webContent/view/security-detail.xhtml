@@ -8,6 +8,7 @@
     <f:viewParam name="securitySystemName" value="#{securityDefaultValueBean.securitySystemName}" />
     <f:viewParam name="securitySystemName" value="#{securityConfigBean.securitySystemName}" />
     <f:viewParam name="securitySystemName" value="#{securityProviderBean.securitySystemName}" />
+    <f:viewParam name="securitySystemName" value="#{securityWorkflowLanguageBean.securitySystemName}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -39,6 +40,10 @@
           
           <div class="p-col-12 p-md-12 p-xl-6">
             <ui:include src="../includes/components/security/securitysystem-language.xhtml" />
+          </div>
+
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/security/securitysystem-workflow-language.xhtml" />
           </div>
         </div>
       </div>
