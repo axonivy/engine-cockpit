@@ -21,7 +21,7 @@
         <h:outputText value="#{language.displayName}" styleClass="ldap-attribute" />
       </p:column>
       <p:column headerText="Default" styleClass="ldap-value">
-        <h:outputText value="#{securityWorkflowLanguageBean.isDefault(language) ? 'Default' : ''}" />
+        <i class="#{securityWorkflowLanguageBean.isDefault(language) ? 'si si-check-circle-1 table-icon activity-state-active' : ''}"></i>
       </p:column>
       <p:column styleClass="table-btn-2">
         <p:commandButton id="defaultBtn" actionListener="#{securityWorkflowLanguageBean.setDefault(language)}"
