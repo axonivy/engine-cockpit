@@ -42,15 +42,15 @@ public class ConfigProperty {
   public ConfigProperty(Property property) {
     this.key = property.getKey();
     this.value = property.getValue();
-    this.defaultValue = property.getMetaData().getDefaultValue();
+    this.defaultValue = property.getMetaData().defaultValue();
     this.isDefault = property.isDefault();
     this.source = property.getSource();
     this.password = property.getMetaData().isPassword();
-    this.configValueFormat = property.getMetaData().getFormat();
-    this.enumerationValues = property.getMetaData().getEnumerationValues();
+    this.configValueFormat = property.getMetaData().format();
+    this.enumerationValues = property.getMetaData().enumerationValues();
     this.restartRequired = property.getMetaData().isRestartRequired();
-    this.description = property.getMetaData().getDescription();
-    this.fileExtension = property.getMetaData().getFileExtension();
+    this.description = property.getMetaData().description();
+    this.fileExtension = property.getMetaData().fileExtension();
     this.file = getFile(source);
     correctValuesIfDaytimeFormat();
   }

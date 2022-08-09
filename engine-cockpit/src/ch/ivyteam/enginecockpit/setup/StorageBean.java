@@ -25,8 +25,8 @@ public class StorageBean extends StepStatus {
 
   public StorageBean() {
     initConfigs();
-    appDirHelp = IConfiguration.instance().getMetadata(APP_DIR).getDescription().replaceAll("\n", "<br/>");
-    fileDirHelp = IConfiguration.instance().getMetadata(FILE_DIR).getDescription().replaceAll("\n", "<br/>");
+    appDirHelp = IConfiguration.instance().getMetadata(APP_DIR).description().replaceAll("\n", "<br/>");
+    fileDirHelp = IConfiguration.instance().getMetadata(FILE_DIR).description().replaceAll("\n", "<br/>");
   }
 
   public String getAppDir() {
