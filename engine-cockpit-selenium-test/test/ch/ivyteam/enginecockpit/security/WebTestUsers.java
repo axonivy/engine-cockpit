@@ -74,7 +74,7 @@ class WebTestUsers {
     table.firstColumnShouldBe(sizeGreaterThanOrEqual(4));
 
     filterTableFor("Show manual users");
-    table.firstColumnShouldBe(sizeLessThanOrEqual(2));
+    table.firstColumnShouldBe(sizeLessThanOrEqual(4));
     table.search("user");
     table.firstColumnShouldBe(empty);
     table.search("ma");
