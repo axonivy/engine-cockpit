@@ -25,10 +25,8 @@ class WebTestSecurityIdentityProviderAzure {
     createSecuritySystem("Azure Active Directory", securitySystemName);
     Navigation.toSecuritySystemProvider(securitySystemName);
     editProperty();
+    WebTestSecuritySystem.deleteSecuritySystem(securitySystemName);
 
-    Navigation.toSecuritySystemDetail(securitySystemName);
-    $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible).click();
-    $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmDialog").shouldBe(visible);
   }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {

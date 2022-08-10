@@ -48,7 +48,6 @@ class WebTestSecuritySystem {
 
   @Test
   void addAndDeleteSecuritySystem() {
-    // add
     $("#form\\:createSecuritySystemBtn").click();
     $("#newSecuritySystemModal").shouldBe(visible);
     $("#newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");
@@ -57,8 +56,12 @@ class WebTestSecuritySystem {
     $$(".security-name").shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "test-nd", "default"));
     $$(".provider-name").shouldBe(textsInAnyOrder("Microsoft Active Directory", "Microsoft Active Directory", "Novell eDirectory", "ivy Security System"));
 
-    // delete
-    Navigation.toSecuritySystemDetail("NewFromTest");
+    deleteSecuritySystem("NewFromTest");
+    $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "test-nd", "default"));
+  }
+
+  static void deleteSecuritySystem(String securitySystemName) {
+    Navigation.toSecuritySystemDetail(securitySystemName);
     $("#securitySystemConfigForm\\:deleteSecuritySystem").shouldBe(visible);
 
     $("#securitySystemConfigForm\\:deleteSecuritySystem").click();
@@ -66,6 +69,5 @@ class WebTestSecuritySystem {
 
     $("#securitySystemConfigForm\\:deleteSecuritySystemConfirmYesBtn").click();
     assertCurrentUrlContains("securitysystem.xhtml");
-    $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "test-nd", "default"));
   }
 }
