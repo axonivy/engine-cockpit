@@ -8,47 +8,54 @@
     <p:growl id="securityProviderSaveSuccess" for="securityProviderSaveSuccess">
       <p:autoUpdate />
     </p:growl>
+
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-single-neutral-actions"></i>
         <h6 class="p-m-0">Identity Provider</h6>
-        <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtn" rendered="#{securityProviderBean.jndiSecuritySystem}"
-              styleClass="p-col-fixed p-ml-auto rounded-button" outcome="security-ldap">
-              <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
-       </p:linkButton>
+        
+        <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtn" rendered="#{securityProviderBean.notJndiAndNotIvySecuritySystem}"
+            styleClass="p-col-fixed p-ml-auto rounded-button" outcome="security-provider">
+          <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
+        </p:linkButton>
+       
+        <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtnJndi" rendered="#{securityProviderBean.jndiSecuritySystem}"
+            styleClass="p-col-fixed p-ml-auto rounded-button" outcome="security-ldap">
+          <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
+        </p:linkButton>
 
         <p:commandButton title="Save" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm"
-              styleClass="#{securityProviderBean.jndiSecuritySystem ? '' : 'p-col-fixed p-ml-auto'} p-ml-1 ui-button-success rounded-button" actionListener="#{securityProviderBean.saveProvider}" />
+              styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'p-col-fixed p-ml-auto'} p-ml-1 ui-button-success rounded-button" actionListener="#{securityProviderBean.saveProvider}" />
       </div>
     </div>
-    
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
-      styleClass="grey-label-panel ui-fluid">
+
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel ui-fluid">
       <label>Provider</label>
       <p:selectOneMenu id="provider" value="#{securityProviderBean.provider}" onchange="PF('changeSecuritySystemProviderModal').show()">
-        <f:selectItems value="#{securityBean.providers}" />
+        <f:selectItems value="#{securityBean.providers}" var="provider" itemValue="#{provider.id()}" itemLabel="#{provider.name()}" />
       </p:selectOneMenu>
+    </p:panelGrid>
 
-      <p:outputLabel for="enableDailySynch" value="Update Job Enabled" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
-      <p:selectBooleanCheckbox id="enableDailySynch" value="#{securityProviderBean.updateEnabled}" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel ui-fluid" rendered="#{securityProviderBean.notIvySecuritySystem}">
+      <p:outputLabel for="enableDailySynch" value="Update Job Enabled" />
+      <p:selectBooleanCheckbox id="enableDailySynch" value="#{securityProviderBean.updateEnabled}" />
 
-      <p:outputLabel for="syncTime" value="Synchronization Time" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
-      <h:panelGroup rendered="#{securityProviderBean.jndiSecuritySystem}">
-        <p:inputMask id="syncTime" value="#{securityProviderBean.updateTime}" mask="99:99"
-          placeholder="#{securityDefaultValueBean.updatetime}" />
+      <p:outputLabel for="syncTime" value="Synchronization Time" />
+      <h:panelGroup>
+        <p:inputMask id="syncTime" value="#{securityProviderBean.updateTime}" mask="99:99" placeholder="#{securityDefaultValueBean.updatetime}" />
         <p:messages for="syncTime" id="syncTimeMessage" showDetail="true">
           <p:autoUpdate />
         </p:messages>
       </h:panelGroup>
 
-      <p:outputLabel for="synchOnLogin" value="Synchronize on Login" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
-      <p:selectBooleanCheckbox id="synchOnLogin" value="#{securityProviderBean.synchOnLogin}" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
-      
-      <p:outputLabel for="onDemandImport" value="Import On Demand" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
-      <p:selectBooleanCheckbox id="onDemandImport" value="#{securityProviderBean.importOnDemand}" rendered="#{securityProviderBean.jndiSecuritySystem}"/>
+      <p:outputLabel for="synchOnLogin" value="Synchronize on Login" />
+      <p:selectBooleanCheckbox id="synchOnLogin" value="#{securityProviderBean.synchOnLogin}" />
+
+      <p:outputLabel for="onDemandImport" value="Import On Demand" />
+      <p:selectBooleanCheckbox id="onDemandImport" value="#{securityProviderBean.importOnDemand}" />
     </p:panelGrid>
   </h:form>
-   <ui:include src="../../dialogs/changesecuritysystemprovider.xhtml" />  
+  <ui:include src="../../dialogs/changesecuritysystemprovider.xhtml" />  
 </div>
 
 </html>

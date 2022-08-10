@@ -7,6 +7,7 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
 public class SecuritySystem {
 
@@ -25,7 +26,10 @@ public class SecuritySystem {
   }
 
   public String getSecuritySystemProvider() {
-    return securityContext.getExternalSecuritySystemName();
+    return ISecurityContextInternal.class.cast(securityContext)
+            .identityProviders()
+            .get(0)
+            .name();
   }
 
   public String getSecuritySystemName() {
@@ -65,5 +69,9 @@ public class SecuritySystem {
 
   public boolean isIvySecuritySystem() {
     return ManagerBean.isIvySecuritySystem(this);
+  }
+
+  public boolean isJndiSecuritySystem() {
+    return ManagerBean.isJndiSecuritySystem(this);
   }
 }

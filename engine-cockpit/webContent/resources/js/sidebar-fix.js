@@ -46,6 +46,7 @@ jQuery(function () {
     var map = {
       'security-detail.xhtml': 'securitysystem.xhtml',
       'security-ldap.xhtml': 'securitysystem.xhtml',
+      'security-provider.xhtml': 'securitysystem.xhtml',
       'userdetail.xhtml': 'users.xhtml',
       'roledetail.xhtml': 'roles.xhtml',
       'application-detail.xhtml': 'applications.xhtml',
