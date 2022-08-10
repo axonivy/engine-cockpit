@@ -9,11 +9,11 @@ import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.security.identity.IdentityProvider;
-import ch.ivyteam.ivy.security.identity.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
+import ch.ivyteam.ivy.security.identity.IdentityProvider;
+import ch.ivyteam.ivy.security.identity.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.internal.SecurityContext;
 
 @ManagedBean
@@ -100,10 +100,8 @@ public class SecurityBean {
     this.newSecuritySystemProvider = provider;
   }
 
-  public List<String> getProviders() {
-    return IdentityProviderRegistry.all().stream()
-        .map(IdentityProvider::id)
-        .collect(Collectors.toList());
+  public List<IdentityProvider> getProviders() {
+    return IdentityProviderRegistry.all();
   }
 
   public void createNewSecuritySystem() {

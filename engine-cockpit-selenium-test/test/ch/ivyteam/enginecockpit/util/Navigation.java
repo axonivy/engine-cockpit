@@ -104,8 +104,18 @@ public class Navigation {
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
-    $("#securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
+    $("#securityProviderForm\\:editProviderBtnJndi").shouldBe(visible).click();
     assertCurrentUrlContains("security-ldap.xhtml?securitySystemName=" + secSystemName);
+    menuShouldBeActive(SECURITY_SYSTEM_MENU);
+  }
+
+  public static void toSecuritySystemProvider(String secSystemName) {
+    Navigation.toSecuritySystem();
+    $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
+    assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
+    menuShouldBeActive(SECURITY_SYSTEM_MENU);
+    $("#securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
+    assertCurrentUrlContains("security-provider.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 

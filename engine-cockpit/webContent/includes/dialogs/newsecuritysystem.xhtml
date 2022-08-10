@@ -18,7 +18,7 @@
       <p:outputLabel for="newSecuritySystemProviderSelect" value="Provider" />
       <h:panelGroup>
         <p:selectOneMenu id="newSecuritySystemProviderSelect" value="#{securityBean.newSecuritySystemProvider}">
-          <f:selectItems value="#{securityBean.providers}" />
+          <f:selectItems value="#{securityBean.providers}" var="provider" itemValue="#{provider.id()}" itemLabel="#{provider.name()}" />
         </p:selectOneMenu>
       </h:panelGroup>
     </p:panelGrid>

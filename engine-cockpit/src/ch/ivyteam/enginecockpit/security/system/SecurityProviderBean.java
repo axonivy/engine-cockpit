@@ -61,7 +61,15 @@ public class SecurityProviderBean {
   }
 
   public boolean isJndiSecuritySystem() {
+    return securitySystem.isJndiSecuritySystem();
+  }
+
+  public boolean isNotIvySecuritySystem() {
     return !securitySystem.isIvySecuritySystem();
+  }
+
+  public boolean isNotJndiAndNotIvySecuritySystem() {
+    return !securitySystem.isIvySecuritySystem() && !securitySystem.isJndiSecuritySystem();
   }
 
   public String getProvider() {
@@ -168,5 +176,4 @@ public class SecurityProviderBean {
     }
     return value;
   }
-
 }
