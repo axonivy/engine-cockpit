@@ -225,7 +225,6 @@ public class WebTestSystemDb {
 
   public static void assertAdditionalProperties() {
     Table table = new Table(By.id("systemDb:systemDbForm:additionalPropertiesTable"));
-    assertThat(table.getFirstColumnEntries().size()).isEqualTo(5);
 
     $("#systemDb\\:systemDbForm\\:newAdditionalPropertyBtn").click();
     $("#systemDb\\:addAdditionalPropertyDialog").shouldBe(visible);
@@ -246,7 +245,7 @@ public class WebTestSystemDb {
     $("#systemDb\\:addAdditionalPropertyForm\\:value").sendKeys("testValue");
     $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
     $("#systemDb\\:addAdditionalPropertyDialog").shouldNotBe(visible);
-    table.valueForEntryShould("test", 0, exactText("test"));
+    assertThat(table.getFirstColumnEntries()).contains("test");
     assertThat(table.getFirstColumnEntries().size()).isEqualTo(6);
 
     table.clickButtonForEntry("test", "removeAdditionalProperty");
