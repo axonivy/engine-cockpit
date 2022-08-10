@@ -5,7 +5,6 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.deleteTempDb;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.resetConfig;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFinished;
-import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.Condition.and;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.cssClass;
@@ -226,7 +225,7 @@ public class WebTestSystemDb {
 
   public static void assertAdditionalProperties() {
     Table table = new Table(By.id("systemDb:systemDbForm:additionalPropertiesTable"));
-    $("#systemDb\\:systemDbForm\\:additionalPropertiesTable").shouldBe(text("No records found."));
+    assertThat(table.getFirstColumnEntries().size()).isEqualTo(5);
 
     $("#systemDb\\:systemDbForm\\:newAdditionalPropertyBtn").click();
     $("#systemDb\\:addAdditionalPropertyDialog").shouldBe(visible);
@@ -247,11 +246,12 @@ public class WebTestSystemDb {
     $("#systemDb\\:addAdditionalPropertyForm\\:value").sendKeys("testValue");
     $("#systemDb\\:addAdditionalPropertyForm\\:saveProperty").click();
     $("#systemDb\\:addAdditionalPropertyDialog").shouldNotBe(visible);
-    table.firstColumnShouldBe(exactTexts("test"));
-    table.valueForEntryShould("test", 2, exactText("testValue"));
+    table.valueForEntryShould("test", 0, exactText("test"));
+    assertThat(table.getFirstColumnEntries().size()).isEqualTo(6);
 
     table.clickButtonForEntry("test", "removeAdditionalProperty");
-    $("#systemDb\\:systemDbForm\\:additionalPropertiesTable").shouldBe(text("No records found."));
+    assertThat(table.getFirstColumnEntries()).doesNotContain("test");
+    assertThat(table.getFirstColumnEntries().size()).isEqualTo(5);
   }
 
   public static void assertDefaultValues() {
