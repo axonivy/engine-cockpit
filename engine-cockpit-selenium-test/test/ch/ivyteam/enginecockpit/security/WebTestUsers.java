@@ -77,8 +77,8 @@ class WebTestUsers {
     table.firstColumnShouldBe(sizeLessThanOrEqual(4));
     table.search("user");
     table.firstColumnShouldBe(empty);
-    table.search("ma");
-    table.firstColumnShouldBe(sizeLessThanOrEqual(3));
+    table.search("manu");
+    table.firstColumnShouldBe(sizeLessThanOrEqual(1));
 
     Navigation.toUserDetail("manual");
     $("#userInformationForm\\:deleteUser").shouldBe(visible).click();
