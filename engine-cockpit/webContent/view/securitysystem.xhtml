@@ -46,6 +46,7 @@
             
             <p:column headerText="Provider" sortBy="#{system.securitySystemProvider}"
               filterBy="#{system.securitySystemProvider}">
+              <h:outputText value="${system.identityProviderImage}" escape="false" style="position:relative;right:5px;top:7px;" />
               <h:outputText value="#{system.securitySystemProvider}" class="provider-name" />
             </p:column>
             
