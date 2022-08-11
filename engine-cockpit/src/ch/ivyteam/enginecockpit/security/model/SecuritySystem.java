@@ -1,12 +1,18 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.identity.IdentityProvider;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
 public class SecuritySystem {
@@ -26,10 +32,25 @@ public class SecuritySystem {
   }
 
   public String getSecuritySystemProvider() {
+    return identityProvider().name();
+  }
+
+  public String getIdentityProviderImage() {
+    return loadResource(identityProvider().logo());
+  }
+
+  private IdentityProvider identityProvider() {
     return ISecurityContextInternal.class.cast(securityContext)
             .identityProviders()
-            .get(0)
-            .name();
+            .get(0);
+  }
+
+  private static String loadResource(URI uri) {
+    try {
+      return IOUtils.toString(uri, StandardCharsets.UTF_8);
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
   public String getSecuritySystemName() {
