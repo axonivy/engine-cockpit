@@ -102,11 +102,11 @@ pipeline {
         }
       }
     }
+
     stage('deploy') {
       when {
-        allOf {
-          branch 'master'
-          expression {return currentBuild.currentResult == 'SUCCESS' || params.deployArtifacts}
+        expression {
+          isReleaseOrMasterBranch()
         }
       }
       steps {
@@ -117,6 +117,7 @@ pipeline {
         }
       }
     }
+
     stage('cleanup') {
       when {
         expression {return currentBuild.currentResult == 'SUCCESS'}
@@ -149,4 +150,8 @@ def getTestFilter() {
     return 'WebTest*.java';
   }
   return params.testFilter
+}
+
+def isReleaseOrMasterBranch() {
+  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
 }
