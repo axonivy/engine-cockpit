@@ -1,0 +1,36 @@
+
+
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: daily
+  - package-ecosystem: maven
+    directory: engine-cockpit-selenium-test
+    schedule:
+      interval: daily
+  - package-ecosystem: maven
+    directory: engine-cockpit-test-data
+    schedule:
+      interval: daily
+  - package-ecosystem: maven
+    directory: engine-cockpit-test
+    schedule:
+      interval: daily
+  - package-ecosystem: maven
+    directory: engine-cockpit
+    schedule:
+      interval: daily
+  - package-ecosystem: maven
+    directory: image-validation
+    schedule:
+      interval: daily
+  - package-ecosystem: maven
+    directory: maven-config
+    schedule:
+      interval: daily
+  - package-ecosystem: maven
+    directory: maven-config/test
+    schedule:
+      interval: daily
