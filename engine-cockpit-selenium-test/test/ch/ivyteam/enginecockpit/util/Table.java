@@ -44,7 +44,7 @@ public class Table {
   }
 
   public List<String> getFirstColumnEntries() {
-    return $$x(getFirstColumnSpanElement()).stream()
+    return $$x(getFirstColumnSpanElement()).asDynamicIterable().stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
 
@@ -53,7 +53,7 @@ public class Table {
   }
 
   public List<String> getFirstColumnEntriesForSpanClass(String span) {
-    return $$x(getFirstColumnSpanElement() + "[@class='" + span + "']").stream()
+    return $$x(getFirstColumnSpanElement() + "[@class='" + span + "']").asDynamicIterable().stream()
             .map(e -> e.getText()).collect(Collectors.toList());
   }
 

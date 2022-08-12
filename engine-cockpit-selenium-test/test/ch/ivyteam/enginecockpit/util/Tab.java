@@ -48,7 +48,7 @@ public class Tab {
   }
 
   public List<String> getTabs() {
-    return $$(tab).stream()
+    return $$(tab).asDynamicIterable().stream()
             .map(e -> e.getText())
             .collect(Collectors.toList());
   }
@@ -82,7 +82,7 @@ public class Tab {
     if (getSelectedTab().equals(securitySystemName)) {
       return;
     }
-    $$(tab).stream()
+    $$(tab).asDynamicIterable().stream()
             .filter(e -> e.has(exactText(securitySystemName)))
             .findFirst()
             .ifPresent(app -> app.click());
