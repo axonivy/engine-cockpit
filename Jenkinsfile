@@ -7,7 +7,6 @@ pipeline {
   
   triggers {
     cron '@midnight'
-    bitbucketPush()
   }
 
   parameters {
