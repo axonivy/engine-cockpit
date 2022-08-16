@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.monitor;
 
-import java.util.Arrays;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -35,16 +33,16 @@ public class SystemHardware {
 
   public SystemHardware() {
     var diskStores = HARDWARE.getDiskStores();
-    ioWriteTotal = Arrays.stream(diskStores).mapToLong(n -> n.getWriteBytes()).sum();
-    ioReadTotal = Arrays.stream(diskStores).mapToLong(n -> n.getReadBytes()).sum();
+    ioWriteTotal = diskStores.stream().mapToLong(n -> n.getWriteBytes()).sum();
+    ioReadTotal = diskStores.stream().mapToLong(n -> n.getReadBytes()).sum();
     var networkIFs = HARDWARE.getNetworkIFs();
-    networkReceiveTotal = Arrays.stream(networkIFs).mapToLong(n -> n.getBytesRecv()).sum();
-    networkSendTotal = Arrays.stream(networkIFs).mapToLong(n -> n.getBytesSent()).sum();
+    networkReceiveTotal = networkIFs.stream().mapToLong(n -> n.getBytesRecv()).sum();
+    networkSendTotal = networkIFs.stream().mapToLong(n -> n.getBytesSent()).sum();
     memoryAvailable = MEMORY.getAvailable();
     memoryTotal = MEMORY.getTotal();
     processorLogicalCount = PROCESSOR.getLogicalProcessorCount();
     processorPhysicalCount = PROCESSOR.getPhysicalProcessorCount();
-    processorLoad = PROCESSOR.getSystemCpuLoad();
+    processorLoad = PROCESSOR.getSystemCpuLoad(50);
   }
 
   static SystemHardware current() {
