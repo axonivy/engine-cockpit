@@ -59,9 +59,7 @@ pipeline {
                         "-Dmaven.test.skip=false " +
                         "-Dtest.filter=${env.testFilter} " +
                         "-Dskip.screenshots=${env.skipScreenshots} "
-
-                    checkVersions recordIssue: false
-                    checkVersions cmd: '-f maven-config/pom.xml'
+                    
                     recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
                       excludeMessage('The system property test.engine.url is configured twice!*'),
                       excludeMessage('JAR will be empty*')
