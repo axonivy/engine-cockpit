@@ -18,7 +18,7 @@
     <dependency>
       <groupId>com.github.oshi</groupId>
       <artifactId>oshi-core</artifactId>
-      <version>3.13.0</version>
+      <version>6.2.2</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
