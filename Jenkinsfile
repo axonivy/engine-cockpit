@@ -61,8 +61,6 @@ pipeline {
                         "-Dtest.filter=${env.testFilter} " +
                         "-Dskip.screenshots=${env.skipScreenshots} "
 
-                    checkVersions recordIssue: false
-                    checkVersions cmd: '-f maven-config/pom.xml'
                     junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
                     archiveArtifacts '**/target/*.iar'
                     archiveArtifacts '.ivy-engine/logs/*'
