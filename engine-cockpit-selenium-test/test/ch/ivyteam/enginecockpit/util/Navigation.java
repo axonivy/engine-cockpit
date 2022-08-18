@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.util;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -78,7 +79,10 @@ public class Navigation {
   }
 
   private static void openAppTreeActivity(String appName) {
-    $$(".activity-name").find(text(appName)).parent().parent().find(".ui-treetable-toggler").shouldBe(visible)
+    $$(".activity-name").find(exactText(appName))
+            .parent()
+            .parent()
+            .find(".ui-treetable-toggler").shouldBe(visible)
             .click();
   }
 
