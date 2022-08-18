@@ -55,7 +55,7 @@
                 </div>
               </f:facet>
               
-              <p:column headerText="Name" sortBy="#{trace.name}" filterBy="#{trace.name}" exportFunction="#{performanceBean.export}">
+              <p:column headerText="Name" sortBy="#{trace.name}" filterBy="#{trace.name}" exportFunction="#{traceBean.export}">
                 <a href="monitorTraceDetail.xhtml?traceId=#{trace.id}">
                   <h:outputText value="#{trace.name}" title="#{trace.info}" >
                     <i class="si si-time-clock-circle #{trace.statusClass} table-icon" title="#{trace.statusTooltip}"></i>
