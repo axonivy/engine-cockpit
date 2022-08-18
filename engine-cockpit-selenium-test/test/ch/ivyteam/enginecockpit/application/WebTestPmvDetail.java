@@ -23,10 +23,10 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestPmvDetail {
+class WebTestPmvDetail {
   private static final String APP = isDesigner() ? DESIGNER : "demo-portal";
-  private static final String PM = "PortalTemplate";
-  private static final String PMV = "PortalTemplate$1";
+  private static final String PM = "portal";
+  private static final String PMV = "portal$1";
 
   @BeforeEach
   void beforeEach() {
@@ -38,7 +38,7 @@ public class WebTestPmvDetail {
   void pmvDetailContent() {
     $$(".card").shouldHave(size(5));
 
-    $(".card", 0).shouldHave(text(PMV), text("ch.ivyteam.ivy.project.portal:portalTemplate"));
+    $(".card", 0).shouldHave(text(PMV), text("com.axonivy.portal:portal"));
     $(".card", 1).findAll(".activity-state-active").shouldBe(size(2));
   }
 
@@ -46,7 +46,7 @@ public class WebTestPmvDetail {
   void pmvDependencies() {
     dependenciesResolved("ACTIVE");
     Navigation.toApplications();
-    deactivatePortalKit();
+    deactivatePortalComponent();
     Navigation.toPmvDetail(APP, PM, PMV);
     dependenciesResolved("INACTIVE");
     //Fix delete pmv errors first
@@ -54,27 +54,26 @@ public class WebTestPmvDetail {
     //dependenciesNotResolved();
   }
 
-  private void deactivatePortalKit() {
+  private void deactivatePortalComponent() {
     $(By.id("form:tree:expandAll")).shouldBe(visible).click();
-    var portalKitVersionId = "form:tree:" + $$(".activity-name").find(exactText("PortalKit$1")).parent()
+    var portalComponentVersionId = "form:tree:" + $$(".activity-name").find(exactText("portal-component$1")).parent()
             .parent().parent().shouldBe(visible).attr("data-rk");
-    $(By.id(portalKitVersionId + ":deactivateButton")).shouldBe(visible).click();
+    $(By.id(portalComponentVersionId + ":deactivateButton")).shouldBe(visible).click();
   }
 
-  private void dependenciesResolved(String portalKitActivityState) {
+  private void dependenciesResolved(String portalComponentActivityState) {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
-    depTable.firstColumnShouldBe(texts("AxonIvyExpress$1", "portal-user-examples$1"));
-    checkPmvEntry(depTable, "AxonIvyExpress$1", "ACTIVE");
+    depTable.firstColumnShouldBe(texts("portal-user-examples$1", "AxonIvyExpress$1"));
     checkPmvEntry(depTable, "portal-user-examples$1", "ACTIVE");
+    checkPmvEntry(depTable, "AxonIvyExpress$1", "ACTIVE");
 
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
-    reqTable.firstColumnShouldBe(texts("PortalKit$1", "portal-component$1"));
-    checkPmvEntry(reqTable, "PortalKit$1", portalKitActivityState);
-    checkPmvEntry(reqTable, "portal-component$1", "ACTIVE");
+    reqTable.firstColumnShouldBe(texts("portal-component$1"));
+    checkPmvEntry(reqTable, "portal-component$1", portalComponentActivityState);
 
     Table specTable = new Table(By.id("specifiedTable"));
-    specTable.firstColumnShouldBe(texts("ch.ivyteam.ivy.project.portal:portalKit"));
-    specTable.valueForEntryShould("ch.ivyteam.ivy.project.portal:portalKit", 3, text("PortalKit$1"));
+    specTable.firstColumnShouldBe(texts("com.axonivy.portal:portal-component"));
+    specTable.valueForEntryShould("com.axonivy.portal:portal-component", 3, text("portal-component$1"));
   }
 
   private void checkPmvEntry(Table table, String entry, String activityState) {
@@ -82,5 +81,4 @@ public class WebTestPmvDetail {
     table.tableEntry(entry, 4).find("i").shouldHave(attribute("title", activityState));
     table.tableEntry(entry, 5).find("i").shouldHave(attribute("title", "RELEASED"));
   }
-
 }
