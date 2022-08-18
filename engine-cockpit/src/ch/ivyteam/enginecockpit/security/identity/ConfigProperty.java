@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.configuration.meta.Metadata;
 
 public class ConfigProperty {
@@ -23,6 +25,9 @@ public class ConfigProperty {
   }
 
   public void setValue(String value) {
+    if (metadata.isPassword() && StringUtils.isEmpty(value)) {
+      return;
+    }
     this.value = value;
   }
 
@@ -32,5 +37,17 @@ public class ConfigProperty {
 
   public String getDescription() {
     return metadata.description();
+  }
+
+  public boolean isPassword() {
+    return metadata.isPassword();
+  }
+
+  public String getPasswordPlaceholder() {
+    return "*".repeat(value.length());
+  }
+
+  public boolean isString() {
+    return !isPassword();
   }
 }
