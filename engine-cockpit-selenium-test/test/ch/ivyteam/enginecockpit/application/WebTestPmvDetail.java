@@ -5,6 +5,7 @@ import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
+import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
@@ -63,7 +64,7 @@ class WebTestPmvDetail {
 
   private void dependenciesResolved(String portalComponentActivityState) {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
-    depTable.firstColumnShouldBe(texts("portal-user-examples$1", "AxonIvyExpress$1"));
+    depTable.firstColumnShouldBe(textsInAnyOrder("portal-user-examples$1", "AxonIvyExpress$1"));
     checkPmvEntry(depTable, "portal-user-examples$1", "ACTIVE");
     checkPmvEntry(depTable, "AxonIvyExpress$1", "ACTIVE");
 
