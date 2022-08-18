@@ -7,8 +7,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
@@ -23,21 +21,20 @@ class WebTestSecurityIdentityProviderAzure {
 
   private final static String NAME = "test-azure";
 
-  @BeforeEach
-  void createSecuritySystemAzure() {
+  @Test
+  void edit() {
     login();
     Navigation.toSecuritySystem();
     createSecuritySystem("Azure Active Directory", NAME);
     Navigation.toSecuritySystemProvider(NAME);
-  }
 
-  @AfterEach
-  void deleteSecuritySystemAzure() {
+    stringProperty();
+    passwordProperty();
+
     WebTestSecuritySystem.deleteSecuritySystem(NAME);
   }
 
-  @Test
-  void edit_stringProperty() {
+  private void stringProperty() {
     var property = $("#securityIdentityProviderForm\\:property\\:0\\:propertyString").shouldBe(visible);
     property.clear();
     property.sendKeys("tenantId");
@@ -46,8 +43,7 @@ class WebTestSecurityIdentityProviderAzure {
     success();
   }
 
-  @Test
-  void edit_passwordProperty() {
+  private void passwordProperty() {
     var property = $("#securityIdentityProviderForm\\:property\\:1\\:propertyPassword").shouldBe(visible);
     property.clear();
     property.sendKeys("clientSecret");
