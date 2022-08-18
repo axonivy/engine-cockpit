@@ -16,7 +16,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvyWebTest(headless =false)
+@IvyWebTest
 class WebTestSecurityIdentityProviderAzure {
 
   private final static String NAME = "test-azure";
@@ -29,6 +29,7 @@ class WebTestSecurityIdentityProviderAzure {
     Navigation.toSecuritySystemProvider(NAME);
 
     stringProperty();
+    Selenide.refresh();
     passwordProperty();
 
     WebTestSecuritySystem.deleteSecuritySystem(NAME);
