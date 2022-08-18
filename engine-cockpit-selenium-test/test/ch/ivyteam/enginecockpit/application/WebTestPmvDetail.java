@@ -63,9 +63,9 @@ class WebTestPmvDetail {
 
   private void dependenciesResolved(String portalComponentActivityState) {
     Table depTable = new Table(By.id("dependentPmvTable"), true);
-    depTable.firstColumnShouldBe(texts("portal-user-examples$1", "portal-developer-examples$1"));
+    depTable.firstColumnShouldBe(texts("portal-user-examples$1", "AxonIvyExpress$1"));
     checkPmvEntry(depTable, "portal-user-examples$1", "ACTIVE");
-    checkPmvEntry(depTable, "portal-developer-examples$1", "ACTIVE");
+    checkPmvEntry(depTable, "AxonIvyExpress$1", "ACTIVE");
 
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
     reqTable.firstColumnShouldBe(texts("portal-component$1"));
