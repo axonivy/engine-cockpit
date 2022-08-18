@@ -40,7 +40,7 @@
 <p:dialog style="min-width: 300px;" header="Add Workflow Language" id="addWorkflowLanguageModal" widgetVar="addWorkflowLanguageModal"
   modal="true" responsive="true" closeOnEscape="true">
   <h:form id="addWorkflowLanguageForm">
-    <p:staticMessage severity="warn" detail="If you add a new workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the default language (#{securityWorkflowLanguageBean.default.displayName}) are copied to the new lanugage." />
+    <p:staticMessage severity="warn" detail="If you add a new workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the default language (#{securityWorkflowLanguageBean.default.displayName}) are copied to the new language." />
     <p:staticMessage severity="warn" detail="This operation will takes some time and the space of your system database will grow." />
     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="language" value="Language" />
@@ -52,18 +52,18 @@
       actionListener="#{securityWorkflowLanguageBean.add(securityWorkflowLanguageBean.editLanguage)}" value="Add" icon="si si-add"
       styleClass="modal-input-button" />
     <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="Cancel" type="button"
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />      
   </h:form>
 </p:dialog>
 
 <p:confirmDialog style="min-width: 300px;" header="Delete Workflow Language" id="deleteWorkflowLanguageModal" widgetVar="deleteWorkflowLanguageModal"
   responsive="true" closeOnEscape="true" message="If you delete a workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the language will be deleted! This operation will takes some time." severity="warn">
   <h:form id="deleteWorkflowLanguageForm">
+    <p:commandButton id="cancelBtn" onclick="PF('deleteWorkflowLanguageModal').hide();" value="Cancel" type="button"
+      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
     <p:commandButton id="deleteBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
       actionListener="#{securityWorkflowLanguageBean.delete(securityWorkflowLanguageBean.editLanguage)}" value="Delete" icon="si si-bin-1"
       styleClass="modal-input-button" />
-    <p:commandButton id="cancelBtn" onclick="PF('deleteWorkflowLanguageModal').hide();" value="Cancel" type="button"
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
   </h:form>
 </p:confirmDialog>
 
