@@ -23,17 +23,6 @@ pipeline {
     testFilter = getTestFilter()
   }
   stages {
-    stage('check editorconfig') {
-      steps {
-        script {          
-          docker.image('mstruebing/editorconfig-checker').inside {
-            warnError('There are some editor errors') {
-              sh 'ec -no-color'
-            } 
-          }
-        }
-      }
-    }
     stage('build') {
       steps {
         script {

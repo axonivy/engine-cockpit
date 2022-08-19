@@ -1,0 +1,25 @@
+pipeline {
+  agent any
+  
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '60', artifactNumToKeepStr: '5'))
+  }
+  
+  triggers {
+    cron '@midnight'
+  }
+
+  stages {
+    stage('check editorconfig') {
+      steps {
+        script {          
+          docker.image('mstruebing/editorconfig-checker').inside {
+            warnError('There are some editor errors') {
+              sh 'ec -no-color'
+            } 
+          }
+        }
+      }
+    }
+  }
+}
