@@ -10,12 +10,16 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')    
+    string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
+    booleanParam(name: 'forceDeployScreenshots', defaultValue: false, description: 'Force deploy new screenshots')
+    booleanParam(name: 'skipScreenshots', defaultValue: false, description: 'Skip screenshot test (flag will be ignored on master)')
     string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
   environment {
+    imgSimilarity = getImageSimilarity()
     dockerfileParams = '--shm-size 1g --hostname=ivy'
+    skipScreenshots = getSkipScreenshots()
     testFilter = getTestFilter()
   }
   stages {
@@ -42,7 +46,8 @@ pipeline {
                         "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                         "-Ddb.host=${dbName} " + 
                         "-Dmaven.test.skip=false " +
-                        "-Dtest.filter=${env.testFilter} "
+                        "-Dtest.filter=${env.testFilter} " +
+                        "-Dskip.screenshots=${env.skipScreenshots} "
                     
                     recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
                       excludeMessage('The system property test.engine.url is configured twice!*'),
@@ -62,6 +67,27 @@ pipeline {
         }
       }
     }
+    stage('verify') {
+      when {
+        expression {return !params.forceDeployScreenshots && !env.skipScreenshots.toBoolean()}
+      }
+      steps {
+        script {          
+          docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
+            maven cmd: 'clean verify ' +
+                    '-f image-validation/pom.xml ' + 
+                    '-Dmaven.test.failure.ignore=true ' + 
+                    '-Dimg.similarity=' + env.imgSimilarity
+
+            archiveArtifacts '**/target/docu/**/*'
+            archiveArtifacts '**/target/*.html'
+            recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
+            qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+            currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
+          }          
+        }
+      }
+    }
 
     stage('deploy') {
       when {
@@ -72,7 +98,7 @@ pipeline {
       steps {
         script {
           docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
-            maven cmd: "deploy"
+            maven cmd: "deploy -Dskip.screenshots=${env.skipScreenshots}"
           }
         }
       }
@@ -89,6 +115,13 @@ pipeline {
       }
     }
   }
+}
+
+def getImageSimilarity() {
+  if (env.BRANCH_NAME == 'master') {
+    return '97'
+  }
+  return '95'
 }
 
 def getSkipScreenshots() {
