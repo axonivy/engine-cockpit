@@ -41,7 +41,7 @@ pipeline {
                         "-Dtest.engine.url=http://${ivyName}:8080 " +
                         "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                         "-Ddb.host=${dbName} " + 
-                        "-Dmaven.test.skip=true " +
+                        "-Dmaven.test.skip=false " +
                         "-Dtest.filter=${env.testFilter} " +
                         "-Dskip.screenshots=false " +
                         "-Dskip.tests=true "
@@ -95,19 +95,8 @@ pipeline {
       steps {
         script {
           docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
-            maven cmd: "deploy -Dskip.screenshots=${env.skipScreenshots}"
+            maven cmd: "deploy -Dskip.screenshots=false"
           }
-        }
-      }
-    }
-
-    stage('cleanup') {
-      when {
-        expression {return currentBuild.currentResult == 'SUCCESS'}
-      }
-      steps {
-        dir ('.ivy-engine') {
-          deleteDir()
         }
       }
     }
