@@ -94,7 +94,7 @@ pipeline {
       steps {
         script {
           docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
-            maven cmd: "deploy -Dskip.screenshots=false"
+            maven cmd: "deploy -f engine-cockpit-selenium-test/pom.xml -Dskip.tests=true"
           }
         }
       }
