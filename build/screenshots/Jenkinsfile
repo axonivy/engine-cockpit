@@ -41,7 +41,7 @@ pipeline {
                         "-Dtest.engine.url=http://${ivyName}:8080 " +
                         "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                         "-Ddb.host=${dbName} " + 
-                        "-Dmaven.test.skip=false " +
+                        "-Dmaven.test.skip=true " +
                         "-Dtest.filter=${env.testFilter} " +
                         "-Dskip.screenshots=false " +
                         "-Dskip.tests=true "
