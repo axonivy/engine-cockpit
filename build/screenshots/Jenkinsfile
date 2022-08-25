@@ -117,5 +117,5 @@ def getTestFilter() {
 }
 
 def isReleaseOrMasterBranch() {
-  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') || true
+  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/')
 }
