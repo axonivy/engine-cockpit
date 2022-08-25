@@ -228,9 +228,8 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.0.0</version>
         <configuration>
-          <skip>false</skip>
+          <skip>${deploy.screenshots}</skip>
         </configuration>
       </plugin>
     </plugins>
