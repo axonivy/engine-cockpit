@@ -12,28 +12,13 @@ pipeline {
   parameters {
     string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
     booleanParam(name: 'forceDeployScreenshots', defaultValue: false, description: 'Force deploy new screenshots')
-    booleanParam(name: 'skipScreenshots', defaultValue: false, description: 'Skip screenshot test (flag will be ignored on master)')
-    string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
   environment {
     imgSimilarity = getImageSimilarity()
     dockerfileParams = '--shm-size 1g --hostname=ivy'
-    skipScreenshots = getSkipScreenshots()
-    testFilter = getTestFilter()
   }
   stages {
-    stage('check editorconfig') {
-      steps {
-        script {          
-          docker.image('mstruebing/editorconfig-checker').inside {
-            warnError('There are some editor errors') {
-              sh 'ec -no-color'
-            } 
-          }
-        }
-      }
-    }
     stage('build') {
       steps {
         script {
@@ -58,7 +43,8 @@ pipeline {
                         "-Ddb.host=${dbName} " + 
                         "-Dmaven.test.skip=false " +
                         "-Dtest.filter=${env.testFilter} " +
-                        "-Dskip.screenshots=${env.skipScreenshots} "
+                        "-Dskip.screenshots=false " +
+                        "-Dskip.tests=true "
                     
                     recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
                       excludeMessage('The system property test.engine.url is configured twice!*'),
@@ -67,7 +53,7 @@ pipeline {
                     junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
                     archiveArtifacts '**/target/*.iar'
                     archiveArtifacts '.ivy-engine/logs/*'
-                    archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true                    
+                    archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
                   }
                 }
               }
@@ -80,10 +66,10 @@ pipeline {
     }
     stage('verify') {
       when {
-        expression {return !params.forceDeployScreenshots && !env.skipScreenshots.toBoolean()}
+        expression {return !params.forceDeployScreenshots}
       }
       steps {
-        script {          
+        script {
           docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
             maven cmd: 'clean verify ' +
                     '-f image-validation/pom.xml ' + 
@@ -133,13 +119,6 @@ def getImageSimilarity() {
     return '97'
   }
   return '95'
-}
-
-def getSkipScreenshots() {
-  if (env.BRANCH_NAME == 'master') {
-    return false;
-  }
-  return params.skipScreenshots
 }
 
 def getTestFilter() {

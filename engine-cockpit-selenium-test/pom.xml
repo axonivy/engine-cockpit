@@ -14,6 +14,7 @@
     <test.application>system</test.application>
     <test.filter>WebTest*.java</test.filter>
     <skip.screenshots>true</skip.screenshots>
+    <skip.tests>false</skip.tests>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -193,6 +194,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
+              <skip>${skip.tests}</skip>
               <includes>
                 <include>**/${test.filter}</include>
               </includes>
