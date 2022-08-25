@@ -35,7 +35,7 @@
         <artifactId>maven-deploy-plugin</artifactId>
         <version>3.0.0</version>
         <configuration>
-          <skip>${deploy.cockpit}</skip>
+          <skip>${skip.deploy.cockpit}</skip>
         </configuration>
       </plugin>
     </plugins>

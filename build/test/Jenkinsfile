@@ -44,7 +44,7 @@ pipeline {
                         "-Ddb.host=${dbName} " + 
                         "-Dmaven.test.skip=false " +
                         "-Dtest.filter=${env.testFilter} " +
-                        "-Ddeploy.cockpit=true "
+                        "-Dskip.deploy.cockpit=false "
                     
                     recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
                       excludeMessage('The system property test.engine.url is configured twice!*'),
