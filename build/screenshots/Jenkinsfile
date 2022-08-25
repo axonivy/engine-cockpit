@@ -11,6 +11,8 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
+    booleanParam(name: 'forceDeployScreenshots', defaultValue: false, description: 'Force deploy new screenshots')
+    booleanParam(name: 'skipScreenshots', defaultValue: false, description: 'Skip screenshot test (flag will be ignored on master)')
     string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
@@ -21,6 +23,17 @@ pipeline {
     testFilter = getTestFilter()
   }
   stages {
+    stage('check editorconfig') {
+      steps {
+        script {          
+          docker.image('mstruebing/editorconfig-checker').inside {
+            warnError('There are some editor errors') {
+              sh 'ec -no-color'
+            } 
+          }
+        }
+      }
+    }
     stage('build') {
       steps {
         script {
@@ -30,7 +43,6 @@ pipeline {
             def seleniumName = "selenium-" + random
             def ivyName = "ivy-" + random
             def dbName = "db-" + random
-            def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify';
             try {
               sh "docker network create ${networkName}"
               docker.image('mysql:5').withRun("-e \"MYSQL_ROOT_PASSWORD=1234\" -e \"MYSQL_DATABASE=test\" --name ${dbName} --network ${networkName}") {
@@ -45,7 +57,8 @@ pipeline {
                         "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                         "-Ddb.host=${dbName} " + 
                         "-Dmaven.test.skip=false " +
-                        "-Dtest.filter=${env.testFilter} "
+                        "-Dtest.filter=${env.testFilter} " +
+                        "-Dskip.screenshots=${env.skipScreenshots} "
                     
                     recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
                       excludeMessage('The system property test.engine.url is configured twice!*'),
@@ -54,7 +67,7 @@ pipeline {
                     junit testDataPublishers: [[$class: 'AttachmentPublisher'], [$class: 'StabilityTestDataPublisher']], testResults: '**/target/surefire-reports/**/*.xml'
                     archiveArtifacts '**/target/*.iar'
                     archiveArtifacts '.ivy-engine/logs/*'
-                    archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
+                    archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true                    
                   }
                 }
               }
@@ -65,7 +78,68 @@ pipeline {
         }
       }
     }
+    stage('verify') {
+      when {
+        expression {return !params.forceDeployScreenshots && !env.skipScreenshots.toBoolean()}
+      }
+      steps {
+        script {          
+          docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
+            maven cmd: 'clean verify ' +
+                    '-f image-validation/pom.xml ' + 
+                    '-Dmaven.test.failure.ignore=true ' + 
+                    '-Dimg.similarity=' + env.imgSimilarity
+
+            archiveArtifacts '**/target/docu/**/*'
+            archiveArtifacts '**/target/*.html'
+            recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
+            qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+            currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
+          }          
+        }
+      }
+    }
+
+    stage('deploy') {
+      when {
+        expression {
+          isReleaseOrMasterBranch()
+        }
+      }
+      steps {
+        script {
+          docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
+            maven cmd: "deploy -Dskip.screenshots=${env.skipScreenshots}"
+          }
+        }
+      }
+    }
+
+    stage('cleanup') {
+      when {
+        expression {return currentBuild.currentResult == 'SUCCESS'}
+      }
+      steps {
+        dir ('.ivy-engine') {
+          deleteDir()
+        }
+      }
+    }
   }
+}
+
+def getImageSimilarity() {
+  if (env.BRANCH_NAME == 'master') {
+    return '97'
+  }
+  return '95'
+}
+
+def getSkipScreenshots() {
+  if (env.BRANCH_NAME == 'master') {
+    return false;
+  }
+  return params.skipScreenshots
 }
 
 def getTestFilter() {

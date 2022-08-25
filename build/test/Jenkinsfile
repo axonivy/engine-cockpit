@@ -15,9 +15,7 @@ pipeline {
   }
 
   environment {
-    imgSimilarity = getImageSimilarity()
     dockerfileParams = '--shm-size 1g --hostname=ivy'
-    skipScreenshots = getSkipScreenshots()
     testFilter = getTestFilter()
   }
   stages {
