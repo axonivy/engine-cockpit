@@ -19,7 +19,7 @@ pipeline {
     dockerfileParams = '--shm-size 1g --hostname=ivy'
   }
   stages {
-    stage('build') {
+    stage('screenshot') {
       steps {
         script {
           withCredentials([string(credentialsId: 'github.ivy-team.token', variable: 'GITHUB_TOKEN')]) {
