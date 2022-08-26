@@ -72,11 +72,14 @@
                   title="#{activity.errorMessage}" />
               </p:column>
               <p:column style="text-align: right; width: 155px;">
-                <p:commandButton title="Deployment" icon="ui-icon-cloud-upload" rendered="#{activity.application}" 
-                  type="button" style="margin-right: 10px;" id="deployBtn" styleClass="primary-btn">
-                  <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 
-                    oncomplete="PF('fileUploadModal').show()"/>
-                </p:commandButton>
+                <h:panelGroup id="deployBtnHint">
+                  <p:commandButton title="Deployment" icon="ui-icon-cloud-upload" rendered="#{activity.application}" 
+                    type="button" style="margin-right: 10px;" id="deployBtn" styleClass="primary-btn" disabled="#{!uploadHelperBean.deploymentPossible}">
+                    <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}" 
+                      oncomplete="PF('fileUploadModal').show()"/>
+                  </p:commandButton>
+                  <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" value="#{uploadHelperBean.deploymentPossibleReason}" escape="false" />
+                </h:panelGroup>
                 <p:commandButton title="Activate" icon="ui-icon-play-arrow" disabled="#{activity.active}"
                   type="button" style="margin-right: 10px;" styleClass="green-btn">
                   <p:ajax update="card:form" listener="#{activity.activate}" />
