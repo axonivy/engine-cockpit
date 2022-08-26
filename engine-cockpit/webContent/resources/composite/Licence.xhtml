@@ -17,14 +17,17 @@
     <div class="file-upload">
       <input type="file" id="fileInput" class="deploy-file" required="required" accept=".lic" />
       <p:panelGrid columns="2" columnClasses="p-col-3, p-col-9" layout="flex">
-        <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose licence"
-          onclick="$('#fileInput').trigger('click')" />
+        <h:panelGroup id="uploadLicenceBtnHint">
+          <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose licence"
+            onclick="$('#fileInput').trigger('click')" disabled="#{!uploadHelperBean.uploadPossible}" />
+          <p:tooltip for="uploadLicenceBtnHint" rendered="#{!uploadHelperBean.uploadPossible}" value="#{uploadHelperBean.uploadPossibleReason}" escape="false" />
+        </h:panelGroup>
         <h:panelGroup layout="block">
           <span id="uploadStatus" class="file-upload-error" />
           <span id="uploadLog" />
         </h:panelGroup>
       </p:panelGrid>
-      <div id="drop_zone" style="line-height: 100px; text-align: center; margin-bottom: 20px;">
+      <div id="drop_zone" style="line-height: 100px; text-align: center; margin-bottom: 20px; #{uploadHelperBean.uploadPossible ? '' : 'display: none;'}">
         <span id="selectedFileOutput" class="file-upload-file">Choose or drop a licence file.</span>
       </div>
     </div>

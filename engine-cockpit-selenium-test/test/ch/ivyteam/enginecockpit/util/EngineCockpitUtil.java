@@ -120,6 +120,14 @@ public class EngineCockpitUtil {
     runTestProcess("16E881C7DC458C7D/cleanupDataDirs.ivp");
   }
 
+  public static void disableRestServlet() {
+    runTestProcess("16E881C7DC458C7D/disableRestServlet.ivp");
+  }
+
+  public static void enableRestServlet() {
+    runTestProcess("16E881C7DC458C7D/enableRestServlet.ivp");
+  }
+
   public static void createOldDb() {
     runTestProcess("16E8EAD7CC77A0A3/createOldDatabase.ivp");
   }
@@ -152,7 +160,7 @@ public class EngineCockpitUtil {
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
             .toUrl());
-    assertCurrentUrlContains(isDesigner() ? "designer/faces" : "end");
+    assertCurrentUrlContains(isDesigner() ? "default-workflow/faces" : "end");
   }
 
 
