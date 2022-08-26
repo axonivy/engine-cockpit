@@ -14,6 +14,10 @@
   <version>9.4.0-SNAPSHOT</version>
   <packaging>iar</packaging>
 
+  <properties>
+    <skip.tests>true</skip.tests>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>ch.ivyteam.enginecockpit</groupId>
@@ -52,4 +56,13 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>cockpit</id>
+      <properties>
+        <skip.tests>false</skip.tests>
+      </properties>
+    </profile>
+  </profiles>
 </project>

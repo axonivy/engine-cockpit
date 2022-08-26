@@ -42,9 +42,7 @@ pipeline {
                         "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                         "-Ddb.host=${dbName} " + 
                         "-Dmaven.test.skip=false " +
-                        "-Dtest.filter=${env.testFilter} " +
-                        "-Dskip.screenshots=false " +
-                        "-Dskip.tests=true "
+                        "-Pscreenshtos "
                     
                     recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
                       excludeMessage('The system property test.engine.url is configured twice!*'),
@@ -80,7 +78,7 @@ pipeline {
             recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
             qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
             currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
-          }          
+          }
         }
       }
     }
@@ -94,7 +92,7 @@ pipeline {
       steps {
         script {
           docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
-            maven cmd: "deploy -Dskip.tests=true -Dskip.screenshots=false -Dskip.deploy.screenshots=false"
+            maven cmd: "deploy -Pscreenshots"
           }
         }
       }
@@ -107,13 +105,6 @@ def getImageSimilarity() {
     return '97'
   }
   return '95'
-}
-
-def getTestFilter() {
-  if (env.BRANCH_NAME == 'master') {
-    return 'WebTest*.java';
-  }
-  return params.testFilter
 }
 
 def isReleaseOrMasterBranch() {

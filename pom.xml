@@ -22,6 +22,7 @@
 
     <module>maven-config</module>
     <module>maven-config/test</module>
+    <module>image-validation</module>
   </modules>
 
   <build>
