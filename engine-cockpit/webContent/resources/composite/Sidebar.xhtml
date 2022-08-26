@@ -23,6 +23,11 @@
       <h:form id="config-form">
         <p:poll widgetVar="liveStatePoll" update="charts" interval="1" autoStart="false" />
         <h:panelGroup id="charts" layout="block" class="ui-g-12">
+          <script>
+            if (!$('#layout-config').hasClass('layout-config-active')) {
+              PF('liveStatePoll').stop();
+            }
+          </script>
           <p:staticMessage rendered="#{not empty cc.attrs.jmxSource}" severity="info"
             summary="Live stats found from" detail="#{cc.attrs.jmxSource}" />
           <cc:insertChildren />

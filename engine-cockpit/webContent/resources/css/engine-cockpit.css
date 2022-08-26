@@ -95,6 +95,9 @@ body .user-avatar > img {
 .grey-label-panel .ui-panelgrid-cell:nth-child(odd) > label {
   opacity: 0.65;
 }
+.card .ui-panelgrid-cell:nth-child(2n) {
+  word-wrap: anywhere;
+}
 
 /* Dialog */
 .ui-dialog .ui-dialog-content .modal-input-button {
