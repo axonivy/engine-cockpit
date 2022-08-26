@@ -19,8 +19,8 @@ pipeline {
       steps {
         script {
           def common = load 'build/common.groovy'
-          def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify';
-          common.buildCockpit(phase, getTestFilter());
+          def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
+          common.buildCockpit(phase, getTestFilter())
         }
       }
     }
@@ -29,7 +29,7 @@ pipeline {
 
 def getTestFilter() {
   if (env.BRANCH_NAME == 'master') {
-    return 'WebTest*.java';
+    return 'WebTest*.java'
   }
   return params.testFilter
 }

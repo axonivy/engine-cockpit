@@ -19,7 +19,7 @@ pipeline {
       steps {
         script {
           def common = load 'build/common.groovy'
-          common.buildScreenshots();
+          common.buildScreenshots()
         }
       }
     }
