@@ -251,9 +251,11 @@ public class WebTestSystemDb
     $("#systemDb\\:addAdditionalPropertyDialog").shouldNotBe(visible);
     table.firstColumnShouldBe(exactTexts("test"));
     table.valueForEntryShould("test", 2, exactText("testValue"));
+    $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
     
     table.clickButtonForEntry("test", "removeAdditionalProperty");
     $("#systemDb\\:systemDbForm\\:additionalPropertiesTable").shouldBe(text("No records found."));
+    $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
   }
 
   public static void assertDefaultValues()

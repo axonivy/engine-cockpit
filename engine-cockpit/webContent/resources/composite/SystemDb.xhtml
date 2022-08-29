@@ -119,7 +119,7 @@
                 <h:outputText value="#{property.value}" />
               </p:column>
               <p:column style="width: 40px;">
-                <p:commandButton id="removeAdditionalProperty" actionListener="#{systemDatabaseBean.removeProp(property.key)}" update="@form:additionalPropertiesTable"
+                <p:commandButton id="removeAdditionalProperty" actionListener="#{systemDatabaseBean.removeProp(property.key)}" update="@form:additionalPropertiesTable,#{cc.attrs.updateFields}"
                   icon="ui-icon-delete" title="Delete" styleClass="card-button table-control-btn red-btn" style="margin: 0;" process="@this" />
               </p:column>
             </p:dataTable>
@@ -236,7 +236,7 @@
           <p:message for="value" id="valueMessage" />
         </h:panelGroup>
       </p:panelGrid>
-      <p:commandButton id="saveProperty" validateClient="true" update="@form,systemDb:systemDbForm:additionalPropertiesTable"
+      <p:commandButton id="saveProperty" validateClient="true" update="@form,systemDb:systemDbForm:additionalPropertiesTable,#{cc.attrs.updateFields}"
         actionListener="#{systemDatabaseBean.saveProp()}" value="Save" icon="ui-icon-save"
         styleClass="primary-btn modal-input-button" oncomplete="if (!args.validationFailed) PF('addAdditionalPropertyDialog').hide();" />
       <p:commandButton id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="Cancel" type="button"
