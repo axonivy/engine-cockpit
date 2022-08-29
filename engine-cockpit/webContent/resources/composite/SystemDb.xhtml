@@ -135,7 +135,7 @@
               <p:column styleClass="table-btn-1" style="box-sizing: content-box;">
                 <p:commandButton id="removeAdditionalProperty"
                   actionListener="#{systemDatabaseBean.removeProp(property.key)}"
-                  update="@form:additionalPropertiesTable" icon="si si-bin-1" title="Delete"
+                  update="@form:additionalPropertiesTable,#{cc.attrs.updateFields}" icon="si si-bin-1" title="Delete"
                   styleClass="ui-button-danger rounded-button" process="@this" />
               </p:column>
             </p:dataTable>
@@ -241,7 +241,7 @@
         </h:panelGroup>
       </p:panelGrid>
       <p:commandButton id="saveProperty" validateClient="true"
-        update="@form,systemDb:systemDbForm:additionalPropertiesTable" actionListener="#{systemDatabaseBean.saveProp()}"
+        update="@form,systemDb:systemDbForm:additionalPropertiesTable,#{cc.attrs.updateFields}" actionListener="#{systemDatabaseBean.saveProp()}"
         value="Save" icon="si si-floppy-disk" styleClass="modal-input-button"
         oncomplete="if (!args.validationFailed) PF('addAdditionalPropertyDialog').hide();" />
       <p:commandButton id="cancelEditAdmin" onclick="PF('addAdditionalPropertyDialog').hide();" value="Cancel"
