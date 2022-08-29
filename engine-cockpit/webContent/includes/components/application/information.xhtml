@@ -33,9 +33,12 @@
       </p:selectOneMenu>
     </p:panelGrid>
     <p:panelGrid columns="1" layout="flex">
-      <p:commandButton id="showDeployment" title="Deployment" value="Deployment"
-        style="margin-top: 20px; min-width: 150px;" type="button" icon="si si-upload-bottom"
-        onclick="PF('fileUploadModal').show()" />
+      <h:panelGroup id="deployBtnHint">
+        <p:commandButton id="showDeployment" title="Deployment" value="Deployment"
+          style="margin-top: 20px; min-width: 150px;" type="button" icon="si si-upload-bottom"
+          onclick="PF('fileUploadModal').show()" disabled="#{!uploadHelperBean.deploymentPossible}" />
+        <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" value="#{uploadHelperBean.deploymentPossibleReason}" escape="false" />
+      </h:panelGroup>
     </p:panelGrid>
   </h:form>
 </div>

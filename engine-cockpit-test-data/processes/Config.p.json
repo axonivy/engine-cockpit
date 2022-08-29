@@ -1,5 +1,5 @@
 {
-  "format" : "9.4.18",
+  "format" : "9.4.19",
   "id" : "16E881C7DC458C7D",
   "data" : "engine.cockpit.test.data.Data",
   "elements" : [ {
@@ -145,6 +145,74 @@
       "type" : "TaskEnd",
       "visual" : {
         "at" : { "x" : 352, "y" : 352 }
+      }
+    }, {
+      "id" : "f20",
+      "type" : "RequestStart",
+      "name" : "disableRestServlet.ivp",
+      "config" : {
+        "callSignature" : "disableRestServlet",
+        "outLink" : "disableRestServlet.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 432 }
+      },
+      "connect" : { "id" : "f22", "to" : "f21" }
+    }, {
+      "id" : "f21",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
+            "",
+            "IConfiguration.instance().set(\"REST.Servlet.Enabled\", \"false\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 432 }
+      },
+      "connect" : { "id" : "f24", "to" : "f23" }
+    }, {
+      "id" : "f23",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 432 }
+      }
+    }, {
+      "id" : "f25",
+      "type" : "RequestStart",
+      "name" : "enableRestServlet.ivp",
+      "config" : {
+        "callSignature" : "enableRestServlet",
+        "outLink" : "enableRestServlet.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 512 }
+      },
+      "connect" : { "id" : "f29", "to" : "f26" }
+    }, {
+      "id" : "f26",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
+            "",
+            "IConfiguration.instance().set(\"REST.Servlet.Enabled\", \"true\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 512 }
+      },
+      "connect" : { "id" : "f28", "to" : "f27" }
+    }, {
+      "id" : "f27",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 512 }
       }
     } ]
 }
