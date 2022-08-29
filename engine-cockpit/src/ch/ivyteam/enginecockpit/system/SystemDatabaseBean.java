@@ -139,6 +139,7 @@ public class SystemDatabaseBean extends StepStatus {
 
   public void removeProp(String key) {
     additionalProps.remove(key);
+    configChanged();
   }
 
   public void saveProp() {
