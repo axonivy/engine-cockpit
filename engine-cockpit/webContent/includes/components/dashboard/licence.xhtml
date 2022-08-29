@@ -33,8 +33,11 @@
 <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
   <h:outputText value="No licence installed. Your engine runs in demo mode." rendered="#{!licenceBean.installed}"/>
   <p:staticMessage rendered="#{licenceBean.installed and !licenceBean.valid}" severity="warn" detail="#{licenceBean.problemMessage}"/>
-  <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" rendered="#{!licenceBean.installed or !licenceBean.valid}"
-    icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" />
+  <h:panelGroup id="uploadLicenceBtnHint">
+    <p:commandButton id="uploadLicenceBtn" type="button" value="Upload Licence" rendered="#{!licenceBean.installed or !licenceBean.valid}"
+      icon="ui-icon-cloud-upload" onclick="PF('fileUploadModal').show()" disabled="#{!uploadHelperBean.uploadPossible}" />
+    <p:tooltip for="uploadLicenceBtnHint" rendered="#{!uploadHelperBean.uploadPossible}" value="#{uploadHelperBean.uploadPossibleReason}" escape="false" />
+  </h:panelGroup>
 </p:panelGrid>
 
 <cc:RenewLicence id="renewLicence" title="Renew Licence"/>
