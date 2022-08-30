@@ -12,8 +12,8 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
-import ch.ivyteam.ivy.security.identity.IdentityProvider;
-import ch.ivyteam.ivy.security.identity.IdentityProviderRegistry;
+import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
+import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.internal.SecurityContext;
 
 @ManagedBean

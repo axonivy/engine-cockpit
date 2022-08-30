@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityConstants;
-import ch.ivyteam.ivy.security.identity.IdentityProviderConfig;
+import ch.ivyteam.ivy.security.identity.core.IdentityProviderConfig;
 import ch.ivyteam.ivy.security.identity.jndi.IJndiSecuritySystemConstants;
 
 @SuppressWarnings("restriction")
