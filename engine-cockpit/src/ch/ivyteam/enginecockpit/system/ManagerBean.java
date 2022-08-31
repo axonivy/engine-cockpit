@@ -202,6 +202,10 @@ public class ManagerBean {
             .equals(securitySystem.getSecurityContext().getExternalSecuritySystemName());
   }
 
+  public boolean isJndiSecuritySystem() {
+    return isJndiSecuritySystem(getSelectedSecuritySystem());
+  }
+
   public static boolean isJndiSecuritySystem(SecuritySystem securitySystem) {
     var name = securitySystem.getSecurityContext().getExternalSecuritySystemName();
     return ISecurityConstants.MICROSOFT_ACTIVE_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME.equals(name) ||
