@@ -60,6 +60,13 @@
     function optionsHidden() {
       return $('#deploymentModal\\:deployOptionsPanel').css('display') == 'none';
     }
+    
+    function uploadDone() {
+      var log = $('#uploadLog').text()
+      if (log.indexOf('--- SUCCESS ---') == -1){
+        markError();
+      }
+    }
 
     function addDeployOptions(form_data) {
       if (optionsHidden()) { // don't send params: deploy.options.yaml (e.g. in app.zip) should take precedence

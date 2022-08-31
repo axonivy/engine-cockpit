@@ -72,9 +72,7 @@ public class WebTestDeployment {
       return;
     }
     toAppDetailAndOpenDeployment();
-    deployPath(findTestProject());
-    $("#uploadLog").shouldHave(text("Using default>DeploymentOptions"),
-            text("successful deployed to application"));
+    deployAndAssert("Using default>DeploymentOptions");
   }
 
   @Test
@@ -84,9 +82,13 @@ public class WebTestDeployment {
     }
     toAppDetailAndOpenDeployment();
     showDeploymentOptions();
+    deployAndAssert("Using resource.params>DeploymentOptions");
+  }
+
+  private void deployAndAssert(String expectedDeployOptionsText) {
     deployPath(findTestProject());
-    $("#uploadLog").shouldHave(text("Using resource.params>DeploymentOptions"),
-            text("successful deployed to application"));
+    $("#uploadStatus").shouldHave(text("Success"));
+    $("#uploadLog").shouldHave(text(expectedDeployOptionsText), text("successful deployed to application"));
   }
 
   private Path findTestProject() {

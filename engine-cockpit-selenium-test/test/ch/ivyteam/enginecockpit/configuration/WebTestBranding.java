@@ -149,6 +149,7 @@ public class WebTestBranding {
     Path createTempFile = Files.createTempFile(tempFileName, tempFileExt);
     $(By.id("fileInput")).sendKeys(createTempFile.toString());
     $(By.id("uploadModal:uploadBtn")).click();
+    $("#uploadStatus").shouldHave(text("Success"));
     $("#uploadLog").shouldHave(exactText("Successfully uploaded " + expectedImg));
     $(By.id("uploadModal:closeDeploymentBtn")).shouldBe(visible).click();
 
