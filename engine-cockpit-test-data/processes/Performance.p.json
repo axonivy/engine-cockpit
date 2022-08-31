@@ -1,5 +1,5 @@
 {
-  "format" : "9.4.18",
+  "format" : "9.4.20",
   "id" : "17B77E4EAE9AC806",
   "data" : "engine.cockpit.test.data.Data",
   "elements" : [ {
@@ -12,7 +12,7 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 128 },
-        "labelOffset" : { "x" : -21, "y" : 17 }
+        "labelOffset" : { "x" : 37, "y" : 37 }
       },
       "connect" : { "id" : "f4", "to" : "f3" }
     }, {

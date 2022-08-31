@@ -1,5 +1,5 @@
 {
-  "format" : "9.4.19",
+  "format" : "9.4.20",
   "id" : "16E881C7DC458C7D",
   "data" : "engine.cockpit.test.data.Data",
   "elements" : [ {
@@ -12,7 +12,7 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
-        "labelOffset" : { "x" : -51, "y" : 23 }
+        "labelOffset" : { "x" : 15, "y" : 43 }
       },
       "connect" : { "id" : "f7", "to" : "f6" }
     }, {
@@ -31,7 +31,7 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },
-        "labelOffset" : { "x" : -51, "y" : 23 }
+        "labelOffset" : { "x" : 28, "y" : 43 }
       },
       "connect" : { "id" : "f9", "to" : "f8" }
     }, {
@@ -92,7 +92,7 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 256 },
-        "labelOffset" : { "x" : -61, "y" : 30 }
+        "labelOffset" : { "x" : 13, "y" : 50 }
       },
       "connect" : { "id" : "f14", "to" : "f12" }
     }, {
@@ -137,7 +137,7 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 352 },
-        "labelOffset" : { "x" : -61, "y" : 30 }
+        "labelOffset" : { "x" : 9, "y" : 50 }
       },
       "connect" : { "id" : "f19", "to" : "f15" }
     }, {

@@ -87,7 +87,7 @@ public class WebTestDeployment {
 
   private void deployAndAssert(String expectedDeployOptionsText) {
     deployPath(findTestProject());
-    $("#uploadStatus").shouldHave(text("Successful"));
+    $("#uploadStatus").shouldHave(text("Success"));
     $("#uploadLog").shouldHave(text(expectedDeployOptionsText), text("successful deployed to application"));
   }
 
