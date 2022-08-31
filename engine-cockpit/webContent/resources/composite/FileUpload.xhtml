@@ -67,13 +67,6 @@
         }
       }
       
-      function uploadDone() {
-        var log = $('#uploadLog').text()
-        if (log.indexOf('--- SUCCESS ---') == -1){
-          markError();
-        }
-      }
-
       initFileUpload();
 
       function back() {
