@@ -33,6 +33,10 @@ public class UrlUtil {
     return getEngineGuideBaseUrl() + "/tool-reference/engine-cockpit/";
   }
 
+  public static String getAppBaseUrl(String appName) {
+    return ApplicationConstants.baseContextPath(appName);
+  }
+
   public static String getApiBaseUrl(String appName) {
     return ApplicationConstants.baseContextPath(appName + "/api");
   }
