@@ -14,6 +14,7 @@ import ch.ivyteam.ivy.server.restricted.EngineMode;
 @SessionScoped
 @SuppressWarnings("restriction")
 public class AdvisorBean {
+
   public String getApplicationName() {
     return Advisor.getAdvisor().getApplicationName();
   }
@@ -31,8 +32,12 @@ public class AdvisorBean {
     return "&copy; 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
   }
 
-  public String getApp() {
+  private String getApp() {
     return EngineMode.isEmbeddedInDesigner() ? "designer" : "system";
+  }
+  
+  public String getAppBaseUrl() {
+    return UrlUtil.getAppBaseUrl(getApp());
   }
 
   public String getApiBaseUrl() {
