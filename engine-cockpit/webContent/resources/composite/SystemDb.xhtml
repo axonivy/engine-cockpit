@@ -198,7 +198,7 @@
         widgetVar="convertingOutputPoll" update="@form" interval="2" />
       <p:staticMessage id="convertionError" severity="error" summary="Error" detail="#{systemDatabaseBean.dbConversionError}" 
         rendered="#{not empty systemDatabaseBean.dbConversionError}" />
-      <p:staticMessage id="convertionWarning" severity="warn" summary="Warning" detail="Do not leave this page, while a migration is running!" 
+      <p:staticMessage id="convertionWarning" severity="warn" summary="Warning" detail="Do not leave this page, while the migration is running!" 
         rendered="#{systemDatabaseBean.dbConversionRunning}" />
       <p:staticMessage id="convertionInfo" severity="info" summary="Success" detail="The database was migrated successfully. Please check the connection!" 
         rendered="#{systemDatabaseBean.dbConversionFinished}" />
