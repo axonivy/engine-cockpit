@@ -35,6 +35,10 @@ public class SecuritySystem {
     return identityProvider().name();
   }
 
+  public String getSecuritySystemProviderId() {
+    return identityProvider().id();
+  }
+
   public String getIdentityProviderImage() {
     return loadResource(identityProvider().logo());
   }

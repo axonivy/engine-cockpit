@@ -117,7 +117,7 @@ public class SecurityProviderBean {
       return;
     }
 
-    if (! StringUtils.isEmpty(provider) && (! StringUtils.equals(provider, securitySystem.getSecuritySystemProvider()))) {
+    if (! StringUtils.isEmpty(provider) && (! StringUtils.equals(provider, securitySystem.getSecuritySystemProviderId()))) {
       var context = (SecurityContext) securitySystem.getSecurityContext();
       var key = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create("SecuritySystems").append(securitySystem.getSecuritySystemName());
       IConfiguration.instance().remove(key);
