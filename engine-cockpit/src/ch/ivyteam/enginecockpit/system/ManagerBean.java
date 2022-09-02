@@ -229,7 +229,8 @@ public class ManagerBean {
   }
 
   public String getSelectedEnvironment() {
-    if (environments.get(getSelectedApplication().getId()).contains(selectedEnvironment)) {
+    var app = getSelectedApplication();
+    if (app != null && environments.get(app.getId()).contains(selectedEnvironment)) {
       return selectedEnvironment;
     }
     return IEnvironment.DEFAULT_ENVIRONMENT_NAME;
