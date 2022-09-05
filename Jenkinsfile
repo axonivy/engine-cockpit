@@ -46,7 +46,7 @@ pipeline {
             try {
               sh "docker network create ${networkName}"
               docker.image('mysql:5').withRun("-e \"MYSQL_ROOT_PASSWORD=1234\" -e \"MYSQL_DATABASE=test\" --name ${dbName} --network ${networkName}") {
-                docker.image("selenium/standalone-firefox:3").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} ${dockerfileParams}") {
+                docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} ${dockerfileParams}") {
                   docker.build('mavenbuild').inside("--name ${ivyName} --network ${networkName}") {
                     maven cmd: "clean verify " +
                         "-Dwdm.gitHubTokenName=ivy-team " +
