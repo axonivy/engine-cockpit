@@ -458,3 +458,10 @@ i.success {
   color: var(--ivy-primary-text-color);
   border-radius: 2px;
 }
+
+.migration-question-select-button {
+  display: flex;
+}
+body .migration-question-select-button > div.ui-button {
+  margin: 0px;
+}
