@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -218,6 +219,15 @@ class WebTestUsers {
     $("#form\\:userSyncLog").shouldBe(visible).click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
             .find(".ui-panel-content").shouldBe(visible);
+  }
+
+  @Test
+  void switchSecuritySystem() {
+    $(By.id("userCount")).shouldBe(Condition.text("4"));
+    Tab.SECURITY_SYSTEM.switchToTab("test-ad");
+    $(By.id("userCount")).shouldBe(Condition.text("1"));
+    Tab.SECURITY_SYSTEM.switchToDefault();
+    $(By.id("userCount")).shouldBe(Condition.text("4"));
   }
 
   private void showSynchUserDialog() {
