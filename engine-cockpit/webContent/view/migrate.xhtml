@@ -91,7 +91,7 @@
                       </script>
                       <p style="font-weight: bold;">#{question.title}</p>
                       <p style="white-space: pre-wrap;">#{question.more}</p>
-                      <p:selectOneButton value="#{question.answer}">
+                      <p:selectOneButton styleClass="migration-question-select-button" value="#{question.answer}">
                         <f:selectItems value="#{question.options}"
                           var="option" itemLabel="#{option}"
                           itemValue="#{option}" />
