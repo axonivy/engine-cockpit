@@ -16,28 +16,24 @@
     </ui:define>
 
     <ui:define name="content">
-       <div class="card">
+      <div class="card">
         <p:growl id="msgs" />
-        <div class="p-d-flex p-ai-center p-mb-3">
+        <h:form id="form" styleClass="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si-multiple-neutral-1 card-title-icon"></i>
-          <h2 class="p-m-0">Roles <i>(#{roleBean.roleCount})</i></h2>
-          <h:form id="form" styleClass="p-ml-auto">
-            <h:panelGroup id="syncPanel">
-              <div class="single-card-top-right-btn">
-                <p:splitButton value="Synchronize"
-                  icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
-                  id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
-                  process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
-                  <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
-                    onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
-                </p:splitButton>
-                <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2"
-                  update="@parent" />
-              </div>
-            </h:panelGroup>
-          </h:form>
-        </div>
-    
+          <h2 class="p-m-0">Roles <i id="roleCount">(#{roleBean.roleCount})</i></h2>
+          <h:panelGroup id="syncPanel" styleClass="p-ml-auto">
+            <p:splitButton value="Synchronize"
+              icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
+              id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
+              process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
+              <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
+                onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
+            </p:splitButton>
+            <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2"
+              update="@parent" />
+          </h:panelGroup>
+        </h:form>
+
         <cc:SecuritySystemTabs tabChange="#{roleBean.reloadRoles}" id="tabs" update="form">
           <h:form id="treeForm">
             <p:treeTable id="tree" value="#{roleBean.roles.tree}" var="role" nodeVar="node" styleClass="hide-head">
