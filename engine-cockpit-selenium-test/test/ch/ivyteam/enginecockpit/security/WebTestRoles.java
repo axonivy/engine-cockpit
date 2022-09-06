@@ -69,11 +69,11 @@ class WebTestRoles {
 
   @Test
   void switchSecuritySystem() {
-    $(By.id("roleCount")).shouldBe(Condition.text("4"));
-    Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    $(By.id("roleCount")).shouldBe(Condition.text("1"));
+    var mainRoleCount = $(By.id("roleCount")).text();
+    Tab.SECURITY_SYSTEM.switchToTab("test-nd");
+    $(By.id("roleCount")).shouldNotHave(Condition.text(mainRoleCount));
     Tab.SECURITY_SYSTEM.switchToDefault();
-    $(By.id("roleCount")).shouldBe(Condition.text("4"));
+    $(By.id("roleCount")).shouldHave(Condition.text(mainRoleCount));
   }
 
   private ElementsCollection getVisibleTreeNodes() {

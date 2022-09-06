@@ -223,11 +223,11 @@ class WebTestUsers {
 
   @Test
   void switchSecuritySystem() {
-    $(By.id("userCount")).shouldBe(Condition.text("4"));
-    Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    $(By.id("userCount")).shouldBe(Condition.text("1"));
+    var mainUserCount = $(By.id("userCount")).text();
+    Tab.SECURITY_SYSTEM.switchToTab("test-nd");
+    $(By.id("userCount")).shouldNotHave(Condition.text(mainUserCount));
     Tab.SECURITY_SYSTEM.switchToDefault();
-    $(By.id("userCount")).shouldBe(Condition.text("4"));
+    $(By.id("userCount")).shouldHave(Condition.text(mainUserCount));
   }
 
   private void showSynchUserDialog() {
