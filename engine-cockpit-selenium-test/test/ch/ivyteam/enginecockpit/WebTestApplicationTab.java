@@ -5,8 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -55,5 +58,19 @@ class WebTestApplicationTab {
 
     Navigation.toBusinessCalendar();
     assertThat(Tab.APP.getSelectedTab()).isNotBlank().endsWith(otherApp);
+  }
+
+  @Test
+  void witchApplicationAndCheckVariables() {
+    var noRecordsString = "No records found.";
+    Tab.APP.switchToTab(0);
+    var configTable = PrimeUi.table(By.id("apps:applicationTabView:0:config:form:configTable"));
+    configTable.containsNot(noRecordsString);
+    Tab.APP.switchToTab(1);
+    Tab.APP.switchToTab(0);
+    Tab.APP.switchToTab(2);
+    Tab.APP.switchToTab(0);
+    Selenide.sleep(500);
+    configTable.containsNot(noRecordsString);
   }
 }
