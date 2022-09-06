@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -61,7 +60,7 @@ class WebTestApplicationTab {
   }
 
   @Test
-  void witchApplicationAndCheckVariables() {
+  void switchApplicationAndCheckVariables() {
     var noRecordsString = "No records found.";
     Tab.APP.switchToTab(0);
     var configTable = PrimeUi.table(By.id("apps:applicationTabView:0:config:form:configTable"));
@@ -70,7 +69,6 @@ class WebTestApplicationTab {
     Tab.APP.switchToTab(0);
     Tab.APP.switchToTab(2);
     Tab.APP.switchToTab(0);
-    Selenide.sleep(500);
     configTable.containsNot(noRecordsString);
   }
 }

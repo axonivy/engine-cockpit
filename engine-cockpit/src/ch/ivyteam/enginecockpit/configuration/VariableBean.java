@@ -46,7 +46,6 @@ public class VariableBean implements ConfigView {
               .collect(Collectors.toList());
     }
     filteredVariables = null;
-    triggerTableFilter();
   }
 
   @Override
