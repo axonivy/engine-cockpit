@@ -16,6 +16,7 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
@@ -64,6 +65,15 @@ class WebTestRoles {
       .shouldBe(sizeLessThan(6));
     $(getTreeFormId() + "\\:tree\\:collapseAll").shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
+  }
+
+  @Test
+  void switchSecuritySystem() {
+    var mainRoleCount = $(By.id("roleCount")).text();
+    Tab.SECURITY_SYSTEM.switchToTab("test-nd");
+    $(By.id("roleCount")).shouldNotHave(Condition.text(mainRoleCount));
+    Tab.SECURITY_SYSTEM.switchToDefault();
+    $(By.id("roleCount")).shouldHave(Condition.text(mainRoleCount));
   }
 
   private ElementsCollection getVisibleTreeNodes() {
