@@ -57,7 +57,7 @@ class WebTestPmvDetail {
 
   private void deactivatePortalComponent() {
     $(By.id("form:tree:expandAll")).shouldBe(visible).click();
-    var portalComponentVersionId = "form:tree:" + $$(".activity-name").find(exactText("portal-component$1")).parent()
+    var portalComponentVersionId = "form:tree:" + $$(".activity-name").find(exactText("portal-components$1")).parent()
             .parent().parent().shouldBe(visible).attr("data-rk");
     $(By.id(portalComponentVersionId + ":deactivateButton")).shouldBe(visible).click();
   }
@@ -69,12 +69,12 @@ class WebTestPmvDetail {
     checkPmvEntry(depTable, "AxonIvyExpress$1", "ACTIVE");
 
     Table reqTable = new Table(By.id("requriedPmvTable"), true);
-    reqTable.firstColumnShouldBe(texts("portal-component$1"));
-    checkPmvEntry(reqTable, "portal-component$1", portalComponentActivityState);
+    reqTable.firstColumnShouldBe(texts("portal-components$1"));
+    checkPmvEntry(reqTable, "portal-components$1", portalComponentActivityState);
 
     Table specTable = new Table(By.id("specifiedTable"));
-    specTable.firstColumnShouldBe(texts("com.axonivy.portal:portal-component"));
-    specTable.valueForEntryShould("com.axonivy.portal:portal-component", 3, text("portal-component$1"));
+    specTable.firstColumnShouldBe(texts("com.axonivy.portal:portal-components"));
+    specTable.valueForEntryShould("com.axonivy.portal:portal-components", 3, text("portal-components$1"));
   }
 
   private void checkPmvEntry(Table table, String entry, String activityState) {
