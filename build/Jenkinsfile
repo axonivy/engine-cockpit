@@ -110,7 +110,7 @@ pipeline {
       steps {
         script {
           docker.image('maven:3.8.6-eclipse-temurin-17').inside("${dockerfileParams}") {
-            maven cmd: "deploy -Dskip.screenshots=${env.skipScreenshots}"
+            maven cmd: "deploy -Dskip.screenshots=${env.skipScreenshots} -Divy.engine.version='[9.4.0,]'"
           }
         }
       }
