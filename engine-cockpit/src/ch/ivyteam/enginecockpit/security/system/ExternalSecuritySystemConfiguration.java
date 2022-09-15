@@ -21,15 +21,15 @@ public class ExternalSecuritySystemConfiguration {
   }
 
   public boolean getDefaultBooleanValue(String key) {
-	if (ConfigKey.ON_SCHEDULE_ENABLED.equals(key)){
-	  return true;
-	}
-	if (ConfigKey.ON_SCHEDULE_IMPORT_USERS.equals(key)) {
-	  return true;
-	}
-	if (ConfigKey.SYNCH_ON_LOGIN.equals(key)) {
-	  return true;
-	}
+    if (ConfigKey.ON_SCHEDULE_ENABLED.equals(key)){
+      return true;
+    }
+    if (ConfigKey.ON_SCHEDULE_IMPORT_USERS.equals(key)) {
+      return true;
+    }
+    if (ConfigKey.SYNCH_ON_LOGIN.equals(key)) {
+      return true;
+    }
     var s = getDefaultValue(key);
     return Boolean.parseBoolean(s);
   }

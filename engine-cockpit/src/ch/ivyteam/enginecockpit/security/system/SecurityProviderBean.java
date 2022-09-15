@@ -137,7 +137,7 @@ public class SecurityProviderBean {
                     securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_IMPORT_USERS)));
 
     var msg = new FacesMessage("Security System Identity Provider saved");
-	FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess", msg);
+    FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess", msg);
   }
 
   private boolean validateUpdateTime() {
@@ -146,9 +146,8 @@ public class SecurityProviderBean {
     }
     final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
     if (!pattern.matcher(this.onScheduleTime).matches()) {
-      FacesContext.getCurrentInstance().addMessage("onScheduleTime",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-                      "Please check that synchronization Time is max '23:59'"));
+      var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Please check that synchronization Time is max '23:59'");
+      FacesContext.getCurrentInstance().addMessage("onScheduleTime", msg);
       return false;
     }
     return true;
