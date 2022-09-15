@@ -46,11 +46,11 @@ public class WebTestSecuritySystemDetail {
   private static final String SAVE_PROVIDER_BTN = "#securityProviderForm\\:saveProviderBtn";
   private static final String SAVE_PROVIDER_SUCCESS_GROWL = "#securityProviderForm\\:securityProviderSaveSuccess_container";
   private static final String PROVIDER = "#securityProviderForm\\:provider";
-  private static final String SYNC_TIME = "#securityProviderForm\\:syncTime";
-  private static final String SYNC_TIME_MESSAGE = "#securityProviderForm\\:syncTimeMessage";
-  private static final String ENABLE_DAILY_SYNCH = "#securityProviderForm\\:enableDailySynch";
+  private static final String SYNC_TIME = "#securityProviderForm\\:onScheduleTime";
+  private static final String SYNC_TIME_MESSAGE = "#securityProviderForm\\:onScheduleTimeMessage";
+  private static final String ENABLE_DAILY_SYNCH = "#securityProviderForm\\:onScheduleTime";
   private static final String SYNCH_ON_LOGIN = "#securityProviderForm\\:synchOnLogin";
-  private static final String ON_DEMAND_IMPORT = "#securityProviderForm\\:onDemandImport";
+  private static final String ON_DEMAND_IMPORT = "#securityProviderForm\\:onScheduleImportUsers";
 
   @BeforeEach
   void beforeEach() {
@@ -159,18 +159,18 @@ public class WebTestSecuritySystemDetail {
   }
 
   @Test
-  void invalidAndValidSyncTimes() {
+  void invalidAndValidonScheduleTimes() {
     $(SYNC_TIME).shouldBe(exactValue(""));
     $(SYNC_TIME).shouldBe(attribute("placeholder", "00:00"));
     $(SYNC_TIME_MESSAGE).shouldNotBe(visible);
 
-    saveInvalidSyncTimeAndAssert("32:23");
-    saveInvalidSyncTimeAndAssert("12:95");
+    saveInvalidonScheduleTimeAndAssert("32:23");
+    saveInvalidonScheduleTimeAndAssert("12:95");
 
-    setSyncTime("16:47");
+    setonScheduleTime("16:47");
     saveProvider();
 
-    clearSyncTime();
+    clearonScheduleTime();
   }
 
   @Test
@@ -260,19 +260,19 @@ public class WebTestSecuritySystemDetail {
     checkbox(ON_DEMAND_IMPORT).shouldBeChecked(false);
   }
 
-  private void saveInvalidSyncTimeAndAssert( String time) {
-    setSyncTime(time);
+  private void saveInvalidonScheduleTimeAndAssert( String time) {
+    setonScheduleTime(time);
     $(SAVE_PROVIDER_BTN).click();
     $(SYNC_TIME_MESSAGE).shouldBe(visible);
   }
 
-  private void setSyncTime(String time) {
-      clearSyncTime();
+  private void setonScheduleTime(String time) {
+      clearonScheduleTime();
       $(SYNC_TIME).sendKeys(time);
       $(SYNC_TIME).shouldBe(exactValue(time));
   }
 
-  private void clearSyncTime() {
+  private void clearonScheduleTime() {
     while (StringUtils.isNotEmpty($(SYNC_TIME).getValue())) {
       $(SYNC_TIME).sendKeys(Keys.BACK_SPACE);
     }

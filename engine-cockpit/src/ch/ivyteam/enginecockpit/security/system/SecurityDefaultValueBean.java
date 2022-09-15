@@ -8,8 +8,8 @@ import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 @ManagedBean
 @ViewScoped
 public class SecurityDefaultValueBean {
+
   private String url;
-  private String updateTime;
   private String derefAliases;
   private String referral;
 
@@ -40,7 +40,6 @@ public class SecurityDefaultValueBean {
 
   private void loadSecuritySystem() {
     url = securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_URL);
-    updateTime = "00:00";
     derefAliases = securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_ALIASES);
     referral = securityConfiguration.getDefaultValue(ConfigKey.CONNECTION_ENVIRONMENT_REFERRAL);
 
@@ -76,8 +75,8 @@ public class SecurityDefaultValueBean {
     return email;
   }
 
-  public String getUpdatetime() {
-    return updateTime;
+  public String getOnScheduleTime() {
+    return "00:00";
   }
 
   public String getUserFilter() {
