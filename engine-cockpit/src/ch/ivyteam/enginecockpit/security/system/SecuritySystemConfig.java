@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityConstants;
-import ch.ivyteam.ivy.security.identity.core.IdentityProviderConfig;
 import ch.ivyteam.ivy.security.identity.jndi.IJndiSecuritySystemConstants;
+import ch.ivyteam.ivy.security.internal.system.synch.UserSynchConfig;
 
 @SuppressWarnings("restriction")
 public class SecuritySystemConfig {
@@ -30,10 +30,10 @@ public class SecuritySystemConfig {
     String BINDING_DEFAULT_CONTEXT = IJndiSecuritySystemConstants.BINDING_DEFAULT_CONTEXT;
     String BINDING_IMPORT_USERS_OF_GROUP = IJndiSecuritySystemConstants.BINDING_IMPORT_USERS_OF_GROUP;
     String BINDING_USER_FILTER = IJndiSecuritySystemConstants.BINDING_USER_FILTER;
-    String UPDATE_TIME = IdentityProviderConfig.UPDATE_TIME;
-    String IMPORT_ONDEMAND = IdentityProviderConfig.IMPORT_ON_DEMAND;
-    String UPDATE_ENABLED = IdentityProviderConfig.UPDATE_ENABLED;
-    String SYNCH_ON_LOGIN = IdentityProviderConfig.SYNCH_ON_LOGIN;
+    String ON_SCHEDULE_TIME = UserSynchConfig.ON_SCHEDULE_TIME;
+    String ON_SCHEDULE_ENABLED = UserSynchConfig.ON_SCHEDULE_ENABLED;
+    String ON_SCHEDULE_IMPORT_USERS = UserSynchConfig.ON_SCHEDULE_IMPORT_USERS;
+    String SYNCH_ON_LOGIN = UserSynchConfig.ON_LOGIN;
 
     String USER_ATTRIBUTE_ID = IJndiSecuritySystemConstants.USER_ATTRIBUTE_ID;
     String USER_ATTRIBUTE_NAME = IJndiSecuritySystemConstants.USER_ATTRIBUTE_NAME;

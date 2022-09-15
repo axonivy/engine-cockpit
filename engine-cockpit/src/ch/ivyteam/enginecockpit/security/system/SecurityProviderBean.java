@@ -27,10 +27,10 @@ public class SecurityProviderBean {
 
   private String provider;
 
-  private String updateTime;
-  private boolean updateEnabled;
+  private String onScheduleTime;
+  private boolean onScheduleEnabled;
   private boolean synchOnLogin;
-  private boolean importOnDemand;
+  private boolean onScheduleImportUsers;
 
   public String getSecuritySystemName() {
     return name;
@@ -51,13 +51,13 @@ public class SecurityProviderBean {
             .orElseThrow();
 
     provider = getConfiguration(ConfigKey.PROVIDER);
-    updateEnabled = getInitBooleanValue(ConfigKey.UPDATE_ENABLED,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED));
-    updateTime = getConfiguration(ConfigKey.UPDATE_TIME);
+    onScheduleEnabled = getInitBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED,
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED));
+    onScheduleTime = getConfiguration(ConfigKey.ON_SCHEDULE_TIME);
     synchOnLogin = getInitBooleanValue(ConfigKey.SYNCH_ON_LOGIN,
             securityConfiguration.getDefaultBooleanValue(ConfigKey.SYNCH_ON_LOGIN));
-    importOnDemand = getInitBooleanValue(ConfigKey.IMPORT_ONDEMAND,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND));
+    onScheduleImportUsers = getInitBooleanValue(ConfigKey.ON_SCHEDULE_IMPORT_USERS,
+            securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_IMPORT_USERS));
   }
 
   public boolean isJndiSecuritySystem() {
@@ -80,20 +80,20 @@ public class SecurityProviderBean {
     this.provider = provider;
   }
 
-  public String getUpdateTime() {
-    return updateTime;
+  public String getOnScheduleTime() {
+    return onScheduleTime;
   }
 
-  public void setUpdateTime(String updateTime) {
-    this.updateTime = updateTime;
+  public void setOnScheduleTime(String onScheduleTime) {
+    this.onScheduleTime = onScheduleTime;
   }
 
-  public boolean isUpdateEnabled() {
-    return updateEnabled;
+  public boolean isOnScheduleEnabled() {
+    return onScheduleEnabled;
   }
 
-  public void setUpdateEnabled(boolean updateEnabled) {
-    this.updateEnabled = updateEnabled;
+  public void setOnScheduleEnabled(boolean onScheduleEnabled) {
+    this.onScheduleEnabled = onScheduleEnabled;
   }
 
   public boolean isSynchOnLogin() {
@@ -104,12 +104,12 @@ public class SecurityProviderBean {
     this.synchOnLogin = synchOnLogin;
   }
 
-  public boolean isImportOnDemand() {
-    return importOnDemand;
+  public boolean isOnScheduleImportUsers() {
+    return onScheduleImportUsers;
   }
 
-  public void setImportOnDemand(boolean importOnDemand) {
-    this.importOnDemand = importOnDemand;
+  public void setOnScheduleImportUsers(boolean onScheduleImportUsers) {
+    this.onScheduleImportUsers = onScheduleImportUsers;
   }
 
   public void saveProvider() {
@@ -123,32 +123,31 @@ public class SecurityProviderBean {
       IConfiguration.instance().remove(key);
       context.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, provider);
     }
-    setConfiguration(ConfigKey.UPDATE_ENABLED,
-            getSaveBooleanValue(this.updateEnabled,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.UPDATE_ENABLED)));
-    setConfiguration(ConfigKey.UPDATE_TIME, this.updateTime);
+    setConfiguration(ConfigKey.ON_SCHEDULE_ENABLED,
+            getSaveBooleanValue(this.onScheduleEnabled,
+                    securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED)));
+    setConfiguration(ConfigKey.ON_SCHEDULE_TIME, this.onScheduleTime);
 
     setConfiguration(ConfigKey.SYNCH_ON_LOGIN,
             getSaveBooleanValue(this.synchOnLogin,
                     securityConfiguration.getDefaultBooleanValue(ConfigKey.SYNCH_ON_LOGIN)));
 
-    setConfiguration(ConfigKey.IMPORT_ONDEMAND,
-            getSaveBooleanValue(this.importOnDemand,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.IMPORT_ONDEMAND)));
+    setConfiguration(ConfigKey.ON_SCHEDULE_IMPORT_USERS,
+            getSaveBooleanValue(this.onScheduleImportUsers,
+                    securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_IMPORT_USERS)));
 
-    FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess",
-            new FacesMessage("Security System Identity Provider saved"));
+    var msg = new FacesMessage("Security System Identity Provider saved");
+    FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess", msg);
   }
 
   private boolean validateUpdateTime() {
-    if (StringUtils.isEmpty(updateTime)) {
+    if (StringUtils.isEmpty(onScheduleTime)) {
       return true;
     }
     final Pattern pattern = Pattern.compile("^[0-2][0-9]:[0-5][0-9]$");
-    if (!pattern.matcher(this.updateTime).matches()) {
-      FacesContext.getCurrentInstance().addMessage("syncTime",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-                      "Please check that synchronization Time is max '23:59'"));
+    if (!pattern.matcher(this.onScheduleTime).matches()) {
+      var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Please check that synchronization Time is max '23:59'");
+      FacesContext.getCurrentInstance().addMessage("onScheduleTime", msg);
       return false;
     }
     return true;

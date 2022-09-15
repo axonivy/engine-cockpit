@@ -37,22 +37,22 @@
     </p:panelGrid>
 
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel ui-fluid" rendered="#{securityProviderBean.notIvySecuritySystem}">
-      <p:outputLabel for="enableDailySynch" value="Update Job Enabled" />
-      <p:selectBooleanCheckbox id="enableDailySynch" value="#{securityProviderBean.updateEnabled}" />
+      <p:outputLabel for="synchOnLogin" value="Synchronize users on login" />
+      <p:selectBooleanCheckbox id="synchOnLogin" value="#{securityProviderBean.synchOnLogin}" />
 
-      <p:outputLabel for="syncTime" value="Synchronization Time" />
+      <p:outputLabel for="onScheduleEnabled" value="Synchronize users on schedule" />
+      <p:selectBooleanCheckbox id="onScheduleEnabled" value="#{securityProviderBean.onScheduleEnabled}" />
+
+      <p:outputLabel for="onScheduleTime" value="Synchronization schedule time" />
       <h:panelGroup>
-        <p:inputMask id="syncTime" value="#{securityProviderBean.updateTime}" mask="99:99" placeholder="#{securityDefaultValueBean.updatetime}" />
-        <p:messages for="syncTime" id="syncTimeMessage" showDetail="true">
+        <p:inputMask id="onScheduleTime" value="#{securityProviderBean.onScheduleTime}" mask="99:99" placeholder="#{securityDefaultValueBean.onScheduleTime}" />
+        <p:messages for="onScheduleTime" id="onScheduleTimeMessage" showDetail="true">
           <p:autoUpdate />
         </p:messages>
       </h:panelGroup>
 
-      <p:outputLabel for="synchOnLogin" value="Synchronize on Login" />
-      <p:selectBooleanCheckbox id="synchOnLogin" value="#{securityProviderBean.synchOnLogin}" />
-
-      <p:outputLabel for="onDemandImport" value="Import On Demand" />
-      <p:selectBooleanCheckbox id="onDemandImport" value="#{securityProviderBean.importOnDemand}" />
+      <p:outputLabel for="onScheduleImportUsers" value="Import users on schedule" />
+      <p:selectBooleanCheckbox id="onScheduleImportUsers" value="#{securityProviderBean.onScheduleImportUsers}" />
     </p:panelGrid>
   </h:form>
   <ui:include src="../../dialogs/changesecuritysystemprovider.xhtml" />  
