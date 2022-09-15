@@ -108,7 +108,7 @@ public class SecurityProviderBean {
     return onScheduleImportUsers;
   }
 
-  public void setScheduleImportUsers(boolean onScheduleImportUsers) {
+  public void setOnScheduleImportUsers(boolean onScheduleImportUsers) {
     this.onScheduleImportUsers = onScheduleImportUsers;
   }
 
