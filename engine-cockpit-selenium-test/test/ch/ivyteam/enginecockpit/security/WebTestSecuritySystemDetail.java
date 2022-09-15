@@ -48,7 +48,7 @@ public class WebTestSecuritySystemDetail {
   private static final String PROVIDER = "#securityProviderForm\\:provider";
   private static final String SYNC_TIME = "#securityProviderForm\\:onScheduleTime";
   private static final String SYNC_TIME_MESSAGE = "#securityProviderForm\\:onScheduleTimeMessage";
-  private static final String ENABLE_DAILY_SYNCH = "#securityProviderForm\\:onScheduleTime";
+  private static final String ENABLE_DAILY_SYNCH = "#securityProviderForm\\:onScheduleEnabled";
   private static final String SYNCH_ON_LOGIN = "#securityProviderForm\\:synchOnLogin";
   private static final String ON_DEMAND_IMPORT = "#securityProviderForm\\:onScheduleImportUsers";
 
