@@ -37,10 +37,10 @@
     </p:panelGrid>
 
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel ui-fluid" rendered="#{securityProviderBean.notIvySecuritySystem}">
-      <p:outputLabel for="synchOnLogin" value="Synchronize on Login" />
+      <p:outputLabel for="synchOnLogin" value="Synchronize users on login" />
       <p:selectBooleanCheckbox id="synchOnLogin" value="#{securityProviderBean.synchOnLogin}" />
 
-      <p:outputLabel for="onScheduleEnabled" value="Synchronization on schedule" />
+      <p:outputLabel for="onScheduleEnabled" value="Synchronize users on schedule" />
       <p:selectBooleanCheckbox id="onScheduleEnabled" value="#{securityProviderBean.onScheduleEnabled}" />
 
       <p:outputLabel for="onScheduleTime" value="Synchronization schedule time" />
