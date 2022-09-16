@@ -127,5 +127,4 @@ public class SecurityConfigBean {
     ISecurityManager.instance().securityContexts().delete(name);
     return "securitysystem.xhtml?faces-redirect=true";
   }
-
 }
