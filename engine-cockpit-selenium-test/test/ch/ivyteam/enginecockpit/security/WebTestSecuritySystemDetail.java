@@ -48,9 +48,9 @@ public class WebTestSecuritySystemDetail {
   private static final String PROVIDER = "#securityProviderForm\\:provider";
   private static final String SYNC_TIME = "#securityProviderForm\\:onScheduleTime";
   private static final String SYNC_TIME_MESSAGE = "#securityProviderForm\\:onScheduleTimeMessage";
-  private static final String ENABLE_DAILY_SYNCH = "#securityProviderForm\\:onScheduleEnabled";
+  private static final String ON_SCHEDULE_ENABLED = "#securityProviderForm\\:onScheduleEnabled";
   private static final String SYNCH_ON_LOGIN = "#securityProviderForm\\:synchOnLogin";
-  private static final String ON_DEMAND_IMPORT = "#securityProviderForm\\:onScheduleImportUsers";
+  private static final String ON_SCHEDULE_IMPORT_USERS = "#securityProviderForm\\:onScheduleImportUsers";
 
   @BeforeEach
   void beforeEach() {
@@ -176,17 +176,17 @@ public class WebTestSecuritySystemDetail {
   @Test
   void provider_settings_visible() {
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectedItemShould(exactText("Microsoft Active Directory"));
-    $(ENABLE_DAILY_SYNCH).shouldBe(visible);
+    $(ON_SCHEDULE_ENABLED).shouldBe(visible);
     $(SYNCH_ON_LOGIN).shouldBe(visible);
-    $(ON_DEMAND_IMPORT).shouldBe(visible);
+    $(ON_SCHEDULE_IMPORT_USERS).shouldBe(visible);
     $(SYNC_TIME).shouldBe(visible);
 
     Navigation.toSecuritySystemDetail("default");
 
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectedItemShould(exactText("Ivy Security System"));
-    $(ENABLE_DAILY_SYNCH).shouldNotBe(visible);
+    $(ON_SCHEDULE_ENABLED).shouldNotBe(visible);
     $(SYNCH_ON_LOGIN).shouldNotBe(visible);
-    $(ON_DEMAND_IMPORT).shouldNotBe(visible);
+    $(ON_SCHEDULE_IMPORT_USERS).shouldNotBe(visible);
     $(SYNC_TIME).shouldNotBe(visible);
   }
 
@@ -199,9 +199,9 @@ public class WebTestSecuritySystemDetail {
     $(CHANGE_PROVIDER_DIALOG_OK_BUTTON).click();
     saveProvider();
 
-    $(ENABLE_DAILY_SYNCH).shouldBe(visible);
+    $(ON_SCHEDULE_ENABLED).shouldBe(visible);
     $(SYNCH_ON_LOGIN).shouldBe(visible);
-    $(ON_DEMAND_IMPORT).shouldBe(visible);
+    $(ON_SCHEDULE_IMPORT_USERS).shouldBe(visible);
     $(SYNC_TIME).shouldBe(visible);
 
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectItemByLabel("Ivy Security System");
@@ -209,55 +209,55 @@ public class WebTestSecuritySystemDetail {
     $(CHANGE_PROVIDER_DIALOG_OK_BUTTON).click();
     saveProvider();
 
-    $(ENABLE_DAILY_SYNCH).shouldNotBe(visible);
+    $(ON_SCHEDULE_ENABLED).shouldNotBe(visible);
     $(SYNCH_ON_LOGIN).shouldNotBe(visible);
-    $(ON_DEMAND_IMPORT).shouldNotBe(visible);
+    $(ON_SCHEDULE_IMPORT_USERS).shouldNotBe(visible);
     $(SYNC_TIME).shouldNotBe(visible);
   }
 
   @Test
   void provider_settings() {
-    checkbox(ENABLE_DAILY_SYNCH).shouldBeChecked(false);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(false);
-    checkbox(ON_DEMAND_IMPORT).shouldBeChecked(false);
-
-    $(ENABLE_DAILY_SYNCH).click();
-
-    saveProvider();
-    Navigation.toSecuritySystemDetail("test-ad");
-
-    checkbox(ENABLE_DAILY_SYNCH).shouldBeChecked(true);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(false);
-    checkbox(ON_DEMAND_IMPORT).shouldBeChecked(false);
-
-    $(ENABLE_DAILY_SYNCH).click();
-    $(SYNCH_ON_LOGIN).click();
-
-    saveProvider();
-    Navigation.toSecuritySystemDetail("test-ad");
-
-    checkbox(ENABLE_DAILY_SYNCH).shouldBeChecked(false);
+    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
     checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
-    checkbox(ON_DEMAND_IMPORT).shouldBeChecked(false);
+    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
+
+    $(ON_SCHEDULE_ENABLED).click();
+
+    saveProvider();
+    Navigation.toSecuritySystemDetail("test-ad");
+
+    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(false);
+    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
+    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
+
+    $(ON_SCHEDULE_ENABLED).click();
+    $(SYNCH_ON_LOGIN).click();
+
+    saveProvider();
+    Navigation.toSecuritySystemDetail("test-ad");
+
+    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
+    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(false);
+    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
 
     $(SYNCH_ON_LOGIN).click();
-    $(ON_DEMAND_IMPORT).click();
+    $(ON_SCHEDULE_IMPORT_USERS).click();
 
     saveProvider();
     Navigation.toSecuritySystemDetail("test-ad");
 
-    checkbox(ENABLE_DAILY_SYNCH).shouldBeChecked(false);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(false);
-    checkbox(ON_DEMAND_IMPORT).shouldBeChecked(true);
+    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
+    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
+    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(false);
 
-    $(ON_DEMAND_IMPORT).click();
+    $(ON_SCHEDULE_IMPORT_USERS).click();
 
     saveProvider();
     Navigation.toSecuritySystemDetail("test-ad");
 
-    checkbox(ENABLE_DAILY_SYNCH).shouldBeChecked(false);
-    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(false);
-    checkbox(ON_DEMAND_IMPORT).shouldBeChecked(false);
+    checkbox(ON_SCHEDULE_ENABLED).shouldBeChecked(true);
+    checkbox(SYNCH_ON_LOGIN).shouldBeChecked(true);
+    checkbox(ON_SCHEDULE_IMPORT_USERS).shouldBeChecked(true);
   }
 
   private void saveInvalidonScheduleTimeAndAssert( String time) {
