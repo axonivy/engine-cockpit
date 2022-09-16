@@ -35,14 +35,6 @@ class WebTestPages {
   }
 
   @Test
-  void deadLinks() {
-    EngineCockpitUtil.login();
-    var sessionId = WebDriverRunner.getWebDriver().manage().getCookieNamed("JSESSIONID");
-    var url = viewUrl("dashboard.xhtml");
-    HttpAsserter.assertThat(url).hasNoDeadLinks(10, sessionId.getValue());
-  }
-
-  @Test
   void pagesNotAccessable() {
     for (var xhtml : getSubDirectoryXhtmlFiles(webContentDir, this::isNotInViewFolder)) {
       open(viewUrl(xhtml.toString()));
