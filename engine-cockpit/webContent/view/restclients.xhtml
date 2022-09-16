@@ -39,7 +39,7 @@
               
               <p:column headerText="Name" sortBy="#{restclient.name}" filterBy="#{restclient.name}"
                 styleClass="restclient-name-column">
-                <a href="restclientdetail.xhtml?restClientName=#{restclient.name}">
+                <a href="#{restclient.getViewUrl(app.name, managerBean.selectedEnvironment)}">
                   <h:outputText value="#{restclient.name}" styleClass="restclient-name">
                     <i class="si si-network-share table-icon"></i>
                   </h:outputText>

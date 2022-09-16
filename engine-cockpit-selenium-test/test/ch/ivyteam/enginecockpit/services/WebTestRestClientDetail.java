@@ -23,7 +23,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestRestClientDetail {
+class WebTestRestClientDetail {
   private static final String RESTCLIENT_NAME = "test-rest";
 
   @BeforeEach
@@ -39,8 +39,8 @@ public class WebTestRestClientDetail {
   }
 
   @Test
-  void testDetailOpen() {
-    assertCurrentUrlContains("restclientdetail.xhtml?restClientName=" + RESTCLIENT_NAME);
+  void detailOpen() {
+    assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&name=" + RESTCLIENT_NAME);
     $$(".card").shouldHave(size(2));
     $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
 
@@ -50,7 +50,7 @@ public class WebTestRestClientDetail {
   }
 
   @Test
-  void testRestTestConnection() {
+  void restTestConnection() {
     setUrl("localhost");
     setUserName("");
     testAndAssertConnection("Invalid Url");
@@ -77,7 +77,7 @@ public class WebTestRestClientDetail {
   }
 
   @Test
-  void testSaveAndResetChanges() {
+  void saveAndResetChanges() {
     setConfiguration("url", "testUser");
     Selenide.refresh();
     checkConfiguration("url", "testUser");
@@ -126,5 +126,4 @@ public class WebTestRestClientDetail {
     $("#restClientConfigurationForm\\:resetRestConfirmYesBtn").click();
     $("#restClientConfigurationForm\\:restConfigMsg_container").shouldBe(text("Rest configuration reset"));
   }
-
 }

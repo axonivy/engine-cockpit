@@ -26,8 +26,9 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
@@ -39,7 +40,9 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private Webservice webservice;
   private String webserviceId;
 
-  private ManagerBean managerBean;
+  private String appName;
+  private IApplication app;
+  private String env;
   private PortType activePortType;
   private String activeEndpointUrl;
   private ConnectionTestResult testResult;
@@ -49,22 +52,46 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceClients webServiceClients;
 
   public WebserviceDetailBean() {
-    managerBean = ManagerBean.instance();
-    webServiceClients = WebServiceClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
     connectionTest = new ConnectionTestWrapper();
   }
 
-  public String getWebserviceId() {
+  public void setApp(String appName) {
+    this.appName = appName;
+  }
+
+  public String getApp() {
+    return appName;
+  }
+
+  public void setEnv(String env) {
+    this.env = env;
+  }
+
+  public String getEnv() {
+    return env;
+  }
+
+  public String getId() {
     return webserviceId;
   }
 
-  public void setWebserviceId(String webserviceId) {
+  public void setId(String webserviceId) {
     this.webserviceId = webserviceId;
   }
 
   public void onload() {
+    app = IApplicationRepository.instance().findByName(appName).orElse(null);
+    if (app == null) {
+      ResponseHelper.notFound("Application '" + appName + "' not found");
+      return;
+    }
+    webServiceClients = WebServiceClients.of(app, env);
     loadWebService();
-    liveStats = new WebServiceMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), webserviceId);
+    liveStats = new WebServiceMonitor(appName, env, webserviceId);
+  }
+
+  public String getViewUrl() {
+    return webservice.getViewUrl(appName, env);
   }
 
   private void loadWebService() {

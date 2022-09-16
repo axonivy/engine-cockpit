@@ -63,6 +63,10 @@ public class Webservice implements IService {
     return description;
   }
 
+  public String getViewUrl(String app, String env) {
+    return "webservicedetail.xhtml?app=" + app + "&env=" + env + "&id=" + genId;
+  }
+
   public String getWsdlUrl() {
     return wsdlUrl;
   }

@@ -39,7 +39,7 @@
               
               <p:column headerText="Name" sortBy="#{webservice.name}" filterBy="#{webservice.name}"
                 styleClass="webservice-name-column">
-                <a href="webservicedetail.xhtml?webserviceId=#{webservice.genId}">
+                <a href="#{webservice.getViewUrl(app.name, managerBean.selectedEnvironment)}">
                   <h:outputText value="#{webservice.name}" styleClass="webservice-name">
                     <i class="si si-network-arrow table-icon"></i>
                   </h:outputText>

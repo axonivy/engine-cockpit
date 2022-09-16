@@ -4,9 +4,9 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="webserviceId" value="#{webserviceDetailBean.webserviceId}" />
-    <f:viewParam name="applicationName" value="#{managerBean.selectedApplicationName}" />
-    <f:viewParam name="environment" value="#{managerBean.selectedEnvironment}" />
+    <f:viewParam name="app" value="#{webserviceDetailBean.app}" />
+    <f:viewParam name="env" value="#{webserviceDetailBean.env}" />
+    <f:viewParam name="id" value="#{webserviceDetailBean.id}" />
     <f:viewAction action="#{webserviceDetailBean.onload}" />
   </f:metadata>
 
@@ -17,7 +17,7 @@
       <li>/</li>
       <li><a href="webservices.xhtml">Web Service</a></li>
       <li>/</li>
-      <li><a href="webservicedetail.xhtml?webserviceId=#{webserviceDetailBean.webserviceId}">#{webserviceDetailBean.webservice.name}</a></li>
+      <li><a href="#{webserviceDetailBean.viewUrl}">#{webserviceDetailBean.webservice.name}</a></li>
       <cc:BreadcrumbInfos />
     </ui:define>
 
