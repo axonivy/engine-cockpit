@@ -30,7 +30,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestDatabaseDetail {
+class WebTestDatabaseDetail {
   private static final String DATABASE_NAME = "test-db";
 
   @BeforeEach
@@ -43,8 +43,8 @@ public class WebTestDatabaseDetail {
   }
 
   @Test
-  void testDetailOpen() {
-    assertCurrentUrlContains("databasedetail.xhtml?databaseName=" + DATABASE_NAME);
+  void detailOpen() {
+    assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&name=" + DATABASE_NAME);
     $$(".card").shouldHave(size(4));
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
 
@@ -54,7 +54,7 @@ public class WebTestDatabaseDetail {
   }
 
   @Test
-  void testDatabaseTestConnection() {
+  void databaseTestConnection() {
     assertDatabaseTestConnection("Error");
 
     Navigation.toDatabaseDetail("realdb");
@@ -75,7 +75,7 @@ public class WebTestDatabaseDetail {
   }
 
   @Test
-  void testSaveAndResetChanges() {
+  void saveAndResetChanges() {
     setConfiguration("url", "org.postgresql.Driver", "testUser", "13");
     Selenide.refresh();
     checkConfiguration("url", "org.postgresql.Driver", "testUser", "13");

@@ -35,6 +35,10 @@ public class DatabaseDto implements IService {
     return name;
   }
 
+  public String getViewUrl(String app, String env) {
+    return "databasedetail.xhtml?app=" + app + "&env=" + env + "&name=" + name;
+  }
+
   public String getUrl() {
     return url;
   }

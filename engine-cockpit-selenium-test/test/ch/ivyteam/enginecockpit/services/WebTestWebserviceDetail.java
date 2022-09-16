@@ -50,8 +50,8 @@ class WebTestWebserviceDetail {
   }
 
   @Test
-  void testDetailOpen() {
-    assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
+  void detailOpen() {
+    assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&id=");
     $$(".card").shouldHave(size(3));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
 
@@ -61,7 +61,7 @@ class WebTestWebserviceDetail {
   }
 
   @Test
-  void testSaveAndResetChanges() {
+  void saveAndResetChanges() {
     setConfiguration("testUser");
     Selenide.refresh();
     checkConfiguration("testUser");
@@ -97,7 +97,7 @@ class WebTestWebserviceDetail {
   }
 
   @Test
-  void testWsEndpointTestConnection() {
+  void wsEndpointTestConnection() {
     setEndPoint("http://test-webservices.ivyteam.io:8080/notfound");
     Selenide.refresh();
     testAndAssertConnection("Status 404");
@@ -126,7 +126,7 @@ class WebTestWebserviceDetail {
   }
 
   @Test
-  void testEditEndpointsInvalid() {
+  void editEndpointsInvalid() {
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
             .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
     $("#webservcieEndPointForm\\:defaultInput").clear();
@@ -135,7 +135,7 @@ class WebTestWebserviceDetail {
   }
 
   @Test
-  void testSetAndResetEndpoints() {
+  void setAndResetEndpoints() {
     setEndPoint("default", "first", "second");
     Selenide.refresh();
     checkEndPoint("default", "first", "second");
@@ -147,7 +147,7 @@ class WebTestWebserviceDetail {
   }
 
   @Test
-  void testSetAndResetEndpoints_noFallbacks() {
+  void setAndResetEndpoints_noFallbacks() {
     setEndPoint("default");
     Selenide.refresh();
     checkEndPoint("default");

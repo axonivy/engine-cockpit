@@ -21,8 +21,9 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionT
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService;
@@ -36,28 +37,52 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private RestClientDto restClient;
   private String restClientName;
 
-  private final ManagerBean managerBean;
-  private final RestClients restClients;
+  private String appName;
+  private IApplication app;
+  private String env;
+
+  private RestClients restClients;
   private ConnectionTestResult testResult;
   private RestClientMonitor liveStats;
 
   private final ConnectionTestWrapper connectionTest;
 
   public RestClientDetailBean() {
-    managerBean = ManagerBean.instance();
-    restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
     connectionTest = new ConnectionTestWrapper();
   }
 
-  public String getRestClientName() {
+  public void setApp(String appName) {
+    this.appName = appName;
+  }
+
+  public String getApp() {
+    return appName;
+  }
+
+  public void setEnv(String env) {
+    this.env = env;
+  }
+
+  public String getEnv() {
+    return env;
+  }
+
+  public String getName() {
     return restClientName;
   }
 
-  public void setRestClientName(String restClientName) {
+  public void setName(String restClientName) {
     this.restClientName = restClientName;
   }
 
   public void onload() {
+    app = IApplicationRepository.instance().findByName(appName).orElse(null);
+    if (app == null) {
+      ResponseHelper.notFound("Application '" + appName + "' not found");
+      return;
+    }
+
+    restClients = RestClients.of(app, env);
     var client = findRestClient();
     if (client == null) {
       ResponseHelper.notFound("Rest client '" + restClientName + "' not found");
@@ -65,7 +90,11 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
 
     loadRestClient();
-    liveStats = new RestClientMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), restClient.getUniqueId().toString());
+    liveStats = new RestClientMonitor(app.getName(), env, restClient.getUniqueId().toString());
+  }
+
+  public String getViewUrl() {
+    return restClient.getViewUrl(appName, env);
   }
 
   private void loadRestClient() {
@@ -137,7 +166,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     if (restClient.passwordChanged()) {
       restBuilder.property(REST_PROP_PASSWORD, restClient.getPassword());
     }
-    return new ExternalRestWebService(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment(), restBuilder.toRestClient());
+    return new ExternalRestWebService(app, env, restBuilder.toRestClient());
   }
 
   public void saveConfig() {

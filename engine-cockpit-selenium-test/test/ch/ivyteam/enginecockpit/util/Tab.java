@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 public class Tab {
 
+  public static String DEFAULT_APP = isDesigner() ? DESIGNER : "test";
+
   public static final Tab SECURITY_SYSTEM = new Tab(
           "li.security-system-tab > a",
           "li.security-system-tab",
@@ -27,7 +29,8 @@ public class Tab {
           "li.application-tab",
           "li.application-tab.ui-state-active",
           ".ui-tabs-panel:not(.ui-helper-hidden)",
-          tab -> tab.switchToTab(isDesigner() ? DESIGNER : "test"));
+          tab -> tab.switchToTab(DEFAULT_APP));
+  
 
   private final String tab;
   private final String li;

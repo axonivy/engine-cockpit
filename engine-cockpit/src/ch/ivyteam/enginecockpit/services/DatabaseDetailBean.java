@@ -27,9 +27,10 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.DatabaseDto;
 import ch.ivyteam.enginecockpit.services.model.DatabaseDto.Connection;
 import ch.ivyteam.enginecockpit.services.model.DatabaseDto.ExecStatement;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.system.SystemDatabaseBean;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.db.Database.Builder;
 import ch.ivyteam.ivy.db.Databases;
 import ch.ivyteam.ivy.db.IExternalDatabaseManager;
@@ -45,7 +46,9 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   private List<Connection> connections;
   private String databaseName;
 
-  private ManagerBean managerBean;
+  private String appName;
+  private IApplication app;
+  private String env;
   private ConnectionTestResult testResult;
 
   private final ConnectionTestWrapper connectionTest;
@@ -53,27 +56,50 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   private Databases databases;
 
   public DatabaseDetailBean() {
-    managerBean = ManagerBean.instance();
     connectionTest = new ConnectionTestWrapper();
   }
 
-  public String getDatabaseName() {
+  public void setApp(String appName) {
+    this.appName = appName;
+  }
+
+  public String getApp() {
+    return appName;
+  }
+
+  public void setEnv(String env) {
+    this.env = env;
+  }
+
+  public String getEnv() {
+    return env;
+  }
+
+  public String getName() {
     return databaseName;
   }
 
-  public void setDatabaseName(String databaseName) {
+  public void setName(String databaseName) {
     this.databaseName = databaseName;
   }
 
   public void onload() {
-    databases = Databases.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment());
+    app = IApplicationRepository.instance().findByName(appName).orElse(null);
+    if (app == null) {
+      ResponseHelper.notFound("Application '" + appName + "' not found");
+      return;
+    }
+
+    databases = Databases.of(app, env);
     reloadExternalDb();
-    liveStats = new DatabaseMonitor(managerBean.getSelectedApplicationName(), managerBean.getSelectedEnvironment(), databaseName);
+    liveStats = new DatabaseMonitor(app.getName(), env, databaseName);
+  }
+
+  public String getViewUrl() {
+    return database.getViewUrl(appName, env);
   }
 
   private void reloadExternalDb() {
-    var app = managerBean.getSelectedIApplication();
-    var env = managerBean.getSelectedEnvironment();
     var db = databases.find(databaseName);
     if (db == null) {
       ResponseHelper.notFound("Database '" + databaseName + "' not found");

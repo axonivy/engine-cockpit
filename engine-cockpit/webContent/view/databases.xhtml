@@ -39,7 +39,7 @@
               
               <p:column headerText="Name" sortBy="#{database.name}" filterBy="#{database.name}"
                 styleClass="database-name-column">
-                <a href="databasedetail.xhtml?databaseName=#{database.name}">
+                <a href="#{database.getViewUrl(app.name, managerBean.selectedEnvironment)}">
                   <h:outputText value="#{database.name}" styleClass="database-name">
                     <i class="si si-database table-icon"></i>
                   </h:outputText>

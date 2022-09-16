@@ -21,7 +21,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestDatabaseHistory {
+class WebTestDatabaseHistory {
 
   @BeforeEach
   void beforeEach() {
@@ -38,7 +38,7 @@ public class WebTestDatabaseHistory {
   }
 
   @Test
-  void testConnectionAndHistory() {
+  void connectionAndHistory() {
     new Table(By.id("databaseConnectionForm:databaseConnectionsTable"))
             .firstColumnShouldBe(sizeGreaterThan(0));
     new Table(By.id("databaseExecHistoryForm:databaseExecHistoryTable"))

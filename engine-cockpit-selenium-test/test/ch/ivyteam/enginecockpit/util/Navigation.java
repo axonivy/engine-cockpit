@@ -196,7 +196,7 @@ public class Navigation {
   public static void toDatabaseDetail(String databaseName) {
     Navigation.toDatabases();
     $$(Tab.APP.activePanelCss + " .database-name").find(text(databaseName)).shouldBe(visible).click();
-    assertCurrentUrlContains("databasedetail.xhtml?databaseName=" + databaseName);
+    assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&name=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
 
@@ -209,7 +209,7 @@ public class Navigation {
   public static void toRestClientDetail(String restClientName) {
     Navigation.toRestClients();
     $$(Tab.APP.activePanelCss + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
-    assertCurrentUrlContains("restclientdetail.xhtml?restClientName=" + restClientName);
+    assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&name=" + restClientName);
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
   }
 
@@ -222,7 +222,7 @@ public class Navigation {
   public static void toWebserviceDetail(String webserviceName) {
     Navigation.toWebservices();
     $$(Tab.APP.activePanelCss + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
-    assertCurrentUrlContains("webservicedetail.xhtml?webserviceId=");
+    assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&id=");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
   }
 

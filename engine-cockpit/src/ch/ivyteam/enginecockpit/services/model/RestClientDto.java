@@ -42,6 +42,10 @@ public class RestClientDto implements IService {
     return name;
   }
 
+  public String getViewUrl(String app, String env) {
+    return "restclientdetail.xhtml?app=" + app + "&env=" + env + "&name=" + name;
+  }
+
   public String getUrl() {
     return url;
   }
