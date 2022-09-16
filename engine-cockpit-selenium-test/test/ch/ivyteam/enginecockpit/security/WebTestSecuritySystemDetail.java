@@ -193,6 +193,7 @@ public class WebTestSecuritySystemDetail {
   @Test
   void provider() {
     Navigation.toSecuritySystemDetail("default");
+    PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectedItemShould(exactText("Ivy Security System"));
 
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectItemByLabel("Microsoft Active Directory");
     $(CHANGE_PROVIDER_DIALOG).shouldBe(visible);

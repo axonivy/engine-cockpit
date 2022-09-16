@@ -51,6 +51,9 @@ public class SecurityProviderBean {
             .orElseThrow();
 
     provider = getConfiguration(ConfigKey.PROVIDER);
+    if (StringUtils.isBlank(provider)) { 
+      provider = ISecurityConstants.IVY_ENGINE_SECURITY_SYSTEM_PROVIDER_NAME;
+    }
     onScheduleEnabled = getInitBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED,
             securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED));
     onScheduleTime = getConfiguration(ConfigKey.ON_SCHEDULE_TIME);
