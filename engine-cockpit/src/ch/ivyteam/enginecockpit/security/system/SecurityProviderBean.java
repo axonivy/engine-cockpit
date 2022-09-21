@@ -51,7 +51,7 @@ public class SecurityProviderBean {
             .orElseThrow();
 
     provider = getConfiguration(ConfigKey.PROVIDER);
-    if (StringUtils.isBlank(provider)) { 
+    if (StringUtils.isBlank(provider)) {
       provider = ISecurityConstants.IVY_ENGINE_SECURITY_SYSTEM_PROVIDER_NAME;
     }
     onScheduleEnabled = getInitBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED,
@@ -122,8 +122,7 @@ public class SecurityProviderBean {
 
     if (! StringUtils.isEmpty(provider) && (! StringUtils.equals(provider, securitySystem.getSecuritySystemProviderId()))) {
       var context = (SecurityContext) securitySystem.getSecurityContext();
-      var key = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create("SecuritySystems").append(securitySystem.getSecuritySystemName());
-      IConfiguration.instance().remove(key);
+      deleteProvider();
       context.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, provider);
     }
     setConfiguration(ConfigKey.ON_SCHEDULE_ENABLED,
@@ -141,6 +140,25 @@ public class SecurityProviderBean {
 
     var msg = new FacesMessage("Security System Identity Provider saved");
     FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess", msg);
+  }
+
+  /**
+   * Deleting all root keys of known identity providers.
+   * Later we have these settings in an own sub-node and we only need to delete the sub-node.
+   */
+  private void deleteProvider() {
+    var key = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create("SecuritySystems").append(securitySystem.getSecuritySystemName());
+    var cfg = IConfiguration.instance();
+    cfg.remove(key.append(ISecurityConstants.PROVIDER_CONFIG_KEY));
+    cfg.remove(key.append("Connection"));
+    cfg.remove(key.append("Binding"));
+    cfg.remove(key.append("UserAttribute"));
+    cfg.remove(key.append("Membership"));
+    cfg.remove(key.append("PageSize"));
+    cfg.remove(key.append("TenantId"));
+    cfg.remove(key.append("ClientId"));
+    cfg.remove(key.append("ClientSecret"));
+    cfg.remove(key.append("GroupFilter"));
   }
 
   private boolean validateUpdateTime() {
