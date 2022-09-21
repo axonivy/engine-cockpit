@@ -47,6 +47,10 @@ public class User {
     setRealPassword(admin.getPassword());
   }
 
+  public String getViewUrl(String securitySystem) {
+    return "userdetail.xhtml?system=" + securitySystem + "&name=" + name;
+  }
+
   public String getName() {
     return name;
   }

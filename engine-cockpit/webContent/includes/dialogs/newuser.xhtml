@@ -10,27 +10,27 @@
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="newUserNameInput" value="Name" />
       <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="newUserNameInput" requiredMessage="Value is required" value="#{userDetailBean.user.name}"
+        <p:inputText id="newUserNameInput" requiredMessage="Value is required" value="#{userBean.newUser.name}"
           required="true" />
         <p:message for="newUserNameInput" id="newUserNameMessage" />
       </h:panelGroup>
 
       <p:outputLabel for="fullName" value="Full Name" />
-      <p:inputText id="fullName" value="#{userDetailBean.user.fullName}" />
+      <p:inputText id="fullName" value="#{userBean.newUser.fullName}" />
 
       <p:outputLabel for="email" value="E-Mail Address" />
-      <p:inputText id="email" value="#{userDetailBean.user.email}" />
+      <p:inputText id="email" value="#{userBean.newUser.email}" />
 
       <p:outputLabel for="password1" value="Password" />
       <p:password id="password1" widgetVar="password1" validatorMessage="Password didn't match" match="password2"
-        value="#{userDetailBean.user.password}" feedback="true" inline="true" />
+        value="#{userBean.newUser.password}" feedback="true" inline="true" />
 
       <p:outputLabel for="password2" value="Confirm Password" />
-      <p:password id="password2" widgetVar="password2" value="#{userDetailBean.user.password}" feedback="true"
+      <p:password id="password2" widgetVar="password2" value="#{userBean.newUser.password}" feedback="true"
         inline="true" />
     </p:panelGrid>
     <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update="securitySystems"
-      action="#{userDetailBean.creatNewUser}" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
+      action="#{userBean.newUser.creatNewUser}" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
     <p:commandButton id="cancelNewUser" onclick="PF('newUserModal').hide();" value="Cancel" type="button"
       styleClass="ui-button-secondary ui-button-flat modal-input-button" />
   </h:form>

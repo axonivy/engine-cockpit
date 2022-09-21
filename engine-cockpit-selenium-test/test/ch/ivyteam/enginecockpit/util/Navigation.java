@@ -155,9 +155,13 @@ public class Navigation {
   }
 
   public static void toUserDetail(String userName) {
+    toUserDetail("default", userName);
+  }
+
+  public static void toUserDetail(String system, String userName) {
     Navigation.toUsers();
     $$(Tab.SECURITY_SYSTEM.activePanelCss + " .user-name").find(text(userName)).shouldBe(visible).click();
-    assertCurrentUrlContains("userdetail.xhtml?userName=" + userName);
+    assertCurrentUrlContains("userdetail.xhtml?system=" + system + "&name=" + userName);
     menuShouldBeActive(SECURITY_USER_MENU);
   }
 
@@ -168,10 +172,14 @@ public class Navigation {
   }
 
   public static void toRoleDetail(String roleName) {
+    toRoleDetail("default", roleName);
+  }
+
+  public static void toRoleDetail(String system, String roleName) {
     Navigation.toRoles();
     $(Tab.SECURITY_SYSTEM.activePanelCss + " .expand-all").shouldBe(visible).click();
     $$(Tab.SECURITY_SYSTEM.activePanelCss + " .role-name").find(text(roleName)).shouldBe(visible).click();
-    assertCurrentUrlContains("roledetail.xhtml?roleName=" + roleName);
+    assertCurrentUrlContains("roledetail.xhtml?system="+system+"&name=" + roleName);
     menuShouldBeActive(SECURITY_ROLES_MENU);
   }
 

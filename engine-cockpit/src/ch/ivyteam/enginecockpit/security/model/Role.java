@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.IRole;
@@ -28,6 +30,16 @@ public class Role {
   public Role(IRole role, boolean member) {
     this(role);
     this.member = member;
+  }
+
+  public String getViewUrl(String securitySystem) {
+    return uri(securitySystem).build().toASCIIString();
+  }
+
+  public UriBuilder uri(String securitySystem) {
+    return UriBuilder.fromPath("roledetail.xhtml")
+            .queryParam("system", securitySystem)
+            .queryParam("name", name);
   }
 
   public String getName() {

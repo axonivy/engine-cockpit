@@ -18,7 +18,7 @@
           onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
           styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="deleteRoleConfirmDialog"
-          message="Are you sure you want to delete the role '#{roleDetailBean.roleName}'?" header="Delete Role" severity="alert"
+          message="Are you sure you want to delete the role '#{roleDetailBean.name}'?" header="Delete Role" severity="alert"
           widgetVar="deleteRoleConfirmDialog">
           <p:commandButton value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
@@ -47,7 +47,7 @@
         <p:commandButton id="browseExternalName" icon="si si-network-browser" title="Browse"
           actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:ldapBrowserDialog"
           oncomplete="PF('ldapBrowserDialog').show();"
-          disabled="#{roleDetailBean.role.name eq 'Everybody' or !managerBean.jndiSecuritySystem}" />
+          disabled="#{roleDetailBean.ldapBrowserDisabled}" />
       </h:panelGroup>
     </p:panelGrid>
   </h:form>

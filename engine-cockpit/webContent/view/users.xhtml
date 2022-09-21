@@ -43,7 +43,7 @@
           <ui:include src="../includes/components/security/users-table.xhtml" />
         </cc:SecuritySystemTabs>
         <ui:include src="../includes/dialogs/newuser.xhtml" />
-        <ui:include src="../includes/dialogs/synchuser.xhtml" />
+        <cc:UserSynch id="userSynch" userSynch="#{userBean.userSynch}" />
       </div>
     </ui:define>
   </ui:composition>

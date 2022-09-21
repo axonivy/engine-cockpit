@@ -1,33 +1,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-
-<p:dialog style="min-width: 400px;" header="Synchronize Single User" id="synchUserModal" widgetVar="synchUserModal"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+  <cc:attribute name="userSynch" required="true" type="ch.ivyteam.enginecockpit.security.UserSynch" />
+</cc:interface>
+<cc:implementation>
+  <p:dialog style="min-width: 400px;" header="Synchronize Single User" id="synchUserModal" widgetVar="synchUserModal"
   modal="true" responsive="true" closable="false">
 
   <h:form id="synchUserForm">
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
-      styleClass="grey-label-panel ui-fluid">
+    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="userSynchName" value="User Name" />
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required"
-          value="#{userDetailBean.userSynchName}" disabled="#{not empty userDetailBean.userName}" />
+          value="#{cc.attrs.userSynch.userName}" disabled="#{cc.attrs.userSynch.preconfigured}" />
         <p:message for="userSynchName" id="userNameMessage" />
       </h:panelGroup>
     </p:panelGrid>
-    
+
     <h:panelGroup id="logViewer" layout="block" style="max-width: 400px; max-height: 600px; overflow-y: auto;">
-      <pre>#{userDetailBean.synchLog}</pre>
+      <pre>#{cc.attrs.userSynch.log}</pre>
     </h:panelGroup>
 
-    <p:commandButton id="synchUserVar" validateClient="true" actionListener="#{userDetailBean.synchUser}" value="Synch"
+    <p:commandButton id="synchUserVar" validateClient="true" actionListener="#{cc.attrs.userSynch.synch}" value="Synch"
       icon="si si-button-refresh-arrows" styleClass="modal-input-button" update="@form" />
-    <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{userDetailBean.resetSynchInfo}"
+
+    <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{cc.attrs.userSynch.reset}"
       styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true">
-      <p:resetInput target=":synchUserForm" />
+      <p:resetInput target="@form" />
     </p:commandButton>
   </h:form>
 </p:dialog>
+</cc:implementation>
 
 </html>

@@ -7,20 +7,18 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
+import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.services.model.EmailSettings;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.email.EmailNotificationConfigurator;
-import ch.ivyteam.ivy.security.synch.UserSynchResult.SynchStatus;
-import ch.ivyteam.ivy.security.user.NewUser;
 import ch.ivyteam.ivy.workflow.TaskState;
 import ch.ivyteam.ivy.workflow.query.CaseQuery;
 import ch.ivyteam.ivy.workflow.query.TaskQuery;
@@ -33,45 +31,60 @@ public class UserDetailBean {
   private User user;
   private EmailSettings emailSettings;
   private MemberProperty userProperties;
-  private String userSynchName;
-  private String synchLog;
 
   private List<Role> filteredRoles;
 
-  private ManagerBean managerBean;
   private String securitySystemName;
+  private ISecurityContext securityContext;
   private long canWorkOn;
   private long personalTasks;
   private long startedCases;
   private long workingOn;
   private RoleDataModel roleDataModel;
 
+  private UserSynch userSynch;
+
   public UserDetailBean() {
-    managerBean = ManagerBean.instance();
-    user = new User();
     userProperties = new MemberProperty().new UserProperty();
   }
 
-  public String getUserName() {
+  public UserSynch getUserSynch() {
+    return userSynch;
+  }
+
+  public String getSecuritySystem() {
+    return securitySystemName;
+  }
+
+  public void setSecuritySystem(String securitySystem) {
+    this.securitySystemName = securitySystem;
+  }
+
+  public String getName() {
     return userName;
   }
 
-  public void setUserName(String userName) {
+  public void setName(String userName) {
     this.userName = userName;
   }
 
   public void onload() {
-    var iUser = getSecurityContext().users().find(userName);
+    securityContext = ISecurityContextRepository.instance().get(securitySystemName);
+    if (securityContext == null) {
+      ResponseHelper.notFound("Security System '" + securitySystemName + "' not found");
+      return;
+    }
+
+    var iUser = securityContext.users().find(userName);
     if (iUser == null) {
       ResponseHelper.notFound("User '" + userName + "' not found");
       return;
     }
 
-    this.userSynchName = userName;
+    userSynch = new UserSynch(securityContext, userName);
     this.user = new User(iUser);
-    this.emailSettings = new EmailSettings(iUser, new EmailNotificationConfigurator(getSecurityContext()).settings());
-    this.securitySystemName = managerBean.getSelectedSecuritySystem().getSecuritySystemName();
-    roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), false);
+    this.emailSettings = new EmailSettings(iUser, new EmailNotificationConfigurator(securityContext).settings());
+    roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false);
     startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId()
             .isEqual(iUser.getSecurityMemberId()).executor().count();
     workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
@@ -86,46 +99,12 @@ public class UserDetailBean {
     canWorkOn = TaskQuery.create().where().canWorkOn(iUser).executor().count();
   }
 
-  public String getUserSynchName() {
-    return userSynchName;
-  }
-
-  public void setUserSynchName(String userName) {
-    this.userSynchName = userName;
-  }
-
-  public void resetSynchInfo() {
-    if (StringUtils.isEmpty(userName)) {
-      this.userSynchName = null;
-    }
-    this.synchLog = null;
-  }
-
   public User getUser() {
     return user;
   }
 
   public EmailSettings getEmailSettings() {
     return emailSettings;
-  }
-
-  public String creatNewUser() {
-    var newUser = NewUser
-            .create(user.getName())
-            .fullName(user.getFullName())
-            .password(user.getPassword())
-            .mailAddress(user.getEmail())
-            .toNewUser();
-    try {
-      getSecurityContext().users().create(newUser);
-      FacesContext.getCurrentInstance().addMessage("msgs",
-              new FacesMessage("User '" + newUser.getName() + "' created successfully", ""));
-    } catch (Exception ex) {
-      FacesContext.getCurrentInstance().addMessage("msgs",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                      "User '" + newUser.getName() + "' couldn't be created", ex.getMessage()));
-    }
-    return "users.xhtml";
   }
 
   public void saveUserInfos() {
@@ -141,20 +120,8 @@ public class UserDetailBean {
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);
   }
 
-  public void synchUser() {
-    var synchResult = getSecurityContext().synchronizeUser(userSynchName);
-    if (synchResult.getStatus() == SynchStatus.SUCCESS) {
-      user = new User(synchResult.getUser());
-    }
-    synchLog = synchResult.getSynchLog();
-  }
-
-  public String getSynchLog() {
-    return synchLog;
-  }
-
   public String deleteSelectedUser() {
-    getSecurityContext().users().delete(userName);
+    securityContext.users().delete(userName);
     return "users.xhtml?faces-redirect=true";
   }
 
@@ -193,12 +160,12 @@ public class UserDetailBean {
   }
 
   public void removeRole(String roleName) {
-    getIUser().removeRole(getSecurityContext().roles().find(roleName));
+    getIUser().removeRole(securityContext.roles().find(roleName));
   }
 
   public void addRole(String roleName) {
     try {
-      getIUser().addRole(getSecurityContext().roles().find(roleName));
+      getIUser().addRole(securityContext.roles().find(roleName));
     } catch (Exception e) {
       FacesContext.getCurrentInstance().addMessage("roleMessage",
               new FacesMessage("User already member of this role"));
@@ -214,11 +181,7 @@ public class UserDetailBean {
   }
 
   private IUser getIUser() {
-    return getSecurityContext().users().find(userName);
-  }
-
-  public ISecurityContext getSecurityContext() {
-    return managerBean.getSelectedSecuritySystem().getSecurityContext();
+    return securityContext.users().find(userName);
   }
 
   public MemberProperty getMemberProperty() {
@@ -228,7 +191,7 @@ public class UserDetailBean {
   public String userDeleteHint() {
     var message = "";
     if (personalTasks != 0) {
-      message += "The user '" + getUserName() + "' has " + getPersonalTasks() + " personal tasks. "
+      message += "The user '" + userName + "' has " + getPersonalTasks() + " personal tasks. "
               + "If you delete this user, no other user can work on these tasks. ";
     }
     return message
@@ -240,18 +203,26 @@ public class UserDetailBean {
   }
 
   public String getCanWorkOn() {
-    return managerBean.formatNumber(canWorkOn);
+    return ManagerBean.instance().formatNumber(canWorkOn);
   }
 
   public String getPersonalTasks() {
-    return managerBean.formatNumber(personalTasks);
+    return ManagerBean.instance().formatNumber(personalTasks);
   }
 
   public String getStartedCases() {
-    return managerBean.formatNumber(startedCases);
+    return ManagerBean.instance().formatNumber(startedCases);
   }
 
   public String getWorkingOn() {
-    return managerBean.formatNumber(workingOn);
+    return ManagerBean.instance().formatNumber(workingOn);
+  }
+
+  public ISecurityContext getSecurityContext() {
+    return securityContext;
+  }
+
+  public boolean isIvySecuritySystem() {
+    return ManagerBean.isIvySecuritySystem(new SecuritySystem(securityContext));
   }
 }

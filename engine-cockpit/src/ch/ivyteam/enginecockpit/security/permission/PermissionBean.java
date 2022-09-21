@@ -13,11 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.commons.TreeView;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.security.IPermission;
 import ch.ivyteam.ivy.security.IPermissionGroup;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityDescriptor;
 import ch.ivyteam.ivy.security.ISecurityMember;
 import ch.ivyteam.ivy.security.internal.SecurityContext;
@@ -26,14 +27,20 @@ import ch.ivyteam.ivy.security.internal.SecurityContext;
 @ManagedBean
 @ViewScoped
 public class PermissionBean extends TreeView<AbstractPermission> {
+
+  private String securitySystemName;
+  private String member;
+  private SecurityContext securityContext;
+
   private Map<Long, Permission> permissionMap;
   private Map<Long, PermissionGroup> permissionGroupMap;
-  private String member;
 
-  private ManagerBean managerBean;
+  public String getSecuritySystem() {
+    return securitySystemName;
+  }
 
-  public PermissionBean() {
-    managerBean = ManagerBean.instance();
+  public void setSecuritySystem(String securitySystemName) {
+    this.securitySystemName = securitySystemName;
   }
 
   public String getMember() {
@@ -42,7 +49,6 @@ public class PermissionBean extends TreeView<AbstractPermission> {
 
   public void setMember(String member) {
     this.member = URLDecoder.decode(member, StandardCharsets.UTF_8);
-    reloadTree();
   }
 
   public String getUserMember() {
@@ -53,16 +59,23 @@ public class PermissionBean extends TreeView<AbstractPermission> {
     setMember("#" + member);
   }
 
+  public void onload() {
+    securityContext = (SecurityContext) ISecurityContextRepository.instance().get(securitySystemName);
+    if (securityContext == null) {
+      ResponseHelper.notFound("Security System '" + securitySystemName + "' not found");
+      return;
+    }
+    reloadTree();
+  }
+
   @Override
   protected void buildTree() {
     permissionMap = new HashMap<>();
     permissionGroupMap = new HashMap<>();
     var iMember = getSecurityMember();
     var securityDescriptor = getSecurityDescriptor();
-    var rootPermissionGroup = securityDescriptor.getSecurityDescriptorType()
-            .getRootPermissionGroup();
-    var permission = new PermissionGroup(
-            securityDescriptor.getPermissionGroupAccess(rootPermissionGroup, iMember), "", this);
+    var rootPermissionGroup = securityDescriptor.getSecurityDescriptorType().getRootPermissionGroup();
+    var permission = new PermissionGroup(securityDescriptor.getPermissionGroupAccess(rootPermissionGroup, iMember), "", this);
     var node = new DefaultTreeNode<AbstractPermission>(permission, rootTreeNode);
     permissionGroupMap.put(permission.getId(), permission);
     node.setExpanded(true);
@@ -113,8 +126,7 @@ public class PermissionBean extends TreeView<AbstractPermission> {
   }
 
   private void reSetPermissionGroup(IPermissionGroup iPermissionGroup) {
-    var permissionGroupAccess = getSecurityDescriptor()
-            .getPermissionGroupAccess(iPermissionGroup, getSecurityMember());
+    var permissionGroupAccess = getSecurityDescriptor().getPermissionGroupAccess(iPermissionGroup, getSecurityMember());
     var permissionGroup = permissionGroupMap.get(iPermissionGroup.getId());
     permissionGroup.setDeny(permissionGroupAccess.isDeniedAllPermissions());
     permissionGroup.setGrant(permissionGroupAccess.isGrantedAllPermissions());
@@ -136,12 +148,10 @@ public class PermissionBean extends TreeView<AbstractPermission> {
   }
 
   public ISecurityDescriptor getSecurityDescriptor() {
-    var securityContext = (SecurityContext) managerBean.getSelectedSecuritySystem().getSecurityContext();
-    return ISystemDatabasePersistencyService.instance().transaction()
-      .executeAndGet(tx -> securityContext.getSecurityDescriptor(tx));
+    return ISystemDatabasePersistencyService.instance().transaction().executeAndGet(tx -> securityContext.getSecurityDescriptor(tx));
   }
 
   public ISecurityMember getSecurityMember() {
-    return managerBean.getSelectedSecuritySystem().getSecurityContext().members().find(member);
+    return securityContext.members().find(member);
   }
 }

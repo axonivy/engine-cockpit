@@ -81,7 +81,7 @@ class WebTestUsers {
     table.search("manu");
     table.firstColumnShouldBe(sizeLessThanOrEqual(1));
 
-    Navigation.toUserDetail("manual");
+    Navigation.toUserDetail("test-ad", "manual");
     $("#userInformationForm\\:deleteUser").shouldBe(visible).click();
     $("#userInformationForm\\:deleteUserConfirmYesBtn").shouldBe(visible).click();
   }
@@ -207,9 +207,9 @@ class WebTestUsers {
   @Test
   void synchronizeSingleUser() {
     showSynchUserDialog();
-    $("#synchUserForm\\:userSynchName").shouldBe(exactValue("")).sendKeys("user1");
-    $("#synchUserForm\\:synchUserVar").click();
-    $("#synchUserForm\\:logViewer").shouldBe(text("INFO: Synchronization of user"), Duration.ofSeconds(10));
+    $("#userSynch\\:synchUserForm\\:userSynchName").shouldBe(exactValue("")).sendKeys("user1");
+    $("#userSynch\\:synchUserForm\\:synchUserVar").click();
+    $("#userSynch\\:synchUserForm\\:logViewer").shouldBe(text("INFO: Synchronization of user"), Duration.ofSeconds(10));
   }
 
   @Test
@@ -234,7 +234,7 @@ class WebTestUsers {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     $("#form\\:syncMoreBtn_menuButton").click();
     $("#form\\:synchUserBtn").shouldBe(visible).click();
-    $("#synchUserForm").shouldBe(visible);
+    $("#userSynch\\:synchUserForm").shouldBe(visible);
   }
 
   private void showNewUserDialog() {
