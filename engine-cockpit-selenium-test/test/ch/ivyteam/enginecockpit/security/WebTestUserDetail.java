@@ -59,7 +59,7 @@ class WebTestUserDetail {
   @Test
   void usersDetailOpen() {
     Navigation.toUserDetail(USER_FOO);
-    assertCurrentUrlContains("userdetail.xhtml?userName=" + USER_FOO);
+    assertCurrentUrlContains("userdetail.xhtml?system=default&name=" + USER_FOO);
   }
 
   @Test
@@ -243,14 +243,13 @@ class WebTestUserDetail {
   @Test
   void synchronizeUser() {
     WebTestUsers.triggerSync();
-
-    Navigation.toUserDetail(USER_AD);
+    Navigation.toUserDetail("test-ad", USER_AD);
     checkUserIsExternal();
     $("#userInformationForm\\:userSynchBtn").click();
-    $("#synchUserForm").shouldBe(visible);
-    $("#synchUserForm\\:userSynchName").shouldBe(disabled, value(USER_AD));
-    $("#synchUserForm\\:synchUserVar").click();
-    $("#synchUserForm\\:logViewer").shouldHave(text("INFO: Synchronization of user"));
+    $("#userSynch\\:synchUserForm").shouldBe(visible);
+    $("#userSynch\\:synchUserForm\\:userSynchName").shouldBe(disabled, value(USER_AD));
+    $("#userSynch\\:synchUserForm\\:synchUserVar").click();
+    $("#userSynch\\:synchUserForm\\:logViewer").shouldHave(text("INFO: Synchronization of user"));
   }
 
   @Test
@@ -258,10 +257,10 @@ class WebTestUserDetail {
     Navigation.toUserDetail(USER_FOO);
     Table table = new Table(By.id("rolesOfUserForm:rolesTree"), true);
     table.firstColumnShouldBe(sizeGreaterThan(3));
-    table.firstColumnShouldBe(sizeLessThan(6));
+    table.firstColumnShouldBe(sizeLessThan(7));
     $("#rolesOfUserForm\\:rolesTree\\:expandAll").shouldBe(visible).click();
     table.firstColumnShouldBe(sizeGreaterThan(3));
-    table.firstColumnShouldBe(sizeLessThan(6));
+    table.firstColumnShouldBe(sizeLessThan(7));
     $("#rolesOfUserForm\\:rolesTree\\:collapseAll").shouldBe(visible).click();
     table.firstColumnShouldBe(size(1));
   }

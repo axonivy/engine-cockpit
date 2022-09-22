@@ -39,12 +39,12 @@
       
       <p:column headerText="All Roles" sortBy="#{role.name}">
         <p:treeNode type="role" rendered="#{node.type == 'role'}">
-          <a href="roledetail.xhtml?roleName=#{role.name}">
+          <a href="#{role.getViewUrl(userDetaiBean.securitySystem)}">
             <h:outputText value="#{role.name}" styleClass="role-name">
               <i class="si si-multiple-neutral-1 table-icon"></i>
             </h:outputText>
             <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
-            <h:panelGroup rendered="#{role.managed and !managerBean.ivySecuritySystemForSelectedSecuritySystem}">
+            <h:panelGroup rendered="#{role.managed and !userDetailBean.ivySecuritySystem}">
               <i class="si si-button-refresh-arrows table-icon" title="Role is managed by the external security system"></i>
             </h:panelGroup>
           </a>
@@ -74,11 +74,11 @@
         <h:panelGroup rendered="#{node.type == 'role'}">
           <p:commandButton id="addRoleToUserBtn" update="@form" actionListener="#{userDetailBean.addRole(role.name)}"
             icon="si si-add" title="Add" styleClass="rounded-button"
-            disabled="#{role.name == 'Everybody' or isUserDirectMember or role.managed and !managerBean.ivySecuritySystemForSelectedSecuritySystem}" />
+            disabled="#{role.name == 'Everybody' or isUserDirectMember or role.managed and !userDetailBean.ivySecuritySystem}" />
           <p:commandButton id="removeRoleFromUserBtn" update="@form"
             actionListener="#{userDetailBean.removeRole(role.name)}" icon="si si-subtract" title="Remove"
             styleClass="p-ml-1 ui-button-secondary rounded-button"
-            disabled="#{role.name == 'Everybody' or !isUserDirectMember or role.managed and !managerBean.ivySecuritySystemForSelectedSecuritySystem}" />
+            disabled="#{role.name == 'Everybody' or !isUserDirectMember or role.managed and !userDetailBean.ivySecuritySystem}" />
         </h:panelGroup>
       </p:column>
     </p:treeTable>

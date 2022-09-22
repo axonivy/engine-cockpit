@@ -9,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,6 +17,7 @@ import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
+import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
 import ch.ivyteam.enginecockpit.security.system.SecurityLdapBean;
@@ -25,6 +25,7 @@ import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.query.UserQuery;
 import ch.ivyteam.ivy.security.role.NewRole;
 import ch.ivyteam.ivy.workflow.TaskState;
@@ -33,6 +34,9 @@ import ch.ivyteam.ivy.workflow.query.TaskQuery;
 @ManagedBean
 @ViewScoped
 public class RoleDetailBean {
+
+  private String securitySystemName;
+  private ISecurityContext securityContext;
 
   private String roleName;
   private String newChildRoleName;
@@ -47,46 +51,53 @@ public class RoleDetailBean {
 
   private MemberProperty roleProperties;
 
-  private ManagerBean managerBean;
   private LdapBrowser ldapBrowser;
   private long userCount;
   private long runningTaskCount;
   private long directTaskCount;
   private long userInheritCont;
 
-  public RoleDetailBean() {
-    managerBean = ManagerBean.instance();
-    roleProperties = new MemberProperty().new RoleProperty();
-    usersOfRole = new UserDataModel(managerBean.getSelectedSecuritySystem());
-    ldapBrowser = new LdapBrowser();
+  public String getSecuritySystem() {
+    return securitySystemName;
   }
 
-  public String getRoleName() {
+  public void setSecuritySystem(String securitySystemName) {
+    this.securitySystemName = securitySystemName;
+  }
+
+  public String getName() {
     return roleName;
   }
 
-  public void setRoleName(String roleName) {
+  public void setName(String roleName) {
     this.roleName = URLDecoder.decode(roleName, StandardCharsets.UTF_8);
   }
 
   public void onload() {
-    var iRole = getSecurityContext().roles().find(roleName);
+    securityContext = ISecurityContextRepository.instance().get(securitySystemName);
+    if (securityContext == null) {
+      ResponseHelper.notFound("Security System '" + securitySystemName + "' not found");
+      return;
+    }
+    var securitySystem = new SecuritySystem(securityContext);
+    roleProperties = new MemberProperty().new RoleProperty();
+    usersOfRole = new UserDataModel(securitySystem);
+    ldapBrowser = new LdapBrowser();
+
+    var iRole = securityContext.roles().find(roleName);
     if (iRole == null) {
       ResponseHelper.notFound("Role '" + roleName + "' not found");
       return;
     }
 
     this.role = new Role(iRole);
-    var securitySystem = managerBean.getSelectedSecuritySystem();
     this.usersOfRole.setSecuritySystem(securitySystem);
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
     this.roleDataModel = new RoleDataModel(securitySystem, false);
     loadMembersOfRole();
-    userCount = securitySystem.getSecurityContext().users().query().where()
-            .hasRoleAssigned(iRole).executor().count();
-    userInheritCont = securitySystem.getSecurityContext().users().query().where()
-            .hasRole(iRole).executor().count();
+    userCount = securityContext.users().query().where().hasRoleAssigned(iRole).executor().count();
+    userInheritCont = securityContext.users().query().where().hasRole(iRole).executor().count();
     runningTaskCount = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.RESUMED)
             .or().state().isEqual(TaskState.PARKED)
@@ -130,7 +141,7 @@ public class RoleDetailBean {
       var newRole = NewRole.create(newChildRoleName)
               .parentRole(getIRole())
               .toNewRole();
-      getSecurityContext().roles().create(newRole);
+      securityContext.roles().create(newRole);
       var msg = new FacesMessage("Role '" + newChildRoleName + "' created successfully", "");
       faces.addMessage("msgs", msg);
     } catch (Exception ex) {
@@ -138,8 +149,8 @@ public class RoleDetailBean {
       faces.addMessage("msgs", msg);
       newChildRoleName = roleName;
     }
-    return UriBuilder.fromPath("roledetail.xhtml")
-            .queryParam("roleName", newChildRoleName)
+    return new Role(newChildRoleName)
+            .uri(securitySystemName)
             .queryParam("faces-redirect", "true")
             .build()
             .toASCIIString();
@@ -150,8 +161,8 @@ public class RoleDetailBean {
     iRole.setDisplayDescriptionTemplate(role.getDescription());
     iRole.setDisplayNameTemplate(role.getDisplayName());
     iRole.setExternalName(role.getExternalName());
-    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
-            new FacesMessage("Role information changes saved"));
+    var msg = new FacesMessage("Role information changes saved");
+    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);
   }
 
   public String deleteRole() {
@@ -164,7 +175,7 @@ public class RoleDetailBean {
   }
 
   public void removeUser(String userName) {
-    var user = getSecurityContext().users().find(userName);
+    var user = securityContext.users().find(userName);
     user.removeRole(getIRole());
   }
 
@@ -172,7 +183,7 @@ public class RoleDetailBean {
     if (roleUser == null) {
       return;
     }
-    getSecurityContext().users()
+    securityContext.users()
             .findById(roleUser.getSecurityMemberId())
             .addRole(getIRole());
     roleUser = null;
@@ -205,7 +216,7 @@ public class RoleDetailBean {
             .or()
             .eMailAddress().isLikeIgnoreCase(dbQuery);
 
-    return getSecurityContext().users().query()
+    return securityContext.users().query()
             .where()
             .not(hasRole)
             .and(searchFilter)
@@ -220,7 +231,7 @@ public class RoleDetailBean {
   }
 
   private IRole getIRole(String name) {
-    return getSecurityContext().roles().find(name);
+    return securityContext.roles().find(name);
   }
 
   private void loadMembersOfRole() {
@@ -273,21 +284,17 @@ public class RoleDetailBean {
             .limit(10).collect(Collectors.toList());
   }
 
-  private ISecurityContext getSecurityContext() {
-    return managerBean.getSelectedSecuritySystem().getSecurityContext();
-  }
-
   public MemberProperty getMemberProperty() {
     return roleProperties;
   }
 
   public boolean isManaged() {
-    return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getRoleName()) || (!managerBean.isIvySecuritySystemForSelectedSecuritySystem() && getRole().isManaged());
+    return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getName()) || (!ManagerBean.isIvySecuritySystem(new SecuritySystem(securityContext)) && getRole().isManaged());
   }
 
   public void browseLdap() {
     var secBean = new SecurityLdapBean();
-    secBean.setSecuritySystemName(managerBean.getSelectedSecuritySystem().getSecuritySystemName());
+    secBean.setSecuritySystemName(securityContext.getName());
     ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
   }
 
@@ -300,18 +307,26 @@ public class RoleDetailBean {
   }
 
   public String getUserCount() {
-    return managerBean.formatNumber(userCount);
+    return ManagerBean.instance().formatNumber(userCount);
   }
 
   public String getUserInheritCount() {
-    return managerBean.formatNumber(userInheritCont);
+    return ManagerBean.instance().formatNumber(userInheritCont);
   }
 
   public String getRunningTaskCount() {
-    return managerBean.formatNumber(runningTaskCount);
+    return ManagerBean.instance().formatNumber(runningTaskCount);
   }
 
   public String getDirectTaskCount() {
-    return managerBean.formatNumber(directTaskCount);
+    return ManagerBean.instance().formatNumber(directTaskCount);
+  }
+
+  public boolean isLdapBrowserDisabled() {
+    return isRootRole() || !ManagerBean.isJndiSecuritySystem(new SecuritySystem(securityContext));
+  }
+
+  private boolean isRootRole() {
+    return getIRole().getParent() == null;
   }
 }

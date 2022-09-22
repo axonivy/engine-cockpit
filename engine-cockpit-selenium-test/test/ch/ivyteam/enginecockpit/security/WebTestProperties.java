@@ -41,8 +41,7 @@ class WebTestProperties {
   void userADSyncProperties() {
     Navigation.toUsers();
     WebTestUsers.triggerSync();
-
-    Navigation.toUserDetail("user1");
+    Navigation.toUserDetail("test-ad", "user1");
     assertTableHasDirectoryProperty("Address", "Baarerstrasse 12");
   }
 
@@ -77,7 +76,7 @@ class WebTestProperties {
     @BeforeEach
     void beforeEach() {
       login();
-      Navigation.toRoleDetail("boss");
+      Navigation.toRoleDetail("test-ad", "boss");
       openAddPropertyModal();
     }
 

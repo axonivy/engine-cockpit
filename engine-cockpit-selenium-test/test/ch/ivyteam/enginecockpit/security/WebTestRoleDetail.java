@@ -44,7 +44,7 @@ class WebTestRoleDetail {
 
   @Test
   void roleDetailOpen() {
-    assertCurrentUrlContains("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
+    assertCurrentUrlContains("roledetail.xhtml?system=default&name=" + DETAIL_ROLE_NAME);
   }
 
   @Test
@@ -82,7 +82,7 @@ class WebTestRoleDetail {
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
     $("#newChildRoleForm\\:saveNewRole").click();
     $("#msgs_container").should(visible, text("Role '" + newRoleName + "' created successfully"));
-    assertCurrentUrlContains("roledetail.xhtml?roleName=test");
+    assertCurrentUrlContains("roledetail.xhtml?system=default&name=test");
     $("#roleInformationForm\\:name").shouldBe(exactText(newRoleName));
 
     $("#roleInformationForm\\:deleteRole").shouldBe(visible);
@@ -101,7 +101,7 @@ class WebTestRoleDetail {
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(DETAIL_ROLE_NAME);
     $("#newChildRoleForm\\:saveNewRole").click();
     $("#msgs_container").should(visible, text("Role '" + DETAIL_ROLE_NAME + "' couldn't be created"));
-    assertCurrentUrlContains("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
+    assertCurrentUrlContains("roledetail.xhtml?system=default&name=" + DETAIL_ROLE_NAME);
   }
 
   @Test
@@ -232,7 +232,7 @@ class WebTestRoleDetail {
   void externalSecurityName() {
     Navigation.toRoles();
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
 
     new Table(By.id("usersOfRoleForm:roleUserTable"), true).firstColumnShouldBe(size(0));
     $("#roleInformationForm\\:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
@@ -241,7 +241,7 @@ class WebTestRoleDetail {
     Navigation.toRoles();
     WebTestRoles.triggerSync();
 
-    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
 
     checkIfRoleIsExternal();
 
@@ -249,7 +249,7 @@ class WebTestRoleDetail {
     $("#roleInformationForm\\:externalSecurityName").shouldBe(Condition.empty);
     $("#roleInformationForm\\:saveRoleInformation").click();
     Selenide.refresh();
-    assertCurrentUrlContains("roledetail.xhtml?roleName=" + DETAIL_ROLE_NAME);
+    assertCurrentUrlContains("roledetail.xhtml?system=test-ad&name=" + DETAIL_ROLE_NAME);
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn")
             .shouldNotHave(cssClass("ui-state-disabled")).click();
     $("#usersOfRoleForm\\:roleUserTable\\:0\\:removeUserFromRoleBtn")
@@ -273,10 +273,10 @@ class WebTestRoleDetail {
     $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
     Navigation.toRoles();
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    Navigation.toRoleDetail("Everybody");
+    Navigation.toRoleDetail("test-ad", "Everybody");
     $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
     Navigation.toRoles();
-    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
     $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
 
     $(LDAP_BROWSER_DIALOG).shouldBe(visible);
@@ -297,7 +297,7 @@ class WebTestRoleDetail {
   void externalSecurityName_ldapBrowser_initValue() {
     Navigation.toRoles();
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
-    Navigation.toRoleDetail(DETAIL_ROLE_NAME);
+    Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
     $("#roleInformationForm\\:externalSecurityName")
             .sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();

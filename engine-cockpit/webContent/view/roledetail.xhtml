@@ -4,9 +4,13 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="roleName" value="#{roleDetailBean.roleName}" />
-    <f:viewParam name="roleName" value="#{permissionBean.member}" />
+    <f:viewParam name="system" value="#{roleDetailBean.securitySystem}" />
+    <f:viewParam name="name" value="#{roleDetailBean.name}" />
     <f:viewAction action="#{roleDetailBean.onload}" />
+
+    <f:viewParam name="system" value="#{permissionBean.securitySystem}" />
+    <f:viewParam name="name" value="#{permissionBean.member}" />
+    <f:viewAction action="#{permissionBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -16,7 +20,7 @@
       <li>/</li>
       <li><a href="roles.xhtml">Role</a></li>
       <li>/</li>
-      <li><a href="roledetail.xhtml?roleName=#{roleDetailBean.roleName}">#{roleDetailBean.roleName}</a></li>
+      <li><a href="#{roleDetailBean.role.getViewUrl(roleDetailBean.securitySystem)}">#{roleDetailBean.name}</a></li>
       <cc:BreadcrumbInfos renderEnv="false"/>
     </ui:define>
 

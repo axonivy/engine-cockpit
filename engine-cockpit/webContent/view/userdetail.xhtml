@@ -4,10 +4,14 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="userName" value="#{userDetailBean.userName}" />
-    <f:viewParam name="userName" value="#{permissionBean.userMember}" />
-    <f:viewParam name="userName" value="#{userDetailBean.memberProperty.memberName}" />
+    <f:viewParam name="system" value="#{userDetailBean.securitySystem}" />
+    <f:viewParam name="name" value="#{userDetailBean.name}" />
+    <f:viewParam name="name" value="#{userDetailBean.memberProperty.memberName}" />
     <f:viewAction action="#{userDetailBean.onload}" />
+
+    <f:viewParam name="system" value="#{permissionBean.securitySystem}" />
+    <f:viewParam name="name" value="#{permissionBean.userMember}" />
+    <f:viewAction action="#{permissionBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -17,7 +21,7 @@
       <li>/</li>
       <li><a href="users.xhtml">Users</a></li>
       <li>/</li>
-      <li><a href="userdetail.xhtml?userName=#{userDetailBean.userName}">#{userDetailBean.userName}</a></li>
+      <li><a href="#{userDetailBean.user.getViewUrl(userDetailBean.securitySystem)}">#{userDetailBean.name}</a></li>
       <cc:BreadcrumbInfos renderEnv="false" />
     </ui:define>
 
@@ -42,6 +46,7 @@
 
           <div class="p-col-12 p-md-12 p-xl-6">
             <ui:include src="../includes/components/security/userdetail-information.xhtml" />
+            <cc:UserSynch id="userSynch" userSynch="#{userDetailBean.userSynch}" />
           </div>
 
           <div class="p-col-12 p-md-12 p-xl-6">
