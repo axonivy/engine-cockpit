@@ -66,7 +66,8 @@
                       gutters: ["CodeMirror-lint-markers"],
                       lint: true,
                       extraKeys: {
-                        "Ctrl-Space": "autocomplete", Tab: function(cm) {
+                        "Ctrl-Space": "autocomplete", 
+                        Tab: function(cm) {
                           var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
                           cm.replaceSelection(spaces);
                         },
@@ -104,6 +105,9 @@
             </div>
           </p:tab>
         </p:tabView>
+        <script>
+          handleTabChange(0);
+        </script>
         
         <p:dialog style="min-width: 300px;" header="Save #{editorBean.activeConfigFile.fileName}" id="saveEditorModel"
           widgetVar="saveEditorModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
