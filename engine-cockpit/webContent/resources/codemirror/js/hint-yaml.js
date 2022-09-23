@@ -15,7 +15,7 @@ CodeMirror.registerHelper('hint', 'yamlHint', function(editor) {
     var curWord = start !== end && curLine.slice(start, end);
     var regex = new RegExp('^' + curWord, 'i');
     return {
-        list: (!curWord ? [] : yamlHintDirectory.filter(function(item) {
+        list: (!curWord ? yamlHintDirectory : yamlHintDirectory.filter(function(item) {
             return item.match(regex);
         })).sort(),
         from: CodeMirror.Pos(cur.line, start),
