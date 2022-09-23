@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.Locale;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.IUser;
@@ -48,7 +50,11 @@ public class User {
   }
 
   public String getViewUrl(String securitySystem) {
-    return "userdetail.xhtml?system=" + securitySystem + "&name=" + name;
+    return UriBuilder.fromPath("userdetail.xhtml")
+            .queryParam("system", securitySystem)
+            .queryParam("name", name)
+            .build()
+            .toString();
   }
 
   public String getName() {
