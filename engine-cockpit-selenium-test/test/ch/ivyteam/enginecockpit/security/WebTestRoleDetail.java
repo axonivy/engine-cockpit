@@ -81,7 +81,6 @@ class WebTestRoleDetail {
     $("#newChildRoleForm\\:newChildRoleNameInput").clear();
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
     $("#newChildRoleForm\\:saveNewRole").click();
-    $("#msgs_container").should(visible, text("Role '" + newRoleName + "' created successfully"));
     assertCurrentUrlContains("roledetail.xhtml?system=default&name=test");
     $("#roleInformationForm\\:name").shouldBe(exactText(newRoleName));
 
@@ -101,7 +100,6 @@ class WebTestRoleDetail {
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(DETAIL_ROLE_NAME);
     $("#newChildRoleForm\\:saveNewRole").click();
     $("#msgs_container").should(visible, text("Role '" + DETAIL_ROLE_NAME + "' couldn't be created"));
-    assertCurrentUrlContains("roledetail.xhtml?system=default&name=" + DETAIL_ROLE_NAME);
   }
 
   @Test

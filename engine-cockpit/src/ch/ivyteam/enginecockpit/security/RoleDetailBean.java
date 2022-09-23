@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,7 +69,7 @@ public class RoleDetailBean {
   }
 
   public void setName(String roleName) {
-    this.roleName = URLDecoder.decode(roleName, StandardCharsets.UTF_8);
+    this.roleName = roleName;
   }
 
   public void onload() {
@@ -134,7 +133,14 @@ public class RoleDetailBean {
     this.role = role;
   }
 
-  public String createNewChildRole() {
+  public void createNewChildRole() throws IOException {
+    var existingRole = getIRole().findChildRole(newChildRoleName);
+    if (existingRole != null) {
+      var u = new Role(newChildRoleName).getViewUrl(securitySystemName);
+      FacesContext.getCurrentInstance().getExternalContext().redirect(u);
+      return;
+    }
+
     var faces = FacesContext.getCurrentInstance();
     faces.getExternalContext().getFlash().setKeepMessages(true);
     try {
@@ -144,16 +150,13 @@ public class RoleDetailBean {
       securityContext.roles().create(newRole);
       var msg = new FacesMessage("Role '" + newChildRoleName + "' created successfully", "");
       faces.addMessage("msgs", msg);
+      var u = new Role(newChildRoleName).getViewUrl(securitySystemName);
+      faces.getExternalContext().redirect(u);
     } catch (Exception ex) {
       var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role '" + newChildRoleName + "' couldn't be created", ex.getMessage());
       faces.addMessage("msgs", msg);
       newChildRoleName = roleName;
     }
-    return new Role(newChildRoleName)
-            .uri(securitySystemName)
-            .queryParam("faces-redirect", "true")
-            .build()
-            .toASCIIString();
   }
 
   public void saveRoleInfos() {

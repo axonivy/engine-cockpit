@@ -33,13 +33,11 @@ public class Role {
   }
 
   public String getViewUrl(String securitySystem) {
-    return uri(securitySystem).build().toASCIIString();
-  }
-
-  public UriBuilder uri(String securitySystem) {
     return UriBuilder.fromPath("roledetail.xhtml")
             .queryParam("system", securitySystem)
-            .queryParam("name", name);
+            .queryParam("name", name)
+            .build()
+            .toString();
   }
 
   public String getName() {

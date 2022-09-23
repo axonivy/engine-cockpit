@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.security.permission;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -48,11 +46,11 @@ public class PermissionBean extends TreeView<AbstractPermission> {
   }
 
   public void setMember(String member) {
-    this.member = URLDecoder.decode(member, StandardCharsets.UTF_8);
+    this.member = member;
   }
 
   public String getUserMember() {
-    return StringUtils.remove(member, "#");
+    return StringUtils.removeStart(member, "#");
   }
 
   public void setUserMember(String member) {
