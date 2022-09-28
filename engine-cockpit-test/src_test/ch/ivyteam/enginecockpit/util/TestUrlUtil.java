@@ -11,7 +11,7 @@ public class TestUrlUtil {
     assertThat(UrlUtil.getEngineGuideBaseUrl())
             .isEqualTo("https://developer.axonivy.com/doc/dev/engine-guide");
     assertThat(UrlUtil.getCockpitEngineGuideUrl())
-            .isEqualTo("https://developer.axonivy.com/doc/dev/engine-guide/tool-reference/engine-cockpit/");
+            .isEqualTo("https://developer.axonivy.com/doc/dev/engine-guide/reference/engine-cockpit/");
     assertThat(UrlUtil.getDesignerGuideBaseUrl())
             .isEqualTo("https://developer.axonivy.com/doc/dev/designer-guide");
   }

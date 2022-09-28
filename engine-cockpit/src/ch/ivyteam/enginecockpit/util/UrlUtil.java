@@ -30,7 +30,7 @@ public class UrlUtil {
   }
 
   public static String getCockpitEngineGuideUrl() {
-    return getEngineGuideBaseUrl() + "/tool-reference/engine-cockpit/";
+    return getEngineGuideBaseUrl() + "/reference/engine-cockpit/";
   }
 
   public static String getAppBaseUrl(String appName) {
