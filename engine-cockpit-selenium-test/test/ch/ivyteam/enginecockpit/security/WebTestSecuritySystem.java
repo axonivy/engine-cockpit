@@ -44,6 +44,13 @@ class WebTestSecuritySystem {
     $("#newSecuritySystemModal").shouldBe(visible);
     $("#newSecuritySystemForm\\:saveNewSecuritySystem").click();
     $("#newSecuritySystemForm\\:newSecuritySystemNameMessage").shouldBe(text("Value is required"));
+
+    $("#newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("invalid?!");
+    $("#newSecuritySystemForm\\:saveNewSecuritySystem").click();
+    $("#newSecuritySystemForm\\:newSecuritySystemNameMessage").shouldBe(empty);
+    $("#newSecuritySystemModal").shouldNotBe(visible);
+    $("#form\\:msgs_container .ui-growl-message")
+            .shouldHave(text("Security Context Name 'invalid?!' must match pattern"));
   }
 
   @Test

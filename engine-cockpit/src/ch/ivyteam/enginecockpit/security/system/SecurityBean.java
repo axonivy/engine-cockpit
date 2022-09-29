@@ -4,16 +4,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
-import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
+import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.internal.SecurityContext;
 
 @ManagedBean
@@ -105,9 +107,14 @@ public class SecurityBean {
   }
 
   public void createNewSecuritySystem() {
-    var securityContext = (SecurityContext) ISecurityManager.instance().securityContexts().create(newSecuritySystemName);
-    securityContext.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, newSecuritySystemProvider);
-    loadSecuritySystems();
+    try {
+      var securityContext = (SecurityContext) ISecurityManager.instance().securityContexts().create(newSecuritySystemName);
+      securityContext.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, newSecuritySystemProvider);
+      loadSecuritySystems();
+    } catch (IllegalArgumentException ex) {
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+    }
   }
 
   public List<SecuritySystem> getFilteredSystems() {
