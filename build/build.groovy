@@ -2,8 +2,8 @@ def buildCockpit(def phase = 'verify', def testFilter = '') {
   build(phase, testFilter, 'cockpit', '.ivy-engine/logs/*, **/target/*.iar');
 }
 
-def buildScreenshots() {
-  build('verify', '', 'screenshots', '.ivy-engine/logs/*');
+def buildScreenshots(def phase = 'verify') {
+  build(phase, '', 'screenshots', '.ivy-engine/logs/*');
 }
 
 def build(def phase = 'verify', def testFilter = '', def profile = 'cockpit', def artifacts = '') {

@@ -11,7 +11,6 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
-    booleanParam(name: 'forceDeployScreenshots', defaultValue: false, description: 'Force deploy new screenshots')
   }
 
   stages {
@@ -19,15 +18,13 @@ pipeline {
       steps {
         script {
           def common = load 'build/build.groovy'
-          common.buildScreenshots()
+          def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
+          common.buildScreenshots(phase)
         }
       }
     }
 
     stage('verify') {
-      when {
-        expression {return !params.forceDeployScreenshots}
-      }
       steps {
         script {
           def common = load 'build/build.groovy'
@@ -42,21 +39,6 @@ pipeline {
             recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
             qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
             currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
-          }
-        }
-      }
-    }
-
-    stage('deploy') {
-      when {
-        expression {
-          isReleaseOrMasterBranch()
-        }
-      }
-      steps {
-        script {
-          docker.image('maven:3.6.3-jdk-11').inside("${dockerfileParams}") {
-            maven cmd: "deploy -ntp -Pscreenshots"
           }
         }
       }
