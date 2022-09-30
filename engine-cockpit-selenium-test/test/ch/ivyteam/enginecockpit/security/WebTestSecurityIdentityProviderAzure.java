@@ -45,7 +45,7 @@ class WebTestSecurityIdentityProviderAzure {
   }
 
   private void passwordProperty() {
-    var property = $("#securityIdentityProviderForm\\:property\\:1\\:propertyPassword").shouldBe(visible);
+    var property = $("#securityIdentityProviderForm\\:property\\:2\\:propertyPassword").shouldBe(visible);
     property.clear();
     property.sendKeys("clientSecret");
     save();
