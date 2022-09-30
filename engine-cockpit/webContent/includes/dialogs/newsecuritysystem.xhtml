@@ -22,9 +22,9 @@
         </p:selectOneMenu>
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="saveNewSecuritySystem" validateClient="true" ajax="false"
+    <p:commandButton id="saveNewSecuritySystem" validateClient="true" update="form:securitySystemTable, @form"
       actionListener="#{securityBean.createNewSecuritySystem}" value="Save" icon="si si-floppy-disk"
-      styleClass="modal-input-button" />
+      styleClass="modal-input-button" oncomplete="PF('newSecuritySystemModal').hide();" />
     <p:commandButton id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="Cancel"
       type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
   </h:form>
