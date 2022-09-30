@@ -49,3 +49,5 @@ def build(def phase = 'verify', def testFilter = '', def profile = 'cockpit', de
 def dockerFileParams() {
   return '--shm-size 1g --hostname=ivy';
 }
+
+return this
