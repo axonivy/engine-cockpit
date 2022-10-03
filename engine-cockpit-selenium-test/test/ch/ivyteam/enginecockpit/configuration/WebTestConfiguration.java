@@ -136,7 +136,7 @@ class WebTestConfiguration {
       table.clickButtonForEntry(config, "editConfigBtn");
       PrimeUi.selectOne(By.id("config:editConfigurationForm:editConfigurationValue"))
               .selectItemByLabel("SSL");
-      $("#config\\:saveEditConfiguration").click();
+      $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
       table.row(config).shouldNotHave(cssClass("default-value"));
 
       toggleFilter(List.of("Show only defined values"));
@@ -385,7 +385,7 @@ class WebTestConfiguration {
 
     $("#config\\:editConfigurationForm\\:editConfigurationValue").clear();
     $("#config\\:editConfigurationForm\\:editConfigurationValue").sendKeys(newValue);
-    $("#config\\:saveEditConfiguration").click();
+    $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
     $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
     table.valueForEntryShould(key, 2, exactText(newValue));
   }

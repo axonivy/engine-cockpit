@@ -116,6 +116,17 @@ body .user-avatar > img {
   overflow: auto;
   max-height: 500px;
 }
+.ui-dialog .ui-dialog-content .custom-dialog-form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.custom-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1em;
+}
 
 /* Deploment */
 .file-upload .deploy-file {

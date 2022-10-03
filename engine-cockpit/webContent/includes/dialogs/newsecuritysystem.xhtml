@@ -5,7 +5,7 @@
 
 <p:dialog style="min-width: 400px;" header="Add new security system" id="newSecuritySystemModal"
   widgetVar="newSecuritySystemModal" modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="newSecuritySystemForm">
+  <h:form id="newSecuritySystemForm" class="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="newSecuritySystemNameInput" value="Name" />
@@ -22,11 +22,13 @@
         </p:selectOneMenu>
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="saveNewSecuritySystem" validateClient="true" update="form:securitySystemTable, @form"
-      actionListener="#{securityBean.createNewSecuritySystem}" value="Save" icon="si si-floppy-disk"
-      styleClass="modal-input-button" oncomplete="PF('newSecuritySystemModal').hide();" />
-    <p:commandButton id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="Cancel"
-      type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+    <div class="custom-dialog-footer">
+      <p:commandButton id="cancelNewSecuritySystem" onclick="PF('newSecuritySystemModal').hide();" value="Cancel"
+        type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+      <p:commandButton id="saveNewSecuritySystem" validateClient="true" update="form:securitySystemTable, @form"
+        actionListener="#{securityBean.createNewSecuritySystem}" value="Save" icon="si si-floppy-disk"
+        styleClass="modal-input-button" oncomplete="PF('newSecuritySystemModal').hide();" />
+    </div>
   </h:form>
 </p:dialog>
 

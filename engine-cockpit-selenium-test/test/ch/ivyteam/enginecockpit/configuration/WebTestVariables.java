@@ -201,7 +201,7 @@ public class WebTestVariables {
     assertEditVariableDialog(name, oldValue);
     $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationValue")).clear();
     $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationValue")).sendKeys(value);
-    $(By.id(activeTabPanel() + "config:saveEditConfiguration")).click();
+    $(By.id(activeTabPanel() + "config:editConfigurationForm:saveEditConfiguration")).click();
     $("#msgs_container").shouldHave(text(name), text("saved"));
     Selenide.executeJavaScript("arguments[0].click();", $("#msgs_container .ui-growl-icon-close"));
   }
