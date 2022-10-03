@@ -1,0 +1,58 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '60', artifactNumToKeepStr: '5'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  parameters {
+    string(name: 'engineSource', defaultValue: 'https://jenkins.ivyteam.io/job/core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
+  }
+
+  stages {
+    stage('screenshot') {
+      steps {
+        script {
+          def common = load 'build/build.groovy'
+          def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
+          common.buildScreenshots(phase)
+        }
+      }
+    }
+
+    stage('verify') {
+      steps {
+        script {
+          def common = load 'build/build.groovy'
+          docker.image('maven:3.6.3-jdk-11').inside("${common.dockerFileParams()}") {
+            maven cmd: "clean verify -ntp " +
+                    "-f image-validation/pom.xml " + 
+                    "-Dmaven.test.failure.ignore=true " + 
+                    "-Dimg.similarity=${getImageSimilarity()} " + 
+                    "-Pscreenshots "
+
+            archiveArtifacts '**/target/docu/**/*, **/target/*.html'
+            recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
+            qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+            currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
+          }
+        }
+      }
+    }
+  }
+}
+
+def getImageSimilarity() {
+  if (isReleaseOrMasterBranch()) {
+    return '97'
+  }
+  return '95'
+}
+
+def isReleaseOrMasterBranch() {
+  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/')
+}
