@@ -123,9 +123,9 @@ body .user-avatar > img {
   justify-content: space-between;
 }
 .custom-dialog-footer {
-  bottom: 1.5em;
   display: flex;
   justify-content: flex-end;
+  margin-top: 1em;
 }
 
 /* Deploment */
