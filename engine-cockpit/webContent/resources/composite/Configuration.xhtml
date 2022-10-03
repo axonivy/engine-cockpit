@@ -154,14 +154,12 @@
           </c:otherwise>
         </c:choose>
       </p:panelGrid>
-    </h:form>
-    <f:facet name="footer">
       <p:commandButton id="cancelEditConfiguration" onclick="PF('editConfigurationModal').hide();" value="Cancel"
         type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="saveEditConfiguration" update=":#{cc.clientId}:form:configTable" partialSubmit="true"
         onsuccess="PF('editConfigurationModal').hide();" actionListener="#{cc.attrs.bean.saveConfig}" value="Save"
         icon="si si-floppy-disk" process="editConfigurationForm:editConfigurationValue" styleClass="modal-input-button" />
-    </f:facet>
+    </h:form>
   </p:dialog>
 
   <p:dialog style="min-width: 400px;" header="New #{cc.attrs.dialogTitle}" id="newConfigurationModal" appendTo="@(body)"
