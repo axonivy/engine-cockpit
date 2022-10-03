@@ -99,6 +99,10 @@ function upload() {
   });
 }
 
+function markRunning() {
+  $('#uploadStatus').html("<i class='si si-button-refresh-arrows si-is-spinning'></i>").css("color", "black");
+}
+
 function markOk() {
   $('#uploadStatus').html("<i class='si si-check-circle-1'></i> Success").css("color", "green");
 }
