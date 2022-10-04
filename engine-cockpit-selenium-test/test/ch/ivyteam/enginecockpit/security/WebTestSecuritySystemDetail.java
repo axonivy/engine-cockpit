@@ -29,8 +29,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestSecuritySystemDetail {
 
-  private static final String CHANGE_PROVIDER_DIALOG = "#changeSecuritySystemProviderModal";
-  private static final String CHANGE_PROVIDER_DIALOG_OK_BUTTON = "#changeSecuritySystemProviderForm\\:ok";
+  private static final String CHANGE_PROVIDER_WARNING = "#providerChangeWarning";
 
   private static final String SAVE_LANGUAGE_BTN = "#securityLanguageForm\\:saveLanguageConfigBtn";
 
@@ -196,9 +195,9 @@ public class WebTestSecuritySystemDetail {
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectedItemShould(exactText("Ivy Security System"));
 
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectItemByLabel("Microsoft Active Directory");
-    $(CHANGE_PROVIDER_DIALOG).shouldBe(visible);
-    $(CHANGE_PROVIDER_DIALOG_OK_BUTTON).click();
+    $(CHANGE_PROVIDER_WARNING).shouldBe(visible);
     saveProvider();
+    $(CHANGE_PROVIDER_WARNING).shouldNotBe(visible);
 
     $(ON_SCHEDULE_ENABLED).shouldBe(visible);
     $(SYNCH_ON_LOGIN).shouldBe(visible);
@@ -206,9 +205,9 @@ public class WebTestSecuritySystemDetail {
     $(SYNC_TIME).shouldBe(visible);
 
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectItemByLabel("Ivy Security System");
-    $(CHANGE_PROVIDER_DIALOG).shouldBe(visible);
-    $(CHANGE_PROVIDER_DIALOG_OK_BUTTON).click();
+    $(CHANGE_PROVIDER_WARNING).shouldBe(visible);
     saveProvider();
+    $(CHANGE_PROVIDER_WARNING).shouldNotBe(visible);
 
     $(ON_SCHEDULE_ENABLED).shouldNotBe(visible);
     $(SYNCH_ON_LOGIN).shouldNotBe(visible);
