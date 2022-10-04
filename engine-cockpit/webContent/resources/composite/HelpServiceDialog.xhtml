@@ -9,7 +9,7 @@
   <p:dialog styleClass="config-showfile" header="#{cc.attrs.service.title}" id="helpServicesModal"
     widgetVar="helpServicesModal" modal="true" responsive="true" closeOnEscape="true" width="60%"
     onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
-    <h:form id="helpServicesForm" class="custom-dialog-form">
+    <h:form id="helpServicesForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="1" layout="flex">
         <h:outputText value="#{cc.attrs.service.guideText}" />
 

@@ -41,7 +41,7 @@
   modal="true" responsive="true" closeOnEscape="true">
   <p:staticMessage severity="warn" detail="If you add a new workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the default language (#{securityWorkflowLanguageBean.default.displayName}) are copied to the new language." />
   <p:staticMessage severity="warn" detail="This operation will takes some time and the space of your system database will grow." />
-  <h:form id="addWorkflowLanguageForm" class="custom-dialog-form">
+  <h:form id="addWorkflowLanguageForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="language" value="Language" />
       <p:selectOneMenu id="language" value="#{securityWorkflowLanguageBean.editLanguage}" editable="true" converter="localeConverter">

@@ -221,11 +221,13 @@
       </h:form>
       <p:dialog style="min-width: 300px;" header="Start Recording" id="startRecordingDialog"
             widgetVar="startRecordingDialog" responsive="true" closeOnEscape="true">
-        <h:form id="startPerformance">
+        <h:form id="startPerformance" styleClass="custom-dialog-form">
           <p:staticMessage severity="warn" detail="Start the recording of the performance statistics can have a negative impact on the performance of the engine." />
-          <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"
-            styleClass="modal-input-button" actionListener="#{processExecutionBean.start}" update="form"/>
-          <p:commandButton id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+          <div class="custom-dialog-footer">
+            <p:commandButton id="cancel" type="button" onclick="PF('startRecordingDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+            <p:commandButton id="start" onclick="PF('startRecordingDialog').hide();" value="Start" icon="si si-controls-play"
+              styleClass="modal-input-button" actionListener="#{processExecutionBean.start}" update="form"/>
+          </div>
         </h:form>
       </p:dialog>
     </ui:define>

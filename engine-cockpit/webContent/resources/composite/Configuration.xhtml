@@ -97,7 +97,7 @@
 
   <p:dialog styleClass="config-edit" header="Edit #{cc.attrs.dialogTitle}" id="editConfigurationModal" appendTo="@(body)"
     widgetVar="editConfigurationModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
-    <h:form id="editConfigurationForm" class="custom-dialog-form">
+    <h:form id="editConfigurationForm" styleClass="custom-dialog-form">
       <p:staticMessage severity="info" summary="If you change this property, you have to restart you engine"
         rendered="#{cc.attrs.bean.activeConfig.restartRequired}" />
 
@@ -166,7 +166,7 @@
 
   <p:dialog style="min-width: 400px;" header="New #{cc.attrs.dialogTitle}" id="newConfigurationModal" appendTo="@(body)"
     widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
-    <h:form id="newConfigurationForm" class="custom-dialog-form">
+    <h:form id="newConfigurationForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
         styleClass="grey-label-panel ui-fluid">
         <p:outputLabel for="newConfigurationKey" value="Key" />

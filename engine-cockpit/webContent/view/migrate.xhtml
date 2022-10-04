@@ -108,18 +108,21 @@
       
       <p:dialog style="min-width: 300px;" header="Finish Migration Wizard" id="finishWizardModel"
         widgetVar="finishWizardModel" modal="true" responsive="true" closeOnEscape="true">
-        <h:form id="finishWizardForm">
-          <p:staticMessage severity="info" summary="Success" detail="To complete the migration, perform the follwing steps:" />
-          <ol>
-            <li>Restart your engine.</li>
-            <li>If the engine starts in <b>Maintenance Mode</b>, use the <b>Setup Wizard</b> to finish your migration.<br />E.g install a new licence or migrate your System Database.</li>
-          </ol>
-          <br />
-          
-          <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="OK" icon="si si-check-1" 
-            styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" />
-          <p:commandButton id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="Cancel" type="button"
-            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+        <h:form id="finishWizardForm" styleClass="custom-dialog-form">
+          <div>  
+            <p:staticMessage severity="info" summary="Success" detail="To complete the migration, perform the follwing steps:" />
+            <ol>
+              <li>Restart your engine.</li>
+              <li>If the engine starts in <b>Maintenance Mode</b>, use the <b>Setup Wizard</b> to finish your migration.<br />E.g install a new licence or migrate your System Database.</li>
+            </ol>
+            <br />
+          </div>
+          <div class="custom-dialog-footer">
+            <p:commandButton id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="Cancel" type="button"
+              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="OK" icon="si si-check-1" 
+              styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" />
+          </div>
         </h:form>
       </p:dialog>
       

@@ -35,23 +35,25 @@
         
         <p:dialog styleClass="branding-custom-css" header="Edit custom.css" id="editCustomCssModal" appendTo="@(body)"
           widgetVar="editCustomCssModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
-          <h:form id="editCustomCssForm">
+          <h:form id="editCustomCssForm" styleClass="custom-dialog-form">
             <pe:codeMirror id="editCustomCssValue" value="#{brandingBean.customCssContent}"
               mode="text/css" lineNumbers="true" matchBrackets="true" />
             <pe:remoteCommand name="refreshCodeMirror" update="editCustomCssValue" />
             <script>refreshCodeMirror();</script>
+            <div class="custom-dialog-footer" style="justify-content: space-between;">
+              <a href="#{advisorBean.engineGuideBaseUrl}/configuration/files/custom-css.html" target="_blank"
+                rel="noopener noreferrer" style="float: left;">
+                <i class="si si-xl si-question-circle"></i>
+              </a>
+              <div>
+                <p:commandButton id="saveCustomCss" process="editCustomCssForm:editCustomCssValue" partialSubmit="true"
+                  onsuccess="PF('editCustomCssModal').hide();" actionListener="#{brandingBean.saveCustomCss}" value="Save"
+                  icon="si si-floppy-disk" styleClass="modal-input-button" update="msgs" />
+                <p:commandButton id="cancelCustomCss" onclick="PF('editCustomCssModal').hide();" value="Cancel"
+                  type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+              </div>
+            </div>
           </h:form>
-          <f:facet name="footer">
-            <a href="#{advisorBean.engineGuideBaseUrl}/configuration/files/custom-css.html" target="_blank"
-              rel="noopener noreferrer" style="float: left;">
-              <i class="si si-xl si-question-circle"></i>
-            </a>
-            <p:commandButton id="cancelCustomCss" onclick="PF('editCustomCssModal').hide();" value="Cancel"
-              type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-            <p:commandButton id="saveCustomCss" process="editCustomCssForm:editCustomCssValue" partialSubmit="true"
-              onsuccess="PF('editCustomCssModal').hide();" actionListener="#{brandingBean.saveCustomCss}" value="Save"
-              icon="si si-floppy-disk" styleClass="modal-input-button" update="msgs" />
-          </f:facet>
         </p:dialog>
         
         <p:confirmDialog id="resetBrandingConfirmDialog" header="Reset Branding Resource" severity="alert" appendTo="@(body)"

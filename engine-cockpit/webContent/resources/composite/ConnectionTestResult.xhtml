@@ -12,7 +12,7 @@
   <p:dialog header="Connection Test - Url: #{cc.attrs.url}" id="connectionTestModel" width="60%"
     widgetVar="connectionTestModel" modal="true" responsive="false" closeOnEscape="true">
     <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info" summary="Info" detail="Make sure that you saved your changes before you test the connection." />
-    <h:form id="connTestForm" class="custom-dialog-form">
+    <h:form id="connTestForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="1" layout="flex" id="resultLog" styleClass="ui-fluid">
         <h:outputText value="#{cc.attrs.result.testResult}"
           style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
