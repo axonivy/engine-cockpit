@@ -29,7 +29,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestSecuritySystemDetail {
 
-  private static final String CHANGE_PROVIDER_WARNING = "#providerChangeWarning";
+  private static final String CHANGE_PROVIDER_WARNING = "#securityProviderForm\\:providerChangeWarning";
 
   private static final String SAVE_LANGUAGE_BTN = "#securityLanguageForm\\:saveLanguageConfigBtn";
 
@@ -194,6 +194,7 @@ public class WebTestSecuritySystemDetail {
     Navigation.toSecuritySystemDetail("default");
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectedItemShould(exactText("Ivy Security System"));
 
+    $(CHANGE_PROVIDER_WARNING).shouldNotBe(visible);
     PrimeUi.selectOne(By.cssSelector(PROVIDER)).selectItemByLabel("Microsoft Active Directory");
     $(CHANGE_PROVIDER_WARNING).shouldBe(visible);
     saveProvider();

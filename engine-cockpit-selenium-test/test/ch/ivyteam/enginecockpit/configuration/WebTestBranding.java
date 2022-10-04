@@ -41,7 +41,7 @@ public class WebTestBranding {
     $(By.id(getResourcesFormId())).find("img", 1).shouldBe(visible, attributeMatching("src", ".*logo.png.*"));
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldHave(value(":root {"));
-    $(By.id("cancelCustomCss")).shouldBe(visible).click();
+    $(By.id("editCustomCssForm:cancelCustomCss")).shouldBe(visible).click();
     new Table(By.id(getColorTableId())).tableEntry("--ivy-primary-color", 2).shouldHave(text("hsl(64, 70%, 49%)"));
 
     Tab.APP.switchToTab("test-ad");
@@ -85,13 +85,13 @@ public class WebTestBranding {
     openCustomCssDialog();
     executeJs("$('#editCustomCssForm > textarea').val('hallo123')");
     executeJs("refreshCodeMirror();");
-    $(By.id("saveCustomCss")).shouldBe(visible).click();
+    $(By.id("editCustomCssForm:saveCustomCss")).shouldBe(visible).click();
     $(By.id("msgs_container")).shouldBe(visible, text("Successfully saved 'custom.css'"));
 
     Selenide.refresh();
     openCustomCssDialog();
     $(By.id("editCustomCssForm:editCustomCssValue")).shouldBe(exactValue("hallo123"));
-    $(By.id("cancelCustomCss")).shouldBe(visible).click();
+    $(By.id("editCustomCssForm:cancelCustomCss")).shouldBe(visible).click();
     resetCustomCss();
     $(By.id("msgs_container")).shouldBe(visible, text("Successfully reset 'custom.css'"));
 

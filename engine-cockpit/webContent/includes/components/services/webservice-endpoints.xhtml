@@ -24,7 +24,7 @@
       <p:column styleClass="table-btn-2">
         <p:commandButton id="editEndpointBtn" icon="si si-pencil" title="Edit"
           styleClass="ui-button-secondary rounded-button" process="@this"
-          actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" update=":endpointModalForm"
+          actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" update="editEndpointModal"
           oncomplete="PF('editEndpointModal').show()" rendered="#{endpoint.type eq 'port'}" />
         <p:commandButton id="testWsEndpointBtn" title="Test Web Service Endpoint Connection"
           update="connResult:connectionTestModel" icon="si si-phone-actions-call"
@@ -41,7 +41,7 @@
   <p:dialog styleClass="config-edit" header="Edit endpoint '#{webserviceDetailBean.activePortType.name}'"
     id="editEndpointModal" widgetVar="editEndpointModal" modal="true" responsive="true" closeOnEscape="true"
     width="40%">
-    <h:form id="endpointModalForm" styleClass="custom-dialog-form">
+    <h:form id="editEndpointModalForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
         <p:outputLabel value="Default" for="defaultInput" />
         <h:panelGroup styleClass="md-inputfield">
