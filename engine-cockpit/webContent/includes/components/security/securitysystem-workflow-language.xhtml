@@ -39,20 +39,22 @@
 
 <p:dialog style="min-width: 300px;" header="Add Workflow Language" id="addWorkflowLanguageModal" widgetVar="addWorkflowLanguageModal"
   modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="addWorkflowLanguageForm">
-    <p:staticMessage severity="warn" detail="If you add a new workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the default language (#{securityWorkflowLanguageBean.default.displayName}) are copied to the new language." />
-    <p:staticMessage severity="warn" detail="This operation will takes some time and the space of your system database will grow." />
+  <p:staticMessage severity="warn" detail="If you add a new workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the default language (#{securityWorkflowLanguageBean.default.displayName}) are copied to the new language." />
+  <p:staticMessage severity="warn" detail="This operation will takes some time and the space of your system database will grow." />
+  <h:form id="addWorkflowLanguageForm" class="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="language" value="Language" />
       <p:selectOneMenu id="language" value="#{securityWorkflowLanguageBean.editLanguage}" editable="true" converter="localeConverter">
         <f:selectItems value="#{securityWorkflowLanguageBean.addable}" var="language" itemLabel="#{language.getDisplayName()}" />
       </p:selectOneMenu>
     </p:panelGrid>
-    <p:commandButton id="addBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
-      actionListener="#{securityWorkflowLanguageBean.add(securityWorkflowLanguageBean.editLanguage)}" value="Add" icon="si si-add"
-      styleClass="modal-input-button" />
-    <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="Cancel" type="button"
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />      
+    <div class="custom-dialog-footer">
+      <p:commandButton id="addBtn" validateClient="true" ajax="false" update=":securityWorkflowLanguageForm"
+        actionListener="#{securityWorkflowLanguageBean.add(securityWorkflowLanguageBean.editLanguage)}" value="Add" icon="si si-add"
+        styleClass="modal-input-button" />
+      <p:commandButton id="cancelBtn" onclick="PF('addWorkflowLanguageModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+    </div>      
   </h:form>
 </p:dialog>
 

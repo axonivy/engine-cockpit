@@ -65,8 +65,8 @@
     summary="This step triggers the reindexation of the search engine and can take a while!" />
 
   <f:facet name="footer">
-    <p:commandLink id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel"
-      type="button" styleClass="scondary-btn modal-input-button" />
+    <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel"
+      type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     <p:commandButton id="reindexSearchEngineBtn" update="searchEngineIndexForm"
       onclick="PF('reindexPoller').start(); PF('reindexSearchEngineModel').hide();"
       actionListener="#{searchEngineBean.reindex}" value="Reindex" icon="si si-button-refresh-arrows"

@@ -100,6 +100,10 @@ body .user-avatar > img {
 }
 
 /* Dialog */
+.ui-dialog .ui-dialog-content {
+  display: flex;
+  flex-direction: column;
+}
 .ui-dialog .ui-dialog-content .modal-input-button {
   float: right;
   margin-left: 0.5rem;

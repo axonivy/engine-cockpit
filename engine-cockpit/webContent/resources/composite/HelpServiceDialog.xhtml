@@ -9,7 +9,7 @@
   <p:dialog styleClass="config-showfile" header="#{cc.attrs.service.title}" id="helpServicesModal"
     widgetVar="helpServicesModal" modal="true" responsive="true" closeOnEscape="true" width="60%"
     onShow="hljs.highlightBlock(document.querySelector('pre code.yaml'))">
-    <h:form id="helpServicesForm">
+    <h:form id="helpServicesForm" class="custom-dialog-form">
       <p:panelGrid columns="1" layout="flex">
         <h:outputText value="#{cc.attrs.service.guideText}" />
 
@@ -18,11 +18,13 @@
         </h:panelGroup>
 
       </p:panelGrid>
-      <a href="#{cc.attrs.service.helpUrl}" target="_blank" rel="noopener noreferrer">
-        <i class="si si-xl si-question-circle"></i>
-      </a>
-      <p:commandButton id="closeHelpServices" onclick="PF('helpServicesModal').hide();" value="Close" type="button"
-        icon="si si-close" styleClass="ui-button-secondary modal-input-button" />
+      <div class="custom-dialog-footer" style="justify-content: space-between;">
+        <a href="#{cc.attrs.service.helpUrl}" target="_blank" rel="noopener noreferrer">
+          <i class="si si-xl si-question-circle"></i>
+        </a>
+        <p:commandButton id="closeHelpServices" onclick="PF('helpServicesModal').hide();" value="Close" type="button"
+          icon="si si-close" styleClass="ui-button-secondary modal-input-button" />
+      </div>
     </h:form>
   </p:dialog>
 </cc:implementation>

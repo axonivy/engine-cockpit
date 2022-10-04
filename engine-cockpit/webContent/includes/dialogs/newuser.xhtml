@@ -5,7 +5,7 @@
 
 <p:dialog style="max-width: 500px;" header="Add new user" id="newUserModal" widgetVar="newUserModal" modal="true"
   responsive="true" closeOnEscape="true">
-  <h:form id="newUserForm">
+  <h:form id="newUserForm" class="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-4, p-col-8"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="newUserNameInput" value="Name" />
@@ -28,11 +28,13 @@
       <p:outputLabel for="password2" value="Confirm Password" />
       <p:password id="password2" widgetVar="password2" value="#{userBean.newUser.password}" feedback="true"
         inline="true" />
-    </p:panelGrid>
-    <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update="securitySystems"
-      action="#{userBean.newUser.creatNewUser}" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
-    <p:commandButton id="cancelNewUser" onclick="PF('newUserModal').hide();" value="Cancel" type="button"
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+      </p:panelGrid>
+      <div class="custom-dialog-footer">
+        <p:commandButton id="cancelNewUser" onclick="PF('newUserModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+        <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update="securitySystems"
+          action="#{userBean.newUser.creatNewUser}" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
+    </div>
   </h:form>
 </p:dialog>
 

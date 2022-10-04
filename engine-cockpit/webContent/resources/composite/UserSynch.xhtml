@@ -6,29 +6,31 @@
 </cc:interface>
 <cc:implementation>
   <p:dialog style="min-width: 400px;" header="Synchronize Single User" id="synchUserModal" widgetVar="synchUserModal"
-  modal="true" responsive="true" closable="false">
+    modal="true" responsive="true" closable="false">
 
-  <h:form id="synchUserForm">
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="userSynchName" value="User Name" />
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required"
-          value="#{cc.attrs.userSynch.userName}" disabled="#{cc.attrs.userSynch.preconfigured}" />
-        <p:message for="userSynchName" id="userNameMessage" />
+  <h:form id="synchUserForm" class="custom-dialog-form">
+    <div>
+      <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+        <p:outputLabel for="userSynchName" value="User Name" />
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="userSynchName" required="true" requiredMessage="User Name is required"
+            value="#{cc.attrs.userSynch.userName}" disabled="#{cc.attrs.userSynch.preconfigured}" />
+          <p:message for="userSynchName" id="userNameMessage" />
+        </h:panelGroup>
+      </p:panelGrid>
+
+      <h:panelGroup id="logViewer" layout="block" style="max-width: 700px; max-height: 600px; overflow-y: auto;">
+        <pre>#{cc.attrs.userSynch.log}</pre>
       </h:panelGroup>
-    </p:panelGrid>
-
-    <h:panelGroup id="logViewer" layout="block" style="max-width: 400px; max-height: 600px; overflow-y: auto;">
-      <pre>#{cc.attrs.userSynch.log}</pre>
-    </h:panelGroup>
-
-    <p:commandButton id="synchUserVar" validateClient="true" actionListener="#{cc.attrs.userSynch.synch}" value="Synch"
-      icon="si si-button-refresh-arrows" styleClass="modal-input-button" update="@form" />
-
-    <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{cc.attrs.userSynch.reset}"
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true">
+    </div>
+    <div class="custom-dialog-footer">
+      <p:commandButton id="closeSynchUser" value="Close" ajax="false" actionListener="#{cc.attrs.userSynch.reset}"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true">
       <p:resetInput target="@form" />
-    </p:commandButton>
+      <p:commandButton id="synchUserVar" validateClient="true" actionListener="#{cc.attrs.userSynch.synch}" value="Synch"
+        icon="si si-button-refresh-arrows" styleClass="modal-input-button" update="@form" />
+      </p:commandButton>
+    </div>
   </h:form>
 </p:dialog>
 </cc:implementation>
