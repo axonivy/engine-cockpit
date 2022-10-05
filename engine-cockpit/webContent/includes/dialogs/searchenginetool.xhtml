@@ -5,7 +5,7 @@
 
 <p:dialog header="Run Search Engine Query" id="searchEngineQueryToolModal" width="50%"
   widgetVar="searchEngineQueryToolModal" modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="searchEngineQueryToolForm" styleClass="querytool">
+  <h:form id="searchEngineQueryToolForm"  styleClass="querytool custom-dialog-form" >
     <div class="ui-fluid p-d-flex p-ai-center">
       <h:outputText styleClass="querytool-url" value="GET: #{searchEngineBean.queryUrl}/" />
       <span class="p-ml-2 querytool-query">
@@ -16,11 +16,13 @@
     <div>
       <pre style="overflow: auto; max-height: 500px;"><h:outputText value="#{searchEngineBean.queryResult}" /></pre>
     </div>
-    <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"
-      actionListener="#{searchEngineBean.runQuery}" value="Run" icon="si si-send-email"
-      styleClass="modal-input-button" />
-    <p:commandButton id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel"
-      type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+    <div class="custom-dialog-footer">
+      <p:commandButton id="cancelSearchEngineQueryBtn" onclick="PF('searchEngineQueryToolModal').hide();" value="Cancel"
+        type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+      <p:commandButton id="runSearchEngineQueryBtn" validateClient="true" update="@form"
+        actionListener="#{searchEngineBean.runQuery}" value="Run" icon="si si-send-email"
+        styleClass="modal-input-button" />
+    </div>
   </h:form>
 </p:dialog>
 

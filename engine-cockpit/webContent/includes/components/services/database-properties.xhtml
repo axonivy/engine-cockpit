@@ -38,7 +38,7 @@
 
 <p:dialog header="Property" id="propertyModal" widgetVar="propertyModal" modal="true"
   responsive="true" closeOnEscape="true">
-  <h:form id="propertyForm">
+  <h:form id="propertyForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="nameInput" value="Name" />
@@ -57,11 +57,13 @@
         <p:message for="valueInput" id="valueMessage" />
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="saveProperty" validateClient="true" ajax="false" update="databasePropertiesForm"
-      actionListener="#{databaseDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
-      styleClass="modal-input-button" />
-    <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+    <div class="custom-dialog-footer">
+      <p:commandButton id="saveProperty" validateClient="true" ajax="false" update="databasePropertiesForm"
+        actionListener="#{databaseDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
+        styleClass="modal-input-button" />
+      <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+    </div>
   </h:form>
 </p:dialog>
 

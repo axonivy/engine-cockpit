@@ -5,21 +5,25 @@
 
 <p:dialog style="min-width: 400px;" header="Support Report" id="supportReportModal" widgetVar="supportReportModal"
   modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="reportForm">
-    <p>If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and
-      attach it to the ticket.</p>
-    <p>This zip archive contains:</p>
-    <ul>
-      <li>Axon Ivy Engine Support Report</li>
-      <li>Today's log files</li>
-    </ul>
-    <p:commandButton id="download" ajax="false" value="Download"
-      onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
-      title="Download Support Report" icon="si si-download-bottom" styleClass="modal-input-button"
-      style="width: 150px;">
-      <p:fileDownload value="#{supportBean.supportReport}" />
-    </p:commandButton>
-    <p:commandButton id="cancel" onclick="PF('supportReportModal').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+  <h:form id="reportForm" styleClass="custom-dialog-form">
+    <div>
+      <p>If you spot a problem while using the Axon Ivy Engine please open a support ticket, download this zip archive and
+        attach it to the ticket.</p>
+      <p>This zip archive contains:</p>
+      <ul>
+        <li>Axon Ivy Engine Support Report</li>
+        <li>Today's log files</li>
+      </ul>
+    </div>
+    <div class="custom-dialog-footer">
+      <p:commandButton id="cancel" onclick="PF('supportReportModal').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+      <p:commandButton id="download" ajax="false" value="Download"
+        onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
+        title="Download Support Report" icon="si si-download-bottom" styleClass="modal-input-button"
+        style="width: 150px;">
+        <p:fileDownload value="#{supportBean.supportReport}" />
+      </p:commandButton>
+    </div>
   </h:form>
 </p:dialog>
 

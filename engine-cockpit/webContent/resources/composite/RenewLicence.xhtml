@@ -7,7 +7,7 @@
 </cc:interface>
 <cc:implementation>
   <p:dialog header="#{cc.attrs.title}" id="renewLicence" widgetVar="renewLicence" modal="true" responsive="true" closeOnEscape="true" width="400">
-    <h:form id="form">
+    <h:form id="form" styleClass="custom-dialog-form">
       <p:panelGrid layout="flex" columns="1" styleClass="ui-fluid">
         <h:outputText value="Here you can order a new license.
           Enter a valid email address and your existing license will be sent to the Axon Ivy Company.
@@ -18,10 +18,12 @@
           <p:message for="emailInput" id="emailInputMessage" />
         </h:panelGroup>
       </p:panelGrid>
-      <p:commandButton id="renewBtn" value="Send" icon="si si-send-email" validateClient="true"
-        styleClass="modal-input-button" actionListener="#{renewLicenceBean.send}" onsuccess="PF('renewLicence').hide();" />
-      <p:commandButton id="cancelRenewBtn" onclick="PF('renewLicence').hide();" value="Cancel" type="button"
-        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+      <div class="custom-dialog-footer">
+        <p:commandButton id="cancelRenewBtn" onclick="PF('renewLicence').hide();" value="Cancel" type="button"
+          styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+        <p:commandButton id="renewBtn" value="Send" icon="si si-send-email" validateClient="true"
+          styleClass="modal-input-button" actionListener="#{renewLicenceBean.send}" onsuccess="PF('renewLicence').hide();" />
+      </div>
     </h:form>
   </p:dialog>
 </cc:implementation>

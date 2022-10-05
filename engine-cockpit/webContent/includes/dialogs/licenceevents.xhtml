@@ -5,7 +5,7 @@
 
 <p:dialog id="licenceEventsDialog" header="Licence Events" widgetVar="licenceEventsDialog" modal="true"
   closeOnEscape="true" width="50%">
-  <h:form id="licenceEventForm">
+  <h:form id="licenceEventForm" styleClass="custom-dialog-form">
     <div class="licence-messages timeline">
       <ul>
         <p:repeat value="#{licenceBean.licenceEvents}" var="event">
@@ -19,11 +19,13 @@
         </p:repeat>
       </ul>
     </div>
-    <p:commandButton id="confirmAllLicenceEvents" ajax="false" 
-      actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="si si-check-double-1"
-      styleClass="modal-input-button" />
-    <p:commandButton id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close"
-      type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+    <div class="custom-dialog-footer">
+      <p:commandButton id="closeLicenceEventsDialog" onclick="PF('licenceEventsDialog').hide();" value="Close"
+        type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+      <p:commandButton id="confirmAllLicenceEvents" ajax="false" 
+        actionListener="#{licenceBean.confirmAllLicenceEvents()}" value="Confirm all" icon="si si-check-double-1"
+        styleClass="modal-input-button" />
+    </div>
   </h:form>
 </p:dialog>
 

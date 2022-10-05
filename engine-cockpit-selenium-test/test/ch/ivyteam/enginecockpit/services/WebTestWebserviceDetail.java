@@ -129,9 +129,9 @@ class WebTestWebserviceDetail {
   void editEndpointsInvalid() {
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
             .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
-    $("#webservcieEndPointForm\\:defaultInput").clear();
-    $("#webservcieEndPointForm\\:saveEndpoint").click();
-    $("#webservcieEndPointForm\\:defaultInputMessage").shouldBe(text("Value is required"));
+    $("#editEndpointModalForm\\:defaultInput").clear();
+    $("#editEndpointModalForm\\:saveEndpoint").click();
+    $("#editEndpointModalForm\\:defaultInputMessage").shouldBe(text("Value is required"));
   }
 
   @Test
@@ -167,16 +167,16 @@ class WebTestWebserviceDetail {
   private void setEndPoint(String defaultLink, String... fallbacks) {
     new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk")
             .clickButtonForEntry("SampleWebServiceSoap", "editEndpointBtn");
-    $("#webservcieEndPointForm\\:editEndpointModal").shouldBe(visible);
+    $("#editEndpointModal").shouldBe(visible);
 
-    $("#webservcieEndPointForm\\:defaultInput").clear();
-    $("#webservcieEndPointForm\\:defaultInput").sendKeys(defaultLink);
-    $("#webservcieEndPointForm\\:fallBackInput").clear();
+    $("#editEndpointModalForm\\:defaultInput").clear();
+    $("#editEndpointModalForm\\:defaultInput").sendKeys(defaultLink);
+    $("#editEndpointModalForm\\:fallBackInput").clear();
 
-    $("#webservcieEndPointForm\\:fallBackInput")
+    $("#editEndpointModalForm\\:fallBackInput")
             .sendKeys(Arrays.stream(fallbacks).collect(Collectors.joining("\n")));
 
-    $("#webservcieEndPointForm\\:saveEndpoint").click();
+    $("#editEndpointModalForm\\:saveEndpoint").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container").shouldBe(text("EndPoint saved"));
   }
 

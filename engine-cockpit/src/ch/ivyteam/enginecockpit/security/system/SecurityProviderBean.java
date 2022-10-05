@@ -31,6 +31,7 @@ public class SecurityProviderBean {
   private boolean onScheduleEnabled;
   private boolean synchOnLogin;
   private boolean onScheduleImportUsers;
+  private boolean showWarningMessage;
 
   public String getSecuritySystemName() {
     return name;
@@ -137,7 +138,7 @@ public class SecurityProviderBean {
     setConfiguration(ConfigKey.ON_SCHEDULE_IMPORT_USERS,
             getSaveBooleanValue(this.onScheduleImportUsers,
                     securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_IMPORT_USERS)));
-
+    setShowWarningMessage(false);
     var msg = new FacesMessage("Security System Identity Provider saved");
     FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess", msg);
   }
@@ -195,5 +196,13 @@ public class SecurityProviderBean {
       return "";
     }
     return value;
+  }
+
+  public boolean getShowWarningMessage() {
+    return showWarningMessage;
+  }
+
+  public void setShowWarningMessage(boolean showWarningMessage) {
+    this.showWarningMessage = showWarningMessage;
   }
 }

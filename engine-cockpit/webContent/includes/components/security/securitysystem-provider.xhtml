@@ -24,14 +24,18 @@
           <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
         </p:linkButton>
 
-        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm"
-              styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'p-col-fixed p-ml-auto'} p-ml-1 ui-button-success rounded-button" actionListener="#{securityProviderBean.saveProvider}" />
+        <p:commandButton title="Save" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm" actionListener="#{securityProviderBean.saveProvider}" 
+            styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'p-col-fixed p-ml-auto'} p-ml-1 ui-button-success rounded-button"/>
       </div>
     </div>
 
+    <p:staticMessage id="providerChangeWarning" detail="If you change the identity provider, you will lose ALL current settings of this security system!"
+        severity="warn" rendered="#{securityProviderBean.showWarningMessage}"/>
+    
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel ui-fluid">
       <label>Provider</label>
-      <p:selectOneMenu id="provider" value="#{securityProviderBean.provider}" onchange="PF('changeSecuritySystemProviderModal').show()">
+      <p:selectOneMenu id="provider" value="#{securityProviderBean.provider}">
+        <p:ajax event="change" listener="#{securityProviderBean.setShowWarningMessage(true)}" update="securityProviderForm" />
         <f:selectItems value="#{securityBean.providers}" var="provider" itemValue="#{provider.id()}" itemLabel="#{provider.name()}" />
       </p:selectOneMenu>
     </p:panelGrid>
@@ -55,7 +59,5 @@
       <p:selectBooleanCheckbox id="onScheduleImportUsers" value="#{securityProviderBean.onScheduleImportUsers}" />
     </p:panelGrid>
   </h:form>
-  <ui:include src="../../dialogs/changesecuritysystemprovider.xhtml" />  
 </div>
-
 </html>

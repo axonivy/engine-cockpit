@@ -5,7 +5,7 @@
 
 <p:dialog header="Send Test Mail" id="sendTestMailModal" appendTo="@(body)"
   widgetVar="sendTestMailModal" modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="sendTestMailForm">
+  <h:form id="sendTestMailForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
       styleClass="grey-label-panel p-align-baseline ui-fluid">
       <p:outputLabel for="sendToInput" value="To" />
@@ -23,10 +23,12 @@
       <p:outputLabel for="messageText" value="Message" />
       <p:inputTextarea id="messageText" value="#{emailBean.message}" autoResize="false" rows="5" />
     </p:panelGrid>
-    <p:commandButton id="sendTestMailBtn" validateClient="true" onsuccess="PF('sendTestMailModal').hide()"
-      actionListener="#{emailBean.sendTestMail}" value="Send" icon="si si-send-email" styleClass="modal-input-button" />
-    <p:commandButton id="cancelSendTestMailBtn" onclick="PF('sendTestMailModal').hide()" value="Cancel" 
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+    <div class="custom-dialog-footer">
+      <p:commandButton id="cancelSendTestMailBtn" onclick="PF('sendTestMailModal').hide()" value="Cancel" 
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+      <p:commandButton id="sendTestMailBtn" validateClient="true" onsuccess="PF('sendTestMailModal').hide()"
+        actionListener="#{emailBean.sendTestMail}" value="Send" icon="si si-send-email" styleClass="modal-input-button" />
+    </div>
   </h:form>
 </p:dialog>
 

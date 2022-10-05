@@ -39,7 +39,7 @@
 
 <p:dialog style="min-width: 300px;" header="LDAP Attribute" id="ldapUserAttributeModal" widgetVar="ldapUserAttributeModal"
   modal="true" responsive="true" closeOnEscape="true">
-  <h:form id="ldapUserAttributeForm">
+  <h:form id="ldapUserAttributeForm" styleClass="custom-dialog-form">
     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="attributeNameInput" value="Name" />
       <h:panelGroup styleClass="md-inputfield">
@@ -55,11 +55,13 @@
         <p:message for="attributeValueInput" id="attributeValueMessage" />
       </h:panelGroup>
     </p:panelGrid>
-    <p:commandButton id="saveLdapUserAttribute" validateClient="true" ajax="false" update=":securityLdapUserAttributesForm"
-      actionListener="#{securityLdapAttributesBean.saveProperty}" value="Save" icon="si si-floppy-disk"
-      styleClass="modal-input-button" />
-    <p:commandButton id="cancelLdapUserAttribute" onclick="PF('ldapUserAttributeModal').hide();" value="Cancel" type="button"
-      styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+    <div class="custom-dialog-footer">
+      <p:commandButton id="cancelLdapUserAttribute" onclick="PF('ldapUserAttributeModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+      <p:commandButton id="saveLdapUserAttribute" validateClient="true" ajax="false" update=":securityLdapUserAttributesForm"
+        actionListener="#{securityLdapAttributesBean.saveProperty}" value="Save" icon="si si-floppy-disk"
+        styleClass="modal-input-button" />
+    </div>
   </h:form>
 </p:dialog>
 

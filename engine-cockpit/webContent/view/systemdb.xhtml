@@ -38,14 +38,16 @@
       <p:dialog style="min-width: 300px;" header="No Connection" id="saveUnknownConnectionModel"
         widgetVar="saveUnknownConnectionModel" modal="true" responsive="true" closeOnEscape="true"
         styleClass="dashboard-card">
-        <h:form id="saveUnknownConnectionForm">
+        <h:form id="saveUnknownConnectionForm" styleClass="custom-dialog-form">
           <p:staticMessage severity="warn" summary="No Connection"
             detail="Do really you want to save this configuration?" />
-          <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}"
-            value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
-            oncomplete="PF('saveUnknownConnectionModel').hide();" />
-          <p:commandButton id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();"
-            value="Cancel" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+          <div class="custom-dialog-footer">
+            <p:commandButton id="cancelSaveUnknownConnection" onclick="PF('saveUnknownConnectionModel').hide();"
+              value="Cancel" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="saveUnknownConneciton" actionListener="#{systemDatabaseBean.saveConfiguration}"
+              value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" widgetVar="saveUnknownConneciton"
+              oncomplete="PF('saveUnknownConnectionModel').hide();" />
+          </div>
         </h:form>
       </p:dialog>
     </ui:define>

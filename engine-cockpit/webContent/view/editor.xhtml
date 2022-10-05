@@ -123,15 +123,17 @@
 
         <p:dialog style="min-width: 300px;" header="Save #{editorBean.activeConfigFile.fileName}" id="saveEditorModel"
           widgetVar="saveEditorModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
-          <h:form id="saveEditorForm">
+          <h:form id="saveEditorForm" styleClass="custom-dialog-form">
             <p:staticMessage severity="info" summary="Yaml errors are detected. Do you want to save anyway?"
               style="margin-bottom: 10px;" />
 
-            <p:commandButton id="saveChangesBtn" onclick="PF('saveEditorModel').hide();"
-              actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="si si-floppy-disk"
-              styleClass="modal-input-button" widgetVar="saveChanges" />
-            <p:commandButton id="cancelChangesBtn" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
-              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <div class="custom-dialog-footer">
+              <p:commandButton id="cancelChangesBtn" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
+                styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+              <p:commandButton id="saveChangesBtn" onclick="PF('saveEditorModel').hide();"
+                actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="si si-floppy-disk"
+                styleClass="modal-input-button" widgetVar="saveChanges" />
+            </div>
           </h:form>
         </p:dialog>
       </div>

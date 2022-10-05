@@ -49,7 +49,7 @@
 
   <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500" header="Add / Edit Administrator" modal="true"
     closeOnEscape="true" focus="editAdminForm:name">
-    <h:form id="editAdminForm">
+    <h:form id="editAdminForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="p-col-4, p-col-8"
         styleClass="grey-label-panel ui-fluid">
         <p:outputLabel for="name" value="Name" />
@@ -89,11 +89,13 @@
           <p:message for="password2" id="password2Message" />
         </h:panelGroup>
       </p:panelGrid>
-      <p:commandButton id="saveAdmin" validateClient="true" update="#{cc.attrs.updateFields}"
-        actionListener="#{administratorBean.saveAdmin()}" value="Save" icon="si si-floppy-disk"
-        styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
-      <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
-        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+      <div class="custom-dialog-footer">
+        <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
+          styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
+        <p:commandButton id="saveAdmin" validateClient="true" update="#{cc.attrs.updateFields}"
+          actionListener="#{administratorBean.saveAdmin()}" value="Save" icon="si si-floppy-disk"
+          styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
+      </div>
     </h:form>
   </p:dialog>
 </cc:implementation>
