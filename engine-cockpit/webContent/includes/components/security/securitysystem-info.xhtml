@@ -17,6 +17,7 @@
         <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
           message="#{securityConfigBean.notToDeleteReason}"
           header="Delete Security System" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
+          <p:staticMessage severity="warn" rendered="#{securityConfigBean.deletable}" detail="Note that all users and roles of this security system will be deleted as well." />
           <p:commandButton value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
           <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="Delete" ajax="false" immediate="true"
