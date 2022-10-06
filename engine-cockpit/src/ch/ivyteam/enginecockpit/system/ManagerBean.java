@@ -111,6 +111,10 @@ public class ManagerBean {
   }
 
   public SecuritySystem getSelectedSecuritySystem() {
+    reloadSecuritySystems();
+    if (securitySystems.size() <= selectedSecuritSystemIndex) {
+      selectedSecuritSystemIndex = 0;
+    }
     return securitySystems.get(selectedSecuritSystemIndex);
   }
 
