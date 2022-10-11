@@ -6,7 +6,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <engine.page.url>https://jenkins.ivyteam.io/job/core_product/job/master/lastSuccessfulBuild/</engine.page.url>
+    <engine.page.url>https://product.ivyteam.io</engine.page.url>
     <engine.dir>../.ivy-engine</engine.dir>
     <flatten.plugin.version>1.3.0</flatten.plugin.version>
     <project.build.plugin.version>10.0.1-SNAPSHOT</project.build.plugin.version>
