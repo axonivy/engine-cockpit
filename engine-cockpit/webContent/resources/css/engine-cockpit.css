@@ -346,6 +346,18 @@ i.success {
   background-color: hsla(var(--ivy-primary-color-h), var(--ivy-primary-color-s), var(--ivy-primary-color-l), 0.3);
 }
 
+/* Security System */
+.provider-icon {
+  position: relative;
+  display: inline-block;
+  right: 5px;
+  top: 7px;
+}
+.provider-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
 /* Branding */
 .branding-img {
   max-width: 100%;
