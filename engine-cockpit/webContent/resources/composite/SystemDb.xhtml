@@ -201,6 +201,8 @@
       <div>
         <p:poll autoStart="#{systemDatabaseBean.dbConversionRunning}" id="convertingOutputPoll"
           widgetVar="convertingOutputPoll" update="@form" interval="2" />
+        <p:staticMessage id="preConvertionWarning" severity="warn" summary="Warning"
+          detail="Database Migration may result in inconsistent Engine state. Use the Migration Wizard instead for proper migration."/>
         <p:staticMessage id="convertionError" severity="error" summary="Error" detail="#{systemDatabaseBean.dbConversionError}" 
           rendered="#{not empty systemDatabaseBean.dbConversionError}" />
         <p:staticMessage id="convertionWarning" severity="warn" summary="Warning" detail="Do not leave this page, while the migration is running!" 
