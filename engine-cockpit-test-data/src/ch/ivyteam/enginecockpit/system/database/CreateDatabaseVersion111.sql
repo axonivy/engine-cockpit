@@ -34,9 +34,9 @@ CREATE TABLE IWA_Application
   Name VARCHAR(40) NOT NULL,
   Description VARCHAR(2000) DEFAULT '',
   OwnerName VARCHAR(40) NOT NULL,
-  SecurityDescriptorId BIGINT DEFAULT NULL,
   `State` INTEGER NOT NULL,
   FileDirectory VARCHAR(500) NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
   PRIMARY KEY (ApplicationId),
   UNIQUE (Name)
 ) ENGINE=InnoDB;
@@ -136,7 +136,7 @@ CREATE TABLE IWA_SecurityMember
   Name VARCHAR(200) NOT NULL,
   MemberName VARCHAR(201) NOT NULL,
   DisplayName VARCHAR(200),
-  ApplicationId BIGINT NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
   Enabled BIT NOT NULL DEFAULT 0,
   `Type` INTEGER NOT NULL,
   PRIMARY KEY (SecurityMemberId),
@@ -154,16 +154,14 @@ CREATE TABLE IWA_Role
   DisplayNameTemplate VARCHAR(200),
   DisplayDescriptionTemplate VARCHAR(200) DEFAULT '',
   ParentSecurityMemberId VARCHAR(210),
-  ApplicationId BIGINT NOT NULL,
-  ExternalSecurityName VARCHAR(500),
+  SecuritySystemId BIGINT NOT NULL,
   IsDynamic BIT NOT NULL,
   SecurityMemberId VARCHAR(210) NOT NULL,
-  PRIMARY KEY (RoleId),
+  PRIMARY KEY (SecurityMemberId),
   FOREIGN KEY (SecurityMemberId) REFERENCES IWA_SecurityMember(SecurityMemberId),
-  UNIQUE (ApplicationId, Name),
-  UNIQUE (SecurityMemberId),
-  INDEX IWA_Role_ParentSecurityMemberIdIndex (ParentSecurityMemberId),
-  INDEX IWA_Role_ExternalSecurityNameIndex (ApplicationId, ExternalSecurityName(253))
+  UNIQUE (RoleId),
+  UNIQUE (SecuritySystemId, Name),
+  INDEX IWA_Role_ParentSecurityMemberIdIndex (ParentSecurityMemberId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_RoleProperty
@@ -180,9 +178,11 @@ CREATE TABLE IWA_RoleProperty
 
 CREATE TABLE IWA_RoleRoleMember
 (
-  RoleId BIGINT NOT NULL,
-  RoleMemberId BIGINT NOT NULL,
-  PRIMARY KEY (RoleId, RoleMemberId)
+  RoleSecurityMemberId VARCHAR(210) NOT NULL,
+  RoleMemberSecurityMemberId VARCHAR(210) NOT NULL,
+  PRIMARY KEY (RoleSecurityMemberId, RoleMemberSecurityMemberId),
+  FOREIGN KEY (RoleSecurityMemberId) REFERENCES IWA_Role(SecurityMemberId) ON DELETE CASCADE,
+  FOREIGN KEY (RoleMemberSecurityMemberId) REFERENCES IWA_Role(SecurityMemberId) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_User
@@ -191,28 +191,31 @@ CREATE TABLE IWA_User
   Name VARCHAR(200) NOT NULL,
   FullName VARCHAR(200) DEFAULT '',
   UserPassword VARCHAR(200) NOT NULL,
-  ApplicationId BIGINT NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
   ExternalSecurityName VARCHAR(500),
   ExternalId VARCHAR(200),
   EMailAddress VARCHAR(200),
   EMailNotificationSettings INTEGER NOT NULL DEFAULT 0,
   `Language` VARCHAR(5),
+  FormattingLanguage VARCHAR(5),
   `State` INTEGER NOT NULL DEFAULT 0,
   SecurityMemberId VARCHAR(210) NOT NULL,
-  PRIMARY KEY (UserId),
+  PRIMARY KEY (SecurityMemberId),
   FOREIGN KEY (SecurityMemberId) REFERENCES IWA_SecurityMember(SecurityMemberId),
-  UNIQUE (ApplicationId, Name),
-  UNIQUE (SecurityMemberId),
-  INDEX IWA_User_ExternalIdIndex (ApplicationId, ExternalId),
+  UNIQUE (UserId),
+  UNIQUE (SecuritySystemId, Name),
+  INDEX IWA_User_ExternalIdIndex (SecuritySystemId, ExternalId),
   INDEX IWA_User_StateIndex (`State`),
-  INDEX IWA_User_ExternalSecurityNameIndex (ApplicationId, ExternalSecurityName(253))
+  INDEX IWA_User_ExternalSecurityNameIndex (SecuritySystemId, ExternalSecurityName(253))
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_UserRole
 (
-  RoleId BIGINT NOT NULL,
-  UserId BIGINT NOT NULL,
-  PRIMARY KEY (RoleId, UserId)
+  RoleSecurityMemberId VARCHAR(210) NOT NULL,
+  UserSecurityMemberId VARCHAR(210) NOT NULL,
+  PRIMARY KEY (RoleSecurityMemberId, UserSecurityMemberId),
+  FOREIGN KEY (RoleSecurityMemberId) REFERENCES IWA_Role(SecurityMemberId) ON DELETE CASCADE,
+  FOREIGN KEY (UserSecurityMemberId) REFERENCES IWA_User(SecurityMemberId) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_UserProperty
@@ -300,6 +303,7 @@ CREATE TABLE IWA_Case
   CaseId BIGINT NOT NULL,
   BusinessCaseId BIGINT,
   Kind INTEGER NOT NULL DEFAULT 0,
+  SecuritySystemId BIGINT NOT NULL,
   ApplicationId BIGINT NOT NULL,
   ProcessModelId BIGINT NOT NULL,
   TaskStartId BIGINT NOT NULL,
@@ -307,10 +311,6 @@ CREATE TABLE IWA_Case
   CreatorId VARCHAR(210),
   CreatorTaskId BIGINT,
   Environment VARCHAR(200),
-  DisplayNameTemplate VARCHAR(200),
-  Name VARCHAR(200) NOT NULL,
-  DisplayDescriptionTemplate TEXT,
-  Description TEXT NOT NULL,
   StartTimestamp DATETIME NOT NULL,
   EndTimestamp DATETIME,
   BusinessCalendar VARCHAR(200),
@@ -326,18 +326,33 @@ CREATE TABLE IWA_Case
   FOREIGN KEY (CreatorId) REFERENCES IWA_SecurityMember(SecurityMemberId),
   FOREIGN KEY (OwnerId) REFERENCES IWA_SecurityMember(SecurityMemberId),
   INDEX IWA_Case_BusinessCaseIdIndex (BusinessCaseId),
+  INDEX IWA_Case_SecSystemIdIndex (SecuritySystemId),
   INDEX IWA_Case_ApplicationIdIndex (ApplicationId),
   INDEX IWA_Case_ProcessModelIdIndex (ProcessModelId),
   INDEX IWA_Case_TaskStartIdIndex (TaskStartId),
   INDEX IWA_Case_CreatorTaskIdIndex (CreatorTaskId),
   INDEX IWA_Case_ApplicationIdCreationTimestampStateIndex (ApplicationId, StartTimestamp, `State`),
-  INDEX IWA_Case_NameIndex (Name),
   INDEX IWA_Case_WorkingTime (WorkingTime),
   INDEX IWA_Case_BusinessRuntime (BusinessRuntime),
   INDEX IWA_Case_Category (Category),
   INDEX IWA_Case_EndTimestamp (EndTimestamp),
+  INDEX IWA_Case_StartTimestamp (StartTimestamp),
   INDEX IWA_Case_CreatorIdIndex (CreatorId),
-  INDEX IWA_Case_OwnerIdIndex (OwnerId)
+  INDEX IWA_Case_OwnerIdIndex (OwnerId),
+  INDEX IWA_Case_StateCreatorIdIndex (`State`, CreatorId)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_CaseLocalized
+(
+  CaseLocalizedId BIGINT NOT NULL,
+  CaseId BIGINT NOT NULL,
+  LanguageId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  Description TEXT NOT NULL,
+  PRIMARY KEY (CaseLocalizedId),
+  FOREIGN KEY (CaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE,
+  UNIQUE (CaseId, LanguageId),
+  INDEX IWA_CaseLocalized_NameIndex (Name)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_Task
@@ -345,6 +360,7 @@ CREATE TABLE IWA_Task
   TaskId BIGINT NOT NULL,
   CaseId BIGINT NOT NULL,
   BusinessCaseId BIGINT NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
   ApplicationId BIGINT NOT NULL,
   ProcessModelId BIGINT NOT NULL,
   StartTaskSwitchEventId BIGINT NOT NULL,
@@ -365,10 +381,6 @@ CREATE TABLE IWA_Task
   DelayTimestamp DATETIME,
   `State` INTEGER NOT NULL,
   RequestPath VARCHAR(200) NOT NULL,
-  DisplayNameTemplate VARCHAR(200),
-  Name VARCHAR(200) NOT NULL,
-  DisplayDescriptionTemplate TEXT,
-  Description TEXT NOT NULL,
   OriginalPriority INTEGER NOT NULL,
   Priority INTEGER NOT NULL,
   StartTimestamp DATETIME NOT NULL,
@@ -390,9 +402,10 @@ CREATE TABLE IWA_Task
   INDEX IWA_Task_CaseIdIndex (CaseId),
   INDEX IWA_Task_BusinessCaseIdIndex (BusinessCaseId),
   INDEX IWA_Task_ProcessModelIdIndex (ProcessModelId),
+  INDEX IWA_Task_SecSystemIdIndex (SecuritySystemId),
   INDEX IWA_Task_ApplicationIdIndex (ApplicationId),
-  INDEX IWA_Task_NameIndex (Name),
   INDEX IWA_Task_StateIndex (`State`),
+  INDEX IWA_Task_StartTimestamp (StartTimestamp),
   INDEX IWA_Task_EndTimestamp (EndTimestamp),
   INDEX IWA_Task_WorkingTime (WorkingTime),
   INDEX IWA_Task_BusinessRuntime (BusinessRuntime),
@@ -401,7 +414,22 @@ CREATE TABLE IWA_Task
   INDEX IWA_Task_WorkerIdIndex (WorkerId),
   INDEX IWA_Task_ActivatorIdIndex (ActivatorId),
   INDEX IWA_Task_OriginalActivatorIdIndex (OriginalActivatorId),
-  INDEX IWA_Task_ExpiryActivatorIdIndex (ExpiryActivatorId)
+  INDEX IWA_Task_ExpiryActivatorIdIndex (ExpiryActivatorId),
+  INDEX IWA_Task_StateActivatorIdIndex (`State`, ActivatorId),
+  INDEX IWA_Task_StateWorkerIdIndex (`State`, WorkerId)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_TaskLocalized
+(
+  TaskLocalizedId BIGINT NOT NULL,
+  TaskId BIGINT NOT NULL,
+  LanguageId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  Description TEXT NOT NULL,
+  PRIMARY KEY (TaskLocalizedId),
+  FOREIGN KEY (TaskId) REFERENCES IWA_Task(TaskId) ON DELETE CASCADE,
+  UNIQUE (TaskId, LanguageId),
+  INDEX IWA_TaskLocalized_NameIndex (Name)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_TaskData
@@ -421,6 +449,7 @@ CREATE TABLE IWA_StartTaskData
 CREATE TABLE IWA_WorkflowEvent
 (
   WorkflowEventId BIGINT NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
   ApplicationId BIGINT NOT NULL,
   CaseId BIGINT NOT NULL,
   TaskId BIGINT,
@@ -436,6 +465,7 @@ CREATE TABLE IWA_WorkflowEvent
   TaskState INTEGER,
   PRIMARY KEY (WorkflowEventId),
   FOREIGN KEY (UserId) REFERENCES IWA_SecurityMember(SecurityMemberId),
+  INDEX IWA_WorkflowEvent_SecSystemIdIdx (SecuritySystemId),
   INDEX IWA_WorkflowEvent_ApplicationIdIndex (ApplicationId),
   INDEX IWA_WorkflowEvent_CaseIdIndex (CaseId),
   INDEX IWA_WorkflowEvent_TaskIdIndex (TaskId),
@@ -481,6 +511,7 @@ CREATE TABLE IWA_IntermediateEvent
 (
   IntermediateEventId BIGINT NOT NULL,
   TaskStartId BIGINT NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
   ApplicationId BIGINT NOT NULL,
   TaskId BIGINT,
   EventId VARCHAR(200) NOT NULL,
@@ -492,6 +523,7 @@ CREATE TABLE IWA_IntermediateEvent
   AdditionalInformation VARCHAR(2000),
   PRIMARY KEY (IntermediateEventId),
   UNIQUE (TaskStartId, EventId),
+  INDEX IWA_IntermediateEvent_SecSystemId (SecuritySystemId),
   INDEX IWA_IntrmdtEvnt_TaskStartId (TaskStartId),
   INDEX IWA_IntermediateEvent_TaskId (TaskId),
   INDEX IWA_IntermediateEvent_EventId (EventId),
@@ -694,13 +726,15 @@ CREATE TABLE IWA_SignaledTask
 CREATE TABLE IWA_SignalEvent
 (
   SignalEventId BIGINT NOT NULL,
-  ApplicationId BIGINT NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
+  ApplicationId BIGINT,
   SignalCode VARCHAR(200) NOT NULL,
   SentTimestamp DATETIME NOT NULL,
   SentById VARCHAR(210),
   SentByTaskId BIGINT,
   SentByProcessElementPid VARCHAR(200),
   PRIMARY KEY (SignalEventId),
+  FOREIGN KEY (ApplicationId) REFERENCES IWA_Application(ApplicationId) ON DELETE CASCADE,
   FOREIGN KEY (SentById) REFERENCES IWA_SecurityMember(SecurityMemberId),
   INDEX IWA_SignalEvent_SignalCode (SignalCode),
   INDEX IWA_SignalEvent_SentTimestamp (SentTimestamp),
@@ -720,6 +754,28 @@ CREATE TABLE IWA_SecurityDescriptor
   SecurityDescriptorId BIGINT NOT NULL,
   SecurityDescriptorTypeId BIGINT NOT NULL,
   PRIMARY KEY (SecurityDescriptorId)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_SecuritySystem
+(
+  SecuritySystemId BIGINT NOT NULL,
+  Name VARCHAR(200) NOT NULL,
+  SecurityDescriptorId BIGINT NOT NULL,
+  PRIMARY KEY (SecuritySystemId),
+  FOREIGN KEY (SecurityDescriptorId) REFERENCES IWA_SecurityDescriptor(SecurityDescriptorId),
+  UNIQUE (Name)
+) ENGINE=InnoDB;
+
+CREATE TABLE IWA_Language
+(
+  LanguageId BIGINT NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
+  IsDefault BIT NOT NULL,
+  Locale VARCHAR(25) NOT NULL,
+  PRIMARY KEY (LanguageId),
+  FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId),
+  UNIQUE (SecuritySystemId, Locale),
+  INDEX IWA_Language_SecuritySystemId (SecuritySystemId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IWA_PermissionGroup
@@ -780,8 +836,6 @@ CREATE TABLE IWA_UploadedFile
   CreationDate VARCHAR(10),
   CreationTime VARCHAR(8),
   FileSize VARCHAR(20),
-  Locked BIT,
-  LockingUserId VARCHAR(200),
   ModificationUserId VARCHAR(200),
   ModificationDate VARCHAR(10),
   ModificationTime VARCHAR(8),
@@ -796,6 +850,7 @@ CREATE TABLE IWA_BusinessData
   FormatVersion INTEGER NOT NULL DEFAULT 63000,
   ObjectType VARCHAR(255) NOT NULL,
   ObjectValue MEDIUMTEXT NOT NULL,
+  SecuritySystemId BIGINT NOT NULL,
   CreatedAt DATETIME NOT NULL,
   CreatedByUserName VARCHAR(200) NOT NULL,
   CreatedByAppId BIGINT NOT NULL,
@@ -803,7 +858,9 @@ CREATE TABLE IWA_BusinessData
   ModifiedByUserName VARCHAR(200) NOT NULL,
   ModifiedByAppId BIGINT NOT NULL,
   PRIMARY KEY (BusinessDataId),
+  FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId),
   INDEX IWA_BusinessData_TypeIdx (ObjectType),
+  INDEX IWA_BusinessData_SecSysIdx (SecuritySystemId),
   INDEX IWA_BusinessData_CrtdAtIdx (CreatedAt),
   INDEX IWA_BusinessData_CrtdByUserIdx (CreatedByUserName),
   INDEX IWA_BusinessData_CrtdByAppIdx (CreatedByAppId),
@@ -827,14 +884,69 @@ ALTER TABLE IWA_AsyncProcessCaseData ADD
  FOREIGN KEY (CaseId) REFERENCES IWA_Case(CaseId) ON DELETE CASCADE
 );
 
+ALTER TABLE IWA_Application ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
+);
+
+ALTER TABLE IWA_SecurityMember ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
+);
+
 ALTER TABLE IWA_Role ADD
 (
  FOREIGN KEY (ParentSecurityMemberId) REFERENCES IWA_Role(SecurityMemberId) ON DELETE CASCADE
 );
 
+ALTER TABLE IWA_Role ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
+);
+
+ALTER TABLE IWA_User ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
+);
+
 ALTER TABLE IWA_Case ADD
 (
  FOREIGN KEY (BusinessCaseId) REFERENCES IWA_Case(CaseId) ON DELETE SET NULL
+);
+
+ALTER TABLE IWA_Case ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
+);
+
+ALTER TABLE IWA_CaseLocalized ADD
+(
+ FOREIGN KEY (LanguageId) REFERENCES IWA_Language(LanguageId)
+);
+
+ALTER TABLE IWA_Task ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
+);
+
+ALTER TABLE IWA_TaskLocalized ADD
+(
+ FOREIGN KEY (LanguageId) REFERENCES IWA_Language(LanguageId)
+);
+
+ALTER TABLE IWA_WorkflowEvent ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
+);
+
+ALTER TABLE IWA_IntermediateEvent ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
+);
+
+ALTER TABLE IWA_SignalEvent ADD
+(
+ FOREIGN KEY (SecuritySystemId) REFERENCES IWA_SecuritySystem(SecuritySystemId)
 );
 
 ALTER TABLE IWA_PermissionGroup ADD
@@ -950,6 +1062,7 @@ CREATE VIEW IWA_TaskQuery
   CaseId,
   BusinessCaseId,
   ProcessModelId,
+  SecuritySystemId,
   ApplicationId,
   StartTaskSwitchEventId,
   EndTaskSwitchEventId,
@@ -976,9 +1089,7 @@ CREATE VIEW IWA_TaskQuery
   DelayTimestamp,
   `State`,
   RequestPath,
-  DisplayNameTemplate,
   Name,
-  DisplayDescriptionTemplate,
   Description,
   Priority,
   OriginalPriority,
@@ -994,7 +1105,8 @@ CREATE VIEW IWA_TaskQuery
   IsUpdatedOnStart,
   IsOffline,
   ActivatorName,
-  ActivatorDisplayName
+  ActivatorDisplayName,
+  LanguageId
 )
 AS
   SELECT
@@ -1002,6 +1114,7 @@ AS
     IWA_Task.CaseId,
     IWA_Task.BusinessCaseId,
     IWA_Task.ProcessModelId,
+    IWA_Task.SecuritySystemId,
     IWA_Task.ApplicationId,
     IWA_Task.StartTaskSwitchEventId,
     IWA_Task.EndTaskSwitchEventId,
@@ -1028,10 +1141,8 @@ AS
     IWA_Task.DelayTimestamp,
     IWA_Task.`State`,
     IWA_Task.RequestPath,
-    IWA_Task.DisplayNameTemplate,
-    IWA_Task.Name,
-    IWA_Task.DisplayDescriptionTemplate,
-    IWA_Task.Description,
+    TaskLocalized.Name,
+    TaskLocalized.Description,
     IWA_Task.Priority,
     IWA_Task.OriginalPriority,
     IWA_Task.StartTimestamp,
@@ -1046,18 +1157,21 @@ AS
     IWA_Task.IsUpdatedOnStart,
     IWA_Task.IsOffline,
     Activator.MemberName,
-    Activator.DisplayName
+    Activator.DisplayName,
+    TaskLocalized.LanguageId
   FROM IWA_Task
     LEFT OUTER JOIN IWA_SecurityMember AS Activator ON IWA_Task.ActivatorId = Activator.SecurityMemberId
     LEFT OUTER JOIN IWA_SecurityMember AS OriginalActivator ON IWA_Task.OriginalActivatorId = OriginalActivator.SecurityMemberId
     LEFT OUTER JOIN IWA_SecurityMember AS ExpiryActivator ON IWA_Task.ExpiryActivatorId = ExpiryActivator.SecurityMemberId
-    LEFT OUTER JOIN IWA_SecurityMember AS Worker ON IWA_Task.WorkerId = Worker.SecurityMemberId;
+    LEFT OUTER JOIN IWA_SecurityMember AS Worker ON IWA_Task.WorkerId = Worker.SecurityMemberId
+    LEFT OUTER JOIN IWA_TaskLocalized AS TaskLocalized ON IWA_Task.TaskId = TaskLocalized.TaskId;
 
 CREATE VIEW IWA_CaseQuery
 (
   CaseId,
   BusinessCaseId,
   Kind,
+  SecuritySystemId,
   ApplicationId,
   ProcessModelId,
   TaskStartId,
@@ -1067,9 +1181,7 @@ CREATE VIEW IWA_CaseQuery
   CreatorUserDisplayName,
   CreatorTaskId,
   Environment,
-  DisplayNameTemplate,
   Name,
-  DisplayDescriptionTemplate,
   Description,
   StartTimestamp,
   EndTimestamp,
@@ -1082,13 +1194,15 @@ CREATE VIEW IWA_CaseQuery
   OwnerId,
   OwnerName,
   OwnerDisplayName,
-  Category
+  Category,
+  LanguageId
 )
 AS
   SELECT
     IWA_Case.CaseId,
     IWA_Case.BusinessCaseId,
     IWA_Case.Kind,
+    IWA_Case.SecuritySystemId,
     IWA_Case.ApplicationId,
     IWA_Case.ProcessModelId,
     IWA_Case.TaskStartId,
@@ -1098,10 +1212,8 @@ AS
     Creator.DisplayName,
     IWA_Case.CreatorTaskId,
     IWA_Case.Environment,
-    IWA_Case.DisplayNameTemplate,
-    IWA_Case.Name,
-    IWA_Case.DisplayDescriptionTemplate,
-    IWA_Case.Description,
+    CaseLocalized.Name,
+    CaseLocalized.Description,
     IWA_Case.StartTimestamp,
     IWA_Case.EndTimestamp,
     IWA_Case.BusinessCalendar,
@@ -1113,14 +1225,17 @@ AS
     IWA_Case.OwnerId,
     Owner.MemberName,
     Owner.DisplayName,
-    IWA_Case.Category
+    IWA_Case.Category,
+    CaseLocalized.LanguageId
   FROM IWA_Case
     LEFT OUTER JOIN IWA_SecurityMember AS Creator ON IWA_Case.CreatorId = Creator.SecurityMemberId
-    LEFT OUTER JOIN IWA_SecurityMember AS Owner ON IWA_Case.OwnerId = Owner.SecurityMemberId;
+    LEFT OUTER JOIN IWA_SecurityMember AS Owner ON IWA_Case.OwnerId = Owner.SecurityMemberId
+    LEFT OUTER JOIN IWA_CaseLocalized AS CaseLocalized ON IWA_Case.CaseId = CaseLocalized.CaseId;
 
 CREATE VIEW IWA_SignalEventQuery
 (
   SignalEventId,
+  SecuritySystemId,
   ApplicationId,
   SignalCode,
   SentTimestamp,
@@ -1133,6 +1248,7 @@ CREATE VIEW IWA_SignalEventQuery
 AS
   SELECT
     IWA_SignalEvent.SignalEventId,
+    IWA_SignalEvent.SecuritySystemId,
     IWA_SignalEvent.ApplicationId,
     IWA_SignalEvent.SignalCode,
     IWA_SignalEvent.SentTimestamp,
@@ -1145,8 +1261,7 @@ AS
     LEFT OUTER JOIN IWA_SecurityMember ON IWA_SignalEvent.SentById = IWA_SecurityMember.SecurityMemberId
     LEFT OUTER JOIN IWA_User ON IWA_SecurityMember.SecurityMemberId = IWA_User.SecurityMemberId;
 
-
-INSERT INTO IWA_Version (Version) VALUES (95);
+INSERT INTO IWA_Version (Version) VALUES (111);
 
 INSERT INTO IWA_Permission (PermissionId, Name) VALUES (0, 'AdministrateWorkflow');
 
@@ -4171,4 +4286,5 @@ INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALU
 INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (69, 596);
 
 INSERT INTO IWA_PermissionGroupPermission (PermissionGroupId, PermissionId) VALUES (70, 596);
+
 
