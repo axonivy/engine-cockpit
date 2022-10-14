@@ -2,23 +2,8 @@ CREATE TRIGGER IWA_ApplicationDeleteTrigger
 AFTER DELETE ON IWA_Application
 FOR EACH ROW
 BEGIN
-  DELETE FROM IWA_SignalEvent
-  WHERE IWA_SignalEvent.ApplicationId = OLD.ApplicationId;
-
-  DELETE FROM IWA_Role
-  WHERE IWA_Role.ApplicationId = OLD.ApplicationId;
-
-  DELETE FROM IWA_User
-  WHERE IWA_User.ApplicationId = OLD.ApplicationId;
-
   DELETE FROM IWA_ProcessModel
   WHERE IWA_ProcessModel.ApplicationId = OLD.ApplicationId;
-
-  DELETE FROM IWA_SecurityMember
-  WHERE IWA_SecurityMember.ApplicationId = OLD.ApplicationId;
-
-  DELETE FROM IWA_SecurityDescriptor
-  WHERE IWA_SecurityDescriptor.SecurityDescriptorId = OLD.SecurityDescriptorId;
 
 END;
 
@@ -50,30 +35,6 @@ BEGIN
   UPDATE IWA_LibrarySpecification
   SET ResolvedLibraryId=NULL
   WHERE IWA_LibrarySpecification.ResolvedLibraryId=OLD.LibraryId;
-
-END;
-
-CREATE TRIGGER IWA_RoleDeleteTrigger
-AFTER DELETE ON IWA_Role
-FOR EACH ROW
-BEGIN
-  DELETE FROM IWA_UserRole
-  WHERE IWA_UserRole.RoleId = OLD.RoleId;
-
-  DELETE FROM IWA_RoleRoleMember
-  WHERE IWA_RoleRoleMember.RoleId = OLD.RoleId;
-
-  DELETE FROM IWA_RoleRoleMember
-  WHERE IWA_RoleRoleMember.RoleMemberId = OLD.RoleId;
-
-END;
-
-CREATE TRIGGER IWA_UserDeleteTrigger
-AFTER DELETE ON IWA_User
-FOR EACH ROW
-BEGIN
-  DELETE FROM IWA_UserRole
-  WHERE IWA_UserRole.UserId = OLD.UserId;
 
 END;
 
