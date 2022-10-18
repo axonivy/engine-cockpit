@@ -18,37 +18,35 @@
 
       <properties>
         <test.target.dir>${project.build.directory}/../../engine-cockpit-selenium-test/target/</test.target.dir>
+        <ref.screenshot.build>master</ref.screenshot.build>
       </properties>
-    
-      <dependencies>
-        <dependency>
-          <groupId>ch.ivyteam.enginecockpit</groupId>
-          <artifactId>engine-cockpit-selenium-test</artifactId>
-          <version>11.1.0-SNAPSHOT</version>
-          <type>zip</type>
-        </dependency>
-      </dependencies>
     
       <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.3.0</version>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>3.1.0</version>
             <executions>
               <execution>
-                <id>unpack-all-screenshots</id>
+                <id>download-latest-screenshots</id>
                 <phase>generate-sources</phase>
                 <goals>
-                  <goal>unpack-dependencies</goal>
+                  <goal>run</goal>
                 </goals>
-                <configuration>
-                  <includeArtifactIds>engine-cockpit-selenium-test</includeArtifactIds>
-                  <outputDirectory>${project.build.directory}</outputDirectory>
-                  <overWriteSnapshots>true</overWriteSnapshots>
-                </configuration>
               </execution>
             </executions>
+            <configuration>
+              <target>
+                <get src="https://jenkins.ivyteam.io/job/engine-cockpit-screenshots/job/${ref.screenshot.build}/lastSuccessfulBuild/artifact/engine-cockpit-selenium-test/target/docu/screenshots/*zip*/screenshots.zip"
+                     dest="${project.build.directory}" />
+                <unzip dest="${project.build.directory}">
+                  <fileset dir="${project.build.directory}">
+                    <filename name="screenshots.zip" />
+                  </fileset>
+                </unzip>
+              </target>
+            </configuration>
           </plugin>
           <plugin>
             <groupId>ch.ivyteam.maven</groupId>
@@ -73,7 +71,7 @@
                       <exclude>**/engine-cockpit-monitor-system-overview.png</exclude>
                     </excludes>
                   </newImagesFs>
-                  <refImages>${project.build.directory}</refImages>
+                  <refImages>${project.build.directory}/screenshots</refImages>
                 </configuration>
               </execution>
               <execution>
