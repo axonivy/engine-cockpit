@@ -31,7 +31,7 @@ pipeline {
           docker.image('maven:3.6.3-jdk-11').inside("${common.dockerFileParams()}") {
             maven cmd: "clean verify -ntp " +
                     "-f image-validation/pom.xml " + 
-                    "-Dmaven.test.failure.ignore=true " + 
+                    "-Dref.screenshot.build='${isReleaseOrMasterBranch() ? env.BRANCH_NAME : 'master'}' " + 
                     "-Dimg.similarity=${getImageSimilarity()} " + 
                     "-Pscreenshots "
 
