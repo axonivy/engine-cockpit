@@ -42,7 +42,7 @@ public class SystemHardware {
     memoryTotal = MEMORY.getTotal();
     processorLogicalCount = PROCESSOR.getLogicalProcessorCount();
     processorPhysicalCount = PROCESSOR.getPhysicalProcessorCount();
-    processorLoad = PROCESSOR.getSystemCpuLoad(50);
+    processorLoad = PROCESSOR.getSystemCpuLoad(300);
   }
 
   static SystemHardware current() {

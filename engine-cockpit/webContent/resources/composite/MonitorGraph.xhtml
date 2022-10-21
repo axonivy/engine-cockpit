@@ -13,6 +13,7 @@
         <div class="card-title p-d-flex p-ai-center">
           <i class="p-pr-3 si si-#{cc.attrs.monitor.icon}"></i>
           <h6 class="p-m-0">#{cc.attrs.monitor.title}</h6>
+          <h:outputText class="p-pl-4 p-ml-auto" value="#{cc.attrs.monitor.info}" />
         </div>
       </div>
       <p:chart type="line" model="#{cc.attrs.monitor.model}" responsive="true" style="height:300px;" />
