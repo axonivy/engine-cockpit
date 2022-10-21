@@ -31,7 +31,7 @@ pipeline {
           docker.image('maven:3.6.3-jdk-11').inside("${common.dockerFileParams()}") {
             maven cmd: "clean verify -ntp " +
                     "-f image-validation/pom.xml " + 
-                    "-Dref.screenshot.build='${isReleaseOrMasterBranch() ? env.BRANCH_NAME : 'master'}' " + 
+                    "-Dref.screenshot.build='${getScreenshotRefBranch()}' " + 
                     "-Dimg.similarity=${getImageSimilarity()} " + 
                     "-Pscreenshots "
 
@@ -44,6 +44,13 @@ pipeline {
       }
     }
   }
+}
+
+def getScreenshotRefBranch() {
+  if (isReleaseOrMasterBranch()) {
+    return env.BRANCH_NAME.replace('/', '%252F')
+  }
+  return 'master'.replace('/', '%252F')
 }
 
 def getImageSimilarity() {
