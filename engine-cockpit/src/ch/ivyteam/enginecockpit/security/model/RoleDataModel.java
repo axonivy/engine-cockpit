@@ -13,16 +13,22 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class RoleDataModel extends TreeView<Object> {
   private static final int ROLE_CHILDREN_LIMIT = 100;
-  private ISecurityContext securityContext;
-  private boolean showMember;
-  private List<Role> roles;
+  private final int showChildLimit;
+  private final ISecurityContext securityContext;
+  private final boolean showMember;
+  private final List<Role> roles;
 
   public RoleDataModel(SecuritySystem securitySystem, boolean showMember) {
+    this (securitySystem, showMember, ROLE_CHILDREN_LIMIT);
+  }
+
+  public RoleDataModel(SecuritySystem securitySystem, boolean showMember, int showChildLimit) {
+    this.showChildLimit = showChildLimit;
     this.securityContext = securitySystem.getSecurityContext();
     this.showMember = showMember;
     this.roles = securityContext.roles().all().stream()
-              .map(role -> new Role(role))
-              .collect(Collectors.toList());
+            .map(role -> new Role(role))
+            .collect(Collectors.toList());
     this.filter = "";
     reloadTree();
   }
@@ -33,11 +39,11 @@ public class RoleDataModel extends TreeView<Object> {
     this.filter = filter;
     filteredTreeNode = new DefaultTreeNode<>("Filtered roles", null, null);
     roles.stream().filter(role -> StringUtils.containsIgnoreCase(role.getName(), filter))
-            .limit(ROLE_CHILDREN_LIMIT)
+            .limit(showChildLimit)
             .forEach(role -> new DefaultTreeNode<>("role", role, filteredTreeNode));
-    if (filteredTreeNode.getChildCount() >= ROLE_CHILDREN_LIMIT) {
+    if (filteredTreeNode.getChildCount() >= showChildLimit) {
       new DefaultTreeNode<>("dummy",
-              new Role("The current search has more than " + ROLE_CHILDREN_LIMIT + " results."),
+              new Role("The current search has more than " + showChildLimit + " results."),
               filteredTreeNode);
     }
   }
@@ -114,10 +120,10 @@ public class RoleDataModel extends TreeView<Object> {
 
     private int addRolesToTree(List<IRole> rolesToAdd, boolean isMember) {
       super.getChildren().addAll(rolesToAdd.stream()
-              .limit(ROLE_CHILDREN_LIMIT)
+              .limit(showChildLimit)
               .map(child -> new LazyRoleTreeNode(child, isMember, this))
               .collect(Collectors.toList()));
-      return rolesToAdd.size() - ROLE_CHILDREN_LIMIT;
+      return rolesToAdd.size() - showChildLimit;
     }
   }
 }
