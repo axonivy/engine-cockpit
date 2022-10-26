@@ -142,12 +142,12 @@ body .user-avatar > img {
   z-index: -1;
 }
 .file-upload #drop_zone {
-  border: 2px dashed #ccc;
+  border: 2px dashed var(--text-color-secondary, #ccc);
   border-radius: 10px;
   padding: 5px;
 }
 .file-upload #drop_zone.is-dragover {
-  border-color: #607d8b;
+  border-color: var(--primary-color, #607d8b);
 }
 .file-upload .file-upload-error {
   padding: 8px 14px;
@@ -242,18 +242,6 @@ body .ui-datatable .ui-datatable-header {
   width: calc(100% - 25px);
 }
 
-/* Licence Message */
-.licence-messages i.warning {
-  color: #ffce29;
-}
-.licence-messages i.error,
-i.error {
-  color: #d23636;
-}
-i.success {
-  color: green;
-}
-
 /* Messages */
 .ui-message.ui-staticmessage {
   width: 100%;
@@ -281,18 +269,20 @@ i.success {
 .activity-state-active,
 .search-machine-state-true,
 .search-machine-health-green {
-  color: #2aa483;
+  color: var(--success-color, #2aa483);
 }
 .state-unknown,
 .activity-state-locked,
-.search-machine-health-yellow {
-  color: #ffce29;
+.search-machine-health-yellow,
+.licence-messages i.warning {
+  color: var(--warning-color, #ffce29);
 }
 .state-inactive,
 .activity-state-error,
 .search-machine-state-false,
-.search-machine-health-red {
-  color: #d23636;
+.search-machine-health-red,
+.licence-messages i.error {
+  color: var(--error-color, #d23636);
 }
 .table-icon.search-machine-health-unknown,
 .search-machine-health-unknown {
@@ -435,14 +425,15 @@ i.success {
   height: 5em;
   text-align: center;
   user-select: none;
+  border-radius: 0.5rem;
 }
 
 .ui-diagram-element.error {
-  border: solid 2px var(--error-color);  
+  border: solid 2px var(--error-color);
 }
 
 .ui-diagram-element.ok {
-  border: solid 2px var(--success-color);  
+  border: solid 2px var(--success-color);
 }
 
 .ui-diagram-element[data-tooltip]:hover:before,
