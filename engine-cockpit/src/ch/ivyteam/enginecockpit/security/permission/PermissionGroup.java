@@ -9,9 +9,8 @@ public class PermissionGroup extends AbstractPermission {
   private PermissionBean bean;
   private IPermissionGroup permissionGroup;
 
-  public PermissionGroup(IPermissionGroupAccess groupAccess, String path, PermissionBean bean) {
+  public PermissionGroup(IPermissionGroupAccess groupAccess, PermissionBean bean) {
     super(groupAccess.getPermissionGroup().getName(),
-            path,
             groupAccess.getPermissionGroup().getId(),
             groupAccess.isGrantedAllPermissions(),
             groupAccess.isDeniedAllPermissions());
@@ -19,6 +18,10 @@ public class PermissionGroup extends AbstractPermission {
     this.someGrant = groupAccess.isGrantedAnyPermission();
     this.bean = bean;
     this.permissionGroup = groupAccess.getPermissionGroup();
+  }
+
+  public PermissionGroup(String dummy) {
+    super(dummy, -1, false, false);
   }
 
   @Override
@@ -66,26 +69,26 @@ public class PermissionGroup extends AbstractPermission {
 
   @Override
   public void grant() {
-    bean.getSecurityDescriptor().grantPermissions(permissionGroup, bean.getSecurityMember());
-    bean.reSetRootPermissionGroup();
+    bean.grant(permissionGroup);
   }
 
   @Override
   public void ungrant() {
-    bean.getSecurityDescriptor().ungrantPermissions(permissionGroup, bean.getSecurityMember());
-    bean.reSetRootPermissionGroup();
+    bean.ungrant(permissionGroup);
   }
 
   @Override
   public void deny() {
-    bean.getSecurityDescriptor().denyPermissions(permissionGroup, bean.getSecurityMember());
-    bean.reSetRootPermissionGroup();
+    bean.deny(permissionGroup);
   }
 
   @Override
   public void undeny() {
-    bean.getSecurityDescriptor().undenyPermissions(permissionGroup, bean.getSecurityMember());
-    bean.reSetRootPermissionGroup();
+    bean.undeny(permissionGroup);
+  }
+
+  public IPermissionGroup permissionGroup() {
+    return permissionGroup;
   }
 
 }

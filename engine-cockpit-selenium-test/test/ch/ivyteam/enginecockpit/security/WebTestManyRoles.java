@@ -50,12 +50,12 @@ class WebTestManyRoles {
   @Test
   void manyRolesLoadLimit_userDetail() {
     Navigation.toUserDetail("foo");
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").shouldBe(size(101));
+    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").shouldBe(size(21));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last()
             .shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
     $("#rolesOfUserForm\\:rolesTree\\:globalFilter").sendKeys("role-");
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(101));
+    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(21));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last()
-            .shouldHave(text("The current search has more than 100 results."));
+            .shouldHave(text("The current search has more than 20 results."));
   }
 }
