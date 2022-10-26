@@ -100,15 +100,15 @@ function upload() {
 }
 
 function markRunning() {
-  $('#uploadStatus').html("<i class='si si-button-refresh-arrows si-is-spinning'></i>").css("color", "black");
+  $('#uploadStatus').html("<i class='si si-button-refresh-arrows si-is-spinning'></i>").css("color", "var(--text-color, black)");
 }
 
 function markOk() {
-  $('#uploadStatus').html("<i class='si si-check-circle-1'></i> Success").css("color", "green");
+  $('#uploadStatus').html("<i class='si si-check-circle-1'></i> Success").css("color", "var(--success-color, green)");
 }
 
 function markError() {
-  $('#uploadStatus').html("<i class='si si-alert-circle'></i> Error").css("color", "red");
+  $('#uploadStatus').html("<i class='si si-alert-circle'></i> Error").css("color", "var(--error-color, red)");
 }
 
 function buildFormData() {
