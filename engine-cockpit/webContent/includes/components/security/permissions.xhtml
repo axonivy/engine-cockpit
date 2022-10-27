@@ -24,10 +24,10 @@
     </div>
   </div>
   <p:treeTable id="permissionTable" value="#{permissionBean.permissions}" var="permission">
-  	<p:ajax event="expand" listener="#{treeEventBean.nodeExpand}"/>
+    <p:ajax event="expand" listener="#{permissionBean.nodeExpand}" />
   	<p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}"/>
     <p:column headerText="All Permissions">
-      <h:outputText value="#{permission.name}" title="#{permission.path}">
+      <h:outputText value="#{permission.name}">
         <i class="material-icons table-icon">#{permission.group ? 'folder' : 'vpn_key'}</i>
       </h:outputText>
     </p:column>

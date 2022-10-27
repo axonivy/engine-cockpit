@@ -15,16 +15,23 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 public class RoleDataModel
 {
   private static final int ROLE_CHILDREN_LIMIT = 100;
-  private ISecurityContext securityContext;
+  private final int showChildLimit;
+  private final ISecurityContext securityContext;
+  private final boolean showMember;
+  private final List<Role> roles;
   private String filter;
-  private boolean showMember;
   
-  private List<Role> roles;
   private TreeNode treeRootNode;
   private TreeNode filteredTreeRootNode;
 
   public RoleDataModel(IApplication app, boolean showMember)
   {
+    this(app, showMember, ROLE_CHILDREN_LIMIT);
+  }
+
+  public RoleDataModel(IApplication app, boolean showMember, int showChildLimit)
+  {
+    this.showChildLimit = showChildLimit;
     this.securityContext = app.getSecurityContext();
     this.showMember = showMember;
     this.roles = app.getSecurityContext().getRoles().stream()
@@ -39,11 +46,11 @@ public class RoleDataModel
     this.filter = filter;
     filteredTreeRootNode = new DefaultTreeNode("Filtered roles", null);
     roles.stream().filter(role -> StringUtils.containsIgnoreCase(role.getName(), filter))
-            .limit(ROLE_CHILDREN_LIMIT)
+            .limit(showChildLimit)
             .forEach(role -> new DefaultTreeNode("role", role, filteredTreeRootNode));
-    if (filteredTreeRootNode.getChildCount() >= ROLE_CHILDREN_LIMIT)
+    if (filteredTreeRootNode.getChildCount() >= showChildLimit)
     {
-      new DefaultTreeNode("dummy", new Role("The current search has more than " + ROLE_CHILDREN_LIMIT + " results."), filteredTreeRootNode);
+      new DefaultTreeNode("dummy", new Role("The current search has more than " + showChildLimit + " results."), filteredTreeRootNode);
     }
   }
 
@@ -141,10 +148,10 @@ public class RoleDataModel
     private int addRolesToTree(List<IRole> rolesToAdd, boolean member)
     {
       super.getChildren().addAll(rolesToAdd.stream()
-              .limit(ROLE_CHILDREN_LIMIT)
+              .limit(showChildLimit)
               .map(child -> new LazyRoleTreeNode(child, member, this))
               .collect(Collectors.toList()));
-      return rolesToAdd.size() - ROLE_CHILDREN_LIMIT;
+      return rolesToAdd.size() - showChildLimit;
     }
   }
 }

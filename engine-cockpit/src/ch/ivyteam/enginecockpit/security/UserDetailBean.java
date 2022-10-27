@@ -58,7 +58,7 @@ public class UserDetailBean
       var iUser = getSecurityContext().users().find(userName);
       this.user = new User(iUser);
       this.emailSettings = new EmailSettings(iUser, managerBean.getSelectedIApplication().getDefaultEMailNotifcationSettings());
-      roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
+      roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false, 20);
     }
   }
 
