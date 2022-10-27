@@ -1,8 +1,11 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+import static ch.ivyteam.ivy.security.ISecurityContext.DEFAULT;
+import static ch.ivyteam.ivy.security.ISecurityContext.SYSTEM;
+
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -12,7 +15,6 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityConstants;
-import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
@@ -41,10 +43,19 @@ public class SecurityBean {
   }
 
   public static List<SecuritySystem> readSecuritySystems() {
+    return readAllSecuritySystems()
+            .filter(s -> !isDefaultWithNoApps(s))
+            .toList();
+  }
+
+  public static Stream<SecuritySystem> readAllSecuritySystems() {
     return ISecurityManager.instance().securityContexts().all().stream()
-            .filter(s -> !ISecurityContext.SYSTEM.equals(s.getName()))
-            .map(s -> new SecuritySystem(s))
-            .collect(Collectors.toList());
+            .filter(s -> !SYSTEM.equals(s.getName()))
+            .map(s -> new SecuritySystem(s));
+  }
+
+  public static boolean isDefaultWithNoApps(SecuritySystem system) {
+    return DEFAULT.equals(system.getSecuritySystemName()) && system.getAppNames().isEmpty();
   }
 
   public List<SecuritySystem> getSecuritySystems() {
@@ -52,9 +63,9 @@ public class SecurityBean {
   }
 
   public Collection<String> getAvailableSecuritySystems() {
-    return systems.stream()
+    return readAllSecuritySystems()
             .map(s -> s.getSecuritySystemName())
-            .collect(Collectors.toList());
+            .toList();
   }
 
   public void triggerSyncForSelectedSecuritySystem() {
