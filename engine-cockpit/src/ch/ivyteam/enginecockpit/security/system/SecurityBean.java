@@ -5,6 +5,7 @@ import static ch.ivyteam.ivy.security.ISecurityContext.SYSTEM;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -42,11 +43,15 @@ public class SecurityBean {
   }
 
   public static List<SecuritySystem> readSecuritySystems() {
-    return ISecurityManager.instance().securityContexts().all().stream()
-            .filter(s -> !SYSTEM.equals(s.getName()))
-            .map(s -> new SecuritySystem(s))
+    return readAllSecuritySystems()
             .filter(s -> !isDefaultWithNoApps(s))
             .toList();
+  }
+
+  public static Stream<SecuritySystem> readAllSecuritySystems() {
+    return ISecurityManager.instance().securityContexts().all().stream()
+            .filter(s -> !SYSTEM.equals(s.getName()))
+            .map(s -> new SecuritySystem(s));
   }
 
   public static boolean isDefaultWithNoApps(SecuritySystem system) {
@@ -58,7 +63,7 @@ public class SecurityBean {
   }
 
   public Collection<String> getAvailableSecuritySystems() {
-    return systems.stream()
+    return readAllSecuritySystems()
             .map(s -> s.getSecuritySystemName())
             .toList();
   }
