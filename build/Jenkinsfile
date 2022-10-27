@@ -14,6 +14,10 @@ pipeline {
     string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
+  environment {
+    testFilter = getTestFilter()
+  }
+
   stages {
     stage('check editorconfig') {
       steps {
@@ -32,7 +36,7 @@ pipeline {
         script {
           def common = load 'build/build.groovy'
           def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
-          common.buildCockpit(phase, getTestFilter())
+          common.buildCockpit(phase, env.testFilter)
         }
       }
     }
@@ -40,7 +44,7 @@ pipeline {
 }
 
 def getTestFilter() {
-  if (env.BRANCH_NAME == 'master') {
+  if (isReleaseOrMasterBranch()) {
     return 'WebTest*.java'
   }
   return params.testFilter
