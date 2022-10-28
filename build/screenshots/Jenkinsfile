@@ -19,27 +19,7 @@ pipeline {
         script {
           def common = load 'build/build.groovy'
           def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
-          common.buildScreenshots(phase)
-        }
-      }
-    }
-
-    stage('verify') {
-      steps {
-        script {
-          def common = load 'build/build.groovy'
-          docker.image('maven:3.6.3-jdk-11').inside("${common.dockerFileParams()}") {
-            maven cmd: "clean verify -ntp " +
-                    "-f image-validation/pom.xml " + 
-                    "-Dref.screenshot.build='${getScreenshotRefBranch()}' " + 
-                    "-Dimg.similarity=${getImageSimilarity()} " + 
-                    "-Pscreenshots "
-
-            archiveArtifacts '**/target/docu/**/*, **/target/*.html'
-            recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
-            qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
-            currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
-          }
+          common.buildScreenshots(phase, getScreenshotRefBranch(), getImageSimilarity())
         }
       }
     }
