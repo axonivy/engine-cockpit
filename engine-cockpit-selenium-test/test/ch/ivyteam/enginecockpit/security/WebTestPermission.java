@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 
@@ -52,40 +53,37 @@ class WebTestPermission {
   }
 
   @Test
-  void duplicatedPortalPermissions() {
+  void duplicatedPortalPermissions_onlyShownOnce() {
     Navigation.toUsers();
     Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toUserDetail("demo");
 
     Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
 
-    $(By.id("permissionsForm:permissionTable:globalFilter")).sendKeys("CaseWriteName");
-    var table = $(By.id("permissionsForm:permissionTable"));
-    table.findAll("tbody tr").shouldHave(size(2));
+    $(By.id("permissionsForm:permissionTable:globalFilter")).shouldBe(enabled).sendKeys("CaseWriteName");
+    $(By.id("permissionsForm:permissionTable"))
+            .shouldHave(Condition.text("CaseWriteName"))
+            .findAll("tbody tr").shouldHave(size(1));
     $(By.id("permissionsForm:permissionTable:0:grantPermissionBtn")).click();
     $(By.id("permissionsForm:permissionTable_node_0")).find(".permission-icon > i")
-            .shouldHave(attribute("title", "Permission granted"));
-    $(By.id("permissionsForm:permissionTable_node_1")).find(".permission-icon > i")
             .shouldHave(attribute("title", "Permission granted"));
 
     $(By.id("permissionsForm:permissionTable:0:unGrantPermissionBtn")).click();
     $(By.id("permissionsForm:permissionTable_node_0")).find(".permission-icon > i")
             .shouldNot(exist);
-    $(By.id("permissionsForm:permissionTable_node_1")).find(".permission-icon > i")
-            .shouldNot(exist);
   }
 
   @Test
-  void expandCollapsePermissionTree() {
+  void collapsePermissionTree() {
     Navigation.toRoles();
     Tab.SECURITY_SYSTEM.switchToDefault();
     Navigation.toRoleDetail("boss");
 
+    getVisibleTreeNodes().shouldBe(size(1));
+    $(By.id("permissionsForm:permissionTable_node_0")).find(".ui-treetable-toggler").should(exist).click();
     getVisibleTreeNodes().shouldBe(size(4));
     $(By.id("permissionsForm:permissionTable:collapseAll")).shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
-    $(By.id("permissionsForm:permissionTable:expandAll")).shouldBe(visible).click();
-    getVisibleTreeNodes().shouldBe(sizeGreaterThan(50));
   }
 
   private ElementsCollection getVisibleTreeNodes() {

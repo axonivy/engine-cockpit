@@ -84,7 +84,7 @@ public class UserDetailBean {
     userSynch = new UserSynch(securityContext, userName);
     this.user = new User(iUser);
     this.emailSettings = new EmailSettings(iUser, new EmailNotificationConfigurator(securityContext).settings());
-    roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false);
+    roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false, 20);
     startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId()
             .isEqual(iUser.getSecurityMemberId()).executor().count();
     workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)

@@ -26,9 +26,6 @@
               <p:ajax event="keyup" delay="300" update="@form:permissionTable" />
             </p:inputText>
           </span>
-          <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
-            actionListener="#{permissionBean.expandAllNodes}" update="permissionTable" title="Expand all"
-            styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
           <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
             actionListener="#{permissionBean.collapseAllNodes}" update="permissionTable" title="Collapse all"
             styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined" />
@@ -36,7 +33,7 @@
       </f:facet>
       
       <p:column headerText="All Permissions">
-        <h:outputText value="#{permission.name}" title="#{permission.path}">
+        <h:outputText value="#{permission.name}">
           <i class="si si-#{permission.group ? 'folder-empty' : 'lock-1'} table-icon"></i>
         </h:outputText>
       </p:column>
@@ -59,7 +56,7 @@
         </h:outputText>
       </p:column>
   
-      <p:column headerText="Grant" styleClass="table-btn-2">
+      <p:column headerText="Grant" styleClass="table-btn-2" style="text-align: center;">
         <p:commandButton id="grantPermissionBtn" type="button" icon="si si-add" title="Grant"
           styleClass="rounded-button" disabled="#{permission.grantDisabled}">
           <p:ajax update="@form" listener="#{permission.grant}" />
@@ -70,7 +67,7 @@
         </p:commandButton>
       </p:column>
   
-      <p:column headerText="Deny" styleClass="table-btn-2">
+      <p:column headerText="Deny" styleClass="table-btn-2" style="text-align: center;">
         <p:commandButton id="denyPermissionBtn" type="button" icon="si si-add" title="Deny"
           styleClass="rounded-button" disabled="#{permission.denyDisabled}">
           <p:ajax update="@form" listener="#{permission.deny}" />
