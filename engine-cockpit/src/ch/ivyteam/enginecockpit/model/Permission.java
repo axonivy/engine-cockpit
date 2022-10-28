@@ -13,10 +13,9 @@ public class Permission extends AbstractPermission
   private IPermission iPermission;
   private PermissionBean bean;
 
-  public Permission(IPermissionAccess access, String path, PermissionBean bean)
+  public Permission(IPermissionAccess access, PermissionBean bean)
   {
     super(access.getPermission().getName(),
-            path,
             access.getPermission().getId(),
             access.isGranted(),
             access.isDenied());
@@ -91,29 +90,30 @@ public class Permission extends AbstractPermission
   @Override
   public void grant()
   {
-    bean.getSecurityDescriptor().grantPermission(iPermission, bean.getSecurityMember());
-    bean.reSetRootPermissionGroup();
+    bean.grant(iPermission);
   }
 
   @Override
   public void ungrant()
   {
-    bean.getSecurityDescriptor().ungrantPermission(iPermission, bean.getSecurityMember());
-    bean.reSetRootPermissionGroup();
+    bean.ungrant(iPermission);
   }
 
   @Override
   public void deny()
   {
-    bean.getSecurityDescriptor().denyPermission(iPermission, bean.getSecurityMember());
-    bean.reSetRootPermissionGroup();
+    bean.deny(iPermission);
   }
 
   @Override
   public void undeny()
   {
-    bean.getSecurityDescriptor().undenyPermission(iPermission, bean.getSecurityMember());
-    bean.reSetRootPermissionGroup();
+    bean.undeny(iPermission);
+  }
+  
+  public IPermission permission() 
+  {
+    return iPermission;
   }
 
 }
