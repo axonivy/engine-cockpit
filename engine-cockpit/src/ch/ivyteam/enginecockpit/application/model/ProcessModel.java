@@ -10,18 +10,16 @@ import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
-import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModel extends AbstractActivity {
-  private long runningCasesCount;
   private IProcessModel pm;
   private Boolean isOverrideProject;
+  private long runningCasesCount = -1;
 
   public ProcessModel(IProcessModel pm, ApplicationBean bean) {
     super(pm.getName(), pm.getId(), pm, bean);
     this.pm = pm;
-    runningCasesCount = pm.getProcessModelVersions().stream()
-            .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
   }
 
   @Override
@@ -31,6 +29,7 @@ public class ProcessModel extends AbstractActivity {
 
   @Override
   public long getRunningCasesCount() {
+    countRunningCases();
     return runningCasesCount;
   }
 
@@ -115,5 +114,14 @@ public class ProcessModel extends AbstractActivity {
     }
     return isOverrideProject;
   }
+
+  private void countRunningCases() {
+    if (pm != null && runningCasesCount < 0) {
+      var wf = IWorkflowContext.current();
+      runningCasesCount = pm.getProcessModelVersions().parallelStream()
+              .mapToLong(pmv -> wf.getRunningCasesCount(pmv)).sum();
+    }
+  }
+
 
 }
