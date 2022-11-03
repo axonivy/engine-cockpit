@@ -15,7 +15,7 @@ public class Application extends AbstractActivity
   private String fileDir;
   private String owner;
   private String activeEnv;
-  private long runningCasesCount;
+  private long runningCasesCount = -1;
   private IConfiguration configuration;
   private IApplication app;
   
@@ -149,11 +149,9 @@ public class Application extends AbstractActivity
   
   private void countRunningCases()
   {
-    if (app != null && runningCasesCount == 0)
+    if (app != null && runningCasesCount < 0)
     {
-      runningCasesCount = app.getProcessModels().stream()
-              .flatMap(pm -> pm.getProcessModelVersions().stream())
-              .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
+      runningCasesCount = Ivy.wf().getRunningCasesCount(app);
     }
   }
 

@@ -11,7 +11,8 @@ import ch.ivyteam.ivy.environment.Ivy;
 
 public class ProcessModel extends AbstractActivity
 {
-  private long runningCasesCount;
+  private IProcessModel pm;
+  private long runningCasesCount = -1;
   
   public ProcessModel(IProcessModel pm)
   {
@@ -21,14 +22,14 @@ public class ProcessModel extends AbstractActivity
   public ProcessModel(IProcessModel pm, ApplicationBean bean)
   {
     super(pm.getName(), pm.getId(), pm, bean);
+    this.pm = pm;
     setOperationState(pm.getActivityOperationState());
-    runningCasesCount = pm.getProcessModelVersions().stream()
-            .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
   }
 
   @Override
   public long getRunningCasesCount()
   {
+    countRunningCases();
     return runningCasesCount;
   }
   
@@ -96,6 +97,16 @@ public class ProcessModel extends AbstractActivity
   public boolean isDisabled()
   {
     return getName().equals("engine-cockpit");
+  }
+  
+  private void countRunningCases()
+  {
+    if (pm != null && runningCasesCount < 0)
+    {
+      var wf = Ivy.wf();
+      runningCasesCount = pm.getProcessModelVersions().parallelStream()
+              .mapToLong(pmv -> wf.getRunningCasesCount(pmv)).sum();
+    }
   }
 
 }

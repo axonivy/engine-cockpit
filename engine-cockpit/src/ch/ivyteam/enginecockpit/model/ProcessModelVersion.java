@@ -13,6 +13,7 @@ public class ProcessModelVersion extends AbstractActivity
   private IProcessModelVersion pmv;
   private String lastChangeDate;
   private Library lib;
+  private int runningCasesCount = -1;
 
   public ProcessModelVersion(IProcessModelVersion pmv)
   {
@@ -48,7 +49,8 @@ public class ProcessModelVersion extends AbstractActivity
   @Override
   public long getRunningCasesCount()
   {
-    return Ivy.wf().getRunningCasesCount(pmv);
+    countRunningCases();
+    return runningCasesCount;
   }
 
   @Override
@@ -147,6 +149,14 @@ public class ProcessModelVersion extends AbstractActivity
   public boolean isDisabled()
   {
     return getName().startsWith("engine-cockpit");
+  }
+  
+  private void countRunningCases()
+  {
+    if (pmv != null && runningCasesCount < 0)
+    {
+      runningCasesCount = Ivy.wf().getRunningCasesCount(pmv);
+    }
   }
   
   private class Library
