@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -34,6 +35,7 @@ public class ConfigProperty {
   private String description;
   private Path file;
   private String fileExtension;
+  private Supplier<List<String>> enumerationValuesSupplier;
 
   public ConfigProperty() {
     configValueFormat = ConfigValueFormat.STRING;
@@ -155,11 +157,15 @@ public class ConfigProperty {
   }
 
   public List<String> getEnumerationValues() {
+    if (enumerationValuesSupplier != null) {
+      enumerationValues = enumerationValuesSupplier.get();
+      enumerationValuesSupplier = null;
+    }
     return enumerationValues;
   }
 
-  public void setEnumerationValues(List<String> values) {
-    this.enumerationValues = values;
+  public void setEnumerationValues(Supplier<List<String>> enumerationValuesSupplier) {
+    this.enumerationValuesSupplier = enumerationValuesSupplier;
   }
 
   public boolean isRestartRequired() {
