@@ -7,6 +7,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.function.Supplier;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -34,6 +35,7 @@ public class ConfigProperty
   private boolean restartRequired;
   private String description;
   private File file;
+private Supplier<List<String>> enumerationValuesSupplier;
   
   public ConfigProperty()
   {
@@ -136,12 +138,17 @@ public class ConfigProperty
   
   public List<String> getEnumerationValues()
   {
+    if (enumerationValuesSupplier != null) 
+    {
+      enumerationValues = enumerationValuesSupplier.get();
+      enumerationValuesSupplier = null;
+    }
     return enumerationValues;
   }
   
-  public void setEnumerationValues(List<String> values)
+  public void setEnumerationValues(Supplier<List<String>> enumerationValuesSupplier)
   {
-    this.enumerationValues = values;
+	this.enumerationValuesSupplier = enumerationValuesSupplier;
   }
   
   public boolean isRestartRequired()

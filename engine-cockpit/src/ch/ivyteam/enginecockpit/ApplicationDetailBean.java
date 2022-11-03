@@ -162,11 +162,11 @@ public class ApplicationDetailBean
     if (StringUtils.startsWith(property.getKey(), "StandardProcess"))
     {
       property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
-      property.setEnumerationValues(availableStandardProcesses(property));
+      property.setEnumerationValues(() -> availableStandardProcesses(property));
     }
     if (Objects.equals(property.getKey(), "OverrideProject")) {
       property.setConfigValueFormat(ConfigValueFormat.ENUMERATION);
-      property.setEnumerationValues(librariesOf(getIApplication()));
+      property.setEnumerationValues(() -> librariesOf(getIApplication()));
     }
     return property;
   }
