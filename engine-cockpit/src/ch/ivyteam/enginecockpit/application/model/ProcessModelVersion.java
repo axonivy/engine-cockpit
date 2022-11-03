@@ -5,13 +5,14 @@ import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.ReleaseState;
-import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModelVersion extends AbstractActivity {
   private IProcessModelVersion pmv;
   private String lastChangeDate;
   private String description;
   private Library lib;
+  private int runningCasesCount = -1;
 
   public ProcessModelVersion(IProcessModelVersion pmv) {
     this(pmv, null);
@@ -42,7 +43,8 @@ public class ProcessModelVersion extends AbstractActivity {
 
   @Override
   public long getRunningCasesCount() {
-    return Ivy.wf().getRunningCasesCount(pmv);
+    countRunningCases();
+    return runningCasesCount;
   }
 
   @Override
@@ -115,7 +117,13 @@ public class ProcessModelVersion extends AbstractActivity {
     return getName().startsWith("engine-cockpit");
   }
 
-  private class Library {
+  private void countRunningCases() {
+    if (pmv != null && runningCasesCount < 0) {
+      runningCasesCount = IWorkflowContext.current().getRunningCasesCount(pmv);
+    }
+  }
+
+  private static class Library {
     private String id = "Unknown id";
     private String version = "Unknown version";
     private boolean resolved = false;

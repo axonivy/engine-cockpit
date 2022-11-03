@@ -10,8 +10,8 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.IProcessModel;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
 
 @SuppressWarnings("removal")
@@ -22,7 +22,7 @@ public class Application extends AbstractActivity {
   private String owner;
   private String activeEnv;
   private String secSystem = ISecurityContext.DEFAULT;
-  private long runningCasesCount;
+  private long runningCasesCount = -1;
   private IApplicationInternal app;
   private List<WebServiceProcess> webServiceProcesses;
 
@@ -145,10 +145,8 @@ public class Application extends AbstractActivity {
   }
 
   private void countRunningCases() {
-    if (app != null && runningCasesCount == 0) {
-      runningCasesCount = app.getProcessModels().stream()
-              .flatMap(pm -> pm.getProcessModelVersions().stream())
-              .mapToLong(pmv -> Ivy.wf().getRunningCasesCount(pmv)).sum();
+    if (app != null && runningCasesCount < 0) {
+      runningCasesCount = IWorkflowContext.current().getRunningCasesCount(app);
     }
   }
 

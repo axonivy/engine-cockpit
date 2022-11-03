@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.application;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -138,11 +139,11 @@ public class ApplicationDetailBean {
   private ConfigProperty enrichPmvProperties(ConfigProperty property) {
     if (StringUtils.startsWith(property.getKey(), "StandardProcess")) {
       property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);
-      property.setEnumerationValues(availableStandardProcesses(property));
+      property.setEnumerationValues(() -> availableStandardProcesses(property));
     }
     if (Objects.equals(property.getKey(), "OverrideProject")) {
       property.setConfigValueFormat(ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat.ENUMERATION);
-      property.setEnumerationValues(librariesOf(managerBean.getSelectedIApplication()));
+      property.setEnumerationValues(() -> librariesOf(managerBean.getSelectedIApplication()));
     }
     return property;
   }
@@ -153,11 +154,9 @@ public class ApplicationDetailBean {
     libraries.add("");
     libraries.add(StandardProcessStartFinder.AUTO);
     libraries.add(config.getValue());
-    for (var type : StandardProcessType.values()) {
-      if (type.kind() == StandardProcessType.Kind.PAGE) {
-        libraries.addAll(configurator.findLibraries(type));
-      }
-    }
+    Arrays.stream(StandardProcessType.values())
+            .filter(type -> type.kind() == StandardProcessType.Kind.PAGE)
+            .forEach(type -> libraries.addAll(configurator.findLibraries(type)));
     return List.copyOf(libraries);
   }
 
