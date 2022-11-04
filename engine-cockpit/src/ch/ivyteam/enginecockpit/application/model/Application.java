@@ -11,8 +11,8 @@ import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.security.ISecurityContext;
-import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.IWorkflowProcessModelVersion;
+import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 
 @SuppressWarnings("removal")
 public class Application extends AbstractActivity {
@@ -146,7 +146,7 @@ public class Application extends AbstractActivity {
 
   private void countRunningCases() {
     if (app != null && runningCasesCount < 0) {
-      runningCasesCount = IWorkflowContext.current().getRunningCasesCount(app);
+      runningCasesCount = WorkflowNavigationUtil.getWorkflowContext(app).getRunningCasesCount(app);
     }
   }
 
