@@ -5,6 +5,7 @@ import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ class WebTestSessions {
   @Test
   void view() {
     $("h2").shouldHave(text("Sessions"));
-    table.firstColumnShouldBe(textsInAnyOrder("admin", "admin"));
+    assertThat(table.getFirstColumnEntries()).contains("admin");
   }
 
   @Test
