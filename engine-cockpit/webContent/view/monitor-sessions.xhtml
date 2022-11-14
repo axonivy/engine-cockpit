@@ -1,0 +1,112 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/charts-template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Monitor</span></li>
+      <li>/</li>
+      <li><span>Engine</span></li>
+      <li>/</li>
+      <li><a href="monitor-sessions.xhtml">Sessions</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#sessions" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-analytics-graph-line card-title-icon"></i>
+          <h2 class="p-m-0">Sessions</h2>
+        </div>
+        <h:form id="form" style="overflow: auto;">
+          <p:dataTable var="ses" value="#{sessionBean.sessions}"
+            widgetVar="sessionTable" styleClass="ui-fluid"
+            filteredValue="#{sessionBean.filteredSessions}"
+            id="sessionTable" style="min-width: 950px;">
+            <f:facet name="header">
+              <div class="ui-input-icon-left filter-container">
+                <i class="pi pi-search"/>
+                <p:inputText id="globalFilter" onkeyup="PF('sessionTable').filter()" placeholder="Search" value="#{sessionBean.filter}" />
+              </div>
+            </f:facet>
+            
+            <p:column headerText="User" sortBy="#{ses.user}" filterBy="#{ses.user}">
+              <h:outputLink value="#{ses.userLink}" rendered="#{!ses.isUserInternal()}">
+                <h:outputText value="#{ses.user}" styleClass=""/>
+              </h:outputLink>
+              <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}" styleClass=""/>
+            </p:column>
+            
+            <p:column headerText="Created" sortBy="#{ses.createdAt}" filterBy="#{ses.createdAt}">
+              <h:outputText value="#{ses.createdAt}">
+                <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+              </h:outputText>
+            </p:column>
+            
+            <p:column headerText="Since" sortBy="#{ses.since}" filterBy="#{ses.since}">
+              <h:outputText value="#{ses.createdAt}">
+                <f:converter converterId="org.ocpsoft.PrettyTimeConverter"/>
+              </h:outputText>
+            </p:column>
+            
+            <p:column headerText="System" sortBy="#{ses.securitySystem}" filterBy="#{ses.securitySystem}">
+              <h:outputLink value="#{ses.securitySystemLink}" rendered="#{!ses.isSecuritySystemInternal()}">#{ses.securitySystem}</h:outputLink>
+              <h:outputText value="#{ses.securitySystem}" rendered="#{ses.isSecuritySystemInternal()}" />
+            </p:column>
+
+            <p:column headerText="Cause" sortBy="#{ses.cause}" filterBy="#{ses.cause}">
+              <h:outputText value="#{ses.cause}" />
+            </p:column>
+            
+            <p:column headerText="Auth" sortBy="#{ses.authMode}" filterBy="#{ses.authMode}">
+              <h:outputText value="#{ses.authMode}" />
+            </p:column>
+            
+            <p:column headerText="Id" sortBy="#{ses.id}" filterBy="#{ses.id}">
+              <h:outputText value="#{ses.id}" />
+            </p:column>
+            
+             <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}" filterBy="#{ses.httpSessionCount}">
+              <h:outputText id="httpSession" value="#{ses.httpSessionCount}" />
+              <p:tooltip for="httpSession" rendered="#{!ses.httpSessions.isEmpty()}">
+                <ui:repeat value="#{ses.httpSessions}" var="httpSession">
+                    <h:outputLabel for="creationTime" value="Creation " />
+                    <h:outputText id="creationTime" value="#{httpSession.creationTime}">
+			                <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+			              </h:outputText>
+			              /
+			              <h:outputLabel for="lastAccessedTime" value="Last Accessed " />
+			              <h:outputText value="#{httpSession.lastAccessedTime}">
+                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                    </h:outputText>
+                    <br />
+                </ui:repeat>
+              </p:tooltip>
+            </p:column>
+            
+            <p:column styleClass="table-btn-1">
+              <p:commandButton id="killSession" title="Kill session" icon="si si-logout-1"
+                actionListener="#{sessionBean.killSession(ses)}" ajax="true" update="@form" disabled="#{!ses.canKill()}" styleClass="ui-button-danger rounded-button" />
+            </p:column>
+          </p:dataTable>
+        </h:form>
+      </div>
+    </ui:define>
+
+    <ui:define name="live-stats">
+      <cc:Sidebar>
+        <cc:LiveStats monitor="#{sessionMonitorBean.sessionsMonitor}" id="sessions" />
+      </cc:Sidebar>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

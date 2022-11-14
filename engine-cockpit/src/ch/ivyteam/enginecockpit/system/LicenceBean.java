@@ -167,21 +167,6 @@ public class LicenceBean extends StepStatus {
     reloadLicenceMessages();
   }
 
-  public List<UserSession> getActiveSessions() {
-    return securityManager.getSessions().stream()
-            .filter(s -> !s.isSessionUserUnknown())
-            .filter(s -> !s.isSessionUserSystemUser())
-            .map(s -> new UserSession(s))
-            .distinct()
-            .collect(Collectors.toList());
-  }
-
-  public void killSession(String session) {
-    securityManager.getSessions().stream()
-            .filter(s -> StringUtils.equals(s.getSessionUserName(), session))
-            .forEach(s -> s.logoutSessionUser());
-  }
-
   private String calculateSessions() {
     int licensedSessions = securityManager.getLicensedSessions();
     var sessionLimit = getValueFromProperty(SESSION_LIMIT);
