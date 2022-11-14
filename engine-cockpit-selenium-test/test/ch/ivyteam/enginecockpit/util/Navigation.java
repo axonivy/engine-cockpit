@@ -46,6 +46,7 @@ public class Navigation {
   private static final String MONITOR_ENGINE_MEMORY_MENU = "#menuform\\:sr_monitor_engine_memory";
   private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
+  private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
   private static final String MONITOR_PERFORMANCE_MENU = "#menuform\\:sr_monitor_performance";
   private static final String MONITOR_PERFORMANCE_PROCESS_EXECUTION_MENU = "#menuform\\:sr_monitor_performance_process_execution";
   private static final String MONITOR_PERFORMANCE_TRACES_MENU = "#menuform\\:sr_monitor_performance_traces";
@@ -298,6 +299,12 @@ public class Navigation {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_CACHE_MENU);
     assertCurrentUrlContains("monitorCache.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_CACHE_MENU);
+  }
+
+  public static void toSessions() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_SESSION_MENU);
+    assertCurrentUrlContains("monitor-sessions.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_SESSION_MENU);
   }
 
   public static void toMBeans() {
