@@ -81,11 +81,11 @@
                 <ui:repeat value="#{ses.httpSessions}" var="httpSession">
                     <h:outputLabel for="creationTime" value="Creation " />
                     <h:outputText id="creationTime" value="#{httpSession.creationTime}">
-			                <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
-			              </h:outputText>
-			              /
-			              <h:outputLabel for="lastAccessedTime" value="Last Accessed " />
-			              <h:outputText value="#{httpSession.lastAccessedTime}">
+                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                    </h:outputText>
+                    /
+                    <h:outputLabel for="lastAccessedTime" value="Last Accessed " />
+                    <h:outputText value="#{httpSession.lastAccessedTime}">
                       <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
                     </h:outputText>
                     <br />
