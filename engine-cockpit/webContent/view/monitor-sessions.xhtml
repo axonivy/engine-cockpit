@@ -30,6 +30,7 @@
         <h:form id="form" style="overflow: auto;">
           <p:dataTable var="ses" value="#{sessionBean.sessions}"
             widgetVar="sessionTable" styleClass="ui-fluid"
+            paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
             filteredValue="#{sessionBean.filteredSessions}"
             id="sessionTable" style="min-width: 950px;">
             <f:facet name="header">
