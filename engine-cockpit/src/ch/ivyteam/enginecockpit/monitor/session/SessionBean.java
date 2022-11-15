@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -35,7 +36,7 @@ public class SessionBean {
             .flatMap(s -> s.sessions().all().stream())
             .filter(s -> !s.isSessionUserSystemUser())
             .map(s -> new SessionDto((ISessionInternal) s))
-            .toList();
+            .collect(Collectors.toList());
   }
 
   public List<SessionDto> getFilteredSessions() {
