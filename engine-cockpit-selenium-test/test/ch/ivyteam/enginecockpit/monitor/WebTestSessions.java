@@ -1,11 +1,11 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.containExactTextsCaseSensitive;
 import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ class WebTestSessions {
   @Test
   void view() {
     $("h2").shouldHave(text("Sessions"));
-    assertThat(table.getFirstColumnEntries()).contains("admin");
+    table.firstColumnShouldBe(containExactTextsCaseSensitive("admin"));
   }
 
   @Test
@@ -56,7 +56,7 @@ class WebTestSessions {
   @Test
   void killSession() {
     openAnotherSession();
-    table.search("foo");
+    table.search(SESSION_USER);
     table.firstColumnShouldBe(textsInAnyOrder(SESSION_USER));
     table.clickButtonForEntry(SESSION_USER, "killSession");
     table.firstColumnShouldBe(CollectionCondition.empty);
