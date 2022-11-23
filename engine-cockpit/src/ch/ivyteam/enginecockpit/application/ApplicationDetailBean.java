@@ -104,7 +104,8 @@ public class ApplicationDetailBean {
   }
 
   public String getUsersCount() {
-    return managerBean.formatNumber(securitySystem.getUsersCount());
+    var count = securitySystem.getSecurityContext().users().count();
+    return managerBean.formatNumber(count);
   }
 
   public String getCasesCount() {
