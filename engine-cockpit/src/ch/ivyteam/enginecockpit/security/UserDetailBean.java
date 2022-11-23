@@ -223,6 +223,6 @@ public class UserDetailBean {
   }
 
   public boolean isIvySecuritySystem() {
-    return ManagerBean.isIvySecuritySystem(new SecuritySystem(securityContext));
+    return ManagerBean.isIvySecuritySystem(securityContext);
   }
 }

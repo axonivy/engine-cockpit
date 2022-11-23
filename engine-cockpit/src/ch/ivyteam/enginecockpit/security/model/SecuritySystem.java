@@ -18,14 +18,10 @@ import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 public class SecuritySystem {
 
   private final ISecurityContext securityContext;
-  private final long usersCount;
-  private final int rolesCount;
   private final List<String> appNames;
 
   public SecuritySystem(ISecurityContext securityContext) {
     this.securityContext = securityContext;
-    this.usersCount = securityContext.users().count();
-    this.rolesCount = securityContext.roles().all().size();
     this.appNames = IApplicationRepository.instance().allOf(securityContext).stream()
             .map(IApplication::getName)
             .collect(Collectors.toList());
@@ -69,14 +65,6 @@ public class SecuritySystem {
     return appNames;
   }
 
-  public long getUsersCount() {
-    return usersCount;
-  }
-
-  public int getRolesCount() {
-    return rolesCount;
-  }
-
   public boolean getDeletable() {
     if (ISecurityContext.DEFAULT.equals(getSecuritySystemName())) {
       return false;
@@ -85,7 +73,7 @@ public class SecuritySystem {
   }
 
   public String getLink() {
-    return "security-detail.xhtml?securitySystemName=" + securityContext.getName();
+    return link(securityContext);
   }
 
   public ISecurityContext getSecurityContext() {
@@ -98,5 +86,9 @@ public class SecuritySystem {
 
   public boolean isJndiSecuritySystem() {
     return ManagerBean.isJndiSecuritySystem(this);
+  }
+
+  public static String link(ISecurityContext securityContext) {
+    return "security-detail.xhtml?securitySystemName=" + securityContext.getName();
   }
 }

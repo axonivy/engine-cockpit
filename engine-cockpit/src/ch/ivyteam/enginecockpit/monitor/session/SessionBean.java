@@ -103,7 +103,7 @@ public class SessionBean {
     }
 
     public String getSecuritySystemLink() {
-      return new SecuritySystem(session.getSecurityContext()).getLink();
+      return SecuritySystem.link(session.getSecurityContext());
     }
 
     public boolean isSecuritySystemInternal() {
