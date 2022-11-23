@@ -69,7 +69,7 @@ public class SecuritySystem {
     if (ISecurityContext.DEFAULT.equals(getSecuritySystemName())) {
       return false;
     }
-    return getAppNames().isEmpty();
+    return appNames.isEmpty();
   }
 
   public String getLink() {
