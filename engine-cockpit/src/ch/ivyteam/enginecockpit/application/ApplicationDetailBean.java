@@ -108,6 +108,11 @@ public class ApplicationDetailBean {
     return managerBean.formatNumber(count);
   }
 
+  public String getRolesCount() { 
+	var count = securitySystem.getSecurityContext().roles().count();
+	return managerBean.formatNumber(count);
+  }
+
   public String getCasesCount() {
     return managerBean.formatNumber(app.getRunningCasesCount());
   }
