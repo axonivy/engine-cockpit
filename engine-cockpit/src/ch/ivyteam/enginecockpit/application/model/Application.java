@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
-import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
 import ch.ivyteam.ivy.application.IApplicationInternal;
@@ -110,6 +109,10 @@ public class Application extends AbstractActivity {
     return secSystem;
   }
 
+  public ISecurityContext getSecurityContext() {
+    return app.getSecurityContext();
+  }
+
   @Override
   public long getApplicationId() {
     return getId();
@@ -138,10 +141,6 @@ public class Application extends AbstractActivity {
 
   public String getSecuritySystemName() {
     return app.getSecurityContext().getName();
-  }
-
-  public SecuritySystem getSecuritySystem() {
-    return new SecuritySystem(app.getSecurityContext());
   }
 
   private void countRunningCases() {

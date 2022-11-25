@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityConstants;
+import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
@@ -43,15 +44,15 @@ public class SecurityBean {
   }
 
   public static List<SecuritySystem> readSecuritySystems() {
-    return readAllSecuritySystems()
+    return readAllSecurityContexts()
+            .map(s -> new SecuritySystem(s))
             .filter(s -> !isDefaultWithNoApps(s))
             .toList();
   }
 
-  public static Stream<SecuritySystem> readAllSecuritySystems() {
+  private static Stream<ISecurityContext> readAllSecurityContexts() {
     return ISecurityManager.instance().securityContexts().all().stream()
-            .filter(s -> !SYSTEM.equals(s.getName()))
-            .map(s -> new SecuritySystem(s));
+            .filter(s -> !SYSTEM.equals(s.getName()));
   }
 
   public static boolean isDefaultWithNoApps(SecuritySystem system) {
@@ -63,8 +64,8 @@ public class SecurityBean {
   }
 
   public Collection<String> getAvailableSecuritySystems() {
-    return readAllSecuritySystems()
-            .map(s -> s.getSecuritySystemName())
+    return readAllSecurityContexts()
+            .map(s -> s.getName())
             .toList();
   }
 
@@ -73,7 +74,7 @@ public class SecurityBean {
   }
 
   public void triggerSyncForSelectedApp() {
-    managerBean.getSelectedApplication().getSecuritySystem().getSecurityContext().triggerSynchronization();
+    managerBean.getSelectedApplication().getSecurityContext().triggerSynchronization();
   }
 
   public boolean isIvySecurityForSelectedApp() {
@@ -89,7 +90,7 @@ public class SecurityBean {
   }
 
   public boolean isSyncRunningForSelectedApp() {
-    return managerBean.getSelectedApplication().getSecuritySystem().getSecurityContext().isSynchronizationRunning();
+    return managerBean.getSelectedApplication().getSecurityContext().isSynchronizationRunning();
   }
 
   public boolean isAnySyncRunning() {
