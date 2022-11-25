@@ -53,9 +53,9 @@
               </h:outputText>
             </p:column>
             
-            <p:column headerText="Since" sortBy="#{ses.since}" filterBy="#{ses.since}">
-              <h:outputText value="#{ses.createdAt}">
-                <f:converter converterId="org.ocpsoft.PrettyTimeConverter"/>
+            <p:column headerText="Last accessed" sortBy="#{ses.lastAccessedAt}" filterBy="#{ses.lastAccessedAt}">
+              <h:outputText value="#{ses.lastAccessedAt}">
+                <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
               </h:outputText>
             </p:column>
             
