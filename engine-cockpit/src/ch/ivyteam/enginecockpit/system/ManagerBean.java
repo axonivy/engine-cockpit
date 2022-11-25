@@ -18,12 +18,10 @@ import org.primefaces.event.TabChangeEvent;
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
-import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 
@@ -198,26 +196,11 @@ public class ManagerBean {
   }
 
   public boolean isIvySecuritySystemForSelectedSecuritySystem() {
-    return isIvySecuritySystem(getSelectedSecuritySystem());
-  }
-
-  public static boolean isIvySecuritySystem(SecuritySystem securitySystem) {
-    return SecuritySystemConfig.IVY_SECURITY_SYSTEM
-            .equals(securitySystem.getSecurityContext().getExternalSecuritySystemName());
-  }
-
-  public boolean isJndiSecuritySystem() {
-    return isJndiSecuritySystem(getSelectedSecuritySystem());
-  }
-
-  public static boolean isJndiSecuritySystem(SecuritySystem securitySystem) {
-    var name = securitySystem.getSecurityContext().getExternalSecuritySystemName();
-    return ISecurityConstants.MICROSOFT_ACTIVE_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME.equals(name) ||
-            ISecurityConstants.NOVELL_E_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME.equals(name);
+    return SecuritySystem.isIvySecuritySystem(getSelectedSecuritySystem().getSecurityContext());
   }
 
   public boolean isIvySecuritySystemForSelectedApp() {
-    return isIvySecuritySystem(getSelectedApplication().getSecuritySystem());
+    return SecuritySystem.isIvySecuritySystem(getSelectedApplication().getSecurityContext());
   }
 
   public List<String> getEnvironments() {
