@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.monitor.session;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -9,8 +8,6 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.servlet.http.HttpSession;
-
-import org.ocpsoft.prettytime.PrettyTime;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
@@ -73,9 +70,8 @@ public class SessionBean {
       return Date.from(session.createdAt());
     }
 
-    public String getSince() {
-      var pretty = new PrettyTime(session.createdAt());
-      return pretty.format(Instant.now());
+    public Date getLastAccessedAt() {
+      return Date.from(session.lastAccessedAt());
     }
 
     public String getId() {
@@ -91,7 +87,7 @@ public class SessionBean {
     }
 
     public boolean isUserInternal() {
-      return session.isSessionUserSystemUser() || session.isSessionUserUnknown();
+      return session.isSessionUserSystemUser() || session.isSessionUserUnknown() || isSecuritySystemInternal();
     }
 
     public String getAuthMode() {

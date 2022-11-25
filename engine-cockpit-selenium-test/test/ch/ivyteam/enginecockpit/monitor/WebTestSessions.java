@@ -45,7 +45,7 @@ class WebTestSessions {
   @Test
   void view() {
     $("h2").shouldHave(text("Sessions"));
-    table.firstColumnShouldBe(containExactTextsCaseSensitive("admin"));
+    new Table(TABLE_ID).firstColumnShouldBe(containExactTextsCaseSensitive("admin"));
   }
 
   @Test
