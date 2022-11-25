@@ -107,13 +107,13 @@ public class WebTestSlowRequests {
   @Test
   void data_afterRecording() {
     recordData();
-
+    var entry = "HTTP/1.1 GET /system/faces/view/engine-cockpit/monitorProcessExecution.xhtml";
     Table traces = new Table(By.id("form:traceTable"), true);
-    traces.tableEntry("HTTP/1.1 GET", 1).shouldHave(text("HTTP/1.1 GET"));
-    traces.tableEntry("HTTP/1.1 GET", 1).$("a").$("span").shouldHave(attributeMatching("title", "(?s).*http\\.url.*"));
-    traces.tableEntry("HTTP/1.1 GET", 2).shouldBe(not(empty));
-    traces.tableEntry("HTTP/1.1 GET", 3).shouldBe(not(empty));
-    traces.tableEntry("HTTP/1.1 GET", 4).shouldBe(not(empty));
+    traces.tableEntry(entry, 1).shouldHave(text(entry));
+    traces.tableEntry(entry, 1).$("a").$("span").shouldHave(attributeMatching("title", "(?s).*http\\.url.*"));
+    traces.tableEntry(entry, 2).shouldBe(not(empty));
+    traces.tableEntry(entry, 3).shouldBe(not(empty));
+    traces.tableEntry(entry, 4).shouldBe(not(empty));
   }
 
   @Test
@@ -121,7 +121,7 @@ public class WebTestSlowRequests {
     recordData();
 
     Table traces = new Table(By.id("form:traceTable"), true);
-    traces.tableEntry("HTTP/1.1 GET", 1).$("a").click();
+    traces.tableEntry("HTTP/1.1 GET /system/faces/view/engine-cockpit/monitorProcessExecution.xhtml", 1).$("a").click();
     $$(".card").shouldHave(size(2));
 
     Table spans = new Table(By.id("spansTree"), false);
