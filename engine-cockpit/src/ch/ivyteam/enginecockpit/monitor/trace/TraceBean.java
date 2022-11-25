@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor.trace;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -15,7 +17,9 @@ import javax.faces.context.FacesContext;
 import org.primefaces.util.ComponentUtils;
 
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.ivy.trace.SpanUri;
 import ch.ivyteam.ivy.trace.Trace;
+import ch.ivyteam.ivy.trace.TraceSpan;
 import ch.ivyteam.ivy.trace.Tracer;
 
 @ManagedBean
@@ -141,7 +145,22 @@ public class TraceBean {
     }
 
     public String getName() {
-      return trace.rootSpan().name();
+      var span = trace.rootSpan();
+      return span.name() + url(span);
+    }
+
+    private String url(TraceSpan span) {
+      return SpanUri.of(span.attributes())
+              .map(Trc::toRelativPath)
+              .orElse("");
+    }
+
+    private static String toRelativPath(URI uri) {
+      try {
+        return " " + new URI(null, null, null, -1, uri.getPath(), uri.getQuery(), uri.getFragment()).toString();
+      } catch (URISyntaxException ex) {
+        return " " + uri.toString();
+      }
     }
 
     public String getInfo() {
