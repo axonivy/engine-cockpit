@@ -67,7 +67,7 @@ public class ApplicationDetailBean {
       return;
     }
 
-    securitySystem = app.getSecuritySystem();
+    securitySystem = new SecuritySystem(app.getSecurityContext());
     environments = managerBean.getIApplication(app.getId())
               .getEnvironmentsSortedByName()
               .stream()

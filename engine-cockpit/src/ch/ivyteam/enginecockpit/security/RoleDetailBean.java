@@ -292,7 +292,7 @@ public class RoleDetailBean {
   }
 
   public boolean isManaged() {
-    return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getName()) || (!ManagerBean.isIvySecuritySystem(new SecuritySystem(securityContext)) && getRole().isManaged());
+    return ISecurityConstants.TOP_LEVEL_ROLE_NAME.equals(getName()) || (!SecuritySystem.isIvySecuritySystem(securityContext) && getRole().isManaged());
   }
 
   public void browseLdap() {
@@ -326,7 +326,7 @@ public class RoleDetailBean {
   }
 
   public boolean isLdapBrowserDisabled() {
-    return isRootRole() || !ManagerBean.isJndiSecuritySystem(new SecuritySystem(securityContext));
+    return isRootRole() || !SecuritySystem.isJndiSecuritySystem(securityContext);
   }
 
   private boolean isRootRole() {
