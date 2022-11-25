@@ -8,9 +8,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 
-import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
@@ -18,17 +19,12 @@ import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 public class SecuritySystem {
 
   private final ISecurityContext securityContext;
-  private final long usersCount;
-  private final int rolesCount;
-  private final List<String> appNames;
+  private long usersCount = -1;
+  private int rolesCount = -1;
+  private List<String> appNames;
 
   public SecuritySystem(ISecurityContext securityContext) {
     this.securityContext = securityContext;
-    this.usersCount = securityContext.users().count();
-    this.rolesCount = securityContext.roles().all().size();
-    this.appNames = IApplicationRepository.instance().allOf(securityContext).stream()
-            .map(IApplication::getName)
-            .collect(Collectors.toList());
   }
 
   public String getSecuritySystemProvider() {
@@ -66,14 +62,25 @@ public class SecuritySystem {
   }
 
   public List<String> getAppNames() {
+    if (appNames == null) {
+      appNames = IApplicationRepository.instance().allOf(securityContext).stream()
+              .map(IApplication::getName)
+              .collect(Collectors.toList());
+    }
     return appNames;
   }
 
   public long getUsersCount() {
+    if (usersCount == -1) {
+      usersCount = securityContext.users().count();
+    }
     return usersCount;
   }
 
   public int getRolesCount() {
+    if (rolesCount == -1) {
+      rolesCount = securityContext.roles().count();
+    }
     return rolesCount;
   }
 
@@ -85,7 +92,7 @@ public class SecuritySystem {
   }
 
   public String getLink() {
-    return "security-detail.xhtml?securitySystemName=" + securityContext.getName();
+    return link(securityContext);
   }
 
   public ISecurityContext getSecurityContext() {
@@ -93,10 +100,26 @@ public class SecuritySystem {
   }
 
   public boolean isIvySecuritySystem() {
-    return ManagerBean.isIvySecuritySystem(this);
+    return isIvySecuritySystem(securityContext);
   }
 
   public boolean isJndiSecuritySystem() {
-    return ManagerBean.isJndiSecuritySystem(this);
+    return isJndiSecuritySystem(securityContext);
+  }
+
+  public static String link(ISecurityContext securityContext) {
+    return "security-detail.xhtml?securitySystemName=" + securityContext.getName();
+  }
+
+  @SuppressWarnings("removal")
+  public static boolean isJndiSecuritySystem(ISecurityContext securityContext) {
+    var name = securityContext.getExternalSecuritySystemName();
+    return ISecurityConstants.MICROSOFT_ACTIVE_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME.equals(name) ||
+            ISecurityConstants.NOVELL_E_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME.equals(name);
+  }
+
+  @SuppressWarnings("removal")
+  public static boolean isIvySecuritySystem(ISecurityContext securityContext) {
+    return SecuritySystemConfig.IVY_SECURITY_SYSTEM.equals(securityContext.getExternalSecuritySystemName());
   }
 }

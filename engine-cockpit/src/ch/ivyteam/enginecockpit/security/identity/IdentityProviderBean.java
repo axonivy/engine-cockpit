@@ -11,8 +11,8 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.security.ISecurityManager;
-import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderConfigMetadataProvider;
+import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.internal.SecurityContext;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
@@ -45,7 +45,7 @@ public class IdentityProviderBean {
   }
 
   public String getSecuritySystemLink() {
-    return new SecuritySystem(securityContext).getLink();
+    return SecuritySystem.link(securityContext);
   }
 
   public String getIdentityProviderName() {
