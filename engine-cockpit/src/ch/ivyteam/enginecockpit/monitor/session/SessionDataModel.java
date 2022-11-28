@@ -31,7 +31,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
           "authMode", s -> StringUtils.defaultString(s.getAuthenticationMode())
   );
   private static final Map<String, Function<ISessionInternal, Instant>> SORTS_DATE =  Map.of(
-          "created", ISessionInternal::createdAt,
+          "createdAt", ISessionInternal::createdAt,
           "lastAccessedAt", ISessionInternal::lastAccessedAt
   );
   private static final Map<String, Function<ISessionInternal, Integer>> SORTS_NUMBER =  Map.of(
