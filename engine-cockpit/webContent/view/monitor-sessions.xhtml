@@ -55,43 +55,43 @@
               </div>
             </f:facet>
             
-            <p:column headerText="User" sortBy="#{ses.user}" filterBy="#{ses.user}">
+            <p:column headerText="User" sortBy="#{ses.user}">
               <h:outputLink value="#{ses.userLink}" rendered="#{!ses.isUserInternal()}">
                 <h:outputText value="#{ses.user}" styleClass=""/>
               </h:outputLink>
               <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}" styleClass=""/>
             </p:column>
             
-            <p:column headerText="Created" sortBy="#{ses.createdAt}" filterBy="#{ses.createdAt}">
+            <p:column headerText="Created" sortBy="#{ses.createdAt}">
               <h:outputText value="#{ses.createdAt}">
                 <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
               </h:outputText>
             </p:column>
             
-            <p:column headerText="Last accessed" sortBy="#{ses.lastAccessedAt}" filterBy="#{ses.lastAccessedAt}">
+            <p:column headerText="Last accessed" sortBy="#{ses.lastAccessedAt}">
               <h:outputText value="#{ses.lastAccessedAt}">
                 <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
               </h:outputText>
             </p:column>
             
-            <p:column headerText="System" sortBy="#{ses.securitySystem}" filterBy="#{ses.securitySystem}">
+            <p:column headerText="System" sortBy="#{ses.securitySystem}">
               <h:outputLink value="#{ses.securitySystemLink}" rendered="#{!ses.isSecuritySystemInternal()}">#{ses.securitySystem}</h:outputLink>
               <h:outputText value="#{ses.securitySystem}" rendered="#{ses.isSecuritySystemInternal()}" />
             </p:column>
 
-            <p:column headerText="Cause" sortBy="#{ses.cause}" filterBy="#{ses.cause}">
+            <p:column headerText="Cause" sortBy="#{ses.cause}">
               <h:outputText value="#{ses.cause}" />
             </p:column>
             
-            <p:column headerText="Auth" sortBy="#{ses.authMode}" filterBy="#{ses.authMode}">
+            <p:column headerText="Auth" sortBy="#{ses.authMode}">
               <h:outputText value="#{ses.authMode}" />
             </p:column>
             
-            <p:column headerText="Id" sortBy="#{ses.id}" filterBy="#{ses.id}">
+            <p:column headerText="Id" sortBy="#{ses.id}">
               <h:outputText value="#{ses.id}" />
             </p:column>
             
-             <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}" filterBy="#{ses.httpSessionCount}">
+             <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}">
               <h:outputText id="httpSession" value="#{ses.httpSessionCount}" />
               <p:tooltip for="httpSession" rendered="#{!ses.httpSessions.isEmpty()}">
                 <ui:repeat value="#{ses.httpSessions}" var="httpSession">
