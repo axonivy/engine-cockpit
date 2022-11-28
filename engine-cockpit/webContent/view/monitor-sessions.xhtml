@@ -28,55 +28,70 @@
           <h2 class="p-m-0">Sessions</h2>
         </div>
         <h:form id="form" style="overflow: auto;">
-          <p:dataTable var="ses" value="#{sessionBean.sessions}"
+          <p:dataTable var="ses" value="#{sessionBean.dataModel}"
             widgetVar="sessionTable" styleClass="ui-fluid"
             paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-            filteredValue="#{sessionBean.filteredSessions}"
             id="sessionTable" style="min-width: 950px;">
             <f:facet name="header">
-              <div class="ui-input-icon-left filter-container">
-                <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('sessionTable').filter()" placeholder="Search" value="#{sessionBean.filter}" />
+              <div class="p-d-flex">
+                <div class="ui-input-icon-left filter-container" style="width: 100%;">
+                  <i class="pi pi-search"/>
+                  <p:inputText id="globalFilter" onkeyup="PF('sessionTable').filter()" placeholder="Search" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
+                </div>
+
+                <p:commandButton id="filterBtn" title="Filter" type="button" icon="si si-filter-1"
+                styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button" onclick="PF('filterPanel').show();" />
+                <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel" styleClass="table-content-filter">
+                  <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showUnauthenticatedSessions}" id="filterUnauthenticatedSession" itemLabel="Show unauthenticated sessions" />
+              
+                  <h:panelGroup layout="block" styleClass="p-mt-1 p-d-flex p-jc-end">
+                    <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
+                      onclick="PF('filterPanel').hide();" type="button" />
+                    <p:commandButton id="resetFilterBtn" value="Reset" styleClass="p-ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+                      update="@form" actionListener="#{sessionBean.dataModel.resetFilters()}" />
+                    <p:commandButton id="applyFilter" value="Apply" styleClass="p-ml-1 modal-input-button" icon="si si-check-1" update="@form" />
+                  </h:panelGroup>
+                </p:overlayPanel>
               </div>
             </f:facet>
             
-            <p:column headerText="User" sortBy="#{ses.user}" filterBy="#{ses.user}">
+            <p:column headerText="User" sortBy="#{ses.user}">
               <h:outputLink value="#{ses.userLink}" rendered="#{!ses.isUserInternal()}">
                 <h:outputText value="#{ses.user}" styleClass=""/>
               </h:outputLink>
               <h:outputText value="#{ses.user}" rendered="#{ses.isUserInternal()}" styleClass=""/>
             </p:column>
             
-            <p:column headerText="Created" sortBy="#{ses.createdAt}" filterBy="#{ses.createdAt}">
+            <p:column headerText="Created" sortBy="#{ses.createdAt}">
               <h:outputText value="#{ses.createdAt}">
                 <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
               </h:outputText>
             </p:column>
             
-            <p:column headerText="Last accessed" sortBy="#{ses.lastAccessedAt}" filterBy="#{ses.lastAccessedAt}">
+            <p:column headerText="Last accessed" sortBy="#{ses.lastAccessedAt}">
               <h:outputText value="#{ses.lastAccessedAt}">
                 <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
               </h:outputText>
             </p:column>
             
-            <p:column headerText="System" sortBy="#{ses.securitySystem}" filterBy="#{ses.securitySystem}">
+            <p:column headerText="System" sortBy="#{ses.securitySystem}">
               <h:outputLink value="#{ses.securitySystemLink}" rendered="#{!ses.isSecuritySystemInternal()}">#{ses.securitySystem}</h:outputLink>
               <h:outputText value="#{ses.securitySystem}" rendered="#{ses.isSecuritySystemInternal()}" />
             </p:column>
 
-            <p:column headerText="Cause" sortBy="#{ses.cause}" filterBy="#{ses.cause}">
+            <p:column headerText="Cause" sortBy="#{ses.cause}">
               <h:outputText value="#{ses.cause}" />
             </p:column>
             
-            <p:column headerText="Auth" sortBy="#{ses.authMode}" filterBy="#{ses.authMode}">
+            <p:column headerText="Auth" sortBy="#{ses.authMode}">
               <h:outputText value="#{ses.authMode}" />
             </p:column>
             
-            <p:column headerText="Id" sortBy="#{ses.id}" filterBy="#{ses.id}">
+            <p:column headerText="Id" sortBy="#{ses.id}">
               <h:outputText value="#{ses.id}" />
             </p:column>
             
-             <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}" filterBy="#{ses.httpSessionCount}">
+             <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}">
               <h:outputText id="httpSession" value="#{ses.httpSessionCount}" />
               <p:tooltip for="httpSession" rendered="#{!ses.httpSessions.isEmpty()}">
                 <ui:repeat value="#{ses.httpSessions}" var="httpSession">
