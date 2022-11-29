@@ -36,7 +36,7 @@
               <div class="p-d-flex">
                 <div class="ui-input-icon-left filter-container" style="width: 100%;">
                   <i class="pi pi-search"/>
-                  <p:inputText id="globalFilter" onkeyup="PF('sessionTable').filter()" placeholder="Search" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
+                  <p:inputText id="globalFilter" value="#{sessionBean.dataModel.filter}" onkeyup="PF('sessionTable').filter()" placeholder="Search" onkeypress="if (event.keyCode === 13) { return false; } else { return true; }" />
                 </div>
 
                 <p:commandButton id="filterBtn" title="Filter" type="button" icon="si si-filter-1"
