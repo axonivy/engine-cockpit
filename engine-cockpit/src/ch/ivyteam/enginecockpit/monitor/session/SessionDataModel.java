@@ -40,6 +40,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
   );
 
   private boolean showUnauthenticatedSessions;
+  private String filter;
 
   public SessionDataModel() {
     resetFilters();
@@ -47,6 +48,15 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
 
   public void resetFilters() {
     this.showUnauthenticatedSessions = true;
+    this.filter = null;
+  }
+
+  public String getFilter() {
+    return filter;
+  }
+
+  public void setFilter(String filter) {
+    this.filter = filter;
   }
 
   public boolean isShowUnauthenticatedSessions() {
@@ -60,14 +70,13 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
   @Override
   public int count(Map<String, FilterMeta> filterBy) {
     return (int) sessions()
-            .filter(session -> filter(session, filterBy))
+            .filter(this::filter)
             .count();
   }
 
   @Override
   public List<SessionDto> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-    var stream = sessions()
-            .filter(session -> filter(session, filterBy));
+    var stream = sessions().filter(this::filter);
     var comparator = createComparator(sortBy);
     if (comparator != null) {
       stream = stream.sorted(comparator);
@@ -108,17 +117,12 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
     return comparator;
   }
 
-  private static boolean filter(ISessionInternal session, Map<String, FilterMeta> filterBy) {
-    var filterMeta = filterBy.get("globalFilter");
-    if (filterMeta == null) {
+  private boolean filter(ISessionInternal session) {
+    if (StringUtils.isBlank(filter)) {
       return true;
     }
-    var searchValue = filterMeta.getFilterValue().toString();
-    if (StringUtils.isBlank(searchValue)) {
-      return true;
-    }
-    for (var filter : GLOBAL_FILTERS) {
-      if (StringUtils.containsIgnoreCase(filter.apply(session), searchValue)) {
+    for (var f : GLOBAL_FILTERS) {
+      if (StringUtils.containsIgnoreCase(f.apply(session), filter)) {
         return true;
       }
     }
