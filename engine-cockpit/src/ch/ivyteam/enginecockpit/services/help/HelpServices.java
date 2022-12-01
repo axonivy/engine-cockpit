@@ -41,7 +41,13 @@ public abstract class HelpServices {
   }
 
   public static String parsePropertiesToYaml(List<Property> properties) {
-    return properties.stream().map(p -> p.getName() + ": " + p.getValue())
+    return properties.stream()
+            .map(property -> {
+              if (property.isSensitive()) {
+                return property.getName() + ": \"${encrypt:*****}\"";
+              }
+              return property.getName() + ": " + property.getValue();
+            })
             .collect(Collectors.joining("\n      "));
   }
 

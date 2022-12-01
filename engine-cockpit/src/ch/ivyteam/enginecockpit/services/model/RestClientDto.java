@@ -25,8 +25,9 @@ public class RestClientDto implements IService {
     url = client.uri();
     description = client.description();
     uniqueId = client.uniqueId();
+    var metas = client.metas();
     properties = client.properties().entrySet().stream()
-            .map(p -> new Property(p.getKey(), p.getValue()))
+            .map(p -> new Property(p.getKey(), p.getValue(), metas.get(p.getKey())))
             .collect(Collectors.toList());
     password = client.properties().getOrDefault("password", "");
     username = client.properties().getOrDefault("username", "");

@@ -14,8 +14,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -46,7 +48,7 @@ class WebTestRestClientDetail {
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
-    $(".code-block").shouldBe(text(RESTCLIENT_NAME));
+    $(".code-block").shouldBe(text(RESTCLIENT_NAME), text("sensitive: \"${encrypt:*****}\""));
   }
 
   @Test
@@ -84,6 +86,15 @@ class WebTestRestClientDetail {
     resetConfiguration();
     Selenide.refresh();
     checkConfiguration("http://test-webservices.ivyteam.io:8090/api/v3", "admin");
+  }
+
+  @Test
+  void properties() {
+    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
+    table.row(0).shouldHave(text("password"), text("*****"));
+    table.row(1).shouldHave(text("JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES"), text("false"));
+    table.row(2).shouldHave(text("sensitive"), text("*****"));
+    table.row(3).shouldHave(text("username"), text("admin"));
   }
 
   @Test

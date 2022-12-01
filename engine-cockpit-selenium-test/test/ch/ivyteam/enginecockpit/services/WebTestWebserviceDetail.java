@@ -23,6 +23,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
@@ -57,7 +58,7 @@ class WebTestWebserviceDetail {
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $("#helpWebserviceDialog\\:helpServicesModal").shouldBe(Condition.visible);
-    $(".code-block").shouldBe(text(WEBSERVICE_NAME));
+    $(".code-block").shouldBe(text(WEBSERVICE_NAME), text("sensitive: \"${encrypt:*****}\""));
   }
 
   @Test
@@ -156,6 +157,14 @@ class WebTestWebserviceDetail {
     Selenide.refresh();
     checkEndPoint("localhost", "localhost/test");
     checkEndPointDoesNotContain("default");
+  }
+
+  @Test
+  void properties() {
+    var table = PrimeUi.table(By.id("webservcieAdditionalConfigForm:webservicePropertiesTable"));
+    table.row(0).shouldHave(text("password"), text("*****"));
+    table.row(1).shouldHave(text("sensitive"), text("*****"));
+    table.row(2).shouldHave(text("username"), text("admin"));
   }
 
   @Test
