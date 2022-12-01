@@ -17,7 +17,7 @@
 
     <ui:define name="topbar-items">
       <li class="topbar-item">
-        <a id="downloadAllLogs" href="#" onclick="PF('logsDownloadModal').show();">
+        <a id="downloadAllLogs" href="#" onclick="PF('downloadModal').show();">
           <i class="topbar-icon si si-download-bottom"></i>
         </a>
       </li>
@@ -51,7 +51,7 @@
           </h:panelGroup>
         </div>
       </div>
-      <ui:include src="../includes/dialogs/logsdownload.xhtml" />
+      <cc:DownloadDialog id="downloadDialog" bean="#{logBean}" title="Download All Log Files" />
     </ui:define>
   </ui:composition>
 </h:body>

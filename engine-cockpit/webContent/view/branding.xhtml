@@ -25,9 +25,11 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si-buildings-1 card-title-icon"></i>
           <h2 class="p-m-0">Branding</h2>
+          <p:commandButton styleClass="p-ml-auto" id="downloadAllResources" icon="si si-download-bottom"
+            value="Download" onclick="PF('downloadModal').show();" type="button" />
         </div>
-      
-        <cc:ApplicationTabs tabChange="#{brandingBean.reloadResources}" id="apps">
+        
+        <cc:ApplicationTabs tabChange="#{brandingBean.reloadResources}" id="apps" update="downloadDialog:downloadModal">
           <ui:include src="../includes/components/configuration/branding-resources.xhtml" />
           <br/>
           <ui:include src="../includes/components/configuration/branding-colors.xhtml" />
@@ -157,6 +159,8 @@
           </cc:FileUpload>
         </h:panelGroup>
       </div>
+      
+      <cc:DownloadDialog id="downloadDialog" bean="#{brandingBean}" title="Download Branding resources of '#{managerBean.selectedApplicationName}'" />
     </ui:define>
 
   </ui:composition>
