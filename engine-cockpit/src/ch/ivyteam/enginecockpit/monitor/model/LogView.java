@@ -12,9 +12,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.input.ReversedLinesFileReader;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -32,13 +34,15 @@ public class LogView implements Comparable<LogView> {
 
   public LogView(String logName, Date date) {
     fileName = logName;
-    this.date = new SimpleDateFormat("yyyy-MM-dd").format(date);
+    this.date = new SimpleDateFormat("MM-dd-yyyy").format(date);
     if (DateUtils.isSameDay(date, Calendar.getInstance().getTime())) {
       file = UrlUtil.getLogFile(logName);
+      content = readContent();
     } else {
-      file = UrlUtil.getLogFile(logName + "." + this.date);
+      var name = StringUtils.removeEnd(logName, ".log");
+      file = UrlUtil.getLogFile(name + "-" + this.date + ".log.gz");
+      content = readFile(() -> "Logfile '" + file.getFileName().toString() + "' is compressed.");
     }
-    content = readContent();
     readFileMetadata();
   }
 
@@ -56,15 +60,21 @@ public class LogView implements Comparable<LogView> {
   }
 
   private String readContent() {
+    return readFile(() -> {
+      List<String> lines = readFileLines();
+      if (lines.isEmpty()) {
+        return "Logfile '" + file.getFileName().toString() + "' is empty.";
+      }
+      return lines.stream().collect(Collectors.joining("\n"));
+    });
+  }
+
+  private String readFile(Supplier<String> readContent) {
     if (!Files.exists(file)) {
       return "Logfile '" + file.getFileName().toString() + "' doesn't exist.";
     }
-    List<String> lines = readFileLines();
-    if (lines.isEmpty()) {
-      return "Logfile '" + file.getFileName().toString() + "' is empty.";
-    }
     downloadEnabled = true;
-    return lines.stream().collect(Collectors.joining("\n"));
+    return readContent.get();
   }
 
   private List<String> readFileLines() {

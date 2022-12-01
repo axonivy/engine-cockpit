@@ -50,7 +50,7 @@ public class WebTestLogs {
     $("#logDateForm\\:calendar_input").sendKeys("2020-04-01");
     $("#logDateForm\\:calendar_input").sendKeys(Keys.ENTER);
     deprecationLogPanel.find(".ui-panel-title > span").click();
-    deprecationLogPanel.find(".ui-panel-content pre").shouldHave(text("'deprecation.log.2020-04-01'"));
+    deprecationLogPanel.find(".ui-panel-content pre").shouldHave(text("'deprecation-04-01-2020.log.gz'"));
   }
 
 }
