@@ -1,5 +1,10 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -12,16 +17,21 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.io.FilenameUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.configuration.model.BrandingResource;
 import ch.ivyteam.enginecockpit.configuration.model.CssColorDTO;
+import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
+import ch.ivyteam.enginecockpit.util.DownloadUtil;
+import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class BrandingBean {
+public class BrandingBean implements AllResourcesDownload {
 
   private static final Map<String, String> RESOURCE_NAMES = Map.of("logo", "The main logo image",
           "logo_light", "Same as the main logo, but e.g. in our case with white writing",
@@ -158,6 +168,41 @@ public class BrandingBean {
 
   public void setFilter(String filter) {
     this.filter = filter;
+  }
+
+  @Override
+  public StreamedContent getAllResourcesDownload() {
+    var appName = managerBean.getSelectedApplicationName();
+    try (var out = new ByteArrayOutputStream()) {
+      DownloadUtil.zipDir(appBrandingDir(appName), out);
+      return DefaultStreamedContent
+              .builder()
+              .stream(() -> new ByteArrayInputStream(out.toByteArray()))
+              .contentType("application/zip")
+              .name("branding-" + appName + ".zip")
+              .build();
+    } catch (IOException ex) {
+      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
+      FacesContext.getCurrentInstance().addMessage("msgs", message);
+    }
+    return null;
+  }
+
+  private Path appBrandingDir(String appName) throws IOException {
+    var brandingDir = UrlUtil.getConfigFile("applications").resolve(appName).resolve("branding");
+    if (!isBrandingDirEmpty(brandingDir)) {
+      return brandingDir.toRealPath();
+    }
+    throw new IOException("No branding resources found for app '" + appName + "'");
+  }
+
+  private boolean isBrandingDirEmpty(Path brandingDir) throws IOException {
+    if (!Files.exists(brandingDir) || !Files.isDirectory(brandingDir)) {
+      return true;
+    }
+    try (var dir = Files.newDirectoryStream(brandingDir)) {
+      return !dir.iterator().hasNext();
+    }
   }
 
 }
