@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -9,7 +8,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.ws.rs.ProcessingException;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -125,9 +123,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     valuesMap.put("name", restClient.getName());
     valuesMap.put("url", restClient.getUrl());
     valuesMap.put("features", parseFeaturesToYaml(restClient.getFeatures()));
-    valuesMap.put("properties", parsePropertiesToYaml(restClient.getProperties().stream()
-            .filter(p -> !StringUtils.equals(p.getName(), REST_PROP_PASSWORD))
-            .collect(Collectors.toList())));
+    valuesMap.put("properties", parsePropertiesToYaml(restClient.getProperties()));
     var templateString = readTemplateString("restclient.yaml");
     var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);

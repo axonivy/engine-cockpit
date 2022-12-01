@@ -123,9 +123,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     valuesMap.put("name", webservice.getName());
     valuesMap.put("endpoints", parseEndpointsToYaml(webservice.getPortTypeMap()));
     valuesMap.put("features", parseFeaturesToYaml(webservice.getFeatures()));
-    valuesMap.put("properties", parsePropertiesToYaml(webservice.getProperties().stream()
-            .filter(p -> !StringUtils.equals(p.getName(), "password"))
-            .collect(Collectors.toList())));
+    valuesMap.put("properties", parsePropertiesToYaml(webservice.getProperties()));
     var templateString = readTemplateString("webservice.yaml");
     var strSubstitutor = new StrSubstitutor(valuesMap);
     return strSubstitutor.replace(templateString);
