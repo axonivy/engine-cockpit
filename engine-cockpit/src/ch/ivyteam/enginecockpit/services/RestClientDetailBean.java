@@ -157,7 +157,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private ExternalRestWebService prepareRestConnection() {
     var restBuilder = restClients.find(restClientName).toBuilder()
-            .uri(restClient.getUrl())
+            .uri(restClient.getConnectionUrl())
             .property(REST_PROP_USERNAME, restClient.getUsername());
     if (restClient.passwordChanged()) {
       restBuilder.property(REST_PROP_PASSWORD, restClient.getPassword());

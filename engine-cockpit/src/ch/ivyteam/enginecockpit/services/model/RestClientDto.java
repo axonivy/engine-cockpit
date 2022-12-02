@@ -1,8 +1,11 @@
 package ch.ivyteam.enginecockpit.services.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,6 +13,8 @@ import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.rest.client.RestClient;
 
 public class RestClientDto implements IService {
+  private static final String PROP_PREFIX = "PATH.";
+
   private String name;
   private String url;
   private String description;
@@ -49,6 +54,19 @@ public class RestClientDto implements IService {
 
   public String getUrl() {
     return url;
+  }
+
+  public String getConnectionUrl() {
+    Map<String, Object> props = properties.stream()
+            .filter(prop -> prop.getName().startsWith(PROP_PREFIX))
+            .collect(Collectors.toMap(
+                    prop -> prop.getName().substring(PROP_PREFIX.length()),
+                    Property::getValue));
+    try {
+      return UriBuilder.fromUri(url).resolveTemplates(props).build().toASCIIString();
+    } catch (Exception ex) {
+      return url;
+    }
   }
 
   public String getDescription() {
