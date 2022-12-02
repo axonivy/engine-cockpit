@@ -66,6 +66,11 @@ class WebTestRestClientDetail {
     setUserName("admin");
     setPassword("nimda");
     testAndAssertConnection("Status 200");
+
+    setUrl("http://{host}:{port}/");
+    testAndAssertConnection("Status 200");
+
+    resetConfiguration();
   }
 
   private void testAndAssertConnection(String msg) {
@@ -91,10 +96,12 @@ class WebTestRestClientDetail {
   @Test
   void properties() {
     var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
-    table.row(0).shouldHave(text("password"), text("*****"));
-    table.row(1).shouldHave(text("JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES"), text("false"));
-    table.row(2).shouldHave(text("sensitive"), text("*****"));
-    table.row(3).shouldHave(text("username"), text("admin"));
+    table.row(0).shouldHave(text("PATH.host"), text("test-webservices.ivyteam.io"));
+    table.row(1).shouldHave(text("password"), text("*****"));
+    table.row(2).shouldHave(text("JSON.Deserialization.FAIL_ON_UNKNOWN_PROPERTIES"), text("false"));
+    table.row(3).shouldHave(text("sensitive"), text("*****"));
+    table.row(4).shouldHave(text("PATH.port"), text("91"));
+    table.row(5).shouldHave(text("username"), text("admin"));
   }
 
   @Test

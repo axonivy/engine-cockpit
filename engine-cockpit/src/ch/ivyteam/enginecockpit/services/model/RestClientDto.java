@@ -1,14 +1,19 @@
 package ch.ivyteam.enginecockpit.services.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.rest.client.RestClient;
+import ch.ivyteam.ivy.rest.client.config.restricted.ClientProperties;
 
+@SuppressWarnings("restriction")
 public class RestClientDto implements IService {
   private String name;
   private String url;
@@ -19,6 +24,7 @@ public class RestClientDto implements IService {
   private List<String> features;
   private UUID uniqueId;
   private boolean passwordChanged;
+  private final Map<String, Object> connectionProps;
 
   public RestClientDto(RestClient client) {
     name = client.name();
@@ -33,6 +39,7 @@ public class RestClientDto implements IService {
     username = client.properties().getOrDefault("username", "");
     features = client.features();
     passwordChanged = false;
+    connectionProps = ClientProperties.clientProps(client.properties());
   }
 
   public UUID getUniqueId() {
@@ -49,6 +56,14 @@ public class RestClientDto implements IService {
 
   public String getUrl() {
     return url;
+  }
+
+  public String getConnectionUrl() {
+    try {
+      return UriBuilder.fromUri(url).resolveTemplates(connectionProps).build().toASCIIString();
+    } catch (Exception ex) {
+      return url;
+    }
   }
 
   public String getDescription() {
