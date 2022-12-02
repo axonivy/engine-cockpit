@@ -66,6 +66,11 @@ class WebTestRestClientDetail {
     setUserName("admin");
     setPassword("nimda");
     testAndAssertConnection("Status 200");
+
+    setUrl("http://{host}:{port}/");
+    testAndAssertConnection("Status 200");
+
+    resetConfiguration();
   }
 
   private void testAndAssertConnection(String msg) {
