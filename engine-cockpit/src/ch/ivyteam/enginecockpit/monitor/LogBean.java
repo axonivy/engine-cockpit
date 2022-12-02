@@ -17,13 +17,14 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.monitor.model.LogView;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 
 @ManagedBean
 @ViewScoped
-public class LogBean {
+public class LogBean implements AllResourcesDownload {
   private List<LogView> logs;
   private Date date;
   private String showLog;
@@ -72,15 +73,21 @@ public class LogBean {
     return Calendar.getInstance().getTime();
   }
 
-  public StreamedContent getAllLogs() throws IOException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    DownloadUtil.zipDir(UrlUtil.getLogDir().toRealPath(), out);
-    return DefaultStreamedContent
-        .builder()
-        .stream(() -> new ByteArrayInputStream(out.toByteArray()))
-        .contentType("application/zip")
-        .name("logs.zip")
-        .build();
+  @Override
+  public StreamedContent getAllResourcesDownload() {
+    try (var out = new ByteArrayOutputStream()) {
+      DownloadUtil.zipDir(UrlUtil.getLogDir().toRealPath(), out);
+      return DefaultStreamedContent
+              .builder()
+              .stream(() -> new ByteArrayInputStream(out.toByteArray()))
+              .contentType("application/zip")
+              .name("logs.zip")
+              .build();
+    } catch (IOException ex) {
+      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getClass().getSimpleName(), ex.getMessage());
+      FacesContext.getCurrentInstance().addMessage("msgs", message);
+    }
+    return null;
   }
 
 }

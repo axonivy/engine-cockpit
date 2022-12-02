@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Configuration;
@@ -19,6 +20,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
 public class WebTestDownload {
@@ -46,22 +48,44 @@ public class WebTestDownload {
   @Test
   void allLogs() throws FileNotFoundException {
     Navigation.toLogs();
-    $("#downloadAllLogs").shouldBe(visible).click();
-    $("#logsDownloadModal").shouldBe(visible);
-    File download = $("#logForm\\:allLogs").shouldBe(visible).download();
+    $(By.id("downloadAllLogs")).shouldBe(visible).click();
+    $(By.id("downloadDialog:downloadModal")).shouldBe(visible);
+    var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("logs.zip");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
-    $("#logForm\\:cancel").shouldBe(visible).click();
-    $("#logsDownloadModal").shouldNotBe(visible);
+    $(By.id("downloadDialog:downloadForm:cancel")).shouldBe(visible).click();
+    $(By.id("downloadDialog:downloadModal")).shouldNotBe(visible);
   }
 
   @Test
   void log() throws FileNotFoundException {
     Navigation.toLogs();
-    File download = $$(".ui-panel-titlebar").find(text("console.log"))
+    var download = $$(".ui-panel-titlebar").find(text("console.log"))
             .find(".ui-panel-actions a").shouldBe(visible).download();
     assertThat(download.getName()).isEqualTo("console.log");
     assertThat(download).isNotEmpty();
+  }
+
+  @Test
+  void allBrandingResourcesOfApp() throws FileNotFoundException {
+    Navigation.toBranding();
+    Tab.APP.switchToDefault();
+    var appName = Tab.APP.getSelectedTab();
+    $(By.id("downloadAllResources")).shouldBe(visible).click();
+    $(By.id("downloadDialog:downloadModal")).shouldBe(visible)
+            .shouldHave(text("Download Branding resources of '" + appName + "'"));
+    var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download();
+    assertThat(download.getName()).isEqualTo("branding-" + appName + ".zip");
+    assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
+    $(By.id("downloadDialog:downloadForm:cancel")).shouldBe(visible).click();
+    $(By.id("downloadDialog:downloadModal")).shouldNotBe(visible);
+
+    Tab.APP.switchToTab("test-ad");
+    $(By.id("downloadAllResources")).shouldBe(visible).click();
+    $(By.id("downloadDialog:downloadModal")).shouldBe(visible)
+            .shouldHave(text("Download Branding resources of 'test-ad'"));
+    $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download();
+    $(By.id("msgs_container")).shouldHave(text("No branding resources found for app 'test-ad'"));
   }
 
 }
