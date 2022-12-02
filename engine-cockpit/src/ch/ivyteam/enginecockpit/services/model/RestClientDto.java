@@ -11,10 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.rest.client.RestClient;
+import ch.ivyteam.ivy.rest.client.config.restricted.ClientProperties;
 
+@SuppressWarnings("restriction")
 public class RestClientDto implements IService {
-  private static final String PROP_PREFIX = "PATH.";
-
   private String name;
   private String url;
   private String description;
@@ -24,6 +24,7 @@ public class RestClientDto implements IService {
   private List<String> features;
   private UUID uniqueId;
   private boolean passwordChanged;
+  private final Map<String, Object> connectionProps;
 
   public RestClientDto(RestClient client) {
     name = client.name();
@@ -38,6 +39,7 @@ public class RestClientDto implements IService {
     username = client.properties().getOrDefault("username", "");
     features = client.features();
     passwordChanged = false;
+    connectionProps = ClientProperties.clientProps(client.properties());
   }
 
   public UUID getUniqueId() {
@@ -57,13 +59,8 @@ public class RestClientDto implements IService {
   }
 
   public String getConnectionUrl() {
-    Map<String, Object> props = properties.stream()
-            .filter(prop -> prop.getName().startsWith(PROP_PREFIX))
-            .collect(Collectors.toMap(
-                    prop -> prop.getName().substring(PROP_PREFIX.length()),
-                    Property::getValue));
     try {
-      return UriBuilder.fromUri(url).resolveTemplates(props).build().toASCIIString();
+      return UriBuilder.fromUri(url).resolveTemplates(connectionProps).build().toASCIIString();
     } catch (Exception ex) {
       return url;
     }
