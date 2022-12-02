@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui">
+
+<cc:interface>
+  <cc:attribute name="bean" />
+  <cc:attribute name="title" />
+</cc:interface>
+<cc:implementation>
+  <p:dialog style="min-width: 400px;" header="#{cc.attrs.title}" id="downloadModal" widgetVar="downloadModal"
+    modal="true" responsive="true" closeOnEscape="true">
+    <h:form id="downloadForm">
+      <p:commandButton id="downloadBtn" ajax="false" value="Download"
+        onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom');}"
+        title="#{cc.attrs.title}" icon="si si-download-bottom" styleClass="modal-input-button" style="width: 150px;">
+        <p:fileDownload value="#{cc.attrs.bean.allResourcesDownload}" />
+      </p:commandButton>
+      <p:commandButton id="cancel" onclick="PF('downloadModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+    </h:form>
+  </p:dialog>
+</cc:implementation>
+
+</html>
