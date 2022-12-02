@@ -190,10 +190,19 @@ public class BrandingBean implements AllResourcesDownload {
 
   private Path appBrandingDir(String appName) throws IOException {
     var brandingDir = UrlUtil.getConfigFile("applications").resolve(appName).resolve("branding");
-    if (Files.exists(brandingDir)) {
+    if (!isBrandingDirEmpty(brandingDir)) {
       return brandingDir.toRealPath();
     }
     throw new IOException("No branding resources found for app '" + appName + "'");
+  }
+
+  private boolean isBrandingDirEmpty(Path brandingDir) throws IOException {
+    if (!Files.exists(brandingDir) || !Files.isDirectory(brandingDir)) {
+      return true;
+    }
+    try (var dir = Files.newDirectoryStream(brandingDir)) {
+      return !dir.iterator().hasNext();
+    }
   }
 
 }
