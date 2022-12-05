@@ -101,10 +101,11 @@ class WebTestDatabaseDetail {
     properties.clickButtonForEntry("bla", "editPropertyBtn");
     $("#propertyModal").shouldBe(visible);
     $("#propertyForm\\:nameInput").shouldNotBe(exist);
-    $("#propertyForm\\:valueInput").shouldBe(value("value")).sendKeys("1");
+    $("#propertyForm\\:valueInput").shouldBe(value("value")).clear();
+    $("#propertyForm\\:valueInput").sendKeys("1");
     $("#propertyForm\\:saveProperty").click();
     properties.firstColumnShouldBe(size(3));
-    properties.valueForEntryShould("bla", 2, exactText("value1"));
+    properties.valueForEntryShould("bla", 2, exactText("1"));
     $("#propertyModal").shouldNotBe(visible);
 
     properties.clickButtonForEntry("bla", "deletePropertyBtn");
