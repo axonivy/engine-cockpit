@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="updateFields" default="webServer:webserverWarnMessage" />
-  <cc:attribute name="responsiveClasses" default="p-col-12 p-md-6 p-lg-4" />
+  <cc:attribute name="responsiveClasses" default="p-col-12 p-md-6 p-lg-6" />
 </cc:interface>
 
 <cc:implementation>
@@ -44,23 +44,6 @@
           <p:outputLabel for="httpsPortInput" value="Port:" />
           <p:inputNumber id="httpsPortInput" value="#{webServerConnectorBean.httpsPort}" minValue="-1"
             maxValue="1000000" thousandSeparator="" decimalPlaces="0">
-            <p:ajax event="keyup" process="@this" />
-          </p:inputNumber>
-        </p:panelGrid>
-      </p:fieldset>
-    </div>
-    <div class="#{cc.attrs.responsiveClasses} p-p-2">
-      <p:fieldset id="ajpFieldSet" legend="AJP Connector (deprecated)" class="p-p-2">
-        <p:panelGrid columns="2" columnClasses="p-col-12 p-md-5 p-lg-5, p-col-12 p-md-7 p-lg-7" layout="flex" 
-          styleClass="grey-label-panel ui-fluid">
-          <p:outputLabel for="ajpEnabledCheckbox" value="Enabled:" />
-          <p:selectBooleanCheckbox id="ajpEnabledCheckbox" value="#{webServerConnectorBean.ajpEnabled}">
-            <p:ajax process="@this" />
-          </p:selectBooleanCheckbox>
-
-          <p:outputLabel for="ajpPortInput" value="Port:" />
-          <p:inputNumber id="ajpPortInput" value="#{webServerConnectorBean.ajpPort}" minValue="-1" maxValue="1000000"
-            thousandSeparator="" decimalPlaces="0">
             <p:ajax event="keyup" process="@this" />
           </p:inputNumber>
         </p:panelGrid>
