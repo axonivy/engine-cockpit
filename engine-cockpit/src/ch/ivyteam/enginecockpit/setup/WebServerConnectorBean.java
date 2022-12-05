@@ -16,14 +16,11 @@ public class WebServerConnectorBean extends StepStatus {
   private static final String PORT = "Port";
   private static final String CONNECTOR_HTTP = "Connector.HTTP.";
   private static final String CONNECTOR_HTTPS = "Connector.HTTPS.";
-  private static final String CONNECTOR_AJP = "Connector.AJP.";
 
   private boolean httpEnabled;
   private int httpPort;
   private boolean httpsEnabled;
   private int httpsPort;
-  private boolean ajpEnabled;
-  private int ajpPort;
 
   public WebServerConnectorBean() {
     httpEnabled = IConfiguration.instance().getOrDefault(CONNECTOR_HTTP + ENABLED, Boolean.class);
@@ -31,9 +28,6 @@ public class WebServerConnectorBean extends StepStatus {
 
     httpsEnabled = IConfiguration.instance().getOrDefault(CONNECTOR_HTTPS + ENABLED, Boolean.class);
     httpsPort = IConfiguration.instance().getOrDefault(CONNECTOR_HTTPS + PORT, int.class);
-
-    ajpEnabled = IConfiguration.instance().getOrDefault(CONNECTOR_AJP + ENABLED, Boolean.class);
-    ajpPort = IConfiguration.instance().getOrDefault(CONNECTOR_AJP + PORT, int.class);
   }
 
   public boolean isHttpEnabled() {
@@ -72,24 +66,6 @@ public class WebServerConnectorBean extends StepStatus {
     setConfig(CONNECTOR_HTTPS + PORT, httpsPort);
   }
 
-  public boolean isAjpEnabled() {
-    return ajpEnabled;
-  }
-
-  public void setAjpEnabled(boolean ajpEnabled) {
-    this.ajpEnabled = ajpEnabled;
-    setConfig(CONNECTOR_AJP + ENABLED, ajpEnabled);
-  }
-
-  public int getAjpPort() {
-    return ajpPort;
-  }
-
-  public void setAjpPort(int ajpPort) {
-    this.ajpPort = ajpPort;
-    setConfig(CONNECTOR_AJP + PORT, ajpPort);
-  }
-
   private void setConfig(String key, Object httpEnabled) {
     IConfiguration.instance().set(key, httpEnabled);
     FacesContext.getCurrentInstance().addMessage("",
@@ -105,5 +81,4 @@ public class WebServerConnectorBean extends StepStatus {
   public String getStepWarningMessage() {
     return "Enable at least the HTTP or HTTPS Connector";
   }
-
 }
