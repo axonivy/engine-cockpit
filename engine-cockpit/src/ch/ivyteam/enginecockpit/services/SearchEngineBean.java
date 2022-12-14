@@ -16,12 +16,13 @@ import ch.ivyteam.enginecockpit.services.model.ElasticSearch;
 import ch.ivyteam.enginecockpit.services.model.ElasticSearch.SearchEngineHealth;
 import ch.ivyteam.enginecockpit.services.model.SearchEngineIndex;
 import ch.ivyteam.ivy.business.data.store.restricted.IBusinessDataManager;
-import ch.ivyteam.ivy.business.data.store.search.restricted.elasticsearch.server.ServerConfig;
+import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SearchEngineBean {
+
   private IBusinessDataManager searchEngine = IBusinessDataManager.instance();
   private ServerConfig serverConfig = ServerConfig.instance();
 
@@ -37,11 +38,9 @@ public class SearchEngineBean {
   private String queryResult;
 
   public SearchEngineBean() {
-    elasticSearch = new ElasticSearch(serverConfig.getServerUrl(),
-            searchEngine.getBusinessDataInfo());
+    elasticSearch = new ElasticSearch(serverConfig.getServerUrl(), searchEngine.getBusinessDataInfo());
     indices = searchEngine.getBusinessDataIndicesInfo().stream()
-            .map(index -> new SearchEngineIndex(index,
-                    searchEngine.isReindexing(index.getIndexName())))
+            .map(index -> new SearchEngineIndex(index, searchEngine.isReindexing(index.getIndexName())))
             .collect(Collectors.toList());
   }
 
