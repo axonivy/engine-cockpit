@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import javax.ws.rs.client.ClientBuilder;
 
-import ch.ivyteam.ivy.business.data.store.restricted.ElasticSearchInfo;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.elasticsearch.client.ElasticSearchInfo;
 
 @SuppressWarnings("restriction")
 public class ElasticSearch {
@@ -26,14 +26,14 @@ public class ElasticSearch {
   private SearchEngineHealth health = SearchEngineHealth.UNKNOWN;
   private String version = "unknown";
 
-  public ElasticSearch(String serverUrl, ElasticSearchInfo elasticSearchInfo) {
+  public ElasticSearch(String serverUrl, ElasticSearchInfo info) {
     this.username = IConfiguration.instance().getOrDefault("Elasticsearch.ExternalServer.UserName");
     this.password = IConfiguration.instance().getOrDefault("Elasticsearch.ExternalServer.Password");
     this.serverUrl = serverUrl;
-    if (elasticSearchInfo != null) {
-      clusterName = elasticSearchInfo.getClusterName();
-      version = elasticSearchInfo.getVersion();
-      health = SearchEngineHealth.getHealth(elasticSearchInfo.getHealth());
+    if (info != null) {
+      clusterName = info.clusterName();
+      version = info.version();
+      health = SearchEngineHealth.getHealth(info.health());
     }
   }
 

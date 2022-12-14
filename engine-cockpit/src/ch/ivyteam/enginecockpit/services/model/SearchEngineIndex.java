@@ -2,10 +2,11 @@ package ch.ivyteam.enginecockpit.services.model;
 
 import ch.ivyteam.enginecockpit.services.model.ElasticSearch.SearchEngineHealth;
 import ch.ivyteam.ivy.business.data.store.restricted.IndexInfo;
-import ch.ivyteam.ivy.business.data.store.search.internal.elasticsearch.IndexName;
+import ch.ivyteam.ivy.elasticsearch.client.IndexName;
 
 @SuppressWarnings("restriction")
 public class SearchEngineIndex {
+
   private IndexName indexName;
   private long countIndexed;
   private long countStored;
