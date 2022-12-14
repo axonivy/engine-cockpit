@@ -1,13 +1,13 @@
 package ch.ivyteam.enginecockpit.services.model;
 
 import ch.ivyteam.enginecockpit.services.model.ElasticSearch.SearchEngineHealth;
+import ch.ivyteam.ivy.business.data.store.restricted.BusinessDataIndex;
 import ch.ivyteam.ivy.business.data.store.restricted.IndexInfo;
-import ch.ivyteam.ivy.elasticsearch.client.IndexName;
 
 @SuppressWarnings("restriction")
 public class SearchEngineIndex {
 
-  private IndexName indexName;
+  private BusinessDataIndex indexName;
   private long countIndexed;
   private long countStored;
   private SearchEngineHealth status;
@@ -15,20 +15,20 @@ public class SearchEngineIndex {
   private boolean reindexing;
 
   public SearchEngineIndex(IndexInfo info, boolean reindexing) {
-    this.indexName = info.getIndexName();
-    this.countIndexed = info.getIndexCount();
-    this.countStored = info.getStoreCount();
-    this.status = SearchEngineHealth.getHealth(info.getHealth());
-    this.size = info.getSize();
+    this.indexName = info.indexName();
+    this.countIndexed = info.indexCount();
+    this.countStored = info.storeCount();
+    this.status = SearchEngineHealth.getHealth(info.health());
+    this.size = info.size();
     this.reindexing = reindexing;
   }
 
-  public IndexName getIndexName() {
+  public BusinessDataIndex getIndexName() {
     return indexName;
   }
 
   public String getName() {
-    return indexName.getName();
+    return indexName.name();
   }
 
   public long getCountIndexed() {
@@ -62,5 +62,4 @@ public class SearchEngineIndex {
   public void setReindexing(boolean running) {
     this.reindexing = running;
   }
-
 }
