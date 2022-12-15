@@ -26,10 +26,10 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestSearchEngine {
+class WebTestSearchEngine {
 
-  private static final String dossierIndex = "ivy.businessdata-default-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
-  private static final String addressIndex = "ivy.businessdata-default-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
+  private static final String dossierIndex = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
+  private static final String addressIndex = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$address";
 
   @BeforeAll
   static void setup() {
@@ -43,7 +43,7 @@ public class WebTestSearchEngine {
   }
 
   @Test
-  public void testElasticSearchInfo() {
+  void elasticSearchInfo() {
     $$(".card").shouldHave(size(2));
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
@@ -53,7 +53,7 @@ public class WebTestSearchEngine {
   }
 
   @Test
-  public void testElasticSearchIndices() {
+  void testElasticSearchIndices() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSize(2)
             .contains(dossierIndex, addressIndex);
@@ -62,20 +62,20 @@ public class WebTestSearchEngine {
   }
 
   @Test
-  public void testElasticSearchConfigEdit() {
+  void testElasticSearchConfigEdit() {
     $("#searchEngineInfoForm\\:configSearchEngine").click();
     assertCurrentUrlContains("systemconfig.xhtml?filter=ElasticSearch");
   }
 
   @Test
-  public void testElasticSearchQueryTool() {
+  void testElasticSearchQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     $("#searchEngineInfoForm\\:queryToolBtn").click();
     assertQueryTool("GET: http://localhost:19200/", "ivy-elasticsearch", 3);
   }
 
   @Test
-  public void testElasticSearchIndexQueryTool() {
+  void testElasticSearchIndexQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable"))
             .clickButtonForEntry(dossierIndex, "queryToolBtn");
@@ -83,7 +83,7 @@ public class WebTestSearchEngine {
   }
 
   @Test
-  public void testElasticSearchReindex() {
+  void testElasticSearchReindex() {
     $("reindexSearchEngineModel").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);
@@ -115,5 +115,4 @@ public class WebTestSearchEngine {
     table.valueForEntryShould(tableRow, 3, text(count));
     table.valueForEntryShould(tableRow, 5, not(text("unknown")));
   }
-
 }
