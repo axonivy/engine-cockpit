@@ -40,7 +40,7 @@ public class SearchEngineBean {
   public SearchEngineBean() {
     elasticSearch = new ElasticSearch(serverConfig.getServerUrl(), searchEngine.getBusinessDataInfo());
     indices = searchEngine.getBusinessDataIndicesInfo().stream()
-            .map(index -> new SearchEngineIndex(index, searchEngine.isReindexing(index.getIndexName())))
+            .map(index -> new SearchEngineIndex(index, searchEngine.isReindexing(index.indexName())))
             .collect(Collectors.toList());
   }
 
