@@ -53,7 +53,7 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void elasticSearchIndices() {
+  void testElasticSearchIndices() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSize(2)
             .contains(dossierIndex, addressIndex);
@@ -62,20 +62,20 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void elasticSearchConfigEdit() {
+  void testElasticSearchConfigEdit() {
     $("#searchEngineInfoForm\\:configSearchEngine").click();
     assertCurrentUrlContains("systemconfig.xhtml?filter=ElasticSearch");
   }
 
   @Test
-  void easticSearchQueryTool() {
+  void testElasticSearchQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     $("#searchEngineInfoForm\\:queryToolBtn").click();
     assertQueryTool("GET: http://localhost:19200/", "ivy-elasticsearch", 3);
   }
 
   @Test
-  void elasticSearchIndexQueryTool() {
+  void testElasticSearchIndexQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable"))
             .clickButtonForEntry(dossierIndex, "queryToolBtn");
@@ -83,7 +83,7 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void elasticSearchReindex() {
+  void testElasticSearchReindex() {
     $("reindexSearchEngineModel").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);
