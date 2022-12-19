@@ -5,8 +5,6 @@ import java.util.Set;
 
 import javax.inject.Singleton;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngine;
 import ch.ivyteam.ivy.bpm.engine.restricted.IBpmEngineManager;
@@ -28,11 +26,11 @@ final class TstBpmEngineManager implements IBpmEngineManager {
   }
 
   @Override
-  public void start(IProgressMonitor monitor) {
+  public void start() {
   }
 
   @Override
-  public void stop(IProgressMonitor monitor) {
+  public void stop() {
   }
 
   @Override
