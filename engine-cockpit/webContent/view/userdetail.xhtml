@@ -22,7 +22,7 @@
       <li><a href="users.xhtml">Users</a></li>
       <li>/</li>
       <li><a href="#{userDetailBean.user.getViewUrl(userDetailBean.securitySystem)}">#{userDetailBean.name}</a></li>
-      <cc:BreadcrumbInfos renderEnv="false" />
+      <cc:BreadcrumbInfos appContext="false" />
     </ui:define>
 
     <ui:define name="topbar-items">
