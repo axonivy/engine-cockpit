@@ -4,18 +4,28 @@
   xmlns:p="http://primefaces.org/ui">
 
 <cc:interface>
+  <cc:attribute name="appContext" default="true"
+      shortDescription="Flage indicating if the app or the security context is shown; default true = app"/>
   <cc:attribute name="renderEnv" default="true"
       shortDescription="Flage indicating if environment info should be displayed; default true"/>
 </cc:interface>
 <cc:implementation>
   <li style="margin-left: 2rem; font-size: 14px;">
-    <a href="application-detail.xhtml?appName=#{managerBean.selectedApplicationName}" title="Selected Application">
-      <i class="si si-module link-icon"></i> 
-      <h:outputText value="#{managerBean.selectedApplicationName}" />
-    </a>
-    <h:panelGroup rendered="#{managerBean.selectedEnvironment != 'Default' and cc.attrs.renderEnv}">
-      | <i class="si si-archive link-icon"></i> 
-      <h:outputText value="#{managerBean.selectedEnvironment}" title="Selected Environment"/>
+    <h:panelGroup rendered="#{!cc.attrs.appContext}">
+      <a href="security-detail.xhtml?securitySystemName=#{managerBean.selectedSecuritySystem.securitySystemName}" title="Selected Security System">
+        <i class="si si-lock-1 link-icon"></i> 
+        <h:outputText value="#{managerBean.selectedSecuritySystem.securitySystemName}" />
+      </a>
+    </h:panelGroup>
+    <h:panelGroup rendered="#{cc.attrs.appContext}">
+      <a href="application-detail.xhtml?appName=#{managerBean.selectedApplicationName}" title="Selected Application">
+        <i class="si si-module link-icon"></i> 
+        <h:outputText value="#{managerBean.selectedApplicationName}" />
+      </a>
+      <h:panelGroup rendered="#{managerBean.selectedEnvironment != 'Default' and cc.attrs.renderEnv}">
+        | <i class="si si-archive link-icon"></i> 
+        <h:outputText value="#{managerBean.selectedEnvironment}" title="Selected Environment"/>
+      </h:panelGroup>
     </h:panelGroup>
   </li>
 </cc:implementation>
