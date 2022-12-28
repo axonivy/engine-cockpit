@@ -17,7 +17,6 @@ import ch.ivyteam.util.date.Weekday;
 
 public class BusinessCalendar {
   private String name;
-  private List<String> environments = new ArrayList<>();
   private Weekday firstDayOfWeek;
   private List<TimeDayConfig> workingTimes;
   private List<String> freeDaysOfWeek;
@@ -52,14 +51,6 @@ public class BusinessCalendar {
             .map(time -> new TimeDayConfig(time, calendarName)).collect(Collectors.toList()));
     freeDaysOfWeek.addAll(calendarConfig.getFreeDaysOfWeek().stream().map(day -> day.getDayOfWeek().getName())
             .collect(Collectors.toList()));
-  }
-
-  public void addEnvironment(String environment) {
-    environments.add(environment);
-  }
-
-  public String getEnvironments() {
-    return environments.stream().collect(Collectors.joining(", "));
   }
 
   public String getName() {

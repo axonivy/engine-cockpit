@@ -12,7 +12,6 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("removal")
 public class WebserviceBean {
   private List<Webservice> webservices;
   private List<Webservice> filteredWebservices;
@@ -27,7 +26,7 @@ public class WebserviceBean {
 
   public void reloadWebservices() {
     webservices = WebServiceClients
-            .of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
+            .of(managerBean.getSelectedIApplication())
             .all().stream()
             .map(web -> new Webservice(web))
             .collect(Collectors.toList());

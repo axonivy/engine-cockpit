@@ -18,7 +18,6 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.configuration.WebTestConfiguration.ConfigAssert;
-import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -31,7 +30,6 @@ public class WebTestVariables {
     login();
     Navigation.toVariables();
     Tab.APP.switchToDefault();
-    EnvironmentSwitch.switchToEnv("Default");
   }
 
   @Test
@@ -41,32 +39,15 @@ public class WebTestVariables {
             "PORTAL_DASHBOARD", "variable"));
     assertVariable("globVar", "data", true);
     assertVariable("variable", "hello", true);
-    EnvironmentSwitch.switchToEnv("test");
-    table.firstColumnShouldBe(textsInAnyOrder("boolean", "daytime", "enum", "globVar", "number", "password",
-            "PORTAL_DASHBOARD", "variable"));
-    assertVariable("globVar", "test data", true);
-    assertVariable("variable", "hello from env", true);
   }
 
   @Test
   void editVariable() {
     String variable = "variable";
-    EnvironmentSwitch.switchToEnv("test");
-    assertVariable(variable, "hello from env", true);
-    editVariable(variable, "env override");
-    assertVariable(variable, "env override", false);
-
-    EnvironmentSwitch.switchToEnv("Default");
     assertVariable(variable, "hello", true);
     editVariable(variable, "");
     assertVariable(variable, "", false);
 
-    EnvironmentSwitch.switchToEnv("test");
-    assertVariable(variable, "env override", false);
-    resetVariable(variable);
-    assertVariable(variable, "hello from env", true);
-
-    EnvironmentSwitch.switchToEnv("Default");
     assertVariable(variable, "", false);
     resetVariable(variable);
     assertVariable(variable, "hello", true);

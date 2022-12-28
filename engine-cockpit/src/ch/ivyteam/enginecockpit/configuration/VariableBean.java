@@ -15,12 +15,10 @@ import ch.ivyteam.enginecockpit.configuration.model.ConfigProperty;
 import ch.ivyteam.enginecockpit.configuration.model.ConfigView;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.vars.Variables;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("removal")
 public class VariableBean implements ConfigView {
   private ManagerBean managerBean;
   private List<ConfigProperty> variables;
@@ -28,7 +26,6 @@ public class VariableBean implements ConfigView {
   private String filter;
   private ConfigProperty activeVariable;
   private IApplication app;
-  private IEnvironment env;
 
   public VariableBean() {
     managerBean = ManagerBean.instance();
@@ -39,7 +36,6 @@ public class VariableBean implements ConfigView {
     activeVariable = new ConfigProperty();
     if (managerBean.getApplications().size() != 0) {
       app = managerBean.getSelectedIApplication();
-      env = managerBean.getSelectedIEnvironment();
       variables = variables().all().stream()
               .filter(Objects::nonNull)
               .map(ConfigProperty::new)
@@ -108,11 +104,7 @@ public class VariableBean implements ConfigView {
     reloadVariables();
   }
 
-  public boolean isDefaultEnv() {
-    return env.isDefault();
-  }
-
   private Variables variables() {
-    return Variables.of(app, env.getName());
+    return Variables.of(app);
   }
 }

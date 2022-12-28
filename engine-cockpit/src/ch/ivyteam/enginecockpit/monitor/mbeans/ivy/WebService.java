@@ -20,7 +20,6 @@ class WebService {
   private final String label;
   private final String id;
   private final String name;
-  private final String environment;
   private final String application;
 
   private WebService() {
@@ -31,7 +30,6 @@ class WebService {
     if (webService == null) {
       id = "";
       name = "";
-      environment = "";
       application = "";
       label = "No Data";
       callsMonitor.addInfoValue(format("No data available"));
@@ -46,8 +44,7 @@ class WebService {
     this.id = StringUtils.removeEnd(identifier, ")");
 
     application = webService.getKeyProperty("application");
-    environment = webService.getKeyProperty("environment");
-    label = application + " > " + environment + " > " + name;
+    label = application + " > " + name;
 
     var calls = new ExecutionCounter(webService.getCanonicalName(), "calls");
     callsMonitor.addInfoValue(format("%5d", calls.deltaExecutions()));
@@ -76,10 +73,6 @@ class WebService {
 
   public String application() {
     return application;
-  }
-
-  public String environment() {
-    return environment;
   }
 
   public String label() {

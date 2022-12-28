@@ -18,17 +18,14 @@ public class DatabaseMonitor {
   private String databaseName;
 
   public DatabaseMonitor() {
-    this("", "", "");
+    this("", "");
   }
 
-  public DatabaseMonitor(String appName, String env, String databaseName) {
+  public DatabaseMonitor(String appName, String databaseName) {
     this.applicationName = appName;
     this.databaseName = databaseName;
     try {
-      var databases = searchJmx(appName, env, databaseName);
-      if (databases.isEmpty()) {
-        databases = searchJmx(appName, "Default", databaseName);
-      }
+      var databases = searchJmx(appName, databaseName);
       database = databases.stream()
               .map(client -> new Database(client))
               .filter(this::isDatabase)
@@ -59,12 +56,10 @@ public class DatabaseMonitor {
             db.name().equals(databaseName);
   }
 
-  private static Set<ObjectName> searchJmx(String appName, String env, String databaseName)
+  private static Set<ObjectName> searchJmx(String appName, String databaseName)
           throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-            new ObjectName("ivy Engine:type=External Database,application=" + appName + ",environment=" + env
-                    + ",name=" + databaseName),
+            new ObjectName("ivy Engine:type=External Database,application=" + appName + ",name=" + databaseName),
             null);
   }
-
 }

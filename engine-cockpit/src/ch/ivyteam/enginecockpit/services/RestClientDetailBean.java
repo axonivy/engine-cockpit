@@ -26,7 +26,7 @@ import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService;
 
-@SuppressWarnings({"restriction", "removal"})
+@SuppressWarnings({"restriction"})
 @ManagedBean
 @ViewScoped
 public class RestClientDetailBean extends HelpServices implements IConnectionTestResult {
@@ -37,7 +37,6 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private String appName;
   private IApplication app;
-  private String env;
 
   private RestClients restClients;
   private ConnectionTestResult testResult;
@@ -57,14 +56,6 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return appName;
   }
 
-  public void setEnv(String env) {
-    this.env = env;
-  }
-
-  public String getEnv() {
-    return env;
-  }
-
   public String getName() {
     return restClientName;
   }
@@ -80,7 +71,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
       return;
     }
 
-    restClients = RestClients.of(app, env);
+    restClients = RestClients.of(app);
     var client = findRestClient();
     if (client == null) {
       ResponseHelper.notFound("Rest client '" + restClientName + "' not found");
@@ -88,11 +79,11 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
 
     loadRestClient();
-    liveStats = new RestClientMonitor(app.getName(), env, restClient.getUniqueId().toString());
+    liveStats = new RestClientMonitor(app.getName(), restClient.getUniqueId().toString());
   }
 
   public String getViewUrl() {
-    return restClient.getViewUrl(appName, env);
+    return restClient.getViewUrl(appName);
   }
 
   private void loadRestClient() {
@@ -162,7 +153,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     if (restClient.passwordChanged()) {
       restBuilder.property(REST_PROP_PASSWORD, restClient.getPassword());
     }
-    return new ExternalRestWebService(app, env, restBuilder.toRestClient());
+    return new ExternalRestWebService(app, restBuilder.toRestClient());
   }
 
   public void saveConfig() {

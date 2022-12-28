@@ -44,7 +44,7 @@ class WebTestDatabaseDetail {
 
   @Test
   void detailOpen() {
-    assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&name=" + DATABASE_NAME);
+    assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + DATABASE_NAME);
     $$(".card").shouldHave(size(4));
     $("#databaseConfigurationForm\\:name").shouldBe(exactText(DATABASE_NAME));
 
@@ -115,7 +115,7 @@ class WebTestDatabaseDetail {
   @Test
   void liveStats() {
     EngineCockpitUtil.assertLiveStats(List.of("Database Connections", "Database Queries",
-            "Database Query Execution Time"), "Default > test-db", false);
+            "Database Query Execution Time"), "test-db", false);
   }
 
   private void setConfiguration(String url, String driverName, String username, String connections) {

@@ -19,7 +19,6 @@ public class Application extends AbstractActivity {
   private String desc;
   private String fileDir;
   private String owner;
-  private String activeEnv;
   private String secSystem = ISecurityContext.DEFAULT;
   private long runningCasesCount = -1;
   private IApplicationInternal app;
@@ -40,7 +39,6 @@ public class Application extends AbstractActivity {
     fileDir = app.getFileDirectory();
     owner = app.getOwnerName();
     secSystem = app.getSecurityContext().getName();
-    activeEnv = app.getActualEnvironment().getName();
   }
 
   @Override
@@ -91,14 +89,6 @@ public class Application extends AbstractActivity {
 
   public void setOwner(String owner) {
     this.owner = owner;
-  }
-
-  public String getActiveEnv() {
-    return activeEnv;
-  }
-
-  public void setActiveEnv(String activeEnv) {
-    this.activeEnv = activeEnv;
   }
 
   public void setSecSystem(String secSystem) {

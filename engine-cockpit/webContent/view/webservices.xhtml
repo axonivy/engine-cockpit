@@ -21,10 +21,8 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si-network-arrow card-title-icon"></i>
           <h2 class="p-m-0">Web Services</h2>
-          <cc:EnvironmentSelect id="envs" environmentChange="#{webserviceBean.reloadWebservices}" update="tabs:applicationTabView"
-            styleClass="p-ml-auto" />
         </div>
-        <cc:ApplicationTabs tabChange="#{webserviceBean.reloadWebservices}" id="tabs" update="envs:envSwitchForm">
+        <cc:ApplicationTabs tabChange="#{webserviceBean.reloadWebservices}" id="tabs">
           <h:form id="form">
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom"
               paginatorAlwaysVisible="false" emptyMessage="No webservices found on deployed apps" styleClass="ui-fluid"
@@ -39,7 +37,7 @@
               
               <p:column headerText="Name" sortBy="#{webservice.name}" filterBy="#{webservice.name}"
                 styleClass="webservice-name-column">
-                <a href="#{webservice.getViewUrl(app.name, managerBean.selectedEnvironment)}">
+                <a href="#{webservice.getViewUrl(app.name)}">
                   <h:outputText value="#{webservice.name}" styleClass="webservice-name">
                     <i class="si si-network-arrow table-icon"></i>
                   </h:outputText>

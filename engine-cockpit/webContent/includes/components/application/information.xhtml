@@ -27,10 +27,6 @@
       <h:outputText value="#{applicationDetailBean.application.fileDir}" />
       <label>Owner</label>
       <h:outputText value="#{applicationDetailBean.application.owner}" />
-      <p:outputLabel for="activeEnvironmentSelect" value="Active Environment" title="Deprecated" style="text-decoration: line-through;" />
-      <p:selectOneMenu id="activeEnvironmentSelect" value="#{applicationDetailBean.application.activeEnv}">
-        <f:selectItems value="#{applicationDetailBean.environments}" />
-      </p:selectOneMenu>
     </p:panelGrid>
     <p:panelGrid columns="1" layout="flex">
       <h:panelGroup id="deployBtnHint">

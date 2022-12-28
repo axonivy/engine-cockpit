@@ -10,14 +10,15 @@ import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 @SuppressWarnings("restriction")
-public class TestWebServiceMonitorBean {
+class TestWebServiceMonitorBean {
+
   @AfterEach
-  public void afterEach() {
+  void afterEach() {
     MBeans.unregisterAllMBeans();
   }
 
   @Test
-  public void noData() {
+  void noData() {
     var testee = new WebServiceMonitor();
     assertThat(testee.getWebService()).isEqualTo("No Data");
     assertThat(testee.getCallsMonitor()).isNotNull();
@@ -25,23 +26,23 @@ public class TestWebServiceMonitorBean {
   }
 
   @Test
-  public void withData() throws Exception {
+  void withData() throws Exception {
     MBeans.registerMBeanFor(new Ws("ws1 (1)"));
     MBeans.registerMBeanFor(new Ws("ws2 (2)"));
-    var testee = new WebServiceMonitor("test", "Default", "1");
-    assertThat(testee.getWebService()).isEqualTo("test > Default > ws1");
+    var testee = new WebServiceMonitor("test", "1");
+    assertThat(testee.getWebService()).isEqualTo("test > ws1");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new WebServiceMonitor("test", "Default", "2");
-    assertThat(testee.getWebService()).isEqualTo("test > Default > ws2");
+    testee = new WebServiceMonitor("test", "2");
+    assertThat(testee.getWebService()).isEqualTo("test > ws2");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
   }
 
   @Test
-  public void callsMonitor() {
+  void callsMonitor() {
     MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    var testee = new WebServiceMonitor("test", "Default", "1");
+    var testee = new WebServiceMonitor("test", "1");
 
     var series = testee.getCallsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -58,9 +59,9 @@ public class TestWebServiceMonitorBean {
   }
 
   @Test
-  public void executionTimeMonitor() {
+  void executionTimeMonitor() {
     MBeans.registerMBeanFor(new Ws("ws1 (1)"));
-    var testee = new WebServiceMonitor("test", "Default", "1");
+    var testee = new WebServiceMonitor("test", "1");
 
     var series = testee.getExecutionTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);
@@ -81,7 +82,7 @@ public class TestWebServiceMonitorBean {
             .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
-  @MBean("ivy Engine:type=External Web Service,application=test,environment=Default,name=\"#{name}\"")
+  @MBean("ivy Engine:type=External Web Service,application=test,name=\"#{name}\"")
   private static final class Ws {
     private final String name;
 

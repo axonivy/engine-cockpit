@@ -25,7 +25,6 @@ class RestClient {
   private final String label;
   private final String id;
   private final String name;
-  private final String environment;
   private final String application;
 
   private RestClient() {
@@ -36,7 +35,6 @@ class RestClient {
     if (restClient == null) {
       id = "";
       name = "";
-      environment = "";
       application = "";
       label = "No Data";
       callsMonitor.addInfoValue(format("No data available"));
@@ -52,8 +50,7 @@ class RestClient {
     this.id = StringUtils.removeEnd(identifier, ")");
 
     application = restClient.getKeyProperty("application");
-    environment = restClient.getKeyProperty("environment");
-    label = toLabel(application, environment, name);
+    label = toLabel(application, name);
 
     var usedConnections = cache(1, attribute(restClient, "usedConnections", Unit.ONE));
     var openConnections = attribute(restClient, "openConnections", Unit.ONE);
@@ -94,10 +91,6 @@ class RestClient {
     return application;
   }
 
-  public String environment() {
-    return environment;
-  }
-
   public String label() {
     return label;
   }
@@ -114,7 +107,7 @@ class RestClient {
     return executionTimeMonitor;
   }
 
-  public static String toLabel(String applicationName, String environment, String restClientName) {
-    return applicationName + " > " + environment + " > " + restClientName;
+  public static String toLabel(String applicationName, String restClientName) {
+    return applicationName + " > " + restClientName;
   }
 }

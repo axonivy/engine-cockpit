@@ -2,8 +2,6 @@ package ch.ivyteam.enginecockpit.application;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.waitUntilAjaxIsFinished;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.enabled;
@@ -24,17 +22,12 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
-import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
 class WebTestApplicationDetail {
-
-  private static final String APP = isDesigner() ? DESIGNER : "test-ad";
 
   @BeforeEach
   void beforeEach() {
@@ -56,26 +49,6 @@ class WebTestApplicationDetail {
     assertThat(Integer.parseInt(pms)).isEqualTo(1);
     $$(".card").shouldHave(size(8));
     EngineCockpitUtil.destroyRunningCase();
-  }
-
-  @Test
-  void changeEnvironment() {
-    Navigation.toApplicationDetail(APP);
-    $("#appDetailInfoForm\\:activeEnvironmentSelect").shouldBe(visible);
-    SelectOneMenu env = PrimeUi.selectOne(By.id("appDetailInfoForm:activeEnvironmentSelect"));
-    env.selectItemByLabel("test");
-    $("#appDetailInfoForm\\:saveApplicationInformation").click();
-    $("#appDetailInfoForm\\:informationSaveSuccess_container").shouldBe(visible);
-
-    Selenide.refresh();
-    $("#appDetailInfoForm\\:activeEnvironmentSelect").shouldBe(visible);
-    assertThat(env.getSelectedItem()).isEqualTo("test");
-
-    env.selectItemByLabel("Default");
-    $("#appDetailInfoForm\\:saveApplicationInformation").click();
-    $("#appDetailInfoForm\\:informationSaveSuccess_container").shouldBe(visible);
-
-    assertThat(env.getSelectedItem()).isEqualTo("Default");
   }
 
   @Test

@@ -9,20 +9,18 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
-import ch.ivyteam.enginecockpit.util.EnvironmentSwitch;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestWebservices {
+class WebTestWebservices {
 
   @BeforeEach
   void beforeEach() {
     login();
     Navigation.toWebservices();
     Tab.APP.switchToDefault();
-    EnvironmentSwitch.switchToEnv("Default");
   }
 
   @Test

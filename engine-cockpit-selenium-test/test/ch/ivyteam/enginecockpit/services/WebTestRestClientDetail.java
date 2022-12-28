@@ -42,7 +42,7 @@ class WebTestRestClientDetail {
 
   @Test
   void detailOpen() {
-    assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&name=" + RESTCLIENT_NAME);
+    assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + RESTCLIENT_NAME);
     $$(".card").shouldHave(size(2));
     $("#restClientConfigurationForm\\:name").shouldBe(exactText(RESTCLIENT_NAME));
 
@@ -109,7 +109,7 @@ class WebTestRestClientDetail {
     EngineCockpitUtil.runRestClient();
     navigateToRestDetail();
     EngineCockpitUtil.assertLiveStats(List.of("REST Client Connections", "REST Client Calls",
-            "REST Client Execution Time"), "Default > test-rest", false);
+            "REST Client Execution Time"), "test-rest", false);
   }
 
   private void setConfiguration(String url, String username) {

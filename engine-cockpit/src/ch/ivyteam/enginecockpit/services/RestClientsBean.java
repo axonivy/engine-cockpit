@@ -12,8 +12,8 @@ import ch.ivyteam.ivy.rest.client.RestClients;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("removal")
 public class RestClientsBean {
+
   private List<RestClientDto> restClients;
   private List<RestClientDto> filteredRestClients;
   private String filter;
@@ -26,7 +26,7 @@ public class RestClientsBean {
   }
 
   public void reloadRestClients() {
-    restClients = RestClients.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
+    restClients = RestClients.of(managerBean.getSelectedIApplication())
             .all().stream()
             .map(rest -> new RestClientDto(rest))
             .collect(Collectors.toList());
