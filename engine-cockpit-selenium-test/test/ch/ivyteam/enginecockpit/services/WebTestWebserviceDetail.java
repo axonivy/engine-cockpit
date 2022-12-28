@@ -52,7 +52,7 @@ class WebTestWebserviceDetail {
 
   @Test
   void detailOpen() {
-    assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&env=Default&id=");
+    assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&id=");
     $$(".card").shouldHave(size(3));
     $("#webserviceConfigurationForm\\:name").shouldBe(exactText(WEBSERVICE_NAME));
 
@@ -169,8 +169,7 @@ class WebTestWebserviceDetail {
 
   @Test
   void liveStats() {
-    EngineCockpitUtil.assertLiveStats(List.of("Web Service Calls", "Web Service Execution Time"),
-            "Default > test-web", false);
+    EngineCockpitUtil.assertLiveStats(List.of("Web Service Calls", "Web Service Execution Time"), "test-web", false);
   }
 
   private void setEndPoint(String defaultLink, String... fallbacks) {

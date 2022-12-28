@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,7 +35,6 @@ public class ApplicationDetailBean {
 
   private Application app;
   private SecuritySystem securitySystem;
-  private List<String> environments;
 
   private ConfigViewImpl configView;
 
@@ -55,7 +52,6 @@ public class ApplicationDetailBean {
     return appName;
   }
 
-  @SuppressWarnings("removal")
   public void onload() {
     managerBean.reloadApplications();
     app = managerBean.getApplications().stream()
@@ -68,11 +64,6 @@ public class ApplicationDetailBean {
     }
 
     securitySystem = new SecuritySystem(app.getSecurityContext());
-    environments = managerBean.getIApplication(app.getId())
-              .getEnvironmentsSortedByName()
-              .stream()
-              .map(e -> e.getName())
-              .collect(Collectors.toList());
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
             this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
                     new ContentFilter<>("Variables", "Show Variables",
@@ -114,17 +105,6 @@ public class ApplicationDetailBean {
   public String getPmCount() {
     return managerBean.formatNumber(getIApplication().getProcessModels().stream()
             .mapToInt(pm -> pm.getProcessModelVersions().size()).sum());
-  }
-
-  public List<String> getEnvironments() {
-    return environments;
-  }
-
-  @SuppressWarnings("removal")
-  public void saveApplicationInfos() {
-    getIApplication().setActiveEnvironment(app.getActiveEnv());
-    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess",
-            new FacesMessage("Active Environment change saved"));
   }
 
   private IApplication getIApplication() {

@@ -21,10 +21,8 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si-database card-title-icon"></i>
           <h2 class="p-m-0">Databases</h2>
-          <cc:EnvironmentSelect id="envs" environmentChange="#{databaseBean.reloadDatabases}" update="tabs:applicationTabView" 
-            styleClass="p-ml-auto" />
         </div>
-        <cc:ApplicationTabs tabChange="#{databaseBean.reloadDatabases}" id="tabs" update="envs:envSwitchForm">
+        <cc:ApplicationTabs tabChange="#{databaseBean.reloadDatabases}" id="tabs">
           <h:form id="form">
             <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" 
               emptyMessage="No Databases found on deployed apps" var="database" value="#{databaseBean.databases}"
@@ -39,7 +37,7 @@
               
               <p:column headerText="Name" sortBy="#{database.name}" filterBy="#{database.name}"
                 styleClass="database-name-column">
-                <a href="#{database.getViewUrl(app.name, managerBean.selectedEnvironment)}">
+                <a href="#{database.getViewUrl(app.name)}">
                   <h:outputText value="#{database.name}" styleClass="database-name">
                     <i class="si si-database table-icon"></i>
                   </h:outputText>

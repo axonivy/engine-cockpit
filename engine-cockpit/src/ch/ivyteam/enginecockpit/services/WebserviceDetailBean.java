@@ -34,7 +34,6 @@ import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("removal")
 public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult {
 
   private Webservice webservice;
@@ -42,7 +41,6 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   private String appName;
   private IApplication app;
-  private String env;
   private PortType activePortType;
   private String activeEndpointUrl;
   private ConnectionTestResult testResult;
@@ -63,14 +61,6 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return appName;
   }
 
-  public void setEnv(String env) {
-    this.env = env;
-  }
-
-  public String getEnv() {
-    return env;
-  }
-
   public String getId() {
     return webserviceId;
   }
@@ -85,13 +75,13 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
       ResponseHelper.notFound("Application '" + appName + "' not found");
       return;
     }
-    webServiceClients = WebServiceClients.of(app, env);
+    webServiceClients = WebServiceClients.of(app);
     loadWebService();
-    liveStats = new WebServiceMonitor(appName, env, webserviceId);
+    liveStats = new WebServiceMonitor(appName, webserviceId);
   }
 
   public String getViewUrl() {
-    return webservice.getViewUrl(appName, env);
+    return webservice.getViewUrl(appName);
   }
 
   private void loadWebService() {

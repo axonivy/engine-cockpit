@@ -10,14 +10,15 @@ import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 @SuppressWarnings("restriction")
-public class TestRestClientMonitor {
+class TestRestClientMonitor {
+
   @AfterEach
-  public void afterEach() {
+  void afterEach() {
     MBeans.unregisterAllMBeans();
   }
 
   @Test
-  public void noData() {
+  void noData() {
     var testee = new RestClientMonitor();
     assertThat(testee.getRestClient()).isEqualTo("No Data");
     assertThat(testee.getCallsMonitor()).isNotNull();
@@ -26,25 +27,25 @@ public class TestRestClientMonitor {
   }
 
   @Test
-  public void withData() throws Exception {
+  void withData() throws Exception {
     MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
     MBeans.registerMBeanFor(new Client("client2 (uuid-2)"));
-    var testee = new RestClientMonitor("test", "Default", "uuid-1");
-    assertThat(testee.getRestClient()).isEqualTo("test > Default > client1");
+    var testee = new RestClientMonitor("test", "uuid-1");
+    assertThat(testee.getRestClient()).isEqualTo("test > client1");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new RestClientMonitor("test", "Default", "uuid-2");
-    assertThat(testee.getRestClient()).isEqualTo("test > Default > client2");
+    testee = new RestClientMonitor("test", "uuid-2");
+    assertThat(testee.getRestClient()).isEqualTo("test > client2");
     assertThat(testee.getCallsMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
   }
 
   @Test
-  public void connectionMonitor() {
+  void connectionMonitor() {
     MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", "Default", "uuid-1");
+    var testee = new RestClientMonitor("test", "uuid-1");
 
     var series = testee.getConnectionsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -61,9 +62,9 @@ public class TestRestClientMonitor {
   }
 
   @Test
-  public void callsMonitor() {
+  void callsMonitor() {
     MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", "Default", "uuid-1");
+    var testee = new RestClientMonitor("test", "uuid-1");
 
     var series = testee.getCallsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -81,9 +82,9 @@ public class TestRestClientMonitor {
   }
 
   @Test
-  public void executionTimeMonitor() {
+  void executionTimeMonitor() {
     MBeans.registerMBeanFor(new Client("client1 (uuid-1)"));
-    var testee = new RestClientMonitor("test", "Default", "uuid-1");
+    var testee = new RestClientMonitor("test", "uuid-1");
 
     var series = testee.getExecutionTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);
@@ -104,7 +105,7 @@ public class TestRestClientMonitor {
             .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
-  @MBean("ivy Engine:type=External REST Web Service,application=test,environment=Default,name=\"#{name}\"")
+  @MBean("ivy Engine:type=External REST Web Service,application=test,name=\"#{name}\"")
   private static final class Client {
     private final String name;
 

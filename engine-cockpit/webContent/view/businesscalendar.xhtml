@@ -50,8 +50,6 @@
                   <h:outputLink value="businesscalendar-detail.xhtml?calendarName=#{node.name}" id="calendarNode" styleClass="business-calendar">
                     <i class="si si-calendar table-icon"></i>
                     <h:outputText value="#{node.name}" />
-                    <h:outputText value=" (#{node.environments})" rendered="#{not empty node.environments}"
-                      styleClass="addition-row-info" />
                   </h:outputLink>
                 </p:treeNode>
               </p:column>

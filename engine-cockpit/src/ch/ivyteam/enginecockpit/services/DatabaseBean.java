@@ -14,8 +14,8 @@ import ch.ivyteam.ivy.db.Databases;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("removal")
 public class DatabaseBean {
+
   private List<DatabaseDto> databases;
   private List<DatabaseDto> filteredDatabases;
   private String filter;
@@ -28,7 +28,7 @@ public class DatabaseBean {
   }
 
   public void reloadDatabases() {
-    databases = Databases.of(managerBean.getSelectedIApplication(), managerBean.getSelectedEnvironment())
+    databases = Databases.of(managerBean.getSelectedIApplication())
             .all().stream()
             .filter(db -> !StringUtils.equals(db.name(), "IvySystemDatabase"))
             .map(db -> new DatabaseDto(db))

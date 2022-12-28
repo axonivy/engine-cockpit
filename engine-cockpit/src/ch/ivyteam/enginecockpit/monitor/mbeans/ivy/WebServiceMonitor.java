@@ -14,17 +14,14 @@ public class WebServiceMonitor {
   private String webServiceId;
 
   public WebServiceMonitor() {
-    this("", "", "");
+    this("", "");
   }
 
-  public WebServiceMonitor(String appName, String env, String webServiceId) {
+  public WebServiceMonitor(String appName, String webServiceId) {
     this.applicationName = appName;
     this.webServiceId = webServiceId;
     try {
-      var services = searchJmx(appName, env, webServiceId);
-      if (services.isEmpty()) {
-        services = searchJmx(appName, "Default", webServiceId);
-      }
+      var services = searchJmx(appName, webServiceId);
       webService = services.stream()
               .map(service -> new WebService(service))
               .filter(this::isWebService)
@@ -51,11 +48,10 @@ public class WebServiceMonitor {
             service.id().equals(webServiceId);
   }
 
-  private static Set<ObjectName> searchJmx(String appName, String env, String webServiceId)
+  private static Set<ObjectName> searchJmx(String appName, String webServiceId)
           throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-            new ObjectName("ivy Engine:type=External Web Service,application=" + appName + ",environment="
-                    + env + ",name=\"*(" + webServiceId + ")\""),
+            new ObjectName("ivy Engine:type=External Web Service,application=" + appName + ",name=\"*(" + webServiceId + ")\""),
             null);
   }
 }

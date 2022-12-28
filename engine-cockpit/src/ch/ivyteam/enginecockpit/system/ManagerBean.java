@@ -2,17 +2,14 @@ package ch.ivyteam.enginecockpit.system;
 
 import java.text.NumberFormat;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.TabChangeEvent;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
@@ -20,12 +17,11 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
-import ch.ivyteam.ivy.application.restricted.IEnvironment;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 
-@SuppressWarnings({"restriction", "removal"})
+@SuppressWarnings({"restriction"})
 @ManagedBean
 @SessionScoped
 public class ManagerBean {
@@ -35,9 +31,6 @@ public class ManagerBean {
 
   private List<Application> applications = List.of();
   private int selectedApplicationIndex;
-
-  private Map<Long, List<String>> environments = new HashMap<>();
-  private String selectedEnvironment;
 
   private Locale formattingLocale;
 
@@ -51,19 +44,6 @@ public class ManagerBean {
     formattingLocale = Locale.ENGLISH;
     if (session != null) {
       formattingLocale = session.getFormattingLocale();
-    }
-  }
-
-  public void reloadEnvironments() {
-    if (!applications.isEmpty()) {
-      if (StringUtils.isBlank(selectedEnvironment)) {
-        selectedEnvironment = StringUtils.defaultString(getSelectedIApplication().getActiveEnvironment(),
-                IEnvironment.DEFAULT_ENVIRONMENT_NAME);
-      }
-      for (IApplication iApplication : getIApplications()) {
-        environments.put(iApplication.getId(), iApplication.getEnvironmentsSortedByName().stream()
-                .map(e -> e.getName()).collect(Collectors.toList()));
-      }
     }
   }
 
@@ -84,7 +64,6 @@ public class ManagerBean {
     if (selectedApplicationIndex != 0 && appCount != applications.size()) {
       selectedApplicationIndex = 0;
     }
-    reloadEnvironments();
   }
 
   public List<Application> getApplications() {
@@ -201,30 +180,6 @@ public class ManagerBean {
 
   public boolean isIvySecuritySystemForSelectedApp() {
     return SecuritySystem.isIvySecuritySystem(getSelectedApplication().getSecurityContext());
-  }
-
-  public List<String> getEnvironments() {
-    var app = getSelectedApplication();
-    if (app == null) {
-      return List.of();
-    }
-    return environments.get(app.getId());
-  }
-
-  public void setSelectedEnvironment(String environment) {
-    selectedEnvironment = environment;
-  }
-
-  public String getSelectedEnvironment() {
-    var app = getSelectedApplication();
-    if (app != null && environments.get(app.getId()).contains(selectedEnvironment)) {
-      return selectedEnvironment;
-    }
-    return IEnvironment.DEFAULT_ENVIRONMENT_NAME;
-  }
-
-  public IEnvironment getSelectedIEnvironment() {
-    return getSelectedIApplication().findEnvironment(getSelectedEnvironment());
   }
 
   public boolean isRestartEngine() {

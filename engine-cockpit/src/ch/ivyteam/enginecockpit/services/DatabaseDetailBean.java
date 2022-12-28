@@ -37,7 +37,6 @@ import ch.ivyteam.ivy.db.IExternalDatabaseManager;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("removal")
 public class DatabaseDetailBean extends HelpServices implements IConnectionTestResult {
 
   private DatabaseDto database;
@@ -48,7 +47,6 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
   private String appName;
   private IApplication app;
-  private String env;
   private ConnectionTestResult testResult;
 
   private final ConnectionTestWrapper connectionTest;
@@ -67,14 +65,6 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     return appName;
   }
 
-  public void setEnv(String env) {
-    this.env = env;
-  }
-
-  public String getEnv() {
-    return env;
-  }
-
   public String getName() {
     return databaseName;
   }
@@ -90,13 +80,13 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
       return;
     }
 
-    databases = Databases.of(app, env);
+    databases = Databases.of(app);
     reloadExternalDb();
-    liveStats = new DatabaseMonitor(app.getName(), env, databaseName);
+    liveStats = new DatabaseMonitor(app.getName(), databaseName);
   }
 
   public String getViewUrl() {
-    return database.getViewUrl(appName, env);
+    return database.getViewUrl(appName);
   }
 
   private void reloadExternalDb() {
@@ -107,7 +97,7 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     }
 
     database = new DatabaseDto(db);
-    var externalDb = IExternalDatabaseManager.instance().getExternalDatabase(app, db, env);
+    var externalDb = IExternalDatabaseManager.instance().getExternalDatabase(app, db);
     history = externalDb.getExecutionHistory().stream()
             .map(ExecStatement::new)
             .collect(Collectors.toList());

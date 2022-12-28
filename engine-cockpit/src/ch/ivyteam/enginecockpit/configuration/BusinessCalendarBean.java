@@ -15,17 +15,14 @@ import ch.ivyteam.ivy.scripting.objects.Tree;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("removal")
 public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
 
   private ManagerBean managerBean;
   private BusinessCalendar activeCalendar;
   private String calendarSelection;
-  private String environmentCalendar;
 
   public BusinessCalendarBean() {
     managerBean = ManagerBean.instance();
-    environmentCalendar = managerBean.getSelectedIApplication().getActualEnvironment().getBusinessCalendar().getName();
     reloadTree();
   }
 
@@ -47,11 +44,7 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   }
 
   private BusinessCalendar findCalendar(String name) {
-    var businessCalendar = new BusinessCalendar(getBusinessCalendarConfiguration(name));
-    managerBean.getSelectedIApplication().getEnvironments().stream()
-            .filter(e -> StringUtils.equals(e.getBusinessCalendar().getName(), businessCalendar.getName()))
-            .forEach(e -> businessCalendar.addEnvironment(e.getName()));
-    return businessCalendar;
+    return new BusinessCalendar(getBusinessCalendarConfiguration(name));
   }
 
   public BusinessCalendar getActiveCalendar() {
@@ -69,10 +62,6 @@ public class BusinessCalendarBean extends TreeView<BusinessCalendar> {
   public void onload() {
     var config = getBusinessCalendarConfiguration(calendarSelection);
     this.activeCalendar = new BusinessCalendar(config);
-  }
-
-  public String getEnvironmentCalendar() {
-    return environmentCalendar;
   }
 
   @Override

@@ -10,14 +10,15 @@ import com.axonivy.jmx.MBean;
 import com.axonivy.jmx.MBeans;
 
 @SuppressWarnings("restriction")
-public class TestDatabaseMonitorBean {
+class TestDatabaseMonitorBean {
+
   @AfterEach
-  public void afterEach() {
+  void afterEach() {
     MBeans.unregisterAllMBeans();
   }
 
   @Test
-  public void noData() {
+  void noData() {
     var testee = new DatabaseMonitor();
     assertThat(testee.getDatabase()).isEqualTo("No Data");
     assertThat(testee.getQueriesMonitor()).isNotNull();
@@ -26,25 +27,25 @@ public class TestDatabaseMonitorBean {
   }
 
   @Test
-  public void withData() throws Exception {
+  void withData() throws Exception {
     MBeans.registerMBeanFor(new Db("db1"));
     MBeans.registerMBeanFor(new Db("db2"));
-    var testee = new DatabaseMonitor("test", "Default", "db1");
-    assertThat(testee.getDatabase()).isEqualTo("test > Default > db1");
+    var testee = new DatabaseMonitor("test", "db1");
+    assertThat(testee.getDatabase()).isEqualTo("test > db1");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
-    testee = new DatabaseMonitor("test", "Default", "db2");
-    assertThat(testee.getDatabase()).isEqualTo("test > Default > db2");
+    testee = new DatabaseMonitor("test", "db2");
+    assertThat(testee.getDatabase()).isEqualTo("test > db2");
     assertThat(testee.getQueriesMonitor()).isNotNull();
     assertThat(testee.getConnectionsMonitor()).isNotNull();
     assertThat(testee.getExecutionTimeMonitor()).isNotNull();
   }
 
   @Test
-  public void connectionMonitor() {
+  void connectionMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new DatabaseMonitor("test", "Default", "db1");
+    var testee = new DatabaseMonitor("test", "db1");
 
     var series = testee.getConnectionsMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -61,9 +62,9 @@ public class TestDatabaseMonitorBean {
   }
 
   @Test
-  public void callsMonitor() {
+  void callsMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new DatabaseMonitor("test", "Default", "db1");
+    var testee = new DatabaseMonitor("test", "db1");
 
     var series = testee.getQueriesMonitor().getModel().getSeries();
     assertThat(series).hasSize(2);
@@ -81,9 +82,9 @@ public class TestDatabaseMonitorBean {
   }
 
   @Test
-  public void executionTimeMonitor() {
+  void executionTimeMonitor() {
     MBeans.registerMBeanFor(new Db("db1"));
-    var testee = new DatabaseMonitor("test", "Default", "db1");
+    var testee = new DatabaseMonitor("test", "db1");
 
     var series = testee.getExecutionTimeMonitor().getModel().getSeries();
     assertThat(series).hasSize(3);
@@ -104,7 +105,7 @@ public class TestDatabaseMonitorBean {
             .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");
   }
 
-  @MBean("ivy Engine:type=External Database,application=test,environment=Default,name=#{name}")
+  @MBean("ivy Engine:type=External Database,application=test,name=#{name}")
   private static final class Db {
     private final String name;
 

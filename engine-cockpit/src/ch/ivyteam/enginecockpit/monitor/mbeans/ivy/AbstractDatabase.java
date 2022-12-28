@@ -17,7 +17,6 @@ abstract class AbstractDatabase {
 
   private final String label;
   private final String name;
-  private final String environment;
   private final String application;
 
   AbstractDatabase(ObjectName extDatabase, String queries, Monitor connectionsMonitor, Monitor queriesMonitor,
@@ -28,7 +27,6 @@ abstract class AbstractDatabase {
 
     if (extDatabase == null) {
       name = "";
-      environment = "";
       application = "";
       label = "No Data";
       connectionsMonitor.addInfoValue(format("No data available"));
@@ -38,9 +36,8 @@ abstract class AbstractDatabase {
     }
 
     application = extDatabase.getKeyProperty("application");
-    environment = extDatabase.getKeyProperty("environment");
     name = extDatabase.getKeyProperty("name");
-    label = toLabel(application, environment, name);
+    label = toLabel(application, name);
     var canonicalName = extDatabase.getCanonicalName();
 
     var usedConnections = cache(1, attribute(canonicalName, "usedConnections", Unit.ONE));
@@ -79,10 +76,6 @@ abstract class AbstractDatabase {
     return application;
   }
 
-  public String environment() {
-    return environment;
-  }
-
   public String label() {
     return label;
   }
@@ -99,7 +92,7 @@ abstract class AbstractDatabase {
     return executionTimeMonitor;
   }
 
-  public static String toLabel(String applicationName, String environment, String databaseName) {
-    return applicationName + " > " + environment + " > " + databaseName;
+  public static String toLabel(String applicationName, String databaseName) {
+    return applicationName + " > " + databaseName;
   }
 }
