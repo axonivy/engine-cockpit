@@ -1,42 +1,38 @@
 package ch.ivyteam.enginecockpit.services.model;
 
 import ch.ivyteam.enginecockpit.services.model.ElasticSearch.SearchEngineHealth;
-import ch.ivyteam.ivy.business.data.store.restricted.BusinessDataIndex;
-import ch.ivyteam.ivy.business.data.store.restricted.IndexInfo;
+import ch.ivyteam.ivy.elasticsearch.client.IndexName;
+import ch.ivyteam.ivy.elasticsearch.index.IndexInfo;
 
-@SuppressWarnings("restriction")
 public class SearchEngineIndex {
 
-  private BusinessDataIndex indexName;
-  private long countIndexed;
-  private long countStored;
   private SearchEngineHealth status;
   private String size;
   private boolean reindexing;
 
+  private IndexInfo info;
+
   public SearchEngineIndex(IndexInfo info, boolean reindexing) {
-    this.indexName = info.indexName();
-    this.countIndexed = info.indexCount();
-    this.countStored = info.storeCount();
+    this.info = info;
     this.status = SearchEngineHealth.getHealth(info.health());
     this.size = info.size();
     this.reindexing = reindexing;
   }
 
-  public BusinessDataIndex getIndexName() {
-    return indexName;
+  public IndexName getIndexName() {
+    return info.indexName();
   }
 
   public String getName() {
-    return indexName.name();
+    return info.indexName().name();
   }
 
   public long getCountIndexed() {
-    return countIndexed;
+    return info.indexCount();
   }
 
   public long getCountStored() {
-    return countStored;
+    return info.storeCount();
   }
 
   public SearchEngineHealth getStatus() {

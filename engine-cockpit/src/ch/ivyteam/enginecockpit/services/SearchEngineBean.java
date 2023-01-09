@@ -15,15 +15,14 @@ import com.google.gson.JsonParser;
 import ch.ivyteam.enginecockpit.services.model.ElasticSearch;
 import ch.ivyteam.enginecockpit.services.model.ElasticSearch.SearchEngineHealth;
 import ch.ivyteam.enginecockpit.services.model.SearchEngineIndex;
-import ch.ivyteam.ivy.business.data.store.restricted.IBusinessDataManager;
+import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
 import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class SearchEngineBean {
 
-  private IBusinessDataManager searchEngine = IBusinessDataManager.instance();
+  private IElasticsearchManager searchEngine = IElasticsearchManager.instance();
   private ServerConfig serverConfig = ServerConfig.instance();
 
   private ElasticSearch elasticSearch;
@@ -38,8 +37,8 @@ public class SearchEngineBean {
   private String queryResult;
 
   public SearchEngineBean() {
-    elasticSearch = new ElasticSearch(serverConfig.getServerUrl(), searchEngine.getBusinessDataInfo());
-    indices = searchEngine.getBusinessDataIndicesInfo().stream()
+    elasticSearch = new ElasticSearch(serverConfig.getServerUrl(), searchEngine.info());
+    indices = searchEngine.indicies().stream()
             .map(index -> new SearchEngineIndex(index, searchEngine.isReindexing(index.indexName())))
             .collect(Collectors.toList());
   }
