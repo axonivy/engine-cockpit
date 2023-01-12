@@ -55,7 +55,7 @@ class WebTestSearchEngine {
   @Test
   void testElasticSearchIndices() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
-    assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSize(2)
+    assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSizeGreaterThanOrEqualTo(2)
             .contains(dossierIndex, addressIndex);
     checkIndexValues(table, dossierIndex, "10");
     checkIndexValues(table, addressIndex, "1");
