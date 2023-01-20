@@ -1,5 +1,5 @@
 {
-  "format" : "11.1.2",
+  "format" : "11.1.6",
   "id" : "17D57ADFD804B24E",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -8,7 +8,6 @@
       "id" : "f66",
       "type" : "Script",
       "config" : {
-        "security" : "system",
         "output" : {
           "code" : [
             "import ch.ivyteam.ivy.workflow.query.TaskQuery;",
@@ -20,7 +19,8 @@
             "ITask task = ivy.wf.getTaskQueryExecutor().getFirstResult(query) as ITask;",
             "task.destroy();"
           ]
-        }
+        },
+        "sudo" : true
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 160 }
