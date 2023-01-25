@@ -105,7 +105,7 @@ public class SearchEngineBean {
   public void runQuery() {
     try {
       elasticSearch
-              .executeRequest(getQueryUrl() + "/" + getQuery())
+              .executeRequest("/" + getQuery())
               .ifPresent(result -> queryResult = result);
     } catch (Exception ex) {
       queryResult = ex.getMessage();
