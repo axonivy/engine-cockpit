@@ -5,27 +5,21 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import ch.ivyteam.ivy.elasticsearch.client.ElasticSearchInfo;
+import ch.ivyteam.ivy.elasticsearch.client.EsInfo;
 import ch.ivyteam.ivy.elasticsearch.server.IElasticsearchServer;
 import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
 
-public class ElasticSearch {
+public class Elasticsearch {
 
   public interface APIS {
     List<String> SEARCH = List.of("/_cat/indices?format=json", "/_cat/aliases?format=json", "/_cluster/health");
     List<String> INDEX = List.of("/mapping");
   }
 
-  private String clusterName = "unknown";
-  private SearchEngineHealth health = SearchEngineHealth.UNKNOWN;
-  private String version = "unknown";
+  private EsInfo info;
 
-  public ElasticSearch(ElasticSearchInfo info) {
-    if (info != null) {
-      clusterName = info.clusterName();
-      version = info.version();
-      health = SearchEngineHealth.getHealth(info.health());
-    }
+  public Elasticsearch(EsInfo info) {
+    this.info = info;
   }
 
   public String getServerUrl() {
@@ -33,19 +27,19 @@ public class ElasticSearch {
   }
 
   public String getClusterName() {
-    return clusterName;
+    return info.clusterName();
   }
 
   public String getVersion() {
-    return version;
+    return info.version();
   }
 
   public SearchEngineHealth getHealth() {
-    return health;
+    return SearchEngineHealth.getHealth(info.health());
   }
 
   public boolean isNotSupported() {
-    return !version.startsWith("7.17");
+    return !info.supported();
   }
 
   public Optional<String> executeRequest(String path) {

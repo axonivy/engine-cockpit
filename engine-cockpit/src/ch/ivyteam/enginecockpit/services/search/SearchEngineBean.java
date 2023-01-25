@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.services;
+package ch.ivyteam.enginecockpit.services.search;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,9 +8,8 @@ import javax.faces.bean.ViewScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.services.model.ElasticSearch;
-import ch.ivyteam.enginecockpit.services.model.ElasticSearch.SearchEngineHealth;
-import ch.ivyteam.enginecockpit.services.model.SearchEngineIndex;
+import ch.ivyteam.enginecockpit.services.model.Elasticsearch;
+import ch.ivyteam.enginecockpit.services.model.Elasticsearch.SearchEngineHealth;
 import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
 
 @ManagedBean
@@ -18,7 +17,7 @@ import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
 public class SearchEngineBean {
 
   private IElasticsearchManager searchEngine = IElasticsearchManager.instance();
-  private ElasticSearch elasticSearch;
+  private Elasticsearch elasticSearch;
   private List<SearchEngineIndex> indices;
   private List<SearchEngineIndex> filteredIndices;
   private String filter;
@@ -27,7 +26,7 @@ public class SearchEngineBean {
   private String queryResult;
 
   public SearchEngineBean() {
-    elasticSearch = new ElasticSearch(searchEngine.info());
+    elasticSearch = new Elasticsearch(searchEngine.info());
     indices = searchEngine.indices().stream()
             .map(index -> new SearchEngineIndex(index, searchEngine.isReindexing(index.indexName())))
             .collect(Collectors.toList());
@@ -49,7 +48,7 @@ public class SearchEngineBean {
     this.filter = filter;
   }
 
-  public ElasticSearch getElasticSearch() {
+  public Elasticsearch getElasticSearch() {
     return elasticSearch;
   }
 
@@ -97,9 +96,9 @@ public class SearchEngineBean {
 
   private List<String> getQueryApis() {
     if (activeIndex == null) {
-      return ElasticSearch.APIS.SEARCH;
+      return Elasticsearch.APIS.SEARCH;
     }
-    return ElasticSearch.APIS.INDEX;
+    return Elasticsearch.APIS.INDEX;
   }
 
   public void runQuery() {
