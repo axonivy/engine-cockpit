@@ -88,10 +88,9 @@ public class SearchEngineBean {
 
   public List<String> queryProposals(String value) {
     return getQueryApis().stream()
-            .map(api -> StringUtils.removeStart(api, "/"))
             .filter(api -> StringUtils.startsWith(api, value))
             .distinct()
-            .collect(Collectors.toList());
+            .toList();
   }
 
   private List<String> getQueryApis() {

@@ -12,8 +12,8 @@ import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
 public class Elasticsearch {
 
   public interface APIS {
-    List<String> SEARCH = List.of("/_cat/indices?format=json", "/_cat/aliases?format=json", "/_cluster/health");
-    List<String> INDEX = List.of("/mapping");
+    List<String> SEARCH = List.of("_cat/indices?format=json", "_cat/aliases?format=json", "_cluster/health");
+    List<String> INDEX = List.of("_mapping");
   }
 
   private EsInfo info;
@@ -43,8 +43,8 @@ public class Elasticsearch {
   }
 
   public Optional<String> executeRequest(String path) {
-    var webTarget = IElasticsearchServer.instance().getClient();
-    try (var response = webTarget.path(path).request().get()) {
+    var client = IElasticsearchServer.instance().getClient().client();
+    try (var response = client.target(getServerUrl() + path).request().get()) {
       var node = response.readEntity(JsonNode.class);
       if (node == null) {
         return Optional.empty();
