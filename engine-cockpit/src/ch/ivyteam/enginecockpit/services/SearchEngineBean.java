@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.services;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,35 +8,26 @@ import javax.faces.bean.ViewScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
-
 import ch.ivyteam.enginecockpit.services.model.ElasticSearch;
 import ch.ivyteam.enginecockpit.services.model.ElasticSearch.SearchEngineHealth;
 import ch.ivyteam.enginecockpit.services.model.SearchEngineIndex;
 import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
-import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
 
 @ManagedBean
 @ViewScoped
 public class SearchEngineBean {
 
   private IElasticsearchManager searchEngine = IElasticsearchManager.instance();
-  private ServerConfig serverConfig = ServerConfig.instance();
-
   private ElasticSearch elasticSearch;
-
   private List<SearchEngineIndex> indices;
   private List<SearchEngineIndex> filteredIndices;
   private String filter;
-
   private SearchEngineIndex activeIndex;
-
   private String query;
   private String queryResult;
 
   public SearchEngineBean() {
-    elasticSearch = new ElasticSearch(serverConfig.getServerUrl(), searchEngine.info());
+    elasticSearch = new ElasticSearch(searchEngine.info());
     indices = searchEngine.indices().stream()
             .map(index -> new SearchEngineIndex(index, searchEngine.isReindexing(index.indexName())))
             .collect(Collectors.toList());
@@ -82,10 +72,7 @@ public class SearchEngineBean {
   }
 
   public String getQueryUrl() {
-    if (activeIndex != null) {
-      return elasticSearch.getServerUrl() + "/" + activeIndex.getName();
-    }
-    return elasticSearch.getServerUrl();
+    return activeIndex == null ? "" : "/" + activeIndex.getName();
   }
 
   public String getQuery() {
@@ -110,29 +97,18 @@ public class SearchEngineBean {
 
   private List<String> getQueryApis() {
     if (activeIndex == null) {
-      return Arrays.asList(ElasticSearch.ElasticSearchApi.ALIASES_URL,
-              ElasticSearch.ElasticSearchApi.HEALTH_URL,
-              ElasticSearch.ElasticSearchApi.INDICIES_URL);
+      return ElasticSearch.APIS.SEARCH;
     }
-    return Arrays.asList(ElasticSearch.ElasticSearchIndexApi.MAPPING_URL);
+    return ElasticSearch.APIS.INDEX;
   }
 
   public void runQuery() {
     try {
-      elasticSearch.executeRequest(getQueryUrl() + "/" + getQuery())
-              .ifPresent(result -> queryResult = tryToBeutifyQueryResult(result));
-
+      elasticSearch
+              .executeRequest(getQueryUrl() + "/" + getQuery())
+              .ifPresent(result -> queryResult = result);
     } catch (Exception ex) {
       queryResult = ex.getMessage();
-    }
-  }
-
-  private String tryToBeutifyQueryResult(String result) {
-    try {
-      var gson = new GsonBuilder().setPrettyPrinting().create();
-      return gson.toJson(JsonParser.parseString(result));
-    } catch (Exception e) {
-      return result;
     }
   }
 
