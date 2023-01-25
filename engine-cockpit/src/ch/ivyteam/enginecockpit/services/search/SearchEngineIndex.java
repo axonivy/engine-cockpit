@@ -1,6 +1,6 @@
-package ch.ivyteam.enginecockpit.services.model;
+package ch.ivyteam.enginecockpit.services.search;
 
-import ch.ivyteam.enginecockpit.services.model.ElasticSearch.SearchEngineHealth;
+import ch.ivyteam.enginecockpit.services.model.Elasticsearch.SearchEngineHealth;
 import ch.ivyteam.ivy.elasticsearch.client.IndexName;
 import ch.ivyteam.ivy.elasticsearch.index.IndexInfo;
 
