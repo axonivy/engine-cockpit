@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.services.model.Elasticsearch;
 import ch.ivyteam.enginecockpit.services.model.Elasticsearch.SearchEngineHealth;
 import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
+import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
 
 @ManagedBean
 @ViewScoped
@@ -71,7 +72,8 @@ public class SearchEngineBean {
   }
 
   public String getQueryUrl() {
-    return activeIndex == null ? "" : "/" + activeIndex.getName();
+    var baseUrl = ServerConfig.instance().getServerUrl();
+    return activeIndex == null ? baseUrl : baseUrl + "/" + activeIndex.getName();
   }
 
   public String getQuery() {
