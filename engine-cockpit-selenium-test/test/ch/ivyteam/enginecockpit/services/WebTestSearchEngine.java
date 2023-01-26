@@ -43,7 +43,7 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void elasticSearchInfo() {
+  void elasticsearchInfo() {
     $$(".card").shouldHave(size(2));
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
@@ -53,7 +53,7 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void testElasticSearchIndices() {
+  void elasticsearchIndices() {
     Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSizeGreaterThanOrEqualTo(2)
             .contains(dossierIndex, addressIndex);
@@ -62,28 +62,27 @@ class WebTestSearchEngine {
   }
 
   @Test
-  void testElasticSearchConfigEdit() {
+  void elasticsearchConfigEdit() {
     $("#searchEngineInfoForm\\:configSearchEngine").click();
     assertCurrentUrlContains("systemconfig.xhtml?filter=ElasticSearch");
   }
 
   @Test
-  void testElasticSearchQueryTool() {
+  void elasticsearchQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
     $("#searchEngineInfoForm\\:queryToolBtn").click();
     assertQueryTool("GET: http://localhost:19200/", "ivy-elasticsearch", 3);
   }
 
   @Test
-  void testElasticSearchIndexQueryTool() {
+  void elasticsearchIndexQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable"))
-            .clickButtonForEntry(dossierIndex, "queryToolBtn");
+    new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "queryToolBtn");
     assertQueryTool("GET: http://localhost:19200/" + dossierIndex + "/", "mappings", 1);
   }
 
   @Test
-  void testElasticSearchReindex() {
+  void elasticsearchReindex() {
     $("reindexSearchEngineModel").shouldNotBe(visible);
     new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);
