@@ -104,8 +104,13 @@ public class SearchEngineBean {
 
   public void runQuery() {
     try {
+      var path = "/";
+      if (activeIndex != null) {
+        path += activeIndex.getName() + "/";
+      }
+      path += query;
       elasticSearch
-              .executeRequest("/" + getQuery())
+              .executeRequest(path)
               .ifPresent(result -> queryResult = result);
     } catch (Exception ex) {
       queryResult = ex.getMessage();
