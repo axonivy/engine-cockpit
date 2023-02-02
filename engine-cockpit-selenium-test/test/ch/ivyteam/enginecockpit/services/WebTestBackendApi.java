@@ -36,7 +36,10 @@ public class WebTestBackendApi {
   void restSwaggerUi() {
     Selenide.switchTo().frame("apiBrowser");
     $("#select").shouldBe(visible, value(APP));
-    $$(".opblock-summary").shouldBe(size(1)).first().shouldHave(text("PUT"), text("/test/renewLicense"));
+    $$(".opblock-summary")
+      .shouldBe(size(2))
+      .first()
+      .shouldHave(text("GET"), text("/engine​/info"));
 
     Selenide.switchTo().defaultContent();
     $("#configRestBackend").shouldBe(visible).click();
