@@ -76,7 +76,7 @@
                 </div>
               </div>
               <p:dataTable id="attributesTable" var="attr" value="#{spanBean.attributes}" rowIndexVar="rowIndex" emptyMessage="Select a span to see its attributes">
-                <p:column headerText="Name" style="width: 40%;" sortBy="#{attr.name}" sortOrder="ASC">
+                <p:column headerText="Name" style="width: 40%;vertical-align:top;" sortBy="#{attr.name}" sortOrder="ASC">
                   <h:outputText id="name" value="#{attr.name}" />
                 </p:column>
                 <p:column headerText="Value"  sortBy="#{attr.value}">
