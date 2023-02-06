@@ -56,7 +56,7 @@
                 </p:column>
   
                 <p:column headerText="Value">
-                  <h:outputText escape="false" value="#{mAttr.value}" />
+                  <h:outputText value="#{mAttr.value}" />
                 </p:column>
                 <p:column styleClass="table-btn-1">
                   <p:commandButton id="addTrace" rendered="#{mAttr.isTraceable}" update="chart" immediate="true"
