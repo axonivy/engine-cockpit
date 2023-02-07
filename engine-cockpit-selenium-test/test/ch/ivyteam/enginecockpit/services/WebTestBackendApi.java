@@ -1,7 +1,8 @@
 package ch.ivyteam.enginecockpit.services;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
+import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
@@ -21,7 +22,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestBackendApi {
+class WebTestBackendApi {
 
   private static final String APP = "test";
 
@@ -36,9 +37,9 @@ public class WebTestBackendApi {
   void restSwaggerUi() {
     Selenide.switchTo().frame("apiBrowser");
     $("#select").shouldBe(visible, value(APP));
-    $$(".opblock-summary").shouldBe(size(2));
-      //.first()
-      //.shouldHave(text("GET"), text("/engine​/info"));
+    $$(".opblock-summary")
+      .shouldBe(sizeGreaterThanOrEqual(2))
+      .should(textsInAnyOrder("/engine/info"));
 
     Selenide.switchTo().defaultContent();
     $("#configRestBackend").shouldBe(visible).click();
