@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.services;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
-import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
@@ -39,7 +38,7 @@ class WebTestBackendApi {
     $("#select").shouldBe(visible, value(APP));
     $$(".opblock-summary")
       .shouldBe(sizeGreaterThanOrEqual(2))
-      .should(textsInAnyOrder("/engine/info"));
+      .shouldHave(CollectionCondition.texts("GET /engine/info"));
 
     Selenide.switchTo().defaultContent();
     $("#configRestBackend").shouldBe(visible).click();
