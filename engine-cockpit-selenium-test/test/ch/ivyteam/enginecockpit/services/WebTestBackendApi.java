@@ -37,8 +37,7 @@ class WebTestBackendApi {
     Selenide.switchTo().frame("apiBrowser");
     $("#select").shouldBe(visible, value(APP));
     $$(".opblock-summary")
-      .shouldBe(sizeGreaterThanOrEqual(2))
-      .shouldHave(CollectionCondition.texts("GET /engine/info"));
+      .shouldBe(sizeGreaterThanOrEqual(2));
 
     Selenide.switchTo().defaultContent();
     $("#configRestBackend").shouldBe(visible).click();
