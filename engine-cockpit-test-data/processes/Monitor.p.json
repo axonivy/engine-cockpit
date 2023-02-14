@@ -1,0 +1,46 @@
+{
+  "format" : "11.1.14",
+  "id" : "1871451A54CFD978",
+  "config" : {
+    "data" : "engine.cockpit.test.data.Data"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "deadlock.ivp",
+      "config" : {
+        "callSignature" : "deadlock",
+        "outLink" : "deadlock.ivp",
+        "startName" : "Start deadlock threads"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 360, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.monitor.Deadlock;",
+            "Deadlock.start();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 232, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
+    } ]
+}

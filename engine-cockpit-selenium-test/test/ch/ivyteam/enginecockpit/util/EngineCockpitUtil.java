@@ -156,6 +156,10 @@ public class EngineCockpitUtil {
   public static void destroyRunningCase() {
     runTestProcess("17D57ADFD804B24E/destroyRunningCase.ivp");
   }
+  
+  public static void deadlock() {
+    runTestProcess("1871451A54CFD978/deadlock.ivp");
+  }
 
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
