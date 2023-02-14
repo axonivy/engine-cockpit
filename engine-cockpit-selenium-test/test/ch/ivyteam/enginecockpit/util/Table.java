@@ -16,6 +16,7 @@ import org.openqa.selenium.By;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
 public class Table {
@@ -67,9 +68,20 @@ public class Table {
   public SelenideElement tableEntry(String entry, int column) {
     return $x(findColumnOverEntry(entry) + "/td[" + column + "]");
   }
+  
+  public SelenideElement tableEntry(int row, int column)
+  {
+    return $x(getBody() + "/tr[" + row + "]/td[" + column + "]");
+  }
+
 
   public SelenideElement row(String entry) {
     return $x(findColumnOverEntry(entry));
+  }
+  
+  public ElementsCollection rows()
+  {
+    return $$x(getBody()+"/tr");
   }
 
   public SelenideElement body() {
@@ -140,8 +152,8 @@ public class Table {
     $(By.id(globalFilter)).sendKeys(search);
   }
 
-  public void searchFilterShould(Condition condition) {
-    $(By.id(globalFilter)).should(condition);
+  public void searchFilterShould(Condition... conditions) {
+    $(By.id(globalFilter)).should(conditions);
   }
 
   public String getSearchFilter() {
