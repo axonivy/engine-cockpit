@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Monitor</span></li>
+      <li>/</li>
+      <li><span>Engine</span></li>
+      <li>/</li>
+      <li><span>Performance</span></li>
+      <li>/</li>
+      <li><a href="monitorThread.xhtml">Threads</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#thread" />
+    </ui:define>
+
+    <ui:define name="content">
+      <h:form>
+        <p:poll update="@form" interval="1" />
+        <div class="layout-dashboard">
+          <div class="card">
+            <div class="card-header p-flex-wrap">
+              <div class="card-title p-d-flex p-ai-center">
+                <i class="p-pr-3 si si-synchronize-arrow-clock"></i>
+                <h2 class="p-m-0">Threads</h2>
+	            <p:commandButton icon="si si-button-refresh-arrows" ajax="false" title="Refresh" styleClass="p-col-fixed p-ml-auto rounded-button">
+   	              <p:fileDownload value="#{threadBean.refresh()}"/>
+	            </p:commandButton>
+	            <p:commandButton icon="pi pi-arrow-down" ajax="false" title="Save Thread Dump" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button">
+   	              <p:fileDownload value="#{threadBean.dump()}"/>
+	            </p:commandButton>
+	          </div>
+	        </div>
+            <p:dataTable var="thread" value="#{threadBean.threads}"
+	            widgetVar="cacheTable" styleClass="ui-fluid"
+	            filteredValue="#{threadBean.filteredThreads}"
+	            id="threadTable" style="min-width: 950px;">
+            <f:facet name="header">
+              <div class="ui-input-icon-left filter-container">
+                <i class="pi pi-search"/>
+                <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" placeholder="Search" value="#{threadBean.filter}" />
+              </div>
+            </f:facet>
+            <p:column headerText="Id" sortBy="#{thread.id}" filterBy="#{thread.id}">
+              <h:outputText value="#{thread.id}"/>
+            </p:column>
+            <p:column headerText="Name" sortBy="#{thread.name}" filterBy="#{thread.name}">
+              <h:outputText value="#{thread.name}"/>
+            </p:column>
+            <p:column headerText="State" sortBy="#{thread.state}" filterBy="#{thread.state}">
+              <h:outputText value="#{thread.state}" style="Color: #{thread.stateColor}"/>
+            </p:column>
+            <p:column headerText="Priority" sortBy="#{thread.priority}" filterBy="#{thread.priority}">
+              <h:outputText value="#{thread.priority}"/>
+            </p:column>
+            <p:column headerText="Cpu Time" sortBy="#{thread.cpuTime}" filterBy="#{thread.cpuTime}">
+              <div style="background: #{thread.cpuTimeBackground};">
+                <h:outputText styleClass="gradient-text" value="#{thread.cpuTime}"/>
+              </div>
+            </p:column>
+            <p:column headerText="User Time" sortBy="#{thread.userTime}" filterBy="#{thread.userTime}">
+              <div style="background: #{thread.userTimeBackground};">
+                <h:outputText styleClass="gradient-text" value="#{thread.userTime}"/>
+              </div>
+            </p:column>
+          </p:dataTable>
+	            
+		  </div>
+		</div>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>
