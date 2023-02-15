@@ -103,7 +103,7 @@ final class TstProcessElementExecStat implements IProcessElementExecutionStatist
 
     @Override
     public PID getId() {
-      return new PID("5872394-f1");
+      return PID.of("5872394-f1");
     }
 
     @Override
