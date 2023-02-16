@@ -51,7 +51,7 @@
           <plugin>
             <groupId>ch.ivyteam.maven</groupId>
             <artifactId>screenshot-html-plugin</artifactId>
-            <version>9.1.3-SNAPSHOT</version>
+            <version>10.0.0</version>
             <executions>
               <execution>
                 <id>validate-images</id>
