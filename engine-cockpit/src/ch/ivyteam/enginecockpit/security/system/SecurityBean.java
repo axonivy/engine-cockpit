@@ -5,6 +5,7 @@ import static ch.ivyteam.ivy.security.ISecurityContext.SYSTEM;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
@@ -47,7 +48,7 @@ public class SecurityBean {
     return readAllSecurityContexts()
             .map(s -> new SecuritySystem(s))
             .filter(s -> !isDefaultWithNoApps(s))
-            .toList();
+            .collect(Collectors.toList());
   }
 
   private static Stream<ISecurityContext> readAllSecurityContexts() {
@@ -66,7 +67,7 @@ public class SecurityBean {
   public Collection<String> getAvailableSecuritySystems() {
     return readAllSecurityContexts()
             .map(s -> s.getName())
-            .toList();
+            .collect(Collectors.toList());
   }
 
   public void triggerSyncForSelectedSecuritySystem() {

@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -85,7 +86,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
             .skip(first)
             .limit(pageSize)
             .map(SessionDto::new)
-            .toList();
+            .collect(Collectors.toList());
   }
 
   private Comparator<ISessionInternal> createComparator(Map<String, SortMeta> sortBy) {
