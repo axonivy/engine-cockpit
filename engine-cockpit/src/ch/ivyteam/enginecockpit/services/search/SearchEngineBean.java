@@ -92,7 +92,7 @@ public class SearchEngineBean {
     return getQueryApis().stream()
             .filter(api -> StringUtils.startsWith(api, value))
             .distinct()
-            .toList();
+            .collect(Collectors.toList());
   }
 
   private List<String> getQueryApis() {
