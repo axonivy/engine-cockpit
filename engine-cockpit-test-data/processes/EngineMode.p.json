@@ -1,5 +1,5 @@
 {
-  "format" : "11.1.10",
+  "format" : "11.1.11",
   "id" : "16E600A121BCA31F",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -16,7 +16,9 @@
         "at" : { "x" : 96, "y" : 64 },
         "labelOffset" : { "x" : 15, "y" : 37 }
       },
-      "connect" : { "id" : "f4", "to" : "f3" }
+      "connect" : [
+        { "id" : "f4", "to" : "f3" }
+      ]
     }, {
       "id" : "f1",
       "type" : "TaskEnd",
@@ -38,7 +40,9 @@
       "visual" : {
         "at" : { "x" : 224, "y" : 64 }
       },
-      "connect" : { "id" : "f2", "to" : "f1" }
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
     }, {
       "id" : "f5",
       "type" : "RequestStart",
@@ -51,7 +55,9 @@
         "at" : { "x" : 96, "y" : 160 },
         "labelOffset" : { "x" : 28, "y" : 40 }
       },
-      "connect" : { "id" : "f9", "to" : "f6" }
+      "connect" : [
+        { "id" : "f9", "to" : "f6" }
+      ]
     }, {
       "id" : "f6",
       "type" : "Script",
@@ -69,7 +75,9 @@
       "visual" : {
         "at" : { "x" : 224, "y" : 160 }
       },
-      "connect" : { "id" : "f8", "to" : "f7" }
+      "connect" : [
+        { "id" : "f8", "to" : "f7" }
+      ]
     }, {
       "id" : "f7",
       "type" : "TaskEnd",
@@ -93,7 +101,9 @@
       "visual" : {
         "at" : { "x" : 224, "y" : 256 }
       },
-      "connect" : { "id" : "f14", "to" : "f11" }
+      "connect" : [
+        { "id" : "f14", "to" : "f11" }
+      ]
     }, {
       "id" : "f11",
       "type" : "TaskEnd",
@@ -112,7 +122,9 @@
         "at" : { "x" : 96, "y" : 256 },
         "labelOffset" : { "x" : 32, "y" : 40 }
       },
-      "connect" : { "id" : "f13", "to" : "f10" }
+      "connect" : [
+        { "id" : "f13", "to" : "f10" }
+      ]
     }, {
       "id" : "f15",
       "type" : "Script",
@@ -130,7 +142,9 @@
       "visual" : {
         "at" : { "x" : 224, "y" : 352 }
       },
-      "connect" : { "id" : "f18", "to" : "f16" }
+      "connect" : [
+        { "id" : "f18", "to" : "f16" }
+      ]
     }, {
       "id" : "f16",
       "type" : "TaskEnd",
@@ -149,7 +163,9 @@
         "at" : { "x" : 96, "y" : 352 },
         "labelOffset" : { "x" : 47, "y" : 40 }
       },
-      "connect" : { "id" : "f19", "to" : "f15" }
+      "connect" : [
+        { "id" : "f19", "to" : "f15" }
+      ]
     }, {
       "id" : "f20",
       "type" : "TaskEnd",
@@ -168,7 +184,9 @@
         "at" : { "x" : 96, "y" : 448 },
         "labelOffset" : { "x" : 43, "y" : 40 }
       },
-      "connect" : { "id" : "f24", "to" : "f22" }
+      "connect" : [
+        { "id" : "f24", "to" : "f22" }
+      ]
     }, {
       "id" : "f22",
       "type" : "Script",
@@ -186,7 +204,9 @@
       "visual" : {
         "at" : { "x" : 224, "y" : 448 }
       },
-      "connect" : { "id" : "f23", "to" : "f20" }
+      "connect" : [
+        { "id" : "f23", "to" : "f20" }
+      ]
     }, {
       "id" : "f25",
       "type" : "Script",
@@ -204,7 +224,9 @@
       "visual" : {
         "at" : { "x" : 224, "y" : 544 }
       },
-      "connect" : { "id" : "f29", "to" : "f26" }
+      "connect" : [
+        { "id" : "f29", "to" : "f26" }
+      ]
     }, {
       "id" : "f26",
       "type" : "TaskEnd",
@@ -223,6 +245,8 @@
         "at" : { "x" : 96, "y" : 544 },
         "labelOffset" : { "x" : 28, "y" : 40 }
       },
-      "connect" : { "id" : "f28", "to" : "f25" }
+      "connect" : [
+        { "id" : "f28", "to" : "f25" }
+      ]
     } ]
 }
