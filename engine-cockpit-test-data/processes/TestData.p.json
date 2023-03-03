@@ -1,5 +1,5 @@
 {
-  "format" : "11.1.2",
+  "format" : "11.1.10",
   "id" : "16E88DD61E825E70",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -123,19 +123,21 @@
       "type" : "Database",
       "config" : {
         "query" : {
-          "kind" : "any",
-          "stmt" : [
-            "CREATE TABLE Persons (",
-            "    PersonID int,",
-            "    LastName varchar(255),",
-            "    FirstName varchar(255),",
-            "    Address varchar(255),",
-            "    City varchar(255)",
-            ");"
-          ],
-          "quote" : true
-        },
-        "dbUrl" : "realdb"
+          "dbName" : "realdb",
+          "sql" : {
+            "kind" : "ANY",
+            "stmt" : [
+              "CREATE TABLE Persons (",
+              "    PersonID int,",
+              "    LastName varchar(255),",
+              "    FirstName varchar(255),",
+              "    Address varchar(255),",
+              "    City varchar(255)",
+              ");"
+            ],
+            "quote" : true
+          }
+        }
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 352 }
@@ -172,14 +174,16 @@
       "type" : "Database",
       "config" : {
         "query" : {
-          "kind" : "any",
-          "stmt" : [
-            "SELECT *",
-            "FROM Persons"
-          ],
-          "quote" : true
-        },
-        "dbUrl" : "realdb"
+          "dbName" : "realdb",
+          "sql" : {
+            "kind" : "ANY",
+            "stmt" : [
+              "SELECT *",
+              "FROM Persons"
+            ],
+            "quote" : true
+          }
+        }
       },
       "visual" : {
         "at" : { "x" : 256, "y" : 480 }
