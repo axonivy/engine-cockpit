@@ -120,6 +120,12 @@ body .user-avatar > img {
   overflow: auto;
   max-height: 500px;
 }
+.code {
+  font-family: monospace !important;
+  white-space: pre;
+  overflow: auto;
+  max-height: 200px;
+}
 .ui-dialog .ui-dialog-content .custom-dialog-form {
   height: 100%;
   display: flex;
@@ -476,7 +482,6 @@ body .ui-datatable .ui-datatable-header {
   color: var(--ivy-primary-text-color);
   border-radius: 2px;
 }
-
 .migration-question-select-button {
   display: flex;
 }

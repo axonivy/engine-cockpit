@@ -46,14 +46,18 @@
                 <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" placeholder="Search" value="#{threadBean.filter}" />
               </div>
             </f:facet>
-            <p:column headerText="Id" sortBy="#{thread.id}" filterBy="#{thread.id}">
-              <h:outputText value="#{thread.id}"/>
+            <p:column headerText="Id" sortBy="#{thread.id}" filterBy="#{thread.id}">              
+              <p:commandLink oncomplete="PF('threadDialog').show();" title="Thread Detail" action="#{threadBean.setSelected(thread)}" update="threadDialog">
+                <i class="p-pr-3 si si-synchronize-arrow-clock"></i>
+	            <h:outputText value="#{thread.id}"/>
+	          </p:commandLink>
             </p:column>
             <p:column headerText="Name" sortBy="#{thread.name}" filterBy="#{thread.name}">
               <h:outputText value="#{thread.name}"/>
             </p:column>
             <p:column headerText="State" sortBy="#{thread.state}" filterBy="#{thread.state}">
-              <h:outputText value="#{thread.state}" style="Color: #{thread.stateColor}"/>
+              <h:outputText id="state" value="#{thread.state}" style="Color: #{thread.stateColor}"/>
+              <p:tooltip for="state" value="#{thread.stateTitle}" position="right"/>
             </p:column>
             <p:column headerText="Priority" sortBy="#{thread.priority}" filterBy="#{thread.priority}">
               <h:outputText value="#{thread.priority}"/>
@@ -73,6 +77,36 @@
 		  </div>
 		</div>
       </h:form>
+      <p:dialog style="min-width: 300px; max-width: 80%;" header="Thread #{threadBean.selected.id} - #{threadBean.selected.name}" id="threadDialog"
+            widgetVar="threadDialog" responsive="true" closeOnEscape="true">
+        <h:form id="thread" styleClass="custom-dialog-form">
+          <p:panelGrid columns="2" layout="flex" columnClasses="p-col-2, p-col-10" styleClass="grey-label-panel ui-fluid">
+		    <p:outputLabel for="daemon" value="Daemon" />
+      		<p:outputLabel id="daemon" value="#{threadBean.selected.info.daemon}"/>
+		    <p:outputLabel for="native" value="In Native Code" />
+      		<p:outputLabel id="native" value="#{threadBean.selected.info.inNative}"/>
+      		<p:outputLabel for="deadlocked" value="Deadlocked" />
+      		<p:outputLabel id="deadlocked" value="#{threadBean.selected.deadLocked}"/>      		
+            <p:outputLabel for="blocked" value="Blocked" />
+      		<p:outputLabel id="blocked" value="#{threadBean.selected.info.blockedCount} (#{threadBean.selected.info.blockedTime} ns)"/>
+		    <p:outputLabel for="waited" value="Waited" />
+            <p:outputLabel id="waited" value="#{threadBean.selected.info.waitedCount} (#{threadBean.selected.info.waitedTime} ns)"/>
+		    <p:outputLabel for="lock" value="Waiting on or for Lock"/>
+            <p:outputPanel id="lock" styleClass="code">#{threadBean.selected.lockName}</p:outputPanel>
+		    <p:outputLabel for="lockOwner" value="Lock Owner"/>
+            <p:outputPanel id="lockOwner" styleClass="code">#{threadBean.selected.lockOwner}</p:outputPanel>
+            <p:outputLabel for="lockedSynchronizers" value="Locked Synchronizers"/>
+            <p:outputPanel id="lockedSynchronizers" styleClass="code">#{threadBean.selected.lockedSynchronizers}</p:outputPanel>
+            <p:outputLabel for="lockedMonitors" value="Locked Monitors"/>
+            <p:outputPanel id="lockedMonitors" styleClass="code">#{threadBean.selected.lockedMonitors}</p:outputPanel>
+            <p:outputLabel for="stackTrace" value="Stack Trace"/>
+            <p:outputPanel id="stackTrace" styleClass="code">#{threadBean.selected.stackTrace}</p:outputPanel>
+          </p:panelGrid>
+          <div class="custom-dialog-footer">
+            <p:commandButton id="cancel" type="button" onclick="PF('threadDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+          </div>
+        </h:form>
+      </p:dialog>
     </ui:define>
   </ui:composition>
 </h:body>

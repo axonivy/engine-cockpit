@@ -2,7 +2,9 @@ package ch.ivyteam.enginecockpit.monitor;
 
 import java.io.ByteArrayInputStream;
 import java.lang.Thread.State;
+import java.lang.management.LockInfo;
 import java.lang.management.ManagementFactory;
+import java.lang.management.MonitorInfo;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.nio.charset.StandardCharsets;
@@ -32,6 +34,7 @@ public class ThreadBean {
   private boolean isCpuEnabled;
   private long maxCpuTime;
   private long maxUserTime;
+  private Info selected;
 
   public ThreadBean() {
     refresh();
@@ -40,7 +43,7 @@ public class ThreadBean {
   public void refresh() {
     isCpuEnabled = threadMxBean().isThreadCpuTimeSupported() && threadMxBean().isThreadCpuTimeEnabled();
     deadLocked = threadMxBean().findDeadlockedThreads();
-    ThreadInfo[] infos = threadMxBean().dumpAllThreads(false, false);
+    ThreadInfo[] infos = threadMxBean().dumpAllThreads(true, true);
     maxCpuTime = Stream.of(infos).map(this::toCpuTime).max(Long::compareTo).orElse(-1L);
     maxUserTime = Stream.of(infos).map(this::toUserTime).max(Long::compareTo).orElse(-1L);
     threads = Stream.of(infos).map(info -> infoFor(info)).collect(Collectors.toList());
@@ -78,11 +81,19 @@ public class ThreadBean {
 
   public void setFilter(String filter) {
     this.filter = filter;
-  }
+  }  
 
   private boolean filter(Info threadInfo) {
     String name = threadInfo.getName();
     return name != null && StringUtils.containsIgnoreCase(name, filter);
+  }
+  
+  public Info getSelected() {
+	return this.selected;
+  }
+  
+  public void setSelected(Info thread) {
+	this.selected = thread;  
   }
 
   private static ThreadMXBean threadMxBean() {
@@ -100,7 +111,7 @@ public class ThreadBean {
   private Info infoFor(ThreadInfo info) {
     var cpuTime = toCpuTime(info);
     var userTime = toUserTime(info);
-    return new Info(info.getThreadId(), info.getThreadName(), info.getThreadState(), info.getPriority(), cpuTime, userTime);
+    return new Info(info, cpuTime, userTime);
   }
 
   public final class Info {
@@ -110,15 +121,17 @@ public class ThreadBean {
     private final int priority;
     private final long cpuTime;
     private final long userTime;
+    private final ThreadInfo info;
 
-    private Info(long id, String name, State state, int priority, long cpuTime, long userTime) {
+    private Info(ThreadInfo info, long cpuTime, long userTime) {
       super();
-      this.id = id;
-      this.name = name;
-      this.state = state;
-      this.priority = priority;
+      this.id = info.getThreadId();
+      this.name = info.getThreadName();
+      this.state = info.getThreadState();
+      this.priority = info.getPriority();
       this.cpuTime = cpuTime;
       this.userTime = userTime;
+      this.info = info;
     }
 
     public long getId() {
@@ -137,12 +150,27 @@ public class ThreadBean {
       return switch(state) {
         case RUNNABLE -> "green";
         case BLOCKED -> isDeadLocked() ? "red" : "orange";
-        case WAITING -> "blue";
+        case WAITING -> isDeadLocked() ? "red" : "blue";
         case TIMED_WAITING -> "blue";
         case NEW -> "black";
         case TERMINATED -> "black";
       };
     }
+    
+    public String getStateTitle() {
+      if (isDeadLocked()) {
+        return "This thread is deadlocked! It is waiting to lock " + getLockName() + " which is owned by thread " + getLockOwner() + ".";
+      }
+      return switch(state) {
+        case RUNNABLE -> "Thread is runnable.";
+        case BLOCKED -> "Thread is blocked. It waits to lock "+ getLockName() + " which is owned by thread " + getLockOwner() + ".";
+        case WAITING -> "Thread is waiting on lock " + getLockName() + ".";
+        case TIMED_WAITING -> "Thread is waiting with a timeout on lock " + getLockName() + ".";
+        case NEW -> "Thread is new and not yet started";
+        case TERMINATED -> "Thread has terminated";
+      };
+    }
+
 
     public int getPriority() {
       return priority;
@@ -167,5 +195,56 @@ public class ThreadBean {
     public boolean isDeadLocked() {
       return deadLocked != null && Arrays.stream(deadLocked).anyMatch(threadId -> threadId == id);
     }
+    
+    public ThreadInfo getInfo() {
+      return info;
+    }
+    
+    public String getLockedSynchronizers() {
+      var lockedSynchronizers = info.getLockedSynchronizers();
+      if (lockedSynchronizers == null || lockedSynchronizers.length ==0) {
+        return "None";
+      }
+      return Stream.of(lockedSynchronizers).map(LockInfo::toString).collect(Collectors.joining(",\n"));
+    }
+    
+    public String getLockedMonitors() {
+      var lockedMonitors = info.getLockedMonitors();
+      if (lockedMonitors == null || lockedMonitors.length ==0) {
+        return "None";
+      }
+      return Stream.of(lockedMonitors).map(this::toMonitorString).collect(Collectors.joining(",\n"));
+    }
+
+	private String toMonitorString(MonitorInfo monitor) {
+		var frame = monitor.getLockedStackFrame();
+		return monitor.toString() + " - " + frame.getClassName() + "." + frame.getMethodName() +"(" + frame.getFileName() + ":" + frame.getLineNumber() + ")";
+	}
+
+    public String getLockName() {
+      var lockName = info.getLockName();
+      if (StringUtils.isBlank(lockName)) {
+    	return "None";
+      }
+      return lockName;
+    }
+
+    public String getLockOwner() {
+      var lockOwnerName = info.getLockOwnerName();
+      if (StringUtils.isBlank(lockOwnerName)) {
+  	  return "None";
+      }
+      return info.getLockOwnerId() + " - " + lockOwnerName;
+    }
+
+    public String getStackTrace() {
+      var lockedMonitors = info.getStackTrace();
+      if (lockedMonitors == null || lockedMonitors.length ==0) {
+        return "None";
+      }
+      return Stream.of(lockedMonitors).map(StackTraceElement::toString).collect(Collectors.joining("\n"));
+    }
+
+
   }
 }
