@@ -36,7 +36,7 @@ class WebTestSecurityIdentityProviderAzure {
   }
 
   private void stringProperty() {
-    var property = $("#securityIdentityProviderForm\\:property\\:0\\:propertyString").shouldBe(visible);
+    var property = $("#securityIdentityProviderForm\\:group\\:0\\:property\\:0\\:propertyString").shouldBe(visible);
     property.clear();
     property.sendKeys("tenantId");
     save();
@@ -45,7 +45,7 @@ class WebTestSecurityIdentityProviderAzure {
   }
 
   private void passwordProperty() {
-    var property = $("#securityIdentityProviderForm\\:property\\:2\\:propertyPassword").shouldBe(visible);
+    var property = $("#securityIdentityProviderForm\\:group\\:0\\:property\\:2\\:propertyPassword").shouldBe(visible);
     property.clear();
     property.sendKeys("clientSecret");
     save();
