@@ -19,7 +19,7 @@ import com.codeborne.selenide.Selenide;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless = false)
+@IvyWebTest
 class WebTestSecurityIdentityProviderAzure {
 
   private final static String NAME = "test-azure";
@@ -39,7 +39,7 @@ class WebTestSecurityIdentityProviderAzure {
   }
 
   private void stringProperty() {
-    var property = $("#securityIdentityProviderForm\\:group\\:0\\:property\\:0\\:propertyString").shouldBe(visible);
+    var property = $(By.id("securityIdentityProviderForm:group:0:property:0:propertyString")).shouldBe(visible);
     property.clear();
     property.sendKeys("tenantId");
     save();
@@ -48,7 +48,7 @@ class WebTestSecurityIdentityProviderAzure {
   }
 
   private void passwordProperty() {
-    var property = $("#securityIdentityProviderForm\\:group\\:0\\:property\\:2\\:propertyPassword").shouldBe(visible);
+    var property = $(By.id("securityIdentityProviderForm:group:0:property:2:propertyPassword")).shouldBe(visible);
     property.clear();
     property.sendKeys("clientSecret");
     save();
@@ -69,16 +69,16 @@ class WebTestSecurityIdentityProviderAzure {
     table.firstColumnShouldBe(CollectionCondition.empty);
 
     // add
-    $("#securityIdentityProviderForm\\:group\\:1\\:newPropertyKeyValue")
+    $(By.id("securityIdentityProviderForm:group:1:newPropertyKeyValue"))
             .shouldBe(visible)
             .click();
-    $("#identityProviderKeyValueForm\\:attributeNameInput")
+    $(By.id("identityProviderKeyValueForm:attributeNameInput"))
             .should(visible)
             .sendKeys("user property");
-    $("#identityProviderKeyValueForm\\:attributeValueInput")
+    $(By.id("identityProviderKeyValueForm:attributeValueInput"))
             .should(visible)
             .sendKeys("azure property");
-    $("#identityProviderKeyValueForm\\:savePropertyKeyAttribute")
+    $(By.id("identityProviderKeyValueForm:savePropertyKeyAttribute"))
             .should(visible)
             .click();
     success();
@@ -86,15 +86,15 @@ class WebTestSecurityIdentityProviderAzure {
     table.columnShouldBe(2, CollectionCondition.exactTexts("azure property"));
 
     // edit
-    $("#securityIdentityProviderForm\\:group\\:1\\:property\\:0\\:keyValueTable\\:0\\:editPropertyBtn")
+    $(By.id("securityIdentityProviderForm:group:1:property:0:keyValueTable:0:editPropertyBtn"))
             .should(visible)
             .click();
-    $("#identityProviderKeyValueForm\\:attributeNameInput").should(Condition.disabled);
-    var p = $("#identityProviderKeyValueForm\\:attributeValueInput")
+    $(By.id("identityProviderKeyValueForm:attributeNameInput")).should(Condition.disabled);
+    var p = $(By.id("identityProviderKeyValueForm:attributeValueInput"))
       .should(visible);
     p.clear();
     p.sendKeys("changed azure property");
-    $("#identityProviderKeyValueForm\\:savePropertyKeyAttribute")
+    $(By.id("identityProviderKeyValueForm:savePropertyKeyAttribute"))
       .should(visible)
       .click();
     success();
@@ -102,25 +102,25 @@ class WebTestSecurityIdentityProviderAzure {
     table.columnShouldBe(2, CollectionCondition.exactTexts("changed azure property"));
 
     // delete
-    $("#securityIdentityProviderForm\\:group\\:1\\:property\\:0\\:keyValueTable\\:0\\:deleteKeyValueBtn")
+    $(By.id("securityIdentityProviderForm:group:1:property:0:keyValueTable:0:deleteKeyValueBtn"))
       .click();
     success();
     table.firstColumnShouldBe(CollectionCondition.empty);
   }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {
-    $("#form\\:createSecuritySystemBtn").click();
-    $("#newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys(securitySystemName);
+    $(By.id("form:createSecuritySystemBtn")).click();
+    $(By.id("newSecuritySystemForm:newSecuritySystemNameInput")).sendKeys(securitySystemName);
     var provider = PrimeUi.selectOne(By.id("newSecuritySystemForm:newSecuritySystemProviderSelect"));
     provider.selectItemByLabel(providerName);
-    $("#newSecuritySystemForm\\:saveNewSecuritySystem").click();
+    $(By.id("newSecuritySystemForm:saveNewSecuritySystem")).click();
   }
 
   private void save() {
-    $("#securityIdentityProviderForm\\:group\\:0\\:save").shouldBe(visible).click();
+    $(By.id("securityIdentityProviderForm:group:0:save")).shouldBe(visible).click();
   }
 
   private void success() {
-    $("#securityIdentityProviderForm\\:securityIdentityProviderSaveSuccess_container").shouldHave(text("Successfully saved"));
+    $(By.id("securityIdentityProviderForm:securityIdentityProviderSaveSuccess_container")).shouldHave(text("Successfully saved"));
   }
 }
