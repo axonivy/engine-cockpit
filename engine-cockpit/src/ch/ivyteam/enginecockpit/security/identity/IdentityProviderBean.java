@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -57,14 +59,25 @@ public class IdentityProviderBean {
   }
 
   private ConfigProperty toConfigProperty(String key, Metadata metadata) {
-    var value = ((SecurityContext) securityContext).config().getProperty(key);
-    return new ConfigProperty(key, value, metadata);
+    var config = ((SecurityContext) securityContext).config();
+    var value = "";
+    Map<String, String> keyValue = Map.of();
+    if (metadata.isKeyValue()) {
+      keyValue = new HashMap<>(config.getPropertyAsKeyValue(key));
+    } else {
+      value = config.getProperty(key);
+    }
+    return new ConfigProperty(key, value, keyValue, metadata);
   }
 
   public void save() {
     var cfg = ((SecurityContext) securityContext).config();
     for (var p : properties) {
-      cfg.setProperty(p.getName(), p.getValue());
+      if (p.isKeyValue()) {
+        cfg.setProperty(p.getName(), p.getKeyValueProperty().keyValue());
+      } else {
+        cfg.setProperty(p.getName(), p.getValue());
+      }
     }
 
     var message = new FacesMessage("Successfully saved '" + getIdentityProviderName() + "'");

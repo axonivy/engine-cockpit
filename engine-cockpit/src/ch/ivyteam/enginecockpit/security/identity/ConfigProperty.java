@@ -1,5 +1,9 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.meta.Metadata;
@@ -10,10 +14,14 @@ public class ConfigProperty {
   private String value;
   private final Metadata metadata;
 
-  public ConfigProperty(String key, String value, Metadata metadata) {
+  // encapsulate the special handling for a key value property
+  private final KeyValueProperty keyValueProperty;
+
+  public ConfigProperty(String key, String value, Map<String, String> keyValue, Metadata metadata) {
     this.key = key;
     this.value = value;
     this.metadata = metadata;
+    this.keyValueProperty = new KeyValueProperty(keyValue);
   }
 
   public String getName() {
@@ -39,15 +47,66 @@ public class ConfigProperty {
     return metadata.description();
   }
 
+  public boolean isString() {
+    return !isKeyValue() && !isPassword();
+  }
+
   public boolean isPassword() {
     return metadata.isPassword();
+  }
+
+  public boolean isKeyValue() {
+    return metadata.isKeyValue();
   }
 
   public String getPasswordPlaceholder() {
     return "*".repeat(value.length());
   }
 
-  public boolean isString() {
-    return !isPassword();
+  public KeyValueProperty getKeyValueProperty() {
+    return keyValueProperty;
+  }
+
+  @SuppressWarnings("restriction")
+  public class KeyValueProperty {
+
+    private final Map<String, String> keyValue;
+    private final ch.ivyteam.ivy.configuration.restricted.meta.KeyValueVarType type;
+
+    private KeyValueProperty(Map<String, String> keyValue) {
+      this.keyValue = keyValue;
+      this.type = toType();
+    }
+
+    private ch.ivyteam.ivy.configuration.restricted.meta.KeyValueVarType toType() {
+      if (metadata.type() instanceof ch.ivyteam.ivy.configuration.restricted.meta.KeyValueVarType t) {
+        return t;
+      }
+      return null;
+    }
+
+    public Set<Entry<String, String>> getKeyValue() {
+      return keyValue.entrySet();
+    }
+
+    public Map<String, String> keyValue() {
+      return keyValue;
+    }
+
+    public void addKeyValue(String k, String v) {
+      keyValue.put(k, v);
+    }
+
+    public void removeKeyValue(String k) {
+      keyValue.remove(k);
+    }
+
+    public String getKeyValueKeyName() {
+      return type.keyName();
+    }
+
+    public String getKeyValueValueName() {
+      return type.valueName();
+    }
   }
 }
