@@ -95,13 +95,13 @@
                        
                       </ui:fragment>
                     </p:repeat>
-                   	</div>
+                   </div>
                   </p:repeat>
                 </h:form>
 
                 <p:dialog style="min-width: 300px;" header="Property" id="propertyKeyValueModal" widgetVar="propertyKeyValueModal"
                           modal="true" responsive="true" closeOnEscape="true">
-                  <h:form id="identityProviderListForm" styleClass="custom-dialog-form">
+                  <h:form id="identityProviderKeyValueForm" styleClass="custom-dialog-form">
                     <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
                       <p:outputLabel for="attributeNameInput" value="#{identityProviderListDialogBean.property.keyValueKeyName}" />
                       <h:panelGroup styleClass="md-inputfield">
