@@ -12,9 +12,12 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 class WebTestSecurityIdentityProviderAzure {
@@ -27,16 +30,16 @@ class WebTestSecurityIdentityProviderAzure {
     Navigation.toSecuritySystem();
     createSecuritySystem("Azure Active Directory", NAME);
     Navigation.toSecuritySystemProvider(NAME);
-
     stringProperty();
     Selenide.refresh();
     passwordProperty();
-
+    Selenide.refresh();
+    keyValueProperty();
     WebTestSecuritySystem.deleteSecuritySystem(NAME);
   }
 
   private void stringProperty() {
-    var property = $("#securityIdentityProviderForm\\:property\\:0\\:propertyString").shouldBe(visible);
+    var property = $(By.id("securityIdentityProviderForm:group:0:property:0:propertyString")).shouldBe(visible);
     property.clear();
     property.sendKeys("tenantId");
     save();
@@ -45,7 +48,7 @@ class WebTestSecurityIdentityProviderAzure {
   }
 
   private void passwordProperty() {
-    var property = $("#securityIdentityProviderForm\\:property\\:2\\:propertyPassword").shouldBe(visible);
+    var property = $(By.id("securityIdentityProviderForm:group:0:property:2:propertyPassword")).shouldBe(visible);
     property.clear();
     property.sendKeys("clientSecret");
     save();
@@ -61,19 +64,63 @@ class WebTestSecurityIdentityProviderAzure {
     property.shouldHave(attribute("placeholder", "************"));
   }
 
+  private void keyValueProperty() {
+    var table = new Table(By.id("securityIdentityProviderForm:group:1:property:0:keyValueTable"));
+    table.firstColumnShouldBe(CollectionCondition.empty);
+
+    // add
+    $(By.id("securityIdentityProviderForm:group:1:newPropertyKeyValue"))
+            .shouldBe(visible)
+            .click();
+    $(By.id("identityProviderKeyValueForm:attributeNameInput"))
+            .should(visible)
+            .sendKeys("user property");
+    $(By.id("identityProviderKeyValueForm:attributeValueInput"))
+            .should(visible)
+            .sendKeys("azure property");
+    $(By.id("identityProviderKeyValueForm:savePropertyKeyAttribute"))
+            .should(visible)
+            .click();
+    success();
+    table.columnShouldBe(1, CollectionCondition.exactTexts("user property"));
+    table.columnShouldBe(2, CollectionCondition.exactTexts("azure property"));
+
+    // edit
+    $(By.id("securityIdentityProviderForm:group:1:property:0:keyValueTable:0:editPropertyBtn"))
+            .should(visible)
+            .click();
+    $(By.id("identityProviderKeyValueForm:attributeNameInput")).should(Condition.disabled);
+    var p = $(By.id("identityProviderKeyValueForm:attributeValueInput"))
+      .should(visible);
+    p.clear();
+    p.sendKeys("changed azure property");
+    $(By.id("identityProviderKeyValueForm:savePropertyKeyAttribute"))
+      .should(visible)
+      .click();
+    success();
+    table.columnShouldBe(1, CollectionCondition.exactTexts("user property"));
+    table.columnShouldBe(2, CollectionCondition.exactTexts("changed azure property"));
+
+    // delete
+    $(By.id("securityIdentityProviderForm:group:1:property:0:keyValueTable:0:deleteKeyValueBtn"))
+      .click();
+    success();
+    table.firstColumnShouldBe(CollectionCondition.empty);
+  }
+
   private void createSecuritySystem(String providerName, String securitySystemName) {
-    $("#form\\:createSecuritySystemBtn").click();
-    $("#newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys(securitySystemName);
+    $(By.id("form:createSecuritySystemBtn")).click();
+    $(By.id("newSecuritySystemForm:newSecuritySystemNameInput")).sendKeys(securitySystemName);
     var provider = PrimeUi.selectOne(By.id("newSecuritySystemForm:newSecuritySystemProviderSelect"));
     provider.selectItemByLabel(providerName);
-    $("#newSecuritySystemForm\\:saveNewSecuritySystem").click();
+    $(By.id("newSecuritySystemForm:saveNewSecuritySystem")).click();
   }
 
   private void save() {
-    $("#securityIdentityProviderForm\\:save").shouldBe(visible).click();
+    $(By.id("securityIdentityProviderForm:group:0:save")).shouldBe(visible).click();
   }
 
   private void success() {
-    $("#securityIdentityProviderForm\\:securityIdentityProviderSaveSuccess_container").shouldHave(text("Successfully saved 'Azure Active Directory'"));
+    $(By.id("securityIdentityProviderForm:securityIdentityProviderSaveSuccess_container")).shouldHave(text("Successfully saved"));
   }
 }
