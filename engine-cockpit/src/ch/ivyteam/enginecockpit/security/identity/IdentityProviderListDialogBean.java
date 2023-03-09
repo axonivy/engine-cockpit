@@ -28,6 +28,10 @@ public class IdentityProviderListDialogBean {
     property.addKeyValue(newKey, newValue);
   }
 
+  public KeyValueProperty getProperty() {
+    return property;
+  }
+
   public String getNewKey() {
     return newKey;
   }

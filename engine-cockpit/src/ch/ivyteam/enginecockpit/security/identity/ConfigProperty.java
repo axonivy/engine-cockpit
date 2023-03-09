@@ -28,6 +28,13 @@ public class ConfigProperty {
     return key;
   }
 
+  public String getLabel() {
+    if (key.contains(".")) {
+      return StringUtils.substringAfter(key, ".");
+    }
+    return key;
+  }
+
   public String getValue() {
     return value;
   }

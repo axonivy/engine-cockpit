@@ -24,18 +24,18 @@ public class IdentityProviderBean {
 
   private String securitySystemName;
 
-  private List<ConfigProperty> properties;
   private ISecurityContextInternal securityContext;
   private IdentityProvider identityProvider;
+  private List<ConfigPropertyGroup> propertyGroups;
 
   public void onload() {
     securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(securitySystemName);
     identityProvider = securityContext.identityProviders().get(0);
-
     var configurator = identityProvider.configurator();
-    properties = new IdentityProviderConfigMetadataProvider(configurator).get().entrySet().stream()
+    var properties = new IdentityProviderConfigMetadataProvider(configurator).get().entrySet().stream()
             .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
+    this.propertyGroups = ConfigPropertyGroup.toGroups(properties);
   }
 
   public void setSecuritySystemName(String securitySystemName) {
@@ -54,8 +54,8 @@ public class IdentityProviderBean {
     return identityProvider.name();
   }
 
-  public List<ConfigProperty> getProperties() {
-    return properties;
+  public List<ConfigPropertyGroup> getPropertyGroups() {
+    return propertyGroups;
   }
 
   private ConfigProperty toConfigProperty(String key, Metadata metadata) {
@@ -72,7 +72,7 @@ public class IdentityProviderBean {
 
   public void save() {
     var cfg = ((SecurityContext) securityContext).config();
-    for (var p : properties) {
+    for (var p : properties()) {
       if (p.isKeyValue()) {
         cfg.setProperty(p.getName(), p.getKeyValueProperty().keyValue());
       } else {
@@ -82,5 +82,11 @@ public class IdentityProviderBean {
 
     var message = new FacesMessage("Successfully saved '" + getIdentityProviderName() + "'");
     FacesContext.getCurrentInstance().addMessage("securityIdentityProviderSaveSuccess", message);
+  }
+
+  private List<ConfigProperty> properties() {
+    return propertyGroups.stream()
+            .flatMap(group -> group.getProperties().stream())
+            .collect(Collectors.toList());
   }
 }
