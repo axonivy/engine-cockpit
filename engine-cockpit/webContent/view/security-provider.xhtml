@@ -34,14 +34,18 @@
                   <p:growl id="securityIdentityProviderSaveSuccess" for="securityIdentityProviderSaveSuccess">
                     <p:autoUpdate />
                   </p:growl>
-                  
+
                   <p:repeat var="group" id="group" value="#{identityProviderBean.propertyGroups}">
                     <div class="card">
                       <div class="card-header">
                         <div class="card-title p-d-flex p-ai-center">
                           <i class="p-pr-3 si si-information-circle"></i>
                           <h6 class="p-m-0">#{group.name}</h6>
-                          <p:commandButton title="Save" icon="si si-floppy-disk" id="save" styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button" actionListener="#{identityProviderBean.save}"/>
+                          
+                          <p:commandButton title="Save" icon="si si-floppy-disk" id="save" styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button" rendered="#{!group.keyValue}" actionListener="#{identityProviderBean.save(group)}"/>
+                          
+                          <p:commandButton id="newPropertyKeyValue" actionListener="#{identityProviderListDialogBean.setProperty(group.getKeyValueProperty())}" rendered="#{group.keyValue}" oncomplete="PF('propertyKeyValueModal').show();" process="@this" update=":propertyKeyValueModal" title="Add" icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
+                          
                         </div>
                       </div>
                     <p:repeat var="property" id="property" value="#{group.properties}">
@@ -67,12 +71,6 @@
 
                        <!-- keyvalue -->
                        <p:panelGrid columns="1" layout="flex" styleClass="grey-label-panel ui-fluid" rendered="#{property.keyValue}">
-                              <h:panelGroup  styleClass="md-inputfield">
-                                                          <div class="card-title p-d-flex p-ai-center">
-                                  <p:commandButton id="newPropertyKeyValue" actionListener="#{identityProviderListDialogBean.setProperty(property.getKeyValueProperty())}" oncomplete="PF('propertyKeyValueModal').show();" process="@this"
-                                                   update=":propertyKeyValueModal" title="Add" icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
-                               </div>
-                            </h:panelGroup>
                              <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                           value="#{property.getKeyValueProperty().getKeyValue()}" var="keyValue" id="keyValueTable">
                                <p:column headerText="#{property.getKeyValueProperty().getKeyValueKeyName()}"> 

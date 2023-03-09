@@ -9,20 +9,25 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.meta.Metadata;
+import ch.ivyteam.ivy.security.external.SecuritySystemConfig;
 
 public class ConfigProperty {
 
+  private final SecuritySystemConfig cfg;
   private final String key;
   private String value;
   private final Metadata metadata;
+  private final String label;
 
   // encapsulate the special handling for a key value property
   private final KeyValueProperty keyValueProperty;
 
-  public ConfigProperty(String key, String value, Map<String, String> keyValue, Metadata metadata) {
+  public ConfigProperty(SecuritySystemConfig cfg, String key, String value, Map<String, String> keyValue, Metadata metadata) {
+    this.cfg = cfg;
     this.key = key;
     this.value = value;
     this.metadata = metadata;
+    this.label = toLabel();
     this.keyValueProperty = new KeyValueProperty(keyValue);
   }
 
@@ -30,7 +35,7 @@ public class ConfigProperty {
     return key;
   }
 
-  public String getLabel() {
+  private String toLabel() {
     if (isKeyValue()) {
       return Arrays.stream(key.split(".")).collect(Collectors.joining(" "));
     }
@@ -38,6 +43,10 @@ public class ConfigProperty {
       return StringUtils.substringAfter(key, ".");
     }
     return key;
+  }
+
+  public String getLabel() {
+    return label;
   }
 
   public String getValue() {
@@ -107,10 +116,17 @@ public class ConfigProperty {
 
     public void addKeyValue(String k, String v) {
       keyValue.put(k, v);
+      save();
     }
 
     public void removeKeyValue(String k) {
       keyValue.remove(k);
+      save();
+    }
+
+    private void save() {
+      cfg.setProperty(getName(), keyValue());
+      IdentityProviderBean.message();
     }
 
     public String getKeyValueKeyName() {

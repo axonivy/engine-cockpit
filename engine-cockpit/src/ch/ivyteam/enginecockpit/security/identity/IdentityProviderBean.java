@@ -67,26 +67,19 @@ public class IdentityProviderBean {
     } else {
       value = config.getProperty(key);
     }
-    return new ConfigProperty(key, value, keyValue, metadata);
+    return new ConfigProperty(config, key, value, keyValue, metadata);
   }
 
-  public void save() {
+  public void save(ConfigPropertyGroup group) {
     var cfg = ((SecurityContext) securityContext).config();
-    for (var p : properties()) {
-      if (p.isKeyValue()) {
-        cfg.setProperty(p.getName(), p.getKeyValueProperty().keyValue());
-      } else {
-        cfg.setProperty(p.getName(), p.getValue());
-      }
+    for (var p : group.getProperties()) {
+      cfg.setProperty(p.getName(), p.getValue());
     }
-
-    var message = new FacesMessage("Successfully saved '" + getIdentityProviderName() + "'");
-    FacesContext.getCurrentInstance().addMessage("securityIdentityProviderSaveSuccess", message);
+    message();
   }
 
-  private List<ConfigProperty> properties() {
-    return propertyGroups.stream()
-            .flatMap(group -> group.getProperties().stream())
-            .collect(Collectors.toList());
+  static void message() {
+    var msg = new FacesMessage("Successfully saved");
+    FacesContext.getCurrentInstance().addMessage("securityIdentityProviderSaveSuccess", msg);
   }
 }

@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.security.identity.ConfigProperty.KeyValueProperty;
+
 public class ConfigPropertyGroup {
 
   private final String name;
@@ -26,6 +28,14 @@ public class ConfigPropertyGroup {
 
   public String getName() {
     return name;
+  }
+
+  public boolean isKeyValue() {
+    return properties.get(0).isKeyValue();
+  }
+
+  public KeyValueProperty getKeyValueProperty() {
+    return properties.get(0).getKeyValueProperty();
   }
 
   public static List<ConfigPropertyGroup> toGroups(List<ConfigProperty> properties) {
