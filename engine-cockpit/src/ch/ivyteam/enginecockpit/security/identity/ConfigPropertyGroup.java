@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,24 +29,36 @@ public class ConfigPropertyGroup {
   }
 
   public static List<ConfigPropertyGroup> toGroups(List<ConfigProperty> properties) {
-    var propertyGroups = new HashMap<String, ConfigPropertyGroup>();
+    var groups = new ArrayList<ConfigPropertyGroup>();
     for (var p : properties) {
       var propertyName = p.getName();
       if (isParentKey(properties, propertyName)) {
         continue;
       }
-      var name = toName(propertyName);
-      var group = propertyGroups.computeIfAbsent(name, k -> new ConfigPropertyGroup(name));
+      var name = toName(p);
+      var group = groups.stream()
+              .filter(g -> g.getName().equals(name))
+              .findAny()
+              .orElseGet(() -> { var g = new ConfigPropertyGroup(name); groups.add(g); return g; });
       group.add(p);
     }
-    return propertyGroups.values().stream().collect(Collectors.toList());
+    return groups;
   }
 
   private static boolean isParentKey(List<ConfigProperty> properties, String n) {
-    return properties.stream().map(ConfigProperty::getName).anyMatch(na -> !n.equals(na) && na.startsWith(n));
+    return properties.stream()
+            .map(ConfigProperty::getName)
+            .anyMatch(na -> !n.equals(na) && na.startsWith(n));
   }
 
-  private static String toName(String name) {
+  private static String toName(ConfigProperty p) {
+    var name = p.getName();
+    if (p.isKeyValue()) {
+      return Arrays.stream(StringUtils.splitByCharacterTypeCamelCase(name))
+              .map(part -> StringUtils.remove(part, "."))
+              .map(part -> part.trim())
+              .collect(Collectors.joining(" "));
+    }
     if (name.contains(".")) {
       return StringUtils.substringBefore(name, ".");
     }

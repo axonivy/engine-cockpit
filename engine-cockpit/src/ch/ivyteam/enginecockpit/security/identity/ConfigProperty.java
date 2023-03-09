@@ -1,8 +1,10 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,6 +31,9 @@ public class ConfigProperty {
   }
 
   public String getLabel() {
+    if (isKeyValue()) {
+      return Arrays.stream(key.split(".")).collect(Collectors.joining(" "));
+    }
     if (key.contains(".")) {
       return StringUtils.substringAfter(key, ".");
     }
