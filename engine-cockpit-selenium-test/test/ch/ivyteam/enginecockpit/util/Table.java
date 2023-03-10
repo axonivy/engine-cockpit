@@ -51,6 +51,9 @@ public class Table {
   public void firstColumnShouldBe(CollectionCondition cond) {
     $$x(getFirstColumnSpanElement()).shouldBe(cond, Duration.ofSeconds(10));
   }
+  public void columnShouldBe(int col, CollectionCondition cond) {
+    $$x(getColumnSpanElement(col)).shouldBe(cond, Duration.ofSeconds(10));
+  }
 
   public List<String> getFirstColumnEntriesForSpanClass(String span) {
     return $$x(getFirstColumnSpanElement() + "[@class='" + span + "']").asDynamicIterable().stream()
@@ -104,10 +107,20 @@ public class Table {
   }
 
   private String getFirstColumnSpanElement() {
+    return getColumnSpanElement(1);
+  }
+
+  private String getColumnSpanElement(int col) {
     if (StringUtils.isNotBlank(subElement)) {
-      return getBody()+"/tr/td[1]/" + subElement + "/span[1]";
+      if (col > 1) {
+        return getBody()+"/tr/td["+col+"]/" + subElement + "";
+      }
+      return getBody()+"/tr/td["+col+"]/" + subElement + "/span[1]";
     }
-    return getBody()+"/tr/td[1]/span";
+    if (col > 1) {
+      return getBody()+"/tr/td["+col+"]";
+    }
+    return getBody()+"/tr/td["+col+"]/span";
   }
 
   private String getBody() {

@@ -40,8 +40,7 @@ public class SecuritySystemConfig {
     String USER_ATTRIBUTE_FULL_NAME = IJndiSecuritySystemConstants.USER_ATTRIBUTE_FULL_NAME;
     String USER_ATTRIBUTE_E_MAIL = IJndiSecuritySystemConstants.USER_ATTRIBUTE_EMAIL;
     String USER_ATTRIBUTE_LANGUAGE = IJndiSecuritySystemConstants.USER_ATTRIBUTE_LANGUAGE;
-    String USER_ATTRIBUTE_PROPERTIES = StringUtils
-            .removeEnd(IJndiSecuritySystemConstants.USER_ATTRIBUTE_PROPERTIES_PREFIX, ".");
+    String USER_ATTRIBUTE_PROPERTIES = "UserAttribute.Properties";
     String MEMBERSHIP_USER_MEMBER_OF_ATTRIBUTE = IJndiSecuritySystemConstants.MEMBERSHIP_USER_MEMBER_OF_GROUP;
     String MEMBERSHIP_USER_MEMBER_OF_LOOKUP_ALLOWED = IJndiSecuritySystemConstants.MEMBERSHIP_USER_MEMBER_OF_LOOKUP_ALLOWED;
     String MEMBERSHIP_GROUP_MEMBER_OF_ATTRIBUTE = IJndiSecuritySystemConstants.MEMBERSHIP_USER_GROUP_MEMBER_OF_GROUP;
