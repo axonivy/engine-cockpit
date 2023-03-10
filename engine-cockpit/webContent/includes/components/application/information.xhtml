@@ -5,15 +5,10 @@
 
 <div class="card">
   <h:form id="appDetailInfoForm">
-    <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
-      <p:autoUpdate />
-    </p:growl>
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-information-circle"></i>
         <h6 class="p-m-0">Application information</h6>
-        <p:commandButton id="saveApplicationInformation" actionListener="#{applicationDetailBean.saveApplicationInfos}"
-          title="Save changes" icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" update="appDetailInfoForm" />
       </div>
     </div>
     
