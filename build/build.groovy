@@ -2,7 +2,7 @@ def buildCockpit(def phase = 'verify', def testFilter = '') {
   def mvnArgs = "-Dtest.filter=${testFilter} -Dmaven.test.failure.ignore=true "
   build(phase, mvnArgs, 'cockpit');
 
-  archiveArtifacts '**/target/*.iar'
+  archiveArtifacts '**/target/*.iar, **/target/*.jar'
 }
 
 def buildScreenshots(def phase = 'verify', def imgRefBranch = 'master', def imgSimilarity= '97') {
