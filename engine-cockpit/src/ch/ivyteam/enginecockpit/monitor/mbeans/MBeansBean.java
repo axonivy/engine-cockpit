@@ -23,11 +23,14 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
-import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.log.Logger;
 
 @ManagedBean(name = "mBeansBean")
 @ViewScoped
 public class MBeansBean {
+
+  private final static Logger LOGGER = Logger.getLogger(MBeansBean.class);
+
   private final MBeanTreeNode root;
   private List<MAttribute> attributes = Collections.emptyList();
   private MName selected;
@@ -90,7 +93,7 @@ public class MBeansBean {
                 .sorted()
                 .collect(Collectors.toList());
       } catch (InstanceNotFoundException | ReflectionException | IntrospectionException ex) {
-        Ivy.log().error("Could not get attributes of MBean " + selected.getObjectName(), ex);
+        LOGGER.error("Could not get attributes of MBean " + selected.getObjectName(), ex);
       }
     }
     return attributes;

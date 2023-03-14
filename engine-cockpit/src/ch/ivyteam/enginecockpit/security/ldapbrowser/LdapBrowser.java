@@ -14,10 +14,12 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.commons.Property;
-import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.log.Logger;
 import ch.ivyteam.naming.JndiConfig;
 
 public class LdapBrowser {
+
+  private final static Logger LOGGER = Logger.getLogger(LdapBrowser.class);
 
   public static final String DEFAULT_CONTEXT = "defaultContext";
   public static final String IMPORT_USERS_OF_GROUP = "importUsersOfGroup";
@@ -131,7 +133,7 @@ public class LdapBrowser {
   }
 
   private void errorMessage(Exception ex) {
-    Ivy.log().error("Error in LDAP call", ex);
+    LOGGER.error("Error in LDAP call", ex);
     var message = ex.getMessage();
     if (StringUtils.contains(message, "AcceptSecurityContext")) {
       message = "There seems to be a problem with your credentials.";
