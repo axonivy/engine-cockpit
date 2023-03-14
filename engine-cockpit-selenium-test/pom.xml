@@ -32,6 +32,7 @@
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <plugins>
+
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <version>3.2.0</version>
@@ -46,7 +47,10 @@
               <excludeDefaultDirectories>true</excludeDefaultDirectories>
               <filesets>
                 <fileset>
-                  <directory>${engine.dir}/system/application/engine-cockpit/</directory>
+                  <directory>${engine.dir}/webapps/engine-cockpit/</directory>
+                  <includes>
+                    <include>engine-cockpit*.jar</include>
+                  </includes>
                 </fileset>
               </filesets>
             </configuration>
@@ -72,11 +76,10 @@
               <groupId>ch.ivyteam.enginecockpit</groupId>
               <artifactId>engine-cockpit</artifactId>
               <version>${project.version}</version>
-              <type>iar</type>
-              <destFileName>engine-cockpit.iar.zip</destFileName>
+              <destFileName>engine-cockpit.jar</destFileName>
             </artifactItem>
           </artifactItems>
-          <outputDirectory>${engine.dir}/system/application/engine-cockpit/</outputDirectory>
+          <outputDirectory>${engine.dir}/webapps/engine-cockpit/</outputDirectory>
           <overWriteSnapshots>true</overWriteSnapshots>
         </configuration>
       </plugin>
