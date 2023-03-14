@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.util;
 
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.create;
-import static com.axonivy.ivy.webtest.engine.EngineUrl.createStaticViewUrl;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
@@ -19,15 +18,12 @@ import java.util.List;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 
 public class EngineCockpitUtil {
-
-  public static String pmvName() {
-    return System.getProperty("test.engine.pmv", "engine-cockpit");
-  }
 
   public static String getAdminUser() {
     return isDesigner() ? "Developer" : "admin";
@@ -160,12 +156,16 @@ public class EngineCockpitUtil {
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
             .toUrl());
-    assertCurrentUrlContains(isDesigner() ? "default-workflow/faces" : "end");
+    assertCurrentUrlContains(isDesigner() ? "/dev-workflow-ui/faces" : "end");
   }
 
-
   public static String viewUrl(String page) {
-    return createStaticViewUrl(pmvName() + "/" + page);
+    if (isDesigner()) {
+      // test it in designer as PMV
+      return EngineUrl.createStaticViewUrl("engine-cockpit/" + page);
+    }
+    // test integrated jar
+    return EngineUrl.base() + "/system/engine-cockpit/faces/" + page;
   }
 
   private static String getAppName() {
@@ -180,7 +180,8 @@ public class EngineCockpitUtil {
     assertLiveStats(expectedChartTitles, null, emptyGraphs);
   }
 
-  public static void assertLiveStats(List<String> expectedChartTitles, String jmxSourceMessage, boolean emptyGraphs) {
+  public static void assertLiveStats(List<String> expectedChartTitles, String jmxSourceMessage,
+          boolean emptyGraphs) {
     $("#layout-config-button").shouldBe(visible).click();
     $(".layout-config h3").shouldBe(visible, text("Live Stats"));
     $$(".layout-config h4").shouldHave(
