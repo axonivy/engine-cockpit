@@ -17,11 +17,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
-import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.log.Logger;
 
 @ManagedBean
 @ViewScoped
 public class CacheBean {
+
+  private final static Logger LOGGER = Logger.getLogger(CacheBean.class);
+
   private List<Cache> caches;
   private List<Cache> filteredCaches;
   private String filter;
@@ -252,7 +255,7 @@ public class CacheBean {
       try {
         ManagementFactory.getPlatformMBeanServer().invoke(objectName, "clearCache", PARAMS, SIGNATURE);
       } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-        Ivy.log().error("Could not clear cache", ex);
+        LOGGER.error("Could not clear cache", ex);
       }
     }
   }

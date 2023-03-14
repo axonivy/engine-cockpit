@@ -15,16 +15,19 @@ import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.ApplicationConfigurationDumper;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.error.restricted.ErrorReport;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.restricted.PersistencyDumper;
+import ch.ivyteam.log.Logger;
 
 @SuppressWarnings("restriction")
 @ManagedBean
 @RequestScoped
 public class SupportBean {
+
+  private final static Logger LOGGER = Logger.getLogger(SupportBean.class);
 
   private ISystemDatabasePersistencyService systemDbService = ISystemDatabasePersistencyService.instance();
 
@@ -44,7 +47,7 @@ public class SupportBean {
 
   private String createSupportReport() {
     var dumpers = ErrorReport.addStandardDumpers(false,
-            new ApplicationConfigurationDumper(ch.ivyteam.ivy.application.app.IApplicationRepository.instance()),
+            new ApplicationConfigurationDumper(IApplicationRepository.instance()),
             new PersistencyDumper(systemDbService));
     return ErrorReport.createErrorReport(dumpers);
   }
@@ -63,7 +66,7 @@ public class SupportBean {
     try {
       Files.copy(log, tempDirectory.resolve(log.getFileName()));
     } catch (IOException ex) {
-      Ivy.log().info("Couldn't copy file '" + log + "' to tempDir '" + tempDirectory + "': ", ex);
+      LOGGER.info("Couldn't copy file '" + log + "' to tempDir '" + tempDirectory + "': ", ex);
     }
   }
 }
