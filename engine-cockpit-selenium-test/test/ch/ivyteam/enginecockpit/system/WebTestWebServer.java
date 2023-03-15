@@ -59,7 +59,7 @@ public class WebTestWebServer {
   @Test
   void checkData() {
     $("#coreRequestData").shouldHave(text(EngineUrl.base()),
-            text("/faces/view/engine-cockpit/webserver.xhtml"));
+            text("/engine-cockpit/faces/webserver.xhtml"));
     $(By.id("form:requestHeaderTable")).shouldNot(exist);
     $("#form\\:showHeaders").shouldBe(visible).click();
     $("#form\\:showHeaders").shouldNotBe(visible);
