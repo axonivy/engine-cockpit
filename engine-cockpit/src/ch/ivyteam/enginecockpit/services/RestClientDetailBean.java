@@ -132,13 +132,15 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private ConnectionTestResult testConnection() {
     try {
       var restCall = prepareRestConnection().createCall();
-      var status = restCall.getWebTarget().request().head().getStatus();
-      if (status >= 200 && status < 400) {
-        return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
-      } else if (status == 401) {
-        return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
-      } else {
-        return new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
+      try (var response = restCall.getWebTarget().request().head()) {
+        var status = response.getStatus();
+        if (status >= 200 && status < 400) {
+          return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
+        } else if (status == 401) {
+          return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
+        } else {
+          return new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
+        }
       }
     } catch (ProcessingException ex) {
       return new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
