@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.ws.rs.ProcessingException;
+import javax.ws.rs.client.WebTarget;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -131,8 +132,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private ConnectionTestResult testConnection() {
     try {
-      var restCall = prepareRestConnection().createCall();
-      try (var response = restCall.getWebTarget().request().head()) {
+      try (var response = createWebTarget().request().head()) {
         var status = response.getStatus();
         if (status >= 200 && status < 400) {
           return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
@@ -148,14 +148,14 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
   }
 
-  private ExternalRestWebService prepareRestConnection() {
+  private WebTarget createWebTarget() {
     var restBuilder = restClients.find(restClientName).toBuilder()
             .uri(restClient.getConnectionUrl())
             .property(REST_PROP_USERNAME, restClient.getUsername());
     if (restClient.passwordChanged()) {
       restBuilder.property(REST_PROP_PASSWORD, restClient.getPassword());
     }
-    return new ExternalRestWebService(app, restBuilder.toRestClient());
+    return new ExternalRestWebService(app, restBuilder.toRestClient()).getWebTargetFactory().create();
   }
 
   public void saveConfig() {
