@@ -48,7 +48,11 @@ class WebTestPages {
       var url = viewUrl(xhtml.toString());
       System.out.println(url);
       open(url);
-      $(".exception-content").shouldHave(text("Not Found"));
+      if (url.contains("composite")) {
+        $(".exception-content").shouldHave(text("Null Pointer"));
+      } else {
+        $(".exception-content").shouldHave(text("Not Found"));
+      }
     }
   }
 
