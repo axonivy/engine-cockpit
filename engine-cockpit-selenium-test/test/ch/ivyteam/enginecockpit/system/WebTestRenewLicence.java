@@ -29,8 +29,12 @@ public class WebTestRenewLicence {
     Navigation.toLicence();
     File file = new File(System.getProperty("user.dir") + "/resources/test.lic");
     String path = file.getAbsolutePath();
-    $("#fileInput").sendKeys(path);
-    $("#uploadLog").shouldHave(text("Successfully uploaded licence"));
+    $("#licence\\:fileUploadForm\\:chooseFileBtn_input").sendKeys(path);
+    $(".ui-growl-message").shouldHave(text("Successfully uploaded licence"));
+    $(".ui-growl-item").hover();
+    $(".ui-growl-message").hover();
+    $(".ui-growl-title").hover();
+    $(".ui-growl-icon-close").shouldBe(visible).click();
     var table = new Table(By.id("licence:fileUploadForm:licenceInfoTable"));
     table.firstColumnShouldBe(size(13));
     table.valueForEntryShould("licence.type", 2, text("Standard Edition"));

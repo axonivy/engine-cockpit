@@ -15,27 +15,12 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
-import ch.ivyteam.ivy.config.NewLicenceFileInstaller;
 import io.swagger.v3.oas.annotations.Hidden;
 
 @SuppressWarnings("restriction")
 @Path("upload")
 @Hidden
 public class FileUploadService {
-  @POST
-  @Path("licence")
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response uploadLicence(@FormDataParam("licence") InputStream stream,
-          @FormDataParam("licence") FormDataContentDisposition fileDetail) {
-    try {
-      NewLicenceFileInstaller.install(fileDetail.getFileName(), stream);
-    } catch (Exception ex) {
-      return Response.status(500).entity(ex.getMessage()).build();
-    }
-    return Response.status(200).entity("Successfully uploaded licence").build();
-  }
-
   @POST
   @Path("branding")
   @Consumes(MediaType.MULTIPART_FORM_DATA)

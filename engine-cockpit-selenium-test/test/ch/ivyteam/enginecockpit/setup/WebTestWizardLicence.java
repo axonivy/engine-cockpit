@@ -35,7 +35,7 @@ public class WebTestWizardLicence {
     $("#licence\\:licWarnMessage").shouldHave(text("Please upload a valid licence."));
     WebTestWizard.activeStepShouldHaveWarnings();
     uploadLicence();
-    $("#uploadStatus").shouldBe(exactText("Success"));
+    $(".ui-growl-message").shouldHave(text("Success"));
     $("#licence\\:fileUploadForm\\:licenceInfoTable").shouldHave(text("lukas.lieb@axonivy.com"));
     $("#licence\\:licWarnMessage").shouldHave(empty);
     WebTestWizard.activeStepShouldBeOk();
@@ -47,15 +47,13 @@ public class WebTestWizardLicence {
   @Test
   public void testLicenceUploadInvalidFileEnding() throws IOException {
     uploadLicence(Files.createTempFile("licence", ".txt"));
-    $("#uploadStatus").shouldBe(empty);
-    $("#selectedFileOutput").shouldBe(exactText("Choose or drop a file which ends with: .lic"));
+    $("#licence\\:fileUploadForm\\:dropZone").shouldHave(exactText("Choose or drop a file which ends with: .lic"));
   }
 
   @Test
   public void testLicenceUploadInvalidLicence() throws IOException {
     uploadLicence(Files.createTempFile("licence", ".lic"));
-    $("#uploadStatus").shouldBe(exactText("Error"));
-    $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
+    $(".ui-growl-message").shouldHave(text("Licence file has a wrong format. It must have at least 6 lines"));
   }
 
   private void uploadLicence() {
@@ -63,7 +61,7 @@ public class WebTestWizardLicence {
   }
 
   private void uploadLicence(Path lic) {
-    $("#fileInput").sendKeys(lic.toString());
+    $("#licence\\:fileUploadForm\\:chooseFileBtn_input").sendKeys(lic.toString());
   }
 
 }

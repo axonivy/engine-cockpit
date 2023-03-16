@@ -1,8 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.Condition.empty;
-import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -25,22 +23,21 @@ class WebTestLicence {
   void beforeEach() {
     login();
     Navigation.toLicence();
-    $("#selectedFileOutput").shouldHave(text(".lic"));
-    $("#uploadStatus").shouldBe(empty);
+    $("#licence\\:fileUploadForm\\:dropZone").shouldHave(text(".lic"));
   }
 
   @Test
   void licenceUploadInvalidFileEnding() throws IOException {
     var createTempFile = Files.createTempFile("licence", ".txt");
-    $("#fileInput").sendKeys(createTempFile.toString());
-    $("#uploadStatus").shouldBe(empty);
+    $("#licence\\:fileUploadForm\\:chooseFileBtn_input").sendKeys(createTempFile.toString());
+    $(".ui-growl-message").shouldHave(text("Licence files must have file extension .lic"));
   }
 
   @Test
   void licenceUploadInvalidLicence() throws IOException {
     var createTempFile = Files.createTempFile("licence", ".lic");
-    $("#fileInput").sendKeys(createTempFile.toString());
-    $("#uploadLog").shouldBe(exactText("Licence file has a wrong format. It must have at least 6 lines"));
+    $("#licence\\:fileUploadForm\\:chooseFileBtn_input").sendKeys(createTempFile.toString());
+    $(".ui-growl-message").shouldHave(text("Licence file has a wrong format. It must have at least 6 lines"));
   }
 
   @Test

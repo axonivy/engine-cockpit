@@ -7,15 +7,20 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.enginecockpit.system.model.LicenceMessage;
 import ch.ivyteam.ivy.cluster.restricted.IClusterManager;
+import ch.ivyteam.ivy.config.NewLicenceFileInstaller;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
@@ -39,8 +44,28 @@ public class LicenceBean extends StepStatus {
   private String sessions;
   private List<LicenceMessage> unconfirmedLicenceEvents;
 
+  private UploadedFile file;
+
   public LicenceBean() {
     reloadLicenceMessages();
+  }
+
+  public void handleUploadLicence(FileUploadEvent event) {
+    var message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Successfully uploaded licence");
+    try {
+      NewLicenceFileInstaller.install(event.getFile().getFileName(), event.getFile().getInputStream());
+    } catch (Exception ex) {
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
+    }
+    FacesContext.getCurrentInstance().addMessage(null, message);
+  }
+
+  public UploadedFile getFile() {
+    return file;
+  }
+
+  public void setFile(UploadedFile file) {
+    this.file = file;
   }
 
   public String getValueFromProperty(String key) {

@@ -141,12 +141,12 @@ body .user-avatar > img {
   position: absolute;
   z-index: -1;
 }
-.file-upload #drop_zone {
+.file-upload .drop-zone {
   border: 2px dashed var(--text-color-secondary, #ccc);
   border-radius: 10px;
   padding: 5px;
 }
-.file-upload #drop_zone.is-dragover {
+.file-upload .drop-zone.is-dragover {
   border-color: var(--primary-color, #607d8b);
 }
 .file-upload .file-upload-error {
