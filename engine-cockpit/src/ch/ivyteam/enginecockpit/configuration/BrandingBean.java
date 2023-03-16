@@ -17,6 +17,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.io.FilenameUtils;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -26,6 +27,7 @@ import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 
 @SuppressWarnings("restriction")
@@ -52,10 +54,23 @@ public class BrandingBean implements AllResourcesDownload {
 
   private String filter;
 
-
   public BrandingBean() {
     managerBean = ManagerBean.instance();
     reloadResources();
+  }
+
+  public void upload(FileUploadEvent event) {
+    var file = event.getFile();
+    var message = new FacesMessage();
+    try {
+      var app = IApplicationRepository.instance().findByName(managerBean.getSelectedApplicationName()).orElse(null);
+      var extension = FilenameUtils.getExtension(file.getFileName());
+      var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, file.getInputStream());
+      message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Successfully uploaded " + newResourceName);
+    } catch (Exception ex) {
+      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
+    }
+    FacesContext.getCurrentInstance().addMessage("msgs", message);
   }
 
   public void reloadResources() {
