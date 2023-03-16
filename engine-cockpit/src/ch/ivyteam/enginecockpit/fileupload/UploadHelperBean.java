@@ -12,15 +12,6 @@ public class UploadHelperBean {
   public static final String REST_SERVLET_ENABLED = "REST.Servlet.Enabled";
   public static final String REST_DEPLOYMENT_ENABLED = "REST.Servlet.Deployment";
 
-  public boolean isUploadPossible() {
-    return isRestEnabled();
-  }
-
-  public String getUploadPossibleReason() {
-    return "The system configuration '" + REST_SERVLET_ENABLED + "' is disabled.<br/>"
-            + "Please enable it or use the file system to install your licence.";
-  }
-
   public boolean isDeploymentPossible() {
     return isRestEnabled() && isDeploymentEnabled();
   }

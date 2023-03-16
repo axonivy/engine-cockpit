@@ -3,33 +3,25 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="updateFields" default="licence:fileUploadForm:licenceOverview, licWarnMessage" />
+  <cc:attribute name="updateFields" default="licence:fileUploadForm:licenceOverview, licence:licWarnMessage" />
 </cc:interface>
 
 <cc:implementation>
-  <p:remoteCommand name="updateLic" update="#{cc.attrs.updateFields}" />
-
   <h:panelGroup id="licWarnMessage">
     <p:staticMessage rendered="#{!licenceBean.stepOk}" severity="warn" detail="#{licenceBean.stepWarningMessage}" />
   </h:panelGroup>
 
   <h:form enctype="multipart/form-data" id="fileUploadForm">
     <div class="file-upload">
-      <input type="file" id="fileInput" class="deploy-file" required="required" accept=".lic" />
       <p:panelGrid columns="2" columnClasses="p-col-3, p-col-9" layout="flex">
-        <h:panelGroup id="uploadLicenceBtnHint">
-          <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose licence"
-            onclick="$('#fileInput').trigger('click')" disabled="#{!uploadHelperBean.uploadPossible}" />
-          <p:tooltip for="uploadLicenceBtnHint" rendered="#{!uploadHelperBean.uploadPossible}" value="#{uploadHelperBean.uploadPossibleReason}" escape="false" />
-        </h:panelGroup>
-        <h:panelGroup layout="block">
-          <span id="uploadStatus" class="file-upload-error" />
-          <span id="uploadLog" />
-        </h:panelGroup>
+        <p:fileUpload id="chooseFileBtn" label="Choose licence" value="#{licenceBean.file}" mode="simple" skinSimple="true"
+          auto="true" process="@this" required="true" listener="#{licenceBean.handleUploadLicence}" accept=".lic" update="#{cc.attrs.updateFields}"/>
       </p:panelGrid>
-      <div id="drop_zone" style="line-height: 100px; text-align: center; margin-bottom: 20px; #{uploadHelperBean.uploadPossible ? '' : 'display: none;'}">
-        <span id="selectedFileOutput" class="file-upload-file">Choose or drop a licence file.</span>
-      </div>
+      <p:inputTextarea id="dropZone" styleClass="drop-zone" readonly="true"
+        style="width: 100%; line-height: 100px; text-align: center; margin-bottom: 20px;"
+        value="Choose or drop a file which ends with: .lic" rows="1" />
+      <p:fileUpload widgetVar="uploadDnd" listener="#{licenceBean.handleUploadLicence}" allowTypes="/(\.|\/)(lic)$/"
+        dropZone="dropZone" style="display: none" update="#{cc.attrs.updateFields}"/>
     </div>
 
     <h:panelGroup id="licenceOverview">
@@ -46,17 +38,6 @@
     </h:panelGroup>
   </h:form>
 
-  <script>
-    var accepts = [".lic"];
-    var directUpload = true;
-    var uploadUrl = "#{advisorBean.apiBaseUrl}/upload/licence";
-
-    function uploadDone() {
-      updateLic();
-    }
-
-    initFileUpload();
-  </script>
 </cc:implementation>
 
 </html>

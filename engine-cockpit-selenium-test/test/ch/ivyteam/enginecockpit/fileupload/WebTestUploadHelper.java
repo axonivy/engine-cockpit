@@ -32,10 +32,6 @@ public class WebTestUploadHelper {
 
   private void assertEnabled() {
     login();
-    Navigation.toLicence();
-    $(By.id("licence:fileUploadForm:chooseFileBtn")).shouldBe(visible, enabled);
-    $(By.id("drop_zone")).shouldBe(visible);
-
     Navigation.toApplications();
     $(By.id("form:tree:0:deployBtn")).shouldBe(visible, enabled);
 
@@ -45,10 +41,6 @@ public class WebTestUploadHelper {
 
   private void assertDisabled() {
     login();
-    Navigation.toLicence();
-    $(By.id("licence:fileUploadForm:chooseFileBtn")).shouldBe(visible, not(enabled));
-    $(By.id("drop_zone")).shouldNotBe(visible);
-
     Navigation.toApplications();
     $(By.id("form:tree:0:deployBtn")).shouldBe(visible, not(enabled));
 
