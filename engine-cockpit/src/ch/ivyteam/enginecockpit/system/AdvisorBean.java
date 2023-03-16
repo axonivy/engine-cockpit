@@ -8,11 +8,10 @@ import javax.faces.bean.SessionScoped;
 
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.Advisor;
-import ch.ivyteam.ivy.server.restricted.EngineMode;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @ManagedBean
 @SessionScoped
-@SuppressWarnings("restriction")
 public class AdvisorBean {
 
   public String getApplicationName() {
@@ -32,16 +31,19 @@ public class AdvisorBean {
     return "&copy; 2001 - " + Calendar.getInstance().get(Calendar.YEAR);
   }
 
-  private String getApp() {
-    return EngineMode.isEmbeddedInDesigner() ? "designer" : "system";
-  }
-  
-  public String getAppBaseUrl() {
-    return UrlUtil.getAppBaseUrl(getApp());
+  public String getApiBrowserUrl() {
+    return systemPath() + "/api-browser";
   }
 
+  /**
+   * only used for deployment rest endpoint
+   */
   public String getApiBaseUrl() {
-    return UrlUtil.getApiBaseUrl(getApp());
+    return systemPath() + "/api";
+  }
+
+  private String systemPath() {
+    return ISecurityContextRepository.instance().getSystem().contextPath();
   }
 
   public String getEngineGuideBaseUrl() {

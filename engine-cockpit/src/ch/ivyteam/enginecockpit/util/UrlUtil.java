@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.io.FileUtil;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.config.IFileAccess;
-import ch.ivyteam.ivy.security.ISecurityConstants;
 
 @SuppressWarnings("restriction")
 public class UrlUtil {
@@ -31,14 +30,6 @@ public class UrlUtil {
 
   public static String getCockpitEngineGuideUrl() {
     return getEngineGuideBaseUrl() + "/reference/engine-cockpit/";
-  }
-
-  public static String getAppBaseUrl(String appName) {
-    return ISecurityConstants.baseContextPath("/" + appName);
-  }
-
-  public static String getApiBaseUrl(String appName) {
-    return ISecurityConstants.baseContextPath("/" +  appName + "/api");
   }
 
   public static String replaceLinks(String text) {
