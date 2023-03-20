@@ -353,6 +353,12 @@ body .ui-datatable .ui-datatable-header {
   max-width: 100%;
   max-height: 50px;
 }
+.branding-upload.ui-fileupload .ui-corner-top,
+.branding-upload.ui-fileupload .ui-corner-bottom {
+  border: none;
+  background: none;
+  padding: 0;
+}
 .layout-menu-light .branding-img.logo_light {
   background-color: rgba(0, 0, 0, 0.2);
 }

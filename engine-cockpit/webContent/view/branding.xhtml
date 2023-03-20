@@ -138,25 +138,17 @@
         </p:confirmDialog>
         
         <h:panelGroup id="fileUpload">
-          <cc:FileUpload title="Upload resource to '#{managerBean.selectedApplicationName}'" apiUrl="upload/branding" 
-            acceptFiles=".png, .jpg, .jpeg, .svg, .gif, .webp" id="uploadModal">
-            <script>
-            var uploadErrorField = "#uploadModal\\:uploadError";
-
-            function buildFormData() {
-              var form_data = new FormData();
-              form_data.append('resource', file, file.name);
-              form_data.append('oldResourceName', '#{brandingBean.currentRes}');
-              form_data.append('appName', '#{managerBean.selectedApplicationName}');
-              return form_data;
-            }
-            </script>
-            <style>
-            #uploadLog {
-              height: unset;
-            }
-            </style>
-          </cc:FileUpload>
+          <p:dialog style="margin-left: 120px; min-width: 550px; max-width: 700px;" header="Upload resources to '#{managerBean.selectedApplicationName}'"
+            id="fileUploadModal" resizable="false" widgetVar="fileUploadModal" modal="true" responsive="true"
+            closeOnEscape="true">
+            <h:form enctype="multipart/form-data" id="fileUploadForm">
+              <p:growl id="uploadGrowl" showDetail="true"/>
+              <p:fileUpload id="brandingUpload" listener="#{brandingBean.upload}" styleClass="branding-upload"
+                update="uploadGrowl" allowTypes="/(\.|\/)(gif|jpe?g|png|svg|webp)$/" dragDropSupport="true"/>
+              <p:commandButton id="closeDialogBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
+                styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            </h:form>
+          </p:dialog>
         </h:panelGroup>
       </div>
       

@@ -52,19 +52,11 @@ public class WebTestBranding {
   }
 
   @Test
-  void uploadNoFile() {
-    uploadImage(0);
-    $(By.id("uploadModal:uploadBtn")).click();
-    $(By.id("uploadModal:uploadError")).shouldBe(text("Choose a valid file before upload"));
-  }
-
-  @Test
   void uploadInvalidLogo() throws IOException {
     uploadImage(0);
     Path createTempFile = Files.createTempFile("logo", ".txt");
-    $(By.id("fileInput")).sendKeys(createTempFile.toString());
-    $(By.id("uploadModal:uploadBtn")).click();
-    $(By.id("uploadModal:uploadError")).shouldBe(text("Choose a valid file before upload"));
+    $(By.id("fileUploadForm:brandingUpload_input")).sendKeys(createTempFile.toString());
+    $(By.className("ui-messages-error-summary")).shouldBe(text("Invalid file type"));
   }
 
   @Test
@@ -147,23 +139,23 @@ public class WebTestBranding {
   private void uploadAndAssertImage(int index, String tempFileName, String tempFileExt, String expectedImg, String defaultImg) throws IOException {
     uploadImage(index);
     Path createTempFile = Files.createTempFile(tempFileName, tempFileExt);
-    $(By.id("fileInput")).sendKeys(createTempFile.toString());
-    $(By.id("uploadModal:uploadBtn")).click();
-    $("#uploadStatus").shouldHave(text("Success"));
-    $("#uploadLog").shouldHave(exactText("Successfully uploaded " + expectedImg));
-    $(By.id("uploadModal:closeDeploymentBtn")).shouldBe(visible).click();
+    $(By.id("fileUploadForm:brandingUpload_input")).sendKeys(createTempFile.toString());
+    $(By.id("fileUploadForm:brandingUpload")).find(By.className("ui-fileupload-upload")).shouldBe(visible).click();
+    $(By.className("ui-growl-message")).shouldHave(text("Successfully uploaded " + expectedImg));
+    $(By.id("fileUploadForm:closeDialogBtn")).shouldBe(visible).click();
 
+    Navigation.toBranding();
     $(By.id(getResourcesFormId())).find("img", index).shouldBe(visible, attributeMatching("src", ".*" + expectedImg + ".*"));
     resetImage(index);
+    Navigation.toBranding();
     $(By.id(getResourcesFormId())).find("img", index).shouldBe(visible, attributeMatching("src", ".*" + defaultImg + ".*"));
   }
 
   private void uploadImage(int index) {
     var baseId = getResourcesFormId() + ":images:" + index + ":";
     $(By.id(baseId + "uploadBtn")).shouldBe(visible).click();
-    $(By.id("uploadModal:fileUploadModal")).shouldBe(visible);
-    $(By.id("uploadModal:uploadError")).shouldNotBe(visible);
-    $(By.id("uploadModal:fileUploadModal_title")).shouldHave(text(Tab.APP.getSelectedTab()));
+    $(By.id("fileUploadModal")).shouldBe(visible);
+    $(By.id("fileUploadModal_title")).shouldHave(text(Tab.APP.getSelectedTab()));
   }
 
   private void resetImage(int index) {
