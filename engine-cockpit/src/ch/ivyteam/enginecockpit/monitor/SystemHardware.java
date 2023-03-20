@@ -12,6 +12,7 @@ import oshi.hardware.HardwareAbstractionLayer;
 @ManagedBean
 @RequestScoped
 public class SystemHardware {
+
   private static final HardwareAbstractionLayer HARDWARE;
   private static final GlobalMemory MEMORY;
   private static final CentralProcessor PROCESSOR;
@@ -22,7 +23,6 @@ public class SystemHardware {
   private final long memoryTotal;
   private final long memoryAvailable;
   private final int processorLogicalCount;
-  private final double processorLoad;
   private final int processorPhysicalCount;
 
   static {
@@ -42,11 +42,10 @@ public class SystemHardware {
     memoryTotal = MEMORY.getTotal();
     processorLogicalCount = PROCESSOR.getLogicalProcessorCount();
     processorPhysicalCount = PROCESSOR.getPhysicalProcessorCount();
-    processorLoad = PROCESSOR.getSystemCpuLoad(300);
   }
 
   static SystemHardware current() {
-    FacesContext context = FacesContext.getCurrentInstance();
+    var context = FacesContext.getCurrentInstance();
     return context.getApplication().evaluateExpressionGet(context, "#{systemHardware}", SystemHardware.class);
   }
 
@@ -82,7 +81,11 @@ public class SystemHardware {
     return processorPhysicalCount;
   }
 
-  double processorLoad() {
-    return processorLoad;
+  double processorLoad(long[] oldTicks) {
+    return PROCESSOR.getSystemCpuLoadBetweenTicks(oldTicks);
+  }
+
+  long[] cpuTicks() {
+    return PROCESSOR.getSystemCpuLoadTicks();
   }
 }
