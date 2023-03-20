@@ -353,8 +353,8 @@ body .ui-datatable .ui-datatable-header {
   max-width: 100%;
   max-height: 50px;
 }
-#fileUploadForm\:brandingUpload.ui-fileupload .ui-corner-top,
-#fileUploadForm\:brandingUpload.ui-fileupload .ui-corner-bottom {
+.branding-upload.ui-fileupload .ui-corner-top,
+.branding-upload.ui-fileupload .ui-corner-bottom {
   border: none;
   background: none;
   padding: 0;

@@ -142,7 +142,7 @@ public class WebTestBranding {
     $(By.id("fileUploadForm:brandingUpload_input")).sendKeys(createTempFile.toString());
     $(By.id("fileUploadForm:brandingUpload")).find(By.className("ui-fileupload-upload")).shouldBe(visible).click();
     $(By.className("ui-growl-message")).shouldHave(text("Successfully uploaded " + expectedImg));
-    $(By.id("fileUploadForm:cancelDeploymentBtn")).shouldBe(visible).click();
+    $(By.id("fileUploadForm:closeDialogBtn")).shouldBe(visible).click();
 
     Navigation.toBranding();
     $(By.id(getResourcesFormId())).find("img", index).shouldBe(visible, attributeMatching("src", ".*" + expectedImg + ".*"));

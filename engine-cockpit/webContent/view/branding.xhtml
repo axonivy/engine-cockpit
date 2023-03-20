@@ -143,9 +143,9 @@
             closeOnEscape="true">
             <h:form enctype="multipart/form-data" id="fileUploadForm">
               <p:growl id="uploadGrowl" showDetail="true"/>
-              <p:fileUpload id="brandingUpload" listener="#{brandingBean.upload}"
-                update="uploadGrowl" allowTypes="/(\.|\/)(gif|jpe?g|png|svg|webp)$/"/>
-              <p:commandButton id="cancelDeploymentBtn" onclick="PF('fileUploadModal').hide();" value="Cancel" type="button"
+              <p:fileUpload id="brandingUpload" listener="#{brandingBean.upload}" styleClass="branding-upload"
+                update="uploadGrowl" allowTypes="/(\.|\/)(gif|jpe?g|png|svg|webp)$/" dragDropSupport="true"/>
+              <p:commandButton id="closeDialogBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
                 styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             </h:form>
           </p:dialog>
