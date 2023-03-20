@@ -13,14 +13,12 @@
 
   <h:form enctype="multipart/form-data" id="fileUploadForm">
     <div class="file-upload">
-      <p:panelGrid columns="2" columnClasses="p-col-3, p-col-9" layout="flex">
-        <p:fileUpload id="chooseFileBtn" label="Choose licence" value="#{licenceBean.file}" mode="simple" skinSimple="true"
-          auto="true" process="@this" required="true" listener="#{licenceBean.handleUploadLicence}" accept=".lic" update="#{cc.attrs.updateFields}"/>
-      </p:panelGrid>
+      <p:commandButton id="chooseFileBtn" value="Choose licence" onclick="PF('uploadDnd').show();return false;"
+        icon="si si-add" styleClass="p-mb-2"/>
       <p:inputTextarea id="dropZone" styleClass="drop-zone" readonly="true"
         style="width: 100%; line-height: 100px; text-align: center; margin-bottom: 20px;"
         value="Choose or drop a file which ends with: .lic" rows="1" />
-      <p:fileUpload widgetVar="uploadDnd" listener="#{licenceBean.handleUploadLicence}" allowTypes="/(\.|\/)(lic)$/"
+      <p:fileUpload id="licenceUpload" widgetVar="uploadDnd" listener="#{licenceBean.handleUploadLicence}"
         dropZone="dropZone" style="display: none" update="#{cc.attrs.updateFields}"/>
     </div>
 

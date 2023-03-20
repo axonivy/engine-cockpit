@@ -9,17 +9,20 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.naming.directory.InvalidAttributesException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
 
 import ch.ivyteam.enginecockpit.configuration.model.BrandingResource;
 import ch.ivyteam.enginecockpit.configuration.model.CssColorDTO;
@@ -40,6 +43,7 @@ public class BrandingBean implements AllResourcesDownload {
           "logo_small", "The logo in small (square format recommended), used by e.g. error, login pages",
           "logo_mail", "The logo with is taken by the default Axon Ivy Engine email notifications",
           "favicon", "The logo fot the browser tab (square format recommended)");
+  private static final Set<String> ALLOWED_EXTENSIONS = Set.of("png", "jpg", "jpeg", "svg", "webp", "gif");
 
   private ManagerBean managerBean;
   private BrandingIO brandingIO;
@@ -53,6 +57,7 @@ public class BrandingBean implements AllResourcesDownload {
   private CssColorDTO selectedCssColor;
 
   private String filter;
+  private UploadedFile file;
 
   public BrandingBean() {
     managerBean = ManagerBean.instance();
@@ -60,12 +65,15 @@ public class BrandingBean implements AllResourcesDownload {
   }
 
   public void upload(FileUploadEvent event) {
-    var file = event.getFile();
+    var uploadFile = event.getFile();
     var message = new FacesMessage();
     try {
+      var extension = FilenameUtils.getExtension(uploadFile.getFileName());
+      if (!ALLOWED_EXTENSIONS.contains(extension)) {
+        throw new InvalidAttributesException("Not supported file extension: '" + extension + "'");
+      }
       var app = IApplicationRepository.instance().findByName(managerBean.getSelectedApplicationName()).orElse(null);
-      var extension = FilenameUtils.getExtension(file.getFileName());
-      var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, file.getInputStream());
+      var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, uploadFile.getInputStream());
       message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Successfully uploaded " + newResourceName);
     } catch (Exception ex) {
       message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
@@ -218,6 +226,20 @@ public class BrandingBean implements AllResourcesDownload {
     try (var dir = Files.newDirectoryStream(brandingDir)) {
       return !dir.iterator().hasNext();
     }
+  }
+
+  public UploadedFile getFile() {
+    return file;
+  }
+
+  public void setFile(UploadedFile file) {
+    this.file = file;
+  }
+
+  public String getAllowedExtensionsString() {
+    return ALLOWED_EXTENSIONS.stream()
+            .map(Object::toString)
+            .collect(Collectors.joining(", "));
   }
 
 }

@@ -142,11 +142,20 @@
             id="fileUploadModal" resizable="false" widgetVar="fileUploadModal" modal="true" responsive="true"
             closeOnEscape="true">
             <h:form enctype="multipart/form-data" id="fileUploadForm">
-              <p:growl id="uploadGrowl" showDetail="true"/>
-              <p:fileUpload id="brandingUpload" listener="#{brandingBean.upload}" styleClass="branding-upload"
-                update="uploadGrowl" allowTypes="/(\.|\/)(gif|jpe?g|png|svg|webp)$/" dragDropSupport="true"/>
-              <p:commandButton id="closeDialogBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
-                styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+              <div class="file-upload">
+                <p:messages id="uploadMessages" showDetail="true">
+                  <p:autoUpdate/>
+                </p:messages>
+                <p:commandButton id="chooseFileBtn" value="Choose" onclick="PF('uploadDnd').show();return false;"
+                  icon="si si-add" styleClass="p-mb-2"/>
+                <p:inputTextarea id="dropZone" styleClass="drop-zone" readonly="true"
+                  style="width: 100%; line-height: 100px; text-align: center; margin-bottom: 20px;"
+                  value="Choose or drop a file which ends with: #{brandingBean.allowedExtensionsString}" rows="1" />
+                <p:fileUpload id="brandingUpload" widgetVar="uploadDnd" value="#{brandingBean.file}" listener="#{brandingBean.upload}"
+                  styleClass="branding-upload" dropZone="dropZone" style="display: none" update="uploadMessages"/>
+                <p:commandButton id="closeDialogBtn" onclick="PF('fileUploadModal').hide();" value="Close" type="button"
+                  styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+              </div>
             </h:form>
           </p:dialog>
         </h:panelGroup>

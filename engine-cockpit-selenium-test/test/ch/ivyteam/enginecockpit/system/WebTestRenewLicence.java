@@ -29,7 +29,7 @@ public class WebTestRenewLicence {
     Navigation.toLicence();
     File file = new File(System.getProperty("user.dir") + "/resources/test.lic");
     String path = file.getAbsolutePath();
-    $("#licence\\:fileUploadForm\\:chooseFileBtn_input").sendKeys(path);
+    $(By.id("licence:fileUploadForm:licenceUpload_input")).sendKeys(path);
     $(".ui-growl-message").shouldHave(text("Successfully uploaded licence"));
     $(".ui-growl-item").hover();
     $(".ui-growl-message").hover();
