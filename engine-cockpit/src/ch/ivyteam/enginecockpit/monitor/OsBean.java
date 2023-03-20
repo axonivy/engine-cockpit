@@ -25,6 +25,9 @@ public class OsBean {
           .yAxisLabel("Send / Resv").toMonitor();
   private Monitor ioMonitor = Monitor.build().name("IO").icon("cd").yAxisLabel("Read / Write").toMonitor();
 
+  private long[] oldTicks;
+  private double cpuLoad;
+
   public OsBean() {
     setupCpuMonitor();
     setupMemoryMonitor();
@@ -78,7 +81,20 @@ public class OsBean {
   }
 
   private ValueProvider cpuLoad() {
-    return percentage(value(() -> SystemHardware.current().processorLoad(), Unit.PERCENTAGE));
+    return percentage(value(() -> processorLoad(), Unit.PERCENTAGE));
+  }
+
+  private double processorLoad() {
+    var hardware = SystemHardware.current();
+    if (oldTicks == null) {
+      oldTicks = hardware.cpuTicks();
+    }
+    var currentLoad = hardware.processorLoad(oldTicks);
+    if (currentLoad != 0) {
+      // sometimes 0, false-positive
+      cpuLoad = currentLoad;
+    }
+    return cpuLoad;
   }
 
   private ValueProvider cpuCores() {
