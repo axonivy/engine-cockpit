@@ -113,12 +113,8 @@ function markError() {
 
 function buildFormData() {
   var form_data = new FormData();
-  if (!uploadUrl.endsWith('licence')) {
-    form_data.append('fileToDeploy', file, file.name);
-    addDeployOptions(form_data);
-  } else {
-    form_data.append('licence', file, file.name);
-  }
+  form_data.append('fileToDeploy', file, file.name);
+  addDeployOptions(form_data);
   return form_data;
 }
 

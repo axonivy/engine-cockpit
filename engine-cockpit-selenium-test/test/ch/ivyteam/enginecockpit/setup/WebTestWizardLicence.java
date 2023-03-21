@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
@@ -32,12 +33,12 @@ public class WebTestWizardLicence {
 
   @Test
   void testLicenceStep() {
-    $("#licence\\:licWarnMessage").shouldHave(text("Please upload a valid licence."));
+    $(By.id("licence:licWarnMessage")).shouldHave(text("Please upload a valid licence."));
     WebTestWizard.activeStepShouldHaveWarnings();
     uploadLicence();
     $(".ui-growl-message").shouldHave(text("Success"));
-    $("#licence\\:fileUploadForm\\:licenceInfoTable").shouldHave(text("lukas.lieb@axonivy.com"));
-    $("#licence\\:licWarnMessage").shouldHave(empty);
+    $(By.id("licence:fileUploadForm:licenceInfoTable")).shouldHave(text("lukas.lieb@axonivy.com"));
+    $(By.id("licence:licWarnMessage")).shouldHave(empty);
     WebTestWizard.activeStepShouldBeOk();
 
     WebTestWizard.nextStep();
@@ -47,7 +48,7 @@ public class WebTestWizardLicence {
   @Test
   public void testLicenceUploadInvalidFileEnding() throws IOException {
     uploadLicence(Files.createTempFile("licence", ".txt"));
-    $("#licence\\:fileUploadForm\\:dropZone").shouldHave(exactText("Choose or drop a file which ends with: .lic"));
+    $(By.id("licence:fileUploadForm:dropZone")).shouldHave(exactText("Choose or drop a file which ends with: .lic"));
   }
 
   @Test
@@ -61,7 +62,7 @@ public class WebTestWizardLicence {
   }
 
   private void uploadLicence(Path lic) {
-    $("#licence\\:fileUploadForm\\:chooseFileBtn_input").sendKeys(lic.toString());
+    $(By.id("licence:fileUploadForm:licenceUpload_input")).sendKeys(lic.toString());
   }
 
 }
