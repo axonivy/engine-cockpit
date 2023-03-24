@@ -10,6 +10,7 @@ import java.lang.management.ThreadMXBean;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,7 +30,7 @@ import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 public class ThreadBean {
 
   private List<Info> threads;
-  private String filter = "";
+  private List<Info> filteredThreads;
   private long[] deadLocked;
   private boolean isCpuEnabled;
   private long maxCpuTime;
@@ -47,6 +48,7 @@ public class ThreadBean {
     maxCpuTime = Stream.of(infos).map(this::toCpuTime).max(Long::compareTo).orElse(-1L);
     maxUserTime = Stream.of(infos).map(this::toUserTime).max(Long::compareTo).orElse(-1L);
     threads = Stream.of(infos).map(info -> infoFor(info)).collect(Collectors.toList());
+    filteredThreads = threads;
   }
 
   public StreamedContent dump() {
@@ -72,28 +74,27 @@ public class ThreadBean {
   }
 
   public List<Info> getFilteredThreads() {
-    return getThreads().stream().filter(this::filter).collect(Collectors.toList());
+    return filteredThreads;
   }
 
-  public String getFilter() {
-    return filter;
+  public void setFilteredThreads(List<Info> filteredThreads) {
+    this.filteredThreads = filteredThreads;
   }
 
-  public void setFilter(String filter) {
-    this.filter = filter;
-  }  
-
-  private boolean filter(Info threadInfo) {
-    String name = threadInfo.getName();
-    return name != null && StringUtils.containsIgnoreCase(name, filter);
+  public boolean filter(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
+    if (value instanceof Info info) {
+      String name = info.getName();
+      return name != null && StringUtils.containsIgnoreCase(name, filter.toString());
+    }
+    return false;
   }
-  
+
   public Info getSelected() {
-	return this.selected;
+    return this.selected;
   }
-  
+
   public void setSelected(Info thread) {
-	this.selected = thread;  
+    this.selected = thread;
   }
 
   private static ThreadMXBean threadMxBean() {
@@ -115,6 +116,7 @@ public class ThreadBean {
   }
 
   public final class Info {
+
     private final long id;
     private final String name;
     private final State state;
@@ -147,7 +149,7 @@ public class ThreadBean {
     }
 
     public String getStateColor() {
-      return switch(state) {
+      return switch (state) {
         case RUNNABLE -> "green";
         case BLOCKED -> isDeadLocked() ? "red" : "orange";
         case WAITING -> isDeadLocked() ? "red" : "blue";
@@ -156,21 +158,22 @@ public class ThreadBean {
         case TERMINATED -> "black";
       };
     }
-    
+
     public String getStateTitle() {
       if (isDeadLocked()) {
-        return "This thread is deadlocked! It is waiting to lock " + getLockName() + " which is owned by thread " + getLockOwner() + ".";
+        return "This thread is deadlocked! It is waiting to lock " + getLockName()
+                + " which is owned by thread " + getLockOwner() + ".";
       }
-      return switch(state) {
+      return switch (state) {
         case RUNNABLE -> "Thread is runnable.";
-        case BLOCKED -> "Thread is blocked. It waits to lock "+ getLockName() + " which is owned by thread " + getLockOwner() + ".";
+        case BLOCKED -> "Thread is blocked. It waits to lock " + getLockName() + " which is owned by thread "
+                + getLockOwner() + ".";
         case WAITING -> "Thread is waiting on lock " + getLockName() + ".";
         case TIMED_WAITING -> "Thread is waiting with a timeout on lock " + getLockName() + ".";
         case NEW -> "Thread is new and not yet started";
         case TERMINATED -> "Thread has terminated";
       };
     }
-
 
     public int getPriority() {
       return priority;
@@ -195,36 +198,37 @@ public class ThreadBean {
     public boolean isDeadLocked() {
       return deadLocked != null && Arrays.stream(deadLocked).anyMatch(threadId -> threadId == id);
     }
-    
+
     public ThreadInfo getInfo() {
       return info;
     }
-    
+
     public String getLockedSynchronizers() {
       var lockedSynchronizers = info.getLockedSynchronizers();
-      if (lockedSynchronizers == null || lockedSynchronizers.length ==0) {
+      if (lockedSynchronizers == null || lockedSynchronizers.length == 0) {
         return "None";
       }
       return Stream.of(lockedSynchronizers).map(LockInfo::toString).collect(Collectors.joining(",\n"));
     }
-    
+
     public String getLockedMonitors() {
       var lockedMonitors = info.getLockedMonitors();
-      if (lockedMonitors == null || lockedMonitors.length ==0) {
+      if (lockedMonitors == null || lockedMonitors.length == 0) {
         return "None";
       }
       return Stream.of(lockedMonitors).map(this::toMonitorString).collect(Collectors.joining(",\n"));
     }
 
-	private String toMonitorString(MonitorInfo monitor) {
-		var frame = monitor.getLockedStackFrame();
-		return monitor.toString() + " - " + frame.getClassName() + "." + frame.getMethodName() +"(" + frame.getFileName() + ":" + frame.getLineNumber() + ")";
-	}
+    private String toMonitorString(MonitorInfo monitor) {
+      var frame = monitor.getLockedStackFrame();
+      return monitor.toString() + " - " + frame.getClassName() + "." + frame.getMethodName() + "("
+              + frame.getFileName() + ":" + frame.getLineNumber() + ")";
+    }
 
     public String getLockName() {
       var lockName = info.getLockName();
       if (StringUtils.isBlank(lockName)) {
-    	return "None";
+        return "None";
       }
       return lockName;
     }
@@ -232,19 +236,17 @@ public class ThreadBean {
     public String getLockOwner() {
       var lockOwnerName = info.getLockOwnerName();
       if (StringUtils.isBlank(lockOwnerName)) {
-  	  return "None";
+        return "None";
       }
       return info.getLockOwnerId() + " - " + lockOwnerName;
     }
 
     public String getStackTrace() {
       var lockedMonitors = info.getStackTrace();
-      if (lockedMonitors == null || lockedMonitors.length ==0) {
+      if (lockedMonitors == null || lockedMonitors.length == 0) {
         return "None";
       }
       return Stream.of(lockedMonitors).map(StackTraceElement::toString).collect(Collectors.joining("\n"));
     }
-
-
   }
 }
