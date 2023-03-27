@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -40,13 +39,13 @@ public class WebDocuScreenshot {
   private static final int SCREENSHOT_WIDTH = 1500;
   private static final int SCREENSHOT_SETUP_WIDTH = 1200;
 
-  @BeforeAll
-  static void setup() {
-    EngineCockpitUtil.populateBusinessCalendar();
-    EngineCockpitUtil.runExternalDbQuery();
-    EngineCockpitUtil.createBusinessData();
-    EngineCockpitUtil.addSystemAdmin();
-  }
+//  @BeforeAll
+//  static void setup() {
+//    EngineCockpitUtil.populateBusinessCalendar();
+//    EngineCockpitUtil.runExternalDbQuery();
+//    EngineCockpitUtil.createBusinessData();
+//    EngineCockpitUtil.addSystemAdmin();
+//  }
 
   @BeforeEach
   void beforeEach() {
@@ -101,6 +100,8 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-slow-requests", new Dimension(SCREENSHOT_WIDTH, 800));
     WebTestTrafficGraph.prepareScreenshot();
     takeScreenshot("monitor-traffic-graph", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toThreads();
+    takeScreenshot("monitor-threads", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toSessions();
     takeScreenshot("monitor-sessions", new Dimension(SCREENSHOT_WIDTH, 1000));
   }
