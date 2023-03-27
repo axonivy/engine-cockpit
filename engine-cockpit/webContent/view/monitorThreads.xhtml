@@ -102,7 +102,7 @@
               <h:panelGroup>
                 <p:outputLabel for="stackTrace" value="Stack Trace"/>
                 <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
-    	              styleClass="ui-button-flat rounded-button"/>
+                    styleClass="ui-button-flat rounded-button"/>
               </h:panelGroup>
               <p:outputPanel id="stackTrace" styleClass="code">#{threadBean.selected.stackTrace}</p:outputPanel>  
             </p:panelGrid>
