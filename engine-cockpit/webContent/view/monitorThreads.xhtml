@@ -19,15 +19,15 @@
       </ui:define>
   
       <ui:define name="content">
-        <h:form>
+        <h:form id="form">
           <div class="layout-dashboard">
             <div class="card">
               <div class="card-header p-flex-wrap">
                 <div class="card-title p-d-flex p-ai-center">
                   <i class="p-pr-3 si si-synchronize-arrow-clock"></i>
                   <h2 class="p-m-0">Threads</h2>
-                  <p:commandButton icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="Refresh" styleClass="p-col-fixed p-ml-auto rounded-button" update="threadTable"/>
-                  <p:commandButton icon="pi pi-arrow-down" ajax="false" title="Save Thread Dump" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button">
+                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="Refresh" styleClass="p-col-fixed p-ml-auto rounded-button" update="threadTable"/>
+                  <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="Save Thread Dump" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button">
                     <p:fileDownload value="#{threadBean.dump()}"/>
                   </p:commandButton>
                 </div>
@@ -42,16 +42,16 @@
                     <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" placeholder="Search"/>
                   </div>
                 </f:facet>
-                <p:column headerText="Id" sortBy="#{thread.id}">              
+                <p:column headerText="Id" sortBy="#{thread.id}" width="5%">              
                   <p:commandLink oncomplete="PF('threadDialog').show();" title="Thread Detail" action="#{threadBean.setSelected(thread)}" update="threadDialog">
                     <i class="p-pr-3 si si-synchronize-arrow-clock"></i>
                   <h:outputText value="#{thread.id}"/>
                 </p:commandLink>
                 </p:column>
-                <p:column headerText="Name" sortBy="#{thread.name}">
+                <p:column headerText="Name" sortBy="#{thread.name}" width="40%">
                   <h:outputText value="#{thread.name}"/>
                 </p:column>
-                <p:column headerText="State" sortBy="#{thread.state}">
+                <p:column headerText="State" sortBy="#{thread.state}" width="10%">
                   <h:panelGroup id="state">
                     <h:outputText value="#{thread.state}" style="Color: #{thread.stateColor};"/>
                     <p:tooltip for="state" value="#{thread.stateTitle}" position="right"/>
@@ -60,15 +60,15 @@
                     </h:panelGroup>
                   </h:panelGroup>
                 </p:column>
-                <p:column headerText="Priority" sortBy="#{thread.priority}">
+                <p:column headerText="Priority" sortBy="#{thread.priority}" width="5%">
                   <h:outputText value="#{thread.priority}"/>
                 </p:column>
-                <p:column headerText="Cpu Time" sortBy="#{thread.cpuTime}">
+                <p:column headerText="Cpu Time" sortBy="#{thread.cpuTime}" width="20%">
                   <div style="background: #{thread.cpuTimeBackground};">
                     <h:outputText styleClass="gradient-text" value="#{thread.cpuTime}"/>
                   </div>
                 </p:column>
-                <p:column headerText="User Time" sortBy="#{thread.userTime}">
+                <p:column headerText="User Time" sortBy="#{thread.userTime}" width="20%">
                   <div style="background: #{thread.userTimeBackground};">
                     <h:outputText styleClass="gradient-text" value="#{thread.userTime}"/>
                   </div>
@@ -101,7 +101,7 @@
               <p:outputPanel id="lockedMonitors" styleClass="code">#{threadBean.selected.lockedMonitors}</p:outputPanel>
               <h:panelGroup>
                 <p:outputLabel for="stackTrace" value="Stack Trace"/>
-                <p:commandButton icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
+                <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
     	              styleClass="ui-button-flat rounded-button"/>
               </h:panelGroup>
               <p:outputPanel id="stackTrace" styleClass="code">#{threadBean.selected.stackTrace}</p:outputPanel>  
@@ -113,11 +113,12 @@
         </p:dialog>
         <script>
   function copyToClipboard(btn) {
-    var stackTrace = $(btn).parent().siblings('.ui-panelgrid-cell').children(".code").text();
+    var stackTrace = $("#thread\\:stackTrace").text();
     if (navigator.clipboard) {
       navigator.clipboard.writeText(stackTrace);
-    } 
-    alert(stackTrace);
+    } else {
+      alert(stackTrace);
+    }
   }
         </script>
       </ui:define>

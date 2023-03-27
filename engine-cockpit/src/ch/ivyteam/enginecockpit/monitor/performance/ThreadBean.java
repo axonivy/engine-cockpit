@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.monitor;
+package ch.ivyteam.enginecockpit.monitor.performance;
 
 import java.io.ByteArrayInputStream;
 import java.lang.Thread.State;
