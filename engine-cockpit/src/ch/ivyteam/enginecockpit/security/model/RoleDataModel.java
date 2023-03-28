@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,7 @@ import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
-public class RoleDataModel extends TreeView<Object> {
+public class RoleDataModel extends TreeView<Role> {
   private static final int ROLE_CHILDREN_LIMIT = 100;
   private final int showChildLimit;
   private final ISecurityContext securityContext;
@@ -49,7 +50,7 @@ public class RoleDataModel extends TreeView<Object> {
   }
 
   @Override
-  protected void filterNode(TreeNode<Object> node) {
+  protected void filterNode(TreeNode<Role> node) {
     // Not used because of overridden setFilter
   }
 
@@ -65,12 +66,12 @@ public class RoleDataModel extends TreeView<Object> {
     node.setExpanded(true);
   }
 
-  public class LazyRoleTreeNode extends DefaultTreeNode<Object> {
+  public class LazyRoleTreeNode extends DefaultTreeNode<Role> {
     private IRole role;
     private boolean childrenFetched;
     private boolean member;
 
-    public LazyRoleTreeNode(IRole role, boolean member, TreeNode<Object> node) {
+    public LazyRoleTreeNode(IRole role, boolean member, TreeNode<Role> node) {
       super(new Role(role, member), node);
       this.role = role;
       this.member = member;
@@ -78,13 +79,19 @@ public class RoleDataModel extends TreeView<Object> {
     }
 
     @Override
-    public List<TreeNode<Object>> getChildren() {
+    public List<TreeNode<Role>> getChildren() {
+      if (isLeaf()) {
+        return new ArrayList<>();
+      }
       ensureChildrenFetched();
       return super.getChildren();
     }
 
     @Override
     public int getChildCount() {
+      if (isLeaf()) {
+        return 0;
+      }
       ensureChildrenFetched();
       return super.getChildCount();
     }
