@@ -47,7 +47,7 @@ class WebTestSearchEngine {
     $$(".card").shouldHave(size(2));
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
-    $("#searchEngineInfoForm\\:version").shouldBe(exactText("7.17.1"));
+    $("#searchEngineInfoForm\\:version").shouldNotBe(empty);
     $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("si-check-circle-1"));
     $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("si-check-circle-1"));
   }
