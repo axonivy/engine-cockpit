@@ -157,7 +157,7 @@ class WebTestConfiguration {
     void editConfig_numberFormat() {
       var config = "SystemDb.MaxConnections";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "50", "Defines how long");
+      assertThatConfigEditModalIsVisible(config, "50", "Maximum number");
     }
 
     @Test
