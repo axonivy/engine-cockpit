@@ -155,9 +155,9 @@ class WebTestConfiguration {
 
     @Test
     void editConfig_numberFormat() {
-      var config = "Elasticsearch.ExternalServer.BootTimeout";
+      var config = "SystemDb.MaxConnections";
       table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "60", "Defines how long");
+      assertThatConfigEditModalIsVisible(config, "50", "Maximum number");
     }
 
     @Test
