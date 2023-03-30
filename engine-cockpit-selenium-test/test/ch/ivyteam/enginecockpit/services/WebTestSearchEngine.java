@@ -45,11 +45,15 @@ class WebTestSearchEngine {
   @Test
   void elasticsearchInfo() {
     $$(".card").shouldHave(size(2));
-    $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
-    $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
-    $("#searchEngineInfoForm\\:version").shouldNotBe(empty);
+    $(By.id("searchEngineInfoForm:name")).shouldBe(text("ivy-elasticsearch"));
+    $(By.id("searchEngineInfoForm:url")).shouldBe(exactText("http://localhost:19200"));
+    $(By.id("searchEngineInfoForm:version")).shouldNotBe(empty);
     $("#searchEngineInfoForm\\:state > i").shouldHave(cssClass("si-check-circle-1"));
     $("#searchEngineInfoForm\\:health > i").shouldHave(cssClass("si-check-circle-1"));
+    $(By.id("searchEngineInfoForm:diskThreshold")).shouldHave(text("true"));
+    $(By.id("searchEngineInfoForm:watermarkLow")).shouldNotBe(empty);
+    $(By.id("searchEngineInfoForm:watermarkHigh")).shouldNotBe(empty);
+    $(By.id("searchEngineInfoForm:floodStage")).shouldNotBe(empty);
   }
 
   @Test

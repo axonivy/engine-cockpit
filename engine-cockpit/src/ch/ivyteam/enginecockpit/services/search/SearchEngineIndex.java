@@ -6,7 +6,9 @@ import ch.ivyteam.ivy.elasticsearch.index.IndexInfo;
 
 public class SearchEngineIndex {
 
-  private SearchEngineHealth status;
+  private SearchEngineHealth health;
+  private IndexStatus status;
+  private String statusAsString;
   private String size;
   private boolean reindexing;
 
@@ -14,7 +16,9 @@ public class SearchEngineIndex {
 
   public SearchEngineIndex(IndexInfo info, boolean reindexing) {
     this.info = info;
-    this.status = SearchEngineHealth.getHealth(info.health());
+    this.health = SearchEngineHealth.getHealth(info.health());
+    this.statusAsString = info.status();
+    this.status = IndexStatus.getStatus(statusAsString);
     this.size = info.size();
     this.reindexing = reindexing;
   }
@@ -35,12 +39,12 @@ public class SearchEngineIndex {
     return info.storeCount();
   }
 
-  public SearchEngineHealth getStatus() {
-    return status;
+  public SearchEngineHealth getHealth() {
+    return health;
   }
 
-  public void setStatus(SearchEngineHealth searchEngineHealth) {
-    this.status = searchEngineHealth;
+  public IndexStatus getStatus() {
+    return status;
   }
 
   public String getSize() {
@@ -57,5 +61,47 @@ public class SearchEngineIndex {
 
   public void setReindexing(boolean running) {
     this.reindexing = running;
+  }
+
+  public String getStatusAsString() {
+    return statusAsString;
+  }
+
+  public static enum IndexStatus {
+    OPEN("open", "pi pi-lock-open state-active", "Everything is okay, the index is open."),
+    CLOSED("closed", "pi pi-lock-closed state-inactive", "It seems like your machine is out of disk space. Please check your Elasticsearch Watermark settings."),
+    UNKNOWN("unknown", "si si-question-circle", "Index status is unknown.");
+
+    private final String state;
+    private final String icon;
+    private final String hint;
+
+    private IndexStatus(String status, String icon, String hint) {
+      this.state = status;
+      this.icon = icon;
+      this.hint = hint;
+    }
+
+    public String getState() {
+      return state;
+    }
+
+    public String getIcon() {
+      return icon;
+    }
+
+    public String getHint() {
+      return hint;
+    }
+
+    public static IndexStatus getStatus(String status) {
+      if (OPEN.getState().equals(status)) {
+        return OPEN;
+      } else if (CLOSED.getState().equals(status)) {
+        return CLOSED;
+      } else {
+        return UNKNOWN;
+      }
+    }
   }
 }
