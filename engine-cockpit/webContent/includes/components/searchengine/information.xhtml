@@ -26,15 +26,6 @@
         <h:outputText id="name" value="#{searchEngineBean.elasticSearch.clusterName}" />
         <label>Url</label>
         <h:outputText id="url" value="#{searchEngineBean.elasticSearch.serverUrl}" />
-        <label>Version</label>
-        <h:panelGroup>
-          <h:outputText id="version" value="#{searchEngineBean.elasticSearch.version}" />
-          <h:outputText rendered="#{searchEngineBean.elasticSearch.notSupported}">
-            <i class="si si-lg si-road-sign-warning search-machine-health-yellow"
-              style="position: relative; top: 3px; font-weight: 700;"
-              title="This elastic search version is not supported"></i>
-          </h:outputText>
-        </h:panelGroup>
         <label>State</label>
         <h:panelGroup id="state">
           <i
@@ -49,6 +40,16 @@
         
         <p:panelGrid columns="2" columnClasses="p-col-5 p-d-flex, p-col-7 p-d-flex" layout="flex"
           styleClass="grey-label-panel">
+          <label>Version</label>
+          <h:panelGroup>
+            <h:outputText id="version" value="#{searchEngineBean.elasticSearch.version}" />
+            <h:outputText rendered="#{searchEngineBean.elasticSearch.notSupported}">
+              <i class="si si-lg si-road-sign-warning search-machine-health-yellow"
+              style="position: relative; top: 3px; font-weight: 700;"
+              title="This elastic search version is not supported"></i>
+            </h:outputText>
+          </h:panelGroup>
+
           <h:panelGroup>
             <label>Disk threshold enabled</label>
             <h:panelGroup id="diskThresholdHelp" styleClass="p-d-flex p-ai-center p-ml-1">

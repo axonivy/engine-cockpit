@@ -44,7 +44,7 @@
       </p:column>
       <p:column headerText="Status" style="text-align: center; width: 65px; font-weight: bold;">
         <i class="#{index.status.icon} table-icon icon-bold search-machine-health-#{index.status.state}"
-          title="#{index.status.hint} Status: #{index.statusAsString}"></i>
+          title="Status: #{index.statusAsString}. #{index.status.hint}"></i>
       </p:column>
       <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 75px;">
         <h:outputText value="#{index.size}" />

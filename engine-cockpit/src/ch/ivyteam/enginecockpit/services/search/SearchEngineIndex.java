@@ -62,7 +62,7 @@ public class SearchEngineIndex {
   public static enum IndexStatus {
     OPEN("open", "pi pi-lock-open state-active", "Everything is okay, the index is open."),
     CLOSED("closed", "pi pi-lock-closed state-inactive", "It seems like your machine is out of disk space. Please check your Elasticsearch Watermark settings."),
-    UNKNOWN("unknown", "si si-question-circle", "Index status is unknown.");
+    UNKNOWN("unknown", "si si-question-circle", "");
 
     private final String state;
     private final String icon;
