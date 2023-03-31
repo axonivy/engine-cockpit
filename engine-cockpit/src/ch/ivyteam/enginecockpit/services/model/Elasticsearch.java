@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import ch.ivyteam.ivy.elasticsearch.client.EsInfo;
+import ch.ivyteam.ivy.elasticsearch.client.Watermark;
 import ch.ivyteam.ivy.elasticsearch.server.IElasticsearchServer;
 import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
 
@@ -17,9 +18,11 @@ public class Elasticsearch {
   }
 
   private EsInfo info;
+  private Watermark watermark;
 
-  public Elasticsearch(EsInfo info) {
+  public Elasticsearch(EsInfo info, Watermark watermark) {
     this.info = info;
+    this.watermark= watermark;
   }
 
   public String getServerUrl() {
@@ -51,6 +54,10 @@ public class Elasticsearch {
       }
       return Optional.of(node.toPrettyString());
     }
+  }
+
+  public Watermark getWatermark() {
+    return watermark;
   }
 
   public static enum SearchEngineHealth {
