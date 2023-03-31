@@ -28,9 +28,7 @@ public class SearchEngineBean {
 
   public SearchEngineBean() {
     elasticSearch = new Elasticsearch(searchEngine.info(), searchEngine.watermark());
-    indices = searchEngine.indices().stream()
-            .map(index -> new SearchEngineIndex(index, searchEngine.isReindexing(index.indexName())))
-            .collect(Collectors.toList());
+    indices = SearchEngineService.instance().getIndices().collect(Collectors.toList());
   }
 
   public List<SearchEngineIndex> getFilteredIndicies() {

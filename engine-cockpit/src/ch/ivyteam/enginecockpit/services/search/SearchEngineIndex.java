@@ -1,25 +1,18 @@
 package ch.ivyteam.enginecockpit.services.search;
 
+import javax.ws.rs.core.UriBuilder;
+
 import ch.ivyteam.enginecockpit.services.model.Elasticsearch.SearchEngineHealth;
 import ch.ivyteam.ivy.elasticsearch.client.IndexName;
 import ch.ivyteam.ivy.elasticsearch.index.IndexInfo;
 
 public class SearchEngineIndex {
 
-  private SearchEngineHealth health;
-  private IndexStatus status;
-  private String statusAsString;
-  private String size;
-  private boolean reindexing;
-
-  private IndexInfo info;
+  private final IndexInfo info;
+  private final boolean reindexing;
 
   public SearchEngineIndex(IndexInfo info, boolean reindexing) {
     this.info = info;
-    this.health = SearchEngineHealth.getHealth(info.health());
-    this.statusAsString = info.status();
-    this.status = IndexStatus.getStatus(statusAsString);
-    this.size = info.size();
     this.reindexing = reindexing;
   }
 
@@ -31,6 +24,13 @@ public class SearchEngineIndex {
     return info.indexName().name();
   }
 
+  public String getViewUrl() {
+    return UriBuilder.fromPath("searchindex.xhtml")
+            .queryParam("index", info.indexName().name())
+            .build()
+            .toString();
+  }
+
   public long getCountIndexed() {
     return info.indexCount();
   }
@@ -40,37 +40,29 @@ public class SearchEngineIndex {
   }
 
   public SearchEngineHealth getHealth() {
-    return health;
+    return  SearchEngineHealth.getHealth(info.health());
   }
 
   public IndexStatus getStatus() {
-    return status;
+    return IndexStatus.getStatus(info.status());
   }
 
   public String getSize() {
-    return size;
-  }
-
-  public void setSize(String size) {
-    this.size = size;
+    return info.size();
   }
 
   public boolean isReindexing() {
     return reindexing;
   }
 
-  public void setReindexing(boolean running) {
-    this.reindexing = running;
-  }
-
   public String getStatusAsString() {
-    return statusAsString;
+    return info.status();
   }
 
   public static enum IndexStatus {
     OPEN("open", "pi pi-lock-open state-active", "Everything is okay, the index is open."),
     CLOSED("closed", "pi pi-lock-closed state-inactive", "It seems like your machine is out of disk space. Please check your Elasticsearch Watermark settings."),
-    UNKNOWN("unknown", "si si-question-circle", "Index status is unknown.");
+    UNKNOWN("unknown", "si si-question-circle", "");
 
     private final String state;
     private final String icon;

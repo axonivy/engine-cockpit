@@ -190,6 +190,13 @@ public class Navigation {
     menuShouldBeActive(SERVICES_SEARCH_ENGINE);
   }
 
+  public static void toSearchIndex(String indexName) {
+    toSearchEngine();
+    $$(".index-name").find(text(indexName)).shouldBe(visible).click();
+    assertCurrentUrlContains("searchindex.xhtml?index=" + indexName.replace("$", "%24"));
+    menuShouldBeActive(SERVICES_SEARCH_ENGINE);
+  }
+
   public static void toEmail() {
     toSubMenu(SERVICES_MENU, SERVICES_EMAIL_MENU);
     assertCurrentUrlContains("email.xhtml");

@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+    <f:metadata>
+      <f:viewParam name="index" value="#{searchIndexBean.index}" />
+      <f:viewAction action="#{searchIndexBean.onload}" />
+    </f:metadata>
+
+    <ui:define name="breadcrumb">
+      <li><span>Services</span></li>
+      <li>/</li>
+      <li><a href="searchengine.xhtml">Search Engine</a></li>
+      <li>/</li>
+      <li><a href="#{searchIndexBean.searchIndex.viewUrl}">#{searchIndexBean.searchIndex.name}</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}services.html#search-engine" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+
+        <div class="card-header">
+          <div class="card-title p-d-flex p-ai-center">
+            <i class="p-pr-3 si si-information-circle"></i>
+            <h6 class="p-m-0">#{searchIndexBean.searchIndex.name}</h6>
+          </div>
+        </div>
+
+        <h:form id="tableForm">
+          <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="doc"
+            widgetVar="docTable" value="#{searchIndexBean.dataModel}" lazy="true" styleClass="docTable"
+            globalFilter="#{searchIndexBean.filter}" id="docTable">
+            <f:facet name="header">
+              <div class="flex align-items-center justify-content-between">
+                <p:inputText id="globalFilter" onkeyup="PF('docTable').filter()" style="width:100%;" />
+              </div>
+            </f:facet>
+
+            <p:column headerText="ID" style="width:250px;">
+              <h:outputText value="#{doc.id}" />
+            </p:column>
+
+            <p:column headerText="JSON">
+              <h:outputText value="#{doc.jsonShort}" title="#{doc.json}" />
+            </p:column>
+
+            <p:column styleClass="table-btn-1">
+              <p:commandButton id="showDocument" title="Show document" icon="si si-office-file-doc-1"
+                actionListener="#{searchDocBean.setDoc(doc)}" update="searchDocModal" styleClass="rounded-button"
+                oncomplete="PF('searchDocModal').show()" />
+            </p:column>
+          </p:dataTable>
+        </h:form>
+      </div>
+
+      <p:dialog style="min-width:600px;" header="Document: #{searchDocBean.doc.id}" id="searchDocModal"
+        onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="searchDocModal" modal="true"
+        responsive="true" closeOnEscape="true">
+        <pre>
+          <code class="json">
+            <h:outputText value="#{searchDocBean.doc.json}" />
+          </code>
+        </pre>
+      </p:dialog>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

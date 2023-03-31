@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -58,11 +59,24 @@ class WebTestSearchEngine {
 
   @Test
   void elasticsearchIndices() {
-    Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
+    Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"), true);
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSizeGreaterThanOrEqualTo(2)
             .contains(dossierIndex, addressIndex);
     checkIndexValues(table, dossierIndex, "10");
     checkIndexValues(table, addressIndex, "1");
+  }
+
+  @Test
+  void elasticsearchIndex() {
+    Navigation.toSearchIndex(dossierIndex);
+    var table = new Table(By.id("tableForm:docTable"));
+    table.search("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
+    $(By.id("tableForm:docTable:0:showDocument"))
+            .shouldBe(not(exist));
+    table.search("");
+    $(By.id("tableForm:docTable:0:showDocument"))
+            .shouldBe(visible)
+            .click();
   }
 
   @Test
@@ -81,14 +95,14 @@ class WebTestSearchEngine {
   @Test
   void elasticsearchIndexQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "queryToolBtn");
+    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(dossierIndex, "queryToolBtn");
     assertQueryTool("GET: http://localhost:19200/" + dossierIndex + "/", "mappings", 1);
   }
 
   @Test
   void elasticsearchReindex() {
     $("reindexSearchEngineModel").shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "reindexBtn");
+    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);
     $("#reindexSearchEngineModel_title").shouldBe(text(dossierIndex));
     $("#reindexSearchEngineBtn").click();
