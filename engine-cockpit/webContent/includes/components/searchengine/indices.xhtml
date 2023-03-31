@@ -47,13 +47,15 @@
       <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 75px;">
         <h:outputText value="#{index.size}" />
       </p:column>
-      <p:column styleClass="table-btn-2">
+      <p:column styleClass="table-btn-3">
         <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="si si-monitor-heart-beat-search"
           actionListener="#{searchEngineBean.setActiveIndex(index)}" update="searchEngineQueryToolModal"
           styleClass="rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
+        <p:linkButton id="browseDocuments" title="Browse Documents" icon="si si-office-file-doc-1"
+          outcome="#{index.viewUrl}" styleClass="rounded-button" />
         <p:commandButton title="Reindex"
           icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'si-is-spinning' : ''} spin-icon"
-          styleClass="p-ml-1  ui-button-secondary rounded-button" id="reindexBtn"
+          styleClass="p-ml-1 ui-button-secondary rounded-button" id="reindexBtn"
           oncomplete="PF('reindexSearchEngineModel').show();" actionListener="#{searchEngineBean.setActiveIndex(index)}"
           update="reindexSearchEngineModel" />
       </p:column>

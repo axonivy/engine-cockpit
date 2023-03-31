@@ -219,6 +219,10 @@ body .ui-datatable .ui-datatable-header {
   text-align: right; 
   width: 75px;
 }
+.table-btn-3 {
+  text-align: right; 
+  width: 115px;
+}
 .table-btn-4 {
   text-align: right; 
   width: 150px;
