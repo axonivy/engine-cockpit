@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -25,7 +26,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
+@IvyWebTest(headless = false)
 class WebTestSearchEngine {
 
   private static final String dossierIndex = "ivy-default-businessdata-ch.ivyteam.enginecockpit.testdata.businessdata.testdatacreator$dossier";
@@ -63,6 +64,19 @@ class WebTestSearchEngine {
             .contains(dossierIndex, addressIndex);
     checkIndexValues(table, dossierIndex, "10");
     checkIndexValues(table, addressIndex, "1");
+  }
+
+  @Test
+  void elasticsearchIndex() {
+    Navigation.toSearchIndex(dossierIndex);
+    var table = new Table(By.id("tableForm:docTable"));
+    table.search("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
+    $(By.id("tableForm:docTable:0:showDocument"))
+            .shouldBe(not(exist));
+    table.search("");
+    $(By.id("tableForm:docTable:0:showDocument"))
+            .shouldBe(visible)
+            .click();
   }
 
   @Test
