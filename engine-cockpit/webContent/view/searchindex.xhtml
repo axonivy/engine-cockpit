@@ -4,11 +4,11 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <ui:composition template="../includes/template/template.xhtml">
-	<f:metadata>
+    <f:metadata>
       <f:viewParam name="index" value="#{searchIndexBean.index}" />
       <f:viewAction action="#{searchIndexBean.onload}" />
-  	</f:metadata>
-  
+    </f:metadata>
+
     <ui:define name="breadcrumb">
       <li><span>Services</span></li>
       <li>/</li>
@@ -23,21 +23,21 @@
 
     <ui:define name="content">
       <div class="card">
-      
-      	<div class="card-header">
-	      <div class="card-title p-d-flex p-ai-center">
-	        <i class="p-pr-3 si si-information-circle"></i>
-	        <h6 class="p-m-0">Search Index: #{searchIndexBean.searchIndex.name}</h6>
-	      </div>
-	    </div>
-    
+
+        <div class="card-header">
+          <div class="card-title p-d-flex p-ai-center">
+            <i class="p-pr-3 si si-information-circle"></i>
+            <h6 class="p-m-0">Search Index: #{searchIndexBean.searchIndex.name}</h6>
+          </div>
+        </div>
+
         <h:form id="tableForm">
-          <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-                       var="doc" widgetVar="docTable" value="#{searchIndexBean.dataModel}" lazy="true" styleClass="docTable" globalFilter="#{searchIndexBean.filter}"
-                       id="docTable">
+          <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="doc"
+            widgetVar="docTable" value="#{searchIndexBean.dataModel}" lazy="true" styleClass="docTable"
+            globalFilter="#{searchIndexBean.filter}" id="docTable">
             <f:facet name="header">
               <div class="flex align-items-center justify-content-between">
-                <p:inputText id="globalFilter" onkeyup="PF('docTable').filter()" style="width:100%;"  />
+                <p:inputText id="globalFilter" onkeyup="PF('docTable').filter()" style="width:100%;" />
               </div>
             </f:facet>
 
@@ -51,25 +51,24 @@
 
             <p:column styleClass="table-btn-1">
               <p:commandButton id="showDocument" title="Show document" icon="si si-office-file-doc-1"
-		         actionListener="#{searchDocBean.setDoc(doc)}" update="searchDocModal"
-		          styleClass="rounded-button" oncomplete="PF('searchDocModal').show()" />
+                actionListener="#{searchDocBean.setDoc(doc)}" update="searchDocModal" styleClass="rounded-button"
+                oncomplete="PF('searchDocModal').show()" />
             </p:column>
           </p:dataTable>
-	    </h:form>
+        </h:form>
       </div>
 
-      <p:dialog
-            style="min-width:600px;"
-            header="Document: #{searchDocBean.doc.id}" id="searchDocModal"
-            onShow="hljs.highlightBlock(document.querySelector('pre code.json'))"
-            widgetVar="searchDocModal" modal="true" responsive="true" closeOnEscape="true">
-	    <pre>
+      <p:dialog style="min-width:600px;" header="Document: #{searchDocBean.doc.id}" id="searchDocModal"
+        onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="searchDocModal" modal="true"
+        responsive="true" closeOnEscape="true">
+        <pre>
 	      <code class="json">
 	    	<h:outputText value="#{searchDocBean.doc.json}" />
 	      </code>
 	    </pre>
-  	  </p:dialog>
+      </p:dialog>
     </ui:define>
   </ui:composition>
 </h:body>
+
 </html>
