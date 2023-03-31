@@ -26,9 +26,11 @@
       </f:facet>
       
       <p:column headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}" styleClass="index-name-column">
-        <h:outputText value="#{index.name}" styleClass="index-name" style="overflow: auto">
-          <i class="si si-common-file-text table-icon"></i>
-        </h:outputText>
+        <a href="#{index.viewUrl}" class="p-d-flex p-ai-center">
+          <h:outputText value="#{index.name}" styleClass="index-name" style="overflow: auto">
+            <i class="si si-common-file-text table-icon"></i>
+          </h:outputText>
+        </a>
       </p:column>
       <p:column headerText="Index" sortBy="#{index.countIndexed}" style="text-align: center; width: 85px;">
         <h:outputText value="#{index.countIndexed}" />
@@ -47,12 +49,10 @@
       <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 75px;">
         <h:outputText value="#{index.size}" />
       </p:column>
-      <p:column styleClass="table-btn-3">
+      <p:column styleClass="table-btn-2">
         <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="si si-monitor-heart-beat-search"
           actionListener="#{searchEngineBean.setActiveIndex(index)}" update="searchEngineQueryToolModal"
           styleClass="rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
-        <p:linkButton id="browseDocuments" title="Browse Documents" icon="si si-office-file-doc-1"
-          outcome="#{index.viewUrl}" styleClass="rounded-button" />
         <p:commandButton title="Reindex"
           icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'si-is-spinning' : ''} spin-icon"
           styleClass="p-ml-1 ui-button-secondary rounded-button" id="reindexBtn"
