@@ -58,7 +58,7 @@ class WebTestSearchEngine {
 
   @Test
   void elasticsearchIndices() {
-    Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"));
+    Table table = new Table(By.id("searchEngineIndexForm:indiciesTable"), true);
     assertThat(table.getFirstColumnEntriesForSpanClass("index-name")).hasSizeGreaterThanOrEqualTo(2)
             .contains(dossierIndex, addressIndex);
     checkIndexValues(table, dossierIndex, "10");
@@ -81,14 +81,14 @@ class WebTestSearchEngine {
   @Test
   void elasticsearchIndexQueryTool() {
     $("#searchEngineQueryToolModal").shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "queryToolBtn");
+    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(dossierIndex, "queryToolBtn");
     assertQueryTool("GET: http://localhost:19200/" + dossierIndex + "/", "mappings", 1);
   }
 
   @Test
   void elasticsearchReindex() {
     $("reindexSearchEngineModel").shouldNotBe(visible);
-    new Table(By.id("searchEngineIndexForm:indiciesTable")).clickButtonForEntry(dossierIndex, "reindexBtn");
+    new Table(By.id("searchEngineIndexForm:indiciesTable"), true).clickButtonForEntry(dossierIndex, "reindexBtn");
     $("#reindexSearchEngineModel").shouldBe(visible);
     $("#reindexSearchEngineModel_title").shouldBe(text(dossierIndex));
     $("#reindexSearchEngineBtn").click();
