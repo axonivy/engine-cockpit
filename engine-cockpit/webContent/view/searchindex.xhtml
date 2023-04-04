@@ -58,8 +58,8 @@
         </h:form>
       </div>
 
-      <p:dialog style="max-width:600px;" header="Document: #{searchDocBean.doc.id}" id="searchDocModal"
-        onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="searchDocModal" modal="true"
+      <p:dialog header="Document: #{searchDocBean.doc.id}" id="searchDocModal" width="50%" modal="true"
+        onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="searchDocModal"
         responsive="true" closeOnEscape="true">
         <pre>
           <code style="overflow: auto; max-height: 500px;" class="json">
