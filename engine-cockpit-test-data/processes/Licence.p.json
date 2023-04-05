@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.1.15/schema.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.1.19/schema.json",
   "id" : "16E84204B7FE6C91",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -9,8 +9,7 @@
       "type" : "RequestStart",
       "name" : "resetLicence.ivp",
       "config" : {
-        "callSignature" : "resetLicence",
-        "outLink" : "resetLicence.ivp"
+        "signature" : "resetLicence"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
@@ -52,8 +51,7 @@
       "type" : "RequestStart",
       "name" : "addLicenceEvents.ivp",
       "config" : {
-        "callSignature" : "addLicenceEvents",
-        "outLink" : "addLicenceEvents.ivp"
+        "signature" : "addLicenceEvents"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },
@@ -112,8 +110,7 @@
       "type" : "RequestStart",
       "name" : "installLicence.ivp",
       "config" : {
-        "callSignature" : "installLicence",
-        "outLink" : "installLicence.ivp"
+        "signature" : "installLicence"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 256 },

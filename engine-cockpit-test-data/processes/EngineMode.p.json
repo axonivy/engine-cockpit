@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.1.15/schema.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.1.19/schema.json",
   "id" : "16E600A121BCA31F",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -9,8 +9,7 @@
       "type" : "RequestStart",
       "name" : "demo.ivp",
       "config" : {
-        "callSignature" : "demo",
-        "outLink" : "demo.ivp"
+        "signature" : "demo"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
@@ -48,8 +47,7 @@
       "type" : "RequestStart",
       "name" : "maintenance_invalidLicence.ivp",
       "config" : {
-        "callSignature" : "maintenance_invalidLicence",
-        "outLink" : "maintenance_invalidLicence.ivp"
+        "signature" : "maintenance_invalidLicence"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },
@@ -115,8 +113,7 @@
       "type" : "RequestStart",
       "name" : "maintenance_expiredLicence.ivp",
       "config" : {
-        "callSignature" : "maintenance_expiredLicence",
-        "outLink" : "maintenance_expiredLicence.ivp"
+        "signature" : "maintenance_expiredLicence"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 256 },
@@ -156,8 +153,7 @@
       "type" : "RequestStart",
       "name" : "maintenance_wrongSysDbVersion.ivp",
       "config" : {
-        "callSignature" : "maintenance_wrongSysDbVersion",
-        "outLink" : "maintenance_wrongSysDbVersion.ivp"
+        "signature" : "maintenance_wrongSysDbVersion"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 352 },
@@ -177,8 +173,7 @@
       "type" : "RequestStart",
       "name" : "maintenance_invalidSysDbConfig.ivp",
       "config" : {
-        "callSignature" : "maintenance_invalidSysDbConfig",
-        "outLink" : "maintenance_invalidSysDbConfig.ivp"
+        "signature" : "maintenance_invalidSysDbConfig"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 448 },
@@ -238,8 +233,7 @@
       "type" : "RequestStart",
       "name" : "maintenance_missingSysDb.ivp",
       "config" : {
-        "callSignature" : "maintenance_missingSysDb",
-        "outLink" : "maintenance_missingSysDb.ivp"
+        "signature" : "maintenance_missingSysDb"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 544 },

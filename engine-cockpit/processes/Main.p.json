@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.1.15/schema.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.1.19/schema.json",
   "id" : "01682CA38FC4E775",
   "config" : {
     "data" : "ch.ivyteam.enginecockpit.Data"
@@ -9,11 +9,12 @@
       "type" : "RequestStart",
       "name" : "cockpit.ivp",
       "config" : {
-        "callSignature" : "cockpit",
-        "outLink" : "cockpit.ivp",
-        "startCustomFields" : [
-          { "name" : "embedInFrame", "value" : "false" }
-        ]
+        "signature" : "cockpit",
+        "request" : {
+          "customFields" : [
+            { "name" : "embedInFrame", "value" : "false" }
+          ]
+        }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
@@ -36,11 +37,12 @@
       "type" : "RequestStart",
       "name" : "setup.ivp",
       "config" : {
-        "callSignature" : "setup",
-        "outLink" : "setup.ivp",
-        "startCustomFields" : [
-          { "name" : "embedInFrame", "value" : "false" }
-        ]
+        "signature" : "setup",
+        "request" : {
+          "customFields" : [
+            { "name" : "embedInFrame", "value" : "false" }
+          ]
+        }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },

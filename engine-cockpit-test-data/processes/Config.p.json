@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.1.15/schema.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.1.19/schema.json",
   "id" : "16E881C7DC458C7D",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -9,8 +9,7 @@
       "type" : "RequestStart",
       "name" : "cleanupAdmins.ivp",
       "config" : {
-        "callSignature" : "cleanupAdmins",
-        "outLink" : "cleanupAdmins.ivp"
+        "signature" : "cleanupAdmins"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
@@ -30,8 +29,7 @@
       "type" : "RequestStart",
       "name" : "cleanupConnectors.ivp",
       "config" : {
-        "callSignature" : "cleanupConnectors",
-        "outLink" : "cleanupConnectors.ivp"
+        "signature" : "cleanupConnectors"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },
@@ -97,8 +95,7 @@
       "type" : "RequestStart",
       "name" : "cleanupSystemDb.ivp",
       "config" : {
-        "callSignature" : "cleanupSystemDb",
-        "outLink" : "cleanupSystemDb.ivp"
+        "signature" : "cleanupSystemDb"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 256 },
@@ -148,8 +145,7 @@
       "type" : "RequestStart",
       "name" : "cleanupDataDirs.ivp",
       "config" : {
-        "callSignature" : "cleanupDataDirs",
-        "outLink" : "cleanupDataDirs.ivp"
+        "signature" : "cleanupDataDirs"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 352 },
@@ -169,8 +165,7 @@
       "type" : "RequestStart",
       "name" : "disableRestServlet.ivp",
       "config" : {
-        "callSignature" : "disableRestServlet",
-        "outLink" : "disableRestServlet.ivp"
+        "signature" : "disableRestServlet"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 432 }
@@ -207,8 +202,7 @@
       "type" : "RequestStart",
       "name" : "enableRestServlet.ivp",
       "config" : {
-        "callSignature" : "enableRestServlet",
-        "outLink" : "enableRestServlet.ivp"
+        "signature" : "enableRestServlet"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 512 }

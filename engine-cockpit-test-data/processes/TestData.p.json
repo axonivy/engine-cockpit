@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.1.15/schema.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.1.19/schema.json",
   "id" : "16E88DD61E825E70",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -9,8 +9,7 @@
       "type" : "RequestStart",
       "name" : "addAdministrator.ivp",
       "config" : {
-        "callSignature" : "addAdministrator",
-        "outLink" : "addAdministrator.ivp"
+        "signature" : "addAdministrator"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
@@ -30,8 +29,7 @@
       "type" : "RequestStart",
       "name" : "createBusinessCalendar.ivp",
       "config" : {
-        "callSignature" : "createBusinessCalendar",
-        "outLink" : "createBusinessCalendar.ivp"
+        "signature" : "createBusinessCalendar"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },
@@ -88,8 +86,7 @@
       "type" : "RequestStart",
       "name" : "createBusinessData.ivp",
       "config" : {
-        "callSignature" : "createBusinessData",
-        "outLink" : "createBusinessData.ivp"
+        "signature" : "createBusinessData"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 256 },
@@ -177,8 +174,7 @@
       "type" : "RequestStart",
       "name" : "runDbExecution.ivp",
       "config" : {
-        "callSignature" : "runDbExecution",
-        "outLink" : "runDbExecution.ivp"
+        "signature" : "runDbExecution"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 352 },
@@ -220,8 +216,7 @@
       "type" : "RequestStart",
       "name" : "createDisabledUser.ivp",
       "config" : {
-        "callSignature" : "createDisabledUser",
-        "outLink" : "createDisabledUser.ivp"
+        "signature" : "createDisabledUser"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 560 },
@@ -259,8 +254,7 @@
       "type" : "RequestStart",
       "name" : "createManyDynamicRoles.ivp",
       "config" : {
-        "callSignature" : "createManyDynamicRoles",
-        "outLink" : "createManyDynamicRoles.ivp"
+        "signature" : "createManyDynamicRoles"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 672 },
@@ -291,8 +285,7 @@
       "type" : "RequestStart",
       "name" : "executeRest.ivp",
       "config" : {
-        "callSignature" : "executeRest",
-        "outLink" : "executeRest.ivp"
+        "signature" : "executeRest"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 864 },
@@ -305,8 +298,10 @@
       "id" : "f35",
       "type" : "RestClientCall",
       "config" : {
-        "path" : "/store/inventory",
-        "clientId" : "2fb1152a-d43a-4840-b798-81ce34cef104"
+        "target" : {
+          "clientId" : "2fb1152a-d43a-4840-b798-81ce34cef104",
+          "path" : "/store/inventory"
+        }
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 864 }
@@ -325,8 +320,7 @@
       "type" : "RequestStart",
       "name" : "executeWebService.ivp",
       "config" : {
-        "callSignature" : "executeWebService",
-        "outLink" : "executeWebService.ivp"
+        "signature" : "executeWebService"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 960 },
@@ -340,8 +334,10 @@
       "type" : "WebServiceCall",
       "config" : {
         "clientId" : "16AB1778C1FA54E5",
-        "port" : "SampleWebServiceSoap",
-        "operation" : "HelloWorld"
+        "operation" : {
+          "name" : "HelloWorld",
+          "port" : "SampleWebServiceSoap"
+        }
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 960 }
@@ -360,8 +356,7 @@
       "type" : "RequestStart",
       "name" : "cleanupDynamicRoles.ivp",
       "config" : {
-        "callSignature" : "cleanupDynamicRoles",
-        "outLink" : "cleanupDynamicRoles.ivp"
+        "signature" : "cleanupDynamicRoles"
       },
       "visual" : {
         "at" : { "x" : 448, "y" : 672 },
@@ -398,9 +393,10 @@
       "type" : "RequestStart",
       "name" : "create200kUsers.ivp",
       "config" : {
-        "callSignature" : "create200kUsers",
-        "outLink" : "create200kUsers.ivp",
-        "startName" : "create200kUsers"
+        "signature" : "create200kUsers",
+        "request" : {
+          "name" : "create200kUsers"
+        }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 768 },
@@ -437,9 +433,10 @@
       "type" : "RequestStart",
       "name" : "cleanup200kUsers.ivp",
       "config" : {
-        "callSignature" : "cleanup200kUsers",
-        "outLink" : "cleanup200kUsers.ivp",
-        "startName" : "cleanup200kUsers"
+        "signature" : "cleanup200kUsers",
+        "request" : {
+          "name" : "cleanup200kUsers"
+        }
       },
       "visual" : {
         "at" : { "x" : 448, "y" : 768 },

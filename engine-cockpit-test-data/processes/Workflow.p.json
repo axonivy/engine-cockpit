@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.1.15/schema.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.1.19/schema.json",
   "id" : "17D57ADFD804B24E",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -39,8 +39,7 @@
       "type" : "RequestStart",
       "name" : "destroyRunningCase.ivp",
       "config" : {
-        "callSignature" : "destroyRunningCase",
-        "outLink" : "destroyRunningCase.ivp"
+        "signature" : "destroyRunningCase"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 },
@@ -60,8 +59,7 @@
       "type" : "RequestStart",
       "name" : "runningCase.ivp",
       "config" : {
-        "callSignature" : "runningCase",
-        "outLink" : "runningCase.ivp"
+        "signature" : "runningCase"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
