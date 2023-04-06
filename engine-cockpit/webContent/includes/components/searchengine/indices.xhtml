@@ -49,15 +49,20 @@
       <p:column headerText="Size" sortBy="#{index.size}" style="text-align: center; width: 75px;">
         <h:outputText value="#{index.size}" />
       </p:column>
-      <p:column styleClass="table-btn-2">
+      <p:column headerText="Reindexing" sortBy="#{index.countIndexing}" style="text-align: center; width: 175px;">
+        <div style="text-align: #{searchEngineBean.renderIndexingCount(index) ? 'right' : 'center'};">
+          <h:outputText value="#{index.countIndexing} (#{index.percentIndexed}%)" rendered="#{searchEngineBean.renderIndexingCount(index)}"/>
+          <p:commandButton title="Reindex"
+            icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'si-is-spinning' : ''} spin-icon"
+            styleClass="p-ml-1 ui-button-secondary rounded-button" id="reindexBtn"
+            oncomplete="PF('reindexSearchEngineModel').show();" actionListener="#{searchEngineBean.setActiveIndex(index)}"
+            update="reindexSearchEngineModel" />
+        </div>
+      </p:column>
+      <p:column style="width: 50px;">
         <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="si si-monitor-heart-beat-search"
           actionListener="#{searchEngineBean.setActiveIndex(index)}" update="searchEngineQueryToolModal"
           styleClass="rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
-        <p:commandButton title="Reindex"
-          icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'si-is-spinning' : ''} spin-icon"
-          styleClass="p-ml-1 ui-button-secondary rounded-button" id="reindexBtn"
-          oncomplete="PF('reindexSearchEngineModel').show();" actionListener="#{searchEngineBean.setActiveIndex(index)}"
-          update="reindexSearchEngineModel" />
       </p:column>
     </p:dataTable>
     <p:poll widgetVar="reindexPoller" autoStart="#{searchEngineBean.isReindexing()}" interval="2" update="@form" />

@@ -35,6 +35,15 @@ public class SearchEngineIndex {
     return info.indexCount();
   }
 
+  public long getCountIndexing() {
+    return info.reindexingCount();
+  }
+
+  public double getPercentIndexed() {
+    var percent = info.reindexingCount() * 100.0 / info.storeCount();
+    return Math.round(percent * 10.0) / 10.0;
+  }
+
   public long getCountStored() {
     return info.storeCount();
   }
