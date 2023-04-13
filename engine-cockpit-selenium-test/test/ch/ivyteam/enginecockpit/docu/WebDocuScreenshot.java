@@ -103,6 +103,8 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-traffic-graph", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toThreads();
     takeScreenshot("monitor-threads", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toJfr();
+    takeScreenshot("monitor-jfr", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toSessions();
     takeScreenshot("monitor-sessions", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toJobs();

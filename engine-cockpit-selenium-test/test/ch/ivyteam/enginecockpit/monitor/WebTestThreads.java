@@ -22,7 +22,7 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless = false)
+@IvyWebTest
 public class WebTestThreads {
 
   private static final Duration TWENTY_SECONDS = Duration.ofSeconds(20);
