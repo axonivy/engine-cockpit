@@ -15,7 +15,7 @@
       </ui:define>
   
       <ui:define name="topbar-items">
-        <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#thread" />
+        <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#threads" />
       </ui:define>
   
       <ui:define name="content">
@@ -63,7 +63,7 @@
                 <p:column headerText="Priority" sortBy="#{thread.priority}" width="5%">
                   <h:outputText value="#{thread.priority}"/>
                 </p:column>
-                <p:column headerText="Cpu Time" sortBy="#{thread.cpuTime}" width="20%">
+                <p:column headerText="CPU Time" sortBy="#{thread.cpuTime}" width="20%">
                   <div style="background: #{thread.cpuTimeBackground};">
                     <h:outputText styleClass="gradient-text" value="#{thread.cpuTime}"/>
                   </div>
@@ -107,7 +107,7 @@
               <p:outputPanel id="stackTrace" styleClass="code">#{threadBean.selected.stackTrace}</p:outputPanel>  
             </p:panelGrid>
             <div class="custom-dialog-footer">
-              <p:commandButton id="cancel" type="button" onclick="PF('threadDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="close" type="button" onclick="PF('threadDialog').hide();" value="Close" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
             </div>
           </h:form>
         </p:dialog>

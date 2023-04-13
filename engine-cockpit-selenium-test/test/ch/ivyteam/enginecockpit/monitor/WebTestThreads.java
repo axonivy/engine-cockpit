@@ -69,7 +69,7 @@ public class WebTestThreads {
   void openDetails() {
     $(getFirstColumnElement()).shouldBe(visible, enabled).click();
     $("#threadDialog").shouldBe(visible);
-    $("#thread\\:cancel").shouldBe(visible, enabled).click();
+    $("#thread\\:close").shouldBe(visible, enabled).click();
     $("#threadDialog").shouldNotBe(visible);
   }
 
