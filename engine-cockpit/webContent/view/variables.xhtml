@@ -28,9 +28,6 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si-archive-folder card-title-icon"></i>
           <h2 class="p-m-0">Variables</h2>
-          <p:commandButton id="newVariableBtn" value="New" icon="si si-add"
-            actionListener="#{variableBean.setActiveConfig(null)}" styleClass="p-ml-auto"
-            update="apps" oncomplete="PF('newConfigurationModal').show();" />
         </div>
         <cc:ApplicationTabs tabChange="#{variableBean.reloadVariables}" id="apps">
           <cc:Configuration bean="#{variableBean}" dialogTitle="variable" id="config" showContentFilter="false" />
