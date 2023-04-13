@@ -163,36 +163,6 @@
       </div>
     </h:form>
   </p:dialog>
-
-  <p:dialog style="min-width: 400px;" header="New #{cc.attrs.dialogTitle}" id="newConfigurationModal" appendTo="@(body)"
-    widgetVar="newConfigurationModal" modal="true" responsive="true" closeOnEscape="true">
-    <h:form id="newConfigurationForm" styleClass="custom-dialog-form">
-      <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
-        styleClass="grey-label-panel ui-fluid">
-        <p:outputLabel for="newConfigurationKey" value="Key" />
-        <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="newConfigurationKey" required="true" requiredMessage="Value is required"
-            value="#{cc.attrs.bean.activeConfig.key}" />
-          <p:message for="newConfigurationKey" id="newConfigurationKeyMessage" />
-        </h:panelGroup>
-
-        <p:outputLabel for="newConfigurationValue" value="Value" />
-        <h:panelGroup styleClass="md-inputfield">
-          <p:inputText id="newConfigurationValue" value="#{cc.attrs.bean.activeConfig.value}" required="true"
-            requiredMessage="Value is required" />
-          <p:message for="newConfigurationValue" id="newConfigurationValueMessage" />
-        </h:panelGroup>
-      </p:panelGrid>
-      <div class="custom-dialog-footer">
-        <p:commandButton id="cancelNewConfiguration" onclick="PF('newConfigurationModal').hide()" value="Cancel"
-          type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
-        <p:commandButton id="saveNewConfiguration" validateClient="true" process="newConfigurationForm"
-          update=":#{cc.clientId}:form:configTable, @form" actionListener="#{cc.attrs.bean.saveConfig}" value="Save"
-          icon="si si-floppy-disk" styleClass="modal-input-button" onsuccess="PF('newConfigurationModal').hide()" />
-      </div>
-    </h:form>
-  </p:dialog>
-
 </cc:implementation>
 
 </html>

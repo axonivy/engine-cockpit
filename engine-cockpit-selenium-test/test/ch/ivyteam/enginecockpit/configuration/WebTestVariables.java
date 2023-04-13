@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
@@ -51,28 +50,6 @@ public class WebTestVariables {
     assertVariable(variable, "", false);
     resetVariable(variable);
     assertVariable(variable, "hello", true);
-  }
-
-  @Test
-  void testNewEditResetVariable() {
-    var table = variableTable();
-    var entryCount = table.getFirstColumnEntries().size();
-    $(By.id("newVariableBtn")).click();
-
-    String name = "aName";
-    String value = "aValue";
-    createNewVariable(name, value);
-
-    table.firstColumnShouldBe(size(entryCount + 1));
-    assertVariable(name, value, false);
-
-    String newValue = "aNewValue";
-    editVariable(name, newValue, value);
-
-    assertVariable(name, newValue, false);
-    resetVariable(name);
-
-    table.firstColumnShouldBe(size(entryCount));
   }
 
   @Test
@@ -131,34 +108,6 @@ public class WebTestVariables {
     String config = "variable";
     variableTable().clickButtonForEntry(config, "editConfigBtn");
     assertThatConfigEditModalIsVisible(config, "hello", "test variable");
-  }
-
-  @Test
-  void testNewValidation() {
-    $(By.id("newVariableBtn")).click();
-
-    $(By.id(activeTabPanel() + "config:newConfigurationModal")).shouldBe(visible);
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:newConfigurationKey")).shouldBe(exactValue(""));
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:newConfigurationValue")).shouldBe(exactValue(""));
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:saveNewConfiguration")).click();
-
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:newConfigurationKeyMessage"))
-            .shouldBe(exactText("Value is required"));
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:newConfigurationValueMessage")).shouldBe(visible,
-            exactText("Value is required"));
-
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:cancelNewConfiguration")).click();
-    $(By.id(activeTabPanel() + "config:newConfigurationModal")).shouldNotBe(visible);
-  }
-
-  private void createNewVariable(String name, String value) {
-    $(By.id(activeTabPanel() + "config:newConfigurationModal")).shouldBe(visible);
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:newConfigurationKey")).shouldBe(exactValue(""))
-            .sendKeys(name);
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:newConfigurationValue")).shouldBe(exactValue(""))
-            .sendKeys(value);
-    $(By.id(activeTabPanel() + "config:newConfigurationForm:saveNewConfiguration")).click();
-    $("#msgs_container").shouldHave(text(name), text("saved"));
   }
 
   private void resetVariable(String name) {

@@ -112,22 +112,6 @@ class WebTestConfiguration {
     }
 
     @Test
-    void newConfigInvalid() {
-      $("#newConfigBtn").click();
-      assertNewConfigInvalid();
-    }
-
-    @Test
-    void newEditAndResetConfig() {
-      String key = "testKey";
-      String value = "testValue";
-      $("#newConfigBtn").click();
-      assertNewConfig(key, value);
-      assertEditConfig(key, value, "newValue", "");
-      assertResetConfig(key);
-    }
-
-    @Test
     void updateConfig() {
       var config = "EMail.Server.EncryptionMethod";
       table.firstColumnShouldBe(sizeGreaterThan(0));
@@ -265,29 +249,8 @@ class WebTestConfiguration {
     }
 
     @Test
-    void newConfigInvalid() {
-      $("#newConfigBtn").click();
-      assertNewConfigInvalid();
-    }
-
-    @Test
-    void newEditAndResetConfig() {
-      var key = "testKey";
-      var value = "testValue";
-      $("#newConfigBtn").click();
-      assertNewConfig(key, value);
-      assertEditConfig(key, value, "newValue", "");
-      assertResetConfig(key);
-    }
-
-    @Test
     void overrideProject_pmvSelector() {
       var config = "OverrideProject";
-      var value = "notMyLibrary";
-
-      $("#newConfigBtn").click();
-      assertNewConfig(config, value);
-
       table.clickButtonForEntry(config, "editConfigBtn");
       assertThatConfigEditModalIsVisible(config, " ", "Defines a project containing overriding SubProcesses", "");
       $(By.id("config:editConfigurationForm:editConfigurationValue"))
@@ -349,16 +312,6 @@ class WebTestConfiguration {
     $(".code-block").shouldHave(text(key));
   }
 
-  private void assertNewConfigInvalid() {
-    $("#config\\:newConfigurationModal").shouldBe(visible);
-    $("#config\\:newConfigurationForm\\:newConfigurationKey").shouldBe(exactValue(""));
-    $("#config\\:newConfigurationForm\\:saveNewConfiguration").click();
-    $("#config\\:newConfigurationForm\\:newConfigurationKeyMessage").shouldBe(visible,
-            exactText("Value is required"));
-    $("#config\\:newConfigurationForm\\:newConfigurationValueMessage").shouldBe(visible,
-            exactText("Value is required"));
-  }
-
   private void assertResetConfig(String key) {
     table.clickButtonForEntry(key, "tasksButton");
     table.buttonMenuForEntryShouldBeVisible(key, "activityMenu");
@@ -367,16 +320,6 @@ class WebTestConfiguration {
 
     $("#config\\:resetConfigConfirmForm\\:resetConfigConfirmYesBtn").click();
     $("#config\\:form\\:msgs_container").shouldHave(text(key), text("reset"));
-  }
-
-  private void assertNewConfig(String key, String value) {
-    $("#config\\:newConfigurationModal").shouldBe(visible);
-
-    $("#config\\:newConfigurationForm\\:newConfigurationKey").sendKeys(key);
-    $("#config\\:newConfigurationForm\\:newConfigurationValue").sendKeys(value);
-    $("#config\\:newConfigurationForm\\:saveNewConfiguration").click();
-    $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
-    table.valueForEntryShould(key, 2, exactText(value));
   }
 
   private void assertEditConfig(String key, String value, String newValue, String desc) {
