@@ -52,6 +52,7 @@ public class Navigation {
   private static final String MONITOR_PERFORMANCE_TRACES_MENU = "#menuform\\:sr_monitor_performance_traces";
   private static final String MONITOR_PERFORMANCE_TRAFFIC_GRAPH = "#menuform\\:sr_monitor_performance_traffic_graph";
   private static final String MONITOR_PERFORMANCE_THREADS = "#menuform\\:sr_monitor_performance_threads";
+  private static final String MONITOR_PERFORMANCE_JFR = "#menuform\\:sr_monitor_performance_jfr";
 
   public static void toDashboard() {
     toMenu(DASHBOARD_MENU);
@@ -342,6 +343,9 @@ public class Navigation {
     toSubSubMenu(MONITOR_MENU, MONITOR_PERFORMANCE_MENU, MONITOR_PERFORMANCE_THREADS);
   }
 
+  public static void toJfr() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_PERFORMANCE_MENU, MONITOR_PERFORMANCE_JFR);
+  }
 
   private static void toMenu(String menuItemPath) {
     $(menuItemPath).find("a").scrollIntoView(false).click();
