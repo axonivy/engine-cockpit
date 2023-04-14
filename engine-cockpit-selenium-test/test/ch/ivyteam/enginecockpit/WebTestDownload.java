@@ -1,13 +1,17 @@
 package ch.ivyteam.enginecockpit;
 
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openqa.selenium.By.id;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -87,5 +91,15 @@ public class WebTestDownload {
     $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download();
     $(By.id("msgs_container")).shouldHave(text("No branding resources found for app 'test-ad'"));
   }
+  
+  @Test
+  void dumpButton() throws IOException {
+    Navigation.toThreads();
+    var dump = $(id("form:dump"))
+        .shouldBe(visible, enabled)
+        .download();
 
+    String content = Files.readString(dump.toPath());
+    assertThat(content).contains("Full thread dump OpenJDK 64-Bit Server VM");
+  }
 }
