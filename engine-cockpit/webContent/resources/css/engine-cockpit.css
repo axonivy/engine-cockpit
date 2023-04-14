@@ -120,6 +120,12 @@ body .user-avatar > img {
   overflow: auto;
   max-height: 500px;
 }
+.code {
+  font-family: monospace !important;
+  white-space: pre;
+  overflow: auto;
+  max-height: 200px;
+}
 .ui-dialog .ui-dialog-content .custom-dialog-form {
   height: 100%;
   display: flex;
@@ -268,8 +274,12 @@ body .ui-datatable .ui-datatable-header {
 .state-active,
 .activity-state-active,
 .search-machine-state-true,
-.search-machine-health-green {
+.search-machine-health-green,
+.thread-runnable {
   color: var(--success-color, #2aa483);
+}
+.thread-waiting {
+  color: var(--primary-color);
 }
 .state-unknown,
 .activity-state-locked,
@@ -281,7 +291,8 @@ body .ui-datatable .ui-datatable-header {
 .activity-state-error,
 .search-machine-state-false,
 .search-machine-health-red,
-.licence-messages i.error {
+.licence-messages i.error, 
+.thread-deadlocked {
   color: var(--error-color, #d23636);
 }
 .table-icon.search-machine-health-unknown,
@@ -476,7 +487,6 @@ body .ui-datatable .ui-datatable-header {
   color: var(--ivy-primary-text-color);
   border-radius: 2px;
 }
-
 .migration-question-select-button {
   display: flex;
 }
