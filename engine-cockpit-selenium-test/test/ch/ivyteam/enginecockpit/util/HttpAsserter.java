@@ -46,7 +46,7 @@ public class HttpAsserter {
 
       currentDepth += 1;
       for (var link : linksFound) {
-        if (link.contains("faces/view/engine-cockpit")) {
+        if (link.contains("/faces/") && link.contains("/engine-cockpit/")) {
           assertThat(link).hasNoDeadLinks(maxDepth, currentDepth, crawled, checked, sessionId);
         }
       }
