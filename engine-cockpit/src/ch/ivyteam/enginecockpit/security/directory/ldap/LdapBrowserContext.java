@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.security.ldapbrowser;
+package ch.ivyteam.enginecockpit.security.directory.ldap;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +16,7 @@ import javax.naming.ldap.Rdn;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.commons.Property;
+import ch.ivyteam.enginecockpit.security.directory.Property;
 import ch.ivyteam.ivy.security.identity.jndi.JndiContextUtil;
 import ch.ivyteam.naming.JndiConfig;
 import ch.ivyteam.naming.JndiUtil;
@@ -61,23 +61,21 @@ class LdapBrowserContext implements AutoCloseable {
         var displayName = toDisplayName(childName);
         children.add(createLdapNode(displayName, fqChildName));
       }
-
       return children.stream()
               .sorted(Comparator.comparing(LdapBrowserNode::getDisplayName, String.CASE_INSENSITIVE_ORDER))
               .collect(Collectors.toList());
-    }
-    finally {
+    } finally {
       list.close();
     }
   }
 
   String toDisplayName(Name childName) {
-    List<Rdn> rdns = new ArrayList<>(((LdapName)childName).getRdns());
+    List<Rdn> rdns = new ArrayList<>(((LdapName) childName).getRdns());
     Collections.reverse(rdns);
     return rdns
-        .stream()
-        .map(LdapBrowserContext::toDisplayName)
-        .collect(Collectors.joining(","));
+            .stream()
+            .map(LdapBrowserContext::toDisplayName)
+            .collect(Collectors.joining(","));
   }
 
   private static String toDisplayName(Rdn rdn) {
@@ -98,8 +96,7 @@ class LdapBrowserContext implements AutoCloseable {
       return attributeList.stream()
               .sorted(Comparator.comparing(Property::getName, String.CASE_INSENSITIVE_ORDER))
               .collect(Collectors.toList());
-    }
-    finally {
+    } finally {
       attrs.close();
     }
   }
@@ -120,8 +117,10 @@ class LdapBrowserContext implements AutoCloseable {
   }
 
   Name parse(String name) throws NamingException {
-    name = StringUtils.unwrap(name, "\""); // If name contains a forward slash it is quoted.
-    name = name.replace("/", "\\2F"); // For Active Directory forward slash needs to be encoded too!
+    name = StringUtils.unwrap(name, "\""); // If name contains a forward slash
+                                           // it is quoted.
+    name = name.replace("/", "\\2F"); // For Active Directory forward slash
+                                      // needs to be encoded too!
     return context.getNameParser(name).parse(name);
   }
 }
