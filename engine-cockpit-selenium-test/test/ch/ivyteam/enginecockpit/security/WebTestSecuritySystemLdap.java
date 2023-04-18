@@ -162,9 +162,13 @@ public class WebTestSecuritySystemLdap {
     $(URL).clear();
     $(URL).sendKeys("ldap://test-ad.ivyteam.io2");
     saveConnection();
-    openLdapBrowserWithConnError();
-    $(URL).clear();
-    $(URL).sendKeys("ldap://test-ad.ivyteam.io");
+    try {
+      openLdapBrowserWithConnError();
+    } finally {
+      $(URL).clear();
+      $(URL).sendKeys("ldap://test-ad.ivyteam.io");
+      saveConnection();
+    }
     $(USERNAME).clear();
     $(USERNAME).sendKeys("bla");
     saveConnection();
@@ -285,9 +289,13 @@ public class WebTestSecuritySystemLdap {
       $(URL).clear();
       $(URL).sendKeys("ldap://test-edirectory.ivyteam.io2");
       saveConnection();
-      openLdapBrowserWithConnError();
-      $(URL).clear();
-      $(URL).sendKeys("ldap://test-edirectory.ivyteam.io:389");
+      try {
+        openLdapBrowserWithConnError();
+      } finally {
+        $(URL).clear();
+        $(URL).sendKeys("ldap://test-edirectory.ivyteam.io:389");
+        saveConnection();
+      }
       $(USERNAME).clear();
       $(USERNAME).sendKeys("bla");
       saveConnection();
@@ -387,8 +395,11 @@ public class WebTestSecuritySystemLdap {
 
   private void openLdapBrowserWithConnError() {
     openDefaultLdapBrowser();
-    $(LDAP_BROWSER_FORM + "ldapBrowserMessage").shouldBe(visible).shouldNotBe(empty);
-    $(LDAP_BROWSER_CHOOSE).shouldBe(disabled);
-    $(LDAP_BROWSER_CANCEL).click();
+    try {
+      $(LDAP_BROWSER_FORM + "ldapBrowserMessage").shouldBe(visible).shouldNotBe(empty);
+      $(LDAP_BROWSER_CHOOSE).shouldBe(disabled);
+    } finally {
+      $(LDAP_BROWSER_CANCEL).click();
+    }
   }
 }

@@ -20,10 +20,13 @@ public class DirectoryBrowserBean {
   private DirectoryBrowser directory;
 
   public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue) {
+    this.root = null;
     this.directory = new LdapBrowser(config, enableInsecureSsl);
-    this.root = new DefaultTreeNode<DirectoryNode>(null, null);
     Object selectValue = directory.selectValue(initialValue);
-    directory.select(selectValue).forEach(node -> addNewSubnode(root, node, selectValue));
+    if (selectValue != null) {
+      this.root = new DefaultTreeNode<DirectoryNode>(null, null);
+      directory.select(selectValue).forEach(node -> addNewSubnode(root, node, selectValue));
+    }
   }
 
   @SuppressWarnings("unchecked")
