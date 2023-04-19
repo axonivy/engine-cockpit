@@ -30,10 +30,10 @@ public class DirectoryBrowserBean {
     this.directory = new LdapBrowser(config, enableInsecureSsl);
     try {
       Object selectValue = directory.selectValue(initialValue);
-      if (selectValue != null) {
+      //if (selectValue != null) {
         this.root = new DefaultTreeNode<DirectoryNode>(null, null);
         directory.select(selectValue).forEach(node -> addNewSubnode(root, node, selectValue));
-      }
+      //}
     } catch (Exception ex) {
       errorMessage(ex);
     }
@@ -58,10 +58,10 @@ public class DirectoryBrowserBean {
   @SuppressWarnings("unused")
   private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode ldapNode, Object initialValue) {
     var node = new DefaultTreeNode<>(ldapNode, parent);
-    if (ldapNode.startsWith(initialValue)) {
+    if (initialValue != null && ldapNode.startsWith(initialValue)) {
       if (Objects.equals(initialValue, ldapNode.getValue())) {
         node.setSelected(true);
-        setSelectedNode(node);
+        node.setExpanded(true);
       } else {
         node.setExpanded(true);
         loadChildren(node, initialValue);

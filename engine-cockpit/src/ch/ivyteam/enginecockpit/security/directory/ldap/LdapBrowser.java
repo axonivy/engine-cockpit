@@ -47,8 +47,7 @@ public class LdapBrowser implements DirectoryBrowser {
     }
   }
 
-  private static Name parseInitialName(LdapBrowserContext context, String initialValue)
-          throws NamingException {
+  private static Name parseInitialName(LdapBrowserContext context, String initialValue) throws NamingException {
     if (StringUtils.isBlank(initialValue)) {
       return null;
     }
