@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.io.FileUtil;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.config.IFileAccess;
+import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
 
 @SuppressWarnings("restriction")
 public class UrlUtil {
@@ -46,6 +47,11 @@ public class UrlUtil {
   }
 
   public static Path getLogFile(String logFile) {
+    if (logFile.startsWith("elasticsearch")) {
+      logFile = StringUtils.substringAfter(logFile, "elasticsearch");
+      var esClusterName = IElasticsearchManager.instance().info().clusterName();
+      return getElasticsearchLogDir().resolve(esClusterName + logFile);
+    }
     return getLogDir().resolve(logFile);
   }
 
@@ -55,5 +61,13 @@ public class UrlUtil {
 
   public static Path getLogDir() {
     return FileUtil.getWorkingDirectory().toPath().resolve("logs");
+  }
+
+  public static Path getElasticsearchLogDir() {
+    var elasticsearchDir = Path.of(FileUtil.getWorkingDirectory().getAbsolutePath(), "elasticsearch");
+    if (elasticsearchDir.toFile().exists()) {
+      return Path.of(elasticsearchDir.toString(), "logs");
+    }
+    return null;
   }
 }
