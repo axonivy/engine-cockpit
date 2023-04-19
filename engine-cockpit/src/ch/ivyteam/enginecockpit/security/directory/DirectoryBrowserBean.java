@@ -3,15 +3,21 @@ package ch.ivyteam.enginecockpit.security.directory;
 import java.util.List;
 import java.util.Objects;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.security.directory.ldap.LdapBrowser;
+import ch.ivyteam.log.Logger;
 import ch.ivyteam.naming.JndiConfig;
 
 public class DirectoryBrowserBean {
 
+  private final static Logger LOGGER = Logger.getLogger(DirectoryBrowserBean.class);
   public static final String DEFAULT_CONTEXT = "defaultContext";
   public static final String IMPORT_USERS_OF_GROUP = "importUsersOfGroup";
   private TreeNode<DirectoryNode> root;
@@ -22,10 +28,14 @@ public class DirectoryBrowserBean {
   public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue) {
     this.root = null;
     this.directory = new LdapBrowser(config, enableInsecureSsl);
-    Object selectValue = directory.selectValue(initialValue);
-    if (selectValue != null) {
-      this.root = new DefaultTreeNode<DirectoryNode>(null, null);
-      directory.select(selectValue).forEach(node -> addNewSubnode(root, node, selectValue));
+    try {
+      Object selectValue = directory.selectValue(initialValue);
+      if (selectValue != null) {
+        this.root = new DefaultTreeNode<DirectoryNode>(null, null);
+        directory.select(selectValue).forEach(node -> addNewSubnode(root, node, selectValue));
+      }
+    } catch (Exception ex) {
+      errorMessage(ex);
     }
   }
 
@@ -37,8 +47,12 @@ public class DirectoryBrowserBean {
   }
 
   private void loadChildren(TreeNode<DirectoryNode> node, Object initialValue) {
-    directory.loadChildren(node.getData(), initialValue)
-            .forEach(child -> addNewSubnode(node, child, initialValue));
+    try {
+      directory.loadChildren(node.getData(), initialValue)
+              .forEach(child -> addNewSubnode(node, child, initialValue));
+    } catch (Exception ex) {
+      errorMessage(ex);
+    }
   }
 
   @SuppressWarnings("unused")
@@ -68,8 +82,12 @@ public class DirectoryBrowserBean {
 
   public void setSelectedNode(TreeNode<DirectoryNode> selectedNode) {
     this.selectedNode = selectedNode;
-    if (selectedNode != null) {
-      selectedNodeAttributes = directory.getNodeAttributes(selectedNode.getData());
+    try {
+      if (selectedNode != null) {
+        selectedNodeAttributes = directory.getNodeAttributes(selectedNode.getData());
+      }
+    } catch (Exception ex) {
+      errorMessage(ex);
     }
   }
 
@@ -90,5 +108,15 @@ public class DirectoryBrowserBean {
 
   public List<Property> getSelectedNodeProperties() {
     return selectedNodeAttributes;
+  }
+
+  private void errorMessage(Exception ex) {
+    LOGGER.error("Error in LDAP call", ex);
+    var message = ex.getMessage();
+    if (StringUtils.contains(message, "AcceptSecurityContext")) {
+      message = "There seems to be a problem with your credentials.";
+    }
+    FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage",
+            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
   }
 }
