@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.system.ElasticsearchConfig;
 import ch.ivyteam.io.FileUtil;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.config.IFileAccess;
-import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
 
 @SuppressWarnings("restriction")
 public class UrlUtil {
@@ -20,7 +20,6 @@ public class UrlUtil {
           Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
   private static final String ENGINE_GUIDE_URL_PATTERN = "@engine.guide.url@";
   private static final String DESIGNER_GUIDE_URL_PATTERN = "@designer.guide.url@";
-  public static final String ELASTICSEARCH = "elasticsearch";
 
   public static String getEngineGuideBaseUrl() {
     return Advisor.instance().getDocBaseUrl() + "/engine-guide";
@@ -48,10 +47,8 @@ public class UrlUtil {
   }
 
   public static Path getLogFile(String logFile) {
-    if (logFile.startsWith(ELASTICSEARCH)) {
-      logFile = StringUtils.substringAfter(logFile, ELASTICSEARCH);
-      var esClusterName = IElasticsearchManager.instance().info().clusterName();
-      return getElasticsearchLogDir().resolve(esClusterName + logFile);
+    if (logFile.startsWith(ElasticsearchConfig.ELASTICSEARCH)) {
+      ElasticsearchConfig.getLogFile(logFile);
     }
     return getLogDir().resolve(logFile);
   }
@@ -62,13 +59,5 @@ public class UrlUtil {
 
   public static Path getLogDir() {
     return FileUtil.getWorkingDirectory().toPath().resolve("logs");
-  }
-
-  public static Path getElasticsearchLogDir() {
-    var elasticsearchDir = Path.of(FileUtil.getWorkingDirectory().getAbsolutePath(), ELASTICSEARCH);
-    if (elasticsearchDir.toFile().exists()) {
-      return elasticsearchDir.resolve("logs");
-    }
-    return null;
   }
 }

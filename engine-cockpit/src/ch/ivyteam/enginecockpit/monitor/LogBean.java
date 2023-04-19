@@ -20,6 +20,7 @@ import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.monitor.model.LogView;
+import ch.ivyteam.enginecockpit.system.ElasticsearchConfig;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
@@ -58,11 +59,11 @@ public class LogBean implements AllResourcesDownload {
 
   private Stream<LogView> getElasticsearchLogs() throws IOException {
     var clusterName = IElasticsearchManager.instance().info().clusterName();
-    return getLogFiles(UrlUtil.getElasticsearchLogDir())
+    return getLogFiles(ElasticsearchConfig.getLogDir())
             .map(Path::getFileName)
             .map(Path::toString)
             .filter(log -> log.startsWith(clusterName))
-            .map(log -> new LogView(UrlUtil.ELASTICSEARCH + log.substring(clusterName.length()), date));
+            .map(log -> new LogView(ElasticsearchConfig.ELASTICSEARCH + log.substring(clusterName.length()), date));
   }
 
   private Stream<LogView> getIvyLogs() throws IOException {
