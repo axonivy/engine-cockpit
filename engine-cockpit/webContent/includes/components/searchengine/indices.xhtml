@@ -30,6 +30,9 @@
           <h:outputText value="#{index.name}" styleClass="index-name" style="overflow: auto">
             <i class="si si-common-file-text table-icon"></i>
           </h:outputText>
+          <h:outputText styleClass="p-ml-2 addition-row-info"
+            value="[Reindexing: #{index.countIndexing} (#{index.percentIndexed}%)]"
+            rendered="#{searchEngineBean.renderIndexingCount(index)}"/>
         </a>
       </p:column>
       <p:column headerText="Index" sortBy="#{index.countIndexed}" style="text-align: center; width: 85px;">
