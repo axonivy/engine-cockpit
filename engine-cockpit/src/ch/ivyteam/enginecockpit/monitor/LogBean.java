@@ -47,7 +47,7 @@ public class LogBean implements AllResourcesDownload {
   private void initLogFiles() {
     try {
       logs = Stream.concat(
-        getLogs(UrlUtil.getLogDir().toRealPath()),
+        getIvyLogs(),
         getElasticsearchLogs()
       ).toList();
     } catch (IOException ex) {
@@ -60,12 +60,14 @@ public class LogBean implements AllResourcesDownload {
     var clusterName = IElasticsearchManager.instance().info().clusterName();
     return getLogFiles(UrlUtil.getElasticsearchLogDir())
             .map(Path::getFileName)
-            .filter(log -> log.toString().startsWith(clusterName))
-            .map(log -> new LogView("elasticsearch" + log.getFileName().toString().substring(clusterName.length()), date));
+            .map(Path::toString)
+            .filter(log -> log.startsWith(clusterName))
+            .map(log -> new LogView(UrlUtil.ELASTICSEARCH + log.substring(clusterName.length()), date));
   }
 
-  private Stream<LogView> getLogs(Path path) throws IOException {
-    return getLogFiles(path).map(log -> new LogView(log.getFileName().toString(), date));
+  private Stream<LogView> getIvyLogs() throws IOException {
+    return getLogFiles(UrlUtil.getLogDir().toRealPath())
+            .map(log -> new LogView(log.getFileName().toString(), date));
 }
 
   private Stream<Path> getLogFiles(Path path) throws IOException {

@@ -20,6 +20,7 @@ public class UrlUtil {
           Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
   private static final String ENGINE_GUIDE_URL_PATTERN = "@engine.guide.url@";
   private static final String DESIGNER_GUIDE_URL_PATTERN = "@designer.guide.url@";
+  public static final String ELASTICSEARCH = "elasticsearch";
 
   public static String getEngineGuideBaseUrl() {
     return Advisor.instance().getDocBaseUrl() + "/engine-guide";
@@ -47,8 +48,8 @@ public class UrlUtil {
   }
 
   public static Path getLogFile(String logFile) {
-    if (logFile.startsWith("elasticsearch")) {
-      logFile = StringUtils.substringAfter(logFile, "elasticsearch");
+    if (logFile.startsWith(ELASTICSEARCH)) {
+      logFile = StringUtils.substringAfter(logFile, ELASTICSEARCH);
       var esClusterName = IElasticsearchManager.instance().info().clusterName();
       return getElasticsearchLogDir().resolve(esClusterName + logFile);
     }
@@ -64,9 +65,9 @@ public class UrlUtil {
   }
 
   public static Path getElasticsearchLogDir() {
-    var elasticsearchDir = Path.of(FileUtil.getWorkingDirectory().getAbsolutePath(), "elasticsearch");
+    var elasticsearchDir = Path.of(FileUtil.getWorkingDirectory().getAbsolutePath(), ELASTICSEARCH);
     if (elasticsearchDir.toFile().exists()) {
-      return Path.of(elasticsearchDir.toString(), "logs");
+      return elasticsearchDir.resolve("logs");
     }
     return null;
   }
