@@ -45,7 +45,7 @@ public class DirectoryBrowserBean {
 
   private void loadChildren(TreeNode<DirectoryNode> node, Object initialValue) {
     try {
-      directory.loadChildren(node.getData(), initialValue)
+      directory.children(node.getData())
               .forEach(child -> addNewSubnode(node, child, initialValue));
     } catch (Exception ex) {
       errorMessage(ex);

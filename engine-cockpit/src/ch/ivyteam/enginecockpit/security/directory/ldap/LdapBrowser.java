@@ -55,8 +55,8 @@ public class LdapBrowser implements DirectoryBrowser {
   }
 
   @Override
-  public List<? extends DirectoryNode> loadChildren(DirectoryNode node, Object initialValue) {
-    if (node.getValue() instanceof Name name && (initialValue == null || initialValue instanceof Name init)) {
+  public List<? extends DirectoryNode> children(DirectoryNode node) {
+    if (node.getValue() instanceof Name name) {
       try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
         return context.children(name);
       } catch (NamingException ex) {
