@@ -25,9 +25,9 @@ import ch.ivyteam.enginecockpit.system.model.SystemDbConnectionProperty;
 import ch.ivyteam.enginecockpit.system.model.SystemDbCreationParameter;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
-import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseConverter;
-import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseCreator;
-import ch.ivyteam.ivy.server.configuration.system.db.SystemDatabaseSetup;
+import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseConverter;
+import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseCreator;
+import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseSetup;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.ivy.server.restricted.MaintenanceReason;
 
