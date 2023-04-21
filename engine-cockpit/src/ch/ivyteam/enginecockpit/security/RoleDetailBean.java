@@ -27,6 +27,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.query.UserQuery;
 import ch.ivyteam.ivy.security.role.NewRole;
+import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.TaskState;
 import ch.ivyteam.ivy.workflow.query.TaskQuery;
 
@@ -97,11 +98,12 @@ public class RoleDetailBean {
     loadMembersOfRole();
     userCount = securityContext.users().query().where().hasRoleAssigned(iRole).executor().count();
     userInheritCont = securityContext.users().query().where().hasRole(iRole).executor().count();
-    runningTaskCount = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+    var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
+    runningTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.RESUMED)
             .or().state().isEqual(TaskState.PARKED)
             .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
-    directTaskCount = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+    directTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.SUSPENDED)
             .or().state().isEqual(TaskState.RESUMED)
             .or().state().isEqual(TaskState.PARKED)
