@@ -26,10 +26,11 @@ public class DirectoryBrowserBean {
   private DirectoryBrowser directory;
 
   public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue) {
-    this.root = new DefaultTreeNode<DirectoryNode>(null, null);
+    this.root = null;
     this.directory = new LdapBrowser(config, enableInsecureSsl);
     try {
       Object selectValue = directory.selectValue(initialValue);
+      this.root = new DefaultTreeNode<DirectoryNode>(null, null);
       directory.root().forEach(node -> addNewSubnode(root, node, selectValue));
     } catch (Exception ex) {
       errorMessage(ex);
