@@ -115,6 +115,10 @@ public class SearchEngineBean {
     }
   }
 
+  public boolean renderIndexingCount(SearchEngineIndex index) {
+    return searchEngine.isReindexing(index.getIndexName()) && index.getCountIndexing() > 0 && index.getCountIndexing() < index.getCountStored();
+  }
+
   public void reindex() {
     searchEngine.reindex(activeIndex.getIndexName());
   }
