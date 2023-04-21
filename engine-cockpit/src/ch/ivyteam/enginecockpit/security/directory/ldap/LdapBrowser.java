@@ -24,7 +24,7 @@ public class LdapBrowser implements DirectoryBrowser {
   }
 
   @Override
-  public List<? extends DirectoryNode> select(Object initialValue) {
+  public List<? extends DirectoryNode> root() {
     try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
       var name = jndiConfig.getDefaultContextName();
       if (name.isEmpty()) {
