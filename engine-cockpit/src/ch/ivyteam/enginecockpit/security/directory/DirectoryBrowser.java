@@ -7,6 +7,5 @@ public interface DirectoryBrowser {
   List<? extends DirectoryNode> root();
   List<? extends DirectoryNode> children(DirectoryNode node);
 
-  Object selectValue(String initialValue);
   List<Property> getNodeAttributes(DirectoryNode node);
 }

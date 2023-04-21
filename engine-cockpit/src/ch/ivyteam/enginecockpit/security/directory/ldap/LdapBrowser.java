@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security.directory.ldap;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.naming.Name;
@@ -38,15 +37,6 @@ public class LdapBrowser implements DirectoryBrowser {
     }
   }
 
-  @Override
-  public Object selectValue(String initialValue) {
-    try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
-      return parseInitialName(context, initialValue);
-    } catch (NamingException ex) {
-      throw new RuntimeException(ex);
-    }
-  }
-
   private static Name parseInitialName(LdapBrowserContext context, String initialValue) throws NamingException {
     if (StringUtils.isBlank(initialValue)) {
       return null;
@@ -56,25 +46,21 @@ public class LdapBrowser implements DirectoryBrowser {
 
   @Override
   public List<? extends DirectoryNode> children(DirectoryNode node) {
-    if (node.getValue() instanceof Name name) {
-      try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
-        return context.children(name);
-      } catch (NamingException ex) {
-        throw new RuntimeException(ex);
-      }
+    try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
+      var name = parseInitialName(context, node.getId());
+      return context.children(name);
+    } catch (NamingException ex) {
+      throw new RuntimeException(ex);
     }
-    return List.of();
   }
 
   @Override
   public List<Property> getNodeAttributes(DirectoryNode node) {
-    if (node.getValue() instanceof Name name) {
       try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
+    	var name = parseInitialName(context, node.getId());
         return context.getAttributes(name);
       } catch (NamingException ex) {
         throw new RuntimeException(ex);
       }
-    }
-    return Collections.emptyList();
   }
 }

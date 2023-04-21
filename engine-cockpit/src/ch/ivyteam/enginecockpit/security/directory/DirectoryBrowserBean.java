@@ -25,13 +25,12 @@ public class DirectoryBrowserBean {
   private List<Property> selectedNodeAttributes;
   private DirectoryBrowser directory;
 
-  public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue) {
+  public void browse(JndiConfig config, boolean enableInsecureSsl, String idToSelect) {
     this.root = null;
     this.directory = new LdapBrowser(config, enableInsecureSsl);
     try {
-      Object selectValue = directory.selectValue(initialValue);
       this.root = new DefaultTreeNode<DirectoryNode>(null, null);
-      directory.root().forEach(node -> addNewSubnode(root, node, selectValue));
+      directory.root().forEach(node -> addNewSubnode(root, node, idToSelect));
     } catch (Exception ex) {
       errorMessage(ex);
     }
@@ -44,29 +43,29 @@ public class DirectoryBrowserBean {
     loadChildren(node, null);
   }
 
-  private void loadChildren(TreeNode<DirectoryNode> node, Object initialValue) {
+  private void loadChildren(TreeNode<DirectoryNode> node, String idToSelect) {
     try {
       directory.children(node.getData())
-              .forEach(child -> addNewSubnode(node, child, initialValue));
+              .forEach(child -> addNewSubnode(node, child, idToSelect));
     } catch (Exception ex) {
       errorMessage(ex);
     }
   }
 
   @SuppressWarnings("unused")
-  private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode ldapNode, Object initialValue) {
-    var node = new DefaultTreeNode<>(ldapNode, parent);
-    if (initialValue != null && ldapNode.startsWith(initialValue)) {
-      if (Objects.equals(initialValue, ldapNode.getValue())) {
-        node.setSelected(true);
-        node.setExpanded(true);
+  private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode node, String idToSelect) {
+    var treeNode = new DefaultTreeNode<>(node, parent);
+    if (idToSelect != null && idToSelect.startsWith(node.getId())) {
+      if (Objects.equals(idToSelect, node.getId())) {
+        treeNode.setSelected(true);
+        treeNode.setExpanded(true);
       } else {
-        node.setExpanded(true);
-        loadChildren(node, initialValue);
+        treeNode.setExpanded(true);
+        loadChildren(treeNode, idToSelect);
       }
     }
-    if (ldapNode.isExpandable() && !node.isExpanded()) {
-      new DefaultTreeNode<>("loading...", node);
+    if (node.isExpandable() && !treeNode.isExpanded()) {
+      new DefaultTreeNode<>("loading...", treeNode);
     }
   }
 
@@ -90,18 +89,10 @@ public class DirectoryBrowserBean {
   }
 
   public String getSelectedNameString() {
-    var name = getSelectedName();
-    if (name == null) {
-      return null;
-    }
-    return name.toString();
-  }
-
-  private Object getSelectedName() {
     if (selectedNode == null) {
       return null;
     }
-    return selectedNode.getData().getValue();
+    return selectedNode.getData().getId();
   }
 
   public List<Property> getSelectedNodeProperties() {

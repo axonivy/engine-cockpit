@@ -72,8 +72,8 @@ public class LdapBrowserNode implements DirectoryNode {
   }
 
   @Override
-  public Name getValue() {
-    return name;
+  public String getId() {
+    return name.toString();
   }
 
   @Override
@@ -89,14 +89,6 @@ public class LdapBrowserNode implements DirectoryNode {
   @Override
   public String getDisplayName() {
     return displayName;
-  }
-
-  @Override
-  public boolean startsWith(Object value) {
-    if (value instanceof Name init) {
-      return init != null && init.startsWith(name);
-    }
-    return false;
   }
 
   @Override
