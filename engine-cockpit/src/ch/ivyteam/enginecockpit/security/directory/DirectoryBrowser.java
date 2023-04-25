@@ -8,4 +8,6 @@ public interface DirectoryBrowser {
   List<? extends DirectoryNode> children(DirectoryNode node);
 
   List<Property> getNodeAttributes(DirectoryNode node);
+  
+  boolean isSubNode(DirectoryNode node, String id);
 }

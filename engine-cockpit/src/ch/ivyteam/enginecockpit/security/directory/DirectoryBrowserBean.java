@@ -12,6 +12,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import ch.ivyteam.enginecockpit.security.directory.ldap.LdapBrowser;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.log.Logger;
 import ch.ivyteam.naming.JndiConfig;
 
@@ -26,6 +27,7 @@ public class DirectoryBrowserBean {
   private DirectoryBrowser directory;
 
   public void browse(JndiConfig config, boolean enableInsecureSsl, String idToSelect) {
+	  Ivy.log().info("broser");
     this.root = null;
     this.directory = new LdapBrowser(config, enableInsecureSsl);
     try {
@@ -52,10 +54,9 @@ public class DirectoryBrowserBean {
     }
   }
 
-  @SuppressWarnings("unused")
   private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode node, String idToSelect) {
     var treeNode = new DefaultTreeNode<>(node, parent);
-    if (idToSelect != null && idToSelect.startsWith(node.getId())) {
+    if (idToSelect != null && directory.isSubNode(node, idToSelect)) {
       if (Objects.equals(idToSelect, node.getId())) {
         treeNode.setSelected(true);
         treeNode.setExpanded(true);

@@ -32,7 +32,7 @@ public class LdapBrowserNode implements DirectoryNode {
     var expandable = !ICON_GROUP.equals(icon) && !ICON_USER.equals(icon);
     return new LdapBrowserNode(displayName, name, expandable, icon);
   }
-
+  
   private static String evalIconFor(LdapContext context, Name name) {
     if (name.isEmpty()) {
       return ICON_DEFAULT;

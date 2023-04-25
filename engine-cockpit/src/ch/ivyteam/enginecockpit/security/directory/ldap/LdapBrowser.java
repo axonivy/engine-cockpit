@@ -37,6 +37,17 @@ public class LdapBrowser implements DirectoryBrowser {
     }
   }
 
+  @Override
+	public boolean isSubNode(DirectoryNode node, String id) {
+	  try (var context = new LdapBrowserContext(jndiConfig, insecureSsl)) {
+	      var name = parseInitialName(context, id);
+	      var name2 = parseInitialName(context, node.getId());
+	      return name.startsWith(name2);
+	    } catch (NamingException ex) {
+	      throw new RuntimeException(ex);
+	    }
+	}
+  
   private static Name parseInitialName(LdapBrowserContext context, String initialValue) throws NamingException {
     if (StringUtils.isBlank(initialValue)) {
       return null;
