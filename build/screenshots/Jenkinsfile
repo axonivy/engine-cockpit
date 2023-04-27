@@ -18,28 +18,32 @@ pipeline {
       steps {
         script {
           def common = load 'build/build.groovy'
-          def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
-          common.buildScreenshots(phase, getScreenshotRefBranch(), getImageSimilarity())
+          def isReleaseOrMasterBranch = common.isReleaseOrMasterBranch()
+          def mvnArgs = "-Dref.screenshot.build='${getScreenshotRefBranch(isReleaseOrMasterBranch)}' " + 
+              "-Dimg.similarity=${getImageSimilarity(isReleaseOrMasterBranch)} " + 
+              "-Pscreenshots "
+          common.build(mvnArgs);
+
+          archiveArtifacts '**/target/docu/**/*, **/target/*.html'
+          recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
+          qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+          currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
         }
       }
     }
   }
 }
 
-def getScreenshotRefBranch() {
-  if (isReleaseOrMasterBranch()) {
+def getScreenshotRefBranch(isReleaseOrMasterBranch) {
+  if (isReleaseOrMasterBranch && currentBuild.previousSuccessfulBuild != null) {
     return env.BRANCH_NAME.replace('/', '%252F')
   }
-  return 'master'.replace('/', '%252F')
+  return 'master'
 }
 
-def getImageSimilarity() {
-  if (isReleaseOrMasterBranch()) {
+def getImageSimilarity(isReleaseOrMasterBranch) {
+  if (isReleaseOrMasterBranch) {
     return '97'
   }
   return '95'
-}
-
-def isReleaseOrMasterBranch() {
-  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/')
 }

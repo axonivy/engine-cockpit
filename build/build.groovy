@@ -1,21 +1,4 @@
-def buildCockpit(def phase = 'verify', def testFilter = '') {
-  def mvnArgs = "-Dtest.filter=${testFilter} -Dmaven.test.failure.ignore=true "
-  build(phase, mvnArgs, 'cockpit');
-
-  archiveArtifacts '**/target/*.iar, **/target/*.jar'
-}
-
-def buildScreenshots(def phase = 'verify', def imgRefBranch = 'master', def imgSimilarity= '97') {
-  def mvnArgs = "-Dref.screenshot.build='${imgRefBranch}' -Dimg.similarity=${imgSimilarity} "
-  build(phase, mvnArgs, 'screenshots');
-
-  archiveArtifacts '**/target/docu/**/*, **/target/*.html'
-  recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
-  qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
-  currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
-}
-
-def build(def phase = 'verify', def mvnArgs = '', def profile = 'cockpit') {
+def build(def mvnArgs = '') {
   withCredentials([string(credentialsId: 'github.ivy-team.token', variable: 'GITHUB_TOKEN')]) {
     def random = (new Random()).nextInt(10000000)
     def networkName = "build-" + random
@@ -25,8 +8,9 @@ def build(def phase = 'verify', def mvnArgs = '', def profile = 'cockpit') {
     try {
       sh "docker network create ${networkName}"
       docker.image('mysql:5').withRun("-e \"MYSQL_ROOT_PASSWORD=1234\" -e \"MYSQL_DATABASE=test\" --name ${dbName} --network ${networkName}") {
-        docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} ${dockerFileParams()}") {
+        docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} --shm-size 1g --hostname=ivy") {
           docker.build('maven', '-f build/Dockerfile .').inside("--name ${ivyName} --network ${networkName}") {
+            def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
             maven cmd: "clean ${phase} -ntp " +
                 "-Divy.engine.version='[10.0.0,]' " +
                 "-Dwdm.gitHubTokenName=ivy-team " +
@@ -36,7 +20,6 @@ def build(def phase = 'verify', def mvnArgs = '', def profile = 'cockpit') {
                 "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                 "-Ddb.host=${dbName} " + 
                 "-Dmaven.test.skip=false " +
-                "-P${profile} " +
                 mvnArgs
 
             recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
@@ -55,8 +38,8 @@ def build(def phase = 'verify', def mvnArgs = '', def profile = 'cockpit') {
   }
 }
 
-def dockerFileParams() {
-  return '--shm-size 1g --hostname=ivy';
+def isReleaseOrMasterBranch() {
+  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
 }
 
 return this
