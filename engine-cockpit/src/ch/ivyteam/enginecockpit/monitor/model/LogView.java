@@ -4,51 +4,39 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.input.ReversedLinesFileReader;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.log.provider.LogFile;
 
 public class LogView implements Comparable<LogView> {
-  private Path file;
-  private String fileName;
+  private LogFile logFile;
   private String content;
-  private boolean downloadEnabled = false;
   private long size;
   private boolean endReached = true;
   private String date;
 
-  public LogView(String logName, Date date) {
-    fileName = logName;
-    this.date = new SimpleDateFormat("MM-dd-yyyy").format(date);
-    if (DateUtils.isSameDay(date, Calendar.getInstance().getTime())) {
-      file = UrlUtil.getLogFile(logName);
+  public LogView(LogFile log) {
+    logFile = log;
+    if (log.isLog()) {
       content = readContent();
     } else {
-      var name = StringUtils.removeEnd(logName, ".log");
-      file = UrlUtil.getLogFile(name + "-" + this.date + ".log.gz");
-      content = readFile(() -> "Logfile '" + file.getFileName().toString() + "' is compressed.");
+      content = readFile(() -> "Logfile '" + log.name() + "' is compressed.");
     }
     readFileMetadata();
   }
 
   private void readFileMetadata() {
     try {
-      BasicFileAttributes fileMeta = Files.readAttributes(file, BasicFileAttributes.class);
+      BasicFileAttributes fileMeta = Files.readAttributes(logFile.path(), BasicFileAttributes.class);
       size = fileMeta.size() / 1000;
     } catch (IOException e) {
       size = 0;
@@ -56,30 +44,26 @@ public class LogView implements Comparable<LogView> {
   }
 
   public String getFileName() {
-    return fileName;
+    return logFile.name();
   }
 
   private String readContent() {
     return readFile(() -> {
       List<String> lines = readFileLines();
       if (lines.isEmpty()) {
-        return "Logfile '" + file.getFileName().toString() + "' is empty.";
+        return "Logfile '" + logFile.name() + "' is empty.";
       }
       return lines.stream().collect(Collectors.joining("\n"));
     });
   }
 
   private String readFile(Supplier<String> readContent) {
-    if (!Files.exists(file)) {
-      return "Logfile '" + file.getFileName().toString() + "' doesn't exist.";
-    }
-    downloadEnabled = true;
     return readContent.get();
   }
 
   private List<String> readFileLines() {
     List<String> lines = new ArrayList<>();
-    try (ReversedLinesFileReader reader = new ReversedLinesFileReader(file.toFile(), StandardCharsets.UTF_8)) {
+    try (ReversedLinesFileReader reader = new ReversedLinesFileReader(logFile.path(), StandardCharsets.UTF_8)) {
       String line = reader.readLine();
       int count = 0;
       while (line != null && count < 1000) {
@@ -100,10 +84,6 @@ public class LogView implements Comparable<LogView> {
     return content;
   }
 
-  public boolean isDownloadEnabled() {
-    return downloadEnabled;
-  }
-
   public long getSize() {
     return size;
   }
@@ -117,18 +97,18 @@ public class LogView implements Comparable<LogView> {
   }
 
   public StreamedContent getFile() throws IOException {
-    InputStream newInputStream = Files.newInputStream(file);
+    InputStream newInputStream = Files.newInputStream(logFile.path());
     return DefaultStreamedContent
         .builder()
         .stream(() -> newInputStream)
         .contentType("text/plain")
-        .name(file.getFileName().toString())
+        .name(logFile.name())
         .build();
   }
 
   @Override
   public int compareTo(LogView other) {
-    return fileName.compareTo(other.getFileName());
+    return logFile.name().compareTo(other.getFileName());
   }
 
 }

@@ -48,6 +48,9 @@
                 <cc:LogView log="#{log}" id="logView" />
               </div>
             </p:repeat>
+            <h:outputText rendered="#{empty logBean.logs}">
+              <p:staticMessage id="noLogsMessage" severity="warn" detail="No logs found on date: #{logBean.date}" />
+            </h:outputText>
           </h:panelGroup>
         </div>
       </div>
