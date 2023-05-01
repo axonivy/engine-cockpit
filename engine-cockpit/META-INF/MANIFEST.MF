@@ -2,6 +2,5 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: engine-cockpit
 Bundle-SymbolicName: engine-cockpit
-Bundle-Version: 8.0.0.qualifier
-Require-Bundle: ch.ivyteam.ivy.server.configuration;bundle-version="8.0.0"
+Bundle-Version: 11.1.0.qualifier
 Automatic-Module-Name: engine-cockpit
