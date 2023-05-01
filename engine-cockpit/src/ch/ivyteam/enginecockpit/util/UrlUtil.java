@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.io.FileUtil;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.config.IFileAccess;
 
@@ -45,15 +44,7 @@ public class UrlUtil {
     return text;
   }
 
-  public static Path getLogFile(String logFile) {
-    return getLogDir().resolve(logFile);
-  }
-
   public static Path getConfigFile(String configFile) {
     return IFileAccess.instance().getConfigFile(configFile);
-  }
-
-  public static Path getLogDir() {
-    return FileUtil.getWorkingDirectory().toPath().resolve("logs");
   }
 }

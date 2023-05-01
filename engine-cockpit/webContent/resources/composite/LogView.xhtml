@@ -18,7 +18,7 @@
     <f:facet name="actions">
       <h:form id="fileForm">
         <p:commandLink id="showLog" ajax="false" title="Download Log File" 
-          styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" rendered="#{cc.attrs.log.downloadEnabled}">
+          styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
           <i class="si si-download-bottom"></i>
           <p:fileDownload value="#{cc.attrs.log.file}" />
         </p:commandLink>
