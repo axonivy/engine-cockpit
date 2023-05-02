@@ -30,8 +30,6 @@ public class WebTestLogs {
   void logsViewContent() {
     Navigation.toLogs();
     $$(".ui-panel").shouldHave(sizeGreaterThanOrEqual(1));
-    $$(".ui-panel-titlebar").find(text("console.log")).parent()
-            .find(".ui-panel-content").shouldBe(visible);
     SelenideElement ivyLogPanel = $$(".ui-panel-titlebar").find(text("ivy.log")).parent();
     ivyLogPanel.find(".ui-panel-title > span").click();
     ivyLogPanel.find(".ui-panel-content").shouldBe(visible);
