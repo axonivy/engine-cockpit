@@ -17,8 +17,7 @@ import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.ApplicationConfigurationDumper;
 import ch.ivyteam.ivy.error.restricted.ErrorReport;
-import ch.ivyteam.ivy.log.provider.LogFile;
-import ch.ivyteam.ivy.log.provider.LogProvider;
+import ch.ivyteam.ivy.log.provider.LogFileRepository;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.restricted.PersistencyDumper;
 import ch.ivyteam.log.Logger;
@@ -56,9 +55,7 @@ public class SupportBean {
   private Path collectReportData(String errorReport) throws IOException {
     var tempDirectory = Files.createTempDirectory("SupportReport");
     Files.writeString(Files.createFile(tempDirectory.resolve("report.txt")), errorReport);
-    LogProvider.all().stream()
-      .flatMap(l -> l.logs().stream())
-      .filter(LogFile::isLog)
+    LogFileRepository.instance().all()
       .forEach(log -> copyLogFile(log.path(), tempDirectory));
     return tempDirectory;
   }

@@ -16,8 +16,8 @@ import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.monitor.model.LogView;
+import ch.ivyteam.ivy.log.provider.LogFileRepository;
 import ch.ivyteam.ivy.log.provider.LogFileZipper;
-import ch.ivyteam.ivy.log.provider.LogProvider;
 
 @ManagedBean
 @ViewScoped
@@ -40,11 +40,8 @@ public class LogBean implements AllResourcesDownload {
   }
 
   private void initLogFiles() {
-    logs = LogProvider.all().stream()
-            .flatMap(t -> t.logs().stream())
-            .filter(l -> l.date().isEqual(date))
+    logs = LogFileRepository.instance().byDate(date)
             .map(log -> new LogView(log))
-            .sorted()
             .toList();
   }
 
