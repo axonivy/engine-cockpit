@@ -19,19 +19,22 @@ import ch.ivyteam.ivy.log.provider.LogFile;
 
 public class LogView implements Comparable<LogView> {
   private LogFile logFile;
-  private String content;
+  private final String content;
   private long size;
   private boolean endReached = true;
   private String date;
 
   public LogView(LogFile log) {
     logFile = log;
-    if (log.isLog()) {
-      content = readContent();
-    } else {
-      content = readFile(() -> "Logfile '" + log.name() + "' is compressed.");
-    }
+    content = readContent(log);
     readFileMetadata();
+  }
+
+  private String readContent(LogFile log) {
+    if (log.isCompressed()) {
+      return readFile(() -> "Logfile '" + log.name() + "' is compressed.");
+    }
+    return readContent();
   }
 
   private void readFileMetadata() {
