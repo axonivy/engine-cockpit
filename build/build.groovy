@@ -12,7 +12,7 @@ def build(def mvnArgs = '') {
           docker.build('maven', '-f build/Dockerfile .').inside("--name ${ivyName} --network ${networkName}") {
             def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
             maven cmd: "clean ${phase} -ntp " +
-                "-Divy.engine.version='[10.0.0,]' " +
+                "-Divy.engine.version='[11.1.0,11.2.0)' " +
                 "-Dwdm.gitHubTokenName=ivy-team " +
                 "-Dwdm.gitHubTokenSecret=${env.GITHUB_TOKEN} " +
                 "-Dengine.page.url=${params.engineSource} " +
