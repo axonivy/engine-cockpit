@@ -49,7 +49,7 @@ public class SupportBean {
     var dumpers = ErrorReport.addStandardDumpers(false,
             new ApplicationConfigurationDumper(IApplicationRepository.instance()),
             new PersistencyDumper(systemDbService));
-    return ErrorReport.createErrorReport(dumpers);
+    return ErrorReport.createErrorReport(null, dumpers);
   }
 
   private Path collectReportData(String errorReport) throws IOException {
