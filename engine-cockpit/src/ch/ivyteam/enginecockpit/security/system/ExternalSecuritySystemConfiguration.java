@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.Map;
 
-import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryDefaults;
@@ -21,15 +20,6 @@ public class ExternalSecuritySystemConfiguration {
   }
 
   public boolean getDefaultBooleanValue(String key) {
-    if (ConfigKey.ON_SCHEDULE_ENABLED.equals(key)){
-      return true;
-    }
-    if (ConfigKey.ON_SCHEDULE_IMPORT_USERS.equals(key)) {
-      return true;
-    }
-    if (ConfigKey.SYNCH_ON_LOGIN.equals(key)) {
-      return true;
-    }
     var s = getDefaultValue(key);
     return Boolean.parseBoolean(s);
   }
