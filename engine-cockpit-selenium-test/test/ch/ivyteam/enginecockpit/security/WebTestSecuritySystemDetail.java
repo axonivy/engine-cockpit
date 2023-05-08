@@ -159,7 +159,7 @@ public class WebTestSecuritySystemDetail {
 
   @Test
   void invalidAndValidonScheduleTimes() {
-    $(SYNC_TIME).shouldBe(exactValue(""));
+    $(SYNC_TIME).shouldBe(exactValue("00:00"));
     $(SYNC_TIME).shouldBe(attribute("placeholder", "00:00"));
     $(SYNC_TIME_MESSAGE).shouldNotBe(visible);
 
