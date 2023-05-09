@@ -15,17 +15,17 @@
         <h6 class="p-m-0">Identity Provider</h6>
         
         <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtn" rendered="#{securityProviderBean.notJndiAndNotIvySecuritySystem}"
-            styleClass="p-col-fixed p-ml-auto rounded-button" outcome="security-provider">
+            styleClass="p-ml-auto rounded-button" outcome="security-provider">
           <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
         </p:linkButton>
        
         <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtnJndi" rendered="#{securityProviderBean.jndiSecuritySystem}"
-            styleClass="p-col-fixed p-ml-auto rounded-button" outcome="security-ldap">
+            styleClass="p-ml-auto rounded-button" outcome="security-ldap">
           <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
         </p:linkButton>
 
         <p:commandButton title="Save" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm" actionListener="#{securityProviderBean.saveProvider}" 
-            styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'p-col-fixed p-ml-auto'} p-ml-1 ui-button-success rounded-button"/>
+            styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'p-ml-auto'} p-ml-1 ui-button-success rounded-button"/>
       </div>
     </div>
 
