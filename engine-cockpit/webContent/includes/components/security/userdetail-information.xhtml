@@ -20,8 +20,8 @@
             styleClass="p-col-fixed p-ml-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} ui-button-warning rounded-button"
             icon="si si-delete" update="userInformationForm"  rendered="#{userDetailBean.isUserEnabled()}" />
           <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
-            icon="si si-check-circle-1" styleClass="p-col-fixed p-ml-auto rounded-button" rendered="#{userDetailBean.isUserDisabled()}"
-            update="userInformationForm" />
+            styleClass="p-col-fixed p-ml-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} rounded-button" 
+            icon="si si-check-circle-1" update="userInformationForm" rendered="#{userDetailBean.isUserDisabled()}" />
           <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()"
             title="Delete this user" icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
           <p:confirmDialog id="deleteUserConfirmDialog" header="Delete User" severity="alert"
