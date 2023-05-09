@@ -14,9 +14,9 @@
         <h6 class="p-m-0">Search Engine information</h6>
         <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="si si-monitor-heart-beat-search"
           update="searchEngineQueryToolModal" actionListener="#{searchEngineBean.setActiveIndex(null)}"
-          styleClass="p-col-fixed p-ml-auto rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
+          styleClass="p-ml-auto rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
         <p:linkButton id="configSearchEngine" title="Configure Search Engine" icon="si si-cog" type="button"
-          styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=ElasticSearch" />
+          styleClass="p-ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=ElasticSearch" />
       </div>
     </div>
     <p:panelGrid columns="2" columnClasses="p-col-3, p-col-9" layout="flex"
