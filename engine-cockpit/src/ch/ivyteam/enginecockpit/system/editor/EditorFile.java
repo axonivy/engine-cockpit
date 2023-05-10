@@ -18,7 +18,7 @@ public class EditorFile {
   }
 
   public String getVarName() {
-    var fileName = FilenameUtils.getBaseName(config.name());
+    var fileName = FilenameUtils.removeExtension(config.name());
     fileName = StringUtils.replace(fileName, "-", "_");
     return StringUtils.replace(fileName, "/", "_");
   }

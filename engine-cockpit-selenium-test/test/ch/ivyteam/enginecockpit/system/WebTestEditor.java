@@ -37,6 +37,7 @@ class WebTestEditor {
   @Test
   void editor() {
     assertThat(Tab.APP.getCount()).isGreaterThan(1);
+    Tab.APP.switchToTab("ivy.yaml");
     String ivyYamlHints = $(yamlHintsSelector()).shouldNotBe(empty).getAttribute("value");
     $(editorContentSelector()).shouldNotHave(attribute("value", ""));
     Tab.APP.switchToTab("demo-portal/app.yaml");
