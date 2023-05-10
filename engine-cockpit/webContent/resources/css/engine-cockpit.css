@@ -308,12 +308,15 @@ body .ui-datatable .ui-datatable-header {
   width: 100%;
 }
 
-/* Yaml Editor */
+/* Config File Editor */
 .editor-card {
   margin-bottom: 0;
   height: calc(100vh - 250px);
+  border-top-style: solid;
+  border-color: lightgray;
+  border-width: 2px;
 }
-.editor-card .yaml-editor {
+.editor-card .config-file-editor {
   width: 100%;
 }
 .editor-card .CodeMirror.cm-s-dark,

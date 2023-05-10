@@ -6,6 +6,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.PrimeFaces;
+
+import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 
 @ManagedBean
@@ -24,6 +27,29 @@ public class EditorBean {
     return configFiles;
   }
 
+  public List<EditorFile> completeFiles(String query) {
+    String queryLowerCase = query.toLowerCase();
+    return configFiles.stream()
+            .filter(file -> file.getFileName().toLowerCase().contains(queryLowerCase))
+            .toList();
+  }
+
+  public void onload() {
+    if (selectedFile == null) {
+      activeConfigFile = configFiles.get(0);
+    } else {
+      activeConfigFile = configFiles.stream()
+            .filter(f -> f.getFileName().equalsIgnoreCase(selectedFile))
+            .findFirst()
+            .orElse(null);
+    }
+    if (activeConfigFile == null) {
+      ResponseHelper.notFound("Config File '" + selectedFile + "' not found");
+      return;
+    }
+    PrimeFaces.current().executeScript("handleAutocompleteSelection()");
+  }
+
   public EditorFile getActiveConfigFile() {
     return activeConfigFile;
   }
@@ -32,24 +58,11 @@ public class EditorBean {
     this.activeConfigFile = activeConfigFile;
   }
 
-  public int getTabIndex() {
-    var configFile = configFiles.stream()
-            .filter(f -> f.getFileName().equals(selectedFile))
-            .findFirst()
-            .orElse(configFiles.get(0));
-    return configFiles.indexOf(configFile);
-  }
-
-  public void setTabIndex(@SuppressWarnings("unused") int index) {
-    // Do nothing
-  }
-
   public String getSelectedFile() {
     return selectedFile;
   }
 
-  public void setSelectedFile(String file) {
-    this.selectedFile = file;
+  public void setSelectedFile(String selectedFile) {
+    this.selectedFile = selectedFile;
   }
-
 }

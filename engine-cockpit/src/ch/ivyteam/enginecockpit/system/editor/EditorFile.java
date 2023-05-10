@@ -1,10 +1,11 @@
 package ch.ivyteam.enginecockpit.system.editor;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.primefaces.extensions.event.CompleteEvent;
 
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFile;
 
@@ -17,14 +18,10 @@ public class EditorFile {
     this.config = config;
   }
 
-  public String getVarName() {
-    var fileName = FilenameUtils.removeExtension(config.name());
-    fileName = StringUtils.replace(fileName, "-", "_");
-    return StringUtils.replace(fileName, "/", "_");
-  }
-
-  public String getKeys() {
-    return config.getKeys();
+  public List<String> complete(@SuppressWarnings("unused") CompleteEvent event) {
+    return List.of(config.getKeys().split(",")).stream()
+            .map(s -> s + ": ")
+            .toList();
   }
 
   public String getFileName() {
