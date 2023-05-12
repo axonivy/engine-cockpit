@@ -5,6 +5,7 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="log" value="#{logBean.showLog}" />
+    <f:viewAction action="#{logBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
