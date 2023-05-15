@@ -123,7 +123,7 @@ public class WebDocuScreenshot {
     Navigation.toCluster();
     takeScreenshot("cluster", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toEditor();
-    takeScreenshot("yaml-editor", new Dimension(SCREENSHOT_WIDTH, 700));
+    takeScreenshot("config-file-editor", new Dimension(SCREENSHOT_WIDTH, 700));
   }
 
   @Test
