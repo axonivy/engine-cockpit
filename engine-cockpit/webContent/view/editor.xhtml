@@ -36,7 +36,7 @@
             <div class="field col-12 md:col-4">
               <p:autoComplete id="fileDropDown" dropdown="true" value="#{editorBean.activeConfigFile}"
                 var="file" itemLabel="#{file.fileName}" itemValue="#{file}" converter="editorFileConverter"
-                completeMethod="#{editorBean.completeFiles}" scrollHeight="250">
+                completeMethod="#{editorBean.completeFiles}" groupBy="#{file.provider}">
                 <p:ajax event="itemSelect" update="editorForm, currentFileContainer"
                   oncomplete="handleAutocompleteSelection()" />
               </p:autoComplete>
