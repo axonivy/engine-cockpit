@@ -47,4 +47,8 @@ public class EditorFile {
                       ex.getMessage()));
     }
   }
+
+  public String getProvider() {
+    return config.provider();
+  }
 }

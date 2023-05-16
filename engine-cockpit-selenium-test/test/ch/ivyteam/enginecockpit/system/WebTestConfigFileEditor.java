@@ -73,7 +73,7 @@ class WebTestConfigFileEditor {
     fileChooserInput.clear();
     fileChooserInput.shouldBe(visible).sendKeys(elementName);
     Selenide.sleep(1000);
-    var autocompleteElement = $(By.className("ui-autocomplete-list-item"));
+    var autocompleteElement = $(By.className("ui-autocomplete-item"));
     assertThat(autocompleteElement.getAttribute("data-item-label")).isEqualTo(elementName);
     autocompleteElement.click();
   }
