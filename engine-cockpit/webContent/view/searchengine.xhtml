@@ -16,17 +16,22 @@
     </ui:define>
 
     <ui:define name="content">
-      <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12">
-            <ui:include src="../includes/components/searchengine/information.xhtml" />
-          </div>
-          <div class="p-col-12">
-            <ui:include src="../includes/components/searchengine/indices.xhtml" />
+      <p:staticMessage rendered="#{searchEngineBean.hasFailure()}"
+         summary="Elasticsearch server problem" severity="warn"
+         detail="Could not connect to bundled Elasticsearch server: #{searchEngineBean.startupFailure}" />
+      <h:panelGroup rendered="#{!searchEngineBean.hasFailure()}">
+        <div class="layout-dashboard">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <ui:include src="../includes/components/searchengine/information.xhtml" />
+            </div>
+            <div class="p-col-12">
+              <ui:include src="../includes/components/searchengine/indices.xhtml" />
+            </div>
           </div>
         </div>
-      </div>
-      <ui:include src="../includes/dialogs/searchenginetool.xhtml" />
+        <ui:include src="../includes/dialogs/searchenginetool.xhtml" />
+      </h:panelGroup>
     </ui:define>
   </ui:composition>
 </h:body>
