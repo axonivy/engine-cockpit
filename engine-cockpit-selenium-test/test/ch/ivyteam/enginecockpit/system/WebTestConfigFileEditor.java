@@ -65,9 +65,8 @@ class WebTestConfigFileEditor {
 
   private void writeToEditor(String newContent) {
     String editorContent = $(By.id("editorForm:codeMirror")).getAttribute("value");
-    var content = (editorContent + newContent).replace("'", "&apos;");
-    var escapedContent = StringEscapeUtils.escapeJson(content);
-    executeJs("document.getElementById(\'editorForm:codeMirror\').textContent = \'" + escapedContent + "\'");
+    var escapedContent = StringEscapeUtils.escapeJson(editorContent + newContent);
+    executeJs("document.getElementById(\'editorForm:codeMirror\').textContent = \"" + escapedContent + "\"");
   }
 
   @Test
