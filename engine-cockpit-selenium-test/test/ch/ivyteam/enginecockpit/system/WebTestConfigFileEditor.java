@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
 import static com.codeborne.selenide.Condition.empty;
@@ -10,6 +11,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -47,18 +49,25 @@ class WebTestConfigFileEditor {
 
   @Test
   void editorSave() {
+    String newEditorContent = "#test: hi \n#bla: fail \n#testEscape: 'false'";
     selectFromAutocomplete("test/app.yaml");
     $(By.id("currentFile")).shouldBe(text("test/app.yaml"));
-    $(By.className("CodeMirror-lines")).click();
-    $(By.tagName("body")).sendKeys("test: hi\n  bla: fail");
+    writeToEditor(newEditorContent);
 
     $(By.id("editorForm:cancelEditor")).click();
-    $("#editorMessage_container").shouldBe(empty);
+    $(By.id("editorMessage_container")).shouldBe(empty);
+    $(By.id("editorForm:codeMirror")).shouldNotHave(text(newEditorContent));
 
-    $(By.className("CodeMirror-lines")).click();
-    $(By.tagName("body")).sendKeys("test: hi\n  bla: fail");
+    writeToEditor(newEditorContent);
     $(By.id("editorForm:saveEditor")).click();
     $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved test/app.yaml Successfully"));
+  }
+
+  private void writeToEditor(String newContent) {
+    String editorContent = $(By.id("editorForm:codeMirror")).getAttribute("value");
+    var content = (editorContent + newContent).replace("'", "&apos;");
+    var escapedContent = StringEscapeUtils.escapeJson(content);
+    executeJs("document.getElementById(\'editorForm:codeMirror\').textContent = \'" + escapedContent + "\'");
   }
 
   @Test
