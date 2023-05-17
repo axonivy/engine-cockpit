@@ -21,6 +21,7 @@ public class SearchEngineBean {
 
   private ElasticsearchManager searchEngine = (ElasticsearchManager) IElasticsearchManager.instance();
   private Elasticsearch elasticSearch;
+  private Exception esConnectionException;
   private List<SearchEngineIndex> indices;
   private List<SearchEngineIndex> filteredIndices;
   private String filter;
@@ -36,14 +37,35 @@ public class SearchEngineBean {
   }
 
   public boolean hasFailure() {
+    return hasBundledServerFailure() || hasConnectionFailure();
+  }
+
+  private boolean hasBundledServerFailure() {
     return searchEngine.getBundledServerStartupFailure() != null;
   }
 
-  public String getStartupFailure() {
-    if (hasFailure()) {
+  private boolean hasConnectionFailure() {
+    return getConnectionException() != null;
+  }
+
+  private Exception getConnectionException() {
+    if (esConnectionException != null) {
+      return esConnectionException;
+    }
+    try {
+      searchEngine.info();
+    } catch (Exception ex) {
+      esConnectionException = ex;
+      return ex;
+    }
+    return null;
+  }
+
+  public String getFailure() {
+    if (hasBundledServerFailure()) {
       return ExceptionUtils.getRootCauseMessage(searchEngine.getBundledServerStartupFailure());
     }
-    return "";
+    return ExceptionUtils.getRootCauseMessage(getConnectionException());
   }
 
   public List<SearchEngineIndex> getFilteredIndicies() {
