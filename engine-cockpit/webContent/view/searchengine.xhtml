@@ -18,7 +18,7 @@
     <ui:define name="content">
       <p:staticMessage rendered="#{searchEngineBean.hasFailure()}"
          summary="Elasticsearch server problem" severity="warn"
-         detail="Could not connect to bundled Elasticsearch server: #{searchEngineBean.startupFailure}" />
+         detail="Could not connect to Elasticsearch server: #{searchEngineBean.failure}" />
       <h:panelGroup rendered="#{!searchEngineBean.hasFailure()}">
         <div class="layout-dashboard">
           <div class="p-grid">
