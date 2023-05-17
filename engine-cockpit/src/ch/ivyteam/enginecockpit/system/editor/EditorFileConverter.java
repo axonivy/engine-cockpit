@@ -25,7 +25,7 @@ public class EditorFileConverter implements Converter {
     }
     try {
       return ConfigFileRepository.instance().all()
-              .filter(file -> file.name().equalsIgnoreCase(value))
+              .filter(conf -> conf.file().toString().equalsIgnoreCase(value))
               .findFirst()
               .map(EditorFile::new)
               .orElseThrow();
@@ -38,7 +38,7 @@ public class EditorFileConverter implements Converter {
   @Override
   public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
     if (value instanceof EditorFile file) {
-      return file.getFileName();
+      return file.getPath().toString();
     }
     return null;
   }

@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system.editor;
 
+import java.nio.file.Path;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -26,6 +27,10 @@ public class EditorFile {
 
   public String getFileName() {
     return config.name();
+  }
+
+  public Path getPath() {
+    return config.file();
   }
 
   public void setContent(String content) {
