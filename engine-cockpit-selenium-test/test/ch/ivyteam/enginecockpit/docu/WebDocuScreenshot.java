@@ -105,6 +105,8 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-threads", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toSessions();
     takeScreenshot("monitor-sessions", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toJobs();
+    takeScreenshot("monitor-jobs", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
   @Test

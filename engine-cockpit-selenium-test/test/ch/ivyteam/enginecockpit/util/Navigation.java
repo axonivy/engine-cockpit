@@ -8,6 +8,10 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static org.openqa.selenium.By.className;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import com.codeborne.selenide.Selenide;
 
@@ -47,6 +51,7 @@ public class Navigation {
   private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
+  private static final String MONITOR_ENGINE_JOBS_MENU = "#menuform\\:sr_monitor_engine_jobs";
   private static final String MONITOR_PERFORMANCE_MENU = "#menuform\\:sr_monitor_performance";
   private static final String MONITOR_PERFORMANCE_PROCESS_EXECUTION_MENU = "#menuform\\:sr_monitor_performance_process_execution";
   private static final String MONITOR_PERFORMANCE_TRACES_MENU = "#menuform\\:sr_monitor_performance_traces";
@@ -315,6 +320,12 @@ public class Navigation {
     menuShouldBeActive(MONITOR_ENGINE_SESSION_MENU);
   }
 
+  public static void toJobs() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_JOBS_MENU);
+    assertCurrentUrlContains("monitorJobs.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_JOBS_MENU);
+  }
+
   public static void toMBeans() {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MBEANS_MENU);
     assertCurrentUrlContains("mbeans.xhtml");
@@ -349,35 +360,45 @@ public class Navigation {
     toSubSubMenu(MONITOR_MENU, MONITOR_PERFORMANCE_MENU, MONITOR_PERFORMANCE_THREADS);
   }
 
-
   private static void toMenu(String menuItemPath) {
+    closeAllMenus();
     $(menuItemPath).find("a").scrollIntoView(false).click();
     menuShouldBeActive(menuItemPath);
   }
 
   private static void toSubMenu(String menuItemPath, String subMenuItemPath) {
+    closeAllMenus();
     $(menuItemPath).shouldBe(visible);
-    if (!$(subMenuItemPath).isDisplayed()) {
-      $(menuItemPath).find("a").scrollIntoView(false).click();
-    }
+    $(menuItemPath).find("a").scrollIntoView(false).click();
     $(subMenuItemPath).find("a").shouldBe(visible).scrollIntoView(false).click();
     menuShouldBeActive(subMenuItemPath);
   }
 
   private static void toSubSubMenu(String menuItemPath, String subMenuItemPath, String subSubMenuItemPath) {
+    closeAllMenus();
     $(menuItemPath).shouldBe(visible);
-    if (!$(subMenuItemPath).isDisplayed()) {
-      $(menuItemPath).find("a").scrollIntoView(false).click();
-    }
+    $(menuItemPath).find("a").scrollIntoView(false).click();
     $(subMenuItemPath).find("a").shouldBe(visible);
-    if (!$(subSubMenuItemPath).isDisplayed()) {
-      $(subMenuItemPath).find("a").scrollIntoView(false).click();
-    }
+    $(subMenuItemPath).find("a").scrollIntoView(false).click();
     $(subSubMenuItemPath).scrollIntoView(false).click();
     menuShouldBeActive(subSubMenuItemPath);
   }
 
   private static void menuShouldBeActive(String menu) {
     $(menu).shouldHave(cssClass("active-menuitem"));
+  }
+
+  private static void closeAllMenus() {
+    var activeMenues = new ArrayList<>($$(className("active-menuitem")));
+    Collections.reverse(activeMenues);
+    for (var activeMenu : activeMenues) {
+      if (activeMenu.exists()) {
+        if (activeMenu.$("ul").exists())
+        {
+          activeMenu.find("a").shouldBe(visible).click();
+          activeMenu.$("ul").shouldNotBe(visible);
+        }
+      }
+    }
   }
 }
