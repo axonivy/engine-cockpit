@@ -52,8 +52,8 @@ public class LicenceBean extends StepStatus {
 
   public void handleUploadLicence(FileUploadEvent event) {
     var message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Successfully uploaded licence");
-    try {
-      NewLicenceFileInstaller.install(event.getFile().getFileName(), event.getFile().getInputStream());
+    try (var in = event.getFile().getInputStream()) {
+      NewLicenceFileInstaller.install(event.getFile().getFileName(), in);
     } catch (Exception ex) {
       message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
     }
