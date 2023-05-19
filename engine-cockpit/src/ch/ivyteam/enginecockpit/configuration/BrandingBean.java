@@ -73,8 +73,10 @@ public class BrandingBean implements AllResourcesDownload {
         throw new InvalidAttributesException("Not supported file extension: '" + extension + "'");
       }
       var app = IApplicationRepository.instance().findByName(managerBean.getSelectedApplicationName()).orElse(null);
-      var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, uploadFile.getInputStream());
-      message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Successfully uploaded " + newResourceName);
+      try (var in = uploadFile.getInputStream()) {
+        var newResourceName = new BrandingIO(app).setImage(getCurrentRes(), extension, in);
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Successfully uploaded " + newResourceName);
+      }
     } catch (Exception ex) {
       message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage());
     }
