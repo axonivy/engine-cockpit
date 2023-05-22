@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Calendar;
@@ -21,74 +21,75 @@ import ch.ivyteam.enginecockpit.model.LogView;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 
-
 @ManagedBean
 @ViewScoped
-public class LogBean
-{
+public class LogBean {
   private List<LogView> logs;
   private Date date;
   private String showLog;
-  
-  public LogBean()
-  {
+
+  public LogBean() {
     date = Calendar.getInstance().getTime();
     initLogFiles();
   }
-  
-  public void setShowLog(String showLog)
-  {
+
+  public void setShowLog(String showLog) {
     this.showLog = showLog;
   }
-  
-  public String getShowLog()
-  {
+
+  public String getShowLog() {
     return showLog;
   }
 
-  private void initLogFiles()
-  {
-    try
-    {
-      logs = Files.walk(UrlUtil.getLogDir().toPath().toRealPath())
+  private void initLogFiles() {
+    try {
+      logs = Files.walk(UrlUtil.getLogDir().toPath())
               .filter(Files::isRegularFile)
               .filter(log -> log.toString().endsWith(".log"))
               .map(log -> new LogView(log.getFileName().toString(), date))
               .sorted()
               .collect(Collectors.toList());
-    }
-    catch(IOException ex)
-    {
-      FacesContext.getCurrentInstance().addMessage("msgs", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not load logs", ex.getMessage()));
+    } catch (IOException ex) {
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not load logs", ex.getMessage()));
     }
   }
-  
-  public List<LogView> getLogs()
-  {
+
+  public List<LogView> getLogs() {
     return logs;
   }
-  
-  public void setDate(Date date)
-  {
+
+  public void setDate(Date date) {
     this.date = date;
     initLogFiles();
   }
-  
-  public Date getDate()
-  {
+
+  public Date getDate() {
     return date;
   }
-  
-  public Date getToday()
-  {
+
+  public Date getToday() {
     return Calendar.getInstance().getTime();
   }
-  
-  public StreamedContent getAllLogs() throws IOException 
-  {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    DownloadUtil.zipDir(UrlUtil.getLogDir().toPath().toRealPath(), out);
-    return new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/zip", "logs.zip");
+
+  public StreamedContent getAllLogs() {
+    var zipFile = writeLogsToZip();
+    return new DefaultStreamedContent(
+            DownloadUtil.getFileStream(zipFile),
+            "application/zip",
+            "logs.zip");
   }
-  
+
+  private File writeLogsToZip() {
+    try {
+      var zipFile = Files.createTempFile("logs", ".zip").toFile();
+      DownloadUtil.zipDir(UrlUtil.getLogDir().toPath(), new FileOutputStream(zipFile));
+      return zipFile;
+    } catch (IOException ex) {
+      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getClass().getSimpleName(), ex.getMessage());
+      FacesContext.getCurrentInstance().addMessage("msgs", message);
+    }
+    return null;
+  }
+
 }
