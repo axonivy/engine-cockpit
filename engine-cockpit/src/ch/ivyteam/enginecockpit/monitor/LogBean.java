@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Calendar;
@@ -75,14 +75,20 @@ public class LogBean implements AllResourcesDownload {
 
   @Override
   public StreamedContent getAllResourcesDownload() {
-    try (var out = new ByteArrayOutputStream()) {
-      DownloadUtil.zipDir(UrlUtil.getLogDir().toRealPath(), out);
-      return DefaultStreamedContent
-              .builder()
-              .stream(() -> new ByteArrayInputStream(out.toByteArray()))
-              .contentType("application/zip")
-              .name("logs.zip")
-              .build();
+    var zipFile = writeLogsToZip();
+    return DefaultStreamedContent
+            .builder()
+            .stream(() -> DownloadUtil.getFileStream(zipFile))
+            .contentType("application/zip")
+            .name("logs.zip")
+            .build();
+  }
+
+  private File writeLogsToZip() {
+    try {
+      var zipFile = Files.createTempFile("logs", ".zip").toFile();
+      DownloadUtil.zipDir(UrlUtil.getLogDir().toRealPath(), new FileOutputStream(zipFile));
+      return zipFile;
     } catch (IOException ex) {
       var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getClass().getSimpleName(), ex.getMessage());
       FacesContext.getCurrentInstance().addMessage("msgs", message);
