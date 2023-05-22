@@ -1,11 +1,8 @@
 package ch.ivyteam.enginecockpit.system;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -16,6 +13,7 @@ import javax.faces.bean.RequestScoped;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.enginecockpit.util.DownloadUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.restricted.ApplicationConfigurationDumper;
@@ -71,28 +69,10 @@ public class SupportBean {
 
   private StreamedContent createStreamedContent(File zipFile) {
     return DefaultStreamedContent.builder()
-            .stream(() -> getZipFileStream(zipFile))
+            .stream(() -> DownloadUtil.getFileStream(zipFile))
             .contentType("application/zip")
             .name("support-engine-report.zip")
             .build();
-  }
-
-  private InputStream getZipFileStream(File file) {
-    try {
-      return new FileInputStream(file) {
-        @Override
-        public void close() throws IOException {
-          super.close();
-          try {
-            file.delete();
-          } catch (Exception ex) {
-            LOGGER.info("Could not delete temporary support zip file '" + file.getName() + "' : ", ex);
-          }
-        }
-      };
-    } catch (FileNotFoundException ex) {
-      throw new RuntimeException(ex);
-    }
   }
 
   private String createSupportReport() {
