@@ -30,6 +30,7 @@ public class RoleDetailBean
   private User roleUser;
   private String roleMemberName;
   private Role role;
+  private long roleInheritCount;
 
   private UserDataModel usersOfRole;
   private RoleDataModel roleDataModel;
@@ -66,6 +67,7 @@ public class RoleDetailBean
     this.roleDataModel = new RoleDataModel(managerBean.getSelectedIApplication(), false);
     loadMembersOfRole();
     roleProperties.setMemberName(this.roleName);
+    roleInheritCount = iRole.getAllRoles().size();
   }
 
   public String getUsersOfRoleFilter()
@@ -157,6 +159,11 @@ public class RoleDetailBean
   public User getRoleUser()
   {
     return roleUser;
+  }
+
+  public boolean canShowUsers()
+  {
+    return roleInheritCount < 2100;
   }
 
   public void setRoleUser(User roleUser)
