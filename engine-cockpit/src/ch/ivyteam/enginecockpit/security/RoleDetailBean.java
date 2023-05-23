@@ -43,6 +43,7 @@ public class RoleDetailBean {
   private User roleUser;
   private String roleMemberName;
   private Role role;
+  private long roleInheritCount;
 
   private UserDataModel usersOfRole;
   private RoleDataModel roleDataModel;
@@ -55,7 +56,7 @@ public class RoleDetailBean {
   private long userCount;
   private long runningTaskCount;
   private long directTaskCount;
-  private long userInheritCont;
+  private long userInheritCount;
 
   public String getSecuritySystem() {
     return securitySystemName;
@@ -97,7 +98,10 @@ public class RoleDetailBean {
     this.roleDataModel = new RoleDataModel(securitySystem, false);
     loadMembersOfRole();
     userCount = securityContext.users().query().where().hasRoleAssigned(iRole).executor().count();
-    userInheritCont = securityContext.users().query().where().hasRole(iRole).executor().count();
+    roleInheritCount = iRole.getAllRoles().size();
+    if (canShowUsers()) {
+      userInheritCount = securityContext.users().query().where().hasRole(iRole).executor().count();
+    }
     var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
     runningTaskCount = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.RESUMED)
@@ -196,6 +200,10 @@ public class RoleDetailBean {
 
   public User getRoleUser() {
     return roleUser;
+  }
+
+  public boolean canShowUsers() {
+    return roleInheritCount < 2100;
   }
 
   public void setRoleUser(User roleUser) {
@@ -316,7 +324,10 @@ public class RoleDetailBean {
   }
 
   public String getUserInheritCount() {
-    return ManagerBean.instance().formatNumber(userInheritCont);
+    if (canShowUsers()) {
+      return ManagerBean.instance().formatNumber(userInheritCount);
+    }
+    return "N/A";
   }
 
   public String getRunningTaskCount() {
