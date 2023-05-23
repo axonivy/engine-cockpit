@@ -32,7 +32,7 @@ public class SearchEngineBean {
   public SearchEngineBean() {
     if (!hasFailure()) {
       elasticSearch = new Elasticsearch(searchEngine.info(), searchEngine.watermark());
-      indices = SearchEngineService.instance().getIndices().toList();
+      indices = SearchEngineService.instance().getIndices().collect(Collectors.toList());
     }
   }
 
