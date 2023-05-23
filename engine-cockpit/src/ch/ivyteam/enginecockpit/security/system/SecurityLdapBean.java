@@ -24,7 +24,8 @@ import ch.ivyteam.naming.JndiProvider;
 @ManagedBean
 @ViewScoped
 public class SecurityLdapBean {
-
+  private static final String DEFAULT_CONTEXT = "defaultContext";
+  private static final String IMPORT_USERS_OF_GROUP = "importUsersOfGroup";
   private String name;
   private String provider;
 
@@ -266,20 +267,20 @@ public class SecurityLdapBean {
   }
 
   public void browseDefaultContext() {
-    ldapBrowserTarget = DirectoryBrowserBean.DEFAULT_CONTEXT;
+    ldapBrowserTarget = DEFAULT_CONTEXT;
     ldapBrowser.browse(getJndiConfig(null), enableInsecureSsl, defaultContext);
   }
 
   public void browseUsersOfGroup() {
-    ldapBrowserTarget = DirectoryBrowserBean.IMPORT_USERS_OF_GROUP;
+    ldapBrowserTarget = IMPORT_USERS_OF_GROUP;
     ldapBrowser.browse(getJndiConfig(getDefaultContext()), enableInsecureSsl, importUsersOfGroup);
   }
 
   public void chooseLdapName() {
-    if (DirectoryBrowserBean.DEFAULT_CONTEXT.equals(ldapBrowserTarget)) {
+    if (DEFAULT_CONTEXT.equals(ldapBrowserTarget)) {
       setDefaultContext(ldapBrowser.getSelectedNameString());
     }
-    if (DirectoryBrowserBean.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget)) {
+    if (IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget)) {
       setImportUsersOfGroup(ldapBrowser.getSelectedNameString());
     }
   }

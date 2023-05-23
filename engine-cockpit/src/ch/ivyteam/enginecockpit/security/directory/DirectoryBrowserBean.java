@@ -18,8 +18,6 @@ import ch.ivyteam.naming.JndiConfig;
 public class DirectoryBrowserBean {
 
   private final static Logger LOGGER = Logger.getLogger(DirectoryBrowserBean.class);
-  public static final String DEFAULT_CONTEXT = "defaultContext";
-  public static final String IMPORT_USERS_OF_GROUP = "importUsersOfGroup";
   private TreeNode<DirectoryNode> root;
   private TreeNode<DirectoryNode> selectedNode;
   private List<Property> selectedNodeAttributes;
