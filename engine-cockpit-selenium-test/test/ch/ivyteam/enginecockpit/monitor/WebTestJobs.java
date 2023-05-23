@@ -79,6 +79,13 @@ class WebTestJobs {
   }
 
   @Test
+  void refresh() {
+    var content = table.rows().texts();
+    $(By.id("refresh")).click();
+    assertThat(table.rows().texts()).isNotEqualTo(content);
+  }
+
+  @Test
   void schedule() {
     var initialExecutions = Long.parseLong(table.tableEntry(1, 6).text());
     $(By.id("form:jobTable:0:schedule")).click();

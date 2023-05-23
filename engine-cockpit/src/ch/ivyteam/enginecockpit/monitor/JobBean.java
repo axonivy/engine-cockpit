@@ -29,6 +29,10 @@ public class JobBean {
   private Job selected;
 
   public JobBean() {
+    refresh();
+  }
+
+  public void refresh() {
     try {
       var cronJobs = ManagementFactory.getPlatformMBeanServer()
               .queryNames(new ObjectName("ivy Engine:type=Cron Job,name=*"), null)
