@@ -26,6 +26,9 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si si-task-list-approve card-title-icon"></i>
           <h2 class="p-m-0">Jobs</h2>
+          <p:commandButton id="refresh" actionListener="#{jobBean.refresh}" update="form" title="Refresh jobs"
+              icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto rounded-button"/>
+          
         </div>
         <h:form id="form" style="overflow: auto;">
           <p:dataTable var="job" value="#{jobBean.jobs}" filteredValue="#{jobBean.filteredJobs}"
@@ -68,11 +71,22 @@
             </p:column>
             
              <p:column styleClass="table-btn-1">
-              <p:commandButton id="schedule" title="Schedule to execute the job now" icon="si si-controls-play"
-                actionListener="#{job.schedule()}" ajax="true" update="@form" styleClass="ui-button-danger rounded-button" />
+              <p:commandButton id="schedule" oncomplete="PF('scheduleJobDialog').show();" title="Schedule to execute the job now" icon="si si-controls-play"
+                action="#{jobBean.setSelected(job)}" update="scheduleJobDialog" styleClass="rounded-button" />
             </p:column>
           </p:dataTable>
         </h:form>
+        <p:dialog style="min-width: 300px;" header="Schedule Job #{jobBean.selected.name}" id="scheduleJobDialog"
+            widgetVar="scheduleJobDialog" responsive="true" closeOnEscape="true">
+          <h:form id="scheduleJob" styleClass="custom-dialog-form">
+            <p:staticMessage severity="warn" detail="Scheduling a job for immediate execution can have negative side effects like disturbing users with unnecessary daily task mails, or degraded performance." />
+            <div class="custom-dialog-footer">
+              <p:commandButton id="cancel" type="button" onclick="PF('scheduleJobDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="schedule" onclick="PF('scheduleJobDialog').hide();" value="Schedule" icon="si si-controls-play"
+                  styleClass="modal-input-button" actionListener="#{jobBean.selected.schedule()}" update="form"/>
+            </div>
+          </h:form>
+        </p:dialog>
       </div>
     </ui:define>
 
