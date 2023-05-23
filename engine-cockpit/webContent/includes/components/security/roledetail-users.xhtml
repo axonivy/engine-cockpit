@@ -11,44 +11,52 @@
   <p:growl for="usersMessage">
     <p:autoUpdate />
   </p:growl>
-  <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUser}" dropdown="true" forceSelection="true"
-    completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
-    placeholder="Search user to add"
-    disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}"
-    var="user" itemLabel="#{user.displayName}" itemValue="#{user}" converter="userConverter" />
 
-  <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
-    icon="ui-icon-add" title="Add" styleClass="primary-btn"
-    disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
-  <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
-    lazy="true" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-    <f:facet name="header">
-      <p:outputPanel>
-        <p:outputLabel styleClass="table-search-icon">
-          <i class="material-icons">search</i>
-        </p:outputLabel>
-        <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
-          value="#{roleDetailBean.usersOfRoleFilter}" onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
-      </p:outputPanel>
-    </f:facet>
-    <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
-      <a href="userdetail.xhtml?userName=#{user.name}">
-        <h:outputText styleClass="user-name" value="#{user.name}">
-          <i class="material-icons table-icon">person</i>
-        </h:outputText>
-        <h:outputText value=" (#{user.fullName})" styleClass="addition-row-info" />
-      </a>
-    </p:column>
-    <p:column style="width: 30px;">
-      <ui:param name="canBeRemoved" value="#{roleDetailBean.hasRoleAssigned(user.name)}" />
-      <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
-        actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove"
-        title="#{canBeRemoved ? 'Remove' : 'This user is inherited by a sub role or a role member'}"
-        styleClass="card-button table-control-btn secondary-btn" style="margin: 0; pointer-events: all;"
-        disabled="#{roleDetailBean.roleName == 'Everybody' or !canBeRemoved or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
-    </p:column>
-  </p:dataTable>
+  <h:panelGroup rendered="#{!roleDetailBean.canShowUsers()}">
+        Users can't be shown, because this role has more than 2100 sub roles and role members.
+        This is just a technical limitation of this view.
+  </h:panelGroup>
+
+  <h:panelGroup rendered="#{roleDetailBean.canShowUsers()}">
+    <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUser}" dropdown="true" forceSelection="true"
+      completeMethod="#{roleDetailBean.searchUser}" style="margin-bottom:10px;" styleClass="card-autocomplete-search"
+      placeholder="Search user to add"
+      disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}"
+      var="user" itemLabel="#{user.displayName}" itemValue="#{user}" converter="userConverter" />
+
+    <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
+      icon="ui-icon-add" title="Add" styleClass="primary-btn"
+      disabled="#{roleDetailBean.roleName == 'Everybody' or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
+    <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
+      lazy="true" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+      <f:facet name="header">
+        <p:outputPanel>
+          <p:outputLabel styleClass="table-search-icon">
+            <i class="material-icons">search</i>
+          </p:outputLabel>
+          <p:inputText styleClass="table-search-input-withicon" id="globalFilter"
+            value="#{roleDetailBean.usersOfRoleFilter}" onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" />
+        </p:outputPanel>
+      </f:facet>
+      <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
+        <a href="userdetail.xhtml?userName=#{user.name}">
+          <h:outputText styleClass="user-name" value="#{user.name}">
+            <i class="material-icons table-icon">person</i>
+          </h:outputText>
+          <h:outputText value=" (#{user.fullName})" styleClass="addition-row-info" />
+        </a>
+      </p:column>
+      <p:column style="width: 30px;">
+        <ui:param name="canBeRemoved" value="#{roleDetailBean.hasRoleAssigned(user.name)}" />
+        <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
+          actionListener="#{roleDetailBean.removeUser(user.name)}" icon="ui-icon-remove"
+          title="#{canBeRemoved ? 'Remove' : 'This user is inherited by a sub role or a role member'}"
+          styleClass="card-button table-control-btn secondary-btn" style="margin: 0; pointer-events: all;"
+          disabled="#{roleDetailBean.roleName == 'Everybody' or !canBeRemoved or (!managerBean.ivySecuritySystem and roleDetailBean.role.adSynced)}" />
+      </p:column>
+    </p:dataTable>
+  </h:panelGroup>
 </h:form>
 
 </html>
