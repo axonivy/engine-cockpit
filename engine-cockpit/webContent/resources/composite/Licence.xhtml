@@ -19,7 +19,7 @@
         style="width: 100%; line-height: 100px; text-align: center; margin-bottom: 20px;"
         value="Choose or drop a file which ends with: .lic" rows="1" />
       <p:fileUpload id="licenceUpload" widgetVar="uploadDnd" listener="#{licenceBean.handleUploadLicence}"
-        dropZone="dropZone" style="display: none" update="#{cc.attrs.updateFields}"/>
+        dropZone="dropZone" style="display: none" update="#{cc.attrs.updateFields}" value="#{licenceBean.file}"/>
     </div>
 
     <h:panelGroup id="licenceOverview">
