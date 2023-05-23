@@ -26,6 +26,7 @@ public class JobBean {
   private List<Job> jobs;
   private List<Job> filteredJobs;
   private String filter;
+  private Job selected;
 
   public JobBean() {
     try {
@@ -65,6 +66,14 @@ public class JobBean {
 
   public void setFilter(String filter) {
     this.filter = filter;
+  }
+
+  public Job getSelected() {
+    return selected;
+  }
+
+  public void setSelected(Job selected) {
+    this.selected = selected;
   }
 
   public static final class Job {

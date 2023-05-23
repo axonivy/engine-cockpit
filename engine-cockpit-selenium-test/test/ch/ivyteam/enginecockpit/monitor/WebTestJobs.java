@@ -6,8 +6,10 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.Wait;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Duration;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -68,7 +70,7 @@ class WebTestJobs {
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(20));
     $(By.id("form:jobTable:globalFilter")).sendKeys("Search system task");
     table.rows().shouldHave(CollectionCondition.size(1));
-    
+
     $(By.id("form:jobTable:globalFilter")).clear();
     $(By.id("form:jobTable:globalFilter")).sendKeys("\n");
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(20));
@@ -78,7 +80,19 @@ class WebTestJobs {
 
   @Test
   void schedule() {
+    var initialExecutions = Long.parseLong(table.tableEntry(1, 6).text());
     $(By.id("form:jobTable:0:schedule")).click();
+    $(By.id("scheduleJob:schedule")).click();
+
+    Wait()
+        .withTimeout(Duration.ofSeconds(10))
+        .ignoring(AssertionError.class)
+        .until(webDriver -> {
+          webDriver.navigate().refresh();
+          var executions = Long.parseLong(table.tableEntry(1, 6).text());
+          assertThat(executions).isGreaterThan(initialExecutions);
+          return true;
+        });
   }
 
   @Test
