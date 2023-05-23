@@ -1,5 +1,5 @@
 {
-  "format" : "11.1.14",
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
   "id" : "1871451A54CFD978",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -9,9 +9,10 @@
       "type" : "RequestStart",
       "name" : "deadlock.ivp",
       "config" : {
-        "callSignature" : "deadlock",
-        "outLink" : "deadlock.ivp",
-        "startName" : "Start deadlock threads"
+        "signature" : "deadlock",
+        "request" : {
+          "name" : "Start deadlock threads"
+        }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 }

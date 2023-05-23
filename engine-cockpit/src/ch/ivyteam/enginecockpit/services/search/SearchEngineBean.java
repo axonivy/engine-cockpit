@@ -7,18 +7,21 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.services.model.Elasticsearch;
 import ch.ivyteam.enginecockpit.services.model.Elasticsearch.SearchEngineHealth;
 import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
+import ch.ivyteam.ivy.elasticsearch.manager.impl.ElasticsearchManager;
 import ch.ivyteam.ivy.elasticsearch.server.ServerConfig;
 
 @ManagedBean
 @ViewScoped
 public class SearchEngineBean {
 
-  private IElasticsearchManager searchEngine = IElasticsearchManager.instance();
+  private ElasticsearchManager searchEngine = (ElasticsearchManager) IElasticsearchManager.instance();
   private Elasticsearch elasticSearch;
+  private Exception esConnectionException;
   private List<SearchEngineIndex> indices;
   private List<SearchEngineIndex> filteredIndices;
   private String filter;
@@ -27,8 +30,42 @@ public class SearchEngineBean {
   private String queryResult;
 
   public SearchEngineBean() {
-    elasticSearch = new Elasticsearch(searchEngine.info(), searchEngine.watermark());
-    indices = SearchEngineService.instance().getIndices().collect(Collectors.toList());
+    if (!hasFailure()) {
+      elasticSearch = new Elasticsearch(searchEngine.info(), searchEngine.watermark());
+      indices = SearchEngineService.instance().getIndices().toList();
+    }
+  }
+
+  public boolean hasFailure() {
+    return hasBundledServerFailure() || hasConnectionFailure();
+  }
+
+  private boolean hasBundledServerFailure() {
+    return searchEngine.getBundledServerStartupFailure() != null;
+  }
+
+  private boolean hasConnectionFailure() {
+    return getConnectionException() != null;
+  }
+
+  private Exception getConnectionException() {
+    if (esConnectionException != null) {
+      return esConnectionException;
+    }
+    try {
+      searchEngine.info();
+    } catch (Exception ex) {
+      esConnectionException = ex;
+      return ex;
+    }
+    return null;
+  }
+
+  public String getFailure() {
+    if (hasBundledServerFailure()) {
+      return ExceptionUtils.getRootCauseMessage(searchEngine.getBundledServerStartupFailure());
+    }
+    return ExceptionUtils.getRootCauseMessage(getConnectionException());
   }
 
   public List<SearchEngineIndex> getFilteredIndicies() {

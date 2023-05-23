@@ -14,10 +14,6 @@ pipeline {
     string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
-  environment {
-    testFilter = getTestFilter()
-  }
-
   stages {
     stage('check editorconfig') {
       steps {
@@ -35,21 +31,19 @@ pipeline {
       steps {
         script {
           def common = load 'build/build.groovy'
-          def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
-          common.buildCockpit(phase, env.testFilter)
+          def mvnArgs = "-Dtest.filter=${getTestFilter(common.isReleaseOrMasterBranch())} -Dmaven.test.failure.ignore=true -Pcockpit "
+          common.build(mvnArgs);
+
+          archiveArtifacts '**/target/*.iar, **/target/*.jar'
         }
       }
     }
   }
 }
 
-def getTestFilter() {
-  if (isReleaseOrMasterBranch()) {
+def getTestFilter(isReleaseOrMasterBranch) {
+  if (isReleaseOrMasterBranch) {
     return 'WebTest*.java'
   }
   return params.testFilter
-}
-
-def isReleaseOrMasterBranch() {
-  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
 }

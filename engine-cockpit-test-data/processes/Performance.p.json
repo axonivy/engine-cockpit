@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.1.19/schema.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
   "id" : "17B77E4EAE9AC806",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -44,11 +44,16 @@
     }, {
       "id" : "f5",
       "type" : "Alternative",
+      "config" : {
+        "conditions" : {
+          "f2" : "in.count > 100"
+        }
+      },
       "visual" : {
         "at" : { "x" : 352, "y" : 128 }
       },
       "connect" : [
-        { "id" : "f2", "to" : "f1", "condition" : "in.count > 100" },
+        { "id" : "f2", "to" : "f1" },
         { "id" : "f7", "to" : "f3", "via" : [ { "x" : 352, "y" : 48 }, { "x" : 224, "y" : 48 } ] }
       ]
     } ]

@@ -105,6 +105,8 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-threads", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toSessions();
     takeScreenshot("monitor-sessions", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toJobs();
+    takeScreenshot("monitor-jobs", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
   @Test
@@ -123,7 +125,7 @@ public class WebDocuScreenshot {
     Navigation.toCluster();
     takeScreenshot("cluster", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toEditor();
-    takeScreenshot("yaml-editor", new Dimension(SCREENSHOT_WIDTH, 700));
+    takeScreenshot("config-file-editor", new Dimension(SCREENSHOT_WIDTH, 700));
   }
 
   @Test

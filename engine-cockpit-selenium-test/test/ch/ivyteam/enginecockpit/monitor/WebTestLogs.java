@@ -9,6 +9,7 @@ import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
@@ -49,8 +50,8 @@ public class WebTestLogs {
     $("#logDateForm\\:calendar_input").clear();
     $("#logDateForm\\:calendar_input").sendKeys("2020-04-01");
     $("#logDateForm\\:calendar_input").sendKeys(Keys.ENTER);
-    deprecationLogPanel.find(".ui-panel-title > span").click();
-    deprecationLogPanel.find(".ui-panel-content pre").shouldHave(text("'deprecation-04-01-2020.log.gz'"));
+    deprecationLogPanel.shouldNotBe(visible);
+    $(By.id("noLogsMessage")).shouldBe(visible).shouldHave(text("No logs found on date:"));
   }
 
 }

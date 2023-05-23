@@ -1,13 +1,11 @@
 package ch.ivyteam.enginecockpit.monitor;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -20,17 +18,18 @@ import org.primefaces.model.StreamedContent;
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.monitor.model.LogView;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
-import ch.ivyteam.enginecockpit.util.UrlUtil;
+import ch.ivyteam.ivy.log.provider.LogFileRepository;
+import ch.ivyteam.ivy.log.provider.LogFileZipper;
 
 @ManagedBean
 @ViewScoped
 public class LogBean implements AllResourcesDownload {
   private List<LogView> logs;
-  private Date date;
+  private LocalDate date;
   private String showLog;
 
   public LogBean() {
-    date = Calendar.getInstance().getTime();
+    date = LocalDate.now();
     initLogFiles();
   }
 
@@ -43,16 +42,14 @@ public class LogBean implements AllResourcesDownload {
   }
 
   private void initLogFiles() {
-    try {
-      logs = Files.walk(UrlUtil.getLogDir().toRealPath())
-              .filter(Files::isRegularFile)
-              .filter(log -> log.toString().endsWith(".log"))
-              .map(log -> new LogView(log.getFileName().toString(), date))
-              .sorted()
-              .collect(Collectors.toList());
-    } catch (IOException ex) {
-      FacesContext.getCurrentInstance().addMessage("msgs",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not load logs", ex.getMessage()));
+    logs = LogFileRepository.instance().byDate(date)
+            .map(log -> new LogView(log))
+            .toList();
+  }
+
+  public void onload() {
+    if (showLog == null) {
+      showLog = logs.get(0).getFileName();
     }
   }
 
@@ -60,29 +57,35 @@ public class LogBean implements AllResourcesDownload {
     return logs;
   }
 
-  public void setDate(Date date) {
+  public void setDate(LocalDate date) {
     this.date = date;
     initLogFiles();
   }
 
-  public Date getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
-  public Date getToday() {
-    return Calendar.getInstance().getTime();
+  public LocalDate getToday() {
+    return LocalDate.now();
   }
 
   @Override
   public StreamedContent getAllResourcesDownload() {
-    try (var out = new ByteArrayOutputStream()) {
-      DownloadUtil.zipDir(UrlUtil.getLogDir().toRealPath(), out);
-      return DefaultStreamedContent
-              .builder()
-              .stream(() -> new ByteArrayInputStream(out.toByteArray()))
-              .contentType("application/zip")
-              .name("logs.zip")
-              .build();
+    var zipFile = writeLogsToZip();
+    return DefaultStreamedContent
+            .builder()
+            .stream(() -> DownloadUtil.getFileStream(zipFile))
+            .contentType("application/zip")
+            .name("logs.zip")
+            .build();
+  }
+
+  private File writeLogsToZip() {
+    try {
+      var zipFile = Files.createTempFile("logs", ".zip").toFile();
+      LogFileZipper.zipTo(new FileOutputStream(zipFile));
+      return zipFile;
     } catch (IOException ex) {
       var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getClass().getSimpleName(), ex.getMessage());
       FacesContext.getCurrentInstance().addMessage("msgs", message);

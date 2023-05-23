@@ -14,7 +14,10 @@ import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityConstants;
+import ch.ivyteam.ivy.security.ISecurityManager;
+import ch.ivyteam.ivy.security.external.SecuritySystemConfig;
 import ch.ivyteam.ivy.security.internal.SecurityContext;
+import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
 @ManagedBean
 @ViewScoped
@@ -23,7 +26,7 @@ public class SecurityProviderBean {
 
   private String name;
   private SecuritySystem securitySystem;
-  private ExternalSecuritySystemConfiguration securityConfiguration;
+  private SecuritySystemConfig systemConfig;
 
   private String provider;
 
@@ -40,7 +43,10 @@ public class SecurityProviderBean {
   public void setSecuritySystemName(String secSystemName) {
     if (StringUtils.isBlank(name)) {
       name = secSystemName;
-      securityConfiguration = new ExternalSecuritySystemConfiguration(name);
+      var securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(secSystemName);
+      if (securityContext != null) {
+        systemConfig = securityContext.config();
+      }
       loadConfiguration();
     }
   }
@@ -51,17 +57,11 @@ public class SecurityProviderBean {
             .findAny()
             .orElseThrow();
 
-    provider = getConfiguration(ConfigKey.PROVIDER);
-    if (StringUtils.isBlank(provider)) {
-      provider = ISecurityConstants.IVY_ENGINE_SECURITY_SYSTEM_PROVIDER_NAME;
-    }
-    onScheduleEnabled = getInitBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED));
-    onScheduleTime = getConfiguration(ConfigKey.ON_SCHEDULE_TIME);
-    synchOnLogin = getInitBooleanValue(ConfigKey.SYNCH_ON_LOGIN,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.SYNCH_ON_LOGIN));
-    onScheduleImportUsers = getInitBooleanValue(ConfigKey.ON_SCHEDULE_IMPORT_USERS,
-            securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_IMPORT_USERS));
+    provider = systemConfig.getProperty(ConfigKey.PROVIDER);
+    onScheduleEnabled = systemConfig.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_ENABLED);
+    onScheduleTime = systemConfig.getProperty(ConfigKey.ON_SCHEDULE_TIME);
+    synchOnLogin = systemConfig.getPropertyAsBoolean(ConfigKey.SYNCH_ON_LOGIN);
+    onScheduleImportUsers = systemConfig.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_IMPORT_USERS);
   }
 
   public boolean isJndiSecuritySystem() {
@@ -126,21 +126,18 @@ public class SecurityProviderBean {
       deleteProvider();
       context.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, provider);
     }
-    setConfiguration(ConfigKey.ON_SCHEDULE_ENABLED,
-            getSaveBooleanValue(this.onScheduleEnabled,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_ENABLED)));
-    setConfiguration(ConfigKey.ON_SCHEDULE_TIME, this.onScheduleTime);
+    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_ENABLED, String.valueOf(onScheduleEnabled));
+    if (StringUtils.isBlank(onScheduleTime)) {
+      systemConfig.setProperty(ConfigKey.ON_SCHEDULE_TIME, systemConfig.getDefaultValue(ConfigKey.ON_SCHEDULE_TIME));
+    } else {
+      systemConfig.setProperty(ConfigKey.ON_SCHEDULE_TIME, onScheduleTime);
+    }
+    systemConfig.setProperty(ConfigKey.SYNCH_ON_LOGIN, String.valueOf(synchOnLogin));
+    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_IMPORT_USERS, String.valueOf(onScheduleImportUsers));
 
-    setConfiguration(ConfigKey.SYNCH_ON_LOGIN,
-            getSaveBooleanValue(this.synchOnLogin,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.SYNCH_ON_LOGIN)));
-
-    setConfiguration(ConfigKey.ON_SCHEDULE_IMPORT_USERS,
-            getSaveBooleanValue(this.onScheduleImportUsers,
-                    securityConfiguration.getDefaultBooleanValue(ConfigKey.ON_SCHEDULE_IMPORT_USERS)));
     setShowWarningMessage(false);
-    var msg = new FacesMessage("Security System Identity Provider saved");
-    FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess", msg);
+    FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess",
+            new FacesMessage("Security System Identity Provider saved"));
   }
 
   /**
@@ -173,29 +170,6 @@ public class SecurityProviderBean {
       return false;
     }
     return true;
-  }
-
-  private String getConfiguration(String key) {
-    return SecuritySystemConfig.getOrBlank(SecuritySystemConfig.getPrefix(name) + key);
-  }
-
-  private void setConfiguration(String key, Object value) {
-    SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(name) + key, value);
-  }
-
-  private boolean getInitBooleanValue(String key, boolean defaultValue) {
-    var connectionPool = getConfiguration(key);
-    if (StringUtils.isBlank(connectionPool)) {
-      return defaultValue;
-    }
-    return Boolean.parseBoolean(connectionPool);
-  }
-
-  private Object getSaveBooleanValue(boolean value, boolean defaultValue) {
-    if (value == defaultValue) {
-      return "";
-    }
-    return value;
   }
 
   public boolean getShowWarningMessage() {

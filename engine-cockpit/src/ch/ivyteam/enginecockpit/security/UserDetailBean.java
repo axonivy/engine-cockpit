@@ -19,6 +19,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.email.EmailNotificationConfigurator;
+import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.TaskState;
 import ch.ivyteam.ivy.workflow.query.CaseQuery;
 import ch.ivyteam.ivy.workflow.query.TaskQuery;
@@ -85,18 +86,20 @@ public class UserDetailBean {
     this.user = new User(iUser);
     this.emailSettings = new EmailSettings(iUser, new EmailNotificationConfigurator(securityContext).settings());
     roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false, 20);
-    startedCases = CaseQuery.create().where().isBusinessCase().and().creatorId()
+    var caseQueryExecutor = IWorkflowContext.of(securityContext).getCaseQueryExecutor();
+    startedCases = CaseQuery.create(caseQueryExecutor).where().isBusinessCase().and().creatorId()
             .isEqual(iUser.getSecurityMemberId()).executor().count();
-    workingOn = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+    var taskQueryExecutor = IWorkflowContext.of(securityContext).getTaskQueryExecutor();
+    workingOn = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.RESUMED)
             .or().state().isEqual(TaskState.PARKED)
             .andOverall().workerId().isEqual(iUser.getSecurityMemberId()).executor().count();
-    personalTasks = TaskQuery.create().where().state().isEqual(TaskState.CREATED)
+    personalTasks = TaskQuery.create(taskQueryExecutor).where().state().isEqual(TaskState.CREATED)
             .or().state().isEqual(TaskState.SUSPENDED)
             .or().state().isEqual(TaskState.RESUMED)
             .or().state().isEqual(TaskState.PARKED)
             .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
-    canWorkOn = TaskQuery.create().where().canWorkOn(iUser).executor().count();
+    canWorkOn = TaskQuery.create(taskQueryExecutor).where().canWorkOn(iUser).executor().count();
   }
 
   public User getUser() {

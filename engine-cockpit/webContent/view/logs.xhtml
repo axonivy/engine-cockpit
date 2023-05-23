@@ -5,6 +5,7 @@
 <h:body>
   <f:metadata>
     <f:viewParam name="log" value="#{logBean.showLog}" />
+    <f:viewAction action="#{logBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -48,6 +49,9 @@
                 <cc:LogView log="#{log}" id="logView" />
               </div>
             </p:repeat>
+            <h:outputText rendered="#{empty logBean.logs}">
+              <p:staticMessage id="noLogsMessage" severity="warn" detail="No logs found on date: #{logBean.date}" />
+            </h:outputText>
           </h:panelGroup>
         </div>
       </div>
