@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
-import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
+import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
@@ -52,7 +52,7 @@ public class RoleDetailBean {
 
   private MemberProperty roleProperties;
 
-  private LdapBrowser ldapBrowser;
+  private DirectoryBrowserBean ldapBrowser;
   private long userCount;
   private long runningTaskCount;
   private long directTaskCount;
@@ -83,7 +83,7 @@ public class RoleDetailBean {
     var securitySystem = new SecuritySystem(securityContext);
     roleProperties = new MemberProperty().new RoleProperty();
     usersOfRole = new UserDataModel(securitySystem);
-    ldapBrowser = new LdapBrowser();
+    ldapBrowser = new DirectoryBrowserBean();
 
     var iRole = securityContext.roles().find(roleName);
     if (iRole == null) {
@@ -311,7 +311,7 @@ public class RoleDetailBean {
     ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
   }
 
-  public LdapBrowser getLdapBrowser() {
+  public DirectoryBrowserBean getLdapBrowser() {
     return ldapBrowser;
   }
 

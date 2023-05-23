@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.security.ldapbrowser.LdapBrowser;
+import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryIdentityProvider;
@@ -24,7 +24,8 @@ import ch.ivyteam.naming.JndiProvider;
 @ManagedBean
 @ViewScoped
 public class SecurityLdapBean {
-
+  private static final String DEFAULT_CONTEXT = "defaultContext";
+  private static final String IMPORT_USERS_OF_GROUP = "importUsersOfGroup";
   private String name;
   private String provider;
 
@@ -43,7 +44,7 @@ public class SecurityLdapBean {
   private String defaultContext;
   private String importUsersOfGroup;
   private String userFilter;
-  private LdapBrowser ldapBrowser;
+  private DirectoryBrowserBean ldapBrowser;
   private String ldapBrowserTarget;
   private ExternalSecuritySystemConfiguration securityConfiguration;
 
@@ -100,7 +101,7 @@ public class SecurityLdapBean {
     defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
     userFilter = getConfiguration(ConfigKey.BINDING_USER_FILTER);
-    ldapBrowser = new LdapBrowser();
+    ldapBrowser = new DirectoryBrowserBean();
   }
 
   public String getUrl() {
@@ -261,25 +262,25 @@ public class SecurityLdapBean {
     SecuritySystemConfig.setOrRemove(SecuritySystemConfig.getPrefix(name) + key, value);
   }
 
-  public LdapBrowser getLdapBrowser() {
+  public DirectoryBrowserBean getLdapBrowser() {
     return ldapBrowser;
   }
 
   public void browseDefaultContext() {
-    ldapBrowserTarget = LdapBrowser.DEFAULT_CONTEXT;
+    ldapBrowserTarget = DEFAULT_CONTEXT;
     ldapBrowser.browse(getJndiConfig(null), enableInsecureSsl, defaultContext);
   }
 
   public void browseUsersOfGroup() {
-    ldapBrowserTarget = LdapBrowser.IMPORT_USERS_OF_GROUP;
+    ldapBrowserTarget = IMPORT_USERS_OF_GROUP;
     ldapBrowser.browse(getJndiConfig(getDefaultContext()), enableInsecureSsl, importUsersOfGroup);
   }
 
   public void chooseLdapName() {
-    if (LdapBrowser.DEFAULT_CONTEXT.equals(ldapBrowserTarget)) {
+    if (DEFAULT_CONTEXT.equals(ldapBrowserTarget)) {
       setDefaultContext(ldapBrowser.getSelectedNameString());
     }
-    if (LdapBrowser.IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget)) {
+    if (IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget)) {
       setImportUsersOfGroup(ldapBrowser.getSelectedNameString());
     }
   }

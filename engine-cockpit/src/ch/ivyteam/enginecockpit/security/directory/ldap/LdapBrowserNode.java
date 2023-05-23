@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.security.ldapbrowser;
+package ch.ivyteam.enginecockpit.security.directory.ldap;
 
 import javax.naming.Name;
 import javax.naming.directory.Attribute;
@@ -6,13 +6,15 @@ import javax.naming.ldap.LdapContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class LdapBrowserNode {
+import ch.ivyteam.enginecockpit.security.directory.DirectoryNode;
+
+public class LdapBrowserNode implements DirectoryNode {
+
   private static final String ICON_DEFAULT = "folder-empty";
   private static final String ICON_ORGANIZATION = "folder-share";
   private static final String ICON_DOMAIN = "buildings-1";
   private static final String ICON_GROUP = "multiple-neutral-1";
   private static final String ICON_USER = "single-neutral-actions";
-
   private final String displayName;
   private final Name name;
   private final String icon;
@@ -35,7 +37,7 @@ public class LdapBrowserNode {
     if (name.isEmpty()) {
       return ICON_DEFAULT;
     }
-    var suffix = name.getSuffix(name.size()-1);
+    var suffix = name.getSuffix(name.size() - 1);
     if (StringUtils.startsWithIgnoreCase(suffix.toString(), "ou")) {
       return ICON_ORGANIZATION;
     }
@@ -69,20 +71,32 @@ public class LdapBrowserNode {
     return attribute.contains("group") || attribute.contains("groupOfNames");
   }
 
-  Name getName() {
+  @Override
+  public Name getValue() {
     return name;
   }
 
+  @Override
   public String getIcon() {
     return icon;
   }
 
-  boolean isExpandable() {
+  @Override
+  public boolean isExpandable() {
     return expandable;
   }
 
+  @Override
   public String getDisplayName() {
     return displayName;
+  }
+
+  @Override
+  public boolean startsWith(Object value) {
+    if (value instanceof Name init) {
+      return init != null && init.startsWith(name);
+    }
+    return false;
   }
 
   @Override
