@@ -108,11 +108,18 @@ public class DirectoryBrowserBean {
 
   private void errorMessage(Exception ex) {
     LOGGER.error("Error in LDAP call", ex);
-    var message = ex.getMessage();
-    if (StringUtils.contains(message, "AcceptSecurityContext")) {
-      message = "There seems to be a problem with your credentials.";
-    }
     FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage",
-            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
+      new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", getEndUserMessage(ex)));
+  }
+
+  private static String getEndUserMessage(Exception ex) {
+    var message = ex.getMessage();
+    if (ex.getCause() != null) {
+      message = ex.getCause().getMessage();
+    }
+    if (StringUtils.contains(message, "AcceptSecurityContext")) {
+      return "There seems to be a problem with your credentials.";
+    }
+    return message;
   }
 }
