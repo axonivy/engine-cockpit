@@ -64,6 +64,8 @@ class WebTestSearchEngine {
             .contains(dossierIndex, addressIndex);
     checkIndexValues(table, dossierIndex, "10");
     checkIndexValues(table, addressIndex, "1");
+    $(By.id("searchEngineIndexForm:indiciesTable:indexName")).shouldBe(visible).click();
+    $(By.id("ajaxExceptionDialog")).shouldNotBe(visible);
   }
 
   @Test

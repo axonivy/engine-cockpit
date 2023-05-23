@@ -25,7 +25,7 @@
         </div>
       </f:facet>
       
-      <p:column headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}" styleClass="index-name-column">
+      <p:column id="indexName" headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}" styleClass="index-name-column">
         <a href="#{index.viewUrl}" class="p-d-flex p-ai-center">
           <h:outputText value="#{index.name}" styleClass="index-name" style="overflow: auto">
             <i class="si si-common-file-text table-icon"></i>
