@@ -61,15 +61,17 @@
         </script>
 
         <h:panelGroup id="currentFileContainer" styleClass="p-my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
-          <span>Currently editing: </span><b id="currentFile">#{editorBean.activeConfigFile.fileName}</b>
+          <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
+             summary="This file is read only!" severity="warn" />
+          <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
         </h:panelGroup>
         <h:form id="editorForm" styleClass="editor-card">
           <div class="p-d-flex p-flex-wrap">
-            <div class="config-file-editor">
+            <div class="config-file-editor p-mb-2">
               <pe:codeMirror id="codeMirror" mode="yaml" widgetVar="codeEditor"
                 theme="#{ivyFreyaTheme.mode eq 'light' ? 'default' : 'dark'}" matchBrackets="true" 
                 value="#{editorBean.activeConfigFile.content}" lineNumbers="true"
-                completeMethod="#{editorBean.activeConfigFile.complete}" 
+                completeMethod="#{editorBean.activeConfigFile.complete}" readonly="#{editorBean.activeConfigFile.readOnly}"
                 extraKeys="{ 'Ctrl-Space': function(cm) { PF('codeEditor').complete(); }, 'Tab': function (cm) { var spaces = Array(cm.getOption('indentUnit') + 1).join('  '); cm.replaceSelection(spaces); }, 'Ctrl-S': function (instance) { PF('saveEditor').jq.click(); }}"/>
             </div>
             <span style="opacity: 0.65; line-height: 30px;"> <i class="si si-lg si-information-circle"
@@ -77,7 +79,7 @@
             </span>
             <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
               styleClass="p-ml-auto ui-button-secondary ui-button-flat" disabled="#{editorBean.activeConfigFile == null}" />
-            <p:commandButton id="saveEditor" styleClass="p-ml-1" value="Save" disabled="#{editorBean.activeConfigFile == null}"
+            <p:commandButton id="saveEditor" styleClass="p-ml-1" value="Save" disabled="#{!editorBean.canSave()}"
               icon="si si-floppy-disk" actionListener="#{editorBean.activeConfigFile.save()}" widgetVar="saveEditor" />
           </div>
         </h:form>

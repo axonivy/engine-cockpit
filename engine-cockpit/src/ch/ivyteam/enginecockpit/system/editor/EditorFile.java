@@ -56,4 +56,8 @@ public class EditorFile {
   public String getProvider() {
     return config.provider();
   }
+
+  public boolean isReadOnly() {
+    return config.isReadOnly();
+  }
 }
