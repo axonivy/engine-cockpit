@@ -65,4 +65,8 @@ public class EditorBean {
   public void setSelectedFile(String selectedFile) {
     this.selectedFile = selectedFile;
   }
+
+  public boolean canSave() {
+    return activeConfigFile != null && !activeConfigFile.isReadOnly();
+  }
 }
