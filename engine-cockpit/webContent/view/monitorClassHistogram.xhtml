@@ -1,0 +1,108 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite"
+  xmlns:c="http://java.sun.com/jsp/jstl/core">
+  <h:body>
+    <ui:composition template="../includes/template/template.xhtml">
+      <ui:define name="breadcrumb">
+        <li><span>Monitor</span></li>
+        <li>/</li>
+        <li><span>Engine</span></li>
+        <li>/</li>
+        <li><a href="monitorClassHistogram.xhtml">Class Histogram</a></li>
+      </ui:define>
+
+      <ui:define name="topbar-items">
+        <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#class-histogram" />
+      </ui:define>
+
+      <ui:define name="content">
+        <p:growl id="msgs" showDetail="true">
+         <p:autoUpdate />
+       </p:growl>
+        <h:form id="form">
+          <div class="layout-dashboard">
+            <div class="card">
+              <div class="card-header p-flex-wrap">
+                <div class="card-title p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-computer-chip-search"></i>
+                  <h2 class="p-m-0">Class Histogram</h2>
+                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{classHistogramBean.refresh()}" title="Refresh Class Histogram" 
+                      update="@form" styleClass="p-col-fixed p-ml-auto rounded-button"/>
+                  <p:commandButton id="clear" actionListener="#{classHistogramBean.clear}" update="@form" title="Clear Class Histogram"
+                      icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
+                  <p:commandButton id="dump" update="dumpMemory" title="Dump Heap Memory" onclick="PF('dumpMemoryDialog').show();"
+                      icon="si si-download-bottom" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button"/>
+                </div>
+              </div>
+              <p:dataTable var="class" value="#{classHistogramBean.classes}" filteredValue="#{classHistogramBean.filteredClasses}"
+                widgetVar="classesTable" styleClass="ui-fluid"
+                id="classTable" style="min-width: 950px;" emptyMessage="Press refresh to load class histogram. Note that this triggers a full garbage collection and can influence the performance of the engine"
+                paginator="true" rows="100" paginatorPosition="bottom" resizableColumns="true" sortBy="#{class.instances}">
+                <f:facet name="header">
+                  <div class="ui-input-icon-left filter-container">
+                    <i class="pi pi-search"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('classesTable').filter()" placeholder="Search" value="#{classHistogramBean.filter}" />
+                  </div>
+                </f:facet>
+
+                <p:column headerText="Class" sortBy="#{class.name}" filterBy="#{class.name}">
+                  <span><h:outputText value="#{class.name}"/></span>
+                </p:column>
+                <p:column headerText="Module" sortBy="#{class.module}" filterBy="#{class.module}" width="15%">
+                  <span><h:outputText value="#{class.module}"/></span>
+                </p:column>
+                <p:column headerText="Instances" sortBy="#{class.instances}" width="10%" sortOrder="desc">
+                  <div style="background: #{class.instancesBackground};">
+                    <h:outputText id="instances" value="#{class.instances}" styleClass="gradient-text"/>
+                    <p:tooltip for="instances" value="#{class.instances}"/>
+                  </div>
+                </p:column>
+                <p:column headerText="Bytes" sortBy="#{class.bytes}" width="10%">
+                  <div style="background: #{class.bytesBackground};">
+                    <h:outputText id="bytes" value="#{class.bytes}" styleClass="gradient-text" />
+                    <p:tooltip for="bytes" value="#{class.bytes}"/>
+                  </div>
+                </p:column>
+                <p:column headerText="&#x394; Min" sortBy="#{class.deltaToMinInstances}" width="10%">
+                  <div style="background: #{class.deltaMinBackground};">
+                    <h:outputText id="deltaMin" value="&#x394; #{class.deltaToMinInstances} (#{class.minInstances})" styleClass="gradient-text"/>
+                    <p:tooltip for="deltaMin">
+                      &#x394;: #{class.deltaToMinInstances}<br/>
+                      Min: #{class.minInstances}
+                    </p:tooltip>
+                  </div>
+                
+                </p:column>
+                <p:column headerText="&#x394; Max" sortBy="#{class.deltaToMaxInstances}" width="10%">
+                  <h:outputText id="deltaMax" value="&#x394; #{class.deltaToMaxInstances} (#{class.maxInstances})"/>
+                  <p:tooltip for="deltaMax">
+                    &#x394;: #{class.deltaToMaxInstances}<br/>
+                    Max: #{class.maxInstances}
+                  </p:tooltip>
+                </p:column>
+              </p:dataTable>
+            </div>
+          </div>
+        </h:form>
+        <p:dialog style="min-width: 300px;" header="Dump Heap Memory" id="dumpMemoryDialog"
+              widgetVar="dumpMemoryDialog" responsive="true" closeOnEscape="true">
+          <h:form id="dumpMemory" styleClass="custom-dialog-form">
+            <p:staticMessage severity="warn" detail="This will dump the whole heap memory to a file."/>
+            <p:staticMessage severity="warn" detail="The resulting file can be huge (depending on the current heap size)."/>
+             <p:staticMessage severity="warn" detail="The engine may not be response for a few seconds."/>
+            <div class="custom-dialog-footer">
+              <p:commandButton id="cancel" type="button" onclick="PF('dumpMemoryDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="dump" ajax="false" value="Dump" update="form" title="Dump Heap Memory" onclick="PF('dumpMemoryDialog').hide();"
+                      icon="si si-download-bottom" styleClass="modal-input-button">
+                <p:fileDownload value="#{classHistogramBean.dumpMemory()}"/>
+              </p:commandButton>
+            </div>
+          </h:form>
+        </p:dialog>
+
+      </ui:define>
+    </ui:composition>
+  </h:body>
+</html>

@@ -4,10 +4,12 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static org.openqa.selenium.By.id;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -107,6 +109,9 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-jfr", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toSessions();
     takeScreenshot("monitor-sessions", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toClassHistogram();
+    $(id("form:refresh")).shouldBe(visible, enabled).click();
+    takeScreenshot("monitor-class-histogram", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
   @Test
