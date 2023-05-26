@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit;
 
 import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -91,9 +92,9 @@ public class WebTestDownload {
     $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download();
     $(By.id("msgs_container")).shouldHave(text("No branding resources found for app 'test-ad'"));
   }
-  
+
   @Test
-  void dumpButton() throws IOException {
+  void threadsDumpButton() throws IOException {
     Navigation.toThreads();
     var dump = $(id("form:dump"))
         .shouldBe(visible, enabled)
@@ -101,5 +102,21 @@ public class WebTestDownload {
 
     String content = Files.readString(dump.toPath());
     assertThat(content).contains("Full thread dump OpenJDK 64-Bit Server VM");
+  }
+
+  @Test
+  void classHistogramDumpMemory() throws IOException {
+    Navigation.toClassHistogram();
+    $(id("form:dump"))
+        .shouldBe(visible, enabled)
+        .click();
+    $(By.id("dumpMemoryDialog")).shouldBe(visible);
+
+    var dump = $(id("dumpMemory:dump"))
+        .shouldBe(visible, enabled)
+        .download(20_000);
+
+    assertThat(Files.size(dump.toPath())).isGreaterThan(0);
+    $(By.id("dumpMemoryDialog")).shouldBe(not(visible));
   }
 }
