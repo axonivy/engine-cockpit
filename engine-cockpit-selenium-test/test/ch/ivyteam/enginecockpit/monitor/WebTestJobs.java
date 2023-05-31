@@ -2,8 +2,10 @@ package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.Wait;
@@ -19,6 +21,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -27,10 +30,10 @@ import ch.ivyteam.enginecockpit.util.Table;
 class WebTestJobs {
 
   private static final String DURATION_STR = "[0-9][0-9]? (s|m|h|d)";
-  private static final Pattern DATE_TIME = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}");
-  private static final Pattern DURATION = Pattern.compile(DURATION_STR);
+  private static final String DATE_TIME_STR = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}";
   private static final String CRON = "(([0-9][0-9]?|\\*|\\?)\\s){6}";
-  private static final Pattern CONFIGURATION = Pattern.compile("("+DURATION+"\\s|"+CRON+")\\(.*\\)");
+  private static final Pattern NEXT_EXECUTION = Pattern.compile(DURATION_STR + "\\s" + "\\(" + DATE_TIME_STR + "\\)");
+  private static final Pattern CONFIGURATION = Pattern.compile("("+DURATION_STR+"\\s|"+CRON+")\\(.*\\)");
 
   private static final By TABLE_ID = By.id("form:jobTable");
   private Table table;
@@ -55,12 +58,10 @@ class WebTestJobs {
       var config = table.tableEntry(row, 3).text();
       assertThat(config).isNotBlank().matches(CONFIGURATION);
       var time = table.tableEntry(row, 4).text();
-      assertThat(time).isNotBlank().matches(DATE_TIME);
-      var timeTo = table.tableEntry(row, 5).text();
-      assertThat(timeTo).isNotBlank().matches(DURATION);
-      var executions = table.tableEntry(row, 6).text();
+      assertThat(time).isNotBlank().matches(NEXT_EXECUTION);
+      var executions = table.tableEntry(row, 5).text();
       assertThat(executions).isNotBlank().satisfies(exec -> Long.parseLong(exec));
-      var errors = table.tableEntry(row, 7).text();
+      var errors = table.tableEntry(row, 6).text();
       assertThat(errors).isNotBlank().satisfies(err -> Long.parseLong(err));
     }
   }
@@ -87,7 +88,7 @@ class WebTestJobs {
 
   @Test
   void schedule() {
-    var initialExecutions = Long.parseLong(table.tableEntry(1, 6).text());
+    var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
     $(By.id("form:jobTable:0:schedule")).click();
     $(By.id("scheduleJob:schedule")).click();
 
@@ -96,7 +97,7 @@ class WebTestJobs {
         .ignoring(AssertionError.class)
         .until(webDriver -> {
           webDriver.navigate().refresh();
-          var executions = Long.parseLong(table.tableEntry(1, 6).text());
+          var executions = Long.parseLong(table.tableEntry(1, 5).text());
           assertThat(executions).isGreaterThan(initialExecutions);
           return true;
         });
@@ -107,5 +108,25 @@ class WebTestJobs {
     $(By.id("layout-config-button")).click();
     $$("h4").get(0).shouldBe(text("Jobs Executed"));
     $$("h4").get(1).shouldHave(text("Job Execution Time"));
+  }
+
+  @Test
+  void openDetails() {
+    table.tableEntry(1, 1).shouldBe(visible, enabled).click();
+    $("#jobDialog").shouldBe(visible);
+    $("#job\\:close").shouldBe(visible, enabled).click();
+    $("#jobDialog").shouldNotBe(visible);
+  }
+
+  @Test
+  void copyLastError() {
+    table.tableEntry(1, 1).shouldBe(visible, enabled).click();
+    $("#jobDialog").shouldBe(visible);
+    var stackTrace = $("#job\\:lastError").text();
+    if (! stackTrace.equals("n.a.")) {
+      stackTrace = stackTrace.replace("\n ", "\n\t") + "\n";
+    }
+    $("#job\\:copyError").shouldBe(visible, enabled).click();
+    Selenide.confirm(stackTrace);
   }
 }
