@@ -46,10 +46,26 @@
 
       <p:outputLabel for="onScheduleEnabled" value="Synchronize users on schedule" />
       <p:selectBooleanCheckbox id="onScheduleEnabled" value="#{securityProviderBean.onScheduleEnabled}" />
+      
+      <p:outputLabel for="onScheduleCronEnabled" value="Use cron expression configuration" />
+      <p:selectBooleanCheckbox id="onScheduleCronEnabled" value="#{securityProviderBean.useCron}" >
+        <p:ajax update="@form" />
+      </p:selectBooleanCheckbox>
 
-      <p:outputLabel for="onScheduleTime" value="Synchronization schedule time" />
+      <p:outputLabel for="onScheduleCron" value="Synchronization schedule time" />
       <h:panelGroup>
-        <p:inputMask id="onScheduleTime" value="#{securityProviderBean.onScheduleTime}" mask="99:99" placeholder="#{securityDefaultValueBean.onScheduleTime}" />
+        <p:inputMask id="onScheduleTime" value="#{securityProviderBean.onScheduleTime}" mask="99:99"
+          placeholder="#{securityDefaultValueBean.onScheduleTime}" rendered="#{!securityProviderBean.useCron}"/>
+        <h:panelGroup rendered="#{securityProviderBean.useCron}">
+          <p:inputText id="onScheduleCron" value="#{securityProviderBean.onScheduleCron}"
+            placeholder="#{securityDefaultValueBean.onScheduleCron}"/>
+          <br/>
+          <h:panelGroup layout="block" styleClass="p-d-flex p-align-center p-mt-1">  
+            <h:outputText value="#{securityProviderBean.cronReadable}" style="opacity: 0.5;"/>
+            <h:outputText id="cronHelp" class="p-ml-1 si si-information-circle" style="opacity: 0.5;"/>
+            <p:tooltip for="cronHelp" value="#{securityProviderBean.cronHelp}" position="bottom" escape="false"/>
+          </h:panelGroup>
+        </h:panelGroup>
         <p:messages for="onScheduleTime" id="onScheduleTimeMessage" showDetail="true">
           <p:autoUpdate />
         </p:messages>

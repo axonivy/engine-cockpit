@@ -30,7 +30,7 @@ public class SecuritySystemConfig {
     String BINDING_DEFAULT_CONTEXT = IJndiSecuritySystemConstants.BINDING_DEFAULT_CONTEXT;
     String BINDING_IMPORT_USERS_OF_GROUP = IJndiSecuritySystemConstants.BINDING_IMPORT_USERS_OF_GROUP;
     String BINDING_USER_FILTER = IJndiSecuritySystemConstants.BINDING_USER_FILTER;
-    String ON_SCHEDULE_TIME = UserSynchConfig.ON_SCHEDULE_TIME;
+    String ON_SCHEDULE_CRON = UserSynchConfig.ON_SCHEDULE_CRON;
     String ON_SCHEDULE_ENABLED = UserSynchConfig.ON_SCHEDULE_ENABLED;
     String ON_SCHEDULE_IMPORT_USERS = UserSynchConfig.ON_SCHEDULE_IMPORT_USERS;
     String SYNCH_ON_LOGIN = UserSynchConfig.ON_LOGIN;
