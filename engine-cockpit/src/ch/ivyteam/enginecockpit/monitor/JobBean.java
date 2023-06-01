@@ -202,7 +202,7 @@ public class JobBean {
     }
 
     private boolean shouldScaleUp(Unit unit, long scaledValue) {
-      if (unit == Unit.MICRO_SECONDS || unit == Unit.MILLI_SECONDS) {
+      if (Unit.MICRO_SECONDS.equals(unit) || Unit.MILLI_SECONDS.equals(unit)) {
         return scaledValue >= 1000;
       }
       return scaledValue >= 100;
