@@ -28,7 +28,7 @@
           <h2 class="p-m-0">Jobs</h2>
           <p:commandButton id="refresh" actionListener="#{jobBean.refresh}" update="form" title="Refresh jobs"
               icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto rounded-button"/>
-          
+
         </div>
         <h:form id="form" style="overflow: auto;">
           <p:dataTable var="job" value="#{jobBean.jobs}" filteredValue="#{jobBean.filteredJobs}"
@@ -41,9 +41,12 @@
                 <p:inputText id="globalFilter" onkeyup="PF('jobTable').filter()" placeholder="Search" value="#{jobBean.filter}" />
               </div>
             </f:facet>
-            
+
             <p:column headerText="Name" sortBy="#{job.name}" filterBy="#{job.name}">
+              <p:commandLink oncomplete="PF('jobDialog').show();" title="Job Detail" action="#{jobBean.setSelected(job)}" update="jobDialog">
+              <i class="si si-task-list-approve table-icon"/>
               <h:outputText value="#{job.name}"/>
+              </p:commandLink>
             </p:column>
 
             <p:column headerText="Description" sortBy="#{job.description}" filterBy="#{job.description}">
@@ -53,23 +56,19 @@
             <p:column headerText="Configuration" sortBy="#{job.configuration}" filterBy="#{job.configuration}" style="width: 130px;">
               <h:outputText value="#{job.configuration}"/>
             </p:column>
-            
-            <p:column headerText="Next execution" sortBy="#{job.nextExecutionTime}" style="width: 130px;">
-              <h:outputText value="#{job.nextExecutionTime}"/>
+
+            <p:column headerText="Next execution" sortBy="#{job.nextExecutionTime}" style="width: 160px;">
+              <h:outputText value="#{job.timeUntilNextExecutionFormated} (#{job.nextExecutionTime})"/>
             </p:column>
 
-            <p:column headerText="Time until next execution" sortBy="#{job.timeUntilNextExecution}" style="width: 190px;">
-              <h:outputText value="#{job.timeUntilNextExecutionFormated}"/>
-            </p:column>
-            
             <p:column headerText="Executions" sortBy="#{job.executions}" style="width: 100px;">
               <h:outputText value="#{job.executions}"/>
             </p:column>
-            
+
             <p:column headerText="Errors" sortBy="#{job.errors}" style="width: 100px;">
               <h:outputText value="#{job.errors}"/>
             </p:column>
-            
+
              <p:column styleClass="table-btn-1">
               <p:commandButton id="schedule" oncomplete="PF('scheduleJobDialog').show();" title="Schedule to execute the job now" icon="si si-controls-play"
                 action="#{jobBean.setSelected(job)}" update="scheduleJobDialog" styleClass="rounded-button" />
@@ -88,6 +87,53 @@
           </h:form>
         </p:dialog>
       </div>
+       <p:dialog style="min-width: 300px; max-width: 80%;" header="Job #{jobBean.selected.name}" id="jobDialog"
+           widgetVar="jobDialog" responsive="true" closeOnEscape="true">
+        <h:form id="job" styleClass="custom-dialog-form">
+          <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+            <p:outputLabel for="name" value="Name" />
+            <h:outputText id="name" value="#{jobBean.selected.name}"/>
+            <p:outputLabel for="description" value="Description" />
+            <h:outputText id="description" value="#{jobBean.selected.description}"/>
+            <p:outputLabel for="configuration" value="Configuration" />
+            <h:outputText id="configuration" value="#{jobBean.selected.configuration}"/>
+            <p:outputLabel for="exectutions" value="Executions" />
+            <h:outputText id="exectutions" value="#{jobBean.selected.executions}"/>
+            <p:outputLabel for="nextExecution" value="Next Execution" />
+            <h:outputText id="nextExecution" value="#{jobBean.selected.timeUntilNextExecutionFormated} (#{jobBean.selected.nextExecutionTime})"/>
+            <p:outputLabel for="duration" value="Execution Duration" />
+            <h:panelGroup>
+              <h:outputText id="duration" value="#{jobBean.selected.minExecutionTime} / #{jobBean.selected.avgExecutionTime} / #{jobBean.selected.maxExecutionTime}"/>
+              <p:tooltip for="duration" value="min / avg / max"/>
+            </h:panelGroup>
+            <p:outputLabel for="lastSuccessTime" value="Last successful execution" />
+            <h:outputText id="lastSuccessTime" value="#{jobBean.selected.lastSuccessTime}"/>
+            <p:outputLabel for="errors" value="Errors" />
+            <h:outputText id="errors" value="#{jobBean.selected.errors}"/>
+            <p:outputLabel for="lastErrorTime" value="Last time the job failed" />
+            <h:outputText id="lastErrorTime" value="#{jobBean.selected.lastErrorTime}"/>
+            <h:panelGroup>
+              <p:outputLabel for="lastError" value="Last Error"/>
+              <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
+                  styleClass="ui-button-flat rounded-button"/>
+            </h:panelGroup>
+            <p:outputPanel id="lastError" styleClass="code">#{jobBean.selected.lastError}</p:outputPanel>  
+          </p:panelGrid>
+          <div class="custom-dialog-footer">
+            <p:commandButton id="close" type="button" onclick="PF('jobDialog').hide();" value="Close" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+          </div>
+        </h:form>
+      </p:dialog>
+      <script>
+  function copyToClipboard(btn) {
+    var lastError = $("#job\\:lastError").text();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(lastError);
+    } else {
+      alert(lastError);
+    }
+  }
+     </script>
     </ui:define>
 
     <ui:define name="live-stats">

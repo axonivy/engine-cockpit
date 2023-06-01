@@ -82,6 +82,7 @@ public class JobBean {
 
   public static final class Job {
 
+    private static final String NOT_AVAILABLE = "n.a.";
     private static final Object[] EMPTY_PARAMS = new Object[0];
     private static final String[] EMPTY_TYPES = new String[0];
     private ObjectName name;
@@ -107,7 +108,7 @@ public class JobBean {
     }
 
     public String getTimeUntilNextExecutionFormated() {
-      return format(readLongAttribute("timeUntilNextExecution"));
+      return formatMillis(readLongAttribute("timeUntilNextExecution"));
     }
 
     public String getConfiguration() {
@@ -116,7 +117,7 @@ public class JobBean {
       }
       var atFixRate = (boolean)readAttribute("atFixedRate");
       var desc = atFixRate ? " (each)" : " (between)";
-      return format(readLongAttribute("period")) + desc;
+      return formatMillis(readLongAttribute("period")) + desc;
     }
 
     public long getExecutions() {
@@ -127,6 +128,50 @@ public class JobBean {
       return readLongAttribute("errors");
     }
 
+    public String getLastError() {
+      var error = readStringAttribute("lastError");
+      if (error == null) {
+        return NOT_AVAILABLE;
+      }
+      return error;
+    }
+
+    public String getLastErrorTime() {
+      return getDateAttribute("lastErrorTime");
+    }
+
+    public String getLastSuccessTime() {
+      return getDateAttribute("lastSuccessTime");
+    }
+
+    public String getMinExecutionTime() {
+      long executions = getExecutions();
+      if (executions == 0) {
+        return NOT_AVAILABLE;
+      }
+      return formatMicros((Long)readAttribute("executionsMinExecutionTimeInMicroSeconds"));
+    }
+
+    public String getAvgExecutionTime() {
+      var total = (Long)readAttribute("executionsTotalExecutionTimeInMicroSeconds");
+      if (total == null) {
+        return formatMicros(total);
+      }
+      long executions = getExecutions();
+      if (executions == 0) {
+        return NOT_AVAILABLE;
+      }
+      return formatMicros(total/executions);
+    }
+
+    public String getMaxExecutionTime() {
+      long executions = getExecutions();
+      if (executions == 0) {
+        return NOT_AVAILABLE;
+      }
+      return formatMicros((Long)readAttribute("executionsMaxExecutionTimeInMicroSeconds"));
+    }
+
     public void schedule() {
       try {
         ManagementFactory.getPlatformMBeanServer().invoke(name, "schedule", EMPTY_PARAMS, EMPTY_TYPES);
@@ -135,14 +180,40 @@ public class JobBean {
       }
     }
 
-    private String format(long value) {
-      var unit = Unit.MILLI_SECONDS;
-      var scaledValue = Unit.MILLI_SECONDS.convertTo(value, unit);
-      while (scaledValue > 100) {
-        unit= unit.scaleUp();
-        scaledValue = Unit.MILLI_SECONDS.convertTo(value, unit);
+    private String formatMillis(long value) {
+      return format(value, Unit.MILLI_SECONDS);
+    }
+
+    private String formatMicros(Long value) {
+      if (value == null) {
+        return NOT_AVAILABLE;
+      }
+      return format(value, Unit.MICRO_SECONDS);
+    }
+
+    private String format(long value, Unit baseUnit) {
+      Unit unit = baseUnit;
+      var scaledValue = baseUnit.convertTo(value, unit);
+      while (shouldScaleUp(unit, scaledValue)) {
+        unit = unit.scaleUp();
+        scaledValue = baseUnit.convertTo(value, unit);
       }
       return scaledValue+" "+ unit.symbol();
+    }
+
+    private boolean shouldScaleUp(Unit unit, long scaledValue) {
+      if (unit == Unit.MICRO_SECONDS || unit == Unit.MILLI_SECONDS) {
+        return scaledValue >= 1000;
+      }
+      return scaledValue >= 100;
+    }
+
+    private String getDateAttribute(String attributeName) {
+      Date date = (Date)readAttribute(attributeName);
+      if (date == null) {
+        return NOT_AVAILABLE;
+      }
+      return DateUtil.formatDate(date);
     }
 
     private long readLongAttribute(String attribute) {

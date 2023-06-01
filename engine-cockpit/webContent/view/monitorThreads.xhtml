@@ -49,8 +49,8 @@
                 <p:column headerText="Id" sortBy="#{thread.id}" width="5%">              
                   <p:commandLink oncomplete="PF('threadDialog').show();" title="Thread Detail" action="#{threadBean.setSelected(thread)}" update="threadDialog">
                     <i class="p-pr-3 si si-synchronize-arrow-clock"></i>
-                  <h:outputText value="#{thread.id}"/>
-                </p:commandLink>
+                    <h:outputText value="#{thread.id}"/>
+                  </p:commandLink>
                 </p:column>
                 <p:column headerText="Name" sortBy="#{thread.name}" width="40%">
                   <h:outputText value="#{thread.name}"/>
