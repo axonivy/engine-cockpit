@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.mbeans;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -9,8 +10,6 @@ import java.util.stream.Collectors;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class MName {
   public static final MName ROOT = MName.parse("");
@@ -22,7 +21,7 @@ public class MName {
     try {
       return new MName(ObjectName.getInstance(nameStr));
     } catch (MalformedObjectNameException ex) {
-      throw new RuntimeException(ex);
+      throw new RuntimeException("Cannot parse MBean name '"+nameStr+"'", ex);
     }
   }
 
@@ -33,15 +32,9 @@ public class MName {
     } else {
       this.domain = name.getDomain();
     }
-    String keyPropertyList = name.getKeyPropertyListString();
-    if (!keyPropertyList.isEmpty()) {
-      for (String property : keyPropertyList.split(",")) {
-        String key = StringUtils.substringBefore(property, "=");
-        String value = StringUtils.substringAfter(property, "=");
-        properties.add(new Property(key, value));
-      }
-      ensureTypeIsFirst();
-    }
+    name.getKeyPropertyList().entrySet().forEach(entry -> properties.add(new Property(entry.getKey(), entry.getValue())));
+    Collections.sort(properties, new Property.PositionComparator(name.getKeyPropertyListString()));
+    ensureTypeIsFirst();
   }
 
   private void ensureTypeIsFirst() {
@@ -188,6 +181,33 @@ public class MName {
     @Override
     public int hashCode() {
       return Objects.hash(key, value);
+    }
+
+    @Override
+    public String toString() {
+      return "Property [key=" + key + ", value=" + value + "]";
+    }
+
+    private static final class PositionComparator implements Comparator<Property> {
+
+      private String propertyList;
+
+      public PositionComparator(String propertyList) {
+        this.propertyList = propertyList;
+      }
+
+      @Override
+      public int compare(Property p1, Property p2) {
+        return toPosition(p1) - toPosition(p2);
+      }
+
+      private int toPosition(Property property) {
+        int pos = propertyList.indexOf(property.key +"=" + property.value);
+        if (pos >= 0) {
+          return pos;
+        }
+        throw new IllegalArgumentException("Cannot found property " + property +" in property list '"+propertyList +"'");
+      }
     }
   }
 }
