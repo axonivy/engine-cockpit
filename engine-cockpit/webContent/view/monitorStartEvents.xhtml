@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Monitor</span></li>
+      <li>/</li>
+      <li><span>Engine</span></li>
+      <li>/</li>
+      <li><a href="monitorStartEvents.xhtml">Start Events</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#startEvents"/>
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-navigation-right-circle-1 card-title-icon"></i>
+          <h2 class="p-m-0">Start Events</h2>
+          <p:commandButton id="refresh" actionListener="#{startEventBean.refresh}" update="form" title="Refresh Start Events"
+              icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto rounded-button"/>
+
+        </div>
+        <h:form id="form" style="overflow: auto;">
+          <p:dataTable var="bean" value="#{startEventBean.beans}" filteredValue="#{startEventBean.filteredBeans}"
+            widgetVar="beanTable" styleClass="ui-fluid"
+            paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+            id="beanTable" style="min-width: 950px;">
+            <f:facet name="header">
+              <div class="ui-input-icon-left filter-container">
+                <i class="pi pi-search"/>
+                <p:inputText id="globalFilter" onkeyup="PF('beanTable').filter()" placeholder="Search" value="#{startEventBean.filter}" />
+              </div>
+            </f:facet>
+
+            <p:column headerText="Name" sortBy="#{bean.beanName}" filterBy="#{bean.beanName}">
+              <p:link outcome="monitorStartEventDetails">
+                <f:param name="application" value="#{bean.application}"/>
+                <f:param name="pm" value="#{bean.pm}"/>
+	            <f:param name="pmv" value="#{bean.pmv}"/>
+	            <f:param name="name" value="#{bean.name}"/>
+                <i class="si si-navigation-right-circle-1 table-icon"/>
+	            <h:outputText value="#{bean.beanName}"/>
+              </p:link>
+            </p:column>
+
+            <p:column headerText="Description" sortBy="#{bean.beanDescription}" filterBy="#{bean.beanDescription}">
+              <h:outputText value="#{bean.beanDescription}"/>
+            </p:column>
+
+            <p:column headerText="Request Path" sortBy="#{bean.fullRequestPath}" filterBy="#{bean.fullRequestPath}">
+              <h:outputText value="#{bean.fullRequestPath}"/>
+            </p:column>
+            
+            <p:column headerText="Next poll" sortBy="#{bean.nextPollTime}" style="width: 160px;">
+              <h:outputText value="#{bean.timeUntilNextPollFormated} (#{bean.nextPollTime})"/>
+            </p:column>
+
+            <p:column headerText="Executions" sortBy="#{bean.executions}" style="width: 100px;">
+              <h:outputText value="#{bean.executions}"/>
+            </p:column>
+
+            <p:column headerText="Errors" sortBy="#{bean.errors}" style="width: 100px;">
+              <h:outputText value="#{bean.errors}"/>
+            </p:column>
+
+             <p:column styleClass="table-btn-3">
+              <p:commandButton id="start" title="Starts the bean" icon="si si-controls-play"
+                action="#{bean.start()}" update="@form" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" disabled="#{bean.running}"/>
+              <p:commandButton id="stop" title="Stops the bean" icon="si si-controls-stop"
+                action="#{bean.stop()}" update="@form" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{! bean.running}"/>
+              <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="Schedule to poll the bean now" icon="si si-synchronize-arrow-clock"
+                action="#{startEventBean.setSelected(bean)}" update="pollBeanDialog" styleClass="p-col-fixed p-ml-1 rounded-button" />
+            </p:column>
+          </p:dataTable>
+        </h:form>
+        <p:dialog style="min-width: 300px;" header="Poll Bean #{startEventBean.selected.name}" id="pollBeanDialog"
+            widgetVar="pollBeanDialog" responsive="true" closeOnEscape="true">
+          <h:form id="pollBean" styleClass="custom-dialog-form">
+            <p:staticMessage severity="warn" detail="Scheduling to poll a bean can have negative side effects like." />
+            <div class="custom-dialog-footer">
+              <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+              <p:commandButton id="schedule" onclick="PF('pollBeanDialog').hide();" value="Poll" icon="si si-controls-play"
+                  styleClass="modal-input-button" actionListener="#{startEventBean.selected.poll()}" update="form"/>
+            </div>
+          </h:form>
+        </p:dialog>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
