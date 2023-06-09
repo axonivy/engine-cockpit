@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+
+<div class="card">
+  <h:form id="startEventPollForm">
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-time-clock-circle"></i>
+        <h6 class="p-m-0">Poll</h6>
+        <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="Schedule to poll the bean now" icon="si si-synchronize-arrow-clock"
+            update="pollBeanDialog" styleClass="p-col-fixed p-ml-auto rounded-button" />
+      </div>
+    </div>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="polls" value="Polls" />
+      <h:outputText id="polls" value="#{startEventDetailBean.polls}"/>
+      <p:outputLabel for="pollDuration" value="Poll Duration" />
+      <h:panelGroup>
+        <h:outputText id="pollDuration" value="#{startEventDetailBean.minPollTime} / #{startEventDetailBean.avgPollTime} / #{startEventDetailBean.maxPollTime}"/>
+        <p:tooltip for="pollDuration" value="min / avg / max"/>
+      </h:panelGroup>
+      <p:outputLabel for="pollErrors" value="Poll Errors" />
+      <h:outputText id="pollErrors" value="#{startEventDetailBean.pollErrors}"/>
+      <p:outputLabel for="lastPollError" value="Last Poll Error" />
+      <cc:Error id="lastPollError" error="#{startEventDetailBean.lastPollError}"/>
+      <p:outputLabel for="pollConfiguration" value="Poll Configuration" />
+      <h:outputText id="pollConfiguration" value="#{startEventDetailBean.humanReadablePollConfiguration} (#{startEventDetailBean.pollConfiguration})"/>
+      <p:outputLabel for="nextPoll" value="Next Poll" />
+      <h:outputText id="nextPoll" value="#{startEventDetailBean.timeUntilNextPollFormated} (#{startEventDetailBean.nextPollTime})"/>
+    </p:panelGrid>
+  </h:form>
+  <p:dialog style="min-width: 300px;" header="Poll Bean #{startEventBean.selected.name}" id="pollBeanDialog"
+      widgetVar="pollBeanDialog" responsive="true" closeOnEscape="true">
+    <h:form id="pollBean" styleClass="custom-dialog-form">
+      <p:staticMessage severity="warn" detail="Scheduling to poll a bean can have negative side effects like." />
+      <div class="custom-dialog-footer">
+        <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+        <p:commandButton id="schedule" onclick="PF('pollBeanDialog').hide();" value="Poll" icon="si si-controls-play"
+            styleClass="modal-input-button" actionListener="#{startEventDetailBean.poll()}" update="startEventPollForm"/>
+      </div>
+    </h:form>
+   </p:dialog>  
+</div>
+
+</html>
