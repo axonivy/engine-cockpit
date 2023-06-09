@@ -75,6 +75,10 @@ public class SecurityDefaultValueBean {
     return email;
   }
 
+  public String getOnScheduleCron() {
+    return "0 0 0 * * ?";
+  }
+
   public String getOnScheduleTime() {
     return "00:00";
   }

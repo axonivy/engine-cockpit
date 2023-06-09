@@ -268,16 +268,15 @@ public class WebTestSecuritySystemDetail {
   }
 
   private void setonScheduleTime(String time) {
-      clearonScheduleTime();
-      $(SYNC_TIME).sendKeys(time);
-      $(SYNC_TIME).shouldBe(exactValue(time));
+    clearonScheduleTime();
+    $(SYNC_TIME).sendKeys(time);
+    $(SYNC_TIME).shouldBe(exactValue(time));
   }
 
   private void clearonScheduleTime() {
     while (StringUtils.isNotEmpty($(SYNC_TIME).getValue())) {
       $(SYNC_TIME).sendKeys(Keys.BACK_SPACE);
     }
-    saveProvider();
   }
 
   private void saveProvider() {
