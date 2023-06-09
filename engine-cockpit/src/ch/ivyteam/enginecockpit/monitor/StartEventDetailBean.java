@@ -60,6 +60,10 @@ public class StartEventDetailBean {
     return "";
   }
 
+  public String getBeanClass() {
+    return readStringAttribute("beanClass");
+  }
+
   public String getBeanName() {
     return readStringAttribute("name");
   }
@@ -76,6 +80,10 @@ public class StartEventDetailBean {
            getPmv() +
            "/" +
            readStringAttribute("requestPath");
+  }
+
+  public String getBeanConfiguration() {
+    return readStringAttribute("beanConfiguration");
   }
 
   public String getApplication() {
