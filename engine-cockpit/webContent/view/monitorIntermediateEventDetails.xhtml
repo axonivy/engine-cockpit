@@ -6,14 +6,13 @@
   xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
-
 <h:body>
   <f:metadata>
-    <f:viewParam name="application" value="#{startEventDetailBean.application}" />
-    <f:viewParam name="pm" value="#{startEventDetailBean.pm}" />
-    <f:viewParam name="pmv" value="#{startEventDetailBean.pmv}" />
-    <f:viewParam name="name" value="#{startEventDetailBean.name}" />
-    <f:viewAction action="#{startEventDetailBean.onLoad}" />
+    <f:viewParam name="application" value="#{intermediateEventDetailBean.application}" />
+    <f:viewParam name="pm" value="#{intermediateEventDetailBean.pm}" />
+    <f:viewParam name="pmv" value="#{intermediateEventDetailBean.pmv}" />
+    <f:viewParam name="name" value="#{intermediateEventDetailBean.name}" />
+    <f:viewAction action="#{intermediateEventDetailBean.onLoad}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -23,9 +22,9 @@
       <li>/</li>
       <li><span>Engine</span></li>
       <li>/</li>
-      <li><a href="monitorStartEvents.xhtml">Start Events</a></li>
+      <li><a href="monitorIntermediateEvents.xhtml">Intermediate Events</a></li>
       <li>/</li>
-      <li><a href="monitorStartEventsDetails.xhtml?#{startEventBeanDetails.queryParameters}">#{startEventDetailBean.beanName}</a></li>
+      <li><a href="monitorIntermediateEventsDetails.xhtml?#{intermediateEventBeanDetails.queryParameters}">#{intermediateEventDetailBean.event.beanName}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -36,17 +35,17 @@
       <div class="layout-dashboard">
         <div class="p-grid">
           <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/monitor/events/start/bean.xhtml" />
+            <ui:include src="../includes/components/monitor/events/intermediate/bean.xhtml" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/monitor/events/start/poll.xhtml" />
+            <ui:include src="../includes/components/monitor/events/intermediate/poll.xhtml" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-12">
-            <cc:Firings event="#{startEventDetailBean.event}"/>
+            <cc:Firings event="#{intermediateEventDetailBean.event}"/>
           </div>
         </div>
       </div>
-       <ui:include src="../includes/dialogs/error.xhtml" />
+     <ui:include src="../includes/dialogs/error.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>
