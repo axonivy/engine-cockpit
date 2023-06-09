@@ -46,9 +46,10 @@ public class Navigation {
   private static final String MONITOR_OS_MENU = "#menuform\\:sr_monitor_os";
   private static final String MONITOR_LOGS_MENU = "#menuform\\:sr_logs";
   private static final String MONITOR_ENGINE_MENU = "#menuform\\:sr_monitor_engine";
-  private static final String MONITOR_ENGINE_JVM_MENU = "#menuform\\:sr_monitor_engine_jvm";
-  private static final String MONITOR_ENGINE_MEMORY_MENU = "#menuform\\:sr_monitor_engine_memory";
-  private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
+  private static final String MONITOR_JVM_MENU = "#menuform\\:sr_monitor_jvm";
+  private static final String MONITOR_JVM_JVM_MENU = "#menuform\\:sr_monitor_jvm_jvm";
+  private static final String MONITOR_JVM_MEMORY_MENU = "#menuform\\:sr_monitor_jvm_memory";
+  private static final String MONITOR_JVM_MBEANS_MENU = "#menuform\\:sr_monitor_jvm_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
   private static final String MONITOR_ENGINE_JOBS_MENU = "#menuform\\:sr_monitor_engine_jobs";
@@ -328,21 +329,21 @@ public class Navigation {
   }
 
   public static void toMBeans() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MBEANS_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JVM_MENU, MONITOR_JVM_MBEANS_MENU);
     assertCurrentUrlContains("mbeans.xhtml");
-    menuShouldBeActive(MONITOR_ENGINE_MBEANS_MENU);
+    menuShouldBeActive(MONITOR_JVM_MBEANS_MENU);
   }
 
   public static void toJvm() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_JVM_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JVM_MENU, MONITOR_JVM_JVM_MENU);
     assertCurrentUrlContains("monitorJvm.xhtml");
-    menuShouldBeActive(MONITOR_ENGINE_JVM_MENU);
+    menuShouldBeActive(MONITOR_JVM_JVM_MENU);
   }
 
   public static void toMemory() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_MEMORY_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JVM_MENU, MONITOR_JVM_MEMORY_MENU);
     assertCurrentUrlContains("monitorMemory.xhtml");
-    menuShouldBeActive(MONITOR_ENGINE_MEMORY_MENU);
+    menuShouldBeActive(MONITOR_JVM_MEMORY_MENU);
   }
 
   public static void toProcessExecution() {
