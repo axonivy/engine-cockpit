@@ -26,11 +26,58 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si-navigation-right-circle-1 card-title-icon"></i>
           <h2 class="p-m-0">Intermediate Events</h2>
-          <p:commandButton id="refresh" actionListener="#{startEventBean.refresh}" update="form" title="Refresh Start Events"
+          <p:commandButton id="refresh" actionListener="#{intermediateEventBean.refresh}" update="form" title="Refresh Start Events"
               icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto rounded-button"/>
 
         </div>
         <h:form id="form" style="overflow: auto;">
+        <p:dataTable var="bean" value="#{intermediateEventBean.intermediateEvents}"
+            widgetVar="beanTable" styleClass="ui-fluid"
+            paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+            id="beanTable" style="min-width: 950px;">
+            <f:facet name="header">
+              <div class="ui-input-icon-left filter-container">
+                <i class="pi pi-search"/>
+                <p:inputText id="globalFilter" onkeyup="PF('beanTable').filter()" placeholder="Search" />
+              </div>
+            </f:facet>
+
+            <p:column headerText="Name" sortBy="#{bean.beanName}" filterBy="#{bean.beanName}">
+              <p:link outcome="monitorStartEventDetails">
+                <f:param name="application" value="#{bean.application}"/>
+                <f:param name="pm" value="#{bean.pm}"/>
+              <f:param name="pmv" value="#{bean.pmv}"/>
+              <f:param name="name" value="#{bean.name}"/>
+                <i class="si si-navigation-right-circle-1 table-icon"/>
+              <h:outputText value="#{bean.beanName}"/>
+              </p:link>
+            </p:column>
+
+            <p:column headerText="Description" sortBy="#{bean.beanDescription}" filterBy="#{bean.beanDescription}">
+              <h:outputText value="#{bean.beanDescription}"/>
+            </p:column>
+            
+            <p:column headerText="Last start timestamp" sortBy="#{bean.lastStartTimestamp}" style="width: 160px;">
+              <h:outputText value="#{bean.lastStartTimestamp}"/>
+            </p:column>
+
+            <p:column headerText="Last firing timestamp" sortBy="#{bean.lastFiringTimestamp}" style="width: 180px;">
+              <h:outputText value="#{bean.lastFiringTimestamp}"/>
+            </p:column>
+
+            <p:column headerText="Process element ID" sortBy="#{bean.processElementId}" style="width: 160px;">
+              <h:outputText value="#{bean.processElementId}"/>
+            </p:column>
+
+             <p:column styleClass="table-btn-3">
+              <p:commandButton id="start" title="Starts the bean" icon="si si-controls-play"
+                action="#{bean.start()}" update="@form" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" disabled="#{bean.running}"/>
+              <p:commandButton id="stop" title="Stops the bean" icon="si si-controls-stop"
+                action="#{bean.stop()}" update="@form" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{! bean.running}"/>
+              <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="Schedule to poll the bean now" icon="si si-synchronize-arrow-clock"
+                action="#{startEventBean.setSelected(bean)}" update="pollBeanDialog" styleClass="p-col-fixed p-ml-1 rounded-button" />
+            </p:column>
+          </p:dataTable>
         </h:form>
       </div>
     </ui:define>
