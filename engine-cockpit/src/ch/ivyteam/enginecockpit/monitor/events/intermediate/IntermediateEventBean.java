@@ -63,10 +63,6 @@ public class IntermediateEventBean {
               getProcessElementId();
     }
 
-    public String getLastStartTimestamp() {
-      return getDateAttribute("lastStartTimestamp");
-    }
-
     public String getLastFiringTimestamp() {
       return getDateAttribute("lastFiringTimestamp");
     }

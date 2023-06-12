@@ -1,23 +1,29 @@
 package ch.ivyteam.enginecockpit.monitor.events;
 
 import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
+import javax.management.openmbean.CompositeData;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.enginecockpit.util.ErrorValue;
 
 public abstract class Bean {
 
-  private static final String NOT_AVAILABLE = "n.a.";
-  private static final Object[] EMPTY_PARAMS = new Object[0];
-  private static final String[] EMPTY_TYPES = new String[0];
+  protected static final String NOT_AVAILABLE = "n.a.";
+  protected static final Object[] EMPTY_PARAMS = new Object[0];
+  protected static final String[] EMPTY_TYPES = new String[0];
   private ObjectName name;
+  private List<Firing> firings;
 
   public Bean(ObjectName name) {
     this.name = name;
@@ -51,6 +57,46 @@ public abstract class Bean {
 
   public boolean isRunning() {
     return (Boolean)readAttribute("running");
+  }
+
+  public String getServiceState() {
+    return readStringAttribute("serviceState");
+  }
+
+  public ErrorValue getLastInitializationError() {
+    return getErrorAttribute("lastInitializationError");
+  }
+
+  public String getLastStartTimestamp() {
+    return getDateAttribute("lastStartTimestamp");
+  }
+
+  public ErrorValue getLastStartError() {
+    return getErrorAttribute("lastStartError");
+  }
+
+  public ErrorValue getLastStopError() {
+    return getErrorAttribute("lastStopError");
+  }
+
+  protected ErrorValue getErrorAttribute(String attributeName) {
+    return new ErrorValue((CompositeData) readAttribute(attributeName));
+  }
+
+  public long getPolls() {
+    return readLongAttribute("polls");
+  }
+
+  public long getPollErrors() {
+    return readLongAttribute("pollErrors");
+  }
+
+  public String getPollConfiguration() {
+    return readStringAttribute("pollConfiguration");
+  }
+
+  public String getHumanReadablePollConfiguration() {
+    return readStringAttribute("humanReadablePollConfiguration");
   }
 
   public String getNextPollTime() {
@@ -92,11 +138,46 @@ public abstract class Bean {
     }
   }
 
+  public String getMinPollTime() {
+    long polls = getPolls();
+    if (polls == 0) {
+      return NOT_AVAILABLE;
+    }
+    return formatMicros((Long) readAttribute("pollsMinExecutionTimeInMicroSeconds"));
+  }
+
+  public String getAvgPollTime() {
+    var total = (Long) readAttribute("pollsTotalExecutionTimeInMicroSeconds");
+    if (total == null) {
+      return formatMicros(total);
+    }
+    long polls = getPolls();
+    if (polls == 0) {
+      return NOT_AVAILABLE;
+    }
+    return formatMicros(total / polls);
+  }
+
+  public String getMaxPollTime() {
+    long polls = getPolls();
+    if (polls == 0) {
+      return NOT_AVAILABLE;
+    }
+    return formatMicros((Long) readAttribute("pollsMaxExecutionTimeInMicroSeconds"));
+  }
+
+  protected static String formatMicros(Long value) {
+    if (value == null) {
+      return NOT_AVAILABLE;
+    }
+    return format(value, Unit.MICRO_SECONDS);
+  }
+
   protected String formatMillis(long value) {
     return format(value, Unit.MILLI_SECONDS);
   }
 
-  private String format(long value, Unit baseUnit) {
+  private static String format(long value, Unit baseUnit) {
     Unit unit = baseUnit;
     var scaledValue = baseUnit.convertTo(value, unit);
     while (shouldScaleUp(unit, scaledValue)) {
@@ -106,7 +187,7 @@ public abstract class Bean {
     return scaledValue+" "+ unit.symbol();
   }
 
-  private boolean shouldScaleUp(Unit unit, long scaledValue) {
+  private static boolean shouldScaleUp(Unit unit, long scaledValue) {
     if (Unit.MICRO_SECONDS.equals(unit) || Unit.MILLI_SECONDS.equals(unit)) {
       return scaledValue >= 1000;
     }
@@ -136,4 +217,24 @@ public abstract class Bean {
       throw new RuntimeException(ex);
     }
   }
+
+  public void refresh() {
+    CompositeData[] data = (CompositeData[]) readAttribute("firingHistory");
+    firings = new ArrayList<>(Stream.of(data).map(this::toFiring).toList());
+  }
+
+  public List<Firing> getFirings() {
+    return firings;
+  }
+
+  private Firing toFiring(Object firing) {
+    var execution = (CompositeData) firing;
+    return new Firing(
+            (Date) execution.get("firingTimestamp"),
+            (long) execution.get("firingTimeInMicroSeconds"),
+            (String) execution.get("firingReason"),
+            new ErrorValue((CompositeData) execution.get("error")));
+  }
+
+
 }

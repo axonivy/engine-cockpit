@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.monitor;
+package ch.ivyteam.enginecockpit.monitor.events.start;
 
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
@@ -8,8 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-
-import ch.ivyteam.enginecockpit.monitor.events.Bean;
 
 @ManagedBean
 @ViewScoped
@@ -65,35 +63,4 @@ public class StartEventBean {
     this.selected = selected;
   }
 
-  public static final class StartBean extends Bean {
-
-    public StartBean(ObjectName name) {
-      super(name);
-    }
-
-    @Override
-    public String getFullRequestPath() {
-      return getApplication() +
-             "/"+
-             getPm() +
-             "$" +
-             getPmv() +
-             "/" +
-             getRequestPath();
-    }
-
-    public String getRequestPath() {
-      return readStringAttribute("requestPath");
-    }
-
-    @Override
-    public long getExecutions() {
-      return readLongAttribute("processExecutions");
-    }
-
-    @Override
-    public long getErrors() {
-      return readLongAttribute("processExecutionErrors");
-    }
-  }
 }
