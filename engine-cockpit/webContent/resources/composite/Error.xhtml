@@ -4,12 +4,11 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="error" type="ch.ivyteam.enginecockpit.util.ErrorValue"/>
-  <cc:attribute name="id"/>
 </cc:interface>
 <cc:implementation>
   <h:panelGroup styleClass="p-d-flex">
-    <h:outputText id="#{cc.attrs.id}" value="#{cc.attrs.error.message}" style="width: 100%;"/>
-    <p:commandButton value="..." rendered="#{cc.attrs.error.available}" styleClass="p-ml-1 rounded-button" title="Show full error" 
+    <h:outputText id="message" value="#{cc.attrs.error.message}" style="width: 100%;"/>
+    <p:commandButton id="showDetails" value="..." rendered="#{cc.attrs.error.available}" styleClass="p-ml-1 rounded-button" title="Show full error" 
         update="errorDialog" action="#{errorBean.setSelected(cc.attrs.error)}" oncomplete="PF('errorDialog').show();"/>
   </h:panelGroup>
 </cc:implementation>

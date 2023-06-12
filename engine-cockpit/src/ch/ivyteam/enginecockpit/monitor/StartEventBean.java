@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -16,10 +18,12 @@ import javax.management.ReflectionException;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.log.Logger;
 
 @ManagedBean
 @ViewScoped
 public class StartEventBean {
+  private static final Logger LOGGER = Logger.getPackageLogger(StartEventBean.class);
 
   private List<Bean> beans;
   private List<Bean> filteredBeans;
@@ -39,7 +43,7 @@ public class StartEventBean {
               .toList();
       beans = new ArrayList<>(beans);
     } catch (MalformedObjectNameException ex) {
-      throw new RuntimeException(ex);
+      showError("Cannot read start event beans", ex);
     }
   }
 
@@ -69,6 +73,12 @@ public class StartEventBean {
 
   public void setSelected(Bean selected) {
     this.selected = selected;
+  }
+
+  private static void showError(String msg, Exception ex) {
+    var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, ex.getMessage());
+    FacesContext.getCurrentInstance().addMessage("msgs", message);
+    LOGGER.error(msg, ex);
   }
 
   public static final class Bean {
@@ -148,7 +158,7 @@ public class StartEventBean {
       try {
         ManagementFactory.getPlatformMBeanServer().invoke(name, "pollNow", EMPTY_PARAMS, EMPTY_TYPES);
       } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-        throw new RuntimeException(ex);
+        showError("Cannot poll bean", ex);
       }
     }
 
@@ -156,7 +166,7 @@ public class StartEventBean {
       try {
         ManagementFactory.getPlatformMBeanServer().invoke(name, "start", EMPTY_PARAMS, EMPTY_TYPES);
       } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-        throw new RuntimeException(ex);
+        showError("Cannot start bean", ex);
       }
     }
 
@@ -164,7 +174,7 @@ public class StartEventBean {
       try {
         ManagementFactory.getPlatformMBeanServer().invoke(name, "stop", EMPTY_PARAMS, EMPTY_TYPES);
       } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-        throw new RuntimeException(ex);
+        showError("Cannot stop bean", ex);
       }
     }
 
@@ -173,6 +183,9 @@ public class StartEventBean {
     }
 
     private String format(long value, Unit baseUnit) {
+      if (value < 0) {
+        return "n.a.";
+      }
       Unit unit = baseUnit;
       var scaledValue = baseUnit.convertTo(value, unit);
       while (shouldScaleUp(unit, scaledValue)) {
@@ -209,7 +222,8 @@ public class StartEventBean {
       try {
         return ManagementFactory.getPlatformMBeanServer().getAttribute(name, attribute);
       } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
-        throw new RuntimeException(ex);
+        showError("Cannot read attribute " + attribute, ex);
+        return "";
       }
     }
   }

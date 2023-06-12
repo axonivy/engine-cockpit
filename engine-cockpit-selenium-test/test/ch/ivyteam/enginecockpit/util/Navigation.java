@@ -52,6 +52,7 @@ public class Navigation {
   private static final String MONITOR_JVM_MBEANS_MENU = "#menuform\\:sr_monitor_jvm_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
+  private static final String MONITOR_ENGINE_START_EVENTS_MENU = "#menuform\\:sr_monitor_engine_start_events";
   private static final String MONITOR_ENGINE_JOBS_MENU = "#menuform\\:sr_monitor_engine_jobs";
   private static final String MONITOR_PERFORMANCE_MENU = "#menuform\\:sr_monitor_performance";
   private static final String MONITOR_PERFORMANCE_PROCESS_EXECUTION_MENU = "#menuform\\:sr_monitor_performance_process_execution";
@@ -326,6 +327,12 @@ public class Navigation {
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_JOBS_MENU);
     assertCurrentUrlContains("monitorJobs.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_JOBS_MENU);
+  }
+
+  public static void toStartEvents() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_START_EVENTS_MENU);
+    assertCurrentUrlContains("monitorStartEvents.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_START_EVENTS_MENU);
   }
 
   public static void toMBeans() {
