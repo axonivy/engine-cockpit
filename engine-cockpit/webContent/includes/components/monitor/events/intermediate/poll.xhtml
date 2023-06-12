@@ -18,20 +18,18 @@
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="polls" value="Polls" />
-      <h:outputText id="polls" value="#{startEventDetailBean.polls}"/>
+      <h:outputText id="polls" value="#{intermediateEventDetailBean.event.polls}"/>
       <p:outputLabel for="pollDuration" value="Poll Duration" />
       <h:panelGroup>
-        <h:outputText id="pollDuration" value="#{startEventDetailBean.minPollTime} / #{startEventDetailBean.avgPollTime} / #{startEventDetailBean.maxPollTime}"/>
+        <h:outputText id="pollDuration" value="#{intermediateEventDetailBean.event.minPollTime} / #{intermediateEventDetailBean.event.avgPollTime} / #{intermediateEventDetailBean.event.maxPollTime}"/>
         <p:tooltip for="pollDuration" value="min / avg / max"/>
       </h:panelGroup>
       <p:outputLabel for="pollErrors" value="Poll Errors" />
-      <h:outputText id="pollErrors" value="#{startEventDetailBean.pollErrors}"/>
-      <p:outputLabel for="lastPollError" value="Last Poll Error" />
-      <cc:Error id="lastPollError" error="#{startEventDetailBean.lastPollError}"/>
+      <h:outputText id="pollErrors" value="#{intermediateEventDetailBean.event.pollErrors}"/>
       <p:outputLabel for="pollConfiguration" value="Poll Configuration" />
-      <h:outputText id="pollConfiguration" value="#{startEventDetailBean.humanReadablePollConfiguration} (#{startEventDetailBean.pollConfiguration})"/>
+      <h:outputText id="pollConfiguration" value="#{intermediateEventDetailBean.event.humanReadablePollConfiguration} (#{intermediateEventDetailBean.event.pollConfiguration})"/>
       <p:outputLabel for="nextPoll" value="Next Poll" />
-      <h:outputText id="nextPoll" value="#{startEventDetailBean.timeUntilNextPollFormated} (#{startEventDetailBean.nextPollTime})"/>
+      <h:outputText id="nextPoll" value="#{intermediateEventDetailBean.event.timeUntilNextPollFormated} (#{intermediateEventDetailBean.event.nextPollTime})"/>
     </p:panelGrid>
   </h:form>
   <p:dialog style="min-width: 300px;" header="Poll Bean#{startEventDetailBean.name}" id="pollBeanDialog"
@@ -41,7 +39,7 @@
       <div class="custom-dialog-footer">
         <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
         <p:commandButton id="poll" onclick="PF('pollBeanDialog').hide();" value="Poll" icon="si si-controls-play"
-            styleClass="modal-input-button" actionListener="#{startEventDetailBean.poll()}" update="startEventPoll"/>
+          styleClass="modal-input-button" actionListener="#{intermediateEventDetailBean.event.poll()}" update="startEventPoll"/>
       </div>
     </h:form>
    </p:dialog>  
