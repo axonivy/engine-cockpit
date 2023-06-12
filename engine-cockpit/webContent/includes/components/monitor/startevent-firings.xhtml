@@ -38,7 +38,7 @@
         <h:outputText value="#{firing.reason}"/>
       </p:column>
       <p:column headerText="Error" sortBy="#{firing.error}" filterBy="#{firing.error}">
-        <cc:Error id="error" error="#{firing.error}"/>
+        <cc:Error id="error" styleClass="p-ai-center" error="#{firing.error}"/>
       </p:column>
     </p:dataTable>
   </h:form>

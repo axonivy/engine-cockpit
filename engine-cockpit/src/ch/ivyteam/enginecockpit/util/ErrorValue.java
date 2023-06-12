@@ -11,14 +11,14 @@ public class ErrorValue {
   }
 
   public String getStackTrace() {
-    if (! isAvailable()) {
+    if (!isAvailable()) {
       return "n.a.";
     }
     return (String)error.get("stackTrace");
   }
 
   public String getMessage() {
-    if (! isAvailable()) {
+    if (!isAvailable()) {
       return "n.a.";
     }
     return (String)error.get("message");

@@ -292,6 +292,9 @@ public class StartEventDetailBean {
   }
 
   private static String format(long value, Unit baseUnit) {
+    if (value < 0) {
+      return "n.a.";
+    }
     Unit unit = baseUnit;
     var scaledValue = baseUnit.convertTo(value, unit);
     while (shouldScaleUp(unit, scaledValue)) {

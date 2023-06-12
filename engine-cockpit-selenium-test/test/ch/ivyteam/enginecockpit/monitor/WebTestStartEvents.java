@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import static ch.ivyteam.enginecockpit.util.Conditions.NOT_NEGATIVE_INTEGER_TEXT;
+import static ch.ivyteam.enginecockpit.util.Conditions.satisfiesText;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
@@ -22,8 +24,11 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.Conditions;
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
@@ -37,6 +42,12 @@ class WebTestStartEvents {
   private static final Pattern DURATION = Pattern.compile(DURATION_STR);
   private static final Pattern DURATIONS = Pattern.compile(DURATION_STR + "\\s\\/\\s" + DURATION_STR + "\\s\\/\\s" + DURATION_STR);
   private static final Pattern DATE_TIME = Pattern.compile(DATE_TIME_STR);
+  private static final Condition NEXT_EXECUTION_TEXT = Conditions.matchText(NEXT_EXECUTION);
+  private static final Condition REQUEST_PATH_TEXT = Conditions.matchText(REQUEST_PATH);
+  private static final Condition DURATION_TEXT = Conditions.matchText(DURATION);
+  private static final Condition DURATIONS_TEXT = Conditions.matchText(DURATIONS);
+  private static final Condition DATE_TIME_TEXT = Conditions.matchText(DATE_TIME);
+
   private static final By TABLE_ID = By.id("form:beanTable");
   private static final By FIRING_TABLE_ID = By.id("startEventFiring:firingTable");
   private Table table;
@@ -60,27 +71,23 @@ class WebTestStartEvents {
     for (int row = 1; row <= table.rows().size(); row++) {
       table.tableEntry(row, 1).shouldBe(not(empty));
       table.tableEntry(row, 2).shouldBe(not(empty));
-      var requestPath = table.tableEntry(row, 3).text();
-      assertThat(requestPath).isNotBlank().matches(REQUEST_PATH);
-      var nextPoll = table.tableEntry(row, 4).text();
-      assertThat(nextPoll).isNotBlank().matches(NEXT_EXECUTION);
-      var executions = table.tableEntry(row, 5).text();
-      assertThat(executions).isNotBlank().satisfies(exec -> Long.parseLong(exec));
-      var errors = table.tableEntry(row, 6).text();
-      assertThat(errors).isNotBlank().satisfies(err -> Long.parseLong(err));
+      table.tableEntry(row, 3).shouldBe(REQUEST_PATH_TEXT);
+      table.tableEntry(row, 4).shouldBe(NEXT_EXECUTION_TEXT);
+      table.tableEntry(row, 5).shouldBe(NOT_NEGATIVE_INTEGER_TEXT);
+      table.tableEntry(row, 6).shouldBe(NOT_NEGATIVE_INTEGER_TEXT);
     }
   }
 
   @Test
   void filter() {
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    $(By.id("form:beanTable:globalFilter")).sendKeys("eventLink.ivp");
+    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp");
     table.rows().shouldHave(CollectionCondition.size(1));
 
     $(By.id("form:beanTable:globalFilter")).clear();
     $(By.id("form:beanTable:globalFilter")).sendKeys("\n");
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    $(By.id("form:beanTable:globalFilter")).sendKeys("eventLink.ivp");
+    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp");
     table.rows().shouldHave(CollectionCondition.size(1));
   }
 
@@ -116,18 +123,18 @@ class WebTestStartEvents {
 
   @Test
   void stop_start() {
-    $(By.id("form:beanTable:0:start")).is(disabled);
-    $(By.id("form:beanTable:0:stop")).is(enabled);
+    $(By.id("form:beanTable:0:start")).shouldBe(disabled);
+    $(By.id("form:beanTable:0:stop")).shouldBe(enabled);
 
     $(By.id("form:beanTable:0:stop")).click();
 
-    $(By.id("form:beanTable:0:start")).is(enabled);
-    $(By.id("form:beanTable:0:stop")).is(disabled);
+    $(By.id("form:beanTable:0:start")).shouldBe(enabled);
+    $(By.id("form:beanTable:0:stop")).shouldBe(disabled);
 
     $(By.id("form:beanTable:0:start")).click();
 
-    $(By.id("form:beanTable:0:start")).is(disabled);
-    $(By.id("form:beanTable:0:stop")).is(enabled);
+    $(By.id("form:beanTable:0:start")).shouldBe(disabled);
+    $(By.id("form:beanTable:0:stop")).shouldBe(enabled);
   }
 
   @Test
@@ -140,7 +147,7 @@ class WebTestStartEvents {
     $(By.id("startEventBean:requestPath")).shouldHave(text("/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp"));
     $(By.id("startEventBean:serviceState")).shouldHave(text("RUNNING"));
     $(By.id("startEventBean:configuration")).shouldHave(text("120"));
-    assertThat($(By.id("startEventBean:lastStart")).text()).matches(DATE_TIME);
+    $(By.id("startEventBean:lastStart")).shouldHave(DATE_TIME_TEXT);
     $(By.id("startEventBean:lastStartError:message")).shouldHave(text("n.a."));
     $(By.id("startEventBean:lastInitError:message")).shouldHave(text("n.a."));
     $(By.id("startEventBean:lastStopError:message")).shouldHave(text("n.a."));
@@ -150,20 +157,20 @@ class WebTestStartEvents {
   void details_nominal_bean_stop_start() {
     navigateToDetails("eventLink.ivp");
 
-    $(By.id("startEventBean:start")).is(disabled);
-    $(By.id("startEventBean:stop")).is(enabled);
+    $(By.id("startEventBean:start")).shouldBe(disabled);
+    $(By.id("startEventBean:stop")).shouldBe(enabled);
     $(By.id("startEventBean:serviceState")).shouldHave(text("RUNNING"));
 
     $(By.id("startEventBean:stop")).click();
 
-    $(By.id("startEventBean:start")).is(enabled);
-    $(By.id("startEventBean:stop")).is(disabled);
+    $(By.id("startEventBean:start")).shouldBe(enabled);
+    $(By.id("startEventBean:stop")).shouldBe(disabled);
     $(By.id("startEventBean:serviceState")).shouldHave(text("STOPPED"));
 
     $(By.id("startEventBean:start")).click();
 
-    $(By.id("startEventBean:start")).is(disabled);
-    $(By.id("startEventBean:stop")).is(enabled);
+    $(By.id("startEventBean:start")).shouldBe(disabled);
+    $(By.id("startEventBean:stop")).shouldBe(enabled);
     $(By.id("startEventBean:serviceState")).shouldHave(text("RUNNING"));
   }
 
@@ -173,12 +180,12 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    assertThat($(By.id("startEventPoll:polls")).text()).satisfies(polls -> Integer.parseInt(polls));
-    assertThat($(By.id("startEventPoll:pollDuration")).text()).matches(DURATIONS);
+    $(By.id("startEventPoll:polls")).shouldBe(NOT_NEGATIVE_INTEGER_TEXT);
+    $(By.id("startEventPoll:pollDuration")).shouldBe(DURATIONS_TEXT);
     $(By.id("startEventPoll:pollErrors")).shouldHave(text("0"));
     $(By.id("startEventPoll:lastPollError:message")).shouldHave(text("n.a."));
     $(By.id("startEventPoll:pollConfiguration")).shouldHave(text("Every 2 minutes (PT2M)"));
-    assertThat($(By.id("startEventPoll:nextPoll")).text()).matches(NEXT_EXECUTION);
+    $(By.id("startEventPoll:nextPoll")).shouldHave(NEXT_EXECUTION_TEXT);
   }
 
   @Test
@@ -187,8 +194,8 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    assertThat($(By.id("startEventFiring:executions")).text()).satisfies(executions -> assertThat(Integer.parseInt(executions)).isGreaterThan(0));
-    assertThat($(By.id("startEventFiring:duration")).text()).matches(DURATIONS);
+    $(By.id("startEventFiring:executions")).shouldHave(Conditions.satisfiesText(executions -> assertThat(executions).isPositive()));
+    $(By.id("startEventFiring:duration")).shouldHave(DURATIONS_TEXT);
     $(By.id("startEventFiring:errors")).shouldHave(text("0"));
 
     firingTable = new Table(FIRING_TABLE_ID, true);
@@ -196,8 +203,8 @@ class WebTestStartEvents {
     for (int row = 1; row <= firingTable.rows().size(); row++) {
       firingTable.tableEntry(row, 3).shouldHave(text("Time elapsed or reached 120"));
       firingTable.tableEntry(row, 4).shouldHave(text("n.a."));
-      assertThat(firingTable.tableEntry(row, 1).text()).matches(DATE_TIME);
-      assertThat(firingTable.tableEntry(row, 2).text()).matches(DURATION);
+      firingTable.tableEntry(row, 1).shouldHave(DATE_TIME_TEXT);
+      firingTable.tableEntry(row, 2).shouldHave(DURATION_TEXT);
     }
   }
 
@@ -207,9 +214,9 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    assertThat($(By.id("startEventFiring:executions")).text()).satisfies(executions -> assertThat(Integer.parseInt(executions)).isGreaterThan(0));
-    assertThat($(By.id("startEventFiring:duration")).text()).matches(DURATIONS);
-    assertThat($(By.id("startEventFiring:errors")).text()).satisfies(errors -> assertThat(Integer.parseInt(errors)).isGreaterThan(0));
+    $(By.id("startEventFiring:executions")).shouldHave(satisfiesText(executions -> assertThat(executions).isPositive()));
+    $(By.id("startEventFiring:duration")).shouldHave(DURATIONS_TEXT);
+    $(By.id("startEventFiring:errors")).shouldHave(satisfiesText(errors -> assertThat(errors).isPositive()));
 
     firingTable = new Table(FIRING_TABLE_ID, true);
     firingTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
@@ -261,6 +268,7 @@ class WebTestStartEvents {
   }
 
   private void navigateToDetails(String link) {
+    link = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/"+link;
     $(By.id("form:beanTable:globalFilter")).sendKeys(link);
     table.rows().shouldHave(CollectionCondition.size(1));
     table.tableEntry(1, 1).shouldBe(visible, enabled).click();
@@ -278,12 +286,11 @@ class WebTestStartEvents {
     stackTrace = stackTrace + "\n";
     stackTrace = StringUtils.abbreviate(stackTrace, "", 0, 10000);
     $(By.id("error:copyError")).shouldBe(visible, enabled).click();
-    System.out.println("StackTrace length "+stackTrace.length());
     Selenide.confirm(stackTrace);
   }
 
   private void detailsPoll() {
-    assertThat($(By.id("startEventPoll:polls")).text()).satisfies(polls -> Integer.parseInt(polls));
+    $(By.id("startEventPoll:polls")).shouldHave(NOT_NEGATIVE_INTEGER_TEXT);
 
     var initialPolls = Integer.parseInt($(By.id("startEventPoll:polls")).text());
     $(By.id("startEventPoll:poll")).click();
