@@ -5,7 +5,7 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 
 <div class="card">
-  <h:form id="startEventBeanForm">
+  <h:form id="startEventFiring">
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-navigation-right-circle-1"></i>
@@ -15,8 +15,8 @@
     
     <p:panelGrid columns="6" columnClasses="p-col-12 p-md-12 p-lg-1, p-col-12- p-md-12 p-lg-3, p-col-12- p-md-1 p-lg-1, p-col-12- p-md-1 p-lg-3, p-col-12- p-md-12 p-lg-1, p-col-12- p-md-12 p-lg-3" layout="flex"
       styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="exectutions" value="Executions" />
-      <h:outputText id="exectutions" value="#{startEventDetailBean.executions}"/>
+      <p:outputLabel for="executions" value="Executions" />
+      <h:outputText id="executions" value="#{startEventDetailBean.executions}"/>
       <p:outputLabel for="duration" value="Execution Duration" />
       <h:panelGroup>
         <h:outputText id="duration" value="#{startEventDetailBean.minExecutionTime} / #{startEventDetailBean.avgExecutionTime} / #{startEventDetailBean.maxExecutionTime}"/>
@@ -38,7 +38,7 @@
         <h:outputText value="#{firing.reason}"/>
       </p:column>
       <p:column headerText="Error" sortBy="#{firing.error}" filterBy="#{firing.error}">
-        <cc:Error error="#{firing.error}"/>
+        <cc:Error id="error" error="#{firing.error}"/>
       </p:column>
     </p:dataTable>
   </h:form>

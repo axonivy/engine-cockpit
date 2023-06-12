@@ -57,7 +57,7 @@ public class StartEventDetailBean {
       showError("Cannot create MBean name", ex);
     }
     refresh();
-    return "";
+    return null;
   }
 
   public String getBeanClass() {
@@ -242,7 +242,7 @@ public class StartEventDetailBean {
     try {
       ManagementFactory.getPlatformMBeanServer().invoke(objectName, "pollNow", EMPTY_PARAMS, EMPTY_TYPES);
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      throw new RuntimeException(ex);
+      showError("Cannot poll bean", ex);
     }
   }
 
@@ -251,7 +251,7 @@ public class StartEventDetailBean {
     try {
       ManagementFactory.getPlatformMBeanServer().invoke(objectName, "start", EMPTY_PARAMS, EMPTY_TYPES);
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      throw new RuntimeException(ex);
+      showError("Cannot start bean", ex);
     }
   }
 
@@ -259,7 +259,7 @@ public class StartEventDetailBean {
     try {
       ManagementFactory.getPlatformMBeanServer().invoke(objectName, "stop", EMPTY_PARAMS, EMPTY_TYPES);
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      throw new RuntimeException(ex);
+      showError("Cannot stop bean", ex);
     }
   }
 
@@ -333,7 +333,8 @@ public class StartEventDetailBean {
     try {
       return ManagementFactory.getPlatformMBeanServer().getAttribute(objectName, attribute);
     } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
-      throw new RuntimeException(ex);
+      showError("Cannot read attribute " + attribute, ex);
+      return "";
     }
   }
 
