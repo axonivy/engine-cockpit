@@ -13,11 +13,13 @@ import javax.management.MBeanException;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
+import javax.management.openmbean.CompositeData;
 
 import com.google.common.collect.Streams;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.enginecockpit.util.ErrorValue;
 
 @ManagedBean
 @ViewScoped
@@ -129,11 +131,8 @@ public class JobBean {
     }
 
     public String getLastError() {
-      var error = readStringAttribute("lastError");
-      if (error == null) {
-        return NOT_AVAILABLE;
-      }
-      return error;
+      return new ErrorValue((CompositeData)readAttribute("lastError"))
+          .getStackTrace();
     }
 
     public String getLastErrorTime() {
