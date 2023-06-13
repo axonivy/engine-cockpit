@@ -20,7 +20,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
-import ch.ivyteam.ivy.security.internal.SecurityContext;
+import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 
 @ManagedBean
 @ViewScoped

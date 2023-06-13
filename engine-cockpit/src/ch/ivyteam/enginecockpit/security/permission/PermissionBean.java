@@ -19,7 +19,7 @@ import ch.ivyteam.ivy.security.IPermissionGroup;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityDescriptor;
 import ch.ivyteam.ivy.security.ISecurityMember;
-import ch.ivyteam.ivy.security.internal.SecurityContext;
+import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 
 @SuppressWarnings("restriction")
 @ManagedBean

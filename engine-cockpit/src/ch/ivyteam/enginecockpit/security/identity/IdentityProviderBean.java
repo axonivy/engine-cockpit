@@ -15,7 +15,7 @@ import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderConfigMetadataProvider;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
-import ch.ivyteam.ivy.security.internal.SecurityContext;
+import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
 @ManagedBean

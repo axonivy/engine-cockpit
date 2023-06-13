@@ -19,7 +19,7 @@ import ch.ivyteam.ivy.job.cron.CronExpression;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.external.SecuritySystemConfig;
-import ch.ivyteam.ivy.security.internal.SecurityContext;
+import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
 @ManagedBean
