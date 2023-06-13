@@ -152,7 +152,7 @@ public class EngineCockpitUtil {
   public static void destroyRunningCase() {
     runTestProcess("17D57ADFD804B24E/destroyRunningCase.ivp");
   }
-  
+
   public static void deadlock() {
     runTestProcess("1871451A54CFD978/deadlock.ivp");
   }
@@ -172,7 +172,7 @@ public class EngineCockpitUtil {
     return EngineUrl.base() + "/system/engine-cockpit/faces/" + page;
   }
 
-  private static String getAppName() {
+  public static String getAppName() {
     return isDesigner() ? DESIGNER : "test";
   }
 

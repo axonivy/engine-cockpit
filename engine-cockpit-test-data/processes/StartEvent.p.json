@@ -1,0 +1,118 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
+  "id" : "188AE871FC5C4A58",
+  "config" : {
+    "data" : "engine.cockpit.test.data.Data"
+  },
+  "elements" : [ {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      }
+    }, {
+      "id" : "f0",
+      "type" : "ProgramStart",
+      "name" : "nominal",
+      "config" : {
+        "javaClass" : "ch.ivyteam.ivy.process.eventstart.beans.TimerBean",
+        "userConfig" : "120",
+        "link" : "eventLink.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f3",
+      "type" : "ProgramStart",
+      "name" : "process error",
+      "config" : {
+        "javaClass" : "ch.ivyteam.ivy.process.eventstart.beans.TimerBean",
+        "userConfig" : "120",
+        "link" : "eventLink2.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 144 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f6", "to" : "f5" }
+      ]
+    }, {
+      "id" : "f5",
+      "type" : "Script",
+      "name" : "Error",
+      "config" : {
+        "output" : {
+          "code" : "0/0;"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 256, "y" : 144 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f7",
+      "type" : "ProgramStart",
+      "name" : "poll error",
+      "config" : {
+        "javaClass" : "ch.ivyteam.enginecockpit.monitor.PollError",
+        "link" : "eventLink3.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 232 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f8", "to" : "f1", "via" : [ { "x" : 352, "y" : 232 } ] }
+      ]
+    }, {
+      "id" : "f9",
+      "type" : "ProgramStart",
+      "name" : "init error",
+      "config" : {
+        "javaClass" : "ch.ivyteam.enginecockpit.monitor.InitError",
+        "link" : "eventLink4.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 312 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f10", "to" : "f1", "via" : [ { "x" : 352, "y" : 312 } ] }
+      ]
+    }, {
+      "id" : "f11",
+      "type" : "ProgramStart",
+      "name" : "start error",
+      "config" : {
+        "javaClass" : "ch.ivyteam.enginecockpit.monitor.StartError",
+        "link" : "eventLink5.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 392 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f12", "to" : "f1", "via" : [ { "x" : 352, "y" : 392 } ] }
+      ]
+    }, {
+      "id" : "f13",
+      "type" : "ProgramStart",
+      "name" : "stop error",
+      "config" : {
+        "javaClass" : "ch.ivyteam.enginecockpit.monitor.StopError",
+        "link" : "eventLink6.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 472 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      }
+    } ]
+}

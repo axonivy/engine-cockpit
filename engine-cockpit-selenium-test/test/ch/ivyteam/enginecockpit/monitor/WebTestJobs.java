@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import static ch.ivyteam.enginecockpit.util.Conditions.matchText;
+import static ch.ivyteam.enginecockpit.util.Conditions.NOT_NEGATIVE_INTEGER_TEXT;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
@@ -55,14 +57,10 @@ class WebTestJobs {
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(20));
     for (int row = 1; row < table.rows().size(); row++) {
       table.tableEntry(row, 1).shouldBe(not(empty));
-      var config = table.tableEntry(row, 3).text();
-      assertThat(config).isNotBlank().matches(CONFIGURATION);
-      var time = table.tableEntry(row, 4).text();
-      assertThat(time).isNotBlank().matches(NEXT_EXECUTION);
-      var executions = table.tableEntry(row, 5).text();
-      assertThat(executions).isNotBlank().satisfies(exec -> Long.parseLong(exec));
-      var errors = table.tableEntry(row, 6).text();
-      assertThat(errors).isNotBlank().satisfies(err -> Long.parseLong(err));
+      table.tableEntry(row, 3).shouldBe(matchText(CONFIGURATION));
+      table.tableEntry(row, 4).shouldBe(matchText(NEXT_EXECUTION));
+      table.tableEntry(row, 5).shouldBe(NOT_NEGATIVE_INTEGER_TEXT);
+      table.tableEntry(row, 6).shouldBe(NOT_NEGATIVE_INTEGER_TEXT);
     }
   }
 

@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="application" value="#{startEventDetailBean.application}" />
+    <f:viewParam name="pm" value="#{startEventDetailBean.pm}" />
+    <f:viewParam name="pmv" value="#{startEventDetailBean.pmv}" />
+    <f:viewParam name="name" value="#{startEventDetailBean.name}" />
+    <f:viewAction action="#{startEventDetailBean.onLoad}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Monitor</span></li>
+      <li>/</li>
+      <li><span>Engine</span></li>
+      <li>/</li>
+      <li><a href="monitorStartEvents.xhtml">Start Events</a></li>
+      <li>/</li>
+      <li><a href="monitorStartEventsDetails.xhtml?#{startEventBeanDetails.queryParameters}">#{startEventDetailBean.beanName}</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#startEvents"/>
+    </ui:define>
+
+    <ui:define name="content">
+       <p:growl id="msgs" showDetail="true">
+         <p:autoUpdate />
+       </p:growl>
+      <div class="layout-dashboard">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/monitor/startevent-bean.xhtml" />
+          </div>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <ui:include src="../includes/components/monitor/startevent-poll.xhtml" />
+          </div>
+          <div class="p-col-12 p-md-12 p-xl-12">
+            <ui:include src="../includes/components/monitor/startevent-firings.xhtml" />
+          </div>
+        </div>
+      </div>
+       <ui:include src="../includes/dialogs/error.xhtml" />
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

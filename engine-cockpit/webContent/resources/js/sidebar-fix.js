@@ -57,6 +57,7 @@ jQuery(function () {
       'businesscalendar-detail.xhtml': 'businesscalendar.xhtml',
       'monitorTraceDetail.xhtml': 'monitorTraces.xhtml',
       'searchindex.xhtml': 'searchengine.xhtml',
+      'monitorStartEventDetails.xhtml': 'monitorStartEvents.xhtml',
     };
     return map[value] == null ? value : map[value];
   }

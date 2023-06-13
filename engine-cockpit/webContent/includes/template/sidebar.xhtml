@@ -60,18 +60,22 @@
           </p:submenu>
           <p:submenu id="sr_monitor" label="Monitor" icon="si si-pie-line-graph-desktop">
             <p:menuitem id="sr_monitor_os" value="OS" icon="si si-server-search" url="monitorOs.xhtml" />
-            <p:submenu id="sr_monitor_engine" label="Engine" icon="si si-computer-chip-search">
-              <p:menuitem id="sr_monitor_engine_jvm" value="JVM" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
-              <p:menuitem id="sr_monitor_engine_memory" value="Memory" icon="si si-analytics-board-graph-line"
+            <p:submenu id="sr_monitor_jvm" label="JVM" icon="si si-coffee-cup">
+              <p:menuitem id="sr_monitor_jvm_jvm" value="JVM" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
+              <p:menuitem id="sr_monitor_jvm_memory" value="Memory" icon="si si-analytics-board-graph-line"
                 url="monitorMemory.xhtml" />
+              <p:menuitem id="sr_monitor_jvm_mbeans" value="MBeans" icon="si si-graph-statistics-coffee"
+                url="mbeans.xhtml" />
+            </p:submenu>
+            <p:submenu id="sr_monitor_engine" label="Engine" icon="si si-computer-chip-search">
               <p:menuitem id="sr_monitor_engine_sessions" value="Sessions" icon="si si-analytics-graph-line"
                 url="monitor-sessions.xhtml" />
-              <p:menuitem id="sr_monitor_engine_cache" value="Cache" icon="si si-monitor-heart-beat-search"
-                url="monitorCache.xhtml" />
+              <p:menuitem id="sr_monitor_engine_start_events" value="Start Events" icon="si si-navigation-right-circle-1"
+                url="monitorStartEvents.xhtml" />
               <p:menuitem id="sr_monitor_engine_jobs" value="Jobs" icon="si si-task-list-approve"
                 url="monitorJobs.xhtml" />
-              <p:menuitem id="sr_monitor_engine_mbeans" value="MBeans" icon="si si-graph-statistics-coffee"
-                url="mbeans.xhtml" />
+              <p:menuitem id="sr_monitor_engine_cache" value="Cache" icon="si si-monitor-heart-beat-search"
+                url="monitorCache.xhtml" />
             </p:submenu>
             <p:submenu id="sr_monitor_performance" label="Performance" icon="si si-time-clock-circle">
               <p:menuitem id="sr_monitor_performance_process_execution" value="Process Execution" icon="si si-optimization-timer"
