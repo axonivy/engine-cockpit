@@ -157,6 +157,10 @@ public class EngineCockpitUtil {
     runTestProcess("1871451A54CFD978/deadlock.ivp");
   }
 
+  public static void createIntermediateEvent() {
+    runTestProcess("188B95440FE25CA6/testIntermediateEventProcess.ivp");
+  }
+
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
             .toUrl());

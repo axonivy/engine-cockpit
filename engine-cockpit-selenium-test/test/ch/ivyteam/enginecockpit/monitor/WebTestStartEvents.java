@@ -49,7 +49,7 @@ class WebTestStartEvents {
   private static final Condition DATE_TIME_TEXT = Conditions.matchText(DATE_TIME);
 
   private static final By TABLE_ID = By.id("form:beanTable");
-  private static final By FIRING_TABLE_ID = By.id("startEventFiring:firingTable");
+  private static final By FIRING_TABLE_ID = By.id("startEventFiring:eventFiring:firingTable");
   private Table table;
   private Table firingTable;
 
@@ -194,9 +194,9 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    $(By.id("startEventFiring:executions")).shouldHave(Conditions.satisfiesText(executions -> assertThat(executions).isPositive()));
-    $(By.id("startEventFiring:duration")).shouldHave(DURATIONS_TEXT);
-    $(By.id("startEventFiring:errors")).shouldHave(text("0"));
+    $(By.id("startEventFiring:eventFiring:executions")).shouldHave(Conditions.satisfiesText(executions -> assertThat(executions).isPositive()));
+    $(By.id("startEventFiring:eventFiring:duration")).shouldHave(DURATIONS_TEXT);
+    $(By.id("startEventFiring:eventFiring:errors")).shouldHave(text("0"));
 
     firingTable = new Table(FIRING_TABLE_ID, true);
     firingTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
@@ -214,16 +214,16 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    $(By.id("startEventFiring:executions")).shouldHave(satisfiesText(executions -> assertThat(executions).isPositive()));
-    $(By.id("startEventFiring:duration")).shouldHave(DURATIONS_TEXT);
-    $(By.id("startEventFiring:errors")).shouldHave(satisfiesText(errors -> assertThat(errors).isPositive()));
+    $(By.id("startEventFiring:eventFiring:executions")).shouldHave(satisfiesText(executions -> assertThat(executions).isPositive()));
+    $(By.id("startEventFiring:eventFiring:duration")).shouldHave(DURATIONS_TEXT);
+    $(By.id("startEventFiring:eventFiring:errors")).shouldHave(satisfiesText(errors -> assertThat(errors).isPositive()));
 
     firingTable = new Table(FIRING_TABLE_ID, true);
     firingTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
     for (int row = 1; row <= firingTable.rows().size(); row++) {
       firingTable.tableEntry(row, 4).shouldHave(text("ivy:error:script"));
     }
-    $(By.id("startEventFiring:firingTable:0:error:showDetails")).click();
+    $(By.id("startEventFiring:eventFiring:firingTable:0:showDetails")).click();
     assertErrorDialog("ivy:error:script");
   }
 
@@ -271,7 +271,7 @@ class WebTestStartEvents {
     link = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/"+link;
     $(By.id("form:beanTable:globalFilter")).sendKeys(link);
     table.rows().shouldHave(CollectionCondition.size(1));
-    table.tableEntry(1, 1).shouldBe(visible, enabled).click();
+    table.tableEntry(1, 1).shouldBe(visible, enabled).findElement(By.tagName("a")).click();
   }
 
   private void assertErrorDialog(String message) {

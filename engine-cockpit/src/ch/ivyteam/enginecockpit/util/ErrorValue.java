@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.util;
 
 import javax.management.openmbean.CompositeData;
 
+import ch.ivyteam.ivy.environment.Ivy;
+
 public class ErrorValue {
 
   private CompositeData error;
@@ -11,6 +13,7 @@ public class ErrorValue {
   }
 
   public String getStackTrace() {
+    Ivy.log().fatal(error);
     if (!isAvailable()) {
       return "n.a.";
     }

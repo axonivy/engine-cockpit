@@ -1,0 +1,61 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
+  "id" : "188B95440FE25CA6",
+  "config" : {
+    "data" : "engine.cockpit.test.data.Data"
+  },
+  "elements" : [ {
+    "id" : "f18",
+    "type" : "RequestStart",
+    "name" : "testIntermediateEventProcess.ivp",
+    "config" : {
+      "signature" : "testIntermediateEventProcess",
+      "input" : {
+        "map" : { },
+        "code" : [
+          "import java.util.Random;",
+          "Random random = new Random();",
+          "out.eventID = random.nextInt();"
+        ]
+      },
+      "request" : {
+        "description" : "Creates test intermediate event process"
+      },
+      "task" : {
+        "name" : "testIntermediateEventProcess task"
+      },
+      "case" : {
+        "name" : "testIntermediateEventProcess case"
+      }
+    },
+    "visual" : {
+      "at" : { "x" : 96, "y" : 448 },
+      "labelOffset" : { "x" : 11, "y" : 40 }
+    },
+    "connect" : [
+      { "id" : "f21", "to" : "f19" }
+    ]
+  }, {
+    "id" : "f19",
+    "type" : "WaitEvent",
+    "name" : "TestIntermediateEvent",
+    "config" : {
+      "javaClass" : "ch.ivyteam.enginecockpit.monitor.TestIntermediateClass",
+      "eventId" : "in.eventID.toString()"
+    },
+    "visual" : {
+      "at" : { "x" : 224, "y" : 448 },
+      "labelOffset" : { "x" : 72, "y" : 36 },
+      "description" : "intermediate event description"
+    },
+    "connect" : [
+      { "id" : "f22", "to" : "f20" }
+    ]
+  }, {
+    "id" : "f20",
+    "type" : "TaskEnd",
+    "visual" : {
+      "at" : { "x" : 352, "y" : 448 }
+    }
+  } ]
+}

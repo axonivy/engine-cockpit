@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui">
+
+<div class="card">
+  <h:form id="intermediateEventPoll">
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-time-clock-circle"></i>
+        <h6 class="p-m-0">Poll</h6>
+        <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="Schedule to poll the bean now" icon="si si-synchronize-arrow-clock"
+            update="pollBeanDialog" styleClass="p-col-fixed p-ml-auto rounded-button" />
+      </div>
+    </div>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="polls" value="Polls" />
+      <h:outputText id="polls" value="#{intermediateEventDetailBean.event.polls}"/>
+      <p:outputLabel for="pollDuration" value="Poll Duration" />
+      <h:panelGroup>
+        <h:outputText id="pollDuration" value="#{intermediateEventDetailBean.event.minPollTime} / #{intermediateEventDetailBean.event.avgPollTime} / #{intermediateEventDetailBean.event.maxPollTime}"/>
+        <p:tooltip for="pollDuration" value="min / avg / max"/>
+      </h:panelGroup>
+      <p:outputLabel for="pollErrors" value="Poll Errors" />
+      <h:outputText id="pollErrors" value="#{intermediateEventDetailBean.event.pollErrors}"/>
+      <p:outputLabel for="pollConfiguration" value="Poll Configuration" />
+      <h:outputText id="pollConfiguration" value="#{intermediateEventDetailBean.event.humanReadablePollConfiguration} (#{intermediateEventDetailBean.event.pollConfiguration})"/>
+      <p:outputLabel for="nextPoll" value="Next Poll" />
+      <h:outputText id="nextPoll" value="#{intermediateEventDetailBean.event.timeUntilNextPollFormated} (#{intermediateEventDetailBean.event.nextPollTime})"/>
+    </p:panelGrid>
+  </h:form>
+  <p:dialog style="min-width: 300px;" header="Poll Bean #{intermediateEventBean.selected.name}" id="pollBeanDialog"
+      widgetVar="pollBeanDialog" responsive="true" closeOnEscape="true">
+    <h:form id="pollBean" styleClass="custom-dialog-form">
+      <p:staticMessage severity="warn" detail="Scheduling to poll a bean can have negative side effects like." />
+      <div class="custom-dialog-footer">
+        <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
+        <p:commandButton id="poll" onclick="PF('pollBeanDialog').hide();" value="Poll" icon="si si-controls-play"
+          styleClass="modal-input-button" actionListener="#{intermediateEventDetailBean.event.poll()}" update="intermediateEventPoll"/>
+      </div>
+    </h:form>
+   </p:dialog>  
+</div>
+
+</html>

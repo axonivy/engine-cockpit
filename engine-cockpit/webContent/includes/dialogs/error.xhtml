@@ -13,7 +13,7 @@
         <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
             styleClass="ui-button-flat rounded-button"/>
       </h:panelGroup>
-      <p:outputPanel id="stackTrace" styleClass="code">#{errorBean.selected.stackTrace}</p:outputPanel>  
+      <h:outputText id="stackTrace" styleClass="code" value="#{errorBean.selected.stackTrace}"/>  
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="close" type="button" onclick="PF('errorDialog').hide();" value="Close" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>

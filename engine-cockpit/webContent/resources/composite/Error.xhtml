@@ -9,8 +9,9 @@
 <cc:implementation>
   <h:panelGroup styleClass="p-d-flex p-jc-between #{cc.attrs.styleClass}">
     <h:outputText id="message" value="#{cc.attrs.error.message}" />
-    <p:commandButton id="showDetails" rendered="#{cc.attrs.error.available}" icon="si si-navigation-menu-horizontal" styleClass="p-ml-1 rounded-button" title="Show full error" 
-        update="errorDialog" action="#{errorBean.setSelected(cc.attrs.error)}" oncomplete="PF('errorDialog').show();"/>
+    <p:commandButton id="showDetails" rendered="#{cc.attrs.error.available}" icon="si si-navigation-menu-horizontal" 
+	  styleClass="p-ml-1 rounded-button" title="Show full error" style="min-width: 2.25em"
+      update="errorDialog" action="#{errorBean.setSelected(cc.attrs.error)}" oncomplete="PF('errorDialog').show();"/>
   </h:panelGroup>
 </cc:implementation>
 </html>
