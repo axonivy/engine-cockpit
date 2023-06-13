@@ -7,10 +7,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -27,6 +25,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.log.Logger;
 
@@ -37,6 +36,8 @@ public class JfrBean {
   static final ObjectName FLIGHT_RECORDER = createFlightRecorderName();
 
   private static final Logger LOGGER = Logger.getPackageLogger(JfrBean.class);
+  private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
+
 
   private List<Recording> recordings;
   private List<Configuration> configurations;
@@ -82,7 +83,7 @@ public class JfrBean {
         setConfiguration(uploadedConfiguration.getName());
       }
     } catch (Exception ex) {
-      showError("Cannot upload configuration file", ex);
+      HANDLER.showError("Cannot upload configuration file", ex);
     }
   }
 
@@ -118,7 +119,7 @@ public class JfrBean {
       ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "startRecording", new Object[]{id}, new String[]{long.class.getName()});
       refresh();
     } catch (InstanceNotFoundException | ReflectionException | MBeanException | OpenDataException ex) {
-      showError("Cannot start recording '" + name + "'", ex);
+      HANDLER.showError("Cannot start recording '" + name + "'", ex);
     }
   }
 
@@ -158,7 +159,7 @@ public class JfrBean {
       ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "stopRecording", new Object[]{recording.id()}, new String[]{long.class.getName()});
       refresh();
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      showError("Cannot stop recording '"+recording.name()+"'", ex);
+      HANDLER.showError("Cannot stop recording '"+recording.name()+"'", ex);
     }
   }
 
@@ -167,7 +168,7 @@ public class JfrBean {
       ManagementFactory.getPlatformMBeanServer().invoke(FLIGHT_RECORDER, "closeRecording", new Object[]{recording.id()}, new String[]{long.class.getName()});
       refresh();
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      showError("Cannot close recording '"+recording.name()+"'", ex);
+      HANDLER.showError("Cannot close recording '"+recording.name()+"'", ex);
     }
   }
 
@@ -185,7 +186,7 @@ public class JfrBean {
           .map(Recording::from)
           .toList();
     } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
-      showError("Cannot read attribute 'Recordings' from flight recorder", ex);
+      HANDLER.showError("Cannot read attribute 'Recordings' from flight recorder", ex);
       return List.of();
     }
   }
@@ -197,7 +198,7 @@ public class JfrBean {
           .map(Configuration::from)
           .toList());
     } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
-      showError("Cannot read attribute 'Configurations' from flight recorder", ex);
+      HANDLER.showError("Cannot read attribute 'Configurations' from flight recorder", ex);
       return List.of();
     }
   }
@@ -206,14 +207,8 @@ public class JfrBean {
     try {
       return new ObjectName("jdk.management.jfr", "type", "FlightRecorder");
     } catch (MalformedObjectNameException ex) {
-      showError("Cannot create FlightRecorder name", ex);
+      HANDLER.showError("Cannot create FlightRecorder name", ex);
       return null;
     }
-  }
-
-  private static void showError(String msg, Exception ex) {
-    var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, ex.getMessage());
-    FacesContext.getCurrentInstance().addMessage("msgs", message);
-    LOGGER.error(msg, ex);
   }
 }

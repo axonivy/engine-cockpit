@@ -19,11 +19,15 @@ import com.google.common.collect.Streams;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
+import ch.ivyteam.log.Logger;
 
 @ManagedBean
 @ViewScoped
 public class JobBean {
+  private static final Logger LOGGER = Logger.getPackageLogger(JobBean.class);
+  private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
 
   private List<Job> jobs;
   private List<Job> filteredJobs;
@@ -175,7 +179,7 @@ public class JobBean {
       try {
         ManagementFactory.getPlatformMBeanServer().invoke(name, "schedule", EMPTY_PARAMS, EMPTY_TYPES);
       } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-        throw new RuntimeException(ex);
+        HANDLER.showError("Cannot schedule job for execution", ex);
       }
     }
 
@@ -227,7 +231,8 @@ public class JobBean {
       try {
         return ManagementFactory.getPlatformMBeanServer().getAttribute(name, attribute);
       } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
-        throw new RuntimeException(ex);
+        HANDLER.showError("Cannot read attribute " + attribute, ex);
+        return null;
       }
     }
   }
