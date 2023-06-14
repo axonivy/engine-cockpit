@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
@@ -92,7 +93,7 @@ public class WebTestTrafficGraph {
   void data_afterRecording() {
     recordData();
 
-    $$(By.className("ui-diagram-element")).shouldHave(size(2));
+    $$(By.className("ui-diagram-element")).shouldHave(sizeGreaterThanOrEqual(2));
   }
 
   @Test

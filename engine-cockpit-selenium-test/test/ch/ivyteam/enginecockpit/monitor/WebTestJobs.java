@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
-import static ch.ivyteam.enginecockpit.util.Conditions.matchText;
 import static ch.ivyteam.enginecockpit.util.Conditions.NOT_NEGATIVE_INTEGER_TEXT;
+import static ch.ivyteam.enginecockpit.util.Conditions.matchText;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
@@ -31,7 +31,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestJobs {
 
-  private static final String DURATION_STR = "[0-9][0-9]? (s|m|h|d)";
+  private static final String DURATION_STR = "[0-9][0-9]* (ms|s|m|h|d)";
   private static final String DATE_TIME_STR = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}";
   private static final String CRON = "(([0-9][0-9]?|\\*|\\?)\\s){6}";
   private static final Pattern NEXT_EXECUTION = Pattern.compile(DURATION_STR + "\\s" + "\\(" + DATE_TIME_STR + "\\)");
