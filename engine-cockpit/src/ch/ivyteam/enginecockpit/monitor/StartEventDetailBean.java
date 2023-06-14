@@ -7,10 +7,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -22,6 +20,7 @@ import javax.management.openmbean.CompositeData;
 import ch.ivyteam.enginecockpit.monitor.performance.jfr.JfrBean;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
 import ch.ivyteam.log.Logger;
 
@@ -32,6 +31,7 @@ public class StartEventDetailBean {
   private static final Object[] EMPTY_PARAMS = new Object[0];
   private static final String[] EMPTY_TYPES = new String[0];
   private static final Logger LOGGER = Logger.getPackageLogger(JfrBean.class);
+  private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
 
   private ObjectName objectName;
   private String application;
@@ -54,7 +54,7 @@ public class StartEventDetailBean {
     try {
       this.objectName = new ObjectName("ivy Engine", hashtable);
     } catch (MalformedObjectNameException ex) {
-      showError("Cannot create MBean name", ex);
+      HANDLER.showError("Cannot create MBean name", ex);
     }
     refresh();
     return null;
@@ -242,7 +242,7 @@ public class StartEventDetailBean {
     try {
       ManagementFactory.getPlatformMBeanServer().invoke(objectName, "pollNow", EMPTY_PARAMS, EMPTY_TYPES);
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      showError("Cannot poll bean", ex);
+      HANDLER.showError("Cannot poll bean", ex);
     }
   }
 
@@ -251,7 +251,7 @@ public class StartEventDetailBean {
     try {
       ManagementFactory.getPlatformMBeanServer().invoke(objectName, "start", EMPTY_PARAMS, EMPTY_TYPES);
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      showError("Cannot start bean", ex);
+      HANDLER.showError("Cannot start bean", ex);
     }
   }
 
@@ -259,7 +259,7 @@ public class StartEventDetailBean {
     try {
       ManagementFactory.getPlatformMBeanServer().invoke(objectName, "stop", EMPTY_PARAMS, EMPTY_TYPES);
     } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      showError("Cannot stop bean", ex);
+      HANDLER.showError("Cannot stop bean", ex);
     }
   }
 
@@ -336,15 +336,9 @@ public class StartEventDetailBean {
     try {
       return ManagementFactory.getPlatformMBeanServer().getAttribute(objectName, attribute);
     } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
-      showError("Cannot read attribute " + attribute, ex);
+      HANDLER.showError("Cannot read attribute " + attribute, ex);
       return "";
     }
-  }
-
-  private static void showError(String msg, Exception ex) {
-    var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, ex.getMessage());
-    FacesContext.getCurrentInstance().addMessage("msgs", message);
-    LOGGER.error(msg, ex);
   }
 
   public static final class Firing {
