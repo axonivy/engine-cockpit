@@ -152,8 +152,9 @@ body .user-avatar > img {
   border-radius: 10px;
   padding: 5px;
 }
-.file-upload .drop-zone.is-dragover {
+.file-upload .drop-zone:where(.is-dragover, .ui-state-drag) {
   border-color: var(--primary-color, #607d8b);
+  background: var(--primary-lighter-color);
 }
 .file-upload .file-upload-error {
   padding: 8px 14px;
