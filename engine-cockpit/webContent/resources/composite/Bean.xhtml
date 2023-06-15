@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:er="http://java.sun.com/jsf/composite/composite">
+<cc:interface>
+  <cc:attribute name="event" />
+</cc:interface>
+
+<cc:implementation>
+<div class="card">
+  <h:form id="eventBean">
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-cog"></i>
+        <h6 class="p-m-0">Bean</h6>
+        <p:commandButton id="start" title="Starts the bean" icon="si si-controls-play"
+            action="#{cc.attrs.event.start()}" update="@form" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" disabled="#{cc.attrs.event.running}"/>
+        <p:commandButton id="stop" title="Stops the bean" icon="si si-controls-stop"
+            action="#{cc.attrs.event.stop()}" update="@form" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{!cc.attrs.event.running}"/>
+      </div>
+    </div>
+    
+    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex"
+      styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="class" value="Class" />
+      <h:outputText id="class" value="#{cc.attrs.event.beanClass}"/>
+      <p:outputLabel for="name" value="Name" />
+      <h:outputText id="name" value="#{cc.attrs.event.beanName}"/>
+      <p:outputLabel for="description" value="Description" />
+      <h:outputText id="description" value="#{cc.attrs.event.beanDescription}"/>
+      <p:outputLabel for="requestPath" value="Request Path" />
+      <h:outputText id="requestPath" value="#{cc.attrs.event.fullRequestPath}"/>
+      <p:outputLabel for="serviceState" value="State" />
+      <h:outputText id="serviceState" value="#{cc.attrs.event.serviceState}"/>
+      <p:outputLabel for="configuration" value="Configuration" />
+      <h:outputText id="configuration" value="#{cc.attrs.event.beanConfiguration}"/>
+
+      <p:outputLabel for="lastStart" value="Last Start" />
+      <h:outputText id="lastStart" value="#{cc.attrs.event.lastStartTimestamp}"/>
+
+      <p:outputLabel for="lastStartError" value="Last Start Error" />
+      <er:Error id="lastStartError" error="#{cc.attrs.event.lastStartError}"/>
+
+      <p:outputLabel for="lastInitError" value="Last Initialization Error" />
+      <er:Error id="lastInitError" error="#{cc.attrs.event.lastInitializationError}"/>
+
+      <p:outputLabel for="lastStopError" value="Last Stop Error" />
+      <er:Error id="lastStopError" error="#{cc.attrs.event.lastStopError}"/>
+    </p:panelGrid>
+  </h:form>
+</div>
+</cc:implementation>
+
+</html>

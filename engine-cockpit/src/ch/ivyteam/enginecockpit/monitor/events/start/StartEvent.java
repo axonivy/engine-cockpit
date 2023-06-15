@@ -31,6 +31,11 @@ public final class StartEvent extends Event {
   }
 
   @Override
+  public boolean showExecutionDuration() {
+    return true;
+  }
+
+  @Override
   public long getErrors() {
     return readLongAttribute("processExecutionErrors");
   }

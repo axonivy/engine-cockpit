@@ -49,7 +49,7 @@ class WebTestStartEvents {
   private static final Condition DATE_TIME_TEXT = Conditions.matchText(DATE_TIME);
 
   private static final By TABLE_ID = By.id("form:beanTable");
-  private static final By FIRING_TABLE_ID = By.id("startEventFiring:firingTable");
+  private static final By FIRING_TABLE_ID = By.id("firings:eventFiring:firingTable");
   private Table table;
   private Table firingTable;
 
@@ -141,37 +141,37 @@ class WebTestStartEvents {
   void details_nominal_bean() {
     navigateToDetails("eventLink.ivp");
 
-    $(By.id("startEventBean:class")).shouldHave(text("ch.ivyteam.ivy.process.eventstart.beans.TimerBean"));
-    $(By.id("startEventBean:name")).shouldHave(text("TimerBean"));
-    $(By.id("startEventBean:description")).shouldHave(text("Starts a process periodically or at certain times"));
-    $(By.id("startEventBean:requestPath")).shouldHave(text("/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp"));
-    $(By.id("startEventBean:serviceState")).shouldHave(text("RUNNING"));
-    $(By.id("startEventBean:configuration")).shouldHave(text("120"));
-    $(By.id("startEventBean:lastStart")).shouldHave(DATE_TIME_TEXT);
-    $(By.id("startEventBean:lastStartError:message")).shouldHave(text("n.a."));
-    $(By.id("startEventBean:lastInitError:message")).shouldHave(text("n.a."));
-    $(By.id("startEventBean:lastStopError:message")).shouldHave(text("n.a."));
+    $(By.id("bean:eventBean:class")).shouldHave(text("ch.ivyteam.ivy.process.eventstart.beans.TimerBean"));
+    $(By.id("bean:eventBean:name")).shouldHave(text("TimerBean"));
+    $(By.id("bean:eventBean:description")).shouldHave(text("Starts a process periodically or at certain times"));
+    $(By.id("bean:eventBean:requestPath")).shouldHave(text("/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp"));
+    $(By.id("bean:eventBean:serviceState")).shouldHave(text("RUNNING"));
+    $(By.id("bean:eventBean:configuration")).shouldHave(text("120"));
+    $(By.id("bean:eventBean:lastStart")).shouldHave(DATE_TIME_TEXT);
+    $(By.id("bean:eventBean:lastStartError:message")).shouldHave(text("n.a."));
+    $(By.id("bean:eventBean:lastInitError:message")).shouldHave(text("n.a."));
+    $(By.id("bean:eventBean:lastStopError:message")).shouldHave(text("n.a."));
   }
 
   @Test
   void details_nominal_bean_stop_start() {
     navigateToDetails("eventLink.ivp");
 
-    $(By.id("startEventBean:start")).shouldBe(disabled);
-    $(By.id("startEventBean:stop")).shouldBe(enabled);
-    $(By.id("startEventBean:serviceState")).shouldHave(text("RUNNING"));
+    $(By.id("bean:eventBean:start")).shouldBe(disabled);
+    $(By.id("bean:eventBean:stop")).shouldBe(enabled);
+    $(By.id("bean:eventBean:serviceState")).shouldHave(text("RUNNING"));
 
-    $(By.id("startEventBean:stop")).click();
+    $(By.id("bean:eventBean:stop")).click();
 
-    $(By.id("startEventBean:start")).shouldBe(enabled);
-    $(By.id("startEventBean:stop")).shouldBe(disabled);
-    $(By.id("startEventBean:serviceState")).shouldHave(text("STOPPED"));
+    $(By.id("bean:eventBean:start")).shouldBe(enabled);
+    $(By.id("bean:eventBean:stop")).shouldBe(disabled);
+    $(By.id("bean:eventBean:serviceState")).shouldHave(text("STOPPED"));
 
-    $(By.id("startEventBean:start")).click();
+    $(By.id("bean:eventBean:start")).click();
 
-    $(By.id("startEventBean:start")).shouldBe(disabled);
-    $(By.id("startEventBean:stop")).shouldBe(enabled);
-    $(By.id("startEventBean:serviceState")).shouldHave(text("RUNNING"));
+    $(By.id("bean:eventBean:start")).shouldBe(disabled);
+    $(By.id("bean:eventBean:stop")).shouldBe(enabled);
+    $(By.id("bean:eventBean:serviceState")).shouldHave(text("RUNNING"));
   }
 
   @Test
@@ -180,12 +180,12 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    $(By.id("startEventPoll:polls")).shouldBe(NOT_NEGATIVE_INTEGER_TEXT);
-    $(By.id("startEventPoll:pollDuration")).shouldBe(DURATIONS_TEXT);
-    $(By.id("startEventPoll:pollErrors")).shouldHave(text("0"));
-    $(By.id("startEventPoll:lastPollError:message")).shouldHave(text("n.a."));
-    $(By.id("startEventPoll:pollConfiguration")).shouldHave(text("Every 2 minutes (PT2M)"));
-    $(By.id("startEventPoll:nextPoll")).shouldHave(NEXT_EXECUTION_TEXT);
+    $(By.id("polls:eventPoll:polls")).shouldBe(NOT_NEGATIVE_INTEGER_TEXT);
+    $(By.id("polls:eventPoll:pollDuration")).shouldBe(DURATIONS_TEXT);
+    $(By.id("polls:eventPoll:pollErrors")).shouldHave(text("0"));
+    $(By.id("polls:eventPoll:lastPollError:message")).shouldHave(text("n.a."));
+    $(By.id("polls:eventPoll:pollConfiguration")).shouldHave(text("Every 2 minutes (PT2M)"));
+    $(By.id("polls:eventPoll:nextPoll")).shouldHave(NEXT_EXECUTION_TEXT);
   }
 
   @Test
@@ -194,9 +194,9 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    $(By.id("startEventFiring:executions")).shouldHave(Conditions.satisfiesText(executions -> assertThat(executions).isPositive()));
-    $(By.id("startEventFiring:duration")).shouldHave(DURATIONS_TEXT);
-    $(By.id("startEventFiring:errors")).shouldHave(text("0"));
+    $(By.id("firings:eventFiring:executions")).shouldHave(Conditions.satisfiesText(executions -> assertThat(executions).isPositive()));
+    $(By.id("firings:eventFiring:duration")).shouldHave(DURATIONS_TEXT);
+    $(By.id("firings:eventFiring:errors")).shouldHave(text("0"));
 
     firingTable = new Table(FIRING_TABLE_ID, true);
     firingTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
@@ -214,16 +214,16 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    $(By.id("startEventFiring:executions")).shouldHave(satisfiesText(executions -> assertThat(executions).isPositive()));
-    $(By.id("startEventFiring:duration")).shouldHave(DURATIONS_TEXT);
-    $(By.id("startEventFiring:errors")).shouldHave(satisfiesText(errors -> assertThat(errors).isPositive()));
+    $(By.id("firings:eventFiring:executions")).shouldHave(satisfiesText(executions -> assertThat(executions).isPositive()));
+    $(By.id("firings:eventFiring:duration")).shouldHave(DURATIONS_TEXT);
+    $(By.id("firings:eventFiring:errors")).shouldHave(satisfiesText(errors -> assertThat(errors).isPositive()));
 
     firingTable = new Table(FIRING_TABLE_ID, true);
     firingTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
     for (int row = 1; row <= firingTable.rows().size(); row++) {
       firingTable.tableEntry(row, 4).shouldHave(text("ivy:error:script"));
     }
-    $(By.id("startEventFiring:firingTable:0:error:showDetails")).click();
+    $(By.id("firings:eventFiring:firingTable:0:error:showDetails")).click();
     assertErrorDialog("ivy:error:script");
   }
 
@@ -233,8 +233,8 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    $(By.id("startEventPoll:lastPollError:message")).shouldHave(text("Exception in poll method"));
-    $(By.id("startEventPoll:lastPollError:showDetails")).click();
+    $(By.id("polls:eventPoll:lastPollError:message")).shouldHave(text("Exception in poll method"));
+    $(By.id("polls:eventPoll:lastPollError:showDetails")).click();
     assertErrorDialog("Exception in poll method");
   }
 
@@ -242,8 +242,8 @@ class WebTestStartEvents {
   void details_init_error() {
     navigateToDetails("eventLink4.ivp");
 
-    $(By.id("startEventBean:lastInitError:message")).shouldHave(text("Exception in initialize method"));
-    $(By.id("startEventBean:lastInitError:showDetails")).click();
+    $(By.id("bean:eventBean:lastInitError:message")).shouldHave(text("Exception in initialize method"));
+    $(By.id("bean:eventBean:lastInitError:showDetails")).click();
     assertErrorDialog("Exception in initialize method");
   }
 
@@ -251,8 +251,8 @@ class WebTestStartEvents {
   void details_start_error() {
     navigateToDetails("eventLink5.ivp");
 
-    $(By.id("startEventBean:lastStartError:message")).shouldHave(text("Exception in start method"));
-    $(By.id("startEventBean:lastStartError:showDetails")).click();
+    $(By.id("bean:eventBean:lastStartError:message")).shouldHave(text("Exception in start method"));
+    $(By.id("bean:eventBean:lastStartError:showDetails")).click();
     assertErrorDialog("Exception in start method");
   }
 
@@ -260,10 +260,10 @@ class WebTestStartEvents {
   void details_stop_error() {
     navigateToDetails("eventLink6.ivp");
 
-    $(By.id("startEventBean:stop")).click();
+    $(By.id("bean:eventBean:stop")).click();
 
-    $(By.id("startEventBean:lastStopError:message")).shouldHave(text("Exception in stop method"));
-    $(By.id("startEventBean:lastStopError:showDetails")).click();
+    $(By.id("bean:eventBean:lastStopError:message")).shouldHave(text("Exception in stop method"));
+    $(By.id("bean:eventBean:lastStopError:showDetails")).click();
     assertErrorDialog("Exception in stop method");
   }
 
@@ -271,7 +271,7 @@ class WebTestStartEvents {
     link = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/"+link;
     $(By.id("form:beanTable:globalFilter")).sendKeys(link);
     table.rows().shouldHave(CollectionCondition.size(1));
-    table.tableEntry(1, 1).shouldBe(visible, enabled).click();
+    table.tableEntry(1, 1).shouldBe(visible, enabled).findElement(By.tagName("a")).click();
   }
 
   private void assertErrorDialog(String message) {
@@ -290,18 +290,18 @@ class WebTestStartEvents {
   }
 
   private void detailsPoll() {
-    $(By.id("startEventPoll:polls")).shouldHave(NOT_NEGATIVE_INTEGER_TEXT);
+    $(By.id("polls:eventPoll:polls")).shouldHave(NOT_NEGATIVE_INTEGER_TEXT);
 
-    var initialPolls = Integer.parseInt($(By.id("startEventPoll:polls")).text());
-    $(By.id("startEventPoll:poll")).click();
-    $(By.id("pollBean:poll")).click();
+    var initialPolls = Integer.parseInt($(By.id("polls:eventPoll:polls")).text());
+    $(By.id("polls:eventPoll:pollBtn")).click();
+    $(By.id("polls:pollBean:pollBtn")).click();
 
     Wait()
         .withTimeout(Duration.ofSeconds(10))
         .ignoring(AssertionError.class)
         .until(webDriver -> {
           webDriver.navigate().refresh();
-          var polls = Integer.parseInt($(By.id("startEventPoll:polls")).text());
+          var polls = Integer.parseInt($(By.id("polls:eventPoll:polls")).text());
           assertThat(polls).isGreaterThan(initialPolls);
           return true;
         });

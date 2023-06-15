@@ -58,6 +58,7 @@ jQuery(function () {
       'monitorTraceDetail.xhtml': 'monitorTraces.xhtml',
       'searchindex.xhtml': 'searchengine.xhtml',
       'monitorStartEventDetails.xhtml': 'monitorStartEvents.xhtml',
+      'monitorIntermediateEventDetails.xhtml': 'monitorIntermediateEvents.xhtml'
     };
     return map[value] == null ? value : map[value];
   }

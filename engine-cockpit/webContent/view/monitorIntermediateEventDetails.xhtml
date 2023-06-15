@@ -8,11 +8,11 @@
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="application" value="#{startEventDetailBean.application}" />
-    <f:viewParam name="pm" value="#{startEventDetailBean.pm}" />
-    <f:viewParam name="pmv" value="#{startEventDetailBean.pmv}" />
-    <f:viewParam name="name" value="#{startEventDetailBean.name}" />
-    <f:viewAction action="#{startEventDetailBean.onLoad}" />
+    <f:viewParam name="application" value="#{intermediateEventDetailBean.application}" />
+    <f:viewParam name="pm" value="#{intermediateEventDetailBean.pm}" />
+    <f:viewParam name="pmv" value="#{intermediateEventDetailBean.pmv}" />
+    <f:viewParam name="name" value="#{intermediateEventDetailBean.name}" />
+    <f:viewAction action="#{intermediateEventDetailBean.onLoad}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
@@ -22,33 +22,30 @@
       <li>/</li>
       <li><span>Engine</span></li>
       <li>/</li>
-      <li><a href="monitorStartEvents.xhtml">Start Events</a></li>
+      <li><a href="monitorIntermediateEvents.xhtml">Intermediate Events</a></li>
       <li>/</li>
-      <li><a href="monitorStartEventDetails.xhtml?#{startEventBeanDetails.queryParameters}">#{startEventDetailBean.event.beanName}</a></li>
+      <li><a href="monitorIntermediateEventDetails.xhtml?#{intermediateEventBeanDetails.queryParameters}">#{intermediateEventDetailBean.event.beanName}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#startEvents"/>
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#intermediateEvents"/>
     </ui:define>
 
     <ui:define name="content">
-       <p:growl id="msgs" showDetail="true">
-         <p:autoUpdate />
-       </p:growl>
       <div class="layout-dashboard">
         <div class="p-grid">
           <div class="p-col-12 p-md-12 p-xl-6">
-            <cc:Bean id="bean" event="#{startEventDetailBean.event}" />
+            <cc:Bean id="bean" event="#{intermediateEventDetailBean.event}" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
-            <cc:Poll id="polls" event="#{startEventDetailBean.event}" />
+            <cc:Poll id="polls" event="#{intermediateEventDetailBean.event}" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-12">
-            <cc:Firings id="firings" event="#{startEventDetailBean.event}" />
+            <cc:Firings id="firings" event="#{intermediateEventDetailBean.event}" />
           </div>
         </div>
       </div>
-       <ui:include src="../includes/dialogs/error.xhtml" />
+     <ui:include src="../includes/dialogs/error.xhtml" />
     </ui:define>
   </ui:composition>
 </h:body>
