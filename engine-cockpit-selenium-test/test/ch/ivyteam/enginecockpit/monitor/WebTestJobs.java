@@ -33,7 +33,7 @@ class WebTestJobs {
 
   private static final String DURATION_STR = "[0-9][0-9]* (ms|s|m|h|d)";
   private static final String DATE_TIME_STR = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}";
-  private static final String CRON = "(([0-9][0-9]?|\\*|\\?)\\s){6}";
+  private static final String CRON = "(([0-9][0-9]?|\\*|\\?)\\s){5}";
   private static final Pattern NEXT_EXECUTION = Pattern.compile(DURATION_STR + "\\s" + "\\(" + DATE_TIME_STR + "\\)");
   private static final Pattern CONFIGURATION = Pattern.compile("("+DURATION_STR+"\\s|"+CRON+")\\(.*\\)");
 
