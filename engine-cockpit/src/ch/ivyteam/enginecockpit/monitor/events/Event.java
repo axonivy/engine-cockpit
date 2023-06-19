@@ -39,6 +39,8 @@ public abstract class Event {
 
   public abstract String getFullRequestPath();
 
+  public abstract boolean showExecutionDuration();
+
   public String getName() {
     return name.getKeyProperty("name");
   }

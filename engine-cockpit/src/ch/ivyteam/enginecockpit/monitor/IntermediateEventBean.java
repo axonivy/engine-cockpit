@@ -8,44 +8,45 @@ import javax.faces.bean.ViewScoped;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import ch.ivyteam.enginecockpit.monitor.events.start.StartEvent;
+import ch.ivyteam.enginecockpit.monitor.events.intermediate.IntermediateEvent;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.log.Logger;
 
+
 @ManagedBean
 @ViewScoped
-public class StartEventBean {
+public class IntermediateEventBean {
   private static final Logger LOGGER = Logger.getPackageLogger(StartEventBean.class);
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
 
-  private List<StartEvent> beans;
-  private StartEvent selected;
+  private List<IntermediateEvent> beans;
+  private IntermediateEvent selected;
 
-  public StartEventBean() {
+  public IntermediateEventBean() {
     refresh();
   }
 
   public void refresh() {
     try {
       beans = ManagementFactory.getPlatformMBeanServer()
-              .queryNames(new ObjectName("ivy Engine:type=Process Start Event Bean,application=*,pm=*,pmv=*,name=*"), null)
+              .queryNames(new ObjectName("ivy Engine:type=Process Intermediate Event Bean,application=*,pm=*,pmv=*,name=*"), null)
               .stream()
-              .map(StartEvent::new)
+              .map(IntermediateEvent::new)
               .toList();
     } catch (MalformedObjectNameException ex) {
-      HANDLER.showError("Cannot read start event beans", ex);
+      HANDLER.showError("Cannot read intermediate event bean", ex);
     }
   }
 
-  public List<StartEvent> getBeans() {
+  public List<IntermediateEvent> getBeans() {
     return beans;
   }
 
-  public StartEvent getSelected() {
+  public IntermediateEvent getSelected() {
     return selected;
   }
 
-  public void setSelected(StartEvent selected) {
+  public void setSelected(IntermediateEvent selected) {
     this.selected = selected;
   }
 }

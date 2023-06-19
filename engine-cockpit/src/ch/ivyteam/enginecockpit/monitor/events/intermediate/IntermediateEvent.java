@@ -35,6 +35,11 @@ public final class IntermediateEvent extends Event {
   }
 
   @Override
+  public boolean showExecutionDuration() {
+    return false;
+  }
+
+  @Override
   public long getErrors() {
     return readLongAttribute("firingErrors");
   }

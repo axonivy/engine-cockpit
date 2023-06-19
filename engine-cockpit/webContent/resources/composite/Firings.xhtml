@@ -1,11 +1,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:er="http://java.sun.com/jsf/composite/composite">
+<cc:interface>
+  <cc:attribute name="event" />
+</cc:interface>
+
+<cc:implementation>
 
 <div class="card">
-  <h:form id="startEventFiring">
+  <h:form id="eventFiring">
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-navigation-right-circle-1"></i>
@@ -16,16 +20,16 @@
     <p:panelGrid columns="6" columnClasses="p-col-12 p-md-12 p-lg-1, p-col-12- p-md-12 p-lg-3, p-col-12- p-md-1 p-lg-1, p-col-12- p-md-1 p-lg-3, p-col-12- p-md-12 p-lg-1, p-col-12- p-md-12 p-lg-3" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="executions" value="Executions" />
-      <h:outputText id="executions" value="#{startEventDetailBean.event.executions}"/>
-      <p:outputLabel for="duration" value="Execution Duration" />
-      <h:panelGroup>
-        <h:outputText id="duration" value="#{startEventDetailBean.event.minExecutionTime} / #{startEventDetailBean.event.avgExecutionTime} / #{startEventDetailBean.event.maxExecutionTime}"/>
+      <h:outputText id="executions" value="#{cc.attrs.event.executions}"/>
+      <p:outputLabel for="duration" value="Execution Duration" rendered="#{cc.attrs.event.showExecutionDuration()}"/>
+      <h:panelGroup rendered="#{cc.attrs.event.showExecutionDuration()}">
+        <h:outputText id="duration" value="#{cc.attrs.event.minExecutionTime} / #{cc.attrs.event.avgExecutionTime} / #{cc.attrs.event.maxExecutionTime}"/>
         <p:tooltip for="duration" value="min / avg / max"/>
       </h:panelGroup>
       <p:outputLabel for="errors" value="Errors" />
-      <h:outputText id="errors" value="#{startEventDetailBean.event.errors}"/>
+      <h:outputText id="errors" value="#{cc.attrs.event.errors}"/>
     </p:panelGrid>
-    <p:dataTable value="#{startEventDetailBean.event.firings}" var="firing" widgetVar="firingTable" styleClass="ui-fluid"
+    <p:dataTable value="#{cc.attrs.event.firings}" var="firing" widgetVar="firingTable" styleClass="ui-fluid"
             paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
             id="firingTable" style="min-width: 950px;">
       <p:column headerText="Timestamp" sortBy="#{firing.timestamp}" filterBy="#{firing.timestamp}">
@@ -38,9 +42,11 @@
         <h:outputText value="#{firing.reason}"/>
       </p:column>
       <p:column headerText="Error" sortBy="#{firing.error}" filterBy="#{firing.error}">
-        <cc:Error id="error" styleClass="p-ai-center" error="#{firing.error}"/>
+        <er:Error id="error" styleClass="p-ai-center" error="#{firing.error}"/>
       </p:column>
     </p:dataTable>
   </h:form>
 </div>
+</cc:implementation>
+
 </html>
