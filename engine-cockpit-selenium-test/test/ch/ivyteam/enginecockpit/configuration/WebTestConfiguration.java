@@ -95,7 +95,7 @@ class WebTestConfiguration {
 
     @Test
     void showSecuritySystemConfigs() {
-      var config = "SecuritySystems.test-ad.Provider";
+      var config = "SecuritySystems.test-ad.IdentityProvider.Name";
       assertContentFilterText("Filter: none");
       table.firstColumnShouldBe(noneMatch("Config not visible", e -> config.equals(e.getText())));
       toggleFilter(List.of("Show Security Systems"));

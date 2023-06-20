@@ -59,7 +59,7 @@ public class IdentityProviderBean {
   }
 
   private ConfigProperty toConfigProperty(String key, Metadata metadata) {
-    var config = ((SecurityContext) securityContext).config();
+    var config = ((SecurityContext) securityContext).config().identity();
     var value = "";
     Map<String, String> keyValue = Map.of();
     if (metadata.isKeyValue()) {
@@ -73,7 +73,7 @@ public class IdentityProviderBean {
   public void save(ConfigPropertyGroup group) {
     var cfg = ((SecurityContext) securityContext).config();
     for (var p : group.getProperties()) {
-      cfg.setProperty(p.getName(), p.getValue());
+      cfg.identity().setProperty(p.getName(), p.getValue());
     }
     message();
   }

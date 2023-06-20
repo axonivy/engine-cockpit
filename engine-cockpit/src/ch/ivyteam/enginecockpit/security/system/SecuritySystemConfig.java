@@ -5,9 +5,9 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
-import ch.ivyteam.ivy.security.ISecurityConstants;
+import ch.ivyteam.ivy.security.identity.core.config.IdpKey;
 import ch.ivyteam.ivy.security.identity.jndi.IJndiSecuritySystemConstants;
-import ch.ivyteam.ivy.security.internal.system.synch.UserSynchConfig;
+import ch.ivyteam.ivy.security.internal.system.synch.UserSynchKey;
 
 @SuppressWarnings("restriction")
 public class SecuritySystemConfig {
@@ -17,7 +17,6 @@ public class SecuritySystemConfig {
   public static final String IVY_SECURITY_SYSTEM = "ivy Security System";
 
   public interface ConfigKey {
-    String PROVIDER = ISecurityConstants.PROVIDER_CONFIG_KEY;
     String CONNECTION_URL = IJndiSecuritySystemConstants.CONNECTION_URL;
     String CONNECTION_USER_NAME = IJndiSecuritySystemConstants.CONNECTION_USER_NAME;
     String CONNECTION_PASSWORD = IJndiSecuritySystemConstants.CONNECTION_PASSWORD;
@@ -30,10 +29,10 @@ public class SecuritySystemConfig {
     String BINDING_DEFAULT_CONTEXT = IJndiSecuritySystemConstants.BINDING_DEFAULT_CONTEXT;
     String BINDING_IMPORT_USERS_OF_GROUP = IJndiSecuritySystemConstants.BINDING_IMPORT_USERS_OF_GROUP;
     String BINDING_USER_FILTER = IJndiSecuritySystemConstants.BINDING_USER_FILTER;
-    String ON_SCHEDULE_CRON = UserSynchConfig.ON_SCHEDULE_CRON;
-    String ON_SCHEDULE_ENABLED = UserSynchConfig.ON_SCHEDULE_ENABLED;
-    String ON_SCHEDULE_IMPORT_USERS = UserSynchConfig.ON_SCHEDULE_IMPORT_USERS;
-    String SYNCH_ON_LOGIN = UserSynchConfig.ON_LOGIN;
+    String ON_SCHEDULE_CRON = UserSynchKey.ON_SCHEDULE_CRON;
+    String ON_SCHEDULE_ENABLED = UserSynchKey.ON_SCHEDULE_ENABLED;
+    String ON_SCHEDULE_IMPORT_USERS = UserSynchKey.ON_SCHEDULE_IMPORT_USERS;
+    String SYNCH_ON_LOGIN = UserSynchKey.ON_LOGIN;
 
     String USER_ATTRIBUTE_ID = IJndiSecuritySystemConstants.USER_ATTRIBUTE_ID;
     String USER_ATTRIBUTE_NAME = IJndiSecuritySystemConstants.USER_ATTRIBUTE_NAME;
@@ -48,7 +47,7 @@ public class SecuritySystemConfig {
   }
 
   public static String getPrefix(String name) {
-    return SECURITY_SYSTEMS + "." + name + ".";
+    return SECURITY_SYSTEMS + "." + name + "." + IdpKey.IDENTITY_PROVIDER + "." + IdpKey.IDP_CONFIG + ".";
   }
 
   public static String getOrBlank(String key) {
@@ -72,6 +71,6 @@ public class SecuritySystemConfig {
   }
 
   public static Collection<String> getSecuritySystems() {
-    return IConfiguration.instance().getNames(SecuritySystemConfig.SECURITY_SYSTEMS, "Provider");
+    return IConfiguration.instance().getNames(SecuritySystemConfig.SECURITY_SYSTEMS, IdpKey.IDENTITY_PROVIDER, IdpKey.IDP_NAME);
   }
 }
