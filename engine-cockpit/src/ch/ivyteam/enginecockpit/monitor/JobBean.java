@@ -2,25 +2,17 @@ package ch.ivyteam.enginecockpit.monitor;
 
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.openmbean.CompositeData;
 
 import com.google.common.collect.Streams;
 
-import ch.ivyteam.enginecockpit.monitor.unit.Unit;
-import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
-import ch.ivyteam.enginecockpit.util.ErrorValue;
 import ch.ivyteam.log.Logger;
 
 @ManagedBean
@@ -88,152 +80,75 @@ public class JobBean {
 
   public static final class Job {
 
-    private static final String NOT_AVAILABLE = "n.a.";
-    private static final Object[] EMPTY_PARAMS = new Object[0];
-    private static final String[] EMPTY_TYPES = new String[0];
-    private ObjectName name;
+    private MBean bean;
 
     private Job(ObjectName name) {
-      this.name = name;
+      this.bean = MBean.create(HANDLER, name);
     }
 
     public String getName() {
-      return readStringAttribute("name");
+      return bean.readAttribute("name").asString();
     }
 
     public String getDescription() {
-      return readStringAttribute("description");
+      return bean.readAttribute("description").asString();
     }
 
     public String getNextExecutionTime() {
-      return DateUtil.formatDate((Date)readAttribute("nextExecutionTime"));
+      return bean.readAttribute("nextExecutionTime").asDateString();
     }
 
     public long getTimeUntilNextExecution() {
-      return readLongAttribute("timeUntilNextExecution");
+      return bean.readAttribute("timeUntilNextExecution").asLong();
     }
 
     public String getTimeUntilNextExecutionFormated() {
-      return formatMillis(readLongAttribute("timeUntilNextExecution"));
+      return bean.readAttribute("timeUntilNextExecution").asMillis();
     }
 
     public String getConfiguration() {
-      if ("Cron Job".equals(name.getKeyProperty("type"))) {
-        return readStringAttribute("expression") + " (" + readStringAttribute("humanReadableExpression")+")";
+      if ("Cron Job".equals(bean.getNameKeyProperty("type"))) {
+        return bean.readAttribute("expression").asString() + " (" + bean.readAttribute("humanReadableExpression").asString()+")";
       }
-      var atFixRate = (boolean)readAttribute("atFixedRate");
+      var atFixRate = bean.readAttribute("atFixedRate").asBoolean();
       var desc = atFixRate ? " (each)" : " (between)";
-      return formatMillis(readLongAttribute("period")) + desc;
+      return bean.readAttribute("period").asMillis() + desc;
     }
 
     public long getExecutions() {
-      return readLongAttribute("executions");
+      return bean.readAttribute("executions").asLong();
     }
 
     public long getErrors() {
-      return readLongAttribute("errors");
+      return bean.readAttribute("errors").asLong();
     }
 
     public String getLastError() {
-      return new ErrorValue((CompositeData)readAttribute("lastError"))
-          .getStackTrace();
+      return bean.readAttribute("lastError").asError().getStackTrace();
     }
 
     public String getLastErrorTime() {
-      return getDateAttribute("lastErrorTime");
+      return bean.readAttribute("lastErrorTime").asDateString();
     }
 
     public String getLastSuccessTime() {
-      return getDateAttribute("lastSuccessTime");
+      return bean.readAttribute("lastSuccessTime").asDateString();
     }
 
     public String getMinExecutionTime() {
-      long executions = getExecutions();
-      if (executions == 0) {
-        return NOT_AVAILABLE;
-      }
-      return formatMicros((Long)readAttribute("executionsMinExecutionTimeInMicroSeconds"));
+      return bean.readAttribute("executions").asMinExecutionTime();
     }
 
     public String getAvgExecutionTime() {
-      var total = (Long)readAttribute("executionsTotalExecutionTimeInMicroSeconds");
-      if (total == null) {
-        return formatMicros(total);
-      }
-      long executions = getExecutions();
-      if (executions == 0) {
-        return NOT_AVAILABLE;
-      }
-      return formatMicros(total/executions);
+      return bean.readAttribute("executions").asAvgExecutionTime();
     }
 
     public String getMaxExecutionTime() {
-      long executions = getExecutions();
-      if (executions == 0) {
-        return NOT_AVAILABLE;
-      }
-      return formatMicros((Long)readAttribute("executionsMaxExecutionTimeInMicroSeconds"));
+      return bean.readAttribute("executions").asMaxExecutionTime();
     }
 
     public void schedule() {
-      try {
-        ManagementFactory.getPlatformMBeanServer().invoke(name, "schedule", EMPTY_PARAMS, EMPTY_TYPES);
-      } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-        HANDLER.showError("Cannot schedule job for execution", ex);
-      }
-    }
-
-    private String formatMillis(long value) {
-      return format(value, Unit.MILLI_SECONDS);
-    }
-
-    private String formatMicros(Long value) {
-      if (value == null) {
-        return NOT_AVAILABLE;
-      }
-      return format(value, Unit.MICRO_SECONDS);
-    }
-
-    private String format(long value, Unit baseUnit) {
-      Unit unit = baseUnit;
-      var scaledValue = baseUnit.convertTo(value, unit);
-      while (shouldScaleUp(unit, scaledValue)) {
-        unit = unit.scaleUp();
-        scaledValue = baseUnit.convertTo(value, unit);
-      }
-      return scaledValue+" "+ unit.symbol();
-    }
-
-    private boolean shouldScaleUp(Unit unit, long scaledValue) {
-      if (Unit.MICRO_SECONDS.equals(unit) || Unit.MILLI_SECONDS.equals(unit)) {
-        return scaledValue >= 1000;
-      }
-      return scaledValue >= 100;
-    }
-
-    private String getDateAttribute(String attributeName) {
-      Date date = (Date)readAttribute(attributeName);
-      if (date == null) {
-        return NOT_AVAILABLE;
-      }
-      return DateUtil.formatDate(date);
-    }
-
-    private long readLongAttribute(String attribute) {
-      return (long)readAttribute(attribute);
-    }
-
-    private String readStringAttribute(String attribute) {
-      return (String)readAttribute(attribute);
-    }
-
-    Object readAttribute(String attribute) {
-      try {
-        return ManagementFactory.getPlatformMBeanServer().getAttribute(name, attribute);
-      } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
-        HANDLER.showError("Cannot read attribute " + attribute, ex);
-        return null;
-      }
+      bean.invokeMethod("schedule");
     }
   }
 }

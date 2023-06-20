@@ -1,20 +1,12 @@
 package ch.ivyteam.enginecockpit.monitor.events;
 
-import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
 
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
 import javax.management.ObjectName;
-import javax.management.ReflectionException;
 import javax.management.openmbean.CompositeData;
 
-import ch.ivyteam.enginecockpit.monitor.unit.Unit;
-import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
 import ch.ivyteam.log.Logger;
@@ -23,14 +15,11 @@ public abstract class Event {
 
   private static final Logger LOGGER = Logger.getPackageLogger(Event.class);
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
-  protected static final String NOT_AVAILABLE = "n.a.";
-  protected static final Object[] EMPTY_PARAMS = new Object[0];
-  protected static final String[] EMPTY_TYPES = new String[0];
-  private ObjectName name;
+  protected MBean bean;
   private List<Firing> firings;
 
   public Event(ObjectName name) {
-    this.name = name;
+    bean = MBean.create(HANDLER, name);
   }
 
   public abstract long getExecutions();
@@ -42,219 +31,130 @@ public abstract class Event {
   public abstract boolean showExecutionDuration();
 
   public String getName() {
-    return name.getKeyProperty("name");
+    return bean.getNameKeyProperty("name");
   }
 
   public String getBeanName() {
-    return readStringAttribute("name");
+    return bean.readAttribute("name").asString();
   }
 
   public String getBeanDescription() {
-    return readStringAttribute("description");
+    return bean.readAttribute("description").asString();
   }
 
   public String getApplication() {
-    return name.getKeyProperty("application");
+    return bean.getNameKeyProperty("application");
   }
 
   public String getPm() {
-    return name.getKeyProperty("pm");
+    return bean.getNameKeyProperty("pm");
   }
 
   public String getPmv() {
-    return name.getKeyProperty("pmv");
+    return bean.getNameKeyProperty("pmv");
   }
 
   public String getBeanClass() {
-    return readStringAttribute("beanClass");
+    return bean.readAttribute("beanClass").asString();
   }
 
   public String getBeanConfiguration() {
-    return readStringAttribute("beanConfiguration");
+    return bean.readAttribute("beanConfiguration").asString();
   }
 
   public ErrorValue getLastPollError() {
-    return getErrorAttribute("lastPollError");
+    return bean.readAttribute("lastPollError").asError();
   }
 
   public boolean isRunning() {
-    return (Boolean) readAttribute("running");
+    return bean.readAttribute("running").asBoolean();
   }
 
   public String getServiceState() {
-    return readStringAttribute("serviceState");
+    return bean.readAttribute("serviceState").asString();
   }
 
   public ErrorValue getLastInitializationError() {
-    return getErrorAttribute("lastInitializationError");
+    return bean.readAttribute("lastInitializationError").asError();
   }
   public String getLastStartTimestamp() {
-    return getDateAttribute("lastStartTimestamp");
+    return bean.readAttribute("lastStartTimestamp").asDateString();
   }
 
   public ErrorValue getLastStartError() {
-    return getErrorAttribute("lastStartError");
+    return bean.readAttribute("lastStartError").asError();
   }
 
   public ErrorValue getLastStopError() {
-    return getErrorAttribute("lastStopError");
-  }
-
-  protected ErrorValue getErrorAttribute(String attributeName) {
-    return new ErrorValue((CompositeData) readAttribute(attributeName));
+    return bean.readAttribute("lastStopError").asError();
   }
 
   public long getPolls() {
-    return readLongAttribute("polls");
+    return bean.readAttribute("polls").asLong();
   }
 
   public long getPollErrors() {
-    return readLongAttribute("pollErrors");
+    return bean.readAttribute("pollErrors").asLong();
   }
 
   public String getPollConfiguration() {
-    return readStringAttribute("pollConfiguration");
+    return bean.readAttribute("pollConfiguration").asString();
   }
 
   public String getHumanReadablePollConfiguration() {
-    return readStringAttribute("humanReadablePollConfiguration");
+    return bean.readAttribute("humanReadablePollConfiguration").asString();
   }
 
   public String getNextPollTime() {
-    return getDateAttribute("nextPollTime");
+    return bean.readAttribute("nextPollTime").asDateString();
   }
 
   public long getTimeUntilNextPoll() {
-    return readLongAttribute("timeUntilNextPoll");
+    return bean.readAttribute("timeUntilNextPoll").asLong();
   }
 
   public String getTimeUntilNextPollFormated() {
-    return formatMillis(readLongAttribute("timeUntilNextPoll"));
+    return bean.readAttribute("timeUntilNextPoll").asMillis();
   }
 
   public String getMinPollTime() {
-    long polls = getPolls();
-    if (polls == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros((Long) readAttribute("pollsMinExecutionTimeInMicroSeconds"));
-  }
-
-  public void poll() {
-    try {
-      ManagementFactory.getPlatformMBeanServer().invoke(name, "pollNow", EMPTY_PARAMS, EMPTY_TYPES);
-    } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      HANDLER.showError("Cannot poll bean", ex);
-    }
-  }
-
-  public void start() {
-    try {
-      ManagementFactory.getPlatformMBeanServer().invoke(name, "start", EMPTY_PARAMS, EMPTY_TYPES);
-    } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      HANDLER.showError("Cannot start bean", ex);
-    }
+    return bean.readAttribute("polls").asMinExecutionTime();
   }
 
   public String getAvgPollTime() {
-    var total = (Long) readAttribute("pollsTotalExecutionTimeInMicroSeconds");
-    if (total == null) {
-      return formatMicros(total);
-    }
-    long polls = getPolls();
-    if (polls == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros(total / polls);
-  }
-
-  public void stop() {
-    try {
-      ManagementFactory.getPlatformMBeanServer().invoke(name, "stop", EMPTY_PARAMS, EMPTY_TYPES);
-    } catch (InstanceNotFoundException | ReflectionException | MBeanException ex) {
-      HANDLER.showError("Cannot stop bean", ex);
-    }
+    return bean.readAttribute("polls").asAvgExecutionTime();
   }
 
   public String getMaxPollTime() {
-    long polls = getPolls();
-    if (polls == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros((Long) readAttribute("pollsMaxExecutionTimeInMicroSeconds"));
+    return bean.readAttribute("polls").asMaxExecutionTime();
   }
 
-  protected static String formatMicros(Long value) {
-    if (value == null) {
-      return NOT_AVAILABLE;
-    }
-    return format(value, Unit.MICRO_SECONDS);
+  public void poll() {
+    bean.invokeMethod("pollNow");
   }
 
-  private static String format(long value, Unit baseUnit) {
-    if (value < 0) {
-      return "n.a.";
-    }
-    Unit unit = baseUnit;
-    var scaledValue = baseUnit.convertTo(value, unit);
-    while (shouldScaleUp(unit, scaledValue)) {
-      unit = unit.scaleUp();
-      scaledValue = baseUnit.convertTo(value, unit);
-    }
-    return scaledValue + " " + unit.symbol();
+  public void start() {
+    bean.invokeMethod("start");
   }
 
-  protected String formatMillis(long value) {
-    return format(value, Unit.MILLI_SECONDS);
+  public void stop() {
+    bean.invokeMethod("stop");
   }
 
-  private static boolean shouldScaleUp(Unit unit, long scaledValue) {
-    if (Unit.MICRO_SECONDS.equals(unit) || Unit.MILLI_SECONDS.equals(unit)) {
-      return scaledValue >= 1000;
-    }
-    return scaledValue >= 120;
-  }
-
-  protected String getDateAttribute(String attributeName) {
-    Date date = (Date) readAttribute(attributeName);
-    if (date == null) {
-      return NOT_AVAILABLE;
-    }
-    return DateUtil.formatDate(date);
-  }
-
-  protected long readLongAttribute(String attribute) {
-    return (long) readAttribute(attribute);
-  }
-
-  protected String readStringAttribute(String attribute) {
-    return (String) readAttribute(attribute);
-  }
-
-  protected Object readAttribute(String attribute) {
-    try {
-      return ManagementFactory.getPlatformMBeanServer().getAttribute(name, attribute);
-    } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
-      HANDLER.showError("Cannot read attribute " + attribute, ex);
-      return "";
-    }
-  }
 
   public void refresh() {
-    CompositeData[] data = (CompositeData[]) readAttribute("firingHistory");
-    firings = new ArrayList<>(Stream.of(data).map(this::toFiring).toList());
+    firings = bean.readAttribute("firingHistory").asList(this::toFiring);
   }
 
   public List<Firing> getFirings() {
     return firings;
   }
 
-  private Firing toFiring(Object firing) {
-    var execution = (CompositeData) firing;
+  private Firing toFiring(CompositeData firing) {
     return new Firing(
-            (Date) execution.get("firingTimestamp"),
-            (long) execution.get("firingTimeInMicroSeconds"),
-            (String) execution.get("firingReason"),
-            new ErrorValue((CompositeData) execution.get("error")));
+            (Date) firing.get("firingTimestamp"),
+            (long) firing.get("firingTimeInMicroSeconds"),
+            (String) firing.get("firingReason"),
+            new ErrorValue((CompositeData) firing.get("error")));
   }
 }

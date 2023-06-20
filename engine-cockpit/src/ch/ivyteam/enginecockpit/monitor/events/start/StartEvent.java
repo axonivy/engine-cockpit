@@ -22,12 +22,12 @@ public final class StartEvent extends Event {
   }
 
   public String getRequestPath() {
-    return readStringAttribute("requestPath");
+    return bean.readAttribute("requestPath").asString();
   }
 
   @Override
   public long getExecutions() {
-    return readLongAttribute("processExecutions");
+    return bean.readAttribute("processExecutions").asLong();
   }
 
   @Override
@@ -37,34 +37,18 @@ public final class StartEvent extends Event {
 
   @Override
   public long getErrors() {
-    return readLongAttribute("processExecutionErrors");
+    return bean.readAttribute("processExecutionErrors").asLong();
   }
 
   public String getMinExecutionTime() {
-    long executions = getExecutions();
-    if (executions == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros((Long) readAttribute("processExecutionsMinExecutionTimeInMicroSeconds"));
+    return bean.readAttribute("processExecutions").asMinExecutionTime();
   }
 
   public String getAvgExecutionTime() {
-    var total = (Long) readAttribute("processExecutionsTotalExecutionTimeInMicroSeconds");
-    if (total == null) {
-      return formatMicros(total);
-    }
-    long executions = getExecutions();
-    if (executions == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros(total / executions);
+    return bean.readAttribute("processExecutions").asAvgExecutionTime();
   }
 
   public String getMaxExecutionTime() {
-    long executions = getExecutions();
-    if (executions == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros((Long) readAttribute("processExecutionsMaxExecutionTimeInMicroSeconds"));
+    return bean.readAttribute("processExecutions").asMaxExecutionTime();
   }
 }
