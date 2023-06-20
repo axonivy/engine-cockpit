@@ -271,7 +271,7 @@ class WebTestStartEvents {
     link = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/"+link;
     $(By.id("form:beanTable:globalFilter")).sendKeys(link);
     table.rows().shouldHave(CollectionCondition.size(1));
-    table.tableEntry(1, 1).shouldBe(visible, enabled).findElement(By.tagName("a")).click();
+    table.tableEntry(1, 1).shouldBe(visible, enabled).click();
   }
 
   private void assertErrorDialog(String message) {
