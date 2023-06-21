@@ -55,19 +55,19 @@
                 </p:column>
                 <p:column headerText="Instances" sortBy="#{class.instances}" width="10%" sortOrder="desc">
                   <div style="background: #{class.instancesBackground};">
-                    <h:outputText id="instances" value="#{class.instances}"/>
+                    <h:outputText id="instances" value="#{class.instances}" styleClass="gradient-text" />
                     <p:tooltip for="instances" value="#{class.instances}"/>
                   </div>
                 </p:column>
                 <p:column headerText="Bytes" sortBy="#{class.bytes}" width="10%">
                   <div style="background: #{class.bytesBackground};">
-                    <h:outputText id="bytes" value="#{class.bytes}"/>
+                    <h:outputText id="bytes" value="#{class.bytes}" styleClass="gradient-text"/>
                     <p:tooltip for="bytes" value="#{class.bytes}"/>
                   </div>
                 </p:column>
                 <p:column headerText="&#x394; Min" sortBy="#{class.deltaToMinInstances}" width="10%">
                   <div style="background: #{class.deltaMinBackground};">
-                    <h:outputText id="deltaMin" value="&#x394; #{class.deltaToMinInstances} (#{class.minInstances})"/>
+                    <h:outputText id="deltaMin" value="&#x394; #{class.deltaToMinInstances} (#{class.minInstances})" styleClass="gradient-text"/>
                     <p:tooltip for="deltaMin">
                       &#x394;: #{class.deltaToMinInstances}<br/>
                       Min: #{class.minInstances}
