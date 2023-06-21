@@ -1,17 +1,15 @@
 package ch.ivyteam.enginecockpit.util;
 
-import java.nio.file.Path;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.Advisor;
-import ch.ivyteam.ivy.config.IFileAccess;
 
-@SuppressWarnings("restriction")
 public class UrlUtil {
-  private static final Pattern URL_PATTERN = Pattern.compile(
+
+	private static final Pattern URL_PATTERN = Pattern.compile(
           "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
                   + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
                   + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
@@ -42,9 +40,5 @@ public class UrlUtil {
       text = matcher.replaceAll("\n<a href='" + link + "' target='_blank'>" + link + "</a>");
     }
     return text;
-  }
-
-  public static Path getConfigFile(String configFile) {
-    return IFileAccess.instance().getConfigFile(configFile);
   }
 }

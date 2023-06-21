@@ -29,9 +29,9 @@ import ch.ivyteam.enginecockpit.configuration.model.CssColorDTO;
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
-import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
+import ch.ivyteam.ivy.config.IFileAccess;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -214,7 +214,7 @@ public class BrandingBean implements AllResourcesDownload {
   }
 
   private Path appBrandingDir(String appName) throws IOException {
-    var brandingDir = UrlUtil.getConfigFile("applications").resolve(appName).resolve("branding");
+    var brandingDir = IFileAccess.instance().config().resolve("applications").resolve(appName).resolve("branding");
     if (!isBrandingDirEmpty(brandingDir)) {
       return brandingDir.toRealPath();
     }
