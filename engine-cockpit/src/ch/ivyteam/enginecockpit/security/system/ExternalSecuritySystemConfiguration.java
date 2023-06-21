@@ -7,6 +7,8 @@ import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.identity.core.config.IdpKey;
 import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryDefaults;
 import ch.ivyteam.ivy.security.identity.jndi.nds.NovellEDirectoryDefaults;
+import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryIdentityProvider;
+import ch.ivyteam.ivy.security.identity.jndi.nds.NovellEDirectoryIdentityProvider;
 
 /**
  * legacy layer. will be removed as soon as we are finished.
@@ -29,15 +31,14 @@ public class ExternalSecuritySystemConfiguration {
     return props(getProviderName()).get(key);
   }
 
-  @SuppressWarnings("removal")
-  public static Map<String, String> props(String providerName) {
-    if (providerName == null) {
+  public static Map<String, String> props(String id) {
+    if (id == null) {
       return Map.of();
     }
-    switch (providerName) {
-      case ISecurityConstants.MICROSOFT_ACTIVE_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
+    switch (id) {
+      case MicrosoftActiveDirectoryIdentityProvider.ID:
         return MicrosoftActiveDirectoryDefaults.PROPERTIES;
-      case ISecurityConstants.NOVELL_E_DIRECTORY_SECURITY_SYSTEM_PROVIDER_NAME:
+      case NovellEDirectoryIdentityProvider.ID:
         return NovellEDirectoryDefaults.PROPERTIES;
       default:
         return Map.of();
