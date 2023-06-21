@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.meta.Metadata;
-import ch.ivyteam.ivy.security.external.SecuritySystemConfig;
+import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 
 public class ConfigProperty {
 
-  private final SecuritySystemConfig cfg;
+  private final IdpConfig cfg;
   private final String key;
   private String value;
   private final Metadata metadata;
@@ -22,7 +22,7 @@ public class ConfigProperty {
   // encapsulate the special handling for a key value property
   private final KeyValueProperty keyValueProperty;
 
-  public ConfigProperty(SecuritySystemConfig cfg, String key, String value, Map<String, String> keyValue, Metadata metadata) {
+  public ConfigProperty(IdpConfig cfg, String key, String value, Map<String, String> keyValue, Metadata metadata) {
     this.cfg = cfg;
     this.key = key;
     this.value = value;

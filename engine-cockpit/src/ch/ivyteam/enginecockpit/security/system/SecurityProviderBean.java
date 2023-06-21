@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
@@ -16,9 +17,9 @@ import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.job.cron.CronExpression;
-import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.external.SecuritySystemConfig;
+import ch.ivyteam.ivy.security.identity.core.config.IdpKey;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 
@@ -62,12 +63,13 @@ public class SecurityProviderBean {
             .findAny()
             .orElseThrow();
 
-    provider = systemConfig.getProperty(ConfigKey.PROVIDER);
-    onScheduleEnabled = systemConfig.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_ENABLED);
-    onScheduleCron = systemConfig.getPropertyAsCronExpression(ConfigKey.ON_SCHEDULE_CRON);
+    provider = systemConfig.identity().getName();
+    var synch = systemConfig.userSynch();
+    onScheduleEnabled = synch.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_ENABLED);
+    onScheduleCron = synch.getPropertyAsCronExpression(ConfigKey.ON_SCHEDULE_CRON);
     useCron = !onScheduleCron.isDaily();
-    synchOnLogin = systemConfig.getPropertyAsBoolean(ConfigKey.SYNCH_ON_LOGIN);
-    onScheduleImportUsers = systemConfig.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_IMPORT_USERS);
+    synchOnLogin = synch.getPropertyAsBoolean(ConfigKey.SYNCH_ON_LOGIN);
+    onScheduleImportUsers = synch.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_IMPORT_USERS);
   }
 
   public String getCronHelp() {
@@ -152,19 +154,20 @@ public class SecurityProviderBean {
     if (!StringUtils.isEmpty(provider) && !StringUtils.equals(provider, securitySystem.getSecuritySystemProviderId())) {
       var context = (SecurityContext) securitySystem.getSecurityContext();
       deleteProvider();
-      context.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, provider);
+      context.config().identity().setName(provider);
     }
+    var synch = systemConfig.userSynch();
     if (StringUtils.isBlank(onScheduleTime)) {
-      this.onScheduleCron = CronExpression.parse(systemConfig.getDefaultValue(ConfigKey.ON_SCHEDULE_CRON));
+      this.onScheduleCron = CronExpression.parse(synch.getDefaultValue(ConfigKey.ON_SCHEDULE_CRON));
     } else if (useCron) {
       this.onScheduleCron = CronExpression.parse(onScheduleTime);
     } else {
       this.onScheduleCron = CronExpression.dailyAt(LocalTime.parse(onScheduleTime));
     }
-    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_ENABLED, String.valueOf(onScheduleEnabled));
-    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_CRON, onScheduleCron.toString());
-    systemConfig.setProperty(ConfigKey.SYNCH_ON_LOGIN, String.valueOf(synchOnLogin));
-    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_IMPORT_USERS, String.valueOf(onScheduleImportUsers));
+    synch.setProperty(ConfigKey.ON_SCHEDULE_ENABLED, String.valueOf(onScheduleEnabled));
+    synch.setProperty(ConfigKey.ON_SCHEDULE_CRON, onScheduleCron.toString());
+    synch.setProperty(ConfigKey.SYNCH_ON_LOGIN, String.valueOf(synchOnLogin));
+    synch.setProperty(ConfigKey.ON_SCHEDULE_IMPORT_USERS, String.valueOf(onScheduleImportUsers));
 
     setShowWarningMessage(false);
     FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess",
@@ -202,16 +205,7 @@ public class SecurityProviderBean {
   private void deleteProvider() {
     var key = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create("SecuritySystems").append(securitySystem.getSecuritySystemName());
     var cfg = IConfiguration.instance();
-    cfg.remove(key.append(ISecurityConstants.PROVIDER_CONFIG_KEY));
-    cfg.remove(key.append("Connection"));
-    cfg.remove(key.append("Binding"));
-    cfg.remove(key.append("UserAttribute"));
-    cfg.remove(key.append("Membership"));
-    cfg.remove(key.append("PageSize"));
-    cfg.remove(key.append("TenantId"));
-    cfg.remove(key.append("ClientId"));
-    cfg.remove(key.append("ClientSecret"));
-    cfg.remove(key.append("GroupFilter"));
+    cfg.remove(key.append(IdpKey.IDENTITY_PROVIDER));
   }
 
   public boolean getShowWarningMessage() {

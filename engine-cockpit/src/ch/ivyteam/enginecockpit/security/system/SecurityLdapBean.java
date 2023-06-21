@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.security.identity.core.config.IdpKey;
 import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryIdentityProvider;
 import ch.ivyteam.ivy.security.identity.jndi.nds.NovellEDirectoryIdentityProvider;
 import ch.ivyteam.naming.JndiConfig;
@@ -85,7 +86,7 @@ public class SecurityLdapBean {
     protocols = Arrays.asList("", "ssl");
     referrals = Arrays.asList("follow", "ignore", "throw");
 
-    provider = getConfiguration(ConfigKey.PROVIDER);
+    provider = IConfiguration.instance().getOrDefault(SecuritySystemConfig.SECURITY_SYSTEMS+"."+name+"."+IdpKey.IDENTITY_PROVIDER+"."+IdpKey.IDP_NAME);
     url = getConfiguration(ConfigKey.CONNECTION_URL);
     userName = getConfiguration(ConfigKey.CONNECTION_USER_NAME);
     password = getConfiguration(ConfigKey.CONNECTION_PASSWORD);

@@ -15,7 +15,6 @@ import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
-import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderRegistry;
@@ -123,7 +122,7 @@ public class SecurityBean {
   public void createNewSecuritySystem() {
     try {
       var securityContext = (SecurityContext) ISecurityManager.instance().securityContexts().create(newSecuritySystemName);
-      securityContext.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, newSecuritySystemProvider);
+      securityContext.config().identity().setName(newSecuritySystemProvider);
       loadSecuritySystems();
     } catch (IllegalArgumentException ex) {
       FacesContext.getCurrentInstance().addMessage("msgs",
