@@ -46,11 +46,13 @@ public class Navigation {
   private static final String MONITOR_OS_MENU = "#menuform\\:sr_monitor_os";
   private static final String MONITOR_LOGS_MENU = "#menuform\\:sr_logs";
   private static final String MONITOR_ENGINE_MENU = "#menuform\\:sr_monitor_engine";
-  private static final String MONITOR_JVM_MENU = "#menuform\\:sr_monitor_jvm";
-  private static final String MONITOR_JVM_JVM_MENU = "#menuform\\:sr_monitor_jvm_jvm";
-  private static final String MONITOR_JVM_MEMORY_MENU = "#menuform\\:sr_monitor_jvm_memory";
-  private static final String MONITOR_JVM_CLASS_HISTOGRAM = "#menuform\\:sr_monitor_jvm_class_histogram";
-  private static final String MONITOR_JVM_MBEANS_MENU = "#menuform\\:sr_monitor_jvm_mbeans";
+  private static final String MONITOR_JAVA_MENU = "#menuform\\:sr_monitor_java";
+  private static final String MONITOR_JAVA_JVM_MENU = "#menuform\\:sr_monitor_java_jvm";
+  private static final String MONITOR_JAVA_MEMORY_MENU = "#menuform\\:sr_monitor_java_memory";
+  private static final String MONITOR_JAVA_CLASS_HISTOGRAM = "#menuform\\:sr_monitor_java_class_histogram";
+  private static final String MONITOR_JAVA_THREADS = "#menuform\\:sr_monitor_java_threads";
+  private static final String MONITOR_JAVA_JFR = "#menuform\\:sr_monitor_java_jfr";
+private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_java_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
   private static final String MONITOR_ENGINE_START_EVENTS_MENU = "#menuform\\:sr_monitor_engine_start_events";
@@ -60,8 +62,6 @@ public class Navigation {
   private static final String MONITOR_PERFORMANCE_PROCESS_EXECUTION_MENU = "#menuform\\:sr_monitor_performance_process_execution";
   private static final String MONITOR_PERFORMANCE_TRACES_MENU = "#menuform\\:sr_monitor_performance_traces";
   private static final String MONITOR_PERFORMANCE_TRAFFIC_GRAPH = "#menuform\\:sr_monitor_performance_traffic_graph";
-  private static final String MONITOR_PERFORMANCE_THREADS = "#menuform\\:sr_monitor_performance_threads";
-  private static final String MONITOR_PERFORMANCE_JFR = "#menuform\\:sr_monitor_performance_jfr";
 
   public static void toDashboard() {
     toMenu(DASHBOARD_MENU);
@@ -345,21 +345,21 @@ public class Navigation {
 
 
   public static void toMBeans() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_JVM_MENU, MONITOR_JVM_MBEANS_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_MBEANS_MENU);
     assertCurrentUrlContains("mbeans.xhtml");
-    menuShouldBeActive(MONITOR_JVM_MBEANS_MENU);
+    menuShouldBeActive(MONITOR_JAVA_MBEANS_MENU);
   }
 
   public static void toJvm() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_JVM_MENU, MONITOR_JVM_JVM_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_JVM_MENU);
     assertCurrentUrlContains("monitorJvm.xhtml");
-    menuShouldBeActive(MONITOR_JVM_JVM_MENU);
+    menuShouldBeActive(MONITOR_JAVA_JVM_MENU);
   }
 
   public static void toMemory() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_JVM_MENU, MONITOR_JVM_MEMORY_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_MEMORY_MENU);
     assertCurrentUrlContains("monitorMemory.xhtml");
-    menuShouldBeActive(MONITOR_JVM_MEMORY_MENU);
+    menuShouldBeActive(MONITOR_JAVA_MEMORY_MENU);
   }
 
   public static void toProcessExecution() {
@@ -375,15 +375,15 @@ public class Navigation {
   }
 
   public static void toThreads() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_PERFORMANCE_MENU, MONITOR_PERFORMANCE_THREADS);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_THREADS);
   }
 
   public static void toClassHistogram() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_JVM_MENU, MONITOR_JVM_CLASS_HISTOGRAM);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_CLASS_HISTOGRAM);
   }
 
   public static void toJfr() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_PERFORMANCE_MENU, MONITOR_PERFORMANCE_JFR);
+    toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_JFR);
   }
 
   private static void toMenu(String menuItemPath) {
