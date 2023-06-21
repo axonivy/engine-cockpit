@@ -9,7 +9,7 @@ import ch.ivyteam.ivy.Advisor;
 
 public class UrlUtil {
 
-	private static final Pattern URL_PATTERN = Pattern.compile(
+  private static final Pattern URL_PATTERN = Pattern.compile(
           "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
                   + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
                   + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
