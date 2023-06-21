@@ -8,6 +8,10 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static org.openqa.selenium.By.className;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import com.codeborne.selenide.Selenide;
 
@@ -353,33 +357,44 @@ public class Navigation {
   }
 
   private static void toMenu(String menuItemPath) {
+    closeAllMenus();
     $(menuItemPath).find("a").scrollIntoView(false).click();
     menuShouldBeActive(menuItemPath);
   }
 
   private static void toSubMenu(String menuItemPath, String subMenuItemPath) {
+    closeAllMenus();
     $(menuItemPath).shouldBe(visible);
-    if (!$(subMenuItemPath).isDisplayed()) {
-      $(menuItemPath).find("a").scrollIntoView(false).click();
-    }
+    $(menuItemPath).find("a").scrollIntoView(false).click();
     $(subMenuItemPath).find("a").shouldBe(visible).scrollIntoView(false).click();
     menuShouldBeActive(subMenuItemPath);
   }
 
   private static void toSubSubMenu(String menuItemPath, String subMenuItemPath, String subSubMenuItemPath) {
+    closeAllMenus();
     $(menuItemPath).shouldBe(visible);
-    if (!$(subMenuItemPath).isDisplayed()) {
-      $(menuItemPath).find("a").scrollIntoView(false).click();
-    }
+    $(menuItemPath).find("a").scrollIntoView(false).click();
     $(subMenuItemPath).find("a").shouldBe(visible);
-    if (!$(subSubMenuItemPath).isDisplayed()) {
-      $(subMenuItemPath).find("a").scrollIntoView(false).click();
-    }
+    $(subMenuItemPath).find("a").scrollIntoView(false).click();
     $(subSubMenuItemPath).scrollIntoView(false).click();
     menuShouldBeActive(subSubMenuItemPath);
   }
 
   private static void menuShouldBeActive(String menu) {
     $(menu).shouldHave(cssClass("active-menuitem"));
+  }
+
+  private static void closeAllMenus() {
+    var activeMenues = new ArrayList<>($$(className("active-menuitem")));
+    Collections.reverse(activeMenues);
+    for (var activeMenu : activeMenues) {
+      if (activeMenu.exists()) {
+        if (activeMenu.$("ul").exists())
+        {
+          activeMenu.find("a").shouldBe(visible).click();
+          activeMenu.$("ul").shouldNotBe(visible);
+        }
+      }
+    }
   }
 }
