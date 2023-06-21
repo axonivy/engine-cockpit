@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
+import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.identity.core.config.IdpKey;
 import ch.ivyteam.ivy.security.identity.jndi.IJndiSecuritySystemConstants;
 import ch.ivyteam.ivy.security.internal.system.synch.UserSynchKey;
@@ -14,7 +15,7 @@ public class SecuritySystemConfig {
 
   public static final String SECURITY_SYSTEMS = "SecuritySystems";
   public static final String SECURITY_STSTEM = "SecuritySystem";
-  public static final String IVY_SECURITY_SYSTEM = "ivy Security System";
+  public static final String IVY_SECURITY_SYSTEM = ISecurityConstants.IVY_ENGINE_SECURITY_SYSTEM_PROVIDER_NAME;
 
   public interface ConfigKey {
     String CONNECTION_URL = IJndiSecuritySystemConstants.CONNECTION_URL;
