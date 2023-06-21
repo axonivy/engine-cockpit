@@ -32,14 +32,17 @@
     
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
-      <label>Name</label>
-      <h:outputText id="name" disabled="true" value="#{roleDetailBean.role.name}" />
+      <p:outputLabel for="name" value="Name" />
+      <p:inputText id="name" value="#{roleDetailBean.role.name}" />
   
       <p:outputLabel for="displayName" value="Display Name" />
       <p:inputText id="displayName" value="#{roleDetailBean.role.displayName}" />
   
       <p:outputLabel for="description" value="Description" />
       <p:inputText id="description" value="#{roleDetailBean.role.description}" />
+  
+  	  <p:outputLabel for="parentRole" value="Parent Role" />
+      <p:inputText id="parentRole" value="#{roleDetailBean.role.parentRoleName}" />
   
       <p:outputLabel for="externalSecurityName" value="External Name" />
       <h:panelGroup layout="block" styleClass="ui-inputgroup">

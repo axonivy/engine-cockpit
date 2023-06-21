@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.management.RuntimeErrorException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -167,11 +168,28 @@ public class RoleDetailBean {
 
   public void saveRoleInfos() {
     var iRole = getIRole();
+    
+	var redirect = false;
+	if (!iRole.getName().equals(role.getName())) {
+      redirect = true;
+	}
+    iRole.setName(role.getName());
     iRole.setDisplayDescriptionTemplate(role.getDescription());
     iRole.setDisplayNameTemplate(role.getDisplayName());
     iRole.setExternalName(role.getExternalName());
+    
     var msg = new FacesMessage("Role information changes saved");
     FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);
+    
+	if (redirect) {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect(role.getViewUrl(iRole.getSecurityContext().getName()));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
   }
 
   public String deleteRole() {
