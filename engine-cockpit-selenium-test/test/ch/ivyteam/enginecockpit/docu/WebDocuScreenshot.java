@@ -22,6 +22,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -35,6 +36,7 @@ import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 public class WebDocuScreenshot {
@@ -117,6 +119,7 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-jobs", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toClassHistogram();
     $(id("form:refresh")).shouldBe(visible, enabled).click();
+    new Table(By.id("form:classTable")).rows().shouldBe(CollectionCondition.sizeGreaterThan(1));
     takeScreenshot("monitor-class-histogram", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
