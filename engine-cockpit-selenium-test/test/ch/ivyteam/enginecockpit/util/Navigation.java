@@ -44,6 +44,7 @@ public class Navigation {
   private static final String MONITOR_ENGINE_MENU = "#menuform\\:sr_monitor_engine";
   private static final String MONITOR_ENGINE_JVM_MENU = "#menuform\\:sr_monitor_engine_jvm";
   private static final String MONITOR_ENGINE_MEMORY_MENU = "#menuform\\:sr_monitor_engine_memory";
+  private static final String MONITOR_ENGINE_CLASS_HISTOGRAM = "#menuform\\:sr_monitor_engine_class_histogram";
   private static final String MONITOR_ENGINE_MBEANS_MENU = "#menuform\\:sr_monitor_engine_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
@@ -341,6 +342,10 @@ public class Navigation {
 
   public static void toThreads() {
     toSubSubMenu(MONITOR_MENU, MONITOR_PERFORMANCE_MENU, MONITOR_PERFORMANCE_THREADS);
+  }
+
+  public static void toClassHistogram() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_CLASS_HISTOGRAM);
   }
 
   public static void toJfr() {
