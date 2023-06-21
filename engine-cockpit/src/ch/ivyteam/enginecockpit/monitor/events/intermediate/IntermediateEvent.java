@@ -22,16 +22,16 @@ public final class IntermediateEvent extends Event {
   }
 
   public String getLastFiringTimestamp() {
-    return getDateAttribute("lastFiringTimestamp");
+    return bean.readAttribute("lastFiringTimestamp").asDateString();
   }
 
   public String getProcessElementId() {
-    return readStringAttribute("processElementId");
+    return bean.readAttribute("processElementId").asString();
   }
 
   @Override
   public long getExecutions() {
-    return readLongAttribute("firings");
+    return bean.readAttribute("firings").asLong();
   }
 
   @Override
@@ -41,34 +41,6 @@ public final class IntermediateEvent extends Event {
 
   @Override
   public long getErrors() {
-    return readLongAttribute("firingErrors");
-  }
-
-  public String getMinExecutionTime() {
-    long executions = getExecutions();
-    if (executions == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros((Long) readAttribute("pollsMinExecutionTimeInMicroSeconds"));
-  }
-
-  public String getAvgExecutionTime() {
-    var total = (Long) readAttribute("pollsTotalExecutionTimeInMicroSeconds");
-    if (total == null) {
-      return formatMicros(total);
-    }
-    long executions = getExecutions();
-    if (executions == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros(total / executions);
-  }
-
-  public String getMaxExecutionTime() {
-    long executions = getExecutions();
-    if (executions == 0) {
-      return NOT_AVAILABLE;
-    }
-    return formatMicros((Long) readAttribute("pollsMaxExecutionTimeInMicroSeconds"));
+    return bean.readAttribute("firingErrors").asLong();
   }
 }

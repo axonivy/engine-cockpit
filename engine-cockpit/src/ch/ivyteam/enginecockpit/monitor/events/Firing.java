@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.events;
 
 import java.util.Date;
 
+import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
 
@@ -24,7 +25,7 @@ public final class Firing {
   }
 
   public String getDuration() {
-    return Event.formatMicros(duration);
+    return MBean.formatMicros(duration);
   }
 
   public String getReason() {
