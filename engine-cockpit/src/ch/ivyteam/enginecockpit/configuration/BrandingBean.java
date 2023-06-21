@@ -29,7 +29,6 @@ import ch.ivyteam.enginecockpit.configuration.model.CssColorDTO;
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DownloadUtil;
-import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.application.branding.BrandingIO;
 import ch.ivyteam.ivy.config.IFileAccess;
