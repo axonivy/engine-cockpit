@@ -116,7 +116,7 @@ public class SecuritySystem {
   public static boolean isJndiSecuritySystem(ISecurityContext securityContext) {
     var name = securityContext.getExternalSecuritySystemName();
     return MicrosoftActiveDirectoryIdentityProvider.ID.equals(name) ||
-    	   NovellEDirectoryIdentityProvider.ID.equals(name);
+           NovellEDirectoryIdentityProvider.ID.equals(name);
   }
 
   @SuppressWarnings("removal")
