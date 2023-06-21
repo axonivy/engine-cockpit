@@ -1,26 +1,31 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/ivy/0.0.2/ivy.json
 Connector.HTTP.AllowTrace: true
 
 SecuritySystems:
   test-ad:
-    Provider: "Microsoft Active Directory"
-    Connection:
-      Url: ldap://test-ad.ivyteam.io
-      UserName: admin@zugtstdomain.wan
-      Password: nimda
-    Binding:
-      DefaultContext: "OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"
-    UserAttribute:
-      Properties:
-        Place: st
-        Address: streetAddress
+    IdentityProvider:
+      Name: microsoft-active-directory
+      Config:
+        Connection:
+          Url: ldap://test-ad.ivyteam.io
+          UserName: admin@zugtstdomain.wan
+          Password: nimda
+        Binding:
+          DefaultContext: "OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"
+        UserAttribute:
+          Properties:
+            Place: st
+            Address: streetAddress
   test-nd:
-    Provider: Novell eDirectory
-    Connection:
-      Url: ldap://test-edirectory.ivyteam.io:389
-      UserName: cn=admin,o=org
-      Password: admin
-    Binding:
-      DefaultContext: ou=IvyTeam Test-OU,o=zugtstorg
+    IdentityProvider:
+      Name: novell-edirectory
+      Config:
+        Connection:
+          Url: ldap://test-edirectory.ivyteam.io:389
+          UserName: cn=admin,o=org
+          Password: admin
+        Binding:
+          DefaultContext: ou=IvyTeam Test-OU,o=zugtstorg
 
 Administrators:
   admin:

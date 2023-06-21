@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig.ConfigKey;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.job.cron.CronExpression;
@@ -65,11 +64,11 @@ public class SecurityProviderBean {
 
     provider = systemConfig.identity().getName();
     var synch = systemConfig.userSynch();
-    onScheduleEnabled = synch.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_ENABLED);
-    onScheduleCron = synch.getPropertyAsCronExpression(ConfigKey.ON_SCHEDULE_CRON);
+    onScheduleEnabled = synch.onSchedule().enabled();
+    onScheduleCron = synch.onSchedule().executeAt();
     useCron = !onScheduleCron.isDaily();
-    synchOnLogin = synch.getPropertyAsBoolean(ConfigKey.SYNCH_ON_LOGIN);
-    onScheduleImportUsers = synch.getPropertyAsBoolean(ConfigKey.ON_SCHEDULE_IMPORT_USERS);
+    synchOnLogin = synch.onLogin();
+    onScheduleImportUsers = synch.onSchedule().importUsers();
   }
 
   public String getCronHelp() {
@@ -158,16 +157,16 @@ public class SecurityProviderBean {
     }
     var synch = systemConfig.userSynch();
     if (StringUtils.isBlank(onScheduleTime)) {
-      this.onScheduleCron = CronExpression.parse(synch.getDefaultValue(ConfigKey.ON_SCHEDULE_CRON));
+      this.onScheduleCron = synch.onSchedule().defaultExecuteAt();
     } else if (useCron) {
       this.onScheduleCron = CronExpression.parse(onScheduleTime);
     } else {
       this.onScheduleCron = CronExpression.dailyAt(LocalTime.parse(onScheduleTime));
     }
-    synch.setProperty(ConfigKey.ON_SCHEDULE_ENABLED, String.valueOf(onScheduleEnabled));
-    synch.setProperty(ConfigKey.ON_SCHEDULE_CRON, onScheduleCron.toString());
-    synch.setProperty(ConfigKey.SYNCH_ON_LOGIN, String.valueOf(synchOnLogin));
-    synch.setProperty(ConfigKey.ON_SCHEDULE_IMPORT_USERS, String.valueOf(onScheduleImportUsers));
+    synch.onLogin(synchOnLogin);
+    synch.onSchedule().enabled(onScheduleEnabled);
+    synch.onSchedule().executeAt(onScheduleCron);
+    synch.onSchedule().importUsers(onScheduleImportUsers);
 
     setShowWarningMessage(false);
     FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess",
