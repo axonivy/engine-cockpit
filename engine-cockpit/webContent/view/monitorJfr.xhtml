@@ -8,15 +8,13 @@
       <ui:define name="breadcrumb">
         <li><span>Monitor</span></li>
         <li>/</li>
-        <li><span>Engine</span></li>
+        <li><span>Java</span></li>
         <li>/</li>
-        <li><span>Performance</span></li>
-        <li>/</li>
-        <li><a href="monitorJfr.xhtml">Flight Recorder</a></li>
+        <li><a href="monitorJfr.xhtml">Java Flight Recorder</a></li>
       </ui:define>
   
       <ui:define name="topbar-items">
-        <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#flight-recorder" />
+        <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#java-flight-recorder" />
       </ui:define>
   
       <ui:define name="content">
@@ -29,7 +27,7 @@
               <div class="card-header p-flex-wrap">
                 <div class="card-title p-d-flex p-ai-center">
                   <i class="p-pr-3 si si-plane-take-off"></i>
-                  <h2 class="p-m-0">Flight Recorder</h2>
+                  <h2 class="p-m-0">Java Flight Recorder</h2>
                   <p:commandButton id="start" title="Start recording" onclick="PF('startRecordingDialog').show();" icon="si si-controls-play" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button"/>
                   <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{jfrBean.refresh()}" update="@form startRecordingDialog" title="Refresh" styleClass="p-col-fixed p-ml-1 rounded-button"/>
                 </div>

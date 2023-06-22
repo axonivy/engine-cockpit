@@ -60,13 +60,15 @@
           </p:submenu>
           <p:submenu id="sr_monitor" label="Monitor" icon="si si-pie-line-graph-desktop">
             <p:menuitem id="sr_monitor_os" value="OS" icon="si si-server-search" url="monitorOs.xhtml" />
-            <p:submenu id="sr_monitor_jvm" label="JVM" icon="si si-coffee-cup">
-              <p:menuitem id="sr_monitor_jvm_jvm" value="JVM" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
-              <p:menuitem id="sr_monitor_jvm_memory" value="Memory" icon="si si-analytics-board-graph-line"
+            <p:submenu id="sr_monitor_java" label="Java" icon="si si-coffee-cup">
+              <p:menuitem id="sr_monitor_java_jvm" value="JVM" icon="si si-coffee-cup" url="monitorJvm.xhtml" />
+              <p:menuitem id="sr_monitor_java_memory" value="Memory" icon="si si-analytics-board-graph-line"
                 url="monitorMemory.xhtml" />
-              <p:menuitem id="sr_monitor_jvm_class_histogram" value="Class Histogram" icon="si si-computer-chip-search"
+              <p:menuitem id="sr_monitor_java_class_histogram" value="Class Histogram" icon="si si-computer-chip-search"
                 url="monitorClassHistogram.xhtml" />
-              <p:menuitem id="sr_monitor_jvm_mbeans" value="MBeans" icon="si si-graph-statistics-coffee"
+              <p:menuitem id="sr_monitor_java_threads" value="Threads" icon="si si-synchronize-arrow-clock" url="monitorThreads.xhtml" />
+              <p:menuitem id="sr_monitor_java_jfr" value="Flight Recorder" icon="si si-plane-take-off" url="monitorJfr.xhtml" />
+              <p:menuitem id="sr_monitor_java_mbeans" value="MBeans" icon="si si-graph-statistics-coffee"
                 url="mbeans.xhtml" />
             </p:submenu>
             <p:submenu id="sr_monitor_engine" label="Engine" icon="si si-computer-chip-search">
@@ -88,8 +90,6 @@
                 url="monitorTraces.xhtml" />
               <p:menuitem id="sr_monitor_performance_traffic_graph" value="Traffic Graph" icon="si si-view-1"
                 url="monitorTrafficGraph.xhtml" />
-              <p:menuitem id="sr_monitor_performance_threads" value="Threads" icon="si si-synchronize-arrow-clock" url="monitorThreads.xhtml" />
-              <p:menuitem id="sr_monitor_performance_jfr" value="Flight Recorder" icon="si si-plane-take-off" url="monitorJfr.xhtml" />
             </p:submenu>
             <p:menuitem id="sr_logs" value="Logs" icon="si si-common-file-text" url="logs.xhtml" />
           </p:submenu>
