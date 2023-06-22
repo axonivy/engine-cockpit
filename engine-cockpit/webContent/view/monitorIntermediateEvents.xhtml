@@ -87,7 +87,7 @@
         <p:dialog style="min-width: 300px;" header="Poll Bean #{intermediateEventBean.selected.name}" id="pollBeanDialog"
           widgetVar="pollBeanDialog" responsive="true" closeOnEscape="true">
           <h:form id="pollBean" styleClass="custom-dialog-form">
-            <p:staticMessage severity="warn" detail="Scheduling to poll a bean can have negative side effects like." />
+            <p:staticMessage severity="warn" detail="Scheduling to poll a bean can have negative side effects."/>
             <div class="custom-dialog-footer">
               <p:commandButton id="cancel" type="button" onclick="PF('pollBeanDialog').hide();" value="Cancel"
                 styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
