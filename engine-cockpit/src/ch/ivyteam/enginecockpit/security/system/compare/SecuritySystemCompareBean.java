@@ -12,6 +12,8 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.context.compare.Issue;
 import ch.ivyteam.ivy.security.context.compare.SecurityContextComparer;
+import ch.ivyteam.ivy.security.context.compare.Solver;
+import ch.ivyteam.ivy.security.context.compare.Solver.Type;
 import ch.ivyteam.util.collections.ConcurrentHashSet;
 
 @ManagedBean
@@ -46,10 +48,26 @@ public class SecuritySystemCompareBean {
   
   public String solveHint(Issue issue) {
 	 return switch(issue.solver().type()) {
-	 	case CREATE -> "This will create the entry in the target security system";
-	 	case UPDATE -> "This will update the entry in the target security system";
-	 	case DELETE -> "This will delete the entry in the target security system";
+	 	case CREATE -> "This will create the entry in the target security system " + targetSecuritySystem;
+	 	case UPDATE -> "This will update the entry in the target security system " + targetSecuritySystem;
+	 	case DELETE -> "This will delete the entry in the target security system " + targetSecuritySystem;
 	 };
+  }
+  
+  public void solveCreateIssues() {
+	solveIssues(Type.CREATE); 
+  }
+  
+  public void solveUpdateIssues() {
+		solveIssues(Type.UPDATE); 
+	  }
+  
+  public void solveDeleteIssues() {
+		solveIssues(Type.DELETE); 
+	  }
+  
+  private void solveIssues(Solver.Type type) {
+	result.stream().filter(issue -> issue.solver().type() == type) .forEach(issue -> solve(issue));
   }
   
   public boolean isSolved(Issue issue) {

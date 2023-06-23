@@ -43,13 +43,34 @@
 		  <p:panelGrid rendered="#{securitySystemCompareBean.isReportAvailable()}" columns="1" layout="flex" styleClass="compare-card">
 		  <br />
 			   <h3 class="p-m-0">Comparison Report</h3>
+			 	
+			   <p:panelGrid columns="3" layout="flex">
+				   <p:commandButton value="Execute all CREATE operations" title="This will run all CREATE operations in the target security system" update="report" actionListener="#{securitySystemCompareBean.solveCreateIssues()}">
+				   	 <p:confirm header="Execute all CREATE operations" message="This will create all missing entries in the target security system" icon="ui-icon-alert"/>
+				   </p:commandButton>
+
+				   <p:commandButton value="Execute all UPDATE operations" title="This will run all UPDATE operations in the target security system" update="report" actionListener="#{securitySystemCompareBean.solveUpdateIssues()}">
+				   	 <p:confirm header="Execute all UPDATE operations" message="This will update all entries in the target security system which are different the source security system" icon="ui-icon-alert"/>
+				   </p:commandButton>
+				  
+				   <p:commandButton value="Execute all DELETE operations" title="This will run all DELETE operations in the target security system" update="report" actionListener="#{securitySystemCompareBean.solveDeleteIssues()}" >
+			   		 <p:confirm header="Execute all DELETE operations" message="This will delete all entries in the target security system which are missing in the source security system" icon="ui-icon-alert"/>
+			       </p:commandButton>
+			   	
+				   	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+	            		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+	           			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+	        		</p:confirmDialog>
+			   </p:panelGrid> 
+			   
+			   
 			  
 			   <p:dataTable id="report" var="issue" value="#{securitySystemCompareBean.report}">
-	            <p:column style="width:50px;">
+	            <p:column style="width:45px;">
 	                <h:outputText value="#{issue.entity()}" />
 	            </p:column>
 	            
-	            <p:column headerText="Name" style="width:120px;">
+	            <p:column headerText="Name" style="width:150px;">
 	                <h:outputText value="#{issue.id()}" />
 	            </p:column>
 	            
@@ -66,15 +87,9 @@
 	            </p:column>
 	            
 	            <p:column >
-	                <p:commandButton value="#{issue.solver().type()}" title="#{securitySystemCompareBean.solveHint(issue)}" rendered="#{issue.isSolveable()}" enabled="${securitySystemCompareBean.isSolved(issue)}" update="report" actionListener="#{securitySystemCompareBean.solve(issue)}" oncomplete="solveButton(this)" />                
+	                <p:commandButton value="#{issue.solver().type()}" title="#{securitySystemCompareBean.solveHint(issue)}" rendered="#{issue.isSolveable()}" disabled="${securitySystemCompareBean.isSolved(issue)}" update="report" actionListener="#{securitySystemCompareBean.solve(issue)}" />                
 	            </p:column>
 	           </p:dataTable>
-	           
-	           <script>
-			     function solveButton(button) {
-				   button.value = 'solved';
-				 }
-				</script>
 			</p:panelGrid>
         </h:form>
       </div>
