@@ -55,7 +55,8 @@ jQuery(function () {
       'restclientdetail.xhtml': 'restclients.xhtml',
       'webservicedetail.xhtml': 'webservices.xhtml',
       'businesscalendar-detail.xhtml': 'businesscalendar.xhtml',
-      'monitorTraceDetail.xhtml': 'monitorTraces.xhtml'
+      'monitorTraceDetail.xhtml': 'monitorTraces.xhtml',
+      'securitysystem-merge.xhtml': 'securitysystem.xhtml'
     };
     return map[value] == null ? value : map[value];
   }
