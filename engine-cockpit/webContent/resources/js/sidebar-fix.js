@@ -59,7 +59,7 @@ jQuery(function () {
       'searchindex.xhtml': 'searchengine.xhtml',
       'monitorStartEventDetails.xhtml': 'monitorStartEvents.xhtml',
       'monitorIntermediateEventDetails.xhtml': 'monitorIntermediateEvents.xhtml',
-      'securitysystem-compare.xhtml': 'securitysystem.xhtml'
+      'securitysystem-merge.xhtml': 'securitysystem.xhtml'
     };
     return map[value] == null ? value : map[value];
   }

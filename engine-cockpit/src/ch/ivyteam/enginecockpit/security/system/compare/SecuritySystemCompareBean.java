@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security.system.compare;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
@@ -9,12 +10,15 @@ import javax.faces.bean.ViewScoped;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.ISecurityManager;
-import ch.ivyteam.ivy.security.internal.context.compare.Issue;
-import ch.ivyteam.ivy.security.internal.context.compare.SecurityContextComparer;
+import ch.ivyteam.ivy.security.context.compare.Issue;
+import ch.ivyteam.ivy.security.context.compare.SecurityContextComparer;
+import ch.ivyteam.util.collections.ConcurrentHashSet;
 
 @ManagedBean
 @ViewScoped
 public class SecuritySystemCompareBean {
+
+  private final Set<Issue> solved = new ConcurrentHashSet<>();	
 
   private String sourceSecuritySystem;
   private String targetSecuritySystem;
@@ -30,7 +34,28 @@ public class SecuritySystemCompareBean {
     var comparer = new SecurityContextComparer(sourceContext, targetContext);
     result = comparer.run().stream().collect(Collectors.toList());
   }
+  
+  public boolean isReportAvailable() {
+	return result != null;
+  }
 
+  public void solve(Issue issue) {
+	  solved.add(issue);
+	  issue.solve();
+  }
+  
+  public String solveHint(Issue issue) {
+	 return switch(issue.solver().type()) {
+	 	case CREATE -> "This will create the entry in the target security system";
+	 	case UPDATE -> "This will update the entry in the target security system";
+	 	case DELETE -> "This will delete the entry in the target security system";
+	 };
+  }
+  
+  public boolean isSolved(Issue issue) {
+	  return solved.contains(issue);
+  }
+  
   public List<String> getSecuritySystems() {
     return ISecurityManager.instance().securityContexts().all().stream()
             .map(ISecurityContext::getName)
