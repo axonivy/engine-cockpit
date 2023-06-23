@@ -20,8 +20,7 @@ import ch.ivyteam.util.collections.ConcurrentHashSet;
 @ViewScoped
 public class SecuritySystemCompareBean {
 
-  private final Set<Issue> solved = new ConcurrentHashSet<>();	
-
+  private final Set<Issue> solved = new ConcurrentHashSet<>();
   private String sourceSecuritySystem;
   private String targetSecuritySystem;
   private List<Issue> result;
@@ -36,44 +35,44 @@ public class SecuritySystemCompareBean {
     var comparer = new SecurityContextComparer(sourceContext, targetContext);
     result = comparer.run().stream().collect(Collectors.toList());
   }
-  
+
   public boolean isReportAvailable() {
-	return result != null;
+    return result != null;
   }
 
   public void solve(Issue issue) {
-	  solved.add(issue);
-	  issue.solve();
+    solved.add(issue);
+    issue.solve();
   }
-  
+
   public String solveHint(Issue issue) {
-	 return switch(issue.solver().type()) {
-	 	case CREATE -> "This will create the entry in the target security system " + targetSecuritySystem;
-	 	case UPDATE -> "This will update the entry in the target security system " + targetSecuritySystem;
-	 	case DELETE -> "This will delete the entry in the target security system " + targetSecuritySystem;
-	 };
+    return switch (issue.solver().type()) {
+      case CREATE -> "This will create the entry in the target security system " + targetSecuritySystem;
+      case UPDATE -> "This will update the entry in the target security system " + targetSecuritySystem;
+      case DELETE -> "This will delete the entry in the target security system " + targetSecuritySystem;
+    };
   }
-  
+
   public void solveCreateIssues() {
-	solveIssues(Type.CREATE); 
+    solveIssues(Type.CREATE);
   }
-  
+
   public void solveUpdateIssues() {
-		solveIssues(Type.UPDATE); 
-	  }
-  
+    solveIssues(Type.UPDATE);
+  }
+
   public void solveDeleteIssues() {
-		solveIssues(Type.DELETE); 
-	  }
-  
+    solveIssues(Type.DELETE);
+  }
+
   private void solveIssues(Solver.Type type) {
-	result.stream().filter(issue -> issue.solver().type() == type) .forEach(issue -> solve(issue));
+    result.stream().filter(issue -> issue.solver().type() == type).forEach(issue -> solve(issue));
   }
-  
+
   public boolean isSolved(Issue issue) {
-	  return solved.contains(issue);
+    return solved.contains(issue);
   }
-  
+
   public List<String> getSecuritySystems() {
     return ISecurityManager.instance().securityContexts().all().stream()
             .map(ISecurityContext::getName)
