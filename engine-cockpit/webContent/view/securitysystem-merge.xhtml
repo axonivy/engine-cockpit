@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <ui:composition template="../includes/template/template.xhtml">
+    <ui:define name="breadcrumb">
+      <li><span>Security</span></li>
+      <li>/</li>
+      <li><a href="securitysystem.xhtml">Merge Security Systems</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}security.html#security-system" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <h:form id="form">
+          <p:growl for="msgs" id="msgs" showDetail="true">
+            <p:autoUpdate />
+          </p:growl>
+          <div class="p-d-flex p-ai-center p-mb-3">
+            <i class="p-pr-3 si si-lock-1 card-title-icon"></i>
+            <h2 class="p-m-0">Merge Security Systems</h2>
+          </div>
+
+          <p:panelGrid columns="1" layout="flex" styleClass="compare-card">
+            <p:outputLabel style="font-weight: bold" for="sourceSecuritySystem">Source Security System</p:outputLabel>
+            <p:selectOneMenu id="sourceSecuritySystem" value="#{securitySystemCompareBean.sourceSecuritySystem}">
+              <f:selectItems value="#{securitySystemCompareBean.securitySystems}" var="securitySystem"
+                itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel style="font-weight: bold" for="sourceSecuritySystem">Target Security System</p:outputLabel>
+            <p:selectOneMenu id="targetSecuritySystem" value="#{securitySystemCompareBean.targetSecuritySystem}">
+              <f:selectItems value="#{securitySystemCompareBean.securitySystems}" var="securitySystem"
+                itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
+            </p:selectOneMenu>
+
+            <p:commandButton update="form" value="Compare" ajax="false"
+              title="This will only compare the source with the target security system. This will NOT make any changes."
+              actionListener="#{securitySystemCompareBean.run}" />
+          </p:panelGrid>
+
+          <h:panelGroup rendered="#{securitySystemCompareBean.isReportAvailable()}">
+            <h3>Comparison Report</h3>
+
+              <p:commandButton value="Execute all CREATE operations" styleClass="p-mr-2 p-mb-2"
+                title="This will run all CREATE operations in the target security system" update="report" icon="si si-add"
+                actionListener="#{securitySystemCompareBean.solveCreateIssues()}">
+                <p:confirm header="Execute all CREATE operations"
+                  message="This will create all missing entries in the target security system" icon="ui-icon-alert" />
+              </p:commandButton>
+
+              <p:commandButton value="Execute all UPDATE operations" styleClass="p-mr-2 p-mb-2" icon="si si-navigation-right-circle"
+                title="This will run all UPDATE operations in the target security system" update="report"
+                actionListener="#{securitySystemCompareBean.solveUpdateIssues()}">
+                <p:confirm header="Execute all UPDATE operations"
+                  message="This will update all entries in the target security system which are different from the source security system"
+                  icon="ui-icon-alert" />
+              </p:commandButton>
+
+              <p:commandButton value="Execute all DELETE operations" styleClass="p-mr-2 p-mb-2" icon="si si-bin-1"
+                title="This will run all DELETE operations in the target security system" update="report"
+                actionListener="#{securitySystemCompareBean.solveDeleteIssues()}">
+                <p:confirm header="Execute all DELETE operations"
+                  message="This will delete all entries in the target security system which are missing in the source security system"
+                  icon="ui-icon-alert" />
+              </p:commandButton>
+
+              <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+              </p:confirmDialog>
+
+            <p:dataTable id="report" var="issue" value="#{securitySystemCompareBean.report}">
+              <p:column style="width: 45px">
+                <h:outputText value="#{issue.entity()}" />
+              </p:column>
+
+              <p:column headerText="Name" style="width: 150px">
+                <h:outputText value="#{issue.id()}" />
+              </p:column>
+
+              <p:column headerText="What">
+                <h:outputText value="#{issue.what()} #{issue.name()}" />
+              </p:column>
+
+              <p:column headerText="Source">
+                <h:outputText value="#{issue.source()}" />
+              </p:column>
+
+              <p:column headerText="Target">
+                <h:outputText value="#{issue.target()}" />
+              </p:column>
+
+              <p:column>
+                <p:commandButton value="#{issue.solver().type()}" title="#{securitySystemCompareBean.solveHint(issue)}"
+                  rendered="#{issue.isSolveable()}" disabled="${securitySystemCompareBean.isSolved(issue)}"
+                  update="report" actionListener="#{securitySystemCompareBean.solve(issue)}" />
+              </p:column>
+            </p:dataTable>
+          </h:panelGroup>
+        </h:form>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>
