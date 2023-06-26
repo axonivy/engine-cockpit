@@ -11,7 +11,10 @@ import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.enginecockpit.security.directory.ldap.LdapBrowser;
+import ch.ivyteam.ivy.security.identity.jndi.browser.LdapBrowser;
+import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryBrowser;
+import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNode;
+import ch.ivyteam.ivy.security.identity.spi.browser.Property;
 import ch.ivyteam.log.Logger;
 import ch.ivyteam.naming.JndiConfig;
 
@@ -80,7 +83,7 @@ public class DirectoryBrowserBean {
     this.selectedNode = selectedNode;
     try {
       if (selectedNode != null) {
-        selectedNodeAttributes = directory.getNodeAttributes(selectedNode.getData());
+        selectedNodeAttributes = directory.properties(selectedNode.getData());
       }
     } catch (Exception ex) {
       errorMessage(ex);
