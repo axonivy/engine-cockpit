@@ -27,12 +27,16 @@ public class DirectoryBrowserBean {
   private DirectoryBrowser directory;
 
   public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue) {
+    browse(new LdapBrowser(config, enableInsecureSsl), initialValue);
+  }
+
+  public void browse(DirectoryBrowser browser, String initialValue) {
     this.root = null;
-    this.directory = new LdapBrowser(config, enableInsecureSsl);
+    this.directory = browser;
     try {
-      Object selectValue = directory.selectValue(initialValue);
+      Object selectValue = browser.selectValue(initialValue);
       this.root = new DefaultTreeNode<DirectoryNode>(null, null);
-      directory.root().forEach(node -> addNewSubnode(root, node, selectValue));
+      browser.root().forEach(node -> addNewSubnode(root, node, selectValue));
     } catch (Exception ex) {
       errorMessage(ex);
     }

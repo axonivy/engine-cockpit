@@ -52,11 +52,15 @@
                       <ui:fragment>
 
                         <!-- string -->
-                        <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-2 p-lg-2, p-col-12 p-md-10 p-lg-10" styleClass="grey-label-panel ui-fluid" rendered="#{property.string}">
+                        <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" styleClass="grey-label-panel ui-fluid" rendered="#{property.string}">
                           <p:outputLabel value="#{property.label}" />
-                          <h:panelGroup  styleClass="md-inputfield">
-                            <p:inputText id="propertyString" value="#{property.value}" />
-                            <small class="block">#{property.description}</small>
+                             <h:panelGroup layout="block" styleClass="ui-inputgroup">
+	                            <p:inputText id="propertyString" value="#{property.value}" />
+	                            <p:commandButton id="browseDefaultContext" icon="si si-network-browser" title="Browse" 
+	                                actionListener="#{identityProviderBean.browseProperty(property)}" 
+						          oncomplete="PF('ldapBrowserDialog').show();" update="azureBrowser:ldapBrowserDialog"
+						          rendered="#{property.name.equals('GroupFilter')}" />
+                                <small class="block">#{property.description}</small>
                           </h:panelGroup>
                        </p:panelGrid>
 
@@ -126,6 +130,10 @@
                  </h:form>
                 </p:dialog>
             </div>
+            
+            
+            <cc:LdapBrowser updateFields="securityIdentityProviderForm" ldapBrowser="#{identityProviderBean.directoryBrowser}"
+  returnListener="#{identityProviderBean.idpNode}" id="azureBrowser" />
           </h:panelGroup>
         </div>
       </div>
