@@ -28,11 +28,11 @@
           scrollable="true" emptyMessage="Select a node to see its attributes"
           rendered="#{cc.attrs.ldapBrowser.tree != null}" styleClass="p-col-6">
           <p:column headerText="Name">
-            <h:outputText value="#{attr.name}" styleClass="node-attr-name" />
+            <h:outputText value="#{attr.name()}" styleClass="node-attr-name" />
           </p:column>
           <p:column headerText="Value"
             style="min-width: #{empty cc.attrs.ldapBrowser.selectedNodeProperties ? '100px' : '1000px'}; white-space: pre-wrap; word-break: break-word;">
-            <h:outputText value="#{attr.value}" />
+            <h:outputText value="#{attr.value()}" />
           </p:column>
         </p:dataTable>
       </div>
