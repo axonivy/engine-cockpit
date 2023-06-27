@@ -39,7 +39,9 @@ public class RoleDetailBean {
   private ISecurityContext securityContext;
 
   private String roleName;
+  private String newRoleName;
   private String newChildRoleName;
+  private String newParentRoleName;
   private User roleUser;
   private String roleMemberName;
   private Role role;
@@ -113,6 +115,11 @@ public class RoleDetailBean {
             .or().state().isEqual(TaskState.PARKED)
             .andOverall().activatorId().isEqual(iRole.getSecurityMemberId()).executor().count();
     roleProperties.setMemberName(this.roleName);
+    this.newRoleName = this.roleName;
+    var parentRole = iRole.getParent();
+    if (parentRole != null) {
+      this.newParentRoleName = parentRole.getName();
+    }
   }
 
   public String getUsersOfRoleFilter() {
@@ -131,12 +138,66 @@ public class RoleDetailBean {
     this.newChildRoleName = name;
   }
 
+  public String getNewRoleName() {
+    return newRoleName;
+  }
+
+  public void setNewRoleName(String newRoleName) {
+    this.newRoleName = newRoleName;
+  }
+
+  public String getNewParentRoleName() {
+    return newParentRoleName;
+  }
+
+  public void setNewParentRoleName(String newParentRoleName) {
+    this.newParentRoleName = newParentRoleName;
+  }
+
+  public void renameRole() {
+    var iRole = getIRole();
+    iRole.setName(newRoleName);
+    try {
+      var url = new Role(iRole).getViewUrl(iRole.getSecurityContext().getName());
+      FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void updateRoleParent() {
+    var iRole = getIRole();
+    var parentRole = iRole.getSecurityContext().roles().find(newParentRoleName);
+    try {
+      iRole.move(parentRole);
+      role.setParentRoleName(newParentRoleName);
+    } catch(Exception ex) {
+      var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role Parent not saved", ex.getMessage());
+      FacesContext.getCurrentInstance().addMessage("msgs", msg);
+      return;
+    }
+    var msg = new FacesMessage("Role Parent saved");
+    FacesContext.getCurrentInstance().addMessage("informationSaveSuccess", msg);
+  }
+
   public Role getRole() {
     return role;
   }
 
   public void setRole(Role role) {
     this.role = role;
+  }
+
+  public boolean canRenameRole() {
+    return !isTopLevelRole();
+  }
+
+  public boolean canUpdateRoleParent() {
+    return !isTopLevelRole();
+  }
+
+  private boolean isTopLevelRole() {
+    return getIRole().getParent() == null;
   }
 
   public void createNewChildRole() throws IOException {
@@ -344,5 +405,11 @@ public class RoleDetailBean {
 
   private boolean isRootRole() {
     return getIRole().getParent() == null;
+  }
+
+  public List<String> getRoles() {
+    return securityContext.roles().all().stream()
+            .map(IRole::getName)
+            .collect(Collectors.toList());
   }
 }
