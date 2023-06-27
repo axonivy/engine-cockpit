@@ -7,12 +7,14 @@ import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.ivy.security.IRole;
 
 public class Role {
+
   private String name;
   private String description;
   private String displayName;
   private String externalName;
   private boolean member;
   private boolean dynamic;
+  private String parentRoleName;
 
   public Role(String name) {
     this.name = name;
@@ -25,6 +27,7 @@ public class Role {
     this.externalName = role.getExternalName();
     this.member = false;
     this.dynamic = role.isDynamic();
+    this.parentRoleName = role.getParent() == null ? "" : role.getParent().getName();
   }
 
   public Role(IRole role, boolean member) {
@@ -90,6 +93,14 @@ public class Role {
 
   public boolean isManaged() {
     return StringUtils.isNotEmpty(externalName);
+  }
+
+  public String getParentRoleName() {
+    return this.parentRoleName;
+  }
+
+  public void setParentRoleName(String parentRoleName) {
+    this.parentRoleName = parentRoleName;
   }
 
   @Override

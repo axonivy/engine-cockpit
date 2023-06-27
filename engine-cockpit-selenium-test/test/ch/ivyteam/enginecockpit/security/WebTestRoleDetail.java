@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
@@ -59,11 +60,12 @@ class WebTestRoleDetail {
     $("#roleInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
     Selenide.refresh();
 
-    $("#roleInformationForm\\:name").shouldBe(exactText(DETAIL_ROLE_NAME));
+    $("#roleInformationForm\\:name").shouldBe(exactValue(DETAIL_ROLE_NAME));
     $("#roleInformationForm\\:displayName").shouldBe(exactValue("display"));
     $("#roleInformationForm\\:description").shouldBe(exactValue("desc"));
-    $("#roleInformationForm\\:externalSecurityName")
-            .shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $("#roleInformationForm\\:parentRole").shouldBe(exactValue("Everybody"));
+
+    $("#roleInformationForm\\:externalSecurityName").shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     clearRoleInfoInputs();
     $("#roleInformationForm\\:saveRoleInformation").click();
   }
@@ -82,10 +84,57 @@ class WebTestRoleDetail {
     $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(newRoleName);
     $("#newChildRoleForm\\:saveNewRole").click();
     assertCurrentUrlContains("roledetail.xhtml?system=default&name=test");
-    $("#roleInformationForm\\:name").shouldBe(exactText(newRoleName));
+    $("#roleInformationForm\\:name").shouldBe(exactValue(newRoleName));
 
-    $("#roleInformationForm\\:deleteRole").shouldBe(visible);
-    $("#roleInformationForm\\:deleteRole").click();
+    $("#roleInformationForm\\:deleteRole").shouldBe(visible).click();
+    $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
+
+    $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
+    assertCurrentUrlContains("roles.xhtml");
+  }
+
+  @Test
+  void renameRole() {
+    $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
+    $("#newChildRoleDialog").shouldBe(visible);
+
+    $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys("avengers");
+    $("#newChildRoleForm\\:saveNewRole").click();
+    assertCurrentUrlContains("roledetail.xhtml?system=default&name=avengers");
+    $("#roleInformationForm\\:name").shouldBe(exactValue("avengers"));
+
+    $("#roleInformationForm\\:renameRole").shouldBe(visible).click();
+
+    $("#renameRoleForm\\:renameRoleNameInput").shouldBe(visible).clear();
+    $("#renameRoleForm\\:renameRoleNameInput").sendKeys("xmen");
+
+    $("#renameRoleForm\\:renameRole").click();
+    assertCurrentUrlContains("roledetail.xhtml?system=default&name=xmen");
+
+    $("#roleInformationForm\\:deleteRole").shouldBe(visible).click();
+    $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
+
+    $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
+    assertCurrentUrlContains("roles.xhtml");
+  }
+
+  @Test
+  void updateParent() {
+    $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
+    $("#newChildRoleDialog").shouldBe(visible);
+    $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys("goodcops");
+    $("#newChildRoleForm\\:saveNewRole").click();
+    assertCurrentUrlContains("roledetail.xhtml?system=default&name=goodcops");
+    $("#roleInformationForm\\:name").shouldBe(exactValue("goodcops"));
+    $("#roleInformationForm\\:parentRole").shouldBe(exactValue("boss"));
+    $("#roleInformationForm\\:updateRoleParent").shouldBe(visible).click();
+
+    var provider = PrimeUi.selectOne(By.id("updateRoleParentForm:updateRoleParentNameInput"));
+    provider.selectItemByLabel("Everybody");
+    $("#updateRoleParentForm\\:updateRoleParent").click();
+    $("#roleInformationForm\\:parentRole").shouldBe(exactValue("Everybody"));
+
+    $("#roleInformationForm\\:deleteRole").shouldBe(visible).click();
     $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
 
     $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
