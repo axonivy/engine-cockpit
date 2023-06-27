@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<p:dialog id="renameRoleDialog" style="min-width: 300px;" header="Rename Role #{roleDetailBean.name}"
+  widgetVar="renameRoleModal" modal="true" responsive="true" closeOnEscape="true">
+  <h:form id="renameRoleForm" styleClass="custom-dialog-form">
+
+    <p:staticMessage severity="warn" detail="This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes will fail in the future." />
+  
+    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel for="renameRoleNameInput" value="Name" />
+      <h:panelGroup styleClass="md-inputfield">
+        <p:inputText id="renameRoleNameInput" requiredMessage="Value is required"
+          value="#{roleDetailBean.newRoleName}" required="true" />
+        <p:message for="renameRoleNameInput" id="newRoleNameMessage" />
+      </h:panelGroup>
+    </p:panelGrid>
+    <div class="custom-dialog-footer">
+      <p:commandButton id="cancelRenameRole" onclick="PF('renameRoleModal').hide();" value="Cancel" type="button"
+        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+      <p:commandButton id="renameRole" validateClient="true" action="#{roleDetailBean.renameRole}" ajax="false"
+        update="@form" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
+    </div>
+  </h:form>
+</p:dialog>
+</html>
+
