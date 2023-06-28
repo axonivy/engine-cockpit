@@ -2,6 +2,10 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+  <f:metadata>
+    <f:viewParam name="threadId" value="#{threadBean.threadId}" required="false"/>
+  </f:metadata>
+  
   <h:body>
     <ui:composition template="../includes/template/template.xhtml">
       <ui:define name="breadcrumb">
@@ -36,7 +40,7 @@
               </div>
               <p:dataTable var="thread" value="#{threadBean.threads}"
                 widgetVar="threadTable" styleClass="ui-fluid"
-                filteredValue="#{threadBean.filteredThreads}" globalFilterFunction="#{threadBean.filter}"
+                filteredValue="#{threadBean.filteredThreads}" globalFilterFunction="#{threadBean.filter}" globalFilter="#{threadBean.filter}"
                 id="threadTable" style="min-width: 950px;">
                 <f:facet name="header">
                   <div class="ui-input-icon-left filter-container">
@@ -44,13 +48,13 @@
                     <p:inputText id="globalFilter" onkeyup="PF('threadTable').filter()" placeholder="Search"/>
                   </div>
                 </f:facet>
-                <p:column headerText="Id" sortBy="#{thread.id}" width="5%">              
+                <p:column headerText="Id" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">              
                   <p:commandLink oncomplete="PF('threadDialog').show();" title="Thread Detail" action="#{threadBean.setSelected(thread)}" update="threadDialog">
                     <i class="p-pr-3 si si-synchronize-arrow-clock"></i>
                     <h:outputText value="#{thread.id}"/>
                   </p:commandLink>
                 </p:column>
-                <p:column headerText="Name" sortBy="#{thread.name}" width="40%">
+                <p:column headerText="Name" sortBy="#{thread.name}" filterBy="#{thread.name}" width="40%">
                   <h:outputText value="#{thread.name}"/>
                 </p:column>
                 <p:column headerText="State" sortBy="#{thread.state}" width="10%">

@@ -43,6 +43,11 @@
           <div class="p-col-12 p-md-12 p-xl-6">
             <cc:Poll id="polls" event="#{startEventDetailBean.event}" />
           </div>
+          <ui:fragment rendered="#{not empty startEventDetailBean.event.threads}">
+            <div class="p-col-12 p-md-12 p-xl-12" >
+              <cc:EventBeanThreads id="threads" event="#{startEventDetailBean.event}" />
+            </div>
+          </ui:fragment>
           <div class="p-col-12 p-md-12 p-xl-12">
             <cc:Firings id="firings" event="#{startEventDetailBean.event}" />
           </div>
