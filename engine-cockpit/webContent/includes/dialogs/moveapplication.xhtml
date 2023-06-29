@@ -7,27 +7,27 @@
   widgetVar="moveApplicationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="moveApplicationForm" styleClass="custom-dialog-form">
   
-  	<p:staticMessage severity="warn" detail="This is a heavy operation that move a lot of data. We highly recommend to make a backup of your system database first." />
-  	
-    <p:panelGrid columns="1" layout="flex" columnClasses="" styleClass="grey-label-panel ui-fluid">
-    	<p:outputLabel style="font-weight:bold;" value="Application" for="moveApplicationAppName"/>
-    	<h:outputText id="moveApplicationAppName" value="#{moveApplicationBean.appName}"></h:outputText>
+   <p:staticMessage severity="warn" detail="This is a heavy operation that move a lot of data. We highly recommend to make a backup of your system database first." />
+
+   <p:panelGrid columns="1" layout="flex" columnClasses="" styleClass="grey-label-panel ui-fluid">
+      <p:outputLabel style="font-weight:bold;" value="Application" for="moveApplicationAppName"/>
+      <h:outputText id="moveApplicationAppName" value="#{moveApplicationBean.appName}"></h:outputText>
     	
-    	<p:outputLabel style="font-weight:bold;" value="Source Security System" for="moveApplicationSourceSecuritySystemName"/>
-    	<h:outputText id="moveApplicationSourceSecuritySystemName" value="#{moveApplicationBean.securitySystemName}"></h:outputText>
-    	
-    	<p:outputLabel style="font-weight:bold;" value="Target Security System" for="moveApplicationTargetSecuritySystem"/>
-    	<h:panelGroup styleClass="md-inputfield">
-            <p:selectOneMenu id="moveApplicationTargetSecuritySystem" value="#{moveApplicationBean.targetSecuritySystem}">
-              <f:selectItems value="#{moveApplicationBean.securitySystems}" var="securitySystem"
+      <p:outputLabel style="font-weight:bold;" value="Source Security System" for="moveApplicationSourceSecuritySystemName"/>
+      <h:outputText id="moveApplicationSourceSecuritySystemName" value="#{moveApplicationBean.securitySystemName}"></h:outputText>
+
+      <p:outputLabel style="font-weight:bold;" value="Target Security System" for="moveApplicationTargetSecuritySystem"/>
+      <h:panelGroup styleClass="md-inputfield">
+        <p:selectOneMenu id="moveApplicationTargetSecuritySystem" value="#{moveApplicationBean.targetSecuritySystem}">
+          <f:selectItems value="#{moveApplicationBean.securitySystems}" var="securitySystem"
                 itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
-            </p:selectOneMenu>
+        </p:selectOneMenu>
         <p:message for="moveApplicationTargetSecuritySystem" id="moveApplicationTargetSecuritySystemMessage" />
 
         <h:outputText value="#{moveApplicationBean.validationMessage}"></h:outputText>
       </h:panelGroup>
-    
     </p:panelGrid>
+
     <div class="custom-dialog-footer">
       <p:commandButton id="validateMoveApplication" update="moveApplicationForm" actionListener="#{moveApplicationBean.validate()}" value="Validate" icon="si si-check-1" styleClass="modal-input-button" />
       <p:commandButton id="moveApplication" ajax="false" disabled="#{!moveApplicationBean.isValid()}" actionListener="#{moveApplicationBean.move()}" value="Move" icon="si si-move-back" styleClass="modal-input-button" />
