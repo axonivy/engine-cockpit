@@ -139,6 +139,10 @@ public class Application extends AbstractActivity {
     }
   }
 
+  public IApplicationInternal app() {
+    return app;
+  }
+
   public List<WebServiceProcess> getWebServiceProcesses() {
     if (webServiceProcesses == null) {
       webServiceProcesses = app.getProcessModels().stream()
