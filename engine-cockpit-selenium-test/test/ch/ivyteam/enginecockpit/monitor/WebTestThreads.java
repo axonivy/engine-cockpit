@@ -1,11 +1,15 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.Wait;
+import static com.codeborne.selenide.Selenide.refresh;
 import static org.openqa.selenium.By.id;
 
 import java.time.Duration;
@@ -15,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -34,6 +37,14 @@ public class WebTestThreads {
     login();
     Navigation.toThreads();
     threadsTable = new Table(By.id("form:threadTable"));
+    Wait()
+        .withTimeout(TWENTY_SECONDS)
+        .ignoring(AssertionError.class)
+        .until(webDriver -> {
+          refresh();
+          threadsTable.rows().shouldBe(sizeGreaterThan(20));
+          return true;
+        });
   }
 
   @Test
@@ -57,12 +68,12 @@ public class WebTestThreads {
     int all = threadsTable.rows().size();
     threadsTable.searchFilterShould(visible, enabled);
     threadsTable.search("http");
-    threadsTable.rows().shouldBe(CollectionCondition.sizeLessThan(all));
+    threadsTable.rows().shouldBe(sizeLessThan(all));
   }
   
   @Test
   void deadlock() {
-    threadsTable.body().$$(By.className("deadlocked")).shouldBe(CollectionCondition.size(0));
+    threadsTable.body().$$(By.className("deadlocked")).shouldBe(size(0));
     
     EngineCockpitUtil.deadlock();
     EngineCockpitUtil.openDashboard();
@@ -74,7 +85,7 @@ public class WebTestThreads {
           $(id("form:refresh"))
               .shouldBe(visible, enabled)
               .click();
-          threadsTable.body().$$(By.className("deadlocked")).shouldBe(CollectionCondition.size(4));
+          threadsTable.body().$$(By.className("deadlocked")).shouldBe(size(4));
           return true;
         });
   }

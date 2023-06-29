@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.ivyteam.enginecockpit.monitor;
 
 import ch.ivyteam.ivy.process.eventstart.AbstractProcessStartEventBean;

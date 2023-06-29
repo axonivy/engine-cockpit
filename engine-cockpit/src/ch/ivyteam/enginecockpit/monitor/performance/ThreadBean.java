@@ -25,7 +25,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @SessionScoped
@@ -46,22 +45,19 @@ public class ThreadBean {
   }
   
   public void setThreadId(Long threadId) {
-	this.threadId = threadId;
-	refresh();
-	this.filter = Long.toString(threadId);	
+    this.threadId = threadId;
+    refresh();
+    this.filter = Long.toString(threadId);
   }
   
   public Long getThreadId() {
-	return threadId;
+    return threadId;
   }
   
   public String getFilter() {
-	Ivy.log().info("Filter: "+filter);
-    return filter;
-  }
-  
-  public void setFilter(String filter) {
-    this.filter = filter;
+    var f = filter;
+    filter = null;
+    return f;
   }
 
   public void refresh() {

@@ -11,6 +11,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.Wait;
+import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
@@ -26,6 +28,7 @@ import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverConditions;
 
 import ch.ivyteam.enginecockpit.util.Conditions;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -50,6 +53,7 @@ class WebTestStartEvents {
 
   private static final By TABLE_ID = By.id("form:beanTable");
   private static final By FIRING_TABLE_ID = By.id("firings:eventFiring:firingTable");
+  static final By THREAD_TABLE_ID = By.id("threads:eventBeanThreads:threadTable");
   private Table table;
   private Table firingTable;
 
@@ -266,12 +270,37 @@ class WebTestStartEvents {
     $(By.id("bean:eventBean:lastStopError:showDetails")).click();
     assertErrorDialog("Exception in stop method");
   }
+  
+  @Test
+  void details_threads() {
+    navigateToDetails("eventLink7.ivp");
+
+    var threadTable = new Table(THREAD_TABLE_ID, true);
+    threadTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
+    $(By.id("threads:eventBeanThreads:threadTable:0:id")).click();
+    Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("monitorThreads.xhtml"));
+    $(By.id("form:threadTable:globalFilter")).shouldBe(not(empty));
+  }
+
+  @Test
+  void details_threads_error() {
+    navigateToDetails("eventLink8.ivp");
+
+    var threadTable = new Table(THREAD_TABLE_ID, true);
+    threadTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
+    for (int row = 1; row <= threadTable.rows().size(); row++) {
+        threadTable.tableEntry(row, 4).shouldHave(text("Error in event bean thread"));
+    }
+    $(By.id("threads:eventBeanThreads:threadTable:0:error:showDetails")).click();
+    assertErrorDialog("Error in event bean thread");
+  }
 
   private void navigateToDetails(String link) {
     link = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/"+link;
     $(By.id("form:beanTable:globalFilter")).sendKeys(link);
     table.rows().shouldHave(CollectionCondition.size(1));
-    table.tableEntry(1, 1).shouldBe(visible, enabled).click();
+    table.tableEntry(1, 1).shouldBe(visible, enabled).find(By.tagName("a")).click();
+    webdriver().shouldHave(urlContaining("monitorStartEventDetails.xhtml"));
   }
 
   private void assertErrorDialog(String message) {

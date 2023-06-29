@@ -8,6 +8,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.Wait;
+import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
@@ -91,12 +93,21 @@ class WebTestIntermediateEvents {
     $(By.id("form:beanTable:0:start")).shouldBe(disabled);
     $(By.id("form:beanTable:0:stop")).shouldBe(enabled);
   }
+  
+  @Test
+  void details_threads() {
+    navigateToDetails("188B95440FE25CA6-f6");
+
+    var threadTable = new Table(WebTestStartEvents.THREAD_TABLE_ID, true);
+    threadTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
+  }
 
   private void navigateToDetails(String element) {
     element = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/"+element;
     $(By.id("form:beanTable:globalFilter")).sendKeys(element);
     table.rows().shouldHave(CollectionCondition.size(1));
     table.tableEntry(1, 1).shouldBe(visible, enabled).find(By.tagName("a")).click();
+    webdriver().shouldHave(urlContaining("monitorIntermediateEventDetails.xhtml"));
   }
 
   private void assertErrorDialog(String message) {
