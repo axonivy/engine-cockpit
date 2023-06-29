@@ -103,6 +103,10 @@
                   actionListener="#{activity.lock}" update="form" />
                 <p:menuitem value="Release" rendered="#{activity.pmv}" icon="si si-heavy-equipment-hook"
                   disabled="#{!activity.releasable}" actionListener="#{activity.release}" update="form" />
+                <p:menuitem id="moveBtn" value="Move" icon="si si-move-back"
+                  actionListener="#{moveApplicationBean.setApp(activity)}"
+                  update="moveApplicationForm" rendered="#{activity.application}"
+                  onclick="PF('moveApplicationModal').show();" />
                 <p:menuitem id="deleteBtn" value="Delete" icon="si si-bin-1" disabled="#{!activity.deletable}"
                   actionListener="#{applicationBean.setActiveActivity(activity)}"
                   update="form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
@@ -123,6 +127,7 @@
           </p:confirmDialog>
         </h:form>
         <ui:include src="../includes/dialogs/newapplication.xhtml" />
+        <ui:include src="../includes/dialogs/moveapplication.xhtml" />
       </div>
       <h:panelGroup id="deployPanel">
         <ui:include src="../includes/dialogs/deployment.xhtml">
