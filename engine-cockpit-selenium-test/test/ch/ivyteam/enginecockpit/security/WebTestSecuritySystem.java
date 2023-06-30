@@ -16,11 +16,12 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
+@IvyWebTest(headless = false)
 class WebTestSecuritySystem {
 
   @BeforeEach
@@ -65,6 +66,25 @@ class WebTestSecuritySystem {
 
     deleteSecuritySystem("NewFromTest");
     $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "test-nd", "default"));
+  }
+
+  @Test
+  void mergeSecuritySystem() {
+    $(By.id("form:createSecuritySystemBtn")).click();
+    $(By.id("newSecuritySystemModal")).shouldBe(visible);
+    $(By.id("newSecuritySystemForm:newSecuritySystemNameInput")).sendKeys("NewFromTest");
+    $(By.id("newSecuritySystemForm:saveNewSecuritySystem")).click();
+    $(By.id("newSecuritySystemModal")).shouldNotBe(visible);
+
+    $(By.id("form:createSecuritySystemBtn_menuButton")).click();
+    $(By.id("form:compareSecuritySystemBtn")).click();
+    assertCurrentUrlContains("securitysystem-merge");
+
+    PrimeUi.selectOne(By.id("form:targetSecuritySystem")).selectItemByLabel("NewFromTest");
+    $(By.id("form:compare")).click();
+    $(By.id("form:report")).should(visible);
+
+    deleteSecuritySystem("NewFromTest");
   }
 
   static void deleteSecuritySystem(String securitySystemName) {

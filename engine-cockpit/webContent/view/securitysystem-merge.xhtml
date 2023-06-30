@@ -38,7 +38,7 @@
                 itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
             </p:selectOneMenu>
 
-            <p:commandButton update="form" value="Compare" ajax="false"
+            <p:commandButton update="form" id="compare" value="Compare" ajax="false"
               title="This will only compare the source with the target security system. This will NOT make any changes."
               actionListener="#{securitySystemCompareBean.run}" />
           </p:panelGrid>
@@ -80,7 +80,7 @@
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
               </p:confirmDialog>
 
-            <p:dataTable id="report" var="issue" paginator="true" rows="50" value="#{securitySystemCompareBean.report}">
+            <p:dataTable id="report" var="issue" paginator="true" rows="50" paginatorPosition="bottom" value="#{securitySystemCompareBean.report}">
               <p:column style="width: 45px">
                 <h:outputText value="#{issue.entity()}" />
               </p:column>
