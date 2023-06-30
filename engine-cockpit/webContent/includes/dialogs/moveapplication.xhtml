@@ -24,7 +24,7 @@
         </p:selectOneMenu>
         <p:message for="moveApplicationTargetSecuritySystem" id="moveApplicationTargetSecuritySystemMessage" />
 
-        <h:outputText value="#{moveApplicationBean.validationMessage}"></h:outputText>
+        <p:staticMessage rendered="#{moveApplicationBean.showValidationMessage()}" severity="#{moveApplicationBean.validationSeverity}" detail="#{moveApplicationBean.validationMessage}" />
       </h:panelGroup>
     </p:panelGrid>
 
