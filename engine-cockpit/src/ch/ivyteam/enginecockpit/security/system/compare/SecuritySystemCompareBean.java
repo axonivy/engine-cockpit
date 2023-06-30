@@ -76,6 +76,14 @@ public class SecuritySystemCompareBean {
       .forEach(issue -> solve(issue));
   }
 
+  public String styleClassForButton(Issue issue) {
+    return switch(issue.solver().type()) {
+      case DELETE -> "ui-button-danger";
+      case CREATE -> "ui-button-success";
+      default -> "";
+    };
+  }
+
   public boolean isSolved(Issue issue) {
     return solved.contains(issue);
   }
