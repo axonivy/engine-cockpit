@@ -1,10 +1,8 @@
 package ch.ivyteam.enginecockpit.monitor.events;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.management.ObjectName;
-import javax.management.openmbean.CompositeData;
 
 import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
@@ -17,6 +15,7 @@ public abstract class Event {
   private static final ErrorHandler HANDLER = new ErrorHandler("msgs", LOGGER);
   protected MBean bean;
   private List<Firing> firings;
+  private List<EventBeanThread> threads;
 
   public Event(ObjectName name) {
     bean = MBean.create(HANDLER, name);
@@ -143,18 +142,15 @@ public abstract class Event {
 
 
   public void refresh() {
-    firings = bean.readAttribute("firingHistory").asList(this::toFiring);
+    firings = bean.readAttribute("firingHistory").asList(Firing::new);
+    threads = bean.readAttribute("threads").asList(EventBeanThread::new);
   }
 
   public List<Firing> getFirings() {
     return firings;
   }
-
-  private Firing toFiring(CompositeData firing) {
-    return new Firing(
-            (Date) firing.get("firingTimestamp"),
-            (long) firing.get("firingTimeInMicroSeconds"),
-            (String) firing.get("firingReason"),
-            new ErrorValue((CompositeData) firing.get("error")));
+  
+  public List<EventBeanThread> getThreads() {
+    return threads;
   }
 }

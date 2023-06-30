@@ -114,5 +114,35 @@
         "at" : { "x" : 96, "y" : 472 },
         "labelOffset" : { "x" : 13, "y" : 33 }
       }
+    }, {
+      "id" : "f14",
+      "type" : "ProgramStart",
+      "name" : "thread",
+      "config" : {
+        "javaClass" : "ch.ivyteam.enginecockpit.monitor.ThreadBean",
+        "link" : "eventLink7.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 560 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f17", "to" : "f1", "via" : [ { "x" : 352, "y" : 560 } ] }
+      ]
+    }, {
+      "id" : "f15",
+      "type" : "ProgramStart",
+      "name" : "thread error",
+      "config" : {
+        "javaClass" : "ch.ivyteam.enginecockpit.monitor.ThreadErrorBean",
+        "link" : "eventLink8.ivp"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 648 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f16", "to" : "f1", "via" : [ { "x" : 352, "y" : 648 } ] }
+      ]
     } ]
 }

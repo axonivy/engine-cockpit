@@ -37,9 +37,27 @@ public class ThreadBean {
   private long maxCpuTime;
   private long maxUserTime;
   private Info selected;
+  private Long threadId;
+  private String filter;
 
   public ThreadBean() {
     refresh();
+  }
+  
+  public void setThreadId(Long threadId) {
+    this.threadId = threadId;
+    refresh();
+    this.filter = Long.toString(threadId);
+  }
+  
+  public Long getThreadId() {
+    return threadId;
+  }
+  
+  public String getFilter() {
+    var f = filter;
+    filter = null;
+    return f;
   }
 
   public void refresh() {
@@ -87,11 +105,19 @@ public class ThreadBean {
 
   public boolean filter(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
     if (value instanceof Info info) {
+      try {
+        var id = Long.valueOf(filter.toString());
+        return info.getId() == id;
+      }
+      catch (NumberFormatException ex) {
+      }
       String name = info.getName();
-      return name != null && StringUtils.containsIgnoreCase(name, filter.toString());
-    }
+      if (name != null && StringUtils.containsIgnoreCase(name, filter.toString())) {
+        return true;
+      }      
+     }
     return false;
-  }
+   }
 
   public Info getSelected() {
     return this.selected;

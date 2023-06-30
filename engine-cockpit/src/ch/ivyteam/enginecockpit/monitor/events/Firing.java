@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.monitor.events;
 
 import java.util.Date;
 
+import javax.management.openmbean.CompositeData;
+
 import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
@@ -13,11 +15,11 @@ public final class Firing {
   private String reason;
   private ErrorValue error;
 
-  public Firing(Date timestamp, long duration, String reason, ErrorValue error) {
-    this.timestamp = timestamp;
-    this.duration = duration;
-    this.reason = reason;
-    this.error = error;
+  public Firing(CompositeData firing) {
+    this.timestamp = (Date) firing.get("firingTimestamp");
+    this.duration = (long) firing.get("firingTimeInMicroSeconds");
+    this.reason = (String) firing.get("firingReason");
+    this.error = new ErrorValue((CompositeData) firing.get("error"));
   }
 
   public String getTimestamp() {
