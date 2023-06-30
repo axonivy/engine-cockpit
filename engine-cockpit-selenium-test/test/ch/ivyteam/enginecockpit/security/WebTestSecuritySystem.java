@@ -21,7 +21,7 @@ import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless = false)
+@IvyWebTest
 class WebTestSecuritySystem {
 
   @BeforeEach

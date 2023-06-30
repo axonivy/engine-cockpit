@@ -25,7 +25,7 @@ import com.codeborne.selenide.Condition;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless = false)
+@IvyWebTest
 class WebTestApplication {
 
   private static final String NEW_TEST_APP = "newTestApp";
