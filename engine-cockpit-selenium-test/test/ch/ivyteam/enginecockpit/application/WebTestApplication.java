@@ -63,6 +63,7 @@ class WebTestApplication {
     $(By.id("moveApplicationForm:validationMessage")).should(visible).should(Condition.text("application must be deactivated"));
     $(By.id("moveApplicationForm:cancelMoveApplication")).click();
 
+    stopApplication(appId);
     deleteApplication(appId);
   }
 
