@@ -58,8 +58,16 @@ public class MoveApplicationBean {
     return validationMessage;
   }
 
+  public String getValidationSeverity() {
+    return isValid() ? "info" : "error";
+  }
+
   public void setValidationMessage(String validationMessage) {
     this.validationMessage = validationMessage;
+  }
+
+  public boolean showValidationMessage() {
+    return state != ValidationState.UNKOWN;
   }
 
   public boolean isValid() {
