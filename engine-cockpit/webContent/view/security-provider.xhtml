@@ -59,7 +59,7 @@
                                 <p:inputText id="propertyString" value="#{property.value}" />
                                 <p:commandButton id="browseDefaultContext" icon="si si-network-browser" title="Browse" 
                                   actionListener="#{identityProviderBean.browseProperty(property)}" 
-                                  oncomplete="PF('ldapBrowserDialog').show();" update="directoryBrowser:ldapBrowserDialog"
+                                  oncomplete="PF('directoryBrowserDialog').show();" update="directoryBrowser:directoryBrowserDialog"
                                   rendered="#{property.name.equals('GroupFilter')}" />
                              </h:panelGroup>
                                 <small class="block">#{property.description}</small> 
