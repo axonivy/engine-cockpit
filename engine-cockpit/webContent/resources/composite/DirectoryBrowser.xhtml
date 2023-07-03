@@ -9,7 +9,7 @@
 </cc:interface>
 
 <cc:implementation>
-  <p:dialog id="ldapBrowserDialog" header="Ldap Browser" widgetVar="ldapBrowserDialog" modal="true" closeOnEscape="true"
+  <p:dialog id="directoryBrowserDialog" header="Directory Browser" widgetVar="directoryBrowserDialog" modal="true" closeOnEscape="true"
     width="70%" height="400">
     <h:form id="ldapBrowserForm" styleClass="ldap-browser">
       <p:messages id="ldapBrowserMessage" for="ldapBrowserMessage" showDetail="true">
@@ -38,11 +38,11 @@
       </div>
     </h:form>
     <f:facet name="footer">
-      <p:commandButton id="cancelLdapBrowser" onclick="PF('ldapBrowserDialog').hide();" value="Cancel" type="button"
+      <p:commandButton id="cancelLdapBrowser" onclick="PF('directoryBrowserDialog').hide();" value="Cancel" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose"
         icon="si si-check-1" styleClass="modal-input-button" update="#{cc.attrs.updateFields}"
-        onclick="PF('ldapBrowserDialog').hide();" disabled="#{cc.attrs.browser.tree == null}" />
+        onclick="PF('directoryBrowserDialog').hide();" disabled="#{cc.attrs.browser.tree == null}" />
     </f:facet>
   </p:dialog>
 </cc:implementation>
