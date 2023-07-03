@@ -33,7 +33,7 @@
       <p:outputLabel for="serviceState" value="State" />
       <h:outputText id="serviceState" value="#{cc.attrs.event.serviceState}"/>
       <p:outputLabel for="configuration" value="Configuration" />
-      <h:outputText id="configuration" value="#{cc.attrs.event.beanConfiguration}"/>
+      <p:outputPanel id="configuration" styleClass="code">#{cc.attrs.event.beanConfiguration}</p:outputPanel>
 
       <p:outputLabel for="lastStart" value="Last Start" />
       <h:outputText id="lastStart" value="#{cc.attrs.event.lastStartTimestamp}"/>
