@@ -67,7 +67,7 @@
   </h:form>
 </div>
 
-<cc:LdapBrowser updateFields="roleInformationForm" ldapBrowser="#{roleDetailBean.ldapBrowser}"
+<cc:DirectoryBrowser updateFields="roleInformationForm" browser="#{roleDetailBean.ldapBrowser}"
   returnListener="#{roleDetailBean.chooseLdapName()}" id="ldapBrowser" />
 
 <ui:include src="../../dialogs/newrole.xhtml" />

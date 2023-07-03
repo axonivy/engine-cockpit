@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="updateFields" />
-  <cc:attribute name="ldapBrowser" />
+  <cc:attribute name="browser" />
   <cc:attribute name="returnListener" />
 </cc:interface>
 
@@ -16,22 +16,22 @@
         <p:autoUpdate />
       </p:messages>
       <div class="p-grid">
-        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.ldapBrowser.tree}" var="node" selectionMode="single"
-          selection="#{cc.attrs.ldapBrowser.selectedNode}" dynamic="true" styleClass="p-col-6">
-          <p:ajax event="expand" listener="#{cc.attrs.ldapBrowser.onNodeExpand}" update="@form:tree" />
+        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.browser.tree}" var="node" selectionMode="single"
+          selection="#{cc.attrs.browser.selectedNode}" dynamic="true" styleClass="p-col-6">
+          <p:ajax event="expand" listener="#{cc.attrs.browser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
           <p:treeNode icon="si si-#{node.icon}">
             <h:outputText value="#{node.displayName}" />
           </p:treeNode>
         </p:tree>
-        <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.ldapBrowser.selectedNodeProperties}"
+        <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.browser.selectedNodeProperties}"
           scrollable="true" emptyMessage="Select a node to see its attributes"
-          rendered="#{cc.attrs.ldapBrowser.tree != null}" styleClass="p-col-6">
+          rendered="#{cc.attrs.browser.tree != null}" styleClass="p-col-6">
           <p:column headerText="Name">
             <h:outputText value="#{attr.name()}" styleClass="node-attr-name" />
           </p:column>
           <p:column headerText="Value"
-            style="min-width: #{empty cc.attrs.ldapBrowser.selectedNodeProperties ? '100px' : '1000px'}; white-space: pre-wrap; word-break: break-word;">
+            style="min-width: #{empty cc.attrs.browser.selectedNodeProperties ? '100px' : '1000px'}; white-space: pre-wrap; word-break: break-word;">
             <h:outputText value="#{attr.value()}" />
           </p:column>
         </p:dataTable>
@@ -42,7 +42,7 @@
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
       <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose"
         icon="si si-check-1" styleClass="modal-input-button" update="#{cc.attrs.updateFields}"
-        onclick="PF('ldapBrowserDialog').hide();" disabled="#{cc.attrs.ldapBrowser.tree == null}" />
+        onclick="PF('ldapBrowserDialog').hide();" disabled="#{cc.attrs.browser.tree == null}" />
     </f:facet>
   </p:dialog>
 </cc:implementation>

@@ -13,7 +13,6 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.configuration.meta.Metadata;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderConfigMetadataProvider;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
@@ -88,7 +87,6 @@ public class IdentityProviderBean {
   }
 
   public void browseProperty(ConfigProperty property) {
-    Ivy.log().debug("browsing: "+property.getName()+"="+property.getValue());
     configureBrowser(property.getValue());
   }
 

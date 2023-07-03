@@ -41,7 +41,7 @@
     </p:panelGrid>
   </h:form>
 </div>
-<cc:LdapBrowser updateFields="securityLdapBindingForm" ldapBrowser="#{securityLdapBean.ldapBrowser}"
+<cc:DirectoryBrowser updateFields="securityLdapBindingForm" browser="#{securityLdapBean.ldapBrowser}"
   returnListener="#{securityLdapBean.chooseLdapName()}" id="ldapBrowser" />
 
 </html>
