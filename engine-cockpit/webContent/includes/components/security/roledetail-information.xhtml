@@ -59,15 +59,15 @@
       <h:panelGroup layout="block" styleClass="ui-inputgroup">
         <p:inputText id="externalSecurityName" value="#{roleDetailBean.role.externalName}" />
         <p:commandButton id="browseExternalName" icon="si si-network-browser" title="Browse"
-          actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:ldapBrowserDialog"
-          oncomplete="PF('ldapBrowserDialog').show();"
+          actionListener="#{roleDetailBean.browseLdap}" update="ldapBrowser:directoryBrowserDialog"
+          oncomplete="PF('directoryBrowserDialog').show();"
           disabled="#{roleDetailBean.ldapBrowserDisabled}" />
       </h:panelGroup>
     </p:panelGrid>
   </h:form>
 </div>
 
-<cc:LdapBrowser updateFields="roleInformationForm" ldapBrowser="#{roleDetailBean.ldapBrowser}"
+<cc:DirectoryBrowser updateFields="roleInformationForm" browser="#{roleDetailBean.ldapBrowser}"
   returnListener="#{roleDetailBean.chooseLdapName()}" id="ldapBrowser" />
 
 <ui:include src="../../dialogs/newrole.xhtml" />

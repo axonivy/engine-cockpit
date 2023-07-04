@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.security.ISecurityManager;
@@ -27,6 +28,7 @@ public class IdentityProviderBean {
   private ISecurityContextInternal securityContext;
   private IdentityProvider identityProvider;
   private List<ConfigPropertyGroup> propertyGroups;
+  private DirectoryBrowserBean browserBean;
 
   public void onload() {
     securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(securitySystemName);
@@ -36,6 +38,7 @@ public class IdentityProviderBean {
             .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
     this.propertyGroups = ConfigPropertyGroup.toGroups(properties);
+    this.browserBean = new DirectoryBrowserBean();
   }
 
   public void setSecuritySystemName(String securitySystemName) {
@@ -81,5 +84,23 @@ public class IdentityProviderBean {
   static void message() {
     var msg = new FacesMessage("Successfully saved");
     FacesContext.getCurrentInstance().addMessage("securityIdentityProviderSaveSuccess", msg);
+  }
+
+  public void browseProperty(ConfigProperty property) {
+    configureBrowser(property.getValue());
+  }
+
+  public String getIdpNode() {
+    return browserBean.getSelectedNameString();
+  }
+
+  public DirectoryBrowserBean getDirectoryBrowser() {
+    return browserBean;
+  }
+
+  private void configureBrowser(String what) {
+    var config = ((SecurityContext) securityContext).config().identity();
+    var browser = this.identityProvider.directoryBrowser(config);
+    browserBean.browse(browser, what);
   }
 }
