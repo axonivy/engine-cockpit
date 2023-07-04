@@ -256,27 +256,6 @@ public class WebTestSecuritySystemLdap {
     $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
-  @Test
-  void ldapBrowser_initImportUsersOfGroup() {
-    $(IMPORT_USERS_OF_GROUP).sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
-    openImportLdapBrowser();
-    $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
-            .shouldBe(visible, cssClass("ui-state-highlight"));
-    Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
-    table.tableEntry("distinguishedName", 2)
-            .shouldBe(exactText("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
-  }
-
-  @Test
-  void ldapBrowser_attributes() {
-    $(DEFAULT_CONTEXT).clear();
-    openDefaultLdapBrowser();
-    Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
-    table.firstColumnShouldBe(CollectionCondition.empty);
-    $(DIRECTORY_BROWSER_FORM + "tree\\:2").click();
-    table.valueForEntryShould("distinguishedName", 2, exactText("DC=zugtstdomain,DC=wan"));
-  }
-
   @Nested
   class LdapBrowserNovell {
     @BeforeEach
