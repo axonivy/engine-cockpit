@@ -45,7 +45,7 @@ public class SecurityLdapBean {
   private String defaultContext;
   private String importUsersOfGroup;
   private String userFilter;
-  private DirectoryBrowserBean ldapBrowser;
+  private DirectoryBrowserBean directoryBrowser;
   private String ldapBrowserTarget;
   private ExternalSecuritySystemConfiguration securityConfiguration;
 
@@ -102,7 +102,7 @@ public class SecurityLdapBean {
     defaultContext = getConfiguration(ConfigKey.BINDING_DEFAULT_CONTEXT);
     importUsersOfGroup = getConfiguration(ConfigKey.BINDING_IMPORT_USERS_OF_GROUP);
     userFilter = getConfiguration(ConfigKey.BINDING_USER_FILTER);
-    ldapBrowser = new DirectoryBrowserBean();
+    directoryBrowser = new DirectoryBrowserBean();
   }
 
   public String getUrl() {
@@ -264,25 +264,25 @@ public class SecurityLdapBean {
   }
 
   public DirectoryBrowserBean getLdapBrowser() {
-    return ldapBrowser;
+    return directoryBrowser;
   }
 
   public void browseDefaultContext() {
     ldapBrowserTarget = DEFAULT_CONTEXT;
-    ldapBrowser.browse(getJndiConfig(null), enableInsecureSsl, defaultContext);
+    directoryBrowser.browse(getJndiConfig(null), enableInsecureSsl, defaultContext);
   }
 
   public void browseUsersOfGroup() {
     ldapBrowserTarget = IMPORT_USERS_OF_GROUP;
-    ldapBrowser.browse(getJndiConfig(getDefaultContext()), enableInsecureSsl, importUsersOfGroup);
+    directoryBrowser.browse(getJndiConfig(getDefaultContext()), enableInsecureSsl, importUsersOfGroup);
   }
 
-  public void chooseLdapName() {
+  public void chooseDirectoryName() {
     if (DEFAULT_CONTEXT.equals(ldapBrowserTarget)) {
-      setDefaultContext(ldapBrowser.getSelectedNameString());
+      setDefaultContext(directoryBrowser.getSelectedNameString());
     }
     if (IMPORT_USERS_OF_GROUP.equals(ldapBrowserTarget)) {
-      setImportUsersOfGroup(ldapBrowser.getSelectedNameString());
+      setImportUsersOfGroup(directoryBrowser.getSelectedNameString());
     }
   }
 

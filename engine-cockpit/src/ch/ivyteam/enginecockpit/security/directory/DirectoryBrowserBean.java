@@ -115,7 +115,7 @@ public class DirectoryBrowserBean {
 
   private void errorMessage(Exception ex) {
     LOGGER.error("Error in LDAP call", ex);
-    FacesContext.getCurrentInstance().addMessage("ldapBrowserMessage",
+    FacesContext.getCurrentInstance().addMessage("directoryBrowserMessage",
       new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", getEndUserMessage(ex)));
   }
 

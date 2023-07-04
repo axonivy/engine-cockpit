@@ -50,10 +50,10 @@ public class WebTestSecuritySystemLdap {
   private static final String NEW_LDAP_USER_ATTRIBUTE_BTN = "#securityLdapUserAttributesForm\\:newLdapUserAttributeBtn";
   private static final String SAVE_LDAP_USER_ATTRIBUTE = "#ldapUserAttributeForm\\:saveLdapUserAttribute";
 
-  public static final String DIRECTORY_BROWSER_DIALOG = "#ldapBrowser\\:directoryBrowserDialog";
-  public static final String LDAP_BROWSER_FORM = "#ldapBrowser\\:ldapBrowserForm\\:";
-  private static final String LDAP_BROWSER_CHOOSE = "#ldapBrowser\\:chooseLdapName";
-  private static final String LDAP_BROWSER_CANCEL = "#ldapBrowser\\:cancelLdapBrowser";
+  public static final String DIRECTORY_BROWSER_DIALOG = "#directoryBrowser\\:directoryBrowserDialog";
+  public static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
+  private static final String DIRECTORY_BROWSER_CHOOSE = "#directoryBrowser\\:chooseDirectoryName";
+  private static final String DIRECTORY_BROWSER_CANCEL = "#directoryBrowser\\:cancelDirectoryBrowser";
 
   @BeforeEach
   void beforeEach() {
@@ -177,7 +177,7 @@ public class WebTestSecuritySystemLdap {
     $(USERNAME).sendKeys("admin@zugtstdomain.wan");
     saveConnection();
     openDefaultLdapBrowser();
-    $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
+    $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
   }
 
   @Test
@@ -191,8 +191,8 @@ public class WebTestSecuritySystemLdap {
     $(ENABLE_INSECURE_SSL).click();
     saveConnection();
     openDefaultLdapBrowser();
-    $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
-    $(LDAP_BROWSER_CANCEL).click();
+    $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
+    $(DIRECTORY_BROWSER_CANCEL).click();
     $(URL).clear();
     $(URL).sendKeys("ldap://test-ad.ivyteam.io");
     $(USE_SSL).click();
@@ -204,13 +204,13 @@ public class WebTestSecuritySystemLdap {
   void ldapBrowser_chooseDefaultContext() {
     $(DEFAULT_CONTEXT).clear();
     openDefaultLdapBrowser();
-    $$(LDAP_BROWSER_FORM + "tree > ul > li").shouldHave(size(3));
-    $(LDAP_BROWSER_FORM + "tree\\:2 .ui-tree-toggler").click();
-    $(LDAP_BROWSER_FORM + "tree\\:2 .ui-treenode-children").findAll(".ui-treenode-label")
+    $$(DIRECTORY_BROWSER_FORM + "tree > ul > li").shouldHave(size(3));
+    $(DIRECTORY_BROWSER_FORM + "tree\\:2 .ui-tree-toggler").click();
+    $(DIRECTORY_BROWSER_FORM + "tree\\:2 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("OU=IvyTeam Test-OU")).click();
-    $(LDAP_BROWSER_FORM + "tree\\:2 .ui-treenode-children").findAll(".ui-treenode-label")
+    $(DIRECTORY_BROWSER_FORM + "tree\\:2 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("OU=IvyTeam Test-OU")).shouldHave(cssClass("ui-state-highlight"));
-    $(LDAP_BROWSER_CHOOSE).scrollTo().click();
+    $(DIRECTORY_BROWSER_CHOOSE).scrollTo().click();
     $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
     $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
@@ -218,13 +218,13 @@ public class WebTestSecuritySystemLdap {
   @Test
   void browseEscapedNames() {
       openDefaultLdapBrowser();
-      var treeNode = $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=issue22622"));
+      var treeNode = $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=issue22622"));
       treeNode.shouldBe(visible);
       treeNode.parent().$(".ui-tree-toggler").click();
       treeNode.parent().parent().$(".ui-treenode-children").findAll("li")
           .shouldBe(sizeGreaterThan(0));
 
-      treeNode = $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=issue25327"));
+      treeNode = $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=issue25327"));
       treeNode.shouldBe(visible);
       treeNode.parent().$(".ui-tree-toggler").click();
       treeNode.parent().parent().$(".ui-treenode-children").findAll("li")
@@ -234,9 +234,9 @@ public class WebTestSecuritySystemLdap {
   @Test
   void ldapBrowser_initDefaultContext() {
     openDefaultLdapBrowser();
-    $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=IvyTeam Test-OU"))
+    $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("OU=IvyTeam Test-OU"))
             .shouldBe(visible, cssClass("ui-state-highlight"));
-    Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+    Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
     table.tableEntry("distinguishedName", 2).shouldBe(exactText("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
@@ -244,14 +244,14 @@ public class WebTestSecuritySystemLdap {
   void ldapBrowser_chooseImportUsersOfGroup() {
     $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     openImportLdapBrowser();
-    $(LDAP_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11));
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11));
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).click();
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
-    $(LDAP_BROWSER_CHOOSE).click();
+    $(DIRECTORY_BROWSER_CHOOSE).click();
     $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
     $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
@@ -260,9 +260,9 @@ public class WebTestSecuritySystemLdap {
   void ldapBrowser_initImportUsersOfGroup() {
     $(IMPORT_USERS_OF_GROUP).sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     openImportLdapBrowser();
-    $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
+    $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
             .shouldBe(visible, cssClass("ui-state-highlight"));
-    Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+    Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
     table.tableEntry("distinguishedName", 2)
             .shouldBe(exactText("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
@@ -271,9 +271,9 @@ public class WebTestSecuritySystemLdap {
   void ldapBrowser_attributes() {
     $(DEFAULT_CONTEXT).clear();
     openDefaultLdapBrowser();
-    Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+    Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
     table.firstColumnShouldBe(CollectionCondition.empty);
-    $(LDAP_BROWSER_FORM + "tree\\:2").click();
+    $(DIRECTORY_BROWSER_FORM + "tree\\:2").click();
     table.valueForEntryShould("distinguishedName", 2, exactText("DC=zugtstdomain,DC=wan"));
   }
 
@@ -304,21 +304,21 @@ public class WebTestSecuritySystemLdap {
       $(USERNAME).sendKeys("cn=admin,o=org");
       saveConnection();
       openDefaultLdapBrowser();
-      $(LDAP_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
+      $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
     }
 
     @Test
     void ldapBrowser_chooseImportUsersOfGroup() {
       $(DEFAULT_CONTEXT).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
       openImportLdapBrowser();
-      $(LDAP_BROWSER_FORM + "tree\\:0").shouldHave(text("ou=IvyTeam Test-OU,o=zugtstorg"));
-      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
-      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(10));
-      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0").shouldHave(text("ou=IvyTeam Test-OU,o=zugtstorg"));
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(10));
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
               .find(text("cn=role1")).click();
-      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
               .find(text("cn=role1")).shouldHave(cssClass("ui-state-highlight"));
-      $(LDAP_BROWSER_CHOOSE).click();
+      $(DIRECTORY_BROWSER_CHOOSE).click();
       $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
       $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg"));
     }
@@ -327,9 +327,9 @@ public class WebTestSecuritySystemLdap {
     void ldapBrowser_initImportUsersOfGroup() {
       $(IMPORT_USERS_OF_GROUP).sendKeys("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg");
       openImportLdapBrowser();
-      $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
+      $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
               .shouldBe(visible, cssClass("ui-state-highlight"));
-      Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+      Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
       table.tableEntry("cn", 2).shouldBe(exactText("role1"));
     }
 
@@ -337,15 +337,15 @@ public class WebTestSecuritySystemLdap {
     void ldapBrowser_chooseDefaultContext() {
       $(DEFAULT_CONTEXT).clear();
       openDefaultLdapBrowser();
-      $$(LDAP_BROWSER_FORM + "tree > ul > li").shouldHave(size(1));
-      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
-      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(4));
-      $(LDAP_BROWSER_FORM + "tree\\:0_3 .ui-tree-toggler").click();
-      $$(LDAP_BROWSER_FORM + "tree\\:0_3 .ui-treenode .ui-treenode-label")
+      $$(DIRECTORY_BROWSER_FORM + "tree > ul > li").shouldHave(size(1));
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(4));
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0_3 .ui-tree-toggler").click();
+      $$(DIRECTORY_BROWSER_FORM + "tree\\:0_3 .ui-treenode .ui-treenode-label")
               .find(text("ou=IvyTeam Test-OU")).click();
-      $$(LDAP_BROWSER_FORM + "tree\\:0_3 .ui-treenode .ui-treenode-label")
+      $$(DIRECTORY_BROWSER_FORM + "tree\\:0_3 .ui-treenode .ui-treenode-label")
               .find(text("ou=IvyTeam Test-OU")).shouldHave(cssClass("ui-state-highlight"));
-      $(LDAP_BROWSER_CHOOSE).scrollTo().click();
+      $(DIRECTORY_BROWSER_CHOOSE).scrollTo().click();
       $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
       $(DEFAULT_CONTEXT).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
     }
@@ -353,9 +353,9 @@ public class WebTestSecuritySystemLdap {
     @Test
     void ldapBrowser_initDefaultContext() {
       openDefaultLdapBrowser();
-      $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("ou=IvyTeam Test-OU"))
+      $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("ou=IvyTeam Test-OU"))
               .shouldBe(visible, cssClass("ui-state-highlight"));
-      Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+      Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
       table.tableEntry("ou", 2).shouldBe(exactText("IvyTeam Test-OU"));
     }
 
@@ -363,10 +363,10 @@ public class WebTestSecuritySystemLdap {
     void ldapBrowser_attributes() {
       $(DEFAULT_CONTEXT).clear();
       openDefaultLdapBrowser();
-      Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+      Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
       table.firstColumnShouldBe(CollectionCondition.empty);
-      $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
-      $(LDAP_BROWSER_FORM + "tree\\:0_3 .ui-tree-selectable").click();
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0_3 .ui-tree-selectable").click();
       table.valueForEntryShould("o", 2, exactText("zugtstorg"));
     }
   }
@@ -396,10 +396,10 @@ public class WebTestSecuritySystemLdap {
   private void openLdapBrowserWithConnError() {
     openDefaultLdapBrowser();
     try {
-      $(LDAP_BROWSER_FORM + "ldapBrowserMessage").shouldBe(visible).shouldNotBe(empty);
-      $(LDAP_BROWSER_CHOOSE).shouldBe(disabled);
+      $(DIRECTORY_BROWSER_FORM + "directoryBrowserMessage").shouldBe(visible).shouldNotBe(empty);
+      $(DIRECTORY_BROWSER_CHOOSE).shouldBe(disabled);
     } finally {
-      $(LDAP_BROWSER_CANCEL).click();
+      $(DIRECTORY_BROWSER_CANCEL).click();
     }
   }
 }

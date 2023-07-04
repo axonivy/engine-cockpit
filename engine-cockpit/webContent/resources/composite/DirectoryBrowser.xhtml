@@ -4,45 +4,45 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="updateFields" />
-  <cc:attribute name="browser" />
+  <cc:attribute name="directoryBrowser" />
   <cc:attribute name="returnListener" />
 </cc:interface>
 
 <cc:implementation>
   <p:dialog id="directoryBrowserDialog" header="Directory Browser" widgetVar="directoryBrowserDialog" modal="true" closeOnEscape="true"
     width="70%" height="400">
-    <h:form id="ldapBrowserForm" styleClass="ldap-browser">
-      <p:messages id="ldapBrowserMessage" for="ldapBrowserMessage" showDetail="true">
+    <h:form id="directoryBrowserForm" styleClass="directory-browser">
+      <p:messages id="directoryBrowserMessage" for="directoryBrowserMessage" showDetail="true">
         <p:autoUpdate />
       </p:messages>
       <div class="p-grid">
-        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.browser.tree}" var="node" selectionMode="single"
-          selection="#{cc.attrs.browser.selectedNode}" dynamic="true" styleClass="p-col-6">
-          <p:ajax event="expand" listener="#{cc.attrs.browser.onNodeExpand}" update="@form:tree" />
+        <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.directoryBrowser.tree}" var="node" selectionMode="single"
+          selection="#{cc.attrs.directoryBrowser.selectedNode}" dynamic="true" styleClass="p-col-6">
+          <p:ajax event="expand" listener="#{cc.attrs.directoryBrowser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
           <p:treeNode icon="si si-#{node.icon}">
             <h:outputText value="#{node.displayName}" />
           </p:treeNode>
         </p:tree>
-        <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.browser.selectedNodeProperties}"
+        <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.directoryBrowser.selectedNodeProperties}"
           scrollable="true" emptyMessage="Select a node to see its attributes"
-          rendered="#{cc.attrs.browser.tree != null}" styleClass="p-col-6">
+          rendered="#{cc.attrs.directoryBrowser.tree != null}" styleClass="p-col-6">
           <p:column headerText="Name">
             <h:outputText value="#{attr.name()}" styleClass="node-attr-name" />
           </p:column>
           <p:column headerText="Value"
-            style="min-width: #{empty cc.attrs.browser.selectedNodeProperties ? '100px' : '1000px'}; white-space: pre-wrap; word-break: break-word;">
+            style="min-width: #{empty cc.attrs.directoryBrowser.selectedNodeProperties ? '100px' : '1000px'}; white-space: pre-wrap; word-break: break-word;">
             <h:outputText value="#{attr.value()}" />
           </p:column>
         </p:dataTable>
       </div>
     </h:form>
     <f:facet name="footer">
-      <p:commandButton id="cancelLdapBrowser" onclick="PF('directoryBrowserDialog').hide();" value="Cancel" type="button"
+      <p:commandButton id="cancelDirectoryBrowser" onclick="PF('directoryBrowserDialog').hide();" value="Cancel" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-      <p:commandButton id="chooseLdapName" actionListener="#{cc.attrs.returnListener}" value="Choose"
+      <p:commandButton id="chooseDirectoryName" actionListener="#{cc.attrs.returnListener}" value="Choose"
         icon="si si-check-1" styleClass="modal-input-button" update="#{cc.attrs.updateFields}"
-        onclick="PF('directoryBrowserDialog').hide();" disabled="#{cc.attrs.browser.tree == null}" />
+        onclick="PF('directoryBrowserDialog').hide();" disabled="#{cc.attrs.directoryBrowser.tree == null}" />
     </f:facet>
   </p:dialog>
 </cc:implementation>
