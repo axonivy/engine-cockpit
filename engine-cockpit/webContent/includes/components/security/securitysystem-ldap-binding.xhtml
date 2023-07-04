@@ -23,7 +23,7 @@
       <h:panelGroup layout="block" styleClass="ui-inputgroup">
         <p:inputText id="defaultContext" value="#{securityLdapBean.defaultContext}" />
         <p:commandButton id="browseDefaultContext" icon="si si-network-browser" title="Browse" 
-          actionListener="#{securityLdapBean.browseDefaultContext()}" update="ldapBrowser:directoryBrowserDialog"
+          actionListener="#{securityLdapBean.browseDefaultContext()}" update="directoryBrowser:directoryBrowserDialog"
           oncomplete="PF('directoryBrowserDialog').show();" />
       </h:panelGroup>
   
@@ -32,7 +32,7 @@
         <p:inputText id="importUsersOfGroup" value="#{securityLdapBean.importUsersOfGroup}" />
         <p:commandButton id="browseImportUserOfGroup" icon="si si-network-browser" title="Browse" 
           actionListener="#{securityLdapBean.browseUsersOfGroup()}"
-          update="ldapBrowser:directoryBrowserDialog" oncomplete="PF('directoryBrowserDialog').show();" />
+          update="directoryBrowser:directoryBrowserDialog" oncomplete="PF('directoryBrowserDialog').show();" />
       </h:panelGroup>
       
       <p:outputLabel for="userFilter" value="User Filter" />
@@ -41,7 +41,6 @@
     </p:panelGrid>
   </h:form>
 </div>
-<cc:DirectoryBrowser updateFields="securityLdapBindingForm" browser="#{securityLdapBean.ldapBrowser}"
-  returnListener="#{securityLdapBean.chooseLdapName()}" id="ldapBrowser" />
-
+<cc:DirectoryBrowser updateFields="securityLdapBindingForm" directoryBrowser="#{securityLdapBean.ldapBrowser}"
+  returnListener="#{securityLdapBean.chooseDirectoryName()}" id="directoryBrowser" />
 </html>

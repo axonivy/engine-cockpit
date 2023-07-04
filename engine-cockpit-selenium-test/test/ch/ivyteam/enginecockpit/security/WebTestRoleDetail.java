@@ -1,7 +1,7 @@
 package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemLdap.DIRECTORY_BROWSER_DIALOG;
-import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemLdap.LDAP_BROWSER_FORM;
+import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemLdap.DIRECTORY_BROWSER_FORM;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.empty;
@@ -327,14 +327,14 @@ class WebTestRoleDetail {
     $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
 
     $(DIRECTORY_BROWSER_DIALOG).shouldBe(visible);
-    $(LDAP_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11));
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11));
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).click();
-    $(LDAP_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
+    $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
-    $("#ldapBrowser\\:chooseLdapName").click();
+    $("#directoryBrowser\\:chooseDirectoryName").click();
     $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
     $("#roleInformationForm\\:externalSecurityName")
             .shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
@@ -350,9 +350,9 @@ class WebTestRoleDetail {
     $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
 
     $(DIRECTORY_BROWSER_DIALOG).shouldBe(visible);
-    $$(LDAP_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
+    $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
             .shouldBe(visible, cssClass("ui-state-highlight"));
-    Table table = new Table(By.id("ldapBrowser:ldapBrowserForm:nodeAttrTable"));
+    Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
     table.tableEntry("distinguishedName", 2)
             .shouldBe(exactText("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }

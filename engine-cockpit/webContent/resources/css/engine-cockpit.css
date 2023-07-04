@@ -415,26 +415,26 @@ body .ui-datatable .ui-datatable-header {
   cursor: pointer;
 }
 
-/* LDAP Browser */
-.ldap-browser,
-.ldap-browser .p-grid {
+/* Directory Browser */
+.directory-browser,
+.directory-browser .p-grid {
   height: 100%;
 }
-.ldap-browser .ui-tree {
+.directory-browser .ui-tree {
   width: 50%;
   max-height: 100%;
   min-height: 200px;
   overflow-y: auto;
 }
-.ldap-browser .ui-datatable {
+.directory-browser .ui-datatable {
   white-space: nowrap;
   height: 100%;
   padding: 0.5rem;
 }
-.ldap-browser .ui-datatable-scrollable-body {
+.directory-browser .ui-datatable-scrollable-body {
   max-height: calc(100% - 39px);
 }
-.ldap-browser .ui-datatable .ui-datatable-data td {
+.directory-browser .ui-datatable .ui-datatable-data td {
   padding: 0.5rem;
 }
 

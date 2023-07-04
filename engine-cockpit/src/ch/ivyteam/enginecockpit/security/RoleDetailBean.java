@@ -54,7 +54,7 @@ public class RoleDetailBean {
 
   private MemberProperty roleProperties;
 
-  private DirectoryBrowserBean ldapBrowser;
+  private DirectoryBrowserBean directoryBrowser;
   private long userCount;
   private long runningTaskCount;
   private long directTaskCount;
@@ -85,7 +85,7 @@ public class RoleDetailBean {
     var securitySystem = new SecuritySystem(securityContext);
     roleProperties = new MemberProperty().new RoleProperty();
     usersOfRole = new UserDataModel(securitySystem);
-    ldapBrowser = new DirectoryBrowserBean();
+    directoryBrowser = new DirectoryBrowserBean();
 
     var iRole = securityContext.roles().find(roleName);
     if (iRole == null) {
@@ -369,15 +369,15 @@ public class RoleDetailBean {
   public void browseLdap() {
     var secBean = new SecurityLdapBean();
     secBean.setSecuritySystemName(securityContext.getName());
-    ldapBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
+    directoryBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
   }
 
   public DirectoryBrowserBean getLdapBrowser() {
-    return ldapBrowser;
+    return directoryBrowser;
   }
 
-  public void chooseLdapName() {
-    role.setExternalName(ldapBrowser.getSelectedNameString());
+  public void chooseDirectoryName() {
+    role.setExternalName(directoryBrowser.getSelectedNameString());
   }
 
   public String getUserCount() {
