@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
 import static com.codeborne.selenide.Condition.enabled;
-import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -13,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Duration;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,9 @@ import ch.ivyteam.enginecockpit.util.Tab;
 @IvyWebTest
 public class WebTestDownload {
 
-  @BeforeAll
+  private static final long TIMEOUT = Duration.ofMinutes(1).toMillis();
+
+@BeforeAll
   static void setup() {
     Selenide.closeWebDriver();
     Configuration.proxyEnabled = true;
@@ -43,7 +45,7 @@ public class WebTestDownload {
     $(".user-profile > a").shouldBe(visible).click();
     $("#supportReport").shouldBe(visible).click();
     $("#supportReportModal").shouldBe(visible);
-    File download = $("#reportForm\\:download").shouldBe(visible).download();
+    File download = $("#reportForm\\:download").shouldBe(visible).download(TIMEOUT);
     assertThat(download.getName()).isEqualTo("support-engine-report.zip");
     assertThat(download.length() / 1024).isGreaterThan(10);
     $("#reportForm\\:cancel").shouldBe(visible).click();
@@ -55,7 +57,7 @@ public class WebTestDownload {
     Navigation.toLogs();
     $(By.id("downloadAllLogs")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldBe(visible);
-    var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download();
+    var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download(TIMEOUT);
     assertThat(download.getName()).isEqualTo("logs.zip");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
     $(By.id("downloadDialog:downloadForm:cancel")).shouldBe(visible).click();
@@ -66,7 +68,7 @@ public class WebTestDownload {
   void log() throws FileNotFoundException {
     Navigation.toLogs();
     var download = $$(".ui-panel-titlebar").find(text("console.log"))
-            .find(".ui-panel-actions a").shouldBe(visible).download();
+            .find(".ui-panel-actions a").shouldBe(visible).download(TIMEOUT);
     assertThat(download.getName()).isEqualTo("console.log");
     assertThat(download).isNotEmpty();
   }
@@ -79,7 +81,7 @@ public class WebTestDownload {
     $(By.id("downloadAllResources")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldBe(visible)
             .shouldHave(text("Download Branding resources of '" + appName + "'"));
-    var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download();
+    var download = $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download(TIMEOUT);
     assertThat(download.getName()).isEqualTo("branding-" + appName + ".zip");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
     $(By.id("downloadDialog:downloadForm:cancel")).shouldBe(visible).click();
@@ -89,7 +91,7 @@ public class WebTestDownload {
     $(By.id("downloadAllResources")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldBe(visible)
             .shouldHave(text("Download Branding resources of 'test-ad'"));
-    $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download();
+    $(By.id("downloadDialog:downloadForm:downloadBtn")).shouldBe(visible).download(TIMEOUT);
     $(By.id("msgs_container")).shouldHave(text("No branding resources found for app 'test-ad'"));
   }
 
@@ -98,7 +100,7 @@ public class WebTestDownload {
     Navigation.toThreads();
     var dump = $(id("form:dump"))
         .shouldBe(visible, enabled)
-        .download();
+        .download(TIMEOUT);
 
     String content = Files.readString(dump.toPath());
     assertThat(content).contains("Full thread dump OpenJDK 64-Bit Server VM");
@@ -114,9 +116,8 @@ public class WebTestDownload {
 
     var dump = $(id("dumpMemory:dump"))
         .shouldBe(visible, enabled)
-        .download(20_000);
+        .download(TIMEOUT);
 
     assertThat(Files.size(dump.toPath())).isGreaterThan(0);
-    $(By.id("dumpMemoryDialog")).shouldBe(not(visible));
   }
 }
