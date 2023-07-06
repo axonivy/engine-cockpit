@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -70,15 +72,29 @@ public class ClassHistogramBean {
 
   public StreamedContent dumpMemory() throws InstanceNotFoundException, ReflectionException, MBeanException, IOException {
     var dumpDir = Files.createTempDirectory("memoryDump");
-    var dumpFileName = Advisor.getAdvisor().getApplicationName() + " Memory Dump.hprof";
-    var dumpFile = dumpDir.resolve(dumpFileName);
+    var dumpName = Advisor.getAdvisor().getApplicationName() + " Memory Dump";
+    var dumpFile = dumpDir.resolve(dumpName+".hprof");
     ManagementFactory.getPlatformMBeanServer().invoke(HOT_SPOT_DIAGNOSTIC,
             "dumpHeap", new Object[] {dumpFile.toAbsolutePath().toString(), true}, new String[] {String.class.getName(), boolean.class.getName()});
+    var zipFile = dumpDir.resolve(dumpName+".zip");
+    zip(dumpFile, zipFile);
+    Files.delete(dumpFile);
 
-    return DefaultStreamedContent.builder().name(dumpFileName)
-        .stream(() -> openTempFileInputStream(dumpFile))
-        .contentLength((int)Files.size(dumpFile))
+    return DefaultStreamedContent.builder().name(zipFile.getFileName().toString())
+        .stream(() -> openTempFileInputStream(zipFile))
+        .contentLength((int)Files.size(zipFile))
         .build();
+  }
+
+  private void zip(Path dumpFile, Path zipFile) throws IOException {
+    try (var out = Files.newOutputStream(zipFile); var zipOut = new ZipOutputStream(out)) {
+      try (var in = Files.newInputStream(dumpFile)) {
+        var entry = new ZipEntry(dumpFile.getFileName().toString());
+        entry.setTime(Files.getLastModifiedTime(dumpFile).toMillis());
+        zipOut.putNextEntry(entry);
+        in.transferTo(zipOut);
+      }
+    }
   }
 
   private InputStream openTempFileInputStream(Path dumpFile) {
