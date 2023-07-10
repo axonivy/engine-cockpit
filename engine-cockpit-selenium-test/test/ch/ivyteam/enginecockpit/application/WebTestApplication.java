@@ -20,12 +20,14 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebTestApplication {
+class WebTestApplication {
+
   private static final String NEW_TEST_APP = "newTestApp";
 
   @BeforeEach
@@ -35,7 +37,7 @@ public class WebTestApplication {
   }
 
   @Test
-  void testApplications() {
+  void applications() {
     $("h2").shouldHave(text("Applications"));
     Table table = new Table(By.className("ui-treetable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
@@ -44,15 +46,36 @@ public class WebTestApplication {
   }
 
   @Test
-  void testInvalidInputNewApplication() {
-    openNewApplicationModal();
+  void move() {
+    addNewApplication();
+    var appId = getNewAppId();
+    startApplication(appId);
 
+    String tasksButtonId = $(appId).find(By.cssSelector("td button"), 3).getAttribute("id");
+    By activityMenu = By.id(tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu");
+    $(By.id(tasksButtonId)).click();
+    $(activityMenu).shouldBe(visible);
+
+    $(activityMenu).findAll("li").find(text("Move")).click();
+    $(By.id("moveApplicationModal")).shouldBe(visible);
+    $(By.id("moveApplicationForm:validateMoveApplication")).click();
+
+    $(By.id("moveApplicationForm:validationMessage")).should(visible).should(Condition.text("application must be deactivated"));
+    $(By.id("moveApplicationForm:cancelMoveApplication")).click();
+
+    stopApplication(appId);
+    deleteApplication(appId);
+  }
+
+  @Test
+  void invalidInputNewApplication() {
+    openNewApplicationModal();
     $("#newApplicationForm\\:saveNewApplication").click();
     $("#newApplicationForm\\:newApplicationNameMessage").shouldBe(visible);
   }
 
   @Test
-  void testAddStartStopRemoveApplication() {
+  void addStartStopRemoveApplication() {
     int appCount = $$(".activity-name").size();
     addNewApplication();
     $$(".activity-name").shouldBe(size(appCount + 1));
@@ -61,25 +84,25 @@ public class WebTestApplication {
             .shouldHave(text("Application with name '" + NEW_TEST_APP + "' already exists"));
 
     By newApp = getNewAppId();
-    startNewApplication(newApp);
-    stopNewApplication(newApp);
-    deleteNewApplication(newApp);
+    startApplication(newApp);
+    stopApplication(newApp);
+    deleteApplication(newApp);
     $$(".activity-name").shouldBe(size(appCount));
   }
 
   @Test
-  void testStartStopDeleteNewAppInsideDetailView() {
+  void startStopDeleteNewAppInsideDetailView() {
     addNewAppAndNavigateToIt();
 
     $$(".activity-state-inactive").shouldBe(size(2));
     startAppInsideDetailView();
     stopAppInsideDetailView();
     Navigation.toApplications();
-    deleteNewApplication(getNewAppId());
+    deleteApplication(getNewAppId());
   }
 
   @Test
-  void testExpandCollapseTree() {
+  void expandCollapseTree() {
     Table table = new Table(By.className("ui-treetable"), true);
     table.firstColumnShouldBe(sizeLessThanOrEqual(3));
     expandAppTree();
@@ -89,7 +112,7 @@ public class WebTestApplication {
   }
 
   @Test
-  void testChildProblemOnParent() {
+  void childProblemOnParent() {
     expandAppTree();
 
     var appName = isDesigner() ? DESIGNER : "test";
@@ -123,7 +146,6 @@ public class WebTestApplication {
     $$(".activity-name").find(exactText("portal-user-examples")).parent().find(".table-icon")
             .shouldHave(cssClass("si-module-three-2"))
             .shouldHave(attribute("title", "PM"));
-
   }
 
   private void expandAppTree() {
@@ -147,19 +169,19 @@ public class WebTestApplication {
     Navigation.toApplicationDetail(NEW_TEST_APP);
   }
 
-  private void stopNewApplication(By newAppId) {
-    $(newAppId).find(By.cssSelector("td button"), 2).click();
-    $(newAppId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
+  private void stopApplication(By appId) {
+    $(appId).find(By.cssSelector("td button"), 2).click();
+    $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
   }
 
-  private void startNewApplication(By newAppId) {
-    $(newAppId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
-    $(newAppId).find(By.cssSelector("td button"), 1).click();
-    $(newAppId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "ACTIVE"));
+  private void startApplication(By appId) {
+    $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
+    $(appId).find(By.cssSelector("td button"), 1).click();
+    $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "ACTIVE"));
   }
 
-  private void deleteNewApplication(By newAppId) {
-    String tasksButtonId = $(newAppId).find(By.cssSelector("td button"), 3).getAttribute("id");
+  private void deleteApplication(By appId) {
+    String tasksButtonId = $(appId).find(By.cssSelector("td button"), 3).getAttribute("id");
     By activityMenu = By.id(tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu");
     $(By.id(tasksButtonId)).click();
     $(activityMenu).shouldBe(visible);
@@ -192,5 +214,4 @@ public class WebTestApplication {
   private By getNewAppId() {
     return By.id($$(".activity-name").find(text(NEW_TEST_APP)).parent().parent().parent().getAttribute("id"));
   }
-
 }
