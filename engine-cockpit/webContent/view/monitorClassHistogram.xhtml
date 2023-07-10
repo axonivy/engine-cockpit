@@ -94,8 +94,9 @@
              <p:staticMessage severity="warn" detail="The engine may not be response for a few seconds."/>
             <div class="custom-dialog-footer">
               <p:commandButton id="cancel" type="button" onclick="PF('dumpMemoryDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-              <p:commandButton id="dump" ajax="false" value="Dump" update="form" title="Dump Heap Memory" onclick="PF('dumpMemoryDialog').hide();"
-                      icon="si si-download-bottom" styleClass="modal-input-button">
+              <p:commandButton id="dump" ajax="false" value="Dump" update="form" title="Dump Heap Memory" 
+                  onclick="var button=this; buttonAddSpinner(button); window.onblur = function(){buttonRemoveSpinner(button, 'si-download-bottom'); PF('dumpMemoryDialog').hide();}"
+                  icon="si si-download-bottom" styleClass="modal-input-button">
                 <p:fileDownload value="#{classHistogramBean.dumpMemory()}"/>
               </p:commandButton>
             </div>
