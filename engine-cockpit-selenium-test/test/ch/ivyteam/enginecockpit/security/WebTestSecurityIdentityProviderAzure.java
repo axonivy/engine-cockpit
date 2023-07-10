@@ -7,6 +7,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
@@ -22,33 +24,44 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestSecurityIdentityProviderAzure {
 
+  private static final String PASSWORD = "securityIdentityProviderForm:group:0:property:2:propertyPassword";
+  private static final String CLIENT_ID = "securityIdentityProviderForm:group:0:property:1:propertyString";
+  private static final String TENANT_ID = "securityIdentityProviderForm:group:0:property:0:propertyString";
   private final static String NAME = "test-azure";
 
-  @Test
-  void edit() {
+  @BeforeEach
+  void createAzureSystem() {
     login();
     Navigation.toSecuritySystem();
     createSecuritySystem("Azure Active Directory", NAME);
     Navigation.toSecuritySystemProvider(NAME);
+  }
+
+  @AfterEach
+  void deleteAzureSystem() {
+    WebTestSecuritySystem.deleteSecuritySystem(NAME);
+  }
+
+  @Test
+  void editProperties() {
     stringProperty();
     Selenide.refresh();
     passwordProperty();
     Selenide.refresh();
     keyValueProperty();
-    WebTestSecuritySystem.deleteSecuritySystem(NAME);
   }
 
   private void stringProperty() {
-    var property = $(By.id("securityIdentityProviderForm:group:0:property:0:propertyString")).shouldBe(visible);
+    var property = $(By.id(TENANT_ID)).shouldBe(visible);
     property.clear();
-    property.sendKeys("tenantId");
+    property.sendKeys("680be3d4-cc6a-43f3-ac51-286a03074142");
     save();
-    property.shouldHave(exactValue("tenantId"));
+    property.shouldHave(exactValue("680be3d4-cc6a-43f3-ac51-286a03074142"));
     success();
   }
 
   private void passwordProperty() {
-    var property = $(By.id("securityIdentityProviderForm:group:0:property:2:propertyPassword")).shouldBe(visible);
+    var property = $(By.id(PASSWORD)).shouldBe(visible);
     property.clear();
     property.sendKeys("clientSecret");
     save();
@@ -106,6 +119,14 @@ class WebTestSecurityIdentityProviderAzure {
       .click();
     success();
     table.firstColumnShouldBe(CollectionCondition.empty);
+  }
+
+  @Test
+  void azureBrowserInvalidAuth(){
+    $(By.id("securityIdentityProviderForm:group:0:property:3:browseDefaultContext")).should(visible)
+    .click();
+    $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldHave(text("ErrorInvalid UUID string:"));
+    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible).click();
   }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {
