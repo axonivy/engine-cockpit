@@ -134,8 +134,9 @@
             </div>
             
             
-            <cc:DirectoryBrowser updateFields="securityIdentityProviderForm" browser="#{identityProviderBean.directoryBrowser}"
-  returnListener="#{identityProviderBean.idpNode}" id="directoryBrowser" />
+            <cc:DirectoryBrowser id="directoryBrowser" directoryBrowser="#{identityProviderBean.directoryBrowser}"
+                updateFields="securityIdentityProviderForm" 
+                returnListener="#{identityProviderBean.idpNode}" />
           </h:panelGroup>
         </div>
       </div>
