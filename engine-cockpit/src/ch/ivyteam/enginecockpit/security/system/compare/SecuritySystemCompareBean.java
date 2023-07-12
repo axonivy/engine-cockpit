@@ -2,11 +2,14 @@ package ch.ivyteam.enginecockpit.security.system.compare;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -25,9 +28,39 @@ public class SecuritySystemCompareBean {
   private String sourceSecuritySystem;
   private String targetSecuritySystem;
   private List<Issue> result;
+  private List<Issue> filteredResult;
 
   public List<Issue> getReport() {
     return result;
+  }
+
+  public List<Issue> getFilteredResult() {
+    return filteredResult;
+  }
+
+  public void setFilteredResult(List<Issue> filteredResult) {
+    this.filteredResult = filteredResult;
+  }
+
+  public boolean globalFilterFunction(Object value, Object filter, @SuppressWarnings("unused") Locale locale) {
+    String filterText = (filter == null) ? null : filter.toString().trim().toLowerCase();
+    if (StringUtils.isBlank(filterText)) {
+        return true;
+    }
+    var issue = (Issue) value;
+    return toLower(issue.id()).contains(filterText)
+            || toLower(issue.name()).contains(filterText)
+            || toLower(issue.what().toString()).contains(filterText)
+            || toLower(issue.entity().toString()).contains(filterText)
+            || toLower(issue.target()).contains(filterText)
+            || toLower(issue.source()).contains(filterText);
+  }
+
+  private String toLower(String value) {
+    if (value == null) {
+      return "";
+    }
+    return value.toLowerCase();
   }
 
   public void run() {
@@ -91,6 +124,7 @@ public class SecuritySystemCompareBean {
   public List<String> getSecuritySystems() {
     return ISecurityManager.instance().securityContexts().all().stream()
             .map(ISecurityContext::getName)
+            .filter(name -> !name.equals(sourceSecuritySystem))
             .collect(Collectors.toList());
   }
 

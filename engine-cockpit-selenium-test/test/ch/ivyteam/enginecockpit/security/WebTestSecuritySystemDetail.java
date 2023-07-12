@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.attribute;
@@ -99,6 +100,15 @@ public class WebTestSecuritySystemDetail {
 
     Selenide.refresh();
     language.selectedItemShould(value("en"));
+  }
+
+  @Test
+  void mergeSecuritySystem() {
+    $(By.id("securitySystemConfigForm:compareSecuritySystemBtn")).click();
+    assertCurrentUrlContains("securitysystem-merge");
+    PrimeUi.selectOne(By.id("form:targetSecuritySystem")).selectItemByLabel("default");
+    $(By.id("form:compare")).click();
+    $(By.id("form:report")).should(visible);
   }
 
   @Test

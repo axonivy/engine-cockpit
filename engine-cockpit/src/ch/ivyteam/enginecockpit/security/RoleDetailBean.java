@@ -410,6 +410,7 @@ public class RoleDetailBean {
   public List<String> getRoles() {
     return securityContext.roles().all().stream()
             .map(IRole::getName)
+            .filter(name -> !roleName.equals(name))
             .collect(Collectors.toList());
   }
 }
