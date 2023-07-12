@@ -123,33 +123,10 @@ class WebTestSecurityIdentityProviderAzure {
 
   @Test
   void azureBrowserInvalidAuth(){
-<<<<<<< HEAD
     $(By.id("securityIdentityProviderForm:group:0:property:3:browseDefaultContext")).should(visible)
     .click();
     $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldHave(text("ErrorInvalid UUID string:"));
     $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible).click();
-=======
-    var property = $(By.id(TENANT_ID)).shouldBe(visible);
-    property.clear();
-    property.sendKeys("680be3d4-cc6a-43f3-ac51-286a03074142");
-
-    var clientId = $(By.id(CLIENT_ID)).shouldBe(visible);
-    clientId.clear();
-    clientId.sendKeys("680be3d4-cc6a-43f3-ac51-286a03074142");
-
-    var password = $(By.id(PASSWORD)).shouldBe(visible);
-    password.clear();
-    password.sendKeys("clientSecret");
-
-    save();
-    success();
-    Selenide.refresh();
-
-    $(By.id("securityIdentityProviderForm:group:0:property:3:browseDefaultContext")).should(visible)
-    .click();
-    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible)
-    .click();
->>>>>>> 65abcb85 (XIVY-11201 Test for Azure Browser)
   }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {

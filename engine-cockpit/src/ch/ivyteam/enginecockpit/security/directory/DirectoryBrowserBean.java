@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security.directory;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -59,18 +58,18 @@ public class DirectoryBrowserBean {
   }
 
   @SuppressWarnings("unused")
-  private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode ldapNode, Object initialValue) {
-    var node = new DefaultTreeNode<>(ldapNode, parent);
-    if (initialValue != null && ldapNode.startsWith(initialValue)) {
-      if (Objects.equals(initialValue, ldapNode.getValue())) {
+  private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode dirNode, Object selectValue) {
+    var node = new DefaultTreeNode<>(dirNode, parent);
+    if (selectValue != null && dirNode.startsWith(selectValue)) {
+      if (dirNode.isValueEqual(selectValue)) {
         node.setSelected(true);
         node.setExpanded(true);
       } else {
         node.setExpanded(true);
-        loadChildren(node, initialValue);
+        loadChildren(node, selectValue);
       }
     }
-    if (ldapNode.isExpandable() && !node.isExpanded()) {
+    if (dirNode.isExpandable() && !node.isExpanded()) {
       new DefaultTreeNode<>("loading...", node);
     }
   }
