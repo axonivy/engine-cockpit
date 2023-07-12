@@ -3,11 +3,22 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<p:dialog header="Move Application" id="moveApplicationModal"
+<p:dialog header="Change security system" id="moveApplicationModal"
   widgetVar="moveApplicationModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="moveApplicationForm" styleClass="custom-dialog-form">
   
-   <p:staticMessage severity="warn" detail="This is a heavy operation that move a lot of data. We highly recommend to make a backup of your system database first." />
+   <h:outputText>
+        To change the security system of an application, the target security system must have the same roles and
+        users so that all runtime data like tasks, cases, business data and more can be re-assigned.
+        Therefore, you first need to validate if the target security system is ready. If this is not the case, you can check and prepare
+        the target security system: 
+   </h:outputText>
+
+   <p:linkButton icon="si si-move-to-bottom" outcome="securitysystem-merge.xhtml" styleClass="p-mt-1" style="max-width:200px;" value="Merge Security System">
+     <f:param name="source" value="#{moveApplicationBean.securitySystemName}"/>
+   </p:linkButton>
+
+   <p:staticMessage severity="warn" escape="false" detail="This is a heavy operation that moves a lot of data. We highly recommend to making a backup of your system database first."/>
 
    <p:panelGrid columns="1" layout="flex" columnClasses="" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel style="font-weight:bold;" value="Application" for="moveApplicationAppName"/>
@@ -29,8 +40,16 @@
     </p:panelGrid>
 
     <div class="custom-dialog-footer">
-      <p:commandButton id="validateMoveApplication" update="moveApplicationForm" actionListener="#{moveApplicationBean.validate()}" value="Validate" icon="si si-check-1" styleClass="modal-input-button" />
-      <p:commandButton id="moveApplication" ajax="false" disabled="#{!moveApplicationBean.isValid()}" actionListener="#{moveApplicationBean.move()}" value="Move" icon="si si-move-back" styleClass="modal-input-button" />
+      <p:commandButton id="validateMoveApplication" update="moveApplicationForm" actionListener="#{moveApplicationBean.validate()}" value="Validate" 
+            oncomplete="var button=this; buttonRemoveSpinner(button, 'si-check-1');"
+            onclick="var button=this; buttonAddSpinner(button);"
+            icon="si si-check-1" styleClass="modal-input-button" />
+
+      <p:commandButton id="moveApplication" disabled="#{!moveApplicationBean.isValid()}" actionListener="#{moveApplicationBean.move()}" value="Move"
+            oncomplete="var button=this; buttonRemoveSpinner(button, 'si-check-1');PF('moveApplicationModal').hide();"
+            onclick="var button=this; buttonAddSpinner(button);" update="appDetailSecurityForm"
+            icon="si si-move-back" styleClass="modal-input-button" />
+
       <p:commandButton id="cancelMoveApplication" onclick="PF('moveApplicationModal').hide();" value="Cancel" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     </div>
   </h:form>
