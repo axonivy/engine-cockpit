@@ -34,7 +34,6 @@ public class ApplicationDetailBean {
   private String appName;
 
   private Application app;
-  private SecuritySystem securitySystem;
 
   private ConfigViewImpl configView;
 
@@ -63,7 +62,6 @@ public class ApplicationDetailBean {
       return;
     }
 
-    securitySystem = new SecuritySystem(app.getSecurityContext());
     configView = new ConfigViewImpl(((IApplicationInternal) getIApplication()).getConfiguration(),
             this::enrichPmvProperties, List.of(ConfigViewImpl.defaultFilter(),
                     new ContentFilter<>("Variables", "Show Variables",
@@ -81,7 +79,7 @@ public class ApplicationDetailBean {
   }
 
   public SecuritySystem getSecuritySystem() {
-    return securitySystem;
+    return new SecuritySystem(app.getSecurityContext());
   }
 
   public String deleteApplication() {
@@ -95,7 +93,7 @@ public class ApplicationDetailBean {
   }
 
   public String getUsersCount() {
-    return managerBean.formatNumber(securitySystem.getUsersCount());
+    return managerBean.formatNumber(getSecuritySystem().getUsersCount());
   }
 
   public String getCasesCount() {

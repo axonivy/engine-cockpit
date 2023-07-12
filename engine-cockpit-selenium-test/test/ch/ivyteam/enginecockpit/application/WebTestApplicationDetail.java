@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -59,6 +60,16 @@ class WebTestApplicationDetail {
     assertThat(Integer.parseInt(userCount)).isBetween(2, 8);
     var roleCount = $(By.id("appDetailSecurityForm")).find(".ui-panelgrid-content a", 2).shouldHave(href("roles.xhtml")).text();
     assertThat(Integer.parseInt(roleCount)).isBetween(3, 5);
+  }
+
+  @Test
+  void move() {
+    Navigation.toApplicationDetail("test-ad");
+    $(By.id(("appDetailSecurityForm:moveApplication"))).click();
+    $(By.id("moveApplicationModal")).shouldBe(visible);
+    $(By.id("moveApplicationForm:validateMoveApplication")).click();
+    $(By.id("moveApplicationForm:validationMessage")).should(visible).should(Condition.text("Application must be deactivated."));
+    $(By.id("moveApplicationForm:cancelMoveApplication")).click();
   }
 
   @Test

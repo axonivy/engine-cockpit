@@ -3,6 +3,10 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewParam name="source" value="#{securitySystemCompareBean.sourceSecuritySystem}" />
+  </f:metadata>
+
   <ui:composition template="../includes/template/template.xhtml">
     <ui:define name="breadcrumb">
       <li><span>Security</span></li>
@@ -27,10 +31,7 @@
 
           <p:panelGrid columns="1" layout="flex" styleClass="compare-card">
             <p:outputLabel style="font-weight: bold" for="sourceSecuritySystem">Source Security System</p:outputLabel>
-            <p:selectOneMenu id="sourceSecuritySystem" value="#{securitySystemCompareBean.sourceSecuritySystem}">
-              <f:selectItems value="#{securitySystemCompareBean.securitySystems}" var="securitySystem"
-                itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
-            </p:selectOneMenu>
+            <h:outputText id="sourceSecuritySystem" value="#{securitySystemCompareBean.sourceSecuritySystem}"></h:outputText>
 
             <p:outputLabel style="font-weight: bold" for="sourceSecuritySystem">Target Security System</p:outputLabel>
             <p:selectOneMenu id="targetSecuritySystem" value="#{securitySystemCompareBean.targetSecuritySystem}">
@@ -38,9 +39,12 @@
                 itemLabel="#{securitySystem}" itemValue="#{securitySystem}" />
             </p:selectOneMenu>
 
-            <p:commandButton update="form" id="compare" value="Compare" ajax="false"
+            <p:commandButton update="form" id="compare" icon="si si-move-to-bottom" value="Compare" 
               title="This will only compare the source with the target security system. This will NOT make any changes."
-              actionListener="#{securitySystemCompareBean.run}" />
+              actionListener="#{securitySystemCompareBean.run}"
+              oncomplete="var button=this; buttonRemoveSpinner(button, 'si-download-bottom');"
+              onclick="var button=this; buttonAddSpinner(button);" 
+               />
           </p:panelGrid>
 
           <h:panelGroup rendered="#{securitySystemCompareBean.isReportAvailable()}">
@@ -49,7 +53,8 @@
               <p:staticMessage severity="info" detail="To move an application from source to target security system the same users and roles must exist in
                 the target security system as in the source system. By executing all CREATE operations, all missing users and roles
                 will be created in the target security system. There is no need to execute the UPDATE operations or DELETE operations, but you may want
-                to cleanup the target security system with these operations." >
+                to cleanup the target security system with these operations. It could be that the role already exists, but this one is not actually the same role. If this is the case, the role must
+                be manually renamed in the target security system as well as the role in the Axon Ivy Project. Then the Axon Ivy Project must be redeployed." >
               </p:staticMessage>
 
               <p:commandButton value="Execute all CREATE operations" styleClass="p-mr-2 p-mb-2 ui-button-success"
@@ -76,37 +81,48 @@
               </p:commandButton>
 
               <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
+                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
               </p:confirmDialog>
 
-            <p:dataTable id="report" var="issue" paginator="true" rows="50" paginatorPosition="bottom" value="#{securitySystemCompareBean.report}">
-              <p:column style="width: 45px">
+            <p:dataTable id="report" var="issue" paginator="true" rows="50"
+                widgetVar="reportTable"
+                filteredValue="#{securitySystemCompareBean.filteredResult}"
+                globalFilterFunction="#{securitySystemCompareBean.globalFilterFunction}"
+                paginatorPosition="bottom" value="#{securitySystemCompareBean.report}">
+              
+              <f:facet name="header">
+                <div class="flex justify-content-end">
+                    <p:inputText id="globalFilter" onkeyup="PF('reportTable').filter()" style="width:100%" />
+                </div>
+              </f:facet>
+              
+              <p:column style="width: 45px" sortBy="#{issue.entity()}">
                 <h:outputText value="#{issue.entity()}" />
               </p:column>
 
-              <p:column headerText="Name" style="width: 150px">
+              <p:column headerText="Name" style="width: 150px" sortBy="#{issue.id()}">
                 <h:outputText value="#{issue.id()}" />
               </p:column>
 
-              <p:column headerText="What">
+              <p:column headerText="What" sortBy="#{issue.what()}">
                 <h:outputText value="#{issue.what()} #{issue.name()}" />
               </p:column>
 
-              <p:column headerText="Source">
+              <p:column headerText="Source" sortBy="#{issue.source()}">
                 <h:outputText value="#{issue.source()}" />
               </p:column>
 
-              <p:column headerText="Target">
+              <p:column headerText="Target" sortBy="#{issue.target()}">
                 <h:outputText value="#{issue.target()}" />
               </p:column>
 
-              <p:column>
+              <p:column styleClass="table-btn-2">
                 <p:commandButton value="#{issue.solver().type()}" title="#{securitySystemCompareBean.solveHint(issue)}"
                   rendered="#{issue.isSolveable()}" styleClass="${securitySystemCompareBean.styleClassForButton(issue)}" disabled="${securitySystemCompareBean.isSolved(issue)}"
                   update="report" actionListener="#{securitySystemCompareBean.solve(issue)}">
-                  <p:confirm header="#{issue.solver().type()}"
-                  message="Do you really want to apply this change?"
+                  <p:confirm header="Apply change"
+                  message="Do you really want to #{issue.solver().type()} this entry?" 
                   icon="ui-icon-alert" />
                   </p:commandButton>
               </p:column>
