@@ -42,7 +42,7 @@
             <p:commandButton update="form" id="compare" icon="si si-move-to-bottom" value="Compare" 
               title="This will only compare the source with the target security system. This will NOT make any changes."
               actionListener="#{securitySystemCompareBean.run}"
-              oncomplete="var button=this; buttonRemoveSpinner(button, 'si-download-bottom');"
+              oncomplete="var button=this; buttonRemoveSpinner(button, 'si-move-to-bottom');"
               onclick="var button=this; buttonAddSpinner(button);" 
                />
           </p:panelGrid>
