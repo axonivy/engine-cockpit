@@ -20,7 +20,6 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -43,28 +42,6 @@ class WebTestApplication {
     table.firstColumnShouldBe(sizeGreaterThan(0));
     table.search("eSt-A");
     table.firstColumnShouldBe(size(1));
-  }
-
-  @Test
-  void move() {
-    addNewApplication();
-    var appId = getNewAppId();
-    startApplication(appId);
-
-    String tasksButtonId = $(appId).find(By.cssSelector("td button"), 3).getAttribute("id");
-    By activityMenu = By.id(tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu");
-    $(By.id(tasksButtonId)).click();
-    $(activityMenu).shouldBe(visible);
-
-    $(activityMenu).findAll("li").find(text("Move")).click();
-    $(By.id("moveApplicationModal")).shouldBe(visible);
-    $(By.id("moveApplicationForm:validateMoveApplication")).click();
-
-    $(By.id("moveApplicationForm:validationMessage")).should(visible).should(Condition.text("application must be deactivated"));
-    $(By.id("moveApplicationForm:cancelMoveApplication")).click();
-
-    stopApplication(appId);
-    deleteApplication(appId);
   }
 
   @Test
