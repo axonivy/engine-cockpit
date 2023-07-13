@@ -94,18 +94,11 @@ public class DirectoryBrowserBean {
   }
 
   public String getSelectedNameString() {
-    var name = getSelectedName();
-    if (name == null) {
-      return null;
-    }
-    return name.toString();
-  }
-
-  private Object getSelectedName() {
     if (selectedNode == null) {
       return null;
     }
-    return selectedNode.getData().getValue();
+    DirectoryNode directoryNode = selectedNode.getData();
+    return directoryNode.getValueId();
   }
 
   public List<Property> getSelectedNodeProperties() {
