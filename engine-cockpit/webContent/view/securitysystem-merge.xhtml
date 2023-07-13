@@ -25,7 +25,7 @@
             <p:autoUpdate />
           </p:growl>
           <div class="p-d-flex p-ai-center p-mb-3">
-            <i class="p-pr-3 si si-lock-1 card-title-icon"></i>
+            <i class="p-pr-3 si si-move-to-bottom card-title-icon"></i>
             <h2 class="p-m-0">Merge Security Systems</h2>
           </div>
 
@@ -117,7 +117,7 @@
                 <h:outputText value="#{issue.target()}" />
               </p:column>
 
-              <p:column styleClass="table-btn-2">
+              <p:column styleClass="table-btn-2" sortBy="#{issue.solver().type()}">
                 <p:commandButton value="#{issue.solver().type()}" title="#{securitySystemCompareBean.solveHint(issue)}"
                   rendered="#{issue.isSolveable()}" styleClass="${securitySystemCompareBean.styleClassForButton(issue)}" disabled="${securitySystemCompareBean.isSolved(issue)}"
                   update="report" actionListener="#{securitySystemCompareBean.solve(issue)}">
