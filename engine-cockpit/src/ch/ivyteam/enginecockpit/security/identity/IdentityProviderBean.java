@@ -15,6 +15,7 @@ import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.IdentityProviderConfigMetadataProvider;
+import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
@@ -29,6 +30,8 @@ public class IdentityProviderBean {
   private IdentityProvider identityProvider;
   private List<ConfigPropertyGroup> propertyGroups;
   private DirectoryBrowserBean browserBean;
+
+  private ConfigProperty browserProperty;
 
   public void onload() {
     securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(securitySystemName);
@@ -62,7 +65,7 @@ public class IdentityProviderBean {
   }
 
   private ConfigProperty toConfigProperty(String key, Metadata metadata) {
-    var config = ((SecurityContext) securityContext).config().identity();
+    var config = getIdpConfig();
     var value = "";
     Map<String, String> keyValue = Map.of();
     if (metadata.isKeyValue()) {
@@ -87,20 +90,25 @@ public class IdentityProviderBean {
   }
 
   public void browseProperty(ConfigProperty property) {
+    browserProperty = property;
     configureBrowser(property.getValue());
   }
 
-  public String getIdpNode() {
-    return browserBean.getSelectedNameString();
+  public void setSelectedItem() {
+    String selection = browserBean.getSelectedNameString();
+    browserProperty.setValue(selection);
   }
 
   public DirectoryBrowserBean getDirectoryBrowser() {
     return browserBean;
   }
 
-  private void configureBrowser(String what) {
-    var config = ((SecurityContext) securityContext).config().identity();
-    var browser = this.identityProvider.directoryBrowser(config);
-    browserBean.browse(browser, what);
+  private void configureBrowser(String currentValue) {
+    var browser = this.identityProvider.directoryBrowser(getIdpConfig());
+    browserBean.browse(browser, currentValue);
+  }
+
+  private IdpConfig getIdpConfig() {
+    return ((SecurityContext) securityContext).config().identity();
   }
 }

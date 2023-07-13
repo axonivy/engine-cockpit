@@ -59,7 +59,8 @@
                                 <p:inputText id="propertyString" value="#{property.value}" />
                                 <p:commandButton id="browseDefaultContext" icon="si si-network-browser" title="Browse" 
                                   actionListener="#{identityProviderBean.browseProperty(property)}" 
-                                  oncomplete="PF('directoryBrowserDialog').show();" update="directoryBrowser:directoryBrowserDialog"
+                                  oncomplete="PF('directoryBrowserDialog').show();" 
+                                  update="directoryBrowser:directoryBrowserDialog"
                                   rendered="#{property.name.equals('GroupFilter')}" />
                              </h:panelGroup>
                                 <small class="block">#{property.description}</small> 
@@ -136,7 +137,7 @@
             
             <cc:DirectoryBrowser id="directoryBrowser" directoryBrowser="#{identityProviderBean.directoryBrowser}"
                 updateFields="securityIdentityProviderForm" 
-                returnListener="#{identityProviderBean.idpNode}" />
+                returnListener="#{identityProviderBean.setSelectedItem()}" />
           </h:panelGroup>
         </div>
       </div>
