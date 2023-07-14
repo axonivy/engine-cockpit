@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.api.API;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.configuration.meta.Metadata;
@@ -32,6 +33,7 @@ public class IdentityProviderBean {
   private DirectoryBrowserBean browserBean;
 
   private ConfigProperty browserProperty;
+  private IdentityProviderListDialogBean providerListDialogBean;
 
   public void onload() {
     securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(securitySystemName);
@@ -90,13 +92,26 @@ public class IdentityProviderBean {
   }
 
   public void browseProperty(ConfigProperty property) {
+    API.checkParameterNotNull(property, "property");
+    providerListDialogBean = null;
     browserProperty = property;
     configureBrowser(property.getValue());
   }
 
+  public void browseProperty(IdentityProviderListDialogBean bean) {
+    API.checkParameterNotNull(bean, "bean");
+    browserProperty = null;
+    providerListDialogBean = bean;
+    configureBrowser(bean.getNewValue());
+  }
+
   public void setSelectedItem() {
     String selection = browserBean.getSelectedNameString();
-    browserProperty.setValue(selection);
+    if (providerListDialogBean == null) {
+      browserProperty.setValue(selection);
+    } else {
+      providerListDialogBean.setNewValue(selection);
+    }
   }
 
   public DirectoryBrowserBean getDirectoryBrowser() {
