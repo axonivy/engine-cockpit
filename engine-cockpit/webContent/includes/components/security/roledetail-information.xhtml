@@ -61,7 +61,7 @@
         <p:commandButton id="browseExternalName" icon="si si-network-browser" title="Browse"
           actionListener="#{roleDetailBean.browseLdap}" update="directoryBrowser:directoryBrowserDialog"
           oncomplete="PF('directoryBrowserDialog').show();"
-          disabled="#{roleDetailBean.ldapBrowserDisabled}" />
+          disabled="#{roleDetailBean.directoryBrowserDisabled}" />
       </h:panelGroup>
     </p:panelGrid>
   </h:form>

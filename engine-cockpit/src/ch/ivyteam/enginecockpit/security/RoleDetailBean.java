@@ -19,13 +19,15 @@ import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.enginecockpit.security.model.UserDataModel;
-import ch.ivyteam.enginecockpit.security.system.SecurityLdapBean;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
+import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
+import ch.ivyteam.ivy.security.internal.context.SecurityContext;
 import ch.ivyteam.ivy.security.query.UserQuery;
+import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;
 import ch.ivyteam.ivy.security.role.NewRole;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.TaskState;
@@ -367,9 +369,13 @@ public class RoleDetailBean {
   }
 
   public void browseLdap() {
-    var secBean = new SecurityLdapBean();
-    secBean.setSecuritySystemName(securityContext.getName());
-    directoryBrowser.browse(secBean.getJndiConfig(secBean.getDefaultContext()), secBean.getEnableInsecureSsl(), role.getExternalName());
+    var identityProvider = ((ISecurityContextInternal) securityContext).identityProviders().get(0);
+    var browser = identityProvider.directoryBrowser(getIdpConfig());
+    directoryBrowser.browse(browser, role.getExternalName());
+  }
+
+  private IdpConfig getIdpConfig() {
+    return ((SecurityContext) securityContext).config().identity();
   }
 
   public DirectoryBrowserBean getLdapBrowser() {
@@ -399,8 +405,9 @@ public class RoleDetailBean {
     return ManagerBean.instance().formatNumber(directTaskCount);
   }
 
-  public boolean isLdapBrowserDisabled() {
-    return isRootRole() || !SecuritySystem.isJndiSecuritySystem(securityContext);
+  public boolean isDirectoryBrowserDisabled() {
+    var identityProvider = ((ISecurityContextInternal) securityContext).identityProviders().get(0);
+    return isRootRole() || identityProvider.directoryBrowser(getIdpConfig()) == null;
   }
 
   private boolean isRootRole() {
