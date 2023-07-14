@@ -129,6 +129,10 @@ public class ConfigProperty {
       IdentityProviderBean.message();
     }
 
+    public String getName() {
+      return ConfigProperty.this.getName();
+    }
+
     public String getKeyValueKeyName() {
       return type.keyName();
     }

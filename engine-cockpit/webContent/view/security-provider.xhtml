@@ -44,7 +44,10 @@
                           
                           <p:commandButton title="Save" icon="si si-floppy-disk" id="save" styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button" rendered="#{!group.keyValue}" actionListener="#{identityProviderBean.save(group)}"/>
                           
-                          <p:commandButton id="newPropertyKeyValue" actionListener="#{identityProviderListDialogBean.setProperty(group.getKeyValueProperty())}" rendered="#{group.keyValue}" oncomplete="PF('propertyKeyValueModal').show();" process="@this" update=":propertyKeyValueModal" title="Add" icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
+                         <p:commandButton id="newPropertyKeyValue" 
+                         actionListener="#{identityProviderListDialogBean.setProperty(group.getKeyValueProperty())}"
+                         rendered="#{group.keyValue}" 
+                         oncomplete="PF('propertyKeyValueModal').show();" process="@this" update=":propertyKeyValueModal" title="Add" icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
                           
                         </div>
                       </div>
@@ -116,11 +119,23 @@
                         <p:message for="attributeNameInput" id="attributeNameMessage" />
                       </h:panelGroup>
 
+
                       <p:outputLabel for="attributeValueInput" value="#{identityProviderListDialogBean.property.keyValueValueName}" />
+                      
                       <h:panelGroup styleClass="md-inputfield">
-                        <p:inputText id="attributeValueInput" requiredMessage="Value is required" value="#{identityProviderListDialogBean.newValue}" required="true" />
-                        <p:message for="attributeValueInput" id="attributeValueMessage" />
+
+                        <h:panelGroup styleClass="ui-inputgroup">
+                          <p:inputText id="attributeValueInput" requiredMessage="Value is required" value="#{identityProviderListDialogBean.newValue}" required="true" />
+                          <p:commandButton id="browseImportUserOfGroup" icon="si si-network-browser" title="Browse" 
+                                  actionListener="#{identityProviderBean.browseProperty(identityProviderListDialogBean)}" 
+                                  oncomplete="PF('directoryBrowserDialog').show();"
+                                  rendered="#{identityProviderListDialogBean.needsDirectoryBrowser()}"
+                                  update="directoryBrowser:directoryBrowserDialog" />
+                        </h:panelGroup>
+                      <p:message for="attributeValueInput" id="attributeValueMessage" />
+
                       </h:panelGroup>
+                      
                    </p:panelGrid>
 
                    <div class="custom-dialog-footer">
@@ -136,7 +151,7 @@
             
             
             <cc:DirectoryBrowser id="directoryBrowser" directoryBrowser="#{identityProviderBean.directoryBrowser}"
-                updateFields="securityIdentityProviderForm" 
+                updateFields="securityIdentityProviderForm, identityProviderKeyValueForm" 
                 returnListener="#{identityProviderBean.setSelectedItem()}" />
           </h:panelGroup>
         </div>

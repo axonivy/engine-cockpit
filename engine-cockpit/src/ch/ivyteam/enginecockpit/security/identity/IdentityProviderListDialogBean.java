@@ -24,6 +24,13 @@ public class IdentityProviderListDialogBean {
     this.newValue = newValue;
   }
 
+  public boolean needsDirectoryBrowser() {
+    if (property == null) {
+      return false;
+    }
+    return "Roles".equals(property.getName());
+  }
+
   public void saveProp() {
     property.addKeyValue(newKey, newValue);
   }
