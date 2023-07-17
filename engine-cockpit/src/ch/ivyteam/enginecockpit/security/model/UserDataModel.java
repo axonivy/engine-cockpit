@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import javax.faces.model.SelectItem;
 
@@ -107,9 +108,9 @@ public class UserDataModel extends LazyDataModel<User> implements TableFilter {
 
     var users = userQuery
             .executor()
-            .resultsPaged()
+            .results(first, pageSize).stream()
             .map(User::new)
-            .window(first, pageSize);
+            .collect(Collectors.toList());
     checkIfUserIsLoggedIn(securitySystem, users);
     setRowCount((int) userQuery.executor().count());
     return users;
