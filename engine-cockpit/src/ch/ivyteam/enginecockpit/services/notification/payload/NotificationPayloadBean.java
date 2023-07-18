@@ -3,19 +3,19 @@ package ch.ivyteam.enginecockpit.services.notification.payload;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.enginecockpit.services.notification.Notification;
+import ch.ivyteam.enginecockpit.services.notification.NotificationDto;
 
 @ManagedBean
 @ViewScoped
 public class NotificationPayloadBean {
 
-  private Notification notification;
+  private NotificationDto notification;
 
-  public void setNotification(Notification notification) {
+  public void setNotification(NotificationDto notification) {
     this.notification = notification;
   }
 
-  public Notification getNotification() {
+  public NotificationDto getNotification() {
     return notification;
   }
 
