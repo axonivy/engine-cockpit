@@ -3,76 +3,68 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
-  <f:metadata>
-    <f:viewAction action="#{notificationBean.onload}" />
-  </f:metadata>
-
-  <ui:composition template="../includes/template/charts-template.xhtml">
+  <ui:composition template="../includes/template/template.xhtml">
+    <f:metadata>
+       <f:viewParam name="system" value="#{notificationBean.system}" />
+      <f:viewParam name="id" value="#{notificationBean.id}" />
+      <f:viewAction action="#{notificationBean.onload}" />
+    </f:metadata>
 
     <ui:define name="breadcrumb">
       <li><span>Services</span></li>
       <li>/</li>
-      <li><a href="notification.xhtml">Notification</a></li>
+      <li><a href="notifications.xhtml">Notifications</a></li>
+      <li>/</li>
+      <li><a href="#{notificationBean.notification.viewUrl}">#{notificationBean.notification.id}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}services.html#notification" />
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}services.html#notifications" />
     </ui:define>
 
     <ui:define name="content">
       <div class="card">
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
-          <h2 class="p-m-0">Notification</h2>
+
+        <div class="card-header">
+          <div class="card-title p-d-flex p-ai-center">
+            <i class="p-pr-3 si si-information-circle"></i>
+            <h6 class="p-m-0">#{notificationBean.notification.id}</h6>
+          </div>
         </div>
-        <cc:SecuritySystemTabs tabChange="#{notificationBean.onload}" id="tabs">
-          <h:form id="form">
-      
-      <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-          var="notification" value="#{notificationBean.dataModel}" lazy="true" styleClass="userTable"
-          id="notificationTable">
-          <f:facet name="header">
-            <div class="p-d-flex">
-              <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
-                <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('notificationTable').filter()" placeholder="Search" value="#{notificationBean.dataModel.filter}" />
-              </span>
-            </div>
-          </f:facet>
 
-          <p:column headerText="Created" sortBy="#{notification.createdAt}" sortOrder="desc">
-            <h:outputText value="#{notification.createdAt}">
-              <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
-            </h:outputText>
-          </p:column>
+        <h:form id="tableForm">
+          <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="delivery"
+            widgetVar="deliveryTable" value="#{notificationBean.dataModel}" lazy="true" 
+            id="docTable">
+            <f:facet name="header">
+              <div class="p-d-flex">
+                <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
+                  <i class="pi pi-search"/>
+                  <p:inputText id="globalFilter" onkeyup="PF('deliveryTable').filter()" placeholder="Search" value="#{notificationBean.dataModel.filter}" />
+                </span>
+              </div>
+            </f:facet>
 
-          <p:column headerText="Kind" sortBy="#{notification.kind}">
-            <h:outputText value="#{notification.kind}" />
-          </p:column>
-
-          <p:column headerText="Receiver">
-            <h:outputText value="#{notification.receiver}"  />
-          </p:column>
-
-          <p:column styleClass="table-btn-1">
-                  <p:commandButton id="showPayload" title="Show payload" icon="si si-office-file-doc-1"
-                    actionListener="#{notificationPayloadBean.setNotification(notification)}" update="payloadModal" styleClass="rounded-button"
-                     oncomplete="PF('payloadModal').show()" />
-              </p:column>
+            <p:column headerText="ID">
+              <h:outputText value="#{delivery.id}" />
+            </p:column>
+            
+            <p:column headerText="Delivered" sortBy="#{delivery.deliveredAt}" sortOrder="desc">
+              <h:outputText value="#{delivery.deliveredAt}">
+                <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column headerText="Channel" sortBy="#{delivery.channel}">
+              <h:outputText value="#{delivery.channel}" />
+            </p:column>
+            
+            <p:column headerText="Receiver">
+              <h:outputText value="#{delivery.receiver}" />
+            </p:column>
           </p:dataTable>
-          </h:form>
-        </cc:SecuritySystemTabs>
+        </h:form>
       </div>
-      
-     <p:dialog header="Payload" id="payloadModal" width="50%" modal="true"
-        onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="payloadModal"
-        responsive="true" closeOnEscape="true">
-        <pre>
-          <code style="overflow: auto; max-height: 500px;" class="json">
-            <h:outputText value="#{notificationPayloadBean.payload}" />
-          </code>
-        </pre>
-     </p:dialog>
     </ui:define>
   </ui:composition>
 </h:body>

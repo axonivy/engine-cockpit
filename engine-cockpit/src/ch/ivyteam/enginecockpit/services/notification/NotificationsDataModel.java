@@ -10,16 +10,18 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
+import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.jsf.primefaces.sort.SortMetaConverter;
-import ch.ivyteam.ivy.notification.query.NotificationDeliveryQuery;
+import ch.ivyteam.ivy.notification.NotificationRepository;
+import ch.ivyteam.ivy.notification.query.NotificationQuery;
 
-public class NotificationDataModel extends LazyDataModel<NotificationDeliveryDto> {
+public class NotificationsDataModel extends LazyDataModel<NotificationDto> {
 
-  private NotificationDto notification;
+  private SecuritySystem securitySystem;
   private String filter;
 
-  public NotificationDataModel(NotificationDto notification) {
-    this.notification = notification;
+  public NotificationsDataModel(SecuritySystem securitySystem) {
+    this.securitySystem = securitySystem;
   }
 
   public void setFilter(String filter) {
@@ -31,36 +33,36 @@ public class NotificationDataModel extends LazyDataModel<NotificationDeliveryDto
   }
 
   @Override
-  public List<NotificationDeliveryDto> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+  public List<NotificationDto> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
     var query = query();
 
     applyFilter(query);
     applyOrdering(query, sortBy);
 
-    var deliveries = query
+    var notifications = query
             .executor()
             .results(first, pageSize).stream()
-            .map(NotificationDeliveryDto::new)
+            .map(NotificationDto::new)
             .collect(Collectors.toList());
     setRowCount((int) query.executor().count());
-    return deliveries;
+    return notifications;
   }
 
-  private void applyFilter(NotificationDeliveryQuery query) {
+  private void applyFilter(NotificationQuery query) {
     if (StringUtils.isNotEmpty(filter)) {
       var dbFilter = "%" + filter + "%";
       query.where().and(query().where()
-             .channel().isLikeIgnoreCase(dbFilter))
-          .or()
-            .notificationDeliveryId().isLikeIgnoreCase(dbFilter);
+              .kind().isLikeIgnoreCase(dbFilter))
+            .or()
+              .notificationId().isLikeIgnoreCase(dbFilter);
     }
   }
 
-  private NotificationDeliveryQuery query() {
-    return notification.getDeliveries().query();
+  private NotificationQuery query() {
+    return NotificationRepository.of(securitySystem.getSecurityContext()).query();
   }
 
-  private static void applyOrdering(NotificationDeliveryQuery query, Map<String, SortMeta> sortBy) {
+  private static void applyOrdering(NotificationQuery query, Map<String, SortMeta> sortBy) {
     var sort = new SortMetaConverter(sortBy);
     var sortOrder = sort.toOrder();
     var sortField = sort.toField();
@@ -68,15 +70,15 @@ public class NotificationDataModel extends LazyDataModel<NotificationDeliveryDto
     if (StringUtils.isEmpty(sortField)) {
       return;
     }
-    if ("channel".equals(sortField)) {
-      applyOrdering(query.orderBy().channel(), sortOrder);
+    if ("createdAt".equals(sortField)) {
+      applyOrdering(query.orderBy().createdAt(), sortOrder);
     }
-    if ("deliveredAt".equals(sortField)) {
-      applyOrdering(query.orderBy().deliveredAt(), sortOrder);
+    if ("kind".equals(sortField)) {
+      applyOrdering(query.orderBy().kind(), sortOrder);
     }
   }
 
-  private static void applyOrdering(NotificationDeliveryQuery.OrderByColumnQuery query, SortOrder sortOrder) {
+  private static void applyOrdering(NotificationQuery.OrderByColumnQuery query, SortOrder sortOrder) {
     if (SortOrder.ASCENDING == sortOrder) {
       query.ascending();
     }
