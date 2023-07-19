@@ -48,7 +48,7 @@
       <p:commandButton id="moveApplication" disabled="#{!moveApplicationBean.isValid()}" actionListener="#{moveApplicationBean.move()}" value="Move"
             oncomplete="var button=this; buttonRemoveSpinner(button, 'si-check-1');PF('moveApplicationModal').hide();"
             onclick="var button=this; buttonAddSpinner(button);" update="appDetailSecurityForm"
-            icon="si si-move-back" styleClass="modal-input-button" />
+            icon="si si-move-to-bottom" styleClass="modal-input-button" />
 
       <p:commandButton id="cancelMoveApplication" onclick="PF('moveApplicationModal').hide();" value="Cancel" type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     </div>
