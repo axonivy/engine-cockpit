@@ -6,8 +6,10 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -75,11 +77,22 @@ public class SecuritySystemCompareBean {
   }
 
   public void solve(Issue issue) {
+    solveIssue(issue, true);
+  }
+
+  private void solveIssue(Issue issue, boolean showMessage) {
     if (isSolved(issue)) {
       return;
     }
-    solved.add(issue);
-    issue.solve();
+    var solveResult = issue.solve();
+    if (solveResult.isOk()) {
+      solved.add(issue);
+    } else {
+      if (showMessage) {
+        var message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Exceution failed", solveResult.error());
+        FacesContext.getCurrentInstance().addMessage("msgs", message);
+      }
+    }
   }
 
   public String solveHint(Issue issue) {
@@ -106,7 +119,7 @@ public class SecuritySystemCompareBean {
     result.stream()
       .filter(issue -> !isSolved(issue))
       .filter(issue -> issue.solver().type() == type)
-      .forEach(issue -> solve(issue));
+      .forEach(issue -> solveIssue(issue, false));
   }
 
   public String styleClassForButton(Issue issue) {
