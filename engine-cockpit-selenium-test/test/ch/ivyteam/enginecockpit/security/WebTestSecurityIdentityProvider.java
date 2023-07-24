@@ -18,27 +18,28 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
-class WebTestSecurityIdentityProviderAzure {
+@IvyWebTest(headless = false)
+class WebTestSecurityIdentityProvider {
 
   private static final String PASSWORD = "securityIdentityProviderForm:group:0:property:2:propertyPassword";
-  private static final String CLIENT_ID = "securityIdentityProviderForm:group:0:property:1:propertyString";
   private static final String TENANT_ID = "securityIdentityProviderForm:group:0:property:0:propertyString";
-  private final static String NAME = "test-azure";
+  private final static String NAME = "test-security-system";
 
   @BeforeEach
-  void createAzureSystem() {
+  void createSecuritySystem() {
+    EngineCockpitUtil.registerDummyIdentityProvider();
     login();
     Navigation.toSecuritySystem();
-    createSecuritySystem("Azure Active Directory", NAME);
+    createSecuritySystem("Dummy Identity Provider", NAME);
     Navigation.toSecuritySystemProvider(NAME);
   }
 
   @AfterEach
-  void deleteAzureSystem() {
+  void deleteSeecuritySystem() {
     WebTestSecuritySystem.deleteSecuritySystem(NAME);
   }
 
@@ -121,13 +122,13 @@ class WebTestSecurityIdentityProviderAzure {
     table.firstColumnShouldBe(CollectionCondition.empty);
   }
 
-  @Test
-  void azureBrowserInvalidAuth(){
-    $(By.id("securityIdentityProviderForm:group:0:property:3:browseDefaultContext")).should(visible)
-    .click();
-    $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldHave(text("ErrorInvalid UUID string:"));
-    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible).click();
-  }
+//  @Test
+//  void azureBrowserInvalidAuth(){
+//    $(By.id("securityIdentityProviderForm:group:0:property:3:browseDefaultContext")).should(visible)
+//    .click();
+//    $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldHave(text("ErrorInvalid UUID string:"));
+//    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible).click();
+//  }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {
     $(By.id("form:createSecuritySystemBtn")).click();
