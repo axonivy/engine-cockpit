@@ -24,11 +24,11 @@ public class IdentityProviderListDialogBean {
     this.newValue = newValue;
   }
 
-  public boolean needsDirectoryBrowser() {
+  public boolean isDirectoryBrowser() {
     if (property == null) {
       return false;
     }
-    return "Roles".equals(property.getName());
+    return property.isDirectoryBrowser();
   }
 
   public void saveProp() {

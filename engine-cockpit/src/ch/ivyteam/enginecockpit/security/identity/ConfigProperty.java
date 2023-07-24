@@ -80,6 +80,10 @@ public class ConfigProperty {
     return metadata.isKeyValue();
   }
 
+  public boolean isDirectoryBrowser() {
+    return metadata.isDirectoryBrowser();
+  }
+
   public String getPasswordPlaceholder() {
     return "*".repeat(value.length());
   }
@@ -139,6 +143,10 @@ public class ConfigProperty {
 
     public String getKeyValueValueName() {
       return type.valueName();
+    }
+
+    public boolean isDirectoryBrowser() {
+      return metadata.isDirectoryBrowser();
     }
   }
 }
