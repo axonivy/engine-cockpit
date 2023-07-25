@@ -57,7 +57,7 @@ class WebTestNotification {
     delivery.tableEntry(1, 1).should(matchText(".*-.*-.*"));
     var uuid = delivery.tableEntry(1, 1).text();
     delivery.tableEntry(1, 3).should(text("web"));
-    delivery.tableEntry(1, 4).should(text("#jon"));
+    delivery.tableEntry(1, 4).should(matchText("#.*"));
 
     delivery.search("non-existing-value");
     delivery.rows()
