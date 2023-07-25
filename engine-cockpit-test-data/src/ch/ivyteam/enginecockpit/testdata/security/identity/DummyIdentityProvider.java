@@ -53,16 +53,28 @@ public class DummyIdentityProvider implements IdentityProvider {
               new DummyDirectoryNode("Group A"),
               new DummyDirectoryNode("Group B"),
               new DummyDirectoryNode("Group C")
-              );
+      );
     }
 
     @Override
     public List<? extends DirectoryNode> children(DirectoryNode node) {
-      return null;
+      if (node.getDisplayName().equals("Group A")) {
+        return List.of(
+                new DummyDirectoryNode("Group A.1"),
+                new DummyDirectoryNode("Group A.2")
+        );
+      }
+      return List.of();
     }
 
     @Override
     public List<Property> properties(DirectoryNode node) {
+      if (node.getDisplayName().equals("Group A.1")) {
+        return List.of(
+                new Property("location", "Zug"),
+                new Property("teamMembers", "8")
+        );
+      }
       return null;
     }
 
@@ -82,7 +94,6 @@ public class DummyIdentityProvider implements IdentityProvider {
 
     @Override
     public String getIcon() {
-      // TODO Auto-generated method stub
       return null;
     }
 
@@ -93,32 +104,27 @@ public class DummyIdentityProvider implements IdentityProvider {
 
     @Override
     public boolean isExpandable() {
-      // TODO Auto-generated method stub
-      return false;
+      return true;
     }
 
     @Override
     public Object getValue() {
-      // TODO Auto-generated method stub
       return null;
     }
 
     @Override
     public boolean startsWith(Object value) {
-      // TODO Auto-generated method stub
-      return false;
+      return true;
     }
 
     @Override
     public boolean isValueEqual(Object value) {
-      // TODO Auto-generated method stub
       return false;
     }
 
     @Override
     public String getValueId() {
-      // TODO Auto-generated method stub
-      return null;
+      return "Group A.1";
     }
 
   }

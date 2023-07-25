@@ -169,7 +169,7 @@ public class EngineCockpitUtil {
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
             .toUrl());
-    //assertCurrentUrlContains(isDesigner() ? "/dev-workflow-ui/faces" : "end");
+    assertCurrentUrlContains(isDesigner() ? "/dev-workflow-ui/faces" : "end");
   }
 
   public static String viewUrl(String page) {

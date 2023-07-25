@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -39,7 +40,7 @@ class WebTestSecurityIdentityProvider {
   }
 
   @AfterEach
-  void deleteSeecuritySystem() {
+  void deleteSecuritySystem() {
     WebTestSecuritySystem.deleteSecuritySystem(NAME);
   }
 
@@ -122,13 +123,24 @@ class WebTestSecurityIdentityProvider {
     table.firstColumnShouldBe(CollectionCondition.empty);
   }
 
-//  @Test
-//  void azureBrowserInvalidAuth(){
-//    $(By.id("securityIdentityProviderForm:group:0:property:3:browseDefaultContext")).should(visible)
-//    .click();
-//    $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldHave(text("ErrorInvalid UUID string:"));
-//    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible).click();
-//  }
+  @Test
+  void directoryBrowser(){
+    $(By.id("securityIdentityProviderForm:group:0:property:2:browseDefaultContext")).should(visible)
+    .click();
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0")).should(visible)
+    .click();
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0")).shouldHave(text("Group A"));
+    By.id("directoryBrowser:directoryBrowserForm:tree:0");
+    $(By.className("ui-tree-toggler")).click();
+
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0_0")).shouldHave(text("Group A.1")).click();
+    $(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable_data")).shouldHave(text("location"));
+    $(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable_data")).shouldHave(text("Zug"));
+
+    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible);
+    $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
+    $(By.id("securityIdentityProviderForm:group:0:property:2:propertyString")).shouldHave(value("Group A.1"));
+  }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {
     $(By.id("form:createSecuritySystemBtn")).click();

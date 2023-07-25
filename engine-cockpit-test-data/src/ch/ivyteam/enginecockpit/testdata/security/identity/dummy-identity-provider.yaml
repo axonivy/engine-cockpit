@@ -4,6 +4,10 @@ ConnectionUrl: ""
 # Password
 ClientSecret: ""
 
+# DirectoryBrowser
+# [directoryBrowser]
+GroupFilter: ""
+
 # [keyvalue:Ivy Role,Azure Group GUID]
 # [directoryBrowser]
 Roles:
