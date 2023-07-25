@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -47,8 +46,6 @@ class WebTestNotification {
             .should(visible)
             .should(text("taskId"));
     notifications.tableEntry(1, 1).should(matchText(".*-.*-.*"));
-
-    Selenide.refresh();
   }
 
   @Test
