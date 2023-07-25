@@ -97,6 +97,10 @@ public class EngineCockpitUtil {
     runTestProcess("16E88DD61E825E70/createManyDynamicRoles.ivp");
   }
 
+  public static void registerDummyIdentityProvider() {
+    runTestProcess("18988002A06A4B50/registerDummyIdentityProvider.ivp");
+  }
+
   public static void cleanupDynamicRoles() {
     runTestProcess("16E88DD61E825E70/cleanupDynamicRoles.ivp");
   }

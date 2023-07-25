@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -18,27 +19,28 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-class WebTestSecurityIdentityProviderAzure {
+class WebTestSecurityIdentityProvider {
 
-  private static final String PASSWORD = "securityIdentityProviderForm:group:0:property:2:propertyPassword";
-  private static final String CLIENT_ID = "securityIdentityProviderForm:group:0:property:1:propertyString";
+  private static final String PASSWORD = "securityIdentityProviderForm:group:0:property:1:propertyPassword";
   private static final String TENANT_ID = "securityIdentityProviderForm:group:0:property:0:propertyString";
-  private final static String NAME = "test-azure";
+  private final static String NAME = "test-security-system";
 
   @BeforeEach
-  void createAzureSystem() {
+  void createSecuritySystem() {
+    EngineCockpitUtil.registerDummyIdentityProvider();
     login();
     Navigation.toSecuritySystem();
-    createSecuritySystem("Azure Active Directory", NAME);
+    createSecuritySystem("Dummy Identity Provider", NAME);
     Navigation.toSecuritySystemProvider(NAME);
   }
 
   @AfterEach
-  void deleteAzureSystem() {
+  void deleteSecuritySystem() {
     WebTestSecuritySystem.deleteSecuritySystem(NAME);
   }
 
@@ -122,11 +124,22 @@ class WebTestSecurityIdentityProviderAzure {
   }
 
   @Test
-  void azureBrowserInvalidAuth(){
-    $(By.id("securityIdentityProviderForm:group:0:property:3:browseDefaultContext")).should(visible)
+  void directoryBrowser(){
+    $(By.id("securityIdentityProviderForm:group:0:property:2:browseDefaultContext")).should(visible)
     .click();
-    $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldHave(text("ErrorInvalid UUID string:"));
-    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible).click();
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0")).should(visible)
+    .click();
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0")).shouldHave(text("Group A"));
+    By.id("directoryBrowser:directoryBrowserForm:tree:0");
+    $(By.className("ui-tree-toggler")).click();
+
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0_0")).shouldHave(text("Group A.1")).click();
+    $(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable_data")).shouldHave(text("location"));
+    $(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable_data")).shouldHave(text("Zug"));
+
+    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible);
+    $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
+    $(By.id("securityIdentityProviderForm:group:0:property:2:propertyString")).shouldHave(value("Group A.1"));
   }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {
