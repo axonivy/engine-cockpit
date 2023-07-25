@@ -490,7 +490,9 @@
     }, {
       "id" : "f63",
       "type" : "UserTask",
+      "name" : "DummyHtmlDialog",
       "config" : {
+        "dialog" : "engine.cockpit.test.data.DummyHtmlDialog:start()",
         "task" : {
           "name" : "New Invoice"
         }
