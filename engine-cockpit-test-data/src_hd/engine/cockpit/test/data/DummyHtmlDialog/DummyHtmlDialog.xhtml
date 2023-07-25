@@ -8,18 +8,11 @@
     <ui:define name="content">
 
       <h3>
-        This is an 
-        <a href="https://developer.axonivy.com/doc/">Html Dialog</a>
-        implemented with JSF and <a href="http://primefaces.org/">Primefaces</a> as widget library
+        This is an <a href="https://developer.axonivy.com/doc/">Html Dialog</a> implemented with JSF and <a href="http://primefaces.org/">Primefaces</a> as widget library
       </h3>
-
       <h:form id="form">
         <p:messages />
-        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" 
-          columnClasses="ui-g-12 ui-md-3 ui-lg-2, ui-g-12 ui-md-9 ui-lg-4, ui-g-12 ui-md-3 ui-lg-2, ui-g-12 ui-md-9 ui-lg-4">
-
-          
-
+        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" columnClasses="ui-g-12 ui-md-3 ui-lg-2, ui-g-12 ui-md-9 ui-lg-4, ui-g-12 ui-md-3 ui-lg-2, ui-g-12 ui-md-9 ui-lg-4">
         </p:panelGrid>
         <br />
         <div class="command-btns">
@@ -27,7 +20,6 @@
           <p:commandButton id="proceed" actionListener="#{logic.close}" value="Proceed" update="form" icon="pi pi-check" />
         </div>
       </h:form>
-
     </ui:define>
   </ui:composition>
 </h:body>
