@@ -476,7 +476,7 @@
         "signature" : "createNotification"
       },
       "visual" : {
-        "at" : { "x" : 96, "y" : 1080 }
+        "at" : { "x" : 72, "y" : 1080 }
       },
       "connect" : [
         { "id" : "f60", "to" : "f63" }
