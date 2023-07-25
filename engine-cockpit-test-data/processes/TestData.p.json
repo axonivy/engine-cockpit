@@ -468,5 +468,40 @@
       "connect" : [
         { "id" : "f57", "to" : "f51" }
       ]
+    }, {
+      "id" : "f59",
+      "type" : "RequestStart",
+      "name" : "createNotification",
+      "config" : {
+        "signature" : "createNotification"
+      },
+      "visual" : {
+        "at" : { "x" : 72, "y" : 1080 }
+      },
+      "connect" : [
+        { "id" : "f60", "to" : "f63" }
+      ]
+    }, {
+      "id" : "f61",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 1080 }
+      }
+    }, {
+      "id" : "f63",
+      "type" : "UserTask",
+      "name" : "DummyHtmlDialog",
+      "config" : {
+        "dialog" : "engine.cockpit.test.data.DummyHtmlDialog:start()",
+        "task" : {
+          "name" : "New Invoice"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 1080 }
+      },
+      "connect" : [
+        { "id" : "f62", "to" : "f61" }
+      ]
     } ]
 }

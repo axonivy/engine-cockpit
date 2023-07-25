@@ -165,6 +165,9 @@ public class EngineCockpitUtil {
     runTestProcess("188B95440FE25CA6/testIntermediateEventProcess.ivp");
   }
 
+  public static void createNotification() {
+    runTestProcess("16E88DD61E825E70/createNotification.ivp");
+  }
 
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
