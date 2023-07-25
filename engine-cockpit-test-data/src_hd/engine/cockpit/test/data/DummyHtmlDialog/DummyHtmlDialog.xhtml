@@ -3,10 +3,6 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions">
 <h:body>
-  <ui:composition template="/layouts/basic-10.xhtml">
-    <ui:define name="title">DummyHtmlDialog</ui:define>
-    <ui:define name="content">
-
       <h3>
         This is an <a href="https://developer.axonivy.com/doc/">Html Dialog</a> implemented with JSF and <a href="http://primefaces.org/">Primefaces</a> as widget library
       </h3>
@@ -20,7 +16,6 @@
           <p:commandButton id="proceed" actionListener="#{logic.close}" value="Proceed" update="form" icon="pi pi-check" />
         </div>
       </h:form>
-    </ui:define>
-  </ui:composition>
 </h:body>
 </html>
+
