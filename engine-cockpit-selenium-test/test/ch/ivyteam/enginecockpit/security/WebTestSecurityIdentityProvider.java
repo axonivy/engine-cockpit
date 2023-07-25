@@ -22,10 +22,10 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless = false)
+@IvyWebTest
 class WebTestSecurityIdentityProvider {
 
-  private static final String PASSWORD = "securityIdentityProviderForm:group:0:property:2:propertyPassword";
+  private static final String PASSWORD = "securityIdentityProviderForm:group:0:property:1:propertyPassword";
   private static final String TENANT_ID = "securityIdentityProviderForm:group:0:property:0:propertyString";
   private final static String NAME = "test-security-system";
 

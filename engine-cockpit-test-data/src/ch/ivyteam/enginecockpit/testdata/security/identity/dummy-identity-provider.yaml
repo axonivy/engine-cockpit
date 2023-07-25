@@ -1,2 +1,10 @@
 # Connection URL
 ConnectionUrl: ""
+
+# Password
+ClientSecret: ""
+
+# [keyvalue:Ivy Role,Azure Group GUID]
+# [directoryBrowser]
+Roles:
+  #Manager: 208e37b6-f34c-4026-bae5-c3aa40bec705
