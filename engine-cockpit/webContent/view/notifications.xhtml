@@ -27,49 +27,48 @@
         </div>
         <cc:SecuritySystemTabs tabChange="#{notificationsBean.onload}" id="tabs">
           <h:form id="form">
-      
-      <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-          var="notification" value="#{notificationsBean.dataModel}" lazy="true" widgetVar="notificationTable"
-          id="notificationTable">
-          <f:facet name="header">
-            <div class="p-d-flex">
-              <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
-                <i class="pi pi-search"/>
-                <p:inputText id="globalFilter" onkeyup="PF('notificationTable').filter()" placeholder="Search" value="#{notificationsBean.dataModel.filter}" />
-              </span>
-            </div>
-          </f:facet>
+            <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+              var="notification" value="#{notificationsBean.dataModel}" lazy="true" widgetVar="notificationTable"
+              id="notificationTable">
+              <f:facet name="header">
+                <div class="p-d-flex">
+                  <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
+                    <i class="pi pi-search"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('notificationTable').filter()" placeholder="Search" value="#{notificationsBean.dataModel.filter}" />
+                  </span>
+                </div>
+              </f:facet>
 
-          <p:column headerText="ID">
-            <a href="#{notification.viewUrl}" class="p-d-flex p-ai-center">
-            <h:outputText value="#{notification.id}" />
-          </a>
-          </p:column>
-
-          <p:column headerText="Created" sortBy="#{notification.createdAt}" sortOrder="desc">
-            <h:outputText value="#{notification.createdAt}">
-              <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
-            </h:outputText>
-          </p:column>
- 
-          <p:column headerText="Kind" sortBy="#{notification.kind}">
-            <h:outputText value="#{notification.kind}" />
-          </p:column>
-
-          <p:column headerText="Receiver">
-            <h:outputText value="#{notification.receiver}"  />
-          </p:column>
-
-          <p:column styleClass="table-btn-1">
-                  <p:commandButton id="showPayload" title="Show payload" icon="si si-office-file-doc-1"
-                    actionListener="#{notificationPayloadBean.setNotification(notification)}" update="payloadModal" styleClass="rounded-button"
-                     oncomplete="PF('payloadModal').show()" />
+              <p:column headerText="ID">
+                <a href="#{notification.viewUrl}" class="p-d-flex p-ai-center">
+                  <h:outputText value="#{notification.id}" />
+                </a>
               </p:column>
-          </p:dataTable>
+
+              <p:column headerText="Created" sortBy="#{notification.createdAt}" sortOrder="desc">
+                <h:outputText value="#{notification.createdAt}">
+                  <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                </h:outputText>
+              </p:column>
+ 
+              <p:column headerText="Kind" sortBy="#{notification.kind}">
+                <h:outputText value="#{notification.kind}" />
+              </p:column>
+
+              <p:column headerText="Receiver">
+                <h:outputText value="#{notification.receiver}"  />
+              </p:column>
+
+              <p:column styleClass="table-btn-1">
+                <p:commandButton id="showPayload" title="Show payload" icon="si si-office-file-doc-1"
+                    actionListener="#{notificationPayloadBean.setNotification(notification)}" update="payloadModal" styleClass="rounded-button"
+                    oncomplete="PF('payloadModal').show()" />
+              </p:column>
+            </p:dataTable>
           </h:form>
         </cc:SecuritySystemTabs>
       </div>
-      
+
      <p:dialog header="Payload" id="payloadModal" width="50%" modal="true"
         onShow="hljs.highlightBlock(document.querySelector('pre code.json'))" widgetVar="payloadModal"
         responsive="true" closeOnEscape="true">
