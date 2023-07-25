@@ -33,9 +33,8 @@
         </div>
 
         <h:form id="tableForm">
-          <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="delivery"
-            widgetVar="deliveryTable" value="#{notificationBean.dataModel}" lazy="true" 
-            id="docTable">
+          <p:dataTable id="deliveryTable" paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="delivery"
+            widgetVar="deliveryTable" value="#{notificationBean.dataModel}" lazy="true">
             <f:facet name="header">
               <div class="p-d-flex">
                 <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">

@@ -30,6 +30,7 @@ public class Navigation {
   private static final String SERVICES_MENU = "#menuform\\:sr_services";
   private static final String SERVICES_SEARCH_ENGINE = "#menuform\\:sr_searchengine";
   private static final String SERVICES_EMAIL_MENU = "#menuform\\:sr_email";
+  private static final String SERVICES_NOTIFICATION_MENU = "#menuform\\:sr_notification";
   private static final String SERVICES_DATABASES_MENU = "#menuform\\:sr_database";
   private static final String SERVICES_RESTCLIENTS_MENU = "#menuform\\:sr_rest_client";
   private static final String SERVICES_WEBSERVICES_MENU = "#menuform\\:sr_web_service";
@@ -218,6 +219,12 @@ private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_j
     toSubMenu(SERVICES_MENU, SERVICES_DATABASES_MENU);
     assertCurrentUrlContains("databases.xhtml");
     menuShouldBeActive(SERVICES_DATABASES_MENU);
+  }
+
+  public static void toNotification() {
+    toSubMenu(SERVICES_MENU, SERVICES_NOTIFICATION_MENU);
+    assertCurrentUrlContains("notifications.xhtml");
+    menuShouldBeActive(SERVICES_NOTIFICATION_MENU);
   }
 
   public static void toDatabaseDetail(String databaseName) {
