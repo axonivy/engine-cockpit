@@ -8,6 +8,7 @@ import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryBrowser;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNode;
+import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNodeType;
 import ch.ivyteam.ivy.security.identity.spi.browser.Property;
 import ch.ivyteam.ivy.security.identity.spi.config.Configurator;
 
@@ -48,7 +49,7 @@ public class DummyIdentityProvider implements IdentityProvider {
   private static final class DummyDirectoryBrowser implements DirectoryBrowser {
 
     @Override
-    public List<? extends DirectoryNode> root() {
+    public List<DirectoryNode> root() {
       return List.of(
               new DummyDirectoryNode("Group A"),
               new DummyDirectoryNode("Group B"),
@@ -57,8 +58,8 @@ public class DummyIdentityProvider implements IdentityProvider {
     }
 
     @Override
-    public List<? extends DirectoryNode> children(DirectoryNode node) {
-      if (node.getDisplayName().equals("Group A")) {
+    public List<DirectoryNode> children(DirectoryNode node) {
+      if (node.displayName().equals("Group A")) {
         return List.of(
                 new DummyDirectoryNode("Group A.1"),
                 new DummyDirectoryNode("Group A.2")
@@ -69,7 +70,7 @@ public class DummyIdentityProvider implements IdentityProvider {
 
     @Override
     public List<Property> properties(DirectoryNode node) {
-      if (node.getDisplayName().equals("Group A.1")) {
+      if (node.displayName().equals("Group A.1")) {
         return List.of(
                 new Property("location", "Zug"),
                 new Property("teamMembers", "8")
@@ -79,7 +80,7 @@ public class DummyIdentityProvider implements IdentityProvider {
     }
 
     @Override
-    public Object selectValue(String initialValue) {
+    public DirectoryNode find(String node) {
       return null;
     }
   }
@@ -93,39 +94,23 @@ public class DummyIdentityProvider implements IdentityProvider {
     }
 
     @Override
-    public String getIcon() {
-      return null;
+    public DirectoryNodeType type() {
+      return DirectoryNodeType.DEFAULT;
     }
 
     @Override
-    public String getDisplayName() {
+    public String displayName() {
       return displayName;
     }
 
     @Override
-    public boolean isExpandable() {
+    public boolean expandable() {
       return true;
     }
 
     @Override
-    public Object getValue() {
-      return null;
-    }
-
-    @Override
-    public boolean startsWith(Object value) {
-      return true;
-    }
-
-    @Override
-    public boolean isValueEqual(Object value) {
-      return false;
-    }
-
-    @Override
-    public String getValueId() {
+    public String id() {
       return "Group A.1";
     }
-
   }
 }

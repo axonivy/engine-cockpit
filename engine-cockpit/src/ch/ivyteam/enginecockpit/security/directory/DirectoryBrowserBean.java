@@ -23,22 +23,32 @@ public class DirectoryBrowserBean {
   private TreeNode<DirectoryNode> root;
   private TreeNode<DirectoryNode> selectedNode;
   private List<Property> selectedNodeAttributes;
-  private DirectoryBrowser directory;
+  private DirectoryBrowser directoryBrowser;
 
   public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue) {
     browse(new LdapBrowser(config, enableInsecureSsl), initialValue);
   }
 
-  public void browse(DirectoryBrowser browser, String initialValue) {
+  public void browse(DirectoryBrowser browser, String idToSelect) {
     this.root = null;
-    this.directory = browser;
+    this.directoryBrowser = browser;
     try {
-      Object selectValue = browser.selectValue(initialValue);
+      var directoryNodeToSelect = browser.find(idToSelect);
       this.root = new DefaultTreeNode<DirectoryNode>(null, null);
-      browser.root().forEach(node -> addNewSubnode(root, node, selectValue));
+      browser.root().forEach(node -> addNewSubnode(root, node, directoryNodeToSelect));
     } catch (Exception ex) {
       errorMessage(ex);
     }
+  }
+
+  public String icon(DirectoryNode node) {
+    return switch(node.type()) {
+      case DEFAULT -> "folder-empty";
+      case DOMAIN -> "buildings-1";
+      case GROUP -> "multiple-neutral-1";
+      case ORGANIZATION -> "folder-share";
+      case USER -> "single-neutral-actions";
+    };
   }
 
   @SuppressWarnings("unchecked")
@@ -48,29 +58,29 @@ public class DirectoryBrowserBean {
     loadChildren(node, null);
   }
 
-  private void loadChildren(TreeNode<DirectoryNode> node, Object initialValue) {
-    try {
-      directory.children(node.getData())
-              .forEach(child -> addNewSubnode(node, child, initialValue));
-    } catch (Exception ex) {
-      errorMessage(ex);
+  @SuppressWarnings("unused")
+  private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode dirNode, DirectoryNode directoryNodeToSelect) {
+    var node = new DefaultTreeNode<>(dirNode, parent);
+    if (directoryNodeToSelect != null) {
+      if (dirNode.id().equals(directoryNodeToSelect.id())) {
+        node.setSelected(true);
+        node.setExpanded(true);
+      } else if (dirNode.isParent(directoryNodeToSelect)) {
+        node.setExpanded(true);
+        loadChildren(node, directoryNodeToSelect);
+      }
+    }
+    if (dirNode.expandable() && !node.isExpanded()) {
+      new DefaultTreeNode<>("loading...", node);
     }
   }
 
-  @SuppressWarnings("unused")
-  private void addNewSubnode(TreeNode<DirectoryNode> parent, DirectoryNode dirNode, Object selectValue) {
-    var node = new DefaultTreeNode<>(dirNode, parent);
-    if (selectValue != null && dirNode.startsWith(selectValue)) {
-      if (dirNode.isValueEqual(selectValue)) {
-        node.setSelected(true);
-        node.setExpanded(true);
-      } else {
-        node.setExpanded(true);
-        loadChildren(node, selectValue);
-      }
-    }
-    if (dirNode.isExpandable() && !node.isExpanded()) {
-      new DefaultTreeNode<>("loading...", node);
+  private void loadChildren(TreeNode<DirectoryNode> node, DirectoryNode initialValue) {
+    try {
+      directoryBrowser.children(node.getData())
+              .forEach(child -> addNewSubnode(node, child, initialValue));
+    } catch (Exception ex) {
+      errorMessage(ex);
     }
   }
 
@@ -86,7 +96,7 @@ public class DirectoryBrowserBean {
     this.selectedNode = selectedNode;
     try {
       if (selectedNode != null) {
-        selectedNodeAttributes = directory.properties(selectedNode.getData());
+        selectedNodeAttributes = directoryBrowser.properties(selectedNode.getData());
       }
     } catch (Exception ex) {
       errorMessage(ex);
@@ -98,7 +108,7 @@ public class DirectoryBrowserBean {
       return null;
     }
     DirectoryNode directoryNode = selectedNode.getData();
-    return directoryNode.getValueId();
+    return directoryNode.id();
   }
 
   public List<Property> getSelectedNodeProperties() {
