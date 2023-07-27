@@ -98,7 +98,7 @@ public class IdentityProviderBean {
     configureBrowser(property.getValue());
   }
 
-  public void browseProperty(IdentityProviderListDialogBean bean) {
+  public void browseBeanProperty(IdentityProviderListDialogBean bean) {
     API.checkParameterNotNull(bean, "bean");
     browserProperty = null;
     providerListDialogBean = bean;

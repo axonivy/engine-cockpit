@@ -124,12 +124,12 @@
                       <h:panelGroup styleClass="md-inputfield">
 
                         <h:panelGroup styleClass="ui-inputgroup">
-                          <p:inputText id="attributeValueInput" requiredMessage="Value is required" value="#{identityProviderListDialogBean.newValue}" required="true" />
+                          <p:inputText id="attributeValueInput" requiredMessage="Value is required" required="true" value="#{identityProviderListDialogBean.newValue}" />
                           <p:commandButton id="browseImportUserOfGroup" icon="si si-network-browser" title="Browse" 
-                                  actionListener="#{identityProviderBean.browseProperty(identityProviderListDialogBean)}" 
+                                  actionListener="#{identityProviderBean.browseBeanProperty(identityProviderListDialogBean)}" 
                                   oncomplete="PF('directoryBrowserDialog').show();"
                                   rendered="#{identityProviderListDialogBean.isDirectoryBrowser()}"
-                                  update="directoryBrowser:directoryBrowserDialog" />
+                                  update="directoryBrowser:directoryBrowserDialog" immediate="true" process="@this,attributeNameInput" />
                         </h:panelGroup>
                       <p:message for="attributeValueInput" id="attributeValueMessage" />
 
