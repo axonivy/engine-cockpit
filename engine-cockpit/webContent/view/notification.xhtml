@@ -51,11 +51,21 @@
             <p:column headerText="Delivered" sortBy="#{delivery.deliveredAt}" sortOrder="desc">
               <h:outputText value="#{delivery.deliveredAt}">
                 <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
-                </h:outputText>
+              </h:outputText>
             </p:column>
-            
+
             <p:column headerText="Channel" sortBy="#{delivery.channel}">
               <h:outputText value="#{delivery.channel}" />
+            </p:column>
+
+            <p:column headerText="Read" sortBy="#{delivery.readAt}">
+              <h:outputText value="#{delivery.readAt}">
+                <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+              </h:outputText>
+            </p:column>
+
+            <p:column headerText="Hidden" sortBy="#{delivery.hiddenl}">
+              <h:outputText value="#{delivery.hidden}" />
             </p:column>
             
             <p:column headerText="Receiver">
