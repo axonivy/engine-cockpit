@@ -20,7 +20,7 @@
           selection="#{cc.attrs.directoryBrowser.selectedNode}" dynamic="true" styleClass="p-col-6">
           <p:ajax event="expand" listener="#{cc.attrs.directoryBrowser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
-          <p:treeNode icon="si si-#{node.icon}">
+          <p:treeNode icon="si si-#{cc.attrs.directoryBrowser.icon(node)}">
             <h:outputText value="#{node.displayName}" />
           </p:treeNode>
         </p:tree>

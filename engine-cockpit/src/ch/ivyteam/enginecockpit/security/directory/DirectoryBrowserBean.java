@@ -41,6 +41,16 @@ public class DirectoryBrowserBean {
     }
   }
 
+  public String icon(DirectoryNode node) {
+    return switch(node.type()) {
+      case DEFAULT -> "folder-empty";
+      case DOMAIN -> "buildings-1";
+      case GROUP -> "multiple-neutral-1";
+      case ORGANIZATION -> "folder-share";
+      case USER -> "single-neutral-actions";
+    };
+  }
+
   @SuppressWarnings("unchecked")
   public void onNodeExpand(NodeExpandEvent event) {
     var node = event.getTreeNode();

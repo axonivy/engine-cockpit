@@ -8,6 +8,7 @@ import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryBrowser;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNode;
+import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNodeType;
 import ch.ivyteam.ivy.security.identity.spi.browser.Property;
 import ch.ivyteam.ivy.security.identity.spi.config.Configurator;
 
@@ -93,8 +94,8 @@ public class DummyIdentityProvider implements IdentityProvider {
     }
 
     @Override
-    public String getIcon() {
-      return null;
+    public DirectoryNodeType type() {
+      return DirectoryNodeType.DEFAULT;
     }
 
     @Override
