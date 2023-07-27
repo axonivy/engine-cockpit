@@ -79,7 +79,7 @@ public class DirectoryBrowserBean {
         loadChildren(node, selectValue);
       }
     }
-    if (dirNode.isExpandable() && !node.isExpanded()) {
+    if (dirNode.expandable() && !node.isExpanded()) {
       new DefaultTreeNode<>("loading...", node);
     }
   }

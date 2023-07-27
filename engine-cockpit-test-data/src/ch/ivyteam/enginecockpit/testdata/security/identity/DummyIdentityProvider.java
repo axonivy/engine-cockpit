@@ -59,7 +59,7 @@ public class DummyIdentityProvider implements IdentityProvider {
 
     @Override
     public List<? extends DirectoryNode> children(DirectoryNode node) {
-      if (node.getDisplayName().equals("Group A")) {
+      if (node.displayName().equals("Group A")) {
         return List.of(
                 new DummyDirectoryNode("Group A.1"),
                 new DummyDirectoryNode("Group A.2")
@@ -70,7 +70,7 @@ public class DummyIdentityProvider implements IdentityProvider {
 
     @Override
     public List<Property> properties(DirectoryNode node) {
-      if (node.getDisplayName().equals("Group A.1")) {
+      if (node.displayName().equals("Group A.1")) {
         return List.of(
                 new Property("location", "Zug"),
                 new Property("teamMembers", "8")
@@ -99,12 +99,12 @@ public class DummyIdentityProvider implements IdentityProvider {
     }
 
     @Override
-    public String getDisplayName() {
+    public String displayName() {
       return displayName;
     }
 
     @Override
-    public boolean isExpandable() {
+    public boolean expandable() {
       return true;
     }
 
