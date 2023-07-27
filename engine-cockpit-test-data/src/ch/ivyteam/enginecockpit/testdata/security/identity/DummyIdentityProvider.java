@@ -49,7 +49,7 @@ public class DummyIdentityProvider implements IdentityProvider {
   private static final class DummyDirectoryBrowser implements DirectoryBrowser {
 
     @Override
-    public List<? extends DirectoryNode> root() {
+    public List<DirectoryNode> root() {
       return List.of(
               new DummyDirectoryNode("Group A"),
               new DummyDirectoryNode("Group B"),
@@ -58,7 +58,7 @@ public class DummyIdentityProvider implements IdentityProvider {
     }
 
     @Override
-    public List<? extends DirectoryNode> children(DirectoryNode node) {
+    public List<DirectoryNode> children(DirectoryNode node) {
       if (node.displayName().equals("Group A")) {
         return List.of(
                 new DummyDirectoryNode("Group A.1"),
@@ -80,7 +80,7 @@ public class DummyIdentityProvider implements IdentityProvider {
     }
 
     @Override
-    public Object selectValue(String initialValue) {
+    public DirectoryNode find(String node) {
       return null;
     }
   }
@@ -109,24 +109,8 @@ public class DummyIdentityProvider implements IdentityProvider {
     }
 
     @Override
-    public Object getValue() {
-      return null;
-    }
-
-    @Override
-    public boolean startsWith(Object value) {
-      return true;
-    }
-
-    @Override
-    public boolean isValueEqual(Object value) {
-      return false;
-    }
-
-    @Override
-    public String getValueId() {
+    public String id() {
       return "Group A.1";
     }
-
   }
 }
