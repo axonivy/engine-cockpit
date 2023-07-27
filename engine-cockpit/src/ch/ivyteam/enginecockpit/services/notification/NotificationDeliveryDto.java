@@ -9,10 +9,12 @@ public class NotificationDeliveryDto {
 
   private final NotificationDelivery delivery;
   private final Date deliveredAt;
+  private final Date readAt;
 
   public NotificationDeliveryDto(NotificationDelivery delivery) {
     this.delivery = delivery;
     this.deliveredAt = toDate(delivery.deliveredAt());
+    this.readAt = toDate(delivery.readAt());
   }
 
   private static Date toDate(Instant instant) {
@@ -36,5 +38,13 @@ public class NotificationDeliveryDto {
 
   public Date getDeliveredAt() {
     return deliveredAt;
+  }
+
+  public Date getReadAt() {
+    return readAt;
+  }
+
+  public boolean isHidden() {
+    return delivery.hidden();
   }
 }

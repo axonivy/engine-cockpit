@@ -74,6 +74,9 @@ public class NotificationDataModel extends LazyDataModel<NotificationDeliveryDto
     if ("deliveredAt".equals(sortField)) {
       applyOrdering(query.orderBy().deliveredAt(), sortOrder);
     }
+    if ("readAt".equals(sortField)) {
+      applyOrdering(query.orderBy().readAt(), sortOrder);
+    }
   }
 
   private static void applyOrdering(NotificationDeliveryQuery.OrderByColumnQuery query, SortOrder sortOrder) {
