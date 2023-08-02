@@ -8,7 +8,7 @@ def build(def mvnArgs = '') {
     try {
       sh "docker network create ${networkName}"
       docker.image('mysql:5').withRun("-e \"MYSQL_ROOT_PASSWORD=1234\" -e \"MYSQL_DATABASE=test\" --name ${dbName} --network ${networkName}") {
-        docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} --shm-size 1g --hostname=ivy") {
+        docker.image("selenium/standalone-firefox:4.10").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName} --shm-size 1g --hostname=ivy") {
           docker.build('maven', '-f build/Dockerfile .').inside("--name ${ivyName} --network ${networkName}") {
             def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
             maven cmd: "clean ${phase} -ntp " +
