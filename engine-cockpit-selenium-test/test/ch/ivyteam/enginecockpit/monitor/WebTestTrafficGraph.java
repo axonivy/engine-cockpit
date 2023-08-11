@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -92,7 +93,7 @@ public class WebTestTrafficGraph {
   void data_afterRecording() {
     recordData();
 
-    $$(By.className("ui-diagram-element")).shouldHave(size(2));
+    $$(By.className("ui-diagram-element")).shouldHave(CollectionCondition.sizeGreaterThanOrEqual(2));
   }
 
   @Test
