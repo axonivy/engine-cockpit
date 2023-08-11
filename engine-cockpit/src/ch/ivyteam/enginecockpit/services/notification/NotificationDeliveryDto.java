@@ -47,4 +47,12 @@ public class NotificationDeliveryDto {
   public boolean isHidden() {
     return delivery.hidden();
   }
+  
+  public String getDeliveryState() {
+    return delivery.deliveryState().toString();
+  }
+
+  public String getError() {
+    return delivery.error();
+  }
 }

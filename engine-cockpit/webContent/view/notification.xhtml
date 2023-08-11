@@ -48,6 +48,11 @@
               <h:outputText value="#{delivery.id}" />
             </p:column>
             
+            <p:column headerText="State">
+              <h:outputText id="deliveryState" value="#{delivery.deliveryState}" />
+              <p:tooltip for="deliveryState" value="#{delivery.error}" />
+            </p:column>
+            
             <p:column headerText="Delivered" sortBy="#{delivery.deliveredAt}" sortOrder="desc">
               <h:outputText value="#{delivery.deliveredAt}">
                 <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
