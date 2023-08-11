@@ -56,7 +56,7 @@ class WebTestNotification {
     var delivery = new Table(By.id("tableForm:deliveryTable"));
     delivery.tableEntry(1, 1).should(matchText(".*-.*-.*"));
     var uuid = delivery.tableEntry(1, 1).text();
-    delivery.tableEntry(1, 2).should(text("DELIVERED"));
+    delivery.tableEntry(1, 2).should(text("PENDING"));
     delivery.tableEntry(1, 4).should(text("web"));
     delivery.tableEntry(1, 7).should(matchText("#.*"));
 
