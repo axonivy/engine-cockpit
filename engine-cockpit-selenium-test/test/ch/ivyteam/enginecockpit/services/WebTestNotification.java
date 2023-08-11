@@ -56,8 +56,9 @@ class WebTestNotification {
     var delivery = new Table(By.id("tableForm:deliveryTable"));
     delivery.tableEntry(1, 1).should(matchText(".*-.*-.*"));
     var uuid = delivery.tableEntry(1, 1).text();
-    delivery.tableEntry(1, 3).should(text("web"));
-    delivery.tableEntry(1, 6).should(matchText("#.*"));
+    delivery.tableEntry(1, 2).should(text("PENDING"));
+    delivery.tableEntry(1, 4).should(text("web"));
+    delivery.tableEntry(1, 7).should(matchText("#.*"));
 
     delivery.search("non-existing-value");
     delivery.rows()
@@ -65,7 +66,7 @@ class WebTestNotification {
             .should(textsInAnyOrder("No records found"));
 
     delivery.search("web");
-    delivery.rows().should(sizeGreaterThanOrEqual(2));
+    delivery.rows().should(sizeGreaterThanOrEqual(1));
 
     delivery.search(uuid);
     delivery.rows().should(size(1));
