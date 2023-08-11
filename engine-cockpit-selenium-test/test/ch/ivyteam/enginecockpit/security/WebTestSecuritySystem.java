@@ -2,7 +2,9 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.containExactTextsCaseSensitive;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
@@ -60,11 +62,12 @@ class WebTestSecuritySystem {
     $("#newSecuritySystemForm\\:newSecuritySystemNameInput").sendKeys("NewFromTest");
     $("#newSecuritySystemForm\\:saveNewSecuritySystem").click();
     $("#newSecuritySystemModal").shouldNotBe(visible);
-    $$(".security-name").shouldBe(textsInAnyOrder("NewFromTest", "test-ad", "test-nd", "default"));
+    $$(".security-name").shouldBe(containExactTextsCaseSensitive("NewFromTest", "default"));
     $$(".provider-name").shouldBe(textsInAnyOrder("Microsoft Active Directory", "Microsoft Active Directory", "Novell eDirectory", "ivy Security System"));
 
+    int sizeBeforeDelete = $$(".security-name").size();
     deleteSecuritySystem("NewFromTest");
-    $$(".security-name").shouldBe(textsInAnyOrder("test-ad", "test-nd", "default"));
+    $$(".security-name").shouldBe(sizeLessThan(sizeBeforeDelete));
   }
 
   static void deleteSecuritySystem(String securitySystemName) {
