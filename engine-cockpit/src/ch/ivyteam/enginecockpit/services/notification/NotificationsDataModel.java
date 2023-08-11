@@ -12,7 +12,7 @@ import org.primefaces.model.SortOrder;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.jsf.primefaces.sort.SortMetaConverter;
-import ch.ivyteam.ivy.notification.NotificationRepository;
+import ch.ivyteam.ivy.notification.impl.NotificationRepository;
 import ch.ivyteam.ivy.notification.query.NotificationQuery;
 
 public class NotificationsDataModel extends LazyDataModel<NotificationDto> {

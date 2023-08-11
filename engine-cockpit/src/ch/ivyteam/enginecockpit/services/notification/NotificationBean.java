@@ -4,7 +4,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
-import ch.ivyteam.ivy.notification.NotificationRepository;
+import ch.ivyteam.ivy.notification.impl.NotificationRepository;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @ManagedBean
