@@ -69,7 +69,12 @@ public class ConfigProperty {
   }
 
   public boolean isString() {
-    return !isKeyValue() && !isPassword();
+    return !isKeyValue() && !isPassword() && !isBoolean();
+  }
+  
+  public boolean isBoolean() {
+    return label.equals("UseLdapConnectionPool");
+    // TODO metadata.isBoolean();
   }
 
   public boolean isPassword() {

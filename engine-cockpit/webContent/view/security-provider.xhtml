@@ -77,6 +77,14 @@
                             <small class="block">#{property.description}</small>
                           </h:panelGroup>
                        </p:panelGrid>
+                       <!-- boolean -->
+                       <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-2 p-lg-2, p-col-12 p-md-10 p-lg-10" styleClass="grey-label-panel ui-fluid" rendered="#{property.boolean}">
+                          <p:outputLabel value="#{property.label}" />
+                          <h:panelGroup  styleClass="md-inputfield">
+                            <p:selectBooleanCheckbox id="propertyBoolean" value="#{property.value}" />
+                            <small class="block">#{property.description}</small>
+                          </h:panelGroup>
+                       </p:panelGrid>
 
                        <!-- keyvalue -->
                        <p:panelGrid columns="1" layout="flex" styleClass="grey-label-panel ui-fluid" rendered="#{property.keyValue}">
