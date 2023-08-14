@@ -76,6 +76,14 @@ public class ConfigProperty {
     return metadata.isBoolean();
   }
 
+  public boolean isNumber() {
+    return metadata.isNumber();
+  }
+
+  public boolean isdropdown() {
+    return metadata.isDropdown();
+  }
+
   public boolean isPassword() {
     return metadata.isPassword();
   }
