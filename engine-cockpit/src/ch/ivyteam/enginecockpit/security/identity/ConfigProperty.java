@@ -69,7 +69,7 @@ public class ConfigProperty {
   }
 
   public boolean isString() {
-    return !isKeyValue() && !isPassword() && !isBoolean();
+    return !isKeyValue() && !isPassword() && !isBoolean() && !isDropdown() && !isNumber();
   }
 
   public boolean isBoolean() {
@@ -80,7 +80,7 @@ public class ConfigProperty {
     return metadata.isNumber();
   }
 
-  public boolean isdropdown() {
+  public boolean isDropdown() {
     return metadata.isDropdown();
   }
 
