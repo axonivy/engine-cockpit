@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -50,6 +51,9 @@ public class ConfigProperty {
   }
 
   public String getValue() {
+    if (value.equals(getDefaultValue())){
+      return null;
+    }
     return value;
   }
 
@@ -66,6 +70,10 @@ public class ConfigProperty {
 
   public String getDescription() {
     return metadata.description();
+  }
+
+  public List<String> getEnumerationValues() {
+    return metadata.enumerationValues();
   }
 
   public boolean isString() {
