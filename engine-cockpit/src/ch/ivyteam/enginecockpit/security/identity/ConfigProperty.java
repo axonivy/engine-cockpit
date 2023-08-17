@@ -51,6 +51,9 @@ public class ConfigProperty {
   }
 
   public String getValue() {
+    if (value.equals(getDefaultValue())){
+      return null;
+    }
     return value;
   }
 

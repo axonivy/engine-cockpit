@@ -59,7 +59,7 @@
                           <p:outputLabel value="#{property.label}" />
                              <h:panelGroup styleClass="md-inputfield">
                              <h:panelGroup styleClass="ui-inputgroup">
-                                <p:inputText id="propertyString" value="#{property.value}" />
+                                 <p:inputText id="propertyString" value="#{property.value}" placeholder="#{property.DefaultValue}"  />
                                 <p:commandButton id="browseDefaultContext" icon="si si-network-browser" title="Browse" 
                                   actionListener="#{identityProviderBean.browseProperty(property)}" 
                                   oncomplete="PF('directoryBrowserDialog').show();" 
