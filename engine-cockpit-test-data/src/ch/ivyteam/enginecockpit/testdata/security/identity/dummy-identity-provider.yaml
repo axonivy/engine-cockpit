@@ -8,6 +8,16 @@ ClientSecret: ""
 # [directoryBrowser]
 GroupFilter: ""
 
+# number
+PageSize: 500
+
+# boolean
+UseLdapConnectionPool: false
+
+# dropdown
+# [enum: MATCHING_RULE, DIRECT, TRAVERSE]
+NestedGroupsLookup: MATCHING_RULE
+
 # [keyvalue:Ivy Role,Azure Group GUID]
 # [directoryBrowser]
 Roles:

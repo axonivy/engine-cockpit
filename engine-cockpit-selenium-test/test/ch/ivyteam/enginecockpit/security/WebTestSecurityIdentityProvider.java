@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static org.assertj.core.api.Assertions.fail;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -140,6 +141,34 @@ class WebTestSecurityIdentityProvider {
     $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible);
     $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
     $(By.id("securityIdentityProviderForm:group:0:property:2:propertyString")).shouldHave(value("Group A.1"));
+  }
+
+  @Test
+  void booleanProperty() {
+    var bool = $(By.id("securityIdentityProviderForm:group:0:property:4:propertyBoolean")).should(visible);
+    bool.click();
+    save();
+    success();
+  }
+
+  @Test
+  void numberProperty() {
+    var property = $(By.id("securityIdentityProviderForm:group:0:property:3:propertyNumber_input")).shouldBe(visible);
+    property.clear();
+    property.sendKeys("123");
+    save();
+    success();
+    property.shouldHave(exactValue("123"));
+    property.sendKeys("abc");
+    property.shouldHave(exactValue("123"));
+  }
+
+  @Test
+  void dropdownProperty() {
+    var property = $(By.id("securityIdentityProviderForm:group:0:property:5:propertyDropdown")).shouldBe(visible);
+    property.click();
+    $(By.id("securityIdentityProviderForm:group:0:property:5:propertyDropdown_2")).click();
+    property.shouldHave(text("TRAVERSE"));
   }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {
