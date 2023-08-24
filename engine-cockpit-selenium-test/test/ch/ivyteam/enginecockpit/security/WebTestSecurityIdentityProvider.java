@@ -7,7 +7,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static org.assertj.core.api.Assertions.fail;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -147,6 +146,17 @@ class WebTestSecurityIdentityProvider {
   void booleanProperty() {
     var bool = $(By.id("securityIdentityProviderForm:group:0:property:4:propertyBoolean")).should(visible);
     bool.click();
+    PrimeUi.selectBooleanCheckbox(By.id("securityIdentityProviderForm:group:0:property:4:propertyBoolean"))
+    .shouldBeChecked(true);
+    save();
+    success();
+  }
+
+  @Test
+  void booleanPropertyDefaultValue() {
+    $(By.id("securityIdentityProviderForm:group:0:property:5:propertyBoolean")).should(visible);
+    PrimeUi.selectBooleanCheckbox(By.id("securityIdentityProviderForm:group:0:property:5:propertyBoolean"))
+    .shouldBeChecked(true);
     save();
     success();
   }
@@ -165,9 +175,9 @@ class WebTestSecurityIdentityProvider {
 
   @Test
   void dropdownProperty() {
-    var property = $(By.id("securityIdentityProviderForm:group:0:property:5:propertyDropdown")).shouldBe(visible);
+    var property = $(By.id("securityIdentityProviderForm:group:0:property:6:propertyDropdown")).shouldBe(visible);
     property.click();
-    $(By.id("securityIdentityProviderForm:group:0:property:5:propertyDropdown_2")).click();
+    $(By.id("securityIdentityProviderForm:group:0:property:6:propertyDropdown_2")).click();
     property.shouldHave(text("TRAVERSE"));
   }
 
