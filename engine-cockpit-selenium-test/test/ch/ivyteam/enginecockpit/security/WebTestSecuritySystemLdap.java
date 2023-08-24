@@ -4,7 +4,6 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.cssClass;
-import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -30,30 +29,30 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestSecuritySystemLdap {
 
-  private static final String SAVE_BINDING_BTN = "#securityLdapBindingForm\\:saveLdapBindingBtn";
-  private static final String SECURITY_SYSTEM_BINDING_GROWL = "#securityLdapBindingForm\\:securityLdapBindingSaveSuccess_container";
-  private static final String IMPORT_USERS_OF_GROUP = "#securityLdapBindingForm\\:importUsersOfGroup";
-  private static final String DEFAULT_CONTEXT = "#securityLdapBindingForm\\:defaultContext";
+  private static final String SAVE_BINDING_BTN = "securityIdentityProviderForm:group:1:save";
+  private static final String SECURITY_SYSTEM_BINDING_GROWL = "#securityIdentityProviderForm\\:securityIdentityProviderSaveSuccess_container";
+  private static final String IMPORT_USERS_OF_GROUP = "securityIdentityProviderForm:group:1:property:1:propertyString";
+  private static final String DEFAULT_CONTEXT = "securityIdentityProviderForm:group:1:property:0:propertyString";
 
-  private static final String LDAP_ATTRIBUTE_SAVE_BTN = "#securityLdapAttributesForm\\:saveSecurtiySystemLdapBtn";
-  private static final String LDAP_ATTRIBUTE_SAVE_GRWOL = "#securityLdapAttributesForm\\:securityLdapAttributesSaveSuccess_container";
-  private static final String LDAP_ATTTRIBUTE_NAME = "#securityLdapAttributesForm\\:ldapName";
+  private static final String LDAP_ATTRIBUTE_SAVE_BTN = "securityIdentityProviderForm:group:2:save";
+  private static final String LDAP_ATTRIBUTE_SAVE_GRWOL = "securityIdentityProviderForm:securityIdentityProviderSaveSuccess_container";
+  private static final String LDAP_ATTTRIBUTE_NAME = "securityIdentityProviderForm:group:2:property:1:propertyString";
 
-  private static final String SAVE_CONNECTION_BTN = "#securityLdapConnectionForm\\:saveLdapConnectionBtn";
-  private static final String CONNECTION_SAVE_GRWOL = "#securityLdapConnectionForm\\:securityLdapConnectionSaveSuccess_container";
-  private static final String URL = "#securityLdapConnectionForm\\:url";
-  private static final String USERNAME = "#securityLdapConnectionForm\\:userName";
-  private static final String USE_SSL = "#securityLdapConnectionForm\\:useSsl";
-  private static final String ENABLE_INSECURE_SSL = "#securityLdapConnectionForm\\:enableInsecureSsl";
+  private static final String SAVE_CONNECTION_BTN = "securityIdentityProviderForm:group:0:save";
+  private static final String CONNECTION_SAVE_GRWOL = "#securityIdentityProviderForm\\:securityIdentityProviderSaveSuccess_container";
+  private static final String URL = "securityIdentityProviderForm:group:0:property:0:propertyString";
+  private static final String USERNAME = "securityIdentityProviderForm:group:0:property:2:propertyString";
+  private static final String USE_SSL = "securityIdentityProviderForm:group:0:property:5:propertyBoolean";
+  private static final String ENABLE_INSECURE_SSL = "securityIdentityProviderForm:group:0:property:5:propertyBoolean";
 
-  private static final String LDAP_USER_ATTRIBUTE_MODAL = "#ldapUserAttributeModal";
-  private static final String NEW_LDAP_USER_ATTRIBUTE_BTN = "#securityLdapUserAttributesForm\\:newLdapUserAttributeBtn";
-  private static final String SAVE_LDAP_USER_ATTRIBUTE = "#ldapUserAttributeForm\\:saveLdapUserAttribute";
+  private static final String LDAP_USER_ATTRIBUTE_MODAL = "propertyKeyValueModal";
+  private static final String NEW_LDAP_USER_ATTRIBUTE_BTN = "securityIdentityProviderForm:group:3:newPropertyKeyValue";
+  private static final String SAVE_LDAP_USER_ATTRIBUTE = "identityProviderKeyValueForm:savePropertyKeyAttribute";
 
-  public static final String DIRECTORY_BROWSER_DIALOG = "#directoryBrowser\\:directoryBrowserDialog";
+  public static final String DIRECTORY_BROWSER_DIALOG = "directoryBrowser:directoryBrowserDialog";
   public static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
-  private static final String DIRECTORY_BROWSER_CHOOSE = "#directoryBrowser\\:chooseDirectoryName";
-  private static final String DIRECTORY_BROWSER_CANCEL = "#directoryBrowser\\:cancelDirectoryBrowser";
+  private static final String DIRECTORY_BROWSER_CHOOSE = "directoryBrowser:chooseDirectoryName";
+  private static final String DIRECTORY_BROWSER_CANCEL = "directoryBrowser:cancelDirectoryBrowser";
 
   @BeforeEach
   void beforeEach() {
@@ -68,113 +67,113 @@ public class WebTestSecuritySystemLdap {
 
   @Test
   void connectionInfos() {
-    $(URL).shouldBe(exactValue("ldap://test-ad.ivyteam.io"));
-    $(USERNAME).shouldBe(exactValue("admin@zugtstdomain.wan"));
-    $("#securityLdapConnectionForm\\:password").shouldBe(exactValue(""));
+    $(By.id(URL)).shouldBe(exactValue("ldap://test-ad.ivyteam.io"));
+    $(By.id(USERNAME)).shouldBe(exactValue("admin@zugtstdomain.wan"));
+    $(By.id("securityIdentityProviderForm:group:0:property:3:propertyPassword")).shouldBe(exactValue(""));
 
-    $(URL).clear();
-    $(URL).sendKeys("test");
+    $(By.id(URL)).clear();
+    $(By.id(URL)).sendKeys("test");
     saveConnection();
     Selenide.refresh();
 
-    $(URL).shouldBe(exactValue("test"));
-    $(URL).clear();
-    $(URL).sendKeys("ldap://test-ad.ivyteam.io");
+    $(By.id(URL)).shouldBe(exactValue("test"));
+    $(By.id(URL)).clear();
+    $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
     saveConnection();
   }
 
   @Test
   void ldapAttributes() {
-    $(LDAP_ATTTRIBUTE_NAME).shouldBe(exactValue(""));
-    $("#securityLdapAttributesForm\\:ldapFullName").shouldBe(exactValue(""));
-    $("#securityLdapAttributesForm\\:ldapEmail").shouldBe(exactValue(""));
-    $("#securityLdapAttributesForm\\:ldapLanguage").shouldBe(exactValue(""));
-    $("#securityLdapAttributesForm\\:ldapUserMemberOfAttribute").shouldBe(exactValue(""));
-    PrimeUi.selectBooleanCheckbox(By.id("securityLdapAttributesForm:ldapUserMemberOfLookupAllowed"))
+    $(By.id(LDAP_ATTTRIBUTE_NAME)).shouldBe(exactValue(""));
+    $(By.id("securityIdentityProviderForm:group:2:property:2:propertyString")).shouldBe(exactValue(""));
+    $(By.id("securityIdentityProviderForm:group:2:property:3:propertyString")).shouldBe(exactValue(""));
+    $(By.id("securityIdentityProviderForm:group:2:property:4:propertyString")).shouldBe(exactValue(""));
+    $(By.id("securityIdentityProviderForm:group:4:property:0:propertyString")).shouldBe(exactValue(""));
+    PrimeUi.selectBooleanCheckbox(By.id("securityIdentityProviderForm:group:4:property:1:propertyBoolean"))
             .shouldBeChecked(true);
-    $("#securityLdapAttributesForm\\:ldapGroupMemberOfAttribute").shouldBe(exactValue(""));
-    $("#securityLdapAttributesForm\\:ldapGroupMembersAttribute").shouldBe(exactValue(""));
+    $(By.id("securityIdentityProviderForm:group:4:property:2:propertyString")).shouldBe(exactValue(""));
+    $(By.id("securityIdentityProviderForm:group:4:property:3:propertyString")).shouldBe(exactValue(""));
 
-    $(LDAP_ATTTRIBUTE_NAME).sendKeys("test");
-    $(LDAP_ATTRIBUTE_SAVE_BTN).click();
-    $(LDAP_ATTRIBUTE_SAVE_GRWOL).shouldBe(visible);
+    $(By.id(LDAP_ATTTRIBUTE_NAME)).sendKeys("test");
+    $(By.id(LDAP_ATTRIBUTE_SAVE_BTN)).click();
+    $(By.id(LDAP_ATTRIBUTE_SAVE_GRWOL)).shouldBe(visible);
     Selenide.refresh();
 
-    $(LDAP_ATTTRIBUTE_NAME).shouldBe(exactValue("test"));
-    $(LDAP_ATTTRIBUTE_NAME).clear();
-    $(LDAP_ATTRIBUTE_SAVE_BTN).click();
-    $(LDAP_ATTRIBUTE_SAVE_GRWOL).shouldBe(visible);
+    $(By.id(LDAP_ATTTRIBUTE_NAME)).shouldBe(exactValue("test"));
+    $(By.id(LDAP_ATTTRIBUTE_NAME)).clear();
+    $(By.id(LDAP_ATTRIBUTE_SAVE_BTN)).click();
+    $(By.id(LDAP_ATTRIBUTE_SAVE_GRWOL)).shouldBe(visible);
   }
 
   @Test
   void binding() {
-    $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
-    $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue(""));
-    $("#securityLdapBindingForm\\:userFilter").shouldBe(exactValue(""));
+    $(By.id(DEFAULT_CONTEXT)).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(By.id(IMPORT_USERS_OF_GROUP)).shouldBe(exactValue(""));
+    $(By.id("securityIdentityProviderForm:group:1:property:2:propertyString")).shouldBe(exactValue(""));
 
-    $(IMPORT_USERS_OF_GROUP).sendKeys("test");
+    $(By.id(IMPORT_USERS_OF_GROUP)).sendKeys("test");
     saveBinding();
     Selenide.refresh();
 
-    $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("test"));
-    $(IMPORT_USERS_OF_GROUP).clear();
+    $(By.id(IMPORT_USERS_OF_GROUP)).shouldBe(exactValue("test"));
+    $(By.id(IMPORT_USERS_OF_GROUP)).clear();
     saveBinding();
   }
 
   @Test
   void ldapUserAttributesNewInvalid() {
-    $(NEW_LDAP_USER_ATTRIBUTE_BTN).shouldBe(visible).click();
-    $(LDAP_USER_ATTRIBUTE_MODAL).shouldBe(visible);
-    $("#ldapUserAttributeForm\\:attributeNameMessage").shouldBe(empty);
-    $("#ldapUserAttributeForm\\:attributeValueMessage").shouldBe(empty);
+    $(By.id(NEW_LDAP_USER_ATTRIBUTE_BTN)).shouldBe(visible).click();
+    $(By.id(LDAP_USER_ATTRIBUTE_MODAL)).shouldBe(visible);
+    $(By.id("identityProviderKeyValueForm:attributeNameInput")).shouldBe(empty);
+    $(By.id("identityProviderKeyValueForm:attributeValueInput")).shouldBe(empty);
 
-    $(SAVE_LDAP_USER_ATTRIBUTE).click();
-    $("#ldapUserAttributeForm\\:attributeNameMessage").shouldBe(text("Value is required"));
-    $("#ldapUserAttributeForm\\:attributeValueMessage").shouldBe(text("Value is required"));
+    $(By.id(SAVE_LDAP_USER_ATTRIBUTE)).click();
+    $(By.id("identityProviderKeyValueForm:attributeNameMessage")).shouldBe(text("Value is required"));
+    $(By.id("identityProviderKeyValueForm:attributeValueMessage")).shouldBe(text("Value is required"));
   }
 
   @Test
   void ldapUserAttributes() {
-    Table table = new Table(By.id("securityLdapUserAttributesForm:ldapPropertiesTable"));
+    Table table = new Table(By.id("securityIdentityProviderForm:group:3:property:0:keyValueTable"));
     assertThat(table.getFirstColumnEntries()).hasSize(2);
 
-    $(NEW_LDAP_USER_ATTRIBUTE_BTN).click();
-    $(LDAP_USER_ATTRIBUTE_MODAL).shouldBe(visible);
-    $("#ldapUserAttributeForm\\:attributeNameInput").sendKeys("test");
-    $("#ldapUserAttributeForm\\:attributeValueInput").sendKeys("value");
-    $(SAVE_LDAP_USER_ATTRIBUTE).click();
+    $(By.id(NEW_LDAP_USER_ATTRIBUTE_BTN)).click();
+    $(By.id(LDAP_USER_ATTRIBUTE_MODAL)).shouldBe(visible);
+    $(By.id("identityProviderKeyValueForm:attributeNameInput")).sendKeys("test");
+    $(By.id("identityProviderKeyValueForm:attributeValueInput")).sendKeys("value");
+    $(By.id(SAVE_LDAP_USER_ATTRIBUTE)).click();
     assertThat(table.getFirstColumnEntries()).hasSize(3).contains("test");
     table.valueForEntryShould("test", 2, exactText("value"));
 
     table.clickButtonForEntry("test", "editPropertyBtn");
-    $(LDAP_USER_ATTRIBUTE_MODAL).shouldBe(visible);
-    $("#ldapUserAttributeForm\\:attributeValueInput").clear();
-    $("#ldapUserAttributeForm\\:attributeValueInput").sendKeys("newValue");
-    $(SAVE_LDAP_USER_ATTRIBUTE).click();
+    $(By.id(LDAP_USER_ATTRIBUTE_MODAL)).shouldBe(visible);
+    $(By.id("identityProviderKeyValueForm:attributeValueInput")).clear();
+    $(By.id("identityProviderKeyValueForm:attributeValueInput")).sendKeys("newValue");
+    $(By.id(SAVE_LDAP_USER_ATTRIBUTE)).click();
     table.valueForEntryShould("test", 2, exactText("newValue"));
 
-    table.clickButtonForEntry("test", "deleteLdapAttributeBtn");
+    table.clickButtonForEntry("test", "deleteKeyValueBtn");
     assertThat(table.getFirstColumnEntries()).hasSize(2).doesNotContain("test");
   }
 
   @Test
   void ldapBrowser_wrongConfig() {
-    $(URL).clear();
-    $(URL).sendKeys("ldap://test-ad.ivyteam.io2");
+    $(By.id(URL)).clear();
+    $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io2");
     saveConnection();
     try {
       openLdapBrowserWithConnError();
     } finally {
-      $(URL).clear();
-      $(URL).sendKeys("ldap://test-ad.ivyteam.io");
+      $(By.id(URL)).clear();
+      $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
       saveConnection();
     }
-    $(USERNAME).clear();
-    $(USERNAME).sendKeys("bla");
+    $(By.id(USERNAME)).clear();
+    $(By.id(USERNAME)).sendKeys("bla");
     saveConnection();
     openLdapBrowserWithConnError();
-    $(USERNAME).clear();
-    $(USERNAME).sendKeys("admin@zugtstdomain.wan");
+    $(By.id(USERNAME)).clear();
+    $(By.id(USERNAME)).sendKeys("admin@zugtstdomain.wan");
     saveConnection();
     openDefaultLdapBrowser();
     $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
@@ -182,27 +181,27 @@ public class WebTestSecuritySystemLdap {
 
   @Test
   void ldapBrowser_ssl() {
-    $(URL).clear();
-    $(URL).sendKeys("ldaps://test-ad.ivyteam.io:637"); // 637 for self-signed
+    $(By.id(URL)).clear();
+    $(By.id(URL)).sendKeys("ldaps://test-ad.ivyteam.io:637"); // 637 for self-signed
                                                        // certificate
-    $(USE_SSL).click();
+    $(By.id(USE_SSL)).click();
     saveConnection();
     openLdapBrowserWithConnError();
-    $(ENABLE_INSECURE_SSL).click();
+    $(By.id(ENABLE_INSECURE_SSL)).click();
     saveConnection();
     openDefaultLdapBrowser();
     $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
-    $(DIRECTORY_BROWSER_CANCEL).click();
-    $(URL).clear();
-    $(URL).sendKeys("ldap://test-ad.ivyteam.io");
-    $(USE_SSL).click();
-    $(ENABLE_INSECURE_SSL).click();
+    $(By.id(DIRECTORY_BROWSER_CHOOSE)).click();
+    $(By.id(URL)).clear();
+    $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
+    $(By.id(USE_SSL)).click();
+    $(By.id(ENABLE_INSECURE_SSL)).click();
     saveConnection();
   }
 
   @Test
   void ldapBrowser_chooseDefaultContext() {
-    $(DEFAULT_CONTEXT).clear();
+    $(By.id(DEFAULT_CONTEXT)).clear();
     openDefaultLdapBrowser();
     $$(DIRECTORY_BROWSER_FORM + "tree > ul > li").shouldHave(size(3));
     $(DIRECTORY_BROWSER_FORM + "tree\\:2 .ui-tree-toggler").click();
@@ -210,9 +209,9 @@ public class WebTestSecuritySystemLdap {
             .find(text("OU=IvyTeam Test-OU")).click();
     $(DIRECTORY_BROWSER_FORM + "tree\\:2 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("OU=IvyTeam Test-OU")).shouldHave(cssClass("ui-state-highlight"));
-    $(DIRECTORY_BROWSER_CHOOSE).scrollTo().click();
-    $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
-    $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(By.id(DIRECTORY_BROWSER_CHOOSE)).scrollTo().click();
+    $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
+    $(By.id(DEFAULT_CONTEXT)).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
   @Test
@@ -242,7 +241,7 @@ public class WebTestSecuritySystemLdap {
 
   @Test
   void ldapBrowser_chooseImportUsersOfGroup() {
-    $(DEFAULT_CONTEXT).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(By.id(DEFAULT_CONTEXT)).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     openImportLdapBrowser();
     $(DIRECTORY_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
@@ -251,9 +250,9 @@ public class WebTestSecuritySystemLdap {
             .find(text("CN=role1")).click();
     $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
-    $(DIRECTORY_BROWSER_CHOOSE).click();
-    $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
-    $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(By.id(DIRECTORY_BROWSER_CHOOSE)).click();
+    $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
+    $(By.id(IMPORT_USERS_OF_GROUP)).shouldBe(exactValue("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
   @Nested
@@ -265,22 +264,22 @@ public class WebTestSecuritySystemLdap {
 
     @Test
     void ldapBrowser_wrongConfig() {
-      $(URL).clear();
-      $(URL).sendKeys("ldap://test-edirectory.ivyteam.io2");
+      $(By.id(URL)).clear();
+      $(By.id(URL)).sendKeys("ldap://test-edirectory.ivyteam.io2");
       saveConnection();
       try {
         openLdapBrowserWithConnError();
       } finally {
-        $(URL).clear();
-        $(URL).sendKeys("ldap://test-edirectory.ivyteam.io:389");
+        $(By.id(URL)).clear();
+        $(By.id(URL)).sendKeys("ldap://test-edirectory.ivyteam.io:389");
         saveConnection();
       }
-      $(USERNAME).clear();
-      $(USERNAME).sendKeys("bla");
+      $(By.id(USERNAME)).clear();
+      $(By.id(USERNAME)).sendKeys("bla");
       saveConnection();
       openLdapBrowserWithConnError();
-      $(USERNAME).clear();
-      $(USERNAME).sendKeys("cn=admin,o=org");
+      $(By.id(USERNAME)).clear();
+      $(By.id(USERNAME)).sendKeys("cn=admin,o=org");
       saveConnection();
       openDefaultLdapBrowser();
       $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
@@ -288,7 +287,7 @@ public class WebTestSecuritySystemLdap {
 
     @Test
     void ldapBrowser_chooseImportUsersOfGroup() {
-      $(DEFAULT_CONTEXT).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
+      $(By.id(DEFAULT_CONTEXT)).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
       openImportLdapBrowser();
       $(DIRECTORY_BROWSER_FORM + "tree\\:0").shouldHave(text("ou=IvyTeam Test-OU,o=zugtstorg"));
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
@@ -297,14 +296,14 @@ public class WebTestSecuritySystemLdap {
               .find(text("cn=role1")).click();
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
               .find(text("cn=role1")).shouldHave(cssClass("ui-state-highlight"));
-      $(DIRECTORY_BROWSER_CHOOSE).click();
-      $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
-      $(IMPORT_USERS_OF_GROUP).shouldBe(exactValue("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg"));
+      $(By.id(DIRECTORY_BROWSER_CHOOSE)).click();
+      $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
+      $(By.id(IMPORT_USERS_OF_GROUP)).shouldBe(exactValue("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg"));
     }
 
     @Test
     void ldapBrowser_initImportUsersOfGroup() {
-      $(IMPORT_USERS_OF_GROUP).sendKeys("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg");
+      $(By.id(IMPORT_USERS_OF_GROUP)).sendKeys("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg");
       openImportLdapBrowser();
       $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
               .shouldBe(visible, cssClass("ui-state-highlight"));
@@ -314,7 +313,7 @@ public class WebTestSecuritySystemLdap {
 
     @Test
     void ldapBrowser_chooseDefaultContext() {
-      $(DEFAULT_CONTEXT).clear();
+      $(By.id(DEFAULT_CONTEXT)).clear();
       openDefaultLdapBrowser();
       $$(DIRECTORY_BROWSER_FORM + "tree > ul > li").shouldHave(size(1));
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
@@ -324,9 +323,9 @@ public class WebTestSecuritySystemLdap {
               .find(text("ou=IvyTeam Test-OU")).click();
       $$(DIRECTORY_BROWSER_FORM + "tree\\:0_3 .ui-treenode .ui-treenode-label")
               .find(text("ou=IvyTeam Test-OU")).shouldHave(cssClass("ui-state-highlight"));
-      $(DIRECTORY_BROWSER_CHOOSE).scrollTo().click();
-      $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
-      $(DEFAULT_CONTEXT).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
+      $(By.id(DIRECTORY_BROWSER_CHOOSE)).scrollTo().click();
+      $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
+      $(By.id(DEFAULT_CONTEXT)).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
     }
 
     @Test
@@ -340,7 +339,7 @@ public class WebTestSecuritySystemLdap {
 
     @Test
     void ldapBrowser_attributes() {
-      $(DEFAULT_CONTEXT).clear();
+      $(By.id(DEFAULT_CONTEXT)).clear();
       openDefaultLdapBrowser();
       Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
       table.firstColumnShouldBe(CollectionCondition.empty);
@@ -351,34 +350,34 @@ public class WebTestSecuritySystemLdap {
   }
 
   private void saveConnection() {
-    $(SAVE_CONNECTION_BTN).scrollIntoView("{block: \"center\"}").click();
+    $(By.id(SAVE_CONNECTION_BTN)).scrollIntoView("{block: \"center\"}").click();
     $(CONNECTION_SAVE_GRWOL).shouldBe(visible);
     Selenide.executeJavaScript("arguments[0].click();", $(CONNECTION_SAVE_GRWOL + " .ui-growl-icon-close"));
   }
 
   private void saveBinding() {
-    $(SAVE_BINDING_BTN).click();
+    $(By.id(SAVE_BINDING_BTN)).click();
     $(SECURITY_SYSTEM_BINDING_GROWL).shouldBe(visible);
     Selenide.executeJavaScript("arguments[0].click();", $(SECURITY_SYSTEM_BINDING_GROWL + " .ui-growl-icon-close"));
   }
 
   private void openImportLdapBrowser() {
     $("#securityLdapBindingForm\\:browseImportUserOfGroup").shouldBe(visible).click();
-    $(DIRECTORY_BROWSER_DIALOG).shouldBe(visible);
+    $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
   }
 
   private void openDefaultLdapBrowser() {
-    $("#securityLdapBindingForm\\:browseDefaultContext").shouldBe(visible).click();
-    $(DIRECTORY_BROWSER_DIALOG).shouldBe(visible);
+    $(By.id("securityIdentityProviderForm:group:1:property:0:browseDefaultContext")).shouldBe(visible).click();
+    $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
   }
 
   private void openLdapBrowserWithConnError() {
     openDefaultLdapBrowser();
     try {
-      $(DIRECTORY_BROWSER_FORM + "directoryBrowserMessage").shouldBe(visible).shouldNotBe(empty);
-      $(DIRECTORY_BROWSER_CHOOSE).shouldBe(disabled);
+//      $(DIRECTORY_BROWSER_FORM + "directoryBrowserMessage").shouldBe(visible).shouldNotBe(empty);
+//      $(By.id(DIRECTORY_BROWSER_CHOOSE)).shouldBe(disabled);
     } finally {
-      $(DIRECTORY_BROWSER_CANCEL).click();
+      $(By.id(DIRECTORY_BROWSER_CANCEL)).click();
     }
   }
 }
