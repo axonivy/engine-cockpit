@@ -19,8 +19,10 @@
           <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
         </p:linkButton>
        
+       
+        // TODO remove me: re-use upper edit ... 
         <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtnJndi" rendered="#{securityProviderBean.jndiSecuritySystem}"
-            styleClass="p-ml-auto rounded-button" outcome="security-ldap">
+            styleClass="p-ml-auto rounded-button" outcome="security-provider">
           <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
         </p:linkButton>
 

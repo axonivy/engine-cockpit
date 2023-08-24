@@ -122,7 +122,7 @@ private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_j
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
     $("#securityProviderForm\\:editProviderBtnJndi").shouldBe(visible).click();
-    assertCurrentUrlContains("security-ldap.xhtml?securitySystemName=" + secSystemName);
+    assertCurrentUrlContains("security-provider.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
