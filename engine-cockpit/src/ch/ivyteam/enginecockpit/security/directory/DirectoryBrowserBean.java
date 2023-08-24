@@ -65,6 +65,7 @@ public class DirectoryBrowserBean {
       if (dirNode.id().equals(directoryNodeToSelect.id())) {
         node.setSelected(true);
         node.setExpanded(true);
+        loadChildren(node, directoryNodeToSelect);
       } else if (dirNode.isParent(directoryNodeToSelect)) {
         node.setExpanded(true);
         loadChildren(node, directoryNodeToSelect);
