@@ -234,5 +234,48 @@
       "visual" : {
         "at" : { "x" : 352, "y" : 512 }
       }
+    }, {
+      "id" : "f30",
+      "type" : "RequestStart",
+      "name" : "cleanupNotification.ivp",
+      "config" : {
+        "signature" : "cleanupNotification"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 592 },
+        "labelOffset" : { "x" : 15, "y" : 43 }
+      },
+      "connect" : [
+        { "id" : "f34", "to" : "f32" }
+      ]
+    }, {
+      "id" : "f31",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 592 }
+      }
+    }, {
+      "id" : "f32",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.configuration.restricted.ConfigKey;",
+            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
+            "import ch.ivyteam.ivy.security.restricted.ISecurityContextInternal;",
+            "",
+            "IConfiguration configuration = IConfiguration.instance();",
+            "ISecurityContextInternal securityContext = ivy.security as ISecurityContextInternal;",
+            "",
+            "configuration.remove(securityContext.configPrefix().append(\"Notification\"));"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 592 }
+      },
+      "connect" : [
+        { "id" : "f33", "to" : "f31" }
+      ]
     } ]
 }

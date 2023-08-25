@@ -17,7 +17,7 @@
     
     <p:column headerText="Name" sortBy="#{config.displayName}" filterBy="#{config.displayName}">
       <a href="#{config.getViewUrl()}">
-        <h:outputText value="#{config.displayName}">
+        <h:outputText value="#{config.displayName}" styleClass="channel-name">
           <i class="#{config.displayicon} table-icon" />
         </h:outputText>
       </a>
