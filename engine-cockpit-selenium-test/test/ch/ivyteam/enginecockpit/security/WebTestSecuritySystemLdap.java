@@ -38,6 +38,22 @@ public class WebTestSecuritySystemLdap {
   }
 
   @Test
+  void ldapBrowser_wrongConfig() {
+    $(By.id(URL)).clear();
+    $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io2");
+    saveConnection();
+    try {
+      openLdapBrowserWithConnError();
+    } finally {
+      $(By.id(URL)).clear();
+      $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
+      saveConnection();
+    }
+    openDefaultLdapBrowser();
+    $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldNotBe(visible);
+  }
+
+  @Test
   void adldapBrowser_chooseDefaultContext() {
     $(By.id("securityIdentityProviderForm:group:1:property:0:browseDefaultContext"))
       .should(visible).click();
@@ -51,22 +67,6 @@ public class WebTestSecuritySystemLdap {
     $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
     $(By.id("securityIdentityProviderForm:group:1:property:0:propertyString"))
       .shouldHave(value("CN=fullusername1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
-  }
-
-  @Test
-  void ldapBrowser_wrongConfig() {
-    $(By.id(URL)).clear();
-    $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io2");
-    saveConnection();
-    try {
-      openLdapBrowserWithConnError();
-    } finally {
-      $(By.id(URL)).clear();
-      $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
-      saveConnection();
-    }
-    openDefaultLdapBrowser();
-    $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
   }
 
   @Nested
@@ -110,7 +110,9 @@ public class WebTestSecuritySystemLdap {
   private void openLdapBrowserWithConnError() {
     openDefaultLdapBrowser();
     try {
-      $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage")).shouldBe(visible).shouldNotBe(empty);
+      $(By.id("directoryBrowser:directoryBrowserForm:directoryBrowserMessage"))
+        .shouldBe(visible)
+        .shouldNotBe(empty);
     } finally {
       $(By.id("directoryBrowser:cancelDirectoryBrowser")).click();
     }

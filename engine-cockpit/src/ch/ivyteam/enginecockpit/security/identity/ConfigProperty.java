@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.configuration.meta.Metadata;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 
 public class ConfigProperty {
@@ -61,6 +62,10 @@ public class ConfigProperty {
     if (metadata.isPassword() && StringUtils.isEmpty(value)) {
       return;
     }
+    if (this.value.equals(getDefaultValue()) && StringUtils.isEmpty(value) && !value.equals(getDefaultValue())){
+      return;
+    }
+    Ivy.log().info("writing value" + key +"="+ value +"." + getDefaultValue());
     this.value = value;
   }
 

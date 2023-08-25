@@ -121,7 +121,7 @@ private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_j
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
-    $("#securityProviderForm\\:editProviderBtnJndi").shouldBe(visible).click();
+    $("#securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
     assertCurrentUrlContains("security-provider.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
