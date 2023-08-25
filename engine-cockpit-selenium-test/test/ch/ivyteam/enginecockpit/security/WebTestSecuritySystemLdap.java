@@ -38,22 +38,6 @@ public class WebTestSecuritySystemLdap {
   }
 
   @Test
-  void ldapBrowser_wrongConfig() {
-    $(By.id(URL)).clear();
-    $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io2");
-    saveConnection();
-    try {
-      openLdapBrowserWithConnError();
-    } finally {
-      $(By.id(URL)).clear();
-      $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
-      saveConnection();
-    }
-    openDefaultLdapBrowser();
-    $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
-  }
-
-  @Test
   void adldapBrowser_chooseDefaultContext() {
     $(By.id("securityIdentityProviderForm:group:1:property:0:browseDefaultContext"))
       .should(visible).click();
@@ -69,6 +53,21 @@ public class WebTestSecuritySystemLdap {
       .shouldHave(value("CN=fullusername1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
+  @Test
+  void ldapBrowser_wrongConfig() {
+    $(By.id(URL)).clear();
+    $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io2");
+    saveConnection();
+    try {
+      openLdapBrowserWithConnError();
+    } finally {
+      $(By.id(URL)).clear();
+      $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
+      saveConnection();
+    }
+    openDefaultLdapBrowser();
+    $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
+  }
 
   @Nested
   class LdapBrowserNovell {
