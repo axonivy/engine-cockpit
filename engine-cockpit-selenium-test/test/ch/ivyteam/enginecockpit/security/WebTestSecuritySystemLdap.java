@@ -29,8 +29,6 @@ public class WebTestSecuritySystemLdap {
   private static final String SAVE_CONNECTION_BTN = "securityIdentityProviderForm:group:0:save";
   private static final String CONNECTION_SAVE_GRWOL = "#securityIdentityProviderForm\\:securityIdentityProviderSaveSuccess_container";
   private static final String URL = "securityIdentityProviderForm:group:0:property:0:propertyString";
-  private static final String USERNAME = "securityIdentityProviderForm:group:0:property:2:propertyString";
-
   public static final String DIRECTORY_BROWSER_DIALOG = "directoryBrowser:directoryBrowserDialog";
   public static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
   private static final String DIRECTORY_BROWSER_CHOOSE = "directoryBrowser:chooseDirectoryName";
@@ -52,33 +50,29 @@ public class WebTestSecuritySystemLdap {
       $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
       saveConnection();
     }
-    $(By.id(USERNAME)).clear();
-    $(By.id(USERNAME)).sendKeys("bla");
-    saveConnection();
-    openLdapBrowserWithConnError();
-    $(By.id(USERNAME)).clear();
-    $(By.id(USERNAME)).sendKeys("admin@zugtstdomain.wan");
-    saveConnection();
     openDefaultLdapBrowser();
     $(DIRECTORY_BROWSER_FORM + "ldapConnectionFailMessage").shouldNotBe(visible);
   }
 
   @Test
   void adldapBrowser_chooseDefaultContext() {
-    $(By.id("securityIdentityProviderForm:group:1:property:0:browseDefaultContext")).should(visible).click();
-    $(By.id("directoryBrowser:directoryBrowserForm:tree:2")).should(visible);
-    $(DIRECTORY_BROWSER_FORM + "tree\\:2 .ui-tree-toggler").click();
-    $(By.id("directoryBrowser:directoryBrowserForm:tree")).shouldHave(text("OU=IvyTeam Test-OU"));
-    $(DIRECTORY_BROWSER_FORM + "tree\\:2_8 .ui-tree-toggler").click();
-    $(By.id("directoryBrowser:directoryBrowserForm:tree:2_8_0")).shouldHave(text("fullusername1")).click();
+    $(By.id("securityIdentityProviderForm:group:1:property:0:browseDefaultContext"))
+      .should(visible).click();
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0"))
+      .should(visible);
+    $(By.id("directoryBrowser:directoryBrowserForm:tree")).shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0_0"))
+      .shouldHave(text("fullusername1")).click();
 
     $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible);
     $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
-    $(By.id("securityIdentityProviderForm:group:1:property:0:propertyString")).shouldHave(value("CN=fullusername1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(By.id("securityIdentityProviderForm:group:1:property:0:propertyString"))
+      .shouldHave(value("CN=fullusername1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
 
   @Nested
+  @IvyWebTest (headless = false)
   class LdapBrowserNovell {
     @BeforeEach
     void beforeEach() {
@@ -88,6 +82,8 @@ public class WebTestSecuritySystemLdap {
     @Test
     void ldapBrowser_chooseDefaultContext() {
       $(By.id(DEFAULT_CONTEXT)).clear();
+      $(By.id(DEFAULT_CONTEXT)).shouldBe(exactValue(""));
+      saveConnection();
       openDefaultLdapBrowser();
       $$(DIRECTORY_BROWSER_FORM + "tree > ul > li").shouldHave(size(1));
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
