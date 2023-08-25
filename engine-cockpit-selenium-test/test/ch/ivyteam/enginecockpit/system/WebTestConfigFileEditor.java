@@ -10,20 +10,19 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
 class WebTestConfigFileEditor {
+
+  private static final String APP_YAML = "test/app.yaml";
 
   @BeforeEach
   void beforeEach() {
@@ -34,46 +33,59 @@ class WebTestConfigFileEditor {
   @Test
   void editor() {
     selectFromAutocomplete("ivy.yaml");
-    $(By.id("currentFile")).shouldHave(text("ivy.yaml"));
-    $(By.className("CodeMirror-lines")).click();
-    $(By.tagName("body")).sendKeys(Keys.CONTROL, Keys.SPACE);
-    String ivyYamlHints = $(By.className("CodeMirror-hints")).shouldBe(visible).getText();
+    var selector = $(By.id("currentFile")).shouldHave(text("ivy.yaml"));
 
-    selectFromAutocomplete("demo-portal/app.yaml");
-    $(By.id("currentFile")).shouldHave(text("demo-portal/app.yaml"));
-    $(By.className("CodeMirror-lines")).click();
-    $(By.tagName("body")).sendKeys(Keys.CONTROL, Keys.SPACE);
-    String appYamlHints = $(By.className("CodeMirror-hints")).shouldBe(visible).getText();
-    assertThat(ivyYamlHints).isNotEqualTo(appYamlHints);
+    selector.getWrappedDriver().switchTo().frame("framedEditor");
+    $(By.className("monaco-editor")).shouldBe(visible);
+
+    var idpName = $(By.xpath("//div[@class='view-line']//span[@class='mtk22' and text()='Name']"))
+      .shouldBe(visible);
+    assertThat(idpName.text())
+      .as("selected SecuritySystems.test-ad.IdentityProvider.Name")
+      .isEqualTo("Name");
+    idpName.hover();
+
+    var hoverHelp = $(By.className("hover-contents")).shouldBe(visible);
+    assertThat(hoverHelp.text())
+      .as("config-editor shows key specific help, provided by json-schemas")
+      .contains("azure-active-directory");
   }
 
   @Test
-  void editorSave() {
-    String newEditorContent = "#test: hi \n#bla: fail \n#testEscape: 'false'";
-    selectFromAutocomplete("test/app.yaml");
-    $(By.id("currentFile")).shouldBe(text("test/app.yaml"));
+  void editorSave() throws Exception {
+    String newEditorContent = """
+      #test: hi
+      #bla: fail
+      #testEscape: 'false'""";
+    selectFromAutocomplete(APP_YAML);
+    $(By.id("currentFile")).shouldBe(text(APP_YAML));
+    $(By.id("editorForm:codeHolder")).shouldHave(Condition.partialValue("app.json"));
     writeToEditor(newEditorContent);
 
     $(By.id("editorForm:cancelEditor")).click();
     $(By.id("editorMessage_container")).shouldBe(empty);
-    $(By.id("editorForm:codeMirror")).shouldNotHave(text(newEditorContent));
+    $(By.id("editorForm:codeHolder")).shouldNotHave(Condition.partialValue("bla: fail"));
 
     writeToEditor(newEditorContent);
     $(By.id("editorForm:saveEditor")).click();
-    $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved test/app.yaml Successfully"));
+    $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved "+APP_YAML+" Successfully"));
   }
 
   private void writeToEditor(String newContent) {
-    String editorContent = $(By.id("editorForm:codeMirror")).getAttribute("value");
+    String editorContent = $(By.id("editorForm:codeHolder")).getAttribute("value");
     var escapedContent = StringEscapeUtils.escapeJson(editorContent + newContent);
-    executeJs("document.getElementById(\'editorForm:codeMirror\').textContent = \"" + escapedContent + "\"");
+    executeJs("""
+      waitFor(() => monaco()).then(model => {
+        model.setValue("%s");
+      })
+      """.formatted(escapedContent));
   }
 
   @Test
   void directFileOpenUrl() {
-    open(viewUrl("editor.xhtml?file=test/app.yaml"));
-    $(By.id("currentFile")).shouldBe(text("test/app.yaml"));
-    $(By.id("editorForm:codeMirror")).shouldHave(value("BusinessCalendars:"));
+    open(viewUrl("editor.xhtml?file="+APP_YAML));
+    $(By.id("currentFile")).shouldBe(text(APP_YAML));
+    $(By.id("editorForm:codeHolder")).shouldHave(value("BusinessCalendars:"));
   }
 
   private void selectFromAutocomplete(String elementName) {
