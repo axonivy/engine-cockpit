@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="channel" value="#{notificationChannelDetailBean.channelId}" />
+    <f:viewParam name="system" value="#{notificationChannelDetailBean.system}" />
+    <f:viewAction action="#{notificationChannelDetailBean.onload}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/charts-template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Services</span></li>
+      <li>/</li>
+      <li><a href="notificationChannels.xhtml">Notification Channels</a></li>
+      <li>/</li>
+      <li><a href="#{notificationChannelDetailBean.config.getViewUrl()}">#{notificationChannelDetailBean.config.displayName}</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}services.html#notification-channel" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <p:growl id="channelSaveSuccess" for="channelSaveSuccess">
+          <p:autoUpdate />
+        </p:growl>
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 #{notificationChannelDetailBean.config.displayicon} card-title-icon"></i>
+          <h2 class="p-m-0">#{notificationChannelDetailBean.config.displayName}</h2>
+        </div>
+        <h:form id="form">
+          <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" 
+            layout="flex" styleClass="grey-label-panel">
+            <p:outputLabel for="enabled" value="Enabled" />
+            <p:selectBooleanCheckbox id="enabled" value="#{notificationChannelDetailBean.config.enabled}">
+              <p:ajax update="@form" />
+            </p:selectBooleanCheckbox>
+            <p:outputLabel for="allEvents" value="All Events" />
+            <p:selectBooleanCheckbox id="allEvents" value="#{notificationChannelDetailBean.config.allEventsEnabled}"
+              disabled="#{!notificationChannelDetailBean.config.enabled}">
+              <p:ajax update="@form" />
+            </p:selectBooleanCheckbox>
+          </p:panelGrid>
+          
+          <p:dataTable var="event" value="#{notificationChannelDetailBean.config.events}"
+            styleClass="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9">
+            <p:column headerText="Event" sortBy="#{event.kind}">
+              <p:outputLabel value="#{event.kind}" />
+            </p:column>
+            <p:column>
+              <p:selectBooleanCheckbox value="#{event.enabled}"
+                disabled="#{!notificationChannelDetailBean.config.enabled || notificationChannelDetailBean.config.allEventsEnabled}">
+                <p:ajax />
+              </p:selectBooleanCheckbox>
+            </p:column>
+          </p:dataTable>
+          
+          <div class="p-d-flex p-jc-end">
+          <p:commandButton actionListener="#{notificationChannelDetailBean.save}" value="Save"
+            icon="si si-floppy-disk" id="save" />
+          </div>
+        </h:form>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

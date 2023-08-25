@@ -52,6 +52,7 @@ jQuery(function () {
       'roledetail.xhtml': 'roles.xhtml',
       'application-detail.xhtml': 'applications.xhtml',
       'pmv-detail.xhtml': 'applications.xhtml',
+      'notificationChannelDetail.xhtml': 'notificationChannels.xhtml',
       'databasedetail.xhtml': 'databases.xhtml',
       'restclientdetail.xhtml': 'restclients.xhtml',
       'webservicedetail.xhtml': 'webservices.xhtml',
