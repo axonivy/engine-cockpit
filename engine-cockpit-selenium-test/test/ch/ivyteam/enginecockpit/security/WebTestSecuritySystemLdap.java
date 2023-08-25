@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
@@ -21,7 +20,7 @@ import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
-@IvyWebTest (headless = false)
+@IvyWebTest
 public class WebTestSecuritySystemLdap {
 
   private static final String DEFAULT_CONTEXT = "securityIdentityProviderForm:group:1:property:0:propertyString";
@@ -72,7 +71,6 @@ public class WebTestSecuritySystemLdap {
 
 
   @Nested
-  @IvyWebTest (headless = false)
   class LdapBrowserNovell {
     @BeforeEach
     void beforeEach() {
@@ -87,15 +85,14 @@ public class WebTestSecuritySystemLdap {
       openDefaultLdapBrowser();
       $$(DIRECTORY_BROWSER_FORM + "tree > ul > li").shouldHave(size(1));
       $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
-      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(4));
-      $(DIRECTORY_BROWSER_FORM + "tree\\:0_3 .ui-tree-toggler").click();
-      $$(DIRECTORY_BROWSER_FORM + "tree\\:0_3 .ui-treenode .ui-treenode-label")
-              .find(text("ou=IvyTeam Test-OU")).click();
-      $$(DIRECTORY_BROWSER_FORM + "tree\\:0_3 .ui-treenode .ui-treenode-label")
-              .find(text("ou=IvyTeam Test-OU")).shouldHave(cssClass("ui-state-highlight"));
+      $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode")
+        .shouldHave(size(10));
+      $(By.id("directoryBrowser:directoryBrowserForm:tree:0_0"))
+        .shouldHave(text("cn=role1")).click();
       $(By.id(DIRECTORY_BROWSER_CHOOSE)).scrollTo().click();
       $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
-      $(By.id("securityIdentityProviderForm:group:1:property:0:propertyString")).shouldBe(exactValue("ou=IvyTeam Test-OU,o=zugtstorg"));
+      $(By.id("securityIdentityProviderForm:group:1:property:0:propertyString"))
+        .shouldBe(exactValue("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg"));
     }
 
   }
