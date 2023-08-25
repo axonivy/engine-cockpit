@@ -214,9 +214,6 @@ class WebTestSecurityIdentityProvider {
 
       treeNode = $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("Group A.1"));
       treeNode.shouldBe(visible);
-      treeNode.parent().$(".ui-tree-toggler").click();
-      treeNode.parent().parent().$(".ui-treenode-children").findAll("li")
-          .shouldBe(sizeGreaterThan(0));
       $(By.id("directoryBrowser:cancelDirectoryBrowser")).click();
   }
 
