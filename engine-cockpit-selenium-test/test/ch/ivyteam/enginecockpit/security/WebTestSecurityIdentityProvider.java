@@ -1,12 +1,16 @@
 package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +33,7 @@ class WebTestSecurityIdentityProvider {
   private static final String PASSWORD = "securityIdentityProviderForm:group:0:property:1:propertyPassword";
   private static final String TENANT_ID = "securityIdentityProviderForm:group:0:property:0:propertyString";
   private final static String NAME = "test-security-system";
+  private static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
 
   @BeforeEach
   void createSecuritySystem() {
@@ -124,6 +129,19 @@ class WebTestSecurityIdentityProvider {
   }
 
   @Test
+  void keyValuePropertyInvalid() {
+    $(By.id("securityIdentityProviderForm:group:1:newPropertyKeyValue")).shouldBe(visible).click();
+    $(By.id("propertyKeyValueModal")).shouldBe(visible);
+    $(By.id("identityProviderKeyValueForm:attributeNameInput")).shouldBe(empty);
+    $(By.id("identityProviderKeyValueForm:attributeValueInput")).shouldBe(empty);
+
+    $(By.id("identityProviderKeyValueForm:savePropertyKeyAttribute")).click();
+    $(By.id("identityProviderKeyValueForm:attributeNameMessage")).shouldBe(text("Value is required"));
+    $(By.id("identityProviderKeyValueForm:attributeValueMessage")).shouldBe(text("Value is required"));
+    $(By.id("identityProviderKeyValueForm:cancelPropertyKeyValue")).click();
+  }
+
+  @Test
   void directoryBrowser(){
     $(By.id("securityIdentityProviderForm:group:0:property:2:browseDefaultContext")).should(visible)
     .click();
@@ -140,6 +158,25 @@ class WebTestSecurityIdentityProvider {
     $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible);
     $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
     $(By.id("securityIdentityProviderForm:group:0:property:2:propertyString")).shouldHave(value("Group A.1"));
+  }
+
+  @Test
+  void browseEscapedNames() {
+    $(By.id("securityIdentityProviderForm:group:0:property:2:browseDefaultContext")).should(visible)
+    .click();
+    $(By.id("directoryBrowser:directoryBrowserDialog")).shouldBe(visible);
+      var treeNode = $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("Group A"));
+      treeNode.shouldBe(visible);
+      treeNode.parent().$(".ui-tree-toggler").click();
+      treeNode.parent().parent().$(".ui-treenode-children").findAll("li")
+          .shouldBe(sizeGreaterThan(0));
+
+      treeNode = $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("Group A.1"));
+      treeNode.shouldBe(visible);
+      treeNode.parent().$(".ui-tree-toggler").click();
+      treeNode.parent().parent().$(".ui-treenode-children").findAll("li")
+          .shouldBe(sizeGreaterThan(0));
+      $(By.id("directoryBrowser:cancelDirectoryBrowser")).click();
   }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {
