@@ -27,7 +27,7 @@ public class EmailBean {
   }
 
   private void initEmailConfigs() {
-    var config = MailClientConfigProvider.get(null);
+    var config = MailClientConfigProvider.get();
     host = config.host();
     port = config.port();
     email = config.from();
