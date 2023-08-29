@@ -53,7 +53,7 @@
                 <h:outputText value="#{blob.size}" />
               </p:column>
 
-			  <p:column headerText="Mime Type">
+              <p:column headerText="Mime Type">
                 <h:outputText value="#{blob.mimeType}" />
               </p:column>
 
@@ -82,9 +82,9 @@
               </p:column>
               
               <p:column styleClass="table-btn-1">
-              	 <p:commandButton ajax="false" icon="si si-download-bottom" styleClass="rounded-button" onclick="PrimeFaces.monitorDownload(start, stop);">
-            		<p:fileDownload value="#{blob.download()}"/>
-        		</p:commandButton>
+                <p:commandButton ajax="false" icon="si si-download-bottom" styleClass="rounded-button" onclick="PrimeFaces.monitorDownload(start, stop);">
+                  <p:fileDownload value="#{blob.download()}"/>
+                </p:commandButton>
               </p:column>
             </p:dataTable>
           </h:form>
