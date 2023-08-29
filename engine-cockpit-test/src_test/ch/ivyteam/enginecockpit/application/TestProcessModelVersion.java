@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
-import ch.ivyteam.ivy.application.restricted.ProcessModelVersionAdapter;
+import ch.ivyteam.ivy.application.test.pmv.ProcessModelVersionAdapter;
 
 @SuppressWarnings("restriction")
 public class TestProcessModelVersion {
