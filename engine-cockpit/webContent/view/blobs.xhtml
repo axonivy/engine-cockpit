@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewAction action="#{blobsBean.onload}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Monitor</span></li>
+      <li>/</li>
+      <li><span>Engine</span></li>
+      <li>/</li>
+      <li><a href="blobs.xhtml">Blobs</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-office-file-doc-1 card-title-icon"></i>
+          <h2 class="p-m-0">Blobs</h2>
+        </div>
+        <cc:SecuritySystemTabs tabChange="#{blobsBean.onload}" id="tabs">
+          <h:form id="form">
+            <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+              var="blob" value="#{blobsBean.dataModel}" lazy="true" widgetVar="blobsTable"
+              id="blobsTable">
+              <f:facet name="header">
+                <div class="p-d-flex">
+                  <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
+                    <i class="pi pi-search"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('blobsTable').filter()" placeholder="Search" value="#{blobsBean.dataModel.filter}" />
+                  </span>
+                </div>
+              </f:facet>
+
+              <p:column headerText="ID">
+                <h:outputText value="#{blob.id}" />
+              </p:column>
+
+              <p:column headerText="Path" width="300px" sortBy="#{blob.path}">
+                <h:outputText id="path" value="#{blob.path}" />
+              </p:column>
+              
+              <p:column headerText="Size" sortBy="#{blob.size}">
+                <h:outputText value="#{blob.size}" />
+              </p:column>
+
+			  <p:column headerText="Mime Type">
+                <h:outputText value="#{blob.mimeType}" />
+              </p:column>
+
+              <p:column headerText="Created" sortBy="#{blob.createdAt}" sortOrder="desc">
+                <h:outputText value="#{blob.createdAt}">
+                  <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                </h:outputText>
+              </p:column>
+              
+              <p:column headerText="Creator">
+                <h:outputLink value="#{blob.creatorLink}">
+                  <h:outputText value="#{blob.creator}"/>
+                </h:outputLink>
+              </p:column>
+
+              <p:column headerText="Modified" sortBy="#{blob.modifiedAt}">
+                <h:outputText value="#{blob.modifiedAt}">
+                  <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                </h:outputText>
+              </p:column>
+              
+              <p:column headerText="Modifier">
+                <h:outputLink value="#{blob.modifierLink}">
+                  <h:outputText value="#{blob.modifier}"/>
+                </h:outputLink>
+              </p:column>
+              
+              <p:column styleClass="table-btn-1">
+              	 <p:commandButton ajax="false" icon="si si-download-bottom" styleClass="rounded-button" onclick="PrimeFaces.monitorDownload(start, stop);">
+            		<p:fileDownload value="#{blob.download()}"/>
+        		</p:commandButton>
+              </p:column>
+            </p:dataTable>
+          </h:form>
+        </cc:SecuritySystemTabs>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>
