@@ -503,5 +503,42 @@
       "connect" : [
         { "id" : "f62", "to" : "f61" }
       ]
+    }, {
+      "id" : "f64",
+      "type" : "RequestStart",
+      "name" : "createBlobs",
+      "config" : {
+        "signature" : "createBlobs"
+      },
+      "visual" : {
+        "at" : { "x" : 72, "y" : 1168 }
+      },
+      "connect" : [
+        { "id" : "f66", "to" : "f65" }
+      ]
+    }, {
+      "id" : "f65",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.enginecockpit.monitor.Blob;",
+            "Blob.create();"
+          ]
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 1168 }
+      },
+      "connect" : [
+        { "id" : "f68", "to" : "f67" }
+      ]
+    }, {
+      "id" : "f67",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 344, "y" : 1168 }
+      }
     } ]
 }
