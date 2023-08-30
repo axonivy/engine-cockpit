@@ -32,7 +32,7 @@ public class WebTestDownload {
 
   private static final long TIMEOUT = Duration.ofMinutes(1).toMillis();
 
-@BeforeAll
+  @BeforeAll
   static void setup() {
     Selenide.closeWebDriver();
     Configuration.proxyEnabled = true;

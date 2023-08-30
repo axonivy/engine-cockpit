@@ -55,6 +55,7 @@ public class Navigation {
   private static final String MONITOR_JAVA_JFR = "#menuform\\:sr_monitor_java_jfr";
 private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_java_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
+  private static final String MONITOR_ENGINE_BLOBS_MENU = "#menuform\\:sr_monitor_engine_blobs";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
   private static final String MONITOR_ENGINE_START_EVENTS_MENU = "#menuform\\:sr_monitor_engine_start_events";
   private static final String MONITOR_ENGINE_INTERMEDIATE_EVENTS_MENU = "#menuform\\:sr_monitor_engine_intermediate_events";
@@ -225,6 +226,12 @@ private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_j
     toSubMenu(SERVICES_MENU, SERVICES_NOTIFICATION_MENU);
     assertCurrentUrlContains("notifications.xhtml");
     menuShouldBeActive(SERVICES_NOTIFICATION_MENU);
+  }
+
+  public static void toBlobs() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_BLOBS_MENU);
+    assertCurrentUrlContains("blobs.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_BLOBS_MENU);
   }
 
   public static void toDatabaseDetail(String databaseName) {
