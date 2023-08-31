@@ -19,7 +19,7 @@ useSSl: true
 
 # dropdown
 # [enum: MATCHING_RULE, DIRECT, TRAVERSE]
-NestedGroupsLookup: MATCHING_RULE
+NestedGroupsLookup: DIRECT
 
 # [keyvalue:Ivy Role,Azure Group GUID]
 # [directoryBrowser]
