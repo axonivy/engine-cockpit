@@ -326,7 +326,7 @@ class WebTestRoleDetail {
     Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
     $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
 
-    $(DIRECTORY_BROWSER_DIALOG).shouldBe(visible);
+    $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
     $(DIRECTORY_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-tree-toggler").click();
     $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode").shouldHave(size(11));
@@ -335,7 +335,7 @@ class WebTestRoleDetail {
     $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
     $("#directoryBrowser\\:chooseDirectoryName").click();
-    $(DIRECTORY_BROWSER_DIALOG).shouldNotBe(visible);
+    $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
     $("#roleInformationForm\\:externalSecurityName")
             .shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
@@ -349,7 +349,7 @@ class WebTestRoleDetail {
             .sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
 
-    $(DIRECTORY_BROWSER_DIALOG).shouldBe(visible);
+    $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
     $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
             .shouldBe(visible, cssClass("ui-state-highlight"));
     Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
