@@ -50,10 +50,10 @@
       <p:outputLabel for="onScheduleCron" value="Synchronization schedule time" />
       <h:panelGroup>
         <p:inputMask id="onScheduleTime" value="#{securityProviderBean.onScheduleTime}" mask="99:99"
-          placeholder="#{securityDefaultValueBean.onScheduleTime}" rendered="#{!securityProviderBean.useCron}"/>
+          placeholder="00:00" rendered="#{!securityProviderBean.useCron}"/>
         <h:panelGroup rendered="#{securityProviderBean.useCron}">
           <p:inputText id="onScheduleCron" value="#{securityProviderBean.onScheduleCron}"
-            placeholder="#{securityDefaultValueBean.onScheduleCron}"/>
+            placeholder="0 0 0 * * ?"/>
           <br/>
           <h:panelGroup layout="block" styleClass="p-d-flex p-align-center p-mt-1">  
             <h:outputText value="#{securityProviderBean.cronReadable}" style="opacity: 0.5;"/>
