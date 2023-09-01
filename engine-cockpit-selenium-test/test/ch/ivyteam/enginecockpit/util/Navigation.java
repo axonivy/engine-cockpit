@@ -123,7 +123,7 @@ private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_j
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
     $("#securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
-    assertCurrentUrlContains("security-provider.xhtml?securitySystemName=" + secSystemName);
+    assertCurrentUrlContains("identity-provider.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
@@ -133,7 +133,7 @@ private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_j
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
     $("#securityProviderForm\\:editProviderBtn").shouldBe(visible).click();
-    assertCurrentUrlContains("security-provider.xhtml?securitySystemName=" + secSystemName);
+    assertCurrentUrlContains("identity-provider.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
