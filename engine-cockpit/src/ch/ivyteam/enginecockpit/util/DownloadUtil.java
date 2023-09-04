@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.ZipEntry;
@@ -20,7 +21,7 @@ public class DownloadUtil
 
   public static void zipDir(Path source, OutputStream out) throws IOException {
     try (ZipOutputStream zs = new ZipOutputStream(out)) {
-      Files.walk(source)
+      Files.walk(source, FileVisitOption.FOLLOW_LINKS)
               .filter(path -> !Files.isDirectory(path))
               .forEach(path -> {
                 ZipEntry zipEntry = new ZipEntry(source.relativize(path).toString());
