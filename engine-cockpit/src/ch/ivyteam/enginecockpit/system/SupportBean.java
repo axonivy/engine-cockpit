@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.system;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -42,7 +43,7 @@ public class SupportBean {
     try (var fos = new FileOutputStream(zipFile);
             var zos = new ZipOutputStream(fos)) {
       addEntryToZip(zos, "report.txt", errorReport.getBytes());
-      try (var walker = Files.walk(UrlUtil.getLogDir().toRealPath())) {
+      try (var walker = Files.walk(UrlUtil.getLogDir().toRealPath(), FileVisitOption.FOLLOW_LINKS)) {
         walker.filter(Files::isRegularFile)
           .filter(log -> log.toString().endsWith(".log"))
           .forEach(log -> addLogToZip(zos, log.toFile()));

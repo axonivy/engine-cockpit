@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.monitor;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,12 +45,12 @@ public class LogBean implements AllResourcesDownload {
 
   private void initLogFiles() {
     try {
-      logs = Files.walk(UrlUtil.getLogDir().toRealPath())
-              .filter(Files::isRegularFile)
-              .filter(log -> log.toString().endsWith(".log"))
-              .map(log -> new LogView(log.getFileName().toString(), date))
-              .sorted()
-              .collect(Collectors.toList());
+      logs = Files.walk(UrlUtil.getLogDir().toRealPath() , FileVisitOption.FOLLOW_LINKS)
+        .filter(Files::isRegularFile)
+        .filter(log -> log.toString().endsWith(".log"))
+        .map(log -> new LogView(log.getFileName().toString(), date))
+        .sorted()
+        .collect(Collectors.toList());
     } catch (IOException ex) {
       FacesContext.getCurrentInstance().addMessage("msgs",
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not load logs", ex.getMessage()));
