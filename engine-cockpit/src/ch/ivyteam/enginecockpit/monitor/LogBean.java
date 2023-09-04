@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.monitor;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +44,7 @@ public class LogBean {
 
   private void initLogFiles() {
     try {
-      logs = Files.walk(UrlUtil.getLogDir().toPath())
+      logs = Files.walk(UrlUtil.getLogDir().toPath(), FileVisitOption.FOLLOW_LINKS)
               .filter(Files::isRegularFile)
               .filter(log -> log.toString().endsWith(".log"))
               .map(log -> new LogView(log.getFileName().toString(), date))
