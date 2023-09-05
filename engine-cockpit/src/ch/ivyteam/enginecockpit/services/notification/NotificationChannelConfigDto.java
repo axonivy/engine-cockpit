@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services.notification;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
@@ -73,7 +74,7 @@ public class NotificationChannelConfigDto {
     var presentEventKinds = config.events();
     var events = eventKinds.stream()
             .map(eventKind -> new NotificationEventDto(eventKind, presentEventKinds.contains(eventKind)))
-            .toList();
+            .collect(Collectors.toList());
 
     return new NotificationChannelConfigDto(channel.id(), channel.displayName(), channel.displayIcon(),
             config.enabled(), config.allEventsEnabled(), events, securityContext.getName());
