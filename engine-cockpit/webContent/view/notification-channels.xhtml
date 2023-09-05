@@ -3,12 +3,16 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
+  <f:metadata>
+    <f:viewAction action="#{notificationChannelsBean.onload}" />
+  </f:metadata>
+
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
       <li><span>Services</span></li>
       <li>/</li>
-      <li><a href="notificationChannels.xhtml">Notification Channels</a></li>
+      <li><a href="notification-channels.xhtml">Notification Channels</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -23,7 +27,7 @@
           <h2 class="p-m-0">Notification Channels</h2>
         </div>
         <cc:SecuritySystemTabs tabChange="#{notificationChannelsBean.onload}" id="securitySystems">
-          <ui:include src="notificationChannelsTable.xhtml" />
+          <ui:include src="notification-channels-table.xhtml" />
         </cc:SecuritySystemTabs>
       </div>
     </ui:define>

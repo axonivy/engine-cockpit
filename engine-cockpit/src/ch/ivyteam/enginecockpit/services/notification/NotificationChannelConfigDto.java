@@ -61,7 +61,7 @@ public class NotificationChannelConfigDto {
   }
 
   public String getViewUrl() {
-    return String.format("notificationChannelDetail.xhtml?system=%s&channel=%s", system, channelId);
+    return String.format("notification-channel-detail.xhtml?system=%s&channel=%s", system, channelId);
   }
 
   public static NotificationChannelConfigDto create(ManagerBean managerBean, NotificationChannel channel) {

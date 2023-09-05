@@ -21,7 +21,6 @@ public class NotificationChannelsBean {
 
   public NotificationChannelsBean() {
     managerBean = ManagerBean.instance();
-    onload();
   }
 
   public void onload() {
