@@ -22,11 +22,11 @@
         </h:outputText>
       </a>
     </p:column>
-    <p:column headerText="Enabled" sortBy="#{config.enabled}">
-      <h:outputText value="#{config.enabled}" />
+    <p:column headerText="Enabled" sortBy="#{config.enabled}" style="text-align: center">
+      <i class="si table-icon si-#{config.enabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
-    <p:column headerText="All Events" sortBy="#{config.allEventsEnabled}">
-      <h:outputText value="#{config.allEventsEnabled}" />
+    <p:column headerText="All Events" sortBy="#{config.allEventsEnabled}" style="text-align: center">
+      <i class="si table-icon si-#{config.allEventsEnabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
   </p:dataTable>
 </h:form>

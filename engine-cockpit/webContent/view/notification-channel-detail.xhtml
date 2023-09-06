@@ -31,10 +31,14 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 #{notificationChannelDetailBean.config.displayicon} card-title-icon"></i>
           <h2 class="p-m-0">#{notificationChannelDetailBean.config.displayName}</h2>
+          <p:commandButton id="reset" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
+            icon="si si-undo" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" update="form"/>
+          <p:commandButton id="save" actionListener="#{notificationChannelDetailBean.save}" title="Save changes"
+            icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button"/>
         </div>
         <h:form id="form">
-          <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" 
-            layout="flex" styleClass="grey-label-panel">
+          <p:panelGrid id="emailNotificationSettings" columns="2" columnClasses="p-col-12 p-md-2 p-lg-2, p-col-12 p-md-10 p-lg-10"
+            layout="flex" styleClass="grey-label-panel" style="margin: 15px">
             <p:outputLabel for="enabled" value="Enabled" />
             <p:selectBooleanCheckbox id="enabled" value="#{notificationChannelDetailBean.config.enabled}">
               <p:ajax update="@form" />
@@ -46,8 +50,7 @@
             </p:selectBooleanCheckbox>
           </p:panelGrid>
           
-          <p:dataTable var="event" value="#{notificationChannelDetailBean.config.events}"
-            styleClass="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9">
+          <p:dataTable var="event" value="#{notificationChannelDetailBean.config.events}">
             <p:column headerText="Event" sortBy="#{event.kind}">
               <p:outputLabel value="#{event.kind}" />
             </p:column>
@@ -58,11 +61,6 @@
               </p:selectBooleanCheckbox>
             </p:column>
           </p:dataTable>
-          
-          <div class="p-d-flex p-jc-end">
-          <p:commandButton actionListener="#{notificationChannelDetailBean.save}" value="Save"
-            icon="si si-floppy-disk" id="save" />
-          </div>
         </h:form>
       </div>
     </ui:define>
