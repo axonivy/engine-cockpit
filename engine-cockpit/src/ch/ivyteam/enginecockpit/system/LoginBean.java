@@ -31,7 +31,7 @@ public class LoginBean {
   }
 
   public void loginDefaultAdminOrRedirect() {
-    if (EngineMode.is(EngineMode.DEMO)) {
+    if (EngineMode.isAnyOf(EngineMode.DEMO, EngineMode.DESIGNER_EMBEDDED)) {
       if (ISession.current().loginSessionUser("admin", "admin")) {
         return;
       }
