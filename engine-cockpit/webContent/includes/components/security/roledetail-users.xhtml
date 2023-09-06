@@ -41,7 +41,7 @@
         </f:facet>
         
         <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
-          <a href="#{user.getViewUrl(roleDetailBean.securitySystem)}" class="p-d-flex p-ai-center">
+          <a href="#{user.getViewUrl()}" class="p-d-flex p-ai-center">
             <h:outputText styleClass="p-ml-1 user-name" value="#{user.name}">
               <p:avatar gravatar="#{user.email}" icon="si si-single-neutral-actions" shape="circle" styleClass="user-avatar" />
             </h:outputText>

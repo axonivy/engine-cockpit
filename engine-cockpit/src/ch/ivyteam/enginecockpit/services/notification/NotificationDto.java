@@ -1,9 +1,7 @@
 package ch.ivyteam.enginecockpit.services.notification;
 
 import java.util.Date;
-
 import javax.ws.rs.core.UriBuilder;
-
 import ch.ivyteam.ivy.notification.Notification;
 import ch.ivyteam.ivy.notification.delivery.NotificationDeliveryRepository;
 
@@ -42,7 +40,7 @@ public class NotificationDto {
   }
 
   public String getViewUrl() {
-    return UriBuilder.fromPath("notification.xhtml")
+    return UriBuilder.fromPath("notificationDeliveries.xhtml")
             .queryParam("system", notification.securityContext().getName())
             .queryParam("id", notification.uuid())
             .build()

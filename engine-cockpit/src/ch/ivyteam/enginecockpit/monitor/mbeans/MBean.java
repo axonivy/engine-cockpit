@@ -14,14 +14,14 @@ import javax.management.ObjectName;
 import javax.management.ReflectionException;
 import javax.management.openmbean.CompositeData;
 
-import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.enginecockpit.util.DurationFormat;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
 
 public class MBean {
 
-  public static final String NOT_AVAILABLE = "n.a.";
+  public static final String NOT_AVAILABLE = DurationFormat.NOT_AVAILABLE_STR;
   private static final Object[] EMPTY_PARAMS = new Object[0];
   private static final String[] EMPTY_TYPES = new String[0];
 
@@ -44,37 +44,6 @@ public class MBean {
       handler.showError("Could not parse MBean name '"+name+"'", ex);
       return null;
     }
-  }
-
-  public static String formatMicros(Long value) {
-    if (value == null) {
-      return NOT_AVAILABLE;
-    }
-    return format(value, Unit.MICRO_SECONDS);
-  }
-
-  private static String format(long value, Unit baseUnit) {
-    if (value < 0) {
-      return "n.a.";
-    }
-    Unit unit = baseUnit;
-    var scaledValue = baseUnit.convertTo(value, unit);
-    while (shouldScaleUp(unit, scaledValue)) {
-      unit = unit.scaleUp();
-      scaledValue = baseUnit.convertTo(value, unit);
-    }
-    return scaledValue + " " + unit.symbol();
-  }
-
-  private static String formatMillis(long value) {
-    return format(value, Unit.MILLI_SECONDS);
-  }
-
-  private static boolean shouldScaleUp(Unit unit, long scaledValue) {
-    if (Unit.MICRO_SECONDS.equals(unit) || Unit.MILLI_SECONDS.equals(unit)) {
-      return scaledValue >= 1000;
-    }
-    return scaledValue >= 120;
   }
 
   public Attribute readAttribute(String attribute) {
@@ -131,11 +100,11 @@ public class MBean {
     }
 
     public String asMillis() {
-      return formatMillis(asNullableLong());
+      return DurationFormat.NOT_AVAILABLE.milliSeconds(asNullableLong());
     }
 
     public String asMicros() {
-      return formatMicros(asNullableLong());
+      return DurationFormat.NOT_AVAILABLE.microSeconds(asNullableLong());
     }
 
     public boolean asBoolean() {
@@ -162,13 +131,13 @@ public class MBean {
     public String asAvgExecutionTime() {
       var total = readAttribute(attribute+"TotalExecutionTimeInMicroSeconds").asNullableLong();
       if (total == null) {
-        return MBean.formatMicros(total);
+        return DurationFormat.NOT_AVAILABLE.microSeconds(total);
       }
       long executions = asLong();
       if (executions == 0) {
         return NOT_AVAILABLE;
       }
-      return MBean.formatMicros(total / executions);
+      return DurationFormat.NOT_AVAILABLE.microSeconds(total / executions);
     }
 
     public String asMaxExecutionTime() {

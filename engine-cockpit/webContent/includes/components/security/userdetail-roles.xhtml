@@ -39,9 +39,9 @@
       
       <p:column headerText="All Roles" sortBy="#{role.name}">
         <p:treeNode type="role" rendered="#{node.type == 'role'}">
-          <a href="#{role.getViewUrl(userDetailBean.securitySystem)}">
+          <a href="#{role.getViewUrl()}">
             <h:outputText value="#{role.name}" styleClass="role-name">
-              <i class="si si-multiple-neutral-1 table-icon"></i>
+              <i class="#{role.cssIconClass} table-icon"></i>
             </h:outputText>
             <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
             <h:panelGroup rendered="#{role.managed and !userDetailBean.ivySecuritySystem}">

@@ -47,7 +47,7 @@ jQuery(function () {
       'security-detail.xhtml': 'securitysystem.xhtml',
       'security-ldap.xhtml': 'securitysystem.xhtml',
       'identity-provider.xhtml': 'securitysystem.xhtml',
-      'notification.xhtml': 'notifications.xhtml',
+      'notificationDeliveries.xhtml': 'notifications.xhtml',
       'userdetail.xhtml': 'users.xhtml',
       'roledetail.xhtml': 'roles.xhtml',
       'application-detail.xhtml': 'applications.xhtml',
