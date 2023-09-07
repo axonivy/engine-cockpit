@@ -67,7 +67,7 @@
                                   rendered="#{property.isDirectoryBrowser()}" />
                              </h:panelGroup>
                                 <small class="block">#{property.descriptionFirstline}</small>
-                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
+                                <h:panelGroup id="usedByHelpString" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
                                   <i class="si si-question-circle"></i>
                                   <p:tooltip for="@parent" value="#{property.description}" position="top"/>
                                 </h:panelGroup>
@@ -80,7 +80,7 @@
                           <h:panelGroup  styleClass="md-inputfield">
                             <p:password id="propertyPassword" value="#{property.value}" placeholder="#{property.passwordPlaceholder}"></p:password>
                             <small class="block">#{property.descriptionFirstline}</small>
-                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
+                                <h:panelGroup id="usedByHelpPassword" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
                                   <i class="si si-question-circle"></i>
                                   <p:tooltip for="@parent" value="#{property.description}" position="top"/>
                                 </h:panelGroup>
@@ -93,7 +93,7 @@
                           <h:panelGroup  styleClass="md-inputfield">
                             <p:selectBooleanCheckbox id="propertyBoolean" value="#{property.value}" />
                             <small class="block">#{property.descriptionFirstline}</small>
-                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
+                                <h:panelGroup id="usedByHelpBoolean" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
                                   <i class="si si-question-circle"></i>
                                   <p:tooltip for="@parent" value="#{property.description}" position="top"/>
                                 </h:panelGroup>
@@ -106,7 +106,7 @@
                           <h:panelGroup  styleClass="md-inputfield">
                             <p:inputNumber id="propertyNumber" value="#{property.value}" decimalPlaces="0" placeholder="#{property.defaultValue}" />
                             <small class="block">#{property.descriptionFirstline}</small>
-                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
+                                <h:panelGroup id="usedByHelpNumber" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
                                   <i class="si si-question-circle"></i>
                                   <p:tooltip for="@parent" value="#{property.description}" position="top"/>
                                 </h:panelGroup>
@@ -121,7 +121,7 @@
                               <f:selectItems value="#{property.enumerationValues}" var="value" itemLabel="#{value}" itemValue="#{value}"/>
                               </p:selectOneMenu>
                            <small class="block">#{property.descriptionFirstline}</small>
-                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
+                                <h:panelGroup id="usedByHelpDropdown" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
                                   <i class="si si-question-circle"></i>
                                   <p:tooltip for="@parent" value="#{property.description}" position="top"/>
                                 </h:panelGroup>
@@ -151,7 +151,7 @@
                               </p:dataTable> 
                               <h:panelGroup>
                             <small class="block">#{property.descriptionFirstline}</small>
-                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
+                                <h:panelGroup id="usedByHelpKeyValue" styleClass="label-help-icon" rendered="#{property.hasSecondLine()}">
                                   <i class="si si-question-circle"></i>
                                   <p:tooltip for="@parent" value="#{property.description}" position="top"/>
                                 </h:panelGroup>
