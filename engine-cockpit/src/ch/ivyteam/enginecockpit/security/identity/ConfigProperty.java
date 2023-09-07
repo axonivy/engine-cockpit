@@ -86,6 +86,14 @@ public class ConfigProperty {
     return firstline[0];
   }
 
+  public boolean hasSecondLine() {
+    String[] lines = metadata.description().split("\n");
+    if (lines.length == 1) {
+      return false;
+    }
+      return true;
+  }
+
   public List<String> getEnumerationValues() {
     return metadata.enumerationValues();
   }
