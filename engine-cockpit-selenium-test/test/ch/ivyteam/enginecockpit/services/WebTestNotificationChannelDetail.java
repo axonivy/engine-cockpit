@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.services;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.refresh;
 
@@ -12,8 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.SelenideElement;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -22,17 +22,17 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 public class WebTestNotificationChannelDetail {
 
-  private static SelenideElement enabledCheckbox;
-  private static SelenideElement allEventsCheckbox;
-  private static SelenideElement firstEventCheckbox;
+  private static SelectBooleanCheckbox enabledCheckbox;
+  private static SelectBooleanCheckbox allEventsCheckbox;
+  private static SelectBooleanCheckbox firstEventCheckbox;
 
   @BeforeEach
   void beforeEach() {
     login();
     Navigation.toNotificationChannelDetail("web");
-    enabledCheckbox = checkbox("form:enabled");
-    allEventsCheckbox = checkbox("form:allEvents");
-    firstEventCheckbox = checkbox("form:events:0:eventEnabled");
+    enabledCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:enabled"));
+    allEventsCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:allEvents"));
+    firstEventCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:events:0:eventEnabled"));
   }
 
   @AfterEach
@@ -49,47 +49,40 @@ public class WebTestNotificationChannelDetail {
   void uncheckEnabledCheckbox_disableOtherCheckboxes() {
     assertDefault();
 
-    enabledCheckbox.click();
+    enabledCheckbox.removeChecked();
 
-    assertCheckboxIsChecked(enabledCheckbox, false);
+    allEventsCheckbox.shouldBeDisabled(true);
+    allEventsCheckbox.shouldBeChecked(true);
 
-    assertCheckboxIsEnabled(allEventsCheckbox, false);
-    assertCheckboxIsChecked(allEventsCheckbox, true);
-
-    assertCheckboxIsEnabled(firstEventCheckbox, false);
-    assertCheckboxIsChecked(firstEventCheckbox, false);
+    firstEventCheckbox.shouldBeDisabled(true);
+    firstEventCheckbox.shouldBeChecked(false);
   }
 
   @Test
   void uncheckAllEventsCheckbox_enableEventCheckbox() {
     assertDefault();
 
-    allEventsCheckbox.click();
+    allEventsCheckbox.removeChecked();
 
-    assertCheckboxIsChecked(enabledCheckbox, true);
+    enabledCheckbox.shouldBeChecked(true);
 
-    assertCheckboxIsEnabled(allEventsCheckbox, true);
-    assertCheckboxIsChecked(allEventsCheckbox, false);
+    allEventsCheckbox.shouldBeDisabled(false);
 
-    assertCheckboxIsEnabled(firstEventCheckbox, true);
-    assertCheckboxIsChecked(firstEventCheckbox, false);
+    firstEventCheckbox.shouldBeDisabled(false);
+    firstEventCheckbox.shouldBeChecked(false);
   }
 
   @Test
   void resetChanges() {
     assertDefault();
 
-    allEventsCheckbox.click();
-    firstEventCheckbox.click();
-    enabledCheckbox.click();
+    allEventsCheckbox.removeChecked();
+    firstEventCheckbox.setChecked();
+    enabledCheckbox.removeChecked();
 
-    assertCheckboxIsChecked(enabledCheckbox, false);
+    allEventsCheckbox.shouldBeDisabled(true);
 
-    assertCheckboxIsEnabled(allEventsCheckbox, false);
-    assertCheckboxIsChecked(allEventsCheckbox, false);
-
-    assertCheckboxIsEnabled(firstEventCheckbox, false);
-    assertCheckboxIsChecked(firstEventCheckbox, true);
+    firstEventCheckbox.shouldBeDisabled(true);
 
     $(By.id("reset")).click();
 
@@ -100,17 +93,13 @@ public class WebTestNotificationChannelDetail {
   void notSaveChanges() {
     assertDefault();
 
-    allEventsCheckbox.click();
-    firstEventCheckbox.click();
-    enabledCheckbox.click();
+    allEventsCheckbox.removeChecked();
+    firstEventCheckbox.setChecked();
+    enabledCheckbox.removeChecked();
 
-    assertCheckboxIsChecked(enabledCheckbox, false);
+    allEventsCheckbox.shouldBeDisabled(true);
 
-    assertCheckboxIsEnabled(allEventsCheckbox, false);
-    assertCheckboxIsChecked(allEventsCheckbox, false);
-
-    assertCheckboxIsEnabled(firstEventCheckbox, false);
-    assertCheckboxIsChecked(firstEventCheckbox, true);
+    firstEventCheckbox.shouldBeDisabled(true);
 
     refresh();
 
@@ -121,28 +110,24 @@ public class WebTestNotificationChannelDetail {
   void saveChanges() {
     assertDefault();
 
-    allEventsCheckbox.click();
-    firstEventCheckbox.click();
-    enabledCheckbox.click();
+    allEventsCheckbox.removeChecked();
+    firstEventCheckbox.setChecked();
+    enabledCheckbox.removeChecked();
 
-    assertCheckboxIsChecked(enabledCheckbox, false);
+    allEventsCheckbox.shouldBeDisabled(true);
 
-    assertCheckboxIsEnabled(allEventsCheckbox, false);
-    assertCheckboxIsChecked(allEventsCheckbox, false);
-
-    assertCheckboxIsEnabled(firstEventCheckbox, false);
-    assertCheckboxIsChecked(firstEventCheckbox, true);
+    firstEventCheckbox.shouldBeDisabled(true);
 
     $(By.id("save")).click();
     refresh();
 
-    assertCheckboxIsChecked(enabledCheckbox, false);
+    enabledCheckbox.shouldBeChecked(false);
 
-    assertCheckboxIsEnabled(allEventsCheckbox, false);
-    assertCheckboxIsChecked(allEventsCheckbox, false);
+    allEventsCheckbox.shouldBeDisabled(true);
+    allEventsCheckbox.shouldBeChecked(false);
 
-    assertCheckboxIsEnabled(firstEventCheckbox, false);
-    assertCheckboxIsChecked(firstEventCheckbox, true);
+    firstEventCheckbox.shouldBeDisabled(true);
+    firstEventCheckbox.shouldBeChecked(true);
   }
 
   @Test
@@ -152,33 +137,13 @@ public class WebTestNotificationChannelDetail {
     table.firstColumnShouldBe(CollectionCondition.exactTexts("new-task"));
   }
 
-  private SelenideElement checkbox(String id) {
-    return $(By.id(id)).lastChild();
-  }
-
   private void assertDefault() {
-    assertCheckboxIsChecked(enabledCheckbox, true);
+    enabledCheckbox.shouldBeChecked(true);
 
-    assertCheckboxIsEnabled(allEventsCheckbox, true);
-    assertCheckboxIsChecked(allEventsCheckbox, true);
+    allEventsCheckbox.shouldBeDisabled(false);
+    allEventsCheckbox.shouldBeChecked(true);
 
-    assertCheckboxIsEnabled(firstEventCheckbox, false);
-    assertCheckboxIsChecked(firstEventCheckbox, false);
-  }
-
-  private void assertCheckboxIsEnabled(SelenideElement checkbox, boolean enabled) {
-    if (enabled) {
-      checkbox.shouldNotHave(cssClass("ui-state-disabled"));
-    } else {
-      checkbox.shouldHave(cssClass("ui-state-disabled"));
-    }
-  }
-
-  private void assertCheckboxIsChecked(SelenideElement checkbox, boolean checked) {
-    if (checked) {
-      checkbox.lastChild().shouldHave(cssClass("ui-icon-check"));
-    } else {
-      checkbox.lastChild().shouldHave(cssClass("ui-icon-blank"));
-    }
+    firstEventCheckbox.shouldBeDisabled(true);
+    firstEventCheckbox.shouldBeChecked(false);
   }
 }
