@@ -66,7 +66,11 @@
                                   update="directoryBrowser:directoryBrowserDialog"
                                   rendered="#{property.isDirectoryBrowser()}" />
                              </h:panelGroup>
-                                <small class="block">#{property.description}</small> 
+                                <small class="block">#{property.descriptionFirstline}</small>
+                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
+                                  <i class="si si-question-circle"></i>
+                                  <p:tooltip for="@parent" value="#{property.description}" />
+                                </h:panelGroup>
                           </h:panelGroup>
                        </p:panelGrid>
 
@@ -75,7 +79,11 @@
                           <p:outputLabel value="#{property.label}" />
                           <h:panelGroup  styleClass="md-inputfield">
                             <p:password id="propertyPassword" value="#{property.value}" placeholder="#{property.passwordPlaceholder}"></p:password>
-                            <small class="block">#{property.description}</small>
+                            <small class="block">#{property.descriptionFirstline}</small>
+                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
+                                  <i class="si si-question-circle"></i>
+                                  <p:tooltip for="@parent" value="#{property.description}" />
+                                </h:panelGroup>
                           </h:panelGroup>
                        </p:panelGrid>
 
@@ -84,7 +92,11 @@
                           <p:outputLabel value="#{property.label}" />
                           <h:panelGroup  styleClass="md-inputfield">
                             <p:selectBooleanCheckbox id="propertyBoolean" value="#{property.value}" />
-                            <small class="block">#{property.description}</small>
+                            <small class="block">#{property.descriptionFirstline}</small>
+                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
+                                  <i class="si si-question-circle"></i>
+                                  <p:tooltip for="@parent" value="#{property.description}" />
+                                </h:panelGroup>
                           </h:panelGroup>
                        </p:panelGrid>
                        
@@ -93,7 +105,11 @@
                           <p:outputLabel value="#{property.label}" />
                           <h:panelGroup  styleClass="md-inputfield">
                             <p:inputNumber id="propertyNumber" value="#{property.value}" decimalPlaces="0" placeholder="#{property.defaultValue}" />
-                            <small class="block">#{property.description}</small>
+                            <small class="block">#{property.descriptionFirstline}</small>
+                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
+                                  <i class="si si-question-circle"></i>
+                                  <p:tooltip for="@parent" value="#{property.description}" />
+                                </h:panelGroup>
                           </h:panelGroup>
                        </p:panelGrid>
 
@@ -104,7 +120,11 @@
                             <p:selectOneMenu id="propertyDropdown" value="#{property.value}" >
                               <f:selectItems value="#{property.enumerationValues}" var="value" itemLabel="#{value}" itemValue="#{value}"/>
                               </p:selectOneMenu>
-                            <small class="block">#{property.description}</small>
+                           <small class="block">#{property.descriptionFirstline}</small>
+                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
+                                  <i class="si si-question-circle"></i>
+                                  <p:tooltip for="@parent" value="#{property.description}" />
+                                </h:panelGroup>
                           </h:panelGroup>
                        </p:panelGrid>
 
@@ -129,7 +149,13 @@
                                 </p:commandButton>
                                </p:column>
                               </p:dataTable> 
-                            <small class="block">#{property.description}</small>
+                              <h:panelGroup>
+                            <small class="block">#{property.descriptionFirstline}</small>
+                                <h:panelGroup id="usedByHelp" styleClass="label-help-icon">
+                                  <i class="si si-question-circle"></i>
+                                  <p:tooltip for="@parent" value="#{property.description}" />
+                                </h:panelGroup>
+                              </h:panelGroup>
                        </p:panelGrid>
                        
                       </ui:fragment>

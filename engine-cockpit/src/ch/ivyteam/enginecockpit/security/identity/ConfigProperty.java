@@ -81,6 +81,11 @@ public class ConfigProperty {
     return metadata.description();
   }
 
+  public String getDescriptionFirstline() {
+    String[] firstline = metadata.description().split("\n");
+    return firstline[0];
+  }
+
   public List<String> getEnumerationValues() {
     return metadata.enumerationValues();
   }
