@@ -120,6 +120,10 @@ public class EngineCockpitUtil {
     runTestProcess("16E881C7DC458C7D/cleanupDataDirs.ivp");
   }
 
+  public static void resetNotificationConfig() {
+    runTestProcess("16E881C7DC458C7D/cleanupNotification.ivp");
+  }
+
   public static void disableRestServlet() {
     runTestProcess("16E881C7DC458C7D/disableRestServlet.ivp");
   }
