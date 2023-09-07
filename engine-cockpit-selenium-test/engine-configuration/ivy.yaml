@@ -2,6 +2,16 @@
 Connector.HTTP.AllowTrace: true
 
 SecuritySystems:
+test-nd:
+    IdentityProvider:
+      Name: novell-edirectory
+      Config:
+        Connection:
+          Url: ldap://test-edirectory.ivyteam.io:389
+          UserName: cn=admin,o=org
+          Password: admin
+        Binding:
+          DefaultContext: ou=IvyTeam Test-OU,o=zugtstorg
 Administrators:
   admin:
     Password: admin
