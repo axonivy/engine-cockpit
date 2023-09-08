@@ -6,9 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 
@@ -79,6 +77,16 @@ public class ConfigProperty {
 
   public String getDescription() {
     return metadata.description();
+  }
+
+  public String getDescriptionFirstline() {
+    String[] firstline = metadata.description().split("\n");
+    return firstline[0];
+  }
+
+  public boolean hasSecondLine() {
+    String[] lines = metadata.description().split("\n");
+    return lines.length > 1;
   }
 
   public List<String> getEnumerationValues() {
