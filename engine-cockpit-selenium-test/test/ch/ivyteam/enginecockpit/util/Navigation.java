@@ -9,10 +9,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.className;
-
 import java.util.ArrayList;
 import java.util.Collections;
-
 import com.codeborne.selenide.Selenide;
 
 public class Navigation {
@@ -27,6 +25,7 @@ public class Navigation {
   private static final String VARIABLES_MENU = "#menuform\\:sr_variables";
   private static final String BUSINESS_CALENDAR_MENU = "#menuform\\:sr_business_calendar";
   private static final String BRANDING_MENU = "#menuform\\:sr_branding";
+  private static final String SSL_MENU = "#menuform\\:sr_ssl";
   private static final String SERVICES_MENU = "#menuform\\:sr_services";
   private static final String SERVICES_SEARCH_ENGINE = "#menuform\\:sr_searchengine";
   private static final String SERVICES_EMAIL_MENU = "#menuform\\:sr_email";
@@ -161,6 +160,12 @@ public class Navigation {
     toSubMenu(CONFIGURATION_MENU, BRANDING_MENU);
     assertCurrentUrlContains("branding.xhtml");
     menuShouldBeActive(BRANDING_MENU);
+  }
+
+  public static void toSSL() {
+    toSubMenu(CONFIGURATION_MENU, SSL_MENU);
+    assertCurrentUrlContains("sslclientconfig.xhtml");
+    menuShouldBeActive(SSL_MENU);
   }
 
   public static void toUsers() {
