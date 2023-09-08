@@ -10,30 +10,10 @@
 
 <div class="card">
   <h:form id="sslClientform">
-    <p:growl id="restConfigMsg" for="restConfigMsg" showDetail="true">
-      <p:autoUpdate />
-    </p:growl>
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-information-circle"></i>
         <h6 class="p-m-0">Trust Store configurations</h6>
-        <!-- <p:commandButton id="testRestBtn" title="Test Rest Connection" oncomplete="PF('connectionTestModel').show()"
-          icon="si si-phone-actions-call" update="restClientAdditionalConfigForm, connResult:connectionTestModel"
-          styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" />
-        <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()"
-          title="Reset configuration" icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
-        <p:confirmDialog id="resetRestConfirmDialog" message="Are you sure you want to reset this Rest Client?"
-          header="Reset Rest Client" severity="alert" widgetVar="resetRestConfirmDialog">
-          <p:commandButton value="Cancel" onclick="PF('resetRestConfirmDialog').hide();" type="button"
-            styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-          <p:commandButton id="resetRestConfirmYesBtn" value="Reset" actionListener="#{restClientDetailBean.resetConfig}"
-            icon="si si-undo" update="@form, restClientAdditionalConfigForm" styleClass="modal-input-button" />
-        </p:confirmDialog>
-        <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
-          icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button"
-          update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
-          
-           -->
       </div>
     </div>
 
