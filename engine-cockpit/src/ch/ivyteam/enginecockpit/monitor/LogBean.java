@@ -48,6 +48,9 @@ public class LogBean implements AllResourcesDownload {
   }
 
   public void onload() {
+    if (logs.isEmpty()) {
+      return;
+    }
     if (showLog == null) {
       showLog = logs.get(0).getFileName();
     }

@@ -30,7 +30,7 @@ public class Navigation {
   private static final String SERVICES_MENU = "#menuform\\:sr_services";
   private static final String SERVICES_SEARCH_ENGINE = "#menuform\\:sr_searchengine";
   private static final String SERVICES_EMAIL_MENU = "#menuform\\:sr_email";
-  private static final String SERVICES_NOTIFICATION_MENU = "#menuform\\:sr_notification";
+  private static final String SERVICES_NOTIFICATION_CHANNELS_MENU = "#menuform\\:sr_notification_channels";
   private static final String SERVICES_DATABASES_MENU = "#menuform\\:sr_database";
   private static final String SERVICES_RESTCLIENTS_MENU = "#menuform\\:sr_rest_client";
   private static final String SERVICES_WEBSERVICES_MENU = "#menuform\\:sr_web_service";
@@ -53,10 +53,11 @@ public class Navigation {
   private static final String MONITOR_JAVA_CLASS_HISTOGRAM = "#menuform\\:sr_monitor_java_class_histogram";
   private static final String MONITOR_JAVA_THREADS = "#menuform\\:sr_monitor_java_threads";
   private static final String MONITOR_JAVA_JFR = "#menuform\\:sr_monitor_java_jfr";
-private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_java_mbeans";
+  private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_java_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
   private static final String MONITOR_ENGINE_BLOBS_MENU = "#menuform\\:sr_monitor_engine_blobs";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
+  private static final String MONITOR_ENGINE_NOTIFICATION_MENU = "#menuform\\:sr_monitor_engine_notification";
   private static final String MONITOR_ENGINE_START_EVENTS_MENU = "#menuform\\:sr_monitor_engine_start_events";
   private static final String MONITOR_ENGINE_INTERMEDIATE_EVENTS_MENU = "#menuform\\:sr_monitor_engine_intermediate_events";
   private static final String MONITOR_ENGINE_JOBS_MENU = "#menuform\\:sr_monitor_engine_jobs";
@@ -216,16 +217,24 @@ private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_j
     menuShouldBeActive(SERVICES_EMAIL_MENU);
   }
 
+  public static void toNotificationChannels() {
+    toSubMenu(SERVICES_MENU, SERVICES_NOTIFICATION_CHANNELS_MENU);
+    assertCurrentUrlContains("notification-channels.xhtml");
+    menuShouldBeActive(SERVICES_NOTIFICATION_CHANNELS_MENU);
+  }
+
+  public static void toNotificationChannelDetail(String notificationChannel) {
+    Navigation.toNotificationChannels();
+    String selectedTab = Tab.SECURITY_SYSTEM.getSelectedTab();
+    $$(Tab.APP.activePanelCss + " .channel-name").find(text(notificationChannel)).shouldBe(visible).click();
+    assertCurrentUrlContains("notification-channel-detail.xhtml?system=" + selectedTab + "&channel=" + notificationChannel);
+    menuShouldBeActive(SERVICES_NOTIFICATION_CHANNELS_MENU);
+  }
+
   public static void toDatabases() {
     toSubMenu(SERVICES_MENU, SERVICES_DATABASES_MENU);
     assertCurrentUrlContains("databases.xhtml");
     menuShouldBeActive(SERVICES_DATABASES_MENU);
-  }
-
-  public static void toNotification() {
-    toSubMenu(SERVICES_MENU, SERVICES_NOTIFICATION_MENU);
-    assertCurrentUrlContains("notifications.xhtml");
-    menuShouldBeActive(SERVICES_NOTIFICATION_MENU);
   }
 
   public static void toBlobs() {
@@ -331,6 +340,12 @@ private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_j
     toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_CACHE_MENU);
     assertCurrentUrlContains("monitorCache.xhtml");
     menuShouldBeActive(MONITOR_ENGINE_CACHE_MENU);
+  }
+
+  public static void toNotification() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_NOTIFICATION_MENU);
+    assertCurrentUrlContains("notifications.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_NOTIFICATION_MENU);
   }
 
   public static void toSessions() {
