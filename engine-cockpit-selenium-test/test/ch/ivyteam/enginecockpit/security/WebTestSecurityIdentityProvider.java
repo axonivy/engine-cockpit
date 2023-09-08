@@ -159,7 +159,7 @@ class WebTestSecurityIdentityProvider {
 
   @Test
   void booleanProperty() {
-    var bool = $(By.id("securityIdentityProviderForm:group:0:property:4:propertyBoolean")).should(visible);
+    var bool = $(By.cssSelector(".ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default")).should(visible);
     bool.click();
     PrimeUi.selectBooleanCheckbox(By.id("securityIdentityProviderForm:group:0:property:4:propertyBoolean"))
     .shouldBeChecked(true);
