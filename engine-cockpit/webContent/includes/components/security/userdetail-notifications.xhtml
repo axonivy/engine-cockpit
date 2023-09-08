@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<div class="card">
+  <h:form id="notificationsForm">
+    <p:growl for="notificationMessage">
+      <p:autoUpdate />
+    </p:growl>
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-advertising-megaphone-2"></i>
+        <h6 class="p-m-0">Notification Channels</h6>
+      </div>
+      <p:commandButton id="reset" actionListener="#{userDetailBean.notificationChannels.reset}" title="Reset to default"
+        icon="si si-undo" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" update="notificationsForm" />
+      <p:commandButton id="save" actionListener="#{userDetailBean.notificationChannels.save}" title="Save changes"
+        icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" />
+    </div>
+    
+    <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+      var="event" value="#{userDetailBean.notificationChannels.events}" id="notificationChannelsTable"
+      lazy="false" styleClass="ui-fluid">
+      
+      <p:column headerText="Event" sortBy="#{event}">
+        <h:outputText value="#{event}" />
+      </p:column>
+      
+      <p:columns var="channel" value="#{userDetailBean.notificationChannels.channels}" style="text-align: center">
+        <f:facet name="header">
+          <h:outputText value="#{channel.channel.displayName()}">
+            <i class="#{channel.channel.displayIcon()} table-icon" />
+          </h:outputText>
+        </f:facet>
+        
+        <f:event listener="#{channel.setSubscriptionIconAndTitle(event)}" type="preRenderComponent" />
+        <i class="si table-icon si-#{channel.getSubscriptionIcon(event)}" title="#{channel.getSubscriptionIconTitle(event)}"
+          style="margin-right: 10px; vertical-align: top" />
+        <p:triStateCheckbox value="#{channel.subscriptions[event]}">
+          <p:ajax event="change" update="notificationsForm" listener="#{channel.setSubscriptionIconAndTitle(event)}" />
+        </p:triStateCheckbox>
+      </p:columns>
+      
+    </p:dataTable>
+  </h:form>
+</div>
+
+</html>
