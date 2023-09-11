@@ -4,8 +4,8 @@ import java.util.Date;
 
 import javax.management.openmbean.CompositeData;
 
-import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
+import ch.ivyteam.enginecockpit.util.DurationFormat;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
 
 public final class Firing {
@@ -27,7 +27,7 @@ public final class Firing {
   }
 
   public String getDuration() {
-    return MBean.formatMicros(duration);
+    return DurationFormat.NOT_AVAILABLE.microSeconds(duration);
   }
 
   public String getReason() {

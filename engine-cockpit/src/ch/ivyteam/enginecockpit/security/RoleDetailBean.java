@@ -3,14 +3,11 @@ package ch.ivyteam.enginecockpit.security;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
@@ -160,7 +157,7 @@ public class RoleDetailBean {
     var iRole = getIRole();
     iRole.setName(newRoleName);
     try {
-      var url = new Role(iRole).getViewUrl(iRole.getSecurityContext().getName());
+      var url = new Role(iRole).getViewUrl();
       FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -205,7 +202,7 @@ public class RoleDetailBean {
   public void createNewChildRole() throws IOException {
     var existingRole = getIRole().findChildRole(newChildRoleName);
     if (existingRole != null) {
-      var u = new Role(newChildRoleName).getViewUrl(securitySystemName);
+      var u = new Role(securitySystemName, newChildRoleName).getViewUrl();
       FacesContext.getCurrentInstance().getExternalContext().redirect(u);
       return;
     }
@@ -219,7 +216,7 @@ public class RoleDetailBean {
       securityContext.roles().create(newRole);
       var msg = new FacesMessage("Role '" + newChildRoleName + "' created successfully", "");
       faces.addMessage("msgs", msg);
-      var u = new Role(newChildRoleName).getViewUrl(securitySystemName);
+      var u = new Role(securitySystemName, newChildRoleName).getViewUrl();
       faces.getExternalContext().redirect(u);
     } catch (Exception ex) {
       var msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role '" + newChildRoleName + "' couldn't be created", ex.getMessage());

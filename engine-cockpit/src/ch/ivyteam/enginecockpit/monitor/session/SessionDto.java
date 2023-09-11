@@ -2,11 +2,8 @@ package ch.ivyteam.enginecockpit.monitor.session;
 
 import java.util.Date;
 import java.util.Set;
-
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -32,7 +29,7 @@ public class SessionDto {
     this.lastAccessedAt = Date.from(session.lastAccessedAt());
     this.id = String.valueOf(session.getIdentifier());
     this.user = session.getSessionUser() == null ? "" : session.getSessionUser().getName();
-    this.userLink = session.getSessionUser() == null ? "" : new User(session.getSessionUser()).getViewUrl(session.getSecurityContext().getName());
+    this.userLink = session.getSessionUser() == null ? "" : new User(session.getSessionUser()).getViewUrl();
     this.isSecuritySystemInternal = ISecurityContext.SYSTEM.equals(session.getSecurityContext().getName());
     this.isUserInternal = session.isSessionUserSystemUser() || session.isSessionUserUnknown() || isSecuritySystemInternal;
     this.link = SecuritySystem.link(session.getSecurityContext());

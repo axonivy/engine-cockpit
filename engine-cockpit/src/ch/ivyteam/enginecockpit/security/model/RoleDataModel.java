@@ -3,11 +3,9 @@ package ch.ivyteam.enginecockpit.security.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
-
 import ch.ivyteam.enginecockpit.commons.TreeView;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -44,7 +42,7 @@ public class RoleDataModel extends TreeView<Role> {
             .forEach(role -> new DefaultTreeNode<>("role", role, filteredTreeNode));
     if (filteredTreeNode.getChildCount() >= showChildLimit) {
       new DefaultTreeNode<>("dummy",
-              new Role("The current search has more than " + showChildLimit + " results."),
+              new Role("", "The current search has more than " + showChildLimit + " results."),
               filteredTreeNode);
     }
   }
@@ -120,7 +118,7 @@ public class RoleDataModel extends TreeView<Role> {
       }
       if (rolesLeft > 0) {
         new DefaultTreeNode<>("dummy",
-                new Role("Please use the search to find a specific role (" + rolesLeft + " more roles)"),
+                new Role("", "Please use the search to find a specific role (" + rolesLeft + " more roles)"),
                 this);
       }
     }

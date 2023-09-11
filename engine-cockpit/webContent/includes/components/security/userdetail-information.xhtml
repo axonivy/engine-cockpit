@@ -59,7 +59,7 @@
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
       <h:panelGroup styleClass="p-d-flex p-ai-center">
-        <p:avatar gravatar="#{userDetailBean.user.email}" icon="si si-single-neutral-actions" shape="circle" styleClass="user-avatar" />
+        <p:avatar gravatar="#{userDetailBean.user.email}" icon="#{userDetailBean.user.cssIconClass}" shape="circle" styleClass="user-avatar" />
         <h:outputText id="name" value="#{userDetailBean.user.name}" styleClass="p-ml-1" />
       </h:panelGroup>
   

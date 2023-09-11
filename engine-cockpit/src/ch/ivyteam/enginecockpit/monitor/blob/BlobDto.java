@@ -1,11 +1,9 @@
 package ch.ivyteam.enginecockpit.monitor.blob;
 
 import java.util.Date;
-
 import org.apache.commons.io.FileUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-
 import ch.ivyteam.enginecockpit.security.model.User;
 import ch.ivyteam.ivy.blob.storage.core.Blob;
 import ch.ivyteam.ivy.blob.storage.core.BlobService;
@@ -25,8 +23,8 @@ public class BlobDto {
     this.blob = blob;
     this.createdAt = Date.from(blob.createdAt());
     this.modifiedAt = Date.from(blob.modifiedAt());
-    this.creatorLink = new User(blob.creator()).getViewUrl(blob.creator().getSecurityContext().getName());
-    this.modifierLink = new User(blob.modifier()).getViewUrl(blob.modifier().getSecurityContext().getName());
+    this.creatorLink = new User(blob.creator()).getViewUrl();
+    this.modifierLink = new User(blob.modifier()).getViewUrl();
   }
 
   public String getId() {

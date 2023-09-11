@@ -1,15 +1,13 @@
 package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.Locale;
-
 import javax.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.StringUtils;
-
+import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.administrator.Administrator;
 
-public class User {
+public class User implements SecurityMember {
 
   private String name;
   private String fullName;
@@ -21,6 +19,7 @@ public class User {
   private String securityMemberId = "";
   private Locale language;
   private Locale formattingLanguage;
+  private String securityContext;
 
   private boolean loggedIn;
   private boolean enabled = true;
@@ -40,6 +39,7 @@ public class User {
     this.securityMemberId = user.getSecurityMemberId();
     this.language = user.getLanguage();
     this.formattingLanguage = user.getFormattingLanguage();
+    this.securityContext = user.getSecurityContext().getName();
   }
 
   public User(Administrator admin) {
@@ -47,16 +47,24 @@ public class User {
     setFullName(admin.getFullName());
     setEmail(admin.getEmail());
     setRealPassword(admin.getPassword());
+    setSecurityContext(ISecurityContext.SYSTEM);
   }
 
-  public String getViewUrl(String securitySystem) {
+  @Override
+  public String getViewUrl() {
     return UriBuilder.fromPath("userdetail.xhtml")
-            .queryParam("system", securitySystem)
+            .queryParam("system", securityContext)
             .queryParam("name", name)
             .build()
             .toString();
   }
 
+  @Override
+  public String getCssIconClass() {
+    return "si si-single-neutral-actions";
+  }
+
+  @Override
   public String getName() {
     return name;
   }
@@ -149,6 +157,14 @@ public class User {
       return password;
     }
     return realPassword;
+  }
+
+  public String getSecurityContext() {
+    return securityContext;
+  }
+
+  public void setSecurityContext(String securityContext) {
+    this.securityContext = securityContext;
   }
 
   public Administrator getAdmin() {

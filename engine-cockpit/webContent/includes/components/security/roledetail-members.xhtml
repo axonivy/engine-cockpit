@@ -35,9 +35,9 @@
       
       <p:column styleClass="member-row" headerText="Role Members Of Role" sortBy="#{member.name}"
         filterBy="#{member.name}">
-        <a href="#{member.getViewUrl(roleDetailBean.securitySystem)}">
+        <a href="#{member.getViewUrl()}">
           <h:outputText styleClass="member-name" value="#{member.name}">
-            <i class="si si-multiple-neutral-1 table-icon"></i>
+            <i class="#{member.cssIconClass} table-icon"></i>
           </h:outputText>
           <h:outputText value=" (#{member.displayName})" styleClass="addition-row-info" />
         </a>

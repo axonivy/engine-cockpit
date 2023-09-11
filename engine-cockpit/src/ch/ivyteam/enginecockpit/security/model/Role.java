@@ -1,12 +1,10 @@
 package ch.ivyteam.enginecockpit.security.model;
 
 import javax.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.ivy.security.IRole;
 
-public class Role {
+public class Role implements SecurityMember{
 
   private String name;
   private String description;
@@ -15,8 +13,10 @@ public class Role {
   private boolean member;
   private boolean dynamic;
   private String parentRoleName;
+  private String securityContext;
 
-  public Role(String name) {
+  public Role(String securityContext, String name) {
+    this.securityContext = securityContext;
     this.name = name;
   }
 
@@ -28,6 +28,7 @@ public class Role {
     this.member = false;
     this.dynamic = role.isDynamic();
     this.parentRoleName = role.getParent() == null ? "" : role.getParent().getName();
+    this.securityContext = role.getSecurityContext().getName();
   }
 
   public Role(IRole role, boolean member) {
@@ -35,14 +36,21 @@ public class Role {
     this.member = member;
   }
 
-  public String getViewUrl(String securitySystem) {
+  @Override
+  public String getViewUrl() {
     return UriBuilder.fromPath("roledetail.xhtml")
-            .queryParam("system", securitySystem)
+            .queryParam("system", securityContext)
             .queryParam("name", name)
             .build()
             .toString();
   }
 
+  @Override
+  public String getCssIconClass() {
+    return "si si-multiple-neutral-1";
+  }
+
+  @Override
   public String getName() {
     return name;
   }
