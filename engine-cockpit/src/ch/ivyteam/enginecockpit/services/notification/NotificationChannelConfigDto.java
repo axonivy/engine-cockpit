@@ -2,10 +2,8 @@ package ch.ivyteam.enginecockpit.services.notification;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
-import ch.ivyteam.ivy.notification.channel.impl.NotificationChannelConfig;
 import ch.ivyteam.ivy.notification.event.NotificationEvent;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
@@ -66,7 +64,7 @@ public class NotificationChannelConfigDto {
 
   public static NotificationChannelConfigDto create(ManagerBean managerBean, NotificationChannel channel) {
     ISecurityContext securityContext = managerBean.getSelectedSecuritySystem().getSecurityContext();
-    var config = new NotificationChannelConfig(securityContext, channel);
+    var config = channel.configFor(securityContext);
 
     var eventKinds = NotificationEvent.all().stream()
             .map(NotificationEvent::kind)

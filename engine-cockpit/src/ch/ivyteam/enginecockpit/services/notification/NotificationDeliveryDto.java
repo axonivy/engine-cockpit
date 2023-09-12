@@ -32,13 +32,13 @@ public class NotificationDeliveryDto {
   }
 
   public String getChannel() {
-    return NotificationChannel.byName(delivery.channel())
+    return NotificationChannel.byId(delivery.channel())
         .map(channel -> channel.displayName())
         .orElse(delivery.channel());
   }
 
   public String getChannelIcon() {
-    return NotificationChannel.byName(delivery.channel())
+    return NotificationChannel.byId(delivery.channel())
         .map(channel -> channel.displayIcon())
         .orElse("");
   }
