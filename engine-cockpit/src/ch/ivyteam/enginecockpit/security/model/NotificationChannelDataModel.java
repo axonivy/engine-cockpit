@@ -3,9 +3,8 @@ package ch.ivyteam.enginecockpit.security.model;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import ch.ivyteam.ivy.notification.channel.impl.NotificationSubscription;
 import ch.ivyteam.ivy.notification.event.NotificationEvent;
-import ch.ivyteam.ivy.notification.subscription.NewNotificationSubscription;
-import ch.ivyteam.ivy.notification.subscription.impl.NotificationSubscriptionRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityMember;
 
@@ -23,19 +22,19 @@ public class NotificationChannelDataModel {
   }
 
   public void onload() {
-    events = NotificationEvent.all().stream()
-            .map(NotificationEvent::kind)
-            .toList();
-    channels = NotificationChannelDto.all(subscriber, securityContext);
+    events = NotificationEvent.allAsString();
+    channels = NotificationChannelDto.all(subscriber, securityContext, events);
   }
 
   public void reset() {
     channels.forEach(this::resetChannel);
+    onload();
     addMessage("Notification Channels reset");
   }
 
   private void resetChannel(NotificationChannelDto channel) {
-    channel.getSubscriptions().replaceAll((event, state) -> state = NotificationChannelDto.DEFAULT);
+    channel.getSubscriptions().forEach(
+            (event, subscription) -> subscription.setState(NotificationChannelSubscriptionDto.State.USE_DEFAULT));
     saveChannel(channel);
   }
 
@@ -45,30 +44,10 @@ public class NotificationChannelDataModel {
   }
 
   private void saveChannel(NotificationChannelDto channel) {
-    channel.getSubscriptions().forEach((event, state) -> {
-      saveSubscription(channel, event, state);
+    channel.getSubscriptions().entrySet().forEach(eventSubscription -> {
+      var subscription = NotificationSubscription.of(subscriber, channel.getChannel(), eventSubscription.getKey());
+      subscription.state(eventSubscription.getValue().getState().toDbState());
     });
-  }
-
-  private void saveSubscription(NotificationChannelDto channel, String event, String state) {
-    var subscriptions = NotificationSubscriptionRepository.instance();
-    if (state.equals(NotificationChannelDto.DEFAULT)) {
-      subscriptions.delete(subscriber, channel.getChannel(), event);
-      return;
-    }
-
-    var subscription = subscriptions.find(subscriber, channel.getChannel(), event);
-    if (subscription != null) {
-      subscription.subscribed(state.equals(NotificationChannelDto.SUBSCRIBED));
-      return;
-    }
-
-    subscriptions.create(NewNotificationSubscription.create()
-            .channel(channel.getChannel().id())
-            .kind(event)
-            .subscriber(subscriber)
-            .subscribed(state.equals(NotificationChannelDto.SUBSCRIBED))
-            .toNewNotificationSubscription());
   }
 
   private void addMessage(String msg) {

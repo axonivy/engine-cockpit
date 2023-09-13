@@ -34,10 +34,10 @@
           </h:outputText>
         </f:facet>
         
-        <f:event listener="#{channel.setSubscriptionIconAndTitle(event)}" type="preRenderComponent" />
-        <i class="si table-icon si-#{channel.getSubscriptionIcon(event)}" title="#{channel.getSubscriptionIconTitle(event)}"
-          style="margin-right: 10px; vertical-align: top" />
-        <p:triStateCheckbox value="#{channel.subscriptions[event]}">
+        <c:set var="subscription" value="#{channel.getSubscription(event)}"/>
+        <i class="si table-icon si-#{subscription.icon}" title="#{subscription.title}"
+          style="padding-right: 10px; vertical-align: top" />
+        <p:triStateCheckbox value="#{subscription.stateAsString}">
           <p:ajax event="change" update="notificationsForm" listener="#{channel.setSubscriptionIconAndTitle(event)}" />
         </p:triStateCheckbox>
       </p:columns>
