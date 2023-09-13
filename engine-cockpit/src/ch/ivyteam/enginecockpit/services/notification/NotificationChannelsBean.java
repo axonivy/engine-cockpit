@@ -2,10 +2,8 @@ package ch.ivyteam.enginecockpit.services.notification;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 
@@ -13,8 +11,8 @@ import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 @ViewScoped
 public class NotificationChannelsBean {
 
-  private List<NotificationChannelConfigDto> configs;
-  private List<NotificationChannelConfigDto> filteredConfigs;
+  private List<NotificationChannelDto> channels;
+  private List<NotificationChannelDto> filteredChannels;
   private String filter;
 
   private ManagerBean managerBean;
@@ -24,21 +22,21 @@ public class NotificationChannelsBean {
   }
 
   public void onload() {
-    configs = NotificationChannel.all().stream()
-            .map(channel -> NotificationChannelConfigDto.create(managerBean, channel))
+    channels = NotificationChannel.all().stream()
+            .map(channel -> NotificationChannelDto.create(managerBean, channel))
             .collect(Collectors.toList());
   }
 
-  public List<NotificationChannelConfigDto> getConfigs() {
-    return configs;
+  public List<NotificationChannelDto> getChannels() {
+    return channels;
   }
 
-  public List<NotificationChannelConfigDto> getFilteredConfigs() {
-    return filteredConfigs;
+  public List<NotificationChannelDto> getFilteredChannels() {
+    return filteredChannels;
   }
 
-  public void setFilteredConfigs(List<NotificationChannelConfigDto> filteredConfigs) {
-    this.filteredConfigs = filteredConfigs;
+  public void setFilteredChannels(List<NotificationChannelDto> filteredChannels) {
+    this.filteredChannels = filteredChannels;
   }
 
   public String getFilter() {

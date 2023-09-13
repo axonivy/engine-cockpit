@@ -16,7 +16,7 @@
       <li>/</li>
       <li><a href="notification-channels.xhtml">Notification Channels</a></li>
       <li>/</li>
-      <li><a href="#{notificationChannelDetailBean.config.getViewUrl()}">#{notificationChannelDetailBean.config.displayName}</a></li>
+      <li><a href="#{notificationChannelDetailBean.channel.getViewUrl()}">#{notificationChannelDetailBean.channel.displayName}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
@@ -29,10 +29,13 @@
           <p:autoUpdate />
         </p:growl>
         <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 #{notificationChannelDetailBean.config.displayicon} card-title-icon"></i>
-          <h2 class="p-m-0">#{notificationChannelDetailBean.config.displayName}</h2>
+          <i class="p-pr-3 #{notificationChannelDetailBean.channel.displayIcon} card-title-icon"></i>
+          <h2 class="p-m-0">#{notificationChannelDetailBean.channel.displayName}</h2>
+          <p:commandButton id="open" actionListener="#{notificationChannelDetailBean.open}" title="Open channel"
+            icon="si si-charger" styleClass="p-col-fixed p-ml-auto rounded-button" update="form" 
+            rendered="#{notificationChannelDetailBean.channel.push}" disabled="#{not notificationChannelDetailBean.channel.locked}"/>
           <p:commandButton id="reset" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
-            icon="si si-undo" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" update="form"/>
+            icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" update="form"/>
           <p:commandButton id="save" actionListener="#{notificationChannelDetailBean.save}" title="Save changes"
             icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button"/>
         </div>
@@ -40,23 +43,52 @@
           <p:panelGrid columns="2" columnClasses="p-col-12 p-md-2 p-lg-2, p-col-12 p-md-10 p-lg-10"
             layout="flex" styleClass="grey-label-panel" style="margin: 15px">
             <p:outputLabel for="enabled" value="Enabled" />
-            <p:selectBooleanCheckbox id="enabled" value="#{notificationChannelDetailBean.config.enabled}">
+            <p:selectBooleanCheckbox id="enabled" value="#{notificationChannelDetailBean.channel.enabled}">
               <p:ajax update="@form" />
             </p:selectBooleanCheckbox>
+            <p:outputLabel for="state" value="State" rendered="#{notificationChannelDetailBean.channel.push}"/>
+            <p:outputPanel id="state" rendered="#{notificationChannelDetailBean.channel.push}">
+              <p:outputPanel rendered="#{notificationChannelDetailBean.channel.push}">
+                <i class="state-icon #{notificationChannelDetailBean.channel.stateIcon}"/>
+                <h:panelGroup rendered="#{notificationChannelDetailBean.channel.locked}">
+                  <h:outputText value="#{notificationChannelDetailBean.channel.locks}" />
+                  <i class="state-icon si si-button-refresh-arrows"></i>
+                  <h:outputText value="#{notificationChannelDetailBean.channel.nextRetryIn}" />
+                </h:panelGroup>
+              </p:outputPanel>
+              <p:tooltip id="lockDetails" for="state" rendered="#{notificationChannelDetailBean.channel.locked}">
+                <h5 class="p-d-flex p-ai-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>Error Information</h5>
+                <p:panelGrid layout="grid" columns="2" columnClasses="ui-g-3, ui-g-9">
+                  <p:outputLabel value="Failed deliver attemps so far:"/>
+                  <h:outputText value="#{notificationChannelDetailBean.channel.locks}" />
+                  <p:outputLabel value="Next retry to deliver:"/>
+                  <h:panelGroup>
+                    <h:outputText value="#{notificationChannelDetailBean.channel.nextRetryIn}"/>
+                    <h:outputText value="&#160;("/>
+                    <h:outputText value="#{notificationChannelDetailBean.channel.nextRetryAt}">
+                      <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
+                    </h:outputText>
+                    <h:outputText value=")"/>
+                  </h:panelGroup>
+                  <p:outputLabel value="Last Error:"/>
+                  <h:outputText value="#{notificationChannelDetailBean.channel.lastError}" escape="false"/>
+                </p:panelGrid>
+              </p:tooltip>
+            </p:outputPanel>
             <p:outputLabel for="allEvents" value="All Events" />
-            <p:selectBooleanCheckbox id="allEvents" value="#{notificationChannelDetailBean.config.allEventsEnabled}"
-              disabled="#{!notificationChannelDetailBean.config.enabled}">
+            <p:selectBooleanCheckbox id="allEvents" value="#{notificationChannelDetailBean.channel.allEventsEnabled}"
+              disabled="#{!notificationChannelDetailBean.channel.enabled}">
               <p:ajax update="@form" />
             </p:selectBooleanCheckbox>
           </p:panelGrid>
           
-          <p:dataTable id="events" var="event" value="#{notificationChannelDetailBean.config.events}">
+          <p:dataTable id="events" var="event" value="#{notificationChannelDetailBean.channel.events}">
             <p:column headerText="Event" sortBy="#{event.kind}">
               <h:outputText value="#{event.kind}" styleClass="event-kind" />
             </p:column>
             <p:column>
               <p:selectBooleanCheckbox id="eventEnabled" value="#{event.enabled}"
-                disabled="#{!notificationChannelDetailBean.config.enabled || notificationChannelDetailBean.config.allEventsEnabled}">
+                disabled="#{!notificationChannelDetailBean.channel.enabled || notificationChannelDetailBean.channel.allEventsEnabled}">
                 <p:ajax />
               </p:selectBooleanCheckbox>
             </p:column>

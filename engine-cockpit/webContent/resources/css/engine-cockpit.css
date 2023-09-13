@@ -276,6 +276,13 @@ body .ui-datatable .ui-datatable-header {
   font-size: 24px;
 }
 
+.si.state-icon {
+  position: relative;
+  top: 3px;
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
 .state-active,
 .activity-state-active,
 .search-machine-state-true,
