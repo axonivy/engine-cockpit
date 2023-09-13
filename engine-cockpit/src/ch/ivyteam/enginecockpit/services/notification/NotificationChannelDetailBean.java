@@ -4,12 +4,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.services.notification.NotificationChannelConfigDto.NotificationEventDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
-import ch.ivyteam.ivy.notification.channel.impl.NotificationChannelConfig;
+import ch.ivyteam.ivy.notification.channel.NotificationChannelConfig;
 
 @ManagedBean
 @ViewScoped
@@ -63,7 +62,7 @@ public class NotificationChannelDetailBean {
     }
 
     config = NotificationChannelConfigDto.create(managerBean, channel);
-    notificationChannelConfig = new NotificationChannelConfig(managerBean.getSelectedSecuritySystem().getSecurityContext(), channel);
+    notificationChannelConfig = channel.configFor(managerBean.getSelectedSecuritySystem().getSecurityContext());
   }
 
   public void save() {
