@@ -366,6 +366,20 @@ body .ui-datatable .ui-datatable-header {
   width: 24px;
   height: 24px;
 }
+.card .identity-group {
+  display: block;
+  margin-top: 0.8em;
+}
+.card .identity-group label {
+  display: block;
+}
+.card .identity-field, 
+.card .identity-field.ui-inputnumber .ui-inputfield {
+  margin: 0.2rem 0;
+}
+.pre-tooltip {
+  white-space: pre;
+}
 
 /* Branding */
 .branding-img {

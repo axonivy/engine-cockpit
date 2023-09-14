@@ -26,16 +26,6 @@
     </ui:define>
 
     <ui:define name="content">
-      <style type="text/css">
-#securityIdentityProviderForm .md-inputfield label {
-  display: block;
-}
-
-#securityIdentityProviderForm .md-inputfield {
-  display: block;
-  margin-top: 2em;
-}
-</style>
       <div class="layout-dashboard">
         <div class="p-grid">
           <h:panelGroup>
@@ -48,7 +38,7 @@
 
                 <p:repeat var="group" id="group"
                   value="#{identityProviderBean.propertyGroups}">
-                  <div class="card">
+                  <div class="card ui-fluid">
                     <div class="card-header">
                       <div class="card-title p-d-flex p-ai-center">
                         <i class="p-pr-3 si si-information-circle"></i>
@@ -76,13 +66,12 @@
                       <ui:fragment>
 
                         <!-- string -->
-                        <h:panelGroup styleClass="md-inputfield"
+                        <h:panelGroup styleClass="md-inputfield identity-group"
                           rendered="#{property.string}">
                           <p:outputLabel value="#{property.label}" />
-                          <h:panelGroup styleClass="ui-inputgroup">
+                          <h:panelGroup styleClass="ui-inputgroup identity-field">
                             <p:inputText id="propertyString"
                               value="#{property.value}"
-                              style="width: 100%"
                               placeholder="#{property.defaultValue}" />
                             <p:commandButton id="browseDefaultContext"
                               icon="si si-network-browser"
@@ -99,17 +88,18 @@
                             <i class="si si-question-circle"></i>
                             <p:tooltip for="@parent"
                               value="#{property.description}"
-                              position="top" />
+                              position="top"
+                              styleClass="pre-tooltip" />
                           </h:panelGroup>
                         </h:panelGroup>
 
                         <!-- password -->
-                        <h:panelGroup styleClass="md-inputfield"
+                        <h:panelGroup styleClass="md-inputfield identity-group"
                           rendered="#{property.password}">
                           <p:outputLabel value="#{property.label}" />
                           <p:password id="propertyPassword"
                             value="#{property.value}"
-                            style="width: 100%"
+                            styleClass="identity-field"
                             placeholder="#{property.passwordPlaceholder}"></p:password>
                           <small class="block">#{property.descriptionFirstline}</small>
                           <h:panelGroup id="usedByHelpPassword"
@@ -118,17 +108,19 @@
                             <i class="si si-question-circle"></i>
                             <p:tooltip for="@parent"
                               value="#{property.description}"
+                              styleClass="pre-tooltip"
                               position="top" />
 
                           </h:panelGroup>
                         </h:panelGroup>
 
                         <!-- boolean -->
-                        <h:panelGroup styleClass="md-inputfield"
+                        <h:panelGroup styleClass="md-inputfield identity-group"
                           rendered="#{property.boolean}">
                           <p:outputLabel value="#{property.label}" />
                           <p:selectBooleanCheckbox id="propertyBoolean"
                             value="#{property.value}"
+                            styleClass="identity-field"
                             style="width: 100%" />
                           <small class="block">#{property.descriptionFirstline}</small>
                           <h:panelGroup id="usedByHelpBoolean"
@@ -137,18 +129,19 @@
                             <i class="si si-question-circle"></i>
                             <p:tooltip for="@parent"
                               value="#{property.description}"
+                              styleClass="pre-tooltip"
                               position="top" />
                           </h:panelGroup>
                         </h:panelGroup>
 
                         <!-- number -->
-                        <h:panelGroup styleClass="md-inputfield"
+                        <h:panelGroup styleClass="md-inputfield identity-group"
                           rendered="#{property.number}">
                           <p:outputLabel value="#{property.label}" />
                           <p:inputNumber id="propertyNumber"
                             value="#{property.value}" decimalPlaces="0"
                             placeholder="#{property.defaultValue}"
-                            style="width: 100%" />
+                            styleClass="identity-field" />
                           <small class="block">#{property.descriptionFirstline}</small>
                           <h:panelGroup id="usedByHelpNumber"
                             styleClass="label-help-icon"
@@ -156,17 +149,18 @@
                             <i class="si si-question-circle"></i>
                             <p:tooltip for="@parent"
                               value="#{property.description}"
+                              styleClass="pre-tooltip"
                               position="top" />
                           </h:panelGroup>
                         </h:panelGroup>
 
                         <!-- dropdown -->
-                        <h:panelGroup styleClass="md-inputfield"
+                        <h:panelGroup styleClass="md-inputfield identity-group"
                           rendered="#{property.dropdown}">
                           <p:outputLabel value="#{property.label}" />
                           <p:selectOneMenu id="propertyDropdown"
                             value="#{property.value}"
-                            style="width: 100%">
+                            styleClass="identity-field">
                             <f:selectItems
                               value="#{property.enumerationValues}"
                               var="value" itemLabel="#{value}"
@@ -179,6 +173,7 @@
                             <i class="si si-question-circle"></i>
                             <p:tooltip for="@parent"
                               value="#{property.description}"
+                              styleClass="pre-tooltip"
                               position="top" />
                           </h:panelGroup>
                         </h:panelGroup>
@@ -229,6 +224,7 @@
                               <i class="si si-question-circle"></i>
                               <p:tooltip for="@parent"
                                 value="#{property.description}"
+                                styleClass="pre-tooltip"
                                 position="top" />
                             </h:panelGroup>
                           </h:panelGroup>
