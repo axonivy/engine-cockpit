@@ -35,7 +35,11 @@
             icon="si si-charger" styleClass="p-col-fixed p-ml-auto rounded-button" update="form" 
             rendered="#{notificationChannelDetailBean.channel.push}" disabled="#{not notificationChannelDetailBean.channel.locked}"/>
           <p:commandButton id="reset" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
-            icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" update="form"/>
+            icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" update="form"
+            rendered="#{notificationChannelDetailBean.channel.push}"/>
+          <p:commandButton id="reset" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
+            icon="si si-undo" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" update="form"
+            rendered="#{not notificationChannelDetailBean.channel.push}"/>
           <p:commandButton id="save" actionListener="#{notificationChannelDetailBean.save}" title="Save changes"
             icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button"/>
         </div>
@@ -48,6 +52,7 @@
             </p:selectBooleanCheckbox>
             <p:outputLabel for="state" value="State" rendered="#{notificationChannelDetailBean.channel.push}"/>
             <p:outputPanel id="state" rendered="#{notificationChannelDetailBean.channel.push}">
+              <cc:ChannelState channel="#{notificationChannelDetailBean.channel}"/>
               <p:outputPanel rendered="#{notificationChannelDetailBean.channel.push}">
                 <i class="state-icon #{notificationChannelDetailBean.channel.stateIcon}"/>
                 <h:panelGroup rendered="#{notificationChannelDetailBean.channel.locked}">

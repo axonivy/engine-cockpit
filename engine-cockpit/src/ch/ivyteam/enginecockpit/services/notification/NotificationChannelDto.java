@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.UriBuilder;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DurationFormat;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.notification.channel.NotificationChannelConfig;
 import ch.ivyteam.ivy.notification.channel.PushNotificationChannel;
@@ -106,7 +105,6 @@ public class NotificationChannelDto {
       case "Locked" -> "si si-remove-circle state-inactive";
       default -> "";
     };
-    Ivy.log().info("Icon "+icon);
     return icon;
   }
 
