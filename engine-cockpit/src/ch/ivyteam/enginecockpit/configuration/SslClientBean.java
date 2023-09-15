@@ -1,30 +1,45 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.net.ssl.TrustManager;
-import ch.ivyteam.di.restricted.DiCore;
+import javax.faces.context.FacesContext;
+import ch.ivyteam.ivy.configuration.restricted.ConfigKey;
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
 @ManagedBean
 @ViewScoped
 public class SslClientBean {
 
   private String trustStoreFile;
-  private char[] trustStorePassword;
+  private String trustStorePassword;
   private String trustStoreProvider;
   private String trustStoreType;
   private String trustStoreAlgorithim;
-  private Class<? extends TrustManager> trustManagerClass;
+  private String trustManagerClass;
+
+  private IConfiguration config = IConfiguration.instance();
+
+  private interface Key {
+
+    ConfigKey CLIENT = ConfigKey.create("SSL").append("Client");
+    ConfigKey TRUST = CLIENT.append("TrustStore");
+    ConfigKey FILE = TRUST.append("File");
+    ConfigKey PASSWORD = TRUST.append("Password");
+    ConfigKey PROVIDER = TRUST.append("Provider");
+    ConfigKey TYPE = TRUST.append("Type");
+    ConfigKey ALGORITHM = TRUST.append("Algorithm");
+    ConfigKey MANAGERCLASS = TRUST.append("ManagerClass");
+
+  }
 
   public SslClientBean() {
-    var settings = DiCore.getGlobalInjector()
-            .getInstance(ch.ivyteam.ivy.ssl.client.restricted.SslClientSettings.class);
-    this.trustStoreFile = settings.getTrustStoreFile();
-    this.trustStorePassword = settings.getTrustStorePassword();
-    this.trustStoreProvider = settings.getTrustStoreProvider();
-    this.trustStoreType = settings.getTrustStoreType();
-    this.trustStoreAlgorithim = settings.getTrustStoreAlgorithm();
-    this.setTrustManagerClass(settings.getTrustManagerClass());
+    this.trustStoreFile = config.get(Key.FILE).orElse("");
+    this.trustStorePassword = config.get(Key.PASSWORD).orElse("");
+    this.trustStoreProvider = config.get(Key.PROVIDER).orElse("");
+    this.trustStoreType = config.get(Key.TYPE).orElse("");
+    this.trustStoreAlgorithim = config.get(Key.ALGORITHM).orElse("");
+    this.trustManagerClass = config.get(Key.MANAGERCLASS).orElse("");
   }
 
   public String getTrustStoreFile() {
@@ -36,14 +51,22 @@ public class SslClientBean {
   }
 
   public void save() {
-    // save to ivy.yaml
+    config.set(Key.FILE, trustStoreFile);
+    config.set(Key.PASSWORD, trustStorePassword);
+    config.set(Key.PROVIDER, trustStoreProvider);
+    config.set(Key.TYPE, trustStoreType);
+    config.set(Key.ALGORITHM, trustStoreAlgorithim);
+    config.set(Key.MANAGERCLASS, trustManagerClass);
+
+    FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
+            new FacesMessage("Trust Store configurations saved"));
   }
 
-  public char[] getTrustStorePassword() {
+  public String getTrustStorePassword() {
     return trustStorePassword;
   }
 
-  public void setTrustStorePassword(char[] trustStorePassword) {
+  public void setTrustStorePassword(String trustStorePassword) {
     this.trustStorePassword = trustStorePassword;
   }
 
@@ -71,11 +94,11 @@ public class SslClientBean {
     this.trustStoreAlgorithim = trustStoreAlgorithim;
   }
 
-  public Class<? extends TrustManager> getTrustManagerClass() {
+  public String getTrustManagerClass() {
     return trustManagerClass;
   }
 
-  public void setTrustManagerClass(Class<? extends TrustManager> trustManagerClass) {
+  public void setTrustManagerClass(String trustManagerClass) {
     this.trustManagerClass = trustManagerClass;
   }
 }
