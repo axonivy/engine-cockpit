@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.exactValue;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,8 @@ class WebTestSSL {
     var property = $(By.id("sslClientform:trustStoreFile")).shouldBe(visible);
     property.clear();
     property.sendKeys("truststore");
+    save();
+    success();
     property.shouldHave(exactValue("truststore"));
   }
 
@@ -32,6 +35,16 @@ class WebTestSSL {
     var property = $(By.id("sslClientform:trustStorePassword")).shouldBe(visible);
     property.clear();
     property.sendKeys("truststore");
+    save();
+    success();
     property.shouldHave(exactValue("truststore"));
+  }
+
+  private void save() {
+    $(By.id("sslClientform:save")).shouldBe(visible).click();
+  }
+
+  private void success() {
+    $(By.id("sslClientform:sslTruststoreSaveSuccess_container")).shouldHave(text("Trust Store configurations saved"));
   }
 }
