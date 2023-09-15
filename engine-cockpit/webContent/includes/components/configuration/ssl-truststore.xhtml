@@ -10,10 +10,16 @@
 
 <div class="card">
   <h:form id="sslClientform">
+  <p:growl id="sslTruststoreSaveSuccess" for="sslTruststoreSaveSuccess">
+    <p:autoUpdate />
+    </p:growl>
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-information-circle"></i>
         <h6 class="p-m-0">Trust Store configurations</h6>
+        <p:commandButton title="Save" icon="si si-floppy-disk" id="save"
+          styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button" 
+          actionListener="#{sslClientBean.save}" />
       </div>
     </div>
 
