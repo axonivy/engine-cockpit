@@ -72,7 +72,7 @@ public class WebTestPushNotificationChannel {
     table.tableEntry("Email", 4).$("i.si-remove-circle").shouldBe(Condition.visible);
     table.tableEntry("Email", 4).$("i.si-button-refresh-arrows").shouldBe(Condition.visible);
     table.tableEntry("Email", 4).click();
-    var lockDetails = $(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:channelsTable:1:lockDetails"));
+    var lockDetails = $(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:channelsTable:1:state:lockDetails"));
     assertLockDetails(lockDetails);
 
     Navigation.toNotificationChannelDetail("mail");

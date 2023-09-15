@@ -29,7 +29,7 @@
       <i class="si table-icon si-#{channel.allEventsEnabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
     <p:column headerText="State" sortBy="#{channel.stateText}" style="text-align: center">
-      <cc:ChannelState channel="#{channel}"/>
+      <cc:ChannelState id="state" channel="#{channel}"/>
     </p:column>
   </p:dataTable>
 </h:form>

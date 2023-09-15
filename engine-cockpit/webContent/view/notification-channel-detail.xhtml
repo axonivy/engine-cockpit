@@ -34,10 +34,10 @@
           <p:commandButton id="open" actionListener="#{notificationChannelDetailBean.open}" title="Open channel"
             icon="si si-charger" styleClass="p-col-fixed p-ml-auto rounded-button" update="form" 
             rendered="#{notificationChannelDetailBean.channel.push}" disabled="#{not notificationChannelDetailBean.channel.locked}"/>
-          <p:commandButton id="reset" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
+          <p:commandButton id="resetPush" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
             icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" update="form"
             rendered="#{notificationChannelDetailBean.channel.push}"/>
-          <p:commandButton id="reset" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
+          <p:commandButton id="resetNonPush" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
             icon="si si-undo" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" update="form"
             rendered="#{not notificationChannelDetailBean.channel.push}"/>
           <p:commandButton id="save" actionListener="#{notificationChannelDetailBean.save}" title="Save changes"
