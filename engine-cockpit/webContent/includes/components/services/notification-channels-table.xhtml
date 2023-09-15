@@ -6,27 +6,30 @@
 
 <h:form id="tableForm">
   <p:dataTable paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-    styleClass="ui-fluid" var="config" value="#{notificationChannelsBean.configs}" widgetVar="configsTable_#{app.id}"
-    filteredValue="#{notificationChannelsBean.filteredConfigs}" lazy="false" id="channelsTable">
+    styleClass="ui-fluid" var="channel" value="#{notificationChannelsBean.channels}" widgetVar="channelsTable_#{app.id}"
+    filteredValue="#{notificationChannelsBean.filteredChannels}" lazy="false" id="channelsTable">
     <f:facet name="header">
       <div class="ui-input-icon-left filter-container">
         <i class="pi pi-search"/>
-        <p:inputText id="globalFilter" onkeyup="PF('configsTable_#{app.id}').filter()" placeholder="Search" value="#{notificationChannelsBean.filter}" />
+        <p:inputText id="globalFilter" onkeyup="PF('channelsTable_#{app.id}').filter()" placeholder="Search" value="#{notificationChannelsBean.filter}" />
       </div>
     </f:facet>
     
-    <p:column headerText="Name" sortBy="#{config.displayName}" filterBy="#{config.displayName}">
-      <a href="#{config.getViewUrl()}">
-        <h:outputText value="#{config.displayName}" styleClass="channel-name">
-          <i class="#{config.displayicon} table-icon" />
+    <p:column headerText="Name" sortBy="#{channel.displayName}" filterBy="#{channel.displayName}">
+      <a href="#{channel.getViewUrl()}">
+        <h:outputText value="#{channel.displayName}" styleClass="channel-name">
+          <i class="#{channel.displayIcon} table-icon" />
         </h:outputText>
       </a>
     </p:column>
-    <p:column headerText="Enabled" sortBy="#{config.enabled}" style="text-align: center">
-      <i class="si table-icon si-#{config.enabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+    <p:column headerText="Enabled" sortBy="#{channel.enabled}" style="text-align: center">
+      <i class="si table-icon si-#{channel.enabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
     </p:column>
-    <p:column headerText="All Events" sortBy="#{config.allEventsEnabled}" style="text-align: center">
-      <i class="si table-icon si-#{config.allEventsEnabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+    <p:column headerText="All Events" sortBy="#{channel.allEventsEnabled}" style="text-align: center">
+      <i class="si table-icon si-#{channel.allEventsEnabled ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+    </p:column>
+    <p:column headerText="State" sortBy="#{channel.stateText}" style="text-align: center">
+      <cc:ChannelState id="state" channel="#{channel}"/>
     </p:column>
   </p:dataTable>
 </h:form>

@@ -5,10 +5,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
-import ch.ivyteam.enginecockpit.services.notification.NotificationChannelConfigDto.NotificationEventDto;
+import ch.ivyteam.enginecockpit.services.notification.NotificationChannelDto.NotificationEventDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
-import ch.ivyteam.ivy.notification.channel.NotificationChannelConfig;
 
 @ManagedBean
 @ViewScoped
@@ -18,20 +17,14 @@ public class NotificationChannelDetailBean {
   private String system;
 
   private ManagerBean managerBean;
-  private NotificationChannelConfig notificationChannelConfig;
-
-  private NotificationChannelConfigDto config;
+  private NotificationChannelDto channel;
 
   public NotificationChannelDetailBean() {
     managerBean = ManagerBean.instance();
   }
 
-  public NotificationChannelConfigDto getConfig() {
-    return config;
-  }
-
-  public void setConfig(NotificationChannelConfigDto config) {
-    this.config = config;
+  public NotificationChannelDto getChannel() {
+    return channel;
   }
 
   public String getChannelId() {
@@ -51,30 +44,34 @@ public class NotificationChannelDetailBean {
   }
 
   public void onload() {
-    var channel = NotificationChannel.all().stream()
+    var chn = NotificationChannel.all().stream()
             .filter(notificationChannel -> notificationChannel.id().equals(this.channelId))
             .findAny()
             .orElse(null);
 
-    if (channel == null) {
+    if (chn == null) {
       ResponseHelper.notFound("Channel '" + channelId + "' not found");
       return;
     }
 
-    config = NotificationChannelConfigDto.create(managerBean, channel);
-    notificationChannelConfig = channel.configFor(managerBean.getSelectedSecuritySystem().getSecurityContext());
+    channel = NotificationChannelDto.create(managerBean, chn);
   }
 
   public void save() {
-    notificationChannelConfig.enabled(config.isEnabled());
-    notificationChannelConfig.allEventsEnabled(config.isAllEventsEnabled());
-    notificationChannelConfig.events(
-            config.getEvents().stream()
+    var config = channel.getConfig();
+    config.enabled(channel.isEnabled());
+    config.allEventsEnabled(channel.isAllEventsEnabled());
+    config.events(
+            channel.getEvents().stream()
                     .filter(NotificationEventDto::isEnabled)
                     .map(NotificationEventDto::getKind)
                     .toList());
 
-    var msg = new FacesMessage(config.getDisplayName() + " notification channel changes saved");
+    var msg = new FacesMessage(channel.getDisplayName() + " notification channel changes saved");
     FacesContext.getCurrentInstance().addMessage("channelSaveSuccess", msg);
+  }
+
+  public void open() {
+    channel.pushChannel().open();
   }
 }
