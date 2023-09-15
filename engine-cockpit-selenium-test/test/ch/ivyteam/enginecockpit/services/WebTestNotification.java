@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.Condition;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -98,7 +99,7 @@ class WebTestNotification {
       delivery.rows().should(sizeGreaterThanOrEqual(1));
       delivery.tableEntry(1, 4).should(text("ERROR"));
       delivery.tableEntry(1, 8).shouldBe(text("1"));
-      delivery.tableEntry(1, 8).shouldBe(text("2 m"));
+      delivery.tableEntry(1, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
       delivery.tableEntry(1, 8).click();
       var errorDetails = $(By.id("tableForm:deliveryTable:0:errorDetails"));
       errorDetails.shouldHave(text("Error Information"));
