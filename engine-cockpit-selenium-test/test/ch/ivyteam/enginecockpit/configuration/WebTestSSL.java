@@ -27,6 +27,7 @@ class WebTestSSL {
     property.sendKeys("truststore");
     save();
     success();
+    Navigation.toSSL();
     property.shouldHave(exactValue("truststore"));
   }
 
@@ -37,7 +38,46 @@ class WebTestSSL {
     property.sendKeys("truststore");
     save();
     success();
-    property.shouldHave(exactValue("truststore"));
+    Navigation.toSSL();
+    property.shouldNotHave(exactValue("truststore"));
+  }
+
+  @Test
+  void InputField() {
+    var propertyFile = $(By.id("sslClientform:trustStoreFile"));
+    propertyFile.clear();
+    propertyFile.sendKeys("File");
+
+    var propertyPassword = $(By.id("sslClientform:trustStorePassword"));
+    propertyPassword.clear();
+    propertyPassword.sendKeys("Password");
+
+    var propertyProvider = $(By.id("sslClientform:trustStoreProvider"));
+    propertyProvider.clear();
+    propertyProvider.sendKeys("Provider");
+
+    var propertyType = $(By.id("sslClientform:trustStoreType"));
+    propertyType.clear();
+    propertyType.sendKeys("Type");
+
+    var propertyAlgorithim = $(By.id("sslClientform:trustStoreAlgorithim"));
+    propertyAlgorithim.clear();
+    propertyAlgorithim.sendKeys("Algorithim");
+
+    var propertyManagerClass = $(By.id("sslClientform:trustManagerClass"));
+    propertyManagerClass.clear();
+    propertyManagerClass.sendKeys("ManagerClass");
+
+    save();
+    success();
+    Navigation.toSSL();
+
+    propertyFile.shouldHave(exactValue("File"));
+    propertyPassword.shouldNotHave(exactValue("Password"));
+    propertyProvider.shouldHave(exactValue("Provider"));
+    propertyType.shouldHave(exactValue("Type"));
+    propertyAlgorithim.shouldHave(exactValue("Algorithim"));
+    propertyManagerClass.shouldHave(exactValue("ManagerClass"));
   }
 
   private void save() {
