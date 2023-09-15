@@ -17,29 +17,82 @@ public class SslClientBean {
   private String trustStoreType;
   private String trustStoreAlgorithim;
   private String trustManagerClass;
+  private SslClientConfig config = new SslClientConfig();
 
-  private IConfiguration config = IConfiguration.instance();
-
-  private interface Key {
-
-    ConfigKey CLIENT = ConfigKey.create("SSL").append("Client");
-    ConfigKey TRUST = CLIENT.append("TrustStore");
-    ConfigKey FILE = TRUST.append("File");
-    ConfigKey PASSWORD = TRUST.append("Password");
-    ConfigKey PROVIDER = TRUST.append("Provider");
-    ConfigKey TYPE = TRUST.append("Type");
-    ConfigKey ALGORITHM = TRUST.append("Algorithm");
-    ConfigKey MANAGERCLASS = TRUST.append("ManagerClass");
-
-  }
 
   public SslClientBean() {
-    this.trustStoreFile = config.get(Key.FILE).orElse("");
-    this.trustStorePassword = config.get(Key.PASSWORD).orElse("");
-    this.trustStoreProvider = config.get(Key.PROVIDER).orElse("");
-    this.trustStoreType = config.get(Key.TYPE).orElse("");
-    this.trustStoreAlgorithim = config.get(Key.ALGORITHM).orElse("");
-    this.trustManagerClass = config.get(Key.MANAGERCLASS).orElse("");
+    this.trustStoreFile = config.getTrustStoreFile();
+    this.trustStorePassword = config.getTrustStorePassword();
+    this.trustStoreProvider = config.getTrustStoreProvider();
+    this.trustStoreType = config.getTrustStoreType();
+    this.trustStoreAlgorithim = config.getTrustStoreAlgorithim();
+    this.trustManagerClass = config.getTrustManagerClass();
+  }
+
+  @SuppressWarnings("restriction")
+  public static class SslClientConfig {
+
+    private interface Key {
+
+      ConfigKey CLIENT = ConfigKey.create("SSL").append("Client");
+      ConfigKey TRUST = CLIENT.append("TrustStore");
+      ConfigKey FILE = TRUST.append("File");
+      ConfigKey PASSWORD = TRUST.append("Password");
+      ConfigKey PROVIDER = TRUST.append("Provider");
+      ConfigKey TYPE = TRUST.append("Type");
+      ConfigKey ALGORITHM = TRUST.append("Algorithm");
+      ConfigKey MANAGERCLASS = TRUST.append("ManagerClass");
+    }
+
+    private IConfiguration config = IConfiguration.instance();
+
+    public String getTrustStoreFile() {
+      return config.get(Key.FILE).orElse("");
+    }
+
+    public void setTrustStoreFile(String trustStoreFile) {
+      config.set(Key.FILE, trustStoreFile);
+    }
+
+    public String getTrustStorePassword() {
+      return config.get(Key.PASSWORD).orElse("");
+    }
+
+    public void setTrustStorePassword(String trustStorePassword) {
+      config.set(Key.PASSWORD, trustStorePassword);
+    }
+
+    public String getTrustStoreProvider() {
+      return config.get(Key.PROVIDER).orElse("");
+    }
+
+    public void setTrustStoreProvider(String trustStoreProvider) {
+      config.set(Key.PROVIDER, trustStoreProvider);
+    }
+
+    public String getTrustStoreType() {
+      return config.get(Key.TYPE).orElse("");
+    }
+
+    public void setTrustStoreType(String trustStoreType) {
+      config.set(Key.TYPE, trustStoreType);
+    }
+
+    public String getTrustStoreAlgorithim() {
+      return config.get(Key.ALGORITHM).orElse("");
+    }
+
+    public void setTrustStoreAlgorithim(String trustStoreAlgorithim) {
+      config.set(Key.ALGORITHM, trustStoreAlgorithim);
+    }
+
+    public String getTrustManagerClass() {
+      return config.get(Key.MANAGERCLASS).orElse("");
+    }
+
+    public void setTrustManagerClass(String trustManagerClass) {
+      config.set(Key.MANAGERCLASS, trustManagerClass);
+    }
   }
 
   public String getTrustStoreFile() {
@@ -51,12 +104,12 @@ public class SslClientBean {
   }
 
   public void save() {
-    config.set(Key.FILE, trustStoreFile);
-    config.set(Key.PASSWORD, trustStorePassword);
-    config.set(Key.PROVIDER, trustStoreProvider);
-    config.set(Key.TYPE, trustStoreType);
-    config.set(Key.ALGORITHM, trustStoreAlgorithim);
-    config.set(Key.MANAGERCLASS, trustManagerClass);
+    config.setTrustStoreFile(trustStoreFile);
+    config.setTrustStorePassword(trustStorePassword);
+    config.setTrustStoreProvider(trustStoreProvider);
+    config.setTrustStoreType(trustStoreType);
+    config.setTrustStoreAlgorithim(trustStoreAlgorithim);
+    config.setTrustManagerClass(trustManagerClass);
 
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
             new FacesMessage("Trust Store configurations saved"));
