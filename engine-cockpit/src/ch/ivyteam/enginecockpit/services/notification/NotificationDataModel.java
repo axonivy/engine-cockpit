@@ -3,13 +3,11 @@ package ch.ivyteam.enginecockpit.services.notification;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-
 import ch.ivyteam.ivy.jsf.primefaces.sort.SortMetaConverter;
 import ch.ivyteam.ivy.notification.query.NotificationDeliveryQuery;
 
@@ -77,6 +75,7 @@ public class NotificationDataModel extends LazyDataModel<NotificationDeliveryDto
     if ("readAt".equals(sortField)) {
       applyOrdering(query.orderBy().readAt(), sortOrder);
     }
+    applyOrdering(query.orderBy().notificationDeliveryId(), SortOrder.ASCENDING);
   }
 
   private static void applyOrdering(NotificationDeliveryQuery.OrderByColumnQuery query, SortOrder sortOrder) {

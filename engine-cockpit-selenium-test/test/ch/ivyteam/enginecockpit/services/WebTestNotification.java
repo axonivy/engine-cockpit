@@ -10,11 +10,13 @@ import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverConditions;
@@ -23,7 +25,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest(headless=false)
+@IvyWebTest
 class WebTestNotification {
 
   @BeforeEach
@@ -32,6 +34,11 @@ class WebTestNotification {
     login();
     Navigation.toNotification();
     Tab.SECURITY_SYSTEM.switchToDefault();
+  }
+
+  @AfterEach
+  void afterEach() {
+    EngineCockpitUtil.resetNotificationConfig();
   }
 
   @Test
@@ -54,8 +61,8 @@ class WebTestNotification {
   @Test
   void notifications_receiver() {
     var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
-    notifications.tableEntry(1, 4).should(text("Everybody")).click();
-    Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("roledetails.xthml"));
+    notifications.tableEntry(1, 4).$("a").should(text("Everybody")).click();
+    Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("roledetail.xhtml"));
   }
 
   @Test
@@ -101,44 +108,108 @@ class WebTestNotification {
   }
 
   @Test
-  void failed_delivery() {
-    enableMailChannel(true);
-    try {
-      EngineCockpitUtil.createNotification();
-      login();
-      Navigation.toNotification();
-      Tab.SECURITY_SYSTEM.switchToDefault();
-
-      var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
-      notifications.tableEntry(1, 1).click();
-
-      var delivery = new Table(By.id("tableForm:deliveryTable"));
-      delivery.search("mail");
-      delivery.rows().should(sizeGreaterThanOrEqual(1));
-      delivery.tableEntry(1, 4).should(text("ERROR"));
-      delivery.tableEntry(1, 8).shouldBe(text("1"));
-      delivery.tableEntry(1, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
-      delivery.tableEntry(1, 8).click();
-      var errorDetails = $(By.id("tableForm:deliveryTable:0:errorDetails"));
-      errorDetails.shouldHave(text("Error Information"));
-      errorDetails.shouldHave(text("Failed deliver attemps so far:"));
-      errorDetails.shouldHave(text("Next retry to deliver:"));
-      errorDetails.shouldHave(text("Last Error:"));
-      errorDetails.shouldHave(text("Connection refused"));
-    } finally {
-      enableMailChannel(false);
-    }
-
+  void delivery_reusher() {
+    enableMailChannel();
+    login();
+    Navigation.toNotification();
+    var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
+    notifications.tableEntry(1, 1).click();
+    var delivery = new Table(By.id("tableForm:deliveryTable"));
+    delivery.search("mail");
+    delivery.rows().shouldBe(CollectionCondition.sizeGreaterThan(0)); // first row is "No records found."
+    $(By.id("reusher")).click();
+    delivery.rows().shouldBe(CollectionCondition.sizeGreaterThan(1));
   }
 
-  private void enableMailChannel(boolean enable) {
+  @Test
+  void failed_delivery() {
+    enableMailChannel();
+    EngineCockpitUtil.createNotification();
+    login();
+    Navigation.toNotification();
+    Tab.SECURITY_SYSTEM.switchToDefault();
+
+    var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
+    notifications.tableEntry(1, 1).click();
+
+    var delivery = new Table(By.id("tableForm:deliveryTable"));
+    delivery.search("mail");
+    delivery.rows().should(sizeGreaterThanOrEqual(1));
+    delivery.tableEntry(1, 4).should(text("ERROR"));
+    delivery.tableEntry(1, 8).shouldBe(text("1"));
+    delivery.tableEntry(1, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+    delivery.tableEntry(1, 8).click();
+    var errorDetails = $(By.id("tableForm:deliveryTable:0:errorDetails"));
+    errorDetails.shouldHave(text("Error Information"));
+    errorDetails.shouldHave(text("Failed deliver attemps so far:"));
+    errorDetails.shouldHave(text("Next retry to deliver:"));
+    errorDetails.shouldHave(text("Last Error:"));
+    errorDetails.shouldHave(text("Connection refused"));
+  }
+
+  @Test
+  void retry_all() {
+    enableMailChannel();
+    EngineCockpitUtil.createNotification();
+    login();
+    Navigation.toNotification();
+    Tab.SECURITY_SYSTEM.switchToDefault();
+    var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
+    notifications.tableEntry(1, 1).click();
+    var delivery = new Table(By.id("tableForm:deliveryTable"));
+    delivery.search("mail");
+
+    delivery.tableEntry(1, 4).should(text("ERROR"));
+    delivery.tableEntry(1, 8).shouldBe(text("1"));
+    delivery.tableEntry(1, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+    delivery.tableEntry(2, 4).should(text("ERROR"));
+    delivery.tableEntry(2, 8).shouldBe(text("1"));
+    delivery.tableEntry(2, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+
+    $(By.id("retry")).click();
+
+    delivery.tableEntry(1, 4).should(text("ERROR"));
+    delivery.tableEntry(1, 8).shouldBe(text("2"));
+    delivery.tableEntry(1, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+    delivery.tableEntry(2, 4).should(text("ERROR"));
+    delivery.tableEntry(2, 8).shouldBe(text("2"));
+    delivery.tableEntry(2, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+  }
+
+  @Test
+  void retry_one() {
+    enableMailChannel();
+    EngineCockpitUtil.createNotification();
+    login();
+    Navigation.toNotification();
+    Tab.SECURITY_SYSTEM.switchToDefault();
+    var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
+    notifications.tableEntry(1, 1).click();
+    var delivery = new Table(By.id("tableForm:deliveryTable"));
+    delivery.search("mail");
+
+    delivery.tableEntry(1, 4).should(text("ERROR"));
+    delivery.tableEntry(1, 8).shouldBe(text("1"));
+    delivery.tableEntry(1, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+    delivery.tableEntry(2, 4).should(text("ERROR"));
+    delivery.tableEntry(2, 8).shouldBe(text("1"));
+    delivery.tableEntry(2, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+
+    delivery.tableEntry(2, 9).click();
+
+    delivery.tableEntry(1, 4).should(text("ERROR"));
+    delivery.tableEntry(1, 8).shouldBe(text("1"));
+    delivery.tableEntry(1, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+    delivery.tableEntry(2, 4).should(text("ERROR"));
+    delivery.tableEntry(2, 8).shouldBe(text("2"));
+    delivery.tableEntry(2, 8).shouldBe(Condition.matchText("[0-9]+ [smhd]"));
+  }
+
+
+  private void enableMailChannel() {
     Navigation.toNotificationChannelDetail("mail");
     var enabledCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:enabled"));
-    if (enable) {
-      enabledCheckbox.setChecked();
-    } else {
-      enabledCheckbox.removeChecked();
-    }
+    enabledCheckbox.setChecked();
     $(By.id("save")).click();
   }
 }
