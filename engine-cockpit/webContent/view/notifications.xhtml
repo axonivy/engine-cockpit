@@ -56,7 +56,10 @@
               </p:column>
 
               <p:column headerText="Receiver">
-                <h:outputText value="#{notification.receiver}"  />
+                <p:link href="#{notification.receiverUri}">
+                  <i class="#{notification.receiverIcon} table-icon"/>
+                  <h:outputText value="#{notification.receiver}" />
+                </p:link>
               </p:column>
 
               <p:column styleClass="table-btn-1">

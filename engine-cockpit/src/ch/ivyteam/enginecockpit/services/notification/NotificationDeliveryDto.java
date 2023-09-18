@@ -98,4 +98,8 @@ public class NotificationDeliveryDto {
   public int getNumberOfErrors() {
     return delivery.numberOfErrors();
   }
+
+  public void retry() {
+    delivery.retry();
+  }
 }

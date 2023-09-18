@@ -16,12 +16,14 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverConditions;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
+@IvyWebTest(headless=false)
 class WebTestNotification {
 
   @BeforeEach
@@ -47,6 +49,13 @@ class WebTestNotification {
             .should(visible)
             .should(text("taskId"));
     notifications.tableEntry(1, 1).should(matchText(".*-.*-.*"));
+  }
+
+  @Test
+  void notifications_receiver() {
+    var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
+    notifications.tableEntry(1, 4).should(text("Everybody")).click();
+    Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("roledetails.xthml"));
   }
 
   @Test
@@ -80,6 +89,15 @@ class WebTestNotification {
 
     delivery.search(uuid);
     delivery.rows().should(size(1));
+  }
+
+  @Test
+  void delivery_receiver() {
+    var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
+    notifications.tableEntry(1, 1).click();
+    var delivery = new Table(By.id("tableForm:deliveryTable"));
+    delivery.tableEntry(1, 3).should(matchText("Developer|foo|bar|jon|guest|demo|admin|disableduser")).click();
+    Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("userdetail.xhtml"));
   }
 
   @Test

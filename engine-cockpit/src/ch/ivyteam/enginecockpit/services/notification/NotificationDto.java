@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.services.notification;
 
 import java.util.Date;
 import javax.ws.rs.core.UriBuilder;
+import ch.ivyteam.enginecockpit.security.model.SecurityMember;
 import ch.ivyteam.ivy.notification.Notification;
 import ch.ivyteam.ivy.notification.delivery.NotificationDeliveryRepository;
 
@@ -28,7 +29,15 @@ public class NotificationDto {
   }
 
   public String getReceiver() {
-    return notification.receiver().getMemberName();
+    return notification.receiver().getName();
+  }
+
+  public String getReceiverIcon() {
+    return SecurityMember.createFor(notification.receiver()).getCssIconClass();
+  }
+
+  public String getReceiverUri() {
+    return SecurityMember.createFor(notification.receiver()).getViewUrl();
   }
 
   public String getPayload() {
@@ -45,5 +54,13 @@ public class NotificationDto {
             .queryParam("id", notification.uuid())
             .build()
             .toString();
+  }
+
+  public void reusher() {
+    notification.reusher();
+  }
+
+  public void retry() {
+    notification.retry();
   }
 }
