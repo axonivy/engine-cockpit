@@ -43,8 +43,11 @@
           function waitFor(resolver) {
             const poll = resolve => {
               var instance = resolver();
-              if(instance != undefined) resolve(instance);
-              else setTimeout(() => poll(resolve), 100);
+              if(instance != undefined) {
+                resolve(instance);
+              } else {
+                setTimeout(() => poll(resolve), 10);
+              }
             }
             return new Promise(poll);
           }

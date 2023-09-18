@@ -9,14 +9,12 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
@@ -39,28 +37,25 @@ class WebTestConfigFileEditor {
     var original = readEditorContent();
     try {
       String ivyYaml = """
-              # yaml-language-server: $schema=https://json-schema.axonivy.com/ivy/0.0.3/ivy.json
-              SecuritySystems:
-                test-ad:
-                  IdentityProvider:
-                    Name: mrLegacy
-              """;
+        # yaml-language-server: $schema=https://json-schema.axonivy.com/ivy/0.0.3/ivy.json
+        SecuritySystems:
+          test-ad:
+            IdentityProvider:
+              Name: microsoft-active-directory
+        """;
       setMonacoValue(ivyYaml);
 
       driver.switchTo().frame("framedEditor");
       $(By.className("monaco-editor")).shouldBe(visible);
 
       var idpName = $(By.xpath("//div[@class='view-line']//span[@class='mtk22' and text()='Name']"))
-        .shouldBe(visible);
-      assertThat(idpName.text())
         .as("selected SecuritySystems.test-ad.IdentityProvider.Name")
-        .isEqualTo("Name");
+        .shouldBe(visible);
       idpName.hover();
 
-      var hoverHelp = $(By.className("hover-contents")).shouldBe(visible);
-      assertThat(hoverHelp.text())
+      $(By.className("hover-contents")).shouldBe(visible)
         .as("config-editor shows key specific help, provided by json-schemas")
-        .contains("azure-active-directory");
+        .shouldHave(Condition.partialText("azure-active-directory"));
     }
     finally {
       driver.switchTo().defaultContent();
@@ -120,12 +115,14 @@ class WebTestConfigFileEditor {
   }
 
   private void selectFromAutocomplete(String elementName) {
+    if (elementName.equals($(By.id("currentFile")).text())) {
+      return;
+    }
     var fileChooserInput = $(By.id("fileChooserForm:fileDropDown_input"));
     fileChooserInput.clear();
     fileChooserInput.shouldBe(visible).sendKeys(elementName);
-    Selenide.sleep(500);
-    var autocompleteElement = $(By.className("ui-autocomplete-item"));
-    assertThat(autocompleteElement.getAttribute("data-item-label")).isEqualTo(elementName);
+    var autocompleteElement = $(By.className("ui-autocomplete-item"))
+      .shouldHave(Condition.attribute("data-item-label", elementName));
     autocompleteElement.click();
   }
 }
