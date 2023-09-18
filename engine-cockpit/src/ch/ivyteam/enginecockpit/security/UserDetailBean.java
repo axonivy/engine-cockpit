@@ -154,14 +154,6 @@ public class UserDetailBean {
     return roleDataModel;
   }
 
-  public boolean isUserMemberOfAllRole(String roleName) {
-    return getIUser().getAllRoles().stream().anyMatch(r -> r.getName().equals(roleName));
-  }
-
-  public boolean isUserMemberOfRole(String roleName) {
-    return getIUser().getRoles().stream().anyMatch(r -> r.getName().equals(roleName));
-  }
-
   public void removeRole(String roleName) {
     getIUser().removeRole(securityContext.roles().find(roleName));
   }
@@ -227,5 +219,40 @@ public class UserDetailBean {
 
   public boolean isIvySecuritySystem() {
     return SecuritySystem.isIvySecuritySystem(securityContext);
+  }
+
+  public boolean isManaged() {
+    return getIUser().isExternal();
+  }
+
+  public boolean isUserMemberOfButNotDirect(Role role) {
+    var hasRole = getIUser().getAllRoles().stream().anyMatch(r -> r.getName().equals(role.getName()));
+    return hasRole && !hasUserRoleDirect(role);
+  }
+
+  public boolean isUserDirectMemberOf(Role role) {
+    return hasUserRoleDirect(role);
+  }
+
+  public boolean isAddRoleButtonDisabled(Role role) {
+    if (role.isTopLevel()) {
+      return true;
+    }
+    return hasUserRoleDirect(role);
+  }
+
+  public boolean isRemoveRoleButtonDisabled(Role role) {
+    if (role.isTopLevel()) {
+      return true;
+    }
+    return !hasUserRoleDirect(role);
+  }
+
+  private boolean hasUserRoleDirect(Role role) {
+    return getIUser().getRoles().stream().anyMatch(r -> r.getName().equals(role.getName()));
+  }
+
+  public boolean isRoleManaged(Role role) {
+    return role.isManaged() && isIvySecuritySystem();
   }
 }
