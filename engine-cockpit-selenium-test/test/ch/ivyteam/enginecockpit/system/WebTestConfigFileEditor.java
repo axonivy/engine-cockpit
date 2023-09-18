@@ -34,65 +34,96 @@ class WebTestConfigFileEditor {
   void editor() {
     selectFromAutocomplete("ivy.yaml");
     var selector = $(By.id("currentFile")).shouldHave(text("ivy.yaml"));
+    var driver = selector.getWrappedDriver();
 
-    selector.getWrappedDriver().switchTo().frame("framedEditor");
-    $(By.className("monaco-editor")).shouldBe(visible);
+    var original = readEditorContent();
+    try {
+      String ivyYaml = """
+              # yaml-language-server: $schema=https://json-schema.axonivy.com/ivy/0.0.3/ivy.json
+              SecuritySystems:
+                test-ad:
+                  IdentityProvider:
+                    Name: mrLegacy
+              """;
+      setMonacoValue(ivyYaml);
 
-    var idpName = $(By.xpath("//div[@class='view-line']//span[@class='mtk22' and text()='Name']"))
-      .shouldBe(visible);
-    assertThat(idpName.text())
-      .as("selected SecuritySystems.test-ad.IdentityProvider.Name")
-      .isEqualTo("Name");
-    idpName.hover();
+      driver.switchTo().frame("framedEditor");
+      $(By.className("monaco-editor")).shouldBe(visible);
 
-    var hoverHelp = $(By.className("hover-contents")).shouldBe(visible);
-    assertThat(hoverHelp.text())
-      .as("config-editor shows key specific help, provided by json-schemas")
-      .contains("azure-active-directory");
+      var idpName = $(By.xpath("//div[@class='view-line']//span[@class='mtk22' and text()='Name']"))
+        .shouldBe(visible);
+      assertThat(idpName.text())
+        .as("selected SecuritySystems.test-ad.IdentityProvider.Name")
+        .isEqualTo("Name");
+      idpName.hover();
+
+      var hoverHelp = $(By.className("hover-contents")).shouldBe(visible);
+      assertThat(hoverHelp.text())
+        .as("config-editor shows key specific help, provided by json-schemas")
+        .contains("azure-active-directory");
+    }
+    finally {
+      driver.switchTo().defaultContent();
+      setMonacoValue(original);
+    }
   }
 
   @Test
   void editorSave() throws Exception {
-    String newEditorContent = """
-      #test: hi
-      #bla: fail
-      #testEscape: 'false'""";
     selectFromAutocomplete(APP_YAML);
     $(By.id("currentFile")).shouldBe(text(APP_YAML));
-    $(By.id("editorForm:codeHolder")).shouldHave(Condition.partialValue("app.json"));
-    writeToEditor(newEditorContent);
+    var original = readEditorContent();
+    try {
+      String newEditorContent = """
+        # yaml-language-server: $schema=https://json-schema.axonivy.com/app/0.0.1/app.json
+        #test: hi
+        #bla: fail
+        #testEscape: 'false'""";
+      setMonacoValue(newEditorContent);
 
-    $(By.id("editorForm:cancelEditor")).click();
-    $(By.id("editorMessage_container")).shouldBe(empty);
-    $(By.id("editorForm:codeHolder")).shouldNotHave(Condition.partialValue("bla: fail"));
+      $(By.id("editorForm:cancelEditor")).click();
+      $(By.id("editorMessage_container")).shouldBe(empty);
+      $(By.id("editorForm:codeHolder")).shouldNotHave(Condition.partialValue("bla: fail"));
 
-    writeToEditor(newEditorContent);
-    $(By.id("editorForm:saveEditor")).click();
-    $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved "+APP_YAML+" Successfully"));
+      setMonacoValue(newEditorContent);
+      saveEditor();
+      $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved "+APP_YAML+" Successfully"));
+    }
+    finally {
+      setMonacoValue(original);
+      saveEditor();
+    }
   }
 
-  private void writeToEditor(String newContent) {
-    String editorContent = $(By.id("editorForm:codeHolder")).getAttribute("value");
-    var escapedContent = StringEscapeUtils.escapeJson(editorContent + newContent);
+  private void saveEditor() {
+    $(By.id("editorForm:saveEditor")).click();
+  }
+
+  private void setMonacoValue(String content) {
     executeJs("""
       waitFor(() => monaco()).then(model => {
         model.setValue("%s");
       })
-      """.formatted(escapedContent));
+      """.formatted(StringEscapeUtils.escapeJson(content)));
+  }
+
+  private String readEditorContent() {
+    return $(By.id("editorForm:codeHolder")).getAttribute("value");
   }
 
   @Test
   void directFileOpenUrl() {
-    open(viewUrl("editor.xhtml?file="+APP_YAML));
-    $(By.id("currentFile")).shouldBe(text(APP_YAML));
-    $(By.id("editorForm:codeHolder")).shouldHave(value("BusinessCalendars:"));
+    var file = "web.xml";
+    open(viewUrl("editor.xhtml?file=web.xml"));
+    $(By.id("currentFile")).shouldBe(text(file));
+    $(By.id("editorForm:codeHolder")).shouldHave(value("<web-app"));
   }
 
   private void selectFromAutocomplete(String elementName) {
     var fileChooserInput = $(By.id("fileChooserForm:fileDropDown_input"));
     fileChooserInput.clear();
     fileChooserInput.shouldBe(visible).sendKeys(elementName);
-    Selenide.sleep(1000);
+    Selenide.sleep(500);
     var autocompleteElement = $(By.className("ui-autocomplete-item"));
     assertThat(autocompleteElement.getAttribute("data-item-label")).isEqualTo(elementName);
     autocompleteElement.click();
