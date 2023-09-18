@@ -9,21 +9,18 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.Selenide;
-
+import com.codeborne.selenide.Condition;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
 class WebTestConfigFileEditor {
+
+  private static final String APP_YAML = "test/app.yaml";
 
   @BeforeEach
   void beforeEach() {
@@ -34,55 +31,98 @@ class WebTestConfigFileEditor {
   @Test
   void editor() {
     selectFromAutocomplete("ivy.yaml");
-    $(By.id("currentFile")).shouldHave(text("ivy.yaml"));
-    $(By.className("CodeMirror-lines")).click();
-    $(By.tagName("body")).sendKeys(Keys.CONTROL, Keys.SPACE);
-    String ivyYamlHints = $(By.className("CodeMirror-hints")).shouldBe(visible).getText();
+    var selector = $(By.id("currentFile")).shouldHave(text("ivy.yaml"));
+    var driver = selector.getWrappedDriver();
 
-    selectFromAutocomplete("demo-portal/app.yaml");
-    $(By.id("currentFile")).shouldHave(text("demo-portal/app.yaml"));
-    $(By.className("CodeMirror-lines")).click();
-    $(By.tagName("body")).sendKeys(Keys.CONTROL, Keys.SPACE);
-    String appYamlHints = $(By.className("CodeMirror-hints")).shouldBe(visible).getText();
-    assertThat(ivyYamlHints).isNotEqualTo(appYamlHints);
+    var original = readEditorContent();
+    try {
+      String ivyYaml = """
+        # yaml-language-server: $schema=https://json-schema.axonivy.com/ivy/0.0.3/ivy.json
+        SecuritySystems:
+          test-ad:
+            IdentityProvider:
+              Name: microsoft-active-directory
+        """;
+      setMonacoValue(ivyYaml);
+
+      driver.switchTo().frame("framedEditor");
+      $(By.className("monaco-editor")).shouldBe(visible);
+
+      var idpName = $(By.xpath("//div[@class='view-line']//span[@class='mtk22' and text()='Name']"))
+        .as("selected SecuritySystems.test-ad.IdentityProvider.Name")
+        .shouldBe(visible);
+      idpName.hover();
+
+      $(By.className("hover-contents")).shouldBe(visible)
+        .as("config-editor shows key specific help, provided by json-schemas")
+        .shouldHave(Condition.partialText("azure-active-directory"));
+    }
+    finally {
+      driver.switchTo().defaultContent();
+      setMonacoValue(original);
+    }
   }
 
   @Test
-  void editorSave() {
-    String newEditorContent = "#test: hi \n#bla: fail \n#testEscape: 'false'";
-    selectFromAutocomplete("test/app.yaml");
-    $(By.id("currentFile")).shouldBe(text("test/app.yaml"));
-    writeToEditor(newEditorContent);
+  void editorSave() throws Exception {
+    selectFromAutocomplete(APP_YAML);
+    $(By.id("currentFile")).shouldBe(text(APP_YAML));
+    var original = readEditorContent();
+    try {
+      String newEditorContent = """
+        # yaml-language-server: $schema=https://json-schema.axonivy.com/app/0.0.1/app.json
+        #test: hi
+        #bla: fail
+        #testEscape: 'false'""";
+      setMonacoValue(newEditorContent);
 
-    $(By.id("editorForm:cancelEditor")).click();
-    $(By.id("editorMessage_container")).shouldBe(empty);
-    $(By.id("editorForm:codeMirror")).shouldNotHave(text(newEditorContent));
+      $(By.id("editorForm:cancelEditor")).click();
+      $(By.id("editorMessage_container")).shouldBe(empty);
+      $(By.id("editorForm:codeHolder")).shouldNotHave(Condition.partialValue("bla: fail"));
 
-    writeToEditor(newEditorContent);
-    $(By.id("editorForm:saveEditor")).click();
-    $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved test/app.yaml Successfully"));
+      setMonacoValue(newEditorContent);
+      saveEditor();
+      $("#editorMessage_container .ui-growl-message").shouldHave(text("Saved "+APP_YAML+" Successfully"));
+    }
+    finally {
+      setMonacoValue(original);
+      saveEditor();
+    }
   }
 
-  private void writeToEditor(String newContent) {
-    String editorContent = $(By.id("editorForm:codeMirror")).getAttribute("value");
-    var escapedContent = StringEscapeUtils.escapeJson(editorContent + newContent);
-    executeJs("document.getElementById(\'editorForm:codeMirror\').textContent = \"" + escapedContent + "\"");
+  private void saveEditor() {
+    $(By.id("editorForm:saveEditor")).click();
+  }
+
+  private void setMonacoValue(String content) {
+    executeJs("""
+      waitFor(() => monaco()).then(model => {
+        model.setValue("%s");
+      })
+      """.formatted(StringEscapeUtils.escapeJson(content)));
+  }
+
+  private String readEditorContent() {
+    return $(By.id("editorForm:codeHolder")).getAttribute("value");
   }
 
   @Test
   void directFileOpenUrl() {
-    open(viewUrl("editor.xhtml?file=test/app.yaml"));
-    $(By.id("currentFile")).shouldBe(text("test/app.yaml"));
-    $(By.id("editorForm:codeMirror")).shouldHave(value("BusinessCalendars:"));
+    var file = "web.xml";
+    open(viewUrl("editor.xhtml?file=web.xml"));
+    $(By.id("currentFile")).shouldBe(text(file));
+    $(By.id("editorForm:codeHolder")).shouldHave(value("<web-app"));
   }
 
   private void selectFromAutocomplete(String elementName) {
+    if (elementName.equals($(By.id("currentFile")).text())) {
+      return;
+    }
     var fileChooserInput = $(By.id("fileChooserForm:fileDropDown_input"));
     fileChooserInput.clear();
     fileChooserInput.shouldBe(visible).sendKeys(elementName);
-    Selenide.sleep(1000);
-    var autocompleteElement = $(By.className("ui-autocomplete-item"));
-    assertThat(autocompleteElement.getAttribute("data-item-label")).isEqualTo(elementName);
+    var autocompleteElement = $(By.className("ui-autocomplete-item"))
+      .shouldHave(Condition.attribute("data-item-label", elementName));
     autocompleteElement.click();
   }
 }

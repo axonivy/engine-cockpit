@@ -2,12 +2,9 @@ package ch.ivyteam.enginecockpit.system.editor;
 
 import java.nio.file.Path;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
 import org.primefaces.extensions.event.CompleteEvent;
-
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFile;
 
 public class EditorFile {

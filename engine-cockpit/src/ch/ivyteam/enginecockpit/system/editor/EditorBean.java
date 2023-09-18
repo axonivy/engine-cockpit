@@ -2,12 +2,9 @@ package ch.ivyteam.enginecockpit.system.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
 import org.primefaces.PrimeFaces;
-
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 
@@ -21,6 +18,7 @@ public class EditorBean {
 
   public EditorBean() {
     configFiles = ConfigFileRepository.instance().all().map(EditorFile::new).toList();
+    selectedFile = "ivy.yaml";
   }
 
   public List<EditorFile> getConfigFiles() {
