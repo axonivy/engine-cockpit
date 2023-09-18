@@ -25,11 +25,13 @@
     <ui:define name="content">
       <div class="card">
 
-        <div class="card-header">
-          <div class="card-title p-d-flex p-ai-center">
-            <i class="p-pr-3 si si-information-circle"></i>
-            <h6 class="p-m-0">Notification #{notificationBean.notification.id}</h6>
-          </div>
+        <div class="p-d-flex p-ai-center p-mb-3">
+          <i class="p-pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
+          <h2 class="p-m-0">Notification #{notificationBean.notification.id}</h2>
+          <p:commandButton id="reusher" actionListener="#{notificationBean.notification.reusher}" title="Reevalute deliveries"
+            icon="si si-multiple-actions-add" styleClass="p-col-fixed p-ml-auto rounded-button" update="tableForm"/>
+          <p:commandButton id="retry" actionListener="#{notificationBean.notification.retry}" title="Retry to deliver"
+            icon="si si-send-email" styleClass="p-col-fixed p-ml-1 rounded-button" update="tableForm"/>
         </div>
 
         <h:form id="tableForm">
@@ -85,11 +87,11 @@
             <p:column headerText="Errors">
               <p:outputPanel id="error" rendered="#{delivery.numberOfErrors gt 0}">
                 <h:panelGroup>
-                  <i class="si si-delete-1 table-icon"></i>
+                  <i class="si si-delete-1 table-icon state-inactive"></i>
                   <h:outputText value="#{delivery.numberOfErrors}" />
                 </h:panelGroup>        
                 <h:panelGroup rendered="#{not empty delivery.nextRetryAt}">
-                  <i class="si si-button-refresh-arrows table-icon"></i>
+                  <i class="si si-synchronize-arrow-clock table-icon"></i>
                   <h:outputText value="#{delivery.nextRetryIn}" />
                 </h:panelGroup>
               </p:outputPanel>
@@ -111,6 +113,11 @@
                   <h:outputText value="#{delivery.error}" escape="false"/>
                 </p:panelGrid>
               </p:tooltip>
+            </p:column>
+            
+            <p:column styleClass="table-btn-1">
+              <p:commandButton id="retry" title="Retry to deliver" icon="si si-send-email" rendered="#{delivery.numberOfErrors gt 0}"
+                actionListener="#{delivery.retry}" ajax="true" update="@form" styleClass="rounded-button"/>
             </p:column>
 
           </p:dataTable>

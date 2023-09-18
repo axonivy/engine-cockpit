@@ -70,7 +70,7 @@ public class WebTestPushNotificationChannel {
     Table table = new Table(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:" + WebTestNotificationChannels.TABLE_ID), true);
 
     table.tableEntry("Email", 4).$("i.si-remove-circle").shouldBe(Condition.visible);
-    table.tableEntry("Email", 4).$("i.si-button-refresh-arrows").shouldBe(Condition.visible);
+    table.tableEntry("Email", 4).$("i.si-synchronize-arrow-clock").shouldBe(Condition.visible);
     table.tableEntry("Email", 4).click();
     var lockDetails = $(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:channelsTable:1:state:lockDetails"));
     assertLockDetails(lockDetails);
