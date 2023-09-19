@@ -246,8 +246,6 @@ body .ui-datatable .ui-datatable-header {
   text-overflow: ellipsis;
   width: 100%;
   display: inline-block;
-/*   position: relative; */
-/*   top: 5px; */
 }
 .ui-datatable .table-icon ~ .table-cell-autocut {
   width: calc(100% - 25px);
@@ -324,9 +322,9 @@ body .ui-datatable .ui-datatable-header {
 .editor-card {
   margin-bottom: 0;
   height: calc(100vh - 250px);
-  border-top-style: solid;
-  border-color: lightgray;
-  border-width: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 .editor-card .config-file-editor {
   width: 100%;
