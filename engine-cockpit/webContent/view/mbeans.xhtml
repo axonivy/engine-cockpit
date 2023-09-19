@@ -35,7 +35,8 @@
                   <h:outputText value="#{node.displayName}" />
                 </p:treeNode>
                 <p:treeNode type="bean" icon="si si-analytics-bars">
-                  <h:outputText value="#{node.displayName}" />
+                  <h:outputText id="bean" value="#{node.displayName}" />
+                  <p:tooltip for="bean" value="#{node.description}"/>
                 </p:treeNode>
               </p:tree>
             </div>

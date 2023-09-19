@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.mbeans;
 
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,9 +8,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+import javax.management.InstanceNotFoundException;
+import javax.management.IntrospectionException;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import javax.management.ReflectionException;
 
 public class MName {
   public static final MName ROOT = MName.parse("");
@@ -48,6 +51,14 @@ public class MName {
 
   public ObjectName getObjectName() {
     return name;
+  }
+
+  public String getDescription() {
+    try {
+      return ManagementFactory.getPlatformMBeanServer().getMBeanInfo(name).getDescription();
+    } catch (IntrospectionException | InstanceNotFoundException | ReflectionException ex) {
+      return "n.a.";
+    }
   }
 
   public String getDisplayName() {
