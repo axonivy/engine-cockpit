@@ -75,33 +75,21 @@ public class NotificationChannelSubscriptionDto {
     }
 
     public static NotificationChannelSubscriptionDto.State fromDbState(NotificationSubscription.State state) {
-      switch (state) {
-        case USE_DEFAULT -> {
-          return USE_DEFAULT;
-        }
-        case SUBSCRIBED -> {
-          return SUBSCRIBED;
-        }
-        case NOT_SUBSCRIBED -> {
-          return NOT_SUBSCRIBED;
-        }
+      return switch (state) {
+        case USE_DEFAULT -> USE_DEFAULT;
+        case SUBSCRIBED -> SUBSCRIBED;
+        case NOT_SUBSCRIBED -> NOT_SUBSCRIBED;
         default -> throw new IllegalArgumentException("Unexpected value: " + state);
-      }
+      };
     }
 
     public NotificationSubscription.State toDbState() {
-      switch (value) {
-        case "0" -> {
-          return NotificationSubscription.State.USE_DEFAULT;
-        }
-        case "1" -> {
-          return NotificationSubscription.State.SUBSCRIBED;
-        }
-        case "2" -> {
-          return NotificationSubscription.State.NOT_SUBSCRIBED;
-        }
+      return switch (value) {
+        case "0" -> NotificationSubscription.State.USE_DEFAULT;
+        case "1" -> NotificationSubscription.State.SUBSCRIBED;
+        case "2" -> NotificationSubscription.State.NOT_SUBSCRIBED;
         default -> throw new IllegalArgumentException("Unexpected value: " + value);
-      }
+      };
     }
   }
 }
