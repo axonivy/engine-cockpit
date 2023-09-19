@@ -100,9 +100,9 @@
           <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
         </h:panelGroup>
         <h:form id="editorForm" styleClass="editor-card">
+          <iframe id="framedEditor" src="#{resource['monaco-yaml-ivy/index.html']}&amp;nodemo" style="border: 0; width: 100%; height: 100%" />
+          <h:inputTextarea id="codeHolder" value="#{editorBean.activeConfigFile.content}" escape="false" style="display:none" />
           <div class="p-d-flex p-flex-wrap">
-            <iframe id="framedEditor" src="#{resource['monaco-yaml-ivy/index.html']}&amp;nodemo" width="100%" height="400" style="border:0" />
-            <h:inputTextarea id="codeHolder" value="#{editorBean.activeConfigFile.content}" escape="false" style="display:none" />
             <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
               styleClass="p-ml-auto ui-button-secondary ui-button-flat" disabled="#{editorBean.activeConfigFile == null}" />
             <p:commandButton id="saveEditor" styleClass="p-ml-1" value="Save" disabled="#{!editorBean.canSave()}"
