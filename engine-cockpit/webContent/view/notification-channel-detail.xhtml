@@ -101,6 +101,13 @@
         </h:form>
       </div>
     </ui:define>
+    <ui:define name="live-stats">
+      <cc:Sidebar jmxSource="#{notificationChannelDetailBean.liveStats.channel}">
+        <cc:LiveStats monitor="#{notificationChannelDetailBean.liveStats.deliveriesMonitor}" id="delivery" />
+        <cc:LiveStats monitor="#{notificationChannelDetailBean.liveStats.pushesTimeMonitor}" id="pushes" rendered="#{notificationChannelDetailBean.channel.push}"/>
+        <cc:LiveStats monitor="#{notificationChannelDetailBean.liveStats.locksMonitor}" id="locks" rendered="#{notificationChannelDetailBean.channel.push}"/>
+      </cc:Sidebar>
+    </ui:define>
   </ui:composition>
 </h:body>
 

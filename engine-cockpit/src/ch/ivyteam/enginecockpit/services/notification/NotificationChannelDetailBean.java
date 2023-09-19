@@ -5,6 +5,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
+import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.NotificationChannelMonitor;
 import ch.ivyteam.enginecockpit.services.notification.NotificationChannelDto.NotificationEventDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
@@ -18,6 +19,7 @@ public class NotificationChannelDetailBean {
 
   private ManagerBean managerBean;
   private NotificationChannelDto channel;
+  private NotificationChannelMonitor liveStats;
 
   public NotificationChannelDetailBean() {
     managerBean = ManagerBean.instance();
@@ -55,6 +57,7 @@ public class NotificationChannelDetailBean {
     }
 
     channel = NotificationChannelDto.instance(managerBean.getSelectedSecuritySystem().getSecurityContext(), chn);
+    liveStats = new NotificationChannelMonitor(this.channelId, channel.getDisplayName());
   }
 
   public void save() {
@@ -74,4 +77,9 @@ public class NotificationChannelDetailBean {
   public void open() {
     channel.pushChannel().open();
   }
+
+  public NotificationChannelMonitor getLiveStats() {
+    return liveStats;
+  }
+
 }
