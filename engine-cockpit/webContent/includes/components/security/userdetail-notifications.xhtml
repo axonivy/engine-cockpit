@@ -24,10 +24,10 @@
       lazy="false" styleClass="ui-fluid">
       
       <p:column headerText="Event" sortBy="#{event}">
-        <h:outputText value="#{event}" />
+        <h:outputText value="#{event}" styleClass="event-kind" />
       </p:column>
       
-      <p:columns var="channel" value="#{userDetailBean.notificationChannels.channels}" style="text-align: center">
+      <p:columns id="channels" var="channel" value="#{userDetailBean.notificationChannels.channels}" style="text-align: center">
         <f:facet name="header">
           <h:outputText value="#{channel.channel.displayName()}">
             <i class="#{channel.channel.displayIcon()} table-icon" />
@@ -35,9 +35,9 @@
         </f:facet>
         
         <c:set var="subscription" value="#{channel.getSubscription(event)}"/>
-        <i class="si table-icon si-#{subscription.icon}" title="#{subscription.title}"
+        <i id="subscriptionIcon" class="si table-icon si-#{subscription.icon}" title="#{subscription.title}"
           style="padding-right: 10px; vertical-align: top" />
-        <p:triStateCheckbox value="#{subscription.stateAsString}">
+        <p:triStateCheckbox id="subscriptionCheckbox" value="#{subscription.stateAsString}">
           <p:ajax event="change" update="notificationsForm" listener="#{channel.setSubscriptionIconAndTitle(event)}" />
         </p:triStateCheckbox>
       </p:columns>

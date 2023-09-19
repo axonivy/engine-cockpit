@@ -6,6 +6,7 @@ import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
@@ -16,21 +17,21 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-
+import static com.codeborne.selenide.Selenide.$x;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-
+import com.codeborne.selenide.SelenideElement;
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -201,6 +202,112 @@ class WebTestUserDetail {
     taskCheckbox.shouldBeDisabled(true);
     dailyCheckbox.shouldBeDisabled(true);
     dailyCheckbox.shouldBe(exactTexts("Mon", "Fri", "Sun"));
+  }
+
+  @Test
+  void notificationChannels() {
+    Navigation.toUserDetail(USER_FOO);
+
+    Table table = new Table(By.id("notificationsForm:notificationChannelsTable"));
+    var webNewTaskIcon = $(By.id("subscriptionIcon"));
+    var webNewTaskCheckbox = $x("//div[@id='notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox']//div[2]/span");
+
+    // Events and channels in table
+    table.firstColumnShouldBe(size(1));
+    table.firstColumnShouldBe(CollectionCondition.exactTexts("new-task"));
+    table.headerShouldBe(size(2));
+    table.headerShouldBe(CollectionCondition.exactTexts("Event", "Web"));
+
+    // State subscribed by default
+    iconShouldHaveSubscribedState(webNewTaskIcon, true);
+    iconShouldHaveByDefaultState(webNewTaskIcon, true);
+    iconShouldHaveTitle(webNewTaskIcon, "Subscribed by default");
+    checkboxShouldHaveState(webNewTaskCheckbox, 0);
+
+    // State subscribed
+    webNewTaskCheckbox.parent().click();
+    iconShouldHaveSubscribedState(webNewTaskIcon, true);
+    iconShouldHaveByDefaultState(webNewTaskIcon, false);
+    iconShouldHaveTitle(webNewTaskIcon, "Subscribed");
+    checkboxShouldHaveState(webNewTaskCheckbox, 1);
+
+    // State not subscribed
+    webNewTaskCheckbox.parent().click();
+    iconShouldHaveSubscribedState(webNewTaskIcon, false);
+    iconShouldHaveByDefaultState(webNewTaskIcon, false);
+    iconShouldHaveTitle(webNewTaskIcon, "Not subscribed");
+    checkboxShouldHaveState(webNewTaskCheckbox, 2);
+
+    // Refresh without saving
+    Selenide.refresh();
+    iconShouldHaveSubscribedState(webNewTaskIcon, true);
+    iconShouldHaveByDefaultState(webNewTaskIcon, true);
+    iconShouldHaveTitle(webNewTaskIcon, "Subscribed by default");
+    checkboxShouldHaveState(webNewTaskCheckbox, 0);
+
+    // Refresh after saving
+    webNewTaskCheckbox.parent().click();
+    $(By.id("notificationsForm:save")).click();
+    Selenide.refresh();
+    iconShouldHaveSubscribedState(webNewTaskIcon, true);
+    iconShouldHaveByDefaultState(webNewTaskIcon, false);
+    iconShouldHaveTitle(webNewTaskIcon, "Subscribed");
+    checkboxShouldHaveState(webNewTaskCheckbox, 1);
+
+    // Reset
+    $(By.id("notificationsForm:reset")).click();
+    iconShouldHaveSubscribedState(webNewTaskIcon, true);
+    iconShouldHaveByDefaultState(webNewTaskIcon, true);
+    iconShouldHaveTitle(webNewTaskIcon, "Subscribed by default");
+    checkboxShouldHaveState(webNewTaskCheckbox, 0);
+    Selenide.refresh();
+    iconShouldHaveSubscribedState(webNewTaskIcon, true);
+    iconShouldHaveByDefaultState(webNewTaskIcon, true);
+    iconShouldHaveTitle(webNewTaskIcon, "Subscribed by default");
+    checkboxShouldHaveState(webNewTaskCheckbox, 0);
+
+    // State not subscribed by default
+    Navigation.toNotificationChannelDetail("web");
+    var allEventsCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:allEvents"));
+    allEventsCheckbox.removeChecked();
+    $(By.id("save")).click();
+
+    Navigation.toUserDetail(USER_FOO);
+    iconShouldHaveSubscribedState(webNewTaskIcon, false);
+    iconShouldHaveByDefaultState(webNewTaskIcon, true);
+    iconShouldHaveTitle(webNewTaskIcon, "Not subscribed by default");
+    checkboxShouldHaveState(webNewTaskCheckbox, 0);
+
+    EngineCockpitUtil.resetNotificationConfig();
+  }
+
+  private void iconShouldHaveSubscribedState(SelenideElement icon, boolean subscribed) {
+    if (subscribed) {
+      icon.shouldHave(cssClass("si-check-circle-1"));
+    } else {
+      icon.shouldHave(cssClass("si-remove-circle"));
+    }
+  }
+
+  private void iconShouldHaveByDefaultState(SelenideElement icon, boolean byDefault) {
+    if (byDefault) {
+      icon.shouldHave(cssClass("light"));
+    } else {
+      icon.shouldNotHave(cssClass("light"));
+    }
+  }
+
+  private void iconShouldHaveTitle(SelenideElement icon, String title) {
+    icon.shouldHave(attribute("title", title));
+  }
+
+  private void checkboxShouldHaveState(SelenideElement checkbox, int state) {
+    switch (state) {
+      case 0 -> checkbox.shouldNotHave(cssClass("ui-icon"));
+      case 1 -> checkbox.shouldHave(cssClass("ui-icon-check"));
+      case 2 -> checkbox.shouldHave(cssClass("ui-icon-closethick"));
+      default -> throw new IllegalArgumentException("Unexpected value: " + state);
+    }
   }
 
   @Test
