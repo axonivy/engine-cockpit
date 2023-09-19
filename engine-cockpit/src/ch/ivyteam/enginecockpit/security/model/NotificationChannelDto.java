@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
-import ch.ivyteam.ivy.notification.channel.impl.NotificationSubscription;
+import ch.ivyteam.ivy.notification.channel.NotificationSubscription;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityMember;
 

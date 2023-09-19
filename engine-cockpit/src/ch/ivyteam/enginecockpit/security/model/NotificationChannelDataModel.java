@@ -3,7 +3,7 @@ package ch.ivyteam.enginecockpit.security.model;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import ch.ivyteam.ivy.notification.channel.impl.NotificationSubscription;
+import ch.ivyteam.ivy.notification.channel.NotificationSubscription;
 import ch.ivyteam.ivy.notification.event.NotificationEvent;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityMember;

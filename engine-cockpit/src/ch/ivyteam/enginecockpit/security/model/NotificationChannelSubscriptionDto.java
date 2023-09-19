@@ -1,6 +1,6 @@
 package ch.ivyteam.enginecockpit.security.model;
 
-import ch.ivyteam.ivy.notification.channel.impl.NotificationSubscription;
+import ch.ivyteam.ivy.notification.channel.NotificationSubscription;
 
 public class NotificationChannelSubscriptionDto {
 
