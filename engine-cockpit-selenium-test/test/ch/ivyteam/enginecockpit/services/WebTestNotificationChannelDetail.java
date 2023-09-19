@@ -4,6 +4,7 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.refresh;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -132,6 +133,11 @@ public class WebTestNotificationChannelDetail {
     Table table = new Table(By.id("form:events"));
     table.firstColumnShouldBe(size(1));
     table.firstColumnShouldBe(CollectionCondition.exactTexts("new-task"));
+  }
+
+  @Test
+  void lifeStats() {
+    EngineCockpitUtil.assertLiveStats(List.of("Channel Deliveries"), "Web", false);
   }
 
   private void assertDefault() {

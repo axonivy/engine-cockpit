@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.services;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,6 +81,11 @@ public class WebTestPushNotificationChannel {
     Navigation.toNotificationChannels();
 
     table.tableEntry("Email", 4).$("i.si-check-circle-1").shouldBe(Condition.visible);
+  }
+
+  @Test
+  void lifeStats() {
+    EngineCockpitUtil.assertLiveStats(List.of("Channel Deliveries", "Channel Pushes Time", "Channel Locks"), "Email", false);
   }
 
   private void assertLockDetails(SelenideElement lockDetails) {
