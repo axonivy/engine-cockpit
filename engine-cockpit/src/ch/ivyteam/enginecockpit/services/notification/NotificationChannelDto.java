@@ -4,10 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.UriBuilder;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.enginecockpit.util.DurationFormat;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
-import ch.ivyteam.ivy.notification.channel.NotificationChannelConfig;
+import ch.ivyteam.ivy.notification.channel.NotificationChannelSystemConfig;
 import ch.ivyteam.ivy.notification.channel.PushNotificationChannel;
 import ch.ivyteam.ivy.notification.event.NotificationEvent;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -17,13 +16,13 @@ public class NotificationChannelDto {
   private final String system;
 
   private final NotificationChannel channel;
-  private NotificationChannelConfig config;
+  private NotificationChannelSystemConfig config;
 
   private boolean enabled;
   private boolean allEvents;
   private final List<NotificationEventDto> events;
 
-  private NotificationChannelDto(NotificationChannel channel, NotificationChannelConfig config, boolean enabled, boolean allEvents, List<NotificationEventDto> events, String system) {
+  private NotificationChannelDto(NotificationChannel channel, NotificationChannelSystemConfig config, boolean enabled, boolean allEvents, List<NotificationEventDto> events, String system) {
     this.channel = channel;
     this.config = config;
     this.enabled = enabled;
@@ -116,12 +115,11 @@ public class NotificationChannelDto {
             .toString();
   }
 
-  NotificationChannelConfig getConfig() {
+  NotificationChannelSystemConfig getConfig() {
     return config;
   }
 
-  public static NotificationChannelDto create(ManagerBean managerBean, NotificationChannel channel) {
-    ISecurityContext securityContext = managerBean.getSelectedSecuritySystem().getSecurityContext();
+  public static NotificationChannelDto instance(ISecurityContext securityContext, NotificationChannel channel) {
     var config = channel.configFor(securityContext);
 
     var eventKinds = NotificationEvent.all().stream()
