@@ -11,7 +11,6 @@ pipeline {
 
   parameters {
     string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url')
-    string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
   }
 
   stages {
@@ -31,19 +30,11 @@ pipeline {
       steps {
         script {
           def common = load 'build/build.groovy'
-          def mvnArgs = "-Dtest.filter=${getTestFilter(common.isReleaseOrMasterBranch())} -Dmaven.test.failure.ignore=true -Pcockpit "
-          common.build(mvnArgs);
+          common.build();
 
           archiveArtifacts '**/target/*.iar, **/target/*.jar'
         }
       }
     }
   }
-}
-
-def getTestFilter(isReleaseOrMasterBranch) {
-  if (isReleaseOrMasterBranch) {
-    return 'WebTest*.java'
-  }
-  return params.testFilter
 }

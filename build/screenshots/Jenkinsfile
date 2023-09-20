@@ -21,8 +21,8 @@ pipeline {
           def isReleaseOrMasterBranch = common.isReleaseOrMasterBranch()
           def mvnArgs = "-Dref.screenshot.build='${getScreenshotRefBranch(isReleaseOrMasterBranch)}' " + 
               "-Dimg.similarity=${getImageSimilarity(isReleaseOrMasterBranch)} " + 
-              "-Pscreenshots "
-          common.build(mvnArgs);
+              "-Pengine -Pscreenshots "
+          common.buildIntegration(mvnArgs);
 
           archiveArtifacts '**/target/docu/**/*, **/target/*.html'
           recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
