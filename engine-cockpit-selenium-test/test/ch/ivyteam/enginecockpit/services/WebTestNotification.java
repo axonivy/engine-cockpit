@@ -103,7 +103,7 @@ class WebTestNotification {
     var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
     notifications.tableEntry(1, 1).click();
     var delivery = new Table(By.id("tableForm:deliveryTable"));
-    delivery.tableEntry(1, 3).should(matchText("Developer|foo|bar|jon|guest|demo|admin|disableduser")).click();
+    delivery.tableEntry(1, 3).$("a").should(matchText("Developer|foo|bar|jon|guest|demo|admin|disableduser")).click();
     Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("userdetail.xhtml"));
   }
 
