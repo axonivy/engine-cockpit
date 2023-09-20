@@ -35,7 +35,7 @@
         </f:facet>
         
         <c:set var="subscription" value="#{channel.getSubscription(event)}"/>
-        <i id="subscriptionIcon" class="si table-icon si-#{subscription.icon}" title="#{subscription.title}"
+        <i class="si table-icon si-#{subscription.icon} subscription-icon" title="#{subscription.title}"
           style="padding-right: 10px; vertical-align: top" />
         <p:triStateCheckbox id="subscriptionCheckbox" value="#{subscription.stateAsString}">
           <p:ajax event="change" update="notificationsForm" listener="#{channel.setSubscriptionIconAndTitle(event)}" />

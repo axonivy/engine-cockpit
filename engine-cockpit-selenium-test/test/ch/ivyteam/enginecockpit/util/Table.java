@@ -47,7 +47,7 @@ public class Table {
   }
 
   public void headerShouldBe(CollectionCondition cond) {
-    $$x(getHeaderSpanElement()).shouldBe(cond, Duration.ofSeconds(10));
+    $$x(getHeaderSpanElement()).shouldBe(cond);
   }
 
   public void firstColumnShouldBe(CollectionCondition cond) {
