@@ -23,7 +23,7 @@ public class NotificationChannelsBean {
 
   public void onload() {
     channels = NotificationChannel.all().stream()
-            .map(channel -> NotificationChannelDto.create(managerBean, channel))
+            .map(channel -> NotificationChannelDto.instance(managerBean.getSelectedSecuritySystem().getSecurityContext(), channel))
             .collect(Collectors.toList());
   }
 

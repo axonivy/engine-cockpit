@@ -1,14 +1,13 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
+import ch.ivyteam.enginecockpit.security.model.NotificationChannelDataModel;
 import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
@@ -42,6 +41,7 @@ public class UserDetailBean {
   private long startedCases;
   private long workingOn;
   private RoleDataModel roleDataModel;
+  private NotificationChannelDataModel notificationChannelDataModel;
 
   private UserSynch userSynch;
 
@@ -100,6 +100,8 @@ public class UserDetailBean {
             .or().state().isEqual(TaskState.PARKED)
             .andOverall().activatorId().isEqual(iUser.getSecurityMemberId()).executor().count();
     canWorkOn = TaskQuery.create(taskQueryExecutor).where().canWorkOn(iUser).executor().count();
+
+    notificationChannelDataModel = NotificationChannelDataModel.instance(iUser, securityContext);
   }
 
   public User getUser() {
@@ -152,6 +154,10 @@ public class UserDetailBean {
 
   public RoleDataModel getRoles() {
     return roleDataModel;
+  }
+
+  public NotificationChannelDataModel getNotificationChannels() {
+    return notificationChannelDataModel;
   }
 
   public void removeRole(String roleName) {

@@ -54,7 +54,7 @@ public class NotificationChannelDetailBean {
       return;
     }
 
-    channel = NotificationChannelDto.create(managerBean, chn);
+    channel = NotificationChannelDto.instance(managerBean.getSelectedSecuritySystem().getSecurityContext(), chn);
   }
 
   public void save() {
