@@ -1,0 +1,35 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '60', artifactNumToKeepStr: '5'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  parameters {
+    string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url')
+    string(name: 'testFilter', defaultValue: 'WebTest*.java', description: 'Change to only run tests of the matching classes (flag will be gnored on master)')
+  }
+
+  stages {
+    stage('WebTests') {
+      steps {
+        script {
+          def common = load 'build/build.groovy'
+          def mvnArgs = "-Dtest.filter=${getTestFilter(common.isReleaseOrMasterBranch())} -Dmaven.test.failure.ignore=true -Pengine -Pintegration "
+          common.buildIntegration(mvnArgs);
+        }
+      }
+    }
+  }
+}
+
+def getTestFilter(isReleaseOrMasterBranch) {
+  if (isReleaseOrMasterBranch) {
+    return 'WebTest*.java'
+  }
+  return params.testFilter
+}
