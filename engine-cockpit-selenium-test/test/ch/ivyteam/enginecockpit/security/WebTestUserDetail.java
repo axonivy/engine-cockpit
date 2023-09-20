@@ -205,7 +205,7 @@ class WebTestUserDetail {
 
   @Test
   void notificationChannels() {
-    Navigation.toUserDetail("Developer"); // TODO: replace with USER_FOO
+    Navigation.toUserDetail(USER_FOO);
 
     Table table = new Table(By.id("notificationsForm:notificationChannelsTable"));
     var webNewTaskIcon = $(By.className("subscription-icon"));
@@ -248,7 +248,7 @@ class WebTestUserDetail {
     allEventsCheckbox.removeChecked();
     $(By.id("save")).click();
 
-    Navigation.toUserDetail("Developer"); // TODO: replace with USER_FOO
+    Navigation.toUserDetail(USER_FOO);
 
     var webNewTaskIcon = $(By.className("subscription-icon"));
     var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox")).lastChild().lastChild();
