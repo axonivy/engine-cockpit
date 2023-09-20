@@ -6,23 +6,20 @@ import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Selenide;
-
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -35,8 +32,11 @@ class WebTestSessions {
   private static final By TABLE_ID = By.id("form:sessionTable");
   private Table table;
 
+  private Table tableWithoutLink;
+
   @BeforeAll
   static void beforeAll() {
+    EngineCockpitUtil.destroyOtherSessions();
     login();
   }
 
@@ -44,28 +44,38 @@ class WebTestSessions {
   void beforeEach() {
     Navigation.toSessions();
     table = new Table(TABLE_ID, true);
+    table.sortByColumn("Created");
+    table.sortByColumn("Created");
+    tableWithoutLink = new Table(TABLE_ID, false);
   }
 
   @Test
   void view() {
     $("h2").shouldHave(text("Sessions"));
-    new Table(TABLE_ID).firstColumnShouldBe(containExactTextsCaseSensitive("admin"));
+    if (EngineUrl.isDesigner()) {
+      table.firstColumnShouldBe(containExactTextsCaseSensitive(EngineCockpitUtil.getAdminUser()));
+    } else {
+      tableWithoutLink.firstColumnShouldBe(containExactTextsCaseSensitive(EngineCockpitUtil.getAdminUser()));
+    }
   }
 
   @Test
   void filterUnauthenticatedSession() {
+    if (EngineUrl.isDesigner()) {
+      return;
+    }
     createUnauthenticatedSession();
 
     Selenide.refresh();
-    new Table(TABLE_ID).firstColumnShouldBe(containExactTextsCaseSensitive(""));
+    tableWithoutLink.firstColumnShouldBe(containExactTextsCaseSensitive(""));
     $("#form\\:sessionTable\\:filterBtn").click();
     $("#form\\:sessionTable\\:filterUnauthenticatedSession").click();
     $("#form\\:sessionTable\\:applyFilter").click();
-    new Table(TABLE_ID).firstColumnShouldBe(containExactTextsCaseSensitive("admin"));
+    tableWithoutLink.firstColumnShouldBe(containExactTextsCaseSensitive(EngineCockpitUtil.getAdminUser()));
 
     $("#form\\:sessionTable\\:filterBtn").click();
     $("#form\\:sessionTable\\:resetFilterBtn").click();
-    new Table(TABLE_ID).firstColumnShouldBe(containExactTextsCaseSensitive(""));
+    tableWithoutLink.firstColumnShouldBe(containExactTextsCaseSensitive(""));
   }
 
   private void createUnauthenticatedSession() {
@@ -73,7 +83,8 @@ class WebTestSessions {
       var url = rootUri().toUrl();
       var httpClient = HttpClient.newHttpClient();
       var httpRequest = HttpRequest.newBuilder(URI.create(url)).build();
-      httpClient.send(httpRequest, BodyHandlers.discarding());
+      var response = httpClient.send(httpRequest, BodyHandlers.discarding());
+      assertThat(response.statusCode()).isLessThan(400);
     } catch (Exception ex) {
       throw new RuntimeException(ex);
     }
@@ -114,7 +125,7 @@ class WebTestSessions {
 
   private EngineUrl rootUri() {
     if (EngineUrl.isDesigner()) {
-      return EngineUrl.create().app("default-workflow").path("faces/login.xhtml");
+      return EngineUrl.create().app("dev-workflow-ui").path("faces/login.xhtml");
     }
     return EngineUrl.create().app("test").path("login");
   }

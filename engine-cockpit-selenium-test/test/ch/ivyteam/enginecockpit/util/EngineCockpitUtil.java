@@ -13,11 +13,8 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
-
 import java.util.List;
-
 import org.openqa.selenium.remote.RemoteWebDriver;
-
 import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
 import com.codeborne.selenide.Selenide;
@@ -175,6 +172,10 @@ public class EngineCockpitUtil {
 
   public static void createBlob() {
     runTestProcess("16E88DD61E825E70/createBlobs.ivp");
+  }
+
+  public static void destroyOtherSessions() {
+    runTestProcess("18AB33A0B9AA7019/destroyOtherSessions.ivp");
   }
 
   private static void runTestProcess(String processLink) {

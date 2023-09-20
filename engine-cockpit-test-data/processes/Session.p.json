@@ -1,0 +1,54 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
+  "id" : "18AB33A0B9AA7019",
+  "config" : {
+    "data" : "engine.cockpit.test.data.Data"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "destroyOtherSessions",
+      "config" : {
+        "signature" : "destroyOtherSessions"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.security.ISecurityContextRepository;",
+            "import ch.ivyteam.ivy.security.session.ISessionRepository;",
+            "import ch.ivyteam.ivy.security.ISecurityContext;",
+            "import ch.ivyteam.ivy.security.ISession;",
+            "for (ISecurityContext secContext : ISecurityContextRepository.instance().all()) {",
+            "  for (ISession session : secContext.sessions().all()) {",
+            "    if (session != ivy.session) {",
+            "      secContext.sessions().destroy(session.getIdentifier());",
+            "    }",
+            "  }",
+            "}"
+          ]
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f1" }
+      ]
+    } ]
+}
