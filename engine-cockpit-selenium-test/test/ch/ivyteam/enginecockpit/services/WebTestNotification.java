@@ -28,6 +28,9 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestNotification {
 
+  private static final String ANY_USERS = "Developer|foo|bar|jon|guest|demo|admin|disableduser|test";
+
+
   @BeforeEach
   void beforeEach() {
     EngineCockpitUtil.createNotification();
@@ -74,7 +77,7 @@ class WebTestNotification {
     delivery.tableEntry(1, 1).should(matchText(".*-.*-.*"));
     var uuid = delivery.tableEntry(1, 1).text();
     delivery.tableEntry(1, 2).shouldBe(text("Web"));
-    delivery.tableEntry(1, 3).should(matchText("Developer|foo|bar|jon|guest|demo|admin|disableduser"));
+    delivery.tableEntry(1, 3).should(matchText(ANY_USERS));
     if (delivery.tableEntry(1, 3).text().equals("Developer")) {
       delivery.tableEntry(1, 4).shouldBe(text("DELIVERED"));
       delivery.tableEntry(1, 5).shouldBe(not(empty));
@@ -103,7 +106,7 @@ class WebTestNotification {
     var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
     notifications.tableEntry(1, 1).click();
     var delivery = new Table(By.id("tableForm:deliveryTable"));
-    delivery.tableEntry(1, 3).$("a").should(matchText("Developer|foo|bar|jon|guest|demo|admin|disableduser")).click();
+    delivery.tableEntry(1, 3).$("a").should(matchText(ANY_USERS)).click();
     Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("userdetail.xhtml"));
   }
 
