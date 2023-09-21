@@ -16,6 +16,14 @@ public class SslClientConfig {
     ConfigKey TYPE = TRUST.append("Type");
     ConfigKey ALGORITHM = TRUST.append("Algorithm");
     ConfigKey MANAGERCLASS = TRUST.append("ManagerClass");
+
+    ConfigKey Key = CLIENT.append("KeyStore");
+    ConfigKey KEY_FILE = Key.append("File");
+    ConfigKey KEY_STORE_PASSWORD = Key.append("Password");
+    ConfigKey KEY_PASSWORD = Key.append("Password");
+    ConfigKey KEY_ROVIDER = Key.append("Provider");
+    ConfigKey KEY_TYPE = Key.append("Type");
+    ConfigKey KEY_ALGORITHM = Key.append("Algorithm");
   }
 
   private IConfiguration config = IConfiguration.instance();
@@ -33,6 +41,14 @@ public class SslClientConfig {
   }
 
   public void setTrustStorePassword(String trustStorePassword) {
+    config.set(Key.PASSWORD, trustStorePassword);
+  }
+
+  public String getTrustPassword() {
+    return config.get(Key.PASSWORD).orElse("");
+  }
+
+  public void setTrustPassword(String trustStorePassword) {
     config.set(Key.PASSWORD, trustStorePassword);
   }
 
@@ -66,5 +82,53 @@ public class SslClientConfig {
 
   public void setTrustManagerClass(String trustManagerClass) {
     config.set(Key.MANAGERCLASS, trustManagerClass);
+  }
+
+  public String getKeyStoreFile() {
+    return config.get(Key.KEY_FILE).orElse("");
+  }
+
+  public void setKeyStoreFile(String keyStoreFile) {
+    config.set(Key.KEY_FILE, keyStoreFile);
+  }
+
+  public String getKeyStorePassword() {
+    return config.get(Key.KEY_STORE_PASSWORD).orElse("");
+  }
+
+  public void setKeyStorePassword(String keyStorePassword) {
+    config.set(Key.KEY_STORE_PASSWORD, keyStorePassword);
+  }
+
+  public String getKeyPassword() {
+    return config.get(Key.KEY_PASSWORD).orElse("");
+  }
+
+  public void setKeyPassword(String keyPassword) {
+    config.set(Key.KEY_PASSWORD, keyPassword);
+  }
+
+  public String getKeyStoreProvider() {
+    return config.get(Key.KEY_ROVIDER).orElse("");
+  }
+
+  public void setKeyStoreProvider(String keyStoreProvider) {
+    config.set(Key.KEY_ROVIDER, keyStoreProvider);
+  }
+
+  public String getKeyStoreType() {
+    return config.get(Key.KEY_TYPE).orElse("");
+  }
+
+  public void setKeyStoreType(String keyStoreType) {
+    config.set(Key.KEY_TYPE, keyStoreType);
+  }
+
+  public String getKeyStoreAlgorithim() {
+    return config.get(Key.KEY_ALGORITHM).orElse("");
+  }
+
+  public void setKeyStoreAlgorithim(String keyStoreAlgorithim) {
+    config.set(Key.KEY_ALGORITHM, keyStoreAlgorithim);
   }
 }
