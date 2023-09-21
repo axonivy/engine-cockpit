@@ -168,4 +168,8 @@ public class Table {
   public String getSearchFilter() {
     return $(By.id(globalFilter)).shouldBe(visible).getAttribute("value");
   }
+
+  public void sortByColumn(String column) {
+    $x("//div[@id='" + id + "']//thead//tr//span[text()='"+column+"']").click();
+  }
 }
