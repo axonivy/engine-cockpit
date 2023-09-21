@@ -12,12 +12,10 @@ import ch.ivyteam.enginecockpit.security.model.Role;
 import ch.ivyteam.enginecockpit.security.model.RoleDataModel;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.model.User;
-import ch.ivyteam.enginecockpit.services.model.EmailSettings;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.IUser;
-import ch.ivyteam.ivy.security.email.EmailNotificationConfigurator;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 import ch.ivyteam.ivy.workflow.TaskState;
 import ch.ivyteam.ivy.workflow.query.CaseQuery;
@@ -29,7 +27,6 @@ public class UserDetailBean {
 
   private String userName;
   private User user;
-  private EmailSettings emailSettings;
   private MemberProperty userProperties;
 
   private List<Role> filteredRoles;
@@ -84,7 +81,6 @@ public class UserDetailBean {
 
     userSynch = new UserSynch(securityContext, userName);
     this.user = new User(iUser);
-    this.emailSettings = new EmailSettings(iUser, new EmailNotificationConfigurator(securityContext).settings());
     roleDataModel = new RoleDataModel(new SecuritySystem(securityContext), false, 20);
     var caseQueryExecutor = IWorkflowContext.of(securityContext).getCaseQueryExecutor();
     startedCases = CaseQuery.create(caseQueryExecutor).where().isBusinessCase().and().creatorId()
@@ -106,10 +102,6 @@ public class UserDetailBean {
 
   public User getUser() {
     return user;
-  }
-
-  public EmailSettings getEmailSettings() {
-    return emailSettings;
   }
 
   public void saveUserInfos() {
@@ -144,12 +136,6 @@ public class UserDetailBean {
 
   public boolean isUserEnabled() {
     return getIUser().isEnabled();
-  }
-
-  public void saveUserEmail() {
-    var iUser = getIUser();
-    iUser.setEMailNotificationSettings(emailSettings.saveUserEmailSettings(iUser.getEMailNotificationSettings()));
-    FacesContext.getCurrentInstance().addMessage("emailSaveSuccess", new FacesMessage("User email changes saved"));
   }
 
   public RoleDataModel getRoles() {

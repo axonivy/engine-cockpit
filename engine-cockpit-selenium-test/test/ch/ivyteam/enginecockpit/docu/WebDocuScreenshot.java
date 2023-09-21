@@ -10,23 +10,19 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.id;
-
 import java.io.IOException;
 import java.nio.file.Files;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
-
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-
 import ch.ivyteam.enginecockpit.monitor.WebTestMBeans;
 import ch.ivyteam.enginecockpit.monitor.WebTestProcessExecution;
 import ch.ivyteam.enginecockpit.monitor.WebTestSlowRequests;
@@ -144,10 +140,6 @@ public class WebDocuScreenshot {
 
   @Test
   void screenshotServices() {
-    Navigation.toEmail();
-    Tab.SECURITY_SYSTEM.switchToDefault();
-    takeScreenshot("email", new Dimension(SCREENSHOT_WIDTH, 650));
-
     Navigation.toDatabases();
     Tab.APP.switchToDefault();
     takeScreenshot("databases", new Dimension(SCREENSHOT_WIDTH, 550));

@@ -28,7 +28,6 @@ public class Navigation {
   private static final String SSL_MENU = "#menuform\\:sr_ssl";
   private static final String SERVICES_MENU = "#menuform\\:sr_services";
   private static final String SERVICES_SEARCH_ENGINE = "#menuform\\:sr_searchengine";
-  private static final String SERVICES_EMAIL_MENU = "#menuform\\:sr_email";
   private static final String SERVICES_NOTIFICATION_CHANNELS_MENU = "#menuform\\:sr_notification_channels";
   private static final String SERVICES_DATABASES_MENU = "#menuform\\:sr_database";
   private static final String SERVICES_RESTCLIENTS_MENU = "#menuform\\:sr_rest_client";
@@ -214,12 +213,6 @@ public class Navigation {
     $$(".index-name").find(text(indexName)).shouldBe(visible).click();
     assertCurrentUrlContains("searchindex.xhtml?index=" + indexName.replace("$", "%24"));
     menuShouldBeActive(SERVICES_SEARCH_ENGINE);
-  }
-
-  public static void toEmail() {
-    toSubMenu(SERVICES_MENU, SERVICES_EMAIL_MENU);
-    assertCurrentUrlContains("email.xhtml");
-    menuShouldBeActive(SERVICES_EMAIL_MENU);
   }
 
   public static void toNotificationChannels() {

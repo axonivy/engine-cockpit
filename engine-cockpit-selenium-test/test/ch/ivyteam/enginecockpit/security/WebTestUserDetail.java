@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
-import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
@@ -17,15 +16,11 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
-import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
-import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
@@ -163,44 +158,6 @@ class WebTestUserDetail {
 
     Selenide.refresh();
     language.selectedItemShould(value("en"));
-  }
-
-  @Test
-  void emailSettings() {
-    Navigation.toUserDetail(USER_FOO);
-    SelectOneRadio radioSettings = PrimeUi.selectOneRadio(By.id("userEmailForm:emailSettings:radioSettings"));
-    SelectBooleanCheckbox neverCheckbox = PrimeUi
-            .selectBooleanCheckbox(By.id("userEmailForm:emailSettings:neverCheckbox"));
-    SelectBooleanCheckbox taskCheckbox = PrimeUi
-            .selectBooleanCheckbox(By.id("userEmailForm:emailSettings:taskCheckbox"));
-    SelectManyCheckbox dailyCheckbox = PrimeUi
-            .selectManyCheckbox(By.id("userEmailForm:emailSettings:radioDailyNotification"));
-    radioSettings.selectedValueShouldBe(exactValue("Application"));
-    neverCheckbox.shouldBeChecked(false);
-    neverCheckbox.shouldBeDisabled(true);
-    taskCheckbox.shouldBeChecked(false);
-    taskCheckbox.shouldBeDisabled(true);
-    dailyCheckbox.shouldBeDisabled(true);
-
-    radioSettings.selectItemByValue("Specific");
-    neverCheckbox.shouldBeDisabled(false);
-    taskCheckbox.shouldBeDisabled(false);
-    dailyCheckbox.shouldBeDisabled(false);
-
-    dailyCheckbox.clear();
-    dailyCheckbox.setCheckboxes(List.of("Mon", "Fri", "Sun"));
-    taskCheckbox.setChecked();
-    neverCheckbox.setChecked();
-    $("#userEmailForm\\:saveEmailNotificationSettings").click();
-    $("#userEmailForm\\:emailSaveSuccess_container").shouldBe(visible);
-
-    Selenide.refresh();
-    radioSettings.selectedValueShouldBe(exactValue("Specific"));
-    neverCheckbox.shouldBeChecked(true);
-    taskCheckbox.shouldBeChecked(true);
-    taskCheckbox.shouldBeDisabled(true);
-    dailyCheckbox.shouldBeDisabled(true);
-    dailyCheckbox.shouldBe(exactTexts("Mon", "Fri", "Sun"));
   }
 
   @Test
