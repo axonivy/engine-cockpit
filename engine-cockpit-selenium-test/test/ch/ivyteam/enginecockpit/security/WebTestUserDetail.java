@@ -6,6 +6,7 @@ import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
@@ -16,21 +17,20 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-
+import com.codeborne.selenide.SelenideElement;
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -201,6 +201,120 @@ class WebTestUserDetail {
     taskCheckbox.shouldBeDisabled(true);
     dailyCheckbox.shouldBeDisabled(true);
     dailyCheckbox.shouldBe(exactTexts("Mon", "Fri", "Sun"));
+  }
+
+  @Test
+  void notificationChannels() {
+    Navigation.toUserDetail(USER_FOO);
+
+    Table table = new Table(By.id("notificationsForm:notificationChannelsTable"));
+    var webNewTaskIcon = $(By.className("subscription-icon"));
+    var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox")).lastChild().lastChild();
+
+    table.firstColumnShouldBe(size(1));
+    table.firstColumnShouldBe(CollectionCondition.exactTexts("new-task"));
+    table.headerShouldBe(size(2));
+    table.headerShouldBe(CollectionCondition.exactTexts("Event", "Web"));
+
+    shouldHaveSubscribedByDefaultState(webNewTaskIcon, webNewTaskCheckbox);
+
+    webNewTaskCheckbox.parent().click();
+    shouldHaveSubscribedState(webNewTaskIcon, webNewTaskCheckbox);
+
+    webNewTaskCheckbox.parent().click();
+    shouldHaveNotSubscribedState(webNewTaskIcon, webNewTaskCheckbox);
+
+    // Refresh without saving
+    Selenide.refresh();
+    shouldHaveSubscribedByDefaultState(webNewTaskIcon, webNewTaskCheckbox);
+
+    // Refresh after saving
+    webNewTaskCheckbox.parent().click();
+    $(By.id("notificationsForm:save")).click();
+    Selenide.refresh();
+    shouldHaveSubscribedState(webNewTaskIcon, webNewTaskCheckbox);
+
+    // Reset
+    $(By.id("notificationsForm:reset")).click();
+    shouldHaveSubscribedByDefaultState(webNewTaskIcon, webNewTaskCheckbox);
+    Selenide.refresh();
+    shouldHaveSubscribedByDefaultState(webNewTaskIcon, webNewTaskCheckbox);
+  }
+
+  @Test
+  void notificationChannels_notSubscribedByDefault() {
+    Navigation.toNotificationChannelDetail("web");
+    var allEventsCheckbox = PrimeUi.selectBooleanCheckbox(By.id("form:allEvents"));
+    allEventsCheckbox.removeChecked();
+    $(By.id("save")).click();
+
+    Navigation.toUserDetail(USER_FOO);
+
+    var webNewTaskIcon = $(By.className("subscription-icon"));
+    var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox")).lastChild().lastChild();
+
+    shouldHaveNotSubscribedByDefaultState(webNewTaskIcon, webNewTaskCheckbox);
+
+    EngineCockpitUtil.resetNotificationConfig();
+  }
+
+  private void shouldHaveSubscribedByDefaultState(SelenideElement webNewTaskIcon,
+          SelenideElement webNewTaskCheckbox) {
+    iconShouldHaveState(webNewTaskIcon, true, true, "Subscribed by default");
+    checkboxShouldHaveState(webNewTaskCheckbox, 0);
+  }
+
+  private void shouldHaveNotSubscribedByDefaultState(SelenideElement webNewTaskIcon,
+          SelenideElement webNewTaskCheckbox) {
+    iconShouldHaveState(webNewTaskIcon, false, true, "Not subscribed by default");
+    checkboxShouldHaveState(webNewTaskCheckbox, 0);
+  }
+
+  private void shouldHaveSubscribedState(SelenideElement webNewTaskIcon, SelenideElement webNewTaskCheckbox) {
+    iconShouldHaveState(webNewTaskIcon, true, false, "Subscribed");
+    checkboxShouldHaveState(webNewTaskCheckbox, 1);
+  }
+
+  private void shouldHaveNotSubscribedState(SelenideElement webNewTaskIcon,
+          SelenideElement webNewTaskCheckbox) {
+    iconShouldHaveState(webNewTaskIcon, false, false, "Not subscribed");
+    checkboxShouldHaveState(webNewTaskCheckbox, 2);
+  }
+
+  private void iconShouldHaveState(SelenideElement webNewTaskIcon, boolean iconSubscribedState,
+          boolean iconByDefaultState, String iconTitle) {
+    iconShouldHaveSubscribedState(webNewTaskIcon, iconSubscribedState);
+    iconShouldHaveByDefaultState(webNewTaskIcon, iconByDefaultState);
+    iconShouldHaveTitle(webNewTaskIcon, iconTitle);
+  }
+
+  private void checkboxShouldHaveState(SelenideElement checkbox, int state) {
+    switch (state) {
+      case 0 -> checkbox.shouldNotHave(cssClass("ui-icon"));
+      case 1 -> checkbox.shouldHave(cssClass("ui-icon-check"));
+      case 2 -> checkbox.shouldHave(cssClass("ui-icon-closethick"));
+      default -> throw new IllegalArgumentException("Unexpected value: " + state);
+    }
+  }
+
+  private void iconShouldHaveSubscribedState(SelenideElement icon, boolean subscribed) {
+    if (subscribed) {
+      icon.shouldHave(cssClass("si-check-circle-1"));
+    } else {
+      icon.shouldHave(cssClass("si-remove-circle"));
+    }
+  }
+
+  private void iconShouldHaveByDefaultState(SelenideElement icon, boolean byDefault) {
+    if (byDefault) {
+      icon.shouldHave(cssClass("light"));
+    } else {
+      icon.shouldNotHave(cssClass("light"));
+    }
+  }
+
+  private void iconShouldHaveTitle(SelenideElement icon, String title) {
+    icon.shouldHave(attribute("title", title));
   }
 
   @Test

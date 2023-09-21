@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -22,7 +23,7 @@ public class NotificationChannelDataModel {
   }
 
   public void onload() {
-    events = NotificationEvent.allAsString();
+    events = new ArrayList<>(NotificationEvent.allAsString());
     channels = NotificationChannelDto.all(subscriber, securityContext, events);
   }
 

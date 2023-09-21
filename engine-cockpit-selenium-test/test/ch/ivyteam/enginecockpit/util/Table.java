@@ -6,14 +6,11 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
-
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
@@ -49,6 +46,10 @@ public class Table {
             .map(e -> e.getText()).collect(Collectors.toList());
   }
 
+  public void headerShouldBe(CollectionCondition cond) {
+    $$x(getHeaderSpanElement()).shouldBe(cond);
+  }
+
   public void firstColumnShouldBe(CollectionCondition cond) {
     $$x(getFirstColumnSpanElement()).shouldBe(cond, Duration.ofSeconds(10));
   }
@@ -68,7 +69,7 @@ public class Table {
   public SelenideElement tableEntry(String entry, int column) {
     return $x(findColumnOverEntry(entry) + "/td[" + column + "]");
   }
-  
+
   public SelenideElement tableEntry(int row, int column)
   {
     return $x(getBody() + "/tr[" + row + "]/td[" + column + "]");
@@ -78,7 +79,7 @@ public class Table {
   public SelenideElement row(String entry) {
     return $x(findColumnOverEntry(entry));
   }
-  
+
   public ElementsCollection rows()
   {
     return $$x(getBody()+"/tr");
@@ -118,6 +119,10 @@ public class Table {
             .getAttribute(rowNumberField);
   }
 
+  private String getHeaderSpanElement() {
+    return getHeader()+"/tr/th/span[1]";
+  }
+
   private String getFirstColumnSpanElement() {
     return getColumnSpanElement(1);
   }
@@ -133,6 +138,10 @@ public class Table {
       return getBody()+"/tr/td["+col+"]";
     }
     return getBody()+"/tr/td["+col+"]/span";
+  }
+
+  private String getHeader() {
+    return "//div[@id='" + id + "']//thead";
   }
 
   private String getBody() {
