@@ -25,8 +25,8 @@ class WebTestSSL {
     var property = $(By.id("sslClientform:trustStoreFile")).shouldBe(visible);
     property.clear();
     property.sendKeys("truststore");
-    save();
-    success();
+    saveTrustStore();
+    successTrustStore();
     Navigation.toSSL();
     property.shouldHave(exactValue("truststore"));
   }
@@ -36,8 +36,8 @@ class WebTestSSL {
     var property = $(By.id("sslClientform:trustStorePassword")).shouldBe(visible);
     property.clear();
     property.sendKeys("truststore");
-    save();
-    success();
+    saveTrustStore();
+    successTrustStore();
     Navigation.toSSL();
     property.shouldNotHave(exactValue("truststore"));
   }
@@ -68,8 +68,8 @@ class WebTestSSL {
     propertyManagerClass.clear();
     propertyManagerClass.sendKeys("ManagerClass");
 
-    save();
-    success();
+    saveTrustStore();
+    successTrustStore();
     Navigation.toSSL();
 
     propertyFile.shouldHave(exactValue("File"));
@@ -80,11 +80,57 @@ class WebTestSSL {
     propertyManagerClass.shouldHave(exactValue("ManagerClass"));
   }
 
-  private void save() {
+  @Test
+  void KeyStoreInputFields() {
+    var propertyFile = $(By.id("sslClientformKey:keyStoreFile"));
+    propertyFile.clear();
+    propertyFile.sendKeys("File");
+
+    var propertyStorePassword = $(By.id("sslClientformKey:keyStorePassword"));
+    propertyStorePassword.clear();
+    propertyStorePassword.sendKeys("StorePassword");
+
+    var propertyPassword = $(By.id("sslClientformKey:keyPassword"));
+    propertyPassword.clear();
+    propertyPassword.sendKeys("Password");
+
+    var propertyProvider = $(By.id("sslClientformKey:keyStoreProvider"));
+    propertyProvider.clear();
+    propertyProvider.sendKeys("Provider");
+
+    var propertyType = $(By.id("sslClientformKey:keyStoreType"));
+    propertyType.clear();
+    propertyType.sendKeys("Type");
+
+    var propertyAlgorithim = $(By.id("sslClientformKey:keyStoreAlgorithim"));
+    propertyAlgorithim.clear();
+    propertyAlgorithim.sendKeys("Algorithim");
+
+    saveKeyStore();
+    successKeyStore();
+    Navigation.toSSL();
+
+    propertyFile.shouldHave(exactValue("File"));
+    propertyStorePassword.shouldNotHave(exactValue("StorePassword"));
+    propertyPassword.shouldNotHave(exactValue("Password"));
+    propertyProvider.shouldHave(exactValue("Provider"));
+    propertyType.shouldHave(exactValue("Type"));
+    propertyAlgorithim.shouldHave(exactValue("Algorithim"));
+  }
+
+  private void saveTrustStore() {
     $(By.id("sslClientform:save")).shouldBe(visible).click();
   }
 
-  private void success() {
+  private void saveKeyStore() {
+    $(By.id("sslClientformKey:save")).shouldBe(visible).click();
+  }
+
+  private void successTrustStore() {
     $(By.id("sslClientform:sslTruststoreSaveSuccess_container")).shouldHave(text("Trust Store configurations saved"));
+  }
+
+  private void successKeyStore() {
+    $(By.id("sslClientformKey:sslKeystoreSaveSuccess_container")).shouldHave(text("Key Store configurations saved"));
   }
 }
