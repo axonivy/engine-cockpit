@@ -17,6 +17,7 @@ public class PollError extends AbstractProcessStartEventBean {
    */
   @Override
   public void poll() {
+    getEventBeanRuntime().poll().disable();
     throw new RuntimeException("Exception in Poll Method");
   }
 }

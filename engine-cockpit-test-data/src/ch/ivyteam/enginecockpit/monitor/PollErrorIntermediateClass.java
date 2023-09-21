@@ -13,10 +13,11 @@ public class PollErrorIntermediateClass extends AbstractProcessIntermediateEvent
   public void initialize(IProcessIntermediateEventBeanRuntime eventRuntime, String configuration) {
     super.initialize(eventRuntime, configuration);
     eventRuntime.threads().boundToEventLifecycle(() -> {});
-    
+
   }
   @Override
   public void poll() {
+    getEventBeanRuntime().poll().disable();
     throw new RuntimeException("Exception in Poll Method");
   }
 }
