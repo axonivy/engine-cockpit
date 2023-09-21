@@ -94,17 +94,20 @@ class WebTestSSL {
     propertyPassword.clear();
     propertyPassword.sendKeys("Password");
 
-    var propertyProvider = $(By.id("sslClientformKey:keyStoreProvider"));
-    propertyProvider.clear();
-    propertyProvider.sendKeys("Provider");
+    var propertyProvider = $(By.id("sslClientformKey:keyStoreProvider_label"));
+    propertyProvider.click();
+    var propertyProvider2 = $(By.id("sslClientformKey:keyStoreProvider_12"));
+    propertyProvider2.click();
 
-    var propertyType = $(By.id("sslClientformKey:keyStoreType"));
-    propertyType.clear();
-    propertyType.sendKeys("Type");
+    var propertyType = $(By.id("sslClientformKey:keyStoreType_label"));
+    propertyType.click();
+    var propertyType2 = $(By.id("sslClientformKey:keyStoreType_17"));
+    propertyType2.click();
 
-    var propertyAlgorithim = $(By.id("sslClientformKey:keyStoreAlgorithim"));
-    propertyAlgorithim.clear();
-    propertyAlgorithim.sendKeys("Algorithim");
+    var propertyAlgorithim = $(By.id("sslClientformKey:keyStoreAlgorithim_label"));
+    propertyAlgorithim.click();
+    var propertyAlgorithim2 = $(By.id("sslClientformKey:keyStoreAlgorithim_0"));
+    propertyAlgorithim2.click();
 
     saveKeyStore();
     successKeyStore();
@@ -113,9 +116,9 @@ class WebTestSSL {
     propertyFile.shouldHave(exactValue("File"));
     propertyStorePassword.shouldNotHave(exactValue("StorePassword"));
     propertyPassword.shouldNotHave(exactValue("Password"));
-    propertyProvider.shouldHave(exactValue("Provider"));
-    propertyType.shouldHave(exactValue("Type"));
-    propertyAlgorithim.shouldHave(exactValue("Algorithim"));
+    propertyProvider.shouldHave(text("BC"));
+    propertyType.shouldHave(text("BKS"));
+    propertyAlgorithim.shouldHave(text("NewSunX509"));
   }
 
   private void saveTrustStore() {

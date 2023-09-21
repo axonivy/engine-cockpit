@@ -1,5 +1,10 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import java.security.Security;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -13,27 +18,23 @@ public class SslClientBean {
   private String trustStorePassword;
   private String trustStoreProvider;
   private String trustStoreType;
-  private String trustStoreAlgorithim;
+  private String trustStoreAlgorithm;
   private String trustManagerClass;
-
   private String keyStoreFile;
   private String keyStorePassword;
   private String keyPassword;
   private String keyStoreProvider;
   private String keyStoreType;
   private String keyStoreAlgorithim;
-
   private SslClientConfig config = new SslClientConfig();
-
 
   public SslClientBean() {
     this.trustStoreFile = config.getTrustStoreFile();
     this.trustStorePassword = config.getTrustStorePassword();
     this.trustStoreProvider = config.getTrustStoreProvider();
     this.trustStoreType = config.getTrustStoreType();
-    this.trustStoreAlgorithim = config.getTrustStoreAlgorithim();
+    this.trustStoreAlgorithm = config.getTrustStoreAlgorithm();
     this.trustManagerClass = config.getTrustManagerClass();
-
     this.keyStoreFile = config.getKeyStoreFile();
     this.keyStorePassword = config.getKeyStorePassword();
     this.keyPassword = config.getKeyPassword();
@@ -55,9 +56,8 @@ public class SslClientBean {
     config.setTrustStorePassword(trustStorePassword);
     config.setTrustStoreProvider(trustStoreProvider);
     config.setTrustStoreType(trustStoreType);
-    config.setTrustStoreAlgorithim(trustStoreAlgorithim);
+    config.setTrustStoreAlgorithim(trustStoreAlgorithm);
     config.setTrustManagerClass(trustManagerClass);
-
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
             new FacesMessage("Trust Store configurations saved"));
   }
@@ -69,7 +69,6 @@ public class SslClientBean {
     config.setKeyStoreProvider(keyStoreProvider);
     config.setKeyStoreType(keyStoreType);
     config.setKeyStoreAlgorithim(keyStoreAlgorithim);
-
     FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
             new FacesMessage("Key Store configurations saved"));
   }
@@ -98,12 +97,12 @@ public class SslClientBean {
     this.trustStoreType = trustStoreType;
   }
 
-  public String getTrustStoreAlgorithim() {
-    return trustStoreAlgorithim;
+  public String getTrustStoreAlgorithm() {
+    return trustStoreAlgorithm;
   }
 
-  public void setTrustStoreAlgorithim(String trustStoreAlgorithim) {
-    this.trustStoreAlgorithim = trustStoreAlgorithim;
+  public void setTrustStoreAlgorithm(String trustStoreAlgorithm) {
+    this.trustStoreAlgorithm = trustStoreAlgorithm;
   }
 
   public String getTrustManagerClass() {
@@ -146,6 +145,12 @@ public class SslClientBean {
     this.keyStoreProvider = KeyStoreProvider;
   }
 
+  public List<String> getkeyStoreProviders() {
+    return Arrays.stream(Security.getProviders())
+            .map(provider -> provider.getName())
+            .toList();
+  }
+
   public String getKeyStoreType() {
     return keyStoreType;
   }
@@ -154,11 +159,31 @@ public class SslClientBean {
     this.keyStoreType = KeyStoreType;
   }
 
-  public String getKeyStoreAlgorithim() {
+  public List<String> getkeyStoreTypes() {
+    return Arrays.stream(Security.getProviders())
+            .flatMap(provider -> provider.getServices().stream())
+            .filter(service -> "KeyStore".equals(service.getType()))
+            .map(service -> service.getAlgorithm())
+            .collect(Collectors.toList());
+  }
+
+  public String getKeyStoreAlgorithm() {
     return keyStoreAlgorithim;
   }
 
   public void setKeyStoreAlgorithim(String KeyStoreAlgorithim) {
     this.keyStoreAlgorithim = KeyStoreAlgorithim;
+  }
+
+  public List<String> getkeyStoreAlgorithms() {
+    List<String> algorithms = new ArrayList<>();
+    for (var securityProvider : Security.getProviders()) {
+      for (var service : securityProvider.getServices()) {
+        if (service.getType().equals("KeyManagerFactory")) {
+          algorithms.add(service.getAlgorithm());
+        }
+      }
+    }
+    return algorithms;
   }
 }
