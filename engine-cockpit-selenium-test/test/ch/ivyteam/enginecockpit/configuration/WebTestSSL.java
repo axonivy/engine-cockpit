@@ -78,6 +78,10 @@ class WebTestSSL {
     var propertyAlgorithm = PrimeUi.selectOne(By.id("sslClientform:trustStoreAlgorithm"));
     propertyAlgorithm.selectItemByLabel("SunX509");
 
+    saveTrustStore();
+    successTrustStore();
+    Navigation.toSSL();
+
     $(By.id("sslClientform:trustStoreProvider")).shouldHave(text("BC"));
     $(By.id("sslClientform:trustStoreType")).shouldHave(text("FIPS"));
     $(By.id("sslClientform:trustStoreAlgorithm")).shouldHave(text("SunX509"));
@@ -121,6 +125,10 @@ class WebTestSSL {
 
     var propertyAlgorithm = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreAlgorithm"));
     propertyAlgorithm.selectItemByLabel("SunX509");
+
+    saveKeyStore();
+    successKeyStore();
+    Navigation.toSSL();
 
     $(By.id("sslClientformKey:keyStoreProvider")).shouldHave(text("BC"));
     $(By.id("sslClientformKey:keyStoreType")).shouldHave(text("BKS"));
