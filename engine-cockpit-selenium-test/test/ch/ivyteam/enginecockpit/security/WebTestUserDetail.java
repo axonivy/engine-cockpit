@@ -275,6 +275,22 @@ class WebTestUserDetail {
   }
 
   @Test
+  void substitutes() {
+    EngineCockpitUtil.addSubstitutes();
+    beforeEach();
+    Navigation.toUserDetail(USER_FOO);
+
+    Table table = new Table(By.id("substitutesForm:substitutesTable"), true);
+    table.firstColumnShouldBe(size(3));
+    table.firstColumnShouldBe(CollectionCondition.exactTexts("substitute1", "substitute2", "substitute3"));
+
+    table = new Table(By.id("substitutesForm:substitutesTable"));
+    table.columnShouldBe(2, CollectionCondition.exactTexts("", "", "role"));
+
+    EngineCockpitUtil.cleanupSubstitutes();
+  }
+
+  @Test
   void rolesAddRemove() {
     Navigation.toUserDetail(USER_FOO);
     String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent()

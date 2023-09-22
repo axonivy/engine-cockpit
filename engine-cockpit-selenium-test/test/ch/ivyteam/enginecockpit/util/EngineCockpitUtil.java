@@ -174,6 +174,14 @@ public class EngineCockpitUtil {
     runTestProcess("16E88DD61E825E70/createBlobs.ivp");
   }
 
+  public static void addSubstitutes() {
+    runTestProcess("16E88DD61E825E70/addSubstitutes.ivp");
+  }
+
+  public static void cleanupSubstitutes() {
+    runTestProcess("16E88DD61E825E70/cleanupSubstitutes.ivp");
+  }
+
   public static void destroyOtherSessions() {
     runTestProcess("18AB33A0B9AA7019/destroyOtherSessions.ivp");
   }
