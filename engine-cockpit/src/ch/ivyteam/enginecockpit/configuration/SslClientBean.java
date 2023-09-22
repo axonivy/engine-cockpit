@@ -1,9 +1,9 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import java.security.Security;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -13,6 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 @ManagedBean
 @ViewScoped
 public class SslClientBean {
+
+  private interface Key {
+    String STORE = "KeyStore";
+  }
 
   private boolean useCustomKeyStore;
   private String trustStoreFile;
@@ -113,19 +117,7 @@ public class SslClientBean {
   }
 
   public List<String> getTrustStoreTypes() {
-    String selectedTrustStoreProvider = getTrustStoreProvider();
-    if (StringUtils.isEmpty(selectedTrustStoreProvider)) {
-      return getAlgorithms("KeyStore");
-    } else {
-      var provider = Security.getProvider(selectedTrustStoreProvider);
-      if (provider != null) {
-        return provider.getServices().stream()
-                .filter(service -> service.getType().equals("KeyStore"))
-                .map(service -> service.getAlgorithm())
-                .toList();
-      }
-    }
-    return getAlgorithms("KeyStore");
+    return getTypes(getTrustStoreProvider());
   }
 
   public String getTrustStoreAlgorithm() {
@@ -195,19 +187,7 @@ public class SslClientBean {
   }
 
   public List<String> getkeyStoreTypes() {
-    String selectedKeyStoreProvider = getKeyStoreProvider();
-    if (StringUtils.isEmpty(selectedKeyStoreProvider)) {
-      return getAlgorithms("KeyStore");
-    } else {
-      var provider = Security.getProvider(selectedKeyStoreProvider);
-      if (provider != null) {
-        return provider.getServices().stream()
-                .filter(service -> service.getType().equals("KeyStore"))
-                .map(service -> service.getAlgorithm())
-                .toList();
-      }
-    }
-    return getAlgorithms("KeyStore");
+    return getTypes(getKeyStoreProvider());
   }
 
   public String getKeyStoreAlgorithm() {
@@ -218,19 +198,30 @@ public class SslClientBean {
     this.keyStoreAlgorithm = KeyStoreAlgorithm;
   }
 
-  public List<String> getkeyStoreAlgorithms() {
+  public List<String> getKeyStoreAlgorithms() {
     return getAlgorithms("KeyManagerFactory");
   }
 
-  private List<String> getAlgorithms(String type) {
-    List<String> algorithms = new ArrayList<>();
-    for (var securityProvider : Security.getProviders()) {
-      for (var service : securityProvider.getServices()) {
-        if (service.getType().equals(type)) {
-          algorithms.add(service.getAlgorithm());
-        }
+  private List<String> getTypes(String selectedProvider) {
+    if (StringUtils.isEmpty(selectedProvider)) {
+      return getAlgorithms(Key.STORE);
+    } else {
+      var provider = Security.getProvider(selectedProvider);
+      if (provider != null) {
+        return provider.getServices().stream()
+                .filter(service -> service.getType().equals(Key.STORE))
+                .map(service -> service.getAlgorithm())
+                .toList();
       }
     }
-    return algorithms;
+    return getAlgorithms(Key.STORE);
+  }
+
+  private List<String> getAlgorithms(String type) {
+    return Arrays.stream(Security.getProviders())
+            .flatMap(securityProvider -> securityProvider.getServices().stream())
+            .filter(service -> service.getType().equals(type))
+            .map(service -> service.getAlgorithm())
+            .collect(Collectors.toList());
   }
 }
