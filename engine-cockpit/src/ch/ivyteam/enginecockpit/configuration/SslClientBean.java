@@ -4,11 +4,11 @@ import java.security.Security;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.apache.commons.lang3.StringUtils;
 
 @ManagedBean
 @ViewScoped
@@ -25,7 +25,7 @@ public class SslClientBean {
   private String keyPassword;
   private String keyStoreProvider;
   private String keyStoreType;
-  private String keyStoreAlgorithim;
+  private String keyStoreAlgorithm;
   private SslClientConfig config = new SslClientConfig();
 
   public SslClientBean() {
@@ -40,7 +40,7 @@ public class SslClientBean {
     this.keyPassword = config.getKeyPassword();
     this.keyStoreProvider = config.getKeyStoreProvider();
     this.keyStoreType = config.getKeyStoreType();
-    this.keyStoreAlgorithim = config.getKeyStoreAlgorithim();
+    this.keyStoreAlgorithm = config.getKeyStoreAlgorithm();
   }
 
   public String getTrustStoreFile() {
@@ -56,7 +56,7 @@ public class SslClientBean {
     config.setTrustStorePassword(trustStorePassword);
     config.setTrustStoreProvider(trustStoreProvider);
     config.setTrustStoreType(trustStoreType);
-    config.setTrustStoreAlgorithim(trustStoreAlgorithm);
+    config.setTrustStoreAlgorithm(trustStoreAlgorithm);
     config.setTrustManagerClass(trustManagerClass);
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
             new FacesMessage("Trust Store configurations saved"));
@@ -68,7 +68,7 @@ public class SslClientBean {
     config.setKeyPassword(keyPassword);
     config.setKeyStoreProvider(keyStoreProvider);
     config.setKeyStoreType(keyStoreType);
-    config.setKeyStoreAlgorithim(keyStoreAlgorithim);
+    config.setKeyStoreAlgorithm(keyStoreAlgorithm);
     FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
             new FacesMessage("Key Store configurations saved"));
   }
@@ -160,26 +160,38 @@ public class SslClientBean {
   }
 
   public List<String> getkeyStoreTypes() {
-    return Arrays.stream(Security.getProviders())
-            .flatMap(provider -> provider.getServices().stream())
-            .filter(service -> "KeyStore".equals(service.getType()))
-            .map(service -> service.getAlgorithm())
-            .collect(Collectors.toList());
+    String selectedKeyStoreProvider = getKeyStoreProvider();
+    if (StringUtils.isEmpty(selectedKeyStoreProvider)) {
+      return getAlgorithms("KeyStore");
+    } else {
+      var provider = Security.getProvider(selectedKeyStoreProvider);
+      if (provider != null) {
+        return provider.getServices().stream()
+                .filter(service -> service.getType().equals("KeyStore"))
+                .map(service -> service.getAlgorithm())
+                .toList();
+      }
+    }
+    return getAlgorithms("KeyStore");
   }
 
   public String getKeyStoreAlgorithm() {
-    return keyStoreAlgorithim;
+    return keyStoreAlgorithm;
   }
 
-  public void setKeyStoreAlgorithim(String KeyStoreAlgorithim) {
-    this.keyStoreAlgorithim = KeyStoreAlgorithim;
+  public void setKeyStoreAlgorithm(String KeyStoreAlgorithm) {
+    this.keyStoreAlgorithm = KeyStoreAlgorithm;
   }
 
   public List<String> getkeyStoreAlgorithms() {
+    return getAlgorithms("KeyManagerFactory");
+  }
+
+  private List<String> getAlgorithms(String type) {
     List<String> algorithms = new ArrayList<>();
     for (var securityProvider : Security.getProviders()) {
       for (var service : securityProvider.getServices()) {
-        if (service.getType().equals("KeyManagerFactory")) {
+        if (service.getType().equals(type)) {
           algorithms.add(service.getAlgorithm());
         }
       }

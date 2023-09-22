@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
@@ -60,9 +61,9 @@ class WebTestSSL {
     propertyType.clear();
     propertyType.sendKeys("Type");
 
-    var propertyAlgorithim = $(By.id("sslClientform:trustStoreAlgorithim"));
-    propertyAlgorithim.clear();
-    propertyAlgorithim.sendKeys("Algorithim");
+    var propertyAlgorithm = $(By.id("sslClientform:trustStoreAlgorithm"));
+    propertyAlgorithm.clear();
+    propertyAlgorithm.sendKeys("Algorithm");
 
     var propertyManagerClass = $(By.id("sslClientform:trustManagerClass"));
     propertyManagerClass.clear();
@@ -76,7 +77,7 @@ class WebTestSSL {
     propertyPassword.shouldNotHave(exactValue("Password"));
     propertyProvider.shouldHave(exactValue("Provider"));
     propertyType.shouldHave(exactValue("Type"));
-    propertyAlgorithim.shouldHave(exactValue("Algorithim"));
+    propertyAlgorithm.shouldHave(exactValue("Algorithm"));
     propertyManagerClass.shouldHave(exactValue("ManagerClass"));
   }
 
@@ -94,21 +95,6 @@ class WebTestSSL {
     propertyPassword.clear();
     propertyPassword.sendKeys("Password");
 
-    var propertyProvider = $(By.id("sslClientformKey:keyStoreProvider_label"));
-    propertyProvider.click();
-    var propertyProvider2 = $(By.id("sslClientformKey:keyStoreProvider_12"));
-    propertyProvider2.click();
-
-    var propertyType = $(By.id("sslClientformKey:keyStoreType_label"));
-    propertyType.click();
-    var propertyType2 = $(By.id("sslClientformKey:keyStoreType_17"));
-    propertyType2.click();
-
-    var propertyAlgorithim = $(By.id("sslClientformKey:keyStoreAlgorithim_label"));
-    propertyAlgorithim.click();
-    var propertyAlgorithim2 = $(By.id("sslClientformKey:keyStoreAlgorithim_0"));
-    propertyAlgorithim2.click();
-
     saveKeyStore();
     successKeyStore();
     Navigation.toSSL();
@@ -116,9 +102,23 @@ class WebTestSSL {
     propertyFile.shouldHave(exactValue("File"));
     propertyStorePassword.shouldNotHave(exactValue("StorePassword"));
     propertyPassword.shouldNotHave(exactValue("Password"));
-    propertyProvider.shouldHave(text("BC"));
-    propertyType.shouldHave(text("BKS"));
-    propertyAlgorithim.shouldHave(text("NewSunX509"));
+
+  }
+
+  @Test
+  public void keyStoreDropdowns() {
+    var propertyProvider = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreProvider"));
+    propertyProvider.selectItemByLabel("BC");
+
+    var propertyType = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreType"));
+    propertyType.selectItemByLabel("BKS");
+
+    var propertyAlgorithm = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreAlgorithm"));
+    propertyAlgorithm.selectItemByLabel("SunX509");
+
+    $(By.id("sslClientformKey:keyStoreProvider")).shouldHave(text("BC"));
+    $(By.id("sslClientformKey:keyStoreType")).shouldHave(text("BKS"));
+    $(By.id("sslClientformKey:keyStoreAlgorithm")).shouldHave(text("SunX509"));
   }
 
   private void saveTrustStore() {

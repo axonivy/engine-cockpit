@@ -72,8 +72,8 @@ public class SslClientConfig {
     return config.get(Key.ALGORITHM).orElse("");
   }
 
-  public void setTrustStoreAlgorithim(String trustStoreAlgorithim) {
-    config.set(Key.ALGORITHM, trustStoreAlgorithim);
+  public void setTrustStoreAlgorithm(String trustStoreAlgorithm) {
+    config.set(Key.ALGORITHM, trustStoreAlgorithm);
   }
 
   public String getTrustManagerClass() {
@@ -124,11 +124,11 @@ public class SslClientConfig {
     config.set(Key.KEY_TYPE, keyStoreType);
   }
 
-  public String getKeyStoreAlgorithim() {
+  public String getKeyStoreAlgorithm() {
     return config.getOrDefault(Key.KEY_ALGORITHM);
   }
 
-  public void setKeyStoreAlgorithim(String keyStoreAlgorithim) {
-    config.set(Key.KEY_ALGORITHM, keyStoreAlgorithim);
+  public void setKeyStoreAlgorithm(String keyStoreAlgorithm) {
+    config.set(Key.KEY_ALGORITHM, keyStoreAlgorithm);
   }
 }
