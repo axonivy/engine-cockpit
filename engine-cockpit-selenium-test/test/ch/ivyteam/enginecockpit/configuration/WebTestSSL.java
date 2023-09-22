@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -84,6 +85,8 @@ class WebTestSSL {
 
   @Test
   void KeyStoreInputFields() {
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
+
     var propertyFile = $(By.id("sslClientformKey:keyStoreFile"));
     propertyFile.clear();
     propertyFile.sendKeys("File");
@@ -108,6 +111,8 @@ class WebTestSSL {
 
   @Test
   void keyStoreDropdowns() {
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
+
     var propertyProvider = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreProvider"));
     propertyProvider.selectItemByLabel("BC");
 
@@ -120,6 +125,18 @@ class WebTestSSL {
     $(By.id("sslClientformKey:keyStoreProvider")).shouldHave(text("BC"));
     $(By.id("sslClientformKey:keyStoreType")).shouldHave(text("BKS"));
     $(By.id("sslClientformKey:keyStoreAlgorithm")).shouldHave(text("SunX509"));
+  }
+
+  @Test
+  void useCustomKeyStore() {
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore"))
+    .shouldBeChecked(false);
+    $(By.id("sslClientformKey:keyStoreFile")).shouldHave(cssClass("ui-state-disabled"));
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore"))
+    .shouldBeChecked(true);
+    $(By.id("sslClientformKey:keyStoreFile")).shouldNotHave(cssClass("ui-state-disabled"));
+
   }
 
   private void saveTrustStore() {

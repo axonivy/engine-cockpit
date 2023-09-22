@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 @ViewScoped
 public class SslClientBean {
 
+  private boolean useCustomKeyStore;
   private String trustStoreFile;
   private String trustStorePassword;
   private String trustStoreProvider;
@@ -72,6 +73,14 @@ public class SslClientBean {
     FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
             new FacesMessage("Key Store configurations saved"));
   }
+
+  public boolean isUseCustomKeyStore() {
+    return useCustomKeyStore;
+}
+
+  public void setUseCustomKeyStore(boolean useCustomKeyStore) {
+    this.useCustomKeyStore = useCustomKeyStore;
+}
 
   public String getTrustStorePassword() {
     return trustStorePassword;
