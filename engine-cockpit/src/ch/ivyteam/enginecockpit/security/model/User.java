@@ -22,6 +22,7 @@ public class User implements SecurityMember {
   private String securityContext;
 
   private boolean loggedIn;
+  private boolean working;
   private boolean enabled = true;
   private boolean isExternal;
 
@@ -40,6 +41,7 @@ public class User implements SecurityMember {
     this.language = user.getLanguage();
     this.formattingLanguage = user.getFormattingLanguage();
     this.securityContext = user.getSecurityContext().getName();
+    this.working = !user.isAbsent();
   }
 
   public User(Administrator admin) {
@@ -95,6 +97,10 @@ public class User implements SecurityMember {
 
   public boolean isLoggedIn() {
     return loggedIn;
+  }
+
+  public boolean isWorking() {
+    return working;
   }
 
   public void setLoggedIn(boolean loggedIn) {
