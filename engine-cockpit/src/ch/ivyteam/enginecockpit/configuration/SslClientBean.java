@@ -89,6 +89,12 @@ public class SslClientBean {
     this.trustStoreProvider = trustStoreProvider;
   }
 
+  public List<String> getTrustStoreProviders() {
+    return Arrays.stream(Security.getProviders())
+            .map(provider -> provider.getName())
+            .toList();
+  }
+
   public String getTrustStoreType() {
     return trustStoreType;
   }
@@ -97,12 +103,32 @@ public class SslClientBean {
     this.trustStoreType = trustStoreType;
   }
 
+  public List<String> getTrustStoreTypes() {
+    String selectedTrustStoreProvider = getTrustStoreProvider();
+    if (StringUtils.isEmpty(selectedTrustStoreProvider)) {
+      return getAlgorithms("KeyStore");
+    } else {
+      var provider = Security.getProvider(selectedTrustStoreProvider);
+      if (provider != null) {
+        return provider.getServices().stream()
+                .filter(service -> service.getType().equals("KeyStore"))
+                .map(service -> service.getAlgorithm())
+                .toList();
+      }
+    }
+    return getAlgorithms("KeyStore");
+  }
+
   public String getTrustStoreAlgorithm() {
     return trustStoreAlgorithm;
   }
 
   public void setTrustStoreAlgorithm(String trustStoreAlgorithm) {
     this.trustStoreAlgorithm = trustStoreAlgorithm;
+  }
+
+  public List<String> getTrustStoreAlgorithms() {
+    return getAlgorithms("TrustManagerFactory");
   }
 
   public String getTrustManagerClass() {

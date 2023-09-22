@@ -53,18 +53,6 @@ class WebTestSSL {
     propertyPassword.clear();
     propertyPassword.sendKeys("Password");
 
-    var propertyProvider = $(By.id("sslClientform:trustStoreProvider"));
-    propertyProvider.clear();
-    propertyProvider.sendKeys("Provider");
-
-    var propertyType = $(By.id("sslClientform:trustStoreType"));
-    propertyType.clear();
-    propertyType.sendKeys("Type");
-
-    var propertyAlgorithm = $(By.id("sslClientform:trustStoreAlgorithm"));
-    propertyAlgorithm.clear();
-    propertyAlgorithm.sendKeys("Algorithm");
-
     var propertyManagerClass = $(By.id("sslClientform:trustManagerClass"));
     propertyManagerClass.clear();
     propertyManagerClass.sendKeys("ManagerClass");
@@ -75,10 +63,23 @@ class WebTestSSL {
 
     propertyFile.shouldHave(exactValue("File"));
     propertyPassword.shouldNotHave(exactValue("Password"));
-    propertyProvider.shouldHave(exactValue("Provider"));
-    propertyType.shouldHave(exactValue("Type"));
-    propertyAlgorithm.shouldHave(exactValue("Algorithm"));
     propertyManagerClass.shouldHave(exactValue("ManagerClass"));
+
+  }
+  @Test
+  void TrustStoreDropdowns() {
+    var propertyProvider = PrimeUi.selectOne(By.id("sslClientform:trustStoreProvider"));
+    propertyProvider.selectItemByLabel("BC");
+
+    var propertyType = PrimeUi.selectOne(By.id("sslClientform:trustStoreType"));
+    propertyType.selectItemByLabel("FIPS");
+
+    var propertyAlgorithm = PrimeUi.selectOne(By.id("sslClientform:trustStoreAlgorithm"));
+    propertyAlgorithm.selectItemByLabel("SunX509");
+
+    $(By.id("sslClientform:trustStoreProvider")).shouldHave(text("BC"));
+    $(By.id("sslClientform:trustStoreType")).shouldHave(text("FIPS"));
+    $(By.id("sslClientform:trustStoreAlgorithm")).shouldHave(text("SunX509"));
   }
 
   @Test
@@ -106,7 +107,7 @@ class WebTestSSL {
   }
 
   @Test
-  public void keyStoreDropdowns() {
+  void keyStoreDropdowns() {
     var propertyProvider = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreProvider"));
     propertyProvider.selectItemByLabel("BC");
 

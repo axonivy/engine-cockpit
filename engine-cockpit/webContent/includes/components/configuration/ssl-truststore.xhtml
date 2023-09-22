@@ -36,16 +36,23 @@
         value="#{sslClientBean.trustStorePassword}" />
 
       <label>TrustStoreProvider</label>
-      <p:inputText id="trustStoreProvider"
-        value="#{sslClientBean.trustStoreProvider}" />
-
+      <p:selectOneMenu id="trustStoreProvider"
+        value="#{sslClientBean.trustStoreProvider}">
+        <p:ajax update="sslClientform:trustStoreType"></p:ajax> 
+        <f:selectItems value="#{sslClientBean.trustStoreProviders}" />
+      </p:selectOneMenu>
+      
       <label>TrustStoreType</label>
-      <p:inputText id="trustStoreType"
-        value="#{sslClientBean.trustStoreType}" />
+      <p:selectOneMenu id="trustStoreType"
+        value="#{sslClientBean.trustStoreType}">
+        <f:selectItems value="#{sslClientBean.trustStoreTypes}" />
+      </p:selectOneMenu>
 
       <label>TrustStoreAlgorithm</label>
-      <p:inputText id="trustStoreAlgorithm"
-        value="#{sslClientBean.trustStoreAlgorithm}" />
+      <p:selectOneMenu id="trustStoreAlgorithm"
+        value="#{sslClientBean.trustStoreAlgorithm}">
+        <f:selectItems value="#{sslClientBean.trustStoreAlgorithms}" />
+      </p:selectOneMenu>
 
       <label>TrustManagerClass</label>
       <p:inputText id="trustManagerClass"
