@@ -179,6 +179,8 @@ public class Navigation {
 
   public static void toUserDetail(String system, String userName) {
     Navigation.toUsers();
+    Tab.SECURITY_SYSTEM.switchToTab(system);
+    $(".ui-inputfield").sendKeys(userName);
     $$(Tab.SECURITY_SYSTEM.activePanelCss + " .user-name").find(text(userName)).shouldBe(visible).click();
     assertCurrentUrlContains("userdetail.xhtml?system=" + system + "&name=" + userName);
     menuShouldBeActive(SECURITY_USER_MENU);
