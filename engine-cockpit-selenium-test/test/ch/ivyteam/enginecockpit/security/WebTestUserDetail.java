@@ -285,10 +285,10 @@ class WebTestUserDetail {
     Table tableWithoutLink = new Table(By.id(tableId));
 
     tableWithLink.firstColumnShouldBe(size(3));
-    tableWithLink.firstColumnShouldBe(CollectionCondition.exactTexts("substitute1", "substitute2", "substitute3"));
+    tableWithLink.firstColumnShouldBe(CollectionCondition.exactTexts("bar", "jon", "bar"));
     tableWithoutLink.columnShouldBe(2, CollectionCondition.exactTexts("On absence", "Permanent", "On absence"));
     tableWithoutLink.columnShouldBe(3, CollectionCondition.exactTexts("Personal", "Personal", "Role"));
-    tableWithLink.columnShouldBe(4, CollectionCondition.exactTexts("", "", "role"));
+    tableWithLink.columnShouldBe(4, CollectionCondition.exactTexts("", "", "worker"));
 
     EngineCockpitUtil.cleanupSubstitutes();
   }
