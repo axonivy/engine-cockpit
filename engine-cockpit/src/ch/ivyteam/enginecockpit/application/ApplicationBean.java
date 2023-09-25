@@ -125,7 +125,6 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
     try {
       var securityContext = ISecurityManager.instance().securityContexts().get(newApp.getSecSystem());
       var appToCreate = NewApplication.create(newApp.getName())
-              .description(newApp.getDesc())
               .active(activateNewApp)
               .securityContext(securityContext)
               .toNewApplication();
