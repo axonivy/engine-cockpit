@@ -256,8 +256,12 @@ public class User implements SecurityMember {
       return typeTitle;
     }
 
-    public String getViewUrl() {
+    public String getSubstituteViewUrl() {
       return User.getViewUrl(securityContext, name);
+    }
+
+    public String getRoleViewUrl() {
+      return Role.getViewUrl(securityContext, role);
     }
 
     public static Substitute of(IUserSubstitute substitute) {
@@ -265,7 +269,7 @@ public class User implements SecurityMember {
       var substitutionRole = substitute.getSubstitutionRole();
 
       String name = substituteMember.getName();
-      String role = null;
+      String role = "";
 
       String memberIcon;
       String memberTitle;

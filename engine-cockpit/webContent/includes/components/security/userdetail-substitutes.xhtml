@@ -7,7 +7,7 @@
   <h:form id="substitutesForm">
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-advertising-megaphone-2"></i>
+        <i class="p-pr-3 si si-single-neutral-actions"></i>
         <h6 class="p-m-0">Substitutes</h6>
       </div>
     </div>
@@ -17,17 +17,31 @@
       lazy="false" styleClass="ui-fluid">
       
       <p:column headerText="Name" sortBy="#{substitute.name}">
-        <a href="#{substitute.viewUrl}">
+        <a href="#{substitute.substituteViewUrl}">
           <h:outputText value="#{substitute.name}" styleClass="substitute-name">
-            <i class="si si-#{substitute.typeIcon} table-icon" title="#{substitute.typeTitle}" />
+            <i class="si si-single-neutral-actions table-icon" />
           </h:outputText>
         </a>
-      </p:column>      
+      </p:column>
+      
+      <p:column headerText="Type" sortBy="#{substitute.typeTitle}">
+        <h:outputText value="#{substitute.typeTitle}">
+          <i class="si si-#{substitute.typeIcon} table-icon" />
+        </h:outputText>
+      </p:column>
+      
+      <p:column headerText="For" sortBy="#{substitute.memberTitle}">
+        <h:outputText value="#{substitute.memberTitle}">
+          <i class="si si-#{substitute.memberIcon} table-icon" />
+        </h:outputText>
+      </p:column>
       
       <p:column headerText="Role" sortBy="#{substitute.role}">
-        <h:outputText value="#{substitute.role}">
-          <i class="si si-#{substitute.memberIcon} table-icon" title="#{substitute.memberTitle}" />
-        </h:outputText>
+        <a href="#{substitute.roleViewUrl}">
+          <h:outputText value="#{substitute.role}" styleClass="substitute-name" rendered="#{!substitute.role.blank}">
+            <i class="si si-#{substitute.memberIcon} table-icon" />
+          </h:outputText>
+        </a>
       </p:column>
     </p:dataTable>
   </h:form>

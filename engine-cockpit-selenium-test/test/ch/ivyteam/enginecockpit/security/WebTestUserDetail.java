@@ -280,12 +280,15 @@ class WebTestUserDetail {
     beforeEach();
     Navigation.toUserDetail(USER_FOO);
 
-    Table table = new Table(By.id("substitutesForm:substitutesTable"), true);
-    table.firstColumnShouldBe(size(3));
-    table.firstColumnShouldBe(CollectionCondition.exactTexts("substitute1", "substitute2", "substitute3"));
+    String tableId = "substitutesForm:substitutesTable";
+    Table tableWithLink = new Table(By.id(tableId), true);
+    Table tableWithoutLink = new Table(By.id(tableId));
 
-    table = new Table(By.id("substitutesForm:substitutesTable"));
-    table.columnShouldBe(2, CollectionCondition.exactTexts("", "", "role"));
+    tableWithLink.firstColumnShouldBe(size(3));
+    tableWithLink.firstColumnShouldBe(CollectionCondition.exactTexts("substitute1", "substitute2", "substitute3"));
+    tableWithoutLink.columnShouldBe(2, CollectionCondition.exactTexts("On absence", "Permanent", "On absence"));
+    tableWithoutLink.columnShouldBe(3, CollectionCondition.exactTexts("Personal", "Personal", "Role"));
+    tableWithLink.columnShouldBe(4, CollectionCondition.exactTexts("", "", "role"));
 
     EngineCockpitUtil.cleanupSubstitutes();
   }
