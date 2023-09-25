@@ -175,7 +175,6 @@ class WebTestApplication {
 
     $("#newApplicationForm\\:newApplicationNameInput").clear();
     $("#newApplicationForm\\:newApplicationNameInput").sendKeys(NEW_TEST_APP);
-    $("#newApplicationForm\\:newApplicationDescInput").sendKeys("test description");
     PrimeUi.selectBooleanCheckbox(By.id("newApplicationForm:newApplicationActivate")).removeChecked();
 
     $("#newApplicationForm\\:saveNewApplication").click();
