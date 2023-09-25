@@ -283,7 +283,7 @@ public class User implements SecurityMember {
       }
 
       boolean onAbsence = substitute.getSubstitutionType().equals(SubstitutionType.ON_ABSENCE);
-      String typeIcon = onAbsence ? "synchronize-arrow-clock" : "time-clock-circle";
+      String typeIcon = onAbsence ? "time-clock-circle" : "pin";
       String typeTitle = onAbsence ? "On absence" : "Permanent";
 
       String securityContext = substituteMember.getSecurityContext().getName();
