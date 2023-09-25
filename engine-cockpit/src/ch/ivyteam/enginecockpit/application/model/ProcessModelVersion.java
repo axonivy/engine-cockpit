@@ -8,9 +8,9 @@ import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModelVersion extends AbstractActivity {
+
   private IProcessModelVersion pmv;
   private String lastChangeDate;
-  private String description;
   private Library lib;
   private int runningCasesCount = -1;
 
@@ -21,7 +21,6 @@ public class ProcessModelVersion extends AbstractActivity {
   public ProcessModelVersion(IProcessModelVersion pmv, ApplicationBean bean) {
     super(pmv.getVersionName(), pmv.getId(), pmv, bean);
     lib = new Library(pmv.getLibrary());
-    description = pmv.getDescription();
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
     this.pmv = pmv;
     updateStats();
@@ -93,10 +92,6 @@ public class ProcessModelVersion extends AbstractActivity {
 
   public String getLastChangeDate() {
     return lastChangeDate;
-  }
-
-  public String getDescription() {
-    return description;
   }
 
   public String getLibraryId() {

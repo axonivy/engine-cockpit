@@ -16,9 +16,7 @@ import ch.ivyteam.ivy.workflow.WorkflowNavigationUtil;
 @SuppressWarnings("removal")
 public class Application extends AbstractActivity {
 
-  private String desc;
   private String fileDir;
-  private String owner;
   private String secSystem = ISecurityContext.DEFAULT;
   private long runningCasesCount = -1;
   private IApplicationInternal app;
@@ -35,9 +33,7 @@ public class Application extends AbstractActivity {
   public Application(IApplication app, ApplicationBean bean) {
     super(app.getName(), app.getId(), app, bean);
     this.app = (IApplicationInternal) app;
-    desc = app.getDescription();
     fileDir = app.getFileDirectory();
-    owner = app.getOwnerName();
     secSystem = app.getSecurityContext().getName();
   }
 
@@ -67,28 +63,12 @@ public class Application extends AbstractActivity {
     return getName().equals("designer");
   }
 
-  public String getDesc() {
-    return desc;
-  }
-
-  public void setDesc(String desc) {
-    this.desc = desc;
-  }
-
   public String getFileDir() {
     return fileDir;
   }
 
   public void setFileDir(String fileDir) {
     this.fileDir = fileDir;
-  }
-
-  public String getOwner() {
-    return owner;
-  }
-
-  public void setOwner(String owner) {
-    this.owner = owner;
   }
 
   public void setSecSystem(String secSystem) {

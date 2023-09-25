@@ -15,9 +15,6 @@
         <p:message for="newApplicationNameInput" id="newApplicationNameMessage" />
       </h:panelGroup>
 
-      <p:outputLabel for="newApplicationDescInput" value="Description" />
-      <p:inputText id="newApplicationDescInput" value="#{applicationBean.newApplication.desc}" />
-
       <p:outputLabel for="newApplicationSecSystemInput" value="Security System" />
       <p:selectOneMenu id="newApplicationSecSystemInput" value="#{applicationBean.newApplication.secSystem}">
         <f:selectItems value="#{securityBean.availableSecuritySystems}" />
