@@ -589,7 +589,8 @@
             "user.createSubstitute(substitute2, \"\", SubstitutionType.PERMANENT);",
             "user.createSubstitute(substitute3, role, \"\");"
           ]
-        }
+        },
+        "sudo" : true
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 1280 }
@@ -645,7 +646,8 @@
             "",
             "roles.delete(\"role\");"
           ]
-        }
+        },
+        "sudo" : true
       },
       "visual" : {
         "at" : { "x" : 600, "y" : 1280 }
