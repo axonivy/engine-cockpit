@@ -31,7 +31,7 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 #{notificationChannelDetailBean.channel.displayIcon} card-title-icon"></i>
           <h2 class="p-m-0">#{notificationChannelDetailBean.channel.displayName}</h2>
-          <p:commandButton id="open" actionListener="#{notificationChannelDetailBean.open}" title="Open channel"
+          <p:commandButton id="open" actionListener="#{notificationChannelDetailBean.open}" title="Unlock channel (clear error state)"
             icon="si si-charger" styleClass="p-col-fixed p-ml-auto rounded-button" update="form" 
             rendered="#{notificationChannelDetailBean.channel.push}" disabled="#{not notificationChannelDetailBean.channel.locked}"/>
           <p:commandButton id="resetPush" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
