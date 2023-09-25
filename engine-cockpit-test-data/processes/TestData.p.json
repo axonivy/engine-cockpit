@@ -655,5 +655,102 @@
       "connect" : [
         { "id" : "f77", "to" : "f75" }
       ]
+    }, {
+      "id" : "f79",
+      "type" : "RequestStart",
+      "name" : "addAbsences",
+      "config" : {
+        "signature" : "addAbsences"
+      },
+      "visual" : {
+        "at" : { "x" : 72, "y" : 1368 }
+      },
+      "connect" : [
+        { "id" : "f85", "to" : "f81" }
+      ]
+    }, {
+      "id" : "f80",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 1368 }
+      }
+    }, {
+      "id" : "f81",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.security.IUser;",
+            "import java.util.stream.IntStream;",
+            "import ch.ivyteam.ivy.security.ISecurityContextRepository;",
+            "import ch.ivyteam.ivy.security.user.IUserRepository;",
+            "",
+            "IUserRepository users = ISecurityContextRepository.instance().get(\"default\").users();",
+            "",
+            "Duration oneDay = new Duration(\"1D\");",
+            "Duration oneWeek = new Duration(\"7D\");",
+            "",
+            "Date currentDate = new Date();",
+            "",
+            "IUser user = users.find(\"foo\");",
+            "user.createAbsence(currentDate.minus(oneWeek), currentDate.minus(oneDay), \"\");",
+            "user.createAbsence(currentDate.minus(oneDay), currentDate.add(oneDay), \"\");",
+            "user.createAbsence(currentDate.add(oneDay), currentDate.add(oneWeek), \"\");"
+          ]
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 1368 }
+      },
+      "connect" : [
+        { "id" : "f88", "to" : "f80" }
+      ]
+    }, {
+      "id" : "f82",
+      "type" : "RequestStart",
+      "name" : "cleanupAbsences",
+      "config" : {
+        "signature" : "cleanupAbsences"
+      },
+      "visual" : {
+        "at" : { "x" : 448, "y" : 1368 }
+      },
+      "connect" : [
+        { "id" : "f86", "to" : "f84" }
+      ]
+    }, {
+      "id" : "f83",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 728, "y" : 1368 }
+      }
+    }, {
+      "id" : "f84",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.security.IUserAbsence;",
+            "import ch.ivyteam.ivy.security.IUser;",
+            "import ch.ivyteam.ivy.security.ISecurityContextRepository;",
+            "import ch.ivyteam.ivy.security.user.IUserRepository;",
+            "",
+            "IUserRepository users = ISecurityContextRepository.instance().get(\"default\").users();",
+            "",
+            "IUser user = users.find(\"foo\");",
+            "for (IUserAbsence absence : user.getAbsences()) {",
+            "  user.deleteAbsence(absence);",
+            "}"
+          ]
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 600, "y" : 1368 }
+      },
+      "connect" : [
+        { "id" : "f87", "to" : "f83" }
+      ]
     } ]
 }

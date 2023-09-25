@@ -16,6 +16,9 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -291,6 +294,38 @@ class WebTestUserDetail {
     tableWithLink.columnShouldBe(4, CollectionCondition.exactTexts("", "", "role"));
 
     EngineCockpitUtil.cleanupSubstitutes();
+  }
+
+  @Test
+  void absences_isWorking() {
+    Navigation.toUserDetail(USER_FOO);
+    $(By.id("working")).shouldHave(cssClass("si-check-circle-1"));
+  }
+
+  @Test
+  void absences() {
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.ENGLISH);
+
+    EngineCockpitUtil.addAbsences();
+    beforeEach();
+    Navigation.toUserDetail(USER_FOO);
+
+    $(By.id("working")).shouldHave(cssClass("si-remove-circle"));
+
+    LocalDate currentDate = LocalDate.now();
+
+    Table table = new Table(By.id("absencesForm:absencesTable"));
+    table.firstColumnShouldBe(size(3));
+    table.firstColumnShouldBe(CollectionCondition.exactTexts(
+            dateTimeFormatter.format(currentDate.minusDays(7)),
+            dateTimeFormatter.format(currentDate.minusDays(1)),
+            dateTimeFormatter.format(currentDate.plusDays(1))));
+    table.columnShouldBe(2, CollectionCondition.exactTexts(
+            dateTimeFormatter.format(currentDate.minusDays(1)),
+            dateTimeFormatter.format(currentDate.plusDays(1)),
+            dateTimeFormatter.format(currentDate.plusDays(7))));
+
+    EngineCockpitUtil.cleanupAbsences();
   }
 
   @Test
