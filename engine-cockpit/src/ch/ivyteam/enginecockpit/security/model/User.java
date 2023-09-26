@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.IUserAbsence;
 import ch.ivyteam.ivy.security.IUserSubstitute;
 import ch.ivyteam.ivy.security.SubstitutionType;
 import ch.ivyteam.ivy.security.administrator.Administrator;
@@ -25,6 +27,7 @@ public class User implements SecurityMember {
   private Locale formattingLanguage;
   private String securityContext;
   private List<Substitute> substitutes;
+  private List<Absence> absences;
 
   private boolean loggedIn;
   private boolean working;
@@ -48,6 +51,7 @@ public class User implements SecurityMember {
     this.securityContext = user.getSecurityContext().getName();
     this.working = !user.isAbsent();
     this.substitutes = substitutesOf(user);
+    this.absences = absencesOf(user);
   }
 
   public User(Administrator admin) {
@@ -204,9 +208,19 @@ public class User implements SecurityMember {
     return substitutes;
   }
 
+  public List<Absence> getAbsences() {
+    return absences;
+  }
+
   private List<Substitute> substitutesOf(IUser user) {
     return user.getSubstitutes().stream()
             .map(Substitute::of)
+            .collect(Collectors.toList());
+  }
+
+  private List<Absence> absencesOf(IUser user){
+    return user.getAbsences().stream()
+            .map(Absence::of)
             .collect(Collectors.toList());
   }
 
@@ -289,6 +303,29 @@ public class User implements SecurityMember {
       String securityContext = substituteMember.getSecurityContext().getName();
 
       return new Substitute(name, role, memberIcon, memberTitle, typeIcon, typeTitle, securityContext);
+    }
+  }
+
+  public static class Absence {
+
+    private final Date start;
+    private final Date end;
+
+    public Absence(Date start, Date end) {
+      this.start = start;
+      this.end = end;
+    }
+
+    public Date getStart() {
+      return start;
+    }
+
+    public Date getEnd() {
+      return end;
+    }
+
+    public static Absence of(IUserAbsence absence) {
+      return new Absence(absence.getStartTimestamp(), absence.getStopTimestamp());
     }
   }
 }

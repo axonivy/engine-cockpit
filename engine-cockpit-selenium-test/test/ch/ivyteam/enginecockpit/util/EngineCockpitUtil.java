@@ -182,6 +182,14 @@ public class EngineCockpitUtil {
     runTestProcess("16E88DD61E825E70/cleanupSubstitutes.ivp");
   }
 
+  public static void addAbsences() {
+    runTestProcess("16E88DD61E825E70/addAbsences.ivp");
+  }
+
+  public static void cleanupAbsences() {
+    runTestProcess("16E88DD61E825E70/cleanupAbsences.ivp");
+  }
+
   public static void destroyOtherSessions() {
     runTestProcess("18AB33A0B9AA7019/destroyOtherSessions.ivp");
   }
