@@ -40,51 +40,6 @@
         </div>
 
         <script>
-          function waitFor(resolver) {
-            const poll = resolve => {
-              var instance = resolver();
-              if(instance != undefined) {
-                resolve(instance);
-              } else {
-                setTimeout(() => poll(resolve), 10);
-              }
-            }
-            return new Promise(poll);
-          }
-        
-          function monaco() {
-            return document.getElementById("framedEditor").contentWindow.codeEditor?._modelData.model;
-          }
-          
-          function code() {
-            return document.getElementById("editorForm:codeHolder");
-          }
-          
-          function setTheme(theme) {
-            document.getElementById("framedEditor").contentWindow.MonacoEnvironment.setTheme(theme)
-          }
-        
-          function loadFile() {
-            var file = new URLSearchParams(window.parent.location.search).get("file"); 
-            var ext = file.slice(file.lastIndexOf('.')+1)
-            
-            waitFor(() => monaco()).then(model => {
-              setTheme("#{ivyFreyaTheme.mode}");
-              model.setValue(code().value);
-              model.setLanguage(ext);
-            })
-          }
-          
-          function saveEditor() {
-            code().innerHTML = monaco().getValue();
-          }
-          
-          window.onload = function(){ 
-            loadFile(); 
-            document.body.addEventListener('change-theme-mode', event => setTheme(event.detail.mode)) 
-          };
-        </script>
-        <script>
           function handleAutocompleteSelection() {
             var selectedValue = document.getElementById('fileChooserForm:fileDropDown_input').value
             if (selectedValue == null || selectedValue == "") {
@@ -108,6 +63,51 @@
           <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
         </h:panelGroup>
         <h:form id="editorForm" styleClass="editor-card">
+          <script>
+            function waitFor(resolver) {
+              const poll = resolve => {
+                var instance = resolver();
+                if(instance != undefined) {
+                  resolve(instance);
+                } else {
+                  setTimeout(() => poll(resolve), 10);
+                }
+              }
+              return new Promise(poll);
+            }
+          
+            function monaco() {
+              return document.getElementById("framedEditor").contentWindow.codeEditor?._modelData.model;
+            }
+            
+            function code() {
+              return document.getElementById("editorForm:codeHolder");
+            }
+            
+            function setTheme(theme) {
+              document.getElementById("framedEditor").contentWindow.MonacoEnvironment.setTheme(theme)
+            }
+          
+            function loadFile() {
+              var file = new URLSearchParams(window.parent.location.search).get("file"); 
+              var ext = file.slice(file.lastIndexOf('.')+1)
+              
+              waitFor(() => monaco()).then(model => {
+                setTheme("#{ivyFreyaTheme.mode}");
+                model.setValue(code().value);
+                model.setLanguage(ext);
+              })
+            }
+            
+            function saveEditor() {
+              code().innerHTML = monaco().getValue();
+            }
+            
+            window.onload = function(){ 
+              loadFile(); 
+              document.body.addEventListener('change-theme-mode', event => setTheme(event.detail.mode)) 
+            };
+          </script>
           <iframe id="framedEditor" src="#{resource['monaco-yaml-ivy/index.html']}&amp;demo=off&amp;theme=#{ivyFreyaTheme.mode}" style="border: 0; width: 100%; height: 100%" />
           <h:inputTextarea id="codeHolder" value="#{editorBean.activeConfigFile.content}" escape="false" style="display:none" />
           <div class="p-d-flex p-flex-wrap">
