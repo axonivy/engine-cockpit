@@ -1,10 +1,14 @@
 package ch.ivyteam.enginecockpit.security.model;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.UriBuilder;
 import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.IUserSubstitute;
+import ch.ivyteam.ivy.security.SubstitutionType;
 import ch.ivyteam.ivy.security.administrator.Administrator;
 
 public class User implements SecurityMember {
@@ -20,6 +24,7 @@ public class User implements SecurityMember {
   private Locale language;
   private Locale formattingLanguage;
   private String securityContext;
+  private List<Substitute> substitutes;
 
   private boolean loggedIn;
   private boolean working;
@@ -42,6 +47,7 @@ public class User implements SecurityMember {
     this.formattingLanguage = user.getFormattingLanguage();
     this.securityContext = user.getSecurityContext().getName();
     this.working = !user.isAbsent();
+    this.substitutes = substitutesOf(user);
   }
 
   public User(Administrator admin) {
@@ -54,6 +60,10 @@ public class User implements SecurityMember {
 
   @Override
   public String getViewUrl() {
+    return getViewUrl(securityContext, name);
+  }
+
+  private static String getViewUrl(String securityContext, String name) {
     return UriBuilder.fromPath("userdetail.xhtml")
             .queryParam("system", securityContext)
             .queryParam("name", name)
@@ -188,5 +198,97 @@ public class User implements SecurityMember {
 
   public String getSecurityMemberId() {
     return securityMemberId;
+  }
+
+  public List<Substitute> getSubstitutes() {
+    return substitutes;
+  }
+
+  private List<Substitute> substitutesOf(IUser user) {
+    return user.getSubstitutes().stream()
+            .map(Substitute::of)
+            .collect(Collectors.toList());
+  }
+
+  public static class Substitute {
+
+    private final String name;
+    private final String role;
+    private final String memberIcon;
+    private final String memberTitle;
+    private final String typeIcon;
+    private final String typeTitle;
+
+    private final String securityContext;
+
+    public Substitute(String name, String role, String memberIcon, String memberTitle, String typeIcon,
+            String typeTitle, String securityContext) {
+      this.name = name;
+      this.role = role;
+      this.memberIcon = memberIcon;
+      this.memberTitle = memberTitle;
+      this.typeIcon = typeIcon;
+      this.typeTitle = typeTitle;
+      this.securityContext = securityContext;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public String getRole() {
+      return role;
+    }
+
+    public String getMemberIcon() {
+      return memberIcon;
+    }
+
+    public String getMemberTitle() {
+      return memberTitle;
+    }
+
+    public String getTypeIcon() {
+      return typeIcon;
+    }
+
+    public String getTypeTitle() {
+      return typeTitle;
+    }
+
+    public String getSubstituteViewUrl() {
+      return User.getViewUrl(securityContext, name);
+    }
+
+    public String getRoleViewUrl() {
+      return Role.getViewUrl(securityContext, role);
+    }
+
+    public static Substitute of(IUserSubstitute substitute) {
+      var substituteMember = substitute.getSubstituteUser();
+      var substitutionRole = substitute.getSubstitutionRole();
+
+      String name = substituteMember.getName();
+      String role = "";
+
+      String memberIcon;
+      String memberTitle;
+      if (substitutionRole == null) {
+        memberIcon = "single-neutral-actions";
+        memberTitle = "Personal";
+      } else {
+        role = substitutionRole.getName();
+        memberIcon = "multiple-neutral-1";
+        memberTitle = "Role";
+      }
+
+      boolean onAbsence = substitute.getSubstitutionType().equals(SubstitutionType.ON_ABSENCE);
+      String typeIcon = onAbsence ? "time-clock-circle" : "pin";
+      String typeTitle = onAbsence ? "On absence" : "Permanent";
+
+      String securityContext = substituteMember.getSecurityContext().getName();
+
+      return new Substitute(name, role, memberIcon, memberTitle, typeIcon, typeTitle, securityContext);
+    }
   }
 }

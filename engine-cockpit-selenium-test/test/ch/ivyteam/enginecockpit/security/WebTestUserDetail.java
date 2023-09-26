@@ -275,6 +275,25 @@ class WebTestUserDetail {
   }
 
   @Test
+  void substitutes() {
+    EngineCockpitUtil.addSubstitutes();
+    beforeEach();
+    Navigation.toUserDetail(USER_FOO);
+
+    String tableId = "substitutesForm:substitutesTable";
+    Table tableWithLink = new Table(By.id(tableId), true);
+    Table tableWithoutLink = new Table(By.id(tableId));
+
+    tableWithLink.firstColumnShouldBe(size(3));
+    tableWithLink.firstColumnShouldBe(CollectionCondition.exactTexts("substitute1", "substitute2", "substitute3"));
+    tableWithoutLink.columnShouldBe(2, CollectionCondition.exactTexts("On absence", "Permanent", "On absence"));
+    tableWithoutLink.columnShouldBe(3, CollectionCondition.exactTexts("Personal", "Personal", "Role"));
+    tableWithLink.columnShouldBe(4, CollectionCondition.exactTexts("", "", "role"));
+
+    EngineCockpitUtil.cleanupSubstitutes();
+  }
+
+  @Test
   void rolesAddRemove() {
     Navigation.toUserDetail(USER_FOO);
     String boss = Selenide.$$(".role-name").find(Condition.text("boss")).parent().parent().parent()

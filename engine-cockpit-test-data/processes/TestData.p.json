@@ -538,7 +538,122 @@
       "id" : "f67",
       "type" : "TaskEnd",
       "visual" : {
-        "at" : { "x" : 344, "y" : 1168 }
+        "at" : { "x" : 352, "y" : 1168 }
       }
+    }, {
+      "id" : "f69",
+      "type" : "RequestStart",
+      "name" : "addSubstitutes",
+      "config" : {
+        "signature" : "addSubstitutes"
+      },
+      "visual" : {
+        "at" : { "x" : 72, "y" : 1280 }
+      },
+      "connect" : [
+        { "id" : "f72", "to" : "f70" }
+      ]
+    }, {
+      "id" : "f71",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 1280 }
+      }
+    }, {
+      "id" : "f70",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.security.SubstitutionType;",
+            "import ch.ivyteam.ivy.security.IRole;",
+            "import ch.ivyteam.ivy.security.IUser;",
+            "import ch.ivyteam.ivy.security.role.IRoleRepository;",
+            "import ch.ivyteam.ivy.security.user.IUserRepository;",
+            "import ch.ivyteam.ivy.security.ISecurityContext;",
+            "import ch.ivyteam.ivy.security.ISecurityContextRepository;",
+            "",
+            "ISecurityContext securityContext = ISecurityContextRepository.instance().get(\"default\");",
+            "",
+            "IUserRepository users = securityContext.users();",
+            "IRoleRepository roles = securityContext.roles();",
+            "",
+            "IUser substitute1 = users.create(\"substitute1\");",
+            "IUser substitute2 = users.create(\"substitute2\");",
+            "IUser substitute3 = users.create(\"substitute3\");",
+            "",
+            "IRole role = roles.create(\"role\");",
+            "",
+            "IUser user = users.find(\"foo\");",
+            "user.createSubstitute(substitute1, \"\", SubstitutionType.ON_ABSENCE);",
+            "user.createSubstitute(substitute2, \"\", SubstitutionType.PERMANENT);",
+            "user.createSubstitute(substitute3, role, \"\");"
+          ]
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 1280 }
+      },
+      "connect" : [
+        { "id" : "f73", "to" : "f71" }
+      ]
+    }, {
+      "id" : "f74",
+      "type" : "RequestStart",
+      "name" : "cleanupSubstitutes",
+      "config" : {
+        "signature" : "cleanupSubstitutes"
+      },
+      "visual" : {
+        "at" : { "x" : 448, "y" : 1280 }
+      },
+      "connect" : [
+        { "id" : "f78", "to" : "f76" }
+      ]
+    }, {
+      "id" : "f75",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 728, "y" : 1280 }
+      }
+    }, {
+      "id" : "f76",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.security.IUserSubstitute;",
+            "import ch.ivyteam.ivy.security.SubstitutionType;",
+            "import ch.ivyteam.ivy.security.IRole;",
+            "import ch.ivyteam.ivy.security.IUser;",
+            "import ch.ivyteam.ivy.security.role.IRoleRepository;",
+            "import ch.ivyteam.ivy.security.user.IUserRepository;",
+            "import ch.ivyteam.ivy.security.ISecurityContext;",
+            "import ch.ivyteam.ivy.security.ISecurityContextRepository;",
+            "",
+            "ISecurityContext securityContext = ISecurityContextRepository.instance().get(\"default\");",
+            "",
+            "IUserRepository users = securityContext.users();",
+            "IRoleRepository roles = securityContext.roles();",
+            "",
+            "IUser user = users.find(\"foo\");",
+            "for (IUserSubstitute substitute : user.getSubstitutes()) {",
+            "  IUser substituteUser = substitute.getSubstituteUser();",
+            "  user.deleteSubstitute(substitute);",
+            "  users.delete(substituteUser.getName());",
+            "}",
+            "",
+            "roles.delete(\"role\");"
+          ]
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 600, "y" : 1280 }
+      },
+      "connect" : [
+        { "id" : "f77", "to" : "f75" }
+      ]
     } ]
 }

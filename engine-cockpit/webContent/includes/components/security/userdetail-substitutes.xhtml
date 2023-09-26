@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<div class="card">
+  <h:form id="substitutesForm">
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-single-neutral-actions"></i>
+        <h6 class="p-m-0">Substitutes</h6>
+      </div>
+    </div>
+    
+    <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+      var="substitute" value="#{userDetailBean.user.substitutes}" id="substitutesTable"
+      lazy="false" styleClass="ui-fluid">
+      
+      <p:column headerText="Name" sortBy="#{substitute.name}">
+        <a href="#{substitute.substituteViewUrl}">
+          <h:outputText value="#{substitute.name}" styleClass="substitute-name">
+            <i class="si si-single-neutral-actions table-icon" />
+          </h:outputText>
+        </a>
+      </p:column>
+      
+      <p:column headerText="Type" sortBy="#{substitute.typeTitle}">
+        <h:outputText value="#{substitute.typeTitle}">
+          <i class="si si-#{substitute.typeIcon} table-icon" />
+        </h:outputText>
+      </p:column>
+      
+      <p:column headerText="For" sortBy="#{substitute.memberTitle}">
+        <h:outputText value="#{substitute.memberTitle}">
+          <i class="si si-#{substitute.memberIcon} table-icon" />
+        </h:outputText>
+      </p:column>
+      
+      <p:column headerText="Role" sortBy="#{substitute.role}">
+        <a href="#{substitute.roleViewUrl}">
+          <h:outputText value="#{substitute.role}" styleClass="substitute-name" rendered="#{!substitute.role.blank}">
+            <i class="si si-#{substitute.memberIcon} table-icon" />
+          </h:outputText>
+        </a>
+      </p:column>
+    </p:dataTable>
+  </h:form>
+</div>
+
+</html>

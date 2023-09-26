@@ -39,6 +39,10 @@ public class Role implements SecurityMember{
 
   @Override
   public String getViewUrl() {
+    return getViewUrl(securityContext, name);
+  }
+
+  public static String getViewUrl(String securityContext, String name) {
     return UriBuilder.fromPath("roledetail.xhtml")
             .queryParam("system", securityContext)
             .queryParam("name", name)
