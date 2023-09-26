@@ -10,8 +10,8 @@
         <i class="p-pr-3 si si-beach-palm-sunbed"></i>
         <h6 class="p-m-0">Absences</h6>
       </div>
-      <div class="p-d-flex p-ai-center">
-        <h:outputLabel for="working" value="Working?" />
+      <div class="p-d-flex p-ai-center" title="#{userDetailBean.user.working ? 'User does not have an ongoing absence' : 'User has an ongoing absence'}">
+        <h:outputLabel for="working" value="Working" />
         <i id="working" class="p-pl-3 si si-#{userDetailBean.user.working ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
       </div>
     </div>
