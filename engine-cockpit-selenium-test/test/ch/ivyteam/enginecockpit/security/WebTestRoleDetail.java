@@ -7,6 +7,8 @@ import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.empty;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.exactText;
@@ -17,14 +19,18 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -33,6 +39,7 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestRoleDetail {
 
+  private static final String ROLE_USERS_TABLE = "usersOfRoleForm:roleUserTable";
   private static final String DETAIL_ROLE_NAME = "boss";
 
   @BeforeEach
@@ -152,8 +159,50 @@ class WebTestRoleDetail {
   }
 
   @Test
+  void userContentFilter() {
+    Navigation.toRoles();
+    Tab.SECURITY_SYSTEM.switchToDefault();
+    Navigation.toRoleDetail("Everybody");
+
+    var roleUsers = new Table(By.id(ROLE_USERS_TABLE), true);
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(2));
+    filterBtn().shouldHave(text("Filter: enabled users"));
+
+    filterTableFor("Show disabled users");
+    assertContentFilterText("Filter: disabled users");
+    roleUsers.firstColumnShouldBe(sizeLessThan(2));
+
+    resetFilter();
+    assertContentFilterText("Filter: enabled users");
+    roleUsers.firstColumnShouldBe(sizeGreaterThan(2));
+  }
+
+  private void filterTableFor(String filter) {
+    $(filterBtn()).shouldBe(visible).click();
+    filterCheckboxes().setCheckboxes(List.of(filter));
+    $(By.id(ROLE_USERS_TABLE + ":applyFilter")).shouldBe(visible).click();
+  }
+
+  private void resetFilter() {
+    $(filterBtn()).shouldBe(visible).click();
+    $(By.id(ROLE_USERS_TABLE + ":resetFilterBtn")).shouldBe(visible).click();
+  }
+
+  private void assertContentFilterText(String expectedFilter) {
+    $(filterBtn()).shouldHave(attribute("title", expectedFilter));
+  }
+
+  private SelenideElement filterBtn() {
+    return $(By.id(ROLE_USERS_TABLE + ":filterBtn"));
+  }
+
+  private SelectManyCheckbox filterCheckboxes() {
+    return PrimeUi.selectManyCheckbox(By.id(ROLE_USERS_TABLE + ":filterCheckboxes"));
+  }
+
+  @Test
   void addAndRemoveUser() {
-    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    var roleUsers = new Table(By.id(ROLE_USERS_TABLE), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
     addUserFoo();
@@ -173,7 +222,7 @@ class WebTestRoleDetail {
 
   @Test
   void addUserByFullname() {
-    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    var roleUsers = new Table(By.id(ROLE_USERS_TABLE), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
     addUser("Johnny Depp", "jon (Johnny Depp)");
@@ -182,7 +231,7 @@ class WebTestRoleDetail {
 
   @Test
   void addUserByEmail() {
-    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    var roleUsers = new Table(By.id(ROLE_USERS_TABLE), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
     addUser("jd@ivyteam.ch", "jon (Johnny Depp)");
@@ -205,7 +254,7 @@ class WebTestRoleDetail {
 
   @Test
   void inheritedUserFromSubRole() {
-    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    var roleUsers = new Table(By.id(ROLE_USERS_TABLE), true);
     removeUserIfExists();
     roleUsers.firstColumnShouldBe(empty);
 
@@ -225,7 +274,7 @@ class WebTestRoleDetail {
   @Test
   void inheritedUserFromRoleMember() {
     var roleMembers = new Table(By.id("membersOfRoleForm:roleMemberTable"), true);
-    var roleUsers = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    var roleUsers = new Table(By.id(ROLE_USERS_TABLE), true);
     removeUserIfExists();
     roleMembers.firstColumnShouldBe(empty);
     addRoleMember();
@@ -281,7 +330,7 @@ class WebTestRoleDetail {
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
 
-    new Table(By.id("usersOfRoleForm:roleUserTable"), true).firstColumnShouldBe(size(0));
+    new Table(By.id(ROLE_USERS_TABLE), true).firstColumnShouldBe(size(0));
     $("#roleInformationForm\\:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
     $("#roleInformationForm\\:saveRoleInformation").click();
 
@@ -306,7 +355,7 @@ class WebTestRoleDetail {
   }
 
   private void checkIfRoleIsExternal() {
-    Table usersOfRole = new Table(By.id("usersOfRoleForm:roleUserTable"), true);
+    Table usersOfRole = new Table(By.id(ROLE_USERS_TABLE), true);
     usersOfRole.firstColumnShouldBe(size(3));
     usersOfRole.buttonForEntryShouldBeDisabled("user1", "removeUserFromRoleBtn");
     usersOfRole.buttonForEntryShouldBeDisabled("user2", "removeUserFromRoleBtn");
