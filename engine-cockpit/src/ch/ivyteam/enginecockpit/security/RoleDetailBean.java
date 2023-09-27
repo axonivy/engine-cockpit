@@ -3,11 +3,14 @@ package ch.ivyteam.enginecockpit.security;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
 import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
@@ -96,6 +99,7 @@ public class RoleDetailBean {
     this.usersOfRole.setSecuritySystem(securitySystem);
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
+    this.usersOfRole.loadContentFilters(SecuritySystem.isIvySecuritySystem(securityContext));
     this.roleDataModel = new RoleDataModel(securitySystem, false);
     loadMembersOfRole();
     userCount = securityContext.users().query().where().hasRoleAssigned(iRole).executor().count();
