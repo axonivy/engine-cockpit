@@ -97,6 +97,7 @@ public class RoleDetailBean {
     this.usersOfRole.setSecuritySystem(securitySystem);
     this.usersOfRole.setFilterRole(getIRole());
     this.usersOfRole.setFilter("");
+    this.usersOfRole.loadContentFilters(SecuritySystem.isIvySecuritySystem(securityContext));
     this.roleDataModel = new RoleDataModel(securitySystem, false);
     loadMembersOfRole();
     userCount = securityContext.users().query().where().hasRoleAssigned(iRole).executor().count();
