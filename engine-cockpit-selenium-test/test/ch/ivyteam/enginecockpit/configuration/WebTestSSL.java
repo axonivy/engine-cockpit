@@ -70,21 +70,21 @@ class WebTestSSL {
   @Test
   void TrustStoreDropdowns() {
     var propertyProvider = PrimeUi.selectOne(By.id("sslClientform:trustStoreProvider"));
-    propertyProvider.selectItemByLabel("BC");
+    propertyProvider.selectItemByLabel("SUN");
 
     var propertyType = PrimeUi.selectOne(By.id("sslClientform:trustStoreType"));
-    propertyType.selectItemByLabel("FIPS");
+    propertyType.selectItemByLabel("DKS");
 
     var propertyAlgorithm = PrimeUi.selectOne(By.id("sslClientform:trustStoreAlgorithm"));
-    propertyAlgorithm.selectItemByLabel("SunX509");
+    propertyAlgorithm.selectItemByLabel("PKIX");
 
     saveTrustStore();
     successTrustStore();
     Navigation.toSSL();
 
-    $(By.id("sslClientform:trustStoreProvider")).shouldHave(text("BC"));
-    $(By.id("sslClientform:trustStoreType")).shouldHave(text("FIPS"));
-    $(By.id("sslClientform:trustStoreAlgorithm")).shouldHave(text("SunX509"));
+    $(By.id("sslClientform:trustStoreProvider")).shouldHave(text("SUN"));
+    $(By.id("sslClientform:trustStoreType")).shouldHave(text("DKS"));
+    $(By.id("sslClientform:trustStoreAlgorithm")).shouldHave(text("PKIX"));
   }
 
   @Test
@@ -118,10 +118,10 @@ class WebTestSSL {
     PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
 
     var propertyProvider = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreProvider"));
-    propertyProvider.selectItemByLabel("BC");
+    propertyProvider.selectItemByLabel("SUN");
 
     var propertyType = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreType"));
-    propertyType.selectItemByLabel("BKS");
+    propertyType.selectItemByLabel("DKS");
 
     var propertyAlgorithm = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreAlgorithm"));
     propertyAlgorithm.selectItemByLabel("SunX509");
@@ -130,8 +130,8 @@ class WebTestSSL {
     successKeyStore();
     Navigation.toSSL();
 
-    $(By.id("sslClientformKey:keyStoreProvider")).shouldHave(text("BC"));
-    $(By.id("sslClientformKey:keyStoreType")).shouldHave(text("BKS"));
+    $(By.id("sslClientformKey:keyStoreProvider")).shouldHave(text("SUN"));
+    $(By.id("sslClientformKey:keyStoreType")).shouldHave(text("DKS"));
     $(By.id("sslClientformKey:keyStoreAlgorithm")).shouldHave(text("SunX509"));
   }
 
