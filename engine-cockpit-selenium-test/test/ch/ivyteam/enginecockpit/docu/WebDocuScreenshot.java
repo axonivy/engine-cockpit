@@ -43,7 +43,7 @@ public class WebDocuScreenshot {
 
   @BeforeAll
   static void setup() {
-	EngineCockpitUtil.createBlob();
+    EngineCockpitUtil.createBlob();
     EngineCockpitUtil.populateBusinessCalendar();
     EngineCockpitUtil.runExternalDbQuery();
     EngineCockpitUtil.createBusinessData();
