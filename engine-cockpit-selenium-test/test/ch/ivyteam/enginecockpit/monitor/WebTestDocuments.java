@@ -25,7 +25,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-class WebTestBlob {
+class WebTestDocuments {
 
   private static final long TIMEOUT = Duration.ofMinutes(1).toMillis();
 
