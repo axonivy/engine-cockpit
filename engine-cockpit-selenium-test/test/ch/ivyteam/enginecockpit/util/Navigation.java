@@ -53,7 +53,7 @@ public class Navigation {
   private static final String MONITOR_JAVA_JFR = "#menuform\\:sr_monitor_java_jfr";
   private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_java_mbeans";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
-  private static final String MONITOR_ENGINE_BLOBS_MENU = "#menuform\\:sr_monitor_engine_blobs";
+  private static final String MONITOR_ENGINE_DOCUMENTS_MENU = "#menuform\\:sr_monitor_engine_documents";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
   private static final String MONITOR_ENGINE_NOTIFICATION_MENU = "#menuform\\:sr_monitor_engine_notification";
   private static final String MONITOR_ENGINE_START_EVENTS_MENU = "#menuform\\:sr_monitor_engine_start_events";
@@ -237,10 +237,10 @@ public class Navigation {
     menuShouldBeActive(SERVICES_DATABASES_MENU);
   }
 
-  public static void toBlobs() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_BLOBS_MENU);
-    assertCurrentUrlContains("blobs.xhtml");
-    menuShouldBeActive(MONITOR_ENGINE_BLOBS_MENU);
+  public static void toDocuments() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_DOCUMENTS_MENU);
+    assertCurrentUrlContains("documents.xhtml");
+    menuShouldBeActive(MONITOR_ENGINE_DOCUMENTS_MENU);
   }
 
   public static void toDatabaseDetail(String databaseName) {
