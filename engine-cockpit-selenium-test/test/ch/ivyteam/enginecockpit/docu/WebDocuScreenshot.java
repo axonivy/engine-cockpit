@@ -109,8 +109,8 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-jfr", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toSessions();
     takeScreenshot("monitor-sessions", new Dimension(SCREENSHOT_WIDTH, 1000));
-    Navigation.toFiles();
-    takeScreenshot("monitor-files", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toDocuments();
+    takeScreenshot("monitor-documents", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toStartEvents();
     takeScreenshot("monitor-start-events", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toIntermediateEvents();

@@ -39,7 +39,7 @@ class WebTestBlob {
     EngineCockpitUtil.createBlob();
 
     openDashboard();
-    Navigation.toFiles();
+    Navigation.toDocuments();
     Tab.SECURITY_SYSTEM.switchToDefault();
   }
 
