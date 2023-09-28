@@ -23,6 +23,7 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
+
 import ch.ivyteam.enginecockpit.monitor.WebTestMBeans;
 import ch.ivyteam.enginecockpit.monitor.WebTestProcessExecution;
 import ch.ivyteam.enginecockpit.monitor.WebTestSlowRequests;
@@ -42,6 +43,7 @@ public class WebDocuScreenshot {
 
   @BeforeAll
   static void setup() {
+	EngineCockpitUtil.createBlob();
     EngineCockpitUtil.populateBusinessCalendar();
     EngineCockpitUtil.runExternalDbQuery();
     EngineCockpitUtil.createBusinessData();
@@ -107,6 +109,8 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-jfr", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toSessions();
     takeScreenshot("monitor-sessions", new Dimension(SCREENSHOT_WIDTH, 1000));
+    Navigation.toFiles();
+    takeScreenshot("monitor-files", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toStartEvents();
     takeScreenshot("monitor-start-events", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toIntermediateEvents();
