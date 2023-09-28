@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
+import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
@@ -52,18 +54,6 @@ class WebTestSSL {
     propertyPassword.clear();
     propertyPassword.sendKeys("Password");
 
-    var propertyProvider = $(By.id("sslClientform:trustStoreProvider"));
-    propertyProvider.clear();
-    propertyProvider.sendKeys("Provider");
-
-    var propertyType = $(By.id("sslClientform:trustStoreType"));
-    propertyType.clear();
-    propertyType.sendKeys("Type");
-
-    var propertyAlgorithim = $(By.id("sslClientform:trustStoreAlgorithim"));
-    propertyAlgorithim.clear();
-    propertyAlgorithim.sendKeys("Algorithim");
-
     var propertyManagerClass = $(By.id("sslClientform:trustManagerClass"));
     propertyManagerClass.clear();
     propertyManagerClass.sendKeys("ManagerClass");
@@ -74,14 +64,33 @@ class WebTestSSL {
 
     propertyFile.shouldHave(exactValue("File"));
     propertyPassword.shouldNotHave(exactValue("Password"));
-    propertyProvider.shouldHave(exactValue("Provider"));
-    propertyType.shouldHave(exactValue("Type"));
-    propertyAlgorithim.shouldHave(exactValue("Algorithim"));
     propertyManagerClass.shouldHave(exactValue("ManagerClass"));
+
+  }
+  @Test
+  void TrustStoreDropdowns() {
+    var propertyProvider = PrimeUi.selectOne(By.id("sslClientform:trustStoreProvider"));
+    propertyProvider.selectItemByLabel("SUN");
+
+    var propertyType = PrimeUi.selectOne(By.id("sslClientform:trustStoreType"));
+    propertyType.selectItemByLabel("DKS");
+
+    var propertyAlgorithm = PrimeUi.selectOne(By.id("sslClientform:trustStoreAlgorithm"));
+    propertyAlgorithm.selectItemByLabel("PKIX");
+
+    saveTrustStore();
+    successTrustStore();
+    Navigation.toSSL();
+
+    $(By.id("sslClientform:trustStoreProvider")).shouldHave(text("SUN"));
+    $(By.id("sslClientform:trustStoreType")).shouldHave(text("DKS"));
+    $(By.id("sslClientform:trustStoreAlgorithm")).shouldHave(text("PKIX"));
   }
 
   @Test
   void KeyStoreInputFields() {
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
+
     var propertyFile = $(By.id("sslClientformKey:keyStoreFile"));
     propertyFile.clear();
     propertyFile.sendKeys("File");
@@ -94,18 +103,6 @@ class WebTestSSL {
     propertyPassword.clear();
     propertyPassword.sendKeys("Password");
 
-    var propertyProvider = $(By.id("sslClientformKey:keyStoreProvider"));
-    propertyProvider.clear();
-    propertyProvider.sendKeys("Provider");
-
-    var propertyType = $(By.id("sslClientformKey:keyStoreType"));
-    propertyType.clear();
-    propertyType.sendKeys("Type");
-
-    var propertyAlgorithim = $(By.id("sslClientformKey:keyStoreAlgorithim"));
-    propertyAlgorithim.clear();
-    propertyAlgorithim.sendKeys("Algorithim");
-
     saveKeyStore();
     successKeyStore();
     Navigation.toSSL();
@@ -113,9 +110,41 @@ class WebTestSSL {
     propertyFile.shouldHave(exactValue("File"));
     propertyStorePassword.shouldNotHave(exactValue("StorePassword"));
     propertyPassword.shouldNotHave(exactValue("Password"));
-    propertyProvider.shouldHave(exactValue("Provider"));
-    propertyType.shouldHave(exactValue("Type"));
-    propertyAlgorithim.shouldHave(exactValue("Algorithim"));
+
+  }
+
+  @Test
+  void keyStoreDropdowns() {
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
+
+    var propertyProvider = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreProvider"));
+    propertyProvider.selectItemByLabel("SUN");
+
+    var propertyType = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreType"));
+    propertyType.selectItemByLabel("DKS");
+
+    var propertyAlgorithm = PrimeUi.selectOne(By.id("sslClientformKey:keyStoreAlgorithm"));
+    propertyAlgorithm.selectItemByLabel("SunX509");
+
+    saveKeyStore();
+    successKeyStore();
+    Navigation.toSSL();
+
+    $(By.id("sslClientformKey:keyStoreProvider")).shouldHave(text("SUN"));
+    $(By.id("sslClientformKey:keyStoreType")).shouldHave(text("DKS"));
+    $(By.id("sslClientformKey:keyStoreAlgorithm")).shouldHave(text("SunX509"));
+  }
+
+  @Test
+  void useCustomKeyStore() {
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore"))
+    .shouldBeChecked(false);
+    $(By.id("sslClientformKey:keyStoreFile")).shouldHave(cssClass("ui-state-disabled"));
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore"))
+    .shouldBeChecked(true);
+    $(By.id("sslClientformKey:keyStoreFile")).shouldNotHave(cssClass("ui-state-disabled"));
+
   }
 
   private void saveTrustStore() {
