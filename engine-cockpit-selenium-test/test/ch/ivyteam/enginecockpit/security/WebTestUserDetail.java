@@ -17,6 +17,7 @@ import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
@@ -312,7 +313,7 @@ class WebTestUserDetail {
 
     $(By.id("working")).shouldHave(cssClass("si-remove-circle"));
 
-    LocalDate currentDate = LocalDate.now();
+    LocalDate currentDate = LocalDate.now(ZoneId.of("Europe/Zurich"));
 
     Table table = new Table(By.id("absencesForm:absencesTable"));
     table.firstColumnShouldBe(size(3));
