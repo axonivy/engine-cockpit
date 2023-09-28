@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
+import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.api.API;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
@@ -40,8 +39,8 @@ public class IdentityProviderBean {
     identityProvider = securityContext.identityProviders().get(0);
     var configurator = identityProvider.configurator();
     var properties = new IdentityProviderConfigMetadataProvider(configurator).get().entrySet().stream()
-            .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
-            .collect(Collectors.toList());
+      .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
+      .collect(Collectors.toList());
     this.propertyGroups = ConfigPropertyGroup.toGroups(properties);
     this.browserBean = new DirectoryBrowserBean();
   }
@@ -78,10 +77,23 @@ public class IdentityProviderBean {
     return new ConfigProperty(config, key, value, keyValue, metadata);
   }
 
+  @SuppressWarnings("restriction")
   public void save(ConfigPropertyGroup group) {
     var cfg = ((SecurityContext) securityContext).config();
+    var gKey = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create(group.getName());
     for (var p : group.getProperties()) {
-      cfg.identity().setProperty(p.getName(), p.getValue());
+      var shortKey = StringUtils.substringAfter(p.getName(), group.getName()+".");
+      var pKey = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create(p.getName());
+      if (!shortKey.isBlank()) {
+        pKey = gKey.append(shortKey);
+      }
+      int separator = shortKey.indexOf('.');
+      if (separator != -1) {
+        var before = shortKey.substring(0, separator);
+        var next = shortKey.substring(separator+1);
+        pKey = gKey.append(before).append(next);
+      }
+      cfg.identity().setProperty(pKey, p.getValue());
     }
     message();
   }
