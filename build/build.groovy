@@ -32,7 +32,7 @@ def buildIntegration(def mvnArgs = '') {
 
 def build() {
   docker.build('maven', '-f build/Dockerfile .').inside("") {
-    mvnBuild("-Pcockpit ");
+    mvnBuild("-Pcockpit -Dengine.page.url=${params.engineSource}");
   }
 }
 
