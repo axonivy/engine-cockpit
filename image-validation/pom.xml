@@ -67,6 +67,7 @@
                     </includes>
                     <excludes>
                       <exclude>**/engine-cockpit-monitor-performance.png</exclude>
+                      <exclude>**/engine-cockpit-monitor-documents.png</exclude>
                       <exclude>**/engine-cockpit-monitor-slow-requests.png</exclude>
                       <exclude>**/engine-cockpit-monitor-system-overview.png</exclude>
                     </excludes>
