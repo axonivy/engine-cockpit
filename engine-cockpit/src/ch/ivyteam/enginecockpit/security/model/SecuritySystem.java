@@ -5,12 +5,10 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.apache.commons.io.IOUtils;
-
-import ch.ivyteam.enginecockpit.security.system.SecuritySystemConfig;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.security.ISecurityConstants;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.identity.jndi.ads.MicrosoftActiveDirectoryIdentityProvider;
 import ch.ivyteam.ivy.security.identity.jndi.nds.NovellEDirectoryIdentityProvider;
@@ -121,6 +119,6 @@ public class SecuritySystem {
 
   @SuppressWarnings("removal")
   public static boolean isIvySecuritySystem(ISecurityContext securityContext) {
-    return SecuritySystemConfig.IVY_SECURITY_SYSTEM.equals(securityContext.getExternalSecuritySystemName());
+    return ISecurityConstants.IVY_ENGINE_SECURITY_SYSTEM_PROVIDER_NAME.equals(securityContext.getExternalSecuritySystemName());
   }
 }
