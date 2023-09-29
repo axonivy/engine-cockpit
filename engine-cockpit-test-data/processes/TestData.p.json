@@ -686,20 +686,9 @@
             "",
             "IUserRepository users = ISecurityContextRepository.instance().get(\"default\").users();",
             "",
-            "Duration oneDay = new Duration(\"1D\");",
-            "Duration oneWeek = new Duration(\"7D\");",
-            "",
-            "Date currentDate = new Date();",
-            "",
-            "Date oneWeekAgo = currentDate.minus(oneWeek);",
-            "Date oneDayAgo = currentDate.minus(oneDay);",
-            "Date oneDayAhead = currentDate.add(oneDay);",
-            "Date oneWeekAhead = currentDate.add(oneWeek);",
-            "",
             "IUser user = users.find(\"foo\");",
-            "user.createAbsence(oneWeekAgo, oneDayAgo, \"\");",
-            "user.createAbsence(oneDayAgo, oneDayAhead, \"\");",
-            "user.createAbsence(oneDayAhead, oneWeekAhead, \"\");"
+            "user.createAbsence(new Date(1999, 12, 20), new Date(1999, 12, 21), \"\");",
+            "user.createAbsence(new Date(2000, 01, 01), new Date(3000, 01, 01), \"\");"
           ]
         },
         "sudo" : true
