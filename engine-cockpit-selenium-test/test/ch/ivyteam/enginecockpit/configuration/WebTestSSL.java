@@ -114,6 +114,22 @@ class WebTestSSL {
   }
 
   @Test
+  void enableInsecureSSL() {
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientform:enableInsecureSSL"))
+    .shouldBeChecked(false);
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientform:enableInsecureSSL")).setChecked();
+
+    saveTrustStore();
+    successTrustStore();
+    Navigation.toSSL();
+
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientform:enableInsecureSSL"))
+    .shouldBeChecked(true);
+    PrimeUi.selectBooleanCheckbox(By.id("sslClientform:enableInsecureSSL")).removeChecked();
+    saveTrustStore();
+  }
+
+  @Test
   void keyStoreDropdowns() {
     PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
 

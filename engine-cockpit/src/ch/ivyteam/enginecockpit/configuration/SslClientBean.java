@@ -24,7 +24,6 @@ public class SslClientBean {
     String STORE = "KeyStore";
   }
 
-
   private boolean useCustomKeyStore;
   private String trustStoreFile;
   private String trustStorePassword;
@@ -38,7 +37,7 @@ public class SslClientBean {
   private String keyStoreProvider;
   private String keyStoreType;
   private String keyStoreAlgorithm;
-  private String EnableInsecureSSL;
+  private String enableInsecureSSL;
   private SslClientConfig config = new SslClientConfig();
 
   public SslClientBean() {
@@ -54,7 +53,7 @@ public class SslClientBean {
     this.keyStoreProvider = config.getKeyStoreProvider();
     this.keyStoreType = config.getKeyStoreType();
     this.keyStoreAlgorithm = config.getKeyStoreAlgorithm();
-    this.EnableInsecureSSL = config.getEnableInsecureSSL();
+    this.enableInsecureSSL = config.getEnableInsecureSSL();
   }
 
   public String getTrustStoreFile() {
@@ -72,7 +71,7 @@ public class SslClientBean {
     config.setTrustStoreType(trustStoreType);
     config.setTrustStoreAlgorithm(trustStoreAlgorithm);
     config.setTrustManagerClass(trustManagerClass);
-    config.setEnableInsecureSSL(EnableInsecureSSL);
+    config.setEnableInsecureSSL(enableInsecureSSL);
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
             new FacesMessage("Trust Store configurations saved"));
   }
@@ -213,11 +212,11 @@ public class SslClientBean {
   }
 
   public String getEnableInsecureSSL() {
-    return EnableInsecureSSL;
+    return enableInsecureSSL;
   }
 
   public void setEnableInsecureSSL(String EnableInsecureSSL) {
-    this.EnableInsecureSSL = EnableInsecureSSL;
+    this.enableInsecureSSL = EnableInsecureSSL;
   }
 
   @SuppressWarnings("restriction")
