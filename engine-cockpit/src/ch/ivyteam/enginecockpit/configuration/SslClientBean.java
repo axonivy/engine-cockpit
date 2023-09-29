@@ -1,6 +1,10 @@
 package ch.ivyteam.enginecockpit.configuration;
 
+import java.io.IOException;
 import java.security.Security;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,12 +13,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.event.FileUploadEvent;
 
 @ManagedBean
 @ViewScoped
 public class SslClientBean {
 
   private interface Key {
+
     String STORE = "KeyStore";
   }
 
@@ -80,11 +86,11 @@ public class SslClientBean {
 
   public boolean isUseCustomKeyStore() {
     return useCustomKeyStore;
-}
+  }
 
   public void setUseCustomKeyStore(boolean useCustomKeyStore) {
     this.useCustomKeyStore = useCustomKeyStore;
-}
+  }
 
   public String getTrustStorePassword() {
     return trustStorePassword;
@@ -200,6 +206,16 @@ public class SslClientBean {
 
   public List<String> getKeyStoreAlgorithms() {
     return getAlgorithms("KeyManagerFactory");
+  }
+
+  @SuppressWarnings("restriction")
+  public Certificate handleUploadCert(FileUploadEvent event) throws CertificateException, IOException, Exception {
+    var certFactory = CertificateFactory.getInstance("X509");
+    Certificate certFile = certFactory.generateCertificate(event.getFile().getInputStream());
+    var store = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile,trustStoreType, trustStoreProvider,trustStorePassword.toCharArray());
+    store.addCert(certFile)
+         .store(trustStoreFile, trustStorePassword.toCharArray());
+    return certFile;
   }
 
   private List<String> getTypes(String selectedProvider) {

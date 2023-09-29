@@ -18,7 +18,7 @@
         <i class="p-pr-3 si si-information-circle"></i>
         <h6 class="p-m-0">Trust Store configurations</h6>
         <p:commandButton title="Save" icon="si si-floppy-disk" id="save"
-          styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button" 
+          styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button"
           actionListener="#{sslClientBean.saveTrustStore}" />
       </div>
     </div>
@@ -28,8 +28,13 @@
       layout="flex" styleClass="grey-label-panel ui-fluid">
 
       <label>TrustStoreFile</label>
+      <h:panelGroup>
       <p:inputText id="trustStoreFile"
-        value="#{sslClientBean.trustStoreFile}" />
+        value="#{sslClientBean.trustStoreFile}" style="width: 65%;"/>
+      <p:fileUpload mode="simple" skinSimple="true" multiple="false"
+        auto="true" label="Add certificate"
+        listener="#{sslClientBean.handleUploadCert}" style="width: 35%;"/>
+      </h:panelGroup>
 
       <label>TrustStorePassword</label>
       <p:password id="trustStorePassword"
@@ -38,10 +43,10 @@
       <label>TrustStoreProvider</label>
       <p:selectOneMenu id="trustStoreProvider"
         value="#{sslClientBean.trustStoreProvider}">
-        <p:ajax update="sslClientform:trustStoreType"></p:ajax> 
+        <p:ajax update="sslClientform:trustStoreType"></p:ajax>
         <f:selectItems value="#{sslClientBean.trustStoreProviders}" />
       </p:selectOneMenu>
-      
+
       <label>TrustStoreType</label>
       <p:selectOneMenu id="trustStoreType"
         value="#{sslClientBean.trustStoreType}">
