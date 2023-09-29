@@ -16,6 +16,7 @@ public class SslClientConfig {
     ConfigKey TYPE = TRUST.append("Type");
     ConfigKey ALGORITHM = TRUST.append("Algorithm");
     ConfigKey MANAGERCLASS = TRUST.append("ManagerClass");
+    ConfigKey ENABLE_INSECURE_SSL = TRUST.append("EnableInsecureSSL");
 
     ConfigKey Key = CLIENT.append("KeyStore");
     ConfigKey KEY_FILE = Key.append("File");
@@ -130,5 +131,13 @@ public class SslClientConfig {
 
   public void setKeyStoreAlgorithm(String keyStoreAlgorithm) {
     config.set(Key.KEY_ALGORITHM, keyStoreAlgorithm);
+  }
+
+  public String getEnableInsecureSSL() {
+    return config.getOrDefault(Key.ENABLE_INSECURE_SSL);
+  }
+
+  public void setEnableInsecureSSL(String EnableInsecureSSL) {
+    config.set(Key.ENABLE_INSECURE_SSL, EnableInsecureSSL);
   }
 }

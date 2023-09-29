@@ -10,8 +10,9 @@
 
 <div class="card">
   <h:form id="sslClientform">
-  <p:growl id="sslTruststoreSaveSuccess" for="sslTruststoreSaveSuccess">
-    <p:autoUpdate />
+    <p:growl id="sslTruststoreSaveSuccess"
+      for="sslTruststoreSaveSuccess">
+      <p:autoUpdate />
     </p:growl>
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
@@ -64,6 +65,9 @@
         value="#{sslClientBean.trustManagerClass}" />
 
     </p:panelGrid>
+    <p:selectBooleanCheckbox id="enableInsecureSSL"
+      value="#{sslClientBean.enableInsecureSSL}"
+      itemLabel="Enable insecure SSL and HTTPS connections" />
   </h:form>
 </div>
 
