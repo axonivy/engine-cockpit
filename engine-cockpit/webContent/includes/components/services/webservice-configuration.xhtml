@@ -20,10 +20,10 @@
           <p:commandButton value="Cancel" onclick="PF('resetWsConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
           <p:commandButton id="resetWsConfirmYesBtn" value="Reset" actionListener="#{webserviceDetailBean.resetConfig}"
-            icon="si si-undo" update="@form, webservcieAdditionalConfigForm" styleClass="modal-input-button" />
+            icon="si si-undo" update="@form, webservcieAdditionalConfigForm, webservcieEndPointForm" styleClass="modal-input-button" />
         </p:confirmDialog>
         <p:commandButton id="saveWsConfig" actionListener="#{webserviceDetailBean.saveConfig}" title="Save changes"
-          icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" update="@form, webservcieAdditionalConfigForm" />
+          icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" update="@form, webservcieAdditionalConfigForm, webservcieEndPointForm" />
       </div>
     </div>
     
