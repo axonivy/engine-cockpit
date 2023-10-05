@@ -56,7 +56,7 @@
       <div class="custom-dialog-footer">
         <p:commandButton id="cancelEndpoint" onclick="PF('editEndpointModal').hide();" value="Cancel" type="button"
           styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-        <p:commandButton id="saveEndpoint" update="@form" onsuccess="PF('editEndpointModal').hide()" validateClient="true"
+        <p:commandButton id="saveEndpoint" update="@form webservcieEndPointForm" onsuccess="PF('editEndpointModal').hide()" validateClient="true"
           actionListener="#{webserviceDetailBean.savePortType}" value="Save" icon="si si-floppy-disk"
           process="@form" styleClass="modal-input-button" />
       </div>
