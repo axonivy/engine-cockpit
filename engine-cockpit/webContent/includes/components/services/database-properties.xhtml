@@ -58,7 +58,7 @@
       </h:panelGroup>
     </p:panelGrid>
     <div class="custom-dialog-footer">
-      <p:commandButton id="saveProperty" validateClient="true" ajax="false" update="databasePropertiesForm"
+      <p:commandButton id="saveProperty" validateClient="true" onsuccess="PF('propertyModal').hide()" update="databasePropertiesForm"
         actionListener="#{databaseDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
         styleClass="modal-input-button" />
       <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
