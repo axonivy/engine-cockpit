@@ -3,7 +3,6 @@ package ch.ivyteam.enginecockpit.fileupload;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
-import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -18,6 +17,7 @@ import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
@@ -26,7 +26,8 @@ import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-public class WebTestDeployment {
+class WebTestDeployment {
+
   private static final String APP = isDesigner() ? DESIGNER : "test-ad";
 
   @BeforeEach
@@ -42,28 +43,23 @@ public class WebTestDeployment {
   }
 
   @Test
-  void invalidFileEnding() throws IOException {
+  void invalidFileEnding(@TempDir Path tempDir) throws IOException {
     toAppDetailAndOpenDeployment();
-    Path createTempFile = Files.createTempFile("app", ".txt");
-    $("#fileInput").sendKeys(createTempFile.toString());
+    var tempFile = tempDir.resolve("app.txt");
+    Files.createFile(tempFile);
+    $("#fileInput").sendKeys(tempFile.toString());
     $("#deploymentModal\\:uploadBtn").click();
     $("#deploymentModal\\:uploadError").shouldBe(text("Choose a valid file before upload"));
   }
 
   @Test
-  void invalidAppAndBack() throws IOException {
+  void emptyApp(@TempDir Path tempDir) throws IOException {
     toAppDetailAndOpenDeployment();
-    deployPath(Files.createTempFile("app", ".iar"));
-    if (isDesigner()) {
-      $("#uploadLog").shouldHave(text("404"));
-    } else {
-      $("#uploadLog").shouldHave(text("Deployment failed: No ivy projects found in deployment artifact.."));
-    }
-
-    $("#deploymentModal\\:backBtn").click();
-    $("#fileUploadForm").shouldBe(visible);
-    $("#uploadLog").shouldNotBe(visible);
-    $("#deploymentModal\\:uploadBtn > .ui-icon").shouldNotHave(cssClass("si-is-spinning"));
+    var tempFile = tempDir.resolve("app.iar");
+    Files.createFile(tempFile);
+    deployPath(tempFile);
+    $("#uploadStatus").shouldHave(text("Success"));
+    $("#uploadLog").shouldHave(text("No projects to deploy"), text("successful deployed to application"));
   }
 
   @Test
@@ -166,5 +162,4 @@ public class WebTestDeployment {
     $("#deploymentModal\\:uploadError").shouldBe(empty);
     $("#deploymentModal\\:fileUploadModal_title").shouldHave(text(APP));
   }
-
 }
