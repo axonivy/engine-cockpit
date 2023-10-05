@@ -100,15 +100,12 @@ class WebTestWebserviceDetail {
   @Test
   void wsEndpointTestConnection() {
     setEndPoint("http://test-webservices.ivyteam.io:8080/notfound");
-    Selenide.refresh();
     testAndAssertConnection("Status 404");
 
     setEndPoint("http://test-webservices.ivyteam.io:91");
-    Selenide.refresh();
     testAndAssertConnection("Status 401");
 
     setConfiguration("admin", "nimda");
-    Selenide.refresh();
     testAndAssertConnection("Status 200");
 
     resetConfiguration();
@@ -138,11 +135,14 @@ class WebTestWebserviceDetail {
   @Test
   void setAndResetEndpoints() {
     setEndPoint("default", "first", "second");
+    checkEndPoint("default", "first", "second");
+    checkEndPointDoesNotContain("localhost", "localhost/test");
+
     Selenide.refresh();
     checkEndPoint("default", "first", "second");
     checkEndPointDoesNotContain("localhost", "localhost/test");
-    resetConfiguration();
-    Selenide.refresh();
+
+    resetConfiguration();    
     checkEndPoint("localhost", "localhost/test");
     checkEndPointDoesNotContain("default", "first", "second");
   }
@@ -150,11 +150,14 @@ class WebTestWebserviceDetail {
   @Test
   void setAndResetEndpoints_noFallbacks() {
     setEndPoint("default");
+    checkEndPoint("default");
+    checkEndPointDoesNotContain("localhost", "localhost/test");
+
     Selenide.refresh();
     checkEndPoint("default");
     checkEndPointDoesNotContain("localhost", "localhost/test");
+
     resetConfiguration();
-    Selenide.refresh();
     checkEndPoint("localhost", "localhost/test");
     checkEndPointDoesNotContain("default");
   }
