@@ -32,35 +32,38 @@
       <h:panelGroup>
         <p:inputText id="trustStoreFile"
           value="#{sslClientBean.trustStoreFile}" style="width: 65%;" />
-        <p:fileUpload mode="simple" skinSimple="true" multiple="false"
+        <p:fileUpload id="trustCertUpload" mode="simple" skinSimple="true" multiple="false"
           auto="true" label="Add certificate"
           listener="#{sslClientBean.handleUploadCert}"
-          style="width: 35%;" />
+          style="width: 35%;" 
+          update="sslClientform:trustStoreCertificates"/>
 
       </h:panelGroup>
 
         <label>TrustStoreCertificates</label>
-        <p:dataTable var="x509" value="#{sslClientBean.storedCerts}">
-        <p:column headerText="Expired">
-            <p:selectBooleanCheckbox value="#{x509.expired}" disabled="true"/>
+        <p:dataTable var="x509" value="#{sslClientBean.storedCerts}" id="trustStoreCertificates">
+        
+        <p:column headerText="Valid">
+            <p:selectBooleanCheckbox value="
+            #{x509.expired}" disabled="true" id="valid"/>
           </p:column>
         
           <p:column headerText="Name">
-            <h:outputText value="#{x509.alias}" />
+            <h:outputText value="#{x509.alias}" id="name"/>
           </p:column>
 
           <p:column headerText="Algorithm">
             <h:outputText
-              value="#{x509.cert.getPublicKey().getAlgorithm()}" />
+              value="#{x509.cert.getPublicKey().getAlgorithm()}" id="algorithm"/>
           </p:column>
 
           <p:column headerText="Expiry date">
-            <h:outputText value="#{x509.cert.notAfter}" />
+            <h:outputText value="#{x509.cert.notAfter}" id="expiryDate"/>
           </p:column>
         </p:dataTable>
       
       <label>TrustStorePassword</label>
-      <p:password id="trustStorePassword"
+      <p:inputText id="trustStorePassword"
         value="#{sslClientBean.trustStorePassword}" />
         
       <label>TrustStoreProvider</label>

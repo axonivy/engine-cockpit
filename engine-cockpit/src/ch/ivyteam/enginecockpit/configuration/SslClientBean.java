@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
@@ -22,15 +23,18 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.log.Logger;
+
 @ManagedBean
 @ViewScoped
 public class SslClientBean {
+
+  private static final Logger LOGGER = Logger.getLogger(SslClientBean.class);
 
   private interface Key {
 
     String STORE = "KeyStore";
   }
-
   private boolean useCustomKeyStore;
   private String trustStoreFile;
   private String trustStorePassword;
@@ -228,14 +232,14 @@ public class SslClientBean {
 
   @SuppressWarnings("restriction")
   public List<StoredCert> getStoredCerts() throws KeyStoreException {
-    var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile, trustStoreType,
-            trustStoreProvider, trustStorePassword.toCharArray());
-
-    List<String> list = Collections.list(tmpKS.getKeyStore().aliases());
+    var tmpKS = loadTrustStore();
+    if (tmpKS.isEmpty()) {
+      return List.of();
+    }
+    List<String> list = Collections.list(tmpKS.get().getKeyStore().aliases());
     List<StoredCert> certificates = new ArrayList<>();
-
     for (String alias : list) {
-      Certificate cert = tmpKS.getKeyStore().getCertificate(alias);
+      Certificate cert = tmpKS.get().getKeyStore().getCertificate(alias);
       if (cert instanceof X509Certificate) {
         var x509 = (X509Certificate) cert;
         certificates.add(new StoredCert(alias, x509));
@@ -244,8 +248,20 @@ public class SslClientBean {
     return certificates;
   }
 
-  public record StoredCert(String alias, X509Certificate cert)
-  {
+  @SuppressWarnings("restriction")
+  private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> loadTrustStore() {
+    try {
+      var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile, trustStoreType,
+              trustStoreProvider, trustStorePassword.toCharArray());
+      return Optional.of(tmpKS);
+    } catch (Exception ex) {
+      LOGGER.error("failed to load keystore " + trustStoreFile, ex);
+      return Optional.empty();
+    }
+  }
+
+  public record StoredCert(String alias, X509Certificate cert) {
+
     public String getAlias() {
       return alias;
     }
@@ -256,16 +272,18 @@ public class SslClientBean {
 
     public boolean isExpired() {
       return cert != null && !cert.getNotAfter().before(new Date());
-  }
+    }
   }
 
   @SuppressWarnings("restriction")
-  public Certificate handleUploadCert(FileUploadEvent event) throws CertificateException, IOException, Exception {
+  public Certificate handleUploadCert(FileUploadEvent event)
+          throws CertificateException, IOException, Exception {
     var certFactory = CertificateFactory.getInstance("X509");
     Certificate certFile = certFactory.generateCertificate(event.getFile().getInputStream());
-    var store = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile,trustStoreType, trustStoreProvider,trustStorePassword.toCharArray());
+    var store = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile, trustStoreType,
+            trustStoreProvider, trustStorePassword.toCharArray());
     store.addCert(certFile)
-         .store(trustStoreFile, trustStorePassword.toCharArray());
+            .store(trustStoreFile, trustStorePassword.toCharArray());
     return certFile;
   }
 
