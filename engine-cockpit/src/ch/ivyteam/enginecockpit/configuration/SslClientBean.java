@@ -1,17 +1,24 @@
 package ch.ivyteam.enginecockpit.configuration;
 
 import java.io.IOException;
+import java.security.KeyStoreException;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 
@@ -217,6 +224,39 @@ public class SslClientBean {
 
   public void setEnableInsecureSSL(String EnableInsecureSSL) {
     this.enableInsecureSSL = EnableInsecureSSL;
+  }
+
+  @SuppressWarnings("restriction")
+  public List<StoredCert> getStoredCerts() throws KeyStoreException {
+    var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile, trustStoreType,
+            trustStoreProvider, trustStorePassword.toCharArray());
+
+    List<String> list = Collections.list(tmpKS.getKeyStore().aliases());
+    List<StoredCert> certificates = new ArrayList<>();
+
+    for (String alias : list) {
+      Certificate cert = tmpKS.getKeyStore().getCertificate(alias);
+      if (cert instanceof X509Certificate) {
+        var x509 = (X509Certificate) cert;
+        certificates.add(new StoredCert(alias, x509));
+      }
+    }
+    return certificates;
+  }
+
+  public record StoredCert(String alias, X509Certificate cert)
+  {
+    public String getAlias() {
+      return alias;
+    }
+
+    public X509Certificate getCert() {
+      return cert;
+    }
+
+    public boolean isExpired() {
+      return cert != null && !cert.getNotAfter().before(new Date());
+  }
   }
 
   @SuppressWarnings("restriction")
