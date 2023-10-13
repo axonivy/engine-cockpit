@@ -98,8 +98,8 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
 
     database = new DatabaseDto(db);
     var externalDb = IExternalDatabaseManager.instance()
-    		.getExternalDatabaseApplicationContext(app)
-    		.getExternalDatabase(db.name());
+            .getExternalDatabaseApplicationContext(app)
+            .getExternalDatabase(db.name());
     history = externalDb.getExecutionHistory().stream()
             .map(ExecStatement::new)
             .collect(Collectors.toList());
