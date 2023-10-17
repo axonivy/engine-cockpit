@@ -28,7 +28,7 @@
       columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
       layout="flex" styleClass="grey-label-panel ui-fluid">
 
-      <label>TrustStoreFile</label>
+      <label>File</label>
       <h:panelGroup>
         <p:inputText id="trustStoreFile"
           value="#{sslClientBean.trustStoreFile}" style="width: 65%;" />
@@ -40,52 +40,55 @@
 
       </h:panelGroup>
 
-        <label>TrustStoreCertificates</label>
+        <label>Certificates</label>
         <p:dataTable var="x509" value="#{sslClientBean.storedCerts}" id="trustStoreCertificates">
         
         <p:column headerText="Valid">
-            <p:selectBooleanCheckbox value="
-            #{x509.expired}" disabled="true" id="valid"/>
-          </p:column>
-        
-          <p:column headerText="Name">
-            <h:outputText value="#{x509.alias}" id="name"/>
-          </p:column>
+          <i class="#{!x509.expired ? 'pi pi-times' : 'pi pi-check'}" 
+          style="color: #{!x509.expired ? 'red' : 'green'}"/>
+        </p:column>
 
-          <p:column headerText="Algorithm">
-            <h:outputText
-              value="#{x509.cert.getPublicKey().getAlgorithm()}" id="algorithm"/>
-          </p:column>
+        <p:column headerText="Name">
+          <h:outputText value="#{x509.alias}" id="name" />
+        </p:column>
 
-          <p:column headerText="Expiry date">
-            <h:outputText value="#{x509.cert.notAfter}" id="expiryDate"/>
-          </p:column>
-        </p:dataTable>
-      
-      <label>TrustStorePassword</label>
+        <p:column headerText="Algorithm">
+          <h:outputText
+            value="#{x509.cert.getPublicKey().getAlgorithm()}"
+            id="algorithm" />
+        </p:column>
+
+        <p:column headerText="Expiry date">
+          <h:outputText value="#{x509.cert.notAfter}" id="expiryDate"
+            style="color: #{!x509.expired ? 'red' : ''};" />
+        </p:column>
+
+      </p:dataTable>
+
+      <label>Password</label>
       <p:inputText id="trustStorePassword"
         value="#{sslClientBean.trustStorePassword}" />
-        
-      <label>TrustStoreProvider</label>
+
+      <label>Provider</label>
       <p:selectOneMenu id="trustStoreProvider"
         value="#{sslClientBean.trustStoreProvider}">
         <p:ajax update="sslClientform:trustStoreType"></p:ajax>
         <f:selectItems value="#{sslClientBean.trustStoreProviders}" />
       </p:selectOneMenu>
 
-      <label>TrustStoreType</label>
+      <label>Type</label>
       <p:selectOneMenu id="trustStoreType"
         value="#{sslClientBean.trustStoreType}">
         <f:selectItems value="#{sslClientBean.trustStoreTypes}" />
       </p:selectOneMenu>
 
-      <label>TrustStoreAlgorithm</label>
+      <label>Algorithm</label>
       <p:selectOneMenu id="trustStoreAlgorithm"
         value="#{sslClientBean.trustStoreAlgorithm}">
         <f:selectItems value="#{sslClientBean.trustStoreAlgorithms}" />
       </p:selectOneMenu>
 
-      <label>TrustManagerClass</label>
+      <label>ManagerClass</label>
       <p:inputText id="trustManagerClass"
         value="#{sslClientBean.trustManagerClass}" />
 
