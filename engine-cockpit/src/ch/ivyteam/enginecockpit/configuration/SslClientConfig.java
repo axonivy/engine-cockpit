@@ -30,83 +30,79 @@ public class SslClientConfig {
   private IConfiguration config = IConfiguration.instance();
 
   public String getTrustStoreFile() {
-    return config.get(Key.FILE).orElse("");
+    return config.getOrDefault(Key.FILE);
   }
 
   public void setTrustStoreFile(String trustStoreFile) {
-    config.set(Key.FILE, trustStoreFile);
+    setConfig(Key.FILE, trustStoreFile);
   }
 
   public String getTrustStorePassword() {
-    return config.get(Key.PASSWORD).orElse("");
+    return config.getOrDefault(Key.PASSWORD);
   }
 
   public void setTrustStorePassword(String trustStorePassword) {
-    config.set(Key.PASSWORD, trustStorePassword);
+    setConfig(Key.PASSWORD, trustStorePassword);
   }
 
-  public String getTrustPassword() {
-    return config.get(Key.PASSWORD).orElse("");
-  }
-
-  public void setTrustPassword(String trustStorePassword) {
-    config.set(Key.PASSWORD, trustStorePassword);
+  private void setConfig(ConfigKey key, String trustStorePassword) {
+    config.set(key, trustStorePassword);
   }
 
   public String getTrustStoreProvider() {
-    return config.get(Key.PROVIDER).orElse("");
+    return config.getOrDefault(Key.PROVIDER);
   }
 
   public void setTrustStoreProvider(String trustStoreProvider) {
-    config.set(Key.PROVIDER, trustStoreProvider);
+    setConfig(Key.PROVIDER, trustStoreProvider);
   }
 
   public String getTrustStoreType() {
-    return config.get(Key.TYPE).orElse("");
+    return config.getOrDefault(Key.TYPE);
   }
 
   public void setTrustStoreType(String trustStoreType) {
-    config.set(Key.TYPE, trustStoreType);
+    setConfig(Key.TYPE, trustStoreType);
   }
 
   public String getTrustStoreAlgorithm() {
-    return config.get(Key.ALGORITHM).orElse("");
+    return config.getOrDefault(Key.ALGORITHM);
   }
 
   public void setTrustStoreAlgorithm(String trustStoreAlgorithm) {
-    config.set(Key.ALGORITHM, trustStoreAlgorithm);
+    setConfig(Key.ALGORITHM, trustStoreAlgorithm);
   }
 
   public String getTrustManagerClass() {
-    return config.get(Key.MANAGERCLASS).orElse("");
+    return config.getOrDefault(Key.MANAGERCLASS);
   }
 
   public void setTrustManagerClass(String trustManagerClass) {
-    config.set(Key.MANAGERCLASS, trustManagerClass);
+    setConfig(Key.MANAGERCLASS, trustManagerClass);
   }
 
   public String getKeyStoreFile() {
-    return config.get(Key.KEY_FILE).orElse("");
+    return config.getOrDefault(Key.KEY_FILE);
   }
 
   public void setKeyStoreFile(String keyStoreFile) {
-    config.set(Key.KEY_FILE, keyStoreFile);
+    setConfig(Key.KEY_FILE, keyStoreFile);
   }
 
   public String getKeyStorePassword() {
-    return config.get(Key.KEY_STORE_PASSWORD).orElse("");
+    return config.getOrDefault(Key.KEY_STORE_PASSWORD);
   }
 
   public void setKeyStorePassword(String keyStorePassword) {
-    config.set(Key.KEY_STORE_PASSWORD, keyStorePassword);
+    setConfig(Key.KEY_STORE_PASSWORD, keyStorePassword);
   }
 
   public String getKeyPassword() {
-    return config.get(Key.KEY_PASSWORD).orElse("");
+    return config.getOrDefault(Key.KEY_PASSWORD);
   }
 
   public void setKeyPassword(String keyPassword) {
-    config.set(Key.KEY_PASSWORD, keyPassword);
+    setConfig(Key.KEY_PASSWORD, keyPassword);
   }
 
   public String getKeyStoreProvider() {
@@ -114,7 +110,7 @@ public class SslClientConfig {
   }
 
   public void setKeyStoreProvider(String keyStoreProvider) {
-    config.set(Key.KEY_ROVIDER, keyStoreProvider);
+    setConfig(Key.KEY_ROVIDER, keyStoreProvider);
   }
 
   public String getKeyStoreType() {
@@ -122,7 +118,7 @@ public class SslClientConfig {
   }
 
   public void setKeyStoreType(String keyStoreType) {
-    config.set(Key.KEY_TYPE, keyStoreType);
+    setConfig(Key.KEY_TYPE, keyStoreType);
   }
 
   public String getKeyStoreAlgorithm() {
@@ -130,7 +126,7 @@ public class SslClientConfig {
   }
 
   public void setKeyStoreAlgorithm(String keyStoreAlgorithm) {
-    config.set(Key.KEY_ALGORITHM, keyStoreAlgorithm);
+    setConfig(Key.KEY_ALGORITHM, keyStoreAlgorithm);
   }
 
   public String getEnableInsecureSSL() {
@@ -138,6 +134,6 @@ public class SslClientConfig {
   }
 
   public void setEnableInsecureSSL(String EnableInsecureSSL) {
-    config.set(Key.ENABLE_INSECURE_SSL, EnableInsecureSSL);
+    setConfig(Key.ENABLE_INSECURE_SSL, EnableInsecureSSL);
   }
 }
