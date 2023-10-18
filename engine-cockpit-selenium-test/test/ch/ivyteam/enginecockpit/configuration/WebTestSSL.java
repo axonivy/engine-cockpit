@@ -193,8 +193,7 @@ class WebTestSSL {
     $(By.id("sslClientform:trustCertUpload_input")).sendKeys(createTempFile.toString());
     PrimeUi.table(By.id("sslClientform:trustStoreCertificates")).contains("ivy1");
 
-    PrimeUi.selectBooleanCheckbox(By.id("sslClientform:trustStoreCertificates_data"))
-    .shouldBeChecked(false);
+   $(By.id("sslClientform:trustStoreCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
   }
 
   private void saveTrustStore() {
