@@ -190,10 +190,10 @@ class WebTestSSL {
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
-    $(By.id("sslClientform:trustCertUpload_input")).sendKeys(createTempFile.toString());
-    PrimeUi.table(By.id("sslClientform:trustStoreCertificates")).contains("ivy1");
-    $(By.id("sslClientform:trustStoreCertificates:0:delete")).click();
-    PrimeUi.table(By.id("sslClientform:trustStoreCertificates")).containsNot("ivy1");
+    $(By.id("truststoreTable:trustCertUpload_input")).sendKeys(createTempFile.toString());
+    PrimeUi.table(By.id("truststoreTable:trustStoreCertificates")).contains("ivy1");
+    $(By.id("truststoreTable:trustStoreCertificates:0:delete")).click();
+    PrimeUi.table(By.id("truststoreTable:trustStoreCertificates")).containsNot("ivy1");
   }
 
   @Test
@@ -202,10 +202,10 @@ class WebTestSSL {
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
-    $(By.id("sslClientform:trustCertUpload_input")).sendKeys(createTempFile.toString());
-    PrimeUi.table(By.id("sslClientform:trustStoreCertificates")).contains("ivy1");
+    $(By.id("truststoreTable:trustCertUpload_input")).sendKeys(createTempFile.toString());
+    PrimeUi.table(By.id("truststoreTable:trustStoreCertificates")).contains("ivy1");
 
-   $(By.id("sslClientform:trustStoreCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
+   $(By.id("truststoreTable:trustStoreCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
   }
 
   private void saveTrustStore() {

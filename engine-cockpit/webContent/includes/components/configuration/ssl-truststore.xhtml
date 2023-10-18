@@ -31,47 +31,9 @@
       <label>File</label>
       <h:panelGroup>
         <p:inputText id="trustStoreFile"
-          value="#{sslClientBean.trustStoreFile}" style="width: 65%;" />
-        <p:fileUpload id="trustCertUpload" mode="simple" skinSimple="true" multiple="false"
-          auto="true" label="Add certificate"
-          listener="#{sslClientBean.handleUploadCert}"
-          style="width: 35%;" 
-          update="sslClientform:trustStoreCertificates"/>
+          value="#{sslClientBean.trustStoreFile}"/>
 
       </h:panelGroup>
-
-        <label>Certificates</label>
-        <p:dataTable var="x509" value="#{sslClientBean.storedCerts}" id="trustStoreCertificates">
-        
-        <p:column headerText="Valid">
-          <i class="#{!x509.expired ? 'pi pi-times' : 'pi pi-check'}" 
-          style="color: #{!x509.expired ? 'red' : 'green'}"/>
-        </p:column>
-
-        <p:column headerText="Name">
-          <h:outputText value="#{x509.alias}" id="name" />
-        </p:column>
-
-        <p:column headerText="Algorithm">
-          <h:outputText
-            value="#{x509.cert.getPublicKey().getAlgorithm()}"
-            id="algorithm" />
-        </p:column>
-
-        <p:column headerText="Expiry date">
-          <h:outputText value="#{x509.cert.notAfter}" id="expiryDate"
-            style="color: #{!x509.expired ? 'red' : ''};" />
-        </p:column>
-
-        <p:column headerText="Delete">
-          <p:commandButton id="delete" title="Delete" icon="pi pi-trash"
-            styleClass="ui-button-danger"
-            actionListener="#{sslClientBean.deleteCertificate(x509.alias)}"
-            update="sslClientform:trustStoreCertificates">
-          </p:commandButton>
-        </p:column>
-
-      </p:dataTable>
 
       <label>Password</label>
       <p:inputText id="trustStorePassword"

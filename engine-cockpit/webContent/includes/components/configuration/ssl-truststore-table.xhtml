@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+
+<div class="card">
+  <h:form id="truststoreTable">
+    <div class="card-header">
+      <div class="card-title p-d-flex p-ai-center">
+        <i class="p-pr-3 si si-information-circle"></i>
+        <h6 class="p-m-0">Trust Store Certificates</h6>
+      </div>
+    </div>
+
+    <p:panelGrid columns="2"
+      columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
+      layout="flex" styleClass="grey-label-panel ui-fluid">
+      
+      <label>Upload Certificate</label>
+      <p:fileUpload id="trustCertUpload" mode="simple" skinSimple="true" multiple="false"
+          auto="true" label="Add certificate"
+          listener="#{sslClientBean.handleUploadCert}"
+          style="width: 25%;" 
+          update="truststoreTable:trustStoreCertificates"/>
+
+        <label>Certificates</label>
+        <p:dataTable var="x509" value="#{sslClientBean.storedCerts}" id="trustStoreCertificates">
+        
+        <p:column headerText="Valid">
+          <i class="#{!x509.expired ? 'pi pi-times' : 'pi pi-check'}" 
+          style="color: #{!x509.expired ? 'red' : 'green'}"/>
+        </p:column>
+
+        <p:column headerText="Name">
+          <h:outputText value="#{x509.alias}" id="name" />
+        </p:column>
+
+        <p:column headerText="Algorithm">
+          <h:outputText
+            value="#{x509.cert.getPublicKey().getAlgorithm()}"
+            id="algorithm" />
+        </p:column>
+
+        <p:column headerText="Expiry date">
+          <h:outputText value="#{x509.cert.notAfter}" id="expiryDate"
+            style="color: #{!x509.expired ? 'red' : ''};" />
+        </p:column>
+
+        <p:column headerText="Delete">
+          <p:commandButton id="delete" title="Delete" icon="pi pi-trash"
+            styleClass="ui-button-danger"
+            actionListener="#{sslClientBean.deleteCertificate(x509.alias)}"
+            update="truststoreTable:trustStoreCertificates">
+          </p:commandButton>
+        </p:column>
+
+      </p:dataTable>
+
+    </p:panelGrid>
+  </h:form>
+</div>
+
+</html>
