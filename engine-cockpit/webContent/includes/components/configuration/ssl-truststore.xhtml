@@ -63,6 +63,14 @@
             style="color: #{!x509.expired ? 'red' : ''};" />
         </p:column>
 
+        <p:column headerText="Delete">
+          <p:commandButton id="delete" title="Delete" icon="pi pi-trash"
+            styleClass="ui-button-danger"
+            actionListener="#{sslClientBean.deleteCertificate(x509.alias)}"
+            update="sslClientform:trustStoreCertificates">
+          </p:commandButton>
+        </p:column>
+
       </p:dataTable>
 
       <label>Password</label>
