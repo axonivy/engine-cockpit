@@ -276,6 +276,13 @@ public class SslClientBean {
   }
 
   @SuppressWarnings("restriction")
+  public void deleteCertificate(String alias) throws KeyStoreException {
+        var tmpKS = loadTrustStore();
+        tmpKS.get().getKeyStore().deleteEntry(alias);
+        tmpKS.get().store(trustStoreFile, trustStorePassword.toCharArray());
+  }
+
+  @SuppressWarnings("restriction")
   public Certificate handleUploadCert(FileUploadEvent event)
           throws CertificateException, IOException, Exception {
     var certFactory = CertificateFactory.getInstance("X509");

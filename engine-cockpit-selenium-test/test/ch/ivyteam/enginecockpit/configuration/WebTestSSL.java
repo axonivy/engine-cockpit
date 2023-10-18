@@ -185,6 +185,18 @@ class WebTestSSL {
   }
 
   @Test
+  void deleteCert() throws IOException {
+    var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
+    try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
+      Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
+    }
+    $(By.id("sslClientform:trustCertUpload_input")).sendKeys(createTempFile.toString());
+    PrimeUi.table(By.id("sslClientform:trustStoreCertificates")).contains("ivy1");
+    $(By.id("sslClientform:trustStoreCertificates:0:delete")).click();
+    PrimeUi.table(By.id("sslClientform:trustStoreCertificates")).containsNot("ivy1");
+  }
+
+  @Test
   void trustStoreCertificatInfos() throws IOException {
     var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
