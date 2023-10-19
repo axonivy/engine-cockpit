@@ -23,7 +23,6 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 
-import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
 
 @ManagedBean
@@ -36,6 +35,7 @@ public class SslClientBean {
 
     String STORE = "KeyStore";
   }
+
   private boolean useCustomKeyStore;
   private String trustStoreFile;
   private String trustStorePassword;
@@ -242,7 +242,7 @@ public class SslClientBean {
   }
 
   @SuppressWarnings("restriction")
-  private List<StoredCert> getStoredCerts(Optional<IvyKeystore> tmpKS) throws KeyStoreException {
+  private List<StoredCert> getStoredCerts(Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> tmpKS) throws KeyStoreException {
     if (tmpKS.isEmpty()) {
       return List.of();
     }
@@ -298,29 +298,48 @@ public class SslClientBean {
   }
 
   @SuppressWarnings("restriction")
-  public void deleteCertificate(String alias) throws KeyStoreException {
-        var tmpKS = loadTrustStore();
-        tmpKS.get().getKeyStore().deleteEntry(alias);
-        tmpKS.get().store(trustStoreFile, trustStorePassword.toCharArray());
+  public void deleteCertificate(String alias) {
+    var tmpKS = loadTrustStore();
+    try {
+      tmpKS.get().getKeyStore().deleteEntry(alias);
+    } catch (Exception ex) {
+      LOGGER.error("failed to delete " + alias, ex);
+    }
+    try {
+      tmpKS.get().store(trustStoreFile, trustStorePassword.toCharArray());
+    } catch (Exception ex) {
+      LOGGER.error("failed to load " + alias, ex);
+    }
   }
 
   @SuppressWarnings("restriction")
-  public void deleteKeyCertificate(String alias) throws KeyStoreException {
-        var tmpKS = loadKeyStore();
-        tmpKS.get().getKeyStore().deleteEntry(alias);
-        tmpKS.get().store(keyStoreFile, keyStorePassword.toCharArray());
+  public void deleteKeyCertificate(String alias) {
+    var tmpKS = loadKeyStore();
+    try {
+      tmpKS.get().getKeyStore().deleteEntry(alias);
+    } catch (Exception ex) {
+      LOGGER.error("failed to delete " + alias, ex);
+    }
+    try {
+      tmpKS.get().store(keyStoreFile, keyStorePassword.toCharArray());
+    } catch (Exception ex) {
+      LOGGER.error("failed to load " + alias, ex);
+    }
   }
 
-  public Certificate handleUploadKeyCert(FileUploadEvent event) throws CertificateException, IOException, Exception {
+  public Certificate handleUploadKeyCert(FileUploadEvent event)
+          throws CertificateException, IOException, Exception {
     return handleUploadCert(event, keyStoreFile, keyStoreType, keyStoreProvider, keyPassword);
   }
 
-  public Certificate handleUploadTrustCert(FileUploadEvent event) throws CertificateException, IOException, Exception {
+  public Certificate handleUploadTrustCert(FileUploadEvent event)
+          throws CertificateException, IOException, Exception {
     return handleUploadCert(event, trustStoreFile, trustStoreType, trustStoreProvider, trustStorePassword);
   }
 
   @SuppressWarnings("restriction")
-  public Certificate handleUploadCert(FileUploadEvent event, String file, String type, String provider, String password)
+  public Certificate handleUploadCert(FileUploadEvent event, String file, String type, String provider,
+          String password)
           throws CertificateException, IOException, Exception {
     var certFactory = CertificateFactory.getInstance("X509");
     Certificate certFile = certFactory.generateCertificate(event.getFile().getInputStream());
