@@ -114,7 +114,7 @@ class WebTestSSL {
 
       propertyFile.shouldHave(exactValue("invalidFile"));
       propertyStorePassword.shouldNotHave(exactValue("invalidStorePassword"));
-      propertyPassword.shouldNotHave(exactValue("invalidPassword"));
+      propertyPassword.shouldHave(exactValue("invalidPassword"));
     } finally {
       PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
 
@@ -123,6 +123,7 @@ class WebTestSSL {
       propertyStorePassword.clear();
       propertyStorePassword.sendKeys("changeit");
       propertyPassword.clear();
+      propertyPassword.sendKeys("changeit");
 
       saveKeyStore();
     }
@@ -206,6 +207,32 @@ class WebTestSSL {
     PrimeUi.table(By.id("truststoreTable:trustStoreCertificates")).contains("ivy1");
 
    $(By.id("truststoreTable:trustStoreCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
+   $(By.id("truststoreTable:trustStoreCertificates:0:delete")).click();
+  }
+
+  @Test
+  void deleteKeyCert() throws IOException {
+    var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
+    try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
+      Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
+    }
+    $(By.id("keyStoreTable:keyCertUpload_input")).sendKeys(createTempFile.toString());
+    PrimeUi.table(By.id("keyStoreTable:keyStoreCertificates")).contains("ivy1");
+    $(By.id("keyStoreTable:keyStoreCertificates:0:deleteKey")).click();
+    PrimeUi.table(By.id("keyStoreTable:keyStoreCertificates")).containsNot("ivy1");
+  }
+
+  @Test
+  void keyStoreCertificatInfos() throws IOException {
+    var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
+    try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
+      Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
+    }
+    $(By.id("keyStoreTable:keyCertUpload_input")).sendKeys(createTempFile.toString());
+    PrimeUi.table(By.id("keyStoreTable:keyStoreCertificates")).contains("ivy1");
+
+   $(By.id("keyStoreTable:keyStoreCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
+   $(By.id("keyStoreTable:keyStoreCertificates:0:deleteKey")).click();
   }
 
   private void saveTrustStore() {

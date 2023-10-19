@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
 
 @ManagedBean
@@ -230,26 +231,18 @@ public class SslClientBean {
     this.enableInsecureSSL = EnableInsecureSSL;
   }
 
-  @SuppressWarnings("restriction")
   public List<StoredCert> getStoredCerts() throws KeyStoreException {
     var tmpKS = loadTrustStore();
-    if (tmpKS.isEmpty()) {
-      return List.of();
-    }
-    List<String> list = Collections.list(tmpKS.get().getKeyStore().aliases());
-    List<StoredCert> certificates = new ArrayList<>();
-    for (String alias : list) {
-      Certificate cert = tmpKS.get().getKeyStore().getCertificate(alias);
-      if (cert instanceof X509Certificate) {
-        var x509 = (X509Certificate) cert;
-        certificates.add(new StoredCert(alias, x509));
-      }
-    }
-    return certificates;
+    return getStoredCerts(tmpKS);
   }
 
   public List<StoredCert> getStoredKeyCerts() throws KeyStoreException {
     var tmpKS = loadKeyStore();
+    return getStoredCerts(tmpKS);
+  }
+
+  @SuppressWarnings("restriction")
+  private List<StoredCert> getStoredCerts(Optional<IvyKeystore> tmpKS) throws KeyStoreException {
     if (tmpKS.isEmpty()) {
       return List.of();
     }
@@ -318,27 +311,23 @@ public class SslClientBean {
         tmpKS.get().store(keyStoreFile, keyStorePassword.toCharArray());
   }
 
-  @SuppressWarnings("restriction")
-  public Certificate handleUploadKeyCert(FileUploadEvent event)
-          throws CertificateException, IOException, Exception {
-    var certFactory = CertificateFactory.getInstance("X509");
-    Certificate certFile = certFactory.generateCertificate(event.getFile().getInputStream());
-    var store = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(keyStoreFile, keyStoreType,
-            keyStoreProvider, keyStorePassword.toCharArray());
-    store.addCert(certFile)
-            .store(keyStoreFile, keyStorePassword.toCharArray());
-    return certFile;
+  public Certificate handleUploadKeyCert(FileUploadEvent event) throws CertificateException, IOException, Exception {
+    return handleUploadCert(event, keyStoreFile, keyStoreType, keyStoreProvider, keyPassword);
+  }
+
+  public Certificate handleUploadTrustCert(FileUploadEvent event) throws CertificateException, IOException, Exception {
+    return handleUploadCert(event, trustStoreFile, trustStoreType, trustStoreProvider, trustStorePassword);
   }
 
   @SuppressWarnings("restriction")
-  public Certificate handleUploadCert(FileUploadEvent event)
+  public Certificate handleUploadCert(FileUploadEvent event, String file, String type, String provider, String password)
           throws CertificateException, IOException, Exception {
     var certFactory = CertificateFactory.getInstance("X509");
     Certificate certFile = certFactory.generateCertificate(event.getFile().getInputStream());
-    var store = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile, trustStoreType,
-            trustStoreProvider, trustStorePassword.toCharArray());
+    var store = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(file, type,
+            provider, password.toCharArray());
     store.addCert(certFile)
-            .store(trustStoreFile, trustStorePassword.toCharArray());
+            .store(file, password.toCharArray());
     return certFile;
   }
 

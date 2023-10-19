@@ -24,7 +24,7 @@
       <label>Upload Certificate</label>
       <p:fileUpload id="trustCertUpload" mode="simple" skinSimple="true" multiple="false"
           auto="true" label="Add certificate"
-          listener="#{sslClientBean.handleUploadCert}"
+          listener="#{sslClientBean.handleUploadTrustCert}"
           style="width: 25%;" 
           update="truststoreTable:trustStoreCertificates"/>
 
