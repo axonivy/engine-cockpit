@@ -12,7 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
@@ -21,6 +23,7 @@ import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class WebTestSSL {
 
   @BeforeEach
