@@ -10,20 +10,22 @@ import static com.codeborne.selenide.Selenide.$;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.axonivy.ivy.webtest.primeui.widget.Table;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
 @IvyWebTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
 class WebTestSSL {
 
   @BeforeEach
@@ -190,14 +192,18 @@ class WebTestSSL {
 
   @Test
   void deleteCert() throws IOException {
+    PrimeUiTable2 certificates = new PrimeUiTable2(By.id("truststoreTable:trustStoreCertificates"));
+    certificates.isEmpty();
     var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
     $(By.id("truststoreTable:trustCertUpload_input")).sendKeys(createTempFile.toString());
-    PrimeUi.table(By.id("truststoreTable:trustStoreCertificates")).contains("ivy1");
-    $(By.id("truststoreTable:trustStoreCertificates:0:delete")).click();
-    PrimeUi.table(By.id("truststoreTable:trustStoreCertificates")).containsNot("ivy1");
+    certificates.contains("ivy1");
+    Optional<SelenideElement> row = certificates.findRow(text("ivy1"));
+    var dataRi = row.get().getAttribute("data-ri");
+    $(By.id("truststoreTable:trustStoreCertificates:"+dataRi+":delete")).click();
+    certificates.containsNot("ivy1");
   }
 
   @Test
@@ -215,14 +221,46 @@ class WebTestSSL {
 
   @Test
   void deleteKeyCert() throws IOException {
+    PrimeUiTable2 certificates = new PrimeUiTable2(By.id("keyStoreTable:keyStoreCertificates"));
+    certificates.isEmpty();
     var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
     $(By.id("keyStoreTable:keyCertUpload_input")).sendKeys(createTempFile.toString());
-    PrimeUi.table(By.id("keyStoreTable:keyStoreCertificates")).contains("ivy1");
-    $(By.id("keyStoreTable:keyStoreCertificates:0:deleteKey")).click();
-    PrimeUi.table(By.id("keyStoreTable:keyStoreCertificates")).containsNot("ivy1");
+    certificates.contains("ivy1");
+    Optional<SelenideElement> row = certificates.findRow(text("ivy1"));
+    var dataRi = row.get().getAttribute("data-ri");
+    $(By.id("keyStoreTable:keyStoreCertificates:"+dataRi+":deleteKey")).click();
+    certificates.containsNot("ivy1");
+  }
+
+  private static class PrimeUiTable2 extends Table {
+    private final String tableId;
+
+    public PrimeUiTable2(By dataTable) {
+      super(dataTable);
+      tableId = $(dataTable).shouldBe(visible).attr("id");
+    }
+
+    public int rowCount() {
+      ElementsCollection rows = $(By.id(tableId + "_data")).findAll("tr");
+      return  rows.size();
+  }
+
+    public boolean isEmpty() {
+      return rowCount() == 0;
+    }
+
+    public Optional<SelenideElement> findRow(Condition text) {
+      for(int row=0; row<rowCount(); row++) {
+        var aRow = row(row);
+        if (aRow.has(text)) {
+          return Optional.of(aRow);
+        }
+      }
+      return Optional.empty();
+    }
   }
 
   @Test
