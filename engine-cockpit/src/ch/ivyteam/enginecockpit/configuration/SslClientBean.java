@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
 
 @ManagedBean
@@ -35,6 +36,7 @@ public class SslClientBean {
 
     String STORE = "KeyStore";
   }
+
   private boolean useCustomKeyStore;
   private String trustStoreFile;
   private String trustStorePassword;
@@ -230,9 +232,18 @@ public class SslClientBean {
     this.enableInsecureSSL = EnableInsecureSSL;
   }
 
-  @SuppressWarnings("restriction")
   public List<StoredCert> getStoredCerts() throws KeyStoreException {
     var tmpKS = loadTrustStore();
+    return getStoredCerts(tmpKS);
+  }
+
+  public List<StoredCert> getStoredKeyCerts() throws KeyStoreException {
+    var tmpKS = loadKeyStore();
+    return getStoredCerts(tmpKS);
+  }
+
+  @SuppressWarnings("restriction")
+  private List<StoredCert> getStoredCerts(Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> tmpKS) throws KeyStoreException {
     if (tmpKS.isEmpty()) {
       return List.of();
     }
@@ -260,6 +271,18 @@ public class SslClientBean {
     }
   }
 
+  @SuppressWarnings("restriction")
+  private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> loadKeyStore() {
+    try {
+      var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(keyStoreFile, keyStoreType,
+              keyStoreProvider, keyStorePassword.toCharArray());
+      return Optional.of(tmpKS);
+    } catch (Exception ex) {
+      LOGGER.error("failed to load keystore " + keyStoreFile, ex);
+      return Optional.empty();
+    }
+  }
+
   public record StoredCert(String alias, X509Certificate cert) {
 
     public String getAlias() {
@@ -275,22 +298,50 @@ public class SslClientBean {
     }
   }
 
-  @SuppressWarnings("restriction")
-  public void deleteCertificate(String alias) throws KeyStoreException {
-        var tmpKS = loadTrustStore();
-        tmpKS.get().getKeyStore().deleteEntry(alias);
-        tmpKS.get().store(trustStoreFile, trustStorePassword.toCharArray());
+  public void deleteTrustCertificate(String alias) {
+    var tmpKS = loadTrustStore();
+    deleteCertificate(alias, tmpKS.get(), trustStoreFile, trustStorePassword);
+  }
+
+  public void deleteKeyCertificate(String alias) {
+    var tmpKS = loadKeyStore();
+    deleteCertificate(alias, tmpKS.get(), keyStoreFile, keyStorePassword);
   }
 
   @SuppressWarnings("restriction")
-  public Certificate handleUploadCert(FileUploadEvent event)
+  private void deleteCertificate(String alias, IvyKeystore tmpKS, String file, String password) {
+    try {
+      tmpKS.getKeyStore().deleteEntry(alias);
+    } catch (Exception ex) {
+      LOGGER.error("failed to delete " + alias, ex);
+    }
+    try {
+      tmpKS.store(file, password.toCharArray());
+    } catch (Exception ex) {
+      LOGGER.error("failed to load " + alias, ex);
+    }
+  }
+
+  public Certificate handleUploadKeyCert(FileUploadEvent event)
+          throws CertificateException, IOException, Exception {
+    return handleUploadCert(event, keyStoreFile, keyStoreType, keyStoreProvider, keyPassword);
+  }
+
+  public Certificate handleUploadTrustCert(FileUploadEvent event)
+          throws CertificateException, IOException, Exception {
+    return handleUploadCert(event, trustStoreFile, trustStoreType, trustStoreProvider, trustStorePassword);
+  }
+
+  @SuppressWarnings("restriction")
+  public Certificate handleUploadCert(FileUploadEvent event, String file, String type, String provider,
+          String password)
           throws CertificateException, IOException, Exception {
     var certFactory = CertificateFactory.getInstance("X509");
     Certificate certFile = certFactory.generateCertificate(event.getFile().getInputStream());
-    var store = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile, trustStoreType,
-            trustStoreProvider, trustStorePassword.toCharArray());
+    var store = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(file, type,
+            provider, password.toCharArray());
     store.addCert(certFile)
-            .store(trustStoreFile, trustStorePassword.toCharArray());
+            .store(file, password.toCharArray());
     return certFile;
   }
 
