@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
 
 @ManagedBean
@@ -297,31 +298,25 @@ public class SslClientBean {
     }
   }
 
-  @SuppressWarnings("restriction")
-  public void deleteCertificate(String alias) {
+  public void deleteTrustCertificate(String alias) {
     var tmpKS = loadTrustStore();
-    try {
-      tmpKS.get().getKeyStore().deleteEntry(alias);
-    } catch (Exception ex) {
-      LOGGER.error("failed to delete " + alias, ex);
-    }
-    try {
-      tmpKS.get().store(trustStoreFile, trustStorePassword.toCharArray());
-    } catch (Exception ex) {
-      LOGGER.error("failed to load " + alias, ex);
-    }
+    deleteCertificate(alias, tmpKS.get(), trustStoreFile, trustStorePassword);
+  }
+
+  public void deleteKeyCertificate(String alias) {
+    var tmpKS = loadKeyStore();
+    deleteCertificate(alias, tmpKS.get(), keyStoreFile, keyStorePassword);
   }
 
   @SuppressWarnings("restriction")
-  public void deleteKeyCertificate(String alias) {
-    var tmpKS = loadKeyStore();
+  private void deleteCertificate(String alias, IvyKeystore tmpKS, String file, String password) {
     try {
-      tmpKS.get().getKeyStore().deleteEntry(alias);
+      tmpKS.getKeyStore().deleteEntry(alias);
     } catch (Exception ex) {
       LOGGER.error("failed to delete " + alias, ex);
     }
     try {
-      tmpKS.get().store(keyStoreFile, keyStorePassword.toCharArray());
+      tmpKS.store(file, password.toCharArray());
     } catch (Exception ex) {
       LOGGER.error("failed to load " + alias, ex);
     }
