@@ -9,8 +9,10 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.className;
+
 import java.util.ArrayList;
 import java.util.Collections;
+
 import com.codeborne.selenide.Selenide;
 
 public class Navigation {
@@ -162,7 +164,7 @@ public class Navigation {
   }
 
   public static void toSSL() {
-    toSubMenu(CONFIGURATION_MENU, SSL_MENU);
+    toSubMenu(SYSTEM_MENU, SSL_MENU);
     assertCurrentUrlContains("sslclientconfig.xhtml");
     menuShouldBeActive(SSL_MENU);
   }
