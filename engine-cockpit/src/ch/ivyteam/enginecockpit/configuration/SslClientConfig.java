@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.configuration;
 
-import java.util.Objects;
-
 import ch.ivyteam.ivy.configuration.restricted.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 
@@ -48,11 +46,6 @@ public class SslClientConfig {
   }
 
   private void setConfig(ConfigKey key, String value) {
-    String defaultValue = config.getMetadata(key.unquoted()).defaultValue();
-    if (Objects.equals(value, defaultValue)) {
-      config.remove(key);
-      return;
-    }
     config.set(key, value);
   }
 
