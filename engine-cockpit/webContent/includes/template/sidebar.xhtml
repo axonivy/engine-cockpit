@@ -29,8 +29,6 @@
               url="businesscalendar.xhtml" />
             <p:menuitem id="sr_branding" value="Branding" icon="si si-buildings-1"
               url="branding.xhtml" />
-            <p:menuitem id="sr_ssl" value="SSL" icon="si si-lock-1"
-              url="sslclientconfig.xhtml" />
           </p:submenu>
 
           <p:submenu id="sr_services" label="Services" icon="si si-conversation-chat-2">
@@ -56,6 +54,8 @@
               url="webserver.xhtml" />
             <p:menuitem id="sr_system_config" value="System Configuration" icon="si si-cog-double"
               url="systemconfig.xhtml" />
+            <p:menuitem id="sr_ssl" value="SSL" icon="si si-lock-1"
+              url="sslclientconfig.xhtml" />
             <p:menuitem id="sr_cluster" value="Cluster" icon="si si-monitor-network" url="cluster.xhtml"
               rendered="#{clusterBean.clusterServer or param['cluster'] != null}" />
             <p:menuitem id="sr_editor" value="Config File Editor" icon="si si-common-file-text-edit" url="editor.xhtml" />
