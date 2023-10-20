@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.configuration;
 
 import java.io.IOException;
 import java.security.KeyStoreException;
+import java.security.Provider;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -125,9 +127,11 @@ public class SslClientBean {
   }
 
   public List<String> getTrustStoreProviders() {
-    return Arrays.stream(Security.getProviders())
+    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
             .map(provider -> provider.getName())
-            .toList();
+            .toList());
+    providers.add("");
+    return providers;
   }
 
   public String getTrustStoreType() {
@@ -139,8 +143,11 @@ public class SslClientBean {
   }
 
   public List<String> getTrustStoreTypes() {
-    return getTypes(getTrustStoreProvider());
-  }
+    List<String> types = new ArrayList<>();
+    types.addAll(getTypes(getTrustStoreProvider()));
+    types.add("");
+    return types;
+}
 
   public String getTrustStoreAlgorithm() {
     return trustStoreAlgorithm;
@@ -195,10 +202,12 @@ public class SslClientBean {
   }
 
   public List<String> getkeyStoreProviders() {
-    return Arrays.stream(Security.getProviders())
+    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
             .map(provider -> provider.getName())
-            .toList();
-  }
+            .toList());
+    providers.add("");
+    return providers;
+}
 
   public String getKeyStoreType() {
     return keyStoreType;
@@ -209,7 +218,10 @@ public class SslClientBean {
   }
 
   public List<String> getkeyStoreTypes() {
-    return getTypes(getKeyStoreProvider());
+    List<String> types = new ArrayList<>();
+    types.addAll(getTypes(getKeyStoreProvider()));
+    types.add("");
+    return types;
   }
 
   public String getKeyStoreAlgorithm() {
@@ -346,25 +358,22 @@ public class SslClientBean {
   }
 
   private List<String> getTypes(String selectedProvider) {
-    if (StringUtils.isEmpty(selectedProvider)) {
-      return getAlgorithms(Key.STORE);
-    } else {
-      var provider = Security.getProvider(selectedProvider);
-      if (provider != null) {
-        return provider.getServices().stream()
-                .filter(service -> service.getType().equals(Key.STORE))
-                .map(service -> service.getAlgorithm())
-                .toList();
-      }
-    }
-    return getAlgorithms(Key.STORE);
+    Provider[] providers = Security.getProviders();
+    return Arrays.stream(providers)
+            .filter(provider -> StringUtils.isEmpty(selectedProvider)
+                    || provider.getName().equals(selectedProvider))
+            .flatMap(provider -> provider.getServices().stream())
+            .filter(service -> service.getType().equals(Key.STORE))
+            .map(service -> service.getAlgorithm())
+            .collect(Collectors.toList());
   }
 
   private List<String> getAlgorithms(String type) {
-    return Arrays.stream(Security.getProviders())
-            .flatMap(securityProvider -> securityProvider.getServices().stream())
+    Provider[] providers = Security.getProviders();
+    Stream<String> algorithmsStream = Arrays.stream(providers)
+            .flatMap(provider -> provider.getServices().stream())
             .filter(service -> service.getType().equals(type))
-            .map(service -> service.getAlgorithm())
-            .collect(Collectors.toList());
+            .map(service -> service.getAlgorithm());
+    return Stream.concat(algorithmsStream, Stream.of("")).collect(Collectors.toList());
   }
 }

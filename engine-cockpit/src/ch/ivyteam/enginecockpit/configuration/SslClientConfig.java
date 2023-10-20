@@ -45,8 +45,8 @@ public class SslClientConfig {
     setConfig(Key.PASSWORD, trustStorePassword);
   }
 
-  private void setConfig(ConfigKey key, String trustStorePassword) {
-    config.set(key, trustStorePassword);
+  private void setConfig(ConfigKey key, String value) {
+    config.set(key, value);
   }
 
   public String getTrustStoreProvider() {
