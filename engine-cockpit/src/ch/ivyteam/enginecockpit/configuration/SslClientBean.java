@@ -125,9 +125,11 @@ public class SslClientBean {
   }
 
   public List<String> getTrustStoreProviders() {
-    return Arrays.stream(Security.getProviders())
+    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
             .map(provider -> provider.getName())
-            .toList();
+            .toList());
+    providers.add("");
+    return providers;
   }
 
   public String getTrustStoreType() {
@@ -139,8 +141,11 @@ public class SslClientBean {
   }
 
   public List<String> getTrustStoreTypes() {
-    return getTypes(getTrustStoreProvider());
-  }
+    List<String> types = new ArrayList<>();
+    types.addAll(getTypes(getTrustStoreProvider()));
+    types.add("");
+    return types;
+}
 
   public String getTrustStoreAlgorithm() {
     return trustStoreAlgorithm;
@@ -195,10 +200,12 @@ public class SslClientBean {
   }
 
   public List<String> getkeyStoreProviders() {
-    return Arrays.stream(Security.getProviders())
+    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
             .map(provider -> provider.getName())
-            .toList();
-  }
+            .toList());
+    providers.add("");
+    return providers;
+}
 
   public String getKeyStoreType() {
     return keyStoreType;
@@ -209,7 +216,10 @@ public class SslClientBean {
   }
 
   public List<String> getkeyStoreTypes() {
-    return getTypes(getKeyStoreProvider());
+    List<String> types = new ArrayList<>();
+    types.addAll(getTypes(getKeyStoreProvider()));
+    types.add("");
+    return types;
   }
 
   public String getKeyStoreAlgorithm() {
@@ -361,10 +371,12 @@ public class SslClientBean {
   }
 
   private List<String> getAlgorithms(String type) {
-    return Arrays.stream(Security.getProviders())
+    List<String> algorithms = Arrays.stream(Security.getProviders())
             .flatMap(securityProvider -> securityProvider.getServices().stream())
             .filter(service -> service.getType().equals(type))
             .map(service -> service.getAlgorithm())
             .collect(Collectors.toList());
+    algorithms.add("");
+    return algorithms;
   }
 }
