@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 
-@IvyWebTest(headless=false)
+@IvyWebTest
 public class WebTestRestart {
 
   @BeforeEach

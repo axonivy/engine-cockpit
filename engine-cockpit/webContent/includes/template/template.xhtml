@@ -48,11 +48,14 @@
         
         <div class="layout-topbar-right">
           <ul class="layout-topbar-actions">
-            <li class="topbar-item">
-              <p:commandLink id="restartBtn" onclick="PF('restartDialog').show();" style="text-decoration: none;">
-                <i class="topbar-icon pi pi-power-off"/>
-              </p:commandLink>
-            </li>
+            <h:outputText rendered="#{restartBean.restartable}">
+              <li class="topbar-item">
+                <p:commandLink id="restartBtn" onclick="PF('restartDialog').show();" style="text-decoration: none;" 
+                    title="Restart #{advisorBean.getApplicationName()}">
+                  <i class="topbar-icon si si-power-button"/>
+                </p:commandLink>
+              </li>
+            </h:outputText>
           
             <h:outputText rendered="#{not empty licenceBean.licenceEvents}">
               <li class="topbar-item topbar-notifications licence-notification">

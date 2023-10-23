@@ -9,14 +9,16 @@
         modal="true" closeOnEscape="true" style="max-width: calc(100% - 300px); min-width: 300px;">
       <h:form id="restart" styleClass="custom-dialog-form">
         <p:staticMessage severity="error" detail="Restarting #{advisorBean.applicationName} is a dangerous operation."/>
-        <div>All <p:link outcome="monitor-sessions" value="users (currently #{restartBean.workingUsers})"/> working with #{advisorBean.applicationName} will lose their current work.<br/>
-             Users will not be able to connect to #{advisorBean.applicationName} for a short time.<br/>
-             Restarting may fail and then you need access to the operating system to start it again.</div>
+        <ul>
+          <li>All <p:link outcome="monitor-sessions" value="users (currently #{restartBean.workingUsers})"/> working with #{advisorBean.applicationName} will lose their current work.</li>
+          <li>Users will not be able to connect to #{advisorBean.applicationName} for a short time.</li>
+          <li>Restarting may fail and then you need access to the operating system to start it again.</li>
+        </ul>
         <p:staticMessage severity="warn" detail="Are you sure you want to restart the #{advisorBean.applicationName}?" />
         <div class="custom-dialog-footer">
           <p:commandButton id="cancel" type="button" onclick="PF('restartDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-          <p:commandButton id="restart" value="Restart" icon="pi #{restartBean.isRestarting() ? 'pi-spin' : ''} pi-power-off"
-            styleClass="modal-input-button ui-button-danger" actionListener="#{restartBean.restart}" update="restart"/>
+          <p:commandButton id="restart" value="Restart" onclick="var button=this; buttonAddSpinner(button);" icon="si si-power-button"
+            styleClass="modal-input-button ui-button-danger" actionListener="#{restartBean.restart}"/>
         </div>
       </h:form>
     </p:dialog>
