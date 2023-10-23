@@ -48,6 +48,15 @@
         
         <div class="layout-topbar-right">
           <ul class="layout-topbar-actions">
+            <h:outputText rendered="#{restartBean.restartable}">
+              <li class="topbar-item">
+                <p:commandLink id="restartBtn" onclick="PF('restartDialog').show();" style="text-decoration: none;" 
+                    title="Restart #{advisorBean.getApplicationName()}">
+                  <i class="topbar-icon si si-power-button"/>
+                </p:commandLink>
+              </li>
+            </h:outputText>
+          
             <h:outputText rendered="#{not empty licenceBean.licenceEvents}">
               <li class="topbar-item topbar-notifications licence-notification">
                 <a href="#" onclick="PF('licenceEventsDialog').show();">
@@ -182,7 +191,7 @@
   </div>
 
   <ui:include src="progress-loader.xhtml" />
-
+  <ui:include src="restart.xhtml" />
   <ui:include src="exception.xhtml" />
 
   <h:outputStylesheet name="css/layout-ivy-#{ivyFreyaTheme.mode}.css" library="freya-layout" />
