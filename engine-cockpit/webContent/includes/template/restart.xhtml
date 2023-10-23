@@ -5,6 +5,7 @@
 
 <body>
   <ui:composition>
+    <h:outputScript name="resources/js/restart.js" />
     <p:dialog id="restartDialog" header="Restart #{advisorBean.applicationName}" widgetVar="restartDialog"
         modal="true" closeOnEscape="true" style="max-width: calc(100% - 300px); min-width: 300px;">
       <h:form id="restart" styleClass="custom-dialog-form">
@@ -17,7 +18,7 @@
         <p:staticMessage severity="warn" detail="Are you sure you want to restart the #{advisorBean.applicationName}?" />
         <div class="custom-dialog-footer">
           <p:commandButton id="cancel" type="button" onclick="PF('restartDialog').hide();" value="Cancel" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>
-          <p:commandButton id="restart" value="Restart" onclick="var button=this; buttonAddSpinner(button);" icon="si si-power-button"
+          <p:commandButton id="restart" value="Restart" onclick="var button=this; buttonAddSpinner(button);" oncomplete="redirectToHomeAfterRestart()" icon="si si-power-button"
             styleClass="modal-input-button ui-button-danger" actionListener="#{restartBean.restart}"/>
         </div>
       </h:form>
