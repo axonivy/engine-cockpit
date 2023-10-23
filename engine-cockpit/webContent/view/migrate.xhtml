@@ -11,7 +11,7 @@
 
     <ui:define name="content">
       <h:outputStylesheet name="resources/css/diff2html.css" />
-      <h:outputScript name="resources/js/diff2html.min.js" />
+      <h:outputScript name="resources/js/diff2html.min.js" />      
       <script>
       var diffOptions = {
         drawFileList: false,
@@ -121,7 +121,10 @@
             <p:commandButton id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="Cancel" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="OK" icon="si si-check-1" 
-              styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" />
+              styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfiguration}" rendered="#{not restartBean.restartable}"/>
+            <p:commandButton id="finishWizardRestart" onclick="var button=this; buttonAddSpinner(button);" oncomplete="redirectToHomeAfterRestart()" 
+              value="Restart" icon="si si-power-button" styleClass="modal-input-button" actionListener="#{systemDatabaseBean.saveConfigurationAndRestart}" 
+              rendered="#{restartBean.restartable}"/>              
           </div>
         </h:form>
       </p:dialog>

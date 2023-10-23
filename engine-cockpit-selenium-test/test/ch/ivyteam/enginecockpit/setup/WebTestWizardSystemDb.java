@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import com.axonivy.ivy.webtest.IvyWebTest;
 
 import ch.ivyteam.enginecockpit.system.WebTestSystemDb;
+import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 
 @IvyWebTest
 public class WebTestWizardSystemDb {
@@ -28,6 +29,7 @@ public class WebTestWizardSystemDb {
 
   @BeforeEach
   void beforeEach() {
+    EngineCockpitUtil.disableRestart();
     WebTestWizard.navigateToStep("System Database");
   }
 
@@ -35,6 +37,7 @@ public class WebTestWizardSystemDb {
   void afterEach() {
     resetConfig();
     deleteTempDb();
+    EngineCockpitUtil.enableRestart();
   }
 
   @Test

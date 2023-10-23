@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import javax.faces.bean.ManagedBean;
 
+import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @ManagedBean
+@SuppressWarnings("restriction")
 public class RestartBean {
 
   private boolean isRestarting;
@@ -22,12 +24,21 @@ public class RestartBean {
   }
 
   private Optional<String> command() {
+    if (isDisabled()) {
+      return Optional.empty();
+    }
     var process = ProcessHandle.current();
     if (process == null) {
       return Optional.empty();
     }
     var command = process.info().command();
    return command;
+  }
+
+  private boolean isDisabled() {
+    return IConfiguration.instance().get("Cockpit.Restart")
+       .orElse("enabled")
+       .equalsIgnoreCase("disabled");
   }
   
   public boolean isRestarting() {

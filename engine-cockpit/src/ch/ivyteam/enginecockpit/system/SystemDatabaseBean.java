@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -183,6 +184,11 @@ public class SystemDatabaseBean extends StepStatus {
     FacesContext.getCurrentInstance().addMessage("systemDbSave",
             new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
                     "System Database config saved successfully"));
+  }
+
+  public void saveConfigurationAndRestart() throws IOException {
+    saveConfiguration();
+    new RestartBean().restart();
   }
 
   public void initCreator() {
