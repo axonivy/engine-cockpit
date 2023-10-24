@@ -12,11 +12,11 @@ function retryRedirectToHome() {
 var restartError;
 
 function redirectToHome() {
-  let url = window.location.protocol + "//" + window.location.hostname+ ":" + window.location.port + "/";
+  let url = window.location.origin;
   $.ajax(url)
     .done(function (response) {
       let timeSinceRestart = new Date().getTime() - restartStartTimestamp.getTime();
-      if(restartError != null || timeSinceRestart > 30000) {
+      if(restartError !== undefined || timeSinceRestart > 30000) {
         window.location.href = url;
       } else {
         retryRedirectToHome();
@@ -24,7 +24,7 @@ function redirectToHome() {
     })
     .fail(function (request, status, error) {
       restartError = error;
-      if (request.status == 503) {
+      if (request.status === 503) {
         window.location.href = url;
       } else {
         retryRedirectToHome();
