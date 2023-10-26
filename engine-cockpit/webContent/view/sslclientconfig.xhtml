@@ -1,7 +1,11 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
   </f:metadata>
@@ -12,31 +16,39 @@
       <li><span>Configuration</span></li>
       <li>/</li>
       <li><a href="sslclientconfig.xhtml">SSL Client</a></li>
-      <cc:BreadcrumbInfos />
     </ui:define>
 
     <ui:define name="topbar-items">
-      <li class="topbar-item help-dialog">
-        <a href="#" onclick="PF('helpServicesModal').show();">
-          <i class="topbar-icon si si-question-circle"></i>
-        </a>
-      </li>
+      <li class="topbar-item help-dialog"><a href="#"
+        onclick="PF('helpServicesModal').show();"> <i
+          class="topbar-icon si si-question-circle"></i>
+      </a></li>
     </ui:define>
 
     <ui:define name="content">
       <div class="layout-dashboard">
         <div class="p-grid">
           <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/configuration/ssl-truststore.xhtml" />
-          </div>
-           <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/configuration/ssl-truststore-table.xhtml" />
+            <ui:include
+              src="../includes/components/configuration/ssl-truststore.xhtml" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/configuration/ssl-keystore.xhtml" />
+            <cc:SslTable id="sslTrustTable"
+              uploadCerts="#{sslClientBean.handleUploadTrustCert}"
+              deleteCerts="#{sslClientBean.deleteTrustCertificate(x509.alias)}"
+              getCerts="#{sslClientBean.storedCerts}"
+              title="Trust Store Certificates" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
-            <ui:include src="../includes/components/configuration/ssl-keystore-table.xhtml" />
+            <ui:include
+              src="../includes/components/configuration/ssl-keystore.xhtml" />
+          </div>
+          <div class="p-col-12 p-md-12 p-xl-6">
+            <cc:SslTable id="sslKeyTable"
+              uploadCerts="#{sslClientBean.handleUploadKeyCert}"
+              deleteCerts="#{sslClientBean.deleteKeyCertificate(x509.alias)}"
+              getCerts="#{sslClientBean.storedKeyCerts}"
+              title="Key Store Certificates" />
           </div>
         </div>
       </div>
