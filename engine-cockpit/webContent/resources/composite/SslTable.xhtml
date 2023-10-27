@@ -1,28 +1,30 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-  xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions"
-  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+  <cc:attribute name="uploadCerts" method-signature="void handleEvent(org.primefaces.event.FileUploadEvent)" required="true" />
+  <cc:attribute name="deleteCerts" required="true" />
+  <cc:attribute name="getCerts" required="true" />
+  <cc:attribute name="title" required="true" />
+</cc:interface>
 
-<div class="card">
-  <h:form id="truststoreTable">
+<cc:implementation>
+  <div class="card">
+  <h:form id="storeTable">
     <div class="card-header">
       <div class="card-title p-d-flex p-ai-center">
         <i class="p-pr-3 si si-information-circle"></i>
-        <h6 class="p-m-0">Trust Store Certificates</h6>
-        <p:fileUpload id="trustCertUpload" mode="simple"
+        <h6 class="p-m-0">#{cc.attrs.title}</h6>
+        <p:fileUpload id="certUpload" mode="simple"
           skinSimple="true" multiple="false" auto="true"
-          listener="#{sslClientBean.handleUploadTrustCert}"
-          update="truststoreTable:trustStoreCertificates"
+          listener="#{cc.attrs.uploadCerts}"
+          update="@form"
           style="display: none;" />
         <p:commandButton title="Add Certificate" icon="si si-upload-bottom"
           type="button" id="Certbtn"
           styleClass="p-col-fixed p-ml-auto p-ml-1 p-mr-1 rounded-button"
-          onclick="document.getElementById('truststoreTable:trustCertUpload_input').click(); return false;">
+          onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
         </p:commandButton>
       </div>
     </div>
@@ -32,7 +34,7 @@
       layout="flex" styleClass="grey-label-panel ui-fluid">
 
         <label>Certificates</label>
-        <p:dataTable var="x509" value="#{sslClientBean.storedCerts}" id="trustStoreCertificates">
+        <p:dataTable var="x509" value="#{cc.attrs.getCerts}" id="storeCertificates">
         
         <p:column headerText="Valid">
           <i class="#{!x509.expired ? 'pi pi-times' : 'pi pi-check'}" 
@@ -57,8 +59,8 @@
         <p:column headerText="Delete">
           <p:commandButton id="delete" title="Delete" icon="pi pi-trash"
             styleClass="ui-button-danger"
-            actionListener="#{sslClientBean.deleteTrustCertificate(x509.alias)}"
-            update="truststoreTable:trustStoreCertificates">
+            actionListener="#{cc.attrs.deleteCerts}"
+            update="@form">
           </p:commandButton>
         </p:column>
 
@@ -67,5 +69,6 @@
     </p:panelGrid>
   </h:form>
 </div>
+</cc:implementation>
 
 </html>

@@ -192,17 +192,17 @@ class WebTestSSL {
 
   @Test
   void deleteCert() throws IOException {
-    PrimeUiTable2 certificates = new PrimeUiTable2(By.id("truststoreTable:trustStoreCertificates"));
+    PrimeUiTable2 certificates = new PrimeUiTable2(By.id("sslTrustTable:storeTable:storeCertificates"));
     certificates.isEmpty();
     var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
-    $(By.id("truststoreTable:trustCertUpload_input")).sendKeys(createTempFile.toString());
+    $(By.id("sslTrustTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
     certificates.contains("ivy1");
     Optional<SelenideElement> row = certificates.findRow(text("ivy1"));
     var dataRi = row.get().getAttribute("data-ri");
-    $(By.id("truststoreTable:trustStoreCertificates:"+dataRi+":delete")).click();
+    $(By.id("sslTrustTable:storeTable:storeCertificates:"+dataRi+":delete")).click();
     certificates.containsNot("ivy1");
   }
 
@@ -212,26 +212,26 @@ class WebTestSSL {
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
-    $(By.id("truststoreTable:trustCertUpload_input")).sendKeys(createTempFile.toString());
-    PrimeUi.table(By.id("truststoreTable:trustStoreCertificates")).contains("ivy1");
+    $(By.id("sslTrustTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
+    PrimeUi.table(By.id("sslTrustTable:storeTable:storeCertificates")).contains("ivy1");
 
-   $(By.id("truststoreTable:trustStoreCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
-   $(By.id("truststoreTable:trustStoreCertificates:0:delete")).click();
+   $(By.id("sslTrustTable:storeTable:storeCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
+   $(By.id("sslTrustTable:storeTable:storeCertificates:0:delete")).click();
   }
 
   @Test
   void deleteKeyCert() throws IOException {
-    PrimeUiTable2 certificates = new PrimeUiTable2(By.id("keyStoreTable:keyStoreCertificates"));
+    PrimeUiTable2 certificates = new PrimeUiTable2(By.id("sslKeyTable:storeTable:storeCertificates"));
     certificates.isEmpty();
     var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
-    $(By.id("keyStoreTable:keyCertUpload_input")).sendKeys(createTempFile.toString());
+    $(By.id("sslKeyTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
     certificates.contains("ivy1");
     Optional<SelenideElement> row = certificates.findRow(text("ivy1"));
     var dataRi = row.get().getAttribute("data-ri");
-    $(By.id("keyStoreTable:keyStoreCertificates:"+dataRi+":deleteKey")).click();
+    $(By.id("sslKeyTable:storeTable:storeCertificates:"+dataRi+":delete")).click();
     certificates.containsNot("ivy1");
   }
 
@@ -269,11 +269,11 @@ class WebTestSSL {
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
-    $(By.id("keyStoreTable:keyCertUpload_input")).sendKeys(createTempFile.toString());
-    PrimeUi.table(By.id("keyStoreTable:keyStoreCertificates")).contains("ivy1");
+    $(By.id("sslKeyTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
+    PrimeUi.table(By.id("sslKeyTable:storeTable:storeCertificates")).contains("ivy1");
 
-   $(By.id("keyStoreTable:keyStoreCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
-   $(By.id("keyStoreTable:keyStoreCertificates:0:deleteKey")).click();
+   $(By.id("sslKeyTable:storeTable:storeCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
+   $(By.id("sslKeyTable:storeTable:storeCertificates:0:delete")).click();
   }
 
   private void saveTrustStore() {
