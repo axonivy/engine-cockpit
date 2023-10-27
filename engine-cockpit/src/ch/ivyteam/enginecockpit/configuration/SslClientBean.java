@@ -115,6 +115,9 @@ public class SslClientBean {
   }
 
   public void setTrustStorePassword(String trustStorePassword) {
+    if (trustStorePassword.isBlank()) {
+      return;
+    }
     this.trustStorePassword = trustStorePassword;
   }
 
@@ -173,32 +176,38 @@ public class SslClientBean {
     return keyStoreFile;
   }
 
-  public void setKeyStoreFile(String KeyStoreFile) {
-    this.keyStoreFile = KeyStoreFile;
+  public void setKeyStoreFile(String keyStoreFile) {
+    this.keyStoreFile = keyStoreFile;
   }
 
   public String getKeyStorePassword() {
     return keyStorePassword;
   }
 
-  public void setKeyStorePassword(String KeyStorePassword) {
-    this.keyStorePassword = KeyStorePassword;
+  public void setKeyStorePassword(String keyStorePassword) {
+    if (keyStorePassword.isBlank()) {
+      return;
+    }
+    this.keyStorePassword = keyStorePassword;
   }
 
   public String getKeyPassword() {
     return keyPassword;
   }
 
-  public void setKeyPassword(String KeyPassword) {
-    this.keyPassword = KeyPassword;
+  public void setKeyPassword(String keyPassword) {
+    if (keyPassword.isBlank()) {
+      return;
+    }
+    this.keyPassword = keyPassword;
   }
 
   public String getKeyStoreProvider() {
     return keyStoreProvider;
   }
 
-  public void setKeyStoreProvider(String KeyStoreProvider) {
-    this.keyStoreProvider = KeyStoreProvider;
+  public void setKeyStoreProvider(String keyStoreProvider) {
+    this.keyStoreProvider = keyStoreProvider;
   }
 
   public List<String> getkeyStoreProviders() {
@@ -213,8 +222,8 @@ public class SslClientBean {
     return keyStoreType;
   }
 
-  public void setKeyStoreType(String KeyStoreType) {
-    this.keyStoreType = KeyStoreType;
+  public void setKeyStoreType(String keyStoreType) {
+    this.keyStoreType = keyStoreType;
   }
 
   public List<String> getkeyStoreTypes() {
@@ -228,8 +237,8 @@ public class SslClientBean {
     return keyStoreAlgorithm;
   }
 
-  public void setKeyStoreAlgorithm(String KeyStoreAlgorithm) {
-    this.keyStoreAlgorithm = KeyStoreAlgorithm;
+  public void setKeyStoreAlgorithm(String keyStoreAlgorithm) {
+    this.keyStoreAlgorithm = keyStoreAlgorithm;
   }
 
   public List<String> getKeyStoreAlgorithms() {
@@ -240,8 +249,8 @@ public class SslClientBean {
     return enableInsecureSSL;
   }
 
-  public void setEnableInsecureSSL(String EnableInsecureSSL) {
-    this.enableInsecureSSL = EnableInsecureSSL;
+  public void setEnableInsecureSSL(String enableInsecureSSL) {
+    this.enableInsecureSSL = enableInsecureSSL;
   }
 
   public List<StoredCert> getStoredCerts() throws KeyStoreException {

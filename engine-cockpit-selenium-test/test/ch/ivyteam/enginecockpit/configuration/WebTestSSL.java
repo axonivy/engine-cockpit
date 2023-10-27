@@ -54,7 +54,7 @@ class WebTestSSL {
       Navigation.toSSL();
 
       propertyFile.shouldHave(exactValue("invalidFile"));
-      propertyPassword.shouldHave(exactValue("invalidPassword"));
+      propertyPassword.shouldHave(exactValue(""));
       propertyManagerClass.shouldHave(exactValue("ManagerClass"));
     } finally {
       propertyFile.clear();
@@ -88,7 +88,8 @@ class WebTestSSL {
       $(By.id("sslClientform:trustStoreType")).shouldHave(text("DKS"));
       $(By.id("sslClientform:trustStoreAlgorithm")).shouldHave(text("PKIX"));
     } finally {
-      propertyType.selectItemByLabel("JKS");
+      propertyProvider.selectItemByLabel("");
+      propertyType.selectItemByLabel("PKCS12");
       propertyAlgorithm.selectItemByLabel("PKIX");
 
       saveTrustStore();
@@ -119,7 +120,7 @@ class WebTestSSL {
 
       propertyFile.shouldHave(exactValue("invalidFile"));
       propertyStorePassword.shouldNotHave(exactValue("invalidStorePassword"));
-      propertyPassword.shouldHave(exactValue("invalidPassword"));
+      propertyPassword.shouldHave(exactValue(""));
     } finally {
       PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
 
@@ -173,7 +174,8 @@ class WebTestSSL {
       $(By.id("sslClientformKey:keyStoreAlgorithm")).shouldHave(text("SunX509"));
     } finally {
       PrimeUi.selectBooleanCheckbox(By.id("sslClientformKey:useCustomKeyStore")).setChecked();
-      propertyType.selectItemByLabel("JKS");
+      propertyProvider.selectItemByLabel("");
+      propertyType.selectItemByLabel("PKCS12");
 
       saveKeyStore();
     }
