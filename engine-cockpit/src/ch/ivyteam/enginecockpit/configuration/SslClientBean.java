@@ -294,6 +294,11 @@ public class SslClientBean {
       return Optional.empty();
     }
   }
+  private static String invalidityMessage;
+
+  public String getInvalidityMessage() {
+    return invalidityMessage;
+  }
 
   public record StoredCert(String alias, X509Certificate cert) {
 
@@ -307,6 +312,17 @@ public class SslClientBean {
 
     public boolean isExpired() {
       return cert != null && !cert.getNotAfter().before(new Date());
+    }
+
+    public boolean isValid() {
+      try {
+          cert.checkValidity();
+          invalidityMessage = null;
+          return true;
+      } catch (Exception ex) {
+          invalidityMessage = ex.getMessage();
+          return false;
+      }
     }
   }
 
