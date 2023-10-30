@@ -55,6 +55,10 @@ public class ConfigFile {
 
   public void save() {
     try {
+      var dir = file.getParent();
+      if (!Files.exists(dir)) {
+        Files.createDirectories(dir);
+      }
       Files.writeString(file, content);
       FacesContext.getCurrentInstance().addMessage("editorMessage",
               new FacesMessage("Saved " + fileName + " Successfully", ""));
