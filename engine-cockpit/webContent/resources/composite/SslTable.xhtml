@@ -35,13 +35,14 @@
 
         <label>Certificates</label>
         <p:dataTable var="x509" value="#{cc.attrs.getCerts}" id="storeCertificates">
-        
-        <p:column headerText="Valid">
-          <i class="#{!x509.expired ? 'pi pi-times' : 'pi pi-check'}" 
-          style="color: #{!x509.expired ? 'red' : 'green'}"/>
-        </p:column>
 
-        <p:column headerText="Name">
+          <p:column headerText="Valid">
+          <h:outputText id="valid" class="#{!x509.isValid() ? 'pi pi-times' : 'pi pi-check'}"  style="color: #{!x509.isValid() ? 'red' : 'green'}" value="">
+          </h:outputText>
+              <p:tooltip for="valid" value="#{x509.isValid() ? 'Valid' : x509.invalidityMessage}" />
+          </p:column>
+
+          <p:column headerText="Name">
           <h:outputText value="#{x509.alias}" id="name" />
         </p:column>
 
