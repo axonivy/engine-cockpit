@@ -294,13 +294,17 @@ public class SslClientBean {
       return Optional.empty();
     }
   }
-  private static String invalidityMessage;
 
-  public String getInvalidityMessage() {
-    return invalidityMessage;
-  }
+  public static class StoredCert {
 
-  public record StoredCert(String alias, X509Certificate cert) {
+    private final String alias;
+    private final X509Certificate cert;
+    private String invalidityMessage;
+
+    public StoredCert(String alias, X509Certificate cert) {
+      this.alias = alias;
+      this.cert = cert;
+    }
 
     public String getAlias() {
       return alias;
@@ -323,6 +327,10 @@ public class SslClientBean {
           invalidityMessage = ex.getMessage();
           return false;
       }
+    }
+
+    public String getInvalidityMessage() {
+      return invalidityMessage;
     }
   }
 

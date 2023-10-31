@@ -39,7 +39,7 @@
           <p:column headerText="Valid">
           <h:outputText id="valid" class="#{!x509.isValid() ? 'pi pi-times' : 'pi pi-check'}"  style="color: #{!x509.isValid() ? 'red' : 'green'}" value="">
           </h:outputText>
-              <p:tooltip for="valid" value="#{x509.isValid() ? 'Gültig' : sslClientBean.invalidityMessage}" />
+              <p:tooltip for="valid" value="#{x509.isValid() ? 'Valid' : x509.invalidityMessage}" />
           </p:column>
 
           <p:column headerText="Name">
