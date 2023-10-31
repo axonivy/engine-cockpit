@@ -323,6 +323,11 @@ public class SslClientBean {
       return cert;
     }
 
+    public String getCertName() {
+      var name = cert.getSubjectX500Principal().getName().split(",");
+      return name[0];
+    }
+
     public boolean isExpired() {
       return cert != null && !cert.getNotAfter().before(new Date());
     }

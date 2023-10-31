@@ -45,6 +45,10 @@
           <p:column headerText="Name">
           <h:outputText value="#{x509.alias}" id="name" />
         </p:column>
+        
+         <p:column headerText="CertName">
+          <h:outputText value="#{x509.certName}" id="issuer" />
+        </p:column>
 
         <p:column headerText="Algorithm">
           <h:outputText
