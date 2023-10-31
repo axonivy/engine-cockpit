@@ -45,7 +45,6 @@ public class SslClientBean {
   private String trustStoreProvider;
   private String trustStoreType;
   private String trustStoreAlgorithm;
-  private String trustManagerClass;
   private String keyStoreFile;
   private String keyStorePassword;
   private String keyPassword;
@@ -61,7 +60,6 @@ public class SslClientBean {
     this.trustStoreProvider = config.getTrustStoreProvider();
     this.trustStoreType = config.getTrustStoreType();
     this.trustStoreAlgorithm = config.getTrustStoreAlgorithm();
-    this.trustManagerClass = config.getTrustManagerClass();
     this.keyStoreFile = config.getKeyStoreFile();
     this.keyStorePassword = config.getKeyStorePassword();
     this.keyPassword = config.getKeyPassword();
@@ -85,7 +83,6 @@ public class SslClientBean {
     config.setTrustStoreProvider(trustStoreProvider);
     config.setTrustStoreType(trustStoreType);
     config.setTrustStoreAlgorithm(trustStoreAlgorithm);
-    config.setTrustManagerClass(trustManagerClass);
     config.setEnableInsecureSSL(enableInsecureSSL);
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
             new FacesMessage("Trust Store configurations saved"));
@@ -162,14 +159,6 @@ public class SslClientBean {
 
   public List<String> getTrustStoreAlgorithms() {
     return getAlgorithms("TrustManagerFactory");
-  }
-
-  public String getTrustManagerClass() {
-    return trustManagerClass;
-  }
-
-  public void setTrustManagerClass(String trustManagerClass) {
-    this.trustManagerClass = trustManagerClass;
   }
 
   public String getKeyStoreFile() {
