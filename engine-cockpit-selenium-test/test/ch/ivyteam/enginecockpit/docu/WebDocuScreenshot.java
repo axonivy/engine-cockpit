@@ -10,14 +10,17 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.id;
+
 import java.io.IOException;
 import java.nio.file.Files;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Configuration;
@@ -136,6 +139,8 @@ public class WebDocuScreenshot {
     takeScreenshot("web-server", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toSystemConfig();
     takeScreenshot("system-config", new Dimension(SCREENSHOT_WIDTH, 700));
+    Navigation.toSSL();
+    takeScreenshot("SSL-client", new Dimension(SCREENSHOT_WIDTH, 1000));
     Navigation.toCluster();
     takeScreenshot("cluster", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toEditor();
