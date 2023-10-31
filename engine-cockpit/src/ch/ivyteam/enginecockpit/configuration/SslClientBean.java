@@ -312,6 +312,24 @@ public class SslClientBean {
       return cert;
     }
 
+    public String getSubject() {
+      if (cert == null) {
+        return "";
+      }
+      String cName = cert.getSubjectX500Principal().getName();
+      return shortSubject(cName);
+    }
+
+    public static String shortSubject(String fullName) {
+      var nameParts = fullName.split(",");
+      String cName = nameParts[0];
+      var assign = cName.indexOf('=');
+      if (assign != -1) {
+        return cName.substring(assign+1);
+      }
+      return cName;
+    }
+
     public boolean isExpired() {
       return cert != null && !cert.getNotAfter().before(new Date());
     }

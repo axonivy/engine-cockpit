@@ -42,8 +42,12 @@
               <p:tooltip for="valid" value="#{x509.isValid() ? 'Valid' : x509.invalidityMessage}" />
           </p:column>
 
-          <p:column headerText="Name">
-          <h:outputText value="#{x509.alias}" id="name" />
+          <p:column headerText="Alias">
+          <h:outputText value="#{x509.alias}" id="alias" />
+        </p:column>
+        
+         <p:column headerText="Subject">
+          <h:outputText value="#{x509.subject}" id="subject" />
         </p:column>
 
         <p:column headerText="Algorithm">
