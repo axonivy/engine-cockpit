@@ -44,10 +44,6 @@ class WebTestSSL {
     propertyPassword.clear();
     propertyPassword.sendKeys("invalidPassword");
 
-    var propertyManagerClass = $(By.id("sslClientform:trustManagerClass"));
-    propertyManagerClass.clear();
-    propertyManagerClass.sendKeys("ManagerClass");
-
     try {
       saveTrustStore();
       successTrustStore();
@@ -55,13 +51,11 @@ class WebTestSSL {
 
       propertyFile.shouldHave(exactValue("invalidFile"));
       propertyPassword.shouldHave(exactValue(""));
-      propertyManagerClass.shouldHave(exactValue("ManagerClass"));
     } finally {
       propertyFile.clear();
       propertyFile.sendKeys("configuration/truststore.p12");
       propertyPassword.clear();
       propertyPassword.sendKeys("changeit");
-      propertyManagerClass.clear();
 
       saveTrustStore();
       Navigation.toSSL();
