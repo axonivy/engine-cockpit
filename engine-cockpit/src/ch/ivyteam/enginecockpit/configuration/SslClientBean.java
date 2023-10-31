@@ -323,7 +323,10 @@ public class SslClientBean {
       return cert;
     }
 
-    public String getCertName() {
+    public String getSubject() {
+      if (cert == null) {
+        return "";
+      }
       var name = cert.getSubjectX500Principal().getName().split(",");
       return name[0];
     }
