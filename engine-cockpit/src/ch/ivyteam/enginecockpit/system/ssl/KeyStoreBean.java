@@ -150,7 +150,7 @@ public class KeyStoreBean {
   }
 
   public Certificate handleUploadKeyCert(FileUploadEvent event) throws Exception {
-    return KeyStoreUtils.handleUploadCert(event, file, type, provider, keyPassword);
+    return KeyStoreUtils.handleUploadCert(event, file, type, provider, password);
   }
 
 }
