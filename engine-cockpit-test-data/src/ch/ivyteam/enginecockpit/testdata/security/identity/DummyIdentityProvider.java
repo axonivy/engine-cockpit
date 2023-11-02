@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.testdata.security.identity;
 import java.net.URL;
 import java.util.List;
 
+import ch.ivyteam.ivy.configuration.configurator.Configurator;
 import ch.ivyteam.ivy.extension.IIvyExtensionPointManager;
 import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
@@ -10,7 +11,6 @@ import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryBrowser;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNode;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNodeType;
 import ch.ivyteam.ivy.security.identity.spi.browser.Property;
-import ch.ivyteam.ivy.security.identity.spi.config.Configurator;
 
 public class DummyIdentityProvider implements IdentityProvider {
 
