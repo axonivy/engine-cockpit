@@ -54,18 +54,21 @@ public class SslClientBean {
   private SslClientConfig config = new SslClientConfig();
 
   public SslClientBean() {
-    this.trustStoreFile = config.getTrustStoreFile();
-    this.trustStorePassword = config.getTrustStorePassword();
-    this.trustStoreProvider = config.getTrustStoreProvider();
-    this.trustStoreType = config.getTrustStoreType();
-    this.trustStoreAlgorithm = config.getTrustStoreAlgorithm();
-    this.keyStoreFile = config.getKeyStoreFile();
-    this.keyStorePassword = config.getKeyStorePassword();
-    this.keyPassword = config.getKeyPassword();
-    this.keyStoreProvider = config.getKeyStoreProvider();
-    this.keyStoreType = config.getKeyStoreType();
-    this.keyStoreAlgorithm = config.getKeyStoreAlgorithm();
-    this.enableInsecureSSL = config.getEnableInsecureSSL();
+    var trust = config.getTrustStore();
+    this.trustStoreFile = trust.getFile();
+    this.trustStorePassword = trust.getPassword();
+    this.trustStoreProvider = trust.getProvider();
+    this.trustStoreType = trust.getType();
+    this.trustStoreAlgorithm = trust.getAlgorithm();
+    this.enableInsecureSSL = trust.getEnableInsecureSSL();
+
+    var key = config.getKeyStore();
+    this.keyStoreFile = key.getFile();
+    this.keyStorePassword = key.getPassword();
+    this.keyPassword = key.getKeyPassword();
+    this.keyStoreProvider = key.getProvider();
+    this.keyStoreType = key.getType();
+    this.keyStoreAlgorithm = key.getAlgorithm();
   }
 
   public String getTrustStoreFile() {
@@ -77,23 +80,25 @@ public class SslClientBean {
   }
 
   public void saveTrustStore() {
-    config.setTrustStoreFile(trustStoreFile);
-    config.setTrustStorePassword(trustStorePassword);
-    config.setTrustStoreProvider(trustStoreProvider);
-    config.setTrustStoreType(trustStoreType);
-    config.setTrustStoreAlgorithm(trustStoreAlgorithm);
-    config.setEnableInsecureSSL(enableInsecureSSL);
+    var trust = config.getTrustStore();
+    trust.setFile(trustStoreFile);
+    trust.setPassword(trustStorePassword);
+    trust.setProvider(trustStoreProvider);
+    trust.setType(trustStoreType);
+    trust.setAlgorithm(trustStoreAlgorithm);
+    trust.setEnableInsecureSSL(enableInsecureSSL);
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
             new FacesMessage("Trust Store configurations saved"));
   }
 
   public void saveKeyStore() {
-    config.setKeyStoreFile(keyStoreFile);
-    config.setKeyStorePassword(keyStorePassword);
-    config.setKeyPassword(keyPassword);
-    config.setKeyStoreProvider(keyStoreProvider);
-    config.setKeyStoreType(keyStoreType);
-    config.setKeyStoreAlgorithm(keyStoreAlgorithm);
+    var key = config.getKeyStore();
+    key.setFile(keyStoreFile);
+    key.setPassword(keyStorePassword);
+    key.setKeyPassword(keyPassword);
+    key.setProvider(keyStoreProvider);
+    key.setType(keyStoreType);
+    key.setAlgorithm(keyStoreAlgorithm);
     FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
             new FacesMessage("Key Store configurations saved"));
   }
