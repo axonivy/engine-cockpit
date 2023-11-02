@@ -36,224 +36,288 @@ public class SslClientBean {
     String STORE = "KeyStore";
   }
 
-  private String trustStoreFile;
-  private String trustStorePassword;
-  private String trustStoreProvider;
-  private String trustStoreType;
-  private String trustStoreAlgorithm;
-  private String enableInsecureSSL;
-
-  private boolean useCustomKeyStore;
-  private String keyStoreFile;
-  private String keyStorePassword;
-  private String keyPassword;
-  private String keyStoreProvider;
-  private String keyStoreType;
-  private String keyStoreAlgorithm;
-
   private SslClientConfig config = new SslClientConfig();
+  private KeyStoreBean keyStoreBean = new KeyStoreBean();
+  private TrustStoreBean trustStoreBean = new TrustStoreBean();
 
-  public SslClientBean() {
-    var trust = config.getTrustStore();
-    this.trustStoreFile = trust.getFile();
-    this.trustStorePassword = trust.getPassword();
-    this.trustStoreProvider = trust.getProvider();
-    this.trustStoreType = trust.getType();
-    this.trustStoreAlgorithm = trust.getAlgorithm();
-    this.enableInsecureSSL = trust.getEnableInsecureSSL();
-
-    var key = config.getKeyStore();
-    this.keyStoreFile = key.getFile();
-    this.keyStorePassword = key.getPassword();
-    this.keyPassword = key.getKeyPassword();
-    this.keyStoreProvider = key.getProvider();
-    this.keyStoreType = key.getType();
-    this.keyStoreAlgorithm = key.getAlgorithm();
+  public TrustStoreBean getTrustStore() {
+    return trustStoreBean;
   }
 
-  public String getTrustStoreFile() {
-    return trustStoreFile;
+  public KeyStoreBean getKeyStore() {
+    return keyStoreBean;
   }
 
-  public void setTrustStoreFile(String trustStoreFile) {
-    this.trustStoreFile = trustStoreFile;
-  }
+  public class TrustStoreBean {
+    private String file;
+    private String password;
+    private String provider;
+    private String type;
+    private String algorithm;
+    private String enableInsecureSSL;
 
-  public void saveTrustStore() {
-    var trust = config.getTrustStore();
-    trust.setFile(trustStoreFile);
-    trust.setPassword(trustStorePassword);
-    trust.setProvider(trustStoreProvider);
-    trust.setType(trustStoreType);
-    trust.setAlgorithm(trustStoreAlgorithm);
-    trust.setEnableInsecureSSL(enableInsecureSSL);
-    FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
-            new FacesMessage("Trust Store configurations saved"));
-  }
-
-  public void saveKeyStore() {
-    var key = config.getKeyStore();
-    key.setFile(keyStoreFile);
-    key.setPassword(keyStorePassword);
-    key.setKeyPassword(keyPassword);
-    key.setProvider(keyStoreProvider);
-    key.setType(keyStoreType);
-    key.setAlgorithm(keyStoreAlgorithm);
-    FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
-            new FacesMessage("Key Store configurations saved"));
-  }
-
-  public boolean isUseCustomKeyStore() {
-    return useCustomKeyStore;
-  }
-
-  public void setUseCustomKeyStore(boolean useCustomKeyStore) {
-    this.useCustomKeyStore = useCustomKeyStore;
-  }
-
-  public String getTrustStorePassword() {
-    return trustStorePassword;
-  }
-
-  public void setTrustStorePassword(String trustStorePassword) {
-    if (trustStorePassword.isBlank()) {
-      return;
+    public TrustStoreBean() {
+      var trust = config.getTrustStore();
+      this.file = trust.getFile();
+      this.password = trust.getPassword();
+      this.provider = trust.getProvider();
+      this.type = trust.getType();
+      this.algorithm = trust.getAlgorithm();
+      this.enableInsecureSSL = trust.getEnableInsecureSSL();
     }
-    this.trustStorePassword = trustStorePassword;
-  }
 
-  public String getTrustStoreProvider() {
-    return trustStoreProvider;
-  }
-
-  public void setTrustStoreProvider(String trustStoreProvider) {
-    this.trustStoreProvider = trustStoreProvider;
-  }
-
-  public List<String> getTrustStoreProviders() {
-    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
-            .map(provider -> provider.getName())
-            .toList());
-    providers.add("");
-    return providers;
-  }
-
-  public String getTrustStoreType() {
-    return trustStoreType;
-  }
-
-  public void setTrustStoreType(String trustStoreType) {
-    this.trustStoreType = trustStoreType;
-  }
-
-  public List<String> getTrustStoreTypes() {
-    List<String> types = new ArrayList<>();
-    types.addAll(getTypes(getTrustStoreProvider()));
-    types.add("");
-    return types;
-}
-
-  public String getTrustStoreAlgorithm() {
-    return trustStoreAlgorithm;
-  }
-
-  public void setTrustStoreAlgorithm(String trustStoreAlgorithm) {
-    this.trustStoreAlgorithm = trustStoreAlgorithm;
-  }
-
-  public List<String> getTrustStoreAlgorithms() {
-    return getAlgorithms("TrustManagerFactory");
-  }
-
-  public String getKeyStoreFile() {
-    return keyStoreFile;
-  }
-
-  public void setKeyStoreFile(String keyStoreFile) {
-    this.keyStoreFile = keyStoreFile;
-  }
-
-  public String getKeyStorePassword() {
-    return keyStorePassword;
-  }
-
-  public void setKeyStorePassword(String keyStorePassword) {
-    if (keyStorePassword.isBlank()) {
-      return;
+    public String getFile() {
+      return file;
     }
-    this.keyStorePassword = keyStorePassword;
-  }
 
-  public String getKeyPassword() {
-    return keyPassword;
-  }
-
-  public void setKeyPassword(String keyPassword) {
-    if (keyPassword.isBlank()) {
-      return;
+    public String getPassword() {
+      return password;
     }
-    this.keyPassword = keyPassword;
+
+    public String getProvider() {
+      return provider;
+    }
+
+    @SuppressWarnings("hiding")
+    public List<String> getProviders() {
+      List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
+              .map(provider -> provider.getName())
+              .toList());
+      providers.add("");
+      return providers;
+    }
+
+    public String getType() {
+      return type;
+    }
+
+    public List<String> getTypes() {
+        List<String> types = new ArrayList<>();
+        types.addAll(SslClientBean.this.getTypes(getProvider()));
+        types.add("");
+        return types;
+    }
+
+    public String getAlgorithm() {
+      return algorithm;
+    }
+
+    public List<String> getAlgorithms() {
+      return SslClientBean.this.getAlgorithms("TrustManagerFactory");
+    }
+
+    public void setFile(String file) {
+      this.file = file;
+    }
+
+    public void setPassword(String password) {
+      if (password.isBlank()) {
+        return;
+      }
+      this.password = password;
+    }
+
+    public void setProvider(String provider) {
+      this.provider = provider;
+    }
+
+    public void setType(String type) {
+      this.type = type;
+    }
+
+    public void setAlgorithm(String algorithm) {
+      this.algorithm = algorithm;
+    }
+
+    public String getEnableInsecureSSL() {
+      return enableInsecureSSL;
+    }
+
+    public void setEnableInsecureSSL(String enableInsecureSSL) {
+      this.enableInsecureSSL = enableInsecureSSL;
+    }
+
+    public void saveTrustStore() {
+      var trust = config.getTrustStore();
+      trust.setFile(file);
+      trust.setPassword(password);
+      trust.setProvider(provider);
+      trust.setType(type);
+      trust.setAlgorithm(algorithm);
+      trust.setEnableInsecureSSL(enableInsecureSSL);
+      FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
+              new FacesMessage("Trust Store configurations saved"));
+    }
+
+    @SuppressWarnings("restriction")
+    private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> load() {
+      try {
+        var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(file, type,
+                provider, password.toCharArray());
+        return Optional.of(tmpKS);
+      } catch (Exception ex) {
+        LOGGER.error("failed to load keystore " + file, ex);
+        return Optional.empty();
+      }
+    }
+
+    public void deleteTrustCertificate(String alias) {
+      var tmpKS = load();
+      deleteCertificate(alias, tmpKS.get(), file, password);
+    }
+
+    public Certificate handleUploadTrustCert(FileUploadEvent event)
+            throws CertificateException, IOException, Exception {
+      return handleUploadCert(event, file, type, provider, password);
+    }
+
+    public List<StoredCert> getStoredCerts() throws KeyStoreException {
+      var tmpKS = load();
+      return SslClientBean.this.getStoredCerts(tmpKS);
+    }
   }
 
-  public String getKeyStoreProvider() {
-    return keyStoreProvider;
-  }
+  public class KeyStoreBean {
+    private boolean useCustomKeyStore;
+    private String file;
+    private String password;
+    private String keyPassword;
+    private String provider;
+    private String type;
+    private String algorithm;
 
-  public void setKeyStoreProvider(String keyStoreProvider) {
-    this.keyStoreProvider = keyStoreProvider;
-  }
+    public KeyStoreBean() {
+      var key = config.getKeyStore();
+      this.file = key.getFile();
+      this.password = key.getPassword();
+      this.keyPassword = key.getKeyPassword();
+      this.provider = key.getProvider();
+      this.type = key.getType();
+      this.algorithm = key.getAlgorithm();
 
-  public List<String> getkeyStoreProviders() {
-    List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
-            .map(provider -> provider.getName())
-            .toList());
-    providers.add("");
-    return providers;
-}
+    }
 
-  public String getKeyStoreType() {
-    return keyStoreType;
-  }
+    public boolean isUseCustomKeyStore() {
+      return useCustomKeyStore;
+    }
 
-  public void setKeyStoreType(String keyStoreType) {
-    this.keyStoreType = keyStoreType;
-  }
+    public void setUseCustomKeyStore(boolean useCustomKeyStore) {
+      this.useCustomKeyStore = useCustomKeyStore;
+    }
 
-  public List<String> getkeyStoreTypes() {
-    List<String> types = new ArrayList<>();
-    types.addAll(getTypes(getKeyStoreProvider()));
-    types.add("");
-    return types;
-  }
+    public String getFile() {
+      return file;
+    }
 
-  public String getKeyStoreAlgorithm() {
-    return keyStoreAlgorithm;
-  }
+    public String getPassword() {
+      return password;
+    }
 
-  public void setKeyStoreAlgorithm(String keyStoreAlgorithm) {
-    this.keyStoreAlgorithm = keyStoreAlgorithm;
-  }
+    public String getKeyPassword() {
+      return keyPassword;
+    }
 
-  public List<String> getKeyStoreAlgorithms() {
-    return getAlgorithms("KeyManagerFactory");
-  }
+    public String getProvider() {
+      return provider;
+    }
 
-  public String getEnableInsecureSSL() {
-    return enableInsecureSSL;
-  }
+    @SuppressWarnings("hiding")
+    public List<String> getProviders() {
+        List<String> providers = new ArrayList<>(Arrays.stream(Security.getProviders())
+                .map(provider -> provider.getName())
+                .toList());
+        providers.add("");
+        return providers;
+    }
 
-  public void setEnableInsecureSSL(String enableInsecureSSL) {
-    this.enableInsecureSSL = enableInsecureSSL;
-  }
+    public List<String> getTypes() {
+      List<String> types = new ArrayList<>();
+      types.addAll(SslClientBean.this.getTypes(getProvider()));
+      types.add("");
+      return types;
+    }
 
-  public List<StoredCert> getStoredCerts() throws KeyStoreException {
-    var tmpKS = loadTrustStore();
-    return getStoredCerts(tmpKS);
-  }
+    public String getAlgorithm() {
+      return algorithm;
+    }
 
-  public List<StoredCert> getStoredKeyCerts() throws KeyStoreException {
-    var tmpKS = loadKeyStore();
-    return getStoredCerts(tmpKS);
+    public List<String> getAlgorithms() {
+      return SslClientBean.this.getAlgorithms("KeyManagerFactory");
+    }
+
+    public List<StoredCert> getStoredKeyCerts() throws Exception {
+      var tmpKS = loadKeyStore();
+      return getStoredCerts(tmpKS);
+    }
+
+    public void setFile(String file) {
+      this.file = file;
+    }
+
+    public void setPassword(String password) {
+      if (password.isBlank()) {
+        return;
+      }
+      this.password = password;
+    }
+
+    public void setKeyPassword(String keyPassword) {
+      if (keyPassword.isBlank()) {
+        return;
+      }
+      this.keyPassword = keyPassword;
+    }
+
+    public void setProvider(String provider) {
+      this.provider = provider;
+    }
+
+    public String getType() {
+      return type;
+    }
+
+    public void setType(String type) {
+      this.type = type;
+    }
+
+    public void setAlgorithm(String algorithm) {
+      this.algorithm = algorithm;
+    }
+
+    public void saveKeyStore() {
+      var key = config.getKeyStore();
+      key.setFile(file);
+      key.setPassword(password);
+      key.setKeyPassword(keyPassword);
+      key.setProvider(provider);
+      key.setType(type);
+      key.setAlgorithm(algorithm);
+      FacesContext.getCurrentInstance().addMessage("sslKeystoreSaveSuccess",
+              new FacesMessage("Key Store configurations saved"));
+    }
+
+    @SuppressWarnings("restriction")
+    private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> loadKeyStore() {
+      try {
+        var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(file, type,
+                provider, password.toCharArray());
+        return Optional.of(tmpKS);
+      } catch (Exception ex) {
+        LOGGER.error("failed to load keystore " + file, ex);
+        return Optional.empty();
+      }
+    }
+
+    public void deleteKeyCertificate(String alias) {
+      var tmpKS = loadKeyStore();
+      deleteCertificate(alias, tmpKS.get(), file, password);
+    }
+
+    public Certificate handleUploadKeyCert(FileUploadEvent event)
+            throws CertificateException, IOException, Exception {
+      return handleUploadCert(event, file, type, provider, keyPassword);
+    }
+
   }
 
   @SuppressWarnings("restriction")
@@ -274,40 +338,6 @@ public class SslClientBean {
   }
 
   @SuppressWarnings("restriction")
-  private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> loadTrustStore() {
-    try {
-      var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(trustStoreFile, trustStoreType,
-              trustStoreProvider, trustStorePassword.toCharArray());
-      return Optional.of(tmpKS);
-    } catch (Exception ex) {
-      LOGGER.error("failed to load keystore " + trustStoreFile, ex);
-      return Optional.empty();
-    }
-  }
-
-  @SuppressWarnings("restriction")
-  private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> loadKeyStore() {
-    try {
-      var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(keyStoreFile, keyStoreType,
-              keyStoreProvider, keyStorePassword.toCharArray());
-      return Optional.of(tmpKS);
-    } catch (Exception ex) {
-      LOGGER.error("failed to load keystore " + keyStoreFile, ex);
-      return Optional.empty();
-    }
-  }
-
-  public void deleteTrustCertificate(String alias) {
-    var tmpKS = loadTrustStore();
-    deleteCertificate(alias, tmpKS.get(), trustStoreFile, trustStorePassword);
-  }
-
-  public void deleteKeyCertificate(String alias) {
-    var tmpKS = loadKeyStore();
-    deleteCertificate(alias, tmpKS.get(), keyStoreFile, keyStorePassword);
-  }
-
-  @SuppressWarnings("restriction")
   private void deleteCertificate(String alias, ch.ivyteam.ivy.ssl.restricted.IvyKeystore tmpKS, String file, String password) {
     try {
       tmpKS.getKeyStore().deleteEntry(alias);
@@ -319,16 +349,6 @@ public class SslClientBean {
     } catch (Exception ex) {
       LOGGER.error("failed to load " + alias, ex);
     }
-  }
-
-  public Certificate handleUploadKeyCert(FileUploadEvent event)
-          throws CertificateException, IOException, Exception {
-    return handleUploadCert(event, keyStoreFile, keyStoreType, keyStoreProvider, keyPassword);
-  }
-
-  public Certificate handleUploadTrustCert(FileUploadEvent event)
-          throws CertificateException, IOException, Exception {
-    return handleUploadCert(event, trustStoreFile, trustStoreType, trustStoreProvider, trustStorePassword);
   }
 
   @SuppressWarnings("restriction")

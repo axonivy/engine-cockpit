@@ -38,40 +38,40 @@ public class SslClientConfig {
       return config.getOrDefault(Key.FILE);
     }
 
-    public void setFile(String File) {
-      setConfig(Key.FILE, File);
+    public void setFile(String file) {
+      setConfig(Key.FILE, file);
     }
 
     public String getPassword() {
       return config.getOrDefault(Key.PASSWORD);
     }
 
-    public void setPassword(String Password) {
-      setConfig(Key.PASSWORD, Password);
+    public void setPassword(String password) {
+      setConfig(Key.PASSWORD, password);
     }
 
     public String getProvider() {
       return config.getOrDefault(Key.PROVIDER);
     }
 
-    public void setProvider(String Provider) {
-      setConfig(Key.PROVIDER, Provider);
+    public void setProvider(String provider) {
+      setConfig(Key.PROVIDER, provider);
     }
 
     public String getType() {
       return config.getOrDefault(Key.TYPE);
     }
 
-    public void setType(String Type) {
-      setConfig(Key.TYPE, Type);
+    public void setType(String type) {
+      setConfig(Key.TYPE, type);
     }
 
     public String getAlgorithm() {
       return config.getOrDefault(Key.ALGORITHM);
     }
 
-    public void setAlgorithm(String Algorithm) {
-      setConfig(Key.ALGORITHM, Algorithm);
+    public void setAlgorithm(String algorithm) {
+      setConfig(Key.ALGORITHM, algorithm);
     }
 
     public String getEnableInsecureSSL() {
@@ -99,16 +99,16 @@ public class SslClientConfig {
       return config.getOrDefault(Key.KEY_FILE);
     }
 
-    public void setFile(String File) {
-      setConfig(Key.KEY_FILE, File);
+    public void setFile(String file) {
+      setConfig(Key.KEY_FILE, file);
     }
 
     public String getPassword() {
       return config.getOrDefault(Key.KEY_STORE_PASSWORD);
     }
 
-    public void setPassword(String Password) {
-      setConfig(Key.KEY_STORE_PASSWORD, Password);
+    public void setPassword(String password) {
+      setConfig(Key.KEY_STORE_PASSWORD, password);
     }
 
     public String getKeyPassword() {
@@ -123,26 +123,25 @@ public class SslClientConfig {
       return config.getOrDefault(Key.KEY_ROVIDER);
     }
 
-    public void setProvider(String Provider) {
-      setConfig(Key.KEY_ROVIDER, Provider);
+    public void setProvider(String provider) {
+      setConfig(Key.KEY_ROVIDER, provider);
     }
 
     public String getType() {
       return config.getOrDefault(Key.KEY_TYPE);
     }
 
-    public void setType(String Type) {
-      setConfig(Key.KEY_TYPE, Type);
+    public void setType(String type) {
+      setConfig(Key.KEY_TYPE, type);
     }
 
     public String getAlgorithm() {
       return config.getOrDefault(Key.KEY_ALGORITHM);
     }
 
-    public void setAlgorithm(String Algorithm) {
-      setConfig(Key.KEY_ALGORITHM, Algorithm);
+    public void setAlgorithm(String algorithm) {
+      setConfig(Key.KEY_ALGORITHM, algorithm);
     }
 
   }
-
 }
