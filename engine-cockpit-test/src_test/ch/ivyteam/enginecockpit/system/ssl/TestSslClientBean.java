@@ -16,7 +16,7 @@ class TestSslClientBean {
   void subject() throws CertificateException, IOException {
     var certFactory = CertificateFactory.getInstance("X509");
 
-    try (var resource = SslClientBean.class.getResourceAsStream("jiraaxonivycom.crt")) {
+    try (var resource = TestSslClientBean.class.getResourceAsStream("jiraaxonivycom.crt")) {
       var certFile = certFactory.generateCertificate(resource);
       var cert = new StoredCert("ivy1", (X509Certificate) certFile);
       var subject = cert.getSubject();
