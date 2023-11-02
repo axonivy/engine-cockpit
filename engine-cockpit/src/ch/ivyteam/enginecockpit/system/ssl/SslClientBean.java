@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.configuration;
+package ch.ivyteam.enginecockpit.system.ssl;
 
 import java.io.IOException;
 import java.security.KeyStoreException;
@@ -11,7 +11,6 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,7 +24,6 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 
-import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
 
 @ManagedBean
@@ -35,23 +33,24 @@ public class SslClientBean {
   private static final Logger LOGGER = Logger.getLogger(SslClientBean.class);
 
   private interface Key {
-
     String STORE = "KeyStore";
   }
 
-  private boolean useCustomKeyStore;
   private String trustStoreFile;
   private String trustStorePassword;
   private String trustStoreProvider;
   private String trustStoreType;
   private String trustStoreAlgorithm;
+  private String enableInsecureSSL;
+
+  private boolean useCustomKeyStore;
   private String keyStoreFile;
   private String keyStorePassword;
   private String keyPassword;
   private String keyStoreProvider;
   private String keyStoreType;
   private String keyStoreAlgorithm;
-  private String enableInsecureSSL;
+
   private SslClientConfig config = new SslClientConfig();
 
   public SslClientBean() {
@@ -293,63 +292,6 @@ public class SslClientBean {
     }
   }
 
-  public static class StoredCert {
-
-    private final String alias;
-    private final X509Certificate cert;
-    private String invalidityMessage;
-
-    public StoredCert(String alias, X509Certificate cert) {
-      this.alias = alias;
-      this.cert = cert;
-    }
-
-    public String getAlias() {
-      return alias;
-    }
-
-    public X509Certificate getCert() {
-      return cert;
-    }
-
-    public String getSubject() {
-      if (cert == null) {
-        return "";
-      }
-      String cName = cert.getSubjectX500Principal().getName();
-      return shortSubject(cName);
-    }
-
-    public static String shortSubject(String fullName) {
-      var nameParts = fullName.split(",");
-      String cName = nameParts[0];
-      var assign = cName.indexOf('=');
-      if (assign != -1) {
-        return cName.substring(assign+1);
-      }
-      return cName;
-    }
-
-    public boolean isExpired() {
-      return cert != null && !cert.getNotAfter().before(new Date());
-    }
-
-    public boolean isValid() {
-      try {
-          cert.checkValidity();
-          invalidityMessage = null;
-          return true;
-      } catch (Exception ex) {
-          invalidityMessage = ex.getMessage();
-          return false;
-      }
-    }
-
-    public String getInvalidityMessage() {
-      return invalidityMessage;
-    }
-  }
-
   public void deleteTrustCertificate(String alias) {
     var tmpKS = loadTrustStore();
     deleteCertificate(alias, tmpKS.get(), trustStoreFile, trustStorePassword);
@@ -361,7 +303,7 @@ public class SslClientBean {
   }
 
   @SuppressWarnings("restriction")
-  private void deleteCertificate(String alias, IvyKeystore tmpKS, String file, String password) {
+  private void deleteCertificate(String alias, ch.ivyteam.ivy.ssl.restricted.IvyKeystore tmpKS, String file, String password) {
     try {
       tmpKS.getKeyStore().deleteEntry(alias);
     } catch (Exception ex) {

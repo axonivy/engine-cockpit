@@ -1,6 +1,6 @@
-package ch.ivyteam.enginecockpit.configuration;
+package ch.ivyteam.enginecockpit.system.ssl;
 
-import static ch.ivyteam.enginecockpit.configuration.SslClientBean.StoredCert.shortSubject;
+import static ch.ivyteam.enginecockpit.system.ssl.StoredCert.shortSubject;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
@@ -9,8 +9,6 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import org.junit.jupiter.api.Test;
-
-import ch.ivyteam.enginecockpit.configuration.SslClientBean.StoredCert;
 
 class TestSslClientBean {
 

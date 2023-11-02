@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.configuration;
+package ch.ivyteam.enginecockpit.system.ssl;
 
 import ch.ivyteam.ivy.configuration.restricted.ConfigKey;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
@@ -7,7 +7,6 @@ import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 public class SslClientConfig {
 
   private interface Key {
-
     ConfigKey CLIENT = ConfigKey.create("SSL").append("Client");
     ConfigKey TRUST = CLIENT.append("TrustStore");
     ConfigKey FILE = TRUST.append("File");
