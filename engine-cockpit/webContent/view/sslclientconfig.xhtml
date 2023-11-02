@@ -34,9 +34,9 @@
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
             <cc:SslTable id="sslTrustTable"
-              uploadCerts="#{sslClientBean.handleUploadTrustCert}"
-              deleteCerts="#{sslClientBean.deleteTrustCertificate(x509.alias)}"
-              getCerts="#{sslClientBean.storedCerts}"
+              uploadCerts="#{sslClientBean.trustStore.handleUploadTrustCert}"
+              deleteCerts="#{sslClientBean.trustStore.deleteTrustCertificate(x509.alias)}"
+              getCerts="#{sslClientBean.trustStore.storedCerts}"
               title="Trust Store Certificates" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
@@ -45,9 +45,9 @@
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
             <cc:SslTable id="sslKeyTable"
-              uploadCerts="#{sslClientBean.handleUploadKeyCert}"
-              deleteCerts="#{sslClientBean.deleteKeyCertificate(x509.alias)}"
-              getCerts="#{sslClientBean.storedKeyCerts}"
+              uploadCerts="#{sslClientBean.keyStore.handleUploadKeyCert}"
+              deleteCerts="#{sslClientBean.keyStore.deleteKeyCertificate(x509.alias)}"
+              getCerts="#{sslClientBean.keyStore.storedKeyCerts}"
               title="Key Store Certificates" />
           </div>
         </div>

@@ -20,7 +20,7 @@
         <h6 class="p-m-0">Trust Store configurations</h6>
         <p:commandButton title="Save" icon="si si-floppy-disk" id="save"
           styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button"
-          actionListener="#{sslClientBean.saveTrustStore}" />
+          actionListener="#{sslClientBean.trustStore.saveTrustStore}" />
       </div>
     </div>
 
@@ -29,38 +29,35 @@
       layout="flex" styleClass="grey-label-panel ui-fluid">
 
       <label>File</label>
-      <h:panelGroup>
         <p:inputText id="trustStoreFile"
-          value="#{sslClientBean.trustStoreFile}"/>
-
-      </h:panelGroup>
+          value="#{sslClientBean.trustStore.file}"/>
 
       <label>Password</label>
       <p:password id="trustStorePassword"
-        value="#{sslClientBean.trustStorePassword}" />
+        value="#{sslClientBean.trustStore.password}" />
 
       <label>Provider</label>
       <p:selectOneMenu id="trustStoreProvider"
-        value="#{sslClientBean.trustStoreProvider}">
+        value="#{sslClientBean.trustStore.provider}">
         <p:ajax update="sslClientform:trustStoreType"></p:ajax>
-        <f:selectItems value="#{sslClientBean.trustStoreProviders}" />
+        <f:selectItems value="#{sslClientBean.trustStore.providers}" />
       </p:selectOneMenu>
 
       <label>Type</label>
       <p:selectOneMenu id="trustStoreType"
-        value="#{sslClientBean.trustStoreType}">
-        <f:selectItems value="#{sslClientBean.trustStoreTypes}" />
+        value="#{sslClientBean.trustStore.type}">
+        <f:selectItems value="#{sslClientBean.trustStore.types}" />
       </p:selectOneMenu>
 
       <label>Algorithm</label>
       <p:selectOneMenu id="trustStoreAlgorithm"
-        value="#{sslClientBean.trustStoreAlgorithm}">
-        <f:selectItems value="#{sslClientBean.trustStoreAlgorithms}" />
+        value="#{sslClientBean.trustStore.algorithm}">
+        <f:selectItems value="#{sslClientBean.trustStore.algorithms}" />
       </p:selectOneMenu>
 
     </p:panelGrid>
     <p:selectBooleanCheckbox id="enableInsecureSSL"
-      value="#{sslClientBean.enableInsecureSSL}"
+      value="#{sslClientBean.trustStore.enableInsecureSSL}"
       itemLabel="Enable insecure SSL and HTTPS connections" />
   </h:form>
 </div>
