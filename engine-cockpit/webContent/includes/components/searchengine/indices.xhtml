@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <div class="card">
-  <h:form id="searchEngineIndexForm" style="overflow-y: auto;">
+  <h:form id="searchEngineIndexForm" onkeypress="if (event.keyCode == 13) return false;" style="overflow-y: auto;">
     <p:growl id="searchEngineIndexMessages" for="searchEngineIndexMessages">
       <p:autoUpdate />
     </p:growl>

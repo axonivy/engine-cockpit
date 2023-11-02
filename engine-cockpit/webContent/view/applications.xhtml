@@ -15,7 +15,7 @@
 
     <ui:define name="content">
       <div class="card">
-        <h:form id="form">
+        <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
           <p:growl for="applicationMessage" id="applicationMessage" showDetail="true" />
           <div class="p-d-flex p-ai-center p-mb-3">
             <i class="p-pr-3 si si-layout-module card-title-icon"></i>
