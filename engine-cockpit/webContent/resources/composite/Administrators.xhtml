@@ -7,7 +7,7 @@
 </cc:interface>
 
 <cc:implementation>
-  <h:form id="adminForm">
+  <h:form id="adminForm" onkeypress="if (event.keyCode == 13) return false;">
     <p:dataTable var="admin" value="#{administratorBean.admins}" id="adminTable" widgetVar="adminTable" styleClass="ui-fluid">
       <f:facet name="header">
         <div class="ui-input-icon-left filter-container">
