@@ -55,18 +55,26 @@ class KeyStoreUtils {
   List<StoredCert> getStoredCerts() {
     try {
       var ivyKeystore = loadInternal();
-      KeyStore keyStore = ivyKeystore.getKeyStore();
-      List<String> aliases = Collections.list(keyStore.aliases());
-      return aliases.stream().map(alias ->
-          loadCert(keyStore, alias).map(x5 -> new StoredCert(alias, x5)).orElse(null)
-        )
-        .filter(Objects::nonNull)
+      return getStoredCore(ivyKeystore).stream()
+        .map(cert -> new StoredCert(cert.alias(), cert.cert()))
         .toList();
     } catch (KeyStoreException ex) {
       LOGGER.error("failed to read certificates of "+file, ex);
       return List.of();
     }
   }
+
+  private List<Cert> getStoredCore(IvyKeystore ivyKeystore) throws KeyStoreException {
+    KeyStore keyStore = ivyKeystore.getKeyStore();
+    List<String> aliases = Collections.list(keyStore.aliases());
+    return aliases.stream().map(alias ->
+        loadCert(keyStore, alias).map(x5 -> new Cert(alias, x5)).orElse(null)
+      )
+      .filter(Objects::nonNull)
+      .toList();
+  }
+
+  public record Cert(String alias, X509Certificate cert) {}
 
   private Optional<X509Certificate> loadCert(KeyStore keyStore, String alias) {
     try {
