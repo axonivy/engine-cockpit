@@ -30,7 +30,7 @@
               icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto rounded-button"/>
 
         </div>
-        <h:form id="form" style="overflow: auto;">
+        <h:form id="form" style="overflow: auto;" onkeypress="if (event.keyCode == 13) return false;">
         <p:dataTable var="bean" value="#{intermediateEventBean.beans}"
             widgetVar="beanTable" styleClass="ui-fluid"
             paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
