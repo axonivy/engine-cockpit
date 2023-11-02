@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
+import java.io.InputStream;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
@@ -125,7 +126,9 @@ public class TrustStoreBean {
   }
 
   public Certificate handleUploadTrustCert(FileUploadEvent event) throws Exception {
-    return getKeyStoreUtils().handleUploadCert(event);
+    try (InputStream is = event.getFile().getInputStream()) {
+      return getKeyStoreUtils().handleUploadCert(is);
+    }
   }
 
   public List<StoredCert> getStoredCerts() {

@@ -8,9 +8,6 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
-import org.primefaces.event.FileUploadEvent;
 
 import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
@@ -18,7 +15,7 @@ import ch.ivyteam.log.Logger;
 @SuppressWarnings("restriction")
 class KeyStoreUtils {
 
-  static final Logger LOGGER = Logger.getLogger(KeyStoreUtils.class);
+  private static final Logger LOGGER = Logger.getLogger(KeyStoreUtils.class);
 
   private final String file;
   private final String type;
@@ -32,41 +29,30 @@ class KeyStoreUtils {
     this.password = password.toCharArray();
   }
 
-  Optional<IvyKeystore> load() {
-    try {
-      var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(file, type, provider, password);
-      return Optional.of(tmpKS);
-    } catch (Exception ex) {
-      KeyStoreUtils.LOGGER.error("failed to load keystore " + file, ex);
-      return Optional.empty();
-    }
+  private IvyKeystore loadInternal() throws KeyStoreException {
+    return ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(file, type, provider, password);
   }
 
-  Certificate handleUploadCert(FileUploadEvent event) throws Exception {
+  Certificate handleUploadCert(InputStream is) throws Exception {
     var certFactory = CertificateFactory.getInstance("X509");
-    try (InputStream is = event.getFile().getInputStream()) {
-      Certificate cert = certFactory.generateCertificate(is);
-      return addNewCert(cert);
-    }
+    Certificate cert = certFactory.generateCertificate(is);
+    addNewCert(cert);
+    return cert;
   }
 
-  private Certificate addNewCert(Certificate certFile) throws KeyStoreException {
-    var store = load();
-    if (store.isPresent()) {
-      store.get()
-        .addCert(certFile)
-        .store(file, password);
+  private void addNewCert(Certificate certFile) {
+    try {
+      var ivyKS = loadInternal();
+      ivyKS.addCert(certFile);
+      ivyKS.store(password);
+    } catch (KeyStoreException ex) {
+      LOGGER.error("failed to add certificat to "+file, ex);
     }
-    return certFile;
   }
 
   List<StoredCert> getStoredCerts() {
-    var tmpKS = load();
-    if (tmpKS.isEmpty()) {
-      return List.of();
-    }
-    var ivyKeystore = tmpKS.get();
     try {
+      var ivyKeystore = loadInternal();
       List<String> list = Collections.list(ivyKeystore.getKeyStore().aliases());
       List<StoredCert> certificates = new ArrayList<>();
       for (String alias : list) {
@@ -78,25 +64,18 @@ class KeyStoreUtils {
       }
       return certificates;
     } catch (KeyStoreException ex) {
-      LOGGER.error("failed to read certificates of "+ivyKeystore, ex);
+      LOGGER.error("failed to read certificates of "+file, ex);
       return List.of();
     }
   }
 
   void deleteCertificate(String alias) {
-    var tmpKS = load();
-    if (tmpKS.isEmpty()) {
-      return;
-    }
     try {
-      tmpKS.get().getKeyStore().deleteEntry(alias);
+      var ivyKS = loadInternal();
+      ivyKS.getKeyStore().deleteEntry(alias);
+      ivyKS.store(password);
     } catch (Exception ex) {
       LOGGER.error("failed to delete " + alias, ex);
-    }
-    try {
-      tmpKS.get().store(file, password);
-    } catch (Exception ex) {
-      LOGGER.error("failed to load " + alias, ex);
     }
   }
 
