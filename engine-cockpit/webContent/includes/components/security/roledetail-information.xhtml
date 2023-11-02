@@ -14,7 +14,7 @@
         <h6 class="p-m-0">Role information</h6>
         <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
           title="Add new child role" icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
-        <p:commandButton id="deleteRole" type="button"
+        <p:commandButton id="deleteRole" rendered="#{roleDetailBean.canDeleteRole()}" type="button"
           onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
           styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="deleteRoleConfirmDialog"
