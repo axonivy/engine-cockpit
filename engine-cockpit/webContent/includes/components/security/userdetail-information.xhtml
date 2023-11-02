@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <div class="card">
-  <h:form id="userInformationForm">
+  <h:form id="userInformationForm" onkeypress="if (event.keyCode == 13) return false;">
     <p:growl id="informationSaveSuccess" for="informationSaveSuccess">
       <p:autoUpdate />
     </p:growl>

@@ -34,7 +34,7 @@
             icon="si si-send-email" styleClass="p-col-fixed p-ml-1 rounded-button" update="tableForm"/>
         </div>
 
-        <h:form id="tableForm">
+        <h:form id="tableForm" onkeypress="if (event.keyCode == 13) return false;">
           <p:dataTable id="deliveryTable" paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="delivery"
             widgetVar="deliveryTable" value="#{notificationBean.dataModel}" lazy="true">
             <f:facet name="header">

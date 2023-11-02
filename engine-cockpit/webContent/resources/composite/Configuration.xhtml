@@ -9,7 +9,7 @@
   <cc:attribute name="showContentFilter" default="true" />
 </cc:interface>
 <cc:implementation>
-  <h:form id="form">
+  <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
     <p:growl id="msgs" keepAlive="true">
       <p:autoUpdate />
     </p:growl>
