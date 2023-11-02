@@ -5,7 +5,6 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -121,23 +120,19 @@ public class TrustStoreBean {
             new FacesMessage("Trust Store configurations saved"));
   }
 
-  @SuppressWarnings("restriction")
-  private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> load() {
-    return KeyStoreUtils.load(file, type, provider, password);
-  }
-
   public void deleteTrustCertificate(String alias) {
-    var tmpKS = load();
-    KeyStoreUtils.deleteCertificate(tmpKS.get(), alias, file, password);
+    getKeyStoreUtils().deleteCertificate(alias);
   }
 
   public Certificate handleUploadTrustCert(FileUploadEvent event) throws Exception {
-    return KeyStoreUtils.handleUploadCert(event, file, type, provider, password);
+    return getKeyStoreUtils().handleUploadCert(event);
   }
 
   public List<StoredCert> getStoredCerts() {
-    return load()
-      .map(KeyStoreUtils::getStoredCerts)
-      .orElse(List.of());
+    return getKeyStoreUtils().getStoredCerts();
+  }
+
+  private KeyStoreUtils getKeyStoreUtils() {
+    return new KeyStoreUtils(file, type, provider, password);
   }
 }

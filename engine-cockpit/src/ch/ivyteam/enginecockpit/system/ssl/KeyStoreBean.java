@@ -5,7 +5,6 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -88,12 +87,6 @@ public class KeyStoreBean {
     return SecurityProviders.getAlgorithms("KeyManagerFactory");
   }
 
-  public List<StoredCert> getStoredKeyCerts() {
-    return loadKeyStore()
-      .map(KeyStoreUtils::getStoredCerts)
-      .orElse(List.of());
-  }
-
   public void setFile(String file) {
     this.file = file;
   }
@@ -139,18 +132,20 @@ public class KeyStoreBean {
             new FacesMessage("Key Store configurations saved"));
   }
 
-  @SuppressWarnings("restriction")
-  private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> loadKeyStore() {
-    return KeyStoreUtils.load(file, type, provider, password);
+  public List<StoredCert> getStoredKeyCerts() {
+    return getKeyStoreUtils().getStoredCerts();
   }
 
   public void deleteKeyCertificate(String alias) {
-    var tmpKS = loadKeyStore();
-    KeyStoreUtils.deleteCertificate(tmpKS.get(), alias, file, password);
+    getKeyStoreUtils().deleteCertificate(alias);
   }
 
   public Certificate handleUploadKeyCert(FileUploadEvent event) throws Exception {
-    return KeyStoreUtils.handleUploadCert(event, file, type, provider, password);
+    return getKeyStoreUtils().handleUploadCert(event);
+  }
+
+  private KeyStoreUtils getKeyStoreUtils() {
+    return new KeyStoreUtils(file, type, provider, password);
   }
 
 }
