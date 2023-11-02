@@ -197,6 +197,10 @@ public class RoleDetailBean {
     return !isTopLevelRole();
   }
 
+  public boolean canDeleteRole() {
+    return !isTopLevelRole();
+  }
+
   private boolean isTopLevelRole() {
     return getIRole().getParent() == null;
   }
