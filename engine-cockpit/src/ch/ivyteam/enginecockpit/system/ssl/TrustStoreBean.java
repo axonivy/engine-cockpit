@@ -123,14 +123,7 @@ public class TrustStoreBean {
 
   @SuppressWarnings("restriction")
   private Optional<ch.ivyteam.ivy.ssl.restricted.IvyKeystore> load() {
-    try {
-      var tmpKS = ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(file, type,
-              provider, password.toCharArray());
-      return Optional.of(tmpKS);
-    } catch (Exception ex) {
-      KeyStoreUtils.LOGGER.error("failed to load keystore " + file, ex);
-      return Optional.empty();
-    }
+    return KeyStoreUtils.load(file, type, provider, password);
   }
 
   public void deleteTrustCertificate(String alias) {
