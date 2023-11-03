@@ -1,15 +1,10 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
 import java.io.InputStream;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
@@ -54,37 +49,14 @@ class KeyStoreUtils {
 
   List<StoredCert> getStoredCerts() {
     try {
-      var ivyKeystore = loadInternal();
-      return getStoredCore(ivyKeystore).stream()
+      var certs = loadInternal().getStoredCertificates();
+      return certs.stream()
         .map(cert -> new StoredCert(cert.alias(), cert.cert()))
         .toList();
     } catch (KeyStoreException ex) {
       LOGGER.error("failed to read certificates of "+file, ex);
       return List.of();
     }
-  }
-
-  private List<Cert> getStoredCore(IvyKeystore ivyKeystore) throws KeyStoreException {
-    KeyStore keyStore = ivyKeystore.getKeyStore();
-    List<String> aliases = Collections.list(keyStore.aliases());
-    return aliases.stream().map(alias ->
-        loadCert(keyStore, alias).map(x5 -> new Cert(alias, x5)).orElse(null)
-      )
-      .filter(Objects::nonNull)
-      .toList();
-  }
-
-  public record Cert(String alias, X509Certificate cert) {}
-
-  private Optional<X509Certificate> loadCert(KeyStore keyStore, String alias) {
-    try {
-      if (keyStore.getCertificate(alias) instanceof X509Certificate x509) {
-        return Optional.of(x509);
-      }
-    } catch (Exception ex) {
-      LOGGER.warn("Failed to read certificate with alias "+alias);
-    }
-    return Optional.empty();
   }
 
   void deleteCertificate(String alias) {
