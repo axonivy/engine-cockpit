@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor.events;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.management.ObjectName;
@@ -59,15 +58,10 @@ public abstract class Event {
     return bean.readAttribute("beanClass").asString();
   }
 
-  public Map<String, String> getBeanConfiguration() {
+  public String getBeanConfiguration() {
     var entries = bean.readAttribute("beanConfiguration")
-      .asList(item -> Map.entry(item.get("key"), item.get("value")));
-    if (entries.isEmpty()) {
-      return Map.of();
-    }
-    return entries.stream().collect(
-      Collectors.toMap(et -> (String)et.getKey(), et -> (String)et.getValue())
-    );
+      .asList(item -> (String)item.get("key")+"="+item.get("value"));
+    return entries.stream().collect(Collectors.joining("\n"));
   }
 
   public ErrorValue getLastPollError() {
@@ -85,6 +79,7 @@ public abstract class Event {
   public ErrorValue getLastInitializationError() {
     return bean.readAttribute("lastInitializationError").asError();
   }
+
   public String getLastStartTimestamp() {
     return bean.readAttribute("lastStartTimestamp").asDateString();
   }
