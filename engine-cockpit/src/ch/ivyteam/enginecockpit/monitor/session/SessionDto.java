@@ -2,8 +2,7 @@ package ch.ivyteam.enginecockpit.monitor.session;
 
 import java.util.Date;
 import java.util.Set;
-
-import javax.servlet.http.HttpSession;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,6 +24,7 @@ public class SessionDto {
   private final boolean isSecuritySystemInternal;
   private final String link;
   private final String authMode;
+  private final Set<HttpSessionDto> httpSessions;
 
   SessionDto(ISessionInternal session) {
     this.session = session;
@@ -37,6 +37,9 @@ public class SessionDto {
     this.isUserInternal = session.isSessionUserSystemUser() || session.isSessionUserUnknown() || isSecuritySystemInternal;
     this.link = SecuritySystem.link(session.getSecurityContext());
     this.authMode = StringUtils.trimToEmpty(session.getAuthenticationMode());
+    this.httpSessions = session.getHttpSessions().stream()
+            .map(HttpSessionDto::new)
+            .collect(Collectors.toSet());
   }
 
   public Date getCreatedAt() {
@@ -83,12 +86,12 @@ public class SessionDto {
     return session.creationReason();
   }
 
-  public Set<HttpSession> getHttpSessions() {
-    return session.getHttpSessions();
+  public Set<HttpSessionDto> getHttpSessions() {
+    return httpSessions;
   }
 
   public int getHttpSessionCount() {
-    return session.getHttpSessions().size();
+    return httpSessions.size();
   }
 
   public boolean canKill() {
