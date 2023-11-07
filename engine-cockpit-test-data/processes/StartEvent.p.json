@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.2/process.json",
   "id" : "188AE871FC5C4A58",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -16,7 +16,9 @@
       "name" : "nominal",
       "config" : {
         "javaClass" : "ch.ivyteam.ivy.process.eventstart.beans.TimerBean",
-        "userConfig" : "120",
+        "userConfig" : {
+          "converted" : "120"
+        },
         "link" : "eventLink.ivp"
       },
       "visual" : {
@@ -32,7 +34,9 @@
       "name" : "process error",
       "config" : {
         "javaClass" : "ch.ivyteam.ivy.process.eventstart.beans.TimerBean",
-        "userConfig" : "120",
+        "userConfig" : {
+          "converted" : "120"
+        },
         "link" : "eventLink2.ivp"
       },
       "visual" : {
