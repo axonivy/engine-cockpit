@@ -90,25 +90,32 @@
             <p:column headerText="Id" sortBy="#{ses.id}">
               <h:outputText value="#{ses.id}" />
             </p:column>
-            
+
              <p:column headerText="HTTP Sessions" sortBy="#{ses.httpSessionCount}">
               <h:outputText id="httpSession" value="#{ses.httpSessionCount}" />
               <p:tooltip for="httpSession" rendered="#{!ses.httpSessions.isEmpty()}">
                 <ui:repeat value="#{ses.httpSessions}" var="httpSession">
+                  <h:panelGroup rendered="#{httpSession.valid}">
                     <h:outputLabel for="creationTime" value="Creation " />
                     <h:outputText id="creationTime" value="#{httpSession.creationTime}">
                       <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
                     </h:outputText>
                     /
                     <h:outputLabel for="lastAccessedTime" value="Last Accessed " />
-                    <h:outputText value="#{httpSession.lastAccessedTime}">
+                    <h:outputText id="lastAccessedTime" value="#{httpSession.lastAccessedTime}">
                       <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
                     </h:outputText>
-                    <br />
+                  </h:panelGroup>
+
+                  <h:panelGroup rendered="#{!httpSession.valid}">
+                    <h:outputText id="invalidSession" value="Creation invalid / Last Accessed invalid" />
+                  </h:panelGroup>
+
+                  <br />
                 </ui:repeat>
               </p:tooltip>
             </p:column>
-            
+
             <p:column styleClass="table-btn-1">
               <p:commandButton id="killSession" title="Kill session" icon="si si-logout-1"
                 actionListener="#{sessionBean.killSession(ses)}" ajax="true" update="@form" disabled="#{!ses.canKill()}" styleClass="ui-button-danger rounded-button" />
