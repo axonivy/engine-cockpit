@@ -1,10 +1,10 @@
 {
-    "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
-    "id" : "188B95440FE25CA6",
-    "config" : {
-      "data" : "engine.cockpit.test.data.Data"
-    },
-    "elements" : [ {
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.2/process.json",
+  "id" : "188B95440FE25CA6",
+  "config" : {
+    "data" : "engine.cockpit.test.data.Data"
+  },
+  "elements" : [ {
       "id" : "f0",
       "type" : "RequestStart",
       "name" : "testIntermediateEventProcess.ivp",
@@ -107,6 +107,5 @@
       "visual" : {
         "at" : { "x" : 352, "y" : 244 }
       }
-    } 
-  ]
-  }
+    } ]
+}
