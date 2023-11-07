@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.monitor;
 
+import ch.ivyteam.ivy.process.extension.ProgramConfig;
 import ch.ivyteam.ivy.process.intermediateevent.AbstractProcessIntermediateEventBean;
 import ch.ivyteam.ivy.process.intermediateevent.IProcessIntermediateEventBeanRuntime;
 
@@ -10,7 +11,7 @@ public class PollErrorIntermediateClass extends AbstractProcessIntermediateEvent
   }
 
   @Override
-  public void initialize(IProcessIntermediateEventBeanRuntime eventRuntime, String configuration) {
+  public void initialize(IProcessIntermediateEventBeanRuntime eventRuntime, ProgramConfig configuration) {
     super.initialize(eventRuntime, configuration);
     eventRuntime.threads().boundToEventLifecycle(() -> {});
 
