@@ -8,9 +8,6 @@ import ch.ivyteam.ivy.service.ServiceException;
 
 public class StartError extends AbstractProcessStartEventBean {
 
-  /**
-   * Constructor
-   */
   public StartError() {
     super("StartError", "Description of StartError");
   }
