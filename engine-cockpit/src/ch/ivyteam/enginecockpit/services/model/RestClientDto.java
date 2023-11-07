@@ -71,11 +71,7 @@ public class RestClientDto implements IService {
   }
 
   public String getAuthType() {
-    return features.stream()
-            .filter(f -> StringUtils.contains(f, "authentication"))
-            .map(f -> StringUtils.substringBetween(f, "authentication.", "AuthenticationFeature"))
-            .findFirst()
-            .orElse("");
+    return new RestClientAuthTypeCalculator(features).get();
   }
 
   public String getUsername() {
@@ -114,5 +110,4 @@ public class RestClientDto implements IService {
   public void setUsername(String username) {
     this.username = username;
   }
-
 }
