@@ -74,11 +74,7 @@ public class Webservice implements IService {
   }
 
   public String getAuthType() {
-    return features.stream().filter(f -> StringUtils.contains(f, "AuthenticationFeature"))
-            .map(f -> StringUtils.substringBetween(f, "cxf.feature.", "AuthenticationFeature"))
-            .findFirst().orElseGet(() -> properties.stream()
-                    .filter(p -> StringUtils.equals(p.getName(), "authType"))
-                    .map(Property::getValue).findFirst().orElse(""));
+    return new WebServiceClientAuthTypeCalcuator(features).get();
   }
 
   public String getUsername() {
