@@ -17,7 +17,7 @@
       "config" : {
         "javaClass" : "ch.ivyteam.ivy.process.eventstart.beans.TimerBean",
         "userConfig" : {
-          "converted" : "120"
+          "time" : "120"
         },
         "link" : "eventLink.ivp"
       },
@@ -35,7 +35,7 @@
       "config" : {
         "javaClass" : "ch.ivyteam.ivy.process.eventstart.beans.TimerBean",
         "userConfig" : {
-          "converted" : "120"
+          "time" : "120"
         },
         "link" : "eventLink2.ivp"
       },
