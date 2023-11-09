@@ -10,7 +10,7 @@
       <h:outputText id="message" value="#{errorBean.selected.message}"/>
       <h:panelGroup>
         <p:outputLabel for="stackTrace" value="Stack Trace"/>
-        <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
+        <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard($('#error\\:stackTrace').text())"
             styleClass="ui-button-flat rounded-button"/>
       </h:panelGroup>
       <p:outputPanel id="stackTrace" styleClass="code">#{errorBean.selected.stackTrace}</p:outputPanel>  
@@ -20,14 +20,4 @@
     </div>
   </h:form>
 </p:dialog>
-<script>
-function copyToClipboard(btn) {
-  var lastError = $("#error\\:stackTrace").text();
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(lastError);
-  } else {
-    alert(lastError);
-  }
-}
-</script>  
 </html>

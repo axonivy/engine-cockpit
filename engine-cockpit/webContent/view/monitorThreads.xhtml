@@ -92,7 +92,7 @@
               <p:outputLabel for="native" value="In Native Code" />
               <h:outputText id="native" value="#{threadBean.selected.info.inNative}"/>
               <p:outputLabel for="deadlocked" value="Deadlocked" />
-              <h:outputText id="deadlocked" value="#{threadBean.selected.deadLocked}"/>          
+              <h:outputText id="deadlocked" value="#{threadBean.selected.deadLocked}"/>
               <p:outputLabel for="blocked" value="Blocked" />
               <h:outputText id="blocked" value="#{threadBean.selected.info.blockedCount} (#{threadBean.selected.info.blockedTime} ns)"/>
               <p:outputLabel for="waited" value="Waited" />
@@ -107,7 +107,7 @@
               <p:outputPanel id="lockedMonitors" styleClass="code">#{threadBean.selected.lockedMonitors}</p:outputPanel>
               <h:panelGroup>
                 <p:outputLabel for="stackTrace" value="Stack Trace"/>
-                <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
+                <p:commandButton id="copyStack" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard($('#thread\\:stackTrace').text())"
                     styleClass="ui-button-flat rounded-button"/>
               </h:panelGroup>
               <p:outputPanel id="stackTrace" styleClass="code">#{threadBean.selected.stackTrace}</p:outputPanel>  
@@ -117,16 +117,6 @@
             </div>
           </h:form>
         </p:dialog>
-        <script>
-  function copyToClipboard(btn) {
-    var stackTrace = $("#thread\\:stackTrace").text();
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(stackTrace);
-    } else {
-      alert(stackTrace);
-    }
-  }
-        </script>
       </ui:define>
     </ui:composition>
   </h:body>
