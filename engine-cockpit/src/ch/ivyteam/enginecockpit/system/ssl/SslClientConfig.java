@@ -31,7 +31,7 @@ public class SslClientConfig {
       ConfigKey PROVIDER = TRUST.append("Provider");
       ConfigKey TYPE = TRUST.append("Type");
       ConfigKey ALGORITHM = TRUST.append("Algorithm");
-      ConfigKey ENABLE_INSECURE_SSL = TRUST.append("EnableInsecureSSL");
+      ConfigKey ENABLE_INSECURE_SSL = CLIENT.append("EnableInsecureSSL");
     }
 
     public String getFile() {
