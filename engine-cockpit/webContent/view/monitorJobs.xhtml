@@ -117,7 +117,7 @@
             <h:outputText id="lastErrorTime" value="#{jobBean.selected.lastErrorTime}"/>
             <h:panelGroup>
               <p:outputLabel for="lastError" value="Last Error"/>
-              <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard(this)"
+              <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard($('#job\\:lastError').text())"
                   styleClass="ui-button-flat rounded-button"/>
             </h:panelGroup>
             <p:outputPanel id="lastError" styleClass="code">#{jobBean.selected.lastError}</p:outputPanel>  
@@ -127,16 +127,6 @@
           </div>
         </h:form>
       </p:dialog>
-      <script>
-  function copyToClipboard(btn) {
-    var lastError = $("#job\\:lastError").text();
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(lastError);
-    } else {
-      alert(lastError);
-    }
-  }
-     </script>
     </ui:define>
 
     <ui:define name="live-stats">
