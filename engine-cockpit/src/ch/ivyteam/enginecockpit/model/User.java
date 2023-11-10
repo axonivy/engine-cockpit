@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.IUser;
@@ -144,5 +146,13 @@ public class User
   public String toString()
   {
     return name;
+  }
+
+  public String getViewUrl()
+  {
+    return UriBuilder.fromPath("userdetail.xhtml")
+            .queryParam("userName", name)
+            .build()
+            .toString();
   }
 }

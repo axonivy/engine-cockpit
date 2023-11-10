@@ -58,7 +58,7 @@
                 <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}" />
                 <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}" />
                 <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role">
-                  <a href="roledetail.xhtml?roleName=#{role.name}" class="role-name"
+                  <a href="#{role.viewUrl}" class="role-name"
                     title="#{role.member ? 'Member' : 'Role'}">
                     <h:outputText value="#{role.name}" />
                     <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />

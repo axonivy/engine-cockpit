@@ -31,7 +31,7 @@
     <ui:param name="isUserMember" value="#{userDetailBean.isUserMemberOfAllRole(role.name)}" />
     <p:column headerText="All Roles" sortBy="#{role.name}">
       <p:treeNode type="role" rendered="#{node.type == 'role'}">
-        <a href="roledetail.xhtml?roleName=#{role.name}">
+        <a href="#{role.viewUrl}">
           <h:outputText value="#{role.name}" styleClass="role-name">
             <i class="material-icons table-icon">group</i>
           </h:outputText>

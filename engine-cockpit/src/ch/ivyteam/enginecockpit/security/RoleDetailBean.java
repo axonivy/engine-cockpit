@@ -115,8 +115,15 @@ public class RoleDetailBean
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role '" + newChildRoleName + "' couldn't be created", ex.getMessage()));
       newChildRoleName = roleName;
     }
-    return UriBuilder.fromPath("roledetail.xhtml").queryParam("roleName", newChildRoleName)
-            .queryParam("faces-redirect", "true").build().toASCIIString();
+    return UriBuilder.fromPath("roledetail.xhtml")
+            .queryParam("roleName", newChildRoleName)
+            .queryParam("faces-redirect", "true").build()
+            .toASCIIString();
+  }
+
+  public String getViewUrl()
+  {
+    return role.getViewUrl();
   }
 
   public void saveRoleInfos()
