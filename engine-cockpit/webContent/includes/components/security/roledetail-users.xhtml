@@ -40,7 +40,7 @@
         </p:outputPanel>
       </f:facet>
       <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
-        <a href="userdetail.xhtml?userName=#{user.name}">
+        <a href="#{user.viewUrl}">
           <h:outputText styleClass="user-name" value="#{user.name}">
             <i class="material-icons table-icon">person</i>
           </h:outputText>

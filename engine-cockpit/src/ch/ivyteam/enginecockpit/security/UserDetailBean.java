@@ -62,6 +62,11 @@ public class UserDetailBean
     }
   }
 
+  public String getViewUrl()
+  {
+    return user.getViewUrl();
+  }
+
   public String getUserSynchName()
   {
     return userSynchName;

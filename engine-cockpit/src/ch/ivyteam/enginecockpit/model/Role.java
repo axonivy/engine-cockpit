@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.model;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.security.IRole;
@@ -106,4 +108,11 @@ public class Role
     return name;
   }
 
+  public String getViewUrl()
+  {
+    return UriBuilder.fromPath("roledetail.xhtml")
+            .queryParam("roleName", name)
+            .build()
+            .toString();
+  }
 }
