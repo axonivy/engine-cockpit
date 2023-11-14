@@ -2,23 +2,17 @@ package ch.ivyteam.enginecockpit.security.permission;
 
 public abstract class AbstractPermission {
   private String name;
-  private long id;
   private boolean grant;
   private boolean deny;
 
-  protected AbstractPermission(String name, long id, boolean grant, boolean deny) {
+  protected AbstractPermission(String name, boolean grant, boolean deny) {
     this.name = name;
-    this.id = id;
     this.grant = grant;
     this.deny = deny;
   }
 
   public String getName() {
     return name;
-  }
-
-  public long getId() {
-    return id;
   }
 
   public boolean isGrant() {
@@ -58,5 +52,4 @@ public abstract class AbstractPermission {
   public abstract void undeny();
 
   public abstract boolean isGroup();
-
 }
