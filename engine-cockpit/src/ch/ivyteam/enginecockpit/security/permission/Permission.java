@@ -8,18 +8,17 @@ import ch.ivyteam.ivy.security.IPermissionAccess;
 public class Permission extends AbstractPermission {
   private boolean explicit;
   private String permissionHolder;
-  private IPermission iPermission;
-  private PermissionBean bean;
+  private final IPermission permission;
+  private final PermissionBean bean;
 
   public Permission(IPermissionAccess access, PermissionBean bean) {
     super(access.getPermission().getName(),
-            access.getPermission().getId(),
             access.isGranted(),
             access.isDenied());
     this.explicit = access.isExplicit();
     this.permissionHolder = Optional.ofNullable(access.getPermissionHolder()).map(r -> r.getName())
             .orElse(null);
-    this.iPermission = access.getPermission();
+    this.permission = access.getPermission();
     this.bean = bean;
   }
 
@@ -76,26 +75,42 @@ public class Permission extends AbstractPermission {
 
   @Override
   public void grant() {
-    bean.grant(iPermission);
+    bean.grant(this);
   }
 
   @Override
   public void ungrant() {
-    bean.ungrant(iPermission);
+    bean.ungrant(this);
   }
 
   @Override
   public void deny() {
-    bean.deny(iPermission);
+    bean.deny(this);
   }
 
   @Override
   public void undeny() {
-    bean.undeny(iPermission);
+    bean.undeny(this);
   }
 
   public IPermission permission() {
-    return iPermission;
+    return permission;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null || ! obj.getClass().equals(Permission.class)) {
+      return false;
+    }
+    var other = (Permission)obj;
+    return permission.equals(other.permission);
+  }
+
+  @Override
+  public int hashCode() {
+    return permission.hashCode();
+  }
 }
