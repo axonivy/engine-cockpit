@@ -1,9 +1,16 @@
 package ch.ivyteam.enginecockpit.system;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
+
+import org.apache.commons.lang3.SystemUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
@@ -13,43 +20,50 @@ import ch.ivyteam.ivy.security.ISecurityContextRepository;
 public class RestartBean {
 
   private boolean isRestarting;
-  
+
   public void restart() throws IOException {
-    var command = command();    
+    if (!isRestartable()) {
+      return;
+    }
+    var command = command();
     if (command.isEmpty()) {
       return;
     }
-    isRestarting = true;
-    new ProcessBuilder(command.get(), "-restart").start();
+    command.add("-restart");
+    new ProcessBuilder(command).start();
   }
 
-  private Optional<String> command() {
-    if (isDisabled()) {
-      return Optional.empty();
-    }
+  public String getCommand() {
+    return command().stream().collect(Collectors.joining(" "));
+  }
+
+  private List<String> command() {
     var process = ProcessHandle.current();
     if (process == null) {
-      return Optional.empty();
+      return List.of();
     }
     var command = process.info().command();
-   return command;
+    if (command.isEmpty()) {
+      return List.of();
+    }
+    var commands = new ArrayList<String>();
+    if (SystemUtils.IS_OS_WINDOWS) {
+      commands.add(command.get());
+    } else if (SystemUtils.IS_OS_LINUX) {
+      commands.add(command.get());
+      var arguments = process.info().arguments();
+      if (arguments.isEmpty()) {
+        return commands;
+      }
+      commands.addAll(Arrays.asList(arguments.get()));
+    }
+    return commands;
   }
 
-  private boolean isDisabled() {
-    return IConfiguration.instance().get("Cockpit.Restart")
-       .orElse("enabled")
-       .equalsIgnoreCase("disabled");
-  }
-  
   public boolean isRestarting() {
     return isRestarting;
   }
-  
-  public boolean isRestartable() {
-    var command = command();
-    return command.isPresent();
-  }
-  
+
   public long getWorkingUsers() {
     return ISecurityContextRepository.instance().all()
       .stream()
@@ -59,5 +73,28 @@ public class RestartBean {
       .map(s -> s.getSessionUserName())
       .distinct()
       .count();
+  }
+
+  public boolean isRestartable() {
+    if (isDisabled()) {
+      return false;
+    }
+    var command = command();
+    return !command.isEmpty();
+  }
+
+  private boolean isDisabled() {
+    var restart = IConfiguration.instance().get("Cockpit.Restart");
+    if (restart.isPresent()) {
+      return "disabled".equalsIgnoreCase(restart.get());
+    }
+    if (isRunningInContainer()) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean isRunningInContainer() {
+    return Files.exists(Path.of("/.dockerenv"));
   }
 }

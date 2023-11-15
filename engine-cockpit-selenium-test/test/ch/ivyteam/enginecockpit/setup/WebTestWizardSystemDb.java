@@ -37,7 +37,7 @@ public class WebTestWizardSystemDb {
   void afterEach() {
     resetConfig();
     deleteTempDb();
-    EngineCockpitUtil.enableRestart();
+    EngineCockpitUtil.removeRestart();
   }
 
   @Test

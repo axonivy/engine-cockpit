@@ -13,8 +13,11 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
+
 import java.util.List;
+
 import org.openqa.selenium.remote.RemoteWebDriver;
+
 import com.axonivy.ivy.webtest.engine.EngineUrl;
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
 import com.codeborne.selenide.Selenide;
@@ -200,6 +203,10 @@ public class EngineCockpitUtil {
 
   public static void disableRestart() {
     runTestProcess("18B5CA921CF8441A/disable.ivp");
+  }
+
+  public static void removeRestart() {
+    runTestProcess("18B5CA921CF8441A/remove.ivp");
   }
 
   private static void runTestProcess(String processLink) {
