@@ -6,18 +6,16 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
-import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.mail.MailClientConfigProvider;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class EmailBean {
+
   private String host;
   private int port;
   private String email;
   private String user;
-  private String triggerTime;
   private String sendTo;
   private String subject;
   private String message;
@@ -32,7 +30,6 @@ public class EmailBean {
     port = config.port();
     email = config.from();
     user = config.user();
-    triggerTime = IConfiguration.instance().getOrDefault(EmailUtil.DAILYTASKSUMMARY_TRIGGERTIME);
     subject = "Test Mail";
     message = "This is a test mail.";
   }
@@ -51,10 +48,6 @@ public class EmailBean {
 
   public String getUser() {
     return user;
-  }
-
-  public String getTriggerTime() {
-    return triggerTime;
   }
 
   public String getSendTo() {
