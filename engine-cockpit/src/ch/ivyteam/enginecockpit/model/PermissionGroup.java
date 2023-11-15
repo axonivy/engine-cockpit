@@ -8,13 +8,12 @@ public class PermissionGroup extends AbstractPermission
 {
   private boolean someGrant;
   private boolean someDeny;
-  private PermissionBean bean;
-  private IPermissionGroup permissionGroup;
+  private final PermissionBean bean;
+  private final IPermissionGroup permissionGroup;
 
   public PermissionGroup(IPermissionGroupAccess groupAccess, PermissionBean bean)
   {
     super(groupAccess.getPermissionGroup().getName(),
-            groupAccess.getPermissionGroup().getId(),
             groupAccess.isGrantedAllPermissions(),
             groupAccess.isDeniedAllPermissions());
     this.someDeny = groupAccess.isDeniedAnyPermission();
@@ -24,7 +23,9 @@ public class PermissionGroup extends AbstractPermission
   }
   
   public PermissionGroup(String dummy) {
-    super(dummy, -1, false, false);
+    super(dummy, false, false);
+    this.bean = null;
+    this.permissionGroup = null;
   }
 
   @Override
@@ -82,25 +83,25 @@ public class PermissionGroup extends AbstractPermission
   @Override
   public void grant()
   {
-    bean.grant(permissionGroup);
+    bean.grant(this);
   }
 
   @Override
   public void ungrant()
   {
-    bean.ungrant(permissionGroup);
+    bean.ungrant(this);
   }
 
   @Override
   public void deny()
   {
-    bean.deny(permissionGroup);
+    bean.deny(this);
   }
 
   @Override
   public void undeny()
   {
-    bean.undeny(permissionGroup);
+    bean.undeny(this);
   }
   
   public IPermissionGroup permissionGroup() 
@@ -108,4 +109,22 @@ public class PermissionGroup extends AbstractPermission
     return permissionGroup;
   }
   
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null || ! obj.getClass().equals(PermissionGroup.class)) {
+      return false;
+    }
+    var other = (PermissionGroup)obj;
+    return permissionGroup != null &&
+           other.permissionGroup != null &&
+           permissionGroup.equals(other.permissionGroup);
+  }
+
+  @Override
+  public int hashCode() {
+    return permissionGroup.hashCode();
+  }
 }

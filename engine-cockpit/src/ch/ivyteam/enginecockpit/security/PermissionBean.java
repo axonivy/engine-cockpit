@@ -18,8 +18,6 @@ import ch.ivyteam.enginecockpit.ManagerBean;
 import ch.ivyteam.enginecockpit.model.AbstractPermission;
 import ch.ivyteam.enginecockpit.model.Permission;
 import ch.ivyteam.enginecockpit.model.PermissionGroup;
-import ch.ivyteam.ivy.security.IPermission;
-import ch.ivyteam.ivy.security.IPermissionGroup;
 import ch.ivyteam.ivy.security.ISecurityDescriptor;
 import ch.ivyteam.ivy.security.ISecurityMember;
 
@@ -142,70 +140,69 @@ public class PermissionBean
     }
   }
  
-  public void grant(IPermission iPermission) 
+  public void grant(Permission permission) 
   {
-    securityDescriptor.grantPermission(iPermission, securityMember);
-    reloadPermissionTree(iPermission);
+    securityDescriptor.grantPermission(permission.permission(), securityMember);
+    reloadPermissionTree(permission);
   }
 
-  public void grant(IPermissionGroup iPermissionGroup) 
+  public void grant(PermissionGroup permissionGroup) 
   {
-    securityDescriptor.grantPermissions(iPermissionGroup, securityMember);
-    reloadPermissionTree(iPermissionGroup);
+    securityDescriptor.grantPermissions(permissionGroup.permissionGroup(), securityMember);
+    reloadPermissionTree(permissionGroup);
   }
 
-  public void ungrant(IPermission iPermission) 
+  public void ungrant(Permission permission) 
   {
-    securityDescriptor.ungrantPermission(iPermission, securityMember);
-    reloadPermissionTree(iPermission);
+    securityDescriptor.ungrantPermission(permission.permission(), securityMember);
+    reloadPermissionTree(permission);
   }
 
-  public void ungrant(IPermissionGroup iPermissionGroup) 
+  public void ungrant(PermissionGroup permissionGroup) 
   {
-    securityDescriptor.ungrantPermissions(iPermissionGroup, securityMember);
-    reloadPermissionTree(iPermissionGroup);
+    securityDescriptor.ungrantPermissions(permissionGroup.permissionGroup(), securityMember);
+    reloadPermissionTree(permissionGroup);
   }
 
-  public void deny(IPermission iPermission) 
+  public void deny(Permission permission) 
   {
-    securityDescriptor.denyPermission(iPermission, securityMember);
-    reloadPermissionTree(iPermission);
+    securityDescriptor.denyPermission(permission.permission(), securityMember);
+    reloadPermissionTree(permission);
   }
 
-  public void deny(IPermissionGroup iPermissionGroup) 
+  public void deny(PermissionGroup permissionGroup) 
   {
-    securityDescriptor.denyPermissions(iPermissionGroup, securityMember);
-    reloadPermissionTree(iPermissionGroup);
+    securityDescriptor.denyPermissions(permissionGroup.permissionGroup(), securityMember);
+    reloadPermissionTree(permissionGroup);
   }
 
-  public void undeny(IPermission iPermission) 
+  public void undeny(Permission permission) 
   {
-    securityDescriptor.undenyPermission(iPermission, securityMember);
-    reloadPermissionTree(iPermission);
+    securityDescriptor.undenyPermission(permission.permission(), securityMember);
+    reloadPermissionTree(permission);
   }
 
-  public void undeny(IPermissionGroup iPermissionGroup) 
+  public void undeny(PermissionGroup permissionGroup) 
   {
-    securityDescriptor.undenyPermissions(iPermissionGroup, securityMember);
-    reloadPermissionTree(iPermissionGroup);
+    securityDescriptor.undenyPermissions(permissionGroup.permissionGroup(), securityMember);
+    reloadPermissionTree(permissionGroup);
   }
 
-  public void reloadPermissionTree(IPermission iPermission) 
+  public void reloadPermissionTree(Permission permission) 
   {
     if (StringUtils.isBlank(filter)) 
     {
-      reloadPermissionsUp(searchPermissionNode(rootTreeNode.getChildren(), iPermission.getId()));
+      reloadPermissionsUp(searchPermissionNode(rootTreeNode.getChildren(), permission));
     } 
     else 
     {
-      var permissionNode = searchPermissionNode(filteredRootTreeNode.getChildren(), iPermission.getId());
-      reSetPermission((Permission) permissionNode.getData());
+      reSetPermission(permission);
     }
   }
 
-  public void reloadPermissionTree(IPermissionGroup iPermissionGroup) 
+  public void reloadPermissionTree(PermissionGroup permissionGroup) 
   {
-    reloadPermissionsUpAndDown(searchPermissionNode(rootTreeNode.getChildren(), iPermissionGroup.getId()));
+    reloadPermissionsUpAndDown(searchPermissionNode(rootTreeNode.getChildren(), permissionGroup));
   }
 
   private void reloadPermissionsUp(TreeNode permissionNode) 
@@ -251,15 +248,15 @@ public class PermissionBean
     reloadPermissionGroupsUp(permissionGroupNode.getParent());
   }
 
-  public TreeNode searchPermissionNode(List<TreeNode> children, long permissionId) 
+  public TreeNode searchPermissionNode(List<TreeNode> children, AbstractPermission data) 
   {
     for (var child : children) 
     {
-      if (((AbstractPermission) child.getData()).getId() == permissionId) 
+      if (data.equals(child.getData())) 
       {
         return child;
       }
-      var search = searchPermissionNode(child.getChildren(), permissionId);
+      var search = searchPermissionNode(child.getChildren(), data);
       if (search != null) 
       {
         return search;
