@@ -145,13 +145,6 @@ class WebTestConfiguration {
     }
 
     @Test
-    void editConfig_daytimeFormat() {
-      var config = "EMail.DailyTaskSummary.TriggerTime";
-      table.clickButtonForEntry(config, "editConfigBtn");
-      assertThatConfigEditModalIsVisible(config, "00:00", "Time of day");
-    }
-
-    @Test
     void editConfig_enumerationFormat() {
       var config = "SystemTask.Failure.Behaviour";
       table.clickButtonForEntry(config, "editConfigBtn");

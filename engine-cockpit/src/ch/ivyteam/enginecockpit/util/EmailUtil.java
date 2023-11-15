@@ -6,9 +6,9 @@ import ch.ivyteam.ivy.mail.MailClient;
 import ch.ivyteam.ivy.mail.MailMessage;
 
 public class EmailUtil {
+
   private static final Pattern EMAIL_REGEX = Pattern
           .compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
-  public static final String DAILYTASKSUMMARY_TRIGGERTIME = "EMail.DailyTaskSummary.TriggerTime";
 
   public static void sendTestMail(String subject, String to, String message) throws Exception {
     try (var mailClient = MailClient.newMailClient()) {

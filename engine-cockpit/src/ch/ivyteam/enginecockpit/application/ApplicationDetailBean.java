@@ -133,7 +133,6 @@ public class ApplicationDetailBean {
     libraries.add(StandardProcessStartFinder.AUTO);
     libraries.add(config.getValue());
     Arrays.stream(StandardProcessType.values())
-            .filter(type -> type.kind() == StandardProcessType.Kind.PAGE)
             .forEach(type -> libraries.addAll(configurator.findLibraries(type)));
     return List.copyOf(libraries);
   }
