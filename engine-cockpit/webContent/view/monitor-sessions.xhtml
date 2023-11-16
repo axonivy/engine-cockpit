@@ -42,8 +42,12 @@
                 <p:commandButton id="filterBtn" title="Filter" type="button" icon="si si-filter-1"
                 styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button" onclick="PF('filterPanel').show();" />
                 <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel" styleClass="table-content-filter">
-                  <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showUnauthenticatedSessions}" id="filterUnauthenticatedSession" itemLabel="Show unauthenticated sessions" />
-              
+                  <h:panelGroup style="display:block;margin-bottom:5px;">
+                    <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showUnauthenticatedSessions}" id="filterUnauthenticatedSession" itemLabel="Show unauthenticated sessions" />
+                  </h:panelGroup>
+                  <h:panelGroup>
+                    <p:selectBooleanCheckbox value="#{sessionBean.dataModel.showTemporarySessions}" id="filterTemporarySession" itemLabel="Show temporary sessions" />
+                  </h:panelGroup>
                   <h:panelGroup layout="block" styleClass="p-mt-1 p-d-flex p-jc-end">
                     <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
                       onclick="PF('filterPanel').hide();" type="button" />
@@ -86,7 +90,11 @@
             <p:column headerText="Auth" sortBy="#{ses.authMode}">
               <h:outputText value="#{ses.authMode}" />
             </p:column>
-            
+
+            <p:column headerText="Temp" sortBy="#{ses.temporary}">
+              <h:outputText value="#{ses.temporary}" title="A temporary session is only created for technical reasons and shoud have a very short lifetime (approx. 1s). Temporary sessions do not count for licensed concurrent sessions." />
+            </p:column>
+
             <p:column headerText="Id" sortBy="#{ses.id}">
               <h:outputText value="#{ses.id}" />
             </p:column>

@@ -41,6 +41,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
   );
 
   private boolean showUnauthenticatedSessions;
+  private boolean showTemporarySessions;
   private String filter;
 
   public SessionDataModel() {
@@ -49,6 +50,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
 
   public void resetFilters() {
     this.showUnauthenticatedSessions = true;
+    this.showTemporarySessions = false;
     this.filter = null;
   }
 
@@ -66,6 +68,14 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
 
   public void setShowUnauthenticatedSessions(boolean showUnauthenticatedSessions) {
     this.showUnauthenticatedSessions = showUnauthenticatedSessions;
+  }
+
+  public boolean isShowTemporarySessions() {
+    return showTemporarySessions;
+  }
+
+  public void setShowTemporarySessions(boolean showTemporarySessions) {
+    this.showTemporarySessions = showTemporarySessions;
   }
 
   @Override
@@ -136,6 +146,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
             .flatMap(s -> s.sessions().all().stream())
             .filter(s -> !s.isSessionUserSystemUser())
             .filter(s -> showUnauthenticatedSessions || (!showUnauthenticatedSessions && !s.isSessionUserUnknown()))
+            .filter(s -> showTemporarySessions || (!showTemporarySessions && !((ISessionInternal) s).isTemporary()))
             .map(ISessionInternal.class::cast);
   }
 }
