@@ -194,6 +194,14 @@ public class EngineCockpitUtil {
     runTestProcess("18AB33A0B9AA7019/destroyOtherSessions.ivp");
   }
 
+  public static void enableRestart() {
+    runTestProcess("18B5CA921CF8441A/enable.ivp");
+  }
+
+  public static void disableRestart() {
+    runTestProcess("18B5CA921CF8441A/disable.ivp");
+  }
+
   private static void runTestProcess(String processLink) {
     open(create().app(getAppName()).servlet(SERVLET.PROCESS).path("engine-cockpit-test-data/" + processLink)
             .toUrl());
