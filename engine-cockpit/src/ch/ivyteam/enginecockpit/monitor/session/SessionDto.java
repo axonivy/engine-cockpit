@@ -24,6 +24,7 @@ public class SessionDto {
   private final String link;
   private final String authMode;
   private final Set<HttpSessionDto> httpSessions;
+  private final boolean isTemporary;
 
   SessionDto(ISessionInternal session) {
     this.session = session;
@@ -39,6 +40,7 @@ public class SessionDto {
     this.httpSessions = session.getHttpSessions().stream()
             .map(HttpSessionDto::new)
             .collect(Collectors.toSet());
+    this.isTemporary = session.isTemporary();
   }
 
   public Date getCreatedAt() {
@@ -63,6 +65,10 @@ public class SessionDto {
 
   public boolean isUserInternal() {
     return isUserInternal;
+  }
+
+  public boolean isTemporary() {
+    return isTemporary;
   }
 
   public String getAuthMode() {
