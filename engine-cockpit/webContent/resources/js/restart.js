@@ -24,7 +24,7 @@ function redirectToHome() {
     })
     .fail(function (request, status, error) {
       restartError = error;
-      if (request.status === 503) {
+      if (request.status === 503 && request.responseText.includes("is starting")) {
         window.location.href = url;
       } else {
         retryRedirectToHome();
