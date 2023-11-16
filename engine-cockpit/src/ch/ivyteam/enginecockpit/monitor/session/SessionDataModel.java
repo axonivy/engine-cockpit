@@ -75,7 +75,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
   }
 
   public void setShowTemporarySessions(boolean showTemporarySessions) {
-	this.showTemporarySessions = showTemporarySessions;
+    this.showTemporarySessions = showTemporarySessions;
   }
 
   @Override
