@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.2.1/process.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.2.2/process.json",
   "id" : "18B5CA921CF8441A",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -60,7 +60,7 @@
         "output" : {
           "code" : [
             "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
-            "IConfiguration.instance().remove(\"Cockpit.Restart\");"
+            "IConfiguration.instance().set(\"Cockpit.Restart\", \"enable\");"
           ]
         }
       },
@@ -75,6 +75,42 @@
       "type" : "TaskEnd",
       "visual" : {
         "at" : { "x" : 352, "y" : 168 }
+      }
+    }, {
+      "id" : "f10",
+      "type" : "RequestStart",
+      "name" : "remove",
+      "config" : {
+        "signature" : "remove"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 272 }
+      },
+      "connect" : [
+        { "id" : "f13", "to" : "f11" }
+      ]
+    }, {
+      "id" : "f11",
+      "type" : "Script",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import ch.ivyteam.ivy.configuration.restricted.IConfiguration;",
+            "IConfiguration.instance().remove(\"Cockpit.Restart\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 272 }
+      },
+      "connect" : [
+        { "id" : "f14", "to" : "f12" }
+      ]
+    }, {
+      "id" : "f12",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 272 }
       }
     } ]
 }

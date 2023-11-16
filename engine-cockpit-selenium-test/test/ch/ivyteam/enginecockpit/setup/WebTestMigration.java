@@ -32,7 +32,7 @@ public class WebTestMigration {
 
   @AfterEach
   void afterEach() {
-    EngineCockpitUtil.enableRestart();
+    EngineCockpitUtil.removeRestart();
     login("migrate.xhtml");
   }
 
