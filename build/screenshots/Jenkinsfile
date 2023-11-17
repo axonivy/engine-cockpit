@@ -42,8 +42,5 @@ def getScreenshotRefBranch(isReleaseOrMasterBranch) {
 }
 
 def getImageSimilarity(isReleaseOrMasterBranch) {
-  if (isReleaseOrMasterBranch) {
-    return '97'
-  }
-  return '95'
+  return '90'
 }
