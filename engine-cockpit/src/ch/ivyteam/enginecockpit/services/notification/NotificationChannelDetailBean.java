@@ -72,10 +72,10 @@ public class NotificationChannelDetailBean {
                       .map(NotificationEventDto::getKind)
                       .toList());
 
-      var msg = new FacesMessage(channel.getDisplayName() + " notification channel changes saved");
-      FacesContext.getCurrentInstance().addMessage("channelSaveSuccess", msg);
+      var msg = new FacesMessage(channel.getDisplayName() + " notification channel changes saved", "");
+      FacesContext.getCurrentInstance().addMessage("msgs", msg);
     } catch (IllegalArgumentException ex) {
-      FacesContext.getCurrentInstance().addMessage("error",
+      FacesContext.getCurrentInstance().addMessage("msgs",
               new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
     }
   }
