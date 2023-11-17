@@ -39,7 +39,7 @@ import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
-public class WebDocuScreenshot {
+class WebDocuScreenshot {
 
   private static final int SCREENSHOT_WIDTH = 1500;
   private static final int SCREENSHOT_SETUP_WIDTH = 1200;
@@ -51,6 +51,7 @@ public class WebDocuScreenshot {
     EngineCockpitUtil.runExternalDbQuery();
     EngineCockpitUtil.createBusinessData();
     EngineCockpitUtil.addSystemAdmin();
+    EngineCockpitUtil.createNotification();
   }
 
   @BeforeEach
@@ -120,6 +121,8 @@ public class WebDocuScreenshot {
     takeScreenshot("monitor-intermediate-events", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toJobs();
     takeScreenshot("monitor-jobs", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toNotification();
+    takeScreenshot("monitor-notifications", new Dimension(SCREENSHOT_WIDTH, 800));    
     Navigation.toClassHistogram();
     $(id("form:refresh")).shouldBe(visible, enabled).click();
     new Table(By.id("form:classTable")).rows().shouldBe(CollectionCondition.sizeGreaterThan(1));
@@ -165,6 +168,8 @@ public class WebDocuScreenshot {
     takeScreenshot("rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
     Navigation.toSearchEngine();
     takeScreenshot("search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toNotificationChannels();
+    takeScreenshot("notification-channels", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
   @Test
