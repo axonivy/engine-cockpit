@@ -4,6 +4,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.NotificationChannelMonitor;
 import ch.ivyteam.enginecockpit.services.notification.NotificationChannelDto.NotificationEventDto;
@@ -61,17 +62,22 @@ public class NotificationChannelDetailBean {
   }
 
   public void save() {
-    var config = channel.getConfig();
-    config.enabled(channel.isEnabled());
-    config.allEventsEnabled(channel.isAllEventsEnabled());
-    config.events(
-            channel.getEvents().stream()
-                    .filter(NotificationEventDto::isEnabled)
-                    .map(NotificationEventDto::getKind)
-                    .toList());
+    try {
+      var config = channel.getConfig();
+      config.enabled(channel.isEnabled());
+      config.allEventsEnabled(channel.isAllEventsEnabled());
+      config.events(
+              channel.getEvents().stream()
+                      .filter(NotificationEventDto::isEnabled)
+                      .map(NotificationEventDto::getKind)
+                      .toList());
 
-    var msg = new FacesMessage(channel.getDisplayName() + " notification channel changes saved");
-    FacesContext.getCurrentInstance().addMessage("channelSaveSuccess", msg);
+      var msg = new FacesMessage(channel.getDisplayName() + " notification channel changes saved", "");
+      FacesContext.getCurrentInstance().addMessage("msgs", msg);
+    } catch (IllegalArgumentException ex) {
+      FacesContext.getCurrentInstance().addMessage("msgs",
+              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+    }
   }
 
   public void open() {
