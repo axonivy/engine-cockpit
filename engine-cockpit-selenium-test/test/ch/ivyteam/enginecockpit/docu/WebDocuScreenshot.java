@@ -122,7 +122,10 @@ class WebDocuScreenshot {
     Navigation.toJobs();
     takeScreenshot("monitor-jobs", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toNotification();
-    takeScreenshot("monitor-notifications", new Dimension(SCREENSHOT_WIDTH, 800));    
+    takeScreenshot("monitor-notifications", new Dimension(SCREENSHOT_WIDTH, 800));
+    var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
+    notifications.tableEntry(1, 1).click();
+    takeScreenshot("monitor-notification-deliveries", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toClassHistogram();
     $(id("form:refresh")).shouldBe(visible, enabled).click();
     new Table(By.id("form:classTable")).rows().shouldBe(CollectionCondition.sizeGreaterThan(1));
@@ -170,6 +173,8 @@ class WebDocuScreenshot {
     takeScreenshot("search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toNotificationChannels();
     takeScreenshot("notification-channels", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toNotificationChannelDetail("mail");
+    takeScreenshot("notification-channel-mail", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
   @Test
