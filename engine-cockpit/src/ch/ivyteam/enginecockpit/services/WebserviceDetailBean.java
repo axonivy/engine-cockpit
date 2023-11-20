@@ -31,7 +31,7 @@ import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.jersey.client.JerseyClientBuilder;
-import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
+import ch.ivyteam.ivy.ssl.client.restricted.SslClientSettings;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
@@ -163,6 +163,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   private Client createClient() {
+    @SuppressWarnings("restriction")
     var client =  JerseyClientBuilder.create("Client")
             .sslContext(createSSLContext())
             .insecureSsl(SslClientSettings.instance().isInsecureSSLEnabled())
@@ -170,6 +171,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return client;
   }
 
+  @SuppressWarnings("restriction")
   private SSLContext createSSLContext() {
     var sslConfig = new ch.ivyteam.ivy.ssl.restricted.SslConfig(false, "", SslClientSettings.instance());
     var ivySslContext = new ch.ivyteam.ivy.ssl.restricted.IvySslContext(sslConfig);
