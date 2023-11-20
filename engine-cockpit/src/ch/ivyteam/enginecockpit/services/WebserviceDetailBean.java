@@ -8,9 +8,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.net.ssl.SSLContext;
 import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -30,8 +29,6 @@ import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
-import ch.ivyteam.ivy.jersey.client.JerseyClientBuilder;
-import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
@@ -140,7 +137,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   private ConnectionTestResult testConnection() {
-    javax.ws.rs.client.Client client = createClient();
+    var client = ClientBuilder.newClient();
     if (authSupportedForTesting()) {
       client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
     }
@@ -160,20 +157,6 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
               "The URL seems to be not correct or contains scripting context (can not be evaluated)\n"
                       + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
     }
-  }
-
-  private Client createClient() {
-    var client =  JerseyClientBuilder.create("Client")
-            .sslContext(createSSLContext())
-            .insecureSsl(SslClientSettings.instance().isInsecureSSLEnabled())
-            .toClient();
-    return client;
-  }
-
-  private SSLContext createSSLContext() {
-    var sslConfig = new ch.ivyteam.ivy.ssl.restricted.SslConfig(false, "", SslClientSettings.instance());
-    var ivySslContext = new ch.ivyteam.ivy.ssl.restricted.IvySslContext(sslConfig);
-    return ivySslContext.getSSLContext();
   }
 
   private boolean authSupportedForTesting() {
