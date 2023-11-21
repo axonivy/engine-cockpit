@@ -3,16 +3,20 @@ package ch.ivyteam.enginecockpit.services;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
+
 import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -73,7 +77,7 @@ public class WebTestPushNotificationChannel {
     table.tableEntry("Email", 4).$("i.si-remove-circle").shouldBe(Condition.visible);
     table.tableEntry("Email", 4).$("i.si-synchronize-arrow-clock").shouldBe(Condition.visible);
     table.tableEntry("Email", 4).click();
-    var lockDetails = $(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:channelsTable:1:state:lockDetails"));
+    var lockDetails = $(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:channelsTable:2:state:lockDetails"));
     assertLockDetails(lockDetails);
 
     Navigation.toNotificationChannelDetail("mail");
