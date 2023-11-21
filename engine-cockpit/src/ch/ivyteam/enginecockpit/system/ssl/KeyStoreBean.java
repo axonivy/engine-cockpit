@@ -18,7 +18,7 @@ import ch.ivyteam.enginecockpit.system.ssl.SslClientConfig.KeyStoreConfig;
 
 @ManagedBean
 @ViewScoped
-public class KeyStoreBean {
+public class KeyStoreBean implements SslTableStore {
 
   private final KeyStoreConfig store;
 
@@ -133,15 +133,18 @@ public class KeyStoreBean {
             new FacesMessage("Key Store configurations saved"));
   }
 
-  public List<StoredCert> getStoredKeyCerts() {
+  @Override
+  public List<StoredCert> getCertificats() {
     return getKeyStoreUtils().getStoredCerts();
   }
 
-  public void deleteKeyCertificate(String alias) {
+  @Override
+  public void deleteCertificate(String alias) {
     getKeyStoreUtils().deleteCertificate(alias);
   }
 
-  public Certificate handleUploadKeyCert(FileUploadEvent event) throws Exception {
+  @Override
+  public Certificate handleUploadCertificate(FileUploadEvent event) throws Exception {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }

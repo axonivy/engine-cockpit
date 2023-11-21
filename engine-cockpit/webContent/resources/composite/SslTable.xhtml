@@ -3,77 +3,66 @@
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
-  <cc:attribute name="uploadCerts" method-signature="void handleEvent(org.primefaces.event.FileUploadEvent)" required="true" />
-  <cc:attribute name="deleteCerts" required="true" />
-  <cc:attribute name="getCerts" required="true" />
+  <cc:attribute name="bean" required="true" />
   <cc:attribute name="title" required="true" />
 </cc:interface>
 
 <cc:implementation>
   <div class="card">
-  <h:form id="storeTable">
-    <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-information-circle"></i>
-        <h6 class="p-m-0">#{cc.attrs.title}</h6>
-        <p:fileUpload id="certUpload" mode="simple"
-          skinSimple="true" multiple="false" auto="true"
-          listener="#{cc.attrs.uploadCerts}"
-          update="@form"
-          style="display: none;" />
-        <p:commandButton title="Add Certificate" icon="si si-upload-bottom"
-          type="button" id="Certbtn"
-          styleClass="p-col-fixed p-ml-auto p-ml-1 p-mr-1 rounded-button"
-          onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
-        </p:commandButton>
+    <h:form id="storeTable">
+      <div class="card-header">
+        <div class="card-title p-d-flex p-ai-center">
+          <i class="p-pr-3 si si-information-circle"></i>
+          <h6 class="p-m-0">#{cc.attrs.title}</h6>
+          <p:fileUpload id="certUpload" mode="simple"
+            skinSimple="true" multiple="false" auto="true"
+            listener="#{cc.attrs.bean.handleUploadCertificate}"
+            update="@form"
+            style="display: none;" />
+          <p:commandButton title="Add Certificate" icon="si si-upload-bottom"
+            type="button" id="Certbtn"
+            styleClass="p-col-fixed p-ml-auto p-ml-1 p-mr-1 rounded-button"
+            onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
+          </p:commandButton>
+        </div>
       </div>
-    </div>
 
-    <p:panelGrid columns="2"
-      columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
-      layout="flex" styleClass="grey-label-panel ui-fluid">
-
-        <label>Certificates</label>
-        <p:dataTable var="x509" value="#{cc.attrs.getCerts}" id="storeCertificates">
-
-          <p:column headerText="Valid">
-          <h:outputText id="valid" class="#{!x509.isValid() ? 'pi pi-times' : 'pi pi-check'}"  style="color: #{!x509.isValid() ? 'red' : 'green'}" value="">
-          </h:outputText>
-              <p:tooltip for="valid" value="#{x509.isValid() ? 'Valid' : x509.invalidityMessage}" />
-          </p:column>
-
-          <p:column headerText="Alias">
-          <h:outputText value="#{x509.alias}" id="alias" />
+      <p:dataTable var="certificate" value="#{cc.attrs.bean.certificats}" id="storeCertificates">
+        <p:column headerText="Alias">
+          <h:outputText value="#{certificate.alias}" id="alias" />
         </p:column>
-        
-         <p:column headerText="Subject">
-          <h:outputText value="#{x509.subject}" id="subject" />
+      
+        <p:column headerText="Subject">
+          <h:outputText value="#{certificate.subject}" id="subject" />
         </p:column>
 
         <p:column headerText="Algorithm">
           <h:outputText
-            value="#{x509.cert.getPublicKey().getAlgorithm()}"
+            value="#{certificate.cert.getPublicKey().getAlgorithm()}"
             id="algorithm" />
         </p:column>
 
         <p:column headerText="Expiry date">
-          <h:outputText value="#{x509.cert.notAfter}" id="expiryDate"
-            style="color: #{!x509.expired ? 'red' : ''};" />
+          <h:panelGroup id="valid">
+            <i class="si table-icon si-#{certificate.isValid() ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+            <h:outputText value="#{certificate.cert.notAfter}" id="expiryDate"
+              styleClass="${certificate.isValid() ? '' : 'state-inactive'}" />
+          </h:panelGroup>
+          <p:tooltip for="valid" value="#{certificate.isValid() ? 'Valid' : certificate.invalidityMessage}" />
         </p:column>
 
-        <p:column headerText="Delete">
-          <p:commandButton id="delete" title="Delete" icon="pi pi-trash"
-            styleClass="ui-button-danger"
-            actionListener="#{cc.attrs.deleteCerts}"
+        <p:column styleClass="table-btn-1">
+          <p:commandButton id="delete" title="Delete" icon="si si-bin-1"
+            styleClass="ui-button-danger rounded-button"
+            actionListener="#{cc.attrs.bean.deleteCertificate(certificate.alias)}"
             update="@form">
           </p:commandButton>
         </p:column>
 
       </p:dataTable>
 
-    </p:panelGrid>
-  </h:form>
-</div>
+    </h:form>
+  </div>
 </cc:implementation>
 
 </html>

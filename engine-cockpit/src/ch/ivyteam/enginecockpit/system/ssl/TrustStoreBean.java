@@ -18,7 +18,7 @@ import ch.ivyteam.enginecockpit.system.ssl.SslClientConfig.TrustStoreConfig;
 
 @ManagedBean
 @ViewScoped
-public class TrustStoreBean {
+public class TrustStoreBean implements SslTableStore {
 
   private final TrustStoreConfig store;
 
@@ -121,17 +121,20 @@ public class TrustStoreBean {
             new FacesMessage("Trust Store configurations saved"));
   }
 
-  public void deleteTrustCertificate(String alias) {
+  @Override
+  public void deleteCertificate(String alias) {
     getKeyStoreUtils().deleteCertificate(alias);
   }
 
-  public Certificate handleUploadTrustCert(FileUploadEvent event) throws Exception {
+  @Override
+  public Certificate handleUploadCertificate(FileUploadEvent event) throws Exception {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }
   }
 
-  public List<StoredCert> getStoredCerts() {
+  @Override
+  public List<StoredCert> getCertificats() {
     return getKeyStoreUtils().getStoredCerts();
   }
 
