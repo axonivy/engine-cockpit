@@ -33,22 +33,14 @@
               src="../includes/components/configuration/ssl-truststore.xhtml" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
-            <cc:SslTable id="sslTrustTable"
-              uploadCerts="#{trustStoreBean.handleUploadTrustCert}"
-              deleteCerts="#{trustStoreBean.deleteTrustCertificate(x509.alias)}"
-              getCerts="#{trustStoreBean.storedCerts}"
-              title="Trust Store Certificates" />
+            <cc:SslTable id="sslTrustTable" bean="#{trustStoreBean}" title="Trust Store Certificates" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
             <ui:include
               src="../includes/components/configuration/ssl-keystore.xhtml" />
           </div>
           <div class="p-col-12 p-md-12 p-xl-6">
-            <cc:SslTable id="sslKeyTable"
-              uploadCerts="#{keyStoreBean.handleUploadKeyCert}"
-              deleteCerts="#{keyStoreBean.deleteKeyCertificate(x509.alias)}"
-              getCerts="#{keyStoreBean.storedKeyCerts}"
-              title="Key Store Certificates" />
+            <cc:SslTable id="sslKeyTable" bean="#{keyStoreBean}" title="Key Store Certificates" />
           </div>
         </div>
       </div>
