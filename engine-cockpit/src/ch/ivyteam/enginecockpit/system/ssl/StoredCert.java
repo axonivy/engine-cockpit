@@ -1,17 +1,17 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
 import java.security.cert.X509Certificate;
-import java.util.Date;
 
 public class StoredCert {
 
   private final String alias;
   private final X509Certificate cert;
-  private String invalidityMessage;
+  private final String invalidityMessage;
 
   public StoredCert(String alias, X509Certificate cert) {
     this.alias = alias;
     this.cert = cert;
+    this.invalidityMessage = validate(cert);
   }
 
   public String getAlias() {
@@ -40,22 +40,21 @@ public class StoredCert {
     return cName;
   }
 
-  public boolean isExpired() {
-    return cert != null && !cert.getNotAfter().before(new Date());
-  }
-
   public boolean isValid() {
-    try {
-        cert.checkValidity();
-        invalidityMessage = null;
-        return true;
-    } catch (Exception ex) {
-        invalidityMessage = ex.getMessage();
-        return false;
-    }
+    return invalidityMessage == null;
   }
 
   public String getInvalidityMessage() {
     return invalidityMessage;
   }
+
+  private static String validate(X509Certificate cert) {
+    try {
+      cert.checkValidity();
+      return null;
+    } catch (Exception ex) {
+      return ex.getMessage();
+    }
+  }
+
 }

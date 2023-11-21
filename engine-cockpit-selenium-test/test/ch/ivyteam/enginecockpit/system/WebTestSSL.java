@@ -1,6 +1,8 @@
-package ch.ivyteam.enginecockpit.configuration;
+package ch.ivyteam.enginecockpit.system;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.empty;
+import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
@@ -10,7 +12,6 @@ import static com.codeborne.selenide.Selenide.$;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,12 +19,9 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.axonivy.ivy.webtest.primeui.widget.Table;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 class WebTestSSL {
@@ -188,88 +186,30 @@ class WebTestSSL {
 
   @Test
   void deleteCert() throws IOException {
-    PrimeUiTable2 certificates = new PrimeUiTable2(By.id("sslTrustTable:storeTable:storeCertificates"));
-    certificates.isEmpty();
+    var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
+    table.firstColumnShouldBe(empty);
     var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
     $(By.id("sslTrustTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
-    certificates.contains("ivy1");
-    Optional<SelenideElement> row = certificates.findRow(text("ivy1"));
-    var dataRi = row.get().getAttribute("data-ri");
-    $(By.id("sslTrustTable:storeTable:storeCertificates:"+dataRi+":delete")).click();
-    certificates.containsNot("ivy1");
-  }
-
-  @Test
-  void trustStoreCertificatInfos() throws IOException {
-    var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
-    try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
-      Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
-    }
-    $(By.id("sslTrustTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
-    PrimeUi.table(By.id("sslTrustTable:storeTable:storeCertificates")).contains("ivy1");
-
-   $(By.id("sslTrustTable:storeTable:storeCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
-   $(By.id("sslTrustTable:storeTable:storeCertificates:0:delete")).click();
+    table.firstColumnShouldBe(texts("ivy1"));
+    table.clickButtonForEntry("ivy1", "delete");
+    table.firstColumnShouldBe(empty);
   }
 
   @Test
   void deleteKeyCert() throws IOException {
-    PrimeUiTable2 certificates = new PrimeUiTable2(By.id("sslKeyTable:storeTable:storeCertificates"));
-    certificates.isEmpty();
+    var table = new Table(By.id("sslKeyTable:storeTable:storeCertificates"));
+    table.firstColumnShouldBe(texts("ivy"));
     var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
     try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
     $(By.id("sslKeyTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
-    certificates.contains("ivy1");
-    Optional<SelenideElement> row = certificates.findRow(text("ivy1"));
-    var dataRi = row.get().getAttribute("data-ri");
-    $(By.id("sslKeyTable:storeTable:storeCertificates:"+dataRi+":delete")).click();
-    certificates.containsNot("ivy1");
-  }
-
-  private static class PrimeUiTable2 extends Table {
-    private final String tableId;
-
-    public PrimeUiTable2(By dataTable) {
-      super(dataTable);
-      tableId = $(dataTable).shouldBe(visible).attr("id");
-    }
-
-    public int rowCount() {
-      ElementsCollection rows = $(By.id(tableId + "_data")).findAll("tr");
-      return  rows.size();
-  }
-
-    public boolean isEmpty() {
-      return rowCount() == 0;
-    }
-
-    public Optional<SelenideElement> findRow(Condition text) {
-      for(int row=0; row<rowCount(); row++) {
-        var aRow = row(row);
-        if (aRow.has(text)) {
-          return Optional.of(aRow);
-        }
-      }
-      return Optional.empty();
-    }
-  }
-
-  @Test
-  void keyStoreCertificatInfos() throws IOException {
-    var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
-    try (var is = WebTestSSL.class.getResourceAsStream("jiraaxonivycom.crt")) {
-      Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
-    }
-    $(By.id("sslKeyTable:storeTable:certUpload_input")).sendKeys(createTempFile.toString());
-    PrimeUi.table(By.id("sslKeyTable:storeTable:storeCertificates")).contains("ivy1");
-
-   $(By.id("sslKeyTable:storeTable:storeCertificates_data")).findElement(By.cssSelector(".pi.pi-times"));
-   $(By.id("sslKeyTable:storeTable:storeCertificates:0:delete")).click();
+    table.firstColumnShouldBe(texts("ivy", "ivy1"));
+    table.clickButtonForEntry("ivy1", "delete");
+    table.firstColumnShouldBe(texts("ivy"));
   }
 
   private void saveTrustStore() {
