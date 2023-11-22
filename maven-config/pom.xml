@@ -9,7 +9,7 @@
     <engine.page.url>https://product.ivyteam.io</engine.page.url>
     <engine.dir>../.ivy-engine</engine.dir>
     <flatten.plugin.version>1.3.0</flatten.plugin.version>
-    <project.build.plugin.version>11.2.1-SNAPSHOT</project.build.plugin.version>
+    <project.build.plugin.version>11.3.0-SNAPSHOT</project.build.plugin.version>
     <web.tester.version>11.2.2-SNAPSHOT</web.tester.version>
     <maven.test.skip>true</maven.test.skip>
   </properties>
