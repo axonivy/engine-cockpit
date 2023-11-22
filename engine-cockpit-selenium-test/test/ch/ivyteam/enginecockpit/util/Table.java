@@ -6,11 +6,14 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
@@ -51,7 +54,10 @@ public class Table {
   }
 
   public void firstColumnShouldBe(CollectionCondition cond) {
-    $$x(getFirstColumnSpanElement()).shouldBe(cond, Duration.ofSeconds(10));
+    firstColumnShouldBe(cond, 1);
+  }
+  public void firstColumnShouldBe(CollectionCondition cond, int indexOfSpanElement) {
+    $$x(getFirstColumnSpanElement(indexOfSpanElement)).shouldBe(cond, Duration.ofSeconds(10));
   }
   public void columnShouldBe(int col, CollectionCondition cond) {
     $$x(getColumnSpanElement(col)).shouldBe(cond, Duration.ofSeconds(10));
@@ -67,7 +73,10 @@ public class Table {
   }
 
   public SelenideElement tableEntry(String entry, int column) {
-    return $x(findColumnOverEntry(entry) + "/td[" + column + "]");
+    return tableEntry(entry, column, 1);
+  }
+  public SelenideElement tableEntry(String entry, int column, int indexOfSpanElement) {
+    return $x(findColumnOverEntry(entry, indexOfSpanElement) + "/td[" + column + "]");
   }
 
   public SelenideElement tableEntry(int row, int column)
@@ -124,15 +133,21 @@ public class Table {
   }
 
   private String getFirstColumnSpanElement() {
-    return getColumnSpanElement(1);
+    return getFirstColumnSpanElement(1);
+  }
+  private String getFirstColumnSpanElement(int indexOfSpanElement) {
+    return getColumnSpanElement(1, indexOfSpanElement);
   }
 
   private String getColumnSpanElement(int col) {
+    return getColumnSpanElement(col, 1);
+  }
+  private String getColumnSpanElement(int col, int indexOfSpanElement) {
     if (StringUtils.isNotBlank(subElement)) {
       if (col > 1) {
         return getBody()+"/tr/td["+col+"]/" + subElement + "";
       }
-      return getBody()+"/tr/td["+col+"]/" + subElement + "/span[1]";
+      return getBody()+"/tr/td["+col+"]/" + subElement + "/span[" + indexOfSpanElement + "]";
     }
     if (col > 1) {
       return getBody()+"/tr/td["+col+"]";
@@ -149,11 +164,14 @@ public class Table {
   }
 
   private String findColumnOverEntry(String entry) {
+    return findColumnOverEntry(entry, 1);
+  }
+  private String findColumnOverEntry(String entry, int indexOfSpanElement) {
     String parentTdFromSpan = "/../..";
     if (StringUtils.isNotBlank(subElement)) {
       parentTdFromSpan = "/../../..";
     }
-    return getFirstColumnSpanElement() + "[text()='" + entry + "']" + parentTdFromSpan;
+    return getFirstColumnSpanElement(indexOfSpanElement) + "[text()='" + entry + "']" + parentTdFromSpan;
   }
 
   public void search(String search) {

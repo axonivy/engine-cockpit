@@ -17,9 +17,8 @@
     
     <p:column headerText="Name" sortBy="#{channel.displayName}" filterBy="#{channel.displayName}">
       <a href="#{channel.getViewUrl()}">
-        <h:outputText value="#{channel.displayName}" styleClass="channel-name">
-          <i class="#{channel.displayIcon} table-icon" />
-        </h:outputText>
+        <h:outputText value="${channel.displayIcon}" class="notification-channel-table-icon" escape="false" />
+        <h:outputText value="#{channel.displayName}" styleClass="channel-name" />
       </a>
     </p:column>
     <p:column headerText="Enabled" sortBy="#{channel.enabled}" style="text-align: center">

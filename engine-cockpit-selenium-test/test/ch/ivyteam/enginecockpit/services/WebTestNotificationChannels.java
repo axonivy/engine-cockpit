@@ -2,11 +2,14 @@ package ch.ivyteam.enginecockpit.services;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -27,8 +30,8 @@ public class WebTestNotificationChannels {
   void channelsInTable() {
     Table table = new Table(By.id("securitySystems:securitySystemTabView:" +
             Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:" + TABLE_ID), true);
-    table.firstColumnShouldBe(size(2));
-    table.firstColumnShouldBe(CollectionCondition.exactTexts("Web", "Email"));
+    table.firstColumnShouldBe(size(3));
+    table.firstColumnShouldBe(CollectionCondition.exactTexts("Microsoft Teams", "Web", "Email"), 2);
   }
 
   @Test
@@ -40,6 +43,6 @@ public class WebTestNotificationChannels {
     table.search("Web");
     table.firstColumnShouldBe(size(1));
 
-    table.firstColumnShouldBe(CollectionCondition.exactTexts("Web"));
+    table.firstColumnShouldBe(CollectionCondition.exactTexts("Web"), 2);
   }
 }
