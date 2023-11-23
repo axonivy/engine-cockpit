@@ -10,7 +10,7 @@ public class Blob {
   public static void create() {
     var ctx = ISecurityContextRepository.instance().getDefault();
     var session = ctx.sessions().create();
-    var user = ctx.users().query().executor().firstResult();
+    var user = ctx.users().query().where().enabled().isTrue().executor().firstResult();
     session.authenticateSessionUser(user, "test");
     new SessionContext(session).runInContext(() -> {
       Sudo.run(() -> Ivy.wfCase().documents().add("louis.txt").write().withContentFrom("louis schreibt man mit s"));
