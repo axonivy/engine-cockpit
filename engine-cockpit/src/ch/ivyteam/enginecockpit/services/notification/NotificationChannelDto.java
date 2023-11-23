@@ -1,9 +1,16 @@
 package ch.ivyteam.enginecockpit.services.notification;
 
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.ws.rs.core.UriBuilder;
+
+import org.apache.commons.io.IOUtils;
+
 import ch.ivyteam.enginecockpit.util.DurationFormat;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.notification.channel.NotificationChannelSystemConfig;
@@ -36,7 +43,15 @@ public class NotificationChannelDto {
   }
 
   public String getDisplayIcon() {
-    return channel.displayIcon();
+    return loadResource(channel.displayIcon());
+  }
+
+  private static String loadResource(URI uri) {
+    try {
+      return IOUtils.toString(uri, StandardCharsets.UTF_8);
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
   public boolean isEnabled() {

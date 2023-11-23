@@ -31,7 +31,7 @@ public class WebTestNotificationChannels {
     Table table = new Table(By.id("securitySystems:securitySystemTabView:" +
             Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:" + TABLE_ID), true);
     table.firstColumnShouldBe(size(3));
-    table.firstColumnShouldBe(CollectionCondition.exactTexts("Microsoft Teams", "Web", "Email"));
+    table.firstColumnShouldBe(CollectionCondition.exactTexts("Microsoft Teams", "Web", "Email"), 2);
   }
 
   @Test
@@ -43,6 +43,6 @@ public class WebTestNotificationChannels {
     table.search("Web");
     table.firstColumnShouldBe(size(1));
 
-    table.firstColumnShouldBe(CollectionCondition.exactTexts("Web"));
+    table.firstColumnShouldBe(CollectionCondition.exactTexts("Web"), 2);
   }
 }

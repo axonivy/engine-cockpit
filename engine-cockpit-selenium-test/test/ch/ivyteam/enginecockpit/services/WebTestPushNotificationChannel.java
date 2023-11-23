@@ -74,9 +74,9 @@ public class WebTestPushNotificationChannel {
     Navigation.toNotificationChannels();
     Table table = new Table(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:" + WebTestNotificationChannels.TABLE_ID), true);
 
-    table.tableEntry("Email", 4).$("i.si-remove-circle").shouldBe(Condition.visible);
-    table.tableEntry("Email", 4).$("i.si-synchronize-arrow-clock").shouldBe(Condition.visible);
-    table.tableEntry("Email", 4).click();
+    table.tableEntry("Email", 4, 2).$("i.si-remove-circle").shouldBe(Condition.visible);
+    table.tableEntry("Email", 4, 2).$("i.si-synchronize-arrow-clock").shouldBe(Condition.visible);
+    table.tableEntry("Email", 4, 2).click();
     var lockDetails = $(By.id("securitySystems:securitySystemTabView:" + Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:channelsTable:2:state:lockDetails"));
     assertLockDetails(lockDetails);
 
@@ -84,7 +84,7 @@ public class WebTestPushNotificationChannel {
     $(By.id("open")).click();
     Navigation.toNotificationChannels();
 
-    table.tableEntry("Email", 4).$("i.si-check-circle-1").shouldBe(Condition.visible);
+    table.tableEntry("Email", 4, 2).$("i.si-check-circle-1").shouldBe(Condition.visible);
   }
 
   @Test
