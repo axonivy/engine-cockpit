@@ -51,17 +51,18 @@
             </p:column>
             
             <p:column headerText="Channel" sortBy="#{delivery.channel}">
-              <p:link href="#{delivery.channelUri}">
+              <p:link href="#{delivery.channelUri}" rendered="#{delivery.channelUri != null}">
                 <h:outputText value="${delivery.channelIcon}" class="notification-channel-table-icon" escape="false" />
                 <h:outputText value="#{delivery.channel}" />
               </p:link>
             </p:column>
 
             <p:column headerText="Receiver">
-              <p:link href="#{delivery.receiverUri}">
+              <p:link href="#{delivery.receiverUri}" rendered="#{delivery.receiverUri != null}">
                 <i class="#{delivery.receiverIcon} table-icon"/>
                 <h:outputText value="#{delivery.receiver}" />
               </p:link>
+              <h:outputText value="DELETED" rendered="#{delivery.receiverUri == null}"/>
             </p:column>
 
             <p:column headerText="State">
