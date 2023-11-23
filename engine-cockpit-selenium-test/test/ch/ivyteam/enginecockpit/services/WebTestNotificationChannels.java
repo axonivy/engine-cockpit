@@ -38,7 +38,7 @@ public class WebTestNotificationChannels {
   void channelFilter() {
     Table table = new Table(By.id("securitySystems:securitySystemTabView:" +
             Tab.SECURITY_SYSTEM.getSelectedTabIndex() + ":tableForm:" + TABLE_ID), true);
-    table.firstColumnShouldBe(size(2));
+    table.firstColumnShouldBe(size(3));
 
     table.search("Web");
     table.firstColumnShouldBe(size(1));
