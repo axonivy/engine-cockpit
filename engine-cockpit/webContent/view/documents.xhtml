@@ -64,7 +64,7 @@
               </p:column>
               
               <p:column headerText="Creator">
-                <h:outputLink value="#{blob.creatorLink}">
+                <h:outputLink value="#{blob.creatorLink}" rendered="#{!blob.creatorDeleted}">
                   <h:outputText value="#{blob.creator}"/>
                 </h:outputLink>
               </p:column>
@@ -76,7 +76,7 @@
               </p:column>
               
               <p:column headerText="Modifier">
-                <h:outputLink value="#{blob.modifierLink}">
+                <h:outputLink value="#{blob.modifierLink}" rendered="#{!blob.modifierDeleted}">
                   <h:outputText value="#{blob.modifier}"/>
                 </h:outputLink>
               </p:column>
