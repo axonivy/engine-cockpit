@@ -14,6 +14,7 @@ import ch.ivyteam.enginecockpit.security.model.SecurityMember;
 import ch.ivyteam.enginecockpit.util.DurationFormat;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.notification.delivery.NotificationDelivery;
+import ch.ivyteam.ivy.security.ISecurityMember;
 
 public class NotificationDeliveryDto {
 
@@ -59,8 +60,12 @@ public class NotificationDeliveryDto {
   }
 
   public String getChannelUri() {
+    ISecurityMember receiver = delivery.receiver();
+    if (receiver == null) {
+      return null;
+    }
     return UriBuilder.fromPath("notification-channel-detail.xhtml")
-        .queryParam("system", delivery.receiver().getSecurityContext().getName())
+        .queryParam("system", receiver.getSecurityContext().getName())
         .queryParam("channel", delivery.channel())
         .build()
         .toString();
@@ -75,7 +80,11 @@ public class NotificationDeliveryDto {
   }
 
   public String getReceiverUri() {
-    return SecurityMember.createFor(delivery.receiver()).getViewUrl();
+    ISecurityMember receiver = delivery.receiver();
+    if (receiver == null) {
+      return null;
+    }
+    return SecurityMember.createFor(receiver).getViewUrl();
   }
 
   public Date getDeliveredAt() {
