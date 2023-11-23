@@ -13,7 +13,7 @@ import ch.ivyteam.db.jdbc.DatabaseUtil;
 
 public class SystemDatabaseCreator {
 
-  private static final String OLD_DB_NAME = "old_version_111";
+  private static final String OLD_DB_NAME = "old_version_150";
   private static final String TEST_DB_NAME = "temp";
 
   public static void createOldDatabase() throws Exception {
@@ -52,9 +52,8 @@ public class SystemDatabaseCreator {
   private static void fillSystemDb(String dbName) throws Exception {
     try (Connection connection = DatabaseUtil.openConnection(getDbConfig(dbName))) {
       try (Statement stmt = connection.createStatement()) {
-        executeScript("CreateDatabaseVersion111.sql", ";", stmt);
-        executeScript("CreateTriggers111.sql", "END;", stmt);
-        executeScript("CreateSystemApplicationVersion111.sql", ";", stmt);
+        executeScript("CreateDatabaseVersion150.sql", ";", stmt);
+        executeScript("CreateTriggers150.sql", "END;", stmt);
       }
     }
   }
