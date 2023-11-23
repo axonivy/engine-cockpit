@@ -23,8 +23,8 @@ public class BlobDto {
     this.blob = blob;
     this.createdAt = Date.from(blob.createdAt());
     this.modifiedAt = Date.from(blob.modifiedAt());
-    this.creatorLink = new User(blob.creator()).getViewUrl();
-    this.modifierLink = new User(blob.modifier()).getViewUrl();
+    this.creatorLink = blob.creator() == null ? "" : new User(blob.creator()).getViewUrl();
+    this.modifierLink = blob.modifier() == null ? "" : new User(blob.modifier()).getViewUrl();
   }
 
   public String getId() {
@@ -42,7 +42,14 @@ public class BlobDto {
     return createdAt;
   }
 
+  public boolean isCreatorDeleted() {
+    return blob.creator() == null;
+  }
+
   public String getCreator() {
+    if (isCreatorDeleted()) {
+      return "";
+    }
     return blob.creator().getName();
   }
 
@@ -54,7 +61,14 @@ public class BlobDto {
     return modifiedAt;
   }
 
+  public boolean isModifierDeleted() {
+    return blob.modifier() == null;
+  }
+
   public String getModifier() {
+    if (isModifierDeleted()) {
+      return "";
+    }
     return blob.modifier().getName();
   }
 
