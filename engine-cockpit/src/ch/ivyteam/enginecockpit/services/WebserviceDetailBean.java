@@ -9,7 +9,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -29,6 +28,7 @@ import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
 
@@ -137,7 +137,8 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   private ConnectionTestResult testConnection() {
-    var client = ClientBuilder.newClient();
+    var client = SslConnectionTesterClient.createClient();
+
     if (authSupportedForTesting()) {
       client.register(new Authenticator(webservice.getUsername(), webservice.getPassword()));
     }
