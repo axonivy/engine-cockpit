@@ -165,7 +165,7 @@ public class Navigation {
 
   public static void toSSL() {
     toSubMenu(SYSTEM_MENU, SSL_MENU);
-    assertCurrentUrlContains("sslclientconfig.xhtml");
+    assertCurrentUrlContains("sslconfig.xhtml");
     menuShouldBeActive(SSL_MENU);
   }
 
