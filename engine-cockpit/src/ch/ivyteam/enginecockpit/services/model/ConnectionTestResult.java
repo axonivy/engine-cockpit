@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.services.model;
 
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class ConnectionTestResult {
@@ -17,7 +19,8 @@ public class ConnectionTestResult {
 
   public String getMessage() {
     if (StringUtils.isNotBlank(method) && statusCode != 0) {
-      return message + " (Method " + method + " >> Status " + statusCode + ")";
+      var reason = Status.fromStatusCode(statusCode);
+      return message + " (Method " + method + " >> Status " + statusCode + " " + reason + ")";
     }
     return message;
   }
