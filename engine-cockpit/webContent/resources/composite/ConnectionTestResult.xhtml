@@ -25,7 +25,7 @@
         styleClass="ui-panelgrid-blank form-group modal-input-form ui-fluid">
         <h:outputText value="#{cc.attrs.result.testResult}" style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
         
-        <pre style="max-height: 400px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
+        <pre style="max-height: 200px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
       </p:panelGrid>
       <p:commandButton id="testConnectionBtn" title="Test External Database Connection" update="@form" value="Test"
         icon="ui-icon-call-made" styleClass="primary-btn modal-input-button" actionListener="#{cc.attrs.testMethod}" immediate="true"
