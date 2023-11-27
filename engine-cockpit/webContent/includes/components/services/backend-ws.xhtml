@@ -16,7 +16,7 @@
       </h:form>
     </div>
   </div>
-  <p:dataTable value="#{managerBean.selectedApplication.webServiceProcesses}" var="ws" widgetVar="webServicesTable"
+  <p:dataTable value="#{managerBean.webServiceProcessesOfCurrentApp}" var="ws" widgetVar="webServicesTable"
     id="webServicesTable">
     <p:column headerText="Web Service WSDL" filterBy="#{ws.processName}">
       <p:link href="#{ws.link}" target="_blank" rel="noopener noreferrer">

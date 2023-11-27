@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.system;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +14,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.TabChangeEvent;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
+import ch.ivyteam.enginecockpit.application.model.WebServiceProcess;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
 import ch.ivyteam.ivy.application.IApplication;
@@ -138,6 +140,14 @@ public class ManagerBean {
       return null;
     }
     return applications.get(selectedApplicationIndex);
+  }
+
+  public List<WebServiceProcess> getWebServiceProcessesOfCurrentApp() {
+    var app = getSelectedApplication();
+    if (app == null) {
+      return new ArrayList<>();
+    }
+    return app.getWebServiceProcesses();
   }
 
   public IApplication getSelectedIApplication() {
