@@ -16,7 +16,7 @@
       <p:panelGrid columns="1" layout="flex" id="resultLog" styleClass="ui-fluid">
         <h:outputText value="#{cc.attrs.result.testResult}"
           style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
-        <pre style="max-height: 400px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
+        <pre style="max-height: 200px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
       </p:panelGrid>
       <div class="custom-dialog-footer">
         <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide();" value="Close" type="button"

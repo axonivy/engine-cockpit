@@ -53,31 +53,35 @@ class WebTestRestClientDetail {
 
   @Test
   void restTestConnection() {
-    setUrl("localhost");
+    setUrl("http://localhost");
     setUserName("");
-    testAndAssertConnection("Invalid Url");
+    testAndAssertConnection("Error", "Invalid Url");
 
     setUrl("http://test-webservices.ivyteam.io:8080/testnotfound");
-    testAndAssertConnection("Status 404");
+    testAndAssertConnection("Error", "Status 404 Not Found");
+
+    setUrl("http://test-webservices.ivyteam.io:8080/test-rest-service/webapi/status/400");
+    testAndAssertConnection("Warning", "Status 400 Bad Request");
 
     setUrl("http://test-webservices.ivyteam.io:91/");
-    testAndAssertConnection("Status 401");
+    testAndAssertConnection("Warning", "Status 401 Unauthorized");
 
     setUserName("admin");
     setPassword("nimda");
-    testAndAssertConnection("Status 200");
+    testAndAssertConnection("Success", "Status 200 OK");
 
     setUrl("http://{host}:{port}/");
-    testAndAssertConnection("Status 200");
+    testAndAssertConnection("Success", "Status 200 OK");
 
     resetConfiguration();
   }
 
-  private void testAndAssertConnection(String msg) {
+  private void testAndAssertConnection(String title, String msg) {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     $("#restClientConfigurationForm\\:testRestBtn").shouldBe(visible).click();
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
+    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(title));
     $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(msg));
     $("#connResult\\:connectionTestModel > div > a").click();
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
