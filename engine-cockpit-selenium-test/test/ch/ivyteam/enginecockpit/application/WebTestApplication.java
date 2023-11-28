@@ -116,7 +116,7 @@ class WebTestApplication {
   void showOverrideProjectIconInTree() {
     expandAppTree();
     //project of app test has override configured
-    $$(".activity-name").find(exactText("AxonIvyExpress")).parent().find(".table-icon")
+    $$(".activity-name").find(exactText("portal-components")).parent().find(".table-icon")
             .shouldHave(cssClass("si-move-to-bottom"))
             .shouldHave(attribute("title", "This PM is configured as strict override project"));
     //project of app test-ad has no override configured
