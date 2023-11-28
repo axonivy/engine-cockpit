@@ -99,25 +99,29 @@ class WebTestWebserviceDetail {
 
   @Test
   void wsEndpointTestConnection() {
+    setEndPoint("http://localhost");
+    testAndAssertConnection("Error", "The URL seems to be not correct or contains scripting context (can not be evaluated)");
+
     setEndPoint("http://test-webservices.ivyteam.io:8080/notfound");
-    testAndAssertConnection("Status 404");
+    testAndAssertConnection("Warning", "Status 404 Not Found");
 
     setEndPoint("http://test-webservices.ivyteam.io:91");
-    testAndAssertConnection("Status 401");
+    testAndAssertConnection("Warning", "Status 401 Unauthorized");
 
     setConfiguration("admin", "nimda");
-    testAndAssertConnection("Status 200");
+    testAndAssertConnection("Success", "Status 200 OK");
 
     resetConfiguration();
   }
 
-  private void testAndAssertConnection(String msg) {
+  private void testAndAssertConnection(String title, String msg) {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     Table table = new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "", "data-rk");
     table.clickButtonForEntry(table.getFirstColumnEntriesForSpanClass("endpoint-entry").get(1),
             "testWsEndpointBtn");
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
+    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(title));
     $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(msg));
     $("#connResult\\:connTestForm\\:closeConTesterDialog").click();
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
@@ -142,7 +146,7 @@ class WebTestWebserviceDetail {
     checkEndPoint("default", "first", "second");
     checkEndPointDoesNotContain("localhost", "localhost/test");
 
-    resetConfiguration();    
+    resetConfiguration();
     checkEndPoint("localhost", "localhost/test");
     checkEndPointDoesNotContain("default", "first", "second");
   }
