@@ -398,15 +398,9 @@ body .ui-datatable .ui-datatable-header {
   height: 24px;
   fill: var(--text-color);
 }
-.notification-channel-title-icon {
-  position: relative;
-  display: inline-block;
-  right: 10px;
-  top: 3px;
-}
 .notification-channel-title-icon svg {
-  width: 32px;
-  height: 32px;
+  width: 1.4em;
+  height: 1.4em;
   fill: var(--text-color);
 }
 
