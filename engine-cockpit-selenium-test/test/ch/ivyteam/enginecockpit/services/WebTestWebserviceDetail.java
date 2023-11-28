@@ -26,7 +26,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
+@IvyWebTest(headless=false)
 public class WebTestWebserviceDetail
 {
   private static final String WEBSERVICE_NAME = "test-web";
@@ -94,29 +94,33 @@ public class WebTestWebserviceDetail
   @Test
   void testWsEndpointTestConnection()
   {
-    setEndPoint("http://test-webservices.ivyteam.io:8080/notfound");
+    setEndPoint("http://localhost");
     Selenide.refresh();
-    testAndAssertConnection("Status 404");
+    testAndAssertConnection("Error", "The URL seems to be not correct or contains scripting context (can not be evaluated)");
+
+	setEndPoint("http://test-webservices.ivyteam.io:8080/notfound");
+    Selenide.refresh();
+    testAndAssertConnection("Warning", "Status 404 Not Found");
 
     setEndPoint("http://test-webservices.ivyteam.io:91");
     Selenide.refresh();
-    testAndAssertConnection("Status 401");
+    testAndAssertConnection("Warning", "Status 401 Unauthorized");
     
+
     setConfiguration("admin", "nimda");
     Selenide.refresh();
-    testAndAssertConnection("Status 200");
+    testAndAssertConnection("Success", "Status 200 OK");
     
     resetEndPoint();
-    resetConfiguration();
   }
-
-  private void testAndAssertConnection(String msg)
-  {
+  
+  private void testAndAssertConnection(String title, String msg) {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     Table table = new Table(By.id("webservcieEndPointForm:webserviceEndpointTable"), "data-rk");
     table.clickButtonForEntry(table.getFirstColumnEntriesForSpanClass("endpoint-entry").get(1), "testWsEndpointBtn");
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
+    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(title));
     $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(msg));
     $("#connResult\\:connTestForm\\:closeConTesterDialog").click();
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);

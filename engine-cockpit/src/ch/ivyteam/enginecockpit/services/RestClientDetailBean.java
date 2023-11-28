@@ -134,6 +134,10 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
       {
         return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
       }
+      else if (status == 400) 
+      {
+          return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "REST service does not understand test request");
+      }
       else if (status == 401)
       {
         return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
