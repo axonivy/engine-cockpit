@@ -78,7 +78,7 @@
                               title="Browse"
                               actionListener="#{identityProviderBean.browseProperty(property)}"
                               oncomplete="PF('directoryBrowserDialog').show();"
-                              update="directoryBrowser:directoryBrowserDialog"
+                              update="directoryBrowser:directoryBrowserForm directoryBrowser:chooseDirectoryName"
                               rendered="#{property.isDirectoryBrowser()}" />
                           </h:panelGroup>
                           <small class="block">#{property.descriptionFirstline}</small>
@@ -273,7 +273,7 @@
                           actionListener="#{identityProviderBean.browseBeanProperty(identityProviderListDialogBean)}"
                           oncomplete="PF('directoryBrowserDialog').show();"
                           rendered="#{identityProviderListDialogBean.isDirectoryBrowser()}"
-                          update="directoryBrowser:directoryBrowserDialog"
+                          update="directoryBrowser:directoryBrowserForm directoryBrowser:chooseDirectoryName"
                           immediate="true"
                           process="@this,attributeNameInput" />
                       </h:panelGroup>
