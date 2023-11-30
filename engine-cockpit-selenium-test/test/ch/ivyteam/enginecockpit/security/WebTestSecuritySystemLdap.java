@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
@@ -68,6 +69,25 @@ public class WebTestSecuritySystemLdap {
     $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
     $(By.id("securityIdentityProviderForm:group:1:property:0:propertyString"))
       .shouldHave(value("CN=fullusername1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+  }
+
+  @Test
+  void disableChoose() {
+    $(By.id(URL)).clear();
+    saveConnection();
+
+    $(By.id(DEFAULT_CONTEXT)).clear();
+    $(By.id("securityIdentityProviderForm:group:1:save")).click();
+
+    openDefaultLdapBrowser();
+    $(By.id(DIRECTORY_BROWSER_CHOOSE)).shouldHave(cssClass("ui-state-disabled"));
+    $(By.id("directoryBrowser:cancelDirectoryBrowser")).click();
+
+    $(By.id(URL)).sendKeys("ldap://test-ad.ivyteam.io");
+    saveConnection();
+
+    $(By.id(DEFAULT_CONTEXT)).sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
+    $(By.id("securityIdentityProviderForm:group:1:save")).click();
   }
 
   @Nested
