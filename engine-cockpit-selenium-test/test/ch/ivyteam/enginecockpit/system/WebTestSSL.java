@@ -32,21 +32,24 @@ import ch.ivyteam.enginecockpit.util.Table;
 class WebTestSSL {
 
   private static final String ENABLE_INSECURE_SSL = "sslClientform:enableInsecureSSL";
-
-  private static final String TRUST_STORE_ALGORITHM = "sslClientform:trustStoreAlgorithm";
-  private static final String TRUST_STORE_TYPE = "sslClientform:trustStoreType";
-  private static final String TRUST_STORE_PROVIDER = "sslClientform:trustStoreProvider";
-  private static final String TRUST_STORE_PASSWORD = "sslClientform:trustStorePassword";
-  private static final String TRUST_STORE_FILE = "sslClientform:trustStoreFile";
-
   private static final String USE_CUSTOM_KEY_STORE = "sslClientformKey:useCustomKeyStore";
 
-  private static final String KEY_STORE_PASSWORD = "sslClientformKey:keyStorePassword";
-  private static final String KEY_PASSWORD = "sslClientformKey:keyPassword";
-  private static final String KEY_STORE_FILE = "sslClientformKey:keyStoreFile";
-  private static final String KEY_STORE_ALGORITHM = "sslClientformKey:keyStoreAlgorithm";
-  private static final String KEY_STORE_TYPE = "sslClientformKey:keyStoreType";
-  private static final String KEY_STORE_PROVIDER = "sslClientformKey:keyStoreProvider";
+  private interface Trust {
+    String ALGORITHM = "sslClientform:trustStoreAlgorithm";
+    String TYPE = "sslClientform:trustStoreType";
+    String PROVIDER = "sslClientform:trustStoreProvider";
+    String PASSWORD = "sslClientform:trustStorePassword";
+    String FILE = "sslClientform:trustStoreFile";
+  }
+
+  private interface Key {
+    String STORE_PASSWORD = "sslClientformKey:keyStorePassword";
+    String PASSWORD = "sslClientformKey:keyPassword";
+    String FILE = "sslClientformKey:keyStoreFile";
+    String ALGORITHM = "sslClientformKey:keyStoreAlgorithm";
+    String TYPE = "sslClientformKey:keyStoreType";
+    String PROVIDER = "sslClientformKey:keyStoreProvider";
+  }
 
   @BeforeEach
   void beforeEach() {
@@ -56,11 +59,11 @@ class WebTestSSL {
 
   @Test
   void inputField() {
-    var propertyFile = $(By.id(TRUST_STORE_FILE));
+    var propertyFile = $(By.id(Trust.FILE));
     propertyFile.clear();
     propertyFile.sendKeys("invalidFile");
 
-    var propertyPassword = $(By.id(TRUST_STORE_PASSWORD));
+    var propertyPassword = $(By.id(Trust.PASSWORD));
     propertyPassword.clear();
     propertyPassword.sendKeys("invalidPassword");
 
@@ -74,37 +77,37 @@ class WebTestSSL {
 
   @Test
   void trustStoreDropdowns() {
-    var propertyProvider = PrimeUi.selectOne(By.id(TRUST_STORE_PROVIDER));
+    var propertyProvider = PrimeUi.selectOne(By.id(Trust.PROVIDER));
     propertyProvider.selectItemByLabel("SUN");
 
-    var propertyType = PrimeUi.selectOne(By.id(TRUST_STORE_TYPE));
+    var propertyType = PrimeUi.selectOne(By.id(Trust.TYPE));
     propertyType.selectItemByLabel("DKS");
 
-    var propertyAlgorithm = PrimeUi.selectOne(By.id(TRUST_STORE_ALGORITHM));
+    var propertyAlgorithm = PrimeUi.selectOne(By.id(Trust.ALGORITHM));
     propertyAlgorithm.selectItemByLabel("PKIX");
 
     saveTrustStore();
     successTrustStore();
     Navigation.toSSL();
 
-    $(By.id(TRUST_STORE_PROVIDER)).shouldHave(text("SUN"));
-    $(By.id(TRUST_STORE_TYPE)).shouldHave(text("DKS"));
-    $(By.id(TRUST_STORE_ALGORITHM)).shouldHave(text("PKIX"));
+    $(By.id(Trust.PROVIDER)).shouldHave(text("SUN"));
+    $(By.id(Trust.TYPE)).shouldHave(text("DKS"));
+    $(By.id(Trust.ALGORITHM)).shouldHave(text("PKIX"));
   }
 
   @Test
   void keyStoreInputFields() {
     PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
 
-    var propertyFile = $(By.id(KEY_STORE_FILE));
+    var propertyFile = $(By.id(Key.FILE));
     propertyFile.clear();
     propertyFile.sendKeys("invalidFile");
 
-    var propertyStorePassword = $(By.id(KEY_STORE_PASSWORD));
+    var propertyStorePassword = $(By.id(Key.STORE_PASSWORD));
     propertyStorePassword.clear();
     propertyStorePassword.sendKeys("invalidStorePassword");
 
-    var propertyPassword = $(By.id(KEY_PASSWORD));
+    var propertyPassword = $(By.id(Key.PASSWORD));
     propertyPassword.clear();
     propertyPassword.sendKeys("invalidPassword");
 
@@ -135,33 +138,33 @@ class WebTestSSL {
   void keyStoreDropdowns() {
     PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
 
-    var propertyProvider = PrimeUi.selectOne(By.id(KEY_STORE_PROVIDER));
+    var propertyProvider = PrimeUi.selectOne(By.id(Key.PROVIDER));
     propertyProvider.selectItemByLabel("SUN");
 
-    var propertyType = PrimeUi.selectOne(By.id(KEY_STORE_TYPE));
+    var propertyType = PrimeUi.selectOne(By.id(Key.TYPE));
     propertyType.selectItemByLabel("DKS");
 
-    var propertyAlgorithm = PrimeUi.selectOne(By.id(KEY_STORE_ALGORITHM));
+    var propertyAlgorithm = PrimeUi.selectOne(By.id(Key.ALGORITHM));
     propertyAlgorithm.selectItemByLabel("SunX509");
 
     saveKeyStore();
     successKeyStore();
     Navigation.toSSL();
 
-    $(By.id(KEY_STORE_PROVIDER)).shouldHave(text("SUN"));
-    $(By.id(KEY_STORE_TYPE)).shouldHave(text("DKS"));
-    $(By.id(KEY_STORE_ALGORITHM)).shouldHave(text("SunX509"));
+    $(By.id(Key.PROVIDER)).shouldHave(text("SUN"));
+    $(By.id(Key.TYPE)).shouldHave(text("DKS"));
+    $(By.id(Key.ALGORITHM)).shouldHave(text("SunX509"));
   }
 
   @Test
   void useCustomKeyStore() {
     PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE))
     .shouldBeChecked(false);
-    $(By.id(KEY_STORE_FILE)).shouldHave(cssClass("ui-state-disabled"));
+    $(By.id(Key.FILE)).shouldHave(cssClass("ui-state-disabled"));
     PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
     PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE))
     .shouldBeChecked(true);
-    $(By.id(KEY_STORE_FILE)).shouldNotHave(cssClass("ui-state-disabled"));
+    $(By.id(Key.FILE)).shouldNotHave(cssClass("ui-state-disabled"));
   }
 
   @Test
@@ -196,11 +199,11 @@ class WebTestSSL {
 
   @AfterAll
   static void cleanUpTrustStore() {
-    var file = $(By.id(TRUST_STORE_FILE));
-    var password = $(By.id(TRUST_STORE_PASSWORD));
-    var provider = PrimeUi.selectOne(By.id(TRUST_STORE_PROVIDER));
-    var type = PrimeUi.selectOne(By.id(TRUST_STORE_TYPE));
-    var algorithm = PrimeUi.selectOne(By.id(TRUST_STORE_ALGORITHM));
+    var file = $(By.id(Trust.FILE));
+    var password = $(By.id(Trust.PASSWORD));
+    var provider = PrimeUi.selectOne(By.id(Trust.PROVIDER));
+    var type = PrimeUi.selectOne(By.id(Trust.TYPE));
+    var algorithm = PrimeUi.selectOne(By.id(Trust.ALGORITHM));
 
     file.clear();
     file.sendKeys("configuration/truststore.p12");
@@ -221,12 +224,12 @@ class WebTestSSL {
 
     PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
 
-    var file = $(By.id(KEY_STORE_FILE));
-    var storePassword = $(By.id(KEY_STORE_PASSWORD));
-    var password = $(By.id(KEY_PASSWORD));
-    var provider = PrimeUi.selectOne(By.id(KEY_STORE_PROVIDER));
-    var type = PrimeUi.selectOne(By.id(KEY_STORE_TYPE));
-    var algorithm = PrimeUi.selectOne(By.id(KEY_STORE_ALGORITHM));
+    var file = $(By.id(Key.FILE));
+    var storePassword = $(By.id(Key.STORE_PASSWORD));
+    var password = $(By.id(Key.PASSWORD));
+    var provider = PrimeUi.selectOne(By.id(Key.PROVIDER));
+    var type = PrimeUi.selectOne(By.id(Key.TYPE));
+    var algorithm = PrimeUi.selectOne(By.id(Key.ALGORITHM));
 
     file.clear();
     file.sendKeys("configuration/keystore.p12");
