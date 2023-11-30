@@ -2,18 +2,14 @@ package ch.ivyteam.enginecockpit.util;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static org.openqa.selenium.By.className;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-import com.codeborne.selenide.Selenide;
+import static com.codeborne.selenide.Selenide.open;
 
 public class Navigation {
 
@@ -79,14 +75,14 @@ public class Navigation {
   }
 
   public static void toApplicationDetail(String appName) {
-    Navigation.toApplications();
+    toApplications();
     clickAppTreeActivity(appName);
     assertCurrentUrlContains("application-detail.xhtml?appName=" + appName);
     menuShouldBeActive(APPLICATIONS_MENU);
   }
 
   public static void toPmvDetail(String appName, String pmName, String pmvName) {
-    Navigation.toApplications();
+    toApplications();
     openAppTreeActivity(appName);
     openAppTreeActivity(pmName);
     clickAppTreeActivity(pmvName);
@@ -112,14 +108,14 @@ public class Navigation {
   }
 
   public static void toSecuritySystemDetail(String secSystemName) {
-    Navigation.toSecuritySystem();
+    toSecuritySystem();
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
   }
 
   public static void toSecuritySystemLdap(String secSystemName) {
-    Navigation.toSecuritySystem();
+    toSecuritySystem();
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
@@ -129,7 +125,7 @@ public class Navigation {
   }
 
   public static void toSecuritySystemProvider(String secSystemName) {
-    Navigation.toSecuritySystem();
+    toSecuritySystem();
     $$(".security-name").find(text(secSystemName)).shouldBe(visible).click();
     assertCurrentUrlContains("security-detail.xhtml?securitySystemName=" + secSystemName);
     menuShouldBeActive(SECURITY_SYSTEM_MENU);
@@ -151,7 +147,7 @@ public class Navigation {
   }
 
   public static void toBusinessCalendarDetail(String calendarName) {
-    Navigation.toBusinessCalendar();
+    toBusinessCalendar();
     $$(Tab.APP.activePanelCss + " .business-calendar").find(text(calendarName)).shouldBe(visible).click();
     assertCurrentUrlContains("businesscalendar-detail.xhtml?calendarName=" + calendarName);
     menuShouldBeActive(BUSINESS_CALENDAR_MENU);
@@ -180,7 +176,7 @@ public class Navigation {
   }
 
   public static void toUserDetail(String system, String userName) {
-    Navigation.toUsers();
+    toUsers();
     Tab.SECURITY_SYSTEM.switchToTab(system);
     $(".ui-inputfield").sendKeys(userName);
     $$(Tab.SECURITY_SYSTEM.activePanelCss + " .user-name").find(text(userName)).shouldBe(visible).click();
@@ -199,7 +195,7 @@ public class Navigation {
   }
 
   public static void toRoleDetail(String system, String roleName) {
-    Navigation.toRoles();
+    toRoles();
     $(Tab.SECURITY_SYSTEM.activePanelCss + " .expand-all").shouldBe(visible).click();
     $$(Tab.SECURITY_SYSTEM.activePanelCss + " .role-name").find(text(roleName)).shouldBe(visible).click();
     assertCurrentUrlContains("roledetail.xhtml?system="+system+"&name=" + roleName);
@@ -226,7 +222,7 @@ public class Navigation {
   }
 
   public static void toNotificationChannelDetail(String notificationChannel) {
-    Navigation.toNotificationChannels();
+    toNotificationChannels();
     String selectedTab = Tab.SECURITY_SYSTEM.getSelectedTab();
     $$(Tab.APP.activePanelCss + " .channel-name").find(text(notificationChannel)).shouldBe(visible).click();
     assertCurrentUrlContains("notification-channel-detail.xhtml?system=" + selectedTab + "&channel=" + notificationChannel);
@@ -246,7 +242,7 @@ public class Navigation {
   }
 
   public static void toDatabaseDetail(String databaseName) {
-    Navigation.toDatabases();
+    toDatabases();
     $$(Tab.APP.activePanelCss + " .database-name").find(text(databaseName)).shouldBe(visible).click();
     assertCurrentUrlContains("databasedetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + databaseName);
     menuShouldBeActive(SERVICES_DATABASES_MENU);
@@ -259,7 +255,7 @@ public class Navigation {
   }
 
   public static void toRestClientDetail(String restClientName) {
-    Navigation.toRestClients();
+    toRestClients();
     $$(Tab.APP.activePanelCss + " .restclient-name").find(text(restClientName)).shouldBe(visible).click();
     assertCurrentUrlContains("restclientdetail.xhtml?app=" + Tab.DEFAULT_APP + "&name=" + restClientName);
     menuShouldBeActive(SERVICES_RESTCLIENTS_MENU);
@@ -272,7 +268,7 @@ public class Navigation {
   }
 
   public static void toWebserviceDetail(String webserviceName) {
-    Navigation.toWebservices();
+    toWebservices();
     $$(Tab.APP.activePanelCss + " .webservice-name").find(text(webserviceName)).shouldBe(visible).click();
     assertCurrentUrlContains("webservicedetail.xhtml?app=" + Tab.DEFAULT_APP + "&id=");
     menuShouldBeActive(SERVICES_WEBSERVICES_MENU);
@@ -315,7 +311,7 @@ public class Navigation {
   }
 
   public static void toCluster() {
-    Selenide.open(viewUrl("cluster.xhtml?cluster"));
+    open(viewUrl("cluster.xhtml?cluster"));
     assertCurrentUrlContains("cluster.xhtml");
     menuShouldBeActive(SYSTEM_CLUSTER);
   }
@@ -418,13 +414,13 @@ public class Navigation {
   }
 
   private static void toMenu(String menuItemPath) {
-    closeAllMenus();
+    closeMenus();
     $(menuItemPath).find("a").scrollIntoView(false).click();
     menuShouldBeActive(menuItemPath);
   }
 
   private static void toSubMenu(String menuItemPath, String subMenuItemPath) {
-    closeAllMenus();
+    closeMenus();
     $(menuItemPath).shouldBe(visible);
     $(menuItemPath).find("a").scrollIntoView(false).click();
     $(subMenuItemPath).find("a").shouldBe(visible).scrollIntoView(false).click();
@@ -432,7 +428,7 @@ public class Navigation {
   }
 
   private static void toSubSubMenu(String menuItemPath, String subMenuItemPath, String subSubMenuItemPath) {
-    closeAllMenus();
+    closeMenus();
     $(menuItemPath).shouldBe(visible);
     $(menuItemPath).find("a").scrollIntoView(false).click();
     $(subMenuItemPath).find("a").shouldBe(visible);
@@ -445,17 +441,11 @@ public class Navigation {
     $(menu).shouldHave(cssClass("active-menuitem"));
   }
 
-  private static void closeAllMenus() {
-    var activeMenues = new ArrayList<>($$(className("active-menuitem")));
-    Collections.reverse(activeMenues);
-    for (var activeMenu : activeMenues) {
-      if (activeMenu.exists()) {
-        if (activeMenu.$("ul").exists())
-        {
-          activeMenu.find("a").shouldBe(visible).click();
-          activeMenu.$("ul").shouldNotBe(visible);
-        }
-      }
-    }
+  private static void closeMenus() {
+    $$(".active-menuitem .active-menuitem ul[style=\"display: block;\"]").filter(visible).forEach(ul -> ul.parent().find("a").click());
+    $$(".active-menuitem .active-menuitem ul").filter(visible).shouldBe(size(0));
+    $$(".active-menuitem ul[style=\"display: block;\"]").filter(visible).forEach(ul -> ul.parent().find("a").click());
+    $$(".active-menuitem ul").filter(visible).shouldBe(size(0));
   }
+
 }

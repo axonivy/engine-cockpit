@@ -8,23 +8,23 @@ import java.util.regex.Pattern;
 import org.openqa.selenium.WebElement;
 
 import com.codeborne.selenide.CheckResult;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.WebElementCondition;
 
 public class Conditions {
 
-  public static Condition matchText(Pattern pattern) {
+  public static WebElementCondition matchText(Pattern pattern) {
     return new MatchText(pattern);
   }
 
-  public static Condition satisfiesText(IntConsumer consumer) {
+  public static WebElementCondition satisfiesText(IntConsumer consumer) {
     return new  IntegerCondition(consumer);
   }
 
-  public static final Condition INTEGER_TEXT = new IntegerCondition();
-  public static final Condition NOT_NEGATIVE_INTEGER_TEXT = new IntegerCondition(i -> assertThat(i).isNotNegative());
+  public static final WebElementCondition INTEGER_TEXT = new IntegerCondition();
+  public static final WebElementCondition NOT_NEGATIVE_INTEGER_TEXT = new IntegerCondition(i -> assertThat(i).isNotNegative());
 
-  private static class IntegerCondition extends Condition {
+  private static class IntegerCondition extends WebElementCondition {
 
     private IntConsumer consumer;
 
@@ -50,7 +50,7 @@ public class Conditions {
     }
   }
 
-  private static class MatchText extends Condition {
+  private static class MatchText extends WebElementCondition {
 
     private Pattern pattern;
 

@@ -20,9 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementsCondition;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -105,27 +105,27 @@ public class WebTestProcessExecution {
       Navigation.toProcessExecution();
       recordData();
       firstColumnShouldBe(textsInAnyOrder("0", "1", "2", "3"));
-  
+
       tableEntry("0", 5).shouldHave(text("Performance"));
       tableEntry("1", 5).shouldHave(text("Performance"));
       tableEntry("2", 5).shouldHave(text("Performance"));
       tableEntry("3", 5).shouldHave(text("Performance"));
-  
+
       tableEntry("0", 6).shouldHave(text("performance.ivp"));
       tableEntry("1", 6).shouldBe(empty);
       tableEntry("2", 6).shouldBe(empty);
       tableEntry("3", 6).shouldBe(empty);
-  
+
       tableEntry("0", 7).shouldHave(text("17B77E4EAE9AC806-f0"));
       tableEntry("1", 7).shouldHave(text("17B77E4EAE9AC806-f3"));
       tableEntry("2", 7).shouldHave(text("17B77E4EAE9AC806-f5"));
       tableEntry("3", 7).shouldHave(text("17B77E4EAE9AC806-f1"));
-  
+
       tableEntry("0", 8).shouldHave(text("RequestStart"));
       tableEntry("1", 8).shouldHave(text("Script"));
       tableEntry("2", 8).shouldHave(text("Alternative"));
       tableEntry("3", 8).shouldHave(text("TaskEnd"));
-  
+
       tableEntry("0", 10).shouldHave(text("1"));
       tableEntry("1", 10).shouldHave(text("101"));
       tableEntry("2", 10).shouldHave(text("101"));
@@ -168,7 +168,7 @@ public class WebTestProcessExecution {
     $(id("startPerformance:start")).click();
   }
 
-  public void firstColumnShouldBe(CollectionCondition cond) {
+  public void firstColumnShouldBe(WebElementsCondition cond) {
     $$x(getFirstColumnElement()).shouldBe(cond, Duration.ofSeconds(10));
   }
 

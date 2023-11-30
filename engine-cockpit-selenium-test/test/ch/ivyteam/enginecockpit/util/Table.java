@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
+import com.codeborne.selenide.WebElementsCondition;
 
 public class Table {
   private String id;
@@ -49,17 +49,17 @@ public class Table {
             .map(e -> e.getText()).collect(Collectors.toList());
   }
 
-  public void headerShouldBe(CollectionCondition cond) {
+  public void headerShouldBe(WebElementsCondition cond) {
     $$x(getHeaderSpanElement()).shouldBe(cond);
   }
 
-  public void firstColumnShouldBe(CollectionCondition cond) {
+  public void firstColumnShouldBe(WebElementsCondition cond) {
     firstColumnShouldBe(cond, 1);
   }
-  public void firstColumnShouldBe(CollectionCondition cond, int indexOfSpanElement) {
+  public void firstColumnShouldBe(WebElementsCondition cond, int indexOfSpanElement) {
     $$x(getFirstColumnSpanElement(indexOfSpanElement)).shouldBe(cond, Duration.ofSeconds(10));
   }
-  public void columnShouldBe(int col, CollectionCondition cond) {
+  public void columnShouldBe(int col, WebElementsCondition cond) {
     $$x(getColumnSpanElement(col)).shouldBe(cond, Duration.ofSeconds(10));
   }
 
@@ -68,7 +68,7 @@ public class Table {
             .map(e -> e.getText()).collect(Collectors.toList());
   }
 
-  public void valueForEntryShould(String entry, int column, Condition condition) {
+  public void valueForEntryShould(String entry, int column, WebElementCondition condition) {
     tableEntry(entry, column).should(condition);
   }
 
@@ -179,7 +179,7 @@ public class Table {
     $(By.id(globalFilter)).sendKeys(search);
   }
 
-  public void searchFilterShould(Condition... conditions) {
+  public void searchFilterShould(WebElementCondition... conditions) {
     $(By.id(globalFilter)).should(conditions);
   }
 

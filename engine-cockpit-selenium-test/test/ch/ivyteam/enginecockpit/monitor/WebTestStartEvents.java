@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.monitor;
 
 import static ch.ivyteam.enginecockpit.util.Conditions.NOT_NEGATIVE_INTEGER_TEXT;
+import static ch.ivyteam.enginecockpit.util.Conditions.matchText;
 import static ch.ivyteam.enginecockpit.util.Conditions.satisfiesText;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.Condition.disabled;
@@ -26,9 +27,9 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverConditions;
+import com.codeborne.selenide.WebElementCondition;
 
 import ch.ivyteam.enginecockpit.util.Conditions;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -45,11 +46,11 @@ class WebTestStartEvents {
   private static final Pattern DURATION = Pattern.compile(DURATION_STR);
   private static final Pattern DURATIONS = Pattern.compile(DURATION_STR + "\\s\\/\\s" + DURATION_STR + "\\s\\/\\s" + DURATION_STR);
   private static final Pattern DATE_TIME = Pattern.compile(DATE_TIME_STR);
-  private static final Condition NEXT_EXECUTION_TEXT = Conditions.matchText(NEXT_EXECUTION);
-  private static final Condition REQUEST_PATH_TEXT = Conditions.matchText(REQUEST_PATH);
-  private static final Condition DURATION_TEXT = Conditions.matchText(DURATION);
-  private static final Condition DURATIONS_TEXT = Conditions.matchText(DURATIONS);
-  private static final Condition DATE_TIME_TEXT = Conditions.matchText(DATE_TIME);
+  private static final WebElementCondition NEXT_EXECUTION_TEXT = matchText(NEXT_EXECUTION);
+  private static final WebElementCondition REQUEST_PATH_TEXT = matchText(REQUEST_PATH);
+  private static final WebElementCondition DURATION_TEXT = matchText(DURATION);
+  private static final WebElementCondition DURATIONS_TEXT = matchText(DURATIONS);
+  private static final WebElementCondition DATE_TIME_TEXT = matchText(DATE_TIME);
 
   private static final By TABLE_ID = By.id("form:beanTable");
   private static final By FIRING_TABLE_ID = By.id("firings:eventFiring:firingTable");
@@ -61,7 +62,7 @@ class WebTestStartEvents {
   static void beforeAll() {
     login();
   }
-  
+
   static void stopTimerBeans() {
     Navigation.toStartEvents();
     Table table = new Table(TABLE_ID, true);
@@ -74,7 +75,7 @@ class WebTestStartEvents {
       }
     }
   }
-  
+
   static void startTimerBeans() {
     Navigation.toStartEvents();
     Table table = new Table(TABLE_ID, true);
@@ -297,7 +298,7 @@ class WebTestStartEvents {
     $(By.id("bean:eventBean:lastStopError:showDetails")).click();
     assertErrorDialog("Exception in stop method");
   }
-  
+
   @Test
   void details_threads() {
     navigateToDetails("eventLink7.ivp");
