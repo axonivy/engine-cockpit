@@ -2,9 +2,12 @@ package ch.ivyteam.enginecockpit.system.editor;
 
 import java.nio.file.Path;
 import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
 import org.primefaces.extensions.event.CompleteEvent;
+
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFile;
 
 public class EditorFile {
@@ -35,7 +38,16 @@ public class EditorFile {
   }
 
   public String getContent() {
+    if (getFileName().endsWith(".yaml")) {
+      return readMigratedYaml();
+    }
     return config.read();
+  }
+
+  @SuppressWarnings("restriction")
+  private String readMigratedYaml() {
+    var yaml = new ch.ivyteam.ivy.configuration.yaml.YamlConfigFile(getPath());
+    return yaml.readLatest();
   }
 
   public void save() {
