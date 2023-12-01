@@ -6,7 +6,6 @@ import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.text;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.FileNotFoundException;
 import java.time.Duration;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +58,7 @@ class WebTestDocuments {
   }
 
   @Test
-  void download() throws FileNotFoundException {
+  void download() {
     var blobs = table();
     var download = blobs.tableEntry(1, 9).download(TIMEOUT);
     assertThat(download.getName()).isEqualTo("louis.txt");

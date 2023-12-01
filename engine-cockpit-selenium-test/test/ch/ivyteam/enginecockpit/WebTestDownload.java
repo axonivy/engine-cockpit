@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.By.id;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Duration;
@@ -41,7 +40,7 @@ public class WebTestDownload {
   }
 
   @Test
-  void errorReport() throws FileNotFoundException {
+  void errorReport() {
     $(".user-profile > a").shouldBe(visible).click();
     $("#supportReport").shouldBe(visible).click();
     $("#supportReportModal").shouldBe(visible);
@@ -53,7 +52,7 @@ public class WebTestDownload {
   }
 
   @Test
-  void allLogs() throws FileNotFoundException {
+  void allLogs() {
     Navigation.toLogs();
     $(By.id("downloadAllLogs")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldBe(visible);
@@ -65,7 +64,7 @@ public class WebTestDownload {
   }
 
   @Test
-  void log() throws FileNotFoundException {
+  void log() {
     Navigation.toLogs();
     var download = $$(".ui-panel-titlebar").find(text("console.log"))
             .find(".ui-panel-actions a").shouldBe(visible).download(TIMEOUT);
@@ -74,7 +73,7 @@ public class WebTestDownload {
   }
 
   @Test
-  void allBrandingResourcesOfApp() throws FileNotFoundException {
+  void allBrandingResourcesOfApp() {
     Navigation.toBranding();
     Tab.APP.switchToDefault();
     var appName = Tab.APP.getSelectedTab();
