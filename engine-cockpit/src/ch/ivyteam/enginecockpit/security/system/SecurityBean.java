@@ -45,9 +45,9 @@ public class SecurityBean {
   }
 
   public static List<SecuritySystem> readSecuritySystems() {
-    var securitySystems = readAllSecurityContexts().map(SecuritySystem::new).toList();
+    var securitySystems = readAllSecurityContexts().map(SecuritySystem::new).collect(Collectors.toList());
     if (securitySystems.size() > 1) {
-      return securitySystems.stream().filter(s -> !isDefaultWithNoApps(s)).toList();
+      return securitySystems.stream().filter(s -> !isDefaultWithNoApps(s)).collect(Collectors.toList());
     }
     return securitySystems;
   }

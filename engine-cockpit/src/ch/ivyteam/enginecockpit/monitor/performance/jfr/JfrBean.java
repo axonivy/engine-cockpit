@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
@@ -183,7 +184,7 @@ public class JfrBean {
       var recordings = (CompositeData[])ManagementFactory.getPlatformMBeanServer().getAttribute(FLIGHT_RECORDER, "Recordings");
       return Stream.of(recordings)
           .map(Recording::from)
-          .toList();
+          .collect(Collectors.toList());
     } catch (InstanceNotFoundException | AttributeNotFoundException | ReflectionException | MBeanException ex) {
       showError("Cannot read attribute 'Recordings' from flight recorder", ex);
       return List.of();
