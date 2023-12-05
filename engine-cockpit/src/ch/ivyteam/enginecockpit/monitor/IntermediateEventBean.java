@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.monitor;
 
 import java.lang.management.ManagementFactory;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -28,11 +29,12 @@ public class IntermediateEventBean {
 
   public void refresh() {
     try {
+      // needs to be modifiable for sorting	
       beans = ManagementFactory.getPlatformMBeanServer()
               .queryNames(new ObjectName("ivy Engine:type=Process Intermediate Event Bean,application=*,pm=*,pmv=*,name=*"), null)
               .stream()
               .map(IntermediateEvent::new)
-              .toList();
+              .collect(Collectors.toList());
     } catch (MalformedObjectNameException ex) {
       HANDLER.showError("Cannot read intermediate event bean", ex);
     }

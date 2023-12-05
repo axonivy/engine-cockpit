@@ -62,6 +62,14 @@ class WebTestIntermediateEvents {
   }
 
   @Test
+  void sort() {
+    table.sortByColumn("Name");
+    table.tableEntry(1, 1).shouldBe(text("PollErrorIntermediateClass"));
+    table.sortByColumn("Name");
+    table.tableEntry(1, 1).shouldBe(text("TestIntermediateClass"));
+  }
+
+  @Test
   void details_poll_error() {
     navigateToDetails("188B95440FE25CA6-f6");
 

@@ -88,7 +88,6 @@ class WebTestStartEvents {
     }
   }
 
-
   @BeforeEach
   void beforeEach() {
     Navigation.toStartEvents();
@@ -120,6 +119,14 @@ class WebTestStartEvents {
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
     $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp");
     table.rows().shouldHave(CollectionCondition.size(1));
+  }
+  
+  @Test
+  void sort() {
+    table.sortByColumn("Name");
+    table.tableEntry(1, 1).shouldBe(text("InitError"));
+    table.sortByColumn("Name");
+    table.tableEntry(1, 1).shouldBe(text("TimerBean"));
   }
 
   @Test
