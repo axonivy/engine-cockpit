@@ -37,8 +37,6 @@ class WebTestSSL {
   @Nested
   public class KeyStoreTests {
 
-    private static final String USE_CUSTOM_KEY_STORE = "sslClientformKey:useCustomKeyStore";
-
     private interface Key {
       String STORE_PASSWORD = "sslClientformKey:keyStorePassword";
       String PASSWORD = "sslClientformKey:keyPassword";
@@ -46,22 +44,23 @@ class WebTestSSL {
       String ALGORITHM = "sslClientformKey:keyStoreAlgorithm";
       String TYPE = "sslClientformKey:keyStoreType";
       String PROVIDER = "sslClientformKey:keyStoreProvider";
+      String USE_CUSTOM = "sslClientformKey:useCustomKeyStore";
     }
 
     @Test
     void useCustomKeyStore() {
-      PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE))
+      PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM))
       .shouldBeChecked(false);
       $(By.id(Key.FILE)).shouldHave(cssClass("ui-state-disabled"));
-      PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
-      PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE))
+      PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM)).setChecked();
+      PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM))
       .shouldBeChecked(true);
       $(By.id(Key.FILE)).shouldNotHave(cssClass("ui-state-disabled"));
     }
 
     @Test
     void inputFields() {
-      PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
+      PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM)).setChecked();
 
       var propertyFile = $(By.id(Key.FILE));
       propertyFile.clear();
@@ -86,7 +85,7 @@ class WebTestSSL {
 
     @Test
     void dropdowns() {
-      PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
+      PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM)).setChecked();
 
       var propertyProvider = PrimeUi.selectOne(By.id(Key.PROVIDER));
       propertyProvider.selectItemByLabel("SUN");
@@ -123,7 +122,7 @@ class WebTestSSL {
     @AfterEach
     void cleanUpKeyStore() {
 
-      PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
+      PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM)).setChecked();
 
       var file = $(By.id(Key.FILE));
       var storePassword = $(By.id(Key.STORE_PASSWORD));
@@ -142,7 +141,7 @@ class WebTestSSL {
       type.selectItemByLabel("PKCS12");
       algorithm.selectItemByLabel("SunX509");
 
-      PrimeUi.selectBooleanCheckbox(By.id(USE_CUSTOM_KEY_STORE)).setChecked();
+      PrimeUi.selectBooleanCheckbox(By.id(Key.USE_CUSTOM)).setChecked();
       saveKeyStore();
     }
 

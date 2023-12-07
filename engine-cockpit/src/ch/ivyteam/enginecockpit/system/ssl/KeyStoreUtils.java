@@ -9,7 +9,6 @@ import java.util.List;
 import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
 
-@SuppressWarnings("restriction")
 class KeyStoreUtils {
 
   private static final Logger LOGGER = Logger.getLogger(KeyStoreUtils.class);
@@ -19,11 +18,11 @@ class KeyStoreUtils {
   private final String provider;
   private final char[] password;
 
-  KeyStoreUtils(String file, String type, String provider, String password) {
+  KeyStoreUtils(String file, String type, String provider, char[] password) {
     this.file = file;
     this.type = type;
     this.provider = provider;
-    this.password = password.toCharArray();
+    this.password = password;
   }
 
   private IvyKeystore loadInternal() throws KeyStoreException {

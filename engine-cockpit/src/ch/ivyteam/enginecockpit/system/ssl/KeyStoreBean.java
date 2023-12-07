@@ -14,7 +14,8 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 
-import ch.ivyteam.enginecockpit.system.ssl.SslClientConfig.KeyStoreConfig;
+import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
+import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.KeyStoreConfig;
 
 @ManagedBean
 @ViewScoped
@@ -24,20 +25,21 @@ public class KeyStoreBean implements SslTableStore {
 
   private boolean useCustomKeyStore;
   private String file;
-  private String password;
-  private String keyPassword;
+  private char[] password;
+  private char[] keyPassword;
   private String provider;
   private String type;
   private String algorithm;
 
   public KeyStoreBean() {
-    this.store = new SslClientConfig().getKeyStore();
+    this.store = new SslClientSettings().getKeyStore();
     this.file = store.getFile();
     this.password = store.getPassword();
     this.keyPassword = store.getKeyPassword();
     this.provider = store.getProvider();
     this.type = store.getType();
     this.algorithm = store.getAlgorithm();
+    this.useCustomKeyStore = store.useCustomKeyStore();
   }
 
   public boolean isUseCustomKeyStore() {
@@ -53,11 +55,11 @@ public class KeyStoreBean implements SslTableStore {
   }
 
   public String getPassword() {
-    return password;
+    return String.valueOf(password);
   }
 
   public String getKeyPassword() {
-    return keyPassword;
+    return String.valueOf(keyPassword);
   }
 
   public String getProvider() {
@@ -96,14 +98,14 @@ public class KeyStoreBean implements SslTableStore {
     if (password.isBlank()) {
       return;
     }
-    this.password = password;
+    this.password = password.toCharArray();
   }
 
   public void setKeyPassword(String keyPassword) {
     if (keyPassword.isBlank()) {
       return;
     }
-    this.keyPassword = keyPassword;
+    this.keyPassword = keyPassword.toCharArray();
   }
 
   public void setProvider(String provider) {
@@ -124,8 +126,8 @@ public class KeyStoreBean implements SslTableStore {
 
   public void saveKeyStore() {
     store.setFile(file);
-    store.setPassword(password);
-    store.setKeyPassword(keyPassword);
+    store.setPassword(String.valueOf(password));
+    store.setKeyPassword(String.valueOf(keyPassword));
     store.setProvider(provider);
     store.setType(type);
     store.setAlgorithm(algorithm);
