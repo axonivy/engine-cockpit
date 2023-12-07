@@ -14,7 +14,8 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 
-import ch.ivyteam.enginecockpit.system.ssl.SslClientConfig.TrustStoreConfig;
+import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
+import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.TrustStoreConfig;
 
 @ManagedBean
 @ViewScoped
@@ -23,20 +24,22 @@ public class TrustStoreBean implements SslTableStore {
   private final TrustStoreConfig store;
 
   private String file;
-  private String password;
+  private char[] password;
   private String provider;
   private String type;
   private String algorithm;
   private String enableInsecureSSL;
+  private SslClientSettings sslClientSettings;
 
   public TrustStoreBean() {
-    this.store = new SslClientConfig().getTrustStore();
+    this.sslClientSettings = new SslClientSettings();
+    this.store = sslClientSettings.getTrustStore();
     this.file = store.getFile();
     this.password = store.getPassword();
     this.provider = store.getProvider();
     this.type = store.getType();
     this.algorithm = store.getAlgorithm();
-    this.enableInsecureSSL = store.getEnableInsecureSSL();
+    this.enableInsecureSSL = sslClientSettings.getEnableInsecureSSL();
   }
 
   public String getFile() {
@@ -44,7 +47,7 @@ public class TrustStoreBean implements SslTableStore {
   }
 
   public String getPassword() {
-    return password;
+    return String.valueOf(password);
   }
 
   public String getProvider() {
@@ -87,7 +90,7 @@ public class TrustStoreBean implements SslTableStore {
     if (password.isBlank()) {
       return;
     }
-    this.password = password;
+    this.password = password.toCharArray();
   }
 
   public void setProvider(String provider) {
@@ -112,11 +115,11 @@ public class TrustStoreBean implements SslTableStore {
 
   public void saveTrustStore() {
     store.setFile(file);
-    store.setPassword(password);
+    store.setPassword(String.valueOf(password));
     store.setProvider(provider);
     store.setType(type);
     store.setAlgorithm(algorithm);
-    store.setEnableInsecureSSL(enableInsecureSSL);
+    sslClientSettings.setEnableInsecureSSL(enableInsecureSSL);
     FacesContext.getCurrentInstance().addMessage("sslTruststoreSaveSuccess",
             new FacesMessage("Trust Store configurations saved"));
   }
