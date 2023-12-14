@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.NotificationChannelMonitor;
 import ch.ivyteam.enginecockpit.services.notification.NotificationChannelDto.NotificationEventDto;
-import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
@@ -48,7 +47,7 @@ public class NotificationChannelDetailBean {
       ResponseHelper.notFound("Could not find security context " + system);
       return;
     }
-	    
+
     var notificationChannel = NotificationChannel.all(securityContext).stream()
             .filter(c -> c.id().equals(this.channelId))
             .findAny()
