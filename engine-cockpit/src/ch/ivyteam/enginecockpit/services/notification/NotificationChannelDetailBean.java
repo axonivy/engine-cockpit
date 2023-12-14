@@ -10,6 +10,7 @@ import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.NotificationChannelMonitor;
 import ch.ivyteam.enginecockpit.services.notification.NotificationChannelDto.NotificationEventDto;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
 @ManagedBean
 @ViewScoped
@@ -18,13 +19,8 @@ public class NotificationChannelDetailBean {
   private String channelId;
   private String system;
 
-  private ManagerBean managerBean;
   private NotificationChannelDto channel;
   private NotificationChannelMonitor liveStats;
-
-  public NotificationChannelDetailBean() {
-    managerBean = ManagerBean.instance();
-  }
 
   public NotificationChannelDto getChannel() {
     return channel;
@@ -47,17 +43,23 @@ public class NotificationChannelDetailBean {
   }
 
   public void onload() {
-    var chn = NotificationChannel.all().stream()
-            .filter(notificationChannel -> notificationChannel.id().equals(this.channelId))
+    var securityContext = ISecurityContextRepository.instance().get(system);
+    if (securityContext == null) {
+      ResponseHelper.notFound("Could not find security context " + system);
+      return;
+    }
+	    
+    var notificationChannel = NotificationChannel.all(securityContext).stream()
+            .filter(c -> c.id().equals(this.channelId))
             .findAny()
             .orElse(null);
 
-    if (chn == null) {
+    if (notificationChannel == null) {
       ResponseHelper.notFound("Channel '" + channelId + "' not found");
       return;
     }
 
-    channel = NotificationChannelDto.instance(managerBean.getSelectedSecuritySystem().getSecurityContext(), chn);
+    channel = NotificationChannelDto.instance(securityContext, notificationChannel);
     liveStats = new NotificationChannelMonitor(this.channelId, channel.getDisplayName());
   }
 
@@ -87,5 +89,4 @@ public class NotificationChannelDetailBean {
   public NotificationChannelMonitor getLiveStats() {
     return liveStats;
   }
-
 }

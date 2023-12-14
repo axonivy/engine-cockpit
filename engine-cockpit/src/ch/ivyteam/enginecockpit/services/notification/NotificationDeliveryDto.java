@@ -40,13 +40,13 @@ public class NotificationDeliveryDto {
   }
 
   public String getChannel() {
-    return NotificationChannel.byId(delivery.channel())
+    return NotificationChannel.byId(delivery.securityContext(), delivery.channel())
         .map(channel -> channel.displayName())
         .orElse(delivery.channel());
   }
 
   public String getChannelIcon() {
-    return NotificationChannel.byId(delivery.channel())
+    return NotificationChannel.byId(delivery.securityContext(), delivery.channel())
         .map(channel -> loadResource(channel.displayIcon()))
         .orElse("");
   }
