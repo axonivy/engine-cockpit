@@ -14,6 +14,7 @@ public class NotificationChannelMonitor {
 
   public NotificationChannelMonitor(ISecurityContext securityContext, String channelId, String channelName) {
     try {
+      this.securityContext = securityContext;
       var channels = searchJmx(channelId);
       channel = channels.stream()
               .map(name -> new NotificationChannel(name, channelName))
