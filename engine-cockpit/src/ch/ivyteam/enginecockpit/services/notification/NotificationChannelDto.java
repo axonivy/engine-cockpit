@@ -135,8 +135,7 @@ public class NotificationChannelDto {
   }
 
   public static NotificationChannelDto instance(ISecurityContext securityContext, NotificationChannel channel) {
-    var config = channel.configFor(securityContext);
-
+    var config = channel.config();
     var eventKinds = NotificationEvent.all().stream()
             .map(NotificationEvent::kind)
             .toList();
