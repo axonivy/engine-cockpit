@@ -5,13 +5,16 @@ import java.util.Set;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import ch.ivyteam.enginecockpit.monitor.monitor.Monitor;
+import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class NotificationChannelMonitor {
 
+  private ISecurityContext securityContext;
   private NotificationChannel channel;
 
-  public NotificationChannelMonitor(String channelId, String channelName) {
+  public NotificationChannelMonitor(ISecurityContext securityContext, String channelId, String channelName) {
     try {
+      this.securityContext = securityContext;
       var channels = searchJmx(channelId);
       channel = channels.stream()
               .map(name -> new NotificationChannel(name, channelName))
@@ -22,10 +25,10 @@ public class NotificationChannelMonitor {
     }
   }
 
-  private static Set<ObjectName> searchJmx(String channelId)
+  private Set<ObjectName> searchJmx(String channelId)
           throws MalformedObjectNameException {
     return ManagementFactory.getPlatformMBeanServer().queryNames(
-            new ObjectName("ivy Engine:type=Notification Channel,id=" + channelId),
+            new ObjectName("ivy Engine:type=Notification Channel,securityContext="+securityContext.getName()+",id=" + channelId),
             null);
   }
 
