@@ -59,7 +59,7 @@ public class NotificationChannelDetailBean {
     }
 
     channel = NotificationChannelDto.instance(securityContext, notificationChannel);
-    liveStats = new NotificationChannelMonitor(this.channelId, channel.getDisplayName());
+    liveStats = new NotificationChannelMonitor(securityContext, this.channelId, channel.getDisplayName());
   }
 
   public void save() {
