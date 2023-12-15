@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.services;
+package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.List;
 import java.util.stream.Collectors;

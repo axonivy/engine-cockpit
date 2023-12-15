@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.services;
+package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.HashMap;
 
@@ -6,18 +6,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.WebTarget;
 
 import org.apache.commons.lang.text.StrSubstitutor;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
-import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
@@ -25,14 +22,11 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClients;
-import ch.ivyteam.ivy.rest.client.internal.ExternalRestWebService;
 
-@SuppressWarnings({"restriction"})
 @ManagedBean
 @ViewScoped
 public class RestClientDetailBean extends HelpServices implements IConnectionTestResult {
-  private static final String REST_PROP_USERNAME = "username";
-  private static final String REST_PROP_PASSWORD = "password";
+
   private RestClientDto restClient;
   private String restClientName;
 
@@ -127,47 +121,15 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void testRestConnection() {
-    testResult = (ConnectionTestResult) connectionTest.test(() -> testConnection());
-  }
-
-  private ConnectionTestResult testConnection() {
-    try {
-      try (var response = createWebTarget().request().head()) {
-        var status = response.getStatus();
-        if (status >= 200 && status < 400) {
-          return new ConnectionTestResult("HEAD", status, TestResult.SUCCESS, "Successfully sent test request to REST service");
-        } else if (status == 400) {
-          return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "REST service does not understand test request");
-        } else if (status == 401) {
-          return new ConnectionTestResult("HEAD", status, TestResult.WARNING, "Authentication was not successful");
-        } else {
-          return new ConnectionTestResult("HEAD", status, TestResult.ERROR, "Could not connect to REST service");
-        }
-      }
-    } catch (ProcessingException ex) {
-      return new ConnectionTestResult("", 0, TestResult.ERROR, "Invalid Url (may contains script context)\n"
-              + "An error occurred: " + ExceptionUtils.getStackTrace(ex));
-    }
-  }
-
-  private WebTarget createWebTarget() {
-    var restBuilder = restClients.find(restClientName).toBuilder()
-            .uri(restClient.getConnectionUrl())
-            .property(REST_PROP_USERNAME, restClient.getUsername());
-    if (restClient.passwordChanged()) {
-      restBuilder.property(REST_PROP_PASSWORD, restClient.getPassword());
-    }
-    return new ExternalRestWebService(app, restBuilder.toRestClient()).getWebTargetFactory().create();
+    var uiClient = UiStateClient.toUiStateClient(findRestClient(), restClient);
+    WebTarget target = TestRunner.createTarget(app, uiClient);
+    testResult = (ConnectionTestResult) connectionTest.test(() -> TestRunner.testConnection(target));
   }
 
   public void saveConfig() {
     connectionTest.stop();
-    var builder = restClients.find(restClientName).toBuilder().uri(restClient.getUrl());
-    builder.property(REST_PROP_USERNAME, restClient.getUsername());
-    if (restClient.passwordChanged()) {
-      builder.property(REST_PROP_PASSWORD, restClient.getPassword());
-    }
-    restClients.set(builder.toRestClient());
+    var uiClient = UiStateClient.toUiStateClient(findRestClient(), restClient);
+    restClients.set(uiClient);
     var msg = new FacesMessage("Rest configuration saved", "");
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", msg);
     loadRestClient();
