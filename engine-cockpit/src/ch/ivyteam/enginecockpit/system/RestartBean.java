@@ -65,7 +65,7 @@ public class RestartBean {
   }
 
   public long getWorkingUsers() {
-    return ISecurityContextRepository.instance().all()
+    return ISecurityContextRepository.instance().allWithSystem()
       .stream()
       .flatMap(s -> s.sessions().all().stream())
       .filter(s -> !s.isSessionUserSystemUser())

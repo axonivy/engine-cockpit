@@ -141,7 +141,7 @@ public class SessionDataModel extends LazyDataModel<SessionDto> {
   }
 
   private Stream<ISessionInternal> sessions() {
-    return ISecurityContextRepository.instance().all()
+    return ISecurityContextRepository.instance().allWithSystem()
             .stream()
             .flatMap(s -> s.sessions().all().stream())
             .filter(s -> !s.isSessionUserSystemUser())

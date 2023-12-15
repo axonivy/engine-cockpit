@@ -96,7 +96,6 @@ public class MoveApplicationBean {
 
   public List<String> getSecuritySystems() {
     return ISecurityManager.instance().securityContexts().all().stream()
-            .filter(s -> !ISecurityContext.SYSTEM.equals(s.getName()))
             .filter(s -> app != null && !s.equals(app.getSecurityContext()))
             .map(ISecurityContext::getName)
             .collect(Collectors.toList());
