@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/app/0.0.1/rest-clients.json
 RestClients:
   test-rest:
     UUID: 2fb1152a-d43a-4840-b798-81ce34cef104

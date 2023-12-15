@@ -5,6 +5,7 @@
 <cc:interface>
   <cc:attribute name="url" />
   <cc:attribute name="result" />
+  <cc:attribute name="reset" />
   <cc:attribute name="testMethod" />
   <cc:attribute name="saveHint" default="false" />
 </cc:interface>
@@ -19,8 +20,8 @@
         <pre style="max-height: 200px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
       </p:panelGrid>
       <div class="custom-dialog-footer">
-        <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide();" value="Close" type="button"
-          styleClass="modal-input-button ui-button-secondary ui-button-flat" />
+        <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide(); #{cc.attrs.reset};" value="Close" type="button"
+          styleClass="modal-input-button ui-button-secondary ui-button-flat"/>
         <p:commandButton id="testConnectionBtn" title="Test Connection" update="@form" value="Test"
           icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}"
           immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" />
