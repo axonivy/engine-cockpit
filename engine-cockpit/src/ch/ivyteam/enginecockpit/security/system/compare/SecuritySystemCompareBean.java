@@ -135,7 +135,7 @@ public class SecuritySystemCompareBean {
   }
 
   public List<String> getSecuritySystems() {
-    return ISecurityManager.instance().securityContexts().all().stream()
+    return ISecurityManager.instance().securityContexts().allWithSystem().stream()
             .map(ISecurityContext::getName)
             .filter(name -> !name.equals(sourceSecuritySystem))
             .collect(Collectors.toList());

@@ -33,7 +33,7 @@
             "import ch.ivyteam.ivy.security.session.ISessionRepository;",
             "import ch.ivyteam.ivy.security.ISecurityContext;",
             "import ch.ivyteam.ivy.security.ISession;",
-            "for (ISecurityContext secContext : ISecurityContextRepository.instance().all()) {",
+            "for (ISecurityContext secContext : ISecurityContextRepository.instance().allWithSystem()) {",
             "  for (ISession session : secContext.sessions().all()) {",
             "    if (session != ivy.session) {",
             "      secContext.sessions().destroy(session.getIdentifier());",

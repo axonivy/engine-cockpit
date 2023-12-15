@@ -52,8 +52,7 @@ public class SecurityBean {
   }
 
   private static Stream<ISecurityContext> readAllSecurityContexts() {
-    return ISecurityManager.instance().securityContexts().all().stream()
-            .filter(s -> !SYSTEM.equals(s.getName()));
+    return ISecurityManager.instance().securityContexts().all().stream();
   }
 
   public static boolean isDefaultWithNoApps(SecuritySystem system) {
