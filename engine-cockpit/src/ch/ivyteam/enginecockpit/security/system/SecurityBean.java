@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
 import static ch.ivyteam.ivy.security.ISecurityContext.DEFAULT;
-import static ch.ivyteam.ivy.security.ISecurityContext.SYSTEM;
 
 import java.util.Collection;
 import java.util.List;
