@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -121,14 +122,17 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void testRestConnection() {
-    var uiClient = UiStateClient.toUiStateClient(findRestClient(), restClient);
+    var uiClient = new UiStateClient(findRestClient())
+      .setUiState(restClient)
+      .setTimeout(TimeUnit.SECONDS, 3)
+      .toClient();
     WebTarget target = TestRunner.createTarget(app, uiClient);
     testResult = (ConnectionTestResult) connectionTest.test(() -> TestRunner.testConnection(target));
   }
 
   public void saveConfig() {
     connectionTest.stop();
-    var uiClient = UiStateClient.toUiStateClient(findRestClient(), restClient);
+    var uiClient = new UiStateClient(findRestClient()).setUiState(restClient).toClient();
     restClients.set(uiClient);
     var msg = new FacesMessage("Rest configuration saved", "");
     FacesContext.getCurrentInstance().addMessage("restConfigMsg", msg);
