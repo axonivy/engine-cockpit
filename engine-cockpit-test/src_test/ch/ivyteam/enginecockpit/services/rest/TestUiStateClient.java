@@ -41,6 +41,35 @@ class TestUiStateClient {
   }
 
   @Test
+  void modifyReadTimeout() {
+    var restClient = RestClient.create("").toRestClient();
+    var client = new UiStateClient(restClient);
+    client.setReadTimeout(TimeUnit.SECONDS, 2);
+    var uiStateClient = client.toClient();
+    assertThat(uiStateClient.properties().get("jersey.config.client.readTimeout")).isEqualTo("2000");
+  }
+
+  @Test
+  void modifyReadTimeout_keepExistingProperty() {
+    var restClient = RestClient.create("").property("User", "Fritz").toRestClient();
+    var client = new UiStateClient(restClient);
+    client.setReadTimeout(TimeUnit.SECONDS, 2);
+    var uiStateClient = client.toClient();
+    assertThat(uiStateClient.properties().get("jersey.config.client.readTimeout")).isEqualTo("2000");
+    assertThat(uiStateClient.properties().get("User")).isEqualTo("Fritz");
+  }
+
+  @Test
+  void modifyReadTimeout_existingTimeout() {
+    var restClient = RestClient.create("").property("jersey.config.client.readTimeout", "3000").toRestClient();
+    var client = new UiStateClient(restClient);
+    client.setReadTimeout(TimeUnit.SECONDS, 2);
+    var uiStateClient = client.toClient();
+    assertThat(uiStateClient.properties().get("jersey.config.client.readTimeout")).isEqualTo("2000");
+    assertThat(restClient.properties().get("jersey.config.client.readTimeout")).isEqualTo("3000");
+  }
+
+  @Test
   void modifyRestDto() {
     var restClient = RestClient.create("").toRestClient();
     var client = new UiStateClient(restClient);

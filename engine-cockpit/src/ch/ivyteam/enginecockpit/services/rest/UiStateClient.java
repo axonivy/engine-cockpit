@@ -29,6 +29,11 @@ public class UiStateClient {
     return this;
   }
 
+  public UiStateClient setReadTimeout(TimeUnit unit, int amount) {
+    builder.property("jersey.config.client.readTimeout", String.valueOf(unit.toMillis(amount)));
+    return this;
+  }
+
   public RestClient toClient() {
     return builder.toRestClient();
   }
