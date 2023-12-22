@@ -125,6 +125,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     var uiClient = new UiStateClient(findRestClient())
       .setUiState(restClient)
       .setTimeout(TimeUnit.SECONDS, 3)
+      .setReadTimeout(TimeUnit.SECONDS, 3)
       .toClient();
     WebTarget target = RestTestRunner.createTarget(app, uiClient);
     testResult = (ConnectionTestResult) connectionTest.test(() -> RestTestRunner.testConnection(target));
