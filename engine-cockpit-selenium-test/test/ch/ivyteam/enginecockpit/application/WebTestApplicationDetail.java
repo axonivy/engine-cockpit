@@ -23,6 +23,7 @@ import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -85,5 +86,23 @@ class WebTestApplicationDetail {
     $("#appDetailSecurityForm\\:showAdSyncLogBtn").click();
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
             .find(".ui-panel-content").shouldBe(visible);
+  }
+  
+  @Test
+  void home() {
+    Navigation.toApplicationDetail("test");
+    var home = $(By.id("appDetailInfoForm:home"));
+    home.$("a").shouldHave(Condition.href("/test"));
+    home.click();
+    assertThat(Selenide.webdriver().driver().url()).endsWith("/dev-workflow-ui/faces/home.xhtml");
+  }
+  
+  @Test
+  void workflow() {
+    Navigation.toApplicationDetail("test");
+    var workflow = $(By.id("appDetailInfoForm:workflow"));
+    workflow.$("a").shouldHave(href("/dev-workflow-ui/faces/home.xhtml"));
+    workflow.click();
+    assertThat(Selenide.webdriver().driver().url()).endsWith("/dev-workflow-ui/faces/home.xhtml");
   }
 }
