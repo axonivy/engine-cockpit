@@ -12,7 +12,7 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.rest.client.RestClient;
 
-public class TestRunner {
+public class RestTestRunner {
 
   @SuppressWarnings("restriction")
   public static WebTarget createTarget(IApplication app, RestClient uiStateClient) {
