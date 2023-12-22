@@ -186,6 +186,10 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return testResult;
   }
 
+  public void reset() {
+    testResult = null;
+  }
+
   public RestClientMonitor getLiveStats() {
     return liveStats;
   }

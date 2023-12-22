@@ -60,6 +60,6 @@
 </div>
 
 <cc:ConnectionTestResult result="#{restClientDetailBean.result}" url="#{restClientDetailBean.restClient.connectionUrl}"
-  testMethod="#{restClientDetailBean.testRestConnection()}" id="connResult" />
+  testMethod="#{restClientDetailBean.testRestConnection()}" id="connResult" reset="#{restClientDetailBean.reset()}"/>
 
 </html>
