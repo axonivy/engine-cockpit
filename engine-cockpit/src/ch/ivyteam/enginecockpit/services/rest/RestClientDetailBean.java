@@ -126,8 +126,8 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
       .setUiState(restClient)
       .setTimeout(TimeUnit.SECONDS, 3)
       .toClient();
-    WebTarget target = TestRunner.createTarget(app, uiClient);
-    testResult = (ConnectionTestResult) connectionTest.test(() -> TestRunner.testConnection(target));
+    WebTarget target = RestTestRunner.createTarget(app, uiClient);
+    testResult = (ConnectionTestResult) connectionTest.test(() -> RestTestRunner.testConnection(target));
   }
 
   public void saveConfig() {
