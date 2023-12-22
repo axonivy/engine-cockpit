@@ -2,15 +2,19 @@ package ch.ivyteam.enginecockpit.system.editor;
 
 import java.nio.file.Path;
 import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
 import org.primefaces.extensions.event.CompleteEvent;
+
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFile;
 
 public class EditorFile {
 
   private ConfigFile config;
   private String content;
+  private boolean migrated;
 
   public EditorFile(ConfigFile config) {
     this.config = config;
@@ -30,12 +34,18 @@ public class EditorFile {
     return config.file();
   }
 
+  public boolean isMigrated() {
+    return migrated;
+  }
+
   public void setContent(String content) {
     this.content = content;
   }
 
   public String getContent() {
-    return config.read();
+    var read = config.read();
+    this.migrated = config.isMigrated(read);
+    return read;
   }
 
   public void save() {
