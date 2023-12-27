@@ -6,25 +6,33 @@
   <cc:attribute name="log" shortDescription="Log File" />
 </cc:interface>
 <cc:implementation>
-  <p:panel id="logPanel" widgetVar="#{cc.attrs.log.fileName}" toggleable="true" toggleSpeed="200"
-    collapsed="#{logBean.showLog ne cc.attrs.log.fileName}" style="min-height: unset;">
+  <p:panel id="logPanel" widgetVar="#{cc.attrs.log.fileName}">
     <f:facet name="header">
       <span onclick="PF('#{cc.attrs.log.fileName}').toggle()" style="cursor: pointer;" class="p-d-inline-flex">
         <i class="si si-common-file-text table-icon panel-title-icon"></i>
-        <h:outputText value="#{cc.attrs.log.fileName}" styleClass="p-ml-1" />
-        <h:outputText value="(#{cc.attrs.log.size}kB#{cc.attrs.log.endReached ? '' : ' - download file for full log'})" styleClass="p-ml-3" />
+        <h:outputText value="#{cc.attrs.log.fileName} (#{cc.attrs.log.size})" styleClass="p-ml-1" />
       </span>
     </f:facet>
     <f:facet name="actions">
       <h:form id="fileForm">
-        <p:commandLink id="showLog" ajax="false" title="Download Log File" 
+        <p:commandLink id="showLog" ajax="false" title="Open log" 
+          styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+          <i class="si si-expand-6"></i>
+          <p:fileDownload contentDisposition="inline" value="#{cc.attrs.log.file}" />
+        </p:commandLink>
+        <p:commandLink id="downloadLog" ajax="false" title="Download log" 
           styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
           <i class="si si-download-bottom"></i>
           <p:fileDownload value="#{cc.attrs.log.file}" />
         </p:commandLink>
       </h:form>
     </f:facet>
-      <pre style="max-height: 500px; overflow-x: auto; margin: 0;"><h:outputText value="#{cc.attrs.log.content}"/></pre>
+    <pre id="scrollLog" style="max-height: 800px; overflow-x: auto; margin: 0;"><h:outputText value="#{cc.attrs.log.content}"/></pre>
+    <script type="text/javascript">
+      // scroll at the end by default
+      let objDiv = document.getElementById("scrollLog");
+      objDiv.scrollTop = objDiv.scrollHeight;
+    </script>
   </p:panel>
 </cc:implementation>
 

@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -142,5 +143,9 @@ public class SecurityBean {
 
   public void setFilter(String filter) {
     this.filter = filter;
+  }
+
+  public String getSynchLogUri() {
+    return LogView.uri().file("usersynch.log").toUri();
   }
 }
