@@ -4,14 +4,11 @@ import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.By.id;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.time.Duration;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -28,7 +25,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 
 @IvyWebTest
-public class WebTestDownload {
+class WebTestDownload {
 
   private static final long TIMEOUT = Duration.ofMinutes(1).toMillis();
 
@@ -67,9 +64,10 @@ public class WebTestDownload {
   @Test
   void log() throws FileNotFoundException {
     Navigation.toLogs();
-    var download = $$(".ui-panel-titlebar").find(text("console.log"))
-            .find(".ui-panel-actions a").shouldBe(visible).download(TIMEOUT);
-    assertThat(download.getName()).isEqualTo("console.log");
+    var download = $(By.id("logView:fileForm:downloadLog"))
+            .shouldBe(visible)
+            .download(TIMEOUT);
+    assertThat(download.getName()).isEqualTo("ivy.log");
     assertThat(download).isNotEmpty();
   }
 
@@ -96,18 +94,16 @@ public class WebTestDownload {
   }
 
   @Test
-  void threadsDumpButton() throws IOException {
+  void threadsDump() throws FileNotFoundException {
     Navigation.toThreads();
     var dump = $(id("form:dump"))
         .shouldBe(visible, enabled)
         .download(TIMEOUT);
-
-    String content = Files.readString(dump.toPath());
-    assertThat(content).contains("Full thread dump OpenJDK 64-Bit Server VM");
+    assertThat(dump.toPath()).content().contains("Full thread dump OpenJDK 64-Bit Server VM");
   }
 
   @Test
-  void classHistogramDumpMemory() throws IOException {
+  void classHistogramDumpMemory() throws FileNotFoundException {
     Navigation.toClassHistogram();
     $(id("form:dump"))
         .shouldBe(visible, enabled)
@@ -117,7 +113,6 @@ public class WebTestDownload {
     var dump = $(id("dumpMemory:dump"))
         .shouldBe(visible, enabled)
         .download(TIMEOUT);
-
-    assertThat(Files.size(dump.toPath())).isGreaterThan(0);
+    assertThat(dump.toPath()).content().hasSizeGreaterThan(0);
   }
 }
