@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.By.id;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.Duration;
 
 import org.junit.jupiter.api.BeforeAll;
