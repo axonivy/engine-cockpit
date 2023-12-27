@@ -4,7 +4,8 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="log" value="#{logBean.showLog}" />
+    <f:viewParam name="file" value="#{logBean.file}" />
+    <f:viewParam name="date" value="#{logBean.date}" />
     <f:viewAction action="#{logBean.onload}" />
   </f:metadata>
 
@@ -35,27 +36,41 @@
             <div class="card-title p-d-flex p-ai-center">
               <i class="p-pr-3 si si-common-file-text"></i>
               <h2 class="p-m-0">Logs</h2>
-              <h:form id="logDateForm" styleClass="p-ml-auto">
-                <p:calendar id="calendar" value="#{logBean.date}" showOn="button" pattern="yyyy-MM-dd"
-                  maxdate="#{logBean.today}">
-                  <p:ajax event="dateSelect" update="logs" />
-                </p:calendar>
-              </h:form>
+              <div class="p-ml-auto">
+                <h:form id="logChooserForm">
+                  <p:calendar styleClass="p-ml-1"
+                    inputStyle="width:100px;vertical-align: middle;"
+                    id="calendar" value="#{logBean.localDate}"
+                    showOn="button" pattern="yyyy-MM-dd"
+                    maxdate="#{logBean.today}">
+                    <p:ajax event="dateSelect"
+                      listener="#{logBean.navigate}" />
+                  </p:calendar>
+
+                  <p:selectOneMenu id="logFiles" styleClass="p-ml-3"
+                    value="#{logBean.file}">
+                    <f:selectItems value="#{logBean.logs}" var="log"
+                      itemLabel="#{log.fileName} (#{log.size})"
+                      itemValue="#{log.fileName}" />
+                    <p:ajax event="change"
+                      listener="#{logBean.navigate}"></p:ajax>
+                  </p:selectOneMenu>
+                </h:form>
+              </div>
             </div>
           </div>
+
           <h:panelGroup id="logs" layout="block" styleClass="p-grid">
-            <p:repeat var="log" value="#{logBean.logs}">
-              <div class="p-col-12">
-                <cc:LogView log="#{log}" id="logView" />
-              </div>
-            </p:repeat>
+            <h:panelGroup styleClass="p-col-12" rendered="#{!logBean.getLogs().isEmpty()}">
+              <cc:LogView log="#{logBean.log}" id="logView" />
+            </h:panelGroup>
             <h:outputText rendered="#{empty logBean.logs}">
               <p:staticMessage id="noLogsMessage" severity="warn" detail="No logs found on date: #{logBean.date}" />
             </h:outputText>
           </h:panelGroup>
         </div>
       </div>
-      <cc:DownloadDialog id="downloadDialog" bean="#{logBean}" title="Download All Log Files" />
+      <cc:DownloadDialog id="downloadDialog" bean="#{logBean}" title="Download all log files" />
     </ui:define>
   </ui:composition>
 </h:body>
