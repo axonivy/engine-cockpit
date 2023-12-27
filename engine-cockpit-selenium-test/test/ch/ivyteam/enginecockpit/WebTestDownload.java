@@ -8,12 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.By.id;
 
 import java.io.File;
-<<<<<<< HEAD
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-=======
->>>>>>> 079bfd4f (XIVY-13172 Improve UX of log view)
 import java.time.Duration;
 
 import org.junit.jupiter.api.BeforeAll;
