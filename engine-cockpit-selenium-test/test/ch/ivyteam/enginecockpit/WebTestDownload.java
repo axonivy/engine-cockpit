@@ -94,7 +94,7 @@ class WebTestDownload {
   }
 
   @Test
-  void threadsDump() {
+  void threadsDump() throws FileNotFoundException {
     Navigation.toThreads();
     var dump = $(id("form:dump"))
         .shouldBe(visible, enabled)
@@ -103,7 +103,7 @@ class WebTestDownload {
   }
 
   @Test
-  void classHistogramDumpMemory() {
+  void classHistogramDumpMemory() throws FileNotFoundException {
     Navigation.toClassHistogram();
     $(id("form:dump"))
         .shouldBe(visible, enabled)
