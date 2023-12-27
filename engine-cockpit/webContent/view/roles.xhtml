@@ -27,7 +27,7 @@
               id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
               process="@this" actionListener="#{securityBean.triggerSyncForSelectedSecuritySystem}" update="@parent">
               <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
-                onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
+                onclick="window.location.href='#{securityBean.synchLogUri}'" />
             </p:splitButton>
             <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedSecuritySystem}" interval="2"
               update="@parent" />

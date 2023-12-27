@@ -22,7 +22,7 @@
         </p:commandButton>
         <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
         <p:linkButton id="showAdSyncLogBtn" icon="si si-common-file-text" styleClass="p-ml-1 ui-button-secondary rounded-button"
-          href="logs.xhtml?log=usersynch.log" rendered="#{!securityBean.ivySecurityForSelectedApp}" />
+          href="#{securityBean.synchLogUri}" rendered="#{!securityBean.ivySecurityForSelectedApp}" />
       </div>
     </div>
     <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel">

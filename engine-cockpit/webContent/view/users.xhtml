@@ -29,7 +29,7 @@
               <p:menuitem id="synchUserBtn" value="Synch Single User" icon="si si-button-refresh-arrows"
                 onclick="PF('synchUserModal').show()" />
               <p:menuitem id="userSyncLog" value="Synchronization Log" icon="si si-common-file-text"
-                onclick="window.location.href='logs.xhtml?log=usersynch.log'" />
+                onclick="window.location.href='#{securityBean.synchLogUri}'" />
               <p:divider style="margin: 0;" />
               <p:menuitem id="syncNewUserBtn" value="Add User" icon="si si-add" onclick="PF('newUserModal').show();" />
             </p:splitButton>
