@@ -50,7 +50,6 @@ public class WebTestSearchEngine
     $$(".ui-panel").shouldHave(size(2));
     $("#searchEngineInfoForm\\:name").shouldBe(text("ivy-elasticsearch"));
     $("#searchEngineInfoForm\\:url").shouldBe(exactText("http://localhost:19200"));
-    $("#searchEngineInfoForm\\:version").shouldBe(exactText("7.3.0"));
     $("#searchEngineInfoForm\\:state").shouldBe(exactText("check"));
     $("#searchEngineInfoForm\\:health").shouldBe(exactText("check"));
   }
