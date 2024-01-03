@@ -4,8 +4,11 @@ import java.io.InputStream;
 import java.security.KeyStoreException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
+import java.util.ArrayList;
 import java.util.List;
 
+import ch.ivyteam.enginecockpit.system.tlsTester.TLSTest;
+import ch.ivyteam.enginecockpit.system.tlsTester.TLSTestData;
 import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
 import ch.ivyteam.log.Logger;
 
@@ -17,6 +20,7 @@ class KeyStoreUtils {
   private final String type;
   private final String provider;
   private final char[] password;
+  private List<TLSTestData> result = new ArrayList<>();
 
   KeyStoreUtils(String file, String type, String provider, char[] password) {
     this.file = file;
@@ -68,4 +72,14 @@ class KeyStoreUtils {
     }
   }
 
+  public List<TLSTestData> getTlsTestResult() {
+    return result;
+  }
+
+  public List<TLSTestData> testConnection(String targetUri) {
+    List<TLSTestData> data = new ArrayList<>();
+    TLSTest test = new TLSTest(data, targetUri);
+    test.runTLSTests();
+    return data;
+  }
 }

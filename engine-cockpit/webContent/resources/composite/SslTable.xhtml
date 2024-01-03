@@ -58,10 +58,19 @@
             update="@form">
           </p:commandButton>
         </p:column>
+        
+        <p:column styleClass="table-btn-1">
+          <p:commandButton id="test" title="Test" icon="si si-phone-actions-call"
+            styleClass="ui-button-danger rounded-button"
+            actionListener="#{cc.attrs.bean.testConnection(certificate.subject)}"
+            onclick="PF('testTLSResult').show();">
+          </p:commandButton>
+        </p:column>
 
       </p:dataTable>
-
+      
     </h:form>
+    <ui:include src="/includes/dialogs/TestTLSResult.xhtml" />
   </div>
 </cc:implementation>
 

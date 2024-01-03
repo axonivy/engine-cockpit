@@ -50,11 +50,11 @@ public final class TLSTestData
    * @return 0 for fail, 1 for success, 2 for infoOnly.
    */
   public int getResult() {
-	return result;
+    return result;
   }
 
   public void setResult(int result) {
-	this.result = result;
+    this.result = result;
   }
 
   @Override

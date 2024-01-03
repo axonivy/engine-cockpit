@@ -357,10 +357,8 @@ public final class TLSTest
   {
     X509Certificate x509Cert = (X509Certificate) cert;
     PublicKey pubKey = x509Cert.getPublicKey();
-    String issuerName = x509Cert.getIssuerDN().getName();
-    String subjectName = x509Cert.getSubjectDN().getName();
     return String.format("alg=%1$s, length=%2$d, issuer=%3$s, subject=%4$s.", pubKey.getAlgorithm(),
-        getBitLength(pubKey), issuerName.equals(subjectName) ? "selfSigned" : issuerName, subjectName);
+        getBitLength(pubKey));
   }
 
   private static int getBitLength(PublicKey pubKey)

@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.enginecockpit.system.tlsTester.TLSTestData;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.TrustStoreConfig;
 
@@ -139,6 +140,14 @@ public class TrustStoreBean implements SslTableStore {
   @Override
   public List<StoredCert> getCertificats() {
     return getKeyStoreUtils().getStoredCerts();
+  }
+
+  public List<TLSTestData> getTlsTestResult() {
+    return getKeyStoreUtils().getTlsTestResult();
+  }
+
+  public List<TLSTestData> testConnection(String targetUri) {
+    return getKeyStoreUtils().testConnection(targetUri);
   }
 
   private KeyStoreUtils getKeyStoreUtils() {

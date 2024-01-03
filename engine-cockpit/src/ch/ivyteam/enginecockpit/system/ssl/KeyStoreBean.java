@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 
+import ch.ivyteam.enginecockpit.system.tlsTester.TLSTestData;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.KeyStoreConfig;
 
@@ -151,6 +152,14 @@ public class KeyStoreBean implements SslTableStore {
     try (InputStream is = event.getFile().getInputStream()) {
       return getKeyStoreUtils().handleUploadCert(is);
     }
+  }
+
+  public void getTlsTestResult() {
+    getKeyStoreUtils().getTlsTestResult();
+  }
+
+  public List<TLSTestData> testConnection(String targetUri) {
+    return getKeyStoreUtils().testConnection(targetUri);
   }
 
   private KeyStoreUtils getKeyStoreUtils() {
