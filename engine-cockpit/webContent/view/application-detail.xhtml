@@ -23,7 +23,7 @@
     
     <ui:define name="topbar-items">
       <cc:TopBarItem styleClass="app-home-link" href="/#{applicationDetailBean.appName}" icon="si-hyperlink-3" title="Application Workflow Home" />
-      <cc:TopBarItem styleClass="config-link" href="logs.xhtml?log=config.log" icon="si-common-file-text" title="Show configuration log" external="false" />
+      <cc:TopBarItem styleClass="config-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="Show configuration log" external="false" />
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}applications.html#application-detail" />
     </ui:define>
 

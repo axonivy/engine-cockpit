@@ -15,6 +15,7 @@ import org.primefaces.event.TabChangeEvent;
 
 import ch.ivyteam.enginecockpit.application.model.Application;
 import ch.ivyteam.enginecockpit.application.model.WebServiceProcess;
+import ch.ivyteam.enginecockpit.monitor.log.LogView;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.security.system.SecurityBean;
 import ch.ivyteam.ivy.application.IApplication;
@@ -205,5 +206,9 @@ public class ManagerBean {
     return context
             .getApplication()
             .evaluateExpressionGet(context, "#{managerBean}", ManagerBean.class);
+  }
+
+  public String getConfigLogUrl() {
+    return LogView.uri().file("config.log").toUri();
   }
 }
