@@ -94,7 +94,7 @@
                 <ul>
                   <h:panelGroup rendered="#{managerBean.restartEngine}">
                     <li class="restart-notification">
-                      <a href="logs.xhtml?log=config.log">
+                      <a href="#{managerBean.configLogUrl}">
                         <i class="si si-lg si-synchronize-arrow-clock"></i>
                         <span style="max-width: calc(100% - 40px)">You have changed settings that require an engine restart!</span>
                       </a>
