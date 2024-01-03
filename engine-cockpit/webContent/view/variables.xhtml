@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="topbar-items">
-      <cc:TopBarItem styleClass="log-link" href="logs.xhtml?log=config.log" icon="si-common-file-text" title="Show configuration log" external="false" />
+      <cc:TopBarItem styleClass="log-link" href="#{managerBean.configLogUrl}" icon="si-common-file-text" title="Show configuration log" external="false" />
       <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}configuration.html#global-variables" />
     </ui:define>
 
