@@ -1,18 +1,20 @@
-package ch.ivyteam.enginecockpit.security.identity;
+package ch.ivyteam.enginecockpit.dynamic.config;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.ivy.configuration.meta.Metadata;
-import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 
 public class ConfigProperty {
 
-  private final IdpConfig cfg;
+  private final BiConsumer<String, Map<String, String>> keyValueSaver;
   private final String key;
   private String value;
   private final Metadata metadata;
@@ -21,8 +23,8 @@ public class ConfigProperty {
   // encapsulate the special handling for a key value property
   private final KeyValueProperty keyValueProperty;
 
-  public ConfigProperty(IdpConfig cfg, String key, String value, Map<String, String> keyValue, Metadata metadata) {
-    this.cfg = cfg;
+  public ConfigProperty(BiConsumer<String, Map<String, String>> keyValueSaver, String key, String value, Map<String, String> keyValue, Metadata metadata) {
+    this.keyValueSaver = keyValueSaver;
     this.key = key;
     this.value = value;
     this.metadata = metadata;
@@ -166,8 +168,8 @@ public class ConfigProperty {
     }
 
     private void save() {
-      cfg.setProperty(getName(), keyValue());
-      IdentityProviderBean.message();
+      keyValueSaver.accept(getName(), keyValue());
+      DynamicConfig.message();
     }
 
     public String getName() {

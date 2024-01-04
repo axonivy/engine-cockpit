@@ -2,34 +2,37 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui">
+
 <cc:interface>
   <cc:attribute name="channel" type="ch.ivyteam.enginecockpit.services.notification.NotificationChannelDto"/>
 </cc:interface>
+
 <cc:implementation>
  <p:outputPanel id="state">
-    <i class="table-icon #{channel.stateIcon}" />
-    <h:panelGroup rendered="#{channel.locked}">
-      <h:outputText value="#{channel.locks}" />
+    <i class="table-icon #{cc.attrs.channel.stateIcon}" />
+    <h:panelGroup rendered="#{cc.attrs.channel.locked}">
+      <h:outputText value="#{cc.attrs.channel.locks}" />
       <i class="si si-synchronize-arrow-clock table-icon"></i>
-      <h:outputText value="#{channel.nextRetryIn}" />
+      <h:outputText value="#{cc.attrs.channel.nextRetryIn}" />
     </h:panelGroup>
   </p:outputPanel>
-  <p:tooltip id="lockDetails" for="state" rendered="#{channel.locked}">
+  <p:tooltip id="lockDetails" for="state" rendered="#{cc.attrs.channel.locked}">
     <h5 class="p-d-flex p-ai-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>Error Information</h5>
     <p:panelGrid layout="grid" columns="2" columnClasses="ui-g-3, ui-g-9">
       <p:outputLabel value="Failed deliver attemps so far:"/>
-      <h:outputText value="#{channel.locks}" />
+      <h:outputText value="#{cc.attrs.channel.locks}" />
       <p:outputLabel value="Next retry to deliver:"/>
       <h:panelGroup>
-        <h:outputText value="#{channel.nextRetryIn}"/>
+        <h:outputText value="#{cc.attrs.channel.nextRetryIn}"/>
         <h:outputText value="&#160;("/>
-        <h:outputText value="#{channel.nextRetryAt}">
+        <h:outputText value="#{cc.attrs.channel.nextRetryAt}">
           <f:convertDateTime type="both" dateStyle="short" timeStyle="short" />
         </h:outputText>
         <h:outputText value=")"/>
       </h:panelGroup>
       <p:outputLabel value="Last Error:"/>
-      <h:outputText value="#{channel.lastError}" escape="false"/>
+      <h:outputText value="#{cc.attrs.channel.lastError}" escape="false"/>
     </p:panelGrid>
-  </p:tooltip></cc:implementation>
+  </p:tooltip>
+</cc:implementation>
 </html>

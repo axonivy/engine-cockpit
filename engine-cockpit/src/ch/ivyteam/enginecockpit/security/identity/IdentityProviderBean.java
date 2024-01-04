@@ -1,20 +1,22 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.faces.application.FacesMessage;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.api.API;
+import ch.ivyteam.enginecockpit.dynamic.config.ConfigProperty;
+import ch.ivyteam.enginecockpit.dynamic.config.ConfigPropertyGroup;
+import ch.ivyteam.enginecockpit.dynamic.config.DynamicConfig;
+import ch.ivyteam.enginecockpit.dynamic.config.DynamicConfigListDialogBean;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
+import ch.ivyteam.ivy.configuration.configurator.ConfiguratorMetadataProvider;
 import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.security.ISecurityManager;
-import ch.ivyteam.ivy.security.identity.core.IdentityProviderConfigMetadataProvider;
 import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
 import ch.ivyteam.ivy.security.internal.context.SecurityContext;
@@ -28,20 +30,21 @@ public class IdentityProviderBean {
 
   private ISecurityContextInternal securityContext;
   private IdentityProvider identityProvider;
-  private List<ConfigPropertyGroup> propertyGroups;
+  private DynamicConfig dynamicConfig;
   private DirectoryBrowserBean browserBean;
 
   private ConfigProperty browserProperty;
-  private IdentityProviderListDialogBean providerListDialogBean;
+  private DynamicConfigListDialogBean providerListDialogBean;
 
   public void onload() {
     securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(securitySystemName);
     identityProvider = securityContext.identityProviders().get(0);
     var configurator = identityProvider.configurator();
-    var properties = new IdentityProviderConfigMetadataProvider(configurator).get().entrySet().stream()
+    var properties = new ConfiguratorMetadataProvider(configurator).get().entrySet().stream()
       .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
       .collect(Collectors.toList());
-    this.propertyGroups = ConfigPropertyGroup.toGroups(properties);
+    var propertyGroups = ConfigPropertyGroup.toGroups(properties);
+    this.dynamicConfig = new DynamicConfig(propertyGroups, securityContext);
     this.browserBean = new DirectoryBrowserBean();
   }
 
@@ -61,8 +64,8 @@ public class IdentityProviderBean {
     return identityProvider.name();
   }
 
-  public List<ConfigPropertyGroup> getPropertyGroups() {
-    return propertyGroups;
+  public DynamicConfig getDynamicConfig() {
+    return dynamicConfig;
   }
 
   private ConfigProperty toConfigProperty(String key, Metadata metadata) {
@@ -74,33 +77,7 @@ public class IdentityProviderBean {
     } else {
       value = config.getProperty(key);
     }
-    return new ConfigProperty(config, key, value, keyValue, metadata);
-  }
-
-  @SuppressWarnings("restriction")
-  public void save(ConfigPropertyGroup group) {
-    var cfg = ((SecurityContext) securityContext).config();
-    var gKey = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create(group.getName());
-    for (var p : group.getProperties()) {
-      var shortKey = StringUtils.substringAfter(p.getName(), group.getName()+".");
-      var pKey = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create(p.getName());
-      if (!shortKey.isBlank()) {
-        pKey = gKey.append(shortKey);
-      }
-      int separator = shortKey.indexOf('.');
-      if (separator != -1) {
-        var before = shortKey.substring(0, separator);
-        var next = shortKey.substring(separator+1);
-        pKey = gKey.append(before).append(next);
-      }
-      cfg.identity().setProperty(pKey, p.getValue());
-    }
-    message();
-  }
-
-  static void message() {
-    var msg = new FacesMessage("Successfully saved");
-    FacesContext.getCurrentInstance().addMessage("securityIdentityProviderSaveSuccess", msg);
+    return new ConfigProperty(config::setProperty, key, value, keyValue, metadata);
   }
 
   public void browseProperty(ConfigProperty property) {
@@ -110,7 +87,7 @@ public class IdentityProviderBean {
     configureBrowser(property.getValue());
   }
 
-  public void browseBeanProperty(IdentityProviderListDialogBean bean) {
+  public void browseBeanProperty(DynamicConfigListDialogBean bean) {
     API.checkParameterNotNull(bean, "bean");
     browserProperty = null;
     providerListDialogBean = bean;

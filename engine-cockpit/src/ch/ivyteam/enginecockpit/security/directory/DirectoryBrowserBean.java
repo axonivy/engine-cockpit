@@ -10,12 +10,10 @@ import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.ivy.security.identity.jndi.browser.LdapBrowser;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryBrowser;
 import ch.ivyteam.ivy.security.identity.spi.browser.DirectoryNode;
 import ch.ivyteam.ivy.security.identity.spi.browser.Property;
 import ch.ivyteam.log.Logger;
-import ch.ivyteam.naming.JndiConfig;
 
 public class DirectoryBrowserBean {
 
@@ -24,10 +22,6 @@ public class DirectoryBrowserBean {
   private TreeNode<DirectoryNode> selectedNode;
   private List<Property> selectedNodeAttributes;
   private DirectoryBrowser directoryBrowser;
-
-  public void browse(JndiConfig config, boolean enableInsecureSsl, String initialValue) {
-    browse(new LdapBrowser(config, enableInsecureSsl), initialValue);
-  }
 
   public void browse(DirectoryBrowser browser, String idToSelect) {
     this.root = null;

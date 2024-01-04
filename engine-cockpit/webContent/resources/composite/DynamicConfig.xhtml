@@ -1,0 +1,268 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:er="http://java.sun.com/jsf/composite/composite">
+
+<cc:interface>
+  <cc:attribute name="dynamicConfig" type="ch.ivyteam.enginecockpit.dynamic.config.DynamicConfig" required="true" />
+</cc:interface>
+
+<cc:implementation>
+
+    <h:form id="dynamicConfigForm">
+
+      <p:growl id="dynamicConfigFormSaveSuccess" for="dynamicConfigFormSaveSuccess">
+        <p:autoUpdate />
+      </p:growl>
+
+      <p:repeat var="group" id="group" value="#{cc.attrs.dynamicConfig.groups}">
+        <div class="card ui-fluid">
+          <div class="card-header">
+            <div class="card-title p-d-flex p-ai-center">
+              <i class="p-pr-3 si si-information-circle"></i>
+              <h6 class="p-m-0">#{group.name}</h6>
+
+              <p:commandButton title="Save" icon="si si-floppy-disk"
+                id="save"
+                styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button"
+                rendered="#{!group.keyValue}"
+                actionListener="#{cc.attrs.dynamicConfig.save(group)}" />
+
+              <p:commandButton id="newPropertyKeyValue"
+                actionListener="#{dynamicConfigListDialogBean.setProperty(group.getKeyValueProperty())}"
+                rendered="#{group.keyValue}"
+                oncomplete="PF('propertyKeyValueModal').show();"
+                process="@this"
+                update="identityProvider:dynamicConfigKeyValueForm"
+                title="Add" icon="si si-add"
+                styleClass="p-col-fixed p-ml-auto rounded-button" />
+
+            </div>
+          </div>
+          <p:repeat var="property" id="property"
+            value="#{group.properties}">
+            <ui:fragment>
+
+              <!-- string -->
+              <h:panelGroup styleClass="md-inputfield identity-group"
+                rendered="#{property.string}">
+                <p:outputLabel value="#{property.label}" />
+                <h:panelGroup styleClass="ui-inputgroup identity-field">
+                  <p:inputText id="propertyString"
+                    value="#{property.value}"
+                    placeholder="#{property.defaultValue}" />
+
+                  <p:commandButton id="browseDefaultContext"
+                    icon="si si-network-browser" title="Browse"
+                    actionListener="#{identityProviderBean.browseProperty(property)}"
+                    oncomplete="PF('directoryBrowserDialog').show();"
+                    update="identityProvider:directoryBrowser:directoryBrowserForm identityProvider:directoryBrowser:chooseDirectoryName"
+                    rendered="#{property.isDirectoryBrowser()}" />
+                </h:panelGroup>
+                <small class="block">#{property.descriptionFirstline}</small>
+                <h:panelGroup id="usedByHelpString"
+                  styleClass="label-help-icon"
+                  rendered="#{property.hasSecondLine()}">
+                  <i class="si si-question-circle"></i>
+                  <p:tooltip for="@parent"
+                    value="#{property.description}" position="top"
+                    styleClass="pre-tooltip" />
+                </h:panelGroup>
+              </h:panelGroup>
+
+              <!-- password -->
+              <h:panelGroup styleClass="md-inputfield identity-group"
+                rendered="#{property.password}">
+                <p:outputLabel value="#{property.label}" />
+                <p:password id="propertyPassword"
+                  value="#{property.value}" styleClass="identity-field"
+                  placeholder="#{property.passwordPlaceholder}"></p:password>
+                <small class="block">#{property.descriptionFirstline}</small>
+                <h:panelGroup id="usedByHelpPassword"
+                  styleClass="label-help-icon"
+                  rendered="#{property.hasSecondLine()}">
+                  <i class="si si-question-circle"></i>
+                  <p:tooltip for="@parent"
+                    value="#{property.description}"
+                    styleClass="pre-tooltip" position="top" />
+                </h:panelGroup>
+              </h:panelGroup>
+
+              <!-- boolean -->
+              <h:panelGroup styleClass="md-inputfield identity-group"
+                rendered="#{property.boolean}">
+                <p:outputLabel value="#{property.label}" />
+                <p:selectBooleanCheckbox id="propertyBoolean"
+                  value="#{property.value}" styleClass="identity-field"
+                  style="width: 100%" />
+                <small class="block">#{property.descriptionFirstline}</small>
+                <h:panelGroup id="usedByHelpBoolean"
+                  styleClass="label-help-icon"
+                  rendered="#{property.hasSecondLine()}">
+                  <i class="si si-question-circle"></i>
+                  <p:tooltip for="@parent"
+                    value="#{property.description}"
+                    styleClass="pre-tooltip" position="top" />
+                </h:panelGroup>
+              </h:panelGroup>
+
+              <!-- number -->
+              <h:panelGroup styleClass="md-inputfield identity-group"
+                rendered="#{property.number}">
+                <p:outputLabel value="#{property.label}" />
+                <p:inputNumber id="propertyNumber"
+                  value="#{property.value}" decimalPlaces="0"
+                  placeholder="#{property.defaultValue}"
+                  styleClass="identity-field" />
+                <small class="block">#{property.descriptionFirstline}</small>
+                <h:panelGroup id="usedByHelpNumber"
+                  styleClass="label-help-icon"
+                  rendered="#{property.hasSecondLine()}">
+                  <i class="si si-question-circle"></i>
+                  <p:tooltip for="@parent"
+                    value="#{property.description}"
+                    styleClass="pre-tooltip" position="top" />
+                </h:panelGroup>
+              </h:panelGroup>
+
+              <!-- dropdown -->
+              <h:panelGroup styleClass="md-inputfield identity-group"
+                rendered="#{property.dropdown}">
+                <p:outputLabel value="#{property.label}" />
+                <p:selectOneMenu id="propertyDropdown"
+                  value="#{property.value}" styleClass="identity-field">
+                  <f:selectItems value="#{property.enumerationValues}"
+                    var="value" itemLabel="#{value}"
+                    itemValue="#{value}" />
+                </p:selectOneMenu>
+                <small class="block">#{property.descriptionFirstline}</small>
+                <h:panelGroup id="usedByHelpDropdown"
+                  styleClass="label-help-icon"
+                  rendered="#{property.hasSecondLine()}">
+                  <i class="si si-question-circle"></i>
+                  <p:tooltip for="@parent"
+                    value="#{property.description}"
+                    styleClass="pre-tooltip" position="top" />
+                </h:panelGroup>
+              </h:panelGroup>
+
+              <!-- keyvalue -->
+              <p:panelGrid columns="1" layout="flex"
+                styleClass=" ui-fluid" rendered="#{property.keyValue}"
+                style="padding-top:10px;">
+                <p:dataTable paginator="true" rows="10"
+                  paginatorPosition="bottom"
+                  paginatorAlwaysVisible="false"
+                  value="#{property.getKeyValueProperty().getKeyValue()}"
+                  var="keyValue" id="keyValueTable">
+                  <p:column
+                    headerText="#{property.getKeyValueProperty().getKeyValueKeyName()}">
+                    <h:outputText value="#{keyValue.key}"
+                      styleClass="ldap-attribute" />
+                  </p:column>
+                  <p:column
+                    headerText="#{property.getKeyValueProperty().getKeyValueValueName()}"
+                    styleClass="ldap-value">
+                    <h:outputText value="#{keyValue.value}" />
+                  </p:column>
+                  <p:column styleClass="table-btn-2">
+                    <p:commandButton id="editPropertyBtn"
+                      actionListener="#{dynamicConfigListDialogBean.setProperty(property.getKeyValueProperty(), keyValue.key, keyValue.value)}"
+                      icon="si si-pencil" title="Edit"
+                      styleClass="ui-button-secondary rounded-button"
+                      oncomplete="PF('propertyKeyValueModal').show();"
+                      process="@this"
+                      update="identityProvider:dynamicConfigKeyValueForm" />
+                    <p:commandButton id="deleteKeyValueBtn"
+                      type="button" icon="si si-bin-1" title="Delete"
+                      styleClass="p-ml-1 ui-button-danger rounded-button">
+                      <p:ajax
+                        listener="#{property.getKeyValueProperty().removeKeyValue(keyValue.key)}"
+                        update="@form" />
+                    </p:commandButton>
+                  </p:column>
+                </p:dataTable>
+                <h:panelGroup>
+                  <small class="block">#{property.descriptionFirstline}</small>
+                  <h:panelGroup id="usedByHelpKeyValue"
+                    styleClass="label-help-icon"
+                    rendered="#{property.hasSecondLine()}">
+                    <i class="si si-question-circle"></i>
+                    <p:tooltip for="@parent"
+                      value="#{property.description}"
+                      styleClass="pre-tooltip" position="top" />
+                  </h:panelGroup>
+                </h:panelGroup>
+              </p:panelGrid>
+
+            </ui:fragment>
+          </p:repeat>
+        </div>
+      </p:repeat>
+    </h:form>
+  
+  <er:DirectoryBrowser id="directoryBrowser"
+    directoryBrowser="#{identityProviderBean.directoryBrowser}"
+    updateFields="identityProvider:dynamicConfigForm, identityProvider:dynamicConfigKeyValueForm"
+    returnListener="#{identityProviderBean.setSelectedItem()}" />
+
+  <p:dialog style="min-width: 300px;" header="Property"
+    id="propertyKeyValueModal" widgetVar="propertyKeyValueModal"
+    modal="true" responsive="true" closeOnEscape="true">
+    <h:form id="dynamicConfigKeyValueForm"
+      styleClass="custom-dialog-form">
+      <p:panelGrid columns="2" layout="flex"
+        columnClasses="p-col-3, p-col-9" styleClass=" ui-fluid">
+        <p:outputLabel for="attributeNameInput"
+          value="#{dynamicConfigListDialogBean.property.keyValueKeyName}" />
+        <h:panelGroup styleClass="md-inputfield">
+          <p:inputText id="attributeNameInput"
+            requiredMessage="Value is required"
+            value="#{dynamicConfigListDialogBean.newKey}"
+            disabled="#{not empty dynamicConfigListDialogBean.newKey}"
+            required="true" />
+          <p:message for="attributeNameInput" id="attributeNameMessage" />
+        </h:panelGroup>
+
+
+        <p:outputLabel for="attributeValueInput"
+          value="#{dynamicConfigListDialogBean.property.keyValueValueName}" />
+
+        <h:panelGroup styleClass="md-inputfield">
+
+          <h:panelGroup styleClass="ui-inputgroup">
+            <p:inputText id="attributeValueInput"
+              requiredMessage="Value is required" required="true"
+              value="#{dynamicConfigListDialogBean.newValue}" />
+
+            <p:commandButton id="browseImportUserOfGroup"
+              icon="si si-network-browser" title="Browse"
+              actionListener="#{identityProviderBean.browseBeanProperty(dynamicConfigListDialogBean)}"
+              oncomplete="PF('directoryBrowserDialog').show();"
+              rendered="#{dynamicConfigListDialogBean.isDirectoryBrowser()}"
+              update="identityProvider:directoryBrowser:directoryBrowserForm identityProvider:directoryBrowser:chooseDirectoryName"
+              immediate="true" process="@this,attributeNameInput" />
+          </h:panelGroup>
+          <p:message for="attributeValueInput"
+            id="attributeValueMessage" />
+        </h:panelGroup>
+
+      </p:panelGrid>
+
+      <div class="custom-dialog-footer">
+        <p:commandButton id="cancelPropertyKeyValue"
+          onclick="PF('propertyKeyValueModal').hide();" value="Cancel"
+          type="button"
+          styleClass="ui-button-secondary ui-button-flat modal-input-button"
+          immediate="true" />
+        <p:commandButton id="savePropertyKeyAttribute"
+          validateClient="true" ajax="false"
+          actionListener="#{dynamicConfigListDialogBean.saveProp}"
+          value="Save" icon="si si-floppy-disk"
+          update="identityProvider:dynamicConfigForm"
+          styleClass="modal-input-button" />
+      </div>
+    </h:form>
+  </p:dialog>
+</cc:implementation>
+</html>
