@@ -1,13 +1,21 @@
 package ch.ivyteam.enginecockpit.services.notification;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
+import ch.ivyteam.enginecockpit.dynamic.config.ConfigProperty;
+import ch.ivyteam.enginecockpit.dynamic.config.ConfigPropertyGroup;
+import ch.ivyteam.enginecockpit.dynamic.config.DynamicConfig;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.NotificationChannelMonitor;
 import ch.ivyteam.enginecockpit.services.notification.NotificationChannelDto.NotificationEventDto;
+import ch.ivyteam.ivy.configuration.configurator.ConfiguratorMetadataProvider;
+import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
@@ -60,6 +68,31 @@ public class NotificationChannelDetailBean {
 
     channel = NotificationChannelDto.instance(securityContext, notificationChannel);
     liveStats = new NotificationChannelMonitor(securityContext, this.channelId, channel.getDisplayName());
+
+    var configurator = notificationChannel.config().configurator();
+
+    var properties = new ConfiguratorMetadataProvider(configurator).get().entrySet().stream()
+            .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
+            .collect(Collectors.toList());
+    this.dynamicConfig = new DynamicConfig(ConfigPropertyGroup.toGroups(properties), securityContext);
+  }
+
+  private DynamicConfig dynamicConfig;
+
+  private ConfigProperty toConfigProperty(String key, Metadata metadata) {
+    var config = channel.getConfig().config();
+    var value = "";
+    Map<String, String> keyValue = Map.of();
+    if (metadata.isKeyValue()) {
+      //keyValue = new HashMap<>(config.getPropertyAsKeyValue(key));
+    } else {
+      value = config.getProperty(key);
+    }
+    return new ConfigProperty(null, key, value, keyValue, metadata);
+  }
+
+  public DynamicConfig getDynamicConfig() {
+    return dynamicConfig;
   }
 
   public void save() {
