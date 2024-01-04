@@ -33,7 +33,7 @@ class WebTestSecurityIdentityProvider {
   private static final String PASSWORD = "identityProvider:dynamicConfigForm:group:0:property:1:propertyPassword";
   private static final String TENANT_ID = "identityProvider:dynamicConfigForm:group:0:property:0:propertyString";
   private final static String NAME = "test-security-system";
-  private static final String DIRECTORY_BROWSER_FORM = "#identityProvider\\:directoryBrowser\\:directoryBrowserForm\\:";
+  private static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
 
   @BeforeEach
   void createSecuritySystem() {
@@ -143,20 +143,20 @@ class WebTestSecurityIdentityProvider {
 
   @Test
   void directoryBrowser(){
-    $(By.id("identityProvider:dynamicConfigForm:group:0:property:2:browseDefaultContext")).should(visible)
+    $(By.id("identityProvider:dynamicConfigForm:group:0:property:2:browseDirectory")).should(visible)
     .click();
-    $(By.id("identityProvider:directoryBrowser:directoryBrowserForm:tree:0")).should(visible)
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0")).should(visible)
     .click();
-    $(By.id("identityProvider:directoryBrowser:directoryBrowserForm:tree:0")).shouldHave(text("Group A"));
-    By.id("identityProvider:directoryBrowser:directoryBrowserForm:tree:0");
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0")).shouldHave(text("Group A"));
+    By.id("directoryBrowser:directoryBrowserForm:tree:0");
     $(By.className("ui-tree-toggler")).click();
 
-    $(By.id("identityProvider:directoryBrowser:directoryBrowserForm:tree:0_0")).shouldHave(text("Group A.1")).click();
-    $(By.id("identityProvider:directoryBrowser:directoryBrowserForm:nodeAttrTable_data")).shouldHave(text("location"));
-    $(By.id("identityProvider:directoryBrowser:directoryBrowserForm:nodeAttrTable_data")).shouldHave(text("Zug"));
+    $(By.id("directoryBrowser:directoryBrowserForm:tree:0_0")).shouldHave(text("Group A.1")).click();
+    $(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable_data")).shouldHave(text("location"));
+    $(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable_data")).shouldHave(text("Zug"));
 
-    $(By.id("identityProvider:directoryBrowser:cancelDirectoryBrowser")).should(visible);
-    $(By.id("identityProvider:directoryBrowser:chooseDirectoryName")).should(visible).click();
+    $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible);
+    $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
     $(By.id("identityProvider:dynamicConfigForm:group:0:property:2:propertyString")).shouldHave(value("Group A.1"));
   }
 
@@ -203,17 +203,17 @@ class WebTestSecurityIdentityProvider {
 
   @Test
   void browseEscapedNames() {
-    $(By.id("identityProvider:dynamicConfigForm:group:0:property:2:browseDefaultContext"))
+    $(By.id("identityProvider:dynamicConfigForm:group:0:property:2:browseDirectory"))
       .should(visible)
       .click();
-    $(By.id("identityProvider:directoryBrowser:directoryBrowserDialog")).shouldBe(visible);
+    $(By.id("directoryBrowser:directoryBrowserDialog")).shouldBe(visible);
     var treeNode = $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("Group A"));
     treeNode.shouldBe(visible);
     treeNode.parent().$(".ui-tree-toggler").click();
     treeNode.parent().parent().$(".ui-treenode-children").findAll("li").shouldBe(sizeGreaterThan(0));
     treeNode = $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("Group A.1"));
     treeNode.shouldBe(visible);
-    $(By.id("identityProvider:directoryBrowser:cancelDirectoryBrowser")).click();
+    $(By.id("directoryBrowser:cancelDirectoryBrowser")).click();
   }
 
   private void createSecuritySystem(String providerName, String securitySystemName) {

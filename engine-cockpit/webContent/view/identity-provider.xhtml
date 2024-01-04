@@ -26,7 +26,12 @@
     </ui:define>
 
     <ui:define name="content">
-      <cc:DynamicConfig id="identityProvider" dynamicConfig="#{identityProviderBean.dynamicConfig}" />            
+      <cc:DynamicConfig id="identityProvider" dynamicConfig="#{identityProviderBean.dynamicConfig}" />
+
+      <cc:DirectoryBrowser id="directoryBrowser"
+        directoryBrowser="#{identityProviderBean.directoryBrowser}"
+        updateFields="identityProvider:dynamicConfigForm, identityProvider:dynamicConfigKeyValueForm"
+        returnListener="#{identityProviderBean.setSelectedItem()}" />
     </ui:define>
   </ui:composition>
 </h:body>

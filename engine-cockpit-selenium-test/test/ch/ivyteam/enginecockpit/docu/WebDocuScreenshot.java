@@ -202,7 +202,7 @@ class WebDocuScreenshot {
     Navigation.toSecuritySystemLdap("test-ad");
     takeScreenshot("security-system-ldap", new Dimension(SCREENSHOT_WIDTH, 900));
     takeDialogScreenshot("dialog-ldap-browser",
-            By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDefaultContext"));
+            By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory"));
     Navigation.toUsers();
     Tab.SECURITY_SYSTEM.switchToDefault();
     takeScreenshot("users", new Dimension(SCREENSHOT_WIDTH, 600));
