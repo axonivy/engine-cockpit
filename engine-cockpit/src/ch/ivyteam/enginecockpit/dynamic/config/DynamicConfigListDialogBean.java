@@ -1,13 +1,13 @@
-package ch.ivyteam.enginecockpit.security.identity;
+package ch.ivyteam.enginecockpit.dynamic.config;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.enginecockpit.security.identity.ConfigProperty.KeyValueProperty;
+import ch.ivyteam.enginecockpit.dynamic.config.ConfigProperty.KeyValueProperty;
 
 @ManagedBean
 @ViewScoped
-public class IdentityProviderListDialogBean {
+public class DynamicConfigListDialogBean {
 
   private KeyValueProperty property;
 

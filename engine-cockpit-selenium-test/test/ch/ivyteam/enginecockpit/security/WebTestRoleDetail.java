@@ -1,7 +1,5 @@
 package ch.ivyteam.enginecockpit.security;
 
-import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemLdap.DIRECTORY_BROWSER_DIALOG;
-import static ch.ivyteam.enginecockpit.security.WebTestSecuritySystemLdap.DIRECTORY_BROWSER_FORM;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.empty;
@@ -39,6 +37,8 @@ import ch.ivyteam.enginecockpit.util.Table;
 @IvyWebTest
 class WebTestRoleDetail {
 
+  private static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
+  private static final String DIRECTORY_BROWSER_DIALOG = "directoryBrowser:directoryBrowserDialog";
   private static final String ROLE_USERS_TABLE = "usersOfRoleForm:roleUserTable";
   private static final String DETAIL_ROLE_NAME = "boss";
 
@@ -59,22 +59,22 @@ class WebTestRoleDetail {
   void saveRoleInformation() {
     clearRoleInfoInputs();
 
-    $("#roleInformationForm\\:displayName").sendKeys("display");
-    $("#roleInformationForm\\:description").sendKeys("desc");
-    $("#roleInformationForm\\:externalSecurityName").sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
-    $("#roleInformationForm\\:saveRoleInformation").click();
+    $(By.id("roleInformationForm:displayName")).sendKeys("display");
+    $(By.id("roleInformationForm:description")).sendKeys("desc");
+    $(By.id("roleInformationForm:externalSecurityName")).sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
+    $(By.id("roleInformationForm:saveRoleInformation")).click();
 
-    $("#roleInformationForm\\:informationSaveSuccess_container").shouldBe(visible);
+    $(By.id("roleInformationForm:informationSaveSuccess_container")).shouldBe(visible);
     Selenide.refresh();
 
-    $("#roleInformationForm\\:name").shouldBe(exactValue(DETAIL_ROLE_NAME));
-    $("#roleInformationForm\\:displayName").shouldBe(exactValue("display"));
-    $("#roleInformationForm\\:description").shouldBe(exactValue("desc"));
-    $("#roleInformationForm\\:parentRole").shouldBe(exactValue("Everybody"));
+    $(By.id("roleInformationForm:name")).shouldBe(exactValue(DETAIL_ROLE_NAME));
+    $(By.id("roleInformationForm:displayName")).shouldBe(exactValue("display"));
+    $(By.id("roleInformationForm:description")).shouldBe(exactValue("desc"));
+    $(By.id("roleInformationForm:parentRole")).shouldBe(exactValue("Everybody"));
 
-    $("#roleInformationForm\\:externalSecurityName").shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
+    $(By.id("roleInformationForm:externalSecurityName")).shouldBe(exactValue("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
     clearRoleInfoInputs();
-    $("#roleInformationForm\\:saveRoleInformation").click();
+    $(By.id("roleInformationForm:saveRoleInformation")).click();
   }
 
   @Test
@@ -150,12 +150,12 @@ class WebTestRoleDetail {
 
   @Test
   void createNewChildRoleWithSameNameAsExisting() {
-    $("#roleInformationForm\\:createNewChildRole").shouldBe(visible).click();
-    $("#newChildRoleDialog").shouldBe(visible);
-    $("#newChildRoleForm\\:newChildRoleNameInput").clear();
-    $("#newChildRoleForm\\:newChildRoleNameInput").sendKeys(DETAIL_ROLE_NAME);
-    $("#newChildRoleForm\\:saveNewRole").click();
-    $("#msgs_container").should(visible, text("Role '" + DETAIL_ROLE_NAME + "' couldn't be created"));
+    $(By.id("roleInformationForm:createNewChildRole")).shouldBe(visible).click();
+    $(By.id("newChildRoleDialog")).shouldBe(visible);
+    $(By.id("newChildRoleForm:newChildRoleNameInput")).clear();
+    $(By.id("newChildRoleForm:newChildRoleNameInput")).sendKeys(DETAIL_ROLE_NAME);
+    $(By.id("newChildRoleForm:saveNewRole")).click();
+    $(By.id("msgs_container")).should(visible, text("Role '" + DETAIL_ROLE_NAME + "' couldn't be created"));
   }
 
   @Test
@@ -366,14 +366,14 @@ class WebTestRoleDetail {
 
   @Test
   void externalSecurityName_ldapBrowser() {
-    $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
+    $(By.id("roleInformationForm:browseExternalName")).shouldBe(disabled);
     Navigation.toRoles();
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     Navigation.toRoleDetail("test-ad", "Everybody");
-    $("#roleInformationForm\\:browseExternalName").shouldBe(disabled);
+    $(By.id("roleInformationForm:browseExternalName")).shouldBe(disabled);
     Navigation.toRoles();
     Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
-    $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
+    $(By.id("roleInformationForm:browseExternalName")).shouldNotBe(disabled).click();
 
     $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
     $(DIRECTORY_BROWSER_FORM + "tree\\:0").shouldHave(text("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
@@ -383,9 +383,9 @@ class WebTestRoleDetail {
             .find(text("CN=role1")).click();
     $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
-    $("#directoryBrowser\\:chooseDirectoryName").click();
+    $(By.id("directoryBrowser:chooseDirectoryName")).click();
     $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
-    $("#roleInformationForm\\:externalSecurityName")
+    $(By.id("roleInformationForm:externalSecurityName"))
             .shouldHave(value("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
@@ -394,9 +394,9 @@ class WebTestRoleDetail {
     Navigation.toRoles();
     Tab.SECURITY_SYSTEM.switchToTab("test-ad");
     Navigation.toRoleDetail("test-ad", DETAIL_ROLE_NAME);
-    $("#roleInformationForm\\:externalSecurityName")
+    $(By.id("roleInformationForm:externalSecurityName"))
             .sendKeys("CN=role1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
-    $("#roleInformationForm\\:browseExternalName").shouldNotBe(disabled).click();
+    $(By.id("roleInformationForm:browseExternalName")).shouldNotBe(disabled).click();
 
     $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
     $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
@@ -407,8 +407,8 @@ class WebTestRoleDetail {
   }
 
   private void clearRoleInfoInputs() {
-    $("#roleInformationForm\\:displayName").clear();
-    $("#roleInformationForm\\:description").clear();
-    $("#roleInformationForm\\:externalSecurityName").clear();
+    $(By.id("roleInformationForm:displayName")).clear();
+    $(By.id("roleInformationForm:description")).clear();
+    $(By.id("roleInformationForm:externalSecurityName")).clear();
   }
 }

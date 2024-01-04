@@ -56,7 +56,7 @@ public class WebTestPushNotificationChannel {
     Navigation.toNotificationChannelDetail("mail");
 
     $(By.id("form:state")).$("i.si-remove-circle").shouldBe(Condition.visible);
-    $(By.id("form:state")).$("i.si-button-refresh-arrows").shouldBe(Condition.visible);
+    $(By.id("form:state")).$("i.si-synchronize-arrow-clock").shouldBe(Condition.visible);
     $(By.id("form:state")).click();
     var lockDetails = $(By.id("form:lockDetails"));
     assertLockDetails(lockDetails);

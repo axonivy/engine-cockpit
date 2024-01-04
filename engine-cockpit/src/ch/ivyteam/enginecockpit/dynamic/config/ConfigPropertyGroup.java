@@ -1,4 +1,4 @@
-package ch.ivyteam.enginecockpit.security.identity;
+package ch.ivyteam.enginecockpit.dynamic.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.security.identity.ConfigProperty.KeyValueProperty;
+import ch.ivyteam.enginecockpit.dynamic.config.ConfigProperty.KeyValueProperty;
 
 public class ConfigPropertyGroup {
 

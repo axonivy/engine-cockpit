@@ -24,13 +24,13 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 @IvyWebTest
 public class WebTestSecuritySystemLdap {
 
-  private static final String DEFAULT_CONTEXT = "securityIdentityProviderForm:group:1:property:0:propertyString";
+  private static final String DEFAULT_CONTEXT = "identityProvider:dynamicConfigForm:group:1:property:0:propertyString";
 
-  private static final String SAVE_CONNECTION_BTN = "securityIdentityProviderForm:group:0:save";
-  private static final String CONNECTION_SAVE_GRWOL = "#securityIdentityProviderForm\\:securityIdentityProviderSaveSuccess_container";
-  private static final String URL = "securityIdentityProviderForm:group:0:property:0:propertyString";
-  public static final String DIRECTORY_BROWSER_DIALOG = "directoryBrowser:directoryBrowserDialog";
-  public static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
+  private static final String SAVE_CONNECTION_BTN = "identityProvider:dynamicConfigForm:group:0:save";
+  private static final String CONNECTION_SAVE_GRWOL = "#identityProvider\\:dynamicConfigForm\\:dynamicConfigFormSaveSuccess_container";
+  private static final String URL = "identityProvider:dynamicConfigForm:group:0:property:0:propertyString";
+  private static final String DIRECTORY_BROWSER_DIALOG = "directoryBrowser:directoryBrowserDialog";
+  private static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
   private static final String DIRECTORY_BROWSER_CHOOSE = "directoryBrowser:chooseDirectoryName";
 
   @BeforeEach
@@ -57,7 +57,7 @@ public class WebTestSecuritySystemLdap {
 
   @Test
   void adldapBrowser_chooseDefaultContext() {
-    $(By.id("securityIdentityProviderForm:group:1:property:0:browseDefaultContext"))
+    $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory"))
       .should(visible).click();
     $(By.id("directoryBrowser:directoryBrowserForm:tree:0"))
       .should(visible);
@@ -67,7 +67,7 @@ public class WebTestSecuritySystemLdap {
 
     $(By.id("directoryBrowser:cancelDirectoryBrowser")).should(visible);
     $(By.id("directoryBrowser:chooseDirectoryName")).should(visible).click();
-    $(By.id("securityIdentityProviderForm:group:1:property:0:propertyString"))
+    $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:propertyString"))
       .shouldHave(value("CN=fullusername1,OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan"));
   }
 
@@ -77,7 +77,7 @@ public class WebTestSecuritySystemLdap {
     saveConnection();
 
     $(By.id(DEFAULT_CONTEXT)).clear();
-    $(By.id("securityIdentityProviderForm:group:1:save")).click();
+    $(By.id("identityProvider:dynamicConfigForm:group:1:save")).click();
 
     openDefaultLdapBrowser();
     $(By.id(DIRECTORY_BROWSER_CHOOSE)).shouldHave(cssClass("ui-state-disabled"));
@@ -87,7 +87,7 @@ public class WebTestSecuritySystemLdap {
     saveConnection();
 
     $(By.id(DEFAULT_CONTEXT)).sendKeys("OU=IvyTeam Test-OU,DC=zugtstdomain,DC=wan");
-    $(By.id("securityIdentityProviderForm:group:1:save")).click();
+    $(By.id("identityProvider:dynamicConfigForm:group:1:save")).click();
   }
 
   @Nested
@@ -111,10 +111,9 @@ public class WebTestSecuritySystemLdap {
         .shouldHave(text("cn=role1")).click();
       $(By.id(DIRECTORY_BROWSER_CHOOSE)).scrollTo().click();
       $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
-      $(By.id("securityIdentityProviderForm:group:1:property:0:propertyString"))
+      $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:propertyString"))
         .shouldBe(exactValue("cn=role1,ou=IvyTeam Test-OU,o=zugtstorg"));
     }
-
   }
 
   private void saveConnection() {
@@ -124,7 +123,7 @@ public class WebTestSecuritySystemLdap {
   }
 
   private void openDefaultLdapBrowser() {
-    $(By.id("securityIdentityProviderForm:group:1:property:0:browseDefaultContext")).shouldBe(visible).click();
+    $(By.id("identityProvider:dynamicConfigForm:group:1:property:0:browseDirectory")).shouldBe(visible).click();
     $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
   }
 
