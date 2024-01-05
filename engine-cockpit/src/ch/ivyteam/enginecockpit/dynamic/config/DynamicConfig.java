@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.ivy.configuration.configurator.Config;
 import ch.ivyteam.ivy.configuration.configurator.Configurator;
 import ch.ivyteam.ivy.configuration.configurator.ConfiguratorMetadataProvider;
 import ch.ivyteam.ivy.configuration.meta.Metadata;
@@ -61,35 +61,15 @@ public class DynamicConfig {
   public static class Builder {
 
     private Configurator configurator;
-
-    private Function<String, String> getter;
-    private BiConsumer<ConfigKey, String> setter;
-
-    private Function<String, Map<String, String>> keyValueGetter;
-    private BiConsumer<String, Map<String, String>> keyValueSetter;
+    private Config config;
 
     public Builder configurator(Configurator configurator) {
       this.configurator = configurator;
       return this;
     }
 
-    public Builder getter(Function<String, String> getter) {
-      this.getter = getter;
-      return this;
-    }
-
-    public Builder setter(BiConsumer<ConfigKey, String> setter) {
-      this.setter = setter;
-      return this;
-    }
-
-    public Builder keyValueGetter(Function<String, Map<String, String>> keyValueGetter) {
-      this.keyValueGetter = keyValueGetter;
-      return this;
-    }
-
-    public Builder keyValueSetter(BiConsumer<String, Map<String, String>> keyValueSetter) {
-      this.keyValueSetter = keyValueSetter;
+    public Builder config(Config config) {
+      this.config = config;
       return this;
     }
 
@@ -98,18 +78,18 @@ public class DynamicConfig {
               .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
               .collect(Collectors.toList());
       var propertyGroups = ConfigPropertyGroup.toGroups(properties);
-      return new DynamicConfig(propertyGroups, setter);
+      return new DynamicConfig(propertyGroups, config::setProperty);
     }
 
     private ConfigProperty toConfigProperty(String key, Metadata metadata) {
       var value = "";
       Map<String, String> keyValue = Map.of();
       if (metadata.isKeyValue()) {
-        keyValue = new HashMap<>(keyValueGetter.apply(key));
+        keyValue = new HashMap<>(config.getPropertyAsKeyValue(key));
       } else {
-        value = getter.apply(key);
+        value = config.getProperty(key);
       }
-      return new ConfigProperty(keyValueSetter, key, value, keyValue, metadata);
+      return new ConfigProperty(config::setProperty, key, value, keyValue, metadata);
     }
   }
 }
