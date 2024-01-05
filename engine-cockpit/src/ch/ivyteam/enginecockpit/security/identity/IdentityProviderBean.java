@@ -44,7 +44,8 @@ public class IdentityProviderBean {
       .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
       .collect(Collectors.toList());
     var propertyGroups = ConfigPropertyGroup.toGroups(properties);
-    this.dynamicConfig = new DynamicConfig(propertyGroups, securityContext);
+    var cfg = ((SecurityContext) securityContext).config();
+    this.dynamicConfig = new DynamicConfig(propertyGroups, cfg.identity()::setProperty);
     this.browserBean = new DirectoryBrowserBean();
   }
 

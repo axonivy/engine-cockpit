@@ -19,8 +19,6 @@ public class ConfigProperty {
   private String value;
   private final Metadata metadata;
   private final String label;
-
-  // encapsulate the special handling for a key value property
   private final KeyValueProperty keyValueProperty;
 
   public ConfigProperty(BiConsumer<String, Map<String, String>> keyValueSaver, String key, String value, Map<String, String> keyValue, Metadata metadata) {
@@ -41,7 +39,8 @@ public class ConfigProperty {
       return Arrays.stream(key.split(".")).collect(Collectors.joining(" "));
     }
     if (key.contains(".")) {
-      return StringUtils.substringAfter(key, ".");
+      var subKey = StringUtils.substringAfter(key, ".");
+      return subKey.replace(".", " ");
     }
     return key;
   }

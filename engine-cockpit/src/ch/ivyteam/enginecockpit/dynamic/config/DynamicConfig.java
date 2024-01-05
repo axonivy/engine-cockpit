@@ -1,36 +1,35 @@
 package ch.ivyteam.enginecockpit.dynamic.config;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.ivy.security.ISecurityContext;
-import ch.ivyteam.ivy.security.internal.context.SecurityContext;
+import ch.ivyteam.ivy.configuration.restricted.ConfigKey;
 
+@SuppressWarnings("restriction")
 public class DynamicConfig {
 
-  private ISecurityContext securityContext;
   private List<ConfigPropertyGroup> groups;
+  private BiConsumer<ConfigKey, String> saver;
 
-  public DynamicConfig(List<ConfigPropertyGroup> groups, ISecurityContext securityContext) {
+  public DynamicConfig(List<ConfigPropertyGroup> groups, BiConsumer<ConfigKey, String> saver) {
     this.groups = groups;
-    this.securityContext = securityContext;
+    this.saver = saver;
   }
 
   public List<ConfigPropertyGroup> getGroups() {
     return groups;
   }
 
-  @SuppressWarnings("restriction")
   public void save(ConfigPropertyGroup group) {
-    var cfg = ((SecurityContext) securityContext).config();
-    var gKey = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create(group.getName());
+    var gKey = ConfigKey.create(group.getName());
     for (var p : group.getProperties()) {
-      var shortKey = StringUtils.substringAfter(p.getName(), group.getName()+".");
-      var pKey = ch.ivyteam.ivy.configuration.restricted.ConfigKey.create(p.getName());
+      var shortKey = StringUtils.substringAfter(p.getName(), group.getName() + ".");
+      var pKey = ConfigKey.create(p.getName());
       if (!shortKey.isBlank()) {
         pKey = gKey.append(shortKey);
       }
@@ -40,7 +39,7 @@ public class DynamicConfig {
         var next = shortKey.substring(separator+1);
         pKey = gKey.append(before).append(next);
       }
-      cfg.identity().setProperty(pKey, p.getValue());
+      saver.accept(pKey, p.getValue());
     }
     message();
   }
