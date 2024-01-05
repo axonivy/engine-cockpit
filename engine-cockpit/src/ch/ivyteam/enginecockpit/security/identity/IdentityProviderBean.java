@@ -36,10 +36,7 @@ public class IdentityProviderBean {
     var idp = ((SecurityContext) securityContext).config().identity();
     this.dynamicConfig = DynamicConfig.create()
             .configurator(configurator)
-            .getter(idp::getProperty)
-            .setter(idp::setProperty)
-            .keyValueGetter(idp::getPropertyAsKeyValue)
-            .keyValueSetter(idp::setProperty)
+            .config(idp)
             .toDynamicConfig();
     this.browserBean = new DirectoryBrowserBean();
   }

@@ -11,7 +11,6 @@ import ch.ivyteam.enginecockpit.services.notification.NotificationChannelDto.Not
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
 
-@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class NotificationChannelDetailBean {
@@ -65,8 +64,7 @@ public class NotificationChannelDetailBean {
     liveStats = new NotificationChannelMonitor(securityContext, this.channelId, channel.getDisplayName());
     dynamicConfig = DynamicConfig.create()
             .configurator(notificationChannel.configurator())
-            .getter(key -> channel.getConfig().config().getProperty(key))
-            .setter((key, value) -> channel.getConfig().config().setProperty(key.unquoted(), value))
+            .config(channel.getConfig().config())
             .toDynamicConfig();
   }
 
