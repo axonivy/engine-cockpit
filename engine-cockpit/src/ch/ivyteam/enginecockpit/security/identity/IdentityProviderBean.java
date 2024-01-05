@@ -1,21 +1,14 @@
 package ch.ivyteam.enginecockpit.security.identity;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.api.API;
 import ch.ivyteam.enginecockpit.dynamic.config.ConfigProperty;
-import ch.ivyteam.enginecockpit.dynamic.config.ConfigPropertyGroup;
 import ch.ivyteam.enginecockpit.dynamic.config.DynamicConfig;
 import ch.ivyteam.enginecockpit.dynamic.config.DynamicConfigListDialogBean;
 import ch.ivyteam.enginecockpit.security.directory.DirectoryBrowserBean;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
-import ch.ivyteam.ivy.configuration.configurator.ConfiguratorMetadataProvider;
-import ch.ivyteam.ivy.configuration.meta.Metadata;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.identity.core.config.IdpConfig;
 import ch.ivyteam.ivy.security.identity.spi.IdentityProvider;
@@ -40,12 +33,14 @@ public class IdentityProviderBean {
     securityContext = (ISecurityContextInternal) ISecurityManager.instance().securityContexts().get(securitySystemName);
     identityProvider = securityContext.identityProviders().get(0);
     var configurator = identityProvider.configurator();
-    var properties = new ConfiguratorMetadataProvider(configurator).get().entrySet().stream()
-      .map(entry -> toConfigProperty(entry.getKey(), entry.getValue()))
-      .collect(Collectors.toList());
-    var propertyGroups = ConfigPropertyGroup.toGroups(properties);
-    var cfg = ((SecurityContext) securityContext).config();
-    this.dynamicConfig = new DynamicConfig(propertyGroups, cfg.identity()::setProperty);
+    var idp = ((SecurityContext) securityContext).config().identity();
+    this.dynamicConfig = DynamicConfig.create()
+            .configurator(configurator)
+            .getter(idp::getProperty)
+            .setter(idp::setProperty)
+            .keyValueGetter(idp::getPropertyAsKeyValue)
+            .keyValueSetter(idp::setProperty)
+            .toDynamicConfig();
     this.browserBean = new DirectoryBrowserBean();
   }
 
@@ -67,18 +62,6 @@ public class IdentityProviderBean {
 
   public DynamicConfig getDynamicConfig() {
     return dynamicConfig;
-  }
-
-  private ConfigProperty toConfigProperty(String key, Metadata metadata) {
-    var config = getIdpConfig();
-    var value = "";
-    Map<String, String> keyValue = Map.of();
-    if (metadata.isKeyValue()) {
-      keyValue = new HashMap<>(config.getPropertyAsKeyValue(key));
-    } else {
-      value = config.getProperty(key);
-    }
-    return new ConfigProperty(config::setProperty, key, value, keyValue, metadata);
   }
 
   public void browseProperty(ConfigProperty property) {
