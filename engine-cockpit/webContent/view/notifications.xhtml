@@ -62,6 +62,17 @@
                 </p:link>
               </p:column>
 
+              <p:column headerText="PMV">
+                <p:link rendered="#{not empty notification.pmvUri}" href="#{notification.pmvUri}">
+                  <i class="si-#{notification.pmvIcon} table-icon"/>
+                  <h:outputText value="#{notification.pmv}" />
+                </p:link>
+              </p:column>
+
+              <p:column headerText="Template">
+                <h:outputText value="#{notification.template}" />
+              </p:column>
+
               <p:column styleClass="table-btn-1">
                 <p:commandButton id="showPayload" title="Show payload" icon="si si-office-file-doc-1"
                     actionListener="#{notificationPayloadBean.setNotification(notification)}" update="payloadModal" styleClass="rounded-button"

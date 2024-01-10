@@ -50,11 +50,13 @@ class WebTestNotification {
     notifications.tableEntry(1, 1).should(matchText(".*-.*-.*"));
     notifications.tableEntry(1, 3).should(text("new-task"));
     notifications.tableEntry(1, 4).should(text("Everybody"));
+    notifications.tableEntry(1, 5).should(text("engine-cockpit-test-data$1"));
+    notifications.tableEntry(1, 6).should(text("Default"));
 
     var uuid = notifications.tableEntry(1, 1).text();
     notifications.search(uuid);
     notifications.rows().should(size(1));
-    notifications.tableEntry(1, 5).click();
+    notifications.tableEntry(1, 7).click();
     $(By.id("payloadModal"))
             .should(visible)
             .should(text("taskId"));
@@ -66,6 +68,13 @@ class WebTestNotification {
     var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
     notifications.tableEntry(1, 4).$("a").should(text("Everybody")).click();
     Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("roledetail.xhtml"));
+  }
+
+  @Test
+  void notifications_pmv() {
+    var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
+    notifications.tableEntry(1, 5).$("a").should(text("engine-cockpit-test-data$1")).click();
+    Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("pmv-detail.xhtml"));
   }
 
   @Test
