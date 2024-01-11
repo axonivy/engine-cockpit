@@ -32,7 +32,7 @@ public class KeyStoreBean implements SslTableStore {
   private String type;
   private String algorithm;
   private boolean tlsTestRendered = false;
-
+  private List<TLSTestData> testResult;
 
   public KeyStoreBean() {
     this.store = SslClientSettings.instance().getKeyStore();
@@ -167,9 +167,13 @@ public class KeyStoreBean implements SslTableStore {
     return tlsTestRendered;
   }
 
-  public List<TLSTestData> testConnection(String targetUri) {
+  public void testConnection(String targetUri) {
     tlsTestRendered = true;
-    return getKeyStoreUtils().testConnection(targetUri);
+    testResult = getKeyStoreUtils().testConnection(targetUri);
+  }
+
+  public List<TLSTestData> getTestResult() {
+    return testResult;
   }
 
 }
