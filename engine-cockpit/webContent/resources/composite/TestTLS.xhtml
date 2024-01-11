@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+</cc:interface>
+<cc:implementation>
+  <p:dialog style="max-width: 500px; max-height: 200px"
+    header="TLS Test connection" id="testTLSResult"
+    widgetVar="testTLSResult" modal="true" responsive="true"
+    closeOnEscape="true">
+    <ui:composition>
+      <h:form id="form">
+        <p:outputLabel value="TLS Target URI" for="targetUri" />
+        <p:inputText value="#{url}" id="targetUri" disabled="true" />
+        <p:dataTable value="#{bean.testConnection(url)}" var="logEntry"
+          rowKey="#{logEntry.result == 0 ? 'fail' : (logEntry.result == 1 ? 'success' : 'info')}"
+          id="logList" lazy="false" scrollable="true" scrollWidth="100%"
+          scrollHeight="250">
+          <p:column
+            style="background-color: #{logEntry.result == 2 ? 'grey' : ''}">
+            <p:rowToggler rendered="#{logEntry.result != 2}"/>
+          </p:column>
+          <p:column width="30%" headerText="Log Group"
+            style="background-color: #{logEntry.result == 2 ? 'grey' : ''}">
+            <h:outputText value="#{logEntry.group}"></h:outputText>
+          </p:column>
+          <p:column headerText="Execution Success"
+            style="background-color: #{logEntry.result == 2 ? 'grey' : ''}">
+            <h:outputText
+              styleClass="fa fa-fw fa-2x #{logEntry.result == 0 ? 'fa-close' : (logEntry.result == 1 ? 'fa-check-square-o' : 'fa-info')}"
+              style="float:left; color: #{logEntry.result == 0 ? 'red' : (logEntry.result == 1 ? 'green' : 'grey')};" />
+          </p:column>
+          <p:column
+            style="width:40px;text-align:center;background-color: #{logEntry.result == 2 ? 'grey' : ''}"
+            id="groupInfo">
+            <i class="si si-question-circle"></i>
+            <p:tooltip for="groupInfo" value="#{logEntry.groupInfo}" />
+          </p:column>
+          <p:rowExpansion>
+            <p:repeat value="#{logEntry.entryList}" var="logDataEntry"
+              id="logDataList">
+              <h:panelGrid style="height:10px" columns="1">
+                <h:outputText value="#{logDataEntry}" style="height:0px" />
+              </h:panelGrid>
+            </p:repeat>
+          </p:rowExpansion>
+        </p:dataTable>
+        <h:panelGrid columns="2">
+          <f:facet name="header">
+            <p:messages></p:messages>
+          </f:facet>
+
+          <br />
+          <p:commandButton onclick="PF('testTLSResult').hide();"
+            value="Finished" update="form" icon="ui-icon-check" />
+        </h:panelGrid>
+      </h:form>
+    </ui:composition>
+  </p:dialog>
+</cc:implementation>
+</html>
