@@ -163,17 +163,21 @@ public class KeyStoreBean implements SslTableStore {
     return Uri.startsWith("https");
   }
 
-  public boolean getTlsTestRendered() {
-    return tlsTestRendered;
-  }
-
   public void testConnection(String targetUri) {
-    tlsTestRendered = true;
+    setTlsTestRendered(true);
     testResult = getKeyStoreUtils().testConnection(targetUri);
   }
 
   public List<TLSTestData> getTestResult() {
     return testResult;
+  }
+
+  public boolean isTlsTestRendered() {
+    return tlsTestRendered;
+  }
+
+  public void setTlsTestRendered(boolean tlsTestRendered) {
+    this.tlsTestRendered = tlsTestRendered;
   }
 
 }
