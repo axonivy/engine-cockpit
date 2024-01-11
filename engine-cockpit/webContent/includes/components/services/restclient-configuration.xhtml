@@ -59,7 +59,7 @@
   </h:form>
 </div>
 
-<cc:ConnectionTestResult result="#{restClientDetailBean.result}" url="#{restClientDetailBean.restClient.connectionUrl}"
+<cc:ConnectionTestResult bean="#{keyStoreBean}" result="#{restClientDetailBean.result}" url="#{restClientDetailBean.restClient.connectionUrl}"
   testMethod="#{restClientDetailBean.testRestConnection()}" id="connResult" reset="#{restClientDetailBean.reset()}"/>
 
 </html>
