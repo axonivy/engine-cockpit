@@ -57,6 +57,10 @@ public class LogView {
     return logFile.name();
   }
 
+  public String getChannel() {
+    return logFile.channel();
+  }
+
   private String readContent() {
     var lines = readFileLines();
     if (lines.isEmpty()) {
@@ -120,11 +124,11 @@ public class LogView {
   @SuppressWarnings("hiding")
   public static class LogViewUriBuilder {
 
-    private String file;
+    private String channel;
     private String date;
 
-    public LogViewUriBuilder file(String file) {
-      this.file = file;
+    public LogViewUriBuilder channel(String channel) {
+      this.channel = channel;
       return this;
     }
 
@@ -134,7 +138,7 @@ public class LogView {
     }
 
     public String toUri() {
-      var builder = UriBuilder.fromPath("logs.xhtml").queryParam("file", file);
+      var builder = UriBuilder.fromPath("logs.xhtml").queryParam("channel", channel);
       if (date != null) {
         builder.queryParam("date", date.toString());
       }

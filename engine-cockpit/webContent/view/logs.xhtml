@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
   <f:metadata>
-    <f:viewParam name="file" value="#{logBean.file}" />
+    <f:viewParam name="channel" value="#{logBean.channel}" />
     <f:viewParam name="date" value="#{logBean.date}" />
     <f:viewAction action="#{logBean.onload}" />
   </f:metadata>
@@ -33,14 +33,14 @@
       <div class="layout-dashboard">
         <div class="card">
           <div class="card-header">
-            <div class="card-title p-d-flex p-ai-center">
-              <i class="p-pr-3 si si-common-file-text"></i>
-              <h2 class="p-m-0">Logs</h2>
-              <div class="p-ml-auto">
-                <h:form id="logChooserForm">
-                  <p:calendar styleClass="p-ml-1"
-                    inputStyle="width:100px;vertical-align: middle;"
-                    id="calendar" value="#{logBean.localDate}"
+            <div class="card-title">
+              <h:form id="logChooserForm">
+                <div class="p-d-flex p-ai-center">
+                  <i class="p-pr-3 si si-common-file-text"></i>
+                  <h2 class="p-m-0">Logs</h2>
+                  <p:calendar  id="calendar" styleClass="p-ml-auto" 
+                    inputStyle="width:100px;"
+                    value="#{logBean.localDate}"
                     showOn="button" pattern="yyyy-MM-dd"
                     maxdate="#{logBean.today}">
                     <p:ajax event="dateSelect"
@@ -48,15 +48,15 @@
                   </p:calendar>
 
                   <p:selectOneMenu id="logFiles" styleClass="p-ml-3"
-                    value="#{logBean.file}">
+                    value="#{logBean.channel}">
                     <f:selectItems value="#{logBean.logs}" var="log"
                       itemLabel="#{log.fileName} (#{log.size})"
-                      itemValue="#{log.fileName}" />
+                      itemValue="#{log.channel}" />
                     <p:ajax event="change"
                       listener="#{logBean.navigate}"></p:ajax>
                   </p:selectOneMenu>
-                </h:form>
-              </div>
+                </div>
+              </h:form>
             </div>
           </div>
 
