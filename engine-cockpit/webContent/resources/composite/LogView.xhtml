@@ -27,7 +27,7 @@
         </p:commandLink>
       </h:form>
     </f:facet>
-    <pre id="scrollLog" style="max-height: 800px; overflow-x: auto; margin: 0;"><h:outputText value="#{cc.attrs.log.content}"/></pre>
+    <pre id="scrollLog" style="max-height: calc(100vh - 300px); overflow-x: auto; margin: 0;"><h:outputText value="#{cc.attrs.log.content}"/></pre>
     <script type="text/javascript">
       // scroll at the end by default
       let objDiv = document.getElementById("scrollLog");

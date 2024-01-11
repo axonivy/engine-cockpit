@@ -1,10 +1,12 @@
 package ch.ivyteam.enginecockpit.security;
 
 import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.security.model.MemberProperty;
 import ch.ivyteam.enginecockpit.security.model.NotificationChannelDataModel;
@@ -41,10 +43,6 @@ public class UserDetailBean {
   private NotificationChannelDataModel notificationChannelDataModel;
 
   private UserSynch userSynch;
-
-  public UserDetailBean() {
-    userProperties = new MemberProperty().new UserProperty();
-  }
 
   public UserSynch getUserSynch() {
     return userSynch;
@@ -98,6 +96,8 @@ public class UserDetailBean {
     canWorkOn = TaskQuery.create(taskQueryExecutor).where().canWorkOn(iUser).executor().count();
 
     notificationChannelDataModel = NotificationChannelDataModel.instance(iUser, securityContext);
+    userProperties = new MemberProperty().new UserProperty();
+    userProperties.setMemberName(userName);
   }
 
   public User getUser() {

@@ -55,9 +55,9 @@ class WebTestLogs {
   }
 
   @Test
-  void changeFile() {
+  void changeChannel() {
     var menu = new SelectOneMenu(By.id("logChooserForm:logFiles"));
-    menu.selectItemByValue("deprecation.log");
+    menu.selectItemByValue("deprecation");
     $$(".ui-panel-titlebar").find(text("deprecation.log")).shouldBe(visible);
   }
 }
