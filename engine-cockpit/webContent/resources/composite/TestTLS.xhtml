@@ -15,7 +15,7 @@
     closeOnEscape="true">
     <ui:composition>
       <h:form id="form">
-        <p:dataTable value="#{tlsTesterBean.testResult}" var="logEntry"
+        <p:dataTable value="#{bean.testResult}" var="logEntry"
           rowKey="#{logEntry.result == 0 ? 'fail' : (logEntry.result == 1 ? 'success' : 'info')}"
           id="logList" lazy="false" scrollable="true" scrollWidth="100%"
           scrollHeight="250">
