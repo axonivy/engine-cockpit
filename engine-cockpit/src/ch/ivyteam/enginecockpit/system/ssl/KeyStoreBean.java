@@ -159,6 +159,10 @@ public class KeyStoreBean implements SslTableStore {
     return new KeyStoreUtils(file, type, provider, password);
   }
 
+  public boolean isHttps(String Uri) {
+    return Uri.startsWith("https");
+  }
+
   public boolean getTlsTestRendered() {
     return tlsTestRendered;
   }
