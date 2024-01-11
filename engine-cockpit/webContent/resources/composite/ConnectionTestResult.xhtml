@@ -20,11 +20,11 @@
           style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
         <pre style="max-height: 200px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
         </p:panelGrid>
-         <p:panelGrid columns="1" layout="flex" id="resultTLS" styleClass="ui-fluid" rendered="#{cc.attrs.bean.tlsTestRendered}">
-       <ui:include src="/resources/composite/TestTLS.xhtml">
-        <ui:param name="bean" value="#{cc.attrs.bean}" />
-        <ui:param name="url" value="#{cc.attrs.url}" />
-        </ui:include>
+        <p:panelGrid columns="1" layout="flex" id="resultTLS" styleClass="ui-fluid" rendered="#{cc.attrs.bean.tlsTestRendered}">
+          <ui:include src="/resources/composite/TestTLS.xhtml">
+            <ui:param name="bean" value="#{cc.attrs.bean}" />
+            <ui:param name="url" value="#{cc.attrs.url}" />
+          </ui:include>
         </p:panelGrid>
       <div class="custom-dialog-footer">
         <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide(); #{cc.attrs.reset};" value="Close" type="button"
@@ -36,9 +36,10 @@
         <p:commandButton id="testConnectionBtn" title="Test Connection" update="@form" value="Test Rest Connection"
           icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}"
           immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" />
-        <p:commandButton id="test" title="Test" icon="si si-arrow-right" value="TLS Test"
+        <p:commandButton id="test" title="Test" rendered="#{cc.attrs.bean.isHttps(cc.attrs.url)}"
+           icon="si si-arrow-right" value="TLS Test"
            update="connTestForm" styleClass="modal-input-button"
-           actionListener="#{cc.attrs.bean.testConnection(url)}"
+           actionListener="#{cc.attrs.bean.testConnection(cc.attrs.url)}"
             />
       </div>
     </h:form>
