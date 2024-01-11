@@ -14,6 +14,7 @@ import org.apache.commons.lang3.SystemUtils;
 
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
+import ch.ivyteam.ivy.server.restricted.EngineMode;
 
 @ManagedBean
 @SuppressWarnings("restriction")
@@ -89,6 +90,9 @@ public class RestartBean {
       return "disabled".equalsIgnoreCase(restart.get());
     }
     if (isRunningInContainer()) {
+      return true;
+    }
+    if (EngineMode.isEmbeddedInDesigner()) {
       return true;
     }
     return false;
