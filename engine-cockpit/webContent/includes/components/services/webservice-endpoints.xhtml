@@ -64,7 +64,7 @@
   </p:dialog>
 </div>
 
-<cc:ConnectionTestResult result="#{webserviceDetailBean.result}" url="#{webserviceDetailBean.activeEndpoint}"
+<cc:ConnectionTestResult bean="#{keyStoreBean}" result="#{webserviceDetailBean.result}" url="#{webserviceDetailBean.activeEndpoint}"
   testMethod="#{webserviceDetailBean.testWsEndpointUrl()}" id="connResult" saveHint="true" />
 
 </html>
