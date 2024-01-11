@@ -4,12 +4,9 @@ import java.io.InputStream;
 import java.security.KeyStoreException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.ivyteam.ivy.ssl.restricted.IvyKeystore;
-import ch.ivyteam.ivy.ssl.restricted.tester.TLSTest;
-import ch.ivyteam.ivy.ssl.restricted.tester.TLSTestData;
 import ch.ivyteam.log.Logger;
 
 class KeyStoreUtils {
@@ -69,13 +66,6 @@ class KeyStoreUtils {
     } catch (Exception ex) {
       LOGGER.error("failed to delete " + alias, ex);
     }
-  }
-
-  public List<TLSTestData> testConnection(String targetUri) {
-    List<TLSTestData> data = new ArrayList<>();
-    TLSTest test = new TLSTest(data, targetUri);
-    test.runTLSTests();
-    return data;
   }
 
 }
