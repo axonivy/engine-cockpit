@@ -148,6 +148,6 @@ public class SecurityBean {
   }
 
   public String getSynchLogUri() {
-    return LogView.uri().file("usersynch.log").toUri();
+    return LogView.uri().channel("usersynch").toUri();
   }
 }

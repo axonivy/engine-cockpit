@@ -30,15 +30,15 @@ public class LogBean implements AllResourcesDownload {
 
   private List<LogView> logs;
   private LocalDate date;
-  private String file;
+  private String channel;
   private LogView logView;
 
-  public void setFile(String file) {
-    this.file = file;
+  public void setChannel(String channel) {
+    this.channel = channel;
   }
 
-  public String getFile() {
-    return file;
+  public String getChannel() {
+    return channel;
   }
 
   public void setDate(String date) {
@@ -80,21 +80,21 @@ public class LogBean implements AllResourcesDownload {
       return;
     }
 
-    if (file == null) {
-      file = logs.get(0).getFileName();
+    if (channel == null) {
+      channel = logs.get(0).getChannel();
     }
 
     logView = logs.stream()
-            .filter(l -> l.getFileName().equals(file))
+            .filter(l -> l.getChannel().equals(channel))
             .findAny()
             .orElse(null);
     if (logView == null) {
-      ResponseHelper.notFound("Log " + file + " does not exist");
+      ResponseHelper.notFound("Log for channel " + channel + " does not exist");
     }
   }
 
   public void navigate() throws IOException {
-    var path = LogView.uri().file(file).date(date).toUri();
+    var path = LogView.uri().channel(channel).date(date).toUri();
     FacesContext.getCurrentInstance().getExternalContext().redirect(path);
   }
 
