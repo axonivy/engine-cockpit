@@ -16,7 +16,6 @@ import org.primefaces.event.FileUploadEvent;
 
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings;
 import ch.ivyteam.ivy.ssl.restricted.SslClientSettings.KeyStoreConfig;
-import ch.ivyteam.ivy.ssl.restricted.tester.TLSTestData;
 
 @ManagedBean
 @ViewScoped
@@ -31,8 +30,7 @@ public class KeyStoreBean implements SslTableStore {
   private String provider;
   private String type;
   private String algorithm;
-  private boolean tlsTestRendered = false;
-  private List<TLSTestData> testResult;
+
 
   public KeyStoreBean() {
     this.store = SslClientSettings.instance().getKeyStore();
@@ -157,27 +155,6 @@ public class KeyStoreBean implements SslTableStore {
 
   private KeyStoreUtils getKeyStoreUtils() {
     return new KeyStoreUtils(file, type, provider, password);
-  }
-
-  public boolean isHttps(String Uri) {
-    return Uri.startsWith("https");
-  }
-
-  public void testConnection(String targetUri) {
-    setTlsTestRendered(true);
-    testResult = getKeyStoreUtils().testConnection(targetUri);
-  }
-
-  public List<TLSTestData> getTestResult() {
-    return testResult;
-  }
-
-  public boolean isTlsTestRendered() {
-    return tlsTestRendered;
-  }
-
-  public void setTlsTestRendered(boolean tlsTestRendered) {
-    this.tlsTestRendered = tlsTestRendered;
   }
 
 }
