@@ -36,4 +36,26 @@ public class TlsTesterBean {
   public void setTlsTestRendered(boolean tlsTestRendered) {
     this.tlsTestRendered = tlsTestRendered;
   }
+
+  public boolean isExecuted(String logEntry) {
+    return !logEntry.contains("2");
+}
+
+  public String backgroundColor(String logEntry) {
+    if (logEntry.contains("2")) {
+      return "unused-column";
+    }
+    return "";
+  }
+
+  public String icon(String result) {
+    if(result.contains("0")){
+      return "check-circle-1 state-active";
+    } else if(result.contains("1")) {
+      return "remove-circle state-inactive";
+    } else {
+      return "question-circle state-unused";
+    }
+  }
+
 }
