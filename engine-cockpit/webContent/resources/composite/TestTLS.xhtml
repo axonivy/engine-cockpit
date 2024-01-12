@@ -16,25 +16,24 @@
     <ui:composition>
       <h:form id="form">
         <p:dataTable value="#{tlsTesterBean.testResult}" var="logEntry"
-          rowKey="#{logEntry.result == 0 ? 'fail' : (logEntry.result == 1 ? 'success' : 'info')}"
+          rowKey="#{logEntry.result}"
           id="logList" lazy="false" scrollable="true" scrollWidth="100%"
           scrollHeight="250"/>
           <p:column width="30px"
-            style="background-color: #{logEntry.result == 2 ? 'grey' : ''}">
-            <p:rowToggler rendered="#{logEntry.result != 2}"/>
+          styleClass=" #{tlsTesterBean.backgroundColor(logEntry.result)}">
+            <p:rowToggler rendered="#{tlsTesterBean.isExecuted(logEntry.result)}"/>
           </p:column>
           <p:column headerText="Tests"
-            style="background-color: #{logEntry.result == 2 ? 'grey' : ''}">
+            styleClass=" #{tlsTesterBean.backgroundColor(logEntry.result)}">
             <h:outputText value="#{logEntry.group}"></h:outputText>
             <h:panelGroup id="info">
               <i class="si si-question-circle"></i>
               <p:tooltip for="info" value="#{logEntry.groupInfo}" />
             </h:panelGroup>
           </p:column>
-          <p:column style="background-color: #{logEntry.result == 2 ? 'grey' : ''}">
-            <h:outputText
-              styleClass="fa fa-fw fa-2x #{logEntry.result == 0 ? 'fa-close' : (logEntry.result == 1 ? 'fa-check-square-o' : 'fa-info')}"
-              style="float:left; color: #{logEntry.result == 0 ? 'red' : (logEntry.result == 1 ? 'green' : 'grey')};" />
+          <p:column styleClass="#{tlsTesterBean.backgroundColor(logEntry.result)}">
+            <h:outputText class="si table-icon si-#{tlsTesterBean.icon(logEntry.result)}"
+              style="float:left;"/>
           </p:column>
           <p:rowExpansion>
             <p:repeat value="#{logEntry.entryList}" var="logDataEntry"
