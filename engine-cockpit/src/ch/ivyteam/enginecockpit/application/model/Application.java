@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IApplicationConfigurationManager;
@@ -61,6 +64,24 @@ public class Application extends AbstractActivity {
   @Override
   public boolean isProtected() {
     return getName().equals("designer");
+  }
+  
+  public String getHomeUrl() {
+    return app.getHomeLink().getRelative();
+  }
+  
+  public String getDevWorkflowUrl() {
+    return app.getDevWorkflowLink().getRelative();
+  }
+  
+  public boolean isDisabled() {
+    try {
+      return !app.hasAnyActiveAndReleasedPmv();
+    } catch (Exception ex) {
+      var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot evaluate the state of the application '" + app.getName() + "'", ex.getMessage());
+      FacesContext.getCurrentInstance().addMessage(null, message);
+      return true;
+    }
   }
 
   public String getFileDir() {
