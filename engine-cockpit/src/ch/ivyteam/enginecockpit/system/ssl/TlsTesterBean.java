@@ -21,6 +21,7 @@ public class TlsTesterBean {
   }
 
   public void testConnection(String targetUri) {
+    testResult.clear();
     setTlsTestRendered(true);
     TLSTest test = new TLSTest(testResult, targetUri);
     test.runTLSTests();
