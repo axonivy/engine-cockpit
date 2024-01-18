@@ -14,25 +14,28 @@
     widgetVar="connectionTestModel" modal="true" responsive="false" closeOnEscape="true" >
     <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info" summary="Info" detail="Make sure that you saved your changes before you test the connection." />
     <h:form id="connTestForm" styleClass="custom-dialog-form">
-      <p:panelGrid columns="1" layout="flex" id="resultLog" styleClass="ui-fluid">
-        <h:outputText value="#{cc.attrs.result.testResult}"
-          style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
-        <pre style="max-height: 200px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
-        </p:panelGrid>
-        <p:panelGrid columns="1" layout="flex" id="resultTLS" styleClass="ui-fluid" rendered="#{tlsTesterBean.tlsTestRendered}">
+      <h:panelGrid id="resultLog" columns="1" styleClass="ui-fluid">
+        <h:panelGroup id="resultConnect">
+          <h:outputText value="#{cc.attrs.result.testResult}"
+            style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
+          <pre style="max-height: 200px; overflow: auto; margin: 0;">#{cc.attrs.result.message}</pre>
+        </h:panelGroup>
+        <h:panelGroup id="resultTLS" styleClass="ui-fluid"
+          rendered="#{tlsTesterBean.tlsTestRendered}">
           <ui:include src="/resources/composite/TlsTester.xhtml">
             <ui:param name="url" value="#{cc.attrs.url}" />
           </ui:include>
-        </p:panelGrid>
+        </h:panelGroup>
+      </h:panelGrid>
       <div class="custom-dialog-footer">
         <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide(); #{cc.attrs.reset};" 
         value="Close" type="button"
         styleClass="modal-input-button ui-button-secondary ui-button-flat"/>
-        <p:commandButton id="test" title="TLS Connection Test" rendered="#{tlsTesterBean.isHttps(cc.attrs.url)}"
+        <p:commandButton id="testTlsConectionBtn" title="TLS Connection Test" rendered="#{tlsTesterBean.isHttps(cc.attrs.url)}"
            icon="si si-arrow-right" value="TLS Test"
-           update="connTestForm" styleClass="modal-input-button"
+           update="resultLog" styleClass="modal-input-button"
            actionListener="#{tlsTesterBean.testConnection(cc.attrs.url)}" />
-        <p:commandButton id="testConnectionBtn" title="Test Connection" update="@form" value="Test Rest Connection"
+        <p:commandButton id="testConnectionBtn" title="Test Connection" update="resultConnect,testConnectionBtn" value="Test Rest Connection"
           icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}"
           immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" />
         <p:commandButton id="test" title="Test" rendered="#{cc.attrs.bean.isHttps(cc.attrs.url)}"

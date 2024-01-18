@@ -36,8 +36,7 @@
               style="float:left;"/>
           </p:column>
           <p:rowExpansion>
-            <p:repeat value="#{logEntry.entryList}" var="logDataEntry"
-              id="logDataList">
+            <p:repeat value="#{logEntry.entryList}" var="logDataEntry">
               <h:panelGrid style="height:10px" columns="1">
                 <h:outputText value="#{logDataEntry}" />
               </h:panelGrid>
