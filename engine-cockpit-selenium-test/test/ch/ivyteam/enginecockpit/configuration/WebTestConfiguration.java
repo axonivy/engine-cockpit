@@ -55,6 +55,13 @@ class WebTestConfiguration {
     assertUrlFiltering(filter);
   }
 
+  private void assertUrlFiltering(String filter) {
+    assertCurrentUrlContains("systemconfig.xhtml?filter=" + filter);
+    table = new Table(TABLE_ID, "span");
+    table.searchFilterShould(exactValue(filter));
+    table.firstColumnShouldBe(size(9));
+  }
+
   @Test
   void systemDbConfigUrl() {
     $("#configureSystemDbBtn").shouldBe(visible).click();
@@ -268,13 +275,6 @@ class WebTestConfiguration {
       assertThatConfigEditModalIsVisible(config, "com.axonivy.portal:portal", "default-pages", "auto");
       $(By.id("config:editConfigurationForm:editConfigurationValue")).shouldHave(cssClass("ui-selectonemenu"));
     }
-  }
-
-  private void assertUrlFiltering(String filter) {
-    assertCurrentUrlContains("systemconfig.xhtml?filter=" + filter);
-    table = new Table(TABLE_ID, "span");
-    table.searchFilterShould(exactValue(filter));
-    table.firstColumnShouldBe(size(8));
   }
 
   private void assertSearchConfigEntry() {
