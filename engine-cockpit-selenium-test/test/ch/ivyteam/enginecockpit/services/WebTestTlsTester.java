@@ -27,7 +27,7 @@ class WebTestTlsTester {
   void TestRestConnection() {
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
     $(By.id("connResult:connTestForm:testConnectionBtn")).click();
-    $(By.id("connResult:connTestForm:resultLog_content")).shouldHave(text("error"));
+    $(By.id("connResult:connTestForm:resultConnect")).shouldHave(text("error"));
     $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
   }
 
@@ -37,7 +37,7 @@ class WebTestTlsTester {
     $(By.id("restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8090/api/v3");
     $(By.id("restClientConfigurationForm:saveRestConfig")).click();
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connTestForm:test")).click();
+    $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
     $(By.id("connResult:connTestForm:form:logList")).shouldHave(text("Connect, with Ivy SSLContext "));
   }
 

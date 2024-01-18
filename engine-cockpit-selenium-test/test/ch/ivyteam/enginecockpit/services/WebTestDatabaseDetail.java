@@ -69,7 +69,7 @@ class WebTestDatabaseDetail {
     $("#databaseConfigurationForm\\:testDatabaseBtn").click();
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(expectedLog));
+    $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(expectedLog));
     $("#connResult\\:connectionTestModel .ui-dialog-titlebar-close").click();
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
   }
