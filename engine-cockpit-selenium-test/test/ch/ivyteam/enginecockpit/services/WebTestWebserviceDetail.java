@@ -121,8 +121,8 @@ class WebTestWebserviceDetail {
             "testWsEndpointBtn");
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(title));
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(msg));
+    $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(title));
+    $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(msg));
     $("#connResult\\:connTestForm\\:closeConTesterDialog").click();
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
   }
