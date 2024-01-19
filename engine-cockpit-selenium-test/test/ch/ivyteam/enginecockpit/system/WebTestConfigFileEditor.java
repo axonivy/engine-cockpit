@@ -37,7 +37,7 @@ class WebTestConfigFileEditor {
     var original = readEditorContent();
     try {
       String ivyYaml = """
-        # yaml-language-server: $schema=https://json-schema.axonivy.com/ivy/11.3.6/ivy.jsonn
+        # yaml-language-server: $schema=https://json-schema.axonivy.com/ivy/11.3.6/ivy.json
         SecuritySystems:
           test-ad:
             IdentityProvider:
