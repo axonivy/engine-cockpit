@@ -55,7 +55,7 @@ class WebTestConfigFileEditor {
 
       $(By.className("hover-contents")).shouldBe(visible)
         .as("config-editor shows key specific help, provided by json-schemas")
-        .shouldHave(Condition.partialText("azure-active-directory"));
+        .shouldHave(Condition.partialText("microsoft-entra-id"));
     }
     finally {
       driver.switchTo().defaultContent();
