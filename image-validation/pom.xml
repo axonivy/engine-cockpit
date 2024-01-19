@@ -72,6 +72,7 @@
                       <exclude>**/engine-cockpit-monitor-system-overview.png</exclude>
                       <exclude>**/engine-cockpit-monitor-process-execution.png</exclude>
                       <exclude>**/engine-cockpit-monitor-notification-deliveries.png</exclude>
+                      <exclude>**/engine-cockpit-monitor-notifications.png</exclude>                      
                       <exclude>**/engine-cockpit-monitor-logs.png</exclude>
                     </excludes>
                   </newImagesFs>
