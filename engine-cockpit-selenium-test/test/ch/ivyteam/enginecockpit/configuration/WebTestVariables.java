@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
-import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.configuration.WebTestConfiguration.ConfigAssert;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -118,7 +117,6 @@ public class WebTestVariables {
 
     $(By.id(activeTabPanel() + "config:resetConfigConfirmForm:resetConfigConfirmYesBtn")).click();
     $("#msgs_container").shouldHave(text(name), text("reset"));
-    Selenide.executeJavaScript("arguments[0].click();", $("#msgs_container .ui-growl-icon-close"));
   }
 
   private void editVariable(String name, String value) {
@@ -133,7 +131,6 @@ public class WebTestVariables {
     $(By.id(activeTabPanel() + "config:editConfigurationForm:editConfigurationValue")).sendKeys(value);
     $(By.id(activeTabPanel() + "config:editConfigurationForm:saveEditConfiguration")).click();
     $("#msgs_container").shouldHave(text(name), text("saved"));
-    Selenide.executeJavaScript("arguments[0].click();", $("#msgs_container .ui-growl-icon-close"));
   }
 
   private void assertEditVariableDialog(String name, String oldValue) {
