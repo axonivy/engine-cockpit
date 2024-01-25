@@ -76,6 +76,14 @@ class WebTestRestClientDetail {
     resetConfiguration();
   }
 
+  @Test
+  void restTestSecondRestConnection() {
+    Navigation.toRestClientDetail("second-rest");
+    $(By.id("restClientAdditionalConfigForm:restClientFeaturesTable")).shouldHave(text("MyFakeOAuthFeature"));
+    testAndAssertConnection("Error", "Invalid Url");
+    Navigation.toRestClientDetail(RESTCLIENT_NAME);
+  }
+
   private void testAndAssertConnection(String title, String msg) {
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
     $("#restClientConfigurationForm\\:testRestBtn").shouldBe(visible).click();
