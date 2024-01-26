@@ -20,6 +20,10 @@ public class TlsTesterBean {
     return Uri.startsWith("https");
   }
 
+  public boolean isLdaps(String Uri) {
+    return Uri.startsWith("ldaps");
+  }
+
   public void testConnection(String targetUri) {
     testResult.clear();
     setTlsTestRendered(true);
