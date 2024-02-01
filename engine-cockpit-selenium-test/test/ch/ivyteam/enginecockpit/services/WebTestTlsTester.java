@@ -1,0 +1,44 @@
+package ch.ivyteam.enginecockpit.services;
+
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+
+import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Tab;
+
+class WebTestTlsTester {
+
+  private static final String RESTCLIENT_NAME = "test-rest";
+
+  @BeforeEach
+  void beforeEach() {
+    login();
+    Navigation.toRestClients();
+    Tab.APP.switchToDefault();
+    Navigation.toRestClientDetail(RESTCLIENT_NAME);
+  }
+
+  @Test
+  void TestRestConnection() {
+    $(By.id("restClientConfigurationForm:testRestBtn")).click();
+    $(By.id("connResult:connTestForm:testConnectionBtn")).click();
+    $(By.id("connResult:connTestForm:resultConnect")).shouldHave(text("error"));
+    $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
+  }
+
+  @Test
+  void TestTLSConnection() {
+    $(By.id("restClientConfigurationForm:url")).clear();
+    $(By.id("restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8090/api/v3");
+    $(By.id("restClientConfigurationForm:saveRestConfig")).click();
+    $(By.id("restClientConfigurationForm:testRestBtn")).click();
+    $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
+    $(By.id("connResult:connTestForm:form:logList")).shouldHave(text("Connect, with Ivy SSLContext "));
+  }
+
+}

@@ -89,8 +89,8 @@ class WebTestRestClientDetail {
     $("#restClientConfigurationForm\\:testRestBtn").shouldBe(visible).click();
     $("#connResult\\:connectionTestModel").shouldBe(visible);
     $("#connResult\\:connTestForm\\:testConnectionBtn").click();
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(title));
-    $("#connResult\\:connTestForm\\:resultLog_content").shouldBe(text(msg));
+    $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(title));
+    $("#connResult\\:connTestForm\\:resultConnect").shouldBe(text(msg));
     $("#connResult\\:connectionTestModel > div > a").click();
     $("#connResult\\:connectionTestModel").shouldNotBe(visible);
   }

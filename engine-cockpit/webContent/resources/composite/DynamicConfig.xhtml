@@ -51,6 +51,14 @@
                   <p:inputText id="propertyString"
                     value="#{property.value}"
                     placeholder="#{property.defaultValue}" />
+                    
+                  <p:commandButton id="testTlsConectionBtn"
+                    title="TLS Connection Test" icon="si si-phone-actions-call" 
+                    actionListener="#{tlsTesterBean.testConnection(property.value)}"
+                    oncomplete="PF('connectionTestModel').show()"
+                    update="identityProvider:connectionTestModel"
+                    styleClass="modal-input-button"
+                    rendered="#{tlsTesterBean.isLdaps(property.value)}" />
 
                   <p:commandButton id="browseDirectory"
                     icon="si si-network-browser" title="Browse"
@@ -200,6 +208,21 @@
         </div>
       </p:repeat>
     </h:form>
+
+  <p:dialog header="Connection Test - Url: #{property.value}"
+    id="connectionTestModel" width="70%" widgetVar="connectionTestModel"
+    modal="true" responsive="false" closeOnEscape="true">
+    <h:panelGroup id="resultTLS" styleClass="ui-fluid"
+      rendered="#{tlsTesterBean.tlsTestRendered}">
+      <ui:include src="/resources/composite/TlsTester.xhtml">
+        <ui:param name="url" value="#{property.value}" />
+      </ui:include>
+      <p:commandButton id="close"
+        onclick="PF('connectionTestModel').hide();" value="Close"
+        type="button"
+        styleClass="modal-input-button ui-button-secondary ui-button-flat" />
+    </h:panelGroup>
+  </p:dialog>
 
   <p:dialog style="min-width: 300px;" header="Property"
     id="propertyKeyValueModal" widgetVar="propertyKeyValueModal"

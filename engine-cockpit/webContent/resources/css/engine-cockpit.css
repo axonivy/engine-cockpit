@@ -305,6 +305,10 @@ body .ui-datatable .ui-datatable-header {
 .thread-deadlocked {
   color: var(--error-color, #d23636);
 }
+.unused-column {
+  color: var(--text-color-secondary, grey);
+}
+.state-unused,
 .table-icon.search-machine-health-unknown,
 .search-machine-health-unknown {
   font-weight: normal;
