@@ -55,10 +55,10 @@ public class TlsTesterBean {
 
   public String icon(String result) {
     if (result.contains("0")) {
-      return "check-circle-1 state-active";
+      return "remove-circle state-inactive";
     }
     if (result.contains("1")) {
-      return "remove-circle state-inactive";
+      return "check-circle-1 state-active";
     }
     return "question-circle state-unused";
   }
