@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.system.editor;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -62,6 +63,14 @@ public class EditorFile {
 
   public String getProvider() {
     return config.provider();
+  }
+
+  public void setBinary(InputStream is) {
+    config.setBinaryFile(is);
+  }
+
+  public boolean isBinary() {
+    return config.isKeystoreFile();
   }
 
   public boolean isReadOnly() {

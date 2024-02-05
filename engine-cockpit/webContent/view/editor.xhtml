@@ -32,7 +32,7 @@
               <p:autoComplete id="fileDropDown" dropdown="true" value="#{editorBean.activeConfigFile}"
                 var="file" itemLabel="#{file.fileName}" itemValue="#{file}" converter="editorFileConverter"
                 completeMethod="#{editorBean.completeFiles}" groupBy="#{file.provider}">
-                <p:ajax event="itemSelect" update="editorForm, currentFileContainer"
+                <p:ajax event="itemSelect" update="editorForm, currentFileContainer, keystoredownload"
                   oncomplete="handleAutocompleteSelection()" />
               </p:autoComplete>
             </div>
@@ -62,7 +62,29 @@
              summary="This file is read only!" severity="warn" />
           <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
         </h:panelGroup>
-        <h:form id="editorForm" styleClass="editor-card">
+        
+        <h:form id="keystoredownload" rendered="#{editorBean.isKeystore()}">
+        <p:fileUpload id="certUpload" mode="simple"
+            skinSimple="true" multiple="false" auto="true"
+            listener="#{editorBean.upload}"
+            update="keystoredownload"
+            style="display: none;" />
+          <p:commandButton title="Upload Certificate" value="Upload Certificate" icon="si si-upload-bottom"
+            type="button" id="Certbtn"
+            styleClass="ui-button-outlined"
+            onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
+          </p:commandButton>
+
+          <p:commandButton title="Download Certificate" id="certDownload"
+            actionListener="#{editorBean.fileDownloadView()}"
+            value="Download Certificate" ajax="false"
+            icon="si si-download-bottom" styleClass="ui-button-outlined">
+            <p:fileDownload value="#{editorBean.file}" />
+          </p:commandButton>
+          
+        </h:form>
+        
+        <h:form id="editorForm" styleClass="editor-card" rendered="#{editorBean.isNotKeystore()}">
           <script>
             function waitFor(resolver) {
               const poll = resolve => {
