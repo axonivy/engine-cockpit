@@ -3,19 +3,28 @@ package ch.ivyteam.enginecockpit.system;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.executeJs;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.viewUrl;
+import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.Condition;
+
 import ch.ivyteam.enginecockpit.util.Navigation;
+import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
 class WebTestConfigFileEditor {
@@ -90,6 +99,30 @@ class WebTestConfigFileEditor {
     }
   }
 
+  @Test
+  void downloadBinary() {
+    $(By.id("fileChooserForm:fileDropDown_input")).clear();
+    $(By.id("fileChooserForm:fileDropDown_input")).sendKeys("truststore.p12");
+    $(By.id("fileChooserForm:fileDropDown_panel")).click();
+    $(By.id("uploadDownloadBinary:binaryDownload")).shouldHave(text("Download Binary file"));
+  }
+
+  @Test
+  void uploadBinary() throws IOException {
+    $(By.id("fileChooserForm:fileDropDown_input")).clear();
+    $(By.id("fileChooserForm:fileDropDown_input")).sendKeys("truststore.p12");
+    $(By.id("fileChooserForm:fileDropDown_panel")).click();
+    $(By.id("uploadDownloadBinary:uploadbtn")).shouldHave(text("Upload Binary file"));
+    var createTempFile = Files.createTempFile("truststore", ".p12");
+    try (var is = WebTestConfigFileEditor.class.getResourceAsStream("truststore.p12")) {
+      Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
+    }
+    $(By.id("uploadDownloadBinary:binaryUpload_input")).sendKeys(createTempFile.toString());
+    Navigation.toSSL();
+    var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
+    table.firstColumnShouldBe(texts("ivy"));
+  }
+
   private void saveEditor() {
     $(By.id("editorForm:saveEditor")).click();
   }
@@ -125,4 +158,5 @@ class WebTestConfigFileEditor {
       .shouldHave(Condition.attribute("data-item-label", elementName));
     autocompleteElement.click();
   }
+
 }
