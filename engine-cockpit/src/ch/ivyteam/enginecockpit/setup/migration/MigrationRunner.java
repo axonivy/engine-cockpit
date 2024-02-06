@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.setup.migration;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -113,7 +114,16 @@ public class MigrationRunner implements MigrationClient {
 
   protected Optional<String> getChange(TextContentComparison compare) {
     var change = compare.getChangedLines();
+    change = change.lines()
+            .map(line -> fixWindowsPath(line))
+            .collect(Collectors.joining("\n"));
     return Optional.of(change);
   }
 
+  private static String fixWindowsPath(String line) {
+    if (line.startsWith("--- ") || line.startsWith("+++ ")) {
+      return line.replaceAll("\\", "/");
+    }
+    return line;
+  }
 }
