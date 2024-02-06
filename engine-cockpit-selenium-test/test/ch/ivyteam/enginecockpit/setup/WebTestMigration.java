@@ -72,9 +72,6 @@ public class WebTestMigration {
   private void startMigration() {
     $(By.id("form:startMigration")).shouldBe(visible).click();
     $(By.id("form:migrationRunning")).shouldBe(visible, disabled);
-    $(By.linkText("Target")).shouldBe(visible).click();
-    $(By.linkText("Target")).shouldBe(visible).click();
-    $(By.linkText("Target")).shouldBe(visible).click();
   }
 
   private void checkMigrationFinished() {
