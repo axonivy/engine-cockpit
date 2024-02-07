@@ -36,8 +36,15 @@
           </p:column>
           <p:rowExpansion>
             <p:repeat value="#{logEntry.entryList}" var="logDataEntry">
-              <h:panelGrid style="height:10px" columns="1">
+              <h:panelGrid style="height:10px" columns="2">
                 <h:outputText value="#{logDataEntry}" />
+                <p:commandButton title="Download Certificate"
+                  id="certDownload"
+                  actionListener="#{tlsTesterBean.fileDownloadView}"
+                  ajax="false" icon="si si-download-bottom"
+                  styleClass="ui-button-danger rounded-button">
+                  <p:fileDownload value="#{tlsTesterBean.file}"></p:fileDownload>
+                </p:commandButton>
               </h:panelGrid>
             </p:repeat>
           </p:rowExpansion>
