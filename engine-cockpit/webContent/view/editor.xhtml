@@ -32,7 +32,7 @@
               <p:autoComplete id="fileDropDown" dropdown="true" value="#{editorBean.activeConfigFile}"
                 var="file" itemLabel="#{file.fileName}" itemValue="#{file}" converter="editorFileConverter"
                 completeMethod="#{editorBean.completeFiles}" groupBy="#{file.provider}">
-                <p:ajax event="itemSelect" update="editorForm, currentFileContainer, keystoredownload"
+                <p:ajax event="itemSelect" update="editorFormContainer, sslContainer, currentFileContainer"
                   oncomplete="handleAutocompleteSelection()" />
               </p:autoComplete>
             </div>
@@ -56,70 +56,64 @@
             loadFile();
           }
         </script>
-
-        <h:panelGroup id="currentFileContainer" styleClass="p-my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
-          <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
-             summary="This file is read only!" severity="warn" />
-          <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
+        <h:panelGroup id="currentFileContainer">
+          <h:panelGroup id="currentFile" styleClass="p-my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
+            <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
+               summary="This file is read only!" severity="warn" />
+            <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
+          </h:panelGroup>
         </h:panelGroup>
         
-        <h:form id="keystoredownload" rendered="#{editorBean.isKeystore()}">
-        <p:fileUpload id="certUpload" mode="simple"
-            skinSimple="true" multiple="false" auto="true"
-            listener="#{editorBean.upload}"
-            update="keystoredownload"
-            style="display: none;" />
-          <p:commandButton title="Upload Certificate" value="Upload Certificate" icon="si si-upload-bottom"
-            type="button" id="Certbtn"
-            styleClass="ui-button-outlined"
-            onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
-          </p:commandButton>
+        <h:panelGroup id="sslContainer" >
+          <h:form id="ssl" rendered="#{editorBean.isKeystore()}">
+          <p:fileUpload id="certUpload" mode="simple"
+              skinSimple="true" multiple="false" auto="true"
+              listener="#{editorBean.upload}"
+              update="ssl"
+              style="display: none;" />
+            <p:commandButton title="Upload Certificate" value="Upload Certificate" 
+              icon="si si-upload-bottom"
+              type="button" id="Certbtn"
+              styleClass="ui-button-outlined"
+              onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
+            </p:commandButton>
 
-          <p:commandButton title="Download Certificate" id="certDownload"
-            actionListener="#{editorBean.fileDownloadView()}"
-            value="Download Certificate" ajax="false"
-            icon="si si-download-bottom" styleClass="ui-button-outlined">
-            <p:fileDownload value="#{editorBean.file}" />
-          </p:commandButton>
-          
-        </h:form>
+            <p:commandButton title="Download Certificate" id="certDownload"
+              actionListener="#{editorBean.fileDownloadView()}"
+              value="Download Certificate" ajax="false"
+              icon="si si-download-bottom" styleClass="ui-button-outlined">
+              <p:fileDownload value="#{editorBean.file}" />
+            </p:commandButton>
+
+          </h:form>
+        </h:panelGroup>
         
-        <h:form id="editorForm" styleClass="editor-card" rendered="#{editorBean.isNotKeystore()}">
-          <script>
-            function waitFor(resolver) {
-              const poll = resolve => {
-                var instance = resolver();
-                if(instance != undefined) {
-                  resolve(instance);
-                } else {
-                  setTimeout(() => poll(resolve), 10);
+        <h:panelGroup id="editorFormContainer" >
+          <h:form id="editorForm" styleClass="editor-card" rendered="#{editorBean.isNotKeystore()}">
+            <script>
+              function waitFor(resolver) {
+                const poll = resolve => {
+                  var instance = resolver();
+                  if(instance != undefined) {
+                    resolve(instance);
+                  } else {
+                    setTimeout(() => poll(resolve), 10);
+                  }
                 }
+                return new Promise(poll);
               }
-              return new Promise(poll);
-            }
-          
-            function monaco() {
-              return document.getElementById("framedEditor").contentWindow.codeEditor?._modelData.model;
-            }
             
-            function code() {
-              return document.getElementById("editorForm:codeHolder");
-            }
-            
-            function setTheme(theme) {
-              document.getElementById("framedEditor").contentWindow.MonacoEnvironment.setTheme(theme)
-            }
-          
-            function loadFile() {
-              var file = new URLSearchParams(window.parent.location.search).get("file"); 
-              var ext = file.slice(file.lastIndexOf('.')+1)
+              function monaco() {
+                return document.getElementById("framedEditor").contentWindow.codeEditor?._modelData.model;
+              }
               
-              waitFor(() => monaco()).then(model => {
-                setTheme("#{ivyFreyaTheme.mode}");
-                model.setValue(code().value);
-                model.setLanguage(ext);
-              })
-            }
+              function code() {
+                return document.getElementById("editorForm:codeHolder");
+              }
+              
+              function setTheme(theme) {
+                document.getElementById("framedEditor").contentWindow.MonacoEnvironment.setTheme(theme)
+              }
             
             function saveEditor() {
               code().innerHTML = monaco().getValue();
@@ -142,6 +136,41 @@
               icon="si si-floppy-disk" onclick="saveEditor()" actionListener="#{editorBean.activeConfigFile.save()}" widgetVar="saveEditor" />
           </div>
         </h:form>
+          <script>
+              function loadFile() {
+                var file = new URLSearchParams(window.parent.location.search).get("file"); 
+                var ext = file.slice(file.lastIndexOf('.')+1)
+                
+                waitFor(() => monaco()).then(model => {
+                  setTheme("#{ivyFreyaTheme.mode}");
+                  model.setValue(code().value);
+                  model.setLanguage(ext);
+                })
+              }
+              
+              function saveEditor() {
+                code().innerHTML = monaco().getValue();
+              }
+              
+              window.onload = function(){ 
+                loadFile(); 
+                document.body.addEventListener('change-theme-mode', event => setTheme(event.detail.mode)) 
+              };
+            </script>
+            <iframe id="framedEditor" src="#{resource['monaco-yaml-ivy/index.html']}&amp;demo=off&amp;theme=#{ivyFreyaTheme.mode}" 
+            style="border: 0; width: 100%; height: 100%"/>
+            <h:inputTextarea id="codeHolder" value="#{editorBean.activeConfigFile.content}" escape="false" style="display:none" />
+            <p:staticMessage severity="warn" rendered="#{editorBean.activeConfigFile.migrated}" 
+              detail="These file contents were auto-migrated to the latest version." />
+    
+            <div class="p-d-flex p-flex-wrap">
+              <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
+                styleClass="p-ml-auto ui-button-secondary ui-button-flat" disabled="#{editorBean.activeConfigFile == null}" />
+              <p:commandButton id="saveEditor" styleClass="p-ml-1" value="Save" disabled="#{!editorBean.canSave()}"
+                icon="si si-floppy-disk" onclick="saveEditor()" actionListener="#{editorBean.activeConfigFile.save()}" widgetVar="saveEditor" />
+            </div>
+          </h:form>
+        </h:panelGroup>
       </div>
     </ui:define>
   </ui:composition>
