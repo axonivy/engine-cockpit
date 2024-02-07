@@ -122,7 +122,7 @@ public class MigrationRunner implements MigrationClient {
 
   private static String fixWindowsPath(String line) {
     if (line.startsWith("--- ") || line.startsWith("+++ ")) {
-      return line.replaceAll("\\", "/");
+      return line.replace("\\", "/");
     }
     return line;
   }
