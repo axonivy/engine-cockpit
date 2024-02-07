@@ -21,10 +21,14 @@
     
     <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
       var="event" value="#{userDetailBean.notificationChannels.events}" id="notificationChannelsTable"
-      lazy="false" styleClass="ui-fluid">
+      lazy="false" styleClass="ui-fluid" rowIndexVar="rowIndex">
       
-      <p:column headerText="Event" sortBy="#{event}">
-        <h:outputText value="#{event}" styleClass="event-kind" />
+      <p:column headerText="Event" sortBy="#{event.displayName}">
+        <h:panelGroup id="event">
+          <h:outputText value="#{event.displayName}" styleClass="event-kind" />
+          <i class="si si-question-circle"></i>
+        </h:panelGroup>
+        <p:tooltip for="notificationsForm:notificationChannelsTable:#{rowIndex}:event" value="#{event.description}" position="top" styleClass="pre-tooltip" />
       </p:column>
       
       <p:columns id="channels" var="channel" value="#{userDetailBean.notificationChannels.channels}" style="text-align: center">

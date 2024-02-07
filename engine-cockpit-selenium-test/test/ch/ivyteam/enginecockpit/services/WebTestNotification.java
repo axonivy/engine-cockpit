@@ -7,19 +7,23 @@ import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Condition.oneOfTexts;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverConditions;
+
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
@@ -48,7 +52,7 @@ class WebTestNotification {
   void notifications() {
     var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
     notifications.tableEntry(1, 1).should(matchText(".*-.*-.*"));
-    notifications.tableEntry(1, 3).should(text("new-task"));
+    notifications.tableEntry(1, 3).should(oneOfTexts("task", "Aufgabe"));
     notifications.tableEntry(1, 4).should(text("Everybody"));
     notifications.tableEntry(1, 5).should(text("engine-cockpit-test-data$1"));
     notifications.tableEntry(1, 6).should(text("Default"));

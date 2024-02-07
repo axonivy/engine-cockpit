@@ -3,6 +3,9 @@ package ch.ivyteam.enginecockpit.security.model;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import ch.ivyteam.enginecockpit.security.model.NotificationChannelDataModel.NotificationEventDto;
+import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.notification.channel.NotificationSubscription;
 import ch.ivyteam.ivy.security.ISecurityContext;
@@ -11,28 +14,27 @@ import ch.ivyteam.ivy.security.ISecurityMember;
 public class NotificationChannelDto {
 
   private final NotificationChannel channel;
-  private final Map<String, NotificationChannelSubscriptionDto> subscriptions;
+  private final Map<Event, NotificationChannelSubscriptionDto> subscriptions;
 
   private NotificationChannelDto(NotificationChannel channel,
-          Map<String, NotificationChannelSubscriptionDto> subscriptions) {
+          Map<Event, NotificationChannelSubscriptionDto> subscriptions) {
     this.channel = channel;
     this.subscriptions = subscriptions;
   }
 
-  public static List<NotificationChannelDto> all(ISecurityMember subscriber, ISecurityContext securityContext,
-          List<String> events) {
+  public static List<NotificationChannelDto> all(ISecurityMember subscriber, ISecurityContext securityContext) {
     var channels = NotificationChannel.all(securityContext).stream()
             .filter(channel -> channel.config().enabled())
             .map(channel -> toChannel(subscriber, channel))
             .toList();
-    channels.forEach(channel -> events.forEach(event -> channel.setSubscriptionIconAndTitle(event)));
+    channels.forEach(channel -> Event.all().forEach(event -> channel.setSubscriptionIconAndTitle(NotificationEventDto.of(event))));
     return channels;
   }
 
   private static NotificationChannelDto toChannel(ISecurityMember subscriber, NotificationChannel channel) {
     var subscriptions = channel.configFor(subscriber).subscriptions().stream()
             .collect(Collectors.toMap(
-                    NotificationSubscription::event,
+                    NotificationSubscription::_event,
                     subscription -> new NotificationChannelSubscriptionDto(
                             subscription.state(),
                             subscription.isSubscribedByDefault())));
@@ -43,16 +45,16 @@ public class NotificationChannelDto {
     return channel;
   }
 
-  public Map<String, NotificationChannelSubscriptionDto> getSubscriptions() {
+  public Map<Event, NotificationChannelSubscriptionDto> getSubscriptions() {
     return subscriptions;
   }
 
-  public NotificationChannelSubscriptionDto getSubscription(String event) {
-    return subscriptions.get(event);
+  public NotificationChannelSubscriptionDto getSubscription(NotificationEventDto event) {
+    return subscriptions.get(event.getEvent());
   }
 
-  public void setSubscriptionIconAndTitle(String event) {
-    var subscription = subscriptions.get(event);
+  public void setSubscriptionIconAndTitle(NotificationEventDto event) {
+    var subscription = subscriptions.get(event.getEvent());
     var state = subscription.getState();
 
     boolean subscribedByUser = state.equals(NotificationChannelSubscriptionDto.State.SUBSCRIBED);

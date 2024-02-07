@@ -12,10 +12,10 @@ import javax.ws.rs.core.UriBuilder;
 import org.apache.commons.io.IOUtils;
 
 import ch.ivyteam.enginecockpit.util.DurationFormat;
+import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.channel.NotificationChannel;
 import ch.ivyteam.ivy.notification.channel.NotificationChannelSystemConfig;
 import ch.ivyteam.ivy.notification.channel.PushNotificationChannel;
-import ch.ivyteam.ivy.notification.event.NotificationEvent;
 import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class NotificationChannelDto {
@@ -136,12 +136,10 @@ public class NotificationChannelDto {
 
   public static NotificationChannelDto instance(ISecurityContext securityContext, NotificationChannel channel) {
     var config = channel.config();
-    var eventKinds = NotificationEvent.all().stream()
-            .map(NotificationEvent::kind)
-            .toList();
-    var presentEventKinds = config.events();
-    var events = eventKinds.stream()
-            .map(eventKind -> new NotificationEventDto(eventKind, presentEventKinds.contains(eventKind)))
+    var allEvents = Event.all();
+    var presentEvents = config._events();
+    var events = allEvents.stream()
+            .map(event -> new NotificationEventDto(event, presentEvents.contains(event)))
             .collect(Collectors.toList());
 
     return new NotificationChannelDto(channel, config,
@@ -150,16 +148,28 @@ public class NotificationChannelDto {
 
   public static class NotificationEventDto {
 
-    private final String kind;
+    private final Event event;
     private boolean enabled;
 
-    public NotificationEventDto(String kind, boolean enabled) {
-      this.kind = kind;
+    public NotificationEventDto(Event event, boolean enabled) {
+      this.event = event;
       this.enabled = enabled;
     }
 
+    public Event getEvent() {
+      return event;
+    }
+
     public String getKind() {
-      return kind;
+      return event.kind();
+    }
+
+    public String getDisplayName() {
+      return event.displayName();
+    }
+
+    public String getDescription() {
+      return event.description();
     }
 
     public boolean isEnabled() {
