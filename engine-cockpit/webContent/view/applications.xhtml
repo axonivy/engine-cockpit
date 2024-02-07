@@ -86,7 +86,7 @@
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
                     oncomplete="PF('fileUploadModal').show()" />
                 </p:commandButton>
-                <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" value="#{uploadHelperBean.deploymentPossibleReason}" escape="false" />
+                <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" value="#{uploadHelperBean.deploymentPossibleReason}" escape="false" /> <!-- contains no user input -->
               </h:panelGroup>
               <p:commandButton title="Activate" icon="si si-controls-play" disabled="#{activity.notStartable}"
                 type="button" styleClass="p-mr-1 ui-button-success rounded-button">

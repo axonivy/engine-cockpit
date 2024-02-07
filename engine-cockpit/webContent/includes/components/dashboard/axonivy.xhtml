@@ -20,7 +20,7 @@
     <h:outputText value="#{advisorBean.buildDate}" />
     <label>Copyright</label>
     <h:panelGroup>
-      <h:outputText escape="false" value="#{advisorBean.copyright}" />
+      <h:outputText escape="false" value="#{advisorBean.copyright}" /> <!-- contains no user input, contains html-->
       <a href='https://www.axonivy.com'>Axon Ivy AG</a>
     </h:panelGroup>
   </p:panelGrid>

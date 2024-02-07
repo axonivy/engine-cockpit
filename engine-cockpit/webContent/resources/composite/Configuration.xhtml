@@ -82,7 +82,7 @@
         <h:outputText value="#{cc.attrs.bean.activeConfig.source}" />
 
         <h:panelGroup styleClass="code-block" layout="block">
-          <pre><code class="yaml"><h:outputText value="#{cc.attrs.bean.activeConfig.fileContent}" escape="false"/></code></pre>
+          <pre><code class="yaml"><h:outputText value="#{cc.attrs.bean.activeConfig.fileContent}" escape="false"/></code></pre> <!-- Application config YAML file, contians no user input -->
         </h:panelGroup>
         
       </p:panelGrid>
@@ -114,7 +114,7 @@
         <h:outputLabel for="editConfigurationDescription" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}"
           value="Description" />
         <h:outputText id="editConfigurationDescription" value="#{cc.attrs.bean.activeConfig.htmlDescription}" 
-          styleClass="config-edit-description" escape="false" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}" />
+          styleClass="config-edit-description" escape="false" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}" /> <!-- Contains no user input -->
 
         <h:outputLabel for="editConfigurationValue" value="Value" />
         <c:choose>

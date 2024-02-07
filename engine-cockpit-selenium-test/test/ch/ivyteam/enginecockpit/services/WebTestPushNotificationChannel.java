@@ -58,7 +58,7 @@ public class WebTestPushNotificationChannel {
     $(By.id("form:state")).$("i.si-remove-circle").shouldBe(Condition.visible);
     $(By.id("form:state")).$("i.si-synchronize-arrow-clock").shouldBe(Condition.visible);
     $(By.id("form:state")).click();
-    var lockDetails = $(By.id("form:lockDetails"));
+    var lockDetails = $(By.cssSelector("[id*='lockDetails']"));
     assertLockDetails(lockDetails);
 
     $(By.id("open")).click();

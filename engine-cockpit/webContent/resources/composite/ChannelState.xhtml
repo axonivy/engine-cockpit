@@ -31,7 +31,7 @@
         <h:outputText value=")"/>
       </h:panelGroup>
       <p:outputLabel value="Last Error:"/>
-      <h:outputText value="#{cc.attrs.channel.lastError}" escape="false"/>
+      <h:outputText value="#{cc.attrs.channel.lastError}" /> <!-- CHANGED: Contains java exception -> Does not contain html/xml encoded items -->
     </p:panelGrid>
   </p:tooltip>
 </cc:implementation>
