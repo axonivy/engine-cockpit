@@ -20,6 +20,7 @@ public class MigrationRunner implements MigrationClient {
 
   private List<Task> tasks;
   private boolean paused = false;
+  private MigrationLog log = new MigrationLog4j();
 
   public MigrationRunner(List<Task> tasks) {
     this.tasks = tasks;
@@ -31,7 +32,7 @@ public class MigrationRunner implements MigrationClient {
 
   @Override
   public MigrationLog log() {
-    return new MigrationLog4j();
+    return log;
   }
 
   @SuppressWarnings("unchecked")
