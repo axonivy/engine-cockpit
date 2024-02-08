@@ -9,6 +9,7 @@ import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.enginecockpit.security.model.SecurityMember;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.notification.Notification;
+import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.delivery.NotificationDeliveryRepository;
 
 public class NotificationDto {
@@ -29,8 +30,8 @@ public class NotificationDto {
     return createdAt;
   }
 
-  public String getKind() {
-    return notification.kind();
+  public String getEvent() {
+    return Event.ofKind(notification.kind()).displayName();
   }
 
   public String getReceiver() {
@@ -62,7 +63,7 @@ public class NotificationDto {
         .map(ProcessModelVersion::getDetailView)
         .orElse("");
   }
-  
+
   public String getTemplate() {
     return notification.template();
   }
@@ -90,7 +91,7 @@ public class NotificationDto {
   public void retry() {
     notification.retry();
   }
-  
+
   private Optional<ProcessModelVersion> pmv() {
     return notification.pmv()
         .map(ProcessModelVersion::new);
