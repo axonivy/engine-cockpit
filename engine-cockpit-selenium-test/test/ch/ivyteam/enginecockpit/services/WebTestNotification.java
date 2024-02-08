@@ -7,7 +7,6 @@ import static com.codeborne.selenide.CollectionCondition.textsInAnyOrder;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.matchText;
 import static com.codeborne.selenide.Condition.not;
-import static com.codeborne.selenide.Condition.oneOfTexts;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -52,7 +51,7 @@ class WebTestNotification {
   void notifications() {
     var notifications = new Table(By.id("tabs:securitySystemTabView:0:form:notificationTable"), true);
     notifications.tableEntry(1, 1).should(matchText(".*-.*-.*"));
-    notifications.tableEntry(1, 3).should(oneOfTexts("task", "Aufgabe"));
+    notifications.tableEntry(1, 3).should(text("task"));
     notifications.tableEntry(1, 4).should(text("Everybody"));
     notifications.tableEntry(1, 5).should(text("engine-cockpit-test-data$1"));
     notifications.tableEntry(1, 6).should(text("Default"));
