@@ -34,7 +34,7 @@ public class NotificationChannelDto {
   private static NotificationChannelDto toChannel(ISecurityMember subscriber, NotificationChannel channel) {
     var subscriptions = channel.configFor(subscriber).subscriptions().stream()
             .collect(Collectors.toMap(
-                    NotificationSubscription::_event,
+                    NotificationSubscription::event,
                     subscription -> new NotificationChannelSubscriptionDto(
                             subscription.state(),
                             subscription.isSubscribedByDefault())));
