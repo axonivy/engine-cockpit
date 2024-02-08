@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -83,11 +84,11 @@ public class NotificationChannelDataModel {
     }
 
     public String getDisplayName() {
-      return event.displayName();
+      return event.displayName(Locale.ENGLISH);
     }
 
     public String getDescription() {
-      return event.description();
+      return event.description(Locale.ENGLISH);
     }
 
     public static List<NotificationEventDto> all() {

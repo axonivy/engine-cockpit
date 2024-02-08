@@ -13,7 +13,6 @@ import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
-import static com.codeborne.selenide.Condition.oneOfTexts;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
@@ -174,7 +173,7 @@ class WebTestUserDetail {
     var webNewTaskCheckbox = $(By.id("notificationsForm:notificationChannelsTable:0:channels:0:subscriptionCheckbox")).lastChild().lastChild();
 
     table.firstColumnShouldBe(size(1));
-    table.tableEntry(1,1).shouldHave(oneOfTexts("Aufgabe", "task"));
+    table.tableEntry(1,1).shouldHave(text("task"));
     table.headerShouldBe(size(2));
     table.headerShouldBe(exactTexts("Event", "Web"));
 

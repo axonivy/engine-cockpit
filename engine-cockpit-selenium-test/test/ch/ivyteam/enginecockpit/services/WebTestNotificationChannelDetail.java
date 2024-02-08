@@ -2,7 +2,7 @@ package ch.ivyteam.enginecockpit.services;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.oneOfTexts;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.refresh;
 
@@ -136,7 +136,7 @@ public class WebTestNotificationChannelDetail {
   void eventsInTable() {
     Table table = new Table(By.id("form:events"));
     table.firstColumnShouldBe(size(1));
-    table.tableEntry(1,1).shouldHave(oneOfTexts("task", "Aufgabe"));
+    table.tableEntry(1,1).shouldHave(text("task"));
   }
 
   @Test

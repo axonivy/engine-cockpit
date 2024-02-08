@@ -5,6 +5,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.UriBuilder;
@@ -165,11 +166,11 @@ public class NotificationChannelDto {
     }
 
     public String getDisplayName() {
-      return event.displayName();
+      return event.displayName(Locale.ENGLISH);
     }
 
     public String getDescription() {
-      return event.description();
+      return event.description(Locale.ENGLISH);
     }
 
     public boolean isEnabled() {
