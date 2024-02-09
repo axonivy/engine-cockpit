@@ -109,7 +109,7 @@
             };
           </script>
           <iframe id="framedEditor" src="#{resource['monaco-yaml-ivy/index.html']}&amp;demo=off&amp;theme=#{ivyFreyaTheme.mode}" style="border: 0; width: 100%; height: 100%" />
-          <h:inputTextarea id="codeHolder" value="#{editorBean.activeConfigFile.content}" escape="false" style="display:none" /> <!-- TODO: unclear where content is set and what it contains -->
+          <h:inputTextarea id="codeHolder" value="#{editorBean.activeConfigFile.content}" escape="false" style="display:none" /> <!-- TODO: contins configfiles to be edited -> needed? -->
           <p:staticMessage severity="warn" rendered="#{editorBean.activeConfigFile.migrated}" 
             detail="These file contents were auto-migrated to the latest version." />
   

@@ -209,6 +209,10 @@ public class TrafficGraphBean {
 
   public static final class System {
 
+    private String host;
+    private String protocol;
+    private int port;
+
     private final String name;
 
     public System(String name) {
@@ -216,11 +220,22 @@ public class TrafficGraphBean {
     }
 
     public System(SystemLink link) {
-      this(link.name()+"<br>"+link.host()+"<br>"+link.protocol()+(link.port() == -1 ? "" : " ["+link.port()+"]"));
+      this(link.name());
+      this.host = link.host();
+      this.protocol = link.protocol();
+      this.port = link.port();
     }
 
     public String getName() {
       return name;
+    }
+
+    public String getHost() {
+      return this.host;
+    }
+
+    public String getProtocolAndPort() {
+      return "testprot" + this.protocol + (this.port == -1 ? "" : " [" + this.port + "]");
     }
 
     @Override
