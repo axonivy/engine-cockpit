@@ -44,11 +44,11 @@
                 <h:outputText value="#{system.name}" />
                 <h:panelGroup rendered="#{system.host != null}">
                   <br/>
-                  <h:outputText value="#{system.getHost()}"/>
+                  <h:outputText value="#{system.host}"/>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{system.protocol != null}">
+                <h:panelGroup rendered="#{system.protocolAndPort != null}">
                   <br/>
-                  <h:outputText value="#{system.getProtocolAndPort()}"/>
+                  <h:outputText value="#{system.protocolAndPort}"/>
                 </h:panelGroup>
               </f:facet>
             </p:diagram>

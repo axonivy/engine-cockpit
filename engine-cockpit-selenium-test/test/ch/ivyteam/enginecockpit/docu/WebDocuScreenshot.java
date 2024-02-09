@@ -70,10 +70,8 @@ class WebDocuScreenshot {
   void screenshotSetup() {
     login("setup-intro.xhtml");
     takeScreenshot("setup-intro", new Dimension(SCREENSHOT_SETUP_WIDTH, 600));
-
     login("migrate.xhtml");
     takeScreenshot("migrate", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
-
     WebTestWizard.navigateToStep("Licence");
     takeScreenshot("setup-licence", new Dimension(SCREENSHOT_SETUP_WIDTH, 550));
     WebTestWizard.navigateToStep("Administrators");
@@ -189,7 +187,8 @@ class WebDocuScreenshot {
             new Dimension(SCREENSHOT_WIDTH, 550));
     Navigation.toBranding();
     takeScreenshot("branding", new Dimension(SCREENSHOT_WIDTH, 800));
-    takeDialogScreenshot("branding-custom-css", By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:editCustomCssBtn"));
+    takeDialogScreenshot("branding-custom-css",
+            By.id("apps:applicationTabView:" + Tab.APP.getSelectedTabIndex() + ":form:editCustomCssBtn"));
   }
 
   @Test
@@ -271,5 +270,4 @@ class WebDocuScreenshot {
   private void resizeBrowser(Dimension size) {
     WebDriverRunner.getWebDriver().manage().window().setSize(size);
   }
-
 }

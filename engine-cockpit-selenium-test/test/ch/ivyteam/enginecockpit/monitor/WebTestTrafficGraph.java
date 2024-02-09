@@ -122,7 +122,7 @@ public class WebTestTrafficGraph {
 
   public static void prepareScreenshot() {
     Navigation.toTrafficGraph();
-    stop();
     recordData(10);
+    stop();
   }
 }
