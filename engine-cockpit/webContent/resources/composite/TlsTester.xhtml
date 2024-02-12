@@ -9,7 +9,7 @@
   <cc:attribute name="url" />
 </cc:interface>
 <cc:implementation>
-  <p:dialog style="max-width: 500px; max-height: 500px"
+  <p:dialog
     header="TLS Test connection" id="testTLSResult"
     widgetVar="testTLSResult" modal="true" responsive="true"
     closeOnEscape="true">
@@ -18,12 +18,12 @@
         <p:dataTable value="#{tlsTesterBean.testResult}" var="logEntry"
           rowKey="#{logEntry.result}"
           id="logList" lazy="false" scrollable="true" scrollWidth="100%"
-          scrollHeight="250">
-          <p:column width="30px"
+          scrollHeight="300">
+          <p:column width="20px" style="padding: 4px;"
           styleClass=" #{tlsTesterBean.backgroundColor(logEntry.result)}">
             <p:rowToggler rendered="#{tlsTesterBean.isExecuted(logEntry.result)}"/>
           </p:column>
-          <p:column headerText="Tests"
+          <p:column headerText="Tests" style="padding: 4px;" 
             styleClass=" #{tlsTesterBean.backgroundColor(logEntry.result)}">
             <h:outputText value="#{logEntry.group}"></h:outputText>
             <h:panelGroup id="info">
@@ -31,22 +31,17 @@
               <p:tooltip for="info" value="#{logEntry.groupInfo}" />
             </h:panelGroup>
           </p:column>
-          <p:column styleClass="#{tlsTesterBean.backgroundColor(logEntry.result)}">
+          <p:column style="padding: 4px;" width="5em" styleClass="#{tlsTesterBean.backgroundColor(logEntry.result)}">
             <h:outputText class="si table-icon si-#{tlsTesterBean.icon(logEntry.result)}"/>
           </p:column>
           <p:rowExpansion>
             <p:repeat value="#{logEntry.entryList}" var="logDataEntry">
-              <h:panelGrid style="height:10px" columns="1">
+              <h:panelGrid columns="1" style="line-height: 15px;">
                 <h:outputText value="#{logDataEntry}" />
               </h:panelGrid>
             </p:repeat>
           </p:rowExpansion>
         </p:dataTable>
-        <h:panelGrid columns="2">
-          <f:facet name="header">
-            <p:messages></p:messages>
-          </f:facet>
-        </h:panelGrid>
       </h:form>
     </ui:composition>
   </p:dialog>
