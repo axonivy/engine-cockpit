@@ -15,6 +15,7 @@
         <h6 class="p-m-0">Rest Client configurations</h6>
         <p:commandButton id="testRestBtn" title="Test Rest Connection" oncomplete="PF('connectionTestModel').show()"
           icon="si si-phone-actions-call" update="restClientAdditionalConfigForm, connResult:connectionTestModel"
+          actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
           styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()"
           title="Reset configuration" icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
