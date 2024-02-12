@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.services.notification;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.ws.rs.core.UriBuilder;
@@ -31,19 +33,20 @@ public class NotificationDto {
   }
 
   public String getEvent() {
-    return Event.ofKind(notification.kind()).displayName();
+    return Event.ofKind(notification.kind()).displayName(Locale.ENGLISH);
   }
 
-  public String getReceiver() {
-    return notification.receiver().getName();
+  public List<SecurityMember> getReceivers() {
+    return notification
+        .receivers()
+        .stream()
+        .map(SecurityMember::createFor)
+        .limit(20)
+        .toList();
   }
 
-  public String getReceiverIcon() {
-    return SecurityMember.createFor(notification.receiver()).getCssIconClass();
-  }
-
-  public String getReceiverUri() {
-    return SecurityMember.createFor(notification.receiver()).getViewUrl();
+  public boolean isReceiversConcat() {
+    return notification.receivers().size() > 20;
   }
 
   public String getPmv() {
