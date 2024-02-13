@@ -56,10 +56,13 @@
               </p:column>
 
               <p:column headerText="Receiver">
-                <p:link href="#{notification.receiverUri}">
-                  <i class="#{notification.receiverIcon} table-icon"/>
-                  <h:outputText value="#{notification.receiver}" />
-                </p:link>
+                <ui:repeat value="#{notification.receivers}" var="receiver">
+                  <p:link href="#{receiver.viewUrl}">
+                    <i class="#{receiver.cssIconClass} table-icon"/>
+                    <h:outputText value="#{receiver.name}" />
+                  </p:link>
+                </ui:repeat>
+                <h:outputText value="..." rendered="#{notification.receiversConcat}"/>
               </p:column>
 
               <p:column headerText="PMV">

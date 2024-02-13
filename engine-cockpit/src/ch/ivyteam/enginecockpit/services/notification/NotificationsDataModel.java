@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.services.notification;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -12,8 +14,12 @@ import org.primefaces.model.SortOrder;
 
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.ivy.jsf.primefaces.sort.SortMetaConverter;
+import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.impl.NotificationRepository;
 import ch.ivyteam.ivy.notification.query.NotificationQuery;
+import ch.ivyteam.ivy.notification.query.NotificationQuery.FilterLink;
+import ch.ivyteam.ivy.security.IUser;
+import ch.ivyteam.ivy.security.query.UserQuery;
 
 public class NotificationsDataModel extends LazyDataModel<NotificationDto> {
 
@@ -50,12 +56,43 @@ public class NotificationsDataModel extends LazyDataModel<NotificationDto> {
 
   private void applyFilter(NotificationQuery query) {
     if (StringUtils.isNotEmpty(filter)) {
-      var dbFilter = "%" + filter + "%";
-      query.where().and(query().where()
-              .kind().isLikeIgnoreCase(dbFilter))
-            .or()
-              .notificationId().isLikeIgnoreCase(dbFilter);
+      FilterLink queryFilter = query().where().notificationId().isEqualIgnoreCase(filter)
+          .or().template().isEqualIgnoreCase(filter);
+      var receiverIds = matchingReceiverIds();
+      for (var receiverId : receiverIds) {
+        queryFilter.or().receiverId().isEqual(receiverId);
+      }
+      var eventKinds = matchingEventKinds();
+      for (var kind : eventKinds) {
+        queryFilter.or().kind().isEqual(kind);
+      }
+      query.where().and(queryFilter);
     }
+  }
+
+  private List<String> matchingEventKinds() {
+    return Event
+        .all()
+        .stream()
+        .filter(event -> event.displayName(Locale.ENGLISH).toLowerCase().contains(filter.toLowerCase()))
+        .map(Event::kind)
+        .toList();
+  }
+
+  private ArrayList<String> matchingReceiverIds() {
+    var receiverIds = new ArrayList<String>();
+    var matchingUsers = UserQuery.create(securitySystem.getSecurityContext().users().queryExecutor())
+        .where()
+        .name().isEqual(filter).or()
+        .fullName().isEqual(filter)
+        .executor()
+        .results(0,  2);
+    receiverIds.addAll(matchingUsers.stream().map(IUser::getSecurityMemberId).toList());
+    var matchingRole = securitySystem.getSecurityContext().roles().find(filter);
+    if (matchingRole != null) {
+      receiverIds.add(matchingRole.getSecurityMemberId());
+    }
+    return receiverIds;
   }
 
   private NotificationQuery query() {
