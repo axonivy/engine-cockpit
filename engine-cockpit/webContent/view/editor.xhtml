@@ -32,7 +32,7 @@
               <p:autoComplete id="fileDropDown" dropdown="true" value="#{editorBean.activeConfigFile}"
                 var="file" itemLabel="#{file.fileName}" itemValue="#{file}" converter="editorFileConverter"
                 completeMethod="#{editorBean.completeFiles}" groupBy="#{file.provider}">
-                <p:ajax event="itemSelect" update="editorFormContainer, sslContainer, currentFileContainer"
+                <p:ajax event="itemSelect" update="editorFormContainer, uploadDownloadBinaryFilesContainer, currentFileContainer"
                   oncomplete="handleAutocompleteSelection()" />
               </p:autoComplete>
             </div>
@@ -64,23 +64,23 @@
           </h:panelGroup>
         </h:panelGroup>
         
-        <h:panelGroup id="sslContainer" >
-          <h:form id="ssl" rendered="#{editorBean.isKeystore()}">
-          <p:fileUpload id="certUpload" mode="simple"
+        <h:panelGroup id="uploadDownloadBinaryFilesContainer" >
+          <h:form id="uploadDownloadBinary" rendered="#{editorBean.isBinary()}">
+          <p:fileUpload id="binaryUpload" mode="simple"
               skinSimple="true" multiple="false" auto="true"
               listener="#{editorBean.upload}"
-              update="ssl"
+              update="uploadDownloadBinary"
               style="display: none;" />
-            <p:commandButton title="Upload Certificate" value="Upload Certificate" 
+            <p:commandButton title="Upload Binary file" value="Upload Binary file" 
               icon="si si-upload-bottom"
-              type="button" id="Certbtn"
+              type="button" id="uploadbtn"
               styleClass="ui-button-outlined"
-              onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
+              onclick="document.getElementById(this.id.replace(':uploadbtn',':binaryUpload_input')).click(); return false;">
             </p:commandButton>
 
-            <p:commandButton title="Download Certificate" id="certDownload"
+            <p:commandButton title="Download Binary file" id="binaryDownload"
               actionListener="#{editorBean.fileDownloadView()}"
-              value="Download Certificate" ajax="false"
+              value="Download Binary file" ajax="false"
               icon="si si-download-bottom" styleClass="ui-button-outlined">
               <p:fileDownload value="#{editorBean.file}" />
             </p:commandButton>
@@ -89,7 +89,7 @@
         </h:panelGroup>
         
         <h:panelGroup id="editorFormContainer" >
-          <h:form id="editorForm" styleClass="editor-card" rendered="#{editorBean.isNotKeystore()}">
+          <h:form id="editorForm" styleClass="editor-card" rendered="#{!editorBean.isBinary()}">
             <script>
               function waitFor(resolver) {
                 const poll = resolve => {
