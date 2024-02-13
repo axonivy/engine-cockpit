@@ -29,20 +29,15 @@
       </h:panelGrid>
       <div class="custom-dialog-footer">
         <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide(); #{cc.attrs.reset};" 
-        value="Close" type="button"
-        styleClass="modal-input-button ui-button-secondary ui-button-flat"/>
+           value="Close" type="button" update="connTestForm"
+           styleClass="modal-input-button ui-button-secondary ui-button-flat"/>
         <p:commandButton id="testTlsConectionBtn" title="TLS Connection Test" rendered="#{tlsTesterBean.isHttps(cc.attrs.url)}"
            icon="si si-arrow-right" value="TLS Test"
            update="resultLog" styleClass="modal-input-button"
            actionListener="#{tlsTesterBean.testConnection(cc.attrs.url)}" />
-        <p:commandButton id="testConnectionBtn" title="Test Connection" update="resultConnect,testConnectionBtn" value="Test Rest Connection"
-          icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod}"
-          immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" />
-        <p:commandButton id="test" title="Test" rendered="#{cc.attrs.bean.isHttps(cc.attrs.url)}"
-           icon="si si-arrow-right" value="TLS Test"
-           update="connTestForm" styleClass="modal-input-button"
-           actionListener="#{cc.attrs.bean.testConnection(cc.attrs.url)}"
-            />
+        <p:commandButton id="testConnectionBtn" title="Test Connection" update="connTestForm" value="Test Rest Connection"
+           icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod};"
+           immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" action="#{tlsTesterBean.setTlsTestRendered(false)}"/>
       </div>
     </h:form>
   </p:dialog>
