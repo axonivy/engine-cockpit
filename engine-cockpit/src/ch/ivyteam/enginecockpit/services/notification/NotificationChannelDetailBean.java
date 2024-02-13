@@ -79,9 +79,9 @@ public class NotificationChannelDetailBean {
       config.allEventsEnabled(channel.isAllEventsEnabled());
       var events = channel.getEvents().stream()
               .filter(NotificationEventDto::isEnabled)
-              .map(NotificationEventDto::getKind)
+              .map(NotificationEventDto::getEvent)
               .toList();
-      config.events(events);
+      config._events(events);
       Message.info("msgs", "Successfully saved");
     } catch (Exception ex) {
       Message.error("msgs", ex);

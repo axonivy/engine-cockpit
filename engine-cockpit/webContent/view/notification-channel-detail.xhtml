@@ -79,9 +79,13 @@
             </p:selectBooleanCheckbox>
           </p:panelGrid>
           
-          <p:dataTable id="events" var="event" value="#{notificationChannelDetailBean.channel.events}">
-            <p:column headerText="Event" sortBy="#{event.kind}">
-              <h:outputText value="#{event.kind}" styleClass="event-kind" />
+          <p:dataTable id="events" var="event" value="#{notificationChannelDetailBean.channel.events}" rowIndexVar="rowIndex">
+            <p:column headerText="Event" sortBy="#{event.displayName}">
+              <h:panelGroup id="event">
+                <h:outputText value="#{event.displayName}" styleClass="event-kind" />
+                <i class="si si-question-circle"></i>
+              </h:panelGroup>
+              <p:tooltip for="form:events:#{rowIndex}:event" value="#{event.description}" position="top" styleClass="pre-tooltip" />
             </p:column>
             <p:column>
               <p:selectBooleanCheckbox id="eventEnabled" value="#{event.enabled}"

@@ -7,20 +7,20 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.ivy.migration.MigrationClient;
+import ch.ivyteam.ivy.migration.MigrationLog;
+import ch.ivyteam.ivy.migration.MigrationLog.MigrationLog4j;
 import ch.ivyteam.ivy.migration.MigrationTask;
 import ch.ivyteam.ivy.migration.MigrationTaskEvent;
 import ch.ivyteam.ivy.migration.input.Option;
 import ch.ivyteam.ivy.migration.input.Quest;
 import ch.ivyteam.ivy.migration.restricted.FileChoice;
 import ch.ivyteam.ivy.migration.restricted.diff.TextContentComparison;
-import ch.ivyteam.log.Logger;
 
-@SuppressWarnings("restriction")
 public class MigrationRunner implements MigrationClient {
 
   private List<Task> tasks;
-  private static Logger LOGGER = Logger.getLogger(MigrationClient.class);
   private boolean paused = false;
+  private MigrationLog log = new MigrationLog4j();
 
   public MigrationRunner(List<Task> tasks) {
     this.tasks = tasks;
@@ -31,8 +31,8 @@ public class MigrationRunner implements MigrationClient {
   }
 
   @Override
-  public org.apache.log4j.Logger log() {
-    return LOGGER;
+  public MigrationLog log() {
+    return log;
   }
 
   @SuppressWarnings("unchecked")
@@ -122,7 +122,7 @@ public class MigrationRunner implements MigrationClient {
 
   private static String fixWindowsPath(String line) {
     if (line.startsWith("--- ") || line.startsWith("+++ ")) {
-      return line.replaceAll("\\", "/");
+      return line.replace("\\", "/");
     }
     return line;
   }

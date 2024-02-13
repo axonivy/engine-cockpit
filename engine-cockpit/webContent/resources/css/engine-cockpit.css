@@ -458,6 +458,16 @@ body .ui-datatable .ui-datatable-header {
   cursor: pointer;
 }
 
+/* TLS Tester */
+
+.tls-tester-result-column {
+  padding: 4px !important;
+}
+
+.tls-tester-row-expansion {
+  line-height: 1em;
+}
+
 /* Directory Browser */
 .directory-browser,
 .directory-browser .p-grid {

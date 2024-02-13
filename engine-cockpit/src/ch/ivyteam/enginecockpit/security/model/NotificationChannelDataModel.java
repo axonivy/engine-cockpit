@@ -1,11 +1,13 @@
 package ch.ivyteam.enginecockpit.security.model;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
+import ch.ivyteam.ivy.notification.channel.Event;
 import ch.ivyteam.ivy.notification.channel.NotificationSubscription;
-import ch.ivyteam.ivy.notification.event.NotificationEvent;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityMember;
 
@@ -14,7 +16,7 @@ public class NotificationChannelDataModel {
   private final ISecurityMember subscriber;
   private final ISecurityContext securityContext;
 
-  private List<String> events;
+  private List<NotificationEventDto> events;
   private List<NotificationChannelDto> channels;
 
   private NotificationChannelDataModel(ISecurityMember subscriber, ISecurityContext securityContext) {
@@ -23,8 +25,8 @@ public class NotificationChannelDataModel {
   }
 
   public void onload() {
-    events = new ArrayList<>(NotificationEvent.allAsString());
-    channels = NotificationChannelDto.all(subscriber, securityContext, events);
+    events = NotificationEventDto.all();
+    channels = NotificationChannelDto.all(subscriber, securityContext);
   }
 
   public void reset() {
@@ -59,7 +61,7 @@ public class NotificationChannelDataModel {
     return channels;
   }
 
-  public List<String> getEvents() {
+  public List<NotificationEventDto> getEvents() {
     return events;
   }
 
@@ -69,4 +71,32 @@ public class NotificationChannelDataModel {
     return model;
   }
 
+  public static final class NotificationEventDto {
+
+    private Event event;
+
+    private NotificationEventDto(Event event) {
+      this.event = event;
+    }
+
+    public Event getEvent() {
+      return event;
+    }
+
+    public String getDisplayName() {
+      return event.displayName(Locale.ENGLISH);
+    }
+
+    public String getDescription() {
+      return event.description(Locale.ENGLISH);
+    }
+
+    public static List<NotificationEventDto> all() {
+      return Event.all().stream().map(NotificationEventDto::new).toList();
+    }
+
+    public static NotificationEventDto of(Event event) {
+      return new NotificationEventDto(event);
+    }
+  }
 }
