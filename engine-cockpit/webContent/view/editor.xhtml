@@ -84,7 +84,7 @@
               icon="si si-download-bottom" styleClass="ui-button-outlined">
               <p:fileDownload value="#{editorBean.file}" />
             </p:commandButton>
-
+            <p:tooltip for="binaryDownload" value="#{editorBean.name} #{editorBean.size} Bytes" />
           </h:form>
         </h:panelGroup>
         

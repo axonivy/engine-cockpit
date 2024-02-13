@@ -100,15 +100,10 @@ public class EditorBean {
   public FileInputStream getInputStream() {
     try {
       var path = activeConfigFile.getPath();
-      var inputStream = new FileInputStream(path.toFile());
-      file = DefaultStreamedContent.builder()
-              .name(path.getFileName().toString())
-              .stream(() -> inputStream)
-              .build();
+      return new FileInputStream(path.toFile());
     } catch (FileNotFoundException e) {
       throw new RuntimeException();
     }
-    return null;
   }
 
   public Integer getSize() throws IOException {
