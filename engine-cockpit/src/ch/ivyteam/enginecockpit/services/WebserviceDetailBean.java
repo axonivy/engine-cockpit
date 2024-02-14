@@ -216,6 +216,10 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     return testResult;
   }
 
+  public void reset() {
+    testResult = null;
+  }
+
   public WebServiceMonitor getLiveStats() {
     return liveStats;
   }
