@@ -35,7 +35,7 @@
            icon="si si-arrow-right" value="TLS Test"
            update="resultLog" styleClass="modal-input-button"
            actionListener="#{tlsTesterBean.testConnection(cc.attrs.url)}" />
-        <p:commandButton id="testConnectionBtn" title="Test Connection" update="connTestForm" value="Test Rest Connection"
+        <p:commandButton id="testConnectionBtn" title="Test Connection" update="connTestForm" value="Test Connection"
            icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod};"
            immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" action="#{tlsTesterBean.setTlsTestRendered(false)}"/>
       </div>
