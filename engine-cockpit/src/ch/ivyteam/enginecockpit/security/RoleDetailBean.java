@@ -177,10 +177,13 @@ public class RoleDetailBean
   {
     this.roleUser = roleUser;
   }
-  
-  public boolean hasRoleAssigned(String userName)
-  {
-    return getIRole().users().assignedPaged().stream().anyMatch(u -> u.getName().equals(userName));
+
+  public boolean hasRoleAssigned(User user) {
+    var iRole = getIRole();
+    if (iRole == null) {
+      throw new IllegalStateException("IRole not found: " + roleName);
+    }
+    return user.getIUser().getRoles().contains(iRole);
   }
 
   public List<User> searchUser(String query)
