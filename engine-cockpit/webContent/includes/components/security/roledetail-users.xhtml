@@ -68,7 +68,7 @@
           </a>
         </p:column>
         <p:column styleClass="table-btn-1">
-          <ui:param name="canBeRemoved" value="#{roleDetailBean.hasRoleAssigned(user.name)}" />
+          <ui:param name="canBeRemoved" value="#{roleDetailBean.hasRoleAssigned(user)}" />
           <p:commandButton id="removeUserFromRoleBtn" update="usersOfRoleForm"
             actionListener="#{roleDetailBean.removeUser(user.name)}" icon="si si-subtract" 
             title="#{canBeRemoved ? 'Remove' : 'This user is inherited by a sub role or a role member'}"
