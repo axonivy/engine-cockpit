@@ -15,6 +15,7 @@ import ch.ivyteam.ivy.security.administrator.Administrator;
 
 public class User implements SecurityMember {
 
+  private IUser iUser;
   private String name;
   private String fullName;
   private String email;
@@ -37,6 +38,7 @@ public class User implements SecurityMember {
   public User() {}
 
   public User(IUser user) {
+    this.iUser = user;
     this.name = user.getName();
     this.fullName = user.getFullName();
     this.email = user.getEMailAddress();
@@ -193,6 +195,10 @@ public class User implements SecurityMember {
             .email(getEmail())
             .password(getRealPassword())
             .toAdministrator();
+  }
+
+  public IUser getIUser() {
+    return iUser;
   }
 
   @Override
