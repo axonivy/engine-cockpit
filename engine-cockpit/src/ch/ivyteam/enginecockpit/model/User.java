@@ -9,6 +9,7 @@ import ch.ivyteam.ivy.security.administrator.Administrator;
 
 public class User
 {
+  private IUser iUser;
   private String name;
   private String fullName;
   private String email;
@@ -27,6 +28,7 @@ public class User
 
   public User(IUser user)
   {
+    this.iUser = user;
     this.name = user.getName();
     this.fullName = user.getFullName();
     this.email = user.getEMailAddress();
@@ -40,6 +42,10 @@ public class User
     setFullName(admin.getFullName());
     setEmail(admin.getEmail());
     setRealPassword(admin.getPassword());
+  }
+
+  public IUser getIUser() {
+    return iUser;
   }
 
   public String getName()
