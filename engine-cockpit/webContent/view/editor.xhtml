@@ -66,25 +66,25 @@
         
         <h:panelGroup id="uploadDownloadBinaryFilesContainer" >
           <h:form id="uploadDownloadBinary" rendered="#{editorBean.isBinary()}">
-          <p:fileUpload id="binaryUpload" mode="simple"
-              skinSimple="true" multiple="false" auto="true"
-              listener="#{editorBean.upload}"
-              update="uploadDownloadBinary"
-              style="display: none;" />
-            <p:commandButton title="Upload Binary file" value="Upload Binary file" 
-              icon="si si-upload-bottom"
-              type="button" id="uploadbtn"
-              styleClass="ui-button-outlined"
-              onclick="document.getElementById(this.id.replace(':uploadbtn',':binaryUpload_input')).click(); return false;">
-            </p:commandButton>
-
-            <p:commandButton title="Download Binary file" id="binaryDownload"
-              actionListener="#{editorBean.fileDownloadView()}"
-              value="Download Binary file" ajax="false"
-              icon="si si-download-bottom" styleClass="ui-button-outlined">
-              <p:fileDownload value="#{editorBean.file}" />
-            </p:commandButton>
-            <p:tooltip for="binaryDownload" value="#{editorBean.name} #{editorBean.size} Bytes" />
+            <p:fileUpload id="binaryUpload" mode="simple"
+                skinSimple="true" multiple="false" auto="true"
+                listener="#{editorBean.upload}"
+                update="uploadDownloadBinary"
+                style="display: none;" />
+              <p:commandButton title="Upload Binary file" value="Upload Binary file" 
+                icon="si si-upload-bottom"
+                type="button" id="uploadbtn"
+                styleClass="ui-button-outlined"
+                onclick="document.getElementById(this.id.replace(':uploadbtn',':binaryUpload_input')).click(); return false;">
+              </p:commandButton>
+  
+              <p:commandButton title="Download Binary file" id="binaryDownload"
+                actionListener="#{editorBean.fileDownloadView()}"
+                value="Download Binary file" ajax="false"
+                icon="si si-download-bottom" styleClass="ui-button-outlined">
+                <p:fileDownload value="#{editorBean.file}" />
+              </p:commandButton>
+              <p:tooltip for="binaryDownload" value="#{editorBean.name} #{editorBean.size} Bytes" />
           </h:form>
         </h:panelGroup>
         
