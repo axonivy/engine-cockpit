@@ -22,18 +22,17 @@ public class SearchEngineBean {
   private ElasticsearchManager searchEngine = (ElasticsearchManager) IElasticsearchManager.instance();
   private Elasticsearch elasticSearch;
   private Exception esConnectionException;
-  private List<SearchEngineIndex> indices;
-  private List<SearchEngineIndex> filteredIndices;
   private String filter;
   private SearchEngineIndex activeIndex;
   private String query;
   private String queryResult;
+  private SearchEngineIndexDataModel model;
 
   public SearchEngineBean() {
     if (!hasFailure()) {
       elasticSearch = new Elasticsearch(searchEngine.info(), searchEngine.watermark());
-      indices = SearchEngineService.instance().getIndices().collect(Collectors.toList());
     }
+    model = new SearchEngineIndexDataModel();
   }
 
   public boolean hasFailure() {
@@ -68,14 +67,6 @@ public class SearchEngineBean {
     return ExceptionUtils.getRootCauseMessage(getConnectionException());
   }
 
-  public List<SearchEngineIndex> getFilteredIndicies() {
-    return filteredIndices;
-  }
-
-  public void setFilteredIndicies(List<SearchEngineIndex> filteredIndices) {
-    this.filteredIndices = filteredIndices;
-  }
-
   public String getFilter() {
     return filter;
   }
@@ -90,10 +81,6 @@ public class SearchEngineBean {
 
   public boolean getState() {
     return elasticSearch.getHealth() != SearchEngineHealth.UNKNOWN;
-  }
-
-  public List<SearchEngineIndex> getIndices() {
-    return indices;
   }
 
   public void setActiveIndex(SearchEngineIndex index) {
@@ -135,6 +122,10 @@ public class SearchEngineBean {
       return Elasticsearch.APIS.SEARCH;
     }
     return Elasticsearch.APIS.INDEX;
+  }
+
+  public SearchEngineIndexDataModel getIndicesModel() {
+    return model;
   }
 
   public void runQuery() {

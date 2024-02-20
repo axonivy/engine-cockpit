@@ -5,11 +5,14 @@ import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.services.search.SearchEngineIndex;
-import ch.ivyteam.enginecockpit.services.search.SearchEngineService;
+import ch.ivyteam.enginecockpit.services.search.SearchEngineIndexDataModel;
+import ch.ivyteam.ivy.elasticsearch.IElasticsearchManager;
 
 @ManagedBean
 @ViewScoped
 public class SearchIndexBean {
+
+  private final IElasticsearchManager searchEngine = IElasticsearchManager.instance();
 
   private String index;
   private SearchEngineIndex searchIndex;
@@ -17,10 +20,7 @@ public class SearchIndexBean {
   private String filter;
 
   public void onload() {
-    searchIndex = SearchEngineService.instance().getIndices()
-            .filter(in -> in.getName().equals(index))
-            .findAny()
-            .orElse(null);
+    searchIndex = SearchEngineIndexDataModel.toSearchEngineIndex(searchEngine.indexByName(index));
     if (searchIndex == null) {
       ResponseHelper.notFound("Search index '" + index + "' not found");
       return;
