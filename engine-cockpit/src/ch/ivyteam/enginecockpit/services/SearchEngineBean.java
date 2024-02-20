@@ -27,8 +27,6 @@ public class SearchEngineBean {
 
   private ElasticSearch elasticSearch;
 
-  private List<SearchEngineIndex> indices;
-  private List<SearchEngineIndex> filteredIndices;
   private String filter;
 
   private SearchEngineIndex activeIndex;
@@ -36,21 +34,16 @@ public class SearchEngineBean {
   private String query;
   private String queryResult;
 
+  private SearchIndexDataModel model;
+
   public SearchEngineBean() {
     elasticSearch = new ElasticSearch(serverConfig.getServerUrl(),
             searchEngine.getBusinessDataInfo());
-    indices = searchEngine.getBusinessDataIndicesInfo().stream()
-            .map(index -> new SearchEngineIndex(index,
-                    searchEngine.isReindexing(index.getIndexName())))
-            .collect(Collectors.toList());
+    model = new SearchIndexDataModel();
   }
 
-  public List<SearchEngineIndex> getFilteredIndicies() {
-    return filteredIndices;
-  }
-
-  public void setFilteredIndicies(List<SearchEngineIndex> filteredIndices) {
-    this.filteredIndices = filteredIndices;
+  public SearchIndexDataModel getModel() {
+    return model;
   }
 
   public String getFilter() {
@@ -67,10 +60,6 @@ public class SearchEngineBean {
 
   public boolean getState() {
     return elasticSearch.getHealth() != SearchEngineHealth.UNKNOWN;
-  }
-
-  public List<SearchEngineIndex> getIndices() {
-    return indices;
   }
 
   public void setActiveIndex(SearchEngineIndex index) {
