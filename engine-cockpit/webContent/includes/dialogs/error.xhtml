@@ -13,7 +13,9 @@
         <p:commandButton id="copyError" icon="si si-copy-paste" type="button" title="Copy to clipboard" onclick="copyToClipboard($('#error\\:stackTrace').text())"
             styleClass="ui-button-flat rounded-button"/>
       </h:panelGroup>
-      <p:outputPanel id="stackTrace" styleClass="code">#{errorBean.selected.stackTrace}</p:outputPanel>  
+      <p:outputPanel id="stackTrace" styleClass="code">
+        <h:outputText value="#{errorBean.selected.stackTrace}"/>
+      </p:outputPanel>  
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="close" type="button" onclick="PF('errorDialog').hide();" value="Close" styleClass="ui-button-secondary ui-button-flat modal-input-button"/>

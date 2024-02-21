@@ -52,7 +52,7 @@
             
             <p:column headerText="Channel" sortBy="#{delivery.channel}">
               <p:link href="#{delivery.channelUri}" rendered="#{delivery.channelUri != null}">
-                <h:outputText value="${delivery.channelIcon}" class="notification-channel-table-icon" escape="false" />
+                <h:outputText value="${delivery.channelIcon}" class="notification-channel-table-icon" escape="false" /> <!-- contains no user input, contains icon -->
                 <h:outputText value="#{delivery.channel}" />
               </p:link>
             </p:column>
@@ -111,7 +111,7 @@
                     <h:outputText value=")"/>
                   </h:panelGroup>
                   <p:outputLabel value="Last Error:"/>
-                  <h:outputText value="#{delivery.error}" escape="false"/>
+                  <h:outputText value="#{delivery.error}"/>
                 </p:panelGrid>
               </p:tooltip>
             </p:column>

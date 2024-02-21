@@ -32,13 +32,17 @@ public class WebTestSlowRequests {
   void beforeEach() {
     login();
     Navigation.toSlowRequests();
-    var stop = $(id("form:stop"));
-    if (stop.is(enabled)) {
-      stop.click();
-    }
+    stop();
     var clear = $(id("form:clear"));
     if (clear.is(enabled)) {
       clear.click();
+    }
+  }
+
+  public static void stop() {
+    var stop = $(id("form:stop"));
+    if (stop.is(enabled)) {
+      stop.click();
     }
   }
 
@@ -164,5 +168,6 @@ public class WebTestSlowRequests {
   public static void prepareScreenshot() {
     Navigation.toSlowRequests();
     recordData(10);
+    stop();
   }
 }

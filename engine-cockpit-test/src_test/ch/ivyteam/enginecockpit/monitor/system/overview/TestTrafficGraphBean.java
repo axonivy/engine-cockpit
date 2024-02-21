@@ -12,7 +12,6 @@ import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.Element;
 import org.primefaces.model.diagram.overlay.LabelOverlay;
 
-import ch.ivyteam.enginecockpit.monitor.system.overview.TrafficGraphBean.System;
 import ch.ivyteam.enginecockpit.monitor.trace.TraceBean;
 import ch.ivyteam.enginecockpit.monitor.trace.TracerAccess;
 import ch.ivyteam.enginecockpit.monitor.trace.TstSpan;
@@ -48,7 +47,7 @@ class TestTrafficGraphBean {
     assertSystem(ivy, "Axon Ivy Engine", null);
 
     var http = bean.getModel().getElements().get(1);
-    assertSystem(http, "HTTP GET<br>localhost<br>http [8080]", "ok");
+    assertSystem(http, "HTTP GET", "ok");
   }
 
   @Test
@@ -67,7 +66,8 @@ class TestTrafficGraphBean {
     assertSystem(ivy, "Axon Ivy Engine", null);
 
     var http = bean.getModel().getElements().get(1);
-    assertSystem(http, "HTTP GET<br>localhost<br>http [8080]", "ok");
+    assertSystem(http, "HTTP GET", "ok");
+
   }
 
   @Test
@@ -87,7 +87,7 @@ class TestTrafficGraphBean {
     assertSystem(ivy, "Axon Ivy Engine", null);
 
     var http = bean.getModel().getElements().get(1);
-    assertSystem(http, "HTTP GET<br>localhost<br>http [8080]", "error");
+    assertSystem(http, "HTTP GET", "error");
   }
 
   @Test
@@ -143,7 +143,7 @@ class TestTrafficGraphBean {
   }
 
   private void assertSystem(Element ivy, String name, String styleClass) {
-    assertThat(ivy.getData()).isEqualTo(new System(name));
+    assertThat(ivy.getData()).isEqualTo(new TrafficGraphBean.System(name));
     assertThat(ivy.getStyleClass()).isEqualTo(styleClass);
   }
 

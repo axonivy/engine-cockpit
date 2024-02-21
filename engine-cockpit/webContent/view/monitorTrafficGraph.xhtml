@@ -41,7 +41,15 @@
             </div>
             <p:diagram id="diagram" style="border-right: dotted 1px; border-bottom: dotted 1px; height: #{trafficGraphBean.height}px; width: #{trafficGraphBean.width}px; overflow: hidden;" value="#{trafficGraphBean.model}" styleClass="ui-widget-content" var="system">
               <f:facet name="element">
-                <h:outputText value="#{system.name}" escape="false"/>
+                <h:outputText value="#{system.name}" />
+                <h:panelGroup rendered="#{system.host != null}">
+                  <br/>
+                  <h:outputText value="#{system.host}"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{system.protocolAndPort != null}">
+                  <br/>
+                  <h:outputText value="#{system.protocolAndPort}"/>
+                </h:panelGroup>
               </f:facet>
             </p:diagram>
             <p:resizable for="diagram" minHeight="200" minWidth="300" ghost="true">

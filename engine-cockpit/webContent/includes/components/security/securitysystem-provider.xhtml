@@ -58,7 +58,7 @@
           <h:panelGroup layout="block" styleClass="p-d-flex p-align-center p-mt-1">  
             <h:outputText value="#{securityProviderBean.cronReadable}" style="opacity: 0.5;"/>
             <h:outputText id="cronHelp" class="p-ml-1 si si-information-circle" style="opacity: 0.5;"/>
-            <p:tooltip for="cronHelp" value="#{securityProviderBean.cronHelp}" position="bottom" escape="false"/>
+            <p:tooltip for="cronHelp" value="#{securityProviderBean.cronHelp}" position="bottom" escape="false"/> <!-- contains no user input, contains html-->
           </h:panelGroup>
         </h:panelGroup>
         <p:messages for="onScheduleTime" id="onScheduleTimeMessage" showDetail="true">
