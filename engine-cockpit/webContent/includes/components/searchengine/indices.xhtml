@@ -47,7 +47,6 @@
           update="reindexSearchEngineModel" />
       </p:column>
     </p:dataTable>
-    <p:poll widgetVar="reindexPoller" autoStart="#{searchEngineBean.isReindexing()}" interval="2" update="@form" />
   </h:form>
 </div>
 
@@ -61,7 +60,7 @@
     <p:commandButton id="cancelChangeSecuritySystem" onclick="PF('reindexSearchEngineModel').hide();" value="Cancel"
       type="button" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
     <p:commandButton id="reindexSearchEngineBtn" update="searchEngineIndexForm"
-      onclick="PF('reindexPoller').start(); PF('reindexSearchEngineModel').hide();"
+      onclick="PF('reindexSearchEngineModel').hide();"
       actionListener="#{searchEngineBean.reindex}" value="Reindex" icon="si si-button-refresh-arrows"
       styleClass="modal-input-button" />
   </f:facet>
