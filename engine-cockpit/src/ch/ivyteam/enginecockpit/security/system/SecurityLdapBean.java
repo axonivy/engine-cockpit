@@ -1,9 +1,9 @@
 package ch.ivyteam.enginecockpit.security.system;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -319,9 +319,13 @@ public class SecurityLdapBean {
   }
 
   public Map<String, String> getEnvironmentProperties() {
-    return IConfiguration.instance().getMap(SecuritySystemConfig.SECURITY_SYSTEMS + "." + name + "." + "Connection.Environment")
-            .keySet().stream()
-            .collect(Collectors.toMap(key -> StringUtils.removeStart(key, "Connection.Environment."),
-                    key -> IConfiguration.instance().get("SecuritySystems." + name + "." + key).orElse("")));
+    var properties = IConfiguration.instance().getMap(SecuritySystemConfig.SECURITY_SYSTEMS + "." + name + "." + "Connection.Environment");
+    var newProperties = new HashMap<String, String>();
+    for (var entry : properties.entrySet()) {
+      var key = StringUtils.removeStartIgnoreCase(entry.getKey(), "Connection.Environment.");
+      var value = entry.getValue();
+      newProperties.put(key, value);
+    }
+    return newProperties;
   }
 }
