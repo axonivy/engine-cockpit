@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -31,6 +32,7 @@ public class ConfigProperty {
   private boolean password;
   private ConfigValueFormat configValueFormat;
   private List<String> enumerationValues;
+  private List<String> exampleValues = List.of();
   private boolean restartRequired;
   private String description;
   private Path file;
@@ -52,6 +54,7 @@ public class ConfigProperty {
     this.password = metaData.isPassword();
     this.configValueFormat = metaData.format();
     this.enumerationValues = metaData.enumerationValues();
+    this.exampleValues = metaData.exampleValues();
     this.restartRequired = metaData.isRestartRequired();
     this.description = metaData.description();
     this.fileExtension = metaData.fileExtension();
@@ -166,6 +169,14 @@ public class ConfigProperty {
 
   public void setEnumerationValues(Supplier<List<String>> enumerationValuesSupplier) {
     this.enumerationValuesSupplier = enumerationValuesSupplier;
+  }
+
+  public List<String> getExampleValues() {
+    return exampleValues;
+  }
+
+  public String getExamples() {
+    return exampleValues.stream().collect(Collectors.joining(", "));
   }
 
   public boolean isRestartRequired() {
