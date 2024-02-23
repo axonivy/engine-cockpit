@@ -291,7 +291,8 @@ body .ui-datatable .ui-datatable-header {
 .activity-state-active,
 .search-machine-state-true,
 .search-machine-health-green,
-.thread-runnable {
+.thread-runnable,
+.health-healthy {
   color: var(--success-color, #2aa483);
 }
 .thread-waiting {
@@ -300,7 +301,9 @@ body .ui-datatable .ui-datatable-header {
 .state-unknown,
 .activity-state-locked,
 .search-machine-health-yellow,
-.licence-messages i.warning {
+.licence-messages i.warning,
+.health-minor,
+.health-major {
   color: var(--warning-color, #ffce29);
 }
 .state-inactive,
@@ -308,7 +311,8 @@ body .ui-datatable .ui-datatable-header {
 .search-machine-state-false,
 .search-machine-health-red,
 .licence-messages i.error, 
-.thread-deadlocked {
+.thread-deadlocked,
+.health-critical {
   color: var(--error-color, #d23636);
 }
 .unused-column {
