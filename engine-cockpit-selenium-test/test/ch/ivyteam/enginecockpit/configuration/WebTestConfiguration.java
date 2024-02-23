@@ -161,7 +161,7 @@ class WebTestConfiguration {
     @Test
     void restartHint() {
       var config = "Connector.HTTP.Address";
-      assertEditConfig(config, "", "hi", "https://tomcat.apache.org");
+      assertEditConfig(config, "", "hi", "For servers with more than one IP address");
       refresh();
       $(".restart-notification").should(exist);
       table.valueForEntryShould(config, 2, exactText("hi"));
