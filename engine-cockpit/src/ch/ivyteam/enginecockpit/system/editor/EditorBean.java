@@ -1,10 +1,20 @@
 package ch.ivyteam.enginecockpit.system.editor;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 
@@ -15,6 +25,10 @@ public class EditorBean {
 
   private EditorFile activeConfigFile;
   private String selectedFile;
+
+  private StreamedContent file;
+
+  private DefaultStreamedContent binary;
 
   public EditorBean() {
     configFiles = ConfigFileRepository.instance().all().map(EditorFile::new).toList();
@@ -62,6 +76,48 @@ public class EditorBean {
 
   public void setSelectedFile(String selectedFile) {
     this.selectedFile = selectedFile;
+  }
+
+  public boolean isBinary() {
+    return activeConfigFile.isBinary();
+  }
+
+  public StreamedContent getFile() {
+      return file;
+  }
+
+  public void fileDownloadView() {
+    file = DefaultStreamedContent.builder()
+            .name(activeConfigFile.getPath().getFileName().toString())
+            .stream(() -> getInputStream())
+            .build();
+  }
+
+  public StreamedContent getBinary() {
+    return binary;
+  }
+
+  public FileInputStream getInputStream() {
+    try {
+      var path = activeConfigFile.getPath();
+      return new FileInputStream(path.toFile());
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException();
+    }
+  }
+
+  public Integer getSize() throws IOException {
+    return getInputStream().available();
+  }
+
+  public String getName() {
+    return activeConfigFile.getFileName();
+  }
+
+  public void upload(FileUploadEvent event) throws Exception {
+    try (InputStream is = event.getFile().getInputStream()) {
+      activeConfigFile.setBinary(is);
+    }
   }
 
   public boolean canSave() {
