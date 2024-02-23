@@ -115,6 +115,11 @@
           value="Description" />
         <h:outputText id="editConfigurationDescription" value="#{cc.attrs.bean.activeConfig.htmlDescription}" 
           styleClass="config-edit-description" escape="false" rendered="#{cc.attrs.bean.activeConfig.hasDescription()}" /> <!-- Contains no user input -->
+          
+        <h:outputLabel for="editConfigurationExamples" rendered="#{!cc.attrs.bean.activeConfig.exampleValues.isEmpty()}"
+          value="Examples" />
+        <h:outputText id="editConfigurationExamples" value="#{cc.attrs.bean.activeConfig.examples}" 
+          rendered="#{!cc.attrs.bean.activeConfig.exampleValues.isEmpty()}" />
 
         <h:outputLabel for="editConfigurationValue" value="Value" />
         <c:choose>
