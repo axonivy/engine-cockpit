@@ -10,7 +10,7 @@ def buildScreenshots(def phase = 'verify', def imgRefBranch = 'master', def imgS
   build(phase, mvnArgs, 'screenshots');
 
   archiveArtifacts '**/target/docu/**/*, **/target/*.html'
-  recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')], unstableNewAll: 1,
+  recordIssues filters: [includeType('screenshot-html-plugin:compare-images')], tools: [mavenConsole(name: 'Image', id: 'image-warnings')],
   qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
   currentBuild.description = "<a href=${BUILD_URL}artifact/engine-cockpit-selenium-test/target/newscreenshots.html>&raquo; Screenshots</a>"
 }
