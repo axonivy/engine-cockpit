@@ -22,6 +22,11 @@ public class RoleBean {
     roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), true);
   }
 
+  public void reloadRoles(int increaseLimitBy) {
+    var newLimit = roleDataModel.showChildLimit() + increaseLimitBy;
+    roleDataModel = new RoleDataModel(managerBean.getSelectedSecuritySystem(), true, newLimit);
+  }
+
   public RoleDataModel getRoles() {
     return roleDataModel;
   }

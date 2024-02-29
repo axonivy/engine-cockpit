@@ -41,7 +41,7 @@ class WebTestManyRoles {
   void manyRolesLoadLimit() {
     var treeNodes = Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treetable-data tr";
     $$(treeNodes).shouldBe(size(102));
-    $$(treeNodes).last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
+    $$(treeNodes).last().shouldHave(text("Show more"));
     $(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-inputfield").sendKeys("role-");
     $$(treeNodes).shouldBe(size(101));
     $$(treeNodes).last().shouldHave(text("The current search has more than 100 results."));
