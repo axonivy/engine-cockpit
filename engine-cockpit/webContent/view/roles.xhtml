@@ -68,7 +68,8 @@
                   </a>
                 </p:treeNode>
                 <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
-                  <p:commandButton value="Show more (#{role.name} roles left)" update="tree" actionListener="#{roleBean.reloadRoles(1000)}"   />
+                  <p:commandButton value="Show more (#{role.name} left)" update="tree"
+                    actionListener="#{roleBean.increaseShowChildLimitAndReloadTree(1000)}" />
                 </p:treeNode>
                 <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">
                   <i class="si si-navigation-menu-horizontal table-icon"></i>

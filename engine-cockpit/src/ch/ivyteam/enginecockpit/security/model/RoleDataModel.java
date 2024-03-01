@@ -13,7 +13,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class RoleDataModel extends TreeView<Role> {
   private static final int ROLE_CHILDREN_LIMIT = 100;
-  private final int showChildLimit;
+  private int showChildLimit;
   private final ISecurityContext securityContext;
   private final boolean showMember;
   private final List<Role> roles;
@@ -53,6 +53,11 @@ public class RoleDataModel extends TreeView<Role> {
     // Not used because of overridden setFilter
   }
 
+  public void increaseShowChildLimitAndReloadTree(int increaseLimitBy) {
+    this.showChildLimit+=increaseLimitBy;
+    reloadTree();
+  }
+
   public List<Role> getList() {
     return roles;
   }
@@ -63,10 +68,6 @@ public class RoleDataModel extends TreeView<Role> {
     var role = securityContext.roles().topLevel();
     var node = new LazyRoleTreeNode(role, false, rootTreeNode);
     node.setExpanded(true);
-  }
-
-  public int showChildLimit() {
-    return showChildLimit;
   }
 
   public class LazyRoleTreeNode extends DefaultTreeNode<Role> {
