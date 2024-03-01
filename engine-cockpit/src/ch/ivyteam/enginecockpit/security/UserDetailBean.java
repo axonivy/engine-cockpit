@@ -122,6 +122,10 @@ public class UserDetailBean {
     return "users.xhtml?faces-redirect=true";
   }
 
+  public void increaseShowChildLimitAndReloadTree(int increaseLimitBy) {
+    roleDataModel.increaseShowChildLimitAndReloadTree(increaseLimitBy);
+  }
+
   public void disableUser() {
     getIUser().disable();
   }

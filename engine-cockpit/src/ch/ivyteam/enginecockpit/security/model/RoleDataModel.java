@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.security.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +13,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 
 public class RoleDataModel extends TreeView<Role> {
   private static final int ROLE_CHILDREN_LIMIT = 100;
-  private final int showChildLimit;
+  private int showChildLimit;
   private final ISecurityContext securityContext;
   private final boolean showMember;
   private final List<Role> roles;
@@ -41,7 +42,7 @@ public class RoleDataModel extends TreeView<Role> {
             .limit(showChildLimit)
             .forEach(role -> new DefaultTreeNode<>("role", role, filteredTreeNode));
     if (filteredTreeNode.getChildCount() >= showChildLimit) {
-      new DefaultTreeNode<>("dummy",
+      new DefaultTreeNode<>("searchDummy",
               new Role("", "The current search has more than " + showChildLimit + " results."),
               filteredTreeNode);
     }
@@ -50,6 +51,11 @@ public class RoleDataModel extends TreeView<Role> {
   @Override
   protected void filterNode(TreeNode<Role> node) {
     // Not used because of overridden setFilter
+  }
+
+  public void increaseShowChildLimitAndReloadTree(int increaseLimitBy) {
+    this.showChildLimit+=increaseLimitBy;
+    reloadTree();
   }
 
   public List<Role> getList() {
@@ -117,14 +123,13 @@ public class RoleDataModel extends TreeView<Role> {
         addRolesToTree(role.getRoleMembers(), true);
       }
       if (rolesLeft > 0) {
-        new DefaultTreeNode<>("dummy",
-                new Role("", "Please use the search to find a specific role (" + rolesLeft + " more roles)"),
-                this);
+        new DefaultTreeNode<>("dummy", new Role("", Integer.toString(rolesLeft)), this);
       }
     }
 
     private int addRolesToTree(List<IRole> rolesToAdd, boolean isMember) {
       super.getChildren().addAll(rolesToAdd.stream()
+              .sorted(Comparator.comparing(IRole::getName))
               .limit(showChildLimit)
               .map(child -> new LazyRoleTreeNode(child, isMember, this))
               .collect(Collectors.toList()));
