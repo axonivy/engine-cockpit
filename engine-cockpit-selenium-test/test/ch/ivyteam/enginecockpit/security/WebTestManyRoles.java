@@ -69,7 +69,7 @@ class WebTestManyRoles {
 
   @Test
   void showMoreRoles_userDetail() {
-	Navigation.toUserDetail("foo");
+    Navigation.toUserDetail("foo");
     var treeNodes = "#rolesOfUserForm\\:rolesTree .ui-node-level-2";
     $$(treeNodes).shouldBe(size(21));
     $$(treeNodes).last().shouldHave(text("Show more")).$("button").click();
