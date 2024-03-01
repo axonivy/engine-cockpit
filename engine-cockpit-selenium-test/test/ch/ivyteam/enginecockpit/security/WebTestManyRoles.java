@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security;
 
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -41,7 +42,7 @@ class WebTestManyRoles {
   void manyRolesLoadLimit() {
     var treeNodes = Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treetable-data tr";
     $$(treeNodes).shouldBe(size(102));
-    $$(treeNodes).last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
+    $$(treeNodes).last().shouldHave(text("Show more ("), text("left)"));
     $(Tab.SECURITY_SYSTEM.activePanelCss + " .ui-inputfield").sendKeys("role-");
     $$(treeNodes).shouldBe(size(101));
     $$(treeNodes).last().shouldHave(text("The current search has more than 100 results."));
@@ -51,11 +52,29 @@ class WebTestManyRoles {
   void manyRolesLoadLimit_userDetail() {
     Navigation.toUserDetail("foo");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").shouldBe(size(21));
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last()
-            .shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
+    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last().shouldHave(text("Show more ("), text("left)"));
     $("#rolesOfUserForm\\:rolesTree\\:globalFilter").sendKeys("role-");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(21));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last()
             .shouldHave(text("The current search has more than 20 results."));
+  }
+  
+  @Test
+  void showMoreRoles() {
+    var treeNodes = Tab.SECURITY_SYSTEM.activePanelCss + " .ui-treetable-data tr";
+    $$(treeNodes).shouldBe(size(102));
+    $$(treeNodes).last().shouldHave(text("Show more")).$("button").click();
+    $$(treeNodes).last().shouldNotHave(text("Show more"));
+    $$(treeNodes).shouldBe(sizeGreaterThan(102));
+  }
+
+  @Test
+  void showMoreRoles_userDetail() {
+    Navigation.toUserDetail("foo");
+    var treeNodes = "#rolesOfUserForm\\:rolesTree .ui-node-level-2";
+    $$(treeNodes).shouldBe(size(21));
+    $$(treeNodes).last().shouldHave(text("Show more")).$("button").click();
+    $$(treeNodes).last().shouldNotHave(text("Show more"));
+    $$(treeNodes).shouldBe(sizeGreaterThan(102));
   }
 }
