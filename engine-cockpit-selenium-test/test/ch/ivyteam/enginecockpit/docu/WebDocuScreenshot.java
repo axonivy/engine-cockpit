@@ -167,6 +167,10 @@ class WebDocuScreenshot {
     takeScreenshot("rest-clients", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toRestClientDetail("test-rest");
     takeScreenshot("rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
+    $(By.id("restClientConfigurationForm:url")).clear();
+    $(By.id("restClientConfigurationForm:url")).sendKeys("https://test-webservices.ivyteam.io:8090/api/v3");
+    $(By.id("restClientConfigurationForm:testRestBtn")).click();
+    takeDialogScreenshot("tls-tester", By.id("connResult:connTestForm:testTlsConectionBtn"));
     Navigation.toSearchEngine();
     takeScreenshot("search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toNotificationChannels();
