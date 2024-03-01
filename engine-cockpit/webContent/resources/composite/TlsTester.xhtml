@@ -10,15 +10,14 @@
 </cc:interface>
 <cc:implementation>
   <p:dialog
-    header="TLS Test connection" id="testTLSResult"
+    header="TLS Test connection" id="testTLSResult" height="100%"
     widgetVar="testTLSResult" modal="true" responsive="true"
     closeOnEscape="true">
     <ui:composition>
       <h:form id="form">
         <p:dataTable value="#{tlsTesterBean.testResult}" var="logEntry"
           rowKey="#{logEntry.result}"
-          id="logList" lazy="false" scrollable="true" scrollWidth="100%"
-          scrollHeight="300">
+          id="logList" lazy="false" scrollable="true" scrollWidth="100%">
           <p:column width="1em" 
           styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
             <p:rowToggler rendered="#{tlsTesterBean.isExecuted(logEntry.result)}"/>
