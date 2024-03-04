@@ -39,7 +39,7 @@
         </a>
       </p:treeNode>
       <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
-        <p:commandButton value="Show more (#{role.name} left)" update="rolesTree"
+        <p:commandButton style="width: 250px"  value="Show more (#{role.name} left)" update="rolesTree"
           actionListener="#{userDetailBean.increaseShowChildLimitAndReloadTree(1000)}" />
       </p:treeNode>
       <p:treeNode type="searchDummy" rendered="#{node.type == 'searchDummy'}">
