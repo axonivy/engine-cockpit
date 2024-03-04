@@ -48,7 +48,7 @@ public class WebTestRoles
   @Test
   void testManyRolesLoadLimit()
   {
-    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(102));
+    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(103));
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last().shouldHave(text("Show more ("), text("left)"));
     $(Tab.ACITVE_PANEL_CSS + " .ui-inputfield").sendKeys("role-");
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(101));
@@ -70,10 +70,10 @@ public class WebTestRoles
   void showMoreRoles()
   {
     var treeNodes = $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content");
-    treeNodes.shouldBe(size(102));
+    treeNodes.shouldBe(size(103));
     treeNodes.last().shouldHave(text("Show more")).$("button").click();
     treeNodes.last().shouldNotHave(text("Show more"));
-    treeNodes.shouldBe(sizeGreaterThan(102));
+    treeNodes.shouldBe(sizeGreaterThan(103));
   }
 
   @Test
