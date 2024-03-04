@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ import ch.ivyteam.ivy.security.ISecurityContext;
 public class RoleDataModel
 {
   private static final int ROLE_CHILDREN_LIMIT = 100;
-  private final int showChildLimit;
+  private int showChildLimit;
   private final ISecurityContext securityContext;
   private final boolean showMember;
   private final List<Role> roles;
@@ -50,13 +51,19 @@ public class RoleDataModel
             .forEach(role -> new DefaultTreeNode("role", role, filteredTreeRootNode));
     if (filteredTreeRootNode.getChildCount() >= showChildLimit)
     {
-      new DefaultTreeNode("dummy", new Role("The current search has more than " + showChildLimit + " results."), filteredTreeRootNode);
+      new DefaultTreeNode("searchDummy", new Role("The current search has more than " + showChildLimit + " results."), filteredTreeRootNode);
     }
   }
 
   public String getFilter()
   {
     return filter;
+  }
+
+  public void increaseShowChildLimitAndReloadTree(int increaseLimitBy)
+  {
+    this.showChildLimit+=increaseLimitBy;
+    buildRoleTree();
   }
 
   public List<Role> getList()
@@ -141,13 +148,14 @@ public class RoleDataModel
       }
       if (rolesLeft > 0)
       {
-        new DefaultTreeNode("dummy", new Role("Please use the search to find a specific role (" + rolesLeft + " more roles)"), this);
+        new DefaultTreeNode("dummy", new Role(Integer.toString(rolesLeft)), this);
       }
     }
 
     private int addRolesToTree(List<IRole> rolesToAdd, boolean member)
     {
       super.getChildren().addAll(rolesToAdd.stream()
+              .sorted(Comparator.comparing(IRole::getName))
               .limit(showChildLimit)
               .map(child -> new LazyRoleTreeNode(child, member, this))
               .collect(Collectors.toList()));

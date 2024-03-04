@@ -172,6 +172,11 @@ public class UserDetailBean
     return roleDataModel;
   }
 
+  public void increaseShowChildLimitAndReloadTree(int increaseLimitBy)
+  {
+    roleDataModel.increaseShowChildLimitAndReloadTree(increaseLimitBy);
+  }
+
   public boolean isUserMemberOfAllRole(String roleName)
   {
     return getIUser().getAllRoles().stream().anyMatch(r -> r.getName().equals(roleName));
