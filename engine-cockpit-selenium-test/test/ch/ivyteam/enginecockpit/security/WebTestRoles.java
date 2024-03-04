@@ -49,7 +49,7 @@ public class WebTestRoles
   void testManyRolesLoadLimit()
   {
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(102));
-    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
+    $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last().shouldHave(text("Show more ("), text("left)"));
     $(Tab.ACITVE_PANEL_CSS + " .ui-inputfield").sendKeys("role-");
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").shouldBe(size(101));
     $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content").last().shouldHave(text("The current search has more than 100 results."));
@@ -60,10 +60,30 @@ public class WebTestRoles
   {
     Navigation.toUserDetail("foo");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").shouldBe(size(21));
-    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last().shouldHave(text("Please use the search to find a specific role ("), text("more roles)"));
+    $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last().shouldHave(text("Show more ("), text("left)"));
     $("#rolesOfUserForm .table-search-input-withicon").sendKeys("role-");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(21));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last().shouldHave(text("The current search has more than 20 results."));
   }
 
+  @Test
+  void showMoreRoles()
+  {
+    var treeNodes = $$(Tab.ACITVE_PANEL_CSS + " .ui-treenode-content");
+    treeNodes.shouldBe(size(102));
+    treeNodes.last().shouldHave(text("Show more")).$("button").click();
+    treeNodes.last().shouldNotHave(text("Show more"));
+    treeNodes.shouldBe(sizeGreaterThan(102));
+  }
+
+  @Test
+  void showMoreRoles_userDetail()
+  {
+    Navigation.toUserDetail("foo");
+    var treeNodes = $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2");
+    treeNodes.shouldBe(size(21));
+    treeNodes.last().shouldHave(text("Show more")).$("button").click();
+    treeNodes.last().shouldNotHave(text("Show more"));
+    treeNodes.shouldBe(sizeGreaterThan(102));
+  }
 }
