@@ -53,29 +53,27 @@
                 </p:outputPanel>
               </div>
             </div>
-            <p:treeTable id="tree" value="#{roleBean.roles.tree}" var="role" nodeVar="node">
+            <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role">
               <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}" />
               <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}" />
-              <p:column>
-                <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role" rendered="#{node.type == 'role'}">
-                  <a href="#{role.viewUrl}" class="role-name"
-                    title="#{role.member ? 'Member' : 'Role'}">
-                    <h:outputText value="#{role.name}" />
-                    <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
-                    <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}"
-                      styleClass="addition-row-info" />
-                  </a>
-                </p:treeNode>
-                <p:treeNode type="dummy" rendered="#{node.type == 'dummy'}">
-                  <p:commandButton style="width: 250px"  value="Show more (#{role.name} left)" update="tree"
-                    actionListener="#{roleBean.increaseShowChildLimitAndReloadTree(1000)}" />
-                </p:treeNode>
-                <p:treeNode icon="ui-icon-more-horiz" type="searchDummy" rendered="#{node.type == 'searchDummy'}">
-                  <h:outputText value="#{role.name}"
-                    title="For performance reasons only the first 100 roles are loaded. Use the search to find a specific role." />
-                </p:treeNode>
-              </p:column>
-            </p:treeTable>
+              <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role">
+                <a href="#{role.viewUrl}" class="role-name"
+                  title="#{role.member ? 'Member' : 'Role'}">
+                  <h:outputText value="#{role.name}" />
+                  <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+                  <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}"
+                    styleClass="addition-row-info" />
+                </a>
+              </p:treeNode>
+              <p:treeNode type="dummy">
+                <p:commandButton style="width: 250px"  value="Show more (#{role.name} left)" update="tree"
+                  actionListener="#{roleBean.increaseShowChildLimitAndReloadTree(1000)}" />
+              </p:treeNode>
+              <p:treeNode icon="ui-icon-more-horiz" type="searchDummy">
+                <h:outputText value="#{role.name}"
+                  title="For performance reasons only the first 100 roles are loaded. Use the search to find a specific role." />
+              </p:treeNode>
+            </p:tree>
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>
