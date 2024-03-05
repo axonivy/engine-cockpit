@@ -48,30 +48,32 @@
                   </label>
                   <p:inputText styleClass="table-search-input-withicon" placeholder="Search"
                     value="#{roleBean.roles.filter}">
-                    <p:ajax event="keyup" delay="500" update="treeForm:tree" />
+                    <p:ajax event="keyup" delay="500" update="tree" />
                   </p:inputText>
                 </p:outputPanel>
               </div>
             </div>
-            <h:form id="treeForm">
-              <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role" dynamic="true">
-                <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}" />
-                <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}" />
-                <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role">
-                  <a href="#{role.viewUrl}" class="role-name"
-                    title="#{role.member ? 'Member' : 'Role'}">
-                    <h:outputText value="#{role.name}" />
-                    <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
-                    <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}"
-                      styleClass="addition-row-info" />
-                  </a>
-                </p:treeNode>
-                <p:treeNode icon="ui-icon-more-horiz" type="dummy">
-                  <h:outputText value="#{role.name}"
-                    title="For performance reasons only the first 100 roles are loaded. Use the search to find a specific role." />
-                </p:treeNode>
-              </p:tree>
-            </h:form>
+            <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role" dynamic="true"> 
+              <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}" />
+              <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}" />
+              <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role">
+                <a href="#{role.viewUrl}" class="role-name"
+                  title="#{role.member ? 'Member' : 'Role'}">
+                  <h:outputText value="#{role.name}" />
+                  <h:outputText value=" (#{role.displayName})" styleClass="addition-row-info" />
+                  <h:outputText value=" [External: '#{role.externalName}']" rendered="#{not empty role.externalName}"
+                    styleClass="addition-row-info" />
+                </a>
+              </p:treeNode>
+              <p:treeNode type="dummy">
+                <p:commandButton style="width: 250px"  value="Show more (#{role.name} left)" update="tree"
+                  actionListener="#{roleBean.increaseShowChildLimitAndReloadTree(1000)}" />
+              </p:treeNode>
+              <p:treeNode icon="ui-icon-more-horiz" type="searchDummy">
+                <h:outputText value="#{role.name}"
+                  title="For performance reasons only the first 100 roles are loaded. Use the search to find a specific role." />
+              </p:treeNode>
+            </p:tree>
           </cc:ApplicationTabs>
         </cc:SingleCard>
       </h:form>
