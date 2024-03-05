@@ -53,7 +53,7 @@
                 </p:outputPanel>
               </div>
             </div>
-            <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role">
+            <p:tree id="tree" widgetVar="tree" value="#{roleBean.roles.tree}" var="role" dynamic="true"> 
               <p:ajax event="expand" listener="#{treeEventBean.nodeExpand}" />
               <p:ajax event="collapse" listener="#{treeEventBean.nodeCollapse}" />
               <p:treeNode icon="ui-icon-group#{role.member ? '-add' : ''}" type="role">
