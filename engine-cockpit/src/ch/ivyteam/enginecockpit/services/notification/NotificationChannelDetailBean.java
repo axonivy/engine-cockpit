@@ -81,7 +81,7 @@ public class NotificationChannelDetailBean {
               .filter(NotificationEventDto::isEnabled)
               .map(NotificationEventDto::getEvent)
               .toList();
-      config._events(events);
+      config.events(events);
       Message.info("msgs", "Successfully saved");
     } catch (Exception ex) {
       Message.error("msgs", ex);

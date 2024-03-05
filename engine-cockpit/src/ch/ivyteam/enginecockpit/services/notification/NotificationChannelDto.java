@@ -138,7 +138,7 @@ public class NotificationChannelDto {
   public static NotificationChannelDto instance(ISecurityContext securityContext, NotificationChannel channel) {
     var config = channel.config();
     var allEvents = Event.all();
-    var presentEvents = config._events();
+    var presentEvents = config.events();
     var events = allEvents.stream()
             .map(event -> new NotificationEventDto(event, presentEvents.contains(event)))
             .collect(Collectors.toList());
