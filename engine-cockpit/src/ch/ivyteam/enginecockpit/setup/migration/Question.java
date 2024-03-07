@@ -19,7 +19,8 @@ public class Question {
     title = quest.title;
     more = quest.more;
     options = quest.options;
-    this.diff = RegExUtils.replaceAll(diff, "(\\r|\\n|\\r\\n)", "\\\\n");
+    diff = RegExUtils.replaceAll(diff, "(\\r|\\n|\\r\\n)", "\\\\n");
+    this.diff = diff.replace("'", "\\'"); // for javascript
   }
 
   public String getTitle() {
