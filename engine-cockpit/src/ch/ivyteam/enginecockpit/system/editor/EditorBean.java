@@ -7,8 +7,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
@@ -25,6 +27,9 @@ public class EditorBean {
 
   private EditorFile activeConfigFile;
   private String selectedFile;
+  private InputStream is;
+  private String uploadedFileName;
+
 
   private StreamedContent file;
 
@@ -64,6 +69,10 @@ public class EditorBean {
 
   public EditorFile getActiveConfigFile() {
     return activeConfigFile;
+  }
+
+  public String getActiveConfigFileName() {
+    return activeConfigFile.getFileName();
   }
 
   public void setActiveConfigFile(EditorFile activeConfigFile) {
@@ -114,13 +123,39 @@ public class EditorBean {
     return activeConfigFile.getFileName();
   }
 
-  public void upload(FileUploadEvent event) throws Exception {
-    try (InputStream is = event.getFile().getInputStream()) {
-      activeConfigFile.setBinary(is);
+  public void upload(FileUploadEvent event) {
+    try {
+      is = event.getFile().getInputStream();
+      String originalFileName = event.getFile().getFileName();
+      uploadedFileName = originalFileName;
+      String extension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
+      if (activeConfigFile.getFileName().endsWith(extension)) {
+        activeConfigFile.setBinary(is);
+        addMessage("File Uploaded", "'" + originalFileName + "' uploaded successfully.");
+        return;
+      }
+      PrimeFaces.current().executeScript("PF('confirmationDialog').show()");
+    } catch (Exception ex) {
+      throw new RuntimeException("Failed to load inputstream", ex);
     }
+  }
+
+  public void uploadNotBinary() {
+    activeConfigFile.setBinary(is);
+    addMessage("File Uploaded", "'" + getUploadedFileName() + "' uploaded successfully.");
+  }
+
+  public String getUploadedFileName() {
+    return uploadedFileName;
+  }
+
+  public void addMessage(String summary, String detail) {
+    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+    FacesContext.getCurrentInstance().addMessage(null, message);
   }
 
   public boolean canSave() {
     return activeConfigFile != null && !activeConfigFile.isReadOnly();
   }
+
 }

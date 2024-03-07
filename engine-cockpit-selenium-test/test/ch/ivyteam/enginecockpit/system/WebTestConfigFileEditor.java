@@ -112,16 +112,35 @@ class WebTestConfigFileEditor {
     $(By.id("fileChooserForm:fileDropDown_input")).clear();
     $(By.id("fileChooserForm:fileDropDown_input")).sendKeys("truststore.p12");
     $(By.id("fileChooserForm:fileDropDown_panel")).click();
+    uploadTruststore();
+    Navigation.toSSL();
+    var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
+    table.firstColumnShouldBe(texts("ivy"));
+    table.clickButtonForEntry("ivy", "delete");
+  }
+
+  private void uploadTruststore() throws IOException {
     $(By.id("uploadDownloadBinary:uploadbtn")).shouldHave(text("Upload Binary file"));
     var createTempFile = Files.createTempFile("truststore", ".p12");
     try (var is = WebTestConfigFileEditor.class.getResourceAsStream("truststore.p12")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
     $(By.id("uploadDownloadBinary:binaryUpload_input")).sendKeys(createTempFile.toString());
-    Navigation.toSSL();
-    var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
-    table.firstColumnShouldBe(texts("ivy"));
-    table.clickButtonForEntry("ivy", "delete");
+  }
+
+  @Test
+  void uploadBinaryCert() throws IOException {
+    $(By.id("fileChooserForm:fileDropDown_input")).clear();
+    $(By.id("fileChooserForm:fileDropDown_input")).sendKeys("truststore.p12");
+    $(By.id("fileChooserForm:fileDropDown_panel")).click();
+    $(By.id("uploadDownloadBinary:uploadbtn")).shouldHave(text("Upload Binary file"));
+    var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
+    try (var is = WebTestConfigFileEditor.class.getResourceAsStream("jiraaxonivycom.crt")) {
+      Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
+    }
+    $(By.id("uploadDownloadBinary:binaryUpload_input")).sendKeys(createTempFile.toString());
+    $(By.id("yes"));
+    uploadTruststore();
   }
 
   private void saveEditor() {
