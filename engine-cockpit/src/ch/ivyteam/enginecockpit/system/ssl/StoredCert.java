@@ -31,14 +31,14 @@ public class StoredCert {
   }
 
   public static String shortSubject(String fullName) {
-    var nameParts = fullName.split(",");
-    String cName = nameParts[0];
-    var assign = cName.indexOf('=');
-    if (assign != -1) {
-      return cName.substring(assign+1);
+    String[] parts = fullName.split(",");
+    for (String part : parts) {
+        if (part.trim().startsWith("CN=")) {
+            return part.trim().substring(3);
+        }
     }
-    return cName;
-  }
+    return parts[0].trim();
+}
 
   public boolean isValid() {
     return invalidityMessage == null;

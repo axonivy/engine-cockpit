@@ -28,6 +28,7 @@ class TestSslClientBean {
   void subject_noCN() {
     assertThat(shortSubject("CN=jira.axonivy.com,OU=ivyteam")).isEqualTo("jira.axonivy.com");
     assertThat(shortSubject("jira.axonivy.com")).isEqualTo("jira.axonivy.com");
+    assertThat(shortSubject("E=alexander.suter@axonivy.com,CN=Alexander Suter,OU=ivyTeam")).isEqualTo("Alexander Suter");
     assertThat(shortSubject("CN=,OU=ivyteam")).isEqualTo("");
     assertThat(shortSubject("")).isEqualTo("");
   }
