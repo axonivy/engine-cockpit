@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui">
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:jc="http://xmlns.jcp.org/jsf/composite/demo-jsfcomponents">
 <cc:interface>
   <cc:attribute name="url" />
   <cc:attribute name="result" />
@@ -22,9 +23,7 @@
         </h:panelGroup>
         <h:panelGroup id="resultTLS" styleClass="ui-fluid"
           rendered="#{tlsTesterBean.tlsTestRendered}">
-          <ui:include src="/resources/composite/TlsTester.xhtml">
-            <ui:param name="url" value="#{cc.attrs.url}" />
-          </ui:include>
+          <jc:TlsTester url="#{cc.attrs.url}" />
         </h:panelGroup>
       </h:panelGrid>
       <div class="custom-dialog-footer">

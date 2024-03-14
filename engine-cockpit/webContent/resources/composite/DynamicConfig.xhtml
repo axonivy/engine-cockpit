@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:er="http://java.sun.com/jsf/composite/composite">
+  xmlns:p="http://primefaces.org/ui" xmlns:er="http://java.sun.com/jsf/composite/composite"
+  xmlns:jc="http://java.sun.com/jsf/composite/demo-jsfcomponents">
 
 <cc:interface>
   <cc:attribute name="dynamicConfig" type="ch.ivyteam.enginecockpit.dynamic.config.DynamicConfig" required="true" />
@@ -214,9 +215,7 @@
     modal="true" responsive="false" closeOnEscape="true">
     <h:panelGroup id="resultTLS" styleClass="ui-fluid"
       rendered="#{tlsTesterBean.tlsTestRendered}">
-      <ui:include src="/resources/composite/TlsTester.xhtml">
-        <ui:param name="url" value="#{property.value}" />
-      </ui:include>
+      <jc:TlsTester url="#{property.value}"></jc:TlsTester>
       <p:commandButton id="close"
         onclick="PF('connectionTestModel').hide();" value="Close"
         type="button"
