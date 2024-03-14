@@ -7,8 +7,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
@@ -114,13 +116,28 @@ public class EditorBean {
     return activeConfigFile.getFileName();
   }
 
-  public void upload(FileUploadEvent event) throws Exception {
+  public void upload(FileUploadEvent event) {
     try (InputStream is = event.getFile().getInputStream()) {
+      String originalFileName = event.getFile().getFileName();
+      String extension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
+      if (!activeConfigFile.getFileName().endsWith(extension)) {
+        addMessage(FacesMessage.SEVERITY_ERROR, "Invalid file extension", "'" + originalFileName + "' could not be uploaded because of wrong file extension.");
+        return;
+      }
       activeConfigFile.setBinary(is);
+      addMessage(FacesMessage.SEVERITY_INFO, "File Uploaded", "'" + originalFileName + "' uploaded successfully.");
+    } catch (Exception ex) {
+      throw new RuntimeException("Failed to load inputstream", ex);
     }
+  }
+
+  public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
+    FacesMessage message = new FacesMessage(severity, summary, detail);
+    FacesContext.getCurrentInstance().addMessage(null, message);
   }
 
   public boolean canSave() {
     return activeConfigFile != null && !activeConfigFile.isReadOnly();
   }
+
 }

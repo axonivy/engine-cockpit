@@ -66,6 +66,7 @@
         
         <h:panelGroup id="uploadDownloadBinaryFilesContainer" >
           <h:form id="uploadDownloadBinary" rendered="#{editorBean.isBinary()}">
+            <p:messages id="messages" showDetail="true" closable="true" />
             <p:fileUpload id="binaryUpload" mode="simple"
                 skinSimple="true" multiple="false" auto="true"
                 listener="#{editorBean.upload}"
@@ -77,7 +78,6 @@
                 styleClass="ui-button-outlined"
                 onclick="document.getElementById(this.id.replace(':uploadbtn',':binaryUpload_input')).click(); return false;">
               </p:commandButton>
-  
               <p:commandButton title="Download Binary file" id="binaryDownload"
                 actionListener="#{editorBean.fileDownloadView()}"
                 value="Download Binary file" ajax="false"
