@@ -104,7 +104,7 @@ class WebTestConfigFileEditor {
     $(By.id("fileChooserForm:fileDropDown_input")).clear();
     $(By.id("fileChooserForm:fileDropDown_input")).sendKeys("truststore.p12");
     $(By.id("fileChooserForm:fileDropDown_panel")).click();
-    $(By.id("uploadDownloadBinary:binaryDownload")).shouldHave(text("Download Binary file"));
+    $(By.id("uploadDownloadBinary:binaryDownload")).shouldHave(text("Download .p12"));
   }
 
   @Test
@@ -120,7 +120,7 @@ class WebTestConfigFileEditor {
   }
 
   private void uploadTruststore() throws IOException {
-    $(By.id("uploadDownloadBinary:uploadbtn")).shouldHave(text("Upload Binary file"));
+    $(By.id("uploadDownloadBinary:uploadbtn")).shouldHave(text("Upload .p12"));
     var createTempFile = Files.createTempFile("truststore", ".p12");
     try (var is = WebTestConfigFileEditor.class.getResourceAsStream("truststore.p12")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
@@ -133,13 +133,13 @@ class WebTestConfigFileEditor {
     $(By.id("fileChooserForm:fileDropDown_input")).clear();
     $(By.id("fileChooserForm:fileDropDown_input")).sendKeys("truststore.p12");
     $(By.id("fileChooserForm:fileDropDown_panel")).click();
-    $(By.id("uploadDownloadBinary:uploadbtn")).shouldHave(text("Upload Binary file"));
+    $(By.id("uploadDownloadBinary:uploadbtn")).shouldHave(text("Upload .p12"));
     var createTempFile = Files.createTempFile("jiraaxonivycom", ".crt");
     try (var is = WebTestConfigFileEditor.class.getResourceAsStream("jiraaxonivycom.crt")) {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
     $(By.id("uploadDownloadBinary:binaryUpload_input")).sendKeys(createTempFile.toString());
-    $(By.id("uploadDownloadBinary:messages")).shouldHave(text("Invalid file extension"));
+    $(By.id("uploadDownloadBinary:messages")).shouldHave(text("Invalid extension"));
   }
 
   private void saveEditor() {

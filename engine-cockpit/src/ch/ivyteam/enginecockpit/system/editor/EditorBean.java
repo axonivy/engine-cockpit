@@ -121,11 +121,11 @@ public class EditorBean {
       String originalFileName = event.getFile().getFileName();
       String extension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
       if (!activeConfigFile.getFileName().endsWith(extension)) {
-        addMessage(FacesMessage.SEVERITY_ERROR, "Invalid file extension", "'" + originalFileName + "' could not be uploaded because of wrong file extension.");
+        addMessage(FacesMessage.SEVERITY_ERROR, "Invalid extension", "'" + originalFileName + "' could not be uploaded because of wrong file extension. The extension should be .p12");
         return;
       }
       activeConfigFile.setBinary(is);
-      addMessage(FacesMessage.SEVERITY_INFO, "File Uploaded", "'" + originalFileName + "' uploaded successfully.");
+      addMessage(FacesMessage.SEVERITY_INFO, "File Uploaded", "'" + originalFileName + "' uploaded successfully and stored as "+ getName() + ".");
     } catch (Exception ex) {
       throw new RuntimeException("Failed to load inputstream", ex);
     }
