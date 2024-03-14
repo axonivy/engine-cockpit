@@ -139,8 +139,7 @@ class WebTestConfigFileEditor {
       Files.copy(is, createTempFile, StandardCopyOption.REPLACE_EXISTING);
     }
     $(By.id("uploadDownloadBinary:binaryUpload_input")).sendKeys(createTempFile.toString());
-    $(By.id("yes"));
-    uploadTruststore();
+    $(By.id("uploadDownloadBinary:messages")).shouldHave(text("Invalid file extension"));
   }
 
   private void saveEditor() {
