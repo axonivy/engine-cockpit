@@ -38,7 +38,7 @@ class WebTestTlsTester {
     $(By.id("restClientConfigurationForm:saveRestConfig")).click();
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
     $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-    $(By.id("connResult:connTestForm:form:logList")).shouldHave(text("Connect, with Ivy SSLContext "));
+    $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
   }
 
 }

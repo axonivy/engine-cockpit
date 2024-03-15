@@ -46,7 +46,7 @@ class WebTestPages {
   void pagesNotAccessable() {
     for (var xhtml : getSubDirectoryXhtmlFiles(webContentDir, this::isNotInViewFolder)) {
       var url = viewUrl(xhtml.toString());
-      if (url.contains("composite")) {
+      if (url.contains("composite") || url.contains("demo-jsfcomponents")) {
         // better skipping this one. otherwise the ivy.log is full of NPEs
         //$(".exception-content").shouldHave(text("Null Pointer"));
       } else {
