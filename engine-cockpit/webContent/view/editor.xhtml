@@ -72,15 +72,15 @@
                 listener="#{editorBean.upload}"
                 update="uploadDownloadBinary"
                 style="display: none;" />
-              <p:commandButton title="Upload Binary file" value="Upload Binary file" 
+              <p:commandButton title="Upload .p12" value="Upload .p12" 
                 icon="si si-upload-bottom"
                 type="button" id="uploadbtn"
                 styleClass="ui-button-outlined"
                 onclick="document.getElementById(this.id.replace(':uploadbtn',':binaryUpload_input')).click(); return false;">
               </p:commandButton>
-              <p:commandButton title="Download Binary file" id="binaryDownload"
+              <p:commandButton title="Download .p12" id="binaryDownload"
                 actionListener="#{editorBean.fileDownloadView()}"
-                value="Download Binary file" ajax="false"
+                value="Download .p12" ajax="false"
                 icon="si si-download-bottom" styleClass="ui-button-outlined">
                 <p:fileDownload value="#{editorBean.file}" />
               </p:commandButton>
