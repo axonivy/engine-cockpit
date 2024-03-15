@@ -95,7 +95,7 @@ public class HealthBean {
     }
 
     public String getCheck() {
-      return message.check().name();
+      return checker.checkForMessage(message).name();
     }
   }
 
