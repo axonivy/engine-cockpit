@@ -17,6 +17,17 @@ import ch.ivyteam.ivy.health.check.HealthSeverity;
 public class HealthBean {
 
   private final HealthChecker checker = HealthChecker.instance();
+  private List<Check> checks;
+  private List<Message> messages;
+
+  public HealthBean() {
+    refresh();
+  }
+
+  public void refresh() {
+    checks = checker.checks().stream().map(Check::new).collect(Collectors.toList());
+    messages = checker.messages().stream().map(Message::new).collect(Collectors.toList());
+  }
 
   public void checkNow() {
     checker.checkNow();
@@ -64,11 +75,11 @@ public class HealthBean {
   }
 
   public List<Message> getMessages() {
-    return checker.messages().stream().map(Message::new).collect(Collectors.toList());
+    return messages;
   }
 
   public List<Check> getChecks() {
-    return checker.checks().stream().map(Check::new).collect(Collectors.toList());
+    return checks;
   }
 
   public class Message {

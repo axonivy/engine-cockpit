@@ -26,6 +26,9 @@
         <div class="p-d-flex p-ai-center p-mb-3">
           <i class="p-pr-3 si si-alarm-bell card-title-icon"></i>
           <h2 class="p-m-0">Health Check</h2>
+          <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="Refresh Health Check"
+              icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto rounded-button"/>
+          
         </div>
         <h:form id="form" style="overflow: auto;">
           <h3>Messages</h3>
@@ -59,7 +62,7 @@
               paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
               id="checkTable" style="min-width: 950px;">
               
-              <p:column width="7%" headerText="Severity" sortBy="#{check.severity}">
+              <p:column width="7%" headerText="Severity" sortBy="#{check.severity}" sortOrder="desc">
                 <h:panelGroup class="#{check.severityClass}">
                   <h:outputLabel value="#{check.severity}"/>
                   <i class="#{check.severityIcon}"></i>
