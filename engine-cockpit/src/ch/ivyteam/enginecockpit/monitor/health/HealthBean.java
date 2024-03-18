@@ -108,15 +108,15 @@ public class HealthBean {
     }
 
     public HealthSeverity getSeverity() {
-      return checker.severity(check);
+      return check.severity();
     }
 
     public String getSeverityIcon() {
-      return severityIcon(checker.severity(check));
+      return severityIcon(check.severity());
     }
 
     public String getSeverityClass() {
-      return severityClass(checker.severity(check));
+      return severityClass(check.severity());
     }
 
     public String getName() {
