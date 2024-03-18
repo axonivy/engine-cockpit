@@ -59,7 +59,7 @@
               paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
               id="checkTable" style="min-width: 950px;">
               
-              <p:column width="5%" headerText="Severity" sortBy="#{check.severity}">
+              <p:column width="7%" headerText="Severity" sortBy="#{check.severity}">
                 <h:panelGroup class="#{check.severityClass}">
                   <h:outputLabel value="#{check.severity}"/>
                   <i class="#{check.severityIcon}"></i>
@@ -74,8 +74,8 @@
                 <h:outputText value="#{check.description}"/>
               </p:column>
 
-              <p:column width="10%" headerText="Next Execution" sortBy="#{check.nextExecution}">
-                <h:outputText value="#{check.nextExecution}"/>
+              <p:column width="15%" headerText="Next Execution" sortBy="#{check.nextExecution}">
+                <h:outputText value="#{check.timeUntilNextExecution} (#{check.nextExecution})" />
               </p:column>
               
               <p:column styleClass="table-btn-1">

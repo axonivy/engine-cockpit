@@ -136,9 +136,14 @@ public class HealthBean {
       return check.description();
     }
 
-    public String getNextExecution() {
+    public String getTimeUntilNextExecution() {
       var nextExecutionTime = check.nextExecutionTime();
       return DurationFormat.NOT_AVAILABLE.fromNowTo(nextExecutionTime.orElse(null));
+    }
+
+    public String getNextExecution() {
+      var nextExecutionTime = check.nextExecutionTime();
+      return DurationFormat.NOT_AVAILABLE.format(nextExecutionTime.orElse(null));
     }
   }
 }

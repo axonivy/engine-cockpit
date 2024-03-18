@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.util;
 
 import java.time.Duration;
 import java.time.Instant;
+
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.util.date.Now;
 
@@ -26,6 +27,14 @@ public class DurationFormat {
     var duration = Duration.between(Now.asInstant(), to);
     return format(duration.getSeconds(), Unit.SECONDS);
   }
+
+  public String format(Instant instant) {
+    if (instant == null) {
+      return nullStr;
+    }
+    return DateUtil.formatInstantAsDateTime(instant);
+  }
+
 
   public String milliSeconds(Long millis) {
     return format(millis, Unit.MILLI_SECONDS);
