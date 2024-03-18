@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
+import ch.ivyteam.enginecockpit.util.DurationFormat;
 import ch.ivyteam.ivy.health.check.HealthCheck;
 import ch.ivyteam.ivy.health.check.HealthChecker;
 import ch.ivyteam.ivy.health.check.HealthMessage;
@@ -16,6 +17,10 @@ import ch.ivyteam.ivy.health.check.HealthSeverity;
 public class HealthBean {
 
   private final HealthChecker checker = HealthChecker.instance();
+
+  public void checkNow() {
+    checker.checkNow();
+  }
 
   public String getSeverityName() {
     return checker.severity().toString();
@@ -107,6 +112,10 @@ public class HealthBean {
       this.check = check;
     }
 
+    public void checkNow() {
+      check.checkNow();
+    }
+
     public HealthSeverity getSeverity() {
       return check.severity();
     }
@@ -125,6 +134,11 @@ public class HealthBean {
 
     public String getDescription() {
       return check.description();
+    }
+
+    public String getNextExecution() {
+      var nextExecutionTime = check.nextExecutionTime();
+      return DurationFormat.NOT_AVAILABLE.fromNowTo(nextExecutionTime.orElse(null));
     }
   }
 }

@@ -70,9 +70,19 @@
                 <h:outputText value="#{check.name}"/>
               </p:column>
     
-              <p:column width="60%" headerText="Description" sortBy="#{check.description}">
+              <p:column width="50%" headerText="Description" sortBy="#{check.description}">
                 <h:outputText value="#{check.description}"/>
               </p:column>
+
+              <p:column width="10%" headerText="Next Execution" sortBy="#{check.nextExecution}">
+                <h:outputText value="#{check.nextExecution}"/>
+              </p:column>
+              
+              <p:column styleClass="table-btn-1">
+                <p:commandButton id="checkNow" icon="si si-controls-play"
+                    action="#{check.checkNow()}" styleClass="rounded-button" />
+            </p:column>
+              
            </p:dataTable>
         </h:form>
       </div>
