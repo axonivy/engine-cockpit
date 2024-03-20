@@ -12,11 +12,11 @@
   </div>
 
   <div class="p-d-flex p-flex-wrap p-ac-stretch">
-    <p:repeat var="day" value="#{businessCalendarBean.activeCalendar.week}">
+    <ui:repeat var="day" value="#{businessCalendarBean.activeCalendar.week}">
       <div class="p-mr-2 p-mb-2 business-calendar-box">
         <div class="#{day.free ? 'free' : ''} p-p-3" title="#{day.free ? 'free' : 'work'}">#{day.dayName}</div>
       </div>
-    </p:repeat>
+    </ui:repeat>
   </div>
 
   <p:dataTable id="workingTimeTable" var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">

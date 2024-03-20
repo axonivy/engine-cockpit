@@ -8,7 +8,7 @@
   <h:form id="licenceEventForm" styleClass="custom-dialog-form">
     <div class="licence-messages timeline">
       <ul>
-        <p:repeat value="#{licenceBean.licenceEvents}" var="event">
+        <ui:repeat value="#{licenceBean.licenceEvents}" var="event">
           <li class="p-ai-center">
             <i class="p-mr-2 p-mt-0 si si-xl si-#{event.level eq 'ERROR' ? 'alert-circle error' : 'road-sign-warning warning'}"></i>
             <h:outputText styleClass="p-mr-2 name" value="#{event.timestamp}" />
@@ -16,7 +16,7 @@
             <p:commandButton icon="si si-check-1" title="Confirm" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button ui-button-outlined"
               id="confirmEventBtn" actionListener="#{licenceBean.confirmLicenceEvent(event)}" update="@form" />
           </li>
-        </p:repeat>
+        </ui:repeat>
       </ul>
     </div>
     <div class="custom-dialog-footer">

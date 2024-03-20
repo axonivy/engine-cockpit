@@ -16,7 +16,7 @@
         <p:autoUpdate />
       </p:growl>
 
-      <p:repeat var="group" id="group" value="#{cc.attrs.dynamicConfig.groups}">
+      <ui:repeat var="group" id="group" value="#{cc.attrs.dynamicConfig.groups}">
         <div class="card ui-fluid">
           <div class="card-header">
             <div class="card-title p-d-flex p-ai-center">
@@ -40,7 +40,7 @@
 
             </div>
           </div>
-          <p:repeat var="property" id="property"
+          <ui:repeat var="property" id="property"
             value="#{group.properties}">
             <ui:fragment>
 
@@ -205,9 +205,9 @@
               </p:panelGrid>
 
             </ui:fragment>
-          </p:repeat>
+          </ui:repeat>
         </div>
-      </p:repeat>
+      </ui:repeat>
     </h:form>
 
   <p:dialog header="Connection Test - Url: #{property.value}"

@@ -66,7 +66,7 @@
         </p:panelGrid>
 
         <h:panelGroup id="dynamicForm">
-          <p:repeat var="connProp" value="#{systemDatabaseBean.connectionProperties}">
+          <ui:repeat var="connProp" value="#{systemDatabaseBean.connectionProperties}">
             <ui:fragment rendered="#{connProp.number}">
               <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
                 styleClass="grey-label-panel ui-fluid">                
@@ -117,7 +117,7 @@
                 </h:panelGroup>
               </p:panelGrid>
             </ui:fragment>
-          </p:repeat>
+          </ui:repeat>
         </h:panelGroup>
 
         <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9"
@@ -156,7 +156,7 @@
         <p:staticMessage severity="info" summary="Info" detail="Enter the required parameters for your System Database configuration"
           rendered="#{!systemDatabaseBean.dbCreatorRunning and !systemDatabaseBean.dbCreatorFinished}" />
         
-        <p:repeat var="para" value="#{systemDatabaseBean.creationParams}">
+        <ui:repeat var="para" value="#{systemDatabaseBean.creationParams}">
           <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
             <p:outputLabel for="creationParam" value="#{para.label}" />
             <h:panelGroup styleClass="md-inputfield">
@@ -166,7 +166,7 @@
               <p:message for="creationParam" id="creationParamMessage" />
             </h:panelGroup>
           </p:panelGrid>
-        </p:repeat>
+        </ui:repeat>
         
         <p:poll autoStart="#{systemDatabaseBean.dbCreatorRunning}" id="convertingOutputPoll"
           widgetVar="convertingOutputPoll" update="@form" interval="2" />
