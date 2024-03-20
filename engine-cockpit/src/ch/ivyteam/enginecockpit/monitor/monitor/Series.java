@@ -5,8 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.poi.ss.usermodel.charts.ChartData;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
+import org.primefaces.model.charts.ChartDataSet;
+import org.primefaces.model.charts.line.LineChartDataSet;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
@@ -14,20 +17,21 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 public class Series {
   private final ValueProvider valueProvider;
-  private final LineChartSeries series;
+  private final LineChartDataSet dataSet;
   private final Map<Object, Value> data = new LinkedHashMap<>();
 
   protected Series(Builder builder) {
     this.valueProvider = builder.valueProvider;
-    series = new LineChartSeries();
-    series.setSmoothLine(builder.smoothLine);
-    series.setShowMarker(false);
-    series.setFill(builder.fill);
-    series.setLabel(builder.name);
+    dataSet = new LineChartDataSet();
+    dataSet.setTension(3); // TODO: before -> .setSmoothLine(builder.smoothLine);
+    dataSet.setFill(builder.fill);
+    dataSet.setLabel(builder.name);
+    // TODO series.setShowMarker(false);
+    
   }
 
-  public ChartSeries getSeries() {
-    return series;
+  public ChartDataSet getSeries() {
+    return dataSet;
   }
 
   public void calcNewValue(long actualSec) {
@@ -49,7 +53,7 @@ public class Series {
   public void scale(Unit scaleToUnit) {
     Map<Object, Number> scaledData = new LinkedHashMap<>();
     data.entrySet().forEach(entry -> scaledData.put(entry.getKey(), scaleTo(entry.getValue(), scaleToUnit)));
-    series.setData(scaledData);
+    dataSet.setData(sc);;
   }
 
   private Number scaleTo(Value value, Unit scaleToUnit) {

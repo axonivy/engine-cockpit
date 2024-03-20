@@ -10,10 +10,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
-import org.primefaces.model.chart.Axis;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.DateAxis;
-import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.charts.line.DateAxis;
+import org.primefaces.model.charts.line.LineChartModel;
+import org.primefaces.model.charts.line.LineChartOptions;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
@@ -34,8 +37,10 @@ public class Monitor {
     model = new LineChartModel();
     model.setSeriesColors("607D8B,FFC107,FF5722");
     model.setExtender("skinChart");
+    
 
-    Axis timeAxis = new DateAxis("Time");
+    ticks.set
+    timeAxis.setTicks(ticks);
     timeAxis.setTickFormat("%H:%M:%S");
     model.getAxes().put(AxisType.X, timeAxis);
 
