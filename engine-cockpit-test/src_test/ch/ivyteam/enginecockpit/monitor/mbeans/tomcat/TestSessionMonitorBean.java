@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.primefaces.model.charts.line.LineChartDataSet;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
@@ -28,20 +29,23 @@ public class TestSessionMonitorBean {
   public void sessionsMonitor() {
     var testee = new SessionMonitorBean();
 
-    var series = testee.getSessionsMonitor().getModel().getSeries();
-    assertThat(series).hasSize(3);
+    var dataSet = testee.getSessionsMonitor().getModel().getData().getDataSet();
+    assertThat(dataSet).hasSize(3);
 
-    var licensedSessions = series.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
+    var licensedSessions = (LineChartDataSet)dataSet.get(0);
     assertThat(licensedSessions.getLabel()).isEqualTo("Licensed Sessions");
-    assertThat(licensedSessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D));
+    assertThat(licensedSessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(5.0D));
 
-    var sessions = series.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
+    var sessions = (LineChartDataSet)dataSet.get(1);
     assertThat(sessions.getLabel()).isEqualTo("Sessions");
-    assertThat(sessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D));
+    assertThat(sessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(7.0D));
 
-    var httpSessions = series.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
+    var httpSessions = (LineChartDataSet)dataSet.get(2);
     assertThat(httpSessions.getLabel()).isEqualTo("Http Sessions");
-    assertThat(httpSessions.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(6.0D));
+    assertThat(httpSessions.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(6.0D));
 
     assertThat(testee.getSessionsMonitor().getInfo())
             .isEqualTo("Sessions: Licensed Sessions 5, Sessions 7, Http Sessions 6, Licensed Users 100");

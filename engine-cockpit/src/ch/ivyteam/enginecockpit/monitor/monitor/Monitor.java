@@ -1,19 +1,28 @@
 package ch.ivyteam.enginecockpit.monitor.monitor;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.DateAxis;
-import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.ChartModel;
+import org.primefaces.model.charts.axes.cartesian.CartesianScaleTitle;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
+import org.primefaces.model.charts.line.LineChartModel;
+import org.primefaces.model.charts.line.LineChartOptions;
+import org.primefaces.model.charts.optionconfig.animation.Animation;
+import org.primefaces.model.charts.optionconfig.legend.Legend;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
@@ -22,27 +31,74 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 public class Monitor {
   private long lastTimestamp;
   protected final LineChartModel model;
+  protected final ChartData chartData;
+  protected final LineChartOptions options;
+  protected CartesianScales scales;
+  protected CartesianLinearAxes xAxis;
+  protected CartesianLinearAxes yAxis;
+  protected CartesianLinearTicks xTicks;
+  protected CartesianLinearTicks yTicks;
+  protected CartesianScaleTitle xTitle;
+  protected CartesianScaleTitle yTitle;
   private static final Duration MAX_DURATION = Duration.ofMinutes(10);
   private static final long MAX_DATA = MAX_DURATION.toSeconds();
   private final MonitorInfo info;
 
   private final List<Series> series = new ArrayList<>();
   private final List<ValueProvider> infoValues = new ArrayList<>();
+  private final List<String> labels = new ArrayList<String>();
+  private final String[] fillColors = new String[]{"#607D8B", "#FFC107", "#FF5722"};
 
   protected Monitor(MonitorInfo info) {
     this.info = info;
     model = new LineChartModel();
-    model.setSeriesColors("607D8B,FFC107,FF5722");
-    model.setExtender("skinChart");
+    options = new LineChartOptions();
+    chartData = new ChartData();
+    scales = new CartesianScales();
+    xAxis = new CartesianLinearAxes();
+    yAxis = new CartesianLinearAxes();
+    xTicks = new CartesianLinearTicks();
+    yTicks = new CartesianLinearTicks();
+    xTitle = new CartesianScaleTitle();
+    yTitle = new CartesianScaleTitle();
 
-    Axis timeAxis = new DateAxis("Time");
-    timeAxis.setTickFormat("%H:%M:%S");
-    model.getAxes().put(AxisType.X, timeAxis);
+    xTicks.setMaxTicksLimit(6);
+    xTicks.setAutoSkip(true);
+    xTicks.setAutoSkipPadding(0);
+    xTicks.setMaxRotation(0);
 
-    setYAxisUnit(Unit.ONE);
+    xAxis.setTicks(xTicks);
+    yAxis.setTicks(yTicks);
 
-    lastTimestamp = 0;
-    model.setLegendPosition("ne");
+    xTitle.setDisplay(true);
+    xTitle.setText("Time");
+    xTitle.setFontSize(14);
+    xAxis.setScaleTitle(xTitle);
+
+    yTitle.setDisplay(true);
+    yTitle.setFontSize(14);
+    yAxis.setScaleTitle(yTitle);
+
+    scales.addXAxesData(xAxis);
+    scales.addYAxesData(yAxis);
+
+    Animation animation = new Animation();
+    animation.setDuration(0);
+
+    Legend legend = new Legend();
+    legend.setAlign("end");
+
+    options.setShowLines(true);
+    options.setScales(scales);
+    options.setScales(scales);
+    options.setAnimation(animation);
+    options.setLegend(legend);
+    options.setTooltip(null);
+
+    chartData.setLabels(labels);
+
+    model.setOptions(options);
+    model.setData(chartData);
   }
 
   public String getTitle() {
@@ -78,12 +134,25 @@ public class Monitor {
 
   public void addSeries(Series mSeries) {
     series.add(mSeries);
-    model.addSeries(mSeries.getSeries());
+    for (int i = 0; i < series.size(); i++) {
+      series.get(i).setFillColor(getColor(i));
+    }
+    chartData.addChartDataSet(mSeries.getSeries());
+  }
+
+  private String getColor(int i) {
+    i = i % fillColors.length;
+    if (info.reverseColors) {
+      return fillColors[fillColors.length - (i + 1)];
+    } else {
+      return fillColors[i];
+    }
   }
 
   public void removeSeries(Series mSeries) {
     series.remove(mSeries);
-    model.getSeries().remove(mSeries.getSeries());
+    model.getData().getDataSet().clear();
+    series.forEach(s -> model.getData().addChartDataSet(s.getSeries()));
   }
 
   public void addInfoValue(ValueProvider valueProvider) {
@@ -94,7 +163,7 @@ public class Monitor {
     return series;
   }
 
-  public LineChartModel getModel() {
+  public ChartModel getModel() {
     calcNewValues();
     return model;
   }
@@ -114,12 +183,13 @@ public class Monitor {
   }
 
   private void setXAxis(long max) {
-    Axis xAxis = model.getAxis(AxisType.X);
     xAxis.setMax(max);
   }
 
   private void calcNewValues(long time) {
-    series.forEach(serie -> serie.calcNewValue(time));
+    series.forEach(serie -> serie.calcNewValue());
+    ZonedDateTime stamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
+    labels.add(stamp.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     series.forEach(serie -> cleanUpOldData(serie.getData()));
     Optional<Value> maxValue = series
             .stream()
@@ -156,7 +226,6 @@ public class Monitor {
 
   private void setYAxisMaxValue(Optional<Value> maxValue, Unit scaleToUnit) {
     if (maxValue.isPresent()) {
-      Axis yAxis = model.getAxis(AxisType.Y);
       var max = maxValue.get();
       var value = max.doubleValue();
       yAxis.setMin(0);
@@ -166,30 +235,25 @@ public class Monitor {
       value = Math.floor((value + 4.0d) / 4.0d * 1.1d);
       value = value * 4.0d;
       yAxis.setMax(value);
+      yTicks.setMaxTicksLimit(6);
     }
   }
 
   private void setYAxisUnit(Unit unit) {
     String label = StringUtils.defaultString(info.yAxisLabel, info.name);
-    String format = "%2$.3g";
     if (unit != null && unit.hasSymbol()) {
       label += " " + unit.symbolWithBracesOrEmpty();
-      format += " " + unit.symbol();
     }
-    Axis yAxis = model.getAxis(AxisType.Y);
-    yAxis.setLabel(label);
-    yAxis.setTickFormat("%3g");
-    model.setDatatipFormat(format);
+    yTitle.setText(label);
   }
 
-  private void cleanUpOldData(Map<Object, ?> data) {
+  private void cleanUpOldData(List<Value> data) {
     if (data.size() > MAX_DATA) {
-      data.remove(data.keySet().iterator().next());
+      data.remove(0);
     }
-    var keys = data.keySet().iterator();
-    if (keys.hasNext()) {
-      Axis xAxis = model.getAxis(AxisType.X);
-      xAxis.setMin(keys.next());
+    if (labels.size() > MAX_DATA) {
+      labels.remove(0);
+      xAxis.setMin(Long.valueOf(labels.get(0)));
     }
   }
 
@@ -217,6 +281,11 @@ public class Monitor {
 
     public Builder yAxisLabel(String label) {
       builder.yAxisLabel(label);
+      return this;
+    }
+
+    public Builder reverseColors() {
+      builder.setReverseColors();
       return this;
     }
 

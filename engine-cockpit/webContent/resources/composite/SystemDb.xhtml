@@ -157,11 +157,7 @@
           rendered="#{!systemDatabaseBean.dbCreatorRunning and !systemDatabaseBean.dbCreatorFinished}" />
         
         <ui:repeat var="para" value="#{systemDatabaseBean.creationParams}">
-<<<<<<< Upstream, based on origin/master
           <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
-=======
-          <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
->>>>>>> 62ee189 IVY-13553 WIP replaced p:repeat and p:chart
             <p:outputLabel for="creationParam" value="#{para.label}" />
             <h:panelGroup styleClass="md-inputfield">
               <p:inputText id="creationParam" value="#{para.value}" type="#{para.password ? 'password' : 'input'}"

@@ -1,12 +1,11 @@
 package ch.ivyteam.enginecockpit.monitor.monitor;
 
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartSeries;
+import org.primefaces.model.charts.line.LineChartDataSet;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
@@ -14,42 +13,57 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 
 public class Series {
   private final ValueProvider valueProvider;
-  private final LineChartSeries series;
-  private final Map<Object, Value> data = new LinkedHashMap<>();
+  private final LineChartDataSet dataSet;
+  private final List<Value> data = new ArrayList<>();
+  private String fillColor = "";
 
   protected Series(Builder builder) {
     this.valueProvider = builder.valueProvider;
-    series = new LineChartSeries();
-    series.setSmoothLine(builder.smoothLine);
-    series.setShowMarker(false);
-    series.setFill(builder.fill);
-    series.setLabel(builder.name);
+    dataSet = new LineChartDataSet();
+    dataSet.setTension(builder.smoothLine ? 0.2 : 0);
+    dataSet.setFill(builder.fill);
+    dataSet.setPointRadius(0);
+    dataSet.setLabel(builder.name);
+    dataSet.setBorderWidth(1);
+    updateColor();
   }
 
-  public ChartSeries getSeries() {
-    return series;
+  public LineChartDataSet getSeries() {
+    return dataSet;
   }
 
-  public void calcNewValue(long actualSec) {
-    data.put(actualSec, nextValue());
+  public void calcNewValue() {
+    data.add(nextValue());
   }
 
   public Optional<Value> maxValue() {
-    return data.values().stream().max(Comparator.naturalOrder());
+    return data.stream().max(Comparator.naturalOrder());
   }
 
   protected Value nextValue() {
     return valueProvider.nextValue();
   }
 
-  public Map<Object, ?> getData() {
+  public List<Value> getData() {
     return data;
   }
 
+  public void setFillColor(String color) {
+    this.fillColor = color;
+    updateColor();
+  }
+
+  private void updateColor() {
+    dataSet.setBackgroundColor(fillColor);
+    dataSet.setBorderColor(fillColor);
+  }
+
   public void scale(Unit scaleToUnit) {
-    Map<Object, Number> scaledData = new LinkedHashMap<>();
-    data.entrySet().forEach(entry -> scaledData.put(entry.getKey(), scaleTo(entry.getValue(), scaleToUnit)));
-    series.setData(scaledData);
+    List<Object> scaledNumbers = new ArrayList<Object>(data.size());
+    data.forEach(datapoint -> {
+      scaledNumbers.add(scaleTo(datapoint, scaleToUnit));
+    });
+    dataSet.setData(scaledNumbers);
   }
 
   private Number scaleTo(Value value, Unit scaleToUnit) {
