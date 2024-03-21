@@ -1,14 +1,13 @@
 package ch.ivyteam.enginecockpit.monitor.monitor;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.poi.ss.usermodel.charts.ChartData;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartSeries;
-import org.primefaces.model.charts.ChartDataSet;
+import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.line.LineChartDataSet;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
@@ -18,11 +17,15 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 public class Series {
   private final ValueProvider valueProvider;
   private final LineChartDataSet dataSet;
+  private final ChartData chartData;
   private final Map<Object, Value> data = new LinkedHashMap<>();
 
   protected Series(Builder builder) {
     this.valueProvider = builder.valueProvider;
     dataSet = new LineChartDataSet();
+    chartData = new ChartData();
+    
+    
     dataSet.setTension(3); // TODO: before -> .setSmoothLine(builder.smoothLine);
     dataSet.setFill(builder.fill);
     dataSet.setLabel(builder.name);
@@ -30,8 +33,8 @@ public class Series {
     
   }
 
-  public ChartDataSet getSeries() {
-    return dataSet;
+  public ChartData getSeries() {
+    return chartData;
   }
 
   public void calcNewValue(long actualSec) {
@@ -51,9 +54,15 @@ public class Series {
   }
 
   public void scale(Unit scaleToUnit) {
-    Map<Object, Number> scaledData = new LinkedHashMap<>();
-    data.entrySet().forEach(entry -> scaledData.put(entry.getKey(), scaleTo(entry.getValue(), scaleToUnit)));
-    dataSet.setData(sc);;
+    List<Object> scaledNumbers = new ArrayList<Object>(data.size());
+    List<String> keys = new ArrayList<>(data.size());
+    data.entrySet().forEach(entry -> {
+    	scaledNumbers.add(scaleTo(entry.getValue(), scaleToUnit));
+    	keys.add(entry.getKey().toString());
+    });
+    dataSet.setData(scaledNumbers);
+    chartData.setLabels(keys);
+    chartData.addChartDataSet(dataSet);
   }
 
   private Number scaleTo(Value value, Unit scaleToUnit) {

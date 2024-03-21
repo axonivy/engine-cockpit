@@ -13,8 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.charts.line.DateAxis;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 
@@ -25,6 +23,12 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 public class Monitor {
   private long lastTimestamp;
   protected final LineChartModel model;
+  protected final LineChartOptions options;
+  protected CartesianScales scales;
+  protected CartesianLinearAxes xAxis;
+  protected CartesianLinearAxes yAxis;
+  protected CartesianLinearTicks xTicks;
+  protected CartesianLinearTicks yTicks;
   private static final Duration MAX_DURATION = Duration.ofMinutes(10);
   private static final long MAX_DATA = MAX_DURATION.toSeconds();
   private final MonitorInfo info;
@@ -33,21 +37,24 @@ public class Monitor {
   private final List<ValueProvider> infoValues = new ArrayList<>();
 
   protected Monitor(MonitorInfo info) {
-    this.info = info;
+	this.info = info;
     model = new LineChartModel();
-    model.setSeriesColors("607D8B,FFC107,FF5722");
-    model.setExtender("skinChart");
+    options = new LineChartOptions();
     
-
-    ticks.set
-    timeAxis.setTicks(ticks);
-    timeAxis.setTickFormat("%H:%M:%S");
-    model.getAxes().put(AxisType.X, timeAxis);
-
-    setYAxisUnit(Unit.ONE);
-
-    lastTimestamp = 0;
-    model.setLegendPosition("ne");
+    scales = new CartesianScales();
+    xAxis = new CartesianLinearAxes();
+    yAxis = new CartesianLinearAxes();
+    
+    xTicks = new CartesianLinearTicks();
+    yTicks = new CartesianLinearTicks();
+    
+    xAxis.setTicks(xTicks);
+    yAxis.setTicks(yTicks);
+    
+    scales.addXAxesData(xAxis);
+    scales.addYAxesData(yAxis);
+    
+    options.setScales(scales);    
   }
 
   public String getTitle() {
@@ -83,12 +90,12 @@ public class Monitor {
 
   public void addSeries(Series mSeries) {
     series.add(mSeries);
-    model.addSeries(mSeries.getSeries());
+    model.setData(mSeries.getSeries());
   }
 
   public void removeSeries(Series mSeries) {
     series.remove(mSeries);
-    model.getSeries().remove(mSeries.getSeries());
+    //model.remove(mSeries.getSeries());
   }
 
   public void addInfoValue(ValueProvider valueProvider) {
@@ -119,8 +126,11 @@ public class Monitor {
   }
 
   private void setXAxis(long max) {
+	xAxis.setMax(max);
+	  /*
     Axis xAxis = model.getAxis(AxisType.X);
     xAxis.setMax(max);
+    */
   }
 
   private void calcNewValues(long time) {
@@ -161,7 +171,6 @@ public class Monitor {
 
   private void setYAxisMaxValue(Optional<Value> maxValue, Unit scaleToUnit) {
     if (maxValue.isPresent()) {
-      Axis yAxis = model.getAxis(AxisType.Y);
       var max = maxValue.get();
       var value = max.doubleValue();
       yAxis.setMin(0);
@@ -181,10 +190,10 @@ public class Monitor {
       label += " " + unit.symbolWithBracesOrEmpty();
       format += " " + unit.symbol();
     }
-    Axis yAxis = model.getAxis(AxisType.Y);
-    yAxis.setLabel(label);
-    yAxis.setTickFormat("%3g");
-    model.setDatatipFormat(format);
+    //Axis yAxis = model.getAxis(AxisType.Y);
+    //yAxis.setLabel(label);
+    //yAxis.setTickFormat("%3g");
+    //model.setDatatipFormat(format);
   }
 
   private void cleanUpOldData(Map<Object, ?> data) {
@@ -193,8 +202,7 @@ public class Monitor {
     }
     var keys = data.keySet().iterator();
     if (keys.hasNext()) {
-      Axis xAxis = model.getAxis(AxisType.X);
-      xAxis.setMin(keys.next());
+      xAxis.setMin((int)keys.next());
     }
   }
 
