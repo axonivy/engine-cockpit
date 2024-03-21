@@ -2,12 +2,9 @@ package ch.ivyteam.enginecockpit.system.editor;
 
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
-import org.primefaces.extensions.event.CompleteEvent;
 
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFile;
 
@@ -19,12 +16,6 @@ public class EditorFile {
 
   public EditorFile(ConfigFile config) {
     this.config = config;
-  }
-
-  public List<String> complete(@SuppressWarnings("unused") CompleteEvent event) {
-    return List.of(config.getKeys().split(",")).stream()
-            .map(s -> s + ": ")
-            .toList();
   }
 
   public String getFileName() {
