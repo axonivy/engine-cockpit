@@ -13,7 +13,7 @@
     <p:dataTable value="#{tlsTesterBean.testResult}" var="logEntry"
       rowKey="#{logEntry.result}"
       id="logList" lazy="false" scrollable="true" scrollWidth="100%" scrollHeight="100%">
-      <p:column width="1em" 
+      <p:column width="1em"
       styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
         <p:rowToggler rendered="#{tlsTesterBean.isExecuted(logEntry.result)}"/>
       </p:column>
@@ -30,9 +30,16 @@
       </p:column>
       <p:rowExpansion>
         <p:repeat value="#{logEntry.entryList}" var="logDataEntry">
-          <h:panelGrid columns="1" styleClass="tls-tester-row-expansion">
+          <div>
             <h:outputText value="#{logDataEntry}" />
-          </h:panelGrid>
+            <h:panelGroup id="infos">
+              <i class="si si-question-circle"></i>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{tlsTesterBean.hasExtendedInformations(logDataEntry)}">
+              <p:tooltip for="infos" escape="false"
+                value="#{tlsTesterBean.getExtendedInformations(logDataEntry)}" />
+            </h:panelGroup>
+          </div>
         </p:repeat>
       </p:rowExpansion>
     </p:dataTable>
