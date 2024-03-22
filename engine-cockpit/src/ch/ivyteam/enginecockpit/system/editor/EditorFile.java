@@ -61,7 +61,7 @@ public class EditorFile {
   }
 
   public boolean isBinary() {
-    return config.isKeystoreFile();
+    return config.isBinaryFile();
   }
 
   public boolean isReadOnly() {
