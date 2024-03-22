@@ -37,6 +37,11 @@ Ta0 @EndTask f25 '' #zField
 Ta0 @GridStep f26 '' #zField
 Ta0 @PushWFArc f27 '' #zField
 Ta0 @PushWFArc f28 '' #zField
+Ta0 @StartRequest f29 '' #zField
+Ta0 @GridStep f30 '' #zField
+Ta0 @EndTask f31 '' #zField
+Ta0 @PushWFArc f32 '' #zField
+Ta0 @PushWFArc f33 '' #zField
 >Proto Ta0 Ta0 TestData #zField
 Ta0 f0 outLink addAdministrator.ivp #txt
 Ta0 f0 inParamDecl '<> param;' #txt
@@ -270,6 +275,32 @@ Ta0 f26 168 546 112 44 0 -7 #rect
 Ta0 f26 @|StepIcon #fIcon
 Ta0 f27 280 568 337 568 #arcP
 Ta0 f28 111 568 168 568 #arcP
+Ta0 f29 outLink cleanupDynamicRoles.ivp #txt
+Ta0 f29 inParamDecl '<> param;' #txt
+Ta0 f29 requestEnabled true #txt
+Ta0 f29 triggerEnabled false #txt
+Ta0 f29 callSignature cleanupDynamicRoles() #txt
+Ta0 f29 caseData businessCase.attach=true #txt
+Ta0 f29 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elementInfo>
+    <language>
+        <name>cleanupDynamicRoles.ivp</name>
+    </language>
+</elementInfo>
+' #txt
+Ta0 f29 @C|.responsibility Everybody #txt
+Ta0 f29 81 689 30 30 -78 33 #rect
+Ta0 f29 @|StartRequestIcon #fIcon
+Ta0 f30 actionTable 'out=in;
+' #txt
+Ta0 f30 actionCode 'import ch.ivyteam.enginecockpit.testdata.security.DynamicRoles;
+DynamicRoles.cleanupRoles();' #txt
+Ta0 f30 168 682 112 44 0 -7 #rect
+Ta0 f30 @|StepIcon #fIcon
+Ta0 f31 337 689 30 30 0 15 #rect
+Ta0 f31 @|EndIcon #fIcon
+Ta0 f32 111 704 168 704 #arcP
+Ta0 f33 280 704 337 704 #arcP
 >Proto Ta0 .type engine.cockpit.test.data.Data #txt
 >Proto Ta0 .processKind NORMAL #txt
 >Proto Ta0 0 0 32 24 18 0 #rect
@@ -298,3 +329,7 @@ Ta0 f24 mainOut f28 tail #connect
 Ta0 f28 head f26 mainIn #connect
 Ta0 f26 mainOut f27 tail #connect
 Ta0 f27 head f25 mainIn #connect
+Ta0 f29 mainOut f32 tail #connect
+Ta0 f32 head f30 mainIn #connect
+Ta0 f30 mainOut f33 tail #connect
+Ta0 f33 head f31 mainIn #connect
