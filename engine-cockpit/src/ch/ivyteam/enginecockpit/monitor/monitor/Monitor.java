@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.ChartModel;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
@@ -54,7 +56,11 @@ public class Monitor {
     scales.addXAxesData(xAxis);
     scales.addYAxesData(yAxis);
     
-    options.setScales(scales);    
+    options.setShowLines(true);
+    
+    //options.setScales(scales);  
+    model.setOptions(options);
+    model.setExtender("chartExtender");
   }
 
   public String getTitle() {
@@ -91,10 +97,13 @@ public class Monitor {
   public void addSeries(Series mSeries) {
     series.add(mSeries);
     model.setData(mSeries.getSeries());
+    //model.getData().getDataSet().add();
   }
 
   public void removeSeries(Series mSeries) {
     series.remove(mSeries);
+    
+    model.getData().getDataSet().removeAll(mSeries.getSeries().getDataSet());
     //model.remove(mSeries.getSeries());
   }
 
@@ -106,7 +115,7 @@ public class Monitor {
     return series;
   }
 
-  public LineChartModel getModel() {
+  public ChartModel getModel() {
     calcNewValues();
     return model;
   }
@@ -127,10 +136,6 @@ public class Monitor {
 
   private void setXAxis(long max) {
 	xAxis.setMax(max);
-	  /*
-    Axis xAxis = model.getAxis(AxisType.X);
-    xAxis.setMax(max);
-    */
   }
 
   private void calcNewValues(long time) {
@@ -202,7 +207,7 @@ public class Monitor {
     }
     var keys = data.keySet().iterator();
     if (keys.hasNext()) {
-      xAxis.setMin((int)keys.next());
+      xAxis.setMin((long)keys.next());
     }
   }
 

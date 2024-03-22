@@ -17,10 +17,10 @@
 
         <h:panelGroup rendered="#{!userDetailBean.user.external or userDetailBean.ivySecuritySystem}">
           <p:commandButton id="disableUser" actionListener="#{userDetailBean.disableUser}" title="Disable this user"
-            styleClass="p-col-fixed p-ml-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} ui-button-warning rounded-button"
+            styleClass="p-col-fixed ml:col-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} ui-button-warning rounded-button"
             icon="si si-delete" update="userInformationForm"  rendered="#{userDetailBean.isUserEnabled()}" />
           <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
-            styleClass="p-col-fixed p-ml-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} rounded-button" 
+            styleClass="p-col-fixed ml:col-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} rounded-button" 
             icon="si si-check-circle-1" update="userInformationForm" rendered="#{userDetailBean.isUserDisabled()}" />
           <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()"
             title="Delete this user" icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />

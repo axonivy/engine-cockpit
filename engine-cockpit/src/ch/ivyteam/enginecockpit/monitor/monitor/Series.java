@@ -1,5 +1,12 @@
 package ch.ivyteam.enginecockpit.monitor.monitor;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -26,11 +33,9 @@ public class Series {
     chartData = new ChartData();
     
     
-    dataSet.setTension(3); // TODO: before -> .setSmoothLine(builder.smoothLine);
+    dataSet.setTension(builder.smoothLine ? 0.1 : 0);
     dataSet.setFill(builder.fill);
-    dataSet.setLabel(builder.name);
-    // TODO series.setShowMarker(false);
-    
+    dataSet.setLabel(builder.name);    
   }
 
   public ChartData getSeries() {
@@ -58,7 +63,8 @@ public class Series {
     List<String> keys = new ArrayList<>(data.size());
     data.entrySet().forEach(entry -> {
     	scaledNumbers.add(scaleTo(entry.getValue(), scaleToUnit));
-    	keys.add(entry.getKey().toString());
+    	ZonedDateTime time = ZonedDateTime.ofInstant(Instant.ofEpochMilli((long)entry.getKey()), ZoneId.systemDefault());
+    	keys.add(time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     });
     dataSet.setData(scaledNumbers);
     chartData.setLabels(keys);
