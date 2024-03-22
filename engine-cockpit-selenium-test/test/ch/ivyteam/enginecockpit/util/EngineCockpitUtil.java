@@ -102,6 +102,11 @@ public class EngineCockpitUtil
     runTestProcess("16E88DD61E825E70/createManyDynamicRoles.ivp");
   }
   
+  public static void cleanupDynamicRoles()
+  {
+    runTestProcess("16E88DD61E825E70/cleanupDynamicRoles.ivp");
+  }
+  
   public static void createLicenceEvents()
   {
     runTestProcess("16E84204B7FE6C91/addLicenceEvents.ivp");
