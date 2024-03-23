@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
-import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.ChartModel;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -60,7 +59,6 @@ public class Monitor {
     
     //options.setScales(scales);  
     model.setOptions(options);
-    model.setExtender("chartExtender");
   }
 
   public String getTitle() {
@@ -100,7 +98,7 @@ public class Monitor {
     //model.getData().getDataSet().add();
   }
 
-  public void removeSeries(Series mSeries) {
+  public void removeSeries(Series mSeries) { // TODO: remove existing series
     series.remove(mSeries);
     
     model.getData().getDataSet().removeAll(mSeries.getSeries().getDataSet());
