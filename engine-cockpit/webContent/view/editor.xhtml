@@ -2,143 +2,92 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
   xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://java.sun.com/jsf/composite/composite">
-<h:body>
-  <f:metadata>
-    <f:viewParam name="file" value="#{editorBean.selectedFile}" />
-  </f:metadata>
-
-  <ui:composition template="../includes/template/template.xhtml">
-
-    <ui:define name="head">
-      <h:outputScript name="resources/codemirror/js/codemirror.min.js" />
-      <h:outputScript name="resources/codemirror/js/mode-yaml.min.js" />
-      <h:outputScript name="resources/codemirror/js/hint.min.js" />
-      <h:outputScript name="resources/codemirror/js/hint-yaml.js" />
-      <h:outputScript name="resources/codemirror/js/js-yaml.min.js" />
-      <h:outputScript name="resources/codemirror/js/lint.min.js" />
-      <h:outputScript name="resources/codemirror/js/lint-yaml.js" />
-      <h:outputStylesheet name="resources/codemirror/css/codemirror.min.css" />
-      <h:outputStylesheet name="resources/codemirror/css/hint.min.css" />
-      <h:outputStylesheet name="resources/codemirror/css/lint.min.css" />
-      <h:outputStylesheet name="resources/codemirror/css/dark.css" />
-    </ui:define>
-
-    <ui:define name="breadcrumb">
-      <li><span>System</span></li>
-      <li>/</li>
-      <li><a href="editor.xhtml">Editor</a></li>
-    </ui:define>
-
-    <ui:define name="topbar-items">
-      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}" />
-    </ui:define>
-
-    <ui:define name="content">
-      <div class="card">
-        <p:growl id="editorMessage" for="editorMessage" showDetail="true">
-          <p:autoUpdate />
-        </p:growl>
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-common-file-text-edit card-title-icon"></i>
-          <h2 class="p-m-0">Yaml Editor</h2>
-        </div>
-        
-        <script>
-          var editors = [];
-          function handleTabChange(index) {
-            yamlHintDirectory = $('#editorTabView\\:' + index + '\\:editorForm\\:yamlhints').text().split(',');
-            editors[index].refresh();
-          }
-        </script>
-        <p:tabView id="editorTabView" styleClass="tab-view-card editor-card" value="#{editorBean.configFiles}"
-          var="config" widgetVar="editorTabView" onTabShow="handleTabChange(index)"
-          activeIndex="#{editorBean.tabIndex}">
-          <p:tab title="#{config.fileName}" titleStyleClass="application-tab">
-            <f:facet name="title">
-              <i class="si si-pencil p-mr-1" />
-              <h:outputText value="#{config.fileName}" />
-            </f:facet>
-            <h:form id="editorForm">
-              <div class="p-d-flex p-flex-wrap">
-                <div class="yaml-editor">
-                  <p:inputTextarea id="yamlhints" value="#{config.keys}" style="display: none" />
-                  <div id="editor_#{config.varName}" style="margin-bottom: 10px;">
-                    <p:inputTextarea id="content" value="#{config.content}" style="display: none" />
-                  </div>
-                  <script>
-                    var contentId_#{ config.varName } = $("#editor_#{config.varName} textarea").attr('id');
+  <h:body>
+    <f:metadata>
+      <f:viewParam name="file" value="#{editorBean.selectedFile}" />
+      <f:viewAction action="#{editorBean.onload}" />
+    </f:metadata>
   
-                    var editor_#{ config.varName } = CodeMirror.fromTextArea(document.getElementById(contentId_#{ config.varName }), {
-                      lineNumbers: true,
-                      mode: "text/x-yaml",
-                      tabSize: 2,
-                      showInvisibles: true,
-                      gutters: ["CodeMirror-lint-markers"],
-                      lint: true,
-                      theme: "#{ivyFreyaTheme.mode eq 'light' ? 'default' : 'dark'}",
-                      extraKeys: {
-                        "Ctrl-Space": "autocomplete", 
-                        Tab: function (cm) {
-                          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-                          cm.replaceSelection(spaces);
-                        },
-                        "Ctrl-S": function (instance) {
-                          PF('saveEditor_#{config.varName}').jq.click();
-                        }
-                      }
-                    });
-                    editor_#{ config.varName }.on("change", function (cm) {
-                      document.getElementById(contentId_#{ config.varName }).value = cm.getValue();
-                    });
-                    editors.push(editor_#{ config.varName });
+    <ui:composition template="../includes/template/template.xhtml">
   
-                    function saveDirectlyOrOpenDialog_#{ config.varName } () {
-                      if (editor_#{ config.varName }.state.lint.marked.length > 0) {
-                        PF('saveEditorModel').show();
-                      }
-                      else {
-                        PF('saveChanges').jq.click();
-                      }
-                    }
-                  </script>
-                </div>
-
-                <span style="opacity: 0.65; line-height: 30px;">
-                  <i class="si si-lg si-information-circle" style="vertical-align: text-bottom;"></i> Tip: Use Ctrl+Space to get a list of known keywords
-                </span>
-                <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
-                  styleClass="p-ml-auto ui-button-secondary ui-button-flat" />
-                <p:commandButton id="saveEditor" styleClass="p-ml-1"
-                  process="content" update="saveEditorModel" value="Save" icon="si si-floppy-disk"
-                  actionListener="#{editorBean.setActiveConfigFile(config)}"
-                  oncomplete="saveDirectlyOrOpenDialog_#{config.varName}();"
-                  widgetVar="saveEditor_#{config.varName}" />
+      <ui:define name="head">
+        <h:outputStylesheet name="resources/codemirror/css/dark.css"/>
+      </ui:define>
+  
+      <ui:define name="breadcrumb">
+        <li><span>System</span></li>
+        <li>/</li>
+        <li><a href="editor.xhtml">Config File Editor</a></li>
+      </ui:define>
+  
+      <ui:define name="topbar-items">
+        <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}" />
+      </ui:define>
+  
+      <ui:define name="content">
+        <div class="card">
+          <p:growl id="editorMessage" for="editorMessage" showDetail="true">
+            <p:autoUpdate />
+          </p:growl>
+          <div class="p-d-flex p-ai-center p-mb-3">
+            <i class="p-pr-3 si si-common-file-text-edit card-title-icon"></i>
+            <h2 class="p-m-0">Config File Editor</h2>
+  
+            <h:form id="fileChooserForm" styleClass="p-ml-auto">
+              <div class="field col-12 md:col-4">
+                <p:autoComplete id="fileDropDown" dropdown="true" value="#{editorBean.activeConfigFile}"
+                  var="file" itemLabel="#{file.fileName}" itemValue="#{file}" converter="editorFileConverter"
+                  completeMethod="#{editorBean.completeFiles}" groupBy="#{file.provider}">
+                  <p:ajax event="itemSelect" update="editorForm, currentFileContainer"
+                    oncomplete="handleAutocompleteSelection()" />
+                </p:autoComplete>
               </div>
             </h:form>
-          </p:tab>
-        </p:tabView>
-        <script>
-          handleTabChange(0);
-        </script>
-
-        <p:dialog style="min-width: 300px;" header="Save #{editorBean.activeConfigFile.fileName}" id="saveEditorModel"
-          widgetVar="saveEditorModel" modal="true" responsive="true" closeOnEscape="true" styleClass="dashboard-card">
-          <h:form id="saveEditorForm" styleClass="custom-dialog-form">
-            <p:staticMessage severity="info" summary="Yaml errors are detected. Do you want to save anyway?"
-              style="margin-bottom: 10px;" />
-
-            <div class="custom-dialog-footer">
-              <p:commandButton id="cancelChangesBtn" onclick="PF('saveEditorModel').hide();" value="Cancel" type="button"
-                styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-              <p:commandButton id="saveChangesBtn" onclick="PF('saveEditorModel').hide();"
-                actionListener="#{editorBean.activeConfigFile.save()}" value="Save" icon="si si-floppy-disk"
-                styleClass="modal-input-button" widgetVar="saveChanges" />
+          </div>
+  
+          <script>
+            function handleAutocompleteSelection() {
+              var selectedValue = document.getElementById('fileChooserForm:fileDropDown_input').value
+              if (selectedValue == null || selectedValue == "") {
+                selectedValue = document.getElementById('currentFile').innerHTML;
+              }
+              var currentURL = window.location.href;
+              var queryParam = "file=" + encodeURIComponent(selectedValue);
+              if (currentURL.indexOf("?") !== -1) {
+                currentURL = currentURL.split("?")[0];
+              }
+              var newURL = currentURL + "?" + queryParam;
+              window.history.replaceState(null, null, newURL);
+            }
+          </script>
+  
+          <h:panelGroup id="currentFileContainer" styleClass="p-my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
+            <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
+               summary="This file is read only!" severity="warn" />
+            <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
+          </h:panelGroup>
+          <h:form id="editorForm" styleClass="editor-card">
+            <div class="p-d-flex p-flex-wrap">
+              <div class="config-file-editor p-mb-2" style="width:100%;">
+                <pe:codeMirror id="codeMirror" mode="yaml" widgetVar="codeEditor"
+                  theme="#{ivyFreyaTheme.mode eq 'light' ? 'default' : 'dark'}" matchBrackets="true" 
+                  value="#{editorBean.activeConfigFile.content}" lineNumbers="true"
+                  completeMethod="#{editorBean.activeConfigFile.complete}" readonly="#{editorBean.activeConfigFile.readOnly}"
+                  extraKeys="{ 'Ctrl-Space': function(cm) { PF('codeEditor').complete(); }, 'Tab': function (cm) { var spaces = Array(cm.getOption('indentUnit') + 1).join('  '); cm.replaceSelection(spaces); }, 'Ctrl-S': function (instance) { PF('saveEditor').jq.click(); }}"/>
+              </div>
+              <span style="opacity: 0.65; line-height: 30px;"> <i class="si si-lg si-information-circle"
+                style="vertical-align: text-bottom;"></i> Tip: Use Ctrl+Space to get a list of known keywords
+              </span>
+              <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
+                styleClass="p-ml-auto ui-button-secondary ui-button-flat" disabled="#{editorBean.activeConfigFile == null}" />
+              <p:commandButton id="saveEditor" styleClass="p-ml-1" value="Save" disabled="#{!editorBean.canSave()}"
+                icon="si si-floppy-disk" actionListener="#{editorBean.activeConfigFile.save()}" widgetVar="saveEditor" />
             </div>
           </h:form>
-        </p:dialog>
-      </div>
-    </ui:define>
-  </ui:composition>
-</h:body>
+  
+        </div>
+      </ui:define>
+    </ui:composition>
+  </h:body>
 
 </html>
