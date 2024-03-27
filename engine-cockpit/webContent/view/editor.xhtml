@@ -59,8 +59,12 @@
         <h:panelGroup id="currentFileContainer">
           <h:panelGroup id="currentFile" styleClass="p-my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
             <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
-               summary="This file is read only!" severity="warn" />
+               summary="This file is read-only!" severity="warn" />
             <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
+            
+            <p:staticMessage rendered="#{!editorBean.activeConfigFile.originalFile}"
+               summary="The original file #{editorBean.activeConfigFile.originalPath} is read-only. The file was copied during startup to a writeable directory. Changes need to be applied in the original file manually, so that the changes will survive a restart." 
+               severity="warn" />
           </h:panelGroup>
         </h:panelGroup>
         

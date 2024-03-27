@@ -72,4 +72,12 @@ public class EditorFile {
   public long size() {
     return file.size();
   }
+
+  public boolean isOriginalFile() {
+    return file.isOriginalFile();
+  }
+
+  public Path getOriginalPath() {
+    return file.originalFile();
+  }
 }
