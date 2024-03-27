@@ -46,7 +46,7 @@ public class EditorFile {
               .summary("Saved " + file.name() + " successfully")
               .show();
     } catch (Exception ex) {
-      Message.info()
+      Message.error()
               .clientId("editorMessage")
               .exception(ex)
               .show();
