@@ -65,6 +65,9 @@ public class EditorFile {
 
   @SuppressWarnings("restriction")
   private String getKeys() {
+    if (config.config() == null) {
+      return "";
+    }
     return config.config().getMetadata().keySet().stream()
             .flatMap(key -> Arrays.asList(key.split("\\.")).stream())
             .distinct()
@@ -72,10 +75,10 @@ public class EditorFile {
   }
 
   public boolean isOriginalFile() {
-    return file.isOriginalFile();
+    return config.isOriginalFile();
   }
 
   public Path getOriginalPath() {
-    return file.originalFile();
+    return config.originalFile();
   }
 }
