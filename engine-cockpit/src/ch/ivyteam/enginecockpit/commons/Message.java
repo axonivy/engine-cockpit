@@ -32,7 +32,7 @@ public class Message {
     }
 
     public Builder summary(String summary) {
-      this.clientId = summary;
+      this.summary = summary;
       return this;
     }
 
@@ -47,15 +47,8 @@ public class Message {
     }
 
     public void show() {
-      FacesContext.getCurrentInstance().addMessage(clientId, msg());
-    }
-
-    public void info() {
-      FacesContext.getCurrentInstance().addMessage(clientId, msg());
-    }
-
-    private FacesMessage msg() {
-      return new FacesMessage(severity, summary, detail);
+      var msg = new FacesMessage(severity, summary, detail);
+      FacesContext.getCurrentInstance().addMessage(clientId, msg);
     }
   }
 }
