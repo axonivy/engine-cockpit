@@ -70,4 +70,12 @@ public class EditorFile {
             .distinct()
             .collect(Collectors.joining(","));
   }
+
+  public boolean isOriginalFile() {
+    return file.isOriginalFile();
+  }
+
+  public Path getOriginalPath() {
+    return file.originalFile();
+  }
 }
