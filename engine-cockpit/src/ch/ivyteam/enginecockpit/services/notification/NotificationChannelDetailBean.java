@@ -87,7 +87,7 @@ public class NotificationChannelDetailBean {
               .summary("Successfully saved")
               .show();
     } catch (Exception ex) {
-      Message.info()
+      Message.error()
               .clientId("msgs")
               .exception(ex)
               .show();
