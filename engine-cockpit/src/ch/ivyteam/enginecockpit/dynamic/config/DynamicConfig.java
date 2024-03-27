@@ -50,7 +50,10 @@ public class DynamicConfig {
   }
 
   public static void message() {
-    Message.info("dynamicConfigFormSaveSuccess", "Successfully saved");
+    Message.info()
+            .clientId("dynamicConfigFormSaveSuccess")
+            .summary("Successfully saved")
+            .show();
   }
 
   public static Builder create() {
