@@ -82,9 +82,15 @@ public class NotificationChannelDetailBean {
               .map(NotificationEventDto::getEvent)
               .toList();
       config.events(events);
-      Message.info("msgs", "Successfully saved");
+      Message.info()
+              .clientId("msgs")
+              .summary("Successfully saved")
+              .show();
     } catch (Exception ex) {
-      Message.error("msgs", ex);
+      Message.error()
+              .clientId("msgs")
+              .exception(ex)
+              .show();
     }
   }
 

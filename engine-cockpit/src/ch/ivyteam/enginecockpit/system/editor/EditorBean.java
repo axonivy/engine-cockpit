@@ -1,22 +1,20 @@
 package ch.ivyteam.enginecockpit.system.editor;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFileRepository;
 
@@ -28,14 +26,7 @@ public class EditorBean {
   private EditorFile activeConfigFile;
   private String selectedFile;
 
-  private StreamedContent file;
-
-  private DefaultStreamedContent binary;
-
-  public EditorBean() {
-    configFiles = ConfigFileRepository.instance().all().map(EditorFile::new).toList();
-    selectedFile = "ivy.yaml";
-  }
+  private StreamedContent stream;
 
   public List<EditorFile> getConfigFiles() {
     return configFiles;
@@ -49,14 +40,12 @@ public class EditorBean {
   }
 
   public void onload() {
-    if (selectedFile == null) {
-      activeConfigFile = configFiles.get(0);
-    } else {
-      activeConfigFile = configFiles.stream()
+    configFiles = ConfigFileRepository.instance().all().map(EditorFile::new).toList();
+    selectedFile = selectedFile == null ? "ivy.yaml" : selectedFile;
+    activeConfigFile = configFiles.stream()
             .filter(f -> f.getFileName().equalsIgnoreCase(selectedFile))
             .findFirst()
             .orElse(null);
-    }
     if (activeConfigFile == null) {
       ResponseHelper.notFound("Config File '" + selectedFile + "' not found");
       return;
@@ -85,31 +74,27 @@ public class EditorBean {
   }
 
   public StreamedContent getFile() {
-      return file;
+      return stream;
   }
 
   public void fileDownloadView() {
-    file = DefaultStreamedContent.builder()
+    stream = DefaultStreamedContent.builder()
             .name(activeConfigFile.getPath().getFileName().toString())
             .stream(() -> getInputStream())
             .build();
   }
 
-  public StreamedContent getBinary() {
-    return binary;
+  public InputStream getInputStream() {
+      try {
+        var path = activeConfigFile.getPath();
+        return Files.newInputStream(path);
+      } catch (IOException ex) {
+        throw new RuntimeException(ex);
+      }
   }
 
-  public FileInputStream getInputStream() {
-    try {
-      var path = activeConfigFile.getPath();
-      return new FileInputStream(path.toFile());
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException();
-    }
-  }
-
-  public Integer getSize() throws IOException {
-    return getInputStream().available();
+  public long getSize() {
+    return activeConfigFile.size();
   }
 
   public String getName() {
@@ -121,23 +106,23 @@ public class EditorBean {
       String originalFileName = event.getFile().getFileName();
       String extension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
       if (!activeConfigFile.getFileName().endsWith(extension)) {
-        addMessage(FacesMessage.SEVERITY_ERROR, "Invalid extension", "'" + originalFileName + "' could not be uploaded because of wrong file extension. The extension should be .p12");
+        Message.error()
+                .summary("Invalid extension")
+                .detail("'" + originalFileName + "' could not be uploaded because of wrong file extension.")
+                .show();
         return;
       }
       activeConfigFile.setBinary(is);
-      addMessage(FacesMessage.SEVERITY_INFO, "File Uploaded", "'" + originalFileName + "' uploaded successfully and stored as "+ getName() + ".");
+      Message.info()
+              .summary("File Uploaded")
+              .detail("'" + originalFileName + "' uploaded successfully and stored as " + getName() + ".")
+              .show();
     } catch (Exception ex) {
       throw new RuntimeException("Failed to load inputstream", ex);
     }
   }
 
-  public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
-    FacesMessage message = new FacesMessage(severity, summary, detail);
-    FacesContext.getCurrentInstance().addMessage(null, message);
-  }
-
   public boolean canSave() {
-    return activeConfigFile != null && !activeConfigFile.isReadOnly();
+    return !activeConfigFile.isReadOnly();
   }
-
 }

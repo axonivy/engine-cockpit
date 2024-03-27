@@ -3,27 +3,25 @@ package ch.ivyteam.enginecockpit.system.editor;
 import java.io.InputStream;
 import java.nio.file.Path;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
+import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.configuration.file.provider.ConfigFile;
 
 public class EditorFile {
 
-  private ConfigFile config;
+  private final ConfigFile file;
   private String content;
   private boolean migrated;
 
-  public EditorFile(ConfigFile config) {
-    this.config = config;
+  public EditorFile(ConfigFile file) {
+    this.file = file;
   }
 
   public String getFileName() {
-    return config.name();
+    return file.name();
   }
 
   public Path getPath() {
-    return config.file();
+    return file.file();
   }
 
   public boolean isMigrated() {
@@ -35,36 +33,43 @@ public class EditorFile {
   }
 
   public String getContent() {
-    var read = config.read();
-    this.migrated = config.isMigrated(read);
+    var read = file.read();
+    this.migrated = file.isMigrated(read);
     return read;
   }
 
   public void save() {
     try {
-      config.write(content);
-      FacesContext.getCurrentInstance().addMessage("editorMessage",
-              new FacesMessage("Saved " + config.name() + " Successfully", ""));
+      file.write(content);
+      Message.info()
+              .clientId("editorMessage")
+              .summary("Saved " + file.name() + " successfully")
+              .show();
     } catch (Exception ex) {
-      FacesContext.getCurrentInstance().addMessage("editorMessage",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error write config '" + config.name() + "' file",
-                      ex.getMessage()));
+      Message.error()
+              .clientId("editorMessage")
+              .exception(ex)
+              .show();
     }
   }
 
   public String getProvider() {
-    return config.provider();
+    return file.provider();
   }
 
   public void setBinary(InputStream is) {
-    config.setBinaryFile(is);
+    file.setBinaryFile(is);
   }
 
   public boolean isBinary() {
-    return config.isBinaryFile();
+    return file.isBinaryFile();
   }
 
   public boolean isReadOnly() {
-    return config.isReadOnly();
+    return file.isReadOnly();
+  }
+
+  public long size() {
+    return file.size();
   }
 }
