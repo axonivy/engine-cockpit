@@ -34,7 +34,7 @@ public class KeyStoreBean implements SslTableStore {
 
   public KeyStoreBean() {
     this.store = SslClientSettings.instance().getKeyStore();
-    this.file = store.getFile().toString();
+    this.file = store.getFile();
     this.password = store.getPassword();
     this.keyPassword = store.getKeyPassword();
     this.provider = store.getProvider();
