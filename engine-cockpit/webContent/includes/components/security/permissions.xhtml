@@ -9,9 +9,9 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-lock-1"></i>
-        <h6 class="p-m-0">Permissions</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-lock-1"></i>
+        <h6 class="m-0">Permissions</h6>
       </div>
     </div>
     
@@ -19,7 +19,7 @@
       <p:ajax event="expand" listener="#{permissionBean.nodeExpand}" />
       <p:ajax event="collapse" listener="#{permissionBean.nodeCollapse}" />
       <f:facet name="header">
-        <div class="p-d-flex ui-fluid">
+        <div class="flex ui-fluid">
           <span class="ui-input-icon-left filter-container" style="width: 100%;">
             <i class="pi pi-search"/>
             <p:inputText id="globalFilter" placeholder="Search" value="#{permissionBean.filter}">
@@ -28,7 +28,7 @@
           </span>
           <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
             actionListener="#{permissionBean.collapseAllNodes}" update="permissionTable" title="Collapse all"
-            styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+            styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
         </div>
       </f:facet>
       
@@ -62,7 +62,7 @@
           <p:ajax update="@form" listener="#{permission.grant}" />
         </p:commandButton>
         <p:commandButton id="unGrantPermissionBtn" type="button" icon="si si-subtract" title="Ungrant"
-          styleClass="p-ml-1 ui-button-secondary rounded-button" disabled="#{permission.unGrantDisabled}">
+          styleClass="ml-1 ui-button-secondary rounded-button" disabled="#{permission.unGrantDisabled}">
           <p:ajax update="@form" listener="#{permission.ungrant}" />
         </p:commandButton>
       </p:column>
@@ -73,7 +73,7 @@
           <p:ajax update="@form" listener="#{permission.deny}" />
         </p:commandButton>
         <p:commandButton id="unDenyPermissionBtn" type="button" icon="si si-subtract" title="Undeny"
-          styleClass="p-ml-1 ui-button-secondary rounded-button" disabled="#{permission.unDenyDisabled}">
+          styleClass="ml-1 ui-button-secondary rounded-button" disabled="#{permission.unDenyDisabled}">
           <p:ajax update="@form" listener="#{permission.undeny}" />
         </p:commandButton>
       </p:column>

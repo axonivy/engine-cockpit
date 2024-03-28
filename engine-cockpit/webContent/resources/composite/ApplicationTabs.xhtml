@@ -15,16 +15,16 @@
     <p:ajax event="tabChange" listener="#{cc.attrs.tabChange}" update="@this #{cc.attrs.update}" />
     <p:tab title="#{app.name}" titleStyleClass="application-tab">
       <f:facet name="title">
-        <i class="si si-module p-mr-1" />
+        <i class="si si-module mr-1" />
         <h:outputText value="#{app.name}" />
       </f:facet>
       <cc:insertChildren />
     </p:tab>
   </p:tabView>
   <h:panelGroup rendered="#{empty managerBean.applications}" layout="block" 
-    styleClass="p-d-flex p-ai-center">
+    styleClass="flex align-items-center">
     <h:outputText value="You don't have any applications configured." />
-    <p:linkButton styleClass="p-ml-3" icon="si si-add" value="Create Application" href="applications.xhtml" />
+    <p:linkButton styleClass="ml-3" icon="si si-add" value="Create Application" href="applications.xhtml" />
   </h:panelGroup>
 </cc:implementation>
 

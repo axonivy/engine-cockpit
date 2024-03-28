@@ -10,24 +10,24 @@
     </p:growl>
 
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-single-neutral-actions"></i>
-        <h6 class="p-m-0">Identity Provider</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-single-neutral-actions"></i>
+        <h6 class="m-0">Identity Provider</h6>
         
         <p:linkButton title="Edit" icon="si si-pencil" id="editProviderBtn" rendered="#{securityProviderBean.notIvySecuritySystem}"
-            styleClass="p-ml-auto rounded-button" outcome="identity-provider">
+            styleClass="ml-auto rounded-button" outcome="identity-provider">
           <f:param name="securitySystemName" value="#{securityProviderBean.securitySystemName}"/>
         </p:linkButton>
        
         <p:commandButton title="Save" icon="si si-floppy-disk" id="saveProviderBtn" update="securityProviderForm" actionListener="#{securityProviderBean.saveProvider}" 
-            styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'p-ml-auto'} p-ml-1 ui-button-success rounded-button"/>
+            styleClass="#{securityProviderBean.notIvySecuritySystem ? '' : 'ml-auto'} ml-1 ui-button-success rounded-button"/>
       </div>
     </div>
 
     <p:staticMessage id="providerChangeWarning" detail="If you change the identity provider, you will lose ALL current settings of this security system!"
         severity="warn" rendered="#{securityProviderBean.showWarningMessage}"/>
     
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel ui-fluid">
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel ui-fluid">
       <label>Provider</label>
       <p:selectOneMenu id="provider" value="#{securityProviderBean.provider}">
         <p:ajax event="change" listener="#{securityProviderBean.setShowWarningMessage(true)}" update="securityProviderForm" />
@@ -35,7 +35,7 @@
       </p:selectOneMenu>
     </p:panelGrid>
 
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel ui-fluid" rendered="#{securityProviderBean.notIvySecuritySystem}">
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel ui-fluid" rendered="#{securityProviderBean.notIvySecuritySystem}">
       <p:outputLabel for="synchOnLogin" value="Synchronize users on login" />
       <p:selectBooleanCheckbox id="synchOnLogin" value="#{securityProviderBean.synchOnLogin}" />
 
@@ -55,9 +55,9 @@
           <p:inputText id="onScheduleCron" value="#{securityProviderBean.onScheduleCron}"
             placeholder="0 0 0 * * ?"/>
           <br/>
-          <h:panelGroup layout="block" styleClass="p-d-flex p-align-center p-mt-1">  
+          <h:panelGroup layout="block" styleClass="flex align-items-center mt-1">  
             <h:outputText value="#{securityProviderBean.cronReadable}" style="opacity: 0.5;"/>
-            <h:outputText id="cronHelp" class="p-ml-1 si si-information-circle" style="opacity: 0.5;"/>
+            <h:outputText id="cronHelp" class="ml-1 si si-information-circle" style="opacity: 0.5;"/>
             <p:tooltip for="cronHelp" value="#{securityProviderBean.cronHelp}" position="bottom" escape="false"/> <!-- contains no user input, contains html-->
           </h:panelGroup>
         </h:panelGroup>

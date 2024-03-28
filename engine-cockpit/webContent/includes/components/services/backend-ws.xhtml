@@ -5,10 +5,10 @@
 
 <div class="card">
   <div class="card-header">
-    <div class="card-title p-d-flex p-ai-center">
-      <i class="p-pr-3 si si-network-arrow"></i>
-      <h6 class="p-m-0">Web Services</h6>
-      <h:form id="appSwitch" styleClass="p-ml-auto">
+    <div class="card-title flex align-items-center">
+      <i class="pr-3 si si-network-arrow"></i>
+      <h6 class="m-0">Web Services</h6>
+      <h:form id="appSwitch" styleClass="ml-auto">
         <p:selectOneMenu id="appSelect" value="#{managerBean.selectedApplicationName}">
           <f:selectItems value="#{managerBean.applications}" var="app" itemLabel="#{app.name}" itemValue="#{app.name}" />
           <p:ajax event="change" update="webServicesTable" />

@@ -6,14 +6,14 @@
 <div class="card">
   <h:form id="webservcieAdditionalConfigForm">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-cog"></i>
-        <h6 class="p-m-0">Features and properties</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-cog"></i>
+        <h6 class="m-0">Features and properties</h6>
       </div>
     </div>
     
     <p:dataTable value="#{webserviceDetailBean.webservice.features}" var="feature"
-      id="webserviceFeaturesTable" styleClass="p-mb-3">
+      id="webserviceFeaturesTable" styleClass="mb-3">
       <p:column headerText="Features">
         <p:outputLabel value="#{feature}" styleClass="webservice-feature" />
       </p:column>

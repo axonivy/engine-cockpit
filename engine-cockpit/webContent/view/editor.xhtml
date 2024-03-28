@@ -23,11 +23,11 @@
         <p:growl id="editorMessage" for="editorMessage" showDetail="true">
           <p:autoUpdate />
         </p:growl>
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-common-file-text-edit card-title-icon"></i>
-          <h2 class="p-m-0">Config File Editor</h2>
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-common-file-text-edit card-title-icon"></i>
+          <h2 class="m-0">Config File Editor</h2>
 
-          <h:form id="fileChooserForm" styleClass="p-ml-auto">
+          <h:form id="fileChooserForm" styleClass="ml-auto">
             <div class="field col-12 md:col-4">
               <p:autoComplete id="fileDropDown" dropdown="true" value="#{editorBean.activeConfigFile}"
                 var="file" itemLabel="#{file.fileName}" itemValue="#{file}" converter="editorFileConverter"
@@ -57,7 +57,7 @@
           }
         </script>
         <h:panelGroup id="currentFileContainer">
-          <h:panelGroup id="currentFile" styleClass="p-my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
+          <h:panelGroup id="currentFile" styleClass="my-2" layout="block" rendered="#{editorBean.activeConfigFile != null}">
             <p:staticMessage rendered="#{editorBean.activeConfigFile.readOnly}"
                summary="This file is read-only!" severity="warn" />
             <b id="currentFile">#{editorBean.activeConfigFile.path}</b>
@@ -145,10 +145,10 @@
             <p:staticMessage severity="warn" rendered="#{editorBean.activeConfigFile.migrated}" 
               detail="These file contents were auto-migrated to the latest version." />
     
-            <div class="p-d-flex p-flex-wrap">
+            <div class="flex flex-wrap">
               <p:commandButton id="cancelEditor" onclick="window.location.reload(true)" value="Cancel" type="button"
-                styleClass="p-ml-auto ui-button-secondary ui-button-flat" disabled="#{editorBean.activeConfigFile == null}" />
-              <p:commandButton id="saveEditor" styleClass="p-ml-1" value="Save" disabled="#{!editorBean.canSave()}"
+                styleClass="ml-auto ui-button-secondary ui-button-flat" disabled="#{editorBean.activeConfigFile == null}" />
+              <p:commandButton id="saveEditor" styleClass="ml-1" value="Save" disabled="#{!editorBean.canSave()}"
                 icon="si si-floppy-disk" onclick="saveEditor()" actionListener="#{editorBean.activeConfigFile.save()}" widgetVar="saveEditor" />
             </div>
           </h:form>

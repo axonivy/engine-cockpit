@@ -10,15 +10,15 @@
   <div class="card">
     <h:form id="eventPoll">
       <div class="card-header">
-        <div class="card-title p-d-flex p-ai-center">
-          <i class="p-pr-3 si si-time-clock-circle"></i>
-          <h6 class="p-m-0">Poll</h6>
+        <div class="card-title flex align-items-center">
+          <i class="pr-3 si si-time-clock-circle"></i>
+          <h6 class="m-0">Poll</h6>
           <p:commandButton id="pollBtn" oncomplete="PF('pollBeanDialog').show();" title="Schedule to poll the bean now" icon="si si-synchronize-arrow-clock"
-              update="polls" styleClass="p-col-fixed p-ml-auto rounded-button" />
+              update="polls" styleClass="col-fixed ml-auto rounded-button" />
         </div>
       </div>
       
-      <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex"
+      <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
         styleClass="grey-label-panel ui-fluid">
         <p:outputLabel for="polls" value="Polls" />
         <h:outputText id="polls" value="#{cc.attrs.event.polls}"/>

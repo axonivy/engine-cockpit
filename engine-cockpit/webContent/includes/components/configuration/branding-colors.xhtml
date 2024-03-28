@@ -24,7 +24,7 @@
       <p:commandButton id="setColor" icon="si si-pencil" styleClass="ui-button-secondary rounded-button" 
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" 
         update="cssColorPickerForm:editCssColorModal" oncomplete="PF('editCssColorModal').show();"/>
-      <p:commandButton id="resetColor" icon="si si-undo" styleClass="p-ml-1 ui-button-danger rounded-button"
+      <p:commandButton id="resetColor" icon="si si-undo" styleClass="ml-1 ui-button-danger rounded-button"
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" disabled="#{color.default}"
         update="resetColorConfirmDialog" oncomplete="PF('resetColorConfirmDialog').show();" />
     </p:column>

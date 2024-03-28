@@ -11,9 +11,9 @@
 
     <ui:define name="content">
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12">
-            <div class="p-grid" style="margin: -1rem;">
+        <div class="grid">
+          <div class="col-12">
+            <div class="grid">
               <cc:OverviewBox box="white" count="#{managerBean.sessionCount}" icon="si si-style-two-pin-user" title="Sessions"
                 link="monitor-sessions.xhtml" />
               <cc:OverviewBox box="blue" count="#{managerBean.usersCount}" icon="si si-single-neutral-actions" title="Users"
@@ -25,23 +25,23 @@
             </div>
           </div>
           
-          <div class="p-col-12 p-md-6 p-xl-4">
+          <div class="col-12 md:col-6 xl:col-4">
             <ui:include src="../includes/components/dashboard/axonivy.xhtml" />
           </div>
   
-          <div class="p-col-12 p-md-6 p-xl-4">
+          <div class="col-12 md:col-6 xl:col-4">
             <ui:include src="../includes/components/dashboard/licence.xhtml" />
           </div>
   
-          <div class="p-col-12 p-md-6 p-xl-4">
+          <div class="col-12 md:col-6 xl:col-4">
             <ui:include src="../includes/components/dashboard/email.xhtml" />
           </div>
   
-          <div class="p-col-12 p-md-6 p-xl-6">
+          <div class="col-12 md:col-6 xl:col-6">
             <ui:include src="../includes/components/dashboard/systemdatabase.xhtml" />
           </div>
   
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/dashboard/java.xhtml" />
           </div>
         </div>

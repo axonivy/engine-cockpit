@@ -5,14 +5,14 @@
 
 <div class="card">
   <div class="card-header">
-    <div class="card-title p-d-flex p-ai-center">
-      <i class="p-pr-3 si si-information-circle"></i>
-      <h6 class="p-m-0" style="margin: 0; padding-left: 0">Java</h6>
+    <div class="card-title flex align-items-center">
+      <i class="pr-3 si si-information-circle"></i>
+      <h6 class="m-0" style="margin: 0; padding-left: 0">Java</h6>
       <p:commandButton id="tasksButtonJavaDetail" onclick="PF('javaDetailDialog').show();" title="Java Details" type="button"
-        icon="si si-information-circle" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" />
+        icon="si si-information-circle" styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
     </div>
   </div>
-  <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8"
+  <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
     styleClass="grey-label-panel">
     <label>Product</label>
     <h:outputText value="#{javaBean.name}" />

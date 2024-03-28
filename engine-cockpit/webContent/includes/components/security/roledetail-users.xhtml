@@ -9,9 +9,9 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-single-neutral-actions"></i>
-        <h6 class="p-m-0">Users</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-single-neutral-actions"></i>
+        <h6 class="m-0">Users</h6>
       </div>
     </div>
     
@@ -21,38 +21,38 @@
     </h:panelGroup>
 
     <h:panelGroup rendered="#{roleDetailBean.canShowUsers()}">
-      <div class="p-d-flex ui-fluid">
+      <div class="flex ui-fluid">
         <p:autoComplete id="addUserDropDown" value="#{roleDetailBean.roleUser}" dropdown="true" forceSelection="true"
           completeMethod="#{roleDetailBean.searchUser}" styleClass="card-autocomplete-search" style="width: 100%;"
           var="user" itemLabel="#{user.displayName}" itemValue="#{user}" converter="userConverter"
           placeholder="Search user to add" disabled="#{roleDetailBean.managed}" />
         <p:commandButton id="addUserToRoleBtn" update="usersOfRoleForm" actionListener="#{roleDetailBean.addUser}"
           icon="si si-add" title="Add" disabled="#{roleDetailBean.managed}" 
-          styleClass="p-ml-1 p-col-fixed rounded-button" />
+          styleClass="ml-1 col-fixed rounded-button" />
       </div>
       <p:dataTable id="roleUserTable" value="#{roleDetailBean.usersOfRole}" widgetVar="usersOfRoleTable" var="user"
         lazy="true" paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-        styleClass="p-mt-2">
+        styleClass="mt-2">
         <f:facet name="header">
-          <div class="p-d-flex">
+          <div class="flex">
             <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
               <i class="pi pi-search"/>
               <p:inputText id="globalFilter" onkeyup="PF('usersOfRoleTable').filter()" placeholder="Search" value="#{roleDetailBean.usersOfRoleFilter}" />
             </span>
             
             <p:commandButton id="filterBtn" title="Filter: #{roleDetailBean.usersOfRole.contentFilterText}" type="button" icon="si si-filter-1"
-              styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button" onclick="PF('filterPanel').show();" />
+              styleClass="ml-1 col-fixed ui-button-secondary rounded-button" onclick="PF('filterPanel').show();" />
             <p:overlayPanel id="filterPanel" for="filterBtn" widgetVar="filterPanel" styleClass="table-content-filter">
               <p:selectManyCheckbox id="filterCheckboxes" layout="grid" columns="1" value="#{roleDetailBean.usersOfRole.selectedContentFilters}">
                 <f:selectItems value="#{roleDetailBean.usersOfRole.contentFilters}" var="filter" itemLabel="#{filter}" itemValue="#{filter}" />
               </p:selectManyCheckbox>
           
-              <h:panelGroup layout="block" styleClass="p-mt-1 p-d-flex p-jc-end">
+              <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
                 <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
                   onclick="PF('filterPanel').hide();" type="button" />
-                <p:commandButton id="resetFilterBtn" value="Reset" styleClass="p-ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+                <p:commandButton id="resetFilterBtn" value="Reset" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
                   update="@form" actionListener="#{roleDetailBean.usersOfRole.resetSelectedContentFilters()}" />
-                <p:commandButton id="applyFilter" value="Apply" styleClass="p-ml-1 modal-input-button" icon="si si-check-1"
+                <p:commandButton id="applyFilter" value="Apply" styleClass="ml-1 modal-input-button" icon="si si-check-1"
                   update="@form" />
               </h:panelGroup>
             </p:overlayPanel>
@@ -60,11 +60,11 @@
         </f:facet>
         
         <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
-          <a href="#{user.getViewUrl()}" class="p-d-flex p-ai-center">
-            <h:outputText styleClass="p-ml-1 user-name" value="#{user.name}">
+          <a href="#{user.getViewUrl()}" class="flex align-items-center">
+            <h:outputText styleClass="ml-1 user-name" value="#{user.name}">
               <p:avatar gravatar="#{user.email}" icon="si si-single-neutral-actions" shape="circle" styleClass="user-avatar" />
             </h:outputText>
-            <h:outputText value="(#{user.fullName})" styleClass="p-ml-1 addition-row-info table-cell-autocut" />
+            <h:outputText value="(#{user.fullName})" styleClass="ml-1 addition-row-info table-cell-autocut" />
           </a>
         </p:column>
         <p:column styleClass="table-btn-1">

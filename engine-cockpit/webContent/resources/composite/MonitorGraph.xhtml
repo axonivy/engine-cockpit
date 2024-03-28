@@ -7,16 +7,16 @@
   <cc:attribute name="id" shortDescription="div id" />
 </cc:interface>
 <cc:implementation>
-  <div class="p-col-12 p-lg-6" id="#{cc.attrs.id}">
+  <div class="col-12 lg:col-6" id="#{cc.attrs.id}">
     <div class="card">
       <div class="card-header">
-        <div class="card-title p-d-flex p-ai-center">
-          <i class="p-pr-3 si si-#{cc.attrs.monitor.icon}"></i>
-          <h6 class="p-m-0">#{cc.attrs.monitor.title}</h6>
-          <h:outputText class="p-pl-4 p-ml-auto" value="#{cc.attrs.monitor.info}" />
+        <div class="card-title flex align-items-center">
+          <i class="pr-3 si si-#{cc.attrs.monitor.icon}"></i>
+          <h6 class="m-0">#{cc.attrs.monitor.title}</h6>
+          <h:outputText class="pl-4 ml-auto" value="#{cc.attrs.monitor.info}" />
         </div>
       </div>
-      <p:chart type="line" model="#{cc.attrs.monitor.model}" responsive="true" style="height:300px;" />
+      <p:lineChart model="#{cc.attrs.monitor.model}" style="height:300px;" />
     </div>
   </div>
 </cc:implementation>

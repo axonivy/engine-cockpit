@@ -24,18 +24,18 @@
       }
       </script>
       
-      <div class="p-col card ui-fluid">
+      <div class="col card ui-fluid">
         <p:growl id="migrateGrowl" for="migrateGrowl" showDetail="true">
           <p:autoUpdate />
         </p:growl>
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-navigation-right-circle card-title-icon"></i>
-          <h2 class="p-m-0">Migrate old Axon Ivy Engine</h2>
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-navigation-right-circle card-title-icon"></i>
+          <h2 class="m-0">Migrate old Axon Ivy Engine</h2>
           <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/reference/migration-wizard.html" target="_blank" rel="noopener noreferrer"
-            styleClass="p-ml-auto ui-button-outlined rounded-button" icon="si si-question-circle" />
+            styleClass="ml-auto ui-button-outlined rounded-button" icon="si si-question-circle" />
         </div>
         <h:form id="locationForm">
-          <p:panelGrid columns="3" layout="flex" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-6 p-lg-6, p-col-12 p-md-3 p-lg-3">
+          <p:panelGrid columns="3" layout="flex" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-6 lg:col-6, col-12 md:col-3 lg:col-3">
             <p:outputLabel for="oldEngineInput"
               value="Location of old Engine" />
             <h:panelGroup styleClass="md-inputfield">
@@ -56,7 +56,7 @@
 
         <h:panelGroup layout="block" id="migration">
           <h:form id="form" rendered="#{not empty migrationBean.migrationPath}">
-            <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-9 p-lg-9, p-col-12 p-md-3 p-lg-3">
+            <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-9 lg:col-9, col-12 md:col-3 lg:col-3">
               <h3>Migrating: #{migrationBean.migrationPath}</h3>
               
               <h:panelGroup layout="block">
@@ -78,12 +78,12 @@
             <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" closable="true" />
             <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="tasksRepeat">
               <div class="migration-step">
-                <h4 class="p-mb-0 p-mt-3">
-                  <i class="p-mr-0 si si-#{task.stateIcon} link-icon"></i> #{task.name}
+                <h4 class="mb-0 mt-3">
+                  <i class="mr-0 si si-#{task.stateIcon} link-icon"></i> #{task.name}
                 </h4>
-                <p class="p-ml-5">#{task.description}</p>
+                <p class="ml-5">#{task.description}</p>
                 <h:panelGroup rendered="#{task.state == 'running'}" layout="block">
-                  <p:repeat var="question" value="#{task.questions}" id="questions" varStatus="questionsRepeat">
+                  <ui:repeat var="question" value="#{task.questions}" id="questions" varStatus="questionsRepeat">
                     <h:panelGroup styleClass="question">
                       <h:panelGroup id="diff" layout="block" />
                       <script>
@@ -98,7 +98,7 @@
                         <p:ajax onsuccess="PF('migrationPoller').start()"/>
                       </p:selectOneButton>
                     </h:panelGroup>
-                  </p:repeat>
+                  </ui:repeat>
                 </h:panelGroup>
               </div>
             </ui:repeat>

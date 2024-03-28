@@ -23,11 +23,11 @@
 
     <ui:define name="content">
       <div class="card">
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-navigation-right-circle-1 card-title-icon"></i>
-          <h2 class="p-m-0">Intermediate Events</h2>
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-navigation-right-circle-1 card-title-icon"></i>
+          <h2 class="m-0">Intermediate Events</h2>
           <p:commandButton id="refresh" actionListener="#{intermediateEventBean.refresh}" update="form" title="Refresh Start Events"
-              icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto rounded-button"/>
+              icon="si si-button-refresh-arrows" styleClass="col-fixed ml-auto rounded-button"/>
 
         </div>
         <h:form id="form" style="overflow: auto;" onkeypress="if (event.keyCode == 13) return false;">
@@ -75,11 +75,11 @@
 
              <p:column styleClass="table-btn-3">
               <p:commandButton id="start" title="Starts the bean" icon="si si-controls-play"
-                action="#{bean.start()}" update="@form" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" disabled="#{bean.running}"/>
+                action="#{bean.start()}" update="@form" styleClass="col-fixed ml-1 ui-button-success rounded-button" disabled="#{bean.running}"/>
               <p:commandButton id="stop" title="Stops the bean" icon="si si-controls-stop"
-                action="#{bean.stop()}" update="@form" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{! bean.running}"/>
+                action="#{bean.stop()}" update="@form" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{! bean.running}"/>
               <p:commandButton id="poll" oncomplete="PF('pollBeanDialog').show();" title="Schedule to poll the bean now" icon="si si-synchronize-arrow-clock"
-                action="#{intermediateEventBean.setSelected(bean)}" update="pollBeanDialog" styleClass="p-col-fixed p-ml-1 rounded-button" />
+                action="#{intermediateEventBean.setSelected(bean)}" update="pollBeanDialog" styleClass="col-fixed ml-1 rounded-button" />
             </p:column>
           </p:dataTable>
         </h:form>

@@ -9,7 +9,7 @@
 
     <p:staticMessage severity="warn" detail="This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes will fail in the future." />
   
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+    <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="renameRoleNameInput" value="Name" />
       <h:panelGroup styleClass="md-inputfield">
         <p:inputText id="renameRoleNameInput" requiredMessage="Value is required"

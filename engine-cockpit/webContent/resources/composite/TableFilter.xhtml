@@ -15,12 +15,12 @@
         <f:selectItems value="#{cc.attrs.bean.contentFilters}" var="filter" itemLabel="#{filter}" itemValue="#{filter}" />
       </p:selectManyCheckbox>
   
-      <h:panelGroup layout="block" styleClass="p-mt-1 p-d-flex p-jc-end">
+      <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">
         <p:commandButton id="cancelFilter" value="Cancel" styleClass="ui-button-flat ui-button-secondary modal-input-button"
           onclick="PF('filterPanel').hide();" type="button" />
-        <p:commandButton id="resetFilterBtn" value="Reset" styleClass="p-ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
+        <p:commandButton id="resetFilterBtn" value="Reset" styleClass="ml-1 ui-button-secondary modal-input-button" icon="si si-delete-2"
           update="#{cc.attrs.update}" actionListener="#{cc.attrs.bean.resetSelectedContentFilters()}" />
-        <p:commandButton id="applyFilter" value="Apply" styleClass="p-ml-1 modal-input-button" icon="si si-check-1"
+        <p:commandButton id="applyFilter" value="Apply" styleClass="ml-1 modal-input-button" icon="si si-check-1"
           update="#{cc.attrs.update}" />
       </h:panelGroup>
     </h:form>

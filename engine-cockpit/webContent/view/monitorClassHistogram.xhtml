@@ -24,16 +24,16 @@
         <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
           <div class="layout-dashboard">
             <div class="card">
-              <div class="card-header p-flex-wrap">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-computer-chip-search"></i>
-                  <h2 class="p-m-0">Class Histogram</h2>
+              <div class="card-header flex-wrap">
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-computer-chip-search"></i>
+                  <h2 class="m-0">Class Histogram</h2>
                   <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{classHistogramBean.refresh()}" title="Refresh Class Histogram" 
-                      update="@form" styleClass="p-col-fixed p-ml-auto rounded-button"/>
+                      update="@form" styleClass="col-fixed ml-auto rounded-button"/>
                   <p:commandButton id="clear" actionListener="#{classHistogramBean.clear}" update="@form" title="Clear Class Histogram"
-                      icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
+                      icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{classHistogramBean.notClearable}"/>
                   <p:commandButton id="dump" update="dumpMemory" title="Dump Heap Memory" onclick="PF('dumpMemoryDialog').show();"
-                      icon="si si-download-bottom" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button"/>
+                      icon="si si-download-bottom" styleClass="col-fixed ml-1 ui-button-danger rounded-button"/>
                 </div>
               </div>
               <p:dataTable var="class" value="#{classHistogramBean.classes}" filteredValue="#{classHistogramBean.filteredClasses}"

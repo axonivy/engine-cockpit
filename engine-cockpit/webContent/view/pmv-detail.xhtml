@@ -26,17 +26,17 @@
 
     <ui:define name="content">
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12 p-md-12 p-xl-8">
+        <div class="grid">
+          <div class="col-12 md:col-12 xl:col-8">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-information-circle"></i>
-                  <h6 class="p-m-0">PMV information</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-information-circle"></i>
+                  <h6 class="m-0">PMV information</h6>
                 </div>
               </div>
                 
-              <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+              <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
                 styleClass="grey-label-panel ui-fluid">
                 <label>Name</label>
                 <h:outputText value="#{pmvDetailBean.pmv.name}" />
@@ -50,16 +50,16 @@
             </div>
           </div>
           
-          <div class="p-col-12 p-md-12 p-xl-4">
+          <div class="col-12 md:col-12 xl:col-4">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-cog-play"></i>
-                  <h6 class="p-m-0">Activity</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-cog-play"></i>
+                  <h6 class="m-0">Activity</h6>
                 </div>
               </div>
                 
-              <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+              <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
                 styleClass="grey-label-panel ui-fluid">
                 <label>State</label>
                 <h:outputText>
@@ -76,12 +76,12 @@
             </div>
           </div>
           
-          <div class="p-col-12">
+          <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-module-three-1"></i>
-                  <h6 class="p-m-0">Specified required projects</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-module-three-1"></i>
+                  <h6 class="m-0">Specified required projects</h6>
                 </div>
               </div>
               <p:dataTable id="specifiedTable" var="spec" value="#{pmvDetailBean.requiredSpecifications}"
@@ -103,12 +103,12 @@
             </div>
           </div>
           
-          <div class="p-col-12">
+          <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-navigation-up-circle"></i>
-                  <h6 class="p-m-0">All PMVs depending on this PMV</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-navigation-up-circle"></i>
+                  <h6 class="m-0">All PMVs depending on this PMV</h6>
                 </div>
               </div>
               <p:dataTable id="dependentPmvTable" var="pmv" value="#{pmvDetailBean.dependentPmvs}"
@@ -140,12 +140,12 @@
             </div>
           </div>
           
-          <div class="p-col-12">
+          <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-navigation-down-circle"></i>
-                  <h6 class="p-m-0">All PMVs required by this PMV</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-navigation-down-circle"></i>
+                  <h6 class="m-0">All PMVs required by this PMV</h6>
                 </div>
               </div>
               <p:dataTable id="requriedPmvTable" var="pmv" value="#{pmvDetailBean.requiredPmvs}"
