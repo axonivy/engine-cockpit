@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.system.ssl;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.security.KeyStoreException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
@@ -26,7 +27,7 @@ class KeyStoreUtils {
   }
 
   private IvyKeystore loadInternal() throws KeyStoreException {
-    return ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(file, type, provider, password);
+    return ch.ivyteam.ivy.ssl.restricted.IvyKeystore.load(Path.of(file), type, provider, password);
   }
 
   Certificate handleUploadCert(InputStream is) throws Exception {

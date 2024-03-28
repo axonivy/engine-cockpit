@@ -34,7 +34,7 @@ public class TrustStoreBean implements SslTableStore {
   public TrustStoreBean() {
     this.sslClientSettings = SslClientSettings.instance();
     this.store = sslClientSettings.getTrustStore();
-    this.file = store.getFile();
+    this.file = store.getFile().toString();
     this.password = store.getPassword();
     this.provider = store.getProvider();
     this.type = store.getType();
