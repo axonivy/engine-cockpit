@@ -82,7 +82,7 @@ public class ClassHistogramBean {
 
     return DefaultStreamedContent.builder().name(zipFile.getFileName().toString())
         .stream(() -> openTempFileInputStream(zipFile))
-        .contentLength((int)Files.size(zipFile))
+        .contentLength(Files.size(zipFile))
         .build();
   }
 

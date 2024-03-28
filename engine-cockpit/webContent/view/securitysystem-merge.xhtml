@@ -24,9 +24,9 @@
           <p:growl for="msgs" id="msgs" showDetail="true">
             <p:autoUpdate />
           </p:growl>
-          <div class="p-d-flex p-ai-center p-mb-3">
-            <i class="p-pr-3 si si-move-to-bottom card-title-icon"></i>
-            <h2 class="p-m-0">Merge Security Systems</h2>
+          <div class="flex align-items-center mb-3">
+            <i class="pr-3 si si-move-to-bottom card-title-icon"></i>
+            <h2 class="m-0">Merge Security Systems</h2>
           </div>
 
           <p:panelGrid columns="1" layout="flex" styleClass="compare-card">
@@ -57,14 +57,14 @@
                 be manually renamed in the target security system as well as the role in the Axon Ivy Project. Then the Axon Ivy Project must be redeployed." >
               </p:staticMessage>
 
-              <p:commandButton value="Execute all CREATE operations" styleClass="p-mr-2 p-mb-2 ui-button-success"
+              <p:commandButton value="Execute all CREATE operations" styleClass="mr-2 mb-2 ui-button-success"
                 title="This will run all CREATE operations in the target security system" update="report" icon="si si-add"
                 actionListener="#{securitySystemCompareBean.solveCreateIssues()}">
                 <p:confirm header="Execute all CREATE operations"
                   message="This will create all missing entries in the target security system" icon="ui-icon-alert" />
               </p:commandButton>
 
-              <p:commandButton value="Execute all UPDATE operations" styleClass="p-mr-2 p-mb-2" icon="si si-navigation-right-circle"
+              <p:commandButton value="Execute all UPDATE operations" styleClass="mr-2 mb-2" icon="si si-navigation-right-circle"
                 title="This will run all UPDATE operations in the target security system" update="report"
                 actionListener="#{securitySystemCompareBean.solveUpdateIssues()}">
                 <p:confirm header="Execute all UPDATE operations"
@@ -72,7 +72,7 @@
                   icon="ui-icon-alert" />
               </p:commandButton>
 
-              <p:commandButton value="Execute all DELETE operations" styleClass="p-mr-2 p-mb-2 ui-button-danger" icon="si si-bin-1"
+              <p:commandButton value="Execute all DELETE operations" styleClass="mr-2 mb-2 ui-button-danger" icon="si si-bin-1"
                 title="This will run all DELETE operations in the target security system" update="report"
                 actionListener="#{securitySystemCompareBean.solveDeleteIssues()}">
                 <p:confirm header="Execute all DELETE operations"

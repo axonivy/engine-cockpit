@@ -9,9 +9,9 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-common-file-text"></i>
-        <h6 class="p-m-0">Indices</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-common-file-text"></i>
+        <h6 class="m-0">Indices</h6>
       </div>
     </div>
 
@@ -19,11 +19,11 @@
       var="index" value="#{searchEngineBean.indicesModel}" lazy="true"
       id="indiciesTable" widgetVar="indiciesTable" style="min-width: 700px;" styleClass="ui-fluid">
       <p:column id="indexName" headerText="Name" styleClass="index-name-column">
-        <a href="#{index.viewUrl}" class="p-d-flex p-ai-center">
+        <a href="#{index.viewUrl}" class="flex align-items-center">
           <h:outputText value="#{index.name}" styleClass="index-name" style="overflow: auto">
             <i class="si si-common-file-text table-icon"></i>
           </h:outputText>
-          <h:outputText styleClass="p-ml-2 addition-row-info"
+          <h:outputText styleClass="ml-2 addition-row-info"
             value="[Reindexing: #{index.countIndexing} (#{index.percentIndexed}%)]"
             rendered="#{searchEngineBean.renderIndexingCount(index)}"/>
         </a>
@@ -51,7 +51,7 @@
           styleClass="rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
         <p:commandButton title="Reindex"
           icon="si si-button-refresh-arrows #{searchEngineBean.isReindexing(index) ? 'si-is-spinning' : ''} spin-icon"
-          styleClass="p-ml-1 ui-button-secondary rounded-button" id="reindexBtn"
+          styleClass="ml-1 ui-button-secondary rounded-button" id="reindexBtn"
           oncomplete="PF('reindexSearchEngineModel').show();" actionListener="#{searchEngineBean.setActiveIndex(index)}"
           update="reindexSearchEngineModel" />
       </p:column>

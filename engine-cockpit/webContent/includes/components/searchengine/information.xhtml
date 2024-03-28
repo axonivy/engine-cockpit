@@ -9,18 +9,18 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-information-circle"></i>
-        <h6 class="p-m-0">Search Engine</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-information-circle"></i>
+        <h6 class="m-0">Search Engine</h6>
         <p:commandButton id="queryToolBtn" title="Run Search Engine Query" icon="si si-monitor-heart-beat-search"
           update="searchEngineQueryToolModal" actionListener="#{searchEngineBean.setActiveIndex(null)}"
-          styleClass="p-ml-auto rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
+          styleClass="ml-auto rounded-button" oncomplete="PF('searchEngineQueryToolModal').show()" />
         <p:linkButton id="configSearchEngine" title="Configure Search Engine" icon="si si-cog" type="button"
-          styleClass="p-ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=ElasticSearch" />
+          styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=ElasticSearch" />
       </div>
     </div>
-    <p:panelGrid columns="2" columnClasses="p-col-6, p-col-6" layout="flex">
-      <p:panelGrid columns="2" columnClasses="p-col-3, p-col-9" layout="flex"
+    <p:panelGrid columns="2" columnClasses="col-6, col-6" layout="flex">
+      <p:panelGrid columns="2" columnClasses="col-3, col-9" layout="flex"
         styleClass="grey-label-panel">
         <label>Name</label>
         <h:outputText id="name" value="#{searchEngineBean.elasticSearch.clusterName}" />
@@ -38,7 +38,7 @@
         </h:panelGroup>
         </p:panelGrid>
         
-        <p:panelGrid columns="2" columnClasses="p-col-5 p-d-flex, p-col-7 p-d-flex" layout="flex"
+        <p:panelGrid columns="2" columnClasses="col-5 flex, col-7 flex" layout="flex"
           styleClass="grey-label-panel">
           <label>Version</label>
           <h:panelGroup>
@@ -52,7 +52,7 @@
 
           <h:panelGroup>
             <label>Disk threshold enabled</label>
-            <h:panelGroup id="diskThresholdHelp" styleClass="p-d-flex p-ai-center p-ml-1">
+            <h:panelGroup id="diskThresholdHelp" styleClass="flex align-items-center ml-1">
               <i class="si si-question-circle"></i>
               <p:tooltip for="@parent" value="This defines if the settings underneath have an effect or not" position="top" />
             </h:panelGroup>
@@ -61,7 +61,7 @@
   
           <h:panelGroup>
             <label>Watermark low</label>
-            <h:panelGroup id="watermarkLowHelp" styleClass="p-d-flex p-ai-center p-ml-1">
+            <h:panelGroup id="watermarkLowHelp" styleClass="flex align-items-center ml-1">
               <i class="si si-question-circle"></i>
               <p:tooltip for="@parent" value="Elasticsearch will not allocate shards to nodes that have less diskpace available than this value.
                 This setting has no effect on the primary shards of newly-created indices but will prevent their replicas from being allocated."
@@ -72,7 +72,7 @@
   
           <h:panelGroup>
             <label>Watermark high</label>
-            <h:panelGroup id="watermarkHighHelp" styleClass="p-d-flex p-ai-center p-ml-1">
+            <h:panelGroup id="watermarkHighHelp" styleClass="flex align-items-center ml-1">
               <i class="si si-question-circle"></i>
               <p:tooltip for="@parent" value="Elasticsearch will attempt to relocate shards away from a node whose available disk space is less than this value.
                 This setting affects the allocation of all shards, whether previously allocated or not." 
@@ -83,7 +83,7 @@
           
           <h:panelGroup>
             <label>Flood stage</label>
-            <h:panelGroup id="floodStageHelp" styleClass="p-d-flex p-ai-center p-ml-1">
+            <h:panelGroup id="floodStageHelp" styleClass="flex align-items-center ml-1">
               <i class="si si-question-circle"></i>
               <p:tooltip for="@parent" value="Elasticsearch will put indices in read-only mode if available disk space is less than this value.
                 This setting is a last resort to prevent nodes from running out of disk space. 

@@ -18,9 +18,9 @@
     <ui:define name="content">
       <div class="card">
         <p:growl id="msgs" />
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-calendar card-title-icon"></i>
-          <h2 class="p-m-0">Business Calendar</h2>
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-calendar card-title-icon"></i>
+          <h2 class="m-0">Business Calendar</h2>
         </div>
 
         <cc:ApplicationTabs tabChange="#{businessCalendarBean.reloadTree}" id="apps">
@@ -29,7 +29,7 @@
               <p:ajax event="expand" listener="#{businessCalendarBean.nodeExpand}" />
               <p:ajax event="collapse" listener="#{businessCalendarBean.nodeCollapse}" />
               <f:facet name="header">
-                <div class="p-d-flex ui-fluid">
+                <div class="flex ui-fluid">
                   <span class="ui-input-icon-left filter-container" style="width: 100%;">
                     <i class="pi pi-search"/>
                     <p:inputText id="globalFilter" placeholder="Search" value="#{businessCalendarBean.filter}">
@@ -38,10 +38,10 @@
                   </span>
                   <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
                     actionListener="#{businessCalendarBean.expandAllNodes}" update="tree" title="Expand all"
-                    styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
+                    styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
                   <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
                     actionListener="#{businessCalendarBean.collapseAllNodes}" update="tree" title="Collapse all"
-                    styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+                    styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
                 </div>
               </f:facet>
               

@@ -10,17 +10,17 @@
 <div class="card">
   <h:form id="eventBean">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-cog"></i>
-        <h6 class="p-m-0">Bean</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-cog"></i>
+        <h6 class="m-0">Bean</h6>
         <p:commandButton id="start" title="Starts the bean" icon="si si-controls-play"
-            action="#{cc.attrs.event.start()}" update="@form" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" disabled="#{cc.attrs.event.running}"/>
+            action="#{cc.attrs.event.start()}" update="@form" styleClass="col-fixed ml-auto ui-button-success rounded-button" disabled="#{cc.attrs.event.running}"/>
         <p:commandButton id="stop" title="Stops the bean" icon="si si-controls-stop"
-            action="#{cc.attrs.event.stop()}" update="@form" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{!cc.attrs.event.running}"/>
+            action="#{cc.attrs.event.stop()}" update="@form" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{!cc.attrs.event.running}"/>
       </div>
     </div>
     
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex"
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="class" value="Class" />
       <h:outputText id="class" value="#{cc.attrs.event.beanClass}"/>

@@ -10,9 +10,9 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-network-arrow"></i>
-        <h6 class="p-m-0">Endpoints</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-network-arrow"></i>
+        <h6 class="m-0">Endpoints</h6>
       </div>
     </div>
     
@@ -36,13 +36,13 @@
   </h:form>
 
   <p:staticMessage severity="info" summary="Info" detail="No Enpoint defined for this webservice"
-    rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" styleClass="p-mb-0 p-mt-1" />
+    rendered="#{webserviceDetailBean.webservice.portTypes.childCount == 0}" styleClass="mb-0 mt-1" />
 
   <p:dialog styleClass="config-edit" header="Edit endpoint '#{webserviceDetailBean.activePortType.name}'"
     id="editEndpointModal" widgetVar="editEndpointModal" modal="true" responsive="true" closeOnEscape="true"
     width="40%">
     <h:form id="editEndpointModalForm" styleClass="custom-dialog-form">
-      <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+      <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
         <p:outputLabel value="Default" for="defaultInput" />
         <h:panelGroup styleClass="md-inputfield">
           <p:inputText id="defaultInput" value="#{webserviceDetailBean.activePortType.default}" required="true"

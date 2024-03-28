@@ -9,23 +9,23 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-multiple-neutral-1"></i>
-        <h6 class="p-m-0">Role members</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-multiple-neutral-1"></i>
+        <h6 class="m-0">Role members</h6>
       </div>
     </div>
     
-    <div class="p-d-flex ui-fluid">
+    <div class="flex ui-fluid">
       <p:autoComplete id="addMemberDropDown" value="#{roleDetailBean.roleMemberName}" dropdown="true" forceSelection="true"
         completeMethod="#{roleDetailBean.searchMember}" style="width: 100%;" styleClass="card-autocomplete-search"
         placeholder="Search role to add" />
       <p:commandButton id="addMemberToRoleBtn" update="membersOfRoleForm" actionListener="#{roleDetailBean.addMember}"
         icon="si si-add" title="Add" 
-        styleClass="p-ml-1 p-col-fixed rounded-button" />
+        styleClass="ml-1 col-fixed rounded-button" />
     </div>
     <p:dataTable id="roleMemberTable" value="#{roleDetailBean.membersOfRole}" widgetVar="membersOfRoleTable" var="member"
       filteredValue="#{roleDetailBean.filteredMembers}" lazy="false" paginator="true" rows="10" paginatorPosition="bottom"
-      paginatorAlwaysVisible="false" styleClass="p-mt-2">
+      paginatorAlwaysVisible="false" styleClass="mt-2">
       <f:facet name="header">
         <div class="ui-input-icon-left filter-container">
           <i class="pi pi-search"/>

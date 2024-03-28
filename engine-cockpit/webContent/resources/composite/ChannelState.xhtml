@@ -17,7 +17,7 @@
     </h:panelGroup>
   </p:outputPanel>
   <p:tooltip id="lockDetails" for="state" rendered="#{cc.attrs.channel.locked}">
-    <h5 class="p-d-flex p-ai-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>Error Information</h5>
+    <h5 class="flex align-items-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>Error Information</h5>
     <p:panelGrid layout="grid" columns="2" columnClasses="ui-g-3, ui-g-9">
       <p:outputLabel value="Failed deliver attemps so far:"/>
       <h:outputText value="#{cc.attrs.channel.locks}" />

@@ -21,9 +21,9 @@
 
     <ui:define name="content">
       <div class="card">
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
-          <h2 class="p-m-0">Notifications</h2>
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
+          <h2 class="m-0">Notifications</h2>
         </div>
         <cc:SecuritySystemTabs tabChange="#{notificationsBean.onload}" id="tabs">
           <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
@@ -31,7 +31,7 @@
               var="notification" value="#{notificationsBean.dataModel}" lazy="true" widgetVar="notificationTable"
               id="notificationTable">
               <f:facet name="header">
-                <div class="p-d-flex">
+                <div class="flex">
                   <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
                     <i class="pi pi-search"/>
                     <p:inputText id="globalFilter" onkeyup="PF('notificationTable').filter()" placeholder="Search" value="#{notificationsBean.dataModel.filter}" />
@@ -40,7 +40,7 @@
               </f:facet>
 
               <p:column headerText="ID">
-                <a href="#{notification.viewUrl}" class="p-d-flex p-ai-center">
+                <a href="#{notification.viewUrl}" class="flex align-items-center">
                   <h:outputText value="#{notification.id}" />
                 </a>
               </p:column>

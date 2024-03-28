@@ -8,16 +8,16 @@
     <p:autoUpdate />
   </p:growl>
   <div class="card-header">
-    <div class="card-title p-d-flex p-ai-center">
-      <i class="p-pr-3 si si-email-action-unread"></i>
-      <h6 class="p-m-0">Email</h6>
+    <div class="card-title flex align-items-center">
+      <i class="pr-3 si si-email-action-unread"></i>
+      <h6 class="m-0">Email</h6>
       <p:commandButton id="openTestMailBtn" title="Send Test Mail" icon="si si-send-email" type="button"
-        styleClass="p-ml-auto ui-button-secondary rounded-button" onclick="PF('sendTestMailModal').show()" />
+        styleClass="ml-auto ui-button-secondary rounded-button" onclick="PF('sendTestMailModal').show()" />
       <p:linkButton id="configureEmailBtn" title="Configure Email Server" icon="si si-cog" type="button"
-        styleClass="p-ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=EMail" />
+        styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=EMail" />
     </div>
   </div>
-  <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8"
+  <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
     styleClass="grey-label-panel">
     <label>Server</label>
     <h:outputText value="#{emailBean.host}" />

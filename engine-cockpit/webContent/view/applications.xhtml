@@ -17,17 +17,17 @@
       <div class="card">
         <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
           <p:growl for="applicationMessage" id="applicationMessage" showDetail="true" />
-          <div class="p-d-flex p-ai-center p-mb-3">
-            <i class="p-pr-3 si si-layout-module card-title-icon"></i>
-            <h2 class="p-m-0">Applications</h2>
-            <p:commandButton styleClass="p-ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="si si-add"
+          <div class="flex align-items-center mb-3">
+            <i class="pr-3 si si-layout-module card-title-icon"></i>
+            <h2 class="m-0">Applications</h2>
+            <p:commandButton styleClass="ml-auto" id="createApplicationBtn" widgetVar="createApplication" icon="si si-add"
               value="Add" onclick="PF('newApplicationModal').show();" type="button" />
           </div>
           <p:treeTable id="tree" value="#{applicationBean.tree}" var="activity">
             <p:ajax event="expand" listener="#{applicationBean.nodeExpand}" />
             <p:ajax event="collapse" listener="#{applicationBean.nodeCollapse}" />
             <f:facet name="header">
-              <div class="p-d-flex ui-fluid">
+              <div class="flex ui-fluid">
                 <span class="ui-input-icon-left filter-container" style="width: 100%;">
                   <i class="pi pi-search"/>
                   <p:inputText id="globalFilter" placeholder="Search" value="#{applicationBean.filter}">
@@ -36,10 +36,10 @@
                 </span>
                 <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
                   actionListener="#{applicationBean.expandAllNodes}" update="tree" title="Expand all"
-                  styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
+                  styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
                 <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
                   actionListener="#{applicationBean.collapseAllNodes}" update="tree" title="Collapse all"
-                  styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+                  styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
               </div>
             </f:facet>
             
@@ -57,7 +57,7 @@
                 </h:outputText>
               </h:outputText>
               <h:outputText rendered="#{activity.pmv}">
-                <i class="p-ml-2 si si-#{activity.state.releaseStateIcon} table-icon" title="#{activity.state.releaseState}"></i>
+                <i class="ml-2 si si-#{activity.state.releaseStateIcon} table-icon" title="#{activity.state.releaseState}"></i>
               </h:outputText>
               <h:outputText rendered="#{activity.pmv}"
                 value="[#{activity.qualifiedVersion} / #{activity.lastChangeDate}]"
@@ -72,7 +72,7 @@
             <p:column headerText="State" responsivePriority="2" style="text-align: center; width: 50px;">
               <h:panelGroup styleClass="module-state"
                 title="#{activity.state.operation}#{activity.state.errorMessage}#{activity.state.childProblems}">
-                <i class="p-m-0 si si-#{activity.state.operationIcon} activity-state-#{activity.state.operationCssClass} table-icon"></i>
+                <i class="m-0 si si-#{activity.state.operationIcon} activity-state-#{activity.state.operationCssClass} table-icon"></i>
                 <h:outputText rendered="#{not empty activity.state.childProblems}">
                   <i class="si si-road-sign-warning table-icon"></i>
                 </h:outputText>
@@ -82,22 +82,22 @@
             <p:column styleClass="table-btn-4">
               <h:panelGroup id="deployBtnHint">
                 <p:commandButton title="Deployment" icon="si si-upload-bottom" rendered="#{activity.application}"
-                  type="button" id="deployBtn" styleClass="p-mr-1 rounded-button" disabled="#{!uploadHelperBean.deploymentPossible}">
+                  type="button" id="deployBtn" styleClass="mr-1 rounded-button" disabled="#{!uploadHelperBean.deploymentPossible}">
                   <p:ajax update="deployPanel" listener="#{applicationBean.setActiveActivity(activity)}"
                     oncomplete="PF('fileUploadModal').show()" />
                 </p:commandButton>
                 <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" value="#{uploadHelperBean.deploymentPossibleReason}" escape="false" /> <!-- contains no user input -->
               </h:panelGroup>
               <p:commandButton title="Activate" icon="si si-controls-play" disabled="#{activity.notStartable}"
-                type="button" styleClass="p-mr-1 ui-button-success rounded-button">
+                type="button" styleClass="mr-1 ui-button-success rounded-button">
                 <p:ajax update="form" listener="#{activity.activate}" />
               </p:commandButton>
               <p:commandButton title="Deactivate" id="deactivateButton" icon="si si-controls-stop" disabled="#{activity.notStopable}"
-                type="button" styleClass="p-mr-1 ui-button-danger rounded-button">
+                type="button" styleClass="mr-1 ui-button-danger rounded-button">
                 <p:ajax update="form" listener="#{activity.deactivate}" />
               </p:commandButton>
               <p:commandButton title="More" id="tasksButton" type="button" icon="si si-navigation-menu"
-                styleClass="p-mr-1 ui-button-secondary rounded-button ui-button-outlined" />
+                styleClass="mr-1 ui-button-secondary rounded-button ui-button-outlined" />
               <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
                 <p:menuitem value="Lock" icon="si si-lock-1" disabled="#{activity.notLockable}"
                   actionListener="#{activity.lock}" update="form" />

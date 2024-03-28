@@ -31,9 +31,9 @@
     <ui:define name="content">
       <p:growl id="msgs" showDetail="true" />
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12">
-            <div class="p-grid" style="margin: -1rem;">
+        <div class="grid">
+          <div class="col-12">
+            <div class="grid">
               <cc:OverviewBox box="white" count="#{roleDetailBean.userCount}" icon="si si-single-neutral-actions"
                 title="Users" />
               <cc:OverviewBox box="blue" count="#{roleDetailBean.userInheritCount}" icon="si si-multiple-neutral-1"
@@ -45,25 +45,25 @@
             </div>
           </div>
 
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/roledetail-information.xhtml" />
           </div>
 
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/member-properties.xhtml">
               <ui:param name="memberProperty" value="#{roleDetailBean.memberProperty}" />
             </ui:include>
           </div>
 
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/roledetail-users.xhtml" />
           </div>
 
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/roledetail-members.xhtml" />
           </div>
 
-          <div class="p-col-12">
+          <div class="col-12">
             <ui:include src="../includes/components/security/permissions.xhtml" />
           </div>
         </div>

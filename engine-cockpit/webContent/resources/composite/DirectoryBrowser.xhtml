@@ -15,9 +15,9 @@
       <p:messages id="directoryBrowserMessage" for="directoryBrowserMessage" showDetail="true">
         <p:autoUpdate />
       </p:messages>
-      <div class="p-grid">
+      <div class="grid">
         <p:tree id="tree" widgetVar="tree" value="#{cc.attrs.directoryBrowser.tree}" var="node" selectionMode="single"
-          selection="#{cc.attrs.directoryBrowser.selectedNode}" dynamic="true" styleClass="p-col-6">
+          selection="#{cc.attrs.directoryBrowser.selectedNode}" dynamic="true" styleClass="col-6">
           <p:ajax event="expand" listener="#{cc.attrs.directoryBrowser.onNodeExpand}" update="@form:tree" />
           <p:ajax event="select" update="@form:nodeAttrTable" />
           <p:treeNode icon="si si-#{cc.attrs.directoryBrowser.icon(node)}">
@@ -26,7 +26,7 @@
         </p:tree>
         <p:dataTable id="nodeAttrTable" var="attr" value="#{cc.attrs.directoryBrowser.selectedNodeProperties}"
           scrollable="true" emptyMessage="Select a node to see its attributes"
-          rendered="#{cc.attrs.directoryBrowser.tree != null}" styleClass="p-col-6">
+          rendered="#{cc.attrs.directoryBrowser.tree != null}" styleClass="col-6">
           <p:column headerText="Name">
             <h:outputText value="#{attr.name()}" styleClass="node-attr-name" />
           </p:column>

@@ -6,12 +6,12 @@
 <div class="card">
   <h:form id="securityWorkflowLanguageForm">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-cog"></i>
-        <h6 class="p-m-0">Workflow Languages</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-cog"></i>
+        <h6 class="m-0">Workflow Languages</h6>
         <p:commandButton id="addBtn" oncomplete="PF('addWorkflowLanguageModal').show();" process="@this"
           update="securityWorkflowLanguageForm" title="Add a new language"
-          icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" disabled="#{empty securityWorkflowLanguageBean.addable}"/>
+          icon="si si-add" styleClass="col-fixed ml-auto rounded-button" disabled="#{empty securityWorkflowLanguageBean.addable}"/>
       </div>
     </div>
     
@@ -29,7 +29,7 @@
           styleClass="ui-button-secondary rounded-button" disabled="#{securityWorkflowLanguageBean.isDefault(language)}" />
         <p:commandButton id="deleteBtn"  actionListener="#{securityWorkflowLanguageBean.setEditLanguage(language)}" oncomplete="PF('deleteWorkflowLanguageModal').show();"
           icon="si si-bin-1" title="Delete this language" update="@form"
-          styleClass="p-ml-1 ui-button-danger rounded-button"  
+          styleClass="ml-1 ui-button-danger rounded-button"  
           disabled="#{securityWorkflowLanguageBean.isDefault(language)}">
         </p:commandButton>
       </p:column>
@@ -42,7 +42,7 @@
   <p:staticMessage severity="warn" detail="If you add a new workflow language the name and description of all existing tasks (#{securityWorkflowLanguageBean.tasks}) and cases (#{securityWorkflowLanguageBean.cases}) of the default language (#{securityWorkflowLanguageBean.default.displayName}) are copied to the new language." />
   <p:staticMessage severity="warn" detail="This operation will takes some time and the space of your system database will grow." />
   <h:form id="addWorkflowLanguageForm" styleClass="custom-dialog-form">
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+    <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="language" value="Language" />
       <p:selectOneMenu id="language" value="#{securityWorkflowLanguageBean.editLanguage}" editable="true" converter="localeConverter">
         <f:selectItems value="#{securityWorkflowLanguageBean.addable}" var="language" itemLabel="#{language.getDisplayName()}" />

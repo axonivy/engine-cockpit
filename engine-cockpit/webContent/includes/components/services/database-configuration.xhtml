@@ -10,14 +10,14 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-information-circle"></i>
-        <h6 class="p-m-0">Database configurations</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-information-circle"></i>
+        <h6 class="m-0">Database configurations</h6>
         <p:commandButton id="testDatabaseBtn" title="Test Database Connection" update="connResult:connectionTestModel"
           oncomplete="PF('connectionTestModel').show()" icon="si si-phone-actions-call"
-          styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" />
+          styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()"
-          title="Reset configuration" icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
+          title="Reset configuration" icon="si si-undo" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="resetDbConfirmDialog" message="Are you sure you want to reset this Database?"
           header="Reset Database" severity="alert" widgetVar="resetDbConfirmDialog">
           <p:commandButton value="Cancel" onclick="PF('resetDbConfirmDialog').hide();" type="button"
@@ -27,12 +27,12 @@
             styleClass="modal-input-button" />
         </p:confirmDialog>
         <p:commandButton id="saveDatabaseConfig" actionListener="#{databaseDetailBean.saveDbConfig}"
-          title="Save changes" icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button"
+          title="Save changes" icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button"
           update="@form, connResult:connectionTestModel" />
       </div>
     </div>
     
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex"
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
       <h:outputText id="name" value="#{databaseDetailBean.name}" />

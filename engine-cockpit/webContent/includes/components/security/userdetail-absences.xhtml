@@ -6,13 +6,13 @@
 <div class="card">
   <h:form id="absencesForm">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-beach-palm-sunbed"></i>
-        <h6 class="p-m-0">Absences</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-beach-palm-sunbed"></i>
+        <h6 class="m-0">Absences</h6>
       </div>
-      <div class="p-d-flex p-ai-center" title="#{userDetailBean.user.working ? 'User is currently not absent' : 'User is currently absent'}">
+      <div class="flex align-items-center" title="#{userDetailBean.user.working ? 'User is currently not absent' : 'User is currently absent'}">
         <h:outputLabel for="working" value="Working" />
-        <i id="working" class="p-pl-3 si si-#{userDetailBean.user.working ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
+        <i id="working" class="pl-3 si si-#{userDetailBean.user.working ? 'check-circle-1 state-active' : 'remove-circle state-inactive'}" />
       </div>
     </div>
     

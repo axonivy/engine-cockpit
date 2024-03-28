@@ -27,25 +27,25 @@
       <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
         <div class="layout-dashboard">
           <div class="card">
-            <div class="card-header p-flex-wrap">
-              <div class="card-title p-d-flex p-ai-center">
-                <i class="p-pr-3 si si-optimization-timer"></i>
-                <h2 class="p-m-0">Process Execution</h2>
+            <div class="card-header flex-wrap">
+              <div class="card-title flex align-items-center">
+                <i class="pr-3 si si-optimization-timer"></i>
+                <h2 class="m-0">Process Execution</h2>
                 <p:commandButton id="start" onclick="PF('startRecordingDialog').show();" title="Start recording"
-                    icon="si si-controls-play" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" disabled="#{processExecutionBean.notStartable}" />
+                    icon="si si-controls-play" styleClass="col-fixed ml-auto ui-button-success rounded-button" disabled="#{processExecutionBean.notStartable}" />
                 <p:commandButton id="stop" actionListener="#{processExecutionBean.stop}" update="@form" title="Stop recording"
-                    icon="si si-controls-stop" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{processExecutionBean.notStoppable}" />
+                    icon="si si-controls-stop" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{processExecutionBean.notStoppable}" />
                 <p:commandButton id="clear" actionListener="#{processExecutionBean.clear}" update="@form" title="Clear statistic"
-                    icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" disabled="#{processExecutionBean.notCleanable}" />
+                    icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{processExecutionBean.notCleanable}" />
                 <p:commandButton id="refresh" actionListener="#{processExecutionBean.refresh}" update="@form" title="Refresh statistic"
-                    icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-1 rounded-button" disabled="#{processExecutionBean.notRefreshable}" />
+                    icon="si si-button-refresh-arrows" styleClass="col-fixed ml-1 rounded-button" disabled="#{processExecutionBean.notRefreshable}" />
                 <p:commandButton id="export" title="Export statistic" ajax="false"
-                    icon="si si-office-file-xls-1" styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button" disabled="#{processExecutionBean.notCleanable}">
+                    icon="si si-office-file-xls-1" styleClass="col-fixed ml-1 ui-button-secondary rounded-button" disabled="#{processExecutionBean.notCleanable}">
                   <p:dataExporter type="xlsxstream" target="performanceTable" fileName="PerformanceStatistic"/>
                 </p:commandButton>
               </div>
               <p:staticMessage id="loggingWarning" rendered="#{processExecutionBean.loggingActive}" severity="warn" summary="Logging Active!"
-                styleClass="p-mt-3"
+                styleClass="mt-3"
                 detail="The process element performance statistic logger is active. The statistic is automatically cleaned by the logger every #{processExecutionBean.loggingInterval}!"/>
             </div>
     
@@ -53,12 +53,12 @@
               widgetVar="performanceTable" filteredValue="#{processExecutionBean.filteredProcessElements}"
               id="performanceTable" resizableColumns="true">
               <f:facet name="header">
-                <div class="p-d-flex ui-fluid">
+                <div class="flex ui-fluid">
                   <div class="ui-input-icon-left filter-container" style="width: 100%;">
                     <i class="pi pi-search"/>
                     <p:inputText id="globalFilter" onkeyup="PF('performanceTable').filter()" placeholder="Search" value="#{processExecutionBean.filter}" />
                   </div>
-                  <div class="p-ml-1">
+                  <div class="ml-1">
                     <p:commandButton id="toggler" type="button" icon="si si-layers-grid-settings" 
                       styleClass="ui-button-secondary ui-button-outlined rounded-button"/>
                     <p:columnToggler datasource="performanceTable" trigger="toggler"/>

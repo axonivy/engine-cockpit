@@ -35,10 +35,10 @@
           <div class="card-header">
             <div class="card-title">
               <h:form id="logChooserForm">
-                <div class="p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-common-file-text"></i>
-                  <h2 class="p-m-0">Logs</h2>
-                  <p:calendar  id="calendar" styleClass="p-ml-auto" 
+                <div class="flex align-items-center">
+                  <i class="pr-3 si si-common-file-text"></i>
+                  <h2 class="m-0">Logs</h2>
+                  <p:calendar  id="calendar" styleClass="ml-auto" 
                     inputStyle="width:100px;"
                     value="#{logBean.localDate}"
                     showOn="button" pattern="yyyy-MM-dd"
@@ -47,7 +47,7 @@
                       listener="#{logBean.navigate}" />
                   </p:calendar>
 
-                  <p:selectOneMenu id="logFiles" styleClass="p-ml-3"
+                  <p:selectOneMenu id="logFiles" styleClass="ml-3"
                     value="#{logBean.channel}">
                     <f:selectItems value="#{logBean.logs}" var="log"
                       itemLabel="#{log.fileName} (#{log.size})"
@@ -60,8 +60,8 @@
             </div>
           </div>
 
-          <h:panelGroup id="logs" layout="block" styleClass="p-grid">
-            <h:panelGroup styleClass="p-col-12" rendered="#{!logBean.getLogs().isEmpty()}">
+          <h:panelGroup id="logs" layout="block" styleClass="grid">
+            <h:panelGroup styleClass="col-12" rendered="#{!logBean.getLogs().isEmpty()}">
               <cc:LogView log="#{logBean.log}" id="logView" />
             </h:panelGroup>
             <h:outputText rendered="#{empty logBean.logs}">

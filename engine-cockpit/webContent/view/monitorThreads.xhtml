@@ -28,12 +28,12 @@
         <h:form id="form" onkeypress="if (event.keyCode == 13) return false;">
           <div class="layout-dashboard">
             <div class="card">
-              <div class="card-header p-flex-wrap">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-synchronize-arrow-clock"></i>
-                  <h2 class="p-m-0">Threads</h2>
-                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="Refresh" styleClass="p-col-fixed p-ml-auto rounded-button" update="threadTable"/>
-                  <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="Save Thread Dump" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button">
+              <div class="card-header flex-wrap">
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-synchronize-arrow-clock"></i>
+                  <h2 class="m-0">Threads</h2>
+                  <p:commandButton id="refresh" icon="si si-button-refresh-arrows" action="#{threadBean.refresh()}" title="Refresh" styleClass="col-fixed ml-auto rounded-button" update="threadTable"/>
+                  <p:commandButton id="dump" icon="pi pi-arrow-down" ajax="false" title="Save Thread Dump" styleClass="col-fixed ml-1 ui-button-success rounded-button">
                     <p:fileDownload value="#{threadBean.dump()}"/>
                   </p:commandButton>
                 </div>
@@ -50,7 +50,7 @@
                 </f:facet>
                 <p:column headerText="Id" sortBy="#{thread.id}" filterBy="#{thread.id}" width="5%">              
                   <p:commandLink oncomplete="PF('threadDialog').show();" title="Thread Detail" action="#{threadBean.setSelected(thread)}" update="threadDialog">
-                    <i class="p-pr-3 si si-synchronize-arrow-clock"></i>
+                    <i class="pr-3 si si-synchronize-arrow-clock"></i>
                     <h:outputText value="#{thread.id}"/>
                   </p:commandLink>
                 </p:column>
@@ -62,7 +62,7 @@
                     <h:outputText value="#{thread.state}" class="#{thread.stateColorClass}"/>
                     <p:tooltip for="state" value="#{thread.stateTitle}" position="right"/>
                     <h:panelGroup rendered="#{thread.deadLocked}">
-                      <i h:rendered="#{thread.deadLocked}" class="p-pr-3 si si-road-sign-warning deadlocked ${thread.stateColorClass}"></i>
+                      <i h:rendered="#{thread.deadLocked}" class="pr-3 si si-road-sign-warning deadlocked ${thread.stateColorClass}"></i>
                     </h:panelGroup>
                   </h:panelGroup>
                 </p:column>
@@ -86,7 +86,7 @@
         <p:dialog style="min-width: 300px; max-width: 80%;" header="Thread #{threadBean.selected.id} - #{threadBean.selected.name}" id="threadDialog"
             widgetVar="threadDialog" responsive="true" closeOnEscape="true">
           <h:form id="thread" styleClass="custom-dialog-form">
-            <p:panelGrid columns="2" layout="flex" columnClasses="p-col-2, p-col-10" styleClass="grey-label-panel ui-fluid">
+            <p:panelGrid columns="2" layout="flex" columnClasses="col-2, col-10" styleClass="grey-label-panel ui-fluid">
               <p:outputLabel for="daemon" value="Daemon" />
               <h:outputText id="daemon" value="#{threadBean.selected.info.daemon}"/>
               <p:outputLabel for="native" value="In Native Code" />

@@ -20,31 +20,31 @@
         <p:autoUpdate />
       </p:growl>
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12 p-md-12 p-lg-8">
+        <div class="grid">
+          <div class="col-12 md:col-12 lg:col-8">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-network-signal"></i>
-                  <h6 class="p-m-0">Web Server Connectors</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-network-signal"></i>
+                  <h6 class="m-0">Web Server Connectors</h6>
                 </div>
               </div>
               <cc:WebServer id="webServer" />
             </div>
           </div>
           
-          <div class="p-col-12 p-md-12 p-lg-4">
+          <div class="col-12 md:col-12 lg:col-4">
             <div class="card">
               <h:form id="baseUrlForm">
                 <div class="card-header">
-                  <div class="card-title p-d-flex p-ai-center">
-                    <i class="p-pr-3 si si-cog"></i>
-                    <h6 class="p-m-0">Base Url Settings</h6>
+                  <div class="card-title flex align-items-center">
+                    <i class="pr-3 si si-cog"></i>
+                    <h6 class="m-0">Base Url Settings</h6>
                     <p:commandButton id="save" actionListener="#{webServerBean.saveBaseUrl}" title="Save changes"
-                      icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button" />
+                      icon="si si-floppy-disk" styleClass="col-fixed ml-auto ui-button-success rounded-button" />
                   </div>
                 </div>
-                <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-12, p-col-12 p-md-9 p-lg-12" layout="flex" 
+                <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-12, col-12 md:col-9 lg:col-12" layout="flex" 
                   styleClass="grey-label-panel ui-fluid">
                   <h:panelGroup>
                     <label>Base Url</label>
@@ -63,19 +63,19 @@
             </div>
           </div>
           
-          <div class="p-col-12">
+          <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-monitor-heart-beat-search"></i>
-                  <h6 class="p-m-0">Data</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-monitor-heart-beat-search"></i>
+                  <h6 class="m-0">Data</h6>
                 </div>
               </div>
               <p:staticMessage id="problemMessage" severity="warn" summary="Problem detected" 
                 detail="'External Base Url' seems to be different form your current browser base Url"
                 style="display: none;" />
               
-              <p:panelGrid id="coreRequestData" columns="2" columnClasses="p-col-12 p-md-4 p-lg-3, p-col-12 p-md-8 p-lg-9" layout="flex"
+              <p:panelGrid id="coreRequestData" columns="2" columnClasses="col-12 md:col-4 lg:col-3, col-12 md:col-8 lg:col-9" layout="flex"
                 styleClass="grey-label-panel">
                 <h:panelGroup>
                   <label>External Base URL</label>

@@ -9,14 +9,14 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-information-circle"></i>
-        <h6 class="p-m-0">Role information</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-information-circle"></i>
+        <h6 class="m-0">Role information</h6>
         <p:commandButton id="createNewChildRole" type="button" onclick="PF('newChildRoleModal').show()"
-          title="Add new child role" icon="si si-add" styleClass="p-col-fixed p-ml-auto rounded-button" />
+          title="Add new child role" icon="si si-add" styleClass="col-fixed ml-auto rounded-button" />
         <p:commandButton id="deleteRole" rendered="#{roleDetailBean.canDeleteRole()}" type="button"
           onclick="PF('deleteRoleConfirmDialog').show()" title="Delete this role" icon="si si-bin-1"
-          styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
+          styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="deleteRoleConfirmDialog"
           message="Are you sure you want to delete the role '#{roleDetailBean.name}'?" header="Delete Role" severity="alert"
           widgetVar="deleteRoleConfirmDialog">
@@ -27,11 +27,11 @@
             action="#{roleDetailBean.deleteRole}" styleClass="modal-input-button" icon="si si-bin-1" />
         </p:confirmDialog>
         <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"
-          icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" update="usersOfRoleForm" />
+          icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button" update="usersOfRoleForm" />
       </div>
     </div>
     
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
  
       <p:outputLabel for="name" value="Name" />

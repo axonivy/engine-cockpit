@@ -14,7 +14,7 @@
     <form enctype="multipart/form-data" id="fileUploadForm">
       <div class="file-upload ui-fluid">
         <input type="file" id="fileInput" class="deploy-file" required="required" accept="#{cc.attrs.acceptFiles}" />
-        <p:panelGrid columns="2" columnClasses="p-col-4, p-col-8" layout="flex">
+        <p:panelGrid columns="2" columnClasses="col-4, col-8" layout="flex">
           <p:commandButton id="chooseFileBtn" type="button" icon="si si-add" value="Choose file"
             onclick="$('#fileInput').trigger('click')" style="width: 100%;" />
           <div id="drop_zone" class="drop-zone">
@@ -32,7 +32,7 @@
     <div id="fileUploadResponse" style="display:none;">
       <div style="font-weight: bold;" id="uploadStatus"></div>
       <pre id="uploadLog"></pre>
-      <div class="p-d-flex p-flex-row-reverse">
+      <div class="flex flex-row-reverse">
         <p:commandButton id="closeDeploymentBtn" onclick="closeFileUpload();" value="Close" type="button"
           icon="si si-remove-circle" styleClass="modal-input-button" />
         <p:commandButton id="backBtn" type="button" value="Back" icon="si si-navigation-left-circle-1"

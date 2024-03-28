@@ -19,7 +19,7 @@
       <h:form>
         <p:poll update="@form" interval="1" />
 
-        <div class="p-grid">
+        <div class="grid">
           <cc:MonitorGraph monitor="#{osBean.cpuMonitor}" id="cpu" />
           <cc:MonitorGraph monitor="#{osBean.memoryMonitor}" id="memory" />
           <cc:MonitorGraph monitor="#{osBean.networkMonitor}" id="network" />

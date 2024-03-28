@@ -30,9 +30,9 @@
 
     <ui:define name="content">
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12">
-            <div class="p-grid" style="margin: -1rem;">
+        <div class="grid">
+          <div class="col-12">
+            <div class="grid">
               <cc:OverviewBox box="white" count="#{userDetailBean.startedCases}" icon="si si-plane-take-off"
                 title="Started cases" />
               <cc:OverviewBox box="blue" count="#{userDetailBean.workingOn}" icon="si si-briefcase" title="Working on tasks" />
@@ -43,34 +43,34 @@
             </div>
           </div>
 
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/userdetail-information.xhtml" />
             <cc:UserSynch id="userSynch" userSynch="#{userDetailBean.userSynch}" />
           </div>
 
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/member-properties.xhtml">
               <ui:param name="memberProperty" value="#{userDetailBean.memberProperty}" />
             </ui:include>
           </div>
 
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/userdetail-roles.xhtml" />
           </div>
           
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/userdetail-notifications.xhtml" />
           </div>
           
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/userdetail-substitutes.xhtml" />
           </div>
           
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include src="../includes/components/security/userdetail-absences.xhtml" />
           </div>
           
-          <div class="p-col-12 p-md-12 p-xl-12">
+          <div class="col-12 md:col-12 xl:col-12">
             <ui:include src="../includes/components/security/permissions.xhtml" />
           </div>
         </div>

@@ -9,7 +9,7 @@
   </h:panelGroup>
 
   <h:form id="form">
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-3 p-lg-3, p-col-12 p-md-9 p-lg-9" layout="flex" 
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9" layout="flex" 
       styleClass="grey-label-panel ui-fluid">
       <h:panelGroup>
         <label for="appDir">App Directory</label>
@@ -30,7 +30,7 @@
       <p:inputText id="fileDir" value="#{storageBean.fileDir}" />
     </p:panelGrid>
     
-    <h:panelGroup styleClass="storage-ctrls p-d-flex p-jc-end" layout="block">
+    <h:panelGroup styleClass="storage-ctrls flex justify-content-end" layout="block">
       <p:commandButton value="Reset" id="reset" actionListener="#{storageBean.reset()}" update="@form, storageWarnMessage" 
         styleClass="ui-button-secondary ui-button-flat storage-reset-link" />
       <p:commandButton value="Save" id="save" actionListener="#{storageBean.save()}" update="@form, storageWarnMessage" icon="si si-floppy-disk" 

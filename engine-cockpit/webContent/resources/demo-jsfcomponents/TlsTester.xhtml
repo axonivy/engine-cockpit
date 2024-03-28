@@ -29,11 +29,11 @@
         <h:outputText class="si table-icon si-#{tlsTesterBean.icon(logEntry.result)}"/>
       </p:column>
       <p:rowExpansion>
-        <p:repeat value="#{logEntry.entryList}" var="logDataEntry">
+        <ui:repeat value="#{logEntry.entryList}" var="logDataEntry">
           <h:panelGrid columns="1" styleClass="tls-tester-row-expansion">
             <h:outputText value="#{logDataEntry}" />
           </h:panelGrid>
-        </p:repeat>
+        </ui:repeat>
       </p:rowExpansion>
     </p:dataTable>
   </h:form>

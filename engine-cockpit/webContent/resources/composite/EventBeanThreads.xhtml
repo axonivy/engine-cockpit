@@ -11,9 +11,9 @@
 <div class="card">
   <h:form id="eventBeanThreads">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-navigation-right-circle-1"></i>
-        <h6 class="p-m-0">Threads</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-navigation-right-circle-1"></i>
+        <h6 class="m-0">Threads</h6>
       </div>
     </div>
     
@@ -33,7 +33,7 @@
         <h:outputText value="#{thread.state}"/>
       </p:column>
       <p:column headerText="Last Error" sortBy="#{thread.lastError}">
-        <er:Error id="error" styleClass="p-ai-center" error="#{thread.lastError}"/>
+        <er:Error id="error" styleClass="align-items-center" error="#{thread.lastError}"/>
       </p:column>
     </p:dataTable>
   </h:form>

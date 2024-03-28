@@ -9,9 +9,9 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-multiple-neutral-1"></i>
-        <h6 class="p-m-0">Roles</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-multiple-neutral-1"></i>
+        <h6 class="m-0">Roles</h6>
       </div>
     </div>
     
@@ -19,7 +19,7 @@
       <p:ajax event="expand" listener="#{userDetailBean.roles.nodeExpand}" />
       <p:ajax event="collapse" listener="#{userDetailBean.roles.nodeCollapse}" />
       <f:facet name="header">
-        <div class="p-d-flex ui-fluid">
+        <div class="flex ui-fluid">
           <span class="ui-input-icon-left filter-container" style="width: 100%;">
             <i class="pi pi-search"/>
             <p:inputText id="globalFilter" placeholder="Search" value="#{userDetailBean.roles.filter}">
@@ -28,10 +28,10 @@
           </span>
           <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
             actionListener="#{userDetailBean.roles.expandAllNodes}" update="rolesTree" title="Expand all"
-            styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
+            styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
           <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
             actionListener="#{userDetailBean.roles.collapseAllNodes}" update="rolesTree" title="Collapse all"
-            styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+            styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
         </div>
       </f:facet>
       
@@ -77,7 +77,7 @@
             disabled="#{userDetailBean.isAddRoleButtonDisabled(role)}" />
           <p:commandButton id="removeRoleFromUserBtn" update="@form"
             actionListener="#{userDetailBean.removeRole(role.name)}" icon="si si-subtract" title="Remove"
-            styleClass="p-ml-1 ui-button-secondary rounded-button"
+            styleClass="ml-1 ui-button-secondary rounded-button"
             disabled="#{userDetailBean.isRemoveRoleButtonDisabled(role)}" />
         </h:panelGroup>
       </p:column>
