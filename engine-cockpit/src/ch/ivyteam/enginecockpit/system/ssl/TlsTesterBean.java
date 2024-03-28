@@ -15,6 +15,7 @@ public class TlsTesterBean {
 
   public boolean tlsTestRendered;
   public List<TLSTestData> testResult = new ArrayList<>();
+  public List<String> infos;
 
   public boolean isHttps(String Uri) {
     return Uri.startsWith("https");
@@ -29,6 +30,7 @@ public class TlsTesterBean {
     setTlsTestRendered(true);
     TLSTest test = new TLSTest(testResult, targetUri);
     test.runTLSTests();
+    infos = test.getExtendedInformations();
   }
   public List<TLSTestData> getTestResult() {
     return testResult;
@@ -52,6 +54,26 @@ public class TlsTesterBean {
     }
     return "";
   }
+
+  public boolean hasExtendedInformations(String logEntry) {
+    return !getExtendedInformations(logEntry).isBlank();
+  }
+
+  public String getExtendedInformations(String logEntry) {
+    return infos.stream()
+            .filter(info -> info.contains(getSubject(logEntry)))
+            .findFirst()
+            .orElse("");
+  }
+
+  String getSubject(String inputStrings) {
+    String[] parts = inputStrings.split("alg=");
+    if (parts.length > 1) {
+      return parts[0].replace("Cert alias found: ", "").trim();
+    }
+    return inputStrings;
+  }
+
 
   public String icon(String result) {
     if (result.contains("0")) {
