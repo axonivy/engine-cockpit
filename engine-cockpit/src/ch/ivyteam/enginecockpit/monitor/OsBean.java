@@ -18,7 +18,7 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 @ViewScoped
 public class OsBean {
   private Monitor memoryMonitor = Monitor.build().name("Memory").icon("analytics-board-graph-line")
-          .yAxisLabel("Memory").toMonitor();
+          .yAxisLabel("Memory").reverseColors().toMonitor();
   private Monitor cpuMonitor = Monitor.build().name("CPU Load").icon("computer-chip").yAxisLabel("Load")
           .toMonitor();
   private Monitor networkMonitor = Monitor.build().name("Network").icon("network-signal")
@@ -45,9 +45,10 @@ public class OsBean {
   private void setupMemoryMonitor() {
     memoryMonitor.addInfoValue(format("%4d of %4d (%.1f)", memoryUsed(), memoryMax(), memoryUsage()));
     memoryMonitor.addInfoValue(format("JVM %4d of %4d", memoryJvmUsed(), memoryJvmMax()));
-    memoryMonitor.addSeries(Series.build(memoryUsed(), "Memory usage").fill().smoothLine().toSeries());
-    memoryMonitor.addSeries(Series.build(memoryJvmUsed(), "Jvm memory usage").fill().smoothLine().toSeries());
     memoryMonitor.addSeries(Series.build(memoryJvmMax(), "Jvm max memory").smoothLine().toSeries());
+    memoryMonitor.addSeries(Series.build(memoryJvmUsed(), "Jvm memory usage").fill().smoothLine().toSeries());
+    memoryMonitor.addSeries(Series.build(memoryUsed(), "Memory usage").fill().smoothLine().toSeries());
+
   }
 
   private void setupNetworkMonitor() {

@@ -1,21 +1,28 @@
 package ch.ivyteam.enginecockpit.monitor.monitor;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
+import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.ChartModel;
+import org.primefaces.model.charts.axes.cartesian.CartesianScaleTitle;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
+import org.primefaces.model.charts.optionconfig.animation.Animation;
+import org.primefaces.model.charts.optionconfig.legend.Legend;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.Value;
@@ -24,6 +31,7 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 public class Monitor {
   private long lastTimestamp;
   protected final LineChartModel model;
+  protected final ChartData chartData;
   protected final LineChartOptions options;
   protected CartesianScales scales;
   protected CartesianLinearAxes xAxis;
@@ -36,29 +44,53 @@ public class Monitor {
 
   private final List<Series> series = new ArrayList<>();
   private final List<ValueProvider> infoValues = new ArrayList<>();
+  private final List<String> labels = new ArrayList<String>();
+  private final String[] fillColors = new String[]{"#607D8B", "#FFC107", "#FF5722"};
 
   protected Monitor(MonitorInfo info) {
 	this.info = info;
     model = new LineChartModel();
     options = new LineChartOptions();
-    
+    chartData = new ChartData();
     scales = new CartesianScales();
     xAxis = new CartesianLinearAxes();
     yAxis = new CartesianLinearAxes();
-    
     xTicks = new CartesianLinearTicks();
     yTicks = new CartesianLinearTicks();
-    
+
+    xTicks.setMaxTicksLimit(6);
+    xTicks.setAutoSkip(true);
+    xTicks.setAutoSkipPadding(0);
+    xTicks.setMaxRotation(0);
+
     xAxis.setTicks(xTicks);
     yAxis.setTicks(yTicks);
-    
+    var xTitle = new CartesianScaleTitle();
+    xTitle.setDisplay(true);
+    xTitle.setText("Time");
+    xTitle.setFontSize(14);
+    xAxis.setScaleTitle(xTitle);
+
     scales.addXAxesData(xAxis);
     scales.addYAxesData(yAxis);
-    
+
+    Animation animation = new Animation();
+    animation.setDuration(0);
+
+    Legend legend = new Legend();
+    legend.setAlign("end");
+
     options.setShowLines(true);
-    
-    //options.setScales(scales);  
+    options.setScales(scales);
+    options.setScales(scales);
+    options.setAnimation(animation);
+    options.setLegend(legend);
+    options.setTooltip(null);
+
+    chartData.setLabels(labels);
+
     model.setOptions(options);
+    model.setData(chartData);
   }
 
   public String getTitle() {
@@ -94,15 +126,24 @@ public class Monitor {
 
   public void addSeries(Series mSeries) {
     series.add(mSeries);
-    model.setData(mSeries.getSeries());
-    //model.getData().getDataSet().add();
+    for (int i = 0; i < series.size(); i++) {
+      series.get(i).setFillColor(getColor(i));
+    }
+    chartData.addChartDataSet(mSeries.getSeries());
   }
 
-  public void removeSeries(Series mSeries) { // TODO: remove existing series
+  private String getColor(int i) {
+    if (info.reverseColors) {
+      return fillColors[fillColors.length - (i + 1)];
+    } else {
+      return fillColors[i];
+    }
+  }
+
+  public void removeSeries(Series mSeries) {
     series.remove(mSeries);
-    
-    model.getData().getDataSet().removeAll(mSeries.getSeries().getDataSet());
-    //model.remove(mSeries.getSeries());
+    model.getData().getDataSet().clear();
+    series.forEach(s -> model.getData().addChartDataSet(s.getSeries()));
   }
 
   public void addInfoValue(ValueProvider valueProvider) {
@@ -137,7 +178,9 @@ public class Monitor {
   }
 
   private void calcNewValues(long time) {
-    series.forEach(serie -> serie.calcNewValue(time));
+    series.forEach(serie -> serie.calcNewValue());
+    ZonedDateTime stamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
+    labels.add(stamp.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     series.forEach(serie -> cleanUpOldData(serie.getData()));
     Optional<Value> maxValue = series
             .stream()
@@ -183,6 +226,7 @@ public class Monitor {
       value = Math.floor((value + 4.0d) / 4.0d * 1.1d);
       value = value * 4.0d;
       yAxis.setMax(value);
+      yTicks.setMaxTicksLimit(6);
     }
   }
 
@@ -193,20 +237,30 @@ public class Monitor {
       label += " " + unit.symbolWithBracesOrEmpty();
       format += " " + unit.symbol();
     }
+    CartesianScaleTitle title = new CartesianScaleTitle();
+    title.setText(label);
+    title.setDisplay(true);
+    yAxis.setScaleTitle(title);
     //Axis yAxis = model.getAxis(AxisType.Y);
     //yAxis.setLabel(label);
     //yAxis.setTickFormat("%3g");
     //model.setDatatipFormat(format);
   }
 
-  private void cleanUpOldData(Map<Object, ?> data) {
+  private void cleanUpOldData(List<Value> data) {
     if (data.size() > MAX_DATA) {
-      data.remove(data.keySet().iterator().next());
+      data.remove(0);
     }
+    if (labels.size() > MAX_DATA) {
+      labels.remove(0);
+      xAxis.setMin(Long.valueOf(labels.get(0)));
+    }
+    /*
     var keys = data.keySet().iterator();
     if (keys.hasNext()) {
       xAxis.setMin((long)keys.next());
     }
+    */
   }
 
   public static Builder build() {
@@ -233,6 +287,11 @@ public class Monitor {
 
     public Builder yAxisLabel(String label) {
       builder.yAxisLabel(label);
+      return this;
+    }
+
+    public Builder reverseColors() {
+      builder.setReverseColors();
       return this;
     }
 

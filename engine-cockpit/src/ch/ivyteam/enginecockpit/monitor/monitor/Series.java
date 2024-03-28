@@ -1,20 +1,10 @@
 package ch.ivyteam.enginecockpit.monitor.monitor;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.line.LineChartDataSet;
 
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
@@ -24,51 +14,56 @@ import ch.ivyteam.enginecockpit.monitor.value.ValueProvider;
 public class Series {
   private final ValueProvider valueProvider;
   private final LineChartDataSet dataSet;
-  private final ChartData chartData;
-  private final Map<Object, Value> data = new LinkedHashMap<>();
+  private final List<Value> data = new ArrayList<>();
+  private String fillColor = "";
 
   protected Series(Builder builder) {
     this.valueProvider = builder.valueProvider;
     dataSet = new LineChartDataSet();
-    chartData = new ChartData();
-    
-    
-    dataSet.setTension(builder.smoothLine ? 0.1 : 0);
+    dataSet.setTension(builder.smoothLine ? 0.2 : 0);
     dataSet.setFill(builder.fill);
-    dataSet.setLabel(builder.name);    
+    dataSet.setPointRadius(0);
+    dataSet.setLabel(builder.name);
+    dataSet.setBorderWidth(1);
+    updateColor();
   }
 
-  public ChartData getSeries() {
-    return chartData;
+  public LineChartDataSet getSeries() {
+    return dataSet;
   }
 
-  public void calcNewValue(long actualSec) {
-    data.put(actualSec, nextValue());
+  public void calcNewValue() {
+    data.add(nextValue());
   }
 
   public Optional<Value> maxValue() {
-    return data.values().stream().max(Comparator.naturalOrder());
+    return data.stream().max(Comparator.naturalOrder());
   }
 
   protected Value nextValue() {
     return valueProvider.nextValue();
   }
 
-  public Map<Object, ?> getData() {
+  public List<Value> getData() {
     return data;
+  }
+
+  public void setFillColor(String color) {
+	  this.fillColor = color;
+	  updateColor();
+  }
+
+  private void updateColor() {
+	  dataSet.setBackgroundColor(fillColor);
+	  dataSet.setBorderColor(fillColor);
   }
 
   public void scale(Unit scaleToUnit) {
     List<Object> scaledNumbers = new ArrayList<Object>(data.size());
-    List<String> keys = new ArrayList<>(data.size());
-    data.entrySet().forEach(entry -> {
-    	scaledNumbers.add(scaleTo(entry.getValue(), scaleToUnit));
-    	ZonedDateTime time = ZonedDateTime.ofInstant(Instant.ofEpochMilli((long)entry.getKey()), ZoneId.systemDefault());
-    	keys.add(time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+    data.forEach(datapoint -> {
+    	scaledNumbers.add(scaleTo(datapoint, scaleToUnit));
     });
     dataSet.setData(scaledNumbers);
-    chartData.setLabels(keys);
-    chartData.addChartDataSet(dataSet);
   }
 
   private Number scaleTo(Value value, Unit scaleToUnit) {
