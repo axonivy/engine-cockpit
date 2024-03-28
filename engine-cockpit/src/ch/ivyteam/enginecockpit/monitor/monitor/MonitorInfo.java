@@ -5,12 +5,14 @@ public final class MonitorInfo {
   final String name;
   final String icon;
   final String yAxisLabel;
+  final boolean reverseColors;
 
-  public MonitorInfo(String title, String name, String icon, String yAxisLabel) {
+  public MonitorInfo(String title, String name, String icon, String yAxisLabel, boolean reverseColors) {
     this.title = title;
     this.name = name;
     this.icon = icon;
     this.yAxisLabel = yAxisLabel;
+    this.reverseColors = reverseColors;
   }
 
   public static Builder build() {
@@ -22,6 +24,7 @@ public final class MonitorInfo {
     private String name;
     private String icon;
     private String yAxisLabel;
+    private boolean reverseColors = false;
 
     public Builder title(String t) {
       this.title = t;
@@ -42,6 +45,11 @@ public final class MonitorInfo {
       this.yAxisLabel = label;
       return this;
     }
+    
+    public Builder setReverseColors() {
+    	this.reverseColors = true;
+    	return this;
+    }
 
     public MonitorInfo toInfo() {
       if (name == null) {
@@ -53,7 +61,7 @@ public final class MonitorInfo {
       if (title == null) {
         title = name;
       }
-      return new MonitorInfo(title, name, icon, yAxisLabel);
+      return new MonitorInfo(title, name, icon, yAxisLabel, reverseColors);
     }
   }
 
