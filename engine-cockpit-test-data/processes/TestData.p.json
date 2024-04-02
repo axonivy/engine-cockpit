@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.2.2/process.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.3.0/process.json",
   "id" : "16E88DD61E825E70",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
@@ -110,7 +110,7 @@
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 256 },
-        "size" : { "width" : 144, "height" : 60 }
+        "size" : { "width" : 144 }
       },
       "connect" : [
         { "id" : "f14", "to" : "f12" }
@@ -178,7 +178,7 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 352 },
-        "labelOffset" : { "x" : 15, "y" : 42 }
+        "labelOffset" : { "y" : 42 }
       },
       "connect" : [
         { "id" : "f18", "to" : "f16" }

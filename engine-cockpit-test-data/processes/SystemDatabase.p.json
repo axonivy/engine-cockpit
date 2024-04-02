@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.2.2/process.json",
+  "$schema" : "https://json-schema.axonivy.com/process/11.3.0/process.json",
   "id" : "16E8EAD7CC77A0A3",
   "config" : {
     "data" : "engine.cockpit.test.data.Data"
