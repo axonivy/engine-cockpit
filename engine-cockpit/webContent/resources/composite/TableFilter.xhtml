@@ -12,7 +12,7 @@
     styleClass="table-content-filter" appendTo="@(body)">
     <h:form id="filterForm">
       <p:selectManyCheckbox id="filterCheckboxes" layout="grid" columns="1" value="#{cc.attrs.bean.selectedContentFilters}">
-        <f:selectItems value="#{cc.attrs.bean.contentFilters}" var="filter" itemLabel="#{filter}" itemValue="#{filter}" />
+        <f:selectItems value="#{cc.attrs.bean.contentFilters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter}" />
       </p:selectManyCheckbox>
   
       <h:panelGroup layout="block" styleClass="mt-1 flex justify-content-end">

@@ -32,21 +32,21 @@ public class WebTestJvm {
   void cpuContent() {
     $("#cpu")
             .shouldHave(text("CPU Load"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void classesContent() {
     $("#classes")
             .shouldHave(text("Classes"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void threadsContent() {
     $("#threads")
             .shouldHave(text("Threads"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
 }

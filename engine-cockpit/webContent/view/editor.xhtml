@@ -28,7 +28,7 @@
           <h2 class="m-0">Config File Editor</h2>
 
           <h:form id="fileChooserForm" styleClass="ml-auto">
-            <div class="field col-12 md:col-4">
+            <div>
               <p:autoComplete id="fileDropDown" dropdown="true" value="#{editorBean.activeConfigFile}"
                 var="file" itemLabel="#{file.fileName}" itemValue="#{file}" converter="editorFileConverter"
                 completeMethod="#{editorBean.completeFiles}" groupBy="#{file.provider}">

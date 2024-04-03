@@ -32,28 +32,28 @@ public class WebTestOs {
   void cpuContent() {
     $("#cpu")
             .shouldHave(text("CPU Load"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void memoryContent() {
     $("#memory")
             .shouldHave(text("Memory"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void networkContent() {
     $("#network")
             .shouldHave(text("Network"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void ioContent() {
     $("#io")
             .shouldHave(text("IO"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
 }

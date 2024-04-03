@@ -23,10 +23,10 @@
     <p:column styleClass="table-btn-2">
       <p:commandButton id="setColor" icon="si si-pencil" styleClass="ui-button-secondary rounded-button" 
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" 
-        update="cssColorPickerForm:editCssColorModal" oncomplete="PF('editCssColorModal').show();"/>
+        update="cssColorPickerForm:editCssColorModal" oncomplete="PF('editCssColorModal').show();" process="@this"/>
       <p:commandButton id="resetColor" icon="si si-undo" styleClass="ml-1 ui-button-danger rounded-button"
         actionListener="#{brandingBean.setSelectedCssColor(color.color)}" disabled="#{color.default}"
-        update="resetColorConfirmDialog" oncomplete="PF('resetColorConfirmDialog').show();" />
+        update="resetColorConfirmDialog" oncomplete="PF('resetColorConfirmDialog').show();" process="@this"/>
     </p:column>
   </p:dataTable>
 </h:form>

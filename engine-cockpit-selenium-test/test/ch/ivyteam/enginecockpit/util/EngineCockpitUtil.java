@@ -243,7 +243,7 @@ public class EngineCockpitUtil {
     $$(".layout-config h4").shouldHave(
             texts(expectedChartTitles));
     if (!emptyGraphs) {
-      $$(".layout-config .jqplot-base-canvas").shouldBe(
+      $$(".layout-config .ui-chart").shouldBe(
               size(expectedChartTitles.size()));
     }
     if (jmxSourceMessage != null) {

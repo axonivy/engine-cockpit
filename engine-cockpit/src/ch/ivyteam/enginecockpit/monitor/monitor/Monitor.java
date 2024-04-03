@@ -253,7 +253,6 @@ public class Monitor {
     }
     if (labels.size() > MAX_DATA) {
       labels.remove(0);
-      xAxis.setMin(Long.valueOf(labels.get(0)));
     }
   }
 

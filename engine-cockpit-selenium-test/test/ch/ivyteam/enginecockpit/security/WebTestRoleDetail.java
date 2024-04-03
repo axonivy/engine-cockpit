@@ -34,7 +34,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
+@IvyWebTest(headless = false)
 class WebTestRoleDetail {
 
   private static final String DIRECTORY_BROWSER_FORM = "#directoryBrowser\\:directoryBrowserForm\\:";
@@ -121,7 +121,7 @@ class WebTestRoleDetail {
     $("#roleInformationForm\\:deleteRole").shouldBe(visible).click();
     $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
 
-    $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
+    $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").shouldBe(visible).click();
     assertCurrentUrlContains("roles.xhtml");
   }
 
@@ -143,7 +143,6 @@ class WebTestRoleDetail {
 
     $("#roleInformationForm\\:deleteRole").shouldBe(visible).click();
     $("#roleInformationForm\\:deleteRoleConfirmDialog").shouldBe(visible);
-
     $("#roleInformationForm\\:deleteRoleConfirmDialogYesBtn").click();
     assertCurrentUrlContains("roles.xhtml");
   }
@@ -382,7 +381,7 @@ class WebTestRoleDetail {
     $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
             .find(text("CN=role1")).click();
     $(DIRECTORY_BROWSER_FORM + "tree\\:0 .ui-treenode-children").findAll(".ui-treenode-label")
-            .find(text("CN=role1")).shouldHave(cssClass("ui-state-highlight"));
+            .find(text("CN=role1")).parent().shouldHave(cssClass("ui-state-highlight"));
     $(By.id("directoryBrowser:chooseDirectoryName")).click();
     $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldNotBe(visible);
     $(By.id("roleInformationForm:externalSecurityName"))
@@ -399,7 +398,7 @@ class WebTestRoleDetail {
     $(By.id("roleInformationForm:browseExternalName")).shouldNotBe(disabled).click();
 
     $(By.id(DIRECTORY_BROWSER_DIALOG)).shouldBe(visible);
-    $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1"))
+    $$(DIRECTORY_BROWSER_FORM + "tree .ui-treenode-label").find(exactText("CN=role1")).parent()
             .shouldBe(visible, cssClass("ui-state-highlight"));
     Table table = new Table(By.id("directoryBrowser:directoryBrowserForm:nodeAttrTable"));
     table.tableEntry("distinguishedName", 2)

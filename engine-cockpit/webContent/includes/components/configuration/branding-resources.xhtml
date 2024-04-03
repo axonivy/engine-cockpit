@@ -18,9 +18,9 @@
       </div>
       <div class="col-12 md:col-4 lg:col-2 align-self-center">
         <p:splitButton id="uploadBtn" value="Upload #{res.label}" title="Upload #{res.label}" icon="si si-upload-bottom" styleClass="branding-btn"
-          actionListener="#{brandingBean.setCurrentRes(res.name)}" update="fileUpload" oncomplete="PF('fileUploadModal').show()">
+          actionListener="#{brandingBean.setCurrentRes(res.name)}" update="@this fileUpload" oncomplete="PF('fileUploadModal').show()" process="@this">
           <p:menuitem id="resetBtn" value="Reset" icon="si si-undo" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
-            actionListener="#{brandingBean.setCurrentRes(res.name)}" update="resetBrandingConfirmDialog" />
+            actionListener="#{brandingBean.setCurrentRes(res.name)}" update="resetBrandingConfirmDialog" process="@this"/>
         </p:splitButton>
       </div>
     </ui:repeat>
@@ -29,9 +29,9 @@
     </div>
     <div class="col-12 md:col-5 lg:col-3 align-self-center"></div>
     <div class="col-12 md:col-4 lg:col-2 align-self-center">
-      <p:splitButton id="editCustomCssBtn" value="Edit" icon="si si-common-file-text-edit" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();">
+      <p:splitButton id="editCustomCssBtn" value="Edit" icon="si si-common-file-text-edit" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();" process="@this">
         <p:menuitem id="resetCustomCssBtn" value="Reset" icon="si si-undo" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
-          actionListener="#{brandingBean.setCurrentRes('custom.css')}" update="resetBrandingConfirmDialog" />
+          actionListener="#{brandingBean.setCurrentRes('custom.css')}" update="resetBrandingConfirmDialog" process="@this"/>
       </p:splitButton>
     </div>
   </div>

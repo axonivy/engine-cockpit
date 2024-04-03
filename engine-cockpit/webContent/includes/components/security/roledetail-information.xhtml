@@ -23,7 +23,7 @@
           <p:staticMessage severity="warn" detail="This is a critical and dangerous operation, at least for non-dynamic roles. This role may be referenced in processes with its old name. All references in all processes in all deployed projects (PMVs) must first be manually adjusted to the new name. Otherwise, the processes will fail in the future." />
           <p:commandButton value="Cancel" onclick="PF('deleteRoleConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-          <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" ajax="false" immediate="true"
+          <p:commandButton id="deleteRoleConfirmDialogYesBtn" value="Delete" immediate="true"
             action="#{roleDetailBean.deleteRole}" styleClass="modal-input-button" icon="si si-bin-1" />
         </p:confirmDialog>
         <p:commandButton id="saveRoleInformation" actionListener="#{roleDetailBean.saveRoleInfos}" title="Save changes"

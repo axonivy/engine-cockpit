@@ -2,8 +2,8 @@ package ch.ivyteam.enginecockpit.testdata.user;
 
 import java.util.UUID;
 
-import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.environment.Ivy;
+import ch.ivyteam.ivy.security.ISecurityContextRepository;
 import ch.ivyteam.ivy.security.exec.Sudo;
 
 public class TestDataUser {
@@ -20,17 +20,17 @@ public class TestDataUser {
   }
 
   private static void newDisabledUser() {
-    var app = IApplicationRepository.instance().findByName("test").orElse(null);
-    var user = app.getSecurityContext().users().find("disableduser");
+    var security = ISecurityContextRepository.instance().getDefault();
+    var user = security.users().find("disableduser");
     if (user == null) {
-      user = app.getSecurityContext().users().create("disableduser");
+      user = security.users().create("disableduser");
     }
     user.disable();
   }
 
   private static void new200kUsers() {
-    var app = IApplicationRepository.instance().create("200kUsers");
-    var userRepo = app.getSecurityContext().users();
+    var security = ISecurityContextRepository.instance().create("200kUsers");
+    var userRepo = security.users();
     for (var i = 1; i <= 200000; i++) {
       if (i % 10000 == 0) {
         Ivy.log().info(i + " Users created");
@@ -41,6 +41,6 @@ public class TestDataUser {
   }
 
   private static void delete200kUsers() {
-    IApplicationRepository.instance().delete("200kUsers");
+    ISecurityContextRepository.instance().delete("200kUsers");
   }
 }
