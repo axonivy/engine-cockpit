@@ -561,6 +561,17 @@ body .ui-datatable .ui-datatable-header {
 .migration-question-select-button {
   display: flex;
 }
+.health-check-badge {
+  width:22px; height:20px;
+  font-weight:bold; font-size:13px; color:white;
+  position:absolute; bottom:30px; left:20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius:10px;
+  background-color:var(--ivy-primary-color);
+}
+
 body .migration-question-select-button > div.ui-button {
   margin: 0px;
 }

@@ -55,6 +55,11 @@
             <p:column headerText="Check" sortBy="#{msg.check}">
               <h:outputText value="#{msg.check}"/>
             </p:column>
+            <p:column styleClass="table-btn-1">
+              <p:button title="Detail" outcome="#{msg.actionLink}" rendered="#{msg.hasActionLink}" 
+                icon="si si-cog-play" styleClass="rounded-button">
+              </p:button>
+            </p:column>
           </p:dataTable>
           <h3>Checks</h3>
             <p:dataTable var="check" value="#{healthBean.checks}"

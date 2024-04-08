@@ -77,6 +77,10 @@ public class HealthBean {
   public List<Message> getMessages() {
     return messages;
   }
+  
+  public int getMessageCount() {
+    return messages.size();
+  }
 
   public List<Check> getChecks() {
     return checks;
@@ -112,6 +116,18 @@ public class HealthBean {
 
     public String getCheck() {
       return checker.checkForMessage(message).name();
+    }
+    
+    public String getActionLink() {
+      if (isHasActionLink()) {
+        return message.actionLink().getRelative();
+
+      }
+      return "#";
+    }
+
+    public boolean isHasActionLink() {
+      return message.actionLink() != null;
     }
   }
 

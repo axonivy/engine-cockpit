@@ -86,10 +86,13 @@
               </li>
             </h:outputText>
             
-            <h:outputText rendered="#{managerBean.restartEngine or engineModeBean.hasDashboardWarning() or ivyAdvisor.releaseCandidate}">
+            <h:outputText rendered="#{managerBean.restartEngine or not empty healthBean.messages}">
               <li class="topbar-item topbar-notifications engine-warnings">
                 <a href="#">
                   <i class="topbar-icon si si-road-sign-warning animated swing"></i>
+                  <div class="health-check-badge">
+                    <h:outputText id="health-check-badge" value="#{healthBean.messageCount}" />
+                  </div>
                 </a>
                 <ul>
                   <h:panelGroup rendered="#{managerBean.restartEngine}">
@@ -100,28 +103,19 @@
                       </a>
                     </li>
                   </h:panelGroup>
-                  <h:panelGroup rendered="#{ivyAdvisor.releaseCandidate}">
-                    <li>
-                      <a href="#">
-                        <i class="si si-lg si-alert-circle"></i>
-                        <span style="max-width: calc(100% - 40px)">
-                          <b>Release Candidate!</b><br/>
-                          Don't use this version in production!
-                        </span>
-                      </a>
-                    </li>
-                  </h:panelGroup>
-                  <h:panelGroup rendered="#{engineModeBean.hasDashboardWarning()}">
-                    <li>
-                      <a href="setup#{engineModeBean.demo ? '-intro' : ''}.xhtml">
-                        <i class="si si-lg si-tools-wench"></i>
-                        <span style="max-width: calc(100% - 40px)">
-                          <b>#{engineModeBean.dashboardWarningSummary}</b><br/>
-                          #{engineModeBean.dashboardWarningDetail} Please use the 'Setup Wizard' to set up your Axon Ivy Engine.
-                        </span>
-                      </a>
-                    </li>
-                  </h:panelGroup>
+                  <ui:repeat var="msg" value="#{healthBean.messages}">
+                    <h:panelGroup>
+                      <li>
+                        <a href="#{msg.actionLink}">
+                          <i class="si si-lg #{msg.severityIcon}"></i>
+                          <span style="max-width: calc(100% - 40px)">
+                            <b>#{msg.message}</b><br/>
+                            #{msg.description}
+                          </span>
+                        </a>
+                      </li>
+                    </h:panelGroup>
+                  </ui:repeat>
                 </ul>
               </li>
             </h:outputText>
