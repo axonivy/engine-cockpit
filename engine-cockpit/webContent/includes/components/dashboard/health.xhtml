@@ -6,16 +6,16 @@
 <div class="card">   
   <h:form id="healthForm">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-          <i class="p-pr-3 si si-alarm-bell"></i>
-          <h6 class="p-m-0" style="margin: 0; padding-left: 0">Health Check</h6>
+      <div class="card-title flex align-items-center">
+          <i class="pr-3 si si-alarm-bell"></i>
+          <h6 class="m-0" style="margin: 0; padding-left: 0">Health Check</h6>
           <p:linkButton id="healthDetail" title="Health Details" type="button" href="monitor-health.xhtml"
-             icon="si si-alarm-bell" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" />
+             icon="si si-alarm-bell" styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
           <p:commandButton id="runHealthCheck" title="Run Health Check" action="#{healthBean.checkNow()}"
-              update="healthForm" icon="si si-controls-play" styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button" />
+              update="healthForm" icon="si si-controls-play" styleClass="col-fixed ml-1 ui-button-secondary rounded-button" />
       </div>
     </div>
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8"
+    <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
       styleClass="grey-label-panel">
       <label>State</label>
       <h:panelGroup class="#{healthBean.severityClass}">
