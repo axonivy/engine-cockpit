@@ -36,19 +36,19 @@
          <p:autoUpdate />
        </p:growl>
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12 p-md-12 p-xl-6">
+        <div class="grid">
+          <div class="col-12 md:col-12 xl:col-6">
             <cc:Bean id="bean" event="#{startEventDetailBean.event}" />
           </div>
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <cc:Poll id="polls" event="#{startEventDetailBean.event}" />
           </div>
           <ui:fragment rendered="#{not empty startEventDetailBean.event.threads}">
-            <div class="p-col-12 p-md-12 p-xl-12" >
+            <div class="col-12 md:col-12 xl:col-12" >
               <cc:EventBeanThreads id="threads" event="#{startEventDetailBean.event}" />
             </div>
           </ui:fragment>
-          <div class="p-col-12 p-md-12 p-xl-12">
+          <div class="col-12 md:col-12 xl:col-12">
             <cc:Firings id="firings" event="#{startEventDetailBean.event}" />
           </div>
         </div>

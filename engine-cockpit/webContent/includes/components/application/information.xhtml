@@ -6,19 +6,19 @@
 <div class="card">
   <h:form id="appDetailInfoForm">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-information-circle"></i>
-        <h6 class="p-m-0">Application information</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-information-circle"></i>
+        <h6 class="m-0">Application information</h6>
         <p:linkButton id="home" title="Application Home" icon="si si-house-chimney-2"
           href="#{applicationDetailBean.application.homeUrl}" disabled="#{applicationDetailBean.application.disabled}"
-          styleClass="p-col-fixed p-ml-auto rounded-button"/>
+          styleClass="col-fixed ml-auto rounded-button"/>
         <p:linkButton id="workflow" title="Workflow UI" icon="si si-layout-bullets" 
           href="#{applicationDetailBean.application.devWorkflowUrl}" disabled="#{applicationDetailBean.application.disabled}"
-          styleClass="p-col-fixed p-ml-1 rounded-button"/>
+          styleClass="col-fixed ml-1 rounded-button"/>
       </div>
     </div>
     
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
       <h:outputText value="#{applicationDetailBean.application.name}" />

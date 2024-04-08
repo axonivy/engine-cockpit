@@ -6,25 +6,25 @@
 <div class="card">
   <h:form id="appDetailStateForm">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-cog-play"></i>
-        <h6 class="p-m-0">Activity</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-cog-play"></i>
+        <h6 class="m-0">Activity</h6>
         
         <p:commandButton id="activateApplication" title="Activate" type="button" icon="si si-controls-play"
-          disabled="#{applicationDetailBean.application.notStartable}" styleClass="p-col-fixed p-ml-auto ui-button-success rounded-button">
+          disabled="#{applicationDetailBean.application.notStartable}" styleClass="col-fixed ml-auto ui-button-success rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.activate}" update="@form" />
         </p:commandButton>
         <p:commandButton id="deActivateApplication" title="Deactivate" type="button" icon="si si-controls-stop"
-          disabled="#{applicationDetailBean.application.notStopable}" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button">
+          disabled="#{applicationDetailBean.application.notStopable}" styleClass="col-fixed ml-1 ui-button-danger rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.deactivate}" update="@form" />
         </p:commandButton>
         <p:commandButton id="lockApplication" title="Lock" type="button" icon="si si-lock-1"
-          disabled="#{applicationDetailBean.application.notLockable}" styleClass="p-col-fixed p-ml-1 ui-button-warning rounded-button">
+          disabled="#{applicationDetailBean.application.notLockable}" styleClass="col-fixed ml-1 ui-button-warning rounded-button">
           <p:ajax listener="#{applicationDetailBean.application.lock}" update="@form" />
         </p:commandButton>
       </div>
     </div>
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel">
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">
       <label>State</label>
       <h:outputText>
         <i class="si si-#{applicationDetailBean.application.state.operationIcon} icon-bold activity-state-#{applicationDetailBean.application.state.operationCssClass}"

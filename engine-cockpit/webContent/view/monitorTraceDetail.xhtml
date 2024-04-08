@@ -26,18 +26,18 @@
 
     <ui:define name="content">
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12">
+        <div class="grid">
+          <div class="col-12">
             <div class="card">
-              <div class="card-header p-flex-wrap">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-monitor-heart-beat-search"></i>
-                  <h6 class="p-m-0">Slow Request Detail</h6>
+              <div class="card-header flex-wrap">
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-monitor-heart-beat-search"></i>
+                  <h6 class="m-0">Slow Request Detail</h6>
                 </div>
                 <p:staticMessage  
                     rendered="#{!spanBean.traceAvailable}" 
                     severity="WARN" 
-                    styleClass="p-mt-3"
+                    styleClass="mt-3"
                     summary="Request no longer available" 
                     detail="The request was remove from the slowest requests because other requests were even slower!"/>
               </div>
@@ -67,12 +67,12 @@
               </p:treeTable>
             </div>
           </div>
-          <div class="p-col-12">
+          <div class="col-12">
             <div class="card">
-              <div class="card-header p-flex-wrap">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-cog"></i>
-                  <h6 class="p-m-0">Attributes</h6>
+              <div class="card-header flex-wrap">
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-cog"></i>
+                  <h6 class="m-0">Attributes</h6>
                 </div>
               </div>
               <p:dataTable id="attributesTable" var="attr" value="#{spanBean.attributes}" rowIndexVar="rowIndex" emptyMessage="Select a span to see its attributes">

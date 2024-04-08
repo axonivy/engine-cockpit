@@ -8,9 +8,9 @@
 <cc:implementation>
   <p:panel id="logPanel" widgetVar="#{cc.attrs.log.fileName}">
     <f:facet name="header">
-      <span onclick="PF('#{cc.attrs.log.fileName}').toggle()" style="cursor: pointer;" class="p-d-inline-flex">
+      <span onclick="PF('#{cc.attrs.log.fileName}').toggle()" style="cursor: pointer;" class="inline-flex">
         <i class="si si-common-file-text table-icon panel-title-icon"></i>
-        <h:outputText value="#{cc.attrs.log.fileName} (#{cc.attrs.log.size})" styleClass="p-ml-1" />
+        <h:outputText value="#{cc.attrs.log.fileName} (#{cc.attrs.log.size})" styleClass="ml-1" />
       </span>
     </f:facet>
     <f:facet name="actions">

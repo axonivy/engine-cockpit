@@ -19,13 +19,13 @@
 
     <ui:define name="content">
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12 p-md-12 p-xl-6">
+        <div class="grid">
+          <div class="col-12 md:col-12 xl:col-6">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-coffee-cup"></i>
-                  <h6 class="p-m-0">MBeans</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-coffee-cup"></i>
+                  <h6 class="m-0">MBeans</h6>
                 </div>
               </div>
               <p:tree value="#{mBeansBean.root}" var="node" selectionMode="single"
@@ -41,12 +41,12 @@
               </p:tree>
             </div>
           </div>
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <div class="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-cog"></i>
-                  <h6 class="p-m-0">Attributes</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-cog"></i>
+                  <h6 class="m-0">Attributes</h6>
                 </div>
               </div>
               <p:dataTable id="attributes" var="mAttr" value="#{mBeansBean.attributes}" rowIndexVar="rowIndex"
@@ -66,15 +66,15 @@
               </p:dataTable>
             </div>
           </div>
-          <div class="p-col-12">
+          <div class="col-12">
             <h:panelGroup layout="block" id="chart" styleClass="card">
               <div class="card-header">
-                <div class="card-title p-d-flex p-ai-center">
-                  <i class="p-pr-3 si si-analytics-bars"></i>
-                  <h6 class="p-m-0">Chart</h6>
+                <div class="card-title flex align-items-center">
+                  <i class="pr-3 si si-analytics-bars"></i>
+                  <h6 class="m-0">Chart</h6>
                 </div>
               </div>
-              <p:chart id="diagram" type="line" model="#{mBeansBean.tracesMonitor.model}" responsive="true"
+              <p:lineChart id="diagram" model="#{mBeansBean.tracesMonitor.model}"
                 style="height:300px;" />
               <p:poll update="chart" interval="1" autoStart="#{mBeansBean.tracesMonitor.running}" />
   

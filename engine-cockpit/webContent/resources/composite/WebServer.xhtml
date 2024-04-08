@@ -4,7 +4,7 @@
   xmlns:p="http://primefaces.org/ui">
 <cc:interface>
   <cc:attribute name="updateFields" default="webServer:webserverWarnMessage" />
-  <cc:attribute name="responsiveClasses" default="p-col-12 p-md-6 p-lg-6" />
+  <cc:attribute name="responsiveClasses" default="col-12 md:col-6 lg:col-6" />
 </cc:interface>
 
 <cc:implementation>
@@ -14,10 +14,10 @@
 </h:panelGroup>
 
 <h:form id="webserverForm">
-  <div class="p-grid">
-    <div class="#{cc.attrs.responsiveClasses} p-p-2">
-      <p:fieldset id="httpFieldSet" legend="HTTP Connector" class="p-p-2">
-        <p:panelGrid columns="2" columnClasses="p-col-12 p-md-5 p-lg-5, p-col-12 p-md-7 p-lg-7" layout="flex" 
+  <div class="grid">
+    <div class="#{cc.attrs.responsiveClasses} p-2">
+      <p:fieldset id="httpFieldSet" legend="HTTP Connector" class="p-2">
+        <p:panelGrid columns="2" columnClasses="col-12 md:col-5 lg:col-5, col-12 md:col-7 lg:col-7" layout="flex" 
           styleClass="grey-label-panel ui-fluid">
           <p:outputLabel for="httpEnabledCheckbox" value="Enabled:" />
           <p:selectBooleanCheckbox id="httpEnabledCheckbox" value="#{webServerConnectorBean.httpEnabled}">
@@ -32,9 +32,9 @@
         </p:panelGrid>
       </p:fieldset>
     </div>
-    <div class="#{cc.attrs.responsiveClasses} p-p-2">
-      <p:fieldset id="httpsFieldSet" legend="HTTPS Connector" class="p-p-2">
-        <p:panelGrid columns="2" columnClasses="p-col-12 p-md-5 p-lg-5, p-col-12 p-md-7 p-lg-7" layout="flex" 
+    <div class="#{cc.attrs.responsiveClasses} p-2">
+      <p:fieldset id="httpsFieldSet" legend="HTTPS Connector" class="p-2">
+        <p:panelGrid columns="2" columnClasses="col-12 md:col-5 lg:col-5, col-12 md:col-7 lg:col-7" layout="flex" 
           styleClass="grey-label-panel ui-fluid">
           <p:outputLabel for="httpsEnabledCheckbox" value="Enabled:" />
           <p:selectBooleanCheckbox id="httpsEnabledCheckbox" value="#{webServerConnectorBean.httpsEnabled}">

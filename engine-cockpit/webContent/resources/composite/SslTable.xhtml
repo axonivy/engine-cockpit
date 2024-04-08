@@ -11,9 +11,9 @@
   <div class="card">
     <h:form id="storeTable">
       <div class="card-header">
-        <div class="card-title p-d-flex p-ai-center">
-          <i class="p-pr-3 si si-information-circle"></i>
-          <h6 class="p-m-0">#{cc.attrs.title}</h6>
+        <div class="card-title flex align-items-center">
+          <i class="pr-3 si si-information-circle"></i>
+          <h6 class="m-0">#{cc.attrs.title}</h6>
           <p:fileUpload id="certUpload" mode="simple"
             skinSimple="true" multiple="false" auto="true"
             listener="#{cc.attrs.bean.handleUploadCertificate}"
@@ -21,7 +21,7 @@
             style="display: none;" />
           <p:commandButton title="Add Certificate" icon="si si-upload-bottom"
             type="button" id="Certbtn"
-            styleClass="p-col-fixed p-ml-auto p-ml-1 p-mr-1 rounded-button"
+            styleClass="col-fixed ml-auto ml-1 mr-1 rounded-button"
             onclick="document.getElementById(this.id.replace(':Certbtn',':certUpload_input')).click(); return false;">
           </p:commandButton>
         </div>

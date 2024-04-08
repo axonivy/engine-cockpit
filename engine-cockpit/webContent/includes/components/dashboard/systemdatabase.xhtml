@@ -5,17 +5,17 @@
 
 <div class="card">
   <div class="card-header">
-    <div class="card-title p-d-flex p-ai-center">
-      <i class="p-pr-3 si si-database-settings"></i>
-      <h6 class="p-m-0">System Database</h6>
+    <div class="card-title flex align-items-center">
+      <i class="pr-3 si si-database-settings"></i>
+      <h6 class="m-0">System Database</h6>
       <p:linkButton id="helpSystemDbBtn" title="Help" icon="si si-question-circle" type="button"
         href="#{advisorBean.engineGuideBaseUrl}/configuration/system-database/index.html"
-        target="_blank" rel="noopener noreferrer" styleClass="p-ml-auto ui-button-secondary rounded-button" />
+        target="_blank" rel="noopener noreferrer" styleClass="ml-auto ui-button-secondary rounded-button" />
       <p:linkButton id="configureSystemDbBtn" title="Configure SystemDb" icon="si si-cog" type="button"
-        styleClass="p-ml-1 ui-button-secondary rounded-button" href="systemdb.xhtml" />
+        styleClass="ml-1 ui-button-secondary rounded-button" href="systemdb.xhtml" />
     </div>
   </div>
-  <p:panelGrid columns="2" layout="flex" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8"
+  <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
     styleClass="grey-label-panel">
     <label>URL</label>
     <h:outputText value="#{systemDatabaseBean.url}" />

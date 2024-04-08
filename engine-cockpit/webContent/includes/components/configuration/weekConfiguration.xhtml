@@ -5,18 +5,18 @@
 
 <div class="card">
   <div class="card-header">
-    <div class="card-title p-d-flex p-ai-center">
-      <i class="p-pr-3 si si-cog"></i>
-      <h6 class="p-m-0">Week configuration</h6>
+    <div class="card-title flex align-items-center">
+      <i class="pr-3 si si-cog"></i>
+      <h6 class="m-0">Week configuration</h6>
     </div>
   </div>
 
-  <div class="p-d-flex p-flex-wrap p-ac-stretch">
-    <p:repeat var="day" value="#{businessCalendarBean.activeCalendar.week}">
-      <div class="p-mr-2 p-mb-2 business-calendar-box">
-        <div class="#{day.free ? 'free' : ''} p-p-3" title="#{day.free ? 'free' : 'work'}">#{day.dayName}</div>
+  <div class="flex flex-wrap">
+    <ui:repeat var="day" value="#{businessCalendarBean.activeCalendar.week}">
+      <div class="mr-2 mb-2 business-calendar-box">
+        <div class="#{day.free ? 'free' : ''} p-3" title="#{day.free ? 'free' : 'work'}">#{day.dayName}</div>
       </div>
-    </p:repeat>
+    </ui:repeat>
   </div>
 
   <p:dataTable id="workingTimeTable" var="workingTime" value="#{businessCalendarBean.activeCalendar.workingTimes}">

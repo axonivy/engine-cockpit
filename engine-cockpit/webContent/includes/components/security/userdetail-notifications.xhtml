@@ -9,14 +9,14 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-advertising-megaphone-2"></i>
-        <h6 class="p-m-0">Notification Channels</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-advertising-megaphone-2"></i>
+        <h6 class="m-0">Notification Channels</h6>
       </div>
       <p:commandButton id="reset" actionListener="#{userDetailBean.notificationChannels.reset}" title="Reset to default"
-        icon="si si-undo" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" update="notificationsForm" />
+        icon="si si-undo" styleClass="col-fixed ml-auto ui-button-danger rounded-button" update="notificationsForm" />
       <p:commandButton id="save" actionListener="#{userDetailBean.notificationChannels.save}" title="Save changes"
-        icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" />
+        icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button" />
     </div>
     
     <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"

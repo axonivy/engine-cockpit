@@ -9,21 +9,21 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-information-circle"></i>
-        <h6 class="p-m-0">User information</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-information-circle"></i>
+        <h6 class="m-0">User information</h6>
         <p:commandButton title="Synch" id="userSynchBtn" rendered="#{!userDetailBean.ivySecuritySystem}" type="button"
-          icon="si si-button-refresh-arrows" styleClass="p-col-fixed p-ml-auto ui-button-secondary rounded-button" onclick="PF('synchUserModal').show()" />
+          icon="si si-button-refresh-arrows" styleClass="col-fixed ml-auto ui-button-secondary rounded-button" onclick="PF('synchUserModal').show()" />
 
         <h:panelGroup rendered="#{!userDetailBean.user.external or userDetailBean.ivySecuritySystem}">
           <p:commandButton id="disableUser" actionListener="#{userDetailBean.disableUser}" title="Disable this user"
-            styleClass="p-col-fixed p-ml-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} ui-button-warning rounded-button"
+            styleClass="p-col-fixed ml-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} ui-button-warning rounded-button"
             icon="si si-delete" update="userInformationForm"  rendered="#{userDetailBean.isUserEnabled()}" />
           <p:commandButton id="enableUser" actionListener="#{userDetailBean.enableUser}" title="Enable this user"
-            styleClass="p-col-fixed p-ml-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} rounded-button" 
+            styleClass="p-col-fixed ml-#{!userDetailBean.ivySecuritySystem ? '1' : 'auto'} rounded-button" 
             icon="si si-check-circle-1" update="userInformationForm" rendered="#{userDetailBean.isUserDisabled()}" />
           <p:commandButton id="deleteUser" type="button" onclick="PF('deleteUserConfirmDialog').show()"
-            title="Delete this user" icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
+            title="Delete this user" icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
           <p:confirmDialog id="deleteUserConfirmDialog" header="Delete User" severity="alert"
             widgetVar="deleteUserConfirmDialog" message="#{userDetailBean.userDeleteHint()}">
             <p:commandButton value="Cancel" onclick="PF('deleteUserConfirmDialog').hide();" type="button"
@@ -31,11 +31,11 @@
             <p:commandButton id="disableUserConfirmBtn" value="Disable" immediate="true"
               actionListener="#{userDetailBean.disableUser}" icon="si si-delete" styleClass="modal-input-button"
               rendered="#{userDetailBean.isUserEnabled()}" update="userInformationForm" />
-            <p:commandButton id="deleteUserConfirmYesBtn" value="Delete" ajax="false" immediate="true"
+            <p:commandButton id="deleteUserConfirmYesBtn" value="Delete" immediate="true"
               action="#{userDetailBean.deleteSelectedUser}" icon="si si-bin-1" styleClass="modal-input-button" />
           </p:confirmDialog>
           <p:commandButton id="saveUserInformation" actionListener="#{userDetailBean.saveUserInfos}" title="Save changes"
-            icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button" />
+            icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button" />
         </h:panelGroup>
       </div>
     </div>
@@ -55,12 +55,12 @@
       </h:panelGroup>
     </div>
     
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
-      <h:panelGroup styleClass="p-d-flex p-ai-center">
+      <h:panelGroup styleClass="flex align-items-center">
         <p:avatar gravatar="#{userDetailBean.user.email}" icon="#{userDetailBean.user.cssIconClass}" shape="circle" styleClass="user-avatar" />
-        <h:outputText id="name" value="#{userDetailBean.user.name}" styleClass="p-ml-1" />
+        <h:outputText id="name" value="#{userDetailBean.user.name}" styleClass="ml-1" />
       </h:panelGroup>
   
       <p:outputLabel for="fullName" value="Full Name" />
@@ -92,7 +92,7 @@
       <p:autoUpdate />
     </p:messages>
     
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
       styleClass="grey-label-panel ui-fluid" rendered="#{userDetailBean.user.external and !userDetailBean.ivySecuritySystem}">
       <label>External Name</label>
       <h:outputText id="externalName" value="#{userDetailBean.user.externalName}" />

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.primefaces.model.charts.line.LineChartDataSet;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
@@ -29,16 +30,18 @@ public class TestRequestMonitorBean {
   public void requestMonitor() {
     var testee = new RequestMonitorBean();
 
-    var series = testee.getRequestsMonitor().getModel().getSeries();
-    assertThat(series).hasSize(2);
+    var dataSet = testee.getRequestsMonitor().getModel().getData().getDataSet();
+    assertThat(dataSet).hasSize(2);
 
-    var http = series.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
+    var http = (LineChartDataSet)dataSet.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
-    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(http.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    var https = series.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
+    var https = (LineChartDataSet)dataSet.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
-    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(https.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(testee.getRequestsMonitor().getInfo())
             .isEqualTo("Requests: Http -, Http Total 300, Https -, Https Total 300");
@@ -48,16 +51,18 @@ public class TestRequestMonitorBean {
   public void errorsMonitor() {
     var testee = new RequestMonitorBean();
 
-    var series = testee.getErrorsMonitor().getModel().getSeries();
-    assertThat(series).hasSize(2);
+    var dataSet = testee.getErrorsMonitor().getModel().getData().getDataSet();
+    assertThat(dataSet).hasSize(2);
 
-    var http = series.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
+    var http = (LineChartDataSet)dataSet.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
-    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(http.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    var https = series.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
+    var https = (LineChartDataSet)dataSet.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
-    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(https.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(testee.getErrorsMonitor().getInfo())
             .isEqualTo("Errors: Http -, Http Total 4, Https -, Https Total 4");
@@ -67,24 +72,28 @@ public class TestRequestMonitorBean {
   public void bytesMonitor() {
     var testee = new RequestMonitorBean();
 
-    var series = testee.getBytesMonitor().getModel().getSeries();
-    assertThat(series).hasSize(4);
+    var dataSet = testee.getBytesMonitor().getModel().getData().getDataSet();
+    assertThat(dataSet).hasSize(4);
 
-    var httpSent = series.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
+    var httpSent = (LineChartDataSet)dataSet.get(0);
     assertThat(httpSent.getLabel()).isEqualTo("Http Sent");
-    assertThat(httpSent.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(httpSent.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    var httpReceived = series.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
+    var httpReceived = (LineChartDataSet)dataSet.get(1);
     assertThat(httpReceived.getLabel()).isEqualTo("Http Received");
-    assertThat(httpReceived.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(httpReceived.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    var httpsSent = series.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
+    var httpsSent = (LineChartDataSet)dataSet.get(2);
     assertThat(httpsSent.getLabel()).isEqualTo("Https Sent");
-    assertThat(httpsSent.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(httpsSent.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    var httpsReceived = series.get(3);
+    assertThat(dataSet.get(3)).isInstanceOf(LineChartDataSet.class);
+    var httpsReceived = (LineChartDataSet)dataSet.get(3);
     assertThat(httpsReceived.getLabel()).isEqualTo("Https Received");
-    assertThat(httpsReceived.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(httpsReceived.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(testee.getBytesMonitor().getInfo()).isEqualTo(
             "Bytes: Http Sent -/1000 B, Http Received -/2000 B, Https Sent -/1000 B, Https Received -/2000 B");
@@ -94,16 +103,18 @@ public class TestRequestMonitorBean {
   public void processingMonitor() {
     var testee = new RequestMonitorBean();
 
-    var series = testee.getProcessingTimeMonitor().getModel().getSeries();
-    assertThat(series).hasSize(2);
+    var dataSet = testee.getProcessingTimeMonitor().getModel().getData().getDataSet();
+    assertThat(dataSet).hasSize(2);
 
-    var http = series.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
+    var http = (LineChartDataSet)dataSet.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
-    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(http.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    var https = series.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
+    var https = (LineChartDataSet)dataSet.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
-    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(https.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(testee.getProcessingTimeMonitor().getInfo())
             .isEqualTo("Processing Time: Http -, Http Total 5000 ms, Https -, Https Total 5000 ms");
@@ -113,16 +124,18 @@ public class TestRequestMonitorBean {
   public void connectionsMonitor() {
     var testee = new RequestMonitorBean();
 
-    var series = testee.getConnectionsMonitor().getModel().getSeries();
-    assertThat(series).hasSize(2);
+    var dataSet = testee.getConnectionsMonitor().getModel().getData().getDataSet();
+    assertThat(dataSet).hasSize(2);
 
-    var http = series.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
+    var http = (LineChartDataSet)dataSet.get(0);
     assertThat(http.getLabel()).isEqualTo("Http");
-    assertThat(http.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(2.0));
+    assertThat(http.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(2.0));
 
-    var https = series.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
+    var https = (LineChartDataSet)dataSet.get(1);
     assertThat(https.getLabel()).isEqualTo("Https");
-    assertThat(https.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(1.0));
+    assertThat(https.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(1.0));
 
     assertThat(testee.getConnectionsMonitor().getInfo())
             .isEqualTo("Connections: Http 2, Http Max 8192, Https 1, Https Max 4096");

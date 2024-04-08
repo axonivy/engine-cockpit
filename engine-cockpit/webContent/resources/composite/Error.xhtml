@@ -7,9 +7,9 @@
   <cc:attribute name="styleClass"/>
 </cc:interface>
 <cc:implementation>
-  <h:panelGroup styleClass="p-d-flex p-jc-between #{cc.attrs.styleClass}">
+  <h:panelGroup styleClass="flex justify-content-between #{cc.attrs.styleClass}">
     <h:outputText id="message" value="#{cc.attrs.error.message}" />
-    <p:commandButton id="showDetails" rendered="#{cc.attrs.error.available}" icon="si si-navigation-menu-horizontal" styleClass="p-ml-1 p-col-fixed rounded-button" title="Show full error" 
+    <p:commandButton id="showDetails" rendered="#{cc.attrs.error.available}" icon="si si-navigation-menu-horizontal" styleClass="ml-1 col-fixed rounded-button" title="Show full error" 
         update="errorDialog" action="#{errorBean.setSelected(cc.attrs.error)}" oncomplete="PF('errorDialog').show();"/>
   </h:panelGroup>
 </cc:implementation>

@@ -22,10 +22,10 @@
     <ui:define name="content">
       <div class="card">
         <p:growl id="msgs" showDetail="true" />
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-buildings-1 card-title-icon"></i>
-          <h2 class="p-m-0">Branding</h2>
-          <p:commandButton styleClass="p-ml-auto" id="downloadAllResources" icon="si si-download-bottom"
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-buildings-1 card-title-icon"></i>
+          <h2 class="m-0">Branding</h2>
+          <p:commandButton styleClass="ml-auto" id="downloadAllResources" icon="si si-download-bottom"
             value="Download" onclick="PF('downloadModal').show();" type="button" />
         </div>
         
@@ -71,20 +71,20 @@
         <h:form id="cssColorPickerForm">
           <p:dialog header="Edit color #{brandingBean.selectedCssColor.color}" id="editCssColorModal"
             widgetVar="editCssColorModal" modal="true" responsive="true" closeOnEscape="true" width="60%">
-            <div class="p-grid p-align-center ui-fluid">
-              <div class="p-col-3">
+            <div class="grid align-items-center ui-fluid">
+              <div class="col-3">
                 <p:outputLabel for="defaultColor" value="Default Value: "/>
               </div>
-              <div class="p-col-9">
+              <div class="col-9">
                 <p:inputText id="defaultColor" value="#{brandingBean.selectedCssColor.defaultValue}" disabled="true" />
               </div>
-              <div class="p-col-3">
+              <div class="col-3">
                 <p:outputLabel for="cssColorPickerInput" value="Value: "/>
               </div>
-              <div class="p-col-1">
+              <div class="col-1">
                 <p:inputText id="cssColorPickerBtn" type="color" styleClass="color-picker-btn" />
               </div>
-              <div class="p-col-8">
+              <div class="col-8">
                 <p:inputText id="cssColorPickerInput" value="#{brandingBean.selectedCssColor.value}" />
               </div>
             </div>
@@ -147,7 +147,7 @@
                   <p:autoUpdate/>
                 </p:messages>
                 <p:commandButton id="chooseFileBtn" value="Choose" onclick="PF('uploadDnd').show();return false;"
-                  icon="si si-add" styleClass="p-mb-2"/>
+                  icon="si si-add" styleClass="mb-2"/>
                 <p:inputTextarea id="dropZone" styleClass="drop-zone" readonly="true"
                   style="width: 100%; line-height: 100px; text-align: center; margin-bottom: 20px;"
                   value="Choose or drop a file which ends with: #{brandingBean.allowedExtensionsString}" rows="1" />

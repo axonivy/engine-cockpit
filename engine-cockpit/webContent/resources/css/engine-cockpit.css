@@ -430,13 +430,13 @@ body .ui-datatable .ui-datatable-header {
   overflow: hidden;
 }
 @media screen and (min-width: 1024px) and (max-width: 1332px) {
-  .branding-resources .p-md-3 {
+  .branding-resources .md:col-3 {
     width: 25%;
   }
-  .branding-resources .p-md-4 {
+  .branding-resources .md:col-4 {
     width: 33.3333%;
   }
-  .branding-resources .p-md-5 {
+  .branding-resources .md:col-5 {
     width: 41.6667%;
   }
 }
@@ -470,7 +470,7 @@ body .ui-datatable .ui-datatable-header {
 
 /* Directory Browser */
 .directory-browser,
-.directory-browser .p-grid {
+.directory-browser .grid {
   height: 100%;
 }
 .directory-browser .ui-tree {

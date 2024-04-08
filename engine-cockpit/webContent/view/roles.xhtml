@@ -18,10 +18,10 @@
     <ui:define name="content">
       <div class="card">
         <p:growl id="msgs" />
-        <h:form id="form" styleClass="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-multiple-neutral-1 card-title-icon"></i>
-          <h2 class="p-m-0">Roles <i id="roleCount">(#{roleBean.roleCount})</i></h2>
-          <h:panelGroup id="syncPanel" styleClass="p-ml-auto">
+        <h:form id="form" styleClass="flex align-items-center mb-3">
+          <i class="pr-3 si si-multiple-neutral-1 card-title-icon"></i>
+          <h2 class="m-0">Roles <i id="roleCount">(#{roleBean.roleCount})</i></h2>
+          <h:panelGroup id="syncPanel" styleClass="ml-auto">
             <p:splitButton value="Synchronize"
               icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
               id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"
@@ -40,7 +40,7 @@
               <p:ajax event="expand" listener="#{roleBean.roles.nodeExpand}" />
               <p:ajax event="collapse" listener="#{roleBean.roles.nodeCollapse}" />
               <f:facet name="header">
-                <div class="p-d-flex ui-fluid">
+                <div class="flex ui-fluid">
                   <span class="ui-input-icon-left filter-container" style="width: 100%;">
                     <i class="pi pi-search"/>
                     <p:inputText id="globalFilter" placeholder="Search" value="#{roleBean.roles.filter}">
@@ -49,10 +49,10 @@
                   </span>
                   <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
                     actionListener="#{roleBean.roles.expandAllNodes}" update="tree" title="Expand all"
-                    styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
+                    styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
                   <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
                     actionListener="#{roleBean.roles.collapseAllNodes}" update="tree" title="Collapse all"
-                    styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+                    styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
                 </div>
               </f:facet>
               

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.primefaces.model.charts.line.LineChartDataSet;
 
 import com.axonivy.jmx.MAttribute;
 import com.axonivy.jmx.MBean;
@@ -44,16 +45,18 @@ class TestWebServiceMonitorBean {
     MBeans.registerMBeanFor(new Ws("ws1 (1)"));
     var testee = new WebServiceMonitor("test", "1");
 
-    var series = testee.getCallsMonitor().getModel().getSeries();
-    assertThat(series).hasSize(2);
+    var dataSet = testee.getCallsMonitor().getModel().getData().getDataSet();
+    assertThat(dataSet).hasSize(2);
 
-    var calls = series.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
+    var calls = (LineChartDataSet)dataSet.get(0);
     assertThat(calls.getLabel()).isEqualTo("Calls");
-    assertThat(calls.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(calls.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    var errors = series.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
+    var errors = (LineChartDataSet)dataSet.get(1);
     assertThat(errors.getLabel()).isEqualTo("Errors");
-    assertThat(errors.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(errors.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
     assertThat(testee.getCallsMonitor().getInfo()).isEqualTo("Calls: -, Total 3, Errors -, Errors Total 4");
   }
@@ -63,20 +66,23 @@ class TestWebServiceMonitorBean {
     MBeans.registerMBeanFor(new Ws("ws1 (1)"));
     var testee = new WebServiceMonitor("test", "1");
 
-    var series = testee.getExecutionTimeMonitor().getModel().getSeries();
-    assertThat(series).hasSize(3);
+    var dataSet = testee.getExecutionTimeMonitor().getModel().getData().getDataSet();
+    assertThat(dataSet).hasSize(3);
 
-    var min = series.get(0);
+    assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
+    var min = (LineChartDataSet)dataSet.get(0);
     assertThat(min.getLabel()).isEqualTo("Min");
-    assertThat(min.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(5.0D));
+    assertThat(min.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(5.0D));
 
-    var avg = series.get(1);
+    assertThat(dataSet.get(1)).isInstanceOf(LineChartDataSet.class);
+    var avg = (LineChartDataSet)dataSet.get(1);
     assertThat(avg.getLabel()).isEqualTo("Avg");
-    assertThat(avg.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(0.0D)); // delta
+    assertThat(avg.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(0.0D)); // delta
 
-    var max = series.get(2);
+    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
+    var max = (LineChartDataSet)dataSet.get(2);
     assertThat(max.getLabel()).isEqualTo("Max");
-    assertThat(max.getData()).hasSize(1).allSatisfy((t, v) -> assertThat(v).isEqualTo(7.0D));
+    assertThat(max.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isEqualTo(7.0D));
 
     assertThat(testee.getExecutionTimeMonitor().getInfo())
             .isEqualTo("Execution Time: Min 5 us, Avg -, Max 7 us, Total 6 us");

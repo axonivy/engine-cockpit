@@ -6,26 +6,26 @@
 <div class="card">
   <h:form id="appDetailSecurityForm">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-lock-1"></i>
-        <h6 class="p-m-0">Security System</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-lock-1"></i>
+        <h6 class="m-0">Security System</h6>
         <p:commandButton id="moveApplication" title="Change Security System" type="button" icon="si si-pencil" onclick="PF('moveApplicationModal').show();"
-          styleClass="p-col-fixed p-ml-auto rounded-button">
+          styleClass="col-fixed ml-auto rounded-button">
             <p:ajax listener="#{moveApplicationBean.setApp(applicationDetailBean.application)}" update="moveApplicationForm" />
         </p:commandButton>
         <p:commandButton id="synchronizeSecurity"
           rendered="#{applicationDetailBean.securitySystem.securitySystemProvider ne 'ivy Security System'}"
           title="Synchronize" type="button"
           icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedApp ? 'si-is-spinning' : ''}"
-          styleClass="p-ml-1 ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
+          styleClass="ml-1 ui-button-secondary rounded-button spin-icon" onclick="PF('logPoller').start()">
           <p:ajax listener="#{securityBean.triggerSyncForSelectedApp}" update="@this" />
         </p:commandButton>
         <p:poll widgetVar="logPoller" autoStart="#{securityBean.syncRunningForSelectedApp}" interval="5" update="@form" />
-        <p:linkButton id="showAdSyncLogBtn" icon="si si-common-file-text" styleClass="p-ml-1 ui-button-secondary rounded-button"
+        <p:linkButton id="showAdSyncLogBtn" icon="si si-common-file-text" styleClass="ml-1 ui-button-secondary rounded-button"
           href="#{securityBean.synchLogUri}" rendered="#{!securityBean.ivySecurityForSelectedApp}" />
       </div>
     </div>
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex" styleClass="grey-label-panel">
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex" styleClass="grey-label-panel">
       <label>Name</label>
       <h:outputLink value="#{applicationDetailBean.securitySystem.link}">
         <h:outputText value="#{applicationDetailBean.securitySystem.securitySystemName}"

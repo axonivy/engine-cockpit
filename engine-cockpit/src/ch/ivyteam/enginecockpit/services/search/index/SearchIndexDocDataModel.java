@@ -35,6 +35,10 @@ public class SearchIndexDocDataModel extends LazyDataModel<SearchIndexDoc> {
   }
 
   private String filter(Map<String, FilterMeta> filterBy) {
-    return filterBy.get("globalFilter").getFilterValue().toString();
+    FilterMeta filterMeta = filterBy.get("globalFilter");
+    if (filterMeta != null) {
+      return filterMeta.getFilterValue().toString();
+    }
+    return "";
   }
 }

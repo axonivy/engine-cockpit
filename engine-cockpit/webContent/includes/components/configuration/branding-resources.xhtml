@@ -4,34 +4,34 @@
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:form id="form">
-  <div class="p-grid branding-resources  ui-fluid">
-    <p:repeat id="images" var="res" value="#{brandingBean.resources}">
-      <div class="p-col-12 p-md-3 p-lg-1 p-col-align-center">
+  <div class="grid branding-resources  ui-fluid">
+    <ui:repeat id="images" var="res" value="#{brandingBean.resources}">
+      <div class="col-12 md:col-3 lg:col-1 align-self-center">
         <p:outputLabel value="#{res.label}" />
         <h:panelGroup id="img_#{res.label}" styleClass="label-help-icon">
           <i class="si si-question-circle"></i>
           <p:tooltip for="@parent" value="#{res.description}" position="right" />
         </h:panelGroup>
       </div>
-      <div class="p-col-12 p-md-5 p-lg-3 p-col-align-center">
+      <div class="col-12 md:col-5 lg:col-3 align-self-center">
         <p:graphicImage url="#{res.url}" alt="#{res.name}" styleClass="branding-img #{res.label}" />
       </div>
-      <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
+      <div class="col-12 md:col-4 lg:col-2 align-self-center">
         <p:splitButton id="uploadBtn" value="Upload #{res.label}" title="Upload #{res.label}" icon="si si-upload-bottom" styleClass="branding-btn"
-          actionListener="#{brandingBean.setCurrentRes(res.name)}" update="fileUpload" oncomplete="PF('fileUploadModal').show()">
+          actionListener="#{brandingBean.setCurrentRes(res.name)}" update="@this fileUpload" oncomplete="PF('fileUploadModal').show()" process="@this">
           <p:menuitem id="resetBtn" value="Reset" icon="si si-undo" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
-            actionListener="#{brandingBean.setCurrentRes(res.name)}" update="resetBrandingConfirmDialog" />
+            actionListener="#{brandingBean.setCurrentRes(res.name)}" update="resetBrandingConfirmDialog" process="@this"/>
         </p:splitButton>
       </div>
-    </p:repeat>
-    <div class="p-col-12 p-md-3 p-lg-1 p-col-align-center">
+    </ui:repeat>
+    <div class="col-12 md:col-3 lg:col-1 align-self-center">
       <p:outputLabel value="custom.css" />
     </div>
-    <div class="p-col-12 p-md-5 p-lg-3 p-col-align-center"></div>
-    <div class="p-col-12 p-md-4 p-lg-2 p-col-align-center">
-      <p:splitButton id="editCustomCssBtn" value="Edit" icon="si si-common-file-text-edit" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();">
+    <div class="col-12 md:col-5 lg:col-3 align-self-center"></div>
+    <div class="col-12 md:col-4 lg:col-2 align-self-center">
+      <p:splitButton id="editCustomCssBtn" value="Edit" icon="si si-common-file-text-edit" update="editCustomCssModal" oncomplete="PF('editCustomCssModal').show();" process="@this">
         <p:menuitem id="resetCustomCssBtn" value="Reset" icon="si si-undo" styleClass="ui-button-secondary" oncomplete="PF('resetBrandingConfirmDialog').show()"
-          actionListener="#{brandingBean.setCurrentRes('custom.css')}" update="resetBrandingConfirmDialog" />
+          actionListener="#{brandingBean.setCurrentRes('custom.css')}" update="resetBrandingConfirmDialog" process="@this"/>
       </p:splitButton>
     </div>
   </div>

@@ -18,9 +18,9 @@
     <ui:define name="content">
       <div class="card">
         <p:growl id="msgs" />
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-network-arrow card-title-icon"></i>
-          <h2 class="p-m-0">Web Services</h2>
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-network-arrow card-title-icon"></i>
+          <h2 class="m-0">Web Services</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{webserviceBean.reloadWebservices}" id="tabs">
           <h:form id="form">

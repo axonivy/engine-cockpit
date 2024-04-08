@@ -73,7 +73,7 @@ class WebTestDownload {
   @Test
   void allBrandingResourcesOfApp() {
     Navigation.toBranding();
-    Tab.APP.switchToDefault();
+    Tab.APP.switchToTab("test");
     var appName = Tab.APP.getSelectedTab();
     $(By.id("downloadAllResources")).shouldBe(visible).click();
     $(By.id("downloadDialog:downloadModal")).shouldBe(visible)

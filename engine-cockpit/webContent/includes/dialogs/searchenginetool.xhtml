@@ -6,9 +6,9 @@
 <p:dialog header="Run Search Engine Query" id="searchEngineQueryToolModal" width="50%"
   widgetVar="searchEngineQueryToolModal" modal="true" responsive="true" closeOnEscape="true">
   <h:form id="searchEngineQueryToolForm"  styleClass="querytool custom-dialog-form" >
-    <div class="ui-fluid p-d-flex p-ai-center">
+    <div class="ui-fluid flex align-items-center">
       <h:outputText styleClass="querytool-url" value="GET: #{searchEngineBean.queryUrl}/" />
-      <span class="p-ml-2 querytool-query">
+      <span class="ml-2 querytool-query">
         <p:autoComplete id="query" dropdown="true" value="#{searchEngineBean.query}"
           completeMethod="#{searchEngineBean.queryProposals}" />
       </span>

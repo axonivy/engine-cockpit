@@ -11,13 +11,13 @@
 <div class="card">
   <h:form id="eventFiring">
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-navigation-right-circle-1"></i>
-        <h6 class="p-m-0">Executions</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-navigation-right-circle-1"></i>
+        <h6 class="m-0">Executions</h6>
       </div>
     </div>
     
-    <p:panelGrid columns="6" columnClasses="p-col-12 p-md-12 p-lg-1, p-col-12- p-md-12 p-lg-3, p-col-12- p-md-1 p-lg-1, p-col-12- p-md-1 p-lg-3, p-col-12- p-md-12 p-lg-1, p-col-12- p-md-12 p-lg-3" layout="flex"
+    <p:panelGrid columns="6" columnClasses="col-12 md:col-12 lg:col-1, col-12- md:col-12 lg:col-3, col-12- md:col-1 lg:col-1, col-12- md:col-1 lg:col-3, col-12- md:col-12 lg:col-1, col-12- md:col-12 lg:col-3" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="executions" value="Executions" />
       <h:outputText id="executions" value="#{cc.attrs.event.executions}"/>
@@ -42,7 +42,7 @@
         <h:outputText value="#{firing.reason}"/>
       </p:column>
       <p:column headerText="Error" sortBy="#{firing.error}" filterBy="#{firing.error}">
-        <er:Error id="error" styleClass="p-ai-center" error="#{firing.error}"/>
+        <er:Error id="error" styleClass="align-items-center" error="#{firing.error}"/>
       </p:column>
     </p:dataTable>
   </h:form>

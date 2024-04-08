@@ -9,7 +9,7 @@
 
     <p:staticMessage severity="warn" detail="This is a critical and dangerous operation, at least for non-dynamic roles. The role hierarchy is defined in your Axon Ivy Project and your running process may depend on this hierachy." />
   
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+    <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="updateRoleParentNameInput" value="Name" />
       <h:panelGroup styleClass="md-inputfield">          
         <p:selectOneMenu id="updateRoleParentNameInput" value="#{roleDetailBean.newParentRoleName}"  filter="true" filterMatchMode="startsWith">

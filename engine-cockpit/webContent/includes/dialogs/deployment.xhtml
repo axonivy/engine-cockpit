@@ -4,7 +4,7 @@
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 
 <cc:FileUpload title="Deploy to App '#{appName}'" apiUrl="#{url}" acceptFiles=".iar, .zip" id="deploymentModal">
-  <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="p-col-4, p-col-8" layout="flex"
+  <p:panelGrid id="deployOptionsPanel" columns="2" columnClasses="col-4, col-8" layout="flex"
     styleClass="grey-label-panel" style="min-width: 400px; display: none;">
     <p:outputLabel value="Deploy Test Users" for="deployTestUsers" />
     <p:selectOneMenu value="#{deployOptionsBean.deployTestUsers}" widgetVar="deployTestUsers" id="deployTestUsers">

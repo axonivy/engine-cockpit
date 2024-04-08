@@ -16,13 +16,13 @@
     <p:dataTable var="config" value="#{cc.attrs.bean.configs}" widgetVar="configTable" globalFilter="#{cc.attrs.bean.filter}"
       filteredValue="#{cc.attrs.bean.filteredConfigs}" id="configTable" rowStyleClass="#{config.default ? 'default-value' : ''}" styleClass="ui-fluid">
       <f:facet name="header">
-        <div class="p-d-flex">
+        <div class="flex">
           <span class="ui-input-icon-left filter-container" style="width: 100%;">
             <i class="pi pi-search"/>
             <p:inputText id="globalFilter" onkeyup="PF('configTable').filter()" placeholder="Search" value="#{cc.attrs.bean.filter}" />
           </span>
           <p:commandButton id="filterBtn" title="Filter: #{cc.attrs.bean.contentFilterText}" type="button" icon="si si-filter-1"
-            styleClass="ui-button-secondary rounded-button p-ml-1 p-col-fixed" onclick="PF('filterPanel').show();"
+            styleClass="ui-button-secondary rounded-button ml-1 col-fixed" onclick="PF('filterPanel').show();"
             rendered="#{cc.attrs.showContentFilter}" />
         </div>
       </f:facet>
@@ -43,11 +43,11 @@
       </p:column>
       <p:column styleClass="table-btn-2">
         <p:commandButton id="editConfigBtn" icon="si si-pencil" title="Edit"
-          styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button" process="@this"
+          styleClass="col-fixed ml-1 ui-button-secondary rounded-button" process="@this"
           actionListener="#{cc.attrs.bean.setActiveConfig(config.key)}" update=":#{cc.clientId}:editConfigurationModal"
           oncomplete="PF('editConfigurationModal').show();" />
         <p:commandButton title="More" id="tasksButton" disabled="#{config.default}" type="button"
-          icon="si si-navigation-menu" styleClass="p-col-fixed p-ml-1 ui-button-secondary ui-button-outlined rounded-button" />
+          icon="si si-navigation-menu" styleClass="col-fixed ml-1 ui-button-secondary ui-button-outlined rounded-button" />
         <p:menu overlay="true" trigger="tasksButton" my="right top" at="right bottom" id="activityMenu">
           <p:menuitem value="View File" icon="si si-common-file-search"
             oncomplete="PF('showConfigurationFileModal').show()"
@@ -101,7 +101,7 @@
       <p:staticMessage severity="info" summary="If you change this property, you have to restart you engine"
         rendered="#{cc.attrs.bean.activeConfig.restartRequired}" />
 
-      <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
+      <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
         styleClass="grey-label-panel ui-fluid">
         <h:outputLabel for="editConfigurationKey" value="Key" />
         <h:outputText id="editConfigurationKey" value="#{cc.attrs.bean.activeConfig.key}" />

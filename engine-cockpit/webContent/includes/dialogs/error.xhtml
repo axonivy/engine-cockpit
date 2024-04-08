@@ -5,7 +5,7 @@
 <p:dialog style="min-width: 300px; max-width: 80%;" header="Error #{errorBean.selected.message}" id="errorDialog"
     widgetVar="errorDialog" responsive="true" closeOnEscape="true">
   <h:form id="error" styleClass="custom-dialog-form">
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9" styleClass="grey-label-panel ui-fluid">
+    <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9" styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="message" value="Message" />
       <h:outputText id="message" value="#{errorBean.selected.message}"/>
       <h:panelGroup>

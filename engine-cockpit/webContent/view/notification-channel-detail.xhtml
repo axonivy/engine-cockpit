@@ -28,23 +28,23 @@
         <p:growl id="msgs" for="msgs" showDetail="true">
           <p:autoUpdate />
         </p:growl>
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <h:outputText value="${notificationChannelDetailBean.channel.displayIcon}" class="p-pr-3 si notification-channel-title-icon" escape="false" /> <!-- contains no user input, contains icon -->
-          <h2 class="p-m-0">#{notificationChannelDetailBean.channel.displayName}</h2>
+        <div class="flex align-items-center mb-3">
+          <h:outputText value="${notificationChannelDetailBean.channel.displayIcon}" class="pr-3 si notification-channel-title-icon" escape="false" /> <!-- contains no user input, contains icon -->
+          <h2 class="m-0">#{notificationChannelDetailBean.channel.displayName}</h2>
           <p:commandButton id="open" actionListener="#{notificationChannelDetailBean.open}" title="Unlock channel (clear error state)"
-            icon="si si-charger" styleClass="p-col-fixed p-ml-auto rounded-button" update="form" 
+            icon="si si-charger" styleClass="col-fixed ml-auto rounded-button" update="form" 
             rendered="#{notificationChannelDetailBean.channel.push}" disabled="#{not notificationChannelDetailBean.channel.locked}"/>
           <p:commandButton id="resetPush" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
-            icon="si si-undo" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" update="form"
+            icon="si si-undo" styleClass="col-fixed ml-1 ui-button-danger rounded-button" update="form"
             rendered="#{notificationChannelDetailBean.channel.push}"/>
           <p:commandButton id="resetNonPush" actionListener="#{notificationChannelDetailBean.onload}" title="Reset changes"
-            icon="si si-undo" styleClass="p-col-fixed p-ml-auto ui-button-danger rounded-button" update="form"
+            icon="si si-undo" styleClass="col-fixed ml-auto ui-button-danger rounded-button" update="form"
             rendered="#{not notificationChannelDetailBean.channel.push}"/>
           <p:commandButton id="save" actionListener="#{notificationChannelDetailBean.save}" title="Save changes"
-            icon="si si-floppy-disk" styleClass="p-col-fixed p-ml-1 ui-button-success rounded-button"/>
+            icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button"/>
         </div>
         <h:form id="form">
-          <p:panelGrid columns="2" columnClasses="p-col-12 p-md-2 p-lg-2, p-col-12 p-md-10 p-lg-10"
+          <p:panelGrid columns="2" columnClasses="col-12 md:col-2 lg:col-2, col-12 md:col-10 lg:col-10"
             layout="flex" styleClass="grey-label-panel" style="margin: 15px">
             <p:outputLabel for="enabled" value="Enabled" />
             <p:selectBooleanCheckbox id="enabled" value="#{notificationChannelDetailBean.channel.enabled}">

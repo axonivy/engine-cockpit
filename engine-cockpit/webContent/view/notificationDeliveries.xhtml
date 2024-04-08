@@ -25,20 +25,20 @@
     <ui:define name="content">
       <div class="card">
 
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
-          <h2 class="p-m-0">Notification #{notificationBean.notification.id}</h2>
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-advertising-megaphone-2 card-title-icon"></i>
+          <h2 class="m-0">Notification #{notificationBean.notification.id}</h2>
           <p:commandButton id="reusher" actionListener="#{notificationBean.notification.reusher}" title="Reevalute deliveries"
-            icon="si si-multiple-actions-add" styleClass="p-col-fixed p-ml-auto rounded-button" update="tableForm"/>
+            icon="si si-multiple-actions-add" styleClass="col-fixed ml-auto rounded-button" update="tableForm"/>
           <p:commandButton id="retry" actionListener="#{notificationBean.notification.retry}" title="Retry to deliver"
-            icon="si si-send-email" styleClass="p-col-fixed p-ml-1 rounded-button" update="tableForm"/>
+            icon="si si-send-email" styleClass="col-fixed ml-1 rounded-button" update="tableForm"/>
         </div>
 
         <h:form id="tableForm" onkeypress="if (event.keyCode == 13) return false;">
           <p:dataTable id="deliveryTable" paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" var="delivery"
             widgetVar="deliveryTable" value="#{notificationBean.dataModel}" lazy="true">
             <f:facet name="header">
-              <div class="p-d-flex">
+              <div class="flex">
                 <span class="ui-input-icon-left filter-container ui-fluid" style="width: 100%;">
                   <i class="pi pi-search"/>
                   <p:inputText id="globalFilter" onkeyup="PF('deliveryTable').filter()" placeholder="Search" value="#{notificationBean.dataModel.filter}" />
@@ -97,7 +97,7 @@
                 </h:panelGroup>
               </p:outputPanel>
               <p:tooltip id="errorDetails" for="error">
-                <h5 class="p-d-flex p-ai-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>Error Information</h5>
+                <h5 class="flex align-items-center"><i class="si si-computer-chip-search"></i><h:outputText value="&#160;"/>Error Information</h5>
                 <p:panelGrid layout="grid" columns="2" columnClasses="ui-g-3, ui-g-9">
                   <p:outputLabel value="Failed deliver attemps so far:"/>
                   <h:outputText value="#{delivery.numberOfErrors}" />

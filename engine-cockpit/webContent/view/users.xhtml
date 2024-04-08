@@ -18,10 +18,10 @@
     <ui:define name="content">
       <div class="card">
         <p:growl id="msgs" showDetail="true" />
-        <h:form id="form" class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-single-neutral-actions card-title-icon"></i>
-          <h2 class="p-m-0">Users <i id="userCount">(#{userBean.userCount})</i></h2>
-          <h:panelGroup id="syncPanel" styleClass="p-ml-auto">
+        <h:form id="form" class="flex align-items-center mb-3">
+          <i class="pr-3 si si-single-neutral-actions card-title-icon"></i>
+          <h2 class="m-0">Users <i id="userCount">(#{userBean.userCount})</i></h2>
+          <h:panelGroup id="syncPanel" styleClass="ml-auto">
             <p:splitButton value="Synchronize"
               icon="si si-button-refresh-arrows #{securityBean.syncRunningForSelectedSecuritySystem ? 'si-is-spinning' : ''} spin-icon"
               id="syncMoreBtn" rendered="#{!securityBean.ivySecurityForSelectedSecuritySystem}" immediate="true"

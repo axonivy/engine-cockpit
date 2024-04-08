@@ -9,31 +9,31 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-information-circle"></i>
-        <h6 class="p-m-0">Security System</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-information-circle"></i>
+        <h6 class="m-0">Security System</h6>
         
        <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
-              title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="p-col-fixed p-ml-auto rounded-button">
+              title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="col-fixed ml-auto rounded-button">
                <f:param name="source" value="${securityConfigBean.name}"/>
        </p:linkButton>
         
         <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
-              title="Delete this security system" icon="si si-bin-1" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
+              title="Delete this security system" icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
         <p:confirmDialog id="deleteSecuritySystemConfirmDialog"
           message="#{securityConfigBean.notToDeleteReason}"
           header="Delete Security System" severity="alert" widgetVar="deleteSecuritySystemConfirmDialog">
           <p:staticMessage severity="warn" rendered="#{securityConfigBean.deletable}" detail="Note that all users and roles of this security system will be deleted as well." />
           <p:commandButton value="Cancel" onclick="PF('deleteSecuritySystemConfirmDialog').hide();" type="button"
             styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-          <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="Delete" ajax="false" immediate="true"
+          <p:commandButton id="deleteSecuritySystemConfirmYesBtn" value="Delete" immediate="true"
             action="#{securityConfigBean.deleteConfiguration}" icon="si si-bin-1" styleClass="modal-input-button"
             disabled="#{!securityConfigBean.deletable}" />
         </p:confirmDialog>
       </div>
     </div>
     
-    <p:panelGrid columns="2" columnClasses="p-col-12 p-md-4 p-lg-4, p-col-12 p-md-8 p-lg-8" layout="flex"
+    <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
       <h:outputText id="name" value="#{securityConfigBean.name}" />

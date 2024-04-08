@@ -5,14 +5,14 @@
 
 <div class="card">
   <div class="card-header">
-    <div class="card-title p-d-flex p-ai-center">
-      <i class="p-pr-3 si si-network-share"></i>
-      <h6 class="p-m-0">Rest Services</h6>
+    <div class="card-title flex align-items-center">
+      <i class="pr-3 si si-network-share"></i>
+      <h6 class="m-0">Rest Services</h6>
       <p:linkButton id="browseRestAPI" title="Browse available REST Backend Services" icon="si si-network-browser" type="button"
         href="#{advisorBean.apiBrowserUrl}/index.html?urls.primaryName=#{managerBean.selectedApplicationName}"
-        target="_blank" rel="noopener noreferrer" styleClass="p-ml-auto rounded-button" />
+        target="_blank" rel="noopener noreferrer" styleClass="ml-auto rounded-button" />
       <p:linkButton id="configRestBackend" title="Configure Rest Backend" icon="si si-cog" type="button"
-        styleClass="p-ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=REST.Servlet" />
+        styleClass="ml-1 ui-button-secondary rounded-button" href="systemconfig.xhtml?filter=REST.Servlet" />
     </div>
   </div>
   <iframe id="apiBrowser"

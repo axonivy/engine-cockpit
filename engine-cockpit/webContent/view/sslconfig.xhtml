@@ -27,19 +27,19 @@
 
     <ui:define name="content">
       <div class="layout-dashboard">
-        <div class="p-grid">
-          <div class="p-col-12 p-md-12 p-xl-6">
+        <div class="grid">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include
               src="../includes/components/configuration/ssl-truststore.xhtml" />
           </div>
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <cc:SslTable id="sslTrustTable" bean="#{trustStoreBean}" title="Trust Store Certificates" />
           </div>
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <ui:include
               src="../includes/components/configuration/ssl-keystore.xhtml" />
           </div>
-          <div class="p-col-12 p-md-12 p-xl-6">
+          <div class="col-12 md:col-12 xl:col-6">
             <cc:SslTable id="sslKeyTable" bean="#{keyStoreBean}" title="Key Store Certificates" />
           </div>
         </div>

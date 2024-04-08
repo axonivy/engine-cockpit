@@ -9,12 +9,12 @@
       <p:autoUpdate />
     </p:growl>
     <div class="card-header">
-      <div class="card-title p-d-flex p-ai-center">
-        <i class="p-pr-3 si si-cog"></i>
-        <h6 class="p-m-0">Properties</h6>
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-cog"></i>
+        <h6 class="m-0">Properties</h6>
         <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
           actionListener="#{databaseDetailBean.setProperty(null)}" update=":propertyForm" title="Add" icon="si si-add"
-          styleClass="p-col-fixed p-ml-auto rounded-button" />
+          styleClass="col-fixed ml-auto rounded-button" />
       </div>
     </div>
     
@@ -27,10 +27,10 @@
       </p:column>
       <p:column styleClass="table-btn-2">
         <p:commandButton id="editPropertyBtn" actionListener="#{databaseDetailBean.setProperty(property.key)}"
-          icon="si si-pencil" title="Edit" update="propertyModal" styleClass="p-col-fixed p-ml-1 ui-button-secondary rounded-button"
+          icon="si si-pencil" title="Edit" update="propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
           oncomplete="PF('propertyModal').show();" process="@this" />
         <p:commandButton id="deletePropertyBtn" actionListener="#{databaseDetailBean.removeProperty(property.key)}"
-          update="@form" icon="si si-bin-1" title="Delete" styleClass="p-col-fixed p-ml-1 ui-button-danger rounded-button" />
+          update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
       </p:column>
     </p:dataTable>
   </h:form>
@@ -39,7 +39,7 @@
 <p:dialog header="Property" id="propertyModal" widgetVar="propertyModal" modal="true"
   responsive="true" closeOnEscape="true">
   <h:form id="propertyForm" styleClass="custom-dialog-form">
-    <p:panelGrid columns="2" layout="flex" columnClasses="p-col-3, p-col-9"
+    <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
       styleClass="grey-label-panel ui-fluid">
       <p:outputLabel for="nameInput" value="Name" />
       <h:panelGroup styleClass="md-inputfield" rendered="#{empty databaseDetailBean.property.name}">

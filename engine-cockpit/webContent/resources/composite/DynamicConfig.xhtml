@@ -16,16 +16,16 @@
         <p:autoUpdate />
       </p:growl>
 
-      <p:repeat var="group" id="group" value="#{cc.attrs.dynamicConfig.groups}">
+      <ui:repeat var="group" id="group" value="#{cc.attrs.dynamicConfig.groups}">
         <div class="card ui-fluid">
           <div class="card-header">
-            <div class="card-title p-d-flex p-ai-center">
-              <i class="p-pr-3 si si-information-circle"></i>
-              <h6 class="p-m-0">#{group.name}</h6>
+            <div class="card-title flex align-items-center">
+              <i class="pr-3 si si-information-circle"></i>
+              <h6 class="m-0">#{group.name}</h6>
 
               <p:commandButton title="Save" icon="si si-floppy-disk"
                 id="save"
-                styleClass="p-col-fixed p-ml-auto p-ml-1 ui-button-success rounded-button"
+                styleClass="col-fixed ml-auto ml-1 ui-button-success rounded-button"
                 rendered="#{!group.keyValue}"
                 actionListener="#{cc.attrs.dynamicConfig.save(group)}" />
 
@@ -36,11 +36,11 @@
                 process="@this"
                 update="identityProvider:dynamicConfigKeyValueForm"
                 title="Add" icon="si si-add"
-                styleClass="p-col-fixed p-ml-auto rounded-button" />
+                styleClass="col-fixed ml-auto rounded-button" />
 
             </div>
           </div>
-          <p:repeat var="property" id="property"
+          <ui:repeat var="property" id="property"
             value="#{group.properties}">
             <ui:fragment>
 
@@ -184,7 +184,7 @@
                       update="identityProvider:dynamicConfigKeyValueForm" />
                     <p:commandButton id="deleteKeyValueBtn"
                       type="button" icon="si si-bin-1" title="Delete"
-                      styleClass="p-ml-1 ui-button-danger rounded-button">
+                      styleClass="ml-1 ui-button-danger rounded-button">
                       <p:ajax
                         listener="#{property.getKeyValueProperty().removeKeyValue(keyValue.key)}"
                         update="@form" />
@@ -205,9 +205,9 @@
               </p:panelGrid>
 
             </ui:fragment>
-          </p:repeat>
+          </ui:repeat>
         </div>
-      </p:repeat>
+      </ui:repeat>
     </h:form>
 
   <p:dialog header="Connection Test - Url: #{property.value}"
@@ -229,7 +229,7 @@
     <h:form id="dynamicConfigKeyValueForm"
       styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex"
-        columnClasses="p-col-3, p-col-9" styleClass=" ui-fluid">
+        columnClasses="col-3, col-9" styleClass=" ui-fluid">
         <p:outputLabel for="attributeNameInput"
           value="#{dynamicConfigListDialogBean.property.keyValueKeyName}" />
         <h:panelGroup styleClass="md-inputfield">

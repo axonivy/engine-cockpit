@@ -32,20 +32,20 @@ public class WebTestMemory {
   void gcContent() {
     $("#gc")
             .shouldHave(text("Garbage Collection"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void heapMemoryContent() {
     $("#heapMemory")
             .shouldHave(text("Heap Memory"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 
   @Test
   void nonHeapMemoryContent() {
     $("#nonHeapMemory")
             .shouldHave(text("Non Heap Memory"))
-            .find(".jqplot-grid-canvas").shouldBe(visible);
+            .find(".ui-chart").shouldBe(visible);
   }
 }

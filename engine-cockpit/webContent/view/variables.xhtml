@@ -25,9 +25,9 @@
         <p:growl id="msgs">
           <p:autoUpdate />
         </p:growl>
-        <div class="p-d-flex p-ai-center p-mb-3">
-          <i class="p-pr-3 si si-archive-folder card-title-icon"></i>
-          <h2 class="p-m-0">Variables</h2>
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-archive-folder card-title-icon"></i>
+          <h2 class="m-0">Variables</h2>
         </div>
         <cc:ApplicationTabs tabChange="#{variableBean.reloadVariables}" id="apps">
           <cc:Configuration bean="#{variableBean}" dialogTitle="variable" id="config" showContentFilter="false" />
