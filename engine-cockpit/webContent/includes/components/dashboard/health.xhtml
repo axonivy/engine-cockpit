@@ -7,10 +7,10 @@
   <h:form id="healthForm">
     <div class="card-header">
       <div class="card-title flex align-items-center">
-          <i class="pr-3 si si-alarm-bell"></i>
+          <i class="pr-3 si si-road-sign-warning"></i>
           <h6 class="m-0" style="margin: 0; padding-left: 0">Health Check</h6>
           <p:linkButton id="healthDetail" title="Health Details" type="button" href="monitor-health.xhtml"
-             icon="si si-alarm-bell" styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
+             icon="si si-road-sign-warning" styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
           <p:commandButton id="runHealthCheck" title="Run Health Check" action="#{healthBean.checkNow()}"
               update="healthForm" icon="si si-controls-play" styleClass="col-fixed ml-1 ui-button-secondary rounded-button" />
       </div>

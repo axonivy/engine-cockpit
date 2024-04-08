@@ -24,7 +24,7 @@
     <ui:define name="content">
       <div class="card">
         <div class="flex align-items-center mb-3">
-          <i class="pr-3 si si-alarm-bell card-title-icon"></i>
+          <i class="pr-3 si si-road-sign-warning card-title-icon"></i>
           <h2 class="m-0">Health Check</h2>
           <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="Refresh Health Check"
               icon="si si-button-refresh-arrows" styleClass="col-fixed ml-auto rounded-button"/>
@@ -39,8 +39,8 @@
             
             <p:column width="5%" headerText="Severity" sortBy="#{msg.severity}">
               <h:panelGroup class="#{msg.severityClass}">
+                <i class="#{msg.severityIcon} table-icon"></i>
                 <h:outputLabel value="#{msg.severity}"/>
-                <i class="#{msg.severityIcon}"></i>
               </h:panelGroup>
             </p:column>
             
@@ -64,8 +64,8 @@
               
               <p:column width="7%" headerText="Severity" sortBy="#{check.severity}" sortOrder="desc">
                 <h:panelGroup class="#{check.severityClass}">
+                  <i class="#{check.severityIcon} table-icon"></i>
                   <h:outputLabel value="#{check.severity}"/>
-                  <i class="#{check.severityIcon}"></i>
                 </h:panelGroup>
               </p:column>
               
