@@ -165,6 +165,20 @@
                   <skipDeploy>${maven.test.skip}</skipDeploy>
                 </configuration>
               </execution>
+              
+              <execution>
+                <id>deploy-test-pmv-applicaton</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>deploy-to-engine</goal>
+                </goals>
+                <configuration>
+                  <deployFile>./test-apps/pmv-dependencies-app/target/engine-cockpit-test-app-pmvs-${project.version}.zip</deployFile>
+                  <deployToEngineApplication>test-pmvs</deployToEngineApplication>
+                  <deployEngineDirectory>${engine.dir}</deployEngineDirectory>
+                  <skipDeploy>${maven.test.skip}</skipDeploy>
+                </configuration>
+              </execution>
             </executions>
           </plugin>
           <plugin>

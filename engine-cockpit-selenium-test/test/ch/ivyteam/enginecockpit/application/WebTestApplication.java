@@ -81,11 +81,11 @@ class WebTestApplication {
   @Test
   void expandCollapseTree() {
     Table table = new Table(By.className("ui-treetable"), true);
-    table.firstColumnShouldBe(sizeLessThanOrEqual(3));
+    table.firstColumnShouldBe(sizeLessThanOrEqual(4));
     expandAppTree();
-    table.firstColumnShouldBe(sizeGreaterThan(3));
+    table.firstColumnShouldBe(sizeGreaterThan(4));
     $("#form\\:tree\\:collapseAll").shouldBe(visible).click();
-    table.firstColumnShouldBe(sizeLessThanOrEqual(3));
+    table.firstColumnShouldBe(sizeLessThanOrEqual(4));
   }
 
   @Test

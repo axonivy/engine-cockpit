@@ -16,6 +16,7 @@
 
     <module>engine-cockpit-test-data</module>
     <module>engine-cockpit-selenium-test/test-apps/test-ad</module>
+    <module>engine-cockpit-selenium-test/test-apps/pmv-dependencies-app</module>
 
     <module>engine-cockpit-test</module>
     <module>engine-cockpit-selenium-test</module>
