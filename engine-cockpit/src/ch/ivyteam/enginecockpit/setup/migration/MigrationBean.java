@@ -1,49 +1,44 @@
 package ch.ivyteam.enginecockpit.setup.migration;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.ivy.migration.MigrationEngines;
-import ch.ivyteam.ivy.migration.MigrationPath;
-import ch.ivyteam.ivy.migration.MigrationScenario;
-import ch.ivyteam.ivy.migration.restricted.MigrateToLocalEngine;
-import ch.ivyteam.ivy.migration.restricted.MigrationTaskLoader;
+import ch.ivyteam.enginecockpit.commons.Message;
+import ch.ivyteam.ivy.migration.EngineMigrator;
+import ch.ivyteam.ivy.migration.EngineMigrator.Result;
 
 @ManagedBean
 @ViewScoped
-@SuppressWarnings("restriction")
 public class MigrationBean {
+
   private String pathToOldEngine;
-  private MigrationEngines engines;
-  private MigrationPath migrationPath;
-  private MigrationScenario scenario;
+  private EngineMigrator migrator;
   private List<Task> tasks;
   private MigrationState running;
   private CompletableFuture<String> migrationRunner;
   private MigrationRunner client;
+  private Result result;
 
   public void checkOldEngineLocation() {
     try {
-      var oldEngine = Path.of(pathToOldEngine);
-      engines = MigrateToLocalEngine.fromOrigin(oldEngine);
-      migrationPath = new MigrationPath(engines.getOrigin().getVersion(), engines.getTarget().getVersion());
-      scenario = MigrationScenario.create(migrationPath, () -> MigrationTaskLoader.allTasks());
-      reloadTasks();
+      migrator = new EngineMigrator(pathToOldEngine);
+      result = migrator.check();
+      tasks = result.tasks().stream().map(Task::new).collect(Collectors.toList());
+      client = new MigrationRunner(tasks);
       running = MigrationState.START;
     } catch (Exception ex) {
-      FacesContext.getCurrentInstance().addMessage("migrateGrowl",
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while validate location",
-                      ex.getMessage()));
+      Message.error()
+              .clientId("migrateGrowl")
+              .summary("Error while validate location")
+              .exception(ex)
+              .show();
     }
   }
 
@@ -51,8 +46,7 @@ public class MigrationBean {
     running = MigrationState.RUNNING;
     migrationRunner = CompletableFuture.supplyAsync(() -> {
       try {
-        // TODO: add cancel scenario possibility
-        scenario.run(engines, client);
+        migrator.run(client);
         return "";
       } catch (Exception ex) {
         return ex.getMessage();
@@ -60,9 +54,8 @@ public class MigrationBean {
     });
   }
 
-  private void reloadTasks() {
-    tasks = scenario.getTasks().stream().map(Task::new).collect(Collectors.toList());
-    client = new MigrationRunner(tasks);
+  public Result getResult() {
+    return result;
   }
 
   public String getPathToOldEngine() {
@@ -73,10 +66,6 @@ public class MigrationBean {
     this.pathToOldEngine = pathToOldEngine;
   }
 
-  public String getMigrationPath() {
-    return migrationPath != null ? migrationPath.toString() : "";
-  }
-
   public List<Task> getTasks() {
     return tasks;
   }
@@ -85,9 +74,11 @@ public class MigrationBean {
     if (running == MigrationState.RUNNING && migrationRunner != null && migrationRunner.isDone()) {
       running = MigrationState.FINISHED;
       if (StringUtils.isNotBlank(migrationRunner.get())) {
-        FacesContext.getCurrentInstance().addMessage("migrationMessage",
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while migration",
-                        migrationRunner.get()));
+        Message.error()
+                .clientId("migrationMessage")
+                .summary("Error while migration")
+                .detail(migrationRunner.get())
+                .show();
       }
     }
     return running;

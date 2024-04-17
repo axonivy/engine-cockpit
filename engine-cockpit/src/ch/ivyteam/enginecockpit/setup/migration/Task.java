@@ -3,28 +3,25 @@ package ch.ivyteam.enginecockpit.setup.migration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.ivy.migration.MigrationTask;
 import ch.ivyteam.ivy.migration.input.Quest;
 
 @SuppressWarnings("restriction")
 public class Task {
 
-  private String name;
-  private String description;
+  private final String name;
+  private final String description;
   private String state;
   private String stateIcon;
-  private MigrationTask task;
-  private List<Question> questions;
+  private final MigrationTask task;
+  private final List<Question> questions;
 
   public Task(MigrationTask task) {
     this.task = task;
-    name = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(task.getClass().getSimpleName()),
-            StringUtils.SPACE);
-    description = task.getDescription();
-    stateIcon = "navigation-menu-horizontal";
-    questions = new ArrayList<>();
+    this.name = task.name();
+    this.description = task.description();
+    this.stateIcon = "navigation-menu-horizontal";
+    this.questions = new ArrayList<>();
   }
 
   public void run() {
