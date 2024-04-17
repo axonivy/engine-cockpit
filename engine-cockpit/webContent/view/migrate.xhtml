@@ -53,7 +53,7 @@
               validateClient="true" update="migration, @form" />
           </p:panelGrid>
 
-          <h:panelGroup id="migration-checks" rendered="#{migrationBean.result != null}">
+          <h:panelGroup id="migrationChecks" rendered="#{migrationBean.result != null}">
             <ui:repeat var="check"
               value="#{migrationBean.result.checks()}">
               <p:panel>

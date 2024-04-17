@@ -45,7 +45,7 @@ class WebTestMigration {
     $(By.id("locationForm:oldEngineInput")).shouldHave(exactValue("")).sendKeys("/tmp/notValidPath");
     $(By.id("locationForm:checkLocation")).shouldBe(visible).click();
     $(By.id("locationForm:oldEngineInputMessage")).shouldBe(empty);
-    $(By.id("migration-checks")).shouldHave(text("Location does not exist: /tmp/notvalid"));
+    $(By.id("locationForm:migrationChecks")).shouldHave(text("Location does not exist: /tmp/notvalid"));
   }
 
 // Need a test infrastructure with and old system database
