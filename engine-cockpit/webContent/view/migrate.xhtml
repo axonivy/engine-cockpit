@@ -52,12 +52,31 @@
               actionListener="#{migrationBean.checkOldEngineLocation}"
               validateClient="true" update="migration, @form" />
           </p:panelGrid>
+
+          <h:panelGroup rendered="#{migrationBean.result != null}">
+            <ui:repeat var="check"
+              value="#{migrationBean.result.checks()}">
+              <p:panel>
+                <i
+                  style="position:relative;top:2px;"
+                  class="#{check.success() ? 'si si-check-circle-1 state-active' : 'si si-delete-1 state-inactive'}"></i>
+                <h:outputText value=" #{check.message()}" />
+                <h:panelGroup rendered="#{!check.success()}">
+                  <br />
+                  <br />
+                  <code>
+                    <h:outputText value="#{check.error()}" />
+                  </code>
+                </h:panelGroup>
+              </p:panel>
+            </ui:repeat>
+          </h:panelGroup>
         </h:form>
 
-        <h:panelGroup layout="block" id="migration">
-          <h:form id="form" rendered="#{not empty migrationBean.migrationPath}">
+        <h:panelGroup layout="block" id="migration" style="margin-top:20px;">
+          <h:form id="form" rendered="#{migrationBean.result != null and migrationBean.result.success()}">
             <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-9 lg:col-9, col-12 md:col-3 lg:col-3">
-              <h3>Migrating: #{migrationBean.migrationPath}</h3>
+              <h3>Migration Tasks</h3>
               
               <h:panelGroup layout="block">
                 <p:commandButton id="startMigration" icon="si si-controls-play" value="Start"

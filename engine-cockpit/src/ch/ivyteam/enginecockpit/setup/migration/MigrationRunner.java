@@ -104,11 +104,14 @@ public class MigrationRunner implements MigrationClient {
   }
 
   private Task findDTOByTask(MigrationTask task) {
-    return tasks.stream().filter(t -> t.getTask().equals(task)).findFirst().get();
+    return tasks.stream()
+            .filter(t -> t.getTask().equals(task)).findFirst()
+            .get();
   }
 
   private Task findRunningDTO() {
-    return tasks.stream().filter(t -> StringUtils.contains(t.getStateIcon(), "si-is-spinning")).findFirst()
+    return tasks.stream()
+            .filter(t -> StringUtils.contains(t.getStateIcon(), "si-is-spinning")).findFirst()
             .get();
   }
 
