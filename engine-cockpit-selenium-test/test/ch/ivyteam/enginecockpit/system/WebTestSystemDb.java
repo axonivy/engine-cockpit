@@ -98,12 +98,6 @@ public class WebTestSystemDb {
   }
 
   @Test
-  void testConvertOldDb() {
-    assertSystemDbConversionDialog();
-    assertSystemDbConversion();
-  }
-
-  @Test
   void testDefaultPortSwitch() {
     assertDefaultPortSwitch();
   }
@@ -155,9 +149,9 @@ public class WebTestSystemDb {
   }
 
   public static void assertSystemDbCreation() {
-    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").click();
-    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $("#systemDb\\:createDatabaseForm\\:confirmConvertButton > .ui-icon")
+    $(By.id("systemDb:createDatabaseForm:confirmCreateButton")).click();
+    $(By.id("systemDb:createDatabaseForm:confirmCreateButton")).shouldNotBe(enabled);
+    $("#systemDb\\:createDatabaseForm\\:confirmCreateButton > .ui-icon")
             .shouldHave(cssClass("si-is-spinning"));
     $("#systemDb\\:createDatabaseForm\\:closeCreationButton")
             .shouldBe(and("wait until db created", appear, enabled), Duration.ofSeconds(20));
@@ -171,29 +165,7 @@ public class WebTestSystemDb {
   public static void assertSystemDbConversionDialog() {
     insertDbConnection("MySQL", "mySQL", SYS_DB, OLD_DB_NAME, SYS_DB_USER, SYS_DB_PW);
     $(CONNECTION_BUTTON).click();
-    $(CONNECTION_PANEL).shouldBe(
-            text("Database too old"), text("Convert system database."));
-    $("#systemDb\\:systemDbForm\\:migrateDatabaseButton").shouldBe(enabled).click();
-    $("#systemDb\\:convertDatabaseDialog").shouldBe(visible);
-  }
-
-  private static void assertSystemDbConversion() {
-    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").click();
-    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton").shouldNotBe(enabled);
-    $("#systemDb\\:convertDatabaseForm\\:confirmConvertButton > .ui-icon")
-            .shouldHave(cssClass("si-is-spinning"));
-    $("#systemDb\\:convertDatabaseForm\\:convertionWarning").shouldBe(visible);
-    $("#systemDb\\:convertDatabaseForm\\:closeConversionButton")
-            .shouldBe(and("wait until db converted", appear, enabled), Duration.ofSeconds(20));
-    $("#systemDb\\:convertDatabaseForm\\:convertionError").shouldNot(exist);
-    $("#systemDb\\:convertDatabaseForm\\:convertionWarning").shouldNot(exist);
-    $("#systemDb\\:convertDatabaseForm\\:convertionInfo").shouldBe(text("The database was migrated successfully"));
-    $("#systemDb\\:convertDatabaseForm\\:closeConversionButton").click();
-    $("#systemDb\\:convertDatabaseDialog").shouldNotBe(visible);
-    $(CONNECTION_PANEL).shouldBe(text("Connected"));
-
-    Selenide.refresh();
-    $(CONNECTION_PANEL).shouldBe(text("Connected"));
+    $(CONNECTION_PANEL).shouldBe(text("Database too old"), text("Convert system database."));
   }
 
   public static void assertConnectionResults() {
