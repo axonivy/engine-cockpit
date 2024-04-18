@@ -77,7 +77,11 @@
             <p:panelGrid columns="1" layout="flex" columnClasses="col-12">
               <br />
               <h:outputText
-                value="This migration is an in-place migration. Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine. In this case, especially in container environments, there is the possibility that configuration files such as the 'ivy.yaml' are provided read-only by the container environment. This means that the Axon Ivy Engine cannot access these files in a writable form during the migration. If this is the case, it can be activated here that write operations are performed on the configuration files in a temporary directory. After the migration, these configuration files must be added to the Axon Ivy Engine manually." />
+                value="This migration is an in-place migration.
+                Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine.
+                The configuration files in container environments, such as the 'ivy.yaml', may are provided in a read-only mode.
+                As the migration needs to operate with write access onto these configuration files, you can define a temporary directory to perform the migration changes.
+                After the migration, you must manually add these files to the Axon Ivy Engine." />
 
              <p:selectBooleanCheckbox value="#{migrationBean.writeToTmp}" itemLabel="Write configuration files to temporary directory"/>              
             </p:panelGrid>
