@@ -26,7 +26,6 @@ import ch.ivyteam.enginecockpit.system.model.SystemDbConnectionProperty;
 import ch.ivyteam.enginecockpit.system.model.SystemDbCreationParameter;
 import ch.ivyteam.ivy.configuration.restricted.IConfiguration;
 import ch.ivyteam.ivy.persistence.db.connection.ConnectionTester;
-import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseConverter;
 import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseCreator;
 import ch.ivyteam.ivy.persistence.db.init.SystemDatabaseSetup;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
@@ -46,7 +45,6 @@ public class SystemDatabaseBean extends StepStatus {
   private Properties additionalProps;
   private String propKey;
   private String propValue;
-  private SystemDatabaseConverter converter;
   private SystemDatabaseCreator creator;
 
   private final ConnectionTestWrapper connectionTest;
@@ -224,34 +222,6 @@ public class SystemDatabaseBean extends StepStatus {
   public String getDbCreatorError() {
     if (creator != null && creator.getError() != null) {
       return creator.getError().getMessage();
-    }
-    return "";
-  }
-
-  public void createConverter() {
-    converter = new SystemDatabaseSetup(createConfiguration())
-            .createConverter();
-  }
-
-  public void convertDatabase() {
-    saveConfiguration();
-    converter.executeAsync();
-  }
-
-  public boolean isDbConversionRunning() {
-    return converter != null && converter.isRunning();
-  }
-
-  public boolean isDbConversionFinished() {
-    return converter != null &&
-            !converter.isRunning() &&
-            StringUtils.equals(converter.getProgressText(), "Finished") &&
-            StringUtils.isBlank(getDbConversionError());
-  }
-
-  public String getDbConversionError() {
-    if (converter != null && converter.getError() != null) {
-      return converter.getError().getMessage();
     }
     return "";
   }

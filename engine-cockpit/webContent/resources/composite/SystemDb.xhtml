@@ -37,10 +37,6 @@
               styleClass="mr-1 wizard-top-button ui-button-secondary" actionListener="#{systemDatabaseBean.initCreator()}"
               update="systemDb:createDatabaseDialog" oncomplete="PF('createDatabaseDialog').show();"
               disabled="#{!systemDatabaseBean.connectionInfo.mustCreate}" />
-            <p:commandButton value="Migrate Database" id="migrateDatabaseButton" icon="si si-synchronize-arrows"
-              styleClass="wizard-top-button ui-button-secondary" actionListener="#{systemDatabaseBean.createConverter()}"
-              update="systemDb:convertDatabaseDialog" onsuccess="PF('convertDatabaseDialog').show();"
-              disabled="#{!systemDatabaseBean.connectionInfo.mustConvert}" />
           </div>
         </p:outputPanel>
       </div>
@@ -180,7 +176,7 @@
         <h:panelGroup rendered="#{!systemDatabaseBean.dbCreatorFinished}">
           <p:commandButton value="Cancel" rendered="#{!systemDatabaseBean.dbCreatorRunning}" styleClass="ui-button-secondary ui-button-flat modal-input-button"
             oncomplete="PF('createDatabaseDialog').hide();" />
-          <p:commandButton id="confirmConvertButton" value="Save and create"
+          <p:commandButton id="confirmCreateButton" value="Save and create"
             disabled="#{systemDatabaseBean.dbCreatorRunning}"
             icon="si si-#{systemDatabaseBean.dbCreatorRunning ? 'button-refresh-arrows si-is-spinning' : 'database-settings'}"
             actionListener="#{systemDatabaseBean.createDatabase}" style="width: 170px;" update="@form"
@@ -189,48 +185,6 @@
         <h:panelGroup rendered="#{systemDatabaseBean.dbCreatorFinished}">
           <p:commandButton id="closeCreationButton" value="Connect" icon="si si-check-1"
             actionListener="#{systemDatabaseBean.testConnection}" onclick="PF('createDatabaseDialog').hide();"
-            update="#{cc.attrs.updateFields}" styleClass="modal-input-button" />
-        </h:panelGroup>
-      </div>
-    </h:form>
-  </p:dialog>
-
-  <p:dialog id="convertDatabaseDialog" widgetVar="convertDatabaseDialog" header="Do you really want to convert?"
-    dynamic="true" modal="true" closable="false">
-    <h:form id="convertDatabaseForm" styleClass="custom-dialog-form">
-      <div>
-        <p:poll autoStart="#{systemDatabaseBean.dbConversionRunning}" id="convertingOutputPoll"
-          widgetVar="convertingOutputPoll" update="@form" interval="2" />
-        <div id="migrationWarnMessage" class="ui-message ui-staticmessage ui-message-warn ui-widget ui-corner-all">
-          <span class="ui-message-warn-icon"></span>
-          <span class="ui-message-warn-summary">Warning</span>
-          <span class="ui-message-warn-detail">Database Migration may result in inconsistent Engine state. Use the
-            <p:link href="migrate.xhtml" rel="noopener noreferrer" value="Migration Wizard" /> instead for proper migration.
-          </span>
-        </div>
-        <p:staticMessage id="convertionError" severity="error" summary="Error" detail="#{systemDatabaseBean.dbConversionError}" 
-          rendered="#{not empty systemDatabaseBean.dbConversionError}" />
-        <p:staticMessage id="convertionWarning" severity="warn" summary="Warning" detail="Do not leave this page, while the migration is running!" 
-          rendered="#{systemDatabaseBean.dbConversionRunning}" />
-        <p:staticMessage id="convertionInfo" severity="info" summary="Success" detail="The database was migrated successfully. Please check the connection!" 
-          rendered="#{systemDatabaseBean.dbConversionFinished}" />
-      </div>
-
-      <div class="custom-dialog-footer">
-        <h:panelGroup rendered="#{!systemDatabaseBean.dbConversionFinished}">
-          <p:commandButton value="Cancel" rendered="#{!systemDatabaseBean.dbConversionRunning}"
-            styleClass="ui-button-secondary ui-button-flat modal-input-button" oncomplete="PF('convertDatabaseDialog').hide();" />
-          <p:commandButton id="confirmConvertButton" value="Save and convert"
-            disabled="#{systemDatabaseBean.dbConversionRunning}"
-            icon="si si-#{systemDatabaseBean.dbConversionRunning ? 'button-refresh-arrows si-is-spinning' : 'synchronize-arrows'}"
-            actionListener="#{systemDatabaseBean.convertDatabase}" style="width: 170px;" update="@form"
-            styleClass="modal-input-button"
-            onclick="window.onbeforeunload = function () {return 'A database conversion is running!';}" />
-        </h:panelGroup>
-        <h:panelGroup rendered="#{systemDatabaseBean.dbConversionFinished}">
-          <p:commandButton id="closeConversionButton" value="Connect" icon="si si-check-1"
-            actionListener="#{systemDatabaseBean.testConnection}"
-            onclick="PF('convertDatabaseDialog').hide(); window.onbeforeunload = undefined;"
             update="#{cc.attrs.updateFields}" styleClass="modal-input-button" />
         </h:panelGroup>
       </div>
