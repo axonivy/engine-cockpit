@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.RegExUtils;
 
-import ch.ivyteam.ivy.migration.input.Quest;
+import ch.ivyteam.ivy.engine.migration.input.Quest;
 
-@SuppressWarnings("restriction")
 public class Question {
 
   private final String title;

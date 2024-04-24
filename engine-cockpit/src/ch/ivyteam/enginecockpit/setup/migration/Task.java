@@ -3,10 +3,9 @@ package ch.ivyteam.enginecockpit.setup.migration;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.ivyteam.ivy.migration.MigrationTask;
-import ch.ivyteam.ivy.migration.input.Quest;
+import ch.ivyteam.ivy.engine.migration.MigrationTask;
+import ch.ivyteam.ivy.engine.migration.input.Quest;
 
-@SuppressWarnings("restriction")
 public class Task {
 
   private final String name;
@@ -15,6 +14,7 @@ public class Task {
   private String stateIcon;
   private final MigrationTask task;
   private final List<Question> questions;
+  private String script;
 
   public Task(MigrationTask task) {
     this.task = task;
@@ -22,11 +22,16 @@ public class Task {
     this.description = task.description();
     this.stateIcon = "navigation-menu-horizontal";
     this.questions = new ArrayList<>();
+    this.script = task.script();
   }
 
   public void run() {
     state = "running";
     stateIcon = "button-refresh-arrows si-is-spinning";
+  }
+
+  public String getScript() {
+    return script;
   }
 
   public void done() {

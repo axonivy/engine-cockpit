@@ -12,8 +12,7 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Message;
-import ch.ivyteam.ivy.migration.EngineMigrator;
-import ch.ivyteam.ivy.migration.EngineMigrator.Result;
+import ch.ivyteam.ivy.engine.migration.EngineMigrator;
 
 @ManagedBean
 @ViewScoped
@@ -25,7 +24,7 @@ public class MigrationBean {
   private MigrationState running;
   private CompletableFuture<String> migrationRunner;
   private MigrationRunner client;
-  private Result result;
+  private EngineMigrator.Result result;
   private boolean writeToTmp = false;
 
   public void checkOldEngineLocation() {
@@ -62,7 +61,7 @@ public class MigrationBean {
     this.writeToTmp = writeToTmp;
   }
 
-  private static List<Task> loadTasks(Result result) {
+  private static List<Task> loadTasks(EngineMigrator.Result result) {
     if (result.success()) {
       return result.tasks().stream().map(Task::new).collect(Collectors.toList());
     }
@@ -81,7 +80,7 @@ public class MigrationBean {
     });
   }
 
-  public Result getResult() {
+  public EngineMigrator.Result getResult() {
     return result;
   }
 
