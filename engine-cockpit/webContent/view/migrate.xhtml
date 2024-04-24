@@ -83,7 +83,9 @@
                 As the migration needs to operate with write access onto these configuration files, you can define a temporary directory to perform the migration changes.
                 After the migration, you must manually add these files to the Axon Ivy Engine." />
 
-             <p:selectBooleanCheckbox value="#{migrationBean.writeToTmp}" itemLabel="Write configuration files to temporary directory"/>              
+             <p:selectBooleanCheckbox value="#{migrationBean.writeToTmp}" itemLabel="Write configuration files to temporary directory">
+                <p:ajax event="change" update="migrationInPlace" /> 
+             </p:selectBooleanCheckbox>
             </p:panelGrid>
           </h:panelGroup>
         </h:form>
