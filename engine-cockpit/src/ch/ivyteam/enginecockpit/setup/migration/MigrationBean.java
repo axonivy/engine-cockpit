@@ -9,11 +9,10 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
+import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -23,7 +22,7 @@ public class MigrationBean {
   private EngineMigrator migrator;
   private List<Task> tasks;
   private MigrationState running;
-  private CompletableFuture<String> migrationRunner;
+  private CompletableFuture<Exception> migrationRunner;
   private MigrationRunner client;
   private EngineMigrator.Result result;
   private boolean writeToTmp = false;
@@ -74,9 +73,9 @@ public class MigrationBean {
     migrationRunner = CompletableFuture.supplyAsync(() -> {
       try {
         migrator.run(client, writeToTmp);
-        return "";
+        return null;
       } catch (Exception ex) {
-        return ex.getMessage();
+        return ex;
       }
     });
   }
@@ -97,6 +96,10 @@ public class MigrationBean {
     return tasks;
   }
 
+  public String getConfigurationTmpDir() {
+    return migrator.tmpConfigDir().toString();
+  }
+
   public boolean isNotLastCheck(Check check) {
     var checks = result.checks();
     return !checks.get(checks.size() - 1).equals(check);
@@ -105,11 +108,18 @@ public class MigrationBean {
   public MigrationState getState() throws InterruptedException, ExecutionException {
     if (running == MigrationState.RUNNING && migrationRunner != null && migrationRunner.isDone()) {
       running = MigrationState.FINISHED;
-      if (StringUtils.isNotBlank(migrationRunner.get())) {
+      var exception = migrationRunner.get();
+      if (exception == null) {
+        Message.info()
+                .clientId("migrationMessage")
+                .summary("The Axon Ivy Engine migration was successful. Click on Finish.")
+                .show();
+      } else {
+        Ivy.log().error("Migration failed", exception);
         Message.error()
                 .clientId("migrationMessage")
                 .summary("Error while migration")
-                .detail(migrationRunner.get())
+                .exception(exception)
                 .show();
       }
     }

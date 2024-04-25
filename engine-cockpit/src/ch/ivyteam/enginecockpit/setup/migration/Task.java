@@ -15,9 +15,11 @@ public class Task {
   private final MigrationTask task;
   private final List<Question> questions;
   private String script;
+  private int version;
 
   public Task(MigrationTask task) {
     this.task = task;
+    this.version = task.version();
     this.name = task.name();
     this.description = task.description();
     this.stateIcon = "navigation-menu-horizontal";
@@ -36,12 +38,12 @@ public class Task {
 
   public void done() {
     state = "done";
-    stateIcon = "check-circle-1";
+    stateIcon = "check-circle-1 state-active";
   }
 
   public void fail() {
     state = "fail";
-    stateIcon = "remove-circle";
+    stateIcon = "remove-circle state-inactive";
   }
 
   public String getName() {
@@ -58,6 +60,10 @@ public class Task {
 
   public String getStateIcon() {
     return stateIcon;
+  }
+
+  int getVersion() {
+    return version;
   }
 
   MigrationTask getTask() {

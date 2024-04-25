@@ -39,8 +39,8 @@ public class MigrationRunner implements MigrationClient {
   @Override
   public <T> T choose(Quest<T> quest) {
     var dto = findRunningDTO();
-    if (quest instanceof FileChoice) {
-      var autoSelect = ((FileChoice) quest).autoSelect(log());
+    if (quest instanceof FileChoice fileChoice) {
+      var autoSelect = fileChoice.autoSelect(log());
       if (autoSelect.isPresent()) {
         return (T) autoSelect.get();
       }
@@ -76,16 +76,17 @@ public class MigrationRunner implements MigrationClient {
 
   private final <T> void show(Task dto, Quest<T> quest) {
     var diff = "";
-    if (quest instanceof FileChoice) {
-      diff = ((FileChoice) quest).getDiff().flatMap(content -> getChange(content)).orElse("");
+    if (quest instanceof FileChoice fileChoice) {
+      diff = fileChoice.getDiff()
+              .flatMap(content -> getChange(content))
+              .orElse("");
     }
     dto.question(quest, diff);
   }
 
   @Override
   public void event(MigrationEvent event) {
-    if (event instanceof MigrationTaskEvent) {
-      var taskEvent = (MigrationTaskEvent) event;
+    if (event instanceof MigrationTaskEvent taskEvent) {
       var dto = findDTOByTask(taskEvent.getTask());
       switch (taskEvent.getState()) {
         case DONE:
@@ -105,7 +106,9 @@ public class MigrationRunner implements MigrationClient {
 
   private Task findDTOByTask(MigrationTask task) {
     return tasks.stream()
-            .filter(t -> t.getTask().equals(task)).findFirst()
+            .filter(t -> t.getTask().version() == task.version())
+            .filter(t -> t.getTask().name().equals(task.name()))
+            .findAny()
             .get();
   }
 
