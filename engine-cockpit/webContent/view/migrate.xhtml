@@ -118,6 +118,13 @@
                   <i class="mr-0 si si-#{task.stateIcon} link-icon"></i> #{task.name}
                 </h4>
                 <p class="ml-5">#{task.description}</p>
+
+                <p:accordionPanel rendered="#{not empty task.script}">
+                  <p:tab title="Script">
+                    <pre><code><h:outputText value="#{task.script}" /></code></pre>
+                  </p:tab>
+                </p:accordionPanel>
+
                 <h:panelGroup rendered="#{task.state == 'running'}" layout="block">
                   <ui:repeat var="question" value="#{task.questions}" id="questions" varStatus="questionsRepeat">
                     <h:panelGroup styleClass="question">

@@ -6,15 +6,15 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.ivy.migration.MigrationClient;
-import ch.ivyteam.ivy.migration.MigrationLog;
-import ch.ivyteam.ivy.migration.MigrationLog.MigrationLog4j;
-import ch.ivyteam.ivy.migration.MigrationTask;
-import ch.ivyteam.ivy.migration.MigrationTaskEvent;
-import ch.ivyteam.ivy.migration.input.Option;
-import ch.ivyteam.ivy.migration.input.Quest;
-import ch.ivyteam.ivy.migration.restricted.FileChoice;
-import ch.ivyteam.ivy.migration.restricted.diff.TextContentComparison;
+import ch.ivyteam.ivy.engine.migration.MigrationClient;
+import ch.ivyteam.ivy.engine.migration.MigrationLog;
+import ch.ivyteam.ivy.engine.migration.MigrationLog.MigrationLog4j;
+import ch.ivyteam.ivy.engine.migration.MigrationTask;
+import ch.ivyteam.ivy.engine.migration.MigrationTaskEvent;
+import ch.ivyteam.ivy.engine.migration.diff.FileChoice;
+import ch.ivyteam.ivy.engine.migration.diff.TextContentComparison;
+import ch.ivyteam.ivy.engine.migration.input.Option;
+import ch.ivyteam.ivy.engine.migration.input.Quest;
 
 public class MigrationRunner implements MigrationClient {
 
