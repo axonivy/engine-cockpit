@@ -35,41 +35,44 @@
             styleClass="ml-auto ui-button-outlined rounded-button" icon="si si-question-circle" />
         </div>
         <h:form id="locationForm">
-          <p:panelGrid columns="3" layout="flex"
-            columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-6 lg:col-6, col-12 md:col-3 lg:col-3">
-            <p:outputLabel for="oldEngineInput"
-              value="Location of old Engine" />
-            <h:panelGroup styleClass="md-inputfield">
-              <p:inputText id="oldEngineInput"
-                requiredMessage="Value is required"
-                value="#{migrationBean.pathToOldEngine}" required="true" />
-              <p:message for="oldEngineInput" id="oldEngineInputMessage" />
-            </h:panelGroup>
+          <p:panel style="margin-bottom:10px;">
+            <p:panelGrid columns="3" layout="flex"
+              columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-6 lg:col-6, col-12 md:col-3 lg:col-3">
+              <p:outputLabel for="oldEngineInput" value="Location of old Engine" />
+              <h:panelGroup styleClass="md-inputfield">
+                <p:inputText id="oldEngineInput"
+                  requiredMessage="Value is required"
+                  value="#{migrationBean.pathToOldEngine}" required="true" />
+                <p:message for="oldEngineInput" id="oldEngineInputMessage" />
+              </h:panelGroup>
+  
+              <p:commandButton icon="si si-heavy-equipment-hook"
+                value="Load Location" id="checkLocation"
+                actionListener="#{migrationBean.checkOldEngineLocation}"
+                validateClient="true" update="migration, @form" />
+            </p:panelGrid>
+             <f:facet name="header">
+              Location
+            </f:facet>
+          </p:panel>
 
-            <p:commandButton icon="si si-heavy-equipment-hook"
-              value="Load Location" id="checkLocation"
-              actionListener="#{migrationBean.checkOldEngineLocation}"
-              validateClient="true" update="migration, @form" />
-          </p:panelGrid>
-
-          <h:panelGroup id="migrationChecks"
-            rendered="#{migrationBean.result != null}">
-            <ui:repeat var="check"
-              value="#{migrationBean.result.checks()}">
-              <p:panel>
-                <i style="position: relative; top: 2px;"
-                  class="#{check.success() ? 'si si-check-circle-1 state-active' : 'si si-delete-1 state-inactive'}"></i>
-                <h:outputText value=" #{check.message()}" />
-                <h:panelGroup rendered="#{!check.success()}">
-                  <br />
-                  <br />
-                  <code>
-                    <h:outputText value="#{check.error()}" />
-                  </code>
-                </h:panelGroup>
-              </p:panel>
-            </ui:repeat>
-          </h:panelGroup>
+          <p:panel id="migrationChecks" style="margin-bottom:10px;" rendered="#{migrationBean.result != null}">
+              <ui:repeat var="check"
+                value="#{migrationBean.result.checks()}">
+                <div>
+                  <i style="position: relative; top: 2px;"
+                    class="#{check.success() ? 'si si-check-circle-1 state-active' : 'si si-delete-1 state-inactive'}"></i>
+                  <h:outputText value=" #{check.message()}" />
+                  <h:panelGroup rendered="#{not empty check.error()}">
+                    <pre style="white-space: pre-wrap;word-break: break-all;"><code><h:outputText value="#{check.error()}" /></code></pre>
+                  </h:panelGroup>
+                </div>
+                <p:divider rendered="#{migrationBean.isNotLastCheck(check)}" />
+              </ui:repeat>
+            <f:facet name="header">
+              Checks
+            </f:facet>
+          </p:panel>
 
           <h:panelGroup id="migrationInPlace"
             rendered="#{migrationBean.inPlace}">
@@ -114,16 +117,22 @@
             <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" closable="true" />
             <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="tasksRepeat">
               <div class="migration-step">
-                <h4 class="mb-0 mt-3">
-                  <i class="mr-0 si si-#{task.stateIcon} link-icon"></i> #{task.name}
-                </h4>
-                <p class="ml-5">#{task.description}</p>
 
-                <p:accordionPanel rendered="#{not empty task.script}">
-                  <p:tab title="Script">
-                    <pre><code><h:outputText value="#{task.script}" /></code></pre>
-                  </p:tab>
-                </p:accordionPanel>
+                <p:panel style="margin-bottom:10px;">
+                  <p class="m-0">
+                    <h:panelGroup
+                      rendered="#{not empty task.description}">
+                      <h:outputText value="#{task.description}" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not empty task.script}">
+                      <pre style="white-space: pre-wrap;"><code><h:outputText value="#{task.script}" /></code></pre>
+                    </h:panelGroup>
+                  </p>
+
+                  <f:facet name="header">
+                    <i class="mr-0 si si-#{task.stateIcon} link-icon"></i> #{task.name}
+                  </f:facet>
+                </p:panel>
 
                 <h:panelGroup rendered="#{task.state == 'running'}" layout="block">
                   <ui:repeat var="question" value="#{task.questions}" id="questions" varStatus="questionsRepeat">

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator;
+import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
 
 @ManagedBean
 @ViewScoped
@@ -94,6 +95,11 @@ public class MigrationBean {
 
   public List<Task> getTasks() {
     return tasks;
+  }
+
+  public boolean isNotLastCheck(Check check) {
+    var checks = result.checks();
+    return !checks.get(checks.size() - 1).equals(check);
   }
 
   public MigrationState getState() throws InterruptedException, ExecutionException {
