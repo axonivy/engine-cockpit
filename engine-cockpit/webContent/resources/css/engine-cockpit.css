@@ -111,8 +111,14 @@ body .user-avatar > img {
 .ui-dialog.ui-confirm-dialog .ui-dialog-content > .ui-icon {
   display: none;
 }
+body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
+  align-items: flex-start;
+}
 .ui-dialog.ui-confirm-dialog .ui-dialog-content > .ui-confirm-dialog-message {
   margin-left: 0;
+}
+.ui-dialog.ui-confirm-dialog .ui-dialog-buttonpane .ui-message {
+  text-align: left;
 }
 .code-block pre,
 .config-edit-description pre {
