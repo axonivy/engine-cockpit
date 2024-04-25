@@ -113,7 +113,6 @@ public class MigrationBean {
         Message.info()
                 .clientId("migrationMessage")
                 .summary("The Axon Ivy Engine migration was successful. Click on Finish.")
-                .exception(exception)
                 .show();
       } else {
         Ivy.log().error("Migration failed", exception);

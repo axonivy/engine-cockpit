@@ -129,7 +129,10 @@
               </h:panelGroup>
             </p:panelGrid>
 
-            <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" />
+            <p:messages id="migrationMessage" for="migrationMessage"
+              showDetail="true" skipDetailIfEqualsSummary="true">
+              <p:autoUpdate />
+            </p:messages>
 
             <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="tasksRepeat">
               <div class="migration-step">
