@@ -36,61 +36,75 @@
         </div>
         <h:form id="locationForm">
           <p:panel style="margin-bottom:10px;">
-            <p:panelGrid columns="3" layout="flex" contentStyleClass="align-items-center"
+            <p:panelGrid columns="3" layout="flex"
+              contentStyleClass="align-items-center"
               columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-6 lg:col-6, col-12 md:col-3 lg:col-3">
-              <p:outputLabel for="oldEngineInput" value="Location of old Engine" />
+              <p:outputLabel for="oldEngineInput"
+                value="Location of old Engine" />
               <h:panelGroup styleClass="md-inputfield">
                 <p:inputText id="oldEngineInput"
                   requiredMessage="Value is required"
-                  value="#{migrationBean.pathToOldEngine}" required="true" />
-                <p:message for="oldEngineInput" id="oldEngineInputMessage" />
+                  value="#{migrationBean.pathToOldEngine}"
+                  required="true" />
+                <p:message for="oldEngineInput"
+                  id="oldEngineInputMessage" />
               </h:panelGroup>
-  
+
               <p:commandButton icon="si si-heavy-equipment-hook"
                 value="Load Location" id="checkLocation"
                 actionListener="#{migrationBean.checkOldEngineLocation}"
                 validateClient="true" update="migration, @form" />
             </p:panelGrid>
-             <f:facet name="header">
+            <f:facet name="header">
               Location
             </f:facet>
           </p:panel>
 
-          <p:panel id="migrationChecks" style="margin-bottom:10px;" rendered="#{migrationBean.result != null}">
-              <ui:repeat var="check"
-                value="#{migrationBean.result.checks()}">
-                <div>
-                  <i style="position: relative; top: 2px;"
-                    class="#{check.success() ? 'si si-check-circle-1 state-active' : 'si si-delete-1 state-inactive'}"></i>
-                  <h:outputText value=" #{check.message()}" />
-                  <h:panelGroup rendered="#{not empty check.error()}">
-                    <pre style="white-space: pre-wrap;word-break: break-all;"><code><h:outputText value="#{check.error()}" /></code></pre>
-                  </h:panelGroup>
-                </div>
-                <p:divider rendered="#{migrationBean.isNotLastCheck(check)}" />
-              </ui:repeat>
+          <p:panel id="migrationChecks" style="margin-bottom:10px;"
+            rendered="#{migrationBean.result != null}">
+            <ui:repeat var="check"
+              value="#{migrationBean.result.checks()}">
+              <div>
+                <i style="position: relative; top: 2px;"
+                  class="#{check.success() ? 'si si-check-circle-1 state-active' : 'si si-delete-1 state-inactive'}"></i>
+                <h:outputText value=" #{check.message()}" />
+                <h:panelGroup rendered="#{not empty check.error()}">
+                  <pre style="white-space: pre-wrap; word-break: break-all;"><code><h:outputText value="#{check.error()}" /></code></pre>
+                </h:panelGroup>
+              </div>
+              <p:divider
+                rendered="#{migrationBean.isNotLastCheck(check)}" />
+            </ui:repeat>
             <f:facet name="header">
               Checks
             </f:facet>
           </p:panel>
 
-          <h:panelGroup id="migrationInPlace"
+          <p:panel id="migrationInPlace"
             rendered="#{migrationBean.inPlace}">
-            
-            <p:panelGrid columns="1" layout="flex" columnClasses="col-12">
-              <br />
-              <h:outputText
-                value="This migration is an in-place migration.
+            <h:panelGroup id="migrationInPlaceInfo" layout="block">
+                This migration is an in place migration.
                 Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine.
-                The configuration files in container environments, such as the 'ivy.yaml', may are provided in a read-only mode.
-                As the migration needs to operate with write access onto these configuration files, you can define a temporary directory to perform the migration changes.
-                After the migration, you must manually add these files to the Axon Ivy Engine." />
+                The configuration files in container environments, such as the <code>ivy.yaml</code>, may are provided in a read-only mode.
+                As the migration needs to operate with write access onto these configuration files, you can define whether a temporary directory should be used to perform these changes.
+                After the migration, you must manually add these files to the Axon Ivy Engine.
+            </h:panelGroup>
 
-             <p:selectBooleanCheckbox value="#{migrationBean.writeToTmp}" itemLabel="Write configuration files to temporary directory">
-                <p:ajax event="change" update="migrationInPlace" /> 
-             </p:selectBooleanCheckbox>
-            </p:panelGrid>
-          </h:panelGroup>
+            <h:panelGroup id="migrationInWriteToTmp" layout="block" style="margin-top:10px;">
+              <p:selectBooleanCheckbox id="migrationTmpDir" value="#{migrationBean.writeToTmp}" itemLabel="Write configuration files to temporary directory">
+                <p:ajax event="change" update="migrationInPlace" />
+              </p:selectBooleanCheckbox>
+            </h:panelGroup>
+
+            <h:panelGroup id="migrationInWriteToTmpDir" layout="block" style="margin-top:10px;">
+              <h:outputText value="Temporary Directory: " />
+              <code>#{migrationBean.configurationTmpDir}</code>
+            </h:panelGroup>
+
+            <f:facet name="header">
+              In-Place Migration
+            </f:facet>
+          </p:panel>
         </h:form>
 
         <h:panelGroup layout="block" id="migration" style="margin-top:20px;">
@@ -114,11 +128,13 @@
                   update="migration" widgetVar="migrationPoller" />
               </h:panelGroup>
             </p:panelGrid>
-            <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" closable="true" />
+
+            <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" />
+
             <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="tasksRepeat">
               <div class="migration-step">
 
-                <p:panel style="margin-bottom:10px;">
+                <p:panel style="margin-bottom:10px;" toggleable="true" collapsed="true">
                   <p class="m-0">
                     <h:panelGroup
                       rendered="#{not empty task.description}">
