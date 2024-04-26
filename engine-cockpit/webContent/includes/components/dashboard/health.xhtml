@@ -18,15 +18,15 @@
     <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
       styleClass="grey-label-panel">
       <label>State</label>
-      <h:panelGroup class="#{healthBean.severityClass}">
+      <h:panelGroup>
         <b>
+        <i class="icon link-icon #{healthBean.severityIcon}"></i>
         <h:outputText value="#{healthBean.severityName}" />
-        <i class="icon #{healthBean.severityIcon}"></i>
         </b>
       </h:panelGroup>
       <label>Message</label>
-      <h:panelGroup class="#{healthBean.severityClass}">
-        <h:outputText value="#{healthBean.message}" />
+      <h:panelGroup>
+        <p:link value="#{healthBean.message}" href="monitor-health.xhtml"/>
       </h:panelGroup>
     </p:panelGrid>
   </h:form>
