@@ -86,7 +86,7 @@
               </li>
             </h:outputText>
             
-            <h:outputText rendered="#{managerBean.restartEngine or not empty healthBean.messages}">
+            <h:outputText rendered="#{not empty healthBean.messages}">
               <li class="topbar-item topbar-notifications engine-warnings">
                 <a href="#">
                   <i class="topbar-icon si si-road-sign-warning animated swing"></i>
@@ -95,14 +95,6 @@
                   </div>
                 </a>
                 <ul>
-                  <h:panelGroup rendered="#{managerBean.restartEngine}">
-                    <li class="restart-notification">
-                      <a href="#{managerBean.configLogUrl}">
-                        <i class="si si-lg si-synchronize-arrow-clock"></i>
-                        <span style="max-width: calc(100% - 40px)">You have changed settings that require an engine restart!</span>
-                      </a>
-                    </li>
-                  </h:panelGroup>
                   <ui:repeat var="msg" value="#{healthBean.messages}">
                     <h:panelGroup>
                       <li>
