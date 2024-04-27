@@ -188,7 +188,7 @@ public class LicenceBean extends StepStatus {
   }
 
   public void confirmAllLicenceEvents() {
-    LicenceEventManager.getInstance().confirmAll(getSessionUsername());
+    LicenceEventManager.instance().confirmAll(getSessionUsername());
     reloadLicenceMessages();
   }
 
@@ -211,7 +211,7 @@ public class LicenceBean extends StepStatus {
   }
 
   private void reloadLicenceMessages() {
-    unconfirmedLicenceEvents = LicenceEventManager.getInstance().getUnconfirmedLicenceEvents().stream()
+    unconfirmedLicenceEvents = LicenceEventManager.instance().getUnconfirmedLicenceEvents().stream()
             .map(LicenceMessage::new)
             .collect(Collectors.toList());
   }

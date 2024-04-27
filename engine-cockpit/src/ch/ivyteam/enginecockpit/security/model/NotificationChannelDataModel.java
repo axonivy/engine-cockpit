@@ -25,7 +25,7 @@ public class NotificationChannelDataModel {
   }
 
   public void onload() {
-    events = NotificationEventDto.all();
+    events = NotificationEventDto.all(securityContext);
     channels = NotificationChannelDto.all(subscriber, securityContext);
   }
 
@@ -91,8 +91,8 @@ public class NotificationChannelDataModel {
       return event.description(Locale.ENGLISH);
     }
 
-    public static List<NotificationEventDto> all() {
-      return Event.all().stream().map(NotificationEventDto::new).toList();
+    public static List<NotificationEventDto> all(ISecurityContext securityContext) {
+      return Event.allFor(securityContext).stream().map(NotificationEventDto::new).toList();
     }
 
     public static NotificationEventDto of(Event event) {
