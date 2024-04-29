@@ -63,7 +63,7 @@ public class AdministratorBean extends StepStatus {
     return "Please configure at least one admin!";
   }
 
-  public void saveAdmin() {
+  public String createNewAdmin() {
     var message = new FacesMessage(FacesMessage.SEVERITY_INFO,
             "'" + editAdmin.getName() + "' modified successfully", "");
     if (!admins.contains(editAdmin)) {
@@ -73,6 +73,7 @@ public class AdministratorBean extends StepStatus {
     }
     FacesContext.getCurrentInstance().addMessage("", message);
     AdministratorService.instance().save(editAdmin.getAdmin());
+    return "admins.xhtml";
   }
 
   public boolean hasAdmins() {

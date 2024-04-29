@@ -33,7 +33,7 @@
         <p:commandButton id="cancelNewUser" onclick="PF('newUserModal').hide();" value="Cancel" type="button"
         styleClass="ui-button-secondary ui-button-flat modal-input-button" />
         <p:commandButton id="saveNewUser" validateClient="true" ajax="false" update="securitySystems"
-          action="#{userBean.newUser.creatNewUser}" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
+          action="#{userBean.newUser.createNewUser}" value="Save" icon="si si-floppy-disk" styleClass="modal-input-button" />
     </div>
   </h:form>
 </p:dialog>

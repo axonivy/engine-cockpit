@@ -17,39 +17,24 @@
       </f:facet>
       
       <p:column headerText="Name" sortBy="#{admin.name}" filterBy="#{admin.name}">
-        <h:panelGroup styleClass="flex align-items-center">
+        <a href="#{admin.getAdminViewUrl()}" class="flex align-items-center">
           <h:outputText value="#{admin.name}" styleClass="ml-1 admin-name">
             <p:avatar gravatar="#{admin.email}" icon="si si-single-neutral-shield" shape="circle" styleClass="user-avatar" />
           </h:outputText>
-        </h:panelGroup>
+        </a>
+      </p:column>
+      <p:column headerText="Full Name" sortBy="#admin.fullName}" filterBy="#{admin.fullName}">
+        <h:outputText value="#{admin.fullName}" />
       </p:column>
       <p:column headerText="Email" sortBy="#{admin.email}"  filterBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />
       </p:column>
-      <p:column styleClass="table-btn-2">
-        <p:commandButton id="editAdminBtn" actionListener="#{administratorBean.setAdmin(admin)}" icon="si si-pencil"
-          title="Edit" update="admins:editAdminDialog" styleClass="ui-button-secondary rounded-button"
-          oncomplete="PF('editAdminDialog').show();" process="@this" />
-        <p:commandButton id="deleteAdmin" actionListener="#{administratorBean.setAdmin(admin)}"
-          update="@form:deleteAdminDialog" icon="si si-bin-1" title="Delete"
-          styleClass="ml-1 ui-button-danger rounded-button" process="@this"
-          disabled="#{admin.name eq loginBean.sessionUserName}" oncomplete="PF('deleteAdminDialog').show();" />
-      </p:column>
     </p:dataTable>
-
-    <p:confirmDialog id="deleteAdminDialog"
-      message="Are you sure you want to delete the administrator '#{administratorBean.admin.name}'?"
-      header="Delete #{administratorBean.admin.name}" severity="alert" widgetVar="deleteAdminDialog">
-      <p:commandButton value="Cancel" onclick="PF('deleteAdminDialog').hide();" type="button"
-        styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-      <p:commandButton id="deleteAdminYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
-        actionListener="#{administratorBean.removeAdmin}" update="#{cc.attrs.updateFields}" icon="si si-bin-1" />
-    </p:confirmDialog>
   </h:form>
-
-  <p:dialog widgetVar="editAdminDialog" id="editAdminDialog" width="500" header="Add / Edit Administrator" modal="true"
-    closeOnEscape="true" focus="editAdminForm:name">
-    <h:form id="editAdminForm" styleClass="custom-dialog-form">
+  
+  <p:dialog widgetVar="newAdminDialog" id="newAdminDialog" width="500" header="Add Administrator" modal="true"
+    closeOnEscape="true" focus="newAdminForm:name">
+    <h:form id="newAdminForm" styleClass="custom-dialog-form">
       <p:panelGrid columns="2" layout="flex" columnClasses="col-4, col-8"
         styleClass="grey-label-panel ui-fluid">
         <p:outputLabel for="name" value="Name" />
@@ -90,11 +75,12 @@
         </h:panelGroup>
       </p:panelGrid>
       <div class="custom-dialog-footer">
-        <p:commandButton id="cancelEditAdmin" onclick="PF('editAdminDialog').hide();" value="Cancel" type="button"
+        <p:commandButton id="cancelNewAdmin" onclick="PF('newAdminDialog').hide();" value="Cancel" type="button"
           styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
-        <p:commandButton id="saveAdmin" validateClient="true" update="#{cc.attrs.updateFields}"
-          actionListener="#{administratorBean.saveAdmin()}" value="Save" icon="si si-floppy-disk"
-          styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('editAdminDialog').hide();" />
+        <p:commandButton id="saveNewAdmin" validateClient="true"
+          ajax="false" update="admins"
+          action="#{administratorBean.createNewAdmin()}" value="Save" icon="si si-floppy-disk"
+          styleClass="modal-input-button" oncomplete="if (!args.validationFailed) PF('newAdminDialog').hide();" />
       </div>
     </h:form>
   </p:dialog>

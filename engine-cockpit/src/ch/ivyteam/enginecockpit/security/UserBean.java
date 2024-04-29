@@ -92,7 +92,7 @@ public class UserBean {
       this.password = password;
     }
 
-    public String creatNewUser() {
+    public String createNewUser() {
       var newUser = ch.ivyteam.ivy.security.user.NewUser
               .create(name)
               .fullName(fullName)

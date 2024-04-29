@@ -68,9 +68,17 @@ public class User implements SecurityMember {
   public String getViewUrl() {
     return getViewUrl(securityContext, name);
   }
+  
+  public String getAdminViewUrl() {
+    return getViewUrl("admindetail.xhtml", securityContext, name);
+  }
 
   private static String getViewUrl(String securityContext, String name) {
-    return UriBuilder.fromPath("userdetail.xhtml")
+    return getViewUrl("userdetail.xhtml", securityContext, name);
+  }
+
+  private static String getViewUrl(String detailPage, String securityContext, String name) {
+    return UriBuilder.fromPath(detailPage)
             .queryParam("system", securityContext)
             .queryParam("name", name)
             .build()
