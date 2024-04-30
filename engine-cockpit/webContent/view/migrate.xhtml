@@ -137,11 +137,11 @@
             <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="tasksRepeat">
               <div class="migration-step">
 
-                <p:panel style="margin-bottom:10px;" toggleable="true" collapsed="true">
+                <p:panel style="margin-bottom:10px;" toggleable="true" multiViewState="true" collapsed="true">
                   <p class="m-0">
                     <h:panelGroup
                       rendered="#{not empty task.description}">
-                      <h:outputText value="#{task.description}" />
+                      <h:outputText value="#{task.description}" escape="false" />
                     </h:panelGroup>
                     <h:panelGroup rendered="#{not empty task.script}">
                       <pre style="white-space: pre-wrap;"><code><h:outputText value="#{task.script}" /></code></pre>
