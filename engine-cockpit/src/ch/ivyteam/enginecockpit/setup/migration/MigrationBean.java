@@ -12,7 +12,6 @@ import javax.faces.bean.ViewScoped;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
-import ch.ivyteam.ivy.environment.Ivy;
 
 @ManagedBean
 @ViewScoped
@@ -115,7 +114,6 @@ public class MigrationBean {
                 .summary("The Axon Ivy Engine migration was successful. Click on Finish.")
                 .show();
       } else {
-        Ivy.log().error("Migration failed", exception);
         Message.error()
                 .clientId("migrationMessage")
                 .summary("Error while migration")
