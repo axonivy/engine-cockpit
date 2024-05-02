@@ -52,6 +52,7 @@
 
               <p:commandButton icon="si si-heavy-equipment-hook"
                 value="Load Location" id="checkLocation"
+                disabled="#{migrationBean.state == 'RUNNING'}"
                 actionListener="#{migrationBean.checkOldEngineLocation}"
                 validateClient="true" update="migration, @form" />
             </p:panelGrid>
