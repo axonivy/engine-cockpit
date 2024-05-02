@@ -43,7 +43,7 @@ class WebTestMigration {
 
   @Test
   void oldEngineInput_notValid() {
-	$(By.id("locationForm:oldEngineInput")).clear();
+    $(By.id("locationForm:oldEngineInput")).clear();
     $(By.id("locationForm:oldEngineInput")).sendKeys("/tmp/notValidPath");
     $(By.id("locationForm:checkLocation")).shouldBe(visible).click();
     $(By.id("locationForm:oldEngineInputMessage")).shouldBe(empty);
