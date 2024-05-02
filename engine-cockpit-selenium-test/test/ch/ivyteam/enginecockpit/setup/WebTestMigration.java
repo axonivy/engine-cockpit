@@ -34,6 +34,7 @@ class WebTestMigration {
 
   @Test
   void oldEngineInput_empty() {
+    $(By.id("locationForm:oldEngineInput")).clear();
     $(By.id("locationForm:oldEngineInput")).shouldHave(exactValue(""));
     $(By.id("locationForm:checkLocation")).shouldBe(visible).click();
     $(By.id("locationForm:oldEngineInputMessage")).shouldHave(text("Value is required"));
@@ -42,7 +43,8 @@ class WebTestMigration {
 
   @Test
   void oldEngineInput_notValid() {
-    $(By.id("locationForm:oldEngineInput")).shouldHave(exactValue("")).sendKeys("/tmp/notValidPath");
+    $(By.id("locationForm:oldEngineInput")).clear();
+    $(By.id("locationForm:oldEngineInput")).sendKeys("/tmp/notValidPath");
     $(By.id("locationForm:checkLocation")).shouldBe(visible).click();
     $(By.id("locationForm:oldEngineInputMessage")).shouldBe(empty);
     $(By.id("locationForm:migrationChecks")).shouldHave(text("Location does not exist: /tmp/notvalid"));

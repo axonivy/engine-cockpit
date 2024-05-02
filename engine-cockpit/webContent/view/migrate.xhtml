@@ -52,6 +52,7 @@
 
               <p:commandButton icon="si si-heavy-equipment-hook"
                 value="Load Location" id="checkLocation"
+                disabled="#{migrationBean.state == 'RUNNING'}"
                 actionListener="#{migrationBean.checkOldEngineLocation}"
                 validateClient="true" update="migration, @form" />
             </p:panelGrid>
@@ -118,7 +119,7 @@
                 <p:commandButton id="startMigration"
                   icon="si si-controls-play" value="Start"
                   actionListener="#{migrationBean.execute}"
-                  update="migration"
+                  update="migration locationForm"
                   onsuccess="PF('migrationPoller').start()"
                   rendered="#{migrationBean.state == 'START'}" />
                 <p:commandButton id="finishMigration"
