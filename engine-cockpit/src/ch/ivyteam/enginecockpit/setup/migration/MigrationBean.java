@@ -124,10 +124,6 @@ public class MigrationBean {
     return running;
   }
 
-  public boolean isRunnerPaused() {
-    return client.isPaused();
-  }
-
   public static enum MigrationState {
     START, RUNNING, FINISHED,
   }

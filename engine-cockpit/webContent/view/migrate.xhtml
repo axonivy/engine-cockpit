@@ -131,7 +131,7 @@
                   value="Running" disabled="true"
                   rendered="#{migrationBean.state == 'RUNNING'}" />
                 <p:poll interval="1"
-                  autoStart="#{migrationBean.state == 'RUNNING' and !migrationBean.runnerPaused}"
+                  autoStart="#{migrationBean.state == 'RUNNING'}"
                   update="migrationButtons @(.task-icon) migrationMessage"
                   widgetVar="migrationPoller" />
               </h:panelGroup>
@@ -165,11 +165,7 @@
                       escape="false" />
                   </h:panelGroup>
                   <h:panelGroup rendered="#{not empty task.script}">
-                    <pre style="white-space: pre-wrap;">
-                      <code>
-                        <h:outputText value="#{task.script}" />
-                      </code>
-                    </pre>
+                    <pre style="white-space: pre-wrap;"><code><h:outputText value="#{task.script}" /></code></pre>
                   </h:panelGroup>
                 </p>
               </p:rowExpansion>
