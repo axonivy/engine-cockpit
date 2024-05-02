@@ -6,15 +6,15 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
 
 @ManagedBean
-@ViewScoped
+@ApplicationScoped
 public class MigrationBean {
 
   private String pathToOldEngine;
@@ -122,10 +122,6 @@ public class MigrationBean {
       }
     }
     return running;
-  }
-
-  public boolean isRunnerPaused() {
-    return client.isPaused();
   }
 
   public static enum MigrationState {
