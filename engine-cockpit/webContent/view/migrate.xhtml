@@ -144,8 +144,8 @@
 
             <p:dataTable var="task" value="#{migrationBean.tasks}"
               id="taskTable" rowKey="#{task.name}">
-              <p:column id="taskState" style="width:1rem">
-                <h:panelGroup styleClass="task-icon">
+              <p:column style="width:1rem">
+                <h:panelGroup id="taskState" styleClass="task-icon">
                   <i class="mr-0 si si-#{task.stateIcon} link-icon"></i>
                 </h:panelGroup>
               </p:column>
