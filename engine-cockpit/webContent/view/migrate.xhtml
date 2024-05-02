@@ -108,24 +108,32 @@
         </h:form>
 
         <h:panelGroup layout="block" id="migration" style="margin-top:20px;">
-          <h:form id="form" rendered="#{migrationBean.result != null and migrationBean.result.success()}">
-            <p:panelGrid columns="2" layout="flex" columnClasses="col-12 md:col-9 lg:col-9, col-12 md:col-3 lg:col-3">
+          <h:form id="form"
+            rendered="#{migrationBean.result != null and migrationBean.result.success()}">
+            <p:panelGrid columns="2" layout="flex"
+              columnClasses="col-12 md:col-9 lg:col-9, col-12 md:col-3 lg:col-3">
               <h3>Migration Tasks</h3>
-              
-              <h:panelGroup layout="block">
-                <p:commandButton id="startMigration" icon="si si-controls-play" value="Start"
+
+              <h:panelGroup id="migrationButtons" layout="block">
+                <p:commandButton id="startMigration"
+                  icon="si si-controls-play" value="Start"
                   actionListener="#{migrationBean.execute}"
-                  update="migration" onsuccess="PF('migrationPoller').start()"
+                  update="migration"
+                  onsuccess="PF('migrationPoller').start()"
                   rendered="#{migrationBean.state == 'START'}" />
-                <p:commandButton id="finishMigration" icon="si si-check-1" value="Finish"
-                  rendered="#{migrationBean.state == 'FINISHED'}" type="button"
+                <p:commandButton id="finishMigration"
+                  icon="si si-check-1" value="Finish"
+                  rendered="#{migrationBean.state == 'FINISHED'}"
+                  type="button"
                   onclick="PF('finishWizardModel').show();" />
-                <p:commandButton id="migrationRunning" icon="si si-button-refresh-arrows si-is-spinning"
+                <p:commandButton id="migrationRunning"
+                  icon="si si-button-refresh-arrows si-is-spinning"
                   value="Running" disabled="true"
                   rendered="#{migrationBean.state == 'RUNNING'}" />
                 <p:poll interval="1"
                   autoStart="#{migrationBean.state == 'RUNNING' and !migrationBean.runnerPaused}"
-                  update="migration" widgetVar="migrationPoller" />
+                  update="migrationButtons @(.task-icon) migrationMessage"
+                  widgetVar="migrationPoller" />
               </h:panelGroup>
             </p:panelGrid>
 
@@ -134,45 +142,38 @@
               <p:autoUpdate />
             </p:messages>
 
-            <ui:repeat var="task" value="#{migrationBean.tasks}" id="tasks" varStatus="tasksRepeat">
-              <div class="migration-step">
-
-                <p:panel style="margin-bottom:10px;" toggleable="true" multiViewState="true" collapsed="true">
-                  <p class="m-0">
-                    <h:panelGroup
-                      rendered="#{not empty task.description}">
-                      <h:outputText value="#{task.description}" escape="false" />
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{not empty task.script}">
-                      <pre style="white-space: pre-wrap;"><code><h:outputText value="#{task.script}" /></code></pre>
-                    </h:panelGroup>
-                  </p>
-
-                  <f:facet name="header">
-                    <i class="mr-0 si si-#{task.stateIcon} link-icon"></i> #{task.name}
-                  </f:facet>
-                </p:panel>
-
-                <h:panelGroup rendered="#{task.state == 'running'}" layout="block">
-                  <ui:repeat var="question" value="#{task.questions}" id="questions" varStatus="questionsRepeat">
-                    <h:panelGroup styleClass="question">
-                      <h:panelGroup id="diff" layout="block" />
-                      <script>
-                        showDiff('form:tasks:#{tasksRepeat.index}:questions:#{questionsRepeat.index}:diff', '#{question.diff}');
-                      </script>
-                      <p style="font-weight: bold;">#{question.title}</p>
-                      <p style="white-space: pre-wrap;">#{question.more}</p>
-                      <p:selectOneButton styleClass="migration-question-select-button" value="#{question.answer}">
-                        <f:selectItems value="#{question.options}"
-                          var="option" itemLabel="#{option}"
-                          itemValue="#{option}" />
-                        <p:ajax onsuccess="PF('migrationPoller').start()"/>
-                      </p:selectOneButton>
-                    </h:panelGroup>
-                  </ui:repeat>
+            <p:dataTable var="task" value="#{migrationBean.tasks}"
+              id="taskTable" rowKey="#{task.name}">
+              <p:column id="taskState" style="width:1rem">
+                <h:panelGroup styleClass="task-icon">
+                  <i class="mr-0 si si-#{task.stateIcon} link-icon"></i>
                 </h:panelGroup>
-              </div>
-            </ui:repeat>
+              </p:column>
+
+              <p:column>
+                <b><h:outputText value="#{task.name}" /></b>
+              </p:column>
+
+              <p:column style="width:2rem">
+                <p:rowToggler />
+              </p:column>
+
+              <p:rowExpansion>
+                <p class="m-0">
+                  <h:panelGroup rendered="#{not empty task.description}">
+                    <h:outputText value="#{task.description}"
+                      escape="false" />
+                  </h:panelGroup>
+                  <h:panelGroup rendered="#{not empty task.script}">
+                    <pre style="white-space: pre-wrap;">
+                      <code>
+                        <h:outputText value="#{task.script}" />
+                      </code>
+                    </pre>
+                  </h:panelGroup>
+                </p>
+              </p:rowExpansion>
+            </p:dataTable>
           </h:form>
         </h:panelGroup>
       </div>
