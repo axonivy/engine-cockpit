@@ -40,7 +40,7 @@ def mvnBuild(def mvnArgs = '') {
   def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
   maven cmd: "clean ${phase} -ntp -Divy.engine.version.latest.minor=true -Dmaven.test.skip=false " + mvnArgs
   
-  recordIssues tools: [mavenConsole()], unstableTotalAll: 1, filters: [
+  recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
     excludeMessage('The system property test.engine.url is configured twice!*'),
     excludeMessage('JAR will be empty*')
   ]
