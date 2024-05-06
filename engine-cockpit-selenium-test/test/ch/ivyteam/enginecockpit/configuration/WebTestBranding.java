@@ -103,21 +103,21 @@ public class WebTestBranding {
   @Test
   void setAndResetColor() {
     var colorTable = new Table(By.id(getColorTableId()));
-    colorTable.clickButtonForEntry("--accent-color", "setColor");
-    $(By.id("cssColorPickerForm:editCssColorModal_title")).shouldBe(visible, exactText("Edit color --accent-color"));
+    colorTable.clickButtonForEntry("--ivy-primary-light-color", "setColor");
+    $(By.id("cssColorPickerForm:editCssColorModal_title")).shouldBe(visible, exactText("Edit color --ivy-primary-light-color"));
     $(By.id("cssColorPickerForm:cssColorPickerInput")).clear();
     $(By.id("cssColorPickerForm:cssColorPickerInput")).sendKeys("#123456");
     $(By.id("cssColorPickerForm:saveCssColor")).click();
-    $(By.id("msgs_container")).shouldBe(visible, text("Successfully update color '--accent-color"));
-    colorTable.tableEntry("--accent-color", 2).shouldHave(text("#123456"));
-    colorTable.tableEntry("--accent-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(18, 52, 86)"));
+    $(By.id("msgs_container")).shouldBe(visible, text("Successfully update color '--ivy-primary-light-color"));
+    colorTable.tableEntry("--ivy-primary-light-color", 2).shouldHave(text("#123456"));
+    colorTable.tableEntry("--ivy-primary-light-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(18, 52, 86)"));
 
-    colorTable.clickButtonForEntry("--accent-color", "resetColor");
-    $(By.id("resetColorConfirmDialog_content")).shouldBe(visible, text("'--accent-color'"));
+    colorTable.clickButtonForEntry("--ivy-primary-light-color", "resetColor");
+    $(By.id("resetColorConfirmDialog_content")).shouldBe(visible, text("'--ivy-primary-light-color'"));
     $(By.id("resetColorForm:resetColorConfirmYesBtn")).click();
-    $(By.id("msgs_container")).shouldBe(visible, text("Successfully update color '--accent-color"));
-    colorTable.tableEntry("--accent-color", 2).shouldHave(text("hsl(0, 1%, 34%)"));
-    colorTable.tableEntry("--accent-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(88, 86, 86)"));
+    $(By.id("msgs_container")).shouldBe(visible, text("Successfully update color '--ivy-primary-light-color"));
+    colorTable.tableEntry("--ivy-primary-light-color", 2).shouldHave(text("hsl(195, 100%, 44%)"));
+    colorTable.tableEntry("--ivy-primary-light-color", 2).find(".color-preview").shouldHave(cssValue("background-color", "rgb(0, 168, 224)"));
   }
 
   @Test
