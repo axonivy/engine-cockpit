@@ -144,4 +144,16 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
   public AbstractActivity getActiveActivity() {
     return selectedActivity;
   }
+
+  @Override
+  protected String dataIdentifier(AbstractActivity data) {
+    var id = Long.toString(data.getApplicationId());
+    if (!data.isApplication()) {
+      id += "-" + Long.toString(data.getProcessModelId());
+    }
+    if (data.isPmv()) {
+      id += "-" + Long.toString(data.getId());
+    }
+    return id;
+  }
 }
