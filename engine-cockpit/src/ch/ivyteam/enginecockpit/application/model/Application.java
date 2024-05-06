@@ -65,15 +65,15 @@ public class Application extends AbstractActivity {
   public boolean isProtected() {
     return getName().equals("designer");
   }
-  
+
   public String getHomeUrl() {
     return app.getHomeLink().getRelative();
   }
-  
+
   public String getDevWorkflowUrl() {
     return app.getDevWorkflowLink().getRelative();
   }
-  
+
   public boolean isDisabled() {
     try {
       return !app.hasAnyActiveAndReleasedPmv();
@@ -107,6 +107,11 @@ public class Application extends AbstractActivity {
   @Override
   public long getApplicationId() {
     return getId();
+  }
+
+  @Override
+  public long getProcessModelId() {
+    throw new UnsupportedOperationException("Application has no process model.");
   }
 
   @Override

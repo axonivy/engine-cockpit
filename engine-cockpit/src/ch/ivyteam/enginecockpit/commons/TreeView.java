@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.commons;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.primefaces.event.NodeCollapseEvent;
 import org.primefaces.event.NodeExpandEvent;
@@ -12,10 +14,13 @@ public abstract class TreeView<T> {
   protected TreeNode<T> filteredTreeNode;
   protected String filter = "";
 
+  protected List<String> expandedTreeNodeDataIdentifiers = new ArrayList<>();
+
   public void reloadTree() {
     filter = "";
     rootTreeNode = new DefaultTreeNode<T>("Tree", null, null);
     buildTree();
+    applyToAllNodes(this::setExpanded);
   }
 
   protected abstract void buildTree();
@@ -46,27 +51,67 @@ public abstract class TreeView<T> {
 
   protected abstract void filterNode(TreeNode<T> node);
 
+  @SuppressWarnings("unchecked")
   public void nodeExpand(NodeExpandEvent event) {
-    event.getTreeNode().setExpanded(true);
+    expandNode(event.getTreeNode());
   }
 
+  private void expandNode(TreeNode<T> node) {
+    var data = node.getData();
+    if (data == null) {
+      return;
+    }
+    expandedTreeNodeDataIdentifiers.add(dataIdentifier(data));
+    node.setExpanded(true);
+  }
+
+  @SuppressWarnings("unchecked")
   public void nodeCollapse(NodeCollapseEvent event) {
-    event.getTreeNode().setExpanded(false);
+    collapseNode(event.getTreeNode());
+  }
+
+  private void collapseNode(TreeNode<T> node) {
+    var data = node.getData();
+    if (data == null) {
+      return;
+    }
+    expandedTreeNodeDataIdentifiers.remove(dataIdentifier(data));
+    node.setExpanded(false);
   }
 
   public void expandAllNodes() {
-    expandAllNodes(rootTreeNode, true);
+    applyToAllNodes(this::expandNode);
   }
 
   public void collapseAllNodes() {
-    expandAllNodes(rootTreeNode, false);
+    applyToAllNodes(this::collapseNode);
   }
 
-  private static <T> void expandAllNodes(TreeNode<T> treeNode, boolean expand) {
+  private void setExpanded(TreeNode<T> node) {
+    var data = node.getData();
+    if (data == null) {
+      return;
+    }
+    if (expandedTreeNodeDataIdentifiers.contains(dataIdentifier(data))) {
+      node.setExpanded(true);
+    }
+  }
+
+  /* Implement to keep expansion state between tree reloads */
+  @SuppressWarnings("unused")
+  protected String dataIdentifier(T data) {
+    return null;
+  }
+
+  private void applyToAllNodes(Consumer<TreeNode<T>> consumer) {
+    applyToAllNodes(rootTreeNode, consumer);
+  }
+
+  private static <T> void applyToAllNodes(TreeNode<T> treeNode, Consumer<TreeNode<T>> consumer) {
     var children = treeNode.getChildren();
     for (var child : children) {
-      expandAllNodes(child, expand);
+      applyToAllNodes(child, consumer);
     }
-    treeNode.setExpanded(expand);
+    consumer.accept(treeNode);
   }
 }
