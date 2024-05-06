@@ -79,7 +79,9 @@ public class LogView implements Comparable<LogView> {
 
   private List<String> readFileLines() {
     List<String> lines = new ArrayList<>();
-    try (ReversedLinesFileReader reader = new ReversedLinesFileReader(file.toFile(), StandardCharsets.UTF_8)) {
+    try (ReversedLinesFileReader reader = ReversedLinesFileReader.builder()
+                .setPath(file)
+                .setCharset(StandardCharsets.UTF_8).get()) {
       String line = reader.readLine();
       int count = 0;
       while (line != null && count < 1000) {
