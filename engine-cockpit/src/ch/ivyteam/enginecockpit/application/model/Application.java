@@ -110,11 +110,6 @@ public class Application extends AbstractActivity {
   }
 
   @Override
-  public long getProcessModelId() {
-    throw new UnsupportedOperationException("Application has no process model.");
-  }
-
-  @Override
   public String getActivityType() {
     return AbstractActivity.APP;
   }
