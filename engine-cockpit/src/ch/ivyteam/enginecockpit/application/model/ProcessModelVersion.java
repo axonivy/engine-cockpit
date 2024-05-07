@@ -1,14 +1,18 @@
 package ch.ivyteam.enginecockpit.application.model;
 
+import java.util.List;
+
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.IProcessModelVersionInternal;
 import ch.ivyteam.ivy.application.ReleaseState;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModelVersion extends AbstractActivity {
-  private IProcessModelVersion pmv;
+
+  private IProcessModelVersionInternal pmv;
   private String lastChangeDate;
   private String description;
   private Library lib;
@@ -23,7 +27,7 @@ public class ProcessModelVersion extends AbstractActivity {
     lib = new Library(pmv.getLibrary());
     description = pmv.getDescription();
     lastChangeDate = DateUtil.formatDate(pmv.getLastChangeDate());
-    this.pmv = pmv;
+    this.pmv = (IProcessModelVersionInternal) pmv;
     updateStats();
   }
 
@@ -73,8 +77,8 @@ public class ProcessModelVersion extends AbstractActivity {
   }
 
   @Override
-  public boolean isDeletable() {
-    return !pmv.isRequired() && getState().is(ReleaseState.PREPARED, ReleaseState.ARCHIVED);
+  public List<String> isDeletable() {
+    return pmv.isDeletable();
   }
 
   @Override
@@ -114,11 +118,6 @@ public class ProcessModelVersion extends AbstractActivity {
   public String getLibraryResolvedTooltip() {
     return (isLibraryResolved() ? "All" : "Not all")
             + " direct and indirect required libraries are available in the system.";
-  }
-
-  @Override
-  public boolean isProtected() {
-    return getName().startsWith("engine-cockpit");
   }
 
   private void countRunningCases() {
