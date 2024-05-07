@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import ch.ivyteam.enginecockpit.application.model.ProcessModelVersion;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
+import ch.ivyteam.ivy.application.IProcessModelVersionInternal;
 
 public class TestProcessModelVersion {
 
@@ -22,7 +23,7 @@ public class TestProcessModelVersion {
 
   private IProcessModelVersion createPmvProxy() {
     var cl = TestProcessModelVersion.class.getClassLoader();
-    var interfaces = new Class[] {IProcessModelVersion.class};
+    var interfaces = new Class[] {IProcessModelVersion.class, IProcessModelVersionInternal.class};
     return (IProcessModelVersion) Proxy.newProxyInstance(cl, interfaces, TestProcessModelVersion::invoke);
   }
 

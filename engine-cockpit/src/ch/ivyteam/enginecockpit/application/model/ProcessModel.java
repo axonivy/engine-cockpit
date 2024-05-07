@@ -1,15 +1,13 @@
 package ch.ivyteam.enginecockpit.application.model;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
 import ch.ivyteam.ivy.application.IApplicationInternal;
 import ch.ivyteam.ivy.application.ILibrary;
 import ch.ivyteam.ivy.application.IProcessModel;
 import ch.ivyteam.ivy.application.IProcessModelVersion;
-import ch.ivyteam.ivy.application.ProcessModelVersionRelation;
 import ch.ivyteam.ivy.workflow.IWorkflowContext;
 
 public class ProcessModel extends AbstractActivity {
@@ -59,44 +57,13 @@ public class ProcessModel extends AbstractActivity {
   }
 
   @Override
-  public boolean isDeletable() {
-    return pm.isDeletable();
+  public void forceDelete() {
+    execute(() -> ((IApplicationInternal) pm.getApplication()).forceDeleteProcessModel(getName()), "force delete", false);
   }
 
   @Override
-  public String getDeleteHint() {
-    var message = new StringBuilder();
-    var dependentPmvs = getDependentPmvs();
-    if (!dependentPmvs.isEmpty()) {
-      message.append(dependentPmvs.size()).append(" dependent PMV(s)");
-    }
-    if (runningCasesCount > 0) {
-      if (message.length() > 0) {
-        message.append(" and ");
-      }
-      message.append(runningCasesCount).append(" running cases. The cases will also be deleted");
-    }
-
-    if (message.length() > 0) {
-      message.insert(0, getActivityType() + " has ");
-      message.append(". ");
-    }
-    message.append(super.getDeleteHint());
-
-    return message.toString();
-  }
-
-  private Set<IProcessModelVersion> getDependentPmvs() {
-    var dependentPMVs = new HashSet<IProcessModelVersion>();
-    var pmvs = pm.getProcessModelVersions();
-    pmvs.forEach(pmv -> dependentPMVs
-            .addAll(pmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT)));
-    return dependentPMVs;
-  }
-
-  @Override
-  public boolean isProtected() {
-    return getName().equals("engine-cockpit");
+  public List<String> isDeletable() {
+    return pm.isDeletableInternal();
   }
 
   @SuppressWarnings("restriction")

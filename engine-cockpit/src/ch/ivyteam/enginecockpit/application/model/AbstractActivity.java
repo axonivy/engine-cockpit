@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -76,23 +77,25 @@ public abstract class AbstractActivity {
   }
 
   public boolean isNotStartable() {
-    return state.is(ActivityState.ACTIVE) || isProtected();
+    return state.is(ActivityState.ACTIVE);
   }
 
   public boolean isNotStopable() {
-    return state.is(ActivityState.INACTIVE) || isProtected();
+    return state.is(ActivityState.INACTIVE);
   }
 
   public boolean isNotLockable() {
-    return state.is(ActivityState.LOCKED, ActivityState.INACTIVE) || isProtected();
+    return state.is(ActivityState.LOCKED, ActivityState.INACTIVE);
   }
 
   public boolean isReleasable() {
     return true;
   }
 
-  public boolean isDeletable() {
-    return !isProtected();
+  public abstract List<String> isDeletable();
+
+  public String getNotDeletableMessage() {
+    return isDeletable().stream().collect(Collectors.joining("\n"));
   }
 
   public String getDeleteHint() {
@@ -114,6 +117,8 @@ public abstract class AbstractActivity {
   public void release() {}
 
   public abstract void delete();
+
+  public void forceDelete() {}
 
   protected void execute(Runnable executor, String action, boolean reloadOnlyStats) {
     var message = new FacesMessage("Successfully " + action + " module", getActivityType() + " " + getName());
@@ -142,8 +147,6 @@ public abstract class AbstractActivity {
   public abstract long getApplicationId();
 
   public abstract String getActivityType();
-
-  public abstract boolean isProtected();
 
   public void updateStats() {
     if (activity == null) {
