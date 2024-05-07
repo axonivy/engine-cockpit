@@ -20,11 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -138,17 +136,17 @@ class WebTestDeployment {
     if (isDesigner()) {
       return;
     }
-    toAppsAndOpenDeployDialog();
+    Navigation.toApplications();
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
     $$("#form\\:tree_node_0_0 > td > span").get(1).shouldBe(visible).click();
+    openDeployDialog();
     deployPath(findTestProject());
     $("#deploymentModal\\:closeDeploymentBtn").shouldBe(visible).click();
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
     $("#form\\:tree_node_0_0").shouldHave(attribute("aria-expanded", "true"));
-    var js = (JavascriptExecutor) WebDriverRunner.getWebDriver();
-    js.executeScript("arguments[0].click();", $(".ui-growl-icon-close"));
 
     $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
+    openDeployDialog();
     deployPath(findTestProject());
     $("#deploymentModal\\:closeDeploymentBtn").shouldBe(visible).click();
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
@@ -173,6 +171,10 @@ class WebTestDeployment {
 
   private void toAppsAndOpenDeployDialog() {
     Navigation.toApplications();
+    openDeployDialog();
+  }
+
+  private void openDeployDialog() {
     String appName = $$(".activity-name").first().shouldBe(visible).getText();
     $("#form\\:tree\\:0\\:deployBtn").shouldBe(visible).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);
