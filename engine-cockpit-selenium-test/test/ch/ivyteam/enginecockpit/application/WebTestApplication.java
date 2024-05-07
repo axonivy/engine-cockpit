@@ -21,6 +21,7 @@ import org.openqa.selenium.JavascriptExecutor;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -170,10 +171,12 @@ class WebTestApplication {
   }
 
   private void expandAppTree() {
+    Selenide.executeJavaScript("scroll(0,0);");
     $("#form\\:tree\\:expandAll").shouldBe(visible).click();
   }
 
   private void collapseAppTree() {
+    Selenide.executeJavaScript("scroll(0,0);");
     $("#form\\:tree\\:collapseAll").shouldBe(visible).click();
   }
 
