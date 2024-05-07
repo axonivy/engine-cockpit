@@ -17,9 +17,11 @@ import static com.codeborne.selenide.Selenide.$$;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -84,7 +86,7 @@ class WebTestApplication {
     table.firstColumnShouldBe(sizeLessThanOrEqual(4));
     expandAppTree();
     table.firstColumnShouldBe(sizeGreaterThan(4));
-    $("#form\\:tree\\:collapseAll").shouldBe(visible).click();
+    collapseAppTree();
     table.firstColumnShouldBe(sizeLessThanOrEqual(4));
   }
 
@@ -125,8 +127,54 @@ class WebTestApplication {
             .shouldHave(attribute("title", "PM"));
   }
 
+  @Test
+  void keepExpandedState() {
+    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
+    $$("#form\\:tree_node_0_0 > td > span").get(1).shouldBe(visible).click();
+    addNewApplication();
+    assertFirstPmvExpanded();
+    deleteApplication(getNewAppId());
+    assertFirstPmvExpanded();
+    closeGrowlMessage();
+
+    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
+    addNewApplication();
+    assertFirstApplicationCollapsed();
+    deleteApplication(getNewAppId());
+    assertFirstApplicationCollapsed();
+  }
+
+  @Test
+  void keepExpandedState_ExpandCollapseAll() {
+    expandAppTree();
+    addNewApplication();
+    assertFirstPmvExpanded();
+    deleteApplication(getNewAppId());
+    assertFirstPmvExpanded();
+    closeGrowlMessage();
+
+    collapseAppTree();
+    addNewApplication();
+    assertFirstApplicationCollapsed();
+    deleteApplication(getNewAppId());
+    assertFirstApplicationCollapsed();
+  }
+
+  private void assertFirstPmvExpanded() {
+    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
+    $("#form\\:tree_node_0_0").shouldHave(attribute("aria-expanded", "true"));
+  }
+
+  private void assertFirstApplicationCollapsed() {
+    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
+  }
+
   private void expandAppTree() {
     $("#form\\:tree\\:expandAll").shouldBe(visible).click();
+  }
+
+  private void collapseAppTree() {
+    $("#form\\:tree\\:collapseAll").shouldBe(visible).click();
   }
 
   private void stopAppInsideDetailView() {
@@ -189,5 +237,10 @@ class WebTestApplication {
 
   private By getNewAppId() {
     return By.id($$(".activity-name").find(text(NEW_TEST_APP)).parent().parent().parent().getAttribute("id"));
+  }
+
+  private void closeGrowlMessage() {
+    var js = (JavascriptExecutor) WebDriverRunner.getWebDriver();
+    js.executeScript("arguments[0].click();", $(".ui-growl-icon-close"));
   }
 }
