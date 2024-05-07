@@ -148,11 +148,10 @@ public class ApplicationBean extends TreeView<AbstractActivity> {
   @Override
   protected String dataIdentifier(AbstractActivity data) {
     var id = Long.toString(data.getApplicationId());
-    if (!data.isApplication()) {
-      id += "-" + Long.toString(data.getProcessModelId());
-    }
-    if (data.isPmv()) {
+    if (data.isPm()) {
       id += "-" + Long.toString(data.getId());
+    } else if (data instanceof ProcessModelVersion pmv) {
+      id += "-" + Long.toString(pmv.getProcessModelId()) + "-" + Long.toString(pmv.getId());
     }
     return id;
   }

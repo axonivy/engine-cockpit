@@ -81,7 +81,6 @@ public class ProcessModelVersion extends AbstractActivity {
     return pmv.getProcessModel().getApplication().getId();
   }
 
-  @Override
   public long getProcessModelId() {
     return pmv.getProcessModel().getId();
   }

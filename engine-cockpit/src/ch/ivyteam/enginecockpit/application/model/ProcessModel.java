@@ -49,11 +49,6 @@ public class ProcessModel extends AbstractActivity {
   }
 
   @Override
-  public long getProcessModelId() {
-    return getId();
-  }
-
-  @Override
   public String getActivityType() {
     return AbstractActivity.PM;
   }

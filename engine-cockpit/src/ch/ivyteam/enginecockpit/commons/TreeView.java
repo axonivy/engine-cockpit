@@ -20,7 +20,7 @@ public abstract class TreeView<T> {
     filter = "";
     rootTreeNode = new DefaultTreeNode<T>("Tree", null, null);
     buildTree();
-    applyToAllNodes(this::setExpanded);
+    applyToAllNodes(this::applyExpanded);
   }
 
   protected abstract void buildTree();
@@ -87,7 +87,7 @@ public abstract class TreeView<T> {
     applyToAllNodes(this::collapseNode);
   }
 
-  private void setExpanded(TreeNode<T> node) {
+  private void applyExpanded(TreeNode<T> node) {
     var data = node.getData();
     if (data == null) {
       return;

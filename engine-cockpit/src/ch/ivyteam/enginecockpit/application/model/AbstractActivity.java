@@ -141,8 +141,6 @@ public abstract class AbstractActivity {
 
   public abstract long getApplicationId();
 
-  public abstract long getProcessModelId();
-
   public abstract String getActivityType();
 
   public abstract boolean isProtected();
