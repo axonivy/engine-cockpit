@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.fileupload;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -19,9 +20,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
+import com.codeborne.selenide.WebDriverRunner;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
 
@@ -128,6 +131,27 @@ class WebTestDeployment {
   void deployOptionsVersionRange_AppsView() {
     toAppsAndOpenDeployDialog();
     openDeployOptionsAndAssertVersionRange();
+  }
+
+  @Test
+  void keepExpandedState() {
+    if (isDesigner()) {
+      return;
+    }
+    toAppsAndOpenDeployDialog();
+    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
+    $$("#form\\:tree_node_0_0 > td > span").get(1).shouldBe(visible).click();
+    deployPath(findTestProject());
+    $("#deploymentModal\\:closeDeploymentBtn").shouldBe(visible).click();
+    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
+    $("#form\\:tree_node_0_0").shouldHave(attribute("aria-expanded", "true"));
+    var js = (JavascriptExecutor) WebDriverRunner.getWebDriver();
+    js.executeScript("arguments[0].click();", $(".ui-growl-icon-close"));
+
+    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
+    deployPath(findTestProject());
+    $("#deploymentModal\\:closeDeploymentBtn").shouldBe(visible).click();
+    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
   }
 
   private void openDeployOptionsAndAssertVersionRange() {
