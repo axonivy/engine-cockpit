@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.fileupload;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.DESIGNER;
 import static com.axonivy.ivy.webtest.engine.EngineUrl.isDesigner;
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
@@ -130,6 +131,27 @@ class WebTestDeployment {
     openDeployOptionsAndAssertVersionRange();
   }
 
+  @Test
+  void keepExpandedState() {
+    if (isDesigner()) {
+      return;
+    }
+    Navigation.toApplications();
+    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
+    $$("#form\\:tree_node_0_0 > td > span").get(1).shouldBe(visible).click();
+    openDeployDialog();
+    deployPath(findTestProject());
+    $("#deploymentModal\\:closeDeploymentBtn").shouldBe(visible).click();
+    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "true"));
+    $("#form\\:tree_node_0_0").shouldHave(attribute("aria-expanded", "true"));
+
+    $("#form\\:tree_node_0 > td > span").shouldBe(visible).click();
+    openDeployDialog();
+    deployPath(findTestProject());
+    $("#deploymentModal\\:closeDeploymentBtn").shouldBe(visible).click();
+    $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
+  }
+
   private void openDeployOptionsAndAssertVersionRange() {
     showDeploymentOptions();
     $("#deploymentModal\\:versionRangeLabel").shouldNotBe(visible);
@@ -149,6 +171,10 @@ class WebTestDeployment {
 
   private void toAppsAndOpenDeployDialog() {
     Navigation.toApplications();
+    openDeployDialog();
+  }
+
+  private void openDeployDialog() {
     String appName = $$(".activity-name").first().shouldBe(visible).getText();
     $("#form\\:tree\\:0\\:deployBtn").shouldBe(visible).click();
     $("#deploymentModal\\:fileUploadModal").shouldBe(visible);

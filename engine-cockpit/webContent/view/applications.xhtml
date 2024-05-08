@@ -129,6 +129,13 @@
           <ui:param name="appName" value="#{applicationBean.activeActivity.name}" />
           <ui:param name="url" value="apps/#{applicationBean.activeActivity.name}" />
         </ui:include>
+        <p:remoteCommand name="reloadTree" update="form" action="#{applicationBean.reloadTree}"/>
+        <script>
+          function closeFileUpload() {
+            PF('fileUploadModal').hide();
+            reloadTree();
+          }
+        </script>
       </h:panelGroup>
     </ui:define>
   </ui:composition>
