@@ -103,7 +103,11 @@
                   actionListener="#{activity.lock}" update="form" />
                 <p:menuitem value="Release" rendered="#{activity.pmv}" icon="si si-heavy-equipment-hook"
                   disabled="#{!activity.releasable}" actionListener="#{activity.release}" update="form" />
-                <p:menuitem id="deleteBtn" value="Delete" icon="si si-bin-1" disabled="#{!activity.deletable}"
+                <p:menuitem id="deleteBtn" value="Delete" icon="si si-bin-1" disabled="#{not empty activity.isDeletable()}"
+                  actionListener="#{applicationBean.setActiveActivity(activity)}"
+                  update="form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();"
+                  title="#{activity.notDeletableMessage}" style="pointer-events: all;" />
+                <p:menuitem id="forceDeleteBtn" value="Force Delete" rendered="#{activity.pm and not empty activity.isDeletable()}" icon="si si-bin-1"
                   actionListener="#{applicationBean.setActiveActivity(activity)}"
                   update="form:deleteConfirmDialog" oncomplete="PF('deleteConfirmDialog').show();" />
               </p:menu>
@@ -113,9 +117,26 @@
           <p:poll listener="#{applicationBean.reloadActivityStates}" update="form"
             autoStart="#{applicationBean.processing}" interval="1" />
           <p:confirmDialog id="deleteConfirmDialog"
-            message="#{applicationBean.activeActivity.deleteHint}"
             header="Delete '#{applicationBean.activeActivity.name}'" severity="alert"
             widgetVar="deleteConfirmDialog">
+            <f:facet name="message">
+              <ui:fragment rendered="#{applicationBean.activeActivity.pm}">
+                <ui:param name="isDeletable" value="#{applicationBean.activeActivity.isDeletable()}" />
+                <ui:fragment rendered="#{not empty isDeletable}" >
+                  <div style="color: red; font-weight: bold;">
+                    <h:outputText value="Forced deletion is dangerous and might leave the engine in a bad state." />
+                    <br />
+                    <h:outputText value="You may lose cases and data. Proceed with caution." />
+                  </div>
+                  <br /><br />
+                  <ui:repeat var="notDeletableMessage" value="#{isDeletable}">
+                    <h:outputText value="#{notDeletableMessage}" />
+                  </ui:repeat>
+                  <br /><br />
+                </ui:fragment>
+              </ui:fragment>
+              <h:outputText value="#{applicationBean.activeActivity.deleteHint}"/>
+            </f:facet>
             <p:commandButton value="Cancel" onclick="PF('deleteConfirmDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="deleteConfirmYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
