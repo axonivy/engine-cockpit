@@ -62,8 +62,22 @@ public class Application extends AbstractActivity {
   }
 
   @Override
-  public boolean isProtected() {
-    return getName().equals("designer");
+  public boolean isNotStartable() {
+    return super.isNotStartable() || isDesignerOrSystem();
+  }
+
+  @Override
+  public boolean isNotStopable() {
+    return super.isNotStopable() || isDesignerOrSystem();
+  }
+
+  @Override
+  public boolean isNotLockable() {
+    return super.isNotLockable() || isDesignerOrSystem();
+  }
+
+  private boolean isDesignerOrSystem() {
+    return app.isDesigner() || app.isSystem();
   }
 
   public String getHomeUrl() {
@@ -155,5 +169,10 @@ public class Application extends AbstractActivity {
               .collect(Collectors.toList());
     }
     return webServiceProcesses;
+  }
+
+  @Override
+  public List<String> isDeletable() {
+    return app.isDeletable();
   }
 }
