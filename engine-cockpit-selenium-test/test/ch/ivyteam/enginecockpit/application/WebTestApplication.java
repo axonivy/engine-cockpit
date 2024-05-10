@@ -170,6 +170,16 @@ class WebTestApplication {
     $("#form\\:tree_node_0").shouldHave(attribute("aria-expanded", "false"));
   }
 
+  void notDeletableMessage() {
+    expandAppTree();
+    $$("#form:tree:0:deleteBtn").get(1)
+            .shouldHave(attribute("title", "App 'designer' can not be deleted"));
+    $$("#form:tree:0_0:deleteBtn").get(1)
+            .shouldHave(attribute("title", "'dev-workflow-ui' is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'"));
+    $$("#form:tree:0_0_0:deleteBtn").get(2)
+            .shouldHave(attribute("title", "Is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'\nIs in state RELEASED but must be one of [CREATED, PREPARED, ARCHIVED]"));
+  }
+
   private void expandAppTree() {
     Selenide.executeJavaScript("scroll(0,0);");
     $("#form\\:tree\\:expandAll").shouldBe(visible).click();
