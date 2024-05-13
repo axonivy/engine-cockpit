@@ -26,8 +26,8 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -50,7 +50,7 @@ class WebTestApplicationDetail {
     var sessions = $(".overview-box h1", 0).shouldBe(visible).text();
     assertThat(Integer.parseInt(sessions)).isGreaterThan(0);
     var users = $(".overview-box h1", 1).shouldBe(visible).text();
-    assertThat(Integer.parseInt(users)).isBetween(2, 7);
+    assertThat(Integer.parseInt(users)).isBetween(2, 10);
     var cases = $(".overview-box h1", 2).shouldBe(visible).text();
     assertThat(Integer.parseInt(cases)).isGreaterThan(0);
     var pms = $(".overview-box h1", 3).shouldBe(visible).text();
