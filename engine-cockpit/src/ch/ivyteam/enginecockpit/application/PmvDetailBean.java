@@ -79,12 +79,17 @@ public class PmvDetailBean {
     }
 
     pmv = new ProcessModelVersion(iPmv);
-    deployedProject = iPmv.getLibrary().getId();
     dependendPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.DEPENDENT).stream()
             .map(dep -> new ProcessModelVersion(dep)).collect(Collectors.toList());
     requriedPmvs = iPmv.getAllRelatedProcessModelVersions(ProcessModelVersionRelation.REQUIRED).stream()
             .map(req -> new ProcessModelVersion(req)).collect(Collectors.toList());
-    requiredSpecifications = iPmv.getLibrary().getRequiredLibrarySpecifications().stream()
+
+    var library = iPmv.getLibrary();
+    if (library == null) {
+      return;
+    }
+    deployedProject = library.getId();
+    requiredSpecifications = library.getRequiredLibrarySpecifications().stream()
             .map(spec -> new LibSpecification(spec)).collect(Collectors.toList());
   }
 
