@@ -121,7 +121,7 @@ class WebTestStartEvents {
     $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp");
     table.rows().shouldHave(CollectionCondition.size(1));
   }
-  
+
   @Test
   void sort() {
     table.sortByColumn("Name");
@@ -145,9 +145,13 @@ class WebTestStartEvents {
 
   @Test
   void poll() {
+    var start = $(By.id("form:beanTable:0:start")).shouldBe(visible);
+    if (start.is(enabled)) {
+      start.click();
+    }
     var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
-    $(By.id("form:beanTable:0:poll")).click();
-    $(By.id("pollBean:poll")).click();
+    $(By.id("form:beanTable:0:poll")).shouldBe(visible).click();
+    $(By.id("pollBean:poll")).shouldBe(visible).click();
 
     Wait()
         .withTimeout(Duration.ofSeconds(10))

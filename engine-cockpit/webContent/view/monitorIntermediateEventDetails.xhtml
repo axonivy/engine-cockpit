@@ -24,7 +24,7 @@
       <li>/</li>
       <li><a href="monitorIntermediateEvents.xhtml">Intermediate Events</a></li>
       <li>/</li>
-      <li><a href="monitorIntermediateEventDetails.xhtml?#{intermediateEventBeanDetails.queryParameters}">#{intermediateEventDetailBean.event.beanName}</a></li>
+      <li><a href="monitorIntermediateEventDetails.xhtml?#{request.queryString}">#{intermediateEventDetailBean.event.beanName}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">

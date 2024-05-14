@@ -24,7 +24,7 @@
       <li>/</li>
       <li><a href="monitorStartEvents.xhtml">Start Events</a></li>
       <li>/</li>
-      <li><a href="monitorStartEventDetails.xhtml?#{startEventBeanDetails.queryParameters}">#{startEventDetailBean.event.beanName}</a></li>
+      <li><a href="monitorStartEventDetails.xhtml?#{request.queryString}">#{startEventDetailBean.event.beanName}</a></li>
     </ui:define>
 
     <ui:define name="topbar-items">
