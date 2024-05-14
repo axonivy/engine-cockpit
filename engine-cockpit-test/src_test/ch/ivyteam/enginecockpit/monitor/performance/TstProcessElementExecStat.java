@@ -14,6 +14,7 @@ import ch.ivyteam.ivy.bpm.engine.restricted.model.InputName;
 import ch.ivyteam.ivy.bpm.engine.restricted.model.OutputName;
 import ch.ivyteam.ivy.bpm.engine.restricted.model.service.FormatService;
 import ch.ivyteam.ivy.bpm.engine.restricted.statistic.IProcessElementExecutionStatistic;
+import ch.ivyteam.ivy.process.model.ProcessKind;
 import ch.ivyteam.ivy.process.model.value.PID;
 
 @SuppressWarnings("restriction")
@@ -211,6 +212,11 @@ final class TstProcessElementExecStat implements IProcessElementExecutionStatist
     @Override
     public String getFullQualifiedName() {
       return "Process Name";
+    }
+
+    @Override
+    public ProcessKind getKind() {
+      return null;
     }
   }
 
