@@ -18,7 +18,7 @@ public class Conditions {
   }
 
   public static WebElementCondition satisfiesText(IntConsumer consumer) {
-    return new  IntegerCondition(consumer);
+    return new IntegerCondition(consumer);
   }
 
   public static final WebElementCondition INTEGER_TEXT = new IntegerCondition();

@@ -4,6 +4,8 @@ import static ch.ivyteam.enginecockpit.util.Conditions.NOT_NEGATIVE_INTEGER_TEXT
 import static ch.ivyteam.enginecockpit.util.Conditions.matchText;
 import static ch.ivyteam.enginecockpit.util.Conditions.satisfiesText;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.enabled;
@@ -28,10 +30,8 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverConditions;
 import com.codeborne.selenide.WebElementCondition;
 
-import ch.ivyteam.enginecockpit.util.Conditions;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
@@ -149,7 +149,7 @@ class WebTestStartEvents {
     if (start.is(enabled)) {
       start.click();
     }
-    var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
+    var initialExecutions = Integer.parseInt(table.tableEntry(1, 5).text());
     $(By.id("form:beanTable:0:poll")).shouldBe(visible).click();
     $(By.id("pollBean:poll")).shouldBe(visible).click();
 
@@ -158,8 +158,7 @@ class WebTestStartEvents {
         .ignoring(AssertionError.class)
         .until(webDriver -> {
           $(By.id("refresh")).click();
-          var executions = Long.parseLong(table.tableEntry(1, 5).text());
-          assertThat(executions).isGreaterThan(initialExecutions);
+          table.tableEntry(1, 5).shouldHave(satisfiesText(executions -> assertThat(executions).isGreaterThan(initialExecutions)));
           return true;
         });
   }
@@ -237,7 +236,7 @@ class WebTestStartEvents {
 
     detailsPoll();
 
-    $(By.id("firings:eventFiring:executions")).shouldHave(Conditions.satisfiesText(executions -> assertThat(executions).isPositive()));
+    $(By.id("firings:eventFiring:executions")).shouldHave(satisfiesText(executions -> assertThat(executions).isPositive()));
     $(By.id("firings:eventFiring:duration")).shouldHave(DURATIONS_TEXT);
     $(By.id("firings:eventFiring:errors")).shouldHave(text("0"));
 
@@ -262,7 +261,7 @@ class WebTestStartEvents {
     $(By.id("firings:eventFiring:errors")).shouldHave(satisfiesText(errors -> assertThat(errors).isPositive()));
 
     firingTable = new Table(FIRING_TABLE_ID, true);
-    firingTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
+    firingTable.rows().shouldHave(sizeGreaterThan(0));
     for (int row = 1; row <= firingTable.rows().size(); row++) {
       firingTable.tableEntry(row, 4).shouldHave(text("ivy:error:script"));
     }
@@ -315,9 +314,9 @@ class WebTestStartEvents {
     navigateToDetails("eventLink7.ivp");
 
     var threadTable = new Table(THREAD_TABLE_ID, true);
-    threadTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
+    threadTable.rows().shouldHave(sizeGreaterThan(0));
     $(By.id("threads:eventBeanThreads:threadTable:0:id")).click();
-    Selenide.webdriver().shouldHave(WebDriverConditions.urlContaining("monitorThreads.xhtml"));
+    Selenide.webdriver().shouldHave(urlContaining("monitorThreads.xhtml"));
     $(By.id("form:threadTable:globalFilter")).shouldBe(not(empty));
   }
 
@@ -326,7 +325,7 @@ class WebTestStartEvents {
     navigateToDetails("eventLink8.ivp");
 
     var threadTable = new Table(THREAD_TABLE_ID, true);
-    threadTable.rows().shouldHave(CollectionCondition.sizeGreaterThan(0));
+    threadTable.rows().shouldHave(sizeGreaterThan(0));
     for (int row = 1; row <= threadTable.rows().size(); row++) {
         threadTable.tableEntry(row, 4).shouldHave(text("Error in event bean thread"));
     }
@@ -337,7 +336,7 @@ class WebTestStartEvents {
   private void navigateToDetails(String link) {
     link = EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/"+link;
     $(By.id("form:beanTable:globalFilter")).sendKeys(link);
-    table.rows().shouldHave(CollectionCondition.size(1));
+    table.rows().shouldHave(size(1));
     table.tableEntry(1, 1).shouldBe(visible, enabled).find(By.tagName("a")).click();
     webdriver().shouldHave(urlContaining("monitorStartEventDetails.xhtml"));
   }
