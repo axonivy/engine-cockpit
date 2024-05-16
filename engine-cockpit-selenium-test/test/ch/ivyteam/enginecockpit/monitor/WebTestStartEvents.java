@@ -36,7 +36,7 @@ import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
 import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
+@IvyWebTest(headless = false)
 class WebTestStartEvents {
 
   private static final String DURATION_STR = "[0-9][0-9]?[0-9]? (us|ms|s|m|h|d)";
@@ -149,6 +149,7 @@ class WebTestStartEvents {
     if (start.is(enabled)) {
       start.click();
     }
+    table.tableEntry(1, 4).shouldNotBe(text("n.a"));
     var initialExecutions = Integer.parseInt(table.tableEntry(1, 5).text());
     $(By.id("form:beanTable:0:poll")).shouldBe(visible).click();
     $(By.id("pollBean:poll")).shouldBe(visible).click();
