@@ -7,6 +7,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions"
   xmlns:cc="http://java.sun.com/jsf/composite/composite">
 <h:body>
+  
   <ui:composition template="../includes/template/template.xhtml">
 
     <ui:define name="breadcrumb">
@@ -25,13 +26,16 @@
       <div class="card">
         <div class="flex align-items-center mb-3">
           <i class="pr-3 si si-road-sign-warning card-title-icon"></i>
-          <h2 class="m-0">Health Check</h2>
-          <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="Refresh Health Check"
-              icon="si si-button-refresh-arrows" styleClass="col-fixed ml-auto rounded-button"/>
+          <h2 class="m-0">Health</h2>
+          <p:commandButton id="run" title="Run Health Checks" action="#{healthBean.checkNow()}"
+              update="form" icon="si si-controls-play" styleClass="col-fixed ml-auto ui-button-success rounded-button" />
+          <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="Refresh Health"
+              icon="si si-button-refresh-arrows" styleClass="col-fixed ml-1 rounded-button"/>
+          <p:linkButton id="checks" title="Health Checks" type="button" href="monitor-health-checks.xhtml"
+              icon="si si-road-sign-warning" styleClass="col-fixed ml-1 ui-button-secondary rounded-button" />
           
         </div>
         <h:form id="form" style="overflow: auto;">
-          <h3>Messages</h3>
           <p:dataTable var="msg" value="#{healthBean.messages}"
             widgetVar="messagesTable" styleClass="ui-fluid"
             paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
@@ -53,7 +57,10 @@
             </p:column>
             
             <p:column headerText="Check" sortBy="#{msg.check}">
-              <h:outputText value="#{msg.check}"/>
+              <p:link outcome="monitor-health-checks">
+                <f:param name="check" value="#{msg.check}"/>
+                <h:outputText value="#{msg.check}"/>
+              </p:link>
             </p:column>
             <p:column styleClass="table-btn-1">
               <p:button title="Detail" outcome="#{msg.actionLink}" rendered="#{msg.hasActionLink}" 
@@ -61,37 +68,6 @@
               </p:button>
             </p:column>
           </p:dataTable>
-          <h3>Checks</h3>
-            <p:dataTable var="check" value="#{healthBean.checks}"
-              widgetVar="checkTable" styleClass="ui-fluid"
-              paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-              id="checkTable" style="min-width: 950px;">
-              
-              <p:column width="7%" headerText="Severity" sortBy="#{check.severity}" sortOrder="desc">
-                <h:panelGroup class="#{check.severityClass}">
-                  <i class="#{check.severityIcon} table-icon"></i>
-                  <h:outputLabel value="#{check.severity}"/>
-                </h:panelGroup>
-              </p:column>
-              
-              <p:column width="30%" headerText="Name" sortBy="#{check.name}">
-                <h:outputText value="#{check.name}"/>
-              </p:column>
-    
-              <p:column width="50%" headerText="Description" sortBy="#{check.description}">
-                <h:outputText value="#{check.description}"/>
-              </p:column>
-
-              <p:column width="15%" headerText="Next Execution" sortBy="#{check.nextExecution}">
-                <h:outputText value="#{check.timeUntilNextExecution} (#{check.nextExecution})" />
-              </p:column>
-              
-              <p:column styleClass="table-btn-1">
-                <p:commandButton id="checkNow" icon="si si-controls-play"
-                    action="#{check.checkNow()}" styleClass="rounded-button" />
-            </p:column>
-              
-           </p:dataTable>
         </h:form>
       </div>
     </ui:define>

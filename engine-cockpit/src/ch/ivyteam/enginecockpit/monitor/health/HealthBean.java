@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 import ch.ivyteam.enginecockpit.util.DurationFormat;
 import ch.ivyteam.ivy.health.check.HealthCheck;
@@ -13,13 +13,14 @@ import ch.ivyteam.ivy.health.check.HealthMessage;
 import ch.ivyteam.ivy.health.check.HealthSeverity;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class HealthBean {
 
   private final HealthChecker checker = HealthChecker.instance();
   private List<Check> checks;
   private List<Message> messages;
-
+  private String check;
+  
   public HealthBean() {
     refresh();
   }
@@ -54,7 +55,7 @@ public class HealthBean {
     return severityClass(checker.severity());
   }
 
-  private String severityClass(HealthSeverity severity) {
+  private static String severityClass(HealthSeverity severity) {
     return switch (severity) {
       case HEALTHY -> "health-healthy";
       case LOW -> "health-low";
@@ -84,6 +85,14 @@ public class HealthBean {
 
   public List<Check> getChecks() {
     return checks;
+  }
+  
+  public String getCheck() {
+	return check;
+  }
+  
+  public void setCheck(String check) {
+	this.check = check;
   }
 
   public class Message {
@@ -131,7 +140,7 @@ public class HealthBean {
     }
   }
 
-  public class Check {
+  public static class Check {
 
     private final HealthCheck check;
 
@@ -171,6 +180,18 @@ public class HealthBean {
     public String getNextExecution() {
       var nextExecutionTime = check.nextExecutionTime();
       return DurationFormat.NOT_AVAILABLE.format(nextExecutionTime.orElse(null));
+    }
+    
+    public boolean isEnabled() {
+      return check.isEnabled();
+    }
+      
+    public void enable() {
+      check.enable();
+    }
+    
+    public void disable() {
+      check.disable();
     }
   }
 }
