@@ -44,8 +44,8 @@ public class HealthBean {
   private static String severityIcon(HealthSeverity severity) {
     return switch (severity) {
       case HEALTHY -> "si si-check-1";
-      case MINOR -> "si si-road-sign-warning";
-      case MAJOR -> "si si-alert-circle";
+      case LOW -> "si si-road-sign-warning";
+      case HIGH -> "si si-alert-circle";
       case CRITICAL -> "si si-alarm-bell";
     };
   }
@@ -57,8 +57,8 @@ public class HealthBean {
   private String severityClass(HealthSeverity severity) {
     return switch (severity) {
       case HEALTHY -> "health-healthy";
-      case MINOR -> "health-minor";
-      case MAJOR -> "health-major";
+      case LOW -> "health-low";
+      case HIGH -> "health-high";
       case CRITICAL -> "health-critical";
     };
   }
