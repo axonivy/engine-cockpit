@@ -224,6 +224,15 @@ public class EngineCockpitUtil {
     return EngineUrl.base() + "/system/engine-cockpit/faces/" + page;
   }
 
+  public static String testViewUrl(String page) {
+    if (isDesigner()) {
+      // test it in designer as PMV
+      return EngineUrl.createStaticViewUrl("engine-cockpit-test-data/" + page);
+    }
+    // test integrated jar
+    return EngineUrl.base() + "/system/engine-cockpit-test-data/faces/" + page;
+  }
+
   public static String getAppName() {
     return isDesigner() ? DESIGNER : "test";
   }
