@@ -94,7 +94,7 @@
       "config" : {
         "output" : {
           "code" : [
-            "import ch.ivyteam.ivy.config.LicenceInstaller;",
+            "import ch.ivyteam.licence.LicenceInstaller;",
             "LicenceInstaller.install();"
           ]
         }
