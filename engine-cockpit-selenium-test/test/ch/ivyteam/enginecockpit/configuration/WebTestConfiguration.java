@@ -59,7 +59,7 @@ class WebTestConfiguration {
     assertCurrentUrlContains("systemconfig.xhtml?filter=" + filter);
     table = new Table(TABLE_ID, "span");
     table.searchFilterShould(exactValue(filter));
-    table.firstColumnShouldBe(size(9));
+    table.firstColumnShouldBe(size(10));
   }
 
   @Test
