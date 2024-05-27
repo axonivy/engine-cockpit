@@ -20,12 +20,12 @@ import org.primefaces.model.file.UploadedFile;
 import ch.ivyteam.enginecockpit.setup.WizardBean.StepStatus;
 import ch.ivyteam.enginecockpit.system.model.LicenceMessage;
 import ch.ivyteam.ivy.cluster.restricted.IClusterManager;
-import ch.ivyteam.ivy.config.NewLicenceFileInstaller;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.server.restricted.EngineMode;
 import ch.ivyteam.licence.LicenceConstants;
 import ch.ivyteam.licence.LicenceEventManager;
+import ch.ivyteam.licence.NewLicenceFileInstaller;
 import ch.ivyteam.licence.SystemLicence;
 
 @SuppressWarnings("restriction")
