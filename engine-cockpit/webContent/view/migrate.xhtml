@@ -34,6 +34,7 @@
           <p:linkButton href="#{advisorBean.engineGuideBaseUrl}/reference/migration-wizard.html" target="_blank" rel="noopener noreferrer"
             styleClass="ml-auto ui-button-outlined rounded-button" icon="si si-question-circle" />
         </div>
+
         <h:form id="locationForm">
           <p:panel style="margin-bottom:10px;">
             <p:panelGrid columns="3" layout="flex"
@@ -54,13 +55,15 @@
                 value="Load Location" id="checkLocation"
                 disabled="#{migrationBean.state == 'RUNNING'}"
                 actionListener="#{migrationBean.checkOldEngineLocation}"
-                validateClient="true" update="migration, @form" />
+                validateClient="true" update="@form, migrationChecksForm, licenceUploadForm, migrationInPlaceForm, migration" />
             </p:panelGrid>
             <f:facet name="header">
               Location
             </f:facet>
           </p:panel>
-
+        </h:form>
+		
+        <h:form id="migrationChecksForm">
           <p:panel id="migrationChecks" style="margin-bottom:10px;"
             rendered="#{migrationBean.result != null}">
             <ui:repeat var="check"
@@ -80,9 +83,38 @@
               Checks
             </f:facet>
           </p:panel>
+        </h:form>
 
-          <p:panel id="migrationInPlace"
-            rendered="#{migrationBean.inPlace}">
+        <h:form id="licenceUploadForm" enctype="multipart/form-data">
+          <p:panel style="margin-bottom:10px;" rendered="#{migrationBean.licenceCheck()}">
+            <p:messages id="messages">
+              <p:autoUpdate />
+            </p:messages>
+
+            <h:panelGroup rendered="#{migrationBean.validLicence}">
+              <p:staticMessage severity="info" detail="Valid licence found." />
+              <pre><code><h:outputText value="#{migrationBean.licence}" /></code></pre>
+            </h:panelGroup>
+ 
+            <h:panelGroup rendered="#{!migrationBean.validLicence}">
+              <p:staticMessage severity="warn" detail="Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: #{migrationBean.invalidLicenceMessage}" />
+              <div class="file-upload" style="margin-top:10px;">
+                <p:fileUpload id="licenceUpload"
+                  mode="simple" skinSimple="true" auto="true"
+                  listener="#{migrationBean.handleUploadLicence}"
+                  update="licenceUploadForm"
+                  value="#{migrationBean.uploadedLicenceFile}" />
+              </div>
+            </h:panelGroup>
+
+            <f:facet name="header">
+                Licence
+            </f:facet>
+          </p:panel>
+        </h:form>
+
+        <h:form id="migrationInPlaceForm">
+          <p:panel id="migrationInPlace" rendered="#{migrationBean.inPlace}">
             <h:panelGroup id="migrationInPlaceInfo" layout="block">
                 This migration is an in place migration.
                 Therefore, the new Axon Ivy Engine will be installed in exactly the same place as the old Axon Ivy Engine.
@@ -182,7 +214,6 @@
             <p:staticMessage severity="info" summary="Success" detail="To complete the migration, perform the follwing steps:" />
             <ol>
               <li>Restart your engine.</li>
-              <li>If the engine starts in <b>Maintenance Mode</b>, use the <b>Setup Wizard</b> to finish your migration.<br />E.g install a new licence.</li>
             </ol>
             <br />
           </div>
@@ -193,7 +224,7 @@
               styleClass="modal-input-button" rendered="#{not restartBean.restartable}"/>
             <p:commandButton id="finishWizardRestart" onclick="var button=this; buttonAddSpinner(button);" oncomplete="redirectToHomeAfterRestart()" 
               value="Restart" icon="si si-power-button" styleClass="modal-input-button" actionListener="#{restartBean.restart}" 
-              rendered="#{restartBean.restartable}"/>              
+              rendered="#{restartBean.restartable}"/>
           </div>
         </h:form>
       </p:dialog>
