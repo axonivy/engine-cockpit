@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.setup.migration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -9,9 +10,13 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
+
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
+import ch.ivyteam.licence.NewLicenceFileInstaller;
 
 @ManagedBean
 @ApplicationScoped
@@ -25,6 +30,7 @@ public class MigrationBean {
   private MigrationRunner client;
   private EngineMigrator.Result result;
   private boolean writeToTmp = false;
+  private UploadedFile uploadedLicenceFile;
 
   public void checkOldEngineLocation() {
     try {
@@ -40,6 +46,14 @@ public class MigrationBean {
               .exception(ex)
               .show();
     }
+  }
+
+  public UploadedFile getUploadedLicenceFile() {
+    return uploadedLicenceFile;
+  }
+
+  public void setUploadedLicenceFile(UploadedFile file) {
+    this.uploadedLicenceFile = file;
   }
 
   public boolean isInPlace() {
@@ -58,6 +72,41 @@ public class MigrationBean {
 
   public void setWriteToTmp(boolean writeToTmp) {
     this.writeToTmp = writeToTmp;
+  }
+
+  public boolean licenceCheck() {
+    if (result == null) {
+      return false;
+    }
+    return result.success();
+  }
+
+  public boolean isValidLicence() {
+    return migrator.checkLicence().success();
+  }
+
+  public String getInvalidLicenceMessage() {
+    return migrator.checkLicence().message();
+  }
+
+  public String getLicence() {
+    var lic = migrator.checkLicence().licence();
+    if (lic == null) {
+      return "";
+    }
+    try {
+      return lic.save().toAsciiOnlyString();
+    } catch (IOException ex) {
+      return "Error while reading licence: " + ex.getMessage();
+    }
+  }
+
+  public void handleUploadLicence(FileUploadEvent event) {
+    try (var in = event.getFile().getInputStream()) {
+      NewLicenceFileInstaller.install(event.getFile().getFileName(), in);
+    } catch (Exception ex) {
+      Message.error().summary(ex.getMessage()).show();
+    }
   }
 
   private static List<Task> loadTasks(EngineMigrator.Result result) {
