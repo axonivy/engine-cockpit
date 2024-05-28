@@ -47,6 +47,6 @@ class WebTestMigration {
     $(By.id("locationForm:oldEngineInput")).sendKeys("/tmp/notValidPath");
     $(By.id("locationForm:checkLocation")).shouldBe(visible).click();
     $(By.id("locationForm:oldEngineInputMessage")).shouldBe(empty);
-    $(By.id("locationForm:migrationChecks")).shouldHave(text("Location does not exist: /tmp/notvalid"));
+    $(By.id("migrationChecksForm:migrationChecks")).shouldHave(text("Location does not exist: /tmp/notvalid"));
   }
 }
