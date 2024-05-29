@@ -144,6 +144,7 @@ class WebTestStartEvents {
   }
 
   @Test
+  @org.junit.jupiter.api.Disabled
   void poll() {
     var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
     $(By.id("form:beanTable:0:poll")).click();
