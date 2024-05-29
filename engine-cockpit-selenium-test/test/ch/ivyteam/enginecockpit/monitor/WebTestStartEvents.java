@@ -143,23 +143,22 @@ class WebTestStartEvents {
       });
   }
 
-  @Test
-  @org.junit.jupiter.api.Disabled
-  void poll() {
-    var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
-    $(By.id("form:beanTable:0:poll")).click();
-    $(By.id("pollBean:poll")).click();
+  // @Test
+  // void poll() {
+  //   var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
+  //   $(By.id("form:beanTable:0:poll")).click();
+  //   $(By.id("pollBean:poll")).click();
 
-    Wait()
-        .withTimeout(Duration.ofSeconds(10))
-        .ignoring(AssertionError.class)
-        .until(webDriver -> {
-          $(By.id("refresh")).click();
-          var executions = Long.parseLong(table.tableEntry(1, 5).text());
-          assertThat(executions).isGreaterThan(initialExecutions);
-          return true;
-        });
-  }
+  //   Wait()
+  //       .withTimeout(Duration.ofSeconds(10))
+  //       .ignoring(AssertionError.class)
+  //       .until(webDriver -> {
+  //         $(By.id("refresh")).click();
+  //         var executions = Long.parseLong(table.tableEntry(1, 5).text());
+  //         assertThat(executions).isGreaterThan(initialExecutions);
+  //         return true;
+  //       });
+  // }
 
   @Test
   void stop_start() {
