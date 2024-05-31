@@ -10,19 +10,38 @@ import ch.ivyteam.ivy.engine.migration.MigrationEvent;
 public class MigrationRunner implements MigrationClient {
 
   private final Map<String, Task> tasks;
+  private String summary;
 
   public MigrationRunner(List<Task> tasks) {
     this.tasks = tasks.stream().collect(Collectors.toMap(Task::id, t -> t));
   }
 
+  public String summary() {
+    return summary;
+  }
+
+  public long taskCountAll() {
+    return tasks.size();
+  }
+
+  public long taskCountDone() {
+    return tasks.values().stream()
+            .filter(t -> t.isDone())
+            .count();
+  }
+
   @Override
   public void event(MigrationEvent event) {
-    var dto = tasks.get(event.task().id());
     switch (event.state()) {
-      case DONE -> dto.done();
-      case FAILED -> dto.fail();
-      case STARTED -> dto.run();
-      case PROGRESS -> dto.log(event.message());
+      case STARTED -> task(event).run();
+      case PROGRESS -> task(event).log(event.message());
+      case DONE -> task(event).done();
+      case FAILED -> task(event).fail();
+      case FINISHED -> summary = event.message();
     }
+  }
+
+  private Task task(MigrationEvent event) {
+    return tasks.get(event.task().id());
   }
 }

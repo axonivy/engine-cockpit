@@ -4,6 +4,7 @@ import ch.ivyteam.ivy.engine.migration.MigrationTask;
 
 public class Task {
 
+  private static final String DONE = "done";
   private final String id;
   private final String name;
   private final String description;
@@ -38,8 +39,12 @@ public class Task {
   }
 
   public void done() {
-    state = "done";
+    state = DONE;
     stateIcon = "check-circle-1 state-active";
+  }
+
+  public boolean isDone() {
+    return DONE.equals(state);
   }
 
   public void fail() {

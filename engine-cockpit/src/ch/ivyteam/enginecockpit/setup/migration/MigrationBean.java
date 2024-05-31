@@ -18,6 +18,7 @@ import org.primefaces.model.file.UploadedFile;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.licence.NewLicenceFileInstaller;
 
 @ManagedBean
@@ -28,7 +29,7 @@ public class MigrationBean {
   private EngineMigrator migrator;
   private List<Task> tasks;
   private MigrationState running;
-  private CompletableFuture<Exception> migrationRunner;
+  private CompletableFuture<Exception> asyncRunner;
   private MigrationRunner client;
   private EngineMigrator.Result result;
   private boolean writeToTmp = false;
@@ -112,24 +113,42 @@ public class MigrationBean {
     }
   }
 
+  public String getStartMigrationButtonIcon() {
+    return switch(running) {
+      case START -> "si si-controls-play";
+      case RUNNING -> "si si-button-refresh-arrows si-is-spinning";
+      case FINISHED -> "si si-check-1";
+    };
+  }
+
+  public String getStartMigrationButtonName() {
+    return switch(running) {
+      case START -> "Start";
+      case RUNNING -> "Running " + client.taskCountDone() + "/" + client.taskCountAll();
+      case FINISHED -> "Done";
+    };
+  }
+
   public void handleUploadLicence(FileUploadEvent event) {
     try (var in = event.getFile().getInputStream()) {
       NewLicenceFileInstaller.install(event.getFile().getFileName(), in);
     } catch (Exception ex) {
-      Message.error().summary(ex.getMessage()).show();
+      Message.error().clientId("licenceMessage").summary(ex.getMessage()).show();
     }
   }
 
   private static List<Task> loadTasks(EngineMigrator.Result result) {
     if (result.success()) {
-      return result.tasks().stream().map(Task::new).collect(Collectors.toList());
+      return result.tasks().stream()
+              .map(Task::new)
+              .collect(Collectors.toList());
     }
     return new ArrayList<>();
   }
 
   public void execute() throws Exception {
     running = MigrationState.RUNNING;
-    migrationRunner = CompletableFuture.supplyAsync(() -> {
+    asyncRunner = CompletableFuture.supplyAsync(() -> {
       try {
         migrator.run(client, writeToTmp);
         return null;
@@ -164,10 +183,15 @@ public class MigrationBean {
     return !checks.get(checks.size() - 1).equals(check);
   }
 
+  public String getSummary() {
+    Ivy.log().info(client.summary());
+    return client.summary();
+  }
+
   public MigrationState getState() throws InterruptedException, ExecutionException {
-    if (running == MigrationState.RUNNING && migrationRunner != null && migrationRunner.isDone()) {
+    if (running == MigrationState.RUNNING && asyncRunner != null && asyncRunner.isDone()) {
       running = MigrationState.FINISHED;
-      var exception = migrationRunner.get();
+      var exception = asyncRunner.get();
       if (exception == null) {
         Message.info()
                 .clientId("migrationMessage")

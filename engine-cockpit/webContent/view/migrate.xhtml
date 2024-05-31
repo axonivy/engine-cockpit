@@ -55,7 +55,7 @@
                 value="Load Location" id="checkLocation"
                 disabled="#{migrationBean.state == 'RUNNING'}"
                 actionListener="#{migrationBean.checkOldEngineLocation}"
-                validateClient="true" update="@form, migrationChecksForm, licenceUploadForm, migrationInPlaceForm, migration" />
+                validateClient="true" update="locationForm, migrationChecksForm, licenceUploadForm, migrationInPlaceForm, migrationTaskForm, summaryForm" />
             </p:panelGrid>
             <f:facet name="header">
               Location
@@ -87,9 +87,7 @@
 
         <h:form id="licenceUploadForm" enctype="multipart/form-data">
           <p:panel style="margin-bottom:10px;" rendered="#{migrationBean.licenceCheck()}">
-            <p:messages id="messages">
-              <p:autoUpdate />
-            </p:messages>
+            <p:messages id="licenceMessage" />
 
             <h:panelGroup rendered="#{migrationBean.validLicence}">
               <p:staticMessage severity="info" detail="Valid licence found." />
@@ -98,17 +96,18 @@
  
             <h:panelGroup rendered="#{!migrationBean.validLicence}">
               <p:staticMessage severity="warn" detail="Licence is not valid. Please upload a new licence otherwise you can not start the Axon Ivy Engine after migration. Reason: #{migrationBean.invalidLicenceMessage}" />
-              <div class="file-upload" style="margin-top:10px;">
-                <p:fileUpload id="licenceUpload"
+            </h:panelGroup>
+
+            <f:facet name="header">
+              Licence
+            </f:facet>
+
+            <f:facet name="actions">
+              <p:fileUpload id="licenceUpload"
                   mode="simple" skinSimple="true" auto="true"
                   listener="#{migrationBean.handleUploadLicence}"
                   update="licenceUploadForm"
                   value="#{migrationBean.uploadedLicenceFile}" />
-              </div>
-            </h:panelGroup>
-
-            <f:facet name="header">
-                Licence
             </f:facet>
           </p:panel>
         </h:form>
@@ -140,40 +139,9 @@
           </p:panel>
         </h:form>
 
-        <h:panelGroup layout="block" id="migration" style="margin-top:20px;">
-          <h:form id="form"
-            rendered="#{migrationBean.result != null and migrationBean.result.success()}">
-            <p:panelGrid columns="2" layout="flex"
-              columnClasses="col-12 md:col-9 lg:col-9, col-12 md:col-3 lg:col-3">
-              <h3>Migration Tasks</h3>
-
-              <h:panelGroup id="migrationButtons" layout="block">
-                <p:commandButton id="startMigration"
-                  icon="si si-controls-play" value="Start"
-                  actionListener="#{migrationBean.execute}"
-                  update="migration locationForm"
-                  onsuccess="PF('migrationPoller').start()"
-                  rendered="#{migrationBean.state == 'START'}" />
-                <p:commandButton id="finishMigration"
-                  icon="si si-check-1" value="Finish"
-                  rendered="#{migrationBean.state == 'FINISHED'}"
-                  type="button"
-                  onclick="PF('finishWizardModel').show();" />
-                <p:commandButton id="migrationRunning"
-                  icon="si si-button-refresh-arrows si-is-spinning"
-                  value="Running" disabled="true"
-                  rendered="#{migrationBean.state == 'RUNNING'}" />
-                <p:poll interval="1"
-                  autoStart="#{migrationBean.state == 'RUNNING'}"
-                  update="migrationButtons @(.task-icon) migrationMessage"
-                  widgetVar="migrationPoller" />
-              </h:panelGroup>
-            </p:panelGrid>
-
-            <p:messages id="migrationMessage" for="migrationMessage"
-              showDetail="true" skipDetailIfEqualsSummary="true">
-              <p:autoUpdate />
-            </p:messages>
+        <h:form id="migrationTaskForm">
+          <p:panel id="migrationTasks" style="margin-top: 20px;" rendered="#{migrationBean.result != null and migrationBean.result.success()}">
+            <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" skipDetailIfEqualsSummary="true" />
 
             <p:dataTable var="task" value="#{migrationBean.tasks}"
               id="taskTable" rowKey="#{task.name}">
@@ -194,8 +162,7 @@
               <p:rowExpansion>
                 <p class="m-0">
                   <h:panelGroup rendered="#{not empty task.description}">
-                    <h:outputText value="#{task.description}"
-                      escape="false" />
+                    <h:outputText value="#{task.description}" escape="false" />
                   </h:panelGroup>
                   <h:panelGroup rendered="#{not empty task.script}">
                     <pre style="white-space: pre-wrap;"><code><h:outputText value="#{task.script}" /></code></pre>
@@ -216,10 +183,44 @@
                 </p>
               </p:rowExpansion>
             </p:dataTable>
-          </h:form>
-        </h:panelGroup>
+
+            <f:facet name="header">
+              Migration Tasks
+            </f:facet>
+  
+            <f:facet name="actions">
+              <p:commandButton id="startMigration"
+                  icon="#{migrationBean.startMigrationButtonIcon}"
+                  value="#{migrationBean.startMigrationButtonName}"
+                  disabled="#{migrationBean.state != 'START'}"
+                  actionListener="#{migrationBean.execute}"
+                  update="locationForm migrationTaskForm"
+                  onsuccess="PF('migrationPoller').start()" />
+  
+              <p:poll interval="1"
+                 stop="#{migrationBean.state != 'RUNNING'}"
+                 update="startMigration @(.task-icon) migrationTaskForm:migrationMessage summaryForm"
+                 widgetVar="migrationPoller" />
+            </f:facet>
+          </p:panel>
+        </h:form>
+
+        <h:form id="summaryForm">
+          <p:panel id="summaryPanel" style="margin-top: 10px;" rendered="#{migrationBean.state == 'FINISHED'}">
+            <pre style="white-space: pre-wrap; word-break: break-all; margin:0px;"><code><h:outputText value="#{migrationBean.summary}" /></code></pre>
+            <f:facet name="header">
+              Summary
+            </f:facet>
+            <f:facet name="actions">
+              <p:commandButton id="finishMigration"
+                  icon="si si-check-1" value="Finish"
+                  type="button"
+                  onclick="PF('finishWizardModel').show();" />
+            </f:facet>
+          </p:panel>
+        </h:form>
       </div>
-      
+
       <p:dialog style="min-width: 300px;" header="Finish Migration Wizard" id="finishWizardModel"
         widgetVar="finishWizardModel" modal="true" responsive="true" closeOnEscape="true">
         <h:form id="finishWizardForm" styleClass="custom-dialog-form">
