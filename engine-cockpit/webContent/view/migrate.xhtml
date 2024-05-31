@@ -37,9 +37,9 @@
 
         <h:form id="locationForm">
           <p:panel style="margin-bottom:10px;">
-            <p:panelGrid columns="3" layout="flex"
+            <p:panelGrid columns="2" layout="flex"
               contentStyleClass="align-items-center"
-              columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-6 lg:col-6, col-12 md:col-3 lg:col-3">
+              columnClasses="col-12 md:col-3 lg:col-3, col-12 md:col-9 lg:col-9">
               <p:outputLabel for="oldEngineInput"
                 value="Location of old Engine" />
               <h:panelGroup styleClass="md-inputfield">
@@ -50,15 +50,18 @@
                 <p:message for="oldEngineInput"
                   id="oldEngineInputMessage" />
               </h:panelGroup>
+            </p:panelGrid>
 
-              <p:commandButton icon="si si-heavy-equipment-hook"
+            <f:facet name="header">
+              <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
+                <h:outputText value="Location" />
+                <p:commandButton icon="si si-heavy-equipment-hook"
                 value="Load Location" id="checkLocation"
                 disabled="#{migrationBean.state == 'RUNNING'}"
                 actionListener="#{migrationBean.checkOldEngineLocation}"
-                validateClient="true" update="locationForm, migrationChecksForm, licenceUploadForm, migrationInPlaceForm, migrationTaskForm, summaryForm" />
-            </p:panelGrid>
-            <f:facet name="header">
-              Location
+                validateClient="true"
+                update="locationForm, migrationChecksForm, licenceUploadForm, migrationInPlaceForm, migrationTaskForm, summaryForm" />
+              </p:panelGrid>
             </f:facet>
           </p:panel>
         </h:form>
@@ -79,8 +82,11 @@
               <p:divider
                 rendered="#{migrationBean.isNotLastCheck(check)}" />
             </ui:repeat>
+
             <f:facet name="header">
-              Checks
+              <p:panelGrid columns="1" layout="flex" contentStyleClass="align-items-center" columnClasses="col-12">
+                <h:outputText value="Checks" />
+              </p:panelGrid>
             </f:facet>
           </p:panel>
         </h:form>
@@ -99,15 +105,16 @@
             </h:panelGroup>
 
             <f:facet name="header">
-              Licence
-            </f:facet>
-
-            <f:facet name="actions">
-              <p:fileUpload id="licenceUpload"
+              <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
+                <h:outputText value="Licence" />
+                 <p:fileUpload id="licenceUpload" chooseIcon="si si-upload-bottom" 
+                  style="font-weight: normal;width:100%;"                
+                  label="Upload"
                   mode="simple" skinSimple="true" auto="true"
                   listener="#{migrationBean.handleUploadLicence}"
                   update="licenceUploadForm"
                   value="#{migrationBean.uploadedLicenceFile}" />
+              </p:panelGrid>
             </f:facet>
           </p:panel>
         </h:form>
@@ -132,30 +139,30 @@
               <h:outputText value="Temporary Directory: " />
               <code>#{migrationBean.configurationTmpDir}</code>
             </h:panelGroup>
-
+            
             <f:facet name="header">
-              In-Place Migration
+              <p:panelGrid columns="1" layout="flex" contentStyleClass="align-items-center" columnClasses="col-12">
+                <h:outputText value="In-Place Migration" />
+              </p:panelGrid>
             </f:facet>
           </p:panel>
         </h:form>
 
         <h:form id="migrationTaskForm">
-          <p:panel id="migrationTasks" style="margin-top: 20px;" rendered="#{migrationBean.result != null and migrationBean.result.success()}">
-            <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" skipDetailIfEqualsSummary="true" />
-
-            <p:dataTable var="task" value="#{migrationBean.tasks}"
+          <p:panel id="migrationTasks" style="margin-top: 20px;" styleClass="noPadding" rendered="#{migrationBean.result != null and migrationBean.result.success()}">
+            <p:dataTable var="task" styleClass="noHeader" value="#{migrationBean.tasks}"
               id="taskTable" rowKey="#{task.name}">
-              <p:column style="width:1rem">
+              <p:column style="width:3%;">
                 <h:panelGroup id="taskState" styleClass="task-icon">
                   <i class="mr-0 si si-#{task.stateIcon} link-icon"></i>
                 </h:panelGroup>
               </p:column>
 
-              <p:column>
+              <p:column style="width:92%">
                 <b><h:outputText value="#{task.name}" /></b>
               </p:column>
 
-              <p:column style="width:2rem">
+              <p:column style="width:5%">
                 <p:rowToggler />
               </p:column>
 
@@ -183,66 +190,78 @@
                 </p>
               </p:rowExpansion>
             </p:dataTable>
-
+            
             <f:facet name="header">
-              Migration Tasks
-            </f:facet>
-  
-            <f:facet name="actions">
-              <p:commandButton id="startMigration"
+              <p:panelGrid columns="2" layout="flex" contentStyleClass="align-items-center" columnClasses="col-10, col-2">
+                <h:outputText value="Migration Tasks" />
+                <p:commandButton
+                  onclick="PF('startMigrationModal').show();"
+                  id="startMigration"
                   icon="#{migrationBean.startMigrationButtonIcon}"
                   value="#{migrationBean.startMigrationButtonName}"
                   disabled="#{migrationBean.state != 'START'}"
-                  actionListener="#{migrationBean.execute}"
-                  update="locationForm migrationTaskForm"
-                  onsuccess="PF('migrationPoller').start()" />
-  
-              <p:poll interval="1"
-                 stop="#{migrationBean.state != 'RUNNING'}"
-                 update="startMigration @(.task-icon) migrationTaskForm:migrationMessage summaryForm"
-                 widgetVar="migrationPoller" />
+                   />
+              </p:panelGrid>
             </f:facet>
+            
+            <p:poll interval="1"
+                   stop="#{migrationBean.state != 'RUNNING'}"
+                   update="startMigration @(.task-icon) summaryForm"
+                   widgetVar="migrationPoller" />
           </p:panel>
         </h:form>
 
+       <p:dialog style="min-width: 300px;" header="Start Migration" id="startMigrationModal"
+        widgetVar="startMigrationModal" modal="true" responsive="true" closeOnEscape="true">
+        <h:form id="startMigrationForm" styleClass="custom-dialog-form">
+          <div>  
+            Before you start the Migration make sure you have a backup of your system database and all
+            the whole Axon Ivy Engine installation directory.
+          </div>
+          <div class="custom-dialog-footer">
+            <p:commandButton id="startMigrationCancel" onclick="PF('startMigrationModal').hide();" value="Cancel" type="button"
+              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="startMigrationStart" value="Start" icon="si si-check-1"
+              actionListener="#{migrationBean.execute}"
+              update="locationForm migrationTaskForm"
+              onsuccess="PF('migrationPoller').start();PF('startMigrationModal').hide();"                   
+              styleClass="modal-input-button" />
+          </div>
+        </h:form>
+      </p:dialog>
+
         <h:form id="summaryForm">
           <p:panel id="summaryPanel" style="margin-top: 10px;" rendered="#{migrationBean.state == 'FINISHED'}">
+            <p:staticMessage severity="#{migrationBean.finishedSeverity}" summary="#{migrationBean.finishedMessage}" />
+            <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" skipDetailIfEqualsSummary="true" />
             <pre style="white-space: pre-wrap; word-break: break-all; margin:0px;"><code><h:outputText value="#{migrationBean.summary}" /></code></pre>
+            
             <f:facet name="header">
-              Summary
-            </f:facet>
-            <f:facet name="actions">
-              <p:commandButton id="finishMigration"
-                  icon="si si-check-1" value="Finish"
-                  type="button"
-                  onclick="PF('finishWizardModel').show();" />
+              <p:panelGrid columns="1" layout="flex" contentStyleClass="align-items-center" columnClasses="col-12">
+                <h:outputText value="Summary" />
+              </p:panelGrid>
             </f:facet>
           </p:panel>
         </h:form>
       </div>
 
-      <p:dialog style="min-width: 300px;" header="Finish Migration Wizard" id="finishWizardModel"
-        widgetVar="finishWizardModel" modal="true" responsive="true" closeOnEscape="true">
-        <h:form id="finishWizardForm" styleClass="custom-dialog-form">
-          <div>  
-            <p:staticMessage severity="info" summary="Success" detail="To complete the migration, perform the follwing steps:" />
-            <ol>
-              <li>Restart your engine.</li>
-            </ol>
-            <br />
-          </div>
-          <div class="custom-dialog-footer">
-            <p:commandButton id="finishWizardNo" onclick="PF('finishWizardModel').hide();" value="Cancel" type="button"
-              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-            <p:commandButton id="finishWizardYes" oncomplete="window.location = '/'" value="OK" icon="si si-check-1" 
-              styleClass="modal-input-button" rendered="#{not restartBean.restartable}"/>
-            <p:commandButton id="finishWizardRestart" onclick="var button=this; buttonAddSpinner(button);" oncomplete="redirectToHomeAfterRestart()" 
-              value="Restart" icon="si si-power-button" styleClass="modal-input-button" actionListener="#{restartBean.restart}" 
-              rendered="#{restartBean.restartable}"/>
-          </div>
-        </h:form>
-      </p:dialog>
+      <style>
+      .noHeader.ui-datatable table thead tr {
+        display: none;
+      }
       
+      .noPadding.ui-panel .ui-panel-content {
+        padding: 0px;
+      }
+      
+      body .ui-panel .ui-panel-titlebar {
+        padding: 2px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top:10px;
+        font-size:1.25rem;
+      }
+      </style>
     </ui:define>
   </ui:composition>
 </h:body>
