@@ -12,6 +12,7 @@ public class Task {
   private final MigrationTask task;
   private String script;
   private int version;
+  private String log = "";
 
   public Task(MigrationTask task) {
     this.id = task.id();
@@ -58,6 +59,10 @@ public class Task {
     return state;
   }
 
+  public String getLog() {
+    return log;
+  }
+
   public String getStateIcon() {
     return stateIcon;
   }
@@ -68,5 +73,9 @@ public class Task {
 
   MigrationTask getTask() {
     return task;
+  }
+
+  public void log(String message) {
+    log += message + "\n";
   }
 }

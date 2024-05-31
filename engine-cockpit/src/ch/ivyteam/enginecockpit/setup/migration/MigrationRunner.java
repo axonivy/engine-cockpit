@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import ch.ivyteam.ivy.engine.migration.MigrationClient;
+import ch.ivyteam.ivy.engine.migration.MigrationEvent;
 
 public class MigrationRunner implements MigrationClient {
 
@@ -21,6 +22,7 @@ public class MigrationRunner implements MigrationClient {
       case DONE -> dto.done();
       case FAILED -> dto.fail();
       case STARTED -> dto.run();
+      case PROGRESS -> dto.log(event.message());
     }
   }
 }
