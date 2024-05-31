@@ -2,7 +2,9 @@ package ch.ivyteam.enginecockpit.setup.migration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -31,6 +33,7 @@ public class MigrationBean {
   private EngineMigrator.Result result;
   private boolean writeToTmp = false;
   private UploadedFile uploadedLicenceFile;
+  private Set<String> showLogs = new HashSet<>();
 
   public void checkOldEngineLocation() {
     try {
@@ -46,6 +49,14 @@ public class MigrationBean {
               .exception(ex)
               .show();
     }
+  }
+
+  public void show(Task task) {
+    showLogs.add(task.id());
+  }
+
+  public boolean showLog(Task task) {
+    return showLogs.contains(task.id());
   }
 
   public UploadedFile getUploadedLicenceFile() {

@@ -200,6 +200,19 @@
                   <h:panelGroup rendered="#{not empty task.script}">
                     <pre style="white-space: pre-wrap;"><code><h:outputText value="#{task.script}" /></code></pre>
                   </h:panelGroup>
+                  
+                  <p:divider align="left" type="dashed">
+                    <p:commandButton actionListener="#{migrationBean.show(task)}" icon="si si-button-refresh-arrows" styleClass="ui-button-outlined" value="Log" update="log"></p:commandButton>
+                  </p:divider>
+                  <h:panelGroup id="log" styleClass="log">
+                    <p:scrollPanel style="height:300px;width:100%;">
+                      <h:panelGroup rendered="#{migrationBean.showLog(task)}">
+                        <div style="padding:5px;">
+                          <pre style="white-space: pre-wrap;margin:0px;"><code><h:outputText value="#{task.log}" /></code></pre>
+                        </div>
+                      </h:panelGroup>
+                    </p:scrollPanel>
+                  </h:panelGroup>
                 </p>
               </p:rowExpansion>
             </p:dataTable>
