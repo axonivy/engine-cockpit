@@ -38,6 +38,13 @@ public class MigrationBean {
   private String finishedMessage;
   private String finishedSeverity;
 
+  public MigrationBean() {
+    var location = EngineMigrator.proposeLocation();
+    if (location != null) {
+      pathToOldEngine = location.toString();
+    }
+  }
+
   public void checkOldEngineLocation() {
     try {
       migrator = new EngineMigrator(pathToOldEngine);
