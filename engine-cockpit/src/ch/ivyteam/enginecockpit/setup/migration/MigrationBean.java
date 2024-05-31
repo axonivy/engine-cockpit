@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
@@ -34,6 +35,8 @@ public class MigrationBean {
   private boolean writeToTmp = false;
   private UploadedFile uploadedLicenceFile;
   private Set<String> showLogs = new HashSet<>();
+  private String finishedMessage;
+  private String finishedSeverity;
 
   public void checkOldEngineLocation() {
     try {
@@ -186,21 +189,24 @@ public class MigrationBean {
     return client.summary();
   }
 
+  public String getFinishedMessage() {
+    return finishedMessage;
+  }
+
+  public String getFinishedSeverity() {
+    return finishedSeverity;
+  }
+
   public MigrationState getState() throws InterruptedException, ExecutionException {
     if (running == MigrationState.RUNNING && asyncRunner != null && asyncRunner.isDone()) {
       running = MigrationState.FINISHED;
       var exception = asyncRunner.get();
       if (exception == null) {
-        Message.info()
-                .clientId("migrationMessage")
-                .summary("The Axon Ivy Engine migration was successful. Click on Finish.")
-                .show();
+        finishedMessage = "The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.";
+        finishedSeverity = "info";
       } else {
-        Message.error()
-                .clientId("migrationMessage")
-                .summary("Error while migration")
-                .exception(exception)
-                .show();
+        finishedMessage = "Error while migration." + ExceptionUtils.getStackTrace(exception);
+        finishedSeverity = "error";
       }
     }
     return running;
