@@ -35,6 +35,8 @@ public class MigrationBean {
   private boolean writeToTmp = false;
   private UploadedFile uploadedLicenceFile;
   private Set<String> showLogs = new HashSet<>();
+  private String finishedMessage;
+  private String finishedSeverity;
 
   public void checkOldEngineLocation() {
     try {
@@ -186,9 +188,6 @@ public class MigrationBean {
   public String getSummary() {
     return client.summary();
   }
-
-  private String finishedMessage;
-  private String finishedSeverity;
 
   public String getFinishedMessage() {
     return finishedMessage;
