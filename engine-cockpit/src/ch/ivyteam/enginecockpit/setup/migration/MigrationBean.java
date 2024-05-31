@@ -18,7 +18,6 @@ import org.primefaces.model.file.UploadedFile;
 import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator;
 import ch.ivyteam.ivy.engine.migration.EngineMigrator.Check;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.licence.NewLicenceFileInstaller;
 
 @ManagedBean
@@ -184,7 +183,6 @@ public class MigrationBean {
   }
 
   public String getSummary() {
-    Ivy.log().info(client.summary());
     return client.summary();
   }
 
