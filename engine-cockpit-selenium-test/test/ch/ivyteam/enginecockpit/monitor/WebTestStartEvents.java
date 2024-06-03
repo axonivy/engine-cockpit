@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
@@ -30,6 +31,7 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverConditions;
 import com.codeborne.selenide.WebElementCondition;
+import com.codeborne.selenide.junit5.ScreenShooterExtension;
 
 import ch.ivyteam.enginecockpit.util.Conditions;
 import ch.ivyteam.enginecockpit.util.EngineCockpitUtil;
@@ -37,6 +39,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Table;
 
 @IvyWebTest
+@ExtendWith(ScreenShooterExtension.class)
 class WebTestStartEvents {
 
   private static final String DURATION_STR = "[0-9][0-9]?[0-9]? (us|ms|s|m|h|d)";
@@ -112,13 +115,13 @@ class WebTestStartEvents {
   @Test
   void filter() {
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp");
+    filter("188AE871FC5C4A58/eventLink.ivp");
     table.rows().shouldHave(CollectionCondition.size(1));
 
     $(By.id("form:beanTable:globalFilter")).clear();
     $(By.id("form:beanTable:globalFilter")).sendKeys("\n");
     table.rows().shouldHave(CollectionCondition.sizeGreaterThan(1));
-    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/188AE871FC5C4A58/eventLink.ivp");
+    filter("188AE871FC5C4A58/eventLink.ivp");
     table.rows().shouldHave(CollectionCondition.size(1));
   }
   
@@ -143,25 +146,27 @@ class WebTestStartEvents {
       });
   }
 
-  // @Test
-  // void poll() {
-  //   var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
-  //   $(By.id("form:beanTable:0:poll")).click();
-  //   $(By.id("pollBean:poll")).click();
+  @Test
+  void poll() {
+    filterAndAssertOne("188AE871FC5C4A58/eventLink.ivp");  
+    var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
+    $(By.id("form:beanTable:0:poll")).click();
+    $(By.id("pollBean:poll")).click();
 
-  //   Wait()
-  //       .withTimeout(Duration.ofSeconds(10))
-  //       .ignoring(AssertionError.class)
-  //       .until(webDriver -> {
-  //         $(By.id("refresh")).click();
-  //         var executions = Long.parseLong(table.tableEntry(1, 5).text());
-  //         assertThat(executions).isGreaterThan(initialExecutions);
-  //         return true;
-  //       });
-  // }
+    Wait()
+        .withTimeout(Duration.ofSeconds(10))
+        .ignoring(AssertionError.class)
+        .until(webDriver -> {
+          $(By.id("refresh")).click();
+          var executions = Long.parseLong(table.tableEntry(1, 5).text());
+          assertThat(executions).isGreaterThan(initialExecutions);
+          return true;
+        });
+  }
 
   @Test
   void stop_start() {
+    filterAndAssertOne("188AE871FC5C4A58/eventLink.ivp");
     $(By.id("form:beanTable:0:start")).shouldBe(disabled);
     $(By.id("form:beanTable:0:stop")).shouldBe(enabled);
 
@@ -369,5 +374,14 @@ class WebTestStartEvents {
           assertThat(polls).isGreaterThan(initialPolls);
           return true;
         });
+  }
+  
+  private void filter(String filter) {
+    $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/" + filter);
+  }
+  
+  private void filterAndAssertOne(String filter) {
+    filter(filter);
+    table.rows().shouldHave(CollectionCondition.size(1));
   }
 }
