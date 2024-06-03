@@ -126,14 +126,14 @@ public class SecurityProviderBean {
       deleteProvider();
       context.config().setProperty(ISecurityConstants.PROVIDER_CONFIG_KEY, provider);
     }
-    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_ENABLED, String.valueOf(onScheduleEnabled));
+    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_ENABLED, onScheduleEnabled);
     if (StringUtils.isBlank(onScheduleTime)) {
       systemConfig.setProperty(ConfigKey.ON_SCHEDULE_TIME, systemConfig.getDefaultValue(ConfigKey.ON_SCHEDULE_TIME));
     } else {
       systemConfig.setProperty(ConfigKey.ON_SCHEDULE_TIME, onScheduleTime);
     }
-    systemConfig.setProperty(ConfigKey.SYNCH_ON_LOGIN, String.valueOf(synchOnLogin));
-    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_IMPORT_USERS, String.valueOf(onScheduleImportUsers));
+    systemConfig.setProperty(ConfigKey.SYNCH_ON_LOGIN, synchOnLogin);
+    systemConfig.setProperty(ConfigKey.ON_SCHEDULE_IMPORT_USERS, onScheduleImportUsers);
 
     setShowWarningMessage(false);
     FacesContext.getCurrentInstance().addMessage("securityProviderSaveSuccess",
