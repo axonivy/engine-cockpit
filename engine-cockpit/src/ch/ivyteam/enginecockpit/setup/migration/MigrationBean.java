@@ -212,7 +212,7 @@ public class MigrationBean {
         finishedMessage = "The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.";
         finishedSeverity = "info";
       } else {
-        finishedMessage = "Error while migration." + ExceptionUtils.getStackTrace(exception);
+        finishedMessage = "Error while migration.\n<pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>" + ExceptionUtils.getStackTrace(exception) + "</code></pre>";
         finishedSeverity = "error";
       }
     }
