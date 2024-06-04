@@ -214,17 +214,17 @@
        <p:dialog style="min-width: 300px;" header="Start Migration" id="startMigrationModal"
         widgetVar="startMigrationModal" modal="true" responsive="true" closeOnEscape="true">
         <h:form id="startMigrationForm" styleClass="custom-dialog-form">
-          <div>  
-            Before you start the Migration make sure you have a backup of your system database and all
-            the whole Axon Ivy Engine installation directory.
+          <div>
+            Before you start the Migration make sure you have a backup of your system database and the whole Axon Ivy Engine installation directory.
           </div>
           <div class="custom-dialog-footer">
             <p:commandButton id="startMigrationCancel" onclick="PF('startMigrationModal').hide();" value="Cancel" type="button"
-              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+              styleClass="ui-button-secondary ui-button-flat modal-input-button" style="width: 5rem;" />
             <p:commandButton id="startMigrationStart" value="Start" icon="si si-check-1"
               actionListener="#{migrationBean.execute}"
               update="locationForm migrationTaskForm"
-              onsuccess="PF('migrationPoller').start();PF('startMigrationModal').hide();"                   
+              onsuccess="PF('migrationPoller').start();PF('startMigrationModal').hide();"
+              style="width: 5rem;"
               styleClass="modal-input-button" />
           </div>
         </h:form>
@@ -232,7 +232,7 @@
 
         <h:form id="summaryForm">
           <p:panel id="summaryPanel" style="margin-top: 10px;" rendered="#{migrationBean.state == 'FINISHED'}">
-            <p:staticMessage severity="#{migrationBean.finishedSeverity}" summary="#{migrationBean.finishedMessage}" />
+            <p:staticMessage severity="#{migrationBean.finishedSeverity}" escape="false" summary="#{migrationBean.finishedMessage}" />
             <p:messages id="migrationMessage" for="migrationMessage" showDetail="true" skipDetailIfEqualsSummary="true" />
             <pre style="white-space: pre-wrap; word-break: break-all; margin:0px;"><code><h:outputText value="#{migrationBean.summary}" /></code></pre>
             
