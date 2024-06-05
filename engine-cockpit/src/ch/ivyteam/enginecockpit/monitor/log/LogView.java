@@ -48,8 +48,8 @@ public class LogView {
         return FileUtils.byteCountToDisplaySize(fileMeta.size());
       }
       return "0 bytes";
-    } catch (IOException e) {
-      return "error while reading";
+    } catch (IOException ex) {
+      return "Error during reading " + ex.getMessage();
     }
   }
 
