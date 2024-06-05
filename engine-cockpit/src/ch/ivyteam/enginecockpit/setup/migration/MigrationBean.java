@@ -55,7 +55,7 @@ public class MigrationBean {
     } catch (Exception ex) {
       Message.error()
               .clientId("migrateGrowl")
-              .summary("Error while validate location")
+              .summary("Error during validation of the location")
               .exception(ex)
               .show();
     }
@@ -118,7 +118,7 @@ public class MigrationBean {
     try {
       return lic.save().toAsciiOnlyString();
     } catch (IOException ex) {
-      return "Error while reading licence: " + ex.getMessage();
+      return "Error during reading licence: " + ex.getMessage();
     }
   }
 
@@ -212,7 +212,7 @@ public class MigrationBean {
         finishedMessage = "The Axon Ivy Engine migration was successful. Restart your Axon Ivy Engine now.";
         finishedSeverity = "info";
       } else {
-        finishedMessage = "Error while migration.\n<pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>" + ExceptionUtils.getStackTrace(exception) + "</code></pre>";
+        finishedMessage = "Error during migration.\n<pre style=\"white-space:pre-wrap;word-break:break-all;margin:0px;\"><code>" + ExceptionUtils.getStackTrace(exception) + "</code></pre>";
         finishedSeverity = "error";
       }
     }
