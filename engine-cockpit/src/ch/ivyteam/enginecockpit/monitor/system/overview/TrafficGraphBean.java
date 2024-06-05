@@ -235,7 +235,7 @@ public class TrafficGraphBean {
     }
 
     public String getProtocolAndPort() {
-      return "testprot" + this.protocol + (this.port == -1 ? "" : " [" + this.port + "]");
+      return this.protocol + (this.port == -1 ? "" : " [" + this.port + "]");
     }
 
     @Override
