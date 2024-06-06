@@ -122,8 +122,8 @@ public class WebTestJfr {
     $(id("form:start")).shouldBe(visible, enabled).click();
     $(id("startRecording:more_toggler")).shouldBe(visible, enabled).click();
     $(id("startRecording:duration")).shouldBe(visible, enabled).sendKeys("10 s");
+    $(id("startRecording:more_toggler")).shouldBe(visible, enabled).click();
     $(id("startRecording:start")).shouldBe(visible, enabled).click();
-
     recordingsTable.tableEntry(1, 5).shouldBe(not(exactText("Unlimited")));
   }
 
