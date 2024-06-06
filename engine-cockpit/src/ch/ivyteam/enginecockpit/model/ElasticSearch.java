@@ -58,6 +58,10 @@ public class ElasticSearch
     return version;
   }
   
+  public boolean isNotSupported() {
+    return version == null || !version.startsWith("7.17");
+  }
+  
   public SearchEngineHealth getHealth()
   {
     return health;
