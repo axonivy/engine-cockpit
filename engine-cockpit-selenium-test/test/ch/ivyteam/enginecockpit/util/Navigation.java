@@ -57,6 +57,7 @@ public class Navigation {
   private static final String MONITOR_ENGINE_START_EVENTS_MENU = "#menuform\\:sr_monitor_engine_start_events";
   private static final String MONITOR_ENGINE_INTERMEDIATE_EVENTS_MENU = "#menuform\\:sr_monitor_engine_intermediate_events";
   private static final String MONITOR_ENGINE_JOBS_MENU = "#menuform\\:sr_monitor_engine_jobs";
+  private static final String MONITOR_ENGINE_HEALTH_MENU = "#menuform\\:sr_monitor_engine_health";
   private static final String MONITOR_PERFORMANCE_MENU = "#menuform\\:sr_monitor_performance";
   private static final String MONITOR_PERFORMANCE_PROCESS_EXECUTION_MENU = "#menuform\\:sr_monitor_performance_process_execution";
   private static final String MONITOR_PERFORMANCE_TRACES_MENU = "#menuform\\:sr_monitor_performance_traces";
@@ -370,6 +371,9 @@ public class Navigation {
     menuShouldBeActive(MONITOR_ENGINE_INTERMEDIATE_EVENTS_MENU);
   }
 
+  public static void toHealth() {
+    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_HEALTH_MENU);
+  }
 
   public static void toMBeans() {
     toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_MBEANS_MENU);
@@ -413,6 +417,7 @@ public class Navigation {
     toSubSubMenu(MONITOR_MENU, MONITOR_JAVA_MENU, MONITOR_JAVA_JFR);
   }
 
+
   private static void toMenu(String menuItemPath) {
     closeMenus();
     $(menuItemPath).find("a").scrollIntoView(false).click();
@@ -447,5 +452,4 @@ public class Navigation {
     $$(".active-menuitem ul[style=\"display: block;\"]").filter(visible).forEach(ul -> ul.parent().find("a").click());
     $$(".active-menuitem ul").filter(visible).shouldBe(size(0));
   }
-
 }
