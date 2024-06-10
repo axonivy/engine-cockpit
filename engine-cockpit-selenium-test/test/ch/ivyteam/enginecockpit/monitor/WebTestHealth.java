@@ -110,7 +110,7 @@ public class WebTestHealth {
 
   @Test
   void refresh() {
-    $(By.id("run")).click();
+    $(By.id("refresh")).click();
     messagesTable.rows().shouldHave(CollectionCondition.size(2));
   }
 }
