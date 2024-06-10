@@ -103,7 +103,7 @@ public class TraceBean {
   }
 
   static String toLocalTime(Instant instant) {
-    return DateUtil.formatInstant(instant, "HH:mm:ss.SSS");
+    return DateUtil.formatInstantAsTime(instant, "HH:mm:ss.SSS");
   }
 
   static double toMillis(Duration duration) {

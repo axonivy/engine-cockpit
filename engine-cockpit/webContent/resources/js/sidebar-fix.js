@@ -61,7 +61,8 @@ jQuery(function () {
       'searchindex.xhtml': 'searchengine.xhtml',
       'monitorStartEventDetails.xhtml': 'monitorStartEvents.xhtml',
       'monitorIntermediateEventDetails.xhtml': 'monitorIntermediateEvents.xhtml',
-      'securitysystem-merge.xhtml': 'securitysystem.xhtml'
+      'securitysystem-merge.xhtml': 'securitysystem.xhtml',
+      'monitor-health-checks.xhtml': 'monitor-health.xhtml'
     };
     return map[value] == null ? value : map[value];
   }
