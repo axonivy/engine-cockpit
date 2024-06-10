@@ -22,16 +22,17 @@ public class HealthBean {
   private String check;
 
   public HealthBean() {
+    checks = checker.checks().stream().map(Check::new).collect(Collectors.toList());
     refresh();
   }
 
   public void refresh() {
-    checks = checker.checks().stream().map(Check::new).collect(Collectors.toList());
     messages = checker.messages().stream().map(Message::new).collect(Collectors.toList());
   }
 
   public void checkNow() {
     checker.checkNow();
+    refresh();
   }
 
   public String getSeverityName() {
