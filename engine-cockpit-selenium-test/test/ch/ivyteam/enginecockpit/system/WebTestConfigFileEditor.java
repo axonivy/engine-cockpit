@@ -62,9 +62,9 @@ class WebTestConfigFileEditor {
         .shouldBe(visible);
       idpName.hover();
 
-      $(By.className("hover-contents")).shouldBe(visible)
+      $(By.className("code-hover-contents")).shouldBe(visible)
         .as("config-editor shows key specific help, provided by json-schemas")
-        .shouldHave(Condition.partialText("microsoft-entra-id"));
+        .shouldHave(Condition.partialText("novell-edirectory"));
     }
     finally {
       driver.switchTo().defaultContent();
