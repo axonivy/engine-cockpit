@@ -172,8 +172,8 @@
               </p:scrollPanel>
             </f:facet>
 
-            <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn" value="Convert" styleClass="modal-input-button" 
-              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog" oncomplete="PF('convertConfirmYesBtn').disable();PF('convertFinishBtn').enable();" icon="si si-button-refresh-arrows" />
+            <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn" value="Convert" styleClass="modal-input-button" disabled="#{applicationBean.activeActivity.notConvertable}"
+              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertConfirmYesBtn').disable();PF('convertFinishBtn').enable();" icon="si si-button-refresh-arrows" />
 
             <p:commandButton id="convertFinishBtn" widgetVar="convertFinishBtn" value="Finish" styleClass="modal-input-button" disabled="true"
               update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertDialog').hide();reloadTree();" icon="si si-check-circle-1" />
