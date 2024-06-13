@@ -174,7 +174,7 @@
             <p:commandButton value="Cancel" onclick="PF('convertDialog').hide();" type="button"
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn" value="Convert" styleClass="modal-input-button" disabled="#{applicationBean.activeActivity.notConvertable}"
-              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog tree convertConfirmYesBtn" oncomplete="PF('convertConfirmYesBtn').disable();" icon="si si-button-refresh-arrows" />
+              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertConfirmYesBtn').disable();reloadTree();" icon="si si-button-refresh-arrows" />
           </p:confirmDialog>
         </h:form>
         <ui:include src="../includes/dialogs/newapplication.xhtml" />
