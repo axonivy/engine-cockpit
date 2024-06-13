@@ -60,6 +60,11 @@ public class ProcessModelVersion extends AbstractActivity {
   }
 
   @Override
+  public boolean isNotConvertable() {
+    return !pmv.canBeConverted();
+  }
+
+  @Override
   public void release() {
     execute(() -> pmv.release(), "release", true);
   }
@@ -67,6 +72,17 @@ public class ProcessModelVersion extends AbstractActivity {
   @Override
   public void delete() {
     execute(() -> pmv.delete(), "delete", false);
+  }
+
+  @Override
+  public void convert() {
+    projectConversionLog.add("INFO: Convert");
+    execute(() -> pmv.convertProject(new ProjectConversionLog()), "convert", true);
+  }
+
+  @Override
+  public boolean canConvert() {
+    return true;
   }
 
   @Override
@@ -109,6 +125,10 @@ public class ProcessModelVersion extends AbstractActivity {
     return lib.resolved;
   }
 
+  public int getProjectVersion() {
+    return pmv.projectVersion();
+  }
+
   public String getLibraryResolvedTooltip() {
     return (isLibraryResolved() ? "All" : "Not all")
             + " direct and indirect required libraries are available in the system.";
@@ -133,5 +153,4 @@ public class ProcessModelVersion extends AbstractActivity {
       }
     }
   }
-
 }

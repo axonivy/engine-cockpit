@@ -129,6 +129,16 @@ public class Application extends AbstractActivity {
   }
 
   @Override
+  public void convert() {
+    execute(() -> app.convertProjects(new ProjectConversionLog()), "convert", true);
+  }
+
+  @Override
+  public boolean canConvert() {
+    return true;
+  }
+
+  @Override
   public void delete() {
     execute(() -> IApplicationConfigurationManager.instance().deleteApplication(getName()), "delete", false);
   }
