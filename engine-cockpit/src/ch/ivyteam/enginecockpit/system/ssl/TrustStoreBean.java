@@ -136,6 +136,10 @@ public class TrustStoreBean implements SslTableStore {
     }
   }
 
+  public void addToStore(Certificate cert) {
+    getKeyStoreUtils().addNewCert(cert);
+  }
+
   @Override
   public List<StoredCert> getCertificats() {
     return getKeyStoreUtils().getStoredCerts();

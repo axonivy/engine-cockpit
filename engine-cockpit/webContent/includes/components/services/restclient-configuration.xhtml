@@ -60,7 +60,11 @@
   </h:form>
 </div>
 
-<cc:ConnectionTestResult result="#{restClientDetailBean.result}" url="#{restClientDetailBean.restClient.connectionUrl}"
-  testMethod="#{restClientDetailBean.testRestConnection()}" id="connResult" reset="#{restClientDetailBean.reset()}"/>
+<cc:ConnectionTestResult id="connResult"
+  result="#{restClientDetailBean.result}"
+  url="#{restClientDetailBean.restClient.connectionUrl}"
+  testMethod="#{restClientDetailBean.testRestConnection()}"
+  bean="#{tlsTesterBean}"
+  reset="#{restClientDetailBean.reset()}" />
 
 </html>

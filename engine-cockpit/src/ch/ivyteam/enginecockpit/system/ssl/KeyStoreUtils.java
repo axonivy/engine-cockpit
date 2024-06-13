@@ -37,7 +37,7 @@ class KeyStoreUtils {
     return cert;
   }
 
-  private void addNewCert(Certificate certFile) {
+  public void addNewCert(Certificate certFile) {
     try {
       var ivyKS = loadInternal();
       ivyKS.addCert(certFile);
