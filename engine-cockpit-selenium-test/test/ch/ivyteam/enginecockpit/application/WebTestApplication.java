@@ -208,18 +208,18 @@ class WebTestApplication {
   }
 
   private void stopApplication(By appId) {
-    $(appId).find(By.cssSelector("td button"), 2).click();
+    $(appId).find(By.cssSelector("td button"), 3).click();
     $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
   }
 
   private void startApplication(By appId) {
     $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "INACTIVE"));
-    $(appId).find(By.cssSelector("td button"), 1).click();
+    $(appId).find(By.cssSelector("td button"), 2).click();
     $(appId).find(By.xpath("./td[3]/span")).shouldBe(attribute("title", "ACTIVE"));
   }
 
   private void deleteApplication(By appId) {
-    String tasksButtonId = $(appId).find(By.cssSelector("td button"), 3).getAttribute("id");
+    String tasksButtonId = $(appId).find(By.cssSelector("td button"), 4).getAttribute("id");
     By activityMenu = By.id(tasksButtonId.substring(0, tasksButtonId.lastIndexOf(':')) + ":activityMenu");
     $(By.id(tasksButtonId)).click();
     $(activityMenu).shouldBe(visible);
