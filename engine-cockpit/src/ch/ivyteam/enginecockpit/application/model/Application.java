@@ -139,6 +139,11 @@ public class Application extends AbstractActivity {
   }
 
   @Override
+  public boolean isNotConvertable() {
+    return !app.hasProjectsToConvert();
+  }
+
+  @Override
   public void delete() {
     execute(() -> IApplicationConfigurationManager.instance().deleteApplication(getName()), "delete", false);
   }
