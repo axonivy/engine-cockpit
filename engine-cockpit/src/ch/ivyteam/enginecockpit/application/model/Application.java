@@ -140,7 +140,10 @@ public class Application extends AbstractActivity {
 
   @Override
   public boolean isNotConvertable() {
-    return !app.hasProjectsToConvert();
+    if (app != null) {
+      return !app.hasProjectsToConvert();
+    }
+    return true;
   }
 
   @Override
