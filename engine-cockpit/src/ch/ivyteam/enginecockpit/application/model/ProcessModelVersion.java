@@ -76,7 +76,6 @@ public class ProcessModelVersion extends AbstractActivity {
 
   @Override
   public void convert() {
-    projectConversionLog.add("INFO: Convert");
     execute(() -> pmv.convertProject(new ProjectConversionLog()), "convert", true);
   }
 
