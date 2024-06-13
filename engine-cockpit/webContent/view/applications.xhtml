@@ -171,10 +171,12 @@
                 </h:panelGroup>
               </p:scrollPanel>
             </f:facet>
-            <p:commandButton value="Cancel" onclick="PF('convertDialog').hide();" type="button"
-              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
-            <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn" value="Convert" styleClass="modal-input-button" disabled="#{applicationBean.activeActivity.notConvertable}"
-              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertConfirmYesBtn').disable();reloadTree();" icon="si si-button-refresh-arrows" />
+
+            <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn" value="Convert" styleClass="modal-input-button" 
+              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog" oncomplete="PF('convertConfirmYesBtn').disable();PF('convertFinishBtn').enable();" icon="si si-button-refresh-arrows" />
+
+            <p:commandButton id="convertFinishBtn" widgetVar="convertFinishBtn" value="Finish" styleClass="modal-input-button" disabled="true"
+              update="conversionLog convertConfirmYesBtn" oncomplete="PF('convertDialog').hide();reloadTree();" icon="si si-check-circle-1" />
           </p:confirmDialog>
         </h:form>
         <ui:include src="../includes/dialogs/newapplication.xhtml" />
