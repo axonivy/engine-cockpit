@@ -2,12 +2,11 @@ package ch.ivyteam.enginecockpit.application.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import ch.ivyteam.enginecockpit.application.ApplicationBean;
+import ch.ivyteam.enginecockpit.commons.Message;
 import ch.ivyteam.ivy.application.ActivityState;
 import ch.ivyteam.ivy.application.IActivity;
 
@@ -17,6 +16,8 @@ public abstract class AbstractActivity {
   protected final IActivity activity;
   private final ApplicationBean bean;
   protected List<AbstractActivity> children;
+
+  protected List<String> projectConversionLog = new ArrayList<>();
 
   public static final String APP = "APP";
   public static final String PM = "PM";
@@ -92,6 +93,21 @@ public abstract class AbstractActivity {
     return true;
   }
 
+  public boolean isNotConvertable() {
+    return true;
+  }
+
+  public void convert() {
+  }
+
+  public boolean canConvert() {
+    return false;
+  }
+
+  public String getProjectConversionLog() {
+    return projectConversionLog.stream().collect(Collectors.joining("\n"));
+  }
+
   public abstract List<String> isDeletable();
 
   public String getNotDeletableMessage() {
@@ -121,15 +137,22 @@ public abstract class AbstractActivity {
   public void forceDelete() {}
 
   protected void execute(Runnable executor, String action, boolean reloadOnlyStats) {
-    var message = new FacesMessage("Successfully " + action + " module", getActivityType() + " " + getName());
     try {
       executor.run();
       reloadBean(reloadOnlyStats);
+      Message.info()
+              .clientId("applicationMessage")
+              .summary("Successfully " + action + " module")
+              .detail(getActivityType() + " " + getName())
+              .show();
     } catch (IllegalStateException ex) {
-      message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not " + action + " module",
-              ex.getMessage());
+      Message.error()
+              .clientId("applicationMessage")
+              .summary("Could not " + action + " module")
+              .detail(ex.getMessage())
+              .exception(ex)
+              .show();
     }
-    FacesContext.getCurrentInstance().addMessage("applicationMessage", message);
   }
 
   private void reloadBean(boolean reloadOnlyStats) {
@@ -156,4 +179,11 @@ public abstract class AbstractActivity {
     }
   }
 
+  class ProjectConversionLog implements Consumer<String> {
+
+    @Override
+    public void accept(String msg) {
+      projectConversionLog.add(msg);
+    }
+  }
 }

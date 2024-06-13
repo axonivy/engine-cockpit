@@ -79,7 +79,7 @@
               </h:panelGroup>
             </p:column>
             
-            <p:column styleClass="table-btn-4">
+            <p:column styleClass="table-btn-5">
               <h:panelGroup id="deployBtnHint">
                 <p:commandButton title="Deployment" icon="si si-upload-bottom" rendered="#{activity.application}"
                   type="button" id="deployBtn" styleClass="mr-1 rounded-button" disabled="#{!uploadHelperBean.deploymentPossible}">
@@ -88,6 +88,16 @@
                 </p:commandButton>
                 <p:tooltip for="deployBtnHint" rendered="#{!uploadHelperBean.deploymentPossible}" value="#{uploadHelperBean.deploymentPossibleReason}" escape="false" /> <!-- contains no user input -->
               </h:panelGroup>
+              <p:commandButton id="convertButton"
+                icon="si si-button-refresh-arrows" 
+                actionListener="#{applicationBean.setActiveActivity(activity)}"
+                rendered="#{activity.canConvert()}"
+                update="form:convertDialog"
+                disabled="#{activity.notConvertable}"
+                oncomplete="PF('convertDialog').show();"
+                title="Converts the project to the latest version"
+                styleClass="mr-1 ui-button-danger rounded-button">
+              </p:commandButton>
               <p:commandButton title="Activate" icon="si si-controls-play" disabled="#{activity.notStartable}"
                 type="button" styleClass="mr-1 ui-button-success rounded-button">
                 <p:ajax update="form" listener="#{activity.activate}" />
@@ -116,6 +126,7 @@
           
           <p:poll listener="#{applicationBean.reloadActivityStates}" update="form"
             autoStart="#{applicationBean.processing}" interval="1" />
+
           <p:confirmDialog id="deleteConfirmDialog"
             header="Delete '#{applicationBean.activeActivity.name}'" severity="alert"
             widgetVar="deleteConfirmDialog">
@@ -141,6 +152,29 @@
               styleClass="ui-button-secondary ui-button-flat modal-input-button" />
             <p:commandButton id="deleteConfirmYesBtn" value="Delete" immediate="true" styleClass="modal-input-button"
               actionListener="#{applicationBean.activeActivity.delete}" update="form" icon="si si-bin-1" />
+          </p:confirmDialog>
+          
+          <p:confirmDialog id="convertDialog"
+            header="Convert '#{applicationBean.activeActivity.name}'" severity="alert"
+            widgetVar="convertDialog">
+            <f:facet name="message">
+            
+              <h:outputText value="All Axon Ivy Projects in state RELEASED and DEPRECATED will be converted to the latest version." rendered="#{applicationBean.activeActivity.application}"/>
+              <h:outputText value="The Axon Ivy Project will be converted to the latest version." rendered="#{applicationBean.activeActivity.pmv}"/>
+              
+              <br /><br />
+              <p:scrollPanel style="height:300px;width:100%;min-width:500px;">
+                <h:panelGroup id="conversionLog">
+                  <div style="padding:5px;">
+                    <pre style="white-space: pre-wrap;margin:0px;"><code>#{applicationBean.activeActivity.projectConversionLog}</code></pre>
+                  </div>
+                </h:panelGroup>
+              </p:scrollPanel>
+            </f:facet>
+            <p:commandButton value="Cancel" onclick="PF('convertDialog').hide();" type="button"
+              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="convertConfirmYesBtn" widgetVar="convertConfirmYesBtn" value="Convert" styleClass="modal-input-button" disabled="#{applicationBean.activeActivity.notConvertable}"
+              actionListener="#{applicationBean.activeActivity.convert}" update="conversionLog tree convertConfirmYesBtn" oncomplete="PF('convertConfirmYesBtn').disable();" icon="si si-button-refresh-arrows" />
           </p:confirmDialog>
         </h:form>
         <ui:include src="../includes/dialogs/newapplication.xhtml" />
