@@ -17,14 +17,14 @@
     <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info" summary="Info" detail="Make sure that you saved your changes before you test the connection." />
     <h:form id="connTestForm" styleClass="custom-dialog-form">
       <h:panelGrid id="missingCertView" rendered="#{tlsTesterBean.isHttps(cc.attrs.url)}">
-        <p:outputLabel value="#{cc.attrs.bean.missingCertsSubject}"></p:outputLabel>
+        <p:outputLabel id="subject" value="#{cc.attrs.bean.missingCertsSubject}"></p:outputLabel>
         <i class="si si-question-circle"></i>
         <p:tooltip for="@parent" position="top" value="#{cc.attrs.bean.formatedCert}"></p:tooltip>
-        <p:commandButton value="add" icon="si si-arrow-right" disabled="#{cc.attrs.bean.isDisableAddUntrust()}"
+        <p:commandButton id="add" value="add" icon="si si-arrow-right" disabled="#{cc.attrs.bean.isDisableAddUntrust()}"
           styleClass="modal-input-button" update="connTestForm"
           actionListener="#{trustStoreBean.addToStore(cc.attrs.bean.missingCert)}" action="#{cc.attrs.bean.setDisableAddUntrust(true)}" ></p:commandButton>
       </h:panelGrid>
-      <h:panelGrid id="resultLog" columns="1" styleClass="ui-fluid">
+      <h:panelGrid id="resultLog" columns="1" style="height:500px" styleClass="ui-fluid">
         <h:panelGroup id="resultConnect">
           <h:outputText value="#{cc.attrs.result.testResult}"
             style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />
