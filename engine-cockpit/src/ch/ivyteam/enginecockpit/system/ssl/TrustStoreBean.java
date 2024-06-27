@@ -3,6 +3,7 @@ package ch.ivyteam.enginecockpit.system.ssl;
 import java.io.InputStream;
 import java.security.Security;
 import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -138,6 +139,14 @@ public class TrustStoreBean implements SslTableStore {
 
   public void addToStore(Certificate cert) {
     getKeyStoreUtils().addNewCert(cert);
+    if (cert.getPublicKey().getFormat().equals("X.509")) {
+      X509Certificate X509cert = (X509Certificate) cert;
+      FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
+              new FacesMessage(X509cert.getSubjectX500Principal() + " was successfully added"));
+    } else {
+    FacesContext.getCurrentInstance().addMessage("addMissingCertSuccess",
+            new FacesMessage("The certificate was successfully added."));
+    }
   }
 
   @Override

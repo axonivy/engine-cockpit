@@ -19,7 +19,6 @@ public class TlsTesterBean {
   public List<TLSTestData> testResult = new ArrayList<>();
   public List<String> infos;
   private Optional<X509Certificate> missingCert = Optional.empty();
-  private boolean disableAddUntrust;
 
   public boolean isHttps(String Uri) {
     return Uri.startsWith("https");
@@ -32,7 +31,6 @@ public class TlsTesterBean {
   public void testConnection(String targetUri) {
     testResult.clear();
     missingCert = Optional.empty();
-    setDisableAddUntrust(false);
     setTlsTestRendered(true);
     TLSTest test = new TLSTest(testResult, targetUri);
     test.runTLSTests();
@@ -81,40 +79,19 @@ public class TlsTesterBean {
     return inputStrings;
   }
 
-  public String getMissingCertsSubject() {
-    return missingCert
-            .map(X509Certificate::getSubjectX500Principal)
-            .map(principal -> principal.getName())
-            .orElse("No certificate present");
+  public boolean hasMissingCerts(String Uri) {
+    if (!(getMissingCert() == null) && isHttps(Uri) && tlsTestRendered == true) {
+      return true;
+    }
+    return false;
   }
 
   public X509Certificate getMissingCert() {
     return missingCert.orElse(null);
   }
 
-  public boolean isDisableAddUntrust() {
-    return disableAddUntrust;
-  }
-
-  public void setDisableAddUntrust(boolean disableAddUntrust) {
-    this.disableAddUntrust  = disableAddUntrust;
-  }
-
-  public String getFormatedCert() {
-    if (getMissingCert() == null) {
-      return "";
-    }
-    return formatCertificateInfo(getMissingCert());
-  }
-
-  String formatCertificateInfo(X509Certificate cert) {
-    String signatureAlgorithm = cert.getSigAlgName();
-    String validity = cert.getNotBefore() + " - " + cert.getNotAfter();
-    String issuer = cert.getIssuerX500Principal().getName();
-    String key = cert.getPublicKey().getFormat();
-    return String.format(
-            "Issuer: %s \n Signature Algorithm: %s \n Validity: %s \n Public Key Format: %s \n",
-            issuer, signatureAlgorithm, validity, key);
+  public void clearMissingCert() {
+    missingCert = Optional.empty();
   }
 
   public String icon(String result) {

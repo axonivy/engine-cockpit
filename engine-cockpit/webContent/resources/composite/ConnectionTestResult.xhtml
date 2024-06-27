@@ -16,14 +16,10 @@
     widgetVar="connectionTestModel" modal="true" responsive="false" closeOnEscape="true" >
     <p:staticMessage rendered="#{cc.attrs.saveHint}" severity="info" summary="Info" detail="Make sure that you saved your changes before you test the connection." />
     <h:form id="connTestForm" styleClass="custom-dialog-form">
-      <h:panelGrid id="missingCertView" rendered="#{tlsTesterBean.isHttps(cc.attrs.url)}">
-        <p:outputLabel id="subject" value="#{cc.attrs.bean.missingCertsSubject}"></p:outputLabel>
-        <i class="si si-question-circle"></i>
-        <p:tooltip for="@parent" position="top" value="#{cc.attrs.bean.formatedCert}"></p:tooltip>
-        <p:commandButton id="add" value="add" icon="si si-arrow-right" disabled="#{cc.attrs.bean.isDisableAddUntrust()}"
-          styleClass="modal-input-button" update="connTestForm"
-          actionListener="#{trustStoreBean.addToStore(cc.attrs.bean.missingCert)}" action="#{cc.attrs.bean.setDisableAddUntrust(true)}" ></p:commandButton>
-      </h:panelGrid>
+      <h:panelGroup style="height:150px" id="missingCertView" 
+        rendered="#{cc.attrs.bean.hasMissingCerts(cc.attrs.url)}">
+        <jc:TlsTesterMissingCertView bean="#{tlsTesterBean}" cert="#{cc.attrs.bean.missingCert}"></jc:TlsTesterMissingCertView>
+      </h:panelGroup>
       <h:panelGrid id="resultLog" columns="1" style="height:500px" styleClass="ui-fluid">
         <h:panelGroup id="resultConnect">
           <h:outputText value="#{cc.attrs.result.testResult}"
@@ -41,9 +37,9 @@
            styleClass="modal-input-button ui-button-secondary ui-button-flat"/>
         <p:commandButton id="testTlsConectionBtn" title="TLS Connection Test" rendered="#{tlsTesterBean.isHttps(cc.attrs.url)}"
            icon="si si-arrow-right" value="TLS Test"
-           update="resultLog missingCertView" styleClass="modal-input-button"
+           update="@form" styleClass="modal-input-button"
            actionListener="#{tlsTesterBean.testConnection(cc.attrs.url)}" />
-        <p:commandButton id="testConnectionBtn" title="Test Connection" update="connTestForm" value="Test Connection"
+        <p:commandButton id="testConnectionBtn" title="Test Connection" update="@form" value="Test Connection"
            icon="si si-arrow-right" styleClass="modal-input-button" actionListener="#{cc.attrs.testMethod};"
            immediate="true" process="@this" async="true" onclick="buttonAddSpinner(this);" action="#{tlsTesterBean.setTlsTestRendered(false)}"/>
       </div>
