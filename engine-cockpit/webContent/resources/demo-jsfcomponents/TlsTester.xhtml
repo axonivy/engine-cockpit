@@ -30,30 +30,28 @@
       </p:column>
       <p:rowExpansion>
         <p:dataTable var="logDataEntry" styleClass="noHeader" value="#{logEntry.entryList}"
-            id="taskTable" rowKey="#{logEntry.entryList}">
-            <p:column style="border:0px;" width="1em">
-              <h:outputText value="#{logDataEntry}" />
-              <h:panelGroup id="infos">
-                <i class="si si-question-circle"></i>
-              </h:panelGroup>
-              <h:panelGroup rendered="#{tlsTesterBean.hasExtendedInformations(logDataEntry)}">
-                <p:tooltip for="infos" escape="false"
-                  value="#{tlsTesterBean.getExtendedInformations(logDataEntry)}" />
-              </h:panelGroup>
-            </p:column>
-          </p:dataTable>
+          id="taskTable" rowKey="#{logEntry.entryList}">
+          <p:column style="border:0px;" width="1em">
+            <h:outputText value="#{logDataEntry}" />
+            <h:panelGroup id="infos" rendered="#{tlsTesterBean.hasExtendedInformations(logDataEntry)}">
+              <i class="si si-question-circle"></i>
+              <p:tooltip for="infos" escape="false"
+                value="#{tlsTesterBean.getExtendedInformations(logDataEntry)}" />
+            </h:panelGroup>
+          </p:column>
+        </p:dataTable>
       </p:rowExpansion>
-      </p:dataTable>
+    </p:dataTable>
   </h:form>
-      <style>
-      .noHeader.ui-datatable table thead tr {
-        display: none;
-      }
-      body .ui-datatable .ui-datatable-data > tr > td {
-        padding-top: 0.2rem;
-        padding-left: 1.5rem;
-        padding-bottom: 0.2rem;
-      }
-      </style>
+    <style>
+    .noHeader.ui-datatable table thead tr {
+      display: none;
+    }
+    body .ui-datatable .ui-datatable-data > tr > td {
+      padding-top: 0.2rem;
+      padding-left: 1.5rem;
+      padding-bottom: 0.2rem;
+    }
+    </style>
 </cc:implementation>
 </html>
