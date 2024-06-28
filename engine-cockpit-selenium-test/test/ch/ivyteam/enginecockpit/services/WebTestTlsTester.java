@@ -47,20 +47,19 @@ class WebTestTlsTester {
   }
 
   @Test
-  void TestAddTuTruststore() {
+  void TestAddToTruststore() {
     $(By.id("restClientConfigurationForm:url")).clear();
     $(By.id("restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8443");
     $(By.id("restClientConfigurationForm:saveRestConfig")).click();
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connTestForm:subject")).shouldHave(text("No certificate present"));
+    $(By.id("connResult:connectionTestModel")).shouldNotHave(text("Missing Certs"));
     $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
     $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
     try {
-      $(By.id("connResult:connTestForm:subject")).shouldHave(text("CN=test-webservices.ivyteam.io,OU=ivyTeam,O=AXON Ivy AG,L=Zug,ST=Zug,C=CH"));
-      $(By.id("connResult:connTestForm:add")).click();
+      $(By.id("connResult:connTestForm:missing:missingCert:0:subject")).shouldHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
+      $(By.id("connResult:connTestForm:missing:missingCert:0:add")).click();
       $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-      $(By.id("connResult:connTestForm:subject")).shouldHave(text("No certificate present"));
-
+      $(By.id("connResult:connectionTestModel")).shouldNotHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
     } finally {
       $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
       Navigation.toSSL();

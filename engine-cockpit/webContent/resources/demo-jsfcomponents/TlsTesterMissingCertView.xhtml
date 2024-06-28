@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui">
+<cc:interface>
+  <cc:attribute name="bean" required="true" />
+  <cc:attribute name="cert" required="false" type="java.security.cert.X509Certificate" />
+</cc:interface>
+
+<cc:implementation>
+<p:dataTable value="#{cc.attrs.cert}" styleClass="noHeader" var="cert"
+  rowKey="#{cert}" id="missingCert" lazy="false" scrollable="true" scrollWidth="100%" scrollHeight="100%">
+  <p:column width="1em">
+    <h6>Missing Cert:</h6>
+    <p:rowToggler/>
+    <h:outputText id="subject" value="#{cc.attrs.cert.subjectX500Principal}"></h:outputText>
+    <p:commandButton id="add" value="Add To Truststore" icon="si si-add"
+      styleClass="modal-input-button" 
+      actionListener="#{trustStoreBean.addToStore(cc.attrs.cert)}"
+      action="#{cc.attrs.bean.clearMissingCert()}"
+      update="@form" />
+  </p:column>
+  <p:rowExpansion>
+    <p:dataTable var="infos" styleClass="noHeader" value="#{cc.attrs.cert}"
+      id="taskTable" rowKey="#{infos}">
+      <p:column style="border:0px;" width="1em">
+        <p:outputLabel id="subject" value="Subject: #{cc.attrs.cert.subjectX500Principal}" /> <br></br>
+        <p:outputLabel id="notBefore" value="valid from: #{cc.attrs.cert.notBefore}" /> <br></br>
+        <p:outputLabel id="notAfter" value="valid until: #{cc.attrs.cert.notAfter}" /> <br></br>
+        <p:outputLabel id="publicKey" value="PublicKey: #{cc.attrs.cert.getPublicKey().getFormat()}" />
+      </p:column>
+    </p:dataTable>
+  </p:rowExpansion>
+</p:dataTable>
+
+<style>
+    .noHeader.ui-datatable table thead tr {
+      display: none;
+    }
+    body .ui-datatable .ui-datatable-data > tr > td {
+      padding-top: 0.2rem;
+      padding-left: 1.5rem;
+      padding-bottom: 0.2rem;
+    }
+</style>
+</cc:implementation>
+</html>
