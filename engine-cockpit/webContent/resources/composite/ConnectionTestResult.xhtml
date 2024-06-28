@@ -18,7 +18,7 @@
     <h:form id="connTestForm" styleClass="custom-dialog-form">
       <h:panelGroup style="height:150px" id="missingCertView" 
         rendered="#{cc.attrs.bean.hasMissingCerts(cc.attrs.url)}">
-        <jc:TlsTesterMissingCertView bean="#{tlsTesterBean}" cert="#{cc.attrs.bean.missingCert}"></jc:TlsTesterMissingCertView>
+        <jc:TlsTesterMissingCertView id="missing" bean="#{tlsTesterBean}" cert="#{cc.attrs.bean.missingCert}"></jc:TlsTesterMissingCertView>
       </h:panelGroup>
       <h:panelGrid id="resultLog" columns="1" style="height:500px" styleClass="ui-fluid">
         <h:panelGroup id="resultConnect">

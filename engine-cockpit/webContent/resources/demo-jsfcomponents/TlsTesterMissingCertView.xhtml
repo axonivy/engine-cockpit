@@ -12,12 +12,12 @@
 
 <cc:implementation>
 <p:dataTable value="#{cc.attrs.cert}" styleClass="noHeader" var="cert"
-  rowKey="#{cert}" id="logList" lazy="false" scrollable="true" scrollWidth="100%" scrollHeight="100%">
+  rowKey="#{cert}" id="missingCert" lazy="false" scrollable="true" scrollWidth="100%" scrollHeight="100%">
   <p:column width="1em">
     <h6>Missing Cert:</h6>
     <p:rowToggler/>
     <h:outputText id="subject" value="#{cc.attrs.cert.subjectX500Principal}"></h:outputText>
-    <p:commandButton id="add" value="Add" icon="si si-add"
+    <p:commandButton id="add" value="Add To Truststore" icon="si si-add"
       styleClass="modal-input-button" 
       actionListener="#{trustStoreBean.addToStore(cc.attrs.cert)}"
       action="#{cc.attrs.bean.clearMissingCert()}"
