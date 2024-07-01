@@ -36,25 +36,23 @@
 
         <cc:SecuritySystemTabs tabChange="#{roleBean.reloadRoles}" id="tabs" update="form">
           <h:form id="treeForm">
+            <div class="table-search flex ui-fluid">
+              <span class="ui-input-icon-left filter-container">
+                <i class="pi pi-search"/>
+                <p:inputText id="globalFilter" placeholder="Search" value="#{roleBean.roles.filter}">
+                  <p:ajax event="keyup" delay="300" update="@form:tree" />
+                </p:inputText>
+              </span>
+              <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
+                actionListener="#{roleBean.roles.expandAllNodes}" update="tree" title="Expand all"
+                styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
+              <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
+                actionListener="#{roleBean.roles.collapseAllNodes}" update="tree" title="Collapse all"
+                styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+            </div>
             <p:treeTable id="tree" value="#{roleBean.roles.tree}" var="role" nodeVar="node" styleClass="hide-head">
               <p:ajax event="expand" listener="#{roleBean.roles.nodeExpand}" />
               <p:ajax event="collapse" listener="#{roleBean.roles.nodeCollapse}" />
-              <f:facet name="header">
-                <div class="flex ui-fluid">
-                  <span class="ui-input-icon-left filter-container" style="width: 100%;">
-                    <i class="pi pi-search"/>
-                    <p:inputText id="globalFilter" placeholder="Search" value="#{roleBean.roles.filter}">
-                      <p:ajax event="keyup" delay="300" update="@form:tree" />
-                    </p:inputText>
-                  </span>
-                  <p:commandButton id="expandAll" icon="si si-move-expand-vertical"
-                    actionListener="#{roleBean.roles.expandAllNodes}" update="tree" title="Expand all"
-                    styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined expand-all" />
-                  <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
-                    actionListener="#{roleBean.roles.collapseAllNodes}" update="tree" title="Collapse all"
-                    styleClass="ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
-                </div>
-              </f:facet>
               
               <p:column>
                 <p:treeNode type="role" rendered="#{node.type == 'role'}">

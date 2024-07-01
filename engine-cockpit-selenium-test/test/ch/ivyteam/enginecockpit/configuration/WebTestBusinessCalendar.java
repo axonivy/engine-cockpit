@@ -49,9 +49,9 @@ public class WebTestBusinessCalendar {
   @Test
   void testExpandCollapseTree() {
     getVisibleTreeNodes().shouldBe(size(3));
-    $(By.id(getFormId() + ":tree:collapseAll")).shouldBe(visible).click();
+    $(By.id(getFormId() + ":collapseAll")).shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
-    $(By.id(getFormId() + ":tree:expandAll")).shouldBe(visible).click();
+    $(By.id(getFormId() + ":expandAll")).shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(3));
   }
 
