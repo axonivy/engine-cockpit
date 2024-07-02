@@ -56,7 +56,7 @@ class WebTestPmvDetail {
   }
 
   private void deactivatePortalComponent() {
-    $(By.id("form:tree:expandAll")).shouldBe(visible).click();
+    $(By.id("form:expandAll")).shouldBe(visible).click();
     var portalComponentVersionId = "form:tree:" + $$(".activity-name").find(exactText("portal-components$1")).parent()
             .parent().parent().shouldBe(visible).attr("data-rk");
     $(By.id(portalComponentVersionId + ":deactivateButton")).shouldBe(visible).click();

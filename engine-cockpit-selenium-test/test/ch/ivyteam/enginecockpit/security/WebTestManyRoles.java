@@ -53,7 +53,7 @@ class WebTestManyRoles {
     Navigation.toUserDetail("foo");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").shouldBe(size(21));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-2").last().shouldHave(text("Show more ("), text("left)"));
-    $("#rolesOfUserForm\\:rolesTree\\:globalFilter").sendKeys("role-");
+    $("#rolesOfUserForm\\:globalFilter").sendKeys("role-");
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").shouldBe(size(21));
     $$("#rolesOfUserForm\\:rolesTree .ui-node-level-1").last()
             .shouldHave(text("The current search has more than 20 results."));

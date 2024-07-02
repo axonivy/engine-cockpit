@@ -179,6 +179,20 @@ body .user-avatar > img {
 }
 
 /* Table / Tree */
+.table-search {
+  background: var(--surface-b);
+  border: 1px solid var(--surface-d);
+  border-width: 1px 0 1px 0;
+  padding: 1rem 1rem;
+  font-weight: 600;
+}
+.layout-topbar-dark .table-search {
+  background: var(--surface-a);
+  border-width: 0 0 1px 0;
+}
+.filter-container {
+  width: 100%;
+}
 body .ui-tree {
   border: none;
   padding: 0;
