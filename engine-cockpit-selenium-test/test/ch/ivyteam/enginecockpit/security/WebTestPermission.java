@@ -60,7 +60,7 @@ class WebTestPermission {
 
     Selenide.executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
 
-    $(By.id("permissionsForm:permissionTable:globalFilter")).shouldBe(enabled).sendKeys("CaseWriteName");
+    $(By.id("permissionsForm:globalFilter")).shouldBe(enabled).sendKeys("CaseWriteName");
     $(By.id("permissionsForm:permissionTable"))
             .shouldHave(Condition.text("CaseWriteName"))
             .findAll("tbody tr").shouldHave(size(1));
@@ -82,7 +82,7 @@ class WebTestPermission {
     getVisibleTreeNodes().shouldBe(size(1));
     $(By.id("permissionsForm:permissionTable_node_0")).find(".ui-treetable-toggler").should(exist).click();
     getVisibleTreeNodes().shouldBe(size(4));
-    $(By.id("permissionsForm:permissionTable:collapseAll")).shouldBe(visible).click();
+    $(By.id("permissionsForm:collapseAll")).shouldBe(visible).click();
     getVisibleTreeNodes().shouldBe(size(1));
   }
 
