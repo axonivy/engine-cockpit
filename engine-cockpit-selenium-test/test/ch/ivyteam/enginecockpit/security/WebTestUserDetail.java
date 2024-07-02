@@ -258,10 +258,10 @@ class WebTestUserDetail {
     Table table = new Table(By.id("rolesOfUserForm:rolesTree"), true);
     table.firstColumnShouldBe(sizeGreaterThan(3));
     table.firstColumnShouldBe(sizeLessThan(7));
-    $("#rolesOfUserForm\\:rolesTree\\:expandAll").shouldBe(visible).click();
+    $("#rolesOfUserForm\\:expandAll").shouldBe(visible).click();
     table.firstColumnShouldBe(sizeGreaterThan(3));
     table.firstColumnShouldBe(sizeLessThan(7));
-    $("#rolesOfUserForm\\:rolesTree\\:collapseAll").shouldBe(visible).click();
+    $("#rolesOfUserForm\\:collapseAll").shouldBe(visible).click();
     table.firstColumnShouldBe(size(1));
   }
 

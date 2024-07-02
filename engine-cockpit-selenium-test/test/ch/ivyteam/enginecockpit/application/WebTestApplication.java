@@ -43,7 +43,7 @@ class WebTestApplication {
     $("h2").shouldHave(text("Applications"));
     Table table = new Table(By.className("ui-treetable"), true);
     table.firstColumnShouldBe(sizeGreaterThan(0));
-    table.search("eSt-A");
+    filter("eSt-A");
     table.firstColumnShouldBe(size(1));
   }
 
@@ -179,15 +179,21 @@ class WebTestApplication {
     $$("#form:tree:0_0_0:deleteBtn").get(2)
             .shouldHave(attribute("title", "Is required by 'dev-workflow-ui-web-test', 'dev-workflow-ui-test'\nIs in state RELEASED but must be one of [CREATED, PREPARED, ARCHIVED]"));
   }
+  
+  private void filter(String search) {
+    var filter = $(By.id("form:globalFilter"));
+    filter.shouldBe(visible).click();
+    filter.sendKeys(search);
+  }
 
   private void expandAppTree() {
     Selenide.executeJavaScript("scroll(0,0);");
-    $("#form\\:tree\\:expandAll").shouldBe(visible).click();
+    $("#form\\:expandAll").shouldBe(visible).click();
   }
 
   private void collapseAppTree() {
     Selenide.executeJavaScript("scroll(0,0);");
-    $("#form\\:tree\\:collapseAll").shouldBe(visible).click();
+    $("#form\\:collapseAll").shouldBe(visible).click();
   }
 
   private void stopAppInsideDetailView() {

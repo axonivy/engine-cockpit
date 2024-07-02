@@ -15,23 +15,20 @@
       </div>
     </div>
     
+    <div class="table-search p-d-flex ui-fluid">
+      <span class="ui-input-icon-left filter-container">
+        <i class="pi pi-search"/>
+        <p:inputText id="globalFilter" placeholder="Search" value="#{permissionBean.filter}">
+          <p:ajax event="keyup" delay="300" update="@form:permissionTable" />
+        </p:inputText>
+      </span>
+      <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
+        actionListener="#{permissionBean.collapseAllNodes}" update="permissionTable" title="Collapse all"
+        styleClass="p-ml-1 col-fixed ui-button-secondary rounded-button ui-button-outlined" />
+    </div>
     <p:treeTable id="permissionTable" value="#{permissionBean.tree}" var="permission">
       <p:ajax event="expand" listener="#{permissionBean.nodeExpand}" />
       <p:ajax event="collapse" listener="#{permissionBean.nodeCollapse}" />
-      <f:facet name="header">
-        <div class="p-d-flex ui-fluid">
-          <span class="ui-input-icon-left filter-container" style="width: 100%;">
-            <i class="pi pi-search"/>
-            <p:inputText id="globalFilter" placeholder="Search" value="#{permissionBean.filter}">
-              <p:ajax event="keyup" delay="300" update="@form:permissionTable" />
-            </p:inputText>
-          </span>
-          <p:commandButton id="collapseAll" icon="si si-move-shrink-vertical"
-            actionListener="#{permissionBean.collapseAllNodes}" update="permissionTable" title="Collapse all"
-            styleClass="p-ml-1 p-col-fixed ui-button-secondary rounded-button ui-button-outlined" />
-        </div>
-      </f:facet>
-      
       <p:column headerText="All Permissions">
         <h:outputText value="#{permission.name}">
           <i class="si si-#{permission.group ? 'folder-empty' : 'lock-1'} table-icon"></i>
