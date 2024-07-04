@@ -124,7 +124,7 @@ class WebTestStartEvents {
     filter("188AE871FC5C4A58/eventLink.ivp");
     table.rows().shouldHave(CollectionCondition.size(1));
   }
-  
+
   @Test
   void sort() {
     table.sortByColumn("Name");
@@ -148,7 +148,7 @@ class WebTestStartEvents {
 
   @Test
   void poll() {
-    filterAndAssertOne("188AE871FC5C4A58/eventLink.ivp");  
+    filterAndAssertOne("188AE871FC5C4A58/eventLink.ivp");
     var initialExecutions = Long.parseLong(table.tableEntry(1, 5).text());
     $(By.id("form:beanTable:0:poll")).click();
     $(By.id("pollBean:poll")).click();
@@ -277,6 +277,9 @@ class WebTestStartEvents {
 
     detailsPoll();
 
+    $(By.id("bean:eventBean:name")).shouldHave(text("poll error (PollError)"));
+    $(By.id("bean:eventBean:description")).shouldHave(text("Throws an error in the poll method (Description of PollError)"));
+
     $(By.id("polls:eventPoll:lastPollError:message")).shouldHave(text("Exception in poll method"));
     $(By.id("polls:eventPoll:lastPollError:showDetails")).click();
     assertErrorDialog("Exception in poll method");
@@ -375,11 +378,11 @@ class WebTestStartEvents {
           return true;
         });
   }
-  
+
   private void filter(String filter) {
     $(By.id("form:beanTable:globalFilter")).sendKeys(EngineCockpitUtil.getAppName()+"/engine-cockpit-test-data$1/" + filter);
   }
-  
+
   private void filterAndAssertOne(String filter) {
     filter(filter);
     table.rows().shouldHave(CollectionCondition.size(1));

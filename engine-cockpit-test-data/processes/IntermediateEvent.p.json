@@ -38,15 +38,13 @@
     }, {
       "id" : "f1",
       "type" : "WaitEvent",
-      "name" : "TestIntermediateEvent",
       "config" : {
         "javaClass" : "ch.ivyteam.enginecockpit.monitor.TestIntermediateClass",
         "eventId" : "in.eventID.toString()"
       },
       "visual" : {
         "at" : { "x" : 224, "y" : 144 },
-        "labelOffset" : { "x" : 72, "y" : 36 },
-        "description" : "intermediate event description"
+        "labelOffset" : { "x" : 72, "y" : 36 }
       },
       "connect" : [
         { "id" : "f3", "to" : "f2" }
@@ -88,7 +86,7 @@
     }, {
       "id" : "f6",
       "type" : "WaitEvent",
-      "name" : "PollErrorIntermediateEvent",
+      "name" : "Poll error",
       "config" : {
         "javaClass" : "ch.ivyteam.enginecockpit.monitor.PollErrorIntermediateClass",
         "eventId" : "in.eventID.toString()"
@@ -96,7 +94,7 @@
       "visual" : {
         "at" : { "x" : 224, "y" : 244 },
         "labelOffset" : { "x" : 72, "y" : 36 },
-        "description" : "another intermediate event description"
+        "description" : "Throws an error in the poll method"
       },
       "connect" : [
         { "id" : "f9", "to" : "f7" }
