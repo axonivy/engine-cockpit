@@ -13,7 +13,6 @@
     }, {
       "id" : "f0",
       "type" : "ProgramStart",
-      "name" : "nominal",
       "config" : {
         "javaClass" : "ch.ivyteam.ivy.process.eventstart.beans.TimerBean",
         "userConfig" : {
@@ -71,7 +70,8 @@
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 232 },
-        "labelOffset" : { "x" : 13, "y" : 33 }
+        "labelOffset" : { "x" : 13, "y" : 33 },
+        "description" : "Throws an error in the poll method"
       },
       "connect" : [
         { "id" : "f8", "to" : "f1", "via" : [ { "x" : 352, "y" : 232 } ] }

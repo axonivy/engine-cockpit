@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.management.ObjectName;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ch.ivyteam.enginecockpit.monitor.mbeans.MBean;
 import ch.ivyteam.enginecockpit.util.ErrorHandler;
 import ch.ivyteam.enginecockpit.util.ErrorValue;
@@ -35,11 +37,21 @@ public abstract class Event {
   }
 
   public String getBeanName() {
-    return bean.readAttribute("name").asString();
+    var elementName = bean.readAttribute("processElementName").asString();
+    var beanName = bean.readAttribute("name").asString();
+    if (StringUtils.isEmpty(elementName)) {
+      return beanName;
+    }
+    return elementName +" (" + beanName + ")";
   }
 
   public String getBeanDescription() {
-    return bean.readAttribute("description").asString();
+    var elementDescr = bean.readAttribute("processElementDescription").asString();
+    var beanDescr = bean.readAttribute("description").asString();
+    if (StringUtils.isEmpty(elementDescr)) {
+      return beanDescr;
+    }
+    return elementDescr +" (" + beanDescr + ")";
   }
 
   public String getApplication() {
@@ -153,7 +165,7 @@ public abstract class Event {
   public List<Firing> getFirings() {
     return firings;
   }
-  
+
   public List<EventBeanThread> getThreads() {
     return threads;
   }
