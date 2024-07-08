@@ -20,6 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.codeborne.selenide.CollectionCondition;
@@ -167,16 +168,22 @@ class WebDocuScreenshot {
     takeScreenshot("rest-clients", new Dimension(SCREENSHOT_WIDTH, 500));
     Navigation.toRestClientDetail("test-rest");
     takeScreenshot("rest-client-detail", new Dimension(SCREENSHOT_WIDTH, 600));
-    $(By.id("restClientConfigurationForm:url")).clear();
-    $(By.id("restClientConfigurationForm:url")).sendKeys("https://test-webservices.ivyteam.io:8090/api/v3");
-    $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    takeDialogScreenshot("tls-tester", By.id("connResult:connTestForm:testTlsConectionBtn"));
+    takeTlsTesterScreeshot();
     Navigation.toSearchEngine();
     takeScreenshot("search-engine", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toNotificationChannels();
     takeScreenshot("notification-channels", new Dimension(SCREENSHOT_WIDTH, 800));
     Navigation.toNotificationChannelDetail("mail");
     takeScreenshot("notification-channel-mail", new Dimension(SCREENSHOT_WIDTH, 800));
+  }
+
+  private void takeTlsTesterScreeshot() {
+    $(By.id("restClientConfigurationForm:url")).clear();
+    $(By.id("restClientConfigurationForm:url")).sendKeys("https://test-webservices.ivyteam.io:8090/api/v3");
+    $(By.id("restClientConfigurationForm:testRestBtn")).click();
+    $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
+    Selenide.Wait().until(ExpectedConditions.elementToBeClickable(By.id("connResult:connTestForm:testTlsConectionBtn")));
+    takeDialogScreenshot("tls-tester");
   }
 
   @Test
