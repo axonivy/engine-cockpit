@@ -12,9 +12,15 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
         <h6 class="m-0">Security System</h6>
-        
-       <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
-              title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="col-fixed ml-auto rounded-button">
+          <p:commandLink id="downloadLog" ajax="false" title="Download Securitydetails" 
+          styleClass="col-fixed ml-auto rounded-button">
+          <i class="si si-office-file-xls-1"></i>
+            <p:fileDownload value="#{securityConfigBean.export}" />
+        </p:commandLink>
+<!--         <p:commandButton id="exportSecurity" actionListener="#{securityConfigBean.export}"
+              title="Export" icon="si si-office-file-xls-1" styleClass="col-fixed ml-auto rounded-button" />
+ -->       <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
+              title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="col-fixed ml-1 rounded-button">
                <f:param name="source" value="${securityConfigBean.name}"/>
        </p:linkButton>
         
