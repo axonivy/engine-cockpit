@@ -17,7 +17,7 @@
     <p:dataTable value="#{tlsTesterBean.testResult}" var="logEntry"
       rowKey="#{logEntry.result}"
       id="logList" lazy="false" scrollable="true" scrollWidth="100%" scrollHeight="100%">
-      <p:column width="1em"
+      <p:column width="2em"
       styleClass="tls-tester-result-column #{tlsTesterBean.backgroundColor(logEntry.result)}">
         <p:rowToggler rendered="#{tlsTesterBean.isExecuted(logEntry.result)}"/>
       </p:column>
@@ -52,9 +52,9 @@
       display: none;
     }
     body .ui-datatable .ui-datatable-data > tr > td {
-      padding-top: 0.2rem;
+      padding-top: 0.3rem;
       padding-left: 1.5rem;
-      padding-bottom: 0.2rem;
+      padding-bottom: 0.3rem;
     }
     </style>
 </cc:implementation>

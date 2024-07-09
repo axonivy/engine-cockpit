@@ -13,9 +13,9 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
         <h6 class="m-0">Rest Client configurations</h6>
-        <p:commandButton id="testRestBtn" title="Test Rest Connection" oncomplete="PF('connectionTestModel').show()"
-          icon="si si-phone-actions-call" update="restClientAdditionalConfigForm, connResult:connectionTestModel"
-          actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
+        <p:commandButton id="testRestBtn" title="Test Rest Connection" actionListener="#{restClientDetailBean.openDialog}"
+          icon="si si-phone-actions-call" update="restClientAdditionalConfigForm"
+          action="#{tlsTesterBean.setTlsTestRendered(false)}"
           styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetRestConfirmDialog').show()"
           title="Reset configuration" icon="si si-undo" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
@@ -28,7 +28,7 @@
         </p:confirmDialog>
         <p:commandButton id="saveRestConfig" actionListener="#{restClientDetailBean.saveConfig}" title="Save changes"
           icon="si si-floppy-disk" styleClass="col-fixed ml-1 ui-button-success rounded-button"
-          update="@form, restClientAdditionalConfigForm, connResult:connectionTestModel" />
+          update="@form, restClientAdditionalConfigForm" />
       </div>
     </div>
     
@@ -59,12 +59,5 @@
     </p:panelGrid>
   </h:form>
 </div>
-
-<cc:ConnectionTestResult id="connResult"
-  result="#{restClientDetailBean.result}"
-  url="#{restClientDetailBean.restClient.connectionUrl}"
-  testMethod="#{restClientDetailBean.testRestConnection()}"
-  bean="#{tlsTesterBean}"
-  reset="#{restClientDetailBean.reset()}" />
 
 </html>

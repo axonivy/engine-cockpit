@@ -1,6 +1,9 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.faces.application.FacesMessage;
@@ -10,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.ws.rs.client.WebTarget;
 
 import org.apache.commons.lang.text.StrSubstitutor;
+import org.primefaces.PrimeFaces;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
@@ -54,6 +58,22 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   public String getName() {
     return restClientName;
+  }
+
+  public void openDialog() {
+    Map<String, Object> options = new HashMap<>();
+    options.put("modal", true);
+    options.put("resizable", true);
+    options.put("contentWidth", 1250);
+    options.put("contentHeight", 750);
+    options.put("responsive", "true");
+
+    Map<String, List<String>> params = new HashMap<>();
+    params.put("app", Arrays.asList(this.appName));
+    params.put("name", Arrays.asList(this.restClientName));
+
+    PrimeFaces.current().dialog().openDynamic("connectionTestResult", options, params);
+    onload();
   }
 
   public void setName(String restClientName) {

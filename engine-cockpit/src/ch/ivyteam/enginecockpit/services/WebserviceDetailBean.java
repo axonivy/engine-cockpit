@@ -1,6 +1,8 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,6 +16,7 @@ import javax.ws.rs.client.Entity;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.primefaces.PrimeFaces;
 
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
@@ -55,6 +58,22 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
 
   public void setApp(String appName) {
     this.appName = appName;
+  }
+
+  public void openDialog() {
+    Map<String, Object> options = new HashMap<>();
+    options.put("modal", true);
+    options.put("resizable", true);
+    options.put("contentWidth", 1250);
+    options.put("contentHeight", 750);
+    options.put("responsive", "true");
+
+    Map<String, List<String>> params = new HashMap<>();
+    params.put("app", Arrays.asList(this.appName));
+    params.put("name", Arrays.asList(this.webservice.getName()));
+
+    PrimeFaces.current().dialog().openDynamic("connectionTestResult", options, params);
+    onload();
   }
 
   public String getApp() {

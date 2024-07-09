@@ -16,7 +16,7 @@
   <p:column width="1em">
     <h6>Missing Cert:</h6>
     <p:rowToggler/>
-    <h:outputText id="subject" value="#{cc.attrs.cert.subjectX500Principal}"></h:outputText>
+    <h:outputText id="subject" style="padding-right: 2em; padding-left: 1em;" value="#{cc.attrs.cert.subjectX500Principal}"></h:outputText>
     <p:commandButton id="add" value="Add To Truststore" icon="si si-add"
       styleClass="modal-input-button" 
       actionListener="#{trustStoreBean.addToStore(cc.attrs.cert)}"

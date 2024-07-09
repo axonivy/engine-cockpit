@@ -27,10 +27,10 @@
           actionListener="#{webserviceDetailBean.setActivePortType(endpoint.name)}" update="editEndpointModal"
           oncomplete="PF('editEndpointModal').show()" rendered="#{endpoint.type eq 'port'}" />
         <p:commandButton id="testWsEndpointBtn" title="Test Web Service Endpoint Connection"
-          update="connResult:connectionTestModel" icon="si si-phone-actions-call"
+          icon="si si-phone-actions-call"
           styleClass="ui-button-secondary rounded-button" process="@this"
-          actionListener="#{webserviceDetailBean.setActiveEndpoint(endpoint.name)}"
-          rendered="#{endpoint.type eq 'link'}" oncomplete="PF('connectionTestModel').show()" async="true" />
+          action="#{webserviceDetailBean.setActiveEndpoint(endpoint.name)}"
+          rendered="#{endpoint.type eq 'link'}" actionListener="#{webserviceDetailBean.openDialog}" async="true" />
       </p:column>
     </p:treeTable>
   </h:form>
@@ -63,8 +63,5 @@
     </h:form>
   </p:dialog>
 </div>
-
-<cc:ConnectionTestResult result="#{webserviceDetailBean.result}" url="#{webserviceDetailBean.activeEndpoint}"
-  testMethod="#{webserviceDetailBean.testWsEndpointUrl()}" id="connResult" saveHint="true" reset="#{webserviceDetailBean.reset()}" />
 
 </html>
