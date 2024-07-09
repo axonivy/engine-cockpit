@@ -22,6 +22,10 @@ public class Excel {
     workbook = new XSSFWorkbook(XSSFWorkbookType.XLSX);
   }
 
+  public Excel(InputStream inputStream) throws IOException {
+    workbook = new XSSFWorkbook(inputStream);
+  }
+
   public InputStream write() {
     try (var outputStream = new ByteArrayOutputStream()) {
       workbook.write(outputStream);
@@ -33,6 +37,11 @@ public class Excel {
 
   public Sheet createSheet(String name) {
     return new Sheet(this, workbook.createSheet(name));
+  }
+
+  public Sheet getSheet(String sheetName) {
+    Sheet sheet = new Sheet(this, workbook.getSheet(sheetName));
+    return sheet;
   }
 
   XSSFCellStyle style(Style style) {
@@ -60,4 +69,5 @@ public class Excel {
     }
     return cellStyle;
   }
+
 }

@@ -1,46 +1,172 @@
 package ch.ivyteam.enginecockpit.security.export;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.IOException;
+import java.util.List;
 
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.enginecockpit.security.export.excel.Excel;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.environment.IvyTest;
+import ch.ivyteam.ivy.security.IPermission;
+import ch.ivyteam.ivy.security.IRole;
+import ch.ivyteam.ivy.security.IUser;
 
 @IvyTest
 class TestSecurityExport {
 
-  @BeforeEach
-  void before() {
+  private static IUser user;
+  private static IRole role;
+  private static IRole testRole;
+  private static Excel excel;
+  private static List<IPermission> permissions;
+
+  @BeforeAll
+  static void before() throws IOException {
     var users = Ivy.wf().getSecurityContext().users();
-    users.create("Cedric");
+    role = Ivy.wf().getSecurityContext().roles().find("Everybody");
+    testRole = Ivy.wf().getSecurityContext().roles().create("test");
+    role.addRoleMember(testRole);
+    user = users.create("Cedric");
+    permissions = Ivy.wf().getSecurityContext().securityDescriptor().getPermissions();
+    var wf = Ivy.wf();
+    StreamedContent export = new SecurityExport(wf.getSecurityContext()).export();
+    excel = new Excel(export.getStream().get());
   }
 
   @Test
-  void export() throws IOException {
-    var wf = Ivy.wf();
-    assertThat(wf.getSecurityContext().users().count()).isEqualTo(1);
+  void exportUsers() {
+    var userSheet = excel.getSheet("User");
 
-    StreamedContent export = new SecurityExport(wf.getSecurityContext()).export();
-    export.getStream();
-    try (var workbook = new XSSFWorkbook(export.getStream().get())) {
-      var userSheet = workbook.getSheet("User");
-      var rolesSheet = workbook.getSheet("Roles");
-      assertThat(userSheet.getLastRowNum()).as("last row num").isEqualTo(1);
-      var userRow = userSheet.getRow(1);
-      String userValue = userRow.getCell(0).getStringCellValue().toString();
-      assert userValue.equals("Cedric");
+    String[][] userData = new String[][] {
+      {"Displayname", "Email", "ExternalId", "External Name", "Fullname", "Membername", "Name", "SecurityId"},
+      {"Cedric", "", "", "" ,"Cedric", "#Cedric", "Cedric", user.getSecurityMemberId()}
+    };
+    ExcelAssertions.assertThat(userSheet).contains(userData);
+  }
 
-      var rolesRow = rolesSheet.getRow(1);
-      String roleValue = rolesRow.getCell(0).getStringCellValue().toString();
-      assert roleValue.equals("Everybody");
-      assertThat(rolesSheet.getLastRowNum()).as("last row num").isEqualTo(1);
-      assert workbook.getNumberOfSheets() == 2;
+  @Test
+  void exportRoles() {
+    var rolesSheet = excel.getSheet("Roles");
+
+    String[][] rolesData = new String[][] {
+      {"Displayname", "Description", "External Name", "Member Name", "Security Member Id", "Name"},
+      {"test", "", "", "test", testRole.getSecurityMemberId(), "test"},
+      {"Everybody", "Top level role", "", "Everybody" , role.getSecurityMemberId(), "Everybody"}
+    };
+    ExcelAssertions.assertThat(rolesSheet).contains(rolesData);
+  }
+
+  @Test
+  void exportUserRoles() {
+    var userRolesSheet = excel.getSheet("Userroles");
+
+    String[][] userRolesData = new String[][] {
+      {"Username", testRole.getDisplayName() , role.getDisplayName()},
+      {"Cedric", "X", null}
+    };
+    ExcelAssertions.assertThat(userRolesSheet).contains(userRolesData);
+
+  }
+
+  @Test
+  void exportRoleMembers() {
+    var roleMembersSheet = excel.getSheet("Role members");
+    String[][] roleMembersData = new String[][] {
+      {"Role name", "test", "Everybody"},
+      {"test", null, null},
+      {"Everybody", "M", null}
+    };
+    ExcelAssertions.assertThat(roleMembersSheet).contains(roleMembersData);
+
+  }
+
+  @Test
+  void userPermissionsMembers() {
+    var securityContext = Ivy.wf().getSecurityContext();
+    var userPermissionsSheet = excel.getSheet("User permissions");
+    var counter = 1;
+    String[][] userPermissionsData = new String[2][permissions.size() + 1];
+    userPermissionsData[0][0] = "Username";
+    userPermissionsData[1][0] = "Cedric";
+    for(var permission : permissions) {
+      userPermissionsData[0][counter] = permission.getName();
+      var permissionCheck = securityContext.securityDescriptor().getPermissionAccess(permission, user);
+      if(permissionCheck.isGranted()) {
+        if(permissionCheck.isExplicit()) {
+          userPermissionsData[1][counter] = "G";
+        }
+        else {
+          userPermissionsData[1][counter] = "g";
+        }
+      }
+      else if(permissionCheck.isDenied()) {
+        if(permissionCheck.isExplicit()) {
+          userPermissionsData[1][counter] = "D";
+        }
+        else {
+          userPermissionsData[1][counter] = "d";
+        }
+      }
+      counter++;
     }
+
+    ExcelAssertions.assertThat(userPermissionsSheet).contains(userPermissionsData);
+
+  }
+
+  @Test
+  void rolePermissionsMembers() {
+    var securityContext = Ivy.wf().getSecurityContext();
+    var rolePermissionsSheet = excel.getSheet("Role permissions");
+    var counter = 1;
+    String[][] rolePermissionsData = new String[3][permissions.size() + 1];
+    rolePermissionsData[0][0] = "Role name";
+    rolePermissionsData[1][0] = "test";
+    rolePermissionsData[2][0] = "Everybody";
+    for(var permission : permissions) {
+      rolePermissionsData[0][counter] = permission.getName();
+      var permissionCheckEverybody = securityContext.securityDescriptor().getPermissionAccess(permission, role);
+      var permissionCheckTest = securityContext.securityDescriptor().getPermissionAccess(permission, testRole);
+      if(permissionCheckTest.isGranted()) {
+        if(permissionCheckTest.isExplicit()) {
+          rolePermissionsData[1][counter] = "G";
+        }
+        else {
+          rolePermissionsData[1][counter] = "g";
+        }
+      }
+      else if(permissionCheckTest.isDenied()) {
+        if(permissionCheckTest.isExplicit()) {
+          rolePermissionsData[1][counter] = "D";
+        }
+        else {
+          rolePermissionsData[1][counter] = "d";
+        }
+      }
+
+      if(permissionCheckEverybody.isGranted()) {
+        if(permissionCheckEverybody.isExplicit()) {
+          rolePermissionsData[2][counter] = "G";
+        }
+        else {
+          rolePermissionsData[2][counter] = "g";
+        }
+      }
+      else if(permissionCheckEverybody.isDenied()) {
+        if(permissionCheckEverybody.isExplicit()) {
+          rolePermissionsData[2][counter] = "G";
+        }
+        else {
+          rolePermissionsData[2][counter] = "g";
+        }
+      }
+      counter++;
+    }
+
+    ExcelAssertions.assertThat(rolePermissionsSheet).contains(rolePermissionsData);
+
   }
 }
