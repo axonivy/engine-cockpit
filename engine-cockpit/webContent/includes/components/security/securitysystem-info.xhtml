@@ -12,9 +12,8 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
         <h6 class="m-0">Security System</h6>
-          <p:commandButton id="downloadLog" ajax="false" title="Download Securityexport" icon="si si-office-file-xls-1"
+          <p:commandButton id="downloadSecurityReport" ajax="false" title="Download Security Report" icon="si si-office-file-xls-1"
           styleClass="col-fixed ml-auto rounded-button">
-          <i class="si si-office-file-xls-1"></i>
             <p:fileDownload value="#{securityConfigBean.export}" />
         </p:commandButton>
        <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 

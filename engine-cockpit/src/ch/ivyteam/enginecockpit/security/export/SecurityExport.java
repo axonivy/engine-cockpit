@@ -50,7 +50,7 @@ public class SecurityExport {
             .builder()
             .stream(excel::write)
             .contentType("application/xlsx")
-            .name("test.xlsx")
+            .name("AxonivySecurityReport.xlsx")
             .build();
   }
 
