@@ -1,13 +1,18 @@
 package ch.ivyteam.enginecockpit.security.export;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.security.export.excel.Excel;
+import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.environment.IvyTest;
 import ch.ivyteam.ivy.security.IPermission;
@@ -41,8 +46,8 @@ class TestSecurityExport {
     var userSheet = excel.getSheet("User");
 
     String[][] userData = new String[][] {
-      {"Displayname", "Email", "ExternalId", "External Name", "Fullname", "Membername", "Name", "SecurityId"},
-      {"Cedric", "", "", "" ,"Cedric", "#Cedric", "Cedric", user.getSecurityMemberId()}
+      {"Displayname", "Fullname", "Membername", "Name", "Email", "SecurityId", "ExternalId", "External Name"},
+      {"Cedric", "Cedric", "#Cedric", "Cedric", "", user.getSecurityMemberId(), "", "", }
     };
     ExcelAssertions.assertThat(userSheet).contains(userData);
   }
@@ -52,16 +57,16 @@ class TestSecurityExport {
     var rolesSheet = excel.getSheet("Roles");
 
     String[][] rolesData = new String[][] {
-      {"Displayname", "Description", "External Name", "Member Name", "Security Member Id", "Name"},
-      {"test", "", "", "test", testRole.getSecurityMemberId(), "test"},
-      {"Everybody", "Top level role", "", "Everybody" , role.getSecurityMemberId(), "Everybody"}
+      {"Displayname", "Name", "Description", "Member Name", "Security Member Id", "External Name"},
+      {"test", "test", "", "test", testRole.getSecurityMemberId(), ""},
+      {"Everybody", "Everybody", "Top level role", "Everybody" , role.getSecurityMemberId(), ""}
     };
     ExcelAssertions.assertThat(rolesSheet).contains(rolesData);
   }
 
   @Test
   void exportUserRoles() {
-    var userRolesSheet = excel.getSheet("Userroles");
+    var userRolesSheet = excel.getSheet("User roles");
 
     String[][] userRolesData = new String[][] {
       {"Username", testRole.getDisplayName() , role.getDisplayName()},
@@ -167,6 +172,24 @@ class TestSecurityExport {
     }
 
     ExcelAssertions.assertThat(rolePermissionsSheet).contains(rolePermissionsData);
+  }
 
+  @Test
+  void exportOverview() {
+    var overviewSheet = excel.getSheet("Overview");
+    String[][] overviewData = new String[][] {
+      {"Security System Name", "default"},
+      {"Date", overviewSheet.getData()[1][1]},
+      {"Axonivy Version", Advisor.getAdvisor().getVersion().toString()},
+      {"Current User", "Unknown User (Session 1)"},
+      {"Hostname", "test.axonivy.com"},
+      {"Number of Users", "1"},
+      {"Number of Roles", "2"}
+    };
+    ExcelAssertions.assertThat(overviewSheet).contains(overviewData);
+    var timeStr = overviewSheet.getData()[1][1];
+    var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    var time = LocalDateTime.parse(timeStr, dtf);
+    Assertions.assertThat(time).isCloseTo(LocalDateTime.now(), Assertions.within(10, ChronoUnit.SECONDS));
   }
 }

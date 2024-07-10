@@ -27,6 +27,20 @@ public class Row {
     cell.value(value);
   }
 
+  public void createResultCellWidth(int column, int width , String value) {
+    var cell = createCell(column);
+    cell.style(Style.RESULT);
+    cell.width(width);
+    cell.value(value);
+  }
+
+  public void createResultCellWidth(int column, int width , int value) {
+    var cell = createCell(column);
+    cell.style(Style.RESULT);
+    cell.width(width);
+    cell.value(value);
+  }
+
   public void createResultCell(int column, int value) {
     var cell = createCell(column);
     cell.style(Style.RESULT);

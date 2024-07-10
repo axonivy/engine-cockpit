@@ -1,19 +1,26 @@
 package ch.ivyteam.enginecockpit.security.export;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
+
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.security.export.excel.Excel;
+import ch.ivyteam.enginecockpit.security.export.excel.Row;
 import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
+import ch.ivyteam.ivy.Advisor;
 import ch.ivyteam.ivy.security.IPermission;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
+import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.IUser;
 
 public class SecurityExport {
@@ -22,8 +29,11 @@ public class SecurityExport {
   private final Map<String, Integer> propertyColumns = new HashMap<>();
   private int propertyCellNr = 8;
   private final Excel excel = new Excel();
-  private ArrayList<String> headersUser = new ArrayList<String>(Arrays.asList("Displayname", "Email", "ExternalId", "External Name", "Fullname", "Membername", "Name", "SecurityId"));
-  private ArrayList<String> headersRoles = new ArrayList<String>(Arrays.asList("Displayname", "Description", "External Name", "Member Name", "Security Member Id", "Name"));
+  private ArrayList<String> headersOverview = new ArrayList<String>(Arrays.asList("Security System Name", "Date", "Axonivy Version", "Current User", "Hostname", "Number of Users", "Number of Roles"));
+  private ArrayList<String> headersUser = new ArrayList<String>(Arrays.asList("Displayname", "Fullname", "Membername", "Name", "Email", "SecurityId", "ExternalId", "External Name"));
+  private ArrayList<String> headersRoles = new ArrayList<String>(Arrays.asList("Displayname", "Name", "Description", "Member Name", "Security Member Id", "External Name"));
+  private ArrayList<String> userRolesHeader = new ArrayList<String>(Arrays.asList("Username"));
+  private ArrayList<String> roleMembersHeader = new ArrayList<String>(Arrays.asList("Role name"));
 
   public SecurityExport(ISecurityContext securityContext) {
     this.securityContext = securityContext;
@@ -40,6 +50,94 @@ public class SecurityExport {
   }
 
   public void createSheets() {
+    createOverviewSheet();
+    createUserSheet();
+    createRoleSheet();
+    createUserRolesSheet();
+    createRoleMemberSheet();
+    createUserPermissionsSheet();
+    createRolePermissionsSheet();
+  }
+
+  private void createRolePermissionsSheet() {
+    var permissions = securityContext.securityDescriptor().getPermissions();
+    var roles = securityContext.roles().all();
+    var rowNr = 1;
+    var rolePermissionsHeader = new ArrayList<String>(Arrays.asList("Role name"));
+
+    for (var permission : permissions) {
+      rolePermissionsHeader.add(permission.getName());
+    }
+
+    Sheet rolePermissionsSheet = excel.createSheet("Role permissions");
+    writeHeader(rolePermissionsSheet, 0, rolePermissionsHeader);
+
+    for (var role : roles) {
+      writeRolePermissionData(rolePermissionsSheet, role, rowNr++, permissions);
+    }
+  }
+
+  private void createUserPermissionsSheet() {
+    var users = securityContext.users().paged();
+    var rowNr = 1;
+    var userPermissionsHeader = new ArrayList<String>(Arrays.asList("Username"));
+    var permissions = securityContext.securityDescriptor().getPermissions();
+
+    for (var permission : permissions) {
+      userPermissionsHeader.add(permission.getName());
+    }
+
+    Sheet userPermissionsSheet = excel.createSheet("User permissions");
+    writeHeader(userPermissionsSheet, 0, userPermissionsHeader);
+
+    for (var user : users) {
+      writeUserPermissionData(userPermissionsSheet, user, rowNr++,permissions);
+    }
+  }
+
+  private void createRoleMemberSheet() {
+    var roles = securityContext.roles().all();
+    var rowNr = 1;
+    Sheet roleMembersSheet = excel.createSheet("Role members");
+    writeHeader(roleMembersSheet, 0, roleMembersHeader);
+
+    for (var role : roles) {
+      writeRoleMembersData(roleMembersSheet, role, rowNr++);
+    }
+  }
+
+
+  private void createUserRolesSheet() {
+    var users = securityContext.users().paged();
+    var rowNr = 1;
+    Sheet userRolesSheet = excel.createSheet("User roles");
+    writeHeader(userRolesSheet, 0, userRolesHeader);
+
+    for (var user : users) {
+      writeUserRoleData(userRolesSheet, rowNr++, user);
+    }
+  }
+
+  private void createRoleSheet() {
+    var rowNr = 1;
+    propertyCellNr = headersRoles.size();
+    Sheet rolesSheet = excel.createSheet("Roles");
+    var roles = securityContext.roles().all();
+
+    for (var role : roles) {
+      writeRoleData(rolesSheet, rowNr++, role);
+      userRolesHeader.add(role.getDisplayName());
+      roleMembersHeader.add(role.getDisplayName());
+    }
+
+    for (Map.Entry<String, Integer> entry : propertyColumns.entrySet()) {
+      headersRoles.add(entry.getKey().toString());
+    }
+
+    writeHeader(rolesSheet, 0, headersRoles);
+  }
+
+  private void createUserSheet(){
     propertyColumns.clear();
     var rowNr = 1;
     propertyCellNr = headersUser.size();
@@ -55,64 +153,48 @@ public class SecurityExport {
     }
 
     writeHeader(userSheet, 0, headersUser);
-
-    rowNr = 1;
-    propertyCellNr = headersRoles.size();
-    Sheet rolesSheet = excel.createSheet("Roles");
-    var roles = securityContext.roles().all();
-
-    var userRolesHeader = new ArrayList<String>(Arrays.asList("Username"));
-    var roleMembersHeader = new ArrayList<String>(Arrays.asList("Role name"));
-    for (var role : roles) {
-      writeRoleData(rolesSheet, rowNr++, role);
-      userRolesHeader.add(role.getDisplayName());
-      roleMembersHeader.add(role.getDisplayName());
-    }
-
-    for (Map.Entry<String, Integer> entry : propertyColumns.entrySet()) {
-      headersRoles.add(entry.getKey().toString());
-    }
-    writeHeader(rolesSheet, 0, headersRoles);
-
-    rowNr = 1;
-    Sheet userRolesSheet = excel.createSheet("Userroles");
-    writeHeader(userRolesSheet, 0, userRolesHeader);
-    for (var user : users) {
-      writeUserRoleData(userRolesSheet, rowNr++, user);
-    }
-
-    rowNr = 1;
-    Sheet roleMembersSheet = excel.createSheet("Role members");
-    writeHeader(roleMembersSheet, 0, roleMembersHeader);
-    for (var role : roles) {
-      writeRoleMembersData(roleMembersSheet, rowNr++, role, roleMembersHeader);
-    }
-
-    rowNr = 1;
-    var userPermissionsHeader = new ArrayList<String>(Arrays.asList("Username"));
-    var permissions = securityContext.securityDescriptor().getPermissions();
-    for (var permission : permissions) {
-      userPermissionsHeader.add(permission.getName());
-    }
-    Sheet userPermissionsSheet = excel.createSheet("User permissions");
-    writeHeader(userPermissionsSheet, 0, userPermissionsHeader);
-    for (var user : users) {
-      writeUserPermissionData(userPermissionsSheet, rowNr++, user, permissions);
-    }
-
-    rowNr = 1;
-    var rolePermissionsHeader = new ArrayList<String>(Arrays.asList("Role name"));
-    for (var permission : permissions) {
-      rolePermissionsHeader.add(permission.getName());
-    }
-    Sheet rolePermissionsSheet = excel.createSheet("Role permissions");
-    writeHeader(rolePermissionsSheet, 0, rolePermissionsHeader);
-    for (var role : roles) {
-      writeRolePermissionData(rolePermissionsSheet, rowNr++, role, permissions);
-    }
   }
 
-  private void writeRolePermissionData(Sheet sheet, int rowNr, IRole role, List<IPermission> permissions) {
+  private void createOverviewSheet() {
+    Sheet overviewSheet = excel.createSheet("Overview");
+    writeOverviewData(overviewSheet, 0, headersOverview);
+  }
+
+  private void writeOverviewData(Sheet sheet, int rowNr, ArrayList<String> headers) {
+    ArrayList<Row> rows = new ArrayList<Row>();
+
+    for(var header : headers) {
+      var row = sheet.createRow(rowNr++);
+      row.createHeaderCell(0, 20, header);
+      rows.add(row);
+    }
+
+    ArrayList<String> values = new ArrayList<String>();
+    values.add(securityContext.getName());
+    var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    values.add(dtf.format(LocalDateTime.now()));
+    values.add(Advisor.getAdvisor().getVersion().toString());
+    values.add(ISession.current().getSessionUserName());
+    values.add(getServerName());
+    values.add(Long.toString(securityContext.users().count()));
+    values.add(Integer.toString(securityContext.roles().count()));
+    rowNr = 0;
+    for(var row : rows) {
+      row.createResultCellWidth(1, 20 , values.get(rowNr));
+      rowNr++;
+    }
+
+  }
+
+  private String getServerName() {
+    var currentInstance = FacesContext.getCurrentInstance();
+    if(currentInstance != null) {
+      return FacesContext.getCurrentInstance().getExternalContext().getRequestServerName();
+    }
+    return "test.axonivy.com";
+  }
+
+  private void writeRolePermissionData(Sheet sheet, IRole role, int rowNr, List<IPermission> permissions) {
     var row = sheet.createRow(rowNr++);
     var cellNr = 0;
     row.createResultCell(cellNr++, role.getDisplayName());
@@ -138,7 +220,7 @@ public class SecurityExport {
     }
   }
 
-  private void writeUserPermissionData(Sheet sheet, int rowNr, IUser user, List<IPermission> permissions) {
+  private void writeUserPermissionData(Sheet sheet, IUser user, int rowNr, List<IPermission> permissions) {
     var row = sheet.createRow(rowNr++);
     var cellNr = 0;
     row.createResultCell(cellNr++, user.getDisplayName());
@@ -164,7 +246,7 @@ public class SecurityExport {
     }
   }
 
-  private void writeRoleMembersData(Sheet sheet, int rowNr, IRole role, ArrayList<String> roleMembersHeader) {
+  private void writeRoleMembersData(Sheet sheet, IRole role, int rowNr) {
     var row = sheet.createRow(rowNr++);
     var roleMembers = role.getRoleMembers();
     var parent = role.getParent();
@@ -200,11 +282,11 @@ public class SecurityExport {
     var row = sheet.createRow(rowNr++);
     var cellNr = 0;
     row.createResultCell(cellNr++, role.getDisplayName());
+    row.createResultCell(cellNr++, role.getName());
     row.createResultCell(cellNr++, role.getDisplayDescription());
-    row.createResultCell(cellNr++, role.getExternalName());
     row.createResultCell(cellNr++, role.getMemberName());
     row.createResultCell(cellNr++, role.getSecurityMemberId());
-    row.createResultCell(cellNr++, role.getName());
+    row.createResultCell(cellNr++, role.getExternalName());
     for (var propertyName : role.getAllPropertyNames()) {
       cellNr = propertyColumns.computeIfAbsent(propertyName, name -> propertyCellNr++);
       row.createResultCell(cellNr, role.getProperty(propertyName));
@@ -215,7 +297,13 @@ public class SecurityExport {
     var row = sheet.createRow(rowNr);
     var cellNr = 0;
     for (var header : headers) {
-      row.createHeaderCell(cellNr++, 10, header);
+      if(header.contains("Security")) {
+        row.createHeaderCell(cellNr++, 45, header);
+      }
+      else {
+        row.createHeaderCell(cellNr++, 25, header);
+
+      }
     }
   }
 
@@ -223,13 +311,13 @@ public class SecurityExport {
     var row = sheet.createRow(rowNr++);
     var cellNr = 0;
     row.createResultCell(cellNr++, user.getDisplayName());
-    row.createResultCell(cellNr++, user.getEMailAddress());
-    row.createResultCell(cellNr++, user.getExternalId());
-    row.createResultCell(cellNr++, user.getExternalName());
     row.createResultCell(cellNr++,  user.getFullName());
     row.createResultCell(cellNr++, user.getMemberName());
     row.createResultCell(cellNr++, user.getName());
+    row.createResultCell(cellNr++, user.getEMailAddress());
     row.createResultCell(cellNr++, user.getSecurityMemberId());
+    row.createResultCell(cellNr++, user.getExternalId());
+    row.createResultCell(cellNr++, user.getExternalName());
     for (var propertyName : user.getAllPropertyNames()) {
       cellNr = propertyColumns.computeIfAbsent(propertyName, name -> propertyCellNr++);
       row.createResultCell(cellNr, user.getProperty(propertyName));
