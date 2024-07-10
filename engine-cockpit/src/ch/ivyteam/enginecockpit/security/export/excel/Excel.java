@@ -66,6 +66,9 @@ public class Excel {
         cellStyle.setAlignment(HorizontalAlignment.LEFT);
         cellStyle.setBorderBottom(BorderStyle.HAIR);
       }
+      case THICK -> {
+        font.setBold(true);
+      }
     }
     return cellStyle;
   }

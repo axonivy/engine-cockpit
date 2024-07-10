@@ -16,7 +16,7 @@ public class Row {
 
   public void createHeaderCell(int cellNum, int width, String header) {
     var cell = createCell(cellNum);
-    cell.style(Style.HEADER);
+    cell.style(Style.THICK);
     cell.width(width);
     cell.value(header);
   }
@@ -24,6 +24,12 @@ public class Row {
   public void createResultCell(int column, String value) {
     var cell = createCell(column);
     cell.style(Style.RESULT);
+    cell.value(value);
+  }
+
+  public void createTitleCell(int column, String value) {
+    var cell = createCell(column);
+    cell.style(Style.TITLE);
     cell.value(value);
   }
 
