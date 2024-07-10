@@ -3,11 +3,13 @@ package ch.ivyteam.enginecockpit.services;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 import com.codeborne.selenide.Selenide;
 
@@ -31,9 +33,11 @@ class WebTestTlsTester {
   @Test
   void TestRestConnection() {
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connTestForm:testConnectionBtn")).click();
-    $(By.id("connResult:connTestForm:resultConnect")).shouldHave(text("error"));
-    $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
+    $(By.id("restClientConfigurationForm:testRestBtn_dlg")).shouldBe(visible);
+    switchTodialog();
+    $(By.id("connTestForm:testConnectionBtn")).click();
+    $(By.id("connTestForm:resultConnect")).shouldHave(text("error"));
+    $(By.id("connTestForm:closeConTesterDialog")).click();
   }
 
   @Test
@@ -42,8 +46,10 @@ class WebTestTlsTester {
     $(By.id("restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8090/api/v3");
     $(By.id("restClientConfigurationForm:saveRestConfig")).click();
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-    $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
+    $(By.id("restClientConfigurationForm:testRestBtn_dlg")).shouldBe(visible);
+    switchTodialog();
+    $(By.id("connTestForm:testTlsConectionBtn")).click();
+    $(By.id("connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
   }
 
   @Test
@@ -52,21 +58,35 @@ class WebTestTlsTester {
     $(By.id("restClientConfigurationForm:url")).setValue("https://test-webservices.ivyteam.io:8443");
     $(By.id("restClientConfigurationForm:saveRestConfig")).click();
     $(By.id("restClientConfigurationForm:testRestBtn")).click();
-    $(By.id("connResult:connectionTestModel")).shouldNotHave(text("Missing Certs"));
-    $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-    $(By.id("connResult:connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
+    $(By.id("restClientConfigurationForm:testRestBtn_dlg")).shouldNotHave(text("Missing Certs"));
+    switchTodialog();
+    $(By.id("connTestForm")).shouldNotHave(text("Missing Certs"));
+    $(By.id("connTestForm:testTlsConectionBtn")).click();
+    $(By.id("connTestForm:resultTLS")).shouldHave(text("Connect, with Ivy SSLContext "));
     try {
-      $(By.id("connResult:connTestForm:missing:missingCert:0:subject")).shouldHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
-      $(By.id("connResult:connTestForm:missing:missingCert:0:add")).click();
-      $(By.id("connResult:connTestForm:testTlsConectionBtn")).click();
-      $(By.id("connResult:connectionTestModel")).shouldNotHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
+      $(By.id("connTestForm:missing:missingCert:0:subject")).shouldHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
+      $(By.id("connTestForm:missing:missingCert:0:add")).click();
+      $(By.id("connTestForm:testTlsConectionBtn")).click();
+      $(By.id("connTestForm")).shouldNotHave(text("CN=test-webservices.ivyteam.io, OU=ivyTeam, O=AXON Ivy AG, L=Zug, ST=Zug, C=CH"));
     } finally {
-      $(By.id("connResult:connTestForm:closeConTesterDialog")).click();
+      $(By.id("connTestForm:closeConTesterDialog")).click();
+      switchToView();
       Navigation.toSSL();
       var table = new Table(By.id("sslTrustTable:storeTable:storeCertificates"));
       table.firstColumnShouldBe(texts("ivy1"));
       table.clickButtonForEntry("ivy1", "delete");
     }
+
+  }
+  private void switchToView() {
+    WebDriver driver = Selenide.webdriver().driver().getWebDriver();
+    driver.switchTo().defaultContent();
+  }
+
+  private void switchTodialog() {
+    WebDriver driver = Selenide.webdriver().driver().getWebDriver();
+    var iframe = driver.findElement(By.xpath("//iframe[contains(@src, 'connectionTestResult.xhtml')]"));
+    driver.switchTo().frame(iframe);
   }
 
 }
