@@ -15,6 +15,7 @@
         <h6 class="m-0">Database configurations</h6>
         <p:commandButton id="testDatabaseBtn" title="Test Database Connection" update="connResult:connectionTestModel"
           oncomplete="PF('connectionTestModel').show()" icon="si si-phone-actions-call"
+           actionListener="#{tlsTesterBean.setTlsTestRendered(false)}"
           styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
         <p:commandButton id="resetConfig" type="button" onclick="PF('resetDbConfirmDialog').show()"
           title="Reset configuration" icon="si si-undo" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
@@ -57,8 +58,8 @@
   </h:form>
 </div>
 
-<cc:ConnectionTestResult result="#{databaseDetailBean.result}"
+<cc:ConnectionTestResult id="connResult" result="#{databaseDetailBean.result}"
   url="#{databaseDetailBean.database.url}" testMethod="#{databaseDetailBean.testDbConnection()}"
-  id="connResult" />
+  bean="#{tlsTesterBean}" reset="#{databaseDetailBean.reset()}" />
 
 </html>
