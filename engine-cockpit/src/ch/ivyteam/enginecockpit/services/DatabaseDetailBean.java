@@ -245,6 +245,10 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     return testResult;
   }
 
+  public void reset() {
+    testResult = null;
+  }
+
   public DatabaseMonitor getLiveStats() {
     return liveStats;
   }

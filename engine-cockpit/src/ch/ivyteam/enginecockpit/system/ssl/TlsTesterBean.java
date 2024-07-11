@@ -28,6 +28,10 @@ public class TlsTesterBean {
     return Uri.startsWith("ldaps");
   }
 
+  public boolean isJdbc(String Uri) {
+    return Uri.startsWith("jdbc");
+  }
+
   public void testConnection(String targetUri) {
     testResult.clear();
     missingCert = Optional.empty();
