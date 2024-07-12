@@ -6,6 +6,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.administrator.Administrator;
 
@@ -15,6 +16,7 @@ public class User {
   private String name;
   private String fullName;
   private String email;
+  private String gravatarHash;
   private String password;
   private String realPassword = "";
   private String externalName = "";
@@ -34,6 +36,7 @@ public class User {
     this.name = user.getName();
     this.fullName = user.getFullName();
     this.email = user.getEMailAddress();
+    this.gravatarHash = EmailUtil.gravatarHash(email);
     this.loggedIn = false;
     this.enabled = user.isEnabled();
     this.isExternal = user.isExternal();
@@ -49,6 +52,7 @@ public class User {
     setFullName(admin.getFullName());
     setEmail(admin.getEmail());
     setRealPassword(admin.getPassword());
+    this.gravatarHash = EmailUtil.gravatarHash(admin.getEmail());
   }
 
   public String getViewUrl(String securitySystem) {
@@ -81,6 +85,10 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getGravatarHash() {
+    return gravatarHash;
   }
 
   public boolean isEnabled() {

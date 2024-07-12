@@ -8,7 +8,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import ch.ivyteam.enginecockpit.util.EmailUtil;
@@ -88,11 +87,7 @@ public class LoginBean {
     if (sessionUser == null) {
       return null;
     }
-    var email = sessionUser.getEMailAddress();
-    if (EmailUtil.validateEmailAddress(email)) {
-      return DigestUtils.md5Hex(email).toString();
-    }
-    return "";
+    return EmailUtil.gravatarHash(sessionUser.getEMailAddress());
   }
 
   public String getUserName() {
