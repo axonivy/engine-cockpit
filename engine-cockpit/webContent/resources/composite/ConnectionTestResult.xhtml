@@ -35,7 +35,7 @@
         <p:commandButton id="closeConTesterDialog" onclick="PF('connectionTestModel').hide(); #{cc.attrs.reset};" 
            value="Close" type="button" update="connTestForm"
            styleClass="modal-input-button ui-button-secondary ui-button-flat"/>
-        <p:commandButton id="testTlsConectionBtn" title="TLS Connection Test" rendered="#{tlsTesterBean.isHttps(cc.attrs.url)}"
+        <p:commandButton id="testTlsConectionBtn" title="TLS Connection Test" rendered="#{tlsTesterBean.isHttps(cc.attrs.url) || tlsTesterBean.isJdbc(cc.attrs.url)}"
            icon="si si-arrow-right" value="TLS Test"
            update="@form" styleClass="modal-input-button"
            actionListener="#{tlsTesterBean.testConnection(cc.attrs.url)}" />
