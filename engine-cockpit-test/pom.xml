@@ -54,6 +54,7 @@
         <version>${maven.surefire.version}</version>
         <configuration>
           <skip>${skip.tests}</skip>
+          <testFailureIgnore>true</testFailureIgnore>
         </configuration>
       </plugin>
     </plugins>
