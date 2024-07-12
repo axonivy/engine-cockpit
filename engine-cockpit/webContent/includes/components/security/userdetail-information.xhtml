@@ -59,7 +59,9 @@
       styleClass="grey-label-panel ui-fluid">
       <label>Name</label>
       <h:panelGroup styleClass="flex align-items-center">
-        <p:avatar gravatar="#{userDetailBean.user.email}" icon="#{userDetailBean.user.cssIconClass}" shape="circle" styleClass="user-avatar" />
+        <h:panelGroup layout="block" styleClass="user-avatar #{userDetailBean.user.cssIconClass}">
+          <img src="https://www.gravatar.com/avatar/#{userDetailBean.user.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
+        </h:panelGroup>
         <h:outputText id="name" value="#{userDetailBean.user.name}" styleClass="ml-1" />
       </h:panelGroup>
   

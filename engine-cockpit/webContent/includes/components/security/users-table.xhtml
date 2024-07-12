@@ -36,7 +36,9 @@
     <p:column headerText="Name" sortBy="#{user.name}" styleClass="user-name-column">
       <a href="#{user.getViewUrl()}" class="flex align-items-center">
         <h:outputText value="#{user.name}" styleClass="ml-1 user-name">
-          <p:avatar gravatar="#{user.email}" icon="#{user.cssIconClass}" shape="circle" styleClass="user-avatar" />
+          <h:panelGroup layout="block" styleClass="user-avatar #{user.cssIconClass}">
+            <img src="https://www.gravatar.com/avatar/#{user.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
+          </h:panelGroup>
         </h:outputText>
         <h:outputText value="[External: '#{user.externalNameShort}']" title="#{user.externalName}"
           rendered="#{user.external}" styleClass="ml-1 addition-row-info table-cell-autocut" />
@@ -57,5 +59,6 @@
     </p:column>
   </p:dataTable>
 </h:form>
-  
+
 </html>
+

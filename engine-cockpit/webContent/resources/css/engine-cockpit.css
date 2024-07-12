@@ -76,9 +76,21 @@ body .md-inputfield .ui-message.ui-message-error .ui-message-error-icon {
 body .user-avatar {
   background: var(--surface-c);
   aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
 }
 body .user-avatar > img {
   z-index: 1;
+  border-radius: 50%;
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
 /* Dashboard */

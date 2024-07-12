@@ -62,7 +62,9 @@
         <p:column styleClass="user-row" headerText="Users Of Role" sortBy="#{user.name}">
           <a href="#{user.getViewUrl()}" class="flex align-items-center">
             <h:outputText styleClass="ml-1 user-name" value="#{user.name}">
-              <p:avatar gravatar="#{user.email}" icon="si si-single-neutral-actions" shape="circle" styleClass="user-avatar" />
+              <h:panelGroup layout="block" styleClass="user-avatar #{user.cssIconClass}">
+                <img src="https://www.gravatar.com/avatar/#{user.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
+              </h:panelGroup>
             </h:outputText>
             <h:outputText value="(#{user.fullName})" styleClass="ml-1 addition-row-info table-cell-autocut" />
           </a>
