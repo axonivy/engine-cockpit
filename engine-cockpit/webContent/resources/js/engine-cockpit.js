@@ -17,8 +17,7 @@ function buttonRemoveSpinner(button, defaultIcon) {
   $(button).removeClass('ui-state-disabled');
 }
 
-function checkGravatarImg(img)
-{
+function showGravatarImg(img) {
   img.style.display = "inline-block";
   img.nextElementSibling.style.display = "none";
 }
