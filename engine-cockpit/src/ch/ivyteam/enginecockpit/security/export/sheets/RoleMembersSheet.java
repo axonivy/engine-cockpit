@@ -49,9 +49,10 @@ public class RoleMembersSheet {
     }
     if(roleMembers.contains(roleSecond)) {
       if (value != null) {
-        value += "/";
+        value = value + "/M";
+      } else {
+        value = "M";
       }
-      value += "M";
     }
     return value;
   }

@@ -26,8 +26,11 @@ class TestSecurityExport {
 
   private static IUser userCedric;
   private static IUser userReto;
+  private static IUser userRolf;
   private static IRole everybodyRole;
-  private static IRole testRole;
+  private static IRole managerRole;
+  private static IRole ceoRole;
+  private static IRole employeeRole;
   private static Excel excel;
   private static List<IPermission> permissions;
 
@@ -40,17 +43,30 @@ class TestSecurityExport {
     everybodyRole.setProperty("Role without External Property", "no external");
     everybodyRole.setProperty("Sharedproperty", "Shared");
 
-    NewRole test = NewRole.create("test").externalName("Marketing").description("blabla").toNewRole();
-    testRole = roles.create(test);
-    testRole.setProperty("Testproperty", "Test");
-    testRole.setProperty("Sharedproperty", "Shared");
-    testRole.addRoleMember(everybodyRole);
+    NewRole manager = NewRole.create("Manager").externalName("Manager").description("Manager").toNewRole();
+    managerRole = roles.create(manager);
+
+    NewRole employee = NewRole.create("Employee").externalName("Employee").description("Employee").toNewRole();
+    employeeRole = roles.create(employee);
+    employeeRole.setProperty("Testproperty", "Test");
+    employeeRole.setProperty("Sharedproperty", "Shared");
+    employeeRole.addRoleMember(managerRole);
+    employeeRole.addRoleMember(everybodyRole);
+
+    NewRole ceo = NewRole.create("CEO").externalName("CEO").description("CEO").toNewRole();
+    ceoRole = roles.create(ceo);
+
+    NewUser rolf = NewUser.create("Rolf").fullName("Rolf Stephan").mailAddress("rolf.stephan@axonivy.com")
+            .toNewUser();
+    userRolf = users.create(rolf);
+    userRolf.addRole(ceoRole);
 
     NewUser reto = NewUser.create("Reto").fullName("Reto Weiss").mailAddress("reto.weiss@axonivy.com")
             .toNewUser();
     userReto = users.create(reto);
     userReto.setProperty("User without External Property", "no external");
     userReto.setProperty("Sharedproperty", "Shared");
+    userReto.addRole(managerRole);
 
     NewUser cedric = NewUser.create("Cedric").fullName("Cedric Weiss").externalId("123456789")
             .externalName("cn=Cedric Weiss,ou=development,dc=ivyteam,dc=ch")
@@ -59,7 +75,7 @@ class TestSecurityExport {
     userCedric = users.create(cedric);
     userCedric.setProperty("Testproperty", "Test");
     userCedric.setProperty("Sharedproperty", "Shared");
-    userCedric.addRole(testRole);
+    userCedric.addRole(employeeRole);
 
     permissions = Ivy.wf().getSecurityContext().securityDescriptor().getPermissions();
     var wf = Ivy.wf();
@@ -78,7 +94,9 @@ class TestSecurityExport {
         userCedric.getEMailAddress(), userCedric.getSecurityMemberId(), userCedric.getExternalId(),
         userCedric.getExternalName(), "Test", "Shared", null },
       {userReto.getDisplayName(), userReto.getFullName(), userReto.getMemberName(), userReto.getName(),
-        userReto.getEMailAddress(), userReto.getSecurityMemberId(), "", "", null, "Shared", "no external"}
+        userReto.getEMailAddress(), userReto.getSecurityMemberId(), "", "", null, "Shared", "no external"},
+      {userRolf.getDisplayName(), userRolf.getFullName(), userRolf.getMemberName(), userRolf.getName(),
+          userRolf.getEMailAddress(), userRolf.getSecurityMemberId(), "", "", null, null, null}
     };
     ExcelAssertions.assertThat(userSheet).contains(userData);
   }
@@ -88,11 +106,12 @@ class TestSecurityExport {
     var rolesSheet = excel.getSheet("Roles");
 
     String[][] rolesData = new String[][] {
-      {"Displayname", "Name", "Description", "Member Name", "Security Member Id", "External Name", "Role without External Property",
-        "Sharedproperty", "Testproperty"},
-      {"Everybody", "Everybody", "Top level role", "Everybody" , everybodyRole.getSecurityMemberId(), "",  "no external", "Shared", null},
-      {"test", "test", testRole.getDisplayDescription(), "test", testRole.getSecurityMemberId(), testRole.getExternalName()
-        , null, "Shared", "Test"}
+      {"Displayname", "Name", "Description", "Member Name", "Security Member Id", "External Name", "Testproperty",
+        "Sharedproperty", "Role without External Property"},
+      {"CEO", "CEO", "CEO", "CEO" , ceoRole.getSecurityMemberId(), "CEO",  null, null, null},
+      {"Employee", "Employee", "Employee", "Employee" , employeeRole.getSecurityMemberId(), "Employee",  "Test", "Shared", null},
+      {"Everybody", "Everybody", "Top level role", "Everybody" , everybodyRole.getSecurityMemberId(), "",  null, "Shared", "no external"},
+      {"Manager", "Manager", "Manager", "Manager" , managerRole.getSecurityMemberId(), "Manager",  null, null, null},
     };
     ExcelAssertions.assertThat(rolesSheet).contains(rolesData);
   }
@@ -101,9 +120,11 @@ class TestSecurityExport {
   void exportUserRoles() {
     var userRolesSheet = excel.getSheet("User roles");
     String[][] userRolesData = new String[][] {
-      {"Username", everybodyRole.getDisplayName(), testRole.getDisplayName()},
-      {userCedric.getFullName(), "X", "X"},
-      {userReto.getFullName(), "X", "x"}
+      {"Username", ceoRole.getDisplayName(), employeeRole.getDisplayName(),
+        everybodyRole.getDisplayName(), managerRole.getDisplayName()},
+      {userCedric.getFullName(), null, "X", "X", null},
+      {userReto.getFullName(), null, "x", "X", "X"},
+      {userRolf.getFullName(), "X", "x", "X", null}
     };
     ExcelAssertions.assertThat(userRolesSheet).contains(userRolesData);
 
@@ -113,9 +134,11 @@ class TestSecurityExport {
   void exportRoleMembers() {
     var roleMembersSheet = excel.getSheet("Role members");
     String[][] roleMembersData = new String[][] {
-      {"Role name", "Everybody", "test"},
-      {"Everybody", null, null},
-      {"test", "P/M", null}
+      {"Role name", "CEO", "Employee", "Everybody", "Manager"},
+      {"CEO", null, null, "P", null},
+      {"Employee", null, null, "P/M", "M"},
+      {"Everybody", null, null, null, null},
+      {"Manager", null, null, "P", null}
     };
     ExcelAssertions.assertThat(roleMembersSheet).contains(roleMembersData);
   }
@@ -123,12 +146,14 @@ class TestSecurityExport {
   @Test
   void userPermissionsMembers() {
     var userPermissionsSheet = excel.getSheet("User permissions");
-    String[][] userPermissionsData = new String[3][permissions.size() + 1];
+    String[][] userPermissionsData = new String[4][permissions.size() + 1];
     userPermissionsData[0][0] = "Username";
     userPermissionsData[1][0] = userCedric.getFullName();
     userPermissionsData[2][0] = userReto.getFullName();
+    userPermissionsData[3][0] = userRolf.getFullName();
     addUserPermissions(userPermissionsData, userCedric, 1);
     addUserPermissions(userPermissionsData, userReto, 2);
+    addUserPermissions(userPermissionsData, userRolf, 3);
 
     ExcelAssertions.assertThat(userPermissionsSheet).contains(userPermissionsData);
 
@@ -167,12 +192,16 @@ class TestSecurityExport {
   @Test
   void rolePermissionsMembers() {
     var rolePermissionsSheet = excel.getSheet("Role permissions");
-    String[][] rolePermissionsData = new String[3][permissions.size() + 1];
+    String[][] rolePermissionsData = new String[5][permissions.size() + 1];
     rolePermissionsData[0][0] = "Rolename";
-    rolePermissionsData[1][0] = everybodyRole.getDisplayName();
-    rolePermissionsData[2][0] = testRole.getDisplayName();
-    rolePermissionsData = addRolesPermissions(rolePermissionsData, everybodyRole, 1);
-    rolePermissionsData = addRolesPermissions(rolePermissionsData, testRole, 2);
+    rolePermissionsData[1][0] = ceoRole.getDisplayName();
+    rolePermissionsData[2][0] = employeeRole.getDisplayName();
+    rolePermissionsData[3][0] = everybodyRole.getDisplayName();
+    rolePermissionsData[4][0] = managerRole.getDisplayName();
+    rolePermissionsData = addRolesPermissions(rolePermissionsData, ceoRole, 1);
+    rolePermissionsData = addRolesPermissions(rolePermissionsData, employeeRole, 2);
+    rolePermissionsData = addRolesPermissions(rolePermissionsData, everybodyRole, 3);
+    rolePermissionsData = addRolesPermissions(rolePermissionsData, managerRole, 4);
 
     ExcelAssertions.assertThat(rolePermissionsSheet).contains(rolePermissionsData);
   }
@@ -218,8 +247,8 @@ class TestSecurityExport {
       {"Axonivy Version", Advisor.getAdvisor().getVersion().toString(), null},
       {"Current User", "Unknown User (Session 1)", null},
       {"Hostname", "test.axonivy.com", null},
-      {"Number of Users", "2", null},
-      {"Number of Roles", "2", null},
+      {"Number of Users", "3", null},
+      {"Number of Roles", "4", null},
       {null, null, null},
       {null, null, null},
       {null, null, null},

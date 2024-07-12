@@ -31,13 +31,14 @@ public class UserRolesSheet {
       var allUserRoles = user.getAllRoles();
       var cellNr = 0;
       row.createResultCell(cellNr++, user.getDisplayName());
-      for(var userrole : allUserRoles) {
-        if(directUserRoles.contains(userrole)) {
-          row.createResultCell(cellNr++, "X");
+      for(var role : roles) {
+        if(directUserRoles.contains(role)) {
+          row.createResultCell(cellNr, "X");
         }
-        else {
-          row.createResultCell(cellNr++, "x");
+        else if (allUserRoles.contains(role)) {
+          row.createResultCell(cellNr, "x");
         }
+        cellNr++;
       }
     }
 
