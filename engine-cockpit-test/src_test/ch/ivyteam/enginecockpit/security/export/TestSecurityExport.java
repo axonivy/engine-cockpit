@@ -24,10 +24,10 @@ import ch.ivyteam.ivy.security.user.NewUser;
 @IvyTest
 class TestSecurityExport {
 
-  private static IUser userWithExternal;
-  private static IUser userWithoutExternal;
-  private static IRole role;
-  private static IRole roleWithExternal;
+  private static IUser userCedric;
+  private static IUser userReto;
+  private static IRole everybodyRole;
+  private static IRole testRole;
   private static Excel excel;
   private static List<IPermission> permissions;
 
@@ -35,21 +35,31 @@ class TestSecurityExport {
   static void before() throws IOException {
     var users = Ivy.wf().getSecurityContext().users();
     var roles = Ivy.wf().getSecurityContext().roles();
-    role = Ivy.wf().getSecurityContext().roles().find("Everybody");
-    NewRole roleWithExternalName = NewRole.create("test").externalName("Marketing").description("blabla").toNewRole();
-    roleWithExternal = roles.create(roleWithExternalName);
-    role.addRoleMember(roleWithExternal);
-    NewUser userWithExternalId = NewUser.create("Cedric").fullName("Cedric Weiss").externalId("123456789")
+
+    everybodyRole = Ivy.wf().getSecurityContext().roles().find("Everybody");
+    everybodyRole.setProperty("Role without External Property", "no external");
+    everybodyRole.setProperty("Sharedproperty", "Shared");
+
+    NewRole test = NewRole.create("test").externalName("Marketing").description("blabla").toNewRole();
+    testRole = roles.create(test);
+    testRole.setProperty("Testproperty", "Test");
+    testRole.setProperty("Sharedproperty", "Shared");
+    testRole.addRoleMember(everybodyRole);
+
+    NewUser reto = NewUser.create("Reto").fullName("Reto Weiss").mailAddress("reto.weiss@axonivy.com")
+            .toNewUser();
+    userReto = users.create(reto);
+    userReto.setProperty("User without External Property", "no external");
+    userReto.setProperty("Sharedproperty", "Shared");
+
+    NewUser cedric = NewUser.create("Cedric").fullName("Cedric Weiss").externalId("123456789")
             .externalName("cn=Cedric Weiss,ou=development,dc=ivyteam,dc=ch")
             .mailAddress("cedric.weiss@axonivy.com")
             .toNewUser();
-
-    NewUser userWithoutExternalId = NewUser.create("Reto").fullName("Reto Weiss").mailAddress("reto.weiss@axonivy.com")
-            .toNewUser();
-
-    userWithoutExternal = users.create(userWithoutExternalId);
-    userWithExternal = users.create(userWithExternalId);
-    userWithExternal.setProperty("Testproperty", "Test");
+    userCedric = users.create(cedric);
+    userCedric.setProperty("Testproperty", "Test");
+    userCedric.setProperty("Sharedproperty", "Shared");
+    userCedric.addRole(testRole);
 
     permissions = Ivy.wf().getSecurityContext().securityDescriptor().getPermissions();
     var wf = Ivy.wf();
@@ -62,12 +72,13 @@ class TestSecurityExport {
     var userSheet = excel.getSheet("Users");
 
     String[][] userData = new String[][] {
-      {"Displayname", "Fullname", "Membername", "Name", "Email", "SecurityId", "ExternalId", "External Name", "Testproperty"},
-      {userWithExternal.getDisplayName(), userWithExternal.getFullName(), userWithExternal.getMemberName(), userWithExternal.getName(),
-        userWithExternal.getEMailAddress(), userWithExternal.getSecurityMemberId(), userWithExternal.getExternalId(),
-        userWithExternal.getExternalName(), "Test" },
-      {userWithoutExternal.getDisplayName(), userWithoutExternal.getFullName(), userWithoutExternal.getMemberName(), userWithoutExternal.getName(),
-        userWithoutExternal.getEMailAddress(), userWithoutExternal.getSecurityMemberId(), "", "", null}
+      {"Displayname", "Fullname", "Membername", "Name", "Email", "SecurityId", "ExternalId", "External Name", "Testproperty", "Sharedproperty",
+        "User without External Property"},
+      {userCedric.getDisplayName(), userCedric.getFullName(), userCedric.getMemberName(), userCedric.getName(),
+        userCedric.getEMailAddress(), userCedric.getSecurityMemberId(), userCedric.getExternalId(),
+        userCedric.getExternalName(), "Test", "Shared", null },
+      {userReto.getDisplayName(), userReto.getFullName(), userReto.getMemberName(), userReto.getName(),
+        userReto.getEMailAddress(), userReto.getSecurityMemberId(), "", "", null, "Shared", "no external"}
     };
     ExcelAssertions.assertThat(userSheet).contains(userData);
   }
@@ -77,10 +88,11 @@ class TestSecurityExport {
     var rolesSheet = excel.getSheet("Roles");
 
     String[][] rolesData = new String[][] {
-      {"Displayname", "Name", "Description", "Member Name", "Security Member Id", "External Name", "Testproperty"},
-      {"Everybody", "Everybody", "Top level role", "Everybody" , role.getSecurityMemberId(), "", null},
-      {"test", "test", roleWithExternal.getDisplayDescription(), "test", roleWithExternal.getSecurityMemberId(), roleWithExternal.getExternalName(),
-        null}
+      {"Displayname", "Name", "Description", "Member Name", "Security Member Id", "External Name", "Role without External Property",
+        "Sharedproperty", "Testproperty"},
+      {"Everybody", "Everybody", "Top level role", "Everybody" , everybodyRole.getSecurityMemberId(), "",  "no external", "Shared", null},
+      {"test", "test", testRole.getDisplayDescription(), "test", testRole.getSecurityMemberId(), testRole.getExternalName()
+        , null, "Shared", "Test"}
     };
     ExcelAssertions.assertThat(rolesSheet).contains(rolesData);
   }
@@ -88,11 +100,10 @@ class TestSecurityExport {
   @Test
   void exportUserRoles() {
     var userRolesSheet = excel.getSheet("User roles");
-
     String[][] userRolesData = new String[][] {
-      {"Username", role.getDisplayName(), roleWithExternal.getDisplayName()},
-      {userWithExternal.getFullName(), "X", null},
-      {userWithoutExternal.getFullName(), "X", null}
+      {"Username", everybodyRole.getDisplayName(), testRole.getDisplayName()},
+      {userCedric.getFullName(), "X", "X"},
+      {userReto.getFullName(), "X", "x"}
     };
     ExcelAssertions.assertThat(userRolesSheet).contains(userRolesData);
 
@@ -103,11 +114,10 @@ class TestSecurityExport {
     var roleMembersSheet = excel.getSheet("Role members");
     String[][] roleMembersData = new String[][] {
       {"Role name", "Everybody", "test"},
-      {"Everybody", null, "M"},
-      {"test", null, null}
+      {"Everybody", null, null},
+      {"test", "P/M", null}
     };
     ExcelAssertions.assertThat(roleMembersSheet).contains(roleMembersData);
-
   }
 
   @Test
@@ -115,16 +125,16 @@ class TestSecurityExport {
     var userPermissionsSheet = excel.getSheet("User permissions");
     String[][] userPermissionsData = new String[3][permissions.size() + 1];
     userPermissionsData[0][0] = "Username";
-    userPermissionsData[1][0] = userWithExternal.getFullName();
-    userPermissionsData[2][0] = userWithoutExternal.getFullName();
-    userPermissionsData = getUserPermissions(userPermissionsData, userWithExternal, 1);
-    userPermissionsData = getUserPermissions(userPermissionsData, userWithoutExternal, 2);
+    userPermissionsData[1][0] = userCedric.getFullName();
+    userPermissionsData[2][0] = userReto.getFullName();
+    addUserPermissions(userPermissionsData, userCedric, 1);
+    addUserPermissions(userPermissionsData, userReto, 2);
 
     ExcelAssertions.assertThat(userPermissionsSheet).contains(userPermissionsData);
 
   }
 
-  private String[][] getUserPermissions(String[][] userPermissionsData, IUser user, int userCount) {
+  private String[][] addUserPermissions(String[][] userPermissionsData, IUser user, int userCount) {
     var securityContext = Ivy.wf().getSecurityContext();
     var counter = 1;
     for(var permission : permissions) {
@@ -146,6 +156,9 @@ class TestSecurityExport {
           userPermissionsData[userCount][counter] = "d";
         }
       }
+      else {
+        userPermissionsData[userCount][counter] = "";
+      }
       counter++;
     }
     return userPermissionsData;
@@ -155,16 +168,16 @@ class TestSecurityExport {
   void rolePermissionsMembers() {
     var rolePermissionsSheet = excel.getSheet("Role permissions");
     String[][] rolePermissionsData = new String[3][permissions.size() + 1];
-    rolePermissionsData[0][0] = "Role name";
-    rolePermissionsData[1][0] = role.getDisplayName();
-    rolePermissionsData[2][0] = roleWithExternal.getDisplayName();
-    rolePermissionsData = getRolesPermissions(rolePermissionsData, role, 1);
-    rolePermissionsData = getRolesPermissions(rolePermissionsData, roleWithExternal, 2);
+    rolePermissionsData[0][0] = "Rolename";
+    rolePermissionsData[1][0] = everybodyRole.getDisplayName();
+    rolePermissionsData[2][0] = testRole.getDisplayName();
+    rolePermissionsData = addRolesPermissions(rolePermissionsData, everybodyRole, 1);
+    rolePermissionsData = addRolesPermissions(rolePermissionsData, testRole, 2);
 
     ExcelAssertions.assertThat(rolePermissionsSheet).contains(rolePermissionsData);
   }
 
-  private String[][] getRolesPermissions(String[][] rolePermissionsData, IRole roleParam, int roleCount) {
+  private String[][] addRolesPermissions(String[][] rolePermissionsData, IRole roleParam, int roleCount) {
     var securityContext = Ivy.wf().getSecurityContext();
     var counter = 1;
     for(var permission : permissions) {
@@ -185,6 +198,9 @@ class TestSecurityExport {
         else {
           rolePermissionsData[roleCount][counter] = "d";
         }
+      }
+      else {
+        rolePermissionsData[roleCount][counter] = "";
       }
       counter++;
     }

@@ -7,8 +7,7 @@ import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 public class ExcelAssertions {
   private Sheet sheet;
 
-  public ExcelAssertions() {
-
+  private ExcelAssertions() {
   }
 
   public static ExcelAssertions assertThat(Sheet actual) {

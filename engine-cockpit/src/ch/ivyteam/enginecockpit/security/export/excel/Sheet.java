@@ -1,5 +1,7 @@
 package ch.ivyteam.enginecockpit.security.export.excel;
 
+import java.util.List;
+
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class Sheet {
@@ -16,6 +18,20 @@ public class Sheet {
     return new Row(this, sheet.createRow(row), row);
   }
 
+  public interface WidthProvider {
+    int widthFor(String header);
+  }
+
+  public void createHeader(int rowNr, List<String> headers, WidthProvider headerWidth) {
+    var row = createRow(rowNr);
+    var cellNr = 0;
+    for (var header : headers) {
+      int width = headerWidth.widthFor(header);
+      row.createHeaderCell(cellNr++, width, header);
+    }
+  }
+
+
   XSSFSheet sheet() {
     return sheet;
   }
@@ -25,26 +41,26 @@ public class Sheet {
   }
 
   public String[][] getData(){
-    var rowNum = sheet.getFirstRowNum();
-    var firstRow = sheet.getRow(rowNum);
-    if(firstRow.getCell(0).getStringCellValue().equals("Axonivy Security Report")) {
-      rowNum = sheet.getLastRowNum();
-      firstRow = sheet.getRow(rowNum);
-    }
-    String[][] data = new String[sheet.getLastRowNum() + 1][firstRow.getLastCellNum()];
-    for (var i=0; i<=sheet.getLastRowNum(); i++)
-    {
+    var cellMax = 0;
+    var rowNum = sheet.getLastRowNum();
+    for (var i=0; i<=rowNum; i++) {
       var row = sheet.getRow(i);
       if(row != null) {
-        for (var j=0;j<row.getLastCellNum();j++)
-        {
+        if(row.getPhysicalNumberOfCells() > cellMax) {
+          cellMax = row.getPhysicalNumberOfCells();
+        }
+      }
+    }
+
+    String[][] data = new String[sheet.getLastRowNum() + 1][cellMax];
+    for (var i=0; i<=sheet.getLastRowNum(); i++) {
+      var row = sheet.getRow(i);
+      if(row != null) {
+        for (var j=0;j<row.getLastCellNum();j++) {
           var cell = row.getCell(j);
           if(cell != null) {
             String cellval = cell.getStringCellValue();
             data[i][j] = cellval;
-          }
-          else {
-            data[i][j] = null;
           }
         }
       }
