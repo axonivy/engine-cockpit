@@ -46,7 +46,7 @@
               <a href="#">
                 <span class="profile-image-wrapper">
                   <h:outputText rendered="#{not empty loginBean.gravatarHash}">
-                    <img src="https://www.gravatar.com/avatar/#{loginBean.gravatarHash}?d=404" style="border-radius: 10px; display: none;" onload="checkGravatarImg(this);"/>
+                    <img src="https://www.gravatar.com/avatar/#{loginBean.gravatarHash}?d=404" style="border-radius: 10px; display: none;" onload="showGravatarImg(this);"/>
                   </h:outputText>
                   <i class="si si-single-neutral-circle" style="font-size: 28px; padding: 2px;"></i>
                 </span>

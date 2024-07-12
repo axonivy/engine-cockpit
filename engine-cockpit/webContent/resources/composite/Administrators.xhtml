@@ -19,11 +19,13 @@
       <p:column headerText="Name" sortBy="#{admin.name}" filterBy="#{admin.name}">
         <h:panelGroup styleClass="flex align-items-center">
           <h:outputText value="#{admin.name}" styleClass="ml-1 admin-name">
-            <p:avatar gravatar="#{admin.email}" icon="si si-single-neutral-shield" shape="circle" styleClass="user-avatar" />
+            <h:panelGroup layout="block" styleClass="user-avatar si si-single-neutral-shield">
+              <img src="https://www.gravatar.com/avatar/#{admin.gravatarHash}?d=404" onload="showGravatarImg(this);"/>
+            </h:panelGroup>
           </h:outputText>
         </h:panelGroup>
       </p:column>
-      <p:column headerText="Email" sortBy="#{admin.email}"  filterBy="#{admin.email}">
+      <p:column headerText="Email" sortBy="#{admin.email}" filterBy="#{admin.email}">
         <h:outputText value="#{admin.email}" />
       </p:column>
       <p:column styleClass="table-btn-2">

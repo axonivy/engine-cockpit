@@ -2,6 +2,8 @@ package ch.ivyteam.enginecockpit.util;
 
 import java.util.regex.Pattern;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import ch.ivyteam.ivy.mail.MailClient;
 import ch.ivyteam.ivy.mail.MailMessage;
 
@@ -26,5 +28,12 @@ public class EmailUtil {
       return false;
     }
     return EMAIL_REGEX.matcher(email).matches();
+  }
+
+  public static String gravatarHash(String email) {
+    if (EmailUtil.validateEmailAddress(email)) {
+      return DigestUtils.md5Hex(email).toString();
+    }
+    return "";
   }
 }

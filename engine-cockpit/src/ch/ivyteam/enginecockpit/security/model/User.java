@@ -4,8 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+
 import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.lang3.StringUtils;
+
+import ch.ivyteam.enginecockpit.util.EmailUtil;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.IUserAbsence;
@@ -19,6 +23,7 @@ public class User implements SecurityMember {
   private String name;
   private String fullName;
   private String email;
+  private String gravatarHash;
   private String password;
   private String realPassword = "";
   private String externalName = "";
@@ -42,6 +47,7 @@ public class User implements SecurityMember {
     this.name = user.getName();
     this.fullName = user.getFullName();
     this.email = user.getEMailAddress();
+    this.gravatarHash = EmailUtil.gravatarHash(email);
     this.loggedIn = false;
     this.enabled = user.isEnabled();
     this.isExternal = user.isExternal();
@@ -62,6 +68,7 @@ public class User implements SecurityMember {
     setEmail(admin.getEmail());
     setRealPassword(admin.getPassword());
     setSecurityContext(ISecurityContext.SYSTEM);
+    this.gravatarHash = EmailUtil.gravatarHash(admin.getEmail());
   }
 
   @Override
@@ -105,6 +112,10 @@ public class User implements SecurityMember {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getGravatarHash() {
+    return gravatarHash;
   }
 
   public boolean isEnabled() {
