@@ -52,7 +52,7 @@ public class TestMemoryMonitorBean {
     var testee = new MemoryMonitorBean();
 
     var dataSet = testee.getGarbageCollectorsMonitor().getModel().getData().getDataSet();
-    assertThat(dataSet).hasSize(2);
+    assertThat(dataSet).hasSize(3);
 
     assertThat(dataSet.get(0)).isInstanceOf(LineChartDataSet.class);
     var young = (LineChartDataSet)dataSet.get(0);
@@ -63,6 +63,11 @@ public class TestMemoryMonitorBean {
     var old = (LineChartDataSet)dataSet.get(1);
     assertThat(old.getLabel()).isEqualTo("G1 Old Generation");
     assertThat(old.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
+    
+    assertThat(dataSet.get(2)).isInstanceOf(LineChartDataSet.class);
+    var concurrent = (LineChartDataSet)dataSet.get(2);
+    assertThat(concurrent.getLabel()).isEqualTo("G1 Concurrent GC");
+    assertThat(concurrent.getData()).hasSize(1).allSatisfy(v -> assertThat(v).isInstanceOf(Number.class));
 
     assertThat(testee.getGarbageCollectorsMonitor().getInfo())
             .contains("Garbage Collection: G1 Young Generation ", "Count", ", G1 Old Generation", "Count");
