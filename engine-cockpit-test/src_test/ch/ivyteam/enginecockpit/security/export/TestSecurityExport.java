@@ -17,6 +17,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.environment.IvyTest;
 import ch.ivyteam.ivy.security.IPermission;
 import ch.ivyteam.ivy.security.IRole;
+import ch.ivyteam.ivy.security.ISecurityMember;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.role.NewRole;
 import ch.ivyteam.ivy.security.user.NewUser;
@@ -151,43 +152,44 @@ class TestSecurityExport {
     userPermissionsData[1][0] = userCedric.getFullName();
     userPermissionsData[2][0] = userReto.getFullName();
     userPermissionsData[3][0] = userRolf.getFullName();
-    addUserPermissions(userPermissionsData, userCedric, 1);
-    addUserPermissions(userPermissionsData, userReto, 2);
-    addUserPermissions(userPermissionsData, userRolf, 3);
+    addSecurityMemberPermissions(userPermissionsData, userCedric, 1);
+    addSecurityMemberPermissions(userPermissionsData, userReto, 2);
+    addSecurityMemberPermissions(userPermissionsData, userRolf, 3);
 
     ExcelAssertions.assertThat(userPermissionsSheet).contains(userPermissionsData);
 
   }
 
-  private String[][] addUserPermissions(String[][] userPermissionsData, IUser user, int userCount) {
+  private String[][] addSecurityMemberPermissions(String[][] permissionsData, ISecurityMember member, int userCount) {
     var securityContext = Ivy.wf().getSecurityContext();
     var counter = 1;
     for(var permission : permissions) {
-      userPermissionsData[0][counter] = permission.getName();
-      var permissionCheck = securityContext.securityDescriptor().getPermissionAccess(permission, user);
+      permissionsData[0][counter] = permission.getName();
+      var permissionCheck = securityContext.securityDescriptor().getPermissionAccess(permission, member);
       if(permissionCheck.isGranted()) {
         if(permissionCheck.isExplicit()) {
-          userPermissionsData[userCount][counter] = "G";
+          permissionsData[userCount][counter] = "G";
         }
         else {
-          userPermissionsData[userCount][counter] = "g";
+          permissionsData[userCount][counter] = "g";
         }
       }
       else if(permissionCheck.isDenied()) {
         if(permissionCheck.isExplicit()) {
-          userPermissionsData[userCount][counter] = "D";
+          permissionsData[userCount][counter] = "D";
         }
         else {
-          userPermissionsData[userCount][counter] = "d";
+          permissionsData[userCount][counter] = "d";
         }
       }
       else {
-        userPermissionsData[userCount][counter] = "";
+        permissionsData[userCount][counter] = "";
       }
       counter++;
     }
-    return userPermissionsData;
+    return permissionsData;
   }
+
 
   @Test
   void rolePermissionsMembers() {
@@ -198,43 +200,14 @@ class TestSecurityExport {
     rolePermissionsData[2][0] = employeeRole.getDisplayName();
     rolePermissionsData[3][0] = everybodyRole.getDisplayName();
     rolePermissionsData[4][0] = managerRole.getDisplayName();
-    rolePermissionsData = addRolesPermissions(rolePermissionsData, ceoRole, 1);
-    rolePermissionsData = addRolesPermissions(rolePermissionsData, employeeRole, 2);
-    rolePermissionsData = addRolesPermissions(rolePermissionsData, everybodyRole, 3);
-    rolePermissionsData = addRolesPermissions(rolePermissionsData, managerRole, 4);
+    rolePermissionsData = addSecurityMemberPermissions(rolePermissionsData, ceoRole, 1);
+    rolePermissionsData = addSecurityMemberPermissions(rolePermissionsData, employeeRole, 2);
+    rolePermissionsData = addSecurityMemberPermissions(rolePermissionsData, everybodyRole, 3);
+    rolePermissionsData = addSecurityMemberPermissions(rolePermissionsData, managerRole, 4);
 
     ExcelAssertions.assertThat(rolePermissionsSheet).contains(rolePermissionsData);
   }
 
-  private String[][] addRolesPermissions(String[][] rolePermissionsData, IRole roleParam, int roleCount) {
-    var securityContext = Ivy.wf().getSecurityContext();
-    var counter = 1;
-    for(var permission : permissions) {
-      rolePermissionsData[0][counter] = permission.getName();
-      var permissionCheck = securityContext.securityDescriptor().getPermissionAccess(permission, roleParam);
-      if(permissionCheck.isGranted()) {
-        if(permissionCheck.isExplicit()) {
-          rolePermissionsData[roleCount][counter] = "G";
-        }
-        else {
-          rolePermissionsData[roleCount][counter] = "g";
-        }
-      }
-      else if(permissionCheck.isDenied()) {
-        if(permissionCheck.isExplicit()) {
-          rolePermissionsData[roleCount][counter] = "D";
-        }
-        else {
-          rolePermissionsData[roleCount][counter] = "d";
-        }
-      }
-      else {
-        rolePermissionsData[roleCount][counter] = "";
-      }
-      counter++;
-    }
-    return rolePermissionsData;
-  }
 
   @Test
   void exportOverview() {

@@ -7,12 +7,12 @@ import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 public class ExcelAssertions {
   private Sheet sheet;
 
-  private ExcelAssertions() {
+  private ExcelAssertions(Sheet actual) {
+    this.sheet = actual;
   }
 
   public static ExcelAssertions assertThat(Sheet actual) {
-    ExcelAssertions a = new ExcelAssertions();
-    a.sheet = actual;
+    ExcelAssertions a = new ExcelAssertions(actual);
     return a;
   }
 
