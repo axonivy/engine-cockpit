@@ -49,6 +49,15 @@ class WebTestDownload {
   }
 
   @Test
+  void securityReport() {
+    Navigation.toSecuritySystemDetail("default");
+    $(By.id("securitySystemConfigForm:downloadSecurityReport")).shouldBe(visible).click();
+    var download = $(By.id("securitySystemConfigForm:downloadSecurityReport")).shouldBe(visible).download(TIMEOUT);
+    assertThat(download.getName()).isEqualTo("AxonivySecurityReport.xlsx");
+    assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
+  }
+
+  @Test
   void allLogs() {
     Navigation.toLogs();
     $(By.id("downloadAllLogs")).shouldBe(visible).click();

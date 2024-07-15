@@ -12,11 +12,14 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-information-circle"></i>
         <h6 class="m-0">Security System</h6>
-        
-       <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
-              title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="col-fixed ml-auto rounded-button">
-               <f:param name="source" value="${securityConfigBean.name}"/>
-       </p:linkButton>
+        <p:commandButton id="downloadSecurityReport" ajax="false" title="Download Security Report" icon="si si-office-file-xls-1"
+          styleClass="col-fixed ml-auto rounded-button">
+            <p:fileDownload value="#{securityConfigBean.export}" />
+        </p:commandButton>
+        <p:linkButton outcome="securitysystem-merge.xhtml" id="compareSecuritySystemBtn" type="button" 
+                title="Merge Security Systems" icon="si si-move-to-bottom" styleClass="col-fixed ml-1 rounded-button">
+          <f:param name="source" value="${securityConfigBean.name}"/>
+        </p:linkButton>
         
         <p:commandButton id="deleteSecuritySystem" type="button" onclick="PF('deleteSecuritySystemConfirmDialog').show()"
               title="Delete this security system" icon="si si-bin-1" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />

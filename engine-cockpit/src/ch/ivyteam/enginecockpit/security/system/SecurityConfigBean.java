@@ -10,7 +10,9 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.enginecockpit.security.export.SecurityExport;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
@@ -126,5 +128,9 @@ public class SecurityConfigBean {
   public String deleteConfiguration() {
     ISecurityManager.instance().securityContexts().delete(name);
     return "securitysystem.xhtml?faces-redirect=true";
+  }
+
+  public StreamedContent getExport() {
+    return new SecurityExport(securitySystem.getSecurityContext()).export();
   }
 }

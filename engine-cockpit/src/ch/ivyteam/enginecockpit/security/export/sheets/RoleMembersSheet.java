@@ -1,0 +1,65 @@
+package ch.ivyteam.enginecockpit.security.export.sheets;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import ch.ivyteam.enginecockpit.security.export.excel.Excel;
+import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
+import ch.ivyteam.ivy.security.IRole;
+
+public class RoleMembersSheet {
+  private Iterable<IRole> roles;
+  private Excel excel;
+  private List<String> headers = new ArrayList<String>(Arrays.asList("Role name"));
+
+  public RoleMembersSheet(Excel excel, Iterable<IRole> roles) {
+    this.excel = excel;
+    this.roles = roles;
+  }
+
+  public void create() {
+    int rowNr = 1;
+    Sheet sheet = excel.createSheet("Role members");
+    addRoleNames();
+
+    for(var role : roles) {
+      var row = sheet.createRow(rowNr++);
+      var roleMembers = role.getRoleMembers();
+      var parent = role.getParent();
+      var cellNr = 0;
+      row.createResultCell(cellNr++, role.getDisplayName());
+      for(var roleSecond : roles) {
+        var index = headers.indexOf(roleSecond.getDisplayName());
+        String value = getMarker(roleMembers, parent, roleSecond);
+        if (value != null) {
+          row.createResultCell(index, value);
+        }
+        index++;
+      }
+    }
+
+    sheet.createHeader(0, headers, UsersSheet.HEADER_WITDH);
+  }
+
+  private String getMarker(List<IRole> roleMembers, IRole parent, IRole roleSecond) {
+    String value = null;
+    if(parent != null && parent.equals(roleSecond)) {
+      value = "P";
+    }
+    if(roleMembers.contains(roleSecond)) {
+      if (value != null) {
+        value = value + "/M";
+      } else {
+        value = "M";
+      }
+    }
+    return value;
+  }
+
+  private void addRoleNames() {
+    for(var role : roles) {
+      headers.add(role.getDisplayName());
+    }
+  }
+}
