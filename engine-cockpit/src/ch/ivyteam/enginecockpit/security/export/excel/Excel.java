@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
 
-public class Excel {
+public class Excel implements AutoCloseable{
   private final XSSFWorkbook workbook;
   private final Map<Style, XSSFCellStyle> styles = new HashMap<>();
 
@@ -33,6 +34,15 @@ public class Excel {
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
+  }
+
+  @Override
+  public void close() throws IOException {
+    workbook.close();
+  }
+
+  public void write(OutputStream os) throws IOException {
+    workbook.write(os);
   }
 
   public Sheet createSheet(String name) {

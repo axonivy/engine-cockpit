@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.security.system;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -130,7 +131,7 @@ public class SecurityConfigBean {
     return "securitysystem.xhtml?faces-redirect=true";
   }
 
-  public StreamedContent getExport() {
+  public StreamedContent getExport() throws IOException {
     return new SecurityExport(securitySystem.getSecurityContext()).export();
   }
 }
