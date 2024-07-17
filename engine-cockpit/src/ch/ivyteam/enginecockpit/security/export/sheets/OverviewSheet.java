@@ -27,11 +27,11 @@ public class OverviewSheet {
     this.securityContext = securityContext;
   }
 
-  public void create() {
+  public void create(int userCount) {
     Sheet sheet = excel.createSheet("Overview");
     var rowNr = 0;
     var titleRow = sheet.createRow(rowNr++);
-    titleRow.createTitleCell(0, "Axonivy Security Report");
+    titleRow.createTitleCell(0, "Axonivy Security Report " + userCount);
 
     List<Row> rows = new ArrayList<Row>();
     rowNr++;

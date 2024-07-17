@@ -40,6 +40,17 @@ public class Sheet {
     return excel;
   }
 
+  public String[] getFirstAndLastNameOfUsers(){
+    var firstRowNum = sheet.getFirstRowNum() + 1;
+    var lastRowNum = sheet.getLastRowNum();
+
+    String[] data = new String[2];
+    data[0] = sheet.getRow(firstRowNum).getCell(3).getStringCellValue();
+    data[1] = sheet.getRow(lastRowNum).getCell(3).getStringCellValue();
+
+    return data;
+  }
+
   public String[][] getData(){
     var cellMax = 0;
     var rowNum = sheet.getLastRowNum();

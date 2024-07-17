@@ -49,6 +49,10 @@ public class Excel implements AutoCloseable{
     return new Sheet(this, workbook.createSheet(name));
   }
 
+  public Sheet createSheet() {
+    return new Sheet(this, workbook.createSheet());
+  }
+
   public Sheet getSheet(String sheetName) {
     Sheet sheet = new Sheet(this, workbook.getSheet(sheetName));
     return sheet;

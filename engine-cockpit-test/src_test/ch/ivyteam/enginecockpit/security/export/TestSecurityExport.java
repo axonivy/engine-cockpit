@@ -34,6 +34,7 @@ class TestSecurityExport {
   private static IRole employeeRole;
   private static Excel excel;
   private static List<IPermission> permissions;
+  private static int userCount;
 
   @BeforeAll
   static void before() throws IOException {
@@ -78,6 +79,7 @@ class TestSecurityExport {
     userCedric.setProperty("Sharedproperty", "Shared");
     userCedric.addRole(employeeRole);
 
+    userCount = (int)users.count();
     permissions = Ivy.wf().getSecurityContext().securityDescriptor().getPermissions();
     var wf = Ivy.wf();
     StreamedContent export = new SecurityExport(wf.getSecurityContext()).export();
@@ -160,7 +162,7 @@ class TestSecurityExport {
 
   }
 
-  private String[][] addSecurityMemberPermissions(String[][] permissionsData, ISecurityMember member, int userCount) {
+  private String[][] addSecurityMemberPermissions(String[][] permissionsData, ISecurityMember member, int memberCount) {
     var securityContext = Ivy.wf().getSecurityContext();
     var counter = 1;
     for(var permission : permissions) {
@@ -168,22 +170,22 @@ class TestSecurityExport {
       var permissionCheck = securityContext.securityDescriptor().getPermissionAccess(permission, member);
       if(permissionCheck.isGranted()) {
         if(permissionCheck.isExplicit()) {
-          permissionsData[userCount][counter] = "G";
+          permissionsData[memberCount][counter] = "G";
         }
         else {
-          permissionsData[userCount][counter] = "g";
+          permissionsData[memberCount][counter] = "g";
         }
       }
       else if(permissionCheck.isDenied()) {
         if(permissionCheck.isExplicit()) {
-          permissionsData[userCount][counter] = "D";
+          permissionsData[memberCount][counter] = "D";
         }
         else {
-          permissionsData[userCount][counter] = "d";
+          permissionsData[memberCount][counter] = "d";
         }
       }
       else {
-        permissionsData[userCount][counter] = "";
+        permissionsData[memberCount][counter] = "";
       }
       counter++;
     }
@@ -213,7 +215,7 @@ class TestSecurityExport {
   void exportOverview() {
     var overviewSheet = excel.getSheet("Overview");
     String[][] overviewData = new String[][] {
-      {"Axonivy Security Report", null, null},
+      {"Axonivy Security Report " + userCount, null, null},
       {null, null, null},
       {"Security System Name", "default", null},
       {"Date", overviewSheet.getData()[3][1], null},
