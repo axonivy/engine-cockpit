@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security.system;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,6 +12,7 @@ import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.StreamedContent;
 
+import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.security.export.SecurityExport;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
@@ -25,7 +25,7 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SecurityConfigBean {
+public class SecurityConfigBean implements AllResourcesDownload {
 
   private String name;
 
@@ -131,7 +131,8 @@ public class SecurityConfigBean {
     return "securitysystem.xhtml?faces-redirect=true";
   }
 
-  public StreamedContent getExport() throws IOException {
+  @Override
+  public StreamedContent getAllResourcesDownload() {
     return new SecurityExport(securitySystem.getSecurityContext()).export();
   }
 }
