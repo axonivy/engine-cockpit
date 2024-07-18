@@ -32,8 +32,8 @@ public class SecurityExport {
 
   private static final Comparator<IRole> ROLE_NAME_COMPERATOR = Comparator.comparing(IRole::getName);
   private static final int USERS_PER_EXCEL = 1000;
-
   private final ISecurityContext securityContext;
+  private SecurityExportJob job;
 
   public SecurityExport(ISecurityContext securityContext) {
     this.securityContext = securityContext;
