@@ -222,7 +222,7 @@ class TestSecurityExport {
       {"Hostname", "test.axonivy.com", null},
       {"Number of Users", "3", null},
       {"Number of Roles", "4", null},
-      {"File number", "1", null},
+      {"File number", "1 of 1", null},
       {"First and Last User", "Cedric Weiss - Rolf Stephan", null},
       {null, null, null},
       {"Legend", null, null},

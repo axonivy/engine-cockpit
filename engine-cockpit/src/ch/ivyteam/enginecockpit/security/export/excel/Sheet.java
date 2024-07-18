@@ -47,7 +47,7 @@ public class Sheet {
 
   public XSSFRow getLastRow(){
     var lastRowNum = sheet.getLastRowNum();
-   return sheet.getRow(lastRowNum);
+   return getRow(lastRowNum);
   }
 
   public String[][] getData(){

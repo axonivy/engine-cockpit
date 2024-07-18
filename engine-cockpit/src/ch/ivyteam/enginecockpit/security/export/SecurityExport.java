@@ -7,6 +7,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -30,7 +31,7 @@ import ch.ivyteam.ivy.security.internal.data.AccessControlData;
 public class SecurityExport {
 
   private static final Comparator<IRole> ROLE_NAME_COMPERATOR = Comparator.comparing(IRole::getName);
-  private static final int usersPerExcel = 1000;
+  private static final int USERSPEREXCEL = 1000;
 
   private final ISecurityContext securityContext;
 
@@ -42,14 +43,11 @@ public class SecurityExport {
     var usersCount = (int)securityContext.users().query().orderBy().name().executor().count();
     var tempDir = Files.createTempDirectory("AxonivySecurityReports");
 
-    if (usersCount < usersPerExcel) {
-      return createSingleExcel(usersCount, tempDir);
+    if (usersCount < USERSPEREXCEL) {
+      return createSingleExcel(tempDir, usersCount);
     }
     else {
-      int forCount = Math.ceilDiv(usersCount, usersPerExcel);
-      var start = usersPerExcel;
-
-      createFiles(tempDir, forCount, start);
+      createFiles(tempDir, usersCount);
     }
 
     var zipFile = zipDirectory(tempDir);
@@ -68,9 +66,9 @@ public class SecurityExport {
       .build();
   }
 
-  private StreamedContent createSingleExcel(int usersCount, Path tempDir) throws IOException {
+  private StreamedContent createSingleExcel(Path tempDir, int usersCount) throws IOException {
     Excel excel = new Excel();
-    createSheets(0, usersCount, excel, true );
+    createSheets(0, usersCount, excel, true, 1);
     var file = tempDir.resolve("AxonivySecurtyReport" + ".xlsx");
     try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
       excel.write(os);
@@ -96,24 +94,20 @@ public class SecurityExport {
     return zipFile;
   }
 
-  private void createFiles(Path tempDir, int forCount, int start) throws IOException {
+  private void createFiles(Path tempDir, int usersCount) throws IOException {
+    int forCount = Math.ceilDiv(usersCount, USERSPEREXCEL);
+    var start = 0;
     for(int i=0; i<forCount; i++) {
       clearChache();
 
       try (Excel excel = new Excel()) {
-        if(i == 0) {
-          var newStart = start - usersPerExcel;
-          createSheets(newStart, usersPerExcel, excel, true);
-        }
-        else {
-          createSheets(start - usersPerExcel, usersPerExcel, excel, false);
-        }
+        createSheets(start, USERSPEREXCEL, excel, i==0, forCount);
 
         var file = tempDir.resolve("AxonivySecurtyReport" + i + ".xlsx");
         try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
           excel.write(os);
         }
-        start += usersPerExcel;
+        start += USERSPEREXCEL;
       }
     }
   }
@@ -122,13 +116,13 @@ public class SecurityExport {
     ISystemDatabasePersistencyService.instance().getClassPersistencyService(AccessControlData.class).clearCache();
   }
 
-  public void createSheets(int start, int end, Excel excel, boolean includesRoles) {
+  public void createSheets(int start, int end, Excel excel, boolean includesRole, int fileCount) {
     var roles = getRoles();
     var users = getUsers(start, end);
-    new OverviewSheet(excel, securityContext, users).create(end);
+    new OverviewSheet(excel, securityContext, (List<IUser>) users).create(end, fileCount);
     new UsersSheet(excel, users).create();
     new UserRolesSheet(excel, users, getRoles()).create();
-    if(includesRoles) {
+    if(includesRole) {
       new RolesSheet(excel, roles).create();
       new RoleMembersSheet(excel, roles).create();
       new SecurityMemberPermissionSheet(excel, securityContext, rolesToSecurityMembers(roles)).create("Role");

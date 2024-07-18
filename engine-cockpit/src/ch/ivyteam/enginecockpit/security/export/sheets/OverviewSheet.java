@@ -22,22 +22,22 @@ public class OverviewSheet {
   private final static List<String> HEADERS = new ArrayList<String>(Arrays.asList("Security System Name", "Date",
           "Axonivy Version", "Current User", "Hostname", "Number of Users", "Number of Roles", "File number", "First and Last User"));
   private Excel excel;
-  private Iterable<IUser> users;
+  private List<IUser> users;
 
-  public OverviewSheet(Excel excel, ISecurityContext securityContext, Iterable<IUser> users) {
+  public OverviewSheet(Excel excel, ISecurityContext securityContext, List<IUser> users) {
     this.excel = excel;
     this.securityContext = securityContext;
     this.users = users;
   }
 
-  public void create(int userCount) {
+  public void create(int userCount, int fileCount) {
     Sheet sheet = excel.createSheet("Overview");
     var fileNumber = userCount / 1000;
     if(userCount < 1000) {
       fileNumber = 1;
     }
-    var firstUser = getFirstUser();
-    var lastUser = getLastUser();
+    var firstUser = users.getFirst();
+    var lastUser = users.getLast();
     var rowNr = 0;
     var titleRow = sheet.createRow(rowNr++);
     titleRow.createTitleCell(0, "Axonivy Security Report ");
@@ -59,7 +59,7 @@ public class OverviewSheet {
     rows.get(rowNr++).createResultCellWidth(1, 20, getServerName());
     rows.get(rowNr++).createResultCellWidth(1, 20, Long.toString(securityContext.users().count()));
     rows.get(rowNr++).createResultCellWidth(1, 20, Integer.toString(securityContext.roles().count()));
-    rows.get(rowNr++).createResultCellWidth(1, 20, Integer.toString(fileNumber));
+    rows.get(rowNr++).createResultCellWidth(1, 20, fileNumber + " of " + fileCount);
     rows.get(rowNr++).createResultCellWidth(1, 20, firstUser.getFullName() + " - " + lastUser.getFullName());
 
     createLegend(sheet, rowNr);
@@ -93,22 +93,5 @@ public class OverviewSheet {
     row.createHeaderCell(0, 60, sheetName);
     row.createResultCellWidth(1, 20, shortcut);
     row.createResultCellWidth(2, 60, meaning);
-  }
-
-  private IUser getFirstUser() {
-    var iterator = users.iterator();
-    if (iterator.hasNext()) {
-        return iterator.next();
-    }
-    return null;
-  }
-
-  private IUser getLastUser() {
-    var iterator = users.iterator();
-    IUser lastUser = null;
-    while (iterator.hasNext()) {
-      lastUser = iterator.next();
-    }
-    return lastUser;
   }
 }

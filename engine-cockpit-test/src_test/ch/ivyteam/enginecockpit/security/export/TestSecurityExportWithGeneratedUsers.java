@@ -75,12 +75,11 @@ class TestSecurityExportWithGeneratedUsers {
       var sheet = excel.getSheet("Users");
       var firstRow = sheet.getRow(1).getCell(3).getStringCellValue();
       var lastRow = sheet.getLastRow().getCell(3).getStringCellValue();
+      Assertions.assertThat(firstRow).isEqualTo("testUser-%04d".formatted((start)));
       if(start + 999 > userCount) {
-        Assertions.assertThat(firstRow).isEqualTo("testUser-%04d".formatted((start)));
         Assertions.assertThat(lastRow).isEqualTo("testUser-%04d".formatted(userCount));
       }
       else {
-        Assertions.assertThat(firstRow).isEqualTo("testUser-%04d".formatted((start)));
         Assertions.assertThat(lastRow).isEqualTo("testUser-%04d".formatted(start + 999));
       }
       start += 1000;
