@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.export;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +30,7 @@ import ch.ivyteam.ivy.security.internal.data.AccessControlData;
 public class SecurityExport {
 
   private static final Comparator<IRole> ROLE_NAME_COMPERATOR = Comparator.comparing(IRole::getName);
+  private static final int usersPerExcel = 1000;
 
   private final ISecurityContext securityContext;
 
@@ -39,46 +41,18 @@ public class SecurityExport {
   public StreamedContent export() throws IOException{
     var usersCount = (int)securityContext.users().query().orderBy().name().executor().count();
     var tempDir = Files.createTempDirectory("AxonivySecurityReports");
-    var usersPerExcel = 1000;
 
     if (usersCount < usersPerExcel) {
-      Excel excel = new Excel();
-      createSheets(0, usersCount, excel, 0);
-      return DefaultStreamedContent
-              .builder()
-              .stream(excel::write)
-              .contentType("application/xlsx")
-              .name("AxonivySecurityReport.xlsx")
-              .build();
+      return createSingleExcel(usersCount, tempDir);
     }
     else {
       int forCount = Math.ceilDiv(usersCount, usersPerExcel);
       var start = usersPerExcel;
 
-      for(int i=0; i<forCount; i++) {
-        clearChache();
-
-        try (Excel excel = new Excel()) {
-          if(i == 0) {
-            var newStart = start - usersPerExcel;
-            createSheets(newStart, usersPerExcel, excel, i);
-          }
-          else {
-            createSheets(start - usersPerExcel, usersPerExcel, excel, i);
-          }
-
-          var file = tempDir.resolve("AxonivySecurtyReport" + start + ".xlsx");
-          try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
-            excel.write(os);
-          }
-          start += usersPerExcel;
-        }
-      }
+      createFiles(tempDir, forCount, start);
     }
 
-    var zipDir = Files.createTempDirectory("AxonivySecurityReport");
-    var zipFile = zipDir.resolve("AxonivySecurityReport.zip");
-    ZipUtil.zipDir(tempDir, zipFile);
+    var zipFile = zipDirectory(tempDir);
 
     return DefaultStreamedContent
       .builder()
@@ -94,22 +68,72 @@ public class SecurityExport {
       .build();
   }
 
+  private StreamedContent createSingleExcel(int usersCount, Path tempDir) throws IOException {
+    Excel excel = new Excel();
+    createSheets(0, usersCount, excel, true );
+    var file = tempDir.resolve("AxonivySecurtyReport" + ".xlsx");
+    try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
+      excel.write(os);
+    }
+    return DefaultStreamedContent
+            .builder()
+            .stream(() -> {
+              try {
+                return Files.newInputStream(file);
+              } catch (IOException ex) {
+                throw new RuntimeException(ex);
+              }
+            })
+            .contentType("application/xlsx")
+            .name("AxonivySecurityReport.xlsx")
+            .build();
+  }
+
+  private Path zipDirectory(Path tempDir) throws IOException {
+    var zipDir = Files.createTempDirectory("AxonivySecurityReport");
+    var zipFile = zipDir.resolve("AxonivySecurityReport.zip");
+    ZipUtil.zipDir(tempDir, zipFile);
+    return zipFile;
+  }
+
+  private void createFiles(Path tempDir, int forCount, int start) throws IOException {
+    for(int i=0; i<forCount; i++) {
+      clearChache();
+
+      try (Excel excel = new Excel()) {
+        if(i == 0) {
+          var newStart = start - usersPerExcel;
+          createSheets(newStart, usersPerExcel, excel, true);
+        }
+        else {
+          createSheets(start - usersPerExcel, usersPerExcel, excel, false);
+        }
+
+        var file = tempDir.resolve("AxonivySecurtyReport" + i + ".xlsx");
+        try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
+          excel.write(os);
+        }
+        start += usersPerExcel;
+      }
+    }
+  }
+
   private void clearChache() {
     ISystemDatabasePersistencyService.instance().getClassPersistencyService(AccessControlData.class).clearCache();
   }
 
-  public void createSheets(int start, int end, Excel excel, int i) {
+  public void createSheets(int start, int end, Excel excel, boolean includesRoles) {
     var roles = getRoles();
     var users = getUsers(start, end);
-    new OverviewSheet(excel, securityContext).create(end);
+    new OverviewSheet(excel, securityContext, users).create(end);
     new UsersSheet(excel, users).create();
     new UserRolesSheet(excel, users, getRoles()).create();
-    new SecurityMemberPermissionSheet(excel, securityContext, usersToSecurityMembers(users)).create("User");
-    if(i == 0) {
+    if(includesRoles) {
       new RolesSheet(excel, roles).create();
-      new SecurityMemberPermissionSheet(excel, securityContext, rolesToSecurityMembers(roles)).create("Role");
       new RoleMembersSheet(excel, roles).create();
+      new SecurityMemberPermissionSheet(excel, securityContext, rolesToSecurityMembers(roles)).create("Role");
     }
+    new SecurityMemberPermissionSheet(excel, securityContext, usersToSecurityMembers(users)).create("User");
   }
 
   @SuppressWarnings("unchecked")

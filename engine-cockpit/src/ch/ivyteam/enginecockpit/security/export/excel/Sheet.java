@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.export.excel;
 
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class Sheet {
@@ -40,15 +41,13 @@ public class Sheet {
     return excel;
   }
 
-  public String[] getFirstAndLastNameOfUsers(){
-    var firstRowNum = sheet.getFirstRowNum() + 1;
+  public XSSFRow getRow(int rowNum){
+   return sheet.getRow(rowNum);
+  }
+
+  public XSSFRow getLastRow(){
     var lastRowNum = sheet.getLastRowNum();
-
-    String[] data = new String[2];
-    data[0] = sheet.getRow(firstRowNum).getCell(3).getStringCellValue();
-    data[1] = sheet.getRow(lastRowNum).getCell(3).getStringCellValue();
-
-    return data;
+   return sheet.getRow(lastRowNum);
   }
 
   public String[][] getData(){

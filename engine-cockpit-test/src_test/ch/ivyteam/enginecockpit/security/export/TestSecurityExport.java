@@ -34,7 +34,6 @@ class TestSecurityExport {
   private static IRole employeeRole;
   private static Excel excel;
   private static List<IPermission> permissions;
-  private static int userCount;
 
   @BeforeAll
   static void before() throws IOException {
@@ -79,7 +78,6 @@ class TestSecurityExport {
     userCedric.setProperty("Sharedproperty", "Shared");
     userCedric.addRole(employeeRole);
 
-    userCount = (int)users.count();
     permissions = Ivy.wf().getSecurityContext().securityDescriptor().getPermissions();
     var wf = Ivy.wf();
     StreamedContent export = new SecurityExport(wf.getSecurityContext()).export();
@@ -215,7 +213,7 @@ class TestSecurityExport {
   void exportOverview() {
     var overviewSheet = excel.getSheet("Overview");
     String[][] overviewData = new String[][] {
-      {"Axonivy Security Report " + userCount, null, null},
+      {"Axonivy Security Report ", null, null},
       {null, null, null},
       {"Security System Name", "default", null},
       {"Date", overviewSheet.getData()[3][1], null},
@@ -224,8 +222,8 @@ class TestSecurityExport {
       {"Hostname", "test.axonivy.com", null},
       {"Number of Users", "3", null},
       {"Number of Roles", "4", null},
-      {null, null, null},
-      {null, null, null},
+      {"File number", "1", null},
+      {"First and Last User", "Cedric Weiss - Rolf Stephan", null},
       {null, null, null},
       {"Legend", null, null},
       {"User roles", "X", "User owns role directly"},
