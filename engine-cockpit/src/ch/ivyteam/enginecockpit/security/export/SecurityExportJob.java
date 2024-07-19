@@ -7,6 +7,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -19,11 +20,13 @@ import ch.ivyteam.enginecockpit.security.export.sheets.SecurityMemberPermissionS
 import ch.ivyteam.enginecockpit.security.export.sheets.UserRolesSheet;
 import ch.ivyteam.enginecockpit.security.export.sheets.UsersSheet;
 import ch.ivyteam.io.ZipUtil;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.job.IJob;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityMember;
+import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.internal.data.AccessControlData;
 
@@ -32,12 +35,14 @@ public class SecurityExportJob implements IJob {
 
   private static final Comparator<IRole> ROLE_NAME_COMPERATOR = Comparator.comparing(IRole::getName);
   private final ISecurityContext securityContext;
-  private volatile int progress;
-  private Excel onlyExcel = new Excel();
+  private volatile int progress = 0;
+  private Excel onlyExcel;
   private Path zipFile;
+  private ISession session;
 
-  public SecurityExportJob(ISecurityContext securityContext) {
+  public SecurityExportJob(ISecurityContext securityContext, ISession session) {
     this.securityContext = securityContext;
+    this.session = session;
   }
 
   @Override
@@ -54,12 +59,13 @@ public class SecurityExportJob implements IJob {
         Excel excel = new Excel();
         createSheets(0, usersCount, excel, 0);
         this.onlyExcel = excel;
+        progress=100;
       }
       else {
         int forCount = Math.ceilDiv(usersCount, usersPerExcel);
         var start = usersPerExcel;
 
-        for(int i=0; i<forCount; i++) {
+        for(int i=0; i<forCount;) {
           if (Thread.currentThread().isInterrupted()) {
             return;
           }
@@ -79,7 +85,10 @@ public class SecurityExportJob implements IJob {
             try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
               excel.write(os);
             }
+
             start += usersPerExcel;
+            i++;
+            progress= i *100 /forCount;
           }
         }
       }
@@ -91,7 +100,6 @@ public class SecurityExportJob implements IJob {
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
-
   }
 
   @Override
@@ -135,7 +143,7 @@ public class SecurityExportJob implements IJob {
   public void createSheets(int start, int end, Excel excel, int i) {
     var roles = getRoles();
     var users = getUsers(start, end);
-    new OverviewSheet(excel, securityContext).create(end);
+    new OverviewSheet(excel, securityContext, users , session).create(end, i);
     new UsersSheet(excel, users).create();
     new UserRolesSheet(excel, users, getRoles()).create();
     new SecurityMemberPermissionSheet(excel, securityContext, usersToSecurityMembers(users)).create("User");
@@ -156,7 +164,7 @@ public class SecurityExportJob implements IJob {
     return (Iterable<ISecurityMember>)(Iterable<?>)roles;
   }
 
-  private Iterable<IUser> getUsers(int start, int count){
+  private List<IUser> getUsers(int start, int count){
     return securityContext.users().query().orderBy().name().executor().results(start, count);
   }
 
@@ -165,5 +173,10 @@ public class SecurityExportJob implements IJob {
     var roles = new ArrayList<>(securityContext.roles().all());
     Collections.sort(roles, ROLE_NAME_COMPERATOR);
     return roles;
+  }
+
+  public void setProgress(int i) {
+    Ivy.log().info("progress: " + i);
+    progress = i;
   }
 }

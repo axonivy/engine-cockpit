@@ -23,11 +23,13 @@ public class OverviewSheet {
           "Axonivy Version", "Current User", "Hostname", "Number of Users", "Number of Roles", "File number", "First and Last User"));
   private Excel excel;
   private List<IUser> users;
+  private ISession session;
 
-  public OverviewSheet(Excel excel, ISecurityContext securityContext, List<IUser> users) {
+  public OverviewSheet(Excel excel, ISecurityContext securityContext, List<IUser> users, ISession session) {
     this.excel = excel;
     this.securityContext = securityContext;
     this.users = users;
+    this.session = session;
   }
 
   public void create(int userCount, int fileCount) {
@@ -55,7 +57,7 @@ public class OverviewSheet {
     var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     rows.get(rowNr++).createResultCellWidth(1, 20, dtf.format(LocalDateTime.now()));
     rows.get(rowNr++).createResultCellWidth(1, 20, Advisor.getAdvisor().getVersion().toString());
-    rows.get(rowNr++).createResultCellWidth(1, 20, ISession.current().getSessionUserName());
+    rows.get(rowNr++).createResultCellWidth(1, 20, session.getSessionUserName());
     rows.get(rowNr++).createResultCellWidth(1, 20, getServerName());
     rows.get(rowNr++).createResultCellWidth(1, 20, Long.toString(securityContext.users().count()));
     rows.get(rowNr++).createResultCellWidth(1, 20, Integer.toString(securityContext.roles().count()));

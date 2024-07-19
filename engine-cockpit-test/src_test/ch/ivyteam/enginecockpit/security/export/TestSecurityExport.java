@@ -80,7 +80,9 @@ class TestSecurityExport {
 
     permissions = Ivy.wf().getSecurityContext().securityDescriptor().getPermissions();
     var wf = Ivy.wf();
-    StreamedContent export = new SecurityExport(wf.getSecurityContext()).export();
+    var securityExport = new SecurityExport(wf.getSecurityContext());
+    securityExport.start();
+    StreamedContent export = securityExport.export();
     excel = new Excel(export.getStream().get());
   }
 

@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
 import ch.ivyteam.enginecockpit.security.export.SecurityExport;
@@ -33,6 +32,9 @@ public class SecurityConfigBean implements AllResourcesDownload {
   private Locale formattingLanguage;
   private SecuritySystem securitySystem;
   private ManagerBean managerBean;
+  private boolean showProgressBar = false;
+
+  private SecurityExport securityExport;
 
   public SecurityConfigBean() {
     managerBean = ManagerBean.instance();
@@ -63,6 +65,7 @@ public class SecurityConfigBean implements AllResourcesDownload {
     var languageConfigurator = languageConfigurator();
     language = languageConfigurator.content();
     formattingLanguage = languageConfigurator.formatting();
+    securityExport = new SecurityExport(securitySystem.getSecurityContext());
   }
 
   public String getName() {
@@ -129,10 +132,5 @@ public class SecurityConfigBean implements AllResourcesDownload {
   public String deleteConfiguration() {
     ISecurityManager.instance().securityContexts().delete(name);
     return "securitysystem.xhtml?faces-redirect=true";
-  }
-
-  @Override
-  public StreamedContent getAllResourcesDownload() {
-    return new SecurityExport(securitySystem.getSecurityContext()).export();
   }
 }

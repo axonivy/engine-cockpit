@@ -119,7 +119,7 @@ public class SecurityExport {
   public void createSheets(int start, int end, Excel excel, boolean includeRoles, int fileCount) {
     var roles = getRoles();
     var users = getUsers(start, end);
-    new OverviewSheet(excel, securityContext, users).create(end, fileCount);
+    new OverviewSheet(excel, securityContext, users, null).create(end, fileCount);
     new UsersSheet(excel, users).create();
     new UserRolesSheet(excel, users, getRoles()).create();
     if(includeRoles) {

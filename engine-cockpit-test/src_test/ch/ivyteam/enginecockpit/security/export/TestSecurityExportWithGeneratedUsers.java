@@ -34,9 +34,17 @@ class TestSecurityExportWithGeneratedUsers {
       var user = userRepo.create("testUser-%04d".formatted(i));
       user.setFullName(UUID.randomUUID().toString());
     }
+<<<<<<< Upstream, based on origin/master
 
     StreamedContent export = new SecurityExport(securityContext).export();
     Path zipFile = tempDirectory.resolve("Export.zip");
+=======
+    var securityContext = ISecurityContextRepository.instance().get("200kUsers");
+    var secExport = new SecurityExport(securityContext);
+    secExport.start();
+    StreamedContent export = secExport.export();
+    Path zipFile = tempDir.resolve("Export.zip");
+>>>>>>> a04c81b XIVY-3231 Added Progress Bar for Download of Report
     try (var os = Files.newOutputStream(zipFile, StandardOpenOption.CREATE_NEW)) {
       try (var is = export.getStream().get()) {
         is.transferTo(os);
