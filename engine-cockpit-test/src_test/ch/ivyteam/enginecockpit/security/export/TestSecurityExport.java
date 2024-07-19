@@ -160,7 +160,7 @@ class TestSecurityExport {
 
   }
 
-  private String[][] addSecurityMemberPermissions(String[][] permissionsData, ISecurityMember member, int userCount) {
+  private String[][] addSecurityMemberPermissions(String[][] permissionsData, ISecurityMember member, int memberCount) {
     var securityContext = Ivy.wf().getSecurityContext();
     var counter = 1;
     for(var permission : permissions) {
@@ -168,22 +168,22 @@ class TestSecurityExport {
       var permissionCheck = securityContext.securityDescriptor().getPermissionAccess(permission, member);
       if(permissionCheck.isGranted()) {
         if(permissionCheck.isExplicit()) {
-          permissionsData[userCount][counter] = "G";
+          permissionsData[memberCount][counter] = "G";
         }
         else {
-          permissionsData[userCount][counter] = "g";
+          permissionsData[memberCount][counter] = "g";
         }
       }
       else if(permissionCheck.isDenied()) {
         if(permissionCheck.isExplicit()) {
-          permissionsData[userCount][counter] = "D";
+          permissionsData[memberCount][counter] = "D";
         }
         else {
-          permissionsData[userCount][counter] = "d";
+          permissionsData[memberCount][counter] = "d";
         }
       }
       else {
-        permissionsData[userCount][counter] = "";
+        permissionsData[memberCount][counter] = "";
       }
       counter++;
     }
@@ -213,7 +213,7 @@ class TestSecurityExport {
   void exportOverview() {
     var overviewSheet = excel.getSheet("Overview");
     String[][] overviewData = new String[][] {
-      {"Axonivy Security Report", null, null},
+      {"Axonivy Security Report ", null, null},
       {null, null, null},
       {"Security System Name", "default", null},
       {"Date", overviewSheet.getData()[3][1], null},
@@ -222,8 +222,8 @@ class TestSecurityExport {
       {"Hostname", "test.axonivy.com", null},
       {"Number of Users", "3", null},
       {"Number of Roles", "4", null},
-      {null, null, null},
-      {null, null, null},
+      {"File number", "1 of 1", null},
+      {"First and Last User", "Cedric Weiss - Rolf Stephan", null},
       {null, null, null},
       {"Legend", null, null},
       {"User roles", "X", "User owns role directly"},

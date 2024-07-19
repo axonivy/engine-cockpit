@@ -30,14 +30,14 @@ import ch.ivyteam.ivy.security.ISecurityMember;
         headers.add(permission.getName());
       }
 
-      PermissionShortcut shortcut = new PermissionShortcut(securityContext);
       for (var securityMember : securityMembers) {
+        PermissionShortcut shortcut = new PermissionShortcut(securityContext, securityMember);
         var row = sheet.createRow(rowNr++);
         var cellNr = 0;
 
         row.createResultCell(cellNr++, securityMember.getDisplayName());
         for(var permission : permissions) {
-          row.createResultCell(cellNr++, shortcut.getPermissionShortcut(permission, securityMember));
+          row.createResultCell(cellNr++, shortcut.getPermissionShortcut(permission));
         }
       }
 
