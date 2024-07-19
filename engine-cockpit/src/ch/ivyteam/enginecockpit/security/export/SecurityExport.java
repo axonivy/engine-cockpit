@@ -31,7 +31,7 @@ import ch.ivyteam.ivy.security.internal.data.AccessControlData;
 public class SecurityExport {
 
   private static final Comparator<IRole> ROLE_NAME_COMPERATOR = Comparator.comparing(IRole::getName);
-  private static final int USERSPEREXCEL = 1000;
+  private static final int USERS_PER_EXCEL = 1000;
 
   private final ISecurityContext securityContext;
 
@@ -43,7 +43,7 @@ public class SecurityExport {
     var usersCount = (int)securityContext.users().query().orderBy().name().executor().count();
     var tempDir = Files.createTempDirectory("AxonivySecurityReports");
 
-    if (usersCount < USERSPEREXCEL) {
+    if (usersCount < USERS_PER_EXCEL) {
       return createSingleExcel(tempDir, usersCount);
     }
     else {
@@ -95,19 +95,19 @@ public class SecurityExport {
   }
 
   private void createFiles(Path tempDir, int usersCount) throws IOException {
-    int forCount = Math.ceilDiv(usersCount, USERSPEREXCEL);
+    int forCount = Math.ceilDiv(usersCount, USERS_PER_EXCEL);
     var start = 0;
     for(int i=0; i<forCount; i++) {
       clearChache();
 
       try (Excel excel = new Excel()) {
-        createSheets(start, USERSPEREXCEL, excel, i==0, forCount);
+        createSheets(start, USERS_PER_EXCEL, excel, i==0, forCount);
 
         var file = tempDir.resolve("AxonivySecurtyReport" + i + ".xlsx");
         try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
           excel.write(os);
         }
-        start += USERSPEREXCEL;
+        start += USERS_PER_EXCEL;
       }
     }
   }
@@ -116,13 +116,13 @@ public class SecurityExport {
     ISystemDatabasePersistencyService.instance().getClassPersistencyService(AccessControlData.class).clearCache();
   }
 
-  public void createSheets(int start, int end, Excel excel, boolean includesRole, int fileCount) {
+  public void createSheets(int start, int end, Excel excel, boolean includeRoles, int fileCount) {
     var roles = getRoles();
     var users = getUsers(start, end);
-    new OverviewSheet(excel, securityContext, (List<IUser>) users).create(end, fileCount);
+    new OverviewSheet(excel, securityContext, users).create(end, fileCount);
     new UsersSheet(excel, users).create();
     new UserRolesSheet(excel, users, getRoles()).create();
-    if(includesRole) {
+    if(includeRoles) {
       new RolesSheet(excel, roles).create();
       new RoleMembersSheet(excel, roles).create();
       new SecurityMemberPermissionSheet(excel, securityContext, rolesToSecurityMembers(roles)).create("Role");
@@ -140,7 +140,7 @@ public class SecurityExport {
     return (Iterable<ISecurityMember>)(Iterable<?>)roles;
   }
 
-  private Iterable<IUser> getUsers(int start, int count){
+  private List<IUser> getUsers(int start, int count){
     return securityContext.users().query().orderBy().name().executor().results(start, count);
   }
 
