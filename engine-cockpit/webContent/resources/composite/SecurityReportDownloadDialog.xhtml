@@ -27,7 +27,7 @@
                     oncomplete="PF('progressBar').start(); PF('downloadButton').disable();"
                     title="#{cc.attrs.bean.value}" styleClass="modal-input-button" style="width: 160px;">
                   </p:commandButton>
-                  <p:commandButton value="#{cc.attrs.bean.downloadValue}" ajax="false" icon="si si-download-bottom" styleClass="modal-input-button" style="width: 100px;">
+                  <p:commandButton title="#{cc.attrs.bean.downloadValue}" ajax="false" icon="si si-download-bottom" styleClass="modal-input-button" style="width: 100px;">
                       <p:fileDownload value="#{cc.attrs.bean.allResourcesDownload}" />
                   </p:commandButton>
                   <p:commandButton id="cancel" onclick="PF('securityReportDownloadModal').hide();" value="Cancel" type="button"

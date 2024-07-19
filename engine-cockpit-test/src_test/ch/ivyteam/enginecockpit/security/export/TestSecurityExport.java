@@ -18,6 +18,7 @@ import ch.ivyteam.ivy.environment.IvyTest;
 import ch.ivyteam.ivy.security.IPermission;
 import ch.ivyteam.ivy.security.IRole;
 import ch.ivyteam.ivy.security.ISecurityMember;
+import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.IUser;
 import ch.ivyteam.ivy.security.role.NewRole;
 import ch.ivyteam.ivy.security.user.NewUser;
@@ -80,9 +81,9 @@ class TestSecurityExport {
 
     permissions = Ivy.wf().getSecurityContext().securityDescriptor().getPermissions();
     var wf = Ivy.wf();
-    var securityExport = new SecurityExport(wf.getSecurityContext());
-    securityExport.start();
-    StreamedContent export = securityExport.export();
+    var securityExport = new SecurityExport(wf.getSecurityContext(), ISession.current());
+    securityExport.export();
+    StreamedContent export = securityExport.getResult();
     excel = new Excel(export.getStream().get());
   }
 

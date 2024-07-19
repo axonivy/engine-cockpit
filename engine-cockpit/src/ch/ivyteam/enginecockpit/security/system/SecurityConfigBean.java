@@ -11,8 +11,6 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
-import ch.ivyteam.enginecockpit.security.export.SecurityExport;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
@@ -24,7 +22,7 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SecurityConfigBean implements AllResourcesDownload {
+public class SecurityConfigBean  {
 
   private String name;
 
@@ -32,9 +30,6 @@ public class SecurityConfigBean implements AllResourcesDownload {
   private Locale formattingLanguage;
   private SecuritySystem securitySystem;
   private ManagerBean managerBean;
-  private boolean showProgressBar = false;
-
-  private SecurityExport securityExport;
 
   public SecurityConfigBean() {
     managerBean = ManagerBean.instance();
@@ -65,7 +60,6 @@ public class SecurityConfigBean implements AllResourcesDownload {
     var languageConfigurator = languageConfigurator();
     language = languageConfigurator.content();
     formattingLanguage = languageConfigurator.formatting();
-    securityExport = new SecurityExport(securitySystem.getSecurityContext());
   }
 
   public String getName() {
