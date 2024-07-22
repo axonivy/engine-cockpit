@@ -58,8 +58,8 @@ class WebTestDownload {
     $(By.id("securitySystemConfigForm:downloadSecurityReport")).shouldBe(visible).click();
     $(By.id("securityReportDownloadDialog:securityReportDownloadModal")).shouldBe(visible);
     $(By.id("securityReportDownloadDialog:downloadForm:generateButton")).shouldBe(visible).click();
-    var download = $(By.id("securityReportDownloadDialog:downloadForm:downloadButton")).shouldBe(visible).download(TIMEOUT, FileFilters.withName("AxonivySecurityReport.xlsx"));
-    assertThat(download.getName()).isEqualTo("AxonivySecurityReport.xlsx");
+    var download = $(By.id("securityReportDownloadDialog:downloadForm:downloadButton")).shouldBe(visible).download(TIMEOUT, FileFilters.withName("AxonIvySecurityReport.xlsx"));
+    assertThat(download.getName()).isEqualTo("AxonIvySecurityReport.xlsx");
     assertThat(download.length() / 1024).isGreaterThanOrEqualTo(2);
   }
 

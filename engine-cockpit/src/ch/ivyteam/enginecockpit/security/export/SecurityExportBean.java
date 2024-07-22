@@ -66,14 +66,6 @@ public class SecurityExportBean implements AllResourcesDownload {
     return null;
   }
 
-  public String getValue() {
-    return "Generate";
-  }
-
-  public String getDownloadValue() {
-    return "Download";
-  }
-
   public Boolean getDisableGenerateButton() {
     return disableGenerateButton;
   }
@@ -92,9 +84,6 @@ public class SecurityExportBean implements AllResourcesDownload {
 
   public void onComplete() {
     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Security Report Generated"));
-  }
-
-  public void onProgressDone() {
     setDisableDownloadButton(false);
   }
 }

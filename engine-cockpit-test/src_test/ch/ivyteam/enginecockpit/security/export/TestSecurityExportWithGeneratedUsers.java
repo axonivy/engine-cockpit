@@ -62,7 +62,7 @@ class TestSecurityExportWithGeneratedUsers {
   void checkFileNames() {
     var start = 0;
     for(var file : files) {
-      Assertions.assertThat(file.getName()).isEqualTo("AxonivySecurtyReport" + start + ".xlsx");
+      Assertions.assertThat(file.getName()).isEqualTo("AxonIvySecurityReport" + start + ".xlsx");
       start++;
     }
   }
