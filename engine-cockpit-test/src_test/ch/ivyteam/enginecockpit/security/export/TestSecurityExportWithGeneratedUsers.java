@@ -18,6 +18,7 @@ import ch.ivyteam.enginecockpit.security.export.excel.Excel;
 import ch.ivyteam.io.ZipUtil;
 import ch.ivyteam.ivy.environment.IvyTest;
 import ch.ivyteam.ivy.security.ISecurityContextRepository;
+import ch.ivyteam.ivy.security.ISession;
 
 @IvyTest
 class TestSecurityExportWithGeneratedUsers {
@@ -35,8 +36,10 @@ class TestSecurityExportWithGeneratedUsers {
       user.setFullName(UUID.randomUUID().toString());
     }
 
-    StreamedContent export = new SecurityExport(securityContext).export();
     Path zipFile = tempDirectory.resolve("Export.zip");
+    var securityExport = new SecurityExport(securityContext, ISession.current());
+    securityExport.export();
+    StreamedContent export = securityExport.getResult();
     try (var os = Files.newOutputStream(zipFile, StandardOpenOption.CREATE_NEW)) {
       try (var is = export.getStream().get()) {
         is.transferTo(os);
@@ -59,7 +62,7 @@ class TestSecurityExportWithGeneratedUsers {
   void checkFileNames() {
     var start = 0;
     for(var file : files) {
-      Assertions.assertThat(file.getName()).isEqualTo("AxonivySecurtyReport" + start + ".xlsx");
+      Assertions.assertThat(file.getName()).isEqualTo("AxonIvySecurityReport" + start + ".xlsx");
       start++;
     }
   }

@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.security.system;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,9 +10,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.primefaces.model.StreamedContent;
 
-import ch.ivyteam.enginecockpit.security.export.SecurityExport;
 import ch.ivyteam.enginecockpit.security.model.SecuritySystem;
 import ch.ivyteam.enginecockpit.system.ManagerBean;
 import ch.ivyteam.ivy.application.security.SecurityContextRemovalCheck;
@@ -25,7 +22,7 @@ import ch.ivyteam.ivy.security.ISecurityManager;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SecurityConfigBean {
+public class SecurityConfigBean  {
 
   private String name;
 
@@ -129,9 +126,5 @@ public class SecurityConfigBean {
   public String deleteConfiguration() {
     ISecurityManager.instance().securityContexts().delete(name);
     return "securitysystem.xhtml?faces-redirect=true";
-  }
-
-  public StreamedContent getExport() throws IOException {
-    return new SecurityExport(securitySystem.getSecurityContext()).export();
   }
 }
