@@ -2,7 +2,6 @@ package ch.ivyteam.enginecockpit.util;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -21,9 +20,14 @@ public class DateUtil {
     return formatDate(date, "yyyy-MM-dd HH:mm");
   }
 
-  public static String formatInstant(Instant instant, String format) {
-    var time = LocalTime.from(instant.atZone(ZoneId.systemDefault()));
-    return DateTimeFormatter.ofPattern(format).format(time);
+  public static String formatInstantAsDateTime(Instant instant) {
+    var dateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm").format(dateTime);
+
   }
 
+  public static String formatInstantAsTime(Instant instant, String format) {
+    var time = instant.atZone(ZoneId.systemDefault()).toLocalTime();
+    return DateTimeFormatter.ofPattern(format).format(time);
+  }
 }

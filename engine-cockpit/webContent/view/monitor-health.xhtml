@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Monitor</span></li>
+      <li>/</li>
+      <li><span>Engine</span></li>
+      <li>/</li>
+      <li><a href="monitor-health.xhtml">Health</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#health" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-road-sign-warning card-title-icon"></i>
+          <h2 class="m-0">Health</h2>
+          <p:commandButton id="run" title="Run Health Checks" action="#{healthBean.checkNow()}"
+              update="form" icon="si si-controls-play" styleClass="col-fixed ml-auto ui-button-success rounded-button" />
+          <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="Refresh Health"
+              icon="si si-button-refresh-arrows" styleClass="col-fixed ml-1 rounded-button"/>
+          <p:linkButton id="checks" title="Health Checks" type="button" href="monitor-health-checks.xhtml"
+              icon="si si-road-sign-warning" styleClass="col-fixed ml-1 ui-button-secondary rounded-button" />
+          
+        </div>
+        <h:form id="form" style="overflow: auto;">
+          <p:dataTable var="msg" value="#{healthBean.messages}"
+            widgetVar="messagesTable" styleClass="ui-fluid"
+            paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+            id="messagesTable" style="min-width: 950px;" emptyMessage="No message found">
+            
+            <p:column width="5%" headerText="Severity" sortBy="#{msg.severity}">
+              <h:panelGroup class="#{msg.severityClass}">
+                <i class="#{msg.severityIcon} table-icon"></i>
+                <h:outputLabel value="#{msg.severity}"/>
+              </h:panelGroup>
+            </p:column>
+            
+            <p:column headerText="Message" sortBy="#{msg.message}">
+              <h:outputText value="#{msg.message}"/>
+            </p:column>
+            
+            <p:column headerText="Description" sortBy="#{msg.description}">
+              <h:outputText value="#{msg.description}"/>
+            </p:column>
+            
+            <p:column headerText="Check" sortBy="#{msg.check}">
+              <p:link outcome="monitor-health-checks">
+                <f:param name="check" value="#{msg.check}"/>
+                <h:outputText value="#{msg.check}"/>
+              </p:link>
+            </p:column>
+            <p:column styleClass="table-btn-1">
+              <p:button title="Additional information or configuration" href="#{msg.actionLink}" rendered="#{msg.hasActionLink}" 
+                icon="si si-computer-chip-search" styleClass="rounded-button">
+              </p:button>
+            </p:column>
+          </p:dataTable>
+        </h:form>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

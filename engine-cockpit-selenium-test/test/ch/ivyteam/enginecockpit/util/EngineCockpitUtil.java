@@ -224,6 +224,11 @@ public class EngineCockpitUtil {
     return EngineUrl.base() + "/system/engine-cockpit/faces/" + page;
   }
 
+
+  public static String testViewUrl(String page) {
+    return create().app(getAppName()).staticView("engine-cockpit-test-data/" + page).toUrl();
+  }
+
   public static String getAppName() {
     return isDesigner() ? DESIGNER : "test";
   }

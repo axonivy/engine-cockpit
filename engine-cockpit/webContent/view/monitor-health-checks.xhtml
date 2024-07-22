@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://java.sun.com/jsf/composite/composite">
+<h:body>
+  <f:metadata>
+    <f:viewParam name="check" value="#{healthBean.check}" />
+  </f:metadata>
+
+  <ui:composition template="../includes/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+      <li><span>Monitor</span></li>
+      <li>/</li>
+      <li><span>Engine</span></li>
+      <li>/</li>
+      <li><a href="monitor-health.xhtml">Health</a></li>
+      <li>/</li>
+      <li><a href="monitor-health-checks.xhtml">Health Checks</a></li>
+    </ui:define>
+
+    <ui:define name="topbar-items">
+      <cc:TopBarItem href="#{advisorBean.cockpitEngineGuideUrl}monitor.html#health" />
+    </ui:define>
+
+    <ui:define name="content">
+      <div class="card">
+        <div class="flex align-items-center mb-3">
+          <i class="pr-3 si si-road-sign-warning card-title-icon"></i>
+          <h2 class="m-0">Health Checks</h2>
+          <p:commandButton id="refresh" actionListener="#{healthBean.refresh}" update="form" title="Refresh Health Checks"
+              icon="si si-button-refresh-arrows" styleClass="col-fixed ml-auto rounded-button"/>
+          
+        </div>
+        <h:form id="form" style="overflow: auto;">
+           <p:dataTable var="check" value="#{healthBean.checks}"
+             widgetVar="checkTable" styleClass="ui-fluid"
+             paginator="true" rows="100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+             id="checkTable" style="min-width: 950px;"
+             globalFilter="#{healthBean.check}">
+             
+            <f:facet name="header">
+              <div class="ui-input-icon-left filter-container">
+                <i class="pi pi-search"/>
+                <p:inputText id="globalFilter" onkeyup="PF('checkTable').filter()" placeholder="Search"/>
+              </div>
+            </f:facet>
+             <p:column width="7%" headerText="Severity" filterBy="#{check.severity}" sortBy="#{check.severity}" sortOrder="desc">
+               <h:panelGroup class="#{check.severityClass}">
+                 <i class="#{check.severityIcon} table-icon"></i>
+                 <h:outputLabel value="#{check.severity}"/>
+               </h:panelGroup>
+             </p:column>
+             
+             <p:column width="30%" headerText="Name" filterBy="#{check.name}" sortBy="#{check.name}">
+               <h:outputText value="#{check.name}"/>
+             </p:column>
+   
+             <p:column width="50%" headerText="Description" filterBy="#{check.name}" sortBy="#{check.description}">
+               <h:outputText value="#{check.description}"/>
+             </p:column>
+
+             <p:column width="15%" headerText="Next Execution" sortBy="#{check.nextExecution}">
+               <h:outputText value="#{check.timeUntilNextExecution} (#{check.nextExecution})" />
+             </p:column>
+             
+             <p:column styleClass="table-btn-3">
+               <p:commandButton id="enable" title="Enable the check" icon="si si-check-circle-1"
+                 action="#{check.enable()}" update="@form" styleClass="col-fixed ml-1 ui-button-success rounded-button" disabled="#{check.enabled}"/>
+               <p:commandButton id="disable" title="Disable the check" icon="si si-subtract-circle"
+                 action="#{check.disable()}" update="@form" styleClass="col-fixed ml-1 ui-button-danger rounded-button" disabled="#{! check.enabled}"/>
+               <p:commandButton id="checkNow" icon="si si-controls-play" title="Run check now"
+                 action="#{check.checkNow()}" update="@form" styleClass="col-fixed ml-1 rounded-button" disabled="#{! check.enabled}"/>
+           </p:column>
+             
+          </p:dataTable>
+        </h:form>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
