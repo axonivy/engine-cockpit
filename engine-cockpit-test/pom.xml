@@ -55,6 +55,7 @@
         <configuration>
           <skip>${skip.tests}</skip>
           <testFailureIgnore>true</testFailureIgnore>
+          <reuseForks>false</reuseForks>
         </configuration>
       </plugin>
     </plugins>

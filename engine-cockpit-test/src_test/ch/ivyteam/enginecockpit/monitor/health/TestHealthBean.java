@@ -3,15 +3,12 @@ package ch.ivyteam.enginecockpit.monitor.health;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import ch.ivyteam.ivy.health.check.HealthChecker;
 import ch.ivyteam.ivy.health.check.HealthSeverity;
 import ch.ivyteam.ivy.manager.IManager;
 
-@TestMethodOrder(MethodOrderer.Random.class)
 class TestHealthBean {
 
   HealthBean testee = new HealthBean();
