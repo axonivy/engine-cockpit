@@ -3,12 +3,15 @@ package ch.ivyteam.enginecockpit.monitor.health;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import ch.ivyteam.ivy.health.check.HealthChecker;
 import ch.ivyteam.ivy.health.check.HealthSeverity;
 import ch.ivyteam.ivy.manager.IManager;
 
+@TestMethodOrder(MethodOrderer.Random.class)
 class TestHealthBean {
 
   HealthBean testee = new HealthBean();
@@ -32,10 +35,11 @@ class TestHealthBean {
     assertThat(testee.getChecks()).isNotEmpty();
   }
 
+  @Test
   void check() {
     var check = testee.getChecks().stream().filter(c -> c.getName().equals("Release Candidate")).findAny().orElseThrow();
     assertThat(check.getName()).isEqualTo("Release Candidate");
-    assertThat(check.getDescription()).isEqualTo("Release Candidate");
+    assertThat(check.getDescription()).isEqualTo("Checks if this is a release candidate version");
     assertThat(check.getSeverity()).isEqualTo(HealthSeverity.HEALTHY);
     assertThat(check.getSeverityClass()).isEqualTo("health-healthy");
     assertThat(check.getSeverityIcon()).isEqualTo("si si-check-1");
