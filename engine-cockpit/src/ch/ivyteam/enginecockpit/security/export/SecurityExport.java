@@ -34,7 +34,7 @@ public class SecurityExport {
   private static final int USERS_PER_EXCEL = 1000;
   private final ISecurityContext securityContext;
   private volatile int progress = 0;
-  private Excel onlyExcel;
+  private Excel onlyExcel = new Excel();
   private Path zipFile;
   private ISession session;
 
@@ -44,11 +44,13 @@ public class SecurityExport {
   }
 
   public void createSingleExcel(Path tempDir, int usersCount) throws IOException {
+    int forCount = Math.ceilDiv(usersCount, USERS_PER_EXCEL);
     createSheets(0, usersCount, onlyExcel, true, 1);
     var file = tempDir.resolve("AxonivySecurtyReport" + ".xlsx");
     try (var os = Files.newOutputStream(file, StandardOpenOption.CREATE_NEW)) {
       onlyExcel.write(os);
     }
+    progress = forCount * 100;
   }
 
   public void createFiles(Path tempDir, int usersCount) throws IOException {
@@ -96,7 +98,7 @@ public class SecurityExport {
   }
 
   public StreamedContent getResult() {
-    if(onlyExcel != null) {
+    if(onlyExcel.getSheet("Users") != null) {
       return DefaultStreamedContent
               .builder()
               .stream(onlyExcel::write)

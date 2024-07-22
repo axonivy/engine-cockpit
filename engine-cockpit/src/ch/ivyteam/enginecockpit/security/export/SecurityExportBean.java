@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.StreamedContent;
 
 import ch.ivyteam.enginecockpit.download.AllResourcesDownload;
-import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISecurityManager;
 import ch.ivyteam.ivy.security.ISession;
@@ -17,11 +16,12 @@ import ch.ivyteam.ivy.security.ISession;
 @SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
-public class SecurityExportBean implements AllResourcesDownload{
+public class SecurityExportBean implements AllResourcesDownload {
 
   private ISecurityContext securityContext;
   private SecurityExportJob job;
-  private boolean showProgressBar = false;
+  private Boolean disableDownloadButton = true;
+  private Boolean disableGenerateButton = false;
   private String name;
 
   public SecurityExportBean() {
@@ -47,15 +47,14 @@ public class SecurityExportBean implements AllResourcesDownload{
 
   public void startReport() {
     job = new SecurityExportJob(securityContext, ISession.current());
-    job.setProgress(0);
-    Ivy.log().info("Job scheduled");
     job.schedule().once();
-    setShowProgressBar(true);
+    setDisableGenerateButton(true);
   }
 
   public void cancel() {
     if (job != null) {
       job.cancel();
+      job = null;
     }
   }
 
@@ -64,27 +63,38 @@ public class SecurityExportBean implements AllResourcesDownload{
     if (job != null) {
       return job.getResult();
     }
-
     return null;
   }
 
   public String getValue() {
-    return "Generate Files";
+    return "Generate";
   }
 
   public String getDownloadValue() {
     return "Download";
   }
 
-  public boolean setShowProgressBar(boolean show) {
-    return showProgressBar = show;
+  public Boolean getDisableGenerateButton() {
+    return disableGenerateButton;
   }
 
-  public boolean getShowProgressBar() {
-    return showProgressBar;
+  public Boolean setDisableGenerateButton(Boolean show) {
+    return disableGenerateButton = show;
+  }
+
+  public Boolean getDisableDownloadButton() {
+    return disableDownloadButton;
+  }
+
+  public Boolean setDisableDownloadButton(Boolean show) {
+    return disableDownloadButton = show;
   }
 
   public void onComplete() {
-    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Progress Completed"));
+    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Security Report Generated"));
+  }
+
+  public void onProgressDone() {
+    setDisableDownloadButton(false);
   }
 }

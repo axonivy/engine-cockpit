@@ -11,7 +11,6 @@ import ch.ivyteam.ivy.security.ISession;
 @SuppressWarnings("restriction")
 public class SecurityExportJob implements IJob {
 
-  private volatile int progress = 0;
   private SecurityExport securityExport;
 
   public SecurityExportJob(ISecurityContext securityContext, ISession session) {
@@ -29,7 +28,7 @@ public class SecurityExportJob implements IJob {
 
   @Override
   public String getName() {
-    return "Security Export Job";
+    return "Security Report Job";
   }
 
   public StreamedContent getResult() {
@@ -37,11 +36,6 @@ public class SecurityExportJob implements IJob {
   }
 
   public int getProgress() {
-    progress = securityExport.getProgress();
-    return progress;
-  }
-
-  public void setProgress(int i) {
-    progress = i;
+    return securityExport.getProgress();
   }
 }

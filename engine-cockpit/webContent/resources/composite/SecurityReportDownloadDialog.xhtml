@@ -8,26 +8,36 @@
     <cc:attribute name="title" />
   </cc:interface>
   <cc:implementation>
-    <p:dialog style="min-width: 400px;" header="#{cc.attrs.title}" id="securityReportDownloadModal" widgetVar="securityReportDownloadModal"
+    <p:dialog style="min-width: 400px; max-width: 600px;" header="#{cc.attrs.title}" id="securityReportDownloadModal" widgetVar="securityReportDownloadModal"
         modal="true" responsive="true" closeOnEscape="false">
         <h:form id="downloadForm">
             <p:growl id="growl"/>
              <h:panelGrid style="width:100%; height:100%;">
                 <h:panelGroup>
-                <p:progressBar rendered="#{cc.attrs.bean.showProgressBar}" widgetVar="progressBar" ajax="true" value="#{cc.attrs.bean.progress}"
+                  <h:outputText value="The following download contains a security report in form of a excel. In the excel are detailed information about users,
+            roles, user roles, role members, user permissions and role permissions. The download may take a few minutes depending on the amount of users."></h:outputText> 
+                </h:panelGroup>
+                <h:panelGroup>
+                <p:progressBar rendered="true" widgetVar="progressBar" ajax="true" value="#{cc.attrs.bean.progress}"
                     labelTemplate="{value}%" styleClass="mt-3" global="false">
-                    <p:ajax event="complete" listener="#{cc.attrs.bean.onComplete}" update="growl"
-                        oncomplete="PF('downloadButton').enable()" />          
+                    <p:ajax event="complete" listener="#{cc.attrs.bean.onComplete}" update="growl" />
+                    <p:ajax event="complete" listener="#{cc.attrs.bean.onProgressDone}" update="downloadForm"/>        
                 </p:progressBar>
                 </h:panelGroup>
                 <h:panelGroup>
-                  <p:commandButton id="downloadButton" value="#{cc.attrs.bean.value}" widgetVar="downloadButton"
-                     action="#{cc.attrs.bean.startReport}"
-                     update="downloadForm"
-                    oncomplete="PF('progressBar').start(); PF('downloadButton').disable();"
-                    title="#{cc.attrs.bean.value}" styleClass="modal-input-button" style="width: 160px;">
+                  <p:commandButton id="generateButton" value="Generate" widgetVar="generateButton"
+                    icon="si si-office-file-xls-1"
+                    disabled="${cc.attrs.bean.disableGenerateButton}"
+                    action="#{cc.attrs.bean.startReport}"
+                    update="downloadForm"
+                    oncomplete="PF('progressBar').start();"
+                    title="#{cc.attrs.bean.value}" styleClass="modal-input-button" style="width: 120px;">
                   </p:commandButton>
-                  <p:commandButton title="#{cc.attrs.bean.downloadValue}" ajax="false" icon="si si-download-bottom" styleClass="modal-input-button" style="width: 100px;">
+                </h:panelGroup>
+                <h:panelGroup>
+                  <p:commandButton id="downloadButton" widgetVar="downloadButton" disabled="${cc.attrs.bean.disableDownloadButton}"
+                   value="Download" title="#{cc.attrs.bean.downloadValue}"
+                   icon="si si-download-bottom" styleClass="modal-input-button" style="width: 120px;" ajax="false" onclick="PF('securityReportDownloadModal').hide();">
                       <p:fileDownload value="#{cc.attrs.bean.allResourcesDownload}" />
                   </p:commandButton>
                   <p:commandButton id="cancel" onclick="PF('securityReportDownloadModal').hide();" value="Cancel" type="button"
