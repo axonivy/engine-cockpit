@@ -46,7 +46,7 @@ public class SecurityExport {
 
   public void export() throws IOException{
     var usersCount = (int)securityContext.users().query().orderBy().name().executor().count();
-    var tempDir = Files.createTempDirectory("AxonivySecurityReports");
+    var tempDir = Files.createTempDirectory("AxonIvySecurityReports");
 
     if (usersCount < USERS_PER_EXCEL) {
       excelFile = createSingleExcel(tempDir, usersCount);
@@ -149,7 +149,6 @@ public class SecurityExport {
     ISystemDatabasePersistencyService.instance().getClassPersistencyService(AccessControlData.class).clearCache();
   }
 
-
   @SuppressWarnings("unchecked")
   private Iterable<ISecurityMember> usersToSecurityMembers(List<IUser> users) {
     return (Iterable<ISecurityMember>)(Iterable<?>)users;
@@ -163,7 +162,6 @@ public class SecurityExport {
   private List<IUser> getUsers(int start, int count){
     return securityContext.users().query().orderBy().name().executor().results(start, count);
   }
-
 
   private Iterable<IRole> getRoles() {
     var roles = new ArrayList<>(securityContext.roles().all());
