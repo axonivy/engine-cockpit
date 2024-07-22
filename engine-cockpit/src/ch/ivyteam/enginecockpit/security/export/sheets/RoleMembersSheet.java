@@ -11,7 +11,7 @@ import ch.ivyteam.ivy.security.IRole;
 public class RoleMembersSheet {
   private Iterable<IRole> roles;
   private Excel excel;
-  private List<String> headers = new ArrayList<String>(Arrays.asList("Role name"));
+  private List<String> headers = new ArrayList<String>();
 
   public RoleMembersSheet(Excel excel, Iterable<IRole> roles) {
     this.excel = excel;
@@ -21,6 +21,7 @@ public class RoleMembersSheet {
   public void create() {
     int rowNr = 1;
     Sheet sheet = excel.createSheet("Role members");
+    sheet.createHeader(0, Arrays.asList("Role name"), UsersSheet.HEADER_WITDH);
     addRoleNames();
 
     for(var role : roles) {
@@ -30,7 +31,7 @@ public class RoleMembersSheet {
       var cellNr = 0;
       row.createResultCell(cellNr++, role.getDisplayName());
       for(var roleSecond : roles) {
-        var index = headers.indexOf(roleSecond.getDisplayName());
+        var index = headers.indexOf(roleSecond.getDisplayName()) + 1;
         String value = getMarker(roleMembers, parent, roleSecond);
         if (value != null) {
           row.createResultCell(index, value);
@@ -39,7 +40,7 @@ public class RoleMembersSheet {
       }
     }
 
-    sheet.createHeader(0, headers, UsersSheet.HEADER_WITDH);
+    sheet.createHeaderRotated(0, headers, 3, 1, 1500);
   }
 
   private String getMarker(List<IRole> roleMembers, IRole parent, IRole roleSecond) {

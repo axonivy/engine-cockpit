@@ -48,28 +48,30 @@ public class OverviewSheet {
     rowNr++;
     for(var header : HEADERS) {
       var row = sheet.createRow(rowNr++);
-      row.createHeaderCell(0, 50, header);
+      row.createHeaderCell(0, 33, header);
       rows.add(row);
     }
 
+    sheet.mergeCells(0, 2);
+
     rowNr = 0;
-    rows.get(rowNr++).createResultCellWidth(1, 20, securityContext.getName());
+    rows.get(rowNr++).createResultCellWidth(1, 5, securityContext.getName());
     var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    rows.get(rowNr++).createResultCellWidth(1, 20, dtf.format(LocalDateTime.now()));
-    rows.get(rowNr++).createResultCellWidth(1, 20, Advisor.getAdvisor().getVersion().toString());
-    rows.get(rowNr++).createResultCellWidth(1, 20, session.getSessionUserName());
-    rows.get(rowNr++).createResultCellWidth(1, 20, getServerName());
-    rows.get(rowNr++).createResultCellWidth(1, 20, Long.toString(securityContext.users().count()));
-    rows.get(rowNr++).createResultCellWidth(1, 20, Integer.toString(securityContext.roles().count()));
-    rows.get(rowNr++).createResultCellWidth(1, 20, fileNumber + " of " + fileCount);
-    rows.get(rowNr++).createResultCellWidth(1, 20, firstUser.getFullName() + " - " + lastUser.getFullName());
+    rows.get(rowNr++).createResultCellWidth(1, 5, dtf.format(LocalDateTime.now()));
+    rows.get(rowNr++).createResultCellWidth(1, 5, Advisor.getAdvisor().getVersion().toString());
+    rows.get(rowNr++).createResultCellWidth(1, 5, session.getSessionUserName());
+    rows.get(rowNr++).createResultCellWidth(1, 5, getServerName());
+    rows.get(rowNr++).createResultCellWidth(1, 5, Long.toString(securityContext.users().count()));
+    rows.get(rowNr++).createResultCellWidth(1, 5, Integer.toString(securityContext.roles().count()));
+    rows.get(rowNr++).createResultCellWidth(1, 5, fileNumber + " of " + fileCount);
+    rows.get(rowNr++).createResultCellWidth(1, 5, firstUser.getFullName() + " - " + lastUser.getFullName());
 
     createLegend(sheet, rowNr);
   }
 
   private void createLegend(Sheet sheet, int rowNr) {
     rowNr = 12;
-    sheet.createRow(rowNr++).createTitleCell(0, "Legend");
+    sheet.createRow(rowNr++).createTitleCellWithoutAlignment(0, "Legend");
     createLegendRow(sheet, rowNr++, "User roles", "X", "User owns role directly");
     createLegendRow(sheet, rowNr++, "", "x", "User owns role indirectly");
     rowNr++;
@@ -92,8 +94,8 @@ public class OverviewSheet {
 
   private void createLegendRow (Sheet sheet, int rowNr, String sheetName, String shortcut, String meaning) {
     var row = sheet.createRow(rowNr);
-    row.createHeaderCell(0, 60, sheetName);
-    row.createResultCellWidth(1, 20, shortcut);
-    row.createResultCellWidth(2, 60, meaning);
+    row.createHeaderCell(0, 33, sheetName);
+    row.createResultCellWidth(1, 5, shortcut);
+    row.createResultCellWidth(2, 30, meaning);
   }
 }

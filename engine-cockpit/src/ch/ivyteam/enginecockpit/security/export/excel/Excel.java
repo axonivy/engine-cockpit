@@ -8,9 +8,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
@@ -68,17 +66,18 @@ public class Excel implements AutoCloseable{
     cellStyle.setFont(font);
     switch(style) {
       case TITLE -> {
-        font.setFontHeight(20);
+        font.setFontHeight(16);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
-        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+      }
+      case TITLENOALIGNMENT -> {
+        font.setFontHeight(16);
       }
       case HEADER -> {
         font.setBold(true);
-        cellStyle.setBorderBottom(BorderStyle.MEDIUM);
+        cellStyle.setRotation((short)40);
       }
       case RESULT -> {
         cellStyle.setAlignment(HorizontalAlignment.LEFT);
-        cellStyle.setBorderBottom(BorderStyle.HAIR);
       }
       case THICK -> {
         font.setBold(true);

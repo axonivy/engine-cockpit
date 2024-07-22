@@ -2,6 +2,7 @@ package ch.ivyteam.enginecockpit.security.export.excel;
 
 import java.util.List;
 
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
@@ -29,6 +30,13 @@ public class Sheet {
     for (var header : headers) {
       int width = headerWidth.widthFor(header);
       row.createHeaderCell(cellNr++, width, header);
+    }
+  }
+
+  public void createHeaderRotated(int rowNr, List<String> headers, int width, int cellNr, int height) {
+    var row = new Row(this, getRow(rowNr), rowNr);
+    for (var header : headers) {
+      row.createHeaderRotatedCell(cellNr++, width, header, height);
     }
   }
 
@@ -76,5 +84,11 @@ public class Sheet {
       }
     }
     return data;
+  }
+
+  public void mergeCells(int rowNr, int cellNr) {
+    var cellRange = new CellRangeAddress(rowNr, rowNr, 0, cellNr);
+    sheet.addMergedRegion(cellRange);
+
   }
 }

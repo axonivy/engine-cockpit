@@ -21,10 +21,11 @@ import ch.ivyteam.ivy.security.ISecurityMember;
 
     public void create(String sheetName) {
       var rowNr = 1;
-      var headers = new ArrayList<String>(Arrays.asList(sheetName + "name"));
+      var headers = new ArrayList<String>();
+      Sheet sheet = excel.createSheet(sheetName + " permissions");
+      sheet.createHeader(0, Arrays.asList(sheetName + "name"), UsersSheet.HEADER_WITDH);
       var permissions = securityContext.securityDescriptor().getPermissions();
 
-      Sheet sheet = excel.createSheet(sheetName + " permissions");
 
       for(var permission : permissions) {
         headers.add(permission.getName());
@@ -41,6 +42,6 @@ import ch.ivyteam.ivy.security.ISecurityMember;
         }
       }
 
-      sheet.createHeader(0, headers, UsersSheet.HEADER_WITDH);
+      sheet.createHeaderRotated(0, headers, 3, 1, 3000);
     }
 }

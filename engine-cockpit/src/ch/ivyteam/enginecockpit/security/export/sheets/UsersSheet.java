@@ -12,7 +12,7 @@ import ch.ivyteam.enginecockpit.security.export.excel.Sheet.WidthProvider;
 import ch.ivyteam.ivy.security.IUser;
 
 public class UsersSheet {
-  private static final List<String> HEADERS = Arrays.asList("Displayname", "Fullname", "Membername", "Name", "Email", "SecurityId", "ExternalId", "External Name");
+  private static final List<String> HEADERS = Arrays.asList("Name", "Displayname", "Fullname", "Email", "SecurityId", "ExternalId", "External Name");
   static final WidthProvider HEADER_WITDH = header -> {
     if(header.contains("Security") || header.contains("External")) {
       return 45;
@@ -37,10 +37,9 @@ public class UsersSheet {
       propertyCellNr = headers.size();
       var row = sheet.createRow(rowNr++);
       var cellNr = 0;
+      row.createResultCell(cellNr++, user.getName());
       row.createResultCell(cellNr++, user.getDisplayName());
       row.createResultCell(cellNr++, user.getFullName());
-      row.createResultCell(cellNr++, user.getMemberName());
-      row.createResultCell(cellNr++, user.getName());
       row.createResultCell(cellNr++, user.getEMailAddress());
       row.createResultCell(cellNr++, user.getSecurityMemberId());
       row.createResultCell(cellNr++, user.getExternalId());
