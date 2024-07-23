@@ -12,6 +12,9 @@ public class UserRolesSheet {
   private Excel excel;
   private Iterable<IUser> users;
   private Iterable<IRole> roles;
+  static final int ROTATED_HEADER_WIDTH = 3;
+  static final int FIRST_CELL_NR = 1;
+  static final int ROTATED_HEADER_HEIGHT = 1500;
 
   public UserRolesSheet(Excel excel, Iterable<IUser> users, Iterable<IRole> roles) {
     this.excel = excel;
@@ -43,7 +46,7 @@ public class UserRolesSheet {
       }
     }
 
-    sheet.createHeaderRotated(0, headers, 3, 1, 1500);
+    sheet.createHeaderRotated(0, FIRST_CELL_NR, headers, ROTATED_HEADER_WIDTH, ROTATED_HEADER_HEIGHT);
   }
 
 

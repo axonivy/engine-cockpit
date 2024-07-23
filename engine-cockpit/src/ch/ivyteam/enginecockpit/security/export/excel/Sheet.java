@@ -29,14 +29,14 @@ public class Sheet {
     var cellNr = 0;
     for (var header : headers) {
       int width = headerWidth.widthFor(header);
-      row.createHeaderCell(cellNr++, width, header);
+      row.createHeaderCell(cellNr++, header, width);
     }
   }
 
-  public void createHeaderRotated(int rowNr, List<String> headers, int width, int cellNr, int height) {
+  public void createHeaderRotated(int rowNr, int cellNr, List<String> headers, int width, int height) {
     var row = new Row(this, getRow(rowNr), rowNr);
     for (var header : headers) {
-      row.createHeaderRotatedCell(cellNr++, width, header, height);
+      row.createHeaderRotatedCell(cellNr++, header, width, height);
     }
   }
 
@@ -89,6 +89,5 @@ public class Sheet {
   public void mergeCells(int rowNr, int cellNr) {
     var cellRange = new CellRangeAddress(rowNr, rowNr, 0, cellNr);
     sheet.addMergedRegion(cellRange);
-
   }
 }

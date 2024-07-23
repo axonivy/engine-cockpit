@@ -48,23 +48,23 @@ public class OverviewSheet {
     rowNr++;
     for(var header : HEADERS) {
       var row = sheet.createRow(rowNr++);
-      row.createHeaderCell(0, 33, header);
+      row.createHeaderCell(0, header, 33);
       rows.add(row);
     }
 
     sheet.mergeCells(0, 2);
 
     rowNr = 0;
-    rows.get(rowNr++).createResultCellWidth(1, 5, securityContext.getName());
+    rows.get(rowNr++).createResultCellWidth(1, securityContext.getName(), 5);
     var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    rows.get(rowNr++).createResultCellWidth(1, 5, dtf.format(LocalDateTime.now()));
-    rows.get(rowNr++).createResultCellWidth(1, 5, Advisor.getAdvisor().getVersion().toString());
-    rows.get(rowNr++).createResultCellWidth(1, 5, session.getSessionUserName());
-    rows.get(rowNr++).createResultCellWidth(1, 5, getServerName());
-    rows.get(rowNr++).createResultCellWidth(1, 5, Long.toString(securityContext.users().count()));
-    rows.get(rowNr++).createResultCellWidth(1, 5, Integer.toString(securityContext.roles().count()));
-    rows.get(rowNr++).createResultCellWidth(1, 5, fileNumber + " of " + fileCount);
-    rows.get(rowNr++).createResultCellWidth(1, 5, firstUser.getFullName() + " - " + lastUser.getFullName());
+    rows.get(rowNr++).createResultCellWidth(1, dtf.format(LocalDateTime.now()), 5);
+    rows.get(rowNr++).createResultCellWidth(1, Advisor.getAdvisor().getVersion().toString(), 5);
+    rows.get(rowNr++).createResultCellWidth(1, session.getSessionUserName(), 5);
+    rows.get(rowNr++).createResultCellWidth(1, getServerName(), 5);
+    rows.get(rowNr++).createResultCellWidth(1, Long.toString(securityContext.users().count()), 5);
+    rows.get(rowNr++).createResultCellWidth(1, Integer.toString(securityContext.roles().count()), 5);
+    rows.get(rowNr++).createResultCellWidth(1, fileNumber + " of " + fileCount, 5);
+    rows.get(rowNr++).createResultCellWidth(1, firstUser.getFullName() + " - " + lastUser.getFullName(), 5);
 
     createLegend(sheet, rowNr);
   }
@@ -94,8 +94,8 @@ public class OverviewSheet {
 
   private void createLegendRow (Sheet sheet, int rowNr, String sheetName, String shortcut, String meaning) {
     var row = sheet.createRow(rowNr);
-    row.createHeaderCell(0, 33, sheetName);
-    row.createResultCellWidth(1, 5, shortcut);
-    row.createResultCellWidth(2, 30, meaning);
+    row.createHeaderCell(0, sheetName, 33);
+    row.createResultCellWidth(1, shortcut, 5);
+    row.createResultCellWidth(2, meaning, 30);
   }
 }

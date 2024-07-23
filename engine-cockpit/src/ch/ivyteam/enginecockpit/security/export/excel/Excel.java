@@ -69,12 +69,12 @@ public class Excel implements AutoCloseable{
         font.setFontHeight(16);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
       }
-      case TITLENOALIGNMENT -> {
+      case TITLE_NO_ALIGNMENT -> {
         font.setFontHeight(16);
       }
       case HEADER -> {
         font.setBold(true);
-        cellStyle.setRotation((short)40);
+        cellStyle.setRotation((short)45);
       }
       case RESULT -> {
         cellStyle.setAlignment(HorizontalAlignment.LEFT);

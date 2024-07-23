@@ -12,6 +12,7 @@ public class RoleMembersSheet {
   private Iterable<IRole> roles;
   private Excel excel;
   private List<String> headers = new ArrayList<String>();
+  static final int ROTATED_HEADER_HEIGHT = 1500;
 
   public RoleMembersSheet(Excel excel, Iterable<IRole> roles) {
     this.excel = excel;
@@ -40,7 +41,7 @@ public class RoleMembersSheet {
       }
     }
 
-    sheet.createHeaderRotated(0, headers, 3, 1, 1500);
+    sheet.createHeaderRotated(0, UserRolesSheet.FIRST_CELL_NR, headers, UserRolesSheet.ROTATED_HEADER_WIDTH, ROTATED_HEADER_HEIGHT);
   }
 
   private String getMarker(List<IRole> roleMembers, IRole parent, IRole roleSecond) {

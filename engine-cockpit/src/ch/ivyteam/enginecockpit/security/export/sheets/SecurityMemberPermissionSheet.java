@@ -12,6 +12,7 @@ import ch.ivyteam.ivy.security.ISecurityMember;
     private final ISecurityContext securityContext;
     private Excel excel;
     private Iterable<ISecurityMember> securityMembers;
+    static final int ROTATED_HEADER_HEIGHT = 3000;
 
     public SecurityMemberPermissionSheet(Excel excel, ISecurityContext securityContext, Iterable<ISecurityMember> securityMembers) {
       this.excel = excel;
@@ -42,6 +43,6 @@ import ch.ivyteam.ivy.security.ISecurityMember;
         }
       }
 
-      sheet.createHeaderRotated(0, headers, 3, 1, 3000);
+      sheet.createHeaderRotated(0, UserRolesSheet.FIRST_CELL_NR, headers, UserRolesSheet.ROTATED_HEADER_WIDTH, ROTATED_HEADER_HEIGHT);
     }
 }
