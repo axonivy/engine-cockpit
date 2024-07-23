@@ -26,7 +26,7 @@
           <h:panelGroup>
             <p:commandButton id="generateButton" value="Generate" widgetVar="generateButton"
               icon="si si-office-file-xls-1"
-              disabled="${cc.attrs.bean.disableGenerateButton}"
+              disabled="#{cc.attrs.bean.disableGenerateButton}"
               action="#{cc.attrs.bean.startReport}"
               update="downloadForm"
               oncomplete="PF('progressBar').start();"
@@ -34,13 +34,13 @@
             </p:commandButton>
           </h:panelGroup>
           <h:panelGroup>
-            <p:commandButton id="downloadButton" widgetVar="downloadButton" disabled="${cc.attrs.bean.disableDownloadButton}"
+            <p:commandButton id="downloadButton" widgetVar="downloadButton" disabled="#{cc.attrs.bean.disableDownloadButton}"
               value="Download" title="Download"
               icon="si si-download-bottom" styleClass="modal-input-button" style="width: 120px;" ajax="false" onclick="PF('securityReportDownloadModal').hide();">
               <p:fileDownload value="#{cc.attrs.bean.allResourcesDownload}" />
             </p:commandButton>
-            <p:commandButton id="cancel" onclick="PF('securityReportDownloadModal').hide();" value="Cancel" type="button"
-              styleClass="ui-button-secondary ui-button-flat modal-input-button" />
+            <p:commandButton id="cancel" onclick="PF('securityReportDownloadModal').hide();" action="#{cc.attrs.bean.cancel}" value="Cancel" ajax="false"
+              update="downloadForm" styleClass="ui-button-secondary ui-button-flat modal-input-button" />
           </h:panelGroup>
         </h:panelGrid>
       </h:form>

@@ -55,6 +55,8 @@ public class SecurityExportBean implements AllResourcesDownload {
     if (job != null) {
       job.cancel();
       job = null;
+      setDisableGenerateButton(false);
+      setDisableDownloadButton(true);
     }
   }
 
