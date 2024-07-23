@@ -129,6 +129,10 @@ class WebDocuScreenshot {
     $(id("form:refresh")).shouldBe(visible, enabled).click();
     new Table(By.id("form:classTable")).rows().shouldBe(CollectionCondition.sizeGreaterThan(1));
     takeScreenshot("monitor-class-histogram", new Dimension(SCREENSHOT_WIDTH, 800));
+    Navigation.toHealth();
+    takeScreenshot("monitor-health", new Dimension(SCREENSHOT_WIDTH, 800));
+    $(By.id("checks")).click();
+    takeScreenshot("monitor-health-checks", new Dimension(SCREENSHOT_WIDTH, 800));
   }
 
   @Test
