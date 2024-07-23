@@ -33,6 +33,8 @@
               onstart="$('#connectionIcon').attr('class', 'si si-button-refresh-arrows si-is-spinning');" async="true"
               icon="si si-check-1" update="#{cc.attrs.updateFields}"
               actionListener="#{systemDatabaseBean.testConnection()}" />
+            <p:button outcome="systemdb-info" icon="si si-layout-dashboard" value="Check Storage and Schema"
+              style="width: 220px; margin-right:5px; background-color: #607D8B;" id="infoDb"/>
             <p:commandButton value="Create Database" id="createDatabaseButton" icon="si si-database-settings"
               styleClass="mr-1 wizard-top-button ui-button-secondary" actionListener="#{systemDatabaseBean.initCreator()}"
               update="systemDb:createDatabaseDialog" oncomplete="PF('createDatabaseDialog').show();"

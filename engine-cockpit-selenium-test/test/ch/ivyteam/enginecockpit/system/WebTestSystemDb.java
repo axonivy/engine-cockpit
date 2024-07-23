@@ -93,6 +93,14 @@ public class WebTestSystemDb {
   }
 
   @Test
+  void testSystemDbInfo() {
+    $("#infoDb").shouldBe().click();
+    $("#overview").shouldBe(text("System Database information"));
+    $("#tables").shouldBe(text("Tables"));
+    $("#indexes").shouldBe(text("Indices"));
+  }
+
+  @Test
   void testConnectionResults() {
     assertConnectionResults();
   }

@@ -63,6 +63,7 @@ jQuery(function () {
       'monitorIntermediateEventDetails.xhtml': 'monitorIntermediateEvents.xhtml',
       'securitysystem-merge.xhtml': 'securitysystem.xhtml',
       'monitor-health-checks.xhtml': 'monitor-health.xhtml'
+      'systemdb-info.xhtml': 'systemdb.xhtml',
     };
     return map[value] == null ? value : map[value];
   }

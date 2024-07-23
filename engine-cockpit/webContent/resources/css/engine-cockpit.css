@@ -332,6 +332,7 @@ body .ui-datatable .ui-datatable-header {
 .activity-state-locked,
 .search-machine-health-yellow,
 .licence-messages i.warning,
+.system-db-warning,
 .health-low,
 .health-high {
   color: var(--warning-color, #ffce29);
