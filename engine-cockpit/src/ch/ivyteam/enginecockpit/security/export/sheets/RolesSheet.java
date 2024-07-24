@@ -11,7 +11,7 @@ import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 import ch.ivyteam.ivy.security.IRole;
 
 public class RolesSheet {
-  private static final List<String> HEADERS = Arrays.asList("Displayname", "Name", "Description", "Member Name", "Security Member Id", "External Name");
+  private static final List<String> HEADERS = Arrays.asList("Name", "Displayname", "Description", "Security Member Id", "External Name");
   private final Map<String, Integer> propertyColumns = new HashMap<>();
   private int propertyCellNr = 8;
   private ArrayList<String> headers = new ArrayList<String>(HEADERS);
@@ -31,10 +31,9 @@ public class RolesSheet {
       propertyCellNr = headers.size();
       var row = sheet.createRow(rowNr++);
       var cellNr = 0;
-      row.createResultCell(cellNr++, role.getDisplayName());
       row.createResultCell(cellNr++, role.getName());
+      row.createResultCell(cellNr++, role.getDisplayName());
       row.createResultCell(cellNr++, role.getDisplayDescription());
-      row.createResultCell(cellNr++, role.getMemberName());
       row.createResultCell(cellNr++, role.getSecurityMemberId());
       row.createResultCell(cellNr++, role.getExternalName());
       for (var propertyName : role.getAllPropertyNames()) {

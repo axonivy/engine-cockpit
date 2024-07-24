@@ -14,9 +14,17 @@ public class Row {
     this.num = num;
   }
 
-  public void createHeaderCell(int cellNum, int width, String header) {
+  public void createHeaderCell(int cellNum, String header, int width) {
     var cell = createCell(cellNum);
     cell.style(Style.THICK);
+    cell.width(width);
+    cell.value(header);
+  }
+
+  public void createHeaderRotatedCell(int cellNum, String header, int width, int height) {
+    var cell = createCell(cellNum);
+    cell.style(Style.HEADER);
+    row.setHeight((short)height);
     cell.width(width);
     cell.value(header);
   }
@@ -33,14 +41,20 @@ public class Row {
     cell.value(value);
   }
 
-  public void createResultCellWidth(int column, int width , String value) {
+  public void createTitleCellWithoutAlignment(int column, String value) {
+    var cell = createCell(column);
+    cell.style(Style.TITLE_NO_ALIGNMENT);
+    cell.value(value);
+  }
+
+  public void createResultCellWidth(int column, String value, int width) {
     var cell = createCell(column);
     cell.style(Style.RESULT);
     cell.width(width);
     cell.value(value);
   }
 
-  public void createResultCellWidth(int column, int width , int value) {
+  public void createResultCellWidth(int column, int value, int width) {
     var cell = createCell(column);
     cell.style(Style.RESULT);
     cell.width(width);

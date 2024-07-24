@@ -12,6 +12,7 @@ import ch.ivyteam.ivy.security.ISecurityMember;
     private final ISecurityContext securityContext;
     private Excel excel;
     private Iterable<ISecurityMember> securityMembers;
+    static final int ROTATED_HEADER_HEIGHT = 3000;
 
     public SecurityMemberPermissionSheet(Excel excel, ISecurityContext securityContext, Iterable<ISecurityMember> securityMembers) {
       this.excel = excel;
@@ -21,10 +22,11 @@ import ch.ivyteam.ivy.security.ISecurityMember;
 
     public void create(String sheetName) {
       var rowNr = 1;
-      var headers = new ArrayList<String>(Arrays.asList(sheetName + "name"));
+      var headers = new ArrayList<String>();
+      Sheet sheet = excel.createSheet(sheetName + " permissions");
+      sheet.createHeader(0, Arrays.asList(sheetName + "name"), UsersSheet.HEADER_WITDH);
       var permissions = securityContext.securityDescriptor().getPermissions();
 
-      Sheet sheet = excel.createSheet(sheetName + " permissions");
 
       for(var permission : permissions) {
         headers.add(permission.getName());
@@ -41,6 +43,6 @@ import ch.ivyteam.ivy.security.ISecurityMember;
         }
       }
 
-      sheet.createHeader(0, headers, UsersSheet.HEADER_WITDH);
+      sheet.createHeaderRotated(0, UserRolesSheet.FIRST_CELL_NR, headers, UserRolesSheet.ROTATED_HEADER_WIDTH, ROTATED_HEADER_HEIGHT);
     }
 }

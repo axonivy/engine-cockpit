@@ -92,15 +92,15 @@ class TestSecurityExport {
     var userSheet = excel.getSheet("Users");
 
     String[][] userData = new String[][] {
-      {"Displayname", "Fullname", "Membername", "Name", "Email", "SecurityId", "ExternalId", "External Name", "Testproperty", "Sharedproperty",
+      {"Name", "Displayname", "Fullname", "Email", "SecurityId", "ExternalId", "External Name", "Testproperty", "Sharedproperty",
         "User without External Property"},
-      {userCedric.getDisplayName(), userCedric.getFullName(), userCedric.getMemberName(), userCedric.getName(),
-        userCedric.getEMailAddress(), userCedric.getSecurityMemberId(), userCedric.getExternalId(),
+      {userCedric.getName(), userCedric.getDisplayName(), userCedric.getFullName(), userCedric.getEMailAddress(),
+        userCedric.getSecurityMemberId(), userCedric.getExternalId(),
         userCedric.getExternalName(), "Test", "Shared", null },
-      {userReto.getDisplayName(), userReto.getFullName(), userReto.getMemberName(), userReto.getName(),
-        userReto.getEMailAddress(), userReto.getSecurityMemberId(), "", "", null, "Shared", "no external"},
-      {userRolf.getDisplayName(), userRolf.getFullName(), userRolf.getMemberName(), userRolf.getName(),
-          userRolf.getEMailAddress(), userRolf.getSecurityMemberId(), "", "", null, null, null}
+      {userReto.getName(), userReto.getDisplayName(), userReto.getFullName(), userReto.getEMailAddress(),
+        userReto.getSecurityMemberId(), "", "", null, "Shared", "no external"},
+      {userRolf.getName(), userRolf.getDisplayName(), userRolf.getFullName(), userRolf.getEMailAddress(),
+          userRolf.getSecurityMemberId(), "", "", null, null, null}
     };
     ExcelAssertions.assertThat(userSheet).contains(userData);
   }
@@ -110,12 +110,12 @@ class TestSecurityExport {
     var rolesSheet = excel.getSheet("Roles");
 
     String[][] rolesData = new String[][] {
-      {"Displayname", "Name", "Description", "Member Name", "Security Member Id", "External Name", "Testproperty",
+      {"Name", "Displayname", "Description", "Security Member Id", "External Name", "Testproperty",
         "Sharedproperty", "Role without External Property"},
-      {"CEO", "CEO", "CEO", "CEO" , ceoRole.getSecurityMemberId(), "CEO",  null, null, null},
-      {"Employee", "Employee", "Employee", "Employee" , employeeRole.getSecurityMemberId(), "Employee",  "Test", "Shared", null},
-      {"Everybody", "Everybody", "Top level role", "Everybody" , everybodyRole.getSecurityMemberId(), "",  null, "Shared", "no external"},
-      {"Manager", "Manager", "Manager", "Manager" , managerRole.getSecurityMemberId(), "Manager",  null, null, null},
+      {"CEO", "CEO", "CEO" , ceoRole.getSecurityMemberId(), "CEO",  null, null, null},
+      {"Employee", "Employee", "Employee" , employeeRole.getSecurityMemberId(), "Employee",  "Test", "Shared", null},
+      {"Everybody", "Everybody", "Top level role" , everybodyRole.getSecurityMemberId(), "",  null, "Shared", "no external"},
+      {"Manager", "Manager", "Manager" , managerRole.getSecurityMemberId(), "Manager",  null, null, null},
     };
     ExcelAssertions.assertThat(rolesSheet).contains(rolesData);
   }
