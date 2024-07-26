@@ -24,7 +24,7 @@ import ch.ivyteam.ivy.security.ISecurityMember;
       var rowNr = 1;
       var headers = new ArrayList<String>();
       Sheet sheet = excel.createSheet(sheetName + " permissions");
-      sheet.createHeader(0, Arrays.asList(sheetName + "name"), UsersSheet.HEADER_WITDH);
+      sheet.createHeader(0, Arrays.asList("Name"), UsersSheet.HEADER_WITDH);
       var permissions = securityContext.securityDescriptor().getPermissions();
 
 
@@ -37,7 +37,7 @@ import ch.ivyteam.ivy.security.ISecurityMember;
         var row = sheet.createRow(rowNr++);
         var cellNr = 0;
 
-        row.createResultCell(cellNr++, securityMember.getDisplayName());
+        row.createResultCell(cellNr++, securityMember.getName());
         for(var permission : permissions) {
           row.createResultCell(cellNr++, shortcut.getPermissionShortcut(permission));
         }

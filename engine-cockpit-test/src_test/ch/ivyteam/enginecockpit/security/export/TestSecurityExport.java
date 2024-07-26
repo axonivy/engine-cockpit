@@ -124,11 +124,11 @@ class TestSecurityExport {
   void exportUserRoles() {
     var userRolesSheet = excel.getSheet("User roles");
     String[][] userRolesData = new String[][] {
-      {"Username", ceoRole.getDisplayName(), employeeRole.getDisplayName(),
-        everybodyRole.getDisplayName(), managerRole.getDisplayName()},
-      {userCedric.getFullName(), null, "X", "X", null},
-      {userReto.getFullName(), null, "x", "X", "X"},
-      {userRolf.getFullName(), "X", "x", "X", null}
+      {"Name", ceoRole.getName(), employeeRole.getName(),
+        everybodyRole.getName(), managerRole.getName()},
+      {userCedric.getName(), null, "X", "X", null},
+      {userReto.getName(), null, "x", "X", "X"},
+      {userRolf.getName(), "X", "x", "X", null}
     };
     ExcelAssertions.assertThat(userRolesSheet).contains(userRolesData);
 
@@ -151,10 +151,10 @@ class TestSecurityExport {
   void userPermissionsMembers() {
     var userPermissionsSheet = excel.getSheet("User permissions");
     String[][] userPermissionsData = new String[4][permissions.size() + 1];
-    userPermissionsData[0][0] = "Username";
-    userPermissionsData[1][0] = userCedric.getFullName();
-    userPermissionsData[2][0] = userReto.getFullName();
-    userPermissionsData[3][0] = userRolf.getFullName();
+    userPermissionsData[0][0] = "Name";
+    userPermissionsData[1][0] = userCedric.getName();
+    userPermissionsData[2][0] = userReto.getName();
+    userPermissionsData[3][0] = userRolf.getName();
     addSecurityMemberPermissions(userPermissionsData, userCedric, 1);
     addSecurityMemberPermissions(userPermissionsData, userReto, 2);
     addSecurityMemberPermissions(userPermissionsData, userRolf, 3);
@@ -198,11 +198,11 @@ class TestSecurityExport {
   void rolePermissionsMembers() {
     var rolePermissionsSheet = excel.getSheet("Role permissions");
     String[][] rolePermissionsData = new String[5][permissions.size() + 1];
-    rolePermissionsData[0][0] = "Rolename";
-    rolePermissionsData[1][0] = ceoRole.getDisplayName();
-    rolePermissionsData[2][0] = employeeRole.getDisplayName();
-    rolePermissionsData[3][0] = everybodyRole.getDisplayName();
-    rolePermissionsData[4][0] = managerRole.getDisplayName();
+    rolePermissionsData[0][0] = "Name";
+    rolePermissionsData[1][0] = ceoRole.getName();
+    rolePermissionsData[2][0] = employeeRole.getName();
+    rolePermissionsData[3][0] = everybodyRole.getName();
+    rolePermissionsData[4][0] = managerRole.getName();
     rolePermissionsData = addSecurityMemberPermissions(rolePermissionsData, ceoRole, 1);
     rolePermissionsData = addSecurityMemberPermissions(rolePermissionsData, employeeRole, 2);
     rolePermissionsData = addSecurityMemberPermissions(rolePermissionsData, everybodyRole, 3);

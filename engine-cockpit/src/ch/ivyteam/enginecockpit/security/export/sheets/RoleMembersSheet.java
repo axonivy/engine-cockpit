@@ -30,9 +30,9 @@ public class RoleMembersSheet {
       var roleMembers = role.getRoleMembers();
       var parent = role.getParent();
       var cellNr = 0;
-      row.createResultCell(cellNr++, role.getDisplayName());
+      row.createResultCell(cellNr++, role.getName());
       for(var roleSecond : roles) {
-        var index = headers.indexOf(roleSecond.getDisplayName()) + 1;
+        var index = headers.indexOf(roleSecond.getName()) + 1;
         String value = getMarker(roleMembers, parent, roleSecond);
         if (value != null) {
           row.createResultCell(index, value);
@@ -61,7 +61,7 @@ public class RoleMembersSheet {
 
   private void addRoleNames() {
     for(var role : roles) {
-      headers.add(role.getDisplayName());
+      headers.add(role.getName());
     }
   }
 }
