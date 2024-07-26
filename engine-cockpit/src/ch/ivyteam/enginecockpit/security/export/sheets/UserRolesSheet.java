@@ -26,7 +26,7 @@ public class UserRolesSheet {
     int rowNr = 1;
     Sheet sheet = excel.createSheet("User roles");
     var headers = new ArrayList<String>();
-    sheet.createHeader(0, List.of("Username"), UsersSheet.HEADER_WITDH);
+    sheet.createHeader(0, List.of("Name"), UsersSheet.HEADER_WITDH);
     addRoleNames(headers);
 
     for(var user : users) {
@@ -34,7 +34,7 @@ public class UserRolesSheet {
       var directUserRoles = user.getRoles();
       var allUserRoles = user.getAllRoles();
       var cellNr = 0;
-      row.createResultCell(cellNr++, user.getDisplayName());
+      row.createResultCell(cellNr++, user.getName());
       for(var role : roles) {
         if(directUserRoles.contains(role)) {
           row.createResultCell(cellNr, "X");
@@ -52,7 +52,7 @@ public class UserRolesSheet {
 
   private void addRoleNames(List<String> headers) {
     for(var role : roles) {
-      headers.add(role.getDisplayName());
+      headers.add(role.getName());
     }
   }
 }
