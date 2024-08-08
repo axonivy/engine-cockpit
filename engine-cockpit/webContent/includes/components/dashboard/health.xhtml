@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+<div class="card">   
+  <h:form id="healthForm">
+    <div class="card-header">
+      <div class="card-title flex align-items-center">
+        <i class="pr-3 si si-road-sign-warning"></i>
+        <h6 class="m-0" style="margin: 0; padding-left: 0">Health</h6>
+        <p:linkButton id="detail" title="Health Details" type="button" href="monitor-health.xhtml"
+           icon="si si-road-sign-warning" styleClass="col-fixed ml-auto ui-button-secondary rounded-button" />
+        <p:commandButton id="runCheck" title="Run Health Checks" action="#{healthBean.checkNow()}"
+            update="healthForm" icon="si si-controls-play" styleClass="col-fixed ml-1 ui-button-secondary rounded-button" />
+      </div>
+    </div>
+    <p:panelGrid id="content" columns="2" layout="flex" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8"
+        styleClass="grey-label-panel">
+      <label>Severity</label>
+      <h:panelGroup id="severity">
+        <b>
+          <i class="icon link-icon #{healthBean.severityIcon} #{healthBean.severityClass}"></i>
+          <h:outputText value="#{healthBean.severityName}" />
+        </b>
+      </h:panelGroup>
+      <label>Problems</label>
+      <h:panelGroup id="problems">
+        <p:link value="#{healthBean.message}" href="monitor-health.xhtml"/>
+      </h:panelGroup>
+    </p:panelGrid>
+  </h:form>
+</div>
+</html>
