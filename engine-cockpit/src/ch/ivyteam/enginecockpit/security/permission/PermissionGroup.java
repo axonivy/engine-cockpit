@@ -17,6 +17,7 @@ public class PermissionGroup extends AbstractPermission {
     this.someGrant = groupAccess.isGrantedAnyPermission();
     this.bean = bean;
     this.permissionGroup = groupAccess.getPermissionGroup();
+    initialState();
   }
 
   public PermissionGroup(String dummy) {

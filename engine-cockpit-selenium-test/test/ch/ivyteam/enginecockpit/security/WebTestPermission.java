@@ -36,19 +36,18 @@ class WebTestPermission {
     Navigation.toUserDetail("foo");
 
     String permissionStateCss = "#permissionsForm\\:permissionTable_node_0 > .permission-icon > i";
-    String firstPermissionCss = "#permissionsForm\\:permissionTable\\:0\\:";
+    String button = "permissionsForm:permissionTable:0:ajaxTriState";
     $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
 
-    $(firstPermissionCss + "grantPermissionBtn").click();
+    $(By.id(button)).click();
     $(permissionStateCss).shouldHave(attribute("title", "Permission granted"));
 
-    $(firstPermissionCss + "unGrantPermissionBtn").click();
-    $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
-
-    $(firstPermissionCss + "denyPermissionBtn").click();
+    $(By.id(button)).click();
     $(permissionStateCss).shouldHave(attribute("title", "Permission denied"));
 
-    $(firstPermissionCss + "unDenyPermissionBtn").click();
+    $(By.id("permissionsForm:permissionTable_node_0")).find(".ui-treetable-toggler").should(exist).click();
+
+    $(By.id("permissionsForm:permissionTable:0_0:ajaxTriState")).click();
     $(permissionStateCss).shouldHave(attribute("title", "Some Permission granted"));
   }
 
@@ -64,11 +63,12 @@ class WebTestPermission {
     $(By.id("permissionsForm:permissionTable"))
             .shouldHave(Condition.text("CaseWriteName"))
             .findAll("tbody tr").shouldHave(size(1));
-    $(By.id("permissionsForm:permissionTable:0:grantPermissionBtn")).click();
+    $(By.id("permissionsForm:permissionTable:0:ajaxTriState")).click();
     $(By.id("permissionsForm:permissionTable_node_0")).find(".permission-icon > i")
             .shouldHave(attribute("title", "Permission granted"));
 
-    $(By.id("permissionsForm:permissionTable:0:unGrantPermissionBtn")).click();
+    $(By.id("permissionsForm:permissionTable:0:ajaxTriState")).click();
+    $(By.id("permissionsForm:permissionTable:0:ajaxTriState")).click();
     $(By.id("permissionsForm:permissionTable_node_0")).find(".permission-icon > i")
             .shouldNot(exist);
   }
