@@ -4,11 +4,53 @@ public abstract class AbstractPermission {
   private String name;
   private boolean grant;
   private boolean deny;
+  private String state;
+  private String initialState;
 
   protected AbstractPermission(String name, boolean grant, boolean deny) {
     this.name = name;
     this.grant = grant;
     this.deny = deny;
+  }
+
+  private interface State {
+    String DEFAULT = "0";
+    String GRANTED = "1";
+    String DENIED = "2";
+    String SOMEGRANTED = "3";
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+      this.state = state;
+  }
+
+  public void initialState() {
+    if (isGrant())
+      initialState = State.GRANTED;
+    else if (isDeny())
+      initialState = State.DENIED;
+    else if (isSomeGrant())
+      initialState = State.SOMEGRANTED;
+  }
+
+  public void defineState() {
+    switch (state) {
+      case State.DEFAULT:
+          switch (initialState) {
+              case State.GRANTED: grant(); break;
+              case State.DENIED: deny(); break;
+              case State.SOMEGRANTED: deny(); undeny(); break;
+              case null: grant(); ungrant(); break;
+            default: grant(); ungrant(); break;
+          }
+          break;
+      case State.GRANTED: grant(); break;
+      case State.DENIED: deny(); break;
+    }
   }
 
   public String getName() {

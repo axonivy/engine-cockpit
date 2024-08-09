@@ -20,6 +20,7 @@ public class Permission extends AbstractPermission {
             .orElse(null);
     this.permission = access.getPermission();
     this.bean = bean;
+    initialState();
   }
 
   public void setExplicit(boolean explicit) {

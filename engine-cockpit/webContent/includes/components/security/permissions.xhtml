@@ -54,27 +54,12 @@
         </h:outputText>
       </p:column>
   
-      <p:column headerText="Grant" styleClass="table-btn-2" style="text-align: center;">
-        <p:commandButton id="grantPermissionBtn" type="button" icon="si si-add" title="Grant"
-          styleClass="rounded-button" disabled="#{permission.grantDisabled}">
-          <p:ajax update="@form" listener="#{permission.grant}" />
-        </p:commandButton>
-        <p:commandButton id="unGrantPermissionBtn" type="button" icon="si si-subtract" title="Ungrant"
-          styleClass="ml-1 ui-button-secondary rounded-button" disabled="#{permission.unGrantDisabled}">
-          <p:ajax update="@form" listener="#{permission.ungrant}" />
-        </p:commandButton>
+      <p:column headerText="Grant/Deny" styleClass="table-btn-2" style="text-align: center;">
+        <p:triStateCheckbox id="ajaxTriState" value="#{permission.state}">
+            <p:ajax event="change" update="@form" listener="#{permission.defineState}"/>
+        </p:triStateCheckbox>
       </p:column>
   
-      <p:column headerText="Deny" styleClass="table-btn-2" style="text-align: center;">
-        <p:commandButton id="denyPermissionBtn" type="button" icon="si si-add" title="Deny"
-          styleClass="rounded-button" disabled="#{permission.denyDisabled}">
-          <p:ajax update="@form" listener="#{permission.deny}" />
-        </p:commandButton>
-        <p:commandButton id="unDenyPermissionBtn" type="button" icon="si si-subtract" title="Undeny"
-          styleClass="ml-1 ui-button-secondary rounded-button" disabled="#{permission.unDenyDisabled}">
-          <p:ajax update="@form" listener="#{permission.undeny}" />
-        </p:commandButton>
-      </p:column>
     </p:treeTable>
   </h:form>
 </div>
