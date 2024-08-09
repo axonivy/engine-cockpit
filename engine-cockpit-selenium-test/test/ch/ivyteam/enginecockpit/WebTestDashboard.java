@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit;
 
+import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.assertCurrentUrlContains;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.createLicenceEvents;
 import static ch.ivyteam.enginecockpit.util.EngineCockpitUtil.login;
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -47,7 +48,7 @@ public class WebTestDashboard {
     assertThat(Integer.parseInt(cases)).isGreaterThan(0);
     var apps = $(".overview-box h1", 3).shouldBe(visible).text();
     assertThat(Integer.parseInt(apps)).isEqualTo(4);
-    $$(".card").shouldHave(size(9));
+    $$(".card").shouldHave(size(10));
     EngineCockpitUtil.destroyRunningCase();
   }
 
@@ -80,6 +81,15 @@ public class WebTestDashboard {
     $("#licenceEventsDialog").shouldNotBe(visible);
     $("#tasksButtonLicenceEvents").shouldNotBe(exist);
     $(".licence-notification").shouldNotBe(exist);
+  }
+
+  @Test
+  void checkHealth() {
+    $(By.id("healthForm:severity")).shouldHave(text("HIGH"));
+    $(By.id("healthForm:problems")).shouldHave(text("2 problems detected."));
+    $(By.id("healthForm:runCheck")).shouldBe(visible).click();
+    $(By.id("healthForm:detail")).shouldBe(visible).click();
+    assertCurrentUrlContains("health.xhtml");
   }
 
   @Test
