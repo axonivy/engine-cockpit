@@ -86,45 +86,33 @@
               </li>
             </h:outputText>
             
-            <h:outputText rendered="#{managerBean.restartEngine or engineModeBean.hasDashboardWarning() or ivyAdvisor.releaseCandidate}">
-              <li class="topbar-item topbar-notifications engine-warnings">
+            <h:outputText rendered="#{not empty healthBean.messages}">
+              <li class="topbar-item topbar-notifications health-messages">
                 <a href="#">
                   <i class="topbar-icon si si-road-sign-warning animated swing"></i>
+                  <h:outputText id="health-check-badge" value="#{healthBean.messageCount}" styleClass="health-check-badge" />
                 </a>
                 <ul>
-                  <h:panelGroup rendered="#{managerBean.restartEngine}">
-                    <li class="restart-notification">
-                      <a href="#{managerBean.configLogUrl}">
-                        <i class="si si-lg si-synchronize-arrow-clock"></i>
-                        <span style="max-width: calc(100% - 40px)">You have changed settings that require an engine restart!</span>
-                      </a>
-                    </li>
-                  </h:panelGroup>
-                  <h:panelGroup rendered="#{ivyAdvisor.releaseCandidate}">
-                    <li>
-                      <a href="#">
-                        <i class="si si-lg si-alert-circle"></i>
-                        <span style="max-width: calc(100% - 40px)">
-                          <b>Release Candidate!</b><br/>
-                          Don't use this version in production!
-                        </span>
-                      </a>
-                    </li>
-                  </h:panelGroup>
-                  <h:panelGroup rendered="#{engineModeBean.hasDashboardWarning()}">
-                    <li>
-                      <a href="setup#{engineModeBean.demo ? '-intro' : ''}.xhtml">
-                        <i class="si si-lg si-tools-wench"></i>
-                        <span style="max-width: calc(100% - 40px)">
-                          <b>#{engineModeBean.dashboardWarningSummary}</b><br/>
-                          #{engineModeBean.dashboardWarningDetail} Please use the 'Setup Wizard' to set up your Axon Ivy Engine.
-                        </span>
-                      </a>
-                    </li>
-                  </h:panelGroup>
+                  <ui:repeat var="msg" value="#{healthBean.topMessages}">
+                    <h:panelGroup>
+                      <li>
+                        <a href="#{msg.actionLink}">
+                          <i class="si si-lg #{msg.severityIcon} #{msg.severityClass}"></i>
+                          <span style="max-width: calc(100% - 40px)">
+                            <b>#{msg.message}</b><br/>
+                            #{msg.description}
+                          </span>
+                        </a>
+                      </li>
+                    </h:panelGroup>
+                  </ui:repeat>
+                  <li>
+                    <a href="monitor-health.xhtml">Show health details ...</a>
+                  </li>
                 </ul>
               </li>
             </h:outputText>
+
             <ui:insert name="topbar-items">
               <li class="topbar-item">
                 <a href="#{advisorBean.cockpitEngineGuideUrl}index.html" target="_blank" rel="noopener noreferrer">
@@ -132,6 +120,7 @@
                 </a>
               </li>
             </ui:insert>
+
             <li class="topbar-item themeswitch-item">
               <p:commandLink id="themeSwitcher" onclick="PrimeFaces.FreyaConfigurator.changeLayout('ivy', '#{ivyFreyaTheme.mode == 'light' ? 'dark' : 'light'}');"
                 style="text-decoration: none;">
@@ -139,6 +128,7 @@
                 <p:ajax onstart="PrimeFaces.FreyaConfigurator.beforeResourceChange();" listener="#{ivyFreyaTheme.toggleTheme}" update="themeSwitcher" />
               </p:commandLink>
             </li>
+
             <li class="topbar-item user-profile">
               <a href="#">
                 <span class="profile-image-wrapper">

@@ -80,6 +80,13 @@ public class HealthBean {
     return messages;
   }
 
+  public List<Message> getTopMessages() {
+    if (messages.size() <= 4) {
+      return messages;
+    }
+    return messages.subList(0, 4);
+  }
+
   public int getMessageCount() {
     return messages.size();
   }
