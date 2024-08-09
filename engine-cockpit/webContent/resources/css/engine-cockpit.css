@@ -333,7 +333,9 @@ body .ui-datatable .ui-datatable-header {
 .search-machine-health-yellow,
 .licence-messages i.warning,
 .health-low,
-.health-high {
+.health-high,
+.layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > ul > li > a i.health-low,
+.layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > ul > li > a i.health-high {
   color: var(--warning-color, #ffce29);
 }
 .state-inactive,
@@ -342,7 +344,8 @@ body .ui-datatable .ui-datatable-header {
 .search-machine-health-red,
 .licence-messages i.error, 
 .thread-deadlocked,
-.health-critical {
+.health-critical,
+.layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > ul > li > a i.health-critical {
   color: var(--error-color, #d23636);
 }
 .unused-column {
@@ -587,4 +590,24 @@ body .migration-question-select-button > div.ui-button {
 
 body .ui-tooltip .ui-panelgrid .ui-panelgrid-cell {
   color: #EAEBEC;
+}
+
+.health-check-badge {
+  width:22px; 
+  height:20px;
+  font-weight:bold; 
+  font-size:13px; 
+  color:white;
+  position:absolute; 
+  bottom:30px; 
+  left:20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius:10px;
+  background-color:var(--ivy-primary-color);
+}
+
+.layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > ul {
+  min-width: 350px
 }

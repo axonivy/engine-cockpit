@@ -9,6 +9,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
 import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.clickable;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -30,6 +31,7 @@ import org.openqa.selenium.By;
 import com.axonivy.ivy.webtest.IvyWebTest;
 import com.axonivy.ivy.webtest.primeui.PrimeUi;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 
 import ch.ivyteam.enginecockpit.util.Navigation;
@@ -163,13 +165,17 @@ class WebTestConfiguration {
       var config = "Connector.HTTP.Address";
       assertEditConfig(config, "", "hi", "For servers with more than one IP address");
       refresh();
-      $(".restart-notification").should(exist);
+      var messages = $(".health-messages");
+      messages.shouldHave(text("3"));
+      messages.shouldBe(visible).shouldBe(clickable).click();      
+      messages.shouldHave(Condition.partialText("Restart is required"));
       table.valueForEntryShould(config, 2, exactText("hi"));
       assertResetConfig(config);
       refresh();
-      $(".restart-notification").shouldNot(exist);
+      messages.shouldHave(text("2"));
+      messages.shouldBe(visible).shouldBe(clickable).click();
+      messages.shouldNotHave(text("Restart is required"));
     }
-
   }
 
   @Nested
@@ -324,6 +330,7 @@ class WebTestConfiguration {
     $("#config\\:editConfigurationForm\\:saveEditConfiguration").click();
     $("#config\\:form\\:msgs_container").shouldHave(text(key), text("saved"));
     table.valueForEntryShould(key, 2, exactText(newValue));
+    $("#config\\:form\\:msgs_container").shouldNotBe(visible);
   }
 
   private void assertThatConfigEditModalIsVisible(String key, String value, String desc) {
