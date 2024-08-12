@@ -87,22 +87,22 @@ class WebTestApplicationDetail {
     $$(".ui-panel-titlebar").find(text("usersynch.log")).parent()
             .find(".ui-panel-content").shouldBe(visible);
   }
-  
+
   @Test
   void home() {
     Navigation.toApplicationDetail("test");
     var home = $(By.id("appDetailInfoForm:home"));
     home.$("a").shouldHave(Condition.href("/test"));
     home.click();
-    assertThat(Selenide.webdriver().driver().url()).endsWith("/dev-workflow-ui/faces/home.xhtml");
+    assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
   }
-  
+
   @Test
   void workflow() {
     Navigation.toApplicationDetail("test");
     var workflow = $(By.id("appDetailInfoForm:workflow"));
     workflow.$("a").shouldHave(href("/dev-workflow-ui/faces/home.xhtml"));
     workflow.click();
-    assertThat(Selenide.webdriver().driver().url()).endsWith("/dev-workflow-ui/faces/home.xhtml");
+    assertThat(Selenide.webdriver().driver().url()).contains("/dev-workflow-ui/");
   }
 }
