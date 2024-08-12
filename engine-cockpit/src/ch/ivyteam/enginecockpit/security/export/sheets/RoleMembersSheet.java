@@ -42,6 +42,7 @@ public class RoleMembersSheet {
     }
 
     sheet.createHeaderRotated(0, UserRolesSheet.FIRST_CELL_NR, headers, UserRolesSheet.ROTATED_HEADER_WIDTH, ROTATED_HEADER_HEIGHT);
+    sheet.createFreezePane(1, 1);
   }
 
   private String getMarker(List<IRole> roleMembers, IRole parent, IRole roleSecond) {

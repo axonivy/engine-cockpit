@@ -90,4 +90,8 @@ public class Sheet {
     var cellRange = new CellRangeAddress(rowNr, rowNr, 0, cellNr);
     sheet.addMergedRegion(cellRange);
   }
+
+  public void createFreezePane(int colSplit, int rowSplit) {
+    sheet.createFreezePane(colSplit, rowSplit);
+  }
 }

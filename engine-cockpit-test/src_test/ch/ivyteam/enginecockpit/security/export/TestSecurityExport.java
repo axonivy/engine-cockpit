@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -35,6 +37,7 @@ class TestSecurityExport {
   private static IRole employeeRole;
   private static Excel excel;
   private static List<IPermission> permissions;
+  private static final Comparator<IPermission> PERMISSION_NAME_COMPERATOR = Comparator.comparing(IPermission::getName);
 
   @BeforeAll
   static void before() throws IOException {
@@ -80,6 +83,7 @@ class TestSecurityExport {
     userCedric.addRole(employeeRole);
 
     permissions = Ivy.wf().getSecurityContext().securityDescriptor().getPermissions();
+    Collections.sort(permissions, PERMISSION_NAME_COMPERATOR);
     var wf = Ivy.wf();
     var securityExport = new SecurityExport(wf.getSecurityContext(), ISession.current());
     securityExport.export();
@@ -216,18 +220,18 @@ class TestSecurityExport {
   void exportOverview() {
     var overviewSheet = excel.getSheet("Overview");
     String[][] overviewData = new String[][] {
-      {"Axonivy Security Report ", null, null},
+      {"Axon Ivy Security Report ", null, null},
       {null, null, null},
       {"Security System Name", "default", null},
-      {"Date", overviewSheet.getData()[3][1], null},
-      {"Axonivy Version", Advisor.getAdvisor().getVersion().toString(), null},
+      {"Applications", "test", null},
+      {"Date", overviewSheet.getData()[4][1], null},
+      {"Axon Ivy Version", Advisor.getAdvisor().getVersion().toString(), null},
       {"Current User", "Unknown User (Session 1)", null},
       {"Hostname", "test.axonivy.com", null},
       {"Number of Users", "3", null},
       {"Number of Roles", "4", null},
       {"File number", "1 of 1", null},
       {"First and Last User", "Cedric Weiss - Rolf Stephan", null},
-      {null, null, null},
       {"Legend", null, null},
       {"User roles", "X", "User owns role directly"},
       {"", "x", "User owns role indirectly"},
@@ -242,7 +246,7 @@ class TestSecurityExport {
     };
 
     ExcelAssertions.assertThat(overviewSheet).contains(overviewData);
-    var timeStr = overviewSheet.getData()[3][1];
+    var timeStr = overviewSheet.getData()[4][1];
     var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     var time = LocalDateTime.parse(timeStr, dtf);
     Assertions.assertThat(time).isCloseTo(LocalDateTime.now(), Assertions.within(10, ChronoUnit.SECONDS));

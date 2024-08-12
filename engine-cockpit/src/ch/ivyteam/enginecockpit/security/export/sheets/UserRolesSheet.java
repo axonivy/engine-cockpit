@@ -47,6 +47,7 @@ public class UserRolesSheet {
     }
 
     sheet.createHeaderRotated(0, FIRST_CELL_NR, headers, ROTATED_HEADER_WIDTH, ROTATED_HEADER_HEIGHT);
+    sheet.createFreezePane(1, 1);
   }
 
 

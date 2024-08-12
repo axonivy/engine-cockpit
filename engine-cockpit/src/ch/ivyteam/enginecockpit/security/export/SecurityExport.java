@@ -140,9 +140,11 @@ public class SecurityExport {
     if(includeRoles) {
       new RolesSheet(excel, roles).create();
       new RoleMembersSheet(excel, roles).create();
-      new SecurityMemberPermissionSheet(excel, securityContext, rolesToSecurityMembers(roles)).create("Role");
     }
     new SecurityMemberPermissionSheet(excel, securityContext, usersToSecurityMembers(users)).create("User");
+    if(includeRoles) {
+      new SecurityMemberPermissionSheet(excel, securityContext, rolesToSecurityMembers(roles)).create("Role");
+    }
   }
 
   private void clearChache() {

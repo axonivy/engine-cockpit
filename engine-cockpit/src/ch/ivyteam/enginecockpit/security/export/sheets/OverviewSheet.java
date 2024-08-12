@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.context.FacesContext;
 
@@ -12,6 +13,8 @@ import ch.ivyteam.enginecockpit.security.export.excel.Excel;
 import ch.ivyteam.enginecockpit.security.export.excel.Row;
 import ch.ivyteam.enginecockpit.security.export.excel.Sheet;
 import ch.ivyteam.ivy.Advisor;
+import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.security.ISecurityContext;
 import ch.ivyteam.ivy.security.ISession;
 import ch.ivyteam.ivy.security.IUser;
@@ -19,8 +22,8 @@ import ch.ivyteam.ivy.security.IUser;
 public class OverviewSheet {
 
   private final ISecurityContext securityContext;
-  private final static List<String> HEADERS = new ArrayList<String>(Arrays.asList("Security System Name", "Date",
-          "Axonivy Version", "Current User", "Hostname", "Number of Users", "Number of Roles", "File number", "First and Last User"));
+  private final static List<String> HEADERS = new ArrayList<String>(Arrays.asList("Security System Name", "Applications", "Date",
+          "Axon Ivy Version", "Current User", "Hostname", "Number of Users", "Number of Roles", "File number", "First and Last User"));
   private Excel excel;
   private List<IUser> users;
   private ISession session;
@@ -42,7 +45,7 @@ public class OverviewSheet {
     var lastUser = users.getLast();
     var rowNr = 0;
     var titleRow = sheet.createRow(rowNr++);
-    titleRow.createTitleCell(0, "Axonivy Security Report ");
+    titleRow.createTitleCell(0, "Axon Ivy Security Report ");
 
     List<Row> rows = new ArrayList<Row>();
     rowNr++;
@@ -56,6 +59,7 @@ public class OverviewSheet {
 
     rowNr = 0;
     rows.get(rowNr++).createResultCellWidth(1, securityContext.getName(), 5);
+    rows.get(rowNr++).createResultCellWidth(1, getApplicationNames(), 5);
     var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     rows.get(rowNr++).createResultCellWidth(1, dtf.format(LocalDateTime.now()), 5);
     rows.get(rowNr++).createResultCellWidth(1, Advisor.getAdvisor().getVersion().toString(), 5);
@@ -67,6 +71,12 @@ public class OverviewSheet {
     rows.get(rowNr++).createResultCellWidth(1, firstUser.getFullName() + " - " + lastUser.getFullName(), 5);
 
     createLegend(sheet, rowNr);
+  }
+
+  private String getApplicationNames() {
+    return IApplicationRepository.instance().allOf(securityContext).stream()
+        .map(IApplication::getName)
+        .collect(Collectors.joining(", "));
   }
 
   private void createLegend(Sheet sheet, int rowNr) {
