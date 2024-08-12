@@ -332,6 +332,7 @@ body .ui-datatable .ui-datatable-header {
 .activity-state-locked,
 .search-machine-health-yellow,
 .licence-messages i.warning,
+.system-db-warning,
 .health-low,
 .health-high,
 .layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > ul > li > a i.health-low,

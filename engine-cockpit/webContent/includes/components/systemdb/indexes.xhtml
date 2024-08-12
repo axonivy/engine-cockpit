@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+  <div class="col-12 md:col-12 xl:col-6">
+    <div class="card">
+      <div class="flex align-items-center mb-3">
+        <i class="pr-3 si si-archive-folder"></i>
+        <h6 id="indexes" class="m-0">Indexes</h6>
+      </div>
+      <h:form>
+        <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+          var="index" value="#{systemDatabaseInfoBean.filteredIndexes}" widgetVar="systemDbIndexesTable"
+          lazy="false" styleClass="userTable ui-fluid" id="systemDbIndexesTable" filteredValue="#{systemDatabaseInfoBean.filteredIndexes}">
+          <f:facet name="header">
+            <div class="ui-input-icon-left filter-container">
+              <i class="pi pi-search"/>
+              <p:inputText id="globalFilter" onkeyup="PF('systemDbIndexesTable').filter()" placeholder="Search" value="#{systemDatabaseInfoBean.filterIndex}" />
+            </div>
+          </f:facet>
+          <p:column headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}">
+            <h:outputText value="#{index.name}" />
+          </p:column>
+          <p:column headerText="Row count" sortBy="#{index.rows}" filterBy="#{index.rows}">
+            <h:outputText value="#{index.rows}" />
+          </p:column>
+          <p:column headerText="Disk size" sortBy="#{index.diskSize}" filterBy="#{index.diskSize}">
+            <h:outputText value="#{index.diskSize}" rendered="#{index.diskSize ge 0}"/>
+            <h:outputText value="n.a." rendered="#{index.diskSize lt 0}"/>
+          </p:column>
+          <p:column headerText="Fragmentation" sortBy="#{index.fragmentation}" filterBy="#{index.fragmentation}">
+            <h:outputText value="n.a." rendered="#{systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
+          </p:column>
+        </p:dataTable>
+      </h:form>
+    </div>
+  </div>
+</html>
