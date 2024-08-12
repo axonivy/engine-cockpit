@@ -21,8 +21,11 @@
           <p:column headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}">
             <h:outputText value="#{index.name}" />
           </p:column>
-          <p:column headerText="Row count" sortBy="#{index.rows}" filterBy="#{index.rows}">
-            <h:outputText value="#{index.rows}" />
+          <p:column headerText="Pages" sortBy="#{index.pages}" filterBy="#{index.pages}">
+            <h:outputText value="#{index.pages}" />
+          </p:column>
+          <p:column headerText="Cardinality" sortBy="#{index.cardinality}" filterBy="#{index.cardinality}">
+            <h:outputText value="#{index.cardinality}" />
           </p:column>
           <p:column headerText="Disk size" sortBy="#{index.diskSize}" filterBy="#{index.diskSize}">
             <h:outputText value="#{index.diskSize}" rendered="#{index.diskSize ge 0}"/>
