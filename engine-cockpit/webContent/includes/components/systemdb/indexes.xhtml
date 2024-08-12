@@ -32,8 +32,8 @@
             <h:outputText value="#{index.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
             <h:outputText value="n.a." rendered="#{systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
           </p:column>
-          <p:column headerText="Unique" sortBy="#{index.nonUnique}" filterBy="#{index.nonUnique}">
-            <h:outputText value="#{index.nonUnique ? 'No' : 'Yes'}"/>
+          <p:column headerText="Unique" sortBy="#{index.unique}" filterBy="#{index.unique}">
+            <h:outputText value="#{index.unique ? 'Yes' : 'No'}"/>
           </p:column>
 		  <p:column headerText="Columns" sortBy="#{index.columns}" filterBy="#{index.columns}">
             <h:outputText value="#{index.columns}"/>
