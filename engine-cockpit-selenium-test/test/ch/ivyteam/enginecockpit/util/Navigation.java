@@ -42,7 +42,6 @@ public class Navigation {
   private static final String MONITOR_MENU = "#menuform\\:sr_monitor";
   private static final String MONITOR_OS_MENU = "#menuform\\:sr_monitor_os";
   private static final String MONITOR_LOGS_MENU = "#menuform\\:sr_logs";
-  private static final String MONITOR_ENGINE_MENU = "#menuform\\:sr_monitor_engine";
   private static final String MONITOR_JAVA_MENU = "#menuform\\:sr_monitor_java";
   private static final String MONITOR_JAVA_JVM_MENU = "#menuform\\:sr_monitor_java_jvm";
   private static final String MONITOR_JAVA_MEMORY_MENU = "#menuform\\:sr_monitor_java_memory";
@@ -50,14 +49,16 @@ public class Navigation {
   private static final String MONITOR_JAVA_THREADS = "#menuform\\:sr_monitor_java_threads";
   private static final String MONITOR_JAVA_JFR = "#menuform\\:sr_monitor_java_jfr";
   private static final String MONITOR_JAVA_MBEANS_MENU = "#menuform\\:sr_monitor_java_mbeans";
+  private static final String MONITOR_ENGINE_MENU = "#menuform\\:sr_monitor_engine";
   private static final String MONITOR_ENGINE_CACHE_MENU = "#menuform\\:sr_monitor_engine_cache";
-  private static final String MONITOR_ENGINE_DOCUMENTS_MENU = "#menuform\\:sr_monitor_engine_documents";
   private static final String MONITOR_ENGINE_SESSION_MENU = "#menuform\\:sr_monitor_engine_sessions";
   private static final String MONITOR_ENGINE_NOTIFICATION_MENU = "#menuform\\:sr_monitor_engine_notification";
-  private static final String MONITOR_ENGINE_START_EVENTS_MENU = "#menuform\\:sr_monitor_engine_start_events";
-  private static final String MONITOR_ENGINE_INTERMEDIATE_EVENTS_MENU = "#menuform\\:sr_monitor_engine_intermediate_events";
   private static final String MONITOR_ENGINE_JOBS_MENU = "#menuform\\:sr_monitor_engine_jobs";
   private static final String MONITOR_ENGINE_HEALTH_MENU = "#menuform\\:sr_monitor_engine_health";
+  private static final String MONITOR_WORKFLOW_MENU = "#menuform\\:sr_monitor_workflow";
+  private static final String MONITOR_WORKFLOW_DOCUMENTS_MENU = "#menuform\\:sr_monitor_workflow_documents";
+  private static final String MONITOR_WORKFLOW_START_EVENTS_MENU = "#menuform\\:sr_monitor_workflow_start_events";
+  private static final String MONITOR_WORKFLOW_INTERMEDIATE_EVENTS_MENU = "#menuform\\:sr_monitor_workflow_intermediate_events";
   private static final String MONITOR_PERFORMANCE_MENU = "#menuform\\:sr_monitor_performance";
   private static final String MONITOR_PERFORMANCE_PROCESS_EXECUTION_MENU = "#menuform\\:sr_monitor_performance_process_execution";
   private static final String MONITOR_PERFORMANCE_TRACES_MENU = "#menuform\\:sr_monitor_performance_traces";
@@ -237,9 +238,9 @@ public class Navigation {
   }
 
   public static void toDocuments() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_DOCUMENTS_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_WORKFLOW_MENU, MONITOR_WORKFLOW_DOCUMENTS_MENU);
     assertCurrentUrlContains("documents.xhtml");
-    menuShouldBeActive(MONITOR_ENGINE_DOCUMENTS_MENU);
+    menuShouldBeActive(MONITOR_WORKFLOW_DOCUMENTS_MENU);
   }
 
   public static void toDatabaseDetail(String databaseName) {
@@ -360,15 +361,15 @@ public class Navigation {
   }
 
   public static void toStartEvents() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_START_EVENTS_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_WORKFLOW_MENU, MONITOR_WORKFLOW_START_EVENTS_MENU);
     assertCurrentUrlContains("monitorStartEvents.xhtml");
-    menuShouldBeActive(MONITOR_ENGINE_START_EVENTS_MENU);
+    menuShouldBeActive(MONITOR_WORKFLOW_START_EVENTS_MENU);
   }
 
   public static void toIntermediateEvents() {
-    toSubSubMenu(MONITOR_MENU, MONITOR_ENGINE_MENU, MONITOR_ENGINE_INTERMEDIATE_EVENTS_MENU);
+    toSubSubMenu(MONITOR_MENU, MONITOR_WORKFLOW_MENU, MONITOR_WORKFLOW_INTERMEDIATE_EVENTS_MENU);
     assertCurrentUrlContains("monitorIntermediateEvents.xhtml");
-    menuShouldBeActive(MONITOR_ENGINE_INTERMEDIATE_EVENTS_MENU);
+    menuShouldBeActive(MONITOR_WORKFLOW_INTERMEDIATE_EVENTS_MENU);
   }
 
   public static void toHealth() {
