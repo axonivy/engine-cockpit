@@ -1,6 +1,0 @@
-Data #class
-engine.cockpit.test.data #namespace
-count Number #field
-count PERSISTENT #fieldModifier
-eventID Integer #field
-eventID PERSISTENT #fieldModifier
