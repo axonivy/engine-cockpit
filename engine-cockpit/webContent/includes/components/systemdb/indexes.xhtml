@@ -29,7 +29,14 @@
             <h:outputText value="n.a." rendered="#{index.diskSize lt 0}"/>
           </p:column>
           <p:column headerText="Fragmentation" sortBy="#{index.fragmentation}" filterBy="#{index.fragmentation}">
+            <h:outputText value="#{index.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
             <h:outputText value="n.a." rendered="#{systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
+          </p:column>
+          <p:column headerText="Unique" sortBy="#{index.unique}" filterBy="#{index.unique}">
+            <h:outputText value="#{index.unique ? 'Yes' : 'No'}"/>
+          </p:column>
+          <p:column headerText="Columns" sortBy="#{index.columns}" filterBy="#{index.columns}">
+            <h:outputText value="#{index.columns}"/>
           </p:column>
         </p:dataTable>
       </h:form>
