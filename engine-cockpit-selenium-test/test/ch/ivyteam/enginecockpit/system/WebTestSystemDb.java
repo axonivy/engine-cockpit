@@ -94,10 +94,10 @@ public class WebTestSystemDb {
 
   @Test
   void testSystemDbInfo() {
-    $("#systemDb:systemDbForm:infoDb").shouldBe().click();
+    $("#systemDb\\:systemDbForm\\:infoDb").shouldBe().click();
     $("#overview").shouldBe(text("System Database information"));
     $("#tables").shouldBe(text("Tables"));
-    $("#indexes").shouldBe(text("Indices"));
+    $("#indexes").shouldBe(text("Indexes"));
   }
 
   @Test
