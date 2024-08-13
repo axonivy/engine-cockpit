@@ -6,7 +6,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import ch.ivyteam.enginecockpit.monitor.value.ScaleValue;
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.monitor.value.LongValueFormatter;
 import ch.ivyteam.ivy.persistence.db.DatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbIndex;
@@ -22,7 +23,7 @@ public class SystemDatabaseInfoBean {
   private List<SystemDbIndex> filterIndexes;
   private String filterTable;
   private String filterIndex;
-  private ScaleValue scaleValue = new ScaleValue();
+  private LongValueFormatter scaleValue = new LongValueFormatter(4);
 
   public SystemDatabaseInfoBean() throws SQLException {
     var dbs = (DatabasePersistencyService) ISystemDatabasePersistencyService.instance();
@@ -32,7 +33,10 @@ public class SystemDatabaseInfoBean {
   }
 
   public String scaleValue (long size) {
-    return scaleValue.Scale(size, 4);
+    if (size != Long.MIN_VALUE && size != 0) {
+      return scaleValue.format(size, Unit.BYTES);
+    }
+    return "n.a.";
   }
 
   public List<SystemDbTable> getFilteredTables() {

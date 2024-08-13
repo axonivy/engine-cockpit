@@ -101,31 +101,16 @@ class FormattedValue implements ValueProvider {
         builder.append('-');
         return;
       }
-      var originalUnit = value.unit();
-      var formatUnit = originalUnit;
-      var originalValue = value.longValue();
-      var formatValue = originalValue;
-      if (digits > 0) {
-        boolean scaling = true;
-        while (scaling) {
-          formatValue = originalUnit.convertTo(originalValue, formatUnit);
-          String str = Long.toString(formatValue);
-          if (str.length() <= digits) {
-            scaling = false;
-          } else {
-            var unit = formatUnit.scaleUp();
-            if (unit == null) {
-              scaling = false;
-            } else {
-              formatUnit = unit;
-            }
-          }
-        }
-      }
-      builder.append(formatValue);
-      if (value.unit().hasSymbol()) {
+      var longValueFormatter = new LongValueFormatter(digits);
+      var format = longValueFormatter.format(value.longValue(), value.unit());
+
+      if (format.contains(" ")) {
+        builder.append(format.split(" ")[0]);
         builder.append(' ');
-        builder.append(formatUnit.symbol());
+        builder.append(format.split(" ")[1]);
+      }
+      else {
+        builder.append(format);
       }
     }
   }
