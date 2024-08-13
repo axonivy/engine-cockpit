@@ -82,16 +82,16 @@ class FormattedValue implements ValueProvider {
   }
 
   private static final class IntegerPart implements Part {
-    private final int digits;
     private final int valueIndex;
+    private LongValueFormatter longValueFormatter;
 
     public IntegerPart(int valueIndex, String format) {
       this.valueIndex = valueIndex;
+      int digits = 0;
       if (format.length() > 2) {
-        digits = Integer.parseInt(format.substring(1, format.length() - 1));
-      } else {
-        digits = 0;
+        digits  = Integer.parseInt(format.substring(1, format.length() - 1));
       }
+      longValueFormatter = new LongValueFormatter(digits);
     }
 
     @Override
@@ -101,32 +101,8 @@ class FormattedValue implements ValueProvider {
         builder.append('-');
         return;
       }
-      var originalUnit = value.unit();
-      var formatUnit = originalUnit;
-      var originalValue = value.longValue();
-      var formatValue = originalValue;
-      if (digits > 0) {
-        boolean scaling = true;
-        while (scaling) {
-          formatValue = originalUnit.convertTo(originalValue, formatUnit);
-          String str = Long.toString(formatValue);
-          if (str.length() <= digits) {
-            scaling = false;
-          } else {
-            var unit = formatUnit.scaleUp();
-            if (unit == null) {
-              scaling = false;
-            } else {
-              formatUnit = unit;
-            }
-          }
-        }
-      }
-      builder.append(formatValue);
-      if (value.unit().hasSymbol()) {
-        builder.append(' ');
-        builder.append(formatUnit.symbol());
-      }
+      var format = longValueFormatter.format(value.longValue(), value.unit());
+      builder.append(format);
     }
   }
 

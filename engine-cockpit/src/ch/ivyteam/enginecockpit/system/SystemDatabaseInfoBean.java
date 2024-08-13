@@ -6,6 +6,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import ch.ivyteam.enginecockpit.monitor.unit.Unit;
+import ch.ivyteam.enginecockpit.monitor.value.LongValueFormatter;
 import ch.ivyteam.ivy.persistence.db.DatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbIndex;
@@ -21,12 +23,20 @@ public class SystemDatabaseInfoBean {
   private List<SystemDbIndex> filterIndexes;
   private String filterTable;
   private String filterIndex;
+  private LongValueFormatter scaleValue = new LongValueFormatter(4);
 
   public SystemDatabaseInfoBean() throws SQLException {
     var dbs = (DatabasePersistencyService) ISystemDatabasePersistencyService.instance();
       this.systemDbInfo = SystemDbInfo.getInfoFor(dbs);
       this.filteredTables = systemDbInfo.getTables();
       this.filterIndexes = systemDbInfo.getIndexes();
+  }
+
+  public String formatByteValue (long size) {
+    if (size != Long.MIN_VALUE && size != 0) {
+      return scaleValue.format(size, Unit.BYTES);
+    }
+    return "n.a.";
   }
 
   public List<SystemDbTable> getFilteredTables() {
@@ -93,7 +103,7 @@ public class SystemDatabaseInfoBean {
     return Float.isNaN(number);
   }
 
-  public List<String> getErrorMessages() throws SQLException {
+  public List<String> getErrorMessages() {
     return this.systemDbInfo.getMessages();
   }
 }
