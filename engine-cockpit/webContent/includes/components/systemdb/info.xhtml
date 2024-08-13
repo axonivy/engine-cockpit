@@ -25,7 +25,7 @@
         <label>JDBC Driver User</label>  
         <h:outputText value="#{systemDatabaseInfoBean.systemDbUser}" />
         <label>Disk Size</label>  
-        <h:outputText value="#{systemDatabaseInfoBean.scaleValue(systemDbDiskSize)}"/>
+        <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(systemDbDiskSize)}"/>
         <label>Warnings</label>  
         <ui:repeat value="#{systemDatabaseInfoBean.errorMessages}" var="item">
           <div>

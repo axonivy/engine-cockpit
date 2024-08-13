@@ -35,8 +35,7 @@ public class LongValueFormatter {
     }
     if (formatUnit.hasSymbol()) {
       return Long.toString(formatValue) + " " + formatUnit.symbol();
-    }
-    else {
+    } else {
       return Long.toString(formatValue);
     }
   }

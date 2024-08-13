@@ -32,7 +32,7 @@ public class SystemDatabaseInfoBean {
       this.filterIndexes = systemDbInfo.getIndexes();
   }
 
-  public String scaleValue (long size) {
+  public String formatByteValue (long size) {
     if (size != Long.MIN_VALUE && size != 0) {
       return scaleValue.format(size, Unit.BYTES);
     }

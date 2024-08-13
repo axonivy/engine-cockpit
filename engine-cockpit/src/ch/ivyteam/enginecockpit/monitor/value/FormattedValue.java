@@ -84,6 +84,7 @@ class FormattedValue implements ValueProvider {
   private static final class IntegerPart implements Part {
     private final int digits;
     private final int valueIndex;
+    private LongValueFormatter longValueFormatter;
 
     public IntegerPart(int valueIndex, String format) {
       this.valueIndex = valueIndex;
@@ -92,6 +93,7 @@ class FormattedValue implements ValueProvider {
       } else {
         digits = 0;
       }
+      longValueFormatter = new LongValueFormatter(digits);
     }
 
     @Override
@@ -101,17 +103,8 @@ class FormattedValue implements ValueProvider {
         builder.append('-');
         return;
       }
-      var longValueFormatter = new LongValueFormatter(digits);
       var format = longValueFormatter.format(value.longValue(), value.unit());
-
-      if (format.contains(" ")) {
-        builder.append(format.split(" ")[0]);
-        builder.append(' ');
-        builder.append(format.split(" ")[1]);
-      }
-      else {
-        builder.append(format);
-      }
+      builder.append(format);
     }
   }
 

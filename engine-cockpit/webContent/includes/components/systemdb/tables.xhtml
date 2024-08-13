@@ -25,7 +25,7 @@
             <h:outputText value="#{table.rows}" />
           </p:column>
           <p:column headerText="Disk size" sortBy="#{table.diskSize}" filterBy="#{systemDatabaseInfoBean.scaleValue(index.diskSize)}">
-            <h:outputText value="#{systemDatabaseInfoBean.scaleValue(index.diskSize)}"/>
+            <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(index.diskSize)}"/>
           </p:column>
           <p:column headerText="Fragmentation" sortBy="#{table.fragmentation}" filterBy="#{table.fragmentation}">
             <h:outputText value="#{table.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
