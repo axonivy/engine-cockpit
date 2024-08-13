@@ -27,9 +27,8 @@
           <p:column headerText="Cardinality" sortBy="#{index.cardinality}" filterBy="#{index.cardinality}">
             <h:outputText value="#{index.cardinality}" />
           </p:column>
-          <p:column headerText="Disk size" sortBy="#{index.diskSize}" filterBy="#{index.diskSize}">
-            <h:outputText value="#{index.diskSize}" rendered="#{index.diskSize ge 0}"/>
-            <h:outputText value="n.a." rendered="#{index.diskSize lt 0}"/>
+          <p:column headerText="Disk size" sortBy="#{index.diskSize}" filterBy="#{systemDatabaseInfoBean.scaleValue(index.diskSize)}">
+            <h:outputText value="#{systemDatabaseInfoBean.scaleValue(index.diskSize)}"/>
           </p:column>
           <p:column headerText="Fragmentation" sortBy="#{index.fragmentation}" filterBy="#{index.fragmentation}">
             <h:outputText value="#{index.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>

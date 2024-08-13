@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import ch.ivyteam.enginecockpit.monitor.value.ScaleValue;
 import ch.ivyteam.ivy.persistence.db.DatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbIndex;
@@ -21,12 +22,17 @@ public class SystemDatabaseInfoBean {
   private List<SystemDbIndex> filterIndexes;
   private String filterTable;
   private String filterIndex;
+  private ScaleValue scaleValue = new ScaleValue();
 
   public SystemDatabaseInfoBean() throws SQLException {
     var dbs = (DatabasePersistencyService) ISystemDatabasePersistencyService.instance();
       this.systemDbInfo = SystemDbInfo.getInfoFor(dbs);
       this.filteredTables = systemDbInfo.getTables();
       this.filterIndexes = systemDbInfo.getIndexes();
+  }
+
+  public String scaleValue (long size) {
+    return scaleValue.Scale(size, 4);
   }
 
   public List<SystemDbTable> getFilteredTables() {
@@ -93,7 +99,7 @@ public class SystemDatabaseInfoBean {
     return Float.isNaN(number);
   }
 
-  public List<String> getErrorMessages() throws SQLException {
+  public List<String> getErrorMessages() {
     return this.systemDbInfo.getMessages();
   }
 }
