@@ -82,16 +82,14 @@ class FormattedValue implements ValueProvider {
   }
 
   private static final class IntegerPart implements Part {
-    private final int digits;
     private final int valueIndex;
     private LongValueFormatter longValueFormatter;
 
     public IntegerPart(int valueIndex, String format) {
       this.valueIndex = valueIndex;
+      int digits = 0;
       if (format.length() > 2) {
-        digits = Integer.parseInt(format.substring(1, format.length() - 1));
-      } else {
-        digits = 0;
+        digits  = Integer.parseInt(format.substring(1, format.length() - 1));
       }
       longValueFormatter = new LongValueFormatter(digits);
     }
