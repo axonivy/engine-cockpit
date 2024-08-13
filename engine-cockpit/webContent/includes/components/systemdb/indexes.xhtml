@@ -2,7 +2,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
   xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
-  <div class="col-12 md:col-12 xl:col-6">
+  <div class="col-12 md:col-12 xl:col-12">
     <div class="card">
       <div class="flex align-items-center mb-3">
         <i class="pr-3 si si-archive-folder"></i>
@@ -21,27 +21,27 @@
           <p:column headerText="Name" sortBy="#{index.name}" filterBy="#{index.name}">
             <h:outputText value="#{index.name}" />
           </p:column>
-          <p:column headerText="Pages" sortBy="#{index.pages}" filterBy="#{index.pages}">
-            <h:outputText value="#{index.pages}" />
-          </p:column>
-          <p:column headerText="Cardinality" sortBy="#{index.cardinality}" filterBy="#{index.cardinality}">
-            <h:outputText value="#{index.cardinality}" />
-          </p:column>
-          <p:column headerText="Disk size" sortBy="#{index.diskSize}" filterBy="#{systemDatabaseInfoBean.scaleValue(index.diskSize)}">
-            <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(index.diskSize)}"/>
-          </p:column>
-          <p:column headerText="Fragmentation" sortBy="#{index.fragmentation}" filterBy="#{index.fragmentation}">
-            <h:outputText value="#{index.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
-            <h:outputText value="n.a." rendered="#{systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
-          </p:column>
-          <p:column headerText="Unique" sortBy="#{index.unique}" filterBy="#{index.unique}">
-            <h:outputText value="#{index.unique ? 'Yes' : 'No'}"/>
+          <p:column headerText="Table name" sortBy="#{index.tableName}" filterBy="#{index.tableName}">
+            <h:outputText value="#{index.tableName}"/>
           </p:column>
           <p:column headerText="Columns" sortBy="#{index.columns}" filterBy="#{index.columns}">
             <h:outputText value="#{index.columns}"/>
           </p:column>
-          <p:column headerText="Table name" sortBy="#{index.tableName}" filterBy="#{index.tableName}">
-            <h:outputText value="#{index.tableName}"/>
+          <p:column style="width: 80px;" headerText="Pages" sortBy="#{index.pages}" filterBy="#{index.pages}">
+            <h:outputText value="#{index.pages}" />
+          </p:column>
+          <p:column style="width: 100px;" headerText="Cardinality" sortBy="#{index.cardinality}" filterBy="#{index.cardinality}">
+            <h:outputText value="#{index.cardinality}" />
+          </p:column>
+          <p:column style="width: 100px;" headerText="Disk size" sortBy="#{index.diskSize}" filterBy="#{systemDatabaseInfoBean.formatByteValue(index.diskSize)}">
+            <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(index.diskSize)}"/>
+          </p:column>
+          <p:column style="width: 120px;" headerText="Fragmentation" sortBy="#{index.fragmentation}" filterBy="#{index.fragmentation}">
+            <h:outputText value="#{index.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
+            <h:outputText value="n.a." rendered="#{systemDatabaseInfoBean.isNaN(index.fragmentation)}"/>
+          </p:column>
+          <p:column style="width: 80px;" headerText="Unique" sortBy="#{index.unique}" filterBy="#{index.unique}">
+            <h:outputText value="#{index.unique ? 'Yes' : 'No'}"/>
           </p:column>
         </p:dataTable>
       </h:form>

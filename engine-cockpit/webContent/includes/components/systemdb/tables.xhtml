@@ -21,13 +21,13 @@
           <p:column headerText="Name" sortBy="#{table.name}" filterBy="#{table.name}">
             <h:outputText value="#{table.name}" />
           </p:column>
-          <p:column headerText="Row count" sortBy="#{table.rows}" filterBy="#{table.rows}">
+          <p:column style="width: 120px;" headerText="Row count" sortBy="#{table.rows}" filterBy="#{table.rows}">
             <h:outputText value="#{table.rows}" />
           </p:column>
-          <p:column headerText="Disk size" sortBy="#{table.diskSize}" filterBy="#{systemDatabaseInfoBean.scaleValue(index.diskSize)}">
-            <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(index.diskSize)}"/>
+          <p:column style="width: 120px;" headerText="Disk size" sortBy="#{table.diskSize}" filterBy="#{systemDatabaseInfoBean.formatByteValue(table.diskSize)}">
+            <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(table.diskSize)}"/>
           </p:column>
-          <p:column headerText="Fragmentation" sortBy="#{table.fragmentation}" filterBy="#{table.fragmentation}">
+          <p:column style="width: 120px;" headerText="Fragmentation" sortBy="#{table.fragmentation}" filterBy="#{table.fragmentation}">
             <h:outputText value="#{table.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
             <h:outputText value="n.a." rendered="#{systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
           </p:column>
