@@ -40,6 +40,9 @@
           <p:column headerText="Columns" sortBy="#{index.columns}" filterBy="#{index.columns}">
             <h:outputText value="#{index.columns}"/>
           </p:column>
+          <p:column headerText="Table name" sortBy="#{index.tableName}" filterBy="#{index.tableName}">
+            <h:outputText value="#{index.tableName}"/>
+          </p:column>
         </p:dataTable>
       </h:form>
     </div>
