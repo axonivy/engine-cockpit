@@ -95,8 +95,10 @@ public class WebTestSystemDb {
   @Test
   void testSystemDbInfo() {
     $("#systemDb\\:systemDbForm\\:infoDb").shouldBe().click();
-    $("#overview").shouldBe(text("System Database information"));
+    $("#overview").shouldBe(text("System Database"));
+    $("#jdbc-driver").shouldBe(text("JDBC Driver"));
     $("#tables").shouldBe(text("Tables"));
+    $("#triggers").shouldBe(text("Triggers"));
     $("#indexes").shouldBe(text("Indexes"));
   }
 
