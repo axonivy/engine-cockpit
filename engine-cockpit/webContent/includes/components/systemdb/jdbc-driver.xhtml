@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+  <div class="col-12 md:col-12 xl:col-6">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title flex align-items-center">
+          <i class="pr-3 si si-charger"></i>
+          <h6 id="jdbc-driver" class="m-0">JDBC Driver</h6>
+        </div>
+      </div>
+      <p:panelGrid columns="2" columnClasses="col-12 md:col-4 lg:col-4, col-12 md:col-8 lg:col-8" layout="flex"
+        styleClass="grey-label-panel ui-fluid">
+        <label>JDBC Driver Name</label>
+        <h:outputText value="#{systemDatabaseInfoBean.systemDbDriverName}" />
+        <label>JDBC Driver Version</label>  
+        <h:outputText value="#{systemDatabaseInfoBean.systemDbDriverVersion}" />
+        <label>JDBC Driver URL</label>  
+        <h:outputText value="#{systemDatabaseInfoBean.systemDbUrl}" />
+        <label>JDBC Driver User</label>  
+        <h:outputText value="#{systemDatabaseInfoBean.systemDbUser}" />
+      </p:panelGrid>
+    </div>
+  </div>
+</html>
