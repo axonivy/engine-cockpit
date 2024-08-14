@@ -15,13 +15,23 @@
       </ui:define>
 
       <ui:define name="content">
-        <div class="layout-dashboard">
-        <div class="grid">
-          <ui:include src="../includes/components/systemdb/info.xhtml" />
-          <ui:include src="../includes/components/systemdb/tables.xhtml" />
-          <ui:include src="../includes/components/systemdb/indexes.xhtml" />
-        </div>
-        </div>
+        <p:outputPanel deferred="true">
+          <p:ajax event="load" listener="#{systemDatabaseInfoBean.loadData}"/>
+          <f:facet name="loading">
+            <div class="ui-message ui-staticmessage ui-message-info ui-widget ui-corner-all">
+              <i id="connectionIcon" class="si si-button-refresh-arrows si-is-spinning"></i>
+              <span class="ui-message-info-summary ml-2">Gathering System Database information</span>
+              <span class="ui-message-info-detail">This may take several minutes</span>
+            </div>
+          </f:facet>
+          <div class="layout-dashboard">
+            <div class="grid">
+              <ui:include src="../includes/components/systemdb/info.xhtml" />
+              <ui:include src="../includes/components/systemdb/tables.xhtml" />
+              <ui:include src="../includes/components/systemdb/indexes.xhtml" />
+            </div>
+          </div>
+        </p:outputPanel>
       </ui:define>
     </ui:composition>
   </h:body>
