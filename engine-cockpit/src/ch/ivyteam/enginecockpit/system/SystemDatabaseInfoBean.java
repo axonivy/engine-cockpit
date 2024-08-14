@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import ch.ivyteam.enginecockpit.monitor.trace.BackgroundMeterUtil;
 import ch.ivyteam.enginecockpit.monitor.unit.Unit;
 import ch.ivyteam.enginecockpit.monitor.value.LongValueFormatter;
 import ch.ivyteam.ivy.persistence.db.DatabasePersistencyService;
@@ -115,5 +116,34 @@ public class SystemDatabaseInfoBean {
 
   public List<String> getErrorMessages() {
     return this.systemDbInfo.getMessages();
+  }
+
+  public String backgroundRow(long rows) {
+    var maxRows = tables.stream().mapToLong(i -> i.getRows()).max().orElse(rows);
+    var background = BackgroundMeterUtil.background(rows, maxRows);
+    return "background: " + background + ";";
+  }
+
+  public String backgroundFragmentation(float fragmentation) {
+    var maxFragmentation = 100.0;
+    var background = BackgroundMeterUtil.background(fragmentation, maxFragmentation);
+    return "background: " + background + ";";
+  }
+
+  public String backgroundTableDiskSize(long diskSize) {
+    return backgroundDiskSize(diskSize, tables.stream().mapToLong(i -> i.getDiskSize()).sum());
+  }
+
+  public String backgroundIndexDiskSize(long diskSize) {
+    return backgroundDiskSize(diskSize, indexes.stream().mapToLong(i -> i.getDiskSize()).sum());
+  }
+
+  private String backgroundDiskSize(long diskSize, long maxDiskSize) {
+    if (diskSize != Long.MIN_VALUE) {
+      var background = BackgroundMeterUtil.background(diskSize, maxDiskSize);
+      return "background: " + background + ";";
+    } else {
+      return "";
+    }
   }
 }
