@@ -22,13 +22,19 @@
             <h:outputText value="#{table.name}" />
           </p:column>
           <p:column style="width: 120px;" headerText="Row count" sortBy="#{table.rows}" filterBy="#{table.rows}">
-            <h:outputText value="#{table.rows}" />
+            <div style="#{systemDatabaseInfoBean.backgroundRow(table.rows)}">
+                <h:outputText styleClass="gradient-text" value="#{table.rows}" />
+            </div>
           </p:column>
           <p:column style="width: 120px;" headerText="Disk size" sortBy="#{table.diskSize}" filterBy="#{systemDatabaseInfoBean.formatByteValue(table.diskSize)}">
-            <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(table.diskSize)}"/>
+            <div style="#{systemDatabaseInfoBean.backgroundTableDiskSize(table.diskSize)}">
+              <h:outputText styleClass="gradient-text"  value="#{systemDatabaseInfoBean.formatByteValue(table.diskSize)}"/>
+            </div>
           </p:column>
           <p:column style="width: 120px;" headerText="Fragmentation" sortBy="#{table.fragmentation}" filterBy="#{table.fragmentation}">
-            <h:outputText value="#{table.fragmentation}" rendered="#{not systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
+            <div style="#{systemDatabaseInfoBean.backgroundFragmentation(table.fragmentation)}">
+              <h:outputText styleClass="gradient-text" value="#{table.fragmentation}"  rendered="#{not systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
+            </div>
             <h:outputText value="n.a." rendered="#{systemDatabaseInfoBean.isNaN(table.fragmentation)}"/>
           </p:column>
         </p:dataTable>
