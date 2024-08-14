@@ -10,7 +10,7 @@
       </div>
       <h:form>
         <p:dataTable paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-          var="table" value="#{systemDatabaseInfoBean.filteredTables}" widgetVar="systemDbTablesTable"
+          var="table" value="#{systemDatabaseInfoBean.tables}" widgetVar="systemDbTablesTable"
           lazy="false" styleClass="userTable ui-fluid" id="systemDbTablesTable" filteredValue="#{systemDatabaseInfoBean.filteredTables}">
           <f:facet name="header">
             <div class="ui-input-icon-left filter-container">

@@ -19,8 +19,10 @@ import ch.ivyteam.ivy.persistence.db.info.SystemDbTable;
 @ViewScoped
 public class SystemDatabaseInfoBean {
   private SystemDbInfo systemDbInfo;
+  private List<SystemDbTable> tables;
+  private List<SystemDbIndex> indexes;
   private List<SystemDbTable> filteredTables;
-  private List<SystemDbIndex> filterIndexes;
+  private List<SystemDbIndex> filteredIndexes;
   private String filterTable;
   private String filterIndex;
   private LongValueFormatter scaleValue = new LongValueFormatter(4);
@@ -28,8 +30,8 @@ public class SystemDatabaseInfoBean {
   public SystemDatabaseInfoBean() throws SQLException {
     var dbs = (DatabasePersistencyService) ISystemDatabasePersistencyService.instance();
       this.systemDbInfo = SystemDbInfo.getInfoFor(dbs);
-      this.filteredTables = systemDbInfo.getTables();
-      this.filterIndexes = systemDbInfo.getIndexes();
+      this.tables = systemDbInfo.getTables();
+      this.indexes = systemDbInfo.getIndexes();
   }
 
   public String formatByteValue (long size) {
@@ -43,16 +45,24 @@ public class SystemDatabaseInfoBean {
     return filteredTables;
   }
 
-  public void setFilteredTables(List<SystemDbTable> filteredTables) {
-    this.filteredTables = filteredTables;
+  public void setFilteredTables(List<SystemDbTable> filteredTable) {
+    this.filteredTables = filteredTable;
+  }
+
+  public List<SystemDbIndex> getIndexes() {
+    return indexes;
+  }
+
+  public List<SystemDbTable> getTables() {
+    return tables;
   }
 
   public List<SystemDbIndex> getFilteredIndexes() {
-    return filterIndexes;
+    return filteredIndexes;
   }
 
-  public void setFilteredIndexes(List<SystemDbIndex> filterIndexes) {
-    this.filterIndexes = filterIndexes;
+  public void setFilteredIndexes(List<SystemDbIndex> filteredIndex) {
+    this.filteredIndexes = filteredIndex;
   }
 
   public String getFilterTable() {
