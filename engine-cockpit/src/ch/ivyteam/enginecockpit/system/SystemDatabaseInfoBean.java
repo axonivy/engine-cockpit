@@ -14,6 +14,7 @@ import ch.ivyteam.ivy.persistence.db.ISystemDatabasePersistencyService;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbIndex;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbInfo;
 import ch.ivyteam.ivy.persistence.db.info.SystemDbTable;
+import ch.ivyteam.ivy.persistence.db.info.SystemDbTrigger;
 
 @SuppressWarnings("restriction")
 @ManagedBean
@@ -22,10 +23,13 @@ public class SystemDatabaseInfoBean {
   private SystemDbInfo systemDbInfo;
   private List<SystemDbTable> tables;
   private List<SystemDbIndex> indexes;
+  private List<SystemDbTrigger> triggers;
   private List<SystemDbTable> filteredTables;
   private List<SystemDbIndex> filteredIndexes;
+  private List<SystemDbTrigger> filteredTriggers;
   private String filterTable;
   private String filterIndex;
+  private String filterTrigger;
   private LongValueFormatter scaleValue = new LongValueFormatter(4);
 
   public void loadData() throws SQLException {
@@ -33,6 +37,7 @@ public class SystemDatabaseInfoBean {
     this.systemDbInfo = SystemDbInfo.getInfoFor(dbs);
     this.tables = systemDbInfo.getTables();
     this.indexes = systemDbInfo.getIndexes();
+    this.triggers = systemDbInfo.getTriggers();
   }
 
   public String formatByteValue (long size) {
@@ -54,6 +59,10 @@ public class SystemDatabaseInfoBean {
     return indexes;
   }
 
+  public List<SystemDbTrigger> getTriggers() {
+    return triggers;
+  }
+
   public List<SystemDbTable> getTables() {
     return tables;
   }
@@ -65,9 +74,25 @@ public class SystemDatabaseInfoBean {
   public void setFilteredIndexes(List<SystemDbIndex> filteredIndex) {
     this.filteredIndexes = filteredIndex;
   }
+  
+  public List<SystemDbTrigger> getFilteredTriggers() {
+    return filteredTriggers;
+  }
+  
+  public void setFilteredTriggers(List<SystemDbTrigger> filteredTrigger) {
+    this.filteredTriggers = filteredTrigger;
+  }
 
   public String getFilterTable() {
     return filterTable;
+  }
+  
+  public String getFilterTrigger() {
+    return filterTrigger;
+  }
+  
+  public void setFilterTrigger(String filter) {
+    this.filterTrigger = filter;
   }
 
   public void setFilterTable(String filter) {
