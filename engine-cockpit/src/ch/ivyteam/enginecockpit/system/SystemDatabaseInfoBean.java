@@ -27,11 +27,11 @@ public class SystemDatabaseInfoBean {
   private String filterIndex;
   private LongValueFormatter scaleValue = new LongValueFormatter(4);
 
-  public SystemDatabaseInfoBean() throws SQLException {
+  public void loadData() throws SQLException {
     var dbs = (DatabasePersistencyService) ISystemDatabasePersistencyService.instance();
-      this.systemDbInfo = SystemDbInfo.getInfoFor(dbs);
-      this.tables = systemDbInfo.getTables();
-      this.indexes = systemDbInfo.getIndexes();
+    this.systemDbInfo = SystemDbInfo.getInfoFor(dbs);
+    this.tables = systemDbInfo.getTables();
+    this.indexes = systemDbInfo.getIndexes();
   }
 
   public String formatByteValue (long size) {
