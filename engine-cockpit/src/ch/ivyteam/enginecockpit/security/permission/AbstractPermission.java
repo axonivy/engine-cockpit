@@ -1,11 +1,16 @@
 package ch.ivyteam.enginecockpit.security.permission;
 
 public abstract class AbstractPermission {
+
   private String name;
   private boolean grant;
   private boolean deny;
-  private String state;
-  private String initialState;
+  private boolean someGrant;
+  private boolean someDeny;
+  private boolean group;
+  private Integer state;
+  private Integer initialState;
+  private boolean isGroup = false;
 
   protected AbstractPermission(String name, boolean grant, boolean deny) {
     this.name = name;
@@ -14,42 +19,82 @@ public abstract class AbstractPermission {
   }
 
   private interface State {
-    String DEFAULT = "0";
-    String GRANTED = "1";
-    String DENIED = "2";
-    String SOMEGRANTED = "3";
+    int DEFAULT = 0;
+    int GRANTED = 1;
+    int DENIED = 2;
+    int SOMEGRANTED = 3;
+    int SOMEDENIED = 4;
+    int STATELESS = 5;
   }
 
-  public String getState() {
+  public Integer getState() { 
     return state;
   }
 
-  public void setState(String state) {
-      this.state = state;
+  public void setState(Integer state) {
+    this.state = state;
   }
 
   public void initialState() {
-    if (isGrant())
+    if (isGrant()) {
       initialState = State.GRANTED;
-    else if (isDeny())
+    }
+    if (isDeny()) {
       initialState = State.DENIED;
-    else if (isSomeGrant())
+    }
+    if (isSomeGrant()) {
       initialState = State.SOMEGRANTED;
+    }
+    if (isSomeDeny()) {
+        initialState = State.SOMEGRANTED;
+    }
+    if (isGroup()) {
+    isGroup = true;
+  }
+    else {
+    initialState = State.STATELESS;
+  }
   }
 
   public void defineState() {
-    switch (state) {
+      switch (state) {
       case State.DEFAULT:
-          switch (initialState) {
-              case State.GRANTED: grant(); break;
-              case State.DENIED: deny(); break;
-              case State.SOMEGRANTED: deny(); undeny(); break;
-              case null: grant(); ungrant(); break;
-            default: grant(); ungrant(); break;
-          }
+        resetToInitialState();
+        break;
+      case State.GRANTED:
+        grant();
+        break;
+      case State.DENIED:
+        deny();
+        break;
+      default:
+        break;
+    }
+  }
+
+  private void resetToInitialState() {
+    if (isGroup) {
+    group();
+  }
+      switch (initialState) {
+      case State.GRANTED:
+        grant();
+        break;
+      case State.DENIED:
+        deny();
+        break;
+      case State.SOMEGRANTED:
+        someGrant();
+        break;
+      case State.SOMEDENIED:
+        someDeny();
+        break;
+      case State.STATELESS:
+          grant();
+          ungrant();
           break;
-      case State.GRANTED: grant(); break;
-      case State.DENIED: deny(); break;
+      default:
+        break;
     }
   }
 
@@ -73,25 +118,39 @@ public abstract class AbstractPermission {
     this.deny = deny;
   }
 
-  public abstract boolean isSomeGrant();
+  public boolean isSomeGrant() {
+    return someGrant;
+  }
 
-  public abstract boolean isSomeDeny();
+  public void setSomeGrant(boolean someGrant) {
+    this.someGrant = someGrant;
+  }
 
-  public abstract boolean isGrantDisabled();
+  public boolean isSomeDeny() {
+    return someDeny;
+  }
 
-  public abstract boolean isUnGrantDisabled();
+  public void setSomeDeny(boolean someDeny) {
+    this.someDeny = someDeny;
+  }
 
-  public abstract boolean isDenyDisabled();
+  public boolean isGroup() {
+    return group;
+  }
 
-  public abstract boolean isUnDenyDisabled();
+  public void setGroup(boolean group) {
+    this.group = group;
+  }
+
+  public abstract void someGrant();
+
+  public abstract void someDeny();
 
   public abstract void grant();
 
-  public abstract void ungrant();
-
   public abstract void deny();
 
-  public abstract void undeny();
+  public abstract void group();
 
-  public abstract boolean isGroup();
+  public abstract void ungrant() ;
 }

@@ -54,7 +54,7 @@
         </h:outputText>
       </p:column>
   
-      <p:column headerText="Grant/Deny" styleClass="table-btn-2" style="text-align: center;">
+      <p:column headerText="Grant" styleClass="table-btn-2" style="text-align: center;">
         <p:triStateCheckbox id="ajaxTriState" value="#{permission.state}">
             <p:ajax event="change" update="@form" listener="#{permission.defineState}"/>
         </p:triStateCheckbox>

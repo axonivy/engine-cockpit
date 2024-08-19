@@ -40,26 +40,6 @@ public class Permission extends AbstractPermission {
   }
 
   @Override
-  public boolean isGrantDisabled() {
-    return explicit && isGrant();
-  }
-
-  @Override
-  public boolean isUnGrantDisabled() {
-    return !isGrantDisabled();
-  }
-
-  @Override
-  public boolean isDenyDisabled() {
-    return explicit && isDeny();
-  }
-
-  @Override
-  public boolean isUnDenyDisabled() {
-    return !isDenyDisabled();
-  }
-
-  @Override
   public boolean isSomeGrant() {
     return false;
   }
@@ -73,6 +53,11 @@ public class Permission extends AbstractPermission {
   public boolean isGroup() {
     return false;
   }
+  
+  @Override
+  public void ungrant() {
+    bean.ungrant(this);
+  }
 
   @Override
   public void grant() {
@@ -80,18 +65,24 @@ public class Permission extends AbstractPermission {
   }
 
   @Override
-  public void ungrant() {
-    bean.ungrant(this);
-  }
-
-  @Override
   public void deny() {
     bean.deny(this);
   }
-
+  
   @Override
-  public void undeny() {
+  public void someGrant() {
+    bean.grant(this);
+    bean.ungrant(this);
+  }
+  
+  @Override
+  public void someDeny() {
+    bean.deny(this);
     bean.undeny(this);
+  }
+  
+  @Override
+  public void group() {
   }
 
   public IPermission permission() {
