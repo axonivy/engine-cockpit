@@ -63,19 +63,19 @@ public class PermissionGroup extends AbstractPermission {
   public void deny() {
     bean.deny(this);
   }
-  
+
   @Override
   public void someGrant() {
     bean.grant(this);
     bean.ungrant(this);
   }
-  
+
   @Override
   public void someDeny() {
     bean.deny(this);
     bean.undeny(this);
   }
-  
+
   @Override
   public void group() {
   }

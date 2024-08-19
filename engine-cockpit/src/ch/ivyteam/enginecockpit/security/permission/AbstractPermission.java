@@ -27,7 +27,7 @@ public abstract class AbstractPermission {
     int STATELESS = 5;
   }
 
-  public Integer getState() { 
+  public Integer getState() {
     return state;
   }
 
@@ -46,55 +46,54 @@ public abstract class AbstractPermission {
       initialState = State.SOMEGRANTED;
     }
     if (isSomeDeny()) {
-        initialState = State.SOMEGRANTED;
+      initialState = State.SOMEGRANTED;
     }
     if (isGroup()) {
-    isGroup = true;
-  }
-    else {
-    initialState = State.STATELESS;
-  }
+      isGroup = true;
+    } else {
+      initialState = State.STATELESS;
+    }
   }
 
   public void defineState() {
-      switch (state) {
-      case State.DEFAULT:
-        resetToInitialState();
-        break;
-      case State.GRANTED:
-        grant();
-        break;
-      case State.DENIED:
-        deny();
-        break;
-      default:
-        break;
+    switch (state) {
+    case State.DEFAULT:
+      resetToInitialState();
+      break;
+    case State.GRANTED:
+      grant();
+      break;
+    case State.DENIED:
+      deny();
+      break;
+    default:
+      break;
     }
   }
 
   private void resetToInitialState() {
     if (isGroup) {
-    group();
-  }
-      switch (initialState) {
-      case State.GRANTED:
-        grant();
-        break;
-      case State.DENIED:
-        deny();
-        break;
-      case State.SOMEGRANTED:
-        someGrant();
-        break;
-      case State.SOMEDENIED:
-        someDeny();
-        break;
-      case State.STATELESS:
-          grant();
-          ungrant();
-          break;
-      default:
-        break;
+      group();
+    }
+    switch (initialState) {
+    case State.GRANTED:
+      grant();
+      break;
+    case State.DENIED:
+      deny();
+      break;
+    case State.SOMEGRANTED:
+      someGrant();
+      break;
+    case State.SOMEDENIED:
+      someDeny();
+      break;
+    case State.STATELESS:
+      grant();
+      ungrant();
+      break;
+    default:
+      break;
     }
   }
 
@@ -152,5 +151,5 @@ public abstract class AbstractPermission {
 
   public abstract void group();
 
-  public abstract void ungrant() ;
+  public abstract void ungrant();
 }
