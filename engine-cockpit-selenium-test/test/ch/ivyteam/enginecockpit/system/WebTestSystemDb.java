@@ -68,7 +68,7 @@ public class WebTestSystemDb {
   }
 
   @Test
-  void testSystemDb() {
+  void systemDb() {
     $("h2").shouldBe(text("System Database"));
     assertDefaultValues();
     assertSystemDbCreationDialog();
@@ -76,7 +76,7 @@ public class WebTestSystemDb {
   }
 
   @Test
-  void testSaveConfiguration() {
+  void saveConfiguration() {
     $(".sysdb-dynamic-form-user").sendKeys(" ");
     $(".sysdb-dynamic-form-user").clear();
     $(CONNECTION_PANEL).shouldBe(text("Connection state unknown"));
@@ -93,8 +93,8 @@ public class WebTestSystemDb {
   }
 
   @Test
-  void testSystemDbInfo() {
-    $("#systemDb\\:systemDbForm\\:infoDb").shouldBe().click();
+  void systemDbInfo() {
+    $("#infoDb").shouldBe().click();
     $("#overview").shouldBe(text("System Database"));
     $("#jdbc-driver").shouldBe(text("JDBC Driver"));
     $("#tables").shouldBe(text("Tables"));
@@ -103,22 +103,22 @@ public class WebTestSystemDb {
   }
 
   @Test
-  void testConnectionResults() {
+  void connectionResults() {
     assertConnectionResults();
   }
 
   @Test
-  void testDefaultPortSwitch() {
+  void defaultPortSwitch() {
     assertDefaultPortSwitch();
   }
 
   @Test
-  void testDatabaseDropdownSwitch() {
+  void databaseDropdownSwitch() {
     assertDatabaseTypeSwitch();
   }
 
   @Test
-  void testAdditionalProperties() {
+  void additionalProperties() {
     assertAdditionalProperties();
   }
 
