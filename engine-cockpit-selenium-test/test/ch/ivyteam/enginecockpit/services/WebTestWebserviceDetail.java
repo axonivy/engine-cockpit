@@ -90,7 +90,7 @@ class WebTestWebserviceDetail {
   }
 
   private void resetConfiguration() {
-    $("#webserviceConfigurationForm\\:resetConfig").click();
+    $("#webserviceConfigurationForm\\:resetConfig").scrollIntoView(false).click();
     $("#webserviceConfigurationForm\\:resetWsConfirmDialog").shouldBe(visible);
     $("#webserviceConfigurationForm\\:resetWsConfirmYesBtn").click();
     $("#webserviceConfigurationForm\\:wsConfigMsg_container")

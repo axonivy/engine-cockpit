@@ -20,7 +20,7 @@
         rendered="#{cc.attrs.bean.hasMissingCerts(cc.attrs.url)}">
         <jc:TlsTesterMissingCertView id="missing" bean="#{tlsTesterBean}" cert="#{cc.attrs.bean.missingCert}"></jc:TlsTesterMissingCertView>
       </h:panelGroup>
-      <h:panelGrid id="resultLog" columns="1" style="height:500px" styleClass="ui-fluid">
+      <h:panelGrid id="resultLog" columns="1" style="height:450px" styleClass="ui-fluid">
         <h:panelGroup id="resultConnect">
           <h:outputText value="#{cc.attrs.result.testResult}"
             style="font-weight: bold; color: #{cc.attrs.result.testResultColor}" />

@@ -196,7 +196,7 @@ class WebTestSecurityIdentityProvider {
     var property = $(By.id("identityProvider:dynamicConfigForm:group:0:property:6:propertyDropdown"))
             .shouldBe(visible)
             .shouldBe(text("DIRECT"));
-    property.click();
+    property.scrollTo().click();
     $(By.id("identityProvider:dynamicConfigForm:group:0:property:6:propertyDropdown_2")).click();
     property.shouldHave(text("TRAVERSE"));
   }
