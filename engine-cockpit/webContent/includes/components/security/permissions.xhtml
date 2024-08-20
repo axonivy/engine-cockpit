@@ -36,25 +36,25 @@
         </h:outputText>
       </p:column>
   
-      <p:column styleClass="permission-icon table-btn-2">
+      <p:column id="icons" styleClass="permission-icon table-btn-2">
         <h:outputText rendered="#{permission.grant}">
-          <i class="si si-check-circle table-icon" title="Permission granted" />
+          <i id="grant" class="si si-check-circle table-icon" title="Permission granted" />
         </h:outputText>
         <h:outputText rendered="#{!permission.grant and permission.someGrant}">
-          <i class="si si-check-circle table-icon light" title="Some Permission granted" />
+          <i id="someGrant" class="si si-check-circle table-icon light" title="Some Permission granted" />
         </h:outputText>
         <h:outputText rendered="#{permission.deny}">
-          <i class="si si-subtract-circle table-icon" title="Permission denied" />
+          <i id="deny" class="si si-subtract-circle table-icon" title="Permission denied" />
         </h:outputText>
         <h:outputText rendered="#{!permission.deny and permission.someDeny}">
-          <i class="si si-subtract-circle table-icon light" title="Some Permission denied" />
+          <i id="someDeny" class="si si-subtract-circle table-icon light" title="Some Permission denied" />
         </h:outputText>
         <h:outputText rendered="#{!permission.group and not empty permission.permissionHolder and !permission.explicit}">
-          <i class="si si-multiple-neutral-1 table-icon" title="#{permission.permissionHolder}"></i>
+          <i id="everybody" class="si si-multiple-neutral-1 table-icon" title="#{permission.permissionHolder}"></i>
         </h:outputText>
       </p:column>
   
-      <p:column headerText="Grant/Deny" styleClass="table-btn-2" style="text-align: center;">
+      <p:column headerText="Grant" styleClass="table-btn-2" style="text-align: center;">
         <p:triStateCheckbox id="ajaxTriState" value="#{permission.state}">
             <p:ajax event="change" update="@form" listener="#{permission.defineState}"/>
         </p:triStateCheckbox>
