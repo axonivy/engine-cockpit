@@ -1,8 +1,10 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -21,13 +23,17 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.RestClientDto;
+import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
+import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClients;
 import ch.ivyteam.ivy.rest.client.RestClient.Builder;
+import ch.ivyteam.ivy.rest.client.internal.RestClientExecutionManager;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class RestClientDetailBean extends HelpServices implements IConnectionTestResult, PropertyEditor {
@@ -44,6 +50,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   private final ConnectionTestWrapper connectionTest;
   private Property activeProperty;
+  private List<ExecStatement> history;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -80,12 +87,81 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
 
     loadRestClient();
+    reloadExternalRestClient();
     liveStats = new RestClientMonitor(app.getName(), restClient.getUniqueId().toString());
   }
+
+  private void reloadExternalRestClient() {
+      RestClientExecutionManager restClientManager = new RestClientExecutionManager();
+      RestClients restClients = RestClients.of(app);
+      RestClient restClient = restClients.find(restClientName);
+      if (restClient == null) {
+          ResponseHelper.notFound("Rest client '" + restClientName + "' not found");
+          return;
+      }
+      
+      var applicationContext = restClientManager.getRestWebServiceApplicationContext(app);
+      var restWebService = applicationContext.getRestWebService(restClient.uniqueId());
+      restWebService.setRecordRequestResponse(true);
+
+      var callHistory = restWebService.getCallHistory();
+      history = callHistory.stream()
+          .map(entry -> new ExecStatement(
+              entry.getExecutionTimestamp(),
+              entry.getExecutionTimeInMicroSeconds(),
+              entry.getProcessElementId()))
+          .collect(Collectors.toList());
+  }
+
+  class ExecStatement {
+      private final String executionTimestamp;
+      private final String executionTimeInMicroSeconds;
+      private final String processElementId;
+
+      public ExecStatement(Date executionTimestamp, long executionTimeInMicroSeconds, String processElementId) {
+          this.executionTimestamp = DateUtil.formatDate(executionTimestamp);
+          this.executionTimeInMicroSeconds = (double) executionTimeInMicroSeconds / 1000 + "ms";;
+          this.processElementId = processElementId;
+      }
+
+      public String getExecutionTimestamp() {
+          return executionTimestamp;
+      }
+
+      public String getExecutionTimeInMicroSeconds() {
+          return executionTimeInMicroSeconds;
+      }
+
+      public String getProcessElementId() {
+          return processElementId;
+      }
+  }
+  
+    public static class Connection {
+      private String lastUsed;
+      private boolean inUse;
+
+      public Connection(IExternalDatabaseRuntimeConnection conn) {
+        lastUsed = DateUtil.formatDate(conn.getLastUsed());
+        inUse = conn.isInUse();
+      }
+
+      public String getLastUsed() {
+        return lastUsed;
+      }
+
+      public boolean isInUse() {
+        return inUse;
+      }
+    }
 
   public String getViewUrl() {
     return restClient.getViewUrl(appName);
   }
+  
+  public List<ExecStatement> getExecutionHistory() {
+      return history;
+    }
 
   private void loadRestClient() {
     this.restClient = new RestClientDto(findRestClient());
@@ -140,11 +216,8 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void testRestConnection() {
-    var uiClient = new UiStateClient(findRestClient())
-      .setUiState(restClient)
-      .setTimeout(TimeUnit.SECONDS, 5)
-      .setReadTimeout(TimeUnit.SECONDS, 5)
-      .toClient();
+    var uiClient = new UiStateClient(findRestClient()).setUiState(restClient).setTimeout(TimeUnit.SECONDS, 5)
+        .setReadTimeout(TimeUnit.SECONDS, 5).toClient();
     WebTarget target = RestTestRunner.createTarget(app, uiClient);
     testResult = (ConnectionTestResult) connectionTest.test(() -> RestTestRunner.testConnection(target));
   }
