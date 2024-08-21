@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 
 <div class="card">
   <h:form id="webservcieAdditionalConfigForm">
@@ -9,6 +10,9 @@
       <div class="card-title flex align-items-center">
         <i class="pr-3 si si-cog"></i>
         <h6 class="m-0">Features and properties</h6>
+        <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
+          actionListener="#{webserviceDetailBean.setProperty(null)}" update="webServiceProperty:propertyForm" title="Add" icon="si si-add"
+          styleClass="col-fixed ml-auto rounded-button" />
       </div>
     </div>
     
@@ -18,18 +22,26 @@
         <p:outputLabel value="#{feature}" styleClass="webservice-feature" />
       </p:column>
     </p:dataTable>
-  
-    <p:dataTable value="#{webserviceDetailBean.webservice.properties}" var="property"
-      id="webservicePropertiesTable">
+    
+    <p:dataTable value="#{webserviceDetailBean.webservice.properties}" var="property" id="webservicePropertiesTable">
       <p:column headerText="Name">
-        <p:outputLabel value="#{property.name}" styleClass="webservice-property-name" />
+        <h:outputText value="#{property.key}" styleClass="webservice-property-name" />
       </p:column>
       <p:column headerText="Value">
-        <p:outputLabel value="#{property.sensitive ? '*****' : property.value}"
-          styleClass="webservice-property-value" />
+        <h:outputText value="#{property.value}" styleClass="webservice-property-value" />
+      </p:column>
+      <p:column styleClass="table-btn-2">
+        <p:commandButton id="editPropertyBtn" actionListener="#{webserviceDetailBean.setProperty(property.key)}"
+          icon="si si-pencil" title="Edit" update="webServiceProperty:propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
+          oncomplete="PF('propertyModal').show();" process="@this" />
+        <p:commandButton id="deletePropertyBtn" actionListener="#{webserviceDetailBean.removeProperty(property.key)}"
+          update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
       </p:column>
     </p:dataTable>
+  
   </h:form>
 </div>
+
+<cc:Property id="webServiceProperty" bean="#{webserviceDetailBean}" formName="webservcieAdditionalConfigForm"/>
 
 </html>

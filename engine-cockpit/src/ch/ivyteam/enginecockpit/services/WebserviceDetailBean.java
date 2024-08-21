@@ -15,6 +15,7 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
@@ -48,6 +49,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private final ConnectionTestWrapper connectionTest;
   private WebServiceMonitor liveStats;
   private WebServiceClients webServiceClients;
+  private Property activeProperty;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -96,7 +98,32 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public Webservice getWebservice() {
     return webservice;
   }
+  
+  public void setProperty(String key) {
+    this.activeProperty = new Property();
+    if (key != null) {
+      this.activeProperty = new Property(key, webservice.getProperties().get(key));
+    }
+  }
 
+  public Property getProperty() {
+    return activeProperty;
+  }
+
+  public void saveProperty() {
+    Map<String, String> props = webservice.getProperties();
+    props.put(activeProperty.getName(), activeProperty.getValue());
+    saveWebService(wsBuilder().properties(props));
+    loadWebService();
+  }
+
+  public void removeProperty(String key) {
+    Map<String, String> props = webservice.getProperties();
+    props.remove(key);
+    saveWebService(wsBuilder().properties(props));
+    loadWebService();
+  }
+  
   @Override
   public String getTitle() {
     return "Web Service '" + webservice.getName() + "'";
@@ -227,5 +254,8 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private Builder wsBuilder() {
     return webServiceClients.find(webserviceId).toBuilder();
   }
-
+  
+  private void saveWebService(Builder builder) {
+    webServiceClients.set(builder.toWebServiceClient());
+  }
 }
