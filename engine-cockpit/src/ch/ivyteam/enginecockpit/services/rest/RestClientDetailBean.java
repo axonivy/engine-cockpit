@@ -1,6 +1,7 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.faces.application.FacesMessage;
@@ -11,6 +12,7 @@ import javax.ws.rs.client.WebTarget;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 
+import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.RestClientMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
@@ -23,6 +25,7 @@ import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.RestClients;
+import ch.ivyteam.ivy.rest.client.RestClient.Builder;
 
 @ManagedBean
 @ViewScoped
@@ -39,6 +42,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private RestClientMonitor liveStats;
 
   private final ConnectionTestWrapper connectionTest;
+  private Property activeProperty;
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -93,6 +97,31 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public RestClientDto getRestClient() {
     return restClient;
   }
+  
+  public void setProperty(String key) {
+      this.activeProperty = new Property();
+      if (key != null) {
+        this.activeProperty = new Property(key, restClient.getProperties().get(key));
+      }
+    }
+
+    public Property getProperty() {
+      return activeProperty;
+    }
+
+    public void saveProperty() {
+      Map<String, String> props = restClient.getProperties();
+      props.put(activeProperty.getName(), activeProperty.getValue());
+      saveWebService(wsBuilder().properties(props));
+      loadRestClient();
+    }
+
+    public void removeProperty(String key) {
+      Map<String, String> props = restClient.getProperties();
+      props.remove(key);
+      saveWebService(wsBuilder().properties(props));
+      loadRestClient();
+    }
 
   @Override
   public String getTitle() {
@@ -159,5 +188,13 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
 
   public RestClientMonitor getLiveStats() {
     return liveStats;
+  }
+  
+  private Builder wsBuilder() {
+    return restClients.find(restClientName).toBuilder();
+  }
+
+  private void saveWebService(Builder builder) {
+    restClients.set(builder.toRestClient());
   }
 }
