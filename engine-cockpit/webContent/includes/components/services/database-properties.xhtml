@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ic="http://ivyteam.ch/jsf/component"
-  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite/composite">
 
 <div class="card">
   <h:form id="databasePropertiesForm">
@@ -13,7 +14,7 @@
         <i class="pr-3 si si-cog"></i>
         <h6 class="m-0">Properties</h6>
         <p:commandButton id="newServicePropertyBtn" oncomplete="PF('propertyModal').show();" process="@this"
-          actionListener="#{databaseDetailBean.setProperty(null)}" update=":propertyForm" title="Add" icon="si si-add"
+          actionListener="#{databaseDetailBean.setProperty(null)}" update="databaseProperty:propertyForm" title="Add" icon="si si-add"
           styleClass="col-fixed ml-auto rounded-button" />
       </div>
     </div>
@@ -27,7 +28,7 @@
       </p:column>
       <p:column styleClass="table-btn-2">
         <p:commandButton id="editPropertyBtn" actionListener="#{databaseDetailBean.setProperty(property.key)}"
-          icon="si si-pencil" title="Edit" update="propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
+          icon="si si-pencil" title="Edit" update="databaseProperty:propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
           oncomplete="PF('propertyModal').show();" process="@this" />
         <p:commandButton id="deletePropertyBtn" actionListener="#{databaseDetailBean.removeProperty(property.key)}"
           update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
@@ -36,35 +37,6 @@
   </h:form>
 </div>
 
-<p:dialog header="Property" id="propertyModal" widgetVar="propertyModal" modal="true"
-  responsive="true" closeOnEscape="true">
-  <h:form id="propertyForm" styleClass="custom-dialog-form">
-    <p:panelGrid columns="2" layout="flex" columnClasses="col-3, col-9"
-      styleClass="grey-label-panel ui-fluid">
-      <p:outputLabel for="nameInput" value="Name" />
-      <h:panelGroup styleClass="md-inputfield" rendered="#{empty databaseDetailBean.property.name}">
-        <p:inputText id="nameInput" requiredMessage="Value is required"
-          value="#{databaseDetailBean.property.name}" required="true" />
-        <p:message for="nameInput" id="nameMessage" />
-      </h:panelGroup>
-      <h:outputText id="propertyName" rendered="#{not empty databaseDetailBean.property.name}"
-        value="#{databaseDetailBean.property.name}" />
-
-      <p:outputLabel for="valueInput" value="Value" />
-      <h:panelGroup styleClass="md-inputfield">
-        <p:inputText id="valueInput" requiredMessage="Value is required"
-          value="#{databaseDetailBean.property.value}" required="true" />
-        <p:message for="valueInput" id="valueMessage" />
-      </h:panelGroup>
-    </p:panelGrid>
-    <div class="custom-dialog-footer">
-      <p:commandButton id="saveProperty" validateClient="true" onsuccess="PF('propertyModal').hide()" update="databasePropertiesForm"
-        actionListener="#{databaseDetailBean.saveProperty}" value="Save" icon="si si-floppy-disk"
-        styleClass="modal-input-button" />
-      <p:commandButton id="cancelProperty" onclick="PF('propertyModal').hide();" value="Cancel" type="button"
-        styleClass="ui-button-secondary ui-button-flat modal-input-button" immediate="true" />
-    </div>
-  </h:form>
-</p:dialog>
+<cc:Property id="databaseProperty" bean="#{databaseDetailBean}" formName="databasePropertiesForm"/>
 
 </html>

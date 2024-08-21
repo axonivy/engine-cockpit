@@ -203,6 +203,8 @@ class WebTestWebserviceDetail {
     $(By.id("webservcieAdditionalConfigForm:webservicePropertiesTable:2:editPropertyBtn")).shouldBe(visible).click();
     $(By.id("webServiceProperty:propertyForm:valueInput")).clear();
     $(By.id("webServiceProperty:propertyForm:valueInput")).sendKeys("admin");
+    
+    $(By.id("webServiceProperty:propertyForm:saveProperty")).click();
   }
 
   @Test
