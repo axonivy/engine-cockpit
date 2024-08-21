@@ -40,6 +40,9 @@
           <div class="col-12 md:col-12 xl:col-12">
             <ui:include src="../includes/components/services/webservice-endpoints.xhtml" />
           </div>
+          <div class="col-12 md:col-12 xl:col-12">
+            <cc:History bean="#{webserviceDetailBean}" id="webServiceHistory" />
+          </div>
         </div>
       </div>
       <cc:HelpServiceDialog service="#{webserviceDetailBean}" id="helpWebserviceDialog" />
