@@ -1,5 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.ivyteam.enginecockpit.commons.Feature;
 import ch.ivyteam.enginecockpit.commons.Property;
+import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
@@ -28,12 +30,16 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
+import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
+import ch.ivyteam.ivy.application.IProcessModel;
+import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
+import ch.ivyteam.ivy.webservice.process.restricted.IWebServiceProcessBeanEngineManager;
 
 @ManagedBean
 @ViewScoped
@@ -53,6 +59,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceClients webServiceClients;
   private Property activeProperty;
   private Feature activeFeature;
+  private List<ExecStatement> history;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -78,13 +85,56 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     app = IApplicationRepository.instance().findByName(appName).orElse(null);
     if (app == null) {
       ResponseHelper.notFound("Application '" + appName + "' not found");
-      return;
     }
     webServiceClients = WebServiceClients.of(app);
     loadWebService();
+    reloadExternalWebservice();
     liveStats = new WebServiceMonitor(appName, webserviceId);
   }
+  
+  private void reloadExternalWebservice() {
+    var clientPmv = app.getProcessModels().stream().map(IProcessModel::getReleasedProcessModelVersion).findAny()
+        .get().getProcessModel();
+    IProcessModelVersion pmv = clientPmv.getReleasedProcessModelVersion();
+    var engine = DiCore.getGlobalInjector().getInstance(IWebServiceProcessBeanEngineManager.class)
+        .getWebServiceProcessBeanEngine(pmv);
+    var info = engine.getWebServiceProcessBeanInfos();
+    var test = info.getFirst();
+    var callHistory = test.getCallHistory();
+    history = callHistory.stream().map(entry -> new ExecStatement(entry.getCallTimestamp(),
+        entry.getExecutionTimeInMilliSeconds(), entry.getWebServiceProcessStartElement().getProcessElementId()))
+        .collect(Collectors.toList());
+  }
+  
+  class ExecStatement {
+      private final String executionTimestamp;
+      private final String executionTimeInMicroSeconds;
+      private final String processElementId;
 
+      public ExecStatement(Date executionTimestamp, long executionTimeInMicroSeconds, String processElementId) {
+          this.executionTimestamp = DateUtil.formatDate(executionTimestamp);
+          this.executionTimeInMicroSeconds = (double) executionTimeInMicroSeconds / 1000 + "ms";;
+          this.processElementId = processElementId;
+      }
+
+      public String getExecutionTimestamp() {
+          return executionTimestamp;
+      }
+
+      public String getExecutionTimeInMicroSeconds() {
+          return executionTimeInMicroSeconds;
+      }
+
+      public String getProcessElementId() {
+          return processElementId;
+      }
+  }
+  
+  public List<ExecStatement> getExecutionHistory() {
+      return history;
+  }
+
+  
   public String getViewUrl() {
     return webservice.getViewUrl(appName);
   }
