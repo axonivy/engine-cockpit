@@ -48,7 +48,7 @@ class WebTestRestClientDetail {
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
-    $(".code-block").shouldBe(text(RESTCLIENT_NAME), text("sensitive: \"${encrypt:*****}\""));
+    $(".code-block").shouldBe(text(RESTCLIENT_NAME), text("sensitive: *****"));
   }
 
   @Test
@@ -114,6 +114,37 @@ class WebTestRestClientDetail {
     table.row(3).shouldHave(text("sensitive"), text("*****"));
     table.row(4).shouldHave(text("PATH.port"), text("91"));
     table.row(5).shouldHave(text("username"), text("admin"));
+  }
+  
+  @Test
+  void addProperty() {
+    $(By.id("restClientAdditionalConfigForm:newServicePropertyBtn")).shouldBe(visible).click();
+    $(By.id("restClientProperty:propertyForm:nameInput")).sendKeys("testProperty");
+    $(By.id("restClientProperty:propertyForm:valueInput")).sendKeys("testValue");
+    
+    $(By.id("restClientProperty:propertyForm:saveProperty")).click();
+    
+    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
+    table.row(2).shouldHave(text("testProperty"), text("testValue"));
+    
+    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:2:deletePropertyBtn")).click();
+  }
+  
+  @Test
+  void editProperty() {
+    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyBtn")).shouldBe(visible).click();
+
+    $(By.id("restClientProperty:propertyForm:valueInput")).clear();
+    $(By.id("restClientProperty:propertyForm:valueInput")).sendKeys("editValue");
+    
+    $(By.id("restClientProperty:propertyForm:saveProperty")).click();
+    
+    var table = PrimeUi.table(By.id("restClientAdditionalConfigForm:restClientPropertiesTable"));
+    table.row(5).shouldHave(text("username"), text("editValue"));
+    
+    $(By.id("restClientAdditionalConfigForm:restClientPropertiesTable:5:editPropertyBtn")).shouldBe(visible).click();
+    $(By.id("restClientProperty:propertyForm:valueInput")).clear();
+    $(By.id("restClientProperty:propertyForm:valueInput")).sendKeys("admin");
   }
 
   @Test
