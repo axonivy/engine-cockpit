@@ -1,6 +1,5 @@
 package ch.ivyteam.enginecockpit.services;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +27,9 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
+import ch.ivyteam.enginecockpit.services.model.ExecHistoryStatement;
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
-import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.application.IProcessModel;
@@ -60,6 +59,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private Property activeProperty;
   private Feature activeFeature;
   private List<ExecStatement> history;
+  private List<ExecHistoryStatement> history;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -101,36 +101,12 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
     var info = engine.getWebServiceProcessBeanInfos();
     var test = info.getFirst();
     var callHistory = test.getCallHistory();
-    history = callHistory.stream().map(entry -> new ExecStatement(entry.getCallTimestamp(),
+    history = callHistory.stream().map(entry -> new ExecHistoryStatement(entry.getCallTimestamp(),
         entry.getExecutionTimeInMilliSeconds(), entry.getWebServiceProcessStartElement().getProcessElementId()))
         .collect(Collectors.toList());
   }
   
-  class ExecStatement {
-      private final String executionTimestamp;
-      private final String executionTimeInMicroSeconds;
-      private final String processElementId;
-
-      public ExecStatement(Date executionTimestamp, long executionTimeInMicroSeconds, String processElementId) {
-          this.executionTimestamp = DateUtil.formatDate(executionTimestamp);
-          this.executionTimeInMicroSeconds = (double) executionTimeInMicroSeconds / 1000 + "ms";;
-          this.processElementId = processElementId;
-      }
-
-      public String getExecutionTimestamp() {
-          return executionTimestamp;
-      }
-
-      public String getExecutionTimeInMicroSeconds() {
-          return executionTimeInMicroSeconds;
-      }
-
-      public String getProcessElementId() {
-          return processElementId;
-      }
-  }
-  
-  public List<ExecStatement> getExecutionHistory() {
+  public List<ExecHistoryStatement> getExecutionHistory() {
       return history;
   }
 
