@@ -49,12 +49,8 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   private RestClientMonitor liveStats;
 
   private final ConnectionTestWrapper connectionTest;
-<<<<<<< Upstream, based on 9834b4584a3d112ead90cda1cfcbdf65daac1231
   private Property activeProperty;
-  private List<ExecStatement> history;
-=======
   private List<ExecHistoryStatement> history;
->>>>>>> eef7ee7 XIVY-14796 move ExecHistoryStatement in own class
 
   public RestClientDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -93,6 +89,10 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     loadRestClient();
     reloadExternalRestClient();
     liveStats = new RestClientMonitor(app.getName(), restClient.getUniqueId().toString());
+  }
+
+  public String getIdentifier() {
+      return "Restclient";
   }
 
   private void reloadExternalRestClient() {

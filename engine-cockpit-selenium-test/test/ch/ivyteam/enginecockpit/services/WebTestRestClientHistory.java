@@ -17,7 +17,7 @@ import ch.ivyteam.enginecockpit.util.Navigation;
 import ch.ivyteam.enginecockpit.util.Tab;
 import ch.ivyteam.enginecockpit.util.Table;
 
-@IvyWebTest
+@IvyWebTest (headless = false)
 class WebTestRestClientHistory {
 
   @BeforeEach
