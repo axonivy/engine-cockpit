@@ -58,7 +58,6 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private WebServiceClients webServiceClients;
   private Property activeProperty;
   private Feature activeFeature;
-  private List<ExecStatement> history;
   private List<ExecHistoryStatement> history;
 
   public WebserviceDetailBean() {
