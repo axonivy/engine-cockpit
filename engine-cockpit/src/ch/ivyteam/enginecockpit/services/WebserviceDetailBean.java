@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.services;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,6 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import ch.ivyteam.di.restricted.DiCore;
 import ch.ivyteam.enginecockpit.commons.ResponseHelper;
 import ch.ivyteam.enginecockpit.monitor.mbeans.ivy.WebServiceMonitor;
 import ch.ivyteam.enginecockpit.services.help.HelpServices;
@@ -25,19 +23,17 @@ import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.IConnectionTestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestResult.TestResult;
 import ch.ivyteam.enginecockpit.services.model.ConnectionTestWrapper;
-import ch.ivyteam.enginecockpit.services.model.ExecHistoryStatement;
 import ch.ivyteam.enginecockpit.services.model.Webservice;
 import ch.ivyteam.enginecockpit.services.model.Webservice.PortType;
 import ch.ivyteam.enginecockpit.util.UrlUtil;
 import ch.ivyteam.ivy.application.IApplication;
-import ch.ivyteam.ivy.application.IProcessModel;
-import ch.ivyteam.ivy.application.IProcessModelVersion;
 import ch.ivyteam.ivy.application.app.IApplicationRepository;
 import ch.ivyteam.ivy.ssl.restricted.SslConnectionTesterClient;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient.Builder;
 import ch.ivyteam.ivy.webservice.client.WebServiceClients;
-import ch.ivyteam.ivy.webservice.process.restricted.IWebServiceProcessBeanEngineManager;
+import ch.ivyteam.ivy.webservice.restricted.execution.IWebserviceExecutionManager;
 
+@SuppressWarnings("restriction")
 @ManagedBean
 @ViewScoped
 public class WebserviceDetailBean extends HelpServices implements IConnectionTestResult {
@@ -54,7 +50,7 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   private final ConnectionTestWrapper connectionTest;
   private WebServiceMonitor liveStats;
   private WebServiceClients webServiceClients;
-  private List<ExecHistoryStatement> history;
+  private SoapExecHistoryStatement history;
 
   public WebserviceDetailBean() {
     connectionTest = new ConnectionTestWrapper();
@@ -75,6 +71,10 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public void setId(String webserviceId) {
     this.webserviceId = webserviceId;
   }
+  
+  public String getIdentifier() {
+      return "Webservice";
+  }
 
   public void onload() {
     app = IApplicationRepository.instance().findByName(appName).orElse(null);
@@ -88,23 +88,44 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
   
   private void reloadExternalWebservice() {
-    var clientPmv = app.getProcessModels().stream().map(IProcessModel::getReleasedProcessModelVersion).findAny()
-        .get().getProcessModel();
-    IProcessModelVersion pmv = clientPmv.getReleasedProcessModelVersion();
-    var engine = DiCore.getGlobalInjector().getInstance(IWebServiceProcessBeanEngineManager.class)
-        .getWebServiceProcessBeanEngine(pmv);
-    var info = engine.getWebServiceProcessBeanInfos();
-    var test = info.getFirst();
-    var callHistory = test.getCallHistory();
-    history = callHistory.stream().map(entry -> new ExecHistoryStatement(entry.getCallTimestamp(),
-        entry.getExecutionTimeInMilliSeconds(), entry.getWebServiceProcessStartElement().getProcessElementId()))
-        .collect(Collectors.toList());
+    var instance = IWebserviceExecutionManager.instance();
+    var soap = instance.getSoapWebServiceApplicationContext(app)
+                       .getSoapWebService(webserviceId);
+    var callHistory = soap.getCallHistory();
+    var execTime = callHistory.getTotalExecutionTimeInMicroSeconds();
+    var name = soap.getConfiguration().name();
+    var endpoint = soap.getEndpoints().stream().map(t -> t.endpointAddress).toString();
+    
+    history = new SoapExecHistoryStatement(endpoint, name, execTime);
   }
   
-  public List<ExecHistoryStatement> getExecutionHistory() {
+  public SoapExecHistoryStatement getExecutionHistory() {
       return history;
   }
 
+  public class SoapExecHistoryStatement {
+      private final String endpoint;
+      private final String name;
+      private final String execTime;
+
+      public SoapExecHistoryStatement(String endpoint, String name, long execTime) {
+          this.endpoint = endpoint;
+          this.name = name;
+          this.execTime = (double) execTime / 1000 + "ms";;
+      }
+
+      public String getEndpoint() {
+          return endpoint;
+      }
+
+      public String getWebserviceName() {
+          return name;
+      }
+
+      public String getTime() {
+          return execTime;
+      }
+  }
   
   public String getViewUrl() {
     return webservice.getViewUrl(appName);

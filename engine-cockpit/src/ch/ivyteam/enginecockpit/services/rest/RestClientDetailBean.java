@@ -87,6 +87,10 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     liveStats = new RestClientMonitor(app.getName(), restClient.getUniqueId().toString());
   }
 
+  public String getIdentifier() {
+      return "Restclient";
+  }
+
   private void reloadExternalRestClient() {
       RestClientExecutionManager restClientManager = new RestClientExecutionManager();
       RestClients restClients = RestClients.of(app);
