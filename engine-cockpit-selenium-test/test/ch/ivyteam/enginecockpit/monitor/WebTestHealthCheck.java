@@ -86,6 +86,10 @@ public class WebTestHealthCheck {
     checksTable.tableEntry(2, 4).shouldHave(text("n.a. (n.a.)"));
 
     checksTable.sortByColumn("Next Execution");
+    
+    checksTable.tableEntry(1, 4).shouldNotHave(text("n.a. (n.a.)"));
+    
+    checksTable.sortByColumn("Next Execution");
 
     checksTable.tableEntry(1, 4).shouldHave(text("n.a. (n.a.)"));
   }
@@ -122,21 +126,21 @@ public class WebTestHealthCheck {
 
   @Test
   void filter_name() {
-    checksTable.rows().shouldHave(sizeGreaterThanOrEqual(3));
+    checksTable.rows().shouldHave(sizeGreaterThanOrEqual(6));
     checksTable.search("Release Candidate");
     checksTable.rows().shouldHave(size(1));
   }
 
   @Test
   void filter_severity() {
-    checksTable.rows().shouldHave(sizeGreaterThanOrEqual(3));
+    checksTable.rows().shouldHave(sizeGreaterThanOrEqual(6));
     checksTable.search("HIGH");
-    checksTable.rows().shouldHave(size(1));
+    checksTable.rows().shouldHave(size(4));
   }
 
   @Test
   void filter_description() {
-    checksTable.rows().shouldHave(sizeGreaterThanOrEqual(3));
+    checksTable.rows().shouldHave(sizeGreaterThanOrEqual(6));
     checksTable.search("restart is required");
     checksTable.rows().shouldHave(size(1));
   }
