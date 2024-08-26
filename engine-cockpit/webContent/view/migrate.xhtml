@@ -10,20 +10,6 @@
   <ui:composition template="../includes/template/wizard.xhtml">
 
     <ui:define name="content">
-      <h:outputStylesheet name="resources/css/diff2html.css" />
-      <h:outputScript name="resources/js/diff2html.min.js" />      
-      <script>
-      var diffOptions = {
-        drawFileList: false,
-        matching: 'words',
-        outputFormat: 'side-by-side',
-      }
-      function showDiff(id, patch) {
-        var diffHtml = Diff2Html.html(patch, diffOptions);
-        document.getElementById(id).innerHTML = diffHtml;
-      }
-      </script>
-      
       <div class="col card ui-fluid">
         <p:growl id="migrateGrowl" for="migrateGrowl" showDetail="true">
           <p:autoUpdate />
