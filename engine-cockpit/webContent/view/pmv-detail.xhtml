@@ -8,6 +8,7 @@
     <f:viewParam name="appName" value="#{managerBean.selectedApplicationName}" />
     <f:viewParam name="pmName" value="#{pmvDetailBean.pmName}" />
     <f:viewParam name="pmvVersion" value="#{pmvDetailBean.pmvVersion}" />
+    <f:viewAction action="#{pmvDetailBean.onload}" />
   </f:metadata>
 
   <ui:composition template="../includes/template/template.xhtml">
