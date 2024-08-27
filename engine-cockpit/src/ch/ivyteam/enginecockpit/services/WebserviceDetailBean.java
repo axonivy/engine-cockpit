@@ -102,8 +102,22 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   public void setProperty(String key) {
     this.activeProperty = new Property();
     if (key != null) {
-      this.activeProperty = new Property(key, webservice.getProperties().get(key));
+      this.activeProperty = webservice.getProperties().stream()
+          .filter(property -> property.getName().equals(key))
+          .findFirst()
+          .orElse(new Property());
     }
+  }
+
+  public boolean isSensitive() {
+    if (activeProperty == null || activeProperty.getName() == null || webservice.getProperties() == null) {
+      return false;
+    }
+    return webservice.getProperties().stream()
+             .filter(property -> activeProperty.getName().equals(property.getName()))
+             .findFirst()
+             .map(Property::isSensitive)
+             .orElse(false);
   }
 
   public Property getProperty() {
@@ -111,20 +125,16 @@ public class WebserviceDetailBean extends HelpServices implements IConnectionTes
   }
 
   public void saveProperty() {
-    Map<String, String> props = webservice.getProperties();
-    props.put(activeProperty.getName(), activeProperty.getValue());
-    saveWebService(wsBuilder().properties(props));
+    saveWebService(wsBuilder().property(activeProperty.getName(),activeProperty.getValue()));
     loadWebService();
   }
 
-  public void removeProperty(String key) {
-    Map<String, String> props = webservice.getProperties();
-    props.remove(key);
-    saveWebService(wsBuilder().properties(props));
+  public void removeProperty(String name) {
+    webServiceClients.remove(webservice.getName()+ "." +"Properties"+ "." +name);
     loadWebService();
   }
   
-  @Override
+@Override
   public String getTitle() {
     return "Web Service '" + webservice.getName() + "'";
   }

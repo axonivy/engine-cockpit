@@ -21,22 +21,22 @@
     
     <p:dataTable value="#{databaseDetailBean.database.properties}" var="property" id="databasePropertiesTable">
       <p:column headerText="Name">
-        <h:outputText value="#{property.key}" styleClass="database-property-key" />
+        <h:outputText value="#{property.name}" styleClass="database-property-key" />
       </p:column>
       <p:column headerText="Value">
         <h:outputText value="#{property.value}" styleClass="database-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editPropertyBtn" actionListener="#{databaseDetailBean.setProperty(property.key)}"
+        <p:commandButton id="editPropertyBtn" actionListener="#{databaseDetailBean.setProperty(property.name)}"
           icon="si si-pencil" title="Edit" update="databaseProperty:propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
           oncomplete="PF('propertyModal').show();" process="@this" />
-        <p:commandButton id="deletePropertyBtn" actionListener="#{databaseDetailBean.removeProperty(property.key)}"
+        <p:commandButton id="deletePropertyBtn" actionListener="#{databaseDetailBean.removeProperty()}"
           update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
       </p:column>
     </p:dataTable>
   </h:form>
 </div>
 
-<cc:Property id="databaseProperty" bean="#{databaseDetailBean}" formName="databasePropertiesForm"/>
+<cc:PropertyEditor id="databaseProperty" bean="#{databaseDetailBean}" formName="databasePropertiesForm"/>
 
 </html>

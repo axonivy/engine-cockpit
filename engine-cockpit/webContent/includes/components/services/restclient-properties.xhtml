@@ -25,16 +25,16 @@
     
     <p:dataTable value="#{restClientDetailBean.restClient.properties}" var="property" id="restClientPropertiesTable">
       <p:column headerText="Name">
-        <h:outputText value="#{property.key}" styleClass="restclient-property-name" />
+        <h:outputText value="#{property.name}" styleClass="restclient-property-name" />
       </p:column>
       <p:column headerText="Value">
-        <h:outputText value="#{property.value}" styleClass="restclient-property-value" />
+        <h:outputText value="#{property.sensitive ? '*****' : property.value}" styleClass="restclient-property-value" />
       </p:column>
       <p:column styleClass="table-btn-2">
-        <p:commandButton id="editPropertyBtn" actionListener="#{restClientDetailBean.setProperty(property.key)}"
+        <p:commandButton id="editPropertyBtn" actionListener="#{restClientDetailBean.setProperty(property.name)}"
           icon="si si-pencil" title="Edit" update="restClientProperty:propertyModal" styleClass="col-fixed ml-1 ui-button-secondary rounded-button"
           oncomplete="PF('propertyModal').show();" process="@this" />
-        <p:commandButton id="deletePropertyBtn" actionListener="#{restClientDetailBean.removeProperty(property.key)}"
+        <p:commandButton id="deletePropertyBtn" actionListener="#{restClientDetailBean.removeProperty(property.name)}"
           update="@form" icon="si si-bin-1" title="Delete" styleClass="col-fixed ml-1 ui-button-danger rounded-button" />
       </p:column>
     </p:dataTable>
@@ -42,6 +42,6 @@
   </h:form>
 </div>
 
-<cc:Property id="restClientProperty" bean="#{restClientDetailBean}" formName="restClientAdditionalConfigForm"/>
+<cc:PropertyEditor id="restClientProperty" bean="#{restClientDetailBean}" formName="restClientAdditionalConfigForm"/>
 
 </html>

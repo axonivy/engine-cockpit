@@ -58,7 +58,7 @@ class WebTestWebserviceDetail {
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $("#helpWebserviceDialog\\:helpServicesModal").shouldBe(Condition.visible);
-    $(".code-block").shouldBe(text(WEBSERVICE_NAME), text("sensitive: *****"));
+    $(".code-block").shouldBe(text(WEBSERVICE_NAME), text("sensitive: \"${encrypt:*****}\""));
   }
 
   @Test
@@ -183,9 +183,9 @@ class WebTestWebserviceDetail {
     $(By.id("webServiceProperty:propertyForm:saveProperty")).click();
     
     var table = PrimeUi.table(By.id("webservcieAdditionalConfigForm:webservicePropertiesTable"));
-    table.row(1).shouldHave(text("testProperty"), text("testValue"));
+    table.row(2).shouldHave(text("testProperty"), text("testValue"));
     
-    $(By.id("webservcieAdditionalConfigForm:webservicePropertiesTable:1:deletePropertyBtn")).click();
+    $(By.id("webservcieAdditionalConfigForm:webservicePropertiesTable:2:deletePropertyBtn")).click();
   }
   
   @Test

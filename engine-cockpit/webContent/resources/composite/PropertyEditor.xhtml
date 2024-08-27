@@ -21,13 +21,21 @@
       </h:panelGroup>
       <h:outputText id="propertyName" rendered="#{not empty cc.attrs.bean.property.name}"
         value="#{cc.attrs.bean.property.name}" />
+        
+      <p:outputLabel rendered="#{cc.attrs.bean.sensitive}" for="sensitiveValueInput" value="Value" />
+      <h:panelGroup rendered="#{cc.attrs.bean.sensitive}" styleClass="md-inputfield">
+        <p:password id="sensitiveValueInput" requiredMessage="Value is required"
+          value="#{cc.attrs.bean.property.value}" required="true" />
+        <p:message for="sensitiveValueInput" id="sensitiveValueMessage" />
+      </h:panelGroup>
 
-      <p:outputLabel for="valueInput" value="Value" />
-      <h:panelGroup styleClass="md-inputfield">
+      <p:outputLabel rendered="#{!cc.attrs.bean.sensitive}" for="valueInput" value="Value" />
+      <h:panelGroup rendered="#{!cc.attrs.bean.sensitive}" styleClass="md-inputfield">
         <p:inputText id="valueInput" requiredMessage="Value is required"
           value="#{cc.attrs.bean.property.value}" required="true" />
         <p:message for="valueInput" id="valueMessage" />
       </h:panelGroup>
+      
     </p:panelGrid>
     <div class="custom-dialog-footer">
       <p:commandButton id="saveProperty" validateClient="true" onsuccess="PF('propertyModal').hide()"

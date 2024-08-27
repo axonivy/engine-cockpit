@@ -1,10 +1,11 @@
 package ch.ivyteam.enginecockpit.services.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.enginecockpit.util.DateUtil;
 import ch.ivyteam.ivy.db.Database;
 import ch.ivyteam.ivy.db.IExternalDatabaseRuntimeConnection;
@@ -17,7 +18,7 @@ public class DatabaseDto implements IService {
   private String userName;
   private String password;
   private int maxConnections;
-  private Map<String, String> properties;
+  private List<Property> properties;
   private boolean passwordChanged;
 
   public DatabaseDto(Database db) {
@@ -27,7 +28,9 @@ public class DatabaseDto implements IService {
     userName = db.user();
     password = db.password();
     maxConnections = db.maxConnections();
-    properties = new HashMap<>(db.properties());
+    properties = db.properties().entrySet().stream()
+          .map(entry -> new Property(entry.getKey(), entry.getValue()))
+          .collect(Collectors.toList());
     passwordChanged = false;
   }
 
@@ -88,7 +91,7 @@ public class DatabaseDto implements IService {
     this.maxConnections = maxConnections;
   }
 
-  public Map<String, String> getProperties() {
+  public List<Property> getProperties() {
     return properties;
   }
 
