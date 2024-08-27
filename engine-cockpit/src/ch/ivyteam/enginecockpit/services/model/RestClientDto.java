@@ -9,8 +9,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ch.ivyteam.ivy.application.config.Meta;
-import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
+import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.rest.client.RestClient;
 import ch.ivyteam.ivy.rest.client.config.restricted.ClientProperties;
 
@@ -19,22 +18,23 @@ public class RestClientDto implements IService {
   private String name;
   private String url;
   private String description;
-  private Map<String, String> properties;
+  private List<Property> properties;
   private String password;
   private String username;
   private List<String> features;
   private UUID uniqueId;
   private boolean passwordChanged;
   private final Map<String, Object> connectionProps;
-  private Map<String, Meta> metas;
 
   public RestClientDto(RestClient client) {
     name = client.name();
     url = client.uri();
     description = client.description();
     uniqueId = client.uniqueId();
-    metas = client.metas();
-    properties = client.properties();
+    var metas = client.metas();
+    properties = client.properties().entrySet().stream()
+            .map(p -> new Property(p.getKey(), p.getValue(), metas.get(p.getKey())))
+            .collect(Collectors.toList());
     password = client.properties().getOrDefault("password", "");
     username = client.properties().getOrDefault("username", "");
     features = client.features();
@@ -88,16 +88,9 @@ public class RestClientDto implements IService {
     return passwordChanged;
   }
 
-  public Map<String, String> getProperties() {
-      return properties.entrySet().stream()
-          .collect(Collectors.toMap(entry -> entry.getKey(), entry -> {
-        var meta = metas.get(entry.getKey());
-        if (meta.format() == ConfigValueFormat.PASSWORD) {
-          return "******";
-        }
-        return entry.getValue();
-      }));
-    }
+  public List<Property> getProperties() {
+    return properties;
+  }
 
   public List<String> getFeatures() {
     return features;

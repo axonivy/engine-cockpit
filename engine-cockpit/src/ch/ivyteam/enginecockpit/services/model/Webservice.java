@@ -11,34 +11,33 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import ch.ivyteam.ivy.application.config.Meta;
-import ch.ivyteam.ivy.configuration.restricted.ConfigValueFormat;
+import ch.ivyteam.enginecockpit.commons.Property;
 import ch.ivyteam.ivy.webservice.client.WebServiceClient;
 
-@SuppressWarnings("restriction")
 public class Webservice implements IService {
   private String name;
   private String genId;
   private String description;
   private String wsdlUrl;
   private List<String> features;
-  private Map<String, String> properties;
+  private List<Property> properties;
   private String username;
   private String password;
   private boolean passwordChanged;
   private TreeNode<EndPoint> portTypes = new DefaultTreeNode<>("PortTypes", null, null);
   private Map<String, PortType> portTypeMap = new HashMap<>();
-  private Map<String, Meta> metas;
 
   public Webservice(WebServiceClient webservice) {
     name = webservice.name();
     description = webservice.description();
     wsdlUrl = webservice.wsdlUrl();
-    properties = webservice.properties();
-    metas = webservice.metas();
-    password = properties.entrySet().stream().filter(p -> StringUtils.equals(p.getKey(), "password"))
+    var metas = webservice.metas();
+    properties = webservice.properties().entrySet().stream()
+            .map(p -> new Property(p.getKey(), p.getValue(), metas.get(p.getKey())))
+            .collect(Collectors.toList());
+    password = properties.stream().filter(p -> StringUtils.equals(p.getName(), "password"))
             .map(p -> p.getValue()).findFirst().orElse("");
-    username = properties.entrySet().stream().filter(p -> StringUtils.equals(p.getKey(), "username"))
+    username = properties.stream().filter(p -> StringUtils.equals(p.getName(), "username"))
             .map(p -> p.getValue()).findFirst().orElse("");
     passwordChanged = false;
     features = webservice.features();
@@ -107,15 +106,8 @@ public class Webservice implements IService {
     return features;
   }
 
-  public Map<String, String> getProperties() {
-    return properties.entrySet().stream()
-        .collect(Collectors.toMap(entry -> entry.getKey(), entry -> {
-      var meta = metas.get(entry.getKey());
-      if (meta.format() == ConfigValueFormat.PASSWORD) {
-        return "******";
-      }
-      return entry.getValue();
-    }));
+  public List<Property> getProperties() {
+    return properties;
   }
 
   public TreeNode<EndPoint> getPortTypes() {

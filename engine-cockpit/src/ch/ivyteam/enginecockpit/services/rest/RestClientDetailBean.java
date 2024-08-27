@@ -1,7 +1,6 @@
 package ch.ivyteam.enginecockpit.services.rest;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.faces.application.FacesMessage;
@@ -97,11 +96,25 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
   public RestClientDto getRestClient() {
     return restClient;
   }
-  
+
+  public boolean isSensitive() {
+    if (activeProperty == null || activeProperty.getName() == null || restClient.getProperties() == null) {
+      return false;
+    }
+    return restClient.getProperties().stream()
+             .filter(property -> activeProperty.getName().equals(property.getName()))
+             .findFirst()
+             .map(Property::isSensitive)
+             .orElse(false);
+  }
+
   public void setProperty(String key) {
-      this.activeProperty = new Property();
+    this.activeProperty = new Property();
       if (key != null) {
-        this.activeProperty = new Property(key, restClient.getProperties().get(key));
+        this.activeProperty = restClient.getProperties().stream()
+            .filter(property -> property.getName().equals(key))
+            .findFirst()
+            .orElse(new Property());
       }
     }
 
@@ -110,16 +123,12 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     }
 
     public void saveProperty() {
-      Map<String, String> props = restClient.getProperties();
-      props.put(activeProperty.getName(), activeProperty.getValue());
-      saveWebService(wsBuilder().properties(props));
+      saveRestClient(wsBuilder().property(activeProperty.getName(),activeProperty.getValue()));
       loadRestClient();
     }
 
-    public void removeProperty(String key) {
-      Map<String, String> props = restClient.getProperties();
-      props.remove(key);
-      saveWebService(wsBuilder().properties(props));
+    public void removeProperty() {
+      restClients.remove(restClient.getName());
       loadRestClient();
     }
 
@@ -194,7 +203,7 @@ public class RestClientDetailBean extends HelpServices implements IConnectionTes
     return restClients.find(restClientName).toBuilder();
   }
 
-  private void saveWebService(Builder builder) {
+  private void saveRestClient(Builder builder) {
     restClients.set(builder.toRestClient());
   }
 }

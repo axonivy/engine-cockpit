@@ -112,10 +112,24 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
     return database;
   }
 
+  public boolean isSensitive() {
+    if (activeProperty == null || activeProperty.getName() == null || database.getProperties() == null) {
+      return false;
+    }
+    return database.getProperties().stream()
+             .filter(property -> activeProperty.getName().equals(property.getName()))
+             .findFirst()
+             .map(Property::isSensitive)
+             .orElse(false);
+  }
+
   public void setProperty(String key) {
     this.activeProperty = new Property();
     if (key != null) {
-      this.activeProperty = new Property(key, database.getProperties().get(key));
+      this.activeProperty = database.getProperties().stream()
+          .filter(property -> property.getName().equals(key))
+          .findFirst()
+          .orElse(new Property());
     }
   }
 
@@ -124,16 +138,12 @@ public class DatabaseDetailBean extends HelpServices implements IConnectionTestR
   }
 
   public void saveProperty() {
-    var props = database.getProperties();
-    props.put(activeProperty.getName(), activeProperty.getValue());
-    saveDatabase(dbBuilder().properties(props));
+    saveDatabase(dbBuilder().property(activeProperty.getName(),activeProperty.getValue()));
     reloadExternalDb();
   }
 
-  public void removeProperty(String key) {
-    var props = database.getProperties();
-    props.remove(key);
-    saveDatabase(dbBuilder().properties(props));
+  public void removeProperty() {
+    databases.remove(database.getName());
     reloadExternalDb();
   }
 

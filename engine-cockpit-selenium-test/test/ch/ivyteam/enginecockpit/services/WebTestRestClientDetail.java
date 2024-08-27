@@ -48,7 +48,7 @@ class WebTestRestClientDetail {
 
     $(".layout-topbar-actions .help-dialog").shouldBe(visible).click();
     $("#helpRestClientDialog\\:helpServicesModal").shouldBe(visible);
-    $(".code-block").shouldBe(text(RESTCLIENT_NAME), text("sensitive: *****"));
+    $(".code-block").shouldBe(text(RESTCLIENT_NAME), text("sensitive: \"${encrypt:*****}\""));
   }
 
   @Test

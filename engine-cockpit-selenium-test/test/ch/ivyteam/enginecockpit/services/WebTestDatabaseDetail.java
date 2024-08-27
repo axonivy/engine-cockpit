@@ -90,14 +90,14 @@ class WebTestDatabaseDetail {
     $(By.id("databaseProperty:propertyForm:saveProperty")).click();
     
     var table = PrimeUi.table(By.id("databasePropertiesForm:databasePropertiesTable"));
-    table.row(1).shouldHave(text("testProperty"), text("testValue"));
+    table.row(0).shouldHave(text("testProperty"), text("testValue"));
     
-    $(By.id("databasePropertiesForm:databasePropertiesTable:1:deletePropertyBtn")).click();
+    $(By.id("databasePropertiesForm:databasePropertiesTable:0:deletePropertyBtn")).click();
   }
   
   @Test
   void editProperty() {
-    $(By.id("databasePropertiesForm:databasePropertiesTable:0:editPropertyBtn")).shouldBe(visible).click();
+    $(By.id("databasePropertiesForm:databasePropertiesTable:1:editPropertyBtn")).shouldBe(visible).click();
 
     $(By.id("databaseProperty:propertyForm:valueInput")).clear();
     $(By.id("databaseProperty:propertyForm:valueInput")).sendKeys("editValue");
@@ -105,9 +105,9 @@ class WebTestDatabaseDetail {
     $(By.id("databaseProperty:propertyForm:saveProperty")).click();
     
     var table = PrimeUi.table(By.id("databasePropertiesForm:databasePropertiesTable"));
-    table.row(0).shouldHave(text("test"), text("editValue"));
+    table.row(1).shouldHave(text("test"), text("editValue"));
     
-    $(By.id("databasePropertiesForm:databasePropertiesTable:0:editPropertyBtn")).shouldBe(visible).click();
+    $(By.id("databasePropertiesForm:databasePropertiesTable:1:editPropertyBtn")).shouldBe(visible).click();
     $(By.id("databaseProperty:propertyForm:valueInput")).clear();
     $(By.id("databaseProperty:propertyForm:valueInput")).sendKeys("testvalue");
   }
