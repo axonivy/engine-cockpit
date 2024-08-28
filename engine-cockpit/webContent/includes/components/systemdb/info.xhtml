@@ -17,7 +17,7 @@
         <label>Version</label>
         <h:outputText value="#{systemDatabaseInfoBean.systemDbDatabaseVersion}" />
         <label>Disk Size</label>  
-        <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(systemDbDiskSize)}"/>
+        <h:outputText value="#{systemDatabaseInfoBean.formatByteValue(systemDatabaseInfoBean.systemDbDiskSize)}"/>
         <label>Warnings</label>  
         <ui:repeat value="#{systemDatabaseInfoBean.errorMessages}" var="item">
           <div>
