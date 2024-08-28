@@ -139,7 +139,7 @@ public class HealthBean {
       if (isHasActionLink()) {
         return message.actionLink().get();
       }
-      return "#";
+      return "monitor-health.xhtml";
     }
 
     public boolean isHasActionLink() {
